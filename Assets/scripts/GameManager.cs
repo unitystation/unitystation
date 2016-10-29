@@ -2,8 +2,9 @@
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
-	public GameObject spaceTile;
+	public GameObject tile;
 	public GameObject tileGrid;
+	public Sprite spaceSheet; //TODO find out how to get the entire sheet rather than just the first sprite
 	public int gridSizeX = 100;
 	public int gridSizeY = 100;
 
@@ -15,14 +16,17 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		grid = new GameObject[gridSizeX, gridSizeY];
-		int tileWidth = (int)spaceTile.GetComponent<SpriteRenderer>().bounds.size.x;
-		int tileHeight = (int)spaceTile.GetComponent<SpriteRenderer>().bounds.size.y;
+		//TODO find size of the sprite then use it to dynamically build the grid. Set to 32px right now
+		//int tileWidth = (int)tile.GetComponent<SpriteRenderer>().bounds.size.x;
+		//int tileHeight = (int)tile.GetComponent<SpriteRenderer>().bounds.size.y;
+		TileManager tileManager;
 		for (int i = 0; i < gridSizeX; i++) {
 			for (int j = 0; j < gridSizeY; j++) {
-				//Debug.Log ("i: " + tileWidth + " j: " + tileHeight);
-				grid [i, j] = Instantiate (spaceTile);
-				grid [i, j].transform.position = new Vector3 (i * 32, j * 32);
-				grid [i, j].transform.SetParent (tileGrid.transform);
+				grid[i, j] = Instantiate (tile);
+				grid[i, j].transform.position = new Vector3 (i * 32, j * 32);
+				grid[i, j].transform.SetParent (tileGrid.transform);
+				tileManager = grid[i, j].GetComponent<TileManager>();
+				tileManager.setSprite(spaceSheet); //TODO implement this
 			}
 		}
 	}
