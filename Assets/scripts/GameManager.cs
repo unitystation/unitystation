@@ -14,8 +14,8 @@ namespace SS.GameLogic {
 		public enum Direction {Up, Left, Down, Right};
 		public enum TileType {Space, Floor, Wall};
 
-		private Sprite[] spaceSheet;
 		private GameObject[,] grid;
+		private TextAsset map;
 
 		// Use this for initialization
 		void Start () {
@@ -30,12 +30,16 @@ namespace SS.GameLogic {
 			Vector3 movement = new Vector3 (moveHorizontal, moveVertical) * panSpeed;
 
 			playerCamera.transform.position = playerCamera.transform.position + movement;
+
+			if (Input.GetKeyDown(KeyCode.O)) {
+				map = Resources.Load<TextAsset>("maps/map.txt"); //TODO Get rid of ghetto map and resources.load
+				LoadMap(map);
+			}
 		}
 
 		private void InitTiles() {
 			grid = new GameObject[gridSizeX, gridSizeY];
 			TileManager tileManager;
-			spaceSheet = Resources.LoadAll<Sprite>("turf/space"); //TODO replace this with AssetBundles for proper release
 
 			/*
 			TODO find size of the sprite then use it to dynamically build the grid. Set to 32px right now
@@ -51,13 +55,16 @@ namespace SS.GameLogic {
 					grid[i, j].transform.SetParent(tileGrid.transform);
 
 					tileManager = grid[i, j].GetComponent<TileManager>();
-					int randomSpaceTile = (int)Random.Range(0, 101);
-					tileManager.tileSprite = spaceSheet[randomSpaceTile];
 					tileManager.gridX = i;
 					tileManager.gridY = j;
 					tileManager.gameManager = gameObject.GetComponent<GameManager>();
 				}
 			}
+		}
+
+
+		//TODO Implment reading the file and laying down floors/walls
+		private void LoadMap(TextAsset map) {
 		}
 
 		public bool CheckPassable(int gridX, int gridY, Direction direction) {

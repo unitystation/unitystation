@@ -12,14 +12,23 @@ public class TileManager : MonoBehaviour {
 	public int gridX;
 	public int gridY;
 
-	private SpriteRenderer spriteRenderer;
-	private GameObject displaySprite;
+	private GameObject[] objectStack; //TODO May just remove this, will need to see its usefulness in keeping z-order
 
-	// Use this for initialization
+	// Initilise first space tile
 	void Start () {
+		SpriteRenderer spriteRenderer;
+		GameObject displaySprite;
+
+		Sprite[] spaceSheet = Resources.LoadAll<Sprite>("turf/space"); //TODO replace this with AssetBundles for proper release
+
 		myTileType = GameManager.TileType.Space;
 		passable = new bool[4]{true, true, true, true};
-		displaySprite = transform.FindChild("DisplaySprite").gameObject;
+		objectStack = new GameObject[50];
+
+		int randomSpaceTile = (int)Random.Range(0, 101);
+		Sprite tileSprite = spaceSheet[randomSpaceTile];
+
+		displaySprite = transform.FindChild("Space").gameObject;
 		spriteRenderer = displaySprite.GetComponent<SpriteRenderer>();
 		if (tileSprite) {
 			spriteRenderer.sprite = tileSprite; 
@@ -31,13 +40,8 @@ public class TileManager : MonoBehaviour {
 		Debug.Log(gameManager.CheckPassable(gridX, gridY, GameManager.Direction.Up));
 	}
 
-	//TODO long term this should change to a listener and simply changing the tileSprite will change the renderer sprite
-	public void setSprite (Sprite sprite) {
-		tileSprite = sprite;
-		if (!gameObject.activeSelf) {
-			Debug.Log("Tile not active yet!");
-			return;
-		}
-		spriteRenderer.sprite = tileSprite; 
+	//TODO Add an object to the z-ordering on the tile. Just make it a stack?
+	public void addObject(GameObject objectToAdd) {
+
 	}
 }
