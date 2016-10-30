@@ -1,16 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+namespace SS.UI{
 public class ControlUI : MonoBehaviour {
 
 	public static ControlUI control;
 
+		//Bools
+
+		//Hand selector public member
+		public bool isRightHand;
 
 	//EQUIP MEMBERS
 	private bool EquipOut = false;
 	public GameObject rollOutParent;
 
-
+		//sfx
+		public AudioSource click01SFX;
 
 
 	void Awake () {
@@ -33,13 +39,12 @@ public class ControlUI : MonoBehaviour {
 
 		rollOutParent.SetActive (false);
 	}
-
-
-	/// <summary>
-	/// OnClick from Bag Button (bottom left) triggers rollout
-	/// </summary>
+			
+	/// Clothing Equip roll out
 	public void EQUIP_RollOut(){
-		
+
+			//soundFX trial placement here
+			click01SFX.Play ();
 		if (!rollOutParent.activeSelf) {
 			rollOutParent.SetActive (true);
 			EquipOut = true;
@@ -52,4 +57,5 @@ public class ControlUI : MonoBehaviour {
 		}
 		}
 
+}
 }

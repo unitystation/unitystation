@@ -45,8 +45,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\scripts\ControlUI.cs" />
      <Compile Include="Assets\scripts\GameManager.cs" />
+     <Compile Include="Assets\scripts\SS.UI\ControlUI.cs" />
+     <Compile Include="Assets\scripts\SS.UI\HandSelector.cs" />
      <Compile Include="Assets\scripts\TileManager.cs" />
      <None Include="Assets\generic-components\fonts\Press_Start_2P\OFL.txt" />
  <Reference Include="UnityEngine.UI">
