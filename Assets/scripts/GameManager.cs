@@ -2,7 +2,9 @@
 using System.Collections;
 
 namespace SS.GameLogic {
+	
 	public class GameManager : MonoBehaviour {
+		
 		public GameObject tile;
 		public GameObject tileGrid;
 		public int gridSizeX = 100;

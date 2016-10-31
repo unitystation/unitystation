@@ -11,12 +11,11 @@ public class HandSelector : MonoBehaviour {
 		public GameObject rightHand;
 
 		//bools
-		private bool isRightHand;
+		private bool isRightHand = true;
 
 	// Use this for initialization
 	void Start () {
 	
-			SelectorState (true);
 
 	}
 	
