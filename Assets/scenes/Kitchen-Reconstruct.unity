@@ -267,20 +267,15 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '#############
-
-    #Options / Stats
-
-    #############
-
-
-    Test Tile Pool:
-
-
-
-
-
-    Click screen to test'
+  m_Text: "#############\n#Options / Stats\n#############\n\nTest Tile Pool:\n\n\n\n\n\nThis
+    is a demostration of the pool manager\nat work. Choose a tile from the drop down
+    list and click\non the screen. The tiles will return to the pool at random times.\n\n-
+    The floor tile prefab is a generic object that can be set to a specific floor
+    tile on creation. \n- The TilePrefabs class handles the Types and setup of the
+    floor prefab and uses the PoolManager class to bring the object to the scene\n\n-
+    SS.TileTypes namespace is found on the TilePrefab class. I need to find a way
+    to list out floor types without doing it by hand? I.E all the possible floor types
+    are > 300 and I don't think typing them all out by hand is efficient."
 --- !u!222 &84411017
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1515,7 +1510,7 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Option A
+    - m_Text: floors_0
       m_Image: {fileID: 0}
     - m_Text: Option B
       m_Image: {fileID: 0}
@@ -3272,6 +3267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   theToggle: {fileID: 165074925}
+  tileTypeDropDown: {fileID: 614852276}
   curCam: {fileID: 1632047215}
 --- !u!1 &1393029748
 GameObject:
@@ -3782,7 +3778,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Option A
+  m_Text: floors_0
 --- !u!222 &1615667986
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -97,7 +97,27 @@ namespace SS.TileTypes{
 	public enum Construction_Floors {
 
 		floors_0,
-		floors_1 //etc etc etc
+		floors_1,
+		floors_2,
+		floors_3,
+		floors_4,
+		floors_5,
+		floors_6,
+		floors_7,
+		floors_8,
+		floors_9,
+		floors_10,
+		floors_11,
+		floors_12,
+		floors_13,
+		floors_14,
+		floors_15,
+		floors_16,
+		floors_17,
+		floors_18,
+		floors_19,
+		floors_20,
+		NumberOfTypes
 
 	}
 
