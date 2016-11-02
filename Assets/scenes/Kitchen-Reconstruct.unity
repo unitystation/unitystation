@@ -119,11 +119,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
-  m_Father: {fileID: 1008319302}
-  m_RootOrder: 13
+  m_Father: {fileID: 1368860945}
+  m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1123.2, y: 112.2}
+  m_AnchoredPosition: {x: 96.349976, y: 33.850037}
   m_SizeDelta: {x: 30, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &43358655
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1008319305}
+      - m_Target: {fileID: 1368860943}
         m_MethodName: Throw
         m_Mode: 1
         m_Arguments:
@@ -1657,7 +1657,9 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: '[12:00] DooblyNoobly: example line
 
-    [12:01] Initializing something important..'
+    [12:01] Initializing something important..
+
+'
 --- !u!222 &615747752
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1693,11 +1695,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
-  m_Father: {fileID: 1008319302}
-  m_RootOrder: 11
+  m_Father: {fileID: 1368860945}
+  m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1029, y: 112.2}
+  m_AnchoredPosition: {x: 2.1499023, y: 33.850037}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &629500542
@@ -1739,7 +1741,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1008319305}
+      - m_Target: {fileID: 1368860943}
         m_MethodName: Resist
         m_Mode: 1
         m_Arguments:
@@ -2789,9 +2791,7 @@ RectTransform:
   - {fileID: 186278446}
   - {fileID: 1830305081}
   - {fileID: 1131285658}
-  - {fileID: 629500541}
-  - {fileID: 1666229905}
-  - {fileID: 43358654}
+  - {fileID: 1368860945}
   m_Father: {fileID: 1235261330}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
@@ -3533,7 +3533,8 @@ MonoBehaviour:
   chatControl: {fileID: 662261741}
   bottomControl: {fileID: 1008319305}
   handSelector: {fileID: 492534930}
-  ControlIntent: {fileID: 186278450}
+  intentControl: {fileID: 186278450}
+  actionControl: {fileID: 1368860943}
   click01SFX: {fileID: 1967520434}
   isRightHand: 0
 --- !u!1 &1249661799
@@ -3735,6 +3736,65 @@ MonoBehaviour:
   theToggle: {fileID: 165074925}
   tileTypeDropDown: {fileID: 614852276}
   curCam: {fileID: 1632047215}
+--- !u!1 &1368860942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 1368860945}
+  - 222: {fileID: 1368860944}
+  - 114: {fileID: 1368860943}
+  m_Layer: 5
+  m_Name: Actions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1368860943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1368860942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ae98790d7b0142559dfc4b0bd88e25b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  throwSprites:
+  - {fileID: 21300080, guid: dd40bce901ed04bd6967ce4ff63271ae, type: 3}
+  - {fileID: 21300084, guid: dd40bce901ed04bd6967ce4ff63271ae, type: 3}
+  throwImage: {fileID: 43358656}
+--- !u!222 &1368860944
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1368860942}
+--- !u!224 &1368860945
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1368860942}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children:
+  - {fileID: 629500541}
+  - {fileID: 1666229905}
+  - {fileID: 43358654}
+  m_Father: {fileID: 1008319302}
+  m_RootOrder: 11
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1085.4, y: 111.600006}
+  m_SizeDelta: {x: 117.1, y: 66.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1393029748
 GameObject:
   m_ObjectHideFlags: 0
@@ -4389,11 +4449,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
-  m_Father: {fileID: 1008319302}
-  m_RootOrder: 12
+  m_Father: {fileID: 1368860945}
+  m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1090, y: 112.2}
+  m_AnchoredPosition: {x: 63.150024, y: 33.850037}
   m_SizeDelta: {x: 34, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1666229906
@@ -4435,7 +4495,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1008319305}
+      - m_Target: {fileID: 1368860943}
         m_MethodName: Drop
         m_Mode: 1
         m_Arguments:
