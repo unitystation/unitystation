@@ -6,21 +6,26 @@ public class ControlUI : MonoBehaviour {
 
 	public static ControlUI control;
 
-		//Bools
-
-		//Hand selector public member
-		public bool isRightHand;
+		/* This static class is intended to be
+		 * the 'go-to' class for anything UI
+		 * related. Public members + access to child
+		 * functions
+		 */
 
 		//Child Scripts
-		public HandSelector handSelector;
 		public ControlChat chatControl;
-
-	//EQUIP MEMBERS
-	private bool EquipOut = false;
-	public GameObject rollOutParent;
+		public ControlBottomUI bottomControl;
+		public HandSelector handSelector;
 
 		//sfx
 		public AudioSource click01SFX;
+
+
+		/// <summary>
+		/// Is right hand selected? otherwise it is left
+		/// </summary>
+		public bool isRightHand;
+
 
 
 	void Awake () {
@@ -37,30 +42,6 @@ public class ControlUI : MonoBehaviour {
 		}
 
 	}
-
-
-	void Start () {
-
-		rollOutParent.SetActive (false);
-	}
 			
-	/// Clothing Equip roll out
-	//TODO Create clothing equipment class and move this method to it
-	public void EQUIP_RollOut(){
-
-			//soundFX trial placement here
-			click01SFX.Play ();
-		if (!rollOutParent.activeSelf) {
-			rollOutParent.SetActive (true);
-			EquipOut = true;
-		
-		} else {
-		
-			rollOutParent.SetActive (false);
-			EquipOut = false;
-		
-		}
-		}
-
 }
 }

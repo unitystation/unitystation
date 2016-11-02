@@ -19,16 +19,25 @@ public class HandSelector : MonoBehaviour {
 
 	}
 	
+
+
+
+		/* 
+		 * Button OnClick methods
+		 */
+
 		// whether selector should be on the right hand or the left
 		public void SelectorState(bool isRight){
 			//soundFX trial placement here
 			if (ControlUI.control != null) {
-				ControlUI.control.click01SFX.Play ();
+				PlayClick01 ();
 				if (isRight) {
+					Debug.Log ("RightHand Button");
 					isRightHand = true;
 					ControlUI.control.isRightHand = true;
 					selector.transform.position = rightHand.transform.position;
 				} else {
+					Debug.Log ("LeftHand Button");
 					isRightHand = false;
 					ControlUI.control.isRightHand = false;
 					selector.transform.position = leftHand.transform.position;
@@ -39,13 +48,32 @@ public class HandSelector : MonoBehaviour {
 
 		//For swap button
 		public void Swap(){
-
+			PlayClick01 ();
+			Debug.Log ("Swap Button");
 			if (isRightHand) {
 
 				SelectorState (false);
 			} else {
 				SelectorState (true);
 			
+			}
+
+		}
+
+		//OnClick Methods
+
+		public void Use(){
+			PlayClick01 ();
+			Debug.Log ("Use Button");
+
+		}
+
+		//SoundFX
+
+		void PlayClick01(){
+
+			if (ControlUI.control.click01SFX != null) {
+				ControlUI.control.click01SFX.Play ();
 			}
 
 		}
