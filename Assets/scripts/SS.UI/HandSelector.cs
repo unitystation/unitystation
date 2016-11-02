@@ -22,15 +22,17 @@ public class HandSelector : MonoBehaviour {
 		// whether selector should be on the right hand or the left
 		public void SelectorState(bool isRight){
 			//soundFX trial placement here
-			ControlUI.control.click01SFX.Play ();
-			if (isRight) {
-				isRightHand = true;
-				ControlUI.control.isRightHand = true;
-				selector.transform.position = rightHand.transform.position;
-			} else {
-				isRightHand = false;
-				ControlUI.control.isRightHand = false;
-				selector.transform.position = leftHand.transform.position;
+			if (ControlUI.control != null) {
+				ControlUI.control.click01SFX.Play ();
+				if (isRight) {
+					isRightHand = true;
+					ControlUI.control.isRightHand = true;
+					selector.transform.position = rightHand.transform.position;
+				} else {
+					isRightHand = false;
+					ControlUI.control.isRightHand = false;
+					selector.transform.position = leftHand.transform.position;
+				}
 			}
 
 		}

@@ -11,6 +11,10 @@ public class ControlUI : MonoBehaviour {
 		//Hand selector public member
 		public bool isRightHand;
 
+		//Child Scripts
+		public HandSelector handSelector;
+		public ControlChat chatControl;
+
 	//EQUIP MEMBERS
 	private bool EquipOut = false;
 	public GameObject rollOutParent;
@@ -41,6 +45,7 @@ public class ControlUI : MonoBehaviour {
 	}
 			
 	/// Clothing Equip roll out
+	//TODO Create clothing equipment class and move this method to it
 	public void EQUIP_RollOut(){
 
 			//soundFX trial placement here
