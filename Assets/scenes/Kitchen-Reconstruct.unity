@@ -3535,6 +3535,7 @@ MonoBehaviour:
   handSelector: {fileID: 492534930}
   intentControl: {fileID: 186278450}
   actionControl: {fileID: 1368860943}
+  walkRunControl: {fileID: 1830305085}
   click01SFX: {fileID: 1967520434}
   isRightHand: 0
 --- !u!1 &1249661799
@@ -4964,6 +4965,7 @@ GameObject:
   - 222: {fileID: 1830305084}
   - 114: {fileID: 1830305083}
   - 114: {fileID: 1830305082}
+  - 114: {fileID: 1830305085}
   m_Layer: 5
   m_Name: RunWalk_Toggle
   m_TagString: Untagged
@@ -5028,7 +5030,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1008319305}
+      - m_Target: {fileID: 1830305085}
         m_MethodName: RunWalk
         m_Mode: 1
         m_Arguments:
@@ -5074,6 +5076,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1830305080}
+--- !u!114 &1830305085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1830305080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8e91b603731743db82463fe15b2a1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runWalkSprites:
+  - {fileID: 21300060, guid: dd40bce901ed04bd6967ce4ff63271ae, type: 3}
+  - {fileID: 21300062, guid: dd40bce901ed04bd6967ce4ff63271ae, type: 3}
 --- !u!1 &1833337806
 GameObject:
   m_ObjectHideFlags: 0

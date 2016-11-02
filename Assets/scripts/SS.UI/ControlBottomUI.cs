@@ -46,36 +46,14 @@ public class ControlBottomUI : MonoBehaviour {
 			Debug.Log ("Storage02 Button");
 
 		}
-
-		public void RunWalk(){
-			PlayClick01 ();
-			Debug.Log ("RunWalk Button");
-
-		}
-
+			
 		public void DamageZone(){
 			PlayClick01 ();
 			Debug.Log ("DamageZone Button");
 
 		}
 
-		public void Resist(){
-			PlayClick01 ();
-			Debug.Log ("Resist Button");
 
-		}
-
-		public void  Drop(){
-			PlayClick01 ();
-			Debug.Log ("Drop Button");
-
-		}
-
-		public void Throw(){
-			PlayClick01 ();
-			Debug.Log ("Throw Button");
-
-		}
 
 		//SoundFX
 

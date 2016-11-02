@@ -18,6 +18,7 @@ public class ControlUI : MonoBehaviour {
 		public HandSelector handSelector;
 		public ControlIntent intentControl;
 		public ControlAction actionControl;
+		public ControlWalkRun walkRunControl;
 
 		//sfx
 		public AudioSource click01SFX;
