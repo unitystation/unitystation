@@ -2,7 +2,7 @@
 using System.Collections;
 using SS.TileTypes;
 
-//[RequireComponent(typeof (PoolManager))]
+
 public class TilePrefabs : MonoBehaviour {
 
 	public static TilePrefabs control;
@@ -29,7 +29,7 @@ public class TilePrefabs : MonoBehaviour {
 	 * 
 	 */
 
-//	private PoolManager poolManager;
+
 
 
 	//Prefabs:

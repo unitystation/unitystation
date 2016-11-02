@@ -16,6 +16,7 @@ public class ControlUI : MonoBehaviour {
 		public ControlChat chatControl;
 		public ControlBottomUI bottomControl;
 		public HandSelector handSelector;
+		public ControlIntent ControlIntent;
 
 		//sfx
 		public AudioSource click01SFX;

@@ -47,12 +47,6 @@ public class ControlBottomUI : MonoBehaviour {
 
 		}
 
-		public void Intend(){
-			PlayClick01 ();
-			Debug.Log ("Intend Button");
-
-		}
-
 		public void RunWalk(){
 			PlayClick01 ();
 			Debug.Log ("RunWalk Button");

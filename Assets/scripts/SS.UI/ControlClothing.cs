@@ -15,7 +15,11 @@ public class ControlClothing : MonoBehaviour {
 	
 	}
 	
-		//Button OnClick methods:
+		/* 
+		 * Button OnClick methods
+		 */
+
+
 	public void EQUIP_RollOut(){
 			PlayClick01 ();
 		if (!rollOutParent.activeSelf) {

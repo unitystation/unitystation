@@ -517,6 +517,7 @@ GameObject:
   - 222: {fileID: 186278449}
   - 114: {fileID: 186278448}
   - 114: {fileID: 186278447}
+  - 114: {fileID: 186278450}
   m_Layer: 5
   m_Name: Intent_Button
   m_TagString: Untagged
@@ -581,8 +582,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1008319305}
-        m_MethodName: Intend
+      - m_Target: {fileID: 186278450}
+        m_MethodName: IntentButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -627,6 +628,22 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 186278445}
+--- !u!114 &186278450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 186278445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6edf2a6750ad640ad9abc75822507594, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300186, guid: 12d11d2853dc04243ba05ab7cde1fdfe, type: 3}
+  - {fileID: 21300188, guid: 12d11d2853dc04243ba05ab7cde1fdfe, type: 3}
+  - {fileID: 21300190, guid: 12d11d2853dc04243ba05ab7cde1fdfe, type: 3}
+  - {fileID: 21300192, guid: 12d11d2853dc04243ba05ab7cde1fdfe, type: 3}
 --- !u!1 &211055135
 GameObject:
   m_ObjectHideFlags: 0
@@ -3516,6 +3533,7 @@ MonoBehaviour:
   chatControl: {fileID: 662261741}
   bottomControl: {fileID: 1008319305}
   handSelector: {fileID: 492534930}
+  ControlIntent: {fileID: 186278450}
   click01SFX: {fileID: 1967520434}
   isRightHand: 0
 --- !u!1 &1249661799
