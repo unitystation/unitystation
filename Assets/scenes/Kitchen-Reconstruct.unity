@@ -358,6 +358,7 @@ GameObject:
   - 114: {fileID: 68004121}
   - 212: {fileID: 68004122}
   - 61: {fileID: 68004124}
+  - 50: {fileID: 68004125}
   m_Layer: 8
   m_Name: NPC_Pete
   m_TagString: Untagged
@@ -436,6 +437,23 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.32}
+--- !u!50 &68004125
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 68004120}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!1 &84411014
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,6 +753,7 @@ GameObject:
   - 114: {fileID: 180041283}
   - 212: {fileID: 180041282}
   - 61: {fileID: 180041281}
+  - 50: {fileID: 180041284}
   m_Layer: 8
   m_Name: NPC_Clown (5)
   m_TagString: Untagged
@@ -818,6 +837,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &180041284
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 180041279}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &186278445
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,6 +1139,7 @@ GameObject:
   - 114: {fileID: 236533308}
   - 212: {fileID: 236533307}
   - 61: {fileID: 236533306}
+  - 50: {fileID: 236533309}
   m_Layer: 8
   m_Name: NPC_Clown (1)
   m_TagString: Untagged
@@ -1186,6 +1223,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &236533309
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 236533304}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &247608251
 GameObject:
   m_ObjectHideFlags: 0
@@ -1386,6 +1440,7 @@ GameObject:
   - 114: {fileID: 261890271}
   - 212: {fileID: 261890270}
   - 61: {fileID: 261890269}
+  - 50: {fileID: 261890272}
   m_Layer: 8
   m_Name: NPC_Clown (27)
   m_TagString: Untagged
@@ -1469,6 +1524,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &261890272
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 261890267}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &290497068
 GameObject:
   m_ObjectHideFlags: 0
@@ -1480,6 +1552,7 @@ GameObject:
   - 114: {fileID: 290497072}
   - 212: {fileID: 290497071}
   - 61: {fileID: 290497070}
+  - 50: {fileID: 290497073}
   m_Layer: 8
   m_Name: NPC_Clown (10)
   m_TagString: Untagged
@@ -1563,6 +1636,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &290497073
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 290497068}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &302397549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1872,6 +1962,7 @@ GameObject:
   - 114: {fileID: 361566350}
   - 212: {fileID: 361566349}
   - 61: {fileID: 361566348}
+  - 50: {fileID: 361566351}
   m_Layer: 8
   m_Name: NPC_Clown (7)
   m_TagString: Untagged
@@ -1955,6 +2046,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &361566351
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 361566346}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &413788368
 GameObject:
   m_ObjectHideFlags: 0
@@ -1966,6 +2074,7 @@ GameObject:
   - 114: {fileID: 413788372}
   - 212: {fileID: 413788371}
   - 61: {fileID: 413788370}
+  - 50: {fileID: 413788373}
   m_Layer: 8
   m_Name: NPC_Clown (19)
   m_TagString: Untagged
@@ -2049,6 +2158,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &413788373
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 413788368}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &474352032
 GameObject:
   m_ObjectHideFlags: 0
@@ -2241,6 +2367,7 @@ GameObject:
   - 114: {fileID: 516400402}
   - 212: {fileID: 516400401}
   - 61: {fileID: 516400400}
+  - 50: {fileID: 516400403}
   m_Layer: 8
   m_Name: NPC_Clown (9)
   m_TagString: Untagged
@@ -2324,6 +2451,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &516400403
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 516400398}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &529526022
 GameObject:
   m_ObjectHideFlags: 0
@@ -2335,6 +2479,7 @@ GameObject:
   - 114: {fileID: 529526026}
   - 212: {fileID: 529526025}
   - 61: {fileID: 529526024}
+  - 50: {fileID: 529526027}
   m_Layer: 8
   m_Name: NPC_Clown (16)
   m_TagString: Untagged
@@ -2418,6 +2563,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &529526027
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 529526022}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &542741450
 GameObject:
   m_ObjectHideFlags: 0
@@ -3267,6 +3429,7 @@ GameObject:
   - 114: {fileID: 631069010}
   - 212: {fileID: 631069009}
   - 61: {fileID: 631069008}
+  - 50: {fileID: 631069011}
   m_Layer: 8
   m_Name: NPC_Clown (23)
   m_TagString: Untagged
@@ -3350,6 +3513,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &631069011
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 631069006}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &654785768
 GameObject:
   m_ObjectHideFlags: 0
@@ -3684,6 +3864,7 @@ GameObject:
   - 114: {fileID: 664618351}
   - 212: {fileID: 664618350}
   - 61: {fileID: 664618349}
+  - 50: {fileID: 664618352}
   m_Layer: 8
   m_Name: NPC_Clown (26)
   m_TagString: Untagged
@@ -3767,6 +3948,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &664618352
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 664618347}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &680401336
 GameObject:
   m_ObjectHideFlags: 0
@@ -3852,6 +4050,7 @@ GameObject:
   - 114: {fileID: 704055774}
   - 212: {fileID: 704055773}
   - 61: {fileID: 704055772}
+  - 50: {fileID: 704055775}
   m_Layer: 8
   m_Name: NPC_Clown (6)
   m_TagString: Untagged
@@ -3935,6 +4134,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &704055775
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 704055770}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1001 &709718371
 Prefab:
   m_ObjectHideFlags: 0
@@ -3988,6 +4204,7 @@ GameObject:
   - 114: {fileID: 735013954}
   - 212: {fileID: 735013953}
   - 61: {fileID: 735013952}
+  - 50: {fileID: 735013955}
   m_Layer: 8
   m_Name: NPC_Clown (14)
   m_TagString: Untagged
@@ -4071,6 +4288,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &735013955
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 735013950}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &789548632
 GameObject:
   m_ObjectHideFlags: 0
@@ -4271,6 +4505,7 @@ GameObject:
   - 114: {fileID: 832360218}
   - 212: {fileID: 832360217}
   - 61: {fileID: 832360216}
+  - 50: {fileID: 832360219}
   m_Layer: 8
   m_Name: NPC_Clown (4)
   m_TagString: Untagged
@@ -4354,6 +4589,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &832360219
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 832360214}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &835660052
 GameObject:
   m_ObjectHideFlags: 0
@@ -4500,6 +4752,7 @@ GameObject:
   - 114: {fileID: 841015973}
   - 212: {fileID: 841015972}
   - 61: {fileID: 841015971}
+  - 50: {fileID: 841015974}
   m_Layer: 8
   m_Name: NPC_Clown (12)
   m_TagString: Untagged
@@ -4583,6 +4836,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &841015974
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 841015969}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &844886970
 GameObject:
   m_ObjectHideFlags: 0
@@ -4882,6 +5152,7 @@ GameObject:
   - 114: {fileID: 928286086}
   - 212: {fileID: 928286085}
   - 61: {fileID: 928286087}
+  - 50: {fileID: 928286088}
   m_Layer: 8
   m_Name: NPC_Clown
   m_TagString: Untagged
@@ -4965,6 +5236,23 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.32}
+--- !u!50 &928286088
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 928286083}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &936583130
 GameObject:
   m_ObjectHideFlags: 0
@@ -5097,6 +5385,7 @@ GameObject:
   - 114: {fileID: 949663886}
   - 212: {fileID: 949663885}
   - 61: {fileID: 949663884}
+  - 50: {fileID: 949663887}
   m_Layer: 8
   m_Name: NPC_Clown (29)
   m_TagString: Untagged
@@ -5180,6 +5469,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &949663887
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 949663882}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1003594849
 GameObject:
   m_ObjectHideFlags: 0
@@ -5317,6 +5623,7 @@ GameObject:
   - 114: {fileID: 1012376105}
   - 212: {fileID: 1012376104}
   - 61: {fileID: 1012376103}
+  - 50: {fileID: 1012376106}
   m_Layer: 8
   m_Name: NPC_Clown (28)
   m_TagString: Untagged
@@ -5400,6 +5707,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1012376106
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1012376101}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1036792481
 GameObject:
   m_ObjectHideFlags: 0
@@ -5532,6 +5856,7 @@ GameObject:
   - 114: {fileID: 1101957311}
   - 212: {fileID: 1101957310}
   - 61: {fileID: 1101957309}
+  - 50: {fileID: 1101957312}
   m_Layer: 8
   m_Name: NPC_Clown (11)
   m_TagString: Untagged
@@ -5615,6 +5940,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1101957312
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1101957307}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1102032172
 GameObject:
   m_ObjectHideFlags: 0
@@ -5786,6 +6128,7 @@ GameObject:
   - 114: {fileID: 1149743815}
   - 212: {fileID: 1149743814}
   - 61: {fileID: 1149743813}
+  - 50: {fileID: 1149743816}
   m_Layer: 8
   m_Name: NPC_Clown (17)
   m_TagString: Untagged
@@ -5869,6 +6212,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1149743816
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1149743811}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1151041533
 GameObject:
   m_ObjectHideFlags: 0
@@ -6258,6 +6618,7 @@ GameObject:
   - 114: {fileID: 1193580516}
   - 212: {fileID: 1193580515}
   - 61: {fileID: 1193580514}
+  - 50: {fileID: 1193580517}
   m_Layer: 8
   m_Name: NPC_Clown (18)
   m_TagString: Untagged
@@ -6341,6 +6702,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1193580517
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1193580512}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1001 &1194537093
 Prefab:
   m_ObjectHideFlags: 0
@@ -6398,6 +6776,7 @@ GameObject:
   - 114: {fileID: 1211590995}
   - 212: {fileID: 1211590994}
   - 61: {fileID: 1211590993}
+  - 50: {fileID: 1211590996}
   m_Layer: 8
   m_Name: NPC_Clown (15)
   m_TagString: Untagged
@@ -6481,6 +6860,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1211590996
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1211590991}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1235261326
 GameObject:
   m_ObjectHideFlags: 0
@@ -6608,6 +7004,7 @@ GameObject:
   - 114: {fileID: 1244588030}
   - 212: {fileID: 1244588029}
   - 61: {fileID: 1244588028}
+  - 50: {fileID: 1244588031}
   m_Layer: 8
   m_Name: NPC_Clown (25)
   m_TagString: Untagged
@@ -6691,6 +7088,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1244588031
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1244588026}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1249661799
 GameObject:
   m_ObjectHideFlags: 0
@@ -6851,6 +7265,7 @@ GameObject:
   - 114: {fileID: 1273569812}
   - 212: {fileID: 1273569811}
   - 61: {fileID: 1273569810}
+  - 50: {fileID: 1273569813}
   m_Layer: 8
   m_Name: NPC_Clown (24)
   m_TagString: Untagged
@@ -6934,6 +7349,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1273569813
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1273569808}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1281917167
 GameObject:
   m_ObjectHideFlags: 0
@@ -6945,6 +7377,7 @@ GameObject:
   - 114: {fileID: 1281917171}
   - 212: {fileID: 1281917170}
   - 61: {fileID: 1281917169}
+  - 50: {fileID: 1281917172}
   m_Layer: 8
   m_Name: NPC_Clown (3)
   m_TagString: Untagged
@@ -7028,6 +7461,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1281917172
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1281917167}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1300228654
 GameObject:
   m_ObjectHideFlags: 0
@@ -7433,6 +7883,7 @@ GameObject:
   - 114: {fileID: 1386730034}
   - 212: {fileID: 1386730033}
   - 61: {fileID: 1386730032}
+  - 50: {fileID: 1386730035}
   m_Layer: 8
   m_Name: NPC_Clown (13)
   m_TagString: Untagged
@@ -7516,6 +7967,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1386730035
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1386730030}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1393029748
 GameObject:
   m_ObjectHideFlags: 0
@@ -7720,6 +8188,7 @@ GameObject:
   - 114: {fileID: 1430969678}
   - 212: {fileID: 1430969677}
   - 61: {fileID: 1430969676}
+  - 50: {fileID: 1430969679}
   m_Layer: 8
   m_Name: NPC_Clown (21)
   m_TagString: Untagged
@@ -7803,6 +8272,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1430969679
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1430969674}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1443460867
 GameObject:
   m_ObjectHideFlags: 0
@@ -7882,6 +8368,7 @@ GameObject:
   - 114: {fileID: 1462864981}
   - 212: {fileID: 1462864980}
   - 61: {fileID: 1462864979}
+  - 50: {fileID: 1462864982}
   m_Layer: 8
   m_Name: NPC_Clown (20)
   m_TagString: Untagged
@@ -7965,6 +8452,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1462864982
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1462864977}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1463975361
 GameObject:
   m_ObjectHideFlags: 0
@@ -8179,6 +8683,7 @@ GameObject:
   - 114: {fileID: 1522279438}
   - 212: {fileID: 1522279437}
   - 61: {fileID: 1522279436}
+  - 50: {fileID: 1522279439}
   m_Layer: 8
   m_Name: NPC_Clown (8)
   m_TagString: Untagged
@@ -8262,6 +8767,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1522279439
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1522279434}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1564539233
 GameObject:
   m_ObjectHideFlags: 0
@@ -8273,6 +8795,7 @@ GameObject:
   - 114: {fileID: 1564539237}
   - 212: {fileID: 1564539236}
   - 61: {fileID: 1564539235}
+  - 50: {fileID: 1564539238}
   m_Layer: 8
   m_Name: NPC_Clown (2)
   m_TagString: Untagged
@@ -8356,6 +8879,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1564539238
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1564539233}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1615667983
 GameObject:
   m_ObjectHideFlags: 0
@@ -8875,6 +9415,7 @@ GameObject:
   - 114: {fileID: 1751578255}
   - 212: {fileID: 1751578254}
   - 61: {fileID: 1751578253}
+  - 50: {fileID: 1751578256}
   m_Layer: 8
   m_Name: NPC_Clown (22)
   m_TagString: Untagged
@@ -8958,6 +9499,23 @@ MonoBehaviour:
   - {fileID: 21300662, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300664, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
   - {fileID: 21300666, guid: d3f9a4c6de75340caa1971a541672c06, type: 3}
+--- !u!50 &1751578256
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1751578251}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1755001596
 GameObject:
   m_ObjectHideFlags: 0
