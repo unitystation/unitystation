@@ -12,11 +12,11 @@ public class ControlAction : MonoBehaviour {
 		public Sprite[] throwSprites;
 		public Image throwImage;
 
-		public bool isThrow{ get; set; }
+
 
 
 		void Start(){
-			isThrow = false;
+			ControlUI.control.isThrow = false;
 
 		}
 
@@ -44,14 +44,14 @@ public class ControlAction : MonoBehaviour {
 			PlayClick01 ();
 			Debug.Log ("Throw Button");
 
-			if (!isThrow) {
+			if (!ControlUI.control.isThrow) {
 			
-				isThrow = true;
+				ControlUI.control.isThrow = true;
 				throwImage.sprite = throwSprites [1];
 			
 			} else {
 			
-				isThrow = false;
+				ControlUI.control.isThrow = false;
 				throwImage.sprite = throwSprites [0];
 			
 			

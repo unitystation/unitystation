@@ -47,13 +47,6 @@ public class ControlBottomUI : MonoBehaviour {
 
 		}
 			
-		public void DamageZone(){
-			PlayClick01 ();
-			Debug.Log ("DamageZone Button");
-
-		}
-
-
 
 		//SoundFX
 
