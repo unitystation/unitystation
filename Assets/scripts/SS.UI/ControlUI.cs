@@ -47,6 +47,11 @@ public class ControlUI : MonoBehaviour {
 		/// </summary>
 		public bool isThrow{ get; set; }
 
+		/// <summary>
+		/// Is Oxygen On?
+		/// </summary>
+		public bool isOxygen{ get; set; }
+
 
 	void Awake () {
 
