@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
+using SS.GameLogic;
 
 public class PlayerScript : MonoBehaviour {
 
     public GameObject playerCamera;
+    public GameManager gameManager;
     public float panSpeed = 10.0f;
     private SpriteRenderer playerRend;
     private SpriteRenderer suitRend;
@@ -25,14 +26,20 @@ public class PlayerScript : MonoBehaviour {
     private Sprite[] underwearSheet;
     private Sprite[] uniformSheet;
 
+    private int gridX;
+    private int gridY;
+
 
     // Use this for initialization
     void Start () {
         playerRend = GetComponent<SpriteRenderer>();
-       
+
+        gridX = 22;
+        gridY = 17;
+
         foreach(SpriteRenderer child in this.GetComponentsInChildren<SpriteRenderer>())
         {
-            Debug.Log(child.name + " " + child.tag);
+            //Debug.Log(child.name + " " + child.tag);
             switch (child.name)
             {
                 case "suit":
@@ -72,18 +79,35 @@ public class PlayerScript : MonoBehaviour {
         underwearSheet = Resources.LoadAll<Sprite>("mobs/underwear");
         uniformSheet = Resources.LoadAll<Sprite>("mobs/uniform");
         //populate child sprites chef suit onto player
-
+        //transform.position = gameManager.GetGridCoords(gridX, gridY);
     }
 
     // Update is called once per frame
     void Update () {
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
+        int newGridY = gridY;
+        int newGridX = gridX;
+        if (moveVertical > 0) newGridY = gridY + 1;
+        if (moveVertical < 0) newGridY = gridY - 1;
+        if (moveHorizontal > 0) newGridX = gridX + 1;
+        if (moveHorizontal < 0) newGridX = gridX - 1;
+
+        if (moveHorizontal > 0 || moveVertical > 0)
+        {
+            Debug.Log("input:");
+            Debug.Log(moveHorizontal + ", " + moveVertical);
+            Debug.Log("grid xy:");
+            Debug.Log(gridX + ", " + gridY);
+            Debug.Log("grid vector:");
+            Debug.Log(gameManager.GetGridCoords(gridX, gridY));
+        }
+
 
         Vector3 movement = new Vector3(moveHorizontal, moveVertical) * panSpeed;
         Vector2 moveDirection = new Vector2(movement.x, movement.y);
         Vector2 normalized = moveDirection.normalized;
-        //Debug.Log(normalized.x +", "+ normalized.y);
+        GameManager.Direction direction = GameManager.Direction.Up;
         if (normalized == Vector2.down)
         {
             playerRend.sprite = playerSheet[36];
@@ -93,6 +117,7 @@ public class PlayerScript : MonoBehaviour {
             feetRend.sprite = feetSheet[36];
             underwearRend.sprite = underwearSheet[52];
             uniformRend.sprite = uniformSheet[16];
+            direction = GameManager.Direction.Down;
         }
         if (normalized == Vector2.up)
         {
@@ -103,6 +128,7 @@ public class PlayerScript : MonoBehaviour {
             feetRend.sprite = feetSheet[37];
             underwearRend.sprite = underwearSheet[53];
             uniformRend.sprite = uniformSheet[17];
+            direction = GameManager.Direction.Up;
         }
         if (normalized == Vector2.right)
         {
@@ -113,6 +139,7 @@ public class PlayerScript : MonoBehaviour {
             feetRend.sprite = feetSheet[38];
             underwearRend.sprite = underwearSheet[54];
             uniformRend.sprite = uniformSheet[18];
+            direction = GameManager.Direction.Right;
         }
         if (normalized == Vector2.left)
         {
@@ -123,13 +150,20 @@ public class PlayerScript : MonoBehaviour {
             feetRend.sprite = feetSheet[39];
             underwearRend.sprite = underwearSheet[55];
             uniformRend.sprite = uniformSheet[19];
+            direction = GameManager.Direction.Left;
         }
 
+        if (gameManager.CheckPassable(newGridX, newGridY, direction))
+        {
 
+            gridX = newGridX;
+            gridY = newGridY;
+            var gridVector = gameManager.GetGridCoords(gridX, gridY);
+            transform.position = gridVector;
+            playerCamera.transform.position = new Vector3(gridVector.x, gridVector.y, playerCamera.transform.position.z);
 
+        }
 
-        transform.position = transform.position + movement;
-        playerCamera.transform.position = playerCamera.transform.position + movement;
 
     }
 }
