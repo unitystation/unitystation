@@ -126,5 +126,9 @@ namespace SS.GameLogic {
 				grid[newGridX, newGridY].GetComponent<TileManager>().passable[(int)newDirection]
 			);
 		}
+
+		public Vector3 GetGridCoords(int gridX, int gridY) {
+			return grid[gridX, gridY].transform.position;
+		}
 	}
 }
