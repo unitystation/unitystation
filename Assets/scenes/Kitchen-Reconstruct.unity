@@ -1850,6 +1850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 1632047211}
+  gameManager: {fileID: 913857902}
   panSpeed: 10
 --- !u!212 &509938854
 SpriteRenderer:
@@ -1904,7 +1905,7 @@ Transform:
   - {fileID: 1689206716}
   - {fileID: 2005160300}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
 --- !u!1 &542741450
 GameObject:
   m_ObjectHideFlags: 0
