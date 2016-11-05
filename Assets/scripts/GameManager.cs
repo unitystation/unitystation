@@ -19,6 +19,7 @@ namespace SS.GameLogic {
 
 		public enum Direction {Up, Left, Down, Right};
 		public enum TileType {Space, Floor, Wall};
+		public enum ItemTile {Tile, Item};
 
 		private GameObject[,] grid;
 		private TextAsset map;
@@ -72,13 +73,14 @@ namespace SS.GameLogic {
 						GameObject wt = Instantiate(wallTile);
 						wt.GetComponent<WallTile>().SetTile(Standard_Wall.walls_20, grid[i, j].transform.position);
 						wt.SetActive(true);
-						thisTileManager.addObject(wt);
+						grid[i, j].GetComponent<TileManager>().passable = new bool[4]{false, false, false, false};
+						thisTileManager.addObject(wt, ItemTile.Tile);
 						break;
 					case 'f':
 						GameObject ft = Instantiate(floorTile);
 						ft.GetComponent<FloorTile>().SetTile(Construction_Floors.floors_1, grid[i, j].transform.position);
 						ft.SetActive(true);
-						thisTileManager.addObject(ft);
+						thisTileManager.addObject(ft, ItemTile.Tile);
 						break;
 					}
 				}
