@@ -35,7 +35,7 @@ public class PlayerScript : MonoBehaviour {
         playerRend = GetComponent<SpriteRenderer>();
 
         gridX = 22;
-        gridY = 17;
+        gridY = 32;
 
         foreach(SpriteRenderer child in this.GetComponentsInChildren<SpriteRenderer>())
         {
@@ -93,15 +93,15 @@ public class PlayerScript : MonoBehaviour {
         if (moveHorizontal > 0) newGridX = gridX + 1;
         if (moveHorizontal < 0) newGridX = gridX - 1;
 
-        if (moveHorizontal > 0 || moveVertical > 0)
-        {
-            Debug.Log("input:");
-            Debug.Log(moveHorizontal + ", " + moveVertical);
-            Debug.Log("grid xy:");
-            Debug.Log(gridX + ", " + gridY);
-            Debug.Log("grid vector:");
-            Debug.Log(gameManager.GetGridCoords(gridX, gridY));
-        }
+        //if (moveHorizontal > 0 || moveVertical > 0)
+        //{
+        //    Debug.Log("input:");
+        //    Debug.Log(moveHorizontal + ", " + moveVertical);
+        //    Debug.Log("grid xy:");
+        //    Debug.Log(gridX + ", " + gridY);
+        //    Debug.Log("grid vector:");
+        //    Debug.Log(gameManager.GetGridCoords(gridX, gridY));
+        //}
 
 
         Vector3 movement = new Vector3(moveHorizontal, moveVertical) * panSpeed;

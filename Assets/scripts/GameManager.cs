@@ -22,20 +22,29 @@ namespace SS.GameLogic {
 
 		private GameObject[,] grid;
 		private TextAsset map;
+        private bool mapLoaded = false;
 
 		// Use this for initialization
 		void Start () {
 			InitTiles();
-		}
+            map = Resources.Load<TextAsset>("maps/map");
+        }
 		
 		// Update is called once per frame
 		void Update () {
 
-			if (Input.GetKeyDown(KeyCode.O)) {
-				map = Resources.Load<TextAsset>("maps/map"); //TODO Get rid of ghetto map and resources.load
+			if (!mapLoaded && HasGridLoaded()) {
+				 //TODO Get rid of ghetto map and resources.load
 				LoadMap(map);
+                mapLoaded = true;
 			}
-		}
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                //TODO Get rid of ghetto map and resources.load
+                LoadMap(map);
+                mapLoaded = true;
+            }
+        }
 
 		private void InitTiles() {
 			grid = new GameObject[gridSizeX, gridSizeY];
@@ -57,11 +66,28 @@ namespace SS.GameLogic {
 					tileManager = grid[i, j].GetComponent<TileManager>();
 					tileManager.gridX = i;
 					tileManager.gridY = j;
-					tileManager.gameManager = gameObject.GetComponent<GameManager>();
-				}
+                    tileManager.gameManager = gameObject.GetComponent<GameManager>();
+
+                }
 			}
 		}
-			
+		
+        private bool HasGridLoaded()
+        {
+            bool gridLoaded = true;
+            int count = 0;
+            foreach (GameObject gridObj in grid)
+            {
+                count++;
+                if (!gridObj.activeSelf)
+                {
+                    gridLoaded = false;
+                    break;
+                }
+            }
+            return gridLoaded;
+        }	
+
 		private void LoadMap(TextAsset map) {
 			string[] lines = map.text.Split('\r');
 			for (int i = 0; i < lines.Length - 1; i++) {
