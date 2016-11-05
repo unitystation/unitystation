@@ -28,7 +28,6 @@ public class NPC_Pete : MonoBehaviour {
 		IEnumerator<float>RandMove(){
 
 			float ranTime = Random.Range (5f, 15f);
-			Debug.Log (ranTime);
 			yield return Timing.WaitForSeconds (ranTime);
 
 			int ranDir = Random.Range (0, 4);
