@@ -39,9 +39,15 @@ public class TileManager : MonoBehaviour {
 		Debug.Log("X: " + gridX + " Y: " + gridY);
 		Debug.Log(gameManager.CheckPassable(gridX, gridY, GameManager.Direction.Up));
 	}
-
-	//TODO Add an object to the z-ordering on the tile. Just make it a stack?
-	public void addObject(GameObject objectToAdd) {
-
+		
+	public void addObject(GameObject objectToAdd, GameManager.ItemTile itemTile) {
+		switch(itemTile) {
+		case GameManager.ItemTile.Tile:
+			objectToAdd.transform.SetParent(transform.FindChild("Turf"));
+			break;
+		case GameManager.ItemTile.Item:
+			objectToAdd.transform.SetParent(transform.FindChild("Items"));
+			break;
+		}
 	}
 }
