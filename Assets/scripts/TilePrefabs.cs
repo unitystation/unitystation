@@ -121,6 +121,39 @@ namespace SS.TileTypes{
 
 	}
 
-
+	public enum Standard_Wall {
+		walls_0,
+		walls_1,
+		walls_2,
+		walls_3,
+		walls_4,
+		walls_5,
+		walls_6,
+		walls_7,
+		walls_8,
+		walls_9,
+		walls_10,
+		walls_11,
+		walls_12,
+		walls_13,
+		walls_14,
+		walls_15,
+		walls_16,
+		walls_17,
+		walls_18,
+		walls_19,
+		walls_20,
+		walls_21,
+		walls_22,
+		walls_23,
+		walls_24,
+		walls_25,
+		walls_26,
+		walls_27,
+		walls_28,
+		walls_29,
+		walls_30,
+		walls_31,
+		NumberOfTypes
+	}
 }
-

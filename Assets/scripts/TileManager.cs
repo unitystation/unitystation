@@ -4,7 +4,6 @@ using SS.GameLogic;
 
 public class TileManager : MonoBehaviour {
 	public GameManager gameManager;
-	public Sprite tileSprite; 
 
 	public GameManager.TileType myTileType;
 	public bool[] passable;
@@ -12,6 +11,7 @@ public class TileManager : MonoBehaviour {
 	public int gridX;
 	public int gridY;
 
+	public Sprite tileSprite; 
 	private GameObject[] objectStack; //TODO May just remove this, will need to see its usefulness in keeping z-order
 
 	// Initilise first space tile
@@ -28,7 +28,7 @@ public class TileManager : MonoBehaviour {
 		int randomSpaceTile = (int)Random.Range(0, 101);
 		Sprite tileSprite = spaceSheet[randomSpaceTile];
 
-		displaySprite = transform.FindChild("Space").gameObject;
+		displaySprite = transform.FindChild("Turf").FindChild("Space").gameObject;
 		spriteRenderer = displaySprite.GetComponent<SpriteRenderer>();
 		if (tileSprite) {
 			spriteRenderer.sprite = tileSprite; 

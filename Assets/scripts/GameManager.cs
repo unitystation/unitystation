@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SS.TileTypes;
 
 namespace SS.GameLogic {
 	
@@ -9,6 +10,9 @@ namespace SS.GameLogic {
 		public GameObject tileGrid;
 		public int gridSizeX = 100;
 		public int gridSizeY = 100;
+
+		public GameObject floorTile;
+		public GameObject wallTile;
 
 		public GameObject playerCamera;
 		public float panSpeed = 10.0f;
@@ -28,7 +32,7 @@ namespace SS.GameLogic {
 		void Update () {
 
 			if (Input.GetKeyDown(KeyCode.O)) {
-				map = Resources.Load<TextAsset>("maps/map.txt"); //TODO Get rid of ghetto map and resources.load
+				map = Resources.Load<TextAsset>("maps/map"); //TODO Get rid of ghetto map and resources.load
 				LoadMap(map);
 			}
 		}
@@ -57,10 +61,28 @@ namespace SS.GameLogic {
 				}
 			}
 		}
-
-
-		//TODO Implment reading the file and laying down floors/walls
+			
 		private void LoadMap(TextAsset map) {
+			string[] lines = map.text.Split('\r');
+			for (int i = 0; i < lines.Length - 1; i++) {
+				for (int j = 0; j < lines[i].Length - 1; j++) {
+					TileManager thisTileManager = grid[i,j].GetComponent<TileManager>();
+					switch(lines[i][j]) {
+					case 'w':
+						GameObject wt = Instantiate(wallTile);
+						wt.GetComponent<WallTile>().SetTile(Standard_Wall.walls_20, grid[i, j].transform.position);
+						wt.SetActive(true);
+						thisTileManager.addObject(wt);
+						break;
+					case 'f':
+						GameObject ft = Instantiate(floorTile);
+						ft.GetComponent<FloorTile>().SetTile(Construction_Floors.floors_1, grid[i, j].transform.position);
+						ft.SetActive(true);
+						thisTileManager.addObject(ft);
+						break;
+					}
+				}
+			}
 		}
 
 		public bool CheckPassable(int gridX, int gridY, Direction direction) {
@@ -97,6 +119,10 @@ namespace SS.GameLogic {
 				grid[gridX, gridY].GetComponent<TileManager>().passable[(int)direction] && 
 				grid[newGridX, newGridY].GetComponent<TileManager>().passable[(int)newDirection]
 			);
+		}
+
+		public Vector3 GetGridCoords(int gridX, int gridY) {
+			return grid[gridX, gridY].transform.position;
 		}
 	}
 }
