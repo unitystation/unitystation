@@ -124,7 +124,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -71.099976, y: 603.80005}
+  m_AnchoredPosition: {x: -114.31, y: 603.80005}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1768640
@@ -1185,7 +1185,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -71.1, y: 458.5}
+  m_AnchoredPosition: {x: -114.31, y: 458.5}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &247608253
@@ -1831,6 +1831,7 @@ GameObject:
   - 4: {fileID: 509938855}
   - 212: {fileID: 509938854}
   - 114: {fileID: 509938853}
+  - 50: {fileID: 509938856}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1849,9 +1850,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2d7bcb67470f4449801f2ba5b691cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 1632047211}
   gameManager: {fileID: 913857902}
   panSpeed: 10
+  moveSpeed: 0.1
 --- !u!212 &509938854
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1906,6 +1907,23 @@ Transform:
   - {fileID: 2005160300}
   m_Father: {fileID: 0}
   m_RootOrder: 8
+--- !u!50 &509938856
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 509938852}
+  m_UseAutoMass: 0
+  m_Mass: 3
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_IsKinematic: 1
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!1 &542741450
 GameObject:
   m_ObjectHideFlags: 0
@@ -2283,7 +2301,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -71.1, y: 537.29}
+  m_AnchoredPosition: {x: -114.31, y: 537.29}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &561116390
@@ -6016,6 +6034,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1632047216}
+  - 114: {fileID: 1632047217}
   - 20: {fileID: 1632047215}
   - 92: {fileID: 1632047214}
   - 124: {fileID: 1632047213}
@@ -6060,9 +6079,9 @@ Camera:
   m_BackGroundColor: {r: 0.077205904, g: 0.08138947, b: 0.08823532, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.03
     y: 0
-    width: 1
+    width: 0.67
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -6095,6 +6114,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &1632047217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1632047211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8fe96082d7234db69647b60c00232f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 509938855}
+  damping: 0.1
+  lookAheadFactor: 0
+  lookAheadReturnSpeed: 0.5
+  lookAheadMoveThreshold: 0.1
+  yOffSet: -31.5
 --- !u!1 &1666229904
 GameObject:
   m_ObjectHideFlags: 0

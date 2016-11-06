@@ -3,7 +3,8 @@ using SS.GameLogic;
 
 public class PlayerScript : MonoBehaviour {
 
-    public GameObject playerCamera;
+	public static PlayerScript playerControl;
+
     public GameManager gameManager;
     public float panSpeed = 10.0f;
 	public float moveSpeed = 0.1f;
@@ -32,6 +33,15 @@ public class PlayerScript : MonoBehaviour {
     private int gridY;
 
 	private float timeBetweenFrames;
+
+	void Awake(){
+
+		if (playerControl == null) {
+		
+			playerControl = this;
+		}
+
+	}
 
     // Use this for initialization
     void Start () {
@@ -164,7 +174,7 @@ public class PlayerScript : MonoBehaviour {
 				gridY = newGridY;
 				var gridVector = gameManager.GetGridCoords(gridX, gridY);
 				transform.position = gridVector;
-				playerCamera.transform.position = new Vector3(gridVector.x, gridVector.y, playerCamera.transform.position.z);
+
 
 			}
 			timeBetweenFrames = moveSpeed;
