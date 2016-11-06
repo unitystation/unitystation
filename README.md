@@ -1,11 +1,11 @@
-# tgstation-unity
-the unity clone of the ss13 /tg/station branch http://www.tgstation13.org/
+# unitystation
+the unity clone of ss13 using the /tg/station branch http://www.tgstation13.org/
 
 ==================================================================
 
 For sporatic development in Unity 5.4+
 
-IRC: ##tgstation-unity on freenode
+IRC: ##unitystation on freenode
 
 
 LICENSE
