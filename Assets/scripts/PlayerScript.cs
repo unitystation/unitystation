@@ -2,7 +2,6 @@
 using SS.GameLogic;
 
 public class PlayerScript : MonoBehaviour {
-
 	public static PlayerScript playerControl;
 
 	public GameManager gameManager;
@@ -34,29 +33,22 @@ public class PlayerScript : MonoBehaviour {
 
 	private float timeBetweenFrames;
 
-	//Temp Dev: trying to implement physics
-	private Rigidbody2D thisRigi;
-	public Vector2 moveDirection;
-	public Vector3 targetTilePos;
-	public bool currentlyMoving = false;
-	private bool keyDown = false;
-	private GameManager.Direction direction = GameManager.Direction.Up;
-
 
 	void Awake(){
 
 		if (playerControl == null) {
-
+		
 			playerControl = this;
+		
+		} else {
+		
+			Destroy (this);
+		
 		}
 
 	}
-
 	// Use this for initialization
 	void Start () {
-
-		thisRigi = GetComponent<Rigidbody2D> ();
-	
 		playerRend = GetComponent<SpriteRenderer>();
 
 		gridX = 22;
@@ -111,16 +103,7 @@ public class PlayerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.A)) {
-
-			keyDown = true;
-
-		} else {
-
-			keyDown = false;
-		}
-//		if (timeBetweenFrames < 0) {
-		if(!currentlyMoving && keyDown){
+		if (timeBetweenFrames < 0) {
 			float moveHorizontal = Input.GetAxis("Horizontal");
 			float moveVertical = Input.GetAxis("Vertical");
 			int newGridY = gridY;
@@ -145,10 +128,10 @@ public class PlayerScript : MonoBehaviour {
 			//}
 
 
-			Vector3 movement = new Vector3 (moveHorizontal, moveVertical) * panSpeed;
-			moveDirection = new Vector2(movement.x, movement.y);
+			Vector3 movement = new Vector3(moveHorizontal, moveVertical) * panSpeed;
+			Vector2 moveDirection = new Vector2(movement.x, movement.y);
 			Vector2 normalized = moveDirection.normalized;
-			direction = GameManager.Direction.Up;
+			GameManager.Direction direction = GameManager.Direction.Up;
 			if (normalized == Vector2.down) {
 				playerRend.sprite = playerSheet[36];
 				suitRend.sprite = suitSheet[236];
@@ -194,65 +177,14 @@ public class PlayerScript : MonoBehaviour {
 
 				gridX = newGridX;
 				gridY = newGridY;
-				targetTilePos = gameManager.GetGridCoords(gridX, gridY);
+				var gridVector = gameManager.GetGridCoords(gridX, gridY);
+				transform.position = gridVector;
 
-		
 
-
-				currentlyMoving = true;
 			}
-//			timeBetweenFrames = moveSpeed;
-//		} else {
-//			timeBetweenFrames = timeBetweenFrames - Time.deltaTime;
-//		}
+			timeBetweenFrames = moveSpeed;
+		} else {
+			timeBetweenFrames = timeBetweenFrames - Time.deltaTime;
+		}
 	}
-		}
-
-	void FixedUpdate(){
-
-
-		if(currentlyMoving){
-
-
-			thisRigi.velocity = moveDirection.normalized * moveSpeed;
-			Debug.Log ("curPos: " + transform.position + " targetPos: " + targetTilePos + " dir: " + direction.ToString());
-			if (direction == GameManager.Direction.Up && transform.position.y >= targetTilePos.y) {
-
-				currentlyMoving = false;
-				if (!keyDown) {
-					thisRigi.velocity = Vector2.zero;
-				}
-				transform.position = targetTilePos;
-			
-			} 
-
-			if (direction == GameManager.Direction.Right && transform.position.x >= targetTilePos.x) {
-
-				currentlyMoving = false;
-				if (!keyDown) {
-					thisRigi.velocity = Vector2.zero;
-				}
-				transform.position = targetTilePos;
-			} 
-
-			if (direction == GameManager.Direction.Down && transform.position.y <= targetTilePos.y) {
-
-				currentlyMoving = false;
-				if (!keyDown) {
-					thisRigi.velocity = Vector2.zero;
-				}
-				transform.position = targetTilePos;
-			} 
-
-			if (direction == GameManager.Direction.Left && transform.position.x <= targetTilePos.x) {
-
-				currentlyMoving = false;
-				if (!keyDown){
-					thisRigi.velocity = Vector2.zero;
-			}
-				transform.position = targetTilePos;
-			} 
-		}
-}
-
 }

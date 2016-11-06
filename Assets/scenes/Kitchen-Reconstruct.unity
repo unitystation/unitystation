@@ -1853,10 +1853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 913857902}
   panSpeed: 10
-  moveSpeed: 100
-  moveDirection: {x: 0, y: 0}
-  targetTilePos: {x: 0, y: 0, z: 0}
-  currentlyMoving: 0
+  moveSpeed: 0.1
 --- !u!212 &509938854
 SpriteRenderer:
   m_ObjectHideFlags: 0
