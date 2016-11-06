@@ -5,100 +5,122 @@ public class PlayerScript : MonoBehaviour {
 
 	public static PlayerScript playerControl;
 
-    public GameManager gameManager;
-    public float panSpeed = 10.0f;
+	public GameManager gameManager;
+	public float panSpeed = 10.0f;
 	public float moveSpeed = 0.1f;
 
-    private SpriteRenderer playerRend;
-    private SpriteRenderer suitRend;
-    private SpriteRenderer beltRend;
-    private SpriteRenderer feetRend;
-    private SpriteRenderer headRend;
-    private SpriteRenderer faceRend;
-    private SpriteRenderer maskRend;
-    private SpriteRenderer underwearRend;
-    private SpriteRenderer uniformRend;
+	private SpriteRenderer playerRend;
+	private SpriteRenderer suitRend;
+	private SpriteRenderer beltRend;
+	private SpriteRenderer feetRend;
+	private SpriteRenderer headRend;
+	private SpriteRenderer faceRend;
+	private SpriteRenderer maskRend;
+	private SpriteRenderer underwearRend;
+	private SpriteRenderer uniformRend;
 
-    private Sprite[] playerSheet;
-    private Sprite[] suitSheet;
-    private Sprite[] beltSheet;
-    private Sprite[] feetSheet;
-    private Sprite[] headSheet;
-    private Sprite[] faceSheet;
-    private Sprite[] maskSheet;
-    private Sprite[] underwearSheet;
-    private Sprite[] uniformSheet;
+	private Sprite[] playerSheet;
+	private Sprite[] suitSheet;
+	private Sprite[] beltSheet;
+	private Sprite[] feetSheet;
+	private Sprite[] headSheet;
+	private Sprite[] faceSheet;
+	private Sprite[] maskSheet;
+	private Sprite[] underwearSheet;
+	private Sprite[] uniformSheet;
 
-    private int gridX;
-    private int gridY;
+	private int gridX;
+	private int gridY;
 
 	private float timeBetweenFrames;
+
+	//Temp Dev: trying to implement physics
+	private Rigidbody2D thisRigi;
+	public Vector2 moveDirection;
+	public Vector3 targetTilePos;
+	public bool currentlyMoving = false;
+	private bool keyDown = false;
+	private GameManager.Direction direction = GameManager.Direction.Up;
+
 
 	void Awake(){
 
 		if (playerControl == null) {
-		
+
 			playerControl = this;
 		}
 
 	}
 
-    // Use this for initialization
-    void Start () {
-        playerRend = GetComponent<SpriteRenderer>();
+	// Use this for initialization
+	void Start () {
 
-        gridX = 22;
-        gridY = 32;
+		thisRigi = GetComponent<Rigidbody2D> ();
+	
+		playerRend = GetComponent<SpriteRenderer>();
 
-        foreach(SpriteRenderer child in this.GetComponentsInChildren<SpriteRenderer>())
-        {
-            //Debug.Log(child.name + " " + child.tag);
-            switch (child.name)
-            {
-                case "suit":
-                    suitRend = child;
-                    break;
-                case "belt":
-                    beltRend = child;
-                    break;
-                case "feet":
-                    feetRend = child;
-                    break;
-                case "head":
-                    headRend = child;
-                    break;
-                case "face":
-                    faceRend = child;
-                    break;
-                case "mask":
-                    maskRend = child;
-                    break;
-                case "underwear":
-                    underwearRend = child;
-                    break;
-                case "uniform":
-                    uniformRend = child;
-                    break;
-            }
-            
-        }
-        playerSheet = Resources.LoadAll<Sprite>("mobs/human");
-        suitSheet = Resources.LoadAll<Sprite>("mobs/suit");
-        beltSheet = Resources.LoadAll<Sprite>("mobs/belt");
-        feetSheet = Resources.LoadAll<Sprite>("mobs/feet");
-        headSheet = Resources.LoadAll<Sprite>("mobs/head");
-        faceSheet = Resources.LoadAll<Sprite>("mobs/human_face");
-        maskSheet = Resources.LoadAll<Sprite>("mobs/mask");
-        underwearSheet = Resources.LoadAll<Sprite>("mobs/underwear");
-        uniformSheet = Resources.LoadAll<Sprite>("mobs/uniform");
-        //populate child sprites chef suit onto player
-        //transform.position = gameManager.GetGridCoords(gridX, gridY);
+		gridX = 22;
+		gridY = 32;
+
+		foreach(SpriteRenderer child in this.GetComponentsInChildren<SpriteRenderer>())
+		{
+			//Debug.Log(child.name + " " + child.tag);
+			switch (child.name)
+			{
+			case "suit":
+				suitRend = child;
+				break;
+			case "belt":
+				beltRend = child;
+				break;
+			case "feet":
+				feetRend = child;
+				break;
+			case "head":
+				headRend = child;
+				break;
+			case "face":
+				faceRend = child;
+				break;
+			case "mask":
+				maskRend = child;
+				break;
+			case "underwear":
+				underwearRend = child;
+				break;
+			case "uniform":
+				uniformRend = child;
+				break;
+			}
+
+		}
+		playerSheet = Resources.LoadAll<Sprite>("mobs/human");
+		suitSheet = Resources.LoadAll<Sprite>("mobs/suit");
+		beltSheet = Resources.LoadAll<Sprite>("mobs/belt");
+		feetSheet = Resources.LoadAll<Sprite>("mobs/feet");
+		headSheet = Resources.LoadAll<Sprite>("mobs/head");
+		faceSheet = Resources.LoadAll<Sprite>("mobs/human_face");
+		maskSheet = Resources.LoadAll<Sprite>("mobs/mask");
+		underwearSheet = Resources.LoadAll<Sprite>("mobs/underwear");
+		uniformSheet = Resources.LoadAll<Sprite>("mobs/uniform");
+		//populate child sprites chef suit onto player
+		//transform.position = gameManager.GetGridCoords(gridX, gridY);
 		timeBetweenFrames = moveSpeed;
-    }
+	}
 
-    // Update is called once per frame
-    void Update () {
-		if (timeBetweenFrames < 0) {
+	// Update is called once per frame
+	void Update () {
+
+		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.A)) {
+
+			keyDown = true;
+
+		} else {
+
+			keyDown = false;
+		}
+//		if (timeBetweenFrames < 0) {
+		if(!currentlyMoving && keyDown){
 			float moveHorizontal = Input.GetAxis("Horizontal");
 			float moveVertical = Input.GetAxis("Vertical");
 			int newGridY = gridY;
@@ -112,21 +134,21 @@ public class PlayerScript : MonoBehaviour {
 			if (moveHorizontal < 0 && moveVertical == 0f)
 				newGridX = gridX - 1;
 
-        //if (moveHorizontal > 0 || moveVertical > 0)
-        //{
-        //    Debug.Log("input:");
-        //    Debug.Log(moveHorizontal + ", " + moveVertical);
-        //    Debug.Log("grid xy:");
-        //    Debug.Log(gridX + ", " + gridY);
-        //    Debug.Log("grid vector:");
-        //    Debug.Log(gameManager.GetGridCoords(gridX, gridY));
-        //}
+			//if (moveHorizontal > 0 || moveVertical > 0)
+			//{
+			//    Debug.Log("input:");
+			//    Debug.Log(moveHorizontal + ", " + moveVertical);
+			//    Debug.Log("grid xy:");
+			//    Debug.Log(gridX + ", " + gridY);
+			//    Debug.Log("grid vector:");
+			//    Debug.Log(gameManager.GetGridCoords(gridX, gridY));
+			//}
 
 
-			Vector3 movement = new Vector3(moveHorizontal, moveVertical) * panSpeed;
-			Vector2 moveDirection = new Vector2(movement.x, movement.y);
+			Vector3 movement = new Vector3 (moveHorizontal, moveVertical) * panSpeed;
+			moveDirection = new Vector2(movement.x, movement.y);
 			Vector2 normalized = moveDirection.normalized;
-			GameManager.Direction direction = GameManager.Direction.Up;
+			direction = GameManager.Direction.Up;
 			if (normalized == Vector2.down) {
 				playerRend.sprite = playerSheet[36];
 				suitRend.sprite = suitSheet[236];
@@ -172,14 +194,65 @@ public class PlayerScript : MonoBehaviour {
 
 				gridX = newGridX;
 				gridY = newGridY;
-				var gridVector = gameManager.GetGridCoords(gridX, gridY);
-				transform.position = gridVector;
+				targetTilePos = gameManager.GetGridCoords(gridX, gridY);
+
+		
 
 
+				currentlyMoving = true;
 			}
-			timeBetweenFrames = moveSpeed;
-		} else {
-			timeBetweenFrames = timeBetweenFrames - Time.deltaTime;
+//			timeBetweenFrames = moveSpeed;
+//		} else {
+//			timeBetweenFrames = timeBetweenFrames - Time.deltaTime;
+//		}
+	}
 		}
-    }
+
+	void FixedUpdate(){
+
+
+		if(currentlyMoving){
+
+
+			thisRigi.velocity = moveDirection.normalized * moveSpeed;
+			Debug.Log ("curPos: " + transform.position + " targetPos: " + targetTilePos + " dir: " + direction.ToString());
+			if (direction == GameManager.Direction.Up && transform.position.y >= targetTilePos.y) {
+
+				currentlyMoving = false;
+				if (!keyDown) {
+					thisRigi.velocity = Vector2.zero;
+				}
+				transform.position = targetTilePos;
+			
+			} 
+
+			if (direction == GameManager.Direction.Right && transform.position.x >= targetTilePos.x) {
+
+				currentlyMoving = false;
+				if (!keyDown) {
+					thisRigi.velocity = Vector2.zero;
+				}
+				transform.position = targetTilePos;
+			} 
+
+			if (direction == GameManager.Direction.Down && transform.position.y <= targetTilePos.y) {
+
+				currentlyMoving = false;
+				if (!keyDown) {
+					thisRigi.velocity = Vector2.zero;
+				}
+				transform.position = targetTilePos;
+			} 
+
+			if (direction == GameManager.Direction.Left && transform.position.x <= targetTilePos.x) {
+
+				currentlyMoving = false;
+				if (!keyDown){
+					thisRigi.velocity = Vector2.zero;
+			}
+				transform.position = targetTilePos;
+			} 
+		}
+}
+
 }
