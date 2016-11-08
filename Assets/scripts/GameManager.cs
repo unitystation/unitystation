@@ -13,6 +13,7 @@ namespace SS.GameLogic {
 
 		public GameObject floorTile;
 		public GameObject wallTile;
+		public GameObject airLockTile;
 
 		public GameObject playerCamera;
 		public float panSpeed = 10.0f;
@@ -107,6 +108,14 @@ namespace SS.GameLogic {
 						ft.GetComponent<FloorTile>().SetTile(Construction_Floors.floors_1, grid[i, j].transform.position);
 						ft.SetActive(true);
 						thisTileManager.addObject(ft, ItemTile.Tile);
+						break;
+					case 'a':
+						//kaffo no idea wtf I am doing but just mocking this up - Doobly
+						GameObject al = Instantiate (airLockTile);
+						Vector2 newTempPos = grid [i, j].transform.position;
+						newTempPos.x += 16f;
+						newTempPos.y -= 16f;
+						al.transform.position = newTempPos;
 						break;
 					}
 				}

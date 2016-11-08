@@ -32,6 +32,9 @@ public class PlayerScript : MonoBehaviour {
 	private Rigidbody2D thisRigi;
 	private Vector2 moveDirection;
 
+	public bool isSpaced = false;
+	public bool triedToMoveInSpace = false;
+
 	void Awake(){
 
 		if (playerControl == null) {
@@ -155,13 +158,23 @@ public class PlayerScript : MonoBehaviour {
 
 	void FixedUpdate(){
 
+
 		if (isMoving) {
+			if (!triedToMoveInSpace) {
+				thisRigi.velocity = new Vector3 (moveDirection.x, moveDirection.y, 0).normalized * moveSpeed;
+			}
 
-			thisRigi.velocity = new Vector3 (moveDirection.x, moveDirection.y, 0).normalized * moveSpeed;
+			if (isSpaced && !triedToMoveInSpace) {
+				triedToMoveInSpace = true;
+				thisRigi.mass = 0f;
+				thisRigi.drag = 0f;
+				thisRigi.angularDrag = 0f;
 
+			}
 		} else {
-		
-			thisRigi.velocity = Vector3.zero;
+			if (!isSpaced) {
+				thisRigi.velocity = Vector3.zero;
+			}
 		
 		}
 
