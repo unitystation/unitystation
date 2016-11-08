@@ -96,9 +96,9 @@ namespace SS.GameLogic {
 					TileManager thisTileManager = grid[i,j].GetComponent<TileManager>();
 					switch(lines[i][j]) {
 					case 'w':
-						GameObject wt = Instantiate(wallTile);
-						wt.GetComponent<WallTile>().SetTile(Standard_Wall.walls_20, grid[i, j].transform.position);
-						wt.SetActive(true);
+						GameObject wt = Instantiate (wallTile);
+						wt.GetComponent<WallTile> ().SetTile (Standard_Wall.walls_20, grid [i, j].transform.position);
+						wt.SetActive (true);
 						grid[i, j].GetComponent<TileManager>().passable = new bool[4]{false, false, false, false};
 						thisTileManager.addObject(wt, ItemTile.Tile);
 						break;

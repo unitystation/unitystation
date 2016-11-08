@@ -434,9 +434,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0029785156, y: -0.059591062}
   serializedVersion: 2
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 0.25445122, y: 0.16108972}
 --- !u!50 &68004125
 Rigidbody2D:
   serializedVersion: 2
@@ -445,9 +445,9 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 68004120}
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 3
+  m_LinearDrag: 100
+  m_AngularDrag: 100
   m_GravityScale: 0
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -1853,7 +1853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 913857902}
   panSpeed: 10
-  moveSpeed: 0.1
+  moveSpeed: 160
 --- !u!212 &509938854
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1894,7 +1894,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 509938852}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 704, y: 1024, z: 0}
+  m_LocalPosition: {x: 704, y: 1024, z: 0.1}
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -1917,8 +1917,8 @@ Rigidbody2D:
   m_GameObject: {fileID: 509938852}
   m_UseAutoMass: 0
   m_Mass: 3
-  m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_LinearDrag: 10
+  m_AngularDrag: 10
   m_GravityScale: 0
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -1936,9 +1936,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 0.1560846, y: -0.16261108}
+  m_Offset: {x: 0.15780823, y: -0.16747375}
   serializedVersion: 2
-  m_Size: {x: 0.15550399, y: 0.2573319}
+  m_Size: {x: 0.15894382, y: 0.3096991}
 --- !u!1 &542741450
 GameObject:
   m_ObjectHideFlags: 0

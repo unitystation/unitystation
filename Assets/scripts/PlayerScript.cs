@@ -28,11 +28,9 @@ public class PlayerScript : MonoBehaviour {
 	private Sprite[] underwearSheet;
 	private Sprite[] uniformSheet;
 
-	private int gridX;
-	private int gridY;
-
-	private float timeBetweenFrames;
-
+	private bool isMoving = false;
+	private Rigidbody2D thisRigi;
+	private Vector2 moveDirection;
 
 	void Awake(){
 
@@ -49,10 +47,8 @@ public class PlayerScript : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
+		thisRigi = GetComponent<Rigidbody2D> ();
 		playerRend = GetComponent<SpriteRenderer>();
-
-		gridX = 22;
-		gridY = 32;
 
 		foreach(SpriteRenderer child in this.GetComponentsInChildren<SpriteRenderer>())
 		{
@@ -95,96 +91,79 @@ public class PlayerScript : MonoBehaviour {
 		maskSheet = Resources.LoadAll<Sprite>("mobs/mask");
 		underwearSheet = Resources.LoadAll<Sprite>("mobs/underwear");
 		uniformSheet = Resources.LoadAll<Sprite>("mobs/uniform");
-		//populate child sprites chef suit onto player
-		//transform.position = gameManager.GetGridCoords(gridX, gridY);
-		timeBetweenFrames = moveSpeed;
 	}
 
 	// Update is called once per frame
 	void Update () {
 
-		if (timeBetweenFrames < 0) {
-			float moveHorizontal = Input.GetAxis("Horizontal");
-			float moveVertical = Input.GetAxis("Vertical");
-			int newGridY = gridY;
-			int newGridX = gridX;
-			if (moveVertical > 0 && moveHorizontal == 0f)
-				newGridY = gridY + 1;
-			if (moveVertical < 0 && moveHorizontal == 0f)
-				newGridY = gridY - 1;
-			if (moveHorizontal > 0 && moveVertical == 0f)
-				newGridX = gridX + 1;
-			if (moveHorizontal < 0 && moveVertical == 0f)
-				newGridX = gridX - 1;
 
-			//if (moveHorizontal > 0 || moveVertical > 0)
-			//{
-			//    Debug.Log("input:");
-			//    Debug.Log(moveHorizontal + ", " + moveVertical);
-			//    Debug.Log("grid xy:");
-			//    Debug.Log(gridX + ", " + gridY);
-			//    Debug.Log("grid vector:");
-			//    Debug.Log(gameManager.GetGridCoords(gridX, gridY));
-			//}
+		float moveHorizontal = Input.GetAxisRaw ("Horizontal");
+		float moveVertical = Input.GetAxisRaw ("Vertical");
 
+		moveDirection = new Vector2 (moveHorizontal, moveVertical);
 
-			Vector3 movement = new Vector3(moveHorizontal, moveVertical) * panSpeed;
-			Vector2 moveDirection = new Vector2(movement.x, movement.y);
-			Vector2 normalized = moveDirection.normalized;
-			GameManager.Direction direction = GameManager.Direction.Up;
-			if (normalized == Vector2.down) {
-				playerRend.sprite = playerSheet[36];
-				suitRend.sprite = suitSheet[236];
-				beltRend.sprite = beltSheet[62];
-				headRend.sprite = headSheet[221];
-				feetRend.sprite = feetSheet[36];
-				underwearRend.sprite = underwearSheet[52];
-				uniformRend.sprite = uniformSheet[16];
-				direction = GameManager.Direction.Down;
-			}
-			if (normalized == Vector2.up) {
-				playerRend.sprite = playerSheet[37];
-				suitRend.sprite = suitSheet[237];
-				beltRend.sprite = beltSheet[63];
-				headRend.sprite = headSheet[222];
-				feetRend.sprite = feetSheet[37];
-				underwearRend.sprite = underwearSheet[53];
-				uniformRend.sprite = uniformSheet[17];
-				direction = GameManager.Direction.Up;
-			}
-			if (normalized == Vector2.right) {
-				playerRend.sprite = playerSheet[38];
-				suitRend.sprite = suitSheet[238];
-				beltRend.sprite = beltSheet[64];
-				headRend.sprite = headSheet[223];
-				feetRend.sprite = feetSheet[38];
-				underwearRend.sprite = underwearSheet[54];
-				uniformRend.sprite = uniformSheet[18];
-				direction = GameManager.Direction.Right;
-			}
-			if (normalized == Vector2.left) {
-				playerRend.sprite = playerSheet[39];
-				suitRend.sprite = suitSheet[239];
-				beltRend.sprite = beltSheet[65];
-				headRend.sprite = headSheet[224];
-				feetRend.sprite = feetSheet[39];
-				underwearRend.sprite = underwearSheet[55];
-				uniformRend.sprite = uniformSheet[19];
-				direction = GameManager.Direction.Left;
-			}
+		isMoving = (Mathf.Abs (moveDirection.x) + Mathf.Abs (moveDirection.y)) > 0f;
 
-			if (gameManager.CheckPassable(gridX, gridY, direction)) {
+		GameManager.Direction direction = GameManager.Direction.Up;
 
-				gridX = newGridX;
-				gridY = newGridY;
-				var gridVector = gameManager.GetGridCoords(gridX, gridY);
-				transform.position = gridVector;
-
-
-			}
-			timeBetweenFrames = moveSpeed;
-		} else {
-			timeBetweenFrames = timeBetweenFrames - Time.deltaTime;
+		if (moveDirection.x > 0.5f) {
+			//RIGHT
+			playerRend.sprite = playerSheet [38];
+			suitRend.sprite = suitSheet [238];
+			beltRend.sprite = beltSheet [64];
+			headRend.sprite = headSheet [223];
+			feetRend.sprite = feetSheet [38];
+			underwearRend.sprite = underwearSheet [54];
+			uniformRend.sprite = uniformSheet [18];
+			direction = GameManager.Direction.Right;
+			return;
 		}
+		if (moveDirection.x < -0.5f) {
+			//LEFT
+			playerRend.sprite = playerSheet [39];
+			suitRend.sprite = suitSheet [239];
+			beltRend.sprite = beltSheet [65];
+			headRend.sprite = headSheet [224];
+			feetRend.sprite = feetSheet [39];
+			underwearRend.sprite = underwearSheet [55];
+			uniformRend.sprite = uniformSheet [19];
+			direction = GameManager.Direction.Left;
+			return;
+		}
+		if (moveDirection == Vector2.down) {
+			playerRend.sprite = playerSheet [36];
+			suitRend.sprite = suitSheet [236];
+			beltRend.sprite = beltSheet [62];
+			headRend.sprite = headSheet [221];
+			feetRend.sprite = feetSheet [36];
+			underwearRend.sprite = underwearSheet [52];
+			uniformRend.sprite = uniformSheet [16];
+			direction = GameManager.Direction.Down;
+		}
+		if (moveDirection == Vector2.up) {
+			playerRend.sprite = playerSheet [37];
+			suitRend.sprite = suitSheet [237];
+			beltRend.sprite = beltSheet [63];
+			headRend.sprite = headSheet [222];
+			feetRend.sprite = feetSheet [37];
+			underwearRend.sprite = underwearSheet [53];
+			uniformRend.sprite = uniformSheet [17];
+			direction = GameManager.Direction.Up;
+		}
+
+	}
+
+	void FixedUpdate(){
+
+		if (isMoving) {
+
+			thisRigi.velocity = new Vector3 (moveDirection.x, moveDirection.y, 0).normalized * moveSpeed;
+
+		} else {
+		
+			thisRigi.velocity = Vector3.zero;
+		
+		}
+
 	}
 }
