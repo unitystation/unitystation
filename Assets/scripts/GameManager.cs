@@ -26,6 +26,8 @@ namespace SS.GameLogic {
 		private TextAsset map;
         private bool mapLoaded = false;
 
+		private int[] currentGrid;
+
 		// Use this for initialization
 		void Start () {
 			InitTiles();
@@ -62,7 +64,7 @@ namespace SS.GameLogic {
 			for (int i = 0; i < gridSizeX; i++) {
 				for (int j = 0; j < gridSizeY; j++) {
 					grid[i, j] = Instantiate(tile);
-					grid[i, j].transform.position = new Vector3(i * 32, j * 32);
+					grid[i, j].transform.position = new Vector3(i, j);
 					grid[i, j].transform.SetParent(tileGrid.transform);
 
 					tileManager = grid[i, j].GetComponent<TileManager>();
@@ -112,10 +114,7 @@ namespace SS.GameLogic {
 					case 'a':
 						//kaffo no idea wtf I am doing but just mocking this up - Doobly
 						GameObject al = Instantiate (airLockTile);
-						Vector2 newTempPos = grid [i, j].transform.position;
-						newTempPos.x += 16f;
-						newTempPos.y -= 16f;
-						al.transform.position = newTempPos;
+						al.transform.position = grid [i, j].transform.position;
 						break;
 					}
 				}
@@ -161,5 +160,19 @@ namespace SS.GameLogic {
 		public Vector3 GetGridCoords(int gridX, int gridY) {
 			return grid[gridX, gridY].transform.position;
 		}
+
+		public Vector3 GetClosestNode(Vector2 curPos){
+			
+			float closestX = Mathf.Round (curPos.x);
+			float closestY = Mathf.Round (curPos.y);
+
+			return new Vector3 (closestX, closestY, 0f);
+
+		}
+
+
 	}
+
+
+
 }

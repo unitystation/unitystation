@@ -35,6 +35,22 @@ public class PlayerScript : MonoBehaviour {
 	public bool isSpaced = false;
 	public bool triedToMoveInSpace = false;
 
+	public int gridX;
+	public int gridY;
+
+	//SNAPPING
+	private bool isSnapping = false;
+	private bool isSnapped = false;
+	private float lerpTime = 0f;
+	private Vector3 startPos;
+	private Vector3 node;
+	public float lerpSpeed;
+
+
+
+	//TEMP
+	public GameObject newGridHighlight;
+
 	void Awake(){
 
 		if (playerControl == null) {
@@ -50,6 +66,11 @@ public class PlayerScript : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
+
+		gridX = 22;
+		gridY = 32;
+		Vector2 newPos = new Vector2 (22f, 32f);
+		transform.position = newPos;
 		thisRigi = GetComponent<Rigidbody2D> ();
 		playerRend = GetComponent<SpriteRenderer>();
 
@@ -102,14 +123,44 @@ public class PlayerScript : MonoBehaviour {
 
 		float moveHorizontal = Input.GetAxisRaw ("Horizontal");
 		float moveVertical = Input.GetAxisRaw ("Vertical");
+		int newGridY = gridY;
+		int newGridX = gridX;
+
+		if (moveVertical > 0 && moveHorizontal == 0f) //move up
+			newGridY = gridY + 1;
+		if (moveVertical < 0 && moveHorizontal == 0f) //move down
+			newGridY = gridY - 1;
+		if (moveHorizontal > 0 && moveVertical == 0f) //move right
+			newGridX = gridX + 1;
+		if (moveHorizontal < 0 && moveVertical == 0f) //move left
+			newGridX = gridX - 1;
+		if (moveVertical > 0 && moveHorizontal > 0) //Diag up + right
+		{
+			newGridY = gridY + 1;
+			newGridX = gridX + 1; 
+		}
+		if (moveVertical > 0 && moveHorizontal < 0) //Diag up + left
+		{
+			newGridY = gridY + 1;
+			newGridX = gridX - 1; 
+		}
+		if (moveVertical > 0 && moveHorizontal < 0) //Diag down + right
+		{
+			newGridY = gridY - 1;
+			newGridX = gridX + 1; 
+		}
+		if (moveVertical > 0 && moveHorizontal < 0) //Diag down + left
+		{
+			newGridY = gridY - 1;
+			newGridX = gridX - 1; 
+		}
 
 		moveDirection = new Vector2 (moveHorizontal, moveVertical);
 
 		isMoving = (Mathf.Abs (moveDirection.x) + Mathf.Abs (moveDirection.y)) > 0f;
-
 		GameManager.Direction direction = GameManager.Direction.Up;
 
-		if (moveDirection.x > 0.5f) {
+		if (moveDirection.x > 0.5f && moveDirection.y == 0f) {
 			//RIGHT
 			playerRend.sprite = playerSheet [38];
 			suitRend.sprite = suitSheet [238];
@@ -119,9 +170,9 @@ public class PlayerScript : MonoBehaviour {
 			underwearRend.sprite = underwearSheet [54];
 			uniformRend.sprite = uniformSheet [18];
 			direction = GameManager.Direction.Right;
-			return;
+
 		}
-		if (moveDirection.x < -0.5f) {
+		if (moveDirection.x < -0.5f && moveDirection.y == 0f) {
 			//LEFT
 			playerRend.sprite = playerSheet [39];
 			suitRend.sprite = suitSheet [239];
@@ -131,9 +182,9 @@ public class PlayerScript : MonoBehaviour {
 			underwearRend.sprite = underwearSheet [55];
 			uniformRend.sprite = uniformSheet [19];
 			direction = GameManager.Direction.Left;
-			return;
+
 		}
-		if (moveDirection == Vector2.down) {
+		if (moveDirection.y < 0f && moveDirection.x == 0f) {
 			playerRend.sprite = playerSheet [36];
 			suitRend.sprite = suitSheet [236];
 			beltRend.sprite = beltSheet [62];
@@ -142,8 +193,9 @@ public class PlayerScript : MonoBehaviour {
 			underwearRend.sprite = underwearSheet [52];
 			uniformRend.sprite = uniformSheet [16];
 			direction = GameManager.Direction.Down;
+
 		}
-		if (moveDirection == Vector2.up) {
+		if (moveDirection.y > 0f && moveDirection.x == 0f) {
 			playerRend.sprite = playerSheet [37];
 			suitRend.sprite = suitSheet [237];
 			beltRend.sprite = beltSheet [63];
@@ -152,6 +204,36 @@ public class PlayerScript : MonoBehaviour {
 			underwearRend.sprite = underwearSheet [53];
 			uniformRend.sprite = uniformSheet [17];
 			direction = GameManager.Direction.Up;
+
+		}
+//		Debug.Log ("magnitude: " + thisRigi.velocity.magnitude);
+//
+//		if (isMoving) {
+//			int calX = Mathf.Abs(gridX - newGridX);
+//			int calY = Mathf.Abs(gridY - newGridY);
+//			Debug.Log ("calXaNdY " + calX + " " + calY);
+//			if (calX < 2 && calY < 2) {
+//				gridX = newGridX;
+//				gridY = newGridY;
+//				var gridVector = gameManager.GetGridCoords (gridX, gridY);
+//			
+//				newGridHighlight.transform.position = gridVector;
+//			}
+//		
+//		}
+
+		if (isSnapping && !isSnapped) {
+		
+			lerpTime += Time.deltaTime;
+			float t = lerpTime * lerpSpeed;
+
+			transform.position = Vector3.Lerp (startPos, node, t);
+		
+			if (transform.position == node) {
+				isSnapped = true;
+				thisRigi.velocity = Vector3.zero;
+			
+			}
 		}
 
 	}
@@ -161,6 +243,11 @@ public class PlayerScript : MonoBehaviour {
 
 		if (isMoving) {
 			if (!triedToMoveInSpace) {
+				if (isSnapping) {
+					isSnapping = false;
+					isSnapped = false;
+					lerpTime = 0f;
+				}
 				thisRigi.velocity = new Vector3 (moveDirection.x, moveDirection.y, 0).normalized * moveSpeed;
 			}
 
@@ -172,11 +259,14 @@ public class PlayerScript : MonoBehaviour {
 
 			}
 		} else {
-			if (!isSpaced) {
-				thisRigi.velocity = Vector3.zero;
+			if (!isSpaced && !isSnapping) {
+				startPos = transform.position;
+				node = gameManager.GetClosestNode (transform.position);
+				isSnapping = true;
 			}
 		
 		}
 
 	}
+		
 }

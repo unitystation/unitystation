@@ -15,8 +15,7 @@ public class NPC_Pete : MonoBehaviour {
 			thisRend = GetComponent<SpriteRenderer> ();
 			thisRigi = GetComponent<Rigidbody2D> ();
 
-			Vector2 newPos = new Vector2 (Mathf.Round (transform.position.x / 100f) *100f , Mathf.Round (transform.position.y / 100f)* 100f);
-			transform.position = newPos;
+
 			Timing.RunCoroutine (RandMove (), "randmove");
 	}
 	
@@ -35,12 +34,12 @@ public class NPC_Pete : MonoBehaviour {
 
 			if (ranDir == 0) {
 				//Move Up
-				Vector2 movePos = new Vector2 (transform.position.x, transform.position.y + 16f);
+				Vector2 movePos = new Vector2 (transform.position.x, transform.position.y + 1f);
 				thisRigi.MovePosition(movePos);
 			
 			} else if (ranDir == 1) {
 				//Move Right
-				Vector2 movePos = new Vector2 (transform.position.x + 16f, transform.position.y);
+				Vector2 movePos = new Vector2 (transform.position.x + 1f, transform.position.y);
 				thisRigi.MovePosition(movePos);
 
 				if(!isRight){
@@ -51,12 +50,12 @@ public class NPC_Pete : MonoBehaviour {
 			
 			} else if (ranDir == 2) {
 				//Move Down
-				Vector2 movePos = new Vector2 (transform.position.x, transform.position.y - 16f);
+				Vector2 movePos = new Vector2 (transform.position.x, transform.position.y - 1f);
 				thisRigi.MovePosition(movePos);
 			
 			} else if (ranDir == 3) {
 			//Move Left
-				Vector2 movePos = new Vector2 (transform.position.x - 16f, transform.position.y);
+				Vector2 movePos = new Vector2 (transform.position.x - 1f, transform.position.y);
 				thisRigi.MovePosition(movePos);
 				if(isRight){
 
