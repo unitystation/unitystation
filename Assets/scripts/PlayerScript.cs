@@ -28,7 +28,7 @@ public class PlayerScript : MonoBehaviour {
 	private Sprite[] underwearSheet;
 	private Sprite[] uniformSheet;
 
-	private bool isMoving = false;
+	public bool isMoving = false;
 	private Rigidbody2D thisRigi;
 	private Vector2 moveDirection;
 
@@ -39,17 +39,18 @@ public class PlayerScript : MonoBehaviour {
 	public int gridY;
 
 	//SNAPPING
-	private bool isSnapping = false;
-	private bool isSnapped = false;
 	private float lerpTime = 0f;
+	public bool lerpA = false;
 	private Vector3 startPos;
-	private Vector3 node;
+	public Vector3 node;
 	public float lerpSpeed;
+	public GameManager.Direction direction;
+	private Vector3 toClamp;
+	private float clampPos;
+	private float moveHorizontal;
+	private float moveVertical;
+	private bool keyDown = false;
 
-
-
-	//TEMP
-	public GameObject newGridHighlight;
 
 	void Awake(){
 
@@ -64,7 +65,7 @@ public class PlayerScript : MonoBehaviour {
 		}
 
 	}
-	// Use this for initialization
+
 	void Start () {
 
 		gridX = 22;
@@ -73,10 +74,10 @@ public class PlayerScript : MonoBehaviour {
 		transform.position = newPos;
 		thisRigi = GetComponent<Rigidbody2D> ();
 		playerRend = GetComponent<SpriteRenderer>();
-
+		direction = GameManager.Direction.Down;
 		foreach(SpriteRenderer child in this.GetComponentsInChildren<SpriteRenderer>())
 		{
-			//Debug.Log(child.name + " " + child.tag);
+	
 			switch (child.name)
 			{
 			case "suit":
@@ -117,50 +118,29 @@ public class PlayerScript : MonoBehaviour {
 		uniformSheet = Resources.LoadAll<Sprite>("mobs/uniform");
 	}
 
-	// Update is called once per frame
+
 	void Update () {
 
+		if (Input.GetKeyUp (KeyCode.W) || Input.GetKeyUp (KeyCode.A) || Input.GetKeyUp (KeyCode.S) || Input.GetKeyUp (KeyCode.D)) {
+		
 
-		float moveHorizontal = Input.GetAxisRaw ("Horizontal");
-		float moveVertical = Input.GetAxisRaw ("Vertical");
-		int newGridY = gridY;
-		int newGridX = gridX;
+				startPos = transform.position;
+				node = gameManager.GetClosestNode (transform.position, thisRigi.velocity);
+				thisRigi.velocity = Vector3.zero;
+				lerpTime = 0f;
+				lerpA = true;
 
-		if (moveVertical > 0 && moveHorizontal == 0f) //move up
-			newGridY = gridY + 1;
-		if (moveVertical < 0 && moveHorizontal == 0f) //move down
-			newGridY = gridY - 1;
-		if (moveHorizontal > 0 && moveVertical == 0f) //move right
-			newGridX = gridX + 1;
-		if (moveHorizontal < 0 && moveVertical == 0f) //move left
-			newGridX = gridX - 1;
-		if (moveVertical > 0 && moveHorizontal > 0) //Diag up + right
-		{
-			newGridY = gridY + 1;
-			newGridX = gridX + 1; 
-		}
-		if (moveVertical > 0 && moveHorizontal < 0) //Diag up + left
-		{
-			newGridY = gridY + 1;
-			newGridX = gridX - 1; 
-		}
-		if (moveVertical > 0 && moveHorizontal < 0) //Diag down + right
-		{
-			newGridY = gridY - 1;
-			newGridX = gridX + 1; 
-		}
-		if (moveVertical > 0 && moveHorizontal < 0) //Diag down + left
-		{
-			newGridY = gridY - 1;
-			newGridX = gridX - 1; 
 		}
 
-		moveDirection = new Vector2 (moveHorizontal, moveVertical);
+		if (!isMoving) {
+			moveHorizontal = Input.GetAxisRaw ("Horizontal");
+			moveVertical = Input.GetAxisRaw ("Vertical");
+		
+		}
 
-		isMoving = (Mathf.Abs (moveDirection.x) + Mathf.Abs (moveDirection.y)) > 0f;
-		GameManager.Direction direction = GameManager.Direction.Up;
 
-		if (moveDirection.x > 0.5f && moveDirection.y == 0f) {
+
+		if (Input.GetKey (KeyCode.D) && !isMoving) {
 			//RIGHT
 			playerRend.sprite = playerSheet [38];
 			suitRend.sprite = suitSheet [238];
@@ -170,9 +150,11 @@ public class PlayerScript : MonoBehaviour {
 			underwearRend.sprite = underwearSheet [54];
 			uniformRend.sprite = uniformSheet [18];
 			direction = GameManager.Direction.Right;
-
-		}
-		if (moveDirection.x < -0.5f && moveDirection.y == 0f) {
+			moveDirection = new Vector2 (1f, 0f);
+			clampPos = transform.position.y;
+			isMoving = true;
+		} 
+		if (Input.GetKey (KeyCode.A) && !isMoving) {
 			//LEFT
 			playerRend.sprite = playerSheet [39];
 			suitRend.sprite = suitSheet [239];
@@ -182,9 +164,11 @@ public class PlayerScript : MonoBehaviour {
 			underwearRend.sprite = underwearSheet [55];
 			uniformRend.sprite = uniformSheet [19];
 			direction = GameManager.Direction.Left;
-
+			moveDirection = new Vector2 (-1f, 0f);
+				clampPos = transform.position.y;
+				isMoving = true;
 		}
-		if (moveDirection.y < 0f && moveDirection.x == 0f) {
+		if (Input.GetKey (KeyCode.S) && !isMoving) {
 			playerRend.sprite = playerSheet [36];
 			suitRend.sprite = suitSheet [236];
 			beltRend.sprite = beltSheet [62];
@@ -193,9 +177,11 @@ public class PlayerScript : MonoBehaviour {
 			underwearRend.sprite = underwearSheet [52];
 			uniformRend.sprite = uniformSheet [16];
 			direction = GameManager.Direction.Down;
-
-		}
-		if (moveDirection.y > 0f && moveDirection.x == 0f) {
+			moveDirection = new Vector2 (0f, -1f);
+					clampPos = transform.position.x;
+					isMoving = true;
+		} 
+		if (Input.GetKey (KeyCode.W) && !isMoving) {
 			playerRend.sprite = playerSheet [37];
 			suitRend.sprite = suitSheet [237];
 			beltRend.sprite = beltSheet [63];
@@ -204,35 +190,51 @@ public class PlayerScript : MonoBehaviour {
 			underwearRend.sprite = underwearSheet [53];
 			uniformRend.sprite = uniformSheet [17];
 			direction = GameManager.Direction.Up;
+			moveDirection = new Vector2 (0f, 1f);
+						clampPos = transform.position.x;
+			isMoving = true;
 
-		}
-//		Debug.Log ("magnitude: " + thisRigi.velocity.magnitude);
-//
-//		if (isMoving) {
-//			int calX = Mathf.Abs(gridX - newGridX);
-//			int calY = Mathf.Abs(gridY - newGridY);
-//			Debug.Log ("calXaNdY " + calX + " " + calY);
-//			if (calX < 2 && calY < 2) {
-//				gridX = newGridX;
-//				gridY = newGridY;
-//				var gridVector = gameManager.GetGridCoords (gridX, gridY);
-//			
-//				newGridHighlight.transform.position = gridVector;
-//			}
-//		
-//		}
+					} 
+			
 
-		if (isSnapping && !isSnapped) {
-		
+		if (lerpA) {
+			
 			lerpTime += Time.deltaTime;
 			float t = lerpTime * lerpSpeed;
 
 			transform.position = Vector3.Lerp (startPos, node, t);
 		
-			if (transform.position == node) {
-				isSnapped = true;
+			if (direction == GameManager.Direction.Right && transform.position.x >= node.x) {
+				
+			
+				isMoving = false;
+				lerpA = false;
 				thisRigi.velocity = Vector3.zero;
 			
+			}
+			if (direction == GameManager.Direction.Left && transform.position.x <= node.x) {
+
+
+				isMoving = false;
+				lerpA = false;
+				thisRigi.velocity = Vector3.zero;
+
+			}
+			if (direction == GameManager.Direction.Up && transform.position.y >= node.y) {
+
+
+				isMoving = false;
+				lerpA = false;
+				thisRigi.velocity = Vector3.zero;
+
+			}
+			if (direction == GameManager.Direction.Down && transform.position.y <= node.y) {
+
+			
+				isMoving = false;
+				lerpA = false;
+				thisRigi.velocity = Vector3.zero;
+
 			}
 		}
 
@@ -242,13 +244,37 @@ public class PlayerScript : MonoBehaviour {
 
 
 		if (isMoving) {
+
 			if (!triedToMoveInSpace) {
-				if (isSnapping) {
-					isSnapping = false;
-					isSnapped = false;
-					lerpTime = 0f;
+
+				if (direction == GameManager.Direction.Down) {
+					thisRigi.velocity = new Vector3 (0f, moveDirection.y, 0).normalized * moveSpeed;
+					toClamp = transform.position;
+					Mathf.Clamp (toClamp.x, clampPos, clampPos);
+					transform.position = toClamp;
+					return;
 				}
-				thisRigi.velocity = new Vector3 (moveDirection.x, moveDirection.y, 0).normalized * moveSpeed;
+				if (direction == GameManager.Direction.Up) {
+					thisRigi.velocity = new Vector3 (0f, moveDirection.y, 0).normalized * moveSpeed;
+					toClamp = transform.position;
+					Mathf.Clamp (toClamp.x, clampPos, clampPos);
+					transform.position = toClamp;
+					return;
+				}
+				if (direction == GameManager.Direction.Right) {
+					thisRigi.velocity = new Vector3 (moveDirection.x, 0f, 0).normalized * moveSpeed;
+					toClamp = transform.position;
+					Mathf.Clamp (toClamp.y, clampPos, clampPos);
+					transform.position = toClamp;
+					return;
+				}
+				if (direction == GameManager.Direction.Left) {
+					thisRigi.velocity = new Vector3 (moveDirection.x, 0f, 0).normalized * moveSpeed;
+					toClamp = transform.position;
+					Mathf.Clamp (toClamp.y, clampPos, clampPos);
+					transform.position = toClamp;
+					return;
+				}
 			}
 
 			if (isSpaced && !triedToMoveInSpace) {
@@ -258,14 +284,7 @@ public class PlayerScript : MonoBehaviour {
 				thisRigi.angularDrag = 0f;
 
 			}
-		} else {
-			if (!isSpaced && !isSnapping) {
-				startPos = transform.position;
-				node = gameManager.GetClosestNode (transform.position);
-				isSnapping = true;
-			}
-		
-		}
+		} 
 
 	}
 		

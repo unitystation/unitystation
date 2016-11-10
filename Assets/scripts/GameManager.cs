@@ -121,15 +121,15 @@ namespace SS.GameLogic {
 			}
 		}
 
-		public bool CheckPassable(int gridX, int gridY, Direction direction) {
-			int newGridX = gridX;
-			int newGridY = gridY;
+		public bool CheckPassable(float gridX, float gridY, Direction direction) {
+			float newGridX = gridX;
+			float newGridY = gridY;
 
 			Direction newDirection = Direction.Up;
 
 			switch (direction) {
 			case Direction.Up:
-				newGridY = newGridY + 1;
+				newGridY = newGridY + 1f;
 				newDirection = Direction.Down;
 				break;
 			case Direction.Right:
@@ -137,11 +137,11 @@ namespace SS.GameLogic {
 				newDirection = Direction.Left;
 				break;
 			case Direction.Down:
-				newGridY = newGridY - 1;
+				newGridY = newGridY - 1f;
 				newDirection = Direction.Up;
 				break;
 			case Direction.Left:
-				newGridX = newGridX - 1;
+				newGridX = newGridX - 1f;
 				newDirection = Direction.Right;
 				break;
 			}
@@ -152,8 +152,8 @@ namespace SS.GameLogic {
 			}
 
 			return (
-				grid[gridX, gridY].GetComponent<TileManager>().passable[(int)direction] && 
-				grid[newGridX, newGridY].GetComponent<TileManager>().passable[(int)newDirection]
+				grid[(int)gridX, (int)gridY].GetComponent<TileManager>().passable[(int)direction] && 
+				grid[(int)newGridX, (int)newGridY].GetComponent<TileManager>().passable[(int)newDirection]
 			);
 		}
 
@@ -161,12 +161,48 @@ namespace SS.GameLogic {
 			return grid[gridX, gridY].transform.position;
 		}
 
-		public Vector3 GetClosestNode(Vector2 curPos){
-			
-			float closestX = Mathf.Round (curPos.x);
-			float closestY = Mathf.Round (curPos.y);
+		public Vector3 GetClosestNode(Vector2 curPos, Vector2 vel){
 
-			return new Vector3 (closestX, closestY, 0f);
+			float closestX;
+			float closestY;
+
+			if (vel.x > 0.1f) {
+				closestX = Mathf.Ceil (curPos.x);
+				closestY = Mathf.Round (curPos.y);
+
+				return new Vector3 (closestX, closestY, 0f);
+
+
+			} else if (vel.x < -0.1f) {
+				closestX = Mathf.Floor (curPos.x);
+				closestY = Mathf.Round (curPos.y);
+		
+				return new Vector3 (closestX, closestY, 0f);
+
+			
+			
+			} else if (vel.y > 0.1f) {
+				closestY = Mathf.Ceil (curPos.y);
+				closestX = Mathf.Round(curPos.x);
+
+				return new Vector3 (closestX, closestY, 0f);
+
+			
+			} else if (vel.y < -0.1f) {
+				closestY = Mathf.Floor (curPos.y);
+				closestX = Mathf.Round(curPos.x);
+
+				return new Vector3 (closestX, closestY, 0f);
+
+			
+			} else {
+			
+				closestX = Mathf.Round (curPos.x);
+				closestY = Mathf.Round (curPos.y);
+				return new Vector3 (closestX, closestY, 0f);
+			
+			}
+
 
 		}
 
