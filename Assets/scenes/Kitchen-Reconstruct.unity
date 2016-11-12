@@ -1983,15 +1983,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 913857902}
   panSpeed: 10
-  moveSpeed: 5
+  moveSpeed: 7
   isMoving: 0
   isSpaced: 0
   triedToMoveInSpace: 0
-  gridX: 0
-  gridY: 0
   lerpA: 0
   node: {x: 0, y: 0, z: 0}
-  lerpSpeed: 5
+  lerpSpeed: 7
   direction: 0
 --- !u!212 &509938854
 SpriteRenderer:

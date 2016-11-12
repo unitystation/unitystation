@@ -202,7 +202,28 @@ namespace SS.GameLogic {
 				return new Vector3 (closestX, closestY, 0f);
 			
 			}
+				
+		}
 
+		public Direction GetDirection (Vector2 dir){
+
+			if (dir == Vector2.right) {
+				Direction newDir = Direction.Right;
+				return newDir;
+			} else if (dir == Vector2.left) {
+				Direction newDir = Direction.Left;
+				return newDir;
+			} else if (dir == Vector2.down) {
+				Direction newDir = Direction.Down;
+				return newDir;
+			} else if (dir == Vector2.up) {
+				Direction newDir = Direction.Up;
+				return newDir;
+			} else {
+				Direction newDir = Direction.Up;
+				return newDir;
+			
+			}
 
 		}
 
