@@ -92,22 +92,22 @@ public class PlayerScript : MonoBehaviour {
 		}
 			
 		//hold key down inputs. clampPos is used to snap player to an axis on movement
-		if (Input.GetKey (KeyCode.D) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S)) {
+		if (Input.GetKey (KeyCode.D) && !isMoving || Input.GetKey (KeyCode.D) && isMoving && direction == GameManager.Direction.Left) {
 			//RIGHT
 			MoveInDirection (38, Vector2.right);
 			clampPos = transform.position.y;
 		} 
-		if (Input.GetKey (KeyCode.A) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S)) {
+		if (Input.GetKey (KeyCode.A) && !isMoving || Input.GetKey (KeyCode.A) && isMoving && direction == GameManager.Direction.Right) {
 			//LEFT
 			MoveInDirection (39, Vector2.left);
 			clampPos = transform.position.y;
 		}
-		if (Input.GetKey (KeyCode.S) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) {
+		if (Input.GetKey (KeyCode.S) && !isMoving || Input.GetKey (KeyCode.S) && isMoving && direction == GameManager.Direction.Up) {
 			//DOWN
 			MoveInDirection (36, Vector2.down);
 			clampPos = transform.position.x;
 		} 
-		if (Input.GetKey (KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) {
+		if (Input.GetKey (KeyCode.W) && !isMoving || Input.GetKey (KeyCode.W) && isMoving && direction == GameManager.Direction.Down) {
 			MoveInDirection (37, Vector2.up);
 			clampPos = transform.position.x;
 					} 
