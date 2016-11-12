@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SS.PlayGroup;
 
 public class DoorTile : MonoBehaviour {
 

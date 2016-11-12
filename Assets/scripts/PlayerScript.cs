@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using MovementEffects;
 using SS.GameLogic;
 
+namespace SS.PlayGroup{
 public class PlayerScript : MonoBehaviour {
 	public static PlayerScript playerControl;
-
-	public GameManager gameManager;
-	public float panSpeed = 10.0f;
+			
 	public float moveSpeed = 0.1f;
 
 	private SpriteRenderer playerRend;
@@ -30,24 +29,12 @@ public class PlayerScript : MonoBehaviour {
 	private Sprite[] underwearSheet;
 	private Sprite[] uniformSheet;
 
-	public bool isMoving = false;
-	private Rigidbody2D thisRigi;
-	private Vector2 moveDirection;
+	[HideInInspector]
+	public PhysicsMove physicsMove;
 
-	public bool isSpaced = false;
-	public bool triedToMoveInSpace = false;
-
-	private float lerpTime = 0f;
-	public bool lerpA = false;
-	private Vector3 startPos;
-	public Vector3 node;
-	public float lerpSpeed;
-	public GameManager.Direction direction;
-	private Vector3 toClamp;
-	private float clampPos;
 	private float moveHorizontal;
 	private float moveVertical;
-	private bool keyDown = false;
+	
 
 
 	void Awake(){
@@ -65,13 +52,14 @@ public class PlayerScript : MonoBehaviour {
 	}
 
 	void Start () {
-
+		physicsMove = gameObject.AddComponent<PhysicsMove> ();
+		physicsMove.moveSpeed = moveSpeed;
 		//SPAWN POSITION
 		Vector2 newPos = new Vector2 (22f, 32f);
 		transform.position = newPos;
-		thisRigi = GetComponent<Rigidbody2D> ();
+		
 		playerRend = GetComponent<SpriteRenderer>();
-		direction = GameManager.Direction.Down;
+	
 	
 		Timing.RunCoroutine (LoadSpriteSheets ()); //load sprite sheet resources
 	}
@@ -80,7 +68,7 @@ public class PlayerScript : MonoBehaviour {
 	void Update () {
 
 		//movement keys down WASD
-		if (!isMoving) {
+		if (!physicsMove.isMoving) {
 			moveHorizontal = Input.GetAxisRaw ("Horizontal");
 			moveVertical = Input.GetAxisRaw ("Vertical");
 
@@ -88,62 +76,39 @@ public class PlayerScript : MonoBehaviour {
 	
 		if (Input.GetKeyUp (KeyCode.W) || Input.GetKeyUp (KeyCode.A) || Input.GetKeyUp (KeyCode.S) || Input.GetKeyUp (KeyCode.D)) {
 
-			MoveKeysReleased ();
+				physicsMove.MoveInputReleased ();
 		}
-			
+
 		//hold key down inputs. clampPos is used to snap player to an axis on movement
-		if (Input.GetKey (KeyCode.D) && !isMoving || Input.GetKey (KeyCode.D) && isMoving && direction == GameManager.Direction.Left) {
+			if (Input.GetKey (KeyCode.D) && !physicsMove.isMoving || Input.GetKey (KeyCode.D) && physicsMove.isMoving && physicsMove.direction == GameManager.Direction.Left) {
 			//RIGHT
 			MoveInDirection (38, Vector2.right);
-			clampPos = transform.position.y;
+				physicsMove.clampPos = transform.position.y;
 		} 
-		if (Input.GetKey (KeyCode.A) && !isMoving || Input.GetKey (KeyCode.A) && isMoving && direction == GameManager.Direction.Right) {
+			if (Input.GetKey (KeyCode.A) && !physicsMove.isMoving || Input.GetKey (KeyCode.A) && physicsMove.isMoving && physicsMove.direction == GameManager.Direction.Right) {
 			//LEFT
 			MoveInDirection (39, Vector2.left);
-			clampPos = transform.position.y;
+				physicsMove.clampPos = transform.position.y;
 		}
-		if (Input.GetKey (KeyCode.S) && !isMoving || Input.GetKey (KeyCode.S) && isMoving && direction == GameManager.Direction.Up) {
+			if (Input.GetKey (KeyCode.S) && !physicsMove.isMoving || Input.GetKey (KeyCode.S) && physicsMove.isMoving && physicsMove.direction == GameManager.Direction.Up) {
 			//DOWN
 			MoveInDirection (36, Vector2.down);
-			clampPos = transform.position.x;
+				physicsMove.clampPos = transform.position.x;
 		} 
-		if (Input.GetKey (KeyCode.W) && !isMoving || Input.GetKey (KeyCode.W) && isMoving && direction == GameManager.Direction.Down) {
+			if (Input.GetKey (KeyCode.W) && !physicsMove.isMoving || Input.GetKey (KeyCode.W) && physicsMove.isMoving && physicsMove.direction == GameManager.Direction.Down) {
 			MoveInDirection (37, Vector2.up);
-			clampPos = transform.position.x;
+				physicsMove.clampPos = transform.position.x;
 					} 
 
-		//when movekeys are released then take the character to the nearest node
-		if (lerpA) {
-			LerpToTarget ();
-		}
+
 
 	}
-		
-	void FixedUpdate(){
 
-		if (isMoving) {
-			//Move character via RigidBody
-			MoveRigidBody ();
 
-		} 
-
-	}
-		
-
-	//movement input stopped
-	private void MoveKeysReleased(){ 
-		
-		startPos = transform.position;
-		node = gameManager.GetClosestNode (transform.position, thisRigi.velocity);
-		thisRigi.velocity = Vector3.zero;
-		lerpTime = 0f;
-		lerpA = true;
-
-	}
 
 	//turning character input and sprite update
 	private void MoveInDirection(int playerSprite, Vector2 dir){
-		lerpA = false;
+		physicsMove.lerpA = false;
 		playerRend.sprite = playerSheet [playerSprite];
 		suitRend.sprite = suitSheet [playerSprite + 200];
 		beltRend.sprite = beltSheet [playerSprite + 26];
@@ -152,83 +117,14 @@ public class PlayerScript : MonoBehaviour {
 		underwearRend.sprite = underwearSheet [playerSprite + 16];
 		uniformRend.sprite = uniformSheet [playerSprite - 20];
 
-		moveDirection = dir;
-		direction = gameManager.GetDirection (dir);
-		isMoving = true;
+		physicsMove.moveDirection = dir;
+		physicsMove.direction = physicsMove.gameManager.GetDirection (dir);
+		physicsMove.isMoving = true;
 	}
 
-	//used with LerpA in update
-	private void LerpToTarget(){
 
-		lerpTime += Time.deltaTime;
-		float t = lerpTime * lerpSpeed;
 
-		transform.position = Vector3.Lerp (startPos, node, t);
-		if (direction == GameManager.Direction.Right && transform.position.x >= node.x) {
-			isMoving = false;
-			lerpA = false;
-			thisRigi.velocity = Vector3.zero;
-		}
-		if (direction == GameManager.Direction.Left && transform.position.x <= node.x) {
-			isMoving = false;
-			lerpA = false;
-			thisRigi.velocity = Vector3.zero;
-		}
-		if (direction == GameManager.Direction.Up && transform.position.y >= node.y) {
-			isMoving = false;
-			lerpA = false;
-			thisRigi.velocity = Vector3.zero;
-		}
-		if (direction == GameManager.Direction.Down && transform.position.y <= node.y) {
-			isMoving = false;
-			lerpA = false;
-			thisRigi.velocity = Vector3.zero;
-		}
-	}
 
-	//move the character via RigidBody in FixedUpdate
-	private void MoveRigidBody(){
-
-		if (!triedToMoveInSpace) {
-
-			if (direction == GameManager.Direction.Down) {
-				thisRigi.velocity = new Vector3 (0f, moveDirection.y, 0).normalized * moveSpeed;
-				toClamp = transform.position;
-				Mathf.Clamp (toClamp.x, clampPos, clampPos);
-				transform.position = toClamp;
-				return;
-			}
-			if (direction == GameManager.Direction.Up) {
-				thisRigi.velocity = new Vector3 (0f, moveDirection.y, 0).normalized * moveSpeed;
-				toClamp = transform.position;
-				Mathf.Clamp (toClamp.x, clampPos, clampPos);
-				transform.position = toClamp;
-				return;
-			}
-			if (direction == GameManager.Direction.Right) {
-				thisRigi.velocity = new Vector3 (moveDirection.x, 0f, 0).normalized * moveSpeed;
-				toClamp = transform.position;
-				Mathf.Clamp (toClamp.y, clampPos, clampPos);
-				transform.position = toClamp;
-				return;
-			}
-			if (direction == GameManager.Direction.Left) {
-				thisRigi.velocity = new Vector3 (moveDirection.x, 0f, 0).normalized * moveSpeed;
-				toClamp = transform.position;
-				Mathf.Clamp (toClamp.y, clampPos, clampPos);
-				transform.position = toClamp;
-				return;
-			}
-		}
-		if (isSpaced && !triedToMoveInSpace) {
-			triedToMoveInSpace = true;
-			thisRigi.mass = 0f;
-			thisRigi.drag = 0f;
-			thisRigi.angularDrag = 0f;
-
-		}
-
-	}
 
 	//COROUTINES
 
@@ -280,5 +176,5 @@ public class PlayerScript : MonoBehaviour {
 
 		yield return 0f;
 	}
-		
+	}	
 }

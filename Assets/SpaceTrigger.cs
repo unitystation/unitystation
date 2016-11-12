@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SS.PlayGroup;
 
 public class SpaceTrigger : MonoBehaviour {
 
@@ -15,7 +16,7 @@ public class SpaceTrigger : MonoBehaviour {
 			if (coll.gameObject == PlayerScript.playerControl.gameObject && !isSpaced) {
 			
 				isSpaced = true;
-				PlayerScript.playerControl.isSpaced = true;
+				PlayerScript.playerControl.physicsMove.isSpaced = true;
 			
 			}
 		
