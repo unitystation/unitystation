@@ -92,22 +92,22 @@ public class PlayerScript : MonoBehaviour {
 		}
 			
 		//hold key down inputs. clampPos is used to snap player to an axis on movement
-		if (Input.GetKey (KeyCode.D) && !isMoving) {
+		if (Input.GetKey (KeyCode.D) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S)) {
 			//RIGHT
 			MoveInDirection (38, Vector2.right);
 			clampPos = transform.position.y;
 		} 
-		if (Input.GetKey (KeyCode.A) && !isMoving) {
+		if (Input.GetKey (KeyCode.A) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S)) {
 			//LEFT
 			MoveInDirection (39, Vector2.left);
 			clampPos = transform.position.y;
 		}
-		if (Input.GetKey (KeyCode.S) && !isMoving) {
+		if (Input.GetKey (KeyCode.S) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) {
 			//DOWN
 			MoveInDirection (36, Vector2.down);
 			clampPos = transform.position.x;
 		} 
-		if (Input.GetKey (KeyCode.W) && !isMoving) {
+		if (Input.GetKey (KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) {
 			MoveInDirection (37, Vector2.up);
 			clampPos = transform.position.x;
 					} 
@@ -143,7 +143,7 @@ public class PlayerScript : MonoBehaviour {
 
 	//turning character input and sprite update
 	private void MoveInDirection(int playerSprite, Vector2 dir){
-
+		lerpA = false;
 		playerRend.sprite = playerSheet [playerSprite];
 		suitRend.sprite = suitSheet [playerSprite + 200];
 		beltRend.sprite = beltSheet [playerSprite + 26];
