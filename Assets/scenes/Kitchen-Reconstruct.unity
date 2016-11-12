@@ -359,6 +359,7 @@ GameObject:
   - 212: {fileID: 68004122}
   - 61: {fileID: 68004124}
   - 50: {fileID: 68004125}
+  - 61: {fileID: 68004126}
   m_Layer: 8
   m_Name: NPC_Pete
   m_TagString: Untagged
@@ -377,6 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d41c86906f82f4431a34e817508fe097, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 7
 --- !u!212 &68004122
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -434,9 +436,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: -0.0029785156, y: -0.059591062}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 0.25445122, y: 0.16108972}
+  m_Size: {x: 0.3, y: 0.3}
 --- !u!50 &68004125
 Rigidbody2D:
   serializedVersion: 2
@@ -454,6 +456,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!61 &68004126
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 68004120}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 0.31, y: 0.31}
 --- !u!1 &84411014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1988,7 +2004,7 @@ MonoBehaviour:
   bodyNumber: 36
   suitNumber: 236
   beltNumber: 62
-  hatNumber: 221
+  headNumber: 16
   shoesNumber: 36
   underWearNumber: 52
   uniformNumber: 16
@@ -5331,7 +5347,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 76e6acb5a1c504f0cbee7f43edc5f9b5, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.634
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -6542,7 +6558,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4d4a3cc1c85f046d794e1e7bb52ed44b, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.625
   m_Pitch: 1
   Loop: 0
   Mute: 0

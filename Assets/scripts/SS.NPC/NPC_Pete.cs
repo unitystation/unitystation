@@ -1,29 +1,57 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using MovementEffects;
+using SS.PlayGroup;
 
 namespace SS.NPC{
 	
 public class NPC_Pete : MonoBehaviour {
 
 		private SpriteRenderer thisRend;
-		private Rigidbody2D thisRigi;
 		private bool isRight = false;
+
+		private PhysicsMove physicsMove;
+		public float moveSpeed = 400f;
 
 
 	void Start () {
+			
 			thisRend = GetComponent<SpriteRenderer> ();
-			thisRigi = GetComponent<Rigidbody2D> ();
-
+			physicsMove = gameObject.AddComponent<PhysicsMove> ();
+			physicsMove.moveSpeed = moveSpeed;
 
 			Timing.RunCoroutine (RandMove (), "randmove");
 	}
 	
+	
+
+	
+		void Flip(){
+
+			Vector2 newScale = transform.localScale;
+			newScale.x = -newScale.x;
+			transform.localScale = newScale;
+
+
+		}
+
 		void OnDisable(){
 
 			Timing.KillCoroutines ("randmove");
 
 		}
+
+		void OnCTriggerExit2D (Collider2D coll){
+
+			if (coll.gameObject.layer == 8) {
+				//player stopped pushing
+				physicsMove.MoveInputReleased();
+
+			}
+		}
+
+		//COROUTINES
+
 
 		IEnumerator<float>RandMove(){
 
@@ -34,48 +62,39 @@ public class NPC_Pete : MonoBehaviour {
 
 			if (ranDir == 0) {
 				//Move Up
-				Vector2 movePos = new Vector2 (transform.position.x, transform.position.y + 1f);
-				thisRigi.MovePosition(movePos);
+				physicsMove.MoveInDirection(Vector2.up);
 			
+
 			} else if (ranDir == 1) {
 				//Move Right
-				Vector2 movePos = new Vector2 (transform.position.x + 1f, transform.position.y);
-				thisRigi.MovePosition(movePos);
+				physicsMove.MoveInDirection(Vector2.right);
 
 				if(!isRight){
 
 					isRight = true;
 					Flip ();
 				}
-			
+
 			} else if (ranDir == 2) {
 				//Move Down
-				Vector2 movePos = new Vector2 (transform.position.x, transform.position.y - 1f);
-				thisRigi.MovePosition(movePos);
-			
+				physicsMove.MoveInDirection(Vector2.down);
+
 			} else if (ranDir == 3) {
-			//Move Left
-				Vector2 movePos = new Vector2 (transform.position.x - 1f, transform.position.y);
-				thisRigi.MovePosition(movePos);
+				//Move Left
+				physicsMove.MoveInDirection(Vector2.left);
+	
 				if(isRight){
 
 					isRight = false;
 					Flip ();
 				}
-			
+
 			}
 
+			yield return Timing.WaitForSeconds (0.2f);
+			physicsMove.MoveInputReleased ();
+
 			Timing.RunCoroutine(RandMove (), "randmove");
-		
-		
-		}
-	
-		void Flip(){
-
-			Vector2 newScale = transform.localScale;
-			newScale.x = -newScale.x;
-			transform.localScale = newScale;
-
 
 		}
 }

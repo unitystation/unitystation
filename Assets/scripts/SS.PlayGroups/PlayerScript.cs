@@ -18,7 +18,7 @@ public class PlayerScript : MonoBehaviour {
 	public int bodyNumber;
 	public int suitNumber;
 	public int beltNumber;
-	public int hatNumber;
+	public int headNumber;
 	public int shoesNumber;
 	public int underWearNumber;
 	public int uniformNumber;
@@ -65,31 +65,28 @@ public class PlayerScript : MonoBehaviour {
 		}
 
 		//hold key down inputs. clampPos is used to snap player to an axis on movement
-			if (Input.GetKey (KeyCode.D) && !physicsMove.isMoving || Input.GetKey (KeyCode.D) && physicsMove.isMoving && physicsMove.moveDirection == Vector2.left) {
+			if (Input.GetKey (KeyCode.D) && !physicsMove.isMoving || Input.GetKey (KeyCode.D) && physicsMove.isMoving && physicsMove._moveDirection == Vector2.left) {
 			//RIGHT
 			physicsMove.MoveInDirection (Vector2.right);
-			physicsMove.clampPos = transform.position.y;
+			playerSprites.FaceDirection (Vector2.right);
 
-				playerSprites.FaceDirection (Vector2.right);
 		} 
-			if (Input.GetKey (KeyCode.A) && !physicsMove.isMoving || Input.GetKey (KeyCode.A) && physicsMove.isMoving && physicsMove.moveDirection == Vector2.right) {
+			if (Input.GetKey (KeyCode.A) && !physicsMove.isMoving || Input.GetKey (KeyCode.A) && physicsMove.isMoving && physicsMove._moveDirection == Vector2.right) {
 			//LEFT
 			physicsMove.MoveInDirection (Vector2.left);
-			physicsMove.clampPos = transform.position.y;
+			playerSprites.FaceDirection (Vector2.left);
 
-				playerSprites.FaceDirection (Vector2.left);
 		}
-			if (Input.GetKey (KeyCode.S) && !physicsMove.isMoving || Input.GetKey (KeyCode.S) && physicsMove.isMoving && physicsMove.moveDirection == Vector2.up) {
+			if (Input.GetKey (KeyCode.S) && !physicsMove.isMoving || Input.GetKey (KeyCode.S) && physicsMove.isMoving && physicsMove._moveDirection == Vector2.up) {
 			//DOWN
 			physicsMove.MoveInDirection (Vector2.down);
-			physicsMove.clampPos = transform.position.x;
+		    playerSprites.FaceDirection (Vector2.down);
 
-				playerSprites.FaceDirection (Vector2.down);
 		} 
-			if (Input.GetKey (KeyCode.W) && !physicsMove.isMoving || Input.GetKey (KeyCode.W) && physicsMove.isMoving && physicsMove.moveDirection == Vector2.down) {
+			if (Input.GetKey (KeyCode.W) && !physicsMove.isMoving || Input.GetKey (KeyCode.W) && physicsMove.isMoving && physicsMove._moveDirection == Vector2.down) {
 			physicsMove.MoveInDirection (Vector2.up);
-			physicsMove.clampPos = transform.position.x;
-				playerSprites.FaceDirection (Vector2.up);
+			playerSprites.FaceDirection (Vector2.up);
+
 					} 
 				
 	}
@@ -101,7 +98,7 @@ public class PlayerScript : MonoBehaviour {
 			newPrefs.body = bodyNumber;
 			newPrefs.suit = suitNumber;
 			newPrefs.belt = beltNumber;
-			newPrefs.hat = hatNumber;
+			newPrefs.head = headNumber;
 			newPrefs.shoes = shoesNumber;
 			newPrefs.underWear = underWearNumber;
 			newPrefs.uniform = uniformNumber;

@@ -19,9 +19,10 @@ public class PhysicsMove : MonoBehaviour {
 		public bool triedToMoveInSpace = false;
 		public bool keyDown = false;
 
-		public Vector2 moveDirection;
+		private Vector2 moveDirection;
+		public Vector2 _moveDirection { get { return moveDirection; } }
 		private Vector3 startPos;
-		public Vector3 node;
+		private Vector3 node;
 		private Vector3 toClamp;
 
 		public float lerpSpeed = 7f;
@@ -66,6 +67,19 @@ public class PhysicsMove : MonoBehaviour {
 			lerpA = false;
 		    moveDirection = direction;
 			isMoving = true;
+
+			if (direction == Vector2.right || direction == Vector2.left) {
+			
+				clampPos = transform.position.y;
+			
+			}
+
+			if (direction == Vector2.down || direction == Vector2.up) {
+			
+				clampPos = transform.position.x;
+			
+			}
+	
 		}
 
 
@@ -154,5 +168,8 @@ public class PhysicsMove : MonoBehaviour {
 			}
 
 		}
+
+	
+
 }
 }

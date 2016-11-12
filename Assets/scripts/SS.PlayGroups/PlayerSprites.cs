@@ -10,7 +10,7 @@ namespace SS.PlayGroup{
 		public int body{ get; set; }
 		public int suit{ get; set; }
 		public int belt{ get; set; }
-		public int hat{ get; set; }
+		public int head{ get; set; }
 		public int shoes{ get; set; }
 		public int underWear{ get; set; }
 		public int uniform{ get; set; }
@@ -66,7 +66,7 @@ public class PlayerSprites : MonoBehaviour {
 				playerRend.sprite = playerSheet [baseSprites.body]; // 36 
 				suitRend.sprite = suitSheet [baseSprites.suit]; //236 
 				beltRend.sprite = beltSheet [baseSprites.belt]; //62 
-				headRend.sprite = headSheet [baseSprites.hat]; //221 
+				headRend.sprite = headSheet [baseSprites.head]; //221 
 				feetRend.sprite = feetSheet [baseSprites.shoes]; //36 
 				underwearRend.sprite = underwearSheet [baseSprites.underWear]; //52 
 				uniformRend.sprite = uniformSheet [baseSprites.uniform]; //16 
@@ -76,7 +76,7 @@ public class PlayerSprites : MonoBehaviour {
 				playerRend.sprite = playerSheet [baseSprites.body + 1]; 
 				suitRend.sprite = suitSheet [baseSprites.suit + 1]; 
 				beltRend.sprite = beltSheet [baseSprites.belt + 1]; 
-				headRend.sprite = headSheet [baseSprites.hat + 1]; 
+				headRend.sprite = headSheet [baseSprites.head + 1]; 
 				feetRend.sprite = feetSheet [baseSprites.shoes + 1]; 
 				underwearRend.sprite = underwearSheet [baseSprites.underWear + 1]; 
 				uniformRend.sprite = uniformSheet [baseSprites.uniform + 1]; 
@@ -86,7 +86,7 @@ public class PlayerSprites : MonoBehaviour {
 				playerRend.sprite = playerSheet [baseSprites.body + 2]; 
 				suitRend.sprite = suitSheet [baseSprites.suit + 2]; 
 				beltRend.sprite = beltSheet [baseSprites.belt + 2]; 
-				headRend.sprite = headSheet [baseSprites.hat + 2]; 
+				headRend.sprite = headSheet [baseSprites.head + 2]; 
 				feetRend.sprite = feetSheet [baseSprites.shoes + 2]; 
 				underwearRend.sprite = underwearSheet [baseSprites.underWear + 2]; 
 				uniformRend.sprite = uniformSheet [baseSprites.uniform + 2]; 
@@ -96,7 +96,7 @@ public class PlayerSprites : MonoBehaviour {
 				playerRend.sprite = playerSheet [baseSprites.body + 3]; 
 				suitRend.sprite = suitSheet [baseSprites.suit + 3]; 
 				beltRend.sprite = beltSheet [baseSprites.belt + 3]; 
-				headRend.sprite = headSheet [baseSprites.hat + 3]; 
+				headRend.sprite = headSheet [baseSprites.head + 3]; 
 				feetRend.sprite = feetSheet [baseSprites.shoes + 3]; 
 				underwearRend.sprite = underwearSheet [baseSprites.underWear + 3]; 
 				uniformRend.sprite = uniformSheet [baseSprites.uniform + 3]; 
