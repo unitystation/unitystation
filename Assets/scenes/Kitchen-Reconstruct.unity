@@ -1959,10 +1959,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 509938855}
-  - 212: {fileID: 509938854}
   - 114: {fileID: 509938853}
+  - 212: {fileID: 509938854}
   - 50: {fileID: 509938856}
   - 61: {fileID: 509938857}
+  - 114: {fileID: 509938858}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -1983,6 +1984,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 7
   physicsMove: {fileID: 0}
+  playerSprites: {fileID: 0}
+  bodyNumber: 36
+  suitNumber: 236
+  beltNumber: 62
+  hatNumber: 221
+  shoesNumber: 36
+  underWearNumber: 52
+  uniformNumber: 16
 --- !u!212 &509938854
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2068,6 +2077,17 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 0.28, y: 0.28}
+--- !u!114 &509938858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 509938852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a52db6d35654f05b02855d1ab180c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &542741450
 GameObject:
   m_ObjectHideFlags: 0
@@ -2774,9 +2794,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '[12:00] DooblyNoobly: example line
-
-    [12:01] Initializing something important..
+  m_Text: '.....
 
 '
 --- !u!222 &615747752

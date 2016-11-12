@@ -10,7 +10,6 @@ namespace SS.PlayGroup{
 public class PhysicsMove : MonoBehaviour {
 
 		public GameManager gameManager;
-		public GameManager.Direction direction;
 
 		private Rigidbody2D thisRigi;
 
@@ -34,7 +33,6 @@ public class PhysicsMove : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 			thisRigi = GetComponent<Rigidbody2D> ();
-			direction = GameManager.Direction.Down;
 			GameObject findGM = GameObject.FindGameObjectWithTag ("GameManager");
 			if (findGM != null) {
 				gameManager = findGM.GetComponent<GameManager> ();
@@ -62,6 +60,16 @@ public class PhysicsMove : MonoBehaviour {
 			} 
 	}
 
+		//move in direction input
+		public void MoveInDirection(Vector2 direction){
+
+			lerpA = false;
+		    moveDirection = direction;
+			isMoving = true;
+		}
+
+
+
 		//movement input stopped
 		public void MoveInputReleased(){ 
 
@@ -80,22 +88,23 @@ public class PhysicsMove : MonoBehaviour {
 			float t = lerpTime * lerpSpeed;
 
 			transform.position = Vector3.Lerp (startPos, node, t);
-			if (direction == GameManager.Direction.Right && transform.position.x >= node.x) {
+
+			if (moveDirection == Vector2.right && transform.position.x >= node.x) {
 				isMoving = false;
 				lerpA = false;
 				thisRigi.velocity = Vector3.zero;
 			}
-			if (direction == GameManager.Direction.Left && transform.position.x <= node.x) {
+			if (moveDirection == Vector2.left && transform.position.x <= node.x) {
 				isMoving = false;
 				lerpA = false;
 				thisRigi.velocity = Vector3.zero;
 			}
-			if (direction == GameManager.Direction.Up && transform.position.y >= node.y) {
+			if (moveDirection == Vector2.up && transform.position.y >= node.y) {
 				isMoving = false;
 				lerpA = false;
 				thisRigi.velocity = Vector3.zero;
 			}
-			if (direction == GameManager.Direction.Down && transform.position.y <= node.y) {
+			if (moveDirection == Vector2.down && transform.position.y <= node.y) {
 				isMoving = false;
 				lerpA = false;
 				thisRigi.velocity = Vector3.zero;
@@ -107,28 +116,28 @@ public class PhysicsMove : MonoBehaviour {
 
 			if (!triedToMoveInSpace) {
 
-				if (direction == GameManager.Direction.Down) {
+				if (moveDirection == Vector2.down) {
 					thisRigi.velocity = new Vector3 (0f, moveDirection.y, 0).normalized * moveSpeed;
 					toClamp = transform.position;
 					Mathf.Clamp (toClamp.x, clampPos, clampPos);
 					transform.position = toClamp;
 					return;
 				}
-				if (direction == GameManager.Direction.Up) {
+				if (moveDirection == Vector2.up) {
 					thisRigi.velocity = new Vector3 (0f, moveDirection.y, 0).normalized * moveSpeed;
 					toClamp = transform.position;
 					Mathf.Clamp (toClamp.x, clampPos, clampPos);
 					transform.position = toClamp;
 					return;
 				}
-				if (direction == GameManager.Direction.Right) {
+				if (moveDirection == Vector2.right) {
 					thisRigi.velocity = new Vector3 (moveDirection.x, 0f, 0).normalized * moveSpeed;
 					toClamp = transform.position;
 					Mathf.Clamp (toClamp.y, clampPos, clampPos);
 					transform.position = toClamp;
 					return;
 				}
-				if (direction == GameManager.Direction.Left) {
+				if (moveDirection == Vector2.left) {
 					thisRigi.velocity = new Vector3 (moveDirection.x, 0f, 0).normalized * moveSpeed;
 					toClamp = transform.position;
 					Mathf.Clamp (toClamp.y, clampPos, clampPos);
