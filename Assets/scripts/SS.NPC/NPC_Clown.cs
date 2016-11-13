@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using MovementEffects;
+using System.Collections;
+
 
 
 namespace SS.NPC{
@@ -17,20 +17,20 @@ public class NPC_Clown : MonoBehaviour {
 			//FIXME need to figure out the grid and how to round to it
 			Vector2 newPos = new Vector2 (Mathf.Round (transform.position.x / 100f) *100f , Mathf.Round (transform.position.y / 100f)* 100f);
 			transform.position = newPos;
-			Timing.RunCoroutine (RandMove (), "randmove");
+			StartCoroutine (RandMove ());
 		}
 
 		void OnDisable(){
 
-			Timing.KillCoroutines ("randmove");
+			StopCoroutine (RandMove());
 
 		}
 
-		IEnumerator<float>RandMove(){
+		IEnumerator RandMove(){
 
 			float ranTime = Random.Range (0.2f,6f);
 
-			yield return Timing.WaitForSeconds (ranTime);
+			yield return new WaitForSeconds (ranTime);
 
 			int ranDir = Random.Range (0, 4);
 
@@ -79,7 +79,7 @@ public class NPC_Clown : MonoBehaviour {
 				SoundController.control.sounds [0].Play ();
 
 			}
-			Timing.RunCoroutine(RandMove (), "randmove");
+			StartCoroutine(RandMove ());
 
 
 		}

@@ -82,9 +82,21 @@ public class PhysicsMove : MonoBehaviour {
 	
 		}
 
+		//force a snap to the tile manually
+		public void ForceSnapToTile(){
+		
+			startPos = transform.position;
+			moveDirection = Vector2.zero;
+			node = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0f);
+			if(thisRigi != null)
+			thisRigi.velocity = Vector3.zero;
+			
+			lerpTime = 0f;
+			lerpA = true;
+		
+		}
 
-
-		//movement input stopped
+		//movement input stopped, only use this to snap if there is an applied velocity
 		public void MoveInputReleased(){ 
 
 			startPos = transform.position;
@@ -122,6 +134,13 @@ public class PhysicsMove : MonoBehaviour {
 				isMoving = false;
 				lerpA = false;
 				thisRigi.velocity = Vector3.zero;
+			}
+
+			if (moveDirection == Vector2.zero && transform.position == node) {
+				isMoving = false;
+				lerpA = false;
+				thisRigi.velocity = Vector3.zero;
+
 			}
 		}
 

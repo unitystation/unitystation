@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using MovementEffects;
+using System.Collections;
 using SS.PlayGroup;
 
 namespace SS.NPC{
@@ -19,13 +18,11 @@ public class NPC_Pete : MonoBehaviour {
 			thisRend = GetComponent<SpriteRenderer> ();
 			physicsMove = gameObject.AddComponent<PhysicsMove> ();
 			physicsMove.moveSpeed = moveSpeed;
+			StartCoroutine (RandMove ());
 
-			Timing.RunCoroutine (RandMove (), "randmove");
 	}
 	
-	
 
-	
 		void Flip(){
 
 			Vector2 newScale = transform.localScale;
@@ -37,7 +34,7 @@ public class NPC_Pete : MonoBehaviour {
 
 		void OnDisable(){
 
-			Timing.KillCoroutines ("randmove");
+			StopCoroutine(RandMove());
 
 		}
 
@@ -50,13 +47,25 @@ public class NPC_Pete : MonoBehaviour {
 			}
 		}
 
+		void OnTriggerExit2D (Collider2D coll){
+		
+			//Players layer
+			if (coll.gameObject.layer == 8) {
+				physicsMove.ForceSnapToTile ();
+			
+			}
+		
+		}
+
+
 		//COROUTINES
 
 
-		IEnumerator<float>RandMove(){
+		IEnumerator RandMove(){
 
+			physicsMove.ForceSnapToTile ();
 			float ranTime = Random.Range (5f, 15f);
-			yield return Timing.WaitForSeconds (ranTime);
+			yield return new WaitForSeconds (ranTime);
 
 			int ranDir = Random.Range (0, 4);
 
@@ -91,10 +100,10 @@ public class NPC_Pete : MonoBehaviour {
 
 			}
 
-			yield return Timing.WaitForSeconds (0.2f);
+			yield return new WaitForSeconds (0.2f);
 			physicsMove.MoveInputReleased ();
 
-			Timing.RunCoroutine(RandMove (), "randmove");
+			StartCoroutine(RandMove ());
 
 		}
 }

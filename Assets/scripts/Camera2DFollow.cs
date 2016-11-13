@@ -1,6 +1,5 @@
 using UnityEngine;
-using System.Collections.Generic;
-using MovementEffects;
+using System.Collections;
 using SS.PlayGroup;
 
 
@@ -74,7 +73,7 @@ public class Camera2DFollow : MonoBehaviour {
 		if (PlayerScript.playerControl == null && !isSearching) {
 						isSearching = true;
 //						Debug.Log ("PLAYER LOST");
-						Timing.RunCoroutine (FindPlayer());
+						StartCoroutine (FindPlayer());
 						return;
 					
 				}
@@ -115,20 +114,20 @@ public class Camera2DFollow : MonoBehaviour {
 		public void LookAheadTemp(float newLookAhead){
 
 				lookAheadFactor = newLookAhead;
-				Timing.RunCoroutine (LookAheadSwitch());
+		StartCoroutine (LookAheadSwitch());
 		}
 
 		//COROUTINES
-		IEnumerator<float> LookAheadSwitch(){
+		IEnumerator LookAheadSwitch(){
 
-				yield return Timing.WaitForSeconds (2f);
+				yield return new WaitForSeconds (2f);
 				lookAheadFactor = lookAheadSave;
 
 		}
 
-		IEnumerator<float> FindPlayer(){
+		IEnumerator FindPlayer(){
 
-			yield return 0f;
+			
 
 		if (PlayerScript.playerControl != null) {
 						
@@ -137,6 +136,8 @@ public class Camera2DFollow : MonoBehaviour {
 						}
 		
 						isSearching = false;
+
+		yield return null;
 
 	}
 

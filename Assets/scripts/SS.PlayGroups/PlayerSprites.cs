@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using MovementEffects;
+using System.Collections;
+
 
 namespace SS.PlayGroup{
 	[RequireComponent (typeof (SpriteRenderer))]
@@ -48,7 +48,7 @@ public class PlayerSprites : MonoBehaviour {
 			
 			playerRend = GetComponent<SpriteRenderer>();
 
-			Timing.RunCoroutine (LoadSpriteSheets ()); //load sprite sheet resources
+			StartCoroutine (LoadSpriteSheets ()); //load sprite sheet resources
 
 	}
 	
@@ -110,7 +110,7 @@ public class PlayerSprites : MonoBehaviour {
 
 		//COROUTINES
 
-		IEnumerator<float> LoadSpriteSheets(){
+		IEnumerator LoadSpriteSheets(){
 
 			foreach(SpriteRenderer child in this.GetComponentsInChildren<SpriteRenderer>())
 			{
@@ -156,7 +156,7 @@ public class PlayerSprites : MonoBehaviour {
 
 
 
-			yield return 0f;
+			yield return null;
 		}
 	}
 }

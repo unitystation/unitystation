@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using MovementEffects;
+using System.Collections;
 using SS.GameLogic;
 
 namespace SS.PlayGroup{

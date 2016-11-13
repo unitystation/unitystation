@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
-using MovementEffects;
+using System.Collections;
 using SS.TileTypes;
 using SS.UI;
 
@@ -14,7 +13,7 @@ public class Tile_Pool_Test : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		tileTypeDropDown.options.Clear ();
-		Timing.RunCoroutine (SetDropDown ());
+		StartCoroutine (SetDropDown ());
 	}
 
 	void Update(){
@@ -47,7 +46,7 @@ public class Tile_Pool_Test : MonoBehaviour {
 	}
 
 	//COROUTINES
-	IEnumerator<float> SetDropDown(){
+	IEnumerator SetDropDown(){
 
 		int typeLength = (int)Construction_Floors.NumberOfTypes;
 
@@ -59,7 +58,7 @@ public class Tile_Pool_Test : MonoBehaviour {
 		
 		}
 
-		yield return 0f;
+		yield return null;
 	}
 
 
