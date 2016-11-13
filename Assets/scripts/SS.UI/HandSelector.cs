@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 namespace SS.UI{
@@ -12,6 +13,10 @@ public class HandSelector : MonoBehaviour {
 
 		//bools
 		private bool isRightHand = true;
+
+		//items
+		public Image rightRend;
+		public Image leftRend;
 
 	// Use this for initialization
 	void Start () {

@@ -107,7 +107,7 @@ namespace SS.GameLogic {
 						break;
 					case 'f':
 						GameObject ft = Instantiate(floorTile);
-						ft.GetComponent<FloorTile>().SetTile(Construction_Floors.floors_1, grid[i, j].transform.position);
+						ft.GetComponent<FloorTile>().SetTile(Construction_Floors.floors_14, grid[i, j].transform.position);
 						ft.SetActive(true);
 						thisTileManager.addObject(ft, ItemTile.Tile);
 						break;

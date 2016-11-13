@@ -67,6 +67,29 @@ public class ControlUI : MonoBehaviour {
 		}
 
 	}
+
+		void Start (){
+			isRightHand = true;
+		}
+
+
+		//very basic at the moment, under dev
+		public void PickUpObject(Sprite itemSprite){
+
+
+			if (isRightHand) {
+			
+				handSelector.rightRend.sprite = itemSprite;
+				handSelector.rightRend.enabled = true;
+			
+			} else {
+			
+				handSelector.leftRend.sprite = itemSprite;
+				handSelector.leftRend.enabled = true;
+			
+			}
+
+		}
 			
 }
 }
