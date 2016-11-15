@@ -47,7 +47,7 @@ public class PlayerScript : MonoBehaviour {
 		SetPlayerPrefs ();
 
 		//SPAWN POSITION
-		Vector2 newPos = new Vector2 (22f, 32f);
+		Vector2 newPos = new Vector2 (24f, 34f);
 		transform.position = newPos;
 		
 		

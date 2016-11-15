@@ -93,7 +93,16 @@ namespace SS.GameLogic {
         }	
 
 		private void LoadMap(TextAsset map) {
-			string[] lines = map.text.Split('\r');
+
+			// I had problems with line endings on mac and split cannot take \r\n so this was my temp solution - doobly
+			string[] lines;
+			if (Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer) {
+				lines = map.text.Split ('\n');
+			} else {
+			    lines = map.text.Split ('\r');
+			}
+
+
 			for (int i = 0; i < lines.Length - 1; i++) {
 				for (int j = 0; j < lines[i].Length - 1; j++) {
 					TileManager thisTileManager = grid[i,j].GetComponent<TileManager>();
@@ -157,6 +166,7 @@ namespace SS.GameLogic {
 			);
 		}
 
+		// Obsolete as objects are 1 x 1 via transform.position (if not then they should be normalized to find grid pos)
 		public Vector3 GetGridCoords(int gridX, int gridY) {
 			return grid[gridX, gridY].transform.position;
 		}
