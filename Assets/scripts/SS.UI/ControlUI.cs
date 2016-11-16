@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SS.PlayGroup;
 
 namespace SS.UI{
 public class ControlUI : MonoBehaviour {
@@ -53,6 +54,7 @@ public class ControlUI : MonoBehaviour {
 		public bool isOxygen{ get; set; }
 
 
+
 	void Awake () {
 
 
@@ -73,23 +75,29 @@ public class ControlUI : MonoBehaviour {
 		}
 
 
-		//very basic at the moment, under dev
-		public void PickUpObject(Sprite itemSprite){
+		//very basic at the moment, under dev (this was built for the kitchen knife which itemNum = 6)
+		public void PickUpObject(Sprite itemSprite, int itemNum){
 
-
-			if (isRightHand) {
+			if (PlayerScript.playerControl != null) {
+				if (isRightHand && !PlayerScript.playerControl.playerSprites.isRightHandFull) {
+					handSelector.rightRend.sprite = itemSprite;
+					handSelector.rightRend.enabled = true;
+					PlayerScript.playerControl.playerSprites.isRightHandSelector = true;
+					PlayerScript.playerControl.playerSprites.isRightHandFull = true;
+					PlayerScript.playerControl.playerSprites.PickedUpItem (itemNum);
 			
-				handSelector.rightRend.sprite = itemSprite;
-				handSelector.rightRend.enabled = true;
+				} else if (!isRightHand && !PlayerScript.playerControl.playerSprites.isLeftHandFull) {
+					handSelector.leftRend.sprite = itemSprite;
+					handSelector.leftRend.enabled = true;
+					PlayerScript.playerControl.playerSprites.isRightHandSelector = false;
+					PlayerScript.playerControl.playerSprites.isLeftHandFull = true;
+					PlayerScript.playerControl.playerSprites.PickedUpItem (itemNum);
 			
-			} else {
-			
-				handSelector.leftRend.sprite = itemSprite;
-				handSelector.leftRend.enabled = true;
-			
+				}
 			}
 
 		}
+
 			
 }
 }

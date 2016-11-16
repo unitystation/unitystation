@@ -70,7 +70,8 @@ public class KitchenItem : MonoBehaviour {
 			//and eventually check if there is room in the hand etc
 			if (allowedPickUp) {
 			//add to hand
-				ControlUI.control.PickUpObject(spriteRend.sprite);
+				ControlUI.control.PickUpObject(spriteRend.sprite, itemNumber); //HARD WIRED ATM FIX THIS SHITE - doobly
+		
 				gameObject.SetActive (false);
 			
 			}
