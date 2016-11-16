@@ -94,13 +94,9 @@ namespace SS.GameLogic {
 
 		private void LoadMap(TextAsset map) {
 
-			// I had problems with line endings on mac and split cannot take \r\n so this was my temp solution - doobly
-			string[] lines;
-			if (Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer) {
-				lines = map.text.Split ('\n');
-			} else {
-			    lines = map.text.Split ('\r');
-			}
+			// I had problems with line endings on mac and split cannot take \r\n so changed to \n - doobly
+			string[] lines = map.text.Split ('\n');
+		
 
 
 			for (int i = 0; i < lines.Length - 1; i++) {
