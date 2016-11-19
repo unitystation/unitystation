@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-namespace SS.UI{
+namespace UI{
 public class ControlWalkRun : MonoBehaviour {
 
 
@@ -45,8 +45,8 @@ public class ControlWalkRun : MonoBehaviour {
 
 	void PlayClick01(){
 
-		if (ControlUI.control.click01SFX != null) {
-			ControlUI.control.click01SFX.Play ();
+		if (UIManager.control.click01SFX != null) {
+			UIManager.control.click01SFX.Play ();
 		}
 
 	}

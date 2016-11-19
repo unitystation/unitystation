@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 
-namespace SS.UI{
+namespace UI{
 
 
 public class ControlAction : MonoBehaviour {
@@ -16,7 +16,7 @@ public class ControlAction : MonoBehaviour {
 
 
 		void Start(){
-			ControlUI.control.isThrow = false;
+			UIManager.control.isThrow = false;
 
 		}
 
@@ -44,14 +44,14 @@ public class ControlAction : MonoBehaviour {
 			PlayClick01 ();
 			Debug.Log ("Throw Button");
 
-			if (!ControlUI.control.isThrow) {
+			if (!UIManager.control.isThrow) {
 			
-				ControlUI.control.isThrow = true;
+				UIManager.control.isThrow = true;
 				throwImage.sprite = throwSprites [1];
 			
 			} else {
 			
-				ControlUI.control.isThrow = false;
+				UIManager.control.isThrow = false;
 				throwImage.sprite = throwSprites [0];
 			
 			
@@ -63,8 +63,8 @@ public class ControlAction : MonoBehaviour {
 
 		void PlayClick01(){
 
-			if (ControlUI.control.click01SFX != null) {
-				ControlUI.control.click01SFX.Play ();
+			if (UIManager.control.click01SFX != null) {
+				UIManager.control.click01SFX.Play ();
 			}
 
 		}

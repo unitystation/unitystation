@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using SS.TileTypes;
-using SS.UI;
+using UI;
 
 public class Tile_Pool_Test : MonoBehaviour {
 
@@ -36,7 +36,7 @@ public class Tile_Pool_Test : MonoBehaviour {
 
 		// Create the tiles through the TilePrefab controller that uses the generic pool
 		GameObject floorTile = TilePrefabs.control.CreateFloorObj(floorType, position);
-		ControlUI.control.click01SFX.Play ();
+		UIManager.control.click01SFX.Play ();
 
 		//Do stuff with it:
 		float randomLive = Random.Range (2f, 4f);

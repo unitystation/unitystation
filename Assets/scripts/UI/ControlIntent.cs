@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 
 
-namespace SS.UI{
+namespace UI{
 
 	public enum Intent{
 
@@ -26,7 +26,7 @@ public class ControlIntent : MonoBehaviour {
 
 		void Start(){
 
-			ControlUI.control.currentIntent = Intent.Help;
+			UIManager.control.currentIntent = Intent.Help;
 			thisImg = GetComponent<Image> ();
 		}
 
@@ -35,13 +35,13 @@ public class ControlIntent : MonoBehaviour {
 			PlayClick01 ();
 			Debug.Log ("Intent Button");
 
-			int curInt = (int)ControlUI.control.currentIntent;
+			int curInt = (int)UIManager.control.currentIntent;
 			curInt++;
 
 			if (curInt == 4)
 				curInt = 0;
 			
-			ControlUI.control.currentIntent = (Intent)curInt;
+			UIManager.control.currentIntent = (Intent)curInt;
 
 			thisImg.sprite = sprites [curInt];
 
@@ -53,8 +53,8 @@ public class ControlIntent : MonoBehaviour {
 
 		void PlayClick01(){
 
-			if (ControlUI.control.click01SFX != null) {
-				ControlUI.control.click01SFX.Play ();
+			if (UIManager.control.click01SFX != null) {
+				UIManager.control.click01SFX.Play ();
 			}
 
 		}

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 
-namespace SS.UI{
+namespace UI{
 public class OxygenButton : MonoBehaviour {
 
 		public Sprite[] stateSprites;
@@ -10,20 +10,20 @@ public class OxygenButton : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 			thisImg = GetComponent<Image> ();
-			ControlUI.control.isOxygen = false;
+			UIManager.control.isOxygen = false;
 	}
 	
 		public void OxygenSelect(){
 
 			PlayClick01 ();
-			if (!ControlUI.control.isOxygen) {
+			if (!UIManager.control.isOxygen) {
 			
-				ControlUI.control.isOxygen = true;
+				UIManager.control.isOxygen = true;
 				thisImg.sprite = stateSprites [1];
 			
 			} else {
 			
-				ControlUI.control.isOxygen = false;
+				UIManager.control.isOxygen = false;
 				thisImg.sprite = stateSprites [0];
 			
 			}
@@ -34,8 +34,8 @@ public class OxygenButton : MonoBehaviour {
 
 		void PlayClick01(){
 
-			if (ControlUI.control.click01SFX != null) {
-				ControlUI.control.click01SFX.Play ();
+			if (UIManager.control.click01SFX != null) {
+				UIManager.control.click01SFX.Play ();
 			}
 
 		}

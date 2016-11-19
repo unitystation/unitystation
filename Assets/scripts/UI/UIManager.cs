@@ -2,10 +2,10 @@
 using System.Collections;
 using SS.PlayGroup;
 
-namespace SS.UI{
-public class ControlUI : MonoBehaviour {
+namespace UI{
+public class UIManager : MonoBehaviour {
 
-	public static ControlUI control;
+	public static UIManager control;
 
 		/* This static class is intended to be
 		 * the 'go-to' class for anything UI

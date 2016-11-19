@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using SS.PlayGroup;
-using SS.UI;
+using UI;
 
 namespace SS.Kitchen{
 public class KitchenItem : MonoBehaviour {
@@ -70,7 +70,7 @@ public class KitchenItem : MonoBehaviour {
 			//and eventually check if there is room in the hand etc
 			if (allowedPickUp) {
 			//add to hand
-				ControlUI.control.PickUpObject(spriteRend.sprite, itemNumber); //HARD WIRED ATM FIX THIS SHITE - doobly
+				UIManager.control.PickUpObject(spriteRend.sprite, itemNumber); //HARD WIRED ATM FIX THIS SHITE - doobly
 		
 				gameObject.SetActive (false);
 			

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 
-namespace SS.UI{
+namespace UI{
 
 	public enum DamageZoneSelector{
 
@@ -27,7 +27,7 @@ public class ZoneSelector : MonoBehaviour {
 		public void SelectAction(int curSelect){
 			PlayClick01 ();
 			selImg.sprite = selectorSprites [curSelect];
-			ControlUI.control.damageZone = (DamageZoneSelector)curSelect;
+			UIManager.control.damageZone = (DamageZoneSelector)curSelect;
 
 		}
 
@@ -35,8 +35,8 @@ public class ZoneSelector : MonoBehaviour {
 
 		void PlayClick01(){
 
-			if (ControlUI.control.click01SFX != null) {
-				ControlUI.control.click01SFX.Play ();
+			if (UIManager.control.click01SFX != null) {
+				UIManager.control.click01SFX.Play ();
 			}
 
 		}

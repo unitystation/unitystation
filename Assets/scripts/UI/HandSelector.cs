@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-namespace SS.UI{
+namespace UI{
 public class HandSelector : MonoBehaviour {
 		//Handles left and right hand + selector
 
@@ -34,17 +34,17 @@ public class HandSelector : MonoBehaviour {
 		// whether selector should be on the right hand or the left
 		public void SelectorState(bool isRight){
 			//soundFX trial placement here
-			if (ControlUI.control != null) {
+			if (UIManager.control != null) {
 				PlayClick01 ();
 				if (isRight) {
 					Debug.Log ("RightHand Button");
 					isRightHand = true;
-					ControlUI.control.isRightHand = true;
+					UIManager.control.isRightHand = true;
 					selector.transform.position = rightHand.transform.position;
 				} else {
 					Debug.Log ("LeftHand Button");
 					isRightHand = false;
-					ControlUI.control.isRightHand = false;
+					UIManager.control.isRightHand = false;
 					selector.transform.position = leftHand.transform.position;
 				}
 			}
@@ -77,8 +77,8 @@ public class HandSelector : MonoBehaviour {
 
 		void PlayClick01(){
 
-			if (ControlUI.control.click01SFX != null) {
-				ControlUI.control.click01SFX.Play ();
+			if (UIManager.control.click01SFX != null) {
+				UIManager.control.click01SFX.Play ();
 			}
 
 		}

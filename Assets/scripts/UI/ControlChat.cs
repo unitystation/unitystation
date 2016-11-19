@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+namespace UI{
 public class ControlChat : MonoBehaviour {
 
 	// Use this for initialization
@@ -12,4 +13,5 @@ public class ControlChat : MonoBehaviour {
 	void Update () {
 	
 	}
+}
 }
