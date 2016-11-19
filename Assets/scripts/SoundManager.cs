@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SoundController : MonoBehaviour {
+public class SoundManager : MonoBehaviour {
 
-	public static SoundController control;
+	public static SoundManager control;
 	// Use this for initialization
 	public AudioSource[] sounds;
 

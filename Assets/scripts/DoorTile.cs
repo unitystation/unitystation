@@ -33,7 +33,7 @@ public class DoorTile : MonoBehaviour {
 			if (coll.gameObject == PlayerScript.playerControl.gameObject && !isOpened) {
 				isOpened = true;
 				thisAnim.SetBool ("open", true);
-				SoundController.control.sounds [1].Play ();
+				SoundManager.control.sounds [1].Play ();
 			
 			
 			}
@@ -50,7 +50,7 @@ public class DoorTile : MonoBehaviour {
 			if (coll.gameObject == PlayerScript.playerControl.gameObject && isOpened) {
 				isOpened = false;
 				thisAnim.SetBool ("open", false);
-				SoundController.control.sounds [2].Play ();
+				SoundManager.control.sounds [2].Play ();
 
 
 			}
