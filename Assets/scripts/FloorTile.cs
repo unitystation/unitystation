@@ -45,20 +45,6 @@ public class FloorTile : MonoBehaviour {
 	void Update () {
 	
 	}
-
-	//For returning back to the pool
-	 void ReturnToPool(){
-		//Reset to default state and put it back in the pool
-		ResetTile ();
-		PoolManager.PoolDestroy (this.gameObject);
-
-	}
-
-	//FOR TESTING DEV (remove when done)
-	public void WaitToReturnToPool(float time){
-
-		Invoke ("ReturnToPool", time);
-
-	}
+		
 
 }
