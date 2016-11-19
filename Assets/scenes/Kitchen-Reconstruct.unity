@@ -1711,7 +1711,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1375415928}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!82 &344598023
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5036,7 +5036,6 @@ RectTransform:
   - {fileID: 1008319302}
   - {fileID: 1698177182}
   - {fileID: 1393029749}
-  - {fileID: 1715280210}
   - {fileID: 2025450542}
   m_Father: {fileID: 516479250}
   m_RootOrder: 0
@@ -5062,7 +5061,6 @@ MonoBehaviour:
   intentControl: {fileID: 186278450}
   actionControl: {fileID: 1368860943}
   walkRunControl: {fileID: 1830305085}
-  click01SFX: {fileID: 1967520434}
 --- !u!1 &1249661799
 GameObject:
   m_ObjectHideFlags: 0
@@ -5435,7 +5433,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1375415928}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &1318373571
 GameObject:
   m_ObjectHideFlags: 0
@@ -5761,6 +5759,7 @@ MonoBehaviour:
   - {fileID: 1314279840}
   - {fileID: 1950539028}
   - {fileID: 1678226817}
+  - {fileID: 1967520434}
 --- !u!4 &1375415928
 Transform:
   m_ObjectHideFlags: 0
@@ -5772,6 +5771,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 1715280210}
   - {fileID: 344598022}
   - {fileID: 1655964054}
   - {fileID: 1314279841}
@@ -6513,7 +6513,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1375415928}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!82 &1655964055
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6811,7 +6811,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1375415928}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!1 &1687112646
 GameObject:
   m_ObjectHideFlags: 0
@@ -7016,7 +7016,7 @@ GameObject:
   m_Component:
   - 224: {fileID: 1715280210}
   m_Layer: 5
-  m_Name: SoundFX
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7028,17 +7028,17 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1715280209}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.48703703, y: 0.48703703, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1967520435}
-  m_Father: {fileID: 1235261330}
-  m_RootOrder: 3
+  m_Father: {fileID: 1375415928}
+  m_RootOrder: 0
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -999.0907, y: -1335.2742}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1749700953
@@ -8059,7 +8059,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1375415928}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!82 &1950539028
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8206,7 +8206,7 @@ GameObject:
   - 224: {fileID: 1967520435}
   - 82: {fileID: 1967520434}
   m_Layer: 5
-  m_Name: Click01(tempDev)
+  m_Name: Click01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8768,7 +8768,7 @@ RectTransform:
   m_Children:
   - {fileID: 309114339}
   m_Father: {fileID: 1235261330}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 19.25}

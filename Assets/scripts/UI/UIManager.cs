@@ -22,10 +22,6 @@ public class UIManager : MonoBehaviour {
 		public ControlAction actionControl;
 		public ControlWalkRun walkRunControl;
 
-		//sfx
-		public AudioSource click01SFX;
-
-
 		//Members accessable for player controller
 
 		/// <summary>

@@ -30,8 +30,8 @@ public class temp_ClownBtn : MonoBehaviour {
 
 	void PlayClick01(){
 
-		if (UIManager.control.click01SFX != null) {
-			UIManager.control.click01SFX.Play ();
+		if (SoundManager.control != null) {
+			SoundManager.control.sounds[5].Play ();
 		}
 
 	}
