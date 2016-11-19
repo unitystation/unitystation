@@ -11,21 +11,25 @@ public class HandSelector : MonoBehaviour {
 		public GameObject leftHand;
 		public GameObject rightHand;
 
-		//bools
-		private bool isRightHand = true;
+		//item slots
+		public UI_ItemSlot leftSlot;
+		public UI_ItemSlot rightSlot;
+
 
 		//items
 		public Image rightRend;
 		public Image leftRend;
 
+		//components
+		[HideInInspector]
+		public HandActions handActions;
+
 	// Use this for initialization
 	void Start () {
-	
-
+			
+			handActions = gameObject.AddComponent<HandActions> ();
 	}
 	
-
-
 
 		/* 
 		 * Button OnClick methods
@@ -37,15 +41,14 @@ public class HandSelector : MonoBehaviour {
 			if (UIManager.control != null) {
 				PlayClick01 ();
 				if (isRight) {
-					Debug.Log ("RightHand Button");
-					isRightHand = true;
+					
 					UIManager.control.isRightHand = true;
 					selector.transform.position = rightHand.transform.position;
+
 				} else {
-					Debug.Log ("LeftHand Button");
-					isRightHand = false;
 					UIManager.control.isRightHand = false;
 					selector.transform.position = leftHand.transform.position;
+
 				}
 			}
 
@@ -54,8 +57,8 @@ public class HandSelector : MonoBehaviour {
 		//For swap button
 		public void Swap(){
 			PlayClick01 ();
-			Debug.Log ("Swap Button");
-			if (isRightHand) {
+	
+			if (UIManager.control.isRightHand) {
 
 				SelectorState (false);
 			} else {
@@ -64,13 +67,17 @@ public class HandSelector : MonoBehaviour {
 			}
 
 		}
+			
 
 		//OnClick Methods
-
 		public void Use(){
 			PlayClick01 ();
-			Debug.Log ("Use Button");
 
+		}
+
+		public void CheckAction(bool rightHand){
+		
+			handActions.Check (rightHand); //check if it should be used or given to other hand
 		}
 
 		//SoundFX

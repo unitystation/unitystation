@@ -66,7 +66,7 @@ public class TilePrefabs : MonoBehaviour {
 	/// </summary>
 	public GameObject CreateFloorObj(Construction_Floors floorType, Vector2 position){
 		
-		GameObject floorTile = PoolManager.PoolInstantiate (floorPrefab, position, Quaternion.identity);
+		GameObject floorTile = Instantiate (floorPrefab, position, Quaternion.identity) as GameObject;
 		FloorTile tileScript = floorTile.GetComponent<FloorTile> ();
 		tileScript.SetTile (floorType, position);
 
@@ -79,7 +79,7 @@ public class TilePrefabs : MonoBehaviour {
 	/// </summary>
 	public void CreateFloor(Construction_Floors floorType, Vector2 position){
 
-		GameObject floorTile = PoolManager.PoolInstantiate (floorPrefab, position, Quaternion.identity);
+		GameObject floorTile = Instantiate (floorPrefab, position, Quaternion.identity) as GameObject;
 		FloorTile tileScript = floorTile.GetComponent<FloorTile> ();
 		tileScript.SetTile (floorType, position);
 

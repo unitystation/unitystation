@@ -7,13 +7,6 @@ public class UIManager : MonoBehaviour {
 
 	public static UIManager control;
 
-		/* This static class is intended to be
-		 * the 'go-to' class for anything UI
-		 * related. Public members + access to child
-		 * functions
-		 */
-		 
-
 		//Child Scripts
 		public ControlChat chatControl;
 		public ControlBottomUI bottomControl;
