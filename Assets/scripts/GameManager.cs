@@ -28,6 +28,15 @@ namespace SS.GameLogic {
 		public GameObject tableReRight;
 		public GameObject tableReSingle;
 
+		//Expermental Standard tables
+		public GameObject tableS_TopLeft;
+		public GameObject tableS_TopMid;
+		public GameObject tableS_TopRight;
+		public GameObject tableS_BotLeft;
+		public GameObject tableS_BotMid;
+		public GameObject tableS_BotRight;
+
+
 		public GameObject playerCamera;
 		public float panSpeed = 10.0f;
 
@@ -178,6 +187,33 @@ namespace SS.GameLogic {
 						GameObject sR = Instantiate (tableReSingle);
 						sR.transform.position = grid [i, j].transform.position;
 						break;
+
+						//Standard table mock up
+					case 'n':
+						GameObject tlS = Instantiate (tableS_TopLeft);
+						tlS.transform.position = grid [i, j].transform.position;
+						break;
+					case 'o':
+						GameObject tmS = Instantiate (tableS_TopMid);
+						tmS.transform.position = grid [i, j].transform.position;
+						break;
+					case 'p':
+						GameObject trS = Instantiate (tableS_TopRight);
+						trS.transform.position = grid [i, j].transform.position;
+						break;
+					case 'q':
+						GameObject blS = Instantiate (tableS_BotLeft);
+						blS.transform.position = grid [i, j].transform.position;
+						break;
+					case 'r':
+						GameObject bmS = Instantiate (tableS_BotMid);
+						bmS.transform.position = grid [i, j].transform.position;
+						break;
+					case 't':
+						GameObject brS = Instantiate (tableS_BotRight);
+						brS.transform.position = grid [i, j].transform.position;
+						break;
+
 				}
 				}
 			}
