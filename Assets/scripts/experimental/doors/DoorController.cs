@@ -55,13 +55,24 @@ public class DoorController : MonoBehaviour {
 			if (coll.gameObject == PlayerScript.playerControl.gameObject && isOpened) {
 				isOpened = false;
 				thisAnim.SetBool ("open", false);
-				SoundManager.control.sounds [2].Play ();
-
-
 			}
-
-
 		}
 	
 	}
+
+	public void PlayCloseSound(){
+		
+			SoundManager.control.sounds [2].time = 0;
+			SoundManager.control.sounds [2].Play ();
+
+	}
+
+	public void PlayCloseSFXshort(){
+
+		SoundManager.control.sounds [2].time = 0.6f;
+		SoundManager.control.sounds [2].Play ();
+
+	}
+
+
 }
