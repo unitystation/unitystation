@@ -14,7 +14,7 @@ namespace SS.GameLogic {
 		public GameObject floorTile;
 		public GameObject wallTile;
 
-		//EXPERIMENTAL TILES:
+		//EXPERIMENTAL TILES: - mockup
 		public GameObject airLockTile;
 		public GameObject serviceDoorTile;
 		public GameObject publicDoorTile;
@@ -23,6 +23,10 @@ namespace SS.GameLogic {
 		public GameObject hydroLeftTile;
 		public GameObject coldRoomTile;
 		public GameObject maintTile;
+		public GameObject tableReLeft;
+		public GameObject tableReMiddle;
+		public GameObject tableReRight;
+		public GameObject tableReSingle;
 
 		public GameObject playerCamera;
 		public float panSpeed = 10.0f;
@@ -157,6 +161,22 @@ namespace SS.GameLogic {
 					case 'i':
 						GameObject mT = Instantiate (maintTile);
 						mT.transform.position = grid [i, j].transform.position;
+						break;
+					case 'j':
+						GameObject lR = Instantiate (tableReLeft);
+						lR.transform.position = grid [i, j].transform.position;
+						break;
+					case 'k':
+						GameObject mR = Instantiate (tableReMiddle);
+						mR.transform.position = grid [i, j].transform.position;
+						break;
+					case 'l':
+						GameObject rR = Instantiate (tableReRight);
+						rR.transform.position = grid [i, j].transform.position;
+						break;
+					case 'm':
+						GameObject sR = Instantiate (tableReSingle);
+						sR.transform.position = grid [i, j].transform.position;
 						break;
 				}
 				}
