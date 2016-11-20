@@ -2,7 +2,7 @@
 using System.Collections;
 using SS.PlayGroup;
 
-public class DoorTile : MonoBehaviour {
+public class DoorController : MonoBehaviour {
 
 	/* QUICK MOCK UP
 	 * OF DOOR SYSTEM
@@ -11,9 +11,14 @@ public class DoorTile : MonoBehaviour {
 	public Animator thisAnim;
 	public BoxCollider2D boxColl;
 	private bool isOpened = false;
+	public string idleState;
 
 	// Use this for initialization
+	void Start(){
 
+		thisAnim.Play (idleState);
+
+	}
 
 	public void BoxCollToggleOn(){
 

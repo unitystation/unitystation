@@ -13,7 +13,16 @@ namespace SS.GameLogic {
 
 		public GameObject floorTile;
 		public GameObject wallTile;
+
+		//EXPERIMENTAL TILES:
 		public GameObject airLockTile;
+		public GameObject serviceDoorTile;
+		public GameObject publicDoorTile;
+		public GameObject standardTile;
+		public GameObject barTile;
+		public GameObject hydroLeftTile;
+		public GameObject coldRoomTile;
+		public GameObject maintTile;
 
 		public GameObject playerCamera;
 		public float panSpeed = 10.0f;
@@ -116,12 +125,40 @@ namespace SS.GameLogic {
 						ft.SetActive(true);
 						thisTileManager.addObject(ft, ItemTile.Tile);
 						break;
+						//EXPERIMENTING: -doobly
 					case 'a':
-						//kaffo no idea wtf I am doing but just mocking this up - Doobly
 						GameObject al = Instantiate (airLockTile);
 						al.transform.position = grid [i, j].transform.position;
 						break;
-					}
+					case 'b':
+						GameObject sD = Instantiate (serviceDoorTile);
+						sD.transform.position = grid [i, j].transform.position;
+						break;
+					case 'c':
+						GameObject pD = Instantiate (publicDoorTile);
+						pD.transform.position = grid [i, j].transform.position;
+						break;
+					case 'd':
+					GameObject sT = Instantiate (standardTile);
+					sT.transform.position = grid [i, j].transform.position;
+					break;
+					case 'e':
+						GameObject bT = Instantiate (barTile);
+						bT.transform.position = grid [i, j].transform.position;
+						break;
+					case 'g':
+						GameObject hT = Instantiate (hydroLeftTile);
+						hT.transform.position = grid [i, j].transform.position;
+						break;
+					case 'h':
+						GameObject cT = Instantiate (coldRoomTile);
+						cT.transform.position = grid [i, j].transform.position;
+						break;
+					case 'i':
+						GameObject mT = Instantiate (maintTile);
+						mT.transform.position = grid [i, j].transform.position;
+						break;
+				}
 				}
 			}
 		}
