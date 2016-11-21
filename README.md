@@ -9,12 +9,12 @@ IRC: ##unitystation on freenode
 
 ## Feel like getting involved?
 
-1> Fork the repo
-2> Open the Kitchen-Reconstruct scene in Assets/scenes
-3> Adjust the Game viewport aspect ratio to 16:9
-4> Once finished, submit a pull request
+1> Fork the repo<br>
+2> Open the Kitchen-Reconstruct scene in Assets/scenes<br>
+3> Adjust the Game viewport aspect ratio to 16:9<br>
+4> Once finished, submit a pull request<br>
 
-If you are working on the network code, you must download the Photon Network free plugin
+If you are working on the network code, you must download the Photon Network free plugin<br>
 from the unity store and request the server key from ##unitystation on freenode.
 
 LICENSE
