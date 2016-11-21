@@ -9,7 +9,7 @@ IRC: ##unitystation on freenode
 <br>
 
 ## Feel like getting involved?
-
+<br>
 1> Fork the repo<br>
 2> Open the Kitchen-Reconstruct scene in Assets/scenes<br>
 3> Adjust the Game viewport aspect ratio to 16:9<br>
