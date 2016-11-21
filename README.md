@@ -8,7 +8,7 @@ For sporatic development in Unity 5.4+
 IRC: ##unitystation on freenode
 
 ## Feel like getting involved?
-<br><br>
+<br>
 
 1> Fork the repo<br>
 2> Open the Kitchen-Reconstruct scene in Assets/scenes<br>
