@@ -13,7 +13,7 @@ IRC: ##unitystation on freenode
 1> Fork the repo<br>
 2> Open the Kitchen-Reconstruct scene in Assets/scenes<br>
 3> Adjust the Game viewport aspect ratio to 16:9<br>
-4> Add your changes (not sure what you can do to help? check the wiki)<br>
+4> Add your changes (not sure what you can do to help? check the [wiki](https://github.com/unitystation/unitystation/wiki))<br>
 5> Submit a pull request<br>
 
 Our current focus is creating a rough prototype of the kitchen department from<br>
