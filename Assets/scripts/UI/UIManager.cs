@@ -63,29 +63,7 @@ public class UIManager : MonoBehaviour {
 			isRightHand = true;
 		}
 
-
-		//very basic at the moment, under dev (this was built for the kitchen knife which itemNum = 6)
-		public void PickUpObject(Sprite itemSprite, int itemNum){
-
-			if (PlayerScript.playerControl != null) {
-				if (isRightHand && !PlayerScript.playerControl.playerSprites.isRightHandFull) {
-					handSelector.rightRend.sprite = itemSprite;
-					handSelector.rightRend.enabled = true;
-					PlayerScript.playerControl.playerSprites.isRightHandSelector = true;
-					PlayerScript.playerControl.playerSprites.isRightHandFull = true;
-					PlayerScript.playerControl.playerSprites.PickedUpItem (itemNum);
 			
-				} else if (!isRightHand && !PlayerScript.playerControl.playerSprites.isLeftHandFull) {
-					handSelector.leftRend.sprite = itemSprite;
-					handSelector.leftRend.enabled = true;
-					PlayerScript.playerControl.playerSprites.isRightHandSelector = false;
-					PlayerScript.playerControl.playerSprites.isLeftHandFull = true;
-					PlayerScript.playerControl.playerSprites.PickedUpItem (itemNum);
-			
-				}
-			}
-
-		}
 
 			
 }

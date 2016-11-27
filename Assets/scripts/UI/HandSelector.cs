@@ -75,10 +75,10 @@ public class HandSelector : MonoBehaviour {
 
 		}
 
-		public void CheckAction(bool rightHand){
-		
-			handActions.Check (rightHand); //check if it should be used or given to other hand
-		}
+//		public void CheckAction(bool rightHand){
+//		
+//			handActions.Check (rightHand); //check if it should be used or given to other hand
+//		}
 
 		//SoundFX
 

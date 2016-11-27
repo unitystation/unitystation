@@ -1,59 +1,50 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Items;
 
 namespace UI{
-	[RequireComponent (typeof (Image))]
+	
 public class UI_ItemSlot : MonoBehaviour {
 
+		public bool isFull{ get{ if (inHandItem == null) {
+					                 return false;
+		                             } else {
+			                         return true;
+		                             } } }
+		public GameObject inHandItem;
 
-		private Image thisImg;
 
 	// Use this for initialization
 	void Start () {
-			thisImg = GetComponent<Image> ();
-			thisImg.sprite = null;
-			thisImg.enabled = false;
+			
+
 	}
+
+		public void AddItem(GameObject itemObj){
+		
+			if (!isFull) {
+			
+				inHandItem = itemObj;
+				itemObj.transform.position = transform.position;
+				itemObj.transform.parent = this.gameObject.transform;
+
+				ItemUI_Tracker itemTracker = itemObj.GetComponent<ItemUI_Tracker> ();
+				if (itemTracker == null) {
+					itemObj.AddComponent<ItemUI_Tracker> ();
+				}
+
+			
+			} else {
+			
+				Debug.Log ("This slot is full, you cannot put an item here");
+			
+			}
+		
+		}
+
 	
-		//as mentioned, using sprites for time being until items implemented
-		public void AddItem(Sprite item){
-			if (thisImg.sprite == null) {
-				//Item Adding allowed
-				thisImg.sprite = item;
-				thisImg.enabled = true;
-			
-			} else {
-			
-				Debug.Log ("Cannot add item, slot is full");
-			
-			}
-		
-		}
-
-		public Sprite GetItem(){
-
-
-			return thisImg.sprite;
-		}
-
-		public bool isFull(){
-		
-			Sprite itemCheck = thisImg.sprite;
-			if (itemCheck != null) {
-				return true;
-			} else {
-				return false;
-			}
-		
-		}
-
-		public void Clear(){
-
-			thisImg.sprite = null;
-			thisImg.enabled = false;
-
-		}
+	
 
 }
 }
