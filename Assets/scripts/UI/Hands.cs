@@ -15,9 +15,6 @@ public class Hands : MonoBehaviour {
 		public UI_ItemSlot leftSlot;
 		public UI_ItemSlot rightSlot;
 
-
-	
-
 		//components
 		[HideInInspector]
 		public HandActions handActions;

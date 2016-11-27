@@ -5,6 +5,9 @@ namespace UI{
 public class ControlBottomUI : MonoBehaviour {
 
 
+		public UI_ItemSlot storage01Slot;
+		public UI_ItemSlot storage02Slot;
+
 		/* 
 		 * Button OnClick methods
 		 */
@@ -37,13 +40,38 @@ public class ControlBottomUI : MonoBehaviour {
 
 		public void Storage01(){
 			PlayClick01 ();
-			Debug.Log ("Storage01 Button");
+			if (!storage01Slot.isFull) {
+				if (UIManager.control.isRightHand && UIManager.control.hands.rightSlot.isFull) {
+			
+					storage01Slot.AddItem (UIManager.control.hands.rightSlot.inHandItem);
+					UIManager.control.hands.rightSlot.inHandItem = null;
+			
+				} else if (!UIManager.control.isRightHand && UIManager.control.hands.leftSlot.isFull) {
+
+					storage01Slot.AddItem (UIManager.control.hands.leftSlot.inHandItem);
+					UIManager.control.hands.leftSlot.inHandItem = null;
+
+				}
+			}
 
 		}
 
 		public void Storage02(){
 			PlayClick01 ();
-			Debug.Log ("Storage02 Button");
+
+			if (!storage02Slot.isFull) {
+				if (UIManager.control.isRightHand && UIManager.control.hands.rightSlot.isFull) {
+
+					storage02Slot.AddItem (UIManager.control.hands.rightSlot.inHandItem);
+					UIManager.control.hands.rightSlot.inHandItem = null;
+
+				} else if (!UIManager.control.isRightHand && UIManager.control.hands.leftSlot.isFull) {
+
+					storage02Slot.AddItem (UIManager.control.hands.leftSlot.inHandItem);
+					UIManager.control.hands.leftSlot.inHandItem = null;
+
+				}
+			}
 
 		}
 			
