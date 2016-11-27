@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour {
 		//Child Scripts
 		public ControlChat chatControl;
 		public ControlBottomUI bottomControl;
-		public HandSelector handSelector;
+		public Hands hands;
 		public ControlIntent intentControl;
 		public ControlAction actionControl;
 		public ControlWalkRun walkRunControl;

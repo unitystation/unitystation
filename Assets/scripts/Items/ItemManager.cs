@@ -46,12 +46,12 @@ public class ItemManager : MonoBehaviour {
 				if (UIManager.control.isRightHand) {
 				
 					//TODO move the whole item into the hand
-					UIManager.control.handSelector.rightSlot.AddItem(itemObject);
+					UIManager.control.hands.rightSlot.AddItem(itemObject);
 				
 				
 				} else if (!UIManager.control.isRightHand) {
 				
-					UIManager.control.handSelector.leftSlot.AddItem(itemObject);
+					UIManager.control.hands.leftSlot.AddItem(itemObject);
 				
 				
 				}

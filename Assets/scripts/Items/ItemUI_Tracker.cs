@@ -16,6 +16,9 @@ public class ItemUI_Tracker : MonoBehaviour, IPointerClickHandler {
 		//Scale cache
 		private Vector2 IGscale;
 
+
+		public SlotType slotType { get; set; }
+
 	// Use this for initialization
 	void Start () {
 
@@ -34,7 +37,7 @@ public class ItemUI_Tracker : MonoBehaviour, IPointerClickHandler {
 		public void OnPointerClick(PointerEventData eventData){
 
 			Debug.Log ("Clicked on item " + gameObject.name);
-
+			UIManager.control.hands.handActions.ActionLogic (slotType);
 
 		}
 

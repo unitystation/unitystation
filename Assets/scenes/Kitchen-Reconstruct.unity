@@ -597,6 +597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inHandItem: {fileID: 0}
+  thisSlot: 0
 --- !u!1001 &121138884
 Prefab:
   m_ObjectHideFlags: 0
@@ -1626,8 +1627,6 @@ MonoBehaviour:
   rightHand: {fileID: 302397549}
   leftSlot: {fileID: 571428046}
   rightSlot: {fileID: 110500995}
-  rightRend: {fileID: 0}
-  leftRend: {fileID: 0}
   handActions: {fileID: 0}
 --- !u!222 &492534931
 CanvasRenderer:
@@ -2188,6 +2187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inHandItem: {fileID: 0}
+  thisSlot: 1
 --- !u!1 &615747749
 GameObject:
   m_ObjectHideFlags: 0
@@ -4277,7 +4277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chatControl: {fileID: 662261741}
   bottomControl: {fileID: 1008319305}
-  handSelector: {fileID: 492534930}
+  hands: {fileID: 492534930}
   intentControl: {fileID: 186278450}
   actionControl: {fileID: 1368860943}
   walkRunControl: {fileID: 1830305085}

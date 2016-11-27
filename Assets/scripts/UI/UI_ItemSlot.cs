@@ -4,6 +4,15 @@ using System.Collections;
 using Items;
 
 namespace UI{
+
+	public enum SlotType{
+
+		rightHand,
+		leftHand,
+		storage01,
+		storage02
+
+	}
 	
 public class UI_ItemSlot : MonoBehaviour {
 
@@ -13,6 +22,7 @@ public class UI_ItemSlot : MonoBehaviour {
 			                         return true;
 		                             } } }
 		public GameObject inHandItem;
+		public SlotType thisSlot;
 
 
 	// Use this for initialization
@@ -24,15 +34,18 @@ public class UI_ItemSlot : MonoBehaviour {
 		public void AddItem(GameObject itemObj){
 		
 			if (!isFull) {
-			
+				
+				ItemUI_Tracker itemTracker = itemObj.GetComponent<ItemUI_Tracker> ();
+				if (itemTracker == null) {
+					itemTracker = itemObj.AddComponent<ItemUI_Tracker> ();
+				}
+				itemTracker.slotType = thisSlot;
+
 				inHandItem = itemObj;
 				itemObj.transform.position = transform.position;
 				itemObj.transform.parent = this.gameObject.transform;
 
-				ItemUI_Tracker itemTracker = itemObj.GetComponent<ItemUI_Tracker> ();
-				if (itemTracker == null) {
-					itemObj.AddComponent<ItemUI_Tracker> ();
-				}
+
 
 			
 			} else {

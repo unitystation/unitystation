@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 namespace UI{
-public class HandSelector : MonoBehaviour {
+public class Hands : MonoBehaviour {
 		//Handles left and right hand + selector
 
 		// gObjs
@@ -16,9 +16,7 @@ public class HandSelector : MonoBehaviour {
 		public UI_ItemSlot rightSlot;
 
 
-		//items
-		public Image rightRend;
-		public Image leftRend;
+	
 
 		//components
 		[HideInInspector]
