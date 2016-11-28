@@ -29,6 +29,8 @@ public class ItemManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+   
 	
 	}
 	
@@ -39,6 +41,9 @@ public class ItemManager : MonoBehaviour {
 
 
 		public void PickUpObject(GameObject itemObject){
+
+            ItemAttributes attributes = itemObject.GetComponent<ItemAttributes>();
+            PlayerSprites pSprites = PlayerScript.playerControl.playerSprites;
 
 			//determine what hand is selected and if it is full
 			if(PlayerScript.playerControl != null){
@@ -60,8 +65,9 @@ public class ItemManager : MonoBehaviour {
 
 			}
 
+            pSprites.PickedUpItem(6); //hard coded to kitchen knife data temporarily
 
-
+            
 			//TODO: communicate with playersprites and give it a reference to the items
 			//TODO: carring sprites (lefthand, righthand etc). Remember to check if it is
 			//TODO: right or left hand aswell.

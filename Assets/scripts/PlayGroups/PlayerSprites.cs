@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UI;
 
 
 namespace PlayGroup{
@@ -66,6 +67,12 @@ public class PlayerSprites : MonoBehaviour {
 		public bool isRightHandSelector = true;
 
 
+        /// <summary>
+        /// Holds direction all sprites are currently facing
+        /// </summary>
+        public Vector2 currentDirection;
+
+
 
 
 	// Use this for initialization
@@ -75,8 +82,10 @@ public class PlayerSprites : MonoBehaviour {
 
 			StartCoroutine (LoadSpriteSheets ()); //load sprite sheet resources
 
+
 			isRightHandFull = false;
 			isLeftHandFull = false;
+            currentDirection = Vector2.down;
 
 
 
@@ -144,7 +153,7 @@ public class PlayerSprites : MonoBehaviour {
 			}
 
 
-	
+            currentDirection = direction;
 
 
 		}
@@ -154,6 +163,8 @@ public class PlayerSprites : MonoBehaviour {
 
 			int itemSelector;
 			if (spriteNum == 6) { //kitchen knifeitem
+
+                Debug.Log("Picked up kitchen knife");
 			
 				itemSelector = 502; //kitchen handitem int for kitchen knife
 				//yes this needs alot of refactoring until the suckiness has been disolved - doobly
@@ -163,23 +174,32 @@ public class PlayerSprites : MonoBehaviour {
 
 			}
 
+            isRightHandSelector = UIManager.control.isRightHand;
+
 			if (isRightHandSelector) {
-			
+              
 				baseSprites.rightH = itemSelector;
-				rightHandRend.sprite = rightHandSheet [baseSprites.rightH];
-			
-			} else {
+                isRightHandFull = true;
+                //rightHandRend.sprite = rightHandSheet [baseSprites.rightH];
+
+                ChangeDirRightItem(currentDirection); //sets sprite direction to direction player is currently facing
+
+            } else {
 			
 				baseSprites.leftH = itemSelector;
-				leftHandRend.sprite = leftHandSheet [baseSprites.leftH];
+                isLeftHandFull = true;
+                //leftHandRend.sprite = leftHandSheet [baseSprites.leftH];
+
+                ChangeDirLeftItem(currentDirection); //sets sprite direction to direction player is currently facing
 
 			
 			}
 		}
 
-				void ChangeDirLeftItem(Vector2 direction){
-			
-			if (leftHandRend != null && isLeftHandFull) {
+		void ChangeDirLeftItem(Vector2 direction){
+            
+			if (isLeftHandFull) {
+                
 			
 				if (direction == Vector2.down) {
 				//down sprite
@@ -207,8 +227,8 @@ public class PlayerSprites : MonoBehaviour {
 				}
 
 		void ChangeDirRightItem(Vector2 direction){
-
-			if (rightHandRend != null && isRightHandFull) {
+         
+            if (isRightHandFull) {
 
 				if (direction == Vector2.down) {
 					//down sprite
