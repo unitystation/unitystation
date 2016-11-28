@@ -81,6 +81,7 @@ namespace UI{
 		{
 			
 
+
 			chatInputWindow.SetActive (false);
 
 //			ChatPanel.gameObject.SetActive(false);
@@ -103,11 +104,26 @@ namespace UI{
 			}
 		}
 
+		void OnLevelWasLoaded(){
+
+			if (chatClient != null) {
+				if (chatClient.CanChat) {
+				
+					UserIdFormPanel.SetActive (false);
+				
+				}
+			
+			
+			}
+
+
+		}
+
 		public void Connect()
 		{
-
-			SoundManager.control.sounds [5].Play ();
-
+			if (SoundManager.control != null) {
+				SoundManager.control.sounds [5].Play ();
+			}
 			UserName = usernameInput.text;
 			this.chatClient = new ChatClient(this);
 			this.chatClient.Connect(ChatAppId, "1.0", new ExitGames.Client.Photon.Chat.AuthenticationValues(UserName));
@@ -132,6 +148,15 @@ namespace UI{
 			if (this.chatClient != null)
 			{
 				this.chatClient.Service(); // make sure to call this regularly! it limits effort internally, so calling often is ok!
+			}
+
+			if (chatClient != null) {
+				if (chatClient.CanChat && !GameData.control.isInGame && Managers.control.tempSceneButton) {
+					//TODO: Remove this when a better transition handler is implemented 
+					Managers.control.tempSceneButton.SetActive (true);
+			
+			
+				}
 			}
 
 			if (chatClient != null) {

@@ -69,9 +69,10 @@ public class DoorController : MonoBehaviour {
 
 	public void PlayCloseSFXshort(){
 
-		SoundManager.control.sounds [2].time = 0.6f;
-		SoundManager.control.sounds [2].Play ();
-
+		if (SoundManager.control != null) {
+			SoundManager.control.sounds [2].time = 0.6f;
+			SoundManager.control.sounds [2].Play ();
+		}
 	}
 
 

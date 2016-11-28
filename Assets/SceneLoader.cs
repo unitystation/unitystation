@@ -14,9 +14,17 @@ public class SceneLoader : MonoBehaviour {
 	
 	}
 
-	public void OnClick(){
+	public void GoToKitchen(){
 
+		SoundManager.control.sounds [5].Play ();
 		SceneManager.LoadSceneAsync ("Kitchen-Reconstruct");
+
+
+	}
+
+	public void GoToLobby(){
+		SoundManager.control.sounds [5].Play ();
+		SceneManager.LoadSceneAsync ("Lobby");
 
 	}
 }

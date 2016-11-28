@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour {
 	// Use this for initialization
 	public AudioSource[] sounds;
 	public AudioSource[] musicTracks;
+	public AudioSource[] ambientTracks;
 
 	void Awake () {
 
@@ -15,9 +16,9 @@ public class SoundManager : MonoBehaviour {
 			control = this;
 		
 		} else {
+
 		
-		
-			Destroy (control);
+			Destroy (this);
 		
 		}
 
@@ -33,10 +34,31 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
-	public void PlayRandomTrack(){
+	public void StopAmbient(){
+	
+		foreach (AudioSource source in ambientTracks) {
+		
+			source.Stop ();
+		
+		}
+	
+	}
 
+	public void PlayRandomTrack(){
+		StopMusic ();
 		int randTrack = Random.Range (0, musicTracks.Length);
 		musicTracks [randTrack].Play ();
 
+	}
+
+	public void PlayVarAmbient(int variant){
+	//TODO ADD MORE AMBIENT VARIANTS
+		if (variant == 0) {
+		
+			ambientTracks [0].Play ();
+			ambientTracks [1].Play ();
+		
+		}
+	
 	}
 }
