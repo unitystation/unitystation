@@ -11,6 +11,7 @@ namespace UI{
 	public class ControlChat : MonoBehaviour,IChatClientListener  
 	{
 
+
 		public string ChatAppId; // set in inspector
 
 		public string[] ChannelsToJoinOnConnect; // set in inspector
@@ -74,10 +75,11 @@ namespace UI{
 			"\t<color=#E07B00>\\clear</color>";
 
 
+
+
 		public void Start()
 		{
-			DontDestroyOnLoad(gameObject);
-			Application.runInBackground = true; // this must run in background or it will drop connection if not focussed.
+			
 
 			chatInputWindow.SetActive (false);
 
@@ -91,9 +93,9 @@ namespace UI{
 
 			bool _AppIdPresent = string.IsNullOrEmpty(ChatAppId);
 		
-
-			this.UserIdFormPanel.gameObject.SetActive(!_AppIdPresent);
-
+			if (UserIdFormPanel != null) {
+				this.UserIdFormPanel.gameObject.SetActive (!_AppIdPresent);
+			}
 			if (string.IsNullOrEmpty(ChatAppId))
 			{
 				Debug.LogError("You need to set the chat app ID in the inspector in order to continue.");
@@ -104,13 +106,13 @@ namespace UI{
 		public void Connect()
 		{
 
-			SoundManager.control.sounds [0].Play ();
+			SoundManager.control.sounds [5].Play ();
 
 			UserName = usernameInput.text;
 			this.chatClient = new ChatClient(this);
 			this.chatClient.Connect(ChatAppId, "1.0", new ExitGames.Client.Photon.Chat.AuthenticationValues(UserName));
 			this.UserIdFormPanel.gameObject.SetActive(false);
-
+			Debug.Log ("ATTEMPTING CONNECT");
 			ReportToChannel ("Connecting as: " + UserName);
 
 		
@@ -347,7 +349,7 @@ namespace UI{
 		{
 			// use OnConnected() and OnDisconnected()
 			// this method might become more useful in the future, when more complex states are being used.
-
+			Debug.Log(state.ToString());
 			ReportToChannel( state.ToString());
 		}
 
