@@ -44,7 +44,7 @@ public class PlayerScript : MonoBehaviour {
 
 			//Add player sprite controller component
 		playerSprites = gameObject.AddComponent<PlayerSprites> ();
-		SetPlayerPrefs ();
+			Invoke ("SetPlayerPrefs", 0.1f);
 
 		//SPAWN POSITION
 	

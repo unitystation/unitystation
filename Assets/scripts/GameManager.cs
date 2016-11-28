@@ -22,12 +22,12 @@ namespace SS.GameLogic {
 
 		private int[] currentGrid;
 
-		public GameObject UI;
+	
 
 		// Use this for initialization
 		void Start () {
 
-			UI.SetActive (true);
+		
         }
 		
 		// Update is called once per frame

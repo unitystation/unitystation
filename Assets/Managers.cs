@@ -6,10 +6,11 @@ public class Managers : MonoBehaviour {
 	public static Managers control;
 	// Use this for initialization
 
-	[Header("For scene setup functions")]
+	[Header("For scene setup functions")] //FIXME Maybe move this to game manager?
 	public GameObject logInWindow;
 	public GameObject backGround;
 	public GameObject[] UIObjs;
+	public GameObject UIParent;
 
 	//Temp buttons
 	public GameObject tempSceneButton;
@@ -42,6 +43,8 @@ public class Managers : MonoBehaviour {
 	}
 
 	public void SetScreenForGame(){
+
+		UIParent.SetActive (true);
 		foreach (GameObject obj in UIObjs) {
 			obj.SetActive (true);
 		}

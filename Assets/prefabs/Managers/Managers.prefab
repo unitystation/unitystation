@@ -6464,6 +6464,7 @@ MonoBehaviour:
   UIObjs:
   - {fileID: 1000014021210678}
   - {fileID: 1000010229261316}
+  UIParent: {fileID: 1000014097366502}
   tempSceneButton: {fileID: 1000013937755262}
   tempMenuButton: {fileID: 1000012727165598}
 --- !u!114 &114000013416232466
@@ -6941,7 +6942,6 @@ MonoBehaviour:
   gridSizeY: 100
   playerCamera: {fileID: 0}
   panSpeed: 10
-  UI: {fileID: 1000014097366502}
 --- !u!114 &114000013918602952
 MonoBehaviour:
   m_ObjectHideFlags: 1
