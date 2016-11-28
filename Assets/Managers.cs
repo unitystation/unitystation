@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UI;
 
 public class Managers : MonoBehaviour {
 
 	public static Managers control;
 	// Use this for initialization
 
-	[Header("For scene setup functions")] //FIXME Maybe move this to game manager?
+	[Header("For scene setup functions")] //FIXME Maybe move this to game manager? or it's own component
 	public GameObject logInWindow;
 	public GameObject backGround;
 	public GameObject[] UIObjs;
@@ -61,8 +62,10 @@ public class Managers : MonoBehaviour {
 	}
 
 	public void SetScreenForLobby(){
+		
 		SoundManager.control.StopAmbient ();
 		SoundManager.control.PlayRandomTrack ();
+		UIManager.control.ResetUI (); //Make sure UI is back to default for next play
 		foreach (GameObject obj in UIObjs) {
 			obj.SetActive (false);
 		}

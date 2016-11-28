@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cd06091d1a8a4dfcad8c79152a5b230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedPickUp: 0
+  allowedPickUp: 1
 --- !u!114 &114000012876358140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -155,7 +155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb6de02c1f78243d28f8fe7dc157c40f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedPickUp: 0
 --- !u!212 &212000011121867930
 SpriteRenderer:
   m_ObjectHideFlags: 1
