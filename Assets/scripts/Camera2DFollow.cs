@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using SS.PlayGroup;
+using PlayGroup;
 
 
 public class Camera2DFollow : MonoBehaviour {

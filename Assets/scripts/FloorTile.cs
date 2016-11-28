@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using SS.TileTypes;
+using TileTypes;
 
 public class FloorTile : MonoBehaviour {
 

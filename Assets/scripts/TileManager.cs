@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using SS.GameLogic;
+using Game;
 
 public class TileManager : MonoBehaviour {
 	public GameManager gameManager;

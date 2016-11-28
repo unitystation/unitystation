@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using SS.GameLogic;
+using Game;
 
 
-namespace SS.PlayGroup{
+namespace PlayGroup{
 	
 	[RequireComponent (typeof (Rigidbody2D))]
 

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using SS.TileTypes;
+using TileTypes;
 
-namespace SS.GameLogic {
+namespace Game {
 	
 	public class GameManager : MonoBehaviour {
 		

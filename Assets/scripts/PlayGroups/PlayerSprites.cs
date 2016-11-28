@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-namespace SS.PlayGroup{
+namespace PlayGroup{
 	[RequireComponent (typeof (SpriteRenderer))]
 
 	public class CustomPlayerPrefs{

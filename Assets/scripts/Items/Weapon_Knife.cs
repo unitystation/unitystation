@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UI;
-using SS.PlayGroup;
+using PlayGroup;
 
 namespace Items
 {

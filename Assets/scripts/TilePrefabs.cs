@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using SS.TileTypes;
+using TileTypes;
 
 
 public class TilePrefabs : MonoBehaviour {
@@ -89,7 +89,7 @@ public class TilePrefabs : MonoBehaviour {
 }
 
 //TYPES
-namespace SS.TileTypes{
+namespace TileTypes{
 
 	// Making the names the same as the name of the individual sprite 
 	// to make them easier to find and reference

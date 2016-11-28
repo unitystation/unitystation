@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using SS.GameLogic;
+using Game;
 
-namespace SS.PlayGroup{
+namespace PlayGroup{
 public class PlayerScript : MonoBehaviour {
 	public static PlayerScript playerControl;
 			
