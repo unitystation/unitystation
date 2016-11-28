@@ -62,7 +62,7 @@ public class Managers : MonoBehaviour {
 	}
 
 	public void SetScreenForLobby(){
-		
+		UIParent.SetActive (true);
 		SoundManager.control.StopAmbient ();
 		SoundManager.control.PlayRandomTrack ();
 		UIManager.control.ResetUI (); //Make sure UI is back to default for next play

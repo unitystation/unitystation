@@ -1736,7 +1736,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4000010195898290
 Transform:
   m_ObjectHideFlags: 1
@@ -4267,7 +4267,7 @@ MonoBehaviour:
   ChannelsToJoinOnConnect:
   - OOC
   FriendsList: []
-  HistoryLengthToFetch: 0
+  HistoryLengthToFetch: 20
   chatInputWindow: {fileID: 1000011635563088}
   usernameInput: {fileID: 114000013622212546}
   ChatPanel: {fileID: 224000013039774820}
@@ -4696,7 +4696,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114000011395555042}
   m_HandleRect: {fileID: 224000013013640096}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8080,7 +8080,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -4.069031, y: 0.000045776367}
-  m_SizeDelta: {x: 453, y: 0}
+  m_SizeDelta: {x: 453, y: -471.87366}
   m_Pivot: {x: 0.5000001, y: 1}
 --- !u!224 &224000010560618318
 RectTransform:
@@ -8876,7 +8876,7 @@ RectTransform:
   m_Father: {fileID: 224000014123975936}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.9999999}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
