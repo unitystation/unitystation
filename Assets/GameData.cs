@@ -47,6 +47,12 @@ public class GameData : MonoBehaviour {
 	void OnApplicationQuit() {
 
 		SaveData ();
+
+	}
+
+	void Start(){
+
+		OnLevelWasLoaded ();
 	}
 
 	void OnLevelWasLoaded(){

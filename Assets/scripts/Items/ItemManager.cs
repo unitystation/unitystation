@@ -40,12 +40,12 @@ public class ItemManager : MonoBehaviour {
 
 		public void PickUpObject(GameObject itemObject){
 
-			//TODO determine what hand is selected and if it is full
+			//determine what hand is selected and if it is full
 			if(PlayerScript.playerControl != null){
 
 				if (UIManager.control.isRightHand) {
 				
-					//TODO move the whole item into the hand
+					//move the whole item into the hand
 					UIManager.control.hands.rightSlot.AddItem(itemObject);
 				
 				

@@ -6,6 +6,7 @@ public class SoundManager : MonoBehaviour {
 	public static SoundManager control;
 	// Use this for initialization
 	public AudioSource[] sounds;
+	public AudioSource[] musicTracks;
 
 	void Awake () {
 
@@ -20,6 +21,22 @@ public class SoundManager : MonoBehaviour {
 		
 		}
 
+
+	}
+
+	public void StopMusic(){
+
+		foreach (AudioSource track in musicTracks) {
+		
+			track.Stop ();
+		}
+
+	}
+
+	public void PlayRandomTrack(){
+
+		int randTrack = Random.Range (0, musicTracks.Length);
+		musicTracks [randTrack].Play ();
 
 	}
 }

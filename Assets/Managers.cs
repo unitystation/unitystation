@@ -42,11 +42,12 @@ public class Managers : MonoBehaviour {
 		}
 		backGround.SetActive (false);
 		logInWindow.SetActive (false);
+		SoundManager.control.StopMusic ();
 
 	}
 
 	public void SetScreenForLobby(){
-
+		SoundManager.control.PlayRandomTrack ();
 		foreach (GameObject obj in UIObjs) {
 			obj.SetActive (false);
 		}
