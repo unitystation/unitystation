@@ -2828,7 +2828,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 114000013483420028}
+  m_TargetGraphic: {fileID: 0}
   m_TextComponent: {fileID: 114000012038767178}
   m_Placeholder: {fileID: 0}
   m_ContentType: 0
@@ -4270,7 +4270,7 @@ MonoBehaviour:
   HistoryLengthToFetch: 20
   chatInputWindow: {fileID: 1000011635563088}
   usernameInput: {fileID: 114000013622212546}
-  ChatPanel: {fileID: 224000013039774820}
+  ChatPanel: {fileID: 224000010560618318}
   UserIdFormPanel: {fileID: 1000012633117200}
   InputFieldChat: {fileID: 114000012779093844}
   CurrentChannelText: {fileID: 114000010374567280}
@@ -5196,7 +5196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33341bc2693e7494780943b3a054613d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chatNewComponent: {fileID: 0}
+  chatNewComponent: {fileID: 114000011551452100}
   idInput: {fileID: 114000013622212546}
 --- !u!114 &114000012242918242
 MonoBehaviour:
