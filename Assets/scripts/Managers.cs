@@ -7,6 +7,9 @@ public class Managers : MonoBehaviour {
 	public static Managers control;
 	// Use this for initialization
 
+	[Header("Access to other components in tree")]
+	public ControlChat chatControl;
+
 	[Header("For scene setup functions")] //FIXME Maybe move this to game manager? or it's own component
 	public GameObject logInWindow;
 	public GameObject backGround;

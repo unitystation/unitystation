@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using TileTypes;
+
 
 namespace Game {
 	

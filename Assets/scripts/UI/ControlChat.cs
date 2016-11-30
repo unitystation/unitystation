@@ -194,7 +194,7 @@ namespace UI{
 		{
 			if (this.InputFieldChat != null)
 			{
-				SoundManager.control.sounds [0].Play ();
+				SoundManager.control.sounds [5].Play ();
 				SendChatMessage(this.InputFieldChat.text);
 				this.InputFieldChat.text = "";
 				CloseChatWindow ();
@@ -202,7 +202,7 @@ namespace UI{
 		}
 
 		public void OnChatCancel(){
-			SoundManager.control.sounds [0].Play ();
+			SoundManager.control.sounds [5].Play ();
 			this.InputFieldChat.text = "";
 			CloseChatWindow ();
 

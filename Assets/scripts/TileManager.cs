@@ -19,6 +19,7 @@ public class TileManager : MonoBehaviour {
 		SpriteRenderer spriteRenderer;
 		GameObject displaySprite;
 
+		//FIXME: turf/space no longer in resources. if you want to use this then reference it directly in the inspector
 		Sprite[] spaceSheet = Resources.LoadAll<Sprite>("turf/space"); //TODO replace this with AssetBundles for proper release
 
 		myTileType = GameManager.TileType.Space;

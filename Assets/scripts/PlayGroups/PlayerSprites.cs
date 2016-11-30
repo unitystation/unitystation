@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Sprites;
 using UI;
 
 
@@ -34,17 +35,7 @@ public class PlayerSprites : MonoBehaviour {
 		private SpriteRenderer leftHandRend;
 		private SpriteRenderer rightHandRend;
 
-		private Sprite[] playerSheet;
-		private Sprite[] suitSheet;
-		private Sprite[] beltSheet;
-		private Sprite[] feetSheet;
-		private Sprite[] headSheet;
-		private Sprite[] faceSheet;
-		private Sprite[] maskSheet;
-		private Sprite[] underwearSheet;
-		private Sprite[] uniformSheet;
-		private Sprite[] leftHandSheet;
-		private Sprite[] rightHandSheet;
+	
 
 		//All sprites should be facing down by default
 		public CustomPlayerPrefs baseSprites;
@@ -105,49 +96,49 @@ public class PlayerSprites : MonoBehaviour {
 
 			if (direction == Vector2.down) {
 				
-				playerRend.sprite = playerSheet [baseSprites.body]; // 36 
-				suitRend.sprite = suitSheet [baseSprites.suit]; //236 
-				beltRend.sprite = beltSheet [baseSprites.belt]; //62 
-				headRend.sprite = headSheet [baseSprites.head]; //221 
-				feetRend.sprite = feetSheet [baseSprites.shoes]; //36 
-				underwearRend.sprite = underwearSheet [baseSprites.underWear]; //52 
-				uniformRend.sprite = uniformSheet [baseSprites.uniform]; //16
+				playerRend.sprite = SpriteManager.control.playerSprites.playerSheet [baseSprites.body]; // 36 
+				suitRend.sprite = SpriteManager.control.playerSprites.suitSheet [baseSprites.suit]; //236 
+				beltRend.sprite = SpriteManager.control.playerSprites.beltSheet [baseSprites.belt]; //62 
+				headRend.sprite = SpriteManager.control.playerSprites.headSheet [baseSprites.head]; //221 
+				feetRend.sprite = SpriteManager.control.playerSprites.feetSheet [baseSprites.shoes]; //36 
+				underwearRend.sprite = SpriteManager.control.playerSprites.underwearSheet [baseSprites.underWear]; //52 
+				uniformRend.sprite = SpriteManager.control.playerSprites.uniformSheet [baseSprites.uniform]; //16
 				ChangeDirLeftItem(direction);
 				ChangeDirRightItem(direction);
 			}
 			if (direction == Vector2.up) {
 
-				playerRend.sprite = playerSheet [baseSprites.body + 1]; 
-				suitRend.sprite = suitSheet [baseSprites.suit + 1]; 
-				beltRend.sprite = beltSheet [baseSprites.belt + 1]; 
-				headRend.sprite = headSheet [baseSprites.head + 1]; 
-				feetRend.sprite = feetSheet [baseSprites.shoes + 1]; 
-				underwearRend.sprite = underwearSheet [baseSprites.underWear + 1]; 
-				uniformRend.sprite = uniformSheet [baseSprites.uniform + 1];
+				playerRend.sprite = SpriteManager.control.playerSprites.playerSheet [baseSprites.body + 1]; 
+				suitRend.sprite = SpriteManager.control.playerSprites.suitSheet [baseSprites.suit + 1]; 
+				beltRend.sprite = SpriteManager.control.playerSprites.beltSheet [baseSprites.belt + 1]; 
+				headRend.sprite = SpriteManager.control.playerSprites.headSheet [baseSprites.head + 1]; 
+				feetRend.sprite = SpriteManager.control.playerSprites.feetSheet [baseSprites.shoes + 1]; 
+				underwearRend.sprite = SpriteManager.control.playerSprites.underwearSheet [baseSprites.underWear + 1]; 
+				uniformRend.sprite = SpriteManager.control.playerSprites.uniformSheet [baseSprites.uniform + 1];
 				ChangeDirLeftItem(direction);
 				ChangeDirRightItem(direction);
 			}
 			if (direction == Vector2.right) {
 
-				playerRend.sprite = playerSheet [baseSprites.body + 2]; 
-				suitRend.sprite = suitSheet [baseSprites.suit + 2]; 
-				beltRend.sprite = beltSheet [baseSprites.belt + 2]; 
-				headRend.sprite = headSheet [baseSprites.head + 2]; 
-				feetRend.sprite = feetSheet [baseSprites.shoes + 2]; 
-				underwearRend.sprite = underwearSheet [baseSprites.underWear + 2]; 
-				uniformRend.sprite = uniformSheet [baseSprites.uniform + 2];
+				playerRend.sprite = SpriteManager.control.playerSprites.playerSheet [baseSprites.body + 2]; 
+				suitRend.sprite = SpriteManager.control.playerSprites.suitSheet [baseSprites.suit + 2]; 
+				beltRend.sprite = SpriteManager.control.playerSprites.beltSheet [baseSprites.belt + 2]; 
+				headRend.sprite = SpriteManager.control.playerSprites.headSheet [baseSprites.head + 2]; 
+				feetRend.sprite = SpriteManager.control.playerSprites.feetSheet [baseSprites.shoes + 2]; 
+				underwearRend.sprite = SpriteManager.control.playerSprites.underwearSheet [baseSprites.underWear + 2]; 
+				uniformRend.sprite = SpriteManager.control.playerSprites.uniformSheet [baseSprites.uniform + 2];
 				ChangeDirLeftItem(direction);
 				ChangeDirRightItem(direction);
 			}
 			if (direction == Vector2.left) {
 
-				playerRend.sprite = playerSheet [baseSprites.body + 3]; 
-				suitRend.sprite = suitSheet [baseSprites.suit + 3]; 
-				beltRend.sprite = beltSheet [baseSprites.belt + 3]; 
-				headRend.sprite = headSheet [baseSprites.head + 3]; 
-				feetRend.sprite = feetSheet [baseSprites.shoes + 3]; 
-				underwearRend.sprite = underwearSheet [baseSprites.underWear + 3]; 
-				uniformRend.sprite = uniformSheet [baseSprites.uniform + 3];
+				playerRend.sprite = SpriteManager.control.playerSprites.playerSheet [baseSprites.body + 3]; 
+				suitRend.sprite = SpriteManager.control.playerSprites.suitSheet [baseSprites.suit + 3]; 
+				beltRend.sprite = SpriteManager.control.playerSprites.beltSheet [baseSprites.belt + 3]; 
+				headRend.sprite = SpriteManager.control.playerSprites.headSheet [baseSprites.head + 3]; 
+				feetRend.sprite = SpriteManager.control.playerSprites.feetSheet [baseSprites.shoes + 3]; 
+				underwearRend.sprite = SpriteManager.control.playerSprites.underwearSheet [baseSprites.underWear + 3]; 
+				uniformRend.sprite = SpriteManager.control.playerSprites.uniformSheet [baseSprites.uniform + 3];
 				ChangeDirLeftItem(direction);
 				ChangeDirRightItem(direction);
 			}
@@ -204,23 +195,23 @@ public class PlayerSprites : MonoBehaviour {
 				if (direction == Vector2.down) {
 				//down sprite
 				
-					leftHandRend.sprite = leftHandSheet [baseSprites.leftH - 3];
+					leftHandRend.sprite = SpriteManager.control.playerSprites.leftHandSheet [baseSprites.leftH - 3];
 
 				}
 				if (direction == Vector2.up) {
 				
-					leftHandRend.sprite = leftHandSheet [baseSprites.leftH - 2];
+					leftHandRend.sprite = SpriteManager.control.playerSprites.leftHandSheet [baseSprites.leftH - 2];
 				}
 
 				if (direction == Vector2.right) {
 
-					leftHandRend.sprite = leftHandSheet [baseSprites.leftH - 1];
+					leftHandRend.sprite = SpriteManager.control.playerSprites.leftHandSheet [baseSprites.leftH - 1];
 
 				}
 
 				if (direction == Vector2.left){
 
-					leftHandRend.sprite = leftHandSheet [baseSprites.leftH];
+					leftHandRend.sprite = SpriteManager.control.playerSprites.leftHandSheet [baseSprites.leftH];
 				}
 			
 			}
@@ -233,23 +224,23 @@ public class PlayerSprites : MonoBehaviour {
 				if (direction == Vector2.down) {
 					//down sprite
 
-					rightHandRend.sprite = rightHandSheet [baseSprites.rightH];
+					rightHandRend.sprite = SpriteManager.control.playerSprites.rightHandSheet [baseSprites.rightH];
 
 				}
 				if (direction == Vector2.up) {
 
-					rightHandRend.sprite = rightHandSheet [baseSprites.rightH + 1];
+					rightHandRend.sprite = SpriteManager.control.playerSprites.rightHandSheet [baseSprites.rightH + 1];
 				}
 
 				if (direction == Vector2.right) {
 
-					rightHandRend.sprite = rightHandSheet [baseSprites.rightH + 2];
+					rightHandRend.sprite = SpriteManager.control.playerSprites.rightHandSheet [baseSprites.rightH + 2];
 
 				}
 
 				if (direction == Vector2.left){
 
-					rightHandRend.sprite = rightHandSheet [baseSprites.rightH + 3];
+					rightHandRend.sprite = SpriteManager.control.playerSprites.rightHandSheet [baseSprites.rightH + 3];
 				}
 
 			}
@@ -299,19 +290,6 @@ public class PlayerSprites : MonoBehaviour {
 			} 
 
 			}
-			playerSheet = Resources.LoadAll<Sprite>("mobs/human");
-			suitSheet = Resources.LoadAll<Sprite>("mobs/suit");
-			beltSheet = Resources.LoadAll<Sprite>("mobs/belt");
-			feetSheet = Resources.LoadAll<Sprite>("mobs/feet");
-			headSheet = Resources.LoadAll<Sprite>("mobs/head");
-			faceSheet = Resources.LoadAll<Sprite>("mobs/human_face");
-			maskSheet = Resources.LoadAll<Sprite>("mobs/mask");
-			underwearSheet = Resources.LoadAll<Sprite>("mobs/underwear");
-			uniformSheet = Resources.LoadAll<Sprite>("mobs/uniform");
-			leftHandSheet = Resources.LoadAll<Sprite> ("mobs/inhands/items_lefthand");
-			rightHandSheet = Resources.LoadAll<Sprite> ("mobs/inhands/items_righthand");
-
-
 
 			yield return null;
 		
