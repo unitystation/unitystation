@@ -8,16 +8,18 @@ public class DoorController : MonoBehaviour {
 	 * OF DOOR SYSTEM
 	 */
 
-	public Animator thisAnim;
-	public BoxCollider2D boxColl;
+	private Animator thisAnim;
+	private BoxCollider2D boxColl;
 	private bool isOpened = false;
 	public string idleState;
 
 	// Use this for initialization
 	void Start(){
 
-		thisAnim.Play (idleState);
 
+		thisAnim = gameObject.GetComponent<Animator> ();
+		boxColl = gameObject.GetComponent<BoxCollider2D> ();
+		thisAnim.Play (idleState);
 	}
 
 	public void BoxCollToggleOn(){
@@ -27,7 +29,7 @@ public class DoorController : MonoBehaviour {
 	}
 
 	public void BoxCollToggleOff(){
-
+		Debug.Log ("TURN OFF COLL");
 		boxColl.enabled = false;
 
 	}
