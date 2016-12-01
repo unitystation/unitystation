@@ -65,19 +65,6 @@ public class Camera2DFollow : MonoBehaviour {
 
 			
 	}
-	
-	
-		void Update(){
-
-		//Searching stuff
-		if (PlayerScript.playerControl == null && !isSearching) {
-						isSearching = true;
-//						Debug.Log ("PLAYER LOST");
-						StartCoroutine (FindPlayer());
-						return;
-					
-				}
-		}
 
 		void LateUpdate(){
 			
@@ -125,20 +112,5 @@ public class Camera2DFollow : MonoBehaviour {
 
 		}
 
-		IEnumerator FindPlayer(){
-
-			
-
-		if (PlayerScript.playerControl != null) {
-						
-			            target = PlayerScript.playerControl.gameObject.transform;
-						
-						}
-		
-						isSearching = false;
-
-		yield return null;
-
-	}
 
 }

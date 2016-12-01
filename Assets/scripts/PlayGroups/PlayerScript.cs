@@ -5,11 +5,11 @@ using UI;
 
 namespace PlayGroup{
 public class PlayerScript : MonoBehaviour {
-	public static PlayerScript playerControl;  //TODO remove this from being a singleton as we need multiple instances for photon
-		                                       //TODO we will implement a 'isMine' bool and seperate the controls from this object
-		                                       //TODO then on spawn, set one instance of PlayerScript as isMine and the rest will be the other network players
+
 			
 	public float moveSpeed = 0.1f;
+
+	public bool isMine = false; //Is this controlled by the player or other players
 
 	[HideInInspector]
 	public PhysicsMove physicsMove;
@@ -25,19 +25,7 @@ public class PlayerScript : MonoBehaviour {
 	public int underWearNumber;
 	public int uniformNumber;
 
-	void Awake(){
 
-		if (playerControl == null) {
-		
-			playerControl = this;
-		
-		} else {
-		
-			Destroy (this);
-		
-		}
-
-	}
 
 	void Start () {
 
@@ -58,42 +46,27 @@ public class PlayerScript : MonoBehaviour {
 
 	void Update () {
 
-			//TODO input needs to be handled in one of the managers to prepare for photon implementation
+			//TODO photon input needs to be handled if the object isMine = false
 
-		if (Input.GetKeyUp (KeyCode.W) || Input.GetKeyUp (KeyCode.A) || Input.GetKeyUp (KeyCode.S) || Input.GetKeyUp (KeyCode.D)) {
-				physicsMove.MoveInputReleased ();
-		}
 
-		//hold key down inputs. clampPos is used to snap player to an axis on movement
-			if (Input.GetKey (KeyCode.D) && !physicsMove.isMoving || Input.GetKey (KeyCode.D) && physicsMove.isMoving && physicsMove._moveDirection == Vector2.left) {
-					//RIGHT
-					MovePlayer (Vector2.right);
-
-		} 
-			if (Input.GetKey (KeyCode.A) && !physicsMove.isMoving || Input.GetKey (KeyCode.A) && physicsMove.isMoving && physicsMove._moveDirection == Vector2.right) {
-			//LEFT
-				MovePlayer (Vector2.left);
-
-		}
-			if (Input.GetKey (KeyCode.S) && !physicsMove.isMoving || Input.GetKey (KeyCode.S) && physicsMove.isMoving && physicsMove._moveDirection == Vector2.up) {
-			//DOWN
-				MovePlayer (Vector2.down);
-
-		} 
-			if (Input.GetKey (KeyCode.W) && !physicsMove.isMoving || Input.GetKey (KeyCode.W) && physicsMove.isMoving && physicsMove._moveDirection == Vector2.down) {
-				MovePlayer (Vector2.up);
-
-					} 
 				
 	}
 
-		void MovePlayer(Vector2 direction){
-			if (!UIManager.control.chatControl.chatInputWindow.activeSelf) { //At the moment it just checks if the input window is open and if it is false then allow move
+		//THIS IS ONLY USED FOR LOCAL PLAYER
+		public void MovePlayer(Vector2 direction){
+			if (!UIManager.control.chatControl.chatInputWindow.activeSelf && isMine) { //At the moment it just checks if the input window is open and if it is false then allow move
 			
 			physicsMove.MoveInDirection (direction); //Tile based physics move
 			playerSprites.FaceDirection (direction); //Handles the playersprite change on direction change
 		
 		}
+		}
+
+		public void MoveNetworkPlayer(Vector2 direction){ //TODO hook up the photon recieve stream and process input for networked players
+
+				physicsMove.MoveInDirection (direction); //Tile based physics move
+				playerSprites.FaceDirection (direction); //Handles the playersprite change on direction change
+
 		}
 
 		//Temp

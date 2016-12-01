@@ -51,7 +51,11 @@ public class ControlDisplays : MonoBehaviour {
 				obj.SetActive (false);
 			}
 			backGround.SetActive (true);
-			logInWindow.SetActive (true);
+			if (parentScript.chatControl.chatClient.CanChat) {
+				logInWindow.SetActive (false);
+			} else {
+				logInWindow.SetActive (true);
+			}
 
 			//TODO remove the temp button when scene transitions completed
 			tempSceneButton.SetActive (false);

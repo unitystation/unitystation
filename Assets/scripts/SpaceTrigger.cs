@@ -11,12 +11,12 @@ public class SpaceTrigger : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D coll){
 	
 	
-		if (PlayerScript.playerControl != null) {
+		if (Managers.control.playerScript != null) {
 		
-			if (coll.gameObject == PlayerScript.playerControl.gameObject && !isSpaced) {
+			if (coll.gameObject == Managers.control.playerScript.gameObject && !isSpaced) {
 			
 				isSpaced = true;
-				PlayerScript.playerControl.physicsMove.isSpaced = true;
+				Managers.control.playerScript.physicsMove.isSpaced = true;
 			
 			}
 		

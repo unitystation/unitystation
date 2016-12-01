@@ -8,7 +8,10 @@ using System.IO;
 public class GameData : MonoBehaviour {
 
 	public static GameData control;
-//	[HideInInspector]
+
+	/// <summary>
+	/// Check to see if you are in the game or in the lobby
+	/// </summary>
 	public bool isInGame;
 
 
