@@ -1,7 +1,7 @@
 # unitystation
 ## the unity clone of ss13 using the /tg/station branch http://www.tgstation13.org/
 
-For sporatic development in Unity 5.4+
+For sporatic development in Unity 5.5+
 
 IRC: ##unitystation on freenode
 
