@@ -171,7 +171,7 @@ public class PlayerSprites : MonoBehaviour {
               
 				baseSprites.rightH = itemSelector;
                 isRightHandFull = true;
-                //rightHandRend.sprite = rightHandSheet [baseSprites.rightH];
+				rightHandRend.sprite = SpriteManager.control.playerSprites.rightHandSheet [baseSprites.rightH];
 
                 ChangeDirRightItem(currentDirection); //sets sprite direction to direction player is currently facing
 
@@ -179,7 +179,7 @@ public class PlayerSprites : MonoBehaviour {
 			
 				baseSprites.leftH = itemSelector;
                 isLeftHandFull = true;
-                //leftHandRend.sprite = leftHandSheet [baseSprites.leftH];
+				leftHandRend.sprite = SpriteManager.control.playerSprites.leftHandSheet [baseSprites.leftH];
 
                 ChangeDirLeftItem(currentDirection); //sets sprite direction to direction player is currently facing
 

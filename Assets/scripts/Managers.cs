@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using PlayGroup;
 using UI;
 
 public class Managers : MonoBehaviour {
@@ -8,8 +9,14 @@ public class Managers : MonoBehaviour {
 	// Use this for initialization
 
 	[Header("For turning UI on and off to free up the editor window")] 
-
 	public GameObject UIParent;
+
+	[Header("Network Player components")] 
+	public PlayerManager playerManager;
+	[HideInInspector]
+	public PlayerScript playerScript;
+
+
 
 
 	void Awake(){
@@ -34,13 +41,14 @@ public class Managers : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	public void SetScreenForGame(){ //Called by GameData
 
 		UIParent.SetActive (true);
 		UIManager.control.displayControl.SetScreenForGame ();
+		playerManager.CheckIfSpawned (); // See if we have already spawned a player, if not then spawn one
 
 	}
 
