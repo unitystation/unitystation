@@ -66,6 +66,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1000010212885758
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000011297088594}
+  - 114: {fileID: 114000010164742152}
+  m_Layer: 0
+  m_Name: SpriteManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1000010279805444
 GameObject:
   m_ObjectHideFlags: 1
@@ -393,6 +409,7 @@ GameObject:
   - 114: {fileID: 114000012298655256}
   - 114: {fileID: 114000011410092264}
   - 114: {fileID: 114000012974660772}
+  - 114: {fileID: 114000012084066548}
   m_Layer: 5
   m_Name: UIManager
   m_TagString: Untagged
@@ -1788,7 +1805,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000012999823996}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!4 &4000011185249108
 Transform:
   m_ObjectHideFlags: 1
@@ -1808,7 +1825,20 @@ Transform:
   - {fileID: 4000013310783830}
   - {fileID: 4000012832970182}
   m_Father: {fileID: 4000012999823996}
-  m_RootOrder: 1
+  m_RootOrder: 2
+--- !u!4 &4000011297088594
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010212885758}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000012999823996}
+  m_RootOrder: 0
 --- !u!4 &4000011572394580
 Transform:
   m_ObjectHideFlags: 1
@@ -1861,6 +1891,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 4000011297088594}
   - {fileID: 224000010065532650}
   - {fileID: 4000011185249108}
   - {fileID: 4000011118563116}
@@ -1892,7 +1923,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000012999823996}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!4 &4000014068700960
 Transform:
   m_ObjectHideFlags: 1
@@ -2901,6 +2932,17 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!114 &114000010164742152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010212885758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3714d371d4c6947228fb985f6c81e779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000010177741712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4091,15 +4133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44381d5260d14ca1aa712b1df6babc60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chatControl: {fileID: 114000014162927702}
-  logInWindow: {fileID: 1000010051852236}
-  backGround: {fileID: 1000010549696412}
-  UIObjs:
-  - {fileID: 1000012999929912}
-  - {fileID: 1000012931262478}
   UIParent: {fileID: 1000011078421622}
-  tempSceneButton: {fileID: 1000010907093534}
-  tempMenuButton: {fileID: 1000013162655868}
+  UIScript: {fileID: 114000012974660772}
 --- !u!114 &114000010914969352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5124,6 +5159,25 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114000012084066548
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011078421622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 505ea4b5b734440aaaf23b4cce7dc853, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentScript: {fileID: 114000012974660772}
+  logInWindow: {fileID: 1000010051852236}
+  backGround: {fileID: 1000010549696412}
+  UIObjs:
+  - {fileID: 1000012999929912}
+  - {fileID: 1000012931262478}
+  tempSceneButton: {fileID: 1000010907093534}
+  tempMenuButton: {fileID: 1000013162655868}
 --- !u!114 &114000012139971434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5881,6 +5935,7 @@ MonoBehaviour:
   intentControl: {fileID: 114000013984338466}
   actionControl: {fileID: 114000010717650098}
   walkRunControl: {fileID: 114000011182397268}
+  displayControl: {fileID: 114000012084066548}
 --- !u!114 &114000012993632494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7976,7 +8031,7 @@ RectTransform:
   - {fileID: 224000014293944174}
   - {fileID: 224000013429277962}
   m_Father: {fileID: 4000012999823996}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}

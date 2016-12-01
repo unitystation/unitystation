@@ -7,18 +7,9 @@ public class Managers : MonoBehaviour {
 	public static Managers control;
 	// Use this for initialization
 
-	[Header("Access to other components in tree")]
-	public ControlChat chatControl;
+	[Header("For turning UI on and off to free up the editor window")] 
 
-	[Header("For scene setup functions")] //FIXME Maybe move this to game manager? or it's own component
-	public GameObject logInWindow;
-	public GameObject backGround;
-	public GameObject[] UIObjs;
 	public GameObject UIParent;
-
-	//Temp buttons
-	public GameObject tempSceneButton;
-	public GameObject tempMenuButton;
 
 
 	void Awake(){
@@ -46,38 +37,16 @@ public class Managers : MonoBehaviour {
 	
 	}
 
-	public void SetScreenForGame(){
+	public void SetScreenForGame(){ //Called by GameData
 
 		UIParent.SetActive (true);
-		foreach (GameObject obj in UIObjs) {
-			obj.SetActive (true);
-		}
-		backGround.SetActive (false);
-		logInWindow.SetActive (false);
-		SoundManager.control.StopMusic ();
-		//TODO random ambient
-		SoundManager.control.PlayVarAmbient (0);
-
-		//TODO remove the temp button when scene transitions completed
-		tempSceneButton.SetActive (false);
-		tempMenuButton.SetActive (true);
+		UIManager.control.displayControl.SetScreenForGame ();
 
 	}
 
-	public void SetScreenForLobby(){
+	public void SetScreenForLobby(){ //Called by GameData
 		UIParent.SetActive (true);
-		SoundManager.control.StopAmbient ();
-		SoundManager.control.PlayRandomTrack ();
-		UIManager.control.ResetUI (); //Make sure UI is back to default for next play
-		foreach (GameObject obj in UIObjs) {
-			obj.SetActive (false);
-		}
-		backGround.SetActive (true);
-		logInWindow.SetActive (true);
-
-		//TODO remove the temp button when scene transitions completed
-		tempSceneButton.SetActive (false);
-		tempMenuButton.SetActive (false);
+		UIManager.control.displayControl.SetScreenForLobby ();
 
 	}
 }

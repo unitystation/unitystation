@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Game;
+using UI;
 
 namespace PlayGroup{
 public class PlayerScript : MonoBehaviour {
@@ -87,7 +88,7 @@ public class PlayerScript : MonoBehaviour {
 	}
 
 		void MovePlayer(Vector2 direction){
-		if (!Managers.control.chatControl.chatInputWindow.activeSelf) { //At the moment it just checks if the input window is open and if it is false then allow move
+			if (!UIManager.control.chatControl.chatInputWindow.activeSelf) { //At the moment it just checks if the input window is open and if it is false then allow move
 			
 			physicsMove.MoveInDirection (direction); //Tile based physics move
 			playerSprites.FaceDirection (direction); //Handles the playersprite change on direction change

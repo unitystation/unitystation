@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour {
 		public ControlIntent intentControl;
 		public ControlAction actionControl;
 		public ControlWalkRun walkRunControl;
+		public ControlDisplays displayControl;
 
 		//Members accessable for player controller
 
@@ -64,32 +65,7 @@ public class UIManager : MonoBehaviour {
 		}
 
 
-		public void ResetUI(){
 
-			//This empties all slots and returns everything back to default values, or should
-			//TODO: continue to update this when developing the UI. This is messy ATM
-
-			if (hands.rightSlot.isFull) {
-			
-				Destroy (hands.rightSlot.inHandItem);
-			}
-			if (hands.leftSlot.isFull) {
-
-				Destroy (hands.leftSlot.inHandItem);
-			}
-			if (bottomControl.storage01Slot.isFull) {
-			
-				Destroy (bottomControl.storage01Slot.inHandItem);
-			
-			}
-			if (bottomControl.storage02Slot.isFull) {
-
-				Destroy (bottomControl.storage02Slot.inHandItem);
-
-			}
-
-
-		}
 
 			
 }

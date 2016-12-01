@@ -41,38 +41,7 @@ namespace UI{
 
 
 		private string userIdInput = "";
-		private static string WelcomeText = "Welcome to chat. Type \\help to list commands.";
-		private static string HelpText = "\n    -- HELP --\n" +
-			"To subscribe to channel(s):\n" +
-			"\t<color=#E07B00>\\subscribe</color> <color=green><list of channelnames></color>\n" +
-			"\tor\n" +
-			"\t<color=#E07B00>\\s</color> <color=green><list of channelnames></color>\n" +
-			"\n" +
-			"To leave channel(s):\n" +
-			"\t<color=#E07B00>\\unsubscribe</color> <color=green><list of channelnames></color>\n" +
-			"\tor\n" +
-			"\t<color=#E07B00>\\u</color> <color=green><list of channelnames></color>\n" +
-			"\n" +
-			"To switch the active channel\n" +
-			"\t<color=#E07B00>\\join</color> <color=green><channelname></color>\n" +
-			"\tor\n" +
-			"\t<color=#E07B00>\\j</color> <color=green><channelname></color>\n" +
-			"\n" +
-			"To send a private message:\n" +
-			"\t\\<color=#E07B00>msg</color> <color=green><username></color> <color=green><message></color>\n" +
-			"\n" +
-			"To change status:\n" +
-			"\t\\<color=#E07B00>state</color> <color=green>stateIndex</color>\n" +
-			"<color=green>0</color> = Offline " +
-			"<color=green>1</color> = Invisible " +
-			"<color=green>2</color> = Online " +
-			"<color=green>3</color> = Away \n" +
-			"<color=green>4</color> = Do not disturb " +
-			"<color=green>5</color> = Looking For Group " +
-			"<color=green>6</color> = Playing\n" +
-			"\n" +
-			"To clear the current chat tab (private chats get closed):\n" +
-			"\t<color=#E07B00>\\clear</color>";
+
 
 
 
@@ -151,9 +120,9 @@ namespace UI{
 			}
 
 			if (chatClient != null) {
-				if (chatClient.CanChat && !GameData.control.isInGame && Managers.control.tempSceneButton) {
+				if (chatClient.CanChat && !GameData.control.isInGame && UIManager.control.displayControl.tempSceneButton) {
 					//TODO: Remove this when a better transition handler is implemented 
-					Managers.control.tempSceneButton.SetActive (true);
+					UIManager.control.displayControl.tempSceneButton.SetActive (true);
 			
 			
 				}
@@ -326,7 +295,7 @@ namespace UI{
 
 		public void PostHelpToCurrentChannel()
 		{
-			this.CurrentChannelText.text += HelpText;
+
 		}
 
 		public void DebugReturn(ExitGames.Client.Photon.DebugLevel level, string message)
