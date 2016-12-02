@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI;
 
 namespace Network
 {
@@ -55,6 +56,7 @@ namespace Network
 		public override void OnConnectedToMaster ()
 		{
 			Debug.Log ("ON CONNECTED CALLED ON NETWORKMANAGER");
+			PhotonNetwork.playerName = UIManager.control.chatControl.UserName;
 			PhotonNetwork.JoinRandomRoom ();
 		} 
 
