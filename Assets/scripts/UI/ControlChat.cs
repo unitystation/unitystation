@@ -346,7 +346,7 @@ namespace UI{
 			// use OnConnected() and OnDisconnected()
 			// this method might become more useful in the future, when more complex states are being used.
 			Debug.Log(state.ToString());
-			ReportToChannel( state.ToString());
+			ReportToChannel( "Server: " + state.ToString());
 		}
 
 		public void OnSubscribed(string[] channels, bool[] results)
@@ -359,7 +359,7 @@ namespace UI{
 			{
 //				this.chatClient.PublishMessage(channel, "says 'hi'."); // you don't HAVE to send a msg on join but you could.
 			
-				ReportToChannel("Welcome to unitystation. Press T to chat");
+			
 			}
 
 

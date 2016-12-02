@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UI;
 using PlayGroup;
+using UnityEngine.SceneManagement;
 
 namespace Network
 {
@@ -63,33 +64,81 @@ namespace Network
 
 		}
 
+		//Network public functions
+
+		public void LeaveMap(){
+		
+		
+			PhotonNetwork.LeaveRoom ();
+			SceneManager.LoadSceneAsync ("Lobby");
+		
+		}
+
+		public void LoadMap()
+		{
+			if (!PhotonNetwork.isMasterClient) {
+				Debug.Log ("You are not the master client, joining map");
+				SceneManager.LoadSceneAsync ("Kitchen-Reconstruct");
+			} else {
+				Debug.Log ("You are the master client, loading the level (default kitchen_construct)");
+				PhotonNetwork.LoadLevel ("Kitchen-Reconstruct");
+			}
+		}
+
 		//PUN CALLBACKS BELOW:
 
 		public override void OnConnectedToMaster ()
 		{
-			Debug.Log ("ON CONNECTED CALLED ON NETWORKMANAGER");
+			Debug.Log ("Connect to PUNderdome");
+			UIManager.control.chatControl.ReportToChannel ("Server: connecting to server...");
 			PhotonNetwork.playerName = UIManager.control.chatControl.UserName;
 			PhotonNetwork.JoinRandomRoom ();
 		} 
 
 		public override void OnDisconnectedFromPhoton ()
 		{
-			Debug.Log ("DISCONNECTED FROM PHOTON");
+			Debug.Log ("DISCONNECTED");
+			UIManager.control.chatControl.ReportToChannel ("Server: disconnected.");
 			isConnected = false;
 		}
 
 		public override void OnPhotonRandomJoinFailed (object[] codeAndMsg)
 		{
-			Debug.Log ("NO RANDOM ROOM FOUND, LETS CREATE ONE");
+			Debug.Log ("Room Join Failed, creating our own server to be loners on");
+	
 
 			PhotonNetwork.CreateRoom (null, new RoomOptions () { maxPlayers = maxPlayersOnServer }, null); //Create the room with default settings and 32 max players
 		}
 
 		public override void OnJoinedRoom ()
 		{
-			Debug.Log ("CLIENT IS NOW IN THE ROOM(SERVER)");
+			Debug.Log ("Successfully joined!");
+
+			UIManager.control.chatControl.ReportToChannel("Welcome to unitystation. Press T to chat");
 			isConnected = true;
 			PlayerManager.control.CheckIfSpawned (); // Spawn the character if in the game already (This is for development when you are working on the map scenes)
+
+			if (PhotonNetwork.isMasterClient && GameData.control.isInGame) { // This is used if you logged in while working on the map in the editor, it will set up the server aswell
+			
+				LoadMap ();
+			
+			} 
 		}
+
+		public override void OnPhotonPlayerDisconnected( PhotonPlayer other  )
+		{
+			Debug.Log( "PUNderDomePlayerDisconnected() " + other.name ); // seen when other disconnects
+
+
+		}
+
+		public override void OnPhotonPlayerConnected( PhotonPlayer other  ) 
+		{
+			Debug.Log( "OnPhotonPlayerConnected() " + other.name ); // not seen if you're the player connecting
+
+
+		}
+
+	
 }
 }
