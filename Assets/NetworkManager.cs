@@ -120,11 +120,11 @@ namespace Network
 			isConnected = true;
 			PlayerManager.control.CheckIfSpawned (); // Spawn the character if in the game already (This is for development when you are working on the map scenes)
 
-			if (PhotonNetwork.isMasterClient && GameData.control.isInGame) { // This is used if you logged in while working on the map in the editor, it will set up the server aswell
-			
-				LoadMap ();
-			
-			} 
+//			if (PhotonNetwork.isMasterClient && GameData.control.isInGame) { // This is used if you logged in while working on the map in the editor, it will set up the server aswell
+//			
+//				LoadMap ();
+//			
+//			} 
 		}
 
 		public override void OnPhotonPlayerDisconnected( PhotonPlayer other  )

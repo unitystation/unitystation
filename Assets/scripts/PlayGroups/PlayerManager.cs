@@ -81,6 +81,7 @@ namespace PlayGroup
 
 			Debug.Log ("CHECK IF SPAWNED");
 			if (!hasSpawned){
+
 				if (GameData.control.isInGame && NetworkManager.control.isConnected) {
 
 		
