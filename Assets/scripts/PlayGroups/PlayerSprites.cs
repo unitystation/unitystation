@@ -85,7 +85,7 @@ public class PlayerSprites : MonoBehaviour {
 		//for applying the player prefs when it is eventually built
 		public void SetSprites(CustomPlayerPrefs startPrefs){
 		
-			Debug.Log ("CALL SET");
+
 			baseSprites = startPrefs;
 			FaceDirection (Vector2.down);
 		

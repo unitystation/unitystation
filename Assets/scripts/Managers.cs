@@ -2,6 +2,7 @@
 using System.Collections;
 using PlayGroup;
 using UI;
+using Network;
 
 public class Managers : MonoBehaviour {
 
@@ -13,6 +14,7 @@ public class Managers : MonoBehaviour {
 
 	[Header("Network Player components")] 
 	public PlayerManager playerManager;
+	public NetworkManager networkManager;
 	[HideInInspector]
 	public PlayerScript playerScript;
 

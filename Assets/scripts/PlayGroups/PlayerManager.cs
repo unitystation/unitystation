@@ -60,7 +60,7 @@ namespace PlayGroup
 		public void CheckIfSpawned(){
 
 			Debug.Log ("CHECK IF SPAWNED");
-			if (!hasSpawned && GameData.control.isInGame) {
+			if (!hasSpawned && GameData.control.isInGame && Managers.control.networkManager.isConnected) {
 
 				GameObject spawnPlayer = Instantiate (playerPrefab, spawnPoint.position,Quaternion.identity).gameObject; //TODO: More spawn points and a way to iterate through them
 				LocalPlayerObj = spawnPlayer;
@@ -72,7 +72,7 @@ namespace PlayGroup
 				return;
 			}
 
-			if (hasSpawned && GameData.control.isInGame && Managers.control.playerScript == null) { //if we lost the player reference somehow (unforeseen problems) then just give the ref back
+			if (hasSpawned && GameData.control.isInGame && Managers.control.playerScript == null && Managers.control.networkManager.isConnected) { //if we lost the player reference somehow (unforeseen problems) then just give the ref back
 			
 				Managers.control.playerScript = LocalPlayerScript; 
 				Camera2DFollow.followControl.target = LocalPlayerObj.transform;

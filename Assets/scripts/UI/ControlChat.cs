@@ -90,6 +90,7 @@ namespace UI{
 
 		public void Connect()
 		{
+			Managers.control.networkManager.Connect (); //Also connect to the game server!
 			if (SoundManager.control != null) {
 				SoundManager.control.sounds [5].Play ();
 			}
