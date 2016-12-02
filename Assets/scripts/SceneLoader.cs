@@ -18,6 +18,7 @@ public class SceneLoader : MonoBehaviour {
 
 		SoundManager.control.sounds [5].Play ();
 		NetworkManager.control.LoadMap ();
+		Debug.Log ("GO TO THE GAME");
 
 
 

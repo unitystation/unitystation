@@ -21,9 +21,12 @@ GameObject:
   - component: {fileID: 4434826748827160}
   - component: {fileID: 114635878357695462}
   - component: {fileID: 212981360600171130}
-  - component: {fileID: 50738706668597852}
   - component: {fileID: 61601450583223150}
   - component: {fileID: 114859007950351336}
+  - component: {fileID: 114783258252521902}
+  - component: {fileID: 50331170984450590}
+  - component: {fileID: 114811541104695608}
+  - component: {fileID: 114012613951977532}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -344,7 +347,7 @@ Transform:
   m_Father: {fileID: 4434826748827160}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50738706668597852
+--- !u!50 &50331170984450590
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
@@ -378,6 +381,71 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 0.28, y: 0.28}
+--- !u!114 &114012613951977532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1038381753428700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PositionModel:
+    SynchronizeEnabled: 1
+    TeleportEnabled: 1
+    TeleportIfDistanceGreaterThan: 3
+    InterpolateOption: 3
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 1
+    InterpolateMoveTowardsAcceleration: 2
+    InterpolateMoveTowardsDeceleration: 2
+    InterpolateSpeedCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: -1
+        value: 0
+        inSlope: 0
+        outSlope: Infinity
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 4
+        value: 4
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ExtrapolateOption: 0
+    ExtrapolateSpeed: 1
+    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateNumberOfStoredPositions: 1
+    DrawErrorGizmo: 1
+  m_RotationModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 1
+    InterpolateRotateTowardsSpeed: 180
+    InterpolateLerpSpeed: 5
+  m_ScaleModel:
+    SynchronizeEnabled: 1
+    InterpolateOption: 0
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 0
 --- !u!114 &114635878357695462
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -390,8 +458,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
+  isMine: 0
   physicsMove: {fileID: 0}
-  playerSprites: {fileID: 0}
+  playerSprites: {fileID: 114859007950351336}
+  photonView: {fileID: 114783258252521902}
   bodyNumber: 36
   suitNumber: 236
   beltNumber: 0
@@ -399,6 +469,46 @@ MonoBehaviour:
   shoesNumber: 36
   underWearNumber: 52
   uniformNumber: 16
+--- !u!114 &114783258252521902
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1038381753428700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 3
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 114012613951977532}
+  - {fileID: 114811541104695608}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  isRuntimeInstantiated: 0
+--- !u!114 &114811541104695608
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1038381753428700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 1
 --- !u!114 &114859007950351336
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -410,8 +520,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b405755a3db467098b2349af2167119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerRend: {fileID: 212981360600171130}
+  suitRend: {fileID: 212770877676351812}
+  beltRend: {fileID: 212817334900883870}
+  feetRend: {fileID: 212158183701700368}
+  headRend: {fileID: 212183368089708628}
+  faceRend: {fileID: 212882642027359720}
+  maskRend: {fileID: 212879228137279360}
+  underwearRend: {fileID: 212278641852113252}
+  uniformRend: {fileID: 212795145112607410}
+  leftHandRend: {fileID: 212149898048367272}
+  rightHandRend: {fileID: 212422353341526222}
   isRightHandSelector: 1
   currentDirection: {x: 0, y: 0}
+  thisRigi: {fileID: 50331170984450590}
 --- !u!212 &212149898048367272
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -443,7 +565,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingOrder: 30
-  m_Sprite: {fileID: 21301000, guid: 60ec77ccf51e40fc955040e6e2d968f2, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

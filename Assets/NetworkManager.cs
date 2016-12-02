@@ -56,9 +56,11 @@ namespace Network
 			{
 				// #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnPhotonRandomJoinFailed() and we'll create one.
 				PhotonNetwork.JoinRandomRoom();
+				Debug.Log ("JOIN RANDOM ROOM");
 			}else{
 				// #Critical, we must first and foremost connect to Photon Online Server.
 				PhotonNetwork.ConnectUsingSettings(_gameVersion);
+				Debug.Log ("CONNECT TO THE PUNderdome");
 			}
 
 
@@ -81,7 +83,7 @@ namespace Network
 				SceneManager.LoadSceneAsync ("Kitchen-Reconstruct");
 			} else {
 				Debug.Log ("You are the master client, loading the level (default kitchen_construct)");
-				PhotonNetwork.LoadLevel ("Kitchen-Reconstruct");
+								SceneManager.LoadSceneAsync ("Kitchen-Reconstruct");
 			}
 		}
 

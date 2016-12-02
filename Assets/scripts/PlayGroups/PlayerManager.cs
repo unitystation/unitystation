@@ -22,8 +22,8 @@ namespace PlayGroup
 		[Header("SpawnPoint: TODO: SpawnPoints Array")]
 		public Transform spawnPoint;
 
-		[HideInInspector]
-		public static GameObject LocalPlayerObj;
+
+		public GameObject LocalPlayerObj;
 
 		[HideInInspector]
 		public static PlayerScript LocalPlayerScript;
@@ -31,16 +31,9 @@ namespace PlayGroup
 		[HideInInspector]
 		public PlayerScript playerScript; //For access via other parts of the game
 
-		//reporting
-		public bool hasSpawned {
-			get {
-				if (LocalPlayerObj == null) {
-					return false;
-				} else {
-					return true;
-				}
-			}
-		}
+	
+		public bool hasSpawned = false;
+
 
 
 		//True, when the user is firing
@@ -70,30 +63,45 @@ namespace PlayGroup
 
 		}
 
+		public void SetPlayerForControl(GameObject playerObjToControl){
+		
+			LocalPlayerObj = playerObjToControl;
+			LocalPlayerScript = playerObjToControl.GetComponent<PlayerScript> ();
+			LocalPlayerScript.isMine = true; // Set this object to yours, the rest are for network players
+
+			PlayerManager.control.playerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
+			Camera2DFollow.followControl.target = LocalPlayerObj.transform;
+		
+		
+		}
 
 	
-
-		public void CheckIfSpawned(){
+		//CHECK HERE FOR AN EXAMPLE OF INSTANTIATING ITEMS ON PHOTON
+		public void CheckIfSpawned(){ 
 
 			Debug.Log ("CHECK IF SPAWNED");
-			if (!hasSpawned && GameData.control.isInGame && NetworkManager.control.isConnected) {
+			if (!hasSpawned){
+				if (GameData.control.isInGame && NetworkManager.control.isConnected) {
 
-				GameObject spawnPlayer = Instantiate (playerPrefab, spawnPoint.position,Quaternion.identity).gameObject; //TODO: More spawn points and a way to iterate through them
-				LocalPlayerObj = spawnPlayer;
-				LocalPlayerScript = spawnPlayer.GetComponent<PlayerScript> ();
-				LocalPlayerScript.isMine = true; // Set this object to yours, the rest are for network players
-				PlayerManager.control.playerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
-				Camera2DFollow.followControl.target = LocalPlayerObj.transform;
+		
+
+				
+				
+					PhotonNetwork.Instantiate (this.playerPrefab.name, spawnPoint.position, Quaternion.identity, 0); //TODO: More spawn points and a way to iterate through them
+						hasSpawned = true;
+			
+				
 
 				return;
 			}
 
-			if (hasSpawned && GameData.control.isInGame && PlayerManager.control.playerScript == null && NetworkManager.control.isConnected) { //if we lost the player reference somehow (unforeseen problems) then just give the ref back
-			
-				PlayerManager.control.playerScript = LocalPlayerScript; 
-				Camera2DFollow.followControl.target = LocalPlayerObj.transform;
-			
 			}
+//						if (hasSpawned && GameData.control.isInGame && PlayerManager.control.playerScript == null && NetworkManager.control.isConnected) { //if we lost the player reference somehow (unforeseen problems) then just give the ref back
+//						
+//							PlayerManager.control.playerScript = LocalPlayerScript; 
+//							Camera2DFollow.followControl.target = LocalPlayerObj.transform;
+//						
+//						}
 
 
 		}

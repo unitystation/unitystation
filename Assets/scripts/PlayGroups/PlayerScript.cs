@@ -13,8 +13,11 @@ public class PlayerScript : MonoBehaviour {
 
 	[HideInInspector]
 	public PhysicsMove physicsMove;
-	[HideInInspector]
+
 	public PlayerSprites playerSprites;
+
+		public PhotonView photonView;
+	
 
 		[Header("Temp Player Preferences - start sprites (facingDown)")]
 	public int bodyNumber;
@@ -29,15 +32,29 @@ public class PlayerScript : MonoBehaviour {
 
 	void Start () {
 
+			GameObject searchPlayerList = GameObject.FindGameObjectWithTag ("PlayerList");
+			if (searchPlayerList != null) {
+			
+				transform.parent = searchPlayerList.transform;
+			} else {
+			
+				Debug.LogError ("Scene is missing PlayerList GameObject!!");
+			
+			}
 			//add physics move component and set default movespeed
 		physicsMove = gameObject.AddComponent<PhysicsMove> ();
 		physicsMove.moveSpeed = moveSpeed;
 
 			//Add player sprite controller component
-		playerSprites = gameObject.AddComponent<PlayerSprites> ();
-			Invoke ("SetPlayerPrefs", 0.1f);
 
-		//SPAWN POSITION
+			SetPlayerPrefs ();
+
+			if (photonView.isMine) { //This prefab is yours, take control of it
+			
+				PlayerManager.control.SetPlayerForControl (this.gameObject); 
+			
+			}
+
 	
 		
 		
@@ -46,8 +63,7 @@ public class PlayerScript : MonoBehaviour {
 
 	void Update () {
 
-			//TODO photon input needs to be handled if the object isMine = false
-
+		
 
 				
 	}
@@ -57,17 +73,12 @@ public class PlayerScript : MonoBehaviour {
 			if (!UIManager.control.chatControl.chatInputWindow.activeSelf && isMine) { //At the moment it just checks if the input window is open and if it is false then allow move
 			
 			physicsMove.MoveInDirection (direction); //Tile based physics move
-			playerSprites.FaceDirection (direction); //Handles the playersprite change on direction change
+//			playerSprites.FaceDirection (direction); //Handles the playersprite change on direction change
 		
 		}
 		}
 
-		public void MoveNetworkPlayer(Vector2 direction){ //TODO hook up the photon recieve stream and process input for networked players
 
-				physicsMove.MoveInDirection (direction); //Tile based physics move
-				playerSprites.FaceDirection (direction); //Handles the playersprite change on direction change
-
-		}
 
 		//Temp
 		void SetPlayerPrefs(){
