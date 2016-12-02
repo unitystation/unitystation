@@ -51,8 +51,12 @@ public class ControlDisplays : MonoBehaviour {
 				obj.SetActive (false);
 			}
 			backGround.SetActive (true);
-			if (parentScript.chatControl.chatClient.CanChat) {
-				logInWindow.SetActive (false);
+			if (parentScript.chatControl.chatClient != null) {
+				if (parentScript.chatControl.chatClient.CanChat) {
+					logInWindow.SetActive (false);
+				} else {
+					logInWindow.SetActive (true);
+				}
 			} else {
 				logInWindow.SetActive (true);
 			}
