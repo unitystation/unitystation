@@ -36,8 +36,8 @@ public class DoorController : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D coll){
 
-		if (Managers.control.playerScript != null) {
-			if (coll.gameObject == Managers.control.playerScript.gameObject && !isOpened) {
+		if (PlayerManager.control.playerScript != null) {
+			if (coll.gameObject == PlayerManager.control.playerScript.gameObject && !isOpened) {
 				isOpened = true;
 				thisAnim.SetBool ("open", true);
 				SoundManager.control.sounds [1].Play ();
@@ -53,8 +53,8 @@ public class DoorController : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D coll){
 
-		if (Managers.control.playerScript != null) {
-			if (coll.gameObject == Managers.control.playerScript.gameObject && isOpened) {
+		if (PlayerManager.control.playerScript != null) {
+			if (coll.gameObject == PlayerManager.control.playerScript.gameObject && isOpened) {
 				isOpened = false;
 				thisAnim.SetBool ("open", false);
 			}

@@ -20,8 +20,8 @@ public class ItemTriggers : MonoBehaviour {
 		void OnMouseDown(){
 			
 			//and eventually check if there is room in the hand etc
-			if (Managers.control.playerScript != null) {
-				var headingToPlayer = Managers.control.playerScript.transform.position - transform.position;
+			if (PlayerManager.control.playerScript != null) {
+				var headingToPlayer = PlayerManager.control.playerScript.transform.position - transform.position;
 				var distance = headingToPlayer.magnitude;
 				var direction = headingToPlayer / distance;
 				Debug.Log ("DISTANCE: " + distance + " DIRECTION: " + direction);

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UI;
+using Network;
 
 //Handles control and spawn of player prefab
 
@@ -10,7 +11,7 @@ namespace PlayGroup
 
 	public class PlayerManager : Photon.PunBehaviour, IPunObservable
 	{
-
+		public static PlayerManager control;
 
 		[Header("The current Health of our player")]
 		public float Health = 100f;
@@ -26,6 +27,9 @@ namespace PlayGroup
 
 		[HideInInspector]
 		public static PlayerScript LocalPlayerScript;
+
+		[HideInInspector]
+		public PlayerScript playerScript; //For access via other parts of the game
 
 		//reporting
 		public bool hasSpawned {
@@ -46,8 +50,20 @@ namespace PlayGroup
 
 		public void Awake()
 		{
-			if (hasSpawned) {
+
+			if (control == null) {
 			
+				control = this;
+			
+			} else {
+			
+				Destroy (this);
+			
+			}
+
+
+			if (hasSpawned) {
+
 				Camera2DFollow.followControl.target = LocalPlayerObj.transform;
 			
 			}
@@ -60,21 +76,21 @@ namespace PlayGroup
 		public void CheckIfSpawned(){
 
 			Debug.Log ("CHECK IF SPAWNED");
-			if (!hasSpawned && GameData.control.isInGame && Managers.control.networkManager.isConnected) {
+			if (!hasSpawned && GameData.control.isInGame && NetworkManager.control.isConnected) {
 
 				GameObject spawnPlayer = Instantiate (playerPrefab, spawnPoint.position,Quaternion.identity).gameObject; //TODO: More spawn points and a way to iterate through them
 				LocalPlayerObj = spawnPlayer;
 				LocalPlayerScript = spawnPlayer.GetComponent<PlayerScript> ();
 				LocalPlayerScript.isMine = true; // Set this object to yours, the rest are for network players
-				Managers.control.playerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
+				PlayerManager.control.playerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
 				Camera2DFollow.followControl.target = LocalPlayerObj.transform;
 
 				return;
 			}
 
-			if (hasSpawned && GameData.control.isInGame && Managers.control.playerScript == null && Managers.control.networkManager.isConnected) { //if we lost the player reference somehow (unforeseen problems) then just give the ref back
+			if (hasSpawned && GameData.control.isInGame && PlayerManager.control.playerScript == null && NetworkManager.control.isConnected) { //if we lost the player reference somehow (unforeseen problems) then just give the ref back
 			
-				Managers.control.playerScript = LocalPlayerScript; 
+				PlayerManager.control.playerScript = LocalPlayerScript; 
 				Camera2DFollow.followControl.target = LocalPlayerObj.transform;
 			
 			}
@@ -84,10 +100,7 @@ namespace PlayGroup
 
 		public void Update()
 		{
-			// we only process Inputs and check health if we are the local player
-
-			//FIXME CHECK WITH PHOTONVIEW COMPONENT WHEN IT IS ADDED
-//			if (photonView.isMine)
+			// only process controls if local player exists
 			if(hasSpawned && LocalPlayerScript != null)
 			{
 				this.ProcessInputs();

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UI;
+using PlayGroup;
 
 namespace Network
 {
 
 	public class NetworkManager : Photon.PunBehaviour {
+
+		public static NetworkManager control;
 
 		public PhotonLogLevel logLevel;
 		public byte maxPlayersOnServer = 32;
@@ -17,6 +20,15 @@ namespace Network
 
 	
 	void Awake(){
+			if (control == null) {
+			
+				control = this;
+			
+			} else {
+			
+				Destroy (this);
+			
+			}
 
 			PhotonNetwork.logLevel = logLevel;
 			//no lobby, just server(room)
@@ -77,7 +89,7 @@ namespace Network
 		{
 			Debug.Log ("CLIENT IS NOW IN THE ROOM(SERVER)");
 			isConnected = true;
-			Managers.control.playerManager.CheckIfSpawned (); // Spawn the character if in the game already (This is for development when you are working on the map scenes)
+			PlayerManager.control.CheckIfSpawned (); // Spawn the character if in the game already (This is for development when you are working on the map scenes)
 		}
 }
 }

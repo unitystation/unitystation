@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using Network;
 
 namespace UI{
 	public class ControlChat : MonoBehaviour,IChatClientListener  
@@ -90,7 +91,7 @@ namespace UI{
 
 		public void Connect()
 		{
-			Managers.control.networkManager.Connect (); //Also connect to the game server!
+			NetworkManager.control.Connect (); //Also connect to the game server!
 			if (SoundManager.control != null) {
 				SoundManager.control.sounds [5].Play ();
 			}
