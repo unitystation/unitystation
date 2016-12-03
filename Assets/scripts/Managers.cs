@@ -11,10 +11,8 @@ public class Managers : MonoBehaviour {
 	[Header("For turning UI on and off to free up the editor window")] 
 	public GameObject UIParent;
 
-	[Header("Network Player components")] 
-	public PlayerManager playerManager;
-	[HideInInspector]
-	public PlayerScript playerScript;
+
+
 
 
 
@@ -48,7 +46,7 @@ public class Managers : MonoBehaviour {
 
 		UIParent.SetActive (true);
 		UIManager.control.displayControl.SetScreenForGame ();
-		playerManager.CheckIfSpawned (); // See if we have already spawned a player, if not then spawn one
+		PlayerManager.control.CheckIfSpawned (); // See if we have already spawned a player, if not then spawn one
 
 	}
 

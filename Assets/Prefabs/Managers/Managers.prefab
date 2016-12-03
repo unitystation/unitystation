@@ -389,9 +389,13 @@ GameObject:
   - component: {fileID: 224000011976794182}
   - component: {fileID: 222000011747149522}
   - component: {fileID: 114000010353585416}
+<<<<<<< HEAD:Assets/Resources/prefabs/Managers/Managers.prefab
   - component: {fileID: 114000013645179068}
+=======
+  - component: {fileID: 114039392692628102}
+>>>>>>> network-basics:Assets/Prefabs/Managers/Managers.prefab
   m_Layer: 5
-  m_Name: Placeholder
+  m_Name: ChatFeed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -416,7 +420,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1000011080784470
 GameObject:
   m_ObjectHideFlags: 1
@@ -712,6 +716,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD:Assets/Resources/prefabs/Managers/Managers.prefab
 --- !u!1 &1000011634619038
 GameObject:
   m_ObjectHideFlags: 1
@@ -731,6 +736,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+=======
+>>>>>>> network-basics:Assets/Prefabs/Managers/Managers.prefab
 --- !u!1 &1000011672621470
 GameObject:
   m_ObjectHideFlags: 1
@@ -1800,6 +1807,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD:Assets/Resources/prefabs/Managers/Managers.prefab
+=======
+--- !u!1 &1931918939584310
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4981823559469058}
+  - component: {fileID: 114795960423771266}
+  m_Layer: 0
+  m_Name: NetworkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+>>>>>>> network-basics:Assets/Prefabs/Managers/Managers.prefab
 --- !u!4 &4000010428725026
 Transform:
   m_ObjectHideFlags: 1
@@ -1944,6 +1970,10 @@ Transform:
   - {fileID: 4000011118563116}
   - {fileID: 4000013606481674}
   - {fileID: 4103759624537004}
+<<<<<<< HEAD:Assets/Resources/prefabs/Managers/Managers.prefab
+=======
+  - {fileID: 4981823559469058}
+>>>>>>> network-basics:Assets/Prefabs/Managers/Managers.prefab
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2025,6 +2055,22 @@ Transform:
   m_Father: {fileID: 4000012999823996}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD:Assets/Resources/prefabs/Managers/Managers.prefab
+=======
+--- !u!4 &4981823559469058
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1931918939584310}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4000012999823996}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+>>>>>>> network-basics:Assets/Prefabs/Managers/Managers.prefab
 --- !u!82 &82000010099726062
 AudioSource:
   m_ObjectHideFlags: 1
@@ -3171,69 +3217,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chatNewComponent: {fileID: 114000014162927702}
   idInput: {fileID: 114000013576149726}
---- !u!114 &114000010233931350
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011634619038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b0a6cd3a86d43c6b8ffee6183a172ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 2
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 114000010823360524}
-  m_TextComponent: {fileID: 114000010353585416}
-  m_Placeholder: {fileID: 0}
-  m_ContentType: 0
-  m_InputType: 0
-  m_AsteriskChar: 42
-  m_KeyboardType: 0
-  m_LineType: 2
-  m_HideMobileInput: 0
-  m_CharacterValidation: 0
-  m_CharacterLimit: 0
-  m_OnEndEdit:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.InputField+SubmitEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  m_OnValueChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.InputField+OnChangeEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_CustomCaretColor: 0
-  m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 
-  m_CaretBlinkRate: 0.85
-  m_CaretWidth: 1
-  m_ReadOnly: 1
 --- !u!114 &114000010265651538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3383,7 +3366,7 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 1
+    m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
 --- !u!114 &114000010361437370
@@ -4100,33 +4083,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
---- !u!114 &114000010823360524
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011634619038}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8602941, b: 0.8602941, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
 --- !u!114 &114000010827809782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4270,8 +4226,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIParent: {fileID: 1000011078421622}
+<<<<<<< HEAD:Assets/Resources/prefabs/Managers/Managers.prefab
   playerManager: {fileID: 114991906991400132}
   playerScript: {fileID: 0}
+=======
+>>>>>>> network-basics:Assets/Prefabs/Managers/Managers.prefab
 --- !u!114 &114000010914969352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4647,17 +4606,6 @@ MonoBehaviour:
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 2
   m_ReadOnly: 0
---- !u!114 &114000011246377558
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011634619038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -146154839, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114000011279870276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6818,19 +6766,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114000013645179068
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011059482282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1741964061, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
 --- !u!114 &114000013658132300
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7516,7 +7451,8 @@ MonoBehaviour:
   ChatPanel: {fileID: 224000011265015478}
   UserIdFormPanel: {fileID: 1000010051852236}
   InputFieldChat: {fileID: 114000011227157728}
-  CurrentChannelText: {fileID: 114000010233931350}
+  CurrentChannelText: {fileID: 114000010353585416}
+  scrollBar: {fileID: 114000013735419606}
   isChatFocus: 0
   ShowState: 1
   TestLength: 2048
@@ -7620,6 +7556,22 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+<<<<<<< HEAD:Assets/Resources/prefabs/Managers/Managers.prefab
+=======
+--- !u!114 &114039392692628102
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011059482282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
+>>>>>>> network-basics:Assets/Prefabs/Managers/Managers.prefab
 --- !u!114 &114160710269732520
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7632,6 +7584,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInGame: 0
+<<<<<<< HEAD:Assets/Resources/prefabs/Managers/Managers.prefab
+=======
+--- !u!114 &114795960423771266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1931918939584310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e7baf7308244b849d3f17e28ba12f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logLevel: 2
+  maxPlayersOnServer: 32
+  isConnected: 0
+>>>>>>> network-basics:Assets/Prefabs/Managers/Managers.prefab
 --- !u!114 &114991906991400132
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7647,6 +7616,12 @@ MonoBehaviour:
   playerPrefab: {fileID: 4434826748827160, guid: 1532c284d92d14314b1a433bde34d072,
     type: 2}
   spawnPoint: {fileID: 4201505660727790}
+<<<<<<< HEAD:Assets/Resources/prefabs/Managers/Managers.prefab
+=======
+  LocalPlayerObj: {fileID: 0}
+  playerScript: {fileID: 0}
+  hasSpawned: 0
+>>>>>>> network-basics:Assets/Prefabs/Managers/Managers.prefab
 --- !u!222 &222000010041005922
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -7929,12 +7904,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011860613988}
---- !u!222 &222000012823305782
-CanvasRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011634619038}
 --- !u!222 &222000012829544396
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -8674,6 +8643,7 @@ RectTransform:
   m_AnchoredPosition: {x: -3.1, y: -1.9000857}
   m_SizeDelta: {x: -13.8, y: -3.7999}
   m_Pivot: {x: 0.5, y: 0.5}
+<<<<<<< HEAD:Assets/Resources/prefabs/Managers/Managers.prefab
 --- !u!224 &224000011523886226
 RectTransform:
   m_ObjectHideFlags: 1
@@ -8693,6 +8663,8 @@ RectTransform:
   m_AnchoredPosition: {x: -6.5600657, y: -0.000016212463}
   m_SizeDelta: {x: 473, y: 495}
   m_Pivot: {x: 0.49999997, y: 1}
+=======
+>>>>>>> network-basics:Assets/Prefabs/Managers/Managers.prefab
 --- !u!224 &224000011525787216
 RectTransform:
   m_ObjectHideFlags: 1
@@ -8707,7 +8679,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8832,7 +8804,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 224000011523886226}
+  - {fileID: 224000011976794182}
   m_Father: {fileID: 224000011265015478}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8957,17 +8929,17 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011059482282}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 224000011523886226}
+  m_Father: {fileID: 224000011700060226}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -4.069031, y: 0.000045776367}
-  m_SizeDelta: {x: 453, y: -470.6757}
+  m_AnchoredPosition: {x: -10.629076, y: 0.000045776367}
+  m_SizeDelta: {x: 453, y: 0}
   m_Pivot: {x: 0.5000001, y: 1}
 --- !u!224 &224000012046245780
 RectTransform:

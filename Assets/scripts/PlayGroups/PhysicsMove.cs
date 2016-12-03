@@ -25,7 +25,7 @@ public class PhysicsMove : MonoBehaviour {
 		private Vector3 node;
 		private Vector3 toClamp;
 
-		public float lerpSpeed = 7f;
+		public float lerpSpeed = 10f;
 		private float lerpTime = 0f;
 		public float clampPos;
 		public float moveSpeed;
@@ -113,7 +113,8 @@ public class PhysicsMove : MonoBehaviour {
 			lerpTime += Time.deltaTime;
 			float t = lerpTime * lerpSpeed;
 
-			transform.position = Vector3.Lerp (startPos, node, t);
+ 
+			thisRigi.MovePosition (Vector2.Lerp (startPos, node, t));
 
 			if (moveDirection == Vector2.right && transform.position.x >= node.x) {
 				isMoving = false;

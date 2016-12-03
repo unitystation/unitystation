@@ -20,7 +20,7 @@ public class Camera2DFollow : MonoBehaviour {
 
 	bool isSearching = false;
 
-	float offsetZ;
+	public float offsetZ = -1f;
 	Vector3 lastTargetPosition;
 	Vector3 currentVelocity;
 	Vector3 lookAheadPos;

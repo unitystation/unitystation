@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
+using Network;
 
 public class SceneLoader : MonoBehaviour {
 
@@ -17,14 +17,16 @@ public class SceneLoader : MonoBehaviour {
 	public void GoToKitchen(){
 
 		SoundManager.control.sounds [5].Play ();
-		SceneManager.LoadSceneAsync ("Kitchen-Reconstruct");
+		NetworkManager.control.LoadMap ();
+		Debug.Log ("GO TO THE GAME");
+
 
 
 	}
 
 	public void GoToLobby(){
 		SoundManager.control.sounds [5].Play ();
-		SceneManager.LoadSceneAsync ("Lobby");
-
+	
+		NetworkManager.control.LeaveMap (); // Leave the game on the server and also on the client
 	}
 }

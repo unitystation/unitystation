@@ -54,41 +54,7 @@ namespace Game {
         }	
 
 		//FIXME: NEEDS UPDATING AND IMPLEMENTATION FOR PHYSICSMOVE
-		public bool CheckPassable(float gridX, float gridY, Direction direction) {
-			float newGridX = gridX;
-			float newGridY = gridY;
 
-			Direction newDirection = Direction.Up;
-
-			switch (direction) {
-			case Direction.Up:
-				newGridY = newGridY + 1f;
-				newDirection = Direction.Down;
-				break;
-			case Direction.Right:
-				newGridX = newGridX + 1;
-				newDirection = Direction.Left;
-				break;
-			case Direction.Down:
-				newGridY = newGridY - 1f;
-				newDirection = Direction.Up;
-				break;
-			case Direction.Left:
-				newGridX = newGridX - 1f;
-				newDirection = Direction.Right;
-				break;
-			}
-
-			if (newGridX > grid.GetLength(0) - 1 || newGridX < 0 || newGridY > grid.GetLength(1) - 1 || newGridY < 0) {
-				Debug.Log("Attempting to move off map");
-				return false;
-			}
-
-			return (
-				grid[(int)gridX, (int)gridY].GetComponent<TileManager>().passable[(int)direction] && 
-				grid[(int)newGridX, (int)newGridY].GetComponent<TileManager>().passable[(int)newDirection]
-			);
-		}
 
 		// Obsolete as objects are 1 x 1 via transform.position (if not then they should be normalized to find grid pos)
 		public Vector3 GetGridCoords(int gridX, int gridY) {

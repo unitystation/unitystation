@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using Network;
 
 namespace UI{
 	public class ControlChat : MonoBehaviour,IChatClientListener  
@@ -31,7 +32,8 @@ namespace UI{
 		public RectTransform ChatPanel;     // set in inspector (to enable/disable panel)
 		public GameObject UserIdFormPanel;
 		public InputField InputFieldChat;   // set in inspector
-		public InputField CurrentChannelText;     // set in inspector
+		public Text CurrentChannelText;     // set in inspector
+		public Scrollbar scrollBar;
 
 		public bool isChatFocus = false;
 		private readonly Dictionary<string, Toggle> channelToggles = new Dictionary<string, Toggle>();
@@ -90,6 +92,7 @@ namespace UI{
 
 		public void Connect()
 		{
+			NetworkManager.control.Connect (); //Also connect to the game server!
 			if (SoundManager.control != null) {
 				SoundManager.control.sounds [5].Play ();
 			}
@@ -111,6 +114,8 @@ namespace UI{
 				this.chatClient.Disconnect();
 			}
 		}
+
+
 
 		public void Update()
 		{
@@ -344,7 +349,7 @@ namespace UI{
 			// use OnConnected() and OnDisconnected()
 			// this method might become more useful in the future, when more complex states are being used.
 			Debug.Log(state.ToString());
-			ReportToChannel( state.ToString());
+			ReportToChannel( "Server: " + state.ToString());
 		}
 
 		public void OnSubscribed(string[] channels, bool[] results)
@@ -357,7 +362,7 @@ namespace UI{
 			{
 //				this.chatClient.PublishMessage(channel, "says 'hi'."); // you don't HAVE to send a msg on join but you could.
 			
-				ReportToChannel("Welcome to unitystation. Press T to chat");
+			
 			}
 
 
@@ -499,6 +504,7 @@ namespace UI{
 			{
 				pair.Value.isOn = pair.Key == channelName ? true : false;
 			}
+			scrollBar.value = 0f;
 		}
 
 		//UNDER WORK: ALL OF THE FOLLOWING FUNCTIONS ARE UNDER DEVELOPMENT

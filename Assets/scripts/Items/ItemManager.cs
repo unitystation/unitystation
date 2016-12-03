@@ -43,10 +43,10 @@ public class ItemManager : MonoBehaviour {
 		public void PickUpObject(GameObject itemObject){
 
             ItemAttributes attributes = itemObject.GetComponent<ItemAttributes>();
-			PlayerSprites pSprites = Managers.control.playerScript.playerSprites;
+			PlayerSprites pSprites = PlayerManager.control.playerScript.playerSprites;
 
 			//determine what hand is selected and if it is full
-			if(Managers.control.playerScript != null){
+			if(PlayerManager.control.playerScript != null){
 
 				if (UIManager.control.isRightHand) {
 				
