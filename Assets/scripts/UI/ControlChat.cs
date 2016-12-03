@@ -30,7 +30,7 @@ namespace UI{
 		public GameObject chatInputWindow;
 		public InputField usernameInput;
 		public RectTransform ChatPanel;     // set in inspector (to enable/disable panel)
-		public GameObject UserIdFormPanel;
+
 		public InputField InputFieldChat;   // set in inspector
 		public Text CurrentChannelText;     // set in inspector
 		public Scrollbar scrollBar;
@@ -65,9 +65,7 @@ namespace UI{
 
 			bool _AppIdPresent = string.IsNullOrEmpty(ChatAppId);
 		
-			if (UserIdFormPanel != null) {
-				this.UserIdFormPanel.gameObject.SetActive (!_AppIdPresent);
-			}
+
 			if (string.IsNullOrEmpty(ChatAppId))
 			{
 				Debug.LogError("You need to set the chat app ID in the inspector in order to continue.");
@@ -80,7 +78,7 @@ namespace UI{
 			if (chatClient != null) {
 				if (chatClient.CanChat) {
 				
-					UserIdFormPanel.SetActive (false);
+			
 				
 				}
 			
@@ -99,7 +97,7 @@ namespace UI{
 			UserName = usernameInput.text;
 			this.chatClient = new ChatClient(this);
 			this.chatClient.Connect(ChatAppId, "1.0", new ExitGames.Client.Photon.Chat.AuthenticationValues(UserName));
-			this.UserIdFormPanel.gameObject.SetActive(false);
+		
 			Debug.Log ("ATTEMPTING CONNECT");
 			ReportToChannel ("Connecting as: " + UserName);
 

@@ -74,7 +74,23 @@ public class ControlDisplays : MonoBehaviour {
 				obj.SetActive (true);
 			}
 			backGround.SetActive (false);
-			logInWindow.SetActive (false);
+			if (!Managers.control.isDevMode) {
+				if (parentScript.chatControl.chatClient != null) {
+				
+					if (parentScript.chatControl.chatClient.CanChat) {
+						logInWindow.SetActive (false);
+					} else {
+						logInWindow.SetActive (true);
+					}
+				} else {
+				
+					logInWindow.SetActive (true);
+				}
+			} else {
+			
+				logInWindow.SetActive (false);
+			
+			}
 			SoundManager.control.StopMusic ();
 			//TODO random ambient
 			SoundManager.control.PlayVarAmbient (0);

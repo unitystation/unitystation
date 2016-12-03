@@ -52,17 +52,38 @@ namespace Network
 		public void Connect(){ //Called from login window
 
 			// we check if we are connected or not, we join if we are , else we initiate the connection to the server.
-			if (PhotonNetwork.connected)
-			{
-				// #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnPhotonRandomJoinFailed() and we'll create one.
-				PhotonNetwork.JoinRandomRoom(); //When you are done in dev then change this to: PhotonNetwork.JoinRandomRoom();
-				Debug.Log ("JOIN RANDOM ROOM");
-			}else{
-				// #Critical, we must first and foremost connect to Photon Online Server.
-				PhotonNetwork.ConnectUsingSettings(_gameVersion);
-				Debug.Log ("CONNECT TO THE PUNderdome");
+			if (!Managers.control.isDevMode) {
+				if (PhotonNetwork.connected) {
+					// #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnPhotonRandomJoinFailed() and we'll create one.
+					PhotonNetwork.JoinRandomRoom (); //When you are done in dev then change this to: PhotonNetwork.JoinRandomRoom();
+					Debug.Log ("JOIN RANDOM ROOM");
+				} else {
+					// #Critical, we must first and foremost connect to Photon Online Server.
+					PhotonNetwork.ConnectUsingSettings (_gameVersion);
+					Debug.Log ("CONNECT TO THE PUNderdome");
+				}
+			} else {
+			
+				SpawnDevPlayer ();
+
 			}
 
+
+		}
+
+		public void SpawnDevPlayer(){ //IF WE ARE IN DEV MODE THEN SET SPAWN A PLAYERPREFAB AND ASSIGN IT TO CONTROLS AND REMOVE THE CHAT LOGIN WINDOW
+		
+			if (!PlayerManager.control.hasSpawned) {
+				PlayerManager.control.hasSpawned = true;
+				GameObject gObj = Instantiate (PlayerManager.control.playerPrefab, PlayerManager.control.spawnPoint.position, Quaternion.identity).gameObject; 
+
+				PlayerManager.control.SetPlayerForControl (gObj); // set it to be controlled by this instance (ui and playermanager etc)
+
+				Debug.Log ("IN DEV MODE, DO NOT CONNECT TO NETWORK. SPAWNING LOCAL PLAYER ONLY");
+
+			}
+
+		
 
 		}
 
@@ -78,12 +99,18 @@ namespace Network
 
 		public void LoadMap()
 		{
-			if (!PhotonNetwork.isMasterClient) {
-				Debug.Log ("You are not the master client, joining map");
-				SceneManager.LoadSceneAsync ("Kitchen-Reconstruct");
+			if (!Managers.control.isDevMode) {
+				if (!PhotonNetwork.isMasterClient) {
+					Debug.Log ("You are not the master client, joining map");
+					SceneManager.LoadSceneAsync ("Kitchen-Reconstruct");
+				} else {
+					Debug.Log ("You are the master client, loading the level (default kitchen_construct)");
+					SceneManager.LoadSceneAsync ("Kitchen-Reconstruct");
+				}
 			} else {
-				Debug.Log ("You are the master client, loading the level (default kitchen_construct)");
-								SceneManager.LoadSceneAsync ("Kitchen-Reconstruct");
+			
+				SpawnDevPlayer ();
+			
 			}
 		}
 
@@ -118,8 +145,16 @@ namespace Network
 
 			UIManager.control.chatControl.ReportToChannel("Welcome to unitystation. Press T to chat");
 			isConnected = true;
-			PlayerManager.control.CheckIfSpawned (); // Spawn the character if in the game already (This is for development when you are working on the map scenes)
 
+			if(!Managers.control.isDevMode){
+			PlayerManager.control.CheckIfSpawned (); // Spawn the character if in the game already (This is for development when you are working on the map scenes)
+			} else {
+
+				Debug.Log ("IN DEV MODE, DO NOT CONNECT TO NETWORK. SPAWNING LOCAL PLAYER ONLY");
+				SpawnDevPlayer ();
+
+			
+			}
 //			if (PhotonNetwork.isMasterClient && GameData.control.isInGame) { // This is used if you logged in while working on the map in the editor, it will set up the server aswell
 //			
 //				LoadMap ();

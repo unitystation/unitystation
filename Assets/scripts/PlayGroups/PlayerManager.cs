@@ -80,29 +80,30 @@ namespace PlayGroup
 		public void CheckIfSpawned(){ 
 
 			Debug.Log ("CHECK IF SPAWNED");
-			if (!hasSpawned){
+			if (!Managers.control.isDevMode) {
+				if (!hasSpawned) {
 
-				if (GameData.control.isInGame && NetworkManager.control.isConnected) {
+					if (GameData.control.isInGame && NetworkManager.control.isConnected) {
 
 		
 
 				
 				
-					PhotonNetwork.Instantiate (this.playerPrefab.name, spawnPoint.position, Quaternion.identity, 0); //TODO: More spawn points and a way to iterate through them
+						PhotonNetwork.Instantiate (this.playerPrefab.name, spawnPoint.position, Quaternion.identity, 0); //TODO: More spawn points and a way to iterate through them
 						hasSpawned = true;
 			
 				
 
-				return;
+						return;
+					}
+
+				}
+			} else {
+			
+				NetworkManager.control.SpawnDevPlayer ();
+			
 			}
 
-			}
-//						if (hasSpawned && GameData.control.isInGame && PlayerManager.control.playerScript == null && NetworkManager.control.isConnected) { //if we lost the player reference somehow (unforeseen problems) then just give the ref back
-//						
-//							PlayerManager.control.playerScript = LocalPlayerScript; 
-//							Camera2DFollow.followControl.target = LocalPlayerObj.transform;
-//						
-//						}
 
 
 		}

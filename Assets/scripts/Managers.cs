@@ -11,7 +11,7 @@ public class Managers : MonoBehaviour {
 	[Header("For turning UI on and off to free up the editor window")] 
 	public GameObject UIParent;
 
-
+	public bool isDevMode = false;
 
 
 
