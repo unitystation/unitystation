@@ -147,7 +147,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1.45, y: 1.47}
+  m_Size: {x: 1, y: 1}
 --- !u!61 &61000013105870566
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -204,6 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idleState: 03_publicIdle
+  maxTimeOpen: 5
 --- !u!212 &212000011125170888
 SpriteRenderer:
   m_ObjectHideFlags: 1
