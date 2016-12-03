@@ -32,7 +32,8 @@ namespace UI{
 		public RectTransform ChatPanel;     // set in inspector (to enable/disable panel)
 		public GameObject UserIdFormPanel;
 		public InputField InputFieldChat;   // set in inspector
-		public InputField CurrentChannelText;     // set in inspector
+		public Text CurrentChannelText;     // set in inspector
+		public Scrollbar scrollBar;
 
 		public bool isChatFocus = false;
 		private readonly Dictionary<string, Toggle> channelToggles = new Dictionary<string, Toggle>();
@@ -113,6 +114,8 @@ namespace UI{
 				this.chatClient.Disconnect();
 			}
 		}
+
+
 
 		public void Update()
 		{
@@ -501,6 +504,7 @@ namespace UI{
 			{
 				pair.Value.isOn = pair.Key == channelName ? true : false;
 			}
+			scrollBar.value = 0f;
 		}
 
 		//UNDER WORK: ALL OF THE FOLLOWING FUNCTIONS ARE UNDER DEVELOPMENT
