@@ -55,7 +55,7 @@ namespace Network
 			if (PhotonNetwork.connected)
 			{
 				// #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnPhotonRandomJoinFailed() and we'll create one.
-				PhotonNetwork.JoinRandomRoom();
+				PhotonNetwork.JoinRandomRoom(); //When you are done in dev then change this to: PhotonNetwork.JoinRandomRoom();
 				Debug.Log ("JOIN RANDOM ROOM");
 			}else{
 				// #Critical, we must first and foremost connect to Photon Online Server.
