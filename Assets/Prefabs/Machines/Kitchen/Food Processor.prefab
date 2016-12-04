@@ -16,10 +16,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000011070416052}
-  - 212: {fileID: 212000012478038690}
+  - component: {fileID: 4000011070416052}
+  - component: {fileID: 212000012478038690}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -32,12 +32,13 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000013190541672}
-  - 61: {fileID: 61000012141382660}
-  - 114: {fileID: 114000011961765110}
-  - 61: {fileID: 61000010223125716}
+  - component: {fileID: 4000013190541672}
+  - component: {fileID: 61000012141382660}
+  - component: {fileID: 114000011961765110}
+  - component: {fileID: 61000010223125716}
+  - component: {fileID: 95603712371748086}
   m_Layer: 11
   m_Name: Food Processor
   m_TagString: Untagged
@@ -54,10 +55,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.2, y: 3.2, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000013190541672}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4000013190541672
 Transform:
   m_ObjectHideFlags: 1
@@ -65,13 +66,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014212709224}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1847, y: 1141, z: 0}
+  m_LocalPosition: {x: -0.00048828125, y: 0.9929199, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4000011070416052}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61000010223125716
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -100,6 +101,23 @@ BoxCollider2D:
   m_Offset: {x: -0.016479492, y: -0.032836914}
   serializedVersion: 2
   m_Size: {x: 0.54054165, y: 0.7046468}
+--- !u!95 &95603712371748086
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000014212709224}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3499159ab68e4a83b9666cd9bb438a6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114000011961765110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -127,7 +145,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_SubsetIndices: 
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
@@ -135,7 +155,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedWireframeHidden: 1
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
