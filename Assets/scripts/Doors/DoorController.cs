@@ -11,7 +11,6 @@ public class DoorController: MonoBehaviour {
     private Animator thisAnim;
     private BoxCollider2D boxColl;
     private bool isOpened = false;
-    public string idleState;
 
     public float maxTimeOpen = 5;
     private float timeOpen = 0;
@@ -21,7 +20,6 @@ public class DoorController: MonoBehaviour {
     void Start() {
         thisAnim = gameObject.GetComponent<Animator>();
         boxColl = gameObject.GetComponent<BoxCollider2D>();
-        thisAnim.Play(idleState);
     }
 
     void Update() {
@@ -38,15 +36,12 @@ public class DoorController: MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll) {
         if(!isOpened && coll.gameObject.layer == 8) {
-            isOpened = true;
-            thisAnim.SetBool("open", true);
-            SoundManager.control.sounds[1].Play();
+            Open();
         }
         numOccupiers++;
     }
 
     void OnTriggerExit2D(Collider2D coll) {
-        timeOpen = 0;
         numOccupiers--;
     }
 
@@ -55,15 +50,14 @@ public class DoorController: MonoBehaviour {
             timeOpen += Time.deltaTime;
 
             if(timeOpen >= maxTimeOpen) {
-                timeOpen = 0;
-                isOpened = false;
-                thisAnim.SetBool("open", false);
+                Close();
             }
+        }else {
+            timeOpen = 0;
         }
     }
 
     public void PlayCloseSound() {
-        SoundManager.control.sounds[2].time = 0;
         SoundManager.control.sounds[2].Play();
     }
 
@@ -72,5 +66,16 @@ public class DoorController: MonoBehaviour {
             SoundManager.control.sounds[2].time = 0.6f;
             SoundManager.control.sounds[2].Play();
         }
+    }
+
+    private void Open() {
+        isOpened = true;
+        thisAnim.SetBool("open", true);
+        SoundManager.control.sounds[1].Play();
+    }
+
+    private void Close() {
+        isOpened = false;
+        thisAnim.SetBool("open", false);
     }
 }
