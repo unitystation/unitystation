@@ -8,7 +8,8 @@ using UnityEngine.SceneManagement;
 namespace Network
 {
 
-	public class NetworkManager : Photon.PunBehaviour {
+	public class NetworkManager : Photon.PunBehaviour
+	{
 
 		public static NetworkManager control;
 
@@ -20,7 +21,8 @@ namespace Network
 		string _gameVersion = "1";
 
 	
-	void Awake(){
+		void Awake ()
+		{
 			if (control == null) {
 			
 				control = this;
@@ -37,19 +39,10 @@ namespace Network
 			// this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
 			PhotonNetwork.automaticallySyncScene = true;
 
-	}
+		}
 
-	void Start () {
-		
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-		public void Connect(){ //Called from login window
+		public void Connect ()
+		{ //Called from login window
 
 			// we check if we are connected or not, we join if we are , else we initiate the connection to the server.
 			if (!Managers.control.isDevMode) {
@@ -68,10 +61,12 @@ namespace Network
 
 			}
 
+			UIManager.control.displayControl.logInWindow.SetActive (false);
 
 		}
 
-		public void SpawnDevPlayer(){ //IF WE ARE IN DEV MODE THEN SET SPAWN A PLAYERPREFAB AND ASSIGN IT TO CONTROLS AND REMOVE THE CHAT LOGIN WINDOW
+		public void SpawnDevPlayer ()
+		{ //IF WE ARE IN DEV MODE THEN SET SPAWN A PLAYERPREFAB AND ASSIGN IT TO CONTROLS AND REMOVE THE CHAT LOGIN WINDOW
 		
 			if (!PlayerManager.control.hasSpawned) {
 				PlayerManager.control.hasSpawned = true;
@@ -82,14 +77,12 @@ namespace Network
 				Debug.Log ("IN DEV MODE, DO NOT CONNECT TO NETWORK. SPAWNING LOCAL PLAYER ONLY");
 
 			}
-
-		
-
 		}
 
 		//Network public functions
 
-		public void LeaveMap(){
+		public void LeaveMap ()
+		{
 		
 		
 			PhotonNetwork.LeaveRoom ();
@@ -97,7 +90,7 @@ namespace Network
 		
 		}
 
-		public void LoadMap()
+		public void LoadMap ()
 		{
 			if (!Managers.control.isDevMode) {
 				if (!PhotonNetwork.isMasterClient) {
@@ -112,6 +105,7 @@ namespace Network
 				SpawnDevPlayer ();
 			
 			}
+			UIManager.control.displayControl.logInWindow.SetActive (false);
 		}
 
 		//PUN CALLBACKS BELOW:
@@ -122,7 +116,7 @@ namespace Network
 			UIManager.control.chatControl.ReportToChannel ("Server: connecting to server...");
 			PhotonNetwork.playerName = UIManager.control.chatControl.UserName;
 			PhotonNetwork.JoinRandomRoom ();
-		} 
+		}
 
 		public override void OnDisconnectedFromPhoton ()
 		{
@@ -143,11 +137,11 @@ namespace Network
 		{
 			Debug.Log ("Successfully joined!");
 
-			UIManager.control.chatControl.ReportToChannel("Welcome to unitystation. Press T to chat");
+			UIManager.control.chatControl.ReportToChannel ("Welcome to unitystation. Press T to chat");
 			isConnected = true;
 
-			if(!Managers.control.isDevMode){
-			PlayerManager.control.CheckIfSpawned (); // Spawn the character if in the game already (This is for development when you are working on the map scenes)
+			if (!Managers.control.isDevMode) {
+				PlayerManager.control.CheckIfSpawned (); // Spawn the character if in the game already (This is for development when you are working on the map scenes)
 			} else {
 
 				Debug.Log ("IN DEV MODE, DO NOT CONNECT TO NETWORK. SPAWNING LOCAL PLAYER ONLY");
@@ -162,20 +156,20 @@ namespace Network
 //			} 
 		}
 
-		public override void OnPhotonPlayerDisconnected( PhotonPlayer other  )
+		public override void OnPhotonPlayerDisconnected (PhotonPlayer other)
 		{
-			Debug.Log( "PUNderDomePlayerDisconnected() " + other.name ); // seen when other disconnects
+			Debug.Log ("PUNderDomePlayerDisconnected() " + other.name); // seen when other disconnects
 
 
 		}
 
-		public override void OnPhotonPlayerConnected( PhotonPlayer other  ) 
+		public override void OnPhotonPlayerConnected (PhotonPlayer other)
 		{
-			Debug.Log( "OnPhotonPlayerConnected() " + other.name ); // not seen if you're the player connecting
+			Debug.Log ("OnPhotonPlayerConnected() " + other.name); // not seen if you're the player connecting
 
 
 		}
 
 	
-}
+	}
 }
