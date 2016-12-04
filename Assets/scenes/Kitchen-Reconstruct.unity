@@ -1876,7 +1876,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000012228612998, guid: ced6ef1cf7604ad0884ca6e1f172ba99, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4000012228612998, guid: ced6ef1cf7604ad0884ca6e1f172ba99, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1898,6 +1898,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 114000010752409192, guid: ced6ef1cf7604ad0884ca6e1f172ba99,
+        type: 2}
+      propertyPath: depth
+      value: -0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ced6ef1cf7604ad0884ca6e1f172ba99, type: 2}
   m_IsPrefabParent: 0
@@ -1906,6 +1911,24 @@ Transform:
   m_PrefabParentObject: {fileID: 4000010739918412, guid: 56c6161e9e0a4ac08ff26848e7c65019,
     type: 2}
   m_PrefabInternal: {fileID: 575139539}
+--- !u!1 &317092093 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000014202525198, guid: ced6ef1cf7604ad0884ca6e1f172ba99,
+    type: 2}
+  m_PrefabInternal: {fileID: 299991327}
+--- !u!114 &317092096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 317092093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 296bba2513ea3a84fa26ac94364c2a09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteClosed: {fileID: 21300004, guid: 59b1c11cc6b3442f92314b9d5193a323, type: 3}
+  spriteOpened: {fileID: 21300006, guid: 59b1c11cc6b3442f92314b9d5193a323, type: 3}
 --- !u!1001 &334861764
 Prefab:
   m_ObjectHideFlags: 0
