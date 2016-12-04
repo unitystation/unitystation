@@ -23,14 +23,12 @@ public class ClosetClickTrigger: MonoBehaviour {
     }
 
     void OnMouseDown() {
-        //and eventually check if there is room in the hand etc
-
         if(PlayerManager.control.playerScript != null) {
             var headingToPlayer = PlayerManager.control.playerScript.transform.position - transform.position;
             var distance = headingToPlayer.magnitude;
 
             if(distance <= 2f) {
-                SoundManager.control.sounds[3].Play(); // TEST
+                SoundManager.control.sounds[3].Play(); 
                 if(spriteRenderer.sprite == spriteClosed) {
                     spriteRenderer.sprite = spriteOpened;
                     lockLight.SetActive(false);
