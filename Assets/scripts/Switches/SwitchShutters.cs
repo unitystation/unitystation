@@ -9,26 +9,26 @@ public class SwitchShutters : MonoBehaviour {
     private Animator animator;
 
     private bool closed = false;
-
-	// Use this for initialization
+    
 	void Start () {
         animator = GetComponent<Animator>();
     }
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}
 
     void OnMouseDown() {
-        if(closed) {
-            OpenShutters();
-        } else {
-            CloseShutters();
-        }
+        if(!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP")) { 
+            if(closed) {
+                OpenShutters();
+            } else {
+                CloseShutters();
+            }
 
-        closed = !closed;
-        animator.SetTrigger("pressed");
+            closed = !closed;
+            animator.SetTrigger("activated");
+        }
     }
 
     private void OpenShutters() {
