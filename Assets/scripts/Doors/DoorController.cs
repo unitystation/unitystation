@@ -3,12 +3,7 @@ using System.Collections;
 using PlayGroup;
 
 public class DoorController: MonoBehaviour {
-
-    /* QUICK MOCK UP
-	 * OF DOOR SYSTEM
-	 */
-
-    private Animator thisAnim;
+    private Animator animator;
     private BoxCollider2D boxColl;
     private bool isOpened = false;
 
@@ -18,7 +13,7 @@ public class DoorController: MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        thisAnim = gameObject.GetComponent<Animator>();
+        animator = gameObject.GetComponent<Animator>();
         boxColl = gameObject.GetComponent<BoxCollider2D>();
     }
 
@@ -56,6 +51,10 @@ public class DoorController: MonoBehaviour {
             timeOpen = 0;
         }
     }
+    
+    public void PlayOpenSound() {
+        SoundManager.control.sounds[1].Play();
+    }
 
     public void PlayCloseSound() {
         SoundManager.control.sounds[2].Play();
@@ -68,14 +67,29 @@ public class DoorController: MonoBehaviour {
         }
     }
 
+    void OnMouseDown() {
+        Debug.Log("hello");
+        if(PlayerManager.control.playerScript != null) {
+            var headingToPlayer = PlayerManager.control.playerScript.transform.position - transform.position;
+            var distance = headingToPlayer.magnitude;
+
+            if(distance <= 2f) {
+                if(isOpened) {
+                    Close();
+                } else {
+                    Open();
+                }
+            }
+        }
+    }
+
     private void Open() {
         isOpened = true;
-        thisAnim.SetBool("open", true);
-        SoundManager.control.sounds[1].Play();
+        animator.SetBool("open", true);
     }
 
     private void Close() {
         isOpened = false;
-        thisAnim.SetBool("open", false);
+        animator.SetBool("open", false);
     }
 }
