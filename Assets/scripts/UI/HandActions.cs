@@ -29,12 +29,12 @@ public class HandActions : MonoBehaviour {
 				if (UIManager.control.isRightHand && !UIManager.control.hands.rightSlot.isFull) {
 				
 					if (slotType == SlotType.storage01) {
-						UIManager.control.hands.rightSlot.AddItem (UIManager.control.bottomControl.storage01Slot.inHandItem);
+						UIManager.control.hands.rightSlot.TryToAddItem (UIManager.control.bottomControl.storage01Slot.inHandItem);
 						UIManager.control.bottomControl.storage01Slot.inHandItem = null;
 					
 					}
 					if (slotType == SlotType.storage02) {
-						UIManager.control.hands.rightSlot.AddItem (UIManager.control.bottomControl.storage02Slot.inHandItem);
+						UIManager.control.hands.rightSlot.TryToAddItem (UIManager.control.bottomControl.storage02Slot.inHandItem);
 						UIManager.control.bottomControl.storage02Slot.inHandItem = null;
 
 					}
@@ -43,12 +43,12 @@ public class HandActions : MonoBehaviour {
 				} else if (!UIManager.control.isRightHand && !UIManager.control.hands.leftSlot.isFull) {
 
 					if (slotType == SlotType.storage01) {
-						UIManager.control.hands.leftSlot.AddItem (UIManager.control.bottomControl.storage01Slot.inHandItem);
+						UIManager.control.hands.leftSlot.TryToAddItem (UIManager.control.bottomControl.storage01Slot.inHandItem);
 						UIManager.control.bottomControl.storage01Slot.inHandItem = null;
 
 					}
 					if (slotType == SlotType.storage02) {
-						UIManager.control.hands.leftSlot.AddItem (UIManager.control.bottomControl.storage02Slot.inHandItem);
+						UIManager.control.hands.leftSlot.TryToAddItem (UIManager.control.bottomControl.storage02Slot.inHandItem);
 						UIManager.control.bottomControl.storage02Slot.inHandItem = null;
 
 					}
@@ -69,13 +69,13 @@ public class HandActions : MonoBehaviour {
 
 
 			if (UIManager.control.isRightHand) {
-				hands.rightSlot.AddItem(hands.leftSlot.inHandItem);
+				hands.rightSlot.TryToAddItem(hands.leftSlot.inHandItem);
 				hands.leftSlot.inHandItem = null;
 			
 
 			
 			} else {
-				hands.leftSlot.AddItem(hands.rightSlot.inHandItem);
+				hands.leftSlot.TryToAddItem(hands.rightSlot.inHandItem);
 				hands.rightSlot.inHandItem = null;
 
 			

@@ -212,20 +212,25 @@ public class PlayerSprites : MonoBehaviour {
 			}
 		}
 
-        public void RemoveCurrentItemFromHand()
+        public GameObject RemoveCurrentItemFromHand()
         {
-           
+            GameObject removedItem = null;
             if (isRightHandSelector)
             {
                 isRightHandFull = false;
+                if(rightHandRend != null)
+                    removedItem = rightHandRend.gameObject;
                 rightHandRend = null;
             }
 
             else
             {
                 isLeftHandFull = false;
+                if(leftHandRend != null)
+                    removedItem = leftHandRend.gameObject;
                 leftHandRend = null;
             }
+            return removedItem;
         }
 
 		void ChangeDirLeftItem(Vector2 direction){
