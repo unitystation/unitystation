@@ -51,9 +51,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4000012120925626}
-  - component: {fileID: 61000014046353024}
-  - component: {fileID: 114000013935008546}
   - component: {fileID: 61000012679238458}
+  - component: {fileID: 114000013935008546}
   - component: {fileID: 114627414144372130}
   m_Layer: 11
   m_Name: Refrigerator
@@ -69,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013052373872}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.0004883, y: 3.99292, z: -0.1}
+  m_LocalPosition: {x: -0.00048828125, y: 3.99292, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013135475192}
@@ -114,23 +113,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: -0.0076904297, y: 0.0017089844}
+  m_Offset: {x: -0.06, y: -0.02}
   serializedVersion: 2
-  m_Size: {x: 0.97315955, y: 1.0160985}
---- !u!61 &61000014046353024
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013052373872}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.016357422, y: 0.019042969}
-  serializedVersion: 2
-  m_Size: {x: 0.95581806, y: 1.0161058}
+  m_Size: {x: 0.8, y: 0.87}
 --- !u!114 &114000013935008546
 MonoBehaviour:
   m_ObjectHideFlags: 1

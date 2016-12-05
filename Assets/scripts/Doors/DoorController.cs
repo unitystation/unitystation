@@ -3,15 +3,9 @@ using System.Collections;
 using PlayGroup;
 
 public class DoorController: MonoBehaviour {
-
-    /* QUICK MOCK UP
-	 * OF DOOR SYSTEM
-	 */
-
-    private Animator thisAnim;
+    private Animator animator;
     private BoxCollider2D boxColl;
     private bool isOpened = false;
-    public string idleState;
 
     public float maxTimeOpen = 5;
     private float timeOpen = 0;
@@ -19,9 +13,8 @@ public class DoorController: MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        thisAnim = gameObject.GetComponent<Animator>();
+        animator = gameObject.GetComponent<Animator>();
         boxColl = gameObject.GetComponent<BoxCollider2D>();
-        thisAnim.Play(idleState);
     }
 
     void Update() {
@@ -38,15 +31,12 @@ public class DoorController: MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll) {
         if(!isOpened && coll.gameObject.layer == 8) {
-            isOpened = true;
-            thisAnim.SetBool("open", true);
-            SoundManager.control.sounds[1].Play();
+            Open();
         }
         numOccupiers++;
     }
 
     void OnTriggerExit2D(Collider2D coll) {
-        timeOpen = 0;
         numOccupiers--;
     }
 
@@ -55,15 +45,18 @@ public class DoorController: MonoBehaviour {
             timeOpen += Time.deltaTime;
 
             if(timeOpen >= maxTimeOpen) {
-                timeOpen = 0;
-                isOpened = false;
-                thisAnim.SetBool("open", false);
+                Close();
             }
+        }else {
+            timeOpen = 0;
         }
+    }
+    
+    public void PlayOpenSound() {
+        SoundManager.control.sounds[1].Play();
     }
 
     public void PlayCloseSound() {
-        SoundManager.control.sounds[2].time = 0;
         SoundManager.control.sounds[2].Play();
     }
 
@@ -72,5 +65,31 @@ public class DoorController: MonoBehaviour {
             SoundManager.control.sounds[2].time = 0.6f;
             SoundManager.control.sounds[2].Play();
         }
+    }
+
+    void OnMouseDown() {
+        Debug.Log("hello");
+        if(PlayerManager.control.playerScript != null) {
+            var headingToPlayer = PlayerManager.control.playerScript.transform.position - transform.position;
+            var distance = headingToPlayer.magnitude;
+
+            if(distance <= 2f) {
+                if(isOpened) {
+                    Close();
+                } else {
+                    Open();
+                }
+            }
+        }
+    }
+
+    private void Open() {
+        isOpened = true;
+        animator.SetBool("open", true);
+    }
+
+    private void Close() {
+        isOpened = false;
+        animator.SetBool("open", false);
     }
 }

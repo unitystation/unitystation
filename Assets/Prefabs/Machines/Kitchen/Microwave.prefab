@@ -16,12 +16,12 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000011140861540}
-  - 61: {fileID: 61000014178328654}
-  - 114: {fileID: 114000010545478540}
-  - 61: {fileID: 61000012129569106}
+  - component: {fileID: 4000011140861540}
+  - component: {fileID: 61000014178328654}
+  - component: {fileID: 61000012129569106}
+  - component: {fileID: 114000010545478540}
   m_Layer: 11
   m_Name: Microwave
   m_TagString: Untagged
@@ -34,10 +34,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000012062877234}
-  - 212: {fileID: 212000012631577124}
+  - component: {fileID: 4000012062877234}
+  - component: {fileID: 212000012631577124}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -52,13 +52,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010765165894}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1845, y: 1144, z: 0}
+  m_LocalPosition: {x: -2.0004883, y: 3.99292, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4000012062877234}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4000012062877234
 Transform:
   m_ObjectHideFlags: 1
@@ -68,10 +68,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.226, z: 0}
   m_LocalScale: {x: 3.2, y: 3.2, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000011140861540}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61000012129569106
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapValue: 1
-  depth: 0
+  depth: -0.1
 --- !u!212 &212000012631577124
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -127,7 +127,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_SubsetIndices: 
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
@@ -135,7 +137,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedWireframeHidden: 1
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89

@@ -54,8 +54,8 @@ GameObject:
   - component: {fileID: 61000012796496776}
   - component: {fileID: 61000010170776554}
   - component: {fileID: 114000011089653234}
-  - component: {fileID: 95000011124253226}
   - component: {fileID: 114000013931071084}
+  - component: {fileID: 95000011124253226}
   m_Layer: 9
   m_Name: WhiteServiceDoor
   m_TagString: Untagged
@@ -86,7 +86,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013430947772}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1839, y: 1143, z: 0}
+  m_LocalPosition: {x: 1839, y: 1143, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013110856560}
@@ -171,7 +171,7 @@ Animator:
   m_GameObject: {fileID: 1000013430947772}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 619e0897c01e4b418c37fb5eee2be84e, type: 2}
+  m_Controller: {fileID: 22100000, guid: 3c5d5efd27497d843a6e10a2d5957e56, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -190,7 +190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleState: 02_serviceIdle
   maxTimeOpen: 5
 --- !u!114 &114000013931071084
 MonoBehaviour:
@@ -204,7 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapValue: 1
-  depth: 0
+  depth: -0.1
 --- !u!212 &212000011094967888
 SpriteRenderer:
   m_ObjectHideFlags: 1

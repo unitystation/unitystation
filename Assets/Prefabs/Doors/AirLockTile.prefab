@@ -111,7 +111,7 @@ Animator:
   m_GameObject: {fileID: 1000011462531918}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 619e0897c01e4b418c37fb5eee2be84e, type: 2}
+  m_Controller: {fileID: 22100000, guid: 4d6c4d0509357114f8c3485706f16024, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -143,7 +143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleState: 01_airlockIdle
   maxTimeOpen: 5
 --- !u!212 &212000010235302174
 SpriteRenderer:
