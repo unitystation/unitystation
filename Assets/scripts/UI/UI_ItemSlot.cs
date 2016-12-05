@@ -24,6 +24,7 @@ namespace UI {
                 }
             }
         }
+
         public GameObject inHandItem;
         public SlotType thisSlot;
 
@@ -32,7 +33,6 @@ namespace UI {
 
         public bool TryToAddItem(GameObject itemObj) {
             if(!isFull) {
-
                 ItemUI_Tracker itemTracker = itemObj.GetComponent<ItemUI_Tracker>();
                 if(itemTracker == null) {
                     itemTracker = itemObj.AddComponent<ItemUI_Tracker>();
@@ -42,7 +42,7 @@ namespace UI {
                 inHandItem = itemObj;
                 itemObj.transform.position = transform.position;
                 itemObj.transform.parent = this.gameObject.transform;
-                
+
                 return true;
             }
             return false;

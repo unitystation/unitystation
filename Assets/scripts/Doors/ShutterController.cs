@@ -6,6 +6,7 @@ using PlayGroup;
 public class ShutterController : MonoBehaviour {
     private Animator animator;
     private bool isClosed = false;
+        
     //private BoxCollider2D boxColl;
 
     // Use this for initialization

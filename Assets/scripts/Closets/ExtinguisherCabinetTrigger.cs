@@ -10,8 +10,8 @@ public class ExtinguisherCabinetTrigger: MonoBehaviour {
     public Sprite spriteOpenedEmpty;
 
     public GameObject extinguisherPrefab;
-    public GameObject extinguisher;
 
+    private GameObject extinguisher;
     private SpriteRenderer spriteRenderer;
 
     // Use this for initialization
@@ -43,6 +43,7 @@ public class ExtinguisherCabinetTrigger: MonoBehaviour {
                     if(extinguisher == null) {
                         spriteRenderer.sprite = spriteClosed;
                     } else if(Items.ItemManager.control.TryToPickUpObject(extinguisher)) {
+                        extinguisher.SetActive(true);
                         extinguisher = null;
                         spriteRenderer.sprite = spriteOpenedEmpty;
                     }
