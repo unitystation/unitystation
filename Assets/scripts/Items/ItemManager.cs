@@ -65,7 +65,7 @@ public class ItemManager : MonoBehaviour {
 
 			}
 
-            pSprites.PickedUpItem(6); //hard coded to kitchen knife data temporarily
+            pSprites.PickedUpItem(itemObject); //hard coded to kitchen knife data temporarily
 
             
 			//TODO: communicate with playersprites and give it a reference to the items
@@ -74,5 +74,13 @@ public class ItemManager : MonoBehaviour {
 
 
 		}
+
+       
+        public void RemoveItemFromHand()
+        {
+            PlayerSprites pSprites = PlayerManager.control.playerScript.playerSprites;
+            pSprites.RemoveCurrentItemFromHand();
+
+        }
 }
 }
