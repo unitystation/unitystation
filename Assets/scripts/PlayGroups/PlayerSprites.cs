@@ -180,23 +180,15 @@ public class PlayerSprites : MonoBehaviour {
 		}
 
 		//REAL SHIT METHOD FIX IT LATER OKAY - doobly
-		public void PickedUpItem(int spriteNum){
+		public void PickedUpItem(GameObject obj){
 
-			//FIXME No longer works over photon network. Need to sync the picked up item over photon and then only handle change of 
-			// direction based on that character and what hand that item is in on that specific character also
+            ItemAttributes att = obj.GetComponent<ItemAttributes>();
 
-			int itemSelector;
-			if (spriteNum == 6) { //kitchen knifeitem
+            //FIXME No longer works over photon network. Need to sync the picked up item over photon and then only handle change of 
+            // direction based on that character and what hand that item is in on that specific character also
 
-                Debug.Log("Picked up kitchen knife");
-			
-				itemSelector = 502; //kitchen handitem int for kitchen knife
-				//yes this needs alot of refactoring until the suckiness has been disolved - doobly
-			} else {
+            int itemSelector = att.inHandReference;
 
-				itemSelector = 0;
-
-			}
 
             isRightHandSelector = UIManager.control.isRightHand;
 
@@ -219,6 +211,22 @@ public class PlayerSprites : MonoBehaviour {
 			
 			}
 		}
+
+        public void RemoveCurrentItemFromHand()
+        {
+           
+            if (isRightHandSelector)
+            {
+                isRightHandFull = false;
+                rightHandRend = null;
+            }
+
+            else
+            {
+                isLeftHandFull = false;
+                leftHandRend = null;
+            }
+        }
 
 		void ChangeDirLeftItem(Vector2 direction){
             
