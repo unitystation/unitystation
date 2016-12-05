@@ -43,12 +43,12 @@ public class ControlBottomUI : MonoBehaviour {
 			if (!storage01Slot.isFull) {
 				if (UIManager.control.isRightHand && UIManager.control.hands.rightSlot.isFull) {
 			
-					storage01Slot.AddItem (UIManager.control.hands.rightSlot.inHandItem);
+					storage01Slot.TryToAddItem (UIManager.control.hands.rightSlot.inHandItem);
 					UIManager.control.hands.rightSlot.inHandItem = null;
 			
 				} else if (!UIManager.control.isRightHand && UIManager.control.hands.leftSlot.isFull) {
 
-					storage01Slot.AddItem (UIManager.control.hands.leftSlot.inHandItem);
+					storage01Slot.TryToAddItem (UIManager.control.hands.leftSlot.inHandItem);
 					UIManager.control.hands.leftSlot.inHandItem = null;
 
 				}
@@ -62,12 +62,12 @@ public class ControlBottomUI : MonoBehaviour {
 			if (!storage02Slot.isFull) {
 				if (UIManager.control.isRightHand && UIManager.control.hands.rightSlot.isFull) {
 
-					storage02Slot.AddItem (UIManager.control.hands.rightSlot.inHandItem);
+					storage02Slot.TryToAddItem (UIManager.control.hands.rightSlot.inHandItem);
 					UIManager.control.hands.rightSlot.inHandItem = null;
 
 				} else if (!UIManager.control.isRightHand && UIManager.control.hands.leftSlot.isFull) {
 
-					storage02Slot.AddItem (UIManager.control.hands.leftSlot.inHandItem);
+					storage02Slot.TryToAddItem (UIManager.control.hands.leftSlot.inHandItem);
 					UIManager.control.hands.leftSlot.inHandItem = null;
 
 				}

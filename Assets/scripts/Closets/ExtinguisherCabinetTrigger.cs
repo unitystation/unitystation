@@ -10,21 +10,21 @@ public class ExtinguisherCabinetTrigger: MonoBehaviour {
     public Sprite spriteOpenedEmpty;
 
     public GameObject extinguisherPrefab;
-
-    private bool empty = false;
+    public GameObject extinguisher;
 
     private SpriteRenderer spriteRenderer;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         spriteRenderer = transform.FindChild("Sprite").GetComponent<SpriteRenderer>();
+        extinguisher = Instantiate(extinguisherPrefab);
+        extinguisher.SetActive(false);
+    }
+
+    // Update is called once per frame
+    void Update() {
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     void OnMouseDown() {
         if(PlayerManager.control.playerScript != null) {
@@ -34,18 +34,16 @@ public class ExtinguisherCabinetTrigger: MonoBehaviour {
             if(distance <= 2f) {
                 SoundManager.control.sounds[3].Play();
                 if(spriteRenderer.sprite == spriteClosed) {
-                    if(empty) {
+                    if(extinguisher == null) {
                         spriteRenderer.sprite = spriteOpenedEmpty;
                     } else {
                         spriteRenderer.sprite = spriteOpenedOccupied;
                     }
                 } else {
-                    if(empty) { 
+                    if(extinguisher == null) {
                         spriteRenderer.sprite = spriteClosed;
-
-                    }else {
-                        empty = true;
-                        Items.ItemManager.control.PickUpObject(Instantiate(extinguisherPrefab));
+                    } else if(Items.ItemManager.control.TryToPickUpObject(extinguisher)) {
+                        extinguisher = null;
                         spriteRenderer.sprite = spriteOpenedEmpty;
                     }
                 }
