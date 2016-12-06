@@ -11,13 +11,9 @@ namespace Items {
         void Awake() {
 
             if(control == null) {
-
                 control = this;
-
             } else {
-
                 Destroy(this);
-
             }
         }
         
@@ -35,23 +31,8 @@ namespace Items {
             } else {
                 return false;
             }
-
-            ItemAttributes attributes = itemObject.GetComponent<ItemAttributes>();
-
-            PlayerSprites pSprites = PlayerManager.control.playerScript.playerSprites;
-            pSprites.PickedUpItem(itemObject);
-
-
-            //TODO: communicate with playersprites and give it a reference to the items
-            //TODO: carring sprites (lefthand, righthand etc). Remember to check if it is
-            //TODO: right or left hand aswell.
-
+            
             return true;
-        }
-
-        public GameObject RemoveItemFromHand() {
-            var pSprites = PlayerManager.control.playerScript.playerSprites;
-            return pSprites.RemoveCurrentItemFromHand();
         }
     }
 }

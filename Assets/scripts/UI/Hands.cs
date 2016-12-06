@@ -35,12 +35,10 @@ namespace UI {
                 PlayClick01();
 
                 if(isRight) {
-                    UIManager.control.isRightHand = true;
                     selector.transform.position = rightHand.transform.position;
                     currentSlot = rightSlot;
 
                 } else {
-                    UIManager.control.isRightHand = false;
                     selector.transform.position = leftHand.transform.position;
                     currentSlot = leftSlot;
 
@@ -50,7 +48,7 @@ namespace UI {
 
         //For swap button
         public void Swap() {
-            if(UIManager.control.isRightHand) {
+            if(currentSlot == rightSlot) {
                 SelectorState(false);
             } else {
                 SelectorState(true);

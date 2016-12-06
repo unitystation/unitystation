@@ -1,65 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-namespace Sprites{
-public class SpriteManager : MonoBehaviour {
+namespace Sprites {
+    public class SpriteManager: MonoBehaviour {
 
-	public static SpriteManager control; //All of the instantiate players will just reference sprites here
-		                                 
+        public static SpriteManager control; //All of the instantiate players will just reference sprites here
 
-	// Use this for initialization
-	public PlayerSpriteSheet playerSprites;
+        
+        public Dictionary<string, Sprite[]> playerSprites = new Dictionary<string, Sprite[]>();
 
-	void Awake(){
+        void Awake() {
 
-		if (control == null) {
-		
-			control = this;
-		
-		} else {
-		
-			Destroy (this);
-		
-		}
+            if(control == null) {
 
-	}
-	void Start () {
-		playerSprites = new PlayerSpriteSheet ();
-		playerSprites.playerSheet = Resources.LoadAll<Sprite>("mobs/human");
-		playerSprites.suitSheet = Resources.LoadAll<Sprite>("mobs/suit");
-		playerSprites.beltSheet = Resources.LoadAll<Sprite>("mobs/belt");
-		playerSprites.feetSheet = Resources.LoadAll<Sprite>("mobs/feet");
-		playerSprites.headSheet = Resources.LoadAll<Sprite>("mobs/head");
-		playerSprites.faceSheet = Resources.LoadAll<Sprite>("mobs/human_face");
-		playerSprites.maskSheet = Resources.LoadAll<Sprite>("mobs/mask");
-		playerSprites.underwearSheet = Resources.LoadAll<Sprite>("mobs/underwear");
-		playerSprites.uniformSheet = Resources.LoadAll<Sprite>("mobs/uniform");
-		playerSprites.leftHandSheet = Resources.LoadAll<Sprite> ("mobs/inhands/items_lefthand");
-		playerSprites.rightHandSheet = Resources.LoadAll<Sprite> ("mobs/inhands/items_righthand");
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-}
+                control = this;
 
-public class PlayerSpriteSheet{
+            } else {
 
+                Destroy(this);
 
-	public Sprite[] playerSheet;
-	public Sprite[] suitSheet;
-	public Sprite[] beltSheet;
-	public Sprite[] feetSheet;
-	public Sprite[] headSheet;
-	public Sprite[] faceSheet;
-	public Sprite[] maskSheet;
-	public Sprite[] underwearSheet;
-	public Sprite[] uniformSheet;
-	public Sprite[] leftHandSheet;
-	public Sprite[] rightHandSheet;
-
-
-}
+            }
+        }
+        void Start() {
+            playerSprites["human"] = Resources.LoadAll<Sprite>("mobs/human");
+            playerSprites["suit"] = Resources.LoadAll<Sprite>("mobs/clothes/suit");
+            playerSprites["belt"] = Resources.LoadAll<Sprite>("mobs/clothes/belt");
+            playerSprites["feet"] = Resources.LoadAll<Sprite>("mobs/clothes/feet");
+            playerSprites["head"] = Resources.LoadAll<Sprite>("mobs/clothes/head");
+            playerSprites["human_face"] = Resources.LoadAll<Sprite>("mobs/human_face");
+            playerSprites["mask"] = Resources.LoadAll<Sprite>("mobs/clothes/mask");
+            playerSprites["underwear"] = Resources.LoadAll<Sprite>("mobs/clothes/underwear");
+            playerSprites["uniform"] = Resources.LoadAll<Sprite>("mobs/clothes/uniform");
+            playerSprites["items_lefthand"] = Resources.LoadAll<Sprite>("mobs/inhands/items_lefthand");
+            playerSprites["items_righthand"] = Resources.LoadAll<Sprite>("mobs/inhands/items_righthand");
+        }
+    }
 }

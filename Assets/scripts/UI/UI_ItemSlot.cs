@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using Items;
+using PlayGroup;
 
 namespace UI {
 
@@ -14,10 +15,12 @@ namespace UI {
     }
 
     public class UI_ItemSlot: MonoBehaviour {
+        
+        public SlotType slotType;
 
         public bool isFull {
             get {
-                if(inHandItem == null) {
+                if(currentItem == null) {
                     return false;
                 } else {
                     return true;
@@ -26,26 +29,33 @@ namespace UI {
         }
 
         public GameObject Item {
-            get { return inHandItem; }
+            get { return currentItem; }
         }
 
-        private GameObject inHandItem;
-        public SlotType thisSlot;
+
+        private GameObject currentItem;
+        private PlayerSprites playerSprites;
+
+
 
         void Start() {
+            playerSprites = PlayerManager.control.playerScript.playerSprites;
         }
 
-        public bool TryToAddItem(GameObject itemObj) {
-            if(!isFull && itemObj != null) {
-                ItemUI_Tracker itemTracker = itemObj.GetComponent<ItemUI_Tracker>();
+        public bool TryToAddItem(GameObject item) {
+            if(!isFull && item != null) {
+                ItemUI_Tracker itemTracker = item.GetComponent<ItemUI_Tracker>();
                 if(itemTracker == null) {
-                    itemTracker = itemObj.AddComponent<ItemUI_Tracker>();
+                    itemTracker = item.AddComponent<ItemUI_Tracker>();
                 }
-                itemTracker.slotType = thisSlot;
+                itemTracker.slotType = slotType;
 
-                inHandItem = itemObj;
-                itemObj.transform.position = transform.position;
-                itemObj.transform.parent = this.gameObject.transform;
+                currentItem = item;
+                item.transform.position = transform.position;
+                item.transform.parent = this.gameObject.transform;
+
+
+                playerSprites.PickedUpItem(item);
 
                 return true;
             }
@@ -58,8 +68,11 @@ namespace UI {
         /// <param name="otherSlot"></param>
         /// <returns></returns>
         public bool TryToSwapItem(UI_ItemSlot otherSlot) {
-            if(!isFull && TryToAddItem(otherSlot.inHandItem)) {
-                otherSlot.RemoveItem();
+            if(!isFull && TryToAddItem(otherSlot.currentItem)) {
+                var item = otherSlot.RemoveItem();
+
+                if(slotType == SlotType.leftHand || slotType == SlotType.rightHand)
+                    playerSprites.PickedUpItem(item);
                 return true;
             }
             return false;
@@ -70,8 +83,11 @@ namespace UI {
         /// </summary>
         /// <returns></returns>
         public GameObject RemoveItem() {
-            var item = inHandItem;
-            inHandItem = null;
+            if(slotType == SlotType.leftHand || slotType == SlotType.rightHand)
+                playerSprites.RemoveItemFromHand(slotType == SlotType.rightHand);
+
+            var item = currentItem;
+            currentItem = null;
             return item;
         }
     }
