@@ -53,22 +53,21 @@ public class DoorController: MonoBehaviour {
     }
     
     public void PlayOpenSound() {
-        SoundManager.control.sounds[1].Play();
+        SoundManager.control.sounds["AirlockOpen"].Play();
     }
 
     public void PlayCloseSound() {
-        SoundManager.control.sounds[2].Play();
+        SoundManager.control.sounds["AirlockClose"].Play();
     }
 
     public void PlayCloseSFXshort() {
         if(SoundManager.control != null) {
-            SoundManager.control.sounds[2].time = 0.6f;
-            SoundManager.control.sounds[2].Play();
+            SoundManager.control.sounds["AirlockClose"].time = 0.6f;
+            SoundManager.control.sounds["AirlockClose"].Play();
         }
     }
 
     void OnMouseDown() {
-        Debug.Log("hello");
         if(PlayerManager.control.playerScript != null) {
             var headingToPlayer = PlayerManager.control.playerScript.transform.position - transform.position;
             var distance = headingToPlayer.magnitude;

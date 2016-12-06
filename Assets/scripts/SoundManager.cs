@@ -1,11 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
+[System.Serializable]
+public class SoundEntry {
+    public string name;
+    public AudioSource source;
+}
 
 public class SoundManager : MonoBehaviour {
 
-	public static SoundManager control;
+    public List<SoundEntry> soundsList = new List<SoundEntry>();
+    public Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
+
+    public static SoundManager control;
 	// Use this for initialization
-	public AudioSource[] sounds;
+	//public AudioSource[] sounds;
 	public AudioSource[] musicTracks;
 	public AudioSource[] ambientTracks;
 
@@ -16,14 +26,13 @@ public class SoundManager : MonoBehaviour {
 			control = this;
 		
 		} else {
-
-		
 			Destroy (this);
-		
 		}
 
-
-	}
+        foreach(var s in soundsList) {
+            sounds.Add(s.name, s.source);
+        }
+    }
 
 	public void StopMusic(){
 

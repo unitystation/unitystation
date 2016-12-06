@@ -26,7 +26,7 @@ namespace UI {
         // Use this for initialization
         void Start() {
             handActions = gameObject.AddComponent<HandActions>();
-            SelectorState(true);
+            currentSlot = rightSlot;
         }
 
         // whether selector should be on the right hand or the left
@@ -77,7 +77,7 @@ namespace UI {
         void PlayClick01() {
 
             if(SoundManager.control != null) {
-                SoundManager.control.sounds[5].Play();
+                SoundManager.control.sounds["Click01"].Play();
             }
 
         }

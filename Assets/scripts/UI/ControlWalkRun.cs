@@ -45,8 +45,8 @@ public class ControlWalkRun : MonoBehaviour {
 
 		void PlayClick01(){
 
-			if (SoundManager.control != null) {
-				SoundManager.control.sounds[5].Play ();
+            if (SoundManager.control != null) {
+				SoundManager.control.sounds["Click01"].Play ();
 			}
 
 		}
