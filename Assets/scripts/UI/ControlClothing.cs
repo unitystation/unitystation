@@ -96,7 +96,7 @@ public class ControlClothing : MonoBehaviour {
 		void PlayClick01(){
 
 			if (SoundManager.control != null) {
-				SoundManager.control.sounds[5].Play ();
+				SoundManager.control.sounds["Click01"].Play ();
 			}
 
 		}

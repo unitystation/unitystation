@@ -32,7 +32,7 @@ public class ClosetClickTrigger: MonoBehaviour {
             var distance = headingToPlayer.magnitude;
 
             if(distance <= 2f) {
-                SoundManager.control.sounds[3].Play();
+                SoundManager.control.sounds["OpenClose"].Play();
                 if(spriteRenderer.sprite == spriteClosed) {
                     spriteRenderer.sprite = spriteOpened;
                     if(lockLight != null) {

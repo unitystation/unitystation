@@ -75,8 +75,8 @@ public class NPC_Clown : MonoBehaviour {
 
 			if (SoundManager.control != null) {
 				float ranPitch = Random.Range (0.5f, 1.5f);
-				SoundManager.control.sounds [0].pitch= ranPitch;
-				SoundManager.control.sounds [0].Play ();
+				SoundManager.control.sounds ["ClownHonk"].pitch= ranPitch;
+				SoundManager.control.sounds ["ClownHonk"].Play ();
 
 			}
 			StartCoroutine(RandMove ());
