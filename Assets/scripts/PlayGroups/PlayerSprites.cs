@@ -193,7 +193,6 @@ namespace PlayGroup {
             isRightHandSelector = UIManager.control.isRightHand;
 
             if(isRightHandSelector) {
-
                 baseSprites.rightH = itemSelector;
                 isRightHandFull = true;
                 rightHandRend.sprite = SpriteManager.control.playerSprites.rightHandSheet[baseSprites.rightH];
@@ -231,8 +230,7 @@ namespace PlayGroup {
         void ChangeDirLeftItem(Vector2 direction) {
 
             if(UIManager.control.hands.leftSlot.isFull) {
-
-                Debug.Log(baseSprites.leftH);
+                
                 if(direction == Vector2.down) {
                     //down sprite
                     leftHandRend.sprite = SpriteManager.control.playerSprites.leftHandSheet[baseSprites.leftH - 3];
