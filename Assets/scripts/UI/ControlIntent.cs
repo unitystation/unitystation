@@ -52,7 +52,6 @@ public class ControlIntent : MonoBehaviour {
 		//SoundFX
 
 		void PlayClick01() {
-            Debug.Log("connect");
 
             if (SoundManager.control != null) {
 				SoundManager.control.sounds["Click01"].Play ();

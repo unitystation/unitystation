@@ -4224,6 +4224,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4113174184223424, guid: ae01bb2ce7e5a443e8c11c9cdf71a5df,
     type: 2}
   m_PrefabInternal: {fileID: 344625771}
+--- !u!82 &349686373 stripped
+AudioSource:
+  m_PrefabParentObject: {fileID: 82000010099726062, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 721880142}
 --- !u!1001 &371660438
 Prefab:
   m_ObjectHideFlags: 0
@@ -8575,6 +8580,16 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: sounds2.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: soundsList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4000012999823996, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -8606,6 +8621,106 @@ Prefab:
     - target: {fileID: 4000012999823996, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
       propertyPath: m_RootOrder
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: sounds2.Array.data[0].source
+      value: 
+      objectReference: {fileID: 349686373}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: sounds2.Array.data[0].name
+      value: ClownHonk
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: sounds2.Array.data[1].name
+      value: AirLockOpen
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: sounds2.Array.data[1].source
+      value: 
+      objectReference: {fileID: 1744951875}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: sounds2.Array.data[2].name
+      value: AirLockClose
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: sounds2.Array.data[2].source
+      value: 
+      objectReference: {fileID: 2122592274}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: sounds2.Array.data[3].name
+      value: OpenClose
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: sounds2.Array.data[3].source
+      value: 
+      objectReference: {fileID: 1371873785}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: sounds2.Array.data[4].name
+      value: Click01
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: sounds2.Array.data[4].source
+      value: 
+      objectReference: {fileID: 1590338154}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: soundsList.Array.data[0].name
+      value: ClownHonk
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: soundsList.Array.data[0].source
+      value: 
+      objectReference: {fileID: 349686373}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: soundsList.Array.data[1].source
+      value: 
+      objectReference: {fileID: 1744951875}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: soundsList.Array.data[1].name
+      value: AirlockOpen
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: soundsList.Array.data[3].name
+      value: OpenClose
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: soundsList.Array.data[3].source
+      value: 
+      objectReference: {fileID: 1371873785}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: soundsList.Array.data[2].name
+      value: AirlockClose
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: soundsList.Array.data[2].source
+      value: 
+      objectReference: {fileID: 2122592274}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: soundsList.Array.data[4].source
+      value: 
+      objectReference: {fileID: 1590338154}
+    - target: {fileID: 114000010384674502, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: soundsList.Array.data[4].name
+      value: Click01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
@@ -16398,6 +16513,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4113174184223424, guid: ae01bb2ce7e5a443e8c11c9cdf71a5df,
     type: 2}
   m_PrefabInternal: {fileID: 1370400812}
+--- !u!82 &1371873785 stripped
+AudioSource:
+  m_PrefabParentObject: {fileID: 82760672117800936, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 721880142}
 --- !u!1001 &1380347378
 Prefab:
   m_ObjectHideFlags: 0
@@ -18918,6 +19038,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8415a5df4c61423dacd6b94592fd8e72, type: 2}
   m_IsPrefabParent: 0
+--- !u!82 &1590338154 stripped
+AudioSource:
+  m_PrefabParentObject: {fileID: 82000012451072664, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 721880142}
 --- !u!1001 &1595837050
 Prefab:
   m_ObjectHideFlags: 0
@@ -20546,6 +20671,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4000013190541672, guid: b07ea9f765b04a7ab9767184611d7dfe,
     type: 2}
   m_PrefabInternal: {fileID: 2071041030}
+--- !u!82 &1744951875 stripped
+AudioSource:
+  m_PrefabParentObject: {fileID: 82000010611490684, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 721880142}
 --- !u!1001 &1746799235
 Prefab:
   m_ObjectHideFlags: 0
@@ -25466,6 +25596,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4000012805980522, guid: cc08f84c99464c698b50d945417a51f4,
     type: 2}
   m_PrefabInternal: {fileID: 2117375699}
+--- !u!82 &2122592274 stripped
+AudioSource:
+  m_PrefabParentObject: {fileID: 82000013942324194, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 721880142}
 --- !u!1001 &2123515621
 Prefab:
   m_ObjectHideFlags: 0
