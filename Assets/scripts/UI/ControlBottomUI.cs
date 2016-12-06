@@ -40,39 +40,12 @@ public class ControlBottomUI : MonoBehaviour {
 
 		public void Storage01(){
 			PlayClick01 ();
-			if (!storage01Slot.isFull) {
-				if (UIManager.control.isRightHand && UIManager.control.hands.rightSlot.isFull) {
-			
-					storage01Slot.TryToAddItem (UIManager.control.hands.rightSlot.inHandItem);
-					UIManager.control.hands.rightSlot.inHandItem = null;
-			
-				} else if (!UIManager.control.isRightHand && UIManager.control.hands.leftSlot.isFull) {
-
-					storage01Slot.TryToAddItem (UIManager.control.hands.leftSlot.inHandItem);
-					UIManager.control.hands.leftSlot.inHandItem = null;
-
-				}
-			}
-
+            storage01Slot.TryToSwapItem(UIManager.control.hands.currentSlot);
 		}
 
 		public void Storage02(){
 			PlayClick01 ();
-
-			if (!storage02Slot.isFull) {
-				if (UIManager.control.isRightHand && UIManager.control.hands.rightSlot.isFull) {
-
-					storage02Slot.TryToAddItem (UIManager.control.hands.rightSlot.inHandItem);
-					UIManager.control.hands.rightSlot.inHandItem = null;
-
-				} else if (!UIManager.control.isRightHand && UIManager.control.hands.leftSlot.isFull) {
-
-					storage02Slot.TryToAddItem (UIManager.control.hands.leftSlot.inHandItem);
-					UIManager.control.hands.leftSlot.inHandItem = null;
-
-				}
-			}
-
+            storage02Slot.TryToSwapItem(UIManager.control.hands.currentSlot);
 		}
 			
 

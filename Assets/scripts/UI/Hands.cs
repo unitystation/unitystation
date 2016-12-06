@@ -21,11 +21,11 @@ namespace UI {
 
         //components
         [HideInInspector]
-        public HandActions handActions;
+        public HandActions actions;
 
         // Use this for initialization
         void Start() {
-            handActions = gameObject.AddComponent<HandActions>();
+            actions = gameObject.AddComponent<HandActions>();
             currentSlot = rightSlot;
         }
 

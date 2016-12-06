@@ -1,58 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
+using PlayGroup;
 
 namespace UI {
     public class HandActions: MonoBehaviour {
 
         private Hands hands;
-        
+
         void Start() {
-            hands = GetComponent<Hands>();
+            hands = UIManager.control.hands;
         }
 
-        public void ActionLogic(SlotType slotType) {
-
-            if(UIManager.control.isRightHand && slotType == SlotType.leftHand) {
-                //Taking item from left hand and giving to the right if it is empty
-                SwapItem();
-            } else if(!UIManager.control.isRightHand && slotType == SlotType.rightHand) {
-                //Taking item from right hand and giving to the left if it is empty
-                SwapItem();
-            } else {
-                if(UIManager.control.isRightHand && !UIManager.control.hands.rightSlot.isFull) {
-
-                    if(slotType == SlotType.storage01) {
-                        UIManager.control.hands.rightSlot.TryToAddItem(UIManager.control.bottomControl.storage01Slot.inHandItem);
-                        UIManager.control.bottomControl.storage01Slot.inHandItem = null;
-                    }
-                    if(slotType == SlotType.storage02) {
-                        UIManager.control.hands.rightSlot.TryToAddItem(UIManager.control.bottomControl.storage02Slot.inHandItem);
-                        UIManager.control.bottomControl.storage02Slot.inHandItem = null;
-                    }
-
-                } else if(!UIManager.control.isRightHand && !UIManager.control.hands.leftSlot.isFull) {
-
-                    if(slotType == SlotType.storage01) {
-                        UIManager.control.hands.leftSlot.TryToAddItem(UIManager.control.bottomControl.storage01Slot.inHandItem);
-                        UIManager.control.bottomControl.storage01Slot.inHandItem = null;
-
-                    }
-                    if(slotType == SlotType.storage02) {
-                        UIManager.control.hands.leftSlot.TryToAddItem(UIManager.control.bottomControl.storage02Slot.inHandItem);
-                        UIManager.control.bottomControl.storage02Slot.inHandItem = null;
-
-                    }
-                }
-            }
-        }
-
-        void SwapItem() {
-            if(UIManager.control.isRightHand) {
-                if(hands.rightSlot.TryToAddItem(hands.leftSlot.inHandItem))
-                    hands.leftSlot.inHandItem = null;
-            } else {
-                if(hands.leftSlot.TryToAddItem(hands.rightSlot.inHandItem))
-                    hands.rightSlot.inHandItem = null;
+        public void SwapItem(SlotType slotType) {
+            switch(slotType) {
+                case SlotType.rightHand:
+                    if(!UIManager.control.isRightHand) 
+                        hands.leftSlot.TryToSwapItem(hands.rightSlot);
+                    break;
+                case SlotType.leftHand:
+                    if(UIManager.control.isRightHand)
+                        hands.rightSlot.TryToSwapItem(hands.leftSlot);
+                    break;
+                case SlotType.storage01:
+                    hands.currentSlot.TryToSwapItem(UIManager.control.bottomControl.storage01Slot);
+                    break;
+                case SlotType.storage02:
+                    hands.currentSlot.TryToSwapItem(UIManager.control.bottomControl.storage02Slot);
+                    break;
             }
         }
     }

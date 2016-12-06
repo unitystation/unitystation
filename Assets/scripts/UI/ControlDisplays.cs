@@ -22,27 +22,27 @@ public class ControlDisplays : MonoBehaviour {
 
 			if (parentScript.hands.rightSlot.isFull) {
 
-				Destroy (parentScript.hands.rightSlot.inHandItem);
+				Destroy (parentScript.hands.rightSlot.RemoveItem());
 			}
 			if (parentScript.hands.leftSlot.isFull) {
 
-				Destroy (parentScript.hands.leftSlot.inHandItem);
+				Destroy (parentScript.hands.leftSlot.RemoveItem());
 			}
 			if (parentScript.bottomControl.storage01Slot.isFull) {
 
-				Destroy (parentScript.bottomControl.storage01Slot.inHandItem);
+				Destroy (parentScript.bottomControl.storage01Slot.RemoveItem());
 
 			}
 			if (parentScript.bottomControl.storage02Slot.isFull) {
 
-				Destroy (parentScript.bottomControl.storage02Slot.inHandItem);
+				Destroy (parentScript.bottomControl.storage02Slot.RemoveItem());
 
 			}
 
 
 		}
 
-		public void SetScreenForLobby(){
+		public void SetScreenForLobby() {
 			
 			SoundManager.control.StopAmbient ();
 			SoundManager.control.PlayRandomTrack ();

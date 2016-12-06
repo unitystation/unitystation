@@ -25,14 +25,18 @@ namespace UI {
             }
         }
 
-        public GameObject inHandItem;
+        public GameObject Item {
+            get { return inHandItem; }
+        }
+
+        private GameObject inHandItem;
         public SlotType thisSlot;
 
         void Start() {
         }
 
         public bool TryToAddItem(GameObject itemObj) {
-            if(!isFull) {
+            if(!isFull && itemObj != null) {
                 ItemUI_Tracker itemTracker = itemObj.GetComponent<ItemUI_Tracker>();
                 if(itemTracker == null) {
                     itemTracker = itemObj.AddComponent<ItemUI_Tracker>();
@@ -46,6 +50,29 @@ namespace UI {
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Tries to add item from another slot
+        /// </summary>
+        /// <param name="otherSlot"></param>
+        /// <returns></returns>
+        public bool TryToSwapItem(UI_ItemSlot otherSlot) {
+            if(!isFull && TryToAddItem(otherSlot.inHandItem)) {
+                otherSlot.RemoveItem();
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// removes item from slot
+        /// </summary>
+        /// <returns></returns>
+        public GameObject RemoveItem() {
+            var item = inHandItem;
+            inHandItem = null;
+            return item;
         }
     }
 }
