@@ -3113,8 +3113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inHandItem: {fileID: 0}
   thisSlot: 3
+  slotType: 3
 --- !u!114 &114000010111551592
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3409,8 +3409,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inHandItem: {fileID: 0}
   thisSlot: 2
+  slotType: 2
 --- !u!114 &114000010353585416
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3458,9 +3458,10 @@ MonoBehaviour:
   selector: {fileID: 1000010121361822}
   leftHand: {fileID: 1000012701727242}
   rightHand: {fileID: 1000012902895482}
+  currentSlot: {fileID: 0}
   leftSlot: {fileID: 114000011710847156}
   rightSlot: {fileID: 114000014074560992}
-  handActions: {fileID: 0}
+  actions: {fileID: 0}
 --- !u!114 &114000010384674502
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3472,13 +3473,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d935ea8480c849ad9b03708ffaa3ef6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds:
-  - {fileID: 82000010099726062}
-  - {fileID: 82000010611490684}
-  - {fileID: 82000013942324194}
-  - {fileID: 82760672117800936}
-  - {fileID: 0}
-  - {fileID: 82000012451072664}
+  soundsList:
+  - name: ClownHonk
+    source: {fileID: 82000010099726062}
+  - name: AirlockOpen
+    source: {fileID: 82000010611490684}
+  - name: AirlockClose
+    source: {fileID: 82000013942324194}
+  - name: OpenClose
+    source: {fileID: 82760672117800936}
+  - name: Click01
+    source: {fileID: 82000012451072664}
   musicTracks:
   - {fileID: 82000010133042492}
   - {fileID: 82000013207985042}
@@ -5205,8 +5210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inHandItem: {fileID: 0}
   thisSlot: 1
+  slotType: 1
 --- !u!114 &114000011921120702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7414,8 +7419,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inHandItem: {fileID: 0}
   thisSlot: 0
+  slotType: 0
 --- !u!114 &114000014094713584
 MonoBehaviour:
   m_ObjectHideFlags: 1
