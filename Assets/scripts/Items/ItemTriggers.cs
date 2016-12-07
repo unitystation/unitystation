@@ -15,15 +15,18 @@ namespace Items {
         }
 
         void OnMouseDown() {
+            Debug.Log("hello ");
             if(PlayerManager.control.playerScript != null) {
                 var headingToPlayer = PlayerManager.control.playerScript.transform.position - transform.position;
                 var distance = headingToPlayer.magnitude;
                 var direction = headingToPlayer / distance;
+                Debug.Log("hello !");
 
                 if(distance <= 2f && allowedPickUp) {
                     // try to add the item to hand
-                    ItemManager.control.TryToPickUpObject(this.gameObject);
+                    var r = ItemManager.control.TryToPickUpObject(this.gameObject);
 
+                    Debug.Log("hello " + r);
 
                 }
             }

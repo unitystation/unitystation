@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PlayGroup;
+using UI;
 
 public class ExtinguisherCabinetTrigger: MonoBehaviour {
 
@@ -41,7 +42,15 @@ public class ExtinguisherCabinetTrigger: MonoBehaviour {
                     }
                 } else {
                     if(extinguisher == null) {
-                        spriteRenderer.sprite = spriteClosed;
+                        var item = UIManager.control.hands.currentSlot.Item;
+                        if(item != null && item.GetComponent<ItemAttributes>().itemName == extinguisherPrefab.GetComponent<ItemAttributes>().itemName) { 
+                            extinguisher = item;
+                            UIManager.control.hands.currentSlot.RemoveItem();
+                            extinguisher.SetActive(false);
+                            spriteRenderer.sprite = spriteOpenedOccupied;
+                        } else {
+                            spriteRenderer.sprite = spriteClosed;
+                        }
                     } else if(Items.ItemManager.control.TryToPickUpObject(extinguisher)) {
                         extinguisher.SetActive(true);
                         extinguisher = null;

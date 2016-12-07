@@ -15,7 +15,7 @@ namespace UI {
     }
 
     public class UI_ItemSlot: MonoBehaviour {
-        
+
         public SlotType slotType;
 
         public bool isFull {
@@ -83,12 +83,15 @@ namespace UI {
         /// </summary>
         /// <returns></returns>
         public GameObject RemoveItem() {
-            if(slotType == SlotType.leftHand || slotType == SlotType.rightHand)
-                playerSprites.RemoveItemFromHand(slotType == SlotType.rightHand);
+            if(isFull) {
+                if(slotType == SlotType.leftHand || slotType == SlotType.rightHand)
+                    playerSprites.RemoveItemFromHand(slotType == SlotType.rightHand);
 
-            var item = currentItem;
-            currentItem = null;
-            return item;
+                var item = currentItem;
+                currentItem = null;
+                return item;
+            }
+            return null;
         }
     }
 }
