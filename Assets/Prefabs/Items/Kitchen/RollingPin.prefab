@@ -35,12 +35,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4000013738803548}
-  - component: {fileID: 61000013220082402}
+  - component: {fileID: 60328470175606096}
   - component: {fileID: 114000013408745968}
   - component: {fileID: 50000012563167108}
   - component: {fileID: 114000011671410446}
   - component: {fileID: 114000011246784540}
-  - component: {fileID: 60328470175606096}
   m_Layer: 10
   m_Name: RollingPin
   m_TagString: Untagged
@@ -113,20 +112,6 @@ PolygonCollider2D:
       - {x: 0.30126953, y: 0.19396973}
       - {x: -0.20129395, y: -0.30529785}
       - {x: -0.32409668, y: -0.16296387}
---- !u!61 &61000013220082402
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012939332086}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.020874023, y: 0.0068359375}
-  serializedVersion: 2
-  m_Size: {x: 0.49024808, y: 0.49058622}
 --- !u!114 &114000011246784540
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -160,7 +145,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012939332086}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
   m_Name: 
