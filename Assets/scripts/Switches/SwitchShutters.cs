@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using PlayGroup;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,15 +20,22 @@ public class SwitchShutters : MonoBehaviour {
 	}
 
     void OnMouseDown() {
-        if(!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP")) { 
-            if(closed) {
-                OpenShutters();
-            } else {
-                CloseShutters();
-            }
+        if(PlayerManager.control.playerScript != null) {
+            var headingToPlayer = PlayerManager.control.playerScript.transform.position - transform.position;
+            var distance = headingToPlayer.magnitude;
 
-            closed = !closed;
-            animator.SetTrigger("activated");
+            if(distance <= 2f) {
+                if(!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP")) {
+                    if(closed) {
+                        OpenShutters();
+                    } else {
+                        CloseShutters();
+                    }
+
+                    closed = !closed;
+                    animator.SetTrigger("activated");
+                }
+            }
         }
     }
 

@@ -19,6 +19,7 @@ public class ExtinguisherCabinetTrigger: MonoBehaviour {
     void Start() {
         spriteRenderer = transform.FindChild("Sprite").GetComponent<SpriteRenderer>();
         extinguisher = Instantiate(extinguisherPrefab);
+        extinguisher.transform.parent = transform;
         extinguisher.SetActive(false);
     }
 

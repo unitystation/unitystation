@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.EventSystems;
 using Items;
 using PlayGroup;
 
 namespace UI {
 
     public enum SlotType {
+        None,
         rightHand,
         leftHand,
         storage01,
@@ -14,7 +16,7 @@ namespace UI {
 
     }
 
-    public class UI_ItemSlot: MonoBehaviour {
+    public class UI_ItemSlot: MonoBehaviour, IPointerClickHandler {
 
         public SlotType slotType;
 
@@ -36,26 +38,25 @@ namespace UI {
         private GameObject currentItem;
         private PlayerSprites playerSprites;
 
-
+        private Image image;
 
         void Start() {
             playerSprites = PlayerManager.control.playerScript.playerSprites;
+            image = GetComponent<Image>();
+            image.enabled = false;
         }
 
         public bool TryToAddItem(GameObject item) {
             if(!isFull && item != null) {
-                ItemUI_Tracker itemTracker = item.GetComponent<ItemUI_Tracker>();
-                if(itemTracker == null) {
-                    itemTracker = item.AddComponent<ItemUI_Tracker>();
-                }
-                itemTracker.slotType = slotType;
+                image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
+                image.enabled = true;
 
                 currentItem = item;
                 item.transform.position = transform.position;
                 item.transform.parent = this.gameObject.transform;
 
-
                 playerSprites.PickedUpItem(item);
+
 
                 return true;
             }
@@ -89,9 +90,19 @@ namespace UI {
 
                 var item = currentItem;
                 currentItem = null;
+
+                image.sprite = null;
+                image.enabled = false;
                 return item;
             }
             return null;
+        }
+        
+        public void OnPointerClick(PointerEventData eventData) {
+
+            Debug.Log("Clicked on item " + currentItem.name);
+            UIManager.control.hands.actions.SwapItem(slotType);
+
         }
     }
 }
