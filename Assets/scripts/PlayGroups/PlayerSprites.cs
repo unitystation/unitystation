@@ -6,47 +6,20 @@ using System.Collections.Generic;
 namespace PlayGroup {
     public class PlayerSprites: MonoBehaviour {
         private Vector2 currentDirection;
-        private new Rigidbody2D rigidbody;
         private Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
-
-        // Use this for initialization
-        void Start() {
-            rigidbody = GetComponent<Rigidbody2D>();
-                        
+        
+        void Awake() {                        
             foreach(var c in GetComponentsInChildren<ClothingItem>()) {
                 clothes[c.name] = c;
             }
 
-            currentDirection = Vector2.down;
+            FaceDirection(Vector2.down);
         }
         
         public void SetSprites(Dictionary<string, int> pref) {
             foreach(var c in clothes.Values) {
                 if(pref.ContainsKey(c.spriteSheetName))
                     c.Reference = pref[c.spriteSheetName];
-            }
-        }
-
-        void FixedUpdate() {
-            if(rigidbody != null) {
-                var localVel = transform.InverseTransformDirection(rigidbody.velocity);
-                
-                if(localVel.x > 1f) {
-
-                    FaceDirection(Vector2.right);
-                }
-                if(localVel.x < -1f) {
-
-                    FaceDirection(Vector2.left);
-                }
-                if(localVel.y < -1f) {
-
-                    FaceDirection(Vector2.down);
-                }
-                if(localVel.y > 1f) {
-
-                    FaceDirection(Vector2.up);
-                }
             }
         }
 
