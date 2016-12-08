@@ -419,9 +419,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: -0.005302429, y: -0.012054443}
+  m_Offset: {x: 0.025268555, y: -0.0076904297}
   serializedVersion: 2
-  m_Size: {x: 0.16777039, y: 0.25062087}
+  m_Size: {x: 0.87498564, y: 0.9229662}
 --- !u!114 &114012613951977532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -657,8 +657,8 @@ MonoBehaviour:
   - {fileID: 114012613951977532}
   - {fileID: 114811541104695608}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 1
+  instantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &114800045873325832
 MonoBehaviour:
