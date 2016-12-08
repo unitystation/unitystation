@@ -6,8 +6,6 @@ using System.Collections.Generic;
 
 namespace PlayGroup {
     public class PlayerScript: MonoBehaviour {
-        public float moveSpeed = 0.1f;
-
         public bool isMine = false; //Is this controlled by the player or other players
 
         [HideInInspector]
@@ -36,8 +34,7 @@ namespace PlayGroup {
 
             }
             //add physics move component and set default movespeed
-            physicsMove = gameObject.AddComponent<PhysicsMove>();
-            physicsMove.moveSpeed = moveSpeed;
+            physicsMove = gameObject.GetComponent<PhysicsMove>();
 
             //Add player sprite controller component
 
@@ -58,7 +55,7 @@ namespace PlayGroup {
             if(!UIManager.control.chatControl.chatInputWindow.activeSelf && isMine) { 
 
                 physicsMove.MoveInDirection(direction); //Tile based physics move
-    //			playerSprites.FaceDirection (direction); //Handles the playersprite change on direction change
+   			    playerSprites.FaceDirection (direction); //Handles the playersprite change on direction change
 
             }
         }

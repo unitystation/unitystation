@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 50331170984450590}
   - component: {fileID: 114811541104695608}
   - component: {fileID: 114012613951977532}
+  - component: {fileID: 114152457097449374}
   m_Layer: 8
   m_Name: Player_SS13
   m_TagString: Untagged
@@ -293,7 +294,7 @@ Transform:
   m_GameObject: {fileID: 1038381753428700}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1842.98, y: 1143, z: 0}
-  m_LocalScale: {x: 3.2, y: 3.2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4339622751791532}
   - {fileID: 4346989568030258}
@@ -486,6 +487,26 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &114152457097449374
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1038381753428700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53cb5ecccd0d4fe5ac02ac15e80e8654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
+  isMoving: 0
+  lerpA: 0
+  isSpaced: 0
+  triedToMoveInSpace: 0
+  keyDown: 0
+  lerpSpeed: 10
+  clampPos: 0
+  moveSpeed: 7
 --- !u!114 &114226302031194678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -498,6 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteSheetName: items_lefthand
+  reference: -1
 --- !u!114 &114251794158619460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -510,6 +532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteSheetName: head
+  reference: -1
 --- !u!114 &114455683327263204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -522,6 +545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteSheetName: mask
+  reference: -1
 --- !u!114 &114476575194928652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -534,6 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteSheetName: uniform
+  reference: -1
 --- !u!114 &114486502473501898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -546,6 +571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteSheetName: suit
+  reference: -1
 --- !u!114 &114584257431693864
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -558,6 +584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteSheetName: underwear
+  reference: -1
 --- !u!114 &114635878357695462
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -569,7 +596,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f99bb0ad07434da089f740997e6916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 7
   isMine: 0
   physicsMove: {fileID: 0}
   playerSprites: {fileID: 114859007950351336}
@@ -593,6 +619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteSheetName: human
+  reference: -1
 --- !u!114 &114737316030444780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -605,6 +632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteSheetName: belt
+  reference: -1
 --- !u!114 &114783258252521902
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -644,6 +672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteSheetName: feet
+  reference: -1
 --- !u!114 &114811541104695608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -680,6 +709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteSheetName: items_righthand
+  reference: -1
 --- !u!114 &114932247684792876
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -692,6 +722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteSheetName: human_face
+  reference: -1
 --- !u!212 &212149898048367272
 SpriteRenderer:
   m_ObjectHideFlags: 1

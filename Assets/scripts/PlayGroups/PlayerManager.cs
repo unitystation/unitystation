@@ -122,7 +122,6 @@ namespace PlayGroup {
             }
 
             if(direction != Vector2.zero) {
-                playerScript.playerSprites.FaceDirection(direction);
                 LocalPlayerScript.MovePlayer(direction);
             }
         }
