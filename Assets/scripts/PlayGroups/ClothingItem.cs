@@ -34,7 +34,7 @@ namespace PlayGroup {
 
         private SpriteRenderer spriteRenderer;
         private Sprite[] sprites;
-        private int reference = -1;
+        public int reference = -1;
         private int referenceOffset = 0;
         private Vector2 currentDirection = Vector2.down;
 
@@ -51,6 +51,7 @@ namespace PlayGroup {
         }
 
         private void UpdateReferenceOffset() {
+            
             if(currentDirection == Vector2.down)
                 referenceOffset = 0;
             if(currentDirection == Vector2.up)
@@ -64,7 +65,7 @@ namespace PlayGroup {
         }
 
         private void UpdateSprite() {
-            if(spriteRenderer != null) { 
+            if(spriteRenderer != null) {
                 if(reference >= 0) {
                     spriteRenderer.sprite = sprites[reference + referenceOffset];
                 }else if(spriteRenderer.sprite != null) {
