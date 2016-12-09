@@ -37,7 +37,7 @@ public class DoorTrigger: MonoBehaviour {
             var distance = headingToPlayer.magnitude;
 
             if(distance <= 2f) {
-                if(lockLight.IsLocked()) {
+                if(lockLight != null && lockLight.IsLocked()) {
                     lockLight.Unlock();
                 } else {
                     SoundManager.control.sounds["OpenClose"].Play();
@@ -54,7 +54,9 @@ public class DoorTrigger: MonoBehaviour {
     void Open() {
         closed = false;
         spriteRenderer.sprite = doorOpened;
-        lockLight.Hide();
+        if(lockLight != null) {
+            lockLight.Hide();
+        }
         GetComponent<BoxCollider2D>().offset = offsetOpened;
         GetComponent<BoxCollider2D>().size = sizeOpened;
 
@@ -64,7 +66,9 @@ public class DoorTrigger: MonoBehaviour {
     void Close() {
         closed = true;
         spriteRenderer.sprite = doorClosed;
-        lockLight.Show();
+        if(lockLight != null) {
+            lockLight.Show();
+        }
         GetComponent<BoxCollider2D>().offset = offsetClosed;
         GetComponent<BoxCollider2D>().size = sizeClosed;
 
