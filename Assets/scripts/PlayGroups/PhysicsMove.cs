@@ -2,15 +2,13 @@
 using System.Collections;
 using Game;
 
-
-namespace PlayGroup {
-
+namespace PlayGroup
+{
     [RequireComponent(typeof(Rigidbody2D))]
-
-    public class PhysicsMove: MonoBehaviour {
+    public class PhysicsMove: MonoBehaviour
+    {
 
         public GameManager gameManager;
-
         private Rigidbody2D thisRigi;
 
         public bool isMoving = false;
@@ -21,6 +19,7 @@ namespace PlayGroup {
 
         private Vector2 moveDirection;
         public Vector2 _moveDirection { get { return moveDirection; } }
+  
         private Vector3 startPos;
         private Vector3 node;
         private Vector3 toClamp;
@@ -30,148 +29,148 @@ namespace PlayGroup {
         public float clampPos;
         public float moveSpeed;
 
-
-        // Use this for initialization
-        void Start() {
+        void Start()
+        {
             thisRigi = GetComponent<Rigidbody2D>();
             GameObject findGM = GameObject.FindGameObjectWithTag("GameManager");
-            if(findGM != null) {
+            if (findGM != null)
+            {
                 gameManager = findGM.GetComponent<GameManager>();
                 //TODO error handling
-
             }
         }
-
-        // Update is called once per frame
-        void Update() {
-
+            
+        void Update()
+        {
             //when movekeys are released then take the character to the nearest node
-            if(lerpA) {
+            if (lerpA)
+            {
                 LerpToTarget();
             }
-
         }
 
-        void FixedUpdate() {
-
-            if(isMoving) {
+        void FixedUpdate()
+        {
+            if (isMoving)
+            {
                 //Move character via RigidBody
                 MoveRigidBody();
-
             }
         }
 
         //move in direction input
-        public void MoveInDirection(Vector2 direction) {
-
+        public void MoveInDirection(Vector2 direction)
+        { 
             lerpA = false;
             moveDirection = direction;
             isMoving = true;
 
-            if(direction == Vector2.right || direction == Vector2.left) {
-
-                clampPos = transform.position.y;
-
+            if (direction == Vector2.right || direction == Vector2.left)
+            {
+                clampPos = transform.position.y; 
             }
 
-            if(direction == Vector2.down || direction == Vector2.up) {
-
+            if (direction == Vector2.down || direction == Vector2.up)
+            {
                 clampPos = transform.position.x;
-
             }
-
         }
 
         //force a snap to the tile manually
-        public void ForceSnapToTile() {
-
+        public void ForceSnapToTile()
+        {
             startPos = transform.position;
             moveDirection = Vector2.zero;
             node = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0f);
-            if(thisRigi != null)
+            if (thisRigi != null)
                 thisRigi.velocity = Vector3.zero;
 
             lerpTime = 0f;
             lerpA = true;
-
         }
 
         //movement input stopped, only use this to snap if there is an applied velocity
-        public void MoveInputReleased() {
-
+        public void MoveInputReleased()
+        {
             startPos = transform.position;
             node = gameManager.GetClosestNode(transform.position, thisRigi.velocity);
             thisRigi.velocity = Vector3.zero;
             lerpTime = 0f;
             lerpA = true;
-
         }
 
         //used with LerpA in update
-        private void LerpToTarget() {
-
+        private void LerpToTarget()
+        {
             lerpTime += Time.deltaTime;
             float t = lerpTime * lerpSpeed;
 
-
             thisRigi.MovePosition(Vector2.Lerp(startPos, node, t));
 
-            if(moveDirection == Vector2.right && transform.position.x >= node.x) {
+            if (moveDirection == Vector2.right && transform.position.x >= node.x)
+            {
                 isMoving = false;
                 lerpA = false;
                 thisRigi.velocity = Vector3.zero;
             }
-            if(moveDirection == Vector2.left && transform.position.x <= node.x) {
+            if (moveDirection == Vector2.left && transform.position.x <= node.x)
+            {
                 isMoving = false;
                 lerpA = false;
                 thisRigi.velocity = Vector3.zero;
             }
-            if(moveDirection == Vector2.up && transform.position.y >= node.y) {
+            if (moveDirection == Vector2.up && transform.position.y >= node.y)
+            {
                 isMoving = false;
                 lerpA = false;
                 thisRigi.velocity = Vector3.zero;
             }
-            if(moveDirection == Vector2.down && transform.position.y <= node.y) {
+            if (moveDirection == Vector2.down && transform.position.y <= node.y)
+            {
                 isMoving = false;
                 lerpA = false;
                 thisRigi.velocity = Vector3.zero;
             }
 
-            if(moveDirection == Vector2.zero && transform.position == node) {
+            if (moveDirection == Vector2.zero && transform.position == node)
+            {
                 isMoving = false;
                 lerpA = false;
                 thisRigi.velocity = Vector3.zero;
-
             }
         }
 
         //move the character via RigidBody in FixedUpdate
-        private void MoveRigidBody() {
-
-            if(!triedToMoveInSpace) {
-
-                if(moveDirection == Vector2.down) {
+        private void MoveRigidBody()
+        {
+            if (!triedToMoveInSpace)
+            {
+                if (moveDirection == Vector2.down)
+                {
                     thisRigi.velocity = new Vector3(0f, moveDirection.y, 0).normalized * moveSpeed;
                     toClamp = transform.position;
                     Mathf.Clamp(toClamp.x, clampPos, clampPos);
                     transform.position = toClamp;
                     return;
                 }
-                if(moveDirection == Vector2.up) {
+                if (moveDirection == Vector2.up)
+                {
                     thisRigi.velocity = new Vector3(0f, moveDirection.y, 0).normalized * moveSpeed;
                     toClamp = transform.position;
                     Mathf.Clamp(toClamp.x, clampPos, clampPos);
                     transform.position = toClamp;
                     return;
                 }
-                if(moveDirection == Vector2.right) {
+                if (moveDirection == Vector2.right)
+                {
                     thisRigi.velocity = new Vector3(moveDirection.x, 0f, 0).normalized * moveSpeed;
                     toClamp = transform.position;
                     Mathf.Clamp(toClamp.y, clampPos, clampPos);
                     transform.position = toClamp;
                     return;
                 }
-                if(moveDirection == Vector2.left) {
+                if (moveDirection == Vector2.left)
+                {
                     thisRigi.velocity = new Vector3(moveDirection.x, 0f, 0).normalized * moveSpeed;
                     toClamp = transform.position;
                     Mathf.Clamp(toClamp.y, clampPos, clampPos);
@@ -180,16 +179,17 @@ namespace PlayGroup {
                 }
             }
 
-            if(isSpaced && !triedToMoveInSpace) {
+            if (isSpaced && !triedToMoveInSpace)
+            {
                 triedToMoveInSpace = true;
                 thisRigi.mass = 0f;
                 thisRigi.drag = 0f;
-                thisRigi.angularDrag = 0f;
-
+                thisRigi.angularDrag = 0f; 
             }
         }
 
-        void OnTriggerEnter2d(Collider2D collider) {
+        void OnTriggerEnter2d(Collider2D collider)
+        {
             isMoving = false;
             thisRigi.velocity = Vector3.zero;
         }
