@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraOrthoSize: MonoBehaviour {
+public class PixelPerfect: MonoBehaviour {
 
     public int spriteSize = 32;
     public int zoom = 2;
