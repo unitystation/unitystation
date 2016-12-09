@@ -5,29 +5,35 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace PlayGroup {
+namespace PlayGroup
+{
     [RequireComponent(typeof(SpriteRenderer))]
-    public class ClothingItem: MonoBehaviour {
+    public class ClothingItem: MonoBehaviour
+    {
         public string spriteSheetName;
-        
-        public int Reference {
-            set {
-                reference = value;
 
+        public int Reference
+        {
+            set
+            {
+                reference = value;
                 UpdateSprite();
             }
-            get {
+            get
+            {
                 return reference;
             }
         }
 
-        public Vector2 Direction {
-            set {
+        public Vector2 Direction
+        {
+            set
+            {
                 currentDirection = value;
-
                 UpdateReferenceOffset();
             }
-            get {
+            get
+            {
                 return currentDirection;
             }
         }
@@ -39,36 +45,44 @@ namespace PlayGroup {
         private Vector2 currentDirection = Vector2.down;
 
 
-        void Start() {
+        void Start()
+        {
             spriteRenderer = GetComponent<SpriteRenderer>();
             sprites = SpriteManager.control.playerSprites[spriteSheetName];
 
             UpdateSprite();
         }
 
-        public void Clear() {
+        public void Clear()
+        {
             Reference = -1;
         }
 
-        private void UpdateReferenceOffset() {
+        private void UpdateReferenceOffset()
+        {
             
-            if(currentDirection == Vector2.down)
+            if (currentDirection == Vector2.down)
                 referenceOffset = 0;
-            if(currentDirection == Vector2.up)
+            if (currentDirection == Vector2.up)
                 referenceOffset = 1;
-            if(currentDirection == Vector2.right)
+            if (currentDirection == Vector2.right)
                 referenceOffset = 2;
-            if(currentDirection == Vector2.left)
+            if (currentDirection == Vector2.left)
                 referenceOffset = 3;
 
             UpdateSprite();
         }
 
-        private void UpdateSprite() {
-            if(spriteRenderer != null) {
-                if(reference >= 0) {
+        private void UpdateSprite()
+        {
+            if (spriteRenderer != null)
+            {
+                if (reference >= 0)
+                {
                     spriteRenderer.sprite = sprites[reference + referenceOffset];
-                }else if(spriteRenderer.sprite != null) {
+                }
+                else if (spriteRenderer.sprite != null)
+                {
                     spriteRenderer.sprite = null;
                 }
             }
