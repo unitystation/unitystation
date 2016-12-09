@@ -5,46 +5,21 @@ using PlayGroup;
 
 public class ClosetClickTrigger: MonoBehaviour {
 
-    public Sprite spriteClosed;
-    public Sprite spriteOpened;
-
-    private SpriteRenderer spriteRenderer;
+    private GameObject doorClosed;
+    private GameObject doorOpened;
     private GameObject lockLight;
+
+    private bool closed = true;
 
     // Use this for initialization
     void Start() {
-        spriteRenderer = transform.FindChild("Sprite").GetComponent<SpriteRenderer>();
-
-        Transform searchLockLight = transform.FindChild("LockLight");
-        if(searchLockLight != null) {
-            lockLight = searchLockLight.gameObject;
-        }
+        doorClosed = transform.FindChild("DoorClosed").gameObject;
+        doorOpened = transform.FindChild("DoorOpened").gameObject;
+        lockLight = transform.FindChild("LockLight").gameObject;
     }
 
     // Update is called once per frame
     void Update() {
 
-    }
-
-    void OnMouseDown() {
-        if(PlayerManager.control.playerScript != null) {
-            var headingToPlayer = PlayerManager.control.playerScript.transform.position - transform.position;
-            var distance = headingToPlayer.magnitude;
-
-            if(distance <= 2f) {
-                SoundManager.control.sounds["OpenClose"].Play();
-                if(spriteRenderer.sprite == spriteClosed) {
-                    spriteRenderer.sprite = spriteOpened;
-                    if(lockLight != null) {
-                        lockLight.SetActive(false);
-                    }
-                } else {
-                    spriteRenderer.sprite = spriteClosed;
-                    if(lockLight != null) {
-                        lockLight.SetActive(true);
-                    }
-                }
-            }
-        }
     }
 }
