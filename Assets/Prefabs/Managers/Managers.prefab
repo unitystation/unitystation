@@ -7192,7 +7192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIParent: {fileID: 1830651583639642}
-  isDevMode: 0
+  isDevMode: 1
 --- !u!114 &114881689324223894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7488,7 +7488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e7baf7308244b849d3f17e28ba12f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logLevel: 2
+  logLevel: 0
   maxPlayersOnServer: 32
   isConnected: 0
 --- !u!114 &114939109465251068
