@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 33fddcd07e6942228492badabbbc9637
-timeCreated: 1479611114
-licenseType: Pro
+timeCreated: 1481386882
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: reinforced_table_0
@@ -146,8 +146,8 @@ TextureImporter:
       name: reinforced_table_4
       rect:
         serializedVersion: 2
-        x: 128
-        y: 128
+        x: 0
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -159,7 +159,7 @@ TextureImporter:
       name: reinforced_table_5
       rect:
         serializedVersion: 2
-        x: 0
+        x: 32
         y: 96
         width: 32
         height: 32
@@ -172,7 +172,7 @@ TextureImporter:
       name: reinforced_table_6
       rect:
         serializedVersion: 2
-        x: 32
+        x: 64
         y: 96
         width: 32
         height: 32
@@ -185,7 +185,7 @@ TextureImporter:
       name: reinforced_table_7
       rect:
         serializedVersion: 2
-        x: 64
+        x: 96
         y: 96
         width: 32
         height: 32
@@ -198,8 +198,8 @@ TextureImporter:
       name: reinforced_table_8
       rect:
         serializedVersion: 2
-        x: 96
-        y: 96
+        x: 0
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -211,8 +211,8 @@ TextureImporter:
       name: reinforced_table_9
       rect:
         serializedVersion: 2
-        x: 128
-        y: 96
+        x: 32
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -224,7 +224,7 @@ TextureImporter:
       name: reinforced_table_10
       rect:
         serializedVersion: 2
-        x: 0
+        x: 64
         y: 64
         width: 32
         height: 32
@@ -237,7 +237,7 @@ TextureImporter:
       name: reinforced_table_11
       rect:
         serializedVersion: 2
-        x: 32
+        x: 96
         y: 64
         width: 32
         height: 32
@@ -250,45 +250,6 @@ TextureImporter:
       name: reinforced_table_12
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: reinforced_table_13
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: reinforced_table_14
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: reinforced_table_15
-      rect:
-        serializedVersion: 2
         x: 0
         y: 32
         width: 32
@@ -299,7 +260,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: reinforced_table_16
+      name: reinforced_table_13
       rect:
         serializedVersion: 2
         x: 32
@@ -312,7 +273,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: reinforced_table_17
+      name: reinforced_table_14
       rect:
         serializedVersion: 2
         x: 64
@@ -325,7 +286,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: reinforced_table_18
+      name: reinforced_table_15
       rect:
         serializedVersion: 2
         x: 96
@@ -338,11 +299,11 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: reinforced_table_19
+      name: reinforced_table_16
       rect:
         serializedVersion: 2
-        x: 128
-        y: 32
+        x: 0
+        y: 0
         width: 32
         height: 32
       alignment: 0
@@ -351,10 +312,36 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: reinforced_table_20
+      name: reinforced_table_17
       rect:
         serializedVersion: 2
-        x: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: reinforced_table_18
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: reinforced_table_19
+      rect:
+        serializedVersion: 2
+        x: 96
         y: 0
         width: 32
         height: 32
