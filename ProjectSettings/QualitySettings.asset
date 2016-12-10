@@ -25,15 +25,15 @@ QualitySettings:
     softVegetation: 0
     realtimeReflectionProbes: 0
     billboardsFaceCameraPosition: 0
-    vSyncCount: 0
-    lodBias: 0.3
+    vSyncCount: 1
+    lodBias: 0.01
     maximumLODLevel: 0
     particleRaycastBudget: 4
     asyncUploadTimeSlice: 2
     asyncUploadBufferSize: 4
     excludedTargetPlatforms:
-    - Standalone
     - WebGL
+    - Standalone
   - serializedVersion: 2
     name: Fast
     pixelLightCount: 0
