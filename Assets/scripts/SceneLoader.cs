@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
+using PlayGroup;
 using Network;
 
 public class SceneLoader: MonoBehaviour {
@@ -26,7 +28,8 @@ public class SceneLoader: MonoBehaviour {
 
     public void GoToLobby() {
         SoundManager.control.sounds["Click01"].Play();
-
-        NetworkManager.control.LeaveMap(); // Leave the game on the server and also on the client
+        SceneManager.LoadSceneAsync ("Lobby");
+        PlayerManager.control.hasSpawned = false;
+        //        NetworkManager.control.LeaveMap(); // Leave the game on the server and also on the client (this is for quitting only! it shouldn't be here)
     }
 }

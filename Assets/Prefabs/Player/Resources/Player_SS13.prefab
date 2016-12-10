@@ -399,9 +399,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
-  m_LinearDrag: 10
-  m_AngularDrag: 10
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 1
@@ -419,9 +419,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 0.025268555, y: -0.0076904297}
+  m_Offset: {x: 0.025268555, y: -0.017333984}
   serializedVersion: 2
-  m_Size: {x: 0.87498564, y: 0.9229662}
+  m_Size: {x: 0.87498564, y: 0.78856254}
 --- !u!114 &114012613951977532
 MonoBehaviour:
   m_ObjectHideFlags: 1

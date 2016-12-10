@@ -10,6 +10,7 @@ namespace PlayGroup
 
         public GameManager gameManager;
         private Rigidbody2D thisRigi;
+        private PlayerScript parentScript;
 
         public bool isMoving = false;
         public bool lerpA = false;
@@ -18,8 +19,9 @@ namespace PlayGroup
         public bool keyDown = false;
 
         private Vector2 moveDirection;
+
         public Vector2 _moveDirection { get { return moveDirection; } }
-  
+
         private Vector3 startPos;
         private Vector3 node;
         private Vector3 toClamp;
@@ -31,6 +33,7 @@ namespace PlayGroup
 
         void Start()
         {
+            parentScript = GetComponent<PlayerScript>();
             thisRigi = GetComponent<Rigidbody2D>();
             GameObject findGM = GameObject.FindGameObjectWithTag("GameManager");
             if (findGM != null)
@@ -39,7 +42,7 @@ namespace PlayGroup
                 //TODO error handling
             }
         }
-            
+
         void Update()
         {
             //when movekeys are released then take the character to the nearest node
@@ -188,10 +191,23 @@ namespace PlayGroup
             }
         }
 
-        void OnTriggerEnter2d(Collider2D collider)
+        void OnCollisionEnter2D(Collision2D collision)
         {
-            isMoving = false;
-            thisRigi.velocity = Vector3.zero;
+            if (collision.gameObject.layer == 9) //Walls
+            {
+                isMoving = false;
+                thisRigi.velocity = Vector3.zero;
+            }
+
+            if (collision.gameObject.layer == 8) //Player
+            {
+                Vector2 direction = collision.gameObject.transform.position - transform.position;
+                if (parentScript.isMine)
+                {
+                    MoveInDirection(direction);
+                }
+
+            }
         }
     }
 }
