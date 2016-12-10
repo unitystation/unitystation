@@ -190,24 +190,6 @@ namespace PlayGroup
                 thisRigi.angularDrag = 0f; 
             }
         }
-
-        void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.gameObject.layer == 9) //Walls
-            {
-                isMoving = false;
-                thisRigi.velocity = Vector3.zero;
-            }
-
-            if (collision.gameObject.layer == 8) //Player
-            {
-                Vector2 direction = collision.gameObject.transform.position - transform.position;
-                if (parentScript.isMine)
-                {
-                    MoveInDirection(direction);
-                }
-
-            }
-        }
+            
     }
 }
