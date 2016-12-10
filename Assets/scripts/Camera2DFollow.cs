@@ -17,6 +17,7 @@ public class Camera2DFollow: MonoBehaviour {
     public float lookAheadReturnSpeed = 0.5f;
     public float lookAheadMoveThreshold = 0.1f;
     public float yOffSet = 0f;
+    public float cameraStepsPerUnit = 64f;
 
     bool isSearching = false;
 
@@ -77,10 +78,9 @@ public class Camera2DFollow: MonoBehaviour {
             
             transform.position = newPos;
 
-            // adjust to 32 pixel steps
-            gameObject.transform.position = new Vector3((Mathf.RoundToInt(transform.position.x * 32f) / 32f),
-                                                        (Mathf.RoundToInt(transform.position.y * 32f) / 32f),
-                                                        transform.position.z);
+            transform.position = new Vector3((Mathf.RoundToInt(transform.position.x * cameraStepsPerUnit) / cameraStepsPerUnit),
+                                             (Mathf.RoundToInt(transform.position.y * cameraStepsPerUnit) / cameraStepsPerUnit),
+                                             transform.position.z);
 
             lastTargetPosition = target.position;
         }
