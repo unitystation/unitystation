@@ -35,9 +35,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4000013836882314}
-  - component: {fileID: 61000011181264816}
-  - component: {fileID: 114000012372273026}
   - component: {fileID: 61000010556243922}
+  - component: {fileID: 114000012372273026}
   m_Layer: 11
   m_Name: FoodCart
   m_TagString: Untagged
@@ -83,23 +82,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 0.0026855469, y: 0.01965332}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1.0351418, y: 0.98003936}
---- !u!61 &61000011181264816
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011358831344}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.016357422, y: 0.020385742}
-  serializedVersion: 2
-  m_Size: {x: 0.95581806, y: 1.0131971}
+  m_Size: {x: 1, y: 1}
 --- !u!114 &114000012372273026
 MonoBehaviour:
   m_ObjectHideFlags: 1
