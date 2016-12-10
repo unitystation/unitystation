@@ -41,7 +41,7 @@ namespace UI {
         private Image image;
 
         void Start() {
-//            playerSprites = PlayerManager.control.playerScript.playerSprites;
+            playerSprites = PlayerManager.control.playerScript.playerSprites;
             image = GetComponent<Image>();
             image.enabled = false;
         }
