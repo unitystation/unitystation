@@ -17,7 +17,6 @@ public class Camera2DFollow: MonoBehaviour {
     public float lookAheadReturnSpeed = 0.5f;
     public float lookAheadMoveThreshold = 0.1f;
     public float yOffSet = 0f;
-    public float cameraStepsPerUnit = 64f;
 
     bool isSearching = false;
 
@@ -77,10 +76,6 @@ public class Camera2DFollow: MonoBehaviour {
             Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref currentVelocity, damping);
             
             transform.position = newPos;
-
-            transform.position = new Vector3((Mathf.RoundToInt(transform.position.x * cameraStepsPerUnit) / cameraStepsPerUnit),
-                                             (Mathf.RoundToInt(transform.position.y * cameraStepsPerUnit) / cameraStepsPerUnit),
-                                             transform.position.z);
 
             lastTargetPosition = target.position;
         }
