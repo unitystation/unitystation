@@ -48,6 +48,16 @@ namespace UI {
 
         public bool TryToAddItem(GameObject item) {
             if(!isFull && item != null) {
+
+                if(slotType == SlotType.storage01 || slotType == SlotType.storage02) {
+                    var attributes = item.GetComponent<ItemAttributes>();
+
+                    if(attributes.size != Size.Small) {
+                        Debug.Log("Item is too big!");
+                        return false;
+                    }
+                }
+
                 image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
                 image.enabled = true;
 
