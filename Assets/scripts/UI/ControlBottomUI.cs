@@ -4,9 +4,27 @@ using System.Collections;
 namespace UI{
 public class ControlBottomUI : MonoBehaviour {
 
+        [HideInInspector]
+        public UI_ItemSlot beltSlot;
+        [HideInInspector]
+        public UI_ItemSlot bagSlot;
+        [HideInInspector]
+        public UI_ItemSlot IDSlot;
+        [HideInInspector]
+        public UI_ItemSlot suitStorageSlot;
+        [HideInInspector]
+        public UI_ItemSlot storage01Slot;
+        [HideInInspector]
+        public UI_ItemSlot storage02Slot;
 
-		public UI_ItemSlot storage01Slot;
-		public UI_ItemSlot storage02Slot;
+        void Start() {
+            beltSlot = transform.FindChild("Belt").FindChild("itemSlot").GetComponent<UI_ItemSlot>();
+            bagSlot = transform.FindChild("Bag").FindChild("itemSlot").GetComponent<UI_ItemSlot>();
+            IDSlot = transform.FindChild("ID").FindChild("itemSlot").GetComponent<UI_ItemSlot>();
+            suitStorageSlot = transform.FindChild("SuitStorage").FindChild("itemSlot").GetComponent<UI_ItemSlot>();
+            storage01Slot = transform.FindChild("Storage01").FindChild("itemSlot").GetComponent<UI_ItemSlot>();
+            storage02Slot = transform.FindChild("Storage02").FindChild("itemSlot").GetComponent<UI_ItemSlot>();
+        }
 
 		/* 
 		 * Button OnClick methods
@@ -14,21 +32,21 @@ public class ControlBottomUI : MonoBehaviour {
 
 		public void SuitStorage(){
 			PlayClick01 ();
-			Debug.Log ("SuitStorage Button");
+            suitStorageSlot.TryToSwapItem(UIManager.control.hands.currentSlot);
 
-		}
+        }
 
 		public void ID(){
 			PlayClick01 ();
-			Debug.Log ("ID Button");
+            IDSlot.TryToSwapItem(UIManager.control.hands.currentSlot);
 
-		}
+        }
 
 		public void Belt(){
 			PlayClick01 ();
-			Debug.Log ("Belt Button");
+            beltSlot.TryToSwapItem(UIManager.control.hands.currentSlot);
 
-		}
+        }
 
 		public void Bag(){
 			PlayClick01 ();
