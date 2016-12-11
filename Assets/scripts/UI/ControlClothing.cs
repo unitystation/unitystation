@@ -1,108 +1,82 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace UI{
-public class ControlClothing : MonoBehaviour {
+namespace UI {
+    public class ControlClothing: MonoBehaviour {
+        private GameObject equipmentMenu;
+        
+        void Start() {
+            equipmentMenu = transform.FindChild("EquipmentMenu").gameObject;
+            equipmentMenu.SetActive(false);
+        }
 
-		//EQUIP MEMBERS
-		private bool EquipOut = false;
-		public GameObject rollOutParent;
+        public void RolloutEquipmentMenu() {
+            PlayClick01();
+            if(!equipmentMenu.GetActive()) {
+                equipmentMenu.SetActive(true);
+            } else {
+                equipmentMenu.SetActive(false);
+            }
+        }
 
-	// Use this for initialization
-	void Start () {
+        public void Shoes() {
+            PlayClick01();
+            Debug.Log("Shoes Button");
 
-			rollOutParent.SetActive (false);
-	
-	}
-	
-		/* 
-		 * Button OnClick methods
-		 */
+        }
 
+        public void Suit() {
+            PlayClick01();
+            Debug.Log("Suit Button");
 
-	public void EQUIP_RollOut(){
-			PlayClick01 ();
-		if (!rollOutParent.activeSelf) {
-			rollOutParent.SetActive (true);
-			EquipOut = true;
+        }
 
-		} else {
+        public void Armor() {
+            PlayClick01();
+            Debug.Log("Armor Button");
 
-			rollOutParent.SetActive (false);
-			EquipOut = false;
+        }
 
-		}
-	}
+        public void Gloves() {
+            PlayClick01();
+            Debug.Log("Gloves Button");
 
+        }
 
+        public void Neck() {
+            PlayClick01();
+            Debug.Log("Neck Button");
 
-		public void Shoes(){
-			PlayClick01 ();
-			Debug.Log ("Shoes Button");
-		
-		}
+        }
 
-		public void Suit(){
-			PlayClick01 ();
-			Debug.Log ("Suit Button");
+        public void Mask() {
+            PlayClick01();
+            Debug.Log("Mask Button");
 
-		}
+        }
 
-		public void Armor(){
-			PlayClick01 ();
-			Debug.Log ("Armor Button");
+        public void Ear() {
+            PlayClick01();
+            Debug.Log("Ear Button");
 
-		}
+        }
 
-		public void Gloves(){
-			PlayClick01 ();
-			Debug.Log ("Gloves Button");
+        public void Glasses() {
+            PlayClick01();
+            Debug.Log("Glasses Button");
 
-		}
+        }
 
-		public void Neck(){
-			PlayClick01 ();
-			Debug.Log ("Neck Button");
+        public void Hat() {
+            PlayClick01();
+            Debug.Log("Hat Button");
 
-		}
+        }
 
-		public void Mask(){
-			PlayClick01 ();
-			Debug.Log ("Mask Button");
-
-		}
-
-		public void Ear(){
-			PlayClick01 ();
-			Debug.Log ("Ear Button");
-
-		}
-
-		public void Glasses(){
-			PlayClick01 ();
-			Debug.Log ("Glasses Button");
-
-		}
-
-		public void Hat(){
-			PlayClick01 ();
-			Debug.Log ("Hat Button");
-
-		}
-
-
-		//SoundFX
-
-		void PlayClick01(){
-
-			if (SoundManager.control != null) {
-				SoundManager.control.sounds["Click01"].Play ();
-			}
-
-		}
-
-
-
-
-}
+        void PlayClick01() {
+            if(SoundManager.control != null) {
+                SoundManager.control.sounds["Click01"].Play();
+            }
+        }
+    }
 }

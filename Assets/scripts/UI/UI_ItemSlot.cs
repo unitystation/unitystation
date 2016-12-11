@@ -1,24 +1,24 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using UnityEngine.EventSystems;
-using Items;
 using PlayGroup;
+using System.Collections.Generic;
+using UnityEditor;
 
 namespace UI {
 
     public enum SlotType {
-        None,
-        rightHand,
-        leftHand,
-        storage01,
-        storage02
-
+        Other,
+        RightHand,
+        LeftHand
     }
 
     public class UI_ItemSlot: MonoBehaviour, IPointerClickHandler {
 
         public SlotType slotType;
+        public bool allowAllItems;
+        public List<ItemType> allowedItemTypes;
+        public ItemSize maxItemSize;
 
         public bool isFull {
             get {
@@ -34,7 +34,6 @@ namespace UI {
             get { return currentItem; }
         }
 
-
         private GameObject currentItem;
         private PlayerSprites playerSprites;
 
@@ -48,14 +47,15 @@ namespace UI {
 
         public bool TryToAddItem(GameObject item) {
             if(!isFull && item != null) {
+                var attributes = item.GetComponent<ItemAttributes>();
 
-                if(slotType == SlotType.storage01 || slotType == SlotType.storage02) {
-                    var attributes = item.GetComponent<ItemAttributes>();
+                if(!allowAllItems && !allowedItemTypes.Contains(attributes.type)) {
+                    return false;
+                }
 
-                    if(attributes.size != Size.Small) {
-                        Debug.Log("Item is too big!");
-                        return false;
-                    }
+                if(allowAllItems && maxItemSize != ItemSize.Large && (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size) {
+                    Debug.Log("Item is too big!");
+                    return false;
                 }
 
                 image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
@@ -82,7 +82,7 @@ namespace UI {
             if(!isFull && TryToAddItem(otherSlot.currentItem)) {
                 var item = otherSlot.RemoveItem();
 
-                if(slotType == SlotType.leftHand || slotType == SlotType.rightHand)
+                if(slotType == SlotType.LeftHand || slotType == SlotType.RightHand)
                     playerSprites.PickedUpItem(item);
                 return true;
             }
@@ -95,8 +95,8 @@ namespace UI {
         /// <returns></returns>
         public GameObject RemoveItem() {
             if(isFull) {
-                if(slotType == SlotType.leftHand || slotType == SlotType.rightHand)
-                    playerSprites.RemoveItemFromHand(slotType == SlotType.rightHand);
+                if(slotType == SlotType.LeftHand || slotType == SlotType.RightHand)
+                    playerSprites.RemoveItemFromHand(slotType == SlotType.RightHand);
 
                 var item = currentItem;
                 currentItem = null;
@@ -109,10 +109,8 @@ namespace UI {
         }
         
         public void OnPointerClick(PointerEventData eventData) {
-
             Debug.Log("Clicked on item " + currentItem.name);
-            UIManager.control.hands.actions.SwapItem(slotType);
-
+            UIManager.control.hands.actions.SwapItem(this);
         }
     }
 }
