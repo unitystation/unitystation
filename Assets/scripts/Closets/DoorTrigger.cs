@@ -16,7 +16,7 @@ public class DoorTrigger: MonoBehaviour {
 
     private Sprite doorClosed;
     private LockLightController lockLight;
-    private Transform items;
+    private GameObject items;
 
     private bool closed = true;
 
@@ -28,7 +28,7 @@ public class DoorTrigger: MonoBehaviour {
         offsetClosed = GetComponent<BoxCollider2D>().offset;
         sizeClosed = GetComponent<BoxCollider2D>().size;
 
-        items = transform.FindChild("Items");
+        items = transform.FindChild("Items").gameObject;
     }
 
     void OnMouseDown() {
@@ -79,7 +79,7 @@ public class DoorTrigger: MonoBehaviour {
         GameObject item = UIManager.control.hands.currentSlot.RemoveItem();
 
         if(item != null) {
-            item.transform.parent = items;
+            item.transform.parent = items.transform;
             item.transform.localPosition = new Vector3(0, 0, -0.2f);
 
             return true;
@@ -89,14 +89,10 @@ public class DoorTrigger: MonoBehaviour {
     }
 
     private void ShowItems() {
-        foreach(Transform item in items.transform) {
-            item.gameObject.SetActive(true);
-        }
+        items.SetActive(true);
     }
 
     private void HideItems() {
-        foreach(Transform item in items.transform) {
-            item.gameObject.SetActive(false);
-        }
+        items.SetActive(false);
     }
 }
