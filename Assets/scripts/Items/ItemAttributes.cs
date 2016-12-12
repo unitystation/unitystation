@@ -10,7 +10,7 @@ namespace UI {
 
     [System.Serializable]
     public enum ItemType {
-        None, Glasses, Hat, Neck, Mask, Ear, Suit, Armor, Gloves, Shoes, Belt, Bag, ID
+        None, Glasses, Hat, Neck, Mask, Ear, Suit, Armor, Gloves, Shoes, Belt, Bag, ID, PDA
     }
 
     public class ItemAttributes: MonoBehaviour {

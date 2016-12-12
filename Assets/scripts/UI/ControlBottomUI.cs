@@ -44,6 +44,7 @@ public class ControlBottomUI : MonoBehaviour {
 
 		public void Belt(){
 			PlayClick01 ();
+            Debug.Log("Belt");
             beltSlot.TryToSwapItem(UIManager.control.hands.currentSlot);
 
         }
