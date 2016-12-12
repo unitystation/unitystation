@@ -40,7 +40,7 @@ public class DoorTrigger: MonoBehaviour {
                 if(lockLight != null && lockLight.IsLocked()) {
                     lockLight.Unlock();
                 } else {
-                    SoundManager.control.sounds["OpenClose"].Play();
+                    SoundManager.control.Play("OpenClose");
                     if(closed) {
                         Open();
                     } else if(!TryDropItem()) {

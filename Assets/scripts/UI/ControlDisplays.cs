@@ -59,10 +59,10 @@ public class ControlDisplays : MonoBehaviour {
 				}
 			} else {
 				logInWindow.SetActive (true);
-			}
+            }
 
-			//TODO remove the temp button when scene transitions completed
-			tempSceneButton.SetActive (false);
+            //TODO remove the temp button when scene transitions completed
+            tempSceneButton.SetActive (false);
 			tempMenuButton.SetActive (false);
 
 		}
@@ -75,7 +75,7 @@ public class ControlDisplays : MonoBehaviour {
 			}
 			backGround.SetActive (false);
 			if (!Managers.control.isDevMode) {
-				if (parentScript.chatControl.chatClient != null) {
+                if (parentScript.chatControl.chatClient != null) {
 				
 					if (parentScript.chatControl.chatClient.CanChat) {
 						logInWindow.SetActive (false);
@@ -87,8 +87,7 @@ public class ControlDisplays : MonoBehaviour {
 					logInWindow.SetActive (true);
 				}
 			} else {
-			
-				logInWindow.SetActive (false);
+                logInWindow.SetActive (false);
 			
 			}
 			SoundManager.control.StopMusic ();

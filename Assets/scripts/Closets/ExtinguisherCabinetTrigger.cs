@@ -34,7 +34,7 @@ public class ExtinguisherCabinetTrigger: MonoBehaviour {
             var distance = headingToPlayer.magnitude;
 
             if(distance <= 2f) {
-                SoundManager.control.sounds["OpenClose"].Play();
+                SoundManager.control.Play("OpenClose");
                 if(spriteRenderer.sprite == spriteClosed) {
                     if(extinguisher == null) {
                         spriteRenderer.sprite = spriteOpenedEmpty;

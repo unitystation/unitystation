@@ -4,59 +4,39 @@ using UnityEngine.UI;
 
 
 
-namespace UI{
+namespace UI {
 
-	public enum Intent{
+    public enum Intent {
+        Help,
+        Disarm,
+        Hold,
+        Attack
+    }
 
-		Help,
-		Disarm,
-		Hold,
-		Attack
+    public class ControlIntent: MonoBehaviour {
+        public Sprite[] sprites;
+        private Image thisImg;
 
-	}
+        void Start() {
 
-public class ControlIntent : MonoBehaviour {
+            UIManager.control.currentIntent = Intent.Help;
+            thisImg = GetComponent<Image>();
+        }
 
+        //OnClick method
+        public void IntentButton() {
+            SoundManager.control.Play("Click01");
+            Debug.Log("Intent Button");
 
-		public Sprite[] sprites;
-		private Image thisImg;
+            int curInt = (int) UIManager.control.currentIntent;
+            curInt++;
 
-	
+            if(curInt == 4)
+                curInt = 0;
 
+            UIManager.control.currentIntent = (Intent) curInt;
 
-		void Start(){
-
-			UIManager.control.currentIntent = Intent.Help;
-			thisImg = GetComponent<Image> ();
-		}
-
-		//OnClick method
-		public void IntentButton(){
-			PlayClick01 ();
-			Debug.Log ("Intent Button");
-
-			int curInt = (int)UIManager.control.currentIntent;
-			curInt++;
-
-			if (curInt == 4)
-				curInt = 0;
-			
-			UIManager.control.currentIntent = (Intent)curInt;
-
-			thisImg.sprite = sprites [curInt];
-
-		
-
-		}
-
-		//SoundFX
-
-		void PlayClick01() {
-
-            if (SoundManager.control != null) {
-				SoundManager.control.sounds["Click01"].Play ();
-			}
-
-		}
-}
+            thisImg.sprite = sprites[curInt];
+        }
+    }
 }

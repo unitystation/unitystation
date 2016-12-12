@@ -73,8 +73,8 @@ public class ControlBottomUI : MonoBehaviour {
 		void PlayClick01(){
 
 			if (SoundManager.control != null) {
-				SoundManager.control.sounds["Click01"].Play ();
-			}
+                SoundManager.control.Play("Click01");
+            }
 
 		}
 }

@@ -53,17 +53,16 @@ public class DoorController: MonoBehaviour {
     }
     
     public void PlayOpenSound() {
-        SoundManager.control.sounds["AirlockOpen"].Play();
+        SoundManager.control.Play("AirlockOpen");
     }
 
     public void PlayCloseSound() {
-        SoundManager.control.sounds["AirlockClose"].Play();
+        SoundManager.control.Play("AirlockClose");
     }
 
     public void PlayCloseSFXshort() {
         if(SoundManager.control != null) {
-            SoundManager.control.sounds["AirlockClose"].time = 0.6f;
-            SoundManager.control.sounds["AirlockClose"].Play();
+            SoundManager.control.Play("AirlockClose", time:0.6f);
         }
     }
 
