@@ -111,11 +111,5 @@ namespace UI {
             Debug.Log("Clicked on item " + currentItem.name);
             UIManager.control.hands.SwapItem(this);
         }
-
-        public void OnClickButton() {
-            SoundManager.control.Play("Click01");
-            TryToSwapItem(UIManager.control.hands.currentSlot);
-
-        }
     }
 }
