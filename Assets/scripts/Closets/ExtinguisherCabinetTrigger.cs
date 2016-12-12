@@ -14,8 +14,7 @@ public class ExtinguisherCabinetTrigger: MonoBehaviour {
 
     private GameObject extinguisher;
     private SpriteRenderer spriteRenderer;
-
-    // Use this for initialization
+    
     void Start() {
         spriteRenderer = transform.FindChild("Sprite").GetComponent<SpriteRenderer>();
         extinguisher = Instantiate(extinguisherPrefab);
@@ -23,42 +22,47 @@ public class ExtinguisherCabinetTrigger: MonoBehaviour {
         extinguisher.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
-
     void OnMouseDown() {
         if(PlayerManager.control.playerScript != null) {
-            var headingToPlayer = PlayerManager.control.playerScript.transform.position - transform.position;
-            var distance = headingToPlayer.magnitude;
-
-            if(distance <= 2f) {
+            if(PlayerManager.control.playerScript.DistanceTo(transform.position) <= 2) {
                 SoundManager.control.Play("OpenClose");
                 if(spriteRenderer.sprite == spriteClosed) {
-                    if(extinguisher == null) {
-                        spriteRenderer.sprite = spriteOpenedEmpty;
-                    } else {
-                        spriteRenderer.sprite = spriteOpenedOccupied;
-                    }
+                    OnOpen();
                 } else {
-                    if(extinguisher == null) {
-                        var item = UIManager.control.hands.currentSlot.Item;
-                        if(item != null && item.GetComponent<ItemAttributes>().itemName == extinguisherPrefab.GetComponent<ItemAttributes>().itemName) { 
-                            extinguisher = item;
-                            UIManager.control.hands.currentSlot.RemoveItem();
-                            extinguisher.SetActive(false);
-                            spriteRenderer.sprite = spriteOpenedOccupied;
-                        } else {
-                            spriteRenderer.sprite = spriteClosed;
-                        }
-                    } else if(Items.ItemManager.control.TryToPickUpObject(extinguisher)) {
-                        extinguisher.SetActive(true);
-                        extinguisher = null;
-                        spriteRenderer.sprite = spriteOpenedEmpty;
-                    }
+                    OnClose();
                 }
             }
         }
+    }
+
+    private void OnOpen() {
+        if(extinguisher == null) {
+            spriteRenderer.sprite = spriteOpenedEmpty;
+        } else {
+            spriteRenderer.sprite = spriteOpenedOccupied;
+        }
+    }
+
+    private void OnClose() {
+        if(extinguisher == null) {
+            var item = UIManager.control.hands.currentSlot.Item;
+            if(item != null && IsExtinguisher(item)) {
+                extinguisher = item;
+                UIManager.control.hands.currentSlot.RemoveItem();
+                extinguisher.SetActive(false);
+                spriteRenderer.sprite = spriteOpenedOccupied;
+            } else {
+                spriteRenderer.sprite = spriteClosed;
+            }
+        } else if(Items.ItemManager.control.TryToPickUpObject(extinguisher)) {
+            // remove extinguisher from closet
+            extinguisher.SetActive(true);
+            extinguisher = null;
+            spriteRenderer.sprite = spriteOpenedEmpty;
+        }
+    }
+
+    private bool IsExtinguisher(GameObject item) {
+        return item.GetComponent<ItemAttributes>().itemName == extinguisherPrefab.GetComponent<ItemAttributes>().itemName;
     }
 }

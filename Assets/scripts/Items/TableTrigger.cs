@@ -5,17 +5,11 @@ using UI;
 using UnityEngine;
 
 public class TableTrigger : MonoBehaviour {
-    
-	void Start () {
-		
-	}
 
     void OnMouseDown() {
         if(PlayerManager.control.playerScript != null) {
-            var headingToPlayer = PlayerManager.control.playerScript.transform.position - transform.position;
-            var distance = headingToPlayer.magnitude;
-
-            if(distance <= 2f) {
+            Debug.Log(PlayerManager.control.playerScript.DistanceTo(transform.position));
+            if(PlayerManager.control.playerScript.DistanceTo(transform.position) <= 2f) {
                 GameObject item = UIManager.control.hands.currentSlot.RemoveItem();
                 if(item != null) {
                     var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

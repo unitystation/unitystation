@@ -10,8 +10,7 @@ public class DoorController: MonoBehaviour {
     public float maxTimeOpen = 5;
     private float timeOpen = 0;
     private int numOccupiers = 0;
-
-    // Use this for initialization
+    
     void Start() {
         animator = gameObject.GetComponent<Animator>();
         boxColl = gameObject.GetComponent<BoxCollider2D>();
@@ -68,10 +67,7 @@ public class DoorController: MonoBehaviour {
 
     void OnMouseDown() {
         if(PlayerManager.control.playerScript != null) {
-            var headingToPlayer = PlayerManager.control.playerScript.transform.position - transform.position;
-            var distance = headingToPlayer.magnitude;
-
-            if(distance <= 2f) {
+            if(PlayerManager.control.playerScript.DistanceTo(transform.position) <= 2) {
                 if(isOpened) {
                     Close();
                 } else {

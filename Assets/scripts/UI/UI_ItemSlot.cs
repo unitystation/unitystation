@@ -35,7 +35,6 @@ namespace UI {
 
         private GameObject currentItem;
         private PlayerSprites playerSprites;
-
         private Image image;
 
         void Start() {
@@ -52,7 +51,8 @@ namespace UI {
                     return false;
                 }
 
-                if(allowAllItems && maxItemSize != ItemSize.Large && (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size) {
+                if(allowAllItems && maxItemSize != ItemSize.Large && 
+                    (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size) {
                     Debug.Log("Item is too big!");
                     return false;
                 }
@@ -106,8 +106,19 @@ namespace UI {
             }
             return null;
         }
+
+
+        /// <summary>
+        /// Empty slot and destroy item
+        /// </summary>
+        public void Reset() {
+            if(isFull) {
+                Destroy(RemoveItem());
+            }
+        }
         
         public void OnPointerClick(PointerEventData eventData) {
+            SoundManager.control.Play("Click01");
             Debug.Log("Clicked on item " + currentItem.name);
             UIManager.control.hands.SwapItem(this);
         }

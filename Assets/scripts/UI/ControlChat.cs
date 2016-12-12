@@ -11,34 +11,24 @@ using Network;
 namespace UI {
     public class ControlChat: MonoBehaviour, IChatClientListener {
 
-
         public string ChatAppId;
-        // set in inspector
 
         public string[] ChannelsToJoinOnConnect;
-        // set in inspector
-
         public string[] FriendsList;
+        public int HistoryLengthToFetch; // set in inspector. Up to a certain degree, previously sent messages can be fetched for context
 
-        public int HistoryLengthToFetch;
-        // set in inspector. Up to a certain degree, previously sent messages can be fetched for context
 
         public string UserName { get; set; }
-
         private string selectedChannelName;
         // mainly used for GUI/input
 
         public ChatClient chatClient;
-
         public GameObject chatInputWindow;
         public InputField usernameInput;
-        public RectTransform ChatPanel;
-        // set in inspector (to enable/disable panel)
+        public RectTransform ChatPanel;  // set in inspector (to enable/disable panel)
 
         public InputField InputFieldChat;
-        // set in inspector
         public Text CurrentChannelText;
-        // set in inspector
         public Scrollbar scrollBar;
 
         public bool isChatFocus = false;
@@ -46,25 +36,18 @@ namespace UI {
 
         public bool ShowState = true;
 
-
-
         private string userIdInput = "";
 
         public void Start() {
-
-
-
             chatInputWindow.SetActive(false);
 
             //			ChatPanel.gameObject.SetActive(false);
-
 
             if(string.IsNullOrEmpty(UserName)) {
                 UserName = "user" + Environment.TickCount % 99; //made-up username
             }
 
             bool _AppIdPresent = string.IsNullOrEmpty(ChatAppId);
-
 
             if(string.IsNullOrEmpty(ChatAppId)) {
                 Debug.LogError("You need to set the chat app ID in the inspector in order to continue.");
@@ -76,15 +59,9 @@ namespace UI {
 
             if(chatClient != null) {
                 if(chatClient.CanChat) {
-
-
-
+                    // TODO
                 }
-
-
             }
-
-
         }
 
         public void Connect() {
@@ -98,8 +75,6 @@ namespace UI {
 
             Debug.Log("ATTEMPTING CONNECT");
             ReportToChannel("Connecting as: " + UserName);
-
-
         }
 
         /// <summary>To avoid that the Editor becomes unresponsive, disconnect all Photon connections in OnApplicationQuit.</summary>
@@ -120,8 +95,6 @@ namespace UI {
                 if(chatClient.CanChat && !GameData.control.isInGame && UIManager.control.displayControl.tempSceneButton) {
                     //TODO: Remove this when a better transition handler is implemented 
                     UIManager.control.displayControl.tempSceneButton.SetActive(true);
-
-
                 }
             }
 
@@ -129,15 +102,12 @@ namespace UI {
                 if(Input.GetKeyDown(KeyCode.T) && !isChatFocus && chatClient.CanChat) {
 
                     if(!chatInputWindow.activeSelf) {
-
                         chatInputWindow.SetActive(true);
-
                     }
+
                     isChatFocus = true;
                     EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
                     InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
-
-
                 }
             }
 
@@ -148,10 +118,7 @@ namespace UI {
                     this.InputFieldChat.text = "";
                     CloseChatWindow();
                 }
-
-
             }
-
         }
 
 
@@ -189,7 +156,6 @@ namespace UI {
                 if(this.TestLength != this.testBytes.Length) {
                     this.testBytes = new byte[this.TestLength];
                 }
-
                 this.chatClient.SendPrivateMessage(this.chatClient.AuthValues.UserId, testBytes, true);
             }
 
@@ -305,11 +271,7 @@ namespace UI {
             //send a message into each channel. This is NOT a must have!
             foreach(string channel in channels) {
                 //				this.chatClient.PublishMessage(channel, "says 'hi'."); // you don't HAVE to send a msg on join but you could.
-
-
             }
-
-
 
             /*
         // select first subscribed channel in alphabetical order
@@ -330,8 +292,6 @@ namespace UI {
 				}
 			}
 			*/
-
-
         }
 
 

@@ -8,23 +8,15 @@ public class SwitchShutters : MonoBehaviour {
     public ShutterController[] shutters;
 
     private Animator animator;
-
     private bool closed = false;
     
 	void Start () {
         animator = GetComponent<Animator>();
     }
-	
-	void Update () {
-		
-	}
 
     void OnMouseDown() {
         if(PlayerManager.control.playerScript != null) {
-            var headingToPlayer = PlayerManager.control.playerScript.transform.position - transform.position;
-            var distance = headingToPlayer.magnitude;
-
-            if(distance <= 2f) {
+            if(PlayerManager.control.playerScript.DistanceTo(transform.position) <= 2f) {
                 if(!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP")) {
                     if(closed) {
                         OpenShutters();

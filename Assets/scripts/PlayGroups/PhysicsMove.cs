@@ -20,7 +20,7 @@ namespace PlayGroup
 
         private Vector2 moveDirection;
 
-        public Vector2 _moveDirection { get { return moveDirection; } }
+        public Vector2 MoveDirection { get { return moveDirection; } }
 
         private Vector3 startPos;
         private Vector3 node;

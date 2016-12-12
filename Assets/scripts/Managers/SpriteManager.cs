@@ -6,22 +6,17 @@ namespace Sprites {
     public class SpriteManager: MonoBehaviour {
 
         public static SpriteManager control; //All of the instantiate players will just reference sprites here
-
         
         public Dictionary<string, Sprite[]> playerSprites = new Dictionary<string, Sprite[]>();
 
         void Awake() {
-
             if(control == null) {
-
                 control = this;
-
             } else {
-
                 Destroy(this);
-
             }
         }
+
         void Start() {
             playerSprites["human"] = Resources.LoadAll<Sprite>("mobs/human");
             playerSprites["suit"] = Resources.LoadAll<Sprite>("mobs/clothes/suit");
