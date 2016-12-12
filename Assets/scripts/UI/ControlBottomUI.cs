@@ -44,6 +44,7 @@ public class ControlBottomUI : MonoBehaviour {
 
 		public void Belt(){
 			PlayClick01 ();
+            Debug.Log("Belt");
             beltSlot.TryToSwapItem(UIManager.control.hands.currentSlot);
 
         }
@@ -72,8 +73,8 @@ public class ControlBottomUI : MonoBehaviour {
 		void PlayClick01(){
 
 			if (SoundManager.control != null) {
-				SoundManager.control.sounds["Click01"].Play ();
-			}
+                SoundManager.control.Play("Click01");
+            }
 
 		}
 }

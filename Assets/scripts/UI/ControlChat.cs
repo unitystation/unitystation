@@ -90,7 +90,7 @@ namespace UI {
         public void Connect() {
             NetworkManager.control.Connect(); //Also connect to the game server!
             if(SoundManager.control != null) {
-                SoundManager.control.sounds["Click01"].Play();
+                SoundManager.control.Play("Click01");
             }
             UserName = usernameInput.text;
             this.chatClient = new ChatClient(this);
@@ -157,7 +157,7 @@ namespace UI {
 
         public void OnClickSend() {
             if(this.InputFieldChat != null) {
-                SoundManager.control.sounds["Click01"].Play();
+                SoundManager.control.Play("Click01");
                 SendChatMessage(this.InputFieldChat.text);
                 this.InputFieldChat.text = "";
                 CloseChatWindow();
@@ -165,7 +165,7 @@ namespace UI {
         }
 
         public void OnChatCancel() {
-            SoundManager.control.sounds["Click01"].Play();
+            SoundManager.control.Play("Click01");
             this.InputFieldChat.text = "";
             CloseChatWindow();
 

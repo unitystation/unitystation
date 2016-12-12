@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using PlayGroup;
 using System.Collections.Generic;
-using UnityEditor;
 
 namespace UI {
 
@@ -110,7 +109,7 @@ namespace UI {
         
         public void OnPointerClick(PointerEventData eventData) {
             Debug.Log("Clicked on item " + currentItem.name);
-            UIManager.control.hands.actions.SwapItem(this);
+            UIManager.control.hands.SwapItem(this);
         }
     }
 }

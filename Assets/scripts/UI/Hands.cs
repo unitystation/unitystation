@@ -18,14 +18,9 @@ namespace UI {
         public UI_ItemSlot currentSlot;
         public UI_ItemSlot leftSlot;
         public UI_ItemSlot rightSlot;
-
-        //components
-        [HideInInspector]
-        public HandActions actions;
-
+        
         // Use this for initialization
         void Start() {
-            actions = gameObject.AddComponent<HandActions>();
             currentSlot = rightSlot;
         }
 
@@ -54,30 +49,20 @@ namespace UI {
                 SelectorState(true);
             }
         }
-        
-        /* 
-		 * Button OnClick methods
-		 */
-         
-        //OnClick Methods
-        public void Use() {
-            PlayClick01();
 
+        public void SwapItem(UI_ItemSlot itemSlot) {
+            if(currentSlot != itemSlot) {
+                currentSlot.TryToSwapItem(itemSlot);
+            }
         }
-
-        //		public void CheckAction(bool rightHand){
-        //		
-        //			handActions.Check (rightHand); //check if it should be used or given to other hand
-        //		}
 
         //SoundFX
 
         void PlayClick01() {
 
             if(SoundManager.control != null) {
-                SoundManager.control.sounds["Click01"].Play();
+                SoundManager.control.Play("Click01");
             }
-
         }
     }
 }

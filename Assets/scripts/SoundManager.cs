@@ -11,7 +11,7 @@ public class SoundEntry {
 public class SoundManager : MonoBehaviour {
 
     public List<SoundEntry> soundsList = new List<SoundEntry>();
-    public Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
+    private Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
 
     public static SoundManager control;
 	// Use this for initialization
@@ -50,8 +50,15 @@ public class SoundManager : MonoBehaviour {
 			source.Stop ();
 		
 		}
-	
-	}
+
+    }
+
+    public void Play(string name, float pitch=-1, float time=0) {
+        if(pitch > 0)
+            sounds[name].pitch = pitch;
+        sounds[name].time = time;
+        sounds[name].Play();
+    }
 
 	public void PlayRandomTrack(){
 		StopMusic ();
