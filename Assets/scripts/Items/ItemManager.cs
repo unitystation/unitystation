@@ -9,18 +9,11 @@ namespace Items {
         public static ItemManager control;
 
         void Awake() {
-
             if(control == null) {
                 control = this;
             } else {
                 Destroy(this);
             }
-        }
-        
-        void Start() {
-        }
-        
-        void Update() {
         }
 
         public bool TryToPickUpObject(GameObject itemObject) {            

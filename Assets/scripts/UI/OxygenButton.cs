@@ -2,42 +2,29 @@
 using UnityEngine.UI;
 
 
-namespace UI{
-public class OxygenButton : MonoBehaviour {
+namespace UI {
+    public class OxygenButton: MonoBehaviour {
 
-		public Sprite[] stateSprites;
-		private Image thisImg;
-	// Use this for initialization
-	void Start () {
-			thisImg = GetComponent<Image> ();
-			UIManager.control.isOxygen = false;
-	}
-	
-		public void OxygenSelect(){
+        public Sprite[] stateSprites;
+        private Image image;
+        // Use this for initialization
+        void Start() {
+            image = GetComponent<Image>();
+            UIManager.control.isOxygen = false;
+        }
 
-			PlayClick01 ();
-			if (!UIManager.control.isOxygen) {
-			
-				UIManager.control.isOxygen = true;
-				thisImg.sprite = stateSprites [1];
-			
-			} else {
-			
-				UIManager.control.isOxygen = false;
-				thisImg.sprite = stateSprites [0];
-			
-			}
+        public void OxygenSelect() {
 
-		}
+            SoundManager.control.Play("Click01");
+            if(!UIManager.control.isOxygen) {
 
-		//SoundFX
+                UIManager.control.isOxygen = true;
+                image.sprite = stateSprites[1];
 
-		void PlayClick01(){
-
-			if (SoundManager.control != null) {
-                SoundManager.control.Play("Click01");
-			}
-
-		}
-}
+            } else {
+                UIManager.control.isOxygen = false;
+                image.sprite = stateSprites[0];
+            }
+        }
+    }
 }

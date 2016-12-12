@@ -18,7 +18,7 @@ namespace UI {
         public UI_ItemSlot currentSlot;
         public UI_ItemSlot leftSlot;
         public UI_ItemSlot rightSlot;
-        
+
         // Use this for initialization
         void Start() {
             currentSlot = rightSlot;
@@ -27,7 +27,7 @@ namespace UI {
         // whether selector should be on the right hand or the left
         public void SelectorState(bool isRight) {
             if(UIManager.control != null) {
-                PlayClick01();
+                SoundManager.control.Play("Click01");
 
                 if(isRight) {
                     selector.transform.position = rightHand.transform.position;
@@ -53,15 +53,6 @@ namespace UI {
         public void SwapItem(UI_ItemSlot itemSlot) {
             if(currentSlot != itemSlot) {
                 currentSlot.TryToSwapItem(itemSlot);
-            }
-        }
-
-        //SoundFX
-
-        void PlayClick01() {
-
-            if(SoundManager.control != null) {
-                SoundManager.control.Play("Click01");
             }
         }
     }

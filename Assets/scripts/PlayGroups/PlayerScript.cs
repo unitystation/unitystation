@@ -4,10 +4,8 @@ using Game;
 using UI;
 using System.Collections.Generic;
 
-namespace PlayGroup
-{
-    public class PlayerScript: MonoBehaviour
-    {
+namespace PlayGroup {
+    public class PlayerScript: MonoBehaviour {
         public bool isMine = false;
         //Is this controlled by the player or other players
 
@@ -25,18 +23,11 @@ namespace PlayGroup
         public int underWearNumber;
         public int uniformNumber;
 
-        void Start()
-        {
-
+        void Start() {
             GameObject searchPlayerList = GameObject.FindGameObjectWithTag("PlayerList");
-            if (searchPlayerList != null)
-            {
-
+            if(searchPlayerList != null) {
                 transform.parent = searchPlayerList.transform;
-            }
-            else
-            {
-
+            } else {
                 Debug.LogError("Scene is missing PlayerList GameObject!!");
 
             }
@@ -47,18 +38,15 @@ namespace PlayGroup
 
             SetPlayerPrefs();
 
-            if (photonView.isMine)
-            { //This prefab is yours, take control of it
+            if(photonView.isMine) { //This prefab is yours, take control of it
                 PlayerManager.control.SetPlayerForControl(this.gameObject);
             }
         }
-            
+
         //THIS IS ONLY USED FOR LOCAL PLAYER
-        public void MovePlayer(Vector2 direction)
-        {
+        public void MovePlayer(Vector2 direction) {
             //At the moment it just checks if the input window is open and if it is false then allow move
-            if (!UIManager.control.chatControl.chatInputWindow.activeSelf && isMine)
-            { 
+            if(!UIManager.control.chatControl.chatInputWindow.activeSelf && isMine) {
                 physicsMove.MoveInDirection(direction); //Tile based physics move
                 playerSprites.FaceDirection(direction); //Handles the playersprite change on direction change
 
@@ -66,8 +54,7 @@ namespace PlayGroup
         }
 
         //Temp
-        void SetPlayerPrefs()
-        {
+        void SetPlayerPrefs() {
             var prefs = new Dictionary<string, int>();
             prefs["human"] = bodyNumber;
             prefs["suit"] = suitNumber;
@@ -80,6 +67,10 @@ namespace PlayGroup
             prefs["uniform"] = uniformNumber;
 
             playerSprites.SetSprites(prefs);
+        }
+
+        public float DistanceTo(Vector3 position) {
+            return (transform.position - position).magnitude;
         }
     }
 }

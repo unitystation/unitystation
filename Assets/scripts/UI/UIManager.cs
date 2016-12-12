@@ -9,14 +9,19 @@ namespace UI {
 
         //Child Scripts
         public ControlChat chatControl;
-        public ControlBottomUI bottomControl;
         public Hands hands;
         public ControlIntent intentControl;
         public ControlAction actionControl;
         public ControlWalkRun walkRunControl;
         public ControlDisplays displayControl;
-
-        //Members accessable for player controller
+        
+        void Awake() {
+            if(control == null) {
+                control = this;
+            } else {
+                Destroy(this);
+            }
+        }
 
         /// <summary>
         /// Current Intent status
@@ -45,19 +50,6 @@ namespace UI {
         /// <summary>
         /// Is Oxygen On?
         /// </summary>
-        public bool isOxygen { get; set; }        
-
-        void Awake() {
-
-            if(control == null) {
-                control = this;
-
-            } else {
-                Destroy(this);
-            }
-        }
-
-        void Start() {
-        }
+        public bool isOxygen { get; set; }
     }
 }

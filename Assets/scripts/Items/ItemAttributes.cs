@@ -14,8 +14,7 @@ namespace UI {
     }
 
     public class ItemAttributes: MonoBehaviour {
-
-        // item name. Doesn't really have be set, only useful if you want to check if what item it is.
+        // item name. Only useful if you want to check if what item it is. (e.g. ExtinguisherCabinet)
         public string itemName;
         //reference numbers for item on  inhands spritesheet. should be one corresponding to player facing down
         public int inHandReferenceRight; 

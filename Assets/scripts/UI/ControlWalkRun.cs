@@ -2,53 +2,38 @@
 using UnityEngine.UI;
 using System.Collections;
 
-namespace UI{
-public class ControlWalkRun : MonoBehaviour {
+namespace UI {
+    public class ControlWalkRun: MonoBehaviour {
 
+        public Sprite[] runWalkSprites;
 
-		public Sprite[] runWalkSprites;
-		private Image thisImg;
+        public bool running { get; set; }
 
-		public bool isRun{ get; set; }
+        private Image image;
 
+        void Start() {
 
+            image = GetComponent<Image>();
 
-		void Start(){
+        }
 
-			thisImg = GetComponent<Image> ();
-
-		}
-
-		/* 
+        /* 
 		 * Button OnClick methods
 		 */
 
-	public void RunWalk(){
-		PlayClick01 ();
-		Debug.Log ("RunWalk Button");
+        public void RunWalk() {
+            Debug.Log("RunWalk Button");
 
-			if (!isRun) {
-			
-				isRun = true;
-				thisImg.sprite = runWalkSprites [1];
-			
-			} else {
-			
-				isRun = false;
-				thisImg.sprite = runWalkSprites [0];
+            SoundManager.control.Play("Click01");
 
-			}
+            if(!running) {
+                running = true;
+                image.sprite = runWalkSprites[1];
 
-	}
-
-	//SoundFX
-
-		void PlayClick01(){
-
-            if (SoundManager.control != null) {
-                SoundManager.control.Play("Click01");
+            } else {
+                running = false;
+                image.sprite = runWalkSprites[0];
             }
-
         }
-}
+    }
 }

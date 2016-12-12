@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-
-
-
 namespace UI {
 
     public enum Intent {
@@ -25,18 +22,16 @@ namespace UI {
 
         //OnClick method
         public void IntentButton() {
-            SoundManager.control.Play("Click01");
             Debug.Log("Intent Button");
 
-            int curInt = (int) UIManager.control.currentIntent;
-            curInt++;
+            SoundManager.control.Play("Click01");
 
-            if(curInt == 4)
-                curInt = 0;
+            int intent = (int) UIManager.control.currentIntent;
+            intent = (intent + 1) % 4;
 
-            UIManager.control.currentIntent = (Intent) curInt;
+            UIManager.control.currentIntent = (Intent) intent;
 
-            thisImg.sprite = sprites[curInt];
+            thisImg.sprite = sprites[intent];
         }
     }
 }
