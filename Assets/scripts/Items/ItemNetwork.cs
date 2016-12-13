@@ -6,6 +6,7 @@ using PlayGroup;
 
 namespace Items
 {
+    [RequireComponent(typeof (PhotonView))]
     public class ItemNetwork : MonoBehaviour
     {
         
@@ -16,7 +17,7 @@ namespace Items
           
         void Start()
         {
-            photonView = gameObject.AddComponent<PhotonView>();
+            photonView = GetComponent<PhotonView>();
             lastPos = transform.position;
         }
 
@@ -25,18 +26,18 @@ namespace Items
         {
             if (photonView != null)
             {
-                if (transform.position != lastPos) //if the item has been moved by someone then update its transform to all other clients
+                if (transform.position != lastPos && PhotonNetwork.connectedAndReady) //if the item has been moved by someone then update its transform to all other clients
                 {
-                    CallRemoteMethod(transform.position, transform.rotation);
+                    CallRemoteMethod(transform.position, transform.eulerAngles);
                 }
             }
             lastPos = transform.position;
 
         }
 
-        public void CallRemoteMethod(Vector3 pos, Quaternion rot)
+        public void CallRemoteMethod(Vector3 pos, Vector3 rot)
         {
-            GetComponent<PhotonView>().RPC(
+            photonView.RPC(
                 "UpdateItemTransform",
                 PhotonTargets.AllBufferedViaServer,
                 new object[] { pos, rot });
@@ -45,10 +46,10 @@ namespace Items
         }
 
         [PunRPC] 
-        void UpdateItemTransform(Vector3 pos, Quaternion rot) //Called on all clients for this PhotonView ID
+        void UpdateItemTransform(Vector3 pos, Vector3 rot) //Called on all clients for this PhotonView ID
         {
             transform.position = pos;
-            transform.rotation = rot;
+            transform.eulerAngles = rot;
 
         }
 
