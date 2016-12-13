@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011622113908}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.0004883, y: 1.9929199, z: -0.2}
+  m_LocalPosition: {x: -2, y: 2, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011569130768}
@@ -146,9 +146,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
-  inHandReferenceRight: 502
-  inHandReferenceLeft: 499
+  spriteType: 0
+  inHandReferenceRight: 566
+  inHandReferenceLeft: 560
+  clothingReference: -1
   size: 0
+  type: 0
 --- !u!114 &114000013579573772
 MonoBehaviour:
   m_ObjectHideFlags: 1
