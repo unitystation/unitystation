@@ -35,12 +35,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4000013877075750}
-  - component: {fileID: 114000013579573772}
   - component: {fileID: 61000012096311666}
   - component: {fileID: 114000010316995314}
   - component: {fileID: 50000013026031628}
   - component: {fileID: 114000012876358140}
   - component: {fileID: 114000012811989556}
+  - component: {fileID: 114224541690076006}
+  - component: {fileID: 114418291357737924}
   m_Layer: 10
   m_Name: Knife
   m_TagString: Untagged
@@ -152,7 +153,7 @@ MonoBehaviour:
   clothingReference: -1
   size: 0
   type: 0
---- !u!114 &114000013579573772
+--- !u!114 &114224541690076006
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -160,9 +161,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000011622113908}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cea89874c7ca4ad3b8a05afdac550628, type: 3}
+  m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonView: {fileID: 0}
+--- !u!114 &114418291357737924
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011622113908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  isRuntimeInstantiated: 0
 --- !u!212 &212000011121867930
 SpriteRenderer:
   m_ObjectHideFlags: 1
