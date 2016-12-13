@@ -518,6 +518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 2
   spriteSheetName: items_lefthand
   reference: -1
 --- !u!114 &114251794158619460
@@ -531,6 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
   spriteSheetName: head
   reference: -1
 --- !u!114 &114455683327263204
@@ -544,6 +546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
   spriteSheetName: mask
   reference: -1
 --- !u!114 &114476575194928652
@@ -557,6 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
   spriteSheetName: uniform
   reference: -1
 --- !u!114 &114486502473501898
@@ -570,6 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
   spriteSheetName: suit
   reference: -1
 --- !u!114 &114584257431693864
@@ -583,6 +588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
   spriteSheetName: underwear
   reference: -1
 --- !u!114 &114635878357695462
@@ -618,6 +624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
   spriteSheetName: human
   reference: -1
 --- !u!114 &114737316030444780
@@ -631,6 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
   spriteSheetName: belt
   reference: -1
 --- !u!114 &114783258252521902
@@ -671,6 +679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
   spriteSheetName: feet
   reference: -1
 --- !u!114 &114811541104695608
@@ -708,6 +717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 1
   spriteSheetName: items_righthand
   reference: -1
 --- !u!114 &114932247684792876
@@ -721,6 +731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
   spriteSheetName: human_face
   reference: -1
 --- !u!212 &212149898048367272
@@ -736,7 +747,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -771,7 +782,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -806,7 +817,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -841,7 +852,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -876,7 +887,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -911,7 +922,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -946,7 +957,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -981,7 +992,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1016,7 +1027,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1051,7 +1062,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1086,7 +1097,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

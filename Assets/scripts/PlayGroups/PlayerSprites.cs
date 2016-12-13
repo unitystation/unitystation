@@ -34,16 +34,16 @@ namespace PlayGroup {
         }
 
         //REAL SHIT METHOD FIX IT LATER OKAY - doobly
-        public void PickedUpItem(GameObject obj) {
-            ItemAttributes att = obj.GetComponent<ItemAttributes>();
+        public void PickedUpItem(GameObject item) {
+            ItemAttributes att = item.GetComponent<ItemAttributes>();
 
             //FIXME No longer works over photon network. Need to sync the picked up item over photon and then only handle change of 
             // direction based on that character and what hand that item is in on that specific character also
 
             if(UIManager.control.isRightHand) {
-                clothes["rightHand"].Reference = att.inHandReferenceRight;
+                clothes["rightHand"].UpdateReference(att);
             } else {
-                clothes["leftHand"].Reference = att.inHandReferenceLeft;
+                clothes["leftHand"].UpdateReference(att);
             }
         }
 

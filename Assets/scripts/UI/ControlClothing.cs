@@ -3,11 +3,9 @@ using System.Collections;
 
 namespace UI {
     public class ControlClothing: MonoBehaviour {
-        private GameObject equipmentMenu;
+        public GameObject equipmentMenu;
 
         void Start() {
-            Transform equipmentMenuTransform = transform.FindChild("EquipmentMenu");
-            equipmentMenu = equipmentMenuTransform.gameObject;
             equipmentMenu.SetActive(false);
         }
 
