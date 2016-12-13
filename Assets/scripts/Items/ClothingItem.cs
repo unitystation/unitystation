@@ -2,11 +2,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 namespace PlayGroup {
     [RequireComponent(typeof(SpriteRenderer))]
     public class ClothingItem: MonoBehaviour {
+        public SlotType slotType;
+
         public string spriteSheetName;
         public int reference = -1;
 
@@ -45,6 +48,35 @@ namespace PlayGroup {
 
         public void Clear() {
             Reference = -1;
+        }
+
+        public void UpdateReference(ItemAttributes attributes) {
+            if(slotType == SlotType.Other) {
+                reference = attributes.clothingReference;
+            } else {
+                switch(attributes.spriteType) {
+                    case SpriteType.Items:
+                        spriteSheetName = "items_";
+                        break;
+                    case SpriteType.Clothing:
+                        spriteSheetName = "clothing_";
+                        break;
+                    case SpriteType.Guns:
+                        spriteSheetName = "guns_";
+                        break;
+                }
+
+                if(slotType == SlotType.RightHand) {
+                    spriteSheetName += "righthand";
+                    reference = attributes.inHandReferenceRight;
+                } else {
+                    spriteSheetName += "lefthand";
+                    reference = attributes.inHandReferenceLeft;
+                }
+            }
+
+            sprites = SpriteManager.control.playerSprites[spriteSheetName];
+            UpdateSprite();
         }
 
         private void UpdateReferenceOffset() {

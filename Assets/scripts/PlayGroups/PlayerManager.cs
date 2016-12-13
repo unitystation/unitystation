@@ -18,7 +18,7 @@ namespace PlayGroup {
         public Transform spawnPoint;
 
 
-        public GameObject LocalPlayerObj;
+        public GameObject LocalPlayer;
 
         [HideInInspector]
         public static PlayerScript LocalPlayerScript;
@@ -41,12 +41,12 @@ namespace PlayGroup {
         }
 
         public void SetPlayerForControl(GameObject playerObjToControl) {
-            LocalPlayerObj = playerObjToControl;
+            LocalPlayer = playerObjToControl;
             LocalPlayerScript = playerObjToControl.GetComponent<PlayerScript>();
             LocalPlayerScript.isMine = true; // Set this object to yours, the rest are for network players
 
-            PlayerManager.control.playerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
-            Camera2DFollow.followControl.target = LocalPlayerObj.transform;
+            control.playerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
+            Camera2DFollow.followControl.target = LocalPlayer.transform;
         }
 
         //CHECK HERE FOR AN EXAMPLE OF INSTANTIATING ITEMS ON PHOTON

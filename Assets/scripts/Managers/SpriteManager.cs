@@ -29,6 +29,10 @@ namespace Sprites {
             playerSprites["uniform"] = Resources.LoadAll<Sprite>("mobs/clothes/uniform");
             playerSprites["items_lefthand"] = Resources.LoadAll<Sprite>("mobs/inhands/items_lefthand");
             playerSprites["items_righthand"] = Resources.LoadAll<Sprite>("mobs/inhands/items_righthand");
+            playerSprites["clothing_lefthand"] = Resources.LoadAll<Sprite>("mobs/inhands/clothing_lefthand");
+            playerSprites["clothing_righthand"] = Resources.LoadAll<Sprite>("mobs/inhands/clothing_righthand");
+            playerSprites["guns_lefthand"] = Resources.LoadAll<Sprite>("mobs/inhands/guns_lefthand");
+            playerSprites["guns_righthand"] = Resources.LoadAll<Sprite>("mobs/inhands/guns_righthand");
         }
     }
 }

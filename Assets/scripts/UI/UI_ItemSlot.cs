@@ -13,7 +13,7 @@ namespace UI {
     }
 
     public class UI_ItemSlot: MonoBehaviour, IPointerClickHandler {
-
+        
         public SlotType slotType;
         public bool allowAllItems;
         public List<ItemType> allowedItemTypes;
@@ -37,10 +37,15 @@ namespace UI {
         private PlayerSprites playerSprites;
         private Image image;
 
+        private UI_ClothingTrigger clothingTrigger;
+
         void Start() {
+
             playerSprites = PlayerManager.control.playerScript.playerSprites;
             image = GetComponent<Image>();
             image.enabled = false;
+
+            clothingTrigger = GetComponent<UI_ClothingTrigger>();
         }
 
         public bool TryToAddItem(GameObject item) {
@@ -61,11 +66,15 @@ namespace UI {
                 image.enabled = true;
 
                 currentItem = item;
+
+                if(clothingTrigger != null) {
+                    clothingTrigger.UpdateClothing(item);
+                }
+
                 item.transform.position = transform.position;
                 item.transform.parent = this.gameObject.transform;
 
                 playerSprites.PickedUpItem(item);
-
 
                 return true;
             }
@@ -94,8 +103,11 @@ namespace UI {
         /// <returns></returns>
         public GameObject RemoveItem() {
             if(isFull) {
-                if(slotType == SlotType.LeftHand || slotType == SlotType.RightHand)
+                if(slotType == SlotType.LeftHand || slotType == SlotType.RightHand) { 
                     playerSprites.RemoveItemFromHand(slotType == SlotType.RightHand);
+                } else {
+                    clothingTrigger.RemoveClothing();
+                }
 
                 var item = currentItem;
                 currentItem = null;
