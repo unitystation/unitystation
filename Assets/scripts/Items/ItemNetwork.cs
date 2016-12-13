@@ -28,49 +28,32 @@ namespace Items
             {
                 if (transform.position != lastPos && PhotonNetwork.connectedAndReady) //if the item has been moved by someone then update its transform to all other clients
                 {
-                    CallRemoteMethod(transform.position, transform.eulerAngles);
+                    CallRemoteMethod(transform.position);
                 }
             }
             lastPos = transform.position;
 
         }
 
-        public void CallRemoteMethod(Vector3 pos, Vector3 rot)
+        public void CallRemoteMethod(Vector3 pos)
         {
             photonView.RPC(
                 "UpdateItemTransform",
-                PhotonTargets.AllBufferedViaServer,
-                new object[] { pos, rot });
+                PhotonTargets.OthersBuffered, //Called on other clients for this PhotonView ID
+                new object[] { pos });
 
 
         }
 
         [PunRPC] 
-        void UpdateItemTransform(Vector3 pos, Vector3 rot) //Called on all clients for this PhotonView ID
+        void UpdateItemTransform(Vector3 pos) 
         {
-            transform.position = pos;
-            transform.eulerAngles = rot;
+            if (transform.position != pos)
+            {
+                transform.position = pos;
+                lastPos = pos;
+            }
 
         }
-
-        // THIS IS AN EXAMPLE ON HOW TO USE SERIALIZEVIEW
-        //        void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        //        {
-        //
-        //            if (stream.isWriting)
-        //            {
-        //                stream.SendNext(transform.position);
-        //                stream.SendNext(transform.localScale);
-        //
-        //            }
-        //            else
-        //            {
-        //                transform.position = (Vector3)stream.ReceiveNext();
-        //                transform.localScale = (Vector3)stream.ReceiveNext();
-        //
-        //            }
-        //
-        //        }
-
     }
 }
