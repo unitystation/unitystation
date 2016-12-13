@@ -73,6 +73,7 @@ namespace PlayGroup {
                     spriteSheetName += "lefthand";
                     reference = attributes.inHandReferenceLeft;
                 }
+
             }
 
             sprites = SpriteManager.control.playerSprites[spriteSheetName];

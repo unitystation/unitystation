@@ -1,13 +1,13 @@
 fileFormatVersion: 2
 guid: 0373d2e94c7ff9444a7eb3f74cf0c1f0
-timeCreated: 1481661003
+timeCreated: 1481669635
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: items_lefthand_0
-    21300002: items_lefthand_1
-    21300004: items_lefthand_2
-    21300006: items_lefthand_3
+    21300000: items_lefthand_a
+    21300002: items_lefthand_b
+    21300004: items_lefthand_c
+    21300006: items_lefthand_d
     21300008: items_lefthand_4
     21300010: items_lefthand_5
     21300012: items_lefthand_6
@@ -1936,6 +1936,10 @@ TextureImporter:
     21303858: items_lefthand_1929
     21303860: items_lefthand_1930
     21303862: items_lefthand_1931
+    21303864: items_lefthand_1
+    21303866: items_lefthand_2
+    21303868: items_lefthand_3
+    21303870: items_lefthand_0
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -2018,12 +2022,12 @@ TextureImporter:
       name: items_lefthand_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 128
         y: 1376
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -2031,12 +2035,12 @@ TextureImporter:
       name: items_lefthand_2
       rect:
         serializedVersion: 2
-        x: 64
+        x: 160
         y: 1376
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -2044,12 +2048,12 @@ TextureImporter:
       name: items_lefthand_3
       rect:
         serializedVersion: 2
-        x: 96
+        x: 192
         y: 1376
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
