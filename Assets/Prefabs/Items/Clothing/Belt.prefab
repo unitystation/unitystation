@@ -139,9 +139,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: 
   spriteType: 1
-  inHandReferenceRight: -1
+  inHandReferenceRight: 0
   inHandReferenceLeft: -1
-  clothingReference: -1
+  clothingReference: 66
   size: 1
   type: 10
 --- !u!114 &114458445831742782
@@ -191,8 +191,8 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents: []
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 5
+  instantiationId: 5
   isRuntimeInstantiated: 0
 --- !u!212 &212980358063185662
 SpriteRenderer:

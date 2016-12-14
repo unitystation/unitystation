@@ -129,6 +129,7 @@ GameObject:
   - component: {fileID: 114415833081516234}
   - component: {fileID: 114547391844505336}
   - component: {fileID: 114271660201201988}
+  - component: {fileID: 114801012062456172}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -391,6 +392,7 @@ GameObject:
   - component: {fileID: 222291549473830008}
   - component: {fileID: 114393098899665312}
   - component: {fileID: 114961628186404318}
+  - component: {fileID: 114703748764167664}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -629,6 +631,7 @@ GameObject:
   - component: {fileID: 222160055932624806}
   - component: {fileID: 114404589516347230}
   - component: {fileID: 114364598243941804}
+  - component: {fileID: 114008421120234870}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -801,6 +804,7 @@ GameObject:
   - component: {fileID: 222400862425935422}
   - component: {fileID: 114711628381252778}
   - component: {fileID: 114375961257715874}
+  - component: {fileID: 114222890364503494}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -854,6 +858,7 @@ GameObject:
   - component: {fileID: 222424520180072814}
   - component: {fileID: 114127752282031200}
   - component: {fileID: 114964665373716842}
+  - component: {fileID: 114537970964565572}
   m_Layer: 5
   m_Name: LeftHand
   m_TagString: Untagged
@@ -1096,6 +1101,7 @@ GameObject:
   - component: {fileID: 222699041635191532}
   - component: {fileID: 114246359469458032}
   - component: {fileID: 114631372011729088}
+  - component: {fileID: 114176354583389852}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -1179,6 +1185,7 @@ GameObject:
   - component: {fileID: 222679069413748354}
   - component: {fileID: 114626502479296430}
   - component: {fileID: 114910024510496766}
+  - component: {fileID: 114293617044404498}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -1289,6 +1296,7 @@ GameObject:
   - component: {fileID: 222416614928263726}
   - component: {fileID: 114576025574286340}
   - component: {fileID: 114759413655709886}
+  - component: {fileID: 114644827720271058}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -1767,6 +1775,7 @@ GameObject:
   - component: {fileID: 114181444484884090}
   - component: {fileID: 114565632978490448}
   - component: {fileID: 114533663877224072}
+  - component: {fileID: 114227876807240142}
   m_Layer: 5
   m_Name: UIManager
   m_TagString: Untagged
@@ -1804,6 +1813,7 @@ GameObject:
   - component: {fileID: 222188171255622192}
   - component: {fileID: 114735249402165764}
   - component: {fileID: 114872538731682532}
+  - component: {fileID: 114178224938146336}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -1822,6 +1832,7 @@ GameObject:
   - component: {fileID: 222991417285997408}
   - component: {fileID: 114216962680093402}
   - component: {fileID: 114533141691716370}
+  - component: {fileID: 114633462272647166}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -1858,6 +1869,7 @@ GameObject:
   - component: {fileID: 222113761134837490}
   - component: {fileID: 114434247363818176}
   - component: {fileID: 114019622932644748}
+  - component: {fileID: 114011143451936642}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -1980,6 +1992,7 @@ GameObject:
   - component: {fileID: 224500869179615942}
   - component: {fileID: 222474231245860280}
   - component: {fileID: 114835701791502130}
+  - component: {fileID: 114415379050113262}
   m_Layer: 5
   m_Name: Bag
   m_TagString: Untagged
@@ -3063,6 +3076,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114008421120234870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1405938855482762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingName: feet
 --- !u!114 &114008752987073294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3115,6 +3140,18 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114011143451936642
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1886534605500708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingName: mask
 --- !u!114 &114019102028080538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4215,6 +4252,30 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114176354583389852
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1569096751693262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingName: eyes
+--- !u!114 &114178224938146336
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1853205414261948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingName: head
 --- !u!114 &114181444484884090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4552,6 +4613,18 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 05000000
   maxItemSize: 0
+--- !u!114 &114222890364503494
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1445360007029450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingName: uniform
 --- !u!114 &114226503620817152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4604,6 +4677,36 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114227876807240142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1830651583639642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f941a6ff000f14c42a6a1e012b4495cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faceReference: -1
+  bodyReference: 32
+  underwearReference: 52
+  suitPrefab: {fileID: 1229467635671980, guid: 7fb98374065e73a42bfee58d83920914, type: 2}
+  beltPrefab: {fileID: 1816790622172278, guid: 74303457ff5f1a9449b6c406f1ac2801, type: 2}
+  shoesPrefab: {fileID: 0}
+  headPrefab: {fileID: 0}
+  maskPrefab: {fileID: 0}
+  uniformPrefab: {fileID: 0}
+  neckPrefab: {fileID: 0}
+  earPrefab: {fileID: 0}
+  glassesPrefab: {fileID: 0}
+  leftHandPrefab: {fileID: 0}
+  rightHandPrefab: {fileID: 0}
+  idPrefab: {fileID: 0}
+  bagPrefab: {fileID: 0}
+  storage01Prefab: {fileID: 0}
+  storage02Prefab: {fileID: 0}
+  suitStoragePrefab: {fileID: 0}
 --- !u!114 &114235777518130504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5060,6 +5163,18 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114293617044404498
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1597207847634410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingName: hands
 --- !u!114 &114303413863967652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5499,6 +5614,17 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1869020368992432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a02f32610d09c4aaefe46dec0d0d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114415379050113262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1962282589929014}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38a02f32610d09c4aaefe46dec0d0d0f, type: 3}
@@ -5971,6 +6097,18 @@ MonoBehaviour:
   - {fileID: 1991022393881954}
   tempSceneButton: {fileID: 1826962965541542}
   tempMenuButton: {fileID: 1609608550810238}
+--- !u!114 &114537970964565572
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1460554974100506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingName: leftHand
 --- !u!114 &114538054229339422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6454,6 +6592,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114633462272647166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1864520135619534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingName: ear
 --- !u!114 &114636359930199910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6569,6 +6719,18 @@ MonoBehaviour:
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 2
   m_ReadOnly: 0
+--- !u!114 &114644827720271058
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1639796495110824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingName: back
 --- !u!114 &114649686472013752
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6717,6 +6879,18 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114703748764167664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1261610883403322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingName: neck
 --- !u!114 &114705593894174582
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7088,6 +7262,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a1574fe4968484cad9e80f2fb8457a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114801012062456172
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1091116472449564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingName: rightHand
 --- !u!114 &114804558682937124
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7390,7 +7576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIParent: {fileID: 1830651583639642}
-  isDevMode: 0
+  isDevMode: 1
 --- !u!114 &114881689324223894
 MonoBehaviour:
   m_ObjectHideFlags: 1

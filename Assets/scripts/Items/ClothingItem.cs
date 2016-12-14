@@ -42,7 +42,6 @@ namespace PlayGroup {
         void Start() {
             spriteRenderer = GetComponent<SpriteRenderer>();
             sprites = SpriteManager.control.playerSprites[spriteSheetName];
-
             UpdateSprite();
         }
 

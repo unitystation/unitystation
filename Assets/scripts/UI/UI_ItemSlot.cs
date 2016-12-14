@@ -49,7 +49,7 @@ namespace UI
 
         private UI_ClothingTrigger clothingTrigger;
 
-        void Start()
+        void Awake()
         {
             image = GetComponent<Image>();
             image.enabled = false;
@@ -88,17 +88,12 @@ namespace UI
 
                 currentItem = item;
 
-                if (clothingTrigger != null)
-                {
+                if (clothingTrigger != null) {
                     clothingTrigger.UpdateClothing(item);
                 }
 
                 item.transform.position = transform.position;
                 item.transform.parent = this.gameObject.transform;
-                if (playerSprites != null)
-                {
-                    playerSprites.PickedUpItem(item);
-                } else {Debug.LogError("PLAYERSPRITES MISSING");}
 
                 return true;
             }
@@ -115,9 +110,6 @@ namespace UI
             if (!isFull && TryToAddItem(otherSlot.currentItem))
             {
                 var item = otherSlot.RemoveItem();
-
-                if (slotType == SlotType.LeftHand || slotType == SlotType.RightHand)
-                    playerSprites.PickedUpItem(item);
                 return true;
             }
             return false;
