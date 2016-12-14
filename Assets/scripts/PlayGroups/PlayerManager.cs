@@ -20,6 +20,8 @@ namespace PlayGroup {
 
         public GameObject LocalPlayer;
 
+        public Equipment Equipment { get; private set; }
+
         [HideInInspector]
         public static PlayerScript LocalPlayerScript;
 
@@ -47,6 +49,9 @@ namespace PlayGroup {
 
             control.playerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
             Camera2DFollow.followControl.target = LocalPlayer.transform;
+
+            Equipment = GetComponent<Equipment>();
+            Equipment.enabled = true;
         }
 
         //CHECK HERE FOR AN EXAMPLE OF INSTANTIATING ITEMS ON PHOTON
@@ -57,8 +62,6 @@ namespace PlayGroup {
                     if(GameData.control.isInGame && NetworkManager.control.isConnected) {
                         PhotonNetwork.Instantiate(this.playerPrefab.name, spawnPoint.position, Quaternion.identity, 0); //TODO: More spawn points and a way to iterate through them
                         hasSpawned = true;
-
-                        return;
                     }
                 }
             } else {
@@ -75,6 +78,7 @@ namespace PlayGroup {
                 if(this.Health <= 0f) {
                     //TODO DEATH
                 }
+
             }
         }
 

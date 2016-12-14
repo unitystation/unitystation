@@ -5,104 +5,83 @@ using PlayGroup;
 using System.Collections.Generic;
 using System.Collections;
 
-namespace UI
-{
+namespace UI {
 
-    public enum SlotType
-    {
+    public enum SlotType {
         Other,
         RightHand,
         LeftHand
     }
 
-    public class UI_ItemSlot: MonoBehaviour, IPointerClickHandler
-    {
-        
+    public class UI_ItemSlot: MonoBehaviour, IPointerClickHandler {
+
         public SlotType slotType;
         public bool allowAllItems;
         public List<ItemType> allowedItemTypes;
         public ItemSize maxItemSize;
+        public string clothingName = null;
+        
+        public bool hasClothing {
+            get {
+                return clothingName != null && string.Empty != clothingName;
+            }
+        }
 
-        public bool isFull
-        {
-            get
-            {
-                if (currentItem == null)
-                {
+        public bool isFull {
+            get {
+                if(currentItem == null) {
                     return false;
-                }
-                else
-                {
+                } else {
                     return true;
                 }
             }
         }
 
-        public GameObject Item
-        {
+        public GameObject Item {
             get { return currentItem; }
         }
 
         private GameObject currentItem;
         private PlayerSprites playerSprites;
+        private Equipment equipment;
         private Image image;
-
-        private UI_ClothingTrigger clothingTrigger;
-
-        void Start()
-        {
+        
+        void Awake() {
             image = GetComponent<Image>();
             image.enabled = false;
-
-            clothingTrigger = GetComponent<UI_ClothingTrigger>();
         }
 
-        void LateUpdate()
-        {
-            if (playerSprites == null && PlayerManager.control.playerScript != null) //Wait for player to be spawned before assigning ref
+        void LateUpdate() {
+            if(playerSprites == null && PlayerManager.control.playerScript != null) //Wait for player to be spawned before assigning ref
             {
                 playerSprites = PlayerManager.control.playerScript.playerSprites;
+                equipment = PlayerManager.control.Equipment;
             }
         }
 
-        public bool TryToAddItem(GameObject item)
-        {
-            if (!isFull && item != null)
-            {
-                var attributes = item.GetComponent<ItemAttributes>();
+        public bool TryToAddItem(GameObject item) {
+            if(!isFull && item != null) {
 
-                if (!allowAllItems && !allowedItemTypes.Contains(attributes.type))
-                {
-                    return false;
+                if(CheckConditions(item)) {
+                    if(hasClothing) {
+                        equipment.UpdateClothing(transform.parent.name, item);
+                    }
+
+                    SetItem(item);
+
+                    return true;
                 }
-
-                if (allowAllItems && maxItemSize != ItemSize.Large &&
-                    (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size)
-                {
-                    Debug.Log("Item is too big!");
-                    return false;
-                }
-
-                image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
-                image.enabled = true;
-
-                currentItem = item;
-
-                if (clothingTrigger != null)
-                {
-                    clothingTrigger.UpdateClothing(item);
-                }
-
-                item.transform.position = transform.position;
-                item.transform.parent = this.gameObject.transform;
-                if (playerSprites != null)
-                {
-                    playerSprites.PickedUpItem(item);
-                } else {Debug.LogError("PLAYERSPRITES MISSING");}
-
-                return true;
             }
             return false;
+        }
+
+        public void SetItem(GameObject item) {
+            image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
+            image.enabled = true;
+
+            currentItem = item;
+            item.transform.position = transform.position;
+            item.transform.parent = transform;
         }
 
         /// <summary>
@@ -110,14 +89,9 @@ namespace UI
         /// </summary>
         /// <param name="otherSlot"></param>
         /// <returns></returns>
-        public bool TryToSwapItem(UI_ItemSlot otherSlot)
-        {
-            if (!isFull && TryToAddItem(otherSlot.currentItem))
-            {
+        public bool TryToSwapItem(UI_ItemSlot otherSlot) {
+            if(!isFull && TryToAddItem(otherSlot.currentItem)) {
                 var item = otherSlot.RemoveItem();
-
-                if (slotType == SlotType.LeftHand || slotType == SlotType.RightHand)
-                    playerSprites.PickedUpItem(item);
                 return true;
             }
             return false;
@@ -127,17 +101,12 @@ namespace UI
         /// removes item from slot
         /// </summary>
         /// <returns></returns>
-        public GameObject RemoveItem()
-        {
-            if (isFull)
-            {
-                if (slotType == SlotType.LeftHand || slotType == SlotType.RightHand)
-                { 
+        public GameObject RemoveItem() {
+            if(isFull) {
+                if(slotType == SlotType.LeftHand || slotType == SlotType.RightHand) {
                     playerSprites.RemoveItemFromHand(slotType == SlotType.RightHand);
-                }
-                else
-                {
-                    clothingTrigger.RemoveClothing();
+                } else if(hasClothing) {
+                    equipment.ClearClothing(transform.parent.name);
                 }
 
                 var item = currentItem;
@@ -152,22 +121,34 @@ namespace UI
 
 
         /// <summary>
-        /// Empty slot and destroy item
+        /// Empties slot and destroy item
         /// </summary>
-        public void Reset()
-        {
-            if (isFull)
-            {
+        public void Reset() {
+            if(isFull) {
                 Destroy(RemoveItem());
             }
         }
 
-        public void OnPointerClick(PointerEventData eventData)
-        {
+        public void OnPointerClick(PointerEventData eventData) {
             SoundManager.control.Play("Click01");
             Debug.Log("Clicked on item " + currentItem.name);
             UIManager.control.hands.SwapItem(this);
         }
-          
+
+
+        private bool CheckConditions(GameObject item) {
+            var attributes = item.GetComponent<ItemAttributes>();
+            if(!allowAllItems && !allowedItemTypes.Contains(attributes.type)) {
+                return false;
+            }
+
+            if(allowAllItems && maxItemSize != ItemSize.Large &&
+                    (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size) {
+                Debug.Log("Item is too big!");
+                return false;
+            }
+
+            return true;
+        }
     }
 }

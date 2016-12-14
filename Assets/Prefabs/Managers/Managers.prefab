@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 114062390857124622}
   - component: {fileID: 114709491293747830}
   m_Layer: 5
-  m_Name: Suit
+  m_Name: Uniform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -854,6 +854,7 @@ GameObject:
   - component: {fileID: 222424520180072814}
   - component: {fileID: 114127752282031200}
   - component: {fileID: 114964665373716842}
+  - component: {fileID: 114537970964565572}
   m_Layer: 5
   m_Name: LeftHand
   m_TagString: Untagged
@@ -1161,6 +1162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4111080934351138}
   - component: {fileID: 114906977409558966}
+  - component: {fileID: 114685751713739196}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -1270,7 +1272,6 @@ GameObject:
   - component: {fileID: 222260007456548620}
   - component: {fileID: 114804558682937124}
   - component: {fileID: 114164458825688464}
-  - component: {fileID: 114020115418568090}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -1345,7 +1346,7 @@ GameObject:
   - component: {fileID: 114984675396431954}
   - component: {fileID: 114263606731985706}
   m_Layer: 5
-  m_Name: Armor
+  m_Name: Suit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1773,7 +1774,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1848620954028360
 GameObject:
   m_ObjectHideFlags: 1
@@ -1928,7 +1929,6 @@ GameObject:
   - component: {fileID: 222683908931732648}
   - component: {fileID: 114970194085743744}
   - component: {fileID: 114450793062353040}
-  - component: {fileID: 114771377252515880}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -1980,6 +1980,7 @@ GameObject:
   - component: {fileID: 224500869179615942}
   - component: {fileID: 222474231245860280}
   - component: {fileID: 114835701791502130}
+  - component: {fileID: 114415379050113262}
   m_Layer: 5
   m_Name: Bag
   m_TagString: Untagged
@@ -3169,18 +3170,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114020115418568090
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1636020528559744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clothingName: belt
 --- !u!114 &114025084910026538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3717,6 +3706,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 
   maxItemSize: 0
+  clothingName: 
 --- !u!114 &114095270947997436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3755,7 +3745,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114919201749102192}
   m_HandleRect: {fileID: 224219662248899922}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4109,6 +4099,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0a0000000d000000
   maxItemSize: 1
+  clothingName: belt
 --- !u!114 &114167341109290866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4388,6 +4379,7 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   maxItemSize: 0
+  clothingName: 
 --- !u!114 &114205132317658854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4552,6 +4544,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 05000000
   maxItemSize: 0
+  clothingName: ear
 --- !u!114 &114226503620817152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4818,6 +4811,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 01000000
   maxItemSize: 0
+  clothingName: eyes
 --- !u!114 &114253437081345614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4964,6 +4958,7 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   maxItemSize: 2
+  clothingName: leftHand
 --- !u!114 &114275516431417064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5431,6 +5426,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 03000000
   maxItemSize: 0
+  clothingName: neck
 --- !u!114 &114399108885296126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5493,12 +5489,24 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 09000000
   maxItemSize: 0
+  clothingName: feet
 --- !u!114 &114411367222984140
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1869020368992432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a02f32610d09c4aaefe46dec0d0d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114415379050113262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1962282589929014}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38a02f32610d09c4aaefe46dec0d0d0f, type: 3}
@@ -5519,6 +5527,7 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   maxItemSize: 2
+  clothingName: rightHand
 --- !u!114 &114423212028507220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5561,6 +5570,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 04000000
   maxItemSize: 0
+  clothingName: mask
 --- !u!114 &114443862294665990
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5763,6 +5773,7 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   maxItemSize: 0
+  clothingName: 
 --- !u!114 &114468097976634632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5971,6 +5982,19 @@ MonoBehaviour:
   - {fileID: 1991022393881954}
   tempSceneButton: {fileID: 1826962965541542}
   tempMenuButton: {fileID: 1609608550810238}
+--- !u!114 &114537970964565572
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1460554974100506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingName: 6c65667448616e64
+  equipment: {fileID: 0}
 --- !u!114 &114538054229339422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5986,6 +6010,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0c0000000d000000
   maxItemSize: 0
+  clothingName: 
 --- !u!114 &114538844620314586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6195,6 +6220,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0b000000
   maxItemSize: 2
+  clothingName: back
 --- !u!114 &114578158227864424
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6427,6 +6453,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 08000000
   maxItemSize: 0
+  clothingName: hands
 --- !u!114 &114631372011729088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6665,6 +6692,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a02f32610d09c4aaefe46dec0d0d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114685751713739196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1595754989078510}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f941a6ff000f14c42a6a1e012b4495cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faceReference: -1
+  bodyReference: 32
+  underwearReference: 52
+  suitPrefab: {fileID: 1229467635671980, guid: 7fb98374065e73a42bfee58d83920914, type: 2}
+  beltPrefab: {fileID: 0}
+  shoesPrefab: {fileID: 1782409824222324, guid: d573ad03976585a459f45dbc8dcff1db,
+    type: 2}
+  headPrefab: {fileID: 1659623615292674, guid: 5ae7f5da6dbb15843914b28d950be835, type: 2}
+  maskPrefab: {fileID: 0}
+  uniformPrefab: {fileID: 1188305979044324, guid: 5551c3373c828d542a09480e71b7b53c,
+    type: 2}
+  neckPrefab: {fileID: 0}
+  earPrefab: {fileID: 1469499218258322, guid: 2eae96f88d2a8d64987a4867bd21fbbf, type: 2}
+  glassesPrefab: {fileID: 0}
+  leftHandPrefab: {fileID: 0}
+  rightHandPrefab: {fileID: 0}
+  idPrefab: {fileID: 1748120534729806, guid: 4c73033e5f8ab734eb2e85e6ae54de73, type: 2}
+  bagPrefab: {fileID: 1426788842454498, guid: 7a7587eaf2b5e1c44addf7d2475d86c9, type: 2}
+  storage01Prefab: {fileID: 0}
+  storage02Prefab: {fileID: 0}
+  suitStoragePrefab: {fileID: 0}
 --- !u!114 &114687638503877950
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6754,8 +6813,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotType: 0
   allowAllItems: 0
-  allowedItemTypes: 07000000
+  allowedItemTypes: 06000000
   maxItemSize: 0
+  clothingName: suit
 --- !u!114 &114715521751614026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6785,6 +6845,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 02000000
   maxItemSize: 0
+  clothingName: head
 --- !u!114 &114748514540813112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6945,18 +7006,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114771377252515880
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1921458741358518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clothingName: suit
 --- !u!114 &114779621724171294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7390,7 +7439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIParent: {fileID: 1830651583639642}
-  isDevMode: 0
+  isDevMode: 1
 --- !u!114 &114881689324223894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7965,8 +8014,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotType: 0
   allowAllItems: 0
-  allowedItemTypes: 06000000
+  allowedItemTypes: 07000000
   maxItemSize: 0
+  clothingName: uniform
 --- !u!114 &114971843071672412
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8758,7 +8808,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.726, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5.9999924, y: 1.5900269}
+  m_AnchoredPosition: {x: 6, y: 1.5900269}
   m_SizeDelta: {x: -3, y: 2.8000488}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224049592049655158
@@ -9220,7 +9270,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10141,8 +10191,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -10.629076, y: 0.000045776367}
-  m_SizeDelta: {x: 453, y: -470.57352}
+  m_AnchoredPosition: {x: -10.629076, y: -0.000030517578}
+  m_SizeDelta: {x: 453, y: 0}
   m_Pivot: {x: 0.5000001, y: 1}
 --- !u!224 &224769148285760926
 RectTransform:

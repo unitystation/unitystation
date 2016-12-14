@@ -14,14 +14,6 @@ namespace PlayGroup {
         public PlayerSprites playerSprites;
         public PhotonView photonView;
 
-        [Header("Temp Player Preferences - start sprites (facingDown)")]
-        public int bodyNumber;
-        public int suitNumber;
-        public int beltNumber;
-        public int headNumber;
-        public int shoesNumber;
-        public int underWearNumber;
-        public int uniformNumber;
 
         void Start() {
             GameObject searchPlayerList = GameObject.FindGameObjectWithTag("PlayerList");
@@ -36,8 +28,6 @@ namespace PlayGroup {
 
             //Add player sprite controller component
 
-            SetPlayerPrefs();
-
             if(photonView.isMine) { //This prefab is yours, take control of it
                 PlayerManager.control.SetPlayerForControl(this.gameObject);
             }
@@ -51,22 +41,6 @@ namespace PlayGroup {
                 playerSprites.FaceDirection(direction); //Handles the playersprite change on direction change
 
             }
-        }
-
-        //Temp
-        void SetPlayerPrefs() {
-            var prefs = new Dictionary<string, int>();
-            prefs["human"] = bodyNumber;
-            prefs["suit"] = suitNumber;
-            prefs["belt"] = beltNumber;
-            prefs["head"] = headNumber;
-            prefs["feet"] = shoesNumber;
-            //prefs["face"] = shoesNumber; TODO
-            //prefs["mask"] = shoesNumber;
-            prefs["underwear"] = underWearNumber;
-            prefs["uniform"] = uniformNumber;
-
-            playerSprites.SetSprites(prefs);
         }
 
         public float DistanceTo(Vector3 position) {
