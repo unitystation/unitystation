@@ -49,7 +49,9 @@ namespace PlayGroup {
             Reference = -1;
         }
 
-        public void UpdateReference(ItemAttributes attributes) {
+        public void UpdateItem(GameObject item) {
+            var attributes = item.GetComponent<ItemAttributes>();
+
             if(slotType == SlotType.Other) {
                 reference = attributes.clothingReference;
             } else {

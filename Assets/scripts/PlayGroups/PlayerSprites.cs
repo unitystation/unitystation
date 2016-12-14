@@ -38,21 +38,17 @@ namespace PlayGroup {
                 }
 
                 currentDirection = direction;
-
-
             }
         }
 
         public void PickedUpItem(GameObject item) {
-            ItemAttributes att = item.GetComponent<ItemAttributes>();
-
             //FIXME No longer works over photon network. Need to sync the picked up item over photon and then only handle change of 
             // direction based on that character and what hand that item is in on that specific character also
 
             if(UIManager.control.isRightHand) {
-                clothes["rightHand"].UpdateReference(att);
+                clothes["rightHand"].UpdateItem(item);
             } else {
-                clothes["leftHand"].UpdateReference(att);
+                clothes["leftHand"].UpdateItem(item);
             }
         }
 
