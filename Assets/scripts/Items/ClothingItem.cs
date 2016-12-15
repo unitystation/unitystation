@@ -158,6 +158,7 @@ namespace PlayGroup
         void UpdateSpriteNetwork(int spriteRef, string sheetName)
         {
             spriteSheetName = sheetName;
+            sprites = SpriteManager.control.playerSprites[spriteSheetName];
             Reference = spriteRef;
         }
     }
