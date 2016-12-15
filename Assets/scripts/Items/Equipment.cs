@@ -135,11 +135,28 @@ namespace UI {
 
         private void SetItemSlot(string slotName, GameObject prefab) {
             if(clothingSlotTuples.ContainsKey(slotName) && prefab != null) {
-                var item = Instantiate(prefab);
-                clothingSlotTuples[slotName].itemSlot.SetItem(item);
+                if (Managers.control.isDevMode)
+                {
+                    var item = Instantiate(prefab);
+                    clothingSlotTuples[slotName].itemSlot.SetItem(item);
 
-                if(clothingSlotTuples[slotName].clothingItem != null) {
-                    clothingSlotTuples[slotName].clothingItem.UpdateItem(item);
+                    if (clothingSlotTuples[slotName].clothingItem != null)
+                    {
+                        clothingSlotTuples[slotName].clothingItem.UpdateItem(item);
+                    
+                    }
+                }
+                else
+                {
+                    var item = PhotonNetwork.InstantiateSceneObject(prefab.name,Vector3.zero,Quaternion.identity,0,null);
+                    clothingSlotTuples[slotName].itemSlot.SetItem(item);
+
+                    if (clothingSlotTuples[slotName].clothingItem != null)
+                    {
+                        clothingSlotTuples[slotName].clothingItem.UpdateItem(item);
+
+                    }
+                
                 }
             }
         }
