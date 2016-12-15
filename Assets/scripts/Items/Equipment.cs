@@ -148,7 +148,7 @@ namespace UI {
                 }
                 else
                 {
-                    var item = PhotonNetwork.InstantiateSceneObject(prefab.name,Vector3.zero,Quaternion.identity,0,null);
+                    var item = PhotonNetwork.Instantiate(prefab.name,Vector3.zero,Quaternion.identity,0,null);
                     clothingSlotTuples[slotName].itemSlot.SetItem(item);
 
                     if (clothingSlotTuples[slotName].clothingItem != null)
