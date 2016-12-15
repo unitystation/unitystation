@@ -15,7 +15,7 @@ namespace PlayGroup
         public string spriteSheetName;
         public int reference = -1;
         public PlayerScript thisPlayerScript;
-        private PhotonView photonView;
+        public PhotonView photonView;
 
         public int Reference
         {
@@ -43,20 +43,21 @@ namespace PlayGroup
             }
         }
 
-        private SpriteRenderer spriteRenderer;
+        public SpriteRenderer spriteRenderer;
         private Sprite[] sprites;
         private int referenceOffset = 0;
         private Vector2 currentDirection = Vector2.down;
 
+        void Awake()
+        {
+            sprites = SpriteManager.control.playerSprites[spriteSheetName];
+        }
+
         void Start()
         {
-            thisPlayerScript = transform.parent.gameObject.GetComponent<PlayerScript>();
-            photonView = GetComponent<PhotonView>();
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            sprites = SpriteManager.control.playerSprites[spriteSheetName];
             UpdateSprite();
         }
-            
+
         public void Clear()
         {
             Reference = -1;
@@ -101,7 +102,7 @@ namespace PlayGroup
             sprites = SpriteManager.control.playerSprites[spriteSheetName];
             UpdateSprite();
         }
-            
+
         private void UpdateReferenceOffset()
         {
 
@@ -130,6 +131,7 @@ namespace PlayGroup
                     spriteRenderer.sprite = null;
                 }
             }
+      
             if (thisPlayerScript != null)
             {
                 if (PhotonNetwork.connectedAndReady && thisPlayerScript.isMine)//if this player is mine, then update the reference and spriteSheetName on all other clients
@@ -140,8 +142,10 @@ namespace PlayGroup
         }
 
         //Photon RPC
-        public void CallRemoteMethod() {
-            if(photonView != null) {
+        public void CallRemoteMethod()
+        {
+            if (photonView != null)
+            {
                 photonView.RPC(
                     "UpdateSpriteNetwork",
                     PhotonTargets.Others, //Called on all clients for this PhotonView ID
@@ -151,7 +155,8 @@ namespace PlayGroup
         }
 
         [PunRPC]
-        void UpdateSpriteNetwork(int spriteRef,string sheetName ) {
+        void UpdateSpriteNetwork(int spriteRef, string sheetName)
+        {
             spriteSheetName = sheetName;
             Reference = spriteRef;
         }
