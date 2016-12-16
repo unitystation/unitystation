@@ -148,7 +148,7 @@ namespace PlayGroup
             {
                 photonView.RPC(
                     "UpdateSpriteNetwork",
-                    PhotonTargets.Others, //Called on all clients for this PhotonView ID
+                    PhotonTargets.OthersBuffered, //Called on all clients for this PhotonView ID
                     new object[] { reference, spriteSheetName });
 
             }

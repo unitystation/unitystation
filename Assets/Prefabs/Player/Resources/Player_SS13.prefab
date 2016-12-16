@@ -606,7 +606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PositionModel:
     SynchronizeEnabled: 1
-    TeleportEnabled: 1
+    TeleportEnabled: 0
     TeleportIfDistanceGreaterThan: 3
     InterpolateOption: 3
     InterpolateMoveTowardsSpeed: 1
@@ -673,7 +673,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -683,6 +682,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114143299477478094
 MonoBehaviour:
@@ -716,7 +716,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -726,6 +725,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114152457097449374
 MonoBehaviour:
@@ -762,7 +762,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -772,6 +771,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114207866328645458
 MonoBehaviour:
@@ -788,7 +788,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -798,6 +797,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114226302031194678
 MonoBehaviour:
@@ -865,7 +865,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -875,6 +874,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114346588685027340
 MonoBehaviour:
@@ -891,7 +891,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -901,6 +900,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114384461554369504
 MonoBehaviour:
@@ -917,7 +917,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -927,6 +926,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114455683327263204
 MonoBehaviour:
@@ -960,7 +960,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -970,6 +969,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114476575194928652
 MonoBehaviour:
@@ -1054,7 +1054,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -1064,6 +1063,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114634047129170158
 MonoBehaviour:
@@ -1080,7 +1080,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -1090,6 +1089,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114635878357695462
 MonoBehaviour:
@@ -1189,7 +1189,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -1199,6 +1198,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114783258252521902
 MonoBehaviour:
@@ -1215,7 +1215,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -1226,6 +1225,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114800045873325832
 MonoBehaviour:
@@ -1268,6 +1268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b405755a3db467098b2349af2167119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerScript: {fileID: 114635878357695462}
+  photonView: {fileID: 114783258252521902}
 --- !u!114 &114873753986010242
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1283,7 +1285,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -1293,6 +1294,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114877191934611544
 MonoBehaviour:
@@ -1309,7 +1311,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -1319,6 +1320,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114884974480460516
 MonoBehaviour:
@@ -1335,7 +1337,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -1345,6 +1346,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114894521951896790
 MonoBehaviour:
@@ -1361,7 +1363,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -1371,6 +1372,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114929201070327226
 MonoBehaviour:
@@ -1421,7 +1423,6 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -1431,6 +1432,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
+  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!212 &212146672306662880
 SpriteRenderer:
