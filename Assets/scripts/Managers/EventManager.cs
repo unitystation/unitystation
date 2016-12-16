@@ -26,6 +26,9 @@ namespace Events {
 	    }
 	
 	    public static void AddUIListener(string eventName, UnityAction<GameObject> listener) {
+            if(eventName.Length == 0)
+                return;
+
             UIEvent uiEvent;
 
             if(!instance.uiEvents.TryGetValue(eventName, out uiEvent)) {
@@ -42,9 +45,9 @@ namespace Events {
             }
         }
 
-        public static void TriggerUIEvent(string eventName, GameObject itemSlot) {
+        public static void TriggerUIEvent(string eventName, GameObject item) {
             if(instance.uiEvents.ContainsKey(eventName)) {
-                instance.uiEvents[eventName].Invoke(itemSlot);
+                instance.uiEvents[eventName].Invoke(item);
 
             }
         }

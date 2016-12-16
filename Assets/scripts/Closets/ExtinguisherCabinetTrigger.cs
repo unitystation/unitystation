@@ -48,7 +48,7 @@ public class ExtinguisherCabinetTrigger: MonoBehaviour {
             var item = UIManager.control.hands.CurrentSlot.Item;
             if(item != null && IsExtinguisher(item)) {
                 extinguisher = item;
-                UIManager.control.hands.CurrentSlot.RemoveItem();
+                UIManager.control.hands.CurrentSlot.Clear();
                 extinguisher.SetActive(false);
                 spriteRenderer.sprite = spriteOpenedOccupied;
             } else {

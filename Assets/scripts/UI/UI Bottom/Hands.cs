@@ -18,13 +18,13 @@ namespace UI {
         }
 
         public void Swap() {
-            Swap(!IsRight);
+            SetHand(!IsRight);
         }
 
-        public void Swap(bool right) {
+        public void SetHand(bool right) {
             if(right) {
                 CurrentSlot = RightSlot;
-            }else {
+            } else {
                 CurrentSlot = LeftSlot;
             }
 
@@ -34,7 +34,17 @@ namespace UI {
 
         public void SwapItem(UI_ItemSlot itemSlot) {
             if(CurrentSlot != itemSlot) {
-                CurrentSlot.TryToSwapItem(itemSlot);
+                if(!CurrentSlot.IsFull) {
+                    Swap(CurrentSlot, itemSlot);
+                } else {
+                    Swap(itemSlot, CurrentSlot);
+                }
+            }
+        }
+
+        private void Swap(UI_ItemSlot slot1, UI_ItemSlot slot2) {
+            if(slot1.TrySetItem(slot2.Item)) {
+                slot2.Clear();
             }
         }
     }
