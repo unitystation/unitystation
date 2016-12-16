@@ -15,7 +15,7 @@ namespace UI {
 
         public void OnPointerClick(PointerEventData eventData) {
             SoundManager.control.Play("Click01");
-            itemSlot.TryToSwapItem(UIManager.control.hands.currentSlot);
+            itemSlot.TryToSwapItem(UIManager.control.hands.CurrentSlot);
         }
     }
 }

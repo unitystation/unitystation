@@ -76,7 +76,7 @@ public class DoorTrigger: MonoBehaviour {
     }
 
     private bool TryDropItem() {
-        GameObject item = UIManager.control.hands.currentSlot.RemoveItem();
+        GameObject item = UIManager.control.hands.CurrentSlot.RemoveItem();
 
         if(item != null) {
             item.transform.parent = items.transform;

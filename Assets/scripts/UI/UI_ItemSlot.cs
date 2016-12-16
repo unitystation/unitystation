@@ -20,7 +20,7 @@ namespace UI {
         public List<ItemType> allowedItemTypes;
         public ItemSize maxItemSize;
         public string clothingName = null;
-        
+
         public bool hasClothing {
             get {
                 return clothingName != null && string.Empty != clothingName;
@@ -45,7 +45,7 @@ namespace UI {
         private PlayerSprites playerSprites;
         private Equipment equipment;
         private Image image;
-        
+
         void Awake() {
             image = GetComponent<Image>();
             image.enabled = false;
@@ -57,6 +57,15 @@ namespace UI {
                 playerSprites = PlayerManager.control.playerScript.playerSprites;
                 equipment = PlayerManager.control.Equipment;
             }
+        }
+
+        public void SetItem(GameObject item) {
+            image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
+            image.enabled = true;
+
+            currentItem = item;
+            item.transform.position = transform.position;
+            item.transform.parent = transform;
         }
 
         public bool TryToAddItem(GameObject item) {
@@ -71,28 +80,6 @@ namespace UI {
 
                     return true;
                 }
-            }
-            return false;
-        }
-
-        public void SetItem(GameObject item) {
-            image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
-            image.enabled = true;
-
-            currentItem = item;
-            item.transform.position = transform.position;
-            item.transform.parent = transform;
-        }
-
-        /// <summary>
-        /// Tries to add item from another slot
-        /// </summary>
-        /// <param name="otherSlot"></param>
-        /// <returns></returns>
-        public bool TryToSwapItem(UI_ItemSlot otherSlot) {
-            if(!isFull && TryToAddItem(otherSlot.currentItem)) {
-                var item = otherSlot.RemoveItem();
-                return true;
             }
             return false;
         }
@@ -119,6 +106,19 @@ namespace UI {
             return null;
         }
 
+        /// <summary>
+        /// Tries to add item from another slot
+        /// </summary>
+        /// <param name="otherSlot"></param>
+        /// <returns></returns>
+        public bool TryToSwapItem(UI_ItemSlot otherSlot) {
+            if(!isFull && TryToAddItem(otherSlot.currentItem)) {
+                otherSlot.RemoveItem();
+                return true;
+            }
+            return false;
+        }
+
 
         /// <summary>
         /// Empties slot and destroy item
@@ -142,8 +142,7 @@ namespace UI {
                 return false;
             }
 
-            if(allowAllItems && maxItemSize != ItemSize.Large &&
-                    (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size) {
+            if(allowAllItems && maxItemSize != ItemSize.Large && (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size) {
                 Debug.Log("Item is too big!");
                 return false;
             }

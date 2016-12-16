@@ -38,7 +38,7 @@ namespace UI {
         /// </summary>
         public bool isRightHand {
             get {
-                return hands.currentSlot == hands.rightSlot;
+                return hands.IsRight;
             }
         }
 

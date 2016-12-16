@@ -336,6 +336,7 @@ GameObject:
   - component: {fileID: 224096573888948224}
   - component: {fileID: 222983165272750924}
   - component: {fileID: 114601802357361340}
+  - component: {fileID: 114489090164232222}
   m_Layer: 5
   m_Name: Equip-Hands
   m_TagString: Untagged
@@ -5882,6 +5883,20 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114489090164232222
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1193225254946496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2a726eeaef8432419b74dfe18ce9f81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RightSlot: {fileID: 114415833081516234}
+  LeftSlot: {fileID: 114274331976400090}
+  selector: {fileID: 224136824114092128}
 --- !u!114 &114522922459100382
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6189,7 +6204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chatControl: {fileID: 114586273594766952}
-  hands: {fileID: 114601802357361340}
+  hands: {fileID: 114489090164232222}
   intentControl: {fileID: 114788109056889952}
   actionControl: {fileID: 114900219165742120}
   walkRunControl: {fileID: 114658356813202594}
@@ -6375,7 +6390,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1193225254946496}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c65d84e37364e6e824668b1c241c72a, type: 3}
   m_Name: 
@@ -6912,8 +6927,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114601802357361340}
-        m_MethodName: SelectorState
+      - m_Target: {fileID: 114489090164232222}
+        m_MethodName: Swap
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7559,7 +7574,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114601802357361340}
+      - m_Target: {fileID: 114489090164232222}
         m_MethodName: Swap
         m_Mode: 1
         m_Arguments:
@@ -7988,8 +8003,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114601802357361340}
-        m_MethodName: SelectorState
+      - m_Target: {fileID: 114489090164232222}
+        m_MethodName: Swap
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
