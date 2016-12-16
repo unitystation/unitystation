@@ -2015,6 +2015,16 @@ Prefab:
       propertyPath: photonView
       value: 
       objectReference: {fileID: 856770379}
+    - target: {fileID: 114465357522728890, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: viewIdField
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 114465357522728890, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: instantiationId
+      value: 22
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
   m_IsPrefabParent: 0
@@ -3250,6 +3260,7 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
+  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -3258,7 +3269,6 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 8
   instantiationId: 8
-  currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!1001 &72157850
 Prefab:
@@ -6747,11 +6757,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: 
   allowAllItems: 0
   allowedItemTypes: 0c0000000d000000
   maxItemSize: 0
-  clothingName: 
 --- !u!222 &166218213
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7865,7 +7874,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1142849699}
-        m_MethodName: SelectorState
+        m_MethodName: SetHand
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9967,11 +9976,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: 
   allowAllItems: 0
   allowedItemTypes: 01000000
   maxItemSize: 0
-  clothingName: eyes
 --- !u!222 &256953211
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11573,11 +11581,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 1
+  eventName: 
   allowAllItems: 1
   allowedItemTypes: 
   maxItemSize: 2
-  clothingName: rightHand
 --- !u!114 &290114135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15520,7 +15527,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509449365}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &398113874
 MonoBehaviour:
@@ -16358,6 +16365,7 @@ GameObject:
   - component: {fileID: 423632952}
   - component: {fileID: 423632951}
   - component: {fileID: 423632950}
+  - component: {fileID: 423632953}
   m_Layer: 5
   m_Name: Suit
   m_TagString: Untagged
@@ -16432,6 +16440,58 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 423632948}
+--- !u!114 &423632953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 423632948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 423632951}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1142849699}
+        m_MethodName: SwapItem
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1040039732}
+          m_ObjectArgumentAssemblyTypeName: UI.UI_ItemSlot, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1001 &423991998
 Prefab:
   m_ObjectHideFlags: 0
@@ -18266,11 +18326,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 2
+  eventName: 
   allowAllItems: 1
   allowedItemTypes: 
   maxItemSize: 2
-  clothingName: leftHand
 --- !u!222 &477215487
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19592,7 +19651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIParent: {fileID: 1564682556}
-  isDevMode: 0
+  isDevMode: 1
 --- !u!4 &509449365
 Transform:
   m_ObjectHideFlags: 0
@@ -19611,6 +19670,7 @@ Transform:
   - {fileID: 725385730}
   - {fileID: 932067615}
   - {fileID: 518818253}
+  - {fileID: 970333475}
   - {fileID: 398113873}
   - {fileID: 1803262986}
   m_Father: {fileID: 0}
@@ -22096,11 +22156,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: 
   allowAllItems: 0
   allowedItemTypes: 0b000000
   maxItemSize: 2
-  clothingName: back
 --- !u!222 &574593583
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22757,11 +22816,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: 
   allowAllItems: 0
   allowedItemTypes: 02000000
   maxItemSize: 0
-  clothingName: head
 --- !u!222 &602190060
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -32549,6 +32607,7 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
+  observed: {fileID: 0}
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
@@ -32556,8 +32615,7 @@ MonoBehaviour:
   ObservedComponents: []
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 22
-  instantiationId: 22
-  currentMasterID: -1
+  instantiationId: 24
   isRuntimeInstantiated: 0
 --- !u!1001 &857406055
 Prefab:
@@ -33074,11 +33132,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: 
   allowAllItems: 1
   allowedItemTypes: 
   maxItemSize: 0
-  clothingName: 
 --- !u!222 &866332174
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -37773,6 +37830,49 @@ Transform:
   m_PrefabParentObject: {fileID: 4000011562749558, guid: 3f66bc99053b414f8c117d1c925b0c0d,
     type: 2}
   m_PrefabInternal: {fileID: 969623681}
+--- !u!1 &970333474
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 1461021672017276, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 970333475}
+  - component: {fileID: 970333476}
+  m_Layer: 0
+  m_Name: EventManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &970333475
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 4518396847409374, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 970333474}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 509449365}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &970333476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114654949177218078, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 970333474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90c75fbac30fc54e98b644a378df712, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &971682780
 Prefab:
   m_ObjectHideFlags: 0
@@ -40674,11 +40774,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: suit
   allowAllItems: 0
   allowedItemTypes: 06000000
   maxItemSize: 0
-  clothingName: suit
 --- !u!222 &1040039733
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -40823,7 +40922,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 322228088}
   m_HandleRect: {fileID: 322228087}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -41535,172 +41634,172 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 114204787954010444, guid: 1532c284d92d14314b1a433bde34d072,
+    - target: {fileID: 114989431315139934, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: viewIdField
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114204787954010444, guid: 1532c284d92d14314b1a433bde34d072,
+    - target: {fileID: 114989431315139934, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: instantiationId
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114884974480460516, guid: 1532c284d92d14314b1a433bde34d072,
+    - target: {fileID: 114894521951896790, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: viewIdField
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114884974480460516, guid: 1532c284d92d14314b1a433bde34d072,
+    - target: {fileID: 114894521951896790, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: instantiationId
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114471553884477972, guid: 1532c284d92d14314b1a433bde34d072,
+    - target: {fileID: 114884974480460516, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: viewIdField
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114471553884477972, guid: 1532c284d92d14314b1a433bde34d072,
+    - target: {fileID: 114884974480460516, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: instantiationId
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114151922215477444, guid: 1532c284d92d14314b1a433bde34d072,
+    - target: {fileID: 114877191934611544, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: viewIdField
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 114151922215477444, guid: 1532c284d92d14314b1a433bde34d072,
+    - target: {fileID: 114877191934611544, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: instantiationId
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 114599370121185724, guid: 1532c284d92d14314b1a433bde34d072,
+    - target: {fileID: 114873753986010242, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: viewIdField
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 114599370121185724, guid: 1532c284d92d14314b1a433bde34d072,
+    - target: {fileID: 114873753986010242, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: instantiationId
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 114346588685027340, guid: 1532c284d92d14314b1a433bde34d072,
+    - target: {fileID: 114750002149092532, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: viewIdField
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 114346588685027340, guid: 1532c284d92d14314b1a433bde34d072,
+    - target: {fileID: 114750002149092532, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: instantiationId
       value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114750002149092532, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: viewIdField
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 114750002149092532, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: instantiationId
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 114285915621706368, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: viewIdField
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 114285915621706368, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: instantiationId
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 114894521951896790, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: viewIdField
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 114894521951896790, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: instantiationId
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 114989431315139934, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: viewIdField
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 114989431315139934, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: instantiationId
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 114877191934611544, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: viewIdField
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 114877191934611544, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: instantiationId
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 114070783674338266, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: viewIdField
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 114070783674338266, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: instantiationId
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 114873753986010242, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: viewIdField
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 114873753986010242, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: instantiationId
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 114384461554369504, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: viewIdField
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 114384461554369504, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: instantiationId
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 114783258252521902, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: viewIdField
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 114783258252521902, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: instantiationId
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 114207866328645458, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: viewIdField
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114207866328645458, guid: 1532c284d92d14314b1a433bde34d072,
-        type: 2}
-      propertyPath: instantiationId
-      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 114634047129170158, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: viewIdField
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114634047129170158, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: instantiationId
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114599370121185724, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: viewIdField
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114599370121185724, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: instantiationId
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114471553884477972, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: viewIdField
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 114471553884477972, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: instantiationId
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 114384461554369504, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: viewIdField
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 114384461554369504, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: instantiationId
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 114346588685027340, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: viewIdField
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114346588685027340, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: instantiationId
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114285915621706368, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: viewIdField
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 114285915621706368, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: instantiationId
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 114207866328645458, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: viewIdField
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 114207866328645458, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: instantiationId
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 114204787954010444, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: viewIdField
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 114204787954010444, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: instantiationId
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 114151922215477444, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: viewIdField
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 114151922215477444, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: instantiationId
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 114070783674338266, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: viewIdField
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114070783674338266, guid: 1532c284d92d14314b1a433bde34d072,
+        type: 2}
+      propertyPath: instantiationId
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114783258252521902, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: viewIdField
       value: 21
       objectReference: {fileID: 0}
-    - target: {fileID: 114634047129170158, guid: 1532c284d92d14314b1a433bde34d072,
+    - target: {fileID: 114783258252521902, guid: 1532c284d92d14314b1a433bde34d072,
         type: 2}
       propertyPath: instantiationId
       value: 21
@@ -42815,11 +42914,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: 
   allowAllItems: 0
   allowedItemTypes: 03000000
   maxItemSize: 0
-  clothingName: neck
 --- !u!222 &1103038034
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -44060,15 +44158,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1142849697}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c65d84e37364e6e824668b1c241c72a, type: 3}
+  m_Script: {fileID: 11500000, guid: c2a726eeaef8432419b74dfe18ce9f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selector: {fileID: 1824444528}
-  leftHand: {fileID: 1818143623}
-  rightHand: {fileID: 200127836}
-  currentSlot: {fileID: 0}
-  leftSlot: {fileID: 477215486}
-  rightSlot: {fileID: 290114134}
+  RightSlot: {fileID: 290114134}
+  LeftSlot: {fileID: 477215486}
+  selector: {fileID: 1824444529}
 --- !u!222 &1142849700
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -45462,11 +45557,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: 
   allowAllItems: 1
   allowedItemTypes: 
   maxItemSize: 0
-  clothingName: 
 --- !u!222 &1169599794
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -54804,11 +54898,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: 
   allowAllItems: 0
   allowedItemTypes: 
   maxItemSize: 0
-  clothingName: 
 --- !u!222 &1428559534
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -59320,11 +59413,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: hands
   allowAllItems: 0
   allowedItemTypes: 08000000
   maxItemSize: 0
-  clothingName: hands
 --- !u!222 &1535499785
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -60238,11 +60330,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: 
   allowAllItems: 0
   allowedItemTypes: 05000000
   maxItemSize: 0
-  clothingName: ear
 --- !u!222 &1557980054
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -66957,11 +67048,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: 
   allowAllItems: 0
   allowedItemTypes: 0a0000000d000000
   maxItemSize: 1
-  clothingName: belt
 --- !u!114 &1735647287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69362,7 +69452,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509449365}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1803262987
 MonoBehaviour:
@@ -69694,11 +69784,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: 
   allowAllItems: 0
   allowedItemTypes: 04000000
   maxItemSize: 0
-  clothingName: mask
 --- !u!222 &1806881619
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -69843,11 +69932,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: 
   allowAllItems: 0
   allowedItemTypes: 07000000
   maxItemSize: 0
-  clothingName: uniform
 --- !u!222 &1816178931
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -70066,7 +70154,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1142849699}
-        m_MethodName: SelectorState
+        m_MethodName: SetHand
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -74159,11 +74247,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: 
   allowAllItems: 0
   allowedItemTypes: 09000000
   maxItemSize: 0
-  clothingName: feet
 --- !u!222 &1916216189
 CanvasRenderer:
   m_ObjectHideFlags: 0

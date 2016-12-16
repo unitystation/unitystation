@@ -1,19 +1,10 @@
-﻿using PlayGroup;
+﻿using Events;
+using PlayGroup;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI {
-
-    class ClothingSlotTuple {
-        public UI_ItemSlot itemSlot;
-        public ClothingItem clothingItem;
-
-        public ClothingSlotTuple(UI_ItemSlot itemSlot, ClothingItem clothingItem) {
-            this.itemSlot = itemSlot;
-            this.clothingItem = clothingItem;
-        }
-    }
 
     public class Equipment: MonoBehaviour {
         public int faceReference = -1;
@@ -43,7 +34,7 @@ namespace UI {
         private ClothingItem body;
         private ClothingItem underwear;
 
-        private Dictionary<string, ClothingSlotTuple> clothingSlotTuples = new Dictionary<string, ClothingSlotTuple>();
+        private Dictionary<string, UI_ItemSlot> itemSlots = new Dictionary<string, UI_ItemSlot>();
 
         void Start() {
             var playerTransform = PlayerManager.control.LocalPlayer.transform;
@@ -52,13 +43,7 @@ namespace UI {
 
                 var slot = (UI_ItemSlot) itemSlot;
 
-                ClothingItem clothingItem = null;
-
-                if(slot.hasClothing) {
-                    clothingItem = playerTransform.FindChild(slot.clothingName).GetComponent<ClothingItem>();
-                }
-
-                clothingSlotTuples.Add(name, new ClothingSlotTuple(slot, clothingItem));
+                itemSlots.Add(name, slot);
             }
 
             face = playerTransform.FindChild("face").GetComponent<ClothingItem>();
@@ -67,97 +52,42 @@ namespace UI {
 
             SetPlayerLoadOuts();
         }
-        
+
         void SetPlayerLoadOuts() {
             face.Reference = faceReference;
             body.Reference = bodyReference;
             underwear.Reference = underwearReference;
 
-            SetItemSlot("Suit", suitPrefab);
-            SetItemSlot("Belt", beltPrefab);
-            SetItemSlot("Shoes", shoesPrefab);
-            SetItemSlot("Hat", headPrefab);
-            SetItemSlot("Mask", maskPrefab);
-            SetItemSlot("Uniform", uniformPrefab);
-            SetItemSlot("Neck", neckPrefab);
-            SetItemSlot("Ear", earPrefab);
-            SetItemSlot("Glasses", glassesPrefab);
+            SetItem("suit", suitPrefab);
+            SetItem("belt", beltPrefab);
+            SetItem("feet", shoesPrefab);
+            SetItem("head", headPrefab);
+            SetItem("mask", maskPrefab);
+            SetItem("uniform", uniformPrefab);
+            SetItem("neck", neckPrefab);
+            SetItem("ear", earPrefab);
+            SetItem("eyes", glassesPrefab);
 
-            SetItemSlot("ID", idPrefab);
-            SetItemSlot("Bag", bagPrefab);
-            SetItemSlot("RightHand", rightHandPrefab);
-            SetItemSlot("LeftHand", leftHandPrefab);
-            SetItemSlot("Storage01", storage01Prefab);
-            SetItemSlot("Storage02", storage02Prefab);
+            SetItem("id", idPrefab);
+            SetItem("back", bagPrefab);
+            SetItem("rightHand", rightHandPrefab);
+            SetItem("leftHand", leftHandPrefab);
+            SetItem("storage01", storage01Prefab);
+            SetItem("storage02", storage02Prefab);
         }
 
-        public void UpdateEquipment(string slotName, GameObject item) {
-            if(clothingSlotTuples.ContainsKey(slotName) && item != null) {
+        private void SetItem(string eventName, GameObject prefab) {
+            if(prefab != null) {
 
-                clothingSlotTuples[slotName].itemSlot.SetItem(item);
+                GameObject item;
 
-                if(clothingSlotTuples[slotName].clothingItem != null) {
-                    clothingSlotTuples[slotName].clothingItem.UpdateItem(item);
+                if(Managers.control.isDevMode) {
+                    item = Instantiate(prefab);
+                } else {
+                    item = PhotonNetwork.Instantiate(prefab.name, Vector3.zero, Quaternion.identity, 0, null);
                 }
-            }
-        }
 
-        public void UpdateSlot(string slotName, GameObject item) {
-            if(clothingSlotTuples.ContainsKey(slotName) && item != null) {
-
-                clothingSlotTuples[slotName].itemSlot.SetItem(item);
-            }
-        }
-
-        public void UpdateClothing(string slotName, GameObject item) {
-            if(clothingSlotTuples.ContainsKey(slotName) && item != null) {
-                if(clothingSlotTuples[slotName].clothingItem != null) {
-                    clothingSlotTuples[slotName].clothingItem.UpdateItem(item);
-                }
-            }
-        }
-
-        public void ClearSlot(string slotName) {
-            if(clothingSlotTuples.ContainsKey(slotName)) {
-
-                clothingSlotTuples[slotName].itemSlot.RemoveItem();
-            }
-        }
-
-        public void ClearClothing(string slotName) {
-            Debug.Log(slotName);
-            if(clothingSlotTuples.ContainsKey(slotName)) {
-                if(clothingSlotTuples[slotName].clothingItem != null) {
-                    clothingSlotTuples[slotName].clothingItem.Clear();
-                }
-            }
-        }
-
-        private void SetItemSlot(string slotName, GameObject prefab) {
-            if(clothingSlotTuples.ContainsKey(slotName) && prefab != null) {
-                if (Managers.control.isDevMode)
-                {
-                    var item = Instantiate(prefab);
-                    clothingSlotTuples[slotName].itemSlot.SetItem(item);
-
-                    if (clothingSlotTuples[slotName].clothingItem != null)
-                    {
-                        clothingSlotTuples[slotName].clothingItem.UpdateItem(item);
-                    
-                    }
-                }
-                else
-                {
-                    var item = PhotonNetwork.Instantiate(prefab.name,Vector3.zero,Quaternion.identity,0,null);
-                    clothingSlotTuples[slotName].itemSlot.SetItem(item);
-
-                    if (clothingSlotTuples[slotName].clothingItem != null)
-                    {
-                        clothingSlotTuples[slotName].clothingItem.UpdateItem(item);
-
-                    }
-                
-                }
+                EventManager.TriggerUIEvent(eventName, item);
             }
         }
     }

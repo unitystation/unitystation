@@ -127,8 +127,9 @@ GameObject:
   - component: {fileID: 224270550869333654}
   - component: {fileID: 222710280099936038}
   - component: {fileID: 114415833081516234}
-  - component: {fileID: 114547391844505336}
   - component: {fileID: 114271660201201988}
+  - component: {fileID: 114588421848344532}
+  - component: {fileID: 114282610520948516}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -854,9 +855,24 @@ GameObject:
   - component: {fileID: 222424520180072814}
   - component: {fileID: 114127752282031200}
   - component: {fileID: 114964665373716842}
-  - component: {fileID: 114537970964565572}
   m_Layer: 5
   m_Name: LeftHand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1461021672017276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4518396847409374}
+  - component: {fileID: 114654949177218078}
+  m_Layer: 0
+  m_Name: EventManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1325,8 +1341,9 @@ GameObject:
   - component: {fileID: 224029249515745130}
   - component: {fileID: 222016190080870906}
   - component: {fileID: 114274331976400090}
-  - component: {fileID: 114443862294665990}
   - component: {fileID: 114048143185967836}
+  - component: {fileID: 114268965023271390}
+  - component: {fileID: 114241949442643610}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -2068,7 +2085,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4976272309408488}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4155309639076804
 Transform:
@@ -2202,6 +2219,19 @@ Transform:
   m_Father: {fileID: 4976272309408488}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4518396847409374
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1461021672017276}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4976272309408488}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4638244715846464
 Transform:
   m_ObjectHideFlags: 1
@@ -2260,7 +2290,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4976272309408488}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4895164531574746
 Transform:
@@ -2292,6 +2322,7 @@ Transform:
   - {fileID: 4726556305027044}
   - {fileID: 4216378268676204}
   - {fileID: 4703532563697868}
+  - {fileID: 4518396847409374}
   - {fileID: 4111080934351138}
   - {fileID: 4766824817079442}
   m_Father: {fileID: 0}
@@ -3702,11 +3733,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: suitStorage
   allowAllItems: 0
   allowedItemTypes: 
   maxItemSize: 0
-  clothingName: 
 --- !u!114 &114095270947997436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3745,8 +3775,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114919201749102192}
   m_HandleRect: {fileID: 224219662248899922}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9999999
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4095,11 +4125,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: belt
   allowAllItems: 0
   allowedItemTypes: 0a0000000d000000
   maxItemSize: 1
-  clothingName: belt
 --- !u!114 &114167341109290866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4375,11 +4404,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: storage01
   allowAllItems: 1
   allowedItemTypes: 
   maxItemSize: 0
-  clothingName: 
 --- !u!114 &114205132317658854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4540,11 +4568,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: ear
   allowAllItems: 0
   allowedItemTypes: 05000000
   maxItemSize: 0
-  clothingName: ear
 --- !u!114 &114226503620817152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4730,6 +4757,47 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114241949442643610
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1659118226248390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 114048143185967836}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114244462463961392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4807,11 +4875,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: eyes
   allowAllItems: 0
   allowedItemTypes: 01000000
   maxItemSize: 0
-  clothingName: eyes
 --- !u!114 &114253437081345614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4916,6 +4983,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114268965023271390
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1659118226248390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a02f32610d09c4aaefe46dec0d0d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114271660201201988
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4954,11 +5032,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 2
+  eventName: leftHand
   allowAllItems: 1
   allowedItemTypes: 
   maxItemSize: 2
-  clothingName: leftHand
 --- !u!114 &114275516431417064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5024,6 +5101,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a14ed3befbaf4893bc7f04d3a44e9639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114282610520948516
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1091116472449564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 114271660201201988}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114290962702827270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5422,11 +5540,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: neck
   allowAllItems: 0
   allowedItemTypes: 03000000
   maxItemSize: 0
-  clothingName: neck
 --- !u!114 &114399108885296126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5485,11 +5602,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: feet
   allowAllItems: 0
   allowedItemTypes: 09000000
   maxItemSize: 0
-  clothingName: feet
 --- !u!114 &114411367222984140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5523,11 +5639,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 1
+  eventName: rightHand
   allowAllItems: 1
   allowedItemTypes: 
   maxItemSize: 2
-  clothingName: rightHand
 --- !u!114 &114423212028507220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5566,52 +5681,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: mask
   allowAllItems: 0
   allowedItemTypes: 04000000
   maxItemSize: 0
-  clothingName: mask
---- !u!114 &114443862294665990
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1659118226248390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 114048143185967836}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114450145630733340
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5769,11 +5842,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: storage02
   allowAllItems: 1
   allowedItemTypes: 
   maxItemSize: 0
-  clothingName: 
 --- !u!114 &114468097976634632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5982,19 +6054,6 @@ MonoBehaviour:
   - {fileID: 1991022393881954}
   tempSceneButton: {fileID: 1826962965541542}
   tempMenuButton: {fileID: 1609608550810238}
---- !u!114 &114537970964565572
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1460554974100506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ee215f56449b324986fce6f152f1f9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clothingName: 6c65667448616e64
-  equipment: {fileID: 0}
 --- !u!114 &114538054229339422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6006,11 +6065,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: id
   allowAllItems: 0
   allowedItemTypes: 0c0000000d000000
   maxItemSize: 0
-  clothingName: 
 --- !u!114 &114538844620314586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6082,47 +6140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a02f32610d09c4aaefe46dec0d0d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114547391844505336
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1091116472449564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 114271660201201988}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114557306102240410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6216,11 +6233,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: back
   allowAllItems: 0
   allowedItemTypes: 0b000000
   maxItemSize: 2
-  clothingName: back
 --- !u!114 &114578158227864424
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6369,6 +6385,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114588421848344532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1091116472449564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a02f32610d09c4aaefe46dec0d0d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114601802357361340
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6377,15 +6404,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1193225254946496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c65d84e37364e6e824668b1c241c72a, type: 3}
+  m_Script: {fileID: 11500000, guid: c2a726eeaef8432419b74dfe18ce9f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selector: {fileID: 1164542310062692}
-  leftHand: {fileID: 1460554974100506}
-  rightHand: {fileID: 1695746996313982}
-  currentSlot: {fileID: 0}
-  leftSlot: {fileID: 114274331976400090}
-  rightSlot: {fileID: 114415833081516234}
+  RightSlot: {fileID: 114415833081516234}
+  LeftSlot: {fileID: 114274331976400090}
+  selector: {fileID: 224136824114092128}
 --- !u!114 &114620503947812244
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6449,11 +6473,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: hands
   allowAllItems: 0
   allowedItemTypes: 08000000
   maxItemSize: 0
-  clothingName: hands
 --- !u!114 &114631372011729088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6667,6 +6690,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114654949177218078
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1461021672017276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90c75fbac30fc54e98b644a378df712, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114658356813202594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6811,11 +6845,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: suit
   allowAllItems: 0
   allowedItemTypes: 06000000
   maxItemSize: 0
-  clothingName: suit
 --- !u!114 &114715521751614026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6841,11 +6874,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: head
   allowAllItems: 0
   allowedItemTypes: 02000000
   maxItemSize: 0
-  clothingName: head
 --- !u!114 &114748514540813112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6913,7 +6945,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114601802357361340}
-        m_MethodName: SelectorState
+        m_MethodName: SetHand
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7439,7 +7471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIParent: {fileID: 1830651583639642}
-  isDevMode: 0
+  isDevMode: 1
 --- !u!114 &114881689324223894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7989,7 +8021,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114601802357361340}
-        m_MethodName: SelectorState
+        m_MethodName: SetHand
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8012,11 +8044,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotType: 0
+  eventName: uniform
   allowAllItems: 0
   allowedItemTypes: 07000000
   maxItemSize: 0
-  clothingName: uniform
 --- !u!114 &114971843071672412
 MonoBehaviour:
   m_ObjectHideFlags: 1

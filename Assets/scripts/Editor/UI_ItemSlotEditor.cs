@@ -10,10 +10,7 @@ public class UI_ItemSlotEditor : Editor {
     public override void OnInspectorGUI() {
         var itemSlot = (UI_ItemSlot) target;
 
-        itemSlot.slotType = (SlotType) EditorGUILayout.EnumPopup("Slot Type", itemSlot.slotType);
-
-        itemSlot.clothingName = EditorGUILayout.TextField("Clothing Name", itemSlot.clothingName);
-        
+        itemSlot.eventName = EditorGUILayout.TextField("Event Name", itemSlot.eventName);        
 
         itemSlot.allowAllItems = EditorGUILayout.Toggle("Allow All Items", itemSlot.allowAllItems);
         

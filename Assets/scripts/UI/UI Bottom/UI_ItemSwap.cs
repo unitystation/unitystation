@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 
 namespace UI {
-    public class UI_EmptySlot: MonoBehaviour, IPointerClickHandler {
+    public class UI_ItemSwap: MonoBehaviour, IPointerClickHandler {
 
         private UI_ItemSlot itemSlot;
         
@@ -15,7 +15,12 @@ namespace UI {
 
         public void OnPointerClick(PointerEventData eventData) {
             SoundManager.control.Play("Click01");
-            itemSlot.TryToSwapItem(UIManager.control.hands.currentSlot);
+
+            if(itemSlot.IsFull) { 
+                Debug.Log("Clicked On Item " + itemSlot.Item.name);
+            }
+
+            UIManager.control.hands.SwapItem(itemSlot);
         }
     }
 }

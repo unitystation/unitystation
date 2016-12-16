@@ -7,10 +7,14 @@ using UnityEngine;
 
 namespace PlayGroup
 {
+    public enum SpriteType {
+        Other, RightHand, LeftHand
+    }
+
     [RequireComponent(typeof(SpriteRenderer))]
     public class ClothingItem: MonoBehaviour
     {
-        public SlotType slotType;
+        public SpriteType spriteType;
 
         public string spriteSheetName;
         public int reference = -1;
@@ -47,14 +51,9 @@ namespace PlayGroup
         private Sprite[] sprites;
         private int referenceOffset = 0;
         private Vector2 currentDirection = Vector2.down;
-
-        void Awake()
-        {
+        
+        void Start() {
             sprites = SpriteManager.control.playerSprites[spriteSheetName];
-        }
-
-        void Start()
-        {
             UpdateSprite();
         }
 
@@ -67,7 +66,7 @@ namespace PlayGroup
         {
             var attributes = item.GetComponent<ItemAttributes>();
 
-            if (slotType == SlotType.Other)
+            if (spriteType == SpriteType.Other)
             {
                 reference = attributes.clothingReference;
             }
@@ -75,18 +74,18 @@ namespace PlayGroup
             {
                 switch (attributes.spriteType)
                 {
-                    case SpriteType.Items:
+                    case UI.SpriteType.Items:
                         spriteSheetName = "items_";
                         break;
-                    case SpriteType.Clothing:
+                    case UI.SpriteType.Clothing:
                         spriteSheetName = "clothing_";
                         break;
-                    case SpriteType.Guns:
+                    case UI.SpriteType.Guns:
                         spriteSheetName = "guns_";
                         break;
                 }
 
-                if (slotType == SlotType.RightHand)
+                if (spriteType == SpriteType.RightHand)
                 {
                     spriteSheetName += "righthand";
                     reference = attributes.inHandReferenceRight;
@@ -120,14 +119,12 @@ namespace PlayGroup
 
         private void UpdateSprite()
         {
-            if (spriteRenderer != null)
-            {
+            if (spriteRenderer != null) {
                 if (reference >= 0) //If reference -1 then clear the sprite
                 {
                     spriteRenderer.sprite = sprites[reference + referenceOffset];
                 }
-                else if (spriteRenderer.sprite != null)
-                {
+                else {
                     spriteRenderer.sprite = null;
                 }
             }
