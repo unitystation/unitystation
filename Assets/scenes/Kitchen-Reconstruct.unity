@@ -2010,6 +2010,11 @@ Prefab:
       propertyPath: shutters.Array.data[3]
       value: 
       objectReference: {fileID: 1067058707}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: photonView
+      value: 
+      objectReference: {fileID: 856770379}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
   m_IsPrefabParent: 0
@@ -32524,6 +32529,36 @@ Transform:
   m_PrefabParentObject: {fileID: 4000014215342604, guid: 7ba71e721a994a60849d5dea74d4f0b9,
     type: 2}
   m_PrefabInternal: {fileID: 852543398}
+--- !u!1 &856770378 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000013144118558, guid: 1325f48af15d4163ab952de2fcb5a184,
+    type: 2}
+  m_PrefabInternal: {fileID: 40020335}
+--- !u!114 &856770379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 856770378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 22
+  instantiationId: 22
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!1001 &857406055
 Prefab:
   m_ObjectHideFlags: 0
