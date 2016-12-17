@@ -4,9 +4,7 @@ using PlayGroup;
 
 namespace SS.NPC {
 
-    public class NPC_Pete: MonoBehaviour {
-        public float moveSpeed = 400f;
-
+    public class RandomMove: MonoBehaviour {
         private PhysicsMove physicsMove;
         private SpriteRenderer spriteRenderer;
         private bool isRight = false;
@@ -15,8 +13,7 @@ namespace SS.NPC {
 
         void Start() {
             spriteRenderer = GetComponent<SpriteRenderer>();
-            physicsMove = gameObject.AddComponent<PhysicsMove>();
-            physicsMove.moveSpeed = moveSpeed;
+            physicsMove = gameObject.GetComponent<PhysicsMove>();
             StartCoroutine(RandMove());
         }
 

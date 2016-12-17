@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 61000014178328654}
   - component: {fileID: 61000012129569106}
   - component: {fileID: 114000010545478540}
+  - component: {fileID: 114226724488088840}
   m_Layer: 11
   m_Name: Microwave
   m_TagString: Untagged
@@ -52,7 +53,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010765165894}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.0004883, y: 3.99292, z: -0.1}
+  m_LocalPosition: {x: -2, y: 4, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000012062877234}
@@ -113,6 +114,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 1
   depth: -0.1
+--- !u!114 &114226724488088840
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010765165894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a7e4e3178cbc144096bda59feec2ea8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dishPrefab: {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f, type: 2}
 --- !u!212 &212000012631577124
 SpriteRenderer:
   m_ObjectHideFlags: 1
