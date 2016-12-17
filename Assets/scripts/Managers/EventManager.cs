@@ -12,23 +12,22 @@ namespace Events {
 
         private Dictionary<string, UIEvent> uiEvents = new Dictionary<string, UIEvent>();
 
-        private static EventManager instance;
+        private static EventManager eventManager;
 
-	    
-	    void Awake () {
-            // There can only be one
-            if(!instance) {
-                instance = this;
-            }else {
-                Destroy(this);
+        public static EventManager instance {
+            get {
+                if(!eventManager) {
+                    eventManager = FindObjectOfType<EventManager>();
+                }
+
+                return eventManager;
             }
-		
-	    }
+        }
 	
 	    public static void AddUIListener(string eventName, UnityAction<GameObject> listener) {
             if(eventName.Length == 0)
                 return;
-
+            
             UIEvent uiEvent;
 
             if(!instance.uiEvents.TryGetValue(eventName, out uiEvent)) {
