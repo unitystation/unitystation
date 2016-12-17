@@ -28,6 +28,7 @@ public class Kill : MonoBehaviour {
             randomMove.enabled = false;
             physicsMove.enabled = false;
             spriteRenderer.sprite = deadSprite;
+            SoundManager.control.Play("Bodyfall");
         }else if(UIManager.control.hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife) {
             for(int i = 0; i < amountSpawn; i++) { 
                 var meat = Instantiate(meatPrefab);
