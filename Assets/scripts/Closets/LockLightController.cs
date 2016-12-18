@@ -8,7 +8,7 @@ public class LockLightController : MonoBehaviour {
 
     private Sprite spriteLocked;
     private SpriteRenderer spriteRenderer;
-
+   
     private bool locked = true;
     
 	void Start () {

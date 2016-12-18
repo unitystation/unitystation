@@ -39,7 +39,7 @@ namespace Items
         {
             photonView.RPC(
                 "UpdateItemTransform",
-                PhotonTargets.OthersBuffered, //Called on other clients for this PhotonView ID
+                PhotonTargets.Others, //Called on other clients for this PhotonView ID
                 new object[] { pos });
 
 

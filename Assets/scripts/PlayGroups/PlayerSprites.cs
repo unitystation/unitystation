@@ -74,7 +74,7 @@ namespace PlayGroup
             {
                 photonView.RPC(
                     "UpdateDirection",
-                    PhotonTargets.OthersBuffered, //Called on all clients for this PhotonView ID
+                    PhotonTargets.Others, //Called on all clients for this PhotonView ID
                     new object[] { dir });
 
             }
