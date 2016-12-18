@@ -146,20 +146,23 @@ namespace PlayGroup
       
             if (thisPlayerScript != null)
             {
-                if (PhotonNetwork.connectedAndReady && thisPlayerScript.isMine)//if this player is mine, then update the reference and spriteSheetName on all other clients
+                if (PhotonNetwork.connectedAndReady && photonView.isMine)//if this player is mine, then update the reference and spriteSheetName on all other clients
                 {
-                    photonView.RPC("UpdateSpriteNetwork", PhotonTargets.Others, new object[] { reference, spriteSheetName });
+                    photonView.RPC("UpdateSpriteNetwork", PhotonTargets.Others, new object[] { reference, spriteSheetName, photonView.viewID });
                 }
             }
         }
 
 
         [PunRPC]
-        void UpdateSpriteNetwork(int spriteRef, string sheetName)
+        void UpdateSpriteNetwork(int spriteRef, string sheetName, int viewID)
         {
-            spriteSheetName = sheetName;
-            sprites = SpriteManager.control.playerSprites[spriteSheetName];
-            Reference = spriteRef;
+            if (viewID == photonView.viewID)
+            {
+                spriteSheetName = sheetName;
+                sprites = SpriteManager.control.playerSprites[spriteSheetName];
+                Reference = spriteRef;
+            }
         }
 
         //PUN Sync
