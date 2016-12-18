@@ -217,7 +217,7 @@ public class DoorTrigger: Photon.PunBehaviour
         
         if (!PhotonNetwork.isMasterClient)
         {
-            //TODO If you are not the master then update the current IG state of this object from the master
+            //If you are not the master then update the current IG state of this object from the master
             photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, PhotonNetwork.player.NickName);
         }
 

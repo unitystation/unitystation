@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PlayGroup
 {
-    public class PlayerSprites: MonoBehaviour
+    public class PlayerSprites: Photon.PunBehaviour
     {
         private Vector2 currentDirection = Vector2.down;
         public PlayerScript playerScript;
@@ -22,16 +22,41 @@ namespace PlayGroup
             FaceDirection(Vector2.down);
         }
 
+        void Start(){
+
+            if (PhotonNetwork.connectedAndReady)
+            {
+                if (photonView.isMine)
+                {
+                    gameObject.name = PhotonNetwork.player.NickName; //Set the name on the gameobject
+                }
+                if(!photonView.isMine && !PhotonNetwork.isMasterClient){
+                StartCoroutine(WaitToSync()); //Give it a chance to get all of the clothitems
+                }
+            }
+        }
         //turning character input and sprite update
         public void FaceDirection(Vector2 direction)
         {
             if (playerScript != null)
             {
-                if (PhotonNetwork.connectedAndReady && playerScript.isMine) //if this player is mine, then update your dir on all other clients
+                if (PhotonNetwork.connectedAndReady) 
                 {
-                    CallRemoteMethod(direction);
+                    if (playerScript.isMine)//if this player is mine, then update your dir on all other clients
+                    {
+                        photonView.RPC("UpdateDirection", PhotonTargets.Others, new object[] { direction });
+                        SetDir(direction);
+                    }
+                    else
+                    {
+                        SetDir(direction); 
+                    }
                 }
             }
+        }
+
+        void SetDir(Vector2 direction)
+        {
             if (currentDirection != direction)
             {
                 foreach (var c in clothes.Values)
@@ -67,23 +92,30 @@ namespace PlayGroup
             }
         }
 
-        //Photon RPC
-        public void CallRemoteMethod(Vector2 dir)
-        {
-            if (photonView != null)
-            {
-                photonView.RPC(
-                    "UpdateDirection",
-                    PhotonTargets.Others, //Called on all clients for this PhotonView ID
-                    new object[] { dir });
-
-            }
-        }
-
         [PunRPC]
         void UpdateDirection(Vector2 dir)
         {
             FaceDirection(dir);
+            
+        }
+
+        //PUN Sync
+        [PunRPC]
+        void SendCurrentState()
+        {
+            if (PhotonNetwork.isMasterClient)
+            {
+                Debug.Log("SENDING CURRENT STATE");
+                photonView.RPC("UpdateDirection", PhotonTargets.Others, new object[] { currentDirection });
+            }
+        }
+            
+        IEnumerator WaitToSync(){
+
+            yield return new WaitForSeconds(0.2f);
+                //If you are not the master then update the current IG state of this object from the master
+                photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, null);
+           
         }
     }
 }

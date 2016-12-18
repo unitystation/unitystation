@@ -7,12 +7,15 @@ using UnityEngine;
 
 namespace PlayGroup
 {
-    public enum SpriteType {
-        Other, RightHand, LeftHand
+    public enum SpriteType
+    {
+        Other,
+        RightHand,
+        LeftHand
     }
 
     [RequireComponent(typeof(SpriteRenderer))]
-    public class ClothingItem: MonoBehaviour
+    public class ClothingItem: Photon.PunBehaviour
     {
         public SpriteType spriteType;
 
@@ -51,10 +54,20 @@ namespace PlayGroup
         private Sprite[] sprites;
         private int referenceOffset = 0;
         private Vector2 currentDirection = Vector2.down;
-        
-        void Start() {
+
+        void Start()
+        {
             sprites = SpriteManager.control.playerSprites[spriteSheetName];
             UpdateSprite();
+
+            if (PhotonNetwork.connectedAndReady)
+            {
+                if (!PhotonNetwork.isMasterClient && !photonView.isMine)
+                {
+                    //If you are not the master then update the current IG state of this object from the master
+                    photonView.RPC("SendCurrentState", PhotonTargets.MasterClient);
+                }
+            }
         }
 
         public void Clear()
@@ -119,12 +132,14 @@ namespace PlayGroup
 
         private void UpdateSprite()
         {
-            if (spriteRenderer != null) {
+            if (spriteRenderer != null)
+            {
                 if (reference >= 0) //If reference -1 then clear the sprite
                 {
                     spriteRenderer.sprite = sprites[reference + referenceOffset];
                 }
-                else {
+                else
+                {
                     spriteRenderer.sprite = null;
                 }
             }
@@ -133,23 +148,11 @@ namespace PlayGroup
             {
                 if (PhotonNetwork.connectedAndReady && thisPlayerScript.isMine)//if this player is mine, then update the reference and spriteSheetName on all other clients
                 {
-                    CallRemoteMethod();
+                    photonView.RPC("UpdateSpriteNetwork", PhotonTargets.Others, new object[] { reference, spriteSheetName });
                 }
             }
         }
 
-        //Photon RPC
-        public void CallRemoteMethod()
-        {
-            if (photonView != null)
-            {
-                photonView.RPC(
-                    "UpdateSpriteNetwork",
-                    PhotonTargets.Others, //Called on all clients for this PhotonView ID
-                    new object[] { reference, spriteSheetName });
-
-            }
-        }
 
         [PunRPC]
         void UpdateSpriteNetwork(int spriteRef, string sheetName)
@@ -158,5 +161,25 @@ namespace PlayGroup
             sprites = SpriteManager.control.playerSprites[spriteSheetName];
             Reference = spriteRef;
         }
+
+        //PUN Sync
+        [PunRPC]
+        void SendCurrentState()
+        {
+            if (PhotonNetwork.isMasterClient)
+            {
+                photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, new object[]{reference}); // Send the clothing reference
+            }
+        }
+
+        [PunRPC]
+        void ReceiveCurrentState(int clothRef)
+        {
+            if (!photonView.isMine)
+            {
+                Reference = clothRef;
+            }
+        }
+            
     }
 }
