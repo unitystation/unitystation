@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CraftingManager : MonoBehaviour {
+namespace Crafting {
 
-    private static CraftingManager manager;
+    public class CraftingManager: MonoBehaviour {
 
-    public static CraftingManager instance {
-        get {
-            if(!manager) {
-                manager = FindObjectOfType<CraftingManager>();
+        public CraftingDatabase Meals;
+
+        private static CraftingManager craftingManager;
+
+        public static CraftingManager Instance {
+            get {
+                if(!craftingManager) {
+                    craftingManager = FindObjectOfType<CraftingManager>();
+                }
+
+                return craftingManager;
             }
-
-            return manager;
         }
     }
-
-    public MealsDatabase meals = new MealsDatabase();
-
-
-
 }
