@@ -184,6 +184,15 @@ namespace Cupboards
         {
             if (PhotonNetwork.isMasterClient)
             {
+                PhotonView[] objectsInCupB = items.GetPhotonViewsInChildren();
+                if (objectsInCupB != null)
+                {
+                    foreach (PhotonView p in objectsInCupB)
+                    {
+                        photonView.RPC("DropItem", PhotonTargets.Others, p.viewID); //Make sure all spawneditems are where they should be on new player join
+                    }
+                }
+
                 if (lockLight != null)
                 {
                     photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, playerRequesting, lockLight.IsLocked(), closed, transform.parent.transform.position); //Gather the values and send back
@@ -200,18 +209,16 @@ namespace Cupboards
         {
             if (PhotonNetwork.player.NickName == playerIdent)
             {
-                if (closed != isClosed) //Opened or closed
+                if (isClosed)
                 {
-                    if (isClosed)
-                    {
-                        Close();
+                    Close();
 
-                    }
-                    else
-                    {
-                        Open();
-                    }
                 }
+                else
+                {
+                    Open();
+                }
+
                 if (lockLight != null)
                 {
                     if (isLocked != lockLight.IsLocked()) // Locked or unlocked
