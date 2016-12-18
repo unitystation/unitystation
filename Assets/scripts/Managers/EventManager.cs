@@ -14,7 +14,7 @@ namespace Events {
 
         private static EventManager eventManager;
 
-        public static EventManager instance {
+        public static EventManager Instance {
             get {
                 if(!eventManager) {
                     eventManager = FindObjectOfType<EventManager>();
@@ -30,23 +30,23 @@ namespace Events {
             
             UIEvent uiEvent;
 
-            if(!instance.uiEvents.TryGetValue(eventName, out uiEvent)) {
+            if(!Instance.uiEvents.TryGetValue(eventName, out uiEvent)) {
                 uiEvent = new UIEvent();
-                instance.uiEvents[eventName] = uiEvent;
+                Instance.uiEvents[eventName] = uiEvent;
             }
 
             uiEvent.AddListener(listener);            
         }
 
         public static void RemoveUIListener(string eventName, UnityAction<GameObject> listener) {
-            if(instance.uiEvents.ContainsKey(eventName)) {
-                instance.uiEvents[eventName].RemoveListener(listener);
+            if(Instance.uiEvents.ContainsKey(eventName)) {
+                Instance.uiEvents[eventName].RemoveListener(listener);
             }
         }
 
         public static void TriggerUIEvent(string eventName, GameObject item) {
-            if(instance.uiEvents.ContainsKey(eventName)) {
-                instance.uiEvents[eventName].Invoke(item);
+            if(Instance.uiEvents.ContainsKey(eventName)) {
+                Instance.uiEvents[eventName].Invoke(item);
 
             }
         }

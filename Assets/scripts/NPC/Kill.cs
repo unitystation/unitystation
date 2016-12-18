@@ -24,17 +24,25 @@ public class Kill : MonoBehaviour {
 
     void OnMouseDown() {
         if(!dead) {
-            dead = true;
-            randomMove.enabled = false;
-            physicsMove.enabled = false;
-            spriteRenderer.sprite = deadSprite;
-            SoundManager.control.Play("Bodyfall");
-        }else if(UIManager.control.hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife) {
-            for(int i = 0; i < amountSpawn; i++) { 
-                var meat = Instantiate(meatPrefab);
-                meat.transform.position = transform.position;
-            }
+            Die();
+        }else if(UIManager.control.hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife) {            
             Destroy(gameObject);
+            SpawnMeat();
+        }
+    }
+
+    private void Die() {
+        dead = true;
+        randomMove.enabled = false;
+        physicsMove.enabled = false;
+        spriteRenderer.sprite = deadSprite;
+        SoundManager.control.Play("Bodyfall");
+    }
+
+    private void SpawnMeat() {
+        for(int i = 0; i < amountSpawn; i++) {
+            var meat = Instantiate(meatPrefab);
+            meat.transform.position = transform.position;
         }
     }
 }

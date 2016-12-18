@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UI;
 using Events;
+using Crafting;
 
 public class Microwave : MonoBehaviour {
 
     public Sprite onSprite;
     public float cookTime = 10;
 
-    // temporary
-    public GameObject dishPrefab;
-
     private SpriteRenderer spriteRenderer;
     private Sprite offSprite;
     private AudioSource audioSource;
+
     private bool cooking = false;
     private float cookingTime = 0;
+    private GameObject mealPrefab = null;
+
 
     void Start() {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -40,20 +41,25 @@ public class Microwave : MonoBehaviour {
         if(!cooking && item) {
             var attr = item.GetComponent<ItemAttributes>();
 
-            if(attr && attr.itemName == "Meat") {
+            var ingredient = new Ingredient(attr.itemName);
+            
+            var meal = CraftingManager.Instance.Meals.FindRecipe(new List<Ingredient>() { ingredient });
+
+            if(meal) {
                 UIManager.control.hands.CurrentSlot.Clear();
 
                 Destroy(item);
 
-                StartCooking();
+                StartCooking(meal);
             }
         }
     }
 
-    private void StartCooking() {
+    private void StartCooking(GameObject meal) {
         cooking = true;
         cookingTime = 0;
         spriteRenderer.sprite = onSprite;
+        mealPrefab = meal;
     }
 
     private void StopCooking() {
@@ -61,7 +67,8 @@ public class Microwave : MonoBehaviour {
         spriteRenderer.sprite = offSprite;
         audioSource.Play();
 
-        var dish = Instantiate(dishPrefab);
+        var dish = Instantiate(mealPrefab);
         dish.transform.position = transform.position;
+        mealPrefab = null;
     }
 }
