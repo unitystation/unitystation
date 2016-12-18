@@ -14,6 +14,7 @@ namespace Items
         //Catch the last pos of the transform at the end of the frame
         [HideInInspector]
         public PhotonView photonView;
+        private bool synced = false;
 
         void Start()
         {
@@ -71,11 +72,17 @@ namespace Items
 
         void StartSync()
         {
-            if (!PhotonNetwork.isMasterClient)
+            if (!synced)
             {
-                //If you are not the master then update the current IG state of this object from the master
-                photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, null);
-            } 
+                if (!PhotonNetwork.isMasterClient)
+                {
+                    //If you are not the master then update the current IG state of this object from the master
+                    photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, null);
+                } 
+
+                GameMatrix.control.AddItem(photonView.viewID, this.gameObject);
+                synced = true;
+            }
         }
 
 

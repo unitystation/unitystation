@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UI;
 using UnityEngine;
 
+namespace Cupboards{
 public class DoorTrigger: Photon.PunBehaviour
 {
 
@@ -20,6 +21,7 @@ public class DoorTrigger: Photon.PunBehaviour
     private GameObject items;
 
     private PhotonView photonView;
+    private bool synced = false;
 
     private bool closed = true;
 
@@ -35,6 +37,12 @@ public class DoorTrigger: Photon.PunBehaviour
         items = transform.FindChild("Items").gameObject;
 
         photonView = gameObject.GetComponent<PhotonView>();
+
+            if (PhotonNetwork.connectedAndReady)
+            {
+                //Has been instantiated at runtime and you received instantiate of this object from photon on room join
+                StartSync();
+            }
 
     }
 
@@ -214,14 +222,26 @@ public class DoorTrigger: Photon.PunBehaviour
 
     public override void OnJoinedRoom()
     {
-        
-        if (!PhotonNetwork.isMasterClient)
-        {
-            //If you are not the master then update the current IG state of this object from the master
-            photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, PhotonNetwork.player.NickName);
-        }
-
+        StartSync();
     }
+
+    void StartSync()
+    {
+        if (!synced)
+        {
+            if (!PhotonNetwork.isMasterClient)
+            {
+                //If you are not the master then update the current IG state of this object from the master
+                photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, PhotonNetwork.player.NickName);
+            }
+
+            GameMatrix.control.AddCupboard(photonView.viewID, this);
+            synced = true;
+        }
+    }
+
+
+}
 }
 
 //TODOS
