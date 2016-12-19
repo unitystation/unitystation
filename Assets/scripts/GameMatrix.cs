@@ -44,8 +44,7 @@ public class GameMatrix : MonoBehaviour
 
     public void RemoveItem(int viewID)
     { //For removing items from the game, on all clients
-        photonView.RPC("MasterClientDestroyItem", PhotonTargets.MasterClient, viewID); //Get masterclient to remove item from game
-        photonView.RPC("RemoveItemOnNetwork", PhotonTargets.All, viewID); //This removes the dictionary record on all clients including this
+        photonView.RPC("MasterClientDestroyItem", PhotonTargets.MasterClient, viewID); //Get masterclient to remove item from game   
     }
 
     public void InstantiateItem(string prefabName, Vector3 pos, Quaternion rot, int itemGroup, object[] data) //Need to send this to the client as only the client can make scene objs
@@ -69,6 +68,7 @@ public class GameMatrix : MonoBehaviour
     void RemoveItemOnNetwork(int viewID)
     {
         items.Remove(viewID);
+		photonView.RPC("RemoveItemOnNetwork", PhotonTargets.All, viewID); //This removes the dictionary record on all clients including this
     }
 
 }
