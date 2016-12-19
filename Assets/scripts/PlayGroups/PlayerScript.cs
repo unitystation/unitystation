@@ -11,10 +11,14 @@ namespace PlayGroup {
 
         [HideInInspector]
         public PhysicsMove physicsMove;
-        public PlayerSprites playerSprites;
+        private PlayerSprites playerSprites;
+        [HideInInspector]
         public PhotonView photonView;
 
-
+        void Awake(){
+            playerSprites = gameObject.GetComponent<PlayerSprites>();
+            photonView = gameObject.GetComponent<PhotonView>();
+        }
         void Start() {
             GameObject searchPlayerList = GameObject.FindGameObjectWithTag("PlayerList");
             if(searchPlayerList != null) {

@@ -8,7 +8,8 @@ namespace PlayGroup
     public class PlayerSprites: Photon.PunBehaviour
     {
         private Vector2 currentDirection = Vector2.down;
-        public PlayerScript playerScript;
+        private PlayerScript playerScript;
+        [HideInInspector]
         public  PhotonView photonView;
 
         private Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
@@ -20,6 +21,8 @@ namespace PlayGroup
                 clothes[c.name] = c;
             }
             FaceDirection(Vector2.down);
+            photonView = gameObject.GetComponent<PhotonView>();
+            playerScript = gameObject.GetComponent<PlayerScript>();
         }
 
         void Start(){
