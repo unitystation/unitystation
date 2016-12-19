@@ -66,13 +66,14 @@ public class GameMatrix : MonoBehaviour
     {
         //Only objects can be destroyed by client
         PhotonNetwork.Destroy(items[viewID]);
+		items.Remove(viewID);
+		photonView.RPC("RemoveItemOnNetwork", PhotonTargets.Others, viewID); //This removes the dictionary record on all clients including this
     }
 
     [PunRPC]
     void RemoveItemOnNetwork(int viewID)
-    {
-        items.Remove(viewID);
-		photonView.RPC("RemoveItemOnNetwork", PhotonTargets.All, viewID); //This removes the dictionary record on all clients including this
-    }
+	{
+		items.Remove (viewID);
+	}
 
 }

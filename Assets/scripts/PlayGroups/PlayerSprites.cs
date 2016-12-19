@@ -29,10 +29,6 @@ namespace PlayGroup
 
             if (PhotonNetwork.connectedAndReady)
             {
-                if (photonView.isMine)
-                {
-                    gameObject.name = PhotonNetwork.player.NickName; //Set the name on the gameobject
-                }
                 if(!photonView.isMine && !PhotonNetwork.isMasterClient){
                 StartCoroutine(WaitToSync()); //Give it a chance to get all of the clothitems
                 }

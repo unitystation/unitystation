@@ -38,6 +38,9 @@ namespace PlayGroup {
 				BoxCollider2D boxColl = gameObject.GetComponent<BoxCollider2D> ();
 				boxColl.isTrigger = true;
 			}
+			if (PhotonNetwork.connectedAndReady) {
+				gameObject.name = photonView.owner.NickName;
+			}
         }
 
         //THIS IS ONLY USED FOR LOCAL PLAYER
@@ -53,5 +56,17 @@ namespace PlayGroup {
         public float DistanceTo(Vector3 position) {
             return (transform.position - position).magnitude;
         }
+
+		//Will turn this into a PlayerCollisions components after developing the methods
+
+		void OnTriggerEnter2D(Collider2D coll){
+		
+			if (coll.gameObject.layer == 8) {
+			
+				Debug.Log (gameObject.name + " Collided with " + coll.gameObject.name);
+			
+			}
+		
+		}
     }
 }

@@ -16,6 +16,7 @@ public class Kill : MonoBehaviour
     private RandomMove randomMove;
     private PhysicsMove physicsMove;
     private bool dead = false;
+	private bool sliced = false;
     private PhotonView photonView;
 
     void Start()
@@ -42,20 +43,23 @@ public class Kill : MonoBehaviour
                 }
             }
         }
-        else if (UIManager.control.hands.CurrentSlot.Item != null && dead)
+        else if (UIManager.control.hands.CurrentSlot.Item != null && dead && !sliced)
         {    
             if (UIManager.control.hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife)
             {
                 
-                SpawnMeat();
+                
                 if (PhotonNetwork.connectedAndReady)
                 {
                     GameMatrix.control.RemoveItem(photonView.viewID);
+					photonView.RPC ("SpawnMeat", PhotonTargets.MasterClient, null);
                 }
                 else
                 {
-                    Destroy(gameObject); //For dev mode
+					SpawnMeat(); //For dev mode
+                    Destroy(gameObject); 
                 }
+				sliced = true;
             }
         }
     }
@@ -70,15 +74,17 @@ public class Kill : MonoBehaviour
         SoundManager.control.Play("Bodyfall");
     }
 
-    private void SpawnMeat()
+	[PunRPC]
+    void SpawnMeat()
     {
         for (int i = 0; i < amountSpawn; i++)
         {
             if (PhotonNetwork.connectedAndReady)
             {
-                GameMatrix.control.InstantiateItem(meatPrefab.name,transform.position,Quaternion.identity,0,null); //Create scene owned object
-            }
-            else
+				if(PhotonNetwork.isMasterClient){
+					GameMatrix.control.MasterClientCreateItem(meatPrefab.name,transform.position,Quaternion.identity,0,null); //Create scene owned object
+				} 
+			}else
             { //Dev mode
                 var meat = Instantiate(meatPrefab); 
                 meat.transform.position = transform.position;
