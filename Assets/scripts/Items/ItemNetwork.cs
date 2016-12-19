@@ -32,7 +32,7 @@ namespace Items
 		}
 
          
-		void LateUpdate ()
+		void Update ()
 		{
 			if (photonView != null) {
 				if (transform.position != lastPos && PhotonNetwork.connectedAndReady) { //if the item has been moved by someone then update its transform to all other clients
