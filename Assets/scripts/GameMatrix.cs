@@ -33,7 +33,11 @@ public class GameMatrix : MonoBehaviour
     //Add each item to the items dictionary along with their photonView.viewID as key
     public void AddItem(int viewID, GameObject theItem)
     {
-        items.Add(viewID, theItem);
+		if (!items.ContainsKey(viewID)) {
+			items.Add (viewID, theItem);
+		} else {
+			Debug.Log ("Warning! item already exists in dictionary. ViewID: " + viewID + " Item " + theItem.name);
+		}
     }
 
     //Add each cupB to the items dictionary along with its photonView.viewID as key (this will be doortriggers)
