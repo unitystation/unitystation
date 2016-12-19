@@ -13,7 +13,7 @@ public class GameMatrix : MonoBehaviour
     public Dictionary<int,Cupboards.DoorTrigger> cupboards = new Dictionary<int,Cupboards.DoorTrigger>();
    
     private PhotonView photonView;
-    //This is to sync destroy commands
+    //This is to sync destroy and instantiate calls with masterclient
 
     void Awake()
     {
@@ -56,8 +56,8 @@ public class GameMatrix : MonoBehaviour
         photonView.RPC("MasterClientCreateItem", PhotonTargets.MasterClient, prefabName, pos, rot, itemGroup, data);
     }
 
-    [PunRPC]
-    void MasterClientCreateItem(string prefabName, Vector3 pos, Quaternion rot, int itemGroup, object[] data){
+    [PunRPC] //You can call this directly if you are the master client
+    public void MasterClientCreateItem(string prefabName, Vector3 pos, Quaternion rot, int itemGroup, object[] data){
         PhotonNetwork.InstantiateSceneObject(prefabName, pos, rot, itemGroup, data);
     }
 

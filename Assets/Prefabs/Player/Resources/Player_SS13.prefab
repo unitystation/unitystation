@@ -43,9 +43,9 @@ GameObject:
   - component: {fileID: 114859007950351336}
   - component: {fileID: 114783258252521902}
   - component: {fileID: 50331170984450590}
-  - component: {fileID: 114811541104695608}
   - component: {fileID: 114012613951977532}
   - component: {fileID: 114152457097449374}
+  - component: {fileID: 114164258618898220}
   m_Layer: 8
   m_Name: Player_SS13
   m_TagString: Untagged
@@ -634,9 +634,9 @@ MonoBehaviour:
     SynchronizeEnabled: 1
     TeleportEnabled: 0
     TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 3
+    InterpolateOption: 2
     InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 10
+    InterpolateLerpSpeed: 30
     InterpolateMoveTowardsAcceleration: 2
     InterpolateMoveTowardsDeceleration: 2
     InterpolateSpeedCurve:
@@ -809,6 +809,19 @@ MonoBehaviour:
   lerpSpeed: 10
   clampPos: 0
   moveSpeed: 7
+--- !u!114 &114164258618898220
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1038381753428700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 1
 --- !u!114 &114182407380921922
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1366,7 +1379,7 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114012613951977532}
-  - {fileID: 114811541104695608}
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -1389,19 +1402,6 @@ MonoBehaviour:
   thisPlayerScript: {fileID: 114635878357695462}
   photonView: {fileID: 114207866328645458}
   spriteRenderer: {fileID: 212158183701700368}
---- !u!114 &114811541104695608
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1038381753428700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 1
 --- !u!114 &114830253523317130
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -32,9 +32,12 @@ namespace PlayGroup {
 
             //Add player sprite controller component
 
-            if(photonView.isMine) { //This prefab is yours, take control of it
-                PlayerManager.control.SetPlayerForControl(this.gameObject);
-            }
+			if (photonView.isMine) { //This prefab is yours, take control of it
+				PlayerManager.control.SetPlayerForControl (this.gameObject);
+			} else {
+				BoxCollider2D boxColl = gameObject.GetComponent<BoxCollider2D> ();
+				boxColl.isTrigger = true;
+			}
         }
 
         //THIS IS ONLY USED FOR LOCAL PLAYER

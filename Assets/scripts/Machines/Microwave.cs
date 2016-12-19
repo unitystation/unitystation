@@ -93,8 +93,8 @@ public class Microwave : MonoBehaviour
 		cooking = false;
 		spriteRenderer.sprite = offSprite;
 		audioSource.Play ();
-		if (PhotonNetwork.connectedAndReady) {
-			GameMatrix.control.InstantiateItem (mealName, transform.position, Quaternion.identity, 0, null);
+		if (PhotonNetwork.connectedAndReady && PhotonNetwork.isMasterClient) {
+			GameMatrix.control.MasterClientCreateItem (mealName, transform.position, Quaternion.identity, 0, null);
 			mealName = null;
 		} else {//Dev mode
 			var dish = Instantiate (mealPrefab);
