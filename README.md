@@ -13,9 +13,7 @@ IRC: ##unitystation on freenode
 5. Add your changes (not sure what you can do to help? check the [wiki](https://github.com/unitystation/unitystation/wiki))
 6. Submit a pull request
 
-Our current focus is creating a rough prototype of the kitchen department from boxstation. We are using the TGstation
-branch to clone from. Check our current milestone here:
-[https://github.com/unitystation/unitystation/milestone/1](https://github.com/unitystation/unitystation/milestone/1)
+You can play an up to date WebGL demo of unitystation here: [http://doobly.izz.moe/unitystationtest/](http://doobly.izz.moe/unitystationtest/)
 
 If you are working on the network code
 request the server key from ##unitystation on freenode.
