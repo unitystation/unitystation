@@ -43,18 +43,16 @@ namespace PlayGroup
         {
             if (playerScript != null)
             {
-                if (PhotonNetwork.connectedAndReady) 
-                {
-                    if (playerScript.isMine)//if this player is mine, then update your dir on all other clients
-                    {
-                        photonView.RPC("UpdateDirection", PhotonTargets.Others, new object[] { direction });
-                        SetDir(direction);
-                    }
-                    else
-                    {
-                        SetDir(direction); 
-                    }
-                }
+				if (PhotonNetwork.connectedAndReady) {
+					if (playerScript.isMine) {//if this player is mine, then update your dir on all other clients
+						photonView.RPC ("UpdateDirection", PhotonTargets.Others, new object[] { direction });
+						SetDir (direction);
+					} else {
+						SetDir (direction); 
+					}
+				} else {
+					SetDir (direction); //dev mode
+				}
             }
         }
 
