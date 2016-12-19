@@ -1251,6 +1251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMine: 0
   physicsMove: {fileID: 0}
+  playerSprites: {fileID: 0}
   photonView: {fileID: 114783258252521902}
 --- !u!114 &114657316880330954
 MonoBehaviour:
@@ -1379,7 +1380,7 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114012613951977532}
-  - {fileID: 0}
+  - {fileID: 114164258618898220}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -1425,6 +1426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b405755a3db467098b2349af2167119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentDirection: {x: 0, y: -1}
   photonView: {fileID: 114783258252521902}
 --- !u!114 &114873753986010242
 MonoBehaviour:

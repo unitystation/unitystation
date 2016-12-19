@@ -7,7 +7,8 @@ namespace PlayGroup
 {
     public class PlayerSprites: Photon.PunBehaviour
     {
-        private Vector2 currentDirection = Vector2.down;
+		[HideInInspector]
+        public Vector2 currentDirection = Vector2.down;
         private PlayerScript playerScript;
         [HideInInspector]
         public  PhotonView photonView;

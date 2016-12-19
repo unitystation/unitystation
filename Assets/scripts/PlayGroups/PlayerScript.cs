@@ -11,13 +11,16 @@ namespace PlayGroup {
 
         [HideInInspector]
         public PhysicsMove physicsMove;
-        private PlayerSprites playerSprites;
+		[HideInInspector]
+        public PlayerSprites playerSprites;
+		private PlayerCollisions playerCollisions;
         [HideInInspector]
         public PhotonView photonView;
 
         void Awake(){
             playerSprites = gameObject.GetComponent<PlayerSprites>();
             photonView = gameObject.GetComponent<PhotonView>();
+			playerCollisions = gameObject.AddComponent<PlayerCollisions> ();
         }
         void Start() {
             GameObject searchPlayerList = GameObject.FindGameObjectWithTag("PlayerList");
@@ -56,17 +59,5 @@ namespace PlayGroup {
         public float DistanceTo(Vector3 position) {
             return (transform.position - position).magnitude;
         }
-
-		//Will turn this into a PlayerCollisions components after developing the methods
-
-		void OnTriggerEnter2D(Collider2D coll){
-		
-			if (coll.gameObject.layer == 8) {
-			
-				Debug.Log (gameObject.name + " Collided with " + coll.gameObject.name);
-			
-			}
-		
-		}
     }
 }
