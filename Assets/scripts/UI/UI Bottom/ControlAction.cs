@@ -1,52 +1,81 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using PlayGroup;
 
 
-namespace UI {
-    public class ControlAction: MonoBehaviour {
+namespace UI
+{
+	public class ControlAction: MonoBehaviour
+	{
 
-        public Sprite[] throwSprites;
-        public Image throwImage;
+		public Sprite[] throwSprites;
+		public Image throwImage;
 
-        void Start() {
-            UIManager.control.isThrow = false;
-        }
+		void Start ()
+		{
+			UIManager.control.isThrow = false;
+		}
 
-        /* 
+		/* 
 		 * Button OnClick methods
 		 */
 
-        public void Resist() {
-            PlayClick01();
-            Debug.Log("Resist Button");
-        }
+		void Update ()
+		{
+			CheckKeyboardInput ();
+		}
 
-        public void Drop() {
-            PlayClick01();
-            Debug.Log("Drop Button");
-        }
+		void CheckKeyboardInput ()
+		{
+			if (Input.GetKeyDown (KeyCode.Q)) {
+				Drop ();
+			}
+		}
 
-        public void Throw() {
-            PlayClick01();
-            Debug.Log("Throw Button");
+		public void Resist ()
+		{
+			PlayClick01 ();
+			Debug.Log ("Resist Button");
+		}
 
-            if(!UIManager.control.isThrow) {
-                UIManager.control.isThrow = true;
-                throwImage.sprite = throwSprites[1];
+		public void Drop ()
+		{
+			PlayClick01 ();
+			Debug.Log ("Drop Button");
+			GameObject item = UIManager.control.hands.CurrentSlot.Clear ();
 
-            } else {
-                UIManager.control.isThrow = false;
-                throwImage.sprite = throwSprites[0];
-            }
-        }
+			if (item != null) {
+				var targetPos = PlayerManager.control.LocalPlayer.transform.position;
+				targetPos.z = -0.2f;
+				item.transform.position = targetPos;
+				item.transform.parent = null;
+			}
 
-        //SoundFX
+		}
 
-        void PlayClick01() {
-            if(SoundManager.control != null) {
-                SoundManager.control.Play("Click01");
-            }
-        }
-    }
+		public void Throw ()
+		{
+			PlayClick01 ();
+			Debug.Log ("Throw Button");
+
+			if (!UIManager.control.isThrow) {
+				UIManager.control.isThrow = true;
+				throwImage.sprite = throwSprites [1];
+
+			} else {
+				UIManager.control.isThrow = false;
+				throwImage.sprite = throwSprites [0];
+			}
+		}
+
+		//SoundFX
+
+		void PlayClick01 ()
+		{
+			if (SoundManager.control != null) {
+				SoundManager.control.Play ("Click01");
+			}
+		}
+	}
 }

@@ -29,7 +29,7 @@ public class DoorController: MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D coll) {
-        if(!isOpened && coll.gameObject.layer == 8) {
+		if(!isOpened && coll.gameObject.layer == 8 || isOpened && coll.gameObject.layer == 12) {
             Open();
         }
         numOccupiers++;

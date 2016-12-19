@@ -6,54 +6,84 @@ using PlayGroup;
 
 namespace Items
 {
-    [RequireComponent(typeof (PhotonView))]
-    public class ItemNetwork : MonoBehaviour
-    {
+	[RequireComponent (typeof(PhotonView))]
+	public class ItemNetwork : Photon.PunBehaviour
+	{
         
-        private Vector3 lastPos;
-        //Catch the last pos of the transform at the end of the frame
-        [HideInInspector]
-        public PhotonView photonView;
-          
-        void Start()
-        {
-            photonView = GetComponent<PhotonView>();
-            lastPos = transform.position;
-        }
+		private Vector3 lastPos;
+		//Catch the last pos of the transform at the end of the frame
+		[HideInInspector]
+		public PhotonView photonView;
+		private bool synced = false;
+
+		void Awake ()
+		{
+			photonView = GetComponent<PhotonView> ();
+		}
+
+		void Start ()
+		{
+			
+			lastPos = transform.position;
+			if (PhotonNetwork.connectedAndReady) {
+				//Has been instantiated at runtime and you received instantiate from photon on room join
+				StartSync ();
+			}
+		}
 
          
-        void LateUpdate()
-        {
-            if (photonView != null)
-            {
-                if (transform.position != lastPos && PhotonNetwork.connectedAndReady) //if the item has been moved by someone then update its transform to all other clients
-                {
-                    CallRemoteMethod(transform.position);
-                }
-            }
-            lastPos = transform.position;
+		void Update ()
+		{
+			if (photonView != null) {
+				if (transform.position != lastPos && PhotonNetwork.connectedAndReady) { //if the item has been moved by someone then update its transform to all other clients
+					photonView.RPC ("UpdateItemTransform", PhotonTargets.All, new object[] { transform.position });
+				}
+			}
+			lastPos = transform.position;
 
-        }
-
-        public void CallRemoteMethod(Vector3 pos)
-        {
-            photonView.RPC(
-                "UpdateItemTransform",
-                PhotonTargets.OthersBuffered, //Called on other clients for this PhotonView ID
-                new object[] { pos });
+		}
 
 
-        }
+		[PunRPC] 
+		void UpdateItemTransform (Vector3 pos)
+		{
+           
+			lastPos = pos;
+			transform.position = pos;
 
-        [PunRPC] 
-        void UpdateItemTransform(Vector3 pos) 
-        {
-            if (transform.position != pos)
-            {
-                transform.position = pos;
-                lastPos = pos;
-            }
+		}
 
-        }
-    }
+		//PUN Sync
+		[PunRPC]
+		void SendCurrentState ()
+		{
+			if (PhotonNetwork.isMasterClient) {
+				photonView.RPC ("UpdateItemTransform", PhotonTargets.Others, transform.position); 
+			}
+		}
+
+		//PUN Callbacks
+
+		public override void OnJoinedRoom ()
+		{
+			//Update on join if this item was not instantiated by the game and is apart of the map
+			StartSync ();
+
+		}
+
+		void StartSync ()
+		{
+			if (!synced) {
+				if (!PhotonNetwork.isMasterClient) {
+					//If you are not the master then update the current IG state of this object from the master
+					photonView.RPC ("SendCurrentState", PhotonTargets.MasterClient, null);
+				} 
+
+				GameMatrix.control.AddItem (photonView.viewID, this.gameObject);
+				synced = true;
+			}
+		}
+
+
+	}
 }

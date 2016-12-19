@@ -1363,6 +1363,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1655035808396546
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4702393513702944}
+  - component: {fileID: 114269280353426568}
+  m_Layer: 0
+  m_Name: CraftingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1659118226248390
 GameObject:
   m_ObjectHideFlags: 1
@@ -1692,23 +1708,6 @@ GameObject:
   - component: {fileID: 114042940928707234}
   m_Layer: 5
   m_Name: DamageMonitor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1789822431648962
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4556469839987052}
-  - component: {fileID: 114556781971049998}
-  - component: {fileID: 114232379808259446}
-  m_Layer: 0
-  m_Name: CraftingManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2281,19 +2280,6 @@ Transform:
   m_Father: {fileID: 4976272309408488}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4556469839987052
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1789822431648962}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4976272309408488}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4593634037631372
 Transform:
   m_ObjectHideFlags: 1
@@ -2319,6 +2305,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4976272309408488}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4702393513702944
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1655035808396546}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4976272309408488}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4703532563697868
 Transform:
@@ -2415,7 +2414,7 @@ Transform:
   - {fileID: 4518396847409374}
   - {fileID: 4111080934351138}
   - {fileID: 4766824817079442}
-  - {fileID: 4556469839987052}
+  - {fileID: 4702393513702944}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4026,7 +4025,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114919201749102192}
   m_HandleRect: {fileID: 224219662248899922}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4875,18 +4874,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114232379808259446
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1789822431648962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f3395649eac8604a8a26e0ffef16a54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  recipes: []
 --- !u!114 &114235777518130504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5257,6 +5244,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a02f32610d09c4aaefe46dec0d0d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114269280353426568
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1655035808396546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec053d728d3e13c4c8de9c9184a79b7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Meals:
+    recipeList:
+    - name: Meat Steak
+      ingredients:
+      - ingredientName: Meat
+        amount: 1
+      output: {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f, type: 2}
 --- !u!114 &114271660201201988
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6403,18 +6408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a02f32610d09c4aaefe46dec0d0d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114556781971049998
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1789822431648962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30c18d41228c8ae48a4d2f568788dc55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meals: {fileID: 0}
 --- !u!114 &114557306102240410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7746,7 +7739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIParent: {fileID: 1830651583639642}
-  isDevMode: 1
+  isDevMode: 0
 --- !u!114 &114881689324223894
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -11,10 +11,17 @@ namespace PlayGroup {
 
         [HideInInspector]
         public PhysicsMove physicsMove;
+		[HideInInspector]
         public PlayerSprites playerSprites;
+		private PlayerCollisions playerCollisions;
+        [HideInInspector]
         public PhotonView photonView;
 
-
+        void Awake(){
+            playerSprites = gameObject.GetComponent<PlayerSprites>();
+            photonView = gameObject.GetComponent<PhotonView>();
+			playerCollisions = gameObject.AddComponent<PlayerCollisions> ();
+        }
         void Start() {
             GameObject searchPlayerList = GameObject.FindGameObjectWithTag("PlayerList");
             if(searchPlayerList != null) {
@@ -28,9 +35,15 @@ namespace PlayGroup {
 
             //Add player sprite controller component
 
-            if(photonView.isMine) { //This prefab is yours, take control of it
-                PlayerManager.control.SetPlayerForControl(this.gameObject);
-            }
+			if (photonView.isMine) { //This prefab is yours, take control of it
+				PlayerManager.control.SetPlayerForControl (this.gameObject);
+			} else {
+				BoxCollider2D boxColl = gameObject.GetComponent<BoxCollider2D> ();
+				boxColl.isTrigger = true;
+			}
+			if (PhotonNetwork.connectedAndReady) {
+				gameObject.name = photonView.owner.NickName;
+			}
         }
 
         //THIS IS ONLY USED FOR LOCAL PLAYER

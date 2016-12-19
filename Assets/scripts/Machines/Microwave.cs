@@ -5,70 +5,104 @@ using UI;
 using Events;
 using Crafting;
 
-public class Microwave : MonoBehaviour {
+public class Microwave : MonoBehaviour
+{
 
-    public Sprite onSprite;
-    public float cookTime = 10;
+	public Sprite onSprite;
+	public float cookTime = 10;
 
-    private SpriteRenderer spriteRenderer;
-    private Sprite offSprite;
-    private AudioSource audioSource;
+	private SpriteRenderer spriteRenderer;
+	private Sprite offSprite;
+	private AudioSource audioSource;
 
-    private bool cooking = false;
-    private float cookingTime = 0;
-    private GameObject mealPrefab = null;
+	private bool cooking = false;
+	private float cookingTime = 0;
+	private GameObject mealPrefab = null;
+	private string mealName;
+	private PhotonView photonView;
 
+	void Awake ()
+	{
+		photonView = gameObject.GetComponent<PhotonView> ();
+	}
 
-    void Start() {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        audioSource = GetComponent<AudioSource>();
-        offSprite = spriteRenderer.sprite;
-    }
+	void Start ()
+	{
+		spriteRenderer = GetComponentInChildren<SpriteRenderer> ();
+		audioSource = GetComponent<AudioSource> ();
+		offSprite = spriteRenderer.sprite;
+	}
 
-    void Update() {
-        if(cooking) {
-            cookingTime += Time.deltaTime;
+	void Update ()
+	{
+		if (cooking) {
+			cookingTime += Time.deltaTime;
 
-            if(cookingTime >= cookTime) {
-                StopCooking();
-            }
-        }
-    }
-    	
-	void OnMouseDown() {
-        var item = UIManager.control.hands.CurrentSlot.Item;
+			if (cookingTime >= cookTime) {
+				StopCooking ();
+			}
+		}
+	}
 
-        if(!cooking && item) {
-            var attr = item.GetComponent<ItemAttributes>();
+	void OnMouseDown ()
+	{
+		var item = UIManager.control.hands.CurrentSlot.Item;
 
-            var ingredient = new Ingredient(attr.itemName);
+		if (!cooking && item) {
+			var attr = item.GetComponent<ItemAttributes> ();
+
+			var ingredient = new Ingredient (attr.itemName);
             
-            var meal = CraftingManager.Instance.Meals.FindRecipe(new List<Ingredient>() { ingredient });
+			var meal = CraftingManager.Instance.Meals.FindRecipe (new List<Ingredient> () { ingredient });
 
-            if(meal) {
-                UIManager.control.hands.CurrentSlot.Clear();
+			if (meal) {
+				UIManager.control.hands.CurrentSlot.Clear ();
 
-                Destroy(item);
+				if (PhotonNetwork.connectedAndReady) {
+					PhotonView itemView = item.GetComponent<PhotonView> ();
+					GameMatrix.control.RemoveItem (itemView.viewID); //Remove ingredients from all clients
+					photonView.RPC ("StartCookingRPC", PhotonTargets.All, meal.name);
+				} else {//Dev mode
+					Destroy (item);
+					StartCooking (meal);
+				}
+			}
+		}
+	}
 
-                StartCooking(meal);
-            }
-        }
-    }
+	[PunRPC]
+	void StartCookingRPC (string meal)
+	{
+		cooking = true;
+		cookingTime = 0;
+		spriteRenderer.sprite = onSprite;
+		mealName = meal;
 
-    private void StartCooking(GameObject meal) {
-        cooking = true;
-        cookingTime = 0;
-        spriteRenderer.sprite = onSprite;
-        mealPrefab = meal;
-    }
+	}
 
-    private void StopCooking() {
-        cooking = false;
-        spriteRenderer.sprite = offSprite;
-        audioSource.Play();
+	private void StartCooking (GameObject meal) //for dev mode
+	{
+		cooking = true;
+		cookingTime = 0;
+		spriteRenderer.sprite = onSprite;
+		mealPrefab = meal;
+	}
 
-        var dish = Instantiate(mealPrefab);
-        dish.transform.position = transform.position;
-        mealPrefab = null;
-    }
+	private void StopCooking ()
+	{
+		cooking = false;
+		spriteRenderer.sprite = offSprite;
+		audioSource.Play ();
+		if (PhotonNetwork.connectedAndReady) {
+			if (PhotonNetwork.isMasterClient) {
+				GameMatrix.control.MasterClientCreateItem (mealName, transform.position, Quaternion.identity, 0, null);
+
+			}
+			mealName = null;
+		} else {//Dev mode
+			var dish = Instantiate (mealPrefab);
+			dish.transform.position = transform.position;
+			mealPrefab = null;
+		}
+	}
 }
