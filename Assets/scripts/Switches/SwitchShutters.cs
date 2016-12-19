@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwitchShutters : MonoBehaviour
+public class SwitchShutters : Photon.PunBehaviour
 {
 
     public ShutterController[] shutters;
@@ -11,6 +11,7 @@ public class SwitchShutters : MonoBehaviour
     private Animator animator;
     private bool closed = false;
     public PhotonView photonView;
+    private bool synced = false;
 
     void Start()
     {
@@ -27,18 +28,25 @@ public class SwitchShutters : MonoBehaviour
                 {
                     if (closed)
                     {
-                        OpenShutters();
                         if (PhotonNetwork.connectedAndReady) //Send open to all other clients
                         {
-                            CallRemoteMethod(true);
+                            photonView.RPC("OpenShutters", PhotonTargets.All, null);
+                        }
+                        else
+                        {
+                            OpenShutters(); //Dev mode 
                         }
                     }
                     else
                     {
-                        CloseShutters();
+                        
                         if (PhotonNetwork.connectedAndReady) //Send close to all other clients
                         {
-                            CallRemoteMethod(false);
+                            photonView.RPC("CloseShutters", PhotonTargets.All, null);
+                        }
+                        else
+                        {
+                            CloseShutters(); //dev mode
                         }
                     }
 
@@ -67,23 +75,47 @@ public class SwitchShutters : MonoBehaviour
         }
     }
 
-    //Photon RPC
-    public void CallRemoteMethod(bool open)
+    //Pun Sync
+    [PunRPC]
+    void SendCurrentState() //Master client must update all other clients on join on shutter state
     {
-        if (open) //To open the shutters
+        photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, closed);
+    }
+
+    [PunRPC]
+    void ReceiveCurrentState(bool closedState)
+    {
+        if (closed != closedState)
         {
-            photonView.RPC(
-                "OpenShutters",
-                PhotonTargets.OthersBuffered,
-                null);
+            if (closedState)
+            {
+                CloseShutters();
+            }
+            else
+            {
+                OpenShutters();
+            }
         }
-        else //To close the shutters
-        {
-            photonView.RPC(
-                "CloseShutters",
-                PhotonTargets.OthersBuffered,
-                null);
-        }
+    }
+
+    public override void OnJoinedRoom()
+    {
+        //Update on join if this item was not instantiated by the game and is apart of the map
+        StartSync();
 
     }
+
+    void StartSync()
+    {
+        if (!synced)
+        {
+            if (!PhotonNetwork.isMasterClient)
+            {
+                photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, null);
+
+            }
+            synced = true;
+        }
+    }
+        
 }
