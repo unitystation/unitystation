@@ -40,7 +40,7 @@ public class DoorController: MonoBehaviour {
     }
 
     private void waitUntilClose() {
-        if(isOpened && numOccupiers == 0) {
+        if(isOpened) { //removed numOccupies condition for time being
             timeOpen += Time.deltaTime;
 
             if(timeOpen >= maxTimeOpen) {

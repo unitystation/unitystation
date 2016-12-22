@@ -38,6 +38,9 @@ namespace Cupboards
             items = transform.FindChild("Items").gameObject;
 
             photonView = gameObject.GetComponent<PhotonView>();
+			if (photonView == null) {
+				photonView = transform.parent.gameObject.GetComponent<PhotonView>();
+			}
 
             if (PhotonNetwork.connectedAndReady)
             {
@@ -258,7 +261,6 @@ namespace Cupboards
                     //If you are not the master then update the current IG state of this object from the master
                     photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, PhotonNetwork.player.NickName);
                 }
-
                 GameMatrix.control.AddCupboard(photonView.viewID, this);
                 synced = true;
             }
