@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4475093567878640}
   - component: {fileID: 61530228178202146}
   - component: {fileID: 114721242371358992}
-  - component: {fileID: 114872209433203794}
   m_Layer: 11
   m_Name: Closet
   m_TagString: Untagged
@@ -71,6 +70,7 @@ GameObject:
   - component: {fileID: 61820902494921658}
   - component: {fileID: 212288130219440224}
   - component: {fileID: 114005810841140566}
+  - component: {fileID: 114861495326884098}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -188,12 +188,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 1
   depth: -0.1
---- !u!114 &114872209433203794
+--- !u!114 &114861495326884098
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000522475151462}
+  m_GameObject: {fileID: 1304673295970254}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}

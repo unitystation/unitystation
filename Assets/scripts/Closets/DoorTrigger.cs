@@ -38,9 +38,6 @@ namespace Cupboards
             items = transform.FindChild("Items").gameObject;
 
             photonView = gameObject.GetComponent<PhotonView>();
-			if (photonView == null) {
-				photonView = transform.parent.gameObject.GetComponent<PhotonView>();
-			}
 
             if (PhotonNetwork.connectedAndReady)
             {

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 61934104644865458}
   - component: {fileID: 212000010167664066}
   - component: {fileID: 114144584083291798}
+  - component: {fileID: 114364495396968750}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -39,7 +40,6 @@ GameObject:
   - component: {fileID: 4000012120925626}
   - component: {fileID: 61000012679238458}
   - component: {fileID: 114000013935008546}
-  - component: {fileID: 114207300059471470}
   m_Layer: 11
   m_Name: Refrigerator
   m_TagString: Untagged
@@ -102,7 +102,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013052373872}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3, y: 4, z: -0.1}
+  m_LocalPosition: {x: 1842, y: 1149, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013135475192}
@@ -219,12 +219,12 @@ MonoBehaviour:
   doorOpened: {fileID: 21300098, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
   offsetOpened: {x: -0.1068115, y: 0.008911133}
   sizeOpened: {x: 0.785645, y: 0.8395182}
---- !u!114 &114207300059471470
+--- !u!114 &114364495396968750
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013052373872}
+  m_GameObject: {fileID: 1000010759247148}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
