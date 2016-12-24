@@ -1,12 +1,11 @@
-﻿using System.Collections;
+﻿using Events;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public enum Direction {
-    UpperRight = 0,
-    LowerRight = 1,
-    LowerLeft = 2,
-    UpperLeft = 3,
+public enum SpritePosition {
+    UpperRight = 0, LowerRight = 1, LowerLeft = 2, UpperLeft = 3
 }
 
 public enum TileType {
@@ -14,68 +13,88 @@ public enum TileType {
 }
 
 [ExecuteInEditMode]
-public class WallsConnect : MonoBehaviour {
+public class WallsConnect: MonoBehaviour {
 
-    public Direction direction;
+    public SpritePosition spritePosition;
+    private SpritePosition currentSpritePosition;
 
-    [Range(0, 1)]
-    public int a,b,c;
+    private int[] c = new int[3];
 
-    public bool change;
-
-    private int ai = 2;
-    private int bi = 3;
-    private int ci = -4;
     private Sprite[] sprites;
     private SpriteRenderer spriteRenderer;
-    private int dirValue;
 
-    void Start () {
+    private int[] offsets = { 0, 1, 1, 1, 0, -1, -1, -1 };
+    private int[,] adjacentTiles = new int[3, 2];
+    
+    private int[] matrixPosition = { -1, -1 };
+    private int offsetIndex;
+
+    private UnityAction<TileType>[] listeners = new UnityAction<TileType>[3];
+
+    void Awake() {
         sprites = Resources.LoadAll<Sprite>("walls/wall");
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        dirValue = (int) direction;
+        offsetIndex = (int) spritePosition * 2;
     }
-	
-	void Update () {
-		if(change) {
-            change = false;
 
-            UpdateWall();
-        }
-	}
-
-    private void UpdateWall() {
-        var v = a * ai + b * bi + (a * b * c) * ci;
-
-        switch(v) {
-            case 0:
-                spriteRenderer.sprite = sprites[(dirValue + 5)];
-                break;
-            case 1:
-                spriteRenderer.sprite = sprites[0];
-                break;
-            case 2:
-                spriteRenderer.sprite = sprites[dirValue + 1];
-                break;
-            case 3:
-                spriteRenderer.sprite = sprites[(dirValue + 1) % 4 + 1];
-                break;
-            case 5:
-                spriteRenderer.sprite = sprites[(dirValue + 9)];
-                break;
+    void LateUpdate() {
+        if(!Application.isPlaying && spritePosition != currentSpritePosition) {
+            currentSpritePosition = spritePosition;
+            offsetIndex = (int) spritePosition * 2;
+            UpdateListeners();
         }
     }
 
-    public void ChangeA(TileType tileType) {
-
+    public void ChangeParameter(int index, TileType tileType) {
+        c[index] = tileType == TileType.Wall ? 1 : 0;
+        UpdateSprite();
     }
 
-    public void ChangeB(TileType tileType) {
-
+    public void UpdatePosition(int x, int y) {
+        matrixPosition[0] = x;
+        matrixPosition[1] = y;
+        
+        UpdateListeners();
+        CheckAdjacentTiles();
     }
 
-    public void ChangeC(TileType tileType) {
+    private void UpdateListeners() {
+        for(int i = 0; i < 3; i++) {
+            if(listeners[i] != null) {
+                WallMap.RemoveListener(adjacentTiles[i, 0], adjacentTiles[i, 1], listeners[i]);
+            } else {
+                int i2 = i;
+                listeners[i] = new UnityAction<TileType>(x => ChangeParameter(i2, x));
+            }
+            adjacentTiles[i, 0] = matrixPosition[0] + offsets[(offsetIndex + i) % 8];
+            adjacentTiles[i, 1] = matrixPosition[1] + offsets[(offsetIndex + i + 2) % 8];
+            
+            WallMap.AddListener(adjacentTiles[i, 0], adjacentTiles[i, 1], listeners[i]);
+        }
+    }
 
+    private void CheckAdjacentTiles() {
+        for(int i = 0; i < 3; i++) {
+            if(WallMap.CheckType(adjacentTiles[i, 0], adjacentTiles[i, 1], TileType.Wall)) {
+                ChangeParameter(i, TileType.Wall);
+
+            } else {
+                ChangeParameter(i, TileType.Space);
+            }
+        }
+    }
+
+    private void UpdateSprite() {
+        int index;
+
+        switch(c[0] * 3 + c[2] * 2 + (c[0] * c[1] * c[2]) * -4) {
+            case 0: index = (int) spritePosition + 5; break;
+            case 2: index = (int) spritePosition + 1; break;
+            case 3: index = ((int) spritePosition + 1) % 4 + 1; break;
+            case 5: index = ((int) spritePosition + 9); break;
+            default: index = 0; break;
+        }
+
+        spriteRenderer.sprite = sprites[index];
     }
 }

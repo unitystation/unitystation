@@ -23,7 +23,8 @@ namespace UI {
             image = GetComponent<Image>();
             image.enabled = false;
 
-            EventManager.AddUIListener(eventName, new UnityAction<GameObject>(x => TrySetItem(x)));
+            if(eventName.Length > 0)
+                EventManager.UI.AddListener(eventName, new UnityAction<GameObject>(x => TrySetItem(x)));
         }
 
         public void SetItem(GameObject item) {
@@ -35,7 +36,9 @@ namespace UI {
             item.transform.parent = transform;
 
             IsFull = true;
-            EventManager.TriggerUIEvent(eventName, item);
+
+            if(eventName.Length > 0)
+                EventManager.UI.TriggerEvent(eventName, item);
         }
 
         public bool TrySetItem(GameObject item) {
@@ -55,7 +58,8 @@ namespace UI {
             var item = Item;
             Item = null;
 
-            EventManager.TriggerUIEvent(eventName, null);
+            if(eventName.Length > 0)
+                EventManager.UI.TriggerEvent(eventName, null);
 
             image.sprite = null;
             image.enabled = false;

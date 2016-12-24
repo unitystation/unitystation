@@ -87,7 +87,8 @@ namespace UI {
                     item = PhotonNetwork.Instantiate(prefab.name, Vector3.zero, Quaternion.identity, 0, null);
                 }
 
-                EventManager.TriggerUIEvent(eventName, item);
+                if(eventName.Length > 0)
+                    EventManager.UI.TriggerEvent(eventName, item);
             }
         }
     }
