@@ -13,16 +13,10 @@ namespace Events {
     public class EventManager : MonoBehaviour {
 
         private EventController<string, GameObject> ui = new EventController<string, GameObject>();
-        private EventController<Vector3, TileType> matrix = new EventController<Vector3, TileType>(x => hashCode(x));
 
         public static EventController<string, GameObject> UI {
             get { return Instance.ui; }
         }
-
-        public static EventController<Vector3, TileType> Matrix {
-            get { return Instance.matrix; }
-        }
-
         private static EventManager eventManager;
 
         public static EventManager Instance {

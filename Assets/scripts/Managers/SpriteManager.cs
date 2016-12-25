@@ -3,44 +3,72 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace Sprites {
-    public class SpriteManager: MonoBehaviour {
 
-        public static SpriteManager control; //All of the instantiate players will just reference sprites here
-        
-        public Dictionary<string, Sprite[]> playerSprites = new Dictionary<string, Sprite[]>();
+    public class Sprites {
+        private Dictionary<string, Sprite[]> sprites = new Dictionary<string, Sprite[]>();
 
-        void Awake() {
-            if(control == null) {
-                control = this;
-            } else {
-                Destroy(this);
+        public Sprite[] this[string key] {
+            get {
+                return sprites[key];
             }
+            set {
+                sprites[key] = value;
+            }
+        }
 
-            InitializeSpriteSheets();
+    }
+
+    public class SpriteManager: MonoBehaviour {
+        private static SpriteManager spriteManager;
+        private Sprites playerSprites = new Sprites();
+        private Sprites wallSprites = new Sprites();
+
+        public static SpriteManager Instance {
+            get {
+                if(!spriteManager) {
+                    spriteManager = FindObjectOfType<SpriteManager>();
+                    spriteManager.InitializeSpriteSheets();
+                }
+                return spriteManager;
+            }
+        }
+
+        public static Sprites PlayerSprites {
+            get {
+                return Instance.playerSprites;
+            }
+        }
+
+        public static Sprites WallSprites {
+            get {
+                return Instance.wallSprites;
+            }
         }
 
         private void InitializeSpriteSheets() {
-            playerSprites["human"] = Resources.LoadAll<Sprite>("mobs/human");
-            playerSprites["human_face"] = Resources.LoadAll<Sprite>("mobs/human_face");
+            PlayerSprites["human"] = Resources.LoadAll<Sprite>("mobs/human");
+            PlayerSprites["human_face"] = Resources.LoadAll<Sprite>("mobs/human_face");
 
-            playerSprites["suit"] = Resources.LoadAll<Sprite>("mobs/clothes/suit");
-            playerSprites["belt"] = Resources.LoadAll<Sprite>("mobs/clothes/belt");
-            playerSprites["feet"] = Resources.LoadAll<Sprite>("mobs/clothes/feet");
-            playerSprites["head"] = Resources.LoadAll<Sprite>("mobs/clothes/head");
-            playerSprites["mask"] = Resources.LoadAll<Sprite>("mobs/clothes/mask");
-            playerSprites["ears"] = Resources.LoadAll<Sprite>("mobs/clothes/ears");
-            playerSprites["back"] = Resources.LoadAll<Sprite>("mobs/clothes/back");
-            playerSprites["eyes"] = Resources.LoadAll<Sprite>("mobs/clothes/eyes");
-            playerSprites["hands"] = Resources.LoadAll<Sprite>("mobs/clothes/hands");
-            playerSprites["uniform"] = Resources.LoadAll<Sprite>("mobs/clothes/uniform");
-            playerSprites["underwear"] = Resources.LoadAll<Sprite>("mobs/clothes/underwear");
+            PlayerSprites["suit"] = Resources.LoadAll<Sprite>("mobs/clothes/suit");
+            PlayerSprites["belt"] = Resources.LoadAll<Sprite>("mobs/clothes/belt");
+            PlayerSprites["feet"] = Resources.LoadAll<Sprite>("mobs/clothes/feet");
+            PlayerSprites["head"] = Resources.LoadAll<Sprite>("mobs/clothes/head");
+            PlayerSprites["mask"] = Resources.LoadAll<Sprite>("mobs/clothes/mask");
+            PlayerSprites["ears"] = Resources.LoadAll<Sprite>("mobs/clothes/ears");
+            PlayerSprites["back"] = Resources.LoadAll<Sprite>("mobs/clothes/back");
+            PlayerSprites["eyes"] = Resources.LoadAll<Sprite>("mobs/clothes/eyes");
+            PlayerSprites["hands"] = Resources.LoadAll<Sprite>("mobs/clothes/hands");
+            PlayerSprites["uniform"] = Resources.LoadAll<Sprite>("mobs/clothes/uniform");
+            PlayerSprites["underwear"] = Resources.LoadAll<Sprite>("mobs/clothes/underwear");
 
-            playerSprites["guns_lefthand"] = Resources.LoadAll<Sprite>("mobs/inhands/guns_lefthand");
-            playerSprites["guns_righthand"] = Resources.LoadAll<Sprite>("mobs/inhands/guns_righthand");
-            playerSprites["items_lefthand"] = Resources.LoadAll<Sprite>("mobs/inhands/items_lefthand");
-            playerSprites["items_righthand"] = Resources.LoadAll<Sprite>("mobs/inhands/items_righthand");
-            playerSprites["clothing_lefthand"] = Resources.LoadAll<Sprite>("mobs/inhands/clothing_lefthand");
-            playerSprites["clothing_righthand"] = Resources.LoadAll<Sprite>("mobs/inhands/clothing_righthand");
+            PlayerSprites["guns_lefthand"] = Resources.LoadAll<Sprite>("mobs/inhands/guns_lefthand");
+            PlayerSprites["guns_righthand"] = Resources.LoadAll<Sprite>("mobs/inhands/guns_righthand");
+            PlayerSprites["items_lefthand"] = Resources.LoadAll<Sprite>("mobs/inhands/items_lefthand");
+            PlayerSprites["items_righthand"] = Resources.LoadAll<Sprite>("mobs/inhands/items_righthand");
+            PlayerSprites["clothing_lefthand"] = Resources.LoadAll<Sprite>("mobs/inhands/clothing_lefthand");
+            PlayerSprites["clothing_righthand"] = Resources.LoadAll<Sprite>("mobs/inhands/clothing_righthand");
+            
+            WallSprites["wall"] = Resources.LoadAll<Sprite>("walls/wall");
         }
     }
 }

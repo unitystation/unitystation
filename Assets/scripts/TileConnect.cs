@@ -1,6 +1,4 @@
-﻿using Events;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Sprites;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,14 +6,12 @@ public enum SpritePosition {
     UpperRight = 0, LowerRight = 1, LowerLeft = 2, UpperLeft = 3
 }
 
-public enum TileType {
-    Space, Floor, Wall, Glass, Door
-}
-
 [ExecuteInEditMode]
-public class WallsConnect: MonoBehaviour {
+public class TileConnect: MonoBehaviour {
 
     public SpritePosition spritePosition;
+    public TileType TileType { set; get; } 
+
     private SpritePosition currentSpritePosition;
 
     private int[] c = new int[3];
@@ -32,7 +28,7 @@ public class WallsConnect: MonoBehaviour {
     private UnityAction<TileType>[] listeners = new UnityAction<TileType>[3];
 
     void Awake() {
-        sprites = Resources.LoadAll<Sprite>("walls/wall");
+        sprites = SpriteManager.WallSprites["wall"];
         spriteRenderer = GetComponent<SpriteRenderer>();
         offsetIndex = (int) spritePosition * 2;
     }
@@ -46,7 +42,7 @@ public class WallsConnect: MonoBehaviour {
     }
 
     public void ChangeParameter(int index, TileType tileType) {
-        c[index] = tileType == TileType.Wall ? 1 : 0;
+        c[index] = tileType == TileType ? 1 : 0;
         UpdateSprite();
     }
 
@@ -75,12 +71,7 @@ public class WallsConnect: MonoBehaviour {
 
     private void CheckAdjacentTiles() {
         for(int i = 0; i < 3; i++) {
-            if(WallMap.CheckType(adjacentTiles[i, 0], adjacentTiles[i, 1], TileType.Wall)) {
-                ChangeParameter(i, TileType.Wall);
-
-            } else {
-                ChangeParameter(i, TileType.Space);
-            }
+            ChangeParameter(i, WallMap.GetTypeAt(adjacentTiles[i, 0], adjacentTiles[i, 1]));
         }
     }
 

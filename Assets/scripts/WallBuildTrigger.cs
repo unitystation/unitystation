@@ -5,14 +5,17 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class WallBuildTrigger: MonoBehaviour {
 
+    public TileType tileType;
+    private TileType currentTileType;
+
     private Vector3 currentPosition;
-    private WallsConnect[] corners;
+    private TileConnect[] corners;
 
     private int x = -1, y = -1;
 
     void Start() {
-
-        corners = GetComponentsInChildren<WallsConnect>();
+        corners = GetComponentsInChildren<TileConnect>();
+        UpdateTileType();
 
         currentPosition = transform.position;
         UpdatePosition((int) currentPosition.x, (int) currentPosition.y);
@@ -23,24 +26,39 @@ public class WallBuildTrigger: MonoBehaviour {
             currentPosition = transform.position;
             UpdatePosition((int) currentPosition.x, (int) currentPosition.y);
         }
+
+        if(!Application.isPlaying) {
+            if(currentTileType != tileType) {
+                currentTileType = tileType;
+                UpdateTileType();
+            }
+        }
     }
 
     void OnDestroy() {
-        if(x >= 0)
-            WallMap.Remove(x, y);
+        if(x >= 0) {
+            WallMap.Remove(x, y, tileType);
+        }
     }
 
     private void UpdatePosition(int x_new, int y_new) {
         if(x >= 0)
-            WallMap.Remove(x, y);
+            WallMap.Remove(x, y, tileType);
 
-        WallMap.Add(x_new, y_new, TileType.Wall);
+        WallMap.Add(x_new, y_new, tileType);
 
         x = x_new;
         y = y_new;
 
         foreach(var c in corners) {
             c.UpdatePosition(x, y);
+        }
+    }
+
+    private void UpdateTileType() {
+
+        foreach(var c in corners) {
+            c.TileType = tileType;
         }
     }
 }
