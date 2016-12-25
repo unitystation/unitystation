@@ -4,14 +4,19 @@ using UnityEngine.Events;
 using UnityEngine;
 using UI;
 
-namespace Events { 
+namespace Events {
 
-    public class UIEvent: UnityEvent<GameObject> {}
+    public class UIEvent: UnityEvent<GameObject> { }
+    public class MatrixEvent: UnityEvent<TileType> { }
 
+    [ExecuteInEditMode]
     public class EventManager : MonoBehaviour {
 
-        private Dictionary<string, UIEvent> uiEvents = new Dictionary<string, UIEvent>();
+        private EventController<string, GameObject> ui = new EventController<string, GameObject>();
 
+        public static EventController<string, GameObject> UI {
+            get { return Instance.ui; }
+        }
         private static EventManager eventManager;
 
         public static EventManager Instance {
@@ -23,32 +28,16 @@ namespace Events {
                 return eventManager;
             }
         }
-	
-	    public static void AddUIListener(string eventName, UnityAction<GameObject> listener) {
-            if(eventName.Length == 0)
-                return;
-            
-            UIEvent uiEvent;
 
-            if(!Instance.uiEvents.TryGetValue(eventName, out uiEvent)) {
-                uiEvent = new UIEvent();
-                Instance.uiEvents[eventName] = uiEvent;
-            }
+        private static int hashCode(Vector3 vector) {
+            int x = vector.x.GetHashCode();
+            int y = vector.y.GetHashCode();
 
-            uiEvent.AddListener(listener);            
-        }
-
-        public static void RemoveUIListener(string eventName, UnityAction<GameObject> listener) {
-            if(Instance.uiEvents.ContainsKey(eventName)) {
-                Instance.uiEvents[eventName].RemoveListener(listener);
-            }
-        }
-
-        public static void TriggerUIEvent(string eventName, GameObject item) {
-            if(Instance.uiEvents.ContainsKey(eventName)) {
-                Instance.uiEvents[eventName].Invoke(item);
-
-            }
+            int hash = 17;
+            hash = ((hash + x) << 5) - (hash + x);
+            hash = ((hash + y) << 5) - (hash + y);
+            return hash;
         }
     }
+
 }

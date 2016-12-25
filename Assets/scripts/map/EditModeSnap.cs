@@ -6,12 +6,14 @@ public class EditModeSnap: MonoBehaviour {
     public float snapValue = 1;
     public float depth = 0;
 
+    public bool useInGame;
+
     void Start() {
         Snap(); // snap on instantiate
     }
 
     void Update() {
-        if(!Application.isPlaying) { // only snaps in editor mode
+        if(useInGame || !Application.isPlaying) { // only snaps in editor mode
             Snap();
         }
     }

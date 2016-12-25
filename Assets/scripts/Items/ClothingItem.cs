@@ -57,7 +57,7 @@ namespace PlayGroup
 
         void Start()
         {
-            sprites = SpriteManager.control.playerSprites[spriteSheetName];
+            sprites = SpriteManager.PlayerSprites[spriteSheetName];
             UpdateSprite();
 
             if (PhotonNetwork.connectedAndReady)
@@ -111,7 +111,7 @@ namespace PlayGroup
 
             }
 
-            sprites = SpriteManager.control.playerSprites[spriteSheetName];
+            sprites = SpriteManager.PlayerSprites[spriteSheetName];
             UpdateSprite();
         }
 
@@ -160,7 +160,7 @@ namespace PlayGroup
             if (viewID == photonView.viewID)
             {
                 spriteSheetName = sheetName;
-                sprites = SpriteManager.control.playerSprites[spriteSheetName];
+                sprites = SpriteManager.PlayerSprites[spriteSheetName];
                 Reference = spriteRef;
             }
         }

@@ -17,7 +17,7 @@ namespace PlayGroup
         {
             clothingItem = GetComponent<ClothingItem>();
 
-            EventManager.AddUIListener(eventName, new UnityAction<GameObject>(OnChanged));
+            EventManager.UI.AddListener(eventName, new UnityAction<GameObject>(OnChanged));
         }
 
         void OnChanged(GameObject item)
