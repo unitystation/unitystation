@@ -20,6 +20,7 @@ namespace UI {
         public GameObject neckPrefab;
         public GameObject earPrefab;
         public GameObject glassesPrefab;
+        public GameObject glovesPrefab;
 
         public GameObject leftHandPrefab;
         public GameObject rightHandPrefab;
@@ -67,6 +68,7 @@ namespace UI {
             SetItem("neck", neckPrefab);
             SetItem("ear", earPrefab);
             SetItem("eyes", glassesPrefab);
+            SetItem("hands", glovesPrefab);
 
             SetItem("id", idPrefab);
             SetItem("back", bagPrefab);
@@ -74,6 +76,7 @@ namespace UI {
             SetItem("leftHand", leftHandPrefab);
             SetItem("storage01", storage01Prefab);
             SetItem("storage02", storage02Prefab);
+            SetItem("suitStorage", suitStoragePrefab);
         }
 
         private void SetItem(string eventName, GameObject prefab) {
