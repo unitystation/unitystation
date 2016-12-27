@@ -902,7 +902,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4518396847409374}
-  - component: {fileID: 114654949177218078}
+  - component: {fileID: 114652386282295454}
   m_Layer: 0
   m_Name: EventManager
   m_TagString: Untagged
@@ -3983,9 +3983,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: suitStorage
+  eventName: suit
   allowAllItems: 0
-  allowedItemTypes: 
+  allowedItemTypes: 00000000
   maxItemSize: 0
 --- !u!114 &114095270947997436
 MonoBehaviour:
@@ -4378,7 +4378,7 @@ MonoBehaviour:
   eventName: belt
   allowAllItems: 0
   allowedItemTypes: 0a0000000d000000
-  maxItemSize: 1
+  maxItemSize: 0
 --- !u!114 &114167341109290866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5949,7 +5949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: mask
+  eventName: 1
   allowAllItems: 0
   allowedItemTypes: 04000000
   maxItemSize: 0
@@ -6504,7 +6504,7 @@ MonoBehaviour:
   eventName: back
   allowAllItems: 0
   allowedItemTypes: 0b000000
-  maxItemSize: 2
+  maxItemSize: 0
 --- !u!114 &114578158227864424
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6920,6 +6920,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114652386282295454
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1461021672017276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90c75fbac30fc54e98b644a378df712, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114652903474615616
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6958,17 +6969,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114654949177218078
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1461021672017276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d90c75fbac30fc54e98b644a378df712, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114658356813202594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7019,6 +7019,7 @@ MonoBehaviour:
   neckPrefab: {fileID: 0}
   earPrefab: {fileID: 1469499218258322, guid: 2eae96f88d2a8d64987a4867bd21fbbf, type: 2}
   glassesPrefab: {fileID: 0}
+  glovesPrefab: {fileID: 0}
   leftHandPrefab: {fileID: 0}
   rightHandPrefab: {fileID: 0}
   idPrefab: {fileID: 1748120534729806, guid: 4c73033e5f8ab734eb2e85e6ae54de73, type: 2}
@@ -7739,7 +7740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIParent: {fileID: 1830651583639642}
-  isDevMode: 0
+  isDevMode: 1
 --- !u!114 &114881689324223894
 MonoBehaviour:
   m_ObjectHideFlags: 1
