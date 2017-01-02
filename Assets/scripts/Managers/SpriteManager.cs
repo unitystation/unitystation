@@ -39,7 +39,7 @@ namespace Sprites {
             }
         }
 
-        public static Sprites WallSprites {
+        public static Sprites ConnectSprites {
             get {
                 return Instance.wallSprites;
             }
@@ -68,7 +68,13 @@ namespace Sprites {
             PlayerSprites["clothing_lefthand"] = Resources.LoadAll<Sprite>("mobs/inhands/clothing_lefthand");
             PlayerSprites["clothing_righthand"] = Resources.LoadAll<Sprite>("mobs/inhands/clothing_righthand");
             
-            WallSprites["wall"] = Resources.LoadAll<Sprite>("walls/wall");
+            ConnectSprites["wall"] = Resources.LoadAll<Sprite>("walls/wall");
+
+            ConnectSprites["window"] = Resources.LoadAll<Sprite>("windows/window");
+            ConnectSprites["window_reinforced"] = Resources.LoadAll<Sprite>("windows/window_reinforced");
+
+            ConnectSprites["table"] = Resources.LoadAll<Sprite>("tables/table");
+            ConnectSprites["table_reinforced"] = Resources.LoadAll<Sprite>("tables/table_reinforced");
         }
     }
 }

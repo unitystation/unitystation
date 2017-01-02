@@ -16,10 +16,13 @@ namespace UI {
         private Image image;
 
         public GameObject Item { get; private set; }
-        public bool IsFull { get; private set; }
+        public bool IsFull {
+            get {
+                return Item != null;
+            }
+        }
 
         void Awake() {
-            IsFull = false;
             image = GetComponent<Image>();
             image.enabled = false;
 
@@ -35,7 +38,6 @@ namespace UI {
             item.transform.position = transform.position;
             item.transform.parent = transform;
 
-            IsFull = true;
 
             if(eventName.Length > 0)
                 EventManager.UI.TriggerEvent(eventName, item);
@@ -58,13 +60,11 @@ namespace UI {
             var item = Item;
             Item = null;
 
-            if(eventName.Length > 0)
+            if(eventName.Length > 0 && item != null)
                 EventManager.UI.TriggerEvent(eventName, null);
 
             image.sprite = null;
             image.enabled = false;
-
-            IsFull = false;
 
             return item;
         }
