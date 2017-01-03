@@ -74,7 +74,7 @@ namespace Sprites {
             ConnectSprites["window_reinforced"] = Resources.LoadAll<Sprite>("windows/window_reinforced");
 
             ConnectSprites["table"] = Resources.LoadAll<Sprite>("tables/table");
-            ConnectSprites["table_reinforced"] = Resources.LoadAll<Sprite>("tables/table_reinforced");
+            ConnectSprites["table_reinforced"] = Resources.LoadAll<Sprite>("tables/reinforced_table");
         }
     }
 }

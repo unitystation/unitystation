@@ -25,7 +25,10 @@ public class Camera2DFollow: MonoBehaviour {
     Vector3 currentVelocity;
     Vector3 lookAheadPos;
 
+
+    public bool adjustPixel = true;
     public float pixelAdjustment = 64f;
+
 
     float nextTimeToSearch = 0;
 
@@ -50,7 +53,7 @@ public class Camera2DFollow: MonoBehaviour {
 
         }
     }
-    
+
     void Start() {
         lookAheadSave = lookAheadFactor;
         if(target != null) {
@@ -77,9 +80,10 @@ public class Camera2DFollow: MonoBehaviour {
             aheadTargetPos.y += yOffSet;
             Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref currentVelocity, damping);
 
-            newPos.x = Mathf.RoundToInt(newPos.x * pixelAdjustment) / pixelAdjustment;
-            newPos.y = Mathf.RoundToInt(newPos.y * pixelAdjustment) / pixelAdjustment;
-
+            if(adjustPixel) {
+                newPos.x = Mathf.RoundToInt(newPos.x * pixelAdjustment) / pixelAdjustment;
+                newPos.y = Mathf.RoundToInt(newPos.y * pixelAdjustment) / pixelAdjustment;
+            }
 
             transform.position = newPos;
 
