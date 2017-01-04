@@ -4,7 +4,7 @@ using UnityEngine;
 using UI;
 using Events;
 using Crafting;
-using Game;
+using Network;
 
 public class Microwave : MonoBehaviour
 {
@@ -61,7 +61,7 @@ public class Microwave : MonoBehaviour
 
 				if (PhotonNetwork.connectedAndReady) {
 					PhotonView itemView = item.GetComponent<PhotonView> ();
-					GameMatrix.control.RemoveItem (itemView.viewID); //Remove ingredients from all clients
+					NetworkItemDB.control.RemoveItem (itemView.viewID); //Remove ingredients from all clients
 					photonView.RPC ("StartCookingRPC", PhotonTargets.All, meal.name);
 				} else {//Dev mode
 					Destroy (item);
@@ -96,7 +96,7 @@ public class Microwave : MonoBehaviour
 		audioSource.Play ();
 		if (PhotonNetwork.connectedAndReady) {
 			if (PhotonNetwork.isMasterClient) {
-				GameMatrix.control.MasterClientCreateItem (mealName, transform.position, Quaternion.identity, 0, null);
+				NetworkItemDB.control.MasterClientCreateItem (mealName, transform.position, Quaternion.identity, 0, null);
 
 			}
 			mealName = null;

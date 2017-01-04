@@ -1319,7 +1319,7 @@ GameObject:
   - component: {fileID: 224274577438236096}
   - component: {fileID: 222260007456548620}
   - component: {fileID: 114804558682937124}
-  - component: {fileID: 114164458825688464}
+  - component: {fileID: 114000308513853912}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -1673,6 +1673,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4766824817079442}
   - component: {fileID: 114934864634398716}
+  - component: {fileID: 114370148470256484}
+  - component: {fileID: 114105303278677482}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -3345,6 +3347,21 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114000308513853912
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636020528559744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventName: belt
+  allowAllItems: 0
+  allowedItemTypes: 0a0000000d000000
+  maxItemSize: 0
 --- !u!114 &114008752987073294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4025,8 +4042,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114919201749102192}
   m_HandleRect: {fileID: 224219662248899922}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4060,6 +4077,32 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114105303278677482
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1777981515103204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!114 &114105554088706808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4364,21 +4407,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114164458825688464
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1636020528559744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: belt
-  allowAllItems: 0
-  allowedItemTypes: 0a0000000d000000
-  maxItemSize: 0
 --- !u!114 &114167341109290866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5726,6 +5754,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chatNewComponent: {fileID: 114586273594766952}
   idInput: {fileID: 114197881320214680}
+--- !u!114 &114370148470256484
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1777981515103204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3549845dcc7d41928a29c19326098c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114375961257715874
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10495,7 +10534,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -10.629076, y: 0.000015258789}
+  m_AnchoredPosition: {x: -10.629076, y: 0}
   m_SizeDelta: {x: 453, y: 0}
   m_Pivot: {x: 0.5000001, y: 1}
 --- !u!224 &224769148285760926

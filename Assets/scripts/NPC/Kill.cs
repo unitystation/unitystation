@@ -4,7 +4,7 @@ using UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Game;
+using Network;
 
 public class Kill : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class Kill : MonoBehaviour
     private RandomMove randomMove;
     private PhysicsMove physicsMove;
     private bool dead = false;
-	private bool sliced = false;
+    private bool sliced = false;
     private PhotonView photonView;
 
     void Start()
@@ -30,10 +30,12 @@ public class Kill : MonoBehaviour
 
     void OnMouseDown()
     {
+
         if (!dead && UIManager.control.hands.CurrentSlot.Item != null)
         {
             if (UIManager.control.hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife)
             {
+                Debug.Log("Knife clicked to kill");
                 if (PhotonNetwork.connectedAndReady)
                 {
                     photonView.RPC("Die", PhotonTargets.All, null); //Send death to all clients for pete
@@ -48,19 +50,18 @@ public class Kill : MonoBehaviour
         {    
             if (UIManager.control.hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife)
             {
-                
-                
+  
                 if (PhotonNetwork.connectedAndReady)
-                {
-                    GameMatrix.control.RemoveItem(photonView.viewID);
-					photonView.RPC ("SpawnMeat", PhotonTargets.MasterClient, null);
+                {   
+                    photonView.RPC("SpawnMeat", PhotonTargets.MasterClient, null); //Spawn the new meat
+                    photonView.RPC("RemoveFromNetwork", PhotonTargets.MasterClient, null); // Remove pete from the network
                 }
                 else
                 {
-					SpawnMeat(); //For dev mode
+                    SpawnMeat(); //For dev mode
                     Destroy(gameObject); 
                 }
-				sliced = true;
+                sliced = true;
             }
         }
     }
@@ -75,17 +76,25 @@ public class Kill : MonoBehaviour
         SoundManager.control.Play("Bodyfall");
     }
 
-	[PunRPC]
+    [PunRPC]
+    void RemoveFromNetwork() //Can only be called by masterclient
+    {
+        PhotonNetwork.Destroy(this.gameObject);
+    }
+
+    [PunRPC]
     void SpawnMeat()
     {
         for (int i = 0; i < amountSpawn; i++)
         {
             if (PhotonNetwork.connectedAndReady)
             {
-				if(PhotonNetwork.isMasterClient){
-					GameMatrix.control.MasterClientCreateItem(meatPrefab.name,transform.position,Quaternion.identity,0,null); //Create scene owned object
-				} 
-			}else
+                if (PhotonNetwork.isMasterClient)
+                {
+                    NetworkItemDB.control.MasterClientCreateItem(meatPrefab.name, transform.position, Quaternion.identity, 0, null); //Create scene owned object
+                } 
+            }
+            else
             { //Dev mode
                 var meat = Instantiate(meatPrefab); 
                 meat.transform.position = transform.position;

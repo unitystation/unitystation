@@ -1,4 +1,4 @@
-﻿using Game;
+﻿using Network;
 using PlayGroup;
 using System.Collections;
 using System.Collections.Generic;
@@ -112,8 +112,8 @@ namespace Cupboards {
 
         [PunRPC]
         void DropItem(int itemViewID) {
-            GameMatrix.control.items[itemViewID].transform.parent = items.transform;
-            GameMatrix.control.items[itemViewID].transform.localPosition = new Vector3(0, 0, -0.2f);
+            NetworkItemDB.control.items[itemViewID].transform.parent = items.transform; 
+            NetworkItemDB.control.items[itemViewID].transform.localPosition = new Vector3(0, 0, -0.2f);
         }
 
         private bool TryDropItem() {
@@ -203,7 +203,7 @@ namespace Cupboards {
                     //If you are not the master then update the current IG state of this object from the master
                     photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, PhotonNetwork.player.NickName);
                 }
-                GameMatrix.control.AddCupboard(photonView.viewID, this);
+                NetworkItemDB.control.AddCupboard(photonView.viewID, this);
                 synced = true;
             }
         }

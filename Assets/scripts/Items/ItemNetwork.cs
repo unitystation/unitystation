@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UI;
 using PlayGroup;
-using Game;
+using Network;
 
 namespace Items
 {
@@ -80,7 +80,7 @@ namespace Items
 					photonView.RPC ("SendCurrentState", PhotonTargets.MasterClient, null);
 				} 
 
-				GameMatrix.control.AddItem (photonView.viewID, this.gameObject);
+                NetworkItemDB.control.AddItem (photonView.viewID, this.gameObject);
 				synced = true;
 			}
 		}
