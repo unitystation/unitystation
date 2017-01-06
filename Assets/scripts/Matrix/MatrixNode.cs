@@ -8,7 +8,7 @@ namespace Matrix {
     public class MatrixNode {
 
         private class TileEvent: UnityEvent<TileType> { }
-
+        
         private TileEvent tileEvent = new TileEvent();
         private SortedList<TileType, int> tileTypes = new SortedList<TileType, int>();
 
