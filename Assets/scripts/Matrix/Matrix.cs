@@ -51,6 +51,10 @@ namespace Matrix {
             }
         }
 
+        public static bool IsPassableAt(int x, int y) {
+            return GetTypeAt(x, y) < TileType.Wall;
+        }
+
         public static void AddListener(int x, int y, UnityAction<TileType> listener) {
             if(Instance.map[y, x] == null) {
                 Instance.map[y, x] = new MatrixNode();
