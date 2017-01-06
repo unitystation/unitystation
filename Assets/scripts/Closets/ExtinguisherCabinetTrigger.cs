@@ -23,8 +23,8 @@ public class ExtinguisherCabinetTrigger: MonoBehaviour {
     }
 
     void OnMouseDown() {
-        if(PlayerManager.control.playerScript != null) {
-            if(PlayerManager.control.playerScript.DistanceTo(transform.position) <= 2) {
+        if(PlayerManager.PlayerScript != null) {
+            if(PlayerManager.PlayerScript.DistanceTo(transform.position) <= 2) {
                 SoundManager.control.Play("OpenClose");
                 if(spriteRenderer.sprite == spriteClosed) {
                     OnOpen();
@@ -45,10 +45,10 @@ public class ExtinguisherCabinetTrigger: MonoBehaviour {
 
     private void OnClose() {
         if(extinguisher == null) {
-            var item = UIManager.control.hands.CurrentSlot.Item;
+            var item = UIManager.Hands.CurrentSlot.Item;
             if(item != null && IsExtinguisher(item)) {
                 extinguisher = item;
-                UIManager.control.hands.CurrentSlot.Clear();
+                UIManager.Hands.CurrentSlot.Clear();
                 extinguisher.SetActive(false);
                 spriteRenderer.sprite = spriteOpenedOccupied;
             } else {

@@ -14,7 +14,7 @@ namespace UI
 
 		void Start ()
 		{
-			UIManager.control.isThrow = false;
+			UIManager.IsThrow = false;
 		}
 
 		/* 
@@ -43,10 +43,10 @@ namespace UI
 		{
 			PlayClick01 ();
 			Debug.Log ("Drop Button");
-			GameObject item = UIManager.control.hands.CurrentSlot.Clear ();
+			GameObject item = UIManager.Hands.CurrentSlot.Clear ();
 
 			if (item != null) {
-				var targetPos = PlayerManager.control.LocalPlayer.transform.position;
+				var targetPos = PlayerManager.LocalPlayer.transform.position;
 				targetPos.z = -0.2f;
 				item.transform.position = targetPos;
 				item.transform.parent = null;
@@ -59,12 +59,12 @@ namespace UI
 			PlayClick01 ();
 			Debug.Log ("Throw Button");
 
-			if (!UIManager.control.isThrow) {
-				UIManager.control.isThrow = true;
+			if (!UIManager.IsThrow) {
+				UIManager.IsThrow = true;
 				throwImage.sprite = throwSprites [1];
 
 			} else {
-				UIManager.control.isThrow = false;
+				UIManager.IsThrow = false;
 				throwImage.sprite = throwSprites [0];
 			}
 		}

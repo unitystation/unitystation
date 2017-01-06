@@ -10,19 +10,19 @@ namespace UI {
         // Use this for initialization
         void Start() {
             image = GetComponent<Image>();
-            UIManager.control.isOxygen = false;
+            UIManager.IsOxygen = false;
         }
 
         public void OxygenSelect() {
 
             SoundManager.control.Play("Click01");
-            if(!UIManager.control.isOxygen) {
+            if(!UIManager.IsOxygen) {
 
-                UIManager.control.isOxygen = true;
+                UIManager.IsOxygen = true;
                 image.sprite = stateSprites[1];
 
             } else {
-                UIManager.control.isOxygen = false;
+                UIManager.IsOxygen = false;
                 image.sprite = stateSprites[0];
             }
         }

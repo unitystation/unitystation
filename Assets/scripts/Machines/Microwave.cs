@@ -47,7 +47,7 @@ public class Microwave : MonoBehaviour
 
 	void OnMouseDown ()
 	{
-		var item = UIManager.control.hands.CurrentSlot.Item;
+		var item = UIManager.Hands.CurrentSlot.Item;
 
 		if (!cooking && item) {
 			var attr = item.GetComponent<ItemAttributes> ();
@@ -57,11 +57,11 @@ public class Microwave : MonoBehaviour
 			var meal = CraftingManager.Instance.Meals.FindRecipe (new List<Ingredient> () { ingredient });
 
 			if (meal) {
-				UIManager.control.hands.CurrentSlot.Clear ();
+				UIManager.Hands.CurrentSlot.Clear ();
 
 				if (PhotonNetwork.connectedAndReady) {
 					PhotonView itemView = item.GetComponent<PhotonView> ();
-					NetworkItemDB.control.RemoveItem (itemView.viewID); //Remove ingredients from all clients
+					NetworkItemDB.RemoveItem (itemView.viewID); //Remove ingredients from all clients
 					photonView.RPC ("StartCookingRPC", PhotonTargets.All, meal.name);
 				} else {//Dev mode
 					Destroy (item);
@@ -96,7 +96,7 @@ public class Microwave : MonoBehaviour
 		audioSource.Play ();
 		if (PhotonNetwork.connectedAndReady) {
 			if (PhotonNetwork.isMasterClient) {
-				NetworkItemDB.control.MasterClientCreateItem (mealName, transform.position, Quaternion.identity, 0, null);
+				NetworkItemDB.Instance.MasterClientCreateItem (mealName, transform.position, Quaternion.identity, 0, null);
 
 			}
 			mealName = null;

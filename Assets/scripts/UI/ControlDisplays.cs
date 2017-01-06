@@ -29,15 +29,8 @@ namespace UI {
                 obj.SetActive(false);
             }
             backGround.SetActive(true);
-            if(parentScript.chatControl.chatClient != null) {
-                if(parentScript.chatControl.chatClient.CanChat) {
-                    logInWindow.SetActive(false);
-                } else {
-                    logInWindow.SetActive(true);
-                }
-            } else {
-                logInWindow.SetActive(true);
-            }
+
+            SetLogInWindow();
 
             //TODO remove the temp button when scene transitions completed
             tempSceneButton.SetActive(false);
@@ -49,7 +42,20 @@ namespace UI {
                 obj.SetActive(true);
             }
             backGround.SetActive(false);
-            if(!Managers.control.isDevMode) {
+
+            SetLogInWindow();
+
+            SoundManager.control.StopMusic();
+            //TODO random ambient
+            SoundManager.control.PlayVarAmbient(0);
+
+            //TODO remove the temp button when scene transitions completed
+            tempSceneButton.SetActive(false);
+            tempMenuButton.SetActive(true);
+        }
+
+        private void SetLogInWindow() {
+            if(!Managers.IsDevMode) {
                 if(parentScript.chatControl.chatClient != null) {
 
                     if(parentScript.chatControl.chatClient.CanChat) {
@@ -63,15 +69,7 @@ namespace UI {
                 }
             } else {
                 logInWindow.SetActive(false);
-
             }
-            SoundManager.control.StopMusic();
-            //TODO random ambient
-            SoundManager.control.PlayVarAmbient(0);
-
-            //TODO remove the temp button when scene transitions completed
-            tempSceneButton.SetActive(false);
-            tempMenuButton.SetActive(true);
         }
     }
 }

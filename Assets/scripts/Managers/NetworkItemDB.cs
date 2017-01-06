@@ -5,9 +5,6 @@ using UnityEngine;
 
 namespace Network {
     public class NetworkItemDB: MonoBehaviour {
-
-        public static NetworkItemDB control;
-
         // Current uses:
         // this instance is used to add items to cupboards across all clients,
         // using their photon id's to determine which item should be the child of which cupboard.
@@ -21,43 +18,61 @@ namespace Network {
         private PhotonView photonView;
         //This is to sync destroy and instantiate calls with masterclient
 
-        void Awake() {
+        private static NetworkItemDB networkItemDB;
 
-            if(control == null) {
-                control = this;
-            } else {
-                Destroy(this);
+        public static NetworkItemDB Instance {
+            get {
+                if(!networkItemDB) {
+                    networkItemDB = FindObjectOfType<NetworkItemDB>();
+                    networkItemDB.Init();
+                }
+
+                return networkItemDB;
             }
+        }
 
+        private void Init() {
             photonView = gameObject.GetComponent<PhotonView>();
         }
 
+        public static Dictionary<int, GameObject> Items {
+            get {
+                return Instance.items;
+            }
+        }
+
+        public static Dictionary<int, Cupboards.DoorTrigger> Cupboards {
+            get {
+                return Instance.cupboards;
+            }
+        }
+
         //Add each item to the items dictionary along with their photonView.viewID as key
-        public void AddItem(int viewID, GameObject theItem) {
-            if(!items.ContainsKey(viewID)) {
-                items.Add(viewID, theItem);
+        public static void AddItem(int viewID, GameObject theItem) {
+            if(!Items.ContainsKey(viewID)) {
+                Items.Add(viewID, theItem);
             } else {
                 Debug.Log("Warning! item already exists in dictionary. ViewID: " + viewID + " Item " + theItem.name);
             }
         }
 
         //Add each cupB to the items dictionary along with its photonView.viewID as key (this will be doortriggers)
-        public void AddCupboard(int viewID, Cupboards.DoorTrigger theCupB) 
+        public static void AddCupboard(int viewID, Cupboards.DoorTrigger theCupB) 
         {
-            cupboards.Add(viewID, theCupB);
+            Cupboards.Add(viewID, theCupB);
 
             //Note: To get transform.position then look at the DoorTrigger.transform.parent
         }
 
         //For removing items from the game, on all clients
-        public void RemoveItem(int viewID) { 
-            photonView.RPC("MasterClientDestroyItem", PhotonTargets.MasterClient, viewID);   
+        public static void RemoveItem(int viewID) {
+            Instance.photonView.RPC("MasterClientDestroyItem", PhotonTargets.MasterClient, viewID);   
         }
 
         //Need to send this to the client as only the client can make scene objs
-        public void InstantiateItem(string prefabName, Vector3 pos, Quaternion rot, int itemGroup, object[] data) 
+        public static void InstantiateItem(string prefabName, Vector3 pos, Quaternion rot, int itemGroup, object[] data) 
         {
-            photonView.RPC("MasterClientCreateItem", PhotonTargets.MasterClient, prefabName, pos, rot, itemGroup, data);
+            Instance.photonView.RPC("MasterClientCreateItem", PhotonTargets.MasterClient, prefabName, pos, rot, itemGroup, data);
         }
 
         [PunRPC] //You can call this directly if you are the master client

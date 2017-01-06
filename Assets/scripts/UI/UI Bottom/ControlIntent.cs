@@ -16,7 +16,7 @@ namespace UI {
 
         void Start() {
 
-            UIManager.control.currentIntent = Intent.Help;
+            UIManager.CurrentIntent = Intent.Help;
             thisImg = GetComponent<Image>();
         }
 
@@ -26,10 +26,10 @@ namespace UI {
 
             SoundManager.control.Play("Click01");
 
-            int intent = (int) UIManager.control.currentIntent;
+            int intent = (int) UIManager.CurrentIntent;
             intent = (intent + 1) % 4;
 
-            UIManager.control.currentIntent = (Intent) intent;
+            UIManager.CurrentIntent = (Intent) intent;
 
             thisImg.sprite = sprites[intent];
         }

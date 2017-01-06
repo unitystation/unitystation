@@ -38,8 +38,8 @@ namespace UI {
         private Dictionary<string, UI_ItemSlot> itemSlots = new Dictionary<string, UI_ItemSlot>();
 
         void Start() {
-            var playerTransform = PlayerManager.control.LocalPlayer.transform;
-            foreach(var itemSlot in UIManager.control.GetComponentsInChildren(typeof(UI_ItemSlot), true)) {
+            var playerTransform = PlayerManager.LocalPlayer.transform;
+            foreach(var itemSlot in UIManager.Instance.GetComponentsInChildren(typeof(UI_ItemSlot), true)) {
                 var name = itemSlot.transform.parent.name;
 
                 var slot = (UI_ItemSlot) itemSlot;
@@ -82,13 +82,7 @@ namespace UI {
         private void SetItem(string eventName, GameObject prefab) {
             if(prefab != null) {
 
-                GameObject item;
-
-                if(Managers.control.isDevMode) {
-                    item = Instantiate(prefab);
-                } else {
-                    item = PhotonNetwork.Instantiate(prefab.name, Vector3.zero, Quaternion.identity, 0, null);
-                }
+                GameObject item = PhotonNetwork.Instantiate(prefab.name, Vector3.zero, Quaternion.identity, 0, null);
 
                 if(eventName.Length > 0)
                     EventManager.UI.TriggerEvent(eventName, item);

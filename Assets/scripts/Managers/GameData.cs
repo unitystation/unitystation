@@ -45,10 +45,10 @@ public class GameData: MonoBehaviour {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
         if(currentScene == 0) {
             isInGame = false;
-            Managers.control.SetScreenForLobby();
+            Managers.SetScreenForLobby();
         } else {
             isInGame = true;
-            Managers.control.SetScreenForGame();
+            Managers.SetScreenForGame();
         }
     }
 

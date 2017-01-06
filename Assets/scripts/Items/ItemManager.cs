@@ -17,9 +17,9 @@ namespace Items {
         }
 
         public bool TryToPickUpObject(GameObject itemObject) {            
-            if(PlayerManager.control.playerScript != null) {
+            if(PlayerManager.PlayerScript != null) {
                 
-                if(!UIManager.control.hands.CurrentSlot.TrySetItem(itemObject))
+                if(!UIManager.Hands.CurrentSlot.TrySetItem(itemObject))
                     return false;
             } else {
                 return false;
