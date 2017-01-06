@@ -4042,8 +4042,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114919201749102192}
   m_HandleRect: {fileID: 224219662248899922}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.99999994
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7779,7 +7779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIParent: {fileID: 1830651583639642}
-  isDevMode: 1
+  isDevMode: 0
 --- !u!114 &114881689324223894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7927,9 +7927,6 @@ MonoBehaviour:
   playerPrefab: {fileID: 4434826748827160, guid: 1532c284d92d14314b1a433bde34d072,
     type: 2}
   spawnPoint: {fileID: 4494030789849802}
-  LocalPlayer: {fileID: 0}
-  playerScript: {fileID: 0}
-  hasSpawned: 0
 --- !u!114 &114910024510496766
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8056,7 +8053,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   logLevel: 0
   maxPlayersOnServer: 32
-  isConnected: 0
   _gameVersion: 1
 --- !u!114 &114939109465251068
 MonoBehaviour:

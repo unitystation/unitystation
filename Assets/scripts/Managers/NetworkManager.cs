@@ -8,21 +8,28 @@ using UnityEngine.SceneManagement;
 namespace Network {
     public class NetworkManager: Photon.PunBehaviour {
 
-        public static NetworkManager control;
-
         public PhotonLogLevel logLevel;
         public byte maxPlayersOnServer = 32;
-        public bool isConnected = false;
+        private bool isConnected = false;
 
         //Client version number
         public string _gameVersion = "1";
 
-        void Awake() {
-            if(control == null) {
-                control = this;
-            } else {
-                Destroy(this);
+        private static NetworkManager networkManager;
+
+        public static NetworkManager Instance {
+            get {
+                if(!networkManager) {
+                    networkManager = FindObjectOfType<NetworkManager>();
+                }
+
+                return networkManager;
             }
+        }
+
+        void Awake() {
+            PhotonNetwork.offlineMode = Managers.IsDevMode;
+
             PhotonNetwork.logLevel = logLevel;
             //no lobby, just server(room)
             PhotonNetwork.autoJoinLobby = false;
@@ -30,73 +37,59 @@ namespace Network {
             PhotonNetwork.automaticallySyncScene = true;
         }
 
-        public void Connect() { //Called from login window
-
-            // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
-            if(!Managers.control.isDevMode) {
-                if(PhotonNetwork.connected) {
-                    // #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnPhotonRandomJoinFailed() and we'll create one.
-                    PhotonNetwork.JoinRandomRoom(); //When you are done in dev then change this to: PhotonNetwork.JoinRandomRoom();
-                    Debug.Log("JOIN RANDOM ROOM");
-                } else {
-                    // #Critical, we must first and foremost connect to Photon Online Server.
-                    PhotonNetwork.ConnectUsingSettings(_gameVersion);
-                    Debug.Log("CONNECT TO THE PUNderdome");
-                }
-            } else {
-                SpawnDevPlayer();
+        public static bool IsConnected {
+            get {
+                return Instance.isConnected;
             }
-            UIManager.control.displayControl.logInWindow.SetActive(false);
         }
 
-        public void SpawnDevPlayer() { //IF WE ARE IN DEV MODE THEN SET SPAWN A PLAYERPREFAB AND ASSIGN IT TO CONTROLS AND REMOVE THE CHAT LOGIN WINDOW
+        public static void Connect() { //Called from login window
 
-            if(!PlayerManager.control.hasSpawned) {
-                PlayerManager.control.hasSpawned = true;
-                GameObject gObj = Instantiate(PlayerManager.control.playerPrefab, PlayerManager.control.spawnPoint.position, Quaternion.identity).gameObject;
-
-                PlayerManager.control.SetPlayerForControl(gObj); // set it to be controlled by this instance (ui and playermanager etc)
-
-                Debug.Log("IN DEV MODE, DO NOT CONNECT TO NETWORK. SPAWNING LOCAL PLAYER ONLY");
+            // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
+            if(PhotonNetwork.connected) {
+                // #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnPhotonRandomJoinFailed() and we'll create one.
+                PhotonNetwork.JoinRandomRoom(); //When you are done in dev then change this to: PhotonNetwork.JoinRandomRoom();
+                Debug.Log("JOIN RANDOM ROOM");
+            } else {
+                // #Critical, we must first and foremost connect to Photon Online Server.
+                PhotonNetwork.ConnectUsingSettings(Instance._gameVersion);
+                Debug.Log("CONNECT TO THE PUNderdome");
             }
+
+            UIManager.Display.logInWindow.SetActive(false);
         }
 
         //Network public functions
 
-        public void LeaveMap() {
+        public static void LeaveMap() {
             PhotonNetwork.LeaveRoom();
             SceneManager.LoadSceneAsync("Lobby");
-
         }
 
-        public void LoadMap() {
-            if(!Managers.control.isDevMode) {
-                if(!PhotonNetwork.isMasterClient) {
-                    Debug.Log("You are not the master client, joining map");
-                    SceneManager.LoadSceneAsync("Kitchen-Reconstruct");
-                } else {
-                    Debug.Log("You are the master client, loading the level (default kitchen_construct)");
-                    SceneManager.LoadSceneAsync("Kitchen-Reconstruct");
-                }
+        public static void LoadMap() {
+            if(!PhotonNetwork.isMasterClient) {
+                Debug.Log("You are not the master client, joining map");
+                SceneManager.LoadSceneAsync("Kitchen-Reconstruct");
             } else {
-                SpawnDevPlayer();
+                Debug.Log("You are the master client, loading the level (default kitchen_construct)");
+                SceneManager.LoadSceneAsync("Kitchen-Reconstruct");
             }
 
-            UIManager.control.displayControl.logInWindow.SetActive(false);
+            UIManager.Display.logInWindow.SetActive(false);
         }
 
         //PUN CALLBACKS BELOW:
 
         public override void OnConnectedToMaster() {
             Debug.Log("Connect to PUNderdome");
-            UIManager.control.chatControl.ReportToChannel("Server: connecting to server...");
-            PhotonNetwork.playerName = UIManager.control.chatControl.UserName;
+            UIManager.Chat.ReportToChannel("Server: connecting to server...");
+            PhotonNetwork.playerName = UIManager.Chat.UserName;
             PhotonNetwork.JoinRandomRoom();
         }
 
         public override void OnDisconnectedFromPhoton() {
             Debug.Log("DISCONNECTED");
-            UIManager.control.chatControl.ReportToChannel("Server: disconnected.");
+            UIManager.Chat.ReportToChannel("Server: disconnected.");
             isConnected = false;
         }
 
@@ -109,28 +102,18 @@ namespace Network {
         public override void OnJoinedRoom() {
             Debug.Log("Successfully joined!");
 
-            UIManager.control.chatControl.ReportToChannel("Welcome to unitystation. Press T to chat");
+            UIManager.Chat.ReportToChannel("Welcome to unitystation. Press T to chat");
             isConnected = true;
-
-            if(!Managers.control.isDevMode) {
-                PlayerManager.control.CheckIfSpawned(); // Spawn the character if in the game already (This is for development when you are working on the map scenes)
-            } else {
-                Debug.Log("IN DEV MODE, DO NOT CONNECT TO NETWORK. SPAWNING LOCAL PLAYER ONLY");
-                SpawnDevPlayer();
-            }
-            //			if (PhotonNetwork.isMasterClient && GameData.control.isInGame) { // This is used if you logged in while working on the map in the editor, it will set up the server aswell
-            //			
-            //				LoadMap ();
-            //			
-            //			} 
+            
+            PlayerManager.CheckIfSpawned(); // Spawn the character if in the game already (This is for development when you are working on the map scenes)
         }
 
         public override void OnPhotonPlayerDisconnected(PhotonPlayer other) {
-            Debug.Log("PUNderDomePlayerDisconnected() " + other.name); // seen when other disconnects
+            Debug.Log("PUNderDomePlayerDisconnected() " + other.NickName); // seen when other disconnects
         }
 
         public override void OnPhotonPlayerConnected(PhotonPlayer other) {
-            Debug.Log("OnPhotonPlayerConnected() " + other.name); // not seen if you're the player connecting
+            Debug.Log("OnPhotonPlayerConnected() " + other.NickName); // not seen if you're the player connecting
         }
     }
 }

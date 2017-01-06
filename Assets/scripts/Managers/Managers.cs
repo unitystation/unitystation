@@ -4,7 +4,6 @@ using PlayGroup;
 using UI;
 
 public class Managers: MonoBehaviour {
-    public static Managers control;
     // Use this for initialization
 
     [Header("For turning UI on and off to free up the editor window")]
@@ -12,33 +11,38 @@ public class Managers: MonoBehaviour {
 
     public bool isDevMode = false;
 
-    void Awake() {
-        if(control == null) {
-            Application.runInBackground = true; // this must run in background or it will drop connection if not focussed.
+    private static Managers managers;
 
-            DontDestroyOnLoad(gameObject);
-            control = this;
-        } else {
-            Destroy(gameObject);
+    public static Managers Instance {
+        get {
+            if(!managers) {
+                managers = FindObjectOfType<Managers>();
+
+                managers.Init();
+            }
+            return managers;
         }
     }
 
-    void Start() {
-
-    }
-    
-    void Update() {
-
+    private void Init() {
+        Application.runInBackground = true;
+        DontDestroyOnLoad(gameObject);
     }
 
-    public void SetScreenForGame() { //Called by GameData
-        UIParent.SetActive(true);
-        UIManager.control.displayControl.SetScreenForGame();
-        PlayerManager.control.CheckIfSpawned(); // See if we have already spawned a player, if not then spawn one
+    public static bool IsDevMode {
+        get {
+            return Instance.isDevMode;
+        }
     }
 
-    public void SetScreenForLobby() { //Called by GameData
-        UIParent.SetActive(true);
-        UIManager.control.displayControl.SetScreenForLobby();
+    public static void SetScreenForGame() { //Called by GameData
+        Instance.UIParent.SetActive(true);
+        UIManager.Display.SetScreenForGame();
+        PlayerManager.CheckIfSpawned(); // See if we have already spawned a player, if not then spawn one
+    }
+
+    public static void SetScreenForLobby() { //Called by GameData
+        Instance.UIParent.SetActive(true);
+        UIManager.Display.SetScreenForLobby();
     }
 }

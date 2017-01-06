@@ -6,8 +6,6 @@ using Network;
 //Handles control and spawn of player prefab
 namespace PlayGroup {
     public class PlayerManager: Photon.PunBehaviour, IPunObservable {
-        public static PlayerManager control;
-
         [Header("The current Health of our player")]
         public float Health = 100f;
 
@@ -17,62 +15,65 @@ namespace PlayGroup {
         [Header("SpawnPoint: TODO: SpawnPoints Array")]
         public Transform spawnPoint;
 
-
-        public GameObject LocalPlayer;
-
-        public Equipment Equipment { get; private set; }
-
-        [HideInInspector]
-        public static PlayerScript LocalPlayerScript;
-
-        [HideInInspector]
-        public PlayerScript playerScript;
+        public static GameObject LocalPlayer { get; private set; }
+        public static Equipment Equipment { get; private set; }        
+        public static PlayerScript LocalPlayerScript { get; private set; }
+        
         //For access via other parts of the game
+        public static PlayerScript PlayerScript {
+            get; private set;
+        }
 
-        public bool hasSpawned = false;
+        public static bool HasSpawned {
+            get; private set;
+        }
 
         //True, when the user is firing
         bool IsFiring;
 
-        public void Awake() {
-            if(control == null) {
-                control = this;
-            } else {
-                Destroy(this);
+        private static PlayerManager playerManager;
+
+        public static PlayerManager Instance {
+            get {
+                if(!playerManager) {
+                    playerManager = FindObjectOfType<PlayerManager>();
+                }
+
+                return playerManager;
             }
         }
 
-        public void SetPlayerForControl(GameObject playerObjToControl) {
+        public static void Reset() {
+            HasSpawned = false;
+        }
+
+        public static void SetPlayerForControl(GameObject playerObjToControl) {
             LocalPlayer = playerObjToControl;
             LocalPlayerScript = playerObjToControl.GetComponent<PlayerScript>();
-            LocalPlayerScript.isMine = true; // Set this object to yours, the rest are for network players
+            LocalPlayerScript.IsMine = true; // Set this object to yours, the rest are for network players
 
-            control.playerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
+            PlayerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
             Camera2DFollow.followControl.target = LocalPlayer.transform;
 
-            Equipment = GetComponent<Equipment>();
+            Equipment = Instance.GetComponent<Equipment>();
             Equipment.enabled = true;
         }
 
         //CHECK HERE FOR AN EXAMPLE OF INSTANTIATING ITEMS ON PHOTON
-        public void CheckIfSpawned() {
+        public static void CheckIfSpawned() {
             Debug.Log("CHECK IF SPAWNED");
-            if(!Managers.control.isDevMode) {
-                if(!hasSpawned) {
-                    if(GameData.control.isInGame && NetworkManager.control.isConnected) {
-                        PhotonNetwork.Instantiate(this.playerPrefab.name, spawnPoint.position, Quaternion.identity, 0); //TODO: More spawn points and a way to iterate through them
-                        hasSpawned = true;
-                    }
-                }
-            } else {
 
-                NetworkManager.control.SpawnDevPlayer();
+            if(!HasSpawned) {
+                if(GameData.control.isInGame && NetworkManager.IsConnected) {
+                    PhotonNetwork.Instantiate(Instance.playerPrefab.name, Instance.spawnPoint.position, Quaternion.identity, 0); //TODO: More spawn points and a way to iterate through them
+                    HasSpawned = true;
+                }
             }
         }
 
         public void Update() {
             // only process controls if local player exists
-            if(hasSpawned && LocalPlayerScript != null) {
+            if(HasSpawned && LocalPlayerScript != null) {
                 this.ProcessInputs();
 
                 if(this.Health <= 0f) {

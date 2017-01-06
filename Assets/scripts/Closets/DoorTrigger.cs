@@ -20,7 +20,6 @@ namespace Cupboards {
         private LockLightController lockLight;
         private GameObject items;
 
-        private PhotonView photonView;
         private bool synced = false;
 
         private bool closed = true;
@@ -35,41 +34,26 @@ namespace Cupboards {
 
             items = transform.FindChild("Items").gameObject;
 
-            photonView = gameObject.GetComponent<PhotonView>();
-
             if(PhotonNetwork.connectedAndReady) {
                 //Has been instantiated at runtime and you received instantiate of this object from photon on room join
                 StartSync();
             }
-
         }
 
         void OnMouseDown() {
-            if(PlayerManager.control.playerScript != null) {
-                var headingToPlayer = PlayerManager.control.playerScript.transform.position - transform.position;
+            if(PlayerManager.PlayerScript != null) {
+                var headingToPlayer = PlayerManager.PlayerScript.transform.position - transform.position;
                 var distance = headingToPlayer.magnitude;
 
                 if(distance <= 2f) {
                     if(lockLight != null && lockLight.IsLocked()) {
-                        if(PhotonNetwork.connectedAndReady) {
-                            photonView.RPC("LockLight", PhotonTargets.All, null);
-                        } else {
-                            lockLight.Unlock();
-                        }
+                        photonView.RPC("LockLight", PhotonTargets.All, null);
                     } else {
                         SoundManager.control.Play("OpenClose");
                         if(closed) {
-                            if(PhotonNetwork.connectedAndReady) {
-                                photonView.RPC("Open", PhotonTargets.All, null);
-                            } else {
-                                Open();
-                            }
+                            photonView.RPC("Open", PhotonTargets.All, null);
                         } else if(!TryDropItem()) {
-                            if(PhotonNetwork.connectedAndReady) {
-                                photonView.RPC("Close", PhotonTargets.All, null);
-                            } else {
-                                Close();
-                            }
+                            photonView.RPC("Close", PhotonTargets.All, null);
                         }
                     }
                 }
@@ -112,22 +96,17 @@ namespace Cupboards {
 
         [PunRPC]
         void DropItem(int itemViewID) {
-            NetworkItemDB.control.items[itemViewID].transform.parent = items.transform; 
-            NetworkItemDB.control.items[itemViewID].transform.localPosition = new Vector3(0, 0, -0.2f);
+            NetworkItemDB.Items[itemViewID].transform.parent = items.transform;
+            NetworkItemDB.Items[itemViewID].transform.localPosition = new Vector3(0, 0, -0.2f);
         }
 
         private bool TryDropItem() {
-            GameObject item = UIManager.control.hands.CurrentSlot.Clear();
+            GameObject item = UIManager.Hands.CurrentSlot.Clear();
 
             if(item != null) {
                 //TODO add to all cupboards on all clients
-                if(PhotonNetwork.connectedAndReady) {
                     PhotonView itemView = item.GetComponent<PhotonView>();
                     photonView.RPC("DropItem", PhotonTargets.All, itemView.viewID);
-                } else {
-                    item.transform.parent = items.transform;
-                    item.transform.localPosition = new Vector3(0, 0, -0.2f);
-                }
 
                 return true;
             }
@@ -203,7 +182,8 @@ namespace Cupboards {
                     //If you are not the master then update the current IG state of this object from the master
                     photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, PhotonNetwork.player.NickName);
                 }
-                NetworkItemDB.control.AddCupboard(photonView.viewID, this);
+
+                NetworkItemDB.AddCupboard(photonView.viewID, this);
                 synced = true;
             }
         }

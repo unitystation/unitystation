@@ -31,9 +31,9 @@ public class Kill : MonoBehaviour
     void OnMouseDown()
     {
 
-        if (!dead && UIManager.control.hands.CurrentSlot.Item != null)
+        if (!dead && UIManager.Hands.CurrentSlot.Item != null)
         {
-            if (UIManager.control.hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife)
+            if (UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife)
             {
                 Debug.Log("Knife clicked to kill");
                 if (PhotonNetwork.connectedAndReady)
@@ -46,9 +46,9 @@ public class Kill : MonoBehaviour
                 }
             }
         }
-        else if (UIManager.control.hands.CurrentSlot.Item != null && dead && !sliced)
+        else if (UIManager.Hands.CurrentSlot.Item != null && dead && !sliced)
         {    
-            if (UIManager.control.hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife)
+            if (UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife)
             {
   
                 if (PhotonNetwork.connectedAndReady)
@@ -91,7 +91,7 @@ public class Kill : MonoBehaviour
             {
                 if (PhotonNetwork.isMasterClient)
                 {
-                    NetworkItemDB.control.MasterClientCreateItem(meatPrefab.name, transform.position, Quaternion.identity, 0, null); //Create scene owned object
+                    NetworkItemDB.Instance.MasterClientCreateItem(meatPrefab.name, transform.position, Quaternion.identity, 0, null); //Create scene owned object
                 } 
             }
             else

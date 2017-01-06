@@ -20,9 +20,9 @@ public class SwitchShutters : Photon.PunBehaviour
 
     void OnMouseDown()
     {
-        if (PlayerManager.control.playerScript != null)
+        if (PlayerManager.PlayerScript != null)
         {
-            if (PlayerManager.control.playerScript.DistanceTo(transform.position) <= 2f)
+            if (PlayerManager.PlayerScript.DistanceTo(transform.position) <= 2f)
             {
                 if (!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP"))
                 {

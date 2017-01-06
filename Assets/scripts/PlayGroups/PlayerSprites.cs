@@ -41,7 +41,7 @@ namespace PlayGroup
             if (playerScript != null)
             {
 				if (PhotonNetwork.connectedAndReady) {
-					if (playerScript.isMine) {//if this player is mine, then update your dir on all other clients
+					if (playerScript.IsMine) {//if this player is mine, then update your dir on all other clients
 						photonView.RPC ("UpdateDirection", PhotonTargets.Others, new object[] { direction });
 						SetDir (direction);
 					} else {
@@ -68,7 +68,7 @@ namespace PlayGroup
 
         public void PickedUpItem(GameObject item)
         {
-            if (UIManager.control.isRightHand)
+            if (UIManager.Hands.IsRight)
             {
                 clothes["rightHand"].UpdateItem(item);
             }

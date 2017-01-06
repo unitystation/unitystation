@@ -7,9 +7,9 @@ using UnityEngine;
 public class TableTrigger : MonoBehaviour {
 
     void OnMouseDown() {
-        if(PlayerManager.control.playerScript != null) {
-            if(PlayerManager.control.playerScript.DistanceTo(transform.position) <= 2f) {
-                GameObject item = UIManager.control.hands.CurrentSlot.Clear();
+        if(PlayerManager.PlayerScript != null) {
+            if(PlayerManager.PlayerScript.DistanceTo(transform.position) <= 2f) {
+                GameObject item = UIManager.Hands.CurrentSlot.Clear();
                 if(item != null) {
                     var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     targetPosition.z = -0.2f;

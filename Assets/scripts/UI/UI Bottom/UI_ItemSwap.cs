@@ -20,7 +20,7 @@ namespace UI {
                 Debug.Log("Clicked On Item " + itemSlot.Item.name);
             }
 
-            UIManager.control.hands.SwapItem(itemSlot);
+            UIManager.Hands.SwapItem(itemSlot);
         }
     }
 }

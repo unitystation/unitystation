@@ -65,7 +65,7 @@ namespace UI {
         }
 
         public void Connect() {
-            NetworkManager.control.Connect(); //Also connect to the game server!
+            NetworkManager.Connect(); //Also connect to the game server!
             if(SoundManager.control != null) {
                 SoundManager.control.Play("Click01");
             }
@@ -92,9 +92,9 @@ namespace UI {
             }
 
             if(chatClient != null) {
-                if(chatClient.CanChat && !GameData.control.isInGame && UIManager.control.displayControl.tempSceneButton) {
+                if(chatClient.CanChat && !GameData.control.isInGame && UIManager.Display.tempSceneButton) {
                     //TODO: Remove this when a better transition handler is implemented 
-                    UIManager.control.displayControl.tempSceneButton.SetActive(true);
+                    UIManager.Display.tempSceneButton.SetActive(true);
                 }
             }
 

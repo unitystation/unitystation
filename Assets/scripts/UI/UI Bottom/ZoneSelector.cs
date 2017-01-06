@@ -22,7 +22,7 @@ namespace UI {
         public void SelectAction(int curSelect) {
             SoundManager.control.Play("Click01");
             selImg.sprite = selectorSprites[curSelect];
-            UIManager.control.damageZone = (DamageZoneSelector) curSelect;
+            UIManager.DamageZone = (DamageZoneSelector) curSelect;
         }
     }
 }

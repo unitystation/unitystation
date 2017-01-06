@@ -66,8 +66,8 @@ public class DoorController: MonoBehaviour {
     }
 
     void OnMouseDown() {
-        if(PlayerManager.control.playerScript != null) {
-            if(PlayerManager.control.playerScript.DistanceTo(transform.position) <= 2) {
+        if(PlayerManager.PlayerScript != null) {
+            if(PlayerManager.PlayerScript.DistanceTo(transform.position) <= 2) {
                 if(isOpened) {
                     Close();
                 } else {
