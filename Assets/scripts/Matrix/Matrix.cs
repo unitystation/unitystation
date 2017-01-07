@@ -67,5 +67,39 @@ namespace Matrix {
                 Instance.map[y, x].RemoveListener(listener);
             }
         }
+
+        //This is for the InputRelease method on physics move (to snap player to grid)
+        public static Vector3 GetClosestNode(Vector2 curPos, Vector2 vel) {
+
+            float closestX;
+            float closestY;
+
+            //determine direction heading via velocity
+            if(vel.x > 0.1f) {
+                closestX = Mathf.Ceil(curPos.x);
+                closestY = Mathf.Round(curPos.y);
+            } else if(vel.x < -0.1f) {
+                closestX = Mathf.Floor(curPos.x);
+                closestY = Mathf.Round(curPos.y);
+            } else if(vel.y > 0.1f) {
+                closestY = Mathf.Ceil(curPos.y);
+                closestX = Mathf.Round(curPos.x);
+
+            } else if(vel.y < -0.1f) {
+                closestY = Mathf.Floor(curPos.y);
+                closestX = Mathf.Round(curPos.x);
+            } else {
+                closestX = Mathf.Round(curPos.x);
+                closestY = Mathf.Round(curPos.y);
+            }
+            // If target is not passable then target cur tile
+            if (!IsPassableAt((int)closestX, (int)closestY))
+            {
+                closestX = Mathf.Round(curPos.x);
+                closestY = Mathf.Round(curPos.y);
+            }
+
+            return new Vector3(closestX, closestY, 0f);
+        }
     }
 }
