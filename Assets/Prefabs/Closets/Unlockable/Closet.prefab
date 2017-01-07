@@ -71,6 +71,7 @@ GameObject:
   - component: {fileID: 212288130219440224}
   - component: {fileID: 114005810841140566}
   - component: {fileID: 114861495326884098}
+  - component: {fileID: 114910923603933074}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -188,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 1
   depth: -0.1
+  useInGame: 0
 --- !u!114 &114861495326884098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -214,6 +216,17 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114910923603933074
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1304673295970254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b38c80699b88cd44a864fd4cb169ec4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212288130219440224
 SpriteRenderer:
   m_ObjectHideFlags: 1

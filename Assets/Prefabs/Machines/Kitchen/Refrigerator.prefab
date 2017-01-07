@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 212000010167664066}
   - component: {fileID: 114144584083291798}
   - component: {fileID: 114364495396968750}
+  - component: {fileID: 114648600007476848}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -102,7 +103,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013052373872}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1842, y: 1149, z: -0.1}
+  m_LocalPosition: {x: -3, y: 4, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013135475192}
@@ -205,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 1
   depth: -0.1
+  useInGame: 0
 --- !u!114 &114144584083291798
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -257,6 +259,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteUnlocked: {fileID: 21300000, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
+--- !u!114 &114648600007476848
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010759247148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b38c80699b88cd44a864fd4cb169ec4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212000010167664066
 SpriteRenderer:
   m_ObjectHideFlags: 1
