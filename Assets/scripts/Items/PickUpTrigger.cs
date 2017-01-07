@@ -7,6 +7,7 @@ namespace Items {
         public bool allowedPickUp = true;
 
         void OnMouseDown() {
+            Debug.Log("CLICKED " + this.gameObject.name);
             if(PlayerManager.PlayerScript != null) {
                 var distanceToPlayer = PlayerManager.PlayerScript.DistanceTo(transform.position);
                 if(distanceToPlayer <= 2f && allowedPickUp) {
