@@ -15620,7 +15620,7 @@ Prefab:
     - target: {fileID: 224758160639368370, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: -472.1831
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224219662248899922, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
@@ -23849,6 +23849,21 @@ Prefab:
         type: 2}
       propertyPath: instantiationId
       value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 82572973820378666, guid: 054d4c5d3f4b74caa87d549779ef4bf0,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82572973820378666, guid: 054d4c5d3f4b74caa87d549779ef4bf0,
+        type: 2}
+      propertyPath: MinDistance
+      value: 14.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 114443942597231288, guid: 054d4c5d3f4b74caa87d549779ef4bf0,
+        type: 2}
+      propertyPath: firingRate
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 054d4c5d3f4b74caa87d549779ef4bf0, type: 2}

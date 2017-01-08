@@ -15,6 +15,9 @@ public class TableTrigger : MonoBehaviour {
                     targetPosition.z = -0.2f;
                     item.transform.position = targetPosition;
                     item.transform.parent = transform;
+
+                    BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
+
                 }
             }
         }
