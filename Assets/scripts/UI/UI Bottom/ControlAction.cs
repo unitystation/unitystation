@@ -46,6 +46,11 @@ namespace UI
 			GameObject item = UIManager.Hands.CurrentSlot.Clear ();
 
 			if (item != null) {
+                item.transform.parent = this.transform;
+
+                BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
+
+
 				var targetPos = PlayerManager.LocalPlayer.transform.position;
 				targetPos.z = -0.2f;
 				item.transform.position = targetPos;
