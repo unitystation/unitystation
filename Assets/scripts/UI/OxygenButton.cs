@@ -15,7 +15,7 @@ namespace UI {
 
         public void OxygenSelect() {
 
-            SoundManager.control.Play("Click01");
+            SoundManager.Play("Click01");
             if(!UIManager.IsOxygen) {
 
                 UIManager.IsOxygen = true;

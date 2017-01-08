@@ -12,57 +12,62 @@ public class SoundManager: MonoBehaviour {
 
     public List<SoundEntry> soundsList = new List<SoundEntry>();
     private Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
-
-    public static SoundManager control;
     // Use this for initialization
     //public AudioSource[] sounds;
     public AudioSource[] musicTracks;
     public AudioSource[] ambientTracks;
 
-    void Awake() {
-        if(control == null) {
-            control = this;
-        } else {
-            Destroy(this);
-        }
+    private static SoundManager soundManager;
 
+    public static SoundManager Instance {
+        get {
+            if(!soundManager) {
+                soundManager = FindObjectOfType<SoundManager>();
+                soundManager.Init();
+            }
+
+            return soundManager;
+        }
+    }
+
+    private void Init() {
         // add sounds to sounds dictionary
         foreach(var s in soundsList) {
             sounds.Add(s.name, s.source);
         }
     }
 
-    public void StopMusic() {
-        foreach(AudioSource track in musicTracks) {
+    public static void StopMusic() {
+        foreach(AudioSource track in Instance.musicTracks) {
             track.Stop();
         }
     }
 
-    public void StopAmbient() {
-        foreach(AudioSource source in ambientTracks) {
+    public static void StopAmbient() {
+        foreach(AudioSource source in Instance.ambientTracks) {
             source.Stop();
         }
     }
 
-    public void Play(string name, float pitch = -1, float time = 0) {
+    public static void Play(string name, float pitch = -1, float time = 0) {
         if(pitch > 0)
-            sounds[name].pitch = pitch;
-        sounds[name].time = time;
-        sounds[name].Play();
+            Instance.sounds[name].pitch = pitch;
+        Instance.sounds[name].time = time;
+        Instance.sounds[name].Play();
     }
 
-    public void PlayRandomTrack() {
+    public static void PlayRandomTrack() {
         StopMusic();
-        int randTrack = Random.Range(0, musicTracks.Length);
-        musicTracks[randTrack].Play();
+        int randTrack = Random.Range(0, Instance.musicTracks.Length);
+        Instance.musicTracks[randTrack].Play();
     }
 
-    public void PlayVarAmbient(int variant) {
+    public static void PlayVarAmbient(int variant) {
         //TODO ADD MORE AMBIENT VARIANTS
         if(variant == 0) {
 
-            ambientTracks[0].Play();
-            ambientTracks[1].Play();
+            Instance.ambientTracks[0].Play();
+            Instance.ambientTracks[1].Play();
         }
     }
 }

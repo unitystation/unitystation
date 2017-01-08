@@ -66,9 +66,8 @@ namespace UI {
 
         public void Connect() {
             NetworkManager.Connect(); //Also connect to the game server!
-            if(SoundManager.control != null) {
-                SoundManager.control.Play("Click01");
-            }
+
+            SoundManager.Play("Click01");
             UserName = usernameInput.text;
             this.chatClient = new ChatClient(this);
             this.chatClient.Connect(ChatAppId, "1.0", new ExitGames.Client.Photon.Chat.AuthenticationValues(UserName));
@@ -92,7 +91,7 @@ namespace UI {
             }
 
             if(chatClient != null) {
-                if(chatClient.CanChat && !GameData.control.isInGame && UIManager.Display.tempSceneButton) {
+                if(chatClient.CanChat && !GameData.IsInGame && UIManager.Display.tempSceneButton) {
                     //TODO: Remove this when a better transition handler is implemented 
                     UIManager.Display.tempSceneButton.SetActive(true);
                 }
@@ -124,7 +123,7 @@ namespace UI {
 
         public void OnClickSend() {
             if(this.InputFieldChat != null) {
-                SoundManager.control.Play("Click01");
+                SoundManager.Play("Click01");
                 SendChatMessage(this.InputFieldChat.text);
                 this.InputFieldChat.text = "";
                 CloseChatWindow();
@@ -132,7 +131,7 @@ namespace UI {
         }
 
         public void OnChatCancel() {
-            SoundManager.control.Play("Click01");
+            SoundManager.Play("Click01");
             this.InputFieldChat.text = "";
             CloseChatWindow();
 

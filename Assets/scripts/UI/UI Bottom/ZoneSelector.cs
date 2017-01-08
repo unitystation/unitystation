@@ -20,7 +20,7 @@ namespace UI {
         public Image selImg;
 
         public void SelectAction(int curSelect) {
-            SoundManager.control.Play("Click01");
+            SoundManager.Play("Click01");
             selImg.sprite = selectorSprites[curSelect];
             UIManager.DamageZone = (DamageZoneSelector) curSelect;
         }

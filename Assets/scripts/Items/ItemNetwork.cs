@@ -15,10 +15,8 @@ namespace Items {
 
         void Start() {
             lastPos = transform.position;
-            if(PhotonNetwork.connectedAndReady) {
-                //Has been instantiated at runtime and you received instantiate from photon on room join
-                StartSync();
-            }
+            //Has been instantiated at runtime and you received instantiate from photon on room join
+            StartSync();
         }
 
         void Update() {

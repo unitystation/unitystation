@@ -22,8 +22,8 @@ namespace UI {
 
         public void SetScreenForLobby() {
 
-            SoundManager.control.StopAmbient();
-            SoundManager.control.PlayRandomTrack();
+            SoundManager.StopAmbient();
+            SoundManager.PlayRandomTrack();
             ResetUI(); //Make sure UI is back to default for next play
             foreach(GameObject obj in UIObjs) {
                 obj.SetActive(false);
@@ -45,9 +45,9 @@ namespace UI {
 
             SetLogInWindow();
 
-            SoundManager.control.StopMusic();
+            SoundManager.StopMusic();
             //TODO random ambient
-            SoundManager.control.PlayVarAmbient(0);
+            SoundManager.PlayVarAmbient(0);
 
             //TODO remove the temp button when scene transitions completed
             tempSceneButton.SetActive(false);

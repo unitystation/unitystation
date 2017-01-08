@@ -2,7 +2,7 @@
 using System.Collections;
 using PlayGroup;
 
-public class DoorController: MonoBehaviour {
+public class DoorController: Photon.PunBehaviour {
     private Animator animator;
     private BoxCollider2D boxColl;
     private bool isOpened = false;
@@ -52,37 +52,37 @@ public class DoorController: MonoBehaviour {
     }
     
     public void PlayOpenSound() {
-        SoundManager.control.Play("AirlockOpen");
+        SoundManager.Play("AirlockOpen");
     }
 
     public void PlayCloseSound() {
-        SoundManager.control.Play("AirlockClose");
+        SoundManager.Play("AirlockClose");
     }
 
     public void PlayCloseSFXshort() {
-        if(SoundManager.control != null) {
-            SoundManager.control.Play("AirlockClose", time:0.6f);
-        }
+        SoundManager.Play("AirlockClose", time:0.6f);
     }
 
     void OnMouseDown() {
         if(PlayerManager.PlayerScript != null) {
             if(PlayerManager.PlayerScript.DistanceTo(transform.position) <= 2) {
                 if(isOpened) {
-                    Close();
+                    photonView.RPC("Close", PhotonTargets.All);
                 } else {
-                    Open();
+                    photonView.RPC("Open", PhotonTargets.All);
                 }
             }
         }
     }
 
-    private void Open() {
+    [PunRPC]
+    public void Open() {
         isOpened = true;
         animator.SetBool("open", true);
     }
 
-    private void Close() {
+    [PunRPC]
+    public void Close() {
         isOpened = false;
         animator.SetBool("open", false);
     }

@@ -64,7 +64,7 @@ namespace PlayGroup {
             Debug.Log("CHECK IF SPAWNED");
 
             if(!HasSpawned) {
-                if(GameData.control.isInGame && NetworkManager.IsConnected) {
+                if(GameData.IsInGame && NetworkManager.IsConnected) {
                     PhotonNetwork.Instantiate(Instance.playerPrefab.name, Instance.spawnPoint.position, Quaternion.identity, 0); //TODO: More spawn points and a way to iterate through them
                     HasSpawned = true;
                 }
