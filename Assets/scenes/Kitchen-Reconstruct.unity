@@ -9920,12 +9920,12 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 0
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
+  ownershipTransfer: 1
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 8477}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 8
   instantiationId: 8
@@ -15605,7 +15605,12 @@ Prefab:
     - target: {fileID: 224219662248899922, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0.99999994
+      objectReference: {fileID: 0}
+    - target: {fileID: 224758160639368370, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114105303278677482, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
@@ -15616,20 +15621,6 @@ Prefab:
         type: 2}
       propertyPath: instantiationId
       value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 224758160639368370, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224219662248899922, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4494030789849802, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 1854
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
@@ -23849,21 +23840,6 @@ Prefab:
         type: 2}
       propertyPath: instantiationId
       value: 27
-      objectReference: {fileID: 0}
-    - target: {fileID: 82572973820378666, guid: 054d4c5d3f4b74caa87d549779ef4bf0,
-        type: 2}
-      propertyPath: spreadCustomCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 82572973820378666, guid: 054d4c5d3f4b74caa87d549779ef4bf0,
-        type: 2}
-      propertyPath: MinDistance
-      value: 14.72
-      objectReference: {fileID: 0}
-    - target: {fileID: 114443942597231288, guid: 054d4c5d3f4b74caa87d549779ef4bf0,
-        type: 2}
-      propertyPath: firingRate
-      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 054d4c5d3f4b74caa87d549779ef4bf0, type: 2}
@@ -32436,11 +32412,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 5226}
     m_Modifications:
-    - target: {fileID: 114819238984587494, guid: 74303457ff5f1a9449b6c406f1ac2801,
-        type: 2}
-      propertyPath: ObservedComponents.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4431994194519076, guid: 74303457ff5f1a9449b6c406f1ac2801, type: 2}
       propertyPath: m_LocalPosition.x
       value: -4
