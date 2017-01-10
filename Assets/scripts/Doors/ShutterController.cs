@@ -5,19 +5,33 @@ using PlayGroup;
 
 public class ShutterController : MonoBehaviour {
     private Animator animator;
-    private bool isClosed = false;
+
+    public bool IsClosed { get; private set; }
 
     void Start() {
         animator = gameObject.GetComponent<Animator>();
     }
 
     public void Open() {
-        isClosed = false;
+        IsClosed = false;
         animator.SetBool("close", false);
     }
 
     public void Close() {
-        isClosed = true;
+        IsClosed = true;
         animator.SetBool("close", true);
+    }
+
+    public void SyncState(bool isClosed) {
+        IsClosed = isClosed;
+
+        animator.SetBool("close", IsClosed);
+
+        if(IsClosed) {
+            animator.Play("04_shuttersClose", -1, 1);
+        } else {
+            animator.Play("04_shuttersOpen", -1, 1);
+        }
+
     }
 }

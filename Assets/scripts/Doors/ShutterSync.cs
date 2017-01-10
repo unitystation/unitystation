@@ -5,44 +5,38 @@ using UnityEngine;
 namespace Network {
 
     public class ShutterSync: Photon.PunBehaviour {
-        private SwitchShutters switchShutters;
-
         private bool synced = false;
 
+        private ShutterController shutterController;
+
         void Start() {
-            switchShutters = GetComponent<SwitchShutters>();
+            shutterController = GetComponent<ShutterController>();
 
             if(PhotonNetwork.connectedAndReady) {
-                //Has been instantiated at runtime and you received instantiate of this object from photon on room join
                 StartSync();
             }
         }
-        
+
         [PunRPC]
-        void SendCurrentState() //Master client must update all other clients on join on shutter state
-        {
-            photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, switchShutters.IsClosed);
+        void SendCurrentState(string playerRequesting) {
+            photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, playerRequesting, shutterController.IsClosed);
         }
 
         [PunRPC]
-        void ReceiveCurrentState(bool closedState) {
-            if(closedState) {
-                switchShutters.CloseShutters();
-            } else {
-                switchShutters.OpenShutters();
+        void ReceiveCurrentState(string playerRequesting, bool isClosed) {
+            if(PhotonNetwork.player.NickName == playerRequesting) {
+                shutterController.SyncState(isClosed);
             }
         }
 
         public override void OnJoinedRoom() {
-            //Update on join if this item was not instantiated by the game and is apart of the map
             StartSync();
         }
 
         void StartSync() {
             if(!synced) {
-                if(!PhotonNetwork.isMasterClient) {
-                    photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, null);
-                }
+                Debug.Log("Send");
+                photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, PhotonNetwork.player.NickName);
 
                 synced = true;
             }
