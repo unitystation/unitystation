@@ -96,10 +96,15 @@ namespace Cupboards {
             }
         }
 
+        //Add item to cupboard
         [PunRPC]
         void DropItem(int itemViewID) {
             NetworkItemDB.Items[itemViewID].transform.parent = items.transform;
             NetworkItemDB.Items[itemViewID].transform.localPosition = new Vector3(0, 0, -0.2f);
+
+            //Tell the item that it is no longer in players inventory
+            BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
+
         }
 
         private bool TryDropItem() {

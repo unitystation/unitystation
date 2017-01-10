@@ -38,12 +38,6 @@ namespace UI {
             Debug.Log("Drop Button");
             GameObject item = UIManager.Hands.CurrentSlot.Clear();
 
-            if(item != null) {
-                var targetPos = PlayerManager.LocalPlayer.transform.position;
-                targetPos.z = -0.2f;
-                item.transform.position = targetPos;
-                item.transform.parent = null;
-            }
 
         }
 

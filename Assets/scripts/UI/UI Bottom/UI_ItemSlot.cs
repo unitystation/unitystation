@@ -38,7 +38,9 @@ namespace UI {
             item.transform.position = transform.position;
             item.transform.parent = transform;
 
-
+            if(transform.childCount > 0)
+            BroadcastMessage("OnAddToInventory", eventName, SendMessageOptions.DontRequireReceiver);
+           
             if(eventName.Length > 0)
                 EventManager.UI.TriggerEvent(eventName, item);
         }
