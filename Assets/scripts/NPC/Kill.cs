@@ -73,7 +73,7 @@ public class Kill : MonoBehaviour
         randomMove.enabled = false;
         physicsMove.enabled = false;
         spriteRenderer.sprite = deadSprite;
-        SoundManager.control.Play("Bodyfall");
+        SoundManager.Play("Bodyfall");
     }
 
     [PunRPC]

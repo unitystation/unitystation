@@ -41,12 +41,12 @@ namespace Cupboards {
 
                 if(distance <= 2f) {
                     if(lockLight != null && lockLight.IsLocked()) {
-                        photonView.RPC("LockLight", PhotonTargets.All, null);
+                        photonView.RPC("LockLight", PhotonTargets.All);
                     } else {
-                        if(IsClosed) {
-                            photonView.RPC("Open", PhotonTargets.All, null);
+                        if(IsClosed) { 
+                            photonView.RPC("Open", PhotonTargets.All);
                         } else if(!TryDropItem()) {
-                            photonView.RPC("Close", PhotonTargets.All, null);
+                            photonView.RPC("Close", PhotonTargets.All);
                         }
                     }
                 }
@@ -58,7 +58,7 @@ namespace Cupboards {
             if(IsClosed) {
                 IsClosed = false;
 
-                SoundManager.control.Play("OpenClose");
+                SoundManager.Play("OpenClose");
 
                 spriteRenderer.sprite = doorOpened;
                 if(lockLight != null) {
@@ -76,7 +76,7 @@ namespace Cupboards {
             if(!IsClosed) {
                 IsClosed = true;
 
-                SoundManager.control.Play("OpenClose");
+                SoundManager.Play("OpenClose");
 
                 spriteRenderer.sprite = doorClosed;
                 if(lockLight != null) {

@@ -7,21 +7,26 @@ using System.IO;
 
 public class GameData: MonoBehaviour {
 
-    public static GameData control;
-
     /// <summary>
     /// Check to see if you are in the game or in the lobby
     /// </summary>
-    public bool isInGame;
+    public static bool IsInGame { get; private set; }
 
-    void Awake() {
-        Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
+    private static GameData gameData;
 
-        if(control == null) {
-            control = this;
-        } else {
-            Destroy(this);
+    public static GameData Instance {
+        get {
+            if(!gameData) {
+                gameData = FindObjectOfType<GameData>();
+                gameData.Init();
+            }
+
+            return gameData;
         }
+    }
+
+    void Init() {
+        Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
         LoadData();
     }
 
@@ -44,10 +49,10 @@ public class GameData: MonoBehaviour {
     void OnLevelWasLoaded() {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
         if(currentScene == 0) {
-            isInGame = false;
+            IsInGame = false;
             Managers.SetScreenForLobby();
         } else {
-            isInGame = true;
+            IsInGame = true;
             Managers.SetScreenForGame();
         }
     }

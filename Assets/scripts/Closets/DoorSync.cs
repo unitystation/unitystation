@@ -46,7 +46,6 @@ namespace Network {
         [PunRPC]
         void ReceiveCurrentState(string playerIdent, bool isLocked, bool isClosed, Vector3 pos) {
             if(PhotonNetwork.player.NickName == playerIdent) {
-                Debug.Log("receive " + isLocked + " " + isClosed);
 
                 if(isClosed) {
                     doorTrigger.Close();

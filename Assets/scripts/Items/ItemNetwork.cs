@@ -5,40 +5,31 @@ using UI;
 using PlayGroup;
 using Network;
 
-namespace Items
-{
+namespace Items {
     [RequireComponent(typeof(PhotonView))]
-    public class ItemNetwork: Photon.PunBehaviour, IPunObservable
-    {
+    public class ItemNetwork: Photon.PunBehaviour, IPunObservable {
         private bool synced = false;
 
-        public void OnAddToInventory(string slotName)
-        {
+        public void OnAddToInventory(string slotName) {
             this.photonView.RequestOwnership();
             Debug.Log("Request ownership");
         }
 
-        void Start()
-        {
-            if (PhotonNetwork.connectedAndReady)
-            {
+        void Start() {
+            if(PhotonNetwork.connectedAndReady) {
                 //Has been instantiated at runtime and you received instantiate of this object from photon on room join
                 StartSync();
             }
         }
 
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            if (stream.isWriting)
-            {
-                
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+            if(stream.isWriting) {
+
                 stream.SendNext(transform.position);
-              
-            }
-            else
-            {
+
+            } else {
                 // Network player, receive data
-                this.transform.position = (Vector3)stream.ReceiveNext();
+                this.transform.position = (Vector3) stream.ReceiveNext();
             }
         }
 
@@ -46,11 +37,10 @@ namespace Items
             StartSync();
         }
 
-        void StartSync()
-        {
+        void StartSync() {
             NetworkItemDB.AddItem(photonView.viewID, gameObject);
-            synced = true;  
+            synced = true;
         }
-  
+
     }
 }

@@ -10,7 +10,7 @@ namespace UI {
         }
 
         public void RolloutEquipmentMenu() {
-            SoundManager.control.Play("Click01");
+            SoundManager.Play("Click01");
 
             if(!equipmentMenu.GetActive()) {
                 equipmentMenu.SetActive(true);

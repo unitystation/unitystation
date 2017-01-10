@@ -14,7 +14,7 @@ namespace UI {
         }
 
         public void OnPointerClick(PointerEventData eventData) {
-            SoundManager.control.Play("Click01");
+            SoundManager.Play("Click01");
 
             if(itemSlot.IsFull) { 
                 Debug.Log("Clicked On Item " + itemSlot.Item.name);

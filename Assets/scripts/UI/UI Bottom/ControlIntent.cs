@@ -24,7 +24,7 @@ namespace UI {
         public void IntentButton() {
             Debug.Log("Intent Button");
 
-            SoundManager.control.Play("Click01");
+            SoundManager.Play("Click01");
 
             int intent = (int) UIManager.CurrentIntent;
             intent = (intent + 1) % 4;

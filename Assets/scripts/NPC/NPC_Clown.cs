@@ -73,11 +73,9 @@ namespace SS.NPC {
                 }
             }
 
-            if(SoundManager.control != null) {
-                float ranPitch = Random.Range(0.5f, 1.5f);
-                SoundManager.control.Play("ClownHonk", ranPitch);
+            float ranPitch = Random.Range(0.5f, 1.5f);
+            SoundManager.Play("ClownHonk", ranPitch);
 
-            }
             isMoving = false;
         }
 

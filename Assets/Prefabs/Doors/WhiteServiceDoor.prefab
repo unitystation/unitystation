@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 114000011089653234}
   - component: {fileID: 114000013931071084}
   - component: {fileID: 95000011124253226}
+  - component: {fileID: 114706522199595308}
   m_Layer: 9
   m_Name: WhiteServiceDoor
   m_TagString: Untagged
@@ -204,6 +205,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 1
   depth: -0.1
+  useInGame: 0
+--- !u!114 &114706522199595308
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013430947772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!212 &212000011094967888
 SpriteRenderer:
   m_ObjectHideFlags: 1

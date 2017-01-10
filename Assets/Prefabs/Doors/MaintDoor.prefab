@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114052080359656786}
   - component: {fileID: 114294467039432784}
   - component: {fileID: 95344946774614928}
+  - component: {fileID: 114271974546169116}
   m_Layer: 9
   m_Name: MaintDoor
   m_TagString: Untagged
@@ -112,7 +113,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1006244272141468}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1850, y: 1150, z: -0.1}
+  m_LocalPosition: {x: 1833, y: 1150, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4319258564176790}
@@ -191,6 +192,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTimeOpen: 5
+--- !u!114 &114271974546169116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1006244272141468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!114 &114294467039432784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -204,6 +230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 1
   depth: -0.1
+  useInGame: 0
 --- !u!212 &212582583605288990
 SpriteRenderer:
   m_ObjectHideFlags: 1
