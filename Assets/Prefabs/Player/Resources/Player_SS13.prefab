@@ -634,7 +634,7 @@ MonoBehaviour:
     SynchronizeEnabled: 1
     TeleportEnabled: 0
     TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 3
+    InterpolateOption: 4
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 30
     InterpolateMoveTowardsAcceleration: 2
@@ -761,7 +761,6 @@ MonoBehaviour:
   spriteSheetName: suit
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114151922215477444}
   spriteRenderer: {fileID: 212560070204629914}
 --- !u!114 &114151922215477444
 MonoBehaviour:
@@ -800,7 +799,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53cb5ecccd0d4fe5ac02ac15e80e8654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
   isMoving: 0
   lerpA: 0
   isSpaced: 0
@@ -901,7 +899,6 @@ MonoBehaviour:
   spriteSheetName: items_lefthand
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114471553884477972}
   spriteRenderer: {fileID: 212149898048367272}
 --- !u!114 &114238883615101916
 MonoBehaviour:
@@ -918,7 +915,6 @@ MonoBehaviour:
   spriteSheetName: hands
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114204787954010444}
   spriteRenderer: {fileID: 212894212137766110}
 --- !u!114 &114251794158619460
 MonoBehaviour:
@@ -935,7 +931,6 @@ MonoBehaviour:
   spriteSheetName: head
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114877191934611544}
   spriteRenderer: {fileID: 212183368089708628}
 --- !u!114 &114285915621706368
 MonoBehaviour:
@@ -1042,7 +1037,6 @@ MonoBehaviour:
   spriteSheetName: mask
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114384461554369504}
   spriteRenderer: {fileID: 212879228137279360}
 --- !u!114 &114471553884477972
 MonoBehaviour:
@@ -1085,7 +1079,6 @@ MonoBehaviour:
   spriteSheetName: uniform
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114634047129170158}
   spriteRenderer: {fileID: 212795145112607410}
 --- !u!114 &114486502473501898
 MonoBehaviour:
@@ -1102,7 +1095,6 @@ MonoBehaviour:
   spriteSheetName: back
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114873753986010242}
   spriteRenderer: {fileID: 212770877676351812}
 --- !u!114 &114493866242103776
 MonoBehaviour:
@@ -1155,7 +1147,6 @@ MonoBehaviour:
   spriteSheetName: hands
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114070783674338266}
   spriteRenderer: {fileID: 212146672306662880}
 --- !u!114 &114573185653785866
 MonoBehaviour:
@@ -1184,7 +1175,6 @@ MonoBehaviour:
   spriteSheetName: underwear
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114346588685027340}
   spriteRenderer: {fileID: 212278641852113252}
 --- !u!114 &114599370121185724
 MonoBehaviour:
@@ -1249,7 +1239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f99bb0ad07434da089f740997e6916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMine: 0
   physicsMove: {fileID: 0}
   playerSprites: {fileID: 0}
   photonView: {fileID: 114783258252521902}
@@ -1268,7 +1257,6 @@ MonoBehaviour:
   spriteSheetName: human
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114599370121185724}
   spriteRenderer: {fileID: 212344549946679808}
 --- !u!114 &114665303880130726
 MonoBehaviour:
@@ -1285,7 +1273,6 @@ MonoBehaviour:
   spriteSheetName: eyes
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114750002149092532}
   spriteRenderer: {fileID: 212157630888730634}
 --- !u!114 &114709197631248992
 MonoBehaviour:
@@ -1314,7 +1301,6 @@ MonoBehaviour:
   spriteSheetName: belt
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114894521951896790}
   spriteRenderer: {fileID: 212429055560801726}
 --- !u!114 &114737316030444780
 MonoBehaviour:
@@ -1331,7 +1317,6 @@ MonoBehaviour:
   spriteSheetName: hands
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114884974480460516}
   spriteRenderer: {fileID: 212817334900883870}
 --- !u!114 &114750002149092532
 MonoBehaviour:
@@ -1401,7 +1386,6 @@ MonoBehaviour:
   spriteSheetName: feet
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114207866328645458}
   spriteRenderer: {fileID: 212158183701700368}
 --- !u!114 &114830253523317130
 MonoBehaviour:
@@ -1559,7 +1543,6 @@ MonoBehaviour:
   spriteSheetName: items_righthand
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114989431315139934}
   spriteRenderer: {fileID: 212422353341526222}
 --- !u!114 &114932247684792876
 MonoBehaviour:
@@ -1576,7 +1559,6 @@ MonoBehaviour:
   spriteSheetName: human_face
   reference: -1
   thisPlayerScript: {fileID: 114635878357695462}
-  photonView: {fileID: 114285915621706368}
   spriteRenderer: {fileID: 212882642027359720}
 --- !u!114 &114975247339925110
 MonoBehaviour:

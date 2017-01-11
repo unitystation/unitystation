@@ -76,6 +76,11 @@ namespace Network {
         }
 
         [PunRPC] //You can call this directly if you are the master client
+        public GameObject MasterClientCreateItem(string prefabName, Vector3 pos) {
+            return PhotonNetwork.InstantiateSceneObject(prefabName, pos, Quaternion.identity, 0, null);
+        }
+
+        [PunRPC] //You can call this directly if you are the master client
         public GameObject MasterClientCreateItem(string prefabName, Vector3 pos, Quaternion rot, int itemGroup, object[] data) {
             return PhotonNetwork.InstantiateSceneObject(prefabName, pos, rot, itemGroup, data);
         }

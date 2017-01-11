@@ -9,9 +9,7 @@ namespace PlayGroup
 {
     public enum SpriteType
     {
-        Other,
-        RightHand,
-        LeftHand
+        Other, RightHand, LeftHand
     }
 
     [RequireComponent(typeof(SpriteRenderer))]
@@ -22,7 +20,6 @@ namespace PlayGroup
         public string spriteSheetName;
         public int reference = -1;
         public PlayerScript thisPlayerScript;
-        public PhotonView photonView;
 
         public int Reference
         {
