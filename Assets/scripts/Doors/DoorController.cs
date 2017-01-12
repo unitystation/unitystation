@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using PlayGroup;
+using Matrix;
 
 public class DoorController: Photon.PunBehaviour {
-    private Animator animator;
-    private BoxCollider2D boxColl;
     public AudioSource openSFX;
     public AudioSource closeSFX;
+
+    private Animator animator;
+    private BoxCollider2D boxColl;
+    private RegisterTile registerTile;
 
     private bool isOpened = false;
 
@@ -17,6 +20,7 @@ public class DoorController: Photon.PunBehaviour {
     void Start() {
         animator = gameObject.GetComponent<Animator>();
         boxColl = gameObject.GetComponent<BoxCollider2D>();
+        registerTile = gameObject.GetComponent<RegisterTile>();
     }
 
     void Update() {
@@ -24,10 +28,12 @@ public class DoorController: Photon.PunBehaviour {
     }
 
     public void BoxCollToggleOn() {
+        registerTile.tileType = TileType.Door;
         boxColl.enabled = true;
     }
 
     public void BoxCollToggleOff() {
+        registerTile.tileType = TileType.Space;
         boxColl.enabled = false;
     }
 

@@ -74,7 +74,7 @@ namespace SS.NPC {
             }
 
             float ranPitch = Random.Range(0.5f, 1.5f);
-            SoundManager.Play("ClownHonk", ranPitch);
+            SoundManager.Play("ClownHonk", pitch: ranPitch);
 
             isMoving = false;
         }

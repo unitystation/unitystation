@@ -17,21 +17,19 @@ namespace Matrix {
 
         void Start() {
             corners = GetComponentsInChildren<TileConnect>();
+
             UpdateTileType();
 
-            currentPosition = transform.position;
-            UpdatePosition((int) currentPosition.x, (int) currentPosition.y);
+            UpdatePosition();
         }
 
         void LateUpdate() {
             if(currentPosition != transform.position) {
-                currentPosition = transform.position;
-                UpdatePosition((int) currentPosition.x, (int) currentPosition.y);
+                UpdatePosition();
             }
 
             if(!Application.isPlaying) {
                 if(currentTileType != tileType) {
-                    currentTileType = tileType;
                     UpdateTileType();
                 }
             }
@@ -43,14 +41,16 @@ namespace Matrix {
             }
         }
 
-        private void UpdatePosition(int x_new, int y_new) {
+        private void UpdatePosition() {
             if(x >= 0)
-                Matrix.Remove(x, y, tileType);
+                Matrix.Remove(x, y, currentTileType);
 
-            Matrix.Add(x_new, y_new, tileType);
+            currentPosition = transform.position;
 
-            x = x_new;
-            y = y_new;
+            x = (int) currentPosition.x;
+            y = (int) currentPosition.y;
+
+            Matrix.Add(x, y, currentTileType);
 
             foreach(var c in corners) {
                 c.UpdatePosition(x, y);
@@ -58,9 +58,15 @@ namespace Matrix {
         }
 
         private void UpdateTileType() {
+            if(x >= 0) {
+                Matrix.Remove(x, y, currentTileType);
+                Matrix.Add(x, y, tileType);
+            }
+
+            currentTileType = tileType;
 
             foreach(var c in corners) {
-                c.TileType = tileType;
+                c.TileType = currentTileType;
             }
         }
     }

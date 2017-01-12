@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 114000012487981754}
   - component: {fileID: 95905463507232100}
   - component: {fileID: 114820874120237260}
+  - component: {fileID: 114114746867991184}
   m_Layer: 9
   m_Name: PublicDoor
   m_TagString: Untagged
@@ -80,15 +81,15 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1028037887614988
+--- !u!1 &1252112242230248
 GameObject:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4875291925912684}
-  - component: {fileID: 82169030634206054}
+  - component: {fileID: 4218881895294128}
+  - component: {fileID: 82491796335204434}
   m_Layer: 9
   m_Name: closeSFX
   m_TagString: Untagged
@@ -96,15 +97,15 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1372040577352076
+--- !u!1 &1288996205935122
 GameObject:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4583427865237688}
-  - component: {fileID: 82724819873257342}
+  - component: {fileID: 4813395212124824}
+  - component: {fileID: 82241881426066012}
   m_Layer: 9
   m_Name: openSFX
   m_TagString: Untagged
@@ -112,14 +113,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1702820334074522
+--- !u!1 &1578478717083678
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4389886119841082}
+  - component: {fileID: 4760665742959812}
   m_Layer: 9
   m_Name: soundfx
   m_TagString: Untagged
@@ -173,56 +174,56 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013208201100}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1843, y: 1145, z: -0.1}
+  m_LocalPosition: {x: 1852, y: 1132, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011383418770}
   - {fileID: 4000014171826472}
   - {fileID: 4000010843319548}
-  - {fileID: 4389886119841082}
+  - {fileID: 4760665742959812}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4389886119841082
+--- !u!4 &4218881895294128
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1702820334074522}
+  m_GameObject: {fileID: 1252112242230248}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4760665742959812}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4760665742959812
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1578478717083678}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4583427865237688}
-  - {fileID: 4875291925912684}
+  - {fileID: 4813395212124824}
+  - {fileID: 4218881895294128}
   m_Father: {fileID: 4000014249828276}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4583427865237688
+--- !u!4 &4813395212124824
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1372040577352076}
+  m_GameObject: {fileID: 1288996205935122}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4389886119841082}
+  m_Father: {fileID: 4760665742959812}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4875291925912684
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1028037887614988}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4389886119841082}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61000010715011486
 BoxCollider2D:
@@ -252,18 +253,18 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
---- !u!82 &82169030634206054
+--- !u!82 &82241881426066012
 AudioSource:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1028037887614988}
+  m_GameObject: {fileID: 1288996205935122}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 98b5308a2adb43d49b3471da7a9057dd, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 13792128ab4b4a9bbe78491650423df1, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.344
+  m_Volume: 0.37
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -332,18 +333,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!82 &82724819873257342
+--- !u!82 &82491796335204434
 AudioSource:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1372040577352076}
+  m_GameObject: {fileID: 1252112242230248}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 13792128ab4b4a9bbe78491650423df1, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 98b5308a2adb43d49b3471da7a9057dd, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.37
+  m_Volume: 0.344
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -454,9 +455,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openSFX: {fileID: 82724819873257342}
-  closeSFX: {fileID: 82169030634206054}
+  openSFX: {fileID: 82241881426066012}
+  closeSFX: {fileID: 82491796335204434}
   maxTimeOpen: 5
+--- !u!114 &114114746867991184
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013208201100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileType: 5
 --- !u!114 &114820874120237260
 MonoBehaviour:
   m_ObjectHideFlags: 1
