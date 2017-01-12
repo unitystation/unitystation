@@ -5,6 +5,9 @@ using PlayGroup;
 public class DoorController: Photon.PunBehaviour {
     private Animator animator;
     private BoxCollider2D boxColl;
+    public AudioSource openSFX;
+    public AudioSource closeSFX;
+
     private bool isOpened = false;
 
     public float maxTimeOpen = 5;
@@ -50,17 +53,24 @@ public class DoorController: Photon.PunBehaviour {
             timeOpen = 0;
         }
     }
-    
+
+    //3d sounds
     public void PlayOpenSound() {
-        SoundManager.Play("AirlockOpen");
+        if (openSFX != null)
+            openSFX.Play();
     }
 
     public void PlayCloseSound() {
-        SoundManager.Play("AirlockClose");
+        if (closeSFX != null)
+            closeSFX.Play();
     }
 
     public void PlayCloseSFXshort() {
-        SoundManager.Play("AirlockClose", time:0.6f);
+        if (closeSFX != null)
+        {
+            closeSFX.time = 0.6f;
+            closeSFX.Play();
+        }
     }
 
     void OnMouseDown() {

@@ -10,7 +10,6 @@ namespace PlayGroup
 
         void Update()
         {
-            
             if (PlayerManager.LocalPlayerScript != null)
             {
                 if (Input.GetMouseButtonDown(0))
@@ -22,7 +21,7 @@ namespace PlayGroup
                     CheckPlayerDirection(angle);
                     return;
                 }
-                //Wait between actions to mimic traditional(byond) behavour 
+                //Wait between actions to mimic traditional(byond) behaviour 
                 if (Time.time > nextActionTime)
                 {
                     nextActionTime = Time.time + 0.3f;
@@ -32,10 +31,9 @@ namespace PlayGroup
                     }
                 }
             }
-
         }
 
-        //Face player back in direction of move if it changes on while moving
+        //Face player back in direction of move if it changes while moving
         void CheckDirOnMove()
         {
             if (PlayerManager.LocalPlayerScript.physicsMove.MoveDirection != PlayerManager.LocalPlayerScript.playerSprites.currentDirection)
@@ -66,7 +64,6 @@ namespace PlayGroup
             {
                 PlayerManager.LocalPlayerScript.playerSprites.FaceDirection(Vector2.left);
             }
-
         }
 
         //Calculate the mouse click angle in relation to player(for facingDirection on PlayerSprites)
