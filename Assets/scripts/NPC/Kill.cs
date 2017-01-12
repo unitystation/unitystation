@@ -29,16 +29,19 @@ public class Kill: Photon.MonoBehaviour {
 
         if(!dead && UIManager.Hands.CurrentSlot.Item != null) {
             if(UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife) {
-                Debug.Log("Knife clicked to kill");
-                photonView.RPC("Die", PhotonTargets.All, null); //Send death to all clients for pete
+                if(PlayerManager.PlayerScript.DistanceTo(transform.position) < 2) {
+                    photonView.RPC("Die", PhotonTargets.All, null); //Send death to all clients for pete
+                }
             }
         } else if(UIManager.Hands.CurrentSlot.Item != null && dead && !sliced) {
             if(UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife) {
+                if(PlayerManager.PlayerScript.DistanceTo(transform.position) < 2) {
 
-                photonView.RPC("Gib", PhotonTargets.MasterClient, null); //Spawn the new meat
-                photonView.RPC("RemoveFromNetwork", PhotonTargets.MasterClient, null); // Remove pete from the network
+                    photonView.RPC("Gib", PhotonTargets.MasterClient, null); //Spawn the new meat
+                    photonView.RPC("RemoveFromNetwork", PhotonTargets.MasterClient, null); // Remove pete from the network
 
-                sliced = true;
+                    sliced = true;
+                }
             }
         }
     }
@@ -49,13 +52,7 @@ public class Kill: Photon.MonoBehaviour {
         randomMove.enabled = false;
         physicsMove.enabled = false;
         spriteRenderer.sprite = deadSprite;
-        SoundManager.Play("Bodyfall");
-    }
-
-    [PunRPC]
-    void RemoveFromNetwork() //Can only be called by masterclient
-    {
-        PhotonNetwork.Destroy(this.gameObject);
+        SoundManager.Play("Bodyfall", 0.5f);
     }
 
     [PunRPC]
@@ -70,5 +67,11 @@ public class Kill: Photon.MonoBehaviour {
             NetworkItemDB.Instance.MasterClientCreateItem(corpsePrefab.name, transform.position); //Create scene owned object
 
         }
+    }
+
+    [PunRPC]
+    void RemoveFromNetwork() //Can only be called by masterclient
+    {
+        PhotonNetwork.Destroy(this.gameObject);
     }
 }

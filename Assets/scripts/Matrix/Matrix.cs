@@ -51,6 +51,11 @@ namespace Matrix {
             }
         }
 
+        public static bool HasTypeAt(int x, int y, TileType tileTyp) {
+            return Instance.map[y, x].HasTileType(tileTyp);
+        }
+
+
         public static bool IsPassableAt(int x, int y) {
             return GetTypeAt(x, y) < TileType.Wall;
         }

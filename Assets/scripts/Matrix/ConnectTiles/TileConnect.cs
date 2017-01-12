@@ -46,8 +46,9 @@ namespace Matrix {
             }
         }
 
-        public void ChangeParameter(int index, TileType tileType) {
-            c[index] = tileType == TileType ? 1 : 0;
+        public void ChangeParameter(int index) {
+            bool connected = Matrix.HasTypeAt(adjacentTiles[index, 0], adjacentTiles[index, 1], TileType);
+            c[index] = connected ? 1 : 0;
             UpdateSprite();
         }
 
@@ -65,7 +66,7 @@ namespace Matrix {
                     Matrix.RemoveListener(adjacentTiles[i, 0], adjacentTiles[i, 1], listeners[i]);
                 } else {
                     int i2 = i;
-                    listeners[i] = new UnityAction<TileType>(x => ChangeParameter(i2, x));
+                    listeners[i] = new UnityAction<TileType>(x => ChangeParameter(i2));
                 }
                 adjacentTiles[i, 0] = matrixPosition[0] + offsets[(offsetIndex + i) % 8];
                 adjacentTiles[i, 1] = matrixPosition[1] + offsets[(offsetIndex + i + 2) % 8];
@@ -76,7 +77,7 @@ namespace Matrix {
 
         private void CheckAdjacentTiles() {
             for(int i = 0; i < 3; i++) {
-                ChangeParameter(i, Matrix.GetTypeAt(adjacentTiles[i, 0], adjacentTiles[i, 1]));
+                ChangeParameter(i);
             }
         }
 

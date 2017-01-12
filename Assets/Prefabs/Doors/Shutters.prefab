@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114640096819736908}
   - component: {fileID: 114114997741641710}
   - component: {fileID: 114960730704544238}
+  - component: {fileID: 114044159982840800}
   m_Layer: 0
   m_Name: Shutters
   m_TagString: Untagged
@@ -120,6 +121,18 @@ MonoBehaviour:
   snapValue: 1
   depth: 0
   useInGame: 0
+--- !u!114 &114044159982840800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010316053548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileType: 5
 --- !u!114 &114114997741641710
 MonoBehaviour:
   m_ObjectHideFlags: 1
