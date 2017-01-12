@@ -75,6 +75,12 @@ namespace Matrix {
             }
         }
 
+        void OnDestroy() {
+            for(int i = 0; i < 3; i++) {
+                Matrix.RemoveListener(adjacentTiles[i, 0], adjacentTiles[i, 1], listeners[i]);
+            }
+        }
+
         private void CheckAdjacentTiles() {
             for(int i = 0; i < 3; i++) {
                 ChangeParameter(i);
@@ -91,7 +97,7 @@ namespace Matrix {
                 case 5: index = ((int) spritePosition + 9); break;
                 default: index = 0; break;
             }
-
+            
             spriteRenderer.sprite = sprites[index];
         }
     }

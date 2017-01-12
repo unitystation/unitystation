@@ -35,7 +35,6 @@ namespace Network {
 
         void StartSync() {
             if(!synced) {
-                Debug.Log("Send");
                 photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, PhotonNetwork.player.NickName);
 
                 synced = true;
