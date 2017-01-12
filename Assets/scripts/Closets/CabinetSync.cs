@@ -11,8 +11,10 @@ namespace Network {
 
         void Start() {
             cabinetTrigger = GetComponent<CabinetTrigger>();
-
-            StartSync();
+            if (PhotonNetwork.connectedAndReady)
+            {
+                StartSync();
+            }
         }
 
         [PunRPC]
