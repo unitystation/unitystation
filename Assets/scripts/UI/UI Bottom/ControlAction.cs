@@ -37,7 +37,8 @@ namespace UI {
             SoundManager.Play("Click01");
             Debug.Log("Drop Button");
             GameObject item = UIManager.Hands.CurrentSlot.Clear();
-
+            item.transform.position = PlayerManager.LocalPlayer.transform.position;
+            item.transform.parent = null;
 
         }
 

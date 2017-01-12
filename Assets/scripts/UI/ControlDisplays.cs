@@ -55,7 +55,7 @@ namespace UI {
         }
 
         private void SetLogInWindow() {
-            if(!Managers.IsDevMode) {
+            if(!Managers.instance.IsDevMode) {
                 if(parentScript.chatControl.chatClient != null) {
 
                     if(parentScript.chatControl.chatClient.CanChat) {

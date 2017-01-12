@@ -27,8 +27,8 @@ namespace Network {
             }
         }
 
-        void Awake() {
-            PhotonNetwork.offlineMode = Managers.IsDevMode;
+        void Start() {
+            PhotonNetwork.offlineMode = Managers.instance.IsDevMode;
 
             PhotonNetwork.logLevel = logLevel;
             //no lobby, just server(room)
