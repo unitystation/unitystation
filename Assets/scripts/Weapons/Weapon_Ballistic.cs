@@ -22,12 +22,6 @@ namespace Weapons
             if (isInHand && Input.GetMouseButtonDown(0))
             {
                 Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-                Debug.Log("Shoot dir: " + dir);
-
-                float shootAngle = Angle(dir);
-                //change the facingDirection of player
-                CheckPlayerDirection(shootAngle);
-
                 Shoot(dir);
             }
         }
@@ -74,44 +68,6 @@ namespace Weapons
             Debug.Log("Dropped Weapon");
             isInHand = false;
             allowedToShoot = false;
-        }
-
-        //Set player facing in direction of shot
-        void CheckPlayerDirection(float angle)
-        {
-            if (angle >= 270f && angle <= 360f || angle >= 0f && angle <= 45f)
-            {
-                PlayerManager.LocalPlayerScript.playerSprites.FaceDirection(Vector2.up);
-            }
-
-            if (angle > 45f && angle <= 135f)
-            {
-                PlayerManager.LocalPlayerScript.playerSprites.FaceDirection(Vector2.right);
-            }
-
-            if (angle > 135f && angle <= 225f)
-            {
-                PlayerManager.LocalPlayerScript.playerSprites.FaceDirection(Vector2.down);
-            }
-
-            if (angle > 225f && angle < 270f)
-            {
-                PlayerManager.LocalPlayerScript.playerSprites.FaceDirection(Vector2.left);
-            }
-
-        }
-
-        //Calculate the shot direction (for facingDirection on PlayerSprites)
-        float Angle(Vector2 dir)
-        {
-            if (dir.x < 0)
-            {
-                return 360 - (Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg * -1);
-            }
-            else
-            {
-                return Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
-            }
         }
 
         IEnumerator ShootCoolDown()

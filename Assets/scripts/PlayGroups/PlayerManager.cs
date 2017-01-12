@@ -42,7 +42,7 @@ namespace PlayGroup {
                 return playerManager;
             }
         }
-
+            
         public static void Reset() {
             HasSpawned = false;
         }
