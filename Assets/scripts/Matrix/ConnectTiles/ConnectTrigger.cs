@@ -7,66 +7,32 @@ namespace Matrix {
     [ExecuteInEditMode]
     public class ConnectTrigger: MonoBehaviour {
 
-        public TileType tileType;
-        private TileType currentTileType;
-
         private Vector3 currentPosition;
         private TileConnect[] corners;
-
-        private int x = -1, y = -1;
-
+        
         void Start() {
-            corners = GetComponentsInChildren<TileConnect>();
+            currentPosition = transform.position;
 
-            UpdateTileType();
+            corners = GetComponentsInChildren<TileConnect>();
 
             UpdatePosition();
         }
 
         void LateUpdate() {
             if(currentPosition != transform.position) {
+                currentPosition = transform.position;
                 UpdatePosition();
-            }
-
-            if(!Application.isPlaying) {
-                if(currentTileType != tileType) {
-                    UpdateTileType();
-                }
-            }
-        }
-
-        void OnDestroy() {
-            if(x >= 0) {
-                Matrix.Remove(x, y, tileType);
             }
         }
 
         private void UpdatePosition() {
-            if(x >= 0)
-                Matrix.Remove(x, y, currentTileType);
-
             currentPosition = transform.position;
 
-            x = (int) currentPosition.x;
-            y = (int) currentPosition.y;
-
-            Matrix.Add(x, y, currentTileType);
+            int x = (int) currentPosition.x;
+            int y = (int) currentPosition.y;
 
             foreach(var c in corners) {
                 c.UpdatePosition(x, y);
-            }
-        }
-
-        private void UpdateTileType() {
-            if(x >= 0) {
-                Matrix.Remove(x, y, currentTileType);
-                Matrix.Add(x, y, tileType);
-            }
-
-            currentTileType = tileType;
-
-            foreach(var c in corners) {
-                c.TileType = currentTileType;
             }
         }
     }

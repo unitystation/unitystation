@@ -55,7 +55,6 @@ namespace Matrix {
             return Instance.map[y, x].HasTileType(tileTyp);
         }
 
-
         public static bool IsPassableAt(int x, int y) {
             return GetTypeAt(x, y) < TileType.Wall;
         }
@@ -68,7 +67,7 @@ namespace Matrix {
         }
 
         public static void RemoveListener(int x, int y, UnityAction<TileType> listener) {
-            if(Instance.map[y, x] != null) {
+            if(Instance && Instance.map[y, x] != null) {
                 Instance.map[y, x].RemoveListener(listener);
             }
         }

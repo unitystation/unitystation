@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4452307013935726}
   - component: {fileID: 61262628391902712}
   - component: {fileID: 114103342379785144}
+  - component: {fileID: 114899251882813660}
   m_Layer: 0
   m_Name: MedbayTile_WhiteBottomRight
   m_TagString: Untagged
@@ -98,6 +99,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 1
   depth: 0
+  useInGame: 0
+--- !u!114 &114899251882813660
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1043655662148692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileType: 1
 --- !u!212 &212061150941937170
 SpriteRenderer:
   m_ObjectHideFlags: 1

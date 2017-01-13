@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 114088512396219100}
   - component: {fileID: 114746944320791234}
   - component: {fileID: 114353293681900706}
+  - component: {fileID: 114161888767839426}
   m_Layer: 9
   m_Name: Table_Reinforced
   m_TagString: Untagged
@@ -210,6 +211,18 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
+--- !u!114 &114161888767839426
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1735212918361660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileType: 4
 --- !u!114 &114164609776920370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -234,7 +247,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d15e93876249c43aa2ddb5228bfc62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 4
 --- !u!114 &114359412349459238
 MonoBehaviour:
   m_ObjectHideFlags: 1
