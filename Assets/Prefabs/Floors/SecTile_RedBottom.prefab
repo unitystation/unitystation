@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4898558149918248}
   - component: {fileID: 61356600337909976}
   - component: {fileID: 114482752124695848}
+  - component: {fileID: 114958109930624960}
   m_Layer: 0
   m_Name: SecTile_RedBottom
   m_TagString: Untagged
@@ -98,6 +99,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 1
   depth: 0
+  useInGame: 0
+--- !u!114 &114958109930624960
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1404786016836216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileType: 1
 --- !u!212 &212537311920944368
 SpriteRenderer:
   m_ObjectHideFlags: 1

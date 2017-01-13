@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4140635463972100}
   - component: {fileID: 61454988845840208}
   - component: {fileID: 114708971699981328}
+  - component: {fileID: 114634475881601742}
   m_Layer: 0
   m_Name: MedbayTile_BottomRight
   m_TagString: Untagged
@@ -85,6 +86,18 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+--- !u!114 &114634475881601742
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1218816270508044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileType: 1
 --- !u!114 &114708971699981328
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -98,6 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 1
   depth: 0
+  useInGame: 0
 --- !u!212 &212888305163794202
 SpriteRenderer:
   m_ObjectHideFlags: 1

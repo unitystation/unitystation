@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4725229912940436}
   - component: {fileID: 61865718440715026}
   - component: {fileID: 114420650999609434}
+  - component: {fileID: 114441369928576812}
   m_Layer: 0
   m_Name: SecTile_RedRight
   m_TagString: Untagged
@@ -98,6 +99,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 1
   depth: 0
+  useInGame: 0
+--- !u!114 &114441369928576812
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1424290008394934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileType: 1
 --- !u!212 &212789903331253636
 SpriteRenderer:
   m_ObjectHideFlags: 1

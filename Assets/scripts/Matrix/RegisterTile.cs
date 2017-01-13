@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Matrix {
+
     [ExecuteInEditMode]
     public class RegisterTile: MonoBehaviour {
 

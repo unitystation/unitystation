@@ -47,7 +47,8 @@ namespace Matrix {
         }
 
         public void ChangeParameter(int index) {
-            bool connected = Matrix.HasTypeAt(adjacentTiles[index, 0], adjacentTiles[index, 1], TileType);
+            var tileType = transform.parent.GetComponent<RegisterTile>().tileType;
+            bool connected = Matrix.HasTypeAt(adjacentTiles[index, 0], adjacentTiles[index, 1], tileType);
             c[index] = connected ? 1 : 0;
             UpdateSprite();
         }
