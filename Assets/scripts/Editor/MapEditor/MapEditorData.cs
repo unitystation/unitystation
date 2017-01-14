@@ -8,6 +8,10 @@ public class MapEditorData {
     private static Dictionary<string, GameObject[]> prefabs = new Dictionary<string, GameObject[]>();
     private static Dictionary<string, Texture2D[]> textures = new Dictionary<string, Texture2D[]>();
 
+    static MapEditorData() {
+        AssetPreview.SetPreviewTextureCacheSize(1000);
+    }
+
     public static Dictionary<string, GameObject[]> Prefabs {
         get {
             return prefabs;
@@ -28,7 +32,7 @@ public class MapEditorData {
     public static void Load(string prefabPath) {
         var prefabs = LoadPrefabs(prefabPath);
         var textures = LoadTextures(prefabs);
-
+        
         MapEditorData.prefabs[prefabPath] = prefabs;
         MapEditorData.textures[prefabPath] = textures;
     }
@@ -49,7 +53,12 @@ public class MapEditorData {
         var content = new List<Texture2D>();
 
         foreach(var p in prefabs) {
-            content.Add(AssetPreview.GetAssetPreview(p));
+            Texture2D texture;
+            do {
+                texture = AssetPreview.GetAssetPreview(p);
+            } while(!texture);
+
+            content.Add(texture);
         }
 
         return content.ToArray();

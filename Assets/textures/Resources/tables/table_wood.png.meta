@@ -1,22 +1,29 @@
 fileFormatVersion: 2
-guid: 985abbbfb435f08489d565f15803a877
-timeCreated: 1483392228
+guid: 384bad252d693024bb98cfd5aa5d303c
+timeCreated: 1484418300
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: poker_table_0
-    21300002: poker_table_1
-    21300004: poker_table_2
-    21300006: poker_table_3
-    21300008: poker_table_4
-    21300010: poker_table_5
-    21300012: poker_table_6
-    21300014: poker_table_7
-    21300016: poker_table_8
-    21300018: poker_table_9
-    21300020: poker_table_10
-    21300022: poker_table_11
-    21300024: poker_table_12
+    21300000: wood_table_0
+    21300002: wood_table_1
+    21300004: wood_table_2
+    21300006: wood_table_3
+    21300008: wood_table_4
+    21300010: wood_table_5
+    21300012: wood_table_6
+    21300014: wood_table_7
+    21300016: wood_table_8
+    21300018: wood_table_9
+    21300020: wood_table_10
+    21300022: wood_table_11
+    21300024: wood_table_12
+    21300026: wood_table_13
+    21300028: wood_table_14
+    21300030: wood_table_15
+    21300032: wood_table_16
+    21300034: wood_table_17
+    21300036: wood_table_18
+    21300038: wood_table_19
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -83,7 +90,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: poker_table_0
+      name: wood_table_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: wood_table_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: wood_table_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: wood_table_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: wood_table_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: wood_table_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: wood_table_6
       rect:
         serializedVersion: 2
         x: 16
@@ -96,7 +181,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: poker_table_1
+      name: wood_table_7
       rect:
         serializedVersion: 2
         x: 32
@@ -109,7 +194,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: poker_table_2
+      name: wood_table_8
       rect:
         serializedVersion: 2
         x: 48
@@ -122,7 +207,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: poker_table_3
+      name: wood_table_9
       rect:
         serializedVersion: 2
         x: 64
@@ -135,7 +220,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: poker_table_4
+      name: wood_table_10
       rect:
         serializedVersion: 2
         x: 0
@@ -148,7 +233,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: poker_table_5
+      name: wood_table_11
       rect:
         serializedVersion: 2
         x: 16
@@ -161,7 +246,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: poker_table_6
+      name: wood_table_12
       rect:
         serializedVersion: 2
         x: 32
@@ -174,7 +259,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: poker_table_7
+      name: wood_table_13
       rect:
         serializedVersion: 2
         x: 48
@@ -187,7 +272,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: poker_table_8
+      name: wood_table_14
       rect:
         serializedVersion: 2
         x: 64
@@ -200,7 +285,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: poker_table_9
+      name: wood_table_15
       rect:
         serializedVersion: 2
         x: 0
@@ -213,7 +298,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: poker_table_10
+      name: wood_table_16
       rect:
         serializedVersion: 2
         x: 16
@@ -226,7 +311,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: poker_table_11
+      name: wood_table_17
       rect:
         serializedVersion: 2
         x: 32
@@ -239,10 +324,23 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: poker_table_12
+      name: wood_table_18
       rect:
         serializedVersion: 2
         x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: wood_table_19
+      rect:
+        serializedVersion: 2
+        x: 64
         y: 0
         width: 16
         height: 16
@@ -252,7 +350,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     outline: []
-  spritePackingTag: poker_table
+  spritePackingTag: 
   userData: 
   assetBundleName: 
   assetBundleVariant: 

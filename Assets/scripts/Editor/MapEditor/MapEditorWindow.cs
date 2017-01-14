@@ -2,6 +2,7 @@
 using UnityEditor;
 using Matrix;
 using System.Linq;
+using UI;
 
 public class MapEditorWindow: EditorWindow {
     private GameObject currentPrefab;
@@ -17,6 +18,8 @@ public class MapEditorWindow: EditorWindow {
     private string[] prefabFolders = new string[] { "Walls", "Floors", "Doors", "Tables" };
     private GUIStyle buttonStyle;
 
+    private bool initialized = false;
+
     [MenuItem("Window/Map Editor")]
     public static void ShowWindow() {
         //Show existing window instance. If one doesn't exist, make one.
@@ -26,12 +29,9 @@ public class MapEditorWindow: EditorWindow {
     public void OnEnable() {
         SceneView.onSceneGUIDelegate += GridUpdate;
         mapObj = GameObject.FindGameObjectWithTag("Map");
-        if (mapObj != null)
-        {
+        if(mapObj != null) {
             MapEditorMap.SetMap(mapObj);
-        }
-        else
-        {
+        } else {
             Debug.Log("Failed to load map");
         }
         Init();
@@ -48,6 +48,7 @@ public class MapEditorWindow: EditorWindow {
         }
         gridIndices = new int[prefabFolders.Length];
         scrollPositions = new Vector2[prefabFolders.Length];
+        initialized = true;
     }
 
     void OnDestroy() {
@@ -60,15 +61,13 @@ public class MapEditorWindow: EditorWindow {
         EditorGUILayout.LabelField("CurrentMap: " + MapEditorMap.mapName);
         EditorGUILayout.LabelField("Add tiles to which section:");
         string[] options = new string[MapEditorMap.mapSections.Count];
-        foreach (GameObject section in MapEditorMap.mapSections)
-        {
+        foreach(GameObject section in MapEditorMap.mapSections) {
             options[MapEditorMap.mapSections.IndexOf(section)] = section.name;
         }
         sectionIndex = EditorGUILayout.Popup(sectionIndex, options);
-        if (GUILayout.Button("Refresh Data"))
-        {
+        if(GUILayout.Button("Refresh Data")) {
             if(mapObj != null)
-            MapEditorMap.SetMap(mapObj);
+                MapEditorMap.SetMap(mapObj);
             Init();
         }
         tabIndex = GUILayout.Toolbar(tabIndex, prefabFolders);
@@ -84,7 +83,7 @@ public class MapEditorWindow: EditorWindow {
 
         gridIndices[tabIndex] = GUILayout.SelectionGrid(gridIndices[tabIndex], MapEditorData.Textures[prefabFolders[tabIndex]], xCount, buttonStyle);
         currentPrefab = MapEditorData.Prefabs[prefabFolders[tabIndex]][gridIndices[tabIndex]];
-        
+
         // popup = EditorGUILayout.Popup(popup, new string[] { "Walls", "Floors", "Doors", "Machines" });
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.EndScrollView();
@@ -94,11 +93,7 @@ public class MapEditorWindow: EditorWindow {
     void GridUpdate(SceneView sceneview) {
         Event e = Event.current;
 
-        if(!enableEdit) {
-            return;
-        }
-
-        if(e.isKey && e.type == EventType.KeyDown) {
+        if(enableEdit && e.isKey && e.type == EventType.KeyDown) {
             if(e.character == 'a') {
                 if(currentPrefab) {
                     // Find screen position of mouse
@@ -107,12 +102,22 @@ public class MapEditorWindow: EditorWindow {
                     int x = Mathf.RoundToInt(r.origin.x);
                     int y = Mathf.RoundToInt(r.origin.y);
 
-                    if(currentPrefab.GetComponent<RegisterTile>().tileType > Matrix.Matrix.GetTypeAt(x, y) && Matrix.Matrix.IsPassableAt(x, y)) {
+                    var registerTile = currentPrefab.GetComponent<RegisterTile>();
+                    if(registerTile) { // it's something constructable
+                        if(Matrix.Matrix.IsPassableAt(x, y) && registerTile.tileType > Matrix.Matrix.GetTypeAt(x, y)) {
 
-                        GameObject gameObj = (GameObject) PrefabUtility.InstantiatePrefab(currentPrefab);
-                        gameObj.transform.position = r.origin;
-                        AddSectionToParent(gameObj);
-                        Undo.RegisterCreatedObjectUndo(gameObj, "Create " + gameObj.name);
+                            GameObject gameObj = (GameObject) PrefabUtility.InstantiatePrefab(currentPrefab);
+                            gameObj.transform.position = r.origin;
+                            AddSectionToParent(gameObj);
+                            Undo.RegisterCreatedObjectUndo(gameObj, "Create " + gameObj.name);
+                        }
+                    }else {
+                        var itemAttributes = currentPrefab.GetComponent<ItemAttributes>();
+                        if(itemAttributes) { // it's an item
+                            if(registerTile.tileType > Matrix.Matrix.GetTypeAt(x, y)) {
+
+                            }
+                        }
                     }
                 }
             }
@@ -123,20 +128,15 @@ public class MapEditorWindow: EditorWindow {
         }
     }
 
-    void AddSectionToParent(GameObject newObj){
+    void AddSectionToParent(GameObject newObj) {
         Transform subSection = MapEditorMap.mapSections[sectionIndex].transform.FindChild(prefabFolders[tabIndex]);
-        if (subSection != null)
-        {
-            newObj.transform.parent = subSection;
-        }
-        else
-        {
-            GameObject newSubSection = new GameObject();
+        if(subSection == null) {
+            GameObject newSubSection = new GameObject(prefabFolders[tabIndex]);
             newSubSection.transform.parent = MapEditorMap.mapSections[sectionIndex].transform;
-            newSubSection.name = prefabFolders[tabIndex];
             newSubSection.transform.localPosition = Vector3.zero;
-            newObj.transform.parent = newSubSection.transform;
+            subSection = newSubSection.transform;
         }
-    
+        newObj.transform.parent = subSection;
+
     }
 }
