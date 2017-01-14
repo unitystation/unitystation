@@ -124,10 +124,10 @@ public class MapEditorWindow: EditorWindow {
     }
 
     void AddSectionToParent(GameObject newObj){
-        GameObject subSection = MapEditorMap.mapSections[sectionIndex].transform.FindChild(prefabFolders[tabIndex]).gameObject;
+        Transform subSection = MapEditorMap.mapSections[sectionIndex].transform.FindChild(prefabFolders[tabIndex]);
         if (subSection != null)
         {
-            newObj.transform.parent = subSection.transform;
+            newObj.transform.parent = subSection;
         }
         else
         {
