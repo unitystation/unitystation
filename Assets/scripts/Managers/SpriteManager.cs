@@ -67,14 +67,15 @@ namespace Sprites {
             PlayerSprites["items_righthand"] = Resources.LoadAll<Sprite>("mobs/inhands/items_righthand");
             PlayerSprites["clothing_lefthand"] = Resources.LoadAll<Sprite>("mobs/inhands/clothing_lefthand");
             PlayerSprites["clothing_righthand"] = Resources.LoadAll<Sprite>("mobs/inhands/clothing_righthand");
-            
+
             ConnectSprites["wall"] = Resources.LoadAll<Sprite>("walls/wall");
+            ConnectSprites["wall_reinforced"] = Resources.LoadAll<Sprite>("walls/wall_reinforced");
 
             ConnectSprites["window"] = Resources.LoadAll<Sprite>("windows/window");
             ConnectSprites["window_reinforced"] = Resources.LoadAll<Sprite>("windows/window_reinforced");
 
             ConnectSprites["table"] = Resources.LoadAll<Sprite>("tables/table");
-            ConnectSprites["table_reinforced"] = Resources.LoadAll<Sprite>("tables/reinforced_table");
+            ConnectSprites["table_reinforced"] = Resources.LoadAll<Sprite>("tables/table_reinforced");
         }
     }
 }

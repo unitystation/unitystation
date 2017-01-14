@@ -8,7 +8,7 @@ using UnityEngine.Events;
 namespace Matrix {
 
     public enum TileType {
-        Space, Floor, Wall, Window, Table, Door
+        Space, Floor, Table, Wall, Window, Door
     }
 
     [ExecuteInEditMode]
@@ -51,12 +51,12 @@ namespace Matrix {
             }
         }
 
-        public static bool HasTypeAt(int x, int y, TileType tileTyp) {
-            return Instance.map[y, x].HasTileType(tileTyp);
+        public static bool HasTypeAt(int x, int y, TileType tileType) {
+            return Instance.map[y, x].HasTileType(tileType);
         }
 
         public static bool IsPassableAt(int x, int y) {
-            return GetTypeAt(x, y) < TileType.Wall;
+            return GetTypeAt(x, y) <= TileType.Floor;
         }
 
         public static void AddListener(int x, int y, UnityAction<TileType> listener) {

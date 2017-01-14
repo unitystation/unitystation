@@ -1,24 +1,29 @@
 fileFormatVersion: 2
-guid: 180d68a42150ef64497e209e6df45805
-timeCreated: 1483392219
+guid: 86da0ab1c08c27f458c3e871777ac5db
+timeCreated: 1484418292
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: glass_table_0
-    21300002: glass_table_1
-    21300004: glass_table_2
-    21300006: glass_table_3
-    21300008: glass_table_4
-    21300010: glass_table_5
-    21300012: glass_table_6
-    21300014: glass_table_7
-    21300016: glass_table_8
-    21300018: glass_table_9
-    21300020: glass_table_10
-    21300022: glass_table_11
-    21300024: glass_table_12
-    21300026: glass_table_13
-    21300028: glass_table_14
+    21300000: reinforced_table_0
+    21300002: reinforced_table_1
+    21300004: reinforced_table_2
+    21300006: reinforced_table_3
+    21300008: reinforced_table_4
+    21300010: reinforced_table_5
+    21300012: reinforced_table_6
+    21300014: reinforced_table_7
+    21300016: reinforced_table_8
+    21300018: reinforced_table_9
+    21300020: reinforced_table_10
+    21300022: reinforced_table_11
+    21300024: reinforced_table_12
+    21300026: reinforced_table_13
+    21300028: reinforced_table_14
+    21300030: reinforced_table_15
+    21300032: reinforced_table_16
+    21300034: reinforced_table_17
+    21300036: reinforced_table_18
+    21300038: reinforced_table_19
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -85,7 +90,72 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: glass_table_0
+      name: reinforced_table_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: reinforced_table_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: reinforced_table_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: reinforced_table_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: reinforced_table_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: reinforced_table_5
       rect:
         serializedVersion: 2
         x: 0
@@ -98,7 +168,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_1
+      name: reinforced_table_6
       rect:
         serializedVersion: 2
         x: 16
@@ -111,7 +181,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_2
+      name: reinforced_table_7
       rect:
         serializedVersion: 2
         x: 32
@@ -124,7 +194,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_3
+      name: reinforced_table_8
       rect:
         serializedVersion: 2
         x: 48
@@ -137,7 +207,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_4
+      name: reinforced_table_9
       rect:
         serializedVersion: 2
         x: 64
@@ -150,7 +220,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_5
+      name: reinforced_table_10
       rect:
         serializedVersion: 2
         x: 0
@@ -163,7 +233,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_6
+      name: reinforced_table_11
       rect:
         serializedVersion: 2
         x: 16
@@ -176,7 +246,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_7
+      name: reinforced_table_12
       rect:
         serializedVersion: 2
         x: 32
@@ -189,7 +259,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_8
+      name: reinforced_table_13
       rect:
         serializedVersion: 2
         x: 48
@@ -202,7 +272,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_9
+      name: reinforced_table_14
       rect:
         serializedVersion: 2
         x: 64
@@ -215,7 +285,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_10
+      name: reinforced_table_15
       rect:
         serializedVersion: 2
         x: 0
@@ -228,7 +298,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_11
+      name: reinforced_table_16
       rect:
         serializedVersion: 2
         x: 16
@@ -241,7 +311,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_12
+      name: reinforced_table_17
       rect:
         serializedVersion: 2
         x: 32
@@ -254,7 +324,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_13
+      name: reinforced_table_18
       rect:
         serializedVersion: 2
         x: 48
@@ -267,7 +337,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: glass_table_14
+      name: reinforced_table_19
       rect:
         serializedVersion: 2
         x: 64
@@ -280,7 +350,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     outline: []
-  spritePackingTag: glass_table
+  spritePackingTag: 
   userData: 
   assetBundleName: 
   assetBundleVariant: 

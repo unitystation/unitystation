@@ -13,7 +13,10 @@ namespace Matrix {
     public class TileConnect: MonoBehaviour {
 
         public SpritePosition spritePosition;
-        public TileType TileType { set; get; }
+        public TileType TileType { get {
+                return transform.parent.GetComponent<RegisterTile>().tileType;
+            }
+        }
 
         public string spriteName;
 
@@ -47,8 +50,7 @@ namespace Matrix {
         }
 
         public void ChangeParameter(int index) {
-            var tileType = transform.parent.GetComponent<RegisterTile>().tileType;
-            bool connected = Matrix.HasTypeAt(adjacentTiles[index, 0], adjacentTiles[index, 1], tileType);
+            bool connected = Matrix.HasTypeAt(adjacentTiles[index, 0], adjacentTiles[index, 1], TileType);
             c[index] = connected ? 1 : 0;
             UpdateSprite();
         }
@@ -89,16 +91,8 @@ namespace Matrix {
         }
 
         private void UpdateSprite() {
-            int index;
-
-            switch(c[0] * 3 + c[2] * 2 + (c[0] * c[1] * c[2]) * -4) {
-                case 0: index = (int) spritePosition + 5; break;
-                case 2: index = (int) spritePosition + 1; break;
-                case 3: index = ((int) spritePosition + 1) % 4 + 1; break;
-                case 5: index = ((int) spritePosition + 9); break;
-                default: index = 0; break;
-            }
-            
+            int code = c[0] * 3 + c[2] * 1 + (c[0] * c[1] * c[2]) * -2;
+            int index = (int) spritePosition * 5 + code;
             spriteRenderer.sprite = sprites[index];
         }
     }
