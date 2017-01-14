@@ -5,6 +5,7 @@ using System.Linq;
 
 public class MapEditorWindow: EditorWindow {
     private GameObject currentPrefab;
+    private GameObject mapObj;
     private int xCount = 4;
     private int sectionIndex = 0;
 
@@ -24,7 +25,7 @@ public class MapEditorWindow: EditorWindow {
 
     public void OnEnable() {
         SceneView.onSceneGUIDelegate += GridUpdate;
-        GameObject mapObj = GameObject.FindGameObjectWithTag("Map");
+        mapObj = GameObject.FindGameObjectWithTag("Map");
         if (mapObj != null)
         {
             MapEditorMap.SetMap(mapObj);
@@ -64,6 +65,12 @@ public class MapEditorWindow: EditorWindow {
             options[MapEditorMap.mapSections.IndexOf(section)] = section.name;
         }
         sectionIndex = EditorGUILayout.Popup(sectionIndex, options);
+        if (GUILayout.Button("Refresh Data"))
+        {
+            if(mapObj != null)
+            MapEditorMap.SetMap(mapObj);
+            Init();
+        }
         tabIndex = GUILayout.Toolbar(tabIndex, prefabFolders);
 
         GUIStyle buttonStyle = new GUIStyle(GUI.skin.button) { fixedHeight = 75, fixedWidth = 75 };

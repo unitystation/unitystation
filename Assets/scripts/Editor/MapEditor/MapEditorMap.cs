@@ -14,6 +14,7 @@ public class MapEditorMap
     {
         mapName = map.name;
         mapObj = map;
+        mapSections.Clear();
         foreach (Transform child in mapObj.transform)
         {
             mapSections.Add(child.gameObject);
