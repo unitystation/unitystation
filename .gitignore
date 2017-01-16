@@ -31,6 +31,9 @@ Photon\ Unity\ Networking.meta
 PhotonChatApi.meta
 Plugins.meta
 
+# include meta files (without folder meta files)
+!*.*.meta
+
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
 
