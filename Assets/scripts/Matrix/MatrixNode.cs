@@ -8,7 +8,7 @@ namespace Matrix {
     public class MatrixNode {
 
         private class TileEvent: UnityEvent<TileType> { }
-        
+
         private TileEvent tileEvent = new TileEvent();
         private SortedList<TileType, int> tileTypes = new SortedList<TileType, int>();
 
@@ -32,12 +32,14 @@ namespace Matrix {
         }
 
         public void RemoveTileType(TileType tileType) {
-            tileTypes[tileType] -= 1;
-            if(tileTypes[tileType] == 0) {
-                tileTypes.Remove(tileType);
-            }
+            if(tileTypes.ContainsKey(tileType)) {
+                tileTypes[tileType] -= 1;
 
-            tileEvent.Invoke(Type);
+                if(tileTypes[tileType] == 0) {
+                    tileTypes.Remove(tileType);
+                    tileEvent.Invoke(Type);
+                }
+            }
         }
 
         public bool HasTileType(TileType tileType) {

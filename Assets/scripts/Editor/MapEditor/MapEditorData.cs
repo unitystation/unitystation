@@ -1,40 +1,50 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 
 public class MapEditorData {
-    private static Dictionary<string, GameObject[]> prefabs = new Dictionary<string, GameObject[]>();
-    private static Dictionary<string, Texture2D[]> textures = new Dictionary<string, Texture2D[]>();
 
     static MapEditorData() {
         AssetPreview.SetPreviewTextureCacheSize(1000);
+
+        Prefabs = new Dictionary<string, GameObject[]>();
+        Textures = new Dictionary<string, Texture2D[]>();
     }
 
-    public static Dictionary<string, GameObject[]> Prefabs {
+    public static Dictionary<string, GameObject[]> Prefabs { get; private set; }
+    public static Dictionary<string, Texture2D[]> Textures { get; private set; }
+
+    public static GameObject[] CurrentPrefabs {
         get {
-            return prefabs;
+            return Prefabs[MapEditorMap.CurrentSubSectionName];
         }
     }
 
-    public static Dictionary<string, Texture2D[]> Textures {
+
+    public static Texture2D[] CurrentTextures {
         get {
-            return textures;
+            return Textures[MapEditorMap.CurrentSubSectionName];
         }
     }
 
     public static void Clear() {
-        prefabs.Clear();
-        textures.Clear();
+        Prefabs.Clear();
+        Textures.Clear();
+    }
+
+    public static void LoadPrefabs() {
+        foreach(var s in MapEditorMap.SubSectionNames) {
+            Load(s);
+        }
     }
 
     public static void Load(string prefabPath) {
         var prefabs = LoadPrefabs(prefabPath);
         var textures = LoadTextures(prefabs);
         
-        MapEditorData.prefabs[prefabPath] = prefabs;
-        MapEditorData.textures[prefabPath] = textures;
+        Prefabs[prefabPath] = prefabs;
+        Textures[prefabPath] = textures;
     }
 
     private static GameObject[] LoadPrefabs(string prefabPath) {
