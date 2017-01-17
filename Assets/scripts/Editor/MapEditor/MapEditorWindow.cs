@@ -1,23 +1,14 @@
 ﻿using UnityEngine;
-using UnityEngine;
 using UnityEditor;
 using Matrix;
 using System.Linq;
 using UI;
 
 public class MapEditorWindow: EditorWindow {
-    private GameObject currentPrefab;
-    private GameObject mapObj;
+    private bool showOptions;
     private int xCount = 4;
-    private int sectionIndex = 0;
-
-    private bool enableEdit = false;
-    private bool mouseControl = false;
-    private int tabIndex = 0;
     private int[] gridIndices;
     private Vector2[] scrollPositions;
-
-    private string[] prefabFolders = new string[] { "Walls", "Floors", "Doors", "Tables" };
 
     [MenuItem("Window/Map Editor")]
     public static void ShowWindow() {
@@ -26,62 +17,60 @@ public class MapEditorWindow: EditorWindow {
     }
 
     public void OnEnable() {
-        SceneView.onSceneGUIDelegate += BuildUpdate;
+        SceneView.onSceneGUIDelegate += MapEditorControl.BuildUpdate;
         Init();
     }
 
     public void OnDisable() {
-        SceneView.onSceneGUIDelegate -= BuildUpdate;
+        SceneView.onSceneGUIDelegate -= MapEditorControl.BuildUpdate;
     }
 
     void Init() {
         MapEditorData.Clear();
-        foreach(var s in prefabFolders) {
-            MapEditorData.Load(s);
-        }
+        MapEditorData.LoadPrefabs();
+        MapEditorControl.HashCode = GetHashCode();
 
         if(gridIndices == null) {
-            gridIndices = new int[prefabFolders.Length];
+            gridIndices = new int[MapEditorMap.SubSectionNames.Length];
             for(int i = 0; i < gridIndices.Length; i++) {
                 gridIndices[i] = -1;
             }
-            scrollPositions = new Vector2[prefabFolders.Length];
+            scrollPositions = new Vector2[gridIndices.Length];
         }
-        if(mapObj == null) {
-            mapObj = GameObject.FindGameObjectWithTag("Map");
-            MapEditorMap.SetMap(mapObj);
-        }
+        MapEditorMap.MapObject = GameObject.FindGameObjectWithTag("Map");
     }
 
     void OnGUI() {
-        if(mapObj == null) {
-            mapObj = GameObject.FindGameObjectWithTag("Map");
-            MapEditorMap.SetMap(mapObj);
-        }
-        enableEdit = EditorGUILayout.BeginToggleGroup("Map Editor Mode", enableEdit);
-        mouseControl = EditorGUILayout.Toggle("Use Mouse Click to Create", mouseControl);
+        MapEditorControl.EnableEdit = EditorGUILayout.BeginToggleGroup("Map Editor Mode", MapEditorControl.EnableEdit);
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.Space();
         EditorGUILayout.BeginVertical();
 
+        showOptions = EditorGUILayout.Foldout(showOptions, "Options");
+
+        if(showOptions) { 
+            MapEditorControl.MouseControl = EditorGUILayout.Toggle("Create On Mouse Click", MapEditorControl.MouseControl);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Current Map", GUILayout.Width(100));
+            EditorGUILayout.LabelField(MapEditorMap.mapName);
+            EditorGUILayout.EndHorizontal();
+
+            if(GUILayout.Button("Refresh Data")) {
+                Init();
+            }
+        }
+
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("CurrentMap", GUILayout.Width(100));
-        EditorGUILayout.LabelField(MapEditorMap.mapName);
-        EditorGUILayout.EndHorizontal();
-        EditorGUILayout.BeginHorizontal();
+        string[] options = new string[MapEditorMap.Sections.Count];
+        foreach(GameObject section in MapEditorMap.Sections) {
+            options[MapEditorMap.Sections.IndexOf(section)] = section.name;
+        }
         EditorGUILayout.LabelField("Section", GUILayout.Width(100));
-        string[] options = new string[MapEditorMap.mapSections.Count];
-        foreach(GameObject section in MapEditorMap.mapSections) {
-            options[MapEditorMap.mapSections.IndexOf(section)] = section.name;
-        }
-        sectionIndex = EditorGUILayout.Popup(sectionIndex, options);
+        MapEditorMap.SectionIndex = EditorGUILayout.Popup(MapEditorMap.SectionIndex, options);
         EditorGUILayout.EndHorizontal();
 
-        if(GUILayout.Button("Refresh Data")) {
-            Init();
-        }
-
-        tabIndex = GUILayout.Toolbar(tabIndex, prefabFolders);
+        MapEditorMap.SubSectionIndex = GUILayout.Toolbar(MapEditorMap.SubSectionIndex, MapEditorMap.SubSectionNames);
+        int tabIndex = MapEditorMap.SubSectionIndex;
 
         GUIStyle buttonStyle = new GUIStyle(GUI.skin.button) { fixedHeight = 75, fixedWidth = 75 };
 
@@ -91,12 +80,12 @@ public class MapEditorWindow: EditorWindow {
         EditorGUILayout.BeginHorizontal();
         scrollPositions[tabIndex] = EditorGUILayout.BeginScrollView(scrollPositions[tabIndex]);
 
-        gridIndices[tabIndex] = GUILayout.SelectionGrid(gridIndices[tabIndex], MapEditorData.Textures[prefabFolders[tabIndex]], xCount, buttonStyle);
+        gridIndices[tabIndex] = GUILayout.SelectionGrid(gridIndices[tabIndex], MapEditorData.CurrentTextures, xCount, buttonStyle);
 
         if(gridIndices[tabIndex] >= 0) {
-            currentPrefab = MapEditorData.Prefabs[prefabFolders[tabIndex]][gridIndices[tabIndex]];
+            MapEditorControl.CurrentPrefab = MapEditorData.CurrentPrefabs[gridIndices[tabIndex]];
         } else {
-            currentPrefab = null;
+            MapEditorControl.CurrentPrefab = null;
         }
 
         EditorGUILayout.EndScrollView();
@@ -105,111 +94,5 @@ public class MapEditorWindow: EditorWindow {
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.EndToggleGroup();
-    }
-
-    private bool clickStarted;
-
-    private bool Build(Event e) {
-        if(!currentPrefab)
-            return false;
-
-        Ray r = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
-
-        int x = Mathf.RoundToInt(r.origin.x);
-        int y = Mathf.RoundToInt(r.origin.y);
-
-        var registerTile = currentPrefab.GetComponent<RegisterTile>();
-        if(registerTile) { // it's something constructable
-            if(Matrix.Matrix.IsPassableAt(x, y) && registerTile.tileType > Matrix.Matrix.GetTypeAt(x, y)) {
-
-                GameObject gameObj = (GameObject) PrefabUtility.InstantiatePrefab(currentPrefab);
-                gameObj.transform.position = r.origin;
-                AddSectionToParent(gameObj);
-                Undo.RegisterCreatedObjectUndo(gameObj, "Create " + gameObj.name);
-                return true;
-            }
-        } else {
-            var itemAttributes = currentPrefab.GetComponent<ItemAttributes>();
-            if(itemAttributes) { // it's an item
-                if(registerTile.tileType > Matrix.Matrix.GetTypeAt(x, y)) {
-                    // TODO
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    int oldID;
-
-
-    void BuildUpdate(SceneView sceneview) {
-        if(!enableEdit)
-            return;
-
-        Event e = Event.current;
-
-        if(mouseControl) {
-            int controlID = GUIUtility.GetControlID(GetHashCode(), FocusType.Passive);
-
-            switch(e.GetTypeForControl(controlID)) {
-                case EventType.MouseDown:
-                    if(e.button == 0) {
-                        oldID = GUIUtility.hotControl;
-                        GUIUtility.hotControl = controlID;
-                        clickStarted = true;
-                        e.Use();
-                    }
-                    break;
-                case EventType.MouseUp:
-                    if(clickStarted && e.button == 0) {
-                        if(Selection.activeGameObject != null) {
-                            Selection.activeGameObject = null;
-                            GUIUtility.hotControl = oldID;
-                            e.Use();
-                        } else {
-                            if(Build(e)) {
-                                e.Use();
-                            }
-                            GUIUtility.hotControl = 0;
-                        }
-                        clickStarted = false;
-                    }
-                    break;
-                case EventType.MouseDrag:
-                    if(clickStarted) {
-                        GUIUtility.hotControl = oldID;
-                        oldID = 0;
-                        clickStarted = false;
-                        e.Use();
-                    }
-                    break;
-            }
-        } else {
-            if(e.isKey && e.type == EventType.KeyDown) {
-                if(e.character == 'a') {
-                    Build(e);
-                }
-                if(e.character == 'd') {
-                    foreach(GameObject obj in Selection.gameObjects)
-                        Undo.DestroyObjectImmediate(obj);
-                }
-            }
-        }
-
-
-    }
-
-    void AddSectionToParent(GameObject newObj) {
-        if(MapEditorMap.mapSections.Count > sectionIndex) {
-            Transform subSection = MapEditorMap.mapSections[sectionIndex].transform.FindChild(prefabFolders[tabIndex]);
-            if(subSection == null) {
-                GameObject newSubSection = new GameObject(prefabFolders[tabIndex]);
-                newSubSection.transform.parent = MapEditorMap.mapSections[sectionIndex].transform;
-                newSubSection.transform.localPosition = Vector3.zero;
-                subSection = newSubSection.transform;
-            }
-            newObj.transform.parent = subSection;
-        }
     }
 }
