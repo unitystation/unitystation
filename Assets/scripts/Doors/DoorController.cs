@@ -16,7 +16,7 @@ public class DoorController: Photon.PunBehaviour {
     public float maxTimeOpen = 5;
     private float timeOpen = 0;
     private int numOccupiers = 0;
-    
+
     void Start() {
         animator = gameObject.GetComponent<Animator>();
         boxColl = gameObject.GetComponent<BoxCollider2D>();
@@ -38,7 +38,7 @@ public class DoorController: Photon.PunBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D coll) {
-		if(!isOpened && coll.gameObject.layer == 8 || isOpened && coll.gameObject.layer == 12) {
+        if(!isOpened && coll.gameObject.layer == 8 || isOpened && coll.gameObject.layer == 12) {
             Open();
         }
         numOccupiers++;
@@ -55,38 +55,35 @@ public class DoorController: Photon.PunBehaviour {
             if(timeOpen >= maxTimeOpen) {
                 Close();
             }
-        }else {
+        } else {
             timeOpen = 0;
         }
     }
 
     //3d sounds
     public void PlayOpenSound() {
-        if (openSFX != null)
+        if(openSFX != null)
             openSFX.Play();
     }
 
     public void PlayCloseSound() {
-        if (closeSFX != null)
+        if(closeSFX != null)
             closeSFX.Play();
     }
 
     public void PlayCloseSFXshort() {
-        if (closeSFX != null)
-        {
+        if(closeSFX != null) {
             closeSFX.time = 0.6f;
             closeSFX.Play();
         }
     }
 
     void OnMouseDown() {
-        if(PlayerManager.PlayerScript != null) {
-            if(PlayerManager.PlayerScript.DistanceTo(transform.position) <= 2) {
-                if(isOpened) {
-                    photonView.RPC("Close", PhotonTargets.All);
-                } else {
-                    photonView.RPC("Open", PhotonTargets.All);
-                }
+        if(PlayerManager.PlayerInReach(transform)) {
+            if(isOpened) {
+                photonView.RPC("Close", PhotonTargets.All);
+            } else {
+                photonView.RPC("Open", PhotonTargets.All);
             }
         }
     }

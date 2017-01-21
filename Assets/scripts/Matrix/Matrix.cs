@@ -13,10 +13,7 @@ namespace Matrix {
 
     [ExecuteInEditMode]
     public class Matrix: MonoBehaviour {
-
-        public Vector3 offset;
-
-        private MatrixNode[,] map = new MatrixNode[2000, 2000];
+        private MatrixNode[,] map = new MatrixNode[2500, 2500];
 
         private static Matrix wallMap;
 

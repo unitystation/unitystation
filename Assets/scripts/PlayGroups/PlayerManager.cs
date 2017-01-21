@@ -6,13 +6,8 @@ using Network;
 //Handles control and spawn of player prefab
 namespace PlayGroup {
     public class PlayerManager: Photon.PunBehaviour, IPunObservable {
-        [Header("The current Health of our player")]
-        public float Health = 100f;
-
-        [Header("The PlayerPrefabs. Instantiate for each player")]
-        public Transform playerPrefab;
-
-        [Header("SpawnPoint: TODO: SpawnPoints Array")]
+        public float Health = 100f;        
+        public Transform playerPrefab;        
         public Transform spawnPoint;
 
         public static GameObject LocalPlayer { get; private set; }
@@ -20,13 +15,8 @@ namespace PlayGroup {
         public static PlayerScript LocalPlayerScript { get; private set; }
         
         //For access via other parts of the game
-        public static PlayerScript PlayerScript {
-            get; private set;
-        }
-
-        public static bool HasSpawned {
-            get; private set;
-        }
+        public static PlayerScript PlayerScript { get; private set; }
+        public static bool HasSpawned { get; private set; }
 
         //True, when the user is firing
         bool IsFiring;
@@ -81,6 +71,10 @@ namespace PlayGroup {
                 }
 
             }
+        }
+
+        public static bool PlayerInReach(Transform transform) {
+            return PlayerScript.IsInReach(transform);
         }
 
         /// <summary>

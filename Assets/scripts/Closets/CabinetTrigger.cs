@@ -25,15 +25,14 @@ public class CabinetTrigger: Photon.PunBehaviour {
     }
 
     void OnMouseDown() {
-        if(PlayerManager.PlayerScript != null) {
-            if(PlayerManager.PlayerScript.DistanceTo(transform.position) <= 2) {
-                if(IsClosed) {
-                    photonView.RPC("SyncState", PhotonTargets.All, false, ItemViewID, true);
-                } else {
-                    OnClose();
-                }
+        if(PlayerManager.PlayerInReach(transform)) {
+            if(IsClosed) {
+                photonView.RPC("SyncState", PhotonTargets.All, false, ItemViewID, true);
+            } else {
+                OnClose();
             }
         }
+
     }
 
     private void OnClose() {

@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UI;
-using System.Collections.Generic;
 
 namespace PlayGroup {
     public class PlayerScript: MonoBehaviour {
+        // the maximum distance the player needs to be to an object to interact with it
+        public float interactionDistance = 2f;
+
         public bool IsMine { get; set; }
         //Is this controlled by the player or other players
 
@@ -58,6 +59,10 @@ namespace PlayGroup {
 
         public float DistanceTo(Vector3 position) {
             return (transform.position - position).magnitude;
+        }
+
+        public bool IsInReach(Transform transform) {
+            return DistanceTo(transform.position) <= interactionDistance;
         }
     }
 }

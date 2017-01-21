@@ -4,19 +4,58 @@ using UnityEditor;
 using UnityEngine;
 
 public class MapEditorControl {
-    public static GameObject CurrentPrefab { get; set; }
+    public static GameObject CurrentPrefab {
+        get {
+            return currenPrefab;
+        }
+        set {
+            currenPrefab = value;
+            if(previewObject)
+                Undo.DestroyObjectImmediate(previewObject);
+        }
+    }
+
     public static bool EnableEdit { get; set; }
     public static bool MouseControl { get; set; }
     public static int HashCode { get; set; }
 
     private static int oldID;
     private static bool clickStarted;
+    private static GameObject currenPrefab { get; set; }
+    private static GameObject previewObject { get; set; }
 
     public static void BuildUpdate(SceneView sceneview) {
-        if(!EnableEdit)
+        if(!EnableEdit) {
+            if(previewObject) {
+                Undo.DestroyObjectImmediate(previewObject);
+            }
             return;
+        }
 
         Event e = Event.current;
+
+        if(CurrentPrefab) {
+            Ray r = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
+
+            int x = Mathf.RoundToInt(r.origin.x);
+            int y = Mathf.RoundToInt(r.origin.y);
+
+            if(!previewObject) {
+                previewObject = (GameObject) PrefabUtility.InstantiatePrefab(CurrentPrefab);
+                previewObject.name = "Preview";
+                foreach(var renderer in previewObject.GetComponentsInChildren<Renderer>(true)) {
+                    var m = new Material(renderer.sharedMaterial);
+                    var c = m.color;
+                    c.a = 0.5f;
+                    m.color = c;
+                    renderer.sharedMaterial = m;
+                }
+                foreach(var script in previewObject.GetComponentsInChildren<MonoBehaviour>(true)) {
+                    Undo.DestroyObjectImmediate(script);
+                }
+            }
+            previewObject.transform.position = new Vector3(x, y, 0);
+        }
 
         if(MouseControl) {
             CheckMouseControls(e);
@@ -35,6 +74,7 @@ public class MapEditorControl {
                     clickStarted = true;
                     e.Use();
                 }
+                previewObject.SetActive(false);
                 break;
             case EventType.MouseUp:
                 if(clickStarted && e.button == 0) {
@@ -48,6 +88,7 @@ public class MapEditorControl {
                         GUIUtility.hotControl = 0;
                     }
                     e.Use();
+                    previewObject.SetActive(true);
                     clickStarted = false;
                 }
                 break;
@@ -59,6 +100,7 @@ public class MapEditorControl {
                     e.Use();
                 }
                 break;
+
         }
     }
 
@@ -67,10 +109,16 @@ public class MapEditorControl {
             switch(e.character) {
                 case 'a':
                     Build(e);
+                    previewObject.SetActive(true);
                     break;
                 case 'd':
                     foreach(GameObject obj in Selection.gameObjects)
                         Undo.DestroyObjectImmediate(obj);
+                    previewObject.SetActive(true);
+                    break;
+                case 'q':
+                    break;
+                case 'e':
                     break;
             }
         }
@@ -79,6 +127,7 @@ public class MapEditorControl {
     private static bool Build(Event e) {
         if(!CurrentPrefab)
             return false;
+
 
         Ray r = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
 

@@ -7,14 +7,13 @@ namespace Items {
         public bool allowedPickUp = true;
 
         void OnMouseDown() {
-            Debug.Log("CLICKED " + this.gameObject.name);
-            if(PlayerManager.PlayerScript != null) {
-                var distanceToPlayer = PlayerManager.PlayerScript.DistanceTo(transform.position);
-                if(distanceToPlayer <= 2f && allowedPickUp) {
-                    // try to add the item to hand
-                    ItemManager.control.TryToPickUpObject(this.gameObject);
-                }
+            Debug.Log("CLICKED " + gameObject.name);
+
+            if(PlayerManager.PlayerInReach(transform) && allowedPickUp) {
+                // try to add the item to hand
+                ItemManager.control.TryToPickUpObject(gameObject);
             }
         }
+
     }
 }
