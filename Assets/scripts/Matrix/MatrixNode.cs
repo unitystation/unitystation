@@ -5,6 +5,10 @@ using UnityEngine.Events;
 
 namespace Matrix {
 
+    public enum TileType {
+        Space, Floor, Table, Wall, Window, Door
+    }
+
     public class MatrixNode {
 
         private class TileEvent: UnityEvent<TileType> { }

@@ -26,17 +26,11 @@ public class Kill: Photon.MonoBehaviour {
     }
 
     void OnMouseDown() {
-
-        if(!dead && UIManager.Hands.CurrentSlot.Item != null) {
+        if(UIManager.Hands.CurrentSlot.Item != null && PlayerManager.PlayerInReach(transform)) {
             if(UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife) {
-                if(PlayerManager.PlayerScript.DistanceTo(transform.position) < 2) {
+                if(!dead) {
                     photonView.RPC("Die", PhotonTargets.All, null); //Send death to all clients for pete
-                }
-            }
-        } else if(UIManager.Hands.CurrentSlot.Item != null && dead && !sliced) {
-            if(UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife) {
-                if(PlayerManager.PlayerScript.DistanceTo(transform.position) < 2) {
-
+                } else if(!sliced) {
                     photonView.RPC("Gib", PhotonTargets.MasterClient, null); //Spawn the new meat
                     photonView.RPC("RemoveFromNetwork", PhotonTargets.MasterClient, null); // Remove pete from the network
 

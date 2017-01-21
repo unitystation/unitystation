@@ -16,14 +16,12 @@ public class SwitchShutters: Photon.PunBehaviour {
     }
 
     void OnMouseDown() {
-        if(PlayerManager.PlayerScript != null) {
-            if(PlayerManager.PlayerScript.DistanceTo(transform.position) <= 2f) {
-                if(!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP")) {
-                    if(IsClosed) {
-                        photonView.RPC("OpenShutters", PhotonTargets.All, null);
-                    } else {
-                        photonView.RPC("CloseShutters", PhotonTargets.All, null);
-                    }
+        if(PlayerManager.PlayerInReach(transform)) {
+            if(!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP")) {
+                if(IsClosed) {
+                    photonView.RPC("OpenShutters", PhotonTargets.All, null);
+                } else {
+                    photonView.RPC("CloseShutters", PhotonTargets.All, null);
                 }
             }
         }

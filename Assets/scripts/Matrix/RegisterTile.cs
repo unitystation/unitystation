@@ -21,7 +21,7 @@ namespace Matrix {
             UpdatePosition();
         }
 
-        void Update() {
+        void LateUpdate() {
             if(currentPosition != transform.position) {
                 currentPosition = transform.position;
                 UpdatePosition();

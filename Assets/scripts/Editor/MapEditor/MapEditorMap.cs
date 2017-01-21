@@ -35,13 +35,19 @@ public class MapEditorMap {
 
     public static GameObject CurrentSection {
         get {
-            return Sections[SectionIndex];
+            if(SectionIndex < Sections.Count) {
+                return Sections[SectionIndex];
+            }
+            return null;
         }
     }
 
     public static string CurrentSubSectionName {
         get {
-            return SubSectionNames[SubSectionIndex];
+            if(SubSectionIndex < SubSectionNames.Length) {
+                return SubSectionNames[SubSectionIndex];
+            }
+            return null;
         }
     }
 
