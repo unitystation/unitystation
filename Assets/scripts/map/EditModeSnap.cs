@@ -12,7 +12,7 @@ public class EditModeSnap: MonoBehaviour {
         Snap(); // snap on instantiate
     }
 
-    void LateUpdate() {
+    void Update() {
         if(useInGame || !Application.isPlaying) { // only snaps in editor mode
             Snap();
         }

@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-
 namespace Matrix {
 
     public enum SpritePosition {
@@ -11,15 +10,15 @@ namespace Matrix {
 
     [ExecuteInEditMode]
     public class TileConnect: MonoBehaviour {
-
         public SpritePosition spritePosition;
-        public TileType TileType { get {
+        public bool ConnectToAll { get; set; }
+        public TileType TileType {
+            get {
                 return transform.parent.GetComponent<RegisterTile>().tileType;
             }
         }
 
         public string spriteName;
-
         private SpritePosition currentSpritePosition;
 
         private int[] c = new int[3];
@@ -30,7 +29,7 @@ namespace Matrix {
         private int[] offsets = { 0, 1, 1, 1, 0, -1, -1, -1 };
         private int[,] adjacentTiles = new int[3, 2];
 
-        private int[] matrixPosition = { -1, -1 };
+        private int x = -1, y = -1;
         private int offsetIndex;
 
         private UnityAction<TileType>[] listeners = new UnityAction<TileType>[3];
@@ -50,14 +49,19 @@ namespace Matrix {
         }
 
         public void ChangeParameter(int index) {
-            bool connected = Matrix.HasTypeAt(adjacentTiles[index, 0], adjacentTiles[index, 1], TileType);
+            bool connected;
+            if(ConnectToAll) {
+                connected = !Matrix.IsSpaceAt(adjacentTiles[index, 0], adjacentTiles[index, 1]);
+            } else {
+                connected = Matrix.HasTypeAt(adjacentTiles[index, 0], adjacentTiles[index, 1], TileType);
+            }
             c[index] = connected ? 1 : 0;
             UpdateSprite();
         }
 
-        public void UpdatePosition(int x, int y) {
-            matrixPosition[0] = x;
-            matrixPosition[1] = y;
+        public void UpdatePosition(int new_x, int new_y) {
+            x = new_x;
+            y = new_y;
 
             UpdateListeners();
             CheckAdjacentTiles();
@@ -71,8 +75,8 @@ namespace Matrix {
                     int i2 = i;
                     listeners[i] = new UnityAction<TileType>(x => ChangeParameter(i2));
                 }
-                adjacentTiles[i, 0] = matrixPosition[0] + offsets[(offsetIndex + i) % 8];
-                adjacentTiles[i, 1] = matrixPosition[1] + offsets[(offsetIndex + i + 2) % 8];
+                adjacentTiles[i, 0] = x + offsets[(offsetIndex + i) % 8];
+                adjacentTiles[i, 1] = y + offsets[(offsetIndex + i + 2) % 8];
 
                 Matrix.AddListener(adjacentTiles[i, 0], adjacentTiles[i, 1], listeners[i]);
             }

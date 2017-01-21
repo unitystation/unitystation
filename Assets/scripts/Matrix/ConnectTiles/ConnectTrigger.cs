@@ -7,6 +7,8 @@ namespace Matrix {
     [ExecuteInEditMode]
     public class ConnectTrigger: MonoBehaviour {
 
+        public bool connectToAll;
+
         private Vector3 currentPosition;
         private TileConnect[] corners;
         
@@ -32,6 +34,9 @@ namespace Matrix {
             int y = (int) currentPosition.y;
 
             foreach(var c in corners) {
+                if(c.ConnectToAll != connectToAll)
+                    c.ConnectToAll = connectToAll;
+
                 c.UpdatePosition(x, y);
             }
         }

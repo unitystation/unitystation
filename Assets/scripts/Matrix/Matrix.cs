@@ -7,10 +7,6 @@ using UnityEngine.Events;
 
 namespace Matrix {
 
-    public enum TileType {
-        Space, Floor, Table, Wall, Window, Door
-    }
-
     [ExecuteInEditMode]
     public class Matrix: MonoBehaviour {
         private MatrixNode[,] map = new MatrixNode[2500, 2500];
@@ -41,19 +37,23 @@ namespace Matrix {
         }
 
         public static TileType GetTypeAt(int x, int y) {
-            if(Instance.map[y, x] == null) {
+            if(Instance.map[y, x] == null)
                 return TileType.Space;
-            } else {
-                return Instance.map[y, x].Type;
-            }
+            return Instance.map[y, x].Type;
         }
 
         public static bool HasTypeAt(int x, int y, TileType tileType) {
+            if(Instance.map[y, x] == null)
+                return tileType == TileType.Space;
             return Instance.map[y, x].HasTileType(tileType);
         }
 
         public static bool IsPassableAt(int x, int y) {
             return GetTypeAt(x, y) <= TileType.Floor;
+        }
+
+        public static bool IsSpaceAt(int x, int y) {
+            return GetTypeAt(x, y) == TileType.Space;
         }
 
         public static void AddListener(int x, int y, UnityAction<TileType> listener) {
@@ -94,8 +94,7 @@ namespace Matrix {
                 closestY = Mathf.Round(curPos.y);
             }
             // If target is not passable then target cur tile
-            if (!IsPassableAt((int)closestX, (int)closestY))
-            {
+            if(!IsPassableAt((int) closestX, (int) closestY)) {
                 closestX = Mathf.Round(curPos.x);
                 closestY = Mathf.Round(curPos.y);
             }

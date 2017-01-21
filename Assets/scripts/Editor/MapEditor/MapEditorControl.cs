@@ -1,4 +1,5 @@
 ﻿using Matrix;
+using System;
 using UI;
 using UnityEditor;
 using UnityEngine;
@@ -19,10 +20,11 @@ public class MapEditorControl {
     public static bool MouseControl { get; set; }
     public static int HashCode { get; set; }
 
-    private static int oldID;
-    private static bool clickStarted;
     private static GameObject currenPrefab { get; set; }
     private static GameObject previewObject { get; set; }
+    private static bool keyDown = false;
+    private static bool mouseDown = false;
+    private static int oldID;
 
     public static void BuildUpdate(SceneView sceneview) {
         if(!EnableEdit) {
@@ -46,7 +48,7 @@ public class MapEditorControl {
                 foreach(var renderer in previewObject.GetComponentsInChildren<Renderer>(true)) {
                     var m = new Material(renderer.sharedMaterial);
                     var c = m.color;
-                    c.a = 0.5f;
+                    c.a = 0.7f;
                     m.color = c;
                     renderer.sharedMaterial = m;
                 }
@@ -55,6 +57,10 @@ public class MapEditorControl {
                 }
             }
             previewObject.transform.position = new Vector3(x, y, 0);
+
+            if(Selection.Contains(previewObject)) {
+                Selection.objects = Array.FindAll(Selection.objects, o => (o != previewObject));
+            }
         }
 
         if(MouseControl) {
@@ -71,13 +77,12 @@ public class MapEditorControl {
                 if(e.button == 0) {
                     oldID = GUIUtility.hotControl;
                     GUIUtility.hotControl = controlID;
-                    clickStarted = true;
+                    mouseDown = true;
                     e.Use();
                 }
-                previewObject.SetActive(false);
                 break;
             case EventType.MouseUp:
-                if(clickStarted && e.button == 0) {
+                if(mouseDown && e.button == 0) {
                     if(Selection.activeGameObject != null) {
                         SelectObject(e);
                         GUIUtility.hotControl = oldID;
@@ -87,39 +92,45 @@ public class MapEditorControl {
                         }
                         GUIUtility.hotControl = 0;
                     }
+                    mouseDown = false;
                     e.Use();
-                    previewObject.SetActive(true);
-                    clickStarted = false;
                 }
                 break;
             case EventType.MouseDrag:
-                if(clickStarted) {
+                if(mouseDown) {
                     GUIUtility.hotControl = oldID;
                     oldID = 0;
-                    clickStarted = false;
+                    mouseDown = false;
                     e.Use();
                 }
                 break;
-
         }
     }
 
     private static void CheckKeyControls(Event e) {
-        if(e.isKey && e.type == EventType.KeyDown) {
-            switch(e.character) {
-                case 'a':
-                    Build(e);
-                    previewObject.SetActive(true);
-                    break;
-                case 'd':
-                    foreach(GameObject obj in Selection.gameObjects)
-                        Undo.DestroyObjectImmediate(obj);
-                    previewObject.SetActive(true);
-                    break;
-                case 'q':
-                    break;
-                case 'e':
-                    break;
+        if(e.isKey) {
+            if(!keyDown && e.type == EventType.KeyDown) {
+                switch(e.character) {
+                    case 'a':
+                        keyDown = true;
+                        Build(e);
+                        e.Use();
+                        break;
+                    case 'd':
+                        keyDown = true;
+                        foreach(GameObject obj in Selection.gameObjects)
+                            Undo.DestroyObjectImmediate(obj);
+                        e.Use();
+                        break;
+                    case 'q':
+                        keyDown = true;
+                        break;
+                    case 'e':
+                        keyDown = true;
+                        break;
+                }
+            } else if(e.type == EventType.KeyUp) {
+                keyDown = false;
             }
         }
     }
@@ -127,7 +138,6 @@ public class MapEditorControl {
     private static bool Build(Event e) {
         if(!CurrentPrefab)
             return false;
-
 
         Ray r = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
 
