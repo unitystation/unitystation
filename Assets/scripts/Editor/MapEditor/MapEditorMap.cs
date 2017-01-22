@@ -10,8 +10,8 @@ public class MapEditorMap {
     public static List<GameObject> Sections = new List<GameObject>();
     public static string[] SubSectionNames = new string[] { "Walls", "Floors", "Doors", "Tables" };
 
-    public static string mapName = "Map Not Loaded";
-
+    public static string MapName { get; private set; }
+    public static bool MapLoaded { get; private set; }
 
     private static GameObject mapObject;
 
@@ -21,10 +21,14 @@ public class MapEditorMap {
         }
 
         set {
-            if(value == null)
+            if(value == null) {
+                MapName = "Map Not Loaded";
+                MapLoaded = false;
                 return;
+            }
+            MapLoaded = true;
 
-            mapName = value.name;
+            MapName = value.name;
             mapObject = value;
             Sections.Clear();
             foreach(Transform child in mapObject.transform) {

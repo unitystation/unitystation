@@ -46,13 +46,18 @@ public class MapEditorWindow: EditorWindow {
         EditorGUILayout.Space();
         EditorGUILayout.BeginVertical();
 
+
+        if(!MapEditorMap.MapLoaded)
+            MapEditorMap.MapObject = GameObject.FindGameObjectWithTag("Map");
+
         showOptions = EditorGUILayout.Foldout(showOptions, "Options");
 
-        if(showOptions) { 
+        if(showOptions) {
             MapEditorControl.MouseControl = EditorGUILayout.Toggle("Create On Mouse Click", MapEditorControl.MouseControl);
+            MapEditorControl.EnablePreview = EditorGUILayout.Toggle("Enable Preview", MapEditorControl.EnablePreview);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Current Map", GUILayout.Width(100));
-            EditorGUILayout.LabelField(MapEditorMap.mapName);
+            EditorGUILayout.LabelField(MapEditorMap.MapName);
             EditorGUILayout.EndHorizontal();
 
             if(GUILayout.Button("Refresh Data")) {
