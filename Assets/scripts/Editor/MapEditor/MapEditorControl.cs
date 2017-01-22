@@ -18,6 +18,7 @@ public class MapEditorControl {
 
     public static bool EnableEdit { get; set; }
     public static bool MouseControl { get; set; }
+    public static bool EnablePreview { get; set; }
     public static int HashCode { get; set; }
 
     private static GameObject currenPrefab { get; set; }
@@ -25,6 +26,11 @@ public class MapEditorControl {
     private static bool keyDown = false;
     private static bool mouseDown = false;
     private static int oldID;
+
+    static MapEditorControl() {
+        EnableEdit = true;
+        EnablePreview = true;
+    }
 
     public static void BuildUpdate(SceneView sceneview) {
         if(!EnableEdit) {
@@ -36,7 +42,7 @@ public class MapEditorControl {
 
         Event e = Event.current;
 
-        if(CurrentPrefab) {
+        if(CurrentPrefab && EnablePreview) {
             Ray r = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
 
             int x = Mathf.RoundToInt(r.origin.x);
@@ -52,7 +58,8 @@ public class MapEditorControl {
                     m.color = c;
                     renderer.sharedMaterial = m;
                 }
-                foreach(var script in previewObject.GetComponentsInChildren<MonoBehaviour>(true)) {
+
+                foreach(var script in Array.FindAll(previewObject.GetComponentsInChildren<MonoBehaviour>(true), o => !(o is EditModeControl))) {
                     Undo.DestroyObjectImmediate(script);
                 }
             }
@@ -61,6 +68,8 @@ public class MapEditorControl {
             if(Selection.Contains(previewObject)) {
                 Selection.objects = Array.FindAll(Selection.objects, o => (o != previewObject));
             }
+        } else if(previewObject) {
+            Undo.DestroyObjectImmediate(previewObject);
         }
 
         if(MouseControl) {
@@ -70,6 +79,9 @@ public class MapEditorControl {
     }
 
     private static void CheckMouseControls(Event e) {
+        if(!e.isMouse)
+            return;
+
         int controlID = GUIUtility.GetControlID(HashCode, FocusType.Passive);
 
         switch(e.GetTypeForControl(controlID)) {
@@ -100,33 +112,40 @@ public class MapEditorControl {
                 if(mouseDown) {
                     GUIUtility.hotControl = oldID;
                     oldID = 0;
-                    mouseDown = false;
                     e.Use();
                 }
                 break;
         }
+        if(previewObject)
+            previewObject.SetActive(GUIUtility.hotControl == 0 || !mouseDown);
     }
 
     private static void CheckKeyControls(Event e) {
         if(e.isKey) {
             if(!keyDown && e.type == EventType.KeyDown) {
+                keyDown = true;
                 switch(e.character) {
                     case 'a':
-                        keyDown = true;
                         Build(e);
                         e.Use();
                         break;
                     case 'd':
-                        keyDown = true;
                         foreach(GameObject obj in Selection.gameObjects)
                             Undo.DestroyObjectImmediate(obj);
                         e.Use();
                         break;
-                    case 'q':
-                        keyDown = true;
+                    case 'y':
+                        //var editModeControl = previewObject.GetComponent<EditModeControl>();
+                        //if(editModeControl && editModeControl.allowRotate) {
+                        //    var spriteTransform = previewObject.transform.FindChild("Sprite");
+                        //    spriteTransform.Rotate(Vector3.forward * 90);
+                        //}
+                        //e.Use();
                         break;
-                    case 'e':
-                        keyDown = true;
+                    case 'x':
+                        break;
+                    default:
+                        keyDown = false;
                         break;
                 }
             } else if(e.type == EventType.KeyUp) {

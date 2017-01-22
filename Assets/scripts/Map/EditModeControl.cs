@@ -2,11 +2,12 @@
 using System.Collections;
 
 [ExecuteInEditMode]
-public class EditModeSnap: MonoBehaviour {
+public class EditModeControl: MonoBehaviour {
     public float snapValue = 1;
     public float depth = 0;
 
     public bool useInGame;
+    public bool allowRotate;
 
     void Start() {
         Snap(); // snap on instantiate
