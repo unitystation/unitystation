@@ -7,11 +7,16 @@ using UnityEngine;
 
 public class MapEditorControl {
     private static GameObject currentPrefab;
+    private static SceneView currentSceneView;
     public static GameObject CurrentPrefab {
         get { return currentPrefab; }
         set {
             currentPrefab = value;
             Preview.Prefab = currentPrefab;
+
+            // set Focus to scene view
+            if(currentSceneView)
+                currentSceneView.Focus();
         }
     }
 
@@ -44,7 +49,8 @@ public class MapEditorControl {
         EnablePreview = true;
     }
 
-    public static void BuildUpdate(SceneView sceneview) {
+    public static void BuildUpdate(SceneView sceneView) {
+        currentSceneView = sceneView;
         if(!EnableEdit) {
             Preview.SetActive(false);
             return;
@@ -169,7 +175,6 @@ public class MapEditorControl {
         var registerTile = CurrentPrefab.GetComponent<RegisterTile>();
         if(registerTile) { // it's something constructable
             if(!Matrix.Matrix.HasTypeAt(x, y, registerTile.tileType) && TileTypeLevels[registerTile.tileType] >= TileTypeLevels[Matrix.Matrix.GetTypeAt(x, y)]) { 
-            //if(Matrix.Matrix.IsPassableAt(x, y) && registerTile.tileType > Matrix.Matrix.GetTypeAt(x, y)) {
 
                 GameObject gameObject = Preview.CreateGameObject(r.origin);
                 gameObject.transform.parent = MapEditorMap.CurrentSubSection;
