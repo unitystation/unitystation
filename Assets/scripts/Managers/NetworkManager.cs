@@ -69,10 +69,10 @@ namespace Network {
         public static void LoadMap() {
             if(!PhotonNetwork.isMasterClient) {
                 Debug.Log("You are not the master client, joining map");
-                SceneManager.LoadSceneAsync("Kitchen-Reconstruct");
+                SceneManager.LoadSceneAsync("BoxStation");
             } else {
                 Debug.Log("You are the master client, loading the level (default kitchen_construct)");
-                SceneManager.LoadSceneAsync("Kitchen-Reconstruct");
+                SceneManager.LoadSceneAsync("BoxStation");
             }
 
             UIManager.Display.logInWindow.SetActive(false);
