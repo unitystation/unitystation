@@ -1,20 +1,48 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 
-public class PreviewObject : MonoBehaviour {
+[ExecuteInEditMode]
+[RequireComponent(typeof(SpriteRotate))]
+public class PreviewObject: MonoBehaviour {
+    private GameObject prefab;
+    public GameObject Prefab {
+        get { return prefab; }
+        set {
+            if(prefab != value) {
+                prefab = value;
+                if(prefab) 
+                    spriteRotate.SetPrefab(prefab);
+            }
+        }
+    }
 
-    public Transform prefab;
-    public Material PreviewMaterial;
+    private SpriteRotate spriteRotate;
 
-    public Transform CreatePreview(Transform aPrefab) {
-        Transform obj = (Transform) Instantiate(prefab);
-        foreach(var renderer in obj.GetComponentsInChildren<Renderer>(true))
-            renderer.sharedMaterial = PreviewMaterial;
-        // If the building / object has some scripts or other components
-        // which shouldn't be on the preview, remove them here:
-        foreach(var script in obj.GetComponentsInChildren<MonoBehaviour>(true))
-            Destroy(script);
-        return obj;
+    void Awake() {
+        spriteRotate = GetComponent<SpriteRotate>();
+    }
+
+    public GameObject CreateGameObject(Vector3 position) {
+        var gameObject = (GameObject) PrefabUtility.InstantiatePrefab(Prefab);
+        gameObject.transform.position = position;
+
+        var spriteRotate = gameObject.GetComponentInChildren<SpriteRotate>();
+        if(spriteRotate)
+            spriteRotate.SpriteIndex = this.spriteRotate.SpriteIndex;
+
+        return gameObject;
+    }
+
+    public void SetActive(bool active) {
+        gameObject.SetActive(active);
+    }
+
+    public void RotateForwards() {
+        spriteRotate.RotateForwards();
+    }
+
+    public void RotateBackwards() {
+        spriteRotate.RotateBackwards();
     }
 }

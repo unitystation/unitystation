@@ -1,18 +1,17 @@
 ﻿using Matrix;
 using System;
+using System.Collections.Generic;
 using UI;
 using UnityEditor;
 using UnityEngine;
 
 public class MapEditorControl {
+    private static GameObject currentPrefab;
     public static GameObject CurrentPrefab {
-        get {
-            return currenPrefab;
-        }
+        get { return currentPrefab; }
         set {
-            currenPrefab = value;
-            if(previewObject)
-                Undo.DestroyObjectImmediate(previewObject);
+            currentPrefab = value;
+            Preview.Prefab = currentPrefab;
         }
     }
 
@@ -21,55 +20,53 @@ public class MapEditorControl {
     public static bool EnablePreview { get; set; }
     public static int HashCode { get; set; }
 
-    private static GameObject currenPrefab { get; set; }
-    private static GameObject previewObject { get; set; }
+    private static PreviewObject preview;
+    private static PreviewObject Preview {
+        get {
+            if(!preview) {
+                var previewGameObject = GameObject.FindGameObjectWithTag("Preview");
+                if(previewGameObject) {
+                    preview = previewGameObject.GetComponent<PreviewObject>();
+                } else {
+                    var previewPrefab = Resources.Load<GameObject>("prefabs/Preview");
+                    var gameObject = (GameObject) PrefabUtility.InstantiatePrefab(previewPrefab);
+                    preview = gameObject.GetComponent<PreviewObject>();
+                }
+            }
+            return preview;
+        }
+    }
     private static bool keyDown = false;
     private static bool mouseDown = false;
     private static int oldID;
 
     static MapEditorControl() {
-        EnableEdit = true;
         EnablePreview = true;
     }
 
     public static void BuildUpdate(SceneView sceneview) {
         if(!EnableEdit) {
-            if(previewObject) {
-                Undo.DestroyObjectImmediate(previewObject);
-            }
+            Preview.SetActive(false);
             return;
         }
 
         Event e = Event.current;
 
         if(CurrentPrefab && EnablePreview) {
+            Preview.SetActive(true);
+
             Ray r = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
 
             int x = Mathf.RoundToInt(r.origin.x);
             int y = Mathf.RoundToInt(r.origin.y);
 
-            if(!previewObject) {
-                previewObject = (GameObject) PrefabUtility.InstantiatePrefab(CurrentPrefab);
-                previewObject.name = "Preview";
-                foreach(var renderer in previewObject.GetComponentsInChildren<Renderer>(true)) {
-                    var m = new Material(renderer.sharedMaterial);
-                    var c = m.color;
-                    c.a = 0.7f;
-                    m.color = c;
-                    renderer.sharedMaterial = m;
-                }
+            Preview.transform.position = new Vector3(x, y, 0);
 
-                foreach(var script in Array.FindAll(previewObject.GetComponentsInChildren<MonoBehaviour>(true), o => !(o is EditModeControl))) {
-                    Undo.DestroyObjectImmediate(script);
-                }
+            if(Selection.Contains(Preview.gameObject)) {
+                Selection.objects = Array.FindAll(Selection.objects, o => (o != Preview.gameObject));
             }
-            previewObject.transform.position = new Vector3(x, y, 0);
-
-            if(Selection.Contains(previewObject)) {
-                Selection.objects = Array.FindAll(Selection.objects, o => (o != previewObject));
-            }
-        } else if(previewObject) {
-            Undo.DestroyObjectImmediate(previewObject);
+        } else {
+            Preview.SetActive(false);
         }
 
         if(MouseControl) {
@@ -116,8 +113,7 @@ public class MapEditorControl {
                 }
                 break;
         }
-        if(previewObject)
-            previewObject.SetActive(GUIUtility.hotControl == 0 || !mouseDown);
+        Preview.SetActive(GUIUtility.hotControl == 0 || !mouseDown);
     }
 
     private static void CheckKeyControls(Event e) {
@@ -134,15 +130,13 @@ public class MapEditorControl {
                             Undo.DestroyObjectImmediate(obj);
                         e.Use();
                         break;
-                    case 'y':
-                        //var editModeControl = previewObject.GetComponent<EditModeControl>();
-                        //if(editModeControl && editModeControl.allowRotate) {
-                        //    var spriteTransform = previewObject.transform.FindChild("Sprite");
-                        //    spriteTransform.Rotate(Vector3.forward * 90);
-                        //}
-                        //e.Use();
+                    case '>':
+                        Preview.RotateBackwards();
+                        e.Use();
                         break;
-                    case 'x':
+                    case '<':
+                        Preview.RotateForwards();
+                        e.Use();
                         break;
                     default:
                         keyDown = false;
@@ -153,6 +147,15 @@ public class MapEditorControl {
             }
         }
     }
+    
+    public static Dictionary<TileType, int> TileTypeLevels = new Dictionary<TileType, int>() {
+        { TileType.Space, 0},
+        { TileType.Floor, 1},
+        { TileType.Table, 1},
+        { TileType.Wall, 2},
+        { TileType.Window, 2},
+        { TileType.Door, 2}
+    };
 
     private static bool Build(Event e) {
         if(!CurrentPrefab)
@@ -165,10 +168,10 @@ public class MapEditorControl {
 
         var registerTile = CurrentPrefab.GetComponent<RegisterTile>();
         if(registerTile) { // it's something constructable
-            if(Matrix.Matrix.IsPassableAt(x, y) && registerTile.tileType > Matrix.Matrix.GetTypeAt(x, y)) {
+            if(!Matrix.Matrix.HasTypeAt(x, y, registerTile.tileType) && TileTypeLevels[registerTile.tileType] >= TileTypeLevels[Matrix.Matrix.GetTypeAt(x, y)]) { 
+            //if(Matrix.Matrix.IsPassableAt(x, y) && registerTile.tileType > Matrix.Matrix.GetTypeAt(x, y)) {
 
-                GameObject gameObject = (GameObject) PrefabUtility.InstantiatePrefab(CurrentPrefab);
-                gameObject.transform.position = r.origin;
+                GameObject gameObject = Preview.CreateGameObject(r.origin);
                 gameObject.transform.parent = MapEditorMap.CurrentSubSection;
 
                 Undo.RegisterCreatedObjectUndo(gameObject, "Create " + gameObject.name);

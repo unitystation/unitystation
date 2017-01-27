@@ -8,6 +8,7 @@ TagManager:
   - Beam
   - PlayerList
   - Map
+  - Preview
   layers:
   - Default
   - TransparentFX
@@ -69,12 +70,15 @@ TagManager:
   - name: Items
     uniqueID: 2831759433
     locked: 0
+  - name: Shutters
+    uniqueID: 69388871
+    locked: 0
   - name: PlayersNpcs
     uniqueID: 3392514689
     locked: 0
   - name: Lighting
     uniqueID: 1085623217
     locked: 0
-  - name: Shutters
-    uniqueID: 69388871
+  - name: Preview
+    uniqueID: 2313922533
     locked: 0
