@@ -11,8 +11,13 @@ public class PreviewObject: MonoBehaviour {
         set {
             if(prefab != value) {
                 prefab = value;
-                if(prefab) 
+                if(prefab)
                     spriteRotate.SetPrefab(prefab);
+
+                if(SceneView.sceneViews.Count > 0) {
+                    var sceneView = (SceneView) SceneView.sceneViews[0];
+                    sceneView.Focus();
+                }
             }
         }
     }
