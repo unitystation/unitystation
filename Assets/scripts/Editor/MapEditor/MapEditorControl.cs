@@ -136,11 +136,11 @@ public class MapEditorControl {
                             Undo.DestroyObjectImmediate(obj);
                         e.Use();
                         break;
-                    case '>':
+                    case 'z':
                         Preview.RotateBackwards();
                         e.Use();
                         break;
-                    case '<':
+                    case 'x':
                         Preview.RotateForwards();
                         e.Use();
                         break;
