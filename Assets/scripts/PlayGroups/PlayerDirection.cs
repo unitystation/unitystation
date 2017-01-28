@@ -16,7 +16,7 @@ namespace PlayGroup
                 {
                     Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
                     float angle = Angle(dir);
-                    Debug.Log(angle);
+//                    Debug.Log(angle);
                     //change the facingDirection of player
                     CheckPlayerDirection(angle);
                     return;

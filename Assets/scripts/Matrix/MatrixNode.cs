@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -44,6 +45,10 @@ namespace Matrix {
                     tileEvent.Invoke(Type);
                 }
             }
+        }
+
+        public int GetTileTypeLevel() {
+            return -1;
         }
 
         public bool HasTileType(TileType tileType) {

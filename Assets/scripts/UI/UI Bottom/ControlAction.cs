@@ -39,6 +39,7 @@ namespace UI {
             GameObject item = UIManager.Hands.CurrentSlot.Clear();
             item.transform.position = PlayerManager.LocalPlayer.transform.position;
             item.transform.parent = null;
+			item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 
         }
 
