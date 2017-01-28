@@ -5,6 +5,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 [RequireComponent(typeof(SpriteRotate))]
 public class PreviewObject: MonoBehaviour {
+	private static PreviewObject instance;
     private GameObject prefab;
     public GameObject Prefab {
         get { return prefab; }
@@ -25,6 +26,11 @@ public class PreviewObject: MonoBehaviour {
     private SpriteRotate spriteRotate;
 
     void Awake() {
+		if (instance == null) {
+			instance = this;
+		} else {
+			Destroy(this);
+		}
         spriteRotate = GetComponent<SpriteRotate>();
     }
 

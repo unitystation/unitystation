@@ -55,6 +55,9 @@ public class MapEditorWindow: EditorWindow {
         if(showOptions) {
             MapEditorControl.MouseControl = EditorGUILayout.Toggle("Create On Mouse Click", MapEditorControl.MouseControl);
             MapEditorControl.EnablePreview = EditorGUILayout.Toggle("Enable Preview", MapEditorControl.EnablePreview);
+			//to handle different keyboard types (i.e. German and US);
+			MapEditorControl.RotateOptA = EditorGUILayout.Toggle("Use Rotate Keys: z and x", MapEditorControl.RotateOptA);
+			MapEditorControl.RotateOptB = EditorGUILayout.Toggle("Use Rotate Keys: < and >", MapEditorControl.RotateOptB);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Current Map", GUILayout.Width(100));
             EditorGUILayout.LabelField(MapEditorMap.MapName);
