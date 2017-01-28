@@ -89,10 +89,9 @@ GameObject:
   - component: {fileID: 4466907943691350}
   - component: {fileID: 61992195263651740}
   - component: {fileID: 114767349964271932}
-  - component: {fileID: 61671425397319734}
   - component: {fileID: 114903556391781532}
   - component: {fileID: 114373202880558020}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Lattice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +131,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1952178732076138}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1847, y: 1078, z: 0}
+  m_LocalPosition: {x: 1895, y: 1082, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4706293493401144}
@@ -168,20 +167,6 @@ Transform:
   m_Father: {fileID: 4466907943691350}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61671425397319734
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1952178732076138}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
 --- !u!61 &61992195263651740
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -317,7 +302,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 776718967
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300038, guid: 9546881a3a1158149bb2fcaaa8c22e25, type: 3}
+  m_Sprite: {fileID: 21300036, guid: 9546881a3a1158149bb2fcaaa8c22e25, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -352,7 +337,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 776718967
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300010, guid: 9546881a3a1158149bb2fcaaa8c22e25, type: 3}
+  m_Sprite: {fileID: 21300016, guid: 9546881a3a1158149bb2fcaaa8c22e25, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -422,7 +407,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 776718967
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300006, guid: 9546881a3a1158149bb2fcaaa8c22e25, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 9546881a3a1158149bb2fcaaa8c22e25, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
