@@ -10,14 +10,14 @@ public class Camera2DFollow: MonoBehaviour {
 
     public Transform target;
 
-    public float damping = 1;
+    private float damping = 0f;
 
-    public float lookAheadFactor = 3;
+    private float lookAheadFactor = 0f;
     private float lookAheadSave;
-    public float lookAheadReturnSpeed = 0.5f;
-    public float lookAheadMoveThreshold = 0.1f;
-    public float yOffSet = 0f;
-    public float offsetZ = -1f;
+    private float lookAheadReturnSpeed = 0.5f;
+    private float lookAheadMoveThreshold = 0.1f;
+    private float yOffSet = -1f;
+    private float offsetZ = -1f;
 
     bool isSearching = false;
 
@@ -26,7 +26,7 @@ public class Camera2DFollow: MonoBehaviour {
     Vector3 lookAheadPos;
 
 
-    public bool adjustPixel = true;
+    private bool adjustPixel = false;
     public float pixelAdjustment = 64f;
 
 

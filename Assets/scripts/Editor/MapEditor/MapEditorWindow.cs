@@ -71,6 +71,7 @@ public class MapEditorWindow: EditorWindow {
         EditorGUILayout.BeginHorizontal();
         string[] options = new string[MapEditorMap.Sections.Count];
         foreach(GameObject section in MapEditorMap.Sections) {
+			if(section != null)
             options[MapEditorMap.Sections.IndexOf(section)] = section.name;
         }
         EditorGUILayout.LabelField("Section", GUILayout.Width(100));
