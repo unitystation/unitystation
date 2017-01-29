@@ -205,13 +205,19 @@ public class MapEditorControl
 	private static void RotateKeys(Event e)
 	{
 		if (_rotateOptA) {
-			if (e.character == 'z' || e.character == 'x') {
+			if (e.character == 'z') {
 				Preview.RotateBackwards();
+				e.Use();
+			} else if (e.character == 'x') {
+				Preview.RotateForwards();
 				e.Use();
 			}
 		} else {
-			if (e.character == '<' || e.character == '>') {
+			if (e.character == '<') {
 				Preview.RotateBackwards();
+				e.Use();
+			} else if (e.character == '>') {
+				Preview.RotateForwards();
 				e.Use();
 			}
 		}
