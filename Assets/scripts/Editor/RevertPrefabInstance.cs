@@ -10,7 +10,8 @@ public class RevertPrefabInstance : UnityEditor.Editor {
 
 		if (selection.Length > 0) {
 			for (var i = 0; i < selection.Length; i++) {
-				PrefabUtility.ReconnectToLastPrefab(selection[i]);
+//				PrefabUtility.ReconnectToLastPrefab(selection[i]);
+				PrefabUtility.RevertPrefabInstance(selection[i]);
 			}
 		} else {
 			Debug.Log("Cannot revert to prefab - nothing selected");

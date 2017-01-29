@@ -9,7 +9,14 @@ namespace Sprites {
 
         public Sprite[] this[string key] {
             get {
-                return sprites[key];
+				if (sprites.ContainsKey(key)) {
+//					Debug.Log("Sprite found with key: " + key);
+					return sprites[key];
+				} else {
+//					Debug.Log("SPRITE MANAGER ERROR, KEY " + key + "NOT FOUND IN SPRITES");
+					return null; 
+				}
+
             }
             set {
                 sprites[key] = value;
