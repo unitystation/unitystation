@@ -12,13 +12,7 @@ public class EditModeControl: MonoBehaviour {
         Snap(); // snap on instantiate
     }
 
-    void Update() {
-        if(useInGame || !Application.isPlaying) { // only snaps in editor mode
-            Snap();
-        }
-    }
-
-    private void Snap() {
+    public void Snap() {
         float snapInverse = 1 / snapValue;
 
         // if snapValue = .5, x = 1.45 -> snapInverse = 2 -> x*2 => 2.90 -> round 2.90 => 3 -> 3/2 => 1.5

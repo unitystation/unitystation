@@ -40,8 +40,8 @@ namespace Matrix {
             offsetIndex = (int) spritePosition * 2;
         }
 
-        void LateUpdate() {
-            if(!Application.isPlaying && spritePosition != currentSpritePosition) {
+        void OnValidate() {
+            if(spritePosition != currentSpritePosition) {
                 currentSpritePosition = spritePosition;
                 offsetIndex = (int) spritePosition * 2;
                 UpdateListeners();
@@ -75,10 +75,13 @@ namespace Matrix {
                     int i2 = i;
                     listeners[i] = new UnityAction<TileType>(x => ChangeParameter(i2));
                 }
-                adjacentTiles[i, 0] = x + offsets[(offsetIndex + i) % 8];
-                adjacentTiles[i, 1] = y + offsets[(offsetIndex + i + 2) % 8];
 
-                Matrix.AddListener(adjacentTiles[i, 0], adjacentTiles[i, 1], listeners[i]);
+                if(x >= 0) {
+                    adjacentTiles[i, 0] = x + offsets[(offsetIndex + i) % 8];
+                    adjacentTiles[i, 1] = y + offsets[(offsetIndex + i + 2) % 8];
+
+                    Matrix.AddListener(adjacentTiles[i, 0], adjacentTiles[i, 1], listeners[i]);
+                }
             }
         }
 
