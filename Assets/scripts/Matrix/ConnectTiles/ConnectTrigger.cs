@@ -19,19 +19,19 @@ namespace Matrix {
 
             UpdatePosition();
         }
+        
+        //void LateUpdate() {
+        //    if(currentPosition != transform.position) {
+        //        currentPosition = transform.position;
+        //        UpdatePosition();
+        //    }
+        //}
 
-        void LateUpdate() {
-            if(currentPosition != transform.position) {
-                currentPosition = transform.position;
-                UpdatePosition();
-            }
-        }
-
-        private void UpdatePosition() {
+        public void UpdatePosition() {
             currentPosition = transform.position;
 
-            int x = (int) currentPosition.x;
-            int y = (int) currentPosition.y;
+            int x = Mathf.RoundToInt(currentPosition.x);
+            int y = Mathf.RoundToInt(currentPosition.y);
 
             foreach(var c in corners) {
                 if(c.ConnectToAll != connectToAll)
