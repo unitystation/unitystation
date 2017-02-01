@@ -10,14 +10,14 @@ namespace MapEditor {
         private static PreviewObject instance;
         public static PreviewObject Instance {
             get {
-				if(!instance) {
-					GameObject instanceTemp = GameObject.FindGameObjectWithTag("MapEditor");
-					if (instanceTemp != null) {
-						instance = instanceTemp.GetComponentInChildren<PreviewObject>(true);
-						instance.Init();
-					} else {
-						instance = null;
-					}
+                if(!instance) {
+                    GameObject instanceTemp = GameObject.FindGameObjectWithTag("MapEditor");
+                    if(instanceTemp != null) {
+                        instance = instanceTemp.GetComponentInChildren<PreviewObject>(true);
+                        instance.Init();
+                    } else {
+                        instance = null;
+                    }
                 }
 
                 return instance;
@@ -26,43 +26,36 @@ namespace MapEditor {
 
         public static bool ShowPreview { get; set; }
         private SpriteRotate spriteRotate;
-        private SpriteRenderer spriteRenderer;
+        private static SpriteRenderer spriteRenderer;
 
-        private SceneView currentSceneView;
+        private static SceneView currentSceneView;
 
-        private GameObject prefab;
+        private static GameObject prefab;
         public static GameObject Prefab {
-			get {
-				if (Instance != null) {
-					return Instance.prefab;
-				} else {
-					return null;
-				}
-			}
+            get {
+                return prefab;
+            }
             set {
-				if (Instance != null) {
-					if (Instance.prefab != value) {
-						Instance.UpdatePrefab(value);
+                if(prefab != value) {
+                    prefab = value;
 
-						if (Instance.currentSceneView)
-							Instance.currentSceneView.Focus();
-					}
-				}
-			}
+                    if(Instance)
+                        Instance.UpdatePrefab();
+
+                    if(prefab && currentSceneView) {
+                        currentSceneView.Focus();
+                    }
+                }
+            }
         }
 
         public static void Update(SceneView sceneView) {
             SetActive(ShowPreview);
+            currentSceneView = sceneView;
             if(Instance != null) {
-                Instance.currentSceneView = sceneView;
                 Instance.FollowMouse(Event.current);
                 Instance.RemoveFromSelection();
             }
-        }
-
-        void OnEnabled() {
-            if(Instance.currentSceneView)
-                Instance.currentSceneView.Focus();
         }
 
         void Init() {
@@ -75,17 +68,19 @@ namespace MapEditor {
 
             var spriteRotate = gameObject.GetComponentInChildren<SpriteRotate>();
             if(spriteRotate)
-                spriteRotate.SpriteIndex = Instance.spriteRotate.SpriteIndex;
+                spriteRotate.SpriteIndex = spriteRotate.SpriteIndex;
 
             return gameObject;
         }
 
         public static void RotateForwards() {
-            Instance.spriteRotate.RotateForwards();
+            if(Instance)
+                Instance.spriteRotate.RotateForwards();
         }
 
         public static void RotateBackwards() {
-            Instance.spriteRotate.RotateBackwards();
+            if(Instance)
+                Instance.spriteRotate.RotateBackwards();
         }
 
         private void FollowMouse(Event e) {
@@ -94,7 +89,7 @@ namespace MapEditor {
             int x = Mathf.RoundToInt(r.origin.x);
             int y = Mathf.RoundToInt(r.origin.y);
 
-            Instance.transform.position = new Vector3(x, y, 0);
+            transform.position = new Vector3(x, y, 0);
         }
 
         private void RemoveFromSelection() {
@@ -109,14 +104,20 @@ namespace MapEditor {
         }
 
         public static void SetActive(bool active) {
-            if(!active) {
-                Prefab = null;
+            if(Instance && Instance.gameObject.activeInHierarchy != active) { 
+                Instance.gameObject.SetActive(active);
+
+                if(active) {
+                    if(prefab && currentSceneView) {
+                        currentSceneView.Focus();
+                    }
+                }else {
+                    Prefab = null;
+                }                
             }
         }
 
-        private void UpdatePrefab(GameObject prefab) {
-            this.prefab = prefab;
-
+        private void UpdatePrefab() {
             spriteRenderer.sprite = null;
             for(int i = transform.childCount - 1; i >= 0; i--) {
                 DestroyImmediate(transform.GetChild(i).gameObject);
