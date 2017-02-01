@@ -16,14 +16,20 @@ namespace MapEditor {
                 InputControl.ReactInput(sceneView);
 
                 UnselectMapReference();
-            }else {
+            } else {
                 PreviewObject.SetActive(false);
             }
         }
 
         private static void UnselectMapReference() {
             if(!mappingReference) {
-                mappingReference = GameObject.FindGameObjectWithTag("MapEditor").transform.FindChild("Mapping_Reference").gameObject;
+                var mapEditor = GameObject.FindGameObjectWithTag("MapEditor");
+                if(mapEditor) {
+                    var mappingRefTransform = mapEditor.transform.FindChild("Mapping_Reference");
+                    if(mappingRefTransform) {
+                        mappingReference = mappingRefTransform.gameObject;
+                    }
+                }
             }
 
             if(mappingReference) {
