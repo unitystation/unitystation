@@ -56,7 +56,8 @@ namespace MapEditor {
 
             if(showOptions) {
                 InputControl.AllowMouse = EditorGUILayout.Toggle("Create On Mouse Click", InputControl.AllowMouse);
-                PreviewObject.ShowPreview = EditorGUILayout.Toggle("Enable Preview", PreviewObject.ShowPreview);
+				PreviewObject.ShowPreview = EditorGUILayout.Toggle("Enable Preview", PreviewObject.ShowPreview);
+
                 //to handle different keyboard types (i.e. German and US);
                 InputControl.RotateOptA = EditorGUILayout.Toggle("Use Rotate Keys: z and x", InputControl.RotateOptA);
                 InputControl.RotateOptB = EditorGUILayout.Toggle("Use Rotate Keys: < and >", InputControl.RotateOptB);
@@ -93,9 +94,13 @@ namespace MapEditor {
             gridIndices[tabIndex] = GUILayout.SelectionGrid(gridIndices[tabIndex], MapEditorData.CurrentTextures, xCount, buttonStyle);
 
             if(gridIndices[tabIndex] >= 0) {
-                PreviewObject.Prefab = MapEditorData.CurrentPrefabs[gridIndices[tabIndex]];
+				if (PreviewObject.Prefab  != null) {
+					PreviewObject.Prefab = MapEditorData.CurrentPrefabs[gridIndices[tabIndex]];
+				}
             } else {
-                PreviewObject.Prefab = null;
+				if (PreviewObject.Prefab != null) {
+					PreviewObject.Prefab = null;
+				}
             }
 
             EditorGUILayout.EndScrollView();

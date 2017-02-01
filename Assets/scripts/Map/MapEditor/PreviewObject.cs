@@ -10,9 +10,14 @@ namespace MapEditor {
         private static PreviewObject instance;
         public static PreviewObject Instance {
             get {
-                if(!instance) {
-                    instance = GameObject.FindGameObjectWithTag("MapEditor").GetComponentInChildren<PreviewObject>(true);
-                    instance.Init();
+				if(!instance) {
+					GameObject instanceTemp = GameObject.FindGameObjectWithTag("MapEditor");
+					if (instanceTemp != null) {
+						instance = instanceTemp.GetComponentInChildren<PreviewObject>(true);
+						instance.Init();
+					} else {
+						instance = null;
+					}
                 }
 
                 return instance;
@@ -27,15 +32,23 @@ namespace MapEditor {
 
         private GameObject prefab;
         public static GameObject Prefab {
-            get { return Instance.prefab; }
+			get {
+				if (Instance != null) {
+					return Instance.prefab;
+				} else {
+					return null;
+				}
+			}
             set {
-                if(Instance.prefab != value) {
-                    Instance.UpdatePrefab(value);
+				if (Instance != null) {
+					if (Instance.prefab != value) {
+						Instance.UpdatePrefab(value);
 
-                    if(Instance.currentSceneView)
-                        Instance.currentSceneView.Focus();
-                }
-            }
+						if (Instance.currentSceneView)
+							Instance.currentSceneView.Focus();
+					}
+				}
+			}
         }
 
         public static void Update(SceneView sceneView) {
