@@ -49,8 +49,6 @@ namespace MapEditor {
 					}
 				}
 			}
-                }
-            }
         }
 
         public static void Update(SceneView sceneView) {
