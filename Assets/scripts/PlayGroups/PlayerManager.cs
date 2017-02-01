@@ -74,7 +74,11 @@ namespace PlayGroup {
         }
 
         public static bool PlayerInReach(Transform transform) {
-            return PlayerScript.IsInReach(transform);
+			if (PlayerScript != null) {
+				return PlayerScript.IsInReach(transform);
+			} else {
+				return false;
+			}
         }
 
         /// <summary>

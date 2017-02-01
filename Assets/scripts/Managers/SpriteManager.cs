@@ -85,6 +85,8 @@ namespace Sprites {
             ConnectSprites["table_reinforced"] = Resources.LoadAll<Sprite>("tables/table_reinforced");
 
             ConnectSprites["lattice"] = Resources.LoadAll<Sprite>("floors/lattice");
+            ConnectSprites["carpet"] = Resources.LoadAll<Sprite>("floors/carpet");
+            ConnectSprites["catwalk"] = Resources.LoadAll<Sprite>("floors/catwalk");
         }
     }
 }

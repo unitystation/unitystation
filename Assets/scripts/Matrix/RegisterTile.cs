@@ -10,23 +10,15 @@ namespace Matrix {
         public TileType tileType;
         private TileType currentTileType;
 
-        private Vector3 currentPosition;
-
         private int x = -1, y = -1;
 
         void Start() {
             currentTileType = tileType;
-            currentPosition = transform.position;
 
             UpdatePosition();
         }
-
-        void LateUpdate() {
-            if(currentPosition != transform.position) {
-                currentPosition = transform.position;
-                UpdatePosition();
-            }
-            
+        
+        void OnValidate() {
             if(currentTileType != tileType) {
                 UpdateTileType();
             }
@@ -38,12 +30,12 @@ namespace Matrix {
             }
         }
 
-        private void UpdatePosition() {
+        public void UpdatePosition() {
             if(x >= 0)
                 Matrix.Remove(x, y, currentTileType);
 
-            x = (int) currentPosition.x;
-            y = (int) currentPosition.y;
+            x = Mathf.RoundToInt(transform.position.x);
+            y = Mathf.RoundToInt(transform.position.y);
 
             Matrix.Add(x, y, currentTileType);
         }
