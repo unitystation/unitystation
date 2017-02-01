@@ -2180,7 +2180,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4976272309408488}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4193053388379468
 Transform:
@@ -2312,7 +2312,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4976272309408488}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4593634037631372
 Transform:
@@ -2448,8 +2448,8 @@ Transform:
   - {fileID: 4111080934351138}
   - {fileID: 4766824817079442}
   - {fileID: 4702393513702944}
-  - {fileID: 4552340582937136}
   - {fileID: 4184206453605464}
+  - {fileID: 4552340582937136}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7850,7 +7850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIParent: {fileID: 1830651583639642}
-  isDevMode: 1
+  isDevMode: 0
 --- !u!114 &114881689324223894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8273,7 +8273,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1347929283707976}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
   m_Name: 
@@ -8281,7 +8281,6 @@ MonoBehaviour:
   snapValue: 1
   depth: 0
   useInGame: 0
-  allowRotate: 0
 --- !u!114 &114948444567873466
 MonoBehaviour:
   m_ObjectHideFlags: 1
