@@ -19,7 +19,9 @@ namespace Network {
 
         [PunRPC]
         void SendCurrentState(string playerRequesting) {
-            photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, playerRequesting, shutterController.IsClosed);
+			if (shutterController != null) {
+				photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, playerRequesting, shutterController.IsClosed);
+			}
         }
 
         [PunRPC]
