@@ -19,13 +19,6 @@ namespace Matrix {
 
             UpdatePosition();
         }
-        
-        //void LateUpdate() {
-        //    if(currentPosition != transform.position) {
-        //        currentPosition = transform.position;
-        //        UpdatePosition();
-        //    }
-        //}
 
         public void UpdatePosition() {
             currentPosition = transform.position;

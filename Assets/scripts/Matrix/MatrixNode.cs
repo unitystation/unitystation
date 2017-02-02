@@ -7,7 +7,7 @@ using UnityEngine.Events;
 namespace Matrix {
 
     public enum TileType {
-        Space, Floor, Table, Wall, Window, Door
+        Space, Floor, Catwalk, Carpet, Table, Wall, Window, Door
     }
 
     public class MatrixNode {
