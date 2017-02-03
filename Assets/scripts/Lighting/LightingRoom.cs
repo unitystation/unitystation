@@ -32,7 +32,12 @@ namespace Lighting
 
 		void Awake()
 		{
-			tileManager = GetComponentInChildren<LightingTileManager>();
+			foreach (Transform child in transform) {
+				if (child.gameObject.name == "Tiles") {
+					child.gameObject.SetActive(true);
+					tileManager = child.gameObject.GetComponent<LightingTileManager>();
+				}
+			}
 			sourceManager = GetComponentInChildren<LightingSourceManager>();
 		}
 

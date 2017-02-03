@@ -7,6 +7,7 @@ namespace Lighting
 	public class LightingTileManager : MonoBehaviour
 	{
 		public Dictionary<Vector2,LightTile> lightTiles = new Dictionary<Vector2, LightTile>();
+
 		public Vector4 bounds;
 
 		void Start()
@@ -19,7 +20,11 @@ namespace Lighting
 			foreach (Transform child in transform) {
 				LightTile lightTile = child.gameObject.GetComponent<LightTile>();
 				if (lightTile != null) {
-					lightTiles.Add(child.transform.position, lightTile);
+					if (!lightTiles.ContainsKey(child.transform.position)) {
+						lightTiles.Add(child.transform.position, lightTile);
+					} else {
+						Destroy(child.gameObject);
+					}
 				} else {
 					Debug.LogError("No LightTile component found!");
 				}
