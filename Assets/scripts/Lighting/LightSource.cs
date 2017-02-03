@@ -9,6 +9,8 @@ namespace Lighting
 
 		private SpriteRenderer thisSprite;
 		private LightTile contactLightTile;
+		private bool sentLight = false;
+	
 		public float brightness = 80f;
 
 		void Awake()
@@ -18,7 +20,8 @@ namespace Lighting
 
 		void OnTriggerEnter2D(Collider2D coll)
 		{
-			if (coll.gameObject.layer == 13) {
+			if (coll.gameObject.layer == 13 && !sentLight) {
+				sentLight = true;
 				Debug.Log(gameObject + " HIT LIGHT TILE");
 				LightTile tempLit = coll.gameObject.GetComponent <LightTile>();
 				if (tempLit != null) {
