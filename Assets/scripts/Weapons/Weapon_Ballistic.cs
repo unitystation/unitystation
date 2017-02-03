@@ -5,76 +5,85 @@ using PlayGroup;
 
 namespace Weapons
 {
-    public class Weapon_Ballistic : MonoBehaviour
-    {
-        private bool isInHand = false;
-        private bool allowedToShoot = false;
+	public class Weapon_Ballistic : MonoBehaviour
+	{
+		private bool isInHand = false;
+		private bool allowedToShoot = false;
+		private PhotonView photonView;
 
-        [Header("0 = fastest")]
-        public float firingRate = 1f;
+		[Header("0 = fastest")]
+		public float firingRate = 1f;
 
-        public AudioSource shootSFX;
-        public AudioSource emptySFX;
+		public AudioSource shootSFX;
+		public AudioSource emptySFX;
 
+		void Awake()
+		{
+			photonView = gameObject.GetComponent<PhotonView>();
+		}
 
-        void Update()
-        {
-            if (isInHand && Input.GetMouseButtonDown(0))
-            {
-                Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-                Shoot(dir);
-            }
-        }
+		void Update()
+		{
+			if (isInHand && Input.GetMouseButtonDown(0)) {
+				Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
+				Shoot(dir);
+			}
+		}
 
-        void Shoot(Vector2 shootDir)
-        {
-            if (allowedToShoot)
-            {
-                allowedToShoot = false;
+		void Shoot(Vector2 shootDir)
+		{
+			if (allowedToShoot) {
+				allowedToShoot = false;
 
-                //TODO Do shooting stuff here
-                //TODO shoot a bullet in the dir
-                //TODO dispense a casing shell
-                //TODO remove a bullet from ammo class
-               
+				if (PhotonNetwork.connectedAndReady) {
+					photonView.RPC("ShootWeapon", PhotonTargets.All);
+				} else {
+					ShootWeapon();
+				}
 
+				StartCoroutine("ShootCoolDown");
+			}
+		}
 
-                //sound
-                shootSFX.transform.position = PlayerManager.LocalPlayer.transform.position;
-                shootSFX.Play();
-                StartCoroutine("ShootCoolDown");
-            }
-        }
+		[PunRPC]
+		void ShootWeapon()
+		{
+			//TODO Do shooting stuff here
+			//TODO shoot a bullet in the dir
+			//TODO dispense a casing shell
+			//TODO remove a bullet from ammo class
+			//sound
+			shootSFX.transform.position = PlayerManager.LocalPlayer.transform.position;
+			shootSFX.Play();
+		}
 
-        //Check which slot it was just added too (broadcast from UI_itemSlot
-        public void OnAddToInventory(string slotName)
-        {
-            if (slotName == "rightHand" || slotName == "leftHand")
-            {
-                Debug.Log("PickedUp Weapon");
-                isInHand = true;
-                StartCoroutine("ShootCoolDown");
-            }
-            else
-            {
-                //Any other slot
-                isInHand = false;
-            }
-        }
+		//Check which slot it was just added too (broadcast from UI_itemSlot
+		public void OnAddToInventory(string slotName)
+		{
+			if (slotName == "rightHand" || slotName == "leftHand") {
+				Debug.Log("PickedUp Weapon");
+				isInHand = true;
+				StartCoroutine("ShootCoolDown");
+			} else {
+				//Any other slot
+				isInHand = false;
+			}
+		}
 
-        //recieve broadcast msg when item is dropped from hand
-        public void OnRemoveFromInventory()
-        {
-            Debug.Log("Dropped Weapon");
-            isInHand = false;
-            allowedToShoot = false;
-        }
+		//recieve broadcast msg when item is dropped from hand
+		public void OnRemoveFromInventory()
+		{
+			Debug.Log("Dropped Weapon");
+			isInHand = false;
+			allowedToShoot = false;
+		}
 
-        IEnumerator ShootCoolDown()
-        {
-            yield return new WaitForSeconds(firingRate);
-            allowedToShoot = true;
+		IEnumerator ShootCoolDown()
+		{
+			yield return new WaitForSeconds(firingRate);
+			allowedToShoot = true;
 
-        }
-    }
+		}
+			
+	}
 }

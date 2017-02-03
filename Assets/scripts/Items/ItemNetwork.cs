@@ -9,13 +9,14 @@ namespace Items {
     [RequireComponent(typeof(PhotonView))]
     public class ItemNetwork: Photon.PunBehaviour, IPunObservable {
         private bool synced = false;
+		private EditModeControl snapControl;
 
         public void OnAddToInventory(string slotName) {
             this.photonView.RequestOwnership();
-            Debug.Log("Request ownership");
         }
 
         void Start() {
+			snapControl = GetComponent<EditModeControl>();
             if(PhotonNetwork.connectedAndReady) {
                 //Has been instantiated at runtime and you received instantiate of this object from photon on room join
                 StartSync();
@@ -24,14 +25,21 @@ namespace Items {
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
             if(stream.isWriting) {
-
                 stream.SendNext(transform.position);
-
             } else {
                 // Network player, receive data
                 this.transform.position = (Vector3) stream.ReceiveNext();
             }
         }
+
+		//recieve broadcast msg when item is dropped from hand
+		public void OnRemoveFromInventory()
+		{
+			Debug.Log("SNAPTOGRID");
+			if (snapControl != null) {
+				snapControl.Snap();
+			}
+		}
 
         public override void OnJoinedRoom() {
             StartSync();
