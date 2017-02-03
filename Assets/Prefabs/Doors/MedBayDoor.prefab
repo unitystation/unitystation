@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114686066827196848}
   - component: {fileID: 95287890711978462}
   - component: {fileID: 114634090869509630}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: MedBayDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4820934920317418}
   - component: {fileID: 212682667343390072}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: overlay_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4848489258726742}
   - component: {fileID: 212763884745741634}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: doorbase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4158867135387300}
   - component: {fileID: 82424364662987246}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: openSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4936868079178504}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: soundfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4577891027318042}
   - component: {fileID: 82734786462398976}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: closeSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4845856597561368}
   - component: {fileID: 212945465059047480}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: overlay_Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1033492078376264}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1826, y: 1125, z: -0.1}
+  m_LocalPosition: {x: 1844, y: 1127, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4845856597561368}

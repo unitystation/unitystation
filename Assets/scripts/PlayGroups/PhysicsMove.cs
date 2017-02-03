@@ -57,19 +57,19 @@ namespace PlayGroup
         //move in direction input
         public void MoveInDirection(Vector2 direction)
         { 
-            lerpA = false;
-            moveDirection = direction;
-            isMoving = true;
+			if (Matrix.Matrix.IsPassableAt((int)(Mathf.Round(transform.position.x) + direction.x), (int)(Mathf.Round(transform.position.y) + direction.y))) {
+				lerpA = false;
+				moveDirection = direction;
+				isMoving = true;
 
-            if (direction == Vector2.right || direction == Vector2.left)
-            {
-                clampPos = transform.position.y; 
-            }
+				if (direction == Vector2.right || direction == Vector2.left) {
+					clampPos = transform.position.y; 
+				}
 
-            if (direction == Vector2.down || direction == Vector2.up)
-            {
-                clampPos = transform.position.x;
-            }
+				if (direction == Vector2.down || direction == Vector2.up) {
+					clampPos = transform.position.x;
+				}
+			}
         }
 
         //force a snap to the tile manually
