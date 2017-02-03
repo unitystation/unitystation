@@ -49,7 +49,7 @@ namespace Matrix {
         }
 
         public static bool IsPassableAt(int x, int y) {
-            return GetTypeAt(x, y) <= TileType.Floor;
+			return GetTypeAt(x, y) < TileType.Table || GetTypeAt(x, y) == TileType.Door;
         }
 
         public static bool IsSpaceAt(int x, int y) {
