@@ -1,7 +1,7 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -14,7 +14,7 @@ public class SpriteRotate: MonoBehaviour {
     public int SpriteIndex {
         get { return spriteIndex; }
         set {
-            if(spriteRenderer && sprites.Length > 1) {
+			if(spriteRenderer && sprites.Length > 1 && !Application.isPlaying) {
                 spriteIndex = (value + sprites.Length) % sprites.Length;
                 spriteRenderer.sprite = sprites[SpriteIndex];
             }
@@ -22,6 +22,11 @@ public class SpriteRotate: MonoBehaviour {
     }
 
     void Awake() {
+		if (Application.isPlaying) {
+			Debug.Log("DESTROYED SPRITEROTATE OBJ");
+			Destroy(this);
+
+		}
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
@@ -33,3 +38,4 @@ public class SpriteRotate: MonoBehaviour {
         SpriteIndex--;
     }
 }
+#endif

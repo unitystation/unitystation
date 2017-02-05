@@ -45,10 +45,10 @@ namespace PlayGroup {
             PlayerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
             Camera2DFollow.followControl.target = LocalPlayer.transform;
 
-            Equipment = Instance.GetComponent<Equipment>();
-            Equipment.enabled = true;
+			Equipment = Instance.GetComponent<Equipment>();
+			Equipment.enabled = true;
         }
-
+			
         //CHECK HERE FOR AN EXAMPLE OF INSTANTIATING ITEMS ON PHOTON
         public static void CheckIfSpawned() {
             Debug.Log("CHECK IF SPAWNED");
