@@ -22,11 +22,6 @@ public class SpriteRotate: MonoBehaviour {
     }
 
     void Awake() {
-		if (Application.isPlaying) {
-			Debug.Log("DESTROYED SPRITEROTATE OBJ");
-			Destroy(this);
-
-		}
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
