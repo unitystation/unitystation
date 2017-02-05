@@ -10,7 +10,7 @@ namespace Lighting
 		public SpriteRenderer thisSprite{get; set;}
 		private LightingTileManager tileManager;
 		private bool transmitting = false;
-		void Awake()
+		void Start()
 		{
 			thisSprite = GetComponentInChildren<SpriteRenderer>();
 			tileManager = GetComponentInParent<LightingTileManager>();

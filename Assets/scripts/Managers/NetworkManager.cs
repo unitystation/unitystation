@@ -29,7 +29,8 @@ namespace Network {
 
         void Start() {
             PhotonNetwork.offlineMode = Managers.instance.IsDevMode;
-
+			PhotonView phView = GetComponent<PhotonView>();
+			phView.viewID = 99001;
             PhotonNetwork.logLevel = logLevel;
             //no lobby, just server(room)
             PhotonNetwork.autoJoinLobby = false;

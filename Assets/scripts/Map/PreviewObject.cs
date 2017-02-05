@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -59,6 +60,7 @@ namespace MapEditor {
         }
 
         void Init() {
+
             spriteRotate = GetComponent<SpriteRotate>();
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
@@ -152,3 +154,4 @@ namespace MapEditor {
         }
     }
 }
+#endif
