@@ -7,46 +7,66 @@ namespace Matrix {
     [ExecuteInEditMode]
     public class RegisterTile: MonoBehaviour {
 
-        public TileType tileType;
-        private TileType currentTileType;
+        public bool inSpace;
+
+        [HideInInspector]
+        public int tileTypeIndex;
+        private int currentTileTypeIndex;
+        public TileType TileType {
+            get {
+                return TileType.List[currentTileTypeIndex];
+            }
+        }
 
         private int x = -1, y = -1;
 
         void Start() {
-            currentTileType = tileType;
+            currentTileTypeIndex = tileTypeIndex;
 
             UpdatePosition();
         }
-        
+
         void OnValidate() {
-            if(currentTileType != tileType) {
-                UpdateTileType();
+            if(currentTileTypeIndex != tileTypeIndex) {
+                currentTileTypeIndex = tileTypeIndex;
+                UpdateTileType(TileType.List[currentTileTypeIndex]);
             }
         }
 
         void OnDestroy() {
             if(x >= 0) {
-                Matrix.Remove(x, y, tileType);
+                Matrix.At(x, y).TryRemoveTile(gameObject);
             }
         }
 
         public void UpdatePosition() {
             if(x >= 0)
-                Matrix.Remove(x, y, currentTileType);
+                Matrix.At(x, y).TryRemoveTile(gameObject);
 
             x = Mathf.RoundToInt(transform.position.x);
             y = Mathf.RoundToInt(transform.position.y);
 
-            Matrix.Add(x, y, currentTileType);
+            AddTile();
         }
 
-        private void UpdateTileType() {
+        public void UpdateTileType(TileType tileType) {
             if(x >= 0) {
-                Matrix.Remove(x, y, currentTileType);
-                Matrix.Add(x, y, tileType);
+                Matrix.At(x, y).TryRemoveTile(gameObject);
             }
 
-            currentTileType = tileType;
+            if(x >= 0) {
+                AddTile();
+            }
+
+            // in case it was called from somewhere else
+            currentTileTypeIndex = TileType.List.IndexOf(tileType);
+            tileTypeIndex = currentTileTypeIndex;
+        }
+
+        private void AddTile() {
+            if(!Matrix.At(x, y).TryAddTile(gameObject)) {
+                Debug.Log("Couldn't add tile at " + x + " " + y);
+            }
         }
     }
 }

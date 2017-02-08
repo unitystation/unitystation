@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.Collections;
 
-public class RevertPrefabInstance : UnityEditor.Editor {
+public class RevertPrefabInstance : Editor {
 
 	[MenuItem ("Tools/Reconnect Prefab %r")]
 	static void Revert() {

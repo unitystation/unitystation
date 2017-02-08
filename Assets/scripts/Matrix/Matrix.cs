@@ -1,72 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Events;
-using UnityEngine.Events;
-
+﻿using UnityEngine;
 
 namespace Matrix {
+    
+    public class Matrix {
 
-    [ExecuteInEditMode]
-    public class Matrix: MonoBehaviour {
+        private static Matrix Instance = new Matrix();
+
+        private Matrix() { }
+
         private MatrixNode[,] map = new MatrixNode[2500, 2500];
 
-        private static Matrix wallMap;
-
-        public static Matrix Instance {
-            get {
-                if(!wallMap) {
-                    wallMap = FindObjectOfType<Matrix>();
-                }
-
-                return wallMap;
-            }
-        }
-
-        public static void Add(int x, int y, TileType tileType) {
+        public static MatrixNode At(int x, int y) {
             if(Instance.map[y, x] == null) {
                 Instance.map[y, x] = new MatrixNode();
             }
-            Instance.map[y, x].AddTileType(tileType);
-        }
-
-        public static void Remove(int x, int y, TileType tileType) {
-            if(Instance && Instance.map[y, x] != null) {
-                Instance.map[y, x].RemoveTileType(tileType);
-            }
-        }
-
-        public static TileType GetTypeAt(int x, int y) {
-            if(Instance.map[y, x] == null)
-                return TileType.Space;
-            return Instance.map[y, x].Type;
-        }
-
-        public static bool HasTypeAt(int x, int y, TileType tileType) {
-            if(Instance.map[y, x] == null)
-                return tileType == TileType.Space;
-            return Instance.map[y, x].HasTileType(tileType);
-        }
-
-        public static bool IsPassableAt(int x, int y) {
-			return GetTypeAt(x, y) < TileType.Table || GetTypeAt(x, y) == TileType.Door;
-        }
-
-        public static bool IsSpaceAt(int x, int y) {
-            return GetTypeAt(x, y) == TileType.Space;
-        }
-
-        public static void AddListener(int x, int y, UnityAction<TileType> listener) {
-            if(Instance.map[y, x] == null) {
-                Instance.map[y, x] = new MatrixNode();
-            }
-            Instance.map[y, x].AddListener(listener);
-        }
-
-        public static void RemoveListener(int x, int y, UnityAction<TileType> listener) {
-            if(Instance && Instance.map[y, x] != null) {
-                Instance.map[y, x].RemoveListener(listener);
-            }
+            return Instance.map[y, x];
         }
 
         //This is for the InputRelease method on physics move (to snap player to grid)
@@ -94,7 +42,7 @@ namespace Matrix {
                 closestY = Mathf.Round(curPos.y);
             }
             // If target is not passable then target cur tile
-            if(!IsPassableAt((int) closestX, (int) closestY)) {
+            if(!At((int) closestX, (int) closestY).IsPassable()) {
                 closestX = Mathf.Round(curPos.x);
                 closestY = Mathf.Round(curPos.y);
             }

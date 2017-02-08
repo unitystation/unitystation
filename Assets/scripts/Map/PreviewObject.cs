@@ -70,7 +70,7 @@ namespace MapEditor {
 
             var spriteRotate = gameObject.GetComponentInChildren<SpriteRotate>();
             if(spriteRotate)
-                spriteRotate.SpriteIndex = spriteRotate.SpriteIndex;
+                spriteRotate.SpriteIndex = Instance.spriteRotate.SpriteIndex;
 
             return gameObject;
         }
@@ -127,6 +127,7 @@ namespace MapEditor {
 
             if(prefab) {
                 var spriteRotate = prefab.GetComponentInChildren<SpriteRotate>();
+
                 if(spriteRotate) {
                     spriteRenderer.enabled = true;
                     this.spriteRotate.sprites = spriteRotate.sprites;
