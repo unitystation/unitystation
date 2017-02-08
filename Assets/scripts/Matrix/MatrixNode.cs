@@ -12,40 +12,30 @@ namespace Matrix {
 
         private UnityEvent connectEvent = new UnityEvent();
 
+        private List<GameObject> tiles = new List<GameObject>();
+
         public bool TryAddTile(GameObject gameObject) {
-
             var registerTile = gameObject.GetComponent<RegisterTile>();
-            if(registerTile && (tileValue & registerTile.TileType) == 0) {
-                tileValue += registerTile.TileType;
-            } else {
+            if(!registerTile) {
                 return false;
-            }
+            } 
 
-            var connectTrigger = gameObject.GetComponent<ConnectTrigger>();
-            if(connectTrigger) {
-                if((connectValue & connectTrigger.ConnectType) == 0) {
-                    connectValue += connectTrigger.ConnectType;
-                }
-            }
+            tiles.Add(gameObject);
+            UpdateValues();
+
             connectEvent.Invoke();
 
             return true;
         }
 
         public bool TryRemoveTile(GameObject gameObject) {
-            var registerTile = gameObject.GetComponent<RegisterTile>();
-            if(registerTile && (tileValue & registerTile.TileType) == registerTile.TileType) {
-                tileValue -= registerTile.TileType;
-            } else {
+            if(!tiles.Contains(gameObject)) {
                 return false;
             }
+            
+            tiles.Remove(gameObject);
+            UpdateValues();
 
-            var connectTrigger = gameObject.GetComponent<ConnectTrigger>();
-            if(connectTrigger) {
-                if((connectValue & connectTrigger.ConnectType) == connectTrigger.ConnectType) {
-                    connectValue -= connectTrigger.ConnectType;
-                }
-            }
             connectEvent.Invoke();
 
             return true;
@@ -81,6 +71,21 @@ namespace Matrix {
 
         public void RemoveListener(UnityAction listener) {
             connectEvent.RemoveListener(listener);
+        }
+
+        private void UpdateValues() {
+            tileValue = 0;
+            connectValue = 0;
+
+            foreach(var tile in tiles) {
+                var registerTile = tile.GetComponent<RegisterTile>();
+                tileValue |= registerTile.TileType;
+
+                var connectTrigger = tile.GetComponent<ConnectTrigger>();
+                if(connectTrigger) {
+                    connectValue |= connectTrigger.ConnectType;
+                }
+            }
         }
     }
 }
