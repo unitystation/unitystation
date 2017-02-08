@@ -4,63 +4,83 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Matrix {
-
-    public enum TileType {
-		Space, Floor, Catwalk, Carpet, Table, Wall, Window, Door 
-    }
+namespace Matrix {   
 
     public class MatrixNode {
+        private int tileValue = 0;
+        private int connectValue = 0;
 
-        private class TileEvent: UnityEvent<TileType> { }
+        private UnityEvent connectEvent = new UnityEvent();
 
-        private TileEvent tileEvent = new TileEvent();
-        private SortedList<TileType, int> tileTypes = new SortedList<TileType, int>();
+        public bool TryAddTile(GameObject gameObject) {
 
-        public MatrixNode() {
-            AddTileType(TileType.Space);
-        }
-
-        public TileType Type {
-            get {
-                return tileTypes.Keys[tileTypes.Values.Count - 1];
-            }
-        }
-
-        public void AddTileType(TileType tileType) {
-            if(!tileTypes.ContainsKey(tileType)) {
-                tileTypes[tileType] = 1;
+            var registerTile = gameObject.GetComponent<RegisterTile>();
+            if(registerTile && (tileValue & registerTile.TileType) == 0) {
+                tileValue += registerTile.TileType;
             } else {
-                tileTypes[tileType]++;
+                return false;
             }
-            tileEvent.Invoke(tileType);
-        }
 
-        public void RemoveTileType(TileType tileType) {
-            if(tileTypes.ContainsKey(tileType)) {
-                tileTypes[tileType] -= 1;
-
-                if(tileTypes[tileType] == 0) {
-                    tileTypes.Remove(tileType);
-                    tileEvent.Invoke(Type);
+            var connectTrigger = gameObject.GetComponent<ConnectTrigger>();
+            if(connectTrigger) {
+                if((connectValue & connectTrigger.ConnectType) == 0) {
+                    connectValue += connectTrigger.ConnectType;
                 }
             }
+            connectEvent.Invoke();
+
+            return true;
         }
 
-        public int GetTileTypeLevel() {
-            return -1;
+        public bool TryRemoveTile(GameObject gameObject) {
+            var registerTile = gameObject.GetComponent<RegisterTile>();
+            if(registerTile && (tileValue & registerTile.TileType) == registerTile.TileType) {
+                tileValue -= registerTile.TileType;
+            } else {
+                return false;
+            }
+
+            var connectTrigger = gameObject.GetComponent<ConnectTrigger>();
+            if(connectTrigger) {
+                if((connectValue & connectTrigger.ConnectType) == connectTrigger.ConnectType) {
+                    connectValue -= connectTrigger.ConnectType;
+                }
+            }
+            connectEvent.Invoke();
+
+            return true;
         }
 
-        public bool HasTileType(TileType tileType) {
-            return tileTypes.Keys.Contains(tileType);
+        public bool FitsTile(GameObject gameObject) {
+            var registerTile = gameObject.GetComponent<RegisterTile>();
+            return registerTile && (tileValue & registerTile.TileType) == 0;
         }
 
-        public void AddListener(UnityAction<TileType> listener) {
-            tileEvent.AddListener(listener);
+        public bool IsSpace() {
+            return (tileValue & 3) == 0;
         }
 
-        public void RemoveListener(UnityAction<TileType> listener) {
-            tileEvent.RemoveListener(listener);
+        public bool IsPassable() {
+            return (tileValue & 4) == 0;
+        }
+
+        public bool IsAtmosPassable() {
+            return (tileValue & 2) == 0;
+        }
+
+        public bool Connects(ConnectType connectType) {
+            if(connectType != null) {
+                return ((connectType & (connectValue | tileValue)) > 0);
+            }
+            return false;
+        }
+
+        public void AddListener(UnityAction listener) {
+            connectEvent.AddListener(listener);
+        }
+
+        public void RemoveListener(UnityAction listener) {
+            connectEvent.RemoveListener(listener);
         }
     }
 }

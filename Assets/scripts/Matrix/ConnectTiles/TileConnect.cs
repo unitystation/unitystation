@@ -11,10 +11,9 @@ namespace Matrix {
     [ExecuteInEditMode]
     public class TileConnect: MonoBehaviour {
         public SpritePosition spritePosition;
-        public bool ConnectToAll { get; set; }
-        public TileType TileType {
+        public ConnectType ConnectType {
             get {
-                return transform.parent.GetComponent<RegisterTile>().tileType;
+                return transform.parent.GetComponent<ConnectTrigger>().ConnectType;
             }
         }
 
@@ -32,7 +31,7 @@ namespace Matrix {
         private int x = -1, y = -1;
         private int offsetIndex;
 
-        private UnityAction<TileType>[] listeners = new UnityAction<TileType>[3];
+        private UnityAction[] listeners = new UnityAction[3];
 
         void Awake() {
             sprites = SpriteManager.ConnectSprites[spriteName];
@@ -48,13 +47,9 @@ namespace Matrix {
             }
         }
 
-        public void ChangeParameter(int index) {
-            bool connected;
-            if(ConnectToAll) {
-                connected = !Matrix.IsSpaceAt(adjacentTiles[index, 0], adjacentTiles[index, 1]);
-            } else {
-                connected = Matrix.HasTypeAt(adjacentTiles[index, 0], adjacentTiles[index, 1], TileType);
-            }
+        public void OnConnectChange(int index) {
+            bool connected = Matrix.At(adjacentTiles[index, 0], adjacentTiles[index, 1]).Connects(ConnectType);
+
             c[index] = connected ? 1 : 0;
             UpdateSprite();
         }
@@ -70,37 +65,43 @@ namespace Matrix {
         private void UpdateListeners() {
             for(int i = 0; i < 3; i++) {
                 if(listeners[i] != null) {
-                    Matrix.RemoveListener(adjacentTiles[i, 0], adjacentTiles[i, 1], listeners[i]);
+                    Matrix.At(adjacentTiles[i, 0], adjacentTiles[i, 1]).RemoveListener(listeners[i]);
                 } else {
                     int i2 = i;
-                    listeners[i] = new UnityAction<TileType>(x => ChangeParameter(i2));
+                    listeners[i] = new UnityAction(() => OnConnectChange(i2));
                 }
 
                 if(x >= 0) {
                     adjacentTiles[i, 0] = x + offsets[(offsetIndex + i) % 8];
                     adjacentTiles[i, 1] = y + offsets[(offsetIndex + i + 2) % 8];
 
-                    Matrix.AddListener(adjacentTiles[i, 0], adjacentTiles[i, 1], listeners[i]);
+                    Matrix.At(adjacentTiles[i, 0], adjacentTiles[i, 1]).AddListener(listeners[i]);
                 }
             }
         }
 
         void OnDestroy() {
-            for(int i = 0; i < 3; i++) {
-                Matrix.RemoveListener(adjacentTiles[i, 0], adjacentTiles[i, 1], listeners[i]);
+            if(listeners[0] != null) {
+                for(int i = 0; i < 3; i++) {
+                    Matrix.At(adjacentTiles[i, 0], adjacentTiles[i, 1]).RemoveListener(listeners[i]);
+                }
             }
         }
 
         private void CheckAdjacentTiles() {
             for(int i = 0; i < 3; i++) {
-                ChangeParameter(i);
+                OnConnectChange(i);
             }
         }
 
         private void UpdateSprite() {
             int code = c[0] * 3 + c[2] * 1 + (c[0] * c[1] * c[2]) * -2;
             int index = (int) spritePosition * 5 + code;
-            spriteRenderer.sprite = sprites[index];
+
+            if(sprites != null && index < sprites.Length)
+                spriteRenderer.sprite = sprites[index];
+            else
+                Debug.Log("Sprites are missing!");
         }
     }
 }

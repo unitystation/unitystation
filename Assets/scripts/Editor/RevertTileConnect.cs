@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class RevertTileConnect : Editor {
 
-
     [MenuItem("Tools/Reconnect TileConnect %r")]
     static void Revert() {
         var triggers = FindObjectsOfType<ConnectTrigger>();

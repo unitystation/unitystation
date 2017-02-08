@@ -14,18 +14,18 @@ public class ShutterController : MonoBehaviour {
         animator = gameObject.GetComponent<Animator>();
         registerTile = gameObject.GetComponent<RegisterTile>();
 
-        registerTile.tileType = TileType.Space;
+        registerTile.UpdateTileType(TileType.None);
     }
 
     public void Open() {
         IsClosed = false;
-        registerTile.tileType = TileType.Space;
+        registerTile.UpdateTileType(TileType.None);
         animator.SetBool("close", false);
     }
 
     public void Close() {
         IsClosed = true;
-        registerTile.tileType = TileType.Door;
+        registerTile.UpdateTileType(TileType.Door);
         animator.SetBool("close", true);
     }
 
