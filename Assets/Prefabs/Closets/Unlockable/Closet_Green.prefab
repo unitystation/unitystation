@@ -72,6 +72,7 @@ GameObject:
   - component: {fileID: 4710413447952684}
   - component: {fileID: 61504699971644330}
   - component: {fileID: 114984979541983468}
+  - component: {fileID: 114585421977205508}
   m_Layer: 11
   m_Name: Closet_Green
   m_TagString: Untagged
@@ -176,6 +177,19 @@ MonoBehaviour:
   doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
   offsetOpened: {x: -0.1068115, y: 0.008911133}
   sizeOpened: {x: 0.785645, y: 0.8395182}
+--- !u!114 &114585421977205508
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1992679967695770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 2
 --- !u!114 &114618990163412012
 MonoBehaviour:
   m_ObjectHideFlags: 1
