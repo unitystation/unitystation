@@ -57,6 +57,7 @@ namespace MapEditor {
             if(showOptions) {
                 InputControl.AllowMouse = EditorGUILayout.Toggle("Create On Mouse Click", InputControl.AllowMouse);
                 PreviewObject.ShowPreview = EditorGUILayout.Toggle("Enable Preview", PreviewObject.ShowPreview);
+                MapEditorControl.CheckTileFit = EditorGUILayout.Toggle("Check Tile Fit", MapEditorControl.CheckTileFit);
                 //to handle different keyboard types (i.e. German and US);
                 InputControl.RotateOptA = EditorGUILayout.Toggle("Use Rotate Keys: z and x", InputControl.RotateOptA);
                 InputControl.RotateOptB = EditorGUILayout.Toggle("Use Rotate Keys: < and >", InputControl.RotateOptB);

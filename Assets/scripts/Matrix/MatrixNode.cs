@@ -4,63 +4,88 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Matrix {
-
-    public enum TileType {
-        Space, Floor, Table, Wall, Window, Door
-    }
+namespace Matrix {   
 
     public class MatrixNode {
+        private int tileValue = 0;
+        private int connectValue = 0;
 
-        private class TileEvent: UnityEvent<TileType> { }
+        private UnityEvent connectEvent = new UnityEvent();
 
-        private TileEvent tileEvent = new TileEvent();
-        private SortedList<TileType, int> tileTypes = new SortedList<TileType, int>();
+        private List<GameObject> tiles = new List<GameObject>();
 
-        public MatrixNode() {
-            AddTileType(TileType.Space);
+        public bool TryAddTile(GameObject gameObject) {
+            var registerTile = gameObject.GetComponent<RegisterTile>();
+            if(!registerTile) {
+                return false;
+            } 
+
+            tiles.Add(gameObject);
+            UpdateValues();
+
+            connectEvent.Invoke();
+
+            return true;
         }
 
-        public TileType Type {
-            get {
-                return tileTypes.Keys[tileTypes.Values.Count - 1];
+        public bool TryRemoveTile(GameObject gameObject) {
+            if(!tiles.Contains(gameObject)) {
+                return false;
             }
+            
+            tiles.Remove(gameObject);
+            UpdateValues();
+
+            connectEvent.Invoke();
+
+            return true;
         }
 
-        public void AddTileType(TileType tileType) {
-            if(!tileTypes.ContainsKey(tileType)) {
-                tileTypes[tileType] = 1;
-            } else {
-                tileTypes[tileType]++;
+        public bool FitsTile(GameObject gameObject) {
+            var registerTile = gameObject.GetComponent<RegisterTile>();
+            return registerTile && (tileValue & registerTile.TileType) == 0;
+        }
+
+        public bool IsSpace() {
+            return (tileValue & 3) == 0;
+        }
+
+        public bool IsPassable() {
+            return (tileValue & 4) == 0;
+        }
+
+        public bool IsAtmosPassable() {
+            return (tileValue & 2) == 0;
+        }
+
+        public bool Connects(ConnectType connectType) {
+            if(connectType != null) {
+                return ((connectType & (connectValue | tileValue)) > 0);
             }
-            tileEvent.Invoke(tileType);
+            return false;
         }
 
-        public void RemoveTileType(TileType tileType) {
-            if(tileTypes.ContainsKey(tileType)) {
-                tileTypes[tileType] -= 1;
+        public void AddListener(UnityAction listener) {
+            connectEvent.AddListener(listener);
+        }
 
-                if(tileTypes[tileType] == 0) {
-                    tileTypes.Remove(tileType);
-                    tileEvent.Invoke(Type);
+        public void RemoveListener(UnityAction listener) {
+            connectEvent.RemoveListener(listener);
+        }
+
+        private void UpdateValues() {
+            tileValue = 0;
+            connectValue = 0;
+
+            foreach(var tile in tiles) {
+                var registerTile = tile.GetComponent<RegisterTile>();
+                tileValue |= registerTile.TileType;
+
+                var connectTrigger = tile.GetComponent<ConnectTrigger>();
+                if(connectTrigger) {
+                    connectValue |= connectTrigger.ConnectType;
                 }
             }
-        }
-
-        public int GetTileTypeLevel() {
-            return -1;
-        }
-
-        public bool HasTileType(TileType tileType) {
-            return tileTypes.Keys.Contains(tileType);
-        }
-
-        public void AddListener(UnityAction<TileType> listener) {
-            tileEvent.AddListener(listener);
-        }
-
-        public void RemoveListener(UnityAction<TileType> listener) {
-            tileEvent.RemoveListener(listener);
         }
     }
 }

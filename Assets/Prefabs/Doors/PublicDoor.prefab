@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011383418770}
   - component: {fileID: 212000011195497998}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: overlay_Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000014171826472}
   - component: {fileID: 212000011330282726}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: overlay_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +52,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000010843319548}
   - component: {fileID: 212000011125170888}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: doorbase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 95905463507232100}
   - component: {fileID: 114820874120237260}
   - component: {fileID: 114114746867991184}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: PublicDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4218881895294128}
   - component: {fileID: 82491796335204434}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: closeSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4813395212124824}
   - component: {fileID: 82241881426066012}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: openSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4760665742959812}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: soundfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013208201100}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1852, y: 1132, z: -0.1}
+  m_LocalPosition: {x: 1839, y: 1139, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011383418770}
@@ -238,7 +238,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.05, y: 1.05}
 --- !u!61 &61000013105870566
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -469,7 +469,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 5
+  inSpace: 0
+  tileTypeIndex: 3
 --- !u!114 &114820874120237260
 MonoBehaviour:
   m_ObjectHideFlags: 1

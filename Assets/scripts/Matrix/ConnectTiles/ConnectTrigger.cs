@@ -7,38 +7,38 @@ namespace Matrix {
     [ExecuteInEditMode]
     public class ConnectTrigger: MonoBehaviour {
 
-        public bool connectToAll;
-
-        private Vector3 currentPosition;
-        private TileConnect[] corners;
+        [HideInInspector]
+        public int connectTypeIndex;
+        private int currentConnectTypeIndex;
+        public ConnectType ConnectType { get; private set; }
         
         void Start() {
-            currentPosition = transform.position;
-
-            corners = GetComponentsInChildren<TileConnect>();
+            currentConnectTypeIndex = connectTypeIndex;
+            UpdateConnectType(ConnectType.List[currentConnectTypeIndex]);
 
             UpdatePosition();
         }
-        
-        //void LateUpdate() {
-        //    if(currentPosition != transform.position) {
-        //        currentPosition = transform.position;
-        //        UpdatePosition();
-        //    }
-        //}
+
+        void OnValidate() {
+            if(currentConnectTypeIndex != connectTypeIndex) {
+                currentConnectTypeIndex = connectTypeIndex;
+                UpdateConnectType(ConnectType.List[currentConnectTypeIndex]);
+            }
+        }
 
         public void UpdatePosition() {
-            currentPosition = transform.position;
+            int x = Mathf.RoundToInt(transform.position.x);
+            int y = Mathf.RoundToInt(transform.position.y);
 
-            int x = Mathf.RoundToInt(currentPosition.x);
-            int y = Mathf.RoundToInt(currentPosition.y);
-
-            foreach(var c in corners) {
-                if(c.ConnectToAll != connectToAll)
-                    c.ConnectToAll = connectToAll;
-
+            foreach(var c in GetComponentsInChildren<TileConnect>()) {
                 c.UpdatePosition(x, y);
             }
+        }
+
+        private void UpdateConnectType(ConnectType connectType) {
+            ConnectType = connectType;
+
+            GetComponent<RegisterTile>().UpdatePosition();
         }
     }
 }

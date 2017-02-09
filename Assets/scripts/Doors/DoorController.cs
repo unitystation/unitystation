@@ -28,12 +28,12 @@ public class DoorController: Photon.PunBehaviour {
     }
 
     public void BoxCollToggleOn() {
-        registerTile.tileType = TileType.Door;
+        registerTile.UpdateTileType(TileType.Door);
         boxColl.enabled = true;
     }
 
     public void BoxCollToggleOff() {
-        registerTile.tileType = TileType.Space;
+        registerTile.UpdateTileType(TileType.None);
         boxColl.enabled = false;
     }
 

@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 61000010615699320}
   - component: {fileID: 114000013620977818}
   - component: {fileID: 61000011984325092}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DisposalsChute
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013165729510}
   - component: {fileID: 212000011113480170}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,7 +65,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010167295674}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: -0.1}
+  m_LocalPosition: {x: -11, y: 5, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013165729510}

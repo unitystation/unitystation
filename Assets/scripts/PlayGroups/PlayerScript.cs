@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using UI;
 
 namespace PlayGroup {
@@ -37,7 +38,7 @@ namespace PlayGroup {
             //Add player sprite controller component
 
             if(photonView.isMine) { //This prefab is yours, take control of it
-                PlayerManager.SetPlayerForControl(this.gameObject);
+				StartCoroutine("WaitForMapLoad");
             } else {
                 BoxCollider2D boxColl = gameObject.GetComponent<BoxCollider2D>();
                 boxColl.isTrigger = true;
@@ -46,6 +47,12 @@ namespace PlayGroup {
                 gameObject.name = photonView.owner.NickName;
             }
         }
+
+		//This fixes the bug of master client setting equipment before the UI is read (because it is the one that loads the map)
+		IEnumerator WaitForMapLoad(){
+			yield return new WaitForSeconds(1f);
+			PlayerManager.SetPlayerForControl(this.gameObject);
+		}
 
         //THIS IS ONLY USED FOR LOCAL PLAYER
         public void MovePlayer(Vector2 direction) {
