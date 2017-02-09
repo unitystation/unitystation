@@ -131,7 +131,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1952178732076138}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1708, y: 1102, z: 0}
+  m_LocalPosition: {x: 1764, y: 1086, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4706293493401144}
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1596946306649778}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b1dee423cdea86498efdc19d9687d45, type: 3}
   m_Name: 
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1535738739107954}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b1dee423cdea86498efdc19d9687d45, type: 3}
   m_Name: 
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1622123052693244}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b1dee423cdea86498efdc19d9687d45, type: 3}
   m_Name: 
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1447830900250204}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b1dee423cdea86498efdc19d9687d45, type: 3}
   m_Name: 
@@ -244,7 +244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 1
+  inSpace: 1
+  tileTypeIndex: 1
 --- !u!114 &114767349964271932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -270,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d15e93876249c43aa2ddb5228bfc62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectToAll: 1
+  connectTypeIndex: 1
 --- !u!212 &212021320630408260
 SpriteRenderer:
   m_ObjectHideFlags: 1

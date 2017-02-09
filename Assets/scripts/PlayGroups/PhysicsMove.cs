@@ -57,7 +57,7 @@ namespace PlayGroup
         //move in direction input
         public void MoveInDirection(Vector2 direction)
         { 
-			if (Matrix.Matrix.IsPassableAt((int)(Mathf.Round(transform.position.x) + direction.x), (int)(Mathf.Round(transform.position.y) + direction.y))) {
+			if (Matrix.Matrix.At((int)(Mathf.Round(transform.position.x) + direction.x), (int)(Mathf.Round(transform.position.y) + direction.y)).IsPassable()) {
 				lerpA = false;
 				moveDirection = direction;
 				isMoving = true;

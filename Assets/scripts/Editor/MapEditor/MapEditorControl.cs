@@ -8,22 +8,14 @@ using UnityEngine;
 namespace MapEditor {
 
     public class MapEditorControl {
-        public static Dictionary<TileType, int> TileTypeLevels = new Dictionary<TileType, int>() {
-        { TileType.Space, 0 },
-        { TileType.Floor, 1 },
-        { TileType.Catwalk, 1 },
-        { TileType.Carpet, 1 },
-        { TileType.Table, 2 },
-        { TileType.Door, 2 },
-        { TileType.Wall, 3 },
-        { TileType.Window, 3 }};
-
         private static SceneView currentSceneView;
 
         public static int HashCode { get; set; }
+        public static bool CheckTileFit { get; set; }
 
         static MapEditorControl() {
             PreviewObject.ShowPreview = true;
+            CheckTileFit = true;
         }
 
         public static bool Build(Event e) {
@@ -37,7 +29,7 @@ namespace MapEditor {
 
             var registerTile = PreviewObject.Prefab.GetComponent<RegisterTile>();
             if(registerTile) { // it's something constructable
-                if(!Matrix.Matrix.HasTypeAt(x, y, registerTile.tileType) && (TileTypeLevels[registerTile.tileType] & TileTypeLevels[Matrix.Matrix.GetTypeAt(x, y)]) == 0) {
+                if(!CheckTileFit || Matrix.Matrix.At(x, y).FitsTile(PreviewObject.Prefab)) {
 
                     CreateGameObject(r.origin);
 
