@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 4753244445202896}
   - component: {fileID: 61809843329405100}
   - component: {fileID: 114767098743060394}
+  - component: {fileID: 114457223690213646}
   m_Layer: 11
   m_Name: Closet_Grey
   m_TagString: Untagged
@@ -126,7 +127,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1180280463732794}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1759, y: 1141, z: -0.1}
+  m_LocalPosition: {x: 1820, y: 1157, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4576008068696914}
@@ -187,6 +188,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b38c80699b88cd44a864fd4cb169ec4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114457223690213646
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1180280463732794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 2
 --- !u!114 &114666673221588988
 MonoBehaviour:
   m_ObjectHideFlags: 1

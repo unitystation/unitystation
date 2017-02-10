@@ -36,11 +36,15 @@ namespace MapEditor {
                     return true;
                 }
             } else {
-                var itemAttributes = PreviewObject.Prefab.GetComponent<ItemAttributes>();
-                if(itemAttributes) { // it's an item
-                    // TODO
-                    return true;
-                }
+
+                CreateGameObject(r.origin);
+
+                return true;
+                //var itemAttributes = PreviewObject.Prefab.GetComponent<ItemAttributes>();
+                //if(itemAttributes) { // it's an item
+                //    // TODO
+                //    return true;
+                //}
             }
             return false;
         }

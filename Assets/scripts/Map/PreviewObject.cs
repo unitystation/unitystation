@@ -6,7 +6,6 @@ using UnityEngine;
 namespace MapEditor {
 
     [ExecuteInEditMode]
-    [RequireComponent(typeof(SpriteRotate))]
     public class PreviewObject: MonoBehaviour {
         private static PreviewObject instance;
         public static PreviewObject Instance {
@@ -15,7 +14,6 @@ namespace MapEditor {
                     GameObject instanceTemp = GameObject.FindGameObjectWithTag("MapEditor");
                     if(instanceTemp != null) {
                         instance = instanceTemp.GetComponentInChildren<PreviewObject>(true);
-                        instance.Init();
                     } else {
                         instance = null;
                     }
@@ -26,9 +24,6 @@ namespace MapEditor {
         }
 
         public static bool ShowPreview { get; set; }
-        private SpriteRotate spriteRotate;
-        private static SpriteRenderer spriteRenderer;
-
         private static SceneView currentSceneView;
 
         private static GameObject prefab;
@@ -50,6 +45,10 @@ namespace MapEditor {
             }
         }
 
+        public Material previewMaterial;
+
+        private SpriteRotate spriteRotate;
+
         public static void Update(SceneView sceneView) {
             SetActive(ShowPreview);
             currentSceneView = sceneView;
@@ -59,29 +58,23 @@ namespace MapEditor {
             }
         }
 
-        void Init() {
-
-            spriteRotate = GetComponent<SpriteRotate>();
-            spriteRenderer = GetComponent<SpriteRenderer>();
-        }
-
         public static GameObject CreateGameObject() {
             var gameObject = (GameObject) PrefabUtility.InstantiatePrefab(Prefab);
 
             var spriteRotate = gameObject.GetComponentInChildren<SpriteRotate>();
             if(spriteRotate)
-                spriteRotate.SpriteIndex = Instance.spriteRotate.SpriteIndex;
+                spriteRotate.RotateIndex = Instance.spriteRotate.RotateIndex;
 
             return gameObject;
         }
 
         public static void RotateForwards() {
-            if(Instance)
+            if(Instance && Instance.spriteRotate)
                 Instance.spriteRotate.RotateForwards();
         }
 
         public static void RotateBackwards() {
-            if(Instance)
+            if(Instance && Instance.spriteRotate)
                 Instance.spriteRotate.RotateBackwards();
         }
 
@@ -106,51 +99,45 @@ namespace MapEditor {
         }
 
         public static void SetActive(bool active) {
-            if(Instance && Instance.gameObject.activeInHierarchy != active) { 
+            if(Instance && Instance.gameObject.activeInHierarchy != active) {
                 Instance.gameObject.SetActive(active);
 
                 if(active) {
                     if(prefab && currentSceneView) {
                         currentSceneView.Focus();
                     }
-                }else {
+                } else {
                     Prefab = null;
-                }                
+                }
             }
         }
 
         private void UpdatePrefab() {
-            spriteRenderer.sprite = null;
             for(int i = transform.childCount - 1; i >= 0; i--) {
                 DestroyImmediate(transform.GetChild(i).gameObject);
             }
 
             if(prefab) {
-                var spriteRotate = prefab.GetComponentInChildren<SpriteRotate>();
+                foreach(Transform child in prefab.transform) {
+                    var c = Instantiate(child.gameObject);
 
-                if(spriteRotate) {
-                    spriteRenderer.enabled = true;
-                    this.spriteRotate.sprites = spriteRotate.sprites;
-                    this.spriteRotate.SpriteIndex = 0;
-                } else {
-                    spriteRenderer.enabled = false;
-
-                    foreach(Transform child in prefab.transform) {
-                        var c = Instantiate(child.gameObject);
-
-                        foreach(var script in c.GetComponentsInChildren<MonoBehaviour>()) {
-                            script.enabled = false;
-                        }
-
-                        c.transform.parent = transform;
-                        c.transform.localPosition = c.transform.position;
+                    foreach(var script in c.GetComponentsInChildren<MonoBehaviour>()) {
+                        script.enabled = false;
                     }
 
-                    foreach(var renderer in GetComponentsInChildren<SpriteRenderer>()) {
-                        renderer.sharedMaterial = spriteRenderer.sharedMaterial;
-                        renderer.sortingLayerName = "Preview";
-                    }
+                    c.transform.parent = transform;
+                    c.transform.localPosition = c.transform.position;
                 }
+
+                foreach(var renderer in GetComponentsInChildren<SpriteRenderer>()) {
+                    renderer.sharedMaterial = previewMaterial;
+                    renderer.sortingLayerName = "Preview";
+                }
+
+                spriteRotate = GetComponentInChildren<SpriteRotate>();
+
+                if(spriteRotate)
+                    spriteRotate.enabled = true;
             }
         }
     }
