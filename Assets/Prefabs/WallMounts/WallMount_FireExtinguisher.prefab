@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012949610512}
   - component: {fileID: 212000010741384228}
+  - component: {fileID: 114016974407240104}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -92,7 +93,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014202525198}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5, y: 5, z: -0.1}
+  m_LocalPosition: {x: 1842, y: 1144, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000012949610512}
@@ -107,7 +108,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012637719204}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.875, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000012228612998}
@@ -202,6 +203,23 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
+--- !u!114 &114016974407240104
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012637719204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 242bb3a4a5c48da439a3cb00abaf4c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites: []
+  positions:
+  - {x: 0, y: 0.9375}
+  - {x: 0.875, y: 0}
+  - {x: 0, y: -0.9375}
+  - {x: -0.875, y: 0}
 --- !u!114 &114463032029787972
 MonoBehaviour:
   m_ObjectHideFlags: 1

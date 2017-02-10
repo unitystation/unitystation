@@ -10,7 +10,7 @@ namespace MapEditor {
         public static int SubSectionIndex { get; set; }
 
         public static List<GameObject> Sections = new List<GameObject>();
-        public static string[] SubSectionNames = new string[] { "Walls", "Floors", "Doors", "Tables" };
+        public static string[] SubSectionNames = new string[] { "Walls", "Floors", "Doors", "Tables", "WallMounts" };
 
         public static string MapName { get; private set; }
         public static bool MapLoaded { get; private set; }
