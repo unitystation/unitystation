@@ -7,16 +7,23 @@ using UnityEngine;
 [ExecuteInEditMode]
 [RequireComponent(typeof(SpriteRenderer))]
 public class SpriteRotate: MonoBehaviour {
+
     public Sprite[] sprites = new Sprite[0];
-    private SpriteRenderer spriteRenderer;
-    
-    private int spriteIndex;
-    public int SpriteIndex {
-        get { return spriteIndex; }
+    public Vector2[] positions = new Vector2[0];
+    protected SpriteRenderer spriteRenderer;
+
+    private int rotateIndex;
+    public  int RotateIndex {
+        get { return rotateIndex; }
         set {
-			if(spriteRenderer && sprites.Length > 1 && !Application.isPlaying) {
-                spriteIndex = (value + sprites.Length) % sprites.Length;
-                spriteRenderer.sprite = sprites[SpriteIndex];
+            if(spriteRenderer && sprites.Length > 1) {
+                rotateIndex = (value + sprites.Length) % sprites.Length;
+                spriteRenderer.sprite = sprites[rotateIndex];
+            }
+
+            if(positions.Length > 1) {
+                rotateIndex = (value + positions.Length) % positions.Length;
+                transform.localPosition = positions[rotateIndex];
             }
         }
     }
@@ -26,11 +33,11 @@ public class SpriteRotate: MonoBehaviour {
     }
 
     public void RotateForwards() {
-        SpriteIndex++;
+        RotateIndex++;
     }
 
     public void RotateBackwards() {
-        SpriteIndex--;
+        RotateIndex--;
     }
 }
 #endif

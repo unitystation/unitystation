@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 4354971332651902}
   - component: {fileID: 61525002680630820}
   - component: {fileID: 114551658854779228}
+  - component: {fileID: 114293415715230568}
   m_Layer: 11
   m_Name: Closet_Brown
   m_TagString: Untagged
@@ -202,6 +203,19 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114293415715230568
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1326196951998806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 2
 --- !u!114 &114320321385595794
 MonoBehaviour:
   m_ObjectHideFlags: 1

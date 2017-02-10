@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4833550011112600}
   - component: {fileID: 61073988275347620}
   - component: {fileID: 114183782498336476}
+  - component: {fileID: 114466723828234568}
   m_Layer: 11
   m_Name: OxygenCloset1
   m_TagString: Untagged
@@ -126,7 +127,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1146263997293372}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1765, y: 1128, z: -0.1}
+  m_LocalPosition: {x: 1766, y: 1128, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4206511474878270}
@@ -216,6 +217,19 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
+--- !u!114 &114466723828234568
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1146263997293372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 2
 --- !u!114 &114718393382383736
 MonoBehaviour:
   m_ObjectHideFlags: 1
