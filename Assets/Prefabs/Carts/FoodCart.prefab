@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 114000012372273026}
   - component: {fileID: 114959801492907290}
   - component: {fileID: 114929077085885746}
+  - component: {fileID: 114206516550089788}
   m_Layer: 11
   m_Name: FoodCart
   m_TagString: Untagged
@@ -101,6 +102,19 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
+--- !u!114 &114206516550089788
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011358831344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 2
 --- !u!114 &114929077085885746
 MonoBehaviour:
   m_ObjectHideFlags: 1
