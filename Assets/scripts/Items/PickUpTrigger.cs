@@ -29,6 +29,7 @@ namespace Items {
         }
 
 		public void OnAddToInventory(){
+			if(uiTriggerObj != null)
 			uiTriggerObj.SetActive(true);
 		}
 
