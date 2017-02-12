@@ -54,13 +54,12 @@ namespace Matrix {
                 Matrix.At(x, y).TryRemoveTile(gameObject);
             }
 
+            currentTileTypeIndex = TileType.List.IndexOf(tileType);
+            tileTypeIndex = currentTileTypeIndex;
+
             if(x >= 0) {
                 AddTile();
             }
-
-            // in case it was called from somewhere else
-            currentTileTypeIndex = TileType.List.IndexOf(tileType);
-            tileTypeIndex = currentTileTypeIndex;
         }
 
         private void AddTile() {
