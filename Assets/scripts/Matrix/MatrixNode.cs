@@ -58,17 +58,16 @@ namespace Matrix {
             return (tileValue & (int) TileProperty.AtmosNotPassable) == 0;
         }
 
-        public bool IsDoor() {
-            if(!IsPassable()) {
-                foreach(var tile in tiles) {
-                    var registerTile = tile.GetComponent<RegisterTile>();
-                    if(registerTile.TileType == TileType.Door) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
+		public DoorController GetDoor(){
+			foreach(var tile in tiles) {
+				var registerTile = tile.GetComponent<RegisterTile>();
+				if(registerTile.TileType == TileType.Door) {
+					DoorController doorControl = registerTile.gameObject.GetComponent<DoorController>();
+					return doorControl;
+				}
+			} 
+			return null;
+		}
 
         public bool Connects(ConnectType connectType) {
             if(connectType != null) {
