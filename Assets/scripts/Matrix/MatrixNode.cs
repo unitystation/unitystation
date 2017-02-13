@@ -47,16 +47,27 @@ namespace Matrix {
         }
 
         public bool IsSpace() {
-            return (tileValue & 3) == 0;
+            return (tileValue & (int) (TileProperty.AtmosNotPassable | TileProperty.HasFloor)) == 0;
         }
 
         public bool IsPassable() {
-            return (tileValue & 4) == 0;
+            return (tileValue & (int) TileProperty.NotPassable) == 0;
         }
 
         public bool IsAtmosPassable() {
-            return (tileValue & 2) == 0;
+            return (tileValue & (int) TileProperty.AtmosNotPassable) == 0;
         }
+
+		public DoorController GetDoor(){
+			foreach(var tile in tiles) {
+				var registerTile = tile.GetComponent<RegisterTile>();
+				if(registerTile.TileType == TileType.Door) {
+					DoorController doorControl = registerTile.gameObject.GetComponent<DoorController>();
+					return doorControl;
+				}
+			} 
+			return null;
+		}
 
         public bool Connects(ConnectType connectType) {
             if(connectType != null) {
@@ -85,7 +96,7 @@ namespace Matrix {
                 if(connectTrigger) {
                     connectValue |= connectTrigger.ConnectType;
                 }
-            }
+            }           
         }
     }
 }

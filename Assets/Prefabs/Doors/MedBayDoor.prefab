@@ -20,11 +20,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4745867992339454}
   - component: {fileID: 61066386049267686}
-  - component: {fileID: 61287722221025538}
   - component: {fileID: 114813765941142440}
   - component: {fileID: 114686066827196848}
   - component: {fileID: 95287890711978462}
   - component: {fileID: 114634090869509630}
+  - component: {fileID: 114875129750084586}
   m_Layer: 11
   m_Name: MedBayDoor
   m_TagString: Untagged
@@ -234,20 +234,6 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
---- !u!61 &61287722221025538
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1033492078376264}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
@@ -470,6 +456,32 @@ MonoBehaviour:
   openSFX: {fileID: 82424364662987246}
   closeSFX: {fileID: 82734786462398976}
   maxTimeOpen: 5
+--- !u!114 &114875129750084586
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1033492078376264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!212 &212682667343390072
 SpriteRenderer:
   m_ObjectHideFlags: 1
