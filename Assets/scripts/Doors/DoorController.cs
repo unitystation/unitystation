@@ -15,7 +15,6 @@ public class DoorController: Photon.PunBehaviour {
 
     public float maxTimeOpen = 5;
     private float timeOpen = 0;
-    private int numOccupiers = 0;
 
     void Start() {
         animator = gameObject.GetComponent<Animator>();
@@ -37,23 +36,12 @@ public class DoorController: Photon.PunBehaviour {
         boxColl.enabled = false;
     }
 
-    void OnTriggerEnter2D(Collider2D coll) {
-        if(!isOpened && coll.gameObject.layer == 8 || isOpened && coll.gameObject.layer == 12) {
-            Open();
-        }
-        numOccupiers++;
-    }
-
-    void OnTriggerExit2D(Collider2D coll) {
-        numOccupiers--;
-    }
-
     private void waitUntilClose() {
         if(isOpened) { //removed numOccupies condition for time being
             timeOpen += Time.deltaTime;
 
             if(timeOpen >= maxTimeOpen) {
-                Close();
+				TryClose();
             }
         } else {
             timeOpen = 0;
@@ -87,6 +75,22 @@ public class DoorController: Photon.PunBehaviour {
             }
         }
     }
+
+	public void TryOpen(){
+		if (PhotonNetwork.connectedAndReady) {
+			photonView.RPC("Open", PhotonTargets.All, null);
+		} else {
+			Open();
+		}
+	}
+
+	public void TryClose(){
+		if (PhotonNetwork.connectedAndReady) {
+			photonView.RPC("Close", PhotonTargets.All, null);
+		} else {
+			Close();
+		}
+	}
 
     [PunRPC]
     public void Open() {
