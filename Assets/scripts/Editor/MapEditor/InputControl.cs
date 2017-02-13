@@ -71,7 +71,7 @@ namespace MapEditor {
                             SelectObject(e);
                             GUIUtility.hotControl = oldID;
                         } else {
-                            if(!MapEditorControl.Build(e)) {
+                            if(!BuildControl.Build(e)) {
                                 SelectObject(e);
                             }
                             GUIUtility.hotControl = 0;
@@ -101,7 +101,7 @@ namespace MapEditor {
                     } else {
                         switch(e.character) {
                             case 'a':
-                                MapEditorControl.Build(e);
+                                BuildControl.Build(e);
                                 e.Use();
                                 break;
                             case 'd':
