@@ -10,8 +10,8 @@ namespace Matrix {
 
         private MatrixNode[,] map = new MatrixNode[2500, 2500];
 
-        public static MatrixNode At(int x, int y) {
-            if(Instance.map[y, x] == null) {
+        public static MatrixNode At(int x, int y, bool createIfNull=true) {
+            if(createIfNull && Instance.map[y, x] == null) {
                 Instance.map[y, x] = new MatrixNode();
             }
             return Instance.map[y, x];
