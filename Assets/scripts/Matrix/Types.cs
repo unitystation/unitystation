@@ -17,18 +17,20 @@ namespace Matrix {
         }
     }
 
+    [System.Flags] enum TileProperty { HasFloor = 1, AtmosNotPassable = 2, NotPassable = 4}
+
     public class TileType: Type {
         private static List<TileType> tileTypes = new List<TileType>();
         public static IList<TileType> List { get { return tileTypes.AsReadOnly(); } }
 
-        public static TileType None = new TileType("None", 0);
-        public static TileType Floor = new TileType("Floor", 1);
-        public static TileType Object = new TileType("Object", 4);
-        public static TileType Door = new TileType("Door", 6);
-        public static TileType Window = new TileType("Window", 6);
-        public static TileType Wall = new TileType("Wall", 7);
+        public static TileType None = new TileType("None");
+        public static TileType Floor = new TileType("Floor", (int) TileProperty.HasFloor);
+        public static TileType Object = new TileType("Object", (int) TileProperty.NotPassable);
+        public static TileType Door = new TileType("Door", (int) (TileProperty.AtmosNotPassable | TileProperty.NotPassable));
+        public static TileType Window = new TileType("Window", (int) (TileProperty.AtmosNotPassable | TileProperty.NotPassable));
+        public static TileType Wall = new TileType("Wall", (int) (TileProperty.HasFloor | TileProperty.AtmosNotPassable | TileProperty.NotPassable));
 
-        public TileType(string name, int value) : base(name, value) {
+        public TileType(string name, int value=0) : base(name, value) {
             tileTypes.Add(this);
         }
     } 
