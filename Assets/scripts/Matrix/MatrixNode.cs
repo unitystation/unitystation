@@ -15,6 +15,7 @@ namespace Matrix {
         private List<GameObject> tiles = new List<GameObject>();
 
         private bool isDoor;
+        private bool isSpace;
 
         public bool TryAddTile(GameObject gameObject) {
             var registerTile = gameObject.GetComponent<RegisterTile>();
@@ -49,7 +50,7 @@ namespace Matrix {
         }
 
         public bool IsSpace() {
-            return (tileValue & (int) (TileProperty.AtmosNotPassable | TileProperty.HasFloor)) == 0;
+            return isSpace || (tileValue & (int) (TileProperty.AtmosNotPassable | TileProperty.HasFloor)) == 0;
         }
 
         public bool IsPassable() {
@@ -96,6 +97,7 @@ namespace Matrix {
             tileValue = 0;
             connectValue = 0;
             isDoor = false;
+            isSpace = false;
 
             foreach(var tile in tiles) {
                 var registerTile = tile.GetComponent<RegisterTile>();
@@ -109,6 +111,16 @@ namespace Matrix {
 
                 if(registerTile.TileType == TileType.Door) {
                     isDoor = true;
+                }
+
+                if(registerTile.inSpace) {
+                    isSpace = true;
+                }
+            }
+
+            if(isSpace) {
+                if((tileValue | (int) TileProperty.HasFloor) != (int) TileProperty.HasFloor) {
+                    isSpace = false;
                 }
             }
         }
