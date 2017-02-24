@@ -83,7 +83,6 @@ namespace PlayGroup
 				DoorController getDoor = Matrix.Matrix.At(nextTile.x, nextTile.y).GetDoor();
 				if (getDoor != null && !tryOpenDoor) {
 					tryOpenDoor = true;
-					Debug.Log("OPENDOOR");
 					StartCoroutine("OpenCoolDown");
 					getDoor.TryOpen();
 				} 
