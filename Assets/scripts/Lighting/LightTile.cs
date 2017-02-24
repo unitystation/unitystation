@@ -65,7 +65,7 @@ namespace Lighting
 			//Check Bottom Right corner
 			checkPos = new Vector2(curPos.x + 1f, curPos.y - 1f);
 			CheckNeighbor(checkPos, brightness, range);
-			yield return new WaitForEndOfFrame();
+			yield return new WaitForSeconds(0.1f);
 			transmitting = false;
 
 		}
