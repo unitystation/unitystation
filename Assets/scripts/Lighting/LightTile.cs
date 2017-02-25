@@ -23,57 +23,106 @@ namespace Lighting
 		{
 			if (!transmitting) {
 				transmitting = true;
-				float alpha = Mathf.Abs((100f - brightness) / 100f);
-				if (range >= 0f) {
-					
-					var tempColor = thisSprite.color;
-					tempColor.a = alpha;
-					thisSprite.color = tempColor;
-					StartCoroutine(PassTheLight(brightness, range));
-				} else {
-					transmitting = false;
-				}
+				ChangeBrightness(brightness);
+				StartCoroutine(PassTheLight(brightness, range));
+			}
+		}
+
+		//Set alpha of tile
+		public void ChangeBrightness(float brightness)
+		{
+			var tempColor = thisSprite.color;
+			if (brightness != 0f) {
+				float alpha = Mathf.Clamp(tempColor.a - (brightness / 100f), 0f, 1f);
+				tempColor.a = alpha;
+				thisSprite.color = tempColor;
+			} else {
+				tempColor.a = 1f;
+				thisSprite.color = tempColor;
 			}
 		}
 
 		//Pass the brightness of the light to neighbor tiles
-		IEnumerator PassTheLight(float brightness, int range)
+		IEnumerator PassTheLight(float _brightness, int range)
 		{
-			range--;
-			Vector2 curPos = transform.position;
-			//Check up first
-			Vector2 checkPos = new Vector2(curPos.x, curPos.y + 1f);
-			CheckNeighbor(checkPos, brightness, range);
-			//Check down 
-			checkPos = new Vector2(curPos.x, curPos.y - 1f);
-			CheckNeighbor(checkPos, brightness, range);
-			//Check left 
-			checkPos = new Vector2(curPos.x - 1f, curPos.y);
-			CheckNeighbor(checkPos, brightness, range);
-			//Check right
-			checkPos = new Vector2(curPos.x + 1f, curPos.y);
-			CheckNeighbor(checkPos, brightness, range);
-			//Check Up Right corner
-			checkPos = new Vector2(curPos.x + 1f, curPos.y + 1f);
-			CheckNeighbor(checkPos, brightness, range);
-			//Check Up Left corner
-			checkPos = new Vector2(curPos.x - 1f, curPos.y + 1f);
-			CheckNeighbor(checkPos, brightness, range);
-			//Check Bottom Left corner
-			checkPos = new Vector2(curPos.x - 1f, curPos.y - 1f);
-			CheckNeighbor(checkPos, brightness, range);
-			//Check Bottom Right corner
-			checkPos = new Vector2(curPos.x + 1f, curPos.y - 1f);
-			CheckNeighbor(checkPos, brightness, range);
-			yield return new WaitForSeconds(0.1f);
-			transmitting = false;
+			//the range is key 1 = closest
+			Dictionary<int, List<Vector2>> radialDispersion = new Dictionary<int,List<Vector2>>();
+			//the different ranges for the Dictionary
+			for (int i = 1; i <= range; i++) {
+				//row and column length for the box radial
+				int rangeFinder = i + 1 + i;
+				//To store the current range box radial tile positions
+				List<Vector2> lightTiles = new List<Vector2>();
 
+				//working left to right, for-loop below iterates through the rows
+				for (int k = 1; k <= rangeFinder; k++) {
+					if (k == 1) {
+						//toprow
+						//Starting at top left
+						Vector2 tilePos = new Vector2(transform.position.x - (float)i, transform.position.y + (float)i);
+						for(int tile = 1; tile <= rangeFinder; tile++){
+							
+							if (tile == 1) {
+								lightTiles.Add(tilePos);
+							} else {
+								Vector2 nextTile = new Vector2((tilePos.x + (float)tile) - 1f, tilePos.y);
+								lightTiles.Add(nextTile);
+							}
+						}
+					} else if (k == rangeFinder) {
+					//lastrow
+						Vector2 tilePos = new Vector2(transform.position.x - (float)i, transform.position.y - (float)i);
+						for(int tile = 1; tile <= rangeFinder; tile++){
+							
+							if (tile == 1) {
+								lightTiles.Add(tilePos);
+							} else {
+								Vector2 nextTile = new Vector2((tilePos.x + (float)tile) - 1f, tilePos.y);
+								lightTiles.Add(nextTile);
+							}
+						}
+					} else {
+						//everything else
+						Vector2 tilePos = new Vector2(transform.position.x - (float)i, transform.position.y + (float)i);
+						Vector2 firstTilePos = new Vector2(tilePos.x, (tilePos.y - (float)k) + 1f);
+						lightTiles.Add(firstTilePos);
+						Vector2 lastTilePos = new Vector2((tilePos.x + (float)rangeFinder) - 1f, (tilePos.y - (float)k) + 1f);
+						lightTiles.Add(lastTilePos);
+					}
+				}
+				//End of range list, now add the list to the dictionary at the specific range
+				radialDispersion.Add(i,lightTiles);
+			}
+
+			yield return new WaitForEndOfFrame();
+
+			int secondLast = range - 1;
+			foreach (KeyValuePair<int,List<Vector2>> tileRadial in radialDispersion) {
+				//TODO improve light fade off here, at the moment I'm just changing brightness on the last two ranges to fade off
+				if (tileRadial.Key == range && _brightness > 0f) {
+					//Quarter brightness on last range
+					foreach (Vector2 tilePos in tileRadial.Value) {
+						CheckNeighbor(tilePos, 25f);
+					}
+				} else if (tileRadial.Key == secondLast && _brightness > 0f) {
+					//Half brightness on second last range
+					foreach (Vector2 tilePos in tileRadial.Value) {
+						CheckNeighbor(tilePos, 50f);
+					}
+				} else {
+					foreach (Vector2 tilePos in tileRadial.Value) {
+						CheckNeighbor(tilePos, _brightness);
+					}
+				}
+			}
+			yield return new WaitForEndOfFrame();
+			transmitting = false;
 		}
 
-		private void CheckNeighbor(Vector2 tileNextPos, float brightness, int range)
+		private void CheckNeighbor(Vector2 tileNextPos, float brightness)
 		{
 			if (tileManager.lightTiles.ContainsKey(tileNextPos)) {
-				tileManager.lightTiles[tileNextPos].InjectLight(brightness, range);
+				tileManager.lightTiles[tileNextPos].ChangeBrightness(brightness);
 			}
 		}
 	}
