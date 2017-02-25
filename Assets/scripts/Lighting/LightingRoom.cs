@@ -41,12 +41,30 @@ namespace Lighting
 			sourceManager = GetComponentInChildren<LightingSourceManager>();
 		}
 
-		void Start(){
+		void Start()
+		{
 			Invoke("PrintBounds", 1f);
 		}
 
-		void PrintBounds(){
+		void PrintBounds()
+		{
 			Debug.Log("LIGHTING: Bounds calc for " + gameObject.name + ": " + bounds);
+		}
+
+		public void LightSwitchOff()
+		{
+			
+			foreach (KeyValuePair<Vector2,LightSource> light in sourceManager.lights) {
+				light.Value.TurnOffLight();
+
+			}	
+		}
+
+		public void LightSwitchOn()
+		{
+			foreach (KeyValuePair<Vector2,LightSource> light in sourceManager.lights) {
+				light.Value.TurnOnLight();
+			}	
 		}
 
 

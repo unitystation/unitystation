@@ -29,3 +29,10 @@ namespace Items {
         }
     }
 }
+
+public enum SwitchDirection{
+	up,
+	down,
+	left,
+	right
+}

@@ -91,6 +91,15 @@ namespace PlayGroup
 			}
 		}
 
+		public static bool SwitchInReach(Transform _transform, SwitchDirection switchDir)
+		{
+			if (PlayerScript != null) {
+				return PlayerScript.IsInReachOfSwitch(_transform, switchDir);
+			} else {
+				return false;
+			}
+		}
+
 		/// <summary>
 		/// Processes the inputs. This MUST ONLY BE USED when the player has authority over this Networked GameObject (photonView.isMine == true)
 		/// </summary>
