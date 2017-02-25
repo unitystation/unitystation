@@ -14,6 +14,7 @@ namespace Lighting
 		private LightingRoom lightingRoomParent;
 		private bool switchCoolDown = false;
 		private AudioSource clickSFX;
+		public SwitchDirection switchDirection;
 
 		void Awake()
 		{
@@ -24,7 +25,7 @@ namespace Lighting
 
 		void OnMouseDown()
 		{
-			if (PlayerManager.PlayerInReach(transform)) {
+			if (PlayerManager.SwitchInReach(transform, switchDirection)) {
 				if (!switchCoolDown) {
 					switchCoolDown = true;
 					StartCoroutine(CoolDown());
