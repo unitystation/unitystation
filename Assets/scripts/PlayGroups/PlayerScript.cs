@@ -71,5 +71,23 @@ namespace PlayGroup {
         public bool IsInReach(Transform transform) {
             return DistanceTo(transform.position) <= interactionDistance;
         }
+
+		public bool IsInReachOfSwitch(Transform _transform, SwitchDirection switchDir) {
+			if(DistanceTo(transform.position) <= interactionDistance){
+				if (switchDir == SwitchDirection.up && transform.position.y > _transform.position.y) {
+					return true;
+				} else if (switchDir == SwitchDirection.down && transform.position.y < _transform.position.y) {
+					return true;
+				} else if (switchDir == SwitchDirection.right && transform.position.x < _transform.position.x) {
+					return true;
+				} else if (switchDir == SwitchDirection.left && transform.position.x < _transform.position.x) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		}
     }
 }

@@ -8,6 +8,12 @@ namespace Lighting
 	{
 
 		public Dictionary<Vector2,LightSource> lights = new Dictionary<Vector2, LightSource>();
+		private LightingRoom lightingRoomParent;
+
+		void Awake()
+		{
+			lightingRoomParent = GetComponentInParent<LightingRoom>();
+		}
 
 		void Start()
 		{
@@ -23,7 +29,19 @@ namespace Lighting
 				} else {
 					Debug.LogError("No LightSource component found!");
 				}
+					
 			}
+		}
+
+		public void UpdateRoomBrightness(LightSource theSource)
+		{
+			Vector2 pos = theSource.gameObject.transform.position;
+			LightTile lTile; 
+			lightingRoomParent.tileManager.lightTiles.TryGetValue(pos, out lTile);
+				if (lTile != null) {
+				lTile.InjectLight(theSource.brightness, theSource.range);
+				}
+
 		}
 	}
 }

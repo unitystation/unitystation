@@ -11,12 +11,14 @@ public class SwitchShutters: Photon.PunBehaviour {
 
     private Animator animator;
 
+	public SwitchDirection switchDirection;
+
     void Start() {
         animator = GetComponent<Animator>();
     }
 
     void OnMouseDown() {
-        if(PlayerManager.PlayerInReach(transform)) {
+		if(PlayerManager.SwitchInReach(transform, switchDirection)) {
             if(!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP")) {
                 if(IsClosed) {
                     photonView.RPC("OpenShutters", PhotonTargets.All, null);
