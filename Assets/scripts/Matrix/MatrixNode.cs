@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Matrix {
 
+    [Serializable]
     public class MatrixNode {
         private int tileValue = 0;
         private int connectValue = 0;
@@ -15,6 +15,14 @@ namespace Matrix {
         private List<GameObject> tiles = new List<GameObject>();
 
         private bool isDoor;
+        private bool isSpace;
+
+        [SerializeField]
+        private Section section;
+        public Section Section {
+            get { return section; }
+            set { section = value; UpdateSection(); }
+        }
 
         public bool TryAddTile(GameObject gameObject) {
             var registerTile = gameObject.GetComponent<RegisterTile>();
@@ -49,7 +57,7 @@ namespace Matrix {
         }
 
         public bool IsSpace() {
-            return (tileValue & (int) (TileProperty.AtmosNotPassable | TileProperty.HasFloor)) == 0;
+            return isSpace || (tileValue & (int) (TileProperty.AtmosNotPassable | TileProperty.HasFloor)) == 0;
         }
 
         public bool IsPassable() {
@@ -96,6 +104,7 @@ namespace Matrix {
             tileValue = 0;
             connectValue = 0;
             isDoor = false;
+            isSpace = false;
 
             foreach(var tile in tiles) {
                 var registerTile = tile.GetComponent<RegisterTile>();
@@ -110,6 +119,22 @@ namespace Matrix {
                 if(registerTile.TileType == TileType.Door) {
                     isDoor = true;
                 }
+
+                if(registerTile.inSpace) {
+                    isSpace = true;
+                }
+            }
+
+            if(isSpace) {
+                if((tileValue | (int) TileProperty.HasFloor) != (int) TileProperty.HasFloor) {
+                    isSpace = false;
+                }
+            }
+        }
+
+        private void UpdateSection() {
+            foreach(var tile in tiles) {
+                tile.transform.MoveToSection(section);
             }
         }
     }
