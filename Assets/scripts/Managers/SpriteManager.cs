@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Sprites {
 
+
     public class Sprites {
         private Dictionary<string, Sprite[]> sprites = new Dictionary<string, Sprite[]>();
 
@@ -30,6 +31,8 @@ namespace Sprites {
         private Sprites playerSprites = new Sprites();
         private Sprites wallSprites = new Sprites();
 
+		private Sprites doorSprites = new Sprites();
+
         public static SpriteManager Instance {
             get {
                 if(!spriteManager) {
@@ -51,6 +54,12 @@ namespace Sprites {
                 return Instance.wallSprites;
             }
         }
+
+		public static Sprites DoorSprites {
+			get { 
+				return Instance.doorSprites;
+			}
+		}
 
         private void InitializeSpriteSheets() {
             PlayerSprites["human"] = Resources.LoadAll<Sprite>("mobs/human");
@@ -87,6 +96,35 @@ namespace Sprites {
             ConnectSprites["lattice"] = Resources.LoadAll<Sprite>("floors/lattice");
             ConnectSprites["carpet"] = Resources.LoadAll<Sprite>("floors/carpet");
             ConnectSprites["catwalk"] = Resources.LoadAll<Sprite>("floors/catwalk");
+
+			DoorSprites["atmos"] = Resources.LoadAll<Sprite>("doors/station/atmos");
+			DoorSprites["command"] = Resources.LoadAll<Sprite>("doors/station/command");
+			DoorSprites["engineering"] = Resources.LoadAll<Sprite>("doors/station/engineering");
+			DoorSprites["maintenance"] = Resources.LoadAll<Sprite>("doors/station/maintenance");
+			DoorSprites["medical"] = Resources.LoadAll<Sprite>("doors/station/medical");
+			DoorSprites["mining"] = Resources.LoadAll<Sprite>("doors/station/mining");
+			DoorSprites["overlays"] = Resources.LoadAll<Sprite>("doors/station/overlays");
+			DoorSprites["publicdoor"] = Resources.LoadAll<Sprite>("doors/station/public");
+			DoorSprites["research"] = Resources.LoadAll<Sprite>("doors/station/research");
+			DoorSprites["science"] = Resources.LoadAll<Sprite>("doors/station/science");
+			DoorSprites["security"] = Resources.LoadAll<Sprite>("doors/station/security");
+			DoorSprites["virology"] = Resources.LoadAll<Sprite>("doors/station/virology");
+
         }
     }
+
+	public enum DoorType{
+		atmos,
+		command,
+		engineering,
+		maintenance,
+		medical,
+		mining,
+		overlays,
+		publicdoor,
+		research,
+		science,
+		security,
+		virology
+	}
 }

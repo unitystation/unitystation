@@ -70,7 +70,6 @@ GameObject:
   - component: {fileID: 61000013105870566}
   - component: {fileID: 114000012557435128}
   - component: {fileID: 114000012487981754}
-  - component: {fileID: 95905463507232100}
   - component: {fileID: 114820874120237260}
   - component: {fileID: 114114746867991184}
   m_Layer: 0
@@ -173,7 +172,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013208201100}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1839, y: 1139, z: -0.1}
+  m_LocalPosition: {x: 1843, y: 1145, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011383418770}
@@ -398,23 +397,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!95 &95905463507232100
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013208201100}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b97d3c82f0e2f474aa4bdb1fccd81174, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114000012487981754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -442,6 +424,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openSFX: {fileID: 82241881426066012}
   closeSFX: {fileID: 82491796335204434}
+  usingAnimator: 0
+  doorType: 7
   maxTimeOpen: 5
 --- !u!114 &114114746867991184
 MonoBehaviour:
