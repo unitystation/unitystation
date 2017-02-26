@@ -26,24 +26,24 @@ namespace MapEditor {
             if(registerTile) { // it's something constructable
                 if(!CheckTileFit || Matrix.Matrix.At(x, y).FitsTile(PreviewObject.Prefab)) {
 
-                    CreateGameObject(r.origin);
+                    CreateGameObject(x, y);
 
                     return true;
                 }
             } else {
 
-                CreateGameObject(r.origin);
+                CreateGameObject(x, y);
 
                 return true;
             }
             return false;
         }
 
-        public static void CreateGameObject(Vector3 position) {
+        public static void CreateGameObject(int x, int y) {
             var gameObject = PreviewObject.CreateGameObject();
 
-            gameObject.transform.position = position;
-            gameObject.transform.parent = MapEditorMap.CurrentSubSection;
+            gameObject.transform.position = new Vector3(x, y, 0);
+            gameObject.transform.MoveToSection(Matrix.Matrix.At(x, y).Section, MapEditorMap.CurrentSubSectionName);
 
             Undo.RegisterCreatedObjectUndo(gameObject, "Create " + gameObject.name);
         }

@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 567ff50723e23c441beff6e0ef1bfd74, type: 3}
+  m_Name: Sections
+  m_EditorClassIdentifier: 
+  sections:
+  - {fileID: 114094626218541764}
+  - {fileID: 114367426269904534}
+  - {fileID: 114447717454550074}
+  - {fileID: 114466515911345498}
+  - {fileID: 114901936019128238}
+  - {fileID: 114464425462711356}
+  - {fileID: 114392280676910866}
+  - {fileID: 114637973913341488}
+--- !u!114 &114094626218541764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Kitchen
+  color: {r: 0, g: 0.65076464, b: 0.94397205, a: 0.5}
+--- !u!114 &114367426269904534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Bar
+  color: {r: 1, g: 0.41746122, b: 0, a: 0.5}
+--- !u!114 &114392280676910866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Hydroponics
+  color: {r: 0.034482718, g: 1, b: 0, a: 0.5}
+--- !u!114 &114447717454550074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Theatre
+  color: {r: 0, g: 0.654596, b: 0.7301508, a: 0.5}
+--- !u!114 &114464425462711356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Bar Maintenance
+  color: {r: 0.862069, g: 1, b: 0, a: 0.5}
+--- !u!114 &114466515911345498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Toilet
+  color: {r: 0.84534466, g: 0.4544578, b: 0, a: 0.5}
+--- !u!114 &114637973913341488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Library
+  color: {r: 0.37526864, g: 0, b: 0.8482894, a: 0.5}
+--- !u!114 &114901936019128238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Fitness Room
+  color: {r: 0.8171407, g: 0, b: 0.11111685, a: 0.5}
