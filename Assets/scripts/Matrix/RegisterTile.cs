@@ -63,8 +63,6 @@ namespace Matrix {
         }
 
         private void AddTile() {
-
-            Debug.Log("add tile " + x + " " + y);
             if(!Matrix.At(x, y).TryAddTile(gameObject)) {
                 Debug.Log("Couldn't add tile at " + x + " " + y);
             }
