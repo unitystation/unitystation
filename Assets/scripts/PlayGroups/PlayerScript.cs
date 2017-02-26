@@ -73,7 +73,7 @@ namespace PlayGroup {
         }
 
 		public bool IsInReachOfSwitch(Transform _transform, SwitchDirection switchDir) {
-			if(DistanceTo(transform.position) <= interactionDistance){
+			if(DistanceTo(_transform.position) <= interactionDistance){
 				if (switchDir == SwitchDirection.up && transform.position.y > _transform.position.y) {
 					return true;
 				} else if (switchDir == SwitchDirection.down && transform.position.y < _transform.position.y) {
