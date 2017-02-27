@@ -63,20 +63,6 @@ namespace MapEditor {
                 optionsView.OnGUI();
             }
 
-            // TEMPORARY
-            if(!MapEditorMap.MapLoaded)
-                MapEditorMap.MapObject = GameObject.FindGameObjectWithTag("Map");
-
-            EditorGUILayout.BeginHorizontal();
-            string[] options = new string[MapEditorMap.Sections.Count];
-            foreach(GameObject section in MapEditorMap.Sections) {
-                options[MapEditorMap.Sections.IndexOf(section)] = section.name;
-            }
-            EditorGUILayout.LabelField("Section", GUILayout.Width(100));
-            MapEditorMap.SectionIndex = EditorGUILayout.Popup(MapEditorMap.SectionIndex, options);
-            EditorGUILayout.EndHorizontal();
-            // TEMPORARY END
-
             categoryIndex = GUILayout.Toolbar(categoryIndex, categoryNames);
 
             categories[categoryIndex].OnGUI();
