@@ -39,6 +39,13 @@ MonoBehaviour:
   - {fileID: 114052163171637728}
   - {fileID: 114153785778159458}
   - {fileID: 114243825316515500}
+  - {fileID: 114864997025533840}
+  - {fileID: 114948876478455934}
+  - {fileID: 114033936398173648}
+  - {fileID: 114468225597864572}
+  - {fileID: 114656671342223378}
+  - {fileID: 114856953877788958}
+  - {fileID: 114891561518193500}
 --- !u!114 &114018218116020092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,6 +59,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Chapel
   color: {r: 0.9686367, g: 0, b: 0, a: 0.5}
+--- !u!114 &114033936398173648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Command_Teleporter
+  color: {r: 0.38910878, g: 0.5274759, b: 0, a: 0.5}
 --- !u!114 &114045671872609612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +293,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Toilet
   color: {r: 0.84534466, g: 0.4544578, b: 0, a: 0.5}
+--- !u!114 &114468225597864572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Command_AI_Upload
+  color: {r: 0.6448913, g: 0.9504797, b: 0, a: 0.5}
 --- !u!114 &114560579485339544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,6 +345,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: GasTheLizards-Surgery
   color: {r: 0, g: 0.5682474, b: 0.05094631, a: 0.5}
+--- !u!114 &114656671342223378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Command_GravityGen
+  color: {r: 0, g: 0.65344846, b: 0.009576985, a: 0.5}
 --- !u!114 &114668803430712208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +423,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Assembly Line
   color: {r: 0, g: 0.843169, b: 0.87785274, a: 0.5}
+--- !u!114 &114856953877788958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Command_MeetingRoom
+  color: {r: 0.39688686, g: 0, b: 0.6963811, a: 0.5}
+--- !u!114 &114864997025533840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Command_Bridge
+  color: {r: 0, g: 0.43666333, b: 0.5808823, a: 0.5}
+--- !u!114 &114891561518193500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Command_Hop
+  color: {r: 0, g: 0.47480133, b: 0.59866273, a: 0.5}
 --- !u!114 &114901936019128238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,3 +475,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Fitness Room
   color: {r: 0.8171407, g: 0, b: 0.11111685, a: 0.5}
+--- !u!114 &114948876478455934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Command_Captain
+  color: {r: 0.33737025, g: 0.65787196, b: 0.7647059, a: 0.5}
