@@ -1,20 +1,53 @@
-﻿using UnityEngine;
+﻿using System;
+using System.IO;
+using UnityEditor;
+using UnityEngine;
 
 namespace Matrix {
     
-    public class Matrix {
+    [Serializable]
+    public class Matrix: ScriptableObject {
 
-        private static Matrix Instance = new Matrix();
+        public static Matrix matrix;
+        public static Matrix Instance {
+            get {
+                if(!matrix) {
+                    LoadMatrix();
+                }
+                return matrix;
+            }
+        }
+
+        private static void LoadMatrix() {
+            matrix = AssetDatabase.LoadAssetAtPath<Matrix>("Assets/Data/Matrix.asset");
+
+            if(!matrix) {
+                matrix = CreateInstance<Matrix>();
+                Directory.CreateDirectory("Assets/Data");
+                AssetDatabase.CreateAsset(matrix, "Assets/Data/Matrix.asset");
+            }
+        }
 
         private Matrix() { }
 
-        private MatrixNode[,] map = new MatrixNode[2500, 2500];
+        [SerializeField]
+        private NodeDictionary map;
 
-        public static MatrixNode At(int x, int y, bool createIfNull=true) {
-            if(createIfNull && Instance.map[y, x] == null) {
-                Instance.map[y, x] = new MatrixNode();
+        public void OnEnable() {
+            if(map == null) {
+                map = new NodeDictionary();
             }
-            return Instance.map[y, x];
+        }
+
+        public static MatrixNode At(int x, int y, bool createIfNull = true) {
+            if(Instance.map.ContainsKey(x, y)) {
+                return Instance.map[x, y];
+            }else if(createIfNull) {
+                Instance.map[x, y] = new MatrixNode();
+                return Instance.map[x, y];
+            }
+
+            return null;
         }
 
         //This is for the InputRelease method on physics move (to snap player to grid)

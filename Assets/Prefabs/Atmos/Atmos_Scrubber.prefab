@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4000013194526306}
   - component: {fileID: 61000011546092986}
   - component: {fileID: 114000013289608292}
+  - component: {fileID: 114276956776457508}
   m_Layer: 11
   m_Name: Atmos_Scrubber
   m_TagString: Untagged
@@ -51,7 +52,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011763452766}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.0004883, y: 2.99292, z: 0}
+  m_LocalPosition: {x: 1816, y: 1134, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013780010528}
@@ -98,6 +99,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 1
   depth: 0
+  useInGame: 0
+--- !u!114 &114276956776457508
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011763452766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 1
 --- !u!212 &212000014000328296
 SpriteRenderer:
   m_ObjectHideFlags: 1
