@@ -9,6 +9,7 @@ namespace MapEditor {
 
     public class BuildControl {
         private static SceneView currentSceneView;
+        public static string CurrentSubSectionName { get; set; }
 
         public static int HashCode { get; set; }
         public static bool CheckTileFit { get; set; }
@@ -43,7 +44,7 @@ namespace MapEditor {
             var gameObject = PreviewObject.CreateGameObject();
 
             gameObject.transform.position = new Vector3(x, y, 0);
-            gameObject.transform.MoveToSection(Matrix.Matrix.At(x, y).Section, MapEditorMap.CurrentSubSectionName);
+            gameObject.transform.MoveToSection(Matrix.Matrix.At(x, y).Section, CurrentSubSectionName);
 
             Undo.RegisterCreatedObjectUndo(gameObject, "Create " + gameObject.name);
         }
