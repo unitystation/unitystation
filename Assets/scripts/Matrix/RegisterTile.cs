@@ -22,9 +22,7 @@ namespace Matrix {
 
         void Start() {
             currentTileTypeIndex = tileTypeIndex;
-        }
 
-        void OnEnable() {
             UpdatePosition();
         }
 
