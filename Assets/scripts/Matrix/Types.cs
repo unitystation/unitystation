@@ -47,6 +47,7 @@ namespace Matrix {
         public static ConnectType Window = new ConnectType("Window");
         public static ConnectType Carpet = new ConnectType("Carpet");
         public static ConnectType Catwalk = new ConnectType("Catwalk");
+        public static ConnectType Spaceship = new ConnectType("Spaceship");
 
         private ConnectType(string name, int value = -1) : base(name, value) {
             if(value < 0) {

@@ -86,6 +86,11 @@ namespace Sprites {
 
             ConnectSprites["wall"] = Resources.LoadAll<Sprite>("walls/wall");
             ConnectSprites["wall_reinforced"] = Resources.LoadAll<Sprite>("walls/wall_reinforced");
+            ConnectSprites["rusty_wall"] = Resources.LoadAll<Sprite>("walls/rusty_wall");
+            ConnectSprites["rusty_wall_reinforced"] = Resources.LoadAll<Sprite>("walls/rusty_reinforced_wall");
+            ConnectSprites["shuttle_wall"] = Resources.LoadAll<Sprite>("walls/shuttle_wall");
+            ConnectSprites["sandstone_wall"] = Resources.LoadAll<Sprite>("walls/sandstone_wall");
+            ConnectSprites["rock_wall"] = Resources.LoadAll<Sprite>("walls/rock_wall");
 
             ConnectSprites["window"] = Resources.LoadAll<Sprite>("windows/window");
             ConnectSprites["window_reinforced"] = Resources.LoadAll<Sprite>("windows/window_reinforced");
