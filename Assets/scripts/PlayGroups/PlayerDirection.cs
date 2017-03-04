@@ -12,7 +12,9 @@ namespace PlayGroup
         {
             if (PlayerManager.LocalPlayerScript != null)
             {
-                if (Input.GetMouseButtonDown(0))
+                // Check if the mouse is hovering over an UI element.
+                // Because we don't want to rotate when we're just pressing UI things.
+                if (Input.GetMouseButtonDown(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                 {
                     Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
                     float angle = Angle(dir);
