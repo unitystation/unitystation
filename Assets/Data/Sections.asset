@@ -46,6 +46,22 @@ MonoBehaviour:
   - {fileID: 114656671342223378}
   - {fileID: 114856953877788958}
   - {fileID: 114891561518193500}
+  - {fileID: 114197376014064564}
+  - {fileID: 114843019730664324}
+  - {fileID: 114039324114296172}
+  - {fileID: 114431037483692166}
+  - {fileID: 114735135251440098}
+  - {fileID: 114992831098372964}
+  - {fileID: 114481153403678430}
+  - {fileID: 114421007094106184}
+  - {fileID: 114505754539616504}
+  - {fileID: 114646399761373688}
+  - {fileID: 114994057400071408}
+  - {fileID: 114570447239829646}
+  - {fileID: 114477343449911468}
+  - {fileID: 114558036672225890}
+  - {fileID: 114426829519505916}
+  - {fileID: 114851369168125642}
 --- !u!114 &114018218116020092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,6 +88,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Command_Teleporter
   color: {r: 0.38910878, g: 0.5274759, b: 0, a: 0.5}
+--- !u!114 &114039324114296172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Courtroom
+  color: {r: 0.49835268, g: 0.8025267, b: 0, a: 0.5}
 --- !u!114 &114045671872609612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +192,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Solars
   color: {r: 0.94150335, g: 0.40876338, b: 0, a: 0.5}
+--- !u!114 &114197376014064564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Evidence Storage
+  color: {r: 0, g: 0.85374, b: 0.692817, a: 0.5}
 --- !u!114 &114225342476963272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,6 +296,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Mech Bay
   color: {r: 0.7738414, g: 0, b: 0.6262547, a: 0.5}
+--- !u!114 &114421007094106184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Permabrig
+  color: {r: 0, g: 0.55608743, b: 0.036603916, a: 0.5}
+--- !u!114 &114426829519505916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Escape Pod
+  color: {r: 0.47529495, g: 0.844774, b: 0, a: 0.5}
+--- !u!114 &114431037483692166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Warden
+  color: {r: 0, g: 0.9622186, b: 0.038399696, a: 0.5}
 --- !u!114 &114447717454550074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +387,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Command_AI_Upload
   color: {r: 0.6448913, g: 0.9504797, b: 0, a: 0.5}
+--- !u!114 &114477343449911468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Hallway Central Primary
+  color: {r: 0.19999993, g: 1, b: 0, a: 0.5}
+--- !u!114 &114481153403678430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Interrogation
+  color: {r: 0, g: 0.07520402, b: 0.5043887, a: 0.5}
+--- !u!114 &114505754539616504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Execution
+  color: {r: 0.9306082, g: 0, b: 0.27227837, a: 0.5}
+--- !u!114 &114558036672225890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Port Hall
+  color: {r: 0, g: 0.83611786, b: 0.49740982, a: 0.5}
 --- !u!114 &114560579485339544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,6 +452,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Derelict-1
   color: {r: 0.20801684, g: 0.70288134, b: 0, a: 0.5}
+--- !u!114 &114570447239829646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: North Primary
+  color: {r: 0.5801902, g: 0, b: 0.20821702, a: 0.5}
 --- !u!114 &114637973913341488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,6 +478,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Library
   color: {r: 0.37526864, g: 0, b: 0.8482894, a: 0.5}
+--- !u!114 &114646399761373688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Head of Security
+  color: {r: 0.57259625, g: 0, b: 0.43759838, a: 0.5}
 --- !u!114 &114654359405569030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,6 +543,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Chem
   color: {r: 0.18660566, g: 0, b: 0.74904144, a: 0.5}
+--- !u!114 &114735135251440098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Armory
+  color: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!114 &114764182070740634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +595,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Assembly Line
   color: {r: 0, g: 0.843169, b: 0.87785274, a: 0.5}
+--- !u!114 &114843019730664324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Brig
+  color: {r: 0.66516465, g: 0, b: 0.5262501, a: 0.5}
+--- !u!114 &114851369168125642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Dorms
+  color: {r: 0.72776663, g: 0.08287663, b: 0, a: 0.5}
 --- !u!114 &114856953877788958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,3 +686,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Command_Captain
   color: {r: 0.33737025, g: 0.65787196, b: 0.7647059, a: 0.5}
+--- !u!114 &114992831098372964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Security
+  color: {r: 0.65677834, g: 0.12422172, b: 0, a: 0.5}
+--- !u!114 &114994057400071408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Security Maintenance
+  color: {r: 0, g: 0.5562411, b: 0.80296516, a: 0.5}
