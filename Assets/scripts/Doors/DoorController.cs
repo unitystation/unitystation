@@ -54,10 +54,6 @@ public class DoorController: Photon.PunBehaviour {
 		overlaySprites = SpriteManager.DoorSprites["overlays"];
     }
 
-    void Update() {
-        waitUntilClose();
-    }
-
     public void BoxCollToggleOn() {
         registerTile.UpdateTileType(TileType.Door);
         boxColl.enabled = true;
@@ -68,16 +64,10 @@ public class DoorController: Photon.PunBehaviour {
         boxColl.enabled = false;
     }
 
-    private void waitUntilClose() {
-        if(isOpened) { //removed numOccupies condition for time being
-            timeOpen += Time.deltaTime;
-
-            if(timeOpen >= maxTimeOpen) {
-				TryClose();
-            }
-        } else {
-            timeOpen = 0;
-        }
+    private IEnumerator _WaitUntilClose() {
+        // After the door opens, wait until it's supposed to close.
+        yield return new WaitForSeconds(maxTimeOpen);
+		TryClose();
     }
 
     //3d sounds
@@ -127,6 +117,8 @@ public class DoorController: Photon.PunBehaviour {
     [PunRPC]
     public void Open() {
         isOpened = true;
+        StartCoroutine(_WaitUntilClose());
+
 		if (usingAnimator) {
 			animator.SetBool("open", true);
 		} else {
