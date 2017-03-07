@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 [Serializable]
@@ -20,6 +22,7 @@ public class SectionData : ScriptableObject {
     }
 
     private static void LoadSections() {
+		#if UNITY_EDITOR
         sectionData = AssetDatabase.LoadAssetAtPath<SectionData>(AssetPath);
 
         if(!sectionData) {
@@ -27,6 +30,7 @@ public class SectionData : ScriptableObject {
             Directory.CreateDirectory(Path.GetDirectoryName(AssetPath));
             AssetDatabase.CreateAsset(sectionData, AssetPath);
         }
+		#endif
     }
     [SerializeField]
     private List<Section> sections;
@@ -45,7 +49,8 @@ public class SectionData : ScriptableObject {
         var section = CreateInstance<Section>();
         section.Init(name, color);
         Sections.Add(section);
-
+		#if UNITY_EDITOR
         AssetDatabase.AddObjectToAsset(section, AssetPath);
+		#endif
     }
 }

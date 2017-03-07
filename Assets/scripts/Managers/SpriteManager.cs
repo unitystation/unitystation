@@ -30,8 +30,8 @@ namespace Sprites {
         private static SpriteManager spriteManager;
         private Sprites playerSprites = new Sprites();
         private Sprites wallSprites = new Sprites();
-
 		private Sprites doorSprites = new Sprites();
+		private Sprites monitorSprites = new Sprites();
 
         public static SpriteManager Instance {
             get {
@@ -58,6 +58,12 @@ namespace Sprites {
 		public static Sprites DoorSprites {
 			get { 
 				return Instance.doorSprites;
+			}
+		}
+
+		public static Sprites MonitorSprites {
+			get { 
+				return Instance.monitorSprites;
 			}
 		}
 
@@ -114,6 +120,8 @@ namespace Sprites {
 			DoorSprites["science"] = Resources.LoadAll<Sprite>("doors/station/science");
 			DoorSprites["security"] = Resources.LoadAll<Sprite>("doors/station/security");
 			DoorSprites["virology"] = Resources.LoadAll<Sprite>("doors/station/virology");
+
+			MonitorSprites["monitors"] = Resources.LoadAll<Sprite>("obj/monitors");
 
         }
     }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace SectionEditor {
@@ -25,7 +27,7 @@ namespace SectionEditor {
 
         public bool drawGizmos;
     }
-
+	#if UNITY_EDITOR
     public class MyScriptGizmoDrawer {
         [DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]
         static void DrawGizmo(MatrixDrawer scr, GizmoType gizmoType) {
@@ -50,5 +52,7 @@ namespace SectionEditor {
                 }
             }
         }
+
     }
+	#endif
 }
