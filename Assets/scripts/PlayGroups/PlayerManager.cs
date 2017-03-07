@@ -121,7 +121,6 @@ namespace PlayGroup
 			if (Input.GetKey(KeyCode.A)) { 
 				//LEFT
 				direction = Vector2.left;
-
 			}
 			if (Input.GetKey(KeyCode.S)) { 
 				//DOWN
@@ -131,7 +130,6 @@ namespace PlayGroup
 				//UP
 				direction = Vector2.up;
 			}
-
 			if (direction != Vector2.zero) {
 				LocalPlayerScript.MovePlayer(direction);
 			}

@@ -72,11 +72,11 @@ namespace PlayGroup
 				isMoving = true;
 
 				if (direction == Vector2.right || direction == Vector2.left) {
-					clampPos = transform.position.y; 
+					clampPos = Mathf.Round(transform.position.y); 
 				}
 
 				if (direction == Vector2.down || direction == Vector2.up) {
-					clampPos = transform.position.x;
+					clampPos = Mathf.Round(transform.position.x);
 				}
 			} else {
 				//Check why it is not passable (doors etc)
@@ -202,9 +202,13 @@ namespace PlayGroup
 		private void SetClamp(Vector3 _toClamp, bool clampX){
 			toClamp = _toClamp;
 			if (clampX) {
-				Mathf.Clamp(toClamp.x, clampPos, clampPos);
+				if (toClamp.x != clampPos) {
+					toClamp.x = clampPos;
+				}
 			} else {
-				Mathf.Clamp(toClamp.y, clampPos, clampPos);
+				if (toClamp.y != clampPos) {
+					toClamp.y = clampPos;
+				}
 			}
 			transform.position = toClamp;
 		}
