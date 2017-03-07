@@ -17,6 +17,8 @@ namespace Network {
 
         private static NetworkManager networkManager;
 
+		public GameObject startGameBtn;
+
         public static NetworkManager Instance {
             get {
                 if(!networkManager) {
@@ -98,6 +100,9 @@ namespace Network {
             Debug.Log("Room Join Failed, creating our own server to be loners on");
 
             PhotonNetwork.CreateRoom(null, new RoomOptions() { maxPlayers = maxPlayersOnServer }, null); //Create the room with default settings and 32 max players
+			if (!GameData.IsInGame) {
+				startGameBtn.SetActive(true);
+			}
         }
 
         public override void OnJoinedRoom() {
@@ -105,6 +110,11 @@ namespace Network {
 
             UIManager.Chat.ReportToChannel("Welcome to unitystation. Press T to chat");
             isConnected = true;
+			if (!GameData.IsInGame) {
+				if (!PhotonNetwork.isMasterClient) {
+					UIManager.Chat.ReportToChannel("Connecting to game....");
+				}
+			}
             
             PlayerManager.CheckIfSpawned(); // Spawn the character if in the game already (This is for development when you are working on the map scenes)
         }

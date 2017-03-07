@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Matrix {
@@ -19,12 +21,15 @@ namespace Matrix {
         }
 
         private static void LoadMatrix() {
+			#if UNITY_EDITOR
             matrix = AssetDatabase.LoadAssetAtPath<Matrix>("Assets/Data/Matrix.asset");
-
+			#endif
             if(!matrix) {
                 matrix = CreateInstance<Matrix>();
                 Directory.CreateDirectory("Assets/Data");
+				#if UNITY_EDITOR
                 AssetDatabase.CreateAsset(matrix, "Assets/Data/Matrix.asset");
+				#endif
             }
         }
 
