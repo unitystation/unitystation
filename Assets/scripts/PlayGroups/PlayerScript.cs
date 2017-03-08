@@ -25,13 +25,7 @@ namespace PlayGroup {
         }
 
         void Start() {
-            GameObject searchPlayerList = GameObject.FindGameObjectWithTag("PlayerList");
-            if(searchPlayerList != null) {
-                transform.parent = searchPlayerList.transform;
-            } else {
-                Debug.LogError("Scene is missing PlayerList GameObject!!");
-
-            }
+            
             //add physics move component and set default movespeed
             physicsMove = gameObject.GetComponent<PhysicsMove>();
 
@@ -45,6 +39,11 @@ namespace PlayGroup {
             }
             if(PhotonNetwork.connectedAndReady) {
                 gameObject.name = photonView.owner.NickName;
+				if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy) {
+					UIManager.Instance.playerListUIControl.window.SetActive(true);
+				}
+				//Add it to the global playerlist
+				PlayerList.Instance.AddPlayer(gameObject);
             }
         }
 

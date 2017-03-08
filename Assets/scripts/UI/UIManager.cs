@@ -11,6 +11,7 @@ namespace UI {
         public ControlAction actionControl;
         public ControlWalkRun walkRunControl;
         public ControlDisplays displayControl;
+		public PlayerListUI playerListUIControl;
 
         private static UIManager uiManager;
 
@@ -59,6 +60,12 @@ namespace UI {
                 return Instance.displayControl;
             }
         }
+
+		public static PlayerListUI PlayerListUI {
+			get {
+				return Instance.playerListUIControl;
+			}
+		}
 
 
         /// <summary>

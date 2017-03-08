@@ -121,10 +121,13 @@ namespace Network {
 
         public override void OnPhotonPlayerDisconnected(PhotonPlayer other) {
             Debug.Log("PUNderDomePlayerDisconnected() " + other.NickName); // seen when other disconnects
-        }
+			PlayerList.Instance.RemovePlayer(other.NickName);
+
+		}
 
         public override void OnPhotonPlayerConnected(PhotonPlayer other) {
             Debug.Log("OnPhotonPlayerConnected() " + other.NickName); // not seen if you're the player connecting
-        }
+		
+		}
     }
 }

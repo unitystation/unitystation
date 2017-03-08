@@ -63,8 +63,10 @@ public class CabinetTrigger: Photon.PunBehaviour {
 
         ItemViewID = itemViewID;
 
-        if(ItemViewID >= 0)
-            NetworkItemDB.Items[ItemViewID].SetActive(false);
+		if (ItemViewID >= 0)
+		if (NetworkItemDB.Items.ContainsKey(ItemViewID)) {
+			NetworkItemDB.Items[ItemViewID].SetActive(false);
+		}
 
         if(playSound) SoundManager.Play("OpenClose");
 
