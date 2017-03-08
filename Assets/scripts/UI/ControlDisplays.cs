@@ -55,21 +55,23 @@ namespace UI {
         }
 
         private void SetLogInWindow() {
-            if(!Managers.instance.IsDevMode) {
-                if(parentScript.chatControl.chatClient != null) {
+			if (GameData.IsInGame) {
+				if (!Managers.instance.IsDevMode) {
+					if (parentScript.chatControl.chatClient != null) {
 
-                    if(parentScript.chatControl.chatClient.CanChat) {
-                        logInWindow.SetActive(false);
-                    } else {
-                        logInWindow.SetActive(true);
-                    }
-                } else {
+						if (parentScript.chatControl.chatClient.CanChat) {
+							logInWindow.SetActive(false);
+						} else {
+							logInWindow.SetActive(true);
+						}
+					} else {
 
-                    logInWindow.SetActive(true);
-                }
-            } else {
-                logInWindow.SetActive(false);
-            }
-        }
+						logInWindow.SetActive(true);
+					}
+				} else {
+					logInWindow.SetActive(false);
+				}
+			}
+		}
     }
 }

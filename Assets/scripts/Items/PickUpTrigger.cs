@@ -34,8 +34,11 @@ namespace Items {
 		}
 
 		public void OnRemoveFromInventory(){
-			uiTriggerObj.SetActive(false);
-			gameObject.transform.localScale = Vector3.one;
+			if (uiTriggerObj != null) {
+				uiTriggerObj.SetActive(false);
+			}
+				gameObject.transform.localScale = Vector3.one;
+			
 		}
 
     }
