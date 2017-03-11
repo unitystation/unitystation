@@ -5,43 +5,32 @@ using Sprites;
 
 public class MonitorCamera : MonoBehaviour {
 
-	private Sprite[] sprites;
-	private SpriteRenderer thisSpriteRend;
-	private int baseSprite = 2;
-	void Start(){
-		thisSpriteRend = GetComponentInChildren<SpriteRenderer>();
-		sprites = SpriteManager.MonitorSprites["monitors"];
-		int.TryParse(thisSpriteRend.sprite.name.Substring(9), out baseSprite);
-		StartCoroutine(CameraMonitorAnim());
-	}
+    public float time = 0.3f;
 
-	IEnumerator CameraMonitorAnim(){
-		thisSpriteRend.sprite = sprites[baseSprite];
-		yield return new WaitForSeconds(0.4f);
-		thisSpriteRend.sprite = sprites[baseSprite + 8];
-		yield return new WaitForSeconds(0.4f); //06
-		thisSpriteRend.sprite = sprites[baseSprite + 16];
-		yield return new WaitForSeconds(0.4f);
-		thisSpriteRend.sprite = sprites[baseSprite + 24];
-		yield return new WaitForSeconds(0.4f);
-		thisSpriteRend.sprite = sprites[baseSprite + 32];
-		yield return new WaitForSeconds(0.4f);
-		thisSpriteRend.sprite = sprites[baseSprite + 40];
-		yield return new WaitForSeconds(0.4f);
-		thisSpriteRend.sprite = sprites[baseSprite + 48];
-		yield return new WaitForSeconds(0.8f);
-		thisSpriteRend.sprite = sprites[baseSprite + 40];
-		yield return new WaitForSeconds(0.4f);
-		thisSpriteRend.sprite = sprites[baseSprite + 32];
-		yield return new WaitForSeconds(0.4f);
-		thisSpriteRend.sprite = sprites[baseSprite + 24];
-		yield return new WaitForSeconds(0.4f);
-		thisSpriteRend.sprite = sprites[baseSprite + 16];
-		yield return new WaitForSeconds(0.4f);
-		thisSpriteRend.sprite = sprites[baseSprite + 8];
-		yield return new WaitForSeconds(0.4f);
-		thisSpriteRend.sprite = sprites[baseSprite];
-		yield return new WaitForSeconds(0.4f);
-		StartCoroutine(CameraMonitorAnim());
+	private Sprite[] sprites;
+	private SpriteRenderer spriteRenderer;
+	private int baseSprite = 2;
+
+	void Start(){
+		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		sprites = SpriteManager.MonitorSprites["monitors"];
+		int.TryParse(spriteRenderer.sprite.name.Substring(9), out baseSprite);
+        StartCoroutine(Animate());
+    }
+
+	IEnumerator Animate(){
+		spriteRenderer.sprite = sprites[baseSprite];
+
+        while(enabled) {
+            for(int i = 0; i < 7; i++) {
+                yield return new WaitForSeconds(time);
+                spriteRenderer.sprite = sprites[baseSprite + i * 8];
+            }
+
+            for(int i = 6; i >= 0; i--) {
+                yield return new WaitForSeconds(time);
+                spriteRenderer.sprite = sprites[baseSprite + i * 8];
+            }
+        }
 	}
 }
