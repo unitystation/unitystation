@@ -22,7 +22,7 @@ namespace SectionEditor {
         }
 
         private Section selectedSection = null;
-        private string newSectionName = "";
+        private string newSectionName = string.Empty;
         private Vector2 scrollPosition;
 
         private SceneView currentSceneView;
