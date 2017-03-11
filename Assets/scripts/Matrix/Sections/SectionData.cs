@@ -26,7 +26,7 @@ public class SectionData : ScriptableObject {
         #if UNITY_EDITOR
         activeSceneName = SceneManagerHelper.ActiveSceneName;
         AssetPath = "Assets/Data/" + activeSceneName + "_Sections.asset";
-        Debug.Log("Load " + AssetPath);
+
         sectionData = AssetDatabase.LoadAssetAtPath<SectionData>(AssetPath);
 
         if(!sectionData) {
