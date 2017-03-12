@@ -22,10 +22,9 @@ namespace Matrix {
         }
 
         private static void LoadMatrix() {
-            #if UNITY_EDITOR
             activeSceneName = SceneManagerHelper.ActiveSceneName;
             string assetPath = "Assets/Data/" + activeSceneName + "_Matrix.asset";
-
+			#if UNITY_EDITOR
             matrix = AssetDatabase.LoadAssetAtPath<Matrix>(assetPath);
             #endif
 
