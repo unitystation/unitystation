@@ -9,8 +9,7 @@ namespace PlayGroup
 	public class PlayerManager: Photon.PunBehaviour, IPunObservable
 	{
 		public float Health = 100f;
-		public Transform playerPrefab;
-		public Transform spawnPoint;
+
 
 		public static GameObject LocalPlayer { get; private set; }
 
@@ -63,7 +62,8 @@ namespace PlayGroup
 
 			if (!HasSpawned) {
 				if (GameData.IsInGame && NetworkManager.IsConnected) {
-					PhotonNetwork.Instantiate(Instance.playerPrefab.name, Instance.spawnPoint.position, Quaternion.identity, 0); //TODO: More spawn points and a way to iterate through them
+					SpawnManager spawnManager = Instance.GetComponent<SpawnManager>();
+					spawnManager.SpawnPlayer();
 					HasSpawned = true;
 				}
 			}
