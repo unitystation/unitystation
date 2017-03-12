@@ -47,11 +47,11 @@ public class Camera2DFollow: MonoBehaviour {
     private float fromY;
 
     void Awake() {
-        if(followControl == null) {
-
-            followControl = this;
-
-        }
+		if (followControl == null) {
+			followControl = this;
+		} else {
+			Destroy(this.gameObject);
+		}
     }
 
     void Start() {
