@@ -9,12 +9,13 @@ using UnityEngine;
 
 [Serializable]
 public class SectionData : ScriptableObject {
-    private const string AssetPath = "Assets/Data/Sections.asset";
-    private static SectionData sectionData;
+    private static string AssetPath = "Assets/Data/Sections.asset";
+    private static string activeSceneName;
 
+    private static SectionData sectionData;
     public static SectionData Instance {
         get {
-            if(!sectionData) {
+            if(!sectionData || !activeSceneName.Equals(SceneManagerHelper.ActiveSceneName)) {
                 LoadSections();
             }
             return sectionData;
@@ -22,7 +23,10 @@ public class SectionData : ScriptableObject {
     }
 
     private static void LoadSections() {
-		#if UNITY_EDITOR
+        #if UNITY_EDITOR
+        activeSceneName = SceneManagerHelper.ActiveSceneName;
+        AssetPath = "Assets/Data/" + activeSceneName + "_Sections.asset";
+
         sectionData = AssetDatabase.LoadAssetAtPath<SectionData>(AssetPath);
 
         if(!sectionData) {
@@ -30,7 +34,7 @@ public class SectionData : ScriptableObject {
             Directory.CreateDirectory(Path.GetDirectoryName(AssetPath));
             AssetDatabase.CreateAsset(sectionData, AssetPath);
         }
-		#endif
+        #endif
     }
     [SerializeField]
     private List<Section> sections;
