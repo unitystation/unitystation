@@ -9,11 +9,12 @@ namespace Matrix {
     
     [Serializable]
     public class Matrix: ScriptableObject {
+        private static string activeSceneName;
 
         public static Matrix matrix;
         public static Matrix Instance {
             get {
-                if(!matrix) {
+                if(!matrix || !activeSceneName.Equals(SceneManagerHelper.ActiveSceneName)) {
                     LoadMatrix();
                 }
                 return matrix;
@@ -21,15 +22,18 @@ namespace Matrix {
         }
 
         private static void LoadMatrix() {
+            activeSceneName = SceneManagerHelper.ActiveSceneName;
+            string assetPath = "Assets/Data/" + activeSceneName + "_Matrix.asset";
 			#if UNITY_EDITOR
-            matrix = AssetDatabase.LoadAssetAtPath<Matrix>("Assets/Data/Matrix.asset");
-			#endif
+            matrix = AssetDatabase.LoadAssetAtPath<Matrix>(assetPath);
+            #endif
+
             if(!matrix) {
                 matrix = CreateInstance<Matrix>();
-                Directory.CreateDirectory("Assets/Data");
+                Directory.CreateDirectory(Path.GetDirectoryName(assetPath));
 				#if UNITY_EDITOR
-                AssetDatabase.CreateAsset(matrix, "Assets/Data/Matrix.asset");
-				#endif
+                AssetDatabase.CreateAsset(matrix, assetPath);
+                #endif
             }
         }
 

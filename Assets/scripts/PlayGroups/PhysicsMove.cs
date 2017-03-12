@@ -189,14 +189,6 @@ namespace PlayGroup
 					return;
 				}
 			}
-
-			//TODO check isSpace
-//			if (isSpaced && !triedToMoveInSpace) {
-//				triedToMoveInSpace = true;
-//				thisRigi.mass = 0f;
-//				thisRigi.drag = 0f;
-//				thisRigi.angularDrag = 0f; 
-//			}
 		}
 
 		private void SetClamp(Vector3 _toClamp, bool clampX){

@@ -47,8 +47,8 @@ public class GameData: MonoBehaviour {
     }
 
     void OnLevelWasLoaded() {
-        int currentScene = SceneManager.GetActiveScene().buildIndex;
-        if(currentScene == 0) {
+         
+		if(Application.loadedLevelName == "Lobby") {
             IsInGame = false;
             Managers.instance.SetScreenForLobby();
         } else {
