@@ -37,6 +37,10 @@ namespace PlayGroup
 			if (lerpA) {
 				LerpToTarget();
 			}
+		}
+
+		void FixedUpdate()
+		{
 			if (isMoving) {
 				//Move character via Transform
 				MoveCharacter();
