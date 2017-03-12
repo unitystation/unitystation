@@ -2,71 +2,90 @@
 using System.Collections;
 using PlayGroup;
 
-namespace UI{
-public class UIManager : MonoBehaviour {
+namespace UI {
+    public class UIManager: MonoBehaviour {
 
-	public static UIManager control;
+        public ControlChat chatControl;
+        public Hands hands;
+        public ControlIntent intentControl;
+        public ControlAction actionControl;
+        public ControlWalkRun walkRunControl;
+        public ControlDisplays displayControl;
+		public PlayerListUI playerListUIControl;
 
-		//Child Scripts
-		public ControlChat chatControl;
-		public ControlBottomUI bottomControl;
-		public Hands hands;
-		public ControlIntent intentControl;
-		public ControlAction actionControl;
-		public ControlWalkRun walkRunControl;
-		public ControlDisplays displayControl;
+        private static UIManager uiManager;
 
-		//Members accessable for player controller
+        public static UIManager Instance {
+            get {
+                if(!uiManager) {
+                    uiManager = FindObjectOfType<UIManager>();
+                }
 
-		/// <summary>
-		/// Current Intent status
-		/// </summary>
-		public Intent currentIntent{ get; set; }
+                return uiManager;
+            }
+        }
 
-		/// <summary>
-		/// What is DamageZoneSeclector currently set at
-		/// </summary>
-		public DamageZoneSelector damageZone{ get; set; }
+        public static ControlChat Chat {
+            get {
+                return Instance.chatControl;
+            }
+        }
 
-		/// <summary>
-		/// Is right hand selected? otherwise it is left
-		/// </summary>
-		public bool isRightHand{ get; set; }
+        public static Hands Hands {
+            get {
+                return Instance.hands;
+            }
+        }
 
-		/// <summary>
-		/// Is throw selected?
-		/// </summary>
-		public bool isThrow{ get; set; }
+        public static ControlIntent Intent {
+            get {
+                return Instance.intentControl;
+            }
+        }
 
-		/// <summary>
-		/// Is Oxygen On?
-		/// </summary>
-		public bool isOxygen{ get; set; }
+        public static ControlAction Action {
+            get {
+                return Instance.actionControl;
+            }
+        }
 
+        public static ControlWalkRun WalkRun {
+            get {
+                return Instance.walkRunControl;
+            }
+        }
 
+        public static ControlDisplays Display {
+            get {
+                return Instance.displayControl;
+            }
+        }
 
-	void Awake () {
-
-
-		if (control == null) {
-		
-			control = this;
-		
-		} else {
-		
-			Destroy (this);
-		
+		public static PlayerListUI PlayerListUI {
+			get {
+				return Instance.playerListUIControl;
+			}
 		}
 
-	}
 
-		void Start (){
-			isRightHand = true;
-		}
+        /// <summary>
+        /// Current Intent status
+        /// </summary>
+        public static Intent CurrentIntent { get; set; }
 
+        /// <summary>
+        /// What is DamageZoneSeclector currently set at
+        /// </summary>
+        public static DamageZoneSelector DamageZone { get; set; }
 
+        /// <summary>
+        /// Is throw selected?
+        /// </summary>
+        public static bool IsThrow { get; set; }
 
-
-			
-}
+        /// <summary>
+        /// Is Oxygen On?
+        /// </summary>
+        public static bool IsOxygen { get; set; }
+    }
 }
