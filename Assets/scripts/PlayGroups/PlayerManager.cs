@@ -107,7 +107,11 @@ namespace PlayGroup
 		{
 			//INPUT CONTROLS HERE
 			if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D)) {
-				LocalPlayerScript.physicsMove.MoveInputReleased();
+				if (!LocalPlayerScript.isVersion2) {
+					LocalPlayerScript.physicsMove.MoveInputReleased();
+				} else {
+					LocalPlayerScript.playerMove.MoveInputReleased();
+				}
 			}
 
 			Vector2 direction = Vector2.zero;

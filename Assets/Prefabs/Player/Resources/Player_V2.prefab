@@ -118,10 +118,8 @@ GameObject:
   - component: {fileID: 61560133998384606}
   - component: {fileID: 114188093408248388}
   - component: {fileID: 114510905694849814}
-  - component: {fileID: 50389741543338374}
   - component: {fileID: 114533554706831348}
-  - component: {fileID: 114891107508554002}
-  - component: {fileID: 114650313326004604}
+  - component: {fileID: 114917015132043232}
   m_Layer: 8
   m_Name: Player_V2
   m_TagString: Untagged
@@ -573,26 +571,6 @@ Transform:
   m_Father: {fileID: 4351491381459178}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50389741543338374
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1143811453785118}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 1
-  m_SleepingMode: 0
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!61 &61560133998384606
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -1043,7 +1021,6 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114533554706831348}
-  - {fileID: 114650313326004604}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -1210,19 +1187,6 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114650313326004604
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1143811453785118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 1
 --- !u!114 &114653647260988514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1321,9 +1285,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 2
+  isVersion2: 1
+  playerMove: {fileID: 0}
   physicsMove: {fileID: 0}
   playerSprites: {fileID: 0}
-  photonView: {fileID: 114510905694849814}
 --- !u!114 &114740813860770378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1442,25 +1407,6 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114891107508554002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1143811453785118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53cb5ecccd0d4fe5ac02ac15e80e8654, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isMoving: 0
-  lerpA: 0
-  isSpaced: 0
-  triedToMoveInSpace: 0
-  keyDown: 0
-  lerpSpeed: 10
-  clampPos: 0
-  moveSpeed: 7
 --- !u!114 &114907980145726322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1487,6 +1433,23 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114917015132043232
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1143811453785118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc439737e55b4209a6323ea5dd94c3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMoving: 0
+  lerpA: 0
+  moveDirection: {x: 0, y: 0}
+  lerpSpeed: 10
+  clampPos: 0
+  moveSpeed: 0.15
 --- !u!114 &114917735158561374
 MonoBehaviour:
   m_ObjectHideFlags: 1
