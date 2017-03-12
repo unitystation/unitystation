@@ -142,8 +142,8 @@ public class DoorController: Photon.PunBehaviour {
 		}
     }
 
-	IEnumerator OpenDoor(){
-		doorbase.sprite = sprites[0];
+	IEnumerator OpenDoor() {
+        doorbase.sprite = sprites[0];
 		overlay_Glass.sprite = sprites[15];
 		overlay_Lights.sprite = null;
 		PlayOpenSound();
