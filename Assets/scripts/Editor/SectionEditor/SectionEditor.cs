@@ -29,12 +29,12 @@ namespace SectionEditor {
 
 
         void OnGUI() {
-            var drawGizmos = GUILayout.Toggle(MatrixDrawer.Instance.drawGizmos, "Draw Gizmos");
+            var drawGizmos = GUILayout.Toggle(SectionDrawer.DrawGizmos, "Draw Gizmos");
 
-            if(MatrixDrawer.Instance.drawGizmos != drawGizmos) {
+            if(SectionDrawer.DrawGizmos != drawGizmos) {
                 currentSceneView.Focus();
             }
-            MatrixDrawer.Instance.drawGizmos = drawGizmos;
+            SectionDrawer.DrawGizmos = drawGizmos;
 
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             foreach(var section in SectionData.Sections) {
