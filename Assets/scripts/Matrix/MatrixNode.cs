@@ -100,6 +100,15 @@ namespace Matrix {
             connectEvent.RemoveListener(listener);
         }
 
+        public bool HasTileType(TileType tileType) {
+            foreach(var tile in tiles) {
+                var registerTile = tile.GetComponent<RegisterTile>();
+                if(tileType == registerTile.TileType)
+                    return true;
+            }
+            return false;
+        }
+
         private void UpdateValues() {
             tileValue = 0;
             connectValue = 0;
@@ -114,7 +123,6 @@ namespace Matrix {
                 if(connectTrigger) {
                     connectValue |= connectTrigger.ConnectType;
                 }
-
 
                 if(registerTile.TileType == TileType.Door) {
                     isDoor = true;
