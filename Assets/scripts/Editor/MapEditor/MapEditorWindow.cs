@@ -39,6 +39,7 @@ namespace MapEditor {
         }
 
         void OnGUI() {
+
             Main.EnableEdit = EditorGUILayout.BeginToggleGroup("Map Editor Mode", Main.EnableEdit);
 
             EditorGUILayout.BeginHorizontal();
