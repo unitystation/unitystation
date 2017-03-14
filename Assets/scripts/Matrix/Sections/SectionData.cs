@@ -49,12 +49,14 @@ public class SectionData : ScriptableObject {
         get { return Instance.sections; }
     }
 
-    public static void AddSection(string name, Color color) {
+    public static Section AddSection(string name, Color color) {
         var section = CreateInstance<Section>();
         section.Init(name, color);
         Sections.Add(section);
-		#if UNITY_EDITOR
+#if UNITY_EDITOR
         AssetDatabase.AddObjectToAsset(section, AssetPath);
-		#endif
+#endif
+
+        return section;
     }
 }
