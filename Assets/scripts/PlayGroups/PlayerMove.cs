@@ -10,6 +10,7 @@ namespace PlayGroup
 		[HideInInspector]
 		public bool lerpA = false;
 		private bool tryOpenDoor = false;
+		private bool clampX;
 		[HideInInspector]
 		public Vector2 moveDirection;
 		private IntVector2 nextTile;
@@ -24,6 +25,9 @@ namespace PlayGroup
 		[HideInInspector]
 		public float clampPos;
 		public float moveSpeed;
+
+		private float clampMoveValX = 0f;
+		private float clampMoveValY = 0f;
 
 		private PlayerScript playerScript;
 
@@ -56,12 +60,36 @@ namespace PlayGroup
 				lerpA = false;
 				isMoving = true;
 
-				if (direction == Vector2.right || direction == Vector2.left) {
-					clampPos = Mathf.Round(transform.position.y); 
+				if (direction == Vector2.left) {
+					if (playerScript.playerSprites.currentDirection == Vector2.right) {
+						clampPos = Mathf.Floor(transform.position.y); 
+					} else {
+						clampPos = Mathf.Round(transform.position.y); 
+					}
 				}
 
-				if (direction == Vector2.down || direction == Vector2.up) {
-					clampPos = Mathf.Round(transform.position.x);
+				if (direction == Vector2.right) {
+					if (playerScript.playerSprites.currentDirection == Vector2.left) {
+						clampPos = Mathf.Ceil(transform.position.y); 
+					} else {
+						clampPos = Mathf.Round(transform.position.y); 
+					}
+				}
+
+				if (direction == Vector2.up) {
+					if (playerScript.playerSprites.currentDirection == Vector2.down) {
+						clampPos = Mathf.Floor(transform.position.x);
+					} else {
+						clampPos = Mathf.Round(transform.position.x);
+					}
+				}
+
+				if (direction == Vector2.down) {
+					if (playerScript.playerSprites.currentDirection == Vector2.up) {
+						clampPos = Mathf.Ceil(transform.position.x);
+					} else {
+						clampPos = Mathf.Round(transform.position.x);
+					}
 				}
 			} else {
 				//Check why it is not passable (doors etc)
@@ -95,42 +123,46 @@ namespace PlayGroup
 		private void MoveCharacter()
 		{
 			if (AllowedMove()) {
+				SetClampValues();
+
 				if (moveDirection == Vector2.down) {
-					transform.Translate(0f, moveDirection.y * moveSpeed, 0);
-					SetClamp(transform.position, true);
+					transform.Translate(clampMoveValX, moveDirection.y * moveSpeed, 0);
 					return;
 				}
 				if (moveDirection == Vector2.up) {
-					transform.Translate(0f, moveDirection.y * moveSpeed, 0);
-					SetClamp(transform.position, true);
+					transform.Translate(clampMoveValX, moveDirection.y * moveSpeed, 0);
 					return;
 				}
 				if (moveDirection == Vector2.right) {
-					transform.Translate(moveDirection.x * moveSpeed, 0f, 0);
-					SetClamp(transform.position, false);
+					transform.Translate(moveDirection.x * moveSpeed, clampMoveValY, 0);
 					return;
 				}
 				if (moveDirection == Vector2.left) {
-					transform.Translate(moveDirection.x * moveSpeed, 0f, 0);
-					SetClamp(transform.position, false);
+					transform.Translate(moveDirection.x * moveSpeed, clampMoveValY, 0);
 					return;
 				}
 			}
 		}
 
-		private void SetClamp(Vector3 _toClamp, bool clampX)
-		{
-			toClamp = _toClamp;
-			if (clampX) {
-				if (toClamp.x != clampPos) {
-					toClamp.x = clampPos;
-				}
-			} else {
-				if (toClamp.y != clampPos) {
-					toClamp.y = clampPos;
+		void SetClampValues(){
+			clampMoveValX = 0f;
+			clampMoveValY = 0f;
+			if (moveDirection == Vector2.down || moveDirection == Vector2.up) {
+				if (transform.position.x != clampPos) {
+					float val = clampPos - transform.position.x;
+					clampMoveValX = val * 0.75f;
+				} else {
+					clampMoveValX = 0f;
 				}
 			}
-			transform.position = toClamp;
+			if (moveDirection == Vector2.left || moveDirection == Vector2.right) {
+				if (transform.position.x != clampPos) {
+					float val = clampPos - transform.position.y;
+					clampMoveValY = val * 0.75f;
+				} else {
+					clampMoveValY = 0f;
+				}
+			}
 		}
 
 		//movement input stopped, only use this to snap if there is an applied velocity

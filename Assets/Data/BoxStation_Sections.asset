@@ -62,6 +62,11 @@ MonoBehaviour:
   - {fileID: 114558036672225890}
   - {fileID: 114426829519505916}
   - {fileID: 114851369168125642}
+  - {fileID: 114766973623582464}
+  - {fileID: 114661078662294474}
+  - {fileID: 114457265221199006}
+  - {fileID: 114915778820047510}
+  - {fileID: 114030577999826450}
 --- !u!114 &114018218116020092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,6 +80,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Chapel
   color: {r: 0.9686367, g: 0, b: 0, a: 0.5}
+--- !u!114 &114030577999826450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Electrical Maintenance
+  color: {r: 0, g: 0.86939025, b: 0.019776676, a: 0.5}
 --- !u!114 &114033936398173648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Morgue
-  color: {r: 0.8951569, g: 0.28416425, b: 0, a: 0.5}
+  color: {r: 0.36612573, g: 0, b: 0.5588235, a: 0.5}
 --- !u!114 &114052163171637728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Evidence Storage
+  name: Labor Shuttle Dock
   color: {r: 0, g: 0.85374, b: 0.692817, a: 0.5}
 --- !u!114 &114225342476963272
 MonoBehaviour:
@@ -229,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Emergency Stoarge
+  name: Emergency Storage
   color: {r: 0.951932, g: 0.590147, b: 0, a: 0.5}
 --- !u!114 &114243825316515500
 MonoBehaviour:
@@ -320,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Escape Pod
+  name: Law Office
   color: {r: 0.47529495, g: 0.844774, b: 0, a: 0.5}
 --- !u!114 &114431037483692166
 MonoBehaviour:
@@ -348,6 +366,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Theatre
   color: {r: 0, g: 0.654596, b: 0.7301508, a: 0.5}
+--- !u!114 &114457265221199006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Eve Storage
+  color: {r: 0.32025555, g: 0.81489444, b: 0, a: 0.5}
 --- !u!114 &114464425462711356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,7 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Execution
+  name: Transfer Centre
   color: {r: 0.9306082, g: 0, b: 0.27227837, a: 0.5}
 --- !u!114 &114558036672225890
 MonoBehaviour:
@@ -438,7 +469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Port Hall
-  color: {r: 0, g: 0.83611786, b: 0.49740982, a: 0.5}
+  color: {r: 1, g: 0.6827586, b: 0, a: 0.5}
 --- !u!114 &114560579485339544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -517,6 +548,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Command_GravityGen
   color: {r: 0, g: 0.65344846, b: 0.009576985, a: 0.5}
+--- !u!114 &114661078662294474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Teleporter
+  color: {r: 0, g: 0.51907927, b: 0.57882965, a: 0.5}
 --- !u!114 &114668803430712208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,7 +573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: 'Sec. Point. #1'
-  color: {r: 0, g: 0.4911298, b: 0.5558019, a: 0.5}
+  color: {r: 1, g: 0, b: 0, a: 0.5}
 --- !u!114 &114674410566509076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,6 +626,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Escape Hall
   color: {r: 0, g: 0.65980846, b: 0.6882895, a: 0.5}
+--- !u!114 &114766973623582464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: EVA Maintenance
+  color: {r: 0.46067953, g: 0, b: 0.5871084, a: 0.5}
 --- !u!114 &114789213155091258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -619,7 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Dorms
+  name: Vacant Office B
   color: {r: 0.72776663, g: 0.08287663, b: 0, a: 0.5}
 --- !u!114 &114856953877788958
 MonoBehaviour:
@@ -646,7 +703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Command_Bridge
-  color: {r: 0, g: 0.43666333, b: 0.5808823, a: 0.5}
+  color: {r: 0.5808823, g: 0, b: 0.5408215, a: 0.5}
 --- !u!114 &114891561518193500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,6 +730,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Fitness Room
   color: {r: 0.8171407, g: 0, b: 0.11111685, a: 0.5}
+--- !u!114 &114915778820047510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Dormitories
+  color: {r: 1, g: 0.45588237, b: 0.763833, a: 0.5}
 --- !u!114 &114948876478455934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -710,5 +780,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Security Maintenance
+  name: Dormitory Maintenance
   color: {r: 0, g: 0.5562411, b: 0.80296516, a: 0.5}

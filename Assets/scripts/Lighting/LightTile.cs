@@ -6,9 +6,7 @@ namespace Lighting
 {
 	public class LightTile : MonoBehaviour
 	{
-
 		public SpriteRenderer thisSprite{ get; set; }
-
 		private LightingTileManager tileManager;
 		private bool transmitting = false;
 
