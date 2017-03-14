@@ -67,11 +67,15 @@ namespace SectionEditor {
             if(GUILayout.Button("Add Section") && !string.IsNullOrEmpty(newSectionName)) {
 
                 var color = Random.ColorHSV(0, 1, 1, 1, 0.5f, 1, 0.5f, 0.5f);
-                SectionData.AddSection(newSectionName, color);
+                var newSection = SectionData.AddSection(newSectionName, color);
 
                 EditorUtility.SetDirty(SectionData.Instance);
 
                 newSectionName = "";
+
+                scrollPosition.y = int.MaxValue;
+                selectedSection = newSection;
+                currentSceneView.Focus();
             }
             EditorGUILayout.EndHorizontal();
         }
