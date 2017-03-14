@@ -90,6 +90,49 @@ MonoBehaviour:
   - {fileID: 114649551160627090}
   - {fileID: 114797020738835044}
   - {fileID: 114993378168565902}
+  - {fileID: 114162353768891680}
+  - {fileID: 114705656000253706}
+  - {fileID: 114390968044441128}
+  - {fileID: 114254470964123930}
+  - {fileID: 114679220917342896}
+  - {fileID: 114916484540750870}
+  - {fileID: 114603327141421838}
+  - {fileID: 114866886746918346}
+  - {fileID: 114944615881300914}
+  - {fileID: 114838442192627804}
+  - {fileID: 114283566665356948}
+  - {fileID: 114976495772395084}
+  - {fileID: 114669934045699004}
+  - {fileID: 114424616779404412}
+  - {fileID: 114372732247449138}
+  - {fileID: 114298477061658976}
+  - {fileID: 114578949163206024}
+  - {fileID: 114222065798990414}
+  - {fileID: 114802521145086414}
+  - {fileID: 114180454330577420}
+  - {fileID: 114184744253165140}
+  - {fileID: 114544190251387022}
+  - {fileID: 114282270366850788}
+  - {fileID: 114074349296641276}
+  - {fileID: 114488763606274096}
+  - {fileID: 114060413880425016}
+  - {fileID: 114507274093945340}
+  - {fileID: 114909816073572008}
+  - {fileID: 114061753676688374}
+  - {fileID: 114924243383214612}
+  - {fileID: 114877591056918348}
+  - {fileID: 114203135116966436}
+  - {fileID: 114627960097597036}
+  - {fileID: 114521539464404632}
+  - {fileID: 114074925913638470}
+  - {fileID: 114852182181911900}
+  - {fileID: 114082497267313742}
+  - {fileID: 114129252599532308}
+  - {fileID: 114574134831506794}
+  - {fileID: 114233723673654720}
+  - {fileID: 114723679105875896}
+  - {fileID: 114695885292797750}
+  - {fileID: 114286485405430100}
 --- !u!114 &114018218116020092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Atmospherics
-  color: {r: 0.74921227, g: 0, b: 0.64478815, a: 0.5}
+  color: {r: 0, g: 0.5735294, b: 0.40740365, a: 0.5}
 --- !u!114 &114052163171637728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,6 +224,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Space
   color: {r: 0.6150009, g: 0.2750012, b: 0, a: 0.5}
+--- !u!114 &114060413880425016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Port Primary Hallway
+  color: {r: 0, g: 0.7836318, b: 1, a: 0.5}
+--- !u!114 &114061753676688374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Primary Tool Storage
+  color: {r: 0, g: 0.1314883, b: 0.60098064, a: 0.5}
+--- !u!114 &114074349296641276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Waste Disposals
+  color: {r: 0, g: 0.36167148, b: 0.91149336, a: 0.5}
+--- !u!114 &114074925913638470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Fore Port Solar Maintenance
+  color: {r: 0.7692381, g: 0, b: 0.45353222, a: 0.5}
 --- !u!114 &114078471661666594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +289,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: DJStation
   color: {r: 0.72781205, g: 0, b: 0.9790986, a: 0.5}
+--- !u!114 &114082497267313742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Fore Starboard Solar Maintenance
+  color: {r: 0.19345795, g: 0.6841806, b: 0, a: 0.5}
 --- !u!114 &114090349161017218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +341,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: GasTheLizards
   color: {r: 0, g: 0.29556802, b: 0.9925859, a: 0.5}
+--- !u!114 &114129252599532308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Fore Starboard Solar Panels
+  color: {r: 0.7222059, g: 0, b: 0.29060394, a: 0.5}
 --- !u!114 &114153785778159458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +380,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Medbay Treatment Center
   color: {r: 0, g: 0.49880803, b: 0.59562516, a: 0.5}
+--- !u!114 &114162353768891680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Incinerator
+  color: {r: 0.550913, g: 0, b: 0.26332206, a: 0.5}
+--- !u!114 &114180454330577420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Locker Room Maintenance
+  color: {r: 0.16787212, g: 0.3897059, b: 0, a: 0.5}
+--- !u!114 &114184744253165140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Locker Room
+  color: {r: 0, g: 0.37767762, b: 0.9097457, a: 0.5}
 --- !u!114 &114197376014064564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +432,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Labor Shuttle Dock
   color: {r: 0, g: 0.85374, b: 0.692817, a: 0.5}
+--- !u!114 &114203135116966436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Auxiliary Base Construction
+  color: {r: 1, g: 0.93103445, b: 0, a: 0.5}
 --- !u!114 &114216179002312912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +458,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Xenobiology Lab
   color: {r: 0.6950267, g: 0.73432374, b: 0, a: 0.5}
+--- !u!114 &114222065798990414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Port Emergency Storage
+  color: {r: 0, g: 0.21299018, b: 0.56354034, a: 0.5}
 --- !u!114 &114225342476963272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,6 +484,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Derelict-2
   color: {r: 0.93293893, g: 0, b: 0.68603545, a: 0.5}
+--- !u!114 &114233723673654720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Aft Starboard Solar Maintenance
+  color: {r: 0.6884036, g: 0.26779476, b: 0, a: 0.5}
 --- !u!114 &114235080100047288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,6 +523,71 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Derelict
   color: {r: 0.9093696, g: 0, b: 0.87356204, a: 0.5}
+--- !u!114 &114254470964123930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: AI Satellite Antechamber
+  color: {r: 0.88186926, g: 0.4196481, b: 0, a: 0.5}
+--- !u!114 &114282270366850788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Vacant Office
+  color: {r: 1, g: 0.27205884, b: 0.27205884, a: 0.5}
+--- !u!114 &114283566665356948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Mining Dock
+  color: {r: 0.79518175, g: 0.26149693, b: 0, a: 0.5}
+--- !u!114 &114286485405430100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Aft Port Solar Panels
+  color: {r: 0.71475935, g: 0.6924336, b: 0, a: 0.5}
+--- !u!114 &114298477061658976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Detective's Office
+  color: {r: 0.7967843, g: 0.39800313, b: 0, a: 0.5}
 --- !u!114 &114322908805737968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,6 +614,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Bar
   color: {r: 1, g: 0.41746122, b: 0, a: 0.5}
+--- !u!114 &114372732247449138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Cargo Office
+  color: {r: 0, g: 0.43043762, b: 0.5499133, a: 0.5}
+--- !u!114 &114390968044441128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: AI Satellite Hallway
+  color: {r: 0, g: 0.6633011, b: 0.4572369, a: 0.5}
 --- !u!114 &114392280676910866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,6 +692,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Permabrig
   color: {r: 0, g: 0.55608743, b: 0.036603916, a: 0.5}
+--- !u!114 &114424616779404412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Cargo Bay
+  color: {r: 0.3033297, g: 0.6944331, b: 0, a: 0.5}
 --- !u!114 &114426829519505916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,6 +848,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Interrogation
   color: {r: 0, g: 0.07520402, b: 0.5043887, a: 0.5}
+--- !u!114 &114488763606274096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Arrival Shuttle Hallway
+  color: {r: 0.49860173, g: 0.6984267, b: 0, a: 0.5}
 --- !u!114 &114505754539616504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,6 +874,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Transfer Centre
   color: {r: 0.9306082, g: 0, b: 0.27227837, a: 0.5}
+--- !u!114 &114507274093945340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Central Primary Hallway
+  color: {r: 0.21323532, g: 1, b: 0.8372211, a: 0.5}
+--- !u!114 &114521539464404632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Arrival North Maintenance
+  color: {r: 0, g: 1, b: 0.33793116, a: 0.5}
+--- !u!114 &114544190251387022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Locker Toilets
+  color: {r: 0.033970058, g: 0.6721583, b: 0, a: 0.5}
 --- !u!114 &114555923718788588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -636,6 +991,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Security Post - Engineering
   color: {r: 1, g: 0, b: 0, a: 0.5}
+--- !u!114 &114574134831506794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Toxins Test Area
+  color: {r: 0.8481896, g: 0.7725065, b: 0, a: 0.5}
+--- !u!114 &114578949163206024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Auxiliary Tool Storage
+  color: {r: 0.87057745, g: 0, b: 0.68742824, a: 0.5}
+--- !u!114 &114603327141421838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Aft Primary Hall
+  color: {r: 0.7353145, g: 0.16825545, b: 0, a: 0.5}
+--- !u!114 &114627960097597036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Auxiliary Base
+  color: {r: 0.41911763, g: 1, b: 0.8138746, a: 0.5}
 --- !u!114 &114637973913341488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -727,6 +1134,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 'Sec. Point. #1'
   color: {r: 1, g: 0, b: 0, a: 0.5}
+--- !u!114 &114669934045699004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Quartermaster's Office
+  color: {r: 0, g: 0.54247445, b: 0.3257769, a: 0.5}
 --- !u!114 &114674410566509076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -740,6 +1160,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Chem
   color: {r: 0.18660566, g: 0, b: 0.74904144, a: 0.5}
+--- !u!114 &114679220917342896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Telecoms Server Room
+  color: {r: 0.6067916, g: 0.034815513, b: 0, a: 0.5}
 --- !u!114 &114688508396926430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -753,6 +1186,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Medbay
   color: {r: 0, g: 0.82875335, b: 0.3957791, a: 0.5}
+--- !u!114 &114695885292797750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Aft Port Solar Maintenance
+  color: {r: 0.39425728, g: 0, b: 0.57379466, a: 0.5}
+--- !u!114 &114705656000253706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: AI Chamber
+  color: {r: 0.03176481, g: 0, b: 0.76494074, a: 0.5}
+--- !u!114 &114723679105875896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Aft Starboard Solar Panels
+  color: {r: 0.5768309, g: 0, b: 0.23913313, a: 0.5}
 --- !u!114 &114735135251440098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -844,6 +1316,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Engineering
   color: {r: 0.11988302, g: 0, b: 0.91390646, a: 0.5}
+--- !u!114 &114802521145086414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Art Supply Storage
+  color: {r: 0.571632, g: 0.22348705, b: 0, a: 0.5}
 --- !u!114 &114808333878434008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,6 +1381,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Toxins Mixing Room
   color: {r: 0, g: 0.6188247, b: 0.9179684, a: 0.5}
+--- !u!114 &114838442192627804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Engineering Maintenance
+  color: {r: 0.19314975, g: 0.9657491, b: 0, a: 0.5}
 --- !u!114 &114843019730664324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -935,6 +1433,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Vacant Office B
   color: {r: 0.72776663, g: 0.08287663, b: 0, a: 0.5}
+--- !u!114 &114852182181911900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Fore Port Solar Panels
+  color: {r: 0.60080314, g: 0, b: 0.33174706, a: 0.5}
 --- !u!114 &114856007892209684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -974,6 +1485,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Command_Bridge
   color: {r: 0.5808823, g: 0, b: 0.5408215, a: 0.5}
+--- !u!114 &114866886746918346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Construction Area
+  color: {r: 0.8072305, g: 0.78496206, b: 0, a: 0.5}
+--- !u!114 &114877591056918348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Security Checkpoint
+  color: {r: 0.9632353, g: 0, b: 0, a: 0.5}
 --- !u!114 &114881356719226704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1013,6 +1550,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Fitness Room
   color: {r: 0.8171407, g: 0, b: 0.11111685, a: 0.5}
+--- !u!114 &114909816073572008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Vault
+  color: {r: 0, g: 0.13118199, b: 0.75974596, a: 0.5}
 --- !u!114 &114915778820047510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1026,6 +1576,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Dormitories
   color: {r: 1, g: 0.45588237, b: 0.763833, a: 0.5}
+--- !u!114 &114916484540750870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Telecoms Control Room
+  color: {r: 0, g: 0.23013905, b: 0.7080468, a: 0.5}
 --- !u!114 &114917363765430262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1039,6 +1602,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Research and Development
   color: {r: 0.79372334, g: 0.18065892, b: 0, a: 0.5}
+--- !u!114 &114924243383214612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Garden
+  color: {r: 0.2448312, g: 0.88642323, b: 0, a: 0.5}
 --- !u!114 &114939666637936060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1052,6 +1628,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: CMO's office
   color: {r: 0.9552594, g: 0, b: 0.95305157, a: 0.5}
+--- !u!114 &114944615881300914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Technical Storage
+  color: {r: 0.7882513, g: 0.29448867, b: 0, a: 0.5}
 --- !u!114 &114948876478455934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1065,6 +1654,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Command_Captain
   color: {r: 0.33737025, g: 0.65787196, b: 0.7647059, a: 0.5}
+--- !u!114 &114976495772395084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Security Post - Cargo Bay
+  color: {r: 1, g: 0, b: 0, a: 0.5}
 --- !u!114 &114992831098372964
 MonoBehaviour:
   m_ObjectHideFlags: 0
