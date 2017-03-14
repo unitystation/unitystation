@@ -7,11 +7,8 @@ namespace Lighting
 {
 	public class LightingRoom : MonoBehaviour
 	{
-
 		public LightingTileManager tileManager { get; set; }
-
 		public LightingSourceManager sourceManager { get; set; }
-
 		/// <summary>
 		/// x = left
 		/// y = top
@@ -53,7 +50,6 @@ namespace Lighting
 
 		public void LightSwitchOff()
 		{
-			
 			foreach (KeyValuePair<Vector2,LightSource> light in sourceManager.lights) {
 				light.Value.TurnOffLight();
 
@@ -66,7 +62,5 @@ namespace Lighting
 				light.Value.TurnOnLight();
 			}	
 		}
-
-
 	}
 }

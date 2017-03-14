@@ -46,6 +46,8 @@ public class Camera2DFollow: MonoBehaviour {
     private float yLerpVal;
     private float fromY;
 
+	public ParallaxStars parallaxStars;
+
     void Awake() {
 		if (followControl == null) {
 			followControl = this;
@@ -84,7 +86,9 @@ public class Camera2DFollow: MonoBehaviour {
                 newPos.x = Mathf.RoundToInt(newPos.x * pixelAdjustment) / pixelAdjustment;
                 newPos.y = Mathf.RoundToInt(newPos.y * pixelAdjustment) / pixelAdjustment;
             }
-
+			if (parallaxStars != null) {
+				parallaxStars.MoveInDirection((newPos - transform.position).normalized);
+			}
             transform.position = newPos;
 
             lastTargetPosition = target.position;
