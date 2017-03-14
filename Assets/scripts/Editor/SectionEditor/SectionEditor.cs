@@ -18,6 +18,7 @@ namespace SectionEditor {
         }
 
         public void OnDisable() {
+            SectionDrawer.DrawGizmos = false;
             SceneView.onSceneGUIDelegate -= OnSceneGUI;
         }
 
