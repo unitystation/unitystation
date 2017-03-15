@@ -42,7 +42,9 @@ namespace MapEditor {
 
             gridIndex = GUILayout.SelectionGrid(gridIndex, gridData.Textures, elementsPerLine, buttonStyle);
 
-            PreviewObject.Prefab = gridData.Prefabs[gridIndex];
+            if(gridIndex < gridData.Prefabs.Length) {
+                PreviewObject.Prefab = gridData.Prefabs[gridIndex];
+            }
             BuildControl.CurrentSubSectionName = subsectionPath;
 
             EditorGUILayout.EndScrollView();
