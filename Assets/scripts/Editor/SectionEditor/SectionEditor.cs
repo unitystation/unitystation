@@ -18,6 +18,7 @@ namespace SectionEditor {
         }
 
         public void OnDisable() {
+            SectionDrawer.DrawGizmos = false;
             SceneView.onSceneGUIDelegate -= OnSceneGUI;
         }
 
@@ -67,11 +68,15 @@ namespace SectionEditor {
             if(GUILayout.Button("Add Section") && !string.IsNullOrEmpty(newSectionName)) {
 
                 var color = Random.ColorHSV(0, 1, 1, 1, 0.5f, 1, 0.5f, 0.5f);
-                SectionData.AddSection(newSectionName, color);
+                var newSection = SectionData.AddSection(newSectionName, color);
 
                 EditorUtility.SetDirty(SectionData.Instance);
 
                 newSectionName = "";
+
+                scrollPosition.y = int.MaxValue;
+                selectedSection = newSection;
+                currentSceneView.Focus();
             }
             EditorGUILayout.EndHorizontal();
         }
@@ -108,7 +113,6 @@ namespace SectionEditor {
 
         private void SetSectionAt(int x, int y, Section section) {
             Matrix.Matrix.At(x, y).Section = section;
-            //EventSystem.Invoke(x, y);
             EditorUtility.SetDirty(Matrix.Matrix.Instance);
 
             EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
