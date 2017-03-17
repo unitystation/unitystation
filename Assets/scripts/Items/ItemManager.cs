@@ -30,7 +30,7 @@ namespace Items {
     }
 }
 
-public enum SwitchDirection{
+public enum SwitchDirection {
 	up,
 	down,
 	left,

@@ -86,7 +86,6 @@ namespace Matrix {
         }
 
         public bool Connects(ConnectType connectType) {
-            Debug.Log(connectType);
             if(connectType != null) {
                 return ((connectType & (connectValue | tileValue)) > 0);
             }
