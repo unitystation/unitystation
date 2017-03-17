@@ -6,11 +6,8 @@ using Network;
 //Handles control and spawn of player prefab
 namespace PlayGroup
 {
-	public class PlayerManager: Photon.PunBehaviour, IPunObservable
+	public class PlayerManager: Photon.PunBehaviour
 	{
-		public float Health = 100f;
-
-
 		public static GameObject LocalPlayer { get; private set; }
 
 		public static Equipment Equipment { get; private set; }
@@ -20,10 +17,7 @@ namespace PlayGroup
 		//For access via other parts of the game
 		public static PlayerScript PlayerScript { get; private set; }
 
-		public static bool HasSpawned { get; private set; }
-
-		//True, when the user is firing
-		bool IsFiring;
+		public static bool HasSpawned { get; private set; }        
 
 		private static PlayerManager playerManager;
 
@@ -73,12 +67,7 @@ namespace PlayGroup
 		{
 			// only process controls if local player exists
 			if (HasSpawned && LocalPlayerScript != null) {
-				this.ProcessInputs();
-
-				if (this.Health <= 0f) {
-					//TODO DEATH
-				}
-
+				ProcessInputs();
 			}
 		}
 
@@ -99,58 +88,14 @@ namespace PlayGroup
 				return false;
 			}
 		}
-
-		/// <summary>
-		/// Processes the inputs. This MUST ONLY BE USED when the player has authority over this Networked GameObject (photonView.isMine == true)
-		/// </summary>
+        
 		void ProcessInputs()
 		{
-			//INPUT CONTROLS HERE
-			if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D)) {
-				if (!LocalPlayerScript.isVersion2) {
-					LocalPlayerScript.physicsMove.MoveInputReleased();
-				} else {
-					LocalPlayerScript.playerMove.MoveInputReleased();
-				}
-			}
-
-			Vector2 direction = Vector2.zero;
-
-			//hold key down inputs. clampPos is used to snap player to an axis on movement
-
-			if (Input.GetKey(KeyCode.D)) {
-				//RIGHT
-				direction = Vector2.right;
-			}
-			if (Input.GetKey(KeyCode.A)) { 
-				//LEFT
-				direction = Vector2.left;
-			}
-			if (Input.GetKey(KeyCode.S)) { 
-				//DOWN
-				direction = Vector2.down;
-			}
-			if (Input.GetKey(KeyCode.W)) {
-				//UP
-				direction = Vector2.up;
-			}
-			if (direction != Vector2.zero) {
-				LocalPlayerScript.MovePlayer(direction);
-			}
-		}
-
-		// IPunObservable implementation
-		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-		{
-			if (stream.isWriting) {
-				// We own this player: send the others our data
-				stream.SendNext(this.IsFiring);
-				stream.SendNext(this.Health);
-			} else {
-				// Network player, receive data
-				this.IsFiring = (bool)stream.ReceiveNext();
-				this.Health = (float)stream.ReceiveNext();
-			}
-		}
+			Vector2 direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+           
+            if(direction != Vector2.zero) {
+                LocalPlayerScript.MovePlayer(direction);
+            }
+        }
 	}
 }

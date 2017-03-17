@@ -15,6 +15,10 @@ namespace Matrix {
         public static implicit operator int(Type type) {
             return type == null ? -1 : type.value;
         }
+
+        public override string ToString() {
+            return base.ToString();
+        }
     }
 
     [System.Flags] enum TileProperty { HasFloor = 1, AtmosNotPassable = 2, NotPassable = 4}
