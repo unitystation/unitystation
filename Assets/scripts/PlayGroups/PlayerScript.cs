@@ -68,13 +68,7 @@ namespace PlayGroup
 		{
 			//At the moment it just checks if the input window is open and if it is false then allow move
 			if (!UIManager.Chat.chatInputWindow.activeSelf && IsMine) {
-				if(!isVersion2){
-				physicsMove.MoveInDirection(direction); //Tile based physics move
-				} else {
-					playerMove.MoveInDirection(direction);
-				}
 				playerSprites.FaceDirection(direction); //Handles the playersprite change on direction change
-
 			}
 		}
 
