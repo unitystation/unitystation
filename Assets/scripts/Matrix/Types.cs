@@ -17,7 +17,7 @@ namespace Matrix {
         }
 
         public override string ToString() {
-            return Name;
+            return base.ToString();
         }
     }
 

@@ -48,6 +48,14 @@ namespace Matrix {
             }
         }
 
+        public static MatrixNode At(Vector2 position, bool createIfNull = true) {
+            return At(position.x, position.y);
+        }
+
+        public static MatrixNode At(float x, float y, bool createIfNull = true) {
+            return At(Mathf.RoundToInt(x), Mathf.RoundToInt(y), createIfNull);
+        }
+
         public static MatrixNode At(int x, int y, bool createIfNull = true) {
             if(Instance.map.ContainsKey(x, y)) {
                 return Instance.map[x, y];
