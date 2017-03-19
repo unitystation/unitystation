@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114144584083291798}
   - component: {fileID: 114364495396968750}
   - component: {fileID: 114648600007476848}
+  - component: {fileID: 114030442607616000}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -39,7 +40,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4000012120925626}
-  - component: {fileID: 61000012679238458}
   - component: {fileID: 114000013935008546}
   - component: {fileID: 114213114549589986}
   m_Layer: 11
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 4954407656409086}
   - component: {fileID: 212032695716460568}
   m_Layer: 0
-  m_Name: BaseSprite
+  m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -104,7 +104,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013052373872}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3, y: 4, z: -0.1}
+  m_LocalPosition: {x: 1840, y: 1141, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013135475192}
@@ -166,20 +166,6 @@ Transform:
   m_Father: {fileID: 4000012120925626}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61000012679238458
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013052373872}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.06, y: -0.02}
-  serializedVersion: 2
-  m_Size: {x: 0.8, y: 0.87}
 --- !u!61 &61934104644865458
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -189,11 +175,11 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 0.015991211, y: 0.008911133}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 0.54004276, y: 0.83951825}
+  m_Size: {x: 1, y: 1}
 --- !u!114 &114000013935008546
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,6 +194,17 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
+--- !u!114 &114030442607616000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010759247148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556178f2dfac8d5409bcfe7d08fa4f89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114144584083291798
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -220,8 +217,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300098, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
-  offsetOpened: {x: -0.1068115, y: 0.008911133}
-  sizeOpened: {x: 0.785645, y: 0.8395182}
 --- !u!114 &114213114549589986
 MonoBehaviour:
   m_ObjectHideFlags: 1

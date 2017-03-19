@@ -47,7 +47,8 @@ namespace MapEditor {
 
         public Material previewMaterial;
 
-        private SpriteRotate spriteRotate;
+        private SpriteRotate[] spriteRotates;
+        private BoxCollider2D boxCollider2D;
 
         public static void Update(SceneView sceneView) {
             SetActive(ShowPreview);
@@ -61,21 +62,47 @@ namespace MapEditor {
         public static GameObject CreateGameObject() {
             var gameObject = (GameObject) PrefabUtility.InstantiatePrefab(Prefab);
 
-            var spriteRotate = gameObject.GetComponentInChildren<SpriteRotate>();
-            if(spriteRotate)
-                spriteRotate.RotateIndex = Instance.spriteRotate.RotateIndex;
+            var spriteRotates = gameObject.GetComponentsInChildren<SpriteRotate>();
+            for(int i = 0; i < spriteRotates.Length; i++) {
+                spriteRotates[i].RotateIndex = Instance.spriteRotates[i].RotateIndex;
+            }
+
+            if(Instance.boxCollider2D) {
+                var boxCollider2D = gameObject.GetComponentInChildren<BoxCollider2D>();
+                boxCollider2D.size = Instance.boxCollider2D.size;
+                boxCollider2D.offset = Instance.boxCollider2D.offset;
+            }
 
             return gameObject;
         }
 
         public static void RotateForwards() {
-            if(Instance && Instance.spriteRotate)
-                Instance.spriteRotate.RotateForwards();
+            if(Instance && Instance.spriteRotates.Length > 0) {
+                foreach(var spriteRotate in Instance.spriteRotates) {
+                    spriteRotate.RotateForwards();
+                }
+            }
+
+            Instance.UpdateCollider();
         }
 
         public static void RotateBackwards() {
-            if(Instance && Instance.spriteRotate)
-                Instance.spriteRotate.RotateBackwards();
+            if(Instance && Instance.spriteRotates.Length > 0) {
+                foreach(var spriteRotate in Instance.spriteRotates) {
+                    spriteRotate.RotateBackwards();
+                }
+            }
+
+            Instance.UpdateCollider();
+        }
+
+        private void UpdateCollider() {
+            if(boxCollider2D) {
+                var position = Instance.spriteRotates[0].transform.localPosition;
+                position = new Vector3(Mathf.Round(position.x), Mathf.Round(position.y));
+                boxCollider2D.offset = position;
+                boxCollider2D.size = Vector2.one;
+            }
         }
 
         private void FollowMouse(Event e) {
@@ -88,14 +115,14 @@ namespace MapEditor {
         }
 
         private void RemoveFromSelection() {
-            if(Selection.Contains(gameObject)) {
-                Selection.objects = Array.FindAll(Selection.objects, o => (o != gameObject));
-            }
-            foreach(Transform child in transform) {
-                if(Selection.Contains(child.gameObject)) {
-                    Selection.objects = Array.FindAll(Selection.objects, o => (o != child.gameObject));
-                }
-            }
+            //if(Selection.Contains(gameObject)) {
+            //    Selection.objects = Array.FindAll(Selection.objects, o => (o != gameObject));
+            //}
+            //foreach(Transform child in transform) {
+            //    if(Selection.Contains(child.gameObject)) {
+            //        Selection.objects = Array.FindAll(Selection.objects, o => (o != child.gameObject));
+            //    }
+            //}
         }
 
         public static void SetActive(bool active) {
@@ -118,26 +145,28 @@ namespace MapEditor {
             }
 
             if(prefab) {
-                foreach(Transform child in prefab.transform) {
-                    var c = Instantiate(child.gameObject);
-
-                    foreach(var script in c.GetComponentsInChildren<MonoBehaviour>()) {
-                        script.enabled = false;
-                    }
-
-                    c.transform.parent = transform;
-                    c.transform.localPosition = c.transform.position;
+                var p = Instantiate(prefab);
+                foreach(var script in p.GetComponentsInChildren<MonoBehaviour>()) {
+                    script.enabled = false;
                 }
+
+                p.transform.parent = transform;
+                p.transform.localPosition = Vector3.zero;
 
                 foreach(var renderer in GetComponentsInChildren<SpriteRenderer>()) {
                     renderer.sharedMaterial = previewMaterial;
                     renderer.sortingLayerName = "Preview";
                 }
 
-                spriteRotate = GetComponentInChildren<SpriteRotate>();
+                spriteRotates = GetComponentsInChildren<SpriteRotate>();
+                boxCollider2D = GetComponentInChildren<BoxCollider2D>();
 
-                if(spriteRotate)
-                    spriteRotate.enabled = true;
+                if(spriteRotates.Length > 0) {
+                    foreach(var spriteRotate in spriteRotates) {
+                        spriteRotate.enabled = true;
+                        spriteRotate.RotateIndex = 0;
+                    }
+                }
             }
         }
     }

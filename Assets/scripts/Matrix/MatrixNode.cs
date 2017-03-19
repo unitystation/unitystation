@@ -12,6 +12,7 @@ namespace Matrix {
 
         private UnityEvent connectEvent = new UnityEvent();
 
+        [NonSerialized]
         private List<GameObject> tiles = new List<GameObject>();
 
         private bool isDoor;
@@ -32,9 +33,6 @@ namespace Matrix {
 
             tiles.Add(gameObject);
             UpdateValues();
-
-            connectEvent.Invoke();
-
             return true;
         }
 
@@ -45,9 +43,6 @@ namespace Matrix {
 
             tiles.Remove(gameObject);
             UpdateValues();
-
-            connectEvent.Invoke();
-
             return true;
         }
 
@@ -138,6 +133,8 @@ namespace Matrix {
                     isSpace = false;
                 }
             }
+
+            connectEvent.Invoke();
         }
 
         private void UpdateSection() {
