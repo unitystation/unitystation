@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114067869038012234}
   - component: {fileID: 61655055042275860}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: Monitor_CameraTopLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,8 +134,6 @@ MonoBehaviour:
   - {fileID: 21300012, guid: d06d7ce621e644368cae00d62437f985, type: 3}
   - {fileID: 21300004, guid: d06d7ce621e644368cae00d62437f985, type: 3}
   positions: []
-  colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 0
 --- !u!212 &212000013919365814
 SpriteRenderer:
   m_ObjectHideFlags: 1

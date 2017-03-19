@@ -4,7 +4,9 @@ using UnityEngine;
 namespace PlayGroup {
 
     public class PlayerMove: MonoBehaviour {
+		[Header("Options")]
         public float speed = 10f;
+		public bool allowDiagonalMove;
 
         Vector3 targetPosition;
         private Vector3 currentPosition;
@@ -26,8 +28,16 @@ namespace PlayGroup {
                 currentPosition = new Vector3(Mathf.Round(transform.position.x),
                                               Mathf.Round(transform.position.y));
 
-                var direction = new Vector3(Input.GetAxisRaw("Horizontal"), 
-                                            Input.GetAxisRaw("Vertical"));
+				Vector3 direction = Vector3.zero;
+				if (allowDiagonalMove) {
+					direction = new Vector3(Input.GetAxisRaw("Horizontal"), 
+						                    Input.GetAxisRaw("Vertical"), 0f);
+				} else {
+					if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.1f)
+						direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
+					if (Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.1f)
+						direction = new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
+				}
 
                 if(direction != Vector3.zero) {
                     if(!TryToMove(direction)) {

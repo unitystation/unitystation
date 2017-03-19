@@ -62,15 +62,7 @@ namespace PlayGroup
 				}
 			}
 		}
-
-		public void Update()
-		{
-			// only process controls if local player exists
-			if (HasSpawned && LocalPlayerScript != null) {
-				ProcessInputs();
-			}
-		}
-
+			
 		public static bool PlayerInReach(Transform transform)
 		{
 			if (PlayerScript != null) {
@@ -79,14 +71,5 @@ namespace PlayGroup
 				return false;
 			}
 		}
-        
-		void ProcessInputs()
-		{
-			Vector2 direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-           
-            if(direction != Vector2.zero) {
-                LocalPlayerScript.MovePlayer(direction);
-            }
-        }
 	}
 }

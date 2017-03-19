@@ -1,10 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayGroup;
 
 namespace InputControl {
 
     public class InputController: MonoBehaviour {
+		private PlayerSprites playerSprites;
+
+		void Start(){
+			//for changing direction on click
+			playerSprites = gameObject.GetComponent<PlayerSprites>();
+		}
 
         void Update() {
             CheckClick();
@@ -13,6 +20,10 @@ namespace InputControl {
         private void CheckClick() {
             if(Input.GetMouseButtonDown(0)) {
                 RayHit(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+				Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
+				float angle = Angle(dir);
+				//change the facingDirection of player on click
+				CheckPlayerDirection(angle);
             }
         }
 
@@ -64,6 +75,28 @@ namespace InputControl {
                 inputTrigger.Trigger();
             }
         }
+
+		//Calculate the mouse click angle in relation to player(for facingDirection on PlayerSprites)
+		float Angle(Vector2 dir)
+		{
+			if (dir.x < 0) {
+				return 360 - (Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg * -1);
+			} else {
+				return Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
+			}
+		}
+			
+		void CheckPlayerDirection(float angle)
+		{
+			if (angle >= 315f && angle <= 360f || angle >= 0f && angle <= 45f)
+				playerSprites.FaceDirection(Vector2.up);
+			if (angle > 45f && angle <= 135f) 
+				playerSprites.FaceDirection(Vector2.right);
+			if (angle > 135f && angle <= 225f) 
+				playerSprites.FaceDirection(Vector2.down);
+			if (angle > 225f && angle < 315f) 
+				playerSprites.FaceDirection(Vector2.left);
+		}
     }
 }
 

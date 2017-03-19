@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 61294264368354326}
   - component: {fileID: 114908380332834410}
   m_Layer: 0
-  m_Name: LightBulb
+  m_Name: LightBulb_TopDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,8 +103,6 @@ MonoBehaviour:
   - {fileID: 21300040, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
   - {fileID: 21300046, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
   positions: []
-  colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 0
 --- !u!114 &114908380332834410
 MonoBehaviour:
   m_ObjectHideFlags: 1

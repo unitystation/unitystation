@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 114754219045571608}
   - component: {fileID: 114463032029787972}
   m_Layer: 0
-  m_Name: Cabinet_FireExtinguisher
+  m_Name: WallMount_FireExtinguisher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -220,8 +220,6 @@ MonoBehaviour:
   - {x: 0.875, y: 0}
   - {x: 0, y: -0.9375}
   - {x: -0.875, y: 0}
-  colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 0
 --- !u!114 &114463032029787972
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -288,7 +286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedPickUp: 1
 --- !u!114 &114584002441487160
 MonoBehaviour:
   m_ObjectHideFlags: 1

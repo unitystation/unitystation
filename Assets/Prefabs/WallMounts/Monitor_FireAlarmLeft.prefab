@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 61000010130597256}
   - component: {fileID: 114000013345536370}
   m_Layer: 0
-  m_Name: FireAlarm
+  m_Name: Monitor_FireAlarmLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,8 +183,6 @@ MonoBehaviour:
   - {x: 0.75, y: 0}
   - {x: 0, y: -0.75}
   - {x: -0.75, y: 0}
-  colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 0
 --- !u!114 &114786588448808422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -206,8 +204,6 @@ MonoBehaviour:
   - {x: 0.75, y: 0}
   - {x: 0, y: -0.75}
   - {x: -0.75, y: 0}
-  colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 0
 --- !u!114 &114872558026789698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -229,8 +225,6 @@ MonoBehaviour:
   - {x: 0.75, y: 0}
   - {x: 0, y: -0.75}
   - {x: -0.75, y: 0}
-  colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 0
 --- !u!212 &212000010569588554
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 114238883274921800}
   - component: {fileID: 61106100713950454}
   m_Layer: 13
-  m_Name: LightTube
+  m_Name: LightTube_TopDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -160,8 +160,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
   - {fileID: 21300006, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
   positions: []
-  colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 0
 --- !u!212 &212685610322283746
 SpriteRenderer:
   m_ObjectHideFlags: 1
