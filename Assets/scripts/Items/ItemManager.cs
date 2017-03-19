@@ -6,17 +6,19 @@ using UI;
 namespace Items {
 
     public class ItemManager: MonoBehaviour {
-        public static ItemManager control;
 
-        void Awake() {
-            if(control == null) {
-                control = this;
-            } else {
-                Destroy(this);
+        private static ItemManager itemManager;
+        public static ItemManager Instance {
+            get {
+                if(!itemManager) {
+                    itemManager = FindObjectOfType<ItemManager>();
+                }
+
+                return itemManager;
             }
         }
 
-        public bool TryToPickUpObject(GameObject itemObject) {            
+        public static bool TryToPickUpObject(GameObject itemObject) {            
             if(PlayerManager.PlayerScript != null) {
                 
                 if(!UIManager.Hands.CurrentSlot.TrySetItem(itemObject))
@@ -28,11 +30,4 @@ namespace Items {
             return true;
         }
     }
-}
-
-public enum SwitchDirection {
-	up,
-	down,
-	left,
-	right
 }

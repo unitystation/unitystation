@@ -18,7 +18,7 @@ public class EditModeControlEditor: Editor {
 
             var registerTile = editModeControl.GetComponent<RegisterTile>();
             if(registerTile) {
-                registerTile.UpdatePosition();
+                registerTile.UpdateTile();
 
                 var connectTrigger = editModeControl.GetComponent<ConnectTrigger>();
                 if(connectTrigger) {

@@ -79,15 +79,6 @@ namespace PlayGroup
 				return false;
 			}
 		}
-
-		public static bool SwitchInReach(Transform _transform, SwitchDirection switchDir)
-		{
-			if (PlayerScript != null) {
-				return PlayerScript.IsInReachOfSwitch(_transform, switchDir);
-			} else {
-				return false;
-			}
-		}
         
 		void ProcessInputs()
 		{

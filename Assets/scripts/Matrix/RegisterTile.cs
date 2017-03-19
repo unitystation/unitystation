@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,59 +13,47 @@ namespace Matrix {
         [HideInInspector]
         public int tileTypeIndex;
         private int currentTileTypeIndex;
-        public TileType TileType {
-            get {
-                return TileType.List[currentTileTypeIndex];
-            }
-        }
+        public TileType TileType { get { return TileType.List[tileTypeIndex]; } }
 
-        private int x = -1, y = -1;
+        private Vector2 savedPosition = Vector2.zero;
 
         void Start() {
-            currentTileTypeIndex = tileTypeIndex;
-
-            UpdatePosition();
+            UpdateTile();
         }
 
         void OnValidate() {
-            if(currentTileTypeIndex != tileTypeIndex) {
+            if(!Application.isPlaying && gameObject.activeInHierarchy && currentTileTypeIndex != tileTypeIndex) {
                 currentTileTypeIndex = tileTypeIndex;
-                UpdateTileType(TileType.List[currentTileTypeIndex]);
+                UpdateTile();
             }
         }
 
         void OnDestroy() {
-            if(x >= 0) {
-                Matrix.At(x, y).TryRemoveTile(gameObject);
+            try {
+                Matrix.At(savedPosition).TryRemoveTile(gameObject);
+            }catch(Exception e) {
+                Debug.Log(savedPosition + " " + gameObject.name);
             }
         }
 
-        public void UpdatePosition() {
-            if(x >= 0)
-                Matrix.At(x, y).TryRemoveTile(gameObject);
+        public void UpdateTileType(TileType tileType) {
+            currentTileTypeIndex = TileType.List.IndexOf(tileType);
+            tileTypeIndex = currentTileTypeIndex;
 
-            x = Mathf.RoundToInt(transform.position.x);
-            y = Mathf.RoundToInt(transform.position.y);
+            UpdateTile();
+        }
+
+        public void UpdateTile() {
+            Matrix.At(savedPosition).TryRemoveTile(gameObject);
+
+            savedPosition = transform.position;
 
             AddTile();
         }
 
-        public void UpdateTileType(TileType tileType) {
-            if(x >= 0) {
-                Matrix.At(x, y).TryRemoveTile(gameObject);
-            }
-
-            currentTileTypeIndex = TileType.List.IndexOf(tileType);
-            tileTypeIndex = currentTileTypeIndex;
-
-            if(x >= 0) {
-                AddTile();
-            }
-        }
-
         private void AddTile() {
-            if(!Matrix.At(x, y).TryAddTile(gameObject)) {
-                Debug.Log("Couldn't add tile at " + x + " " + y);
+            if(!Matrix.At(savedPosition).TryAddTile(gameObject)) {
+                Debug.Log("Couldn't add tile at " + savedPosition);
             }
         }
     }

@@ -5,8 +5,9 @@ using UnityEngine;
 namespace Crafting {
 
     public class CraftingManager: MonoBehaviour {
-
-        public CraftingDatabase Meals;
+        [SerializeField]
+        private CraftingDatabase meals = new CraftingDatabase();
+        public static CraftingDatabase Meals { get { return Instance.meals; } }
 
         private static CraftingManager craftingManager;
 
