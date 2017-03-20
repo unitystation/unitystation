@@ -67,6 +67,12 @@ namespace MapEditor {
                 spriteRotates[i].RotateIndex = Instance.spriteRotates[i].RotateIndex;
             }
 
+            if(Instance.boxCollider2D) {
+                var boxCollider2D = gameObject.GetComponentInChildren<BoxCollider2D>();
+                boxCollider2D.size = Instance.boxCollider2D.size;
+                boxCollider2D.offset = Instance.boxCollider2D.offset;
+            }
+
             return gameObject;
         }
 
@@ -93,10 +99,9 @@ namespace MapEditor {
         private void UpdateCollider() {
             if(boxCollider2D) {
                 var position = Instance.spriteRotates[0].transform.localPosition;
-                Debug.Log(position);
-
-                Instance.boxCollider2D.offset = Instance.spriteRotates[0].colliderOffset + position;
-                boxCollider2D.size = new Vector2(boxCollider2D.size.y, boxCollider2D.size.x);
+                position = new Vector3(Mathf.Round(position.x), Mathf.Round(position.y));
+                boxCollider2D.offset = position;
+                boxCollider2D.size = Vector2.one;
             }
         }
 

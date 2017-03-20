@@ -4,8 +4,10 @@ using UnityEngine;
 using PlayGroup;
 using UI;
 using Network;
+using Items;
+using InputControl;
 
-public class CabinetTrigger: Photon.PunBehaviour {
+public class CabinetTrigger: InputTrigger {
     public Sprite spriteClosed;
     public Sprite spriteOpenedOccupied;
     public Sprite spriteOpenedEmpty;
@@ -24,15 +26,12 @@ public class CabinetTrigger: Photon.PunBehaviour {
         ItemViewID = transform.FindChild("Extinguisher").GetComponent<PhotonView>().viewID;
     }
 
-    void OnMouseDown() {
-        if(PlayerManager.PlayerInReach(transform)) {
-            if(IsClosed) {
-                photonView.RPC("SyncState", PhotonTargets.All, false, ItemViewID, true);
-            } else {
-                OnClose();
-            }
+    public override void Interact() {
+        if(IsClosed) {
+            photonView.RPC("SyncState", PhotonTargets.All, false, ItemViewID, true);
+        } else {
+            OnClose();
         }
-
     }
 
     private void OnClose() {
@@ -42,14 +41,15 @@ public class CabinetTrigger: Photon.PunBehaviour {
                 var itemViewID = item.GetComponent<PhotonView>().viewID;
                 ItemViewID = itemViewID;
                 item.SetActive(false);
+                item.transform.parent = transform;
                 UIManager.Hands.CurrentSlot.Clear();
                 photonView.RPC("SyncState", PhotonTargets.All, IsClosed, itemViewID, false);
             } else {
                 photonView.RPC("SyncState", PhotonTargets.All, true, ItemViewID, true);
             }
         } else {
-            var item = NetworkItemDB.Items[ItemViewID];
-            if(Items.ItemManager.control.TryToPickUpObject(item)) {
+            var item = transform.FindChild("Extinguisher").gameObject;
+            if(ItemManager.TryToPickUpObject(item)) {
                 // remove extinguisher from closet
                 item.SetActive(true);
                 photonView.RPC("SyncState", PhotonTargets.All, IsClosed, -1, false);
@@ -63,10 +63,10 @@ public class CabinetTrigger: Photon.PunBehaviour {
 
         ItemViewID = itemViewID;
 
-		if (ItemViewID >= 0)
-		if (NetworkItemDB.Items.ContainsKey(ItemViewID)) {
-			NetworkItemDB.Items[ItemViewID].SetActive(false);
-		}
+        if(ItemViewID >= 0)
+            if(NetworkItemDB.Items.ContainsKey(ItemViewID)) {
+                NetworkItemDB.Items[ItemViewID].SetActive(false);
+            }
 
         if(playSound) SoundManager.Play("OpenClose");
 

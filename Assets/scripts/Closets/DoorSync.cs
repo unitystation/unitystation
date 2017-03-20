@@ -8,12 +8,12 @@ namespace Network {
     public class DoorSync: Photon.PunBehaviour {
         private bool synced = false;
 
-        private DoorTrigger doorTrigger;
+        private ClosetControl closetControl;
         private LockLightController lockLight;
         private GameObject items;
 
         void Start() {
-            doorTrigger = GetComponent<Cupboards.DoorTrigger>();
+            closetControl = GetComponent<ClosetControl>();
             lockLight = transform.GetComponentInChildren<LockLightController>();
             items = transform.FindChild("Items").gameObject;
 
@@ -36,9 +36,9 @@ namespace Network {
                 }
 
                 if(lockLight != null) {
-                    photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, playerRequesting, lockLight.IsLocked(), doorTrigger.IsClosed, transform.parent.transform.position); //Gather the values and send back
+                    photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, playerRequesting, lockLight.IsLocked(), closetControl.IsClosed, transform.parent.transform.position); //Gather the values and send back
                 } else {
-                    photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, playerRequesting, false, doorTrigger.IsClosed, transform.parent.transform.position); //Gather the values and send back 
+                    photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, playerRequesting, false, closetControl.IsClosed, transform.parent.transform.position); //Gather the values and send back 
                 }
             }
         }
@@ -48,9 +48,9 @@ namespace Network {
             if(PhotonNetwork.player.NickName == playerIdent) {
 
                 if(isClosed) {
-                    doorTrigger.Close();
+                    closetControl.Close();
                 } else {
-                    doorTrigger.Open();
+                    closetControl.Open();
                     Debug.Log("open door");
                 }
 
@@ -80,12 +80,9 @@ namespace Network {
                     photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, PhotonNetwork.player.NickName);
                 }
 
-                NetworkItemDB.AddCupboard(photonView.viewID, doorTrigger);
+                NetworkItemDB.AddCupboard(photonView.viewID, closetControl);
                 synced = true;
             }
         }
     }
 }
-
-//TODOS
-//TODO update the transform through photonView if it is changed

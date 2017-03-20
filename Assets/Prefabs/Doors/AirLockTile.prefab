@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114000010121375984}
   - component: {fileID: 114748385134728100}
   - component: {fileID: 114955442852505398}
+  - component: {fileID: 114831227325075044}
   m_Layer: 11
   m_Name: AirLockTile
   m_TagString: Untagged
@@ -102,7 +103,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011462531918}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1887, y: 1137, z: 0}
+  m_LocalPosition: {x: 1848, y: 1143, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013698625186}
@@ -173,7 +174,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
@@ -367,7 +368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapValue: 1
-  depth: 0
+  depth: -0.1
   useInGame: 0
 --- !u!114 &114000013904095522
 MonoBehaviour:
@@ -382,6 +383,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openSFX: {fileID: 82346760648337948}
   closeSFX: {fileID: 82771154139725662}
+  usingAnimator: 1
+  isWindowedDoor: 0
+  isPerformingAction: 0
+  doorType: 0
   maxTimeOpen: 5
 --- !u!114 &114748385134728100
 MonoBehaviour:
@@ -396,6 +401,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
+--- !u!114 &114831227325075044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011462531918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b846df944211444ca700274e738447d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114955442852505398
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -12,10 +12,12 @@ namespace Matrix {
         private int currentConnectTypeIndex;
         public ConnectType ConnectType { get { return ConnectType.List[connectTypeIndex]; } }
         
-        void Start() {
+        void Awake() {
             currentConnectTypeIndex = connectTypeIndex;
-            UpdateConnectType();
+        }
 
+        void Start() { 
+            UpdateConnectType();
             UpdatePosition();
         }
 
@@ -36,7 +38,7 @@ namespace Matrix {
         }
 
         private void UpdateConnectType() {
-            GetComponent<RegisterTile>().UpdatePosition();
+            GetComponent<RegisterTile>().UpdateTile();
         }
     }
 }

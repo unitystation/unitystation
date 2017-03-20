@@ -88,7 +88,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4458122446818578}
   - component: {fileID: 61679061807052308}
-  - component: {fileID: 61697319538064196}
   - component: {fileID: 114851319466675406}
   - component: {fileID: 114455539620617546}
   - component: {fileID: 114974536311985952}
@@ -179,20 +178,6 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
---- !u!61 &61697319538064196
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1844554874729730}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2

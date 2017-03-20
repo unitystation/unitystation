@@ -32,10 +32,9 @@ namespace Items {
             }
         }
 
-		//recieve broadcast msg when item is dropped from hand
+		//receive broadcast message when item is dropped from hand
 		public void OnRemoveFromInventory()
 		{
-			Debug.Log("SNAPTOGRID");
 			if (snapControl != null) {
 				snapControl.Snap();
 			}
