@@ -23,6 +23,7 @@ namespace InputControl {
 				Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
 				float angle = Angle(dir);
 				//change the facingDirection of player on click
+				if(!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
 				CheckPlayerDirection(angle);
             }
         }
