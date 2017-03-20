@@ -12,6 +12,7 @@ namespace MapEditor {
             optionList.Add("Wall Mounts", "WallMounts", "Objects");
             optionList.Add("Lighting", "Lighting", "Objects");
             optionList.Add("Disposals", "Disposals", "Objects");
+            optionList.Add("Atmos", "Atmos", "Objects");
             optionList.Add("Kitchen", "Machines/Kitchen", "Objects");
         }
 
