@@ -16,10 +16,11 @@ public class DoorController: Photon.PunBehaviour
 	[HideInInspector]
 	public bool isPerformingAction = false;
 	public DoorType doorType;
-	private bool isOpened = false;
 	public float maxTimeOpen = 5;
 	private float timeOpen = 0;
 	private HorizontalDoorAnimator horizontalAnim;
+
+    public bool IsOpened { get; private set; }
 
 	void Start()
 	{
@@ -72,39 +73,24 @@ public class DoorController: Photon.PunBehaviour
 		}
 	}
 
-	void OnMouseDown()
-	{
-		if (PlayerManager.PlayerInReach(transform)) {
-			if (isOpened) {
-				photonView.RPC("Close", PhotonTargets.All);
-			} else {
-				photonView.RPC("Open", PhotonTargets.All);
-			}
-		}
-	}
-
 	public void TryOpen()
 	{
 		if (PhotonNetwork.connectedAndReady) {
 			photonView.RPC("Open", PhotonTargets.All, null);
-		} else {
-			Open();
-		}
+		} 
 	}
 
 	public void TryClose()
 	{
 		if (PhotonNetwork.connectedAndReady) {
 			photonView.RPC("Close", PhotonTargets.All, null);
-		} else {
-			Close();
-		}
+		} 
 	}
 
 	[PunRPC]
 	public void Open()
 	{
-		isOpened = true;
+        IsOpened = true;
 		StartCoroutine(_WaitUntilClose());
 
 		if (usingAnimator) {
@@ -119,7 +105,7 @@ public class DoorController: Photon.PunBehaviour
 	[PunRPC]
 	public void Close()
 	{
-		isOpened = false;
+        IsOpened = false;
 		if (usingAnimator) {
 			animator.SetBool("open", false);
 		} else {

@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4215336372400204}
   - component: {fileID: 212082969356704250}
+  - component: {fileID: 114651610379588122}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -64,7 +65,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1614508754264130}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1806, y: 1141, z: -0.1}
+  m_LocalPosition: {x: 1842, y: 1146, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4215336372400204}
@@ -82,9 +83,26 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 0.005126953, y: 0.36828613}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 0.24878311, y: 0.31396675}
+  m_Size: {x: 1, y: 1}
+--- !u!114 &114651610379588122
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1865224276101266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 242bb3a4a5c48da439a3cb00abaf4c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300042, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
+  - {fileID: 21300044, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
+  - {fileID: 21300040, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
+  - {fileID: 21300046, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
+  positions: []
 --- !u!114 &114908380332834410
 MonoBehaviour:
   m_ObjectHideFlags: 1

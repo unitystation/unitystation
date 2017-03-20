@@ -35,13 +35,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4847026064450114}
-  - component: {fileID: 60687997329445210}
   - component: {fileID: 50093938616903192}
   - component: {fileID: 114821144345615228}
   - component: {fileID: 114593161572524446}
   - component: {fileID: 114005511025507220}
   - component: {fileID: 114872532772481950}
   - component: {fileID: 114902487445004696}
+  - component: {fileID: 61126235625604384}
   m_Layer: 10
   m_Name: ID
   m_TagString: Untagged
@@ -96,8 +96,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &60687997329445210
-PolygonCollider2D:
+--- !u!61 &61126235625604384
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -108,12 +108,8 @@ PolygonCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  m_Points:
-    m_Paths:
-    - - {x: 0.17492676, y: 0.31677246}
-      - {x: 0.30126953, y: 0.19396973}
-      - {x: -0.20129395, y: -0.30529785}
-      - {x: -0.32409668, y: -0.16296387}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
 --- !u!114 &114005511025507220
 MonoBehaviour:
   m_ObjectHideFlags: 1

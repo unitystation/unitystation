@@ -1,222 +1,84 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace PlayGroup
-{
-	public class PlayerMove : MonoBehaviour
-	{
-		[HideInInspector]
-		public bool isMoving = false;
-		[HideInInspector]
-		public bool lerpA = false;
-		private bool tryOpenDoor = false;
-		private bool clampX;
-		[HideInInspector]
-		public Vector2 moveDirection;
-		private IntVector2 nextTile;
+namespace PlayGroup {
 
-		private Vector3 startPos;
-		private Vector3 node;
-		private Vector3 toClamp;
+    public class PlayerMove: MonoBehaviour {
+		[Header("Options")]
+        public float speed = 10f;
+		public bool allowDiagonalMove;
 
-		public float lerpSpeed = 10f;
-		[HideInInspector]
-		private float lerpTime = 0f;
-		[HideInInspector]
-		public float clampPos;
-		public float moveSpeed;
+        Vector3 targetPosition;
+        private Vector3 currentPosition;
+        private PlayerSprites playerSprites;
 
-		private float clampMoveValX = 0f;
-		private float clampMoveValY = 0f;
+        void Start() {
+            targetPosition = transform.position;
+            playerSprites = gameObject.GetComponent<PlayerSprites>();
+        }
 
-		private PlayerScript playerScript;
+        void Update() {
+            Move();
+        }
 
-		void Start()
-		{
-			playerScript = GetComponent<PlayerScript>();
-		}
+        void Move() {
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, Time.deltaTime * speed);
 
-		void Update()
-		{
-			if (lerpA) {
-				LerpToTarget();
-			}
-		}
+            if(targetPosition == transform.position) {
+                currentPosition = new Vector3(Mathf.Round(transform.position.x),
+                                              Mathf.Round(transform.position.y));
 
-		void FixedUpdate()
-		{
-			if (isMoving) {
-				//Move character via Transform
-				MoveCharacter();
-			}
-		}
-
-		//move in direction input
-		public void MoveInDirection(Vector2 direction)
-		{ 
-			moveDirection = direction;
-
-			if (AllowedMove()) {
-				lerpA = false;
-				isMoving = true;
-
-				if (direction == Vector2.left) {
-					if (playerScript.playerSprites.currentDirection == Vector2.right) {
-						clampPos = Mathf.Floor(transform.position.y); 
-					} else {
-						clampPos = Mathf.Round(transform.position.y); 
-					}
-				}
-
-				if (direction == Vector2.right) {
-					if (playerScript.playerSprites.currentDirection == Vector2.left) {
-						clampPos = Mathf.Ceil(transform.position.y); 
-					} else {
-						clampPos = Mathf.Round(transform.position.y); 
-					}
-				}
-
-				if (direction == Vector2.up) {
-					if (playerScript.playerSprites.currentDirection == Vector2.down) {
-						clampPos = Mathf.Floor(transform.position.x);
-					} else {
-						clampPos = Mathf.Round(transform.position.x);
-					}
-				}
-
-				if (direction == Vector2.down) {
-					if (playerScript.playerSprites.currentDirection == Vector2.up) {
-						clampPos = Mathf.Ceil(transform.position.x);
-					} else {
-						clampPos = Mathf.Round(transform.position.x);
-					}
-				}
-			} else {
-				//Check why it is not passable (doors etc)
-				DoorController getDoor = Matrix.Matrix.At(nextTile.x, nextTile.y).GetDoor();
-				if (getDoor != null && !tryOpenDoor) {
-					tryOpenDoor = true;
-					StartCoroutine(OpenCoolDown());
-					getDoor.TryOpen();
-				} 
-			}
-		}
-
-		private bool AllowedMove()
-		{
-			if (moveDirection == Vector2.right) {
-				nextTile.x = (int)(Mathf.Floor(transform.position.x) + moveDirection.x); 
-				nextTile.y = (int)(Mathf.Round(transform.position.y) + moveDirection.y);
-			} else if (moveDirection == Vector2.left) {
-				nextTile.x = (int)(Mathf.Ceil(transform.position.x) + moveDirection.x); 
-				nextTile.y = (int)(Mathf.Round(transform.position.y) + moveDirection.y);
-			} else if (moveDirection == Vector2.up) {
-				nextTile.x = (int)(Mathf.Round(transform.position.x) + moveDirection.x); 
-				nextTile.y = (int)(Mathf.Floor(transform.position.y) + moveDirection.y);
-			} else if (moveDirection == Vector2.down) {
-				nextTile.x = (int)(Mathf.Round(transform.position.x) + moveDirection.x); 
-				nextTile.y = (int)(Mathf.Ceil(transform.position.y) + moveDirection.y);
-			}
-			return Matrix.Matrix.At(nextTile.x, nextTile.y).IsPassable();
-		}
-
-		private void MoveCharacter()
-		{
-			if (AllowedMove()) {
-				SetClampValues();
-
-				if (moveDirection == Vector2.down) {
-					transform.Translate(clampMoveValX, moveDirection.y * moveSpeed, 0);
-					return;
-				}
-				if (moveDirection == Vector2.up) {
-					transform.Translate(clampMoveValX, moveDirection.y * moveSpeed, 0);
-					return;
-				}
-				if (moveDirection == Vector2.right) {
-					transform.Translate(moveDirection.x * moveSpeed, clampMoveValY, 0);
-					return;
-				}
-				if (moveDirection == Vector2.left) {
-					transform.Translate(moveDirection.x * moveSpeed, clampMoveValY, 0);
-					return;
-				}
-			}
-		}
-
-		void SetClampValues(){
-			clampMoveValX = 0f;
-			clampMoveValY = 0f;
-			if (moveDirection == Vector2.down || moveDirection == Vector2.up) {
-				if (transform.position.x != clampPos) {
-					float val = clampPos - transform.position.x;
-					clampMoveValX = val * 0.75f;
+				Vector3 direction = Vector3.zero;
+				if (allowDiagonalMove) {
+					direction = new Vector3(Input.GetAxisRaw("Horizontal"), 
+						                    Input.GetAxisRaw("Vertical"), 0f);
 				} else {
-					clampMoveValX = 0f;
+					if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.1f)
+						direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
+					if (Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.1f)
+						direction = new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
 				}
-			}
-			if (moveDirection == Vector2.left || moveDirection == Vector2.right) {
-				if (transform.position.x != clampPos) {
-					float val = clampPos - transform.position.y;
-					clampMoveValY = val * 0.75f;
-				} else {
-					clampMoveValY = 0f;
-				}
-			}
-		}
 
-		//movement input stopped, only use this to snap if there is an applied velocity
-		public void MoveInputReleased()
-		{
-			startPos = transform.position;
-			node = Matrix.Matrix.GetClosestNode(transform.position, playerScript.playerSprites.currentDirection);
+                if(direction != Vector3.zero) {
+                    if(!TryToMove(direction)) {
+                        Interact(direction);
+                        playerSprites.FaceDirection(direction);
+                    } else {
+                        playerSprites.FaceDirection(targetPosition - currentPosition);
+                    }
+                }
+            }
+        }
 
-			//if target !isPassable then snap back to currentTile
-			if (node.x == Mathf.Round(startPos.x) && node.y == Mathf.Round(startPos.y)) {
-				transform.position = node;
-				isMoving = false;
-			} else {
-				//else lerp to the target tile depending on direction travelling
-				lerpTime = 0f;
-				lerpA = true;
-			}
-		}
+        private bool TryToMove(Vector3 direction) {
+            var horizontal = Vector3.Scale(direction, Vector3.right);
+            var vertical = Vector3.Scale(direction, Vector3.up);
 
-		//used with LerpA in update
-		private void LerpToTarget()
-		{
-			lerpTime += Time.deltaTime;
-			float t = lerpTime * lerpSpeed;
+            if(Matrix.Matrix.At(currentPosition + direction).IsPassable()) {
+                if((Matrix.Matrix.At(currentPosition + horizontal).IsPassable() ||
+                   Matrix.Matrix.At(currentPosition + vertical).IsPassable())) {
 
-			transform.position = Vector2.Lerp(startPos, node, t);
+                    targetPosition = currentPosition + direction;
+                    return true;
+                }
+            } else if(horizontal != Vector3.zero && vertical != Vector3.zero) {
+                if(Matrix.Matrix.At(currentPosition + horizontal).IsPassable()) {
+                    targetPosition = currentPosition + horizontal;
+                    return true;
+                } else if(Matrix.Matrix.At(currentPosition + vertical).IsPassable()) {
+                    targetPosition = currentPosition + vertical;
+                    return true;
+                }
+            }
 
-			if (moveDirection == Vector2.right && transform.position.x >= node.x) {
-				ResetParameters();
-			}
-			if (moveDirection == Vector2.left && transform.position.x <= node.x) {
-				ResetParameters();
-			}
-			if (moveDirection == Vector2.up && transform.position.y >= node.y) {
-				ResetParameters();
-			}
-			if (moveDirection == Vector2.down && transform.position.y <= node.y) {
-				ResetParameters();
-			}
-			if (moveDirection == Vector2.zero && transform.position == node) {
-				ResetParameters();
-			}	
-		}
+            return false;
+        }
 
-		private void ResetParameters()
-		{
-			isMoving = false;
-			lerpA = false;
-		}
-
-		IEnumerator OpenCoolDown()
-		{
-			yield return new WaitForSeconds(1f);
-			tryOpenDoor = false;
-		}
-	}
+        private void Interact(Vector3 direction) {
+            DoorController doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
+            if(doorController != null) {
+                doorController.TryOpen();
+            }
+        }
+    }
 }

@@ -1,9 +1,10 @@
-﻿using PlayGroup;
+﻿using InputControl;
+using PlayGroup;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwitchShutters: Photon.PunBehaviour {
+public class ShutterSwitchTrigger: InputTrigger {
 
     public ShutterController[] shutters;
 
@@ -11,20 +12,16 @@ public class SwitchShutters: Photon.PunBehaviour {
 
     private Animator animator;
 
-	public SwitchDirection switchDirection;
-
     void Start() {
         animator = GetComponent<Animator>();
     }
 
-    void OnMouseDown() {
-		if(PlayerManager.SwitchInReach(transform, switchDirection)) {
-            if(!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP")) {
-                if(IsClosed) {
-                    photonView.RPC("OpenShutters", PhotonTargets.All, null);
-                } else {
-                    photonView.RPC("CloseShutters", PhotonTargets.All, null);
-                }
+    public override void Interact() {
+        if(!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP")) {
+            if(IsClosed) {
+                photonView.RPC("OpenShutters", PhotonTargets.All, null);
+            } else {
+                photonView.RPC("CloseShutters", PhotonTargets.All, null);
             }
         }
     }

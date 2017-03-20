@@ -10,9 +10,12 @@ public class SpriteRotate: MonoBehaviour {
 
     public Sprite[] sprites = new Sprite[0];
     public Vector2[] positions = new Vector2[0];
-    protected SpriteRenderer spriteRenderer;
+    public Vector3 colliderOffset;
+    private SpriteRenderer spriteRenderer;
 
-    private int rotateIndex;
+    [HideInInspector]
+    [SerializeField]
+    private int rotateIndex = 0;
     public  int RotateIndex {
         get { return rotateIndex; }
         set {

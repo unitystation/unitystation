@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
 using Matrix;
 
 public class MatrixCheck: EditorWindow {
@@ -17,6 +14,9 @@ public class MatrixCheck: EditorWindow {
     }
 
     public void OnDisable() {
+        drawGizmos = false;
+        TileTypeDrawer.DrawGizmos = false;
+        TilePropertyDrawer.DrawGizmos = false;
         SceneView.onSceneGUIDelegate -= OnSceneGUI;
     }
 

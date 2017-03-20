@@ -12,31 +12,21 @@ namespace PlayGroup
 		public bool IsMine { get; set; }
 		//is running new Version of player script (will soon be the main version)
 		public bool isVersion2 = false;
-
-		//Version 2 members
+        
 		[HideInInspector]
 		public PlayerMove playerMove;
-
-		[HideInInspector]
-		public PhysicsMove physicsMove;
 		[HideInInspector]
 		public PlayerSprites playerSprites;
-		private PlayerCollisions playerCollisions;
 
 
 		void Awake()
 		{
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
-			playerCollisions = gameObject.AddComponent<PlayerCollisions>();
 		}
 
 		void Start()
 		{
-			if (!isVersion2) {
-				physicsMove = gameObject.GetComponent<PhysicsMove>();
-			} else {
-				playerMove = gameObject.GetComponent<PlayerMove>();
-			}
+		    playerMove = gameObject.GetComponent<PlayerMove>();
 
 			//Add player sprite controller component
 			//TODO EQUIPMENT AND PLAYERLIST NEEDS WORK
@@ -68,13 +58,7 @@ namespace PlayGroup
 		{
 			//At the moment it just checks if the input window is open and if it is false then allow move
 			if (!UIManager.Chat.chatInputWindow.activeSelf && IsMine) {
-				if(!isVersion2){
-				physicsMove.MoveInDirection(direction); //Tile based physics move
-				} else {
-					playerMove.MoveInDirection(direction);
-				}
-				playerSprites.FaceDirection(direction); //Handles the playersprite change on direction change
-
+				//playerSprites.FaceDirection(direction); //Handles the playersprite change on direction change
 			}
 		}
 
@@ -86,25 +70,6 @@ namespace PlayGroup
 		public bool IsInReach(Transform transform)
 		{
 			return DistanceTo(transform.position) <= interactionDistance;
-		}
-
-		public bool IsInReachOfSwitch(Transform _transform, SwitchDirection switchDir)
-		{
-			if (DistanceTo(_transform.position) <= interactionDistance) {
-				if (switchDir == SwitchDirection.up && transform.position.y > _transform.position.y) {
-					return true;
-				} else if (switchDir == SwitchDirection.down && transform.position.y < _transform.position.y) {
-					return true;
-				} else if (switchDir == SwitchDirection.right && transform.position.x < _transform.position.x) {
-					return true;
-				} else if (switchDir == SwitchDirection.left && transform.position.x < _transform.position.x) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
 		}
 	}
 }

@@ -174,7 +174,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: -0.0009765625, y: 0.013671875}
   serializedVersion: 2
-  m_Size: {x: 0.36841077, y: 0.6635742}
+  m_Size: {x: 1, y: 1}
 --- !u!61 &61857675760030736
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -286,7 +286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedPickUp: 1
 --- !u!114 &114584002441487160
 MonoBehaviour:
   m_ObjectHideFlags: 1

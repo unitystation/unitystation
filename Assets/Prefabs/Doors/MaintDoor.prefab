@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 95344946774614928}
   - component: {fileID: 114271974546169116}
   - component: {fileID: 114151620913185490}
+  - component: {fileID: 114722742574278442}
   m_Layer: 11
   m_Name: MaintDoor
   m_TagString: Untagged
@@ -428,6 +429,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openSFX: {fileID: 82377813942762574}
   closeSFX: {fileID: 82698941018732718}
+  usingAnimator: 1
+  isWindowedDoor: 0
+  isPerformingAction: 0
+  doorType: 0
   maxTimeOpen: 5
 --- !u!114 &114151620913185490
 MonoBehaviour:
@@ -482,6 +487,17 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
+--- !u!114 &114722742574278442
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1006244272141468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b846df944211444ca700274e738447d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212582583605288990
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -13,7 +13,7 @@ namespace Network {
         //items
         public Dictionary<int, GameObject> items = new Dictionary<int, GameObject>();
         //cupboards
-        public Dictionary<int, Cupboards.DoorTrigger> cupboards = new Dictionary<int, Cupboards.DoorTrigger>();
+        public Dictionary<int, Cupboards.ClosetControl> cupboards = new Dictionary<int, Cupboards.ClosetControl>();
 
         private PhotonView photonView;
         //This is to sync destroy and instantiate calls with masterclient
@@ -41,7 +41,7 @@ namespace Network {
             }
         }
 
-        public static Dictionary<int, Cupboards.DoorTrigger> Cupboards {
+        public static Dictionary<int, Cupboards.ClosetControl> Cupboards {
             get {
                 return Instance.cupboards;
             }
@@ -57,7 +57,7 @@ namespace Network {
         }
 
         //Add each cupB to the items dictionary along with its photonView.viewID as key (this will be doortriggers)
-        public static void AddCupboard(int viewID, Cupboards.DoorTrigger theCupB) 
+        public static void AddCupboard(int viewID, Cupboards.ClosetControl theCupB) 
         {
             Cupboards.Add(viewID, theCupB);
 

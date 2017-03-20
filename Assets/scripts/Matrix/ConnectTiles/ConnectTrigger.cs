@@ -10,19 +10,21 @@ namespace Matrix {
         [HideInInspector]
         public int connectTypeIndex;
         private int currentConnectTypeIndex;
-        public ConnectType ConnectType { get; private set; }
+        public ConnectType ConnectType { get { return ConnectType.List[connectTypeIndex]; } }
         
-        void Start() {
+        void Awake() {
             currentConnectTypeIndex = connectTypeIndex;
-            UpdateConnectType(ConnectType.List[currentConnectTypeIndex]);
+        }
 
+        void Start() { 
+            UpdateConnectType();
             UpdatePosition();
         }
 
         void OnValidate() {
             if(currentConnectTypeIndex != connectTypeIndex) {
                 currentConnectTypeIndex = connectTypeIndex;
-                UpdateConnectType(ConnectType.List[currentConnectTypeIndex]);
+                UpdateConnectType();
             }
         }
 
@@ -35,10 +37,8 @@ namespace Matrix {
             }
         }
 
-        private void UpdateConnectType(ConnectType connectType) {
-            ConnectType = connectType;
-
-            GetComponent<RegisterTile>().UpdatePosition();
+        private void UpdateConnectType() {
+            GetComponent<RegisterTile>().UpdateTile();
         }
     }
 }

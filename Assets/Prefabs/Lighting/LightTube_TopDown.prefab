@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4721042663708622}
   - component: {fileID: 212685610322283746}
+  - component: {fileID: 114984751247118002}
   m_Layer: 13
   m_Name: Sprite
   m_TagString: Untagged
@@ -38,6 +39,7 @@ GameObject:
   - component: {fileID: 114219478986407194}
   - component: {fileID: 114197525563370534}
   - component: {fileID: 114238883274921800}
+  - component: {fileID: 61106100713950454}
   m_Layer: 13
   m_Name: LightTube_TopDown
   m_TagString: Untagged
@@ -65,13 +67,27 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1745947215034166}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 21, y: -14, z: -0.1}
+  m_LocalPosition: {x: 1842, y: 1146, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4721042663708622}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &61106100713950454
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1745947215034166}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
 --- !u!114 &114197525563370534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -127,6 +143,23 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114984751247118002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1451002952674422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 242bb3a4a5c48da439a3cb00abaf4c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300002, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
+  - {fileID: 21300004, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
+  - {fileID: 21300000, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
+  - {fileID: 21300006, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
+  positions: []
 --- !u!212 &212685610322283746
 SpriteRenderer:
   m_ObjectHideFlags: 1

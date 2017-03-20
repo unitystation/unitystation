@@ -1,0 +1,40 @@
+﻿using Crafting;
+using Network;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UI;
+using UnityEngine;
+
+namespace InputControl {
+    public class MicrowaveTrigger: InputTrigger {
+
+        private Microwave microwave;
+
+        void Start() {
+            microwave = GetComponent<Microwave>();
+        }
+
+        public override void Interact() {
+            var item = UIManager.Hands.CurrentSlot.Item;
+
+            if(!microwave.Cooking && item) {
+                var attr = item.GetComponent<ItemAttributes>();
+
+                var ingredient = new Ingredient(attr.itemName);
+
+                var meal = CraftingManager.Meals.FindRecipe(new List<Ingredient>() { ingredient });
+
+                if(meal) {
+                    UIManager.Hands.CurrentSlot.Clear();
+
+                    if(PhotonNetwork.connectedAndReady) {
+                        PhotonView itemView = item.GetComponent<PhotonView>();
+                        NetworkItemDB.RemoveItem(itemView.viewID); //Remove ingredients from all clients
+                        photonView.RPC("StartCookingRPC", PhotonTargets.All, meal.name);
+                    }
+                }
+            }
+        }
+    }
+}
