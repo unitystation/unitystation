@@ -5,13 +5,12 @@ using UnityEngine.Networking;
 
 namespace PlayGroup {
 
-	public class PlayerMove: NetworkBehaviour {
-		[Header("Options")]
+    public class PlayerMove: NetworkBehaviour {
+        [Header("Options")]
         public float speed = 10f;
-		public bool allowDiagonalMove;
+        public bool allowDiagonalMove;
 
-        Vector3 targetPosition;
-        private Vector3 currentPosition;
+        private Vector3 currentPosition, targetPosition, currentDirection, inputDirection;
         private PlayerSprites playerSprites;
 
         void Start() {
@@ -20,37 +19,47 @@ namespace PlayGroup {
         }
 
         void Update() {
-			if (!UIManager.Chat.chatInputWindow.activeSelf)
-				Move();
+            if(!UIManager.Chat.chatInputWindow.activeSelf)
+                Move();
         }
 
         void Move() {
-				transform.position = Vector2.MoveTowards(transform.position, targetPosition, Time.deltaTime * speed);
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, Time.deltaTime * speed);
 
-				if (targetPosition == transform.position) {
-					currentPosition = new Vector3(Mathf.Round(transform.position.x),
-						Mathf.Round(transform.position.y));
+            if(targetPosition == transform.position) {
+                currentPosition = new Vector3(Mathf.Round(transform.position.x),
+                    Mathf.Round(transform.position.y));
 
-					Vector3 direction = Vector3.zero;
-					if (allowDiagonalMove) {
-						direction = new Vector3(Input.GetAxisRaw("Horizontal"), 
-							Input.GetAxisRaw("Vertical"), 0f);
-					} else {
-						if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.1f)
-							direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
-						if (Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.1f)
-							direction = new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
-					}
+                var newInputDirection = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
 
-					if (direction != Vector3.zero) {
-						if (!TryToMove(direction)) {
-							Interact(direction);
-							playerSprites.FaceDirection(direction);
-						} else {
-							playerSprites.FaceDirection(targetPosition - currentPosition);
-						}
-					}
-				}
+                if(newInputDirection != Vector3.zero) {
+
+                    var moveDirection = currentDirection;
+
+                    if(inputDirection != newInputDirection) {
+                        if(!allowDiagonalMove) {
+                            if(newInputDirection.x != 0 && newInputDirection.y != 0) {
+                                moveDirection = newInputDirection - inputDirection;
+                            } else {
+                                if(newInputDirection.x != 0) newInputDirection.y = 0;
+                                moveDirection = newInputDirection;
+                            }
+                        } else {
+                            moveDirection = newInputDirection;
+                        }
+                    }
+
+                    if(!TryToMove(moveDirection)) {
+                        Interact(moveDirection);
+                        playerSprites.FaceDirection(moveDirection);
+                    } else {
+                        playerSprites.FaceDirection(targetPosition - currentPosition);
+                    }
+                    currentDirection = moveDirection;
+                    inputDirection = newInputDirection;
+                }
+
+            }
         }
 
         private bool TryToMove(Vector3 direction) {
