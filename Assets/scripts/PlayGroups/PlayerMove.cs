@@ -37,13 +37,8 @@ namespace PlayGroup {
                     var moveDirection = currentDirection;
 
                     if(inputDirection != newInputDirection) {
-                        if(!allowDiagonalMove) {
-                            if(newInputDirection.x != 0 && newInputDirection.y != 0) {
-                                moveDirection = newInputDirection - inputDirection;
-                            } else {
-                                if(newInputDirection.x != 0) newInputDirection.y = 0;
-                                moveDirection = newInputDirection;
-                            }
+                        if(!allowDiagonalMove && newInputDirection.x != 0 && newInputDirection.y != 0) {
+                            moveDirection = newInputDirection - inputDirection;
                         } else {
                             moveDirection = newInputDirection;
                         }
