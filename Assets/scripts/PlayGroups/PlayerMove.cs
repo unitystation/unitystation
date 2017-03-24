@@ -10,7 +10,7 @@ namespace PlayGroup {
         public float speed = 10f;
         public bool allowDiagonalMove;
 
-        private Vector3 currentPosition, targetPosition, currentDirection, inputDirection;
+        private Vector3 currentPosition, targetPosition, currentDirection;
         private PlayerSprites playerSprites;
 
         void Start() {
@@ -27,36 +27,22 @@ namespace PlayGroup {
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, Time.deltaTime * speed);
 
             if(targetPosition == transform.position) {
-                currentPosition = new Vector3(Mathf.Round(transform.position.x),
-                    Mathf.Round(transform.position.y));
+                currentPosition = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
 
-                var newInputDirection = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
+                var inputDirection = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
 
-                if(newInputDirection != Vector3.zero) {
+                if(inputDirection != Vector3.zero) {
 
-                    var moveDirection = currentDirection;
-
-                    if(inputDirection != newInputDirection) {
-                        if(!allowDiagonalMove) {
-                            if(newInputDirection.x != 0 && newInputDirection.y != 0) {
-                                moveDirection = newInputDirection - inputDirection;
-                            } else {
-                                if(newInputDirection.x != 0) newInputDirection.y = 0;
-                                moveDirection = newInputDirection;
-                            }
-                        } else {
-                            moveDirection = newInputDirection;
-                        }
+                    if(!allowDiagonalMove && inputDirection.x != 0) {
+                        inputDirection.y = 0;
                     }
 
-                    if(!TryToMove(moveDirection)) {
-                        Interact(moveDirection);
-                        playerSprites.FaceDirection(moveDirection);
+                    if(!TryToMove(inputDirection)) {
+                        Interact(inputDirection);
+                        playerSprites.FaceDirection(inputDirection);
                     } else {
-                        playerSprites.FaceDirection(targetPosition - currentPosition);
+                        playerSprites.FaceDirection(inputDirection);
                     }
-                    currentDirection = moveDirection;
-                    inputDirection = newInputDirection;
                 }
 
             }
