@@ -1,45 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Network {
-    public class CabinetSync: Photon.PunBehaviour {
+	public class CabinetSync: NetworkBehaviour {
 
         private CabinetTrigger cabinetTrigger;
+		private NetworkIdentity networkIdentity;
 
         private bool synced = false;
 
         void Start() {
             cabinetTrigger = GetComponent<CabinetTrigger>();
-            if (PhotonNetwork.connectedAndReady)
-            {
+			networkIdentity = GetComponent<NetworkIdentity>();
                 StartSync();
-            }
         }
 
-        [PunRPC]
-        void SendCurrentState(string playerRequesting) //Master client must update all other clients on join on shutter state
+        [Command]
+		void CmdSendCurrentState(NetworkInstanceId playerRequesting) //Master client must update all other clients on join on shutter state
         {
-            photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, playerRequesting, cabinetTrigger.IsClosed, cabinetTrigger.ItemViewID);
-        }
+			RpcReceiveCurrentState(playerRequesting, cabinetTrigger.IsClosed);
+		}
 
-        [PunRPC]
-        void ReceiveCurrentState(string playerIdent, bool closedState, int itemViewID) {
-            if(PhotonNetwork.player.NickName == playerIdent) {
-                cabinetTrigger.SyncState(closedState, itemViewID, false);
+        [ClientRpc]
+		void RpcReceiveCurrentState(NetworkInstanceId playerIdent, bool closedState) {
+			if(networkIdentity.netId == playerIdent) {
+				cabinetTrigger.SetState(closedState, playerIdent, false);
             }
         }
 
-        public override void OnJoinedRoom() {
+		void OnConnectedToServer() {
             //Update on join if this item was not instantiated by the game and is apart of the map
             StartSync();
         }
 
         void StartSync() {
             if(!synced) {
-                if(!PhotonNetwork.isMasterClient) {
-                    photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, PhotonNetwork.player.NickName);
-                }
+				if(!isServer) {
+					CmdSendCurrentState(networkIdentity.netId);
+				}
 
                 synced = true;
             }

@@ -17,12 +17,12 @@ namespace InputControl {
 
         public override void Interact() {
             if(lockLight != null && lockLight.IsLocked()) {
-                photonView.RPC("LockLight", PhotonTargets.All);
+				closetControl.CmdLockLight();
             } else {
                 if(closetControl.IsClosed) {
-                    photonView.RPC("Open", PhotonTargets.All);
+					closetControl.CmdOpen();
                 } else if(!closetControl.TryDropItem()) {
-                    photonView.RPC("Close", PhotonTargets.All);
+					closetControl.CmdClose();
                 }
             }
         }

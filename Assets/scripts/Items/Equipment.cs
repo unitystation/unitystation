@@ -3,10 +3,11 @@ using PlayGroup;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace UI {
 
-    public class Equipment: MonoBehaviour {
+	public class Equipment: NetworkBehaviour {
         public int faceReference = -1;
         public int bodyReference = 0;
         public int underwearReference = -1;
@@ -38,7 +39,6 @@ namespace UI {
         private Dictionary<string, UI_ItemSlot> itemSlots = new Dictionary<string, UI_ItemSlot>();
 
         void Start() {
-            var playerTransform = PlayerManager.LocalPlayer.transform;
             foreach(var itemSlot in UIManager.Instance.GetComponentsInChildren(typeof(UI_ItemSlot), true)) {
                 var name = itemSlot.transform.parent.name;
 
@@ -47,9 +47,9 @@ namespace UI {
                 itemSlots.Add(name, slot);
             }
 
-            face = playerTransform.FindChild("face").GetComponent<ClothingItem>();
-            body = playerTransform.FindChild("body").GetComponent<ClothingItem>();
-            underwear = playerTransform.FindChild("underwear").GetComponent<ClothingItem>();
+            face = transform.FindChild("face").GetComponent<ClothingItem>();
+            body = transform.FindChild("body").GetComponent<ClothingItem>();
+            underwear = transform.FindChild("underwear").GetComponent<ClothingItem>();
 
             SetPlayerLoadOuts();
         }
@@ -80,13 +80,27 @@ namespace UI {
         }
 
         private void SetItem(string eventName, GameObject prefab) {
-            if(prefab != null) {
-
-                GameObject item = PhotonNetwork.Instantiate(prefab.name, Vector3.zero, Quaternion.identity, 0, null);
-
-                if(eventName.Length > 0)
-                    EventManager.UI.TriggerEvent(eventName, item);
+			if(prefab != null && isLocalPlayer) {
+				CmdSetItem(eventName, prefab, GetComponent<NetworkIdentity>());
             }
         }
+
+		[Command]
+		void CmdSetItem(string eventName, GameObject prefab, NetworkIdentity ID){
+			GameObject item = Instantiate(prefab, Vector3.zero, Quaternion.identity, null);
+			if (isServer) {
+				Debug.Log("FIXEME: Work out how to spawn clotheItems from server");
+//				NetworkServer.Spawn(item);
+			}
+			RpcSetUI(eventName, item, ID.netId);
+		}
+
+		[ClientRpc]
+		void RpcSetUI(string eventName, GameObject item, NetworkInstanceId ID){
+			if (netId == ID) {
+				if(eventName.Length > 0)
+					EventManager.UI.TriggerEvent(eventName, item);
+			}
+		}
     }
 }

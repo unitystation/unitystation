@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 114389256914724986}
   - component: {fileID: 114079198729302278}
   - component: {fileID: 114137687150543668}
-  - component: {fileID: 114949602577690744}
+  - component: {fileID: 114594704414043054}
   m_Layer: 11
   m_Name: CommandDoor
   m_TagString: Untagged
@@ -159,7 +159,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1069162904971260}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1828, y: 1135, z: -0.1}
+  m_LocalPosition: {x: 1795, y: 1140, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4819004799810456}
@@ -438,9 +438,11 @@ MonoBehaviour:
   openSFX: {fileID: 82352768117769496}
   closeSFX: {fileID: 82705712073591644}
   usingAnimator: 0
+  isWindowedDoor: 0
+  isPerformingAction: 0
   doorType: 1
   maxTimeOpen: 5
---- !u!114 &114949602577690744
+--- !u!114 &114594704414043054
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -448,24 +450,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1069162904971260}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 118
+    i1: 49
+    i2: 11
+    i3: 176
+    i4: 85
+    i5: 42
+    i6: 212
+    i7: 238
+    i8: 43
+    i9: 94
+    i10: 222
+    i11: 238
+    i12: 107
+    i13: 250
+    i14: 141
+    i15: 114
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212014735325414666
 SpriteRenderer:
   m_ObjectHideFlags: 1

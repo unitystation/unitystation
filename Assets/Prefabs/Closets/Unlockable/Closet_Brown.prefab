@@ -22,8 +22,8 @@ GameObject:
   - component: {fileID: 61099103113886150}
   - component: {fileID: 212585266423504292}
   - component: {fileID: 114172384062363676}
-  - component: {fileID: 114263068337302314}
   - component: {fileID: 114320321385595794}
+  - component: {fileID: 114451726620353662}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -175,34 +175,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
-  offsetOpened: {x: -0.1068115, y: 0.008911133}
-  sizeOpened: {x: 0.785645, y: 0.8395182}
---- !u!114 &114263068337302314
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1186692800608332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &114293415715230568
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -227,6 +199,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b38c80699b88cd44a864fd4cb169ec4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114451726620353662
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1186692800608332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 120
+    i1: 16
+    i2: 175
+    i3: 73
+    i4: 183
+    i5: 125
+    i6: 116
+    i7: 44
+    i8: 137
+    i9: 96
+    i10: 84
+    i11: 196
+    i12: 202
+    i13: 4
+    i14: 197
+    i15: 51
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114551658854779228
 MonoBehaviour:
   m_ObjectHideFlags: 1

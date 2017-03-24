@@ -23,9 +23,9 @@ GameObject:
   - component: {fileID: 114827933069362358}
   - component: {fileID: 114744951280218610}
   - component: {fileID: 114861309730153746}
-  - component: {fileID: 114480084256640308}
   - component: {fileID: 114916645953968956}
   - component: {fileID: 61599329130750988}
+  - component: {fileID: 114950354385653568}
   m_Layer: 10
   m_Name: Backpack
   m_TagString: Untagged
@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1426788842454498}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4, y: 1, z: -0.2}
+  m_LocalPosition: {x: -11, y: 6, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4099785544897384}
@@ -110,32 +110,6 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
---- !u!114 &114480084256640308
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1426788842454498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 114916645953968956}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &114744951280218610
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -179,7 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedPickUp: 1
 --- !u!114 &114916645953968956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -191,6 +164,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114950354385653568
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1426788842454498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 122
+    i1: 117
+    i2: 135
+    i3: 234
+    i4: 242
+    i5: 181
+    i6: 225
+    i7: 196
+    i8: 74
+    i9: 221
+    i10: 247
+    i11: 210
+    i12: 71
+    i13: 93
+    i14: 134
+    i15: 201
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!212 &212457252395336802
 SpriteRenderer:
   m_ObjectHideFlags: 1

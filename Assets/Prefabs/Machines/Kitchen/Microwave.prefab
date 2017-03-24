@@ -23,8 +23,9 @@ GameObject:
   - component: {fileID: 114000010545478540}
   - component: {fileID: 114226724488088840}
   - component: {fileID: 82554502596860898}
-  - component: {fileID: 114853481220983690}
   - component: {fileID: 114343036321383186}
+  - component: {fileID: 114643057465573826}
+  - component: {fileID: 114017720843365374}
   m_Layer: 11
   m_Name: Microwave
   m_TagString: Untagged
@@ -183,6 +184,38 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.2
   useInGame: 0
+--- !u!114 &114017720843365374
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010765165894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 70
+    i1: 42
+    i2: 201
+    i3: 120
+    i4: 18
+    i5: 107
+    i6: 70
+    i7: 139
+    i8: 170
+    i9: 107
+    i10: 75
+    i11: 163
+    i12: 119
+    i13: 7
+    i14: 10
+    i15: 23
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114226724488088840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -209,7 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 2
---- !u!114 &114853481220983690
+--- !u!114 &114643057465573826
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -217,24 +250,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000010765165894}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 11500000, guid: 0dc41097d7716d74696096737b0aa40f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!212 &212000012631577124
 SpriteRenderer:
   m_ObjectHideFlags: 1

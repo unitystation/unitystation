@@ -1,89 +1,110 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using PlayGroup;
 using UI;
 using Network;
 using Items;
 using InputControl;
 
-public class CabinetTrigger: InputTrigger {
-    public Sprite spriteClosed;
-    public Sprite spriteOpenedOccupied;
-    public Sprite spriteOpenedEmpty;
+public class CabinetTrigger: InputTrigger
+{
+	public Sprite spriteClosed;
+	public Sprite spriteOpenedOccupied;
+	public Sprite spriteOpenedEmpty;
 
-    public GameObject itemPrefab;
+	public GameObject itemPrefab;
 
-    public bool IsClosed { get; private set; }
-    public int ItemViewID { get; private set; }
+	public bool IsClosed { get; private set; }
 
-    private SpriteRenderer spriteRenderer;
+	public NetworkInstanceId ItemID { get; private set; }
 
-    void Start() {
-        spriteRenderer = transform.FindChild("Sprite").GetComponent<SpriteRenderer>();
-        IsClosed = true;
+	private SpriteRenderer spriteRenderer;
 
-        ItemViewID = transform.FindChild("Extinguisher").GetComponent<PhotonView>().viewID;
-    }
+	void Start()
+	{
+		spriteRenderer = transform.FindChild("Sprite").GetComponent<SpriteRenderer>();
+		IsClosed = true;
 
-    public override void Interact() {
-        if(IsClosed) {
-            photonView.RPC("SyncState", PhotonTargets.All, false, ItemViewID, true);
-        } else {
-            OnClose();
-        }
-    }
+		ItemID = transform.FindChild("Extinguisher").GetComponent<NetworkIdentity>().netId;
+	}
 
-    private void OnClose() {
-        if(ItemViewID < 0) {
-            var item = UIManager.Hands.CurrentSlot.Item;
-            if(item != null && IsCorrectItem(item)) {
-                var itemViewID = item.GetComponent<PhotonView>().viewID;
-                ItemViewID = itemViewID;
-                item.SetActive(false);
-                item.transform.parent = transform;
-                UIManager.Hands.CurrentSlot.Clear();
-                photonView.RPC("SyncState", PhotonTargets.All, IsClosed, itemViewID, false);
-            } else {
-                photonView.RPC("SyncState", PhotonTargets.All, true, ItemViewID, true);
-            }
-        } else {
-            var item = transform.FindChild("Extinguisher").gameObject;
-            if(ItemManager.TryToPickUpObject(item)) {
-                // remove extinguisher from closet
-                item.SetActive(true);
-                photonView.RPC("SyncState", PhotonTargets.All, IsClosed, -1, false);
-            }
-        }
-    }
+	public override void Interact()
+	{
+		if (IsClosed) {
+			CmdSetState(false, ItemID, true);
+		} else {
+			OnClose();
+		}
+	}
 
-    [PunRPC]
-    public void SyncState(bool isClosed, int itemViewID, bool playSound) {
-        IsClosed = isClosed;
+	private void OnClose()
+	{
+		if (ItemID != null) {
+			var item = UIManager.Hands.CurrentSlot.Item;
+			if (item != null && IsCorrectItem(item)) {
+				var itemViewID = item.GetComponent<NetworkIdentity>().netId;
+				ItemID = itemViewID;
+				item.SetActive(false);
+				item.transform.parent = transform;
+				UIManager.Hands.CurrentSlot.Clear();
+				CmdSetState(IsClosed, itemViewID, false);
+			} else {
+				CmdSetState(true, ItemID, true);
+			}
+		} else {
+			var item = transform.FindChild("Extinguisher").gameObject;
+			if (ItemManager.TryToPickUpObject(item)) {
+				// remove extinguisher from closet
+				item.SetActive(true);
+				Debug.Log("TODO: Fix THIS!");
+//				CmdSetState(IsClosed, null, false);
+			}
+		}
+	}
 
-        ItemViewID = itemViewID;
+	[Command]
+	public void CmdSetState(bool isClosed, NetworkInstanceId itemViewID, bool playSound)
+	{
+		SetState(isClosed, itemViewID, playSound);
+		RpcSetState(IsClosed, itemViewID, playSound);
+	}
 
-        if(ItemViewID >= 0)
-            if(NetworkItemDB.Items.ContainsKey(ItemViewID)) {
-                NetworkItemDB.Items[ItemViewID].SetActive(false);
-            }
+	[ClientRpc]
+	void RpcSetState(bool isClosed, NetworkInstanceId itemViewID, bool playSound)
+	{
+		SetState(IsClosed, itemViewID, playSound);
+	}
 
-        if(playSound) SoundManager.Play("OpenClose");
+	public void SetState(bool isClosed, NetworkInstanceId itemViewID, bool playSound)
+	{
+		IsClosed = isClosed;
+		ItemID = itemViewID;
+		if (ItemID != null)
+		if (NetworkItemDB.Items.ContainsKey(ItemID)) {
+			NetworkItemDB.Items[ItemID].SetActive(false);
+		}
 
-        UpdateSprite();
-    }
+		if (playSound)
+			SoundManager.Play("OpenClose");
 
-    private void UpdateSprite() {
-        if(IsClosed) {
-            spriteRenderer.sprite = spriteClosed;
-        } else if(ItemViewID >= 0) {
-            spriteRenderer.sprite = spriteOpenedOccupied;
-        } else {
-            spriteRenderer.sprite = spriteOpenedEmpty;
-        }
-    }
+		UpdateSprite();
+	}
 
-    private bool IsCorrectItem(GameObject item) {
-        return item.GetComponent<ItemAttributes>().itemName == itemPrefab.GetComponent<ItemAttributes>().itemName;
-    }
+	private void UpdateSprite()
+	{
+		if (IsClosed) {
+			spriteRenderer.sprite = spriteClosed;
+		} else if (ItemID != null) {
+			spriteRenderer.sprite = spriteOpenedOccupied;
+		} else {
+			spriteRenderer.sprite = spriteOpenedEmpty;
+		}
+	}
+
+	private bool IsCorrectItem(GameObject item)
+	{
+		return item.GetComponent<ItemAttributes>().itemName == itemPrefab.GetComponent<ItemAttributes>().itemName;
+	}
 }

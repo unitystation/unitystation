@@ -1,36 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UI;
 using PlayGroup;
 using Network;
 
-namespace Items {
-    [RequireComponent(typeof(PhotonView))]
-    public class ItemNetwork: Photon.PunBehaviour, IPunObservable {
-        private bool synced = false;
+namespace Items
+{
+	[RequireComponent(typeof(NetworkIdentity))]
+	public class ItemNetwork: NetworkBehaviour
+	{
+		private bool synced = false;
 		private EditModeControl snapControl;
 
-        public void OnAddToInventory(string slotName) {
-            this.photonView.RequestOwnership();
-        }
+		public void OnAddToInventory(string slotName)
+		{
+			CmdRequestOwnership(GetComponent<NetworkIdentity>());
+		}
 
-        void Start() {
+		void Start()
+		{
 			snapControl = GetComponent<EditModeControl>();
-            if(PhotonNetwork.connectedAndReady) {
-                //Has been instantiated at runtime and you received instantiate of this object from photon on room join
-                StartSync();
-            }
-        }
-
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-            if(stream.isWriting) {
-                stream.SendNext(transform.position);
-            } else {
-                // Network player, receive data
-                this.transform.position = (Vector3) stream.ReceiveNext();
-            }
-        }
+				//Has been instantiated at runtime and you received instantiate of this object from photon on room join
+				StartSync();
+		}
 
 		//receive broadcast message when item is dropped from hand
 		public void OnRemoveFromInventory()
@@ -40,14 +34,25 @@ namespace Items {
 			}
 		}
 
-        public override void OnJoinedRoom() {
-            StartSync();
-        }
+		void OnConnectedToServer()
+		{
+			StartSync();
+		}
 
-        void StartSync() {
-            NetworkItemDB.AddItem(photonView.viewID, gameObject);
-            synced = true;
-        }
+		void StartSync()
+		{
+			NetworkItemDB.AddItem(netId, gameObject);
+			synced = true;
+		}
 
-    }
-}
+		[Command]
+		void CmdRequestOwnership(NetworkIdentity requestor)
+		{
+//			var nIdentity = GetComponent<NetworkIdentity>();
+//			nIdentity.AssignClientAuthority(requestor.connectionToClient);
+			Debug.Log("TODO: RequestOwnership");
+		}
+
+
+	}
+} 

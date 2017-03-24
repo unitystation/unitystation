@@ -1,22 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 
 namespace Network {
-    public class NetworkItemDB: MonoBehaviour {
+	public class NetworkItemDB: NetworkBehaviour {
         // Current uses:
         // this instance is used to add items to cupboards across all clients,
         // using their photon id's to determine which item should be the child of which cupboard.
         // each item while add itself to the Dictionary when it is instantiated if connected to photon.
 
         //items
-        public Dictionary<int, GameObject> items = new Dictionary<int, GameObject>();
+		public Dictionary<NetworkInstanceId, GameObject> items = new Dictionary<NetworkInstanceId, GameObject>();
         //cupboards
-        public Dictionary<int, Cupboards.ClosetControl> cupboards = new Dictionary<int, Cupboards.ClosetControl>();
-
-        private PhotonView photonView;
-        //This is to sync destroy and instantiate calls with masterclient
+		public Dictionary<NetworkInstanceId, Cupboards.ClosetControl> cupboards = new Dictionary<NetworkInstanceId, Cupboards.ClosetControl>();
 
         private static NetworkItemDB networkItemDB;
 
@@ -24,78 +22,72 @@ namespace Network {
             get {
                 if(!networkItemDB) {
                     networkItemDB = FindObjectOfType<NetworkItemDB>();
-                    networkItemDB.Init();
                 }
 
                 return networkItemDB;
             }
         }
 
-        private void Init() {
-            photonView = gameObject.GetComponent<PhotonView>();
-        }
-
-        public static Dictionary<int, GameObject> Items {
+		public static Dictionary<NetworkInstanceId, GameObject> Items {
             get {
                 return Instance.items;
             }
         }
 
-        public static Dictionary<int, Cupboards.ClosetControl> Cupboards {
+		public static Dictionary<NetworkInstanceId, Cupboards.ClosetControl> Cupboards {
             get {
                 return Instance.cupboards;
             }
         }
 
         //Add each item to the items dictionary along with their photonView.viewID as key
-        public static void AddItem(int viewID, GameObject theItem) {
-            if(!Items.ContainsKey(viewID)) {
-                Items.Add(viewID, theItem);
+		public static void AddItem(NetworkInstanceId ID, GameObject theItem) {
+            if(!Items.ContainsKey(ID)) {
+                Items.Add(ID, theItem);
             } else {
-                Debug.Log("Warning! item already exists in dictionary. ViewID: " + viewID + " Item " + theItem.name);
+                Debug.Log("Warning! item already exists in dictionary. Item " + theItem.name);
             }
         }
 
-        //Add each cupB to the items dictionary along with its photonView.viewID as key (this will be doortriggers)
-        public static void AddCupboard(int viewID, Cupboards.ClosetControl theCupB) 
+        //Add each cupB to the items dictionary along with its netID as key (this will be doortriggers)
+		public static void AddCupboard(NetworkInstanceId ID, Cupboards.ClosetControl theCupB) 
         {
-            Cupboards.Add(viewID, theCupB);
+            Cupboards.Add(ID, theCupB);
 
             //Note: To get transform.position then look at the DoorTrigger.transform.parent
         }
 
         //For removing items from the game, on all clients
-        public static void RemoveItem(int viewID) {
-            Instance.photonView.RPC("MasterClientDestroyItem", PhotonTargets.MasterClient, viewID);   
+		public static void RemoveItem(NetworkInstanceId ID) { 
+			Instance.CmdServerDestroyItem(ID);
         }
 
         //Need to send this to the client as only the client can make scene objs
-        public static void InstantiateItem(string prefabName, Vector3 pos, Quaternion rot, int itemGroup, object[] data) 
+		[Command]
+        public void CmdInstantiateItem(GameObject prefab, Vector3 pos, Quaternion rot) 
         {
-            Instance.photonView.RPC("MasterClientCreateItem", PhotonTargets.MasterClient, prefabName, pos, rot, itemGroup, data);
+			GameObject obj = Instantiate(prefab, pos, rot);
+//			NetworkServer.Spawn(obj);
         }
 
-        [PunRPC] //You can call this directly if you are the master client
-        public GameObject MasterClientCreateItem(string prefabName, Vector3 pos) {
-            return PhotonNetwork.InstantiateSceneObject(prefabName, pos, Quaternion.identity, 0, null);
-        }
+//		[Command]
+//		public void CmdInstantiateGameObject(GameObject prefab, Vector3 pos, Quaternion rot, NetworkInstanceId requestingPlayer) 
+//		{
+//			GameObject obj = Instantiate(prefab, pos, rot);
+//			NetworkServer.Spawn(obj);
+//		}
 
-        [PunRPC] //You can call this directly if you are the master client
-        public GameObject MasterClientCreateItem(string prefabName, Vector3 pos, Quaternion rot, int itemGroup, object[] data) {
-            return PhotonNetwork.InstantiateSceneObject(prefabName, pos, rot, itemGroup, data);
-        }
-
-        [PunRPC]
-        void MasterClientDestroyItem(int viewID) {
+        [Command]
+		void CmdServerDestroyItem(NetworkInstanceId ID) {
             //Only objects can be destroyed by client
-            PhotonNetwork.Destroy(items[viewID]);
-            //This removes the dictionary record on all clients including this
-            photonView.RPC("RemoveItemOnNetwork", PhotonTargets.All, viewID); 
+			NetworkServer.Destroy(items[ID]);
+            //This removes the dictionary record on all clients
+			RpcRemoveItemOnClients(ID);
         }
 
-        [PunRPC]
-        void RemoveItemOnNetwork(int viewID) {
-            items.Remove(viewID);
+        [ClientRpc]
+		void RpcRemoveItemOnClients(NetworkInstanceId ID) {
+            items.Remove(ID);
         }
 
     }

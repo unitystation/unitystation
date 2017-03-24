@@ -5,6 +5,7 @@ using UI;
 using PlayGroup;
 using UnityEngine.SceneManagement;
 
+//FIXME: KILL THIS WHOLE SCRIPT
 namespace Network {
     public class NetworkManager: Photon.PunBehaviour {
 
@@ -30,7 +31,6 @@ namespace Network {
         }
 
         void Start() {
-            PhotonNetwork.offlineMode = Managers.instance.IsDevMode;
 			PhotonView phView = GetComponent<PhotonView>();
 			phView.viewID = 99001;
             PhotonNetwork.logLevel = logLevel;
@@ -55,7 +55,7 @@ namespace Network {
                 Debug.Log("JOIN RANDOM ROOM");
             } else {
                 // #Critical, we must first and foremost connect to Photon Online Server.
-                PhotonNetwork.ConnectUsingSettings(Instance._gameVersion);
+       
                 Debug.Log("CONNECT TO THE PUNderdome");
             }
 

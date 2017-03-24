@@ -39,9 +39,9 @@ GameObject:
   - component: {fileID: 114458445831742782}
   - component: {fileID: 114333779192411106}
   - component: {fileID: 114083861485965616}
-  - component: {fileID: 114819238984587494}
   - component: {fileID: 114463794456027596}
   - component: {fileID: 61829581518899790}
+  - component: {fileID: 114887953637759816}
   m_Layer: 10
   m_Name: Belt
   m_TagString: Untagged
@@ -121,7 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedPickUp: 1
 --- !u!114 &114333779192411106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114819238984587494
+--- !u!114 &114887953637759816
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -173,24 +172,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1816790622172278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 114463794456027596}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 116
+    i1: 48
+    i2: 52
+    i3: 87
+    i4: 255
+    i5: 95
+    i6: 26
+    i7: 148
+    i8: 73
+    i9: 182
+    i10: 196
+    i11: 6
+    i12: 241
+    i13: 172
+    i14: 40
+    i15: 1
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!212 &212980358063185662
 SpriteRenderer:
   m_ObjectHideFlags: 1

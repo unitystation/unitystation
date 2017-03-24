@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.EventSystems;
 using UI;
-using Network;
 
 //Handles control and spawn of player prefab
 namespace PlayGroup
 {
-	public class PlayerManager: Photon.PunBehaviour
+	public class PlayerManager: NetworkBehaviour
 	{
 		public static GameObject LocalPlayer { get; private set; }
 
@@ -40,13 +40,9 @@ namespace PlayGroup
 		{
 			LocalPlayer = playerObjToControl;
 			LocalPlayerScript = playerObjToControl.GetComponent<PlayerScript>();
-			LocalPlayerScript.IsMine = true; // Set this object to yours, the rest are for network players
-
+	
 			PlayerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
 			Camera2DFollow.followControl.target = LocalPlayer.transform;
-
-			Equipment = Instance.GetComponent<Equipment>();
-			Equipment.enabled = true;
 		}
 			
 		//CHECK HERE FOR AN EXAMPLE OF INSTANTIATING ITEMS ON PHOTON
@@ -55,11 +51,12 @@ namespace PlayGroup
 			Debug.Log("CHECK IF SPAWNED");
 
 			if (!HasSpawned) {
-				if (GameData.IsInGame && NetworkManager.IsConnected) {
-					SpawnManager spawnManager = Instance.GetComponent<SpawnManager>();
-					spawnManager.SpawnPlayer();
-					HasSpawned = true;
-				}
+				Debug.Log("TODO: SPAWN THE PLAYER");
+//				if (GameData.IsInGame && NetworkManager.IsConnected) {
+//					SpawnManager spawnManager = Instance.GetComponent<SpawnManager>();
+//					spawnManager.SpawnPlayer();
+//					HasSpawned = true;
+//				}
 			}
 		}
 			

@@ -42,30 +42,33 @@ public class Kill: Photon.MonoBehaviour {
 
     [PunRPC]
     void Die() {
-        dead = true;
-        randomMove.enabled = false;
-        physicsMove.enabled = false;
-        spriteRenderer.sprite = deadSprite;
-        SoundManager.Play("Bodyfall", 0.5f);
+		Debug.Log("FIXME Kill.cs");
+//        dead = true;
+//        randomMove.enabled = false;
+//        physicsMove.enabled = false;
+//        spriteRenderer.sprite = deadSprite;
+//        SoundManager.Play("Bodyfall", 0.5f);
     }
 
     [PunRPC]
     void Gib() {
-        if(PhotonNetwork.isMasterClient) {
-            // Spawn Meat
-            for(int i = 0; i < amountSpawn; i++) {
-                NetworkItemDB.Instance.MasterClientCreateItem(meatPrefab.name, transform.position); //Create scene owned object
-            }
-
-            // Spawn Corpse
-            NetworkItemDB.Instance.MasterClientCreateItem(corpsePrefab.name, transform.position); //Create scene owned object
-
-        }
+		Debug.Log("FIXME Kill.cs");
+//        if(PhotonNetwork.isMasterClient) {
+//            // Spawn Meat
+//            for(int i = 0; i < amountSpawn; i++) {
+//                NetworkItemDB.Instance.MasterClientCreateItem(meatPrefab.name, transform.position); //Create scene owned object
+//            }
+//
+//            // Spawn Corpse
+//            NetworkItemDB.Instance.MasterClientCreateItem(corpsePrefab.name, transform.position); //Create scene owned object
+//
+//        }
     }
 
     [PunRPC]
     void RemoveFromNetwork() //Can only be called by masterclient
     {
-        PhotonNetwork.Destroy(this.gameObject);
+		Debug.Log("FIXME Kill.cs");
+//        PhotonNetwork.Destroy(this.gameObject);
     }
 }

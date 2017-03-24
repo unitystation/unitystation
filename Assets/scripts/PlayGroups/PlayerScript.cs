@@ -1,43 +1,27 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using UI;
 
 namespace PlayGroup
 {
-	public class PlayerScript: Photon.PunBehaviour
+	public class PlayerScript: NetworkBehaviour
 	{
 		// the maximum distance the player needs to be to an object to interact with it
 		public float interactionDistance = 2f;
-		//Is this controlled by the player or other players
-		public bool IsMine { get; set; }
-		//is running new Version of player script (will soon be the main version)
-		public bool isVersion2 = false;
-        
-		[HideInInspector]
-		public PlayerMove playerMove;
-		[HideInInspector]
-		public PlayerSprites playerSprites;
-
-
-		void Awake()
-		{
-			playerSprites = gameObject.GetComponent<PlayerSprites>();
-		}
+		[SerializeField]
+		Behaviour[] componentsToDisable;
 
 		void Start()
 		{
-		    playerMove = gameObject.GetComponent<PlayerMove>();
-
-			//Add player sprite controller component
-			//TODO EQUIPMENT AND PLAYERLIST NEEDS WORK
-			if (photonView.isMine) { //This prefab is yours, take control of it
-				StartCoroutine("WaitForMapLoad");
+			if (!isLocalPlayer) {
+				for (int i = 0; i < componentsToDisable.Length; i++) {
+					componentsToDisable[i].enabled = false;
+				}
 			} else {
-				BoxCollider2D boxColl = gameObject.GetComponent<BoxCollider2D>();
-				boxColl.isTrigger = true;
-			}
-			if (PhotonNetwork.connectedAndReady) {
-				gameObject.name = photonView.owner.NickName;
+				StartCoroutine("WaitForMapLoad");
+				//TODO: Player name adding
+				gameObject.name = "user-uNet";
 				if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy) {
 					UIManager.Instance.playerListUIControl.window.SetActive(true);
 				}
@@ -52,16 +36,7 @@ namespace PlayGroup
 			yield return new WaitForSeconds(1f);
 			PlayerManager.SetPlayerForControl(this.gameObject);
 		}
-
-		//THIS IS ONLY USED FOR LOCAL PLAYER
-		public void MovePlayer(Vector2 direction)
-		{
-			//At the moment it just checks if the input window is open and if it is false then allow move
-			if (!UIManager.Chat.chatInputWindow.activeSelf && IsMine) {
-				//playerSprites.FaceDirection(direction); //Handles the playersprite change on direction change
-			}
-		}
-
+			
 		public float DistanceTo(Vector3 position)
 		{
 			return (transform.position - position).magnitude;

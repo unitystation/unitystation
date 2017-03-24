@@ -3,48 +3,66 @@ using PlayGroup;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class ShutterSwitchTrigger: InputTrigger {
+public class ShutterSwitchTrigger: InputTrigger
+{
 
-    public ShutterController[] shutters;
+	public ShutterController[] shutters;
 
-    public bool IsClosed { get; private set; }
+	public bool IsClosed { get; private set; }
 
-    private Animator animator;
+	private Animator animator;
 
-    void Start() {
-        animator = GetComponent<Animator>();
-    }
+	void Start()
+	{
+		animator = GetComponent<Animator>();
+	}
 
-    public override void Interact() {
-        if(!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP")) {
-            if(IsClosed) {
-                photonView.RPC("OpenShutters", PhotonTargets.All, null);
-            } else {
-                photonView.RPC("CloseShutters", PhotonTargets.All, null);
-            }
-        }
-    }
+	public override void Interact()
+	{
+		if (!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP")) {
+			if (IsClosed) {
+				CmdOpenShutters();
+			} else {
+				CmdCloseShutters();
+			}
+		}
+	}
 
-    [PunRPC]
-    public void OpenShutters() {
-        if(IsClosed) {
-            IsClosed = false;
-            foreach(var s in shutters) {
-                s.Open();
-            }
-            animator.SetTrigger("activated");
-        }
-    }
+	[Command]
+	public void CmdOpenShutters()
+	{
+		RpcOpenShutters();
+	}
 
-    [PunRPC]
-    public void CloseShutters() {
-        if(!IsClosed) {
-            IsClosed = true;
-            foreach(var s in shutters) {
-                s.Close();
-            }
-            animator.SetTrigger("activated");
-        }
-    }
+	[Command]
+	public void CmdCloseShutters()
+	{
+		RpcCloseShutters();
+	}
+
+	[ClientRpc]
+	public void RpcOpenShutters()
+	{
+		if (IsClosed) {
+			IsClosed = false;
+			foreach (var s in shutters) {
+				s.Open();
+			}
+			animator.SetTrigger("activated");
+		}
+	}
+
+	[ClientRpc]
+	public void RpcCloseShutters()
+	{
+		if (!IsClosed) {
+			IsClosed = true;
+			foreach (var s in shutters) {
+				s.Close();
+			}
+			animator.SetTrigger("activated");
+		}
+	}
 }

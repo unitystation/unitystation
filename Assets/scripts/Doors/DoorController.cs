@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using PlayGroup;
 using Matrix;
 using Sprites;
 
-public class DoorController: Photon.PunBehaviour
+public class DoorController: NetworkBehaviour
 {
 	public AudioSource openSFX;
 	public AudioSource closeSFX;
@@ -49,7 +50,8 @@ public class DoorController: Photon.PunBehaviour
 	{
 		// After the door opens, wait until it's supposed to close.
 		yield return new WaitForSeconds(maxTimeOpen);
-		TryClose();
+		if(isServer)
+		CmdTryClose();
 	}
 
 	//3d sounds
@@ -73,26 +75,24 @@ public class DoorController: Photon.PunBehaviour
 		}
 	}
 
-	public void TryOpen()
+	[Command]
+	public void CmdTryOpen()
 	{
-		if (PhotonNetwork.connectedAndReady) {
-			photonView.RPC("Open", PhotonTargets.All, null);
-		} 
+		RpcOpen();
+		StartCoroutine(_WaitUntilClose());
 	}
 
-	public void TryClose()
+	[Command]
+	public void CmdTryClose()
 	{
-		if (PhotonNetwork.connectedAndReady) {
-			photonView.RPC("Close", PhotonTargets.All, null);
-		} 
+		RpcClose();
 	}
 
-	[PunRPC]
-	public void Open()
+	[ClientRpc]
+	public void RpcOpen()
 	{
         IsOpened = true;
-		StartCoroutine(_WaitUntilClose());
-
+	
 		if (usingAnimator) {
 			animator.SetBool("open", true);
 		} else {
@@ -102,8 +102,8 @@ public class DoorController: Photon.PunBehaviour
 		}
 	}
 
-	[PunRPC]
-	public void Close()
+	[ClientRpc]
+	public void RpcClose()
 	{
         IsOpened = false;
 		if (usingAnimator) {

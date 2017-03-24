@@ -15,9 +15,9 @@ namespace InputControl {
 
         public override void Interact() {
             if(doorController.IsOpened) {
-                photonView.RPC("Close", PhotonTargets.All);
+				doorController.CmdTryClose();
             } else {
-                photonView.RPC("Open", PhotonTargets.All);
+				doorController.CmdTryOpen();
             }
         }
     }

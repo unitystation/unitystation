@@ -1,51 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using Events;
 using UnityEngine.Events;
 
 namespace PlayGroup
 {
-    public class ItemChanged: MonoBehaviour
-    {
+	public class ItemChanged: MonoBehaviour
+	{
 
-        public string eventName;
+		public string eventName;
 
-        private ClothingItem clothingItem;
+		private ClothingItem clothingItem;
+		private PlayerScript playerScript;
 
-        void Start()
-        {
-            clothingItem = GetComponent<ClothingItem>();
+		void Start()
+		{
+			clothingItem = GetComponent<ClothingItem>();
+			playerScript = GetComponentInParent<PlayerScript>();
+			EventManager.UI.AddListener(eventName, new UnityAction<GameObject>(OnChanged));
+		}
 
-            EventManager.UI.AddListener(eventName, new UnityAction<GameObject>(OnChanged));
-        }
+		void OnChanged(GameObject item)
+		{
+			if (playerScript.isLocalPlayer) { //Only change the one that is mine
+				ChangeItem(item);
+			} else { //Dev mode
+				ChangeItem(item);
+			}
+		}
 
-        void OnChanged(GameObject item)
-        {
-            if (PhotonNetwork.connectedAndReady) //connected
-            {
-                if (clothingItem.photonView.isMine) //Only change the one that is mine
-                {
-                    ChangeItem(item);
-                }
-            }
-            else //Dev mode
-            {
-                ChangeItem(item);
-            }
-        }
+		void ChangeItem(GameObject item)
+		{
+			if (item) {
+				clothingItem.UpdateItem(item);
+			} else {
+				clothingItem.Clear();
+			}
 
-        void ChangeItem(GameObject item)
-        {
-            if (item)
-            {
-                clothingItem.UpdateItem(item);
-            }
-            else
-            {
-                clothingItem.Clear();
-            }
-
-        }
-    }
+		}
+	}
 }

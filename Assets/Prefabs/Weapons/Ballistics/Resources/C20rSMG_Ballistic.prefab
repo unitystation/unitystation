@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 114421193976762178}
   - component: {fileID: 114132912066377716}
   - component: {fileID: 114558356929377050}
-  - component: {fileID: 114496172583913400}
   - component: {fileID: 114687593443885046}
   - component: {fileID: 61026622852363448}
   - component: {fileID: 114443942597231288}
+  - component: {fileID: 114358553874414888}
   m_Layer: 10
   m_Name: C20rSMG_Ballistic
   m_TagString: Untagged
@@ -357,6 +357,38 @@ MonoBehaviour:
   clothingReference: -1
   size: 2
   type: 15
+--- !u!114 &114358553874414888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1296620499762930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 5
+    i1: 77
+    i2: 76
+    i3: 93
+    i4: 63
+    i5: 75
+    i6: 116
+    i7: 202
+    i8: 168
+    i9: 125
+    i10: 84
+    i11: 151
+    i12: 121
+    i13: 239
+    i14: 75
+    i15: 240
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114421193976762178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -385,32 +417,6 @@ MonoBehaviour:
   firingRate: 0.1
   shootSFX: {fileID: 82572973820378666}
   emptySFX: {fileID: 82651462248631124}
---- !u!114 &114496172583913400
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1296620499762930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 114687593443885046}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &114558356929377050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -422,7 +428,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedPickUp: 1
 --- !u!114 &114687593443885046
 MonoBehaviour:
   m_ObjectHideFlags: 1

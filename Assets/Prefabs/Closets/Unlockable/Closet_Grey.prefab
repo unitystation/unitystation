@@ -37,8 +37,8 @@ GameObject:
   - component: {fileID: 61953521153466730}
   - component: {fileID: 212172245744083514}
   - component: {fileID: 114199067481322980}
-  - component: {fileID: 114666673221588988}
   - component: {fileID: 114375162146046684}
+  - component: {fileID: 114992037547758252}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -175,8 +175,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
-  offsetOpened: {x: -0.1068115, y: 0.008911133}
-  sizeOpened: {x: 0.785645, y: 0.8395182}
 --- !u!114 &114375162146046684
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -201,32 +199,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 2
---- !u!114 &114666673221588988
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1036287189934902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &114767098743060394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -241,6 +213,38 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
+--- !u!114 &114992037547758252
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1036287189934902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 82
+    i1: 253
+    i2: 223
+    i3: 154
+    i4: 160
+    i5: 220
+    i6: 212
+    i7: 42
+    i8: 200
+    i9: 91
+    i10: 134
+    i11: 210
+    i12: 116
+    i13: 38
+    i14: 154
+    i15: 235
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212172245744083514
 SpriteRenderer:
   m_ObjectHideFlags: 1

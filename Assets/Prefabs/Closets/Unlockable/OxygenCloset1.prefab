@@ -40,8 +40,8 @@ GameObject:
   - component: {fileID: 61233965815706004}
   - component: {fileID: 212309241971002690}
   - component: {fileID: 114160468179743768}
-  - component: {fileID: 114105667664997430}
   - component: {fileID: 114718393382383736}
+  - component: {fileID: 114283638975214904}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -127,7 +127,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1146263997293372}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1766, y: 1128, z: -0.1}
+  m_LocalPosition: {x: 1851, y: 1133, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4206511474878270}
@@ -163,32 +163,6 @@ BoxCollider2D:
   m_Offset: {x: 0.015991211, y: 0.008911133}
   serializedVersion: 2
   m_Size: {x: 0.54004276, y: 0.83951825}
---- !u!114 &114105667664997430
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1324576255968780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &114160468179743768
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -201,8 +175,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300078, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
-  offsetOpened: {x: -0.1068115, y: 0.008911133}
-  sizeOpened: {x: 0.785645, y: 0.8395182}
 --- !u!114 &114183782498336476
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,6 +189,38 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
+--- !u!114 &114283638975214904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1324576255968780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 76
+    i1: 123
+    i2: 12
+    i3: 245
+    i4: 155
+    i5: 76
+    i6: 212
+    i7: 101
+    i8: 105
+    i9: 4
+    i10: 236
+    i11: 119
+    i12: 92
+    i13: 187
+    i14: 54
+    i15: 139
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114466723828234568
 MonoBehaviour:
   m_ObjectHideFlags: 1

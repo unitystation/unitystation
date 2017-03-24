@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114000010752409192}
   - component: {fileID: 114762163834158284}
   - component: {fileID: 114754219045571608}
-  - component: {fileID: 114463032029787972}
+  - component: {fileID: 114487885281549826}
   m_Layer: 0
   m_Name: WallMount_FireExtinguisher
   m_TagString: Untagged
@@ -61,8 +61,8 @@ GameObject:
   - component: {fileID: 50652185062021028}
   - component: {fileID: 114552230621328432}
   - component: {fileID: 114557718238159396}
-  - component: {fileID: 114584002441487160}
   - component: {fileID: 114537365500996814}
+  - component: {fileID: 114097713270215796}
   m_Layer: 10
   m_Name: Extinguisher
   m_TagString: Untagged
@@ -93,7 +93,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014202525198}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5, y: 5, z: -0.1}
+  m_LocalPosition: {x: 1844, y: 1139, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000012949610512}
@@ -108,7 +108,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012637719204}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.9375, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000012228612998}
@@ -172,7 +172,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: -0.0009765625, y: 0.013671875}
+  m_Offset: {x: 0, y: -1}
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
 --- !u!61 &61857675760030736
@@ -220,7 +220,41 @@ MonoBehaviour:
   - {x: 0.875, y: 0}
   - {x: 0, y: -0.9375}
   - {x: -0.875, y: 0}
---- !u!114 &114463032029787972
+  colliderOffset: {x: 0, y: 0, z: 0}
+  rotateIndex: 2
+--- !u!114 &114097713270215796
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1333761384173398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 206
+    i1: 214
+    i2: 239
+    i3: 28
+    i4: 247
+    i5: 96
+    i6: 74
+    i7: 208
+    i8: 136
+    i9: 76
+    i10: 166
+    i11: 225
+    i12: 241
+    i13: 114
+    i14: 186
+    i15: 153
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114487885281549826
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -228,24 +262,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000014202525198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 206
+    i1: 214
+    i2: 239
+    i3: 28
+    i4: 247
+    i5: 96
+    i6: 74
+    i7: 208
+    i8: 136
+    i9: 76
+    i10: 166
+    i11: 225
+    i12: 241
+    i13: 114
+    i14: 186
+    i15: 153
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114537365500996814
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -286,32 +326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114584002441487160
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1333761384173398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &114608967355592902
 MonoBehaviour:
   m_ObjectHideFlags: 1

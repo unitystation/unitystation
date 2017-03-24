@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace PlayGroup
 {
@@ -13,7 +14,7 @@ namespace PlayGroup
     }
 
     [RequireComponent(typeof(SpriteRenderer))]
-    public class ClothingItem: Photon.PunBehaviour
+	public class ClothingItem: MonoBehaviour
     {
         public SpriteType spriteType;
 
@@ -56,15 +57,11 @@ namespace PlayGroup
         {
             sprites = SpriteManager.PlayerSprites[spriteSheetName];
             UpdateSprite();
-
-            if (PhotonNetwork.connectedAndReady)
-            {
-                if (!PhotonNetwork.isMasterClient && !photonView.isMine)
-                {
-                    //If you are not the master then update the current IG state of this object from the master
-                    photonView.RPC("SendCurrentState", PhotonTargets.MasterClient);
-                }
-            }
+		
+			if (!thisPlayerScript.isServer && !thisPlayerScript.isLocalPlayer) {
+				//If you are not the server then update the current IG state of this object from the server
+				CmdSendCurrentState();
+			}
         }
 
         public void Clear()
@@ -133,6 +130,7 @@ namespace PlayGroup
             {
                 if (reference >= 0) //If reference -1 then clear the sprite
                 {
+					if(sprites != null)
                     spriteRenderer.sprite = sprites[reference + referenceOffset];
                 }
                 else
@@ -143,39 +141,44 @@ namespace PlayGroup
       
             if (thisPlayerScript != null)
             {
-                if (PhotonNetwork.connectedAndReady && photonView.isMine)//if this player is mine, then update the reference and spriteSheetName on all other clients
+				if (thisPlayerScript.isLocalPlayer)//if this player is mine, then update the reference and spriteSheetName on all other clients
                 {
-                    photonView.RPC("UpdateSpriteNetwork", PhotonTargets.Others, new object[] { reference, spriteSheetName, photonView.viewID });
+//					CmdUpdateSpriteNetwork(reference, spriteSheetName, thisPlayerScript.netId);
+					Debug.Log("FIXME: handle all clothing changes on root object as NetworkIdentities not allowed on children");
                 }
             }
         }
 
-
-        [PunRPC]
-        void UpdateSpriteNetwork(int spriteRef, string sheetName, int viewID)
+		//FIXME: Cannot use these server and client RPC's as uNet does not allowe NetworkIdentities on children. Handle through root object
+//        [Command]
+		void CmdUpdateSpriteNetwork(int spriteRef, string sheetName, NetworkInstanceId id)
         {
-            if (viewID == photonView.viewID)
-            {
                 spriteSheetName = sheetName;
                 sprites = SpriteManager.PlayerSprites[spriteSheetName];
                 Reference = spriteRef;
-            }
+				RpcUpdateClientSprites(spriteRef, sheetName, id);
         }
 
-        //PUN Sync
-        [PunRPC]
-        void SendCurrentState()
+//		[ClientRpc]
+		void RpcUpdateClientSprites(int spriteRef, string sheetName, NetworkInstanceId id){
+			if (thisPlayerScript.netId != id) {
+				spriteSheetName = sheetName;
+				sprites = SpriteManager.PlayerSprites[spriteSheetName];
+				Reference = spriteRef;
+			}
+		}
+
+        //Update the clothing item from the server if this object isn't yours
+//        [Command]
+        void CmdSendCurrentState()
         {
-            if (PhotonNetwork.isMasterClient)
-            {
-                photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, new object[]{reference}); // Send the clothing reference
-            }
+			RpcReceiveCurrentState(reference); // Send the clothing reference
         }
 
-        [PunRPC]
-        void ReceiveCurrentState(int clothRef)
+//		[ClientRpc]
+        void RpcReceiveCurrentState(int clothRef)
         {
-            if (!photonView.isMine)
+			if (!thisPlayerScript.isLocalPlayer)
             {
                 Reference = clothRef;
             }

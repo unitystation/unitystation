@@ -40,8 +40,8 @@ GameObject:
   - component: {fileID: 50229384840356084}
   - component: {fileID: 114567485071167784}
   - component: {fileID: 114803521372153064}
-  - component: {fileID: 114071860291069196}
   - component: {fileID: 114723275262151784}
+  - component: {fileID: 114055291973717412}
   m_Layer: 10
   m_Name: Extinguisher
   m_TagString: Untagged
@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1907679543779350}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8, y: 7, z: -0.2}
+  m_LocalPosition: {x: -8, y: 7, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4264625479318156}
@@ -110,7 +110,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
---- !u!114 &114071860291069196
+--- !u!114 &114055291973717412
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -118,23 +118,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1907679543779350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents: []
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 121
+    i1: 32
+    i2: 168
+    i3: 36
+    i4: 223
+    i5: 69
+    i6: 96
+    i7: 68
+    i8: 56
+    i9: 30
+    i10: 56
+    i11: 30
+    i12: 144
+    i13: 39
+    i14: 122
+    i15: 93
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114301364241637784
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -22,8 +22,8 @@ GameObject:
   - component: {fileID: 61797240042203430}
   - component: {fileID: 212255976647380646}
   - component: {fileID: 114506481952240664}
-  - component: {fileID: 114834516642834292}
   - component: {fileID: 114939771092609786}
+  - component: {fileID: 114269544103765210}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -163,6 +163,38 @@ BoxCollider2D:
   m_Offset: {x: 0.015991211, y: 0.008911133}
   serializedVersion: 2
   m_Size: {x: 0.54004276, y: 0.83951825}
+--- !u!114 &114269544103765210
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1492916052409252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 77
+    i1: 165
+    i2: 100
+    i3: 148
+    i4: 190
+    i5: 182
+    i6: 212
+    i7: 239
+    i8: 250
+    i9: 56
+    i10: 99
+    i11: 250
+    i12: 15
+    i13: 150
+    i14: 133
+    i15: 92
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114329485729476618
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,34 +220,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
-  offsetOpened: {x: -0.1068115, y: 0.008911133}
-  sizeOpened: {x: 0.785645, y: 0.8395182}
---- !u!114 &114834516642834292
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1492916052409252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &114880708100990178
 MonoBehaviour:
   m_ObjectHideFlags: 1

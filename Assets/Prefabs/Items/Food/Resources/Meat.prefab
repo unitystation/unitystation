@@ -39,9 +39,9 @@ GameObject:
   - component: {fileID: 114671307870992244}
   - component: {fileID: 114158584351897270}
   - component: {fileID: 114203976870957382}
-  - component: {fileID: 114942145239287862}
   - component: {fileID: 114349881776910114}
   - component: {fileID: 61856625740858588}
+  - component: {fileID: 114240281152887656}
   m_Layer: 10
   m_Name: Meat
   m_TagString: Untagged
@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1970759932574268}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5, y: 2, z: -0.2}
+  m_LocalPosition: {x: -8, y: 8, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4206167326584234}
@@ -139,7 +139,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedPickUp: 1
+--- !u!114 &114240281152887656
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1970759932574268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 210
+    i1: 180
+    i2: 231
+    i3: 19
+    i4: 6
+    i5: 79
+    i6: 128
+    i7: 68
+    i8: 26
+    i9: 197
+    i10: 148
+    i11: 182
+    i12: 169
+    i13: 147
+    i14: 153
+    i15: 221
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114349881776910114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,32 +196,6 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.2
   useInGame: 0
---- !u!114 &114942145239287862
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1970759932574268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 114349881776910114}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!212 &212964861154144586
 SpriteRenderer:
   m_ObjectHideFlags: 1

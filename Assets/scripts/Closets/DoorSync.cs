@@ -2,87 +2,85 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-namespace Network {
+namespace Network
+{
 
-    public class DoorSync: Photon.PunBehaviour {
-        private bool synced = false;
+	public class DoorSync: NetworkBehaviour
+	{
+		private bool synced = false;
 
-        private ClosetControl closetControl;
-        private LockLightController lockLight;
-        private GameObject items;
+		private ClosetControl closetControl;
+		private LockLightController lockLight;
+		private GameObject items;
 
-        void Start() {
-            closetControl = GetComponent<ClosetControl>();
-            lockLight = transform.GetComponentInChildren<LockLightController>();
-            items = transform.FindChild("Items").gameObject;
+		void Start()
+		{
+			closetControl = GetComponent<ClosetControl>();
+			lockLight = transform.GetComponentInChildren<LockLightController>();
+			items = transform.FindChild("Items").gameObject;
+			StartSync();
+		}
 
-            if(PhotonNetwork.connectedAndReady) {
-                //Has been instantiated at runtime and you received instantiate of this object from photon on room join
-                StartSync();
-            }
-        }
+		void OnConnectedToServer()
+		{
+			CmdSendCurrentState(netId);
+		}
+		//Sync
+		[Command]
+		void CmdSendCurrentState(NetworkInstanceId playerRequesting)
+		{
+			NetworkIdentity[] objectsInCupB = items.GetComponentsInChildren<NetworkIdentity>();
+			if (objectsInCupB != null) {
+				foreach (NetworkIdentity p in objectsInCupB) {
+					closetControl.RpcDropItem(p.netId);
+				}
+			}
 
-        //PUN Sync
-        [PunRPC]
-        void SendCurrentState(string playerRequesting) {
-            if(PhotonNetwork.isMasterClient) {
+			if (lockLight != null) {
+				RpcReceiveCurrentState(playerRequesting, lockLight.IsLocked(), closetControl.IsClosed, transform.parent.transform.position);
+			} else {
+				RpcReceiveCurrentState(playerRequesting, false, closetControl.IsClosed, transform.parent.transform.position);
+			}
+		}
 
-                PhotonView[] objectsInCupB = items.GetPhotonViewsInChildren();
-                if(objectsInCupB != null) {
-                    foreach(PhotonView p in objectsInCupB) {
-                        photonView.RPC("DropItem", PhotonTargets.Others, p.viewID); //Make sure all spawneditems are where they should be on new player join
-                    }
-                }
+		[ClientRpc]
+		void RpcReceiveCurrentState(NetworkInstanceId playerIdent, bool isLocked, bool isClosed, Vector3 pos)
+		{
+			if (netId == playerIdent) {
 
-                if(lockLight != null) {
-                    photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, playerRequesting, lockLight.IsLocked(), closetControl.IsClosed, transform.parent.transform.position); //Gather the values and send back
-                } else {
-                    photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, playerRequesting, false, closetControl.IsClosed, transform.parent.transform.position); //Gather the values and send back 
-                }
-            }
-        }
+				if (isClosed) {
+					closetControl._Close();
+				} else {
+					closetControl._Open();
+				}
 
-        [PunRPC]
-        void ReceiveCurrentState(string playerIdent, bool isLocked, bool isClosed, Vector3 pos) {
-            if(PhotonNetwork.player.NickName == playerIdent) {
+				if (lockLight != null) {
+					if (isLocked) {
+						lockLight.Lock();
+					} else {
+						lockLight.Unlock();
+					}
+				}
 
-                if(isClosed) {
-                    closetControl.Close();
-                } else {
-                    closetControl.Open();
-                    Debug.Log("open door");
-                }
+				if (transform.parent.transform.position != pos) { //Position of cupboard
+					transform.parent.transform.position = pos;
+				}
+			}
+		}
+			
+		void StartSync()
+		{
+			if (!synced) {
+				if (!isServer) {
+					//If you are not the master then update the current IG state of this object from the master
+					CmdSendCurrentState(netId);
+				}
 
-                if(lockLight != null) {
-                    if(isLocked) {
-                        lockLight.Lock();
-                    } else {
-                        lockLight.Unlock();
-                    }
-                }
-
-                if(transform.parent.transform.position != pos) //Position of cupboard
-                {
-                    transform.parent.transform.position = pos;
-                }
-            }
-        }
-
-        public override void OnJoinedRoom() {
-            StartSync();
-        }
-
-        void StartSync() {
-            if(!synced) {
-                if(!PhotonNetwork.isMasterClient) {
-                    //If you are not the master then update the current IG state of this object from the master
-                    photonView.RPC("SendCurrentState", PhotonTargets.MasterClient, PhotonNetwork.player.NickName);
-                }
-
-                NetworkItemDB.AddCupboard(photonView.viewID, closetControl);
-                synced = true;
-            }
-        }
-    }
+				NetworkItemDB.AddCupboard(netId, closetControl);
+				synced = true;
+			}
+		}
+	}
 }

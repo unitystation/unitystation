@@ -37,8 +37,8 @@ GameObject:
   - component: {fileID: 61789124060642458}
   - component: {fileID: 212563808269097272}
   - component: {fileID: 114505165105209100}
-  - component: {fileID: 114966707510178370}
   - component: {fileID: 114618990163412012}
+  - component: {fileID: 114020638484956852}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -163,6 +163,38 @@ BoxCollider2D:
   m_Offset: {x: 0.015991211, y: 0.008911133}
   serializedVersion: 2
   m_Size: {x: 0.54004276, y: 0.83951825}
+--- !u!114 &114020638484956852
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1640635998977712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 61
+    i1: 238
+    i2: 96
+    i3: 117
+    i4: 210
+    i5: 152
+    i6: 84
+    i7: 113
+    i8: 249
+    i9: 111
+    i10: 193
+    i11: 8
+    i12: 252
+    i13: 233
+    i14: 196
+    i15: 252
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114505165105209100
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -175,8 +207,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
-  offsetOpened: {x: -0.1068115, y: 0.008911133}
-  sizeOpened: {x: 0.785645, y: 0.8395182}
 --- !u!114 &114585421977205508
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -201,32 +231,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b38c80699b88cd44a864fd4cb169ec4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114966707510178370
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1640635998977712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &114984979541983468
 MonoBehaviour:
   m_ObjectHideFlags: 1
