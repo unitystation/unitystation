@@ -144,7 +144,7 @@ namespace PlayGroup
 				if (thisPlayerScript.isLocalPlayer)//if this player is mine, then update the reference and spriteSheetName on all other clients
                 {
 //					CmdUpdateSpriteNetwork(reference, spriteSheetName, thisPlayerScript.netId);
-					Debug.Log("FIXME: handle all clothing changes on root object as NetworkIdentities not allowed on children");
+					//FIXME: handle all clothing changes on root object as NetworkIdentities not allowed on children");
                 }
             }
         }

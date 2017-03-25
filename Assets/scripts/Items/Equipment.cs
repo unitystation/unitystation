@@ -87,12 +87,12 @@ namespace UI {
 
 		[Command]
 		void CmdSetItem(string eventName, GameObject prefab, NetworkIdentity ID){
-			GameObject item = Instantiate(prefab, Vector3.zero, Quaternion.identity, null);
+//			GameObject item = Instantiate(prefab, Vector3.zero, Quaternion.identity, null);
 			if (isServer) {
 				Debug.Log("FIXEME: Work out how to spawn clotheItems from server");
 //				NetworkServer.Spawn(item);
 			}
-			RpcSetUI(eventName, item, ID.netId);
+//			RpcSetUI(eventName, item, ID.netId);
 		}
 
 		[ClientRpc]

@@ -14,11 +14,9 @@ namespace UI
 		public InputField portInput;
 
 		public Toggle hostServer;
-
+        private CustomNetworkManager networkManager;
 		public GameObject screen_PlayerName;
 		public GameObject screen_ConnectTo;
-
-		public NetworkManager networkManager;
 
 		private const string UserNamePlayerPref = "PlayerName";
 
@@ -27,6 +25,7 @@ namespace UI
 
 		public void Start()
 		{
+            networkManager = CustomNetworkManager.Instance;
 			screen_PlayerName.SetActive(true);
 			screen_ConnectTo.SetActive(false);
 			string prefsName = PlayerPrefs.GetString(GUI_PlayerOptions.UserNamePlayerPref);
@@ -64,32 +63,32 @@ namespace UI
 			//Connecting as server from a map scene
 			if (screen_PlayerName.activeInHierarchy && hostServer.isOn && GameData.IsInGame) {
 				PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
-				networkManager.StartHost();
+                networkManager.StartHost();
 				gameObject.SetActive(false);
 			}
 
 			//Connecting as server from the lobby
 			if (screen_PlayerName.activeInHierarchy && hostServer.isOn && !GameData.IsInGame) {
 				PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
-				networkManager.StartHost();
-				networkManager.ServerChangeScene("BoxStation");
+                networkManager.StartHost();
+                networkManager.ServerChangeScene("BoxStation");
 				gameObject.SetActive(false);
 			}
 		}
 
 		void ConnectToServer()
 		{
-			networkManager.networkAddress = serverAddressInput.text;
+            networkManager.networkAddress = serverAddressInput.text;
 			int port = 0;
 			if (portInput.text.Length == 3) {
 				int.TryParse(portInput.text, out port);
 			}
 			if (port == 0) {
-				networkManager.networkPort = 7777;
+                networkManager.networkPort = 7777;
 			} else {
-				networkManager.networkPort = port;
+                networkManager.networkPort = port;
 			}
-			networkManager.StartClient();
+            networkManager.StartClient();
 		}
 	}
 }

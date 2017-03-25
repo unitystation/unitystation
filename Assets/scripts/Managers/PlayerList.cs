@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using UI;
+using PlayGroup;
 
-public class PlayerList : MonoBehaviour
+public class PlayerList : NetworkBehaviour
 {
 	public static PlayerList playerList;
 	private Dictionary<string, GameObject> connectedPlayers = new Dictionary<string, GameObject>();
+    int numSameNames = 0;
 
 	public static PlayerList Instance {
 		get {
@@ -21,13 +24,28 @@ public class PlayerList : MonoBehaviour
 	void Start(){
 		RefreshPlayerListText();
 	}
-
-	public void AddPlayer(GameObject playerObj)
+        
+    public void AddPlayer(GameObject playerObj, string name)
 	{
-		connectedPlayers.Add(playerObj.name, playerObj);
-		playerObj.transform.parent = this.gameObject.transform;
-		RefreshPlayerListText();
+        string checkName = name;
+     
+            while (connectedPlayers.ContainsKey(checkName))
+            {
+            numSameNames++;
+            checkName = name + numSameNames.ToString();
+            }
+    
+        CmdUpdateHeirarchy(playerObj, checkName);
+
 	}
+    [Command]
+    void CmdUpdateHeirarchy(GameObject playerObj, string name){
+        playerObj.GetComponent<PlayerScript>().playerName = name;
+        playerObj.name = name;
+        connectedPlayers.Add(name, playerObj);
+        playerObj.transform.parent = this.gameObject.transform;
+        RefreshPlayerListText();
+    }
 
 	public void RemovePlayer(string playerName)
 	{

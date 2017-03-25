@@ -65,7 +65,6 @@ namespace UI {
         }
 
         public void Connect() {
-            NetworkManager.Connect(); //Also connect to the game server!
 
             SoundManager.Play("Click01");
             UserName = usernameInput.text;

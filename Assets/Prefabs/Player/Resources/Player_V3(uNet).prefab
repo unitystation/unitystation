@@ -822,7 +822,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1d9cf66ac5f9524193eaaacb77505a6, type: 3}
   m_Name: 
@@ -931,7 +931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 2
-  componentsToDisable:
+  componentsToEnable:
   - {fileID: 114902778528143056}
   - {fileID: 114413669770135258}
 --- !u!114 &114636370206516294
@@ -1096,7 +1096,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f97c42df6c7731640a15f193e79e9f70, type: 3}
   m_Name: 
