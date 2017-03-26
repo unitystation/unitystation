@@ -5,68 +5,79 @@ using UI;
 
 namespace PlayGroup
 {
-    public class PlayerScript: NetworkBehaviour
-    {
-        // the maximum distance the player needs to be to an object to interact with it
-        public float interactionDistance = 2f;
-        [SerializeField]
-        Behaviour[] componentsToEnable;
-        [SyncVar]
-        public string playerName = " ";
+	public class PlayerScript: NetworkBehaviour
+	{
+		// the maximum distance the player needs to be to an object to interact with it
+		public float interactionDistance = 2f;
+		[SerializeField]
+		Behaviour[] componentsToEnable;
+		[SyncVar(hook = "OnNameChange")]
+		public string playerName = " ";
 
-        public override void OnStartClient()
-        {
-            Init();
-            base.OnStartClient();
-        }
+		public override void OnStartClient()
+		{
+			//Local player is set a frame or two after OnStartClient
+			//Wait to check if this is local player
+			StartCoroutine(CheckIfNetworkPlayer());
+			base.OnStartClient();
+		}
 
-        //isLocalPlayer is always called after OnStartClient
-        public override void OnStartLocalPlayer()
-        {
-            Init();
-            base.OnStartLocalPlayer();
-        }
+		//isLocalPlayer is always called after OnStartClient
+		public override void OnStartLocalPlayer()
+		{
+			Init();
+			base.OnStartLocalPlayer();
+		}
 
-        void Init(){
-            if (isLocalPlayer)
-            { 
-                for (int i = 0; i < componentsToEnable.Length; i++) {
-                    componentsToEnable[i].enabled = true;
-                }
-                StartCoroutine("WaitForMapLoad");
-                if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)
-                {
-                    UIManager.Instance.playerListUIControl.window.SetActive(true);
-                }
-                SetName(PlayerPrefs.GetString("PlayerName"));
-            }
-        }
+		void Init()
+		{
+			if (isLocalPlayer) { 
+				for (int i = 0; i < componentsToEnable.Length; i++) {
+					componentsToEnable[i].enabled = true;
+				}
+				if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy) {
+					UIManager.Instance.playerListUIControl.window.SetActive(true);
+				}
+				PlayerManager.SetPlayerForControl(this.gameObject);
+				CmdTrySetName(PlayerPrefs.GetString("PlayerName"));
+			}
+		}
 
-        //This fixes the bug of master client setting equipment before the UI is read (because it is the one that loads the map)
-        IEnumerator WaitForMapLoad()
-        {
-            yield return new WaitForSeconds(1f);
-            PlayerManager.SetPlayerForControl(this.gameObject);
-        }
+		[Command]
+		void CmdTrySetName(string name)
+		{
+			playerName = PlayerList.Instance.CheckName(name);
+		}
+		// On playerName variable change across all clients, make sure obj is named correctly
+		// and set in Playerlist for that client
+		public void OnNameChange(string newName)
+		{
+			gameObject.name = newName;
+			if (!PlayerList.Instance.connectedPlayers.ContainsKey(newName)) {
+				PlayerList.Instance.connectedPlayers.Add(newName, gameObject);
+			}
+			transform.parent = PlayerList.Instance.transform;
+			PlayerList.Instance.RefreshPlayerListText();
+		}
 
-        public float DistanceTo(Vector3 position)
-        {
-            return (transform.position - position).magnitude;
-        }
+		//This fixes the bug of master client setting equipment before the UI is read (because it is the one that loads the map)
+		IEnumerator CheckIfNetworkPlayer()
+		{
+			yield return new WaitForSeconds(1f);
+			if(!isLocalPlayer){
+				OnNameChange(playerName);
+			}
+		}
 
-        public bool IsInReach(Transform transform)
-        {
-            return DistanceTo(transform.position) <= interactionDistance;
-        }
+		public float DistanceTo(Vector3 position)
+		{
+			return (transform.position - position).magnitude;
+		}
 
-        [Command]
-        public void CmdSetPlayerName(string name){
-            playerName = name;
-        }
-
-        void SetName(string name){
-            //Add it to the global playerlist
-            PlayerList.Instance.AddPlayer(gameObject, name);
-        }
-    }
+		public bool IsInReach(Transform transform)
+		{
+			return DistanceTo(transform.position) <= interactionDistance;
+		}
+	
+	}
 }

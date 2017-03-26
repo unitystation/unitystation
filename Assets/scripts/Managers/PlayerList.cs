@@ -9,7 +9,7 @@ using PlayGroup;
 public class PlayerList : NetworkBehaviour
 {
 	public static PlayerList playerList;
-	private Dictionary<string, GameObject> connectedPlayers = new Dictionary<string, GameObject>();
+	public Dictionary<string, GameObject> connectedPlayers = new Dictionary<string, GameObject>();
     int numSameNames = 0;
 
 	public static PlayerList Instance {
@@ -21,30 +21,31 @@ public class PlayerList : NetworkBehaviour
 		}
 	}
 
-	void Start(){
+	public override void OnStartClient(){
 		RefreshPlayerListText();
+		base.OnStartClient();
 	}
         
-    public void AddPlayer(GameObject playerObj, string name)
+    public string CheckName(string name)
 	{
         string checkName = name;
      
             while (connectedPlayers.ContainsKey(checkName))
             {
+			Debug.Log("NAME ALREADY EXISTS: " + checkName);
             numSameNames++;
             checkName = name + numSameNames.ToString();
+			Debug.Log("TRYING: " + checkName);
             }
-    
-        CmdUpdateHeirarchy(playerObj, checkName);
-
+		return checkName;
 	}
     [Command]
-    void CmdUpdateHeirarchy(GameObject playerObj, string name){
+    void CmdUpdateNameVar(GameObject playerObj, string name){
         playerObj.GetComponent<PlayerScript>().playerName = name;
-        playerObj.name = name;
-        connectedPlayers.Add(name, playerObj);
-        playerObj.transform.parent = this.gameObject.transform;
-        RefreshPlayerListText();
+//        playerObj.name = name;
+//        connectedPlayers.Add(name, playerObj);
+//        playerObj.transform.parent = this.gameObject.transform;
+//        RefreshPlayerListText();
     }
 
 	public void RemovePlayer(string playerName)
