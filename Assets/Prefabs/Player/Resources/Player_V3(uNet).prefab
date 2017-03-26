@@ -931,9 +931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 2
-  componentsToEnable:
-  - {fileID: 114902778528143056}
-  - {fileID: 114413669770135258}
+  playerName: ' '
 --- !u!114 &114636370206516294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1089,7 +1087,7 @@ MonoBehaviour:
     i14: 155
     i15: 179
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114902778528143056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1101,7 +1099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f97c42df6c7731640a15f193e79e9f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 5
   allowDiagonalMove: 0
 --- !u!114 &114966985701112248
 MonoBehaviour:

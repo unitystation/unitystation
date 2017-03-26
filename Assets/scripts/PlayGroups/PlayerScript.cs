@@ -9,8 +9,6 @@ namespace PlayGroup
 	{
 		// the maximum distance the player needs to be to an object to interact with it
 		public float interactionDistance = 2f;
-		[SerializeField]
-		Behaviour[] componentsToEnable;
 		[SyncVar(hook = "OnNameChange")]
 		public string playerName = " ";
 
@@ -29,17 +27,28 @@ namespace PlayGroup
 			base.OnStartLocalPlayer();
 		}
 
+		//You know the drill
+		public override void OnStartServer()
+		{
+			Init();
+			base.OnStartServer();
+		}
+
 		void Init()
 		{
+			
 			if (isLocalPlayer) { 
-				for (int i = 0; i < componentsToEnable.Length; i++) {
-					componentsToEnable[i].enabled = true;
-				}
+				GetComponent<PlayerMove>().enabled = true;
+				GetComponent<InputControl.InputController>().enabled = true;
 				if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy) {
 					UIManager.Instance.playerListUIControl.window.SetActive(true);
 				}
 				PlayerManager.SetPlayerForControl(this.gameObject);
 				CmdTrySetName(PlayerPrefs.GetString("PlayerName"));
+			}
+
+			if (isServer) {
+				GetComponent<PlayerMove>().enabled = true;
 			}
 		}
 
@@ -60,11 +69,10 @@ namespace PlayGroup
 			PlayerList.Instance.RefreshPlayerListText();
 		}
 
-		//This fixes the bug of master client setting equipment before the UI is read (because it is the one that loads the map)
 		IEnumerator CheckIfNetworkPlayer()
 		{
 			yield return new WaitForSeconds(1f);
-			if(!isLocalPlayer){
+			if (!isLocalPlayer) {
 				OnNameChange(playerName);
 			}
 		}
