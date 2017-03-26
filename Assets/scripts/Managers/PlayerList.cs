@@ -39,15 +39,7 @@ public class PlayerList : NetworkBehaviour
             }
 		return checkName;
 	}
-    [Command]
-    void CmdUpdateNameVar(GameObject playerObj, string name){
-        playerObj.GetComponent<PlayerScript>().playerName = name;
-//        playerObj.name = name;
-//        connectedPlayers.Add(name, playerObj);
-//        playerObj.transform.parent = this.gameObject.transform;
-//        RefreshPlayerListText();
-    }
-
+		
 	public void RemovePlayer(string playerName)
 	{
 		if (connectedPlayers.ContainsKey(playerName)) {
