@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 114873879993554562}
   - component: {fileID: 114407246905810916}
   - component: {fileID: 114219800252958916}
+  - component: {fileID: 114390575568471296}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -771,6 +772,17 @@ MonoBehaviour:
   reference: -1
   thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212039247469239700}
+--- !u!114 &114390575568471296
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9451929b6fd9342dab7a272b50ef5aa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114393970884408578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -813,23 +825,6 @@ MonoBehaviour:
   storage01Prefab: {fileID: 0}
   storage02Prefab: {fileID: 0}
   suitStoragePrefab: {fileID: 0}
-  playerEquip:
-    suit: 3
-    belt: 0
-    head: 0
-    feet: 0
-    face: -1
-    mask: 0
-    underwear: -1
-    uniform: 0
-    leftHand: 0
-    rightHand: 0
-    body: 0
-    eyes: 0
-    back: 0
-    hands: 0
-    ear: 0
-    neck: 0
 --- !u!114 &114413669770135258
 MonoBehaviour:
   m_ObjectHideFlags: 1

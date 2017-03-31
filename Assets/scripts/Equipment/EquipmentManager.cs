@@ -39,4 +39,10 @@ namespace Equipment
 		ear,
 		neck
 	}
+
+	public class ServerUI{
+		public GameObject suit,belt,feet,head,mask,
+		uniform,neck,ear,eyes,hands,id,back,rightHand,
+		leftHand,storage01,storage02,suitStorage;
+	}
 }

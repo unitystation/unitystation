@@ -33,14 +33,15 @@ namespace Equipment
 		public GameObject suitStoragePrefab;
 
 		public SyncListInt syncEquip = new SyncListInt();
-
-		private Dictionary<string, UI_ItemSlot> uiSlots = new Dictionary<string, UI_ItemSlot>();
+	
 		private Dictionary<string,ClothingItem> clothingSlots = new Dictionary<string,ClothingItem>();
+		private PlayerUI playerUI;
 
 		private bool isInit = false;
 
 		void Start()
 		{
+			playerUI = gameObject.GetComponent<PlayerUI>();
 			syncEquip.Callback = SyncEquipment;
 		}
 
@@ -68,14 +69,6 @@ namespace Equipment
 		{
 			if (isInit)
 				return;
-		
-//			foreach (var itemSlot in UIManager.Instance.GetComponentsInChildren(typeof(UI_ItemSlot), true)) {
-//				var name = itemSlot.transform.parent.name;
-//				var slot = (UI_ItemSlot)itemSlot;
-//				if (!uiSlots.ContainsKey(name)) {
-//					uiSlots.Add(name, slot);
-//				}
-//			}
 
 			foreach (Transform child in transform) {
 				ClothingItem c = child.gameObject.GetComponent<ClothingItem>();
@@ -127,14 +120,14 @@ namespace Equipment
 			SetItem("ear", earPrefab);
 			SetItem("eyes", glassesPrefab);
 			SetItem("hands", glovesPrefab);
-//
-//		SetItem("id", idPrefab);
-//		SetItem("back", bagPrefab);
-//		SetItem("rightHand", rightHandPrefab);
-//		SetItem("leftHand", leftHandPrefab);
-//		SetItem("storage01", storage01Prefab);
-//		SetItem("storage02", storage02Prefab);
-//		SetItem("suitStorage", suitStoragePrefab);
+
+			SetItem("id", idPrefab);
+			SetItem("back", bagPrefab);
+			SetItem("rightHand", rightHandPrefab);
+			SetItem("leftHand", leftHandPrefab);
+			SetItem("storage01", storage01Prefab);
+			SetItem("storage02", storage02Prefab);
+			SetItem("suitStorage", suitStoragePrefab);
 		}
 
 		private void SetItem(string eventName, GameObject prefab)
@@ -147,17 +140,13 @@ namespace Equipment
 			ItemAttributes att = item.GetComponent<ItemAttributes>();
 			EquipmentPool.AddGameObject(gameObject.name, item);
 
+			playerUI.TrySetItem(eventName, item);
 			//Sync all clothing items across network using SyncListInt syncEquip
 			if (att.spriteType == UI.SpriteType.Clothing) {
 				Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
 				syncEquip[(int)enumA] = att.clothingReference;
 			}
-
-			//TODO UI SYNC: SET ITEMS UP FOR CSERVER --> CLIENT UI INFORMATION UPDATE
-//			if (prefab != null && isLocalPlayer) {
-//				if (eventName.Length > 0)
-//					EventManager.UI.TriggerEvent(eventName, prefab);
-//			}
+		
 		}
 			
 	}

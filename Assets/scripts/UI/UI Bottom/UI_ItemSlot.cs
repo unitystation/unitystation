@@ -25,9 +25,8 @@ namespace UI {
         void Awake() {
             image = GetComponent<Image>();
             image.enabled = false;
-			Debug.Log("TODO: UI sync over network");
-//            if(eventName.Length > 0)
-//                EventManager.UI.AddListener(eventName, new UnityAction<GameObject>(x => TrySetItem(x)));
+            if(eventName.Length > 0)
+                EventManager.UI.AddListener(eventName, new UnityAction<GameObject>(x => TrySetItem(x)));
         }
 
         public void SetItem(GameObject item) {
