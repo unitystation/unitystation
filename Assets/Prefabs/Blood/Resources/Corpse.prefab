@@ -37,8 +37,8 @@ GameObject:
   - component: {fileID: 4368470415156992}
   - component: {fileID: 50667175894989244}
   - component: {fileID: 114779561814863670}
-  - component: {fileID: 114756311275376984}
   - component: {fileID: 61541802308133420}
+  - component: {fileID: 114626216926704454}
   m_Layer: 10
   m_Name: Corpse
   m_TagString: Untagged
@@ -107,7 +107,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
---- !u!114 &114756311275376984
+--- !u!114 &114626216926704454
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -115,24 +115,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1843853587201310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 15
+    i1: 2
+    i2: 234
+    i3: 3
+    i4: 132
+    i5: 98
+    i6: 185
+    i7: 164
+    i8: 42
+    i9: 250
+    i10: 200
+    i11: 235
+    i12: 61
+    i13: 19
+    i14: 191
+    i15: 207
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114779561814863670
 MonoBehaviour:
   m_ObjectHideFlags: 1

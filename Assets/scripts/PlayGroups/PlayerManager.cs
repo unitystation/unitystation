@@ -10,7 +10,7 @@ namespace PlayGroup
     {
         public static GameObject LocalPlayer { get; private set; }
 
-        public static Equipment Equipment { get; private set; }
+		public static Equipment.Equipment Equipment { get; private set; }
 
         public static PlayerScript LocalPlayerScript { get; private set; }
         

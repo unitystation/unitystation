@@ -21,7 +21,6 @@ namespace Events {
                 if(!eventManager) {
                     eventManager = FindObjectOfType<EventManager>();
                 }
-
                 return eventManager;
             }
         }

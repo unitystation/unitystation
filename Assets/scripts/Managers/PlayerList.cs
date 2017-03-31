@@ -9,6 +9,7 @@ using PlayGroup;
 public class PlayerList : NetworkBehaviour
 {
 	public static PlayerList playerList;
+	public SyncListString nameList = new SyncListString();
 	public Dictionary<string, GameObject> connectedPlayers = new Dictionary<string, GameObject>();
     int numSameNames = 0;
 
@@ -22,10 +23,13 @@ public class PlayerList : NetworkBehaviour
 	}
 
 	public override void OnStartClient(){
+		nameList.Callback = UpdateFromServer;
 		RefreshPlayerListText();
 		base.OnStartClient();
 	}
-        
+	void UpdateFromServer(SyncListString.Operation op, int index){
+		RefreshPlayerListText();
+	}
     public string CheckName(string name)
 	{
         string checkName = name;
@@ -37,6 +41,7 @@ public class PlayerList : NetworkBehaviour
             checkName = name + numSameNames.ToString();
 			Debug.Log("TRYING: " + checkName);
             }
+		nameList.Add(checkName);
 		return checkName;
 	}
 		
@@ -44,16 +49,16 @@ public class PlayerList : NetworkBehaviour
 	{
 		if (connectedPlayers.ContainsKey(playerName)) {
 			connectedPlayers.Remove(playerName);
-			RefreshPlayerListText();
+			nameList.Remove(playerName);
 		}
 	}
 
 	public void RefreshPlayerListText()
 	{
 		UIManager.Instance.playerListUIControl.nameList.text = "";
-		foreach (KeyValuePair<string,GameObject> player in connectedPlayers) {
+		foreach (string name in nameList) {
 			string curList = UIManager.Instance.playerListUIControl.nameList.text;
-			UIManager.Instance.playerListUIControl.nameList.text = curList + player.Value.name + "\r\n"; 
+			UIManager.Instance.playerListUIControl.nameList.text = curList + name + "\r\n"; 
 		}
 	}
 }

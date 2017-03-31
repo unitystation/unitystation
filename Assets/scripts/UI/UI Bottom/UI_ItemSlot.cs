@@ -25,9 +25,9 @@ namespace UI {
         void Awake() {
             image = GetComponent<Image>();
             image.enabled = false;
-
-            if(eventName.Length > 0)
-                EventManager.UI.AddListener(eventName, new UnityAction<GameObject>(x => TrySetItem(x)));
+			Debug.Log("TODO: UI sync over network");
+//            if(eventName.Length > 0)
+//                EventManager.UI.AddListener(eventName, new UnityAction<GameObject>(x => TrySetItem(x)));
         }
 
         public void SetItem(GameObject item) {
@@ -36,7 +36,7 @@ namespace UI {
 
             Item = item;
             item.transform.position = transform.position;
-            item.transform.parent = transform;
+//            item.transform.parent = transform;
 
             if(transform.childCount > 0)
             BroadcastMessage("OnAddToInventory", eventName, SendMessageOptions.DontRequireReceiver);

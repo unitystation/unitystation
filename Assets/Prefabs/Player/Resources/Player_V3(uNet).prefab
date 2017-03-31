@@ -794,9 +794,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f941a6ff000f14c42a6a1e012b4495cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faceReference: -1
-  bodyReference: 32
-  underwearReference: 52
   suitPrefab: {fileID: 1229467635671980, guid: 7fb98374065e73a42bfee58d83920914, type: 2}
   beltPrefab: {fileID: 0}
   shoesPrefab: {fileID: 1782409824222324, guid: d573ad03976585a459f45dbc8dcff1db,
@@ -816,6 +813,23 @@ MonoBehaviour:
   storage01Prefab: {fileID: 0}
   storage02Prefab: {fileID: 0}
   suitStoragePrefab: {fileID: 0}
+  playerEquip:
+    suit: 3
+    belt: 0
+    head: 0
+    feet: 0
+    face: -1
+    mask: 0
+    underwear: -1
+    uniform: 0
+    leftHand: 0
+    rightHand: 0
+    body: 0
+    eyes: 0
+    back: 0
+    hands: 0
+    ear: 0
+    neck: 0
 --- !u!114 &114413669770135258
 MonoBehaviour:
   m_ObjectHideFlags: 1
