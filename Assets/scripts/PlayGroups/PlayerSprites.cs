@@ -28,15 +28,7 @@ namespace PlayGroup
 		//turning character input and sprite update
 		public void FaceDirection(Vector2 direction)
 		{
-			if (playerScript != null) {
-				if (isLocalPlayer) {//if this player is mine, then update your dir on all other client
-					SetDir(direction);
-				} else {
-					SetDir(direction); 
-				}
-			} else {
-				SetDir(direction); //dev mode
-			}
+			SetDir(direction); 
 		}
 
 		void SetDir(Vector2 direction)
@@ -47,24 +39,6 @@ namespace PlayGroup
 				}
 
 				currentDirection = direction;
-			}
-		}
-
-		public void PickedUpItem(GameObject item)
-		{
-			if (UIManager.Hands.IsRight) {
-				clothes["rightHand"].UpdateItem(item);
-			} else {
-				clothes["leftHand"].UpdateItem(item);
-			}
-		}
-
-		public void RemoveItemFromHand(bool rightHand)
-		{
-			if (rightHand) {
-				clothes["rightHand"].Clear();
-			} else {
-				clothes["leftHand"].Clear();
 			}
 		}
 	}

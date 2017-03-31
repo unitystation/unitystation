@@ -32,17 +32,19 @@ namespace Equipment
 		public GameObject storage02Prefab;
 		public GameObject suitStoragePrefab;
 
-		public SyncListInt syncEquip = new SyncListInt();
+		public SyncListInt syncEquipSprites = new SyncListInt();
 	
 		private Dictionary<string,ClothingItem> clothingSlots = new Dictionary<string,ClothingItem>();
 		private PlayerUI playerUI;
+		public NetworkIdentity networkIdentity{ get; set; }
 
 		private bool isInit = false;
 
 		void Start()
 		{
+			networkIdentity = GetComponent<NetworkIdentity>();
 			playerUI = gameObject.GetComponent<PlayerUI>();
-			syncEquip.Callback = SyncEquipment;
+
 		}
 
 		public override void OnStartServer()
@@ -64,12 +66,14 @@ namespace Equipment
 			InitEquipment();
 			base.OnStartClient();
 		}
+			
 
 		void InitEquipment()
 		{
 			if (isInit)
 				return;
 
+			syncEquipSprites.Callback = SyncSprites;
 			foreach (Transform child in transform) {
 				ClothingItem c = child.gameObject.GetComponent<ClothingItem>();
 				if (c != null && !clothingSlots.ContainsKey(c.gameObject.name)) {
@@ -78,18 +82,18 @@ namespace Equipment
 						
 						if (isServer) {
 							c.Reference = 32;
-							syncEquip.Add(32);
+							syncEquipSprites.Add(32);
 						} else {
 							Epos enumA = (Epos)Enum.Parse(typeof(Epos), c.gameObject.name);
-							c.Reference = syncEquip[(int)enumA];
+							c.Reference = syncEquipSprites[(int)enumA];
 						}
 					} else {
 						c.Reference = -1;
 						if (isServer) {
-							syncEquip.Add(-1);
+							syncEquipSprites.Add(-1);
 						} else {
 							Epos enumA = (Epos)Enum.Parse(typeof(Epos), c.gameObject.name);
-							c.Reference = syncEquip[(int)enumA];
+							c.Reference = syncEquipSprites[(int)enumA];
 						}
 					}
 				}
@@ -98,11 +102,11 @@ namespace Equipment
 				
 		}
 
-		public void SyncEquipment(SyncListInt.Operation op, int index)
+		public void SyncSprites(SyncListInt.Operation op, int index)
 		{
 			Epos enumA = (Epos)index;
 			string key = enumA.ToString();
-			clothingSlots[key].Reference = syncEquip[index];
+			clothingSlots[key].Reference = syncEquipSprites[index];
 		}
 
 		IEnumerator SetPlayerLoadOuts()
@@ -130,6 +134,19 @@ namespace Equipment
 			SetItem("suitStorage", suitStoragePrefab);
 		}
 
+		//Hand item sprites after picking up an item
+		public void SetHandItem(string eventName, GameObject obj)
+		{
+			ItemAttributes att = obj.GetComponent<ItemAttributes>();
+			EquipmentPool.AddGameObject(gameObject.name, obj);
+			Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
+			if (eventName == "leftHand") {
+				syncEquipSprites[(int)enumA] = att.inHandReferenceLeft;
+			} else {
+				syncEquipSprites[(int)enumA] = att.inHandReferenceRight;
+			}
+		}
+
 		private void SetItem(string eventName, GameObject prefab)
 		{
 			if (prefab == null)
@@ -141,10 +158,10 @@ namespace Equipment
 			EquipmentPool.AddGameObject(gameObject.name, item);
 
 			playerUI.TrySetItem(eventName, item);
-			//Sync all clothing items across network using SyncListInt syncEquip
+			//Sync all clothing items across network using SyncListInt syncEquipSprites
 			if (att.spriteType == UI.SpriteType.Clothing) {
 				Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
-				syncEquip[(int)enumA] = att.clothingReference;
+				syncEquipSprites[(int)enumA] = att.clothingReference;
 			}
 		
 		}

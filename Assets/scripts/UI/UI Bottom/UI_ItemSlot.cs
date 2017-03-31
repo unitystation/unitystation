@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using Events;
 using UnityEngine.Events;
+using Items;
 
 namespace UI {
 
@@ -32,16 +33,13 @@ namespace UI {
         public void SetItem(GameObject item) {
             image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
             image.enabled = true;
-
             Item = item;
             item.transform.position = transform.position;
-//            item.transform.parent = transform;
-
-            if(transform.childCount > 0)
-            BroadcastMessage("OnAddToInventory", eventName, SendMessageOptions.DontRequireReceiver);
+			ItemNetwork itemNetwork = item.GetComponent<ItemNetwork>();
+			itemNetwork.OnAddToInventory(eventName);
            
-            if(eventName.Length > 0)
-                EventManager.UI.TriggerEvent(eventName, item);
+//            if(eventName.Length > 0)
+//                EventManager.UI.TriggerEvent(eventName, item);
         }
 
         public bool TrySetItem(GameObject item) {

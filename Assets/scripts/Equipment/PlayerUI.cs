@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using Events;
+using PlayGroup;
 using UI;
 
 namespace Equipment
@@ -14,6 +15,13 @@ namespace Equipment
 			"id", "back", "rightHand", "leftHand", "storage01", "storage02", "suitStorage"
 		};
 
+		private Equipment equipment;
+
+		void Start()
+		{
+			equipment = GetComponent<Equipment>();
+		}
+
 		public override void OnStartServer()
 		{
 			if (isServer) {
@@ -24,13 +32,42 @@ namespace Equipment
 			base.OnStartServer();
 		}
 
-		//Server only
+		//This is only called from interaction on the client (from PickUpTrigger)
+		public bool TryToPickUpObject(GameObject itemObject)
+		{            
+			if (PlayerManager.PlayerScript != null) {
+				if (!isLocalPlayer)
+					return false;
+				
+				if (!UIManager.Hands.CurrentSlot.TrySetItem(itemObject)) {
+					return false;
+				} else {
+					CmdTryToPickUpObject(UIManager.Hands.CurrentSlot.eventName, itemObject);
+				}
+			} else {
+				return false;
+			}
+			return true;
+		}
+
+		//Server only (from Equipment Initial SetItem method
 		public void TrySetItem(string eventName, GameObject obj)
 		{
 			if (ServerCache.ContainsKey(eventName)) {
 				if (ServerCache[eventName] == null) {
 					ServerCache[eventName] = obj;
 					RpcTrySetItem(eventName, obj);
+				}
+			}
+		}
+
+		[Command]
+		public void CmdTryToPickUpObject(string eventName, GameObject obj)
+		{			
+			if (ServerCache.ContainsKey(eventName)) {
+				if (ServerCache[eventName] == null) {
+					ServerCache[eventName] = obj;
+					equipment.SetHandItem(eventName, obj);
 				}
 			}
 		}

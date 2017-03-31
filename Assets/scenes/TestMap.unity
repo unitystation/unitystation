@@ -741,7 +741,7 @@ Prefab:
     - target: {fileID: 224617939017692804, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 18.749998
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
@@ -12584,6 +12584,11 @@ Prefab:
     - target: {fileID: 1296620499762930, guid: 054d4c5d3f4b74caa87d549779ef4bf0, type: 2}
       propertyPath: m_Name
       value: C20rSMG_Ballistic (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114132912066377716, guid: 054d4c5d3f4b74caa87d549779ef4bf0,
+        type: 2}
+      propertyPath: spriteType
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 054d4c5d3f4b74caa87d549779ef4bf0, type: 2}

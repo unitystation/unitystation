@@ -16,14 +16,11 @@ namespace Items
 
 		public void OnAddToInventory(string slotName)
 		{
-			CmdRequestOwnership(GetComponent<NetworkIdentity>());
 		}
 
 		void Start()
 		{
 			snapControl = GetComponent<EditModeControl>();
-				//Has been instantiated at runtime and you received instantiate of this object from photon on room join
-				StartSync();
 		}
 
 		//receive broadcast message when item is dropped from hand
@@ -33,26 +30,6 @@ namespace Items
 				snapControl.Snap();
 			}
 		}
-
-		void OnConnectedToServer()
-		{
-			StartSync();
-		}
-
-		void StartSync()
-		{
-			NetworkItemDB.AddItem(netId, gameObject);
-			synced = true;
-		}
-
-		[Command]
-		void CmdRequestOwnership(NetworkIdentity requestor)
-		{
-//			var nIdentity = GetComponent<NetworkIdentity>();
-//			nIdentity.AssignClientAuthority(requestor.connectionToClient);
-			Debug.Log("TODO: RequestOwnership");
-		}
-
 
 	}
 } 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using Equipment;
 using UI;
 
 namespace PlayGroup
@@ -9,6 +10,7 @@ namespace PlayGroup
 	{
 		// the maximum distance the player needs to be to an object to interact with it
 		public float interactionDistance = 2f;
+		public PlayerUI playerUI { get; set; }
 		[SyncVar(hook = "OnNameChange")]
 		public string playerName = " ";
 
@@ -32,6 +34,10 @@ namespace PlayGroup
 		{
 			Init();
 			base.OnStartServer();
+		}
+
+		void Start(){
+			playerUI = GetComponent<PlayerUI>();
 		}
 
 		void Init()
