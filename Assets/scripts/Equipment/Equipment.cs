@@ -89,7 +89,6 @@ namespace Equipment
 
 		public void SyncSprites(SyncListInt.Operation op, int index)
 		{
-			Debug.Log("SYnc index: " + index + " OP: " + op + " Value: " + syncEquipSprites[index]);
 			clothingSlots[index].Reference = syncEquipSprites[index];
 		}
 

@@ -59,11 +59,6 @@ namespace PlayGroup
         {
             sprites = SpriteManager.PlayerSprites[spriteSheetName];
             UpdateSprite();
-		
-//			if (!thisPlayerScript.isServer && !thisPlayerScript.isLocalPlayer) {
-//				//If you are not the server then update the current IG state of this object from the server
-////				CmdSendCurrentState();
-//			}
         }
 
         public void Clear()
@@ -125,9 +120,7 @@ namespace PlayGroup
 				string networkRef = Reference.ToString();
 				int code = (int)Char.GetNumericValue(networkRef[0]);
 				networkRef = networkRef.Remove(0, 1);
-				Debug.Log("networkRef: " + networkRef);
 				int _reference = int.Parse(networkRef);
-				Debug.Log("READ THIS: CODE: " + code);
 				switch (code) {
 					case 1:
 						spriteSheetName = "items_";
@@ -139,7 +132,6 @@ namespace PlayGroup
 						spriteSheetName = "guns_";
 						break;
 				}
-				Debug.Log("READ THIS: SPRITESHEETNAME: " + spriteSheetName);
 				if (spriteType == SpriteType.RightHand)
 				{
 					spriteSheetName = spriteSheetName + "righthand";
