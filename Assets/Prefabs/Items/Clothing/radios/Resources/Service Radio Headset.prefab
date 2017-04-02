@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114498931829058858}
   - component: {fileID: 61162000077886724}
   - component: {fileID: 114326933244341266}
+  - component: {fileID: 114044014400659472}
   m_Layer: 10
   m_Name: Service Radio Headset
   m_TagString: Untagged
@@ -110,6 +111,26 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+--- !u!114 &114044014400659472
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469499218258322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114153706379697006
 MonoBehaviour:
   m_ObjectHideFlags: 1

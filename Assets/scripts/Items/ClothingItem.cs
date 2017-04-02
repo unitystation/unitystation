@@ -16,18 +16,20 @@ namespace PlayGroup
     [RequireComponent(typeof(SpriteRenderer))]
 	public class ClothingItem: MonoBehaviour
     {
+		//choice between left or right or other(clothing)
         public SpriteType spriteType;
 
         public string spriteSheetName;
         public int reference = -1;
         public PlayerScript thisPlayerScript;
+		private int spriteCodeCache = 1;
 
         public int Reference
         {
             set
             {
                 reference = value;
-                UpdateSprite();
+				SetSprite();
             }
             get
             {
@@ -58,10 +60,10 @@ namespace PlayGroup
             sprites = SpriteManager.PlayerSprites[spriteSheetName];
             UpdateSprite();
 		
-			if (!thisPlayerScript.isServer && !thisPlayerScript.isLocalPlayer) {
-				//If you are not the server then update the current IG state of this object from the server
-				CmdSendCurrentState();
-			}
+//			if (!thisPlayerScript.isServer && !thisPlayerScript.isLocalPlayer) {
+//				//If you are not the server then update the current IG state of this object from the server
+////				CmdSendCurrentState();
+//			}
         }
 
         public void Clear()
@@ -71,43 +73,88 @@ namespace PlayGroup
 
         public void UpdateItem(GameObject item)
         {
-            var attributes = item.GetComponent<ItemAttributes>();
+			Debug.Log("ClothingItem.cs UpdateItem(): Under dev for Unet");
+			return;
 
-            if (spriteType == SpriteType.Other)
-            {
-                reference = attributes.clothingReference;
-            }
-            else
-            {
-                switch (attributes.spriteType)
-                {
-                    case UI.SpriteType.Items:
-                        spriteSheetName = "items_";
-                        break;
-                    case UI.SpriteType.Clothing:
-                        spriteSheetName = "clothing_";
-                        break;
-                    case UI.SpriteType.Guns:
-                        spriteSheetName = "guns_";
-                        break;
-                }
-
-                if (spriteType == SpriteType.RightHand)
-                {
-                    spriteSheetName += "righthand";
-                    reference = attributes.inHandReferenceRight;
-                }
-                else
-                {
-                    spriteSheetName += "lefthand";
-                    reference = attributes.inHandReferenceLeft;
-                }
-
-            }
-
-            sprites = SpriteManager.PlayerSprites[spriteSheetName];
-            UpdateSprite();
+//            var attributes = item.GetComponent<ItemAttributes>();
+//
+//            if (spriteType == SpriteType.Other)
+//            {
+//                reference = attributes.clothingReference;
+//            }
+//            else
+//			{
+//                switch (attributes.spriteType)
+//                {
+//                    case UI.SpriteType.Items:
+//                        spriteSheetName = "items_";
+//                        break;
+//                    case UI.SpriteType.Clothing:
+//                        spriteSheetName = "clothing_";
+//                        break;
+//                    case UI.SpriteType.Guns:
+//                        spriteSheetName = "guns_";
+//                        break;
+//                }
+//
+//                if (spriteType == SpriteType.RightHand)
+//                {
+//                    spriteSheetName += "righthand";
+//                    reference = attributes.inHandReferenceRight;
+//                }
+//                else
+//                {
+//                    spriteSheetName += "lefthand";
+//                    reference = attributes.inHandReferenceLeft;
+//                }
+//
+//            }
+//
+//            sprites = SpriteManager.PlayerSprites[spriteSheetName];
+//            UpdateSprite();
         }
+
+		void SetSprite(){
+
+			if (spriteType == SpriteType.Other)
+			{
+				reference = Reference;
+			}
+			else
+			{
+				string networkRef = Reference.ToString();
+				int code = (int)Char.GetNumericValue(networkRef[0]);
+				networkRef = networkRef.Remove(0, 1);
+				Debug.Log("networkRef: " + networkRef);
+				int _reference = int.Parse(networkRef);
+				Debug.Log("READ THIS: CODE: " + code);
+				switch (code) {
+					case 1:
+						spriteSheetName = "items_";
+						break;
+					case 2:
+						spriteSheetName = "clothing_";
+						break;
+					case 3:
+						spriteSheetName = "guns_";
+						break;
+				}
+				Debug.Log("READ THIS: SPRITESHEETNAME: " + spriteSheetName);
+				if (spriteType == SpriteType.RightHand)
+				{
+					spriteSheetName = spriteSheetName + "righthand";
+					reference = _reference;
+				}
+				else
+				{
+					spriteSheetName = spriteSheetName + "lefthand";
+					reference = _reference;
+				}
+			}
+
+			sprites = SpriteManager.PlayerSprites[spriteSheetName];
+			UpdateSprite();
+		}
 
         private void UpdateReferenceOffset()
         {
@@ -125,64 +172,15 @@ namespace PlayGroup
         }
 
         private void UpdateSprite()
-        {
-            if (spriteRenderer != null)
-            {
-                if (reference >= 0) //If reference -1 then clear the sprite
-                {
-					if(sprites != null)
-                    spriteRenderer.sprite = sprites[reference + referenceOffset];
-                }
-                else
-                {
-                    spriteRenderer.sprite = null;
-                }
-            }
-      
-            if (thisPlayerScript != null)
-            {
-				if (thisPlayerScript.isLocalPlayer)//if this player is mine, then update the reference and spriteSheetName on all other clients
-                {
-//					CmdUpdateSpriteNetwork(reference, spriteSheetName, thisPlayerScript.netId);
-					//FIXME: handle all clothing changes on root object as NetworkIdentities not allowed on children");
-                }
-            }
-        }
-
-		//FIXME: Cannot use these server and client RPC's as uNet does not allowe NetworkIdentities on children. Handle through root object
-//        [Command]
-		void CmdUpdateSpriteNetwork(int spriteRef, string sheetName, NetworkInstanceId id)
-        {
-                spriteSheetName = sheetName;
-                sprites = SpriteManager.PlayerSprites[spriteSheetName];
-                Reference = spriteRef;
-				RpcUpdateClientSprites(spriteRef, sheetName, id);
-        }
-
-//		[ClientRpc]
-		void RpcUpdateClientSprites(int spriteRef, string sheetName, NetworkInstanceId id){
-			if (thisPlayerScript.netId != id) {
-				spriteSheetName = sheetName;
-				sprites = SpriteManager.PlayerSprites[spriteSheetName];
-				Reference = spriteRef;
-			}
+		{
+			if (spriteRenderer != null) {
+				if (reference >= 0) { //If reference -1 then clear the sprite
+					if (sprites != null)
+						spriteRenderer.sprite = sprites[reference + referenceOffset];
+				} else {
+					spriteRenderer.sprite = null;
+				}
+			} 
 		}
-
-        //Update the clothing item from the server if this object isn't yours
-//        [Command]
-        void CmdSendCurrentState()
-        {
-			RpcReceiveCurrentState(reference); // Send the clothing reference
-        }
-
-//		[ClientRpc]
-        void RpcReceiveCurrentState(int clothRef)
-        {
-			if (!thisPlayerScript.isLocalPlayer)
-            {
-                Reference = clothRef;
-            }
-        }
-            
     }
 }

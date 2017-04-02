@@ -33,8 +33,7 @@ namespace Equipment
 		public GameObject suitStoragePrefab;
 
 		public SyncListInt syncEquipSprites = new SyncListInt();
-	
-		private Dictionary<string,ClothingItem> clothingSlots = new Dictionary<string,ClothingItem>();
+		public ClothingItem[] clothingSlots;
 		private PlayerUI playerUI;
 		public NetworkIdentity networkIdentity{ get; set; }
 
@@ -74,39 +73,24 @@ namespace Equipment
 				return;
 
 			syncEquipSprites.Callback = SyncSprites;
-			foreach (Transform child in transform) {
-				ClothingItem c = child.gameObject.GetComponent<ClothingItem>();
-				if (c != null && !clothingSlots.ContainsKey(c.gameObject.name)) {
-					clothingSlots.Add(c.gameObject.name, c);
-					if (c.gameObject.name == "body") {
-						
-						if (isServer) {
-							c.Reference = 32;
-							syncEquipSprites.Add(32);
-						} else {
-							Epos enumA = (Epos)Enum.Parse(typeof(Epos), c.gameObject.name);
-							c.Reference = syncEquipSprites[(int)enumA];
-						}
-					} else {
-						c.Reference = -1;
+			for (int i = 0; i < clothingSlots.Length ; i++) {
+					//All the other slots:
+					clothingSlots[i].Reference = -1;
 						if (isServer) {
 							syncEquipSprites.Add(-1);
 						} else {
-							Epos enumA = (Epos)Enum.Parse(typeof(Epos), c.gameObject.name);
-							c.Reference = syncEquipSprites[(int)enumA];
+						clothingSlots[i].Reference = syncEquipSprites[i];
 						}
 					}
-				}
-			}
 			isInit = true;
+			clothingSlots[10].Reference = 32;
 				
 		}
 
 		public void SyncSprites(SyncListInt.Operation op, int index)
 		{
-			Epos enumA = (Epos)index;
-			string key = enumA.ToString();
-			clothingSlots[key].Reference = syncEquipSprites[index];
+			Debug.Log("SYnc index: " + index + " OP: " + op + " Value: " + syncEquipSprites[index]);
+			clothingSlots[index].Reference = syncEquipSprites[index];
 		}
 
 		IEnumerator SetPlayerLoadOuts()
@@ -141,9 +125,9 @@ namespace Equipment
 			EquipmentPool.AddGameObject(gameObject.name, obj);
 			Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
 			if (eventName == "leftHand") {
-				syncEquipSprites[(int)enumA] = att.inHandReferenceLeft;
+				syncEquipSprites[(int)enumA] = att.NetworkInHandRefLeft();
 			} else {
-				syncEquipSprites[(int)enumA] = att.inHandReferenceRight;
+				syncEquipSprites[(int)enumA] = att.NetworkInHandRefRight();
 			}
 		}
 

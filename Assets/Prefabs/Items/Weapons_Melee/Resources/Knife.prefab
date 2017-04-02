@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114000012811989556}
   - component: {fileID: 114826321296990390}
   - component: {fileID: 114712808502289634}
+  - component: {fileID: 114302597446783198}
   m_Layer: 10
   m_Name: Knife
   m_TagString: Untagged
@@ -153,6 +154,26 @@ MonoBehaviour:
   clothingReference: -1
   size: 0
   type: 15
+--- !u!114 &114302597446783198
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011622113908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114712808502289634
 MonoBehaviour:
   m_ObjectHideFlags: 1

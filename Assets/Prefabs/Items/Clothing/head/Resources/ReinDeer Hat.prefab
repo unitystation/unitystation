@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114617343616211942}
   - component: {fileID: 61721622408793060}
   - component: {fileID: 114631120195421010}
+  - component: {fileID: 114507652678132282}
   m_Layer: 10
   m_Name: ReinDeer Hat
   m_TagString: Untagged
@@ -121,6 +122,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114507652678132282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699961805236374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114617343616211942
 MonoBehaviour:
   m_ObjectHideFlags: 1
