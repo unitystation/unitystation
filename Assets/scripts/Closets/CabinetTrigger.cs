@@ -82,10 +82,7 @@ public class CabinetTrigger: InputTrigger
 		IsClosed = isClosed;
 		ItemID = itemViewID;
 		if (ItemID != null)
-		if (NetworkItemDB.Items.ContainsKey(ItemID)) {
-			NetworkItemDB.Items[ItemID].SetActive(false);
-		}
-
+	
 		if (playSound)
 			SoundManager.Play("OpenClose");
 

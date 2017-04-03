@@ -101,9 +101,6 @@ namespace Cupboards {
         //Add item to cupboard
 		[ClientRpc]
 		public void RpcDropItem(NetworkInstanceId itemID) {
-			var item = NetworkItemDB.Items[itemID];
-            item.transform.parent = items.transform;
-            item.transform.localPosition = new Vector3(0, 0, item.transform.localPosition.z);
 
             //Tell the item that it is no longer in players inventory
             BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);

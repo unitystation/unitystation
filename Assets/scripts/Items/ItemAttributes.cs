@@ -50,6 +50,9 @@ namespace UI
 		//3 = guns
 		public int NetworkInHandRefLeft()
 		{ 
+			if (inHandReferenceLeft == -1)
+				return -1;
+			
 			string code = SpriteTypeCode();
 			string newRef = code + inHandReferenceLeft.ToString();
 			int i = -1;
@@ -59,6 +62,9 @@ namespace UI
 			
 		public int NetworkInHandRefRight()
 		{ 
+			if (inHandReferenceRight == -1)
+				return -1;
+			
 			string code = SpriteTypeCode();
 			string newRef = code + inHandReferenceRight.ToString();
 			int i = -1;

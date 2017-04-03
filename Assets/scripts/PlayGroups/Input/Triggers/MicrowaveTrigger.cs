@@ -33,7 +33,6 @@ namespace InputControl
 				if (meal) {
 					UIManager.Hands.CurrentSlot.Clear();
 					NetworkIdentity itemView = item.GetComponent<NetworkIdentity>();
-					NetworkItemDB.RemoveItem(itemView.netId); //Remove ingredients from all clients
 					microwave.CmdStartCooking(meal.name);
                     
 				}

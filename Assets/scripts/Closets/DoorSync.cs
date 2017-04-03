@@ -78,7 +78,6 @@ namespace Network
 					CmdSendCurrentState(netId);
 				}
 
-				NetworkItemDB.AddCupboard(netId, closetControl);
 				synced = true;
 			}
 		}
