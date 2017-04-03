@@ -81,5 +81,29 @@ namespace Equipment
 				}
 			}
 		}
+
+		[Command]
+		public void CmdDropItem(string eventName){
+			if(ServerCache.ContainsKey(eventName)){
+				if(ServerCache[eventName] != null){
+					EquipmentPool.DropGameObject(gameObject.name, ServerCache[eventName]);
+					ServerCache[eventName] = null;
+					equipment.ClearItemSprite(eventName);
+				}
+			}
+		}
+
+		[Command]
+		public void CmdPlaceItem(string eventName, Vector3 pos, GameObject newParent){
+			if(ServerCache.ContainsKey(eventName)){
+				if(ServerCache[eventName] != null){
+					GameObject item = ServerCache[eventName];
+					EquipmentPool.DropGameObject(gameObject.name, ServerCache[eventName],pos);
+					ServerCache[eventName] = null;
+					item.transform.parent = newParent.transform;
+					equipment.ClearItemSprite(eventName);
+				}
+			}
+		}
 	}
 }

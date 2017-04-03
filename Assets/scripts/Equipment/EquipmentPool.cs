@@ -45,10 +45,18 @@ namespace Equipment
 		}
 
 		//When dropping items etc, remove them from the player equipment pool and place in scene
-		public static void RemoveGameObject (string playerName, GameObject gObj){
+		public static void DropGameObject (string playerName, GameObject gObj){
 
 			if (Instance.equipPools.ContainsKey(playerName)) {
-				Instance.equipPools[playerName].RemoveGameObject(gObj);
+				Instance.equipPools[playerName].DropGameObject(gObj, PlayerList.Instance.connectedPlayers[playerName].transform.position);
+			}
+		}
+
+		//When placing items at a position etc also removes them from the player equipment pool and places it in scene
+		public static void DropGameObject (string playerName, GameObject gObj, Vector3 pos){
+
+			if (Instance.equipPools.ContainsKey(playerName)) {
+				Instance.equipPools[playerName].DropGameObject(gObj, pos);
 			}
 		}
 

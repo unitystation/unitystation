@@ -117,17 +117,24 @@ namespace Equipment
 			SetItem("suitStorage", suitStoragePrefab);
 		}
 
-		//Hand item sprites after picking up an item
+		//Hand item sprites after picking up an item (server)
 		public void SetHandItem(string eventName, GameObject obj)
 		{
 			ItemAttributes att = obj.GetComponent<ItemAttributes>();
 			EquipmentPool.AddGameObject(gameObject.name, obj);
+			obj.BroadcastMessage("OnAddToInventory",eventName, SendMessageOptions.DontRequireReceiver);
 			Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
 			if (eventName == "leftHand") {
 				syncEquipSprites[(int)enumA] = att.NetworkInHandRefLeft();
 			} else {
 				syncEquipSprites[(int)enumA] = att.NetworkInHandRefRight();
 			}
+		}
+
+		//Clear any sprite slot with -1 via the eventName (server)
+		public void ClearItemSprite(string eventName){
+			Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
+			syncEquipSprites[(int)enumA] = -1;
 		}
 
 		private void SetItem(string eventName, GameObject prefab)
@@ -148,6 +155,8 @@ namespace Equipment
 			}
 		
 		}
+
+
 			
 	}
 }

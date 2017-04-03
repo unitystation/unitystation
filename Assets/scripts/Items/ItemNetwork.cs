@@ -14,10 +14,6 @@ namespace Items
 		private bool synced = false;
 		private EditModeControl snapControl;
 
-		public void OnAddToInventory(string slotName)
-		{
-		}
-
 		void Start()
 		{
 			snapControl = GetComponent<EditModeControl>();

@@ -111,6 +111,11 @@ namespace PlayGroup
 
 		void SetSprite(){
 
+			if (reference == -1) {
+				UpdateSprite();
+				return;
+			}
+
 			if (spriteType == SpriteType.Other)
 			{
 				reference = Reference;

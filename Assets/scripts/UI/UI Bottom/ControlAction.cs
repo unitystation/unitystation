@@ -37,10 +37,8 @@ namespace UI {
             SoundManager.Play("Click01");
             Debug.Log("Drop Button");
             GameObject item = UIManager.Hands.CurrentSlot.Clear();
-            item.transform.position = PlayerManager.LocalPlayer.transform.position;
-            item.transform.parent = null;
+			PlayerManager.LocalPlayerScript.playerUI.CmdDropItem(UIManager.Hands.CurrentSlot.eventName);
 			item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
-
         }
 
         public void Throw() {

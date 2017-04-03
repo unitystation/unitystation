@@ -8,15 +8,15 @@ public class TableTrigger: MonoBehaviour {
 
     void OnMouseDown() {
         if(PlayerManager.PlayerInReach(transform)) {
-            GameObject item = UIManager.Hands.CurrentSlot.Clear();
+			
+			GameObject item = UIManager.Hands.CurrentSlot.Clear();
             if(item != null) {
                 var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 targetPosition.z = -0.2f;
-                item.transform.position = targetPosition;
-                item.transform.parent = transform;
+				PlayerManager.LocalPlayerScript.playerUI.CmdPlaceItem(UIManager.Hands.CurrentSlot.eventName, targetPosition, gameObject);
 
-                BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
-
+                item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
+//
             }
         }
     }

@@ -24,13 +24,17 @@ public class ObjectPool : MonoBehaviour {
 			} else {
 				currentObjects.Add(id, att);
 			}
+
 		}
 
 		//When dropping items etc, remove them from the player equipment pool and place in scene
-		public void RemoveGameObject(GameObject gObj){
+		public void DropGameObject(GameObject gObj, Vector3 pos){
 			NetworkIdentity id = gObj.GetComponent<NetworkIdentity>();
 			if (currentObjects.ContainsKey(id)) {
+				currentObjects[id].gameObject.transform.parent = null;
+				currentObjects[id].gameObject.transform.position = pos;
 				currentObjects.Remove(id);
+
 			}
 		}
 }

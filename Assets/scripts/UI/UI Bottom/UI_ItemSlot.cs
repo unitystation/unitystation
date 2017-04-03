@@ -36,7 +36,6 @@ namespace UI {
             Item = item;
             item.transform.position = transform.position;
 			ItemNetwork itemNetwork = item.GetComponent<ItemNetwork>();
-			itemNetwork.OnAddToInventory(eventName);
            
 //            if(eventName.Length > 0)
 //                EventManager.UI.TriggerEvent(eventName, item);
@@ -59,8 +58,8 @@ namespace UI {
             var item = Item;
             Item = null;
 
-            if(eventName.Length > 0 && item != null)
-                EventManager.UI.TriggerEvent(eventName, null);
+//            if(eventName.Length > 0 && item != null)
+//                EventManager.UI.TriggerEvent(eventName, null);
 
             image.sprite = null;
             image.enabled = false;
