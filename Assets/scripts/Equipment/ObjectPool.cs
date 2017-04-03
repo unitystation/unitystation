@@ -33,6 +33,8 @@ public class ObjectPool : MonoBehaviour {
 			if (currentObjects.ContainsKey(id)) {
 				currentObjects[id].gameObject.transform.parent = null;
 				currentObjects[id].gameObject.transform.position = pos;
+				ItemNetwork itemNetwork = gObj.GetComponent<ItemNetwork>();
+				itemNetwork.SnapToGrid();
 				currentObjects.Remove(id);
 
 			}

@@ -19,12 +19,16 @@ namespace Items
 			snapControl = GetComponent<EditModeControl>();
 		}
 
-		//receive broadcast message when item is dropped from hand
-		public void OnRemoveFromInventory()
-		{
+		public void SnapToGrid(){
 			if (snapControl != null) {
 				snapControl.Snap();
 			}
+		}
+		//receive broadcast message when item is dropped from hand (client side)
+		public void OnRemoveFromInventory()
+		{
+
+
 		}
 
 	}

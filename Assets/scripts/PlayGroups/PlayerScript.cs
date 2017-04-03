@@ -13,6 +13,7 @@ namespace PlayGroup
 		public PlayerUI playerUI { get; set; }
 		[SyncVar(hook = "OnNameChange")]
 		public string playerName = " ";
+		private bool pickUpCoolDown = false;
 
 		public override void OnStartClient()
 		{
@@ -90,7 +91,16 @@ namespace PlayGroup
 
 		public bool IsInReach(Transform transform)
 		{
+			if (pickUpCoolDown)
+				return false;
+			StartCoroutine(PickUpCooldown());
 			return DistanceTo(transform.position) <= interactionDistance;
+		}
+
+		IEnumerator PickUpCooldown(){
+			pickUpCoolDown = true;
+			yield return new WaitForSeconds(0.1f);
+			pickUpCoolDown = false;
 		}
 	
 	}
