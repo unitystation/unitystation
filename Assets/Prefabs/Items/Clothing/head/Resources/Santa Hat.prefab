@@ -24,9 +24,9 @@ GameObject:
   - component: {fileID: 114644386463662998}
   - component: {fileID: 114695971460188018}
   - component: {fileID: 114595349729536794}
-  - component: {fileID: 61147049756879750}
   - component: {fileID: 114686011899080596}
   - component: {fileID: 114495096838928724}
+  - component: {fileID: 60316786299075108}
   m_Layer: 10
   m_Name: Santa Hat
   m_TagString: Untagged
@@ -97,8 +97,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61147049756879750
-BoxCollider2D:
+--- !u!60 &60316786299075108
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -106,11 +106,17 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Points:
+    m_Paths:
+    - - {x: 0.056884766, y: 0.25976562}
+      - {x: 0.19934082, y: -0.009887695}
+      - {x: 0.1550293, y: -0.11437988}
+      - {x: 0.026733398, y: -0.23986816}
+      - {x: -0.23474121, y: -0.17114258}
+      - {x: -0.1538086, y: 0.1381836}
 --- !u!114 &114495096838928724
 MonoBehaviour:
   m_ObjectHideFlags: 1

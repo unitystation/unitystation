@@ -1,128 +1,108 @@
 ﻿using Network;
 using PlayGroup;
+using System.Collections;
+using System.Collections.Generic;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Cupboards {
-
-    public class ClosetControl: NetworkBehaviour {
-
+namespace Cupboards
+{
+    public class ClosetControl: NetworkBehaviour
+    {
         public Sprite doorOpened;
         private Sprite doorClosed;
 
-        private SpriteRenderer spriteRenderer;
+        public SpriteRenderer spriteRenderer;
 
-        private LockLightController lockLight;
-        private GameObject items;
+        public LockLightController lockLight;
+        public GameObject items;
 
         public bool IsClosed { get; private set; }
 
-        void Start() {
-            spriteRenderer = GetComponent<SpriteRenderer>();
+        void Start()
+        {
             doorClosed = spriteRenderer.sprite;
-            lockLight = transform.GetComponentInChildren<LockLightController>();
-            items = transform.FindChild("Items").gameObject;
             IsClosed = true;
         }
+        //Called by server only
+        public void ServerToggleCupboard(){
+            RpcToggleCupboard();
+        }
 
-        [Command]
-		public void CmdOpen(){
-			_Open();
-			RpcOpen();
-		}
-        
-		[ClientRpc]
-		void RpcOpen(){
-			_Open();
-		}
+        [ClientRpc]
+        void RpcToggleCupboard()
+        {
+            if (IsClosed){
+                if (lockLight != null){
+                    if (lockLight.IsLocked()){
+                        lockLight.Unlock();
+                        return;
+                    }
+                    Open();
+                }
+            }
+            else{
+                Close();
+            }
+        }
 
-		public void _Open() {
-            if(IsClosed) {
-                IsClosed = false;
+        void Close()
+        {
+            IsClosed = true;
+            SoundManager.Play("OpenClose");
+            spriteRenderer.sprite = doorClosed;
+            if (lockLight != null)
+            {
+                lockLight.Show();
+            }
+            HideItems();
+        }
 
-                SoundManager.Play("OpenClose");
+        void Open()
+        {
+            IsClosed = false;
+            SoundManager.Play("OpenClose");
+            spriteRenderer.sprite = doorOpened;
+            if (lockLight != null)
+            {
+                lockLight.Hide();
+            }
+            ShowItems();
+        }
 
-                spriteRenderer.sprite = doorOpened;
-                if(lockLight != null) {
-                    lockLight.Hide();
+        void OnMouseDown()
+        {
+            if (PlayerManager.PlayerInReach(transform))
+            {
+                if (IsClosed)
+                {
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
+                    return;
                 }
 
-                ShowItems();
-            }
-        }
+                GameObject item = UIManager.Hands.CurrentSlot.Clear();
+                if (item != null)
+                {
+                    var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    targetPosition.z = -0.2f;
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItemCupB(UIManager.Hands.CurrentSlot.eventName, targetPosition, gameObject);
 
-        [Command]
-		public void CmdClose(){
-			_Close();
-			RpcClose();
-		} 
-
-		[ClientRpc]
-		void RpcClose(){
-			_Close();
-		}
-
-		public void _Close() {
-            if(!IsClosed) {
-                IsClosed = true;
-
-                SoundManager.Play("OpenClose");
-
-                spriteRenderer.sprite = doorClosed;
-                if(lockLight != null) {
-                    lockLight.Show();
+                    item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
+                    //
+                } else {
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
                 }
-
-                HideItems();
             }
         }
 
-        [Command]
-        public void CmdLockLight() {
-            if(lockLight != null) {
-                lockLight.Unlock();
-            }
-			RpcLockLight();
-        }
-
-		[ClientRpc]
-		void RpcLockLight(){
-			if(lockLight != null) {
-				lockLight.Unlock();
-			}
-		}
-			
-		[Command]
-		void CmdDropItem(NetworkInstanceId ID){
-			RpcDropItem(ID);
-		}
-
-        //Add item to cupboard
-		[ClientRpc]
-		public void RpcDropItem(NetworkInstanceId itemID) {
-
-            //Tell the item that it is no longer in players inventory
-            BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
-
-        }
-
-        public bool TryDropItem() {
-            GameObject item = UIManager.Hands.CurrentSlot.Clear();
-
-            if(item != null) {
-				NetworkInstanceId itemID = item.GetComponent<NetworkInstanceId>();
-				CmdDropItem(itemID);
-                return true;
-            }
-            return false;
-        }
-
-        private void ShowItems() {
+        private void ShowItems()
+        {
             items.SetActive(true);
         }
 
-        private void HideItems() {
+        private void HideItems()
+        {
             items.SetActive(false);
         }
     }

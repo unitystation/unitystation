@@ -13,7 +13,7 @@ public class TableTrigger: MonoBehaviour {
             if(item != null) {
                 var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 targetPosition.z = -0.2f;
-				PlayerManager.LocalPlayerScript.playerUI.CmdPlaceItem(UIManager.Hands.CurrentSlot.eventName, targetPosition, gameObject);
+                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItem(UIManager.Hands.CurrentSlot.eventName, targetPosition, gameObject);
 
                 item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 //

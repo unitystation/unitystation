@@ -40,9 +40,9 @@ GameObject:
   - component: {fileID: 114773228456733300}
   - component: {fileID: 114462269573225312}
   - component: {fileID: 114617343616211942}
-  - component: {fileID: 61721622408793060}
   - component: {fileID: 114631120195421010}
   - component: {fileID: 114507652678132282}
+  - component: {fileID: 60659504290664062}
   m_Layer: 10
   m_Name: ReinDeer Hat
   m_TagString: Untagged
@@ -97,8 +97,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61721622408793060
-BoxCollider2D:
+--- !u!60 &60659504290664062
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -106,11 +106,19 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Points:
+    m_Paths:
+    - - {x: -0.23486328, y: 0.3095703}
+      - {x: -0.0076904297, y: 0.10192871}
+      - {x: 0.23291016, y: 0.3133545}
+      - {x: 0.38720703, y: 0.30529785}
+      - {x: 0.17651367, y: 0.0014648438}
+      - {x: -0.0043945312, y: -0.2508545}
+      - {x: -0.14367676, y: -0.01184082}
+      - {x: -0.3701172, y: 0.3203125}
 --- !u!114 &114462269573225312
 MonoBehaviour:
   m_ObjectHideFlags: 1

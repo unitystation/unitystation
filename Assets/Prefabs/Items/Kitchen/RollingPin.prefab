@@ -40,10 +40,10 @@ GameObject:
   - component: {fileID: 114000011671410446}
   - component: {fileID: 114000011246784540}
   - component: {fileID: 114177155506592790}
-  - component: {fileID: 61224349822444978}
   - component: {fileID: 114586782526632214}
   - component: {fileID: 114421296799896422}
   - component: {fileID: 114509580795922320}
+  - component: {fileID: 60269009342317446}
   m_Layer: 10
   m_Name: RollingPin
   m_TagString: Untagged
@@ -98,8 +98,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61224349822444978
-BoxCollider2D:
+--- !u!60 &60269009342317446
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -110,8 +110,13 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Points:
+    m_Paths:
+    - - {x: 0.19128418, y: 0.34631348}
+      - {x: 0.29736328, y: 0.19726562}
+      - {x: -0.20935059, y: -0.29614258}
+      - {x: -0.35803223, y: -0.18981934}
+      - {x: -0.07055664, y: 0.16223145}
 --- !u!114 &114000011246784540
 MonoBehaviour:
   m_ObjectHideFlags: 1

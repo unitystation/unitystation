@@ -9,7 +9,7 @@ namespace Items {
 
         public override void Interact() {
             // try to add the item to hand
-			PlayerManager.LocalPlayerScript.playerUI.TryToPickUpObject(gameObject);
+            PlayerManager.LocalPlayerScript.playerNetworkActions.TryToPickUpObject(gameObject);
         }
     }
 }

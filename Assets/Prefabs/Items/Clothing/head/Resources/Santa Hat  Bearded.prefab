@@ -24,9 +24,9 @@ GameObject:
   - component: {fileID: 114693224517426016}
   - component: {fileID: 114415413742925384}
   - component: {fileID: 114258485137213534}
-  - component: {fileID: 61354207796636808}
   - component: {fileID: 114539896361733604}
   - component: {fileID: 114214255488091290}
+  - component: {fileID: 60676909697196680}
   m_Layer: 10
   m_Name: Santa Hat  Bearded
   m_TagString: Untagged
@@ -97,8 +97,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61354207796636808
-BoxCollider2D:
+--- !u!60 &60676909697196680
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -106,11 +106,18 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.430542}
+      - {x: 0.1538086, y: 0.2861328}
+      - {x: 0.109375, y: 0.11340332}
+      - {x: 0.07885742, y: -0.17175293}
+      - {x: -0.15002441, y: -0.2401123}
+      - {x: -0.18908691, y: -0.1484375}
+      - {x: -0.23364258, y: 0.22924805}
 --- !u!114 &114214255488091290
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -34,7 +34,7 @@ namespace Equipment
 
 		public SyncListInt syncEquipSprites = new SyncListInt();
 		public ClothingItem[] clothingSlots;
-		private PlayerUI playerUI;
+        private PlayerNetworkActions playerNetworkActions;
 		public NetworkIdentity networkIdentity{ get; set; }
 
 		private bool isInit = false;
@@ -42,7 +42,7 @@ namespace Equipment
 		void Start()
 		{
 			networkIdentity = GetComponent<NetworkIdentity>();
-			playerUI = gameObject.GetComponent<PlayerUI>();
+            playerNetworkActions = gameObject.GetComponent<PlayerNetworkActions>();
 
 		}
 
@@ -147,7 +147,7 @@ namespace Equipment
 			ItemAttributes att = item.GetComponent<ItemAttributes>();
 			EquipmentPool.AddGameObject(gameObject.name, item);
 
-			playerUI.TrySetItem(eventName, item);
+			playerNetworkActions.TrySetItem(eventName, item);
 			//Sync all clothing items across network using SyncListInt syncEquipSprites
 			if (att.spriteType == UI.SpriteType.Clothing) {
 				Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);

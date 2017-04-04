@@ -40,9 +40,9 @@ GameObject:
   - component: {fileID: 114158584351897270}
   - component: {fileID: 114203976870957382}
   - component: {fileID: 114349881776910114}
-  - component: {fileID: 61856625740858588}
   - component: {fileID: 114240281152887656}
   - component: {fileID: 114537477689151432}
+  - component: {fileID: 60866694516353104}
   m_Layer: 10
   m_Name: Meat
   m_TagString: Untagged
@@ -97,8 +97,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61856625740858588
-BoxCollider2D:
+--- !u!60 &60866694516353104
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -106,11 +106,18 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Points:
+    m_Paths:
+    - - {x: -0.09106445, y: 0.08898926}
+      - {x: 0.07409668, y: 0.024291992}
+      - {x: 0.2598877, y: 0.080322266}
+      - {x: 0.17773438, y: -0.080200195}
+      - {x: 0.060546875, y: -0.23876953}
+      - {x: -0.24609375, y: -0.13708496}
+      - {x: -0.22216797, y: 0.03564453}
 --- !u!114 &114158584351897270
 MonoBehaviour:
   m_ObjectHideFlags: 1
