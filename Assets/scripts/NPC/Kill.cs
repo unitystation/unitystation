@@ -1,12 +1,13 @@
 ﻿using PlayGroup;
-using SS.NPC;
+using NPC;
 using UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using Network;
 
-public class Kill: Photon.MonoBehaviour {
+public class Kill: NetworkBehaviour{
 
     public Sprite deadSprite;
     public GameObject meatPrefab;
@@ -29,10 +30,11 @@ public class Kill: Photon.MonoBehaviour {
         if(UIManager.Hands.CurrentSlot.Item != null && PlayerManager.PlayerInReach(transform)) {
             if(UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife) {
                 if(!dead) {
-                    photonView.RPC("Die", PhotonTargets.All, null); //Send death to all clients for pete
+                    //Send death to all clients for pete
                 } else if(!sliced) {
-                    photonView.RPC("Gib", PhotonTargets.MasterClient, null); //Spawn the new meat
-                    photonView.RPC("RemoveFromNetwork", PhotonTargets.MasterClient, null); // Remove pete from the network
+                   //Spawn the new meat
+
+                   // Remove pete from the network
 
                     sliced = true;
                 }

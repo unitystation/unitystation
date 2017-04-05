@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
-
-namespace SS.NPC {
+namespace NPC {
     public class NPC_Clown: MonoBehaviour {
 
         private SpriteRenderer spriteRenderer;

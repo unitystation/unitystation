@@ -39,12 +39,11 @@ GameObject:
   - component: {fileID: 6851}
   - component: {fileID: 6852}
   - component: {fileID: 8224}
-  - component: {fileID: 5327}
   - component: {fileID: 8476}
   - component: {fileID: 8477}
   - component: {fileID: 8479}
-  - component: {fileID: 8480}
   - component: {fileID: 2663}
+  - component: {fileID: 2664}
   m_Layer: 8
   m_Name: NPC_Pete
   m_TagString: Untagged
@@ -84,6 +83,26 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &2664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!1 &2698
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,26 +410,6 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
---- !u!50 &5327
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2662}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 3
-  m_LinearDrag: 100
-  m_AngularDrag: 100
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!61 &6851
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -569,6 +568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68a23812568e479c92b5463775325ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 6
 --- !u!114 &8477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -596,25 +596,6 @@ MonoBehaviour:
   corpsePrefab: {fileID: 1843853587201310, guid: 0f02ea038462b9a42afac8eb3d13bfcf,
     type: 2}
   amountSpawn: 1
---- !u!114 &8480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53cb5ecccd0d4fe5ac02ac15e80e8654, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isMoving: 0
-  lerpA: 0
-  isSpaced: 0
-  triedToMoveInSpace: 0
-  keyDown: 0
-  lerpSpeed: 10
-  clampPos: 0
-  moveSpeed: 0
 --- !u!114 &9623
 MonoBehaviour:
   m_ObjectHideFlags: 0
