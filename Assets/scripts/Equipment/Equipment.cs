@@ -123,14 +123,19 @@ namespace Equipment
 			ItemAttributes att = obj.GetComponent<ItemAttributes>();
 			EquipmentPool.AddGameObject(gameObject.name, obj);
 			obj.BroadcastMessage("OnAddToInventory",eventName, SendMessageOptions.DontRequireReceiver);
-			Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
-			if (eventName == "leftHand") {
-				syncEquipSprites[(int)enumA] = att.NetworkInHandRefLeft();
-			} else {
-				syncEquipSprites[(int)enumA] = att.NetworkInHandRefRight();
-			}
+            SetHandItemSprite(eventName, att);
 		}
 
+        //To set the actual sprite on the player obj
+        public void SetHandItemSprite(string eventName, ItemAttributes att){
+            Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
+            if (eventName == "leftHand") {
+                syncEquipSprites[(int)enumA] = att.NetworkInHandRefLeft();
+            } else {
+                syncEquipSprites[(int)enumA] = att.NetworkInHandRefRight();
+            }
+        }
+          
 		//Clear any sprite slot with -1 via the eventName (server)
 		public void ClearItemSprite(string eventName){
 			Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
@@ -153,10 +158,6 @@ namespace Equipment
 				Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
 				syncEquipSprites[(int)enumA] = att.clothingReference;
 			}
-		
-		}
-
-
-			
+		}		
 	}
 }

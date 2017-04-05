@@ -65,50 +65,7 @@ namespace PlayGroup
         {
             Reference = -1;
         }
-
-        public void UpdateItem(GameObject item)
-        {
-			Debug.Log("ClothingItem.cs UpdateItem(): Under dev for Unet");
-			return;
-
-//            var attributes = item.GetComponent<ItemAttributes>();
-//
-//            if (spriteType == SpriteType.Other)
-//            {
-//                reference = attributes.clothingReference;
-//            }
-//            else
-//			{
-//                switch (attributes.spriteType)
-//                {
-//                    case UI.SpriteType.Items:
-//                        spriteSheetName = "items_";
-//                        break;
-//                    case UI.SpriteType.Clothing:
-//                        spriteSheetName = "clothing_";
-//                        break;
-//                    case UI.SpriteType.Guns:
-//                        spriteSheetName = "guns_";
-//                        break;
-//                }
-//
-//                if (spriteType == SpriteType.RightHand)
-//                {
-//                    spriteSheetName += "righthand";
-//                    reference = attributes.inHandReferenceRight;
-//                }
-//                else
-//                {
-//                    spriteSheetName += "lefthand";
-//                    reference = attributes.inHandReferenceLeft;
-//                }
-//
-//            }
-//
-//            sprites = SpriteManager.PlayerSprites[spriteSheetName];
-//            UpdateSprite();
-        }
-
+          
 		void SetSprite(){
 
 			if (reference == -1) {

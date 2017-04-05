@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Events;
+using PlayGroup;
 using UnityEngine.Events;
 using Items;
 
@@ -36,7 +37,7 @@ namespace UI {
             Item = item;
             item.transform.position = transform.position;
 			ItemNetwork itemNetwork = item.GetComponent<ItemNetwork>();
-           
+            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetUISlot(eventName, item);
 //            if(eventName.Length > 0)
 //                EventManager.UI.TriggerEvent(eventName, item);
         }
@@ -60,7 +61,20 @@ namespace UI {
 
 //            if(eventName.Length > 0 && item != null)
 //                EventManager.UI.TriggerEvent(eventName, null);
+            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdClearUISlot(eventName);
+            image.sprite = null;
+            image.enabled = false;
 
+            return item;
+        }
+
+        /// <summary>
+        /// for use with specific item placement (tables/cupboards etc);
+        /// </summary>
+        /// <returns></returns>
+        public GameObject PlaceItemInScene() {
+            var item = Item;
+            Item = null;
             image.sprite = null;
             image.enabled = false;
 

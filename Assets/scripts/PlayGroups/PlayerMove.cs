@@ -5,7 +5,6 @@ using UnityEngine.Networking;
 
 namespace PlayGroup
 {
-
 	public class PlayerMove: NetworkBehaviour
 	{
 		[Header("Options")]
@@ -38,7 +37,7 @@ namespace PlayGroup
 		[Command(channel = 1)]
 		void CmdMove(Vector3 inputDirection)
 		{
-			transform.position = Vector2.MoveTowards(transform.position, targetPosition, Time.deltaTime * speed);
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
 			if (targetPosition == transform.position) {
 				currentPosition = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
@@ -79,7 +78,6 @@ namespace PlayGroup
 					return true;
 				}
 			}
-
 			return false;
 		}
 

@@ -81,7 +81,7 @@ namespace Cupboards
                     return;
                 }
 
-                GameObject item = UIManager.Hands.CurrentSlot.Clear();
+                GameObject item = UIManager.Hands.CurrentSlot.PlaceItemInScene();
                 if (item != null)
                 {
                     var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

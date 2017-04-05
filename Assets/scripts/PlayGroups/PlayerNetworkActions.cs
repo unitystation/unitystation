@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -77,10 +78,15 @@ public class PlayerNetworkActions : NetworkBehaviour
     {			
         if (ServerCache.ContainsKey(eventName))
         {
-            if (ServerCache[eventName] == null)
+            if (ServerCache[eventName] == null || ServerCache[eventName] == obj)
             {
+                EquipmentPool.AddGameObject(gameObject.name, obj);
                 ServerCache[eventName] = obj;
                 equipment.SetHandItem(eventName, obj);
+            }
+            else
+            {
+                Debug.Log("ServerCache slot is full");   
             }
         }
     }
@@ -108,6 +114,10 @@ public class PlayerNetworkActions : NetworkBehaviour
                 RpcAdjustItemParent(ServerCache[eventName], null);
                 ServerCache[eventName] = null;
                 equipment.ClearItemSprite(eventName);
+            }
+            else
+            {
+                Debug.Log("Object not found in ServerCache");
             }
         }
     }
@@ -147,29 +157,75 @@ public class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
+    [Command]
+    public void CmdToggleCupboard(GameObject cupbObj)
+    {
+        ClosetControl closetControl = cupbObj.GetComponent<ClosetControl>();
+        closetControl.ServerToggleCupboard();
+    }
+
+    [Command]
+    public void CmdClearUISlot(string eventName)
+    {
+        ServerCache[eventName] = null;
+
+        if (eventName == "id" || eventName == "storage01" || eventName == "storage02" || eventName == "suitStorage")
+        {
+        }
+        else
+        {
+            equipment.ClearItemSprite(eventName);
+        }
+    }
+     
+    [Command]
+    public void CmdSetUISlot(string eventName, GameObject obj)
+    {
+        ServerCache[eventName] = obj;
+        ItemAttributes att = obj.GetComponent<ItemAttributes>();
+        if (eventName == "leftHand" || eventName == "rightHand")
+        {
+            equipment.SetHandItemSprite(eventName, att);
+        }
+        else
+        {
+            if (eventName == "id" || eventName == "storage01" || eventName == "storage02" || eventName == "suitStorage")
+            {
+            }
+            else
+            {
+                if (att.spriteType == UI.SpriteType.Clothing) {
+                    Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
+                    equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
+                }
+            }
+        }
+    }
+
     [ClientRpc]
     void RpcAdjustItemParent(GameObject item, GameObject parent)
     {
-        if (parent != null){
+        if (parent != null)
+        {
             item.transform.parent = parent.transform;
-        } else {
-            item.transform.parent = null;
         }
-    }
-    [ClientRpc]
-    void RpcAdjustItemParentCupB(GameObject item, GameObject parent)
-    {
-        if (parent != null){
-            ClosetControl closetCtrl = parent.GetComponent<ClosetControl>();
-            item.transform.parent = closetCtrl.items.transform;
-        } else {
+        else
+        {
             item.transform.parent = null;
         }
     }
 
-    [Command]
-    public void CmdToggleCupboard(GameObject cupbObj){
-        ClosetControl closetControl = cupbObj.GetComponent<ClosetControl>();
-        closetControl.ServerToggleCupboard();
+    [ClientRpc]
+    void RpcAdjustItemParentCupB(GameObject item, GameObject parent)
+    {
+        if (parent != null)
+        {
+            ClosetControl closetCtrl = parent.GetComponent<ClosetControl>();
+            item.transform.parent = closetCtrl.items.transform;
+        }
+        else
+        {
+            item.transform.parent = null;
+        }
     }
 }

@@ -741,7 +741,7 @@ Prefab:
     - target: {fileID: 224617939017692804, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 18.900002
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1091980934480710, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
       propertyPath: m_IsActive
@@ -2802,75 +2802,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4000013796297698, guid: 5579cac277c74c049c9d44b246c8e884,
     type: 2}
   m_PrefabInternal: {fileID: 1401843265}
---- !u!1 &350793300 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000013052373872, guid: a5a41da50b7c4d0db05bff38a6996260,
-    type: 2}
-  m_PrefabInternal: {fileID: 486427520}
---- !u!114 &350793301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 350793300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55e27ef87b09cc84988939559a2f51ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doorOpened: {fileID: 0}
---- !u!114 &350793302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 350793300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
---- !u!114 &350793303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 350793300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 165
-    i1: 164
-    i2: 29
-    i3: 165
-    i4: 11
-    i5: 124
-    i6: 77
-    i7: 13
-    i8: 176
-    i9: 91
-    i10: 255
-    i11: 56
-    i12: 166
-    i13: 153
-    i14: 98
-    i15: 96
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!1001 &357242138
 Prefab:
   m_ObjectHideFlags: 0
@@ -3898,16 +3829,12 @@ Prefab:
       propertyPath: m_Name
       value: KitchenCabinet
       objectReference: {fileID: 0}
-    - target: {fileID: 114481457455500800, guid: a5a41da50b7c4d0db05bff38a6996260,
+    - target: {fileID: 61934104644865458, guid: a5a41da50b7c4d0db05bff38a6996260,
         type: 2}
-      propertyPath: m_ServerOnly
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114648600007476848, guid: a5a41da50b7c4d0db05bff38a6996260, type: 2}
-    - {fileID: 114030442607616000, guid: a5a41da50b7c4d0db05bff38a6996260, type: 2}
-    - {fileID: 114144584083291798, guid: a5a41da50b7c4d0db05bff38a6996260, type: 2}
-    - {fileID: 114481457455500800, guid: a5a41da50b7c4d0db05bff38a6996260, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a5a41da50b7c4d0db05bff38a6996260, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &487338567
@@ -13850,6 +13777,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b846df944211444ca700274e738447d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_LastSendTime: 0
+  m_SyncVarGuard: 0
+  m_MyView: {fileID: 0}
+  doorController: {fileID: 0}
 --- !u!114 &1793230411
 MonoBehaviour:
   m_ObjectHideFlags: 0

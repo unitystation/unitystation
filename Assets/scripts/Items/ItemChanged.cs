@@ -34,7 +34,7 @@ namespace PlayGroup
 		void ChangeItem(GameObject item)
 		{
 			if (item) {
-				clothingItem.UpdateItem(item);
+			
 			} else {
 				clothingItem.Clear();
 			}
