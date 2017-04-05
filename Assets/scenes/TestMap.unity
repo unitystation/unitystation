@@ -691,6 +691,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114548587638673570, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.size
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 4244501537706558, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -785,7 +790,20 @@ Prefab:
       propertyPath: m_CharacterLimit
       value: 200
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114548587638673570, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[14]
+      value: 
+      objectReference: {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f,
+        type: 2}
+    - target: {fileID: 114548587638673570, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[15]
+      value: 
+      objectReference: {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 114711628847385628, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &26337993 stripped

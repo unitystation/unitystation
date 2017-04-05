@@ -202,6 +202,13 @@ public class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
+    [Command]
+    public void CmdStartMicrowave(GameObject microwave, string mealName){
+        Microwave m = microwave.GetComponent<Microwave>();
+        m.ServerSetOutputMeal(mealName);
+        m.RpcStartCooking();
+    }
+
     [ClientRpc]
     void RpcAdjustItemParent(GameObject item, GameObject parent)
     {

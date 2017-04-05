@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+using PlayGroup;
 
 namespace InputControl
 {
@@ -31,10 +32,8 @@ namespace InputControl
 				var meal = CraftingManager.Meals.FindRecipe(new List<Ingredient>() { ingredient });
 
 				if (meal) {
-					UIManager.Hands.CurrentSlot.Clear();
-					NetworkIdentity itemView = item.GetComponent<NetworkIdentity>();
-					microwave.CmdStartCooking(meal.name);
-                    
+                    UIManager.Hands.CurrentSlot.PlaceItemInScene();
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStartMicrowave(gameObject, meal.name);
 				}
 			}
 		}

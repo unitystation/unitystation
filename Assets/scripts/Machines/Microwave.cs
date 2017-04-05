@@ -21,7 +21,7 @@ public class Microwave : NetworkBehaviour
 
 	private float cookingTime = 0;
 	private GameObject mealPrefab = null;
-	private string mealName;
+	private string meal;
 
 	private NetworkIdentity networkIdentity;
 
@@ -44,19 +44,16 @@ public class Microwave : NetworkBehaviour
 		}
 	}
 
-	[Command]
-	public void CmdStartCooking(string meal)
-	{
-		RpcStartCooking(meal);
-	}
+    public void ServerSetOutputMeal(string mealName){
+        meal = mealName;
+    }
 
 	[ClientRpc]
-	void RpcStartCooking(string meal)
+	public void RpcStartCooking()
 	{
 		Cooking = true;
 		cookingTime = 0;
 		spriteRenderer.sprite = onSprite;
-		mealName = meal;
 	}
 
 	private void StopCooking()
@@ -65,10 +62,10 @@ public class Microwave : NetworkBehaviour
 		spriteRenderer.sprite = offSprite;
 		audioSource.Play();
 		if (isServer) {
-			Debug.Log("FIXME: Needs the actual prefab object instead of a string");
-//			NetworkItemDB.Instance.CmdInstantiateItem (mealName, transform.position, Quaternion.identity);
-
+            GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal(meal);
+            GameObject newMeal = Instantiate(mealPrefab, transform.position, Quaternion.identity) as GameObject;
+            NetworkServer.Spawn(newMeal);
 		}
-		mealName = null;
+		meal = null;
 	}
 }
