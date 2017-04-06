@@ -51,7 +51,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4517229325027054}
-  - component: {fileID: 114711628847385628}
   - component: {fileID: 114548587638673570}
   m_Layer: 0
   m_Name: NetworkManager
@@ -3917,14 +3916,14 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114664376746095050}
   m_TextComponent: {fileID: 114495180196071514}
   m_Placeholder: {fileID: 114299560671960294}
-  m_ContentType: 4
+  m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 1
+  m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 3
-  m_CharacterLimit: 12
+  m_CharacterValidation: 0
+  m_CharacterLimit: 200
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -6610,6 +6609,13 @@ MonoBehaviour:
   - {fileID: 1843853587201310, guid: 0f02ea038462b9a42afac8eb3d13bfcf, type: 2}
   - {fileID: 1426788842454498, guid: 7a7587eaf2b5e1c44addf7d2475d86c9, type: 2}
   - {fileID: 1748120534729806, guid: 4c73033e5f8ab734eb2e85e6ae54de73, type: 2}
+  - {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f, type: 2}
+  - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
+  - {fileID: 1963032694454958, guid: 588fc2234d79240308de07dcdfa3d6b8, type: 2}
+  - {fileID: 1000013144118558, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
+  - {fileID: 1000014236108730, guid: 6b98e0a1341c4824a5457ef0e27020f8, type: 2}
+  - {fileID: 1000014202525198, guid: ced6ef1cf7604ad0884ca6e1f172ba99, type: 2}
+  - {fileID: 1907679543779350, guid: 7920a824df456044381e381e90277a5d, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -7586,17 +7592,6 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 06000000
   maxItemSize: 0
---- !u!114 &114711628847385628
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1010245051802008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3549845dcc7d41928a29c19326098c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114712027825894382
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 95000010631349252}
   - component: {fileID: 114000010121375984}
   - component: {fileID: 114748385134728100}
-  - component: {fileID: 114831227325075044}
   - component: {fileID: 114180376035525756}
   m_Layer: 11
   m_Name: AirLockTile
@@ -433,17 +432,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
---- !u!114 &114831227325075044
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011462531918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b846df944211444ca700274e738447d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &212000010235302174
 SpriteRenderer:
   m_ObjectHideFlags: 1

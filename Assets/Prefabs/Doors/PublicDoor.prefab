@@ -71,7 +71,6 @@ GameObject:
   - component: {fileID: 114000012557435128}
   - component: {fileID: 114000012487981754}
   - component: {fileID: 114114746867991184}
-  - component: {fileID: 114759506876049274}
   - component: {fileID: 114752899670656194}
   m_Layer: 0
   m_Name: PublicDoor
@@ -475,17 +474,6 @@ MonoBehaviour:
     i15: 39
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114759506876049274
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013208201100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b846df944211444ca700274e738447d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &212000011125170888
 SpriteRenderer:
   m_ObjectHideFlags: 1

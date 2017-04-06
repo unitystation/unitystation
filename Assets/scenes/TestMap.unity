@@ -487,11 +487,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114548587638673570, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.size
-      value: 21
-      objectReference: {fileID: 0}
     - target: {fileID: 4244501537706558, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -542,94 +537,9 @@ Prefab:
     - target: {fileID: 224617939017692804, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 18.900002
       objectReference: {fileID: 0}
-    - target: {fileID: 1091980934480710, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715965634441318, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1088977826753832, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114075923614492598, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_Text
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114299560671960294, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114075923614492598, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_ContentType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114075923614492598, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_KeyboardType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114075923614492598, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_CharacterValidation
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114075923614492598, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_CharacterLimit
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 114548587638673570, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[14]
-      value: 
-      objectReference: {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f,
-        type: 2}
-    - target: {fileID: 114548587638673570, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[15]
-      value: 
-      objectReference: {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd,
-        type: 2}
-    - target: {fileID: 114548587638673570, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[16]
-      value: 
-      objectReference: {fileID: 1963032694454958, guid: 588fc2234d79240308de07dcdfa3d6b8,
-        type: 2}
-    - target: {fileID: 114548587638673570, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[17]
-      value: 
-      objectReference: {fileID: 1000013144118558, guid: 1325f48af15d4163ab952de2fcb5a184,
-        type: 2}
-    - target: {fileID: 114548587638673570, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[18]
-      value: 
-      objectReference: {fileID: 1000014236108730, guid: 6b98e0a1341c4824a5457ef0e27020f8,
-        type: 2}
-    - target: {fileID: 114548587638673570, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[19]
-      value: 
-      objectReference: {fileID: 1000014202525198, guid: ced6ef1cf7604ad0884ca6e1f172ba99,
-        type: 2}
-    - target: {fileID: 114548587638673570, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[20]
-      value: 
-      objectReference: {fileID: 1907679543779350, guid: 7920a824df456044381e381e90277a5d,
-        type: 2}
-    m_RemovedComponents:
-    - {fileID: 114711628847385628, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &26337993 stripped
@@ -3673,8 +3583,7 @@ Prefab:
       propertyPath: m_Name
       value: KitchenCabinet
       objectReference: {fileID: 0}
-    - target: {fileID: 61934104644865458, guid: a5a41da50b7c4d0db05bff38a6996260,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}

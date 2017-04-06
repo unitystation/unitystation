@@ -22,6 +22,9 @@ GameObject:
   - component: {fileID: 61530228178202146}
   - component: {fileID: 114721242371358992}
   - component: {fileID: 114622759828009304}
+  - component: {fileID: 114563119404815312}
+  - component: {fileID: 114310759356319872}
+  - component: {fileID: 114716065983961170}
   m_Layer: 11
   m_Name: Closet
   m_TagString: Untagged
@@ -68,11 +71,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4734692958766924}
-  - component: {fileID: 61820902494921658}
   - component: {fileID: 212288130219440224}
-  - component: {fileID: 114005810841140566}
-  - component: {fileID: 114910923603933074}
-  - component: {fileID: 114451305339028386}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -100,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000522475151462}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1759, y: 1140, z: -0.1}
+  m_LocalPosition: {x: 1835, y: 1142, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4734692958766924}
@@ -141,46 +140,35 @@ BoxCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000522475151462}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: -0.06, y: -0.02}
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.87}
---- !u!61 &61820902494921658
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1304673295970254}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: 0.015991211, y: 0.008911133}
-  serializedVersion: 2
-  m_Size: {x: 0.54004276, y: 0.83951825}
---- !u!114 &114005810841140566
+--- !u!114 &114310759356319872
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1304673295970254}
+  m_GameObject: {fileID: 1000522475151462}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55e27ef87b09cc84988939559a2f51ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
---- !u!114 &114451305339028386
+  spriteRenderer: {fileID: 212288130219440224}
+  lockLight: {fileID: 0}
+  items: {fileID: 1135189861715420}
+--- !u!114 &114563119404815312
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1304673295970254}
+  m_GameObject: {fileID: 1000522475151462}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
@@ -220,6 +208,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 2
+--- !u!114 &114716065983961170
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000522475151462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114721242371358992
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -234,17 +242,6 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
---- !u!114 &114910923603933074
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1304673295970254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b38c80699b88cd44a864fd4cb169ec4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &212288130219440224
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -22,6 +22,9 @@ GameObject:
   - component: {fileID: 61073988275347620}
   - component: {fileID: 114183782498336476}
   - component: {fileID: 114466723828234568}
+  - component: {fileID: 114473011698291292}
+  - component: {fileID: 114325905384881024}
+  - component: {fileID: 114264648150222278}
   m_Layer: 11
   m_Name: OxygenCloset1
   m_TagString: Untagged
@@ -37,11 +40,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4206511474878270}
-  - component: {fileID: 61233965815706004}
   - component: {fileID: 212309241971002690}
-  - component: {fileID: 114160468179743768}
-  - component: {fileID: 114718393382383736}
-  - component: {fileID: 114283638975214904}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -127,7 +126,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1146263997293372}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1851, y: 1133, z: -0.1}
+  m_LocalPosition: {x: 1844, y: 1139, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4206511474878270}
@@ -141,40 +140,14 @@ BoxCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1146263997293372}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: -0.06, y: -0.02}
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.87}
---- !u!61 &61233965815706004
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1324576255968780}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: 0.015991211, y: 0.008911133}
-  serializedVersion: 2
-  m_Size: {x: 0.54004276, y: 0.83951825}
---- !u!114 &114160468179743768
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1324576255968780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55e27ef87b09cc84988939559a2f51ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doorOpened: {fileID: 21300078, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
 --- !u!114 &114183782498336476
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -189,12 +162,60 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
---- !u!114 &114283638975214904
+--- !u!114 &114264648150222278
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1324576255968780}
+  m_GameObject: {fileID: 1146263997293372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &114325905384881024
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1146263997293372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e27ef87b09cc84988939559a2f51ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorOpened: {fileID: 21300078, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
+  spriteRenderer: {fileID: 212309241971002690}
+  lockLight: {fileID: 0}
+  items: {fileID: 1632989689975038}
+--- !u!114 &114466723828234568
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1146263997293372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 2
+--- !u!114 &114473011698291292
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1146263997293372}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
@@ -221,30 +242,6 @@ MonoBehaviour:
     i15: 139
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114466723828234568
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1146263997293372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 2
---- !u!114 &114718393382383736
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1324576255968780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b38c80699b88cd44a864fd4cb169ec4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &212309241971002690
 SpriteRenderer:
   m_ObjectHideFlags: 1

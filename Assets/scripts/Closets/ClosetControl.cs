@@ -34,11 +34,17 @@ namespace Cupboards
         void RpcToggleCupboard()
         {
             if (IsClosed){
-                if (lockLight != null){
-                    if (lockLight.IsLocked()){
+                if (lockLight != null)
+                {
+                    if (lockLight.IsLocked())
+                    {
                         lockLight.Unlock();
                         return;
                     }
+                    Open();
+                }
+                else
+                {
                     Open();
                 }
             }
