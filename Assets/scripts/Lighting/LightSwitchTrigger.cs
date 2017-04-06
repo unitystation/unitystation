@@ -9,6 +9,7 @@ namespace Lighting
 {
 	public class LightSwitchTrigger: InputTrigger
 	{
+        [SyncVar(hook = "SyncLightSwitch")]
 		public bool isOn = true;
 		private SpriteRenderer spriteRenderer;
 		public Sprite lightOn;
@@ -27,13 +28,7 @@ namespace Lighting
 			if (!switchCoolDown) {
 				switchCoolDown = true;
 				StartCoroutine(CoolDown());
-				if (isOn) {
-					isOn = false;
-					CmdSwitch(false);
-				} else {
-					isOn = true;
-					CmdSwitch(true);
-				}
+                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleLightSwitch(gameObject);
 			}
 		}
 
@@ -42,20 +37,8 @@ namespace Lighting
 			yield return new WaitForSeconds(0.2f);
 			switchCoolDown = false;
 		}
-
-		[Command]
-		public void CmdSwitch(bool _on)
-		{
-			RpcSwitch(_on);
-		}
-
-		[ClientRpc]
-		public void RpcSwitch(bool _on)
-		{
-			Switch(_on);
-		}
-
-		void Switch(bool _on)
+          
+		void SyncLightSwitch(bool _on)
 		{
 			if (!_on) {
 				spriteRenderer.sprite = lightOff;
@@ -65,6 +48,5 @@ namespace Lighting
 				clickSFX.Play();
 			}
 		}
-
 	}
 }

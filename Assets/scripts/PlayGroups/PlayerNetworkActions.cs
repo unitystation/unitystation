@@ -91,6 +91,35 @@ public class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
+    [Command]
+    public void CmdTryToInstantiateInHand(string eventName, GameObject prefab){
+        if (ServerCache.ContainsKey(eventName))
+        {
+            if (ServerCache[eventName] == null)
+            {
+                GameObject item = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
+                NetworkServer.Spawn(item);
+                EquipmentPool.AddGameObject(gameObject.name, item);
+                ServerCache[eventName] = item;
+                equipment.SetHandItem(eventName, item);
+                RpcInstantiateInHand(gameObject.name, item);
+            }
+            else
+            {
+                Debug.Log("ServerCache slot is full");  
+               
+            }
+        }
+    }
+
+    [ClientRpc]
+    void RpcInstantiateInHand(string playerName, GameObject item){
+        if (playerName == gameObject.name)
+        {
+            UIManager.Hands.CurrentSlot.TrySetItem(item);
+        }
+    }
+
     [ClientRpc]
     public void RpcTrySetItem(string eventName, GameObject obj)
     {
@@ -219,6 +248,54 @@ public class PlayerNetworkActions : NetworkBehaviour
     public void CmdGibNpc(GameObject npcObj){
         Kill kill = npcObj.GetComponent<Kill>();
         kill.Gib();
+    }
+
+    [Command]
+    public void CmdToggleShutters(GameObject switchObj){
+        ShutterSwitchTrigger s = switchObj.GetComponent<ShutterSwitchTrigger>();
+        if (s.IsClosed)
+        {
+            s.IsClosed = false;
+        }
+        else
+        {
+            s.IsClosed = true;
+        }
+    }
+
+    [Command]
+    public void CmdToggleLightSwitch(GameObject switchObj){
+        Lighting.LightSwitchTrigger s = switchObj.GetComponent<Lighting.LightSwitchTrigger>();
+        if (s.isOn)
+        {
+            s.isOn = false;
+        }
+        else
+        {
+            s.isOn = true;
+        }
+    }
+
+    [Command]
+    public void CmdToggleFireCabinet(GameObject cabObj, bool forItemInteract){
+        CabinetTrigger c = cabObj.GetComponent<CabinetTrigger>();
+
+        if (!forItemInteract)
+        {
+            if (c.IsClosed)
+            {
+                c.IsClosed = false;
+            }
+            else
+            {
+                c.IsClosed = true;
+            }
+        }
+        else
+        {
+            Debug.Log("TODO: condition to place extinguisher back");
+            c.RpcSetEmptySprite();
+        }
     }
 
     [ClientRpc]

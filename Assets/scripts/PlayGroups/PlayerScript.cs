@@ -28,6 +28,7 @@ namespace PlayGroup
         public override void OnStartLocalPlayer()
 		{
 			Init();
+
 			base.OnStartLocalPlayer();
 		}
 

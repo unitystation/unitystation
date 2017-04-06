@@ -14,91 +14,125 @@ public class CabinetTrigger: InputTrigger
 	public Sprite spriteOpenedOccupied;
 	public Sprite spriteOpenedEmpty;
 
-	public GameObject itemPrefab;
+    public GameObject itemPrefab;
 
-	public bool IsClosed { get; private set; }
-
-	public NetworkInstanceId ItemID { get; private set; }
-
+    [SyncVar (hook = "SyncCabinet")]
+    public bool IsClosed = true;
+    private bool isFull = true;
 	private SpriteRenderer spriteRenderer;
-
+    private bool sync = false;
 	void Start()
 	{
 		spriteRenderer = transform.FindChild("Sprite").GetComponent<SpriteRenderer>();
 		IsClosed = true;
-
-		ItemID = transform.FindChild("Extinguisher").GetComponent<NetworkIdentity>().netId;
 	}
 
 	public override void Interact()
 	{
-		if (IsClosed) {
-			CmdSetState(false, ItemID, true);
-		} else {
-			OnClose();
-		}
+        if (IsClosed)
+        {
+            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleFireCabinet(gameObject,false);
+        }
+        else
+        {
+            if (isFull)
+            {
+                if (!UIManager.Hands.CurrentSlot.IsFull)
+                {
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryToInstantiateInHand(UIManager.Hands.CurrentSlot.eventName, itemPrefab);
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleFireCabinet(gameObject,true);
+                }
+                else
+                {
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleFireCabinet(gameObject,false);
+                }
+            }
+            else
+            {
+                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleFireCabinet(gameObject,false);
+            }
+        }
 	}
 
-	private void OnClose()
-	{
-		if (ItemID != null) {
-			var item = UIManager.Hands.CurrentSlot.Item;
-			if (item != null && IsCorrectItem(item)) {
-				var itemViewID = item.GetComponent<NetworkIdentity>().netId;
-				ItemID = itemViewID;
-				item.SetActive(false);
-				item.transform.parent = transform;
-				UIManager.Hands.CurrentSlot.Clear();
-				CmdSetState(IsClosed, itemViewID, false);
-			} else {
-				CmdSetState(true, ItemID, true);
-			}
-		} else {
-			var item = transform.FindChild("Extinguisher").gameObject;
-			if (ItemManager.TryToPickUpObject(item)) {
-				// remove extinguisher from closet
-				item.SetActive(true);
-				Debug.Log("TODO: Fix THIS!");
-//				CmdSetState(IsClosed, null, false);
-			}
-		}
-	}
+    [ClientRpc]
+    public void RpcSetEmptySprite(){
+        isFull = false;
+        spriteRenderer.sprite = spriteOpenedEmpty;
+    }
 
-	[Command]
-	public void CmdSetState(bool isClosed, NetworkInstanceId itemViewID, bool playSound)
-	{
-		SetState(isClosed, itemViewID, playSound);
-		RpcSetState(IsClosed, itemViewID, playSound);
-	}
+    void SyncCabinet(bool _isClosed){
+        if (_isClosed)
+        {
+            Close();
+        }
+        else
+        {
+            Open();
+        }
+    }
 
-	[ClientRpc]
-	void RpcSetState(bool isClosed, NetworkInstanceId itemViewID, bool playSound)
-	{
-		SetState(IsClosed, itemViewID, playSound);
-	}
+    void Open(){
+        PlaySound();
+        if (isFull) {
+            spriteRenderer.sprite = spriteOpenedOccupied;
+        } else {
+            spriteRenderer.sprite = spriteOpenedEmpty;
+        }
+    }
 
-	public void SetState(bool isClosed, NetworkInstanceId itemViewID, bool playSound)
-	{
-		IsClosed = isClosed;
-		ItemID = itemViewID;
-		if (ItemID != null)
-	
-		if (playSound)
-			SoundManager.Play("OpenClose");
+    void Close(){
+        PlaySound();
+        spriteRenderer.sprite = spriteClosed;
+    }
 
-		UpdateSprite();
-	}
+    void PlaySound(){
+        if (!sync)
+        {
+            sync = true;
+        }
+        else
+        {
+            SoundManager.Play("OpenClose");
+        }
+    }
 
-	private void UpdateSprite()
-	{
-		if (IsClosed) {
-			spriteRenderer.sprite = spriteClosed;
-		} else if (ItemID != null) {
-			spriteRenderer.sprite = spriteOpenedOccupied;
-		} else {
-			spriteRenderer.sprite = spriteOpenedEmpty;
-		}
-	}
+    //This was stuff that worked with photon (leaving for reference for
+    //help with developing the action of putting back the extinguisher
+//	private void OnClose()
+//	{
+//		if (ItemID != null) {
+//			var item = UIManager.Hands.CurrentSlot.Item;
+//			if (item != null && IsCorrectItem(item)) {
+//				var itemViewID = item.GetComponent<NetworkIdentity>().netId;
+//				ItemID = itemViewID;
+//				item.SetActive(false);
+//				item.transform.parent = transform;
+//				UIManager.Hands.CurrentSlot.Clear();
+//				SetState(itemViewID, false);
+//			} else {
+//				SetState(ItemID, true);
+//			}
+//		} else {
+//			var item = transform.FindChild("Extinguisher").gameObject;
+//			if (ItemManager.TryToPickUpObject(item)) {
+//				// remove extinguisher from closet
+//				item.SetActive(true);
+//                UpdateSprite();
+//			}
+//		}
+//	}
+
+
+//	public void SetState(NetworkInstanceId itemViewID, bool playSound)
+//	{
+//		ItemID = itemViewID;
+//		if (ItemID != null)
+//	
+//		if (playSound)
+//			SoundManager.Play("OpenClose");
+//
+//		UpdateSprite();
+//	}
 
 	private bool IsCorrectItem(GameObject item)
 	{
