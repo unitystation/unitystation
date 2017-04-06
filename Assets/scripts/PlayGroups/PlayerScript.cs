@@ -15,6 +15,7 @@ namespace PlayGroup
 		public string playerName = " ";
 		private bool pickUpCoolDown = false;
 
+
 		public override void OnStartClient()
 		{
 			//Local player is set a frame or two after OnStartClient
@@ -24,7 +25,7 @@ namespace PlayGroup
 		}
 
 		//isLocalPlayer is always called after OnStartClient
-		public override void OnStartLocalPlayer()
+        public override void OnStartLocalPlayer()
 		{
 			Init();
 			base.OnStartLocalPlayer();

@@ -35,7 +35,7 @@ public class PlayerNetworkActions : NetworkBehaviour
         }
         base.OnStartServer();
     }
-
+        
     //This is only called from interaction on the client (from PickUpTrigger)
     public bool TryToPickUpObject(GameObject itemObject)
     {            
@@ -207,6 +207,18 @@ public class PlayerNetworkActions : NetworkBehaviour
         Microwave m = microwave.GetComponent<Microwave>();
         m.ServerSetOutputMeal(mealName);
         m.RpcStartCooking();
+    }
+
+    [Command]
+    public void CmdKillNpc(GameObject npcObj){
+        Kill kill = npcObj.GetComponent<Kill>();
+        kill.RpcDie();
+    }
+
+    [Command]
+    public void CmdGibNpc(GameObject npcObj){
+        Kill kill = npcObj.GetComponent<Kill>();
+        kill.Gib();
     }
 
     [ClientRpc]

@@ -31,46 +31,37 @@ public class Kill: NetworkBehaviour{
             if(UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife) {
                 if(!dead) {
                     //Send death to all clients for pete
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdKillNpc(this.gameObject);
                 } else if(!sliced) {
                    //Spawn the new meat
-
-                   // Remove pete from the network
-
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGibNpc(this.gameObject);
                     sliced = true;
                 }
             }
         }
     }
 
-    [PunRPC]
-    void Die() {
-		Debug.Log("FIXME Kill.cs");
-//        dead = true;
-//        randomMove.enabled = false;
-//        physicsMove.enabled = false;
-//        spriteRenderer.sprite = deadSprite;
-//        SoundManager.Play("Bodyfall", 0.5f);
+    [ClientRpc]
+    public void RpcDie() {
+        dead = true;
+        randomMove.enabled = false;
+        spriteRenderer.sprite = deadSprite;
+        SoundManager.Play("Bodyfall", 0.5f);
     }
 
-    [PunRPC]
-    void Gib() {
-		Debug.Log("FIXME Kill.cs");
-//        if(PhotonNetwork.isMasterClient) {
-//            // Spawn Meat
-//            for(int i = 0; i < amountSpawn; i++) {
-//                NetworkItemDB.Instance.MasterClientCreateItem(meatPrefab.name, transform.position); //Create scene owned object
-//            }
-//
-//            // Spawn Corpse
-//            NetworkItemDB.Instance.MasterClientCreateItem(corpsePrefab.name, transform.position); //Create scene owned object
-//
-//        }
-    }
+    //server only
+    public void Gib() {
 
-    [PunRPC]
-    void RemoveFromNetwork() //Can only be called by masterclient
-    {
-		Debug.Log("FIXME Kill.cs");
-//        PhotonNetwork.Destroy(this.gameObject);
+            // Spawn Meat
+            for(int i = 0; i < amountSpawn; i++) {
+            GameObject meat = Instantiate(meatPrefab, transform.position, Quaternion.identity) as GameObject; 
+            NetworkServer.Spawn(meat);
+        }
+
+            // Spawn Corpse
+        GameObject corpse = Instantiate(corpsePrefab, transform.position, Quaternion.identity) as GameObject;
+        NetworkServer.Spawn(corpse);
+        NetworkServer.Destroy(this.gameObject);
     }
+        
 }

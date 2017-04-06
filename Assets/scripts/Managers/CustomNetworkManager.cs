@@ -28,5 +28,9 @@ public class CustomNetworkManager: NetworkManager
         base.OnClientConnect(conn);
     }
 
+    public override void OnServerDisconnect(NetworkConnection conn){
+        PlayerList.Instance.RemovePlayer(conn.playerControllers[0].gameObject.name);
+    }
+
    
 }
