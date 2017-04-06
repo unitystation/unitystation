@@ -37,9 +37,9 @@ GameObject:
   - component: {fileID: 4000013836882314}
   - component: {fileID: 61000010556243922}
   - component: {fileID: 114000012372273026}
-  - component: {fileID: 114959801492907290}
   - component: {fileID: 114929077085885746}
   - component: {fileID: 114206516550089788}
+  - component: {fileID: 114162376994609824}
   m_Layer: 11
   m_Name: FoodCart
   m_TagString: Untagged
@@ -67,7 +67,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011358831344}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6, y: 4, z: -0.1}
+  m_LocalPosition: {x: 1841, y: 1144, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013687760894}
@@ -102,6 +102,38 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
+--- !u!114 &114162376994609824
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011358831344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 23
+    i1: 188
+    i2: 48
+    i3: 39
+    i4: 138
+    i5: 104
+    i6: 76
+    i7: 170
+    i8: 150
+    i9: 111
+    i10: 149
+    i11: 67
+    i12: 135
+    i13: 168
+    i14: 156
+    i15: 190
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114206516550089788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,32 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114959801492907290
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011358831344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 114929077085885746}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!212 &212000012354729206
 SpriteRenderer:
   m_ObjectHideFlags: 1

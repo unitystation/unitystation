@@ -39,9 +39,10 @@ GameObject:
   - component: {fileID: 114746812437617220}
   - component: {fileID: 114907018493548810}
   - component: {fileID: 114153706379697006}
-  - component: {fileID: 114681853437823506}
   - component: {fileID: 114498931829058858}
   - component: {fileID: 61162000077886724}
+  - component: {fileID: 114326933244341266}
+  - component: {fileID: 114044014400659472}
   m_Layer: 10
   m_Name: Service Radio Headset
   m_TagString: Untagged
@@ -69,7 +70,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1469499218258322}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5, y: 2, z: -0.2}
+  m_LocalPosition: {x: -11, y: 7, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4054361378092806}
@@ -107,9 +108,29 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.013793945, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.33745533, y: 0.42035335}
+--- !u!114 &114044014400659472
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469499218258322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114153706379697006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -121,7 +142,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedPickUp: 1
+--- !u!114 &114326933244341266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469499218258322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 46
+    i1: 174
+    i2: 150
+    i3: 248
+    i4: 141
+    i5: 42
+    i6: 141
+    i7: 100
+    i8: 152
+    i9: 122
+    i10: 72
+    i11: 103
+    i12: 189
+    i13: 33
+    i14: 251
+    i15: 191
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114498931829058858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,32 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114681853437823506
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1469499218258322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 114498931829058858}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &114746812437617220
 MonoBehaviour:
   m_ObjectHideFlags: 1

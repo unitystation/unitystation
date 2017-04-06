@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114000012550303602}
   - component: {fileID: 95822078298543166}
   - component: {fileID: 114291632891074610}
-  - component: {fileID: 114465357522728890}
+  - component: {fileID: 114767159887436512}
   m_Layer: 0
   m_Name: ShutterSwitch
   m_TagString: Untagged
@@ -55,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013144118558}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1835, y: 1141, z: -0.1}
+  m_LocalPosition: {x: 1846, y: 1138, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000012829574450}
@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010464684514}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.775, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000010339692354}
@@ -86,9 +86,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: -1, y: 0}
+  m_Offset: {x: -0.01586914, y: 0.16296387}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.4155391, y: 0.292423}
 --- !u!95 &95822078298543166
 Animator:
   serializedVersion: 3
@@ -132,32 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shutters: []
---- !u!114 &114465357522728890
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013144118558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  IsClosed: 0
 --- !u!114 &114741049428428904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -176,7 +151,39 @@ MonoBehaviour:
   - {x: 0, y: -0.775}
   - {x: -0.775, y: 0}
   colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 3
+  rotateIndex: 2
+--- !u!114 &114767159887436512
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013144118558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 19
+    i1: 37
+    i2: 244
+    i3: 138
+    i4: 241
+    i5: 93
+    i6: 65
+    i7: 99
+    i8: 171
+    i9: 149
+    i10: 45
+    i11: 226
+    i12: 252
+    i13: 181
+    i14: 161
+    i15: 132
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212000012845275726
 SpriteRenderer:
   m_ObjectHideFlags: 1

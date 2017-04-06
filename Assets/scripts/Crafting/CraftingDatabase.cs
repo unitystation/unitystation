@@ -16,5 +16,16 @@ namespace Crafting {
             }
             return null;
         }
+
+        public GameObject FindOutputMeal(string mealName){
+            foreach (var recipe in recipeList)
+            {
+                if (recipe.output.name == mealName)
+                {
+                    return recipe.output;
+                }
+            }
+            return null;
+        }
     }
 }

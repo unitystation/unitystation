@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114686066827196848}
   - component: {fileID: 95287890711978462}
   - component: {fileID: 114634090869509630}
-  - component: {fileID: 114875129750084586}
+  - component: {fileID: 114204138823511128}
   m_Layer: 11
   m_Name: MedBayDoor
   m_TagString: Untagged
@@ -160,7 +160,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1033492078376264}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1832, y: 1127, z: -0.1}
+  m_LocalPosition: {x: 1836, y: 1126, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4845856597561368}
@@ -415,6 +415,38 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114204138823511128
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1033492078376264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 236
+    i1: 110
+    i2: 238
+    i3: 250
+    i4: 174
+    i5: 234
+    i6: 116
+    i7: 151
+    i8: 234
+    i9: 94
+    i10: 25
+    i11: 114
+    i12: 105
+    i13: 206
+    i14: 6
+    i15: 153
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114634090869509630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -456,34 +488,10 @@ MonoBehaviour:
   openSFX: {fileID: 82424364662987246}
   closeSFX: {fileID: 82734786462398976}
   usingAnimator: 1
+  isWindowedDoor: 0
+  isPerformingAction: 0
   doorType: 4
   maxTimeOpen: 5
---- !u!114 &114875129750084586
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1033492078376264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!212 &212682667343390072
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 114116368055496416}
   - component: {fileID: 114496655679019468}
   - component: {fileID: 114032662656742470}
-  - component: {fileID: 114520042861034640}
+  - component: {fileID: 114915423448367456}
   m_Layer: 11
   m_Name: ScienceDoor
   m_TagString: Untagged
@@ -424,6 +424,8 @@ MonoBehaviour:
   openSFX: {fileID: 82585580305196082}
   closeSFX: {fileID: 82137359379656950}
   usingAnimator: 0
+  isWindowedDoor: 0
+  isPerformingAction: 0
   doorType: 9
   maxTimeOpen: 5
 --- !u!114 &114496655679019468
@@ -440,7 +442,7 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
---- !u!114 &114520042861034640
+--- !u!114 &114915423448367456
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -448,24 +450,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1703130924713270}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 189
+    i1: 182
+    i2: 73
+    i3: 7
+    i4: 149
+    i5: 71
+    i6: 148
+    i7: 57
+    i8: 186
+    i9: 43
+    i10: 113
+    i11: 120
+    i12: 175
+    i13: 2
+    i14: 138
+    i15: 127
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212189348538616740
 SpriteRenderer:
   m_ObjectHideFlags: 1

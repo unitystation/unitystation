@@ -40,8 +40,10 @@ GameObject:
   - component: {fileID: 114000011671410446}
   - component: {fileID: 114000011246784540}
   - component: {fileID: 114177155506592790}
-  - component: {fileID: 114915470960181974}
-  - component: {fileID: 61224349822444978}
+  - component: {fileID: 114586782526632214}
+  - component: {fileID: 114421296799896422}
+  - component: {fileID: 114509580795922320}
+  - component: {fileID: 60269009342317446}
   m_Layer: 10
   m_Name: RollingPin
   m_TagString: Untagged
@@ -69,7 +71,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012939332086}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3, y: 2, z: -0.2}
+  m_LocalPosition: {x: -12, y: 5, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013350538200}
@@ -96,8 +98,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61224349822444978
-BoxCollider2D:
+--- !u!60 &60269009342317446
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -108,8 +110,13 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Points:
+    m_Paths:
+    - - {x: 0.19128418, y: 0.34631348}
+      - {x: 0.29736328, y: 0.19726562}
+      - {x: -0.20935059, y: -0.29614258}
+      - {x: -0.35803223, y: -0.18981934}
+      - {x: -0.07055664, y: 0.16223145}
 --- !u!114 &114000011246784540
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -121,7 +128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedPickUp: 1
 --- !u!114 &114000011671410446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114915470960181974
+--- !u!114 &114421296799896422
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -173,24 +179,70 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012939332086}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 114177155506592790}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &114509580795922320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012939332086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 3
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &114586782526632214
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012939332086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 4
+    i1: 104
+    i2: 74
+    i3: 192
+    i4: 239
+    i5: 127
+    i6: 77
+    i7: 147
+    i8: 137
+    i9: 87
+    i10: 211
+    i11: 66
+    i12: 12
+    i13: 13
+    i14: 147
+    i15: 143
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212000012923149378
 SpriteRenderer:
   m_ObjectHideFlags: 1

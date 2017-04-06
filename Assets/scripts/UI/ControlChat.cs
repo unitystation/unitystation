@@ -65,7 +65,6 @@ namespace UI {
         }
 
         public void Connect() {
-            NetworkManager.Connect(); //Also connect to the game server!
 
             SoundManager.Play("Click01");
             UserName = usernameInput.text;
@@ -91,9 +90,9 @@ namespace UI {
             }
 
             if(chatClient != null) {
-                if(chatClient.CanChat && !GameData.IsInGame && UIManager.Display.tempSceneButton) {
+                if(chatClient.CanChat && !GameData.IsInGame) {
                     //TODO: Remove this when a better transition handler is implemented 
-                    UIManager.Display.tempSceneButton.SetActive(true);
+            
                 }
             }
 

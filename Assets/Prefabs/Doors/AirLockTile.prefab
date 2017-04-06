@@ -24,8 +24,7 @@ GameObject:
   - component: {fileID: 95000010631349252}
   - component: {fileID: 114000010121375984}
   - component: {fileID: 114748385134728100}
-  - component: {fileID: 114955442852505398}
-  - component: {fileID: 114831227325075044}
+  - component: {fileID: 114180376035525756}
   m_Layer: 11
   m_Name: AirLockTile
   m_TagString: Untagged
@@ -388,6 +387,38 @@ MonoBehaviour:
   isPerformingAction: 0
   doorType: 0
   maxTimeOpen: 5
+--- !u!114 &114180376035525756
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011462531918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 225
+    i1: 169
+    i2: 255
+    i3: 82
+    i4: 209
+    i5: 36
+    i6: 66
+    i7: 243
+    i8: 191
+    i9: 138
+    i10: 3
+    i11: 135
+    i12: 59
+    i13: 202
+    i14: 184
+    i15: 238
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114748385134728100
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -401,43 +432,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
---- !u!114 &114831227325075044
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011462531918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b846df944211444ca700274e738447d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114955442852505398
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011462531918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!212 &212000010235302174
 SpriteRenderer:
   m_ObjectHideFlags: 1

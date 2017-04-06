@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 114059249025983974}
   - component: {fileID: 114920132203804448}
   - component: {fileID: 114905652381775202}
-  - component: {fileID: 114250172507170978}
+  - component: {fileID: 114390321638166826}
   m_Layer: 11
   m_Name: EngineeringDoor
   m_TagString: Untagged
@@ -411,9 +411,11 @@ MonoBehaviour:
   openSFX: {fileID: 82119343689486036}
   closeSFX: {fileID: 82465022889846938}
   usingAnimator: 0
+  isWindowedDoor: 0
+  isPerformingAction: 0
   doorType: 2
   maxTimeOpen: 5
---- !u!114 &114250172507170978
+--- !u!114 &114390321638166826
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -421,24 +423,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1636844411894304}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 145
+    i1: 66
+    i2: 157
+    i3: 28
+    i4: 66
+    i5: 253
+    i6: 228
+    i7: 229
+    i8: 170
+    i9: 45
+    i10: 59
+    i11: 171
+    i12: 85
+    i13: 77
+    i14: 188
+    i15: 100
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114905652381775202
 MonoBehaviour:
   m_ObjectHideFlags: 1

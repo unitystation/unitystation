@@ -1,89 +1,141 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using PlayGroup;
 using UI;
 using Network;
 using Items;
 using InputControl;
 
-public class CabinetTrigger: InputTrigger {
-    public Sprite spriteClosed;
-    public Sprite spriteOpenedOccupied;
-    public Sprite spriteOpenedEmpty;
+public class CabinetTrigger: InputTrigger
+{
+	public Sprite spriteClosed;
+	public Sprite spriteOpenedOccupied;
+	public Sprite spriteOpenedEmpty;
 
     public GameObject itemPrefab;
 
-    public bool IsClosed { get; private set; }
-    public int ItemViewID { get; private set; }
+    [SyncVar (hook = "SyncCabinet")]
+    public bool IsClosed = true;
+    private bool isFull = true;
+	private SpriteRenderer spriteRenderer;
+    private bool sync = false;
+	void Start()
+	{
+		spriteRenderer = transform.FindChild("Sprite").GetComponent<SpriteRenderer>();
+		IsClosed = true;
+	}
 
-    private SpriteRenderer spriteRenderer;
+	public override void Interact()
+	{
+        if (IsClosed)
+        {
+            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleFireCabinet(gameObject,false);
+        }
+        else
+        {
+            if (isFull)
+            {
+                if (!UIManager.Hands.CurrentSlot.IsFull)
+                {
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryToInstantiateInHand(UIManager.Hands.CurrentSlot.eventName, itemPrefab);
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleFireCabinet(gameObject,true);
+                }
+                else
+                {
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleFireCabinet(gameObject,false);
+                }
+            }
+            else
+            {
+                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleFireCabinet(gameObject,false);
+            }
+        }
+	}
 
-    void Start() {
-        spriteRenderer = transform.FindChild("Sprite").GetComponent<SpriteRenderer>();
-        IsClosed = true;
-
-        ItemViewID = transform.FindChild("Extinguisher").GetComponent<PhotonView>().viewID;
+    [ClientRpc]
+    public void RpcSetEmptySprite(){
+        isFull = false;
+        spriteRenderer.sprite = spriteOpenedEmpty;
     }
 
-    public override void Interact() {
-        if(IsClosed) {
-            photonView.RPC("SyncState", PhotonTargets.All, false, ItemViewID, true);
-        } else {
-            OnClose();
+    void SyncCabinet(bool _isClosed){
+        if (_isClosed)
+        {
+            Close();
+        }
+        else
+        {
+            Open();
         }
     }
 
-    private void OnClose() {
-        if(ItemViewID < 0) {
-            var item = UIManager.Hands.CurrentSlot.Item;
-            if(item != null && IsCorrectItem(item)) {
-                var itemViewID = item.GetComponent<PhotonView>().viewID;
-                ItemViewID = itemViewID;
-                item.SetActive(false);
-                item.transform.parent = transform;
-                UIManager.Hands.CurrentSlot.Clear();
-                photonView.RPC("SyncState", PhotonTargets.All, IsClosed, itemViewID, false);
-            } else {
-                photonView.RPC("SyncState", PhotonTargets.All, true, ItemViewID, true);
-            }
-        } else {
-            var item = transform.FindChild("Extinguisher").gameObject;
-            if(ItemManager.TryToPickUpObject(item)) {
-                // remove extinguisher from closet
-                item.SetActive(true);
-                photonView.RPC("SyncState", PhotonTargets.All, IsClosed, -1, false);
-            }
-        }
-    }
-
-    [PunRPC]
-    public void SyncState(bool isClosed, int itemViewID, bool playSound) {
-        IsClosed = isClosed;
-
-        ItemViewID = itemViewID;
-
-        if(ItemViewID >= 0)
-            if(NetworkItemDB.Items.ContainsKey(ItemViewID)) {
-                NetworkItemDB.Items[ItemViewID].SetActive(false);
-            }
-
-        if(playSound) SoundManager.Play("OpenClose");
-
-        UpdateSprite();
-    }
-
-    private void UpdateSprite() {
-        if(IsClosed) {
-            spriteRenderer.sprite = spriteClosed;
-        } else if(ItemViewID >= 0) {
+    void Open(){
+        PlaySound();
+        if (isFull) {
             spriteRenderer.sprite = spriteOpenedOccupied;
         } else {
             spriteRenderer.sprite = spriteOpenedEmpty;
         }
     }
 
-    private bool IsCorrectItem(GameObject item) {
-        return item.GetComponent<ItemAttributes>().itemName == itemPrefab.GetComponent<ItemAttributes>().itemName;
+    void Close(){
+        PlaySound();
+        spriteRenderer.sprite = spriteClosed;
     }
+
+    void PlaySound(){
+        if (!sync)
+        {
+            sync = true;
+        }
+        else
+        {
+            SoundManager.Play("OpenClose");
+        }
+    }
+
+    //This was stuff that worked with photon (leaving for reference for
+    //help with developing the action of putting back the extinguisher
+//	private void OnClose()
+//	{
+//		if (ItemID != null) {
+//			var item = UIManager.Hands.CurrentSlot.Item;
+//			if (item != null && IsCorrectItem(item)) {
+//				var itemViewID = item.GetComponent<NetworkIdentity>().netId;
+//				ItemID = itemViewID;
+//				item.SetActive(false);
+//				item.transform.parent = transform;
+//				UIManager.Hands.CurrentSlot.Clear();
+//				SetState(itemViewID, false);
+//			} else {
+//				SetState(ItemID, true);
+//			}
+//		} else {
+//			var item = transform.FindChild("Extinguisher").gameObject;
+//			if (ItemManager.TryToPickUpObject(item)) {
+//				// remove extinguisher from closet
+//				item.SetActive(true);
+//                UpdateSprite();
+//			}
+//		}
+//	}
+
+
+//	public void SetState(NetworkInstanceId itemViewID, bool playSound)
+//	{
+//		ItemID = itemViewID;
+//		if (ItemID != null)
+//	
+//		if (playSound)
+//			SoundManager.Play("OpenClose");
+//
+//		UpdateSprite();
+//	}
+
+	private bool IsCorrectItem(GameObject item)
+	{
+		return item.GetComponent<ItemAttributes>().itemName == itemPrefab.GetComponent<ItemAttributes>().itemName;
+	}
 }

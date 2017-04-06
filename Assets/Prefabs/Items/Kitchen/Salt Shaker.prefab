@@ -23,9 +23,11 @@ GameObject:
   - component: {fileID: 114821111878224580}
   - component: {fileID: 114217803941579194}
   - component: {fileID: 114588922630579182}
-  - component: {fileID: 114750030382967386}
   - component: {fileID: 114105946608817088}
   - component: {fileID: 61874701466316104}
+  - component: {fileID: 114972959449275872}
+  - component: {fileID: 114139242119707398}
+  - component: {fileID: 114399133121271640}
   m_Layer: 10
   m_Name: Salt Shaker
   m_TagString: Untagged
@@ -56,7 +58,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1036141445992816}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: 1, z: -0.2}
+  m_LocalPosition: {x: -10, y: 5, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4950178486404574}
@@ -107,9 +109,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.020019531, y: -0.07336426}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.21277547, y: 0.26634133}
 --- !u!114 &114105946608817088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -121,6 +123,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114139242119707398
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1036141445992816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114217803941579194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,6 +161,26 @@ MonoBehaviour:
   clothingReference: -1
   size: 0
   type: 0
+--- !u!114 &114399133121271640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1036141445992816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114588922630579182
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -150,33 +192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedPickUp: 1
---- !u!114 &114750030382967386
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1036141445992816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 114105946608817088}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &114821111878224580
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -191,6 +206,38 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.2
   useInGame: 0
+--- !u!114 &114972959449275872
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1036141445992816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 221
+    i1: 49
+    i2: 164
+    i3: 78
+    i4: 0
+    i5: 97
+    i6: 89
+    i7: 148
+    i8: 25
+    i9: 219
+    i10: 163
+    i11: 77
+    i12: 217
+    i13: 231
+    i14: 255
+    i15: 247
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212084795858203154
 SpriteRenderer:
   m_ObjectHideFlags: 1

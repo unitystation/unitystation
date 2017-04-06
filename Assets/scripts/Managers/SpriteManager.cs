@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace Sprites {
-
-
     public class Sprites {
         private Dictionary<string, Sprite[]> sprites = new Dictionary<string, Sprite[]>();
 
@@ -17,13 +15,11 @@ namespace Sprites {
 //					Debug.Log("SPRITE MANAGER ERROR, KEY " + key + "NOT FOUND IN SPRITES");
 					return null; 
 				}
-
             }
             set {
                 sprites[key] = value;
             }
         }
-
     }
 
     public class SpriteManager: MonoBehaviour {
