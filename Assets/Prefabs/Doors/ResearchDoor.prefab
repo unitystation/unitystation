@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 114527851460587104}
   - component: {fileID: 114318563499698874}
   - component: {fileID: 114691194286782276}
-  - component: {fileID: 114925390410572346}
+  - component: {fileID: 114628297871027656}
   m_Layer: 11
   m_Name: ResearchDoor
   m_TagString: Untagged
@@ -425,8 +425,42 @@ MonoBehaviour:
   openSFX: {fileID: 82646497274377664}
   closeSFX: {fileID: 82737520476845884}
   usingAnimator: 0
+  isWindowedDoor: 0
+  isPerformingAction: 0
   doorType: 8
   maxTimeOpen: 5
+--- !u!114 &114628297871027656
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1471265584270754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 21
+    i1: 105
+    i2: 19
+    i3: 60
+    i4: 145
+    i5: 131
+    i6: 228
+    i7: 249
+    i8: 122
+    i9: 204
+    i10: 187
+    i11: 165
+    i12: 202
+    i13: 186
+    i14: 250
+    i15: 177
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114691194286782276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -440,32 +474,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
---- !u!114 &114925390410572346
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1471265584270754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!212 &212274409604352804
 SpriteRenderer:
   m_ObjectHideFlags: 1

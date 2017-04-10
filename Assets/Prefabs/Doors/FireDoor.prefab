@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 61000012152155796}
   - component: {fileID: 114000012520442378}
   - component: {fileID: 114497725044171370}
+  - component: {fileID: 114039102507754130}
   m_Layer: 0
   m_Name: FireDoor
   m_TagString: Untagged
@@ -100,6 +101,38 @@ MonoBehaviour:
   snapValue: 1
   depth: 0
   useInGame: 0
+--- !u!114 &114039102507754130
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011470677956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 132
+    i1: 126
+    i2: 83
+    i3: 210
+    i4: 114
+    i5: 207
+    i6: 71
+    i7: 196
+    i8: 160
+    i9: 176
+    i10: 109
+    i11: 13
+    i12: 119
+    i13: 129
+    i14: 237
+    i15: 254
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114497725044171370
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -5,14 +5,11 @@ For sporatic development in Unity 5.5+
 
 ## Feel like getting involved?
 1. Fork the repo
-2. Open the Asset Store and download "Photon Unity Networking Free"
-3. Set up the Photon Server Settings ([see here for settings](https://github.com/unitystation/unitystation/wiki/Photon-Server-Details))
-4. Open the BoxStation scene in Assets/scenes
-5. Adjust the Game viewport aspect ratio to 16:9
-6. Add your changes (for mapping please see the [Mapping Guide](https://github.com/unitystation/unitystation/wiki/Mapping-Basics))
-7. Submit a pull request
+2. Adjust the Game viewport aspect ratio to 16:9
+3. Add your changes (for mapping please see the [Mapping Guide](https://github.com/unitystation/unitystation/wiki/Mapping-Basics))
+4. Submit a pull request
 
-You can play an up to date WebGL demo of unitystation here: [http://doobly.izz.moe/unitystationtest/](http://doobly.izz.moe/unitystationtest/)
+You can also play our demo releases here: [Unitystation Standalones](https://github.com/unitystation/unitystation/releases)
 
 Please join us on Discord: [https://discord.gg/tFcTpBp](https://discord.gg/tFcTpBp) <br>
 

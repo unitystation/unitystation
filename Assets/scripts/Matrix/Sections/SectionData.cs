@@ -6,6 +6,7 @@ using System.IO;
 using UnityEditor;
 #endif
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class SectionData : ScriptableObject {
@@ -15,7 +16,8 @@ public class SectionData : ScriptableObject {
     private static SectionData sectionData;
     public static SectionData Instance {
         get {
-            if(!sectionData || !activeSceneName.Equals(SceneManagerHelper.ActiveSceneName)) {
+            Scene scene = SceneManager.GetActiveScene();
+            if(!sectionData || !activeSceneName.Equals(scene.name)) {
                 LoadSections();
             }
             return sectionData;
@@ -24,7 +26,8 @@ public class SectionData : ScriptableObject {
 
     private static void LoadSections() {
         #if UNITY_EDITOR
-        activeSceneName = SceneManagerHelper.ActiveSceneName;
+        Scene scene = SceneManager.GetActiveScene();
+        activeSceneName = scene.name;
         AssetPath = "Assets/Data/" + activeSceneName + "_Sections.asset";
 
         sectionData = AssetDatabase.LoadAssetAtPath<SectionData>(AssetPath);

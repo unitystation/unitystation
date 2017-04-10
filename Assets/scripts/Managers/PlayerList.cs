@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using UI;
+using PlayGroup;
 
-public class PlayerList : MonoBehaviour
+public class PlayerList : NetworkBehaviour
 {
 	public static PlayerList playerList;
-	private Dictionary<string, GameObject> connectedPlayers = new Dictionary<string, GameObject>();
+	public SyncListString nameList = new SyncListString();
+	public Dictionary<string, GameObject> connectedPlayers = new Dictionary<string, GameObject>();
+    int numSameNames = 0;
 
 	public static PlayerList Instance {
 		get {
@@ -18,31 +22,43 @@ public class PlayerList : MonoBehaviour
 		}
 	}
 
-	void Start(){
+	public override void OnStartClient(){
+		nameList.Callback = UpdateFromServer;
+		RefreshPlayerListText();
+		base.OnStartClient();
+	}
+	void UpdateFromServer(SyncListString.Operation op, int index){
 		RefreshPlayerListText();
 	}
-
-	public void AddPlayer(GameObject playerObj)
+    public string CheckName(string name)
 	{
-		connectedPlayers.Add(playerObj.name, playerObj);
-		playerObj.transform.parent = this.gameObject.transform;
-		RefreshPlayerListText();
+        string checkName = name;
+     
+            while (connectedPlayers.ContainsKey(checkName))
+            {
+			Debug.Log("NAME ALREADY EXISTS: " + checkName);
+            numSameNames++;
+            checkName = name + numSameNames.ToString();
+			Debug.Log("TRYING: " + checkName);
+            }
+		nameList.Add(checkName);
+		return checkName;
 	}
-
+		
 	public void RemovePlayer(string playerName)
 	{
 		if (connectedPlayers.ContainsKey(playerName)) {
 			connectedPlayers.Remove(playerName);
-			RefreshPlayerListText();
+			nameList.Remove(playerName);
 		}
 	}
 
 	public void RefreshPlayerListText()
 	{
 		UIManager.Instance.playerListUIControl.nameList.text = "";
-		foreach (KeyValuePair<string,GameObject> player in connectedPlayers) {
+		foreach (string name in nameList) {
 			string curList = UIManager.Instance.playerListUIControl.nameList.text;
-			UIManager.Instance.playerListUIControl.nameList.text = curList + player.Value.name + "\r\n"; 
+			UIManager.Instance.playerListUIControl.nameList.text = curList + name + "\r\n"; 
 		}
 	}
 }

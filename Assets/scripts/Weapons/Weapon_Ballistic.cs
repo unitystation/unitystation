@@ -9,7 +9,6 @@ namespace Weapons
 	{
 		private bool isInHand = false;
 		private bool allowedToShoot = false;
-		private PhotonView photonView;
 
 		[Header("0 = fastest")]
 		public float firingRate = 1f;
@@ -17,10 +16,6 @@ namespace Weapons
 		public AudioSource shootSFX;
 		public AudioSource emptySFX;
 
-		void Awake()
-		{
-			photonView = gameObject.GetComponent<PhotonView>();
-		}
 
 		void Update()
 		{
@@ -35,17 +30,14 @@ namespace Weapons
 			if (allowedToShoot) {
 				allowedToShoot = false;
 
-				if (PhotonNetwork.connectedAndReady) {
-					photonView.RPC("ShootWeapon", PhotonTargets.All);
-				} else {
-					ShootWeapon();
-				}
+			  //TODO SHOOT STUFF
+				Debug.Log("TODO: Shoot Stuff");
 
 				StartCoroutine("ShootCoolDown");
 			}
 		}
 
-		[PunRPC]
+
 		void ShootWeapon()
 		{
 			//TODO Do shooting stuff here

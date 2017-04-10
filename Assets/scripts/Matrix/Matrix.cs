@@ -4,6 +4,7 @@ using System.IO;
 using UnityEditor;
 #endif
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Matrix {
     
@@ -14,7 +15,8 @@ namespace Matrix {
         public static Matrix matrix;
         public static Matrix Instance {
             get {
-                if(!matrix || !activeSceneName.Equals(SceneManagerHelper.ActiveSceneName)) {
+                Scene scene = SceneManager.GetActiveScene();
+                if(!matrix || !activeSceneName.Equals(scene.name)) {
                     LoadMatrix();
                 }
                 return matrix;
@@ -22,7 +24,8 @@ namespace Matrix {
         }
 
         private static void LoadMatrix() {
-            activeSceneName = SceneManagerHelper.ActiveSceneName;
+            Scene scene = SceneManager.GetActiveScene();
+            activeSceneName = scene.name;
             string assetPath = "Assets/Data/" + activeSceneName + "_Matrix.asset";
 			#if UNITY_EDITOR
             matrix = AssetDatabase.LoadAssetAtPath<Matrix>(assetPath);

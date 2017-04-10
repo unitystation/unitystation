@@ -1,64 +1,88 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
+using Equipment;
 using UI;
 
 namespace PlayGroup
 {
-	public class PlayerScript: Photon.PunBehaviour
+	public class PlayerScript: NetworkBehaviour
 	{
 		// the maximum distance the player needs to be to an object to interact with it
 		public float interactionDistance = 2f;
-		//Is this controlled by the player or other players
-		public bool IsMine { get; set; }
-		//is running new Version of player script (will soon be the main version)
-		public bool isVersion2 = false;
-        
-		[HideInInspector]
-		public PlayerMove playerMove;
-		[HideInInspector]
-		public PlayerSprites playerSprites;
+        public PlayerNetworkActions playerNetworkActions { get; set; }
+		[SyncVar(hook = "OnNameChange")]
+		public string playerName = " ";
+		private bool pickUpCoolDown = false;
 
 
-		void Awake()
+		public override void OnStartClient()
 		{
-			playerSprites = gameObject.GetComponent<PlayerSprites>();
+			//Local player is set a frame or two after OnStartClient
+			//Wait to check if this is local player
+			StartCoroutine(CheckIfNetworkPlayer());
+			base.OnStartClient();
 		}
 
-		void Start()
+		//isLocalPlayer is always called after OnStartClient
+        public override void OnStartLocalPlayer()
 		{
-		    playerMove = gameObject.GetComponent<PlayerMove>();
+			Init();
 
-			//Add player sprite controller component
-			//TODO EQUIPMENT AND PLAYERLIST NEEDS WORK
-			if (photonView.isMine) { //This prefab is yours, take control of it
-				StartCoroutine("WaitForMapLoad");
-			} else {
-				BoxCollider2D boxColl = gameObject.GetComponent<BoxCollider2D>();
-				boxColl.isTrigger = true;
-			}
-			if (PhotonNetwork.connectedAndReady) {
-				gameObject.name = photonView.owner.NickName;
+			base.OnStartLocalPlayer();
+		}
+
+		//You know the drill
+		public override void OnStartServer()
+		{
+			Init();
+			base.OnStartServer();
+		}
+
+		void Start(){
+            playerNetworkActions = GetComponent<PlayerNetworkActions>();
+		}
+
+		void Init()
+		{
+			
+			if (isLocalPlayer) { 
+				GetComponent<PlayerMove>().enabled = true;
+				GetComponent<InputControl.InputController>().enabled = true;
 				if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy) {
 					UIManager.Instance.playerListUIControl.window.SetActive(true);
 				}
-				//Add it to the global playerlist
-				PlayerList.Instance.AddPlayer(gameObject);
+				PlayerManager.SetPlayerForControl(this.gameObject);
+				CmdTrySetName(PlayerPrefs.GetString("PlayerName"));
+			}
+
+			if (isServer) {
+				GetComponent<PlayerMove>().enabled = true;
 			}
 		}
 
-		//This fixes the bug of master client setting equipment before the UI is read (because it is the one that loads the map)
-		IEnumerator WaitForMapLoad()
+		[Command]
+		void CmdTrySetName(string name)
 		{
-			yield return new WaitForSeconds(1f);
-			PlayerManager.SetPlayerForControl(this.gameObject);
+			playerName = PlayerList.Instance.CheckName(name);
+		}
+		// On playerName variable change across all clients, make sure obj is named correctly
+		// and set in Playerlist for that client
+		public void OnNameChange(string newName)
+		{
+			gameObject.name = newName;
+			if (!PlayerList.Instance.connectedPlayers.ContainsKey(newName)) {
+				PlayerList.Instance.connectedPlayers.Add(newName, gameObject);
+			}
+			transform.parent = PlayerList.Instance.transform;
+			PlayerList.Instance.RefreshPlayerListText();
 		}
 
-		//THIS IS ONLY USED FOR LOCAL PLAYER
-		public void MovePlayer(Vector2 direction)
+		IEnumerator CheckIfNetworkPlayer()
 		{
-			//At the moment it just checks if the input window is open and if it is false then allow move
-			if (!UIManager.Chat.chatInputWindow.activeSelf && IsMine) {
-				//playerSprites.FaceDirection(direction); //Handles the playersprite change on direction change
+			yield return new WaitForSeconds(1f);
+			if (!isLocalPlayer) {
+				OnNameChange(playerName);
 			}
 		}
 
@@ -69,7 +93,17 @@ namespace PlayGroup
 
 		public bool IsInReach(Transform transform)
 		{
+			if (pickUpCoolDown)
+				return false;
+			StartCoroutine(PickUpCooldown());
 			return DistanceTo(transform.position) <= interactionDistance;
 		}
+
+		IEnumerator PickUpCooldown(){
+			pickUpCoolDown = true;
+			yield return new WaitForSeconds(0.1f);
+			pickUpCoolDown = false;
+		}
+	
 	}
 }

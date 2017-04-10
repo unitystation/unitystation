@@ -23,9 +23,10 @@ GameObject:
   - component: {fileID: 114529796324673368}
   - component: {fileID: 114693224517426016}
   - component: {fileID: 114415413742925384}
-  - component: {fileID: 114628526389704872}
   - component: {fileID: 114258485137213534}
-  - component: {fileID: 61354207796636808}
+  - component: {fileID: 114539896361733604}
+  - component: {fileID: 114214255488091290}
+  - component: {fileID: 60676909697196680}
   m_Layer: 10
   m_Name: Santa Hat  Bearded
   m_TagString: Untagged
@@ -69,7 +70,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1753533386681984}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8, y: 1, z: -0.2}
+  m_LocalPosition: {x: -9, y: 8, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4066311827749504}
@@ -96,8 +97,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61354207796636808
-BoxCollider2D:
+--- !u!60 &60676909697196680
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -105,11 +106,38 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.430542}
+      - {x: 0.1538086, y: 0.2861328}
+      - {x: 0.109375, y: 0.11340332}
+      - {x: 0.07885742, y: -0.17175293}
+      - {x: -0.15002441, y: -0.2401123}
+      - {x: -0.18908691, y: -0.1484375}
+      - {x: -0.23364258, y: 0.22924805}
+--- !u!114 &114214255488091290
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1753533386681984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114258485137213534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -132,7 +160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedPickUp: 1
 --- !u!114 &114529796324673368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,7 +174,7 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.2
   useInGame: 0
---- !u!114 &114628526389704872
+--- !u!114 &114539896361733604
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -155,24 +182,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1753533386681984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 114258485137213534}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 81
+    i1: 32
+    i2: 85
+    i3: 114
+    i4: 30
+    i5: 234
+    i6: 116
+    i7: 205
+    i8: 136
+    i9: 164
+    i10: 114
+    i11: 74
+    i12: 66
+    i13: 46
+    i14: 109
+    i15: 173
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114693224517426016
 MonoBehaviour:
   m_ObjectHideFlags: 1

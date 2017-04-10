@@ -2,7 +2,9 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Events;
+using PlayGroup;
 using UnityEngine.Events;
+using Items;
 
 namespace UI {
 
@@ -25,7 +27,6 @@ namespace UI {
         void Awake() {
             image = GetComponent<Image>();
             image.enabled = false;
-
             if(eventName.Length > 0)
                 EventManager.UI.AddListener(eventName, new UnityAction<GameObject>(x => TrySetItem(x)));
         }
@@ -33,16 +34,12 @@ namespace UI {
         public void SetItem(GameObject item) {
             image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
             image.enabled = true;
-
             Item = item;
             item.transform.position = transform.position;
-            item.transform.parent = transform;
-
-            if(transform.childCount > 0)
-            BroadcastMessage("OnAddToInventory", eventName, SendMessageOptions.DontRequireReceiver);
-           
-            if(eventName.Length > 0)
-                EventManager.UI.TriggerEvent(eventName, item);
+			ItemNetwork itemNetwork = item.GetComponent<ItemNetwork>();
+            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetUISlot(eventName, item);
+//            if(eventName.Length > 0)
+//                EventManager.UI.TriggerEvent(eventName, item);
         }
 
         public bool TrySetItem(GameObject item) {
@@ -62,9 +59,22 @@ namespace UI {
             var item = Item;
             Item = null;
 
-            if(eventName.Length > 0 && item != null)
-                EventManager.UI.TriggerEvent(eventName, null);
+//            if(eventName.Length > 0 && item != null)
+//                EventManager.UI.TriggerEvent(eventName, null);
+            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdClearUISlot(eventName);
+            image.sprite = null;
+            image.enabled = false;
 
+            return item;
+        }
+
+        /// <summary>
+        /// for use with specific item placement (tables/cupboards etc);
+        /// </summary>
+        /// <returns></returns>
+        public GameObject PlaceItemInScene() {
+            var item = Item;
+            Item = null;
             image.sprite = null;
             image.enabled = false;
 

@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 114349135786929062}
   - component: {fileID: 114535455969495360}
   - component: {fileID: 114955799482038664}
-  - component: {fileID: 114598383825069942}
+  - component: {fileID: 114717910890541562}
   m_Layer: 11
   m_Name: MiningDoor
   m_TagString: Untagged
@@ -411,6 +411,8 @@ MonoBehaviour:
   openSFX: {fileID: 82338390985291098}
   closeSFX: {fileID: 82235433271380022}
   usingAnimator: 0
+  isWindowedDoor: 0
+  isPerformingAction: 0
   doorType: 5
   maxTimeOpen: 5
 --- !u!114 &114535455969495360
@@ -427,7 +429,7 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
---- !u!114 &114598383825069942
+--- !u!114 &114717910890541562
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -435,24 +437,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1649904137728258}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 47
+    i1: 17
+    i2: 250
+    i3: 255
+    i4: 204
+    i5: 141
+    i6: 20
+    i7: 22
+    i8: 9
+    i9: 58
+    i10: 214
+    i11: 124
+    i12: 251
+    i13: 95
+    i14: 155
+    i15: 61
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114955799482038664
 MonoBehaviour:
   m_ObjectHideFlags: 1

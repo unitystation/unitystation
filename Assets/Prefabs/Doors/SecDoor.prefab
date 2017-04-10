@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 114716872036012102}
   - component: {fileID: 114547827610509496}
   - component: {fileID: 114460997825130782}
-  - component: {fileID: 114529730837198386}
+  - component: {fileID: 114773857305252160}
   m_Layer: 11
   m_Name: SecDoor
   m_TagString: Untagged
@@ -410,32 +410,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
---- !u!114 &114529730837198386
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1488470923909840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &114547827610509496
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -464,8 +438,42 @@ MonoBehaviour:
   openSFX: {fileID: 82426556019595742}
   closeSFX: {fileID: 82079168272760752}
   usingAnimator: 0
+  isWindowedDoor: 0
+  isPerformingAction: 0
   doorType: 10
   maxTimeOpen: 5
+--- !u!114 &114773857305252160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1488470923909840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 187
+    i1: 129
+    i2: 242
+    i3: 109
+    i4: 169
+    i5: 51
+    i6: 228
+    i7: 237
+    i8: 57
+    i9: 157
+    i10: 92
+    i11: 94
+    i12: 85
+    i13: 1
+    i14: 27
+    i15: 21
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212134995205660142
 SpriteRenderer:
   m_ObjectHideFlags: 1

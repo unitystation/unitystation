@@ -1,12 +1,12 @@
 ﻿using PlayGroup;
-using SS.NPC;
+using NPC;
 using UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Network;
+using UnityEngine.Networking;
 
-public class Kill: Photon.MonoBehaviour {
+public class Kill: NetworkBehaviour{
 
     public Sprite deadSprite;
     public GameObject meatPrefab;
@@ -29,43 +29,38 @@ public class Kill: Photon.MonoBehaviour {
         if(UIManager.Hands.CurrentSlot.Item != null && PlayerManager.PlayerInReach(transform)) {
             if(UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife) {
                 if(!dead) {
-                    photonView.RPC("Die", PhotonTargets.All, null); //Send death to all clients for pete
+                    //Send death to all clients for pete
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdKillNpc(this.gameObject);
                 } else if(!sliced) {
-                    photonView.RPC("Gib", PhotonTargets.MasterClient, null); //Spawn the new meat
-                    photonView.RPC("RemoveFromNetwork", PhotonTargets.MasterClient, null); // Remove pete from the network
-
+                   //Spawn the new meat
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGibNpc(this.gameObject);
                     sliced = true;
                 }
             }
         }
     }
 
-    [PunRPC]
-    void Die() {
+    [ClientRpc]
+    public void RpcDie() {
         dead = true;
         randomMove.enabled = false;
-        physicsMove.enabled = false;
         spriteRenderer.sprite = deadSprite;
         SoundManager.Play("Bodyfall", 0.5f);
     }
 
-    [PunRPC]
-    void Gib() {
-        if(PhotonNetwork.isMasterClient) {
+    //server only
+    public void Gib() {
+
             // Spawn Meat
             for(int i = 0; i < amountSpawn; i++) {
-                NetworkItemDB.Instance.MasterClientCreateItem(meatPrefab.name, transform.position); //Create scene owned object
-            }
+            GameObject meat = Instantiate(meatPrefab, transform.position, Quaternion.identity) as GameObject; 
+            NetworkServer.Spawn(meat);
+        }
 
             // Spawn Corpse
-            NetworkItemDB.Instance.MasterClientCreateItem(corpsePrefab.name, transform.position); //Create scene owned object
-
-        }
+        GameObject corpse = Instantiate(corpsePrefab, transform.position, Quaternion.identity) as GameObject;
+        NetworkServer.Spawn(corpse);
+        NetworkServer.Destroy(this.gameObject);
     }
-
-    [PunRPC]
-    void RemoveFromNetwork() //Can only be called by masterclient
-    {
-        PhotonNetwork.Destroy(this.gameObject);
-    }
+        
 }

@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 114201876269245600}
   - component: {fileID: 114134682312077072}
   - component: {fileID: 114143323709364942}
-  - component: {fileID: 114055503836101708}
+  - component: {fileID: 114471071171978832}
   m_Layer: 11
   m_Name: AtmosDoor
   m_TagString: Untagged
@@ -397,32 +397,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114055503836101708
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1457523303891292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &114134682312077072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -464,8 +438,42 @@ MonoBehaviour:
   openSFX: {fileID: 82155393946766332}
   closeSFX: {fileID: 82478818841260734}
   usingAnimator: 0
+  isWindowedDoor: 0
+  isPerformingAction: 0
   doorType: 0
   maxTimeOpen: 5
+--- !u!114 &114471071171978832
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1457523303891292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 162
+    i1: 62
+    i2: 88
+    i3: 251
+    i4: 75
+    i5: 121
+    i6: 52
+    i7: 219
+    i8: 136
+    i9: 45
+    i10: 83
+    i11: 82
+    i12: 76
+    i13: 114
+    i14: 175
+    i15: 233
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212341596637452762
 SpriteRenderer:
   m_ObjectHideFlags: 1

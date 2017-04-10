@@ -70,8 +70,8 @@ GameObject:
   - component: {fileID: 61000013105870566}
   - component: {fileID: 114000012557435128}
   - component: {fileID: 114000012487981754}
-  - component: {fileID: 114820874120237260}
   - component: {fileID: 114114746867991184}
+  - component: {fileID: 114752899670656194}
   m_Layer: 0
   m_Name: PublicDoor
   m_TagString: Untagged
@@ -442,7 +442,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
---- !u!114 &114820874120237260
+--- !u!114 &114752899670656194
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -450,24 +450,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000013208201100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
-  isRuntimeInstantiated: 0
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 209
+    i1: 155
+    i2: 238
+    i3: 167
+    i4: 139
+    i5: 121
+    i6: 76
+    i7: 21
+    i8: 177
+    i9: 24
+    i10: 149
+    i11: 238
+    i12: 111
+    i13: 132
+    i14: 124
+    i15: 39
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212000011125170888
 SpriteRenderer:
   m_ObjectHideFlags: 1

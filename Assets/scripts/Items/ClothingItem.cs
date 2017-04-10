@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace PlayGroup
 {
@@ -13,20 +14,22 @@ namespace PlayGroup
     }
 
     [RequireComponent(typeof(SpriteRenderer))]
-    public class ClothingItem: Photon.PunBehaviour
+	public class ClothingItem: MonoBehaviour
     {
+		//choice between left or right or other(clothing)
         public SpriteType spriteType;
 
         public string spriteSheetName;
         public int reference = -1;
         public PlayerScript thisPlayerScript;
+		private int spriteCodeCache = 1;
 
         public int Reference
         {
             set
             {
                 reference = value;
-                UpdateSprite();
+				SetSprite();
             }
             get
             {
@@ -56,61 +59,56 @@ namespace PlayGroup
         {
             sprites = SpriteManager.PlayerSprites[spriteSheetName];
             UpdateSprite();
-
-            if (PhotonNetwork.connectedAndReady)
-            {
-                if (!PhotonNetwork.isMasterClient && !photonView.isMine)
-                {
-                    //If you are not the master then update the current IG state of this object from the master
-                    photonView.RPC("SendCurrentState", PhotonTargets.MasterClient);
-                }
-            }
         }
 
         public void Clear()
         {
             Reference = -1;
         }
+          
+		void SetSprite(){
 
-        public void UpdateItem(GameObject item)
-        {
-            var attributes = item.GetComponent<ItemAttributes>();
+			if (reference == -1) {
+				UpdateSprite();
+				return;
+			}
 
-            if (spriteType == SpriteType.Other)
-            {
-                reference = attributes.clothingReference;
-            }
-            else
-            {
-                switch (attributes.spriteType)
-                {
-                    case UI.SpriteType.Items:
-                        spriteSheetName = "items_";
-                        break;
-                    case UI.SpriteType.Clothing:
-                        spriteSheetName = "clothing_";
-                        break;
-                    case UI.SpriteType.Guns:
-                        spriteSheetName = "guns_";
-                        break;
-                }
+			if (spriteType == SpriteType.Other)
+			{
+				reference = Reference;
+			}
+			else
+			{
+				string networkRef = Reference.ToString();
+				int code = (int)Char.GetNumericValue(networkRef[0]);
+				networkRef = networkRef.Remove(0, 1);
+				int _reference = int.Parse(networkRef);
+				switch (code) {
+					case 1:
+						spriteSheetName = "items_";
+						break;
+					case 2:
+						spriteSheetName = "clothing_";
+						break;
+					case 3:
+						spriteSheetName = "guns_";
+						break;
+				}
+				if (spriteType == SpriteType.RightHand)
+				{
+					spriteSheetName = spriteSheetName + "righthand";
+					reference = _reference;
+				}
+				else
+				{
+					spriteSheetName = spriteSheetName + "lefthand";
+					reference = _reference;
+				}
+			}
 
-                if (spriteType == SpriteType.RightHand)
-                {
-                    spriteSheetName += "righthand";
-                    reference = attributes.inHandReferenceRight;
-                }
-                else
-                {
-                    spriteSheetName += "lefthand";
-                    reference = attributes.inHandReferenceLeft;
-                }
-
-            }
-
-            sprites = SpriteManager.PlayerSprites[spriteSheetName];
-            UpdateSprite();
-        }
+			sprites = SpriteManager.PlayerSprites[spriteSheetName];
+			UpdateSprite();
+		}
 
         private void UpdateReferenceOffset()
         {
@@ -128,58 +126,15 @@ namespace PlayGroup
         }
 
         private void UpdateSprite()
-        {
-            if (spriteRenderer != null)
-            {
-                if (reference >= 0) //If reference -1 then clear the sprite
-                {
-                    spriteRenderer.sprite = sprites[reference + referenceOffset];
-                }
-                else
-                {
-                    spriteRenderer.sprite = null;
-                }
-            }
-      
-            if (thisPlayerScript != null)
-            {
-                if (PhotonNetwork.connectedAndReady && photonView.isMine)//if this player is mine, then update the reference and spriteSheetName on all other clients
-                {
-                    photonView.RPC("UpdateSpriteNetwork", PhotonTargets.Others, new object[] { reference, spriteSheetName, photonView.viewID });
-                }
-            }
-        }
-
-
-        [PunRPC]
-        void UpdateSpriteNetwork(int spriteRef, string sheetName, int viewID)
-        {
-            if (viewID == photonView.viewID)
-            {
-                spriteSheetName = sheetName;
-                sprites = SpriteManager.PlayerSprites[spriteSheetName];
-                Reference = spriteRef;
-            }
-        }
-
-        //PUN Sync
-        [PunRPC]
-        void SendCurrentState()
-        {
-            if (PhotonNetwork.isMasterClient)
-            {
-                photonView.RPC("ReceiveCurrentState", PhotonTargets.Others, new object[]{reference}); // Send the clothing reference
-            }
-        }
-
-        [PunRPC]
-        void ReceiveCurrentState(int clothRef)
-        {
-            if (!photonView.isMine)
-            {
-                Reference = clothRef;
-            }
-        }
-            
+		{
+			if (spriteRenderer != null) {
+				if (reference >= 0) { //If reference -1 then clear the sprite
+					if (sprites != null)
+						spriteRenderer.sprite = sprites[reference + referenceOffset];
+				} else {
+					spriteRenderer.sprite = null;
+				}
+			} 
+		}
     }
 }

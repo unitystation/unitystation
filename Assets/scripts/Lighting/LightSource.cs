@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//FIXME turn this into atmo code (this would be for the vents or gas canisters)
 namespace Lighting
 {
-	public class LightSource : Photon.PunBehaviour
+    public class LightSource : MonoBehaviour
 	{
 		private LightingSourceManager lightSourceManager;
 		private SpriteRenderer thisSprite;
@@ -39,21 +40,20 @@ namespace Lighting
 		}
 
 		public void TurnOnLight(){
-			photonView.RPC("OnLight", PhotonTargets.All, null);
+	
 		}
 
 		public void TurnOffLight(){
-			photonView.RPC("OffLight", PhotonTargets.All, null);
 		}
 
-		[PunRPC]
+	
 		public void OnLight(){
 			brightness = brightCache;
 			lightSourceManager.UpdateRoomBrightness(this);
 			thisSprite.sprite = lightOn;
 		}
 
-		[PunRPC]
+
 		public void OffLight(){
 			thisSprite.sprite = lightOff;
 			brightness = 0f;
