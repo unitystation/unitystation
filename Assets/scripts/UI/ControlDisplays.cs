@@ -35,7 +35,7 @@ namespace UI
 				obj.SetActive(true);
 			}
 			backGround.SetActive(false);
-			logInWindow.SetActive(true);
+
 
 			SoundManager.StopMusic();
 			//TODO random ambient

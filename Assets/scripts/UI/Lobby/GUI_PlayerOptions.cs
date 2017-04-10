@@ -71,7 +71,6 @@ namespace UI
 			if (screen_PlayerName.activeInHierarchy && hostServer.isOn && !GameData.IsInGame) {
 				PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
                 networkManager.StartHost();
-                networkManager.ServerChangeScene("BoxStation");
 				gameObject.SetActive(false);
 			}
 		}

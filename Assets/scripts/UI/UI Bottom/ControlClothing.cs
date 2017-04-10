@@ -12,7 +12,7 @@ namespace UI {
         public void RolloutEquipmentMenu() {
             SoundManager.Play("Click01");
 
-            if(!equipmentMenu.GetActive()) {
+            if(!equipmentMenu.activeInHierarchy) {
                 equipmentMenu.SetActive(true);
             } else {
                 equipmentMenu.SetActive(false);

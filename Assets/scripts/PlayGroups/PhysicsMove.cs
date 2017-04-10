@@ -122,7 +122,7 @@ namespace PlayGroup
 		}
 
 		//Most used for Shuffling Players out of tiles when being occupied by others
-		[PunRPC]
+	
 		public void ManualMoveToTarget(Vector3 targetPos)
 		{
 			startPos = transform.position;

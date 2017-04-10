@@ -5,7 +5,6 @@ using UnityEngine.Networking;
 using UI;
 using Events;
 using Crafting;
-using Network;
 
 public class Microwave : NetworkBehaviour
 {

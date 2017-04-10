@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UI;
 using PlayGroup;
-using Network;
 
 namespace Items
 {
