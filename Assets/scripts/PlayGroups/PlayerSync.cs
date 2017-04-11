@@ -1,0 +1,99 @@
+﻿using System.Collections.Generic;
+using UnityEngine.Networking;
+using UnityEngine;
+
+namespace PlayGroup {
+
+    public struct PlayerState {
+        public int MoveNumber;
+        public Vector3 Position;
+    }
+    
+    public struct PlayerAction {
+        public int[] keyCodes;
+    }
+
+    public class PlayerSync: NetworkBehaviour {
+
+        private PlayerMove playerMove;
+
+        private Queue<PlayerAction> pendingActions;
+
+        [SyncVar(hook = "OnServerStateChange")] 
+        private PlayerState serverState;
+        private PlayerState predictedState;
+
+        void Awake() {
+            InitState();
+        }
+
+        [Server]
+        private void InitState() {
+            var position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0);
+            serverState = new PlayerState() { MoveNumber = 0, Position = position };
+        }
+
+        void Start() {
+            if(isLocalPlayer) {
+                pendingActions = new Queue<PlayerAction>();
+                UpdatePredictedState();
+            }
+            playerMove = GetComponent<PlayerMove>();
+        }
+
+        void Update() {
+            if(isLocalPlayer) {
+                if(predictedState.Position == transform.position) {
+                    DoAction();
+                }
+            }
+
+            Synchronize();
+        }
+
+        private void DoAction() {
+            var action = playerMove.SendAction();
+            if(action.keyCodes.Length != 0) {
+                pendingActions.Enqueue(action);
+                UpdatePredictedState();
+                CmdAction(action);
+            }
+        }
+
+        private void Synchronize() {
+            var state = isLocalPlayer ? predictedState : serverState;
+            transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
+        }
+
+        [Command]
+        private void CmdAction(PlayerAction action) {
+            serverState = NextState(serverState, action);
+        }
+
+        private void UpdatePredictedState() {
+            predictedState = serverState;
+
+            foreach(var action in pendingActions) {
+                predictedState = NextState(predictedState, action);
+            }
+        }
+
+        private PlayerState NextState(PlayerState state, PlayerAction action) {
+            return new PlayerState() {
+                MoveNumber = state.MoveNumber + 1,
+                Position = playerMove.GetNextPosition(state.Position, action)
+            };
+        }
+
+        private void OnServerStateChange(PlayerState newState) {
+            serverState = newState;
+
+            if(pendingActions != null) {
+                while(pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber)) {
+                    pendingActions.Dequeue();
+                }
+                UpdatePredictedState();
+            }
+        }
+    }
+}
