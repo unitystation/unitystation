@@ -1,92 +1,117 @@
-﻿using System.Collections;
-using UI;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-namespace PlayGroup
-{
-	public class PlayerMove: NetworkBehaviour
-	{
-		[Header("Options")]
-		public float speed = 10f;
-		public bool allowDiagonalMove;
+namespace PlayGroup {
 
-		private Vector3 currentPosition, targetPosition, currentDirection;
-		private PlayerSprites playerSprites;
+    public class PlayerMove: MonoBehaviour {
 
-		void Start()
-		{
-			targetPosition = transform.position;
-			playerSprites = gameObject.GetComponent<PlayerSprites>();
-		}
+        private PlayerSprites playerSprites;
 
-		void Update()
-		{
-			if (!UIManager.Chat.chatInputWindow.activeSelf && isLocalPlayer) {
-				var inputDirection = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
-				if (inputDirection != Vector3.zero) {
-					CmdMove(inputDirection);
-				}
-			}
+        private static KeyCode[] keyCodes = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
 
-			if (NetworkServer.active) {
-				CmdMove(Vector3.zero);
-			}
-		}
-			
-		[Command(channel = 1)]
-		void CmdMove(Vector3 inputDirection)
-		{
-            transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+        public bool diagonalMovement;
+        public float speed = 10;
 
-			if (targetPosition == transform.position) {
-				currentPosition = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
+        private List<KeyCode> pressedKeys = new List<KeyCode>();
 
-				if (inputDirection != Vector3.zero) {
+        void Start() {
+            playerSprites = gameObject.GetComponent<PlayerSprites>();
+        }
 
-					if (!allowDiagonalMove && inputDirection.x != 0) {
-						inputDirection.y = 0;
-					}
+        public PlayerAction SendAction() {
+            var actionKeys = new List<int>();
 
-					if (!TryToMove(inputDirection)) {
-						Interact(inputDirection);
-						playerSprites.FaceDirection(inputDirection);
-					} else {
-						playerSprites.FaceDirection(inputDirection);
-					}
-				}
-			}
-		}
+            foreach(var keyCode in keyCodes) {
+                if(Input.GetKey(keyCode)) {
+                    actionKeys.Add((int) keyCode);
+                }
+            }
 
-		private bool TryToMove(Vector3 direction)
-		{
-			var horizontal = Vector3.Scale(direction, Vector3.right);
-			var vertical = Vector3.Scale(direction, Vector3.up);
+            return new PlayerAction() { keyCodes = actionKeys.ToArray() };
+        }
 
-			if (Matrix.Matrix.At(currentPosition + direction).IsPassable()) {
-				if ((Matrix.Matrix.At(currentPosition + horizontal).IsPassable() ||
-				               Matrix.Matrix.At(currentPosition + vertical).IsPassable())) {
-					targetPosition = currentPosition + direction;
-					return true;
-				}
-			} else if (horizontal != Vector3.zero && vertical != Vector3.zero) {
-				if (Matrix.Matrix.At(currentPosition + horizontal).IsPassable()) {
-					targetPosition = currentPosition + horizontal;
-					return true;
-				} else if (Matrix.Matrix.At(currentPosition + vertical).IsPassable()) {
-					targetPosition = currentPosition + vertical;
-					return true;
-				}
-			}
-			return false;
-		}
+        public Vector3 GetNextPosition(Vector3 currentPosition, PlayerAction action) {
+            var direction = GetDirection(action);
+            var adjustedDirection = AdjustDirection(currentPosition, direction);
 
-		private void Interact(Vector3 direction)
-		{
-			DoorController doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
-			if (doorController != null) {
-				doorController.CmdTryOpen();
-			}
-		}
-	}
+            if(adjustedDirection == Vector3.zero) {
+                Interact(currentPosition, direction);
+            }
+
+            playerSprites.FaceDirection(direction);
+            return currentPosition + adjustedDirection;
+        }
+
+        private Vector3 GetDirection(PlayerAction action) {
+            ProcessAction(action);
+
+            if(diagonalMovement) {
+                return GetMoveDirection(pressedKeys);
+            }
+            if(pressedKeys.Count > 0) {
+                return GetMoveDirection(pressedKeys[pressedKeys.Count - 1]);
+            }
+            return Vector3.zero;
+        }
+
+        private void ProcessAction(PlayerAction action) {
+            var actionKeys = new List<int>(action.keyCodes);
+            foreach(var keyCode in keyCodes) {
+                if(actionKeys.Contains((int) keyCode) && !pressedKeys.Contains(keyCode)) {
+                    pressedKeys.Add(keyCode);
+                } else if(!actionKeys.Contains((int) keyCode) && pressedKeys.Contains(keyCode)) {
+                    pressedKeys.Remove(keyCode);
+                }
+            }
+        }
+
+        private Vector3 GetMoveDirection(List<KeyCode> actions) {
+            var direction = Vector3.zero;
+            foreach(var keycode in pressedKeys) {
+                direction += GetMoveDirection(keycode);
+            }
+            direction.x = Mathf.Clamp(direction.x, -1, 1);
+            direction.y = Mathf.Clamp(direction.y, -1, 1);
+
+            return direction;
+        }
+
+        private Vector3 GetMoveDirection(KeyCode action) {
+            switch(action) {
+                case KeyCode.W:
+                case KeyCode.UpArrow:
+                    return Vector3.up;
+                case KeyCode.A:
+                case KeyCode.LeftArrow:
+                    return Vector3.left;
+                case KeyCode.S:
+                case KeyCode.DownArrow:
+                    return Vector3.down;
+                case KeyCode.D:
+                case KeyCode.RightArrow:
+                    return Vector3.right;
+            }
+
+            return Vector3.zero;
+        }
+
+        private Vector3 AdjustDirection(Vector3 currentPosition, Vector3 direction) {
+            var horizontal = Vector3.Scale(direction, Vector3.right);
+            var vertical = Vector3.Scale(direction, Vector3.up);
+
+            if(Matrix.Matrix.At(currentPosition + direction).IsPassable()) {
+                if((Matrix.Matrix.At(currentPosition + horizontal).IsPassable() ||
+                               Matrix.Matrix.At(currentPosition + vertical).IsPassable())) {
+                    return direction;
+                }
+            }
+            return Vector3.zero;
+        }
+        private void Interact(Vector3 currentPosition, Vector3 direction) {
+            DoorController doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
+            if(doorController != null) {
+                doorController.CmdTryOpen();
+            }
+        }
+    }
 }
