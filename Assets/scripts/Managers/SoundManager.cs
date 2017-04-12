@@ -18,7 +18,7 @@ public class SoundManager: MonoBehaviour {
     public AudioSource[] ambientTracks;
 
     private static SoundManager soundManager;
-
+   
     public static SoundManager Instance {
         get {
             if(!soundManager) {
@@ -55,6 +55,13 @@ public class SoundManager: MonoBehaviour {
         Instance.sounds[name].time = time;
         Instance.sounds[name].volume = volume;
         Instance.sounds[name].Play();
+    }
+
+    public static void PlayAtPosition(string name, Vector3 pos){
+        if(Instance.sounds.ContainsKey(name)){
+            Instance.sounds[name].transform.position = pos;
+            Instance.sounds[name].Play();
+        }
     }
 
     public static void PlayRandomTrack() {

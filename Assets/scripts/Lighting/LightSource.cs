@@ -35,7 +35,7 @@ namespace Lighting
 			if (lightSourceManager != null) {
 				lightSourceManager.UpdateRoomBrightness(this);
 			} else {
-				Debug.Log("NO LIGHT SOURCE MANAGER");
+				
 			}
 		}
 

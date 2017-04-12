@@ -34,11 +34,12 @@ namespace Equipment
 			if(Instance.equipPools.ContainsKey(playerName)){
 				//add obj to pool
 				Instance.equipPools[playerName].AddGameObject(gObj);
+                gObj.BroadcastMessage("OnAddToPool", playerName, SendMessageOptions.DontRequireReceiver);
 			} else {
 				//set up new pool and then add the obj
 				GameObject newPool = Instantiate(Instance.objectPoolPrefab,Vector2.zero,Quaternion.identity) as GameObject;
 				newPool.transform.parent = Instance.transform;
-				newPool.name = playerName + "_[ObjectPool]";
+				newPool.name = playerName;
 				Instance.equipPools.Add(playerName, newPool.GetComponent<ObjectPool>());
 				Instance.equipPools[playerName].AddGameObject(gObj);
 			}
@@ -48,7 +49,8 @@ namespace Equipment
 		public static void DropGameObject (string playerName, GameObject gObj){
 			if (Instance.equipPools.ContainsKey(playerName)) {
 				Instance.equipPools[playerName].DropGameObject(gObj, PlayerList.Instance.connectedPlayers[playerName].transform.position);
-			}
+                gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
+            }
 		}
 
 		//When placing items at a position etc also removes them from the player equipment pool and places it in scene
@@ -56,6 +58,8 @@ namespace Equipment
 
 			if (Instance.equipPools.ContainsKey(playerName)) {
 				Instance.equipPools[playerName].DropGameObject(gObj, pos);
+                gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
+
 			}
 		}
 
