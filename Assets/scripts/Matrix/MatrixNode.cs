@@ -111,7 +111,12 @@ namespace Matrix {
             isSpace = false;
 
             foreach(var tile in tiles) {
+				if (tile == null)
+					return;
                 var registerTile = tile.GetComponent<RegisterTile>();
+
+
+				
                 tileValue |= registerTile.TileType;
 
                 var connectTrigger = tile.GetComponent<ConnectTrigger>();

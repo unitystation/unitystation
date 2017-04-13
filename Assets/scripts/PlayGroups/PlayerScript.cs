@@ -61,7 +61,6 @@ namespace PlayGroup {
             if(!PlayerList.Instance.connectedPlayers.ContainsKey(newName)) {
                 PlayerList.Instance.connectedPlayers.Add(newName, gameObject);
             }
-            transform.parent = PlayerList.Instance.transform;
             PlayerList.Instance.RefreshPlayerListText();
         }
 

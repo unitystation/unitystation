@@ -297,6 +297,16 @@ public class PlayerNetworkActions : NetworkBehaviour
             c.RpcSetEmptySprite();
         }
     }
+        
+    [Command]
+    public void CmdShootBullet(Vector2 direction, string bulletName){
+        GameObject bullet = GameObject.Instantiate(Resources.Load(bulletName) as GameObject,transform.position, Quaternion.identity);
+        NetworkServer.Spawn(bullet);
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
+        b.Shoot(direction, angle);
+            
+    }
 
     [ClientRpc]
     void RpcAdjustItemParent(GameObject item, GameObject parent)
