@@ -122,9 +122,14 @@ namespace Equipment
 		{
 			ItemAttributes att = obj.GetComponent<ItemAttributes>();
 			EquipmentPool.AddGameObject(gameObject.name, obj);
-			obj.BroadcastMessage("OnAddToInventory",eventName, SendMessageOptions.DontRequireReceiver);
             SetHandItemSprite(eventName, att);
+            RpcSendMessage(eventName, obj);
 		}
+
+        [ClientRpc]
+        void RpcSendMessage(string eventName, GameObject obj){
+            obj.BroadcastMessage("OnAddToInventory",eventName, SendMessageOptions.DontRequireReceiver);
+        }
 
         //To set the actual sprite on the player obj
         public void SetHandItemSprite(string eventName, ItemAttributes att){
