@@ -15,14 +15,13 @@ public class Kill: NetworkBehaviour{
 
     private SpriteRenderer spriteRenderer;
     private RandomMove randomMove;
-    private PhysicsMove physicsMove;
     private bool dead = false;
     private bool sliced = false;
 
-    void Start() {
+    public override void OnStartClient() {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        randomMove = GetComponent<RandomMove>();
-        physicsMove = GetComponent<PhysicsMove>();
+		randomMove = GetComponent<RandomMove>();
+		base.OnStartClient();
     }
 
     void OnMouseDown() {
@@ -39,6 +38,25 @@ public class Kill: NetworkBehaviour{
             }
         }
     }
+
+	void OnCollisionEnter2D (Collision2D coll){
+		if (isServer)
+		{
+			BulletBehaviour b = coll.gameObject.GetComponent<BulletBehaviour>();
+			if (b != null)
+			{
+				if (!dead)
+				{
+					RpcDie();
+				}
+				else if (!sliced)
+				{
+					sliced = true;
+					Gib();
+				}
+			}
+		}
+	}
 
     [ClientRpc]
     public void RpcDie() {
