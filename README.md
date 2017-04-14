@@ -1,7 +1,7 @@
 # unitystation
 ## the unity clone of ss13 using the /tg/station branch http://www.tgstation13.org/
 
-For sporatic development in Unity 5.5+
+For sporatic development in Unity 5.6+
 
 ## Feel like getting involved?
 1. Fork the repo
