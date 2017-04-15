@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace PlayGroup {
 
-    public class PlayerMove: MonoBehaviour {
+    public class PlayerMove: NetworkBehaviour {
 
         private PlayerSprites playerSprites;
 
@@ -11,6 +12,7 @@ namespace PlayGroup {
 
         public bool diagonalMovement;
         public float speed = 10;
+		public bool isInSpace = false;
 
         private List<KeyCode> pressedKeys = new List<KeyCode>();
 
@@ -31,6 +33,14 @@ namespace PlayGroup {
         }
 
         public Vector3 GetNextPosition(Vector3 currentPosition, PlayerAction action) {
+			if (isServer) {
+				bool isSpace = Matrix.Matrix.At(currentPosition).IsSpace();
+				if (isSpace && !isInSpace) {
+					isInSpace = true;
+				} else if (!isSpace && isInSpace) {
+					isInSpace = false;
+				}
+			}
             var direction = GetDirection(action);
             var adjustedDirection = AdjustDirection(currentPosition, direction);
 

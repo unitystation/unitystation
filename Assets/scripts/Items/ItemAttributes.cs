@@ -38,10 +38,7 @@ namespace UI
 		public int inHandReferenceLeft;
 		public int clothingReference = -1;
 
-		//this and other reference ints should be read in from the master dictionary once we get all that shit figured out - for now it's hard coded
-		//change values manually in the inspector -- wealth
-
-		public ItemSize size;
+	    public ItemSize size;
 		public ItemType type;
 
         //Below methods add a code to the start of the sprite reference to indicate which spritesheet to use:

@@ -90,13 +90,13 @@ namespace InputControl {
 		void CheckPlayerDirection(float angle)
 		{
 			if (angle >= 315f && angle <= 360f || angle >= 0f && angle <= 45f)
-				playerSprites.FaceDirection(Vector2.up);
+				playerSprites.CmdChangeDirection(Vector2.up);
 			if (angle > 45f && angle <= 135f) 
-				playerSprites.FaceDirection(Vector2.right);
+				playerSprites.CmdChangeDirection(Vector2.right);
 			if (angle > 135f && angle <= 225f) 
-				playerSprites.FaceDirection(Vector2.down);
+				playerSprites.CmdChangeDirection(Vector2.down);
 			if (angle > 225f && angle < 315f) 
-				playerSprites.FaceDirection(Vector2.left);
+				playerSprites.CmdChangeDirection(Vector2.left);
 		}
     }
 }
