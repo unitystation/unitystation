@@ -11,6 +11,7 @@ TagManager:
   - Preview
   - MapEditor
   - NetworkManager
+  - FogOfWar
   layers:
   - Default
   - TransparentFX
@@ -26,6 +27,7 @@ TagManager:
   - Machines
   - OtherPlayers
   - Lighting
+  - Furniture
   - 
   - 
   - 
@@ -41,8 +43,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - FogOfWar
   - 
   m_SortingLayers:
   - name: Default
@@ -83,4 +84,7 @@ TagManager:
     locked: 0
   - name: Preview
     uniqueID: 2313922533
+    locked: 0
+  - name: FogOfWar
+    uniqueID: 2259420159
     locked: 0
