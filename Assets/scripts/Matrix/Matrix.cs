@@ -69,8 +69,7 @@ namespace Matrix {
 
             return null;
         }
-
-        //This is for the InputRelease method on physics move (to snap player to grid)
+			
         public static Vector3 GetClosestNode(Vector2 curPos, Vector2 vel) {
 
             float closestX;

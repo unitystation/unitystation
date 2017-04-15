@@ -24,7 +24,7 @@ namespace PlayGroup
 			FaceDirection(Vector2.down);
 			playerScript = gameObject.GetComponent<PlayerScript>();
 		}
-
+			
 		//turning character input and sprite update
 		public void FaceDirection(Vector2 direction)
 		{
