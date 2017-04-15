@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 2045}
   - component: {fileID: 2012}
   - component: {fileID: 2749}
+  - component: {fileID: 1801}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -31232,6 +31233,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.34665096, y: 0.3508446}
   m_EdgeRadius: 0
+--- !u!114 &1801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c56bef7693cc4b45b462f1e2307e9f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShroudPrefab: {fileID: 1568321921243642, guid: 512e8fe0a62e2d94286f6f39b769f60d,
+    type: 2}
+  MonitorRadius: 12
+  FieldOfVision: 90
+  InnatePreyVision: 6
+  WallLayer: 9
 --- !u!61 &1803
 BoxCollider2D:
   m_ObjectHideFlags: 0
