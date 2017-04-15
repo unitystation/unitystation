@@ -16,12 +16,14 @@ namespace PlayGroup {
     public class PlayerSync: NetworkBehaviour {
 
         private PlayerMove playerMove;
+		private PlayerSprites playerSprites;
 
         private Queue<PlayerAction> pendingActions;
 
         [SyncVar(hook = "OnServerStateChange")] 
         private PlayerState serverState;
         private PlayerState predictedState;
+
 
         void Awake() {
             InitState();
@@ -39,6 +41,7 @@ namespace PlayGroup {
                 UpdatePredictedState();
             }
             playerMove = GetComponent<PlayerMove>();
+			playerSprites = GetComponent<PlayerSprites>();
         }
 
         void Update() {
@@ -62,7 +65,7 @@ namespace PlayGroup {
 
         private void Synchronize() {
             var state = isLocalPlayer ? predictedState : serverState;
-            transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
+				transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
         }
 
         [Command]

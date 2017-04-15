@@ -25,6 +25,10 @@ namespace PlayGroup
 			playerScript = gameObject.GetComponent<PlayerScript>();
 		}
 
+		[Command]
+		public void CmdChangeDirection(Vector2 direction){
+			SetDir(direction); 
+		}
 		//turning character input and sprite update
 		public void FaceDirection(Vector2 direction)
 		{

@@ -17,7 +17,7 @@ public abstract class BulletBehaviour : NetworkBehaviour {
     void RpcShoot(Vector2 dir, float angle){
     transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         thisRigi = GetComponent<Rigidbody2D>();
-        thisRigi.AddForce(dir * 30f, ForceMode2D.Impulse);
+        thisRigi.AddForce(dir * 24f, ForceMode2D.Impulse);
     }
 
     public abstract void OnShoot();
