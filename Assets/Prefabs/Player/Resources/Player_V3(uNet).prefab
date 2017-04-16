@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 114390575568471296}
   - component: {fileID: 114792299177679754}
   - component: {fileID: 114617980452984522}
+  - component: {fileID: 114422182472561696}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -856,6 +857,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventName: hands
+--- !u!114 &114422182472561696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63bed291afd3c5a43b40057a10378e17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114446262269173418
 MonoBehaviour:
   m_ObjectHideFlags: 1
