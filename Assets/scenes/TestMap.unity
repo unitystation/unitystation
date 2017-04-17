@@ -1757,7 +1757,7 @@ GameObject:
   - component: {fileID: 2866}
   - component: {fileID: 2865}
   - component: {fileID: 2864}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Table (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5314,7 +5314,7 @@ GameObject:
   - component: {fileID: 3126}
   - component: {fileID: 3125}
   - component: {fileID: 3124}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Table (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6325,7 +6325,7 @@ GameObject:
   - component: {fileID: 3199}
   - component: {fileID: 3198}
   - component: {fileID: 3197}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Table (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9437,7 +9437,7 @@ GameObject:
   - component: {fileID: 3439}
   - component: {fileID: 3438}
   - component: {fileID: 3437}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9516,7 +9516,7 @@ GameObject:
   - component: {fileID: 3449}
   - component: {fileID: 3448}
   - component: {fileID: 3447}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Table (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9787,7 +9787,7 @@ GameObject:
   - component: {fileID: 3465}
   - component: {fileID: 3464}
   - component: {fileID: 3463}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Table (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10556,7 +10556,7 @@ GameObject:
   - component: {fileID: 3519}
   - component: {fileID: 3518}
   - component: {fileID: 3517}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Table (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14420,7 +14420,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1606}
   - component: {fileID: 2469}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15560,7 +15560,7 @@ GameObject:
   - component: {fileID: 1988}
   - component: {fileID: 3888}
   - component: {fileID: 3887}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: DisposalsChute
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67321,6 +67321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diagonalMovement: 0
   speed: 10
+  isInSpace: 0
 --- !u!114 &3099
 MonoBehaviour:
   m_ObjectHideFlags: 0

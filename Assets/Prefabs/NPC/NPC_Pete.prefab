@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 61711516699828072}
   - component: {fileID: 114478749026392066}
   - component: {fileID: 50113970382522722}
-  - component: {fileID: 114965491023540398}
+  - component: {fileID: 114579492963829796}
   m_Layer: 0
   m_Name: NPC_Pete
   m_TagString: Untagged
@@ -150,6 +150,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
+--- !u!114 &114579492963829796
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426d98c9778dd324f9161efc7330f257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sleeping: 0
+  paralysis: 0
+  mobStat: 0
+  StatusFlags: 15
+  InitialMaxHealth: 40
+  maxHealth: 100
+  health: 100
+  butcherResults:
+  - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
+  sliced: 0
+  deadSprite: {fileID: 21300548, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
+  gibPrefab: {fileID: 1843853587201310, guid: 0f02ea038462b9a42afac8eb3d13bfcf, type: 2}
 --- !u!114 &114595648713084262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -182,22 +205,6 @@ MonoBehaviour:
     i15: 184
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114965491023540398
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfee2d56a10666945bf413598307f382, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deadSprite: {fileID: 21300548, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
-  meatPrefab: {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
-  corpsePrefab: {fileID: 1843853587201310, guid: 0f02ea038462b9a42afac8eb3d13bfcf,
-    type: 2}
-  amountSpawn: 1
 --- !u!212 &212099414062323906
 SpriteRenderer:
   m_ObjectHideFlags: 1
