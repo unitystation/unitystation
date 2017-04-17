@@ -239,15 +239,16 @@ public class PlayerNetworkActions : NetworkBehaviour
     }
 
     [Command]
-    public void CmdKillNpc(GameObject npcObj){
-        Kill kill = npcObj.GetComponent<Kill>();
-        kill.RpcDie();
+    public void CmdAttackNpc(GameObject npcObj){
+        Living attackTarget = npcObj.GetComponent<Living>();
+        attackTarget.RpcReceiveDamage();
     }
 
     [Command]
-    public void CmdGibNpc(GameObject npcObj){
-        Kill kill = npcObj.GetComponent<Kill>();
-        kill.Gib();
+    public void CmdHarvestNpc(GameObject npcObj)
+    {
+        Living attackTarget = npcObj.GetComponent<Living>();
+        attackTarget.RpcHarvest();
     }
 
     [Command]

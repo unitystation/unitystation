@@ -1,0 +1,84 @@
+﻿using NPC;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+using UnityEngine.Networking;
+
+public class SimpleAnimal : Living {
+
+    // Inspector Properties
+    public bool sliced = false;
+    private SpriteRenderer spriteRenderer;
+    private RandomMove randomMove;
+
+    // simple_animal.dm var/icon_dead
+    public Sprite deadSprite;
+
+    // simple_animal.dm var/icon_gib
+    public GameObject gibPrefab;
+
+    public override void OnStartClient()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        randomMove = GetComponent<RandomMove>();
+        base.OnStartClient();
+    }
+
+    // Use this for initialization
+    void Start () {
+        maxHealth = InitialMaxHealth;
+        UpdateHealth();
+    }
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
+
+    #region simple_animal.dm
+
+    // see simple_animal.dm /mob/living/simple_animal/updatehealth()
+    public override void UpdateHealth()
+    {
+        base.UpdateHealth();
+        health = DMMath.Clamp(health, 0, maxHealth);
+    }
+
+    // see /mob/living/simple_animal/update_stat()
+    public override void UpdateStat()
+    {
+        if ((StatusFlags & MobStatusFlag.GODMODE) != 0)
+            return;
+
+        if (mobStat != MobConsciousStat.DEAD)
+        {
+            if (health <= 0)
+                Death(false);
+            else
+                mobStat = MobConsciousStat.CONSCIOUS;
+        }
+    }
+
+    // see /mob/living/simple_animal/death(gibbed)
+    public override void Death(bool gibbed)
+    {
+        if (!gibbed)
+        {
+            SoundManager.Play("Bodyfall", 0.5f);
+        }
+
+        health = 0;
+        randomMove.enabled = false;
+        spriteRenderer.sprite = deadSprite;
+        base.Death(gibbed);
+    }
+
+    public override void GibAnimation()
+    {
+        GameObject corpse = Instantiate(gibPrefab, transform.position, Quaternion.identity) as GameObject;
+        NetworkServer.Spawn(corpse);
+    }
+
+    #endregion
+}
