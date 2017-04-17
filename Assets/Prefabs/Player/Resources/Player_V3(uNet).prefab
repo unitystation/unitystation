@@ -868,6 +868,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63bed291afd3c5a43b40057a10378e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BodyParts:
+  - {fileID: 114057953198087338, guid: 9fafbf4c3f53caf46beab67cbf6aa639, type: 2}
+  - {fileID: 114029188904498586, guid: 71443f01ca2ea014ca6b6c58d03955ae, type: 2}
+  - {fileID: 114613159760430348, guid: c3ca58ddd6783774e8ad9f540c8f09ae, type: 2}
+  - {fileID: 114166634084172920, guid: a5b9230cbe30973479111ea6a5b94caf, type: 2}
+  - {fileID: 114098842821648076, guid: 51f7d0f505566cc45a471776114c7f29, type: 2}
+  - {fileID: 114830656174184834, guid: 3d9a4b9efc3e7b14591b9aeb84d84517, type: 2}
+  InitialMaxHealth: 100
 --- !u!114 &114446262269173418
 MonoBehaviour:
   m_ObjectHideFlags: 1
