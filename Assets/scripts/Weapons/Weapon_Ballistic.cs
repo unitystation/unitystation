@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using PlayGroup;
+using UI;
 
 namespace Weapons
 {
 	public class Weapon_Ballistic : NetworkBehaviour
 	{
-		public bool isInHand = false;
+		public bool isInHandR = false;
+		public bool isInHandL = false;
 		private bool allowedToShoot = false;
         private GameObject bullet;
 
@@ -26,13 +28,20 @@ namespace Weapons
         }
 		void Update()
 		{
-            if (isInHand && Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
             {
-                if (PlayerManager.LocalPlayerScript.gameObject.name == controlledByPlayer)
-                {
-                    Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-                    Shoot(dir);
-                }
+				//basic way to check with a XOR if the hand and the slot used matches
+				if ((isInHandR && UIManager.Hands.CurrentSlot == UIManager.Hands.RightSlot) ^ (isInHandL && UIManager.Hands.CurrentSlot == UIManager.Hands.LeftSlot)) 
+				{
+					if (PlayerManager.LocalPlayerScript.gameObject.name == controlledByPlayer) {
+						Vector2 dir = (Camera.main.ScreenToWorldPoint (Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
+
+						//don't while hovering on the UI
+						if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject ()) {
+							Shoot (dir);
+						}
+					}
+				}
             } 
 		}
 
@@ -49,13 +58,18 @@ namespace Weapons
 		//Check which slot it was just added too (broadcast from UI_itemSlot
 		public void OnAddToInventory(string slotName)
 		{
-			if (slotName == "rightHand" || slotName == "leftHand") {
-				Debug.Log("PickedUp Weapon");
-				isInHand = true;
-				StartCoroutine("ShootCoolDown");
+			if (slotName == "rightHand") {
+				Debug.Log ("PickedUp Weapon");
+				isInHandR = true;
+				StartCoroutine ("ShootCoolDown");
+			} else if (slotName == "leftHand") {
+				Debug.Log ("PickedUp Weapon");
+				isInHandL = true;
+				StartCoroutine ("ShootCoolDown");
 			} else {
 				//Any other slot
-				isInHand = false;
+				isInHandR = false;
+				isInHandL = false;
 			}
 		}
 
@@ -71,7 +85,8 @@ namespace Weapons
 		public void OnRemoveFromInventory()
 		{
 			Debug.Log("Dropped Weapon");
-			isInHand = false;
+			isInHandR = false;
+			isInHandL = false;
 			allowedToShoot = false;
 		}
 
