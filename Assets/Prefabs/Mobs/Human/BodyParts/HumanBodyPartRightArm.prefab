@@ -51,8 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc997d59fea3c2b4da80d28aba274db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 3
+  Type: 5
   DropItem: {fileID: 0}
+  Zone: r_arm
   BruteDamage: 0
   BurnDamage: 0
   MaxDamage: 50
@@ -60,3 +61,13 @@ MonoBehaviour:
     humans missing their right arm.
   brutestate: 0
   burnstate: 0
+  GreenDamageMonitorIcon: {fileID: 21300756, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  YellowDamageMonitorIcon: {fileID: 21300768, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  OrangeDamageMonitorIcon: {fileID: 21300780, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  RedDamageMonitorIcon: {fileID: 21300810, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  GrayDamageMonitorIcon: {fileID: 21300832, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}

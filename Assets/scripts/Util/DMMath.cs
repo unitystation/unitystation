@@ -20,4 +20,10 @@ public static class DMMath
     {
         return Mathf.Clamp(val, min, max);
     }
+
+    public static bool Prob(double percent)
+    {
+        System.Random rand = new System.Random(Guid.NewGuid().GetHashCode());
+        return rand.NextDouble() < percent / 100.0;
+    }
 }
