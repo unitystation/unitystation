@@ -5,7 +5,8 @@ using UnityEngine;
 using System;
 using UnityEngine.Networking;
 
-public class SimpleAnimal : Living {
+public class SimpleAnimal : Living
+{
 
     // Inspector Properties
     public bool sliced = false;
@@ -18,23 +19,22 @@ public class SimpleAnimal : Living {
     // simple_animal.dm var/icon_gib
     public GameObject gibPrefab;
 
-    public override void OnStartClient()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        randomMove = GetComponent<RandomMove>();
-        base.OnStartClient();
-    }
-
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         maxHealth = InitialMaxHealth;
         UpdateHealth();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        randomMove = GetComponent<RandomMove>();
+
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     #region simple_animal.dm
 

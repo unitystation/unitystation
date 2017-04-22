@@ -5,11 +5,13 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class BodyPart : NetworkBehaviour
+public class BodyPart : MonoBehaviour
 {
     // see body_parts.dm
     public BodyPartType Type;
     public GameObject DropItem;
+
+    public string Zone = "chest"; // TODO This should all be changed to some sort of enum
 
     public int BruteDamage = 0;
     public int BurnDamage = 0;
@@ -17,17 +19,26 @@ public class BodyPart : NetworkBehaviour
     public string Description;
 
     public int brutestate = 0;
-	public int burnstate = 0;
+    public int burnstate = 0;
+
+    // see body_parts.dm
+    public DamageOverlayType? DamageOverlayType; //the type of damage overlay (if any) to use when this bodypart is bruised/burned.
+    public Sprite GreenDamageMonitorIcon;
+    public Sprite YellowDamageMonitorIcon;
+    public Sprite OrangeDamageMonitorIcon;
+    public Sprite RedDamageMonitorIcon;
+    public Sprite GrayDamageMonitorIcon;
+
 
     // See receive_damage in body_parts.dm
     // This is as close as possible to the original definition
-    public int ReceiveDamage(int brute, int burn, bool updatingHealth = true)
+    public bool ReceiveDamage<T>(int brute, int burn, bool updatingHealth = true) where T : Living
     {
         //Debug.Log(this.gameObject.name + " received damage brute: " + brute + " burn: " + burn);
 
-        Living owner = this.GetComponentInParent<Living>();
+        T owner = this.GetComponentInParent<T>();
         if (owner != null && ((owner.StatusFlags & MobStatusFlag.GODMODE) != 0))
-            return 0; //godmode
+            return false; //godmode
 
         // TODO support damage multipliers
         int[] bruteArr = { brute, 0 };
@@ -37,19 +48,17 @@ public class BodyPart : NetworkBehaviour
         burn = burnArr.Max();
 
         int canInflict = MaxDamage - (BruteDamage + BurnDamage);
-        //Debug.Log(this.gameObject.name + " calculated canInflict: " + canInflict + " = " + MaxDamage + " - (" + BruteDamage + " + " + BurnDamage + ")");
-
         if (canInflict <= 0)
-            return 0;
+            return false;
 
         if ((brute + burn) < canInflict)
         {
             //Debug.Log(this.gameObject.name + " applying Damage brute: " + brute + " burn: " + burn);
             BruteDamage += brute;
             BurnDamage += burn;
-            //Debug.Log(this.gameObject.name + " new damage is BruteDamage: " + BruteDamage + " BurnDamage: " + BurnDamage);
         }
-        else {
+        else
+        {
             if (brute > 0)
             {
                 if (burn > 0)
@@ -58,40 +67,58 @@ public class BodyPart : NetworkBehaviour
                     burn = canInflict - brute;  //gets whatever damage is left over
                     BruteDamage += brute;
                     BurnDamage += burn;
-                } else {
+                }
+                else
+                {
                     BruteDamage += canInflict;
                 }
-            } else {
+            }
+            else
+            {
                 if (burn > 0)
+                {
                     BurnDamage += canInflict;
+                }
                 else
-                    return 0;
+                {
+                    Debug.Log(this.gameObject.name + " received no damage");
+                    return false;
+                }
             }
         }
-        
+
         if (owner != null && updatingHealth)
             owner.UpdateHealth();
 
-        //Debug.Log(this.gameObject.name + " is now BruteDamage: " + BruteDamage + " BurnDamage: " + BurnDamage);
-
-        return UpdateBodyPartDamageState();
+        return true;
     }
 
-    // See bodyparts.dm
-    //Updates an organ's brute/burn states for use by update_damage_overlays()
-    //Returns 1 if we need to update overlays. 0 otherwise.
-    private int UpdateBodyPartDamageState()
+    //we inform the bodypart of the changes that happened to the owner, or give it the informations from a source mob.
+    // see body_parts.dm /obj/item/bodypart/proc/update_limb(dropping_limb, mob/living/carbon/source)
+    public void UpdateLimb(Carbon source)
     {
-        int tbrute = (int)DMMath.Round((BruteDamage / MaxDamage) * 3, 1);
-        int tburn = (int)DMMath.Round((BurnDamage / MaxDamage) * 3, 1);
+        // need to add animal checks etc here
 
-        if ((tbrute != brutestate) || (tburn != burnstate))
+        if (source is Human)
         {
-            brutestate = tbrute;
-            burnstate = tburn;
-            return 1;
+            Human s = (Human)source;
+            DamageOverlayType = s.DamageOverlayType;
         }
+    }
 
-        return 0;
+    public static bool IsLimb(string zone)
+    {
+        switch (zone)
+        {
+            case "chest":
+            case "head":
+            case "l_arm":
+            case "l_leg":
+            case "r_arm":
+            case "r_leg":
+                return true;
+            default:
+                return false;
+        }
     }
 }

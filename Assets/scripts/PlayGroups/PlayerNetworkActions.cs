@@ -239,13 +239,14 @@ public class PlayerNetworkActions : NetworkBehaviour
     }
 
     [Command]
-    public void CmdAttackNpc(GameObject npcObj){
+    public void CmdAttackMob(GameObject npcObj)
+    {
         Living attackTarget = npcObj.GetComponent<Living>();
         attackTarget.RpcReceiveDamage();
     }
 
     [Command]
-    public void CmdHarvestNpc(GameObject npcObj)
+    public void CmdHarvestMob(GameObject npcObj)
     {
         Living attackTarget = npcObj.GetComponent<Living>();
         attackTarget.RpcHarvest();

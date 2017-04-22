@@ -11,6 +11,7 @@ namespace UI {
         public ControlAction actionControl;
         public ControlWalkRun walkRunControl;
         public ControlDisplays displayControl;
+        public PlayerHealth playerHealth;
 		public PlayerListUI playerListUIControl;
 
         private static UIManager uiManager;
@@ -28,6 +29,14 @@ namespace UI {
         public static ControlChat Chat {
             get {
                 return Instance.chatControl;
+            }
+        }
+
+        public static PlayerHealth PlayerHealth
+        {
+            get
+            {
+                return Instance.playerHealth;
             }
         }
 
