@@ -22,7 +22,7 @@ public class CabinetTrigger: InputTrigger
     private bool sync = false;
 	void Start()
 	{
-		spriteRenderer = transform.FindChild("Sprite").GetComponent<SpriteRenderer>();
+		spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
 		IsClosed = true;
 	}
 

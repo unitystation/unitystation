@@ -25,7 +25,7 @@ namespace MapEditor {
             if(!mappingReference) {
                 var mapEditor = GameObject.FindGameObjectWithTag("MapEditor");
                 if(mapEditor) {
-                    var mappingRefTransform = mapEditor.transform.FindChild("Mapping_Reference");
+                    var mappingRefTransform = mapEditor.transform.Find("Mapping_Reference");
                     if(mappingRefTransform) {
                         mappingReference = mappingRefTransform.gameObject;
                     }
