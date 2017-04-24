@@ -33,8 +33,8 @@ public class ObjectPool : MonoBehaviour {
             {
                 currentObjects[id].gameObject.transform.parent = null;
                 currentObjects[id].gameObject.transform.position = pos;
-                ItemNetwork itemNetwork = gObj.GetComponent<ItemNetwork>();
-                itemNetwork.SnapToGrid();
+				EditModeControl e = gObj.GetComponent<EditModeControl>();
+                e.Snap();
                 currentObjects.Remove(id);
             }
             else
