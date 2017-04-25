@@ -12,6 +12,7 @@ namespace Weapons
 		public bool isInHandR = false;
 		public bool isInHandL = false;
 		private bool allowedToShoot = false;
+		public bool isMagazineIn = true; 
         private GameObject bullet;
 
 		[Header("0 = fastest")]
@@ -20,29 +21,45 @@ namespace Weapons
 		public AudioSource shootSFX;
 		public AudioSource emptySFX;
 
+		public MagazineBehaviour Magazine;
+
         [SyncVar]
         public string controlledByPlayer;
 
-        void Start(){
+        void Start()
+		{
             bullet = Resources.Load("Bullet_12mm") as GameObject;
         }
+
 		void Update()
 		{
-            if (Input.GetMouseButtonDown(0))
-            {
+			if (Input.GetMouseButtonDown(0) && allowedToShoot) {
+				ShootingFun();
+			}
+		}
+
+		void ShootingFun(){
+			if (Magazine.Usable){
 				//basic way to check with a XOR if the hand and the slot used matches
-				if ((isInHandR && UIManager.Hands.CurrentSlot == UIManager.Hands.RightSlot) ^ (isInHandL && UIManager.Hands.CurrentSlot == UIManager.Hands.LeftSlot)) 
-				{
+				if ((isInHandR && UIManager.Hands.CurrentSlot == UIManager.Hands.RightSlot) ^ (isInHandL && UIManager.Hands.CurrentSlot == UIManager.Hands.LeftSlot)) {
 					if (PlayerManager.LocalPlayerScript.gameObject.name == controlledByPlayer) {
 						Vector2 dir = (Camera.main.ScreenToWorldPoint (Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
 
 						//don't while hovering on the UI
 						if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject ()) {
 							Shoot (dir);
+							Magazine.ammoRemains--;
 						}
 					}
 				}
-            } 
+			} else {
+				if(isMagazineIn) {
+					//spawn new magazine(obj or sprite?) under the player
+					Instantiate(Magazine,PlayerManager.LocalPlayerScript.transform.position,transform.rotation);
+					isMagazineIn = false;
+				}
+				emptySFX.Play();
+			} 
 		}
 
 		void Shoot(Vector2 shootDir)
