@@ -41,6 +41,8 @@ GameObject:
   - component: {fileID: 114563848741666938}
   - component: {fileID: 61769843126846478}
   - component: {fileID: 114402122527729986}
+  - component: {fileID: 114914131618505528}
+  - component: {fileID: 114980553985205054}
   m_Layer: 0
   m_Name: Magazine
   m_TagString: Untagged
@@ -55,7 +57,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1894555049535168}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1839, y: 1145, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5588054, y: 0.5588051, z: 0.5588051}
   m_Children:
   - {fileID: 4983823999050406}
@@ -151,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SceneId:
-    m_Value: 0
+    m_Value: 1
   m_AssetId:
     i0: 3
     i1: 252
@@ -171,6 +173,20 @@ MonoBehaviour:
     i15: 251
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114914131618505528
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1894555049535168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magazineSize: 20
+  ammoRemains: 37
+  Usable: 1
 --- !u!114 &114914251656452684
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -196,6 +212,20 @@ MonoBehaviour:
   snapValue: 1
   depth: 0
   useInGame: 1
+--- !u!114 &114980553985205054
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1894555049535168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magazineSize: 20
+  ammoRemains: 0
+  Usable: 0
 --- !u!212 &212969402576888992
 SpriteRenderer:
   m_ObjectHideFlags: 1
