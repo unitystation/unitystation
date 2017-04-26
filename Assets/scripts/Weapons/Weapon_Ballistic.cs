@@ -26,10 +26,22 @@ namespace Weapons
         [SyncVar]
         public string controlledByPlayer;
 
-        void Start()
+		void Start()
 		{
-            bullet = Resources.Load("Bullet_12mm") as GameObject;
-        }
+			bullet = Resources.Load("Bullet_12mm") as GameObject;
+			//GameObject m = (GameObject) GameObject.Instantiate(Resources.Load("Magazine_12mm"), Vector3.zero, Quaternion.identity);
+			//Magazine = m.GetComponent<MagazineBehaviour>();
+		}
+
+		public override void OnStartServer()
+		{
+			if (isServer) {
+				GameObject m = (GameObject) GameObject.Instantiate(Resources.Load("Magazine_12mm"), Vector3.zero, Quaternion.identity);
+				Magazine = m.GetComponent<MagazineBehaviour>();
+				NetworkServer.Spawn(m); 
+			}
+			base.OnStartServer();
+		}
 
 		void Update()
 		{
@@ -55,7 +67,7 @@ namespace Weapons
 			} else {
 				if(isMagazineIn) {
 					//spawn new magazine(obj or sprite?) under the player
-					Instantiate(Magazine,PlayerManager.LocalPlayerScript.transform.position,transform.rotation);
+					Magazine.transform.Translate(PlayerManager.LocalPlayerScript.transform.position);
 					isMagazineIn = false;
 				}
 				emptySFX.Play();
