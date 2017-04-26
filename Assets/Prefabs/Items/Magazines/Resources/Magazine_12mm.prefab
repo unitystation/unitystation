@@ -37,12 +37,11 @@ GameObject:
   - component: {fileID: 4661463672262856}
   - component: {fileID: 114929596904926670}
   - component: {fileID: 114525660935982552}
-  - component: {fileID: 114914251656452684}
-  - component: {fileID: 114563848741666938}
   - component: {fileID: 61769843126846478}
-  - component: {fileID: 114402122527729986}
   - component: {fileID: 114914131618505528}
-  - component: {fileID: 114980553985205054}
+  - component: {fileID: 114748270286923348}
+  - component: {fileID: 114383132860473892}
+  - component: {fileID: 114331908573625224}
   m_Layer: 0
   m_Name: Magazine_12mm
   m_TagString: Untagged
@@ -102,7 +101,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3656006, y: 0.42089844}
   m_EdgeRadius: 0
---- !u!114 &114402122527729986
+--- !u!114 &114331908573625224
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -123,6 +122,17 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114383132860473892
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1894555049535168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114525660935982552
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,7 +151,7 @@ MonoBehaviour:
   clothingReference: -1
   size: 0
   type: 0
---- !u!114 &114563848741666938
+--- !u!114 &114748270286923348
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -153,7 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SceneId:
-    m_Value: 1
+    m_Value: 0
   m_AssetId:
     i0: 3
     i1: 252
@@ -187,17 +197,6 @@ MonoBehaviour:
   magazineSize: 20
   ammoRemains: 37
   Usable: 1
---- !u!114 &114914251656452684
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1894555049535168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114929596904926670
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -212,20 +211,6 @@ MonoBehaviour:
   snapValue: 1
   depth: 0
   useInGame: 1
---- !u!114 &114980553985205054
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1894555049535168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  magazineSize: 20
-  ammoRemains: 0
-  Usable: 0
 --- !u!212 &212969402576888992
 SpriteRenderer:
   m_ObjectHideFlags: 1

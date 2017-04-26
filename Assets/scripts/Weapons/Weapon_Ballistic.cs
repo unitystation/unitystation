@@ -12,8 +12,8 @@ namespace Weapons
 		public bool isInHandR = false;
 		public bool isInHandL = false;
 		private bool allowedToShoot = false;
-		public bool isMagazineIn = true; 
-        private GameObject bullet;
+		public bool isMagazineIn = true;
+		private GameObject bullet;
 
 		[Header("0 = fastest")]
 		public float firingRate = 1f;
@@ -23,23 +23,20 @@ namespace Weapons
 
 		public MagazineBehaviour Magazine;
 
-        [SyncVar]
-        public string controlledByPlayer;
+		[SyncVar]
+		public string controlledByPlayer;
 
 		void Start()
 		{
 			bullet = Resources.Load("Bullet_12mm") as GameObject;
-			//GameObject m = (GameObject) GameObject.Instantiate(Resources.Load("Magazine_12mm"), Vector3.zero, Quaternion.identity);
-			//Magazine = m.GetComponent<MagazineBehaviour>();
 		}
 
 		public override void OnStartServer()
 		{
-			if (isServer) {
-				GameObject m = (GameObject) GameObject.Instantiate(Resources.Load("Magazine_12mm"), Vector3.zero, Quaternion.identity);
-				Magazine = m.GetComponent<MagazineBehaviour>();
-				NetworkServer.Spawn(m); 
-			}
+			GameObject m = GameObject.Instantiate(Resources.Load("Magazine_12mm") as GameObject, Vector3.zero, Quaternion.identity);
+			Magazine = m.GetComponent<MagazineBehaviour>();
+			NetworkServer.Spawn(m); 
+
 			base.OnStartServer();
 		}
 
@@ -50,24 +47,24 @@ namespace Weapons
 			}
 		}
 
-		void ShootingFun(){
-			if (Magazine.Usable){
+		void ShootingFun()
+		{
+			if (Magazine.Usable) {
 				//basic way to check with a XOR if the hand and the slot used matches
 				if ((isInHandR && UIManager.Hands.CurrentSlot == UIManager.Hands.RightSlot) ^ (isInHandL && UIManager.Hands.CurrentSlot == UIManager.Hands.LeftSlot)) {
 					if (PlayerManager.LocalPlayerScript.gameObject.name == controlledByPlayer) {
-						Vector2 dir = (Camera.main.ScreenToWorldPoint (Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
+						Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
 
 						//don't while hovering on the UI
-						if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject ()) {
-							Shoot (dir);
+						if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
+							Shoot(dir);
 							Magazine.ammoRemains--;
 						}
 					}
 				}
 			} else {
-				if(isMagazineIn) {
-					//spawn new magazine(obj or sprite?) under the player
-					Magazine.transform.Translate(PlayerManager.LocalPlayerScript.transform.position);
+				if (isMagazineIn) {
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdMoveItem(Magazine.gameObject, PlayerManager.LocalPlayerScript.transform.position);
 					isMagazineIn = false;
 				}
 				emptySFX.Play();
@@ -78,7 +75,7 @@ namespace Weapons
 		{
 			if (allowedToShoot) {
 				allowedToShoot = false;
-                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdShootBullet(shootDir, bullet.name);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdShootBullet(shootDir, bullet.name);
               
 				StartCoroutine("ShootCoolDown");
 			}
@@ -88,13 +85,13 @@ namespace Weapons
 		public void OnAddToInventory(string slotName)
 		{
 			if (slotName == "rightHand") {
-				Debug.Log ("PickedUp Weapon");
+				Debug.Log("PickedUp Weapon");
 				isInHandR = true;
-				StartCoroutine ("ShootCoolDown");
+				StartCoroutine("ShootCoolDown");
 			} else if (slotName == "leftHand") {
-				Debug.Log ("PickedUp Weapon");
+				Debug.Log("PickedUp Weapon");
 				isInHandL = true;
-				StartCoroutine ("ShootCoolDown");
+				StartCoroutine("ShootCoolDown");
 			} else {
 				//Any other slot
 				isInHandR = false;
@@ -102,13 +99,15 @@ namespace Weapons
 			}
 		}
 
-        public void OnAddToPool(string playerName){
-            controlledByPlayer = playerName;
-        }
+		public void OnAddToPool(string playerName)
+		{
+			controlledByPlayer = playerName;
+		}
 
-        public void OnRemoveFromPool(){
-            controlledByPlayer = "";
-        }
+		public void OnRemoveFromPool()
+		{
+			controlledByPlayer = "";
+		}
 
 		//recieve broadcast msg when item is dropped from hand
 		public void OnRemoveFromInventory()

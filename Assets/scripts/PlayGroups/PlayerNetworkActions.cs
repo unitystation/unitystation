@@ -310,6 +310,11 @@ public class PlayerNetworkActions : NetworkBehaviour
             
     }
 
+	[Command]
+	public void CmdMoveItem(GameObject item, Vector3 newPos){
+		item.transform.position = newPos;
+	}
+
     [ClientRpc]
     void RpcAdjustItemParent(GameObject item, GameObject parent)
     {
