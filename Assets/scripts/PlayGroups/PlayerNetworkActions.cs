@@ -354,4 +354,15 @@ public class PlayerNetworkActions : NetworkBehaviour
             item.transform.parent = null;
         }
     }
+
+	//NETWORKED SOUNDFX
+	[Command]
+	public void CmdPlayNetworkSound(string soundName, Vector3 pos){
+		RpcPlayNetworkSound(soundName, pos);
+	}
+
+	[ClientRpc]
+	void RpcPlayNetworkSound(string soundName, Vector3 pos){
+		SoundManager.PlayAtPosition(soundName, pos);
+	}
 }

@@ -7,28 +7,12 @@ using PlayGroup;
 
 namespace Items
 {
-	[RequireComponent(typeof(NetworkIdentity))]
-	public class ItemNetwork: NetworkBehaviour
+	public class ItemNetwork: MonoBehaviour
 	{
-		private bool synced = false;
-		private EditModeControl snapControl;
-
-		void Start()
-		{
-			snapControl = GetComponent<EditModeControl>();
-		}
-
-		public void SnapToGrid(){
-			if (snapControl != null) {
-				snapControl.Snap();
+		void Start(){
+			foreach (Transform child in transform) {
+				ItemManager.Instance.itemsToSpawn.Add(child.gameObject);
 			}
 		}
-		//receive broadcast message when item is dropped from hand (client side)
-		public void OnRemoveFromInventory()
-		{
-
-
-		}
-
 	}
 } 

@@ -18,9 +18,6 @@ namespace Weapons
 		[Header("0 = fastest")]
 		public float firingRate = 1f;
 
-		public AudioSource emptySFX;
-		public AudioSource outOfAmmoSFX;
-
 		private MagazineBehaviour Magazine;
 
 		[SyncVar]
@@ -68,7 +65,7 @@ namespace Weapons
 							Magazine.ammoRemains--;
 						}
 					}
-				
+
 				} else {
 					if (isMagazineIn) {
 						PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(Magazine.gameObject);
@@ -130,14 +127,12 @@ namespace Weapons
 
 		void OutOfAmmoSFX()
 		{
-			outOfAmmoSFX.transform.position = PlayerManager.LocalPlayer.transform.position;
-			outOfAmmoSFX.Play();
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlayNetworkSound("OutOfAmmoAlarm", PlayerManager.LocalPlayer.transform.position);
 		}
 
 		void PlayEmptySFX()
 		{
-			emptySFX.transform.position = PlayerManager.LocalPlayer.transform.position;
-			emptySFX.Play();
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlayNetworkSound("EmptyGunClick", PlayerManager.LocalPlayer.transform.position);
 		}
 
 		IEnumerator ShootCoolDown()
@@ -146,6 +141,6 @@ namespace Weapons
 			allowedToShoot = true;
 
 		}
-			
+
 	}
 }
