@@ -20,11 +20,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012887992874}
   - component: {fileID: 61000013173726114}
-  - component: {fileID: 114000013904095522}
   - component: {fileID: 95000010631349252}
   - component: {fileID: 114000010121375984}
   - component: {fileID: 114748385134728100}
-  - component: {fileID: 114180376035525756}
+  - component: {fileID: 114956925939094640}
+  - component: {fileID: 114232321497863980}
   m_Layer: 11
   m_Name: AirLockTile
   m_TagString: Untagged
@@ -173,11 +173,22 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!82 &82346760648337948
 AudioSource:
   m_ObjectHideFlags: 1
@@ -186,7 +197,8 @@ AudioSource:
   m_GameObject: {fileID: 1787265023359374}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 13792128ab4b4a9bbe78491650423df1, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.37
@@ -266,7 +278,8 @@ AudioSource:
   m_GameObject: {fileID: 1679390965448050}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 98b5308a2adb43d49b3471da7a9057dd, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.344
@@ -369,7 +382,7 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
---- !u!114 &114000013904095522
+--- !u!114 &114232321497863980
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -387,7 +400,20 @@ MonoBehaviour:
   isPerformingAction: 0
   doorType: 0
   maxTimeOpen: 5
---- !u!114 &114180376035525756
+--- !u!114 &114748385134728100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011462531918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 3
+--- !u!114 &114956925939094640
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -419,19 +445,6 @@ MonoBehaviour:
     i15: 238
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114748385134728100
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011462531918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 3
 --- !u!212 &212000010235302174
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -462,8 +475,13 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 149917821
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: fd813894fb9144a69312d813b362cda4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0

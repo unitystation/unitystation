@@ -18,10 +18,10 @@ namespace Weapons
 		[Header("0 = fastest")]
 		public float firingRate = 1f;
 
-		public AudioSource shootSFX;
 		public AudioSource emptySFX;
+		public AudioSource outOfAmmoSFX;
 
-		public MagazineBehaviour Magazine;
+		private MagazineBehaviour Magazine;
 
 		[SyncVar]
 		public string controlledByPlayer;
@@ -49,9 +49,16 @@ namespace Weapons
 
 		void ShootingFun()
 		{
-			if (Magazine.Usable) {
-				//basic way to check with a XOR if the hand and the slot used matches
-				if ((isInHandR && UIManager.Hands.CurrentSlot == UIManager.Hands.RightSlot) ^ (isInHandL && UIManager.Hands.CurrentSlot == UIManager.Hands.LeftSlot)) {
+			if ((isInHandR && UIManager.Hands.CurrentSlot == UIManager.Hands.RightSlot) ^ (isInHandL && UIManager.Hands.CurrentSlot == UIManager.Hands.LeftSlot)) {
+				if (Magazine == null) {
+					if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+						PlayEmptySFX();
+
+					return;
+				}
+				if (Magazine.Usable) {
+					//basic way to check with a XOR if the hand and the slot used matches
+
 					if (PlayerManager.LocalPlayerScript.gameObject.name == controlledByPlayer) {
 						Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
 
@@ -61,14 +68,16 @@ namespace Weapons
 							Magazine.ammoRemains--;
 						}
 					}
-				}
-			} else {
-				if (isMagazineIn) {
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdMoveItem(Magazine.gameObject, PlayerManager.LocalPlayerScript.transform.position);
-					isMagazineIn = false;
-				}
-				emptySFX.Play();
-			} 
+				
+				} else {
+					if (isMagazineIn) {
+						PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(Magazine.gameObject);
+						isMagazineIn = false;
+						Magazine = null;
+						OutOfAmmoSFX();
+					}
+				} 
+			}
 		}
 
 		void Shoot(Vector2 shootDir)
@@ -76,7 +85,6 @@ namespace Weapons
 			if (allowedToShoot) {
 				allowedToShoot = false;
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdShootBullet(shootDir, bullet.name);
-              
 				StartCoroutine("ShootCoolDown");
 			}
 		}
@@ -85,11 +93,9 @@ namespace Weapons
 		public void OnAddToInventory(string slotName)
 		{
 			if (slotName == "rightHand") {
-				Debug.Log("PickedUp Weapon");
 				isInHandR = true;
 				StartCoroutine("ShootCoolDown");
 			} else if (slotName == "leftHand") {
-				Debug.Log("PickedUp Weapon");
 				isInHandL = true;
 				StartCoroutine("ShootCoolDown");
 			} else {
@@ -102,6 +108,10 @@ namespace Weapons
 		public void OnAddToPool(string playerName)
 		{
 			controlledByPlayer = playerName;
+			if (Magazine != null && PlayerManager.LocalPlayer.name == playerName) {
+				//As the magazine loaded is part of the weapon, then we do not need to add to server cache, we only need to add the item to the equipment pool
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(Magazine.gameObject);
+			}
 		}
 
 		public void OnRemoveFromPool()
@@ -116,6 +126,18 @@ namespace Weapons
 			isInHandR = false;
 			isInHandL = false;
 			allowedToShoot = false;
+		}
+
+		void OutOfAmmoSFX()
+		{
+			outOfAmmoSFX.transform.position = PlayerManager.LocalPlayer.transform.position;
+			outOfAmmoSFX.Play();
+		}
+
+		void PlayEmptySFX()
+		{
+			emptySFX.transform.position = PlayerManager.LocalPlayer.transform.position;
+			emptySFX.Play();
 		}
 
 		IEnumerator ShootCoolDown()
