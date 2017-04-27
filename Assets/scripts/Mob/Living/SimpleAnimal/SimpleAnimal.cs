@@ -29,13 +29,7 @@ public class SimpleAnimal : Living
         randomMove = GetComponent<RandomMove>();
 
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+		
     #region simple_animal.dm
 
     // see simple_animal.dm /mob/living/simple_animal/updatehealth()

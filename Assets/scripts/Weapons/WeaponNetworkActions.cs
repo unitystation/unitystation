@@ -19,4 +19,28 @@ public class WeaponNetworkActions : NetworkBehaviour {
 		NetworkInstanceId newID = NetworkInstanceId.Invalid;
 		w.magNetID = newID;
 	}
+
+	[Command]
+	public void CmdShootBullet(Vector2 direction, string bulletName){
+		GameObject bullet = GameObject.Instantiate(Resources.Load(bulletName) as GameObject,transform.position, Quaternion.identity);
+		NetworkServer.Spawn(bullet);
+		var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
+		b.Shoot(direction, angle);
+
+	}
+
+	[Command]
+	public void CmdAttackMob(GameObject npcObj)
+	{
+		Living attackTarget = npcObj.GetComponent<Living>();
+		attackTarget.RpcReceiveDamage();
+	}
+
+	[Command]
+	public void CmdHarvestMob(GameObject npcObj)
+	{
+		Living attackTarget = npcObj.GetComponent<Living>();
+		attackTarget.RpcHarvest();
+	}
 }

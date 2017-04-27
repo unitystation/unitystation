@@ -103,7 +103,7 @@ namespace Weapons
 		{
 			if (allowedToShoot) {
 				allowedToShoot = false;
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdShootBullet(shootDir, bullet.name);
+				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet(shootDir, bullet.name);
 				StartCoroutine("ShootCoolDown");
 			}
 		}
@@ -155,12 +155,12 @@ namespace Weapons
 
 		void OutOfAmmoSFX()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlayNetworkSound("OutOfAmmoAlarm", PlayerManager.LocalPlayer.transform.position);
+			PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlayNetworkSound("OutOfAmmoAlarm", PlayerManager.LocalPlayer.transform.position);
 		}
 
 		void PlayEmptySFX()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlayNetworkSound("EmptyGunClick", PlayerManager.LocalPlayer.transform.position);
+			PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlayNetworkSound("EmptyGunClick", PlayerManager.LocalPlayer.transform.position);
 		}
 
 		IEnumerator ShootCoolDown()

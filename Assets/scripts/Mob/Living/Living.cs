@@ -43,13 +43,7 @@ public class Living : Mob
         maxHealth = InitialMaxHealth;
         UpdateHealth();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+		
     public bool IsClient()
     {
         return PlayerManager.LocalPlayer == this.gameObject;
@@ -63,12 +57,12 @@ public class Living : Mob
             {
                 if (mobStat != MobConsciousStat.DEAD)
                 {
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAttackMob(this.gameObject);
+                    PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdAttackMob(this.gameObject);
                 }
                 else
                 {
                     // TODO, please read onClick item_attack.dm for how harvest() is normally handled
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdHarvestMob(this.gameObject);
+                    PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdHarvestMob(this.gameObject);
                 }
             }
         }

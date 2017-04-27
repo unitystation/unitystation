@@ -11,6 +11,7 @@ namespace PlayGroup {
         public float interactionDistance = 2f;
         public PlayerNetworkActions playerNetworkActions { get; set; }
 		public WeaponNetworkActions weaponNetworkActions { get; set; }
+		public SoundNetworkActions soundNetworkActions { get; set; }
         [SyncVar(hook = "OnNameChange")]
         public string playerName = " ";
         private bool pickUpCoolDown = false;
@@ -39,6 +40,7 @@ namespace PlayGroup {
         void Start() {
             playerNetworkActions = GetComponent<PlayerNetworkActions>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
+			soundNetworkActions = GetComponent<SoundNetworkActions>();
         }
 
         void Init() {

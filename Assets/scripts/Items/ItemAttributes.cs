@@ -23,7 +23,7 @@ namespace UI
 		None,Glasses,Hat,Neck,
 		Mask,Ear,Suit,Uniform,
 		Gloves,Shoes,Belt,Back,
-		ID,PDA,Food,Knife
+		ID,PDA,Food,Knife,Gun
 	}
 
 	public class ItemAttributes: MonoBehaviour
