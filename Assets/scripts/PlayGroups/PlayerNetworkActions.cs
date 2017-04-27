@@ -91,6 +91,12 @@ public class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
+	//This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
+	[Command]
+	public void CmdTryAddToEquipmentPool(GameObject obj){
+		EquipmentPool.AddGameObject(gameObject.name, obj);
+	}
+
     [Command]
     public void CmdTryToInstantiateInHand(string eventName, GameObject prefab){
         if (ServerCache.ContainsKey(eventName))
@@ -132,6 +138,7 @@ public class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
+	//Dropping from a slot on the UI
     [Command]
     public void CmdDropItem(string eventName)
     {
@@ -150,6 +157,12 @@ public class PlayerNetworkActions : NetworkBehaviour
             }
         }
     }
+	//Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)
+	[Command]
+	public void CmdDropItemNotInUISlot(GameObject obj)
+	{
+		EquipmentPool.DropGameObject(gameObject.name, obj);
+	}
 
     [Command]
     public void CmdPlaceItem(string eventName, Vector3 pos, GameObject newParent)

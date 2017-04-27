@@ -34,6 +34,9 @@ namespace UI {
         }
 
         public void Drop() {
+			if (UIManager.Hands.CurrentSlot.Item == null)
+				return;
+
             SoundManager.Play("Click01");
             Debug.Log("Drop Button");
             PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItem(UIManager.Hands.CurrentSlot.eventName);
