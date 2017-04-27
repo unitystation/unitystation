@@ -3909,6 +3909,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1175}
+  - component: {fileID: 263}
   m_Layer: 0
   m_Name: Items
   m_TagString: Untagged
@@ -3985,6 +3986,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &264
 GameObject:
   m_ObjectHideFlags: 0
@@ -6164,6 +6176,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1317}
+  - component: {fileID: 429}
   m_Layer: 0
   m_Name: Items
   m_TagString: Untagged
@@ -6171,6 +6184,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &430
 GameObject:
   m_ObjectHideFlags: 0
@@ -9167,7 +9191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1499}
   m_Layer: 0
-  m_Name: Kitchen_Items_Machines
+  m_Name: Machines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13453,7 +13477,7 @@ Transform:
   - {fileID: 993}
   - {fileID: 1269}
   m_Father: {fileID: 1436}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &954
 Transform:
@@ -18307,10 +18331,9 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1499}
+  m_Children: []
   m_Father: {fileID: 1436}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1318
 Transform:
@@ -19832,6 +19855,7 @@ Transform:
   - {fileID: 1291}
   - {fileID: 1413}
   - {fileID: 1032}
+  - {fileID: 1499}
   - {fileID: 1317}
   - {fileID: 953}
   m_Father: {fileID: 922}
@@ -20598,8 +20622,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1314}
-  m_Father: {fileID: 1317}
-  m_RootOrder: 0
+  m_Father: {fileID: 1436}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1500
 Transform:
@@ -62522,7 +62546,7 @@ Prefab:
     - target: {fileID: 224617939017692804, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 18.461538
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
