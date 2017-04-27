@@ -60,7 +60,7 @@ public class WeaponNetworkActions : NetworkBehaviour {
 	{
 		Living attackTarget = npcObj.GetComponent<Living>();
 		RpcKnifeAttackLerp(stabDirection);
-		attackTarget.RpcHarvest();
+		attackTarget.HarvestIt();
 	}
 
 	[ClientRpc]

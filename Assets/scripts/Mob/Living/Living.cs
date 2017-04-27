@@ -73,13 +73,15 @@ public class Living : Mob
 
     #region unityhelpers
 
+	[ClientRpc]
     public virtual void RpcReceiveDamage()
     {
         // TODO read from items damage values etc
         ApplyDamage(25, DamageType.BRUTE, "chest");
     }
 
-    public virtual void RpcHarvest()
+
+    public virtual void HarvestIt()
     {
         // This needs to all be moved, see onclick item_attack.dm for harvest() method handling
         Harvest();
@@ -112,6 +114,7 @@ public class Living : Mob
     }
 
     // see living.dm /mob/living/proc/harvest(mob/living/user)
+	[Server]
     public virtual void Harvest()
     {
         foreach (GameObject harvestPrefab in butcherResults)
@@ -120,7 +123,7 @@ public class Living : Mob
             GameObject harvest = Instantiate(harvestPrefab, transform.position, Quaternion.identity) as GameObject;
             NetworkServer.Spawn(harvest);
         }
-        Gib(false, false, true);
+        RpcGib(false, false, true);
     }
 
     #endregion
@@ -236,14 +239,15 @@ public class Living : Mob
     }
 
     // see living death.dm /mob/living/gib(no_brain, no_organs, no_bodyparts)
-    public virtual void Gib(bool no_brain, bool no_organs, bool no_bodyparts)
+	[ClientRpc]
+    public virtual void RpcGib(bool no_brain, bool no_organs, bool no_bodyparts)
     {
         if (mobStat != MobConsciousStat.DEAD)
             Death(true);
 
         GibAnimation();
 
-        NetworkServer.Destroy(this.gameObject);
+		gameObject.SetActive(false);
     }
 
     // see living death.dm /mob/living/proc/gib_animation()

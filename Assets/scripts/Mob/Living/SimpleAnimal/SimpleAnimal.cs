@@ -68,6 +68,7 @@ public class SimpleAnimal : Living
         base.Death(gibbed);
     }
 
+	[Server]
     public override void GibAnimation()
     {
         GameObject corpse = Instantiate(gibPrefab, transform.position, Quaternion.identity) as GameObject;
