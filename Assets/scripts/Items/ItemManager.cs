@@ -7,7 +7,6 @@ using UI;
 namespace Items {
 
 	public class ItemManager: MonoBehaviour {
-		public List<GameObject> itemsToSpawn = new List<GameObject>();
 		private static ItemManager itemManager;
 		public static ItemManager Instance {
 			get {
@@ -15,12 +14,6 @@ namespace Items {
 					itemManager = FindObjectOfType<ItemManager>();
 				}
 				return itemManager;
-			}
-		}
-
-		public static void DestroyItemsInSpawnList(){
-			foreach (GameObject obj in Instance.itemsToSpawn) {
-				Destroy(obj);
 			}
 		}
 	}
