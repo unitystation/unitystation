@@ -35,14 +35,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4431994194519076}
-  - component: {fileID: 50684161447641178}
   - component: {fileID: 114458445831742782}
   - component: {fileID: 114333779192411106}
-  - component: {fileID: 114083861485965616}
-  - component: {fileID: 114463794456027596}
   - component: {fileID: 61829581518899790}
-  - component: {fileID: 114887953637759816}
-  - component: {fileID: 114169165943547356}
+  - component: {fileID: 114675300122123158}
+  - component: {fileID: 114473027090892988}
+  - component: {fileID: 114348418980927824}
   m_Layer: 10
   m_Name: Belt
   m_TagString: Untagged
@@ -77,26 +75,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50684161447641178
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1816790622172278}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!61 &61829581518899790
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -108,40 +86,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: -0.0146484375, y: 0.0073242188}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 0.5314865, y: 0.37060356}
---- !u!114 &114083861485965616
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1816790622172278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114169165943547356
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1816790622172278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  m_EdgeRadius: 0
 --- !u!114 &114333779192411106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -160,6 +118,27 @@ MonoBehaviour:
   clothingReference: 66
   size: 1
   type: 10
+--- !u!114 &114348418980927824
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1816790622172278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114458445831742782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -174,7 +153,7 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.2
   useInGame: 0
---- !u!114 &114463794456027596
+--- !u!114 &114473027090892988
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -182,10 +161,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1816790622172278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114887953637759816
+--- !u!114 &114675300122123158
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -247,8 +226,13 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300002, guid: 9ee0f7256baf4c80a8463a1bc8aa640d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0

@@ -19,15 +19,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4579856977360442}
-  - component: {fileID: 50980256355727806}
   - component: {fileID: 114064891130126496}
   - component: {fileID: 114785202808129786}
-  - component: {fileID: 114289720518274274}
-  - component: {fileID: 114181143540177870}
   - component: {fileID: 61541833423010570}
-  - component: {fileID: 114524785609971958}
-  - component: {fileID: 114821793015097988}
-  - component: {fileID: 114304958201854806}
+  - component: {fileID: 114207956578442862}
+  - component: {fileID: 114671199612239122}
+  - component: {fileID: 114067324845694254}
   m_Layer: 10
   m_Name: Pepper Shaker
   m_TagString: Untagged
@@ -78,26 +75,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50980256355727806
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651733465195328}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!61 &61541833423010570
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -109,9 +86,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: -0.006591797, y: -0.09350586}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 0.23961931, y: 0.25291556}
+  m_EdgeRadius: 0
 --- !u!114 &114064891130126496
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,29 +114,7 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.2
   useInGame: 0
---- !u!114 &114181143540177870
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651733465195328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114289720518274274
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651733465195328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114304958201854806
+--- !u!114 &114067324845694254
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -165,10 +131,11 @@ MonoBehaviour:
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
   m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114524785609971958
+--- !u!114 &114207956578442862
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -200,6 +167,17 @@ MonoBehaviour:
     i15: 179
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114671199612239122
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1651733465195328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114785202808129786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -218,26 +196,6 @@ MonoBehaviour:
   clothingReference: -1
   size: 0
   type: 0
---- !u!114 &114821793015097988
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651733465195328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!212 &212804965856308220
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -268,8 +226,13 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300106, guid: c03626bdc4d64c639b0641916a01692b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0

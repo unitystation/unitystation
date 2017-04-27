@@ -19,14 +19,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4414437684984338}
-  - component: {fileID: 50961714579061832}
   - component: {fileID: 114605310459907262}
   - component: {fileID: 114001619213703624}
-  - component: {fileID: 114339663715295694}
-  - component: {fileID: 114921819067356652}
   - component: {fileID: 61847096389643686}
-  - component: {fileID: 114383718776083476}
-  - component: {fileID: 114757900396893828}
+  - component: {fileID: 114582801409722188}
+  - component: {fileID: 114954386227013780}
+  - component: {fileID: 114811259648870948}
   m_Layer: 10
   m_Name: Cook's Uniform
   m_TagString: Untagged
@@ -77,26 +75,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50961714579061832
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1188305979044324}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!61 &61847096389643686
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -140,18 +118,7 @@ MonoBehaviour:
   clothingReference: 192
   size: 1
   type: 7
---- !u!114 &114339663715295694
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1188305979044324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114383718776083476
+--- !u!114 &114582801409722188
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -197,7 +164,7 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.2
   useInGame: 0
---- !u!114 &114757900396893828
+--- !u!114 &114811259648870948
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -218,7 +185,7 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114921819067356652
+--- !u!114 &114954386227013780
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -226,7 +193,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1188305979044324}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &212379368604460394
