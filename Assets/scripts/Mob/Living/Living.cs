@@ -55,14 +55,17 @@ public class Living : Mob
         {
             if (UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife)
             {
+				Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
                 if (mobStat != MobConsciousStat.DEAD)
                 {
-                    PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdAttackMob(this.gameObject);
+                    PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeAttackMob(this.gameObject,dir);
+					PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("BladeSlice");
                 }
                 else
                 {
                     // TODO, please read onClick item_attack.dm for how harvest() is normally handled
-                    PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdHarvestMob(this.gameObject);
+                    PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeHarvestMob(this.gameObject,dir);
+					PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("BladeSlice");
                 }
             }
         }
@@ -73,7 +76,7 @@ public class Living : Mob
     public virtual void RpcReceiveDamage()
     {
         // TODO read from items damage values etc
-        ApplyDamage(50, DamageType.BRUTE, "chest");
+        ApplyDamage(25, DamageType.BRUTE, "chest");
     }
 
     public virtual void RpcHarvest()

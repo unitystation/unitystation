@@ -155,12 +155,12 @@ namespace Weapons
 
 		void OutOfAmmoSFX()
 		{
-			PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlayNetworkSound("OutOfAmmoAlarm", PlayerManager.LocalPlayer.transform.position);
+			PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("OutOfAmmoAlarm");
 		}
 
 		void PlayEmptySFX()
 		{
-			PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlayNetworkSound("EmptyGunClick", PlayerManager.LocalPlayer.transform.position);
+			PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("EmptyGunClick");
 		}
 
 		IEnumerator ShootCoolDown()

@@ -6,8 +6,13 @@ using UnityEngine.Networking;
 public class SoundNetworkActions : NetworkBehaviour {
 
 	[Command]
-	public void CmdPlayNetworkSound(string soundName, Vector3 pos){
+	public void CmdPlaySound(string soundName, Vector3 pos){
 		RpcPlayNetworkSound(soundName, pos);
+	}
+
+	[Command]
+	public void CmdPlaySoundAtPlayerPos(string soundName){
+		RpcPlayNetworkSound(soundName, transform.position);
 	}
 
 	[ClientRpc]
