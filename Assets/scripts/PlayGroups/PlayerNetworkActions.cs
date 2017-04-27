@@ -8,6 +8,7 @@ using PlayGroup;
 using Equipment;
 using Cupboards;
 using UI;
+using Items;
 
 public class PlayerNetworkActions : NetworkBehaviour
 {
@@ -94,6 +95,7 @@ public class PlayerNetworkActions : NetworkBehaviour
 	//This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
 	[Command]
 	public void CmdTryAddToEquipmentPool(GameObject obj){
+
 		EquipmentPool.AddGameObject(gameObject.name, obj);
 	}
 
@@ -252,20 +254,6 @@ public class PlayerNetworkActions : NetworkBehaviour
     }
 
     [Command]
-    public void CmdAttackMob(GameObject npcObj)
-    {
-        Living attackTarget = npcObj.GetComponent<Living>();
-        attackTarget.RpcReceiveDamage();
-    }
-
-    [Command]
-    public void CmdHarvestMob(GameObject npcObj)
-    {
-        Living attackTarget = npcObj.GetComponent<Living>();
-        attackTarget.RpcHarvest();
-    }
-
-    [Command]
     public void CmdToggleShutters(GameObject switchObj){
         ShutterSwitchTrigger s = switchObj.GetComponent<ShutterSwitchTrigger>();
         if (s.IsClosed)
@@ -311,16 +299,6 @@ public class PlayerNetworkActions : NetworkBehaviour
             Debug.Log("TODO: condition to place extinguisher back");
             c.RpcSetEmptySprite();
         }
-    }
-        
-    [Command]
-    public void CmdShootBullet(Vector2 direction, string bulletName){
-        GameObject bullet = GameObject.Instantiate(Resources.Load(bulletName) as GameObject,transform.position, Quaternion.identity);
-        NetworkServer.Spawn(bullet);
-        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-        b.Shoot(direction, angle);
-            
     }
 
 	[Command]

@@ -18,10 +18,10 @@ namespace Weapons
 		[Header("0 = fastest")]
 		public float firingRate = 1f;
 
-		public AudioSource emptySFX;
-		public AudioSource outOfAmmoSFX;
-
 		private MagazineBehaviour Magazine;
+
+		[SyncVar(hook="LoadUnloadAmmo")]
+		public NetworkInstanceId magNetID;
 
 		[SyncVar]
 		public string controlledByPlayer;
@@ -34,10 +34,29 @@ namespace Weapons
 		public override void OnStartServer()
 		{
 			GameObject m = GameObject.Instantiate(Resources.Load("Magazine_12mm") as GameObject, Vector3.zero, Quaternion.identity);
-			Magazine = m.GetComponent<MagazineBehaviour>();
-			NetworkServer.Spawn(m); 
-
+			NetworkServer.Spawn(m);
+			StartCoroutine(SetMagazineOnStart(m));
 			base.OnStartServer();
+		}
+
+		//Gives it a chance for weaponNetworkActions to init
+		IEnumerator SetMagazineOnStart(GameObject magazine){
+			yield return new WaitForEndOfFrame();
+			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
+		}
+
+		public void LoadUnloadAmmo(NetworkInstanceId mID){
+			if (mID == NetworkInstanceId.Invalid) {
+				Magazine = null;
+			} else {
+				GameObject m = ClientScene.FindLocalObject(mID);
+				if (m != null) {
+					MagazineBehaviour mB = m.GetComponent<MagazineBehaviour>();
+					Magazine = mB;
+				} else {
+					Debug.LogError("Could not find MagazineBehaviour");
+				}
+			}
 		}
 
 		void Update()
@@ -68,12 +87,12 @@ namespace Weapons
 							Magazine.ammoRemains--;
 						}
 					}
-				
+
 				} else {
 					if (isMagazineIn) {
 						PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(Magazine.gameObject);
 						isMagazineIn = false;
-						Magazine = null;
+						PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdUnloadWeapon(gameObject);
 						OutOfAmmoSFX();
 					}
 				} 
@@ -84,7 +103,7 @@ namespace Weapons
 		{
 			if (allowedToShoot) {
 				allowedToShoot = false;
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdShootBullet(shootDir, bullet.name);
+				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet(shootDir, bullet.name);
 				StartCoroutine("ShootCoolDown");
 			}
 		}
@@ -92,6 +111,11 @@ namespace Weapons
 		//Check which slot it was just added too (broadcast from UI_itemSlot
 		public void OnAddToInventory(string slotName)
 		{
+			//This checks to see if a new player who has joined needs to load up any weapon magazines because of missing sync hooks
+			if (magNetID != NetworkInstanceId.Invalid && !magNetID.IsEmpty()) {
+				LoadUnloadAmmo(magNetID);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(Magazine.gameObject);
+			}
 			if (slotName == "rightHand") {
 				isInHandR = true;
 				StartCoroutine("ShootCoolDown");
@@ -105,6 +129,7 @@ namespace Weapons
 			}
 		}
 
+		//This is only called on the serverside
 		public void OnAddToPool(string playerName)
 		{
 			controlledByPlayer = playerName;
@@ -130,14 +155,12 @@ namespace Weapons
 
 		void OutOfAmmoSFX()
 		{
-			outOfAmmoSFX.transform.position = PlayerManager.LocalPlayer.transform.position;
-			outOfAmmoSFX.Play();
+			PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("OutOfAmmoAlarm");
 		}
 
 		void PlayEmptySFX()
 		{
-			emptySFX.transform.position = PlayerManager.LocalPlayer.transform.position;
-			emptySFX.Play();
+			PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("EmptyGunClick");
 		}
 
 		IEnumerator ShootCoolDown()
@@ -146,6 +169,6 @@ namespace Weapons
 			allowedToShoot = true;
 
 		}
-			
+
 	}
 }

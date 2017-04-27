@@ -7,24 +7,20 @@ namespace NPC
 {
     public class RandomMove: NetworkBehaviour
     {
-        private SpriteRenderer spriteRenderer;
         private bool isRight = false;
-        private bool isMoving = false;
         public float speed = 6f;
-
         private Vector3 currentPosition, targetPosition, currentDirection;
 
         void Start()
         {
             targetPosition = transform.position;
-            spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         void Update()
         {
             if (NetworkServer.active)
             {
-                Move(Vector3.zero);
+                Move();
             }
         }
 
@@ -62,8 +58,6 @@ namespace NPC
         //COROUTINES
         IEnumerator RandMove()
         {
-            isMoving = true;
-
             float ranTime = Random.Range(2f, 10f);
             yield return new WaitForSeconds(ranTime);
 
@@ -110,8 +104,9 @@ namespace NPC
             StartCoroutine(RandMove());
         }
 
-        void Move(Vector3 inputDirection)
+        void Move()
         {
+			
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
             if (targetPosition == transform.position)
@@ -122,8 +117,11 @@ namespace NPC
 
         private bool TryToMove(Vector3 direction)
         {
+			direction.z = transform.position.z;
             var horizontal = Vector3.Scale(direction, Vector3.right);
             var vertical = Vector3.Scale(direction, Vector3.up);
+			horizontal.z = transform.position.z;
+			vertical.z = transform.position.z;
 
             if (Matrix.Matrix.At(currentPosition + direction).IsPassable())
             {

@@ -12,7 +12,6 @@ namespace PlayGroup
 
 		[SyncVar(hook = "FaceDirection")]
 		public Vector2 currentDirection = Vector2.down;
-		private PlayerScript playerScript;
 
 		private Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
@@ -22,7 +21,6 @@ namespace PlayGroup
 				clothes[c.name] = c;
 			}
 			FaceDirection(Vector2.down);
-			playerScript = gameObject.GetComponent<PlayerScript>();
 		}
 
 		[Command]

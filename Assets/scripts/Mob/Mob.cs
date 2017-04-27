@@ -4,18 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 // Based on mob.dm
-public abstract class Mob : MonoBehaviour
+public abstract class Mob : NetworkBehaviour
 {
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     #region mob_defines.dm
     // see mob mob_defines.dm 

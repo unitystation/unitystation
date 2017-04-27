@@ -40,8 +40,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722833055556988}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1844.2683, y: 1149.1464, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.017944336, y: 5.2460938, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -161,6 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 426d98c9778dd324f9161efc7330f257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageOverlayTemp: 0
   sleeping: 0
   paralysis: 0
   mobStat: 0
@@ -168,6 +169,13 @@ MonoBehaviour:
   InitialMaxHealth: 40
   maxHealth: 100
   health: 100
+  bruteLoss: 0
+  oxyLoss: 0
+  toxLoss: 0
+  fireLoss: 0
+  cloneLoss: 0
+  brainLoss: 0
+  staminaLoss: 0
   butcherResults:
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
   sliced: 0
