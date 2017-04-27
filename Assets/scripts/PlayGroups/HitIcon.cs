@@ -42,7 +42,7 @@ public class HitIcon : MonoBehaviour {
 			}
 			lerpFrom = transform.localPosition;
 			timer = 0f;
-			time = 0.3f;
+			time = 0.2f;
 
 			while (timer <= time) {
 				timer += Time.deltaTime;

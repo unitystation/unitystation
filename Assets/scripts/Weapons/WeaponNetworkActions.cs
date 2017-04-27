@@ -15,7 +15,7 @@ public class WeaponNetworkActions : NetworkBehaviour {
 	private bool lerping = false;
 	private Vector3 lerpFrom;
 	private Vector3 lerpTo;
-	private float speed = 8f;
+	private float speed = 7f;
 	private bool isForLerpBack = false;
 
 	void Start(){
@@ -71,7 +71,7 @@ public class WeaponNetworkActions : NetworkBehaviour {
 		PlayerManager.LocalPlayerScript.hitIcon.ShowHitIcon(stabDir);
 
 		lerpFrom = transform.position;
-		Vector3 newDir = stabDir * 0.75f;
+		Vector3 newDir = stabDir * 0.5f;
 		newDir.z = lerpFrom.z;
 		lerpTo = lerpFrom + newDir;
 		lerpProgress = 0f;
@@ -83,15 +83,15 @@ public class WeaponNetworkActions : NetworkBehaviour {
 	void Update(){
 		if (lerping) {
 			lerpProgress += Time.deltaTime;
-			transform.position = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress * speed);
-			if (transform.position == lerpTo || lerpProgress > 2f) {
+			spritesObj.transform.position = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress * speed);
+			if (spritesObj.transform.position == lerpTo || lerpProgress > 2f) {
 				if (!isForLerpBack) {
 					ResetLerp();
 				} else {
 					//To lerp back from knife attack
 					ResetLerp();
 					lerpTo = lerpFrom;
-					lerpFrom = transform.position;
+					lerpFrom = spritesObj.transform.position;
 					lerping = true;
 				}
 			}
