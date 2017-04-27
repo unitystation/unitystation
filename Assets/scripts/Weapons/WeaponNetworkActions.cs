@@ -67,7 +67,9 @@ public class WeaponNetworkActions : NetworkBehaviour {
 	void RpcKnifeAttackLerp(Vector2 stabDir){
 		if (lerping)
 			return;
-		
+
+		PlayerManager.LocalPlayerScript.hitIcon.ShowHitIcon(stabDir);
+
 		lerpFrom = transform.position;
 		Vector3 newDir = stabDir * 0.75f;
 		newDir.z = lerpFrom.z;

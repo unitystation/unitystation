@@ -12,6 +12,7 @@ namespace PlayGroup {
         public PlayerNetworkActions playerNetworkActions { get; set; }
 		public WeaponNetworkActions weaponNetworkActions { get; set; }
 		public SoundNetworkActions soundNetworkActions { get; set; }
+		public HitIcon hitIcon { get; set; }
         [SyncVar(hook = "OnNameChange")]
         public string playerName = " ";
         private bool pickUpCoolDown = false;
@@ -41,6 +42,7 @@ namespace PlayGroup {
             playerNetworkActions = GetComponent<PlayerNetworkActions>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 			soundNetworkActions = GetComponent<SoundNetworkActions>();
+			hitIcon = GetComponentInChildren<HitIcon>();
         }
 
         void Init() {
