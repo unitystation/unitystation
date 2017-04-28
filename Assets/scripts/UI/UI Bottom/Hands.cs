@@ -5,7 +5,8 @@ using UnityEngine.Events;
 
 namespace UI {
     public class Hands: MonoBehaviour {
-        public UI_ItemSlot CurrentSlot { get; private set; }
+        public UI_ItemSlot CurrentSlot { get; private set; } //set primary hand
+		public UI_ItemSlot OtherSlot { get; private set; } //set secondary hand
         public bool IsRight { get; private set; }
 
         public UI_ItemSlot RightSlot;
@@ -14,6 +15,7 @@ namespace UI {
 
         void Start() {
             CurrentSlot = RightSlot;
+			OtherSlot = LeftSlot;
             IsRight = true;
         }
 
@@ -24,8 +26,10 @@ namespace UI {
         public void SetHand(bool right) {
             if(right) {
                 CurrentSlot = RightSlot;
+				OtherSlot = LeftSlot;
             } else {
                 CurrentSlot = LeftSlot;
+				OtherSlot = RightSlot;
             }
 
             IsRight = right;
