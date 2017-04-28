@@ -213,7 +213,7 @@ public class PlayerNetworkActions : NetworkBehaviour
     {
         ServerCache[eventName] = null;
 
-        if (eventName == "id" || eventName == "storage01" || eventName == "storage02" || eventName == "suitStorage")
+		if (eventName == "id" || eventName == "storage01" || eventName == "storage02" || eventName == "suitStorage")
         {
         }
         else

@@ -64,6 +64,20 @@ namespace Weapons
 			if (Input.GetMouseButtonDown(0) && allowedToShoot) {
 				ShootingFun();
 			}
+				
+			if(Input.GetKeyDown(KeyCode.E)) { //PlaceHolder for click UI
+				GameObject m = UIManager.Hands.CurrentSlot.Item; //the new mag
+				string hand = UIManager.Hands.CurrentSlot.eventName;//ref to the mag for CmdSlotClear
+
+				if (m != null) {
+					MagazineBehaviour magazine = m.GetComponent<MagazineBehaviour>();
+
+					if (isMagazineIn == false && magazine != null) {
+						Reload(m,hand);
+					}
+				}
+			}
+
 		}
 
 		void ShootingFun()
@@ -83,7 +97,12 @@ namespace Weapons
 
 						//don't while hovering on the UI
 						if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
-							Shoot(dir);
+							//Shoot(dir);
+							if (allowedToShoot) {
+								allowedToShoot = false;
+								PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet (dir, bullet.name);
+								StartCoroutine ("ShootCoolDown");
+							}
 							Magazine.ammoRemains--;
 						}
 					}
@@ -99,13 +118,22 @@ namespace Weapons
 			}
 		}
 
-		void Shoot(Vector2 shootDir)
+		//Moved into ShootingFun(), feel free to revert
+		/*void Shoot(Vector2 shootDir)
 		{
 			if (allowedToShoot) {
 				allowedToShoot = false;
-				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet(shootDir, bullet.name);
-				StartCoroutine("ShootCoolDown");
+				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet (shootDir, bullet.name);
+				StartCoroutine ("ShootCoolDown");
 			}
+		}*/
+			
+		void Reload(GameObject m, string hand){
+				Debug.Log ("Reloading");
+				isMagazineIn = true;
+				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m);
+				UIManager.Hands.CurrentSlot.Clear();
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdClearUISlot(hand);
 		}
 
 		//Check which slot it was just added too (broadcast from UI_itemSlot
