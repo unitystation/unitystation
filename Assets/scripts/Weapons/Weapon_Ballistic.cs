@@ -66,14 +66,25 @@ namespace Weapons
 			}
 				
 			if(Input.GetKeyDown(KeyCode.E)) { //PlaceHolder for click UI
-				GameObject m = UIManager.Hands.CurrentSlot.Item; //the new mag
-				string hand = UIManager.Hands.CurrentSlot.eventName;//ref to the mag for CmdSlotClear
+				GameObject currentHandItem = UIManager.Hands.CurrentSlot.Item; 
+				GameObject otherHandItem = UIManager.Hands.OtherSlot.Item;
+				string hand;
 
-				if (m != null) {
-					MagazineBehaviour magazine = m.GetComponent<MagazineBehaviour>();
+				if (currentHandItem != null) {
+					if (isMagazineIn == false) { //RELOAD
+						MagazineBehaviour magazine = currentHandItem.GetComponent<MagazineBehaviour>();
 
-					if (isMagazineIn == false && magazine != null) {
-						Reload(m,hand);
+						if (magazine != null && otherHandItem.GetComponent<Weapon_Ballistic>() != null) {
+							hand = UIManager.Hands.CurrentSlot.eventName;
+							Reload(currentHandItem, hand);
+						}
+					} else { //UNLOAD
+						Weapon_Ballistic weapon = currentHandItem.GetComponent<Weapon_Ballistic>();
+
+						if (weapon != null && otherHandItem == null) {
+							hand = UIManager.Hands.OtherSlot.eventName;
+							UnloadTo(hand);
+						}
 					}
 				}
 			}
@@ -131,9 +142,21 @@ namespace Weapons
 		void Reload(GameObject m, string hand){
 				Debug.Log ("Reloading");
 				isMagazineIn = true;
+				
+				LoadUnloadAmmo(magNetID);
 				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m);
 				UIManager.Hands.CurrentSlot.Clear();
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdClearUISlot(hand);
+		}
+
+		void UnloadTo(string hand){
+			Debug.Log ("Unloading");
+			isMagazineIn = false;
+			GameObject m = ClientScene.FindLocalObject(magNetID);
+
+			LoadUnloadAmmo(magNetID);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.TrySetItem(hand,m);
+			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdUnloadWeapon(gameObject);
 		}
 
 		//Check which slot it was just added too (broadcast from UI_itemSlot
