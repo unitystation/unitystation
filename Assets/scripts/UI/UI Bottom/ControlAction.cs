@@ -26,6 +26,10 @@ namespace UI {
             if(Input.GetKeyDown(KeyCode.Q)) {
                 Drop();
             }
+
+			if(Input.GetKeyDown(KeyCode.X)) {
+				UIManager.Hands.Swap();
+			}
         }
 
         public void Resist() {
