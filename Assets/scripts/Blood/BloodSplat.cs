@@ -6,15 +6,8 @@ using Sprites;
 
 public class BloodSplat : NetworkBehaviour {
 
-	private SpriteRenderer spriteRend;
+	public SpriteRenderer spriteRend;
 	private Sprite[] bloodSprites;
-
-
-	void Start(){
-		bloodSprites = SpriteManager.BloodSprites["blood"];
-		spriteRend = transform.Find("sprite").GetComponent<SpriteRenderer>();
-		spriteRend.enabled = false;
-	}
 
 	//TODO streaky blood from bullet wounds, dragging blood drops etc
 	[Server]
@@ -36,6 +29,9 @@ public class BloodSplat : NetworkBehaviour {
 
 	[ClientRpc]
 	void RpcSetSprite(int spritenum){
+		if (bloodSprites == null) {
+			bloodSprites = SpriteManager.BloodSprites["blood"];
+		}
 		spriteRend.sprite = bloodSprites[spritenum];
 		spriteRend.enabled = true;
 	}
