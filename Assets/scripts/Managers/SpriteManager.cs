@@ -28,6 +28,7 @@ namespace Sprites {
         private Sprites wallSprites = new Sprites();
 		private Sprites doorSprites = new Sprites();
 		private Sprites monitorSprites = new Sprites();
+		private Sprites bloodSprites = new Sprites();
 
         public static SpriteManager Instance {
             get {
@@ -60,6 +61,12 @@ namespace Sprites {
 		public static Sprites MonitorSprites {
 			get { 
 				return Instance.monitorSprites;
+			}
+		}
+
+		public static Sprites BloodSprites{
+			get{
+				return Instance.bloodSprites;
 			}
 		}
 
@@ -121,6 +128,8 @@ namespace Sprites {
 
 			MonitorSprites["monitors"] = Resources.LoadAll<Sprite>("obj/monitors");
 
+			BloodSprites["blood"] = Resources.LoadAll<Sprite>("blood");
+
         }
     }
 
@@ -137,5 +146,11 @@ namespace Sprites {
 		science,
 		security,
 		virology
+	}
+		
+	public enum BloodSplatSize{
+		small,
+		medium,
+		large
 	}
 }

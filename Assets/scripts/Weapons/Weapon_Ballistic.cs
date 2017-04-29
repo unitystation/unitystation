@@ -61,8 +61,11 @@ namespace Weapons
 
 		void Update()
 		{
+			if (PlayerManager.LocalPlayerScript.gameObject.name != controlledByPlayer)
+				return;
+			
 			if (Input.GetMouseButtonDown(0) && allowedToShoot) {
-				ShootingFun();
+				Shoot();
 			}
 				
 			if(Input.GetKeyDown(KeyCode.E)) { //PlaceHolder for click UI
@@ -88,11 +91,10 @@ namespace Weapons
 					}
 				}
 			}
-
 		}
 
-		void ShootingFun()
-		{
+		void Shoot()
+		{			
 			if ((isInHandR && UIManager.Hands.CurrentSlot == UIManager.Hands.RightSlot) ^ (isInHandL && UIManager.Hands.CurrentSlot == UIManager.Hands.LeftSlot)) {
 				if (Magazine == null) {
 					if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
@@ -102,8 +104,6 @@ namespace Weapons
 				}
 				if (Magazine.Usable) {
 					//basic way to check with a XOR if the hand and the slot used matches
-
-					if (PlayerManager.LocalPlayerScript.gameObject.name == controlledByPlayer) {
 						Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
 
 						//don't while hovering on the UI
@@ -116,8 +116,6 @@ namespace Weapons
 							}
 							Magazine.ammoRemains--;
 						}
-					}
-
 				} else {
 					if (isMagazineIn) {
 						PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(Magazine.gameObject);

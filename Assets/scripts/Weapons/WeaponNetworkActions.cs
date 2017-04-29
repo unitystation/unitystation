@@ -4,11 +4,15 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Weapons;
 using PlayGroup;
+using Sprites;
 
 public class WeaponNetworkActions : NetworkBehaviour {
 
 	private GameObject spritesObj;
 	private PlayerSprites playerSprites;
+	private PlayerMove playerMove;
+	private SoundNetworkActions soundNetworkActions;
+	private GameObject bloodSplatPrefab;
 
 	//Lerp parameters
 	private float lerpProgress = 0f;
@@ -21,10 +25,16 @@ public class WeaponNetworkActions : NetworkBehaviour {
 	void Start(){
 		spritesObj = transform.Find("Sprites").gameObject;
 		playerSprites = GetComponent<PlayerSprites>();
+		playerMove = GetComponent<PlayerMove>();
+		soundNetworkActions = GetComponent<SoundNetworkActions>();
+		bloodSplatPrefab = Resources.Load("BloodSplat") as GameObject;
 	}
 
 	[Command]
 	public void CmdLoadMagazine(GameObject weapon, GameObject magazine){
+		if (!playerMove.allowInput)
+			return;
+		
 		Weapon_Ballistic w = weapon.GetComponent<Weapon_Ballistic>();
 		NetworkInstanceId nID = magazine.GetComponent<NetworkIdentity>().netId;
 		w.magNetID = nID;
@@ -32,6 +42,9 @@ public class WeaponNetworkActions : NetworkBehaviour {
 
 	[Command]
 	public void CmdUnloadWeapon(GameObject weapon){
+		if (!playerMove.allowInput)
+			return;
+		
 		Weapon_Ballistic w = weapon.GetComponent<Weapon_Ballistic>();
 		NetworkInstanceId newID = NetworkInstanceId.Invalid;
 		w.magNetID = newID;
@@ -39,6 +52,9 @@ public class WeaponNetworkActions : NetworkBehaviour {
 
 	[Command]
 	public void CmdShootBullet(Vector2 direction, string bulletName){
+		if (!playerMove.allowInput)
+			return;
+		
 		GameObject bullet = GameObject.Instantiate(Resources.Load(bulletName) as GameObject,transform.position, Quaternion.identity);
 		NetworkServer.Spawn(bullet);
 		var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -50,17 +66,28 @@ public class WeaponNetworkActions : NetworkBehaviour {
 	[Command]
 	public void CmdKnifeAttackMob(GameObject npcObj, Vector2 stabDirection)
 	{
+		if (!playerMove.allowInput)
+			return;
+		
 		Living attackTarget = npcObj.GetComponent<Living>();
-		RpcKnifeAttackLerp(stabDirection);
+		if (npcObj != gameObject) {
+			RpcKnifeAttackLerp(stabDirection);
+		}
 		attackTarget.RpcReceiveDamage();
+		BloodSplat(npcObj.transform.position,BloodSplatSize.medium);
+		soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 	}
 
 	[Command]
 	public void CmdKnifeHarvestMob(GameObject npcObj, Vector2 stabDirection)
 	{
+		if (!playerMove.allowInput)
+			return;
+		
 		Living attackTarget = npcObj.GetComponent<Living>();
 		RpcKnifeAttackLerp(stabDirection);
 		attackTarget.HarvestIt();
+		soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 	}
 
 	[ClientRpc]
@@ -79,6 +106,14 @@ public class WeaponNetworkActions : NetworkBehaviour {
 		lerping = true;
 	}
 
+	[Server]
+	public void BloodSplat(Vector3 pos,BloodSplatSize splatSize){
+		GameObject b = GameObject.Instantiate(bloodSplatPrefab, pos, Quaternion.identity);
+		NetworkServer.Spawn(b);
+		BloodSplat bSplat = b.GetComponent<BloodSplat>();
+		bSplat.SplatBlood(splatSize);
+	}
+
 	//Server lerps
 	void Update(){
 		if (lerping) {
@@ -87,6 +122,7 @@ public class WeaponNetworkActions : NetworkBehaviour {
 			if (spritesObj.transform.position == lerpTo || lerpProgress > 2f) {
 				if (!isForLerpBack) {
 					ResetLerp();
+					spritesObj.transform.localPosition = Vector3.zero;
 				} else {
 					//To lerp back from knife attack
 					ResetLerp();

@@ -59,13 +59,12 @@ public class Living : Mob
                 if (mobStat != MobConsciousStat.DEAD)
                 {
                     PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeAttackMob(this.gameObject,dir);
-					PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("BladeSlice");
                 }
                 else
                 {
                     // TODO, please read onClick item_attack.dm for how harvest() is normally handled
+					if(!butcherResults.Count.Equals(0))
                     PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeHarvestMob(this.gameObject,dir);
-					PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("BladeSlice");
                 }
             }
         }
