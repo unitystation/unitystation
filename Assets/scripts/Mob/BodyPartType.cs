@@ -4,11 +4,17 @@ using UnityEngine;
 
 public enum BodyPartType
 {
-    NULL,
     HEAD,
+    EYES,
+    MOUTH,
     CHEST,
-    RIGHT_ARM,
     LEFT_ARM,
+    RIGHT_ARM,
+    LEFT_HAND,
+    RIGHT_HAND,
+    GROIN,
+    LEFT_LEG,
     RIGHT_LEG,
-    LEFT_LEG
+    LEFT_FOOT,
+    RIGHT_FOOT
 }

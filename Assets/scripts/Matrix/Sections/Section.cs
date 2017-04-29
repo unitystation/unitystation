@@ -29,7 +29,7 @@ public class Section: ScriptableObject {
         var map = GameObject.FindGameObjectWithTag("Map");
 
         if(map) {
-            sectionObject = map.transform.FindChild(name);
+            sectionObject = map.transform.Find(name);
 
             if(!sectionObject) {
                 sectionObject = new GameObject(name).transform;

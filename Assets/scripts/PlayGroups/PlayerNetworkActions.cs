@@ -8,6 +8,7 @@ using PlayGroup;
 using Equipment;
 using Cupboards;
 using UI;
+using Items;
 
 public class PlayerNetworkActions : NetworkBehaviour
 {
@@ -18,10 +19,15 @@ public class PlayerNetworkActions : NetworkBehaviour
     };
 
     private Equipment.Equipment equipment;
-
+	private PlayerMove playerMove;
+	private PlayerSprites playerSprites;
+	private SoundNetworkActions soundNetworkActions;
     void Start()
     {
         equipment = GetComponent<Equipment.Equipment>();
+		playerMove = GetComponent<PlayerMove>();
+		playerSprites = GetComponent<PlayerSprites>();
+		soundNetworkActions = GetComponent<SoundNetworkActions>();
     }
 
     public override void OnStartServer()
@@ -91,6 +97,13 @@ public class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
+	//This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
+	[Command]
+	public void CmdTryAddToEquipmentPool(GameObject obj){
+
+		EquipmentPool.AddGameObject(gameObject.name, obj);
+	}
+
     [Command]
     public void CmdTryToInstantiateInHand(string eventName, GameObject prefab){
         if (ServerCache.ContainsKey(eventName))
@@ -132,6 +145,7 @@ public class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
+	//Dropping from a slot on the UI
     [Command]
     public void CmdDropItem(string eventName)
     {
@@ -150,6 +164,12 @@ public class PlayerNetworkActions : NetworkBehaviour
             }
         }
     }
+	//Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)
+	[Command]
+	public void CmdDropItemNotInUISlot(GameObject obj)
+	{
+		EquipmentPool.DropGameObject(gameObject.name, obj);
+	}
 
     [Command]
     public void CmdPlaceItem(string eventName, Vector3 pos, GameObject newParent)
@@ -198,7 +218,7 @@ public class PlayerNetworkActions : NetworkBehaviour
     {
         ServerCache[eventName] = null;
 
-        if (eventName == "id" || eventName == "storage01" || eventName == "storage02" || eventName == "suitStorage")
+		if (eventName == "id" || eventName == "storage01" || eventName == "storage02" || eventName == "suitStorage")
         {
         }
         else
@@ -236,19 +256,6 @@ public class PlayerNetworkActions : NetworkBehaviour
         Microwave m = microwave.GetComponent<Microwave>();
         m.ServerSetOutputMeal(mealName);
         m.RpcStartCooking();
-    }
-
-    [Command]
-    public void CmdAttackNpc(GameObject npcObj){
-        Living attackTarget = npcObj.GetComponent<Living>();
-        attackTarget.RpcReceiveDamage();
-    }
-
-    [Command]
-    public void CmdHarvestNpc(GameObject npcObj)
-    {
-        Living attackTarget = npcObj.GetComponent<Living>();
-        attackTarget.RpcHarvest();
     }
 
     [Command]
@@ -298,17 +305,38 @@ public class PlayerNetworkActions : NetworkBehaviour
             c.RpcSetEmptySprite();
         }
     }
-        
-    [Command]
-    public void CmdShootBullet(Vector2 direction, string bulletName){
-        GameObject bullet = GameObject.Instantiate(Resources.Load(bulletName) as GameObject,transform.position, Quaternion.identity);
-        NetworkServer.Spawn(bullet);
-        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-        b.Shoot(direction, angle);
-            
-    }
 
+	[Command]
+	public void CmdMoveItem(GameObject item, Vector3 newPos){
+		item.transform.position = newPos;
+	}
+
+	[Command]
+	public void CmdConsciousState(bool conscious){
+		if (conscious) {
+			playerMove.allowInput = true;
+			RpcSetPlayerRot(false, 0f);
+		} else {
+			playerMove.allowInput = false;
+			RpcSetPlayerRot(false, -90f);
+			soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
+			if (UnityEngine.Random.value > 0.5f) {
+				playerSprites.currentDirection = Vector2.up;
+			}
+		}
+	}
+
+	//For falling over and getting back up again over network
+	[ClientRpc]
+	public void RpcSetPlayerRot(bool temporary, float rot){
+		var rotationVector = transform.rotation.eulerAngles;
+		rotationVector.z = rot;
+		transform.rotation = Quaternion.Euler(rotationVector);
+		if (temporary) {
+		//TODO Coroutine with timer to get back up again
+		}
+	}
+			
     [ClientRpc]
     void RpcAdjustItemParent(GameObject item, GameObject parent)
     {

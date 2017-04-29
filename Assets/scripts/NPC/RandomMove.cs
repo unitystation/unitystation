@@ -7,24 +7,21 @@ namespace NPC
 {
     public class RandomMove: NetworkBehaviour
     {
-        private SpriteRenderer spriteRenderer;
         private bool isRight = false;
-        private bool isMoving = false;
         public float speed = 6f;
-
         private Vector3 currentPosition, targetPosition, currentDirection;
 
         void Start()
         {
             targetPosition = transform.position;
-            spriteRenderer = GetComponent<SpriteRenderer>();
+			currentPosition = targetPosition;
         }
 
         void Update()
         {
-            if (NetworkServer.active)
+			if (NetworkServer.active)
             {
-                Move(Vector3.zero);
+                Move();
             }
         }
 
@@ -62,8 +59,6 @@ namespace NPC
         //COROUTINES
         IEnumerator RandMove()
         {
-            isMoving = true;
-
             float ranTime = Random.Range(2f, 10f);
             yield return new WaitForSeconds(ranTime);
 
@@ -110,13 +105,12 @@ namespace NPC
             StartCoroutine(RandMove());
         }
 
-        void Move(Vector3 inputDirection)
+        void Move()
         {
-            transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
-
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
             if (targetPosition == transform.position)
             {
-                currentPosition = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
+				currentPosition = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), transform.position.z);
             } 
         }
 
@@ -131,6 +125,7 @@ namespace NPC
                     Matrix.Matrix.At(currentPosition + vertical).IsPassable()))
                 {
                     targetPosition = currentPosition + direction;
+					targetPosition.z = transform.position.z;
                     return true;
                 }
             }
@@ -139,11 +134,13 @@ namespace NPC
                 if (Matrix.Matrix.At(currentPosition + horizontal).IsPassable())
                 {
                     targetPosition = currentPosition + horizontal;
+					targetPosition.z = transform.position.z;
                     return true;
                 }
                 else if (Matrix.Matrix.At(currentPosition + vertical).IsPassable())
                 {
                     targetPosition = currentPosition + vertical;
+					targetPosition.z = transform.position.z;
                     return true;
                 }
             }

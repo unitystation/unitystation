@@ -7,10 +7,12 @@ namespace InputControl {
 
     public class InputController: MonoBehaviour {
 		private PlayerSprites playerSprites;
+		private PlayerMove playerMove;
 
 		void Start(){
 			//for changing direction on click
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
+			playerMove = GetComponent<PlayerMove>();
 		}
 
         void Update() {
@@ -23,7 +25,7 @@ namespace InputControl {
 				Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
 				float angle = Angle(dir);
 				//change the facingDirection of player on click
-				if(!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+				if(!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
 				CheckPlayerDirection(angle);
             }
         }

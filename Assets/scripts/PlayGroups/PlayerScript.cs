@@ -10,6 +10,9 @@ namespace PlayGroup {
         // the maximum distance the player needs to be to an object to interact with it
         public float interactionDistance = 2f;
         public PlayerNetworkActions playerNetworkActions { get; set; }
+		public WeaponNetworkActions weaponNetworkActions { get; set; }
+		public SoundNetworkActions soundNetworkActions { get; set; }
+		public HitIcon hitIcon { get; set; }
         [SyncVar(hook = "OnNameChange")]
         public string playerName = " ";
         private bool pickUpCoolDown = false;
@@ -37,6 +40,9 @@ namespace PlayGroup {
 
         void Start() {
             playerNetworkActions = GetComponent<PlayerNetworkActions>();
+			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
+			soundNetworkActions = GetComponent<SoundNetworkActions>();
+			hitIcon = GetComponentInChildren<HitIcon>();
         }
 
         void Init() {

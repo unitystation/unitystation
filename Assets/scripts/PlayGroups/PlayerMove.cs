@@ -13,6 +13,8 @@ namespace PlayGroup {
         public bool diagonalMovement;
         public float speed = 10;
 		public bool isInSpace = false;
+		[SyncVar]
+		public bool allowInput = true;
 
         private List<KeyCode> pressedKeys = new List<KeyCode>();
 
@@ -22,9 +24,8 @@ namespace PlayGroup {
 
         public PlayerAction SendAction() {
             var actionKeys = new List<int>();
-
             foreach(var keyCode in keyCodes) {
-                if(Input.GetKey(keyCode)) {
+				if(Input.GetKey(keyCode) && allowInput) {
                     actionKeys.Add((int) keyCode);
                 }
             }
@@ -41,6 +42,7 @@ namespace PlayGroup {
 					isInSpace = false;
 				}
 			}
+
             var direction = GetDirection(action);
             var adjustedDirection = AdjustDirection(currentPosition, direction);
 
