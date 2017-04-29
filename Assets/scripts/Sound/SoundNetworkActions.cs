@@ -16,7 +16,7 @@ public class SoundNetworkActions : NetworkBehaviour {
 	}
 
 	[ClientRpc]
-	void RpcPlayNetworkSound(string soundName, Vector3 pos){
+	public void RpcPlayNetworkSound(string soundName, Vector3 pos){
 		SoundManager.PlayAtPosition(soundName, pos);
 	}
 }

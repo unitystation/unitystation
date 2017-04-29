@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using PlayGroup;
 
 public class Carbon : Living
 {
@@ -111,17 +112,23 @@ public class Carbon : Living
             {
                 if (mobStat == MobConsciousStat.CONSCIOUS)
                 {
+					Debug.Log("UNCONSCIOUS");
                     mobStat = MobConsciousStat.UNCONSCIOUS;
+					if (IsClient()) {
+						PlayerManager.LocalPlayerScript.playerNetworkActions.CmdConsciousState(false);
+					}
                 }
-            }
-            else
-            {
-                if (mobStat == MobConsciousStat.UNCONSCIOUS)
-                {
-                    mobStat = MobConsciousStat.CONSCIOUS;
-                }
-
-            }
+            } 
+			//FIXME: Needs to only become conscious when health improved (atm just hitting an unconcious guy makes him become conscious again
+//            else
+//            {
+//                if (mobStat == MobConsciousStat.UNCONSCIOUS)
+//                {
+//                    mobStat = MobConsciousStat.CONSCIOUS;
+//					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAllowControlInput(true);
+//                }
+//
+//            }
         }
 
         UpdateDamageHud();

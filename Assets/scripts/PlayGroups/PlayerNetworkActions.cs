@@ -19,10 +19,13 @@ public class PlayerNetworkActions : NetworkBehaviour
     };
 
     private Equipment.Equipment equipment;
-
+	private PlayerMove playerMove;
+	private PlayerSprites playerSprites;
     void Start()
     {
         equipment = GetComponent<Equipment.Equipment>();
+		playerMove = GetComponent<PlayerMove>();
+		playerSprites = GetComponent<PlayerSprites>();
     }
 
     public override void OnStartServer()
@@ -306,6 +309,31 @@ public class PlayerNetworkActions : NetworkBehaviour
 		item.transform.position = newPos;
 	}
 
+	[Command]
+	public void CmdConsciousState(bool conscious){
+		if (conscious) {
+			playerMove.allowInput = true;
+			RpcSetPlayerRot(false, 0f);
+		} else {
+			playerMove.allowInput = false;
+			RpcSetPlayerRot(false, -90f);
+			if (UnityEngine.Random.value > 0.5f) {
+				playerSprites.currentDirection = Vector2.up;
+			}
+		}
+	}
+
+	//For falling over and getting back up again over network
+	[ClientRpc]
+	public void RpcSetPlayerRot(bool temporary, float rot){
+		var rotationVector = transform.rotation.eulerAngles;
+		rotationVector.z = rot;
+		transform.rotation = Quaternion.Euler(rotationVector);
+		if (temporary) {
+		//TODO Coroutine with timer to get back up again
+		}
+	}
+			
     [ClientRpc]
     void RpcAdjustItemParent(GameObject item, GameObject parent)
     {

@@ -9,6 +9,8 @@ public class WeaponNetworkActions : NetworkBehaviour {
 
 	private GameObject spritesObj;
 	private PlayerSprites playerSprites;
+	private PlayerMove playerMove;
+	private SoundNetworkActions soundNetworkActions;
 
 	//Lerp parameters
 	private float lerpProgress = 0f;
@@ -21,10 +23,15 @@ public class WeaponNetworkActions : NetworkBehaviour {
 	void Start(){
 		spritesObj = transform.Find("Sprites").gameObject;
 		playerSprites = GetComponent<PlayerSprites>();
+		playerMove = GetComponent<PlayerMove>();
+		soundNetworkActions = GetComponent<SoundNetworkActions>();
 	}
 
 	[Command]
 	public void CmdLoadMagazine(GameObject weapon, GameObject magazine){
+		if (!playerMove.allowInput)
+			return;
+		
 		Weapon_Ballistic w = weapon.GetComponent<Weapon_Ballistic>();
 		NetworkInstanceId nID = magazine.GetComponent<NetworkIdentity>().netId;
 		w.magNetID = nID;
@@ -32,6 +39,9 @@ public class WeaponNetworkActions : NetworkBehaviour {
 
 	[Command]
 	public void CmdUnloadWeapon(GameObject weapon){
+		if (!playerMove.allowInput)
+			return;
+		
 		Weapon_Ballistic w = weapon.GetComponent<Weapon_Ballistic>();
 		NetworkInstanceId newID = NetworkInstanceId.Invalid;
 		w.magNetID = newID;
@@ -39,6 +49,9 @@ public class WeaponNetworkActions : NetworkBehaviour {
 
 	[Command]
 	public void CmdShootBullet(Vector2 direction, string bulletName){
+		if (!playerMove.allowInput)
+			return;
+		
 		GameObject bullet = GameObject.Instantiate(Resources.Load(bulletName) as GameObject,transform.position, Quaternion.identity);
 		NetworkServer.Spawn(bullet);
 		var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -50,17 +63,25 @@ public class WeaponNetworkActions : NetworkBehaviour {
 	[Command]
 	public void CmdKnifeAttackMob(GameObject npcObj, Vector2 stabDirection)
 	{
+		if (!playerMove.allowInput)
+			return;
+		
 		Living attackTarget = npcObj.GetComponent<Living>();
 		RpcKnifeAttackLerp(stabDirection);
 		attackTarget.RpcReceiveDamage();
+		soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 	}
 
 	[Command]
 	public void CmdKnifeHarvestMob(GameObject npcObj, Vector2 stabDirection)
 	{
+		if (!playerMove.allowInput)
+			return;
+		
 		Living attackTarget = npcObj.GetComponent<Living>();
 		RpcKnifeAttackLerp(stabDirection);
 		attackTarget.HarvestIt();
+		soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 	}
 
 	[ClientRpc]
