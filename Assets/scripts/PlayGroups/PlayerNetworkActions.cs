@@ -21,11 +21,13 @@ public class PlayerNetworkActions : NetworkBehaviour
     private Equipment.Equipment equipment;
 	private PlayerMove playerMove;
 	private PlayerSprites playerSprites;
+	private SoundNetworkActions soundNetworkActions;
     void Start()
     {
         equipment = GetComponent<Equipment.Equipment>();
 		playerMove = GetComponent<PlayerMove>();
 		playerSprites = GetComponent<PlayerSprites>();
+		soundNetworkActions = GetComponent<SoundNetworkActions>();
     }
 
     public override void OnStartServer()
@@ -317,6 +319,7 @@ public class PlayerNetworkActions : NetworkBehaviour
 		} else {
 			playerMove.allowInput = false;
 			RpcSetPlayerRot(false, -90f);
+			soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
 			if (UnityEngine.Random.value > 0.5f) {
 				playerSprites.currentDirection = Vector2.up;
 			}

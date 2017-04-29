@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Weapons;
 using PlayGroup;
+using Sprites;
 
 public class WeaponNetworkActions : NetworkBehaviour {
 
@@ -11,6 +12,7 @@ public class WeaponNetworkActions : NetworkBehaviour {
 	private PlayerSprites playerSprites;
 	private PlayerMove playerMove;
 	private SoundNetworkActions soundNetworkActions;
+	private GameObject bloodSplatPrefab;
 
 	//Lerp parameters
 	private float lerpProgress = 0f;
@@ -25,6 +27,7 @@ public class WeaponNetworkActions : NetworkBehaviour {
 		playerSprites = GetComponent<PlayerSprites>();
 		playerMove = GetComponent<PlayerMove>();
 		soundNetworkActions = GetComponent<SoundNetworkActions>();
+		bloodSplatPrefab = Resources.Load("BloodSplat") as GameObject;
 	}
 
 	[Command]
@@ -67,8 +70,11 @@ public class WeaponNetworkActions : NetworkBehaviour {
 			return;
 		
 		Living attackTarget = npcObj.GetComponent<Living>();
-		RpcKnifeAttackLerp(stabDirection);
+		if (npcObj != gameObject) {
+			RpcKnifeAttackLerp(stabDirection);
+		}
 		attackTarget.RpcReceiveDamage();
+		BloodSplat(npcObj.transform.position,BloodSplatSize.medium);
 		soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 	}
 
@@ -98,6 +104,14 @@ public class WeaponNetworkActions : NetworkBehaviour {
 		lerpProgress = 0f;
 		isForLerpBack = true;
 		lerping = true;
+	}
+
+	[Server]
+	public void BloodSplat(Vector3 pos,BloodSplatSize splatSize){
+		GameObject b = GameObject.Instantiate(bloodSplatPrefab, pos, Quaternion.identity);
+		NetworkServer.Spawn(b);
+		BloodSplat bSplat = b.GetComponent<BloodSplat>();
+		bSplat.SplatBlood(splatSize);
 	}
 
 	//Server lerps
