@@ -14,11 +14,12 @@ namespace NPC
         void Start()
         {
             targetPosition = transform.position;
+			currentPosition = targetPosition;
         }
 
         void Update()
         {
-            if (NetworkServer.active)
+			if (NetworkServer.active)
             {
                 Move();
             }
@@ -106,22 +107,17 @@ namespace NPC
 
         void Move()
         {
-			
-            transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
-
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
             if (targetPosition == transform.position)
             {
-                currentPosition = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
+				currentPosition = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), transform.position.z);
             } 
         }
 
         private bool TryToMove(Vector3 direction)
         {
-			direction.z = transform.position.z;
             var horizontal = Vector3.Scale(direction, Vector3.right);
             var vertical = Vector3.Scale(direction, Vector3.up);
-			horizontal.z = transform.position.z;
-			vertical.z = transform.position.z;
 
             if (Matrix.Matrix.At(currentPosition + direction).IsPassable())
             {
@@ -129,6 +125,7 @@ namespace NPC
                     Matrix.Matrix.At(currentPosition + vertical).IsPassable()))
                 {
                     targetPosition = currentPosition + direction;
+					targetPosition.z = transform.position.z;
                     return true;
                 }
             }
@@ -137,11 +134,13 @@ namespace NPC
                 if (Matrix.Matrix.At(currentPosition + horizontal).IsPassable())
                 {
                     targetPosition = currentPosition + horizontal;
+					targetPosition.z = transform.position.z;
                     return true;
                 }
                 else if (Matrix.Matrix.At(currentPosition + vertical).IsPassable())
                 {
                     targetPosition = currentPosition + vertical;
+					targetPosition.z = transform.position.z;
                     return true;
                 }
             }

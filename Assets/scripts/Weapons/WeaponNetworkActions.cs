@@ -87,6 +87,7 @@ public class WeaponNetworkActions : NetworkBehaviour {
 			if (spritesObj.transform.position == lerpTo || lerpProgress > 2f) {
 				if (!isForLerpBack) {
 					ResetLerp();
+					spritesObj.transform.localPosition = Vector3.zero;
 				} else {
 					//To lerp back from knife attack
 					ResetLerp();
