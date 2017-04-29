@@ -19,7 +19,7 @@ public abstract class BulletBehaviour : NetworkBehaviour {
 		Vector3 startPos = new Vector3(dir.x, dir.y, transform.position.z);
 		transform.position += startPos;
         thisRigi = GetComponent<Rigidbody2D>();
-        thisRigi.AddForce(dir * 24f, ForceMode2D.Impulse);
+		thisRigi.AddForce(dir.normalized * 24f, ForceMode2D.Impulse);
     }
 
     public abstract void OnShoot();
