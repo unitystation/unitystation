@@ -1,12 +1,13 @@
-﻿#if UNITY_EDITOR
-using System;
+﻿using System;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace MapEditor {
-
     [ExecuteInEditMode]
     public class PreviewObject: MonoBehaviour {
+		#if UNITY_EDITOR
         private static PreviewObject instance;
         public static PreviewObject Instance {
             get {
@@ -169,6 +170,6 @@ namespace MapEditor {
                 }
             }
         }
+		#endif
     }
 }
-#endif

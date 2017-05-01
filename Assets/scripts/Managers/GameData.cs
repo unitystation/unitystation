@@ -11,7 +11,7 @@ public class GameData: MonoBehaviour
 	/// Check to see if you are in the game or in the lobby
 	/// </summary>
 	public static bool IsInGame { get; private set; }
-
+	public bool testServer = false;
 	private static GameData gameData;
 
 	public static GameData Instance {
@@ -53,7 +53,12 @@ public class GameData: MonoBehaviour
 
 	void OnLevelWasLoaded()
 	{
-         
+		//Check if running in batchmode (headless server)
+		if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer) {
+			Debug.Log("START SERVER HEADLESS MODE");
+			CustomNetworkManager.Instance.StartServer();
+			return;
+		}
 		if (Application.loadedLevelName == "Lobby") {
 			IsInGame = false;
 			Managers.instance.SetScreenForLobby();
