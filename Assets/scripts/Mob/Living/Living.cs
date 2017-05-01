@@ -69,7 +69,7 @@ public class Living : Mob
             }
         }
     }
-
+		
     #region unityhelpers
 
 	[ClientRpc]

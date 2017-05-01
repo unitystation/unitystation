@@ -94,9 +94,9 @@ public class WeaponNetworkActions : NetworkBehaviour {
 	void RpcKnifeAttackLerp(Vector2 stabDir){
 		if (lerping)
 			return;
-
-		PlayerManager.LocalPlayerScript.hitIcon.ShowHitIcon(stabDir);
+		
 		if (PlayerManager.LocalPlayer.name == gameObject.name) {
+			PlayerManager.LocalPlayerScript.hitIcon.ShowHitIcon(stabDir);
 			PlayerManager.LocalPlayerScript.playerMove.allowInput = false;
 		}
 		lerpFrom = transform.position;
