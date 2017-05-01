@@ -2,16 +2,18 @@
 using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using PlayGroup;
 
 namespace UI
 {
-    public class ControlChat: MonoBehaviour
+    public class ControlChat: NetworkBehaviour
     {
 
-
+		public SyncListString chatlog = new SyncListString();
         public GameObject chatInputWindow;
         public InputField usernameInput;
         public RectTransform ChatPanel;
@@ -22,7 +24,6 @@ namespace UI
         public Scrollbar scrollBar;
 
         public bool isChatFocus = false;
-        private readonly Dictionary<string, Toggle> channelToggles = new Dictionary<string, Toggle>();
 
         public bool ShowState = true;
 
@@ -30,44 +31,36 @@ namespace UI
 
         public void Start()
         {
-            chatInputWindow.SetActive(false);
-
-            //			ChatPanel.gameObject.SetActive(false);
-           
+            chatInputWindow.SetActive(false); 
         }
 
-        //FIXME: The left over guts from the old Photon Chat Controller
-        //FIXME: Develop new chat system over uNet
+		public override void OnStartClient(){
+			chatlog.Callback = RefreshChatLog; 
+			base.OnStartClient();
+		}
+
+		void RefreshChatLog(SyncListString.Operation op, int index){
+			CurrentChannelText.text = "";
+			foreach (string chatline in chatlog) {
+				string curList = CurrentChannelText.text;
+				CurrentChannelText.text = curList + chatline + "\r\n";
+			}
+		}
 
         public void Update()
         {
-
-//            if(chatClient != null) {
-//                if(chatClient.CanChat && !GameData.IsInGame) {
-//                    //TODO: Remove this when a better transition handler is implemented 
-//            
-//                }
-//            }
-
-//            if(chatClient != null) {
-//                if(Input.GetKeyDown(KeyCode.T) && !isChatFocus && chatClient.CanChat) {
-//
-//                    if(!chatInputWindow.activeSelf) {
-//                        chatInputWindow.SetActive(true);
-//                    }
-//
-//                    isChatFocus = true;
-//                    EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
-//                    InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
-//                }
-//            }
-
+			if (!chatInputWindow.activeInHierarchy && Input.GetKey(KeyCode.T)) {
+				chatInputWindow.SetActive(true);
+				isChatFocus = true;
+				EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
+				InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
+			}
             if (isChatFocus)
             {
-
                 if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
                 {
-//                    SendChatMessage(this.InputFieldChat.text);
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, true);
                     this.InputFieldChat.text = "";
                     CloseChatWindow();
                 }
@@ -79,7 +72,7 @@ namespace UI
             if (this.InputFieldChat != null)
             {
                 SoundManager.Play("Click01");
-//                SendChatMessage(this.InputFieldChat.text);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, true);
                 this.InputFieldChat.text = "";
                 CloseChatWindow();
             }
@@ -90,26 +83,19 @@ namespace UI
             SoundManager.Play("Click01");
             this.InputFieldChat.text = "";
             CloseChatWindow();
-
         }
 
         void CloseChatWindow()
-        {
-
+		{
             isChatFocus = false;
             chatInputWindow.SetActive(false);
-
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(false);
         }
 
         public void ReportToChannel(string reportText)
         {
-
+			//TODO Reporting msgs
             StringBuilder txt = new StringBuilder(reportText + "\r\n");
-
-
-//            this.CurrentChannelText.text += txt.ToString();
-
         }
-
     }
 }

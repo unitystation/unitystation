@@ -26,7 +26,7 @@ public abstract class BulletBehaviour : NetworkBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll){
 		
-        Destroy(gameObject,0.05f);
+        Destroy(gameObject);
         Debug.Log("Bullet hit: " + coll.gameObject.name);
     }
 		

@@ -22,12 +22,14 @@ public class PlayerNetworkActions : NetworkBehaviour
 	private PlayerMove playerMove;
 	private PlayerSprites playerSprites;
 	private SoundNetworkActions soundNetworkActions;
+	private ChatIcon chatIcon;
     void Start()
     {
         equipment = GetComponent<Equipment.Equipment>();
 		playerMove = GetComponent<PlayerMove>();
 		playerSprites = GetComponent<PlayerSprites>();
 		soundNetworkActions = GetComponent<SoundNetworkActions>();
+		chatIcon = GetComponentInChildren<ChatIcon>();
     }
 
     public override void OnStartServer()
@@ -323,6 +325,28 @@ public class PlayerNetworkActions : NetworkBehaviour
 			if (UnityEngine.Random.value > 0.5f) {
 				playerSprites.currentDirection = Vector2.up;
 			}
+		}
+	}
+
+	[Command]
+	public void CmdSendChatMessage(string msg, bool isLocalChat){
+		if (isLocalChat) {
+			UIManager.Chat.chatlog.Add("<b>" + gameObject.name + "</b>" + " says, " + "\"" + msg + "\""); 
+		}
+
+	}
+
+	[Command]
+	public void CmdToggleChatIcon(bool turnOn){
+		RpcToggleChatIcon(turnOn);
+	}
+
+	[ClientRpc]
+	void RpcToggleChatIcon(bool turnOn){
+		if (turnOn) {
+			chatIcon.TurnOnTalkIcon();
+		} else {
+			chatIcon.TurnOffTalkIcon();
 		}
 	}
 
