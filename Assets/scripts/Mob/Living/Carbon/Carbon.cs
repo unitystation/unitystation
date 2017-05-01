@@ -16,18 +16,6 @@ public class Carbon : Living
     public List<GameObject> BodyParts = new List<GameObject>();
     #endregion
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     #region carbon.dm
     
     // see carbon.dm update_health_hud()

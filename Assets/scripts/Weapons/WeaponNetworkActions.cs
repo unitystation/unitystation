@@ -62,7 +62,8 @@ public class WeaponNetworkActions : NetworkBehaviour {
 		b.Shoot(direction, angle);
 
 	}
-		
+
+
 	[Command]
 	public void CmdKnifeAttackMob(GameObject npcObj, Vector2 stabDirection)
 	{

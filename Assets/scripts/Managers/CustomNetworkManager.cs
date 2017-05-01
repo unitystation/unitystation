@@ -10,7 +10,8 @@ using Items;
 public class CustomNetworkManager: NetworkManager
 {
 	public static CustomNetworkManager Instance;
-	private bool _isServer = false;
+	[HideInInspector]
+	public bool _isServer = false;
 	void Awake()
 	{
 		if (Instance == null)
@@ -84,6 +85,7 @@ public class CustomNetworkManager: NetworkManager
               so once the server player is spawned, we will remove him from the scene
               and delete his name from player list
               */
+			_isServer = true;
 			PlayerManager.LocalPlayer.SetActive(false);
 			PlayerList.Instance.RemovePlayer(PlayerManager.LocalPlayer.name);
             
