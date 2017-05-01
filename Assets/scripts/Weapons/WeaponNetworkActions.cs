@@ -59,7 +59,7 @@ public class WeaponNetworkActions : NetworkBehaviour {
 		NetworkServer.Spawn(bullet);
 		var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-		b.Shoot(direction, angle);
+		b.Shoot(direction, angle, gameObject.name);
 
 	}
 

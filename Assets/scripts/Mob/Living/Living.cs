@@ -76,7 +76,7 @@ public class Living : Mob
 		//if this living is on the server:
 		if (CustomNetworkManager.Instance._isServer) {
 			BulletBehaviour b = coll.GetComponent<BulletBehaviour>();
-			if (b != null) {
+			if (b != null && b.shooterName!=gameObject.name) {
 			ReceiveBulletDamage();
 			}
 		}

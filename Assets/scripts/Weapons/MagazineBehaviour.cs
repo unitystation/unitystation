@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class MagazineBehaviour : MonoBehaviour 
+public class MagazineBehaviour : NetworkBehaviour 
 {
 	public int magazineSize=20;
-	public int ammoRemains;
 	public bool Usable;
+
+	[SyncVar]
+	public int ammoRemains;
 
 	void Start () {
 		Usable = true;
