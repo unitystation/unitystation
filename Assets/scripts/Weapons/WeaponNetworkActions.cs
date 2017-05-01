@@ -96,7 +96,9 @@ public class WeaponNetworkActions : NetworkBehaviour {
 			return;
 
 		PlayerManager.LocalPlayerScript.hitIcon.ShowHitIcon(stabDir);
-
+		if (PlayerManager.LocalPlayer.name == gameObject.name) {
+			PlayerManager.LocalPlayerScript.playerMove.allowInput = false;
+		}
 		lerpFrom = transform.position;
 		Vector3 newDir = stabDir * 0.5f;
 		newDir.z = lerpFrom.z;
@@ -123,6 +125,9 @@ public class WeaponNetworkActions : NetworkBehaviour {
 				if (!isForLerpBack) {
 					ResetLerp();
 					spritesObj.transform.localPosition = Vector3.zero;
+					if (PlayerManager.LocalPlayer.name == gameObject.name) {
+						PlayerManager.LocalPlayerScript.playerMove.allowInput = true;
+					}
 				} else {
 					//To lerp back from knife attack
 					ResetLerp();
@@ -138,4 +143,6 @@ public class WeaponNetworkActions : NetworkBehaviour {
 		lerping = false;
 		isForLerpBack = false;
 	}
+
+
 }

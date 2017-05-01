@@ -24,7 +24,7 @@ public class CustomNetworkManager: NetworkManager
 	}
 
 	void Start(){
-		if (!IsClientConnected())
+		if (!IsClientConnected() && !GameData.IsHeadlessServer)
 		{
 			UIManager.Display.logInWindow.SetActive(true);   
 		}
@@ -68,7 +68,26 @@ public class CustomNetworkManager: NetworkManager
 		}
 		else
 		{
+			StartCoroutine(DoHeadlessCheck());
+		}
+	}
+
+	IEnumerator DoHeadlessCheck(){
+		yield return new WaitForEndOfFrame();
+		if (!GameData.IsHeadlessServer) {
 			UIManager.Display.logInWindow.SetActive(true);
+		} else {
+		    //Set up for headless mode stuff here
+			//Useful for turning on and off components
+
+			/*Hacky approach, we are running a Host not a straight server.
+              so once the server player is spawned, we will remove him from the scene
+              and delete his name from player list
+              */
+			PlayerManager.LocalPlayer.SetActive(false);
+			PlayerList.Instance.RemovePlayer(PlayerManager.LocalPlayer.name);
+            
+
 		}
 	}
 
