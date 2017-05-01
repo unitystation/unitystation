@@ -115,7 +115,6 @@ namespace Weapons
 							//Shoot(dir);
 							if (allowedToShoot) {
 								allowedToShoot = false;
-								PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet (dir, bullet.name);
 								StartCoroutine ("ShootCoolDown");
 							}
 							Magazine.ammoRemains--;
