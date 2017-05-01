@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+using Sprites;
 
 public class Living : Mob
 {
     // Inspector Properties
     public int InitialMaxHealth = 100;
+	private bool shotDmgCoolDown = false;
 
     #region living_defines.dm
 
@@ -70,6 +72,41 @@ public class Living : Mob
         }
     }
 
+	void OnTriggerEnter2D(Collider2D coll){
+		//if this living is on the server:
+		if (CustomNetworkManager.Instance._isServer) {
+			BulletBehaviour b = coll.GetComponent<BulletBehaviour>();
+			if (b != null) {
+			ReceiveBulletDamage();
+			}
+		}
+	}
+
+	[Server]
+	void ReceiveBulletDamage(){
+		if (shotDmgCoolDown)
+			return;
+
+		StartCoroutine(ShotDamageCoolDown());
+		shotDmgCoolDown = true;
+		RpcReceiveDamage();
+		BloodSplat(transform.position,BloodSplatSize.medium);
+
+	}
+
+	//TODO Clean up: this is a duplicate of the same method on WeaponNetworkActions
+	void BloodSplat(Vector3 pos,BloodSplatSize splatSize){
+		GameObject b = GameObject.Instantiate(Resources.Load("BloodSplat") as GameObject, pos, Quaternion.identity);
+		NetworkServer.Spawn(b);
+		BloodSplat bSplat = b.GetComponent<BloodSplat>();
+		bSplat.SplatBlood(splatSize);
+	}
+
+	IEnumerator ShotDamageCoolDown(){
+		yield return new WaitForSeconds(0.1f);
+		shotDmgCoolDown = false;
+	}
+		
     #region unityhelpers
 
 	[ClientRpc]

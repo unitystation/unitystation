@@ -61,7 +61,11 @@ namespace Weapons
 
 		void Update()
 		{
-			if (PlayerManager.LocalPlayerScript.gameObject.name != controlledByPlayer)
+			//don't start it too early:
+			if (!PlayerManager.LocalPlayer)
+				return;
+			
+			if (PlayerManager.LocalPlayer.name != controlledByPlayer)
 				return;
 			
 			if (Input.GetMouseButtonDown(0) && allowedToShoot) {

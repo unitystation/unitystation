@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UI;
 
 namespace PlayGroup {
 
@@ -89,6 +90,9 @@ namespace PlayGroup {
         }
 
         private Vector3 GetMoveDirection(KeyCode action) {
+			if (UIManager.Chat.isChatFocus)
+				return Vector3.zero;
+			
             switch(action) {
                 case KeyCode.W:
                 case KeyCode.UpArrow:

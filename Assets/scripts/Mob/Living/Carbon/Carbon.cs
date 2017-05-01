@@ -16,18 +16,6 @@ public class Carbon : Living
     public List<GameObject> BodyParts = new List<GameObject>();
     #endregion
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     #region carbon.dm
     
     // see carbon.dm update_health_hud()
@@ -246,6 +234,8 @@ public class Carbon : Living
     // see carbon update_icons /mob/living/carbon/update_damage_overlays()
     public override void UpdateDamageOverlays()
     {
+		if (!IsClient())
+			return;
         // Kinda similar to the original version
         foreach (GameObject bodyPartGameObject in BodyParts)
         {
@@ -457,6 +447,9 @@ public class Carbon : Living
     // see carbon/mob/living/carbon/death(gibbed)
     public override void Death(bool gibbed)
     {
+		if (!IsClient())
+			return;
+		
         UI.UIManager.PlayerHealth.DisplayDeadScreen();
 
         if (mobStat == MobConsciousStat.DEAD)
