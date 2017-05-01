@@ -436,7 +436,6 @@ GameObject:
   - component: {fileID: 114267127080446362}
   - component: {fileID: 114011731023853376}
   - component: {fileID: 114177718961050590}
-  - component: {fileID: 114345892711568306}
   m_Layer: 5
   m_Name: PANEL_Chat
   m_TagString: Untagged
@@ -6192,38 +6191,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114345892711568306
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1119253318614078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 130
-    i1: 159
-    i2: 76
-    i3: 169
-    i4: 146
-    i5: 184
-    i6: 72
-    i7: 214
-    i8: 187
-    i9: 77
-    i10: 0
-    i11: 127
-    i12: 185
-    i13: 193
-    i14: 18
-    i15: 225
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114348116292919034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13201,7 +13168,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.023529053, y: 252.97128}
+  m_AnchoredPosition: {x: -0.000091552734, y: 252.97128}
   m_SizeDelta: {x: -34, y: 517}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224963146621845462

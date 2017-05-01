@@ -331,7 +331,7 @@ public class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSendChatMessage(string msg, bool isLocalChat){
 		if (isLocalChat) {
-			UIManager.Chat.chatlog.Add("<b>" + gameObject.name + "</b>" + " says, " + "\"" + msg + "\""); 
+			ChatRelay.Instance.chatlog.Add("<b>" + gameObject.name + "</b>" + " says, " + "\"" + msg + "\""); 
 		}
 
 	}

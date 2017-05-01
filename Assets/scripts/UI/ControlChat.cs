@@ -2,7 +2,6 @@
 using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
@@ -10,10 +9,8 @@ using PlayGroup;
 
 namespace UI
 {
-    public class ControlChat: NetworkBehaviour
+    public class ControlChat: MonoBehaviour
     {
-
-		public SyncListString chatlog = new SyncListString();
         public GameObject chatInputWindow;
         public InputField usernameInput;
         public RectTransform ChatPanel;
@@ -33,20 +30,7 @@ namespace UI
         {
             chatInputWindow.SetActive(false); 
         }
-
-		public override void OnStartClient(){
-			chatlog.Callback = RefreshChatLog; 
-			base.OnStartClient();
-		}
-
-		void RefreshChatLog(SyncListString.Operation op, int index){
-			CurrentChannelText.text = "";
-			foreach (string chatline in chatlog) {
-				string curList = CurrentChannelText.text;
-				CurrentChannelText.text = curList + chatline + "\r\n";
-			}
-		}
-
+			
         public void Update()
         {
 			if (!chatInputWindow.activeInHierarchy && Input.GetKey(KeyCode.T)) {
