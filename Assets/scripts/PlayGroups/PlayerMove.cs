@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UI;
 
 namespace PlayGroup {
 
@@ -24,7 +25,11 @@ namespace PlayGroup {
 
         public PlayerAction SendAction() {
             var actionKeys = new List<int>();
+
             foreach(var keyCode in keyCodes) {
+				if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
+					return new PlayerAction() { keyCodes = actionKeys.ToArray() };
+				
 				if(Input.GetKey(keyCode) && allowInput) {
                     actionKeys.Add((int) keyCode);
                 }
@@ -89,6 +94,9 @@ namespace PlayGroup {
         }
 
         private Vector3 GetMoveDirection(KeyCode action) {
+			if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
+				return Vector3.zero;
+			
             switch(action) {
                 case KeyCode.W:
                 case KeyCode.UpArrow:

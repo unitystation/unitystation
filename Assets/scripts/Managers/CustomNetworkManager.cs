@@ -10,7 +10,8 @@ using Items;
 public class CustomNetworkManager: NetworkManager
 {
 	public static CustomNetworkManager Instance;
-	private bool _isServer = false;
+	[HideInInspector]
+	public bool _isServer = false;
 	void Awake()
 	{
 		if (Instance == null)
@@ -24,7 +25,7 @@ public class CustomNetworkManager: NetworkManager
 	}
 
 	void Start(){
-		if (!IsClientConnected())
+		if (!IsClientConnected() && !GameData.IsHeadlessServer)
 		{
 			UIManager.Display.logInWindow.SetActive(true);   
 		}
@@ -45,6 +46,11 @@ public class CustomNetworkManager: NetworkManager
 		base.OnStartServer();
 	}
 
+	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId){
+//		Debug.Log("PlayerConnected: " + conn.playerControllers[0].gameObject.name);
+		base.OnServerAddPlayer(conn, playerControllerId);
+	}
+
 	public override void OnClientConnect(NetworkConnection conn)
 	{
 		if (_isServer) {
@@ -57,6 +63,9 @@ public class CustomNetworkManager: NetworkManager
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
 		PlayerList.Instance.RemovePlayer(conn.playerControllers[0].gameObject.name);
+		//TODO DROP ALL HIS OBJECTS
+		Debug.Log("PlayerDisconnected: " + conn.playerControllers[0].gameObject.name);
+		NetworkServer.Destroy(conn.playerControllers[0].gameObject);
 	}
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
@@ -65,10 +74,31 @@ public class CustomNetworkManager: NetworkManager
 		{
 			//make sure login window does not show on scene changes if connected
 			UIManager.Display.logInWindow.SetActive(false);
+			StartCoroutine(DoHeadlessCheck());
 		}
 		else
 		{
+			StartCoroutine(DoHeadlessCheck());
+		}
+	}
+
+	IEnumerator DoHeadlessCheck(){
+		yield return new WaitForEndOfFrame();
+		if (!GameData.IsHeadlessServer) {
+			if(!IsClientConnected())
 			UIManager.Display.logInWindow.SetActive(true);
+			
+		} else {
+		    //Set up for headless mode stuff here
+			//Useful for turning on and off components
+
+			/*Hacky approach, we are running a Host not a straight server.
+              so once the server player is spawned, we will remove him from the scene
+              and delete his name from player list
+              */
+			_isServer = true;
+			PlayerList.Instance.RemovePlayer(PlayerManager.LocalPlayer.name);
+			PlayerManager.LocalPlayer.transform.position = Vector3.zero;
 		}
 	}
 

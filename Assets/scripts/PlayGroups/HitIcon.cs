@@ -21,11 +21,12 @@ public class HitIcon : MonoBehaviour {
 		public void ShowHitIcon(Vector2 dir){
 			if (isFading)
 				return;
-			
 			Vector3 newDir = new Vector3(dir.x, dir.y, 0f);
 			lerpFrom = newDir * 0.75f;
 			lerpTo = newDir;
 			isFading = true;
+
+			if(gameObject.activeInHierarchy)
 			StartCoroutine(FadeIcon());
 		}
 

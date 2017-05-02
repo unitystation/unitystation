@@ -61,7 +61,11 @@ namespace Weapons
 
 		void Update()
 		{
-			if (PlayerManager.LocalPlayerScript.gameObject.name != controlledByPlayer)
+			//don't start it too early:
+			if (!PlayerManager.LocalPlayer)
+				return;
+			
+			if (PlayerManager.LocalPlayer.name != controlledByPlayer)
 				return;
 			
 			if (Input.GetMouseButtonDown(0) && allowedToShoot) {
@@ -104,14 +108,14 @@ namespace Weapons
 				}
 				if (Magazine.Usable) {
 					//basic way to check with a XOR if the hand and the slot used matches
-						Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-
+					Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
+					Debug.Log ("dir:" + dir);
 						//don't while hovering on the UI
 						if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
 							//Shoot(dir);
 							if (allowedToShoot) {
 								allowedToShoot = false;
-								PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet (dir, bullet.name);
+							    PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet (dir, bullet.name);
 								StartCoroutine ("ShootCoolDown");
 							}
 							Magazine.ammoRemains--;

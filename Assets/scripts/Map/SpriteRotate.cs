@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +6,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 [RequireComponent(typeof(SpriteRenderer))]
 public class SpriteRotate: MonoBehaviour {
-
+	#if UNITY_EDITOR
     public Sprite[] sprites = new Sprite[0];
     public Vector2[] positions = new Vector2[0];
     public Vector3 colliderOffset;
@@ -42,5 +41,6 @@ public class SpriteRotate: MonoBehaviour {
     public void RotateBackwards() {
         RotateIndex--;
     }
+	#endif
 }
-#endif
+

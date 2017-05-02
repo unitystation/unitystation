@@ -22,25 +22,37 @@ public class PlayerNetworkActions : NetworkBehaviour
 	private PlayerMove playerMove;
 	private PlayerSprites playerSprites;
 	private SoundNetworkActions soundNetworkActions;
+	private ChatIcon chatIcon;
     void Start()
     {
         equipment = GetComponent<Equipment.Equipment>();
 		playerMove = GetComponent<PlayerMove>();
 		playerSprites = GetComponent<PlayerSprites>();
 		soundNetworkActions = GetComponent<SoundNetworkActions>();
+		chatIcon = GetComponentInChildren<ChatIcon>();
+		CmdSyncRoundTime(GameManager.GetRoundTime);
     }
 
     public override void OnStartServer()
     {
-        if (isServer)
-        {
-            foreach (string cacheName in eventNames)
-            {
-                ServerCache.Add(cacheName, null);
-            }
-        }
+		if (isServer) {
+			foreach (string cacheName in eventNames) {
+				ServerCache.Add(cacheName, null);
+			}
+		} 
         base.OnStartServer();
     }
+	[Command]
+	void CmdSyncRoundTime(float currentTime){
+		RpcSyncRoundTime(currentTime);
+	}
+
+	[ClientRpc]
+	void RpcSyncRoundTime(float currentTime){
+		if (PlayerManager.LocalPlayer == gameObject) {
+			GameManager.Instance.SyncTime(currentTime);
+		}
+	}
         
     //This is only called from interaction on the client (from PickUpTrigger)
     public bool TryToPickUpObject(GameObject itemObject)
@@ -323,6 +335,28 @@ public class PlayerNetworkActions : NetworkBehaviour
 			if (UnityEngine.Random.value > 0.5f) {
 				playerSprites.currentDirection = Vector2.up;
 			}
+		}
+	}
+
+	[Command]
+	public void CmdSendChatMessage(string msg, bool isLocalChat){
+		if (isLocalChat) {
+			ChatRelay.Instance.chatlog.Add("<b>" + gameObject.name + "</b>" + " says, " + "\"" + msg + "\""); 
+		}
+
+	}
+
+	[Command]
+	public void CmdToggleChatIcon(bool turnOn){
+		RpcToggleChatIcon(turnOn);
+	}
+
+	[ClientRpc]
+	void RpcToggleChatIcon(bool turnOn){
+		if (turnOn) {
+			chatIcon.TurnOnTalkIcon();
+		} else {
+			chatIcon.TurnOffTalkIcon();
 		}
 	}
 
