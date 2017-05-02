@@ -46,6 +46,11 @@ public class CustomNetworkManager: NetworkManager
 		base.OnStartServer();
 	}
 
+	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId){
+//		Debug.Log("PlayerConnected: " + conn.playerControllers[0].gameObject.name);
+		base.OnServerAddPlayer(conn, playerControllerId);
+	}
+
 	public override void OnClientConnect(NetworkConnection conn)
 	{
 		if (_isServer) {
@@ -58,6 +63,9 @@ public class CustomNetworkManager: NetworkManager
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
 		PlayerList.Instance.RemovePlayer(conn.playerControllers[0].gameObject.name);
+		//TODO DROP ALL HIS OBJECTS
+		Debug.Log("PlayerDisconnected: " + conn.playerControllers[0].gameObject.name);
+		NetworkServer.Destroy(conn.playerControllers[0].gameObject);
 	}
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
