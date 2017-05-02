@@ -1,21 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public abstract class BulletBehaviour : NetworkBehaviour {
+public abstract class BulletBehaviour : MonoBehaviour {
 
     private Rigidbody2D thisRigi;
 	public string shooterName;
 
 
 	public void Shoot(Vector2 dir, float angle, string controlledByPlayer){
-		RpcShoot(dir, angle, controlledByPlayer);
+		StartShoot(dir, angle, controlledByPlayer);
         OnShoot();
     }
-
-    [ClientRpc]
-	void RpcShoot(Vector2 dir, float angle, string controlledByPlayer){
+		
+	void StartShoot(Vector2 dir, float angle, string controlledByPlayer){
 		shooterName = controlledByPlayer;
     	transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 		Vector3 startPos = new Vector3(dir.x, dir.y, transform.position.z);

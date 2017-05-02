@@ -79,7 +79,7 @@ namespace UI
         public void ReportToChannel(string reportText)
         {
 			//TODO Reporting msgs
-            StringBuilder txt = new StringBuilder(reportText + "\r\n");
+//            StringBuilder txt = new StringBuilder(reportText + "\r\n");
         }
     }
 }

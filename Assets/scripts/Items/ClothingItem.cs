@@ -22,7 +22,6 @@ namespace PlayGroup
         public string spriteSheetName;
         public int reference = -1;
         public PlayerScript thisPlayerScript;
-		private int spriteCodeCache = 1;
 
         public int Reference
         {

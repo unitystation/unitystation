@@ -19,8 +19,6 @@ public class Camera2DFollow: MonoBehaviour {
     private float yOffSet = -1f;
     private float offsetZ = -1f;
 
-    bool isSearching = false;
-
     Vector3 lastTargetPosition;
     Vector3 currentVelocity;
     Vector3 lookAheadPos;
@@ -28,23 +26,6 @@ public class Camera2DFollow: MonoBehaviour {
 
     private bool adjustPixel = false;
     public float pixelAdjustment = 64f;
-
-
-    float nextTimeToSearch = 0;
-
-
-    private bool zooming = false;
-    private float newZpos;
-    private float zoomSpeed;
-    private float zoomLerp = 0f;
-    private float fromZ;
-
-    // Y Pos Lerp
-    private bool yLerp = false;
-    private float newYposRestrict;
-    private float newYLerpSpeed;
-    private float yLerpVal;
-    private float fromY;
 
 	public ParallaxStars parallaxStars;
 

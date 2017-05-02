@@ -20,8 +20,8 @@ public class GameManager : NetworkBehaviour {
 
 	public Text roundTimer;
 	private bool counting = false;
-	private float remainingTime = 600f; //10min
-	private float cacheTime = 600f;
+	private float remainingTime = 300f; //5min
+	private float cacheTime = 300f;
 	public static float GetRoundTime {get{
 			return Instance.remainingTime;
 		}}
