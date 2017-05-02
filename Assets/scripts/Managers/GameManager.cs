@@ -21,12 +21,18 @@ public class GameManager : NetworkBehaviour {
 	public Text roundTimer;
 	private bool counting = false;
 	private float remainingTime = 900f; //15min rounds
+	public static float GetRoundTime {get{
+			return Instance.remainingTime;
+		}}
 
 	public override void OnStartClient(){
 		Instance.counting = true;
 		base.OnStartClient();
 	}
 
+	public void SyncTime(float currentTime){
+		Instance.remainingTime = currentTime;
+	}
 
 	void Update(){
 		if (Instance.counting) {

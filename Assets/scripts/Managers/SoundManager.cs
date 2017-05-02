@@ -57,6 +57,10 @@ public class SoundManager: MonoBehaviour {
         Instance.sounds[name].Play();
     }
 
+	public static void Stop(string name){
+		Instance.sounds[name].Stop();
+	}
+
     public static void PlayAtPosition(string name, Vector3 pos){
         if(Instance.sounds.ContainsKey(name)){
             Instance.sounds[name].transform.position = pos;
