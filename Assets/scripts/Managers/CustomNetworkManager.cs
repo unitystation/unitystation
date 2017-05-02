@@ -74,6 +74,7 @@ public class CustomNetworkManager: NetworkManager
 		{
 			//make sure login window does not show on scene changes if connected
 			UIManager.Display.logInWindow.SetActive(false);
+			StartCoroutine(DoHeadlessCheck());
 		}
 		else
 		{
@@ -84,7 +85,9 @@ public class CustomNetworkManager: NetworkManager
 	IEnumerator DoHeadlessCheck(){
 		yield return new WaitForEndOfFrame();
 		if (!GameData.IsHeadlessServer) {
+			if(!IsClientConnected())
 			UIManager.Display.logInWindow.SetActive(true);
+			
 		} else {
 		    //Set up for headless mode stuff here
 			//Useful for turning on and off components
@@ -94,10 +97,8 @@ public class CustomNetworkManager: NetworkManager
               and delete his name from player list
               */
 			_isServer = true;
-			PlayerManager.LocalPlayer.SetActive(false);
 			PlayerList.Instance.RemovePlayer(PlayerManager.LocalPlayer.name);
-            
-
+			PlayerManager.LocalPlayer.transform.position = Vector3.zero;
 		}
 	}
 

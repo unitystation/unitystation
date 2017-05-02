@@ -54,6 +54,14 @@ public class GameData: MonoBehaviour
 
 	void OnLevelWasLoaded()
 	{
+		if (CustomNetworkManager.Instance.isNetworkActive) {
+			//Reset stuff
+			if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer){
+				IsHeadlessServer = true;
+			}
+				GameManager.Instance.ResetRoundTime();
+			return;
+		}
 		//Check if running in batchmode (headless server)
 		if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer) {
 			Debug.Log("START SERVER HEADLESS MODE");

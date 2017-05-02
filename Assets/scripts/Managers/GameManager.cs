@@ -20,7 +20,8 @@ public class GameManager : NetworkBehaviour {
 
 	public Text roundTimer;
 	private bool counting = false;
-	private float remainingTime = 900f; //15min rounds
+	private float remainingTime = 600f; //10min
+	private float cacheTime = 600f;
 	public static float GetRoundTime {get{
 			return Instance.remainingTime;
 		}}
@@ -34,11 +35,22 @@ public class GameManager : NetworkBehaviour {
 		Instance.remainingTime = currentTime;
 	}
 
+	public void ResetRoundTime(){
+		Instance.remainingTime = Instance.cacheTime;
+		Instance.counting = true;
+	}
+
 	void Update(){
 		if (Instance.counting) {
-			remainingTime -= Time.deltaTime;
-			roundTimer.text = Mathf.Floor(remainingTime / 60).ToString("00") + ":" + (remainingTime % 60).ToString("00");
-		
+			Instance.remainingTime -= Time.deltaTime;
+			Instance.roundTimer.text = Mathf.Floor(Instance.remainingTime / 60).ToString("00") + ":" + (Instance.remainingTime % 60).ToString("00");
+			if (Instance.remainingTime <= 0f) {
+				Instance.counting = false;
+				roundTimer.text = "GameOver";
+				if (CustomNetworkManager.Instance._isServer) {
+					CustomNetworkManager.Instance.ServerChangeScene("TestMap");
+				}
+			}
 		}
 	}
 }
