@@ -25,6 +25,8 @@ public class HitIcon : MonoBehaviour {
 			lerpFrom = newDir * 0.75f;
 			lerpTo = newDir;
 			isFading = true;
+
+			if(gameObject.activeInHierarchy)
 			StartCoroutine(FadeIcon());
 		}
 

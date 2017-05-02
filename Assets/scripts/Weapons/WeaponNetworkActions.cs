@@ -32,9 +32,6 @@ public class WeaponNetworkActions : NetworkBehaviour {
 
 	[Command]
 	public void CmdLoadMagazine(GameObject weapon, GameObject magazine){
-		if (!playerMove.allowInput)
-			return;
-		
 		Weapon_Ballistic w = weapon.GetComponent<Weapon_Ballistic>();
 		NetworkInstanceId nID = magazine.GetComponent<NetworkIdentity>().netId;
 		w.magNetID = nID;
@@ -42,9 +39,6 @@ public class WeaponNetworkActions : NetworkBehaviour {
 
 	[Command]
 	public void CmdUnloadWeapon(GameObject weapon){
-		if (!playerMove.allowInput)
-			return;
-		
 		Weapon_Ballistic w = weapon.GetComponent<Weapon_Ballistic>();
 		NetworkInstanceId newID = NetworkInstanceId.Invalid;
 		w.magNetID = newID;

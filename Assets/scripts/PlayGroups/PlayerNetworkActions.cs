@@ -30,19 +30,29 @@ public class PlayerNetworkActions : NetworkBehaviour
 		playerSprites = GetComponent<PlayerSprites>();
 		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
+		CmdSyncRoundTime(GameManager.GetRoundTime);
     }
 
     public override void OnStartServer()
     {
-        if (isServer)
-        {
-            foreach (string cacheName in eventNames)
-            {
-                ServerCache.Add(cacheName, null);
-            }
-        }
+		if (isServer) {
+			foreach (string cacheName in eventNames) {
+				ServerCache.Add(cacheName, null);
+			}
+		} 
         base.OnStartServer();
     }
+	[Command]
+	void CmdSyncRoundTime(float currentTime){
+		RpcSyncRoundTime(currentTime);
+	}
+
+	[ClientRpc]
+	void RpcSyncRoundTime(float currentTime){
+		if (PlayerManager.LocalPlayer == gameObject) {
+			GameManager.Instance.SyncTime(currentTime);
+		}
+	}
         
     //This is only called from interaction on the client (from PickUpTrigger)
     public bool TryToPickUpObject(GameObject itemObject)

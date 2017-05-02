@@ -10,6 +10,7 @@ namespace UI
         public void ShowDead()
         {
             Debug.Log("Setting Dead");
+			SoundManager.Stop("Critstate");
             GetComponent<Image>().sprite = deadSprite;
         }
     }

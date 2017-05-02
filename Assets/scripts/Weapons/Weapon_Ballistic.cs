@@ -12,7 +12,6 @@ namespace Weapons
 		public bool isInHandR = false;
 		public bool isInHandL = false;
 		private bool allowedToShoot = false;
-		public bool isMagazineIn = true;
 		private GameObject bullet;
 
 		[Header("0 = fastest")]
@@ -78,7 +77,7 @@ namespace Weapons
 				string hand;
 
 				if (currentHandItem != null) {
-					if (isMagazineIn == false) { //RELOAD
+					if (Magazine == null) { //RELOAD
 						MagazineBehaviour magazine = currentHandItem.GetComponent<MagazineBehaviour>();
 
 						if (magazine != null && otherHandItem.GetComponent<Weapon_Ballistic>() != null) {
@@ -121,9 +120,8 @@ namespace Weapons
 							Magazine.ammoRemains--;
 						}
 				} else {
-					if (isMagazineIn) {
+					if (Magazine != null) {
 						PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(Magazine.gameObject);
-						isMagazineIn = false;
 						PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdUnloadWeapon(gameObject);
 						OutOfAmmoSFX();
 					}
@@ -131,21 +129,8 @@ namespace Weapons
 			}
 		}
 
-		//Moved into ShootingFun(), feel free to revert
-		/*void Shoot(Vector2 shootDir)
-		{
-			if (allowedToShoot) {
-				allowedToShoot = false;
-				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet (shootDir, bullet.name);
-				StartCoroutine ("ShootCoolDown");
-			}
-		}*/
-			
 		void Reload(GameObject m, string hand){
 				Debug.Log ("Reloading");
-				isMagazineIn = true;
-				
-				LoadUnloadAmmo(magNetID);
 				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m);
 				UIManager.Hands.CurrentSlot.Clear();
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdClearUISlot(hand);
@@ -153,12 +138,9 @@ namespace Weapons
 
 		void UnloadTo(string hand){
 			Debug.Log ("Unloading");
-			isMagazineIn = false;
-			GameObject m = ClientScene.FindLocalObject(magNetID);
-
-			LoadUnloadAmmo(magNetID);
-			PlayerManager.LocalPlayerScript.playerNetworkActions.TrySetItem(hand,m);
+			GameObject m = Magazine.gameObject;
 			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdUnloadWeapon(gameObject);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(m);
 		}
 
 		//Check which slot it was just added too (broadcast from UI_itemSlot
