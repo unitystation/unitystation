@@ -23,7 +23,7 @@ namespace UI
 		public GameObject button;
 
 		private string versionCheck = "http://doobly.izz.moe/unitystation/checkversion.php";
-		private const string currentVersion = "0.0.4";
+		private const string currentVersion = "0.0.41";
 		private const string UserNamePlayerPref = "PlayerName";
 
 		private const string DefaultServer = "LocalHost";
