@@ -11,15 +11,19 @@ public class ShutterSwitchTrigger: InputTrigger
     public ShutterController[] shutters;
 
     [SyncVar(hook = "SyncShutters")]
-    public bool IsClosed = false;
+	public bool IsClosed;
 
     private Animator animator;
 
     void Start()
     {
         animator = GetComponent<Animator>();
-    }
 
+		if (IsClosed) {
+			CloseShutters();
+		}
+    }
+		
     public override void Interact()
     {
         if (!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP"))
@@ -30,7 +34,7 @@ public class ShutterSwitchTrigger: InputTrigger
 
     void SyncShutters(bool isClosed)
     {
-        if (isClosed)
+        if (!isClosed)
         {
             OpenShutters();
         }

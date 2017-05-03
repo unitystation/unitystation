@@ -9,12 +9,12 @@ public class ShutterController : MonoBehaviour {
     private RegisterTile registerTile;
 
     public bool IsClosed { get; private set; }
-
     void Start() {
         animator = gameObject.GetComponent<Animator>();
         registerTile = gameObject.GetComponent<RegisterTile>();
 
         registerTile.UpdateTileType(TileType.None);
+
     }
 
     public void Open() {
