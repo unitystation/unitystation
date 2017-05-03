@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 114917371943334568}
   - component: {fileID: 114217066052324912}
   - component: {fileID: 114679418873154254}
-  - component: {fileID: 114249548900845210}
   - component: {fileID: 61551465444483016}
   - component: {fileID: 114866139598781626}
   - component: {fileID: 114151144337107560}
@@ -57,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1461038832169740}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1844, y: 1140, z: -0.2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4692412666452608}
@@ -161,17 +160,6 @@ MonoBehaviour:
   clothingReference: 80
   size: 1
   type: 9
---- !u!114 &114249548900845210
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1461038832169740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114679418873154254
 MonoBehaviour:
   m_ObjectHideFlags: 1

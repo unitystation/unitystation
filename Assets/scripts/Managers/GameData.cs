@@ -4,6 +4,7 @@ using System.Collections;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using UI;
 
 public class GameData: MonoBehaviour
 {
@@ -54,12 +55,22 @@ public class GameData: MonoBehaviour
 
 	void OnLevelWasLoaded()
 	{
+		if (Application.loadedLevelName == "Lobby") {
+			IsInGame = false;
+			Managers.instance.SetScreenForLobby();
+		} else {
+			IsInGame = true;
+			Managers.instance.SetScreenForGame();
+		}
+
 		if (CustomNetworkManager.Instance.isNetworkActive) {
 			//Reset stuff
 			if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer){
 				IsHeadlessServer = true;
 			}
+			if (IsInGame && GameManager.Instance != null){
 				GameManager.Instance.ResetRoundTime();
+			}
 			return;
 		}
 		//Check if running in batchmode (headless server)
@@ -69,13 +80,7 @@ public class GameData: MonoBehaviour
 			CustomNetworkManager.Instance.StartHost();
 			return;
 		}
-		if (Application.loadedLevelName == "Lobby") {
-			IsInGame = false;
-			Managers.instance.SetScreenForLobby();
-		} else {
-			IsInGame = true;
-			Managers.instance.SetScreenForGame();
-		}
+	
 	}
 
 	void LoadData()

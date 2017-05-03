@@ -47,17 +47,23 @@ public class CustomNetworkManager: NetworkManager
 	}
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId){
-//		Debug.Log("PlayerConnected: " + conn.playerControllers[0].gameObject.name);
-		base.OnServerAddPlayer(conn, playerControllerId);
+		//This spawns the player prefab
+			base.OnServerAddPlayer(conn, playerControllerId);
 	}
 
 	public override void OnClientConnect(NetworkConnection conn)
 	{
 		if (_isServer) {
 		//do special server wizardry here
+
 		}
 		//This client connecting to server
-			base.OnClientConnect(conn);
+		base.OnClientConnect(conn);
+	}
+
+	IEnumerator WaitForLoad(NetworkConnection conn, short playerID){
+		yield return new WaitForSeconds(2f);
+		base.OnServerAddPlayer(conn, playerID);
 	}
 
 	public override void OnServerDisconnect(NetworkConnection conn)
@@ -97,8 +103,9 @@ public class CustomNetworkManager: NetworkManager
               and delete his name from player list
               */
 			_isServer = true;
+			if(GameData.IsInGame)
 			PlayerList.Instance.RemovePlayer(PlayerManager.LocalPlayer.name);
-			PlayerManager.LocalPlayer.transform.position = Vector3.zero;
+
 		}
 	}
 

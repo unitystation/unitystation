@@ -15,11 +15,13 @@ public class FogOfWar : MonoBehaviour
     private Vector2 lastDirection;
     public int WallLayer = 9;
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
+	//FIXME make this secure, set it up for the demo
+	public void TurnOffShroud(){
+		foreach (KeyValuePair<Vector2,GameObject> s in shroudTiles) {
+			s.Value.SetActive(false);
+		}
+		this.enabled = false;
+	}
 
     // This should return the current GameObject which is providing vision
     // into the fog of war - such as a security camera or a player

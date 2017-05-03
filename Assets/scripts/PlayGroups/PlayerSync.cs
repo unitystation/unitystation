@@ -17,6 +17,7 @@ namespace PlayGroup {
 
         private PlayerMove playerMove;
 		private PlayerSprites playerSprites;
+		private PlayerScript playerScript;
 
         private Queue<PlayerAction> pendingActions;
 
@@ -36,19 +37,27 @@ namespace PlayGroup {
         }
 
         void Start() {
+			//Temp solution for host in headless mode (hiding the player at Vector3.zero
+			if (GameData.IsHeadlessServer && isLocalPlayer) {
+				PlayerManager.LocalPlayer.transform.position = Vector3.zero;
+			}
+
             if(isLocalPlayer) {
                 pendingActions = new Queue<PlayerAction>();
                 UpdatePredictedState();
             }
             playerMove = GetComponent<PlayerMove>();
 			playerSprites = GetComponent<PlayerSprites>();
+			playerScript = GetComponent<PlayerScript>();
         }
 
         void Update() {
             if(isLocalPlayer) {
-                if(predictedState.Position == transform.position) {
-                    DoAction();
-                }
+				if (predictedState.Position == transform.position && !playerMove.isGhost) {
+					DoAction();
+				} else if (predictedState.Position == playerScript.ghost.transform.position && playerMove.isGhost) {
+					DoAction();
+				}
             }
 
             Synchronize();
@@ -64,8 +73,16 @@ namespace PlayGroup {
         }
 
         private void Synchronize() {
-            var state = isLocalPlayer ? predictedState : serverState;
+			if (isLocalPlayer && GameData.IsHeadlessServer)
+				return;
+
+			if (!playerMove.isGhost) {
+				var state = isLocalPlayer ? predictedState : serverState;
 				transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
+			} else {
+				var state = isLocalPlayer ? predictedState : serverState;
+				playerScript.ghost.transform.position = Vector3.MoveTowards(playerScript.ghost.transform.position, state.Position, playerMove.speed * Time.deltaTime);
+			}
         }
 
         [Command]

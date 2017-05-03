@@ -41,7 +41,6 @@ namespace PlayGroup
 		{
 			parentScript = GetComponent<PlayerScript>();
 			thisRigi = GetComponent<Rigidbody2D>();
-			GameObject findGM = GameObject.FindGameObjectWithTag("GameManager");
 		}
 
 		void Update()

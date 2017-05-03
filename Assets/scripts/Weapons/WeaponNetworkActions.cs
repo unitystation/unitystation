@@ -32,9 +32,6 @@ public class WeaponNetworkActions : NetworkBehaviour {
 
 	[Command]
 	public void CmdLoadMagazine(GameObject weapon, GameObject magazine){
-		if (!playerMove.allowInput)
-			return;
-		
 		Weapon_Ballistic w = weapon.GetComponent<Weapon_Ballistic>();
 		NetworkInstanceId nID = magazine.GetComponent<NetworkIdentity>().netId;
 		w.magNetID = nID;
@@ -42,9 +39,6 @@ public class WeaponNetworkActions : NetworkBehaviour {
 
 	[Command]
 	public void CmdUnloadWeapon(GameObject weapon){
-		if (!playerMove.allowInput)
-			return;
-		
 		Weapon_Ballistic w = weapon.GetComponent<Weapon_Ballistic>();
 		NetworkInstanceId newID = NetworkInstanceId.Invalid;
 		w.magNetID = newID;
@@ -56,12 +50,40 @@ public class WeaponNetworkActions : NetworkBehaviour {
 			return;
 		
 		GameObject bullet = GameObject.Instantiate(Resources.Load(bulletName) as GameObject,transform.position, Quaternion.identity);
-		NetworkServer.Spawn(bullet);
 		var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
 		b.Shoot(direction, angle, gameObject.name);
 
+		//This is used to determine where bullet shot should head towards on client
+		Ray2D ray = new Ray2D(transform.position, direction);
+		RpcShootBullet(ray.GetPoint(30f), bulletName);
+
+		//TODO add a check to see if bullet or energy weapon
+		//BulletCasings
+		GameObject casing = GameObject.Instantiate(Resources.Load("BulletCasing") as GameObject, transform.position, Quaternion.identity);
+		NetworkServer.Spawn(casing);
 	}
+
+	//Bullets are just graphical candy on the client, give them the end point and let 
+	//them work out the start pos and direction
+	[ClientRpc]
+	void RpcShootBullet(Vector2 endPos, string bulletName){
+		if (!playerMove.allowInput)
+			return;
+		//TODO adjust the sound using the bulletName
+		SoundManager.PlayAtPosition("ShootSMG", transform.position);
+
+		if (CustomNetworkManager.Instance._isServer)
+			return;
+		
+		GameObject bullet = GameObject.Instantiate(Resources.Load(bulletName) as GameObject,transform.position, Quaternion.identity);
+		Vector2 playerPos = new Vector2(transform.position.x, transform.position.y);
+		Vector2 dir = (endPos - playerPos).normalized;
+		var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
+		b.Shoot(dir, angle, gameObject.name);
+	}
+
 
 
 	[Command]
@@ -74,7 +96,7 @@ public class WeaponNetworkActions : NetworkBehaviour {
 		if (npcObj != gameObject) {
 			RpcKnifeAttackLerp(stabDirection);
 		}
-		attackTarget.RpcReceiveDamage();
+		attackTarget.RpcReceiveDamage(gameObject.name);
 		BloodSplat(npcObj.transform.position,BloodSplatSize.medium);
 		soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 	}

@@ -21,6 +21,7 @@ public class PlayerNetworkActions : NetworkBehaviour
     private Equipment.Equipment equipment;
 	private PlayerMove playerMove;
 	private PlayerSprites playerSprites;
+	private PlayerScript playerScript;
 	private SoundNetworkActions soundNetworkActions;
 	private ChatIcon chatIcon;
     void Start()
@@ -28,6 +29,7 @@ public class PlayerNetworkActions : NetworkBehaviour
         equipment = GetComponent<Equipment.Equipment>();
 		playerMove = GetComponent<PlayerMove>();
 		playerSprites = GetComponent<PlayerSprites>();
+		playerScript = GetComponent<PlayerScript>();
 		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
 		CmdSyncRoundTime(GameManager.GetRoundTime);
@@ -366,6 +368,8 @@ public class PlayerNetworkActions : NetworkBehaviour
 		var rotationVector = transform.rotation.eulerAngles;
 		rotationVector.z = rot;
 		transform.rotation = Quaternion.Euler(rotationVector);
+		//So other players can walk over the Unconscious
+		playerSprites.AdjustSpriteOrders(-30);
 		if (temporary) {
 		//TODO Coroutine with timer to get back up again
 		}
@@ -397,4 +401,17 @@ public class PlayerNetworkActions : NetworkBehaviour
             item.transform.parent = null;
         }
     }
+		
+	[ClientRpc]
+	public void RpcSpawnGhost(){
+		playerScript.ghost.SetActive(true);
+		playerScript.ghost.transform.parent = null;
+		chatIcon.gameObject.transform.parent = playerScript.ghost.transform;
+		playerScript.ghost.transform.rotation = Quaternion.identity;
+		if (PlayerManager.LocalPlayer == gameObject) {
+			Camera2DFollow.followControl.target = playerScript.ghost.transform;
+			//FIXME using for the demo, obviousily it is open for injection (hacking)
+			Camera2DFollow.followControl.gameObject.GetComponent<FogOfWar>().TurnOffShroud();
+		}
+	}
 }

@@ -41,7 +41,7 @@ public class Section: ScriptableObject {
     private void UpdateSectionObject() {
         if(!sectionObject)
             FindSectionObject();
-
+		if(sectionObject != null)
         sectionObject.name = name;
     }
 }

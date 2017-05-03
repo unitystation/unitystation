@@ -58,7 +58,9 @@ public class SoundManager: MonoBehaviour {
     }
 
 	public static void Stop(string name){
+		if(Instance.sounds.ContainsKey(name)){
 		Instance.sounds[name].Stop();
+		}
 	}
 
     public static void PlayAtPosition(string name, Vector3 pos){

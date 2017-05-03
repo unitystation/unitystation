@@ -13,7 +13,11 @@ namespace PlayGroup {
 		public WeaponNetworkActions weaponNetworkActions { get; set; }
 		public SoundNetworkActions soundNetworkActions { get; set; }
 		public PlayerMove playerMove { get; set;}
+		public PlayerSprites playerSprites { get; set;}
 		public HitIcon hitIcon { get; set; }
+
+		public GameObject ghost;
+
         [SyncVar(hook = "OnNameChange")]
         public string playerName = " ";
         private bool pickUpCoolDown = false;
@@ -49,6 +53,7 @@ namespace PlayGroup {
         void Init() {
             if(isLocalPlayer) {
 				playerMove = GetComponent<PlayerMove>();
+				playerSprites = GetComponent<PlayerSprites>();
                 GetComponent<InputControl.InputController>().enabled = true;
                 if(!UIManager.Instance.playerListUIControl.window.activeInHierarchy) {
                     UIManager.Instance.playerListUIControl.window.SetActive(true);
