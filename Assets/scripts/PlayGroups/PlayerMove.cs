@@ -16,6 +16,8 @@ namespace PlayGroup {
 		public bool isInSpace = false;
 		[SyncVar]
 		public bool allowInput = true;
+		[SyncVar]
+		public bool isGhost = false;
 
         private List<KeyCode> pressedKeys = new List<KeyCode>();
 
@@ -55,7 +57,9 @@ namespace PlayGroup {
                 Interact(currentPosition, direction);
             }
 
+			if(!isGhost)
             playerSprites.FaceDirection(direction);
+			
             return currentPosition + adjustedDirection;
         }
 
@@ -118,6 +122,10 @@ namespace PlayGroup {
         private Vector3 AdjustDirection(Vector3 currentPosition, Vector3 direction) {
             var horizontal = Vector3.Scale(direction, Vector3.right);
             var vertical = Vector3.Scale(direction, Vector3.up);
+
+			if (isGhost) {
+				return direction;
+			}
 
             if(Matrix.Matrix.At(currentPosition + direction).IsPassable()) {
                 if((Matrix.Matrix.At(currentPosition + horizontal).IsPassable() ||

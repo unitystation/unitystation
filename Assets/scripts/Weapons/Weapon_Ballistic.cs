@@ -53,7 +53,7 @@ namespace Weapons
 					MagazineBehaviour mB = m.GetComponent<MagazineBehaviour>();
 					Magazine = mB;
 				} else {
-					Debug.LogError("Could not find MagazineBehaviour");
+					Debug.Log("Could not find MagazineBehaviour");
 				}
 			}
 		}
@@ -89,7 +89,7 @@ namespace Weapons
 
 						if (weapon != null && otherHandItem == null) {
 							hand = UIManager.Hands.OtherSlot.eventName;
-							UnloadTo(hand);
+							ManualUnload();
 						}
 					}
 				}
@@ -108,7 +108,6 @@ namespace Weapons
 				if (Magazine.Usable) {
 					//basic way to check with a XOR if the hand and the slot used matches
 					Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-					Debug.Log ("dir:" + dir);
 						//don't while hovering on the UI
 						if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
 							//Shoot(dir);
@@ -136,7 +135,9 @@ namespace Weapons
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdClearUISlot(hand);
 		}
 
-		void UnloadTo(string hand){
+		//atm unload with shortcut 'e'
+		//TODO dev right click unloading so it goes into the opposite hand if it is selected
+		void ManualUnload(){
 			Debug.Log ("Unloading");
 			GameObject m = Magazine.gameObject;
 			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdUnloadWeapon(gameObject);
@@ -147,7 +148,7 @@ namespace Weapons
 		public void OnAddToInventory(string slotName)
 		{
 			//This checks to see if a new player who has joined needs to load up any weapon magazines because of missing sync hooks
-			if (magNetID != NetworkInstanceId.Invalid && !magNetID.IsEmpty()) {
+			if (magNetID != NetworkInstanceId.Invalid) {
 				LoadUnloadAmmo(magNetID);
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(Magazine.gameObject);
 			}

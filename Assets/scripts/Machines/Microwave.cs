@@ -19,14 +19,11 @@ public class Microwave : NetworkBehaviour
 	public bool Cooking { get; private set; }
 
 	private float cookingTime = 0;
-	private GameObject mealPrefab = null;
 	private string meal;
 
-	private NetworkIdentity networkIdentity;
 
 	void Start()
 	{
-		networkIdentity = GetComponent<NetworkIdentity>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		audioSource = GetComponent<AudioSource>();
 		offSprite = spriteRenderer.sprite;

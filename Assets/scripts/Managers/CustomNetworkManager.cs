@@ -98,7 +98,7 @@ public class CustomNetworkManager: NetworkManager
               */
 			_isServer = true;
 			PlayerList.Instance.RemovePlayer(PlayerManager.LocalPlayer.name);
-			PlayerManager.LocalPlayer.transform.position = Vector3.zero;
+
 		}
 	}
 

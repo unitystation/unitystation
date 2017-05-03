@@ -5,12 +5,15 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using UI;
 using PlayGroup;
+using System.Linq;
 
 public class PlayerList : NetworkBehaviour
 {
 	public static PlayerList playerList;
 	public SyncListString nameList = new SyncListString();
 	public Dictionary<string, GameObject> connectedPlayers = new Dictionary<string, GameObject>();
+	//For combat demo
+	public Dictionary<string,int> playerScores = new Dictionary<string, int>();
     int numSameNames = 0;
 
 	public static PlayerList Instance {
@@ -30,6 +33,7 @@ public class PlayerList : NetworkBehaviour
 	void UpdateFromServer(SyncListString.Operation op, int index){
 		RefreshPlayerListText();
 	}
+	//Check name on server
     public string CheckName(string name)
 	{
         string checkName = name;
@@ -42,7 +46,31 @@ public class PlayerList : NetworkBehaviour
 			Debug.Log("TRYING: " + checkName);
             }
 		nameList.Add(checkName);
+		if(!playerScores.ContainsKey(checkName)){
+		playerScores.Add(checkName, 0);
+		}
 		return checkName;
+	}
+
+	//Called on the server when a kill is confirmed
+	[Server]
+	public void UpdateKillScore(string playerName){
+		if (playerScores.ContainsKey(playerName)) {
+			playerScores[playerName]++;
+		}
+	}
+
+	[Server]
+	public void ReportScores(){
+
+		var scoreSort = playerScores.OrderByDescending(pair => pair.Value)
+			.ToDictionary(pair=>pair.Key, pair => pair.Value);
+
+		foreach (KeyValuePair<string,int> ps in scoreSort) {
+			UIManager.Chat.ReportToChannel("<b>"+ ps.Key + "</b>  total kills:  <b>" + ps.Value + "</b>");
+		}
+
+		UIManager.Chat.ReportToChannel("Game Restarting in 15 seconds...");
 	}
 		
 	public void RemovePlayer(string playerName)

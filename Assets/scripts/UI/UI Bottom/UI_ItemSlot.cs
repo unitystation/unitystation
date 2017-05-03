@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Events;
@@ -30,6 +31,22 @@ namespace UI {
             if(eventName.Length > 0)
                 EventManager.UI.AddListener(eventName, new UnityAction<GameObject>(x => TrySetItem(x)));
         }
+
+		void OnEnable()
+		{
+			SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		}
+
+		void OnDisable()
+		{
+			SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		}
+
+		//Reset Item slot sprite on game restart
+		void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
+			image.sprite = null;
+			image.enabled = false;
+		}
 
         public void SetItem(GameObject item) {
             image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;

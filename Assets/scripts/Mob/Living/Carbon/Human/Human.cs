@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayGroup;
 
 public class Human : Carbon
 {
@@ -9,16 +10,22 @@ public class Human : Carbon
     public DamageOverlayType DamageOverlayType = DamageOverlayType.HUMAN; //what kind of damage overlays (if any) appear on our species when wounded?
 
     // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+	public override void Death(bool gibbed){
+		
+		if (CustomNetworkManager.Instance._isServer) {
+			if (lastDamager != gameObject.name) {
+				PlayerNetworkActions pNet = GetComponent<PlayerNetworkActions>();
+				pNet.RpcSpawnGhost();
+			    
+				PlayerMove pM = GetComponent<PlayerMove>();
+				pM.isGhost = true;
+				pM.allowInput = true;
+				PlayerList.Instance.UpdateKillScore(lastDamager);
+			}
+		}
+		mobStat = MobConsciousStat.DEAD;
+		base.Death(gibbed);
+	}
 
 
 }

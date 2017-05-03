@@ -29,7 +29,6 @@ public class BodyPart : MonoBehaviour
     public Sprite RedDamageMonitorIcon;
     public Sprite GrayDamageMonitorIcon;
 
-
     // See receive_damage in body_parts.dm
     // This is as close as possible to the original definition
     public bool ReceiveDamage<T>(int brute, int burn, bool updatingHealth = true) where T : Living
