@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayGroup;
 
 public class Human : Carbon
 {
@@ -10,8 +11,15 @@ public class Human : Carbon
 
     // Use this for initialization
 	public override void Death(bool gibbed){
+		
 		if (CustomNetworkManager.Instance._isServer) {
 			if (lastDamager != gameObject.name) {
+				PlayerNetworkActions pNet = GetComponent<PlayerNetworkActions>();
+				pNet.RpcSpawnGhost();
+			    
+				PlayerMove pM = GetComponent<PlayerMove>();
+				pM.isGhost = true;
+				pM.allowInput = true;
 				PlayerList.Instance.UpdateKillScore(lastDamager);
 			}
 		}

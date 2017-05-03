@@ -38,13 +38,14 @@ namespace UI
 				isChatFocus = true;
 				EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
 				InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
 			}
             if (isChatFocus)
             {
                 if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
                 {
 					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, true);
+					if(this.InputFieldChat.text != "")
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
                     this.InputFieldChat.text = "";
                     CloseChatWindow();
                 }
@@ -57,6 +58,8 @@ namespace UI
             {
                 SoundManager.Play("Click01");
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, true);
+				if(this.InputFieldChat.text != "")
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
                 this.InputFieldChat.text = "";
                 CloseChatWindow();
             }
@@ -73,7 +76,7 @@ namespace UI
 		{
             isChatFocus = false;
             chatInputWindow.SetActive(false);
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(false);
+
         }
 
 		//Called from the server only

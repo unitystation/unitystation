@@ -16,19 +16,23 @@ public class ChatIcon : MonoBehaviour {
 		spriteRend = GetComponent<SpriteRenderer>();
 		spriteRend.enabled = false;
 	}
-		
+		//TODO needs work
 	public void TurnOnTalkIcon(){
 		spriteRend.sprite = talkSprite;
 		spriteRend.enabled = true;
 		if (waitToTurnOff) {
 			StopCoroutine(WaitToTurnOff());
+			waitToTurnOff = false;
 		}
+		StartCoroutine(WaitToTurnOff());
 	}
-
+		
 	public void TurnOffTalkIcon(){
-		if (!waitToTurnOff) {
-			StartCoroutine(WaitToTurnOff());
+		if (waitToTurnOff) {
+			StopCoroutine(WaitToTurnOff());
 		}
+		spriteRend.enabled = false;
+		waitToTurnOff = false;
 	}
 
 	IEnumerator WaitToTurnOff(){

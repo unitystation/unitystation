@@ -61,6 +61,7 @@ public class GameManager : NetworkBehaviour {
 				Instance.counting = false;
 				roundTimer.text = "GameOver";
 				SoundManager.Play("ApcDestroyed");
+				if(!PlayerManager.LocalPlayerScript.playerMove.isGhost)
 				PlayerManager.LocalPlayerScript.playerMove.allowInput = false;
 
 				if (CustomNetworkManager.Instance._isServer) {

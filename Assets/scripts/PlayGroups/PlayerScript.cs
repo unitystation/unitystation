@@ -15,6 +15,9 @@ namespace PlayGroup {
 		public PlayerMove playerMove { get; set;}
 		public PlayerSprites playerSprites { get; set;}
 		public HitIcon hitIcon { get; set; }
+
+		public GameObject ghost;
+
         [SyncVar(hook = "OnNameChange")]
         public string playerName = " ";
         private bool pickUpCoolDown = false;
