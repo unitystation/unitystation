@@ -13,6 +13,7 @@ namespace PlayGroup {
 		public WeaponNetworkActions weaponNetworkActions { get; set; }
 		public SoundNetworkActions soundNetworkActions { get; set; }
 		public PlayerMove playerMove { get; set;}
+		public PlayerSprites playerSprites { get; set;}
 		public HitIcon hitIcon { get; set; }
         [SyncVar(hook = "OnNameChange")]
         public string playerName = " ";
@@ -49,6 +50,7 @@ namespace PlayGroup {
         void Init() {
             if(isLocalPlayer) {
 				playerMove = GetComponent<PlayerMove>();
+				playerSprites = GetComponent<PlayerSprites>();
                 GetComponent<InputControl.InputController>().enabled = true;
                 if(!UIManager.Instance.playerListUIControl.window.activeInHierarchy) {
                     UIManager.Instance.playerListUIControl.window.SetActive(true);

@@ -36,6 +36,11 @@ namespace PlayGroup {
         }
 
         void Start() {
+			//Temp solution for host in headless mode (hiding the player at Vector3.zero
+			if (GameData.IsHeadlessServer && isLocalPlayer) {
+				PlayerManager.LocalPlayer.transform.position = Vector3.zero;
+			}
+
             if(isLocalPlayer) {
                 pendingActions = new Queue<PlayerAction>();
                 UpdatePredictedState();
@@ -64,6 +69,9 @@ namespace PlayGroup {
         }
 
         private void Synchronize() {
+			if (isLocalPlayer && GameData.IsHeadlessServer)
+				return;
+			
             var state = isLocalPlayer ? predictedState : serverState;
 				transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
         }

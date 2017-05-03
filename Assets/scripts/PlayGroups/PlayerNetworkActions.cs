@@ -366,6 +366,8 @@ public class PlayerNetworkActions : NetworkBehaviour
 		var rotationVector = transform.rotation.eulerAngles;
 		rotationVector.z = rot;
 		transform.rotation = Quaternion.Euler(rotationVector);
+		//So other players can walk over the Unconscious
+		playerSprites.AdjustSpriteOrders(-30);
 		if (temporary) {
 		//TODO Coroutine with timer to get back up again
 		}

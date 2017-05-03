@@ -23,6 +23,14 @@ namespace PlayGroup
 			FaceDirection(Vector2.down);
 		}
 
+		public void AdjustSpriteOrders(int offsetOrder){
+			foreach (SpriteRenderer s in GetComponentsInChildren<SpriteRenderer>()) {
+				int newOrder = s.sortingOrder;
+				newOrder += offsetOrder;
+				s.sortingOrder = newOrder;
+			}
+		}
+
 		[Command]
 		public void CmdChangeDirection(Vector2 direction){
 			SetDir(direction); 

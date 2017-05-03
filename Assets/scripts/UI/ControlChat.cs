@@ -76,10 +76,11 @@ namespace UI
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(false);
         }
 
+		//Called from the server only
         public void ReportToChannel(string reportText)
         {
-			//TODO Reporting msgs
-//            StringBuilder txt = new StringBuilder(reportText + "\r\n");
+			string txt = "<color=green>"+ reportText +"</color>";
+			ChatRelay.Instance.chatlog.Add(txt);
         }
     }
 }

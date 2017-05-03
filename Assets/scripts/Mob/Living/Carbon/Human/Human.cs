@@ -9,16 +9,15 @@ public class Human : Carbon
     public DamageOverlayType DamageOverlayType = DamageOverlayType.HUMAN; //what kind of damage overlays (if any) appear on our species when wounded?
 
     // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+	public override void Death(bool gibbed){
+		if (CustomNetworkManager.Instance._isServer) {
+			if (lastDamager != gameObject.name) {
+				PlayerList.Instance.UpdateKillScore(lastDamager);
+			}
+		}
+		mobStat = MobConsciousStat.DEAD;
+		base.Death(gibbed);
+	}
 
 
 }

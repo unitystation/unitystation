@@ -68,6 +68,8 @@ public class WeaponNetworkActions : NetworkBehaviour {
 	//them work out the start pos and direction
 	[ClientRpc]
 	void RpcShootBullet(Vector2 endPos, string bulletName){
+		if (!playerMove.allowInput)
+			return;
 		//TODO adjust the sound using the bulletName
 		SoundManager.PlayAtPosition("ShootSMG", transform.position);
 
@@ -94,7 +96,7 @@ public class WeaponNetworkActions : NetworkBehaviour {
 		if (npcObj != gameObject) {
 			RpcKnifeAttackLerp(stabDirection);
 		}
-		attackTarget.RpcReceiveDamage();
+		attackTarget.RpcReceiveDamage(gameObject.name);
 		BloodSplat(npcObj.transform.position,BloodSplatSize.medium);
 		soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 	}

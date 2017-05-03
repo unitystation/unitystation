@@ -14,6 +14,8 @@ public class Living : Mob
     public int InitialMaxHealth = 100;
 	private bool shotDmgCoolDown = false;
 
+	//Last person who damaged this living
+	public string lastDamager{ get; private set;}
     #region living_defines.dm
 
     //Maximum health that should be possible.
@@ -74,22 +76,23 @@ public class Living : Mob
 
 	void OnTriggerEnter2D(Collider2D coll){
 		//if this living is on the server:
+		BulletBehaviour b = coll.GetComponent<BulletBehaviour>();
+		if (b != null && b.shooterName != gameObject.name && mobStat != MobConsciousStat.DEAD) {
 		if (CustomNetworkManager.Instance._isServer) {
-			BulletBehaviour b = coll.GetComponent<BulletBehaviour>();
-			if (b != null && b.shooterName!=gameObject.name) {
-			ReceiveBulletDamage();
+				ReceiveBulletDamage(b.shooterName);
 			}
+			Destroy(b.gameObject);
 		}
 	}
 
 	[Server]
-	void ReceiveBulletDamage(){
+	void ReceiveBulletDamage(string bulletOwnedBy){
 		if (shotDmgCoolDown)
 			return;
 
 		StartCoroutine(ShotDamageCoolDown());
 		shotDmgCoolDown = true;
-		RpcReceiveDamage();
+		RpcReceiveDamage(bulletOwnedBy);
 		BloodSplat(transform.position,BloodSplatSize.medium);
 
 	}
@@ -109,11 +112,16 @@ public class Living : Mob
 		
     #region unityhelpers
 
+	//TODO the headless server is running as a host, so ClientRPC will also call on the server
+	//If the server is turned into a straight server, this will need to be fixed
 	[ClientRpc]
-    public virtual void RpcReceiveDamage()
+	public virtual void RpcReceiveDamage(string damagedBy)
     {
+		if (CustomNetworkManager.Instance._isServer) {
+			lastDamager = damagedBy;
+		}
         // TODO read from items damage values etc
-        ApplyDamage(25, DamageType.BRUTE, "chest");
+        ApplyDamage(20, DamageType.BRUTE, "chest");
     }
 
 

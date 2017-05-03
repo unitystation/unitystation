@@ -53,7 +53,7 @@ namespace Weapons
 					MagazineBehaviour mB = m.GetComponent<MagazineBehaviour>();
 					Magazine = mB;
 				} else {
-					Debug.LogError("Could not find MagazineBehaviour");
+					Debug.Log("Could not find MagazineBehaviour");
 				}
 			}
 		}
