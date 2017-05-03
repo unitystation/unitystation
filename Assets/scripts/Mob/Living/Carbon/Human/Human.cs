@@ -21,6 +21,7 @@ public class Human : Carbon
 				pM.isGhost = true;
 				pM.allowInput = true;
 				PlayerList.Instance.UpdateKillScore(lastDamager);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendAllertMessage("<color=red><b>"+lastDamager+"</b> has killed <b>"+gameObject.name+"</b></color>", true); //killfeed
 			}
 		}
 		mobStat = MobConsciousStat.DEAD;
