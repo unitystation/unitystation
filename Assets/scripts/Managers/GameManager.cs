@@ -22,8 +22,8 @@ public class GameManager : NetworkBehaviour {
 	public Text roundTimer;
 	private bool counting = false;
 	private bool waitForRestart = false;
-	private float remainingTime = 30f; //5min
-	private float cacheTime = 30f;
+	private float remainingTime = 300f; //5min
+	private float cacheTime = 300f;
 	private float restartTime = 15f;
 	public static float GetRoundTime {get{
 			return Instance.remainingTime;
@@ -61,8 +61,6 @@ public class GameManager : NetworkBehaviour {
 				Instance.counting = false;
 				roundTimer.text = "GameOver";
 				SoundManager.Play("ApcDestroyed");
-				if(!PlayerManager.LocalPlayerScript.playerMove.isGhost)
-				PlayerManager.LocalPlayerScript.playerMove.allowInput = false;
 
 				if (CustomNetworkManager.Instance._isServer) {
 					PlayerList.Instance.ReportScores();

@@ -26,6 +26,7 @@ public class ShutterSwitchTrigger: InputTrigger
 		
     public override void Interact()
     {
+		Debug.Log("INTERACT!");
         if (!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP"))
         {
             PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleShutters(gameObject);

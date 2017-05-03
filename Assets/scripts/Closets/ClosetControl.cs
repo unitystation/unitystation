@@ -24,6 +24,11 @@ namespace Cupboards
             doorClosed = spriteRenderer.sprite;
             IsClosed = true;
         }
+
+		public override void OnStartClient(){
+			HideItems();
+			base.OnStartClient();
+		}
         //Called by server only
         public void ServerToggleCupboard(){
             RpcToggleCupboard();
