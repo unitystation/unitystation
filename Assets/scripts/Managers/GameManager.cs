@@ -6,65 +6,77 @@ using UnityEngine.UI;
 using UI;
 using UnityEngine.SceneManagement;
 using PlayGroup;
-public class GameManager : NetworkBehaviour {
+public class GameManager : MonoBehaviour {
 
-	private static GameManager gameManager;
+	public static GameManager Instance;
 
-	public static GameManager Instance{
-		get{ 
-			if (!gameManager) {
-				gameManager = FindObjectOfType<GameManager>();
-			}
-			return gameManager;
-		}
-	}
 
 	public Text roundTimer;
 	private bool counting = false;
 	private bool waitForRestart = false;
-	private float remainingTime = 300f; //5min
-	private float cacheTime = 300f;
-	private float restartTime = 15f;
-	public static float GetRoundTime {get{
-			return Instance.remainingTime;
+	private float remainingTime = 180f; //3min rounds
+	private float cacheTime = 180f;
+	private float restartTime = 10f;
+	public float GetRoundTime {get{
+			return remainingTime;
 		}}
 
-	public override void OnStartClient(){
-		Instance.counting = true;
-		base.OnStartClient();
+	void Awake(){
+		if (Instance == null) {
+			Instance = this;
+		} else {
+			Destroy(this);
+		}
 	}
 
+	void OnEnable()
+	{
+		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+	}
+
+	void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+	}
+
+	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
+		if (scene.name != "Lobby") {
+			counting = true;
+		}
+
+	}
+		
 	public void SyncTime(float currentTime){
-		Instance.remainingTime = currentTime;
+		remainingTime = currentTime;
 	}
 
 	public void ResetRoundTime(){
-		Instance.remainingTime = Instance.cacheTime;
-		restartTime = 15f;
-		Instance.counting = true;
+		remainingTime = cacheTime;
+		restartTime = 10f;
+		counting = true;
 	}
 
 	void Update(){
 
-		if (Instance.waitForRestart) {
+		if (waitForRestart) {
 			restartTime -= Time.deltaTime;
-			if (Instance.restartTime <= 0f) {
-				Instance.waitForRestart = false;
+			if (restartTime <= 0f) {
+				waitForRestart = false;
 				RestartRound();
 			}
 		}
 
-		if (Instance.counting) {
-			Instance.remainingTime -= Time.deltaTime;
-			Instance.roundTimer.text = Mathf.Floor(Instance.remainingTime / 60).ToString("00") + ":" + (Instance.remainingTime % 60).ToString("00");
-			if (Instance.remainingTime <= 0f) {
-				Instance.counting = false;
+		if (counting) {
+			remainingTime -= Time.deltaTime;
+			roundTimer.text = Mathf.Floor(remainingTime / 60).ToString("00") + ":" + (remainingTime % 60).ToString("00");
+			if (remainingTime <= 0f) {
+				counting = false;
 				roundTimer.text = "GameOver";
 				SoundManager.Play("ApcDestroyed");
 
 				if (CustomNetworkManager.Instance._isServer) {
 					PlayerList.Instance.ReportScores();
-					Instance.waitForRestart = true;
+					waitForRestart = true;
 				}
 			}
 		}

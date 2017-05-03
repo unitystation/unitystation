@@ -70,7 +70,7 @@ public class PlayerList : NetworkBehaviour
 			UIManager.Chat.ReportToChannel("<b>"+ ps.Key + "</b>  total kills:  <b>" + ps.Value + "</b>");
 		}
 
-		UIManager.Chat.ReportToChannel("Game Restarting in 15 seconds...");
+		UIManager.Chat.ReportToChannel("Game Restarting in 10 seconds...");
 	}
 		
 	public void RemovePlayer(string playerName)

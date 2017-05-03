@@ -32,7 +32,7 @@ public class PlayerNetworkActions : NetworkBehaviour
 		playerScript = GetComponent<PlayerScript>();
 		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
-		CmdSyncRoundTime(GameManager.GetRoundTime);
+		CmdSyncRoundTime(GameManager.Instance.GetRoundTime);
     }
 
     public override void OnStartServer()
@@ -195,7 +195,9 @@ public class PlayerNetworkActions : NetworkBehaviour
                 GameObject item = ServerCache[eventName];
                 EquipmentPool.DropGameObject(gameObject.name, ServerCache[eventName], pos);
                 ServerCache[eventName] = null;
-                item.transform.parent = newParent.transform;
+				if (item != null && newParent != null) {
+					item.transform.parent = newParent.transform;
+				}
                 RpcAdjustItemParent(item, newParent);
                 equipment.ClearItemSprite(eventName);
             }
