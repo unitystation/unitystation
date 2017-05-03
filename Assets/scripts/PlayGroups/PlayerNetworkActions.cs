@@ -343,9 +343,23 @@ public class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSendChatMessage(string msg, bool isLocalChat){
 		if (isLocalChat) {
-			ChatRelay.Instance.chatlog.Add("<b>" + gameObject.name + "</b>" + " says, " + "\"" + msg + "\""); 
+			if(msg.Substring(0,4).Equals("/me ")){ // /me message
+				ChatRelay.Instance.chatlog.Add("<i><b>" + gameObject.name + "</b>" + msg.Substring(3) + "</i>.");
+			}
+			else{ // chat message
+				ChatRelay.Instance.chatlog.Add("<b>" + gameObject.name + "</b>" + " says, " + "\"" + msg + "\"");
+			}
 		}
 
+	}
+
+
+	[Command]
+	//send a generic message
+	public void CmdSendAllertMessage(string msg, bool isLocalChat){
+		if (isLocalChat) {
+			ChatRelay.Instance.chatlog.Add(msg); 
+		}
 	}
 
 	[Command]
