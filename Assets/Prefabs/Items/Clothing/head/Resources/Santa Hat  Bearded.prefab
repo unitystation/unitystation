@@ -21,10 +21,10 @@ GameObject:
   - component: {fileID: 4174652982372820}
   - component: {fileID: 114529796324673368}
   - component: {fileID: 114693224517426016}
-  - component: {fileID: 60676909697196680}
   - component: {fileID: 114867773476556782}
   - component: {fileID: 114592513935296606}
   - component: {fileID: 114694197616208130}
+  - component: {fileID: 61450982438941734}
   m_Layer: 10
   m_Name: Santa Hat  Bearded
   m_TagString: Untagged
@@ -75,8 +75,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &60676909697196680
-PolygonCollider2D:
+--- !u!61 &61450982438941734
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -97,15 +97,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.430542}
-      - {x: 0.1538086, y: 0.2861328}
-      - {x: 0.109375, y: 0.11340332}
-      - {x: 0.07885742, y: -0.17175293}
-      - {x: -0.15002441, y: -0.2401123}
-      - {x: -0.18908691, y: -0.1484375}
-      - {x: -0.23364258, y: 0.22924805}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &114529796324673368
 MonoBehaviour:
   m_ObjectHideFlags: 1
