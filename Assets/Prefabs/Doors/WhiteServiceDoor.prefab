@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 95000011124253226}
   - component: {fileID: 114565204265437400}
   - component: {fileID: 114229922813896132}
+  - component: {fileID: 114672552748689518}
   m_Layer: 11
   m_Name: WhiteServiceDoor
   m_TagString: Untagged
@@ -444,6 +445,7 @@ MonoBehaviour:
   isPerformingAction: 0
   doorType: 0
   maxTimeOpen: 5
+  IsOpened: 0
 --- !u!114 &114000013931071084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -503,6 +505,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
+--- !u!114 &114672552748689518
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013430947772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212000011094967888
 SpriteRenderer:
   m_ObjectHideFlags: 1

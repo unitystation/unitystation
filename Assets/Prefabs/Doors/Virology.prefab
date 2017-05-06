@@ -70,6 +70,8 @@ GameObject:
   - component: {fileID: 114767970609396208}
   - component: {fileID: 114944838558853636}
   - component: {fileID: 114172966145674404}
+  - component: {fileID: 114338759738806540}
+  - component: {fileID: 114235526540606744}
   m_Layer: 11
   m_Name: Virology
   m_TagString: Untagged
@@ -420,6 +422,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
+--- !u!114 &114235526540606744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1807313548142900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114338759738806540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1807313548142900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 17
+    i1: 40
+    i2: 228
+    i3: 223
+    i4: 214
+    i5: 22
+    i6: 84
+    i7: 18
+    i8: 138
+    i9: 176
+    i10: 119
+    i11: 99
+    i12: 93
+    i13: 200
+    i14: 192
+    i15: 154
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114767970609396208
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -438,6 +483,7 @@ MonoBehaviour:
   isPerformingAction: 0
   doorType: 11
   maxTimeOpen: 5
+  IsOpened: 0
 --- !u!114 &114944838558853636
 MonoBehaviour:
   m_ObjectHideFlags: 1

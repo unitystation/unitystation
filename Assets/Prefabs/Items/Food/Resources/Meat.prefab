@@ -37,10 +37,10 @@ GameObject:
   - component: {fileID: 4776937604947478}
   - component: {fileID: 114671307870992244}
   - component: {fileID: 114158584351897270}
-  - component: {fileID: 60866694516353104}
   - component: {fileID: 114570442302723832}
   - component: {fileID: 114267346831729768}
   - component: {fileID: 114090894793516986}
+  - component: {fileID: 61651950962559600}
   m_Layer: 10
   m_Name: Meat
   m_TagString: Untagged
@@ -75,8 +75,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &60866694516353104
-PolygonCollider2D:
+--- !u!61 &61651950962559600
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -97,15 +97,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.09106445, y: 0.08898926}
-      - {x: 0.07409668, y: 0.024291992}
-      - {x: 0.2598877, y: 0.080322266}
-      - {x: 0.17773438, y: -0.080200195}
-      - {x: 0.060546875, y: -0.23876953}
-      - {x: -0.24609375, y: -0.13708496}
-      - {x: -0.22216797, y: 0.03564453}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &114090894793516986
 MonoBehaviour:
   m_ObjectHideFlags: 1

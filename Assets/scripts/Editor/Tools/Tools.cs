@@ -15,13 +15,14 @@ public class Tools : Editor {
         }
     }
 
-    [MenuItem("Tools/Reconnect Prefab %r")]
+    [MenuItem("Tools/Revert To Prefab %r")]
     static void RevertPrefabs() {
         var selection = Selection.gameObjects;
 
         if(selection.Length > 0) {
             for(var i = 0; i < selection.Length; i++) {
                 PrefabUtility.RevertPrefabInstance(selection[i]);
+                PrefabUtility.ReconnectToLastPrefab(selection[i]);
             }
         } else {
             Debug.Log("Cannot revert to prefab - nothing selected");
