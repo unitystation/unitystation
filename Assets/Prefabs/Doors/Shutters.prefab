@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114640096819736908}
   - component: {fileID: 114044159982840800}
   - component: {fileID: 114676143656818514}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Shutters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011098651594}
   - component: {fileID: 212000011093762314}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010316053548}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1832, y: 1147, z: 0}
+  m_LocalPosition: {x: 1835, y: 1142, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011098651594}
@@ -84,7 +84,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -216,7 +216,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 69388871
+  m_SortingLayerID: -1883797623
   m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300030, guid: 3126d5359b7d4eb0944012e91bd4be16, type: 3}
