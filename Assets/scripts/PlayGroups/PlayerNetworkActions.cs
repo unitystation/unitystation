@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 using Events;
@@ -346,11 +347,11 @@ public class PlayerNetworkActions : NetworkBehaviour
 	public void CmdSendChatMessage(string msg, bool isLocalChat){
 		if (isLocalChat) {
 			//regex to sanitise any injected html tags
-			var rx = new System.Text.RegularExpressions.Regex("[<][^>]+[>]");
+			var rx = new Regex("[<][^>]+[>]");
 			var inputString = rx.Replace(msg, "");
 
 			//might as well use it here so it doesn't matter how long the input string is
-			rx = new System.Text.RegularExpressions.Regex("^(/me )");
+			rx = new Regex("^(/me )");
 			if (rx.IsMatch(inputString)){ // /me message
 				inputString = rx.Replace(inputString, " ");
 				ChatRelay.Instance.chatlog.Add("<i><b>" + gameObject.name + "</b>" + inputString + "</i>.");
