@@ -38,8 +38,14 @@ public class GameData: MonoBehaviour
 		SaveData();
 	}
 
+	void OnEnable()
+	{
+		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+	}
+
 	void OnDisable()
 	{
+		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 		SaveData();
 	}
 
@@ -48,14 +54,9 @@ public class GameData: MonoBehaviour
 		SaveData();
 	}
 
-	void Start()
+	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
-		OnLevelWasLoaded();
-	}
-
-	void OnLevelWasLoaded()
-	{
-		if (Application.loadedLevelName == "Lobby") {
+		if (scene.name == "Lobby") {
 			IsInGame = false;
 			Managers.instance.SetScreenForLobby();
 		} else {
@@ -63,24 +64,27 @@ public class GameData: MonoBehaviour
 			Managers.instance.SetScreenForGame();
 		}
 
-		if (CustomNetworkManager.Instance.isNetworkActive) {
+		if (CustomNetworkManager.Instance.isNetworkActive)
+		{
 			//Reset stuff
-			if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer){
+			if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer)
+			{
 				IsHeadlessServer = true;
 			}
-			if (IsInGame && GameManager.Instance != null){
+			if (IsInGame && GameManager.Instance != null)
+			{
 				GameManager.Instance.ResetRoundTime();
 			}
 			return;
 		}
 		//Check if running in batchmode (headless server)
-		if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer) {
+		if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer)
+		{
 			Debug.Log("START SERVER HEADLESS MODE");
 			IsHeadlessServer = true;
 			CustomNetworkManager.Instance.StartHost();
 			return;
 		}
-	
 	}
 
 	void LoadData()
