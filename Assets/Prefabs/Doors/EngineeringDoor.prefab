@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 114920132203804448}
   - component: {fileID: 114905652381775202}
   - component: {fileID: 114390321638166826}
+  - component: {fileID: 114566587194028974}
   m_Layer: 11
   m_Name: EngineeringDoor
   m_TagString: Untagged
@@ -234,9 +235,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!82 &82119343689486036
 AudioSource:
   m_ObjectHideFlags: 1
@@ -415,6 +427,7 @@ MonoBehaviour:
   isPerformingAction: 0
   doorType: 2
   maxTimeOpen: 5
+  IsOpened: 0
 --- !u!114 &114390321638166826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -447,6 +460,17 @@ MonoBehaviour:
     i15: 100
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114566587194028974
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636844411894304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114905652381775202
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -504,11 +528,16 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 149917821
+  m_SortingLayer: 4
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
 --- !u!212 &212541320661430270
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -539,11 +568,16 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 149917821
+  m_SortingLayer: 4
   m_SortingOrder: 9
   m_Sprite: {fileID: 21300046, guid: 40f7c283405e479b960949bfd67a5837, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
 --- !u!212 &212665150722991628
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -574,8 +608,13 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 149917821
+  m_SortingLayer: 4
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 40f7c283405e479b960949bfd67a5837, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
