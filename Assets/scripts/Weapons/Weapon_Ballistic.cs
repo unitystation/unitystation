@@ -13,11 +13,12 @@ namespace Weapons
 		public bool isInHandL = false;
 		private bool allowedToShoot = false;
 		private GameObject bullet;
+		public string ammoType = "12mm";
 
 		[Header("0 = fastest")]
 		public float firingRate = 1f;
 
-		private MagazineBehaviour Magazine;
+		private MagazineBehaviour currentMagazine;
 
 		[SyncVar(hook="LoadUnloadAmmo")]
 		public NetworkInstanceId magNetID;
@@ -46,12 +47,12 @@ namespace Weapons
 
 		public void LoadUnloadAmmo(NetworkInstanceId mID){
 			if (mID == NetworkInstanceId.Invalid) {
-				Magazine = null;
+				currentMagazine = null;
 			} else {
 				GameObject m = ClientScene.FindLocalObject(mID);
 				if (m != null) {
 					MagazineBehaviour mB = m.GetComponent<MagazineBehaviour>();
-					Magazine = mB;
+					currentMagazine = mB;
 				} else {
 					Debug.Log("Could not find MagazineBehaviour");
 				}
@@ -67,7 +68,7 @@ namespace Weapons
 			if (PlayerManager.LocalPlayer.name != controlledByPlayer)
 				return;
 			
-			if (Input.GetMouseButtonDown(0) && allowedToShoot) {
+			if (Input.GetMouseButtonDown(0) && allowedToShoot && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
 				Shoot();
 			}
 				
@@ -77,10 +78,10 @@ namespace Weapons
 				string hand;
 
 				if (currentHandItem != null) {
-					if (Magazine == null) { //RELOAD
+					if (currentMagazine == null) { //RELOAD
 						MagazineBehaviour magazine = currentHandItem.GetComponent<MagazineBehaviour>();
 
-						if (magazine != null && otherHandItem.GetComponent<Weapon_Ballistic>() != null) {
+						if (magazine != null && otherHandItem.GetComponent<Weapon_Ballistic>() != null && magazine.ammoType == ammoType) {
 							hand = UIManager.Hands.CurrentSlot.eventName;
 							Reload(currentHandItem, hand);
 						}
@@ -89,7 +90,7 @@ namespace Weapons
 
 						if (weapon != null && otherHandItem == null) {
 							hand = UIManager.Hands.OtherSlot.eventName;
-							ManualUnload();
+							ManualUnload(currentMagazine);
 						}
 					}
 				}
@@ -99,30 +100,25 @@ namespace Weapons
 		void Shoot()
 		{			
 			if ((isInHandR && UIManager.Hands.CurrentSlot == UIManager.Hands.RightSlot) ^ (isInHandL && UIManager.Hands.CurrentSlot == UIManager.Hands.LeftSlot)) {
-				if (Magazine == null) {
-					if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-						PlayEmptySFX();
-
+				if (currentMagazine == null) {
+					PlayEmptySFX();
 					return;
 				}
-				if (Magazine.Usable) {
+
+				if (currentMagazine.Usable) {
 					//basic way to check with a XOR if the hand and the slot used matches
 					Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-						//don't while hovering on the UI
-						if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
-							//Shoot(dir);
-							if (allowedToShoot) {
-								allowedToShoot = false;
-							    PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet (dir, bullet.name);
-								StartCoroutine ("ShootCoolDown");
-							}
-							Magazine.ammoRemains--;
-						}
+					if (allowedToShoot) {
+						allowedToShoot = false;
+						PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet (dir, bullet.name);
+						StartCoroutine ("ShootCoolDown");
+
+						currentMagazine.ammoRemains--;
+					}
 				} else {
-					if (Magazine != null) {
-						PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(Magazine.gameObject);
-						PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdUnloadWeapon(gameObject);
-						OutOfAmmoSFX();
+					if (currentMagazine != null) {
+						ManualUnload (currentMagazine);
+						OutOfAmmoSFX ();
 					}
 				} 
 			}
@@ -137,11 +133,10 @@ namespace Weapons
 
 		//atm unload with shortcut 'e'
 		//TODO dev right click unloading so it goes into the opposite hand if it is selected
-		void ManualUnload(){
+		void ManualUnload(MagazineBehaviour m){
 			Debug.Log ("Unloading");
-			GameObject m = Magazine.gameObject;
 			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdUnloadWeapon(gameObject);
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(m);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(m.gameObject);
 		}
 
 		//Check which slot it was just added too (broadcast from UI_itemSlot
@@ -150,7 +145,7 @@ namespace Weapons
 			//This checks to see if a new player who has joined needs to load up any weapon magazines because of missing sync hooks
 			if (magNetID != NetworkInstanceId.Invalid) {
 				LoadUnloadAmmo(magNetID);
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(Magazine.gameObject);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(currentMagazine.gameObject);
 			}
 			if (slotName == "rightHand") {
 				isInHandR = true;
@@ -169,9 +164,9 @@ namespace Weapons
 		public void OnAddToPool(string playerName)
 		{
 			controlledByPlayer = playerName;
-			if (Magazine != null && PlayerManager.LocalPlayer.name == playerName) {
+			if (currentMagazine != null && PlayerManager.LocalPlayer.name == playerName) {
 				//As the magazine loaded is part of the weapon, then we do not need to add to server cache, we only need to add the item to the equipment pool
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(Magazine.gameObject);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(currentMagazine.gameObject);
 			}
 		}
 
