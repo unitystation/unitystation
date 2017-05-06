@@ -17,8 +17,9 @@ public class DoorController: NetworkBehaviour {
     public bool isPerformingAction = false;
     public DoorType doorType;
     public float maxTimeOpen = 5;
-    private float timeOpen = 0;
     private HorizontalDoorAnimator horizontalAnim;
+
+    private IEnumerator coWaitOpened;
 
     public bool IsOpened;
 
@@ -34,15 +35,15 @@ public class DoorController: NetworkBehaviour {
 
     public void BoxCollToggleOn() {
         registerTile.UpdateTileType(TileType.Door);
-        boxColl.enabled = true;
+        gameObject.layer = LayerMask.NameToLayer("Door Closed");
     }
 
     public void BoxCollToggleOff() {
         registerTile.UpdateTileType(TileType.None);
-        boxColl.enabled = false;
+        gameObject.layer = LayerMask.NameToLayer("Door Open");
     }
 
-    private IEnumerator _WaitUntilClose() {
+    private IEnumerator WaitUntilClose() {
         // After the door opens, wait until it's supposed to close.
         yield return new WaitForSeconds(maxTimeOpen);
         if(isServer)
@@ -71,7 +72,8 @@ public class DoorController: NetworkBehaviour {
     public void CmdTryOpen() {
         if(!IsOpened && !isPerformingAction) {
             RpcOpen();
-            StartCoroutine(_WaitUntilClose());
+
+            ResetWaiting();
         }
     }
 
@@ -80,6 +82,16 @@ public class DoorController: NetworkBehaviour {
         if(IsOpened && !isPerformingAction) {
             RpcClose();
         }
+    }
+
+    private void ResetWaiting() {
+        if(coWaitOpened != null) {
+            StopCoroutine(coWaitOpened);
+            coWaitOpened = null;
+        }
+
+        coWaitOpened = WaitUntilClose();
+        StartCoroutine(coWaitOpened);
     }
 
     [ClientRpc]
