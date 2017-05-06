@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 114000012520442378}
   - component: {fileID: 114497725044171370}
   - component: {fileID: 114039102507754130}
+  - component: {fileID: 114160558175690770}
   m_Layer: 0
   m_Name: FireDoor
   m_TagString: Untagged
@@ -84,9 +85,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &114000012520442378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,6 +145,17 @@ MonoBehaviour:
     i15: 254
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114160558175690770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011470677956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114497725044171370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -176,8 +199,13 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 519763023
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300034, guid: 61d6af2c32854155af4454f5e0aac221, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
