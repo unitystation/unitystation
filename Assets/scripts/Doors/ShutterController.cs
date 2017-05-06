@@ -15,12 +15,6 @@ public class ShutterController : MonoBehaviour {
         registerTile = gameObject.GetComponent<RegisterTile>();
     }
 
-    void Start() {
-
-        registerTile.UpdateTileType(TileType.None);
-        gameObject.layer = LayerMask.NameToLayer("Door Open");
-    }
-
     public void Open() {
         IsClosed = false;
         registerTile.UpdateTileType(TileType.None);
