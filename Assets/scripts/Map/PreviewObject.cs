@@ -119,7 +119,13 @@ namespace MapEditor {
             if(Selection.Contains(gameObject)) {
                 Selection.objects = Array.FindAll(Selection.objects, o => (o != gameObject));
             }
-            foreach(Transform child in transform) {
+            RemoveSelectionChildren(transform);
+        }
+
+        private void RemoveSelectionChildren(Transform parent) {
+            foreach(Transform child in parent) {
+                RemoveSelectionChildren(child);
+
                 if(Selection.Contains(child.gameObject)) {
                     Selection.objects = Array.FindAll(Selection.objects, o => (o != child.gameObject));
                 }
