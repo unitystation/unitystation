@@ -134,6 +134,7 @@ MonoBehaviour:
   - {fileID: 114695885292797750}
   - {fileID: 114286485405430100}
   - {fileID: 114005802391050146}
+  - {fileID: 114791236773058710}
 --- !u!114 &114005802391050146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1317,6 +1318,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Assembly Line
   color: {r: 0, g: 0.843169, b: 0.87785274, a: 0.5}
+--- !u!114 &114791236773058710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Others
+  color: {r: 0, g: 0.7027979, b: 0.0758015, a: 0.5}
 --- !u!114 &114797020738835044
 MonoBehaviour:
   m_ObjectHideFlags: 0
