@@ -116,14 +116,14 @@ namespace MapEditor {
         }
 
         private void RemoveFromSelection() {
-            //if(Selection.Contains(gameObject)) {
-            //    Selection.objects = Array.FindAll(Selection.objects, o => (o != gameObject));
-            //}
-            //foreach(Transform child in transform) {
-            //    if(Selection.Contains(child.gameObject)) {
-            //        Selection.objects = Array.FindAll(Selection.objects, o => (o != child.gameObject));
-            //    }
-            //}
+            if(Selection.Contains(gameObject)) {
+                Selection.objects = Array.FindAll(Selection.objects, o => (o != gameObject));
+            }
+            foreach(Transform child in transform) {
+                if(Selection.Contains(child.gameObject)) {
+                    Selection.objects = Array.FindAll(Selection.objects, o => (o != child.gameObject));
+                }
+            }
         }
 
         public static void SetActive(bool active) {
