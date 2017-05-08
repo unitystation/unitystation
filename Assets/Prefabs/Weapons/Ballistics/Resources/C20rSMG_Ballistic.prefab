@@ -114,8 +114,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: C20rSMG
   spriteType: 2
-  inHandReferenceRight: 400
-  inHandReferenceLeft: 400
+  inHandReferenceRight: 152
+  inHandReferenceLeft: 48
   clothingReference: -1
   size: 2
   type: 16
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SceneId:
-    m_Value: 0
+    m_Value: 12
   m_AssetId:
     i0: 5
     i1: 77
@@ -208,9 +208,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a875e15ead441838ac6b122e27ff5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInHandR: 0
-  isInHandL: 0
-  firingRate: 0.1
+  ammoType: 12mm
+  firingRate: 0.2
+  bulletPerShoot: 1
+  bullet: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 2}
   controlledByPlayer: 
 --- !u!212 &212385105533288336
 SpriteRenderer:
