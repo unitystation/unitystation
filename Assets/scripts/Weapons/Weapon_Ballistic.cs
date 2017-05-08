@@ -9,18 +9,18 @@ namespace Weapons
 {
 	public class Weapon_Ballistic : NetworkBehaviour
 	{
-		public bool isInHandR = false;
-		public bool isInHandL = false;
-		private bool allowedToShoot = false;
-		private GameObject bullet;
-		public string ammoType = "12mm";
-
+		private bool isInHandR = false;
+		private bool isInHandL = false;
+		public string ammoType;
 		[Header("0 = fastest")]
-		public float firingRate = 1f;
+		public float firingRate;
+		private float nextFire; //shooting cooldown
+		public int bulletPerShoot; //for shotguns/splitting bullets(?)
 
+		public GameObject bullet;
 		private MagazineBehaviour currentMagazine;
 
-		[SyncVar(hook="LoadUnloadAmmo")]
+		//[SyncVar(hook="LoadUnloadAmmo")]
 		public NetworkInstanceId magNetID;
 
 		[SyncVar]
@@ -28,12 +28,18 @@ namespace Weapons
 
 		void Start()
 		{
-			bullet = Resources.Load("Bullet_12mm") as GameObject;
+			if (ammoType == null)
+				ammoType = "12mm"; //DEFAULT VALUE
+			if (bullet == null)
+				bullet = Resources.Load("Bullet_12mm") as GameObject;
+
+			//future?
+			//bullet = Resources.Load("Bullet_"+ammoType) as GameObject; 
 		}
 
 		public override void OnStartServer()
 		{
-			GameObject m = GameObject.Instantiate(Resources.Load("Magazine_12mm") as GameObject, Vector3.zero, Quaternion.identity);
+			GameObject m = GameObject.Instantiate(Resources.Load("Magazine_"+ammoType) as GameObject, Vector3.zero, Quaternion.identity);
 			NetworkServer.Spawn(m);
 			StartCoroutine(SetMagazineOnStart(m));
 			base.OnStartServer();
@@ -68,7 +74,7 @@ namespace Weapons
 			if (PlayerManager.LocalPlayer.name != controlledByPlayer)
 				return;
 			
-			if (Input.GetMouseButtonDown(0) && allowedToShoot && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
+			if (Input.GetMouseButtonDown(0) && Time.time > nextFire && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
 				Shoot();
 			}
 				
@@ -81,9 +87,11 @@ namespace Weapons
 					if (currentMagazine == null) { //RELOAD
 						MagazineBehaviour magazine = currentHandItem.GetComponent<MagazineBehaviour>();
 
-						if (magazine != null && otherHandItem.GetComponent<Weapon_Ballistic>() != null && magazine.ammoType == ammoType) {
+						if (magazine != null && otherHandItem.GetComponent<Weapon_Ballistic> () != null && magazine.ammoType == ammoType) {
 							hand = UIManager.Hands.CurrentSlot.eventName;
-							Reload(currentHandItem, hand);
+							Reload (currentHandItem, hand);
+						} else {
+							Debug.Log ("Magazine isn't matching, magazine.ammoType:" + magazine.ammoType +"/ ammoType:"+ ammoType);
 						}
 					} else { //UNLOAD
 						Weapon_Ballistic weapon = currentHandItem.GetComponent<Weapon_Ballistic>();
@@ -99,6 +107,7 @@ namespace Weapons
 
 		void Shoot()
 		{			
+			nextFire = Time.time + firingRate;
 			if ((isInHandR && UIManager.Hands.CurrentSlot == UIManager.Hands.RightSlot) ^ (isInHandL && UIManager.Hands.CurrentSlot == UIManager.Hands.LeftSlot)) {
 				if (currentMagazine == null) {
 					PlayEmptySFX();
@@ -108,13 +117,9 @@ namespace Weapons
 				if (currentMagazine.Usable) {
 					//basic way to check with a XOR if the hand and the slot used matches
 					Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-					if (allowedToShoot) {
-						allowedToShoot = false;
+			
 						PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet (dir, bullet.name);
-						StartCoroutine ("ShootCoolDown");
-
 						currentMagazine.ammoRemains--;
-					}
 				} else {
 					if (currentMagazine != null) {
 						ManualUnload (currentMagazine);
@@ -149,10 +154,8 @@ namespace Weapons
 			}
 			if (slotName == "rightHand") {
 				isInHandR = true;
-				StartCoroutine("ShootCoolDown");
 			} else if (slotName == "leftHand") {
 				isInHandL = true;
-				StartCoroutine("ShootCoolDown");
 			} else {
 				//Any other slot
 				isInHandR = false;
@@ -181,7 +184,6 @@ namespace Weapons
 			Debug.Log("Dropped Weapon");
 			isInHandR = false;
 			isInHandL = false;
-			allowedToShoot = false;
 		}
 
 		void OutOfAmmoSFX()
@@ -193,13 +195,5 @@ namespace Weapons
 		{
 			PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("EmptyGunClick");
 		}
-
-		IEnumerator ShootCoolDown()
-		{
-			yield return new WaitForSeconds(firingRate);
-			allowedToShoot = true;
-
-		}
-
 	}
 }
