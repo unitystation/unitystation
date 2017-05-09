@@ -85,6 +85,14 @@ namespace Weapons
 		}
 
 		void Update () {
+			//don't start it too early:
+			if (!PlayerManager.LocalPlayer)
+				return;
+			
+			//Only update if it is inhand of localplayer
+			if (PlayerManager.LocalPlayer.name != ControlledByPlayer)
+				return;
+			
 			if (FireCountDown > 0 )
 			{
 				FireCountDown -= Time.deltaTime;
@@ -94,8 +102,29 @@ namespace Weapons
 				}
 			}
 
-			if (Input.GetKeyDown (KeyCode.E)) {
-				ManualUnload(CurrentMagazine);
+			//Check if magazine in opposite hand or if unloading
+			if(Input.GetKeyDown(KeyCode.E)) { //PlaceHolder for click UI
+				GameObject currentHandItem = UIManager.Hands.CurrentSlot.Item; 
+				GameObject otherHandItem = UIManager.Hands.OtherSlot.Item;
+				string hand;
+
+				if (currentHandItem != null) {
+					if (CurrentMagazine == null) { //RELOAD
+						MagazineBehaviour magazine = currentHandItem.GetComponent<MagazineBehaviour>();
+
+						if (magazine != null && otherHandItem.GetComponent<Weapon>() != null) {
+							hand = UIManager.Hands.CurrentSlot.eventName;
+							Reload(currentHandItem, hand);
+						}
+					} else { //UNLOAD
+						Weapon weapon = currentHandItem.GetComponent<Weapon>();
+
+						if (weapon != null && otherHandItem == null) {
+							hand = UIManager.Hands.OtherSlot.eventName;
+							ManualUnload(CurrentMagazine);
+						}
+					}
+				}
 			}
 
 			if(Input.GetMouseButtonUp(0)) {
@@ -149,15 +178,10 @@ namespace Weapons
 					PlayEmptySFX();
 					return;
 				} 
-				//if we are out of ammo for this weapon play an empty sound
+				//if we are out of ammo for this weapon eject magazine and play out of ammo sfx
 				else if (Projectile != null && CurrentMagazine.ammoRemains <= 0 && FireCountDown <= 0) {
 					InAutomaticAction = false;
-					PlayEmptySFX();
-					return;
-				}
-				//if we are out of ammo for this weapon play an empty sound - machine gun fire ending
-				else if (Projectile != null && CurrentMagazine.ammoRemains <= 0 && FireCountDown <= 0 && InAutomaticAction) {
-					InAutomaticAction = false;
+					ManualUnload(CurrentMagazine);
 					OutOfAmmoSFX();
 					return;
 				}
@@ -194,8 +218,10 @@ namespace Weapons
 		//TODO dev right click unloading so it goes into the opposite hand if it is selected
 		void ManualUnload(MagazineBehaviour m){
 			Debug.Log ("Unloading");
-			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdUnloadWeapon(gameObject);
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(m.gameObject);
+			if (m != null) {
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(m.gameObject);
+				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdUnloadWeapon(gameObject);
+			}
 		}
 		#endregion
 
@@ -203,10 +229,14 @@ namespace Weapons
 		//Check which slot it was just added too (broadcast from UI_itemSlot)
 		public void OnAddToInventory(string slotName)
 		{
+			//FIXME when another player picks up an unloaded weapon, it loads it again. MagNetID does not seem to be syncing properly 
 			//This checks to see if a new player who has joined needs to load up any weapon magazines because of missing sync hooks
 			if (MagNetID != NetworkInstanceId.Invalid) {
 				LoadUnloadAmmo(MagNetID);
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(CurrentMagazine.gameObject);
+				if (CurrentMagazine)
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(CurrentMagazine.gameObject);
+			} else {
+				Debug.Log("MAG SLOT EMPTY");
 			}
 		}
 
@@ -219,8 +249,10 @@ namespace Weapons
 		public void LoadUnloadAmmo(NetworkInstanceId magazineID){
 			//if the magazine ID is invalid remove the magazine
 			if (magazineID == NetworkInstanceId.Invalid) {
+				Debug.Log("CLEAR MAG");
 				CurrentMagazine = null;
 			} else {
+				Debug.Log("LOAD MAG");
 				//find the magazine by NetworkID
 				GameObject magazine = ClientScene.FindLocalObject(magazineID);
 				if (magazine != null) {
