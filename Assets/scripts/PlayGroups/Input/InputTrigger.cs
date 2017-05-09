@@ -9,11 +9,10 @@ namespace InputControl {
 	public abstract class InputTrigger: NetworkBehaviour {
 
         public void Trigger() {
-            if(PlayerManager.LocalPlayerScript.IsInReach(transform)) {
+            //if(PlayerManager.LocalPlayerScript.IsInReach(transform)) {
                 Interact();
-            }
+            //}
         }
-
 
         public abstract void Interact();
     }

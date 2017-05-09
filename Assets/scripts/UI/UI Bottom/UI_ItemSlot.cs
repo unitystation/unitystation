@@ -84,6 +84,14 @@ namespace UI {
             return item;
         }
 
+		/// <summary>
+		/// returnes the current item from the slot
+		/// </summary>
+		/// <returns></returns>
+		public GameObject GameObject() {
+			return Item;
+		}
+
         /// <summary>
         /// for use with specific item placement (tables/cupboards etc);
         /// </summary>

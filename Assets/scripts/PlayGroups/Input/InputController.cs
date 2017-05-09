@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PlayGroup;
+using System.Linq;
+using UI;
+using Weapons;
 
 namespace InputControl {
 
@@ -16,8 +19,15 @@ namespace InputControl {
 		}
 
         void Update() {
+			CheckHandSwitch();
             CheckClick();
         }
+
+		private void CheckHandSwitch() {
+			if (Input.GetMouseButtonDown(2)) {
+				UIManager.Hands.Swap();
+			}
+		}
 
         private void CheckClick() {
             if(Input.GetMouseButtonDown(0)) {
@@ -31,25 +41,59 @@ namespace InputControl {
         }
 
         private void RayHit(Vector3 position) {
-            var hit = Physics2D.Raycast(position, Vector2.zero);
+			var hits = Physics2D.RaycastAll(position, Vector2.zero);
 
+			//raycast all colliders and collect pixel hit gameobjects
+			List<GameObject> hitGameObjects = new List<GameObject>();
+			foreach (var hit in hits) {
+				var objectTransform = hit.collider.gameObject.transform;
+				var gameObjectHit = IsPixelHit(objectTransform, (position - objectTransform.position));
+				if(gameObjectHit != null) {
+					hitGameObjects.Add(gameObjectHit);
+				}
+			}
+
+			//collect all the sprite renderers
+			List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
+			foreach (var hitGameObject in hitGameObjects) {
+				var spriteRenderer = hitGameObject.GetComponent<SpriteRenderer>();
+				if (spriteRenderer != null) {
+					spriteRenderers.Add(spriteRenderer);
+				}
+			}
+
+			//check which of the speite renderers we hit and pixel checked is the highest
+			if (spriteRenderers.Count > 0) {
+				var topSprite = spriteRenderers.OrderByDescending (sr => sr.sortingOrder).First ();
+				if (topSprite != null) {
+					Interact (topSprite.transform);
+				}
+			}
+
+			/*
             if(hit.collider != null) {
                 var objectTransform = hit.collider.gameObject.transform;
 
-                if(IsPixelHit(objectTransform, (position - objectTransform.position))) {
-                    Interact(objectTransform);
+				var gameobjectHit = IsPixelHit(objectTransform, (position - objectTransform.position));
+				if(gameobjectHit != null) {
+					Interact(gameobjectHit);
                 } else {
                     hit.collider.enabled = false;
                     RayHit(position);
                     hit.collider.enabled = true;
                 }
-            }  
+            }  */
         }
 
-        private bool IsPixelHit(Transform transform, Vector3 hitPosition) {
+        private GameObject IsPixelHit(Transform transform, Vector3 hitPosition) {
             var spriteRenderers = transform.GetComponentsInChildren<SpriteRenderer>(false);
+
+			//check order in layer for what should be triggered first
+			//each item ontop of a table should have a higher order in layer
+
+			var bySortingOrder = spriteRenderers.OrderByDescending(sRenderer => sRenderer.sortingOrder).ToArray();
             
-            foreach(var spriteRenderer in spriteRenderers) {
+			foreach(var spriteRenderer in bySortingOrder) {
                 var sprite = spriteRenderer.sprite;
 
                 if(spriteRenderer.enabled && sprite) {
@@ -64,19 +108,38 @@ namespace InputControl {
 
                     var pixelColor = sprite.texture.GetPixel(texPosX, texPosY);
                     if(pixelColor.a > 0) {
-                        return true;
+						return spriteRenderer.gameObject;
                     }
                 }
             }
 
-            return false;
+            return null;
         }
 
-        private void Interact(Transform objectTransform) {
-            var inputTrigger = objectTransform.GetComponent<InputTrigger>();
-            if(inputTrigger) {
-                inputTrigger.Trigger();
-            }
+		private void Interact(Transform transform) {
+			//attempt to trigger the things in range we clicked on
+			if (PlayerManager.LocalPlayerScript.IsInReach (transform)) {
+				//check the actual transform for an input trigger and if there is non, check the parent
+				var inputTrigger = transform.GetComponent<InputTrigger> ();
+				if (inputTrigger) {
+					inputTrigger.Trigger ();
+					return;
+				} else {
+					inputTrigger = transform.parent.GetComponent<InputTrigger> ();
+					if (inputTrigger) {
+						inputTrigger.Trigger ();
+						return;
+					}
+				}
+			}
+
+			//if we are holding onto an item like a gun attempt to shoot it if we were not in range to trigger anything
+			if (UIManager.Hands.CurrentSlot.GameObject () != null) {
+				var inputTrigger = UIManager.Hands.CurrentSlot.GameObject().GetComponent<InputTrigger> ();
+				if (inputTrigger != null) {
+					inputTrigger.Trigger ();
+				}
+			}
         }
 
 		//Calculate the mouse click angle in relation to player(for facingDirection on PlayerSprites)
