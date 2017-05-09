@@ -1,4 +1,4 @@
-﻿using PlayGroup;
+using PlayGroup;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,12 +8,10 @@ namespace InputControl {
 
 	public abstract class InputTrigger: NetworkBehaviour {
 
-        public void Trigger() {
-            //if(PlayerManager.LocalPlayerScript.IsInReach(transform)) {
-                Interact();
-            //}
-        }
+		public void Trigger() {
+			Interact();
+		}
 
-        public abstract void Interact();
-    }
+		public abstract void Interact();
+	}
 }

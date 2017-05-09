@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -66,47 +66,6 @@ namespace Weapons
 			}
 		}
 
-		/*
-		void Update()
-		{
-			//don't start it too early:
-			if (!PlayerManager.LocalPlayer)
-				return;
-			
-			if (PlayerManager.LocalPlayer.name != controlledByPlayer)
-				return;
-			
-			if (Input.GetMouseButtonDown(0) && Time.time > nextFire && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
-				Shoot();
-			}
-				
-			if(Input.GetKeyDown(KeyCode.E)) { //PlaceHolder for click UI
-				GameObject currentHandItem = UIManager.Hands.CurrentSlot.Item; 
-				GameObject otherHandItem = UIManager.Hands.OtherSlot.Item;
-				string hand;
-
-				if (currentHandItem != null) {
-					if (currentMagazine == null) { //RELOAD
-						MagazineBehaviour magazine = currentHandItem.GetComponent<MagazineBehaviour>();
-
-						if (magazine != null && otherHandItem.GetComponent<Weapon_Ballistic> () != null && magazine.ammoType == ammoType) {
-							hand = UIManager.Hands.CurrentSlot.eventName;
-							Reload (currentHandItem, hand);
-						} else {
-							Debug.Log ("Magazine isn't matching, magazine.ammoType:" + magazine.ammoType +"/ ammoType:"+ ammoType);
-						}
-					} else { //UNLOAD
-						Weapon_Ballistic weapon = currentHandItem.GetComponent<Weapon_Ballistic>();
-
-						if (weapon != null && otherHandItem == null) {
-							hand = UIManager.Hands.OtherSlot.eventName;
-							ManualUnload(currentMagazine);
-						}
-					}
-				}
-			}
-		}old shooting code*/
-
 		public override void Interact() {
 			//shoot gun interation if its in hand
 			if (gameObject == UIManager.Hands.CurrentSlot.GameObject ()) {
@@ -132,9 +91,9 @@ namespace Weapons
 				if (currentMagazine.Usable) {
 					//basic way to check with a XOR if the hand and the slot used matches
 					Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-			
-						PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet (dir, bullet.name);
-						currentMagazine.ammoRemains--;
+
+					PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet (dir, bullet.name);
+					currentMagazine.ammoRemains--;
 				} else {
 					if (currentMagazine != null) {
 						ManualUnload (currentMagazine);

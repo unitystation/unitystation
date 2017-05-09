@@ -32,16 +32,16 @@ public class WeaponNetworkActions: NetworkBehaviour {
 
     [Command]
     public void CmdLoadMagazine(GameObject weapon, GameObject magazine) {
-        Weapon_Ballistic w = weapon.GetComponent<Weapon_Ballistic>();
-        NetworkInstanceId nID = magazine.GetComponent<NetworkIdentity>().netId;
-        w.magNetID = nID;
+		Weapon w = weapon.GetComponent<Weapon>();
+		NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
+		w.MagNetID = networkID;
     }
 
     [Command]
     public void CmdUnloadWeapon(GameObject weapon) {
-        Weapon_Ballistic w = weapon.GetComponent<Weapon_Ballistic>();
-        NetworkInstanceId newID = NetworkInstanceId.Invalid;
-        w.magNetID = newID;
+		Weapon w = weapon.GetComponent<Weapon>();
+        NetworkInstanceId networkID = NetworkInstanceId.Invalid;
+		w.MagNetID = networkID;
     }
 
     [Command]
@@ -83,8 +83,6 @@ public class WeaponNetworkActions: NetworkBehaviour {
         BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
         b.Shoot(dir, angle, gameObject.name);
     }
-
-
 
     [Command]
     public void CmdKnifeAttackMob(GameObject npcObj, Vector2 stabDirection) {

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PlayGroup;
@@ -8,9 +8,18 @@ using Weapons;
 
 namespace InputControl {
 
-    public class InputController: MonoBehaviour {
+	public class InputController: MonoBehaviour {
 		private PlayerSprites playerSprites;
 		private PlayerMove playerMove;
+
+		/// <summary>
+		///  The minimum time limit between each action
+		/// </summary>
+		private float InputCooldownTimer = 0.01f;
+		/// <summary>
+		///  The cooldown before another action can be performed
+		/// </summary>
+		private float CurrentCooldownTime;
 
 		void Start(){
 			//for changing direction on click
@@ -18,10 +27,21 @@ namespace InputControl {
 			playerMove = GetComponent<PlayerMove>();
 		}
 
-        void Update() {
-			CheckHandSwitch();
-            CheckClick();
-        }
+		void Update() {
+			if (CurrentCooldownTime > 0) {
+				CurrentCooldownTime -= Time.deltaTime;
+				//prevents the action taking longer than it should to occur
+				if (CurrentCooldownTime < 0) {
+					CurrentCooldownTime = 0;
+				}
+			}
+
+			if (CurrentCooldownTime <= 0) {
+				CurrentCooldownTime += InputCooldownTimer;
+				CheckHandSwitch ();
+				CheckClick ();
+			}
+		}
 
 		private void CheckHandSwitch() {
 			if (Input.GetMouseButtonDown(2)) {
@@ -29,18 +49,26 @@ namespace InputControl {
 			}
 		}
 
-        private void CheckClick() {
-            if(Input.GetMouseButtonDown(0)) {
-                RayHit(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+		private void CheckClick() {
+			bool foundHit = false;
+
+			if(Input.GetMouseButtonDown(0)) {
+				foundHit = RayHit(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+				//change the facingDirection of player on click
 				Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
 				float angle = Angle(dir);
-				//change the facingDirection of player on click
 				if(!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
-				CheckPlayerDirection(angle);
-            }
-        }
+					CheckPlayerDirection(angle);
 
-        private void RayHit(Vector3 position) {
+				//if we found nothing at all to click on try to use whats in our hands (might be shooting at someone in space)
+				if (!foundHit) {
+					InteractHands();
+				}
+			}
+		}
+
+		private bool RayHit(Vector3 position) {
 			var hits = Physics2D.RaycastAll(position, Vector2.zero);
 
 			//raycast all colliders and collect pixel hit gameobjects
@@ -70,51 +98,43 @@ namespace InputControl {
 				}
 			}
 
-			/*
-            if(hit.collider != null) {
-                var objectTransform = hit.collider.gameObject.transform;
+			//check if we found nothing at all
+			if (hits != null && hits.Count() > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 
-				var gameobjectHit = IsPixelHit(objectTransform, (position - objectTransform.position));
-				if(gameobjectHit != null) {
-					Interact(gameobjectHit);
-                } else {
-                    hit.collider.enabled = false;
-                    RayHit(position);
-                    hit.collider.enabled = true;
-                }
-            }  */
-        }
-
-        private GameObject IsPixelHit(Transform transform, Vector3 hitPosition) {
-            var spriteRenderers = transform.GetComponentsInChildren<SpriteRenderer>(false);
+		private GameObject IsPixelHit(Transform transform, Vector3 hitPosition) {
+			var spriteRenderers = transform.GetComponentsInChildren<SpriteRenderer>(false);
 
 			//check order in layer for what should be triggered first
 			//each item ontop of a table should have a higher order in layer
-
 			var bySortingOrder = spriteRenderers.OrderByDescending(sRenderer => sRenderer.sortingOrder).ToArray();
-            
+
 			foreach(var spriteRenderer in bySortingOrder) {
-                var sprite = spriteRenderer.sprite;
+				var sprite = spriteRenderer.sprite;
 
-                if(spriteRenderer.enabled && sprite) {
-                    var scale = spriteRenderer.gameObject.transform.localScale;
-                    var offset = spriteRenderer.gameObject.transform.localPosition;
+				if(spriteRenderer.enabled && sprite) {
+					var scale = spriteRenderer.gameObject.transform.localScale;
+					var offset = spriteRenderer.gameObject.transform.localPosition;
 
-                    float pixelsPerUnit = sprite.pixelsPerUnit;
+					float pixelsPerUnit = sprite.pixelsPerUnit;
 
-                    int texPosX = Mathf.RoundToInt(sprite.rect.x + ((hitPosition.x / scale.x - offset.x % 1) * pixelsPerUnit + sprite.rect.width * 0.5f));
-                    int texPosY = Mathf.RoundToInt(sprite.rect.y + ((hitPosition.y / scale.y - offset.y % 1) * pixelsPerUnit + sprite.rect.height * 0.5f));
+					int texPosX = Mathf.RoundToInt(sprite.rect.x + ((hitPosition.x / scale.x - offset.x % 1) * pixelsPerUnit + sprite.rect.width * 0.5f));
+					int texPosY = Mathf.RoundToInt(sprite.rect.y + ((hitPosition.y / scale.y - offset.y % 1) * pixelsPerUnit + sprite.rect.height * 0.5f));
 
 
-                    var pixelColor = sprite.texture.GetPixel(texPosX, texPosY);
-                    if(pixelColor.a > 0) {
+					var pixelColor = sprite.texture.GetPixel(texPosX, texPosY);
+					if(pixelColor.a > 0) {
 						return spriteRenderer.gameObject;
-                    }
-                }
-            }
+					}
+				}
+			}
 
-            return null;
-        }
+			return null;
+		}
 
 		private void Interact(Transform transform) {
 			//attempt to trigger the things in range we clicked on
@@ -134,13 +154,17 @@ namespace InputControl {
 			}
 
 			//if we are holding onto an item like a gun attempt to shoot it if we were not in range to trigger anything
+			InteractHands();
+		}
+
+		private void InteractHands() {
 			if (UIManager.Hands.CurrentSlot.GameObject () != null) {
 				var inputTrigger = UIManager.Hands.CurrentSlot.GameObject().GetComponent<InputTrigger> ();
 				if (inputTrigger != null) {
 					inputTrigger.Trigger ();
 				}
 			}
-        }
+		}
 
 		//Calculate the mouse click angle in relation to player(for facingDirection on PlayerSprites)
 		float Angle(Vector2 dir)
@@ -151,7 +175,7 @@ namespace InputControl {
 				return Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
 			}
 		}
-			
+
 		void CheckPlayerDirection(float angle)
 		{
 			if (angle >= 315f && angle <= 360f || angle >= 0f && angle <= 45f)
@@ -163,6 +187,5 @@ namespace InputControl {
 			if (angle > 225f && angle < 315f) 
 				playerSprites.CmdChangeDirection(Vector2.left);
 		}
-    }
+	}
 }
-
