@@ -16,7 +16,6 @@ public class MagazineBehaviour : NetworkBehaviour
 		Usable = true;
 		ammoRemains = magazineSize;
 	}
-	
 
 	void Update () {
 		if (ammoRemains <= 0) {
