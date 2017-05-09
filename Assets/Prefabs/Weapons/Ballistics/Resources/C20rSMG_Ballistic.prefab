@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 114421193976762178}
   - component: {fileID: 114132912066377716}
   - component: {fileID: 61026622852363448}
-  - component: {fileID: 114316556273635798}
-  - component: {fileID: 114601821569264032}
-  - component: {fileID: 114676752490118750}
-  - component: {fileID: 114642159335058872}
+  - component: {fileID: 114960268025394048}
+  - component: {fileID: 114518583690285756}
+  - component: {fileID: 114382859897651562}
+  - component: {fileID: 114450140997063546}
   m_Layer: 10
   m_Name: C20rSMG_Ballistic
   m_TagString: Untagged
@@ -119,64 +119,7 @@ MonoBehaviour:
   clothingReference: -1
   size: 2
   type: 16
---- !u!114 &114316556273635798
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1296620499762930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 12
-  m_AssetId:
-    i0: 5
-    i1: 77
-    i2: 76
-    i3: 93
-    i4: 63
-    i5: 75
-    i6: 116
-    i7: 202
-    i8: 168
-    i9: 125
-    i10: 84
-    i11: 151
-    i12: 121
-    i13: 239
-    i14: 75
-    i15: 240
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &114421193976762178
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1296620499762930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: -0.2
-  useInGame: 1
---- !u!114 &114601821569264032
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1296620499762930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114642159335058872
+--- !u!114 &114382859897651562
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -197,7 +140,32 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114676752490118750
+--- !u!114 &114421193976762178
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1296620499762930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snapValue: 1
+  depth: -0.2
+  useInGame: 1
+--- !u!114 &114450140997063546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1296620499762930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114518583690285756
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -213,6 +181,38 @@ MonoBehaviour:
   bulletPerShoot: 1
   bullet: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 2}
   controlledByPlayer: 
+--- !u!114 &114960268025394048
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1296620499762930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 5
+    i1: 77
+    i2: 76
+    i3: 93
+    i4: 63
+    i5: 75
+    i6: 116
+    i7: 202
+    i8: 168
+    i9: 125
+    i10: 84
+    i11: 151
+    i12: 121
+    i13: 239
+    i14: 75
+    i15: 240
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212385105533288336
 SpriteRenderer:
   m_ObjectHideFlags: 1

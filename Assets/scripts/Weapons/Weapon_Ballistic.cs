@@ -20,7 +20,7 @@ namespace Weapons
 		public GameObject bullet;
 		private MagazineBehaviour currentMagazine;
 
-		//[SyncVar(hook="LoadUnloadAmmo")]
+		[SyncVar(hook="LoadUnloadAmmo")]
 		public NetworkInstanceId magNetID;
 
 		[SyncVar]
