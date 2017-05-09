@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -91,9 +91,9 @@ namespace Weapons
 				if (currentMagazine.Usable) {
 					//basic way to check with a XOR if the hand and the slot used matches
 					Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-			
-						PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet (dir, bullet.name);
-						currentMagazine.ammoRemains--;
+
+					PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet (dir, bullet.name);
+					currentMagazine.ammoRemains--;
 				} else {
 					if (currentMagazine != null) {
 						ManualUnload (currentMagazine);
