@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class MagazineBehaviour : NetworkBehaviour 
 {
-	public string ammoType="12mm";
+	public string ammoType; //SET IT IN INSPECTOR
 	public int magazineSize=20;
 	public bool Usable;
 
