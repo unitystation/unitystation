@@ -89,9 +89,10 @@ namespace PlayGroup {
         }
 
         public bool IsInReach(Transform transform) {
-            if(pickUpCoolDown)
-                return false;
-            StartCoroutine(PickUpCooldown());
+            //if(pickUpCoolDown)
+            //    return false;
+            //StartCoroutine(PickUpCooldown());
+			//TODO: reimplement this timer higher up like in the InputController
             return DistanceTo(transform.position) <= interactionDistance;
         }
 

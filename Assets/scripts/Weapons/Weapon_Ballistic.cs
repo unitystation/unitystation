@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.Networking;
 using PlayGroup;
 using UI;
+using InputControl;
 
 namespace Weapons
 {
-	public class Weapon_Ballistic : NetworkBehaviour
+	public class Weapon_Ballistic : InputTrigger
 	{
 		private bool isInHandR = false;
 		private bool isInHandL = false;
@@ -65,6 +66,7 @@ namespace Weapons
 			}
 		}
 
+		/*
 		void Update()
 		{
 			//don't start it too early:
@@ -103,6 +105,19 @@ namespace Weapons
 					}
 				}
 			}
+		}old shooting code*/
+
+		public override void Interact() {
+			//shoot gun interation if its in hand
+			if (gameObject == UIManager.Hands.CurrentSlot.GameObject ()) {
+				if (Time.time > nextFire && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
+					Shoot();
+				}
+			} 
+			//if its not in hands, pick it up
+			else {
+				PlayerManager.LocalPlayerScript.playerNetworkActions.TryToPickUpObject(gameObject);
+			}
 		}
 
 		void Shoot()
@@ -130,10 +145,10 @@ namespace Weapons
 		}
 
 		void Reload(GameObject m, string hand){
-				Debug.Log ("Reloading");
-				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m);
-				UIManager.Hands.CurrentSlot.Clear();
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdClearUISlot(hand);
+			Debug.Log ("Reloading");
+			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m);
+			UIManager.Hands.CurrentSlot.Clear();
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdClearUISlot(hand);
 		}
 
 		//atm unload with shortcut 'e'
