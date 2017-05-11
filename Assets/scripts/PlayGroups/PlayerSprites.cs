@@ -8,11 +8,10 @@ namespace PlayGroup
 {
 	public class PlayerSprites: NetworkBehaviour
 	{
-		[HideInInspector]
-
 		[SyncVar(hook = "FaceDirection")]
 		public Vector2 currentDirection = Vector2.down;
 
+		public PlayerMove playerMove;
 		private Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
 		void Awake()
@@ -43,6 +42,9 @@ namespace PlayGroup
 
 		void SetDir(Vector2 direction)
 		{
+			if (playerMove.isGhost)
+				return;
+			
 			if (currentDirection != direction) {
 				foreach (var c in clothes.Values) {
 					c.Direction = direction;
