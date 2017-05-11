@@ -198,6 +198,11 @@ public class PlayerNetworkActions : NetworkBehaviour
                 ServerCache[eventName] = null;
 				if (item != null && newParent != null) {
 					item.transform.parent = newParent.transform;
+					var itemCount = item.transform.parent.childCount;
+					var spriteRenderer = item.GetComponentInChildren<SpriteRenderer> ();
+					if (spriteRenderer != null) {
+						spriteRenderer.sortingOrder = itemCount + 1;
+					}
 				}
                 RpcAdjustItemParent(item, newParent);
                 equipment.ClearItemSprite(eventName);
