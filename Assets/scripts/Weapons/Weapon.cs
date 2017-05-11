@@ -120,7 +120,6 @@ namespace Weapons
 						Weapon weapon = currentHandItem.GetComponent<Weapon>();
 
 						if (weapon != null && otherHandItem == null) {
-							hand = UIManager.Hands.OtherSlot.eventName;
 							ManualUnload(CurrentMagazine);
 						}
 					}
