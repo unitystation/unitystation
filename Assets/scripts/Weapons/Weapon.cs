@@ -49,6 +49,10 @@ namespace Weapons
 		/// </summary>
 		public int ProjectilesFired;
 		/// <summary>
+		/// The max recoil angle this weapon can reach with sustained fire
+		/// </summary>
+		public float MaxRecoilVariance;
+		/// <summary>
 		/// The type of ammo this weapon will allow, this is a string and not an enum for diversity
 		/// </summary>
 		public string AmmoType;
@@ -66,6 +70,12 @@ namespace Weapons
 		/// </summary>
 		[HideInInspector]
 		public bool InAutomaticAction;
+		/// <summary>
+		/// The the current recoil variance this weapon has reached
+		/// </summary>
+		[SyncVar]
+		[HideInInspector]
+		public float CurrentRecoilVariance;
 
 		[SyncVar(hook="LoadUnloadAmmo")]
 		public NetworkInstanceId MagNetID;
@@ -76,7 +86,6 @@ namespace Weapons
 		void Start()
 		{
 			InAutomaticAction = false;
-
 			//init weapon with missing settings
 			if (AmmoType == null)
 				AmmoType = "12mm";
@@ -128,6 +137,9 @@ namespace Weapons
 
 			if(Input.GetMouseButtonUp(0)) {
 				InAutomaticAction = false;
+
+				//remove recoil after shooting is released
+				CurrentRecoilVariance = 0;
 			}
 
 			if (InAutomaticAction && FireCountDown <= 0) {
@@ -140,10 +152,6 @@ namespace Weapons
 		{
 			var ammoPrefab = Resources.Load("Magazine_" + AmmoType);
 			GameObject m = GameObject.Instantiate(ammoPrefab as GameObject, Vector3.zero, Quaternion.identity);
-			//set the parent for this ammo as the current gun
-			m.transform.parent = gameObject.transform;
-			//set the name of this magazine to its actual name
-			m.name = ammoPrefab.name;
 			//spean the magazine
 			NetworkServer.Spawn(m);
 			StartCoroutine(SetMagazineOnStart(m));
@@ -205,7 +213,7 @@ namespace Weapons
 						//fire a single round if its a semi or automatic weapon
 						if (WeaponType == WeaponType.SemiAutomatic || WeaponType == WeaponType.FullyAutomatic) {
 							Vector2 dir = (Camera.main.ScreenToWorldPoint (Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-							PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet(CurrentMagazine.gameObject, dir, Projectile.name);
+							PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet(gameObject, CurrentMagazine.gameObject, dir, Projectile.name);
 						}
 
 						if (WeaponType == WeaponType.FullyAutomatic) {
