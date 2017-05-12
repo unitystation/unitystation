@@ -1834,6 +1834,11 @@ Prefab:
       propertyPath: shutters.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4000010339692354, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1859
@@ -1914,6 +1919,16 @@ Prefab:
       propertyPath: IsClosed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 1391417909}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 1489599816}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
   m_IsPrefabParent: 0
@@ -6873,6 +6888,11 @@ Prefab:
       propertyPath: shutters.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4000010339692354, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1829
@@ -6934,6 +6954,16 @@ Prefab:
       propertyPath: shutters.Array.data[1]
       value: 
       objectReference: {fileID: 1839426669}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 1839426669}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 1593544029}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
   m_IsPrefabParent: 0
@@ -14720,6 +14750,11 @@ Prefab:
       propertyPath: shutters.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4000010339692354, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1833
@@ -14794,6 +14829,16 @@ Prefab:
       propertyPath: m_Offset.x
       value: 0.72
       objectReference: {fileID: 0}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 573222745}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 1166593982}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
   m_IsPrefabParent: 0
@@ -32250,6 +32295,11 @@ Prefab:
       propertyPath: shutters.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4000010339692354, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1831
@@ -32306,6 +32356,16 @@ Prefab:
       propertyPath: m_Offset.y
       value: -0.75
       objectReference: {fileID: 0}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 1019468320}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 817516932}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
   m_IsPrefabParent: 0
@@ -34814,6 +34874,11 @@ Prefab:
       propertyPath: shutters.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4000010339692354, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1855
@@ -34898,6 +34963,16 @@ Prefab:
       propertyPath: m_Name
       value: ShutterSwitch (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 1197535157}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 1995116057}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
   m_IsPrefabParent: 0
@@ -60709,6 +60784,11 @@ Prefab:
       propertyPath: shutters.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4000010339692354, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1838
@@ -60792,6 +60872,21 @@ Prefab:
       propertyPath: shutters.Array.data[2]
       value: 
       objectReference: {fileID: 160285454}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 160285454}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 929585108}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 1805946165}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
   m_IsPrefabParent: 0
@@ -62737,7 +62832,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1086477882}
   m_HandleRect: {fileID: 1086477881}
   m_Direction: 2
-  m_Value: 0.00017616966
+  m_Value: 0.00018033115
   m_Size: 0.9787234
   m_NumberOfSteps: 0
   m_OnValueChanged:

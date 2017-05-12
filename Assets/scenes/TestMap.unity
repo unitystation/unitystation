@@ -13084,7 +13084,7 @@ Prefab:
     - target: {fileID: 224454349079915406, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0.0000038073183
+      value: 0.0000038663466
       objectReference: {fileID: 0}
     - target: {fileID: 224454349079915406, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
@@ -14630,6 +14630,11 @@ Prefab:
       propertyPath: shutters.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4000010339692354, guid: 1325f48af15d4163ab952de2fcb5a184, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1835
@@ -14698,6 +14703,11 @@ Prefab:
     - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
         type: 2}
       propertyPath: shutters.Array.data[0]
+      value: 
+      objectReference: {fileID: 739129711}
+    - target: {fileID: 114291632891074610, guid: 1325f48af15d4163ab952de2fcb5a184,
+        type: 2}
+      propertyPath: TriggeringObjects.Array.data[0]
       value: 
       objectReference: {fileID: 739129711}
     m_RemovedComponents: []
