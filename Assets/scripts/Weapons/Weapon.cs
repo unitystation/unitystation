@@ -120,7 +120,6 @@ namespace Weapons
 						Weapon weapon = currentHandItem.GetComponent<Weapon>();
 
 						if (weapon != null && otherHandItem == null) {
-							hand = UIManager.Hands.OtherSlot.eventName;
 							ManualUnload(CurrentMagazine);
 						}
 					}
@@ -151,6 +150,12 @@ namespace Weapons
 			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
 		}
 		#endregion
+
+		//Do all the weapon init for connecting clients
+		public override void OnStartClient(){
+			LoadUnloadAmmo(MagNetID);
+			base.OnStartClient();
+		}
 
 		#region Weapon Firing Mechanism
 		public override void Interact() {
@@ -229,14 +234,10 @@ namespace Weapons
 		//Check which slot it was just added too (broadcast from UI_itemSlot)
 		public void OnAddToInventory(string slotName)
 		{
-			//FIXME when another player picks up an unloaded weapon, it loads it again. MagNetID does not seem to be syncing properly 
 			//This checks to see if a new player who has joined needs to load up any weapon magazines because of missing sync hooks
 			if (MagNetID != NetworkInstanceId.Invalid) {
-				LoadUnloadAmmo(MagNetID);
-				if (CurrentMagazine)
+				if(CurrentMagazine)
 					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(CurrentMagazine.gameObject);
-			} else {
-				Debug.Log("MAG SLOT EMPTY");
 			}
 		}
 
@@ -249,10 +250,8 @@ namespace Weapons
 		public void LoadUnloadAmmo(NetworkInstanceId magazineID){
 			//if the magazine ID is invalid remove the magazine
 			if (magazineID == NetworkInstanceId.Invalid) {
-				Debug.Log("CLEAR MAG");
 				CurrentMagazine = null;
 			} else {
-				Debug.Log("LOAD MAG");
 				//find the magazine by NetworkID
 				GameObject magazine = ClientScene.FindLocalObject(magazineID);
 				if (magazine != null) {

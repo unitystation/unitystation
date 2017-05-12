@@ -46,7 +46,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
 
     [Command]
     public void CmdShootBullet(Vector2 direction, string bulletName) {
-        if(!playerMove.allowInput)
+		if(!playerMove.allowInput || playerMove.isGhost)
             return;
 
         GameObject bullet = GameObject.Instantiate(Resources.Load(bulletName) as GameObject, transform.position, Quaternion.identity);
@@ -68,7 +68,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
     //them work out the start pos and direction
     [ClientRpc]
     void RpcShootBullet(Vector2 endPos, string bulletName) {
-        if(!playerMove.allowInput)
+		if(!playerMove.allowInput || playerMove.isGhost)
             return;
         //TODO adjust the sound using the bulletName
         SoundManager.PlayAtPosition("ShootSMG", transform.position);
@@ -86,7 +86,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
 
     [Command]
     public void CmdKnifeAttackMob(GameObject npcObj, Vector2 stabDirection) {
-        if(!playerMove.allowInput || !allowAttack)
+		if(!playerMove.allowInput || !allowAttack || playerMove.isGhost)
             return;
 
         Living attackTarget = npcObj.GetComponent<Living>();
@@ -110,7 +110,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
 
     [Command]
     public void CmdKnifeHarvestMob(GameObject npcObj, Vector2 stabDirection) {
-        if(!playerMove.allowInput)
+		if(!playerMove.allowInput || playerMove.isGhost)
             return;
 
         Living attackTarget = npcObj.GetComponent<Living>();
