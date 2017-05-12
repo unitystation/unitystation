@@ -8,7 +8,7 @@ using PlayGroup;
 namespace PlayGroup {
     public class PlayerScript: NetworkBehaviour {
         // the maximum distance the player needs to be to an object to interact with it
-        public float interactionDistance = 2f;
+        public const float interactionDistance = 2f;
         public PlayerNetworkActions playerNetworkActions { get; set; }
 		public WeaponNetworkActions weaponNetworkActions { get; set; }
 		public SoundNetworkActions soundNetworkActions { get; set; }
@@ -88,12 +88,12 @@ namespace PlayGroup {
             return (transform.position - position).magnitude;
         }
 
-        public bool IsInReach(Transform transform) {
+		public bool IsInReach(Transform transform, float interactDist = interactionDistance) {
             //if(pickUpCoolDown)
             //    return false;
             //StartCoroutine(PickUpCooldown());
 			//TODO: reimplement this timer higher up like in the InputController
-            return DistanceTo(transform.position) <= interactionDistance;
+			return DistanceTo(transform.position) <= interactDist;
         }
 
         IEnumerator PickUpCooldown() {

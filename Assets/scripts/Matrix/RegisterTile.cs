@@ -31,7 +31,7 @@ namespace Matrix {
         void OnDestroy() {
             try {
                 Matrix.At(savedPosition).TryRemoveTile(gameObject);
-            }catch(Exception e) {
+            }catch(Exception) {
                 Debug.Log(savedPosition + " " + gameObject.name);
             }
         }

@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 public class ShutterSwitchTrigger: InputTrigger
 {
 
-    public ShutterController[] shutters;
+	public ObjectTrigger[] TriggeringObjects;
 
     [SyncVar(hook = "SyncShutters")]
 	public bool IsClosed;
@@ -17,50 +17,31 @@ public class ShutterSwitchTrigger: InputTrigger
 
     void Start()
     {
-        animator = GetComponent<Animator>();
-
-		if (IsClosed) {
-			CloseShutters();
-		}
+		animator = GetComponent<Animator>();
+		IsClosed = true;
+		SyncShutters(IsClosed);
     }
-		
+
     public override void Interact()
     {
+		if (!PlayerManager.LocalPlayerScript.IsInReach(transform, 0.5f))
+			return;
+			
 		Debug.Log("INTERACT!");
-        if (!this.animator.GetCurrentAnimatorStateInfo(0).IsName("Switches_ShuttersUP"))
-        {
-            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleShutters(gameObject);
-        }
+		//if the button is idle and not animating it can be pressed
+		//this is weird it should check all children objects to see if they are idle and finished
+		if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleShutters(gameObject);
+		} else {
+			Debug.Log("DOOR NOT FINISHED CLOSING YET!");
+		}
     }
 
     void SyncShutters(bool isClosed)
     {
-        if (!isClosed)
-        {
-            OpenShutters();
-        }
-        else
-        {
-            CloseShutters();
-       
-        }
-    }
-
-    void OpenShutters()
-    {
-        foreach (var s in shutters)
-        {
-            s.Open();
-        }
-        animator.SetTrigger("activated");
-    }
-
-    void CloseShutters()
-    {
-        foreach (var s in shutters)
-        {
-            s.Close();
-        }
-        animator.SetTrigger("activated");
+		foreach (var s in TriggeringObjects)
+		{
+			s.Trigger(isClosed);
+		}
     }
 }
