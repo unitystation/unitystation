@@ -14,7 +14,7 @@ namespace UI {
             contentFitter = GetComponentInChildren<ContentSizeFitter>();
             chatScrollArea = transform.parent.gameObject.GetComponent<ScrollRect>();
 
-            onValueChange.AddListener(new UnityEngine.Events.UnityAction<string>(ResizeInput));
+            onValueChanged.AddListener(new UnityEngine.Events.UnityAction<string>(ResizeInput));
         }
 
         // Resize input field as new lines get added

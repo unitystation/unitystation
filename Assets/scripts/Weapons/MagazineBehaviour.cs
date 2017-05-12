@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class MagazineBehaviour : NetworkBehaviour 
 {
+	public string ammoType; //SET IT IN INSPECTOR
 	public int magazineSize=20;
 	public bool Usable;
 
@@ -15,7 +16,6 @@ public class MagazineBehaviour : NetworkBehaviour
 		Usable = true;
 		ammoRemains = magazineSize;
 	}
-	
 
 	void Update () {
 		if (ammoRemains <= 0) {

@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4465970229774908}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: soundfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,7 +35,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4075895974583928}
   - component: {fileID: 82586256685024074}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: closeSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4645093770764000}
   - component: {fileID: 212705240095914254}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: overlay_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,9 @@ GameObject:
   - component: {fileID: 114767970609396208}
   - component: {fileID: 114944838558853636}
   - component: {fileID: 114172966145674404}
-  m_Layer: 11
+  - component: {fileID: 114338759738806540}
+  - component: {fileID: 114235526540606744}
+  m_Layer: 17
   m_Name: Virology
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4210748848951704}
   - component: {fileID: 82420744150140008}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: openSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4383142365325550}
   - component: {fileID: 212043546246156924}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: overlay_Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4018128614051652}
   - component: {fileID: 212560484114377812}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: doorbase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,6 +422,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
+--- !u!114 &114235526540606744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1807313548142900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114338759738806540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1807313548142900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 17
+    i1: 40
+    i2: 228
+    i3: 223
+    i4: 214
+    i5: 22
+    i6: 84
+    i7: 18
+    i8: 138
+    i9: 176
+    i10: 119
+    i11: 99
+    i12: 93
+    i13: 200
+    i14: 192
+    i15: 154
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114767970609396208
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -438,6 +483,7 @@ MonoBehaviour:
   isPerformingAction: 0
   doorType: 11
   maxTimeOpen: 5
+  IsOpened: 0
 --- !u!114 &114944838558853636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -481,8 +527,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 149917821
-  m_SortingLayer: 4
+  m_SortingLayerID: -1883797623
+  m_SortingLayer: 9
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -521,8 +567,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 149917821
-  m_SortingLayer: 4
+  m_SortingLayerID: -1883797623
+  m_SortingLayer: 9
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: aa14d470b9024a228711e017ab802b6e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -561,8 +607,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 149917821
-  m_SortingLayer: 4
+  m_SortingLayerID: -1883797623
+  m_SortingLayer: 9
   m_SortingOrder: 9
   m_Sprite: {fileID: 21300046, guid: aa14d470b9024a228711e017ab802b6e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

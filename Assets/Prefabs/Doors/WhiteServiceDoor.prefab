@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013737354850}
   - component: {fileID: 212000011262533386}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: doorbase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011581636704}
   - component: {fileID: 212000011094967888}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: overlay_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,8 @@ GameObject:
   - component: {fileID: 95000011124253226}
   - component: {fileID: 114565204265437400}
   - component: {fileID: 114229922813896132}
-  m_Layer: 11
+  - component: {fileID: 114672552748689518}
+  m_Layer: 17
   m_Name: WhiteServiceDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013110856560}
   - component: {fileID: 212000011445080960}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: overlay_Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +89,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4467982212116716}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: soundfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4672743760143126}
   - component: {fileID: 82034696694369034}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: openSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4413799877531242}
   - component: {fileID: 82262653965746812}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: closeSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -444,6 +445,7 @@ MonoBehaviour:
   isPerformingAction: 0
   doorType: 0
   maxTimeOpen: 5
+  IsOpened: 0
 --- !u!114 &114000013931071084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -503,6 +505,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
+--- !u!114 &114672552748689518
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013430947772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212000011094967888
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -532,8 +545,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 149917821
-  m_SortingLayer: 4
+  m_SortingLayerID: -1883797623
+  m_SortingLayer: 9
   m_SortingOrder: 9
   m_Sprite: {fileID: 21300082, guid: 3e4987268ca1409ab11864438256f5ec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -572,8 +585,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 149917821
-  m_SortingLayer: 4
+  m_SortingLayerID: -1883797623
+  m_SortingLayer: 9
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: c4bcb1d51a7b4281bd9e4422701c1643, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -612,8 +625,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 149917821
-  m_SortingLayer: 4
+  m_SortingLayerID: -1883797623
+  m_SortingLayer: 9
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: c4bcb1d51a7b4281bd9e4422701c1643, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

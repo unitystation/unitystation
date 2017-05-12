@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4387987959996294}
   - component: {fileID: 212253482956949698}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: overlay_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4951850234110658}
   - component: {fileID: 82235433271380022}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: closeSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +52,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4726988906225282}
   - component: {fileID: 212679880435605806}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: overlay_Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4887910650252368}
   - component: {fileID: 212412880872180760}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: doorbase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,8 @@ GameObject:
   - component: {fileID: 114535455969495360}
   - component: {fileID: 114955799482038664}
   - component: {fileID: 114717910890541562}
-  m_Layer: 11
+  - component: {fileID: 114968749450346888}
+  m_Layer: 17
   m_Name: MiningDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +104,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4111577586892358}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: soundfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4520105842152022}
   - component: {fileID: 82338390985291098}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: openSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,9 +235,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!82 &82235433271380022
 AudioSource:
   m_ObjectHideFlags: 1
@@ -415,6 +427,7 @@ MonoBehaviour:
   isPerformingAction: 0
   doorType: 5
   maxTimeOpen: 5
+  IsOpened: 0
 --- !u!114 &114535455969495360
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -474,6 +487,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
+--- !u!114 &114968749450346888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1649904137728258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212253482956949698
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -503,12 +527,17 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 149917821
+  m_SortingLayerID: -1883797623
+  m_SortingLayer: 9
   m_SortingOrder: 9
   m_Sprite: {fileID: 21300046, guid: ba1fbfa2d32740f5b6c1bd5015b1fdd4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
 --- !u!212 &212412880872180760
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -538,12 +567,17 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 149917821
+  m_SortingLayerID: -1883797623
+  m_SortingLayer: 9
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: ba1fbfa2d32740f5b6c1bd5015b1fdd4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
 --- !u!212 &212679880435605806
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -573,9 +607,14 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 149917821
+  m_SortingLayerID: -1883797623
+  m_SortingLayer: 9
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
