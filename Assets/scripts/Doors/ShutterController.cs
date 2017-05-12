@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayGroup;
 using Matrix;
+using InputControl;
 
-public class ShutterController : MonoBehaviour {
+public class ShutterController : ObjectTrigger {
     private Animator animator;
     private RegisterTile registerTile;
 
@@ -15,17 +16,20 @@ public class ShutterController : MonoBehaviour {
         registerTile = gameObject.GetComponent<RegisterTile>();
     }
 
-    public void Open() {
-        IsClosed = false;
-        registerTile.UpdateTileType(TileType.None);
-        gameObject.layer = LayerMask.NameToLayer("Door Open");
-        animator.SetBool("close", false);
-    }
-
-    public void Close() {
-        IsClosed = true;
-        registerTile.UpdateTileType(TileType.Door);
-        gameObject.layer = LayerMask.NameToLayer("Door Closed");
-        animator.SetBool("close", true);
-    }
+	public override void Trigger(bool state) {
+		//open
+		if (!state) {
+			IsClosed = state;
+			registerTile.UpdateTileType(TileType.None);
+			gameObject.layer = LayerMask.NameToLayer("Door Open");
+			animator.SetBool("close", false);
+		}
+		//close
+		else {
+			IsClosed = state;
+			registerTile.UpdateTileType(TileType.Door);
+			gameObject.layer = LayerMask.NameToLayer("Door Closed");
+			animator.SetBool("close", true);
+		}
+	}
 }
