@@ -45,9 +45,12 @@ public class WeaponNetworkActions: NetworkBehaviour {
     }
 
     [Command]
-    public void CmdShootBullet(Vector2 direction, string bulletName) {
+	public void CmdShootBullet(GameObject magazine, Vector2 direction, string bulletName) {
 		if(!playerMove.allowInput || playerMove.isGhost)
             return;
+
+		MagazineBehaviour magBehaviour = magazine.GetComponent<MagazineBehaviour>();
+		magBehaviour.ammoRemains--; //TODO: remove more bullets if burst
 
         GameObject bullet = GameObject.Instantiate(Resources.Load(bulletName) as GameObject, transform.position, Quaternion.identity);
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
