@@ -138,7 +138,13 @@ namespace Weapons
 		#region Weapon Server Init
 		public override void OnStartServer()
 		{
-			GameObject m = GameObject.Instantiate(Resources.Load("Magazine_"+AmmoType) as GameObject, Vector3.zero, Quaternion.identity);
+			var ammoPrefab = Resources.Load("Magazine_" + AmmoType);
+			GameObject m = GameObject.Instantiate(ammoPrefab as GameObject, Vector3.zero, Quaternion.identity);
+			//set the parent for this ammo as the current gun
+			m.transform.parent = gameObject.transform;
+			//set the name of this magazine to its actual name
+			m.name = ammoPrefab.name;
+			//spean the magazine
 			NetworkServer.Spawn(m);
 			StartCoroutine(SetMagazineOnStart(m));
 			base.OnStartServer();

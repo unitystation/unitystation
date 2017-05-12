@@ -10,6 +10,7 @@ using Equipment;
 using Cupboards;
 using UI;
 using Items;
+using System.Linq;
 
 public class PlayerNetworkActions : NetworkBehaviour
 {
@@ -168,7 +169,9 @@ public class PlayerNetworkActions : NetworkBehaviour
         {
             if (ServerCache[eventName] != null)
             {
+				GameObject item = ServerCache[eventName];
                 EquipmentPool.DropGameObject(gameObject.name, ServerCache[eventName]);
+
                 RpcAdjustItemParent(ServerCache[eventName], null);
                 ServerCache[eventName] = null;
                 equipment.ClearItemSprite(eventName);
@@ -198,11 +201,7 @@ public class PlayerNetworkActions : NetworkBehaviour
                 ServerCache[eventName] = null;
 				if (item != null && newParent != null) {
 					item.transform.parent = newParent.transform;
-					var itemCount = item.transform.parent.childCount;
-					var spriteRenderer = item.GetComponentInChildren<SpriteRenderer> ();
-					if (spriteRenderer != null) {
-						spriteRenderer.sortingOrder = itemCount + 1;
-					}
+					World.ReorderGameobjectsOnTile(pos);
 				}
                 RpcAdjustItemParent(item, newParent);
                 equipment.ClearItemSprite(eventName);
