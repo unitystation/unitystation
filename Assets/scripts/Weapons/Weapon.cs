@@ -177,6 +177,7 @@ namespace Weapons
 
 		void AttemptToFireWeapon()
 		{
+			
 			//ignore if we are hovering over UI
 			if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
 				return;
