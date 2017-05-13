@@ -12,6 +12,8 @@ namespace InputControl {
 		private PlayerSprites playerSprites;
 		private PlayerMove playerMove;
 
+		private Vector2 LastTouchedTile;
+
 		/// <summary>
 		///  The minimum time limit between each action
 		/// </summary>
@@ -20,6 +22,13 @@ namespace InputControl {
 		///  The cooldown before another action can be performed
 		/// </summary>
 		private float CurrentCooldownTime;
+
+		void OnDrawGizmos() {
+			if (LastTouchedTile != null) {
+				Gizmos.color = new Color (1, 0, 0, 0.5F);
+				Gizmos.DrawCube (LastTouchedTile, new Vector3 (1, 1, 1));
+			}
+		}
 
 		void Start(){
 			//for changing direction on click
@@ -69,6 +78,9 @@ namespace InputControl {
 		}
 
 		private bool RayHit(Vector3 position) {
+			//for debug purpose, mark the most recently touched tile location
+			LastTouchedTile = new Vector2 (Mathf.Round(position.x), Mathf.Round(position.y));
+
 			var hits = Physics2D.RaycastAll(position, Vector2.zero);
 
 			//raycast all colliders and collect pixel hit gameobjects

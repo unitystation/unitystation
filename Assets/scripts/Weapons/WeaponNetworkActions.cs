@@ -45,33 +45,51 @@ public class WeaponNetworkActions: NetworkBehaviour {
     }
 
     [Command]
-    public void CmdShootBullet(Vector2 direction, string bulletName) {
+	public void CmdShootBullet(GameObject weapon, GameObject magazine, Vector2 direction, string bulletName) {
 		if(!playerMove.allowInput || playerMove.isGhost)
             return;
 
+		//get componants
+		Weapon wepBehavior = weapon.GetComponent<Weapon>();
+		MagazineBehaviour magBehaviour = magazine.GetComponent<MagazineBehaviour>();
+
+		//reduce ammo for shooting
+		magBehaviour.ammoRemains--; //TODO: remove more bullets if burst
+
+		//get the bullet prefab being shot
         GameObject bullet = GameObject.Instantiate(Resources.Load(bulletName) as GameObject, transform.position, Quaternion.identity);
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+		//if we have recoil variance add it, and get the new attack angle
+		if (wepBehavior != null && wepBehavior.CurrentRecoilVariance > 0) {
+			direction = GetRecoilOffset(wepBehavior, angle);
+		}
+
         BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
         b.Shoot(direction, angle, gameObject.name);
 
+		//add additional recoil after shooting for the next round
+		AppendRecoil(wepBehavior, angle);
+
         //This is used to determine where bullet shot should head towards on client
         Ray2D ray = new Ray2D(transform.position, direction);
-        RpcShootBullet(ray.GetPoint(30f), bulletName);
+		RpcShootBullet(weapon, ray.GetPoint(30f), bulletName);
 
-        //TODO add a check to see if bullet or energy weapon
-        //BulletCasings
-        GameObject casing = GameObject.Instantiate(Resources.Load("BulletCasing") as GameObject, transform.position, Quaternion.identity);
-        NetworkServer.Spawn(casing);
+		//TODO add a check to see if bullet or energy weapon
+		SpawnBulletCaseing();
     }
 
     //Bullets are just graphical candy on the client, give them the end point and let 
     //them work out the start pos and direction
     [ClientRpc]
-    void RpcShootBullet(Vector2 endPos, string bulletName) {
+    void RpcShootBullet(GameObject weapon, Vector2 endPos, string bulletName) {
 		if(!playerMove.allowInput || playerMove.isGhost)
             return;
-        //TODO adjust the sound using the bulletName
-        SoundManager.PlayAtPosition("ShootSMG", transform.position);
+
+		Weapon wepBehavior = weapon.GetComponent<Weapon>();
+		if (wepBehavior != null) {
+			SoundManager.PlayAtPosition(wepBehavior.FireingSound, transform.position);
+		}
 
         if(CustomNetworkManager.Instance._isServer)
             return;
@@ -173,4 +191,30 @@ public class WeaponNetworkActions: NetworkBehaviour {
         lerping = false;
         isForLerpBack = false;
     }
+
+	#region Weapon Network Supporting Methods
+	Vector2 GetRecoilOffset(Weapon weapon, float angle) {
+		var angleVariance = Random.Range (-weapon.CurrentRecoilVariance, weapon.CurrentRecoilVariance);
+		var newAngle = (angle * Mathf.Deg2Rad) + angleVariance;
+		Vector2 vec2 = new Vector2 (Mathf.Cos (newAngle), Mathf.Sin (newAngle)).normalized;
+		return vec2;
+	}
+
+	void AppendRecoil(Weapon weapon, float angle) {
+		if (weapon != null && weapon.CurrentRecoilVariance < weapon.MaxRecoilVariance) {
+			//get a random recoil
+			var randRecoil = Random.Range(weapon.CurrentRecoilVariance, weapon.MaxRecoilVariance);
+			weapon.CurrentRecoilVariance += randRecoil;
+			//make sure the recoil is not too high
+			if (weapon.CurrentRecoilVariance > weapon.MaxRecoilVariance) {
+				weapon.CurrentRecoilVariance = weapon.MaxRecoilVariance;
+			}
+		}
+	}
+
+	void SpawnBulletCaseing() {
+		GameObject casing = GameObject.Instantiate(Resources.Load("BulletCasing") as GameObject, transform.position, Quaternion.identity);
+		NetworkServer.Spawn(casing);
+	}
+	#endregion
 }

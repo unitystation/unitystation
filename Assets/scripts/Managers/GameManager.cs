@@ -80,6 +80,35 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 		}
+
+		//if there are multiple people and everyone is dead besides one player, restart the match
+		if (counting && PlayerList.playerList != null && PlayerList.Instance.connectedPlayers.Count > 1) {
+			int playerCount = PlayerList.playerList.connectedPlayers.Count;
+			int deadCount = 0;
+			foreach (var player in PlayerList.playerList.connectedPlayers) {
+				if (player.Value != null) {
+					var human = player.Value.GetComponent<Human> ();
+					if (human != null) {
+						//if a player is dead or effectivly dead count them towards a dead total
+						if (human.mobStat == MobConsciousStat.DEAD) {
+							deadCount++;
+						}
+					}
+				}
+			}
+
+			//if there is only one or less people left, restart
+			if (playerCount - deadCount <= 1) {
+				counting = false;
+				roundTimer.text = "GameOver";
+				SoundManager.Play("ApcDestroyed");
+
+				if (CustomNetworkManager.Instance._isServer) {
+					PlayerList.Instance.ReportScores();
+					waitForRestart = true;
+				}
+			}
+		}
 	}
 
 	void RestartRound(){
