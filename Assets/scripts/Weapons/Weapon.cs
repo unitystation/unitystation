@@ -53,6 +53,10 @@ namespace Weapons
 		/// </summary>
 		public float MaxRecoilVariance;
 		/// <summary>
+		/// The the name of the sound this gun makes when shooting
+		/// </summary>
+		public string FireingSound;
+		/// <summary>
 		/// The type of ammo this weapon will allow, this is a string and not an enum for diversity
 		/// </summary>
 		public string AmmoType;

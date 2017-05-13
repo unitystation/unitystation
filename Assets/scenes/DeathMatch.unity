@@ -8905,6 +8905,11 @@ Prefab:
       propertyPath: AmmoType
       value: 5.56mm
       objectReference: {fileID: 0}
+    - target: {fileID: 114514298924506604, guid: f683b1158f7f2bb45b6f6eae97cdd6f7,
+        type: 2}
+      propertyPath: FireingSound
+      value: ShootLMG
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f683b1158f7f2bb45b6f6eae97cdd6f7, type: 2}
   m_IsPrefabParent: 0
@@ -20025,6 +20030,119 @@ Transform:
   m_PrefabParentObject: {fileID: 4705958541863164, guid: 054d4c5d3f4b74caa87d549779ef4bf0,
     type: 2}
   m_PrefabInternal: {fileID: 537773557}
+--- !u!1 &540184470
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 1094085855810964, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 540184471}
+  - component: {fileID: 540184472}
+  m_Layer: 0
+  m_Name: ShootLMG
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &540184471
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 4571508935139138, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 540184470}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1679986878}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &540184472
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 82590390951037464, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 540184470}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: 4750392d32d8cb04299bbe96aa3ad372, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.4
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 10
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1001 &540864397
 Prefab:
   m_ObjectHideFlags: 0
@@ -27194,7 +27312,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1679986878}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &756546659
 AudioSource:
@@ -48060,7 +48178,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1679986878}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1350902701
 AudioSource:
@@ -49068,7 +49186,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1679986878}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1373501371
 AudioSource:
@@ -51240,7 +51358,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 63.150024, y: 33.850037}
+  m_AnchoredPosition: {x: 63.15002, y: 33.850037}
   m_SizeDelta: {x: 34, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1436509472
@@ -57068,7 +57186,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1679986878}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1593289525
 AudioSource:
@@ -59412,6 +59530,7 @@ Transform:
   - {fileID: 535886948}
   - {fileID: 227999045}
   - {fileID: 868787388}
+  - {fileID: 540184471}
   - {fileID: 1350902700}
   - {fileID: 756546658}
   - {fileID: 1373501370}
@@ -59458,6 +59577,8 @@ MonoBehaviour:
     source: {fileID: 1373501371}
   - name: ApcDestroyed
     source: {fileID: 1593289525}
+  - name: ShootLMG
+    source: {fileID: 540184472}
   musicTracks:
   - {fileID: 718025410}
   - {fileID: 269128026}
@@ -60963,6 +61084,11 @@ Prefab:
     - target: {fileID: 1296620499762930, guid: 054d4c5d3f4b74caa87d549779ef4bf0, type: 2}
       propertyPath: m_Name
       value: C20rSMG_Ballistic (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114153992581294756, guid: 054d4c5d3f4b74caa87d549779ef4bf0,
+        type: 2}
+      propertyPath: FireingSound
+      value: ShootSMG
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 054d4c5d3f4b74caa87d549779ef4bf0, type: 2}
