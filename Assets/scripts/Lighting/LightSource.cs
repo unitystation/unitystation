@@ -2,40 +2,55 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//FIXME turn this into atmo code (this would be for the vents or gas canisters)
 namespace Lighting
 {
     public class LightSource : MonoBehaviour
 	{
-		private LightingSourceManager lightSourceManager;
-		private SpriteRenderer thisSprite;
-		private LightTile contactLightTile;
-		[Header("Between 0 - 100")]
-		public float brightness = 80f;
-		[Header("How many tiles to cover")]
-		public int range = 5;
-		private float brightCache;
-
-		public Sprite lightOn;
-		public Sprite lightOff;
+		/// <summary>
+		/// The SpriteRenderer for this light
+		/// </summary>
+		private SpriteRenderer Renderer;
+		/// <summary>
+		/// The Maximum distance this light can cover in tiles
+		/// </summary>
+		[Header("Max distance in tiles")]
+		public int MaxRange;
+		/// <summary>
+		/// The sprite to show when this light is turned on
+		/// </summary>
+		public Sprite SpriteLightOn;
+		/// <summary>
+		/// The sprite to show when this light is turned off
+		/// </summary>
+		public Sprite SpriteLightOff;
+		/// <summary>
+		/// The CameraOcclusion script with which we et shroud tiles
+		/// </summary>
+		private CameraOcclusion CamOcclusion;
+		/// <summary>
+		/// The local shrouds around this light
+		/// </summary>
+		private List<GameObject> LocalShrouds = new List<GameObject>();
+		/// <summary>
+		/// The componants of local shrouds around this light
+		/// </summary>
+		private List<Shroud> LocalShroudComponants = new List<Shroud>();
 
 		void Awake()
 		{
-			thisSprite = GetComponentInChildren<SpriteRenderer>();
-			lightSourceManager = GetComponentInParent<LightingSourceManager>();
-			brightCache = brightness;
+			Renderer = GetComponentInChildren<SpriteRenderer>();
 		}
 
 		void Start(){
-			StartCoroutine(InitLights());
+			CamOcclusion = Camera.main.GetComponent<CameraOcclusion>();
 		}
 
-		IEnumerator InitLights(){
-			yield return new WaitForSeconds(0.5f);
-			if (lightSourceManager != null) {
-				lightSourceManager.UpdateRoomBrightness(this);
-			} else {
-				
+		void Update(){
+			LocalShrouds = CamOcclusion.GetShroudsInDistanceOfPoint (MaxRange, this.transform.position);
+
+			foreach (GameObject gameObject in LocalShrouds) {
+				var shroud = gameObject.GetComponent<Shroud>();
+				shroud.AddNewLightSource(this);
 			}
 		}
 
@@ -44,21 +59,7 @@ namespace Lighting
 		}
 
 		public void TurnOffLight(){
+			
 		}
-
-	
-		public void OnLight(){
-			brightness = brightCache;
-			lightSourceManager.UpdateRoomBrightness(this);
-			thisSprite.sprite = lightOn;
-		}
-
-
-		public void OffLight(){
-			thisSprite.sprite = lightOff;
-			brightness = 0f;
-			lightSourceManager.UpdateRoomBrightness(this);
-		}
-
 	}
 }
