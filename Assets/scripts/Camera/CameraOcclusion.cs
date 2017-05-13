@@ -3,14 +3,15 @@ using PlayGroup;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Lighting;
 
-public class FogOfWar : MonoBehaviour
+public class CameraOcclusion : MonoBehaviour
 {
     public GameObject ShroudPrefab;
     public int MonitorRadius = 12;
     public int FieldOfVision = 90;
     public int InnatePreyVision = 6;
-    private Dictionary<Vector2, GameObject> shroudTiles = new Dictionary<Vector2, GameObject>();
+	private Dictionary<Vector2, GameObject> shroudTiles = new Dictionary<Vector2, GameObject>();
     private Vector3 lastPosition;
     private Vector2 lastDirection;
     public int WallLayer = 9;
@@ -69,6 +70,24 @@ public class FogOfWar : MonoBehaviour
 		this.enabled = false;
 	}
 
+	public List<GameObject> GetShrouds() {
+		List<GameObject> shrouds = new List<GameObject>();
+		foreach (KeyValuePair<Vector2,GameObject> s in shroudTiles) {
+			shrouds.Add(s.Value);
+		}
+		return shrouds;
+	}
+
+	public List<GameObject> GetShroudsInDistanceOfPoint(int distance, Vector2 point) {
+		List<GameObject> shrouds = new List<GameObject>();
+		foreach (KeyValuePair<Vector2,GameObject> s in shroudTiles) {
+			if (Vector2.Distance(s.Key, point) <= distance) {
+				shrouds.Add(s.Value);
+			}
+		}
+		return shrouds;
+	}
+
     // Returns all shroud nodes in field of vision
     public List<Vector2> GetInFieldOfVision(List<Vector2> inputShrouds)
     {
@@ -121,6 +140,7 @@ public class FogOfWar : MonoBehaviour
 			foreach (Vector2 targetTile in tileFacePoints) {
 				RaycastHit2D hitTest = Physics2D.Linecast(GetSightSource().transform.position, targetTile, LayerMask);
 
+				//GizmoRays.Add(new Line(GetSightSource().transform.position, targetTile, new Color (1, 0, 0, 0.5F)));
 				//hit an object that we want to keep
 				if (hitTest.transform != null && new Vector2(hitTest.transform.position.x, hitTest.transform.position.y) == inFieldOfVisionShroud)
 				{
@@ -136,7 +156,7 @@ public class FogOfWar : MonoBehaviour
 
 			if (isClear) {
 				// Vision of tile not blocked by wall, disable the shroud
-				SetShroudStatus (inFieldOfVisionShroud, false);
+				SetShroudStatus(inFieldOfVisionShroud, false);
 				continue;
 			} else {
 				// Enable shroud, a wall was in the way
@@ -147,28 +167,49 @@ public class FogOfWar : MonoBehaviour
     }
 
 	public List<Vector2> GetFacePointsForTile(Vector2 referenceVector) {
-		//get the points on the face we should raytrace
-		var topFace = new Vector2(referenceVector.x, referenceVector.y + 0.50f);
-		var bottomFace = new Vector2(referenceVector.x, referenceVector.y - 0.50f);
-		var leftFace = new Vector2(referenceVector.x - 0.50f, referenceVector.y);
-		var rightFace = new Vector2(referenceVector.x + 0.50f, referenceVector.y);
+		Vector2 playerPosition = new Vector2(GetSightSource().transform.position.x, GetSightSource().transform.position.y);
 
-		var topLeftFace = new Vector2(referenceVector.x - 0.60f, referenceVector.y + 0.60f);
-		var topRightFace = new Vector2(referenceVector.x + 0.60f, referenceVector.y + 0.60f);
-		var bottomLeftFace = new Vector2(referenceVector.x - 0.60f, referenceVector.y - 0.60f);
-		var bottomRightFace = new Vector2(referenceVector.x + 0.60f, referenceVector.y - 0.60f);
-
-		//collect points
 		List<Vector2> checkPoints = new List<Vector2>();
-		checkPoints.Add (topFace);
-		checkPoints.Add (bottomFace);
-		checkPoints.Add (leftFace);
-		checkPoints.Add (rightFace);
 
-		checkPoints.Add (topLeftFace);
-		checkPoints.Add (topRightFace);
-		checkPoints.Add (bottomLeftFace);
-		checkPoints.Add (bottomRightFace);
+		//Vector2 direction = (referenceVector - playerPosition).normalized;
+		//TODO: there is a better way to do this, i cant remember how right now, use this ^^
+
+		//topright
+		if (playerPosition.x > referenceVector.x && playerPosition.y > referenceVector.y ) {
+			checkPoints.Add (new Vector2 (referenceVector.x + 0.60f, referenceVector.y + 0.60f));
+		}
+		//topleft
+		else if (playerPosition.x < referenceVector.x && playerPosition.y > referenceVector.y ) {
+			checkPoints.Add (new Vector2 (referenceVector.x - 0.60f, referenceVector.y + 0.60f));
+		}
+		//bottomright
+		else if (playerPosition.x > referenceVector.x && playerPosition.y < referenceVector.y ) {
+			checkPoints.Add ( new Vector2(referenceVector.x + 0.60f, referenceVector.y - 0.60f));
+		}
+		//bottomleft
+		else if (playerPosition.x < referenceVector.x && playerPosition.y < referenceVector.y ) {
+			checkPoints.Add (new Vector2 (referenceVector.x - 0.60f, referenceVector.y - 0.60f));
+		}
+		//top
+		else if (playerPosition.x == referenceVector.x && playerPosition.y < referenceVector.y ) {
+			checkPoints.Add (new Vector2 (referenceVector.x, referenceVector.y));
+		}
+		//bottom
+		else if (playerPosition.x == referenceVector.x && playerPosition.y > referenceVector.y ) {
+			checkPoints.Add (new Vector2 (referenceVector.x, referenceVector.y));
+		}
+		//left
+		else if (playerPosition.x < referenceVector.x && playerPosition.y == referenceVector.y ) {
+			checkPoints.Add (new Vector2 (referenceVector.x, referenceVector.y));
+		}
+		//right
+		else if (playerPosition.x > referenceVector.x && playerPosition.y == referenceVector.y ) {
+			checkPoints.Add (new Vector2 (referenceVector.x, referenceVector.y));
+		}
+		//center
+		else if (playerPosition.x == referenceVector.x && playerPosition.y == referenceVector.y ) {
+			checkPoints.Add (new Vector2 (referenceVector.x, referenceVector.y));
+		}
 
 		return checkPoints;
 	}
@@ -177,10 +218,48 @@ public class FogOfWar : MonoBehaviour
     public void SetShroudStatus(Vector2 vector2, bool enabled)
     {
         GameObject shroud = this.shroudTiles[vector2];
-        foreach (SpriteRenderer renderer in shroud.GetComponentsInChildren<SpriteRenderer>())
-        {
-            renderer.enabled = enabled;
-        }
+
+		var spriteRenderer = shroud.GetComponent<SpriteRenderer>();
+		if (spriteRenderer != null) {
+			//spriteRenderer.enabled = enabled;
+
+			//if this tile has no shroud, get its lighting information
+			if (!enabled) {
+				
+				//either load the shrouds light information else make it dark
+				var shroudComponant = shroud.GetComponent<Shroud>();
+				if (shroudComponant != null && shroudComponant.Lights.Count > 0) {
+					//start off in full darkness
+					float totalLight = 0.05f;
+
+					//add brightness
+					foreach (LightSource checkingLight in shroudComponant.Lights) {
+						float distanceToLight = Vector2.Distance (shroudComponant.transform.position, checkingLight.transform.position);
+						float max = checkingLight.MaxRange;
+						float offset = checkingLight.MaxRange - distanceToLight;
+						float percent = offset / max;
+						totalLight += percent;
+					}
+
+					shroudComponant.CurrentBrightness = totalLight;
+					totalLight = 1 - totalLight;
+
+					//keep lighting in normal ranges
+					if (totalLight > 0.95F) {
+						totalLight = 0.95F;
+					}
+					else if (totalLight < 0) {
+						totalLight = 0.0F;
+					}
+
+					spriteRenderer.material.SetColor ("_Color", new Color (0, 0, 0, totalLight)); 
+				} else {
+					spriteRenderer.material.SetColor("_Color", new Color (0, 0, 0, 0.95F)); 
+				}
+			} else {
+				spriteRenderer.material.SetColor("_Color", new Color (0, 0, 0, 1.0F)); 
+			}
+		}
     }
 
     // Adds new shroud to our cache and marks it as enabled

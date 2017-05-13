@@ -35,13 +35,7 @@ namespace Lighting
 
 		public void UpdateRoomBrightness(LightSource theSource)
 		{
-			Vector2 pos = theSource.gameObject.transform.position;
-			LightTile lTile; 
-			lightingRoomParent.tileManager.lightTiles.TryGetValue(pos, out lTile);
-				if (lTile != null) {
-				lTile.InjectLight(theSource.brightness, theSource.range);
-				}
-
+			
 		}
 	}
 }

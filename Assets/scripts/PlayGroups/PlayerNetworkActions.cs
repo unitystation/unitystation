@@ -439,7 +439,7 @@ public class PlayerNetworkActions : NetworkBehaviour
 		if (PlayerManager.LocalPlayer == gameObject) {
 			Camera2DFollow.followControl.target = playerScript.ghost.transform;
 			//FIXME using for the demo, obviousily it is open for injection (hacking)
-			Camera2DFollow.followControl.gameObject.GetComponent<FogOfWar>().TurnOffShroud();
+			Camera2DFollow.followControl.gameObject.GetComponent<CameraOcclusion>().TurnOffShroud();
 		}
 	}
 }

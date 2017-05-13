@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Lighting{
-public class LightingManager : MonoBehaviour {
+	public class LightingManager : MonoBehaviour {
 
-
-}
+	}
 }
