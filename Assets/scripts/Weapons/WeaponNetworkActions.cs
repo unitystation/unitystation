@@ -73,7 +73,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
 
         //This is used to determine where bullet shot should head towards on client
         Ray2D ray = new Ray2D(transform.position, direction);
-        RpcShootBullet(ray.GetPoint(30f), bulletName);
+		RpcShootBullet(weapon, ray.GetPoint(30f), bulletName);
 
 		//TODO add a check to see if bullet or energy weapon
 		SpawnBulletCaseing();
@@ -82,11 +82,14 @@ public class WeaponNetworkActions: NetworkBehaviour {
     //Bullets are just graphical candy on the client, give them the end point and let 
     //them work out the start pos and direction
     [ClientRpc]
-    void RpcShootBullet(Vector2 endPos, string bulletName) {
+    void RpcShootBullet(GameObject weapon, Vector2 endPos, string bulletName) {
 		if(!playerMove.allowInput || playerMove.isGhost)
             return;
-        //TODO adjust the sound using the bulletName
-        SoundManager.PlayAtPosition("ShootSMG", transform.position);
+
+		Weapon wepBehavior = weapon.GetComponent<Weapon>();
+		if (wepBehavior != null) {
+			SoundManager.PlayAtPosition(wepBehavior.FireingSound, transform.position);
+		}
 
         if(CustomNetworkManager.Instance._isServer)
             return;
