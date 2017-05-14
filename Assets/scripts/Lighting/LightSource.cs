@@ -17,6 +17,10 @@ namespace Lighting
 		[Header("Max distance in tiles")]
 		public int MaxRange;
 		/// <summary>
+		/// The state of this light
+		/// </summary>
+		public bool LightOn;
+		/// <summary>
 		/// The sprite to show when this light is turned on
 		/// </summary>
 		public Sprite SpriteLightOn;
@@ -32,10 +36,6 @@ namespace Lighting
 		/// The local shrouds around this light
 		/// </summary>
 		private List<GameObject> LocalShrouds = new List<GameObject>();
-		/// <summary>
-		/// The componants of local shrouds around this light
-		/// </summary>
-		private List<Shroud> LocalShroudComponants = new List<Shroud>();
 
 		void Awake()
 		{
@@ -43,32 +43,21 @@ namespace Lighting
 		}
 
 		void Start(){
+			LightOn = true;
 			CamOcclusion = Camera.main.GetComponent<CameraOcclusion>();
 		}
 
 		void Update(){
-			LocalShrouds = CamOcclusion.GetShroudsInDistanceOfPoint (MaxRange, this.transform.position);
-<<<<<<< HEAD
+			LocalShrouds = CamOcclusion.GetShroudsInDistanceOfPoint(MaxRange, this.transform.position);
 
 			foreach (GameObject gameObject in LocalShrouds) {
 				var shroud = gameObject.GetComponent<Shroud>();
+				//on changing light add all local lights then updat
 				shroud.AddNewLightSource(this);
-			}
-		}
-=======
->>>>>>> refs/remotes/unitystation/develop
-
-			foreach (GameObject gameObject in LocalShrouds) {
-				var shroud = gameObject.GetComponent<Shroud>();
-				shroud.AddNewLightSource(this);
+				shroud.UpdateLightSources ();
 			}
 		}
 
-<<<<<<< HEAD
-		public void TurnOffLight(){
-			
-		}
-=======
 		public override void Trigger(bool state){
 			//turn lights off
 			if (!state) {
@@ -81,12 +70,29 @@ namespace Lighting
 		}
 
 		public void TurnOnLight(){
+			LightOn = true;
 			Renderer.sprite = SpriteLightOn;
+			if (CamOcclusion != null) {
+				foreach (GameObject gameObject in LocalShrouds) {
+					var shroud = gameObject.GetComponent<Shroud>();
+					//on changing light add all local lights then updat
+					shroud.AddNewLightSource(this);
+					shroud.UpdateLightSources ();
+				}
+				CamOcclusion.UpdateShroud();
+			}
 		}
 
 		public void TurnOffLight(){
+			LightOn = false;
 			Renderer.sprite = SpriteLightOff;
+			if (CamOcclusion != null) {
+				foreach (GameObject gameObject in LocalShrouds) {
+					var shroud = gameObject.GetComponent<Shroud>();
+					shroud.UpdateLightSources();
+				}
+				CamOcclusion.UpdateShroud();
+			}
 		}
->>>>>>> refs/remotes/unitystation/develop
 	}
 }
