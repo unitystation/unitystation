@@ -40,18 +40,22 @@ public class CameraOcclusion : MonoBehaviour
 
         if (transform.hasChanged)
         {
-			GizmoRays.Clear ();
-
-            transform.hasChanged = false;
-
-            if (transform.position == lastPosition && GetSightSourceDirection() == lastDirection)
-                return;
-
-            UpdateSightSourceFov(GetNearbyShroudTiles());
-            lastPosition = transform.position;
-            lastDirection = GetSightSourceDirection();
+			UpdateShroud ();
         }
     }
+
+	public void UpdateShroud() {
+		GizmoRays.Clear ();
+
+		transform.hasChanged = false;
+
+		//if (transform.position == lastPosition && GetSightSourceDirection() == lastDirection)
+		//	return;
+
+		UpdateSightSourceFov(GetNearbyShroudTiles());
+		lastPosition = transform.position;
+		lastDirection = GetSightSourceDirection();
+	}
 
 	void OnDrawGizmos() {
 		if (GizmoRays != null) {
@@ -130,9 +134,6 @@ public class CameraOcclusion : MonoBehaviour
 
 			//get the points on the face we should raytrace
 			var tileFacePoints = GetFacePointsForTile(inFieldOfVisionShroud);
-
-			//check if any points made contact
-			RaycastHit2D hit = new RaycastHit2D();
 
 			bool isClear = false;
 
@@ -280,6 +281,9 @@ public class CameraOcclusion : MonoBehaviour
     {
         List<Vector2> nearbyShroudTiles = new List<Vector2>();
 
+		if (GetSightSource () == null)
+			return nearbyShroudTiles;
+		
         // Get nearby shroud tiles based on monitor radius
         for (int offsetx = -MonitorRadius; offsetx <= MonitorRadius; offsetx++)
         {
@@ -315,6 +319,14 @@ public class CameraOcclusion : MonoBehaviour
 	// TODO Support security cameras etc
 	public Vector2 GetSightSourceDirection()
 	{
-		return PlayerManager.LocalPlayer.GetComponent<PlayerSprites>().currentDirection;
+		if (PlayerManager.LocalPlayer == null)
+			return Vector2.zero;
+
+		var playerSprites = PlayerManager.LocalPlayer.GetComponent<PlayerSprites>();
+		if (playerSprites != null) {
+			return playerSprites.currentDirection;
+		}
+
+		return Vector2.zero;
 	}
 }
