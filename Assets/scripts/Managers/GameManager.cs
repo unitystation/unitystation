@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour {
 			if (remainingTime <= 0f) {
 				counting = false;
 				roundTimer.text = "GameOver";
-				SoundManager.Play("ApcDestroyed");
+				SoundManager.Play("ApcDestroyed",0.3f,1f,0f);
 
 				if (CustomNetworkManager.Instance._isServer) {
 					PlayerList.Instance.ReportScores();
@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour {
 			if (playerCount - deadCount <= 1) {
 				counting = false;
 				roundTimer.text = "GameOver";
-				SoundManager.Play("ApcDestroyed");
+				SoundManager.Play("ApcDestroyed",0.3f,1f,0f);
 
 				if (CustomNetworkManager.Instance._isServer) {
 					PlayerList.Instance.ReportScores();
