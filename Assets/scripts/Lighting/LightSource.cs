@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InputControl;
 
 namespace Lighting
 {
-    public class LightSource : MonoBehaviour
+	public class LightSource : ObjectTrigger
 	{
 		/// <summary>
 		/// The SpriteRenderer for this light
@@ -47,6 +48,15 @@ namespace Lighting
 
 		void Update(){
 			LocalShrouds = CamOcclusion.GetShroudsInDistanceOfPoint (MaxRange, this.transform.position);
+<<<<<<< HEAD
+
+			foreach (GameObject gameObject in LocalShrouds) {
+				var shroud = gameObject.GetComponent<Shroud>();
+				shroud.AddNewLightSource(this);
+			}
+		}
+=======
+>>>>>>> refs/remotes/unitystation/develop
 
 			foreach (GameObject gameObject in LocalShrouds) {
 				var shroud = gameObject.GetComponent<Shroud>();
@@ -54,12 +64,29 @@ namespace Lighting
 			}
 		}
 
-		public void TurnOnLight(){
-	
-		}
-
+<<<<<<< HEAD
 		public void TurnOffLight(){
 			
 		}
+=======
+		public override void Trigger(bool state){
+			//turn lights off
+			if (!state) {
+				TurnOffLight();
+			} 
+			//turn on
+			else {
+				TurnOnLight();
+			}
+		}
+
+		public void TurnOnLight(){
+			Renderer.sprite = SpriteLightOn;
+		}
+
+		public void TurnOffLight(){
+			Renderer.sprite = SpriteLightOff;
+		}
+>>>>>>> refs/remotes/unitystation/develop
 	}
 }

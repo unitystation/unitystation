@@ -9,11 +9,14 @@ public class Shroud : MonoBehaviour {
 	public List<LightSource> Lights;
 	public float CurrentBrightness;
 
+<<<<<<< HEAD
 	// Use this for initialization
 	void Start () {
 		
 	}
 	
+=======
+>>>>>>> refs/remotes/unitystation/develop
 	// Update is called once per frame
 	void Update () {
 		Lights = Lights.Where(light => light != null).ToList ();
