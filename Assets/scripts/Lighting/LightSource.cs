@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InputControl;
 
 namespace Lighting
 {
-    public class LightSource : MonoBehaviour
+	public class LightSource : ObjectTrigger
 	{
 		/// <summary>
 		/// The SpriteRenderer for this light
@@ -54,12 +55,23 @@ namespace Lighting
 			}
 		}
 
+		public override void Trigger(bool state){
+			//turn lights off
+			if (!state) {
+				TurnOffLight();
+			} 
+			//turn on
+			else {
+				TurnOnLight();
+			}
+		}
+
 		public void TurnOnLight(){
-	
+			Renderer.sprite = SpriteLightOn;
 		}
 
 		public void TurnOffLight(){
-			
+			Renderer.sprite = SpriteLightOff;
 		}
 	}
 }

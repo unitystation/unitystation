@@ -9,6 +9,8 @@ namespace Lighting
 {
 	public class LightSwitchTrigger: InputTrigger
 	{
+		public ObjectTrigger[] TriggeringObjects;
+
         [SyncVar(hook = "SyncLightSwitch")]
 		public bool isOn = true;
 		private SpriteRenderer spriteRenderer;
@@ -40,6 +42,10 @@ namespace Lighting
           
 		void SyncLightSwitch(bool _on)
 		{
+			foreach (var s in TriggeringObjects) {
+				s.Trigger(_on);
+			}
+
 			if (!_on) {
 				spriteRenderer.sprite = lightOff;
 				clickSFX.Play();
