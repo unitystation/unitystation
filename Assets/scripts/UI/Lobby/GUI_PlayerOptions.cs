@@ -81,6 +81,7 @@ namespace UI
 			if (screen_ConnectTo.activeInHierarchy) {
 				ConnectToServer();
 				gameObject.SetActive(false);
+				UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
 			}	
 				
 			if (screen_PlayerName.activeInHierarchy && !hostServer.isOn) {

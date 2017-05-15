@@ -57,6 +57,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Update(){
+		if (!GameData.IsHeadlessServer) {
+			if (Screen.width > 1920 || Screen.height > 1080) {
+				Screen.SetResolution(1920, 1080, false);
+			}
+		}
 
 		if (waitForRestart) {
 			restartTime -= Time.deltaTime;

@@ -68,6 +68,7 @@ namespace PlayGroup {
 
         [Command]
         void CmdTrySetName(string name) {
+			if(PlayerList.Instance != null)
             playerName = PlayerList.Instance.CheckName(name);
         }
         // On playerName variable change across all clients, make sure obj is named correctly

@@ -60,7 +60,7 @@ namespace Cupboards
         void Close()
         {
             IsClosed = true;
-            SoundManager.Play("OpenClose");
+			SoundManager.PlayAtPosition("OpenClose",transform.position);
             spriteRenderer.sprite = doorClosed;
             if (lockLight != null)
             {
@@ -72,7 +72,7 @@ namespace Cupboards
         void Open()
         {
             IsClosed = false;
-            SoundManager.Play("OpenClose");
+			SoundManager.PlayAtPosition("OpenClose",transform.position);
             spriteRenderer.sprite = doorOpened;
             if (lockLight != null)
             {
