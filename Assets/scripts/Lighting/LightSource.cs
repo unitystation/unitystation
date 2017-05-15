@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using InputControl;
+using Events;
+using UnityEngine.Events;
+using Sprites;
 
 namespace Lighting
 {
@@ -35,7 +38,9 @@ namespace Lighting
 		/// <summary>
 		/// The local shrouds around this light
 		/// </summary>
-		private List<GameObject> LocalShrouds = new List<GameObject>();
+		private List<Shroud> LocalShrouds = new List<Shroud>();
+
+		private Sprite[] lightSprites;
 
 		void Awake()
 		{
@@ -45,16 +50,30 @@ namespace Lighting
 		void Start(){
 			LightOn = true;
 			CamOcclusion = Camera.main.GetComponent<CameraOcclusion>();
+			LightUpdate();
+			lightSprites = SpriteManager.LightSprites["lights"];
+			SpriteLightOn = Renderer.sprite;
+			string[] split = SpriteLightOn.name.Split('_');
+			int onPos; 
+			int.TryParse(split[1], out onPos);
+			SpriteLightOff = lightSprites[onPos + 4];
 		}
 
-		void Update(){
+		void OnEnable(){
+			EventManager.LightUpdate += LightUpdate;
+		}
+
+		void OnDisable(){
+			EventManager.LightUpdate -= LightUpdate;
+		}
+
+		private void LightUpdate(){
 			LocalShrouds = CamOcclusion.GetShroudsInDistanceOfPoint(MaxRange, this.transform.position);
 
-			foreach (GameObject gameObject in LocalShrouds) {
-				var shroud = gameObject.GetComponent<Shroud>();
+			foreach (Shroud shroud in LocalShrouds) {
 				//on changing light add all local lights then updat
 				shroud.AddNewLightSource(this);
-				shroud.UpdateLightSources ();
+				shroud.UpdateLightSources();
 			}
 		}
 
@@ -73,8 +92,7 @@ namespace Lighting
 			LightOn = true;
 			Renderer.sprite = SpriteLightOn;
 			if (CamOcclusion != null) {
-				foreach (GameObject gameObject in LocalShrouds) {
-					var shroud = gameObject.GetComponent<Shroud>();
+				foreach (Shroud shroud in LocalShrouds) {
 					//on changing light add all local lights then updat
 					shroud.AddNewLightSource(this);
 					shroud.UpdateLightSources ();
@@ -87,8 +105,7 @@ namespace Lighting
 			LightOn = false;
 			Renderer.sprite = SpriteLightOff;
 			if (CamOcclusion != null) {
-				foreach (GameObject gameObject in LocalShrouds) {
-					var shroud = gameObject.GetComponent<Shroud>();
+				foreach (Shroud shroud in LocalShrouds) {
 					shroud.UpdateLightSources();
 				}
 				CamOcclusion.UpdateShroud();
