@@ -68,6 +68,9 @@ namespace Lighting
 		}
 
 		private void LightUpdate(){
+			if (!Renderer.isVisible)
+				return;
+			
 			LocalShrouds = CamOcclusion.GetShroudsInDistanceOfPoint(MaxRange, this.transform.position);
 
 			foreach (Shroud shroud in LocalShrouds) {
