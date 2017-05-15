@@ -55,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013404595186}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.75, z: 0}
+  m_LocalPosition: {x: 0, y: -0.178, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000014215534684}
@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014236108730}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1846, y: 1139, z: -0.1}
+  m_LocalPosition: {x: 1851, y: 1150, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000012102270038}
@@ -86,9 +86,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: -1}
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!82 &82306546317105916
 AudioSource:
   m_ObjectHideFlags: 1
@@ -201,7 +212,7 @@ MonoBehaviour:
   - {x: 0, y: -0.75}
   - {x: -0.75, y: 0}
   colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 2
+  rotateIndex: 0
 --- !u!114 &114156815017434572
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -213,6 +224,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a9eb64b31264686a68cf26e202e62c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TriggeringObjects:
+  - {fileID: 0}
+  - {fileID: 0}
   isOn: 1
   lightOn: {fileID: 21300000, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
   lightOff: {fileID: 21300002, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
@@ -277,9 +291,14 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 142874271
-  m_SortingOrder: 10
+  m_SortingLayerID: -2035547137
+  m_SortingLayer: 13
+  m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0

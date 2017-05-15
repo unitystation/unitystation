@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Lighting;
+using Events;
 
 public class CameraOcclusion : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class CameraOcclusion : MonoBehaviour
     public int MonitorRadius = 12;
     public int FieldOfVision = 90;
     public int InnatePreyVision = 6;
-	private Dictionary<Vector2, GameObject> shroudTiles = new Dictionary<Vector2, GameObject>();
+	private Dictionary<Vector2, Shroud> shroudTiles = new Dictionary<Vector2, Shroud>();
     private Vector3 lastPosition;
     private Vector2 lastDirection;
     public int WallLayer = 9;
@@ -40,18 +41,22 @@ public class CameraOcclusion : MonoBehaviour
 
         if (transform.hasChanged)
         {
-			GizmoRays.Clear ();
-
-            transform.hasChanged = false;
-
-            if (transform.position == lastPosition && GetSightSourceDirection() == lastDirection)
-                return;
-
-            UpdateSightSourceFov(GetNearbyShroudTiles());
-            lastPosition = transform.position;
-            lastDirection = GetSightSourceDirection();
+			UpdateShroud ();
         }
     }
+
+	public void UpdateShroud() {
+		GizmoRays.Clear ();
+		EventManager.UpdateLights();
+		transform.hasChanged = false;
+
+		//if (transform.position == lastPosition && GetSightSourceDirection() == lastDirection)
+		//	return;
+
+		UpdateSightSourceFov(GetNearbyShroudTiles());
+		lastPosition = transform.position;
+		lastDirection = GetSightSourceDirection();
+	}
 
 	void OnDrawGizmos() {
 		if (GizmoRays != null) {
@@ -64,23 +69,23 @@ public class CameraOcclusion : MonoBehaviour
 
 	//FIXME make this secure, set it up for the demo
 	public void TurnOffShroud(){
-		foreach (KeyValuePair<Vector2,GameObject> s in shroudTiles) {
-			s.Value.SetActive(false);
+		foreach (KeyValuePair<Vector2,Shroud> s in shroudTiles) {
+			s.Value.gameObject.SetActive(false);
 		}
 		this.enabled = false;
 	}
 
-	public List<GameObject> GetShrouds() {
-		List<GameObject> shrouds = new List<GameObject>();
-		foreach (KeyValuePair<Vector2,GameObject> s in shroudTiles) {
+	public List<Shroud> GetShrouds() {
+		List<Shroud> shrouds = new List<Shroud>();
+		foreach (KeyValuePair<Vector2,Shroud> s in shroudTiles) {
 			shrouds.Add(s.Value);
 		}
 		return shrouds;
 	}
 
-	public List<GameObject> GetShroudsInDistanceOfPoint(int distance, Vector2 point) {
-		List<GameObject> shrouds = new List<GameObject>();
-		foreach (KeyValuePair<Vector2,GameObject> s in shroudTiles) {
+	public List<Shroud> GetShroudsInDistanceOfPoint(int distance, Vector2 point) {
+		List<Shroud> shrouds = new List<Shroud>();
+		foreach (KeyValuePair<Vector2,Shroud> s in shroudTiles) {
 			if (Vector2.Distance(s.Key, point) <= distance) {
 				shrouds.Add(s.Value);
 			}
@@ -121,7 +126,7 @@ public class CameraOcclusion : MonoBehaviour
         {
             SetShroudStatus(nearbyShroud, true);
         }
-
+			
         // Loop through all tiles that are nearby and are in field of vision
         foreach (Vector2 inFieldOfVisionShroud in GetInFieldOfVision(nearbyShrouds))
         {
@@ -130,9 +135,6 @@ public class CameraOcclusion : MonoBehaviour
 
 			//get the points on the face we should raytrace
 			var tileFacePoints = GetFacePointsForTile(inFieldOfVisionShroud);
-
-			//check if any points made contact
-			RaycastHit2D hit = new RaycastHit2D();
 
 			bool isClear = false;
 
@@ -170,7 +172,6 @@ public class CameraOcclusion : MonoBehaviour
 		Vector2 playerPosition = new Vector2(GetSightSource().transform.position.x, GetSightSource().transform.position.y);
 
 		List<Vector2> checkPoints = new List<Vector2>();
-
 		//Vector2 direction = (referenceVector - playerPosition).normalized;
 		//TODO: there is a better way to do this, i cant remember how right now, use this ^^
 
@@ -217,7 +218,7 @@ public class CameraOcclusion : MonoBehaviour
     // Changes a shroud to on or off
     public void SetShroudStatus(Vector2 vector2, bool enabled)
     {
-        GameObject shroud = this.shroudTiles[vector2];
+        Shroud shroud = this.shroudTiles[vector2];
 
 		var spriteRenderer = shroud.GetComponent<SpriteRenderer>();
 		if (spriteRenderer != null) {
@@ -227,21 +228,20 @@ public class CameraOcclusion : MonoBehaviour
 			if (!enabled) {
 				
 				//either load the shrouds light information else make it dark
-				var shroudComponant = shroud.GetComponent<Shroud>();
-				if (shroudComponant != null && shroudComponant.Lights.Count > 0) {
+				if (shroud.Lights.Count > 0) {
 					//start off in full darkness
 					float totalLight = 0.05f;
 
 					//add brightness
-					foreach (LightSource checkingLight in shroudComponant.Lights) {
-						float distanceToLight = Vector2.Distance (shroudComponant.transform.position, checkingLight.transform.position);
+					foreach (LightSource checkingLight in shroud.Lights) {
+						float distanceToLight = Vector2.Distance (shroud.transform.position, checkingLight.transform.position);
 						float max = checkingLight.MaxRange;
 						float offset = checkingLight.MaxRange - distanceToLight;
 						float percent = offset / max;
 						totalLight += percent;
 					}
 
-					shroudComponant.CurrentBrightness = totalLight;
+					shroud.CurrentBrightness = totalLight;
 					totalLight = 1 - totalLight;
 
 					//keep lighting in normal ranges
@@ -271,7 +271,7 @@ public class CameraOcclusion : MonoBehaviour
 
         GameObject shroudObject = Instantiate(ShroudPrefab, new Vector3(vector2.x, vector2.y, 0), Quaternion.identity);
 		shroudObject.transform.parent = ShroudContainer.transform;
-        shroudTiles.Add(vector2, shroudObject);
+		shroudTiles.Add(vector2, shroudObject.GetComponent<Shroud>());
         SetShroudStatus(vector2, active);
         return shroudObject;
     }
@@ -280,6 +280,9 @@ public class CameraOcclusion : MonoBehaviour
     {
         List<Vector2> nearbyShroudTiles = new List<Vector2>();
 
+		if (GetSightSource () == null)
+			return nearbyShroudTiles;
+		
         // Get nearby shroud tiles based on monitor radius
         for (int offsetx = -MonitorRadius; offsetx <= MonitorRadius; offsetx++)
         {
@@ -315,6 +318,14 @@ public class CameraOcclusion : MonoBehaviour
 	// TODO Support security cameras etc
 	public Vector2 GetSightSourceDirection()
 	{
-		return PlayerManager.LocalPlayer.GetComponent<PlayerSprites>().currentDirection;
+		if (PlayerManager.LocalPlayer == null)
+			return Vector2.zero;
+
+		var playerSprites = PlayerManager.LocalPlayer.GetComponent<PlayerSprites>();
+		if (playerSprites != null) {
+			return playerSprites.currentDirection;
+		}
+
+		return Vector2.zero;
 	}
 }

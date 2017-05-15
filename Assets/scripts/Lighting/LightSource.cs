@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InputControl;
+using Events;
+using UnityEngine.Events;
+using Sprites;
 
 namespace Lighting
 {
-    public class LightSource : MonoBehaviour
+	public class LightSource : ObjectTrigger
 	{
 		/// <summary>
 		/// The SpriteRenderer for this light
@@ -15,6 +19,10 @@ namespace Lighting
 		/// </summary>
 		[Header("Max distance in tiles")]
 		public int MaxRange;
+		/// <summary>
+		/// The state of this light
+		/// </summary>
+		public bool LightOn;
 		/// <summary>
 		/// The sprite to show when this light is turned on
 		/// </summary>
@@ -30,11 +38,10 @@ namespace Lighting
 		/// <summary>
 		/// The local shrouds around this light
 		/// </summary>
-		private List<GameObject> LocalShrouds = new List<GameObject>();
-		/// <summary>
-		/// The componants of local shrouds around this light
-		/// </summary>
-		private List<Shroud> LocalShroudComponants = new List<Shroud>();
+		private List<Shroud> LocalShrouds = new List<Shroud>();
+
+		private Sprite[] lightSprites;
+		private bool updating = false;
 
 		void Awake()
 		{
@@ -42,24 +49,80 @@ namespace Lighting
 		}
 
 		void Start(){
+			LightOn = true;
 			CamOcclusion = Camera.main.GetComponent<CameraOcclusion>();
+			LightUpdate();
+			lightSprites = SpriteManager.LightSprites["lights"];
+			SpriteLightOn = Renderer.sprite;
+			string[] split = SpriteLightOn.name.Split('_');
+			int onPos; 
+			int.TryParse(split[1], out onPos);
+			SpriteLightOff = lightSprites[onPos + 4];
 		}
 
-		void Update(){
-			LocalShrouds = CamOcclusion.GetShroudsInDistanceOfPoint (MaxRange, this.transform.position);
+		void OnEnable(){
+			EventManager.LightUpdate += LightUpdate;
+		}
 
-			foreach (GameObject gameObject in LocalShrouds) {
-				var shroud = gameObject.GetComponent<Shroud>();
-				shroud.AddNewLightSource(this);
+		void OnDisable(){
+			EventManager.LightUpdate -= LightUpdate;
+		}
+
+		private void LightUpdate(){
+			if (!Renderer.isVisible)
+				return;
+			if (!updating) {
+				updating = true;
+				StartCoroutine(UpdateLight());
+			}
+		}
+
+		IEnumerator UpdateLight(){
+			
+			yield return new WaitForSeconds(Random.Range(0.01f,0.1f));
+				LocalShrouds = CamOcclusion.GetShroudsInDistanceOfPoint(MaxRange, this.transform.position);
+
+				foreach (Shroud shroud in LocalShrouds) {
+					//on changing light add all local lights then updat
+					shroud.AddNewLightSource(this);
+					shroud.UpdateLightSources();
+				}
+			updating = false;
+		}
+
+		public override void Trigger(bool state){
+			//turn lights off
+			if (!state) {
+				TurnOffLight();
+			} 
+			//turn on
+			else {
+				TurnOnLight();
 			}
 		}
 
 		public void TurnOnLight(){
-	
+			LightOn = true;
+			Renderer.sprite = SpriteLightOn;
+			if (CamOcclusion != null) {
+				foreach (Shroud shroud in LocalShrouds) {
+					//on changing light add all local lights then updat
+					shroud.AddNewLightSource(this);
+					shroud.UpdateLightSources ();
+				}
+				CamOcclusion.UpdateShroud();
+			}
 		}
 
 		public void TurnOffLight(){
-			
+			LightOn = false;
+			Renderer.sprite = SpriteLightOff;
+			if (CamOcclusion != null) {
+				foreach (Shroud shroud in LocalShrouds) {
+					shroud.UpdateLightSources();
+				}
+				CamOcclusion.UpdateShroud();
+			}
 		}
 	}
 }
