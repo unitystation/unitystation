@@ -82,9 +82,14 @@ public class GameData: MonoBehaviour
 		{
 			Debug.Log("START SERVER HEADLESS MODE");
 			IsHeadlessServer = true;
-			CustomNetworkManager.Instance.StartHost();
+			StartCoroutine(WaitToStartServer());
 			return;
 		}
+	}
+
+	IEnumerator WaitToStartServer(){
+		yield return new WaitForEndOfFrame();
+		CustomNetworkManager.Instance.StartHost();
 	}
 
 	void LoadData()

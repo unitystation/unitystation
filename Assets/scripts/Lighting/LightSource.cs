@@ -41,6 +41,7 @@ namespace Lighting
 		private List<Shroud> LocalShrouds = new List<Shroud>();
 
 		private Sprite[] lightSprites;
+		private bool updating = false;
 
 		void Awake()
 		{
@@ -70,14 +71,23 @@ namespace Lighting
 		private void LightUpdate(){
 			if (!Renderer.isVisible)
 				return;
-			
-			LocalShrouds = CamOcclusion.GetShroudsInDistanceOfPoint(MaxRange, this.transform.position);
-
-			foreach (Shroud shroud in LocalShrouds) {
-				//on changing light add all local lights then updat
-				shroud.AddNewLightSource(this);
-				shroud.UpdateLightSources();
+			if (!updating) {
+				updating = true;
+				StartCoroutine(UpdateLight());
 			}
+		}
+
+		IEnumerator UpdateLight(){
+			
+			yield return new WaitForSeconds(Random.Range(0.01f,0.1f));
+				LocalShrouds = CamOcclusion.GetShroudsInDistanceOfPoint(MaxRange, this.transform.position);
+
+				foreach (Shroud shroud in LocalShrouds) {
+					//on changing light add all local lights then updat
+					shroud.AddNewLightSource(this);
+					shroud.UpdateLightSources();
+				}
+			updating = false;
 		}
 
 		public override void Trigger(bool state){
