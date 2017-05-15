@@ -37,7 +37,6 @@ GameObject:
   - component: {fileID: 4000013836882314}
   - component: {fileID: 61000010556243922}
   - component: {fileID: 114000012372273026}
-  - component: {fileID: 114929077085885746}
   - component: {fileID: 114206516550089788}
   - component: {fileID: 114162376994609824}
   m_Layer: 11
@@ -85,9 +84,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &114000012372273026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,17 +157,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 2
---- !u!114 &114929077085885746
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011358831344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1d815e24846544018d7f998cf7a3f50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &212000012354729206
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -188,8 +187,13 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
+  m_SortingLayer: 7
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300114, guid: 3f95a9fe53a3442ca95ab4434d2478e7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0

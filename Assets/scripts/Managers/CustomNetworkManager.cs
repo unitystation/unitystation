@@ -103,9 +103,10 @@ public class CustomNetworkManager: NetworkManager
               and delete his name from player list
               */
 			_isServer = true;
-			if(GameData.IsInGame)
+			if(GameData.IsInGame){
+				if(PlayerList.Instance != null)
 			PlayerList.Instance.RemovePlayer(PlayerManager.LocalPlayer.name);
-
+			}
 		}
 	}
 

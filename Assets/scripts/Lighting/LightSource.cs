@@ -1,64 +1,128 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InputControl;
+using Events;
+using UnityEngine.Events;
+using Sprites;
 
-//FIXME turn this into atmo code (this would be for the vents or gas canisters)
 namespace Lighting
 {
-    public class LightSource : MonoBehaviour
+	public class LightSource : ObjectTrigger
 	{
-		private LightingSourceManager lightSourceManager;
-		private SpriteRenderer thisSprite;
-		private LightTile contactLightTile;
-		[Header("Between 0 - 100")]
-		public float brightness = 80f;
-		[Header("How many tiles to cover")]
-		public int range = 5;
-		private float brightCache;
+		/// <summary>
+		/// The SpriteRenderer for this light
+		/// </summary>
+		private SpriteRenderer Renderer;
+		/// <summary>
+		/// The Maximum distance this light can cover in tiles
+		/// </summary>
+		[Header("Max distance in tiles")]
+		public int MaxRange;
+		/// <summary>
+		/// The state of this light
+		/// </summary>
+		public bool LightOn;
+		/// <summary>
+		/// The sprite to show when this light is turned on
+		/// </summary>
+		public Sprite SpriteLightOn;
+		/// <summary>
+		/// The sprite to show when this light is turned off
+		/// </summary>
+		public Sprite SpriteLightOff;
+		/// <summary>
+		/// The CameraOcclusion script with which we et shroud tiles
+		/// </summary>
+		private CameraOcclusion CamOcclusion;
+		/// <summary>
+		/// The local shrouds around this light
+		/// </summary>
+		private List<Shroud> LocalShrouds = new List<Shroud>();
 
-		public Sprite lightOn;
-		public Sprite lightOff;
+		private Sprite[] lightSprites;
+		private bool updating = false;
 
 		void Awake()
 		{
-			thisSprite = GetComponentInChildren<SpriteRenderer>();
-			lightSourceManager = GetComponentInParent<LightingSourceManager>();
-			brightCache = brightness;
+			Renderer = GetComponentInChildren<SpriteRenderer>();
 		}
 
 		void Start(){
-			StartCoroutine(InitLights());
+			LightOn = true;
+			CamOcclusion = Camera.main.GetComponent<CameraOcclusion>();
+			LightUpdate();
+			lightSprites = SpriteManager.LightSprites["lights"];
+			SpriteLightOn = Renderer.sprite;
+			string[] split = SpriteLightOn.name.Split('_');
+			int onPos; 
+			int.TryParse(split[1], out onPos);
+			SpriteLightOff = lightSprites[onPos + 4];
 		}
 
-		IEnumerator InitLights(){
-			yield return new WaitForSeconds(0.5f);
-			if (lightSourceManager != null) {
-				lightSourceManager.UpdateRoomBrightness(this);
-			} else {
-				
+		void OnEnable(){
+			EventManager.LightUpdate += LightUpdate;
+		}
+
+		void OnDisable(){
+			EventManager.LightUpdate -= LightUpdate;
+		}
+
+		private void LightUpdate(){
+			if (!Renderer.isVisible)
+				return;
+			if (!updating) {
+				updating = true;
+				StartCoroutine(UpdateLight());
+			}
+		}
+
+		IEnumerator UpdateLight(){
+			
+			yield return new WaitForSeconds(Random.Range(0.01f,0.1f));
+				LocalShrouds = CamOcclusion.GetShroudsInDistanceOfPoint(MaxRange, this.transform.position);
+
+				foreach (Shroud shroud in LocalShrouds) {
+					//on changing light add all local lights then updat
+					shroud.AddNewLightSource(this);
+					shroud.UpdateLightSources();
+				}
+			updating = false;
+		}
+
+		public override void Trigger(bool state){
+			//turn lights off
+			if (!state) {
+				TurnOffLight();
+			} 
+			//turn on
+			else {
+				TurnOnLight();
 			}
 		}
 
 		public void TurnOnLight(){
-	
+			LightOn = true;
+			Renderer.sprite = SpriteLightOn;
+			if (CamOcclusion != null) {
+				foreach (Shroud shroud in LocalShrouds) {
+					//on changing light add all local lights then updat
+					shroud.AddNewLightSource(this);
+					shroud.UpdateLightSources ();
+				}
+				CamOcclusion.UpdateShroud();
+			}
 		}
 
 		public void TurnOffLight(){
+			LightOn = false;
+			Renderer.sprite = SpriteLightOff;
+			if (CamOcclusion != null) {
+				foreach (Shroud shroud in LocalShrouds) {
+					shroud.UpdateLightSources();
+				}
+				CamOcclusion.UpdateShroud();
+			}
 		}
-
-	
-		public void OnLight(){
-			brightness = brightCache;
-			lightSourceManager.UpdateRoomBrightness(this);
-			thisSprite.sprite = lightOn;
-		}
-
-
-		public void OffLight(){
-			thisSprite.sprite = lightOff;
-			brightness = 0f;
-			lightSourceManager.UpdateRoomBrightness(this);
-		}
-
 	}
 }

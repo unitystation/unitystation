@@ -24,8 +24,8 @@ GameObject:
   - component: {fileID: 61063714384213844}
   - component: {fileID: 114916373624861450}
   - component: {fileID: 114061750063200642}
-  - component: {fileID: 114976434381614570}
   - component: {fileID: 114293222903219424}
+  - component: {fileID: 114976434381614570}
   m_Layer: 0
   m_Name: Magazine_5.56mm
   m_TagString: Untagged
@@ -87,9 +87,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0.008157462, y: 0.016448066}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 0.4218244, y: 0.60357404}
+  m_EdgeRadius: 0
 --- !u!114 &114061750063200642
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoType: 5.56
+  ammoType: 5.56mm
   magazineSize: 100
   Usable: 1
   ammoRemains: 50
@@ -141,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: 100 Round Drum
+  itemName: Magazine
   spriteType: 0
   inHandReferenceRight: -1
   inHandReferenceLeft: -1
@@ -197,6 +208,7 @@ MonoBehaviour:
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
   m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
@@ -230,8 +242,13 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300268, guid: 9491d0afbfb74a1aaab729fd2c0a7619, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0

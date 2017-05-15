@@ -4,6 +4,7 @@ using System.Collections;
 using Equipment;
 using UI;
 using PlayGroup;
+using InputControl;
 
 namespace PlayGroup {
     public class PlayerScript: NetworkBehaviour {
@@ -14,6 +15,7 @@ namespace PlayGroup {
 		public SoundNetworkActions soundNetworkActions { get; set; }
 		public PlayerMove playerMove { get; set;}
 		public PlayerSprites playerSprites { get; set;}
+		public InputController inputController { get; set; }
 		public HitIcon hitIcon { get; set; }
 
 		public GameObject ghost;
@@ -47,6 +49,7 @@ namespace PlayGroup {
             playerNetworkActions = GetComponent<PlayerNetworkActions>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 			soundNetworkActions = GetComponent<SoundNetworkActions>();
+			inputController = GetComponent<InputController>();
 			hitIcon = GetComponentInChildren<HitIcon>();
         }
 
@@ -65,6 +68,7 @@ namespace PlayGroup {
 
         [Command]
         void CmdTrySetName(string name) {
+			if(PlayerList.Instance != null)
             playerName = PlayerList.Instance.CheckName(name);
         }
         // On playerName variable change across all clients, make sure obj is named correctly

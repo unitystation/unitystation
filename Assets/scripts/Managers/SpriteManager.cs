@@ -29,6 +29,7 @@ namespace Sprites {
 		private Sprites doorSprites = new Sprites();
 		private Sprites monitorSprites = new Sprites();
 		private Sprites bloodSprites = new Sprites();
+		private Sprites lightSprites = new Sprites();
 
         public static SpriteManager Instance {
             get {
@@ -67,6 +68,12 @@ namespace Sprites {
 		public static Sprites BloodSprites{
 			get{
 				return Instance.bloodSprites;
+			}
+		}
+
+		public static Sprites LightSprites{
+			get{
+				return Instance.lightSprites;
 			}
 		}
 
@@ -129,6 +136,8 @@ namespace Sprites {
 			MonitorSprites["monitors"] = Resources.LoadAll<Sprite>("obj/monitors");
 
 			BloodSprites["blood"] = Resources.LoadAll<Sprite>("blood");
+
+			LightSprites["lights"] = Resources.LoadAll<Sprite>("lighting");
 
         }
     }
