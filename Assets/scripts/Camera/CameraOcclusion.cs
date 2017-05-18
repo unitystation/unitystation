@@ -224,8 +224,11 @@ public class CameraOcclusion : MonoBehaviour
         Shroud shroud = this.shroudTiles[vector2];
 
 		var spriteRenderer = shroud.GetComponent<SpriteRenderer>();
-		if (spriteRenderer != null && includeLights) {
-			//spriteRenderer.enabled = enabled;
+		if (spriteRenderer != null) {
+			if (!includeLights) {
+				spriteRenderer.enabled = enabled;
+				return;
+			}
 
 			//if this tile has no shroud, get its lighting information
 			if (!enabled) {
