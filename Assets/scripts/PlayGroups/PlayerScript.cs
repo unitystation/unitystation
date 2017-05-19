@@ -75,7 +75,7 @@ namespace PlayGroup {
         // and set in Playerlist for that client
         public void OnNameChange(string newName) {
             gameObject.name = newName;
-            if(!PlayerList.Instance.connectedPlayers.ContainsKey(newName)) {
+			if(!PlayerList.Instance.connectedPlayers.ContainsKey(newName)) {
                 PlayerList.Instance.connectedPlayers.Add(newName, gameObject);
             }
             PlayerList.Instance.RefreshPlayerListText();
@@ -83,7 +83,7 @@ namespace PlayGroup {
 
         IEnumerator CheckIfNetworkPlayer() {
             yield return new WaitForSeconds(1f);
-            if(!isLocalPlayer) {
+			if(!isLocalPlayer) {
                 OnNameChange(playerName);
             }
         }

@@ -48,7 +48,12 @@ public class CustomNetworkManager: NetworkManager
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId){
 		//This spawns the player prefab
-			base.OnServerAddPlayer(conn, playerControllerId);
+			StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
+	}
+
+	IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId){
+		yield return new WaitForSeconds(1f);
+		base.OnServerAddPlayer(conn, playerControllerId);
 	}
 
 	public override void OnClientConnect(NetworkConnection conn)
@@ -104,8 +109,10 @@ public class CustomNetworkManager: NetworkManager
               */
 			_isServer = true;
 			if(GameData.IsInGame){
-				if(PlayerList.Instance != null)
-			PlayerList.Instance.RemovePlayer(PlayerManager.LocalPlayer.name);
+				yield return new WaitForSeconds(1.1f);
+				if (PlayerList.Instance != null) {
+					PlayerList.Instance.RemovePlayer(PlayerManager.LocalPlayer.name);
+				}
 			}
 		}
 	}
