@@ -20,6 +20,8 @@ namespace PlayGroup {
 
 		public GameObject ghost;
 
+		private float pingUpdate = 0f;
+
         [SyncVar(hook = "OnNameChange")]
         public string playerName = " ";
         private bool pickUpCoolDown = false;
@@ -65,6 +67,16 @@ namespace PlayGroup {
                 CmdTrySetName(PlayerPrefs.GetString("PlayerName"));
             }
         }
+
+		void Update(){
+			//Read out of ping in toolTip
+			pingUpdate += Time.deltaTime;
+			if (pingUpdate >= 5f) {
+				pingUpdate = 0f;
+				int ping = CustomNetworkManager.Instance.client.GetRTT();
+				UIManager.SetToolTip = "ping: " + ping.ToString();
+			}
+		}
 
         [Command]
         void CmdTrySetName(string name) {

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using PlayGroup;
+using UnityEngine.UI;
 
 namespace UI {
     public class UIManager: MonoBehaviour {
@@ -13,6 +14,7 @@ namespace UI {
         public ControlDisplays displayControl;
         public PlayerHealth playerHealth;
 		public PlayerListUI playerListUIControl;
+		public Text toolTip;
 
         private static UIManager uiManager;
 
@@ -73,6 +75,12 @@ namespace UI {
 		public static PlayerListUI PlayerListUI {
 			get {
 				return Instance.playerListUIControl;
+			}
+		}
+
+		public static string SetToolTip{
+			set { 
+				Instance.toolTip.text = value;
 			}
 		}
 
