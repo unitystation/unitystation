@@ -53,7 +53,9 @@ namespace UI {
             image.enabled = true;
             Item = item;
             item.transform.position = transform.position;
-            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetUISlot(eventName, item);
+			if (PlayerManager.LocalPlayer != null && item != null) {
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetUISlot(eventName, item);
+			}
 //            if(eventName.Length > 0)
 //                EventManager.UI.TriggerEvent(eventName, item);
         }

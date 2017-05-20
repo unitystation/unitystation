@@ -164,7 +164,7 @@ namespace Weapons
 
 		//Gives it a chance for weaponNetworkActions to init
 		IEnumerator SetMagazineOnStart(GameObject magazine){
-			yield return new WaitForEndOfFrame();
+			yield return new WaitForSeconds(2f);
 			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
 		}
 		#endregion
