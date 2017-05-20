@@ -437,6 +437,7 @@ public class PlayerNetworkActions : NetworkBehaviour
 		chatIcon.gameObject.transform.parent = playerScript.ghost.transform;
 		playerScript.ghost.transform.rotation = Quaternion.identity;
 		if (PlayerManager.LocalPlayer == gameObject) {
+			SoundManager.Stop("Critstate");
 			Camera2DFollow.followControl.target = playerScript.ghost.transform;
 			//FIXME using for the demo, obviousily it is open for injection (hacking)
 			Camera2DFollow.followControl.gameObject.GetComponent<CameraOcclusion>().TurnOffShroud();

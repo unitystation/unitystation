@@ -8,11 +8,20 @@ public class Human : Carbon
 
     // See species.dm for human
     public DamageOverlayType DamageOverlayType = DamageOverlayType.HUMAN; //what kind of damage overlays (if any) appear on our species when wounded?
-
+	bool checkDeath = false;
 	void Update(){
-		if (mobStat == MobConsciousStat.UNCONSCIOUS && CustomNetworkManager.Instance._isServer) {
-			Death(false);
+		if (mobStat == MobConsciousStat.UNCONSCIOUS && CustomNetworkManager.Instance._isServer && !checkDeath) {
+			checkDeath = true;
+			StartCoroutine(WaitForCritUpdate());
+			Debug.Log("Do kill for demo");
 		}
+	}
+
+	IEnumerator WaitForCritUpdate(){
+	
+		yield return new WaitForSeconds(4f);
+		if(mobStat != MobConsciousStat.DEAD)
+		Death(false);
 	}
     // Use this for initialization
 	public override void Death(bool gibbed){
