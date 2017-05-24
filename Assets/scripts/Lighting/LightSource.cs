@@ -51,6 +51,7 @@ namespace Lighting
 		void Start(){
 			LightOn = true;
 			CamOcclusion = Camera.main.GetComponent<CameraOcclusion>();
+			if(CamOcclusion.includeLights)
 			LightUpdate();
 			lightSprites = SpriteManager.LightSprites["lights"];
 			SpriteLightOn = Renderer.sprite;
@@ -73,13 +74,11 @@ namespace Lighting
 				return;
 			if (!updating) {
 				updating = true;
-				StartCoroutine(UpdateLight());
+				UpdateLight();
 			}
 		}
 
-		IEnumerator UpdateLight(){
-			
-			yield return new WaitForSeconds(Random.Range(0.01f,0.1f));
+		void UpdateLight(){
 				LocalShrouds = CamOcclusion.GetShroudsInDistanceOfPoint(MaxRange, this.transform.position);
 
 				foreach (Shroud shroud in LocalShrouds) {

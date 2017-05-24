@@ -33,7 +33,8 @@ namespace Lighting
 			if (!switchCoolDown) {
 				switchCoolDown = true;
 				StartCoroutine(CoolDown());
-                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleLightSwitch(gameObject);
+				Debug.Log("LIGHT SWITCHES DISABLED UNTIL v2");
+//                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleLightSwitch(gameObject);
 			}
 		}
 

@@ -8074,7 +8074,7 @@ MonoBehaviour:
   - {fileID: 1564961329676294, guid: 7c160c72b9ef315478294d8b1d4e1cc9, type: 2}
   - {fileID: 1069497300762596, guid: e4b5330dc21e94b0494056c5ef239d49, type: 2}
   m_CustomConfig: 1
-  m_MaxConnections: 32
+  m_MaxConnections: 62
   m_ConnectionConfig:
     m_PacketSize: 1500
     m_FragmentSize: 500
@@ -8118,7 +8118,7 @@ MonoBehaviour:
   m_Channels: 0500000000000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
-  m_SimulatedLatency: 1
+  m_SimulatedLatency: 35
   m_PacketLossPercentage: 0
   m_MaxBufferedPackets: 16
   m_AllowFragmentation: 1
@@ -10396,6 +10396,7 @@ MonoBehaviour:
   displayControl: {fileID: 114735544628521044}
   playerHealth: {fileID: 114643588251052962}
   playerListUIControl: {fileID: 114827065861498824}
+  toolTip: {fileID: 114819375966709390}
 --- !u!114 &114902798441274010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12505,7 +12506,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 700.74994, y: 95.5}
+  m_AnchoredPosition: {x: 700.75, y: 95.5}
   m_SizeDelta: {x: 1401.5, y: 114}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224347802705061360
@@ -13849,7 +13850,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -644.49994, y: 559.42004}
+  m_AnchoredPosition: {x: -644.5, y: 559.42004}
   m_SizeDelta: {x: 252, y: 1041.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224910744328625226

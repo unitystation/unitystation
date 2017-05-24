@@ -39,7 +39,7 @@ namespace PlayGroup {
         void Start() {
 			//Temp solution for host in headless mode (hiding the player at Vector3.zero
 			if (GameData.IsHeadlessServer && isLocalPlayer) {
-				PlayerManager.LocalPlayer.transform.position = Vector3.zero;
+				PlayerManager.LocalPlayer.transform.position = new Vector3(-1000f,-1000f,0f);
 			}
 
             if(isLocalPlayer) {
