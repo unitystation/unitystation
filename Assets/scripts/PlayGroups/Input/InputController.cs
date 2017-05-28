@@ -178,6 +178,11 @@ namespace InputControl {
 			}
 		}
 
+		public void OnMouseDownDir(Vector2 dir){
+			float angle = Angle(dir);
+			CheckPlayerDirection(angle);
+		}
+
 		//Calculate the mouse click angle in relation to player(for facingDirection on PlayerSprites)
 		float Angle(Vector2 dir)
 		{

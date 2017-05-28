@@ -91,7 +91,7 @@ public class CabinetTrigger: InputTrigger
         }
         else
         {
-            SoundManager.Play("OpenClose");
+			SoundManager.PlayAtPosition("OpenClose",transform.position);
         }
     }
 

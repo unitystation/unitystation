@@ -33,7 +33,7 @@ namespace UI
 			
         public void Update()
         {
-			if (!chatInputWindow.activeInHierarchy && Input.GetKey(KeyCode.T)) {
+			if (!chatInputWindow.activeInHierarchy && Input.GetKey(KeyCode.T) && GameData.IsInGame) {
 				chatInputWindow.SetActive(true);
 				isChatFocus = true;
 				EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
@@ -54,15 +54,15 @@ namespace UI
             
         public void OnClickSend()
         {
-            if (this.InputFieldChat != null)
+			if (!string.IsNullOrEmpty(this.InputFieldChat.text))
             {
                 SoundManager.Play("Click01");
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, true);
 				if(this.InputFieldChat.text != "")
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
                 this.InputFieldChat.text = "";
-                CloseChatWindow();
             }
+			CloseChatWindow();
         }
 
         public void OnChatCancel()

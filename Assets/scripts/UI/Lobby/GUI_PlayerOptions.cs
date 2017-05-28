@@ -23,7 +23,7 @@ namespace UI
 		public GameObject button;
 
 		private string versionCheck = "http://doobly.izz.moe/unitystation/checkversion.php";
-		private const string currentVersion = "0.0.41";
+		private const string currentVersion = "0.1.21";
 		private const string UserNamePlayerPref = "PlayerName";
 
 		private const string DefaultServer = "LocalHost";
@@ -76,11 +76,14 @@ namespace UI
 		public void BtnOk()
 		{
 			SoundManager.Play("Click01");
-
+			if (string.IsNullOrEmpty(playerNameInput.text))
+				return;
+			
 			//Connecting as client
 			if (screen_ConnectTo.activeInHierarchy) {
 				ConnectToServer();
 				gameObject.SetActive(false);
+				UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
 			}	
 				
 			if (screen_PlayerName.activeInHierarchy && !hostServer.isOn) {

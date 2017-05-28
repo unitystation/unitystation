@@ -52,7 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c281289940833c4da1b7e79318ce126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightingData: {r: 0, g: 0, b: 0, a: 0}
+  Lights: []
+  CurrentBrightness: 0
 --- !u!212 &212009103734875816
 SpriteRenderer:
   m_ObjectHideFlags: 1

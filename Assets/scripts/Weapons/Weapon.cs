@@ -164,7 +164,7 @@ namespace Weapons
 
 		//Gives it a chance for weaponNetworkActions to init
 		IEnumerator SetMagazineOnStart(GameObject magazine){
-			yield return new WaitForEndOfFrame();
+			yield return new WaitForSeconds(2f);
 			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
 		}
 		#endregion
@@ -218,6 +218,8 @@ namespace Weapons
 						if (WeaponType == WeaponType.SemiAutomatic || WeaponType == WeaponType.FullyAutomatic) {
 							Vector2 dir = (Camera.main.ScreenToWorldPoint (Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
 							PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet(gameObject, CurrentMagazine.gameObject, dir, Projectile.name);
+							if (WeaponType == WeaponType.FullyAutomatic)
+								PlayerManager.LocalPlayerScript.inputController.OnMouseDownDir(dir);
 						}
 
 						if (WeaponType == WeaponType.FullyAutomatic) {

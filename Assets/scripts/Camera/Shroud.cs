@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Lighting;
 using System.Linq;
+using Events;
 
 public class Shroud : MonoBehaviour {
 
 	public List<LightSource> Lights;
 	public float CurrentBrightness;
 
-	// Use this for initialization
-	void Start () {
-		
+	void OnEnable(){
+		EventManager.LightUpdate += UpdateLightSources;	
 	}
 
-	// Update is called once per frame
-	void Update () {
-		UpdateLightSources();
+	void OnDisable(){
+		EventManager.LightUpdate -= UpdateLightSources;	
 	}
 
 	public void UpdateLightSources() {

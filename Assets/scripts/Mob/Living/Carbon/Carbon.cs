@@ -105,6 +105,7 @@ public class Carbon : Living
 					if (IsClient()) {
 						PlayerManager.LocalPlayerScript.playerNetworkActions.CmdConsciousState(false);
 //						//FIXME remove after the combat demo, this is just a fast way to go straight to death
+
 //						mobStat = MobConsciousStat.DEAD;
 //						UI.UIManager.PlayerHealth.DisplayDeadScreen();
 					}

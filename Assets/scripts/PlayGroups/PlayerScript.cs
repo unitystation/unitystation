@@ -4,6 +4,7 @@ using System.Collections;
 using Equipment;
 using UI;
 using PlayGroup;
+using InputControl;
 
 namespace PlayGroup {
     public class PlayerScript: NetworkBehaviour {
@@ -14,9 +15,12 @@ namespace PlayGroup {
 		public SoundNetworkActions soundNetworkActions { get; set; }
 		public PlayerMove playerMove { get; set;}
 		public PlayerSprites playerSprites { get; set;}
+		public InputController inputController { get; set; }
 		public HitIcon hitIcon { get; set; }
 
 		public GameObject ghost;
+
+		private float pingUpdate = 0f;
 
         [SyncVar(hook = "OnNameChange")]
         public string playerName = " ";
@@ -47,6 +51,7 @@ namespace PlayGroup {
             playerNetworkActions = GetComponent<PlayerNetworkActions>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 			soundNetworkActions = GetComponent<SoundNetworkActions>();
+			inputController = GetComponent<InputController>();
 			hitIcon = GetComponentInChildren<HitIcon>();
         }
 
@@ -63,15 +68,26 @@ namespace PlayGroup {
             }
         }
 
+		void Update(){
+			//Read out of ping in toolTip
+			pingUpdate += Time.deltaTime;
+			if (pingUpdate >= 5f) {
+				pingUpdate = 0f;
+				int ping = CustomNetworkManager.Instance.client.GetRTT();
+				UIManager.SetToolTip = "ping: " + ping.ToString();
+			}
+		}
+
         [Command]
         void CmdTrySetName(string name) {
+			if(PlayerList.Instance != null)
             playerName = PlayerList.Instance.CheckName(name);
         }
         // On playerName variable change across all clients, make sure obj is named correctly
         // and set in Playerlist for that client
         public void OnNameChange(string newName) {
             gameObject.name = newName;
-            if(!PlayerList.Instance.connectedPlayers.ContainsKey(newName)) {
+			if(!PlayerList.Instance.connectedPlayers.ContainsKey(newName)) {
                 PlayerList.Instance.connectedPlayers.Add(newName, gameObject);
             }
             PlayerList.Instance.RefreshPlayerListText();
@@ -79,7 +95,7 @@ namespace PlayGroup {
 
         IEnumerator CheckIfNetworkPlayer() {
             yield return new WaitForSeconds(1f);
-            if(!isLocalPlayer) {
+			if(!isLocalPlayer) {
                 OnNameChange(playerName);
             }
         }
