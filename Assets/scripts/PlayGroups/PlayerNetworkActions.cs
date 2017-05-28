@@ -439,8 +439,7 @@ public class PlayerNetworkActions : NetworkBehaviour
 		if (PlayerManager.LocalPlayer == gameObject) {
 			SoundManager.Stop("Critstate");
 			Camera2DFollow.followControl.target = playerScript.ghost.transform;
-			//FIXME using for the demo, obviousily it is open for injection (hacking)
-			Camera2DFollow.followControl.gameObject.GetComponent<CameraOcclusion>().TurnOffShroud();
+			//FIXME disable FOV script on camera
 		}
 	}
 }
