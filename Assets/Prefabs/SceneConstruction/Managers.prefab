@@ -1852,6 +1852,7 @@ GameObject:
   - component: {fileID: 224342957805719492}
   - component: {fileID: 222471197423101600}
   - component: {fileID: 114102425676477964}
+  - component: {fileID: 114173723418728806}
   m_Layer: 5
   m_Name: Panel_HUD_Bottom
   m_TagString: Untagged
@@ -5782,6 +5783,34 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114173723418728806
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1773735637013182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6805bdeef480645908801c265e9d7aaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BeltSlot: {fileID: 114441514707964098}
+  BackSlot: {fileID: 114873687107902260}
+  SuitStorageSlot: {fileID: 114090887444817894}
+  IDSlot: {fileID: 114733848698575016}
+  LeftPocketSlot: {fileID: 114599336391617244}
+  RightPocketSlot: {fileID: 114162380104524076}
+  RightHandSlot: {fileID: 114695327282671848}
+  LeftHandSlot: {fileID: 114979991419574136}
+  HeadSlot: {fileID: 114395034210449304}
+  SuitSlot: {fileID: 114710482248211062}
+  HandsSlot: {fileID: 114704855797085276}
+  ShoeSlot: {fileID: 114158696084396008}
+  UniformSlot: {fileID: 114648632171505646}
+  EarSlot: {fileID: 114389007849843196}
+  EyesSlot: {fileID: 114232450015027486}
+  NeckSlot: {fileID: 114842981520721370}
+  MaskSlot: {fileID: 114712411679979280}
 --- !u!114 &114173813145052830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7897,8 +7926,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a726eeaef8432419b74dfe18ce9f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RightSlot: {fileID: 114695327282671848}
-  LeftSlot: {fileID: 114979991419574136}
   selector: {fileID: 224945965584951848}
 --- !u!114 &114514712987587426
 MonoBehaviour:
@@ -10397,6 +10424,7 @@ MonoBehaviour:
   playerHealth: {fileID: 114643588251052962}
   playerListUIControl: {fileID: 114827065861498824}
   toolTip: {fileID: 114819375966709390}
+  inventorySlotCache: {fileID: 114173723418728806}
 --- !u!114 &114902798441274010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13190,7 +13218,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 63.15002, y: 33.850037}
+  m_AnchoredPosition: {x: 63.150024, y: 33.850037}
   m_SizeDelta: {x: 34, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224679394288512756
