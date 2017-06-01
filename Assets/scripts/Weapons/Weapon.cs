@@ -195,7 +195,7 @@ namespace Weapons
 				return;
 
 			//if the hand with the weapon in it is selected
-			if (UIManager.Hands.CurrentSlot == UIManager.Hands.LeftSlot || UIManager.Hands.CurrentSlot == UIManager.Hands.RightSlot) {
+			if (UIManager.Hands.CurrentSlot == UIManager.InventorySlots.LeftHandSlot || UIManager.Hands.CurrentSlot == UIManager.InventorySlots.RightHandSlot) {
 				//if we have no mag/clip loaded play empty sound
 				if (CurrentMagazine == null) {
 					InAutomaticAction = false;
