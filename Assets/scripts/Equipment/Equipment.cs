@@ -121,7 +121,7 @@ namespace Equipment
 		public void SetHandItem(string eventName, GameObject obj)
 		{
 			ItemAttributes att = obj.GetComponent<ItemAttributes>();
-			EquipmentPool.AddGameObject(gameObject.name, obj);
+			EquipmentPool.AddGameObject(gameObject, obj);
             SetHandItemSprite(eventName, att);
             RpcSendMessage(eventName, obj);
 		}
@@ -155,7 +155,7 @@ namespace Equipment
 			GameObject item = Instantiate(prefab, Vector2.zero, Quaternion.identity) as GameObject;
 			NetworkServer.Spawn(item);
 			ItemAttributes att = item.GetComponent<ItemAttributes>();
-			EquipmentPool.AddGameObject(gameObject.name, item);
+			EquipmentPool.AddGameObject(gameObject, item);
 
 			playerNetworkActions.TrySetItem(eventName, item);
 			//Sync all clothing items across network using SyncListInt syncEquipSprites
