@@ -14,6 +14,8 @@ public class ShutterController : ObjectTrigger {
     void Awake() {
         animator = gameObject.GetComponent<Animator>();
         registerTile = gameObject.GetComponent<RegisterTile>();
+
+		SetLayer(LayerMask.NameToLayer("Door Closed"));
     }
 
 	public override void Trigger(bool state) {
@@ -21,15 +23,23 @@ public class ShutterController : ObjectTrigger {
 		if (!state) {
 			IsClosed = state;
 			registerTile.UpdateTileType(TileType.None);
-			gameObject.layer = LayerMask.NameToLayer("Door Open");
+			SetLayer(LayerMask.NameToLayer("Door Open"));
 			animator.SetBool("close", false);
 		}
 		//close
 		else {
 			IsClosed = state;
 			registerTile.UpdateTileType(TileType.Door);
-			gameObject.layer = LayerMask.NameToLayer("Door Closed");
+			SetLayer(LayerMask.NameToLayer("Door Closed"));
 			animator.SetBool("close", true);
+		}
+	}
+
+	public void SetLayer(int layer) {
+		gameObject.layer = layer;
+		foreach (Transform child in transform)
+		{
+			child.gameObject.layer = layer;
 		}
 	}
 }
