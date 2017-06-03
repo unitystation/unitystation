@@ -102,7 +102,7 @@ public class PlayerNetworkActions : NetworkBehaviour
         {
             if (ServerCache[eventName] == null || ServerCache[eventName] == obj)
             {
-                EquipmentPool.AddGameObject(gameObject.name, obj);
+                EquipmentPool.AddGameObject(gameObject, obj);
                 ServerCache[eventName] = obj;
                 equipment.SetHandItem(eventName, obj);
             }
@@ -117,7 +117,7 @@ public class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdTryAddToEquipmentPool(GameObject obj){
 
-		EquipmentPool.AddGameObject(gameObject.name, obj);
+		EquipmentPool.AddGameObject(gameObject, obj);
 	}
 
     [Command]
@@ -128,7 +128,7 @@ public class PlayerNetworkActions : NetworkBehaviour
             {
                 GameObject item = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
                 NetworkServer.Spawn(item);
-                EquipmentPool.AddGameObject(gameObject.name, item);
+                EquipmentPool.AddGameObject(gameObject, item);
                 ServerCache[eventName] = item;
                 equipment.SetHandItem(eventName, item);
                 RpcInstantiateInHand(gameObject.name, item);
