@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4000010739918412}
   - component: {fileID: 61000010182535082}
   - component: {fileID: 114000010568026162}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: MonitorAir
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4000012783713092}
   - component: {fileID: 212000010875379642}
   - component: {fileID: 114521400072661002}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +52,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010568484738}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1869, y: 1139, z: -0.1}
+  m_LocalPosition: {x: 1860, y: 1153, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000012783713092}
@@ -66,7 +66,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012059094926}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.75, z: 0}
+  m_LocalPosition: {x: 0.75, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000010739918412}
@@ -83,9 +83,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 1}
+  m_UsedByComposite: 0
+  m_Offset: {x: 1, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &114000010568026162
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -122,7 +133,7 @@ MonoBehaviour:
   - {x: 0, y: -0.6875}
   - {x: -0.6875, y: 0}
   colliderOffset: {x: 0, y: 0.1575, z: 0}
-  rotateIndex: 0
+  rotateIndex: 1
 --- !u!212 &212000010875379642
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -153,8 +164,13 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
+  m_SortingLayer: 7
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300210, guid: d06d7ce621e644368cae00d62437f985, type: 3}
+  m_Sprite: {fileID: 21300216, guid: d06d7ce621e644368cae00d62437f985, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0

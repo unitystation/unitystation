@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using PlayGroup;
+using System.Linq;
+using System;
 
 public class FieldOfView : MonoBehaviour {
 
@@ -24,12 +26,15 @@ public class FieldOfView : MonoBehaviour {
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
 
+
+	public List<Line> lines = new List<Line>();
+
     void Start()
     {
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
-        StartCoroutine("FindTargetsWithDelay", 0.2f);
+        StartCoroutine("FindTargetsWithDelay", 0.05f);
     }
 
     void LateUpdate()
@@ -45,9 +50,29 @@ public class FieldOfView : MonoBehaviour {
         while(true)
         {
             yield return new WaitForSeconds(delay);
+			lines.Clear();
             FindVisibleTargets();
         }
     }
+
+	public struct Line {
+		public Vector2 start;
+		public Vector2 end;
+		public Line(Vector2 start, Vector2 end) {
+			this.start = start;
+			this.end = end;
+		}
+	}
+
+	void OnDrawGizmos() {
+		if (lines.Count > 0) {
+			for (int i = 0; i<lines.Count; i++) {
+				var line = lines [i];
+				Gizmos.color = Color.red;
+				Gizmos.DrawLine (line.start, line.end);
+			}
+		}
+	}
 
     void FindVisibleTargets()
     {
@@ -57,15 +82,51 @@ public class FieldOfView : MonoBehaviour {
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             Transform target = targetsInViewRadius[i].transform;
+
+			var hideAll = target.gameObject.GetComponentsInChildren<SpriteRenderer>();
+			foreach (SpriteRenderer renderer in hideAll) {
+				renderer.enabled = false;
+			}
+
             Vector3 dirToTarget = (target.position - transform.position).normalized;
-            float angle = Vector2.Angle(transform.up, dirToTarget);
-            if (angle < viewAngle / 2)
+
+            float dstToTarget = Vector2.Distance(transform.position, target.position);
+
+			float x = (float)Math.Round(dirToTarget.x, MidpointRounding.AwayFromZero) / 2;
+			float y = (float)Math.Round(dirToTarget.y, MidpointRounding.AwayFromZero) / 2;
+			float z = dirToTarget.z;
+
+			if (transform.position.y > target.position.y) {
+				y = -0.6f;
+			} 
+			else if(transform.position.y < target.position.y) {
+				y = 0.6f;
+			}
+
+			if (transform.position.x > target.position.x) {
+				x = -0.6f;
+			}
+			else if(transform.position.x < target.position.x) {
+				x = 0.6f;
+			}
+			else if (transform.position.x == target.position.x) {
+				x = 0.0f;
+			}
+
+			var snappedDirToTarget = new Vector3(x, y, z);
+
+			var normalizedDirection = target.position + -snappedDirToTarget;
+			
+			lines.Add (new Line (transform.position, target.position));
+			//raycast to a position infront of blocks normalized to the direction of the player
+			var rayTest = Physics2D.Linecast(transform.position, normalizedDirection, obstacleMask);
+			//lines.Add (new Line (transform.position, normalizedDirection));
+			if (rayTest != null && rayTest.collider == null)
             {
-                float dstToTarget = Vector2.Distance(transform.position, target.position);
-                if (!Physics2D.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
-                {
-                    visibleTargets.Add(target);
-                }
+				var visibleRenderers = target.gameObject.transform.GetComponentsInChildren<SpriteRenderer>();
+				foreach (SpriteRenderer renderer in visibleRenderers) {
+					renderer.enabled = true;
+				}
             }
         }
     }
