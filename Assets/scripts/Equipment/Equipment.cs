@@ -83,7 +83,8 @@ namespace Equipment
 						}
 					}
 			isInit = true;
-			clothingSlots[10].Reference = 32;
+			//YELLOW HUMAN PLAYER GUY START OFFSET: >>>>
+			clothingSlots[10].Reference = 33;
 				
 		}
 

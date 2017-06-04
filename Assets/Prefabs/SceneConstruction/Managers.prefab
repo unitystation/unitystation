@@ -6250,7 +6250,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114117857999182964}
   m_HandleRect: {fileID: 224454349079915406}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 0.0000013871627
   m_Size: 0.9787234
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8038,8 +8038,8 @@ MonoBehaviour:
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
-  m_OfflineScene: Lobby
-  m_OnlineScene: BoxStation
+  m_OfflineScene: TestMap
+  m_OnlineScene: TestMap
   m_SpawnPrefabs:
   - {fileID: 1229467635671980, guid: 7fb98374065e73a42bfee58d83920914, type: 2}
   - {fileID: 1816790622172278, guid: 74303457ff5f1a9449b6c406f1ac2801, type: 2}
@@ -13190,7 +13190,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 63.15002, y: 33.850037}
+  m_AnchoredPosition: {x: 63.150024, y: 33.850037}
   m_SizeDelta: {x: 34, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224679394288512756

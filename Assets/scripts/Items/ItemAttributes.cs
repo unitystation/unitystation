@@ -86,16 +86,16 @@ namespace UI
 		//todo: place dm and dmi scriptableobjects here
 		
 		// item name and description. for future tooltip.
-		public readonly string itemName; //dm "name"
-		public readonly string itemDescription; //dm "desc"
+		public string itemName; //dm "name"
+		public string itemDescription; //dm "desc"
 
 		public InHandSpriteType inHandSpriteType; 
 		public ItemType type; 		  //todo perhaps replace this one with a list like /obj/item/clothing/suit ?
 		
 		//reference numbers for item on  inhands spritesheet. should be one corresponding to player facing down
-		public readonly int inHandReferenceRight; // dmi "offset" from first found : dm's "item_state"; "icon_state" ..
-		public readonly int inHandReferenceLeft;  // .. from sheet "clothing/guns/items_righthand" (depends on InHandSpriteType)
-		public readonly int clothingReference = -1;
+		public int inHandReferenceRight; // dmi "offset" from first found : dm's "item_state"; "icon_state" ..
+		public int inHandReferenceLeft;  // .. from sheet "clothing/guns/items_righthand" (depends on InHandSpriteType)
+		public int clothingReference = -1;
 
 	    public ItemSize size; //dm "w_class"; todo replace by W_CLASS
 

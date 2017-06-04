@@ -47,15 +47,15 @@ public class DmiIconData : ScriptableObject
 		}
 	}
 
-	private void OnDestroy()
-	{
-		Debug.LogWarning("OnDestroy!");
-	}
-
-	private void OnDisable()
-	{
-		Debug.LogWarning("OnDisable!");
-	}
+//	private void OnDestroy()
+//	{
+//		Debug.LogWarning("OnDestroy!");
+//	}
+//
+//	private void OnDisable()
+//	{
+//		Debug.LogWarning("OnDisable!");
+//	}
 
 	public void Awake() {
 		Debug.LogWarning("Awake!");
