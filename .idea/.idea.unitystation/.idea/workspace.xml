@@ -1,0 +1,1864 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ec899544-7e5f-424c-88e0-73dfc832a2fb" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/scripts/Test/DmiIcon.cs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/scripts/Test/DmiIcon.cs.meta" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/scripts/Test/DmiState.cs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/scripts/Test/DmiState.cs.meta" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/scripts/Test/TgObjectTest.cs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/scripts/Test/TgObjectTest.cs.meta" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/480x480.dmi" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/480x480.dmi.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/BadAss.dmi" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/BadAss.dmi.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/asteroiddustoverlay.psd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/asteroiddustoverlay.psd.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/door.psd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/door.psd.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/large-stamps.psd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/large-stamps.psd.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/locker_template.psd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/locker_template.psd.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing/air_meter.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing/air_meter.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing/atmos_testing.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing/atmos_testing.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing/turf_analysis.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing/turf_analysis.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/VendingMachineBG.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/VendingMachineBG.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assalien.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assalien.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assdrone.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assdrone.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assfemale.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assfemale.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assmale.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assmale.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/dispensebutton_bg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/dispensebutton_bg.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/128x128.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/128x128.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/160x160.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/160x160.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/187x381.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/187x381.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/211x247.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/211x247.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/224x224.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/224x224.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/254x361.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/254x361.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/288x288.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/288x288.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/340x428.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/340x428.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/352x352.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/352x352.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/400x400.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/400x400.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/512x512.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/512x512.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/64x64.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/64x64.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/96x32.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/96x32.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/96x96.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/96x96.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/alphacolors.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/alphacolors.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/beam.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/beam.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/bubblegum.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/bubblegum.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/cameravis.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/cameravis.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/chemsmoke.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/chemsmoke.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/clockwork.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/clockwork.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/clockwork_effects.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/clockwork_effects.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/crayondecal.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/crayondecal.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/creampie.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/creampie.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/effects.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/effects.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/fire.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/fire.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/footprints.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/footprints.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/freeze.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/freeze.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/genetics.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/genetics.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/item_damage.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/item_damage.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/lighting.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/lighting.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/liquid.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/liquid.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/progessbar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/progessbar.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/spacevines.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/spacevines.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha6.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha6.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha7.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha7.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha7_DEBUG.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha7_DEBUG.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha7_old.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha7_old.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/static.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/static.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/station_explosion.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/station_explosion.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/tile_effects.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/tile_effects.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/tomatodecal.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/tomatodecal.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/visor_reticule.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/visor_reticule.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/water.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/water.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/weather_effects.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/weather_effects.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/emoji.dmi" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/emoji.dmi.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_bay.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_bay.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_construct.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_construct.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_construction.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_construction.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_fab.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_fab.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mecha.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mecha.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mecha_equipment.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mecha_equipment.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mecha_mouse.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mecha_mouse.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/member_content.dmi" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/member_content.dmi.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimap.dmi" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimap.dmi.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/BirdboatStation_1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/BirdboatStation_1.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/Box Station_1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/Box Station_1.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/DreamStation_1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/DreamStation_1.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/Efficiency Station_1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/Efficiency Station_1.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/MetaStation_1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/MetaStation_1.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/MiniStation_1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/MiniStation_1.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/beach.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/beach.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/beach2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/beach2.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/buildmode.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/buildmode.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/fullscreen.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/fullscreen.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/imap.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/imap.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/inpipe.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/inpipe.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/mark.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/mark.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/radar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/radar.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/splash.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/splash.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/static.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/static.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/32x64.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/32x64.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/AI.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/AI.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/Easter.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/Easter.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/EvilPope.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/EvilPope.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/OnFire.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/OnFire.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/actions.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/actions.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/alien.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/alien.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/alienleap.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/alienleap.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/alienqueen.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/alienqueen.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/animal.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/animal.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/animal_parts.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/animal_parts.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/augments.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/augments.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/bees.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/bees.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/belt_mirror.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/belt_mirror.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/blob.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/blob.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/broadMobs.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/broadMobs.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/clockwork_mobs.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/clockwork_mobs.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/corgi_back.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/corgi_back.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/corgi_head.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/corgi_head.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/dam_mob.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/dam_mob.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/drone.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/drone.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/guardian.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/guardian.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/hands.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/hands.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/hivebot.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/hivebot.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/hud.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/hud.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/human_parts.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/human_parts.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/human_parts_greyscale.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/human_parts_greyscale.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/large-worn-icons.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/large-worn-icons/64x64.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/large-worn-icons/64x64/head.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/large-worn-icons/64x64/head.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/96x96megafauna.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/96x96megafauna.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/dragon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/dragon.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/hierophant.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/hierophant.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/lavaland_monsters.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/lavaland_monsters.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/legion.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/legion.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/watcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/watcher.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/limb_mask.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/limb_mask.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/mob.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/mob.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/monkey.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/monkey.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/mutant_bodyparts.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/mutant_bodyparts.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/neck.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/neck.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/nest.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/nest.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_atmos.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_atmos.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_back.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_back.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_bell.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_bell.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_blank.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_blank.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_boom.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_boom.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_bucket.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_bucket.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_chatroom.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_chatroom.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_cleanbot.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_cleanbot.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_crate.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_crate.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_cuffs.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_cuffs.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_dronephone.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_dronephone.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_eject.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_eject.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_exit.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_exit.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_flashlight.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_flashlight.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_floorbot.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_floorbot.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_honk.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_honk.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_locked.PNG" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_locked.PNG.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_mail.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_mail.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_medbot.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_medbot.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_medical.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_medical.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_menu.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_menu.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_mule.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_mule.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_notes.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_notes.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_power.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_power.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_rdoor.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_rdoor.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_reagent.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_reagent.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_refresh.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_refresh.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_scanner.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_scanner.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_signaler.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_signaler.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_status.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_status.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pets.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pets.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/robot_items.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/robot_items.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/robot_transformations.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/robot_transformations.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/robots.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/robots.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_ai.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_ai.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_alien.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_alien.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_cyborg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_cyborg.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_full.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_full.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_gen_old.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_gen_old.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_ghost.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_ghost.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_operative.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_operative.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_plasmafire.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_plasmafire.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_retro.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_retro.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_slimecore.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_slimecore.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/slimes.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/slimes.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/swarmer.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/swarmer.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/talk.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/talk.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/ties.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/ties.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/wings.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/wings.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/zone_sel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/zone_sel.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/alarm_green.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/alarm_green.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/alarm_red.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/alarm_red.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_100.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_100.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_20.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_20.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_40.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_40.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_5.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_5.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_60.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_60.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_80.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_80.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/charging.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/charging.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/downloader_finished.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/downloader_finished.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/downloader_running.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/downloader_running.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/ntnrc_idle.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/ntnrc_idle.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/ntnrc_new.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/ntnrc_new.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/power_norm.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/power_norm.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/power_warn.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/power_warn.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_high.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_high.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_lan.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_lan.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_low.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_low.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_none.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_none.gif.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/reagentname_bg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/reagentname_bg.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ss13_32.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ss13_32.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ss13_64.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ss13_64.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-cap.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-cap.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-ce.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-ce.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-clown.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-clown.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-cmo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-cmo.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-deny.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-deny.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-hop.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-hop.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-hos.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-hos.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-law.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-law.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-ok.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-ok.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-qm.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-qm.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-rd.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-rd.png.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/vending_icons.meta" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/vending_icons/vendingslot_bg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/vending_icons/vendingslot_bg.png.meta" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Blood/Resources/Corpse.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Blood/Resources/Corpse.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Floors/0001_Floor.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Floors/0001_Floor.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Cigarettes/Space Cigarettes.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Cigarettes/Space Cigarettes.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/belts/Resources/Belt.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/belts/Resources/Belt.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/feet/Resources/Black Shoes.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/feet/Resources/Black Shoes.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/feet/Resources/Engineer Shoes.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/feet/Resources/Engineer Shoes.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/feet/Resources/Purple Shoes.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/feet/Resources/Purple Shoes.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Chef's Hat.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Chef's Hat.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Engineer Helmet.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Engineer Helmet.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/ReinDeer Hat.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/ReinDeer Hat.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Santa Hat  Bearded.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Santa Hat  Bearded.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Santa Hat.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Santa Hat.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/radios/Resources/Service Radio Headset.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/radios/Resources/Service Radio Headset.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/suits/Resources/Chef's Apron.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/suits/Resources/Chef's Apron.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/uniforms/Resources/Cook's Uniform.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/uniforms/Resources/Cook's Uniform.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/uniforms/Resources/Engineer Uniform.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/uniforms/Resources/Engineer Uniform.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/uniforms/Resources/Janitor Uniform.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/uniforms/Resources/Janitor Uniform.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Food/Resources/Meat Steak.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Food/Resources/Meat Steak.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Food/Resources/Meat.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Food/Resources/Meat.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/IDs/Resources/ID.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/IDs/Resources/ID.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Kitchen/Pepper Shaker.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Kitchen/Pepper Shaker.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Kitchen/RollingPin.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Kitchen/RollingPin.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Kitchen/Salt Shaker.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Kitchen/Salt Shaker.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Magazines/Resources/Magazine_12mm.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Magazines/Resources/Magazine_12mm.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Magazines/Resources/Magazine_5.56mm.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Magazines/Resources/Magazine_5.56mm.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Resources/Extinguisher.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Resources/Extinguisher.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Storage/Resources/Backpack.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Storage/Resources/Backpack.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Weapons_Melee/Resources/Knife.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Weapons_Melee/Resources/Knife.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Lighting/LightBulb.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Lighting/LightBulb.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Machines/Kitchen/All-In-One Grinder.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Machines/Kitchen/All-In-One Grinder.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Machines/Kitchen/KitchenSink.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Machines/Kitchen/KitchenSink.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Machines/Kitchen/Refrigerator.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Machines/Kitchen/Refrigerator.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/SceneConstruction/Camera.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/SceneConstruction/Camera.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Shroud/ShroudTile.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Shroud/ShroudTile.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Tables/Table.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Tables/Table.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Tables/Table_Poker.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Tables/Table_Poker.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/MonitorAir.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/MonitorAir.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/Monitor_CameraTopLeft.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/Monitor_CameraTopLeft.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/Monitor_FireAlarmLeft.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/Monitor_FireAlarmLeft.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/RequestConsole.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/RequestConsole.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/ShutterSwitch.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/ShutterSwitch.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/StatusDisplay_News.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/StatusDisplay_News.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/WallMount_FireExtinguisher.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/WallMount_FireExtinguisher.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/WallMount_Radio_Top.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/WallMount_Radio_Top.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Walls/Grill.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Walls/Grill.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Walls/WallTile_Reinforced.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Walls/WallTile_Reinforced.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Walls/WallTile_Standard.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Walls/WallTile_Standard.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Walls/rock_wall.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Walls/rock_wall.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Weapons/Ballistics/Resources/C20rSMG_Ballistic.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Weapons/Ballistics/Resources/C20rSMG_Ballistic.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Weapons/Ballistics/Resources/L6SAW_Ballistic.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Weapons/Ballistics/Resources/L6SAW_Ballistic.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Weapons/Projectiles/Resources/BulletCasing.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Weapons/Projectiles/Resources/BulletCasing.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scenes/TestMap.unity" afterPath="$PROJECT_DIR$/Assets/scenes/TestMap.unity" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scripts/Equipment/Equipment.cs" afterPath="$PROJECT_DIR$/Assets/scripts/Equipment/Equipment.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scripts/Items/ItemAttributes.cs" afterPath="$PROJECT_DIR$/Assets/scripts/Items/ItemAttributes.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs" afterPath="$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs.meta" afterPath="$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs.meta" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scripts/PlayGroups/PlayerNetworkActions.cs" afterPath="$PROJECT_DIR$/Assets/scripts/PlayGroups/PlayerNetworkActions.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scripts/UI/UI Bottom/UI_ItemSlot.cs" afterPath="$PROJECT_DIR$/Assets/scripts/UI/UI Bottom/UI_ItemSlot.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/textures.meta" afterPath="$PROJECT_DIR$/Assets/textures.meta" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/textures/obj/guns/projectile.png.meta" afterPath="$PROJECT_DIR$/Assets/textures/obj/guns/projectile.png.meta" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FileEditorManager">
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="DmiState.cs" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiState.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding>
+                    <marker date="1496495994000" expanded="true" signature="300:490" ph="{...}" />
+                    <marker date="1496495994000" expanded="true" signature="513:525" ph="{...}" />
+                    <marker date="1496495994000" expanded="true" signature="564:733" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="DmiIcon.cs" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiIcon.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-60">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding>
+                    <marker date="1496495980000" expanded="true" signature="6:85" ph="..." />
+                    <marker date="1496495980000" expanded="true" signature="122:1224" ph="{...}" />
+                    <marker date="1496495980000" expanded="true" signature="246:323" ph="{...}" />
+                    <marker date="1496495980000" expanded="true" signature="379:447" ph="{...}" />
+                    <marker date="1496495980000" expanded="true" signature="499:511" ph="{...}" />
+                    <marker date="1496495980000" expanded="true" signature="552:564" ph="{...}" />
+                    <marker date="1496495980000" expanded="true" signature="606:666" ph="{...}" />
+                    <marker date="1496495980000" expanded="true" signature="711:927" ph="{...}" />
+                    <marker date="1496495980000" expanded="true" signature="966:1013" ph="{...}" />
+                    <marker date="1496495980000" expanded="true" signature="1052:1222" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="TgSpriteTest.cs" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgSpriteTest.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="601">
+                  <caret line="55" column="9" lean-forward="false" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
+                  <folding>
+                    <marker date="1496566491000" expanded="true" signature="6:147" ph="..." />
+                    <marker date="1496566491000" expanded="true" signature="177:1863" ph="{...}" />
+                    <marker date="1496566491000" expanded="true" signature="241:1037" ph="{...}" />
+                    <marker date="1496566491000" expanded="true" signature="452:798" ph="{...}" />
+                    <marker date="1496566491000" expanded="true" signature="918:971" ph="{...}" />
+                    <marker date="1496566491000" expanded="true" signature="1090:1501" ph="{...}" />
+                    <marker date="1496566491000" expanded="true" signature="1218:1315" ph="{...}" />
+                    <marker date="1496566491000" expanded="true" signature="1546:1579" ph="{...}" />
+                    <marker date="1496566491000" expanded="true" signature="1660:1859" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="DmiIconData.cs" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiIconData.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="351">
+                  <caret line="34" column="5" lean-forward="false" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
+                  <folding>
+                    <marker date="1496566798000" expanded="true" signature="7:110" ph="..." />
+                    <marker date="1496566798000" expanded="true" signature="199:1918" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="330:359" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="442:712" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="520:625" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="591:621" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="738:1197" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="856:1194" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="1224:1264" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="1291:1331" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="1354:1390" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="1444:1843" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="1568:1661" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="1886:1916" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ItemAttributes.cs" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Assets/scripts/Items/ItemAttributes.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-407">
+                  <caret line="77" column="31" lean-forward="false" selection-start-line="77" selection-start-column="31" selection-end-line="77" selection-end-column="31" />
+                  <folding>
+                    <marker date="1496565298000" expanded="true" signature="6:58" ph="..." />
+                    <marker date="1496565298000" expanded="true" signature="72:3352" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="96:155" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="158:309" ph="/* public enum W_CLASS { //w_class ... */" />
+                    <marker date="1496565298000" expanded="true" signature="335:451" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="484:574" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="603:738" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="764:868" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="895:988" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="1010:1211" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="1011:1036" ph="/* flags ... */" />
+                    <marker date="1496565298000" expanded="true" signature="1239:1306" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="1337:1371" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="1417:1529" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="1575:3350" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="1581:1683" ph="/* todo: place dm and dmi scriptableobjects here ... */" />
+                    <marker date="1496565298000" expanded="true" signature="2403:2548" ph="/* Below methods add a code to the start of the sprite reference to indicate which spritesheet to use: ... */" />
+                    <marker date="1496565298000" expanded="true" signature="2584:2800" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="2841:3059" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="3094:3347" ph="{...}" />
+                    <marker date="1496565298000" expanded="true" signature="3140:3319" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SpriteManager.cs" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1478">
+                  <caret line="172" column="5" lean-forward="false" selection-start-line="172" selection-start-column="5" selection-end-line="172" selection-end-column="5" />
+                  <folding>
+                    <marker date="1496565450000" expanded="true" signature="6:78" ph="..." />
+                    <marker date="1496565450000" expanded="true" signature="98:11333" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="125:609" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="260:603" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="278:523" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="314:398" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="540:593" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="657:11099" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="1085:10139" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="1126:1282" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="1284:1324" ph="/* if (dmi != null) ... */" />
+                    <marker date="1496565450000" expanded="false" signature="2720:4175" ph="/* ConnectSprites[&quot;wall&quot;] = dmi.getSprites(&quot;turf/walls/wall&quot;); ... */" />
+                    <marker date="1496565450000" expanded="false" signature="5502:7313" ph="/* old ones: ... */" />
+                    <marker date="1496565450000" expanded="false" signature="8788:9945" ph="/* DoorSprites[&quot;atmos&quot;] = Resources.LoadAll&lt;Sprite&gt;(&quot;doors/station/atmos&quot;); ... */" />
+                    <marker date="1496565450000" expanded="true" signature="10016:10129" ph="/* } ... */" />
+                    <marker date="1496565450000" expanded="true" signature="10186:10453" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="10204:10443" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="10241:10391" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="10499:10589" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="10517:10579" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="10636:10724" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="10654:10714" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="10762:10815" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="10771:10811" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="10856:10912" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="10865:10908" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="10950:11002" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="10958:10998" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="11040:11092" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="11048:11088" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="11122:11269" ph="{...}" />
+                    <marker date="1496565450000" expanded="true" signature="11300:11331" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ClothingItem.cs" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Assets/scripts/Items/ClothingItem.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1515">
+                  <caret line="107" column="36" lean-forward="false" selection-start-line="107" selection-start-column="36" selection-end-line="107" selection-end-column="36" />
+                  <folding>
+                    <marker date="1496291931000" expanded="false" signature="6:147" ph="..." />
+                    <marker date="1496291931000" expanded="true" signature="197:244" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="334:3094" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="581:775" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="607:687" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="703:765" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="809:1041" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="835:946" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="962:1031" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="1242:1358" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="1387:1435" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="1465:2347" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="1492:1530" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="1570:1607" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="1615:2264" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="1828:2017" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2061:2156" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2165:2259" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2393:2790" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2827:3088" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2863:3083" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2889:3030" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="LightSource.cs" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Assets/scripts/Lighting/LightSource.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="810">
+                  <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+                  <folding>
+                    <marker date="1496291931000" expanded="false" signature="6:153" ph="..." />
+                    <marker date="1496291931000" expanded="true" signature="217:2964" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="223:293" ph="/// The SpriteRenderer for this light ... " />
+                    <marker date="1496291931000" expanded="true" signature="331:418" ph="/// The Maximum distance this light can cover in tiles ... " />
+                    <marker date="1496291931000" expanded="true" signature="480:540" ph="/// The state of this light ... " />
+                    <marker date="1496291931000" expanded="true" signature="566:650" ph="/// The sprite to show when this light is turned on ... " />
+                    <marker date="1496291931000" expanded="true" signature="684:769" ph="/// The sprite to show when this light is turned off ... " />
+                    <marker date="1496291931000" expanded="true" signature="804:897" ph="/// The CameraOcclusion script with which we et shroud tiles ... " />
+                    <marker date="1496291931000" expanded="true" signature="940:1012" ph="/// The local shrouds around this light ... " />
+                    <marker date="1496291931000" expanded="true" signature="1153:1217" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="1233:1613" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="1632:1681" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="1701:1750" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="1780:1890" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="1840:1886" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="1912:2215" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2055:2190" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2259:2375" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2297:2323" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2337:2371" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2404:2714" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2490:2710" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2536:2672" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2744:2961" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2832:2957" ph="{...}" />
+                    <marker date="1496291931000" expanded="true" signature="2878:2919" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="DmiIconData.cs" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiIconData.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="198">
+                  <caret line="45" column="56" lean-forward="false" selection-start-line="45" selection-start-column="56" selection-end-line="45" selection-end-column="56" />
+                  <folding>
+                    <marker date="1496566798000" expanded="true" signature="7:110" ph="..." />
+                    <marker date="1496566798000" expanded="true" signature="199:1918" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="330:359" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="442:712" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="520:625" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="591:621" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="738:1197" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="856:1194" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="1224:1264" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="1291:1331" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="1354:1390" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="1444:1843" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="1568:1661" ph="{...}" />
+                    <marker date="1496566798000" expanded="true" signature="1886:1916" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>mobs/</find>
+      <find>&quot;walls</find>
+      <find>Resources.LoadAll&lt;Sprite&gt;(</find>
+      <find>DmiIconData</find>
+      <find>tex</find>
+      <find>textures</find>
+      <find>textures`</find>
+      <find>t</find>
+      <find>tables</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>mob/</replace>
+      <replace>&quot;turf/walls</replace>
+      <replace>DmiIconData.getSprites(</replace>
+      <replace>dmi</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Assets/scripts/Test/TGSpriteTest.cs" />
+        <option value="$PROJECT_DIR$/Assets/scripts/Test/TgObjectTest.cs" />
+        <option value="$PROJECT_DIR$/Assets/scripts/Test/SliceStuff.cs" />
+        <option value="$PROJECT_DIR$/Assets/scripts/Test/MakeScriptableObjects.cs" />
+        <option value="$PROJECT_DIR$/Assets/scripts/Test/DmiIcon.cs" />
+        <option value="$PROJECT_DIR$/Assets/scripts/Test/DmiState.cs" />
+        <option value="$PROJECT_DIR$/Assets/scripts/Test/SpriteSlicer.cs" />
+        <option value="$PROJECT_DIR$/Assets/scripts/Items/ItemAttributes.cs" />
+        <option value="$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/scripts/Test/TgSpriteTest.cs" />
+        <option value="$PROJECT_DIR$/Assets/scripts/Test/DmiIconData.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="22" />
+    <option name="width" value="1440" />
+    <option name="height" value="812" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="SolutionExplorer" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="SolutionExplorer">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unitystation (3 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <option name="show-file-system" value="false" />
+        <option name="show-all-items" value="false" />
+      </pane>
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Unity Debug.Attach to Unity Editor">
+    <configuration default="true" type="DotNetProject" factoryName=".NET Project">
+      <option name="PROJECT_PATH" value="" />
+      <option name="PROJECT_KIND" value="None" />
+      <option name="PROJECT_TFM" value="" />
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
+      <node-interpreter value="project" />
+      <working-dir value="" />
+      <envs />
+      <scope-kind value="ALL" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug">
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Unity Debug.Attach to Unity Editor" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ec899544-7e5f-424c-88e0-73dfc832a2fb" name="Default" comment="" />
+      <created>1496299812741</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1496299812741</updated>
+      <workItem from="1496299817509" duration="17877000" />
+      <workItem from="1496347824218" duration="6929000" />
+      <workItem from="1496385882079" duration="6488000" />
+      <workItem from="1496398743359" duration="804000" />
+      <workItem from="1496399620627" duration="3660000" />
+      <workItem from="1496408759317" duration="1645000" />
+      <workItem from="1496429186694" duration="15141000" />
+      <workItem from="1496518663249" duration="7599000" />
+      <workItem from="1496562852872" duration="4002000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="64145000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="22" width="1440" height="812" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32729805" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32658568" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32729805" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32729805" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32729805" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32729805" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Change Signature" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14652778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22733423" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32729805" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32658568" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32729805" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32729805" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32729805" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32729805" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Change Signature" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14652778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22733423" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Items/ItemAttributes.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1440">
+          <caret line="96" column="32" lean-forward="false" selection-start-line="96" selection-start-column="32" selection-end-line="96" selection-end-column="32" />
+          <folding>
+            <marker date="1496565298000" expanded="true" signature="6:58" ph="..." />
+            <marker date="1496565298000" expanded="true" signature="72:3352" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="96:155" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="158:309" ph="/* public enum W_CLASS { //w_class ... */" />
+            <marker date="1496565298000" expanded="true" signature="335:451" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="484:574" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="603:738" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="764:868" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="895:988" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1010:1211" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1011:1036" ph="/* flags ... */" />
+            <marker date="1496565298000" expanded="true" signature="1239:1306" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1337:1371" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1417:1529" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1575:3350" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1581:1683" ph="/* todo: place dm and dmi scriptableobjects here ... */" />
+            <marker date="1496565298000" expanded="true" signature="2403:2548" ph="/* Below methods add a code to the start of the sprite reference to indicate which spritesheet to use: ... */" />
+            <marker date="1496565298000" expanded="true" signature="2584:2800" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="2841:3059" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="3094:3347" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="3140:3319" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1245">
+          <caret line="83" column="82" lean-forward="false" selection-start-line="83" selection-start-column="36" selection-end-line="83" selection-end-column="82" />
+          <folding>
+            <marker date="1496565450000" expanded="true" signature="6:78" ph="..." />
+            <marker date="1496565450000" expanded="true" signature="98:11333" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="125:609" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="260:603" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="278:523" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="314:398" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="540:593" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="657:11099" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1085:10139" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1126:1282" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1284:1324" ph="/* if (dmi != null) ... */" />
+            <marker date="1496565450000" expanded="false" signature="2720:4175" ph="/* ConnectSprites[&quot;wall&quot;] = dmi.getSprites(&quot;turf/walls/wall&quot;); ... */" />
+            <marker date="1496565450000" expanded="false" signature="5502:7313" ph="/* old ones: ... */" />
+            <marker date="1496565450000" expanded="false" signature="8788:9945" ph="/* DoorSprites[&quot;atmos&quot;] = Resources.LoadAll&lt;Sprite&gt;(&quot;doors/station/atmos&quot;); ... */" />
+            <marker date="1496565450000" expanded="true" signature="10016:10129" ph="/* } ... */" />
+            <marker date="1496565450000" expanded="true" signature="10186:10453" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10204:10443" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10241:10391" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10499:10589" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10517:10579" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10636:10724" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10654:10714" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10762:10815" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10771:10811" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10856:10912" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10865:10908" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10950:11002" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10958:10998" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11040:11092" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11048:11088" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11122:11269" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11300:11331" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Closets/CabinetTrigger.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1950">
+          <caret line="137" column="0" lean-forward="false" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/PlayGroups/PlayerNetworkActions.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3840">
+          <caret line="268" column="65" lean-forward="false" selection-start-line="268" selection-start-column="65" selection-end-line="268" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/SpriteSlicer.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgSpriteTest.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="12" lean-forward="false" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
+          <folding>
+            <marker date="1496566491000" expanded="true" signature="6:147" ph="..." />
+            <marker date="1496566491000" expanded="true" signature="177:1863" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="241:1037" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="452:798" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="918:971" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1090:1501" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1218:1315" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1546:1579" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1660:1859" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiIconData.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="12" lean-forward="false" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="12" />
+          <folding>
+            <marker date="1496566798000" expanded="true" signature="7:110" ph="..." />
+            <marker date="1496566798000" expanded="true" signature="199:1918" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="330:359" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="442:712" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="520:625" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="591:621" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="738:1197" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="856:1194" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1224:1264" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1291:1331" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1354:1390" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1444:1843" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1568:1661" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1886:1916" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgObjectTest.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="42" lean-forward="false" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Items/ItemAttributes.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1440">
+          <caret line="96" column="32" lean-forward="false" selection-start-line="96" selection-start-column="32" selection-end-line="96" selection-end-column="32" />
+          <folding>
+            <marker date="1496565298000" expanded="true" signature="6:58" ph="..." />
+            <marker date="1496565298000" expanded="true" signature="72:3352" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="96:155" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="158:309" ph="/* public enum W_CLASS { //w_class ... */" />
+            <marker date="1496565298000" expanded="true" signature="335:451" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="484:574" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="603:738" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="764:868" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="895:988" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1010:1211" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1011:1036" ph="/* flags ... */" />
+            <marker date="1496565298000" expanded="true" signature="1239:1306" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1337:1371" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1417:1529" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1575:3350" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1581:1683" ph="/* todo: place dm and dmi scriptableobjects here ... */" />
+            <marker date="1496565298000" expanded="true" signature="2403:2548" ph="/* Below methods add a code to the start of the sprite reference to indicate which spritesheet to use: ... */" />
+            <marker date="1496565298000" expanded="true" signature="2584:2800" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="2841:3059" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="3094:3347" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="3140:3319" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1185">
+          <caret line="79" column="22" lean-forward="false" selection-start-line="79" selection-start-column="22" selection-end-line="79" selection-end-column="22" />
+          <folding>
+            <marker date="1496565450000" expanded="true" signature="6:78" ph="..." />
+            <marker date="1496565450000" expanded="true" signature="98:11333" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="125:609" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="260:603" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="278:523" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="314:398" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="540:593" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="657:11099" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1085:10139" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1126:1282" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1284:1324" ph="/* if (dmi != null) ... */" />
+            <marker date="1496565450000" expanded="false" signature="2720:4175" ph="/* ConnectSprites[&quot;wall&quot;] = dmi.getSprites(&quot;turf/walls/wall&quot;); ... */" />
+            <marker date="1496565450000" expanded="false" signature="5502:7313" ph="/* old ones: ... */" />
+            <marker date="1496565450000" expanded="false" signature="8788:9945" ph="/* DoorSprites[&quot;atmos&quot;] = Resources.LoadAll&lt;Sprite&gt;(&quot;doors/station/atmos&quot;); ... */" />
+            <marker date="1496565450000" expanded="true" signature="10016:10129" ph="/* } ... */" />
+            <marker date="1496565450000" expanded="true" signature="10186:10453" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10204:10443" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10241:10391" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10499:10589" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10517:10579" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10636:10724" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10654:10714" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10762:10815" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10771:10811" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10856:10912" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10865:10908" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10950:11002" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10958:10998" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11040:11092" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11048:11088" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11122:11269" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11300:11331" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Closets/CabinetTrigger.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1950">
+          <caret line="137" column="0" lean-forward="false" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/PlayGroups/PlayerNetworkActions.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3840">
+          <caret line="268" column="65" lean-forward="false" selection-start-line="268" selection-start-column="65" selection-end-line="268" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/SpriteSlicer.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="54" lean-forward="true" selection-start-line="14" selection-start-column="54" selection-end-line="14" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgSpriteTest.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="12" lean-forward="false" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
+          <folding>
+            <marker date="1496566491000" expanded="true" signature="6:147" ph="..." />
+            <marker date="1496566491000" expanded="true" signature="177:1863" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="241:1037" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="452:798" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="918:971" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1090:1501" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1218:1315" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1546:1579" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1660:1859" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiIconData.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="12" lean-forward="false" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="12" />
+          <folding>
+            <marker date="1496566798000" expanded="true" signature="7:110" ph="..." />
+            <marker date="1496566798000" expanded="true" signature="199:1918" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="330:359" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="442:712" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="520:625" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="591:621" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="738:1197" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="856:1194" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1224:1264" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1291:1331" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1354:1390" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1444:1843" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1568:1661" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1886:1916" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgObjectTest.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="42" lean-forward="false" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Items/ItemAttributes.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1440">
+          <caret line="96" column="32" lean-forward="false" selection-start-line="96" selection-start-column="32" selection-end-line="96" selection-end-column="32" />
+          <folding>
+            <marker date="1496565298000" expanded="true" signature="6:58" ph="..." />
+            <marker date="1496565298000" expanded="true" signature="72:3352" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="96:155" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="158:309" ph="/* public enum W_CLASS { //w_class ... */" />
+            <marker date="1496565298000" expanded="true" signature="335:451" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="484:574" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="603:738" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="764:868" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="895:988" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1010:1211" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1011:1036" ph="/* flags ... */" />
+            <marker date="1496565298000" expanded="true" signature="1239:1306" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1337:1371" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1417:1529" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1575:3350" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1581:1683" ph="/* todo: place dm and dmi scriptableobjects here ... */" />
+            <marker date="1496565298000" expanded="true" signature="2403:2548" ph="/* Below methods add a code to the start of the sprite reference to indicate which spritesheet to use: ... */" />
+            <marker date="1496565298000" expanded="true" signature="2584:2800" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="2841:3059" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="3094:3347" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="3140:3319" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Closets/CabinetTrigger.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1950">
+          <caret line="137" column="0" lean-forward="false" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/PlayGroups/PlayerNetworkActions.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3840">
+          <caret line="268" column="65" lean-forward="false" selection-start-line="268" selection-start-column="65" selection-end-line="268" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1185">
+          <caret line="79" column="22" lean-forward="true" selection-start-line="79" selection-start-column="22" selection-end-line="79" selection-end-column="22" />
+          <folding>
+            <marker date="1496565450000" expanded="true" signature="6:78" ph="..." />
+            <marker date="1496565450000" expanded="true" signature="98:11333" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="125:609" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="260:603" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="278:523" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="314:398" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="540:593" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="657:11099" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1085:10139" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1126:1282" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1284:1324" ph="/* if (dmi != null) ... */" />
+            <marker date="1496565450000" expanded="false" signature="2720:4175" ph="/* ConnectSprites[&quot;wall&quot;] = dmi.getSprites(&quot;turf/walls/wall&quot;); ... */" />
+            <marker date="1496565450000" expanded="false" signature="5502:7313" ph="/* old ones: ... */" />
+            <marker date="1496565450000" expanded="false" signature="8788:9945" ph="/* DoorSprites[&quot;atmos&quot;] = Resources.LoadAll&lt;Sprite&gt;(&quot;doors/station/atmos&quot;); ... */" />
+            <marker date="1496565450000" expanded="true" signature="10016:10129" ph="/* } ... */" />
+            <marker date="1496565450000" expanded="true" signature="10186:10453" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10204:10443" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10241:10391" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10499:10589" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10517:10579" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10636:10724" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10654:10714" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10762:10815" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10771:10811" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10856:10912" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10865:10908" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10950:11002" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10958:10998" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11040:11092" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11048:11088" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11122:11269" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11300:11331" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgSpriteTest.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="31" lean-forward="false" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+          <folding>
+            <marker date="1496566491000" expanded="true" signature="6:147" ph="..." />
+            <marker date="1496566491000" expanded="true" signature="177:1863" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="241:1037" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="452:798" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="918:971" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1090:1501" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1218:1315" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1546:1579" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1660:1859" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgObjectTest.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="4" lean-forward="false" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Items/ItemAttributes.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1305">
+          <caret line="96" column="32" lean-forward="false" selection-start-line="96" selection-start-column="32" selection-end-line="96" selection-end-column="32" />
+          <folding>
+            <marker date="1496565298000" expanded="true" signature="6:58" ph="..." />
+            <marker date="1496565298000" expanded="true" signature="72:3352" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="96:155" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="158:309" ph="/* public enum W_CLASS { //w_class ... */" />
+            <marker date="1496565298000" expanded="true" signature="335:451" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="484:574" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="603:738" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="764:868" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="895:988" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1010:1211" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1011:1036" ph="/* flags ... */" />
+            <marker date="1496565298000" expanded="true" signature="1239:1306" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1337:1371" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1417:1529" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1575:3350" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1581:1683" ph="/* todo: place dm and dmi scriptableobjects here ... */" />
+            <marker date="1496565298000" expanded="true" signature="2403:2548" ph="/* Below methods add a code to the start of the sprite reference to indicate which spritesheet to use: ... */" />
+            <marker date="1496565298000" expanded="true" signature="2584:2800" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="2841:3059" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="3094:3347" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="3140:3319" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Closets/CabinetTrigger.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1950">
+          <caret line="137" column="0" lean-forward="false" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/PlayGroups/PlayerNetworkActions.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3840">
+          <caret line="268" column="65" lean-forward="false" selection-start-line="268" selection-start-column="65" selection-end-line="268" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1496565450000" expanded="true" signature="6:78" ph="..." />
+            <marker date="1496565450000" expanded="true" signature="98:11333" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="125:609" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="260:603" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="278:523" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="314:398" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="540:593" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="657:11099" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1085:10139" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1126:1282" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1284:1324" ph="/* if (dmi != null) ... */" />
+            <marker date="1496565450000" expanded="false" signature="2720:4175" ph="/* ConnectSprites[&quot;wall&quot;] = dmi.getSprites(&quot;turf/walls/wall&quot;); ... */" />
+            <marker date="1496565450000" expanded="false" signature="5502:7313" ph="/* old ones: ... */" />
+            <marker date="1496565450000" expanded="false" signature="8788:9945" ph="/* DoorSprites[&quot;atmos&quot;] = Resources.LoadAll&lt;Sprite&gt;(&quot;doors/station/atmos&quot;); ... */" />
+            <marker date="1496565450000" expanded="true" signature="10016:10129" ph="/* } ... */" />
+            <marker date="1496565450000" expanded="true" signature="10186:10453" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10204:10443" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10241:10391" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10499:10589" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10517:10579" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10636:10724" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10654:10714" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10762:10815" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10771:10811" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10856:10912" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10865:10908" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10950:11002" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10958:10998" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11040:11092" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11048:11088" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11122:11269" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11300:11331" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgSpriteTest.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="31" lean-forward="true" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+          <folding>
+            <marker date="1496566491000" expanded="true" signature="6:147" ph="..." />
+            <marker date="1496566491000" expanded="true" signature="177:1863" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="241:1037" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="452:798" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="918:971" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1090:1501" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1218:1315" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1546:1579" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1660:1859" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgObjectTest.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="4" lean-forward="false" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Items/ItemAttributes.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1496565298000" expanded="true" signature="6:58" ph="..." />
+            <marker date="1496565298000" expanded="true" signature="72:3352" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="96:155" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="158:309" ph="/* public enum W_CLASS { //w_class ... */" />
+            <marker date="1496565298000" expanded="true" signature="335:451" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="484:574" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="603:738" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="764:868" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="895:988" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1010:1211" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1011:1036" ph="/* flags ... */" />
+            <marker date="1496565298000" expanded="true" signature="1239:1306" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1337:1371" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1417:1529" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1575:3350" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1581:1683" ph="/* todo: place dm and dmi scriptableobjects here ... */" />
+            <marker date="1496565298000" expanded="true" signature="2403:2548" ph="/* Below methods add a code to the start of the sprite reference to indicate which spritesheet to use: ... */" />
+            <marker date="1496565298000" expanded="true" signature="2584:2800" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="2841:3059" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="3094:3347" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="3140:3319" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Equipment/Equipment.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="397">
+          <caret line="163" column="41" lean-forward="true" selection-start-line="163" selection-start-column="41" selection-end-line="163" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/PlayGroups/HitIcon.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="19" column="6" lean-forward="false" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/share/JetBrains/Shared/v08/DecompilerCache/decompiler/5D83A8D5-4E33-4CDC-853A-0DBA68082096/9b/bff7b01e/StringBuilder.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="520">
+          <caret line="424" column="32" lean-forward="false" selection-start-line="424" selection-start-column="32" selection-end-line="424" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/PlayGroups/PlayerNetworkActions.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4020">
+          <caret line="268" column="65" lean-forward="false" selection-start-line="268" selection-start-column="65" selection-end-line="268" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Closets/CabinetTrigger.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="909">
+          <caret line="137" column="0" lean-forward="false" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgObjectTest.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="42" lean-forward="false" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/MakeScriptableObjects.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiState.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1496495994000" expanded="true" signature="300:490" ph="{...}" />
+            <marker date="1496495994000" expanded="true" signature="513:525" ph="{...}" />
+            <marker date="1496495994000" expanded="true" signature="564:733" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Managers/Managers.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/UI/UIManager.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-924">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Managers/GameData.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Blood/BloodSplat.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Matrix/Matrix.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Matrix/ConnectTiles/TileConnect.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="36" column="39" lean-forward="false" selection-start-line="36" selection-start-column="39" selection-end-line="36" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/SpriteSlicer.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="19" lean-forward="false" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Lighting/LightSource.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="810">
+          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+          <folding>
+            <marker date="1496291931000" expanded="false" signature="6:153" ph="..." />
+            <marker date="1496291931000" expanded="true" signature="217:2964" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="223:293" ph="/// The SpriteRenderer for this light ... " />
+            <marker date="1496291931000" expanded="true" signature="331:418" ph="/// The Maximum distance this light can cover in tiles ... " />
+            <marker date="1496291931000" expanded="true" signature="480:540" ph="/// The state of this light ... " />
+            <marker date="1496291931000" expanded="true" signature="566:650" ph="/// The sprite to show when this light is turned on ... " />
+            <marker date="1496291931000" expanded="true" signature="684:769" ph="/// The sprite to show when this light is turned off ... " />
+            <marker date="1496291931000" expanded="true" signature="804:897" ph="/// The CameraOcclusion script with which we et shroud tiles ... " />
+            <marker date="1496291931000" expanded="true" signature="940:1012" ph="/// The local shrouds around this light ... " />
+            <marker date="1496291931000" expanded="true" signature="1153:1217" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="1233:1613" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="1632:1681" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="1701:1750" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="1780:1890" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="1840:1886" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="1912:2215" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2055:2190" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2259:2375" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2297:2323" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2337:2371" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2404:2714" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2490:2710" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2536:2672" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2744:2961" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2832:2957" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2878:2919" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Items/ClothingItem.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1515">
+          <caret line="107" column="36" lean-forward="false" selection-start-line="107" selection-start-column="36" selection-end-line="107" selection-end-column="36" />
+          <folding>
+            <marker date="1496291931000" expanded="false" signature="6:147" ph="..." />
+            <marker date="1496291931000" expanded="true" signature="197:244" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="334:3094" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="581:775" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="607:687" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="703:765" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="809:1041" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="835:946" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="962:1031" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="1242:1358" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="1387:1435" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="1465:2347" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="1492:1530" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="1570:1607" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="1615:2264" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="1828:2017" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2061:2156" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2165:2259" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2393:2790" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2827:3088" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2863:3083" ph="{...}" />
+            <marker date="1496291931000" expanded="true" signature="2889:3030" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiIcon.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-60">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1496495980000" expanded="true" signature="6:85" ph="..." />
+            <marker date="1496495980000" expanded="true" signature="122:1224" ph="{...}" />
+            <marker date="1496495980000" expanded="true" signature="246:323" ph="{...}" />
+            <marker date="1496495980000" expanded="true" signature="379:447" ph="{...}" />
+            <marker date="1496495980000" expanded="true" signature="499:511" ph="{...}" />
+            <marker date="1496495980000" expanded="true" signature="552:564" ph="{...}" />
+            <marker date="1496495980000" expanded="true" signature="606:666" ph="{...}" />
+            <marker date="1496495980000" expanded="true" signature="711:927" ph="{...}" />
+            <marker date="1496495980000" expanded="true" signature="966:1013" ph="{...}" />
+            <marker date="1496495980000" expanded="true" signature="1052:1222" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Items/ItemAttributes.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-407">
+          <caret line="77" column="31" lean-forward="false" selection-start-line="77" selection-start-column="31" selection-end-line="77" selection-end-column="31" />
+          <folding>
+            <marker date="1496565298000" expanded="true" signature="6:58" ph="..." />
+            <marker date="1496565298000" expanded="true" signature="72:3352" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="96:155" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="158:309" ph="/* public enum W_CLASS { //w_class ... */" />
+            <marker date="1496565298000" expanded="true" signature="335:451" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="484:574" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="603:738" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="764:868" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="895:988" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1010:1211" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1011:1036" ph="/* flags ... */" />
+            <marker date="1496565298000" expanded="true" signature="1239:1306" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1337:1371" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1417:1529" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1575:3350" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="1581:1683" ph="/* todo: place dm and dmi scriptableobjects here ... */" />
+            <marker date="1496565298000" expanded="true" signature="2403:2548" ph="/* Below methods add a code to the start of the sprite reference to indicate which spritesheet to use: ... */" />
+            <marker date="1496565298000" expanded="true" signature="2584:2800" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="2841:3059" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="3094:3347" ph="{...}" />
+            <marker date="1496565298000" expanded="true" signature="3140:3319" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgSpriteTest.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="601">
+          <caret line="55" column="9" lean-forward="false" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
+          <folding>
+            <marker date="1496566491000" expanded="true" signature="6:147" ph="..." />
+            <marker date="1496566491000" expanded="true" signature="177:1863" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="241:1037" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="452:798" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="918:971" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1090:1501" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1218:1315" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1546:1579" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1660:1859" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiIconData.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="34" column="5" lean-forward="false" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
+          <folding>
+            <marker date="1496566798000" expanded="true" signature="7:110" ph="..." />
+            <marker date="1496566798000" expanded="true" signature="199:1918" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="330:359" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="442:712" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="520:625" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="591:621" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="738:1197" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="856:1194" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1224:1264" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1291:1331" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1354:1390" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1444:1843" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1568:1661" ph="{...}" />
+            <marker date="1496566798000" expanded="true" signature="1886:1916" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1478">
+          <caret line="172" column="5" lean-forward="false" selection-start-line="172" selection-start-column="5" selection-end-line="172" selection-end-column="5" />
+          <folding>
+            <marker date="1496565450000" expanded="true" signature="6:78" ph="..." />
+            <marker date="1496565450000" expanded="true" signature="98:11333" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="125:609" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="260:603" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="278:523" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="314:398" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="540:593" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="657:11099" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1085:10139" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1126:1282" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="1284:1324" ph="/* if (dmi != null) ... */" />
+            <marker date="1496565450000" expanded="false" signature="2720:4175" ph="/* ConnectSprites[&quot;wall&quot;] = dmi.getSprites(&quot;turf/walls/wall&quot;); ... */" />
+            <marker date="1496565450000" expanded="false" signature="5502:7313" ph="/* old ones: ... */" />
+            <marker date="1496565450000" expanded="false" signature="8788:9945" ph="/* DoorSprites[&quot;atmos&quot;] = Resources.LoadAll&lt;Sprite&gt;(&quot;doors/station/atmos&quot;); ... */" />
+            <marker date="1496565450000" expanded="true" signature="10016:10129" ph="/* } ... */" />
+            <marker date="1496565450000" expanded="true" signature="10186:10453" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10204:10443" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10241:10391" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10499:10589" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10517:10579" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10636:10724" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10654:10714" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10762:10815" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10771:10811" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10856:10912" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10865:10908" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10950:11002" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="10958:10998" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11040:11092" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11048:11088" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11122:11269" ph="{...}" />
+            <marker date="1496565450000" expanded="true" signature="11300:11331" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

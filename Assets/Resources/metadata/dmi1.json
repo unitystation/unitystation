@@ -1,0 +1,28 @@
+  {
+    "icon": "icons/effects/160x160.dmi",
+    "states": [
+      {
+        "unityName": "160x160_0",
+        "state": "singularity_s5",
+        "delay": "1,1,1,1,1,1,1,1",
+        "offset": 0,
+        "frames": 8,
+        "dirs": 1
+      },
+      {
+        "unityName": "160x160_8",
+        "state": "new-year-tree",
+        "offset": 8,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "160x160_9",
+        "state": "time",
+        "delay": "1,1,1,1,1,1,1,1,1,1",
+        "offset": 9,
+        "frames": 10,
+        "dirs": 1
+      }
+    ]
+  }
