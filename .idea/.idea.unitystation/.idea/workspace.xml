@@ -2,507 +2,45 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec899544-7e5f-424c-88e0-73dfc832a2fb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/scripts/Test/DmiIcon.cs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/scripts/Test/DmiIcon.cs.meta" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/scripts/Test/DmiState.cs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/scripts/Test/DmiState.cs.meta" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/scripts/Test/TgObjectTest.cs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/scripts/Test/TgObjectTest.cs.meta" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/480x480.dmi" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/480x480.dmi.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/BadAss.dmi" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/BadAss.dmi.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/asteroiddustoverlay.psd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/asteroiddustoverlay.psd.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/door.psd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/door.psd.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/large-stamps.psd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/large-stamps.psd.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/locker_template.psd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/PSD files/locker_template.psd.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing/air_meter.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing/air_meter.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing/atmos_testing.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing/atmos_testing.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing/turf_analysis.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/Testing/turf_analysis.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/VendingMachineBG.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/VendingMachineBG.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assalien.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assalien.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assdrone.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assdrone.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assfemale.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assfemale.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assmale.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ass/assmale.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/dispensebutton_bg.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/dispensebutton_bg.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/128x128.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/128x128.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/160x160.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/160x160.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/187x381.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/187x381.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/211x247.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/211x247.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/224x224.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/224x224.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/254x361.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/254x361.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/288x288.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/288x288.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/340x428.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/340x428.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/352x352.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/352x352.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/400x400.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/400x400.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/512x512.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/512x512.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/64x64.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/64x64.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/96x32.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/96x32.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/96x96.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/96x96.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/alphacolors.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/alphacolors.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/beam.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/beam.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/bubblegum.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/bubblegum.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/cameravis.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/cameravis.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/chemsmoke.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/chemsmoke.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/clockwork.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/clockwork.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/clockwork_effects.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/clockwork_effects.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/crayondecal.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/crayondecal.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/creampie.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/creampie.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/effects.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/effects.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/fire.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/fire.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/footprints.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/footprints.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/freeze.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/freeze.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/genetics.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/genetics.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/item_damage.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/item_damage.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/lighting.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/lighting.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/liquid.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/liquid.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/progessbar.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/progessbar.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/spacevines.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/spacevines.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha6.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha6.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha7.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha7.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha7_DEBUG.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha7_DEBUG.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha7_old.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/ss13_dark_alpha7_old.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/static.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/static.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/station_explosion.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/station_explosion.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/tile_effects.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/tile_effects.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/tomatodecal.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/tomatodecal.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/visor_reticule.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/visor_reticule.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/water.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/water.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/weather_effects.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/effects/weather_effects.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/emoji.dmi" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/emoji.dmi.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_bay.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_bay.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_construct.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_construct.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_construction.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_construction.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_fab.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mech_fab.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mecha.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mecha.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mecha_equipment.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mecha_equipment.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mecha_mouse.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mecha/mecha_mouse.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/member_content.dmi" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/member_content.dmi.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimap.dmi" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimap.dmi.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/BirdboatStation_1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/BirdboatStation_1.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/Box Station_1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/Box Station_1.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/DreamStation_1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/DreamStation_1.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/Efficiency Station_1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/Efficiency Station_1.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/MetaStation_1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/MetaStation_1.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/MiniStation_1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/minimaps/MiniStation_1.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/beach.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/beach.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/beach2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/beach2.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/buildmode.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/buildmode.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/fullscreen.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/fullscreen.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/imap.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/imap.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/inpipe.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/inpipe.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/mark.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/mark.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/radar.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/radar.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/splash.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/splash.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/static.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/misc/static.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/32x64.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/32x64.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/AI.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/AI.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/Easter.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/Easter.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/EvilPope.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/EvilPope.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/OnFire.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/OnFire.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/actions.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/actions.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/alien.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/alien.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/alienleap.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/alienleap.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/alienqueen.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/alienqueen.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/animal.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/animal.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/animal_parts.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/animal_parts.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/augments.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/augments.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/bees.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/bees.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/belt_mirror.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/belt_mirror.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/blob.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/blob.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/broadMobs.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/broadMobs.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/clockwork_mobs.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/clockwork_mobs.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/corgi_back.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/corgi_back.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/corgi_head.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/corgi_head.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/dam_mob.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/dam_mob.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/drone.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/drone.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/guardian.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/guardian.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/hands.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/hands.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/hivebot.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/hivebot.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/hud.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/hud.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/human_parts.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/human_parts.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/human_parts_greyscale.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/human_parts_greyscale.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/large-worn-icons.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/large-worn-icons/64x64.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/large-worn-icons/64x64/head.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/large-worn-icons/64x64/head.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/96x96megafauna.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/96x96megafauna.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/dragon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/dragon.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/hierophant.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/hierophant.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/lavaland_monsters.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/lavaland_monsters.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/legion.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/legion.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/watcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/lavaland/watcher.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/limb_mask.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/limb_mask.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/mob.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/mob.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/monkey.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/monkey.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/mutant_bodyparts.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/mutant_bodyparts.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/neck.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/neck.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/nest.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/nest.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_atmos.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_atmos.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_back.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_back.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_bell.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_bell.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_blank.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_blank.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_boom.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_boom.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_bucket.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_bucket.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_chatroom.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_chatroom.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_cleanbot.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_cleanbot.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_crate.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_crate.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_cuffs.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_cuffs.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_dronephone.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_dronephone.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_eject.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_eject.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_exit.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_exit.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_flashlight.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_flashlight.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_floorbot.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_floorbot.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_honk.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_honk.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_locked.PNG" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_locked.PNG.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_mail.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_mail.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_medbot.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_medbot.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_medical.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_medical.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_menu.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_menu.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_mule.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_mule.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_notes.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_notes.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_power.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_power.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_rdoor.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_rdoor.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_reagent.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_reagent.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_refresh.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_refresh.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_scanner.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_scanner.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_signaler.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_signaler.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_status.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pda_icons/pda_status.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pets.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/pets.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/robot_items.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/robot_items.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/robot_transformations.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/robot_transformations.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/robots.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/robots.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_ai.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_ai.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_alien.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_alien.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_cyborg.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_cyborg.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_full.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_full.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_gen_old.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_gen_old.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_ghost.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_ghost.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_operative.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_operative.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_plasmafire.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_plasmafire.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_retro.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_retro.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_slimecore.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/screen_slimecore.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/slimes.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/slimes.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/swarmer.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/swarmer.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/talk.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/talk.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/ties.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/ties.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/wings.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/wings.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/zone_sel.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/mob/zone_sel.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/alarm_green.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/alarm_green.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/alarm_red.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/alarm_red.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_100.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_100.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_20.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_20.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_40.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_40.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_5.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_5.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_60.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_60.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_80.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/batt_80.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/charging.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/charging.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/downloader_finished.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/downloader_finished.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/downloader_running.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/downloader_running.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/ntnrc_idle.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/ntnrc_idle.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/ntnrc_new.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/ntnrc_new.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/power_norm.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/power_norm.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/power_warn.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/power_warn.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_high.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_high.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_lan.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_lan.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_low.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_low.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_none.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/program_icons/sig_none.gif.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/reagentname_bg.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/reagentname_bg.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ss13_32.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ss13_32.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ss13_64.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/ss13_64.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-cap.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-cap.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-ce.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-ce.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-clown.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-clown.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-cmo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-cmo.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-deny.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-deny.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-hop.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-hop.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-hos.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-hos.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-law.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-law.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-ok.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-qm.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-qm.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-rd.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/stamp_icons/large_stamp-rd.png.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/vending_icons.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/vending_icons/vendingslot_bg.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assets/icons/vending_icons/vendingslot_bg.png.meta" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Blood/Resources/Corpse.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Blood/Resources/Corpse.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Floors/0001_Floor.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Floors/0001_Floor.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Cigarettes/Space Cigarettes.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Cigarettes/Space Cigarettes.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/belts/Resources/Belt.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/belts/Resources/Belt.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/feet/Resources/Black Shoes.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/feet/Resources/Black Shoes.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/feet/Resources/Engineer Shoes.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/feet/Resources/Engineer Shoes.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/feet/Resources/Purple Shoes.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/feet/Resources/Purple Shoes.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Chef's Hat.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Chef's Hat.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Engineer Helmet.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Engineer Helmet.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/ReinDeer Hat.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/ReinDeer Hat.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Santa Hat  Bearded.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Santa Hat  Bearded.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Santa Hat.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/head/Resources/Santa Hat.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/radios/Resources/Service Radio Headset.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/radios/Resources/Service Radio Headset.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/suits/Resources/Chef's Apron.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/suits/Resources/Chef's Apron.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/uniforms/Resources/Cook's Uniform.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/uniforms/Resources/Cook's Uniform.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/uniforms/Resources/Engineer Uniform.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/uniforms/Resources/Engineer Uniform.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/uniforms/Resources/Janitor Uniform.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Clothing/uniforms/Resources/Janitor Uniform.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Food/Resources/Meat Steak.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Food/Resources/Meat Steak.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Food/Resources/Meat.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Food/Resources/Meat.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/IDs/Resources/ID.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/IDs/Resources/ID.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Kitchen/Pepper Shaker.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Kitchen/Pepper Shaker.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Kitchen/RollingPin.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Kitchen/RollingPin.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Kitchen/Salt Shaker.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Kitchen/Salt Shaker.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Magazines/Resources/Magazine_12mm.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Magazines/Resources/Magazine_12mm.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Magazines/Resources/Magazine_5.56mm.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Magazines/Resources/Magazine_5.56mm.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Resources/Extinguisher.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Resources/Extinguisher.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Storage/Resources/Backpack.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Storage/Resources/Backpack.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/Weapons_Melee/Resources/Knife.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/Weapons_Melee/Resources/Knife.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Lighting/LightBulb.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Lighting/LightBulb.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Machines/Kitchen/All-In-One Grinder.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Machines/Kitchen/All-In-One Grinder.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Machines/Kitchen/KitchenSink.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Machines/Kitchen/KitchenSink.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Machines/Kitchen/Refrigerator.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Machines/Kitchen/Refrigerator.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/SceneConstruction/Camera.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/SceneConstruction/Camera.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Shroud/ShroudTile.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Shroud/ShroudTile.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Tables/Table.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Tables/Table.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Tables/Table_Poker.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Tables/Table_Poker.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/MonitorAir.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/MonitorAir.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/Monitor_CameraTopLeft.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/Monitor_CameraTopLeft.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/Monitor_FireAlarmLeft.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/Monitor_FireAlarmLeft.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/RequestConsole.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/RequestConsole.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/ShutterSwitch.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/ShutterSwitch.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/StatusDisplay_News.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/StatusDisplay_News.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/WallMount_FireExtinguisher.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/WallMount_FireExtinguisher.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/WallMount_Radio_Top.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/WallMounts/WallMount_Radio_Top.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Walls/Grill.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Walls/Grill.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Walls/WallTile_Reinforced.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Walls/WallTile_Reinforced.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Walls/WallTile_Standard.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Walls/WallTile_Standard.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Walls/rock_wall.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Walls/rock_wall.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Weapons/Ballistics/Resources/C20rSMG_Ballistic.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Weapons/Ballistics/Resources/C20rSMG_Ballistic.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Weapons/Ballistics/Resources/L6SAW_Ballistic.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Weapons/Ballistics/Resources/L6SAW_Ballistic.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/Weapons/Projectiles/Resources/BulletCasing.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/Weapons/Projectiles/Resources/BulletCasing.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scenes/TestMap.unity" afterPath="$PROJECT_DIR$/Assets/scenes/TestMap.unity" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scripts/Equipment/Equipment.cs" afterPath="$PROJECT_DIR$/Assets/scripts/Equipment/Equipment.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scripts/Items/ItemAttributes.cs" afterPath="$PROJECT_DIR$/Assets/scripts/Items/ItemAttributes.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs" afterPath="$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs.meta" afterPath="$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs.meta" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scripts/PlayGroups/PlayerNetworkActions.cs" afterPath="$PROJECT_DIR$/Assets/scripts/PlayGroups/PlayerNetworkActions.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scripts/UI/UI Bottom/UI_ItemSlot.cs" afterPath="$PROJECT_DIR$/Assets/scripts/UI/UI Bottom/UI_ItemSlot.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/textures.meta" afterPath="$PROJECT_DIR$/Assets/textures.meta" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/textures/obj/guns/projectile.png.meta" afterPath="$PROJECT_DIR$/Assets/textures/obj/guns/projectile.png.meta" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Info.plist" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/MacOS/Application Stub" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/AutomatorApplet.icns" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/Dutch.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/English.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/French.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/German.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/Italian.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/Japanese.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/Spanish.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/ar.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/ca.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/cs.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/da.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/el.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/fi.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/he.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/hr.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/hu.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/id.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/ko.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/ms.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/no.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/pl.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/pt.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/pt_PT.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/ro.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/ru.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/sk.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/sv.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/th.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/tr.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/uk.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/vi.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/zh_CN.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/Resources/zh_TW.lproj/ApplicationStub.nib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/convert_tg_dmi_to_png.app/Contents/document.wflow" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/non-canonical icons.txt" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.unitystation/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/.idea.unitystation/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -551,11 +89,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="TgSpriteTest.cs" pinned="false" current-in-tab="false">
+          <file leaf-file-name="TgSpriteTest.cs" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgSpriteTest.cs">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="601">
-                  <caret line="55" column="9" lean-forward="false" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
+                <state relative-caret-position="375">
+                  <caret line="25" column="60" lean-forward="false" selection-start-line="25" selection-start-column="60" selection-end-line="25" selection-end-column="60" />
                   <folding>
                     <marker date="1496566491000" expanded="true" signature="6:147" ph="..." />
                     <marker date="1496566491000" expanded="true" signature="177:1863" ph="{...}" />
@@ -566,31 +104,6 @@
                     <marker date="1496566491000" expanded="true" signature="1218:1315" ph="{...}" />
                     <marker date="1496566491000" expanded="true" signature="1546:1579" ph="{...}" />
                     <marker date="1496566491000" expanded="true" signature="1660:1859" ph="{...}" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="DmiIconData.cs" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiIconData.cs">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="351">
-                  <caret line="34" column="5" lean-forward="false" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-                  <folding>
-                    <marker date="1496566798000" expanded="true" signature="7:110" ph="..." />
-                    <marker date="1496566798000" expanded="true" signature="199:1918" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="330:359" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="442:712" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="520:625" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="591:621" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="738:1197" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="856:1194" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="1224:1264" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="1291:1331" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="1354:1390" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="1444:1843" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="1568:1661" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="1886:1916" ph="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -628,7 +141,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="SpriteManager.cs" pinned="false" current-in-tab="true">
+          <file leaf-file-name="SpriteManager.cs" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="1478">
@@ -748,23 +261,39 @@
           <file leaf-file-name="DmiIconData.cs" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiIconData.cs">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="198">
-                  <caret line="45" column="56" lean-forward="false" selection-start-line="45" selection-start-column="56" selection-end-line="45" selection-end-column="56" />
+                <state relative-caret-position="735">
+                  <caret line="49" column="0" lean-forward="true" selection-start-line="49" selection-start-column="0" selection-end-line="57" selection-end-column="5" />
                   <folding>
-                    <marker date="1496566798000" expanded="true" signature="7:110" ph="..." />
-                    <marker date="1496566798000" expanded="true" signature="199:1918" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="330:359" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="442:712" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="520:625" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="591:621" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="738:1197" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="856:1194" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="1224:1264" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="1291:1331" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="1354:1390" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="1444:1843" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="1568:1661" ph="{...}" />
-                    <marker date="1496566798000" expanded="true" signature="1886:1916" ph="{...}" />
+                    <marker date="1496588931000" expanded="true" signature="7:110" ph="..." />
+                    <marker date="1496588931000" expanded="true" signature="199:1918" ph="{...}" />
+                    <marker date="1496588931000" expanded="true" signature="330:359" ph="{...}" />
+                    <marker date="1496588931000" expanded="true" signature="442:712" ph="{...}" />
+                    <marker date="1496588931000" expanded="true" signature="520:625" ph="{...}" />
+                    <marker date="1496588931000" expanded="true" signature="591:621" ph="{...}" />
+                    <marker date="1496588931000" expanded="true" signature="738:1197" ph="{...}" />
+                    <marker date="1496588931000" expanded="true" signature="856:1194" ph="{...}" />
+                    <marker date="1496588931000" expanded="true" signature="1224:1264" ph="{...}" />
+                    <marker date="1496588931000" expanded="true" signature="1291:1331" ph="{...}" />
+                    <marker date="1496588931000" expanded="true" signature="1354:1390" ph="{...}" />
+                    <marker date="1496588931000" expanded="true" signature="1444:1843" ph="{...}" />
+                    <marker date="1496588931000" expanded="true" signature="1568:1661" ph="{...}" />
+                    <marker date="1496588931000" expanded="true" signature="1886:1916" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="TgObjectTest.cs" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgObjectTest.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="330">
+                  <caret line="29" column="42" lean-forward="false" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
+                  <folding>
+                    <marker date="1496325897000" expanded="false" signature="6:169" ph="..." />
+                    <marker date="1496325897000" expanded="true" signature="198:1338" ph="{...}" />
+                    <marker date="1496325897000" expanded="true" signature="277:761" ph="{...}" />
+                    <marker date="1496325897000" expanded="true" signature="807:1244" ph="{...}" />
+                    <marker date="1496325897000" expanded="true" signature="1295:1336" ph="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -851,6 +380,86 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="unitystation (3 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unitystation (3 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unitystation (3 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unitystation (3 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Test" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unitystation (3 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp" />
               <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
           </PATH>
@@ -950,12 +559,12 @@
       <workItem from="1496408759317" duration="1645000" />
       <workItem from="1496429186694" duration="15141000" />
       <workItem from="1496518663249" duration="7599000" />
-      <workItem from="1496562852872" duration="4002000" />
+      <workItem from="1496562852872" duration="4235000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64145000" />
+    <option name="totallyTimeSpent" value="64378000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1144,20 +753,20 @@
         <state relative-caret-position="375">
           <caret line="25" column="12" lean-forward="false" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="12" />
           <folding>
-            <marker date="1496566798000" expanded="true" signature="7:110" ph="..." />
-            <marker date="1496566798000" expanded="true" signature="199:1918" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="330:359" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="442:712" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="520:625" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="591:621" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="738:1197" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="856:1194" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1224:1264" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1291:1331" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1354:1390" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1444:1843" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1568:1661" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1886:1916" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="7:110" ph="..." />
+            <marker date="1496588931000" expanded="true" signature="199:1918" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="330:359" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="442:712" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="520:625" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="591:621" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="738:1197" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="856:1194" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1224:1264" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1291:1331" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1354:1390" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1444:1843" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1568:1661" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1886:1916" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1284,20 +893,20 @@
         <state relative-caret-position="375">
           <caret line="25" column="12" lean-forward="false" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="12" />
           <folding>
-            <marker date="1496566798000" expanded="true" signature="7:110" ph="..." />
-            <marker date="1496566798000" expanded="true" signature="199:1918" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="330:359" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="442:712" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="520:625" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="591:621" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="738:1197" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="856:1194" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1224:1264" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1291:1331" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1354:1390" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1444:1843" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1568:1661" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1886:1916" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="7:110" ph="..." />
+            <marker date="1496588931000" expanded="true" signature="199:1918" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="330:359" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="442:712" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="520:625" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="591:621" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="738:1197" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="856:1194" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1224:1264" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1291:1331" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1354:1390" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1444:1843" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1568:1661" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1886:1916" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1594,13 +1203,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgObjectTest.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="42" lean-forward="false" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/MakeScriptableObjects.cs" />
     <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiState.cs">
       <provider selected="true" editor-type-id="text-editor">
@@ -1778,47 +1380,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgSpriteTest.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="601">
-          <caret line="55" column="9" lean-forward="false" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
-          <folding>
-            <marker date="1496566491000" expanded="true" signature="6:147" ph="..." />
-            <marker date="1496566491000" expanded="true" signature="177:1863" ph="{...}" />
-            <marker date="1496566491000" expanded="true" signature="241:1037" ph="{...}" />
-            <marker date="1496566491000" expanded="true" signature="452:798" ph="{...}" />
-            <marker date="1496566491000" expanded="true" signature="918:971" ph="{...}" />
-            <marker date="1496566491000" expanded="true" signature="1090:1501" ph="{...}" />
-            <marker date="1496566491000" expanded="true" signature="1218:1315" ph="{...}" />
-            <marker date="1496566491000" expanded="true" signature="1546:1579" ph="{...}" />
-            <marker date="1496566491000" expanded="true" signature="1660:1859" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiIconData.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="34" column="5" lean-forward="false" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-          <folding>
-            <marker date="1496566798000" expanded="true" signature="7:110" ph="..." />
-            <marker date="1496566798000" expanded="true" signature="199:1918" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="330:359" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="442:712" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="520:625" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="591:621" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="738:1197" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="856:1194" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1224:1264" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1291:1331" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1354:1390" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1444:1843" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1568:1661" ph="{...}" />
-            <marker date="1496566798000" expanded="true" signature="1886:1916" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1478">
@@ -1856,6 +1417,61 @@
             <marker date="1496565450000" expanded="true" signature="11048:11088" ph="{...}" />
             <marker date="1496565450000" expanded="true" signature="11122:11269" ph="{...}" />
             <marker date="1496565450000" expanded="true" signature="11300:11331" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgObjectTest.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="29" column="42" lean-forward="false" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
+          <folding>
+            <marker date="1496325897000" expanded="false" signature="6:169" ph="..." />
+            <marker date="1496325897000" expanded="true" signature="198:1338" ph="{...}" />
+            <marker date="1496325897000" expanded="true" signature="277:761" ph="{...}" />
+            <marker date="1496325897000" expanded="true" signature="807:1244" ph="{...}" />
+            <marker date="1496325897000" expanded="true" signature="1295:1336" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/TgSpriteTest.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="60" lean-forward="false" selection-start-line="25" selection-start-column="60" selection-end-line="25" selection-end-column="60" />
+          <folding>
+            <marker date="1496566491000" expanded="true" signature="6:147" ph="..." />
+            <marker date="1496566491000" expanded="true" signature="177:1863" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="241:1037" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="452:798" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="918:971" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1090:1501" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1218:1315" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1546:1579" ph="{...}" />
+            <marker date="1496566491000" expanded="true" signature="1660:1859" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/scripts/Test/DmiIconData.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="49" column="0" lean-forward="true" selection-start-line="49" selection-start-column="0" selection-end-line="57" selection-end-column="5" />
+          <folding>
+            <marker date="1496588931000" expanded="true" signature="7:110" ph="..." />
+            <marker date="1496588931000" expanded="true" signature="199:1918" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="330:359" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="442:712" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="520:625" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="591:621" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="738:1197" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="856:1194" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1224:1264" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1291:1331" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1354:1390" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1444:1843" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1568:1661" ph="{...}" />
+            <marker date="1496588931000" expanded="true" signature="1886:1916" ph="{...}" />
           </folding>
         </state>
       </provider>
