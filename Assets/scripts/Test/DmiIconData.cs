@@ -33,7 +33,7 @@ public class DmiIconData : ScriptableObject
 
 	private void OnEnable()
 	{
-		Debug.LogWarning("OnEnable!");
+		Debug.LogWarning("DmiIconData: OnEnable!");
 	IconList<DmiIcon> ilist = DeserializeJson();
 		foreach (var icon in ilist.icons)
 		{
@@ -56,11 +56,11 @@ public class DmiIconData : ScriptableObject
 //	{
 //		Debug.LogWarning("OnDisable!");
 //	}
-
-	public void Awake() {
-		Debug.LogWarning("Awake!");
-	
-	}
+//
+//	public void Awake() {
+//		Debug.LogWarning("DmiIconData: Awake!");
+//	
+//	}
 	
 	private static IconList<DmiIcon> DeserializeJson()
 	{
