@@ -83,7 +83,7 @@ namespace Equipment
 						}
 					}
 			isInit = true;
-			clothingSlots[10].Reference = 32;
+			clothingSlots[10].Reference = 33;
 				
 		}
 
