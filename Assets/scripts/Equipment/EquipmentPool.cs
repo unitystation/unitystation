@@ -24,20 +24,24 @@ namespace Equipment
 		private GameObject objectPoolPrefab;
 		private Dictionary<string,ObjectPool> equipPools = new Dictionary<string, ObjectPool>();
 
-		void Init(){
+		void Init()
+		{
 			Instance.transform.position = Vector2.zero;
 			Instance.objectPoolPrefab = Resources.Load("ObjectPool")as GameObject;
 		}
 
-		public static void AddGameObject (string playerName, GameObject gObj){
-
-			if(Instance.equipPools.ContainsKey(playerName)){
+		public static void AddGameObject(GameObject player, GameObject gObj)
+		{
+			var playerName = player.name;
+			if (Instance.equipPools.ContainsKey(playerName)) {
 				//add obj to pool
 				Instance.equipPools[playerName].AddGameObject(gObj);
-                gObj.BroadcastMessage("OnAddToPool", playerName, SendMessageOptions.DontRequireReceiver);
+
+				var ownerId = player.GetComponent<NetworkIdentity>().netId;
+				gObj.BroadcastMessage("OnAddToPool", ownerId, SendMessageOptions.DontRequireReceiver);
 			} else {
 				//set up new pool and then add the obj
-				GameObject newPool = Instantiate(Instance.objectPoolPrefab,Vector2.zero,Quaternion.identity) as GameObject;
+				GameObject newPool = Instantiate(Instance.objectPoolPrefab, Vector2.zero, Quaternion.identity) as GameObject;
 				newPool.transform.parent = Instance.transform;
 				newPool.name = playerName;
 				Instance.equipPools.Add(playerName, newPool.GetComponent<ObjectPool>());
@@ -46,22 +50,22 @@ namespace Equipment
 		}
 
 		//When dropping items etc, remove them from the player equipment pool and place in scene
-		public static void DropGameObject (string playerName, GameObject gObj){
+		public static void DropGameObject(string playerName, GameObject gObj)
+		{
 			if (Instance.equipPools.ContainsKey(playerName)) {
 				Instance.equipPools[playerName].DropGameObject(gObj, PlayerList.Instance.connectedPlayers[playerName].transform.position);
-                gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
-            }
-		}
-
-		//When placing items at a position etc also removes them from the player equipment pool and places it in scene
-		public static void DropGameObject (string playerName, GameObject gObj, Vector3 pos){
-			if (Instance.equipPools.ContainsKey(playerName)) {
-				Instance.equipPools[playerName].DropGameObject(gObj, pos);
-                gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
-
+				gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
 			}
 		}
 
+		//When placing items at a position etc also removes them from the player equipment pool and places it in scene
+		public static void DropGameObject(string playerName, GameObject gObj, Vector3 pos)
+		{
+			if (Instance.equipPools.ContainsKey(playerName)) {
+				Instance.equipPools[playerName].DropGameObject(gObj, pos);
+				gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
 
+			}
+		}
 	}
 }

@@ -30,6 +30,10 @@ namespace UI {
 			if(Input.GetKeyDown(KeyCode.X)) {
 				UIManager.Hands.Swap();
 			}
+
+			if (Input.GetKeyDown(KeyCode.E)) {
+				UIManager.Hands.Use();
+			}
         }
 
         public void Resist() {

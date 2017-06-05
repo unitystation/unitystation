@@ -119,7 +119,7 @@ namespace UI {
                 if(!allowedItemTypes.Contains(attributes.type)) {
                     return false;
                 }
-            }else if(maxItemSize != ItemSize.Bulky && (maxItemSize != ItemSize.Normal || attributes.size == ItemSize.Bulky) && maxItemSize != attributes.size) {
+            }else if(maxItemSize != ItemSize.Large && (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size) {
                 Debug.Log("Item is too big!");
                 return false;
             }

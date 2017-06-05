@@ -30,37 +30,41 @@ public class DmiIconData : ScriptableObject
 		Debug.LogError("could not find sprites for key " + path);
 		return new Sprite[0];
 	}
-
+ //todo DmiState searchState(string state)
+ //todo DmiState searchStateInIcons(string state, DmiIcon ...)
 	private void OnEnable()
 	{
-		Debug.LogWarning("OnEnable!");
-	IconList<DmiIcon> ilist = DeserializeJson();
-		foreach (var icon in ilist.icons)
+		Debug.LogWarning("DmiIconData: OnEnable!");
+		if (data.Count == 0)
 		{
-			var substring = icon.icon.Substring(0, icon.icon.IndexOf(".dmi", StringComparison.Ordinal));
-			Sprite[] sprites = Resources.LoadAll<Sprite>(
-				substring
-			); //todo: consider excluding extensions on java side to avoid substr mess?
-			
-			icon.spriteSheet = sprites;
-			data.Add(substring.Substring("icons/".Length), icon);
-		}
+			IconList<DmiIcon> ilist = DeserializeJson();
+			foreach (var icon in ilist.icons)
+			{
+				var substring = icon.icon.Substring(0, icon.icon.IndexOf(".dmi", StringComparison.Ordinal));
+				Sprite[] sprites = Resources.LoadAll<Sprite>(
+					substring
+				); //todo: consider excluding extensions on java side to avoid substr mess?
+
+				icon.spriteSheet = sprites;
+				data.Add(substring.Substring("icons/".Length), icon);
+			}
+		} else Debug.Log("ayy");
 	}
 
-	private void OnDestroy()
-	{
-		Debug.LogWarning("OnDestroy!");
-	}
-
-	private void OnDisable()
-	{
-		Debug.LogWarning("OnDisable!");
-	}
-
-	public void Awake() {
-		Debug.LogWarning("Awake!");
-	
-	}
+//	private void OnDestroy()
+//	{
+//		Debug.LogWarning("OnDestroy!");
+//	}
+//
+//	private void OnDisable()
+//	{
+//		Debug.LogWarning("OnDisable!");
+//	}
+//
+//	public void Awake() {
+//		Debug.LogWarning("DmiIconData: Awake!");
+//	
+//	}
 	
 	private static IconList<DmiIcon> DeserializeJson()
 	{

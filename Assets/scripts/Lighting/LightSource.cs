@@ -8,6 +8,12 @@ using Sprites;
 
 namespace Lighting
 {
+	enum LightState {
+		On,
+		Off,
+		Broken
+	};
+
 	public class LightSource : ObjectTrigger
 	{
 		/// <summary>
@@ -15,14 +21,9 @@ namespace Lighting
 		/// </summary>
 		private SpriteRenderer Renderer;
 		/// <summary>
-		/// The Maximum distance this light can cover in tiles
-		/// </summary>
-		[Header("Max distance in tiles")]
-		public int MaxRange;
-		/// <summary>
 		/// The state of this light
 		/// </summary>
-		public bool LightOn;
+		private LightState LightState;
 		/// <summary>
 		/// The sprite to show when this light is turned on
 		/// </summary>
@@ -32,61 +33,18 @@ namespace Lighting
 		/// </summary>
 		public Sprite SpriteLightOff;
 		/// <summary>
-		/// The CameraOcclusion script with which we et shroud tiles
+		/// The the light gameobject child of the light
 		/// </summary>
-		private CameraOcclusion CamOcclusion;
-		/// <summary>
-		/// The local shrouds around this light
-		/// </summary>
-		private List<Shroud> LocalShrouds = new List<Shroud>();
-
-		private Sprite[] lightSprites;
-		private bool updating = false;
+		public Light Light;
 
 		void Awake()
 		{
 			Renderer = GetComponentInChildren<SpriteRenderer>();
+			Light = GetComponentInChildren<Light>();
 		}
 
 		void Start(){
-			LightOn = true;
-			CamOcclusion = Camera.main.GetComponent<CameraOcclusion>();
-			if(CamOcclusion.includeLights)
-			LightUpdate();
-			lightSprites = SpriteManager.LightSprites["lights"];
-			SpriteLightOn = Renderer.sprite;
-			string[] split = SpriteLightOn.name.Split('_');
-			int onPos; 
-			int.TryParse(split[1], out onPos);
-			SpriteLightOff = lightSprites[onPos + 4];
-		}
-
-		void OnEnable(){
-			EventManager.LightUpdate += LightUpdate;
-		}
-
-		void OnDisable(){
-			EventManager.LightUpdate -= LightUpdate;
-		}
-
-		private void LightUpdate(){
-			if (!Renderer.isVisible)
-				return;
-			if (!updating) {
-				updating = true;
-				UpdateLight();
-			}
-		}
-
-		void UpdateLight(){
-				LocalShrouds = CamOcclusion.GetShroudsInDistanceOfPoint(MaxRange, this.transform.position);
-
-				foreach (Shroud shroud in LocalShrouds) {
-					//on changing light add all local lights then updat
-					shroud.AddNewLightSource(this);
-					shroud.UpdateLightSources();
-				}
-			updating = false;
+			InitLightSprites();
 		}
 
 		public override void Trigger(bool state){
@@ -101,27 +59,25 @@ namespace Lighting
 		}
 
 		public void TurnOnLight(){
-			LightOn = true;
 			Renderer.sprite = SpriteLightOn;
-			if (CamOcclusion != null) {
-				foreach (Shroud shroud in LocalShrouds) {
-					//on changing light add all local lights then updat
-					shroud.AddNewLightSource(this);
-					shroud.UpdateLightSources ();
-				}
-				CamOcclusion.UpdateShroud();
-			}
 		}
 
 		public void TurnOffLight(){
-			LightOn = false;
 			Renderer.sprite = SpriteLightOff;
-			if (CamOcclusion != null) {
-				foreach (Shroud shroud in LocalShrouds) {
-					shroud.UpdateLightSources();
-				}
-				CamOcclusion.UpdateShroud();
-			}
+		}
+
+		private void InitLightSprites() {
+			LightState = LightState.On;
+
+			//set the ON sprite to whatever the spriterenderer child has?
+			var lightSprites = SpriteManager.LightSprites["lights"];
+			SpriteLightOn = Renderer.sprite;
+
+			//find the OFF light?
+			string[] split = SpriteLightOn.name.Split('_');
+			int onPos; 
+			int.TryParse(split[1], out onPos);
+			SpriteLightOff = lightSprites[onPos + 4];
 		}
 	}
 }

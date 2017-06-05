@@ -85,7 +85,7 @@ namespace Weapons
 		public NetworkInstanceId MagNetID;
 
 		[SyncVar]
-		public string ControlledByPlayer;
+		public NetworkInstanceId ControlledByPlayer;
 
 		void Start()
 		{
@@ -98,12 +98,15 @@ namespace Weapons
 		}
 
 		void Update () {
+			if (ControlledByPlayer == NetworkInstanceId.Invalid)
+				return;
+
 			//don't start it too early:
 			if (!PlayerManager.LocalPlayer)
 				return;
 			
 			//Only update if it is inhand of localplayer
-			if (PlayerManager.LocalPlayer.name != ControlledByPlayer)
+			if (PlayerManager.LocalPlayer != ClientScene.FindLocalObject(ControlledByPlayer))
 				return;
 			
 			if (FireCountDown > 0 )
@@ -195,7 +198,7 @@ namespace Weapons
 				return;
 
 			//if the hand with the weapon in it is selected
-			if (UIManager.Hands.CurrentSlot == UIManager.Hands.LeftSlot || UIManager.Hands.CurrentSlot == UIManager.Hands.RightSlot) {
+			if (UIManager.Hands.CurrentSlot == UIManager.InventorySlots.LeftHandSlot || UIManager.Hands.CurrentSlot == UIManager.InventorySlots.RightHandSlot) {
 				//if we have no mag/clip loaded play empty sound
 				if (CurrentMagazine == null) {
 					InAutomaticAction = false;
@@ -286,10 +289,10 @@ namespace Weapons
 
 		#region Weapon Pooling
 		//This is only called on the serverside
-		public void OnAddToPool(string playerName)
+		public void OnAddToPool(NetworkInstanceId ownerId)
 		{
-			ControlledByPlayer = playerName;
-			if (CurrentMagazine != null && PlayerManager.LocalPlayer.name == playerName) {
+			ControlledByPlayer = ownerId;
+			if (CurrentMagazine != null && PlayerManager.LocalPlayer == ClientScene.FindLocalObject(ownerId)) {
 				//As the magazine loaded is part of the weapon, then we do not need to add to server cache, we only need to add the item to the equipment pool
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(CurrentMagazine.gameObject);
 			}
@@ -297,7 +300,7 @@ namespace Weapons
 
 		public void OnRemoveFromPool()
 		{
-			ControlledByPlayer = "";
+			ControlledByPlayer = NetworkInstanceId.Invalid;
 		}
 		#endregion
 

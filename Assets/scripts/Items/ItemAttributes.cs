@@ -8,8 +8,8 @@ namespace UI
 	{ //w_class
 		Tiny,
 		Small,
-		Normal,
-		Bulky,
+		Medium, //Normal
+		Large, //Bulky
 		Huge
 	}
 	
@@ -63,7 +63,7 @@ namespace UI
 		FEET, ARMS, HANDS
 	}
 
-	public enum InHandSpriteType
+	public enum SpriteType
 	{
 		Items,
 		Clothing,
@@ -84,22 +84,58 @@ namespace UI
 	public class ItemAttributes: MonoBehaviour
 	{
 		//todo: place dm and dmi scriptableobjects here
+		private static DmiIconData dmi;
+		private static DmObjectData dm;
 		
-		// item name and description. for future tooltip.
-		public readonly string itemName; //dm "name"
-		public readonly string itemDescription; //dm "desc"
-
-		public InHandSpriteType inHandSpriteType; 
-		public ItemType type; 		  //todo perhaps replace this one with a list like /obj/item/clothing/suit ?
+		public string hierarchy; //the bare minimum you need to to make magic work
 		
-		//reference numbers for item on  inhands spritesheet. should be one corresponding to player facing down
-		public readonly int inHandReferenceRight; // dmi "offset" from first found : dm's "item_state"; "icon_state" ..
-		public readonly int inHandReferenceLeft;  // .. from sheet "clothing/guns/items_righthand" (depends on InHandSpriteType)
-		public readonly int clothingReference = -1;
+		// item name and description. still public in case you want to override datafiles
+		public string itemName; //dm "name"
+		public string itemDescription; //dm "desc"
 
-	    public ItemSize size; //dm "w_class"; todo replace by W_CLASS
+		public SpriteType spriteType; 
+		public ItemType type; 		  //perhaps replace this one with a list like /obj/item/clothing/suit ?
+		
+		//override reference numbers for item on  inhands spritesheet. should be one corresponding to player facing down
+		public int inHandReferenceRight; // dmi "offset" from first found : dm's "item_state"; "icon_state" ..
+		public int inHandReferenceLeft;  // .. from sheet "clothing/guns/items_righthand" (depends on InHandSpriteType)
+		public int clothingReference = -1;
 
-        //Below methods add a code to the start of the sprite reference to indicate which spritesheet to use:
+	    public ItemSize size; //dm "w_class"; 
+	
+//		dm datafile info
+		private string name;
+		private string desc;
+		private string icon_state;
+		private string item_state;
+		//todo: use these in following methods instead!
+		private int inHandLeft;
+		private int inHandRight;
+		private int clothing;
+		
+		
+		private void OnEnable()
+		{
+			//todo init stuff here
+			if (hierarchy.Length != 0)
+			{
+				if (!dmi)
+				{
+					Debug.LogWarning("DMI is null! loading it...");
+					dmi = Resources.Load("DmiIconData") as DmiIconData;
+				}
+				if (!dm)
+				{
+					Debug.LogWarning("DM is null! loading it...");
+					dm = Resources.Load("DmObjectData") as DmObjectData;
+				}
+			
+				var dmDictionary = dm.getObject(hierarchy);
+				
+			}
+		}
+
+		//Below methods add a code to the start of the sprite reference to indicate which spritesheet to use:
 		//1 = items
 		//2 = clothing
 		//3 = guns
@@ -129,14 +165,14 @@ namespace UI
 
 		private string SpriteTypeCode(){
 			int i = -1;
-			switch (inHandSpriteType) {
-				case InHandSpriteType.Items:
+			switch (spriteType) {
+				case SpriteType.Items:
 					i = 1;
 					break;
-				case InHandSpriteType.Clothing:
+				case SpriteType.Clothing:
 					i = 2;
 					break;
-				case InHandSpriteType.Guns:
+				case SpriteType.Guns:
 					i = 3;
 					break;
 			}
