@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ec899544-7e5f-424c-88e0-73dfc832a2fb" name="Default" comment="" />
+    <list default="true" id="ec899544-7e5f-424c-88e0-73dfc832a2fb" name="Default" comment="Merge branch 'develop' of https://github.com/unitystation/unitystation into develop&#10;&#10;Conflicts:&#10;&#9;Assets/scenes/DeathMatch.unity">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/Prefabs/SceneConstruction/Directional light.prefab" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/Prefabs/SceneConstruction/Directional light.prefab.meta" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/Prefabs/SceneConstruction/Camera.prefab" afterPath="$PROJECT_DIR$/Assets/Prefabs/SceneConstruction/Camera.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scenes/BoxStation.unity" afterPath="$PROJECT_DIR$/Assets/scenes/BoxStation.unity" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assets/scenes/TestMap.unity" afterPath="$PROJECT_DIR$/Assets/scenes/TestMap.unity" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -363,7 +370,7 @@
             <entry file="file://$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="15">
-                  <caret line="53" column="22" lean-forward="false" selection-start-line="53" selection-start-column="22" selection-end-line="53" selection-end-column="22" />
+                  <caret line="52" column="22" lean-forward="false" selection-start-line="52" selection-start-column="22" selection-end-line="52" selection-end-column="22" />
                   <folding>
                     <marker date="1496787917000" expanded="true" signature="6:78" ph="..." />
                     <marker date="1496787917000" expanded="true" signature="98:11363" ph="{...}" />
@@ -623,7 +630,7 @@
       <workItem from="1496562852872" duration="4235000" />
       <workItem from="1496645648469" duration="1720000" />
       <workItem from="1496651934815" duration="1247000" />
-      <workItem from="1496786905160" duration="1348000" />
+      <workItem from="1496786905160" duration="1552000" />
     </task>
     <task id="LOCAL-00001" summary="Introduced the UniPrefab, fixed mask and neck.&#10;Test clothes are on the DeathMatch scene.&#10;Also I suck at git.&#10;Conflicts:&#10;&#9;Assets/Resources/icons/480x480.png.meta&#10;&#9;Assets/Resources/icons/effects/128x128.png.meta&#10;&#9;Assets/Resources/icons/effects/160x160.png.meta&#10;&#9;Assets/Resources/icons/effects/96x96.png.meta&#10;&#9;Assets/Resources/icons/member_content.png.meta&#10;&#9;Assets/Resources/icons/minimap.png.meta&#10;&#9;Assets/Resources/icons/mob/human_new.png.meta&#10;&#9;Assets/Resources/icons/obj/atmospherics/pipes/large.png.meta&#10;&#9;Assets/Resources/icons/obj/doors/1x2blast_hor.png.meta&#10;&#9;Assets/Resources/icons/obj/lavaland/cannon.png.meta&#10;&#9;Assets/Resources/icons/obj/lavaland/spawners.png.meta&#10;&#9;Assets/Resources/icons/obj/machines/satellite.png.meta&#10;&#9;Assets/Resources/icons/obj/magic_terror.png.meta&#10;&#9;Assets/Resources/icons/obj/poster_wanted.png.meta&#10;&#9;Assets/Resources/icons/pda_icons/pda_back.png.meta&#10;&#9;Assets/Resources/icons/pda_icons/pda_blank.png.meta&#10;&#9;Assets/Resources/icons/ss13_32.png.meta&#10;&#9;Assets/icons/PSD files/door.psd.meta&#10;&#9;Assets/icons/PSD files/large-stamps.psd.meta&#10;&#9;Assets/icons/PSD files/locker_template.psd.meta&#10;&#9;Assets/icons/effects/211x247.png.meta&#10;&#9;Assets/icons/effects/beam.png.meta&#10;&#9;Assets/icons/effects/item_damage.png.meta&#10;&#9;Assets/icons/effects/ss13_dark_alpha7.png.meta&#10;&#9;Assets/icons/effects/tile_effects.png.meta&#10;&#9;Assets/icons/mob/screen_full.png.meta&#10;&#9;Assets/icons/mob/screen_ghost.png.meta&#10;&#9;Assets/scripts/Camera/CameraOcclusion.cs.meta&#10;&#9;Assets/scripts/Camera/FieldOfView.cs.meta&#10;&#9;Assets/scripts/Camera/UseMainCameraSize.cs.meta">
       <created>1496788205781</created>
@@ -636,7 +643,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68678000" />
+    <option name="totallyTimeSpent" value="68882000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -650,7 +657,7 @@
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="808" extended-state="6" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32729805" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32681563" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32658568" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -663,6 +670,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14520743" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22733423" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -683,7 +691,6 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14583333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22733423" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1454,7 +1461,7 @@
     <entry file="file://$PROJECT_DIR$/Assets/scripts/Managers/SpriteManager.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
-          <caret line="53" column="22" lean-forward="false" selection-start-line="53" selection-start-column="22" selection-end-line="53" selection-end-column="22" />
+          <caret line="52" column="22" lean-forward="false" selection-start-line="52" selection-start-column="22" selection-end-line="52" selection-end-column="22" />
           <folding>
             <marker date="1496787917000" expanded="true" signature="6:78" ph="..." />
             <marker date="1496787917000" expanded="true" signature="98:11363" ph="{...}" />
