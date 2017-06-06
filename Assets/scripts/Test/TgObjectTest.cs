@@ -7,10 +7,10 @@ using FullSerializer;
 using UnityEditor;
 using UnityEngine;
 
-
+[Obsolete]
 public class TgObjectTest {
 
-    [MenuItem("Tools/Test object")]
+//    [MenuItem("Tools/Test object")]
     public static void DeserializeJson()
     {
         var asset = Resources.Load(Path.Combine("metadata", "dm")) as TextAsset;

@@ -265,6 +265,7 @@ public class PlayerNetworkActions : NetworkBehaviour
             else
             {
                 if (att.spriteType == UI.SpriteType.Clothing) {
+	               // Debug.Log("eventName = " + eventName);
                     Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
                     equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
                 }

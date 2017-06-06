@@ -17,6 +17,31 @@ public class DmiIcon
         set { sprites = value; }
     }
 
+    public string getName()
+    {
+        if (icon != null && icon.Contains(".dmi"))
+        {
+            int startIndex = icon.LastIndexOf('/') + 1;
+            int endIndex = icon.IndexOf(".dmi", StringComparison.Ordinal);
+            return icon.Substring(startIndex, endIndex-startIndex);
+        }
+        Debug.LogWarning("getName: something's wrong");
+        return "";
+    }
+
+    public DmiState getState(string state)
+    {
+            var foundState = states.Find(x => x.state == state);
+            if (foundState != null)
+            {
+                Debug.Log("foundState: "+ foundState);
+                return foundState;
+            }
+        
+        Debug.LogWarning("Couldn't find dmiIcon by state " + state);
+        return null;
+    }
+
     public DmiIcon(string icon, List<DmiState> states)
     {
         this.icon = icon;

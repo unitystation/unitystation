@@ -20,8 +20,32 @@ public class DmiState
         this.dirs = dirs;
     }
 
+    public DmiState(string state) : this(state, null, null, -1, -1, -1)
+    {
+    }
     public DmiState()
     {
+    }
+
+    protected bool Equals(DmiState other)
+    {
+        return string.Equals(state, other.state) && dirs == other.dirs;
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((DmiState) obj);
+    }
+
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            return ((state != null ? state.GetHashCode() : 0) * 397) ^ dirs;
+        }
     }
 
     public override string ToString()

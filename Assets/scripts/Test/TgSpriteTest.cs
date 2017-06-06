@@ -6,10 +6,10 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-
+[Obsolete]
 	public class TgSpriteTest {
 
-		[MenuItem("Tools/Test DMI")]
+//		[MenuItem("Tools/Test DMI")]
 		private static void Awake() {
 			Dictionary<string, DmiIcon> data = new Dictionary<string, DmiIcon>();
 
@@ -53,15 +53,6 @@ using UnityEngine;
 		private class IconList<T>
 		{
 			public List<T> icons;
-		}
-		//[MenuItem("Tools/Test minishit")]
-		public static void DeserializeJsonMini()
-		{
-			TextAsset asset = Resources.Load(Path.Combine("metadata", "dmi1")) as TextAsset;
-
-			DmiIcon icon = new DmiIcon();
-			JsonUtility.FromJsonOverwrite(asset.text, icon);
-				Debug.Log(icon);
 		}
 
 	}
