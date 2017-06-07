@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace UI
@@ -87,6 +88,7 @@ namespace UI
 	{
 		private static DmiIconData dmi;
 		private static DmObjectData dm;
+		private static string[] hierList = {};
 		
 		public string hierarchy; //the bare minimum you need to to make magic work
 		
@@ -104,10 +106,10 @@ namespace UI
 
 	    public ItemSize size; //dm "w_class"; 
 
-		private Dictionary<string, string> dmDic;
-//		dm datafile info
+		//		dm datafile info
 		private string hier;
-
+		private Dictionary<string, string> dmDic;
+		private ItemType iType = ItemType.None;
 		private new string name;
 		private string desc;
 		private string icon_state;
@@ -116,117 +118,223 @@ namespace UI
 		private int inHandRight = -1;
 		private int clothing = -1;
 
-
+		//on-player references
+		private static readonly string[] onPlayer =
+		{
+			"mob/uniform",
+			"mob/underwear",
+			"mob/ties",
+			"mob/back",
+			"mob/belt_mirror",
+			"mob/belt",
+			"mob/eyes",
+			"mob/ears",
+			"mob/hands",
+			"mob/feet",
+			"mob/head",
+			"mob/mask",
+			"mob/neck",
+			"mob/suit"
+		};
+		
 		private string tryGetAttr(string key)
 		{
 			if (dmDic != null && dmDic.ContainsKey(key))
 			{
 				return dmDic[key];
 			}
-			Debug.Log("tryGetAttr fail using key: " + key);
+//			Debug.Log("tryGetAttr fail using key: " + key);
 			return "";
 		}
 
 		private void OnEnable()
 		{
+			//todo loader component?
+			
+			//randomize clothing! uncomment only if you spawn without any clothes on!
+			//randomizeClothHierIfEmpty();
+
+			//don't do anything if hierarchy string is empty
 			hier = hierarchy.Trim();
-			if (hier.Length != 0)
+			if (hier.Length == 0) return;
+			
+			//init datafiles
+			if (!dmi)
 			{
-				if (!dmi)
-				{
-					Debug.Log("Item DMI data loading...");
-					dmi = Resources.Load("DmiIconData") as DmiIconData;
-				}
-				if (!dm)
-				{
-					Debug.Log("Item DM data loading...");
-					dm = Resources.Load("DmObjectData") as DmObjectData;
-				}
-
-				dmDic = dm.getObject(hier);
-				//printDic
-				Debug.Log(dmDic.Keys.Aggregate("", (current, key) => current + (key + ": ") + dmDic[key] + "\n"));
-
-				name = tryGetAttr("name");
-				desc = tryGetAttr("desc");
-				icon_state = tryGetAttr("icon_state");
-				string icon = tryGetAttr("icon");
-
-				//inhands
-				item_state = tryGetAttr("item_state");
-				if (!item_state.Equals(""))
-				{
-					var stateLH = dmi.searchStateInIconShallow(item_state, "mob/inhands/clothing_lefthand");
-					if (stateLH != null)
-					{
-						Debug.Log("state lefthand = " + stateLH);
-						inHandLeft = stateLH.offset;
-						inHandReferenceLeft = inHandLeft;
-					}
-
-					var stateRH = dmi.searchStateInIconShallow(item_state, "mob/inhands/clothing_righthand");
-					if (stateRH != null)
-					{
-						Debug.Log("state righthand = " + stateRH);
-						inHandRight = stateRH.offset;
-						inHandReferenceRight = inHandRight;
-					}
-				}
-				//itemSize
-//				size = getItemSize(tryGetAttr("w_class"));
+				Debug.Log("Item DMI data loading...");
+				dmi = Resources.Load("DmiIconData") as DmiIconData;
+			}
+			if (!dm)
+			{
+				Debug.Log("Item DM data loading...");
+				dm = Resources.Load("DmObjectData") as DmObjectData;
+			}
 				
-				DmiIcon iSheet;
-				//clothing stuff				
-				if (hier.StartsWith("/obj/item/clothing"))
+			//raw dictionary of attributes
+			dmDic = dm.getObject(hier);
+
+			//basic attributes
+			name = tryGetAttr("name");
+			desc = tryGetAttr("desc");
+			icon_state = tryGetAttr("icon_state");
+			string icon = tryGetAttr("icon");
+				
+			//inhands
+			item_state = tryGetAttr("item_state");
+			if (!item_state.Equals(""))
+			{
+				var stateLH = dmi.searchStateInIconShallow(item_state, "mob/inhands/clothing_lefthand");
+				if (stateLH != null)
 				{
-					//on-player references
-					clothingReference = dmi.searchStateFourDirectional(icon_state, new[]
-					{
-						"mob/uniform",
-						"mob/underwear",
-						"mob/ties",
-						"mob/back",
-						"mob/belt_mirror",
-						"mob/belt",
-						"mob/eyes",
-						"mob/ears",
-						"mob/hands",
-						"mob/feet",
-						"mob/head",
-						"mob/mask",
-						"mob/neck",
-						"mob/suit"
-					}).offset;
+					inHandLeft = stateLH.offset;
+				}
+
+				var stateRH = dmi.searchStateInIconShallow(item_state, "mob/inhands/clothing_righthand");
+				if (stateRH != null)
+				{
+					inHandRight = stateRH.offset;
+				}
 					
-					//look into this folder first
-					iSheet = dmi.getIconByState(icon_state, "icons/obj/clothing/");
-				}
-				else
+				//clothingReference get attempt for item_state
+				var searchStateInIcon = dmi.searchStateInIcon(item_state, onPlayer, 4, false);
+				if (searchStateInIcon != null)
 				{
-					iSheet = (icon == "") ? dmi.getIconByState(icon_state) : dmi.Data[icon];
+					clothing = searchStateInIcon.offset;
+				}
+			}
+			
+			//itemSize
+//			size = getItemSize(tryGetAttr("w_class"));
+				
+			//DmiIcon for dropped/inventory, the item type might be determined from its name:
+			DmiIcon iSheet = new DmiIcon();
+
+			string iSheetHier = "";
+			
+			//clothing stuff				
+			var clothPath = "/obj/item/clothing";
+			if (hier.StartsWith(clothPath))
+			{
+				//clothingReference get attempt for icon_state, if item_state failed
+				if (clothing == -1)
+				{
+					var searchStateInIcon = dmi.searchStateInIcon(icon_state, onPlayer, 4, false);
+					if (searchStateInIcon != null)
+					{
+						clothing = searchStateInIcon.offset;
+					}
 				}
 
-				//inventory item sprite
-				type = getItemType(iSheet.getName());
-				DmiState iState = iSheet.getState(icon_state);
-				Sprite stateSprite = iSheet.spriteSheet[iState.offset];
-				GetComponentInChildren<SpriteRenderer>().sprite = stateSprite;
-
-				Debug.Log(name + " size=" + size + " type=" + type + " spriteType=" 
-				          + spriteType + " (" + desc + ") : " 
-				          + icon_state + " / " + item_state + " / " + clothingReference);
+				iType = getItemType(hier, clothPath);
+				iSheetHier = getItemClothSheetHier(iType);
+//				Debug.Log(name + " iSheetHier = "+iSheetHier);
+			}
+			
+			//todo: blocks for other item types?
+			
+			//determining iSheet
+			if (!iSheetHier.Equals("") && dmi.Data.ContainsKey(iSheetHier+".dmi") && icon.Equals(""))
+			{
+				iSheet = dmi.Data[iSheetHier+".dmi"];
+//				Debug.Log(name + ": iSheet = dmi.DataHier["+iSheetHier+".dmi"+"] = "+iSheet);
+			}
+			else if (!icon.Equals(""))
+			{
+				iSheet = dmi.Data[icon];
+//				Debug.Log(name + ": iSheet = dmi.DataIcon["+icon+"] = "+iSheet);
+			}
+			else
+			{ //pretty bad choice, should use this as last resort
+				iSheet = dmi.getIconByState(icon_state);
+//				Debug.Log(name + ": iSheet = dmi.getIconByState("+icon_state+") = "+iSheet);
+			}
 				
+			//determine item type via sheet name if hier name failed
+			if (iType == ItemType.None)
+			{
+				iType = getItemType(iSheet.getName());
+			}
+				
+			//inventory item sprite
+			DmiState iState = iSheet.getState(icon_state);
+			Sprite stateSprite = iSheet.spriteSheet[iState.offset];
+				
+				
+			//finally setting things
+			inHandReferenceLeft = inHandLeft;
+			inHandReferenceRight = inHandRight;
+			clothingReference = clothing;
+			type = iType;
+			itemName = name;
+			itemDescription = desc;
+			GetComponentInChildren<SpriteRenderer>().sprite = stateSprite;
+				
+			Debug.Log(name + " size=" + size + " type=" + type + " spriteType=" 
+			          + spriteType + " (" + desc + ") : " 
+			          + icon_state + " / " + item_state + " / C: " + clothingReference 
+			          + ", L: " + inHandReferenceLeft + ", R: " + inHandReferenceRight + ", I: " + iSheet.icon + '\n'
+			          +	dmDic.Keys.Aggregate("", (current, key) => current + (key + ": ") + dmDic[key] + "\n"));
+		}
 
+		private static string getItemClothSheetHier(ItemType type)
+		{
+			var p = "icons/obj/clothing/";
+			switch (type)
+			{
+				case ItemType.Belt: return p + "belts";
+				case ItemType.Back: return p + "cloaks";
+				case ItemType.Glasses: return p + "glasses";
+				case ItemType.Gloves: return p + "gloves";
+				case ItemType.Hat: return p + "hats";
+				case ItemType.Mask: return p + "masks";
+				case ItemType.Shoes: return p + "shoes";
+				case ItemType.Suit: return p + "suits";
+//				case ItemType.Neck: return p + "neck"; //not sure what to do with this one
+				case ItemType.Neck: return p + "ties";
+				case ItemType.Uniform: return p + "uniforms";
+				default:	return "";
+			}
+
+		}
+
+		private void randomizeClothHierIfEmpty()
+		{
+			if (hierList.Length == 0)
+			{
+				var asset = Resources.Load(Path.Combine("metadata", "hier")) as TextAsset;
+				if (asset != null)
+				{
+					var objects = asset.text.Split('\n').ToList();
+					objects.RemoveAll(x => !x.Contains("cloth"));
+					hierList = objects.ToArray();
+				}
+				Debug.Log("HierList loaded. size=" + hierList.Length);
+			}
+			if (hierarchy.Length == 0 && spriteType == SpriteType.Clothing)
+			{
+				hierarchy = hierList[new System.Random().Next(hierList.Length)];
 			}
 		}
 
-		private ItemType getItemType(string s)
+		private static ItemType getItemType(string s, string cutOff = "")
 		{
 			Debug.Log("getItemType for "+ s);
-			switch (s)
+			string sCut;
+			if (!cutOff.Equals("") && s.StartsWith(cutOff))
+			{
+
+				sCut = s.Substring(cutOff.Length + 1).Split('/')[0];
+//				Debug.Log("sCut = "+ sCut);
+			}
+			else
+			{
+				sCut = s;
+			}
+			switch (sCut)
 			{
 					case "uniform": 
 					case "uniforms": 
+					case "under": 
 					case "underwear": return ItemType.Uniform;
 					case "back":
 					case "cloaks": return ItemType.Back;
@@ -244,6 +352,7 @@ namespace UI
 					case "hats": return ItemType.Hat;
 					case "mask": 
 					case "masks": return ItemType.Mask;
+					case "tie": 
 					case "ties": 
 					case "neck": return ItemType.Neck;
 					case "suit": 
@@ -253,7 +362,7 @@ namespace UI
 			}
 		}
 
-		private ItemSize getItemSize(string s)
+		private static ItemSize getItemSize(string s)
 		{
 			switch (s)
 			{
