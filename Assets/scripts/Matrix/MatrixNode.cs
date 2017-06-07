@@ -16,6 +16,7 @@ namespace Matrix {
         private List<GameObject> tiles = new List<GameObject>();
 
         private bool isDoor;
+		private bool isObject;
         private bool isSpace;
 
         [SerializeField]
@@ -80,6 +81,19 @@ namespace Matrix {
             return null;
         }
 
+		public ObjectActions GetObjectActions() {
+			if(isObject) {
+				foreach(var tile in tiles) {
+					var registerTile = tile.GetComponent<RegisterTile>();
+					if(registerTile.TileType == TileType.Object) {
+						ObjectActions objCollisions = registerTile.gameObject.GetComponent<ObjectActions>();
+						return objCollisions;
+					}
+				}
+			}
+			return null;
+		}
+
         public bool Connects(ConnectType connectType) {
             if(connectType != null) {
                 return ((connectType & (connectValue | tileValue)) > 0);
@@ -127,6 +141,9 @@ namespace Matrix {
                 if(registerTile.TileType == TileType.Door) {
                     isDoor = true;
                 }
+				if(registerTile.TileType == TileType.Object) {
+					isObject = true;
+				}
 
                 if(registerTile.inSpace) {
                     isSpace = true;
