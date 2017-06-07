@@ -35,7 +35,6 @@ namespace Sprites {
         private void InitializeSpriteSheets() {
 	        if (spriteManager.dmi == null)
 	        {
-		        Debug.LogWarning("DMI is null! loading it...");
 		        spriteManager.dmi = Resources.Load("DmiIconData") as DmiIconData;
 	        }
 
@@ -51,6 +50,7 @@ namespace Sprites {
 		        PlayerSprites["mask"] = dmi.getSprites("mob/mask");
 		        PlayerSprites["ears"] = dmi.getSprites("mob/ears");
 		        PlayerSprites["back"] = dmi.getSprites("mob/back");
+		        PlayerSprites["neck"] = dmi.getSprites("mob/ties"); //there is also mob/neck!
 		        PlayerSprites["eyes"] = dmi.getSprites("mob/eyes");
 		        PlayerSprites["hands"] = dmi.getSprites("mob/hands");
 		        PlayerSprites["uniform"] = dmi.getSprites("mob/uniform");

@@ -83,6 +83,7 @@ namespace Equipment
 						}
 					}
 			isInit = true;
+			//Player sprite offset:
 			clothingSlots[10].Reference = 33;
 				
 		}

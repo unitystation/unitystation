@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UI
 {
@@ -83,55 +85,184 @@ namespace UI
 	
 	public class ItemAttributes: MonoBehaviour
 	{
-		//todo: place dm and dmi scriptableobjects here
 		private static DmiIconData dmi;
 		private static DmObjectData dm;
 		
 		public string hierarchy; //the bare minimum you need to to make magic work
 		
-		// item name and description. still public in case you want to override datafiles
+		// item name and description.
 		public string itemName; //dm "name"
 		public string itemDescription; //dm "desc"
 
 		public SpriteType spriteType; 
-		public ItemType type; 		  //perhaps replace this one with a list like /obj/item/clothing/suit ?
+		public ItemType type; 		  
 		
-		//override reference numbers for item on  inhands spritesheet. should be one corresponding to player facing down
-		public int inHandReferenceRight; // dmi "offset" from first found : dm's "item_state"; "icon_state" ..
-		public int inHandReferenceLeft;  // .. from sheet "clothing/guns/items_righthand" (depends on InHandSpriteType)
+		//reference numbers for item on inhands spritesheet. should be one corresponding to player facing down
+		public int inHandReferenceRight; 
+		public int inHandReferenceLeft;  
 		public int clothingReference = -1;
 
 	    public ItemSize size; //dm "w_class"; 
-	
+
+		private Dictionary<string, string> dmDic;
 //		dm datafile info
-		private string name;
+		private string hier;
+
+		private new string name;
 		private string desc;
 		private string icon_state;
 		private string item_state;
-		//todo: use these in following methods instead!
-		private int inHandLeft;
-		private int inHandRight;
-		private int clothing;
-		
-		
+		private int inHandLeft = -1;
+		private int inHandRight = -1;
+		private int clothing = -1;
+
+
+		private string tryGetAttr(string key)
+		{
+			if (dmDic != null && dmDic.ContainsKey(key))
+			{
+				return dmDic[key];
+			}
+			Debug.Log("tryGetAttr fail using key: " + key);
+			return "";
+		}
+
 		private void OnEnable()
 		{
-			//todo init stuff here
-			if (hierarchy.Length != 0)
+			hier = hierarchy.Trim();
+			if (hier.Length != 0)
 			{
 				if (!dmi)
 				{
-					Debug.LogWarning("DMI is null! loading it...");
+					Debug.Log("Item DMI data loading...");
 					dmi = Resources.Load("DmiIconData") as DmiIconData;
 				}
 				if (!dm)
 				{
-					Debug.LogWarning("DM is null! loading it...");
+					Debug.Log("Item DM data loading...");
 					dm = Resources.Load("DmObjectData") as DmObjectData;
 				}
-			
-				var dmDictionary = dm.getObject(hierarchy);
+
+				dmDic = dm.getObject(hier);
+				//printDic
+				Debug.Log(dmDic.Keys.Aggregate("", (current, key) => current + (key + ": ") + dmDic[key] + "\n"));
+
+				name = tryGetAttr("name");
+				desc = tryGetAttr("desc");
+				icon_state = tryGetAttr("icon_state");
+				string icon = tryGetAttr("icon");
+
+				//inhands
+				item_state = tryGetAttr("item_state");
+				if (!item_state.Equals(""))
+				{
+					var stateLH = dmi.searchStateInIconShallow(item_state, "mob/inhands/clothing_lefthand");
+					if (stateLH != null)
+					{
+						Debug.Log("state lefthand = " + stateLH);
+						inHandLeft = stateLH.offset;
+						inHandReferenceLeft = inHandLeft;
+					}
+
+					var stateRH = dmi.searchStateInIconShallow(item_state, "mob/inhands/clothing_righthand");
+					if (stateRH != null)
+					{
+						Debug.Log("state righthand = " + stateRH);
+						inHandRight = stateRH.offset;
+						inHandReferenceRight = inHandRight;
+					}
+				}
+				//itemSize
+//				size = getItemSize(tryGetAttr("w_class"));
 				
+				DmiIcon iSheet;
+				//clothing stuff				
+				if (hier.StartsWith("/obj/item/clothing"))
+				{
+					//on-player references
+					clothingReference = dmi.searchStateFourDirectional(icon_state, new[]
+					{
+						"mob/uniform",
+						"mob/underwear",
+						"mob/ties",
+						"mob/back",
+						"mob/belt_mirror",
+						"mob/belt",
+						"mob/eyes",
+						"mob/ears",
+						"mob/hands",
+						"mob/feet",
+						"mob/head",
+						"mob/mask",
+						"mob/neck",
+						"mob/suit"
+					}).offset;
+					
+					//look into this folder first
+					iSheet = dmi.getIconByState(icon_state, "icons/obj/clothing/");
+				}
+				else
+				{
+					iSheet = (icon == "") ? dmi.getIconByState(icon_state) : dmi.Data[icon];
+				}
+
+				//inventory item sprite
+				type = getItemType(iSheet.getName());
+				DmiState iState = iSheet.getState(icon_state);
+				Sprite stateSprite = iSheet.spriteSheet[iState.offset];
+				GetComponentInChildren<SpriteRenderer>().sprite = stateSprite;
+
+				Debug.Log(name + " size=" + size + " type=" + type + " spriteType=" 
+				          + spriteType + " (" + desc + ") : " 
+				          + icon_state + " / " + item_state + " / " + clothingReference);
+				
+
+			}
+		}
+
+		private ItemType getItemType(string s)
+		{
+			Debug.Log("getItemType for "+ s);
+			switch (s)
+			{
+					case "uniform": 
+					case "uniforms": 
+					case "underwear": return ItemType.Uniform;
+					case "back":
+					case "cloaks": return ItemType.Back;
+					case "belt_mirror": 
+					case "belt": 
+					case "belts": return ItemType.Belt;
+					case "eyes": 
+					case "glasses": return ItemType.Glasses;
+					case "ears": return ItemType.Ear;
+					case "gloves": 
+					case "hands": return ItemType.Gloves;
+					case "shoes": 
+					case "feet": return ItemType.Shoes;
+					case "head": 
+					case "hats": return ItemType.Hat;
+					case "mask": 
+					case "masks": return ItemType.Mask;
+					case "ties": 
+					case "neck": return ItemType.Neck;
+					case "suit": 
+					case "flightsuit": 
+					case "suits": return ItemType.Suit;
+						default: return ItemType.None;
+			}
+		}
+
+		private ItemSize getItemSize(string s)
+		{
+			switch (s)
+			{
+					case "WEIGHT_CLASS_TINY": return ItemSize.Tiny;
+					case "WEIGHT_CLASS_SMALL": return ItemSize.Small;
+					case "WEIGHT_CLASS_NORMAL": return ItemSize.Medium;
+					case "WEIGHT_CLASS_BULKY": return ItemSize.Large;
+					case "WEIGHT_CLASS_HUGE": return ItemSize.Huge;
+						default: return ItemSize.Small;
 			}
 		}
 
