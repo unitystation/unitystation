@@ -6,7 +6,7 @@ public class DmiState
     public string unityName;
     public string state;
     public string delay;
-    public int offset;
+    public int offset = -1;
     public int frames;
     public int dirs;
 
