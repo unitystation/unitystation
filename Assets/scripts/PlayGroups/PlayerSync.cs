@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine;
+using Matrix;
 
 namespace PlayGroup {
 
@@ -18,6 +19,7 @@ namespace PlayGroup {
         private PlayerMove playerMove;
 		private PlayerSprites playerSprites;
 		private PlayerScript playerScript;
+		private RegisterTile registerTile;
 
         private Queue<PlayerAction> pendingActions;
 
@@ -49,6 +51,7 @@ namespace PlayGroup {
             playerMove = GetComponent<PlayerMove>();
 			playerSprites = GetComponent<PlayerSprites>();
 			playerScript = GetComponent<PlayerScript>();
+			registerTile = GetComponent<RegisterTile>();
         }
 
         void Update() {
@@ -79,6 +82,9 @@ namespace PlayGroup {
 			if (!playerMove.isGhost) {
 				var state = isLocalPlayer ? predictedState : serverState;
 				transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
+				if (registerTile.savedPosition != state.Position) {
+					registerTile.UpdateTile(state.Position);
+				}
 			} else {
 				var state = isLocalPlayer ? predictedState : serverState;
 				playerScript.ghost.transform.position = Vector3.MoveTowards(playerScript.ghost.transform.position, state.Position, playerMove.speed * Time.deltaTime);

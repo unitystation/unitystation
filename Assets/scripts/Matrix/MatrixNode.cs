@@ -18,6 +18,7 @@ namespace Matrix {
         private bool isDoor;
 		private bool isObject;
         private bool isSpace;
+		private bool isPlayer;
 
         [SerializeField]
         private Section section;
@@ -67,6 +68,14 @@ namespace Matrix {
         public bool IsDoor() {
             return isDoor;
         }
+
+		public bool IsPlayer() {
+			return isPlayer;
+		}
+
+		public bool IsObject() {
+			return isObject;
+		}
 
         public DoorController GetDoor() {
             if(isDoor) {
@@ -123,6 +132,8 @@ namespace Matrix {
             connectValue = 0;
             isDoor = false;
             isSpace = false;
+			isPlayer = false;
+			isObject = false;
 
             foreach(var tile in tiles) {
 				if (tile == null)
@@ -143,6 +154,9 @@ namespace Matrix {
                 }
 				if(registerTile.TileType == TileType.Object) {
 					isObject = true;
+				}
+				if(registerTile.TileType == TileType.Player) {
+					isPlayer = true;
 				}
 
                 if(registerTile.inSpace) {

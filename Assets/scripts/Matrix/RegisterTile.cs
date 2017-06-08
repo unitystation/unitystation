@@ -15,7 +15,8 @@ namespace Matrix {
         private int currentTileTypeIndex;
         public TileType TileType { get { return TileType.List[tileTypeIndex]; } }
 
-        private Vector2 savedPosition = Vector2.zero;
+		[HideInInspector]
+        public Vector3 savedPosition = Vector3.zero;
 
         void Start() {
             UpdateTile();
