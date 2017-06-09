@@ -12,7 +12,7 @@ using UI;
 using Items;
 using System.Linq;
 
-public class PlayerNetworkActions : NetworkBehaviour
+public partial class PlayerNetworkActions : NetworkBehaviour
 {
     private Dictionary<string, GameObject> ServerCache = new Dictionary<string, GameObject>();
     private string[] eventNames = new string[]
