@@ -136,13 +136,14 @@ namespace PlayGroup {
             return Vector3.zero;
         }
         private void Interact(Vector3 currentPosition, Vector3 direction) {
-            DoorController doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
-			ObjectActions objectActions = Matrix.Matrix.At(currentPosition + direction).GetObjectActions();
-            if(doorController != null) {
+            var doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
+            if (doorController != null) {
                 doorController.CmdTryOpen();
             }
+
+			var objectActions = Matrix.Matrix.At(currentPosition + direction).GetObjectActions();
 			if (objectActions != null) {
-				objectActions.TryToPush(transform.position, speed);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPushObject(objectActions.gameObject);
 			}
         }
     }
