@@ -12,11 +12,9 @@ private static List<Dictionary<string, string>> objectList = new List<Dictionary
 
     private void OnEnable()
     {
-        if (objectList.Count == 0)
-        {
-            DeserializeJson();
-            Debug.Log("DM: Deserialized json!");
-        } else Debug.Log("ayyyy");
+        if (objectList.Count != 0) return;
+        DeserializeJson();
+        Debug.Log("DM: Deserialized json!");
     }
 
     //Scans hierarchy for attributes
@@ -25,16 +23,16 @@ private static List<Dictionary<string, string>> objectList = new List<Dictionary
         // i.e. we have /obj/item/clothing/tie/armband/cargo
         var path = hierarchy.Split('/').ToList();
         var ancAttr = new Dictionary<string, string>();
-        StringBuilder digLog = new StringBuilder();
+//        StringBuilder digLog = new StringBuilder();
         
         for (int i = path.Count; i-- > 2;)
         {
             var ancHier = String.Join("/", path.ToArray());
-            digLog.AppendLine("scanning " + ancHier);
+//            digLog.AppendLine("scanning " + ancHier);
             
             var foundAttributes = lookupObject(ancHier);
             if (foundAttributes.Count == 0 && !hierarchy.Equals(ancHier)) {
-                Debug.Log(digLog.AppendLine("Stopped digging further than " + ancHier).ToString());
+//                Debug.Log(digLog.AppendLine("Stopped digging further than " + ancHier).ToString());
                 break;
             }
 

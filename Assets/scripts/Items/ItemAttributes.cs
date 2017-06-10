@@ -109,50 +109,26 @@ namespace UI
 		//		dm datafile info
 		private string hier;
 		private Dictionary<string, string> dmDic;
+		private SpriteType masterType;
 		private ItemType iType = ItemType.None;
+		private DmiIcon inventoryIcon;
+		private string[] invSheetPaths;
 		private new string name;
+		private string icon;
 		private string desc;
 		private string icon_state;
 		private string item_state;
 		private int inHandLeft = -1;
 		private int inHandRight = -1;
-		private int clothing = -1;
+		private int clothingOffset = -1;
 
-		//on-player references
-		private static readonly string[] onPlayer =
-		{
-			"mob/uniform",
-			"mob/underwear",
-			"mob/ties",
-			"mob/back",
-			"mob/belt_mirror",
-			"mob/belt",
-			"mob/eyes",
-			"mob/ears",
-			"mob/hands",
-			"mob/feet",
-			"mob/head",
-			"mob/mask",
-			"mob/neck",
-			"mob/suit"
-		};
-		
-		private string tryGetAttr(string key)
-		{
-			if (dmDic != null && dmDic.ContainsKey(key))
-			{
-				return dmDic[key];
-			}
-//			Debug.Log("tryGetAttr fail using key: " + key);
-			return "";
-		}
 
 		private void OnEnable()
-		{
-			//todo loader component?
+		{			
+			//todo: make more methods static
 			
 			//randomize clothing! uncomment only if you spawn without any clothes on!
-			//randomizeClothHierIfEmpty();
+			randomizeClothHierIfEmpty();
 
 			//don't do anything if hierarchy string is empty
 			hier = hierarchy.Trim();
@@ -177,93 +153,33 @@ namespace UI
 			name = tryGetAttr("name");
 			desc = tryGetAttr("desc");
 			icon_state = tryGetAttr("icon_state");
-			string icon = tryGetAttr("icon");
-				
-			//inhands
 			item_state = tryGetAttr("item_state");
-			if (!item_state.Equals(""))
-			{
-				var stateLH = dmi.searchStateInIconShallow(item_state, "mob/inhands/clothing_lefthand");
-				if (stateLH != null)
-				{
-					inHandLeft = stateLH.offset;
-				}
-
-				var stateRH = dmi.searchStateInIconShallow(item_state, "mob/inhands/clothing_righthand");
-				if (stateRH != null)
-				{
-					inHandRight = stateRH.offset;
-				}
-					
-				//clothingReference get attempt for item_state
-				var searchStateInIcon = dmi.searchStateInIcon(item_state, onPlayer, 4, false);
-				if (searchStateInIcon != null)
-				{
-					clothing = searchStateInIcon.offset;
-				}
-			}
+			icon = tryGetAttr("icon");
 			
-			//itemSize
+			masterType = getMasterType(hier);
+			iType = getItemType(hier, getInvIconPrefix(masterType));
+			invSheetPaths = getItemClothSheetHier(iType);
 //			size = getItemSize(tryGetAttr("w_class"));
-				
-			//DmiIcon for dropped/inventory, the item type might be determined from its name:
-			DmiIcon iSheet = new DmiIcon();
+			int[] inHandOffsets = tryGetInHand();
+			inHandLeft = inHandOffsets[0];
+			inHandRight = inHandOffsets[1];
+            inventoryIcon = tryGetInventoryIcon();
+			clothingOffset = tryGetClothingOffset();
 
-			string iSheetHier = "";
-			
-			//clothing stuff				
-			var clothPath = "/obj/item/clothing";
-			if (hier.StartsWith(clothPath))
-			{
-				//clothingReference get attempt for icon_state, if item_state failed
-				if (clothing == -1)
-				{
-					var searchStateInIcon = dmi.searchStateInIcon(icon_state, onPlayer, 4, false);
-					if (searchStateInIcon != null)
-					{
-						clothing = searchStateInIcon.offset;
-					}
-				}
-
-				iType = getItemType(hier, clothPath);
-				iSheetHier = getItemClothSheetHier(iType);
-//				Debug.Log(name + " iSheetHier = "+iSheetHier);
-			}
-			
-			//todo: blocks for other item types?
-			
-			//determining iSheet
-			if (!iSheetHier.Equals("") && dmi.Data.ContainsKey(iSheetHier+".dmi") && icon.Equals(""))
-			{
-				iSheet = dmi.Data[iSheetHier+".dmi"];
-//				Debug.Log(name + ": iSheet = dmi.DataHier["+iSheetHier+".dmi"+"] = "+iSheet);
-			}
-			else if (!icon.Equals(""))
-			{
-				iSheet = dmi.Data[icon];
-//				Debug.Log(name + ": iSheet = dmi.DataIcon["+icon+"] = "+iSheet);
-			}
-			else
-			{ //pretty bad choice, should use this as last resort
-				iSheet = dmi.getIconByState(icon_state);
-//				Debug.Log(name + ": iSheet = dmi.getIconByState("+icon_state+") = "+iSheet);
-			}
-				
 			//determine item type via sheet name if hier name failed
 			if (iType == ItemType.None)
 			{
-				iType = getItemType(iSheet.getName());
+				iType = getItemType(inventoryIcon.getName());
 			}
-				
+			
 			//inventory item sprite
-			DmiState iState = iSheet.getState(icon_state);
-			Sprite stateSprite = iSheet.spriteSheet[iState.offset];
-				
+			DmiState iState = inventoryIcon.getState(icon_state);
+			Sprite stateSprite = inventoryIcon.spriteSheet[iState.offset];
 				
 			//finally setting things
 			inHandReferenceLeft = inHandLeft;
 			inHandReferenceRight = inHandRight;
-			clothingReference = clothing;
+			clothingReference = clothingOffset;
 			type = iType;
 			itemName = name;
 			itemDescription = desc;
@@ -272,32 +188,186 @@ namespace UI
 			Debug.Log(name + " size=" + size + " type=" + type + " spriteType=" 
 			          + spriteType + " (" + desc + ") : " 
 			          + icon_state + " / " + item_state + " / C: " + clothingReference 
-			          + ", L: " + inHandReferenceLeft + ", R: " + inHandReferenceRight + ", I: " + iSheet.icon + '\n'
+			          + ", L: " + inHandReferenceLeft + ", R: " + inHandReferenceRight + ", I: " + inventoryIcon.icon + '\n'
 			          +	dmDic.Keys.Aggregate("", (current, key) => current + (key + ": ") + dmDic[key] + "\n"));
 		}
 
-		private static string getItemClothSheetHier(ItemType type)
+		private static SpriteType getMasterType(string hs)
 		{
-			var p = "icons/obj/clothing/";
-			switch (type)
-			{
-				case ItemType.Belt: return p + "belts";
-				case ItemType.Back: return p + "cloaks";
-				case ItemType.Glasses: return p + "glasses";
-				case ItemType.Gloves: return p + "gloves";
-				case ItemType.Hat: return p + "hats";
-				case ItemType.Mask: return p + "masks";
-				case ItemType.Shoes: return p + "shoes";
-				case ItemType.Suit: return p + "suits";
-//				case ItemType.Neck: return p + "neck"; //not sure what to do with this one
-				case ItemType.Neck: return p + "ties";
-				case ItemType.Uniform: return p + "uniforms";
-				default:	return "";
-			}
-
+			if(hs.StartsWith(ObjItemClothing)) return SpriteType.Clothing;
+			return SpriteType.Items;
 		}
 
-		private void randomizeClothHierIfEmpty()
+		private static string getMasterTypeHandsString(SpriteType masterType)
+		{
+			switch (masterType)
+			{
+				case SpriteType.Clothing: return "clothing";
+				default: return "items";
+			}
+		}
+
+		private string tryGetAttr(string key)
+		{
+			return tryGetAttr(dmDic, key);
+		}
+
+		private static string tryGetAttr(Dictionary<string, string> dmDic, string key)
+		{
+			if (dmDic != null && dmDic.ContainsKey(key))
+			{
+				return dmDic[key];
+			}
+//			Debug.Log("tryGetAttr fail using key: " + key);
+			return "";
+		}
+
+		private /*static*/ DmiIcon tryGetInventoryIcon(/*DmiIconData dmi, string[] invSheetPaths, string icon = ""*/)
+		{
+			//determining invIcon
+			for (int i = 0; i < invSheetPaths.Length; i++)
+			{
+				var iconPath = DmiIconData.getIconPath(invSheetPaths[i]); //add extension junk
+				if (!iconPath.Equals("") && dmi.Data.ContainsKey(iconPath) && icon.Equals(""))
+				{
+//					Debug.Log(name + ": iSheet = dmi.DataHier[" + iconPath +"] = " + dmi.Data[iconPath]);
+					return dmi.Data[iconPath];
+				}
+			}
+			
+			if (!icon.Equals(""))
+			{
+//				Debug.Log(name + ": iSheet = dmi.DataIcon["+icon+"] = "+iSheet);
+				return dmi.Data[icon];
+			}
+			//pretty bad choice, should use this only as last resort as it's usually pretty inaccurate
+			var invIcon = dmi.getIconByState(icon_state);
+			Debug.LogWarning(name + " is doing bad dmi.getIconByState(" + icon_state + ") = " + invIcon);
+			return invIcon;
+		}
+
+		private /*static*/ int tryGetClothingOffset()
+		{
+		//getting stuff using item_state
+			if (!item_state.Equals(""))
+			{
+				//clothingReference get attempt for item_state
+				var state = dmi.searchStateInIcon(item_state, onPlayer, 4, false);
+				if (state != null)
+				{
+					var clothOffset = state.offset;
+//					if(clothOffset != -1) Debug.Log(name + " STATE1 " + clothOffset); return clothOffset;
+				}
+			}
+			//clothingReference get attempt for icon_state, if item_state failed
+			//if we know exact item type, search state in corresponding icon, otherwise lookup in onPlayer list
+			var onPlayerClothSheetHier = getOnPlayerClothSheetHier(iType);
+			var state2 = dmi.searchStateInIcon(icon_state, iType == ItemType.None ? onPlayer : onPlayerClothSheetHier, 4, false);
+			if (state2 != null)
+			{
+//				Debug.Log(name + " STATE2 " + state2.offset);
+				return state2.offset;
+			}
+			Debug.LogError(name + ": No clothing offset found! iType=" + iType 
+			               + ", SheetHier=" + onPlayerClothSheetHier[0]);
+			return -1;
+		}
+
+		private /*static*/ int[] tryGetInHand()
+		{
+			if (item_state.Equals("")) return new[] {-1, -1};
+			
+			var stateLH = dmi.searchStateInIconShallow(item_state,
+				"mob/inhands/" + getMasterTypeHandsString(masterType) + "_lefthand");
+
+			var stateRH = dmi.searchStateInIconShallow(item_state,
+				"mob/inhands/" + getMasterTypeHandsString(masterType) + "_righthand");
+			
+			return new[] {stateLH == null ? -1 : stateLH.offset,
+						  stateRH == null ? -1 : stateRH.offset};
+		}
+
+		private static string getInvIconPrefix(SpriteType st)
+		{
+			switch (st)
+			{
+					case SpriteType.Clothing: return ObjItemClothing;
+						default: return "";
+			}
+		}
+
+		private static string[] getItemClothSheetHier(ItemType type)
+		{
+			var p = "obj/clothing/";
+			switch (type)
+			{
+				case ItemType.Belt: return new[] {p + "belts"};
+				case ItemType.Back: return new[] {p + "cloaks"};
+				case ItemType.Glasses: return new[] {p + "glasses"};
+				case ItemType.Gloves: return new[] {p + "gloves"};
+				case ItemType.Hat: return new[] {p + "hats"};
+				case ItemType.Mask: return new[] {p + "masks"};
+				case ItemType.Shoes: return new[] {p + "shoes"};
+				case ItemType.Suit: return new[]
+				{
+					p + "suits",
+					p + "neck"
+				};
+				case ItemType.Neck: return new[] {p + "ties"};
+				case ItemType.Uniform: return new[] {p + "uniforms"};
+				default:	return new[] {""};
+			}
+		}
+		private static string[] getOnPlayerClothSheetHier(ItemType type)
+		{
+			var p = "mob/";
+			switch (type)
+			{
+				case ItemType.Belt: return new[]
+				{
+					p + "belt",
+					p + "belt_mirror"
+				};
+				case ItemType.Back: return new[] {p + "back"};
+				case ItemType.Glasses: return new[] {p + "eyes"};
+				case ItemType.Gloves: return new[] {p + "hands"};
+				case ItemType.Hat: return new[] {p + "head"};
+				case ItemType.Ear: return new[] {p + "ears"};
+				case ItemType.Mask: return new[] {p + "mask"};
+				case ItemType.Shoes: return new[] {p + "feet"};
+				case ItemType.Suit: return new[] {p + "suit"};
+				case ItemType.Neck: return new[]
+				{
+					p + "ties",
+					p + "neck"
+				};
+				case ItemType.Uniform: return new[] {p + "uniform"};
+				default:	return new[] {""};
+			}
+		}
+		
+		//on-player references
+		private static readonly string[] onPlayer =
+		{
+			"mob/uniform",
+			"mob/underwear",
+			"mob/ties",
+			"mob/back",
+			"mob/belt_mirror",
+			"mob/belt",
+			"mob/eyes",
+			"mob/ears",
+			"mob/hands",
+			"mob/feet",
+			"mob/head",
+			"mob/mask",
+			"mob/neck",
+			"mob/suit"
+		};
+
+		private const string ObjItemClothing = "/obj/item/clothing";
+
+		private /*static*/ void randomizeClothHierIfEmpty()
 		{
 			if (hierList.Length == 0)
 			{
@@ -318,7 +388,7 @@ namespace UI
 
 		private static ItemType getItemType(string s, string cutOff = "")
 		{
-			Debug.Log("getItemType for "+ s);
+//			Debug.Log("getItemType for "+ s);
 			string sCut;
 			if (!cutOff.Equals("") && s.StartsWith(cutOff))
 			{
