@@ -1852,6 +1852,7 @@ GameObject:
   - component: {fileID: 224342957805719492}
   - component: {fileID: 222471197423101600}
   - component: {fileID: 114102425676477964}
+  - component: {fileID: 114173723418728806}
   m_Layer: 5
   m_Name: Panel_HUD_Bottom
   m_TagString: Untagged
@@ -5782,6 +5783,34 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114173723418728806
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1773735637013182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6805bdeef480645908801c265e9d7aaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BeltSlot: {fileID: 114441514707964098}
+  BackSlot: {fileID: 114873687107902260}
+  SuitStorageSlot: {fileID: 114090887444817894}
+  IDSlot: {fileID: 114733848698575016}
+  LeftPocketSlot: {fileID: 114599336391617244}
+  RightPocketSlot: {fileID: 114162380104524076}
+  RightHandSlot: {fileID: 114695327282671848}
+  LeftHandSlot: {fileID: 114979991419574136}
+  HeadSlot: {fileID: 114395034210449304}
+  SuitSlot: {fileID: 114710482248211062}
+  HandsSlot: {fileID: 114704855797085276}
+  ShoeSlot: {fileID: 114158696084396008}
+  UniformSlot: {fileID: 114648632171505646}
+  EarSlot: {fileID: 114389007849843196}
+  EyesSlot: {fileID: 114232450015027486}
+  NeckSlot: {fileID: 114842981520721370}
+  MaskSlot: {fileID: 114712411679979280}
 --- !u!114 &114173813145052830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6185,6 +6214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3714d371d4c6947228fb985f6c81e779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dmi: {fileID: 11400000, guid: 62b22ae789cae4c68b62c8b908b1137a, type: 2}
 --- !u!114 &114248418600185866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7897,8 +7927,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a726eeaef8432419b74dfe18ce9f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RightSlot: {fileID: 114695327282671848}
-  LeftSlot: {fileID: 114979991419574136}
   selector: {fileID: 224945965584951848}
 --- !u!114 &114514712987587426
 MonoBehaviour:
@@ -8039,7 +8067,7 @@ MonoBehaviour:
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
   m_OfflineScene: Lobby
-  m_OnlineScene: BoxStation
+  m_OnlineScene: TestMap
   m_SpawnPrefabs:
   - {fileID: 1229467635671980, guid: 7fb98374065e73a42bfee58d83920914, type: 2}
   - {fileID: 1816790622172278, guid: 74303457ff5f1a9449b6c406f1ac2801, type: 2}
@@ -8073,6 +8101,8 @@ MonoBehaviour:
   - {fileID: 1228446059428988, guid: f683b1158f7f2bb45b6f6eae97cdd6f7, type: 2}
   - {fileID: 1564961329676294, guid: 7c160c72b9ef315478294d8b1d4e1cc9, type: 2}
   - {fileID: 1069497300762596, guid: e4b5330dc21e94b0494056c5ef239d49, type: 2}
+  - {fileID: 1011433845357754, guid: 4cdd8f9f4402a4b0fa1a55527ec0ab11, type: 2}
+  - {fileID: 1942658981970304, guid: 5bfcb30af28fe43d6a064f17ec773425, type: 2}
   m_CustomConfig: 1
   m_MaxConnections: 62
   m_ConnectionConfig:
@@ -9120,7 +9150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: 1
+  eventName: mask
   allowAllItems: 0
   allowedItemTypes: 04000000
   maxItemSize: 0
@@ -10397,6 +10427,7 @@ MonoBehaviour:
   playerHealth: {fileID: 114643588251052962}
   playerListUIControl: {fileID: 114827065861498824}
   toolTip: {fileID: 114819375966709390}
+  inventorySlotCache: {fileID: 114173723418728806}
 --- !u!114 &114902798441274010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12506,7 +12537,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 700.75, y: 95.5}
+  m_AnchoredPosition: {x: 700.7499, y: 95.5}
   m_SizeDelta: {x: 1401.5, y: 114}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224347802705061360
@@ -13850,7 +13881,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -644.5, y: 559.42004}
+  m_AnchoredPosition: {x: -644.4999, y: 559.42004}
   m_SizeDelta: {x: 252, y: 1041.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224910744328625226

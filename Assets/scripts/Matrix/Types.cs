@@ -33,6 +33,7 @@ namespace Matrix {
         public static TileType Door = new TileType("Door", (int) (TileProperty.AtmosNotPassable | TileProperty.NotPassable));
         public static TileType Window = new TileType("Window", (int) (TileProperty.AtmosNotPassable | TileProperty.NotPassable));
         public static TileType Wall = new TileType("Wall", (int) (TileProperty.HasFloor | TileProperty.AtmosNotPassable | TileProperty.NotPassable));
+		public static TileType Player = new TileType("Player", (int) TileProperty.NotPassable);
 
         public TileType(string name, int value=0) : base(name, value) {
             tileTypes.Add(this);

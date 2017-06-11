@@ -12,7 +12,7 @@ using UI;
 using Items;
 using System.Linq;
 
-public class PlayerNetworkActions : NetworkBehaviour
+public partial class PlayerNetworkActions : NetworkBehaviour
 {
     private Dictionary<string, GameObject> ServerCache = new Dictionary<string, GameObject>();
     private string[] eventNames = new string[]
@@ -102,7 +102,7 @@ public class PlayerNetworkActions : NetworkBehaviour
         {
             if (ServerCache[eventName] == null || ServerCache[eventName] == obj)
             {
-                EquipmentPool.AddGameObject(gameObject.name, obj);
+                EquipmentPool.AddGameObject(gameObject, obj);
                 ServerCache[eventName] = obj;
                 equipment.SetHandItem(eventName, obj);
             }
@@ -117,7 +117,7 @@ public class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdTryAddToEquipmentPool(GameObject obj){
 
-		EquipmentPool.AddGameObject(gameObject.name, obj);
+		EquipmentPool.AddGameObject(gameObject, obj);
 	}
 
     [Command]
@@ -128,7 +128,7 @@ public class PlayerNetworkActions : NetworkBehaviour
             {
                 GameObject item = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
                 NetworkServer.Spawn(item);
-                EquipmentPool.AddGameObject(gameObject.name, item);
+                EquipmentPool.AddGameObject(gameObject, item);
                 ServerCache[eventName] = item;
                 equipment.SetHandItem(eventName, item);
                 RpcInstantiateInHand(gameObject.name, item);
@@ -265,6 +265,7 @@ public class PlayerNetworkActions : NetworkBehaviour
             else
             {
                 if (att.spriteType == UI.SpriteType.Clothing) {
+	               // Debug.Log("eventName = " + eventName);
                     Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
                     equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
                 }
@@ -439,8 +440,7 @@ public class PlayerNetworkActions : NetworkBehaviour
 		if (PlayerManager.LocalPlayer == gameObject) {
 			SoundManager.Stop("Critstate");
 			Camera2DFollow.followControl.target = playerScript.ghost.transform;
-			//FIXME using for the demo, obviousily it is open for injection (hacking)
-			Camera2DFollow.followControl.gameObject.GetComponent<CameraOcclusion>().TurnOffShroud();
+			//FIXME disable FOV script on camera
 		}
 	}
 }

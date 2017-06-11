@@ -9,8 +9,6 @@ namespace Events {
     public class EventManager : MonoBehaviour {
 
         private EventController<string, GameObject> ui = new EventController<string, GameObject>();
-		public delegate void LightAction();
-		public static event LightAction LightUpdate;
 
         public static EventController<string, GameObject> UI {
             get { return Instance.ui; }
@@ -28,7 +26,7 @@ namespace Events {
         }
 
 		public static void UpdateLights(){
-			LightUpdate();
+			
 		}
     }
 }
