@@ -15,12 +15,13 @@ namespace Matrix {
         private int currentTileTypeIndex;
         public TileType TileType { get { return TileType.List[tileTypeIndex]; } }
 
-        private Vector2 savedPosition = Vector2.zero;
+		[HideInInspector]
+        public Vector3 savedPosition = Vector3.zero;
 
         void Start() {
             UpdateTile();
         }
-
+			
         void OnValidate() {
             if(!Application.isPlaying && gameObject.activeInHierarchy && currentTileTypeIndex != tileTypeIndex) {
                 currentTileTypeIndex = tileTypeIndex;
@@ -50,6 +51,17 @@ namespace Matrix {
 
             AddTile();
         }
+		/// <summary>
+		/// Updates the tile with a position for moving objects
+		/// </summary>
+		/// <param name="newPos">The target position if it is in motion</param>
+		public void UpdateTile(Vector3 newPos) {
+			Matrix.At(savedPosition).TryRemoveTile(gameObject);
+
+			savedPosition = newPos;
+
+			AddTile();
+		}
 
         private void AddTile() {
             if(!Matrix.At(savedPosition).TryAddTile(gameObject)) {

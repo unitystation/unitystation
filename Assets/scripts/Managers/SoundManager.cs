@@ -30,6 +30,12 @@ public class SoundManager: MonoBehaviour {
         }
     }
 
+	public AudioSource this [string key] {
+		get {
+			return sounds[key];
+		}
+	}
+
     private void Init() {
         // add sounds to sounds dictionary
         foreach(var s in soundsList) {
