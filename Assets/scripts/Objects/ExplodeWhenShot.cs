@@ -23,8 +23,7 @@ public class ExplodeWhenShot : NetworkBehaviour {
 	[Server]
 	void Explode(string bulletOwnedBy) {
 		// TODO: Damage people
-
-		Destroy(gameObject);
+		NetworkServer.Destroy(gameObject);
 	}
 		
 	void GoBoom() {
