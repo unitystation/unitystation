@@ -32,7 +32,8 @@ public class SoundManager: MonoBehaviour {
 
 	public AudioSource this [string key] {
 		get {
-			return sounds[key];
+			AudioSource source;
+			return sounds.TryGetValue(key, out source) ? source : null;
 		}
 	}
 
