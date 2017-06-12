@@ -20,8 +20,10 @@ public class ExplodeWhenShot : NetworkBehaviour {
 		}
 	}
 
+	#if !ENABLE_PLAYMODE_TESTS_RUNNER
 	[Server]
-	void Explode(string bulletOwnedBy) {
+	#endif
+	public void Explode(string bulletOwnedBy) {
 		// TODO: Damage people
 		NetworkServer.Destroy(gameObject);
 	}
@@ -30,7 +32,9 @@ public class ExplodeWhenShot : NetworkBehaviour {
 		// Instantiate a clone of the source so that multiple explosions can play at the same time.
 		var name = explosions[Random.Range(0, explosions.Length)];
 		var source = SoundManager.Instance[name];
-		Instantiate<AudioSource>(source, transform.position, Quaternion.identity).Play();
+		if (source != null) {
+			Instantiate<AudioSource>(source, transform.position, Quaternion.identity).Play();
+		}
 
 		var parent = Resources.Load<GameObject>("effects/FireRing");
 		Instantiate(parent, transform.position, Quaternion.identity);
