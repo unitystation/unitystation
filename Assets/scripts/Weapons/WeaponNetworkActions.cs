@@ -111,7 +111,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
         if(npcObj != gameObject) {
             RpcKnifeAttackLerp(stabDirection);
         }
-        attackTarget.RpcReceiveDamage(gameObject.name);
+        attackTarget.RpcReceiveDamage(gameObject.name, 20);
         BloodSplat(npcObj.transform.position, BloodSplatSize.medium);
         soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 
