@@ -9,7 +9,7 @@ public class DmiIcon
     public string icon;
     public List<DmiState> states;
 
-    private Sprite[] sprites;
+    private Sprite[] sprites = {};
 
     public Sprite[] spriteSheet
     {
@@ -38,8 +38,8 @@ public class DmiIcon
                 return foundState;
             }
         
-        Debug.LogWarning("Couldn't find dmiIcon by state " + state);
-        return null;
+//        Debug.LogWarning("Couldn't find dmiIcon by state " + state);
+        return new DmiState();
     }
 
     public DmiIcon(string icon, List<DmiState> states)
@@ -48,11 +48,11 @@ public class DmiIcon
         this.states = states;
     }
 
-    public DmiIcon(string icon) : this(icon, null)
+    public DmiIcon(string icon) : this(icon, new List<DmiState>())
     {
     }
 
-    public DmiIcon() : this(null, null)
+    public DmiIcon() : this("")
     {
     }
 
