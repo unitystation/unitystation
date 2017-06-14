@@ -137,12 +137,12 @@ namespace UI
 			//init datafiles
 			if (!dmi)
 			{
-				Debug.Log("Item DMI data loading...");
+//				Debug.Log("Item DMI data loading...");
 				dmi = Resources.Load("DmiIconData") as DmiIconData;
 			}
 			if (!dm)
 			{
-				Debug.Log("Item DM data loading...");
+//				Debug.Log("Item DM data loading...");
 				dm = Resources.Load("DmObjectData") as DmObjectData;
 			}
 				
@@ -185,11 +185,11 @@ namespace UI
 			itemDescription = desc;
 			GetComponentInChildren<SpriteRenderer>().sprite = stateSprite;
 				
-			Debug.Log(name + " size=" + size + " type=" + type + " spriteType=" 
-			          + spriteType + " (" + desc + ") : " 
-			          + icon_state + " / " + item_state + " / C: " + clothingReference 
-			          + ", L: " + inHandReferenceLeft + ", R: " + inHandReferenceRight + ", I: " + inventoryIcon.icon + '\n'
-			          +	dmDic.Keys.Aggregate("", (current, key) => current + (key + ": ") + dmDic[key] + "\n"));
+//			Debug.Log(name + " size=" + size + " type=" + type + " spriteType=" 
+//			          + spriteType + " (" + desc + ") : " 
+//			          + icon_state + " / " + item_state + " / C: " + clothingReference 
+//			          + ", L: " + inHandReferenceLeft + ", R: " + inHandReferenceRight + ", I: " + inventoryIcon.icon + '\n'
+//			          +	dmDic.Keys.Aggregate("", (current, key) => current + (key + ": ") + dmDic[key] + "\n"));
 		}
 
 		private static SpriteType getMasterType(string hs)

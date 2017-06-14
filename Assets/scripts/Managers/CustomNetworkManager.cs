@@ -22,12 +22,25 @@ public class CustomNetworkManager: NetworkManager
 		{
 			Destroy(this.gameObject);
 		}
+
 	}
 
 	void Start(){
+		SetSpawnableList();
 		if (!IsClientConnected() && !GameData.IsHeadlessServer)
 		{
 			UIManager.Display.logInWindow.SetActive(true);   
+		}
+	}
+
+	void SetSpawnableList(){
+		spawnPrefabs.Clear();
+
+		var networkObjects = Resources.LoadAll<NetworkIdentity>("");
+		foreach (var netObj in networkObjects) {
+			if (!netObj.gameObject.name.Contains("Player")) {
+				spawnPrefabs.Add(netObj.gameObject);
+			}
 		}
 	}
 
