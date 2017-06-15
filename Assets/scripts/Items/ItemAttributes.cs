@@ -255,6 +255,12 @@ namespace UI
       return "";
     }
 
+    public bool hasDataLoaded()
+    {
+      return dm != null && dmi != null;
+    }
+    
+
     private /*static*/ DmiIcon tryGetInventoryIcon(/*DmiIconData dmi, string[] invSheetPaths, string icon = ""*/)
     {
       //determining invIcon
@@ -339,12 +345,12 @@ namespace UI
         case ItemType.Hat: return new[] {p + "hats"};
         case ItemType.Mask: return new[] {p + "masks"};
         case ItemType.Shoes: return new[] {p + "shoes"};
-        case ItemType.Suit: return new[]
+        case ItemType.Suit: return new[] {p + "suits"};
+        case ItemType.Neck: return new[]
         {
-          p + "suits",
+          p + "ties",
           p + "neck"
         };
-        case ItemType.Neck: return new[] {p + "ties"};
         case ItemType.Uniform: return new[] {p + "uniforms"};
         default:	return new[] {""};
       }
@@ -409,7 +415,7 @@ namespace UI
           objects.RemoveAll(x => !x.Contains("cloth"));
           hierList = objects.ToArray();
         }
-        Debug.Log("HierList loaded. size=" + hierList.Length);
+//        Debug.Log("HierList loaded. size=" + hierList.Length);
       }
       if (hierarchy.Length == 0 && spriteType == SpriteType.Clothing)
       {
