@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4000012829574450}
   - component: {fileID: 212000012845275726}
   - component: {fileID: 114741049428428904}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,9 +86,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: -0.01586914, y: 0.16296387}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 0.4155391, y: 0.292423}
+  m_EdgeRadius: 0
 --- !u!95 &95822078298543166
 Animator:
   serializedVersion: 3
@@ -131,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aef020156f74075429ef9e6479907b71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shutters: []
+  TriggeringObjects: []
   IsClosed: 0
 --- !u!114 &114741049428428904
 MonoBehaviour:
@@ -214,8 +225,13 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
+  m_SortingLayer: 7
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300070, guid: 95d0d66308624bda94c559aa4275dc6c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
