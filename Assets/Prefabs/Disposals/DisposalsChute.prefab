@@ -38,7 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013165729510}
   - component: {fileID: 212000011113480170}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 2
+  savedPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &212000011113480170
 SpriteRenderer:
   m_ObjectHideFlags: 1
