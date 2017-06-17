@@ -16,6 +16,7 @@ public class SoundManager: MonoBehaviour {
     //public AudioSource[] sounds;
     public AudioSource[] musicTracks;
     public AudioSource[] ambientTracks;
+	public int ambientPlaying { get; private set; }
 
     private static SoundManager soundManager;
    
@@ -86,9 +87,14 @@ public class SoundManager: MonoBehaviour {
     public static void PlayVarAmbient(int variant) {
         //TODO ADD MORE AMBIENT VARIANTS
         if(variant == 0) {
-
+			//Station ambience with announcement at start
             Instance.ambientTracks[0].Play();
             Instance.ambientTracks[1].Play();
+			Instance.ambientPlaying = 1;
         }
     }
+
+	public static void AmbientVolume(float volume){
+		Instance.ambientTracks[Instance.ambientPlaying].volume = volume;
+	}
 }
