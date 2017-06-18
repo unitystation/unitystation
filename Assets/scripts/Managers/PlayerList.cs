@@ -55,7 +55,7 @@ public class PlayerList : NetworkBehaviour
 	//Called on the server when a kill is confirmed
 	[Server]
 	public void UpdateKillScore(string playerName){
-		if (playerScores.ContainsKey(playerName)) {
+		if (playerName != null && playerScores.ContainsKey(playerName)) {
 			playerScores[playerName]++;
 		}
 	}

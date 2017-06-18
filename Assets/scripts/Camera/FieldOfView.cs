@@ -24,7 +24,7 @@ public class FieldOfView : MonoBehaviour
 	public float maskCutawayDst;
 
 	public MeshFilter viewMeshFilter;
-	Mesh viewMesh;
+	public Mesh viewMesh;
 
 	public List<Line> lines = new List<Line>(256);
 
@@ -33,6 +33,7 @@ public class FieldOfView : MonoBehaviour
 		viewMesh = new Mesh();
 		viewMesh.name = "View Mesh";
 		viewMeshFilter.mesh = viewMesh;
+
 		StartCoroutine("FindTargetsWithDelay", 0.05f);
 	}
 
@@ -40,7 +41,7 @@ public class FieldOfView : MonoBehaviour
 	{
 		if (!PlayerManager.LocalPlayer)
 			return;
-		
+
 		DrawFieldOfView();
 	}
 

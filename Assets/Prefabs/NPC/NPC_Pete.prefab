@@ -41,7 +41,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722833055556988}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.66333, y: 3.7113037, z: -0.0984375}
+  m_LocalPosition: {x: -0.017944336, y: 5.2460938, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -179,7 +179,7 @@ MonoBehaviour:
   butcherResults:
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
   sliced: 0
-  deadSprite: {fileID: 21300548, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
+  deadSprite: {fileID: 21300560, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
   gibPrefab: {fileID: 1843853587201310, guid: 0f02ea038462b9a42afac8eb3d13bfcf, type: 2}
 --- !u!114 &114595648713084262
 MonoBehaviour:
@@ -245,7 +245,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 10
   m_SortingOrder: -70
-  m_Sprite: {fileID: 21300540, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
+  m_Sprite: {fileID: 21300552, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

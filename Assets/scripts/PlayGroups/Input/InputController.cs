@@ -104,9 +104,12 @@ namespace InputControl {
 
 			//check which of the speite renderers we hit and pixel checked is the highest
 			if (spriteRenderers.Count > 0) {
-				var topSprite = spriteRenderers.OrderByDescending (sr => sr.sortingOrder).First ();
-				if (topSprite != null) {
-					Interact (topSprite.transform);
+				foreach (var sprite in spriteRenderers.OrderByDescending(sr => sr.sortingOrder)) {
+					if (sprite != null) {
+						if (Interact(sprite.transform)) {
+							break;
+						}
+					}
 				}
 			}
 
@@ -148,34 +151,37 @@ namespace InputControl {
 			return null;
 		}
 
-		private void Interact(Transform transform) {
+		private bool Interact(Transform transform) {
 			//attempt to trigger the things in range we clicked on
 			if (PlayerManager.LocalPlayerScript.IsInReach (transform)) {
 				//check the actual transform for an input trigger and if there is non, check the parent
 				var inputTrigger = transform.GetComponent<InputTrigger> ();
 				if (inputTrigger) {
 					inputTrigger.Trigger ();
-					return;
+					return true;
 				} else {
 					inputTrigger = transform.parent.GetComponent<InputTrigger> ();
 					if (inputTrigger) {
 						inputTrigger.Trigger ();
-						return;
+						return true;
 					}
 				}
 			}
 
 			//if we are holding onto an item like a gun attempt to shoot it if we were not in range to trigger anything
-			InteractHands();
+			return InteractHands();
 		}
 
-		private void InteractHands() {
+		private bool InteractHands() {
 			if (UIManager.Hands.CurrentSlot.GameObject () != null) {
 				var inputTrigger = UIManager.Hands.CurrentSlot.GameObject().GetComponent<InputTrigger> ();
 				if (inputTrigger != null) {
 					inputTrigger.Trigger ();
+					return true;
 				}
 			}
+
+			return false;
 		}
 
 		public void OnMouseDownDir(Vector2 dir){

@@ -440,7 +440,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (PlayerManager.LocalPlayer == gameObject) {
 			SoundManager.Stop("Critstate");
 			Camera2DFollow.followControl.target = playerScript.ghost.transform;
-			//FIXME disable FOV script on camera
+			var fovScript = GetComponent<FieldOfView>();
+			if (fovScript != null)
+				fovScript.enabled = false;
 		}
 	}
 }

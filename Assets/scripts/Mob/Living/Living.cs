@@ -92,7 +92,7 @@ public class Living : Mob
 
 		StartCoroutine(ShotDamageCoolDown());
 		shotDmgCoolDown = true;
-		RpcReceiveDamage(bulletOwnedBy);
+		RpcReceiveDamage(bulletOwnedBy, 20);
 		BloodSplat(transform.position,BloodSplatSize.medium);
 
 	}
@@ -115,13 +115,13 @@ public class Living : Mob
 	//TODO the headless server is running as a host, so ClientRPC will also call on the server
 	//If the server is turned into a straight server, this will need to be fixed
 	[ClientRpc]
-	public virtual void RpcReceiveDamage(string damagedBy)
+	public virtual void RpcReceiveDamage(string damagedBy, int damage)
     {
 		if (CustomNetworkManager.Instance._isServer) {
 			lastDamager = damagedBy;
 		}
         // TODO read from items damage values etc
-        ApplyDamage(20, DamageType.BRUTE, "chest");
+        ApplyDamage(damage, DamageType.BRUTE, "chest");
     }
 
 
