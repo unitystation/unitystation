@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 61482394993394896}
   - component: {fileID: 114877572305936520}
   - component: {fileID: 114890264257313906}
+  - component: {fileID: 114046862677837146}
   m_Layer: 9
   m_Name: WallTile_Reinforced
   m_TagString: Untagged
@@ -106,7 +107,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1968452077460048}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1782, y: 1076, z: 0}
+  m_LocalPosition: {x: 1855, y: 1147, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4924447570178634}
@@ -218,6 +219,85 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114046862677837146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968452077460048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 530167df34286b34497636fcac985fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bounds:
+    serializedVersion: 2
+    x: 1854.5
+    y: 1146.5
+    width: 1
+    height: 1
+  edges:
+  - parent: {fileID: 0}
+    pointA:
+      position: {x: 1855.5, y: 1147.5, z: 0}
+      angle: 0
+    pointB:
+      position: {x: 1854.5, y: 1147.5, z: 0}
+      angle: 0
+    normal: {x: 0, y: 1, z: 0}
+    direction: {x: -1, y: 0, z: 0}
+    flagNormalUpdate: 0
+    isEnd: 1
+    isStart: 0
+  - parent: {fileID: 0}
+    pointA:
+      position: {x: 1854.5, y: 1147.5, z: 0}
+      angle: 0
+    pointB:
+      position: {x: 1854.5, y: 1146.5, z: 0}
+      angle: 0
+    normal: {x: -1, y: -0, z: 0}
+    direction: {x: 0, y: -1, z: 0}
+    flagNormalUpdate: 0
+    isEnd: 0
+    isStart: 0
+  - parent: {fileID: 0}
+    pointA:
+      position: {x: 1854.5, y: 1146.5, z: 0}
+      angle: 0
+    pointB:
+      position: {x: 1855.5, y: 1146.5, z: 0}
+      angle: 0
+    normal: {x: 0, y: -1, z: 0}
+    direction: {x: 1, y: 0, z: 0}
+    flagNormalUpdate: 0
+    isEnd: 0
+    isStart: 0
+  - parent: {fileID: 0}
+    pointA:
+      position: {x: 1855.5, y: 1146.5, z: 0}
+      angle: 0
+    pointB:
+      position: {x: 1855.5, y: 1147.5, z: 0}
+      angle: 0
+    normal: {x: 1, y: -0, z: 0}
+    direction: {x: 0, y: 1, z: 0}
+    flagNormalUpdate: 0
+    isEnd: 0
+    isStart: 1
+  isActive: 1
+  localVertices:
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  isDirty: 0
+  verticesDirty: 0
+  colliderReferenceType: 2
+  collider2DReference: {fileID: 0}
+  collider3DReference: {fileID: 0}
+  circleResolution: 8
+  polyColliderPathIndex: 0
 --- !u!114 &114071854172117002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -309,7 +389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 5
-  savedPosition: {x: 1782, y: 1076, z: 0}
+  savedPosition: {x: 1855, y: 1147, z: 0}
 --- !u!212 &212169300169744020
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -342,7 +422,7 @@ SpriteRenderer:
   m_SortingLayerID: 149917821
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300030, guid: 0d39237ca6550e94d97f924e7f0075da, type: 3}
+  m_Sprite: {fileID: 21300036, guid: 0d39237ca6550e94d97f924e7f0075da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -382,7 +462,7 @@ SpriteRenderer:
   m_SortingLayerID: 149917821
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300010, guid: 0d39237ca6550e94d97f924e7f0075da, type: 3}
+  m_Sprite: {fileID: 21300016, guid: 0d39237ca6550e94d97f924e7f0075da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -422,7 +502,7 @@ SpriteRenderer:
   m_SortingLayerID: 149917821
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300020, guid: 0d39237ca6550e94d97f924e7f0075da, type: 3}
+  m_Sprite: {fileID: 21300022, guid: 0d39237ca6550e94d97f924e7f0075da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -462,7 +542,7 @@ SpriteRenderer:
   m_SortingLayerID: 149917821
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0d39237ca6550e94d97f924e7f0075da, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 0d39237ca6550e94d97f924e7f0075da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

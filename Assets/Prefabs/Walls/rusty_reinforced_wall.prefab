@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 61117265897082934}
   - component: {fileID: 114163760249305588}
   - component: {fileID: 114062096024860006}
+  - component: {fileID: 114434049597097608}
   m_Layer: 9
   m_Name: rusty_reinforced_wall
   m_TagString: Untagged
@@ -158,7 +159,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1340778101814152}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1714, y: 1122, z: 0}
+  m_LocalPosition: {x: 1855, y: 1154, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4245243564543540}
@@ -231,7 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 5
-  savedPosition: {x: 1714, y: 1122, z: 0}
+  savedPosition: {x: 1855, y: 1154, z: 0}
 --- !u!114 &114134087851685482
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -257,6 +258,85 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connectTypeIndex: 3
+--- !u!114 &114434049597097608
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1340778101814152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 530167df34286b34497636fcac985fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bounds:
+    serializedVersion: 2
+    x: 1854.5
+    y: 1153.5
+    width: 1
+    height: 1
+  edges:
+  - parent: {fileID: 0}
+    pointA:
+      position: {x: 1855.5, y: 1154.5, z: 0}
+      angle: 0
+    pointB:
+      position: {x: 1854.5, y: 1154.5, z: 0}
+      angle: 0
+    normal: {x: 0, y: 1, z: 0}
+    direction: {x: -1, y: 0, z: 0}
+    flagNormalUpdate: 0
+    isEnd: 0
+    isStart: 0
+  - parent: {fileID: 0}
+    pointA:
+      position: {x: 1854.5, y: 1154.5, z: 0}
+      angle: 0
+    pointB:
+      position: {x: 1854.5, y: 1153.5, z: 0}
+      angle: 0
+    normal: {x: -1, y: -0, z: 0}
+    direction: {x: 0, y: -1, z: 0}
+    flagNormalUpdate: 0
+    isEnd: 0
+    isStart: 0
+  - parent: {fileID: 0}
+    pointA:
+      position: {x: 1854.5, y: 1153.5, z: 0}
+      angle: 0
+    pointB:
+      position: {x: 1855.5, y: 1153.5, z: 0}
+      angle: 0
+    normal: {x: 0, y: -1, z: 0}
+    direction: {x: 1, y: 0, z: 0}
+    flagNormalUpdate: 0
+    isEnd: 0
+    isStart: 0
+  - parent: {fileID: 0}
+    pointA:
+      position: {x: 1855.5, y: 1153.5, z: 0}
+      angle: 0
+    pointB:
+      position: {x: 1855.5, y: 1154.5, z: 0}
+      angle: 0
+    normal: {x: 1, y: -0, z: 0}
+    direction: {x: 0, y: 1, z: 0}
+    flagNormalUpdate: 0
+    isEnd: 0
+    isStart: 0
+  isActive: 1
+  localVertices:
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  isDirty: 0
+  verticesDirty: 0
+  colliderReferenceType: 2
+  collider2DReference: {fileID: 0}
+  collider3DReference: {fileID: 0}
+  circleResolution: 8
+  polyColliderPathIndex: 0
 --- !u!114 &114567896765480314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -342,7 +422,7 @@ SpriteRenderer:
   m_SortingLayerID: 149917821
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300010, guid: 14d70fde980162e4fa9ef83c2bf95b32, type: 3}
+  m_Sprite: {fileID: 21300012, guid: 14d70fde980162e4fa9ef83c2bf95b32, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -422,7 +502,7 @@ SpriteRenderer:
   m_SortingLayerID: 149917821
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300020, guid: 14d70fde980162e4fa9ef83c2bf95b32, type: 3}
+  m_Sprite: {fileID: 21300026, guid: 14d70fde980162e4fa9ef83c2bf95b32, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
