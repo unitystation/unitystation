@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+namespace UnityStationTools{
 public class Tools : Editor {
 
     [MenuItem("Tools/Reconnect TileConnect")]
@@ -43,4 +44,5 @@ public class Tools : Editor {
             //PrefabUtility.RevertPrefabInstance(r.gameObject);
         }
     }
+}
 }
