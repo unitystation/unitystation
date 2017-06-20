@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine.Profiling;
 namespace PicoGames.VLS2D
 {
     public enum VLSDebugMode
@@ -34,6 +34,7 @@ namespace PicoGames.VLS2D
         //private static Vector3 zOffset = new Vector3(0, 0, 0);
         public static void GenerateRadialMesh(VLSLight _light, LayerMask _layerMask, float _obstPenetration = 0)
         {
+			Profiler.BeginSample("Gen01");
                 lightTransform = _light.transform;
                 lightPosition = lightTransform.position;
                 //zOffset.Set(0, 0, lightPosition.z);
@@ -42,26 +43,27 @@ namespace PicoGames.VLS2D
 
                 CollectVisibleEdges(_light, _layerMask);
                 visibleEdges.AddRange(_light.edges);
+			Profiler.EndSample();
 
-#if UNITY_EDITOR
-                if (VLSDebug.IsModeActive(VLSDebugMode.Geometry))
-                {
-                    for (int e = 0; e < visibleEdges.Count; e++)
-                    {
-                        if (VLSDebug.IsModeActive(VLSDebugMode.Raycasting))
-                        {
-                            Debug.DrawLine(visibleEdges[e].PointA.position, visibleEdges[e].PointB.position, Color.magenta);
-
-                            if (visibleEdges[e].IsEnd)
-                                Debug.DrawRay(visibleEdges[e].PointB.position, visibleEdges[e].Normal * 0.2f, Color.red);
-
-                            if (visibleEdges[e].IsStart)
-                                Debug.DrawRay(visibleEdges[e].PointA.position, visibleEdges[e].Normal * 0.2f, Color.green);
-                        }
-                    }
-                }
-#endif
-
+//#if UNITY_EDITOR
+//                if (VLSDebug.IsModeActive(VLSDebugMode.Geometry))
+//                {
+//                    for (int e = 0; e < visibleEdges.Count; e++)
+//                    {
+//                        if (VLSDebug.IsModeActive(VLSDebugMode.Raycasting))
+//                        {
+//                            Debug.DrawLine(visibleEdges[e].PointA.position, visibleEdges[e].PointB.position, Color.magenta);
+//
+//                            if (visibleEdges[e].IsEnd)
+//                                Debug.DrawRay(visibleEdges[e].PointB.position, visibleEdges[e].Normal * 0.2f, Color.red);
+//
+//                            if (visibleEdges[e].IsStart)
+//                                Debug.DrawRay(visibleEdges[e].PointA.position, visibleEdges[e].Normal * 0.2f, Color.green);
+//                        }
+//                    }
+//                }
+//#endif
+			Profiler.BeginSample("Gen02");
                 target.Set(0, 0, 0);
                 hit = false;
                 for (int e = 0; e < visibleEdges.Count; e++)
@@ -116,10 +118,12 @@ namespace PicoGames.VLS2D
 
                 _light.Buffer.vertices.Sort();
                 _light.Buffer.AddPoint(Vector3.zero, 0);
+			Profiler.EndSample();
         }
         
         private static void CollectVisibleEdges(VLSLight _light, LayerMask _layerMask)
         {
+			Profiler.BeginSample("CollectVisEdges");
             visibleEdges.Clear();
 
             #region Collect Radial Edges
@@ -169,8 +173,9 @@ namespace PicoGames.VLS2D
                 }
             }
             #endregion
-
+			Profiler.EndSample();
             #region Collect Directional Edges
+			Profiler.BeginSample("CollectVisEdges");
             if(_light is VLSDirectional)
             {
                 foreach (VLSObstructor obst in VLSViewer.VisibleObstructions)
@@ -217,12 +222,15 @@ namespace PicoGames.VLS2D
                 }
             }
             #endregion
+			Profiler.EndSample();
         }
 
         #region Raycasters/Linecasters
         public static bool RayCast(Vector3 _origin, Vector3 _towards, ref VLSRayHit _hitInfo)
         {
+			Profiler.BeginSample("RayCast");
             return LineCast(_origin, _origin + (_towards - _origin) * 1000 , ref _hitInfo);
+			Profiler.EndSample();
         }
 
         private static RaycastHit2D rHit2D;
@@ -231,6 +239,7 @@ namespace PicoGames.VLS2D
         private static bool lc_Intersects = false;
         public static bool LineCast(Vector3 _origin, Vector3 _end, ref VLSRayHit _hitInfo)
         {
+			Profiler.BeginSample("LineCast");
             //rHit2D = Physics2D.Linecast(_origin, _end);
 
             //if (rHit2D.collider != null)
@@ -249,10 +258,10 @@ namespace PicoGames.VLS2D
                 lc_curDist = 0;
                 lc_Intersects = false;
 
-#if UNITY_EDITOR
-                if (VLSDebug.IsModeActive(VLSDebugMode.Raycasting))
-                    Debug.DrawLine(_origin, _end, new Color(.2f, .2f, .2f, .2f));
-#endif
+//#if UNITY_EDITOR
+//                if (VLSDebug.IsModeActive(VLSDebugMode.Raycasting))
+//                    Debug.DrawLine(_origin, _end, new Color(.2f, .2f, .2f, .2f));
+//#endif
 
                 for (int e = 0; e < visibleEdges.Count; e++)
                 {
@@ -278,18 +287,20 @@ namespace PicoGames.VLS2D
 
                 //_hitInfo.direction = (_hitInfo.point - _origin).normalized;
 
-#if UNITY_EDITOR
-                if (VLSDebug.IsModeActive(VLSDebugMode.Raycasting))
-                    Debug.DrawLine(_origin, _hitInfo.point, new Color(.8f, .8f, .2f, .8f));
-#endif
-                
+//#if UNITY_EDITOR
+//                if (VLSDebug.IsModeActive(VLSDebugMode.Raycasting))
+//                    Debug.DrawLine(_origin, _hitInfo.point, new Color(.8f, .8f, .2f, .8f));
+//#endif
+			Profiler.EndSample();
             return lc_Intersects;
+
         }
 
         private static Vector3 li_a, li_b, li_c;
         private static float li_u, li_t, li_dp;
         public static bool LineIntersects(Vector3 _a1, Vector3 _a2, Vector3 _b1, Vector3 _b2, ref Vector3 _out)
         {
+			
             li_a = _a2 - _a1;
             li_c = _b2 - _b1;
             li_dp = li_a.x * li_c.y - li_a.y * li_c.x;
@@ -308,7 +319,9 @@ namespace PicoGames.VLS2D
 
             _out.Set(_a1.x + li_t * li_a.x, _a1.y + li_t * li_a.y, 0);
 
+
             return true;
+
         }
         #endregion
 

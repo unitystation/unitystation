@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Profiling;
 
 namespace PicoGames.VLS2D
 {
@@ -233,20 +234,24 @@ namespace PicoGames.VLS2D
 
         protected virtual void UpdateColors()
         {
+			Profiler.BeginSample("UpdateColors_VLSLight.cs");
             if(buffer.colors.Length != buffer.VertexCount)
                 buffer.colors = new Color32[buffer.VertexCount];
 
             for (int i = 0; i < buffer.VertexCount; i++)
                 buffer.colors[i] = color;
+			Profiler.EndSample();
         }
 
         protected virtual void UpdateNormals()
         {
+			Profiler.BeginSample("UpdateNormals_VLSLight.cs");
             if (buffer.normals.Length != buffer.VertexCount)
                 buffer.normals = new Vector3[buffer.VertexCount];
 
             for (int i = 0; i < buffer.VertexCount; i++)
                 buffer.normals[i].Set(0, 0, -1);
+			Profiler.EndSample();
         }
         
         public static VLSRadial CreateRadial()

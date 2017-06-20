@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Profiling;
 
 namespace PicoGames.VLS2D
 {
@@ -48,11 +49,14 @@ namespace PicoGames.VLS2D
 
         public override void UpdateVertices()
         {
+			Profiler.BeginSample("UpdateVerts");
             VLSUtility.GenerateRadialMesh(this, shadowLayer);
+			Profiler.EndSample();
         }
 
         public override void UpdateUVs()
         {
+			Profiler.BeginSample("UpdateUVS");
             if (buffer.uvs.Length != buffer.VertexCount)
                 buffer.uvs = new Vector2[buffer.VertexCount];
 
@@ -62,6 +66,7 @@ namespace PicoGames.VLS2D
                 uv = transform.rotation * uv;
                 buffer.uvs[i].Set(uv.x + 0.5f, uv.y + 0.5f);
             }
+			Profiler.EndSample();
         }
 
         private Vector2 uv;
@@ -69,6 +74,7 @@ namespace PicoGames.VLS2D
         private int vIndex = 0;
         public override void UpdateTriangles()
         {
+			Profiler.BeginSample("UpdateTris");
             if (buffer.triangles.Length != (buffer.VertexCount * 3))
                 buffer.triangles = new int[buffer.VertexCount * 3];
 
@@ -82,6 +88,7 @@ namespace PicoGames.VLS2D
 
                 buffer.triangles[index++] = i;
             }
+			Profiler.EndSample();
         }
     }
 }

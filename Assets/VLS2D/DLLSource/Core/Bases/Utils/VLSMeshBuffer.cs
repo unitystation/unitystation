@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine.Profiling;
 
 namespace PicoGames.VLS2D
 {
@@ -87,6 +88,7 @@ namespace PicoGames.VLS2D
         private Vector3[] tmpVerts = new Vector3[0];
         public void Apply()
         {
+			Profiler.BeginSample("Apply_Buffer");
             Mesh.Clear();
             Mesh.MarkDynamic();
 
@@ -106,6 +108,7 @@ namespace PicoGames.VLS2D
             Mesh.RecalculateBounds();
 
             filter.sharedMesh = Mesh;
+			Profiler.EndSample();
         }
 
         public void UpdateColors()

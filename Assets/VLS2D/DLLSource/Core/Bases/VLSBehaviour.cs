@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Profiling;
 
 namespace PicoGames.VLS2D
 {
@@ -154,6 +155,7 @@ namespace PicoGames.VLS2D
                 
         private void GlobalizeVertices()
         {
+			Profiler.BeginSample("GlobalizeVertices");
             if (edges.Count != localVertices.Count)
             {
                 edges.Clear();
@@ -169,10 +171,12 @@ namespace PicoGames.VLS2D
                     edges[i].SetDirty();
                 }
             }
+			Profiler.EndSample();
         }
 
         private void RefreshRectBounds()
         {
+			Profiler.BeginSample("RefreshRectBounds");
             Vector2 min = Vector2.one * Mathf.Infinity;
             Vector2 max = Vector2.one * Mathf.NegativeInfinity;
             for (int i = 0; i < edges.Count; i++)
@@ -186,6 +190,7 @@ namespace PicoGames.VLS2D
 
             bounds.Set(min.x, min.y, max.x - min.x, max.y - min.y);
             bounds.center = (bounds.min + bounds.max) * 0.5f;
+			Profiler.EndSample();
         }
 
         // Hacky check to see if verts are going counter-clockwise. Might not work in all cases?
