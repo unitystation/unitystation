@@ -149,9 +149,7 @@ GameObject:
   - component: {fileID: 114600992077934460}
   - component: {fileID: 114285504268110804}
   - component: {fileID: 61260641920390224}
-  - component: {fileID: 114626275927713448}
-  - component: {fileID: 60112318635186980}
-  m_Layer: 8
+  m_Layer: 22
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -463,6 +461,7 @@ GameObject:
   - component: {fileID: 4419411151277026}
   - component: {fileID: 212492286651421720}
   - component: {fileID: 114354390467757956}
+  - component: {fileID: 114868184203081376}
   m_Layer: 8
   m_Name: body
   m_TagString: Untagged
@@ -895,35 +894,6 @@ Transform:
   m_Father: {fileID: 4102488425209486}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &60112318635186980
-PolygonCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.033081055, y: 0.41210938}
-      - {x: -0.114990234, y: 0.30895996}
-      - {x: -0.19873047, y: -0.4613037}
-      - {x: 0.18200684, y: -0.46118164}
-      - {x: 0.0982666, y: 0.23449707}
 --- !u!61 &61260641920390224
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -1590,98 +1560,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a28f9f9a41257418b09671ebb5c96e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114626275927713448
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 530167df34286b34497636fcac985fe4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bounds:
-    serializedVersion: 2
-    x: 1843.7893
-    y: 1142.5386
-    width: 0.3807373
-    height: 0.8734131
-  edges:
-  - parent: {fileID: 0}
-    pointA:
-      position: {x: 1844.0211, y: 1143.4121, z: 0}
-      angle: 0
-    pointB:
-      position: {x: 1843.873, y: 1143.309, z: 0}
-      angle: 0
-    normal: {x: -0.5715995, y: 0.82053274, z: 0}
-    direction: {x: -0.82053274, y: -0.5715995, z: 0}
-    flagNormalUpdate: 0
-    isEnd: 0
-    isStart: 1
-  - parent: {fileID: 0}
-    pointA:
-      position: {x: 1843.873, y: 1143.309, z: 0}
-      angle: 0
-    pointB:
-      position: {x: 1843.7893, y: 1142.5387, z: 0}
-      angle: 0
-    normal: {x: -0.99414223, y: 0.10807949, z: 0}
-    direction: {x: -0.10807949, y: -0.99414223, z: 0}
-    flagNormalUpdate: 0
-    isEnd: 1
-    isStart: 0
-  - parent: {fileID: 0}
-    pointA:
-      position: {x: 1843.7893, y: 1142.5387, z: 0}
-      angle: 0
-    pointB:
-      position: {x: 1844.17, y: 1142.5388, z: 0}
-      angle: 0
-    normal: {x: 0.00032061557, y: -0.99999994, z: 0}
-    direction: {x: 0.99999994, y: 0.00032061557, z: 0}
-    flagNormalUpdate: 0
-    isEnd: 0
-    isStart: 0
-  - parent: {fileID: 0}
-    pointA:
-      position: {x: 1844.17, y: 1142.5388, z: 0}
-      angle: 0
-    pointB:
-      position: {x: 1844.0863, y: 1143.2345, z: 0}
-      angle: 0
-    normal: {x: 0.9928331, y: 0.119509295, z: 0}
-    direction: {x: -0.119509295, y: 0.9928331, z: 0}
-    flagNormalUpdate: 0
-    isEnd: 0
-    isStart: 0
-  - parent: {fileID: 0}
-    pointA:
-      position: {x: 1844.0863, y: 1143.2345, z: 0}
-      angle: 0
-    pointB:
-      position: {x: 1844.0211, y: 1143.4121, z: 0}
-      angle: 0
-    normal: {x: 0.938772, y: 0.34453902, z: 0}
-    direction: {x: -0.34453902, y: 0.938772, z: 0}
-    flagNormalUpdate: 0
-    isEnd: 1
-    isStart: 0
-  isActive: 1
-  localVertices:
-  - {x: 0.033081055, y: 0.41210938, z: 0}
-  - {x: -0.114990234, y: 0.30895996, z: 0}
-  - {x: -0.19873047, y: -0.4613037, z: 0}
-  - {x: 0.18200684, y: -0.46118164, z: 0}
-  - {x: 0.0982666, y: 0.23449707, z: 0}
-  isDirty: 0
-  verticesDirty: 0
-  colliderReferenceType: 2
-  collider2DReference: {fileID: 60112318635186980}
-  collider3DReference: {fileID: 0}
-  circleResolution: 8
-  polyColliderPathIndex: 0
 --- !u!114 &114636370206516294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1865,6 +1743,21 @@ MonoBehaviour:
   reference: -1
   thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212990490947787952}
+--- !u!114 &114868184203081376
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1795409780741894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0184ff86886f974d95dfead14754f36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MultiplicativeColor: {r: 0, g: 0, b: 0, a: 1}
+  AdditiveColor: {r: 0.9117647, g: 0.9117647, b: 0.9117647, a: 0}
+  Material: {fileID: 2100000, guid: 0a8c132f813f5514b9f5b48ff3956482, type: 2}
+  LightObstacleScale: 1
 --- !u!114 &114873879993554562
 MonoBehaviour:
   m_ObjectHideFlags: 1
