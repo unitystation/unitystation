@@ -94,8 +94,6 @@ public class FieldOfView : MonoBehaviour
 
 			Vector3 dirToTarget = (targetPos - fovPos).normalized;
 
-			float dstToTarget = Vector2.Distance(fovPos, targetPos);
-
 			float x = (float)Math.Round(dirToTarget.x, MidpointRounding.AwayFromZero) / 2;
 			float y = (float)Math.Round(dirToTarget.y, MidpointRounding.AwayFromZero) / 2;
 			float z = dirToTarget.z;

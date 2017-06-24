@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -172,7 +172,6 @@ public class DmiIconData : ScriptableObject
 			icon.spriteSheet = sprites;
 			data.Add(icon.icon, icon);
 		}
-		Debug.Log("DMI: Deserialized json!");
 	}
 	
 	private static IconList<DmiIcon> DeserializeJson()

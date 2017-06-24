@@ -16,7 +16,7 @@ internal class ScriptableObjectCreatorWindow : EditorWindow
     private static void Init()
     {
         // Get existing open window or if none, make a new one:
-        var window = (ScriptableObjectCreatorWindow) EditorWindow.GetWindow(typeof (ScriptableObjectCreatorWindow));
+        GetWindow<ScriptableObjectCreatorWindow>();
     }
 
     private void OnGUI()

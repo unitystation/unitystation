@@ -49,15 +49,21 @@ namespace Lighting
 			switchCoolDown = false;
 		}
 
-		void SyncLightSwitch(bool _on)
+		void SyncLightSwitch(bool state)
 		{
-			isOn = _on;
-			foreach (var s in TriggeringObjects) {
-				s.Trigger(_on);
+			if (TriggeringObjects != null) {
+				foreach (var s in TriggeringObjects) {
+					s.Trigger(state);
+				}
 			}
 
-			clickSFX.Play();
-			spriteRenderer.sprite = _on ? lightOn : lightOff;
+			if (clickSFX != null) {
+				clickSFX.Play();
+			}
+
+			if (spriteRenderer != null) {
+				spriteRenderer.sprite = state ? lightOn : lightOff;
+			}
 		}
 	}
 }

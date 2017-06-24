@@ -24,8 +24,6 @@ namespace UI
 
         public bool ShowState = true;
 
-        private string userIdInput = "";
-
         public void Start()
         {
             chatInputWindow.SetActive(false); 

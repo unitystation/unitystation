@@ -5,12 +5,10 @@ using System.Collections;
 namespace UI {
     public class InputField_Ext: InputField {
 
-        private RectTransform rectTransform;
         private ScrollRect chatScrollArea;
         private ContentSizeFitter contentFitter;
         private bool caretFound = false;
         protected override void Start() {
-            rectTransform = GetComponent<RectTransform>();
             contentFitter = GetComponentInChildren<ContentSizeFitter>();
             chatScrollArea = transform.parent.gameObject.GetComponent<ScrollRect>();
 
