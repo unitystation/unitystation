@@ -11,7 +11,7 @@ public class EditorCameraWindow : EditorWindow
     [MenuItem("Window/Editor Camera Settings")]
     static void Init()
     {
-        var window = GetWindow<EditorCameraWindow>();
+        GetWindow<EditorCameraWindow>();
     }
 
     void OnGUI()

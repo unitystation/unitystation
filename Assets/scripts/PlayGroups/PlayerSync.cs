@@ -17,7 +17,6 @@ namespace PlayGroup {
     public class PlayerSync: NetworkBehaviour {
 
         private PlayerMove playerMove;
-		private PlayerSprites playerSprites;
 		private PlayerScript playerScript;
 		private RegisterTile registerTile;
 
@@ -49,7 +48,6 @@ namespace PlayGroup {
                 UpdatePredictedState();
             }
             playerMove = GetComponent<PlayerMove>();
-			playerSprites = GetComponent<PlayerSprites>();
 			playerScript = GetComponent<PlayerScript>();
 			registerTile = GetComponent<RegisterTile>();
         }

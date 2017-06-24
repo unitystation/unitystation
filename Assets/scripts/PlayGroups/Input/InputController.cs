@@ -24,10 +24,8 @@ namespace InputControl {
 		private float CurrentCooldownTime;
 
 		void OnDrawGizmos() {
-			if (LastTouchedTile != null) {
-				Gizmos.color = new Color (1, 0, 0, 0.5F);
-				Gizmos.DrawCube (LastTouchedTile, new Vector3 (1, 1, 1));
-			}
+			Gizmos.color = new Color (1, 0, 0, 0.5F);
+			Gizmos.DrawCube (LastTouchedTile, new Vector3 (1, 1, 1));
 		}
 
 		void Start(){

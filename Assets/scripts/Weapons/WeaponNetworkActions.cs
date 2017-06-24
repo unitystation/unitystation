@@ -9,7 +9,6 @@ using Sprites;
 public class WeaponNetworkActions: NetworkBehaviour {
 
     private GameObject spritesObj;
-    private PlayerSprites playerSprites;
     private PlayerMove playerMove;
     private SoundNetworkActions soundNetworkActions;
     private GameObject bloodSplatPrefab;
@@ -24,7 +23,6 @@ public class WeaponNetworkActions: NetworkBehaviour {
 
     void Start() {
         spritesObj = transform.Find("Sprites").gameObject;
-        playerSprites = GetComponent<PlayerSprites>();
         playerMove = GetComponent<PlayerMove>();
         soundNetworkActions = GetComponent<SoundNetworkActions>();
         bloodSplatPrefab = Resources.Load("BloodSplat") as GameObject;

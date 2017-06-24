@@ -10,7 +10,7 @@ namespace SectionEditor {
     public class SectionEditor: EditorWindow {
         [MenuItem("Window/Section Editor")]
         public static void ShowWindow() {
-            var window = GetWindow<SectionEditor>("Section Editor");
+            GetWindow<SectionEditor>("Section Editor");
         }
 
         public void OnEnable() {

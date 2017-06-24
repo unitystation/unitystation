@@ -9,7 +9,6 @@ public class DoorController: NetworkBehaviour {
     public AudioSource openSFX;
     public AudioSource closeSFX;
     private Animator animator;
-    private BoxCollider2D boxColl;
     private RegisterTile registerTile;
     public bool usingAnimator = true;
     public bool isWindowedDoor = false;
@@ -25,7 +24,6 @@ public class DoorController: NetworkBehaviour {
 
     void Start() {
         animator = gameObject.GetComponent<Animator>();
-        boxColl = gameObject.GetComponent<BoxCollider2D>();
         registerTile = gameObject.GetComponent<RegisterTile>();
         if(!usingAnimator) {
             //TODO later change usingAnimator to horizontal checker (when vertical doors are done)

@@ -24,8 +24,6 @@ namespace PlayGroup {
 
         [SyncVar(hook = "OnNameChange")]
         public string playerName = " ";
-        private bool pickUpCoolDown = false;
-
 
         public override void OnStartClient() {
             //Local player is set a frame or two after OnStartClient
@@ -111,12 +109,5 @@ namespace PlayGroup {
 			//TODO: reimplement this timer higher up like in the InputController
 			return DistanceTo(transform.position) <= interactDist;
         }
-
-        IEnumerator PickUpCooldown() {
-            pickUpCoolDown = true;
-            yield return new WaitForSeconds(0.1f);
-            pickUpCoolDown = false;
-        }
-
     }
 }

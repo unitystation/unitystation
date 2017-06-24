@@ -13,7 +13,6 @@ namespace PlayGroup
 	{
 
 		private Rigidbody2D thisRigi;
-		private PlayerScript parentScript;
 
 		public bool isMoving = false;
 		public bool lerpA = false;
@@ -39,7 +38,6 @@ namespace PlayGroup
 
 		void Start()
 		{
-			parentScript = GetComponent<PlayerScript>();
 			thisRigi = GetComponent<Rigidbody2D>();
 		}
 
