@@ -42,7 +42,11 @@ namespace UI {
         }
 
         public void Drop() {
-			if (UIManager.Hands.CurrentSlot.Item == null)
+            if (PlayerManager.LocalPlayerScript != null)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                return;
+
+            if (UIManager.Hands.CurrentSlot.Item == null)
 				return;
 
             SoundManager.Play("Click01");
@@ -53,6 +57,10 @@ namespace UI {
         }
 
         public void Throw() {
+            if (PlayerManager.LocalPlayerScript != null)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                    return;
+
             SoundManager.Play("Click01");
             Debug.Log("Throw Button");
 

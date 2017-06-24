@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using PlayGroup;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,12 +22,20 @@ namespace UI
 
 		public void Swap()
 		{
-			SetHand(!IsRight);
+            if (PlayerManager.LocalPlayerScript != null)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                    return;
+
+            SetHand(!IsRight);
 		}
 
 		public void SetHand(bool right)
 		{
-			if (right) {
+            if (PlayerManager.LocalPlayerScript != null)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                    return;
+
+            if (right) {
 				CurrentSlot = Slots.RightHandSlot;
 				OtherSlot = Slots.LeftHandSlot;
 			} else {
@@ -40,7 +49,11 @@ namespace UI
 
 		public void SwapItem(UI_ItemSlot itemSlot)
 		{
-			if (CurrentSlot != itemSlot) {
+            if (PlayerManager.LocalPlayerScript != null)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                    return;
+
+            if (CurrentSlot != itemSlot) {
 				if (!CurrentSlot.IsFull) {
 					Swap(CurrentSlot, itemSlot);
 				} else {
@@ -51,7 +64,11 @@ namespace UI
 
 		public void Use()
 		{
-			if (!CurrentSlot.IsFull)
+            if (PlayerManager.LocalPlayerScript != null)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                    return;
+
+            if (!CurrentSlot.IsFull)
 				return;
 
 			var slot = Slots.GetSlotByItem(CurrentSlot.Item);
@@ -60,7 +77,11 @@ namespace UI
 
 		private void Swap(UI_ItemSlot slot1, UI_ItemSlot slot2)
 		{
-			if (slot1.TrySetItem(slot2.Item)) {
+            if (PlayerManager.LocalPlayerScript != null)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                    return;
+
+            if (slot1.TrySetItem(slot2.Item)) {
 				slot2.Clear();
 			}
 		}
