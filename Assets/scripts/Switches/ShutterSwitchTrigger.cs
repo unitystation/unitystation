@@ -10,20 +10,19 @@ public class ShutterSwitchTrigger: InputTrigger
 
 	public ObjectTrigger[] TriggeringObjects;
 
-    [SyncVar(hook = "SyncShutters")]
+	[SyncVar(hook = "SyncShutters")]
 	public bool IsClosed;
 
-    private Animator animator;
+	private Animator animator;
 
-    void Start()
-    {
+	void Start()
+	{
 		animator = GetComponent<Animator>();
-		IsClosed = true;
 		SyncShutters(IsClosed);
-    }
+	}
 
-    public override void Interact()
-    {
+	public override void Interact()
+	{
 		if (!PlayerManager.LocalPlayerScript.IsInReach(transform, 0.5f))
 			return;
 			
@@ -35,13 +34,12 @@ public class ShutterSwitchTrigger: InputTrigger
 		} else {
 			Debug.Log("DOOR NOT FINISHED CLOSING YET!");
 		}
-    }
+	}
 
-    void SyncShutters(bool isClosed)
-    {
-		foreach (var s in TriggeringObjects)
-		{
+	void SyncShutters(bool isClosed)
+	{
+		foreach (var s in TriggeringObjects) {
 			s.Trigger(isClosed);
 		}
-    }
+	}
 }

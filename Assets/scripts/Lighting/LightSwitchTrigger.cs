@@ -11,7 +11,7 @@ namespace Lighting
 	{
 		public ObjectTrigger[] TriggeringObjects;
 
-        [SyncVar(hook = "SyncLightSwitch")]
+		[SyncVar(hook = "SyncLightSwitch")]
 		public bool isOn = true;
 		private SpriteRenderer spriteRenderer;
 		public Sprite lightOn;
@@ -25,6 +25,11 @@ namespace Lighting
 			clickSFX = GetComponent<AudioSource>();
 		}
 
+		public override void OnStartClient()
+		{
+			SyncLightSwitch(isOn);
+		}
+
 		public override void Interact()
 		{
 			if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform, 1f))
@@ -34,7 +39,7 @@ namespace Lighting
 				return;
 			
 			StartCoroutine(CoolDown());
-            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleLightSwitch(gameObject);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleLightSwitch(gameObject);
 		}
 
 		IEnumerator CoolDown()
@@ -43,7 +48,7 @@ namespace Lighting
 			yield return new WaitForSeconds(0.2f);
 			switchCoolDown = false;
 		}
-          
+
 		void SyncLightSwitch(bool _on)
 		{
 			isOn = _on;
