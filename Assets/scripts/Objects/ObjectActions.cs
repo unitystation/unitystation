@@ -27,9 +27,9 @@ public class ObjectActions : NetworkBehaviour
 
 	void Awake()
 	{
-		targetPos = transform.position;
 		registerTile = GetComponent<RegisterTile>();
 		editModeControl = GetComponent<EditModeControl>();
+		targetPos = transform.position;
 	}
 
 	void OnMouseDown()
