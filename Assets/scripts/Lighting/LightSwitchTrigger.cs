@@ -53,7 +53,9 @@ namespace Lighting
 		{
 			if (TriggeringObjects != null) {
 				foreach (var s in TriggeringObjects) {
-					s.Trigger(state);
+					if (s != null) {
+						s.Trigger(state);
+					}
 				}
 			}
 
