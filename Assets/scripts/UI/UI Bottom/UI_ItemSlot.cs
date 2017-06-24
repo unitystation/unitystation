@@ -49,6 +49,10 @@ namespace UI {
 		}
 
         public void SetItem(GameObject item) {
+            if (PlayerManager.LocalPlayerScript != null)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                    return;
+
             image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
             image.enabled = true;
             Item = item;
@@ -74,6 +78,10 @@ namespace UI {
         /// </summary>
         /// <returns></returns>
         public GameObject Clear() {
+            if (PlayerManager.LocalPlayerScript != null)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                    return null;
+
             var item = Item;
             Item = null;
 
@@ -99,6 +107,10 @@ namespace UI {
         /// </summary>
         /// <returns></returns>
         public GameObject PlaceItemInScene() {
+            if (PlayerManager.LocalPlayerScript != null)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                    return null;
+
             var item = Item;
             Item = null;
             image.sprite = null;
