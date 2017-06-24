@@ -5,40 +5,38 @@ using PlayGroup;
 using Matrix;
 using InputControl;
 
-public class ShutterController : ObjectTrigger {
-    private Animator animator;
-    private RegisterTile registerTile;
+public class ShutterController : ObjectTrigger
+{
+	private Animator animator;
+	private RegisterTile registerTile;
 
-    public bool IsClosed { get; private set; }
+	public bool IsClosed { get; private set; }
 
-    void Awake() {
-        animator = gameObject.GetComponent<Animator>();
-        registerTile = gameObject.GetComponent<RegisterTile>();
+	private int closedLayer;
+	private int openLayer;
 
-		SetLayer(LayerMask.NameToLayer("Door Closed"));
-    }
+	void Awake()
+	{
+		animator = gameObject.GetComponent<Animator>();
+		registerTile = gameObject.GetComponent<RegisterTile>();
 
-	public override void Trigger(bool state) {
-		//open
-		if (!state) {
-			IsClosed = state;
-			registerTile.UpdateTileType(TileType.None);
-			SetLayer(LayerMask.NameToLayer("Door Open"));
-			animator.SetBool("close", false);
-		}
-		//close
-		else {
-			IsClosed = state;
-			registerTile.UpdateTileType(TileType.Door);
-			SetLayer(LayerMask.NameToLayer("Door Closed"));
-			animator.SetBool("close", true);
-		}
+		closedLayer = LayerMask.NameToLayer("Door Closed");
+		openLayer = LayerMask.NameToLayer("Door Open");
+		SetLayer(closedLayer);
 	}
 
-	public void SetLayer(int layer) {
+	public override void Trigger(bool state)
+	{
+		IsClosed = state;
+		registerTile.UpdateTileType(state ? TileType.Door : TileType.None);
+		SetLayer(state ? closedLayer : openLayer);
+		animator.SetBool("close", state);
+	}
+
+	public void SetLayer(int layer)
+	{
 		gameObject.layer = layer;
-		foreach (Transform child in transform)
-		{
+		foreach (Transform child in transform) {
 			child.gameObject.layer = layer;
 		}
 	}
