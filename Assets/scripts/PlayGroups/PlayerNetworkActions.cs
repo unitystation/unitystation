@@ -295,15 +295,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
     [Command]
     public void CmdToggleLightSwitch(GameObject switchObj){
-        Lighting.LightSwitchTrigger s = switchObj.GetComponent<Lighting.LightSwitchTrigger>();
-        if (s.isOn)
-        {
-            s.isOn = false;
-        }
-        else
-        {
-            s.isOn = true;
-        }
+		Lighting.LightSwitchTrigger s = switchObj.GetComponent<Lighting.LightSwitchTrigger>();
+		s.isOn = !s.isOn;
     }
 
     [Command]
