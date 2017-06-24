@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114478749026392066}
   - component: {fileID: 50113970382522722}
   - component: {fileID: 114579492963829796}
+  - component: {fileID: 114019849627944276}
   m_Layer: 0
   m_Name: NPC_Pete
   m_TagString: Untagged
@@ -41,7 +42,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722833055556988}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.017944336, y: 5.2460938, z: -0.2}
+  m_LocalPosition: {x: 2.7336426, y: 3.2425537, z: -0.0984375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -117,6 +118,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.62402344}
   m_EdgeRadius: 0
+--- !u!114 &114019849627944276
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0184ff86886f974d95dfead14754f36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MultiplicativeColor: {r: 0, g: 0, b: 0, a: 1}
+  AdditiveColor: {r: 0.9098039, g: 0.9098039, b: 0.9098039, a: 0}
+  Material: {fileID: 2100000, guid: 0a8c132f813f5514b9f5b48ff3956482, type: 2}
+  LightObstacleScale: 1
 --- !u!114 &114366662924069924
 MonoBehaviour:
   m_ObjectHideFlags: 1

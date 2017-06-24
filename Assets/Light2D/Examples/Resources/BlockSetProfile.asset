@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5085fc8473f8bc647a12fbddd2b7b95e, type: 3}
+  m_Name: BlockSetProfile
+  m_EditorClassIdentifier: 
+  FirstNoiseScale: .0199999996
+  SecondNoiseScale: .200000003
+  SecondNoiseMul: .125
+  BlockInfos:
+  - Name: Empty
+    MinNoise: 0
+    MaxNoise: .400000006
+    BlockType: 0
+    Weight: 1
+    LightEmission: {r: 1, g: 1, b: 1, a: 1}
+    LightAbsorption: {r: 1, g: 1, b: 1, a: 0}
+    AditionalObjectProbability: 0
+    AditionalObjectPrefab: {fileID: 0}
+    SpriteInfo:
+    - {fileID: 21300000, guid: 2b5658352c17d6e49bb8f3c0c0f0dda1, type: 3}
+  - Name: Background
+    MinNoise: .129999995
+    MaxNoise: .5
+    BlockType: 1
+    Weight: 100
+    LightEmission: {r: 1, g: 1, b: 1, a: 1}
+    LightAbsorption: {r: 1, g: 1, b: 1, a: 0}
+    AditionalObjectProbability: .00200000009
+    AditionalObjectPrefab: {fileID: 100000, guid: 9f10243117669f046af3db5fc661dc8d,
+      type: 2}
+    SpriteInfo:
+    - {fileID: 21300000, guid: b15f8aa0e817f244286b50d0112a7420, type: 3}
+  - Name: Obstacle
+    MinNoise: .5
+    MaxNoise: 1
+    BlockType: 2
+    Weight: 100
+    LightEmission: {r: 0, g: 0, b: 0, a: 0}
+    LightAbsorption: {r: .926470578, g: .837910891, b: .837910891, a: 1}
+    AditionalObjectProbability: 0
+    AditionalObjectPrefab: {fileID: 0}
+    SpriteInfo:
+    - {fileID: 21300000, guid: a0ff682a2b0aa764a989cb0f1b63e39b, type: 3}
+    - {fileID: 21300000, guid: 1d804c5a6f6fe074faf854bcd34550ea, type: 3}
+    - {fileID: 21300000, guid: b0699e36d49214c4c860fe956fa12622, type: 3}

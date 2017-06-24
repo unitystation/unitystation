@@ -8,11 +8,12 @@ using Sprites;
 
 namespace Lighting
 {
-	enum LightState {
+	enum LightState
+	{
 		On,
 		Off,
 		Broken
-	};
+	}
 
 	public class LightSource : ObjectTrigger
 	{
@@ -20,53 +21,47 @@ namespace Lighting
 		/// The SpriteRenderer for this light
 		/// </summary>
 		private SpriteRenderer Renderer;
+
 		/// <summary>
 		/// The state of this light
 		/// </summary>
 		private LightState LightState;
+
+		/// <summary>
+		/// The actual light effect that the light source represents
+		/// </summary>
+		public GameObject Light;
+
 		/// <summary>
 		/// The sprite to show when this light is turned on
 		/// </summary>
 		public Sprite SpriteLightOn;
+
 		/// <summary>
 		/// The sprite to show when this light is turned off
 		/// </summary>
 		public Sprite SpriteLightOff;
-		/// <summary>
-		/// The the light gameobject child of the light
-		/// </summary>
-		public Light Light;
 
 		void Awake()
 		{
 			Renderer = GetComponentInChildren<SpriteRenderer>();
-			Light = GetComponentInChildren<Light>();
 		}
 
-		void Start(){
+		void Start()
+		{
 			InitLightSprites();
 		}
 
-		public override void Trigger(bool state){
-			//turn lights off
-			if (!state) {
-				TurnOffLight();
-			} 
-			//turn on
-			else {
-				TurnOnLight();
+		public override void Trigger(bool state)
+		{
+			Renderer.sprite = state ? SpriteLightOn : SpriteLightOff;
+			if (Light != null) {
+				Light.SetActive(state);
 			}
 		}
 
-		public void TurnOnLight(){
-			Renderer.sprite = SpriteLightOn;
-		}
-
-		public void TurnOffLight(){
-			Renderer.sprite = SpriteLightOff;
-		}
-
-		private void InitLightSprites() {
+		private void InitLightSprites()
+		{
 			LightState = LightState.On;
 
 			//set the ON sprite to whatever the spriterenderer child has?
