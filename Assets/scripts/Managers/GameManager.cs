@@ -10,8 +10,11 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
 
+    // see job.dm
+    public List<GameObject> Occuptions = new List<GameObject>();
+    public List<GameObject> Unassigned = new List<GameObject>();
 
-	public Text roundTimer;
+    public Text roundTimer;
 	private bool counting = false;
 	private bool waitForRestart = false;
 	private float remainingTime = 360f; //6min rounds

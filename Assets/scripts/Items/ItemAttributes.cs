@@ -525,5 +525,15 @@ namespace UI
       }
       return i.ToString();
     }
-  }
+
+        public void OnMouseEnter()
+        {
+            UIManager.SetToolTip = this.name;
+        }
+
+        public void OnMouseExit()
+        {
+            UIManager.SetToolTip = "";
+        }
+    }
 }

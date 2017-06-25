@@ -352,10 +352,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			rx = new Regex("^(/me )");
 			if (rx.IsMatch(inputString)){ // /me message
 				inputString = rx.Replace(inputString, " ");
-				ChatRelay.Instance.chatlog.Add("<i><b>" + gameObject.name + "</b>" + inputString + "</i>.");
+				ChatRelay.Instance.chatlog.Add(new ChatEvent("<i><b>" + gameObject.name + "</b>" + inputString + "</i>."));
 			}
 			else{ // chat message
-				ChatRelay.Instance.chatlog.Add("<b>" + gameObject.name + "</b>" + " says, " + "\"" + inputString + "\"");
+				ChatRelay.Instance.chatlog.Add(new ChatEvent("<b>" + gameObject.name + "</b>" + " says, " + "\"" + inputString + "\""));
 			}
 		}
 
@@ -366,7 +366,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	//send a generic message
 	public void CmdSendAllertMessage(string msg, bool isLocalChat){
 		if (isLocalChat) {
-			ChatRelay.Instance.chatlog.Add(msg); 
+			ChatRelay.Instance.chatlog.Add(new ChatEvent(msg)); 
 		}
 	}
 
