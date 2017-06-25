@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -16,6 +17,8 @@ public abstract class Mob : NetworkBehaviour
     public bool paralysis = false;
     // see mob_defines.dm /mob/mob_defines.dm var/stat
     public MobConsciousStat mobStat = MobConsciousStat.CONSCIOUS; // Default to 0 (CONSCIOUS)
+    // see mob_defines.dm
+    public Job job;
 
     // see mob_defines.dm /mob/mob_defines.dm status_flags
     // Bitwise mask
@@ -133,4 +136,27 @@ public abstract class Mob : NetworkBehaviour
     }
 
     #endregion
+
+    public void OnMouseEnter()
+    {
+        UIManager.SetToolTip = this.name;
+    }
+
+    public void OnMouseExit()
+    {
+        UIManager.SetToolTip = "";
+    }
+
+    public void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            RightClickContextMenu();
+        }
+    }
+
+    public virtual void RightClickContextMenu()
+    {
+        
+    }
 }

@@ -24,6 +24,18 @@ namespace UI
 
         public bool ShowState = true;
 
+        private List<ChatEvent> _localEvents = new List<ChatEvent>();
+        public void AddChatEvent(ChatEvent chatEvent)
+        {
+            _localEvents.Add(chatEvent);
+            ChatRelay.Instance.RefreshLog();
+        }
+
+        public List<ChatEvent> GetChatEvents()
+        {
+            return _localEvents;
+        }
+
         public void Start()
         {
             chatInputWindow.SetActive(false); 
@@ -81,7 +93,7 @@ namespace UI
         public void ReportToChannel(string reportText)
         {
 			string txt = "<color=green>"+ reportText +"</color>";
-			ChatRelay.Instance.chatlog.Add(txt);
+			ChatRelay.Instance.chatlog.Add(new ChatEvent(txt));
         }
     }
 }

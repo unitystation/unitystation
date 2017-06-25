@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 namespace Matrix {
@@ -67,6 +68,16 @@ namespace Matrix {
             if(!Matrix.At(savedPosition).TryAddTile(gameObject)) {
                 Debug.Log("Couldn't add tile at " + savedPosition);
             }
+        }
+
+        public void OnMouseEnter()
+        {
+            UIManager.SetToolTip = this.gameObject.name;
+        }
+
+        public void OnMouseExit()
+        {
+            UIManager.SetToolTip = "";
         }
     }
 }

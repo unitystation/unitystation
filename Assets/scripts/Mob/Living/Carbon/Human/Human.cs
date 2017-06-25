@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PlayGroup;
+using UI;
 
 public class Human : Carbon
 {
@@ -45,5 +46,19 @@ public class Human : Carbon
 		base.Death(gibbed);
 	}
 
+    public override void RightClickContextMenu()
+    {
+        // TODO: Apply Context Menu Here
+        // For now just examine
+        UIManager.Chat.AddChatEvent(new ChatEvent("This is " + this.name + ", a " + this.GetType().Name + "\r\n"));
 
+        // TODO: Read from item in inventory here for the cards name and job title
+        string jobtitle = "UNKNOWN";
+        if (this.job != null)
+        {
+            jobtitle = this.job.Title;
+        }
+
+        UIManager.Chat.AddChatEvent(new ChatEvent("They are wearing " + this.name + "'s ID Card(" + jobtitle + ")" + "\r\n"));
+    }
 }
