@@ -132,6 +132,66 @@ namespace Equipment
             obj.BroadcastMessage("OnAddToInventory",eventName, SendMessageOptions.DontRequireReceiver);
         }
 
+        public string GetLoadOutEventName(ItemType itemType)
+        {
+            switch (itemType)
+            {
+                case ItemType.Glasses:
+                    return "eyes";
+                case ItemType.Hat:
+                    return "head";
+                case ItemType.Neck:
+                    return "neck";
+                case ItemType.Mask:
+                    return "mask";
+                case ItemType.Ear:
+                    return "ear";
+                case ItemType.Suit:
+                    return "suit";
+                case ItemType.Uniform:
+                    return "uniform";
+                case ItemType.Gloves:
+                    return "hands";
+                case ItemType.Shoes:
+                    return "feet";
+                case ItemType.Belt:
+                    return "belt";
+                case ItemType.Back:
+                    return "back";
+                case ItemType.ID:
+                    return "id";
+                case ItemType.PDA:
+                    return "storage02";
+                case ItemType.Food:
+                    return "storage01";
+                case ItemType.Knife:
+                    return "leftHand";
+                case ItemType.Gun:
+                    return "rightHand";
+                default:
+                    Debug.LogWarning("GetLoadOutEventName: Unknown ItemType:" + itemType.ToString());
+                    return null;
+            }
+        }
+
+        public void AddToLoadout(string hierpath)
+        {
+            if (String.IsNullOrEmpty(hierpath))
+                return;
+
+            GameObject clothing = ClothFactory.CreateCloth(hierpath, Vector3.zero);
+
+            string loadOutEventName = GetLoadOutEventName(clothing.GetComponent<ItemAttributes>().type);
+
+            if (String.IsNullOrEmpty(loadOutEventName))
+            {
+                PoolManager.PoolNetworkDestroy(clothing);
+                return;
+            }
+
+            SetItemUniclothToSlot(loadOutEventName, clothing);
+        }
+
         //To set the actual sprite on the player obj
         public void SetHandItemSprite(string eventName, ItemAttributes att){
             Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
@@ -147,6 +207,21 @@ namespace Equipment
 			Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
 			syncEquipSprites[(int)enumA] = -1;
 		}
+
+        // Does not try to instantiate (already instantiated by Unicloth factory)
+        private void SetItemUniclothToSlot(string eventName, GameObject uniCloth)
+        {
+            ItemAttributes att = uniCloth.GetComponent<ItemAttributes>();
+            EquipmentPool.AddGameObject(gameObject, uniCloth);
+
+            playerNetworkActions.TrySetItem(eventName, uniCloth);
+            //Sync all clothing items across network using SyncListInt syncEquipSprites
+            if (att.spriteType == SpriteType.Clothing)
+            {
+                Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
+                syncEquipSprites[(int)enumA] = att.clothingReference;
+            }
+        }
 
 		private void SetItem(string eventName, GameObject prefab)
 		{

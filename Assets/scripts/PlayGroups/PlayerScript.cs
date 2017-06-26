@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
-using Equipment;
 using UI;
 using PlayGroup;
 using InputControl;
+using System;
 
 namespace PlayGroup {
     public class PlayerScript: NetworkBehaviour {
@@ -17,6 +17,7 @@ namespace PlayGroup {
 		public PlayerSprites playerSprites { get; set;}
 		public InputController inputController { get; set; }
 		public HitIcon hitIcon { get; set; }
+        public JobType JobType = JobType.NULL;
 
 		public GameObject ghost;
 
@@ -66,7 +67,7 @@ namespace PlayGroup {
             }
         }
 
-		void Update(){
+        void Update(){
 			//Read out of ping in toolTip
 			pingUpdate += Time.deltaTime;
 			if (pingUpdate >= 5f) {
@@ -81,6 +82,7 @@ namespace PlayGroup {
 			if(PlayerList.Instance != null)
             playerName = PlayerList.Instance.CheckName(name);
         }
+
         // On playerName variable change across all clients, make sure obj is named correctly
         // and set in Playerlist for that client
         public void OnNameChange(string newName) {

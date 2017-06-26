@@ -6,10 +6,14 @@ using UnityEngine.UI;
 using UI;
 using UnityEngine.SceneManagement;
 using PlayGroup;
+using System;
+using System.Linq;
+
 public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
 
+    public List<GameObject> Occuptions = new List<GameObject>();
 
 	public Text roundTimer;
 	private bool counting = false;
@@ -32,12 +36,25 @@ public class GameManager : MonoBehaviour {
 	void OnEnable()
 	{
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+        ValidateGameConfiguration();
 	}
 
 	void OnDisable()
 	{
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
+
+    void ValidateGameConfiguration()
+    {
+        if (Occuptions.Where(o => o.GetComponent<OccupationRoster>().Type == JobType.ASSISTANT).ToList<GameObject>().Count == 0)
+        {
+            Debug.LogError("Refusing to start server, ASSISTANT role must be defined in the GameManager Occupations to start");
+            #if UNITY_EDITOR
+                        UnityEditor.EditorApplication.isPlaying = false;
+            #endif
+            Application.Quit();
+        }
+    }
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
 		if (scene.name != "Lobby") {
@@ -116,7 +133,53 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	void RestartRound(){
+    int GetOccuptionsCount(JobType jobType)
+    {
+        int count = 0;
+
+        foreach (var player in PlayerList.playerList.connectedPlayers)
+        {
+            if (player.Value != null)
+            {
+                var mob = player.Value.GetComponent<PlayerScript>();
+                if (mob != null)
+                {
+                    if (mob.JobType == jobType)
+                    {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public List<string> GetOccupationEquipment(JobType jobType)
+    {
+        return Occuptions.Where(o => o.GetComponent<OccupationRoster>().Type == jobType).First().GetComponent<OccupationRoster>().startingItemHiers;
+    }
+
+    public JobType GetRandomFreeOccuption()
+    {
+        foreach(GameObject jobObject in Occuptions.OrderBy(o => o.GetComponent<OccupationRoster>().priority))
+        {
+            OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
+            if (job.limit != -1)
+                if (job.limit > GetOccuptionsCount(job.Type))
+                {
+                    return job.Type;
+                }
+            if (job.limit == -1)
+            {
+                return job.Type;
+            }
+        }
+
+        return JobType.ASSISTANT;
+    }
+    
+    void RestartRound(){
 		if (CustomNetworkManager.Instance._isServer) {
 			CustomNetworkManager.Instance.ServerChangeScene(SceneManager.GetActiveScene().name);
 		}

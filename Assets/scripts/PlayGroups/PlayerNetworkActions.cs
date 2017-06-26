@@ -35,6 +35,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         soundNetworkActions = GetComponent<SoundNetworkActions>();
         chatIcon = GetComponentInChildren<ChatIcon>();
         CmdSyncRoundTime(GameManager.Instance.GetRoundTime);
+        CmdTryGetRandomJob();
     }
 
     public override void OnStartServer()
@@ -471,6 +472,21 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             var fovScript = GetComponent<FieldOfView>();
             if (fovScript != null)
                 fovScript.enabled = false;
+        }
+    }
+
+    [Command]
+    public void CmdTryGetRandomJob()
+    {
+        JobType jobType = GameManager.Instance.GetRandomFreeOccuption();
+        Debug.Log("Random Free Occuption was: " + jobType.ToString());
+
+        this.playerScript.JobType = jobType;
+
+        foreach (string startingItemHierPath in GameManager.Instance.GetOccupationEquipment(this.playerScript.JobType))
+        {
+            Debug.Log("Assigning Occupation Equipment: " + startingItemHierPath);
+            equipment.AddToLoadout(startingItemHierPath);
         }
     }
 }
