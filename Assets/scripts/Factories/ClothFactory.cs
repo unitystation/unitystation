@@ -25,10 +25,9 @@ public class ClothFactory : NetworkBehaviour {
 	}
 
 	public static void PreLoadCloth(int preLoads){
-		//FIXME inactive items do not spawn on new clients!!! Find a fix
-//		for(int i = 0; i < preLoads; i++){
-//			PoolManager.PoolNetworkPreLoad(Instance.uniCloth);
-//		}
+		for(int i = 0; i < preLoads; i++){
+			PoolManager.PoolNetworkPreLoad(Instance.uniCloth);
+		}
 	}
 
 	//TODO is it going to be spawned on a player in equipment etc?

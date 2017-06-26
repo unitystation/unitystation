@@ -13,7 +13,7 @@ public class ItemAttributes : NetworkBehaviour
         private static DmObjectData dm;
         private static string[] hierList = { };
 
-		[SyncVar(hook="ConstructCloth")]
+		[SyncVar(hook="ConstructItem")]
         public string hierarchy; //the bare minimum you need to to make magic work
 
         // item name and description.
@@ -49,7 +49,7 @@ public class ItemAttributes : NetworkBehaviour
 
 		//this is called by ClothFactory
 		//TODO finish it, this is only a place holder atm
-		public void ConstructCloth(string hierString){
+		public void ConstructItem(string hierString){
 		//TODO Do construction stuff 
 			// for the cloth attributes to update across all clients
 			OnEnable();

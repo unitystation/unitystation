@@ -41,8 +41,7 @@ public class PoolManager : NetworkBehaviour
 				int index = pools[prefab].Count - 1;
 				tempObject = pools[prefab][index];
 				pools[prefab].RemoveAt(index);
-				tempObject.SetActive(true);
-				Instance.RpcToggleGameObject(tempObject, true);
+				tempObject.GetComponent<ItemControl>().aliveState = true;
 				tempObject.transform.position = position;
 				tempObject.transform.rotation = rotation;
 				tempObject.transform.localScale = prefab.transform.localScale;
@@ -85,16 +84,10 @@ public class PoolManager : NetworkBehaviour
 	{
 		GameObject prefab = target.GetComponent<PoolPrefabTracker>().myPrefab;
 		prefab.transform.position = Vector2.zero;
-		target.SetActive(false);
+		target.GetComponent<ItemControl>().aliveState = false;
 		pools[prefab].Add(target);
-		Instance.RpcToggleGameObject(target, false);
 	}
 
-	[ClientRpc]
-	public void RpcToggleGameObject(GameObject obj, bool turnOn)
-	{
-		obj.SetActive(turnOn);
-	}
 	/*
 	* Use this function when you want to get an GameObject instance, but not enable it yet.
 	* A good example would be when you want to pass information to the GameObject before it calls
@@ -132,6 +125,7 @@ public class PoolManager : NetworkBehaviour
 	}
 }
 
+//not used for clients unless it is a client side pool object only
 public class PoolPrefabTracker : MonoBehaviour
 {
 	public GameObject myPrefab;
