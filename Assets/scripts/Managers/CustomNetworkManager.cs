@@ -73,7 +73,9 @@ public class CustomNetworkManager: NetworkManager
 	{
 		if (_isServer) {
 		//do special server wizardry here
-
+		}
+		if (GameData.IsInGame) {
+			ObjectManager.StartPoolManager();
 		}
 		//This client connecting to server
 		base.OnClientConnect(conn);
@@ -94,6 +96,10 @@ public class CustomNetworkManager: NetworkManager
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
+		if (GameData.IsInGame) {
+			ObjectManager.StartPoolManager();
+		}
+		
 		if (IsClientConnected())
 		{
 			//make sure login window does not show on scene changes if connected

@@ -1,102 +1,19 @@
 using System;
 using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace UI
-{
-    public enum ItemSize
-    { //w_class
-        Tiny,
-        Small,
-        Medium, //Normal
-        Large, //Bulky
-        Huge
-    }
 
-    //	public enum W_CLASS { //w_class
-    //		WEIGHT_CLASS_TINY, WEIGHT_CLASS_SMALL, 
-    //		WEIGHT_CLASS_NORMAL, WEIGHT_CLASS_BULKY, 
-    //		WEIGHT_CLASS_HUGE
-    //	}
-
-    public enum SLOT_FLAGS
-    {//slot_flags
-        SLOT_BELT, SLOT_POCKET, SLOT_BACK,
-        SLOT_ID, SLOT_MASK, SLOT_NECK,
-        SLOT_EARS, SLOT_HEAD, ALL
-    }
-
-    public enum RESISTANCE_FLAGS
-    { //resistance_flags
-        FLAMMABLE, FIRE_PROOF, ACID_PROOF,
-        LAVA_PROOF, INDESTRUCTIBLE
-    }
-
-    public enum ORIGIN_TECH
-    {
-        materials, magnets, engineering,
-        programming, combat, powerstorage,
-        biotech, syndicate, plasmatech,
-        bluespace, abductor
-    }
-
-    public enum FLAGS_INV
-    {
-        HIDEHAIR, HIDEEARS, HIDEFACE,
-        HIDEEYES, HIDEFACIALHAIR, HIDEGLOVES,
-        HIDESHOES, HIDEJUMPSUIT
-    }
-
-    public enum FLAGS_COVER
-    {
-        MASKCOVERSEYES, MASKCOVERSMOUTH, HEADCOVERSEYES,
-        HEADCOVERSMOUTH, GLASSESCOVERSEYES
-    }
-
-    public enum FLAGS
-    {//flags 
-     //visor_flags 
-        CONDUCT, ABSTRACT, NODROP, DROPDEL,
-        NOBLUDGEON, MASKINTERNALS, BLOCK_GAS_SMOKE_EFFECT,
-        STOPSPRESSUREDMAGE, THICKMATERIAL, SS_NO_FIRE,
-        SS_NO_INIT, SS_BACKGROUND
-
-    }
-
-
-    public enum BODYPARTS
-    {//body_parts_covered
-        CHEST, GROIN, LEGS,
-        FEET, ARMS, HANDS
-    }
-
-    public enum SpriteType
-    {
-        Items,
-        Clothing,
-        Guns
-    }
-
-    [System.Serializable]
-    public enum ItemType
-    {
-        None, Glasses, Hat, Neck,
-        Mask, Ear, Suit, Uniform,
-        Gloves, Shoes, Belt, Back,
-        ID, PDA, Food,
-        Knife,
-        Gun
-    }
-
-    public class ItemAttributes : MonoBehaviour
+public class ItemAttributes : NetworkBehaviour
     {
         private static DmiIconData dmi;
         private static DmObjectData dm;
         private static string[] hierList = { };
 
+		[SyncVar(hook="ConstructCloth")]
         public string hierarchy; //the bare minimum you need to to make magic work
 
         // item name and description.
@@ -130,7 +47,15 @@ namespace UI
         private int inHandRight = -1;
         private int clothingOffset = -1;
 
-
+		//this is called by ClothFactory
+		//TODO finish it, this is only a place holder atm
+		public void ConstructCloth(string hierString){
+		//TODO Do construction stuff 
+			// for the cloth attributes to update across all clients
+			OnEnable();
+		}
+		//FIXME: Clean this up, now we are using ConstructCloth. We will also need a method to handle
+		// items placed in the scene before building (clothes in closets on tables etc)
         private void OnEnable()
         {
             //todo: make more methods static
@@ -540,12 +465,12 @@ namespace UI
 
         public void OnMouseEnter()
         {
-            UIManager.SetToolTip = this.itemName + " (" + this.itemDescription + ")";
+            UI.UIManager.SetToolTip = this.itemName + " (" + this.itemDescription + ")";
         }
 
         public void OnMouseExit()
         {
-            UIManager.SetToolTip = "";
+            UI.UIManager.SetToolTip = "";
         }
     }
-}
+

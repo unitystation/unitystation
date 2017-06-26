@@ -273,7 +273,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
             else
             {
-                if (att.spriteType == UI.SpriteType.Clothing)
+                if (att.spriteType == SpriteType.Clothing)
                 {
                     // Debug.Log("eventName = " + eventName);
                     Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);

@@ -160,7 +160,7 @@ namespace Equipment
 
 			playerNetworkActions.TrySetItem(eventName, item);
 			//Sync all clothing items across network using SyncListInt syncEquipSprites
-			if (att.spriteType == UI.SpriteType.Clothing) {
+			if (att.spriteType == SpriteType.Clothing) {
 				Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
 				syncEquipSprites[(int)enumA] = att.clothingReference;
 			}
