@@ -52,17 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 17
-  startingItemHiers:
-  - /obj/item/weapon/card/id/silver
-  - /obj/item/device/pda/heads/cmo
-  - /obj/item/device/radio/headset/heads/cmo
-  - /obj/item/clothing/under/rank/chief_medical_officer
-  - /obj/item/clothing/shoes/sneakers/brown
-  - /obj/item/clothing/suit/toggle/labcoat/cmo
-  - /obj/item/weapon/storage/firstaid/regular
-  - /obj/item/device/flashlight/pen
-  - /obj/item/weapon/storage/backpack/medic
-  - /obj/item/weapon/storage/backpack/satchel/med
-  - /obj/item/weapon/storage/backpack/duffelbag/med
   limit: 1
   priority: 2
+  outfit: {fileID: 1000022580185544, guid: 5639c0b75afbd264b9abcfd4850b3775, type: 2}

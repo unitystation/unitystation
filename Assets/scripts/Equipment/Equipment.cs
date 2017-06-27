@@ -88,12 +88,81 @@ namespace Equipment
             PlayerScript pS = GetComponent<PlayerScript>();
             pS.JobType = jobType;
 
-            foreach (string startingItemHierPath in GameManager.Instance.GetOccupationEquipment(jobType))
+            JobOutfit standardOutfit = GameManager.Instance.StandardOutfit.GetComponent<JobOutfit>();
+            JobOutfit jobOutfit = GameManager.Instance.GetOccupationOutfit(jobType);
+
+            Dictionary<string, string> gear = new Dictionary<string, string>();
+
+            gear.Add("uniform", standardOutfit.uniform);
+            //gear.Add("id", standardOutfit.id);
+            gear.Add("ears", standardOutfit.ears);
+            gear.Add("belt", standardOutfit.belt);
+            gear.Add("back", standardOutfit.back);
+            gear.Add("shoes", standardOutfit.shoes);
+            gear.Add("glasses", standardOutfit.glasses);
+            gear.Add("gloves", standardOutfit.gloves);
+            gear.Add("suit", standardOutfit.suit);
+            gear.Add("head", standardOutfit.head);
+            //gear.Add("accessory", standardOutfit.accessory);
+            gear.Add("mask", standardOutfit.mask);
+            //gear.Add("backpack", standardOutfit.backpack);
+            //gear.Add("satchel", standardOutfit.satchel);
+            //gear.Add("duffelbag", standardOutfit.duffelbag);
+            //gear.Add("box", standardOutfit.box);
+            //gear.Add("l_hand", standardOutfit.l_hand);
+            //gear.Add("l_pocket", standardOutfit.l_pocket);
+            //gear.Add("r_pocket", standardOutfit.r_pocket);
+            //gear.Add("suit_store", standardOutfit.suit_store);
+
+            if (!String.IsNullOrEmpty(jobOutfit.uniform))
+                gear["uniform"] = jobOutfit.uniform;
+            /*if (!String.IsNullOrEmpty(jobOutfit.id))
+                gear["id"] = jobOutfit.id;*/
+            if (!String.IsNullOrEmpty(jobOutfit.ears))
+                gear["ears"] = jobOutfit.ears;
+            if (!String.IsNullOrEmpty(jobOutfit.belt))
+                gear["belt"] = jobOutfit.belt;
+            if (!String.IsNullOrEmpty(jobOutfit.back))
+                gear["back"] = jobOutfit.back;
+            if (!String.IsNullOrEmpty(jobOutfit.shoes))
+                gear["shoes"] = jobOutfit.shoes;
+            if (!String.IsNullOrEmpty(jobOutfit.glasses))
+                gear["glasses"] = jobOutfit.glasses;
+            if (!String.IsNullOrEmpty(jobOutfit.gloves))
+                gear["gloves"] = jobOutfit.gloves;
+            if (!String.IsNullOrEmpty(jobOutfit.suit))
+                gear["suit"] = jobOutfit.suit;
+            if (!String.IsNullOrEmpty(jobOutfit.head))
+                gear["head"] = jobOutfit.head;
+            /*if (!String.IsNullOrEmpty(jobOutfit.accessory))
+                gear["accessory"] = jobOutfit.accessory;*/
+            if (!String.IsNullOrEmpty(jobOutfit.mask))
+                gear["mask"] = jobOutfit.mask;
+            /*if (!String.IsNullOrEmpty(jobOutfit.backpack))
+                gear["backpack"] = jobOutfit.backpack;
+            if (!String.IsNullOrEmpty(jobOutfit.satchel))
+                gear["satchel"] = jobOutfit.satchel;
+            if (!String.IsNullOrEmpty(jobOutfit.duffelbag))
+                gear["duffelbag"] = jobOutfit.duffelbag;
+            if (!String.IsNullOrEmpty(jobOutfit.box))
+                gear["box"] = jobOutfit.box;
+            if (!String.IsNullOrEmpty(jobOutfit.l_hand))
+                gear["l_hand"] = jobOutfit.l_hand;
+            if (!String.IsNullOrEmpty(jobOutfit.l_pocket))
+                gear["l_pocket"] = jobOutfit.l_pocket;
+            if (!String.IsNullOrEmpty(jobOutfit.r_pocket))
+                gear["r_pocket"] = jobOutfit.r_pocket;
+            if (!String.IsNullOrEmpty(jobOutfit.suit_store))
+                gear["suit_store"] = jobOutfit.suit_store;*/
+
+            foreach(KeyValuePair<string,string> gearItem in gear)
             {
-                GameObject obj = ClothFactory.CreateCloth(startingItemHierPath, Vector3.zero);
+                GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
                 ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-                SetItem(GetLoadOutEventName(itemAtts.type), itemAtts);
+                SetItem(GetLoadOutEventName(gearItem.Key), itemAtts);
             }
+
+            
         }
 
         //Hand item sprites after picking up an item (server)
@@ -111,44 +180,44 @@ namespace Equipment
             obj.BroadcastMessage("OnAddToInventory", eventName, SendMessageOptions.DontRequireReceiver);
         }
 
-        public string GetLoadOutEventName(ItemType itemType)
+        public string GetLoadOutEventName(string uniformPosition)
         {
-            switch (itemType)
+            switch (uniformPosition)
             {
-                case ItemType.Glasses:
+                case "glasses":
                     return "eyes";
-                case ItemType.Hat:
+                case "head":
                     return "head";
-                case ItemType.Neck:
+                case "neck":
                     return "neck";
-                case ItemType.Mask:
+                case "mask":
                     return "mask";
-                case ItemType.Ear:
+                case "ears":
                     return "ear";
-                case ItemType.Suit:
+                case "suit":
                     return "suit";
-                case ItemType.Uniform:
+                case "uniform":
                     return "uniform";
-                case ItemType.Gloves:
+                case "gloves":
                     return "hands";
-                case ItemType.Shoes:
+                case "shoes":
                     return "feet";
-                case ItemType.Belt:
+                case "belt":
                     return "belt";
-                case ItemType.Back:
+                case "back":
                     return "back";
-                case ItemType.ID:
+                case "id":
                     return "id";
-                case ItemType.PDA:
+                case "l_pocket":
                     return "storage02";
-                case ItemType.Food:
+                case "r_pocket":
                     return "storage01";
-                case ItemType.Knife:
+                case "l_hand":
                     return "leftHand";
-                case ItemType.Gun:
+                case "r_hand":
                     return "rightHand";
                 default:
-                    Debug.LogWarning("GetLoadOutEventName: Unknown ItemType:" + itemType.ToString());
+                    Debug.LogWarning("GetLoadOutEventName: Unknown uniformPosition:" + uniformPosition);
                     return null;
             }
         }

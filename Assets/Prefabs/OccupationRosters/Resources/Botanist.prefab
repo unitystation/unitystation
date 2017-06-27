@@ -52,14 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 24
-  startingItemHiers:
-  - /obj/item/device/pda/botanist
-  - /obj/item/device/radio/headset/headset_srv
-  - /obj/item/clothing/under/rank/hydroponics
-  - /obj/item/clothing/suit/apron
-  - /obj/item/clothing/gloves/botanic_leather
-  - /obj/item/device/plant_analyzer
-  - /obj/item/weapon/storage/backpack/botany
-  - /obj/item/weapon/storage/backpack/satchel/hyd
   limit: 3
   priority: 99
+  outfit: {fileID: 1022723665480262, guid: 49fc383b5a0ff1a4eb70b2e52e9cf366, type: 2}

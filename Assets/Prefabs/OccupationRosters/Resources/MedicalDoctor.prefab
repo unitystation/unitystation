@@ -52,13 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 18
-  startingItemHiers:
-  - /obj/item/device/pda/medical
-  - /obj/item/device/radio/headset/headset_med
-  - /obj/item/clothing/under/rank/medical
-  - /obj/item/clothing/shoes/sneakers/white
-  - /obj/item/clothing/suit/toggle/labcoat
-  - /obj/item/weapon/storage/firstaid/regular
-  - /obj/item/device/flashlight/pen
   limit: 5
   priority: 99
+  outfit: {fileID: 1567982637835890, guid: c9d1c6b5df5fbef4f87cdc57df02efb8, type: 2}

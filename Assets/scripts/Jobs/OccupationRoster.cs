@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class OccupationRoster : MonoBehaviour {
     public JobType Type;
-    public List<string> startingItemHiers = new List<string>();
     public int limit;
     public int priority = 99;
+    public GameObject outfit;
 
 	// Use this for initialization
 	void Start () {

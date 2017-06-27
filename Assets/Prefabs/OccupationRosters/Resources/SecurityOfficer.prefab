@@ -52,20 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 6
-  startingItemHiers:
-  - /obj/item/device/pda/security
-  - /obj/item/device/radio/headset/headset_sec/alt
-  - /obj/item/clothing/under/rank/security
-  - /obj/item/clothing/gloves/color/black
-  - /obj/item/clothing/head/helmet/sec
-  - /obj/item/clothing/suit/armor/vest/alt
-  - /obj/item/clothing/shoes/jackboots
-  - /obj/item/weapon/restraints/handcuffs
-  - /obj/item/device/assembly/flash/handheld
-  - /obj/item/weapon/gun/energy/e_gun/advtaser
-  - /obj/item/weapon/storage/backpack/security
-  - /obj/item/weapon/storage/backpack/satchel/sec
-  - /obj/item/weapon/storage/backpack/duffelbag/sec
-  - /obj/item/weapon/storage/box/security
   limit: 5
   priority: 99
+  outfit: {fileID: 1212771459599398, guid: e9221d12cb336f448b0661c33662df7c, type: 2}

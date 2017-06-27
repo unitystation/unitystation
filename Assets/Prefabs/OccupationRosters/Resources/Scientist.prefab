@@ -52,14 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 15
-  startingItemHiers:
-  - /obj/item/device/pda/toxins
-  - /obj/item/device/radio/headset/headset_sci
-  - /obj/item/clothing/under/rank/scientist
-  - /obj/item/clothing/shoes/sneakers/white
-  - /obj/item/clothing/suit/toggle/labcoat/science
-  - /obj/item/weapon/storage/backpack/science
-  - /obj/item/weapon/storage/backpack/satchel/tox
-  - /obj/item/clothing/accessory/pocketprotector/full
   limit: 5
   priority: 99
+  outfit: {fileID: 1369951651615546, guid: d25decb62df497247b5c637034063478, type: 2}
