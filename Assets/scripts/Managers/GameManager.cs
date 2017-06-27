@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
 
+    public GameObject StandardOutfit;
     public List<GameObject> Occupations = new List<GameObject>();
 
 	public Text roundTimer;
@@ -148,9 +149,9 @@ public class GameManager : MonoBehaviour {
         return count;
     }
 
-    public List<string> GetOccupationEquipment(JobType jobType)
+    public JobOutfit GetOccupationOutfit(JobType jobType)
     {
-        return Occupations.Where(o => o.GetComponent<OccupationRoster>().Type == jobType).First().GetComponent<OccupationRoster>().startingItemHiers;
+        return Occupations.Where(o => o.GetComponent<OccupationRoster>().Type == jobType).First().GetComponent<OccupationRoster>().outfit.GetComponent<JobOutfit>();
     }
 
     public JobType GetRandomFreeOccupation()

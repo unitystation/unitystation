@@ -52,11 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 25
-  startingItemHiers:
-  - /obj/item/device/pda/cook
-  - /obj/item/device/radio/headset/headset_srv
-  - /obj/item/clothing/under/rank/chef
-  - /obj/item/clothing/suit/toggle/chef
-  - /obj/item/clothing/head/chefhat
   limit: 2
   priority: 99
+  outfit: {fileID: 1316978556928262, guid: 8cadc733b028e694eaff2e60c0bac4a9, type: 2}
