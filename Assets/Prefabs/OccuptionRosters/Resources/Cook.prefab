@@ -53,6 +53,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 25
   startingItemHiers:
-  - /obj/item/clothing/suit/apron/chef
+  - /obj/item/device/pda/cook
+  - /obj/item/device/radio/headset/headset_srv
+  - /obj/item/clothing/under/rank/chef
+  - /obj/item/clothing/suit/toggle/chef
+  - /obj/item/clothing/head/chefhat
   limit: 2
   priority: 99
