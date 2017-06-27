@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-
 public class ItemAttributes : NetworkBehaviour
 {
     private static DmiIconData dmi;
@@ -14,11 +13,14 @@ public class ItemAttributes : NetworkBehaviour
     private static string[] hierList = { };
 
     [SyncVar(hook = "ConstructItem")]
-    public string hierarchy; //the bare minimum you need to to make magic work
+    public string hierarchy;
+    //the bare minimum you need to to make magic work
 
     // item name and description.
-    public string itemName; //dm "name"
-    public string itemDescription; //dm "desc"
+    public string itemName;
+    //dm "name"
+    public string itemDescription;
+    //dm "desc"
 
     public SpriteType spriteType;
     public ItemType type;
@@ -28,7 +30,8 @@ public class ItemAttributes : NetworkBehaviour
     public int inHandReferenceLeft;
     public int clothingReference = -1;
 
-    public ItemSize size; //dm "w_class"; 
+    public ItemSize size;
+    //dm "w_class";
 
     //		dm datafile info
     private string hier;
@@ -47,28 +50,20 @@ public class ItemAttributes : NetworkBehaviour
     private int inHandRight = -1;
     private int clothingOffset = -1;
 
-    //this is called by ClothFactory
-    //TODO finish it, this is only a place holder atm
+    void OnStartClient()
+    {
+        ConstructItem(hierarchy);
+    }
+
     public void ConstructItem(string hierString)
     {
-        //TODO Do construction stuff 
-        // for the cloth attributes to update across all clients
-        OnEnable();
-    }
-    //FIXME: Clean this up, now we are using ConstructCloth. We will also need a method to handle
-    // items placed in the scene before building (clothes in closets on tables etc)
-    private void OnEnable()
-    {
-        Debug.Log("onEnable just started with preexisting values: " + gameObject.name + " Hier: " + hier + " Desc: " + desc);
-
-        //todo: make more methods static
-
         //randomize clothing! uncomment only if you spawn without any clothes on!
-        randomizeClothHierIfEmpty();
+        //        randomizeClothHierIfEmpty();
 
         //don't do anything if hierarchy string is empty
-        hier = hierarchy.Trim();
-        if (hier.Length == 0) return;
+        hier = hierString.Trim();
+        if (hier.Length == 0)
+            return;
 
         //init datafiles
         if (!dmi)
@@ -153,16 +148,17 @@ public class ItemAttributes : NetworkBehaviour
     string getItemDebugInfo()
     {
         return string.Format("name={0}, type={1}, spriteType={2} ({3}) : {4} / {5} / C: {6}, L: {7}, R: {8}, I: {9}" + '\n'
-                             + dmDic.Keys.Aggregate("", (current, key) => current + (key + ": ") + dmDic[key] + "\n"),
-          name, itemType, spriteType,
-          desc, icon_state, item_state,
-          clothingReference, inHandLeft, inHandRight,
-          inventoryIcon.icon);
+        + dmDic.Keys.Aggregate("", (current, key) => current + (key + ": ") + dmDic[key] + "\n"),
+            name, itemType, spriteType,
+            desc, icon_state, item_state,
+            clothingReference, inHandLeft, inHandRight,
+            inventoryIcon.icon);
     }
 
     private static SpriteType getMasterType(string hs)
     {
-        if (hs.StartsWith(ObjItemClothing)) return SpriteType.Clothing;
+        if (hs.StartsWith(ObjItemClothing))
+            return SpriteType.Clothing;
         return SpriteType.Items;
     }
 
@@ -170,8 +166,10 @@ public class ItemAttributes : NetworkBehaviour
     {
         switch (masterType)
         {
-            case SpriteType.Clothing: return "clothing";
-            default: return "items";
+            case SpriteType.Clothing:
+                return "clothing";
+            default:
+                return "items";
         }
     }
 
@@ -194,7 +192,6 @@ public class ItemAttributes : NetworkBehaviour
     {
         return dm != null && dmi != null;
     }
-
 
     private /*static*/ DmiIcon tryGetInventoryIcon(/*DmiIconData dmi, string[] invSheetPaths, string icon = ""*/)
     {
@@ -247,24 +244,28 @@ public class ItemAttributes : NetworkBehaviour
 
     private /*static*/ int[] tryGetInHand()
     {
-        if (item_state.Equals("")) return new[] { -1, -1 };
+        if (item_state.Equals(""))
+            return new[] { -1, -1 };
 
         var stateLH = dmi.searchStateInIconShallow(item_state,
-          "mob/inhands/" + getMasterTypeHandsString(masterType) + "_lefthand");
+                                "mob/inhands/" + getMasterTypeHandsString(masterType) + "_lefthand");
 
         var stateRH = dmi.searchStateInIconShallow(item_state,
-          "mob/inhands/" + getMasterTypeHandsString(masterType) + "_righthand");
+                                "mob/inhands/" + getMasterTypeHandsString(masterType) + "_righthand");
 
         return new[] {stateLH == null ? -1 : stateLH.offset,
-        stateRH == null ? -1 : stateRH.offset};
+            stateRH == null ? -1 : stateRH.offset
+        };
     }
 
     private static string getInvIconPrefix(SpriteType st)
     {
         switch (st)
         {
-            case SpriteType.Clothing: return ObjItemClothing;
-            default: return "";
+            case SpriteType.Clothing:
+                return ObjItemClothing;
+            default:
+                return "";
         }
     }
 
@@ -273,57 +274,74 @@ public class ItemAttributes : NetworkBehaviour
         var p = "obj/clothing/";
         switch (type)
         {
-            case ItemType.Belt: return new[] { p + "belts" };
-            case ItemType.Back: return new[] { p + "cloaks" };
-            case ItemType.Glasses: return new[] { p + "glasses" };
-            case ItemType.Gloves: return new[] { p + "gloves" };
-            case ItemType.Hat: return new[] { p + "hats" };
-            case ItemType.Mask: return new[] { p + "masks" };
-            case ItemType.Shoes: return new[] { p + "shoes" };
-            case ItemType.Suit: return new[] { p + "suits" };
+            case ItemType.Belt:
+                return new[] { p + "belts" };
+            case ItemType.Back:
+                return new[] { p + "cloaks" };
+            case ItemType.Glasses:
+                return new[] { p + "glasses" };
+            case ItemType.Gloves:
+                return new[] { p + "gloves" };
+            case ItemType.Hat:
+                return new[] { p + "hats" };
+            case ItemType.Mask:
+                return new[] { p + "masks" };
+            case ItemType.Shoes:
+                return new[] { p + "shoes" };
+            case ItemType.Suit:
+                return new[] { p + "suits" };
             case ItemType.Neck:
-                return new[]
-{
-          p + "ties",
-          p + "neck"
-        };
-            case ItemType.Uniform: return new[] { p + "uniforms" };
-            default: return new[] { "" };
+                return new[] {
+                    p + "ties",
+                    p + "neck"
+                };
+            case ItemType.Uniform:
+                return new[] { p + "uniforms" };
+            default:
+                return new[] { "" };
         }
     }
+
     private static string[] getOnPlayerClothSheetHier(ItemType type)
     {
         var p = "mob/";
         switch (type)
         {
             case ItemType.Belt:
-                return new[]
-{
-          p + "belt",
-          p + "belt_mirror"
-        };
-            case ItemType.Back: return new[] { p + "back" };
-            case ItemType.Glasses: return new[] { p + "eyes" };
-            case ItemType.Gloves: return new[] { p + "hands" };
-            case ItemType.Hat: return new[] { p + "head" };
-            case ItemType.Ear: return new[] { p + "ears" };
-            case ItemType.Mask: return new[] { p + "mask" };
-            case ItemType.Shoes: return new[] { p + "feet" };
-            case ItemType.Suit: return new[] { p + "suit" };
+                return new[] {
+                    p + "belt",
+                    p + "belt_mirror"
+                };
+            case ItemType.Back:
+                return new[] { p + "back" };
+            case ItemType.Glasses:
+                return new[] { p + "eyes" };
+            case ItemType.Gloves:
+                return new[] { p + "hands" };
+            case ItemType.Hat:
+                return new[] { p + "head" };
+            case ItemType.Ear:
+                return new[] { p + "ears" };
+            case ItemType.Mask:
+                return new[] { p + "mask" };
+            case ItemType.Shoes:
+                return new[] { p + "feet" };
+            case ItemType.Suit:
+                return new[] { p + "suit" };
             case ItemType.Neck:
-                return new[]
-{
-          p + "ties",
-          p + "neck"
-        };
-            case ItemType.Uniform: return new[] { p + "uniform" };
-            default: return new[] { "" };
+                return new[] {
+                    p + "ties",
+                    p + "neck"
+                };
+            case ItemType.Uniform:
+                return new[] { p + "uniform" };
+            default:
+                return new[] { "" };
         }
     }
 
     //on-player references
-    private static readonly string[] onPlayer =
-    {
+    private static readonly string[] onPlayer = {
       "mob/uniform",
       "mob/underwear",
       "mob/ties",
@@ -492,9 +510,8 @@ public class ItemAttributes : NetworkBehaviour
     }
 
     public void OnExamine()
-    { 
+    {
         if (!String.IsNullOrEmpty(itemDescription))
             UI.UIManager.Chat.AddChatEvent(new ChatEvent(itemDescription));
     }
 }
-
