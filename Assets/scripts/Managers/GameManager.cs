@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
 
-    public List<GameObject> Occuptions = new List<GameObject>();
+    public List<GameObject> Occupations = new List<GameObject>();
 
 	public Text roundTimer;
 	private bool counting = false;
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour {
 
     void ValidateGameConfiguration()
     {
-        if (Occuptions.Where(o => o.GetComponent<OccupationRoster>().Type == JobType.ASSISTANT).ToList<GameObject>().Count == 0)
+        if (Occupations.Where(o => o.GetComponent<OccupationRoster>().Type == JobType.ASSISTANT).ToList<GameObject>().Count == 0)
         {
             Debug.LogError("Refusing to start server, ASSISTANT role must be defined in the GameManager Occupations to start");
             #if UNITY_EDITOR
@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-    int GetOccuptionsCount(JobType jobType)
+    int GetOccupationsCount(JobType jobType)
     {
         int count = 0;
 
@@ -157,16 +157,16 @@ public class GameManager : MonoBehaviour {
 
     public List<string> GetOccupationEquipment(JobType jobType)
     {
-        return Occuptions.Where(o => o.GetComponent<OccupationRoster>().Type == jobType).First().GetComponent<OccupationRoster>().startingItemHiers;
+        return Occupations.Where(o => o.GetComponent<OccupationRoster>().Type == jobType).First().GetComponent<OccupationRoster>().startingItemHiers;
     }
 
-    public JobType GetRandomFreeOccuption()
+    public JobType GetRandomFreeOccupation()
     {
-        foreach(GameObject jobObject in Occuptions.OrderBy(o => o.GetComponent<OccupationRoster>().priority))
+        foreach(GameObject jobObject in Occupations.OrderBy(o => o.GetComponent<OccupationRoster>().priority))
         {
             OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
             if (job.limit != -1)
-                if (job.limit > GetOccuptionsCount(job.Type))
+                if (job.limit > GetOccupationsCount(job.Type))
                 {
                     return job.Type;
                 }

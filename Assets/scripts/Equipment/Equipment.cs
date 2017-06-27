@@ -83,15 +83,13 @@ namespace Equipment
             //Waiting for player name resolve
             yield return new WaitForSeconds(0.2f);
 
-            JobType jobType = GameManager.Instance.GetRandomFreeOccuption();
-            Debug.Log("Random Free Occuption was: " + jobType.ToString());
+            JobType jobType = GameManager.Instance.GetRandomFreeOccupation();
 
             PlayerScript pS = GetComponent<PlayerScript>();
             pS.JobType = jobType;
 
             foreach (string startingItemHierPath in GameManager.Instance.GetOccupationEquipment(jobType))
             {
-                Debug.Log("Assigning Occupation Equipment: " + startingItemHierPath);
                 GameObject obj = ClothFactory.CreateCloth(startingItemHierPath, Vector3.zero);
                 ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
                 SetItem(GetLoadOutEventName(itemAtts.type), itemAtts);
