@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour {
 
     void OnValidate()
     {
-        if (Occupations.Where(o => o.GetComponent<OccupationRoster>().Type == JobType.ASSISTANT).ToList<GameObject>().Count == 0)
+        if (Occupations.All(o => o.GetComponent<OccupationRoster>().Type != JobType.ASSISTANT))
             Debug.LogError("There is no ASSISTANT job role defined in the the GameManager Occupation rosters");
     }
 
