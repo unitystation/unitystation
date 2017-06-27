@@ -38,7 +38,7 @@ public class ClothFactory : NetworkBehaviour {
 		//PoolManager handles networkspawn
 		GameObject clothObj = PoolManager.PoolNetworkInstantiate(Instance.uniCloth, spawnPos, Quaternion.identity);
 		ItemAttributes i = clothObj.GetComponent<ItemAttributes>();
-		i.hierarchy = hierString;
-		return clothObj;
+        i.hierarchy = hierString;
+        return clothObj;
 	}
 }

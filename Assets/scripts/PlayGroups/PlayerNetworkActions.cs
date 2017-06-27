@@ -388,7 +388,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
     [Command]
     //send a generic message
-    public void CmdSendAllertMessage(string msg, bool isLocalChat)
+    public void CmdSendAlertMessage(string msg, bool isLocalChat)
     {
         if (isLocalChat)
         {

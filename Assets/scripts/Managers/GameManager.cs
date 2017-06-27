@@ -6,10 +6,14 @@ using UnityEngine.UI;
 using UI;
 using UnityEngine.SceneManagement;
 using PlayGroup;
+using System;
+using System.Linq;
+
 public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
 
+    public List<GameObject> Occupations = new List<GameObject>();
 
 	public Text roundTimer;
 	private bool counting = false;
@@ -38,6 +42,12 @@ public class GameManager : MonoBehaviour {
 	{
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
+
+    void OnValidate()
+    {
+        if (Occupations.All(o => o.GetComponent<OccupationRoster>().Type != JobType.ASSISTANT))
+            Debug.LogError("There is no ASSISTANT job role defined in the the GameManager Occupation rosters");
+    }
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
 		if (scene.name != "Lobby") {
@@ -116,7 +126,53 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	void RestartRound(){
+    int GetOccupationsCount(JobType jobType)
+    {
+        int count = 0;
+
+        foreach (var player in PlayerList.playerList.connectedPlayers)
+        {
+            if (player.Value != null)
+            {
+                var mob = player.Value.GetComponent<PlayerScript>();
+                if (mob != null)
+                {
+                    if (mob.JobType == jobType)
+                    {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public List<string> GetOccupationEquipment(JobType jobType)
+    {
+        return Occupations.Where(o => o.GetComponent<OccupationRoster>().Type == jobType).First().GetComponent<OccupationRoster>().startingItemHiers;
+    }
+
+    public JobType GetRandomFreeOccupation()
+    {
+        foreach(GameObject jobObject in Occupations.OrderBy(o => o.GetComponent<OccupationRoster>().priority))
+        {
+            OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
+            if (job.limit != -1)
+                if (job.limit > GetOccupationsCount(job.Type))
+                {
+                    return job.Type;
+                }
+            if (job.limit == -1)
+            {
+                return job.Type;
+            }
+        }
+
+        return JobType.ASSISTANT;
+    }
+    
+    void RestartRound(){
 		if (CustomNetworkManager.Instance._isServer) {
 			CustomNetworkManager.Instance.ServerChangeScene(SceneManager.GetActiveScene().name);
 		}
