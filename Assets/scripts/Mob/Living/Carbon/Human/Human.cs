@@ -42,11 +42,11 @@ public class Human : Carbon
             if (lastDamager != gameObject.name)
             {
                 PlayerList.Instance.UpdateKillScore(lastDamager);
-                pNet.CmdSendAllertMessage("<color=red><b>" + lastDamager + "</b> has killed <b>" + gameObject.name + "</b></color>", true); //killfeed
+                pNet.CmdSendAlertMessage("<color=red><b>" + lastDamager + "</b> has killed <b>" + gameObject.name + "</b></color>", true); //killfeed
             }
             else
             {
-                pNet.CmdSendAllertMessage("<color=red><b>" + gameObject.name + " commited suicide</b></color>", true); //killfeed
+                pNet.CmdSendAlertMessage("<color=red><b>" + gameObject.name + " commited suicide</b></color>", true); //killfeed
             }
 
         }
