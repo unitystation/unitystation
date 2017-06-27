@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour {
 	void OnEnable()
 	{
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
-        ValidateGameConfiguration();
 	}
 
 	void OnDisable()
@@ -44,16 +43,10 @@ public class GameManager : MonoBehaviour {
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
-    void ValidateGameConfiguration()
+    void OnValidate()
     {
         if (Occupations.Where(o => o.GetComponent<OccupationRoster>().Type == JobType.ASSISTANT).ToList<GameObject>().Count == 0)
-        {
-            Debug.LogError("Refusing to start server, ASSISTANT role must be defined in the GameManager Occupations to start");
-            #if UNITY_EDITOR
-                        UnityEditor.EditorApplication.isPlaying = false;
-            #endif
-            Application.Quit();
-        }
+            Debug.LogError("There is no ASSISTANT job role defined in the the GameManager Occupation rosters");
     }
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
