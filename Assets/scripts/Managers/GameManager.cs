@@ -127,9 +127,12 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-    int GetOccupationsCount(JobType jobType)
+    public int GetOccupationsCount(JobType jobType)
     {
         int count = 0;
+
+        if (PlayerList.playerList == null)
+            return 0;
 
         foreach (var player in PlayerList.playerList.connectedPlayers)
         {
@@ -154,9 +157,29 @@ public class GameManager : MonoBehaviour {
         return Occupations.Where(o => o.GetComponent<OccupationRoster>().Type == jobType).First().GetComponent<OccupationRoster>().outfit.GetComponent<JobOutfit>();
     }
 
-    public JobType GetRandomFreeOccupation()
+    // Attempts to request job else assigns random occupation in order of priority
+    public JobType GetRandomFreeOccupation(JobType jobTypeRequest)
     {
-        foreach(GameObject jobObject in Occupations.OrderBy(o => o.GetComponent<OccupationRoster>().priority))
+        // Try to assign specific job
+        if (jobTypeRequest != JobType.NULL)
+        {
+            foreach (GameObject jobObject in Occupations.Where(o => o.GetComponent<OccupationRoster>().Type == jobTypeRequest))
+            {
+                OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
+                if (job.limit != -1)
+                    if (job.limit > GetOccupationsCount(job.Type))
+                    {
+                        return job.Type;
+                    }
+                if (job.limit == -1)
+                {
+                    return job.Type;
+                }
+            }
+        }
+
+        // No job found, get random via priority
+        foreach (GameObject jobObject in Occupations.OrderBy(o => o.GetComponent<OccupationRoster>().priority))
         {
             OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
             if (job.limit != -1)

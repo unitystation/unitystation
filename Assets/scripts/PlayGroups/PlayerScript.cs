@@ -64,6 +64,9 @@ namespace PlayGroup {
                 }
                 PlayerManager.SetPlayerForControl(this.gameObject);
                 CmdTrySetName(PlayerPrefs.GetString("PlayerName"));
+                // I (client) have connected to the server, ask what my job preference is
+                UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
+
             }
         }
 

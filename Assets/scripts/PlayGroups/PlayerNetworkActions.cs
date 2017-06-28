@@ -292,6 +292,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     [Command]
+    public void CmdRequestJob(JobType jobType)
+    {
+        // Already have a job buddy!
+        if (playerScript.JobType != JobType.NULL)
+            return;
+
+        playerScript.JobType = GameManager.Instance.GetRandomFreeOccupation(jobType);
+        StartCoroutine(equipment.SetPlayerLoadOuts());
+    }
+
+    [Command]
     public void CmdToggleShutters(GameObject switchObj)
     {
         ShutterSwitchTrigger s = switchObj.GetComponent<ShutterSwitchTrigger>();

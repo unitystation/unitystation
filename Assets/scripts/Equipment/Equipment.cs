@@ -15,6 +15,7 @@ namespace Equipment
         public SyncListInt syncEquipSprites = new SyncListInt();
         public ClothingItem[] clothingSlots;
         private PlayerNetworkActions playerNetworkActions;
+        private PlayerScript playerScript;
 
         public NetworkIdentity networkIdentity { get; set; }
 
@@ -24,7 +25,7 @@ namespace Equipment
         {
             networkIdentity = GetComponent<NetworkIdentity>();
             playerNetworkActions = gameObject.GetComponent<PlayerNetworkActions>();
-
+            playerScript = gameObject.GetComponent<PlayerScript>();
         }
 
         public override void OnStartServer()
@@ -36,8 +37,6 @@ namespace Equipment
             {
                 Instantiate(Resources.Load("EquipmentPool") as GameObject, Vector2.zero, Quaternion.identity);
             }
-
-            StartCoroutine(SetPlayerLoadOuts());
 
             base.OnStartServer();
         }
@@ -78,18 +77,20 @@ namespace Equipment
             clothingSlots[index].Reference = syncEquipSprites[index];
         }
 
-        IEnumerator SetPlayerLoadOuts()
+        public IEnumerator SetPlayerLoadOuts()
         {
             //Waiting for player name resolve
             yield return new WaitForSeconds(0.2f);
 
-            JobType jobType = GameManager.Instance.GetRandomFreeOccupation();
+            // Null Job players dont get a loadout
+            if (playerScript.JobType == JobType.NULL)
+                yield break;
 
             PlayerScript pS = GetComponent<PlayerScript>();
-            pS.JobType = jobType;
+            pS.JobType = playerScript.JobType;
 
             JobOutfit standardOutfit = GameManager.Instance.StandardOutfit.GetComponent<JobOutfit>();
-            JobOutfit jobOutfit = GameManager.Instance.GetOccupationOutfit(jobType);
+            JobOutfit jobOutfit = GameManager.Instance.GetOccupationOutfit(playerScript.JobType);
 
             Dictionary<string, string> gear = new Dictionary<string, string>();
 

@@ -26,7 +26,6 @@ namespace PlayGroup {
         private PlayerState serverState;
         private PlayerState predictedState;
 
-
         void Awake() {
             InitState();
         }

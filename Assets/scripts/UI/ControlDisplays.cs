@@ -9,6 +9,7 @@ namespace UI
 		public GameObject logInWindow;
 		public GameObject backGround;
 		public GameObject[] UIObjs;
+        public GameObject jobSelectWindow;
 
 		public void ResetUI()
 		{
