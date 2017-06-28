@@ -12,6 +12,8 @@ public class ItemAttributes : NetworkBehaviour
     private static DmObjectData dm;
     private static string[] hierList = { };
 
+    public ClothEnum cloth;
+    
     [SyncVar(hook = "ConstructItem")]
     public string hierarchy;
     //the bare minimum you need to to make magic work
@@ -54,6 +56,18 @@ public class ItemAttributes : NetworkBehaviour
     {
         ConstructItem(hierarchy);
     }
+    
+    
+//    Enum test:
+//    
+//    private void OnEnable()
+//    {
+//        if (hierarchy == null || hierarchy.Equals(""))
+//        {
+//            hierarchy = cloth.GetDescription();
+//        }
+//        ConstructItem(hierarchy);
+//    }
 
     public void ConstructItem(string hierString)
     {
@@ -178,7 +192,7 @@ public class ItemAttributes : NetworkBehaviour
         return tryGetAttr(dmDic, key);
     }
 
-    private static string tryGetAttr(Dictionary<string, string> dmDic, string key)
+    public static string tryGetAttr(Dictionary<string, string> dmDic, string key)
     {
         if (dmDic != null && dmDic.ContainsKey(key))
         {
@@ -215,7 +229,7 @@ public class ItemAttributes : NetworkBehaviour
         var invIcon = dmi.getIconByState(icon_state);
         if (invIcon != null)
         {
-            Debug.LogWarningFormat("{0} is doing bad dmi.getIconByState({1}) = {2}", name, icon_state, invIcon);
+            Debug.LogWarningFormat("{0} is doing bad dmi.getIconByState({1}) = {2}", name, icon_state, invIcon.icon);
             return invIcon;
         }
         //			Debug.LogError();
