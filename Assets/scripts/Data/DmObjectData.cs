@@ -16,6 +16,11 @@ private static List<Dictionary<string, string>> objectList = new List<Dictionary
         DeserializeJson();
     }
 
+    public List<Dictionary<string, string>> ObjectList
+    {
+        get { return objectList; }
+    }
+
     //Scans hierarchy for attributes
     public Dictionary<string, string> getObject(string hierarchy)
     {

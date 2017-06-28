@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Light2D;
 using UnityEngine;
 using UnityEngine.Networking;
 using PlayGroup;
@@ -17,6 +18,9 @@ public class ExplodeWhenShot : NetworkBehaviour
 	int playerMask;
 	int obstacleMask;
 
+	private GameObject lightFxInstance;
+	private LightSprite lightSprite;
+	
 	void Start()
 	{
 		playerMask = LayerMask.GetMask("Players");
@@ -32,7 +36,6 @@ public class ExplodeWhenShot : NetworkBehaviour
 			}
 
 			GoBoom();
-
 			Destroy(bullet.gameObject);
 		}
 	}
@@ -64,6 +67,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		}
 	}
 
+
 	void GoBoom()
 	{
 		// Instantiate a clone of the source so that multiple explosions can play at the same time.
@@ -73,9 +77,15 @@ public class ExplodeWhenShot : NetworkBehaviour
 			Instantiate<AudioSource>(source, transform.position, Quaternion.identity).Play();
 		}
 
-		var parent = Resources.Load<GameObject>("effects/FireRing");
-		Instantiate(parent, transform.position, Quaternion.identity);
+		var fireRing = Resources.Load<GameObject>("effects/FireRing");
+		Instantiate(fireRing, transform.position, Quaternion.identity);
+		
+		var lightFx = Resources.Load<GameObject>("lighting/BoomLight");
+		lightFxInstance = Instantiate(lightFx, transform.position, Quaternion.identity);
+		lightSprite = lightFxInstance.GetComponentInChildren<LightSprite>();
+		lightSprite.fadeFX(1f);
 	}
+	
 
 	internal virtual void HurtPeople(Living living, string damagedBy, int damage)
 	{

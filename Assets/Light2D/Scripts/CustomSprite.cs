@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -123,6 +124,24 @@ namespace Light2D
             {
                 _meshRenderer.enabled = RendererEnabled;
             }
+        }
+
+        public void fadeFX(float timeOut)
+        {
+            StartCoroutine(colorFade(timeOut));
+        }
+        
+
+        private IEnumerator colorFade(float timeOut)
+        {
+            var oldColor = Color;
+            var elapsed = 0f;
+            while (elapsed < timeOut) {
+                elapsed +=Time.deltaTime;
+                Color = Color.Lerp(oldColor, Color.black, elapsed / timeOut);
+               yield return null;
+            }
+           yield return 0;
         }
 
         /// <summary>
