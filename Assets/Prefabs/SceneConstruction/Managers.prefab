@@ -1062,7 +1062,6 @@ GameObject:
   m_Component:
   - component: {fileID: 224783150920563912}
   - component: {fileID: 114862530894397216}
-  - component: {fileID: 114584553718649968}
   m_Layer: 5
   m_Name: SCREEN_Jobs
   m_TagString: Untagged
@@ -6659,7 +6658,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 1000
+  m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
@@ -9414,18 +9413,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a02f32610d09c4aaefe46dec0d0d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114584553718649968
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1397058543955360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bf1e44a60bd64740be26a62840bc153, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grid: {fileID: 0}
 --- !u!114 &114589693695597128
 MonoBehaviour:
   m_ObjectHideFlags: 1
