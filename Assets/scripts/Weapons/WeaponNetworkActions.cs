@@ -12,6 +12,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
     private PlayerMove playerMove;
     private SoundNetworkActions soundNetworkActions;
     private GameObject bloodSplatPrefab;
+	public GameObject muzzleFlash;
 
     //Lerp parameters
     private float lerpProgress = 0f;
@@ -20,6 +21,9 @@ public class WeaponNetworkActions: NetworkBehaviour {
     private Vector3 lerpTo;
     private float speed = 7f;
     private bool isForLerpBack = false;
+
+	//muzzle flash
+	private bool isFlashing = false;
 
     void Start() {
         spritesObj = transform.Find("Sprites").gameObject;
@@ -75,6 +79,10 @@ public class WeaponNetworkActions: NetworkBehaviour {
 
 		//TODO add a check to see if bullet or energy weapon
 		SpawnBulletCaseing();
+		if (!isFlashing) {
+			isFlashing = true;
+			StartCoroutine(ShowMuzzleFlash());
+		}
     }
 
     //Bullets are just graphical candy on the client, give them the end point and let 
@@ -98,6 +106,10 @@ public class WeaponNetworkActions: NetworkBehaviour {
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
         b.Shoot(dir, angle, gameObject.name);
+		if (!isFlashing) {
+			isFlashing = true;
+			StartCoroutine(ShowMuzzleFlash());
+		}
     }
 
     [Command]
@@ -215,4 +227,11 @@ public class WeaponNetworkActions: NetworkBehaviour {
 		NetworkServer.Spawn(casing);
 	}
 	#endregion
+
+	IEnumerator ShowMuzzleFlash(){
+		muzzleFlash.gameObject.SetActive(true);
+		yield return new WaitForSeconds(0.1f);
+		muzzleFlash.gameObject.SetActive(false);
+		isFlashing = false;
+	}
 }

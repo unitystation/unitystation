@@ -16,6 +16,9 @@ public class AmbientTile : ObjectTrigger {
 
 	public override void Trigger(bool state)
 	{
+		if (spriteRend == null)
+			return;
+		
 		spriteRend.color = state ? onColor : offColor;
 	}
 }
