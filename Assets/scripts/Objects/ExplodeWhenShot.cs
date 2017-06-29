@@ -36,7 +36,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 			}
 
 			GoBoom();
-			Destroy(bullet.gameObject);
+			PoolManager.PoolClientDestroy(bullet.gameObject);
 		}
 	}
 

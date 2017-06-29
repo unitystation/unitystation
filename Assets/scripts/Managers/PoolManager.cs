@@ -29,7 +29,9 @@ public class PoolManager : NetworkBehaviour
 		pools = new Dictionary<GameObject, List<GameObject>>();
 	}
 
-	//For pooling over network Server & Client
+	/// <summary>
+	/// For items that are network synced only!
+	/// </summary>
 	[Server]
 	static public GameObject PoolNetworkInstantiate(GameObject prefab, Vector2 position, Quaternion rotation)
 	{
@@ -64,6 +66,41 @@ public class PoolManager : NetworkBehaviour
 		return tempObject;
 	}
 
+	/// <summary>
+	/// For non network stuff only! (e.g. bullets)
+	/// </summary>
+	static public GameObject PoolClientInstantiate(GameObject prefab, Vector2 position, Quaternion rotation)
+	{
+		GameObject tempObject = null;
+		bool makeNew = false;
+		if (pools.ContainsKey(prefab)) {
+			if (pools[prefab].Count > 0) {
+				//pool exists and has unused instances
+				int index = pools[prefab].Count - 1;
+				tempObject = pools[prefab][index];
+				pools[prefab].RemoveAt(index);
+				tempObject.SetActive(true);
+				tempObject.transform.position = position;
+				tempObject.transform.rotation = rotation;
+				tempObject.transform.localScale = prefab.transform.localScale;
+				return tempObject;
+			} else {
+				//pool exists but is empty
+				makeNew = true;
+			}
+		} else {
+			//pool for this prefab does not yet exist
+			pools.Add(prefab, new List<GameObject>());
+			makeNew = true;
+		}
+		if (makeNew) {
+			tempObject = (GameObject)Instantiate(prefab, position, rotation);
+			tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
+			return tempObject;
+		}
+		return tempObject;
+	}
+
 	[Server]
 	static public void PoolNetworkPreLoad(GameObject prefab)
 	{
@@ -78,13 +115,25 @@ public class PoolManager : NetworkBehaviour
 		PoolNetworkDestroy(tempObject);
 	}
 
-
+	/// <summary>
+	/// For items that are network synced only!
+	/// </summary>
 	[Server]
 	static public void PoolNetworkDestroy(GameObject target)
 	{
 		GameObject prefab = target.GetComponent<PoolPrefabTracker>().myPrefab;
 		prefab.transform.position = Vector2.zero;
 		target.GetComponent<ItemControl>().aliveState = false;
+		pools[prefab].Add(target);
+	}
+
+	/// <summary>
+	/// For non network stuff only! (e.g. bullets)
+	/// </summary>
+	static public void PoolClientDestroy(GameObject target) {
+		GameObject prefab = target.GetComponent<PoolPrefabTracker>().myPrefab;
+		prefab.transform.position = Vector2.zero;
+		target.SetActive(false);
 		pools[prefab].Add(target);
 	}
 

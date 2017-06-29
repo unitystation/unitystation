@@ -81,7 +81,7 @@ public class Living : Mob
 		if (CustomNetworkManager.Instance._isServer) {
 				ReceiveBulletDamage(b.shooterName);
 			}
-			Destroy(b.gameObject);
+			PoolManager.PoolClientDestroy(b.gameObject);
 		}
 	}
 
