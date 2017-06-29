@@ -158,9 +158,13 @@ namespace Equipment
 
             foreach(KeyValuePair<string,string> gearItem in gear)
             {
-                GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
-                ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-                SetItem(GetLoadOutEventName(gearItem.Key), itemAtts);
+                // TODO: Add check for non cloth and call ItemFactory
+                if (gearItem.Value.Contains("cloth"))
+                {
+                    GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
+                    ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+                    SetItem(GetLoadOutEventName(gearItem.Key), itemAtts);
+                }
             }
 
             
