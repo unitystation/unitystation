@@ -62,6 +62,7 @@ public class GameData: MonoBehaviour
 		} else {
 			IsInGame = true;
 			Managers.instance.SetScreenForGame();
+			SetPlayerPreferences();
 		}
 
 		if (CustomNetworkManager.Instance.isNetworkActive)
@@ -116,6 +117,14 @@ public class GameData: MonoBehaviour
 		//TODO: SAVE SOME STUFF
 		bf.Serialize(file, data);
 		file.Close();
+	}
+
+	void SetPlayerPreferences(){
+		//Ambient Volume
+		if(PlayerPrefs.HasKey("AmbientVol")){
+			SoundManager.Instance.ambientTracks[SoundManager.Instance.ambientPlaying].volume = PlayerPrefs.GetFloat("AmbientVol");
+		}
+
 	}
 }
 
