@@ -86,7 +86,7 @@ SubShader {
 
 				half4 col = (maxLight + emission)*(half4(1,1,1,1) - obstacle);
 
-				return lerp(oldLight, col, 0.2);
+				return lerp(oldLight, col, 0.8);
 			}
 		ENDCG
 	}

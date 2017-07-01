@@ -9,7 +9,7 @@ namespace Lighting
 {
 	public class LightSwitchTrigger: InputTrigger
 	{
-		public ObjectTrigger[] TriggeringObjects;
+		public List<ObjectTrigger> TriggeringObjects = new List<ObjectTrigger>();
 
 		[SyncVar(hook = "SyncLightSwitch")]
 		public bool isOn = true;
@@ -19,10 +19,18 @@ namespace Lighting
 		private bool switchCoolDown = false;
 		private AudioSource clickSFX;
 
+		public ObjectTrigger lightSprite;
+
 		void Awake()
 		{
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 			clickSFX = GetComponent<AudioSource>();
+			TriggeringObjects.Clear();
+			foreach (Transform t in transform) {
+				var o = t.GetComponent<ObjectTrigger>();
+				if(0 != null)
+				TriggeringObjects.Add(o);
+			}
 		}
 
 		public override void OnStartClient()
@@ -51,6 +59,9 @@ namespace Lighting
 
 		void SyncLightSwitch(bool state)
 		{
+			if (lightSprite != null) {
+				lightSprite.Trigger(state);
+			}
 			if (TriggeringObjects != null) {
 				foreach (var s in TriggeringObjects) {
 					if (s != null) {
