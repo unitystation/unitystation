@@ -62,7 +62,7 @@ namespace Light2D
 
         protected override void UpdateMeshData(bool forceUpdate = false)
         {
-            if (_meshRenderer == null || _meshFilter == null || IsPartOfStaticBatch)
+			if (_meshRenderer == null || _meshFilter == null || IsPartOfStaticBatch || Material == null)
                 return;
 
             if (GameSpriteRenderer != null && (GameSpriteRenderer != _oldGameSpriteRenderer || forceUpdate ||
