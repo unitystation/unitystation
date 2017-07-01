@@ -286,7 +286,7 @@ namespace Light2D
 
             if (AffectOnlyThisCamera)
             {
-                _renderTargetTexture = new RenderTexture((int)_camera.pixelWidth, (int)_camera.pixelHeight, 0, RenderTextureFormat.ARGB32);
+                _renderTargetTexture = new RenderTexture((int)_camera.pixelWidth, (int)_camera.pixelHeight, -2, RenderTextureFormat.ARGB32);
                 _renderTargetTexture.filterMode = FilterMode.Point;
                 _camera.targetTexture = _renderTargetTexture;
                 _camera.clearFlags = CameraClearFlags.SolidColor;
@@ -301,7 +301,12 @@ namespace Light2D
                 Shader.DisableKeyword("LIGHT2D_XZ_PLANE");
 
             _obstaclesPostProcessor = new ObstacleCameraPostPorcessor();
-
+			//Set the offset x to 0 after creating the target texture (fixes offset bug)
+			if (AffectOnlyThisCamera) {
+				Rect camRect = _camera.rect;
+				camRect.x = 0f;
+				_camera.rect = camRect;
+			}
             LoopAmbientLight(100);
         }
 
