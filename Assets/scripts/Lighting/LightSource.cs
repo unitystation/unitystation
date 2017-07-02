@@ -42,6 +42,10 @@ namespace Lighting
 		/// </summary>
 		public Sprite SpriteLightOff;
 
+		//For network sync reliability
+		private bool waitToCheckState = false;
+		private bool tempStateCache;
+
 		void Awake()
 		{
 			Renderer = GetComponentInChildren<SpriteRenderer>();
@@ -54,6 +58,16 @@ namespace Lighting
 
 		public override void Trigger(bool state)
 		{
+			tempStateCache = state;
+
+			if (waitToCheckState)
+				return;
+
+			if (Renderer == null) {
+				waitToCheckState = true;
+				StartCoroutine(WaitToTryAgain());
+				return;
+			}
 			Renderer.sprite = state ? SpriteLightOn : SpriteLightOff;
 			if (Light != null) {
 				Light.SetActive(state);
@@ -73,6 +87,28 @@ namespace Lighting
 			int onPos; 
 			int.TryParse(split[1], out onPos);
 			SpriteLightOff = lightSprites[onPos + 4];
+		}
+
+		//Handle sync failure
+		IEnumerator WaitToTryAgain(){
+			yield return new WaitForSeconds(0.2f);
+			if (Renderer == null) {
+				Renderer = GetComponentInChildren<SpriteRenderer>();
+				if (Renderer != null) {
+					Renderer.sprite = tempStateCache ? SpriteLightOn : SpriteLightOff;
+					if (Light != null) {
+						Light.SetActive(tempStateCache);
+					}
+				} else {
+					Debug.LogWarning("LightSource still failing Renderer sync");
+				}
+			} else {
+				Renderer.sprite = tempStateCache ? SpriteLightOn : SpriteLightOff;
+				if (Light != null) {
+					Light.SetActive(tempStateCache);
+				}
+			}
+			waitToCheckState = false;
 		}
 	}
 }
