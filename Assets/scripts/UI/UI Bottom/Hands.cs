@@ -71,8 +71,20 @@ namespace UI
             if (!CurrentSlot.IsFull)
 				return;
 
-			var slot = Slots.GetSlotByItem(CurrentSlot.Item);
-			SwapItem(slot);
+			var type = Slots.GetItemType(CurrentSlot.Item);
+			var masterType = Slots.GetItemMasterType(CurrentSlot.Item);
+
+			switch (masterType)
+			{
+				case SpriteType.Clothing:
+					var slot = Slots.GetSlotByItem(CurrentSlot.Item);
+					SwapItem(slot);
+					break;
+				case SpriteType.Items:	
+				case SpriteType.Guns:	
+					break;
+			}
+			
 		}
 
 		private void Swap(UI_ItemSlot slot1, UI_ItemSlot slot2)
