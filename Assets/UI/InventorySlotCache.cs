@@ -105,6 +105,17 @@ namespace UI
 				return slots != null ? slots.Length : 0;
 			}
 		}
+		
+		public ItemType GetItemType(GameObject obj)
+		{
+			var item = obj.GetComponent<ItemAttributes>();
+			return item.type;
+		}	
+		public SpriteType GetItemMasterType(GameObject obj)
+		{
+			var item = obj.GetComponent<ItemAttributes>();
+			return item.spriteType;
+		}
 
 		/// <summary>
 		/// Returns the most fitting slot for a given item to be equipped.
