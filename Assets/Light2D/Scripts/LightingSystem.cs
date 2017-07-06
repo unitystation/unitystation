@@ -84,6 +84,7 @@ namespace Light2D
         public Material LightSourcesBlurMaterial;
         public Material AmbientLightBlurMaterial;
         public Camera LightCamera;
+		public Camera BgCamera;
         public int LightSourcesLayer;
         public int AmbientLightLayer;
         public int LightObstaclesLayer;
@@ -330,11 +331,19 @@ namespace Light2D
             RenderLightSources();
             RenderLightSourcesBlur();
             RenderAmbientLight();
+
             RenderLightOverlay(src, dest);
+
         }
+
+		void OnPreRender(){
+			if (BgCamera != null)
+				BgCamera.Render();
+		}
 
         void OnPreCull()
         {
+
             if (Application.isPlaying && AffectOnlyThisCamera)
             {
                 _camera.targetTexture = _renderTargetTexture;

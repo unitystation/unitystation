@@ -23,6 +23,7 @@ namespace Light2D
         private SerializedProperty _lightSourcesBlurMaterial;
         private SerializedProperty _ambientLightBlurMaterial;
         private SerializedProperty _lightCamera;
+		private SerializedProperty _BgCamera;
         private SerializedProperty _lightSourcesLayer;
         private SerializedProperty _ambientLightLayer;
         private SerializedProperty _lightObstaclesLayer;
@@ -50,6 +51,7 @@ namespace Light2D
             _lightSourcesBlurMaterial = serializedObject.FindProperty("LightSourcesBlurMaterial");
             _ambientLightBlurMaterial = serializedObject.FindProperty("AmbientLightBlurMaterial");
             _lightCamera = serializedObject.FindProperty("LightCamera");
+			_BgCamera = serializedObject.FindProperty("BgCamera");
             _lightSourcesLayer = serializedObject.FindProperty("LightSourcesLayer");
             _ambientLightLayer = serializedObject.FindProperty("AmbientLightLayer");
             _lightObstaclesLayer = serializedObject.FindProperty("LightObstaclesLayer");
@@ -184,6 +186,7 @@ namespace Light2D
 
             EditorGUILayout.PropertyField(_lightOverlayMaterial, new GUIContent("Light Overlay Material"));
             EditorGUILayout.PropertyField(_lightCamera, new GUIContent("Lighting Camera"));
+			EditorGUILayout.PropertyField(_BgCamera, new GUIContent("BG Camera"));
             _lightSourcesLayer.intValue = EditorGUILayout.LayerField(new GUIContent("Light Sources Layer"), _lightSourcesLayer.intValue);
             _lightObstaclesLayer.intValue = EditorGUILayout.LayerField(new GUIContent("Light Obstacles Layer"), _lightObstaclesLayer.intValue);
             _ambientLightLayer.intValue = EditorGUILayout.LayerField(new GUIContent("Ambient Light Layer"), _ambientLightLayer.intValue);

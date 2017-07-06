@@ -34,6 +34,7 @@ public class ObjectActions : NetworkBehaviour
 
 	void OnMouseDown()
 	{
+		Debug.Log("DOWN");
 		if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform)) {
 			if (pulling == PlayerManager.LocalPlayer) {
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(gameObject);
