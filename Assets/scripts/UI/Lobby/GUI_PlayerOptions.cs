@@ -112,7 +112,7 @@ namespace UI
 		{
             networkManager.networkAddress = serverAddressInput.text;
 			int port = 0;
-			if (portInput.text.Length == 3) {
+			if (portInput.text.Length >= 4) {
 				int.TryParse(portInput.text, out port);
 			}
 			if (port == 0) {

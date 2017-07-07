@@ -186,6 +186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000674500765372}
   - component: {fileID: 20893246273762820}
+  - component: {fileID: 114936676006390284}
   m_Layer: 0
   m_Name: Interact Camera
   m_TagString: Untagged
@@ -564,7 +565,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.625
+  orthographic size: 4.5
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -670,6 +671,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteSize: 32
   zoom: 2
+--- !u!114 &114936676006390284
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1967244435330278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 828a9dac8cd0245989ff4fd7e0af030c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCam: {fileID: 20680082919460720}
+  interactCam: {fileID: 20893246273762820}
 --- !u!124 &124367701722432646
 Behaviour:
   m_ObjectHideFlags: 1

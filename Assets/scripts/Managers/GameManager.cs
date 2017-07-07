@@ -69,9 +69,9 @@ public class GameManager : MonoBehaviour {
 
 	void Update(){
 		if (!GameData.IsHeadlessServer) {
-			if (Screen.width > 1280 || Screen.height > 720) {
-				Screen.SetResolution(1280, 720, false);
-			}
+//			if (Screen.width > 1280 || Screen.height > 720) {
+//				Screen.SetResolution(1280, 720, false);
+//			}
 		}
 
 		if (waitForRestart) {
