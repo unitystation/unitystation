@@ -34,27 +34,26 @@ public class ObjectActions : NetworkBehaviour
 
 	void OnMouseDown()
 	{
-		Debug.Log("DOWN");
 		if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform)) {
 			if (pulling == PlayerManager.LocalPlayer) {
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(gameObject);
 				return;
 			}
-
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPullObject(gameObject);
 		}
 	}
 
-	public void TryToPush(PlayerMove playerMove)
+	[ClientRpc]
+	public void RpcTryToPush(Vector3 position, float speed)
 	{
-		PulledBy = NetworkInstanceId.Invalid;
+//		PulledBy = NetworkInstanceId.Invalid;
 
-		var v1 = editModeControl.Snap(playerMove.transform.position);
+		var v1 = editModeControl.Snap(position);
 		var v2 = editModeControl.Snap(transform.position);
 
 		Vector3 dir = v1 - v2;
 		Vector3 newPos = v2 - dir.normalized;
-		moveSpeed = playerMove.speed;
+		moveSpeed = speed;
 
 		MoveToTile(newPos);
 	}

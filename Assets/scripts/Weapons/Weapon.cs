@@ -282,7 +282,7 @@ namespace Weapons
 					CurrentMagazine = magazineBehavior;
 //					Debug.LogFormat("MagazineBehaviour found ok: {0}", magazineID);
 				} else {
-					Debug.Log("Could not find MagazineBehaviour");
+//					Debug.Log("Could not find MagazineBehaviour");
 				}
 			}
 		}

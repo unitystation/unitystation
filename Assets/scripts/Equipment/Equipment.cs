@@ -265,8 +265,10 @@ namespace Equipment
 
         private void SetItem(string eventName, ItemAttributes itemAtts)
         {
-            if (String.IsNullOrEmpty(eventName) || itemAtts == null)
-                return;
+			if (String.IsNullOrEmpty(eventName) || itemAtts == null) {
+				return;
+				Debug.LogError("Error with item attribute for object: " + itemAtts.gameObject.name);
+			}
 
             EquipmentPool.AddGameObject(gameObject, itemAtts.gameObject);
 

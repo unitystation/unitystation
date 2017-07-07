@@ -25,8 +25,7 @@ public class ShutterSwitchTrigger: InputTrigger
 	{
 		if (!PlayerManager.LocalPlayerScript.IsInReach(transform, 1.1f))
 			return;
-			
-		Debug.Log("YES INTERACT!");
+
 		//if the button is idle and not animating it can be pressed
 		//this is weird it should check all children objects to see if they are idle and finished
 		if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
