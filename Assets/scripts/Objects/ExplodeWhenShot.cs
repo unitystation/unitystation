@@ -17,6 +17,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 
 	int playerMask;
 	int obstacleMask;
+	private bool hasExploded = false;
 
 	private GameObject lightFxInstance;
 	private LightSprite lightSprite;
@@ -29,17 +30,20 @@ public class ExplodeWhenShot : NetworkBehaviour
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{
+		if (hasExploded)
+			return;
+		
 		var bullet = coll.GetComponent<BulletBehaviour>();
 		if (bullet != null) {
-			if (isServer) {
+			if (isServer ) {
 				Explode(bullet.shooterName);
 			}
-
+			hasExploded = true;
 			GoBoom();
 			PoolManager.PoolClientDestroy(bullet.gameObject);
 		}
 	}
-
+		
 	#if !ENABLE_PLAYMODE_TESTS_RUNNER
 	[Server]
 	#endif
@@ -66,8 +70,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 			}
 		}
 	}
-
-
+		
 	void GoBoom()
 	{
 		// Instantiate a clone of the source so that multiple explosions can play at the same time.
