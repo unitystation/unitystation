@@ -9,9 +9,9 @@ namespace Lighting
 {
 	public class LightSwitchTrigger: InputTrigger
 	{
-		public ObjectTrigger[] TriggeringObjects;
+		public List<ObjectTrigger> TriggeringObjects = new List<ObjectTrigger>();
 
-        [SyncVar(hook = "SyncLightSwitch")]
+		[SyncVar(hook = "SyncLightSwitch")]
 		public bool isOn = true;
 		private SpriteRenderer spriteRenderer;
 		public Sprite lightOn;
@@ -19,43 +19,63 @@ namespace Lighting
 		private bool switchCoolDown = false;
 		private AudioSource clickSFX;
 
+		public ObjectTrigger lightSprite;
+
 		void Awake()
 		{
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 			clickSFX = GetComponent<AudioSource>();
+			TriggeringObjects.Clear();
+			foreach (Transform t in transform) {
+				var o = t.GetComponent<ObjectTrigger>();
+				if(0 != null)
+				TriggeringObjects.Add(o);
+			}
+		}
+
+		public override void OnStartClient()
+		{
+			SyncLightSwitch(isOn);
 		}
 
 		public override void Interact()
 		{
 			if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform, 1f))
 				return;
+
+			if (switchCoolDown)
+				return;
 			
-			if (!switchCoolDown) {
-				switchCoolDown = true;
-				StartCoroutine(CoolDown());
-				Debug.Log("LIGHT SWITCHES DISABLED UNTIL v2");
-//                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleLightSwitch(gameObject);
-			}
+			StartCoroutine(CoolDown());
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleLightSwitch(gameObject);
 		}
 
 		IEnumerator CoolDown()
 		{
+			switchCoolDown = true;
 			yield return new WaitForSeconds(0.2f);
 			switchCoolDown = false;
 		}
-          
-		void SyncLightSwitch(bool _on)
+
+		void SyncLightSwitch(bool state)
 		{
-			foreach (var s in TriggeringObjects) {
-				s.Trigger(_on);
+			if (lightSprite != null) {
+				lightSprite.Trigger(state);
+			}
+			if (TriggeringObjects != null) {
+				foreach (var s in TriggeringObjects) {
+					if (s != null) {
+						s.Trigger(state);
+					}
+				}
 			}
 
-			if (!_on) {
-				spriteRenderer.sprite = lightOff;
+			if (clickSFX != null) {
 				clickSFX.Play();
-			} else {
-				spriteRenderer.sprite = lightOn;
-				clickSFX.Play();
+			}
+
+			if (spriteRenderer != null) {
+				spriteRenderer.sprite = state ? lightOn : lightOff;
 			}
 		}
 	}

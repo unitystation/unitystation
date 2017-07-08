@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 114716302871911692}
   - component: {fileID: 114415532299363170}
   - component: {fileID: 61854855548246012}
+  - component: {fileID: 114959086465697646}
   m_Layer: 10
   m_Name: ID
   m_TagString: Untagged
@@ -132,13 +133,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: 
+  hierarchy: 
+  itemName: identification card
+  itemDescription: A card used to provide ID and determine access across the station.
   spriteType: 0
+  type: 12
   inHandReferenceRight: 38
   inHandReferenceLeft: 37
   clothingReference: -1
   size: 0
-  type: 12
 --- !u!114 &114696162609604062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -196,6 +199,21 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.2
   useInGame: 0
+--- !u!114 &114959086465697646
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1748120534729806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6d21d82f3c5e640a47344d3a17ac18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MiningPoints: 0
+  Access: []
+  RegisteredName: 
+  Assignment: 
 --- !u!212 &212977371495627384
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -17,6 +17,7 @@ public class ControlAmbientVolume : MonoBehaviour {
 
 		public void VolumeChange(){
 			SoundManager.Instance.ambientTracks[SoundManager.Instance.ambientPlaying].volume = slider.value;
+			PlayerPrefs.SetFloat("AmbientVol", slider.value);
 		}
 }
 }

@@ -23,11 +23,15 @@ public class ExplodeWhenShotTest
 		var collider = bullet.AddComponent<BoxCollider2D>();
 		bullet.AddComponent<Bullet_12mm>();
 
-		subject.SendMessage("OnTriggerEnter2D", collider);
+		try {
+			subject.SendMessage("OnTriggerEnter2D", collider);
 
-		yield return 0;
+			yield return 0;
 
-		Assert.That(bullet == null);
+			Assert.That(bullet == null);
+		} finally {
+			UnityEngine.Object.Destroy(bullet);
+		}
 	}
 
 	[UnityTest]
@@ -52,9 +56,13 @@ public class ExplodeWhenShotTest
 		Living damaged = null;
 		subject.callback = t => damaged = t;
 
-		subject.Explode(null);
+		try {
+			subject.Explode(null);
 
-		Assert.That(living == damaged);
+			Assert.That(living == damaged);
+		} finally {
+			UnityEngine.Object.Destroy(player);
+		}
 	}
 
 	[Test]

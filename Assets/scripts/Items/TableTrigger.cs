@@ -7,7 +7,11 @@ using InputControl;
 
 public class TableTrigger: InputTrigger {
 	public override void Interact() {
-		if(PlayerManager.PlayerInReach(transform)) {
+        if (PlayerManager.LocalPlayerScript != null)
+            if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                return;
+
+        if (PlayerManager.PlayerInReach(transform)) {
 			GameObject item = UIManager.Hands.CurrentSlot.PlaceItemInScene();
 			if(item != null) {
 				var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

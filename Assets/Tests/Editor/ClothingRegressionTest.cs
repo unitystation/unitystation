@@ -27,13 +27,14 @@ public class ClothingRegressionTest {
 
 	[Test]
 	public void Gloves_Should_Have_Clothing_Offset() {
-		subject.hierarchy = "/obj/item/clothing/gloves/color/green";
+//		subject.hierarchy = "/obj/item/clothing/gloves/color/green";
+		subject.ConstructItem("/obj/item/clothing/gloves/color/green");
 		refreshItem();
 		Assert.That(subject.clothingReference != -1);
 	}
 	[Test]
 	public void GeneticsSuit_Should_Have_Offsets() {
-		subject.hierarchy = "/obj/item/clothing/under/rank/geneticist";
+		subject.ConstructItem("/obj/item/clothing/under/rank/geneticist");
 		refreshItem();
 		Assert.That(subject.clothingReference != -1);
 		Assert.That(subject.inHandReferenceLeft != -1);

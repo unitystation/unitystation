@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
-using Equipment;
 using UI;
 using PlayGroup;
 using InputControl;
+using System;
 
 namespace PlayGroup {
     public class PlayerScript: NetworkBehaviour {
@@ -17,6 +17,7 @@ namespace PlayGroup {
 		public PlayerSprites playerSprites { get; set;}
 		public InputController inputController { get; set; }
 		public HitIcon hitIcon { get; set; }
+        public JobType JobType = JobType.NULL;
 
 		public GameObject ghost;
 
@@ -24,8 +25,6 @@ namespace PlayGroup {
 
         [SyncVar(hook = "OnNameChange")]
         public string playerName = " ";
-        private bool pickUpCoolDown = false;
-
 
         public override void OnStartClient() {
             //Local player is set a frame or two after OnStartClient
@@ -65,10 +64,13 @@ namespace PlayGroup {
                 }
                 PlayerManager.SetPlayerForControl(this.gameObject);
                 CmdTrySetName(PlayerPrefs.GetString("PlayerName"));
+                // I (client) have connected to the server, ask what my job preference is
+                UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
+
             }
         }
 
-		void Update(){
+        void Update(){
 			//Read out of ping in toolTip
 			pingUpdate += Time.deltaTime;
 			if (pingUpdate >= 5f) {
@@ -83,6 +85,7 @@ namespace PlayGroup {
 			if(PlayerList.Instance != null)
             playerName = PlayerList.Instance.CheckName(name);
         }
+
         // On playerName variable change across all clients, make sure obj is named correctly
         // and set in Playerlist for that client
         public void OnNameChange(string newName) {
@@ -111,12 +114,5 @@ namespace PlayGroup {
 			//TODO: reimplement this timer higher up like in the InputController
 			return DistanceTo(transform.position) <= interactDist;
         }
-
-        IEnumerator PickUpCooldown() {
-            pickUpCoolDown = true;
-            yield return new WaitForSeconds(0.1f);
-            pickUpCoolDown = false;
-        }
-
     }
 }

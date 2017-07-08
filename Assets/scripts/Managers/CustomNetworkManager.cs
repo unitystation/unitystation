@@ -54,29 +54,32 @@ public class CustomNetworkManager: NetworkManager
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
-	public override void OnStartServer(){
+    public override void OnStartServer(){
 		_isServer = true;
 		base.OnStartServer();
 	}
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId){
 		//This spawns the player prefab
-			StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
+        StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
 	}
 
 	IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId){
 		yield return new WaitForSeconds(1f);
-		base.OnServerAddPlayer(conn, playerControllerId);
-	}
+        base.OnServerAddPlayer(conn, playerControllerId);
+    }
 
 	public override void OnClientConnect(NetworkConnection conn)
 	{
 		if (_isServer) {
 		//do special server wizardry here
-
 		}
-		//This client connecting to server
-		base.OnClientConnect(conn);
+		if (GameData.IsInGame) {
+			ObjectManager.StartPoolManager();
+		}
+
+        //This client connecting to server
+        base.OnClientConnect(conn);
 	}
 
 	IEnumerator WaitForLoad(NetworkConnection conn, short playerID){
@@ -94,6 +97,10 @@ public class CustomNetworkManager: NetworkManager
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
+		if (GameData.IsInGame) {
+			ObjectManager.StartPoolManager();
+		}
+		
 		if (IsClientConnected())
 		{
 			//make sure login window does not show on scene changes if connected

@@ -18,7 +18,7 @@ namespace MapEditor {
 
         [MenuItem("Window/Map Editor")]
         public static void ShowWindow() {
-            var window = GetWindow<MapEditorWindow>("Map Editor");
+            GetWindow<MapEditorWindow>("Map Editor");
         }
 
         public void OnEnable() {

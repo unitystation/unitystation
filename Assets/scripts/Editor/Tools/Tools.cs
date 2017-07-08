@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
+namespace UnityStationTools{
 public class Tools : Editor {
 
     [MenuItem("Tools/Reconnect TileConnect")]
@@ -55,4 +56,5 @@ public class Tools : Editor {
             }
         }
     }
+}
 }

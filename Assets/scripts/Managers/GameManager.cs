@@ -6,10 +6,15 @@ using UnityEngine.UI;
 using UI;
 using UnityEngine.SceneManagement;
 using PlayGroup;
+using System;
+using System.Linq;
+
 public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
 
+    public GameObject StandardOutfit;
+    public List<GameObject> Occupations = new List<GameObject>();
 
 	public Text roundTimer;
 	private bool counting = false;
@@ -39,6 +44,12 @@ public class GameManager : MonoBehaviour {
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
+    void OnValidate()
+    {
+        if (Occupations.All(o => o.GetComponent<OccupationRoster>().Type != JobType.ASSISTANT))
+            Debug.LogError("There is no ASSISTANT job role defined in the the GameManager Occupation rosters");
+    }
+
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
 		if (scene.name != "Lobby") {
 			counting = true;
@@ -58,9 +69,9 @@ public class GameManager : MonoBehaviour {
 
 	void Update(){
 		if (!GameData.IsHeadlessServer) {
-			if (Screen.width > 1280 || Screen.height > 720) {
-				Screen.SetResolution(1280, 720, false);
-			}
+//			if (Screen.width > 1280 || Screen.height > 720) {
+//				Screen.SetResolution(1280, 720, false);
+//			}
 		}
 
 		if (waitForRestart) {
@@ -116,7 +127,76 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	void RestartRound(){
+    public int GetOccupationsCount(JobType jobType)
+    {
+        int count = 0;
+
+        if (PlayerList.playerList == null)
+            return 0;
+
+        foreach (var player in PlayerList.playerList.connectedPlayers)
+        {
+            if (player.Value != null)
+            {
+                var mob = player.Value.GetComponent<PlayerScript>();
+                if (mob != null)
+                {
+                    if (mob.JobType == jobType)
+                    {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public JobOutfit GetOccupationOutfit(JobType jobType)
+    {
+        return Occupations.Where(o => o.GetComponent<OccupationRoster>().Type == jobType).First().GetComponent<OccupationRoster>().outfit.GetComponent<JobOutfit>();
+    }
+
+    // Attempts to request job else assigns random occupation in order of priority
+    public JobType GetRandomFreeOccupation(JobType jobTypeRequest)
+    {
+        // Try to assign specific job
+        if (jobTypeRequest != JobType.NULL)
+        {
+            foreach (GameObject jobObject in Occupations.Where(o => o.GetComponent<OccupationRoster>().Type == jobTypeRequest))
+            {
+                OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
+                if (job.limit != -1)
+                    if (job.limit > GetOccupationsCount(job.Type))
+                    {
+                        return job.Type;
+                    }
+                if (job.limit == -1)
+                {
+                    return job.Type;
+                }
+            }
+        }
+
+        // No job found, get random via priority
+        foreach (GameObject jobObject in Occupations.OrderBy(o => o.GetComponent<OccupationRoster>().priority))
+        {
+            OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
+            if (job.limit != -1)
+                if (job.limit > GetOccupationsCount(job.Type))
+                {
+                    return job.Type;
+                }
+            if (job.limit == -1)
+            {
+                return job.Type;
+            }
+        }
+
+        return JobType.ASSISTANT;
+    }
+    
+    void RestartRound(){
 		if (CustomNetworkManager.Instance._isServer) {
 			CustomNetworkManager.Instance.ServerChangeScene(SceneManager.GetActiveScene().name);
 		}

@@ -25,8 +25,7 @@ public abstract class BulletBehaviour : MonoBehaviour {
     public abstract void OnShoot();
 
     void OnCollisionEnter2D(Collision2D coll){
-		
-        Destroy(gameObject);
+		PoolManager.PoolClientDestroy(gameObject);
     }
 		
 }

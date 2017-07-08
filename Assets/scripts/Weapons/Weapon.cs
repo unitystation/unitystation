@@ -280,8 +280,9 @@ namespace Weapons
 				if (magazine != null) {
 					MagazineBehaviour magazineBehavior = magazine.GetComponent<MagazineBehaviour>();
 					CurrentMagazine = magazineBehavior;
+//					Debug.LogFormat("MagazineBehaviour found ok: {0}", magazineID);
 				} else {
-					Debug.Log("Could not find MagazineBehaviour");
+//					Debug.Log("Could not find MagazineBehaviour");
 				}
 			}
 		}

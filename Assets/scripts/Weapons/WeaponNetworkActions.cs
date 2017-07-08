@@ -9,10 +9,10 @@ using Sprites;
 public class WeaponNetworkActions: NetworkBehaviour {
 
     private GameObject spritesObj;
-    private PlayerSprites playerSprites;
     private PlayerMove playerMove;
     private SoundNetworkActions soundNetworkActions;
     private GameObject bloodSplatPrefab;
+	public GameObject muzzleFlash;
 
     //Lerp parameters
     private float lerpProgress = 0f;
@@ -22,9 +22,11 @@ public class WeaponNetworkActions: NetworkBehaviour {
     private float speed = 7f;
     private bool isForLerpBack = false;
 
+	//muzzle flash
+	private bool isFlashing = false;
+
     void Start() {
         spritesObj = transform.Find("Sprites").gameObject;
-        playerSprites = GetComponent<PlayerSprites>();
         playerMove = GetComponent<PlayerMove>();
         soundNetworkActions = GetComponent<SoundNetworkActions>();
         bloodSplatPrefab = Resources.Load("BloodSplat") as GameObject;
@@ -57,7 +59,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
 		magBehaviour.ammoRemains--; //TODO: remove more bullets if burst
 
 		//get the bullet prefab being shot
-        GameObject bullet = GameObject.Instantiate(Resources.Load(bulletName) as GameObject, transform.position, Quaternion.identity);
+		GameObject bullet = PoolManager.PoolClientInstantiate(Resources.Load(bulletName) as GameObject, transform.position, Quaternion.identity);
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
 		//if we have recoil variance add it, and get the new attack angle
@@ -77,6 +79,10 @@ public class WeaponNetworkActions: NetworkBehaviour {
 
 		//TODO add a check to see if bullet or energy weapon
 		SpawnBulletCaseing();
+		if (!isFlashing) {
+			isFlashing = true;
+			StartCoroutine(ShowMuzzleFlash());
+		}
     }
 
     //Bullets are just graphical candy on the client, give them the end point and let 
@@ -94,12 +100,16 @@ public class WeaponNetworkActions: NetworkBehaviour {
         if(CustomNetworkManager.Instance._isServer)
             return;
 
-        GameObject bullet = GameObject.Instantiate(Resources.Load(bulletName) as GameObject, transform.position, Quaternion.identity);
+		GameObject bullet = PoolManager.PoolClientInstantiate(Resources.Load(bulletName) as GameObject, transform.position, Quaternion.identity);
         Vector2 playerPos = new Vector2(transform.position.x, transform.position.y);
         Vector2 dir = (endPos - playerPos).normalized;
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
         b.Shoot(dir, angle, gameObject.name);
+		if (!isFlashing) {
+			isFlashing = true;
+			StartCoroutine(ShowMuzzleFlash());
+		}
     }
 
     [Command]
@@ -217,4 +227,11 @@ public class WeaponNetworkActions: NetworkBehaviour {
 		NetworkServer.Spawn(casing);
 	}
 	#endregion
+
+	IEnumerator ShowMuzzleFlash(){
+		muzzleFlash.gameObject.SetActive(true);
+		yield return new WaitForSeconds(0.1f);
+		muzzleFlash.gameObject.SetActive(false);
+		isFlashing = false;
+	}
 }

@@ -10,24 +10,22 @@ public class ShutterSwitchTrigger: InputTrigger
 
 	public ObjectTrigger[] TriggeringObjects;
 
-    [SyncVar(hook = "SyncShutters")]
+	[SyncVar(hook = "SyncShutters")]
 	public bool IsClosed;
 
-    private Animator animator;
+	private Animator animator;
 
-    void Start()
-    {
+	void Start()
+	{
 		animator = GetComponent<Animator>();
-		IsClosed = true;
 		SyncShutters(IsClosed);
-    }
+	}
 
-    public override void Interact()
-    {
-		if (!PlayerManager.LocalPlayerScript.IsInReach(transform, 0.5f))
+	public override void Interact()
+	{
+		if (!PlayerManager.LocalPlayerScript.IsInReach(transform, 1.1f))
 			return;
-			
-		Debug.Log("INTERACT!");
+
 		//if the button is idle and not animating it can be pressed
 		//this is weird it should check all children objects to see if they are idle and finished
 		if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
@@ -35,13 +33,12 @@ public class ShutterSwitchTrigger: InputTrigger
 		} else {
 			Debug.Log("DOOR NOT FINISHED CLOSING YET!");
 		}
-    }
+	}
 
-    void SyncShutters(bool isClosed)
-    {
-		foreach (var s in TriggeringObjects)
-		{
+	void SyncShutters(bool isClosed)
+	{
+		foreach (var s in TriggeringObjects) {
 			s.Trigger(isClosed);
 		}
-    }
+	}
 }

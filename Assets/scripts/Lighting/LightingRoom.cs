@@ -51,7 +51,7 @@ namespace Lighting
 		public void LightSwitchOff()
 		{
 			foreach (KeyValuePair<Vector2,LightSource> light in sourceManager.lights) {
-				light.Value.TurnOffLight();
+				light.Value.Trigger(false);
 
 			}	
 		}
@@ -59,7 +59,7 @@ namespace Lighting
 		public void LightSwitchOn()
 		{
 			foreach (KeyValuePair<Vector2,LightSource> light in sourceManager.lights) {
-				light.Value.TurnOnLight();
+				light.Value.Trigger(true);
 			}	
 		}
 	}

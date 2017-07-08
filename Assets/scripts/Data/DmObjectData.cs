@@ -14,7 +14,11 @@ private static List<Dictionary<string, string>> objectList = new List<Dictionary
     {
         if (objectList.Count != 0) return;
         DeserializeJson();
-        Debug.Log("DM: Deserialized json!");
+    }
+
+    public List<Dictionary<string, string>> ObjectList
+    {
+        get { return objectList; }
     }
 
     //Scans hierarchy for attributes
