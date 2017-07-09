@@ -12,8 +12,7 @@ public class ObjectActions : NetworkBehaviour
 	private RegisterTile registerTile;
 	private EditModeControl editModeControl;
 
-	[SyncVar(hook = "OnPulledByChanged")]
-	public NetworkInstanceId PulledBy;
+	public GameObject pulledBy;
 	private GameObject pulling;
 	private PlayerSprites pullingPlayerSprites;
 	private PlayerSync playerSync;
@@ -62,20 +61,21 @@ public class ObjectActions : NetworkBehaviour
 //		MoveToTile(newPos);
 	}
 
-	public void OnPulledByChanged(NetworkInstanceId pullingId)
-	{
-		PulledBy = pullingId;
-		if (pullingId == NetworkInstanceId.Invalid) {
-			pulling = null;
-			editModeControl.Snap();
-		} else {
-			pulling = ClientScene.FindLocalObject(pullingId);
-			pullingPlayerSprites = pulling.GetComponent<PlayerSprites>();
-			playerSync = pulling.GetComponent<PlayerSync>();
-			pulling.transform.hasChanged = false;
-			push = false;
-		}
-	}
+//	public void OnPulledByChanged(NetworkInstanceId pullingId)
+//	{
+//		PulledBy = pullingId;
+//		if (pullingId == NetworkInstanceId.Invalid) {
+//			pulling = null;
+//			editModeControl.Snap();
+//		} else {
+//			pulling = ClientScene.FindLocalObject(pullingId);
+//			pullingPlayerSprites = pulling.GetComponent<PlayerSprites>();
+//			playerSync = pulling.GetComponent<PlayerSync>();
+//            playerSync.pullingObject = gameObject;
+//			pulling.transform.hasChanged = false;
+//			push = false;
+//		}
+//	}
 
 	public void TryPush(GameObject pusher, float pusherSpeed)
 	{
@@ -84,7 +84,7 @@ public class ObjectActions : NetworkBehaviour
 
 		if (pulling == pusher && CustomNetworkManager.Instance._isServer) {
 			pusher.GetComponent<PlayerNetworkActions>().isPulling = false;
-			PulledBy = NetworkInstanceId.Invalid;
+//			PulledBy = NetworkInstanceId.Invalid;
 			pulling = null;
 		}
 
@@ -96,7 +96,7 @@ public class ObjectActions : NetworkBehaviour
 			if (pulling != null && CustomNetworkManager.Instance._isServer) {
 				PlayerNetworkActions pA = pulling.GetComponent<PlayerNetworkActions>();
 				pA.isPulling = false;
-				PulledBy = NetworkInstanceId.Invalid;
+//				PulledBy = NetworkInstanceId.Invalid;
 			}
 
 			playerSync = pusher.GetComponent<PlayerSync>();
@@ -155,9 +155,9 @@ public class ObjectActions : NetworkBehaviour
 		Vector3 newPos = RoundedPos(pulling.transform.position) - (Vector3)pullingPlayerSprites.currentDirection;
 		Vector3 unRoundedPos = pulling.transform.position - (Vector3)pullingPlayerSprites.currentDirection;
 		newPos.z = transform.position.z;
-
+        pullTarget = unRoundedPos;
 		if (Matrix.Matrix.At(newPos).IsPassable() || Matrix.Matrix.At(newPos).ContainsTile(gameObject)) {
-			pullTarget = unRoundedPos;
+//            pullTarget = newPos;
 		}
 	}
 
@@ -168,7 +168,7 @@ public class ObjectActions : NetworkBehaviour
 		}
 
 		if (isForPull) {
-			journeyLength = Vector3.Distance(transform.position, pullTarget);
+            journeyLength = Vector3.Distance(transform.position, pullTarget);
 		} else {
 		//Push
 			journeyLength = Vector3.Distance(transform.position, _pushTarget(playerSync.transform));
@@ -195,13 +195,15 @@ public class ObjectActions : NetworkBehaviour
 	{
 		if (pullTarget == Vector3.zero)
 			return;
-		JourneyCalculate(true);
+//		JourneyCalculate(true);
 		//transform.position = Vector3.MoveTowards(transform.position, pullTarget, Mathf.Clamp((moveSpeed / journeyLength) * Time.deltaTime,0.8f,1f));
-		transform.position = Vector3.MoveTowards(transform.position, pullTarget, playerSync.currentSpeed/journeyLength);
-
-		if (transform.position == pullTarget) {
-			registerTile.UpdateTile(RoundedPos(pullTarget));
-		}
+//        transform.position = Vector3.MoveTowards(transform.position, pullTarget, ((moveSpeed + playerSync.currentSpeed) / journeyLength) * Time.deltaTime);
+//        transform.position = pullTarget;
+//        Vector3 dir = pullTarget - transform.position;
+//        transform.Translate((dir * (moveSpeed / journeyLength)) * Time.deltaTime, Space.World);
+//		if (transform.position == pullTarget) {
+//			registerTile.UpdateTile(RoundedPos(pullTarget));
+//		}
 	}
 
 	private Vector3 RoundedPos(Vector3 pos)

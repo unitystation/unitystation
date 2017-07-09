@@ -15,9 +15,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		
 		ObjectActions pulled = obj.GetComponent<ObjectActions>();
-		if(pulled != null)
-		pulled.PulledBy = playerMove.netId;
-		isPulling = true;
+        if (pulled != null)
+        {
+            PlayerSync pS = GetComponent<PlayerSync>();
+            pS.pullingObject = obj;
+//            pulled.PulledBy = playerMove.netId;
+            isPulling = true;
+        }
 	}
 
 	[Command]
@@ -25,8 +29,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		isPulling = false;
 		ObjectActions pulled = obj.GetComponent<ObjectActions>();
-		if(pulled != null)
-		pulled.PulledBy = NetworkInstanceId.Invalid;
+        if (pulled != null)
+        {
+            PlayerSync pS = GetComponent<PlayerSync>();
+            pS.pullingObject = null;
+        }
 	}
 
 	[Command]
@@ -35,10 +42,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ObjectActions pushed = obj.GetComponent<ObjectActions>();
 		if (pushed != null) {
 			pushed.RpcTryToPush(playerMove.transform.position, playerMove.speed);
-			if (pushed.PulledBy == playerMove.netId) {
-				pushed.PulledBy = NetworkInstanceId.Invalid;
-				isPulling = false;
-			}
+//			if (pushed.PulledBy == playerMove.netId) {
+//				pushed.PulledBy = NetworkInstanceId.Invalid;
+//				isPulling = false;
+//			}
 		}
 	}
 }

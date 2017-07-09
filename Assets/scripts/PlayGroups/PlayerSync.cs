@@ -18,14 +18,20 @@ namespace PlayGroup {
 
         private PlayerMove playerMove;
 		private PlayerScript playerScript;
-		private RegisterTile registerTile;
-
+        private PlayerSprites playerSprites;
+        private RegisterTile registerTile;
         private Queue<PlayerAction> pendingActions;
 
         [SyncVar(hook = "OnServerStateChange")] 
         private PlayerState serverState;
         private PlayerState predictedState;
 		public float currentSpeed{ get; private set; }
+
+        //push pull objects
+        [SyncVar(hook = "PullReset")]
+        public GameObject pullingObject;
+        private RegisterTile pullRegister;
+        private bool canPullTrigger = false;
 
         void Awake() {
             InitState();
@@ -49,6 +55,7 @@ namespace PlayGroup {
             }
             playerMove = GetComponent<PlayerMove>();
 			playerScript = GetComponent<PlayerScript>();
+            playerSprites = GetComponent<PlayerSprites>();
 			registerTile = GetComponent<RegisterTile>();
         }
 
@@ -81,13 +88,33 @@ namespace PlayGroup {
 				var state = isLocalPlayer ? predictedState : serverState;
 				currentSpeed = playerMove.speed * Time.deltaTime;
 				transform.position = Vector3.MoveTowards(transform.position, state.Position, currentSpeed);
-				if (registerTile.savedPosition != state.Position) {
+                if (pullingObject != null){
+                    if (!canPullTrigger){
+                        if (state.Position != transform.position){
+                            canPullTrigger = true;
+                        }
+                    }
+                    else{
+                        PullObject();
+                    }
+                    }
+                if (registerTile.savedPosition != state.Position) {
 					registerTile.UpdateTile(state.Position);
+                    if (pullRegister != null)
+                    {
+                        pullRegister.UpdateTile(state.Position - (Vector3)playerSprites.currentDirection);
+                    }
 				}
 			} else {
 				var state = isLocalPlayer ? predictedState : serverState;
 				playerScript.ghost.transform.position = Vector3.MoveTowards(playerScript.ghost.transform.position, state.Position, playerMove.speed * Time.deltaTime);
 			}
+        }
+
+        private void PullObject(){
+            Vector3 pullPos = transform.position - (Vector3)playerSprites.currentDirection;
+            pullPos.z = pullingObject.transform.position.z;
+            pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, currentSpeed);
         }
 
         [Command]
@@ -110,6 +137,22 @@ namespace PlayGroup {
             };
         }
 
+        private void PullReset(GameObject obj){
+            canPullTrigger = false;
+            if (obj != null)
+            {
+                ObjectActions oA = obj.GetComponent<ObjectActions>();
+                if (oA != null)
+                {
+                    oA.pulledBy = gameObject;
+                }
+                pullRegister = obj.GetComponent<RegisterTile>();
+            }
+            else
+            {
+                pullRegister = null;
+            }
+        }
         private void OnServerStateChange(PlayerState newState) {
             serverState = newState;
 

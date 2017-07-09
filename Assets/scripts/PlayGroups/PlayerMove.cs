@@ -126,14 +126,16 @@ namespace PlayGroup {
 			if (isGhost) {
 				return direction;
 			}
-			Interact(currentPosition, direction);
-//            if(Matrix.Matrix.At(currentPosition + direction).IsPassable()) {
-//                if((Matrix.Matrix.At(currentPosition + horizontal).IsPassable() ||
-//                               Matrix.Matrix.At(currentPosition + vertical).IsPassable())) {
-//                    return direction;
-//                }
-//            }
-			return direction;
+			           
+            if (Matrix.Matrix.At(currentPosition + direction).IsPassable())
+            {
+                if ((Matrix.Matrix.At(currentPosition + horizontal).IsPassable() ||
+                   Matrix.Matrix.At(currentPosition + vertical).IsPassable()))
+                {
+                    return direction;
+                }
+            }
+
             return Vector3.zero;
         }
         private void Interact(Vector3 currentPosition, Vector3 direction) {
