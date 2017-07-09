@@ -6,7 +6,8 @@ using PlayGroup;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
-	private bool isPulling = false;
+	[HideInInspector]
+	public bool isPulling = false;
 	[Command]
 	public void CmdPullObject(GameObject obj)
 	{

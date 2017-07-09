@@ -126,13 +126,14 @@ namespace PlayGroup {
 			if (isGhost) {
 				return direction;
 			}
-
-            if(Matrix.Matrix.At(currentPosition + direction).IsPassable()) {
-                if((Matrix.Matrix.At(currentPosition + horizontal).IsPassable() ||
-                               Matrix.Matrix.At(currentPosition + vertical).IsPassable())) {
-                    return direction;
-                }
-            }
+			Interact(currentPosition, direction);
+//            if(Matrix.Matrix.At(currentPosition + direction).IsPassable()) {
+//                if((Matrix.Matrix.At(currentPosition + horizontal).IsPassable() ||
+//                               Matrix.Matrix.At(currentPosition + vertical).IsPassable())) {
+//                    return direction;
+//                }
+//            }
+			return direction;
             return Vector3.zero;
         }
         private void Interact(Vector3 currentPosition, Vector3 direction) {
@@ -143,7 +144,8 @@ namespace PlayGroup {
 
 			var objectActions = Matrix.Matrix.At(currentPosition + direction).GetObjectActions();
 			if (objectActions != null) {
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPushObject(objectActions.gameObject);
+				objectActions.TryPush(gameObject, speed);
+//				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPushObject(objectActions.gameObject);
 			}
         }
     }

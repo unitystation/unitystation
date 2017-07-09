@@ -25,6 +25,7 @@ namespace PlayGroup {
         [SyncVar(hook = "OnServerStateChange")] 
         private PlayerState serverState;
         private PlayerState predictedState;
+		public float currentSpeed{ get; private set; }
 
         void Awake() {
             InitState();
@@ -78,7 +79,8 @@ namespace PlayGroup {
 
 			if (!playerMove.isGhost) {
 				var state = isLocalPlayer ? predictedState : serverState;
-				transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
+				currentSpeed = playerMove.speed * Time.deltaTime;
+				transform.position = Vector3.MoveTowards(transform.position, state.Position, currentSpeed);
 				if (registerTile.savedPosition != state.Position) {
 					registerTile.UpdateTile(state.Position);
 				}

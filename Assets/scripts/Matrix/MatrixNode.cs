@@ -48,6 +48,13 @@ namespace Matrix {
             return true;
         }
 
+		public bool ContainsTile(GameObject gameObject){
+			if (tiles.Contains(gameObject)) {
+				return true;
+			}
+			return false;
+		}
+
         public bool FitsTile(GameObject gameObject) {
             var registerTile = gameObject.GetComponent<RegisterTile>();
             return registerTile && (tileValue & registerTile.TileType) == 0;
