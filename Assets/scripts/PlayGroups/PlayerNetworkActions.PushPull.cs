@@ -18,8 +18,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         if (pulled != null)
         {
             PlayerSync pS = GetComponent<PlayerSync>();
-            pS.pullingObject = obj;
-//            pulled.PulledBy = playerMove.netId;
+            pS.pullObjectID = pulled.netId;
             isPulling = true;
         }
 	}
@@ -31,21 +30,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ObjectActions pulled = obj.GetComponent<ObjectActions>();
         if (pulled != null)
         {
+            pulled.pulledBy = null;
             PlayerSync pS = GetComponent<PlayerSync>();
-            pS.pullingObject = null;
+            pS.pullObjectID = NetworkInstanceId.Invalid;
         }
 	}
 
-	[Command]
-	public void CmdPushObject(GameObject obj)
-	{
-		ObjectActions pushed = obj.GetComponent<ObjectActions>();
-		if (pushed != null) {
-			pushed.RpcTryToPush(playerMove.transform.position, playerMove.speed);
-//			if (pushed.PulledBy == playerMove.netId) {
-//				pushed.PulledBy = NetworkInstanceId.Invalid;
-//				isPulling = false;
-//			}
-		}
-	}
+//	[Command]
+//	public void CmdPushObject(GameObject obj)
+//	{
+//		ObjectActions pushed = obj.GetComponent<ObjectActions>();
+//		if (pushed != null) {
+//			pushed.RpcTryToPush(playerMove.transform.position, playerMove.speed);
+////			if (pushed.PulledBy == playerMove.netId) {
+////				pushed.PulledBy = NetworkInstanceId.Invalid;
+////				isPulling = false;
+////			}
+//		}
+//	}
 }

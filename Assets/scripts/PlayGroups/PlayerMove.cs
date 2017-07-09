@@ -8,6 +8,7 @@ namespace PlayGroup {
     public class PlayerMove: NetworkBehaviour {
 
         private PlayerSprites playerSprites;
+        private PlayerSync playerSync;
 
         private static KeyCode[] keyCodes = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
 
@@ -23,6 +24,7 @@ namespace PlayGroup {
 
         void Start() {
             playerSprites = gameObject.GetComponent<PlayerSprites>();
+            playerSync = GetComponent<PlayerSync>();
         }
 
         public PlayerAction SendAction() {
@@ -127,12 +129,20 @@ namespace PlayGroup {
 				return direction;
 			}
 			           
-            if (Matrix.Matrix.At(currentPosition + direction).IsPassable())
+            if (Matrix.Matrix.At(currentPosition + direction).IsPassable() ||
+                Matrix.Matrix.At(currentPosition + direction).ContainsTile(gameObject))
             {
                 if ((Matrix.Matrix.At(currentPosition + horizontal).IsPassable() ||
-                   Matrix.Matrix.At(currentPosition + vertical).IsPassable()))
+                    Matrix.Matrix.At(currentPosition + vertical).IsPassable()))
                 {
                     return direction;
+                }
+            }
+            else if (playerSync.pullingObject != null)
+            {
+                if (Matrix.Matrix.At(currentPosition + direction).ContainsTile(playerSync.pullingObject))
+                {
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(playerSync.pullingObject);
                 }
             }
 

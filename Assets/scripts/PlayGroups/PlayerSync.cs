@@ -25,10 +25,10 @@ namespace PlayGroup {
         [SyncVar(hook = "OnServerStateChange")] 
         private PlayerState serverState;
         private PlayerState predictedState;
-		public float currentSpeed{ get; private set; }
 
         //push pull objects
         [SyncVar(hook = "PullReset")]
+        public NetworkInstanceId pullObjectID;
         public GameObject pullingObject;
         private RegisterTile pullRegister;
         private bool canPullTrigger = false;
@@ -86,8 +86,7 @@ namespace PlayGroup {
 
 			if (!playerMove.isGhost) {
 				var state = isLocalPlayer ? predictedState : serverState;
-				currentSpeed = playerMove.speed * Time.deltaTime;
-				transform.position = Vector3.MoveTowards(transform.position, state.Position, currentSpeed);
+                transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
                 if (pullingObject != null){
                     if (!canPullTrigger){
                         if (state.Position != transform.position){
@@ -102,7 +101,7 @@ namespace PlayGroup {
 					registerTile.UpdateTile(state.Position);
                     if (pullRegister != null)
                     {
-                        pullRegister.UpdateTile(state.Position - (Vector3)playerSprites.currentDirection);
+                        pullRegister.UpdateTile(transform.position - (Vector3)playerSprites.currentDirection);
                     }
 				}
 			} else {
@@ -114,10 +113,11 @@ namespace PlayGroup {
         private void PullObject(){
             Vector3 pullPos = transform.position - (Vector3)playerSprites.currentDirection;
             pullPos.z = pullingObject.transform.position.z;
-            if (Matrix.Matrix.At(pullPos).IsPassable() || Matrix.Matrix.At(pullPos).ContainsTile(gameObject) || 
-                Matrix.Matrix.At(pullPos).ContainsTile(pullingObject))
+            if (Matrix.Matrix.At(pullPos).IsPassable() || 
+                Matrix.Matrix.At(pullPos).ContainsTile(pullingObject) || 
+                Matrix.Matrix.At(pullPos).ContainsTile(gameObject))
             {
-                pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, currentSpeed);
+                pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, playerMove.speed * Time.deltaTime);
             }
         }
 
@@ -141,20 +141,33 @@ namespace PlayGroup {
             };
         }
 
-        private void PullReset(GameObject obj){
+        private void PullReset(NetworkInstanceId netID){
             canPullTrigger = false;
-            if (obj != null)
+            if (netID == NetworkInstanceId.Invalid)
             {
-                ObjectActions oA = obj.GetComponent<ObjectActions>();
+                if (pullingObject != null)
+                {
+                    NetworkTransform nT = pullingObject.GetComponent<NetworkTransform>();
+                    nT.enabled = true;
+                    pullRegister.editModeControl.Snap();
+                    pullRegister.UpdateTile(pullingObject.transform.position);
+                    EditModeControl eM = pullingObject.GetComponent<EditModeControl>();
+                    eM.Snap();
+                }
+                pullRegister = null;
+                pullingObject = null;
+            }
+            else
+            {
+                pullingObject = ClientScene.FindLocalObject(netID);
+                ObjectActions oA = pullingObject.GetComponent<ObjectActions>();
                 if (oA != null)
                 {
                     oA.pulledBy = gameObject;
                 }
-                pullRegister = obj.GetComponent<RegisterTile>();
-            }
-            else
-            {
-                pullRegister = null;
+                NetworkTransform nT = pullingObject.GetComponent<NetworkTransform>();
+                nT.enabled = false;
+                pullRegister = pullingObject.GetComponent<RegisterTile>();
             }
         }
         private void OnServerStateChange(PlayerState newState) {
