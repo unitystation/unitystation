@@ -114,7 +114,11 @@ namespace PlayGroup {
         private void PullObject(){
             Vector3 pullPos = transform.position - (Vector3)playerSprites.currentDirection;
             pullPos.z = pullingObject.transform.position.z;
-            pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, currentSpeed);
+            if (Matrix.Matrix.At(pullPos).IsPassable() || Matrix.Matrix.At(pullPos).ContainsTile(gameObject) || 
+                Matrix.Matrix.At(pullPos).ContainsTile(pullingObject))
+            {
+                pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, currentSpeed);
+            }
         }
 
         [Command]
