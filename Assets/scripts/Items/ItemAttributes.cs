@@ -52,7 +52,7 @@ public class ItemAttributes : NetworkBehaviour
     private int inHandRight = -1;
     private int clothingOffset = -1;
 
-    void OnStartClient()
+    public override void OnStartClient()
     {
         ConstructItem(hierarchy);
     }
