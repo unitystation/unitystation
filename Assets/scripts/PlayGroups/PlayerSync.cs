@@ -26,12 +26,14 @@ namespace PlayGroup {
         private PlayerState serverState;
         private PlayerState predictedState;
 
+        //cache
+        private PlayerState state;
         //push pull objects
         [SyncVar(hook = "PullReset")]
         public NetworkInstanceId pullObjectID;
         public GameObject pullingObject;
         private RegisterTile pullRegister;
-        private bool canPullTrigger = false;
+        private bool canRegister = false;
 
         void Awake() {
             InitState();
@@ -71,6 +73,25 @@ namespace PlayGroup {
             Synchronize();
         }
 
+        void LateUpdate(){
+            if (canRegister)
+            {
+                canRegister = false;
+                RegisterObjects();
+            }
+        }
+
+        private void RegisterObjects(){
+            //Register playerpos in matrix
+            registerTile.UpdateTile(state.Position);
+            //Registering objects being pulled in matrix
+            if (pullRegister != null)
+            {
+                Vector3 pos = RoundedPos(state.Position - (Vector3)playerSprites.currentDirection);
+                pullRegister.UpdateTile(pos);
+            }
+        }
+
         private void DoAction() {
             var action = playerMove.SendAction();
             if(action.keyCodes.Length != 0) {
@@ -85,29 +106,29 @@ namespace PlayGroup {
 				return;
 
 			if (!playerMove.isGhost) {
-				var state = isLocalPlayer ? predictedState : serverState;
+				state = isLocalPlayer ? predictedState : serverState;
                 transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
-                if (pullingObject != null){
-                    if (!canPullTrigger){
-                        if (state.Position != transform.position){
-                            canPullTrigger = true;
-                        }
-                    }
-                    else{
-                        PullObject();
-                    }
-                    }
+
+                if(transform.hasChanged){
+                    transform.hasChanged = false;
+                    UpdatePull();
+                }
+
+                //Registering
                 if (registerTile.savedPosition != state.Position) {
-					registerTile.UpdateTile(state.Position);
-                    if (pullRegister != null)
-                    {
-                        pullRegister.UpdateTile(transform.position - (Vector3)playerSprites.currentDirection);
-                    }
+                    canRegister = true;
 				}
 			} else {
 				var state = isLocalPlayer ? predictedState : serverState;
 				playerScript.ghost.transform.position = Vector3.MoveTowards(playerScript.ghost.transform.position, state.Position, playerMove.speed * Time.deltaTime);
 			}
+        }
+
+        private void UpdatePull(){
+            if (pullingObject == null)
+                return;
+                   
+            PullObject();
         }
 
         private void PullObject(){
@@ -142,7 +163,7 @@ namespace PlayGroup {
         }
 
         private void PullReset(NetworkInstanceId netID){
-            canPullTrigger = false;
+            transform.hasChanged = false;
             if (netID == NetworkInstanceId.Invalid)
             {
                 if (pullingObject != null)
@@ -179,6 +200,11 @@ namespace PlayGroup {
                 }
                 UpdatePredictedState();
             }
+        }
+
+        private Vector3 RoundedPos(Vector3 pos)
+        {
+            return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);
         }
     }
 }
