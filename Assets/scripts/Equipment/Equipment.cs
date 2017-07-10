@@ -158,7 +158,6 @@ namespace Equipment
 
             foreach(KeyValuePair<string,string> gearItem in gear)
             {
-                // TODO: Add check for non cloth and call ItemFactory
                 if (gearItem.Value.Contains("cloth"))
                 {
                     GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);

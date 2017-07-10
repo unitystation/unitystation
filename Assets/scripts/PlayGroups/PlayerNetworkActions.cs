@@ -90,6 +90,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     //Server only (from Equipment Initial SetItem method
     public void TrySetItem(string eventName, GameObject obj)
     {
+//        Debug.LogErrorFormat("Server {0}", obj.GetComponentInChildren<ItemAttributes>().hierarchy);
         if (ServerCache.ContainsKey(eventName))
         {
             if (ServerCache[eventName] == null)
@@ -164,9 +165,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         {
             if (eventName.Length > 0)
             {
-                EventManager.UI.TriggerEvent(eventName, obj);
+                StartCoroutine(SetItemPatiently(eventName, obj));
             }
         }
+    }
+
+    public IEnumerator SetItemPatiently(string eventName, GameObject obj)
+    {
+        //Waiting for hier name resolve
+        yield return new WaitForSeconds(0.2f);
+        EventManager.UI.TriggerEvent(eventName, obj);        
     }
 
     //Dropping from a slot on the UI
