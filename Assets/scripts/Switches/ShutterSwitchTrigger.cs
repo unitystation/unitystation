@@ -20,7 +20,7 @@ public class ShutterSwitchTrigger: InputTrigger
 		animator = GetComponent<Animator>();
 		SyncShutters(IsClosed);
 	}
-
+		
 	public override void Interact()
 	{
 		if (!PlayerManager.LocalPlayerScript.IsInReach(transform, 1.1f))

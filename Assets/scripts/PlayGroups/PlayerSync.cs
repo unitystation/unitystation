@@ -28,16 +28,22 @@ namespace PlayGroup {
 
         //cache
         private PlayerState state;
-        //push pull objects
+        //pull objects
         [SyncVar(hook = "PullReset")]
-        public NetworkInstanceId pullObjectID;
+		public NetworkInstanceId pullObjectID = NetworkInstanceId.Invalid;
         public GameObject pullingObject;
         private RegisterTile pullRegister;
         private bool canRegister = false;
+		private Vector3 pullPos;
 
         void Awake() {
             InitState();
         }
+
+		public override void OnStartClient()
+		{
+			PullReset(pullObjectID);
+		}
 
         [Server]
         private void InitState() {
@@ -109,10 +115,14 @@ namespace PlayGroup {
 				state = isLocalPlayer ? predictedState : serverState;
                 transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
 
-                if(transform.hasChanged){
-                    transform.hasChanged = false;
-                    UpdatePull();
-                }
+				if (pullingObject != null) {
+					if (transform.hasChanged) {
+						transform.hasChanged = false;
+						PullObject();
+					} else if (pullingObject.transform.position != pullPos) {
+						pullingObject.transform.position = pullPos;
+					}
+				}
 
                 //Registering
                 if (registerTile.savedPosition != state.Position) {
@@ -124,21 +134,15 @@ namespace PlayGroup {
 			}
         }
 
-        private void UpdatePull(){
-            if (pullingObject == null)
-                return;
-                   
-            PullObject();
-        }
-
         private void PullObject(){
-            Vector3 pullPos = transform.position - (Vector3)playerSprites.currentDirection;
+            pullPos = transform.position - (Vector3)playerSprites.currentDirection;
             pullPos.z = pullingObject.transform.position.z;
             if (Matrix.Matrix.At(pullPos).IsPassable() || 
                 Matrix.Matrix.At(pullPos).ContainsTile(pullingObject) || 
                 Matrix.Matrix.At(pullPos).ContainsTile(gameObject))
             {
-                pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, playerMove.speed * Time.deltaTime);
+				float journeyLength = Vector3.Distance(pullingObject.transform.position, pullPos);
+				pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, (playerMove.speed * Time.deltaTime) / journeyLength);
             }
         }
 
@@ -156,6 +160,7 @@ namespace PlayGroup {
         }
 
         private PlayerState NextState(PlayerState state, PlayerAction action) {
+			
             return new PlayerState() {
                 MoveNumber = state.MoveNumber + 1,
                 Position = playerMove.GetNextPosition(state.Position, action)
@@ -182,6 +187,7 @@ namespace PlayGroup {
             {
                 pullingObject = ClientScene.FindLocalObject(netID);
                 ObjectActions oA = pullingObject.GetComponent<ObjectActions>();
+				pullPos = pullingObject.transform.position;
                 if (oA != null)
                 {
                     oA.pulledBy = gameObject;

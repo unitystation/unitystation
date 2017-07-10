@@ -10,25 +10,29 @@ public class ObjectActions : NetworkBehaviour
 	public float moveSpeed = 7f;
 	public bool allowedToMove = true;
 	private RegisterTile registerTile;
+	private NetworkTransform networkTransform;
 
 	public GameObject pulledBy;
-	private PlayerSprites pullingPlayerSprites;
-	private PlayerSync playerSync;
  
 	//cache
 	private Vector3 pushTarget;
-	private Vector2 pushDir;
-	private bool push = false;
+	private GameObject pusher;
+	private Vector2 currentDir;
+	private Vector2 headingDir;
+	private bool pushing = false;
+	private bool canSync = false;
+	private float checkServerTime = 0f;
 
 	void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
+		networkTransform = GetComponent<NetworkTransform>();
 	}
 
 	void OnMouseDown()
 	{
 		if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform)) {
-            if (pulledBy == PlayerManager.LocalPlayer) {
+			if (pulledBy == PlayerManager.LocalPlayer) {
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(gameObject);
 				return;
 			}
@@ -36,78 +40,83 @@ public class ObjectActions : NetworkBehaviour
 		}
 	}
 
-//	[ClientRpc]
-//	public void RpcTryToPush(Vector3 position, float speed)
-//	{
-//        if(pulledBy){
-//            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(gameObject);
-//        }
-//		Debug.Log("RpcTryToPush");
-//		var v1 = editModeControl.Snap(position);
-//		var v2 = editModeControl.Snap(transform.position);
-//
-//		Vector3 dir = v1 - v2;
-//		Vector3 newPos = v2 - dir.normalized;
-//		moveSpeed = speed;
-//	}
-     
-	public void TryPush(GameObject pusher, float pusherSpeed)
+	public void TryPush(GameObject pushedBy, float pusherSpeed, Vector2 pushDir)
 	{
-		if (!allowedToMove || push)
+		if (pushDir != Vector2.up && pushDir != Vector2.right
+		    && pushDir != Vector2.down && pushDir != Vector2.left)
 			return;
-
-		if (pulledBy == pusher && CustomNetworkManager.Instance._isServer) {
-			pusher.GetComponent<PlayerNetworkActions>().isPulling = false;
-            pulledBy = null;
+		if (pushing) {
+			Debug.Log("ALREADY PUSH");
+			return;
 		}
 
-		pullingPlayerSprites = pusher.GetComponent<PlayerSprites>();
-		pushDir = pullingPlayerSprites.currentDirection;
-		Vector3 newPos = RoundedPos(transform.position) + (Vector3)pushDir;
-	
-		if (Matrix.Matrix.At(newPos).IsPassable() || Matrix.Matrix.At(newPos).ContainsTile(gameObject)) {
-            if (pulledBy != null && CustomNetworkManager.Instance._isServer) {
-                PlayerNetworkActions pA = pulledBy.GetComponent<PlayerNetworkActions>();
-				pA.isPulling = false;
+		if (pulledBy != null) {
+			if (CustomNetworkManager.Instance._isServer) {
+				pulledBy.GetComponent<PlayerNetworkActions>().CmdStopPulling(gameObject);
+			} else {
+				pulledBy = null;
 			}
-
-			playerSync = pusher.GetComponent<PlayerSync>();
-			newPos.z = transform.position.z;
-			pushTarget = newPos;
-			push = true;
 		}
-	}
-
-	Vector3 _pushTarget(Transform pusher){
-
-		Vector3 newPos = RoundedPos(pusher.position) + (Vector3)(pushDir * 2f);
-
-
+		pushing = true;
+//		networkTransform.enabled = false;
+		moveSpeed = pusherSpeed;
+		currentDir = pushDir;
+		Vector3 newPos = RoundedPos(transform.position) + (Vector3)currentDir;
+		newPos.z = transform.position.z;
 		if (Matrix.Matrix.At(newPos).IsPassable() || Matrix.Matrix.At(newPos).ContainsTile(gameObject)) {
-			newPos.z = transform.position.z;
-			return newPos;
+			pushTarget = newPos;
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, newPos);
+			pushing = false;
+//			pushing = true;
+//			checkServerTime = 0f;
+		} else {
+			pushing = false;
 		}
-		return transform.position;
 	}
-        
+
+	[ClientRpc]
+	public void RpcPush(Vector3 pos){
+		transform.position = registerTile.editModeControl.Snap(pushTarget);
+		registerTile.UpdateTile();
+		Debug.Log("PUSH PUSH");
+	}
+		
 	void Update()
 	{
-		if (push) {
-			PushObject();
+		if (pushing) {
+//			PushObject();
 		}
 	}
-     
-	private void PushObject(){
-        transform.position = Vector3.MoveTowards(transform.position, _pushTarget(playerSync.transform), 7f * Time.deltaTime);
-		Vector2 heading = (Vector2)Vector3.Normalize(_pushTarget(playerSync.transform) - transform.position);
-		if (heading != pushDir) {
-			push = false;
-            registerTile.editModeControl.Snap(_pushTarget(playerSync.transform));
+
+	void LateUpdate(){
+		if (canSync) {
+			checkServerTime += Time.deltaTime;
+			if (checkServerTime > 1f) {
+				canSync = false;
+				SyncServer();
+			}
+
+		}
+	}
+
+	private void PushObject()
+	{
+		float journeyLength = Vector3.Distance(transform.position, pushTarget);
+		transform.position = Vector3.MoveTowards(transform.position, pushTarget, (moveSpeed * Time.deltaTime) / journeyLength);
+		headingDir = (Vector2)Vector3.Normalize(pushTarget - transform.position);
+		if (headingDir != currentDir) {
+			canSync = true;
+			checkServerTime = 0f;
+			pushing = false;
+			registerTile.transform.position = pushTarget;
 			registerTile.UpdateTile();
-			
 		}
 	}
-        
+
+	private void SyncServer(){
+		networkTransform.enabled = true;
+	}
+
 	private Vector3 RoundedPos(Vector3 pos)
 	{
 		return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);

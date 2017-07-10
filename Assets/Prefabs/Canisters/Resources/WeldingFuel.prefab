@@ -37,12 +37,12 @@ GameObject:
   - component: {fileID: 4565968712808758}
   - component: {fileID: 114938016013904264}
   - component: {fileID: 114885568762497700}
-  - component: {fileID: 114908788528161402}
-  - component: {fileID: 114759220295053954}
   - component: {fileID: 61665323473156212}
   - component: {fileID: 61967111112008582}
-  - component: {fileID: 114756763793061978}
-  - component: {fileID: 114159112424307582}
+  - component: {fileID: 114117985471735314}
+  - component: {fileID: 114329278433563846}
+  - component: {fileID: 114527046222029886}
+  - component: {fileID: 114647415723856500}
   m_Layer: 11
   m_Name: WeldingFuel
   m_TagString: Untagged
@@ -127,41 +127,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.86083984, y: 0.76794434}
   m_EdgeRadius: 0
---- !u!114 &114159112424307582
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1942658981970304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.1
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 2
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 2
---- !u!114 &114756763793061978
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1942658981970304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ab49f7209d2b4a9d94184d4ea24e312, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 150
-  radius: 3
---- !u!114 &114759220295053954
+--- !u!114 &114117985471735314
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -193,21 +159,7 @@ MonoBehaviour:
     i15: 37
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114885568762497700
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1942658981970304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 2
-  savedPosition: {x: 1838, y: 1138, z: -0.099999905}
---- !u!114 &114908788528161402
+--- !u!114 &114329278433563846
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -221,6 +173,55 @@ MonoBehaviour:
   moveSpeed: 7
   allowedToMove: 1
   pulledBy: {fileID: 0}
+--- !u!114 &114527046222029886
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1942658981970304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab49f7209d2b4a9d94184d4ea24e312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 150
+  radius: 3
+--- !u!114 &114647415723856500
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1942658981970304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &114885568762497700
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1942658981970304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 2
+  editModeControl: {fileID: 114938016013904264}
+  savedPosition: {x: 1838, y: 1138, z: -0.099999905}
 --- !u!114 &114938016013904264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,4 +276,3 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1

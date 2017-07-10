@@ -7,14 +7,19 @@ using PlayGroup;
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
 	[HideInInspector]
+
 	public bool isPulling = false;
 	[Command]
 	public void CmdPullObject(GameObject obj)
 	{
-		if (isPulling)
-			return;
+		if (isPulling) {
+			CmdStopPulling(gameObject.GetComponent<PlayerSync>().pullingObject);
+		}
 		
 		ObjectActions pulled = obj.GetComponent<ObjectActions>();
+		if (pulled.pulledBy != null) {
+			pulled.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
+		}
         if (pulled != null)
         {
             PlayerSync pS = GetComponent<PlayerSync>();
@@ -26,26 +31,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdStopPulling(GameObject obj)
 	{
+		if (!isPulling)
+			return;
+		
 		isPulling = false;
 		ObjectActions pulled = obj.GetComponent<ObjectActions>();
         if (pulled != null)
         {
-            pulled.pulledBy = null;
-            PlayerSync pS = GetComponent<PlayerSync>();
+			PlayerSync pS = gameObject.GetComponent<PlayerSync>();
             pS.pullObjectID = NetworkInstanceId.Invalid;
+			pulled.pulledBy = null;
         }
 	}
 
-//	[Command]
-//	public void CmdPushObject(GameObject obj)
-//	{
-//		ObjectActions pushed = obj.GetComponent<ObjectActions>();
-//		if (pushed != null) {
-//			pushed.RpcTryToPush(playerMove.transform.position, playerMove.speed);
-////			if (pushed.PulledBy == playerMove.netId) {
-////				pushed.PulledBy = NetworkInstanceId.Invalid;
-////				isPulling = false;
-////			}
-//		}
-//	}
+	[Command]
+	public void CmdTryPush(GameObject obj, Vector3 pos){
+		ObjectActions pushed = obj.GetComponent<ObjectActions>();
+		if (pushed != null) {
+			pushed.RpcPush(pos);
+		}
+	}
 }

@@ -156,8 +156,7 @@ namespace PlayGroup {
 
 			var objectActions = Matrix.Matrix.At(currentPosition + direction).GetObjectActions();
 			if (objectActions != null) {
-				objectActions.TryPush(gameObject, speed);
-//				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPushObject(objectActions.gameObject);
+				objectActions.TryPush(gameObject, speed, direction);
 			}
         }
     }
