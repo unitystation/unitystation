@@ -152,7 +152,7 @@ namespace PlayGroup {
         }
 
         private void UpdatePredictedState() {
-            predictedState = serverState;
+			predictedState = serverState;
 
             foreach(var action in pendingActions) {
                 predictedState = NextState(predictedState, action);
@@ -197,15 +197,21 @@ namespace PlayGroup {
                 pullRegister = pullingObject.GetComponent<RegisterTile>();
             }
         }
+		void OnCollisionEnter2D (Collision2D coll){
+			ObjectActions oA = coll.gameObject.GetComponent<ObjectActions>();
+			if (oA != null) {
+				oA.TryPush(gameObject, playerMove.speed, playerSprites.currentDirection);
+			}
+		}
         private void OnServerStateChange(PlayerState newState) {
-            serverState = newState;
+			serverState = newState;
 
-            if(pendingActions != null) {
-                while(pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber)) {
-                    pendingActions.Dequeue();
-                }
-                UpdatePredictedState();
-            }
+			if (pendingActions != null) {
+				while (pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber)) {
+					pendingActions.Dequeue();
+				}
+				UpdatePredictedState();
+			} 
         }
 
         private Vector3 RoundedPos(Vector3 pos)

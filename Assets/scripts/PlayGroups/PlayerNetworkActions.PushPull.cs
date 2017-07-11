@@ -48,7 +48,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdTryPush(GameObject obj, Vector3 pos){
 		ObjectActions pushed = obj.GetComponent<ObjectActions>();
 		if (pushed != null) {
-			pushed.RpcPush(pos);
+			pushed.ManualPush(pos);
 		}
 	}
 }
