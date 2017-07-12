@@ -10,8 +10,8 @@ public class ObjectActions : NetworkBehaviour
 	public float moveSpeed = 7f;
 	public bool allowedToMove = true;
 	private RegisterTile registerTile;
-//	private NetworkTransform networkTransform;
 
+    [SyncVar]
 	public GameObject pulledBy;
  
 	//cache
@@ -30,7 +30,6 @@ public class ObjectActions : NetworkBehaviour
 	void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
-//		networkTransform = GetComponent<NetworkTransform>();
 	}
 
 	void OnMouseDown()
@@ -38,6 +37,7 @@ public class ObjectActions : NetworkBehaviour
 		if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform)) {
 			if (pulledBy == PlayerManager.LocalPlayer) {
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(gameObject);
+
 				return;
 			}
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPullObject(gameObject);
@@ -67,12 +67,9 @@ public class ObjectActions : NetworkBehaviour
 		newPos.z = transform.position.z;
 		if (Matrix.Matrix.At(newPos).IsPassable() || Matrix.Matrix.At(newPos).ContainsTile(gameObject)) {
 			pushTarget = newPos;
-			pushing = true;
-			if (CustomNetworkManager.Instance._isServer) {
+            pushing = true;
 				ManualPush(pushTarget);
-			}
 		} 
-
 	}
 
 	void Update(){
@@ -85,12 +82,17 @@ public class ObjectActions : NetworkBehaviour
 	}
 		
 	private void PosUpdate(Vector3 _pos){
-		if (pulledBy == null) {
-			serverPos = _pos;
-			transform.position = registerTile.editModeControl.Snap(_pos);
-			registerTile.UpdateTile();
-		}
-
+        if (pulledBy == null)
+        {
+            transform.position = registerTile.editModeControl.Snap(_pos);
+            registerTile.UpdateTile();
+            pushing = false;
+        }
+        else
+        {
+            registerTile.UpdateTile();
+            pushing = false;
+        }
 	}
 
 	public void ManualPush(Vector3 pos){
@@ -99,7 +101,6 @@ public class ObjectActions : NetworkBehaviour
 
 	private void PushSync(Vector3 pos){
 		if (!CustomNetworkManager.Instance._isServer) {
-			serverPos = pos;
 			transform.position = registerTile.editModeControl.Snap(pos);
 			registerTile.UpdateTile();
 		}
@@ -122,22 +123,7 @@ public class ObjectActions : NetworkBehaviour
 
 			}
 	}
-
-	//TODO use movetowards instead of Snapping: Phase 2
-//	private void PushObject()
-//	{
-//		float journeyLength = Vector3.Distance(transform.position, pushTarget);
-//		transform.position = Vector3.MoveTowards(transform.position, pushTarget, (moveSpeed * Time.deltaTime) / journeyLength);
-//		headingDir = (Vector2)Vector3.Normalize(pushTarget - transform.position);
-//		if (headingDir != currentDir) {
-//			canSync = true;
-//			checkServerTime = 0f;
-//			pushing = false;
-//			registerTile.transform.position = pushTarget;
-//			registerTile.UpdateTile();
-//		}
-//	}
-
+        
 	private Vector3 RoundedPos(Vector3 pos)
 	{
 		return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);

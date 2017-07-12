@@ -7,19 +7,22 @@ using PlayGroup;
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
 	[HideInInspector]
-
 	public bool isPulling = false;
 	[Command]
 	public void CmdPullObject(GameObject obj)
 	{
 		if (isPulling) {
-			CmdStopPulling(gameObject.GetComponent<PlayerSync>().pullingObject);
+            GameObject cObj = gameObject.GetComponent<PlayerSync>().pullingObject;
+            cObj.GetComponent<ObjectActions>().pulledBy = null;
+            gameObject.GetComponent<PlayerSync>().pullObjectID = NetworkInstanceId.Invalid;
 		}
 		
 		ObjectActions pulled = obj.GetComponent<ObjectActions>();
+        //Other player is pulling object, send stop on that player
 		if (pulled.pulledBy != null) {
 			pulled.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
 		}
+
         if (pulled != null)
         {
             PlayerSync pS = GetComponent<PlayerSync>();

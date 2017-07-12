@@ -53,15 +53,15 @@ namespace PlayGroup {
 			}
 
             var direction = GetDirection(action);
+            if(!isGhost)
+                playerSprites.FaceDirection(direction);
+            
             var adjustedDirection = AdjustDirection(currentPosition, direction);
 
             if(adjustedDirection == Vector3.zero) {
                 Interact(currentPosition, direction);
             }
 
-			if(!isGhost)
-            playerSprites.FaceDirection(direction);
-			
             return currentPosition + adjustedDirection;
         }
 
@@ -128,24 +128,30 @@ namespace PlayGroup {
 			if (isGhost) {
 				return direction;
 			}
-			           
-            if (Matrix.Matrix.At(currentPosition + direction).IsPassable() ||
-                Matrix.Matrix.At(currentPosition + direction).ContainsTile(gameObject))
+            Vector3 _pos = currentPosition + direction;
+            if (Matrix.Matrix.At(currentPosition + direction).IsPassable() || Matrix.Matrix.At(currentPosition + direction).ContainsTile(gameObject))
             {
-                if ((Matrix.Matrix.At(currentPosition + horizontal).IsPassable() ||
-                    Matrix.Matrix.At(currentPosition + vertical).IsPassable()))
-                {
-                    return direction;
-                }
+                return direction;
             }
             else if (playerSync.pullingObject != null)
             {
                 if (Matrix.Matrix.At(currentPosition + direction).ContainsTile(playerSync.pullingObject))
                 {
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(playerSync.pullingObject);
+                        Vector2 directionToPullObj = playerSync.pullingObject.transform.position - transform.position;
+                    if (directionToPullObj.normalized != playerSprites.currentDirection)
+                    {
+                        // Ran into pullObject but was not facing it, saved direction
+                        return direction;
+                    }
+                    else
+                    {
+                        //Hit Pull obj
+                        PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(playerSync.pullingObject);
+                    }
                 }
             }
 
+            //could not pass
             return Vector3.zero;
         }
         private void Interact(Vector3 currentPosition, Vector3 direction) {

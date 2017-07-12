@@ -79,21 +79,13 @@ namespace PlayGroup {
             Synchronize();
         }
 
-        void LateUpdate(){
-            if (canRegister)
-            {
-                canRegister = false;
-                RegisterObjects();
-            }
-        }
-
         private void RegisterObjects(){
             //Register playerpos in matrix
             registerTile.UpdateTile(state.Position);
             //Registering objects being pulled in matrix
             if (pullRegister != null)
             {
-                Vector3 pos = RoundedPos(state.Position - (Vector3)playerSprites.currentDirection);
+                Vector3 pos = state.Position - (Vector3)playerSprites.currentDirection;
                 pullRegister.UpdateTile(pos);
             }
         }
@@ -112,9 +104,9 @@ namespace PlayGroup {
 				return;
 
 			if (!playerMove.isGhost) {
-				state = isLocalPlayer ? predictedState : serverState;
+                state = isLocalPlayer ? predictedState : serverState;
                 transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
-
+               
 				if (pullingObject != null) {
 					if (transform.hasChanged) {
 						transform.hasChanged = false;
@@ -126,7 +118,7 @@ namespace PlayGroup {
 
                 //Registering
                 if (registerTile.savedPosition != state.Position) {
-                    canRegister = true;
+                    RegisterObjects();
 				}
 			} else {
 				var state = isLocalPlayer ? predictedState : serverState;
@@ -173,8 +165,6 @@ namespace PlayGroup {
             {
                 if (pullingObject != null)
                 {
-//                    NetworkTransform nT = pullingObject.GetComponent<NetworkTransform>();
-//                    nT.enabled = true;
                     pullRegister.editModeControl.Snap();
                     pullRegister.UpdateTile(pullingObject.transform.position);
                     EditModeControl eM = pullingObject.GetComponent<EditModeControl>();
@@ -192,17 +182,10 @@ namespace PlayGroup {
                 {
                     oA.pulledBy = gameObject;
                 }
-//                NetworkTransform nT = pullingObject.GetComponent<NetworkTransform>();
-//                nT.enabled = false;
                 pullRegister = pullingObject.GetComponent<RegisterTile>();
             }
         }
-		void OnCollisionEnter2D (Collision2D coll){
-			ObjectActions oA = coll.gameObject.GetComponent<ObjectActions>();
-			if (oA != null) {
-				oA.TryPush(gameObject, playerMove.speed, playerSprites.currentDirection);
-			}
-		}
+
         private void OnServerStateChange(PlayerState newState) {
 			serverState = newState;
 

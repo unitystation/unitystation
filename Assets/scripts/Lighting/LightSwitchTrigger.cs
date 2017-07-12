@@ -33,10 +33,15 @@ namespace Lighting
 			}
 		}
 
-		public override void OnStartClient()
+	 	public override void OnStartClient()
 		{
-			SyncLightSwitch(isOn);
+            StartCoroutine(WaitForLoad());
 		}
+
+        IEnumerator WaitForLoad(){
+            yield return new WaitForSeconds(0.2f);
+            SyncLightSwitch(isOn);
+        }
 
 		public override void Interact()
 		{
