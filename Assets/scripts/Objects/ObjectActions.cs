@@ -10,7 +10,7 @@ public class ObjectActions : NetworkBehaviour
 	public float moveSpeed = 7f;
 	public bool allowedToMove = true;
 	private RegisterTile registerTile;
-	private NetworkTransform networkTransform;
+//	private NetworkTransform networkTransform;
 
 	public GameObject pulledBy;
  
@@ -24,10 +24,13 @@ public class ObjectActions : NetworkBehaviour
 	[SyncVar(hook="PushSync")]
 	private Vector3 serverPos;
 
+	[SyncVar(hook="PosUpdate")]
+	private Vector3 currentPos;
+
 	void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
-		networkTransform = GetComponent<NetworkTransform>();
+//		networkTransform = GetComponent<NetworkTransform>();
 	}
 
 	void OnMouseDown()
@@ -65,11 +68,31 @@ public class ObjectActions : NetworkBehaviour
 		if (Matrix.Matrix.At(newPos).IsPassable() || Matrix.Matrix.At(newPos).ContainsTile(gameObject)) {
 			pushTarget = newPos;
 			pushing = true;
-			ManualPush(pushTarget);
+			if (CustomNetworkManager.Instance._isServer) {
+				ManualPush(pushTarget);
+			}
 		} 
 
 	}
+
+	void Update(){
+		if (!CustomNetworkManager.Instance._isServer) {
+			if (transform.hasChanged) {
+				transform.hasChanged = false;
+				currentPos = transform.position;
+			}
+		}
+	}
 		
+	private void PosUpdate(Vector3 _pos){
+		if (pulledBy == null) {
+			serverPos = _pos;
+			transform.position = registerTile.editModeControl.Snap(_pos);
+			registerTile.UpdateTile();
+		}
+
+	}
+
 	public void ManualPush(Vector3 pos){
 		StartCoroutine(WaitForServer());
 	}

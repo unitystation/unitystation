@@ -173,8 +173,8 @@ namespace PlayGroup {
             {
                 if (pullingObject != null)
                 {
-                    NetworkTransform nT = pullingObject.GetComponent<NetworkTransform>();
-                    nT.enabled = true;
+//                    NetworkTransform nT = pullingObject.GetComponent<NetworkTransform>();
+//                    nT.enabled = true;
                     pullRegister.editModeControl.Snap();
                     pullRegister.UpdateTile(pullingObject.transform.position);
                     EditModeControl eM = pullingObject.GetComponent<EditModeControl>();
@@ -192,8 +192,8 @@ namespace PlayGroup {
                 {
                     oA.pulledBy = gameObject;
                 }
-                NetworkTransform nT = pullingObject.GetComponent<NetworkTransform>();
-                nT.enabled = false;
+//                NetworkTransform nT = pullingObject.GetComponent<NetworkTransform>();
+//                nT.enabled = false;
                 pullRegister = pullingObject.GetComponent<RegisterTile>();
             }
         }
