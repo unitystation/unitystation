@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+using InputControl;
 
 namespace Cupboards
 {
-    public class ClosetControl: NetworkBehaviour
+    public class ClosetControl: InputTrigger
     {
         public Sprite doorOpened;
         private Sprite doorClosed;
@@ -81,30 +82,30 @@ namespace Cupboards
             ShowItems();
         }
 
-        void OnMouseDown()
-        {
-            if (PlayerManager.PlayerInReach(transform))
-            {
-                if (IsClosed)
-                {
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
-                    return;
-                }
+		public override void Interact(){
 
-                GameObject item = UIManager.Hands.CurrentSlot.PlaceItemInScene();
-                if (item != null)
-                {
-                    var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    targetPosition.z = -0.2f;
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItemCupB(UIManager.Hands.CurrentSlot.eventName, targetPosition, gameObject);
+			if (PlayerManager.PlayerInReach(transform) && !Input.GetKeyDown(KeyCode.LeftControl))
+			{
+				if (IsClosed)
+				{
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
+					return;
+				}
 
-                    item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
-                    //
-                } else {
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
-                }
-            }
-        }
+				GameObject item = UIManager.Hands.CurrentSlot.PlaceItemInScene();
+				if (item != null)
+				{
+					var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+					targetPosition.z = -0.2f;
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItemCupB(UIManager.Hands.CurrentSlot.eventName, targetPosition, gameObject);
+
+					item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
+					//
+				} else {
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
+				}
+			}
+		}
 
         private void ShowItems()
         {
