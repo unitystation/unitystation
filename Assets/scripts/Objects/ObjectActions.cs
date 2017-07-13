@@ -11,25 +11,31 @@ public class ObjectActions : NetworkBehaviour
 	public bool allowedToMove = true;
 	private RegisterTile registerTile;
 
-    [SyncVar]
+	[SyncVar]
 	public GameObject pulledBy;
  
 	//cache
+	private float journeyLength;
 	private Vector3 pushTarget;
 	private GameObject pusher;
-	private Vector2 currentDir;
-	private Vector2 headingDir;
 	private bool pushing = false;
+	private bool updatingPosSync = false;
 
-	[SyncVar(hook="PushSync")]
-	private Vector3 serverPos;
+	[SyncVar(hook = "PushSync")]
+	public Vector3 serverPos;
 
-	[SyncVar(hook="PosUpdate")]
-	private Vector3 currentPos;
+	[SyncVar] //FIXME was a hook here for PosUpdate
+	public Vector3 currentPos;
 
 	void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
+	}
+
+	void OnStartClient(){
+		transform.position = registerTile.editModeControl.Snap(serverPos);
+		registerTile.UpdateTile();
+		base.OnStartClient();
 	}
 
 	void OnMouseDown()
@@ -62,68 +68,88 @@ public class ObjectActions : NetworkBehaviour
 		}
 
 		moveSpeed = pusherSpeed;
-		currentDir = pushDir;
-		Vector3 newPos = RoundedPos(transform.position) + (Vector3)currentDir;
+		Vector3 newPos = RoundedPos(transform.position) + (Vector3)pushDir;
 		newPos.z = transform.position.z;
 		if (Matrix.Matrix.At(newPos).IsPassable() || Matrix.Matrix.At(newPos).ContainsTile(gameObject)) {
+			//Start the push on the client, then start on the server, the server then tells all other clients to start the push also
+
+			pusher = pushedBy;
+			pusher.GetComponent<PlayerMove>().isPushing = true;
 			pushTarget = newPos;
-            pushing = true;
-				ManualPush(pushTarget);
+			journeyLength = Vector3.Distance(transform.position, newPos) + 0.2f;
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, pushTarget);
+			pushing = true;
 		} 
 	}
 
-	void Update(){
-		if (!CustomNetworkManager.Instance._isServer) {
+	void Update()
+	{
+		if (pushing) {
+			PushTowards();
+		}
+	}
+
+	void LateUpdate(){
+		if (CustomNetworkManager.Instance._isServer) {
 			if (transform.hasChanged) {
 				transform.hasChanged = false;
 				currentPos = transform.position;
 			}
 		}
 	}
-		
-	private void PosUpdate(Vector3 _pos){
-        if (pulledBy == null)
-        {
-            transform.position = registerTile.editModeControl.Snap(_pos);
-            registerTile.UpdateTile();
-            pushing = false;
-        }
-        else
-        {
-            registerTile.UpdateTile();
-            pushing = false;
-        }
-	}
 
-	public void ManualPush(Vector3 pos){
-		StartCoroutine(WaitForServer());
-	}
-
-	private void PushSync(Vector3 pos){
-		if (!CustomNetworkManager.Instance._isServer) {
-			transform.position = registerTile.editModeControl.Snap(pos);
+	private void PushTowards()
+	{
+		transform.position = Vector3.MoveTowards(transform.position, pushTarget, (moveSpeed * Time.deltaTime) * journeyLength);
+	
+		if(transform.position == pushTarget){
+			transform.position = registerTile.editModeControl.Snap(pushTarget);
 			registerTile.UpdateTile();
+
+			StartCoroutine(PushFinishWait());
 		}
 	}
 
-	IEnumerator WaitForServer(){
-		yield return new WaitForEndOfFrame();
+	IEnumerator PushFinishWait(){
+		yield return new WaitForSeconds(0.05f);
 
-		if (CustomNetworkManager.Instance._isServer) {
-			transform.position = registerTile.editModeControl.Snap(pushTarget);
-			serverPos = transform.position;
-			registerTile.UpdateTile();
+		if (pusher == PlayerManager.LocalPlayer) {
 			pushing = false;
-		}else{
-			
-			while (transform.position != serverPos) {
-				yield return new WaitForEndOfFrame();
+			pusher.GetComponent<PlayerMove>().isPushing = false;
+
+		} else {
+			if (transform.position != registerTile.savedPosition) {
+				transform.position = registerTile.editModeControl.Snap(pushTarget);
+				registerTile.UpdateTile();
 			}
 			pushing = false;
-
-			}
+		}
+		pusher = null;
 	}
-        
+
+	//FIXME causes glitches in pushing
+//	private void PosUpdate(Vector3 _pos)
+//	{
+////		currentPos = _pos;
+////			if (!pushing) {
+////				if (pulledBy == null) {
+////					transform.position = registerTile.editModeControl.Snap(_pos);
+////					registerTile.UpdateTile();
+////				} else {
+////					registerTile.UpdateTile();
+////				}
+////			}
+//	}
+		
+	private void PushSync(Vector3 pos)
+	{
+		if (!CustomNetworkManager.Instance._isServer && pusher != PlayerManager.LocalPlayer) {
+				pushTarget = pos;
+				journeyLength = Vector3.Distance(transform.position, pos) + 0.2f;
+				pushing = true;
+		}
+	}
+		
 	private Vector3 RoundedPos(Vector3 pos)
 	{
 		return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);

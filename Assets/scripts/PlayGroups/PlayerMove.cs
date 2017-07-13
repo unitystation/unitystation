@@ -19,6 +19,8 @@ namespace PlayGroup {
 		public bool allowInput = true;
 		[SyncVar]
 		public bool isGhost = false;
+		[HideInInspector]
+		public bool isPushing = false;
 
         private List<KeyCode> pressedKeys = new List<KeyCode>();
 
@@ -34,7 +36,7 @@ namespace PlayGroup {
 				if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
 					return new PlayerAction() { keyCodes = actionKeys.ToArray() };
 				
-				if(Input.GetKey(keyCode) && allowInput) {
+				if(Input.GetKey(keyCode) && allowInput && !isPushing) {
                     actionKeys.Add((int) keyCode);
                 }
             }

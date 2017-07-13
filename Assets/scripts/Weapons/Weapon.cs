@@ -194,8 +194,9 @@ namespace Weapons
 		{
 			
 			//ignore if we are hovering over UI
-			if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+			if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
 				return;
+			}
 
 			//if the hand with the weapon in it is selected
 			if (UIManager.Hands.CurrentSlot == UIManager.InventorySlots.LeftHandSlot || UIManager.Hands.CurrentSlot == UIManager.InventorySlots.RightHandSlot) {
@@ -211,15 +212,14 @@ namespace Weapons
 					ManualUnload(CurrentMagazine);
 					OutOfAmmoSFX();
 					return;
-				}
-				else {
+				} else {
 					//if we have a projectile to shoot, we have ammo and we are not waiting to be allowed to shoot again, Fire!
 					if (Projectile != null && CurrentMagazine.ammoRemains > 0 && FireCountDown <= 0) {
 						//Add too the cooldown timer to being allowed to shoot again
 						FireCountDown += 1.0 / FireRate;
 						//fire a single round if its a semi or automatic weapon
 						if (WeaponType == WeaponType.SemiAutomatic || WeaponType == WeaponType.FullyAutomatic) {
-							Vector2 dir = (Camera.main.ScreenToWorldPoint (Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
+							Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
 							PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet(gameObject, CurrentMagazine.gameObject, dir, Projectile.name);
 							if (WeaponType == WeaponType.FullyAutomatic)
 								PlayerManager.LocalPlayerScript.inputController.OnMouseDownDir(dir);
@@ -228,7 +228,7 @@ namespace Weapons
 						if (WeaponType == WeaponType.FullyAutomatic) {
 							InAutomaticAction = true;
 						}
-					}
+					} 
 				}
 			}
 		}

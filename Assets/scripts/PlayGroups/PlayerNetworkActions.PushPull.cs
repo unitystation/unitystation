@@ -41,6 +41,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ObjectActions pulled = obj.GetComponent<ObjectActions>();
         if (pulled != null)
         {
+//			//this triggers currentPos syncvar hook to make sure registertile is been completed on all clients
+//			pulled.currentPos = pulled.transform.position;
+
 			PlayerSync pS = gameObject.GetComponent<PlayerSync>();
             pS.pullObjectID = NetworkInstanceId.Invalid;
 			pulled.pulledBy = null;
@@ -51,7 +54,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdTryPush(GameObject obj, Vector3 pos){
 		ObjectActions pushed = obj.GetComponent<ObjectActions>();
 		if (pushed != null) {
-			pushed.ManualPush(pos);
+			pushed.serverPos = pos;
 		}
 	}
 }

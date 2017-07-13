@@ -16,7 +16,7 @@ namespace PlayGroup {
 
     public class PlayerSync: NetworkBehaviour {
 
-        private PlayerMove playerMove;
+        public PlayerMove playerMove;
 		private PlayerScript playerScript;
         private PlayerSprites playerSprites;
         private RegisterTile registerTile;
@@ -61,14 +61,13 @@ namespace PlayGroup {
                 pendingActions = new Queue<PlayerAction>();
                 UpdatePredictedState();
             }
-            playerMove = GetComponent<PlayerMove>();
 			playerScript = GetComponent<PlayerScript>();
             playerSprites = GetComponent<PlayerSprites>();
 			registerTile = GetComponent<RegisterTile>();
         }
 
-        void Update() {
-            if(isLocalPlayer) {
+		void Update(){ 
+		if(isLocalPlayer && playerMove != null) {
 				if (predictedState.Position == transform.position && !playerMove.isGhost) {
 					DoAction();
 				} else if (predictedState.Position == playerScript.ghost.transform.position && playerMove.isGhost) {
@@ -104,6 +103,9 @@ namespace PlayGroup {
 				return;
 
 			if (!playerMove.isGhost) {
+				if (isLocalPlayer && playerMove.isPushing)
+					return;
+				
                 state = isLocalPlayer ? predictedState : serverState;
                 transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
                
@@ -144,6 +146,7 @@ namespace PlayGroup {
         }
 
         private void UpdatePredictedState() {
+			
 			predictedState = serverState;
 
             foreach(var action in pendingActions) {
