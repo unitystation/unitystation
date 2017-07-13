@@ -71,7 +71,8 @@ GameObject:
   - component: {fileID: 114279845824610634}
   - component: {fileID: 114465697400450480}
   - component: {fileID: 114835786064520692}
-  - component: {fileID: 114231663245270414}
+  - component: {fileID: 114008606363410360}
+  - component: {fileID: 114881735573320316}
   m_Layer: 11
   m_Name: Closet_Purple
   m_TagString: Untagged
@@ -159,7 +160,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.87}
   m_EdgeRadius: 0
---- !u!114 &114231663245270414
+--- !u!114 &114008606363410360
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -167,19 +168,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1967120683374944}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  moveSpeed: 7
+  allowedToMove: 1
+  pulledBy: {fileID: 0}
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
 --- !u!114 &114279845824610634
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -240,8 +236,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
   spriteRenderer: {fileID: 212765826932215146}
+  IsLocked: 0
   lockLight: {fileID: 0}
   items: {fileID: 1826381799243550}
+  IsClosed: 0
+--- !u!114 &114881735573320316
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1967120683374944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 7
+  allowedToMove: 1
+  pulledBy: {fileID: 0}
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
 --- !u!114 &114966594259181116
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -24,7 +24,7 @@ public class ObjectActions : NetworkBehaviour
 	[SyncVar(hook = "PushSync")]
 	public Vector3 serverPos;
 
-	[SyncVar] //FIXME was a hook here for PosUpdate
+	[SyncVar] //FIXME hook SetPos
 	public Vector3 currentPos;
 
 	void Awake()
@@ -32,9 +32,11 @@ public class ObjectActions : NetworkBehaviour
 		registerTile = GetComponent<RegisterTile>();
 	}
 
-	void OnStartClient(){
-		transform.position = registerTile.editModeControl.Snap(serverPos);
-		registerTile.UpdateTile();
+	public override void OnStartClient(){
+		if (currentPos != Vector3.zero) {
+			transform.position = registerTile.editModeControl.Snap(currentPos);
+			registerTile.UpdateTile();
+		}
 		base.OnStartClient();
 	}
 
@@ -126,19 +128,10 @@ public class ObjectActions : NetworkBehaviour
 		}
 		pusher = null;
 	}
-
-	//FIXME causes glitches in pushing
-//	private void PosUpdate(Vector3 _pos)
-//	{
-////		currentPos = _pos;
-////			if (!pushing) {
-////				if (pulledBy == null) {
-////					transform.position = registerTile.editModeControl.Snap(_pos);
-////					registerTile.UpdateTile();
-////				} else {
-////					registerTile.UpdateTile();
-////				}
-////			}
+		
+//	public void SetPos(Vector3 newPos){
+//		transform.position = newPos;
+//		registerTile.UpdateTile();
 //	}
 		
 	private void PushSync(Vector3 pos)

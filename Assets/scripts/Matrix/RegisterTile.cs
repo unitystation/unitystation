@@ -96,5 +96,10 @@ namespace Matrix
         {
             UIManager.SetToolTip = "";
         }
+
+		public void OnRemoveFromPool(){
+			Debug.Log("UPDATE ITEM REG");
+			UpdateTile();
+		}
     }
 }

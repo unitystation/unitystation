@@ -15,10 +15,14 @@ namespace Matrix {
         [NonSerialized]
         private List<GameObject> tiles = new List<GameObject>();
 
+		[NonSerialized]
+		private List<ItemControl> items = new List<ItemControl>();
+
         private bool isDoor;
 		private bool isObject;
         private bool isSpace;
 		private bool isPlayer;
+		private bool isItem;
 
         [SerializeField]
         private Section section;
@@ -33,18 +37,31 @@ namespace Matrix {
                 return false;
             }
 
-            tiles.Add(gameObject);
-            UpdateValues();
+			if (registerTile.TileType == TileType.Item) {
+				items.Add(gameObject.GetComponent<ItemControl>());
+			} else {
+				tiles.Add(gameObject);
+				UpdateValues();
+			}
+
             return true;
         }
 
         public bool TryRemoveTile(GameObject gameObject) {
-            if(!tiles.Contains(gameObject)) {
-                return false;
-            }
+			RegisterTile rT = gameObject.GetComponent<RegisterTile>();
+			if (rT.TileType == TileType.Item) {
+				ItemControl iT = gameObject.GetComponent<ItemControl>();
+				if (items.Contains(iT)) {
+					items.Remove(iT);
+				}
+			} else {
+				if (!tiles.Contains(gameObject)) {
+					return false;
+				}
 
-            tiles.Remove(gameObject);
-            UpdateValues();
+				tiles.Remove(gameObject);
+				UpdateValues();
+			}
             return true;
         }
 
@@ -84,6 +101,10 @@ namespace Matrix {
 			return isObject;
 		}
 
+		public bool IsItem() {
+			return isItem;
+		}
+
         public DoorController GetDoor() {
             if(isDoor) {
                 foreach(var tile in tiles) {
@@ -108,6 +129,10 @@ namespace Matrix {
 				}
 			}
 			return null;
+		}
+
+		public List<ItemControl> GetItems(){
+			return items;
 		}
 
         public bool Connects(ConnectType connectType) {

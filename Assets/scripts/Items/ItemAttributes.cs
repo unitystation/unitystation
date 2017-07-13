@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+[RequireComponent(typeof(ItemControl))]
 public class ItemAttributes : NetworkBehaviour
 {
     private static DmiIconData dmi;

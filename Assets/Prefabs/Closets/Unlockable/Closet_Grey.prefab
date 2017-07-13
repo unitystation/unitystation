@@ -55,7 +55,12 @@ GameObject:
   - component: {fileID: 114457223690213646}
   - component: {fileID: 114107365703837954}
   - component: {fileID: 114859863419137498}
-  - component: {fileID: 114670182123882808}
+  - component: {fileID: 114092793192366008}
+  - component: {fileID: 114126789422815258}
+  - component: {fileID: 114978653545133534}
+  - component: {fileID: 114506598390703552}
+  - component: {fileID: 114217101185867242}
+  - component: {fileID: 114372043642619650}
   m_Layer: 11
   m_Name: Closet_Grey
   m_TagString: Untagged
@@ -126,7 +131,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1180280463732794}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1828, y: 1125, z: -0.1}
+  m_LocalPosition: {x: 1831, y: 1152, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4576008068696914}
@@ -159,6 +164,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.87}
   m_EdgeRadius: 0
+--- !u!114 &114092793192366008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1180280463732794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 7
+  allowedToMove: 1
+  pulledBy: {fileID: 0}
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
 --- !u!114 &114107365703837954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -191,6 +212,54 @@ MonoBehaviour:
     i15: 235
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114126789422815258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1180280463732794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 7
+  allowedToMove: 1
+  pulledBy: {fileID: 0}
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
+--- !u!114 &114217101185867242
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1180280463732794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 7
+  allowedToMove: 1
+  pulledBy: {fileID: 0}
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
+--- !u!114 &114372043642619650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1180280463732794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 7
+  allowedToMove: 1
+  pulledBy: {fileID: 0}
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
 --- !u!114 &114457223690213646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -205,8 +274,8 @@ MonoBehaviour:
   inSpace: 0
   tileTypeIndex: 2
   editModeControl: {fileID: 114767098743060394}
-  savedPosition: {x: 1828, y: 1125, z: -0.1}
---- !u!114 &114670182123882808
+  savedPosition: {x: 1860, y: 1153, z: -0.1}
+--- !u!114 &114506598390703552
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -214,19 +283,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1180280463732794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  moveSpeed: 7
+  allowedToMove: 1
+  pulledBy: {fileID: 0}
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
 --- !u!114 &114767098743060394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -254,8 +318,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
   spriteRenderer: {fileID: 212172245744083514}
+  IsLocked: 0
   lockLight: {fileID: 0}
   items: {fileID: 1033963928988362}
+  IsClosed: 0
+--- !u!114 &114978653545133534
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1180280463732794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 7
+  allowedToMove: 1
+  pulledBy: {fileID: 0}
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
 --- !u!212 &212172245744083514
 SpriteRenderer:
   m_ObjectHideFlags: 1
