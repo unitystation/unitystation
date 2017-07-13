@@ -123,7 +123,7 @@ namespace Cupboards
 				{
 					var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 					targetPosition.z = -0.2f;
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItem(UIManager.Hands.CurrentSlot.eventName, transform.position, null);
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItem(UIManager.Hands.CurrentSlot.eventName, registerTile.editModeControl.Snap(transform.position), null);
 
 					item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 					//
@@ -138,15 +138,17 @@ namespace Cupboards
 			if (!open) {
 				heldItems.Clear();
 				heldItems = Matrix.Matrix.At(registerTile.editModeControl.Snap(transform.position)).GetItems();
-				foreach (ItemControl item in heldItems) {
-					item.aliveState = false;
+
+				ItemControl[] tempList = heldItems.ToArray();
+				for (int i = 0; i < tempList.Length; i++) {
+					tempList[i].aliveState = false;
 				}
 			} else {
-				foreach (ItemControl item in heldItems) {
-					item.transform.position = transform.position;
-					item.aliveState = true;
+				ItemControl[] tempList = heldItems.ToArray();
+				for (int i = 0; i < tempList.Length; i++) {
+					tempList[i].transform.position = transform.position;
+					tempList[i].aliveState = true;
 				}
-
 			}
 		}
     }

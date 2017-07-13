@@ -98,7 +98,6 @@ namespace Matrix
         }
 
 		public void OnRemoveFromPool(){
-			Debug.Log("UPDATE ITEM REG");
 			UpdateTile();
 		}
     }
