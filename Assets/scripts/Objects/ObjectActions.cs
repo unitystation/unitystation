@@ -19,7 +19,7 @@ public class ObjectActions : NetworkBehaviour
 	private Vector3 pushTarget;
 	private GameObject pusher;
 	private bool pushing = false;
-	private bool updatingPosSync = false;
+	private bool serverLittleLag = false;
 
 	[SyncVar(hook = "PushSync")]
 	public Vector3 serverPos;
@@ -75,19 +75,19 @@ public class ObjectActions : NetworkBehaviour
 		newPos.z = transform.position.z;
 		if (Matrix.Matrix.At(newPos).IsPassable() || Matrix.Matrix.At(newPos).ContainsTile(gameObject)) {
 			//Start the push on the client, then start on the server, the server then tells all other clients to start the push also
-
 			pusher = pushedBy;
-			pusher.GetComponent<PlayerMove>().isPushing = true;
+            PlayerManager.LocalPlayerScript.playerMove.isPushing = true;
 			pushTarget = newPos;
 			journeyLength = Vector3.Distance(transform.position, newPos) + 0.2f;
+            pushing = true;
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, pushTarget);
-			pushing = true;
+			
 		} 
 	}
 
 	void Update()
 	{
-		if (pushing) {
+        if (pushing && transform.position != pushTarget) {
 			PushTowards();
 		}
 	}
@@ -117,31 +117,40 @@ public class ObjectActions : NetworkBehaviour
 		yield return new WaitForSeconds(0.05f);
 
 		if (pusher == PlayerManager.LocalPlayer) {
+            if (serverLittleLag)
+            {
+                serverLittleLag = false;
+                PlayerManager.LocalPlayerScript.playerMove.isPushing = false;
+                pusher = null;
+            }
 			pushing = false;
-			pusher.GetComponent<PlayerMove>().isPushing = false;
-
 		} else {
-			if (transform.position != registerTile.savedPosition) {
-				transform.position = registerTile.editModeControl.Snap(pushTarget);
-				registerTile.UpdateTile();
-			}
 			pushing = false;
 		}
-		pusher = null;
 	}
-		
-//	public void SetPos(Vector3 newPos){
-//		transform.position = newPos;
-//		registerTile.UpdateTile();
-//	}
-		
+			
 	private void PushSync(Vector3 pos)
 	{
-		if (!CustomNetworkManager.Instance._isServer && pusher != PlayerManager.LocalPlayer) {
+        if (pushing)
+        {
+            if (pusher == PlayerManager.LocalPlayer)
+            {
+                if (pos == pushTarget)
+                {
+                    serverLittleLag = true;
+                }
+            }
+            return;
+        }
+        if (transform.position == pos && pusher == PlayerManager.LocalPlayer)
+        {
+            PlayerManager.LocalPlayerScript.playerMove.isPushing = false;
+            pusher = null;
+            return;
+        }
 				pushTarget = pos;
 				journeyLength = Vector3.Distance(transform.position, pos) + 0.2f;
 				pushing = true;
-		}
 	}
 		
 	private Vector3 RoundedPos(Vector3 pos)
