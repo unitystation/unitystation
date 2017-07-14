@@ -30,8 +30,7 @@ public class GUI_PlayerJobs : MonoBehaviour {
                 continue;
 
             occupation.GetComponentInChildren<Text>().text = jobType + " (" + active + ")";
-            //todo fix unity nagging:
-            occupation.transform.parent = screen_Jobs.transform;
+            occupation.transform.SetParent(screen_Jobs.transform);
             occupation.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             occupation.GetComponent<Button>().onClick.AddListener(() => { this.BtnOk(jobType); });
 
