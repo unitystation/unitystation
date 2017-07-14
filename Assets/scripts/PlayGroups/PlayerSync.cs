@@ -136,8 +136,15 @@ namespace PlayGroup {
                 Matrix.Matrix.At(pullPos).ContainsTile(gameObject))
             {
 				float journeyLength = Vector3.Distance(pullingObject.transform.position, pullPos);
-				pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, (playerMove.speed * Time.deltaTime) / journeyLength);
-            }
+                if (journeyLength <= 1f)
+                {
+                    pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, (playerMove.speed * Time.deltaTime) / journeyLength);
+                }
+                else
+                {
+                    pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, (playerMove.speed * Time.deltaTime) * journeyLength);
+                }
+                }
         }
 
         [Command]
@@ -162,7 +169,7 @@ namespace PlayGroup {
             };
         }
 
-        private void PullReset(NetworkInstanceId netID){
+        public void PullReset(NetworkInstanceId netID){
             transform.hasChanged = false;
             if (netID == NetworkInstanceId.Invalid)
             {

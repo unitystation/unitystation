@@ -48,6 +48,7 @@ public class ObjectActions : NetworkBehaviour
 
 				return;
 			}
+            PlayerManager.LocalPlayerScript.playerSync.PullReset(gameObject.GetComponent<NetworkIdentity>().netId);
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPullObject(gameObject);
 		}
 	}

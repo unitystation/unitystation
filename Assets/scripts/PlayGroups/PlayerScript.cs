@@ -15,6 +15,7 @@ namespace PlayGroup {
 		public SoundNetworkActions soundNetworkActions { get; set; }
 		public PlayerMove playerMove { get; set;}
 		public PlayerSprites playerSprites { get; set;}
+        public PlayerSync playerSync { get; set;}
 		public InputController inputController { get; set; }
 		public HitIcon hitIcon { get; set; }
         public JobType JobType = JobType.NULL;
@@ -48,6 +49,7 @@ namespace PlayGroup {
 
         void Start() {
             playerNetworkActions = GetComponent<PlayerNetworkActions>();
+            playerSync = GetComponent<PlayerSync>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 			soundNetworkActions = GetComponent<SoundNetworkActions>();
 			inputController = GetComponent<InputController>();

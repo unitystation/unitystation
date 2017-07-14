@@ -20,7 +20,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ObjectActions pulled = obj.GetComponent<ObjectActions>();
         //Other player is pulling object, send stop on that player
 		if (pulled.pulledBy != null) {
-			pulled.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
+            if (pulled.pulledBy != gameObject)
+            {
+                pulled.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
+            }
 		}
 
         if (pulled != null)
