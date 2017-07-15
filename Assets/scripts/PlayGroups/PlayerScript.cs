@@ -59,6 +59,8 @@ namespace PlayGroup {
         void Init() {
             if(isLocalPlayer) {
 				UIManager.ResetAllUI();
+				int rA = UnityEngine.Random.Range(0,3);
+				SoundManager.PlayVarAmbient(rA);
 				playerMove = GetComponent<PlayerMove>();
 				playerSprites = GetComponent<PlayerSprites>();
                 GetComponent<InputControl.InputController>().enabled = true;
