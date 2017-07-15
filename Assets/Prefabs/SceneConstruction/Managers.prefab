@@ -5203,7 +5203,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 694a700a2c1f34736ab9a8203c8f3182, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c9e3ed57f05fa44079d8c9ddecdea939, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.33
   m_Pitch: 1
@@ -9331,8 +9331,8 @@ MonoBehaviour:
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
-  m_OfflineScene: 
-  m_OnlineScene: 
+  m_OfflineScene: Lobby
+  m_OnlineScene: DeathMatch
   m_SpawnPrefabs: []
   m_CustomConfig: 0
   m_MaxConnections: 4
@@ -9377,7 +9377,7 @@ MonoBehaviour:
     m_MinNetSimulatorTimeout: 1
     m_MaxNetSimulatorTimeout: 12000
   m_Channels: 
-  m_UseWebSockets: 0
+  m_UseWebSockets: 1
   m_UseSimulator: 0
   m_SimulatedLatency: 200
   m_PacketLossPercentage: 0
@@ -10148,13 +10148,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114173813145052830}
   m_TextComponent: {fileID: 114820654102177734}
   m_Placeholder: {fileID: 114292646016301240}
-  m_ContentType: 0
+  m_ContentType: 5
   m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 4
   m_CharacterLimit: 12
   m_OnEndEdit:
     m_PersistentCalls:
@@ -14445,7 +14445,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 700.7497, y: 95.5}
+  m_AnchoredPosition: {x: 700.75, y: 95.5}
   m_SizeDelta: {x: 1401.5, y: 114}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224347802705061360
@@ -15965,7 +15965,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -644.4998, y: 559.42004}
+  m_AnchoredPosition: {x: -644.5, y: 559.42004}
   m_SizeDelta: {x: 252, y: 1041.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224910744328625226
