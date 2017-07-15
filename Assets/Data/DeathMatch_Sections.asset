@@ -17,6 +17,7 @@ MonoBehaviour:
   - {fileID: 114472656905386710}
   - {fileID: 114029481777248100}
   - {fileID: 114470465572622730}
+  - {fileID: 114677208034548324}
 --- !u!114 &114029481777248100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,3 +83,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: mainsection
   color: {r: 0, g: 0.44602472, b: 0.5939991, a: 0.5}
+--- !u!114 &114677208034548324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Outside_PortSide
+  color: {r: 0, g: 0.47625938, b: 0.8857137, a: 0.5}

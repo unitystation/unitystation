@@ -62,6 +62,7 @@ public class Human : Carbon
 			respawnTime = 0f;
 			GetComponent<PlayerNetworkActions>().CmdDropItem("leftHand");
 			GetComponent<PlayerNetworkActions>().CmdDropItem("rightHand");
+			gameObject.GetComponent<WeaponNetworkActions>().BloodSplat(transform.position, Sprites.BloodSplatSize.medium);
 			Debug.Log("respawn initiated..");
         }
         mobStat = MobConsciousStat.DEAD;

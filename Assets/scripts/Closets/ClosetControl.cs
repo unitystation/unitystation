@@ -34,7 +34,7 @@ namespace Cupboards
         }
 
 		public override void OnStartClient(){
-			
+			SetItems(!IsClosed);
 			base.OnStartClient();
 		}
 

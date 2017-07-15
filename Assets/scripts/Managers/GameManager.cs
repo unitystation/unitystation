@@ -19,8 +19,8 @@ public class GameManager : MonoBehaviour {
 	public Text roundTimer;
 	private bool counting = false;
 	private bool waitForRestart = false;
-	private float remainingTime = 600f; //6min rounds
-	private float cacheTime = 600f;
+	private float remainingTime = 480f; //6min rounds
+	private float cacheTime = 480f;
 	private float restartTime = 10f;
 	public float GetRoundTime {get{
 			return remainingTime;
