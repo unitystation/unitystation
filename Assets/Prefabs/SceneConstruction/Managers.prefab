@@ -9321,7 +9321,7 @@ MonoBehaviour:
   m_NetworkPort: 7777
   m_ServerBindToIP: 0
   m_ServerBindAddress: 
-  m_NetworkAddress: localhost
+  m_NetworkAddress: 199.223.236.189
   m_DontDestroyOnLoad: 1
   m_RunInBackground: 1
   m_ScriptCRCCheck: 1
@@ -9331,7 +9331,7 @@ MonoBehaviour:
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
-  m_OfflineScene: Lobby
+  m_OfflineScene: DeathMatch
   m_OnlineScene: DeathMatch
   m_SpawnPrefabs: []
   m_CustomConfig: 0
@@ -9377,7 +9377,7 @@ MonoBehaviour:
     m_MinNetSimulatorTimeout: 1
     m_MaxNetSimulatorTimeout: 12000
   m_Channels: 
-  m_UseWebSockets: 1
+  m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 200
   m_PacketLossPercentage: 0
@@ -14445,7 +14445,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 700.75, y: 95.5}
+  m_AnchoredPosition: {x: 700.7501, y: 95.5}
   m_SizeDelta: {x: 1401.5, y: 114}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224347802705061360
@@ -14666,7 +14666,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 59.299957, y: 503.19995}
+  m_AnchoredPosition: {x: 59.299927, y: 503.19995}
   m_SizeDelta: {x: 182, y: -997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224457582810821834
@@ -15203,7 +15203,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 63.150024, y: 33.850037}
+  m_AnchoredPosition: {x: 63.15002, y: 33.850037}
   m_SizeDelta: {x: 34, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224671506930490660
