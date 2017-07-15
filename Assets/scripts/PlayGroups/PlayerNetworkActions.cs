@@ -514,7 +514,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	[ClientRpc]
 	private void RpcAdjustForRespawn(){
-		playerScript.ghost.SetActive(false);
-		gameObject.GetComponent<InputControl.InputController>().enabled = false;
+			playerScript.ghost.SetActive(false);
+			gameObject.GetComponent<InputControl.InputController>().enabled = false;
 	}
 }

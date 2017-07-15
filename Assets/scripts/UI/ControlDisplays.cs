@@ -39,8 +39,9 @@ namespace UI
 
 
 			SoundManager.StopMusic();
-			//TODO random ambient
-			SoundManager.PlayVarAmbient(0);
+//			//TODO random ambient
+//			int rA = Random.Range(0,2);
+//			SoundManager.PlayVarAmbient(rA);
 		}
 			
 	}
