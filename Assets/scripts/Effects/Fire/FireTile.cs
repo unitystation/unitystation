@@ -47,6 +47,10 @@ public class FireTile : MonoBehaviour {
 
 	//Ran out of fuel, return to pool
 	private void BurntOut(){
+		FloorTile fT = Matrix.Matrix.At((Vector2)transform.position).GetFloorTile();
+		if (fT != null) {
+			fT.AddFireScorch();
+		}
 		PoolManager.PoolClientDestroy(gameObject);
 	}
 }

@@ -16,10 +16,12 @@ public class ItemFactory : MonoBehaviour {
 	}
 
 	private GameObject fireTile{ get; set; }
+	private GameObject scorchMarksTile{ get; set; }
 
 	void Init(){
 		//Do init stuff
 		Instance.fireTile = Resources.Load("FireTile") as GameObject;
+		Instance.scorchMarksTile = Resources.Load("ScorchMarks") as GameObject;
 	}
 
 	//FileTiles are client side effects only, no need for network sync (triggered by same event on all clients/server)
@@ -28,5 +30,12 @@ public class ItemFactory : MonoBehaviour {
 		GameObject fireObj = PoolManager.PoolClientInstantiate(Instance.fireTile, position, Quaternion.identity);
 		FireTile fT = fireObj.GetComponent<FireTile>();
 		fT.StartFire(fuelAmt);
+	}
+
+	public GameObject SpawnScorchMarks(Transform parent){
+	//ClientSide spawn
+		GameObject sM = PoolManager.PoolClientInstantiate(Instance.scorchMarksTile, parent.position, Quaternion.identity);
+		sM.transform.parent = parent;
+		return sM;
 	}
 }

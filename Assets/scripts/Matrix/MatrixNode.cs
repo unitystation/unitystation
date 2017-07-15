@@ -135,6 +135,16 @@ namespace Matrix {
 			return items;
 		}
 
+		public FloorTile GetFloorTile(){
+			foreach(var tile in tiles) {
+				var registerTile = tile.GetComponent<RegisterTile>();
+				if(registerTile.TileType == TileType.Floor) {
+			    return registerTile.gameObject.GetComponent<FloorTile>();
+				}
+			}
+			return null;
+		}
+
         public bool Connects(ConnectType connectType) {
             if(connectType != null) {
                 return ((connectType & (connectValue | tileValue)) > 0);

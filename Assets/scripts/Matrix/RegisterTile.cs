@@ -58,6 +58,15 @@ namespace Matrix
 
         public void UpdateTile()
         {
+			//NOTE: Because all floors were prefabbed without a FloorTile component attached
+			//it is now easier to add the FloorTile from this component if it is a TileType.Floor
+			if(currentTileTypeIndex == TileType.List.IndexOf(TileType.Floor)){
+				FloorTile fT = GetComponent<FloorTile>();
+				if (fT == null) {
+					gameObject.AddComponent<FloorTile>();
+				}
+			}
+
             Matrix.At(savedPosition).TryRemoveTile(gameObject);
 
             savedPosition = transform.position;
