@@ -172,6 +172,8 @@ MonoBehaviour:
   moveSpeed: 7
   allowedToMove: 1
   pulledBy: {fileID: 0}
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
 --- !u!114 &114527046222029886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -185,6 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 150
   radius: 3
+  spriteRend: {fileID: 212357524740156146}
 --- !u!114 &114885568762497700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -254,3 +257,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

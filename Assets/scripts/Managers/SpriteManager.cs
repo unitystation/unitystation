@@ -31,6 +31,7 @@ namespace Sprites {
 		private Sprites monitorSprites = new Sprites();
 		private Sprites bloodSprites = new Sprites();
 		private Sprites lightSprites = new Sprites();
+		private Sprites fireSprites = new Sprites();
 	    public DmiIconData dmi;
         private void InitializeSpriteSheets() {
 	        if (spriteManager.dmi == null)
@@ -164,6 +165,7 @@ namespace Sprites {
 //			BloodSprites["blood"] = Resources.LoadAll<Sprite>("blood");
 //
 			LightSprites["lights"] = Resources.LoadAll<Sprite>("lighting");
+			FireSprites["fire"] = Resources.LoadAll<Sprite>("icons/effects/fire");
   
 //	        }
 //	        else
@@ -215,6 +217,12 @@ namespace Sprites {
 		public static Sprites LightSprites{
 			get{
 				return Instance.lightSprites;
+			}
+		}
+
+		public static Sprites FireSprites{
+			get{
+				return Instance.fireSprites;
 			}
 		}
 
