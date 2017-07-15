@@ -18,6 +18,7 @@ MonoBehaviour:
   - {fileID: 114029481777248100}
   - {fileID: 114470465572622730}
   - {fileID: 114677208034548324}
+  - {fileID: 114080756116595142}
 --- !u!114 &114029481777248100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,6 +45,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Start Area 1
   color: {r: 0.05653939, g: 0, b: 0.7672061, a: 0.5}
+--- !u!114 &114080756116595142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b728f150b16d24a958b63f39e44215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Outside_StarboardSide
+  color: {r: 0.64819944, g: 0, b: 0.5578104, a: 0.5}
 --- !u!114 &114470465572622730
 MonoBehaviour:
   m_ObjectHideFlags: 0
