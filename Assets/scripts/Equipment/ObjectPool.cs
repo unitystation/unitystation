@@ -25,7 +25,7 @@ public class ObjectPool : MonoBehaviour {
 				currentObjects.Add(id, att);
 			}
 		}
-
+			
 		//When dropping items etc, remove them from the player equipment pool and place in scene
 		public void DropGameObject(GameObject gObj, Vector3 pos){
 			NetworkIdentity id = gObj.GetComponent<NetworkIdentity>();

@@ -58,14 +58,21 @@ namespace PlayGroup {
 
         void Init() {
             if(isLocalPlayer) {
+				UIManager.ResetAllUI();
 				playerMove = GetComponent<PlayerMove>();
 				playerSprites = GetComponent<PlayerSprites>();
                 GetComponent<InputControl.InputController>().enabled = true;
-                if(!UIManager.Instance.playerListUIControl.window.activeInHierarchy) {
+				if(!UIManager.Instance.playerListUIControl.window.activeInHierarchy ) {
                     UIManager.Instance.playerListUIControl.window.SetActive(true);
                 }
+				if (!PlayerManager.HasSpawned) {
+					CmdTrySetName(PlayerPrefs.GetString("PlayerName"));
+				} else {
+					CmdSetNameManual(PlayerPrefs.GetString("PlayerName"));
+				}
+
                 PlayerManager.SetPlayerForControl(this.gameObject);
-                CmdTrySetName(PlayerPrefs.GetString("PlayerName"));
+               
                 // I (client) have connected to the server, ask what my job preference is
                 UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 
@@ -87,6 +94,11 @@ namespace PlayGroup {
 			if(PlayerList.Instance != null)
             playerName = PlayerList.Instance.CheckName(name);
         }
+
+		[Command]
+		void CmdSetNameManual(string name){
+			playerName = name;
+		}
 
         // On playerName variable change across all clients, make sure obj is named correctly
         // and set in Playerlist for that client

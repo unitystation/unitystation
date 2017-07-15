@@ -125,9 +125,9 @@ namespace UI {
         }
 
         public void Reset() {
-            if(IsFull) {
-                Destroy(Clear());
-            }
+			image.sprite = null;
+			image.enabled = false;
+			Item = null;
         }
 
         private bool CheckItemFit(GameObject item) {

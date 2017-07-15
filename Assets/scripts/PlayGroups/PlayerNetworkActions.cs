@@ -438,6 +438,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [ClientRpc]
     public void RpcSetPlayerRot(bool temporary, float rot)
     {
+		Debug.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
+		SpriteRenderer[] spriteRends = GetComponentsInChildren<SpriteRenderer>();
+		foreach (SpriteRenderer sR in spriteRends) {
+			sR.sortingLayerName = "Blood";
+		}
+		gameObject.GetComponent<Matrix.RegisterTile>().UpdateTileType(Matrix.TileType.None);
         var rotationVector = transform.rotation.eulerAngles;
         rotationVector.z = rot;
         transform.rotation = Quaternion.Euler(rotationVector);
@@ -492,4 +498,23 @@ public partial class PlayerNetworkActions : NetworkBehaviour
                 fovScript.enabled = false;
         }
     }
+
+	//Respawn action for Deathmatch v 0.1.3
+	[Server]
+	public void RespawnPlayer(){
+		Debug.Log("RESPAWN!");
+		RpcAdjustForRespawn();
+		var spawn = CustomNetworkManager.Instance.GetStartPosition();
+		var newPlayer = ( GameObject) Instantiate(CustomNetworkManager.Instance.playerPrefab, spawn.position, spawn.rotation );
+//		NetworkServer.Destroy( this.gameObject );
+		EquipmentPool.ClearPool(gameObject.name);
+		PlayerList.Instance.connectedPlayers[gameObject.name] = newPlayer;
+		NetworkServer.ReplacePlayerForConnection( this.connectionToClient, newPlayer, this.playerControllerId );
+	}
+
+	[ClientRpc]
+	private void RpcAdjustForRespawn(){
+		playerScript.ghost.SetActive(false);
+		gameObject.GetComponent<InputControl.InputController>().enabled = false;
+	}
 }

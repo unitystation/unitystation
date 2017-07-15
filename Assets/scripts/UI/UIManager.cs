@@ -90,6 +90,21 @@ namespace UI
 			}
 		}
 
+		public static void ResetAllUI(){
+			UI_ItemSlot[] slots = Instance.GetComponentsInChildren<UI_ItemSlot>();
+			foreach (UI_ItemSlot slot in slots) {
+				slot.Reset();
+			}
+
+			foreach (CritListener listener in UI.UIManager.Instance.GetComponentsInChildren<CritListener>()) {
+				listener.Reset();
+			}
+
+			foreach (DamageMonitorListener listener in UI.UIManager.Instance.GetComponentsInChildren<DamageMonitorListener>()) {
+				listener.Reset();
+			}
+		}
+
 		/// <summary>
 		/// Current Intent status
 		/// </summary>
