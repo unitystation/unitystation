@@ -19,7 +19,7 @@ namespace Lighting
 		private bool switchCoolDown = false;
 		private AudioSource clickSFX;
 
-		public ObjectTrigger lightSprite;
+		public ObjectTrigger[] lightSprites;
 
 		void Awake()
 		{
@@ -33,10 +33,15 @@ namespace Lighting
 			}
 		}
 
-		public override void OnStartClient()
+	 	public override void OnStartClient()
 		{
-			SyncLightSwitch(isOn);
+            StartCoroutine(WaitForLoad());
 		}
+
+        IEnumerator WaitForLoad(){
+            yield return new WaitForSeconds(0.2f);
+            SyncLightSwitch(isOn);
+        }
 
 		public override void Interact()
 		{
@@ -59,9 +64,10 @@ namespace Lighting
 
 		void SyncLightSwitch(bool state)
 		{
-			if (lightSprite != null) {
-				lightSprite.Trigger(state);
-			}
+				foreach (ObjectTrigger trig in lightSprites) {
+					trig.Trigger(state);
+				}
+			
 			if (TriggeringObjects != null) {
 				foreach (var s in TriggeringObjects) {
 					if (s != null) {

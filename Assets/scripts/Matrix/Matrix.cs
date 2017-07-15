@@ -50,7 +50,7 @@ namespace Matrix {
                 map = new NodeDictionary();
             }
         }
-
+			
         public static MatrixNode At(Vector2 position, bool createIfNull = true) {
             return At(position.x, position.y);
         }

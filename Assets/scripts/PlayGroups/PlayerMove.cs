@@ -8,6 +8,7 @@ namespace PlayGroup {
     public class PlayerMove: NetworkBehaviour {
 
         private PlayerSprites playerSprites;
+        private PlayerSync playerSync;
 
         private static KeyCode[] keyCodes = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
 
@@ -18,11 +19,14 @@ namespace PlayGroup {
 		public bool allowInput = true;
 		[SyncVar]
 		public bool isGhost = false;
+		[HideInInspector]
+		public bool isPushing = false;
 
         private List<KeyCode> pressedKeys = new List<KeyCode>();
 
         void Start() {
             playerSprites = gameObject.GetComponent<PlayerSprites>();
+            playerSync = GetComponent<PlayerSync>();
         }
 
         public PlayerAction SendAction() {
@@ -32,7 +36,7 @@ namespace PlayGroup {
 				if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
 					return new PlayerAction() { keyCodes = actionKeys.ToArray() };
 				
-				if(Input.GetKey(keyCode) && allowInput) {
+				if(Input.GetKey(keyCode) && allowInput && !isPushing) {
                     actionKeys.Add((int) keyCode);
                 }
             }
@@ -51,15 +55,15 @@ namespace PlayGroup {
 			}
 
             var direction = GetDirection(action);
+            if(!isGhost)
+                playerSprites.FaceDirection(direction);
+            
             var adjustedDirection = AdjustDirection(currentPosition, direction);
 
             if(adjustedDirection == Vector3.zero) {
                 Interact(currentPosition, direction);
             }
 
-			if(!isGhost)
-            playerSprites.FaceDirection(direction);
-			
             return currentPosition + adjustedDirection;
         }
 
@@ -126,13 +130,30 @@ namespace PlayGroup {
 			if (isGhost) {
 				return direction;
 			}
-
-            if(Matrix.Matrix.At(currentPosition + direction).IsPassable()) {
-                if((Matrix.Matrix.At(currentPosition + horizontal).IsPassable() ||
-                               Matrix.Matrix.At(currentPosition + vertical).IsPassable())) {
-                    return direction;
+            Vector3 _pos = currentPosition + direction;
+            if (Matrix.Matrix.At(currentPosition + direction).IsPassable() || Matrix.Matrix.At(currentPosition + direction).ContainsTile(gameObject))
+            {
+                return direction;
+            }
+            else if (playerSync.pullingObject != null)
+            {
+                if (Matrix.Matrix.At(currentPosition + direction).ContainsTile(playerSync.pullingObject))
+                {
+                        Vector2 directionToPullObj = playerSync.pullingObject.transform.position - transform.position;
+                    if (directionToPullObj.normalized != playerSprites.currentDirection)
+                    {
+                        // Ran into pullObject but was not facing it, saved direction
+                        return direction;
+                    }
+                    else
+                    {
+                        //Hit Pull obj
+                        PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(playerSync.pullingObject);
+                    }
                 }
             }
+
+            //could not pass
             return Vector3.zero;
         }
         private void Interact(Vector3 currentPosition, Vector3 direction) {
@@ -143,7 +164,7 @@ namespace PlayGroup {
 
 			var objectActions = Matrix.Matrix.At(currentPosition + direction).GetObjectActions();
 			if (objectActions != null) {
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPushObject(objectActions.gameObject);
+				objectActions.TryPush(gameObject, speed, direction);
 			}
         }
     }

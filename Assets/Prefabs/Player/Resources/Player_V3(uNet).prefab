@@ -1221,6 +1221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 6
+  editModeControl: {fileID: 0}
   savedPosition: {x: 1843.988, y: 1143, z: 0}
 --- !u!114 &114292210339441364
 MonoBehaviour:
@@ -1371,6 +1372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9451929b6fd9342dab7a272b50ef5aa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPulling: 0
 --- !u!114 &114393970884408578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1615,6 +1617,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a28f9f9a41257418b09671ebb5c96e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMove: {fileID: 114792299177679754}
+  pullingObject: {fileID: 0}
 --- !u!114 &114636370206516294
 MonoBehaviour:
   m_ObjectHideFlags: 1

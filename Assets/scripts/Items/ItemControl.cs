@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Matrix;
 
 public class ItemControl : NetworkBehaviour
 {
@@ -14,7 +15,13 @@ public class ItemControl : NetworkBehaviour
 	private const string networkT = "NetworkTransform";
 	private const string itemControl = "ItemControl";
 
-	void OnStartClient(){
+	public override void OnStartClient(){
+		StartCoroutine(WaitForLoad());
+		base.OnStartClient();
+	}
+
+	IEnumerator WaitForLoad(){
+		yield return new WaitForSeconds(0.2f);
 		UpdateState(aliveState);
 	}
 
@@ -37,5 +44,12 @@ public class ItemControl : NetworkBehaviour
 		for (int i = 0; i < renderers.Length; i++) {
 			renderers[i].enabled = _aliveState;
 		}
+
+		RegisterTile rT = GetComponent<RegisterTile>();
+		if (rT != null) {
+			rT.UpdateTile(rT.editModeControl.Snap(transform.position));
+		}
 	}
+
+
 }

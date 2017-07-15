@@ -28,8 +28,11 @@ namespace UI {
         void Awake() {
             image = GetComponent<Image>();
             image.enabled = false;
-            if(eventName.Length > 0)
-                EventManager.UI.AddListener(eventName, new UnityAction<GameObject>(x => TrySetItem(x)));
+            if (eventName.Length > 0)
+            {
+//                Debug.LogErrorFormat("Triggered SetItem for {0}",eventName);
+                EventManager.UI.AddListener(eventName, x => TrySetItem(x));
+            }
         }
 
 		void OnEnable()
@@ -66,10 +69,12 @@ namespace UI {
 
         public bool TrySetItem(GameObject item) {
             if(!IsFull && item != null && CheckItemFit(item)) {
+//                Debug.LogErrorFormat("TrySetItem TRUE for {0}", item.GetComponent<ItemAttributes>().hierarchy);
                 SetItem(item);
 
                 return true;
             }
+//            Debug.LogErrorFormat("TrySetItem FALSE for {0}", item.GetComponent<ItemAttributes>().hierarchy);
             return false;
         }
 
@@ -120,9 +125,9 @@ namespace UI {
         }
 
         public void Reset() {
-            if(IsFull) {
-                Destroy(Clear());
-            }
+			image.sprite = null;
+			image.enabled = false;
+			Item = null;
         }
 
         private bool CheckItemFit(GameObject item) {
@@ -130,11 +135,11 @@ namespace UI {
             if(!allowAllItems) {
                 if(!allowedItemTypes.Contains(attributes.type)) {
                     return false;
-                }
-            }else if(maxItemSize != ItemSize.Large && (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size) {
+                } //fixme: following code prevents player from holding/wearing stuff that is wearable in /tg/ 
+            }/*else if(maxItemSize != ItemSize.Large && (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size) {
                 Debug.Log("Item is too big!");
                 return false;
-            }
+            }*/
 
             return true;
         }

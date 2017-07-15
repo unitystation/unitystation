@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+[RequireComponent(typeof(ItemControl))]
 public class ItemAttributes : NetworkBehaviour
 {
     private static DmiIconData dmi;
@@ -52,7 +53,7 @@ public class ItemAttributes : NetworkBehaviour
     private int inHandRight = -1;
     private int clothingOffset = -1;
 
-    void OnStartClient()
+    public override void OnStartClient()
     {
         ConstructItem(hierarchy);
     }

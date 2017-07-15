@@ -60,10 +60,10 @@ namespace InputControl {
 			bool foundHit = false;
 
 			if(Input.GetMouseButtonDown(0)) {
-				foundHit = RayHit(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+				foundHit = RayHit(InteractCamera.Instance.interactCam.ScreenToWorldPoint(Input.mousePosition));
 
 				//change the facingDirection of player on click
-				Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
+				Vector2 dir = (InteractCamera.Instance.interactCam.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
 				float angle = Angle(dir);
 				if(!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
 					CheckPlayerDirection(angle);

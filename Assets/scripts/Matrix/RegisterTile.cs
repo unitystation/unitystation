@@ -17,13 +17,14 @@ namespace Matrix
         public int tileTypeIndex;
         private int currentTileTypeIndex;
         public TileType TileType { get { return TileType.List[tileTypeIndex]; } }
-
+        public EditModeControl editModeControl;
         [HideInInspector]
         public Vector3 savedPosition = Vector3.zero;
 
         void Start()
         {
             UpdateTile();
+            editModeControl = GetComponent<EditModeControl>();
         }
 
         void OnValidate()
@@ -57,6 +58,15 @@ namespace Matrix
 
         public void UpdateTile()
         {
+			//NOTE: Because all floors were prefabbed without a FloorTile component attached
+			//it is now easier to add the FloorTile from this component if it is a TileType.Floor
+			if(currentTileTypeIndex == TileType.List.IndexOf(TileType.Floor)){
+				FloorTile fT = GetComponent<FloorTile>();
+				if (fT == null) {
+					gameObject.AddComponent<FloorTile>();
+				}
+			}
+
             Matrix.At(savedPosition).TryRemoveTile(gameObject);
 
             savedPosition = transform.position;
@@ -76,6 +86,8 @@ namespace Matrix
             AddTile();
         }
 
+
+
         private void AddTile()
         {
             if (!Matrix.At(savedPosition).TryAddTile(gameObject))
@@ -93,5 +105,9 @@ namespace Matrix
         {
             UIManager.SetToolTip = "";
         }
+
+		public void OnRemoveFromPool(){
+			UpdateTile();
+		}
     }
 }

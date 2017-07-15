@@ -21,6 +21,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 
 	private GameObject lightFxInstance;
 	private LightSprite lightSprite;
+	public SpriteRenderer spriteRend;
 	
 	void Start()
 	{
@@ -52,8 +53,6 @@ public class ExplodeWhenShot : NetworkBehaviour
 		var pos = (Vector2)transform.position;
 		var length = Physics2D.OverlapCircleNonAlloc(pos, radius, colliders, playerMask);
 
-		NetworkServer.Destroy(gameObject);
-
 		for (int i = 0; i < length; i++) {
 			var collider = colliders[i];
 			var living = collider.gameObject.GetComponent<Living>();
@@ -69,10 +68,13 @@ public class ExplodeWhenShot : NetworkBehaviour
 				}
 			}
 		}
+		NetworkServer.Destroy(gameObject);
 	}
 		
 	void GoBoom()
 	{
+		if(spriteRend.isVisible)
+		Camera2DFollow.followControl.Shake(0.4f, 0.4f);
 		// Instantiate a clone of the source so that multiple explosions can play at the same time.
 		var name = explosions[Random.Range(0, explosions.Length)];
 		var source = SoundManager.Instance[name];
@@ -87,6 +89,34 @@ public class ExplodeWhenShot : NetworkBehaviour
 		lightFxInstance = Instantiate(lightFx, transform.position, Quaternion.identity);
 		lightSprite = lightFxInstance.GetComponentInChildren<LightSprite>();
 		lightSprite.fadeFX(1f);
+		SetFire();
+	}
+
+	void SetFire(){
+		int maxNumOfFire = 4;
+		int cLength = 3;
+		int rHeight = 3;
+		var pos = (Vector2)transform.position;
+		ItemFactory.Instance.SpawnFileTile(Random.Range(0.4f, 1f), pos);
+		pos.x -= 1f;
+		pos.y += 1f;
+
+		for (int i = 0; i < cLength; i++) {
+		
+			for (int j = 0; j < rHeight; j++) {
+				if (j == 0 && i == 0 || j == 2 && i == 0 || j == 2 && i == 2)
+					continue;
+				
+					Vector2 checkPos = new Vector2(pos.x + (float)i, pos.y - (float)j);
+					if (Matrix.Matrix.At(checkPos).IsPassable() || Matrix.Matrix.At(checkPos).IsPlayer()) {
+					ItemFactory.Instance.SpawnFileTile(Random.Range(0.4f, 1f), checkPos);
+						maxNumOfFire--;
+					}
+					if (maxNumOfFire <= 0) {
+						break;
+					}
+				}
+		}
 	}
 	
 

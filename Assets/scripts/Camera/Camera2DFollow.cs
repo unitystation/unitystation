@@ -82,10 +82,38 @@ public class Camera2DFollow: MonoBehaviour {
         lookAheadFactor = newLookAhead;
         StartCoroutine(LookAheadSwitch());
     }
-
-    //COROUTINES
+		
     IEnumerator LookAheadSwitch() {
         yield return new WaitForSeconds(2f);
         lookAheadFactor = lookAheadSave;
     }
+
+	//Shake Cam
+	float shakeAmount = 0;
+	private Vector3 cachePos;
+
+	public void Shake(float amt, float length)
+	{
+		cachePos = transform.position;
+		shakeAmount = amt;
+		InvokeRepeating("DoShake", 0, 0.01f);
+		Invoke("StopShake", length);
+	}
+
+	void DoShake()
+	{
+		if (shakeAmount > 0) {
+			Vector3 camPos = transform.position;
+			float offsetX = Random.value * shakeAmount * 2 - shakeAmount;
+			float offsetY = Random.value * shakeAmount * 2 - shakeAmount;
+			camPos.x += offsetX;
+			camPos.y += offsetY;
+			transform.position = camPos;
+		}
+	}
+	void StopShake()
+	{
+		CancelInvoke("DoShake");
+		transform.position = cachePos;
+	}
 }

@@ -67,5 +67,9 @@ namespace Equipment
 
 			}
 		}
+
+		public static void ClearPool(string playerName){
+			Instance.equipPools[playerName].currentObjects.Clear();
+		}
 	}
 }

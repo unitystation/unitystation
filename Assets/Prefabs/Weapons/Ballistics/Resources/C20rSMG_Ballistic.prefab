@@ -25,6 +25,8 @@ GameObject:
   - component: {fileID: 61026622852363448}
   - component: {fileID: 114960268025394048}
   - component: {fileID: 114382859897651562}
+  - component: {fileID: 114788502481445478}
+  - component: {fileID: 114710785401680828}
   m_Layer: 10
   m_Name: C20rSMG_Ballistic
   m_TagString: Untagged
@@ -68,7 +70,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1296620499762930}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 27.67871, y: 1.3720703, z: -0.0984375}
+  m_LocalPosition: {x: 22.67871, y: 9.37207, z: -0.0984375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4006978410657130}
@@ -111,13 +113,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cloth: 0
+  hierarchy: 
   itemName: C20rSMG
+  itemDescription: 
   spriteType: 2
+  type: 16
   inHandReferenceRight: 152
   inHandReferenceLeft: 48
   clothingReference: -1
   size: 2
-  type: 16
 --- !u!114 &114153992581294756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,7 +146,6 @@ MonoBehaviour:
   FireCountDown: 0
   InAutomaticAction: 0
   CurrentRecoilVariance: 0
-  ControlledByPlayer: 
 --- !u!114 &114382859897651562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -177,6 +181,33 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.2
   useInGame: 1
+--- !u!114 &114710785401680828
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1296620499762930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41900971567fd49ee8cacf353fc1fd7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aliveState: 1
+--- !u!114 &114788502481445478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1296620499762930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 7
+  editModeControl: {fileID: 114421193976762178}
+  savedPosition: {x: 1853, y: 1137, z: -0.2}
 --- !u!114 &114960268025394048
 MonoBehaviour:
   m_ObjectHideFlags: 1

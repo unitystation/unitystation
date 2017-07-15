@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4527534762131918}
-  - component: {fileID: 50982246680528962}
   - component: {fileID: 114632485174790270}
   - component: {fileID: 114099586909895544}
   - component: {fileID: 114734890905785284}
@@ -27,6 +26,7 @@ GameObject:
   - component: {fileID: 114790008314547624}
   - component: {fileID: 114956583463158008}
   - component: {fileID: 114480470543067482}
+  - component: {fileID: 114341639405587948}
   m_Layer: 10
   m_Name: UniCloth
   m_TagString: Untagged
@@ -77,26 +77,6 @@ Transform:
   m_Father: {fileID: 4527534762131918}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50982246680528962
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1011433845357754}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!61 &61728060443877980
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -138,11 +118,26 @@ MonoBehaviour:
   itemName: 
   itemDescription: 
   spriteType: 1
-  type: 7
+  type: 0
   inHandReferenceRight: -1
   inHandReferenceLeft: -1
   clothingReference: -1
   size: 1
+--- !u!114 &114341639405587948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 7
+  editModeControl: {fileID: 114632485174790270}
+  savedPosition: {x: 0, y: 0, z: -0.2}
 --- !u!114 &114480470543067482
 MonoBehaviour:
   m_ObjectHideFlags: 1

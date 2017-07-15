@@ -4,116 +4,152 @@ using System.Collections.Generic;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+using InputControl;
+using Matrix;
 
 namespace Cupboards
 {
-    public class ClosetControl: NetworkBehaviour
+    public class ClosetControl: InputTrigger
     {
         public Sprite doorOpened;
         private Sprite doorClosed;
 
         public SpriteRenderer spriteRenderer;
+		private RegisterTile registerTile;
+		private List<ItemControl> heldItems = new List<ItemControl>();
 
+		[SyncVar(hook="LockUnlock")]
+		public bool IsLocked;
         public LockLightController lockLight;
         public GameObject items;
 
-        public bool IsClosed { get; private set; }
+		[SyncVar(hook="OpenClose")]
+		public bool IsClosed;
 
         void Start()
         {
             doorClosed = spriteRenderer.sprite;
+			registerTile = GetComponent<RegisterTile>();
             IsClosed = true;
         }
 
 		public override void OnStartClient(){
-			HideItems();
+			SetItems(!IsClosed);
 			base.OnStartClient();
 		}
-        //Called by server only
+
+		IEnumerator WaitForLoad(){
+			yield return new WaitForSeconds(0.2f);
+			OpenClose(IsClosed);
+		}
+
+		[Server]
         public void ServerToggleCupboard(){
-            RpcToggleCupboard();
+			if (IsClosed){
+				if (lockLight != null)
+				{
+					if (lockLight.IsLocked())
+					{
+						IsLocked = false;
+						return;
+					}
+					IsClosed = false;
+					SetItems(true);
+				}
+				else
+				{
+					IsClosed = false;
+					SetItems(true);
+				}
+			}
+			else{
+				IsClosed = true;
+				SetItems(false);
+			}
         }
 
-        [ClientRpc]
-        void RpcToggleCupboard()
-        {
-            if (IsClosed){
-                if (lockLight != null)
-                {
-                    if (lockLight.IsLocked())
-                    {
-                        lockLight.Unlock();
-                        return;
-                    }
-                    Open();
-                }
-                else
-                {
-                    Open();
-                }
-            }
-            else{
-                Close();
-            }
-        }
+		void OpenClose(bool isClosed){
+			if (isClosed) {
+				Close();
+			} else {
+				Open();
+			}
+		}
+
+		void LockUnlock(bool lockIt){
+			if (lockIt) {
+			
+			} else {
+				lockLight.Unlock();
+			}
+		}
 
         void Close()
         {
-            IsClosed = true;
+			registerTile.UpdateTileType(TileType.Object);
 			SoundManager.PlayAtPosition("OpenClose",transform.position);
             spriteRenderer.sprite = doorClosed;
             if (lockLight != null)
             {
                 lockLight.Show();
             }
-            HideItems();
         }
 
         void Open()
         {
-            IsClosed = false;
+			registerTile.UpdateTileType(TileType.None);
 			SoundManager.PlayAtPosition("OpenClose",transform.position);
             spriteRenderer.sprite = doorOpened;
             if (lockLight != null)
             {
                 lockLight.Hide();
             }
-            ShowItems();
         }
 
-        void OnMouseDown()
-        {
-            if (PlayerManager.PlayerInReach(transform))
-            {
-                if (IsClosed)
-                {
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
-                    return;
-                }
+		public override void Interact(){
+			if (Input.GetKey(KeyCode.LeftControl))
+				return;
 
-                GameObject item = UIManager.Hands.CurrentSlot.PlaceItemInScene();
-                if (item != null)
-                {
-                    var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    targetPosition.z = -0.2f;
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItemCupB(UIManager.Hands.CurrentSlot.eventName, targetPosition, gameObject);
+			if (PlayerManager.PlayerInReach(transform))
+			{
+				if (IsClosed)
+				{
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
+					return;
+				}
 
-                    item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
-                    //
-                } else {
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
-                }
-            }
-        }
+				GameObject item = UIManager.Hands.CurrentSlot.PlaceItemInScene();
+				if (item != null)
+				{
+					var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+					targetPosition.z = -0.2f;
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItem(UIManager.Hands.CurrentSlot.eventName, registerTile.editModeControl.Snap(transform.position), null);
 
-        private void ShowItems()
-        {
-            items.SetActive(true);
-        }
+					item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
+					//
+				} else {
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
+				}
+			}
+		}
 
-        private void HideItems()
-        {
-            items.SetActive(false);
-        }
+		private void SetItems(bool open){
+
+			if (!open) {
+				heldItems.Clear();
+				heldItems = Matrix.Matrix.At(registerTile.editModeControl.Snap(transform.position)).GetItems();
+
+				ItemControl[] tempList = heldItems.ToArray();
+				for (int i = 0; i < tempList.Length; i++) {
+					tempList[i].aliveState = false;
+				}
+			} else {
+				ItemControl[] tempList = heldItems.ToArray();
+				for (int i = 0; i < tempList.Length; i++) {
+					tempList[i].transform.position = transform.position;
+					tempList[i].aliveState = true;
+				}
+			}
+		}
     }
 }

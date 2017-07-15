@@ -19,8 +19,8 @@ public class GameManager : MonoBehaviour {
 	public Text roundTimer;
 	private bool counting = false;
 	private bool waitForRestart = false;
-	private float remainingTime = 360f; //6min rounds
-	private float cacheTime = 360f;
+	private float remainingTime = 480f; //6min rounds
+	private float cacheTime = 480f;
 	private float restartTime = 10f;
 	public float GetRoundTime {get{
 			return remainingTime;
@@ -97,34 +97,35 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
+		//NOTE: Switching off for 0.1.3
 		//if there are multiple people and everyone is dead besides one player, restart the match
-		if (counting && PlayerList.playerList != null && PlayerList.Instance.connectedPlayers.Count > 1) {
-			int playerCount = PlayerList.playerList.connectedPlayers.Count;
-			int deadCount = 0;
-			foreach (var player in PlayerList.playerList.connectedPlayers) {
-				if (player.Value != null) {
-					var human = player.Value.GetComponent<Human> ();
-					if (human != null) {
-						//if a player is dead or effectivly dead count them towards a dead total
-						if (human.mobStat == MobConsciousStat.DEAD) {
-							deadCount++;
-						}
-					}
-				}
-			}
+//		if (counting && PlayerList.playerList != null && PlayerList.Instance.connectedPlayers.Count > 1) {
+//			int playerCount = PlayerList.playerList.connectedPlayers.Count;
+//			int deadCount = 0;
+//			foreach (var player in PlayerList.playerList.connectedPlayers) {
+//				if (player.Value != null) {
+//					var human = player.Value.GetComponent<Human> ();
+//					if (human != null) {
+//						//if a player is dead or effectivly dead count them towards a dead total
+//						if (human.mobStat == MobConsciousStat.DEAD) {
+//							deadCount++;
+//						}
+//					}
+//				}
+//			}
 
 			//if there is only one or less people left, restart
-			if (playerCount - deadCount <= 1) {
-				counting = false;
-				roundTimer.text = "GameOver";
-				SoundManager.Play("ApcDestroyed",0.3f,1f,0f);
-
-				if (CustomNetworkManager.Instance._isServer) {
-					PlayerList.Instance.ReportScores();
-					waitForRestart = true;
-				}
-			}
-		}
+//			if (playerCount - deadCount <= 1) {
+//				counting = false;
+//				roundTimer.text = "GameOver";
+//				SoundManager.Play("ApcDestroyed",0.3f,1f,0f);
+//
+//				if (CustomNetworkManager.Instance._isServer) {
+//					PlayerList.Instance.ReportScores();
+//					waitForRestart = true;
+//				}
+//			}
+//		}
 	}
 
     public int GetOccupationsCount(JobType jobType)
