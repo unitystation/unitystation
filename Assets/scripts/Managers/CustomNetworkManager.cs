@@ -12,6 +12,8 @@ public class CustomNetworkManager: NetworkManager
 	public static CustomNetworkManager Instance;
 	[HideInInspector]
 	public bool _isServer = false;
+	[HideInInspector]
+	public bool spawnableListReady = false;
 	void Awake()
 	{
 		if (Instance == null)
@@ -42,6 +44,7 @@ public class CustomNetworkManager: NetworkManager
 				spawnPrefabs.Add(netObj.gameObject);
 			}
 		}
+		spawnableListReady = true;
 	}
 
 	void OnEnable()
@@ -78,21 +81,28 @@ public class CustomNetworkManager: NetworkManager
 			ObjectManager.StartPoolManager();
 		}
 
-        //This client connecting to server
-        base.OnClientConnect(conn);
+        //This client connecting to server, wait for the spawnable prefabs to register
+		StartCoroutine(WaitForSpawnListSetUp(conn));
 	}
 
-	IEnumerator WaitForLoad(NetworkConnection conn, short playerID){
-		yield return new WaitForSeconds(2f);
-		base.OnServerAddPlayer(conn, playerID);
+	IEnumerator WaitForSpawnListSetUp(NetworkConnection conn){
+	
+		while (!spawnableListReady) {
+		
+			yield return new WaitForEndOfFrame();
+		}
+		yield return new WaitForEndOfFrame();
+		base.OnClientConnect(conn);
 	}
 
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
-		PlayerList.Instance.RemovePlayer(conn.playerControllers[0].gameObject.name);
-		//TODO DROP ALL HIS OBJECTS
-		Debug.Log("PlayerDisconnected: " + conn.playerControllers[0].gameObject.name);
-		NetworkServer.Destroy(conn.playerControllers[0].gameObject);
+		if (conn != null) {
+			PlayerList.Instance.RemovePlayer(conn.playerControllers[0].gameObject.name);
+			//TODO DROP ALL HIS OBJECTS
+			Debug.Log("PlayerDisconnected: " + conn.playerControllers[0].gameObject.name);
+			NetworkServer.Destroy(conn.playerControllers[0].gameObject);
+		}
 	}
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
