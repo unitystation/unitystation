@@ -12,7 +12,9 @@ public class GameData: MonoBehaviour
 	/// Check to see if you are in the game or in the lobby
 	/// </summary>
 	public static bool IsInGame { get; private set; }
+
 	public static bool IsHeadlessServer { get; private set; }
+
 	public bool testServer = false;
 	private static GameData gameData;
 
@@ -27,30 +29,51 @@ public class GameData: MonoBehaviour
 		}
 	}
 
+	public bool IsTestMode {
+		get {
+			return UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.StartsWith("InitTestScene");
+		}
+	}
+
 	void Init()
 	{
+		if (IsTestMode)
+			return;
+
 		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
 		LoadData();
 	}
 
 	void ApplicationWillResignActive()
 	{
+		if (IsTestMode)
+			return;
+
 		SaveData();
 	}
 
 	void OnEnable()
 	{
+		if (IsTestMode)
+			return;
+
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
 	}
 
 	void OnDisable()
 	{
+		if (IsTestMode)
+			return;
+
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 		SaveData();
 	}
 
 	void OnApplicationQuit()
 	{
+		if (IsTestMode)
+			return;
+
 		SaveData();
 	}
 
@@ -65,22 +88,18 @@ public class GameData: MonoBehaviour
 			SetPlayerPreferences();
 		}
 
-		if (CustomNetworkManager.Instance.isNetworkActive)
-		{
+		if (CustomNetworkManager.Instance.isNetworkActive) {
 			//Reset stuff
-			if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer)
-			{
+			if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer) {
 				IsHeadlessServer = true;
 			}
-			if (IsInGame && GameManager.Instance != null)
-			{
+			if (IsInGame && GameManager.Instance != null) {
 				GameManager.Instance.ResetRoundTime();
 			}
 			return;
 		}
 		//Check if running in batchmode (headless server)
-		if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer)
-		{
+		if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer) {
 			Debug.Log("START SERVER HEADLESS MODE");
 			IsHeadlessServer = true;
 			StartCoroutine(WaitToStartServer());
@@ -88,7 +107,8 @@ public class GameData: MonoBehaviour
 		}
 	}
 
-	IEnumerator WaitToStartServer(){
+	IEnumerator WaitToStartServer()
+	{
 		yield return new WaitForEndOfFrame();
 		CustomNetworkManager.Instance.StartHost();
 	}
@@ -119,9 +139,10 @@ public class GameData: MonoBehaviour
 		file.Close();
 	}
 
-	void SetPlayerPreferences(){
+	void SetPlayerPreferences()
+	{
 		//Ambient Volume
-		if(PlayerPrefs.HasKey("AmbientVol")){
+		if (PlayerPrefs.HasKey("AmbientVol")) {
 			SoundManager.Instance.ambientTracks[SoundManager.Instance.ambientPlaying].volume = PlayerPrefs.GetFloat("AmbientVol");
 		}
 

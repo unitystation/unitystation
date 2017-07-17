@@ -6,6 +6,7 @@ using System.Collections;
 
 public class ExplodeWhenShotTest
 {
+	SpriteRenderer spriteRenderer;
 	MockExplodeWhenShot subject;
 
 	[SetUp]
@@ -13,14 +14,22 @@ public class ExplodeWhenShotTest
 	{
 		var obj = new GameObject();
 		obj.AddComponent<SoundManager>();
+		obj.AddComponent<ItemFactory>();
+		obj.AddComponent<PoolManager>();
+		obj.AddComponent<Sprites.SpriteManager>();
+		spriteRenderer = obj.AddComponent<SpriteRenderer>();
 		subject = obj.AddComponent<MockExplodeWhenShot>();
+		subject.spriteRend = spriteRenderer;
 	}
 
 	[UnityTest]
 	public IEnumerator Should_Destroy_Bullet()
 	{
 		var bullet = new GameObject();
+		PoolManager.PoolClientInstantiate(bullet, Vector2.zero, Quaternion.identity);
 		var collider = bullet.AddComponent<BoxCollider2D>();
+		var tracker = bullet.AddComponent<PoolPrefabTracker>();
+		tracker.myPrefab = bullet;
 		bullet.AddComponent<Bullet_12mm>();
 
 		try {
@@ -28,7 +37,8 @@ public class ExplodeWhenShotTest
 
 			yield return 0;
 
-			Assert.That(bullet == null);
+			Assert.That(!bullet.activeSelf);
+			Assert.That(subject.wentBoom);
 		} finally {
 			UnityEngine.Object.Destroy(bullet);
 		}
@@ -91,6 +101,7 @@ public class ExplodeWhenShotTest
 	// doesn't appear to be ongoing, no activity in 3+ years, so let's just do a manual mock instead.
 	class MockExplodeWhenShot : ExplodeWhenShot
 	{
+		public bool wentBoom;
 		public Action<Living> callback;
 
 		internal override void HurtPeople(Living living, string damagedBy, int damage)
@@ -98,6 +109,11 @@ public class ExplodeWhenShotTest
 			if (callback != null) {
 				callback(living);
 			}
+		}
+
+		internal override void GoBoom()
+		{
+			wentBoom = true;
 		}
 	}
 }
