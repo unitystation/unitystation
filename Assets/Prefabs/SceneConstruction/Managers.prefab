@@ -1614,7 +1614,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1595272690655038
 GameObject:
   m_ObjectHideFlags: 1
@@ -7217,7 +7217,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224454349079915406}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9787233
+  m_Size: 0.9787234
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7605,7 +7605,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: OK
+  m_Text: JOIN
 --- !u!114 &114292328245828754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9321,21 +9321,21 @@ MonoBehaviour:
   m_NetworkPort: 7777
   m_ServerBindToIP: 0
   m_ServerBindAddress: 
-  m_NetworkAddress: 199.223.236.189
+  m_NetworkAddress: localhost
   m_DontDestroyOnLoad: 1
   m_RunInBackground: 1
-  m_ScriptCRCCheck: 1
+  m_ScriptCRCCheck: 0
   m_MaxDelay: 0.01
   m_LogLevel: 2
   m_PlayerPrefab: {fileID: 1133514949248654, guid: 44a8a3be9127f4465a50b7811d059bb3,
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
-  m_OfflineScene: DeathMatch
+  m_OfflineScene: Lobby
   m_OnlineScene: DeathMatch
   m_SpawnPrefabs: []
-  m_CustomConfig: 0
-  m_MaxConnections: 4
+  m_CustomConfig: 1
+  m_MaxConnections: 64
   m_ConnectionConfig:
     m_PacketSize: 1440
     m_FragmentSize: 500
@@ -9376,7 +9376,7 @@ MonoBehaviour:
     m_MaxTimerTimeout: 12000
     m_MinNetSimulatorTimeout: 1
     m_MaxNetSimulatorTimeout: 12000
-  m_Channels: 
+  m_Channels: 0500000000000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 200
@@ -9390,6 +9390,7 @@ MonoBehaviour:
   isNetworkActive: 0
   matchMaker: {fileID: 0}
   _isServer: 0
+  spawnableListReady: 0
 --- !u!114 &114548789704233220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13866,7 +13867,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 4}
+  m_AnchoredPosition: {x: 0, y: 17}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224165921709610828
@@ -14445,7 +14446,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 700.7501, y: 95.5}
+  m_AnchoredPosition: {x: 700.75, y: 95.5}
   m_SizeDelta: {x: 1401.5, y: 114}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224347802705061360
@@ -14573,7 +14574,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -6.9746, y: 23}
+  m_AnchoredPosition: {x: -6.9746, y: -13}
   m_SizeDelta: {x: 286.05, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224409095011226914
@@ -14666,7 +14667,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 59.299927, y: 503.19995}
+  m_AnchoredPosition: {x: 59.299957, y: 503.19995}
   m_SizeDelta: {x: 182, y: -997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224457582810821834
@@ -15203,7 +15204,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 63.15002, y: 33.850037}
+  m_AnchoredPosition: {x: 63.150024, y: 33.850037}
   m_SizeDelta: {x: 34, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224671506930490660
@@ -16113,7 +16114,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0.000091552734, y: 258.50003}
+  m_AnchoredPosition: {x: 0.000091552734, y: 258.5}
   m_SizeDelta: {x: -34, y: 517}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224963146621845462
@@ -16190,7 +16191,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -7.5949974, y: -74}
+  m_AnchoredPosition: {x: -7.5949974, y: -115}
   m_SizeDelta: {x: 287, y: 39}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224992662884611804

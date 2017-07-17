@@ -142,6 +142,10 @@ namespace Light2D
 
         private void Start()
         {
+			if (GameData.Instance.testServer || GameData.IsHeadlessServer) {
+				Debug.Log("Turn off lightsystem as this is a server");
+				this.enabled = false;
+			}
 #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
