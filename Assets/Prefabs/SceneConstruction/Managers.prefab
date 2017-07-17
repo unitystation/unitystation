@@ -1463,7 +1463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1547866170029996
 GameObject:
   m_ObjectHideFlags: 1
@@ -2855,7 +2855,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1939930544307092
 GameObject:
   m_ObjectHideFlags: 1
@@ -6469,7 +6469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb0db86702743f1b557d9417e9e1d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testServer: 1
+  testServer: 0
 --- !u!114 &114158696084396008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7217,7 +7217,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224454349079915406}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9787233
+  m_Size: 0.9787234
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9326,7 +9326,7 @@ MonoBehaviour:
   m_RunInBackground: 1
   m_ScriptCRCCheck: 0
   m_MaxDelay: 0.01
-  m_LogLevel: 1
+  m_LogLevel: 2
   m_PlayerPrefab: {fileID: 1133514949248654, guid: 44a8a3be9127f4465a50b7811d059bb3,
     type: 2}
   m_AutoCreatePlayer: 1
@@ -9377,7 +9377,7 @@ MonoBehaviour:
     m_MinNetSimulatorTimeout: 1
     m_MaxNetSimulatorTimeout: 12000
   m_Channels: 0500000000000000
-  m_UseWebSockets: 1
+  m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 200
   m_PacketLossPercentage: 0
@@ -16114,7 +16114,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0.000091552734, y: 258.50003}
+  m_AnchoredPosition: {x: 0.000091552734, y: 258.5}
   m_SizeDelta: {x: -34, y: 517}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224963146621845462
