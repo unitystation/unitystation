@@ -22,7 +22,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 	private GameObject lightFxInstance;
 	private LightSprite lightSprite;
 	public SpriteRenderer spriteRend;
-	
+
 	void Start()
 	{
 		playerMask = LayerMask.GetMask("Players");
@@ -36,7 +36,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		
 		var bullet = coll.GetComponent<BulletBehaviour>();
 		if (bullet != null) {
-			if (isServer ) {
+			if (isServer) {
 				Explode(bullet.shooterName);
 			}
 			hasExploded = true;
@@ -70,11 +70,11 @@ public class ExplodeWhenShot : NetworkBehaviour
 		}
 		NetworkServer.Destroy(gameObject);
 	}
-		
-	void GoBoom()
+
+	internal virtual void GoBoom()
 	{
-		if(spriteRend.isVisible)
-		Camera2DFollow.followControl.Shake(0.4f, 0.4f);
+		if (spriteRend.isVisible)
+			Camera2DFollow.followControl.Shake(0.4f, 0.4f);
 		// Instantiate a clone of the source so that multiple explosions can play at the same time.
 		var name = explosions[Random.Range(0, explosions.Length)];
 		var source = SoundManager.Instance[name];
@@ -92,7 +92,8 @@ public class ExplodeWhenShot : NetworkBehaviour
 		SetFire();
 	}
 
-	void SetFire(){
+	void SetFire()
+	{
 		int maxNumOfFire = 4;
 		int cLength = 3;
 		int rHeight = 3;
@@ -107,18 +108,18 @@ public class ExplodeWhenShot : NetworkBehaviour
 				if (j == 0 && i == 0 || j == 2 && i == 0 || j == 2 && i == 2)
 					continue;
 				
-					Vector2 checkPos = new Vector2(pos.x + (float)i, pos.y - (float)j);
-					if (Matrix.Matrix.At(checkPos).IsPassable() || Matrix.Matrix.At(checkPos).IsPlayer()) {
+				Vector2 checkPos = new Vector2(pos.x + (float)i, pos.y - (float)j);
+				if (Matrix.Matrix.At(checkPos).IsPassable() || Matrix.Matrix.At(checkPos).IsPlayer()) {
 					ItemFactory.Instance.SpawnFileTile(Random.Range(0.4f, 1f), checkPos);
-						maxNumOfFire--;
-					}
-					if (maxNumOfFire <= 0) {
-						break;
-					}
+					maxNumOfFire--;
 				}
+				if (maxNumOfFire <= 0) {
+					break;
+				}
+			}
 		}
 	}
-	
+
 
 	internal virtual void HurtPeople(Living living, string damagedBy, int damage)
 	{
