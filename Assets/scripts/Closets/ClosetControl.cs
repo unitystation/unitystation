@@ -33,12 +33,24 @@ namespace Cupboards
             IsClosed = true;
         }
 
-		public override void OnStartClient(){
-			SetItems(!IsClosed);
-			base.OnStartClient();
+		public override void OnStartServer(){
+            StartCoroutine(WaitForServerReg());
+			base.OnStartServer();
 		}
 
-		IEnumerator WaitForLoad(){
+        IEnumerator WaitForServerReg()
+        {
+            yield return new WaitForSeconds(0.2f);
+            SetItems(!IsClosed);
+        }
+
+        public override void OnStartClient()
+        {
+            StartCoroutine(WaitForLoad());
+            base.OnStartClient();
+        }
+
+        IEnumerator WaitForLoad(){
 			yield return new WaitForSeconds(0.2f);
 			OpenClose(IsClosed);
 		}

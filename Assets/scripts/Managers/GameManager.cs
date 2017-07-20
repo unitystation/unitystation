@@ -68,11 +68,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Update(){
-		if (!GameData.IsHeadlessServer) {
-			if (Screen.width > 1024 || Screen.height > 640) {
-				Screen.SetResolution(1024, 640, false);
-			}
-		}
+//		if (!GameData.IsHeadlessServer) {
+//			if (Screen.width > 1280 || Screen.height > 640) {
+//				Screen.SetResolution(1024, 640, false);
+//			}
+//		}
 
 		if (waitForRestart) {
 			restartTime -= Time.deltaTime;
