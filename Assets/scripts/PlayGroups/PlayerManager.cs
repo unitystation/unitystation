@@ -21,6 +21,9 @@ namespace PlayGroup
 
         private static PlayerManager playerManager;
 
+        //To fix playername bug when running two instances on 1 machine
+        public static string PlayerNameCache { get; set; }
+
         public static PlayerManager Instance
         {
             get

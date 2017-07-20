@@ -69,8 +69,10 @@ namespace PlayGroup {
                 }
 				if (!PlayerManager.HasSpawned) {
 					CmdTrySetName(PlayerPrefs.GetString("PlayerName"));
-				} else {
-					CmdSetNameManual(PlayerPrefs.GetString("PlayerName"));
+                    PlayerManager.PlayerNameCache = PlayerPrefs.GetString("PlayerName");
+
+                } else {
+					CmdSetNameManual(PlayerManager.PlayerNameCache);
 				}
 
                 PlayerManager.SetPlayerForControl(this.gameObject);
