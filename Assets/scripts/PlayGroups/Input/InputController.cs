@@ -35,19 +35,19 @@ namespace InputControl {
 		}
 
 		void Update() {
-			if (CurrentCooldownTime > 0) {
-				CurrentCooldownTime -= Time.deltaTime;
-				//prevents the action taking longer than it should to occur
-				if (CurrentCooldownTime < 0) {
-					CurrentCooldownTime = 0;
-				}
-			}
-
-			if (CurrentCooldownTime <= 0) {
-				CurrentCooldownTime += InputCooldownTimer;
+//			if (CurrentCooldownTime > 0) {
+//				CurrentCooldownTime -= Time.deltaTime;
+//				//prevents the action taking longer than it should to occur
+//				if (CurrentCooldownTime < 0) {
+//					CurrentCooldownTime = 0;
+//				}
+//			}
+//
+//			if (CurrentCooldownTime <= 0) {
+//				CurrentCooldownTime += InputCooldownTimer;
 				CheckHandSwitch ();
 				CheckClick ();
-			}
+//			}
 		}
 
 		private void CheckHandSwitch() {
