@@ -6,7 +6,7 @@ using UnityEngine.UI;
 //Resos:
 //0: 1024x640
 //1: 1280x720
-//2: 1920x1080
+//2: 1920x1080 //FIXME: Mouse Screen to world problems for 1080p
 public class DisplayManager : MonoBehaviour
 {
 
@@ -33,15 +33,18 @@ public class DisplayManager : MonoBehaviour
     }
     public void SetResolution(int _value)
     {
+		float xOffsetCamFollow = 0;
         switch (_value)
         {
-            case 0:
-                width = 1024;
-                height = 640;
+			case 0:
+				width = 1024;
+				height = 640;
+				xOffsetCamFollow = 1.7f;
                 break;
             case 1:
                 width = 1280;
                 height = 720;
+				xOffsetCamFollow = 2.5f;
                 break;
             case 2:
                 //FIXME: Interact problems at this reso
@@ -51,7 +54,9 @@ public class DisplayManager : MonoBehaviour
         }
         PlayerPrefs.SetInt("reso", _value);
         Screen.SetResolution(width, height, false);
-
+		if (GameData.IsInGame) {
+			Camera2DFollow.followControl.xOffset = xOffsetCamFollow;
+		}
         if (optionsDropDown.value != _value)
             optionsDropDown.value = _value;
         if (lightingSystem != null)
