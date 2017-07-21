@@ -100,10 +100,10 @@ namespace Light2D
         private RenderTexture _screenBlitTempTex;
         private RenderTexture _normalMapBuffer;
         private RenderTexture _singleLightSourceTexture;
-        private RenderTexture _renderTargetTexture;
+        public RenderTexture _renderTargetTexture { get; set; }
         private RenderTexture _oldActiveRenderTexture;
 
-        private Camera _camera;
+        public Camera _camera { get; set; }
         private ObstacleCameraPostPorcessor _obstaclesPostProcessor;
         private Point2 _extendedLightTextureSize;
         private Point2 _smallLightTextureSize;
@@ -306,12 +306,7 @@ namespace Light2D
                 Shader.DisableKeyword("LIGHT2D_XZ_PLANE");
 
             _obstaclesPostProcessor = new ObstacleCameraPostPorcessor();
-			//Set the offset x to 0 after creating the target texture (fixes offset bug)
-			if (AffectOnlyThisCamera) {
-				Rect camRect = _camera.rect;
-				camRect.x = 0f;
-				_camera.rect = camRect;
-			}
+
             LoopAmbientLight(100);
         }
 
