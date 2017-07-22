@@ -68,14 +68,26 @@ public class ExplodeWhenShot : NetworkBehaviour
 				}
 			}
 		}
-		NetworkServer.Destroy(gameObject);
+        StartCoroutine(WaitToDestroy());
 	}
+
+    IEnumerator WaitToDestroy(){
+        yield return new WaitForSeconds(1f);
+        NetworkServer.Destroy(gameObject);
+    }
 
 	internal virtual void GoBoom()
 	{
 		if (spriteRend.isVisible)
 			Camera2DFollow.followControl.Shake(0.4f, 0.4f);
 		// Instantiate a clone of the source so that multiple explosions can play at the same time.
+        spriteRend.enabled = false;
+        try{
+        Matrix.Matrix.At(transform.position).TryRemoveTile(gameObject);
+        } catch {
+            Debug.LogWarning("Object may of already been removed");
+        }
+
 		var name = explosions[Random.Range(0, explosions.Length)];
 		var source = SoundManager.Instance[name];
 		if (source != null) {
