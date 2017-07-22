@@ -39,6 +39,8 @@ GameObject:
   - component: {fileID: 114219478986407194}
   - component: {fileID: 114197525563370534}
   - component: {fileID: 61106100713950454}
+  - component: {fileID: 114057055290497368}
+  - component: {fileID: 114356547472611804}
   m_Layer: 13
   m_Name: LightTube
   m_TagString: Untagged
@@ -65,27 +67,27 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1745947215034166}
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 1841, y: 1139, z: -0.1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 1831, y: 1149, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4721042663708622}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!61 &61106100713950454
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1745947215034166}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.44997138}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -96,8 +98,40 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.5043292, y: 0.087768555}
   m_EdgeRadius: 0
+--- !u!114 &114057055290497368
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1745947215034166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 206
+    i1: 232
+    i2: 9
+    i3: 27
+    i4: 219
+    i5: 105
+    i6: 159
+    i7: 4
+    i8: 40
+    i9: 248
+    i10: 250
+    i11: 167
+    i12: 21
+    i13: 43
+    i14: 146
+    i15: 211
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114197525563370534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -109,8 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd47c8a7b3ca4905983be3a08c1caf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxRange: 7
-  LightOn: 0
+  Light: {fileID: 0}
   SpriteLightOn: {fileID: 21300014, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
   SpriteLightOff: {fileID: 21300010, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
 --- !u!114 &114219478986407194
@@ -127,6 +160,18 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
+--- !u!114 &114356547472611804
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1745947215034166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c71dff50f4f426eaf5ff7e2079f00fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialHealth: 10
 --- !u!114 &114984751247118002
 MonoBehaviour:
   m_ObjectHideFlags: 1

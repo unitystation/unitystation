@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114908380332834410}
   - component: {fileID: 114899219237730012}
   - component: {fileID: 114259338949648092}
+  - component: {fileID: 114075691637925416}
   m_Layer: 13
   m_Name: LightBulb
   m_TagString: Untagged
@@ -66,8 +67,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1614508754264130}
-  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 1860, y: 1151, z: -0.3}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1828, y: 1129, z: -0.3}
   m_LocalScale: {x: 1.0000005, y: 1.0000005, z: 1}
   m_Children:
   - {fileID: 4215336372400204}
@@ -80,13 +81,13 @@ BoxCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1614508754264130}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.3676507}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -97,8 +98,20 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.23747547, y: 0.26469862}
   m_EdgeRadius: 0
+--- !u!114 &114075691637925416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1614508754264130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c71dff50f4f426eaf5ff7e2079f00fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialHealth: 5
 --- !u!114 &114259338949648092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -110,8 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd47c8a7b3ca4905983be3a08c1caf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxRange: 4
-  LightOn: 0
+  Light: {fileID: 0}
   SpriteLightOn: {fileID: 21300042, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
   SpriteLightOff: {fileID: 21300050, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
 --- !u!114 &114651610379588122
