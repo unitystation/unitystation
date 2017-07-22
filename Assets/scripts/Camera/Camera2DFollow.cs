@@ -24,6 +24,8 @@ public class Camera2DFollow: MonoBehaviour {
     Vector3 currentVelocity;
     Vector3 lookAheadPos;
 
+	private bool isShaking = false;
+
 
     private bool adjustPixel = false;
     public float pixelAdjustment = 64f;
@@ -48,7 +50,7 @@ public class Camera2DFollow: MonoBehaviour {
     }
 
     void LateUpdate() {
-        if(target != null) {
+		if(target != null && !isShaking) {
             // only update lookahead pos if accelerating or changed direction
             float xMoveDelta = (target.position - lastTargetPosition).x;
 
@@ -96,6 +98,7 @@ public class Camera2DFollow: MonoBehaviour {
 
 	public void Shake(float amt, float length)
 	{
+		isShaking = true;
 		cachePos = transform.position;
 		shakeAmount = amt;
 		InvokeRepeating("DoShake", 0, 0.01f);
@@ -115,6 +118,7 @@ public class Camera2DFollow: MonoBehaviour {
 	}
 	void StopShake()
 	{
+		isShaking = false;
 		CancelInvoke("DoShake");
 		transform.position = cachePos;
 	}

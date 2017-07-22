@@ -79,7 +79,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 	internal virtual void GoBoom()
 	{
 		if (spriteRend.isVisible)
-			Camera2DFollow.followControl.Shake(0.4f, 0.4f);
+			Camera2DFollow.followControl.Shake(0.2f, 0.2f);
 		// Instantiate a clone of the source so that multiple explosions can play at the same time.
         spriteRend.enabled = false;
         try{

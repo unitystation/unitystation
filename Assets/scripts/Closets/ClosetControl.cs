@@ -150,7 +150,7 @@ namespace Cupboards
 			if (!open) {
 				heldItems.Clear();
 				heldItems = Matrix.Matrix.At(registerTile.editModeControl.Snap(transform.position)).GetItems();
-
+//				Debug.Log("Get items at pos: " + registerTile.editModeControl.Snap(transform.position));
 				ItemControl[] tempList = heldItems.ToArray();
 				for (int i = 0; i < tempList.Length; i++) {
 					tempList[i].aliveState = false;

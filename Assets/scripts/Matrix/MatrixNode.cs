@@ -31,49 +31,55 @@ namespace Matrix {
             set { section = value; UpdateSection(); }
         }
 
-        public bool TryAddTile(GameObject gameObject) {
-            var registerTile = gameObject.GetComponent<RegisterTile>();
+        public bool TryAddTile(GameObject _gameObject) {
+            var registerTile = _gameObject.GetComponent<RegisterTile>();
             if(!registerTile) {
                 return false;
             }
 
 			if (registerTile.TileType == TileType.Item) {
-				items.Add(gameObject.GetComponent<ItemControl>());
+				ItemControl iT = _gameObject.GetComponent<ItemControl>();
+				if (!items.Contains(iT)) {
+					items.Add(iT);
+//					Debug.Log("TRY ADD ITEM: + " + _gameObject.name + " " + Time.time + " " + _gameObject.transform.position);
+					//Debug.Log("Item count: " + items.Count);
+				}
 			} else {
-				tiles.Add(gameObject);
+				tiles.Add(_gameObject);
 				UpdateValues();
 			}
 
             return true;
         }
 
-        public bool TryRemoveTile(GameObject gameObject) {
-			RegisterTile rT = gameObject.GetComponent<RegisterTile>();
+        public bool TryRemoveTile(GameObject _gameObject) {
+			RegisterTile rT = _gameObject.GetComponent<RegisterTile>();
 			if (rT.TileType == TileType.Item) {
-				ItemControl iT = gameObject.GetComponent<ItemControl>();
+				ItemControl iT = _gameObject.GetComponent<ItemControl>();
 				if (items.Contains(iT)) {
-					items.Remove(iT);
+						items.Remove(iT);
+					//	Debug.Log("TRY Remove ITEM: + " + _gameObject.name + " " + Time.time);
 				}
 			} else {
-				if (!tiles.Contains(gameObject)) {
+				if (!tiles.Contains(_gameObject)) {
 					return false;
 				}
 
-				tiles.Remove(gameObject);
+				tiles.Remove(_gameObject);
 				UpdateValues();
 			}
             return true;
         }
 
-		public bool ContainsTile(GameObject gameObject){
-			if (tiles.Contains(gameObject)) {
+		public bool ContainsTile(GameObject _gameObject){
+			if (tiles.Contains(_gameObject)) {
 				return true;
 			}
 			return false;
 		}
 
-        public bool FitsTile(GameObject gameObject) {
-            var registerTile = gameObject.GetComponent<RegisterTile>();
+        public bool FitsTile(GameObject _gameObject) {
+            var registerTile = _gameObject.GetComponent<RegisterTile>();
             return registerTile && (tileValue & registerTile.TileType) == 0;
         }
 
@@ -132,6 +138,7 @@ namespace Matrix {
 		}
 
 		public List<ItemControl> GetItems(){
+		//	Debug.Log("LIST COUNT: " + items.Count);
 			return items;
 		}
 
