@@ -44,12 +44,11 @@ public class ItemControl : NetworkBehaviour
 		for (int i = 0; i < renderers.Length; i++) {
 			renderers[i].enabled = _aliveState;
 		}
-
-		RegisterTile rT = GetComponent<RegisterTile>();
-		if (rT != null) {
-			rT.UpdateTile(rT.editModeControl.Snap(transform.position));
+			
+			RegisterTile rT = GetComponent<RegisterTile>();
+			if (rT != null) {
+				gameObject.GetComponent<EditModeControl>().Snap();
+				rT.UpdateTile(transform.position);
+			}
 		}
 	}
-
-
-}
