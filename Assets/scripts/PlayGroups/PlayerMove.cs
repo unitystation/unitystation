@@ -159,7 +159,7 @@ namespace PlayGroup {
         private void Interact(Vector3 currentPosition, Vector3 direction) {
             var doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
             if (doorController != null) {
-                doorController.CmdTryOpen();
+                doorController.CmdTryOpen(gameObject);
             }
 
 			var objectActions = Matrix.Matrix.At(currentPosition + direction).GetObjectActions();

@@ -81,7 +81,7 @@ namespace PlayGroup
 				if (getDoor != null && !tryOpenDoor) {
 					tryOpenDoor = true;
 					StartCoroutine("OpenCoolDown");
-					getDoor.CmdTryOpen();
+//					getDoor.CmdTryOpen();
 				} 
 			}
 		}
