@@ -163,6 +163,7 @@ public class ExplodeWhenShot : NetworkBehaviour
                 if(oA.pusher == PlayerManager.LocalPlayer){
                     PlayerManager.LocalPlayerScript.playerMove.isPushing = false;
                 }
+                oA.isPushable = false;
             }
         } catch {
             Debug.LogWarning("Object may of already been removed");

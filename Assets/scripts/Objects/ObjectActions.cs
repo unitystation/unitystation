@@ -9,6 +9,7 @@ public class ObjectActions : NetworkBehaviour
 {
 	public float moveSpeed = 7f;
 	public bool allowedToMove = true;
+    public bool isPushable = true;
 	private RegisterTile registerTile;
 
 	[SyncVar]
@@ -58,7 +59,7 @@ public class ObjectActions : NetworkBehaviour
 		if (pushDir != Vector2.up && pushDir != Vector2.right
 		    && pushDir != Vector2.down && pushDir != Vector2.left)
 			return;
-		if (pushing) {
+        if (pushing || !isPushable) {
 			return;
 		}
 
