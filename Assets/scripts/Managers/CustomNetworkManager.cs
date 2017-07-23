@@ -12,6 +12,8 @@ public class CustomNetworkManager: NetworkManager
 	public static CustomNetworkManager Instance;
 	[HideInInspector]
 	public bool _isServer = false;
+	[HideInInspector]
+	public bool spawnableListReady = false;
 	void Awake()
 	{
 		if (Instance == null)
@@ -22,13 +24,27 @@ public class CustomNetworkManager: NetworkManager
 		{
 			Destroy(this.gameObject);
 		}
+
 	}
 
 	void Start(){
+		SetSpawnableList();
 		if (!IsClientConnected() && !GameData.IsHeadlessServer)
 		{
 			UIManager.Display.logInWindow.SetActive(true);   
 		}
+	}
+
+	void SetSpawnableList(){
+		spawnPrefabs.Clear();
+
+		var networkObjects = Resources.LoadAll<NetworkIdentity>("");
+		foreach (var netObj in networkObjects) {
+			if (!netObj.gameObject.name.Contains("Player")) {
+				spawnPrefabs.Add(netObj.gameObject);
+			}
+		}
+		spawnableListReady = true;
 	}
 
 	void OnEnable()
@@ -41,46 +57,60 @@ public class CustomNetworkManager: NetworkManager
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
-	public override void OnStartServer(){
+    public override void OnStartServer(){
 		_isServer = true;
 		base.OnStartServer();
 	}
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId){
 		//This spawns the player prefab
-			StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
+        StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
 	}
 
 	IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId){
 		yield return new WaitForSeconds(1f);
-		base.OnServerAddPlayer(conn, playerControllerId);
-	}
+        base.OnServerAddPlayer(conn, playerControllerId);
+    }
 
 	public override void OnClientConnect(NetworkConnection conn)
 	{
 		if (_isServer) {
 		//do special server wizardry here
-
 		}
-		//This client connecting to server
-		base.OnClientConnect(conn);
+		if (GameData.IsInGame) {
+			ObjectManager.StartPoolManager();
+		}
+
+        //This client connecting to server, wait for the spawnable prefabs to register
+		StartCoroutine(WaitForSpawnListSetUp(conn));
 	}
 
-	IEnumerator WaitForLoad(NetworkConnection conn, short playerID){
-		yield return new WaitForSeconds(2f);
-		base.OnServerAddPlayer(conn, playerID);
+	IEnumerator WaitForSpawnListSetUp(NetworkConnection conn){
+	
+		while (!spawnableListReady) {
+		
+			yield return new WaitForSeconds(1);
+		}
+		
+		base.OnClientConnect(conn);
 	}
 
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
-		PlayerList.Instance.RemovePlayer(conn.playerControllers[0].gameObject.name);
-		//TODO DROP ALL HIS OBJECTS
-		Debug.Log("PlayerDisconnected: " + conn.playerControllers[0].gameObject.name);
-		NetworkServer.Destroy(conn.playerControllers[0].gameObject);
+		if (conn != null) {
+			PlayerList.Instance.RemovePlayer(conn.playerControllers[0].gameObject.name);
+			//TODO DROP ALL HIS OBJECTS
+			Debug.Log("PlayerDisconnected: " + conn.playerControllers[0].gameObject.name);
+			NetworkServer.Destroy(conn.playerControllers[0].gameObject);
+		}
 	}
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
+		if (GameData.IsInGame) {
+			ObjectManager.StartPoolManager();
+		}
+		
 		if (IsClientConnected())
 		{
 			//make sure login window does not show on scene changes if connected
@@ -94,7 +124,7 @@ public class CustomNetworkManager: NetworkManager
 	}
 
 	IEnumerator DoHeadlessCheck(){
-		yield return new WaitForEndOfFrame();
+		yield return new WaitForSeconds(0.1f);
 		if (!GameData.IsHeadlessServer) {
 			if(!IsClientConnected())
 			UIManager.Display.logInWindow.SetActive(true);

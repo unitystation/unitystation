@@ -24,10 +24,8 @@ namespace InputControl {
 		private float CurrentCooldownTime;
 
 		void OnDrawGizmos() {
-			if (LastTouchedTile != null) {
-				Gizmos.color = new Color (1, 0, 0, 0.5F);
-				Gizmos.DrawCube (LastTouchedTile, new Vector3 (1, 1, 1));
-			}
+			Gizmos.color = new Color (1, 0, 0, 0.5F);
+			Gizmos.DrawCube (LastTouchedTile, new Vector3 (1, 1, 1));
 		}
 
 		void Start(){
@@ -37,19 +35,19 @@ namespace InputControl {
 		}
 
 		void Update() {
-			if (CurrentCooldownTime > 0) {
-				CurrentCooldownTime -= Time.deltaTime;
-				//prevents the action taking longer than it should to occur
-				if (CurrentCooldownTime < 0) {
-					CurrentCooldownTime = 0;
-				}
-			}
-
-			if (CurrentCooldownTime <= 0) {
-				CurrentCooldownTime += InputCooldownTimer;
+//			if (CurrentCooldownTime > 0) {
+//				CurrentCooldownTime -= Time.deltaTime;
+//				//prevents the action taking longer than it should to occur
+//				if (CurrentCooldownTime < 0) {
+//					CurrentCooldownTime = 0;
+//				}
+//			}
+//
+//			if (CurrentCooldownTime <= 0) {
+//				CurrentCooldownTime += InputCooldownTimer;
 				CheckHandSwitch ();
 				CheckClick ();
-			}
+//			}
 		}
 
 		private void CheckHandSwitch() {
@@ -62,10 +60,10 @@ namespace InputControl {
 			bool foundHit = false;
 
 			if(Input.GetMouseButtonDown(0)) {
-				foundHit = RayHit(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+				foundHit = RayHit(InteractCamera.Instance.mainCam.ScreenToWorldPoint(Input.mousePosition));
 
 				//change the facingDirection of player on click
-				Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
+				Vector2 dir = (InteractCamera.Instance.mainCam.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
 				float angle = Angle(dir);
 				if(!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
 					CheckPlayerDirection(angle);
@@ -104,9 +102,12 @@ namespace InputControl {
 
 			//check which of the speite renderers we hit and pixel checked is the highest
 			if (spriteRenderers.Count > 0) {
-				var topSprite = spriteRenderers.OrderByDescending (sr => sr.sortingOrder).First ();
-				if (topSprite != null) {
-					Interact (topSprite.transform);
+				foreach (var sprite in spriteRenderers.OrderByDescending(sr => sr.sortingOrder)) {
+					if (sprite != null) {
+						if (Interact(sprite.transform)) {
+							break;
+						}
+					}
 				}
 			}
 
@@ -148,34 +149,37 @@ namespace InputControl {
 			return null;
 		}
 
-		private void Interact(Transform transform) {
+		private bool Interact(Transform transform) {
 			//attempt to trigger the things in range we clicked on
 			if (PlayerManager.LocalPlayerScript.IsInReach (transform)) {
 				//check the actual transform for an input trigger and if there is non, check the parent
 				var inputTrigger = transform.GetComponent<InputTrigger> ();
 				if (inputTrigger) {
 					inputTrigger.Trigger ();
-					return;
+					return true;
 				} else {
 					inputTrigger = transform.parent.GetComponent<InputTrigger> ();
 					if (inputTrigger) {
 						inputTrigger.Trigger ();
-						return;
+						return true;
 					}
 				}
 			}
 
 			//if we are holding onto an item like a gun attempt to shoot it if we were not in range to trigger anything
-			InteractHands();
+			return InteractHands();
 		}
 
-		private void InteractHands() {
+		private bool InteractHands() {
 			if (UIManager.Hands.CurrentSlot.GameObject () != null) {
 				var inputTrigger = UIManager.Hands.CurrentSlot.GameObject().GetComponent<InputTrigger> ();
 				if (inputTrigger != null) {
 					inputTrigger.Trigger ();
+					return true;
 				}
 			}
+
+			return false;
 		}
 
 		public void OnMouseDownDir(Vector2 dir){

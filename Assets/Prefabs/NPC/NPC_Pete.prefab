@@ -27,6 +27,8 @@ GameObject:
   - component: {fileID: 114478749026392066}
   - component: {fileID: 50113970382522722}
   - component: {fileID: 114579492963829796}
+  - component: {fileID: 114379432356965050}
+  - component: {fileID: 114019849627944276}
   m_Layer: 0
   m_Name: NPC_Pete
   m_TagString: Untagged
@@ -41,7 +43,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722833055556988}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.66333, y: 3.7113037, z: -0.0984375}
+  m_LocalPosition: {x: 2.7336426, y: 3.2425537, z: -0.0984375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -117,6 +119,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.62402344}
   m_EdgeRadius: 0
+--- !u!114 &114019849627944276
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0184ff86886f974d95dfead14754f36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MultiplicativeColor: {r: 0, g: 0, b: 0, a: 1}
+  AdditiveColor: {r: 0.9098039, g: 0.9098039, b: 0.9098039, a: 0}
+  Material: {fileID: 2100000, guid: 0a8c132f813f5514b9f5b48ff3956482, type: 2}
+  LightObstacleScale: 1
 --- !u!114 &114366662924069924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -138,6 +155,18 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114379432356965050
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c86f0d5246b4abe8fd9bb34e7cee0d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialHealth: 40
 --- !u!114 &114478749026392066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -179,7 +208,7 @@ MonoBehaviour:
   butcherResults:
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
   sliced: 0
-  deadSprite: {fileID: 21300548, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
+  deadSprite: {fileID: 21300560, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
   gibPrefab: {fileID: 1843853587201310, guid: 0f02ea038462b9a42afac8eb3d13bfcf, type: 2}
 --- !u!114 &114595648713084262
 MonoBehaviour:
@@ -245,7 +274,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 10
   m_SortingOrder: -70
-  m_Sprite: {fileID: 21300540, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
+  m_Sprite: {fileID: 21300552, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

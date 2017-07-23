@@ -5,41 +5,72 @@ using PlayGroup;
 using Matrix;
 using InputControl;
 
-public class ShutterController : ObjectTrigger {
-    private Animator animator;
-    private RegisterTile registerTile;
+public class ShutterController : ObjectTrigger
+{
+	private Animator animator;
+	private RegisterTile registerTile;
 
-    public bool IsClosed { get; private set; }
+	public bool IsClosed { get; private set; }
 
-    void Awake() {
-        animator = gameObject.GetComponent<Animator>();
-        registerTile = gameObject.GetComponent<RegisterTile>();
+	private int closedLayer;
+	private int openLayer;
 
-		SetLayer(LayerMask.NameToLayer("Door Closed"));
-    }
+	//For network sync reliability
+	private bool waitToCheckState = false;
+	private bool tempStateCache;
 
-	public override void Trigger(bool state) {
-		//open
-		if (!state) {
-			IsClosed = state;
-			registerTile.UpdateTileType(TileType.None);
-			SetLayer(LayerMask.NameToLayer("Door Open"));
-			animator.SetBool("close", false);
+	void Awake()
+	{
+		animator = gameObject.GetComponent<Animator>();
+		registerTile = gameObject.GetComponent<RegisterTile>();
+
+		closedLayer = LayerMask.NameToLayer("Door Closed");
+		openLayer = LayerMask.NameToLayer("Door Open");
+		SetLayer(closedLayer);
+	}
+
+	public override void Trigger(bool state)
+	{
+		tempStateCache = state;
+		if (waitToCheckState)
+			return;
+		
+		if (animator == null) {
+			waitToCheckState = true;
+			return;
 		}
-		//close
-		else {
-			IsClosed = state;
-			registerTile.UpdateTileType(TileType.Door);
-			SetLayer(LayerMask.NameToLayer("Door Closed"));
-			animator.SetBool("close", true);
+
+		SetState(state);
+	}
+
+	private void SetState(bool state){
+		IsClosed = state;
+		registerTile.UpdateTileType(state ? TileType.Door : TileType.None);
+		SetLayer(state ? closedLayer : openLayer);
+		animator.SetBool("close", state);
+	}
+
+	public void SetLayer(int layer)
+	{
+		gameObject.layer = layer;
+		foreach (Transform child in transform) {
+			child.gameObject.layer = layer;
 		}
 	}
 
-	public void SetLayer(int layer) {
-		gameObject.layer = layer;
-		foreach (Transform child in transform)
-		{
-			child.gameObject.layer = layer;
+	//Handle network spawn sync failure
+	IEnumerator WaitToTryAgain(){
+		yield return new WaitForSeconds(0.2f);
+		if (animator == null) {
+			animator = GetComponentInChildren<Animator>();
+			if (animator != null) {
+				SetState(tempStateCache);
+			} else {
+				Debug.LogWarning("ShutterController still failing Animator sync");
+			}
+		} else {
+			SetState(tempStateCache);
 		}
+		waitToCheckState = false;
 	}
 }

@@ -281,37 +281,38 @@ public class Carbon : Living
 
     #region damage_procs.dm
 
-    public override int ApplyDamage(int damage = 0, string damagetype = DamageType.BRUTE, string def_zone = null, int blocked = 0)
+    public override int ApplyDamage(int damage, DamageType damagetype, BodyPartType def_zone, int blocked = 0)
     {
         // TODO Blocking
         if (damage == 0)
             return 0;
 
-        BodyPart BP = null;
-        BP = GetBodyPart(def_zone);
-
-        if (BodyPart.IsLimb(def_zone))
-        {
-            BP = GetBodyPart(def_zone);
-        }
-        else
-        {
-            if (def_zone == null)
-                def_zone = RandomiseZone(def_zone);
-
-            BP = GetBodyPart(def_zone);
-
-            if (BP == null)
-            {
-                BP = BodyParts.First().GetComponent<BodyPart>();
-            }
-        }
+//        BodyPart BP = null;
+//        BP = GetBodyPart(def_zone);
+//
+//        if (BodyPart.IsLimb(def_zone))
+//        {
+//            BP = GetBodyPart(def_zone);
+//        }
+//        else
+//        {
+//            if (def_zone == null)
+//                def_zone = RandomiseZone(def_zone);
+//
+//            BP = GetBodyPart(def_zone);
+//
+//            if (BP == null)
+//            {
+//                BP = BodyParts.First().GetComponent<BodyPart>();
+//            }
+//        }
+        BodyPart BP = GetBodyPart( def_zone );
 
         switch (damagetype)
         {
             case DamageType.BRUTE:
-                if (BP != null)
-                    if (BP.ReceiveDamage<Carbon>(damage, 0) == true)
+//                if (BP != null)
+                    if (BP.ReceiveDamage<Carbon>(damage, 0))
                     {
                         UpdateDamageOverlays();
                     }  //no bodypart, we deal damage with a more general method.
@@ -319,7 +320,7 @@ public class Carbon : Living
                         AdjustBruteLoss(damage);
                 break;
             case DamageType.BURN:
-                if (BP.ReceiveDamage<Carbon>(0, damage) == true)
+                if (BP.ReceiveDamage<Carbon>(0, damage))
                 {
                     UpdateDamageOverlays();
                 }  //no bodypart, we deal damage with a more general method.
@@ -431,6 +432,7 @@ public class Carbon : Living
     #endregion
 
     #region helpers.dm
+    [Obsolete]
     public override BodyPart GetBodyPart(string zone)
     {
         if (String.IsNullOrEmpty(zone))
@@ -445,11 +447,22 @@ public class Carbon : Living
 
         return null;
     }
+    public override BodyPart GetBodyPart(BodyPartType zone)
+    {
+        foreach (GameObject bodyPartGameObject in BodyParts)
+        {
+            BodyPart bodyPart = bodyPartGameObject.GetComponent<BodyPart>();
+            if (bodyPart.Type.Equals(zone))
+                return bodyPart;
+        }
+
+        return null;
+    }
     #endregion
 
     #region death.dm
     // see carbon/mob/living/carbon/death(gibbed)
-    public override void Death(bool gibbed)
+    public override void Death(bool gibbed = false)
     {
 		if (!IsClient())
 			return;

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -40,7 +41,7 @@ public abstract class Mob : NetworkBehaviour
 
     #region death.dm
     // see mob death.dm /mob/proc/death(gibbed)
-    public virtual void Death(bool gibbed)
+    public virtual void Death(bool gibbed=false)
     {
         return;
     }
@@ -133,4 +134,27 @@ public abstract class Mob : NetworkBehaviour
     }
 
     #endregion
+
+    public void OnMouseEnter()
+    {
+        UIManager.SetToolTip = this.name;
+    }
+
+    public void OnMouseExit()
+    {
+        UIManager.SetToolTip = "";
+    }
+
+    public void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            RightClickContextMenu();
+        }
+    }
+
+    public virtual void RightClickContextMenu()
+    {
+
+    }
 }

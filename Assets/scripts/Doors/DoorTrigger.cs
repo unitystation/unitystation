@@ -15,6 +15,6 @@ public class DoorTrigger: InputTrigger {
         if(doorController.IsOpened)
             doorController.CmdTryClose();
         else
-            doorController.CmdTryOpen();
+            doorController.CmdTryOpen(PlayGroup.PlayerManager.LocalPlayer);
     }
 }

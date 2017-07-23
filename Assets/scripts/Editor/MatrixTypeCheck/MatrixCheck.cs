@@ -6,7 +6,7 @@ using Matrix;
 public class MatrixCheck: EditorWindow {
     [MenuItem("Window/Matrix Check")]
     public static void ShowWindow() {
-        var window = GetWindow<MatrixCheck>("Matrix Check");
+        GetWindow<MatrixCheck>("Matrix Check");
     }
 
     public void OnEnable() {

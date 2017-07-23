@@ -23,7 +23,7 @@ namespace UI
 		public GameObject button;
 
 		private string versionCheck = "http://doobly.izz.moe/unitystation/checkversion.php";
-		private const string currentVersion = "0.1.21";
+		private const string currentVersion = "0.1.3";
 		private const string UserNamePlayerPref = "PlayerName";
 
 		private const string DefaultServer = "LocalHost";
@@ -88,6 +88,7 @@ namespace UI
 				
 			if (screen_PlayerName.activeInHierarchy && !hostServer.isOn) {
 				PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
+                PlayGroup.PlayerManager.PlayerNameCache = playerNameInput.text;
 				screen_PlayerName.SetActive(false);
 				screen_ConnectTo.SetActive(true);
 				title.text = "Connection";
@@ -96,6 +97,7 @@ namespace UI
 			//Connecting as server from a map scene
 			if (screen_PlayerName.activeInHierarchy && hostServer.isOn && GameData.IsInGame) {
 				PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
+                PlayGroup.PlayerManager.PlayerNameCache = playerNameInput.text;
                 networkManager.StartHost();
 				gameObject.SetActive(false);
 			}
@@ -103,6 +105,7 @@ namespace UI
 			//Connecting as server from the lobby
 			if (screen_PlayerName.activeInHierarchy && hostServer.isOn && !GameData.IsInGame) {
 				PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
+                PlayGroup.PlayerManager.PlayerNameCache = playerNameInput.text;
                 networkManager.StartHost();
 				gameObject.SetActive(false);
 			}
@@ -112,7 +115,7 @@ namespace UI
 		{
             networkManager.networkAddress = serverAddressInput.text;
 			int port = 0;
-			if (portInput.text.Length == 3) {
+			if (portInput.text.Length >= 4) {
 				int.TryParse(portInput.text, out port);
 			}
 			if (port == 0) {

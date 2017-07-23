@@ -9,6 +9,7 @@ namespace UI
 		public GameObject logInWindow;
 		public GameObject backGround;
 		public GameObject[] UIObjs;
+        public GameObject jobSelectWindow;
 
 		public void ResetUI()
 		{
@@ -38,8 +39,9 @@ namespace UI
 
 
 			SoundManager.StopMusic();
-			//TODO random ambient
-			SoundManager.PlayVarAmbient(0);
+//			//TODO random ambient
+//			int rA = Random.Range(0,2);
+//			SoundManager.PlayVarAmbient(rA);
 		}
 			
 	}

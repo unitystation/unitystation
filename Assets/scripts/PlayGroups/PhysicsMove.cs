@@ -13,7 +13,6 @@ namespace PlayGroup
 	{
 
 		private Rigidbody2D thisRigi;
-		private PlayerScript parentScript;
 
 		public bool isMoving = false;
 		public bool lerpA = false;
@@ -39,7 +38,6 @@ namespace PlayGroup
 
 		void Start()
 		{
-			parentScript = GetComponent<PlayerScript>();
 			thisRigi = GetComponent<Rigidbody2D>();
 		}
 
@@ -83,7 +81,7 @@ namespace PlayGroup
 				if (getDoor != null && !tryOpenDoor) {
 					tryOpenDoor = true;
 					StartCoroutine("OpenCoolDown");
-					getDoor.CmdTryOpen();
+//					getDoor.CmdTryOpen();
 				} 
 			}
 		}

@@ -8,11 +8,12 @@ using Sprites;
 
 namespace Lighting
 {
-	enum LightState {
+	enum LightState
+	{
 		On,
 		Off,
 		Broken
-	};
+	}
 
 	public class LightSource : ObjectTrigger
 	{
@@ -20,53 +21,61 @@ namespace Lighting
 		/// The SpriteRenderer for this light
 		/// </summary>
 		private SpriteRenderer Renderer;
+
 		/// <summary>
 		/// The state of this light
 		/// </summary>
 		private LightState LightState;
+
+		/// <summary>
+		/// The actual light effect that the light source represents
+		/// </summary>
+		public GameObject Light;
+
 		/// <summary>
 		/// The sprite to show when this light is turned on
 		/// </summary>
 		public Sprite SpriteLightOn;
+
 		/// <summary>
 		/// The sprite to show when this light is turned off
 		/// </summary>
 		public Sprite SpriteLightOff;
-		/// <summary>
-		/// The the light gameobject child of the light
-		/// </summary>
-		public Light Light;
+
+		//For network sync reliability
+		private bool waitToCheckState = false;
+		private bool tempStateCache;
 
 		void Awake()
 		{
 			Renderer = GetComponentInChildren<SpriteRenderer>();
-			Light = GetComponentInChildren<Light>();
 		}
 
-		void Start(){
+		void Start()
+		{
 			InitLightSprites();
 		}
 
-		public override void Trigger(bool state){
-			//turn lights off
-			if (!state) {
-				TurnOffLight();
-			} 
-			//turn on
-			else {
-				TurnOnLight();
+		public override void Trigger(bool state)
+		{
+			tempStateCache = state;
+
+			if (waitToCheckState)
+				return;
+
+			if (Renderer == null) {
+				waitToCheckState = true;
+				StartCoroutine(WaitToTryAgain());
+				return;
+			}
+			Renderer.sprite = state ? SpriteLightOn : SpriteLightOff;
+			if (Light != null) {
+				Light.SetActive(state);
 			}
 		}
 
-		public void TurnOnLight(){
-			Renderer.sprite = SpriteLightOn;
-		}
-
-		public void TurnOffLight(){
-			Renderer.sprite = SpriteLightOff;
-		}
-
-		private void InitLightSprites() {
+		private void InitLightSprites()
+		{
 			LightState = LightState.On;
 
 			//set the ON sprite to whatever the spriterenderer child has?
@@ -78,6 +87,28 @@ namespace Lighting
 			int onPos; 
 			int.TryParse(split[1], out onPos);
 			SpriteLightOff = lightSprites[onPos + 4];
+		}
+
+		//Handle sync failure
+		IEnumerator WaitToTryAgain(){
+			yield return new WaitForSeconds(0.2f);
+			if (Renderer == null) {
+				Renderer = GetComponentInChildren<SpriteRenderer>();
+				if (Renderer != null) {
+					Renderer.sprite = tempStateCache ? SpriteLightOn : SpriteLightOff;
+					if (Light != null) {
+						Light.SetActive(tempStateCache);
+					}
+				} else {
+					Debug.LogWarning("LightSource still failing Renderer sync");
+				}
+			} else {
+				Renderer.sprite = tempStateCache ? SpriteLightOn : SpriteLightOff;
+				if (Light != null) {
+					Light.SetActive(tempStateCache);
+				}
+			}
+			waitToCheckState = false;
 		}
 	}
 }

@@ -26,6 +26,10 @@ namespace UI
         }
 
 		void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
+			Reset();
+		}
+
+		public void Reset(){
 			GetComponent<Image>().sprite = fullHealthSprite;
 			SoundManager.Stop("Critstate");
 		}

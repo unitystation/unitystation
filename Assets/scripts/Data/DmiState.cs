@@ -20,10 +20,10 @@ public class DmiState
         this.dirs = dirs;
     }
 
-    public DmiState(string state) : this(state, null, null, -1, -1, -1)
+    public DmiState(string state) : this("", state, "", -1, -1, -1)
     {
     }
-    public DmiState()
+    public DmiState() : this("")
     {
     }
 

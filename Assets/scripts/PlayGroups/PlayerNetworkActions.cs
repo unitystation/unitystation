@@ -21,51 +21,56 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     };
 
     private Equipment.Equipment equipment;
-	private PlayerMove playerMove;
-	private PlayerSprites playerSprites;
-	private PlayerScript playerScript;
-	private SoundNetworkActions soundNetworkActions;
-	private ChatIcon chatIcon;
+    private PlayerMove playerMove;
+    private PlayerSprites playerSprites;
+    private PlayerScript playerScript;
+    private SoundNetworkActions soundNetworkActions;
+    private ChatIcon chatIcon;
     void Start()
     {
         equipment = GetComponent<Equipment.Equipment>();
-		playerMove = GetComponent<PlayerMove>();
-		playerSprites = GetComponent<PlayerSprites>();
-		playerScript = GetComponent<PlayerScript>();
-		soundNetworkActions = GetComponent<SoundNetworkActions>();
-		chatIcon = GetComponentInChildren<ChatIcon>();
-		CmdSyncRoundTime(GameManager.Instance.GetRoundTime);
+        playerMove = GetComponent<PlayerMove>();
+        playerSprites = GetComponent<PlayerSprites>();
+        playerScript = GetComponent<PlayerScript>();
+        soundNetworkActions = GetComponent<SoundNetworkActions>();
+        chatIcon = GetComponentInChildren<ChatIcon>();
+        CmdSyncRoundTime(GameManager.Instance.GetRoundTime);
     }
 
     public override void OnStartServer()
     {
-		if (isServer) {
-			foreach (string cacheName in eventNames) {
-				ServerCache.Add(cacheName, null);
-			}
-		} 
+        if (isServer)
+        {
+            foreach (string cacheName in eventNames)
+            {
+                ServerCache.Add(cacheName, null);
+            }
+        }
         base.OnStartServer();
     }
-	[Command]
-	void CmdSyncRoundTime(float currentTime){
-		RpcSyncRoundTime(currentTime);
-	}
+    [Command]
+    void CmdSyncRoundTime(float currentTime)
+    {
+        RpcSyncRoundTime(currentTime);
+    }
 
-	[ClientRpc]
-	void RpcSyncRoundTime(float currentTime){
-		if (PlayerManager.LocalPlayer == gameObject) {
-			GameManager.Instance.SyncTime(currentTime);
-		}
-	}
-        
+    [ClientRpc]
+    void RpcSyncRoundTime(float currentTime)
+    {
+        if (PlayerManager.LocalPlayer == gameObject)
+        {
+            GameManager.Instance.SyncTime(currentTime);
+        }
+    }
+
     //This is only called from interaction on the client (from PickUpTrigger)
     public bool TryToPickUpObject(GameObject itemObject)
-    {            
+    {
         if (PlayerManager.PlayerScript != null)
         {
             if (!isLocalPlayer)
                 return false;
-				
+
             if (!UIManager.Hands.CurrentSlot.TrySetItem(itemObject))
             {
                 return false;
@@ -85,6 +90,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     //Server only (from Equipment Initial SetItem method
     public void TrySetItem(string eventName, GameObject obj)
     {
+//        Debug.LogErrorFormat("Server {0}", obj.GetComponentInChildren<ItemAttributes>().hierarchy);
         if (ServerCache.ContainsKey(eventName))
         {
             if (ServerCache[eventName] == null)
@@ -97,7 +103,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
     [Command]
     public void CmdTryToPickUpObject(string eventName, GameObject obj)
-    {			
+    {
         if (ServerCache.ContainsKey(eventName))
         {
             if (ServerCache[eventName] == null || ServerCache[eventName] == obj)
@@ -108,20 +114,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
             else
             {
-                Debug.Log("ServerCache slot is full");   
+                Debug.Log("ServerCache slot is full");
             }
         }
     }
 
-	//This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
-	[Command]
-	public void CmdTryAddToEquipmentPool(GameObject obj){
+    //This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
+    [Command]
+    public void CmdTryAddToEquipmentPool(GameObject obj)
+    {
 
-		EquipmentPool.AddGameObject(gameObject, obj);
-	}
+        EquipmentPool.AddGameObject(gameObject, obj);
+    }
 
     [Command]
-    public void CmdTryToInstantiateInHand(string eventName, GameObject prefab){
+    public void CmdTryToInstantiateInHand(string eventName, GameObject prefab)
+    {
         if (ServerCache.ContainsKey(eventName))
         {
             if (ServerCache[eventName] == null)
@@ -135,14 +143,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
             else
             {
-                Debug.Log("ServerCache slot is full");  
-               
+                Debug.Log("ServerCache slot is full");
+
             }
         }
     }
 
     [ClientRpc]
-    void RpcInstantiateInHand(string playerName, GameObject item){
+    void RpcInstantiateInHand(string playerName, GameObject item)
+    {
         if (playerName == gameObject.name)
         {
             UIManager.Hands.CurrentSlot.TrySetItem(item);
@@ -156,12 +165,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         {
             if (eventName.Length > 0)
             {
-                EventManager.UI.TriggerEvent(eventName, obj);
+                StartCoroutine(SetItemPatiently(eventName, obj));
             }
         }
     }
 
-	//Dropping from a slot on the UI
+    public IEnumerator SetItemPatiently(string eventName, GameObject obj)
+    {
+        //Waiting for hier name resolve
+        yield return new WaitForSeconds(0.2f);
+        EventManager.UI.TriggerEvent(eventName, obj);        
+    }
+
+    //Dropping from a slot on the UI
     [Command]
     public void CmdDropItem(string eventName)
     {
@@ -169,7 +185,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         {
             if (ServerCache[eventName] != null)
             {
-				GameObject item = ServerCache[eventName];
+                GameObject item = ServerCache[eventName];
                 EquipmentPool.DropGameObject(gameObject.name, ServerCache[eventName]);
 
                 RpcAdjustItemParent(ServerCache[eventName], null);
@@ -182,12 +198,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
         }
     }
-	//Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)
-	[Command]
-	public void CmdDropItemNotInUISlot(GameObject obj)
-	{
-		EquipmentPool.DropGameObject(gameObject.name, obj);
-	}
+    //Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)
+    [Command]
+    public void CmdDropItemNotInUISlot(GameObject obj)
+    {
+        EquipmentPool.DropGameObject(gameObject.name, obj);
+    }
 
     [Command]
     public void CmdPlaceItem(string eventName, Vector3 pos, GameObject newParent)
@@ -199,10 +215,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
                 GameObject item = ServerCache[eventName];
                 EquipmentPool.DropGameObject(gameObject.name, ServerCache[eventName], pos);
                 ServerCache[eventName] = null;
-				if (item != null && newParent != null) {
-					item.transform.parent = newParent.transform;
-					World.ReorderGameobjectsOnTile(pos);
-				}
+                if (item != null && newParent != null)
+                {
+                    item.transform.parent = newParent.transform;
+                    World.ReorderGameobjectsOnTile(pos);
+                }
                 RpcAdjustItemParent(item, newParent);
                 equipment.ClearItemSprite(eventName);
             }
@@ -239,7 +256,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     {
         ServerCache[eventName] = null;
 
-		if (eventName == "id" || eventName == "storage01" || eventName == "storage02" || eventName == "suitStorage")
+        if (eventName == "id" || eventName == "storage01" || eventName == "storage02" || eventName == "suitStorage")
         {
         }
         else
@@ -247,7 +264,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             equipment.ClearItemSprite(eventName);
         }
     }
-     
+
     [Command]
     public void CmdSetUISlot(string eventName, GameObject obj)
     {
@@ -264,8 +281,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
             else
             {
-                if (att.spriteType == UI.SpriteType.Clothing) {
-	               // Debug.Log("eventName = " + eventName);
+                if (att.spriteType == SpriteType.Clothing)
+                {
+                    // Debug.Log("eventName = " + eventName);
                     Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
                     equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
                 }
@@ -274,14 +292,27 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     [Command]
-    public void CmdStartMicrowave(GameObject microwave, string mealName){
+    public void CmdStartMicrowave(GameObject microwave, string mealName)
+    {
         Microwave m = microwave.GetComponent<Microwave>();
         m.ServerSetOutputMeal(mealName);
         m.RpcStartCooking();
     }
 
     [Command]
-    public void CmdToggleShutters(GameObject switchObj){
+    public void CmdRequestJob(JobType jobType)
+    {
+        // Already have a job buddy!
+        if (playerScript.JobType != JobType.NULL)
+            return;
+
+        playerScript.JobType = GameManager.Instance.GetRandomFreeOccupation(jobType);
+        StartCoroutine(equipment.SetPlayerLoadOuts());
+    }
+
+    [Command]
+    public void CmdToggleShutters(GameObject switchObj)
+    {
         ShutterSwitchTrigger s = switchObj.GetComponent<ShutterSwitchTrigger>();
         if (s.IsClosed)
         {
@@ -294,20 +325,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     [Command]
-    public void CmdToggleLightSwitch(GameObject switchObj){
+    public void CmdToggleLightSwitch(GameObject switchObj)
+    {
         Lighting.LightSwitchTrigger s = switchObj.GetComponent<Lighting.LightSwitchTrigger>();
-        if (s.isOn)
-        {
-            s.isOn = false;
-        }
-        else
-        {
-            s.isOn = true;
-        }
+        s.isOn = !s.isOn;
     }
 
     [Command]
-    public void CmdToggleFireCabinet(GameObject cabObj, bool forItemInteract){
+    public void CmdToggleFireCabinet(GameObject cabObj, bool forItemInteract)
+    {
         CabinetTrigger c = cabObj.GetComponent<CabinetTrigger>();
 
         if (!forItemInteract)
@@ -328,82 +354,107 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-	[Command]
-	public void CmdMoveItem(GameObject item, Vector3 newPos){
-		item.transform.position = newPos;
-	}
+    [Command]
+    public void CmdMoveItem(GameObject item, Vector3 newPos)
+    {
+        item.transform.position = newPos;
+    }
 
-	[Command]
-	public void CmdConsciousState(bool conscious){
-		if (conscious) {
-			playerMove.allowInput = true;
-			RpcSetPlayerRot(false, 0f);
-		} else {
-			playerMove.allowInput = false;
-			RpcSetPlayerRot(false, -90f);
-			soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
-			if (UnityEngine.Random.value > 0.5f) {
-				playerSprites.currentDirection = Vector2.up;
-			}
+    [Command]
+    public void CmdConsciousState(bool conscious)
+    {
+        if (conscious)
+        {
+            playerMove.allowInput = true;
+            RpcSetPlayerRot(false, 0f);
+        }
+        else
+        {
+            playerMove.allowInput = false;
+            RpcSetPlayerRot(false, -90f);
+            soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
+            if (UnityEngine.Random.value > 0.5f)
+            {
+                playerSprites.currentDirection = Vector2.up;
+            }
+        }
+    }
+
+    [Command]
+    public void CmdSendChatMessage(string msg, bool isLocalChat)
+    {
+        if (isLocalChat)
+        {
+            //regex to sanitise any injected html tags
+            var rx = new Regex("[<][^>]+[>]");
+            var inputString = rx.Replace(msg, "");
+
+            //might as well use it here so it doesn't matter how long the input string is
+            rx = new Regex("^(/me )");
+            if (rx.IsMatch(inputString))
+            { // /me message
+                inputString = rx.Replace(inputString, " ");
+                ChatRelay.Instance.chatlog.Add(new ChatEvent("<i><b>" + gameObject.name + "</b>" + inputString + "</i>."));
+            }
+            else
+            { // chat message
+                ChatRelay.Instance.chatlog.Add(new ChatEvent("<b>" + gameObject.name + "</b>" + " says, " + "\"" + inputString + "\""));
+            }
+        }
+
+    }
+
+
+    [Command]
+    //send a generic message
+    public void CmdSendAlertMessage(string msg, bool isLocalChat)
+    {
+        if (isLocalChat)
+        {
+            ChatRelay.Instance.chatlog.Add(new ChatEvent(msg));
+        }
+    }
+
+    [Command]
+    public void CmdToggleChatIcon(bool turnOn)
+    {
+        RpcToggleChatIcon(turnOn);
+    }
+
+    [ClientRpc]
+    void RpcToggleChatIcon(bool turnOn)
+    {
+        if (turnOn)
+        {
+            chatIcon.TurnOnTalkIcon();
+        }
+        else
+        {
+            chatIcon.TurnOffTalkIcon();
+        }
+    }
+
+    //For falling over and getting back up again over network
+    [ClientRpc]
+    public void RpcSetPlayerRot(bool temporary, float rot)
+    {
+		Debug.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
+		SpriteRenderer[] spriteRends = GetComponentsInChildren<SpriteRenderer>();
+		foreach (SpriteRenderer sR in spriteRends) {
+			sR.sortingLayerName = "Blood";
 		}
-	}
+		gameObject.GetComponent<Matrix.RegisterTile>().UpdateTileType(Matrix.TileType.None);
+        var rotationVector = transform.rotation.eulerAngles;
+        rotationVector.z = rot;
+        transform.rotation = Quaternion.Euler(rotationVector);
+        //So other players can walk over the Unconscious
+        playerSprites.AdjustSpriteOrders(-30);
+        if (temporary)
+        {
+            //TODO Coroutine with timer to get back up again
+        }
+    }
 
-	[Command]
-	public void CmdSendChatMessage(string msg, bool isLocalChat){
-		if (isLocalChat) {
-			//regex to sanitise any injected html tags
-			var rx = new Regex("[<][^>]+[>]");
-			var inputString = rx.Replace(msg, "");
-
-			//might as well use it here so it doesn't matter how long the input string is
-			rx = new Regex("^(/me )");
-			if (rx.IsMatch(inputString)){ // /me message
-				inputString = rx.Replace(inputString, " ");
-				ChatRelay.Instance.chatlog.Add("<i><b>" + gameObject.name + "</b>" + inputString + "</i>.");
-			}
-			else{ // chat message
-				ChatRelay.Instance.chatlog.Add("<b>" + gameObject.name + "</b>" + " says, " + "\"" + inputString + "\"");
-			}
-		}
-
-	}
-
-
-	[Command]
-	//send a generic message
-	public void CmdSendAllertMessage(string msg, bool isLocalChat){
-		if (isLocalChat) {
-			ChatRelay.Instance.chatlog.Add(msg); 
-		}
-	}
-
-	[Command]
-	public void CmdToggleChatIcon(bool turnOn){
-		RpcToggleChatIcon(turnOn);
-	}
-
-	[ClientRpc]
-	void RpcToggleChatIcon(bool turnOn){
-		if (turnOn) {
-			chatIcon.TurnOnTalkIcon();
-		} else {
-			chatIcon.TurnOffTalkIcon();
-		}
-	}
-
-	//For falling over and getting back up again over network
-	[ClientRpc]
-	public void RpcSetPlayerRot(bool temporary, float rot){
-		var rotationVector = transform.rotation.eulerAngles;
-		rotationVector.z = rot;
-		transform.rotation = Quaternion.Euler(rotationVector);
-		//So other players can walk over the Unconscious
-		playerSprites.AdjustSpriteOrders(-30);
-		if (temporary) {
-		//TODO Coroutine with timer to get back up again
-		}
-	}
-			
     [ClientRpc]
     void RpcAdjustItemParent(GameObject item, GameObject parent)
     {
@@ -430,17 +481,40 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             item.transform.parent = null;
         }
     }
-		
+
+    [ClientRpc]
+    public void RpcSpawnGhost()
+    {
+        playerScript.ghost.SetActive(true);
+        playerScript.ghost.transform.parent = null;
+        chatIcon.gameObject.transform.parent = playerScript.ghost.transform;
+        playerScript.ghost.transform.rotation = Quaternion.identity;
+        if (PlayerManager.LocalPlayer == gameObject)
+        {
+            SoundManager.Stop("Critstate");
+            Camera2DFollow.followControl.target = playerScript.ghost.transform;
+            var fovScript = GetComponent<FieldOfView>();
+            if (fovScript != null)
+                fovScript.enabled = false;
+        }
+    }
+
+	//Respawn action for Deathmatch v 0.1.3
+	[Server]
+	public void RespawnPlayer(){
+		Debug.Log("RESPAWN!");
+		RpcAdjustForRespawn();
+		var spawn = CustomNetworkManager.Instance.GetStartPosition();
+		var newPlayer = ( GameObject) Instantiate(CustomNetworkManager.Instance.playerPrefab, spawn.position, spawn.rotation );
+//		NetworkServer.Destroy( this.gameObject );
+		EquipmentPool.ClearPool(gameObject.name);
+		PlayerList.Instance.connectedPlayers[gameObject.name] = newPlayer;
+		NetworkServer.ReplacePlayerForConnection( this.connectionToClient, newPlayer, this.playerControllerId );
+	}
+
 	[ClientRpc]
-	public void RpcSpawnGhost(){
-		playerScript.ghost.SetActive(true);
-		playerScript.ghost.transform.parent = null;
-		chatIcon.gameObject.transform.parent = playerScript.ghost.transform;
-		playerScript.ghost.transform.rotation = Quaternion.identity;
-		if (PlayerManager.LocalPlayer == gameObject) {
-			SoundManager.Stop("Critstate");
-			Camera2DFollow.followControl.target = playerScript.ghost.transform;
-			//FIXME disable FOV script on camera
-		}
+	private void RpcAdjustForRespawn(){
+			playerScript.ghost.SetActive(false);
+			gameObject.GetComponent<InputControl.InputController>().enabled = false;
 	}
 }

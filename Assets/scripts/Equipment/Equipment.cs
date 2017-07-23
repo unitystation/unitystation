@@ -10,160 +10,274 @@ using UI;
 
 namespace Equipment
 {
-	public class Equipment: NetworkBehaviour
-	{
-		public GameObject suitPrefab;
-		public GameObject beltPrefab;
-		public GameObject shoesPrefab;
-		public GameObject headPrefab;
-		public GameObject maskPrefab;
-		public GameObject uniformPrefab;
-		public GameObject neckPrefab;
-		public GameObject earPrefab;
-		public GameObject glassesPrefab;
-		public GameObject glovesPrefab;
-
-		public GameObject leftHandPrefab;
-		public GameObject rightHandPrefab;
-
-		public GameObject idPrefab;
-		public GameObject bagPrefab;
-		public GameObject storage01Prefab;
-		public GameObject storage02Prefab;
-		public GameObject suitStoragePrefab;
-
-		public SyncListInt syncEquipSprites = new SyncListInt();
-		public ClothingItem[] clothingSlots;
+    public class Equipment : NetworkBehaviour
+    {
+        public SyncListInt syncEquipSprites = new SyncListInt();
+        public ClothingItem[] clothingSlots;
         private PlayerNetworkActions playerNetworkActions;
-		public NetworkIdentity networkIdentity{ get; set; }
+        private PlayerScript playerScript;
 
-		private bool isInit = false;
+        public NetworkIdentity networkIdentity { get; set; }
 
-		void Start()
-		{
-			networkIdentity = GetComponent<NetworkIdentity>();
+        private bool isInit = false;
+
+        void Start()
+        {
+            networkIdentity = GetComponent<NetworkIdentity>();
             playerNetworkActions = gameObject.GetComponent<PlayerNetworkActions>();
+            playerScript = gameObject.GetComponent<PlayerScript>();
+        }
 
-		}
+        public override void OnStartServer()
+        {
+            InitEquipment();
 
-		public override void OnStartServer()
-		{
-			InitEquipment();
-		
-			EquipmentPool equipPool = FindObjectOfType<EquipmentPool>();
-			if (equipPool == null) {
-				Instantiate(Resources.Load("EquipmentPool") as GameObject, Vector2.zero, Quaternion.identity);
-			}
+            EquipmentPool equipPool = FindObjectOfType<EquipmentPool>();
+            if (equipPool == null)
+            {
+                Instantiate(Resources.Load("EquipmentPool") as GameObject, Vector2.zero, Quaternion.identity);
+            }
 
-			StartCoroutine(SetPlayerLoadOuts());
-			
-			base.OnStartServer();
-		}
+            base.OnStartServer();
+        }
 
-		public override void OnStartClient()
-		{
-			InitEquipment();
-			base.OnStartClient();
-		}
-			
+        public override void OnStartClient()
+        {
+            InitEquipment();
+            base.OnStartClient();
+        }
 
-		void InitEquipment()
-		{
-			if (isInit)
-				return;
+        void InitEquipment()
+        {
+            if (isInit)
+                return;
 
-			syncEquipSprites.Callback = SyncSprites;
-			for (int i = 0; i < clothingSlots.Length ; i++) {
-					//All the other slots:
-					clothingSlots[i].Reference = -1;
-						if (isServer) {
-							syncEquipSprites.Add(-1);
-						} else {
-						clothingSlots[i].Reference = syncEquipSprites[i];
-						}
-					}
-			isInit = true;
-			//Player sprite offset:
-			clothingSlots[10].Reference = 33;
-				
-		}
+            syncEquipSprites.Callback = SyncSprites;
+            for (int i = 0; i < clothingSlots.Length; i++)
+            {
+                //All the other slots:
+                clothingSlots[i].Reference = -1;
+                if (isServer)
+                {
+                    syncEquipSprites.Add(-1);
+                }
+                else
+                {
+                    clothingSlots[i].Reference = syncEquipSprites[i];
+                }
+            }
+            isInit = true;
+            //Player sprite offset:
+            clothingSlots[10].Reference = 33;
 
-		public void SyncSprites(SyncListInt.Operation op, int index)
-		{
-			clothingSlots[index].Reference = syncEquipSprites[index];
-		}
+        }
 
-		IEnumerator SetPlayerLoadOuts()
-		{
-			//Waiting for player name resolve
-			yield return new WaitForSeconds(0.2f);
+        public void SyncSprites(SyncListInt.Operation op, int index)
+        {
+            clothingSlots[index].Reference = syncEquipSprites[index];
+        }
 
-			SetItem("suit", suitPrefab);
-			SetItem("belt", beltPrefab);
-			SetItem("feet", shoesPrefab);
-			SetItem("head", headPrefab);
-			SetItem("mask", maskPrefab);
-			SetItem("uniform", uniformPrefab);
-			SetItem("neck", neckPrefab);
-			SetItem("ear", earPrefab);
-			SetItem("eyes", glassesPrefab);
-			SetItem("hands", glovesPrefab);
+        public IEnumerator SetPlayerLoadOuts()
+        {
+            //Waiting for player name resolve
+            yield return new WaitForSeconds(0.2f);
 
-			SetItem("id", idPrefab);
-			SetItem("back", bagPrefab);
-			SetItem("rightHand", rightHandPrefab);
-			SetItem("leftHand", leftHandPrefab);
-			SetItem("storage01", storage01Prefab);
-			SetItem("storage02", storage02Prefab);
-			SetItem("suitStorage", suitStoragePrefab);
-		}
+            // Null Job players dont get a loadout
+            if (playerScript.JobType == JobType.NULL)
+                yield break;
 
-		//Hand item sprites after picking up an item (server)
-		public void SetHandItem(string eventName, GameObject obj)
-		{
-			ItemAttributes att = obj.GetComponent<ItemAttributes>();
-			EquipmentPool.AddGameObject(gameObject, obj);
+            PlayerScript pS = GetComponent<PlayerScript>();
+            pS.JobType = playerScript.JobType;
+
+            JobOutfit standardOutfit = GameManager.Instance.StandardOutfit.GetComponent<JobOutfit>();
+            JobOutfit jobOutfit = GameManager.Instance.GetOccupationOutfit(playerScript.JobType);
+
+            Dictionary<string, string> gear = new Dictionary<string, string>();
+
+            gear.Add("uniform", standardOutfit.uniform);
+            //gear.Add("id", standardOutfit.id);
+            gear.Add("ears", standardOutfit.ears);
+            gear.Add("belt", standardOutfit.belt);
+            gear.Add("back", standardOutfit.back);
+            gear.Add("shoes", standardOutfit.shoes);
+            gear.Add("glasses", standardOutfit.glasses);
+            gear.Add("gloves", standardOutfit.gloves);
+            gear.Add("suit", standardOutfit.suit);
+            gear.Add("head", standardOutfit.head);
+            //gear.Add("accessory", standardOutfit.accessory);
+            gear.Add("mask", standardOutfit.mask);
+            //gear.Add("backpack", standardOutfit.backpack);
+            //gear.Add("satchel", standardOutfit.satchel);
+            //gear.Add("duffelbag", standardOutfit.duffelbag);
+            //gear.Add("box", standardOutfit.box);
+            //gear.Add("l_hand", standardOutfit.l_hand);
+            //gear.Add("l_pocket", standardOutfit.l_pocket);
+            //gear.Add("r_pocket", standardOutfit.r_pocket);
+            //gear.Add("suit_store", standardOutfit.suit_store);
+
+            if (!String.IsNullOrEmpty(jobOutfit.uniform))
+                gear["uniform"] = jobOutfit.uniform;
+            /*if (!String.IsNullOrEmpty(jobOutfit.id))
+                gear["id"] = jobOutfit.id;*/
+            if (!String.IsNullOrEmpty(jobOutfit.ears))
+                gear["ears"] = jobOutfit.ears;
+            if (!String.IsNullOrEmpty(jobOutfit.belt))
+                gear["belt"] = jobOutfit.belt;
+            if (!String.IsNullOrEmpty(jobOutfit.back))
+                gear["back"] = jobOutfit.back;
+            if (!String.IsNullOrEmpty(jobOutfit.shoes))
+                gear["shoes"] = jobOutfit.shoes;
+            if (!String.IsNullOrEmpty(jobOutfit.glasses))
+                gear["glasses"] = jobOutfit.glasses;
+            if (!String.IsNullOrEmpty(jobOutfit.gloves))
+                gear["gloves"] = jobOutfit.gloves;
+            if (!String.IsNullOrEmpty(jobOutfit.suit))
+                gear["suit"] = jobOutfit.suit;
+            if (!String.IsNullOrEmpty(jobOutfit.head))
+                gear["head"] = jobOutfit.head;
+            /*if (!String.IsNullOrEmpty(jobOutfit.accessory))
+                gear["accessory"] = jobOutfit.accessory;*/
+            if (!String.IsNullOrEmpty(jobOutfit.mask))
+                gear["mask"] = jobOutfit.mask;
+            /*if (!String.IsNullOrEmpty(jobOutfit.backpack))
+                gear["backpack"] = jobOutfit.backpack;
+            if (!String.IsNullOrEmpty(jobOutfit.satchel))
+                gear["satchel"] = jobOutfit.satchel;
+            if (!String.IsNullOrEmpty(jobOutfit.duffelbag))
+                gear["duffelbag"] = jobOutfit.duffelbag;
+            if (!String.IsNullOrEmpty(jobOutfit.box))
+                gear["box"] = jobOutfit.box;
+            if (!String.IsNullOrEmpty(jobOutfit.l_hand))
+                gear["l_hand"] = jobOutfit.l_hand;
+            if (!String.IsNullOrEmpty(jobOutfit.l_pocket))
+                gear["l_pocket"] = jobOutfit.l_pocket;
+            if (!String.IsNullOrEmpty(jobOutfit.r_pocket))
+                gear["r_pocket"] = jobOutfit.r_pocket;
+            if (!String.IsNullOrEmpty(jobOutfit.suit_store))
+                gear["suit_store"] = jobOutfit.suit_store;*/
+
+            foreach(KeyValuePair<string,string> gearItem in gear)
+            {
+                if (gearItem.Value.Contains("cloth"))
+                {
+                    GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
+                    ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+                    SetItem(GetLoadOutEventName(gearItem.Key), itemAtts);
+                }
+            }
+
+            
+        }
+
+        //Hand item sprites after picking up an item (server)
+        public void SetHandItem(string eventName, GameObject obj)
+        {
+            ItemAttributes att = obj.GetComponent<ItemAttributes>();
+            EquipmentPool.AddGameObject(gameObject, obj);
             SetHandItemSprite(eventName, att);
             RpcSendMessage(eventName, obj);
-		}
+        }
 
         [ClientRpc]
-        void RpcSendMessage(string eventName, GameObject obj){
-            obj.BroadcastMessage("OnAddToInventory",eventName, SendMessageOptions.DontRequireReceiver);
+        void RpcSendMessage(string eventName, GameObject obj)
+        {
+            obj.BroadcastMessage("OnAddToInventory", eventName, SendMessageOptions.DontRequireReceiver);
+        }
+
+        public string GetLoadOutEventName(string uniformPosition)
+        {
+            switch (uniformPosition)
+            {
+                case "glasses":
+                    return "eyes";
+                case "head":
+                    return "head";
+                case "neck":
+                    return "neck";
+                case "mask":
+                    return "mask";
+                case "ears":
+                    return "ear";
+                case "suit":
+                    return "suit";
+                case "uniform":
+                    return "uniform";
+                case "gloves":
+                    return "hands";
+                case "shoes":
+                    return "feet";
+                case "belt":
+                    return "belt";
+                case "back":
+                    return "back";
+                case "id":
+                    return "id";
+                case "l_pocket":
+                    return "storage02";
+                case "r_pocket":
+                    return "storage01";
+                case "l_hand":
+                    return "leftHand";
+                case "r_hand":
+                    return "rightHand";
+                default:
+                    Debug.LogWarning("GetLoadOutEventName: Unknown uniformPosition:" + uniformPosition);
+                    return null;
+            }
         }
 
         //To set the actual sprite on the player obj
-        public void SetHandItemSprite(string eventName, ItemAttributes att){
+        public void SetHandItemSprite(string eventName, ItemAttributes att)
+        {
             Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
-            if (eventName == "leftHand") {
+            if (eventName == "leftHand")
+            {
                 syncEquipSprites[(int)enumA] = att.NetworkInHandRefLeft();
-            } else {
+            }
+            else
+            {
                 syncEquipSprites[(int)enumA] = att.NetworkInHandRefRight();
             }
         }
-          
-		//Clear any sprite slot with -1 via the eventName (server)
-		public void ClearItemSprite(string eventName){
-			Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
-			syncEquipSprites[(int)enumA] = -1;
-		}
 
-		private void SetItem(string eventName, GameObject prefab)
-		{
-			if (prefab == null)
+        //Clear any sprite slot with -1 via the eventName (server)
+        public void ClearItemSprite(string eventName)
+        {
+            Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
+            syncEquipSprites[(int)enumA] = -1;
+        }
+
+        // Does not try to instantiate (already instantiated by Unicloth factory)
+        private void SetItemUniclothToSlot(string eventName, GameObject uniCloth)
+        {
+            ItemAttributes att = uniCloth.GetComponent<ItemAttributes>();
+            EquipmentPool.AddGameObject(gameObject, uniCloth);
+
+            playerNetworkActions.TrySetItem(eventName, uniCloth);
+            //Sync all clothing items across network using SyncListInt syncEquipSprites
+            if (att.spriteType == SpriteType.Clothing)
+            {
+                Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
+                syncEquipSprites[(int)enumA] = att.clothingReference;
+            }
+        }
+
+        private void SetItem(string eventName, ItemAttributes itemAtts)
+        {
+			if (String.IsNullOrEmpty(eventName) || itemAtts == null) {
 				return;
-			
-			GameObject item = Instantiate(prefab, Vector2.zero, Quaternion.identity) as GameObject;
-			NetworkServer.Spawn(item);
-			ItemAttributes att = item.GetComponent<ItemAttributes>();
-			EquipmentPool.AddGameObject(gameObject, item);
-
-			playerNetworkActions.TrySetItem(eventName, item);
-			//Sync all clothing items across network using SyncListInt syncEquipSprites
-			if (att.spriteType == UI.SpriteType.Clothing) {
-				Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
-				syncEquipSprites[(int)enumA] = att.clothingReference;
+				Debug.LogError("Error with item attribute for object: " + itemAtts.gameObject.name);
 			}
-		}		
-	}
+
+            EquipmentPool.AddGameObject(gameObject, itemAtts.gameObject);
+
+            playerNetworkActions.TrySetItem(eventName, itemAtts.gameObject);
+            //Sync all clothing items across network using SyncListInt syncEquipSprites
+            if (itemAtts.spriteType == SpriteType.Clothing)
+            {
+                Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
+                syncEquipSprites[(int)enumA] = itemAtts.clothingReference;
+            }
+        }
+    }
 }

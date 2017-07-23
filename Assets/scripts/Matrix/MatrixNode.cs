@@ -15,6 +15,9 @@ namespace Matrix {
         [NonSerialized]
         private List<GameObject> tiles = new List<GameObject>();
 
+		[NonSerialized]
+		private List<ItemControl> items = new List<ItemControl>();
+
         private bool isDoor;
 		private bool isObject;
         private bool isSpace;
@@ -27,29 +30,64 @@ namespace Matrix {
             set { section = value; UpdateSection(); }
         }
 
-        public bool TryAddTile(GameObject gameObject) {
-            var registerTile = gameObject.GetComponent<RegisterTile>();
+        public bool TryAddTile(GameObject _gameObject) {
+            var registerTile = _gameObject.GetComponent<RegisterTile>();
             if(!registerTile) {
                 return false;
             }
 
-            tiles.Add(gameObject);
-            UpdateValues();
+			if (registerTile.TileType == TileType.Item) {
+				ItemControl iT = _gameObject.GetComponent<ItemControl>();
+				if (!items.Contains(iT)) {
+					items.Add(iT);
+				}
+			} else {
+				tiles.Add(_gameObject);
+				UpdateValues();
+			}
+
             return true;
         }
 
-        public bool TryRemoveTile(GameObject gameObject) {
-            if(!tiles.Contains(gameObject)) {
-                return false;
-            }
+        public bool TryRemoveTile(GameObject _gameObject) {
+			RegisterTile rT = _gameObject.GetComponent<RegisterTile>();
+			if (rT.TileType == TileType.Item) {
+				ItemControl iT = _gameObject.GetComponent<ItemControl>();
+				if (items.Contains(iT)) {
+						items.Remove(iT);
+				}
+			} else {
+				if (!tiles.Contains(_gameObject)) {
+					return false;
+				}
 
-            tiles.Remove(gameObject);
-            UpdateValues();
+				tiles.Remove(_gameObject);
+				UpdateValues();
+			}
             return true;
         }
 
-        public bool FitsTile(GameObject gameObject) {
-            var registerTile = gameObject.GetComponent<RegisterTile>();
+		public bool ContainsTile(GameObject _gameObject){
+			if (tiles.Contains(_gameObject)) {
+				return true;
+			}
+			return false;
+		}
+
+		public bool ContainsItem(GameObject _gameObject){
+			RegisterTile rT = _gameObject.GetComponent<RegisterTile>();
+			if (rT.TileType == TileType.Item) {
+				ItemControl iT = _gameObject.GetComponent<ItemControl>();
+				if (items.Contains(iT)) {
+					return true;
+				}
+				return false;
+			}
+			return false;
+		}
+
+        public bool FitsTile(GameObject _gameObject) {
+            var registerTile = _gameObject.GetComponent<RegisterTile>();
             return registerTile && (tileValue & registerTile.TileType) == 0;
         }
 
@@ -98,6 +136,20 @@ namespace Matrix {
 						ObjectActions objCollisions = registerTile.gameObject.GetComponent<ObjectActions>();
 						return objCollisions;
 					}
+				}
+			}
+			return null;
+		}
+
+		public List<ItemControl> GetItems(){
+			return items;
+		}
+
+		public FloorTile GetFloorTile(){
+			foreach(var tile in tiles) {
+				var registerTile = tile.GetComponent<RegisterTile>();
+				if(registerTile.TileType == TileType.Floor) {
+			    return registerTile.gameObject.GetComponent<FloorTile>();
 				}
 			}
 			return null;

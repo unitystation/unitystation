@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UI;
 
@@ -21,6 +22,9 @@ namespace PlayGroup
 
         private static PlayerManager playerManager;
 
+        //To fix playername bug when running two instances on 1 machine
+        public static string PlayerNameCache { get; set; }
+
         public static PlayerManager Instance
         {
             get
@@ -32,6 +36,18 @@ namespace PlayGroup
 
                 return playerManager;
             }
+        }
+
+        void OnEnable(){
+            SceneManager.sceneLoaded += OnLevelFinishedLoading;
+        }
+
+        void OnDisable(){
+            SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+        }
+
+        void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
+            Reset();
         }
            
         public static void Reset()
@@ -46,6 +62,8 @@ namespace PlayGroup
 	
             PlayerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
             Camera2DFollow.followControl.target = LocalPlayer.transform;
+
+			HasSpawned = true;
         }
 
         public static bool PlayerInReach(Transform transform)

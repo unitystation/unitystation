@@ -48,14 +48,14 @@ public class SimpleAnimal : Living
         if (mobStat != MobConsciousStat.DEAD)
         {
             if (health <= 0)
-                Death(false);
+                Death();
             else
                 mobStat = MobConsciousStat.CONSCIOUS;
         }
     }
 
     // see /mob/living/simple_animal/death(gibbed)
-    public override void Death(bool gibbed)
+    public override void Death(bool gibbed = false)
     {
         if (!gibbed)
         {
@@ -66,6 +66,7 @@ public class SimpleAnimal : Living
         randomMove.enabled = false;
         spriteRenderer.sprite = deadSprite;
         base.Death(gibbed);
+        
     }
 
 	[Server]

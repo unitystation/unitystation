@@ -9,7 +9,7 @@ using PlayGroup;
 
 namespace UI
 {
-    public class ControlChat: MonoBehaviour
+    public class ControlChat : MonoBehaviour
     {
         public GameObject chatInputWindow;
         public InputField usernameInput;
@@ -24,45 +24,56 @@ namespace UI
 
         public bool ShowState = true;
 
-        private string userIdInput = "";
+        private List<ChatEvent> _localEvents = new List<ChatEvent>();
+        public void AddChatEvent(ChatEvent chatEvent)
+        {
+            _localEvents.Add(chatEvent);
+            ChatRelay.Instance.RefreshLog();
+        }
+
+        public List<ChatEvent> GetChatEvents()
+        {
+            return _localEvents;
+        }
 
         public void Start()
         {
-            chatInputWindow.SetActive(false); 
+            chatInputWindow.SetActive(false);
         }
-			
+
         public void Update()
         {
-			if (!chatInputWindow.activeInHierarchy && Input.GetKey(KeyCode.T) && GameData.IsInGame) {
-				chatInputWindow.SetActive(true);
-				isChatFocus = true;
-				EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
-				InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
-			}
+            if (!chatInputWindow.activeInHierarchy && Input.GetKey(KeyCode.T) && GameData.IsInGame)
+            {
+                chatInputWindow.SetActive(true);
+                isChatFocus = true;
+                EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
+                InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
+            }
             if (isChatFocus)
             {
                 if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
                 {
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, true);
-					if(this.InputFieldChat.text != "")
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, true);
+                    if (this.InputFieldChat.text != "")
+                        PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
                     this.InputFieldChat.text = "";
                     CloseChatWindow();
                 }
             }
         }
-            
+
         public void OnClickSend()
         {
-			if (!string.IsNullOrEmpty(this.InputFieldChat.text))
+            if (!string.IsNullOrEmpty(this.InputFieldChat.text))
             {
                 SoundManager.Play("Click01");
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, true);
-				if(this.InputFieldChat.text != "")
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
+                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, true);
+                if (this.InputFieldChat.text != "")
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
                 this.InputFieldChat.text = "";
             }
-			CloseChatWindow();
+            CloseChatWindow();
         }
 
         public void OnChatCancel()
@@ -73,17 +84,17 @@ namespace UI
         }
 
         void CloseChatWindow()
-		{
+        {
             isChatFocus = false;
             chatInputWindow.SetActive(false);
 
         }
 
-		//Called from the server only
+        //Called from the server only
         public void ReportToChannel(string reportText)
         {
-			string txt = "<color=green>"+ reportText +"</color>";
-			ChatRelay.Instance.chatlog.Add(txt);
+            string txt = "<color=green>" + reportText + "</color>";
+            ChatRelay.Instance.chatlog.Add(new ChatEvent(txt));
         }
     }
 }

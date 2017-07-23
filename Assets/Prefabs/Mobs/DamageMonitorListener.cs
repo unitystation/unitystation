@@ -31,6 +31,10 @@ public class DamageMonitorListener : MonoBehaviour {
 
 	//Reset healthHUD
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
+		Reset();
+	}
+
+	public void Reset(){
 		if (image != null) {
 			image.sprite = initSprite;
 		}
