@@ -38,7 +38,7 @@ public class Human : Carbon
 
 
 
-    public override void Death(bool gibbed)
+    public override void Death(bool gibbed = false)
     {
 
         if (CustomNetworkManager.Instance._isServer)
@@ -49,16 +49,25 @@ public class Human : Carbon
             PlayerMove pM = GetComponent<PlayerMove>();
             pM.isGhost = true;
             pM.allowInput = true;
-            if (lastDamager != gameObject.name)
-            {
-                PlayerList.Instance.UpdateKillScore(lastDamager);
-                pNet.CmdSendAlertMessage("<color=red><b>" + lastDamager + "</b> has killed <b>" + gameObject.name + "</b></color>", true); //killfeed
-            }
-            else
-            {
-                pNet.CmdSendAlertMessage("<color=red><b>" + gameObject.name + " commited suicide</b></color>", true); //killfeed
-            }
-			countRespawn = true;
+	        if ( lastDamager == gameObject.name )
+	        {
+		        pNet.CmdSendAlertMessage( "<color=red><b>" + gameObject.name + " commited suicide</b></color>",
+			        true ); //killfeed
+	        }
+	        else if(lastDamager.EndsWith( gameObject.name )) // chain reactions
+	        {
+		        pNet.CmdSendAlertMessage( "<color=red><b>" + gameObject.name + " screwed himself up with some help (" + 
+		                                  lastDamager
+		                                  + ")</b></color>",
+			        true ); //killfeed
+	        } 
+	        else 
+	        {
+		        PlayerList.Instance.UpdateKillScore( lastDamager );
+		        pNet.CmdSendAlertMessage(
+			        "<color=red><b>" + lastDamager + "</b> has killed <b>" + gameObject.name + "</b></color>", true ); //killfeed
+	        }
+	        countRespawn = true;
 			respawnTime = 0f;
 			GetComponent<PlayerNetworkActions>().CmdDropItem("leftHand");
 			GetComponent<PlayerNetworkActions>().CmdDropItem("rightHand");

@@ -41,7 +41,7 @@ public abstract class Mob : NetworkBehaviour
 
     #region death.dm
     // see mob death.dm /mob/proc/death(gibbed)
-    public virtual void Death(bool gibbed)
+    public virtual void Death(bool gibbed=false)
     {
         return;
     }
