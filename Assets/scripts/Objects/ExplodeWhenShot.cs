@@ -110,12 +110,21 @@ public class ExplodeWhenShot : NetworkBehaviour
             pair.Key.GetComponent<HealthBehaviour>()
                 .ApplyDamage( String.Format( "{0} – {1}", gameObject.name, thanksTo ), pair.Value, DamageType.BURN );
         }
-
+        RpcClientExplode();
         StartCoroutine(WaitToDestroy());
     }
 
+    [ClientRpc]
+    void RpcClientExplode(){
+        if (!hasExploded)
+        {
+            hasExploded = true;
+            GoBoom();
+        }
+    }
+
     IEnumerator WaitToDestroy(){
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(5f);
         NetworkServer.Destroy(gameObject);
     }
 
@@ -149,8 +158,19 @@ public class ExplodeWhenShot : NetworkBehaviour
         spriteRend.enabled = false;
         try{
             Matrix.Matrix.At(transform.position).TryRemoveTile(gameObject);
+            ObjectActions oA = gameObject.GetComponent<ObjectActions>();
+            if(oA != null){
+                if(oA.pusher == PlayerManager.LocalPlayer){
+                    PlayerManager.LocalPlayerScript.playerMove.isPushing = false;
+                }
+            }
         } catch {
             Debug.LogWarning("Object may of already been removed");
+        }
+        Collider2D[] getColls = gameObject.GetComponents<Collider2D>();
+        for (int i = 0; i < getColls.Length; i++)
+        {
+            getColls[i].enabled = false;
         }
         var name = explosions[Random.Range( 0, explosions.Length )];
         var source = SoundManager.Instance[name];

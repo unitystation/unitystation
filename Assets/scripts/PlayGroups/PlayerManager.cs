@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UI;
 
@@ -35,6 +36,18 @@ namespace PlayGroup
 
                 return playerManager;
             }
+        }
+
+        void OnEnable(){
+            SceneManager.sceneLoaded += OnLevelFinishedLoading;
+        }
+
+        void OnDisable(){
+            SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+        }
+
+        void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
+            Reset();
         }
            
         public static void Reset()

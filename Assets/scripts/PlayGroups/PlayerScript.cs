@@ -68,10 +68,10 @@ namespace PlayGroup {
                     UIManager.Instance.playerListUIControl.window.SetActive(true);
                 }
 				if (!PlayerManager.HasSpawned) {
-					CmdTrySetName(PlayerPrefs.GetString("PlayerName"));
-                    PlayerManager.PlayerNameCache = PlayerPrefs.GetString("PlayerName");
-
+                    //First
+                    CmdTrySetName(PlayerManager.PlayerNameCache);
                 } else {
+                    //Manual after respawn
 					CmdSetNameManual(PlayerManager.PlayerNameCache);
 				}
 

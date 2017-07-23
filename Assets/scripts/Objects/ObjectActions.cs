@@ -17,7 +17,7 @@ public class ObjectActions : NetworkBehaviour
 	//cache
 	private float journeyLength;
 	private Vector3 pushTarget;
-	private GameObject pusher;
+    public GameObject pusher { get; private set; }
 	private bool pushing = false;
 	private bool serverLittleLag = false;
 
