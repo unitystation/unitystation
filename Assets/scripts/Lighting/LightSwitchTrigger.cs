@@ -45,7 +45,7 @@ namespace Lighting
 
 		public override void Interact()
 		{
-			if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform, 1f))
+			if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform, 1.4f))
 				return;
 
 			if (switchCoolDown)

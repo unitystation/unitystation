@@ -35,19 +35,19 @@ namespace InputControl {
 		}
 
 		void Update() {
-			if (CurrentCooldownTime > 0) {
-				CurrentCooldownTime -= Time.deltaTime;
-				//prevents the action taking longer than it should to occur
-				if (CurrentCooldownTime < 0) {
-					CurrentCooldownTime = 0;
-				}
-			}
-
-			if (CurrentCooldownTime <= 0) {
-				CurrentCooldownTime += InputCooldownTimer;
+//			if (CurrentCooldownTime > 0) {
+//				CurrentCooldownTime -= Time.deltaTime;
+//				//prevents the action taking longer than it should to occur
+//				if (CurrentCooldownTime < 0) {
+//					CurrentCooldownTime = 0;
+//				}
+//			}
+//
+//			if (CurrentCooldownTime <= 0) {
+//				CurrentCooldownTime += InputCooldownTimer;
 				CheckHandSwitch ();
 				CheckClick ();
-			}
+//			}
 		}
 
 		private void CheckHandSwitch() {
@@ -60,10 +60,10 @@ namespace InputControl {
 			bool foundHit = false;
 
 			if(Input.GetMouseButtonDown(0)) {
-				foundHit = RayHit(InteractCamera.Instance.interactCam.ScreenToWorldPoint(Input.mousePosition));
+				foundHit = RayHit(InteractCamera.Instance.mainCam.ScreenToWorldPoint(Input.mousePosition));
 
 				//change the facingDirection of player on click
-				Vector2 dir = (InteractCamera.Instance.interactCam.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
+				Vector2 dir = (InteractCamera.Instance.mainCam.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
 				float angle = Angle(dir);
 				if(!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
 					CheckPlayerDirection(angle);

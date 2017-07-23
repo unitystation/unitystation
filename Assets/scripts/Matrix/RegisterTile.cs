@@ -25,6 +25,8 @@ namespace Matrix
         {
             UpdateTile();
             editModeControl = GetComponent<EditModeControl>();
+			currentTileTypeIndex = TileType.List.IndexOf(TileType);
+			tileTypeIndex = currentTileTypeIndex;
         }
 
         void OnValidate()
@@ -48,6 +50,10 @@ namespace Matrix
             }
         }
 
+		void OnEnable(){
+			UpdateTile(transform.position);
+		}
+
         public void UpdateTileType(TileType tileType)
         {
             currentTileTypeIndex = TileType.List.IndexOf(tileType);
@@ -67,11 +73,18 @@ namespace Matrix
 				}
 			}
 
-            Matrix.At(savedPosition).TryRemoveTile(gameObject);
+			if (currentTileTypeIndex == TileType.List.IndexOf(TileType.Item)) {
+				if(Matrix.At(transform.position).ContainsItem(gameObject)){
+					//Don't do anything
+					return;
+				}
+			}
 
-            savedPosition = transform.position;
+				Matrix.At(savedPosition).TryRemoveTile(gameObject);
 
-            AddTile();
+				savedPosition = transform.position;
+
+				AddTile();
         }
         /// <summary>
         /// Updates the tile with a position for moving objects
@@ -79,6 +92,13 @@ namespace Matrix
         /// <param name="newPos">The target position if it is in motion</param>
         public void UpdateTile(Vector3 newPos)
         {
+			if (currentTileTypeIndex == TileType.List.IndexOf(TileType.Item)) {
+				if(Matrix.At(transform.position).ContainsItem(gameObject)){
+					//Don't do anything
+					return;
+				}
+			}
+
             Matrix.At(savedPosition).TryRemoveTile(gameObject);
 
             savedPosition = newPos;
@@ -107,6 +127,7 @@ namespace Matrix
         }
 
 		public void OnRemoveFromPool(){
+			Debug.Log("REMOVED FROM POOL: " + gameObject.name);
 			UpdateTile();
 		}
     }

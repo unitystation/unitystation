@@ -9,9 +9,11 @@ namespace UI
 	{
 		public Button statsTab;
 		public Button optionsTab;
+		public Button moreTab;
 
 		public GameObject panelStats;
 		public GameObject panelOptions;
+		public GameObject panelMore;
 
 		public Color unselectColor;
 		public Color selectedColor;
@@ -19,7 +21,8 @@ namespace UI
 		private enum WindowSelect
 		{
 			stats,
-			options
+			options,
+			more
 		}
 
 		void Start()
@@ -33,14 +36,27 @@ namespace UI
 				case WindowSelect.stats:
 					statsTab.image.color = selectedColor;
 					optionsTab.image.color = unselectColor;
+					moreTab.image.color = unselectColor;
 					panelOptions.SetActive(false);
 					panelStats.SetActive(true);
+					panelMore.SetActive(false);
+
 					break;
 				case WindowSelect.options:
 					statsTab.image.color = unselectColor;
 					optionsTab.image.color = selectedColor;
+					moreTab.image.color = unselectColor;
 					panelOptions.SetActive(true);
 					panelStats.SetActive(false);
+					panelMore.SetActive(false);
+					break;
+				case WindowSelect.more:
+					statsTab.image.color = unselectColor;
+					optionsTab.image.color = unselectColor;
+					moreTab.image.color = selectedColor;
+					panelOptions.SetActive(false);
+					panelStats.SetActive(false);
+					panelMore.SetActive(true);
 					break;
 			}
 		}
@@ -52,6 +68,11 @@ namespace UI
 
 		public void Button_Options(){
 			SelectWindow(WindowSelect.options);
+			SoundManager.Play("Click01");
+		}
+
+		public void Button_More(){
+			SelectWindow(WindowSelect.more);
 			SoundManager.Play("Click01");
 		}
 	}

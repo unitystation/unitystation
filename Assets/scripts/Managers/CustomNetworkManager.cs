@@ -89,9 +89,9 @@ public class CustomNetworkManager: NetworkManager
 	
 		while (!spawnableListReady) {
 		
-			yield return new WaitForEndOfFrame();
+			yield return new WaitForSeconds(1);
 		}
-		yield return new WaitForEndOfFrame();
+		
 		base.OnClientConnect(conn);
 	}
 
@@ -124,7 +124,7 @@ public class CustomNetworkManager: NetworkManager
 	}
 
 	IEnumerator DoHeadlessCheck(){
-		yield return new WaitForEndOfFrame();
+		yield return new WaitForSeconds(0.1f);
 		if (!GameData.IsHeadlessServer) {
 			if(!IsClientConnected())
 			UIManager.Display.logInWindow.SetActive(true);

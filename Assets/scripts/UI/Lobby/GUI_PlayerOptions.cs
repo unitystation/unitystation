@@ -88,6 +88,7 @@ namespace UI
 				
 			if (screen_PlayerName.activeInHierarchy && !hostServer.isOn) {
 				PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
+                PlayGroup.PlayerManager.PlayerNameCache = playerNameInput.text;
 				screen_PlayerName.SetActive(false);
 				screen_ConnectTo.SetActive(true);
 				title.text = "Connection";
@@ -96,6 +97,7 @@ namespace UI
 			//Connecting as server from a map scene
 			if (screen_PlayerName.activeInHierarchy && hostServer.isOn && GameData.IsInGame) {
 				PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
+                PlayGroup.PlayerManager.PlayerNameCache = playerNameInput.text;
                 networkManager.StartHost();
 				gameObject.SetActive(false);
 			}
@@ -103,6 +105,7 @@ namespace UI
 			//Connecting as server from the lobby
 			if (screen_PlayerName.activeInHierarchy && hostServer.isOn && !GameData.IsInGame) {
 				PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
+                PlayGroup.PlayerManager.PlayerNameCache = playerNameInput.text;
                 networkManager.StartHost();
 				gameObject.SetActive(false);
 			}

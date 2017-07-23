@@ -17,7 +17,8 @@ public class DoorController: NetworkBehaviour {
     public DoorType doorType;
     public float maxTimeOpen = 5;
     private HorizontalDoorAnimator horizontalAnim;
-
+    private bool openTrigger = false;
+    private GameObject playerOpeningIt;
     private IEnumerator coWaitOpened;
 
     public bool IsOpened;
@@ -67,9 +68,9 @@ public class DoorController: NetworkBehaviour {
     }
 
     [Command]
-    public void CmdTryOpen() {
+    public void CmdTryOpen(GameObject playerObj) {
         if(!IsOpened && !isPerformingAction) {
-            RpcOpen();
+            RpcOpen(playerObj);
 
             ResetWaiting();
         }
@@ -95,8 +96,28 @@ public class DoorController: NetworkBehaviour {
         StartCoroutine(coWaitOpened);
     }
 
+    void Update(){
+        if (openTrigger)
+        {
+            float distToTriggerPlayer = Vector3.Distance(playerOpeningIt.transform.position, transform.position);
+            if (distToTriggerPlayer < 1.5f)
+            {
+                openTrigger = false;
+                OpenAction();
+            }
+        }
+    }
+
     [ClientRpc]
-    public void RpcOpen() {
+    public void RpcOpen(GameObject _playerOpeningIt) {
+        if (_playerOpeningIt == null)
+            return;
+        
+        openTrigger = true;
+        playerOpeningIt = _playerOpeningIt;
+    }
+
+    private void OpenAction(){
         IsOpened = true;
 
         if(usingAnimator) {
@@ -111,6 +132,7 @@ public class DoorController: NetworkBehaviour {
     [ClientRpc]
     public void RpcClose() {
         IsOpened = false;
+        playerOpeningIt = null;
         if(usingAnimator) {
             animator.SetBool("open", false);
         } else {

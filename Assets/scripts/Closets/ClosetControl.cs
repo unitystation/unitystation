@@ -33,12 +33,24 @@ namespace Cupboards
             IsClosed = true;
         }
 
-		public override void OnStartClient(){
-			SetItems(!IsClosed);
-			base.OnStartClient();
+		public override void OnStartServer(){
+            StartCoroutine(WaitForServerReg());
+			base.OnStartServer();
 		}
 
-		IEnumerator WaitForLoad(){
+        IEnumerator WaitForServerReg()
+        {
+            yield return new WaitForSeconds(0.2f);
+            SetItems(!IsClosed);
+        }
+
+        public override void OnStartClient()
+        {
+            StartCoroutine(WaitForLoad());
+            base.OnStartClient();
+        }
+
+        IEnumerator WaitForLoad(){
 			yield return new WaitForSeconds(0.2f);
 			OpenClose(IsClosed);
 		}
@@ -136,9 +148,8 @@ namespace Cupboards
 		private void SetItems(bool open){
 
 			if (!open) {
-				heldItems.Clear();
 				heldItems = Matrix.Matrix.At(registerTile.editModeControl.Snap(transform.position)).GetItems();
-
+//				Debug.Log("Get items at pos: " + registerTile.editModeControl.Snap(transform.position));
 				ItemControl[] tempList = heldItems.ToArray();
 				for (int i = 0; i < tempList.Length; i++) {
 					tempList[i].aliveState = false;
