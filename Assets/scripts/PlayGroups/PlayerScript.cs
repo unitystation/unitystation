@@ -63,10 +63,15 @@ namespace PlayGroup {
 				SoundManager.PlayVarAmbient(rA);
 				playerMove = GetComponent<PlayerMove>();
 				playerSprites = GetComponent<PlayerSprites>();
-                GetComponent<InputControl.InputController>().enabled = true;
+                GetComponent<InputController>().enabled = true;
 				if(!UIManager.Instance.playerListUIControl.window.activeInHierarchy ) {
                     UIManager.Instance.playerListUIControl.window.SetActive(true);
                 }
+
+                if(string.IsNullOrEmpty(PlayerManager.PlayerNameCache) && GameData.IsHeadlessServer) {
+                    PlayerManager.PlayerNameCache = "server";
+                }
+
 				if (!PlayerManager.HasSpawned) {
                     //First
                     CmdTrySetName(PlayerManager.PlayerNameCache);
