@@ -32,7 +32,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
 //        Debug.LogFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}",
 //            calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
         Health -= calculatedDamage;
-        checkDedStatus();
+        checkDeadStatus();
     }
 
     public virtual int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType,
@@ -44,7 +44,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
     }
 
 
-    private void checkDedStatus()
+    private void checkDeadStatus()
     {
         if ( Health > 0 || IsDead ) return;
         Health = 0;
