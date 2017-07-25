@@ -180,6 +180,8 @@ namespace Weapons
 
 		#region Weapon Firing Mechanism
 		public override void Interact() {
+			if (Input.GetKey(KeyCode.LeftControl))
+				return;
 			//shoot gun interation if its in hand
 			if (gameObject == UIManager.Hands.CurrentSlot.GameObject()) {
 				AttemptToFireWeapon();

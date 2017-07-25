@@ -18,6 +18,15 @@ public class ShutterSwitchTrigger: InputTrigger
 	void Start()
 	{
 		animator = GetComponent<Animator>();
+	}
+
+	public override void OnStartClient(){
+		StartCoroutine(WaitForLoad());
+		base.OnStartClient();
+	}
+
+	IEnumerator WaitForLoad(){
+		yield return new WaitForSeconds(1f);
 		SyncShutters(IsClosed);
 	}
 		
