@@ -502,7 +502,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	//Respawn action for Deathmatch v 0.1.3
 	[Server]
 	public void RespawnPlayer(){
-		Debug.Log("RESPAWN!");
 		RpcAdjustForRespawn();
 		var spawn = CustomNetworkManager.Instance.GetStartPosition();
 		var newPlayer = ( GameObject) Instantiate(CustomNetworkManager.Instance.playerPrefab, spawn.position, spawn.rotation );
