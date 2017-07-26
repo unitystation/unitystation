@@ -76,7 +76,7 @@ namespace UI
 		public void BtnOk()
 		{
 			SoundManager.Play("Click01");
-			if (string.IsNullOrEmpty(playerNameInput.text))
+			if (string.IsNullOrEmpty(playerNameInput.text.Trim()))
 				return;
 			
 			//Connecting as client

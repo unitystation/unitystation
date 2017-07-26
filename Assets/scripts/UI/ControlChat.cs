@@ -65,7 +65,7 @@ namespace UI
 
         public void OnClickSend()
         {
-            if (!string.IsNullOrEmpty(this.InputFieldChat.text))
+			if (!string.IsNullOrEmpty(this.InputFieldChat.text.Trim()))
             {
                 SoundManager.Play("Click01");
                 PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, true);
