@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UI;
@@ -157,9 +158,14 @@ namespace PlayGroup {
             return Vector3.zero;
         }
         private void Interact(Vector3 currentPosition, Vector3 direction) {
+			if (!allowInput)
+				return;
+			
             var doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
             if (doorController != null) {
+				allowInput = false;
                 doorController.CmdTryOpen(gameObject);
+				StartCoroutine(DoorInputCoolDown());
             }
 
 			var objectActions = Matrix.Matrix.At(currentPosition + direction).GetObjectActions();
@@ -167,5 +173,11 @@ namespace PlayGroup {
 				objectActions.TryPush(gameObject, speed, direction);
 			}
         }
+
+		//FIXME an ugly temp fix for an ugly problem. Will implement callbacks after 0.1.3
+		IEnumerator DoorInputCoolDown(){
+			yield return new WaitForSeconds(0.3f);
+			allowInput = true;
+		}
     }
 }
