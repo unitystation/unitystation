@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace UnityStationTools{
 public class Tools : Editor {
@@ -43,17 +42,6 @@ public class Tools : Editor {
 
             r.transform.MoveToSection(Matrix.Matrix.At(x, y).Section);
             //PrefabUtility.RevertPrefabInstance(r.gameObject);
-        }
-    }
-
-    [MenuItem("Tools/Double Network Identity")]
-    static void CheckDoubleNetworkIdentity() {
-        var networkIdentities = FindObjectsOfType<NetworkIdentity>();
-
-        foreach(var n in networkIdentities) {
-            if(n.transform.GetComponentsInChildren<NetworkIdentity>().Length > 1) {
-                Debug.Log("Double Network Identity: " + n.transform.name);
-            }
         }
     }
 }
