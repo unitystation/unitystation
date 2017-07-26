@@ -28,11 +28,18 @@ public class CustomNetworkManager: NetworkManager
 	}
 
 	void Start(){
+		customConfig = true;
+
 		SetSpawnableList();
 		if (!IsClientConnected() && !GameData.IsHeadlessServer)
 		{
 			UIManager.Display.logInWindow.SetActive(true);   
 		}
+
+		channels.Add(QosType.ReliableSequenced);
+
+		connectionConfig.AcksType = ConnectionAcksType.Acks64;
+		connectionConfig.FragmentSize = 512;
 	}
 
 	void SetSpawnableList(){
@@ -83,6 +90,9 @@ public class CustomNetworkManager: NetworkManager
 
         //This client connecting to server, wait for the spawnable prefabs to register
 		StartCoroutine(WaitForSpawnListSetUp(conn));
+
+		Debug.Log(conn);
+		this.RegisterHandler<InteractMessage>(conn);
 	}
 
 	IEnumerator WaitForSpawnListSetUp(NetworkConnection conn){
