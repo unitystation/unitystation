@@ -136,13 +136,14 @@ namespace PlayGroup {
                 Matrix.Matrix.At(pullPos).ContainsTile(gameObject))
             {
 				float journeyLength = Vector3.Distance(pullingObject.transform.position, pullPos);
-                if (journeyLength <= 1f)
+                if (journeyLength <= 2f)
                 {
                     pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, (playerMove.speed * Time.deltaTime) / journeyLength);
                 }
                 else
                 {
-                    pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, (playerMove.speed * Time.deltaTime) * journeyLength);
+					//If object gets too far away activate warp speed
+					pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, (playerMove.speed * Time.deltaTime) * 30f);
                 }
                 }
         }
