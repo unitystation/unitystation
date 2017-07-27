@@ -1,15 +1,20 @@
 ﻿
-    using System;
     using System.Collections;
     using UnityEngine;
-    using Random = UnityEngine.Random;
 
 public class FuelTankHealthBehaviour : HealthBehaviour
     {
+        private ObjectActions objectActions;
 
+        private void Awake()
+        {
+            objectActions = GetComponent<ObjectActions>();
+
+        }
 
         public override void onDeathActions()
         {
+            objectActions.BreakPull();
             var delay = 0f;
             switch ( LastDamageType )
             {

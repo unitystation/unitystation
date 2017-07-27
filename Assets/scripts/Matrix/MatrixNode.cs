@@ -17,6 +17,9 @@ namespace Matrix {
 
 		[NonSerialized]
 		private List<ItemControl> items = new List<ItemControl>();
+	    
+	    [NonSerialized]
+		private List<HealthBehaviour> damageables = new List<HealthBehaviour>();
 
         private bool isDoor;
 		private bool isObject;
@@ -35,13 +38,23 @@ namespace Matrix {
             if(!registerTile) {
                 return false;
             }
+	        var tileType = registerTile.TileType;
 
-			if (registerTile.TileType == TileType.Item) {
-				ItemControl iT = _gameObject.GetComponent<ItemControl>();
-				if (!items.Contains(iT)) {
-					items.Add(iT);
+	        if (tileType == TileType.Item) {
+				var itemControl = _gameObject.GetComponent<ItemControl>();
+				if (!items.Contains(itemControl)) {
+					items.Add(itemControl);
 				}
-			} else {
+			} 
+			else 
+			{
+				if (tileType == TileType.Object || tileType == TileType.Player)
+				{
+					var healthBehaviour = _gameObject.GetComponent<HealthBehaviour>();
+					if ( !damageables.Contains(healthBehaviour) ) {
+						damageables.Add(healthBehaviour);
+					}
+				}
 				tiles.Add(_gameObject);
 				UpdateValues();
 			}
@@ -50,21 +63,33 @@ namespace Matrix {
         }
 
         public bool TryRemoveTile(GameObject _gameObject) {
-			RegisterTile rT = _gameObject.GetComponent<RegisterTile>();
-			if (rT.TileType == TileType.Item) {
-				ItemControl iT = _gameObject.GetComponent<ItemControl>();
+			var registerTile = _gameObject.GetComponent<RegisterTile>();
+	        var tileType = registerTile.TileType;
+	        if (tileType == TileType.Item) {
+				var iT = _gameObject.GetComponent<ItemControl>();
 				if (items.Contains(iT)) {
 						items.Remove(iT);
 				}
-			} else {
-				if (!tiles.Contains(_gameObject)) {
-					return false;
-				}
+			} 
+	        else
+	        {
+		        if (tileType == TileType.Object || tileType == TileType.Player)
+		        {
+			        var healthBehaviour = _gameObject.GetComponent<HealthBehaviour>();
+			        if ( damageables.Contains(healthBehaviour) )
+			        {
+				        damageables.Remove(healthBehaviour);
+			        }
+		        }
+		        if ( !tiles.Contains(_gameObject) )
+		        {
+			        return false;
+		        }
 
-				tiles.Remove(_gameObject);
-				UpdateValues();
-			}
-            return true;
+		        tiles.Remove(_gameObject);
+		        UpdateValues();
+	        }
+	        return true;
         }
 
 		public bool ContainsTile(GameObject _gameObject){
@@ -143,6 +168,10 @@ namespace Matrix {
 
 		public List<ItemControl> GetItems(){
 			return items;
+		}
+	    
+	    public List<HealthBehaviour> GetDamageables(){
+			return damageables;
 		}
 
 		public FloorTile GetFloorTile(){

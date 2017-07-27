@@ -20,8 +20,9 @@ namespace PlayGroup {
 		public bool allowInput = true;
 		[SyncVar]
 		public bool isGhost = false;
-		[HideInInspector]
-		public bool isPushing = false;
+        private bool _isPush;
+        public bool isPushing { get{ return _isPush;} set {Debug.Log("SET ISPUSHING: " + gameObject.name + " val: " + value);
+                _isPush = value;} }
 
         private List<KeyCode> pressedKeys = new List<KeyCode>();
 
@@ -158,11 +159,9 @@ namespace PlayGroup {
             return Vector3.zero;
         }
         private void Interact(Vector3 currentPosition, Vector3 direction) {
-			if (!allowInput)
-				return;
 			
             var doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
-            if (doorController != null) {
+            if (doorController != null && allowInput) {
 				allowInput = false;
                 doorController.CmdTryOpen(gameObject);
 				StartCoroutine(DoorInputCoolDown());

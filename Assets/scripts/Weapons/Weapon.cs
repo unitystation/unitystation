@@ -261,7 +261,7 @@ namespace Weapons
 		{
 			//This checks to see if a new player who has joined needs to load up any weapon magazines because of missing sync hooks
 			if (MagNetID != NetworkInstanceId.Invalid) {
-				if(CurrentMagazine)
+                if(CurrentMagazine && PlayerManager.LocalPlayer != null)
 					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(CurrentMagazine.gameObject);
 			}
 		}

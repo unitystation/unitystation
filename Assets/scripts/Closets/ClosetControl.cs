@@ -81,6 +81,10 @@ namespace Cupboards
         }
 
 		void OpenClose(bool isClosed){
+			if (!registerTile)
+			{
+				registerTile = GetComponent<RegisterTile>();
+			}
 			if (isClosed) {
 				Close();
 			} else {

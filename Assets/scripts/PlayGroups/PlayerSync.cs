@@ -43,6 +43,7 @@ namespace PlayGroup {
 		public override void OnStartClient()
 		{
 			PullReset(pullObjectID);
+            base.OnStartClient();
 		}
 
         [Server]
