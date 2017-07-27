@@ -10,6 +10,11 @@ public class Managers: MonoBehaviour
 
 	public static Managers instance;
 
+	public GameObject hostToggle;
+
+	public bool isForRelease = false;
+	public string serverIP;
+
 	void Awake()
 	{
 		if (instance == null) {
@@ -23,6 +28,9 @@ public class Managers: MonoBehaviour
 	{
 		Application.runInBackground = true;
 		DontDestroyOnLoad(gameObject);
+		if (isForRelease) {
+			hostToggle.SetActive(false);
+		}
 	}
 
 	public void SetScreenForGame()

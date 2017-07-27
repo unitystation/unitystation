@@ -80,10 +80,11 @@ namespace UI
 				return;
 			
 			//Connecting as client
-			if (screen_ConnectTo.activeInHierarchy) {
+			if (screen_ConnectTo.activeInHierarchy || Managers.instance.isForRelease) {
 				ConnectToServer();
 				gameObject.SetActive(false);
 				UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
+				return;
 			}	
 				
 			if (screen_PlayerName.activeInHierarchy && !hostServer.isOn) {
@@ -113,6 +114,13 @@ namespace UI
 
 		void ConnectToServer()
 		{
+			if (Managers.instance.isForRelease) {
+				networkManager.networkAddress = Managers.instance.serverIP;
+				networkManager.networkPort = 7777;
+				networkManager.StartClient();
+				return;
+			}
+
             networkManager.networkAddress = serverAddressInput.text;
 			int port = 0;
 			if (portInput.text.Length >= 4) {

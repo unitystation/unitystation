@@ -32,7 +32,7 @@ public class ShutterSwitchTrigger: InputTrigger
 		
 	public override void Interact()
 	{
-		if (!PlayerManager.LocalPlayerScript.IsInReach(transform, 1.5f))
+		if (!PlayerManager.LocalPlayerScript.IsInReach(transform, 1.5f) || PlayerManager.LocalPlayerScript.playerMove.isGhost)
 			return;
 
 		//if the button is idle and not animating it can be pressed
