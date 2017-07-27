@@ -4,6 +4,7 @@ using UnityEngine;
 using PlayGroup;
 using Matrix;
 using InputControl;
+using UnityEngine.Networking;
 
 public class ShutterController : ObjectTrigger
 {
@@ -14,6 +15,8 @@ public class ShutterController : ObjectTrigger
 
 	private int closedLayer;
 	private int openLayer;
+	private int closedSortingLayer;
+	private int openSortingLayer;
 
 	//For network sync reliability
 	private bool waitToCheckState = false;
@@ -25,8 +28,10 @@ public class ShutterController : ObjectTrigger
 		registerTile = gameObject.GetComponent<RegisterTile>();
 
 		closedLayer = LayerMask.NameToLayer("Door Closed");
+		closedSortingLayer = SortingLayer.NameToID("Doors Open");
 		openLayer = LayerMask.NameToLayer("Door Open");
-		SetLayer(closedLayer);
+		openSortingLayer = SortingLayer.NameToID("Doors Closed");
+		SetLayer(closedLayer, closedSortingLayer);
 	}
 
 	public override void Trigger(bool state)
@@ -46,15 +51,42 @@ public class ShutterController : ObjectTrigger
 	private void SetState(bool state){
 		IsClosed = state;
 		registerTile.UpdateTileType(state ? TileType.Door : TileType.None);
-		SetLayer(state ? closedLayer : openLayer);
+		if ( state )
+		{
+			SetLayer(closedLayer, closedSortingLayer);
+			if (isServer)
+			{
+				DamageOnClose();
+			}
+		}
+		else
+		{
+			SetLayer(openLayer, openSortingLayer);
+		}
+		
 		animator.SetBool("close", state);
 	}
 
-	public void SetLayer(int layer)
+	public void SetLayer(int layer, int sortingLayer)
 	{
+//		GetComponentInChildren<SpriteRenderer>().sortingLayerID = sortingLayer;
 		gameObject.layer = layer;
 		foreach (Transform child in transform) {
 			child.gameObject.layer = layer;
+		}
+	}
+	[Server]
+	private void DamageOnClose()
+	{
+		var currentTile = Matrix.Matrix.At(registerTile.editModeControl.Snap(transform.position));
+//		var currentTile = Matrix.Matrix.At(transform.position);
+		if ( currentTile.IsObject() || currentTile.IsPlayer() )
+		{
+			var healthBehaviours = currentTile.GetDamageables();
+			for ( var i = 0; i < healthBehaviours.Count; i++ )
+			{
+				healthBehaviours[i].ApplyDamage(gameObject.name, 500, DamageType.BRUTE);
+			}
 		}
 	}
 
