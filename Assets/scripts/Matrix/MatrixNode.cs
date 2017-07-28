@@ -15,16 +15,16 @@ namespace Matrix {
         [NonSerialized]
         private List<GameObject> tiles = new List<GameObject>();
 
-		[NonSerialized]
-		private List<ItemControl> items = new List<ItemControl>();
-	    
-	    [NonSerialized]
-		private List<HealthBehaviour> damageables = new List<HealthBehaviour>();
+        [NonSerialized]
+        private List<ItemControl> items = new List<ItemControl>();
+
+        [NonSerialized]
+        private List<HealthBehaviour> damageables = new List<HealthBehaviour>();
 
         private bool isDoor;
-		private bool isObject;
+        private bool isObject;
         private bool isSpace;
-		private bool isPlayer;
+        private bool isPlayer;
 
         [SerializeField]
         private Section section;
@@ -38,78 +38,70 @@ namespace Matrix {
             if(!registerTile) {
                 return false;
             }
-	        var tileType = registerTile.TileType;
+            var tileType = registerTile.TileType;
 
-	        if (tileType == TileType.Item) {
-				var itemControl = _gameObject.GetComponent<ItemControl>();
-				if (!items.Contains(itemControl)) {
-					items.Add(itemControl);
-				}
-			} 
-			else 
-			{
-				if (tileType == TileType.Object || tileType == TileType.Player)
-				{
-					var healthBehaviour = _gameObject.GetComponent<HealthBehaviour>();
-					if ( !damageables.Contains(healthBehaviour) ) {
-						damageables.Add(healthBehaviour);
-					}
-				}
-				tiles.Add(_gameObject);
-				UpdateValues();
-			}
+            if(tileType == TileType.Item) {
+                var itemControl = _gameObject.GetComponent<ItemControl>();
+                if(!items.Contains(itemControl)) {
+                    items.Add(itemControl);
+                }
+            } else {
+                if(tileType == TileType.Object || tileType == TileType.Player) {
+                    var healthBehaviour = _gameObject.GetComponent<HealthBehaviour>();
+                    if(healthBehaviour != null && !damageables.Contains(healthBehaviour)) {
+                        damageables.Add(healthBehaviour);
+                    }
+                }
+                tiles.Add(_gameObject);
+                UpdateValues();
+            }
 
             return true;
         }
 
         public bool TryRemoveTile(GameObject _gameObject) {
-			var registerTile = _gameObject.GetComponent<RegisterTile>();
-	        var tileType = registerTile.TileType;
-	        if (tileType == TileType.Item) {
-				var iT = _gameObject.GetComponent<ItemControl>();
-				if (items.Contains(iT)) {
-						items.Remove(iT);
-				}
-			} 
-	        else
-	        {
-		        if (tileType == TileType.Object || tileType == TileType.Player)
-		        {
-			        var healthBehaviour = _gameObject.GetComponent<HealthBehaviour>();
-			        if ( damageables.Contains(healthBehaviour) )
-			        {
-				        damageables.Remove(healthBehaviour);
-			        }
-		        }
-		        if ( !tiles.Contains(_gameObject) )
-		        {
-			        return false;
-		        }
+            var registerTile = _gameObject.GetComponent<RegisterTile>();
+            var tileType = registerTile.TileType;
+            if(tileType == TileType.Item) {
+                var iT = _gameObject.GetComponent<ItemControl>();
+                if(items.Contains(iT)) {
+                    items.Remove(iT);
+                }
+            } else {
+                if(tileType == TileType.Object || tileType == TileType.Player) {
+                    var healthBehaviour = _gameObject.GetComponent<HealthBehaviour>();
+                    if(damageables.Contains(healthBehaviour)) {
+                        damageables.Remove(healthBehaviour);
+                    }
+                }
+                if(!tiles.Contains(_gameObject)) {
+                    return false;
+                }
 
-		        tiles.Remove(_gameObject);
-		        UpdateValues();
-	        }
-	        return true;
+                tiles.Remove(_gameObject);
+                UpdateValues();
+            }
+            return true;
         }
 
-		public bool ContainsTile(GameObject _gameObject){
-			if (tiles.Contains(_gameObject)) {
-				return true;
-			}
-			return false;
-		}
+        public bool ContainsTile(GameObject _gameObject) {
+            if(tiles.Contains(_gameObject)) {
+                return true;
+            }
+            return false;
+        }
 
-		public bool ContainsItem(GameObject _gameObject){
-			RegisterTile rT = _gameObject.GetComponent<RegisterTile>();
-			if (rT.TileType == TileType.Item) {
-				ItemControl iT = _gameObject.GetComponent<ItemControl>();
-				if (items.Contains(iT)) {
-					return true;
-				}
-				return false;
-			}
-			return false;
-		}
+        public bool ContainsItem(GameObject _gameObject) {
+            RegisterTile rT = _gameObject.GetComponent<RegisterTile>();
+            if(rT.TileType == TileType.Item) {
+                ItemControl iT = _gameObject.GetComponent<ItemControl>();
+                if(items.Contains(iT)) {
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
 
         public bool FitsTile(GameObject _gameObject) {
             var registerTile = _gameObject.GetComponent<RegisterTile>();
@@ -132,13 +124,13 @@ namespace Matrix {
             return isDoor;
         }
 
-		public bool IsPlayer() {
-			return isPlayer;
-		}
+        public bool IsPlayer() {
+            return isPlayer;
+        }
 
-		public bool IsObject() {
-			return isObject;
-		}
+        public bool IsObject() {
+            return isObject;
+        }
 
         public DoorController GetDoor() {
             if(isDoor) {
@@ -153,36 +145,36 @@ namespace Matrix {
             return null;
         }
 
-		public ObjectActions GetObjectActions() {
-			if(isObject) {
-				foreach(var tile in tiles) {
-					var registerTile = tile.GetComponent<RegisterTile>();
-					if(registerTile.TileType == TileType.Object) {
-						ObjectActions objCollisions = registerTile.gameObject.GetComponent<ObjectActions>();
-						return objCollisions;
-					}
-				}
-			}
-			return null;
-		}
+        public ObjectActions GetObjectActions() {
+            if(isObject) {
+                foreach(var tile in tiles) {
+                    var registerTile = tile.GetComponent<RegisterTile>();
+                    if(registerTile.TileType == TileType.Object) {
+                        ObjectActions objCollisions = registerTile.gameObject.GetComponent<ObjectActions>();
+                        return objCollisions;
+                    }
+                }
+            }
+            return null;
+        }
 
-		public List<ItemControl> GetItems(){
-			return items;
-		}
-	    
-	    public List<HealthBehaviour> GetDamageables(){
-			return damageables;
-		}
+        public List<ItemControl> GetItems() {
+            return items;
+        }
 
-		public FloorTile GetFloorTile(){
-			foreach(var tile in tiles) {
-				var registerTile = tile.GetComponent<RegisterTile>();
-				if(registerTile.TileType == TileType.Floor) {
-			    return registerTile.gameObject.GetComponent<FloorTile>();
-				}
-			}
-			return null;
-		}
+        public List<HealthBehaviour> GetDamageables() {
+            return damageables;
+        }
+
+        public FloorTile GetFloorTile() {
+            foreach(var tile in tiles) {
+                var registerTile = tile.GetComponent<RegisterTile>();
+                if(registerTile.TileType == TileType.Floor) {
+                    return registerTile.gameObject.GetComponent<FloorTile>();
+                }
+            }
+            return null;
+        }
 
         public bool Connects(ConnectType connectType) {
             if(connectType != null) {
@@ -213,16 +205,16 @@ namespace Matrix {
             connectValue = 0;
             isDoor = false;
             isSpace = false;
-			isPlayer = false;
-			isObject = false;
+            isPlayer = false;
+            isObject = false;
 
             foreach(var tile in tiles) {
-				if (tile == null)
-					return;
+                if(tile == null)
+                    return;
                 var registerTile = tile.GetComponent<RegisterTile>();
 
 
-				
+
                 tileValue |= registerTile.TileType;
 
                 var connectTrigger = tile.GetComponent<ConnectTrigger>();
@@ -233,12 +225,12 @@ namespace Matrix {
                 if(registerTile.TileType == TileType.Door) {
                     isDoor = true;
                 }
-				if(registerTile.TileType == TileType.Object) {
-					isObject = true;
-				}
-				if(registerTile.TileType == TileType.Player) {
-					isPlayer = true;
-				}
+                if(registerTile.TileType == TileType.Object) {
+                    isObject = true;
+                }
+                if(registerTile.TileType == TileType.Player) {
+                    isPlayer = true;
+                }
 
                 if(registerTile.inSpace) {
                     isSpace = true;
