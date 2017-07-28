@@ -18,19 +18,23 @@ public class LockLightController : MonoBehaviour {
 
     public void Lock() {
         locked = true;
+		if(spriteRenderer != null)
         spriteRenderer.sprite = spriteLocked;
     }
 
     public void Unlock() {
         locked = false;
+		if(spriteRenderer != null)
         spriteRenderer.sprite = spriteUnlocked;
     }
 
     public void Show() {
+		if(spriteRenderer != null)
         spriteRenderer.enabled = true;
     }
 
     public void Hide() {
+		if(spriteRenderer != null)
         spriteRenderer.enabled = false;
     }
 
