@@ -81,7 +81,9 @@ namespace UI
 			
 			//Connecting as client
 			if (screen_ConnectTo.activeInHierarchy || Managers.instance.isForRelease) {
-				ConnectToServer();
+                PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
+                PlayGroup.PlayerManager.PlayerNameCache = playerNameInput.text;
+                ConnectToServer();
 				gameObject.SetActive(false);
 				UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
 				return;
