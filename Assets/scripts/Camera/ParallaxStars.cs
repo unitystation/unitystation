@@ -21,7 +21,7 @@ public class ParallaxStars: MonoBehaviour {
     }
 
     public void MoveInDirection(Vector2 dir) {
-        transform.position -= new Vector3(dir.x, dir.y) * speed;
+		transform.position -= new Vector3(dir.x, dir.y) * speed * Time.deltaTime;
 
         if(backgrounds != null) {
             var diff = transform.localPosition - currentPosition;
