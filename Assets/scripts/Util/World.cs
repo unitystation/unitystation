@@ -10,7 +10,7 @@ public static class World
 	{
 		var snappedPosition = new Vector2 (Mathf.Round (position.x), Mathf.Round (position.y));
 
-		var objects = Physics2D.OverlapBoxAll(snappedPosition, new Vector2(0.9f, 0.9f), 0, 1 << layerMask).ToList();
+		var objects = Physics2D.OverlapBoxAll(snappedPosition, new Vector2(0.9f, 0.9f), 0, 1 << layerMask.value).ToList();
 
 		return objects;
 	}

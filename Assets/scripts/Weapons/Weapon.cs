@@ -188,7 +188,14 @@ namespace Weapons
 			} 
 			//if the weapon is not in our hands not in hands, pick it up
 			else {
-				PlayerManager.LocalPlayerScript.playerNetworkActions.TryToPickUpObject(gameObject);
+				if ( !isServer )
+				{
+					InteractMessage.Send(gameObject);
+				}
+				else
+				{
+					PlayerManager.LocalPlayerScript.playerNetworkActions.TryToPickUpObject(gameObject);
+				}
 			}
 		}
 

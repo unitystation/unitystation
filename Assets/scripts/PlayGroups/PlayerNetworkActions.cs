@@ -63,28 +63,29 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-    //This is only called from interaction on the client (from PickUpTrigger)
     public bool TryToPickUpObject(GameObject itemObject)
     {
-		if (PlayerManager.PlayerScript != null)
-        {
-            if (!isLocalPlayer)
-                return false;
+//		InteractMessage.Send(itemObject);
+        if ( !isServer ) return false;
+        
+        if ( CantPickUpObject(itemObject) ) return false;
 
-            if (!UIManager.Hands.CurrentSlot.TrySetItem(itemObject))
-            {
-                return false;
-            }
-            else
-            {
-                CmdTryToPickUpObject(UIManager.Hands.CurrentSlot.eventName, itemObject);
-            }
-        }
-        else
-        {
-            return false;
-        }
+        PickUpObject(itemObject);
+//        UniMessage.SendServer(gameObject, "PickUpObject", itemObject);
+        
         return true;
+    }
+
+    public void PickUpObject(GameObject itemObject)
+    {
+        CmdTryToPickUpObject(UIManager.Hands.CurrentSlot.eventName, itemObject);
+    }
+
+    private bool CantPickUpObject(GameObject itemObject)
+    {
+        return PlayerManager.PlayerScript == null || 
+               !isLocalPlayer || 
+               !UIManager.Hands.CurrentSlot.TrySetItem(itemObject);
     }
 
     //Server only (from Equipment Initial SetItem method
