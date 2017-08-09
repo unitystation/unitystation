@@ -84,9 +84,11 @@ public class FieldOfViewTiled : MonoBehaviour
 			// Everything else:
 
 			// Perform a linecast to see if a wall is blocking vision of the target tile
-			int WallLayerMask = 1 << WallLayer;
-			int LayerMask = WallLayerMask;
-			RaycastHit2D hit = Physics2D.Linecast(GetSightSource().transform.position, shroudNodes[i], LayerMask);
+
+//			int WallLayerMask = 1 << WallLayer;
+//			int LayerMask = WallLayerMask;
+            LayerMask _layerMask = LayerMask.GetMask("Walls","Door Closed");
+            RaycastHit2D hit = Physics2D.Linecast(GetSightSource().transform.position, shroudNodes[i], _layerMask);
 
 			// If it hits a wall we should enable the shroud
 			if (hit)
