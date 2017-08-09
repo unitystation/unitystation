@@ -144,7 +144,7 @@ public class FieldOfViewTiled : MonoBehaviour
 				Matrix.MatrixNode node = Matrix.Matrix.At(new Vector2(x, y));
 				if (!shroudTiles.ContainsKey(new Vector2(x, y)))
 					//FIXME Need to create a IsWall() check in matrix!
-				if (node.IsSpace() || !node.IsPassable())
+				if (node.IsSpace() || node.IsWall() || node.IsDoor() || node.IsWindow())
 					continue;
 
 				if (!shroudTiles.ContainsKey(new Vector2(x, y)))

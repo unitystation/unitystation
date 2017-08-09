@@ -22,6 +22,8 @@ namespace Matrix {
         private List<HealthBehaviour> damageables = new List<HealthBehaviour>();
 
         private bool isDoor;
+        private bool isWindow;
+        private bool isWall;
         private bool isObject;
         private bool isSpace;
         private bool isPlayer;
@@ -124,6 +126,16 @@ namespace Matrix {
             return isDoor;
         }
 
+        public bool IsWindow()
+        {
+            return isWindow;
+        }
+
+        public bool IsWall()
+        {
+            return isWall;
+        }
+
         public bool IsPlayer() {
             return isPlayer;
         }
@@ -204,6 +216,7 @@ namespace Matrix {
             tileValue = 0;
             connectValue = 0;
             isDoor = false;
+            isWall = false;
             isSpace = false;
             isPlayer = false;
             isObject = false;
@@ -231,8 +244,16 @@ namespace Matrix {
                 if(registerTile.TileType == TileType.Player) {
                     isPlayer = true;
                 }
+                if (registerTile.TileType == TileType.Wall)
+                {
+                    isWall = true;
+                }
+                if (registerTile.TileType == TileType.Window)
+                {
+                    isWindow = true;
+                }
 
-                if(registerTile.inSpace) {
+                if (registerTile.inSpace) {
                     isSpace = true;
                 }
             }

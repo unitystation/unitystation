@@ -52,7 +52,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1708842531086130}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1892, y: 1116, z: 0}
+  m_LocalPosition: {x: 1986, y: 1179, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4737733771534288}
@@ -83,9 +83,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &114637970295964640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -111,7 +122,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 1
+  inSpace: 0
+  tileTypeIndex: 1
+  editModeControl: {fileID: 114637970295964640}
+  savedPosition: {x: 1986, y: 1179, z: 0}
 --- !u!212 &212872865417728230
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -142,8 +156,14 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 322132419
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300108, guid: 5e404b048d864350b9cc7c61ebc33b4e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
