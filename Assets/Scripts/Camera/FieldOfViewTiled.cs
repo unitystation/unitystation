@@ -47,43 +47,32 @@ public class FieldOfViewTiled : MonoBehaviour
 			lastDirection = GetSightSourceDirection();
 		}
 	}
-
-	// Returns all shroud nodes in field of vision
-	public List<Vector2> GetInFieldOfVision(List<Vector2> inputShrouds)
+		
+	public void UpdateSightSourceFov(List<Vector2> nearbyShrouds)
 	{
+		Vector2[] nearbyShroudsArray = nearbyShrouds.ToArray();
 		List<Vector2> inFieldOFVision = new List<Vector2>();
-		foreach (Vector2 inputShroud in inputShrouds)
-		{
-
+		// Returns all shroud nodes in field of vision
+		for(int i = 0; i < nearbyShroudsArray.Length ;i++){
+			SetShroudStatus(nearbyShroudsArray[i], true);
 
 			// Light close behind and around
-			if (Vector2.Distance(GetSightSource().transform.position, inputShroud) < InnatePreyVision)
+			if (Vector2.Distance(GetSightSource().transform.position, nearbyShroudsArray[i]) < InnatePreyVision)
 			{
-				inFieldOFVision.Add(inputShroud);
+				inFieldOFVision.Add(nearbyShroudsArray[i]);
 				continue;
 			}
 
 			// In front cone
-			if (Vector3.Angle(shroudTiles[inputShroud].transform.position - GetSightSource().transform.position, GetSightSourceDirection()) < FieldOfVision)
+			if (Vector3.Angle(shroudTiles[nearbyShroudsArray[i]].transform.position - GetSightSource().transform.position, GetSightSourceDirection()) < FieldOfVision)
 			{
-				inFieldOFVision.Add(inputShroud);
+				inFieldOFVision.Add(nearbyShroudsArray[i]);
 				continue;
 			}
 		}
-
-		return inFieldOFVision;
-	}
-
-	public void UpdateSightSourceFov(List<Vector2> nearbyShrouds)
-	{
-		// Mark all tiles as shrouded that are nearby
-		foreach (Vector2 nearbyShroud in nearbyShrouds)
-		{
-			SetShroudStatus(nearbyShroud, true);
-		}
-
+			
 		// Loop through all tiles that are nearby and are in field of vision
-		Vector2[] shroudNodes = GetInFieldOfVision(nearbyShrouds).ToArray();
+		Vector2[] shroudNodes = inFieldOFVision.ToArray();
 		for(int i = 0; i < shroudNodes.Length; i++){
 			// There is a slight issue with linecast where objects directly diagonal to you are not hit by the cast
 			// and since we are standing next to the tile we should always be able to view it, lets always deactive the shroud
