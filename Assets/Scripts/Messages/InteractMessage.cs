@@ -9,7 +9,7 @@ public class InteractMessage : ClientMessage<InteractMessage>
 
 	public override IEnumerator Process()
 	{
-		Debug.Log("InteractMessage");
+		Debug.Log(ToString());
 
 		yield return WaitFor(Subject);
 
@@ -25,6 +25,6 @@ public class InteractMessage : ClientMessage<InteractMessage>
 
 	public override string ToString()
 	{
-		return string.Format("[InteractMessage Subject={0}]", Subject);
+		return string.Format("[InteractMessage Subject={0} Type={1}]", Subject, MessageType);
 	}
 }

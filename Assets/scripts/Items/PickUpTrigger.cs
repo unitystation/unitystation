@@ -7,8 +7,15 @@ using System;
 namespace Items {
     public class PickUpTrigger: InputTrigger {
         public override void Interact() {
-            // try to add the item to hand
-            PlayerManager.LocalPlayerScript.playerNetworkActions.TryToPickUpObject(gameObject);
+            if ( !isServer )
+            {
+                InteractMessage.Send(gameObject);
+            }
+            else
+            {
+                // try to add the item to hand
+                PlayerManager.LocalPlayerScript.playerNetworkActions.TryToPickUpObject(gameObject);
+            }
         }
     }
 }

@@ -87,6 +87,10 @@ public class CustomNetworkManager: NetworkManager
 		if (_isServer) {
 			//do special server wizardry here
 		}
+		else
+		{
+			this.RegisterServerHandlers(); //ghetto fix for IDs to match
+		}
 
 		if (GameData.IsInGame) {
 			ObjectManager.StartPoolManager();
