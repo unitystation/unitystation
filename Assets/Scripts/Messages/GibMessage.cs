@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class InteractMessage : ClientMessage<InteractMessage>
+public class GibMessage : ServerMessage<GibMessage>
 {
 	public NetworkInstanceId Subject;
 
 	public override IEnumerator Process()
 	{
-		Debug.Log("InteractMessage");
+		Debug.Log("GibMessage");
 
 		yield return WaitFor(Subject);
 
-		NetworkObject.GetComponent<InputControl.InputTrigger>().Interact();
+		foreach (var living in Object.FindObjectsOfType<Living>()) {
+			living.lastDamager = "God";
+			living.Death(true);
+		}
 	}
 
-	public static InteractMessage Send(GameObject subject)
+	public static GibMessage Send()
 	{
-		var msg = new InteractMessage{ Subject = subject.GetComponent<NetworkIdentity>().netId };
-		msg.Send();
+		var msg = new GibMessage();
+		msg.SendToAll();
 		return msg;
 	}
 

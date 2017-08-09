@@ -66,8 +66,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     //This is only called from interaction on the client (from PickUpTrigger)
     public bool TryToPickUpObject(GameObject itemObject)
     {
-		InteractMessage.Send(itemObject);
-
 		if (PlayerManager.PlayerScript != null)
         {
             if (!isLocalPlayer)

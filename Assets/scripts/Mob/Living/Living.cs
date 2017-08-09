@@ -16,9 +16,9 @@ public class Living : Mob
     private bool shotDmgCoolDown = false;
 
     //Last person who damaged this living
-    public string lastDamager { get; private set; }
+	public string lastDamager;
 
-    #region living_defines.dm
+	#region living_defines.dm
 
     //Maximum health that should be possible.
     public int maxHealth = 100;
