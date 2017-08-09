@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4547860218632014}
   - component: {fileID: 212009103734875816}
-  - component: {fileID: 114974535902255526}
+  - component: {fileID: 114296176194666268}
   m_Layer: 30
   m_Name: ShroudTile
   m_TagString: FogOfWar
@@ -35,13 +35,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1568321921243642}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1844.993, y: 1145.022, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114974535902255526
+--- !u!114 &114296176194666268
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -49,11 +49,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1568321921243642}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c281289940833c4da1b7e79318ce126, type: 3}
+  m_Script: {fileID: 11500000, guid: f8065be68d5614b6b8fdbdaf0f27b76b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Lights: []
-  CurrentBrightness: 0
+  renderer: {fileID: 212009103734875816}
 --- !u!212 &212009103734875816
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -8046,6 +8046,7 @@ MonoBehaviour:
   optionsDropDown: {fileID: 114178966682911010}
   lightingSystem: {fileID: 0}
   mainCamera: {fileID: 0}
+  fieldOfView: {fileID: 0}
 --- !u!114 &114214952603637732
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10976,8 +10977,8 @@ MonoBehaviour:
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
-  m_OfflineScene: Lobby
-  m_OnlineScene: DeathMatch
+  m_OfflineScene: 
+  m_OnlineScene: Outpost
   m_SpawnPrefabs: []
   m_CustomConfig: 1
   m_MaxConnections: 64

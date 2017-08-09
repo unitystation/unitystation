@@ -17,11 +17,20 @@ public class ItemFactory : MonoBehaviour {
 
 	private GameObject fireTile{ get; set; }
 	private GameObject scorchMarksTile{ get; set; }
+	private GameObject shroudTile{ get; set; }
+
+	//Parents to make tidy
+	private GameObject shroudParent;
 
 	void Init(){
 		//Do init stuff
 		Instance.fireTile = Resources.Load("FireTile") as GameObject;
 		Instance.scorchMarksTile = Resources.Load("ScorchMarks") as GameObject;
+		Instance.shroudTile = Resources.Load("ShroudTile") as GameObject;
+
+		//Parents
+		Instance.shroudParent =  new GameObject();
+		Instance.shroudParent.name = "FieldOfView(Shrouds)";
 	}
 
 	//FileTiles are client side effects only, no need for network sync (triggered by same event on all clients/server)
@@ -37,5 +46,11 @@ public class ItemFactory : MonoBehaviour {
 		GameObject sM = PoolManager.PoolClientInstantiate(Instance.scorchMarksTile, parent.position, Quaternion.identity);
 		sM.transform.parent = parent;
 		return sM;
+	}
+
+	public GameObject SpawnShroudTile(Vector3 pos){
+		GameObject sT = PoolManager.PoolClientInstantiate(Instance.shroudTile, pos, Quaternion.identity);
+		sT.transform.parent = shroudParent.transform;
+		return sT;
 	}
 }
