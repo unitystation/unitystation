@@ -12,5 +12,11 @@ public abstract class ServerMessage<T> : GameMessage<T>
 	public void SendToAll()
 	{
 		NetworkServer.SendToAll(MessageType, this);
+		Debug.LogFormat("SentToAll {0}", this);
+	}
+	public void SendTo(GameObject recipient)
+	{
+		NetworkServer.SendToClientOfPlayer(recipient, MessageType, this);
+		Debug.LogFormat("SentTo {0}", this);
 	}
 }
