@@ -80,11 +80,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     {
         CmdTryToPickUpObject(UIManager.Hands.CurrentSlot.eventName, itemObject);
     }
-
+    [Server]
     private bool CantPickUpObject(GameObject itemObject)
     {
         return PlayerManager.PlayerScript == null || 
-               !isLocalPlayer || 
+               /*!isLocalPlayer || */
                !UIManager.Hands.CurrentSlot.TrySetItem(itemObject);
     }
 
@@ -102,21 +102,21 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-    [Command]
+//    [Command]
+    [Server]
     public void CmdTryToPickUpObject(string eventName, GameObject obj)
     {
-        if (ServerCache.ContainsKey(eventName))
+        if ( !ServerCache.ContainsKey(eventName) ) return;
+        if (ServerCache[eventName] == null || ServerCache[eventName] == obj)
         {
-            if (ServerCache[eventName] == null || ServerCache[eventName] == obj)
-            {
-                EquipmentPool.AddGameObject(gameObject, obj);
-                ServerCache[eventName] = obj;
-                equipment.SetHandItem(eventName, obj);
-            }
-            else
-            {
-                Debug.Log("ServerCache slot is full");
-            }
+            EquipmentPool.AddGameObject(gameObject, obj);
+            ServerCache[eventName] = obj;
+            equipment.SetHandItem(eventName, obj);
+            
+        }
+        else
+        {
+            Debug.Log("ServerCache slot is full");
         }
     }
 
@@ -128,7 +128,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         EquipmentPool.AddGameObject(gameObject, obj);
     }
 
-    [Command]
+    [Command][Obsolete]
     public void CmdTryToInstantiateInHand(string eventName, GameObject prefab)
     {
         if (ServerCache.ContainsKey(eventName))
@@ -150,13 +150,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
+    [ClientRpc][Obsolete]
     void RpcInstantiateInHand(string playerName, GameObject item)
     {
         if (playerName == gameObject.name)
         {
             UIManager.Hands.CurrentSlot.TrySetItem(item);
         }
+    }
+    void InstantiateInHand(GameObject item)
+    {
+       UIManager.Hands.CurrentSlot.TrySetItem(item);
     }
 
     [ClientRpc]

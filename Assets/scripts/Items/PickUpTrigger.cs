@@ -13,8 +13,15 @@ namespace Items {
             }
             else
             {
-                // try to add the item to hand
-                PlayerManager.LocalPlayerScript.playerNetworkActions.TryToPickUpObject(gameObject);
+                if ( originator )
+                {   //someone else tried to pick up
+//                    originator.BroadcastMessage("TryToPickUpObject", gameObject);
+                    originator.GetComponent<PlayerNetworkActions>().TryToPickUpObject(gameObject);
+                }
+                else
+                {  //serverplayer picks something up himself
+                   PlayerManager.LocalPlayerScript.playerNetworkActions.TryToPickUpObject(gameObject);  
+                }
             }
         }
     }
