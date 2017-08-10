@@ -12,6 +12,14 @@ namespace InputControl {
 			Interact();
 		}
 
+		protected GameObject originator;
+
+		public InputTrigger From(GameObject originator)
+		{
+			this.originator = originator;
+			return this;
+		}
+
 		public abstract void Interact();
 	}
 }

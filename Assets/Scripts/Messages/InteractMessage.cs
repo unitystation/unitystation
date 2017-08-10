@@ -9,11 +9,11 @@ public class InteractMessage : ClientMessage<InteractMessage>
 
 	public override IEnumerator Process()
 	{
-		Debug.Log(ToString());
+		Debug.Log("Processed " + ToString());
 
-		yield return WaitFor(Subject);
+		yield return WaitFor(Subject, SentBy);
 
-		NetworkObject.GetComponent<InputControl.InputTrigger>().Interact();
+		NetworkObjects[0].GetComponent<InputControl.InputTrigger>().From(NetworkObjects[1]).Interact();
 	}
 
 	public static InteractMessage Send(GameObject subject)
@@ -25,6 +25,18 @@ public class InteractMessage : ClientMessage<InteractMessage>
 
 	public override string ToString()
 	{
-		return string.Format("[InteractMessage Subject={0} Type={1}]", Subject, MessageType);
+		return string.Format("[InteractMessage Subject={0} Type={1} SentBy={2}]", Subject, MessageType, SentBy);
 	}
+	
+	public override void Deserialize(NetworkReader reader)
+	{
+		base.Deserialize(reader);
+		Subject = reader.ReadNetworkId();
+	}	
+	public override void Serialize(NetworkWriter writer)
+	{
+		base.Serialize(writer);
+		writer.Write(Subject);
+	}
+	
 }
