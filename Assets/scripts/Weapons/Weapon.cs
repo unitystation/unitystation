@@ -179,7 +179,7 @@ namespace Weapons
 		}
 
 		#region Weapon Firing Mechanism
-		public override void Interact() {
+		public override void Interact(GameObject originator, string hand) {
 			if (Input.GetKey(KeyCode.LeftControl))
 				return;
 			//shoot gun interation if its in hand
@@ -190,7 +190,7 @@ namespace Weapons
 			else {
 				if ( !isServer )
 				{
-					InteractMessage.Send(gameObject);
+					SimpleInteractMessage.Send(gameObject);
 				}
 				else
 				{

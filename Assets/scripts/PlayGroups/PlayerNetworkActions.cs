@@ -11,6 +11,7 @@ using Cupboards;
 using UI;
 using Items;
 using System.Linq;
+using UnityEngine.Assertions.Must;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -63,30 +64,41 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-    public bool TryToPickUpObject(GameObject itemObject)
+    [Server]
+    public bool TryToPickUpObject(GameObject itemObject, string handEventName = null)
     {
-//		InteractMessage.Send(itemObject);
-        if ( !isServer ) return false;
+        var eventName = handEventName ?? UIManager.Hands.CurrentSlot.eventName;
+        if ( CantPickUp(eventName) )
+        {
+            return false;
+        }        
         
-        if ( CantPickUpObject(itemObject) ) return false;
+        return AddItem(itemObject, eventName);
+    }
 
-        PickUpObject(itemObject);
-//        UniMessage.SendServer(gameObject, "PickUpObject", itemObject);
-        
+    //TODO: fix client inventory mangling pseudodupe; introduce pickup prediction
+    
+    [Server]
+    public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false)
+    {
+        var eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
+        if ( ServerCache[eventName] != null && ServerCache[eventName] != itemObject && !replaceIfOccupied   )
+        {
+            Debug.LogFormat("{0}: Didn't replace existing {1} item {2} with {3}", 
+                            gameObject.name, eventName, ServerCache[eventName].name, itemObject.name);
+            return false;
+        }
+        EquipmentPool.AddGameObject(gameObject, itemObject);
+        ServerCache[eventName] = itemObject;
+        UpdateSlotMessage.Send(gameObject, eventName, itemObject);
         return true;
     }
 
-    public void PickUpObject(GameObject itemObject)
+    private bool CantPickUp(string eventName)
     {
-        CmdTryToPickUpObject(UIManager.Hands.CurrentSlot.eventName, itemObject);
+        return PlayerManager.PlayerScript == null || !ServerCache.ContainsKey(eventName);
     }
-    [Server]
-    private bool CantPickUpObject(GameObject itemObject)
-    {
-        return PlayerManager.PlayerScript == null || 
-               /*!isLocalPlayer || */
-               !UIManager.Hands.CurrentSlot.TrySetItem(itemObject);
-    }
+
 
     //Server only (from Equipment Initial SetItem method
     public void TrySetItem(string eventName, GameObject obj)
@@ -102,24 +114,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-//    [Command]
-    [Server]
-    public void CmdTryToPickUpObject(string eventName, GameObject obj)
-    {
-        if ( !ServerCache.ContainsKey(eventName) ) return;
-        if (ServerCache[eventName] == null || ServerCache[eventName] == obj)
-        {
-            EquipmentPool.AddGameObject(gameObject, obj);
-            ServerCache[eventName] = obj;
-//            equipment.SetHandItem(eventName, obj);
-            RunMethodMessage.Send(gameObject, "PlaceInHand", obj);
-        }
-        else
-        {
-            Debug.Log("ServerCache slot is full");
-        }
-    }
 
+
+    void PlaceInHand(GameObject item)
+    {
+       UIManager.Hands.CurrentSlot.SetItem(item);
+    }
     //This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
     [Command]
     public void CmdTryAddToEquipmentPool(GameObject obj)
@@ -158,10 +158,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             UIManager.Hands.CurrentSlot.TrySetItem(item);
         }
     }
-    void PlaceInHand(GameObject item)
-    {
-       UIManager.Hands.CurrentSlot.TrySetItem(item);
-    }
+
 
     [ClientRpc]
     public void RpcTrySetItem(string eventName, GameObject obj)
