@@ -72,23 +72,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         {
             return false;
         }        
-        AddItem(itemObject, eventName);
-        return true;
+        
+        return AddItem(itemObject, eventName);
     }
 
     [Server]
-    public void AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false)
+    public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false)
     {
         var eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
         if ( ServerCache[eventName] != null && ServerCache[eventName] != itemObject && !replaceIfOccupied   )
         {
             Debug.LogFormat("{0}: Didn't replace existing {1} item {2} with {3}", 
                             gameObject.name, eventName, ServerCache[eventName].name, itemObject.name);
+            return false;
         }
         EquipmentPool.AddGameObject(gameObject, itemObject);
         ServerCache[eventName] = itemObject;
         UpdateSlotMessage.Send(gameObject, eventName, itemObject);
-
+        return true;
     }
 
     private bool CantPickUp(string eventName)
