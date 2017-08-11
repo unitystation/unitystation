@@ -11,6 +11,7 @@ using Cupboards;
 using UI;
 using Items;
 using System.Linq;
+using UnityEngine.Assertions.Must;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -67,21 +68,27 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     public bool TryToPickUpObject(GameObject itemObject, string handEventName = null)
     {
         var eventName = handEventName ?? UIManager.Hands.CurrentSlot.eventName;
-//		SimpleInteractMessage.Send(itemObject);
-        if ( CantPickUp(eventName) ) return false;
-        if ( ServerCache[eventName] != null && ServerCache[eventName] != itemObject )
+        if ( CantPickUp(eventName) )
         {
-            Debug.LogFormat("{3}: ServerCache slot {0} is occupied by {1}, unable to place {2}",
-                eventName, ServerCache[eventName].name, itemObject.name, gameObject.name);
             return false;
+        }        
+        AddItem(itemObject, eventName);
+        return true;
+    }
+
+    [Server]
+    public void AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false)
+    {
+        var eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
+        if ( ServerCache[eventName] != null && ServerCache[eventName] != itemObject && !replaceIfOccupied   )
+        {
+            Debug.LogFormat("{0}: Didn't replace existing {1} item {2} with {3}", 
+                            gameObject.name, eventName, ServerCache[eventName].name, itemObject.name);
         }
-        
         EquipmentPool.AddGameObject(gameObject, itemObject);
         ServerCache[eventName] = itemObject;
-        
         UpdateSlotMessage.Send(gameObject, eventName, itemObject);
 
-        return true;
     }
 
     private bool CantPickUp(string eventName)

@@ -32,7 +32,7 @@ namespace Equipment
 
 		public static void AddGameObject(GameObject player, GameObject gObj)
 		{
-			Debug.LogFormat("AddGameObject {1} to {0}", player.name, gObj.name);
+			Debug.LogFormat("Added {1}({2}) to {0}'s pool", player.name, gObj.name, gObj.GetComponent<ItemAttributes>().itemName);
 			var playerName = player.name;
 			if (Instance.equipPools.ContainsKey(playerName)) {
 				//add obj to pool
