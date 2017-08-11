@@ -43,7 +43,7 @@ namespace Lighting
             SyncLightSwitch(isOn);
         }
 
-		public override void Interact()
+		public override void Interact(GameObject originator, string hand)
 		{
 			if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform, 1.4f))
 				return;

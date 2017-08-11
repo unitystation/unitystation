@@ -2,6 +2,7 @@ using System;
 using PlayGroup;
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -13,23 +14,25 @@ namespace InputControl {
 			Interact();
 		}
 
-		protected GameObject originator;
-		protected string hand;
+//		protected GameObject originator;
+//		protected string hand;
+//		public InputTrigger From(GameObject originator)
+//		{
+//			this.originator = originator;
+//			return this;
+//		}
+//		//really don't like this
+//		public InputTrigger With(string withWhat)
+//		{
+//			this.hand = withWhat;
+//			return this;
+//		}
 
-		public InputTrigger From(GameObject originator)
+		public void Interact()
 		{
-			this.originator = originator;
-			return this;
+			Interact(PlayerManager.LocalPlayerScript.gameObject, UIManager.Hands.CurrentSlot.eventName);
 		}
 
-		//really don't like this
-		public InputTrigger With(string withWhat)
-		{
-			this.hand = withWhat;
-			return this;
-		}
-
-		[Obsolete]
-		public abstract void Interact();
+		public abstract void Interact(GameObject originator, string hand);
 	}
 }

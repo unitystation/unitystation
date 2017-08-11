@@ -1,10 +1,11 @@
 ﻿using InputControl;
 using PlayGroup;
 using UI;
+using UnityEngine;
 
 namespace Items {
     public class PickUpTrigger: InputTrigger {
-        public override void Interact() {
+        public override void Interact(GameObject originator, string hand) {
             if ( !isServer )
             {
                 InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);

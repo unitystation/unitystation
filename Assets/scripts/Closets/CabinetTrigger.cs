@@ -26,7 +26,7 @@ public class CabinetTrigger: InputTrigger
 		IsClosed = true;
 	}
 
-	public override void Interact()
+	public override void Interact(GameObject originator, string hand)
 	{
         if (IsClosed)
         {

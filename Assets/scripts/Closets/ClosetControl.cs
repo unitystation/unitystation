@@ -124,7 +124,7 @@ namespace Cupboards
             }
         }
 
-		public override void Interact(){
+		public override void Interact(GameObject originator, string hand){
 			if (Input.GetKey(KeyCode.LeftControl))
 				return;
 

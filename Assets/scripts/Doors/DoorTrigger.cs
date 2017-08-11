@@ -11,7 +11,7 @@ public class DoorTrigger: InputTrigger {
         doorController = GetComponent<DoorController>();
     }
 
-    public override void Interact() {
+    public override void Interact(GameObject originator, string hand) {
         if(doorController.IsOpened)
             doorController.CmdTryClose();
         else

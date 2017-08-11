@@ -6,7 +6,7 @@ using UnityEngine;
 using InputControl;
 
 public class TableTrigger: InputTrigger {
-	public override void Interact() {
+	public override void Interact(GameObject originator, string hand) {
         if (PlayerManager.LocalPlayerScript != null)
             if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
                 return;

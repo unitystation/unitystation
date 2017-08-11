@@ -14,7 +14,7 @@ public class InteractMessage : ClientMessage<InteractMessage>
 
 		yield return WaitFor(Subject, SentBy);
 
-		NetworkObjects[0].GetComponent<InputControl.InputTrigger>().From(NetworkObjects[1]).With(Hand).Interact();
+		NetworkObjects[0].GetComponent<InputControl.InputTrigger>().Interact(NetworkObjects[1], Hand);
 	}
 
 	public static InteractMessage Send(GameObject subject, string hand)

@@ -89,31 +89,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         return PlayerManager.PlayerScript == null || !ServerCache.ContainsKey(eventName);
     }
 
-    [Server]
-    public void CmdTryToPickUpObject(string eventName, GameObject obj)
-    {
-        if ( !ServerCache.ContainsKey(eventName) ) return;
-        if (ServerCache[eventName] == null || ServerCache[eventName] == obj)
-        {
-            EquipmentPool.AddGameObject(gameObject, obj);
-            ServerCache[eventName] = obj;
-//            equipment.SetHandItem(eventName, obj);
-            RunMethodMessage.Send(gameObject, "PlaceInHand", obj);
-        }
-        else
-        {
-            Debug.LogFormat("{3}: ServerCache slot {0} is occupied by {1}, unable to place {2}", 
-                                            eventName, ServerCache[eventName].name, obj.name, gameObject.name);
-        }
-    }
-//    [Server]
-//    private bool CantPickUpObject(GameObject itemObject)
-//    {
-//        return PlayerManager.PlayerScript == null /*|| 
-//               !UIManager.Hands.CurrentSlot.TrySetItem(itemObject)*/
-//            //validation for ServerCache.ContainsKey(eventName) && ServerCache[eventName] == null
-//            ;
-//    }
 
     //Server only (from Equipment Initial SetItem method
     public void TrySetItem(string eventName, GameObject obj)
