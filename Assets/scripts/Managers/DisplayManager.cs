@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 //Resos:
 //0: 1024x640
@@ -38,6 +39,21 @@ public class DisplayManager : MonoBehaviour
         }
         hasInt = true;
     }
+
+	void OnEnable(){
+		SceneManager.sceneLoaded += SetUpScene;
+	}
+
+	void OnDisable(){
+		SceneManager.sceneLoaded -= SetUpScene;
+	}
+
+	void SetUpScene(Scene scene, LoadSceneMode mode){
+		if (GameData.IsInGame) {
+			fieldOfView = FindObjectOfType<FieldOfViewTiled>();
+		}
+	}
+
     public void SetResolution(int _value)
     {
 		float xOffsetCamFollow = 0;
