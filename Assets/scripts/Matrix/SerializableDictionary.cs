@@ -48,6 +48,8 @@ public class SerializableDictionary<TKey, TValue>: ISerializationCallbackReceive
     public int Count { get { return dictionary.Count; } }
 
     public bool ContainsKey(TKey key) { return dictionary.ContainsKey(key); }
+
+    public void Remove(TKey key) { dictionary.Remove(key); }
 }
 
 [Serializable]
@@ -61,6 +63,8 @@ public class GridDictionary<TValue>: SerializableDictionary<long, TValue> {
     }
 
     public bool ContainsKey(int x, int y) { return ContainsKey(calculateKey(x, y)); }
+
+    public void Remove(int x, int y) { Remove(calculateKey(x, y)); }
 }
 
 [Serializable]
