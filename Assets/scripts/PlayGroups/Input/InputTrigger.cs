@@ -1,3 +1,4 @@
+using System;
 using PlayGroup;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace InputControl {
 		}
 
 		protected GameObject originator;
+		protected string hand;
 
 		public InputTrigger From(GameObject originator)
 		{
@@ -20,6 +22,14 @@ namespace InputControl {
 			return this;
 		}
 
+		//really don't like this
+		public InputTrigger With(string withWhat)
+		{
+			this.hand = withWhat;
+			return this;
+		}
+
+		[Obsolete]
 		public abstract void Interact();
 	}
 }

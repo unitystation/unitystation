@@ -63,30 +63,57 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-    public bool TryToPickUpObject(GameObject itemObject)
+    [Server]
+    public bool TryToPickUpObject(GameObject itemObject, string handEventName = null)
     {
-//		InteractMessage.Send(itemObject);
-        if ( !isServer ) return false;
+        var eventName = handEventName ?? UIManager.Hands.CurrentSlot.eventName;
+//		SimpleInteractMessage.Send(itemObject);
+        if ( CantPickUp(eventName) ) return false;
+        if ( ServerCache[eventName] != null && ServerCache[eventName] != itemObject )
+        {
+            Debug.LogFormat("{3}: ServerCache slot {0} is occupied by {1}, unable to place {2}",
+                eventName, ServerCache[eventName].name, itemObject.name, gameObject.name);
+            return false;
+        }
         
-        if ( CantPickUpObject(itemObject) ) return false;
+        EquipmentPool.AddGameObject(gameObject, itemObject);
+        ServerCache[eventName] = itemObject;
+//            equipment.SetHandItem(eventName, obj);
+        RunMethodMessage.Send(gameObject, "PlaceInHand", itemObject);
 
-        PickUpObject(itemObject);
-//        UniMessage.SendServer(gameObject, "PickUpObject", itemObject);
-        
         return true;
     }
 
-    public void PickUpObject(GameObject itemObject)
+    private bool CantPickUp(string eventName)
     {
-        CmdTryToPickUpObject(UIManager.Hands.CurrentSlot.eventName, itemObject);
+        return PlayerManager.PlayerScript == null || !ServerCache.ContainsKey(eventName);
     }
+
     [Server]
-    private bool CantPickUpObject(GameObject itemObject)
+    public void CmdTryToPickUpObject(string eventName, GameObject obj)
     {
-        return PlayerManager.PlayerScript == null || 
-               /*!isLocalPlayer || */
-               !UIManager.Hands.CurrentSlot.TrySetItem(itemObject);
+        if ( !ServerCache.ContainsKey(eventName) ) return;
+        if (ServerCache[eventName] == null || ServerCache[eventName] == obj)
+        {
+            EquipmentPool.AddGameObject(gameObject, obj);
+            ServerCache[eventName] = obj;
+//            equipment.SetHandItem(eventName, obj);
+            RunMethodMessage.Send(gameObject, "PlaceInHand", obj);
+        }
+        else
+        {
+            Debug.LogFormat("{3}: ServerCache slot {0} is occupied by {1}, unable to place {2}", 
+                                            eventName, ServerCache[eventName].name, obj.name, gameObject.name);
+        }
     }
+//    [Server]
+//    private bool CantPickUpObject(GameObject itemObject)
+//    {
+//        return PlayerManager.PlayerScript == null /*|| 
+//               !UIManager.Hands.CurrentSlot.TrySetItem(itemObject)*/
+//            //validation for ServerCache.ContainsKey(eventName) && ServerCache[eventName] == null
+//            ;
+//    }
 
     //Server only (from Equipment Initial SetItem method
     public void TrySetItem(string eventName, GameObject obj)
@@ -102,24 +129,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-//    [Command]
-    [Server]
-    public void CmdTryToPickUpObject(string eventName, GameObject obj)
-    {
-        if ( !ServerCache.ContainsKey(eventName) ) return;
-        if (ServerCache[eventName] == null || ServerCache[eventName] == obj)
-        {
-            EquipmentPool.AddGameObject(gameObject, obj);
-            ServerCache[eventName] = obj;
-//            equipment.SetHandItem(eventName, obj);
-            RunMethodMessage.Send(gameObject, "PlaceInHand", obj);
-        }
-        else
-        {
-            Debug.Log("ServerCache slot is full");
-        }
-    }
 
+    void PlaceInHand(GameObject item)
+    {
+       UIManager.Hands.CurrentSlot.SetItem(item);
+    }
     //This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
     [Command]
     public void CmdTryAddToEquipmentPool(GameObject obj)
@@ -158,10 +172,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             UIManager.Hands.CurrentSlot.TrySetItem(item);
         }
     }
-    void PlaceInHand(GameObject item)
-    {
-       UIManager.Hands.CurrentSlot.TrySetItem(item);
-    }
+
 
     [ClientRpc]
     public void RpcTrySetItem(string eventName, GameObject obj)

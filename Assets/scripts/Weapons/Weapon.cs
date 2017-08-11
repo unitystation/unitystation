@@ -190,7 +190,7 @@ namespace Weapons
 			else {
 				if ( !isServer )
 				{
-					InteractMessage.Send(gameObject);
+					SimpleInteractMessage.Send(gameObject);
 				}
 				else
 				{
