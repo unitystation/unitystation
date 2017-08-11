@@ -8,7 +8,7 @@ public class Networking : Editor {
 	static void PickupRandomItem() {
 		var items = Object.FindObjectsOfType<Items.PickUpTrigger>();
 		var gameObject = items[Random.Range(1, items.Length)].gameObject;
-		SimpleInteractMessage.Send(gameObject);
+		InteractMessage.Send(gameObject, "id");
 	}
 
 	[MenuItem("Networking/Gib All (Server)")]

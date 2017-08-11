@@ -78,8 +78,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         
         EquipmentPool.AddGameObject(gameObject, itemObject);
         ServerCache[eventName] = itemObject;
-//            equipment.SetHandItem(eventName, obj);
-        RunMethodMessage.Send(gameObject, "PlaceInHand", itemObject);
+        
+        UpdateSlotMessage.Send(gameObject, eventName, itemObject);
 
         return true;
     }
@@ -103,6 +103,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
         }
     }
+
 
 
     void PlaceInHand(GameObject item)
