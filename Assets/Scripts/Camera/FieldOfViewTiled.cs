@@ -85,8 +85,6 @@ public class FieldOfViewTiled : MonoBehaviour
 
 			// Perform a linecast to see if a wall is blocking vision of the target tile
 
-//			int WallLayerMask = 1 << WallLayer;
-//			int LayerMask = WallLayerMask;
             LayerMask _layerMask = LayerMask.GetMask("Walls","Door Closed");
             RaycastHit2D hit = Physics2D.Linecast(GetSightSource().transform.position, shroudNodes[i], _layerMask);
 
@@ -145,7 +143,6 @@ public class FieldOfViewTiled : MonoBehaviour
 				// TODO Registration should probably be moved elsewhere
 				Matrix.MatrixNode node = Matrix.Matrix.At(new Vector2(x, y));
 				if (!shroudTiles.ContainsKey(new Vector2(x, y)))
-					//FIXME Need to create a IsWall() check in matrix!
 				if (node.IsSpace() || node.IsWall() || node.IsDoor() || node.IsWindow())
 					continue;
 

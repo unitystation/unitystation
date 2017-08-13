@@ -38,58 +38,58 @@ public class HorizontalDoorAnimator : MonoBehaviour
 		StartCoroutine(_OpenDoor());
 	}
 
-	IEnumerator _OpenDoor()
-	{
-		doorbase.sprite = sprites[0];
-		if (doorController.isWindowedDoor) {
-			overlay_Glass.sprite = overlaySprites[39];
-		} else {
-			overlay_Glass.sprite = sprites[15];
-		}
-		overlay_Lights.sprite = null;
-		doorController.PlayOpenSound();
-		yield return new WaitForSeconds(0.03f);
-		overlay_Lights.sprite = overlaySprites[0];
-		yield return new WaitForSeconds(0.06f);
-		overlay_Lights.sprite = null;
-		yield return new WaitForSeconds(0.09f);
-		overlay_Lights.sprite = overlaySprites[0];
-		yield return new WaitForSeconds(0.12f);
-		doorbase.sprite = sprites[3];
-		if (doorController.isWindowedDoor) {
-			overlay_Glass.sprite = overlaySprites[41];
-		} else {
-			overlay_Glass.sprite = sprites[17];
-		}
-		overlay_Lights.sprite = overlaySprites[1];
-		yield return new WaitForSeconds(0.15f);
-		doorbase.sprite = sprites[4];
-		if (doorController.isWindowedDoor) {
-			overlay_Glass.sprite = overlaySprites[42];
-		} else {
-			overlay_Glass.sprite = sprites[21];
-		}
-		overlay_Lights.sprite = overlaySprites[2];
-		doorController.BoxCollToggleOff();
-		yield return new WaitForSeconds(0.2f);
-		doorbase.sprite = sprites[5];
-		if (doorController.isWindowedDoor) {
-			overlay_Glass.sprite = overlaySprites[43];
-		} else {
-			overlay_Glass.sprite = sprites[20];
-		}
-		overlay_Lights.sprite = overlaySprites[3];
-		yield return new WaitForSeconds(0.2f);
-		doorbase.sprite = sprites[6];
-		overlay_Lights.sprite = overlaySprites[4];
-		yield return new WaitForSeconds(0.2f);
-		doorbase.sprite = sprites[7];
-		overlay_Lights.sprite = null;
-		yield return new WaitForSeconds(0.2f);
-		doorbase.sprite = sprites[8];
-		yield return new WaitForEndOfFrame();
-		doorController.isPerformingAction = false;
-	}
+    IEnumerator _OpenDoor()
+    {
+        doorbase.sprite = sprites[0];
+        if (doorController.isWindowedDoor) {
+            overlay_Glass.sprite = overlaySprites[39];
+        } else {
+            overlay_Glass.sprite = sprites[15];
+        }
+        overlay_Lights.sprite = null;
+        doorController.PlayOpenSound();
+        yield return new WaitForSeconds(0.03f);
+        overlay_Lights.sprite = overlaySprites[0];
+        yield return new WaitForSeconds(0.06f);
+        overlay_Lights.sprite = null;
+        yield return new WaitForSeconds(0.09f);
+        overlay_Lights.sprite = overlaySprites[0];
+        yield return new WaitForSeconds(0.12f);
+        doorbase.sprite = sprites[3];
+        if (doorController.isWindowedDoor) {
+            overlay_Glass.sprite = overlaySprites[41];
+        } else {
+            overlay_Glass.sprite = sprites[18];
+        }
+        overlay_Lights.sprite = overlaySprites[1];
+        yield return new WaitForSeconds(0.15f);
+        doorbase.sprite = sprites[4];
+        if (doorController.isWindowedDoor) {
+            overlay_Glass.sprite = overlaySprites[42];
+        } else {
+            overlay_Glass.sprite = sprites[19];
+        }
+        overlay_Lights.sprite = overlaySprites[2];
+        doorController.BoxCollToggleOff();
+        yield return new WaitForSeconds(0.2f);
+        doorbase.sprite = sprites[5];
+        if (doorController.isWindowedDoor) {
+            overlay_Glass.sprite = overlaySprites[43];
+        } else {
+            overlay_Glass.sprite = sprites[20];
+        }
+        overlay_Lights.sprite = overlaySprites[3];
+        yield return new WaitForSeconds(0.2f);
+        doorbase.sprite = sprites[6];
+        overlay_Lights.sprite = overlaySprites[4];
+        yield return new WaitForSeconds(0.2f);
+        doorbase.sprite = sprites[7];
+        overlay_Lights.sprite = null;
+        yield return new WaitForSeconds(0.2f);
+        doorbase.sprite = sprites[8];
+        yield return new WaitForEndOfFrame();
+        doorController.isPerformingAction = false;
+    }
 
 	public void CloseDoor()
 	{
@@ -120,13 +120,13 @@ public class HorizontalDoorAnimator : MonoBehaviour
 		if (doorController.isWindowedDoor) {
 			overlay_Glass.sprite = overlaySprites[42];
 		} else {
-			overlay_Glass.sprite = sprites[21];
+			overlay_Glass.sprite = sprites[19];
 		}
 		overlay_Lights.sprite = overlaySprites[2];
 		yield return new WaitForSeconds(0.12f);
 		doorbase.sprite = sprites[12];
 		if (!doorController.isWindowedDoor) {
-			overlay_Glass.sprite = sprites[22];
+			overlay_Glass.sprite = sprites[18];
 		}
 		overlay_Lights.sprite = overlaySprites[1];
 		yield return new WaitForSeconds(0.15f);

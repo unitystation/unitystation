@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114956925939094640}
   - component: {fileID: 114232321497863980}
   - component: {fileID: 114990158330489740}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: AirLock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013698625186}
   - component: {fileID: 212000010235302174}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4390488788653686}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: soundfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4596537424955180}
   - component: {fileID: 82771154139725662}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: closeSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4610522372067046}
   - component: {fileID: 82346760648337948}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: openSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011462531918}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1848, y: 1143, z: -0.1}
+  m_LocalPosition: {x: 1829, y: 1132, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013698625186}
@@ -457,11 +457,12 @@ MonoBehaviour:
   openSFX: {fileID: 82346760648337948}
   closeSFX: {fileID: 82771154139725662}
   usingAnimator: 1
-  isWindowedDoor: 0
+  isWindowedDoor: 1
   isPerformingAction: 0
   doorType: 0
   maxTimeOpen: 5
   IsOpened: 0
+  isWindowed: 0
 --- !u!114 &114748385134728100
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -475,6 +476,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
+  editModeControl: {fileID: 114000010121375984}
+  savedPosition: {x: 1829, y: 1132, z: -0.1}
 --- !u!114 &114956925939094640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -558,3 +561,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

@@ -27,9 +27,17 @@ public class DoorController: NetworkBehaviour {
     private int openSortingLayer;
 
     public bool IsOpened;
+    public bool isWindowed = false;
 
     void Start() {
-        closedLayer = LayerMask.NameToLayer("Door Closed");
+        if (!isWindowedDoor)
+        {
+            closedLayer = LayerMask.NameToLayer("Door Closed");
+        }
+        else
+        {
+            closedLayer = LayerMask.NameToLayer("Windows");
+        }
         closedSortingLayer = SortingLayer.NameToID("Doors Open");
         openLayer = LayerMask.NameToLayer("Door Open");
         openSortingLayer = SortingLayer.NameToID("Doors Closed");
