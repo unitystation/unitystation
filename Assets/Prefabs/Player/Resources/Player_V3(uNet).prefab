@@ -1038,9 +1038,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d845653319a64ba5a7817f7abd873f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  talkSprite: {fileID: 21300002, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
-  questionSprite: {fileID: 21300004, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
-  exlaimSprite: {fileID: 21300006, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
+  talkSprite: {fileID: 21300028, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
+  questionSprite: {fileID: 21300032, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
+  exlaimSprite: {fileID: 21300036, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
 --- !u!114 &114068656812549090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1772,7 +1772,6 @@ MonoBehaviour:
   isInSpace: 0
   allowInput: 1
   isGhost: 0
-  isPushing: 0
 --- !u!114 &114804659299628030
 MonoBehaviour:
   m_ObjectHideFlags: 1
