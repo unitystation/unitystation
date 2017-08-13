@@ -7,82 +7,116 @@ using InputControl;
 
 namespace Lighting
 {
-	public class LightSwitchTrigger: InputTrigger
-	{
-		public List<ObjectTrigger> TriggeringObjects = new List<ObjectTrigger>();
+    public class LightSwitchTrigger: InputTrigger
+    {
+        const int MAX_TARGETS = 44;
+        public float radius = 10f;
 
-		[SyncVar(hook = "SyncLightSwitch")]
-		public bool isOn = true;
-		private SpriteRenderer spriteRenderer;
-		public Sprite lightOn;
-		public Sprite lightOff;
-		private bool switchCoolDown = false;
-		private AudioSource clickSFX;
+        int lightingMask;
+        int obstacleMask;
 
-		public ObjectTrigger[] lightSprites;
+        readonly Collider2D[] lightSpriteColliders = new Collider2D[MAX_TARGETS];
 
-		void Awake()
-		{
-			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-			clickSFX = GetComponent<AudioSource>();
-			TriggeringObjects.Clear();
-			foreach (Transform t in transform) {
-				var o = t.GetComponent<ObjectTrigger>();
-				if(0 != null)
-				TriggeringObjects.Add(o);
-			}
-		}
+        [SyncVar(hook = "SyncLightSwitch")]
+        public bool isOn = true;
+        private SpriteRenderer spriteRenderer;
+        public Sprite lightOn;
+        public Sprite lightOff;
+        private bool switchCoolDown = false;
+        private AudioSource clickSFX;
 
-	 	public override void OnStartClient()
-		{
+        void Awake()
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            clickSFX = GetComponent<AudioSource>();
+        }
+
+        void Start()
+        {
+            lightingMask = LayerMask.GetMask("Lighting");
+            obstacleMask = LayerMask.GetMask("Walls","Door Open","Door Closed");
+
+        }
+
+        public override void OnStartClient()
+        {
             StartCoroutine(WaitForLoad());
-		}
+        }
 
-        IEnumerator WaitForLoad(){
+        IEnumerator WaitForLoad()
+        {
             yield return new WaitForSeconds(0.2f);
             SyncLightSwitch(isOn);
         }
 
-		public override void Interact()
-		{
-			if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform, 1.4f))
-				return;
+        public override void Interact()
+        {
+            if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform, 1.4f))
+                return;
 
-			if (switchCoolDown)
-				return;
+            if (switchCoolDown)
+                return;
 			
-			StartCoroutine(CoolDown());
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleLightSwitch(gameObject);
-		}
+            StartCoroutine(CoolDown());
+            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleLightSwitch(gameObject);
+        }
 
-		IEnumerator CoolDown()
-		{
-			switchCoolDown = true;
-			yield return new WaitForSeconds(0.2f);
-			switchCoolDown = false;
-		}
+        IEnumerator CoolDown()
+        {
+            switchCoolDown = true;
+            yield return new WaitForSeconds(0.2f);
+            switchCoolDown = false;
+        }
 
-		void SyncLightSwitch(bool state)
-		{
-				foreach (ObjectTrigger trig in lightSprites) {
-					trig.Trigger(state);
-				}
-			
-			if (TriggeringObjects != null) {
-				foreach (var s in TriggeringObjects) {
-					if (s != null) {
-						s.Trigger(state);
-					}
-				}
-			}
+        void DetectLightsAndAction(bool state)
+        {
+            var startPos = GetCastPos();
+            var length = Physics2D.OverlapCircleNonAlloc(startPos, radius, lightSpriteColliders, lightingMask);
+            List<GameObject> toBeSwitched = new List<GameObject>();
+            for (int i = 0; i < length; i++)
+            {
+                var localCollider = lightSpriteColliders[i];
+                var localObject = localCollider.gameObject;
+                var localObjectPos = (Vector2)localObject.transform.position;
+                var distance = Vector3.Distance(startPos, localObjectPos);
+                if (IsWithinReach(startPos, localObjectPos, distance))
+                {
+                    toBeSwitched.Add(localObject); 
+                }
+            }
 
-			if (clickSFX != null) {
-				clickSFX.Play();
-			}
+            foreach (GameObject obj in toBeSwitched)
+            {
+                obj.SendMessage("Trigger", state, SendMessageOptions.DontRequireReceiver);
+            }
+        }
 
-			if (spriteRenderer != null) {
-				spriteRenderer.sprite = state ? lightOn : lightOff;
-			}
-		}
-	}
+        private bool IsWithinReach(Vector2 pos, Vector2 targetPos, float distance)
+        {
+            return distance <= radius
+            &&
+            Physics2D.Raycast(pos, targetPos - pos, distance, obstacleMask).collider == null;
+        }
+
+        Vector2 GetCastPos()
+        {
+            Vector2 newPos = transform.position + ((transform.position - spriteRenderer.transform.position));
+            return newPos;
+        }
+
+        void SyncLightSwitch(bool state)
+        {
+            DetectLightsAndAction(state);
+	
+            if (clickSFX != null)
+            {
+                clickSFX.Play();
+            }
+
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.sprite = state ? lightOn : lightOff;
+            }
+        }
+    }
 }
