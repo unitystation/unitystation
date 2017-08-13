@@ -5,8 +5,8 @@ using InputControl;
 
 public class AmbientTile : ObjectTrigger {
 
-	private Color onColor = new Color32(105,105,105,255);
-	private Color offColor = new Color32(0,0,0,255);
+	public Color onColor = new Color32(105,105,105,255);
+	public Color offColor = new Color32(0,0,0,255);
 	private SpriteRenderer spriteRend;
 
 	void Start(){
@@ -14,6 +14,7 @@ public class AmbientTile : ObjectTrigger {
 		spriteRend.color = onColor;
 	}
 
+    //FIXME this was for prototype (direct action from the light switch itself)
 	public override void Trigger(bool state)
 	{
         if (spriteRend == null)
@@ -24,3 +25,4 @@ public class AmbientTile : ObjectTrigger {
 		spriteRend.color = state ? onColor : offColor;
 	}
 }
+
