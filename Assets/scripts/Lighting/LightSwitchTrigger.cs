@@ -72,7 +72,6 @@ namespace Lighting
         {
             var startPos = GetCastPos();
             var length = Physics2D.OverlapCircleNonAlloc(startPos, radius, lightSpriteColliders, lightingMask);
-            List<GameObject> toBeSwitched = new List<GameObject>();
             for (int i = 0; i < length; i++)
             {
                 var localCollider = lightSpriteColliders[i];
@@ -81,13 +80,8 @@ namespace Lighting
                 var distance = Vector3.Distance(startPos, localObjectPos);
                 if (IsWithinReach(startPos, localObjectPos, distance))
                 {
-                    toBeSwitched.Add(localObject); 
+					localObject.SendMessage("Trigger", state, SendMessageOptions.DontRequireReceiver);
                 }
-            }
-
-            foreach (GameObject obj in toBeSwitched)
-            {
-                obj.SendMessage("Trigger", state, SendMessageOptions.DontRequireReceiver);
             }
         }
 
