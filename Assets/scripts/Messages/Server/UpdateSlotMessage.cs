@@ -2,7 +2,9 @@
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-
+/// <summary>
+/// Tells client to update certain slot with object
+/// </summary>
 public class UpdateSlotMessage : ServerMessage<UpdateSlotMessage>
 {
     public NetworkInstanceId Recipient;

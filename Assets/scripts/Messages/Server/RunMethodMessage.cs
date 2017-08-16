@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-
+/// <summary>
+/// Message that tells clent to run some method
+/// </summary>
 public class RunMethodMessage : ServerMessage<RunMethodMessage>
 {
     public NetworkInstanceId Recipient;

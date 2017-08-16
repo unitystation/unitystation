@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-
+/// <summary>
+/// Informs server of interaction
+/// </summary>
 public class InteractMessage : ClientMessage<InteractMessage>
 {
-	public string Hand;
+	public byte Hand;
 	public NetworkInstanceId Subject;
 
 	public override IEnumerator Process()
@@ -14,7 +16,7 @@ public class InteractMessage : ClientMessage<InteractMessage>
 
 		yield return WaitFor(Subject, SentBy);
 
-		NetworkObjects[0].GetComponent<InputControl.InputTrigger>().Interact(NetworkObjects[1], Hand);
+		NetworkObjects[0].GetComponent<InputControl.InputTrigger>().Interact(NetworkObjects[1], decodeHand(Hand));
 	}
 
 	public static InteractMessage Send(GameObject subject, string hand)
@@ -22,30 +24,42 @@ public class InteractMessage : ClientMessage<InteractMessage>
 		var msg = new InteractMessage
 		{
 			Subject = subject.GetComponent<NetworkIdentity>().netId,
-			Hand = hand
+			Hand = encodeHand(hand)
 		};
 		msg.Send();
 		return msg;
 	}
 
-//	private static byte detectHandPlaceholder(string handEventString)
-//	{
-//		//we better start using enums for that soon!
-//		if ( handEventString.Equals("leftHand") )	return 1;
-//		if ( handEventString.Equals("rightHand") )	return 2;
-//		return 0;
-//	}
+	private static byte encodeHand(string handEventString)
+	{
+		switch ( handEventString )
+		{
+			case "leftHand": return 1;
+			case "rightHand": return 2;
+		}
+		return 0;
+	}
+	private static string decodeHand(byte handEventByte)
+	{
+		//we better start using enums for that soon!
+		switch ( handEventByte )
+		{
+				case 1: return "leftHand";
+				case 2: return "rightHand";
+				default: return null;
+		}
+	}
 
 	public override string ToString()
 	{
 		return string.Format("[InteractMessage Subject={0} Hand={3} Type={1} SentBy={2}]",
-			Subject, MessageType, SentBy, Hand);
+			Subject, MessageType, SentBy, decodeHand(Hand));
 	}
 	
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Hand = reader.ReadString();
+		Hand = reader.ReadByte();
 		Subject = reader.ReadNetworkId();
 
 	}	

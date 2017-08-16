@@ -16,8 +16,10 @@ using UnityEngine.Assertions.Must;
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
     private Dictionary<string, GameObject> ServerCache = new Dictionary<string, GameObject>();
+
     private string[] eventNames = new string[]
-    {"suit", "belt", "feet", "head", "mask", "uniform", "neck", "ear", "eyes", "hands",
+    {
+        "suit", "belt", "feet", "head", "mask", "uniform", "neck", "ear", "eyes", "hands",
         "id", "back", "rightHand", "leftHand", "storage01", "storage02", "suitStorage"
     };
 
@@ -27,6 +29,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     private PlayerScript playerScript;
     private SoundNetworkActions soundNetworkActions;
     private ChatIcon chatIcon;
+
     void Start()
     {
         equipment = GetComponent<Equipment.Equipment>();
@@ -40,15 +43,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
     public override void OnStartServer()
     {
-        if (isServer)
+        if ( isServer )
         {
-            foreach (string cacheName in eventNames)
+            foreach ( string cacheName in eventNames )
             {
                 ServerCache.Add(cacheName, null);
             }
         }
         base.OnStartServer();
     }
+
     [Command]
     void CmdSyncRoundTime(float currentTime)
     {
@@ -58,7 +62,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [ClientRpc]
     void RpcSyncRoundTime(float currentTime)
     {
-        if (PlayerManager.LocalPlayer == gameObject)
+        if ( PlayerManager.LocalPlayer == gameObject )
         {
             GameManager.Instance.SyncTime(currentTime);
         }
@@ -71,21 +75,21 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         if ( CantPickUp(eventName) )
         {
             return false;
-        }        
-        
+        }
+
         return AddItem(itemObject, eventName);
     }
 
     //TODO: fix client inventory mangling pseudodupe; introduce pickup prediction
-    
+
     [Server]
     public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false)
     {
         var eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
-        if ( ServerCache[eventName] != null && ServerCache[eventName] != itemObject && !replaceIfOccupied   )
+        if ( ServerCache[eventName] != null && ServerCache[eventName] != itemObject && !replaceIfOccupied )
         {
-            Debug.LogFormat("{0}: Didn't replace existing {1} item {2} with {3}", 
-                            gameObject.name, eventName, ServerCache[eventName].name, itemObject.name);
+            Debug.LogFormat("{0}: Didn't replace existing {1} item {2} with {3}",
+                gameObject.name, eventName, ServerCache[eventName].name, itemObject.name);
             return false;
         }
         EquipmentPool.AddGameObject(gameObject, itemObject);
@@ -99,14 +103,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         return PlayerManager.PlayerScript == null || !ServerCache.ContainsKey(eventName);
     }
 
-
     //Server only (from Equipment Initial SetItem method
     public void TrySetItem(string eventName, GameObject obj)
     {
 //        Debug.LogErrorFormat("Server {0}", obj.GetComponentInChildren<ItemAttributes>().hierarchy);
-        if (ServerCache.ContainsKey(eventName))
+        if ( ServerCache.ContainsKey(eventName) )
         {
-            if (ServerCache[eventName] == null)
+            if ( ServerCache[eventName] == null )
             {
                 ServerCache[eventName] = obj;
                 RpcTrySetItem(eventName, obj);
@@ -114,26 +117,31 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-
-
     void PlaceInHand(GameObject item)
     {
-       UIManager.Hands.CurrentSlot.SetItem(item);
+        UIManager.Hands.CurrentSlot.SetItem(item);
     }
-    //This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
-    [Command]
-    public void CmdTryAddToEquipmentPool(GameObject obj)
-    {
 
+    //This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
+    [Server]
+    public void RemoveFromEquipmentPool(GameObject obj)
+    {
+        EquipmentPool.DropGameObject(gameObject, obj);
+    }
+
+    [Server]
+    public void AddToEquipmentPool(GameObject obj)
+    {
         EquipmentPool.AddGameObject(gameObject, obj);
     }
 
-    [Command][Obsolete]
+    [Command]
+    [Obsolete]
     public void CmdTryToInstantiateInHand(string eventName, GameObject prefab)
     {
-        if (ServerCache.ContainsKey(eventName))
+        if ( ServerCache.ContainsKey(eventName) )
         {
-            if (ServerCache[eventName] == null)
+            if ( ServerCache[eventName] == null )
             {
                 GameObject item = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
                 NetworkServer.Spawn(item);
@@ -150,10 +158,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-    [ClientRpc][Obsolete]
+    [ClientRpc]
+    [Obsolete]
     void RpcInstantiateInHand(string playerName, GameObject item)
     {
-        if (playerName == gameObject.name)
+        if ( playerName == gameObject.name )
         {
             UIManager.Hands.CurrentSlot.TrySetItem(item);
         }
@@ -163,9 +172,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [ClientRpc]
     public void RpcTrySetItem(string eventName, GameObject obj)
     {
-        if (isLocalPlayer)
+        if ( isLocalPlayer )
         {
-            if (eventName.Length > 0)
+            if ( eventName.Length > 0 )
             {
                 StartCoroutine(SetItemPatiently(eventName, obj));
             }
@@ -176,19 +185,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     {
         //Waiting for hier name resolve
         yield return new WaitForSeconds(0.2f);
-        EventManager.UI.TriggerEvent(eventName, obj);        
+        EventManager.UI.TriggerEvent(eventName, obj);
     }
 
     //Dropping from a slot on the UI
     [Command]
     public void CmdDropItem(string eventName)
     {
-        if (ServerCache.ContainsKey(eventName))
+        if ( ServerCache.ContainsKey(eventName) )
         {
-            if (ServerCache[eventName] != null)
+            if ( ServerCache[eventName] != null )
             {
                 GameObject item = ServerCache[eventName];
-                EquipmentPool.DropGameObject(gameObject.name, ServerCache[eventName]);
+                EquipmentPool.DropGameObject(gameObject, ServerCache[eventName]);
 
                 RpcAdjustItemParent(ServerCache[eventName], null);
                 ServerCache[eventName] = null;
@@ -200,11 +209,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
         }
     }
+
     //Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)
     [Command]
     public void CmdDropItemNotInUISlot(GameObject obj)
     {
-        EquipmentPool.DropGameObject(gameObject.name, obj);
+        EquipmentPool.DropGameObject(gameObject, obj);
+    }
+
+    public void DisposeOfChildItem(GameObject obj)
+    {
+        EquipmentPool.DisposeOfObject(gameObject, obj);
     }
 
     [Command]
@@ -215,7 +230,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             if (ServerCache[eventName] != null)
             {
                 GameObject item = ServerCache[eventName];
-                EquipmentPool.DropGameObject(gameObject.name, ServerCache[eventName], pos);
+                EquipmentPool.DropGameObject(gameObject, ServerCache[eventName], pos);
                 ServerCache[eventName] = null;
                 if (item != null && newParent != null)
                 {
@@ -236,7 +251,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             if (ServerCache[eventName] != null)
             {
                 GameObject item = ServerCache[eventName];
-                EquipmentPool.DropGameObject(gameObject.name, ServerCache[eventName], pos);
+                EquipmentPool.DropGameObject(gameObject, ServerCache[eventName], pos);
                 ServerCache[eventName] = null;
                 ClosetControl closetCtrl = newParent.GetComponent<ClosetControl>();
                 item.transform.parent = closetCtrl.items.transform;
@@ -501,8 +516,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-	//Respawn action for Deathmatch v 0.1.3
-	[Server]
+    //Respawn action for Deathmatch v 0.1.3
+
+    [Server]
 	public void RespawnPlayer(){
 		Debug.Log("RESPAWN!");
 		RpcAdjustForRespawn();
@@ -514,7 +530,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		NetworkServer.ReplacePlayerForConnection( this.connectionToClient, newPlayer, this.playerControllerId );
 	}
 
-	[ClientRpc]
+    [ClientRpc]
 	private void RpcAdjustForRespawn(){
 			playerScript.ghost.SetActive(false);
 			gameObject.GetComponent<InputControl.InputController>().enabled = false;

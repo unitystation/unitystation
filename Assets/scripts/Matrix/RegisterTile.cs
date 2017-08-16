@@ -127,7 +127,6 @@ namespace Matrix
         }
 
 		public void OnRemoveFromPool(){
-			Debug.Log("REMOVED FROM POOL: " + gameObject.name);
 			UpdateTile();
 		}
     }
