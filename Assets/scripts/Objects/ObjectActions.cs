@@ -1,9 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
 using Matrix;
 using PlayGroup;
+using UnityEngine;
+using UnityEngine.Networking;
 
 public class ObjectActions : NetworkBehaviour
 {
@@ -106,6 +105,20 @@ public class ObjectActions : NetworkBehaviour
         } 
     }
 
+    
+    public void BreakPull()
+    {
+        
+        var player = PlayerManager.LocalPlayerScript;
+        var pullingObject = player.playerSync.pullingObject;
+        if ( !pullingObject || !pullingObject.Equals(gameObject) ) return;
+        player.playerSync.PullReset(NetworkInstanceId.Invalid);
+        player.playerSync.pullingObject = null;
+        player.playerSync.pullObjectID = NetworkInstanceId.Invalid;
+        player.playerNetworkActions.isPulling = false;
+        pulledBy = null;
+    }
+    
     void Update()
     {
         if (pushing && transform.position != pushTarget)

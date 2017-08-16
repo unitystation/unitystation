@@ -20,10 +20,28 @@ public class DoorController: NetworkBehaviour {
     private bool openTrigger = false;
     private GameObject playerOpeningIt;
     private IEnumerator coWaitOpened;
+    
+    private int closedLayer;
+    private int openLayer;
+    private int closedSortingLayer;
+    private int openSortingLayer;
 
     public bool IsOpened;
+    public bool isWindowed = false;
 
     void Start() {
+        if (!isWindowedDoor)
+        {
+            closedLayer = LayerMask.NameToLayer("Door Closed");
+        }
+        else
+        {
+            closedLayer = LayerMask.NameToLayer("Windows");
+        }
+        closedSortingLayer = SortingLayer.NameToID("Doors Open");
+        openLayer = LayerMask.NameToLayer("Door Open");
+        openSortingLayer = SortingLayer.NameToID("Doors Closed");
+        
         animator = gameObject.GetComponent<Animator>();
         registerTile = gameObject.GetComponent<RegisterTile>();
         if(!usingAnimator) {
@@ -34,12 +52,14 @@ public class DoorController: NetworkBehaviour {
 
     public void BoxCollToggleOn() {
         registerTile.UpdateTileType(TileType.Door);
-        gameObject.layer = LayerMask.NameToLayer("Door Closed");
+        gameObject.layer = closedLayer;
+        GetComponentInChildren<SpriteRenderer>().sortingLayerID = closedSortingLayer;
     }
 
     public void BoxCollToggleOff() {
         registerTile.UpdateTileType(TileType.None);
-        gameObject.layer = LayerMask.NameToLayer("Door Open");
+        gameObject.layer = openLayer;
+        GetComponentInChildren<SpriteRenderer>().sortingLayerID = openSortingLayer;
     }
 
     private IEnumerator WaitUntilClose() {

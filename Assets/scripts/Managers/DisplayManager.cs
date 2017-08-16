@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 //Resos:
 //0: 1024x640
@@ -9,16 +10,23 @@ using UnityEngine.UI;
 //2: 1920x1080 //FIXME: Mouse Screen to world problems for 1080p
 public class DisplayManager : MonoBehaviour
 {
+	public static DisplayManager Instance;
 
     public Dropdown optionsDropDown;
     public Light2D.LightingSystem lightingSystem;
     public Camera mainCamera;
+	public FieldOfViewTiled fieldOfView;
 
     private int width;
     private int height;
 
     private bool hasInt = false;
 
+	void Awake(){
+		if (Instance == null) {
+			Instance = this;
+		}
+	}
     private void Start()
     {
         if (PlayerPrefs.HasKey("reso"))
@@ -31,6 +39,21 @@ public class DisplayManager : MonoBehaviour
         }
         hasInt = true;
     }
+
+	void OnEnable(){
+		SceneManager.sceneLoaded += SetUpScene;
+	}
+
+	void OnDisable(){
+		SceneManager.sceneLoaded -= SetUpScene;
+	}
+
+	void SetUpScene(Scene scene, LoadSceneMode mode){
+		if (GameData.IsInGame) {
+			fieldOfView = FindObjectOfType<FieldOfViewTiled>();
+		}
+	}
+
     public void SetResolution(int _value)
     {
 		float xOffsetCamFollow = 0;

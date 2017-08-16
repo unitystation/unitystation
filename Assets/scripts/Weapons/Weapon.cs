@@ -180,6 +180,8 @@ namespace Weapons
 
 		#region Weapon Firing Mechanism
 		public override void Interact() {
+			if (Input.GetKey(KeyCode.LeftControl))
+				return;
 			//shoot gun interation if its in hand
 			if (gameObject == UIManager.Hands.CurrentSlot.GameObject()) {
 				AttemptToFireWeapon();
@@ -259,7 +261,7 @@ namespace Weapons
 		{
 			//This checks to see if a new player who has joined needs to load up any weapon magazines because of missing sync hooks
 			if (MagNetID != NetworkInstanceId.Invalid) {
-				if(CurrentMagazine)
+                if(CurrentMagazine && PlayerManager.LocalPlayer != null)
 					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(CurrentMagazine.gameObject);
 			}
 		}

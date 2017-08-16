@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UI;
@@ -19,8 +20,9 @@ namespace PlayGroup {
 		public bool allowInput = true;
 		[SyncVar]
 		public bool isGhost = false;
-		[HideInInspector]
-		public bool isPushing = false;
+        private bool _isPush;
+        public bool isPushing { get{ return _isPush;} set {Debug.Log("SET ISPUSHING: " + gameObject.name + " val: " + value);
+                _isPush = value;} }
 
         private List<KeyCode> pressedKeys = new List<KeyCode>();
 
@@ -157,9 +159,12 @@ namespace PlayGroup {
             return Vector3.zero;
         }
         private void Interact(Vector3 currentPosition, Vector3 direction) {
+			
             var doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
-            if (doorController != null) {
+            if (doorController != null && allowInput) {
+				allowInput = false;
                 doorController.CmdTryOpen(gameObject);
+				StartCoroutine(DoorInputCoolDown());
             }
 
 			var objectActions = Matrix.Matrix.At(currentPosition + direction).GetObjectActions();
@@ -167,5 +172,11 @@ namespace PlayGroup {
 				objectActions.TryPush(gameObject, speed, direction);
 			}
         }
+
+		//FIXME an ugly temp fix for an ugly problem. Will implement callbacks after 0.1.3
+		IEnumerator DoorInputCoolDown(){
+			yield return new WaitForSeconds(0.3f);
+			allowInput = true;
+		}
     }
 }

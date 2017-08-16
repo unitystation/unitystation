@@ -18,12 +18,21 @@ public class ShutterSwitchTrigger: InputTrigger
 	void Start()
 	{
 		animator = GetComponent<Animator>();
+	}
+
+	public override void OnStartClient(){
+		StartCoroutine(WaitForLoad());
+		base.OnStartClient();
+	}
+
+	IEnumerator WaitForLoad(){
+		yield return new WaitForSeconds(1f);
 		SyncShutters(IsClosed);
 	}
 		
 	public override void Interact()
 	{
-		if (!PlayerManager.LocalPlayerScript.IsInReach(transform, 1.5f))
+		if (!PlayerManager.LocalPlayerScript.IsInReach(transform, 1.5f) || PlayerManager.LocalPlayerScript.playerMove.isGhost)
 			return;
 
 		//if the button is idle and not animating it can be pressed

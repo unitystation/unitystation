@@ -128,7 +128,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1180280463732794}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1831, y: 1152, z: -0.1}
+  m_LocalPosition: {x: 1828, y: 1125, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4576008068696914}
@@ -173,7 +173,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.003112793, y: 0.0029687285}
+  m_Offset: {x: -0.060668945, y: 0.023254395}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -184,7 +184,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6966553, y: 0.91593754}
+  m_Size: {x: 0.83569336, y: 0.9217529}
   m_EdgeRadius: 0
 --- !u!114 &114064175606115938
 MonoBehaviour:
@@ -211,6 +211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 7
   allowedToMove: 1
+  isPushable: 1
   pulledBy: {fileID: 0}
   serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
@@ -260,7 +261,7 @@ MonoBehaviour:
   inSpace: 0
   tileTypeIndex: 2
   editModeControl: {fileID: 114767098743060394}
-  savedPosition: {x: 1860, y: 1153, z: -0.1}
+  savedPosition: {x: 1828, y: 1125, z: -0.1}
 --- !u!114 &114767098743060394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -332,6 +333,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212285918561946396
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -372,3 +374,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

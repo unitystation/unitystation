@@ -9,7 +9,7 @@ namespace PlayGroup {
         public int MoveNumber;
         public Vector3 Position;
     }
-    
+
     public struct PlayerAction {
         public int[] keyCodes;
     }
@@ -17,12 +17,12 @@ namespace PlayGroup {
     public class PlayerSync: NetworkBehaviour {
 
         public PlayerMove playerMove;
-		private PlayerScript playerScript;
+        private PlayerScript playerScript;
         private PlayerSprites playerSprites;
         private RegisterTile registerTile;
         private Queue<PlayerAction> pendingActions;
 
-        [SyncVar(hook = "OnServerStateChange")] 
+        [SyncVar(hook = "OnServerStateChange")]
         private PlayerState serverState;
         private PlayerState predictedState;
 
@@ -30,20 +30,20 @@ namespace PlayGroup {
         private PlayerState state;
         //pull objects
         [SyncVar(hook = "PullReset")]
-		public NetworkInstanceId pullObjectID = NetworkInstanceId.Invalid;
+        public NetworkInstanceId pullObjectID = NetworkInstanceId.Invalid;
         public GameObject pullingObject;
         private RegisterTile pullRegister;
         private bool canRegister = false;
-		private Vector3 pullPos;
+        private Vector3 pullPos;
 
         void Awake() {
             InitState();
         }
 
-		public override void OnStartClient()
-		{
-			PullReset(pullObjectID);
-		}
+        public override void OnStartClient() {
+            PullReset(pullObjectID);
+            base.OnStartClient();
+        }
 
         [Server]
         private void InitState() {
@@ -52,39 +52,33 @@ namespace PlayGroup {
         }
 
         void Start() {
-			//Temp solution for host in headless mode (hiding the player at Vector3.zero
-			if (GameData.IsHeadlessServer && isLocalPlayer) {
-				PlayerManager.LocalPlayer.transform.position = new Vector3(-1000f,-1000f,0f);
-			}
-
             if(isLocalPlayer) {
                 pendingActions = new Queue<PlayerAction>();
                 UpdatePredictedState();
             }
-			playerScript = GetComponent<PlayerScript>();
+            playerScript = GetComponent<PlayerScript>();
             playerSprites = GetComponent<PlayerSprites>();
-			registerTile = GetComponent<RegisterTile>();
+            registerTile = GetComponent<RegisterTile>();
         }
 
-		void Update(){ 
-		if(isLocalPlayer && playerMove != null) {
-				if (predictedState.Position == transform.position && !playerMove.isGhost) {
-					DoAction();
-				} else if (predictedState.Position == playerScript.ghost.transform.position && playerMove.isGhost) {
-					DoAction();
-				}
+        void Update() {
+            if(isLocalPlayer && playerMove != null) {
+                if(predictedState.Position == transform.position && !playerMove.isGhost) {
+                    DoAction();
+                } else if(predictedState.Position == playerScript.ghost.transform.position && playerMove.isGhost) {
+                    DoAction();
+                }
             }
 
             Synchronize();
         }
 
-        private void RegisterObjects(){
+        private void RegisterObjects() {
             //Register playerpos in matrix
             registerTile.UpdateTile(state.Position);
             //Registering objects being pulled in matrix
-            if (pullRegister != null)
-            {
-                Vector3 pos = state.Position - (Vector3)playerSprites.currentDirection;
+            if(pullRegister != null) {
+                Vector3 pos = state.Position - (Vector3) playerSprites.currentDirection;
                 pullRegister.UpdateTile(pos);
             }
         }
@@ -99,52 +93,49 @@ namespace PlayGroup {
         }
 
         private void Synchronize() {
-			if (isLocalPlayer && GameData.IsHeadlessServer)
-				return;
+            if(isLocalPlayer && GameData.IsHeadlessServer)
+                return;
 
-			if (!playerMove.isGhost) {
-				if (isLocalPlayer && playerMove.isPushing)
-					return;
-				
+            if(!playerMove.isGhost) {
+                if(isLocalPlayer && playerMove.isPushing)
+                    return;
+
                 state = isLocalPlayer ? predictedState : serverState;
                 transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
-               
-				if (pullingObject != null) {
-					if (transform.hasChanged) {
-						transform.hasChanged = false;
-						PullObject();
-					} else if (pullingObject.transform.position != pullPos) {
-						pullingObject.transform.position = pullPos;
-					}
-				}
+
+                if(pullingObject != null) {
+                    if(transform.hasChanged) {
+                        transform.hasChanged = false;
+                        PullObject();
+                    } else if(pullingObject.transform.position != pullPos) {
+                        pullingObject.transform.position = pullPos;
+                    }
+                }
 
                 //Registering
-                if (registerTile.savedPosition != state.Position) {
+                if(registerTile.savedPosition != state.Position) {
                     RegisterObjects();
-				}
-			} else {
-				var state = isLocalPlayer ? predictedState : serverState;
-				playerScript.ghost.transform.position = Vector3.MoveTowards(playerScript.ghost.transform.position, state.Position, playerMove.speed * Time.deltaTime);
-			}
+                }
+            } else {
+                var state = isLocalPlayer ? predictedState : serverState;
+                playerScript.ghost.transform.position = Vector3.MoveTowards(playerScript.ghost.transform.position, state.Position, playerMove.speed * Time.deltaTime);
+            }
         }
 
-        private void PullObject(){
-            pullPos = transform.position - (Vector3)playerSprites.currentDirection;
+        private void PullObject() {
+            pullPos = transform.position - (Vector3) playerSprites.currentDirection;
             pullPos.z = pullingObject.transform.position.z;
-            if (Matrix.Matrix.At(pullPos).IsPassable() || 
-                Matrix.Matrix.At(pullPos).ContainsTile(pullingObject) || 
-                Matrix.Matrix.At(pullPos).ContainsTile(gameObject))
-            {
-				float journeyLength = Vector3.Distance(pullingObject.transform.position, pullPos);
-                if (journeyLength <= 1f)
-                {
+            if(Matrix.Matrix.At(pullPos).IsPassable() ||
+                Matrix.Matrix.At(pullPos).ContainsTile(pullingObject) ||
+                Matrix.Matrix.At(pullPos).ContainsTile(gameObject)) {
+                float journeyLength = Vector3.Distance(pullingObject.transform.position, pullPos);
+                if(journeyLength <= 2f) {
                     pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, (playerMove.speed * Time.deltaTime) / journeyLength);
+                } else {
+                    //If object gets too far away activate warp speed
+                    pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, (playerMove.speed * Time.deltaTime) * 30f);
                 }
-                else
-                {
-                    pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, (playerMove.speed * Time.deltaTime) * journeyLength);
-                }
-                }
+            }
         }
 
         [Command]
@@ -153,8 +144,8 @@ namespace PlayGroup {
         }
 
         private void UpdatePredictedState() {
-			
-			predictedState = serverState;
+
+            predictedState = serverState;
 
             foreach(var action in pendingActions) {
                 predictedState = NextState(predictedState, action);
@@ -162,19 +153,17 @@ namespace PlayGroup {
         }
 
         private PlayerState NextState(PlayerState state, PlayerAction action) {
-			
+
             return new PlayerState() {
                 MoveNumber = state.MoveNumber + 1,
                 Position = playerMove.GetNextPosition(state.Position, action)
             };
         }
 
-        public void PullReset(NetworkInstanceId netID){
+        public void PullReset(NetworkInstanceId netID) {
             transform.hasChanged = false;
-            if (netID == NetworkInstanceId.Invalid)
-            {
-                if (pullingObject != null)
-                {
+            if(netID == NetworkInstanceId.Invalid) {
+                if(pullingObject != null) {
                     pullRegister.editModeControl.Snap();
                     pullRegister.UpdateTile(pullingObject.transform.position);
                     EditModeControl eM = pullingObject.GetComponent<EditModeControl>();
@@ -182,14 +171,11 @@ namespace PlayGroup {
                 }
                 pullRegister = null;
                 pullingObject = null;
-            }
-            else
-            {
+            } else {
                 pullingObject = ClientScene.FindLocalObject(netID);
                 ObjectActions oA = pullingObject.GetComponent<ObjectActions>();
-				pullPos = pullingObject.transform.position;
-                if (oA != null)
-                {
+                pullPos = pullingObject.transform.position;
+                if(oA != null) {
                     oA.pulledBy = gameObject;
                 }
                 pullRegister = pullingObject.GetComponent<RegisterTile>();
@@ -197,18 +183,17 @@ namespace PlayGroup {
         }
 
         private void OnServerStateChange(PlayerState newState) {
-			serverState = newState;
+            serverState = newState;
 
-			if (pendingActions != null) {
-				while (pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber)) {
-					pendingActions.Dequeue();
-				}
-				UpdatePredictedState();
-			} 
+            if(pendingActions != null) {
+                while(pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber)) {
+                    pendingActions.Dequeue();
+                }
+                UpdatePredictedState();
+            }
         }
 
-        private Vector3 RoundedPos(Vector3 pos)
-        {
+        private Vector3 RoundedPos(Vector3 pos) {
             return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);
         }
     }

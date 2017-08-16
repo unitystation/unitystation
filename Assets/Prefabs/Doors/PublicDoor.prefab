@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011383418770}
   - component: {fileID: 212000011195497998}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: overlay_Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000014171826472}
   - component: {fileID: 212000011330282726}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: overlay_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +52,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000010843319548}
   - component: {fileID: 212000011125170888}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: doorbase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 114114746867991184}
   - component: {fileID: 114752899670656194}
   - component: {fileID: 114287951213915578}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: PublicDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4218881895294128}
   - component: {fileID: 82491796335204434}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: closeSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4813395212124824}
   - component: {fileID: 82241881426066012}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: openSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4760665742959812}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: soundfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013208201100}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1843, y: 1145, z: -0.1}
+  m_LocalPosition: {x: 1948, y: 1166, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011383418770}
@@ -502,6 +502,7 @@ MonoBehaviour:
   doorType: 7
   maxTimeOpen: 5
   IsOpened: 0
+  isWindowed: 0
 --- !u!114 &114114746867991184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -515,6 +516,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
+  editModeControl: {fileID: 114000012487981754}
+  savedPosition: {x: 1948, y: 1166, z: -0.1}
 --- !u!114 &114287951213915578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -598,6 +601,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212000011195497998
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -638,6 +642,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
 --- !u!212 &212000011330282726
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -678,3 +683,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

@@ -81,6 +81,10 @@ namespace Cupboards
         }
 
 		void OpenClose(bool isClosed){
+			if (!registerTile)
+			{
+				registerTile = GetComponent<RegisterTile>();
+			}
 			if (isClosed) {
 				Close();
 			} else {
@@ -98,6 +102,9 @@ namespace Cupboards
 
         void Close()
         {
+			if (registerTile == null) {
+				registerTile = gameObject.GetComponent<RegisterTile>();
+			}
 			registerTile.UpdateTileType(TileType.Object);
 			SoundManager.PlayAtPosition("OpenClose",transform.position);
             spriteRenderer.sprite = doorClosed;
@@ -109,6 +116,9 @@ namespace Cupboards
 
         void Open()
         {
+			if (registerTile == null) {
+				registerTile = gameObject.GetComponent<RegisterTile>();
+			}
 			registerTile.UpdateTileType(TileType.None);
 			SoundManager.PlayAtPosition("OpenClose",transform.position);
             spriteRenderer.sprite = doorOpened;

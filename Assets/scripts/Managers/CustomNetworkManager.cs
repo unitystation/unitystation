@@ -6,6 +6,7 @@ using UI;
 using PlayGroup;
 using UnityEngine.SceneManagement;
 using Items;
+using Matrix;
 
 public class CustomNetworkManager: NetworkManager
 {
@@ -142,7 +143,11 @@ public class CustomNetworkManager: NetworkManager
 				yield return new WaitForSeconds(1.1f);
 				if (PlayerList.Instance != null) {
 					PlayerList.Instance.RemovePlayer(PlayerManager.LocalPlayer.name);
-				}
+                    PlayerManager.LocalPlayer.gameObject.SetActive(false);
+                    var rt = PlayerManager.LocalPlayer.GetComponent<RegisterTile>();
+                    rt.Unregister();
+                    rt.enabled = false;
+                }
 			}
 		}
 	}

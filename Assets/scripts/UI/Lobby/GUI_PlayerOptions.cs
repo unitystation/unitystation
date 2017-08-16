@@ -76,14 +76,17 @@ namespace UI
 		public void BtnOk()
 		{
 			SoundManager.Play("Click01");
-			if (string.IsNullOrEmpty(playerNameInput.text))
+			if (string.IsNullOrEmpty(playerNameInput.text.Trim()))
 				return;
 			
 			//Connecting as client
-			if (screen_ConnectTo.activeInHierarchy) {
-				ConnectToServer();
+			if (screen_ConnectTo.activeInHierarchy || Managers.instance.isForRelease) {
+                PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
+                PlayGroup.PlayerManager.PlayerNameCache = playerNameInput.text;
+                ConnectToServer();
 				gameObject.SetActive(false);
 				UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
+				return;
 			}	
 				
 			if (screen_PlayerName.activeInHierarchy && !hostServer.isOn) {
@@ -113,6 +116,13 @@ namespace UI
 
 		void ConnectToServer()
 		{
+			if (Managers.instance.isForRelease) {
+				networkManager.networkAddress = Managers.instance.serverIP;
+				networkManager.networkPort = 7777;
+				networkManager.StartClient();
+				return;
+			}
+
             networkManager.networkAddress = serverAddressInput.text;
 			int port = 0;
 			if (portInput.text.Length >= 4) {

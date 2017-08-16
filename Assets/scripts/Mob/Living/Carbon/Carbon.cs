@@ -92,6 +92,10 @@ public class Carbon : Living
             // TODO Check brain here
             if (health <= MobHealthThreshold.HEALTH_THRESHOLD_DEAD)
             {
+                Debug.Log("SQUASHED");
+                if (IsClient()) {
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdConsciousState(false);
+                }
                 Death(false);
                 return;
             }
