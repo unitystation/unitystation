@@ -27,6 +27,7 @@ public struct ShroudAction
 	public bool isRayCastAction;
 	public Vector2 endPos;
 	public Vector2 key;
+	public Vector2 offset;
 	public bool enabled;
 }
 
@@ -205,27 +206,60 @@ public class FieldOfViewTiled : ThreadedBehaviour
 			}
 			// Everything else:
 			// Perform a linecast to see if a wall is blocking vision of the target tile
-			var rA = new ShroudAction(){ isRayCastAction = true, endPos = inFieldOFVision[j] };
+			Vector2 dir = ((Vector2)sourcePosCache - inFieldOFVision[j]).normalized;
+			float angle = Angle(dir);
+			Vector2 offsetPos = ShroudCornerOffset(angle);
+			var rA = new ShroudAction(){ isRayCastAction = true, endPos = inFieldOFVision[j] += offsetPos, offset = offsetPos };
 			shroudStatusQueue.Enqueue(rA);
 		}	
 	}
 
-	void RayCastQueue(Vector2 endPos)
+	float Angle(Vector2 dir)
+	{
+		if (dir.x < 0) {
+			return 360 - (Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg * -1);
+		} else {
+			return Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
+		}
+	}
+
+	//Which corner should we target? Return the actual offset to be applied and cached
+	Vector2 ShroudCornerOffset(float angle)
+	{
+		Vector2 offset = Vector2.zero;
+		//TopRight
+		if (angle >= 0f && angle <= 90f)
+			offset = new Vector2(0.5f, 0.5f);
+		// Bottom Right
+		if (angle > 90f && angle <= 180f) 
+			offset = new Vector2(0.5f, -0.5f);
+		// Bottom Left
+		if (angle > 180 && angle <= 270f) 
+			offset = new Vector2(-0.5f, -0.5f);
+		// Top Left
+		if (angle > 270f && angle < 360f) 
+			offset = new Vector2(-0.5f, 0.5f);
+
+		return offset;
+	}
+
+	void RayCastQueue(Vector2 endPos, Vector2 offsetPos)
 	{
 		RaycastHit2D hit = Physics2D.Linecast(GetPlayerSource().transform.position, endPos, _layerMask);
 		// If it hits a wall we should enable the shroud
 //		Debug.DrawLine(GetPlayerSource().transform.position, endPos,Color.red);
 		if (hit) {
-			if (new Vector2(hit.transform.position.x, hit.transform.position.y) != endPos) {
+			float dist = Vector2.Distance(hit.point, endPos);
+			if (dist > 0.5f) {
 				// Enable shroud, a wall was in the way
-				SetShroudStatus(endPos, true);
+				SetShroudStatus(endPos - offsetPos, true);
 			} else {
 				// Disable shroud, the wall was our target tile
-				SetShroudStatus(endPos, false);
+				SetShroudStatus(endPos - offsetPos, false);
 			}
 		} else {
 			// Vision of tile not blocked by wall, disable the shroud
-			SetShroudStatus(endPos, false);
+			SetShroudStatus(endPos - offsetPos, false);
 		}
 	}
 
@@ -233,7 +267,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
 	private void SetShroudStatus(ShroudAction shroudAction)
 	{
 		if (shroudAction.isRayCastAction) {
-			RayCastQueue(shroudAction.endPos);
+			RayCastQueue(shroudAction.endPos, shroudAction.offset);
 		} else if (shroudTiles.ContainsKey(shroudAction.key)) {
 			shroudTiles[shroudAction.key].SendMessage("SetShroudStatus", shroudAction.enabled, SendMessageOptions.DontRequireReceiver);
 		}
@@ -253,6 +287,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
 		return shroudObject;
 	}
 
+	//TODO Matrix use has been removed now, we can move this method onto the Worker Thread
 	public List<Vector2> GetNearbyShroudTiles()
 	{
 		List<Vector2> nearbyShroudTiles = new List<Vector2>();
@@ -264,10 +299,11 @@ public class FieldOfViewTiled : ThreadedBehaviour
 				int y = (int)GetPlayerSource().transform.position.y + offsety;
 
 				// TODO Registration should probably be moved elsewhere
-				Matrix.MatrixNode node = Matrix.Matrix.At(new Vector2(x, y));
+//				Matrix.MatrixNode node = Matrix.Matrix.At(new Vector2(x, y));
 				if (!shroudTiles.ContainsKey(new Vector2(x, y)))
-				if (node.IsSpace() || node.IsWall() || node.IsDoor() || node.IsWindow())
-					continue;
+//				if (node.IsSpace() || node.IsWall() || node.IsDoor() || node.IsWindow())
+//					continue;
+	
 
 				if (!shroudTiles.ContainsKey(new Vector2(x, y)))
 					RegisterNewShroud(new Vector2(x, y), false);

@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014236108730}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1851, y: 1150, z: -0.1}
+  m_LocalPosition: {x: 1842, y: 1146, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000012102270038}
@@ -224,9 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a9eb64b31264686a68cf26e202e62c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TriggeringObjects:
-  - {fileID: 0}
-  - {fileID: 0}
+  radius: 10
   isOn: 1
   lightOn: {fileID: 21300000, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
   lightOff: {fileID: 21300002, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
@@ -291,8 +289,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -2035547137
-  m_SortingLayer: 13
+  m_SortingLayerID: 1085623217
+  m_SortingLayer: 12
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -302,3 +300,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
