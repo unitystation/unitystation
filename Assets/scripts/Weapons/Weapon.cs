@@ -194,7 +194,7 @@ namespace Weapons
 				}
 				else
 				{
-					PlayerManager.LocalPlayerScript.playerNetworkActions.TryToPickUpObject(gameObject);
+					PlayerManager.LocalPlayerScript.playerNetworkActions.ValidatePickUp(gameObject);
 				}
 			}
 		}

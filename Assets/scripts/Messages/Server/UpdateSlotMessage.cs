@@ -3,7 +3,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 /// <summary>
-/// Tells client to update certain slot with object
+/// Tells client to update certain slot (place an object)
 /// </summary>
 public class UpdateSlotMessage : ServerMessage<UpdateSlotMessage>
 {

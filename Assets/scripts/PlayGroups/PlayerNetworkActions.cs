@@ -53,23 +53,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         base.OnStartServer();
     }
 
-    [Command]
-    void CmdSyncRoundTime(float currentTime)
-    {
-        RpcSyncRoundTime(currentTime);
-    }
-
-    [ClientRpc]
-    void RpcSyncRoundTime(float currentTime)
-    {
-        if ( PlayerManager.LocalPlayer == gameObject )
-        {
-            GameManager.Instance.SyncTime(currentTime);
-        }
-    }
-
     [Server]
-    public bool TryToPickUpObject(GameObject itemObject, string handEventName = null)
+    public bool ValidatePickUp(GameObject itemObject, string handEventName = null)
     {
         var eventName = handEventName ?? UIManager.Hands.CurrentSlot.eventName;
         if ( CantPickUp(eventName) )
@@ -80,7 +65,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         return AddItem(itemObject, eventName);
     }
 
-    //TODO: fix client inventory mangling pseudodupe; introduce pickup prediction
+
+    //TODO: fix client inventory mangling pseudodupe; introduce pickup prediction?
 
     [Server]
     public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false)
@@ -104,6 +90,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     //Server only (from Equipment Initial SetItem method
+    [Obsolete]
     public void TrySetItem(string eventName, GameObject obj)
     {
 //        Debug.LogErrorFormat("Server {0}", obj.GetComponentInChildren<ItemAttributes>().hierarchy);
@@ -123,6 +110,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     //This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
+
     [Server]
     public void RemoveFromEquipmentPool(GameObject obj)
     {
@@ -133,6 +121,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     public void AddToEquipmentPool(GameObject obj)
     {
         EquipmentPool.AddGameObject(gameObject, obj);
+    }
+
+    [Server]
+    public void ValidateInvInteraction(string slot, GameObject gObj)
+    {
+        if ( !ServerCache[slot] && ServerCache.ContainsValue(gObj) )
+        {
+            UpdateSlotMessage.Send(gameObject, slot, gObj);
+            Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
+        }
+        else
+        {
+            Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
+        }
     }
 
     [Command]
@@ -189,6 +191,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     //Dropping from a slot on the UI
+
     [Command]
     public void CmdDropItem(string eventName)
     {
@@ -211,6 +214,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     //Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)
+
     [Command]
     public void CmdDropItemNotInUISlot(GameObject obj)
     {
@@ -452,6 +456,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     //For falling over and getting back up again over network
+
     [ClientRpc]
     public void RpcSetPlayerRot(bool temporary, float rot)
     {
@@ -516,6 +521,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
+
     //Respawn action for Deathmatch v 0.1.3
 
     [Server]
@@ -535,4 +541,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			playerScript.ghost.SetActive(false);
 			gameObject.GetComponent<InputControl.InputController>().enabled = false;
 	}
+
+    [Command]
+    void CmdSyncRoundTime(float currentTime)
+    {
+        RpcSyncRoundTime(currentTime);
+    }
+
+    [ClientRpc]
+    void RpcSyncRoundTime(float currentTime)
+    {
+        if ( PlayerManager.LocalPlayer == gameObject )
+        {
+            GameManager.Instance.SyncTime(currentTime);
+        }
+    }
 }

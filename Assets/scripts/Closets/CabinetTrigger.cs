@@ -113,7 +113,7 @@ public class CabinetTrigger: InputTrigger
 //			}
 //		} else {
 //			var item = transform.FindChild("Extinguisher").gameObject;
-//			if (ItemManager.TryToPickUpObject(item)) {
+//			if (ItemManager.ValidatePickUp(item)) {
 //				// remove extinguisher from closet
 //				item.SetActive(true);
 //                UpdateSprite();
