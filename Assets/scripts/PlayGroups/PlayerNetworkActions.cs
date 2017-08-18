@@ -79,7 +79,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             return false;
         }
         EquipmentPool.AddGameObject(gameObject, itemObject);
-        ServerCache[eventName] = itemObject;
+        SetUISlot(slotName, itemObject);
         UpdateSlotMessage.Send(gameObject, eventName, itemObject);
         return true;
     }
@@ -89,20 +89,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         return PlayerManager.PlayerScript == null || !ServerCache.ContainsKey(eventName);
     }
 
-    //Server only (from Equipment Initial SetItem method
-    [Obsolete]
-    public void TrySetItem(string eventName, GameObject obj)
-    {
-//        Debug.LogErrorFormat("Server {0}", obj.GetComponentInChildren<ItemAttributes>().hierarchy);
-        if ( ServerCache.ContainsKey(eventName) )
-        {
-            if ( ServerCache[eventName] == null )
-            {
-                ServerCache[eventName] = obj;
-                RpcTrySetItem(eventName, obj);
-            }
-        }
-    }
+//    //Server only (from Equipment Initial SetItem method
+//    [Obsolete]
+//    public void TrySetItem(string eventName, GameObject obj)
+//    {
+////        Debug.LogErrorFormat("Server {0}", obj.GetComponentInChildren<ItemAttributes>().hierarchy);
+//        if ( ServerCache.ContainsKey(eventName) )
+//        {
+//            if ( ServerCache[eventName] == null )
+//            {
+//                ServerCache[eventName] = obj;
+//                RpcTrySetItem(eventName, obj);
+//            }
+//        }
+//    }
 
     void PlaceInHand(GameObject item)
     {
@@ -129,6 +129,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         if ( !ServerCache[slot] && ServerCache.ContainsValue(gObj) )
         {
             UpdateSlotMessage.Send(gameObject, slot, gObj);
+            SetUISlot(slot, gObj);
+            //Clean up other slots
+            HashSet<string> toBeCleared = new HashSet<string>();
+            foreach ( string key in ServerCache.Keys )
+            {
+                if (key.Equals(slot) || !ServerCache[key]) continue;
+                if ( ServerCache[key].Equals(gObj) )
+                {
+                    toBeCleared.Add(key);
+                }
+            }
+            ClearUISlot(toBeCleared.ToArray());
             Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
         }
         else
@@ -136,7 +148,52 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
         }
     }
+    
+    [Server]
+    public void ClearUISlot(params string[] slotNames)
+    {
+        for ( int i = 0; i < slotNames.Length; i++ )
+        {
+            ServerCache[slotNames[i]] = null;
+            if (slotNames[i] == "id" || slotNames[i] == "storage01" 
+                || slotNames[i] == "storage02" || slotNames[i] == "suitStorage")
+            {
+                //???
+            }
+            else
+            {
+                equipment.ClearItemSprite(slotNames[i]);
+            }
+                UpdateSlotMessage.Send(gameObject, slotNames[i]);
+        }
+        Debug.LogFormat("Cleared {0}", slotNames);
+    }
 
+    [Server]
+    public void SetUISlot(string eventName, GameObject obj)
+    {
+        ServerCache[eventName] = obj;
+        ItemAttributes att = obj.GetComponent<ItemAttributes>();
+        if (eventName == "leftHand" || eventName == "rightHand")
+        {
+            equipment.SetHandItemSprite(eventName, att);
+        }
+        else
+        {
+            if (eventName == "id" || eventName == "storage01" || eventName == "storage02" || eventName == "suitStorage")
+            {
+            }
+            else
+            {
+                if (att.spriteType == SpriteType.Clothing)
+                {
+                    // Debug.Log("eventName = " + eventName);
+                    Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
+                    equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
+                }
+            }
+        }
+    }
     [Command]
     [Obsolete]
     public void CmdTryToInstantiateInHand(string eventName, GameObject prefab)
@@ -171,24 +228,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
 
-    [ClientRpc]
-    public void RpcTrySetItem(string eventName, GameObject obj)
-    {
-        if ( isLocalPlayer )
-        {
-            if ( eventName.Length > 0 )
-            {
-                StartCoroutine(SetItemPatiently(eventName, obj));
-            }
-        }
-    }
-
-    public IEnumerator SetItemPatiently(string eventName, GameObject obj)
-    {
-        //Waiting for hier name resolve
-        yield return new WaitForSeconds(0.2f);
-        EventManager.UI.TriggerEvent(eventName, obj);
-    }
+//    [ClientRpc]
+//    public void RpcTrySetItem(string eventName, GameObject obj)
+//    {
+//        if ( isLocalPlayer )
+//        {
+//            if ( eventName.Length > 0 )
+//            {
+//                StartCoroutine(SetItemPatiently(eventName, obj));
+//            }
+//        }
+//    }
+//
+//    public IEnumerator SetItemPatiently(string eventName, GameObject obj)
+//    {
+//        //Waiting for hier name resolve
+//        yield return new WaitForSeconds(0.2f);
+//        EventManager.UI.TriggerEvent(eventName, obj);
+//    }
 
     //Dropping from a slot on the UI
 
@@ -272,45 +329,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         closetControl.ServerToggleCupboard();
     }
 
-    [Command]
-    public void CmdClearUISlot(string eventName)
-    {
-        ServerCache[eventName] = null;
-
-        if (eventName == "id" || eventName == "storage01" || eventName == "storage02" || eventName == "suitStorage")
-        {
-        }
-        else
-        {
-            equipment.ClearItemSprite(eventName);
-        }
-    }
-
-    [Command]
-    public void CmdSetUISlot(string eventName, GameObject obj)
-    {
-        ServerCache[eventName] = obj;
-        ItemAttributes att = obj.GetComponent<ItemAttributes>();
-        if (eventName == "leftHand" || eventName == "rightHand")
-        {
-            equipment.SetHandItemSprite(eventName, att);
-        }
-        else
-        {
-            if (eventName == "id" || eventName == "storage01" || eventName == "storage02" || eventName == "suitStorage")
-            {
-            }
-            else
-            {
-                if (att.spriteType == SpriteType.Clothing)
-                {
-                    // Debug.Log("eventName = " + eventName);
-                    Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
-                    equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
-                }
-            }
-        }
-    }
+ 
 
     [Command]
     public void CmdStartMicrowave(GameObject microwave, string mealName)

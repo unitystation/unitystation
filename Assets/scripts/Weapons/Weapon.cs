@@ -248,7 +248,7 @@ namespace Weapons
 			Debug.Log ("Reloading");
 			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m);
 			UIManager.Hands.CurrentSlot.Clear();
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdClearUISlot(hand);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.ClearUISlot(hand);
 		}
 
 		//atm unload with shortcut 'e'

@@ -94,7 +94,7 @@ namespace UI
                     return;
 
             if (slot1.TrySetItem(slot2.Item)) {
-				slot2.Clear();
+//				slot2.Clear();
 			}
 		}
 
