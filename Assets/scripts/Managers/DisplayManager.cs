@@ -82,8 +82,7 @@ public class DisplayManager : MonoBehaviour
 		if (GameData.IsInGame) {
             Vector3 pos = PlayerManager.LocalPlayer.transform.position; // get player position from PlayerManager and store in pos
             Camera2DFollow.followControl.listenerObj.transform.position = new Vector3(pos.x, pos.y); //set listenerObj's position to player's pos
-            // below is the old method
-            // Camera2DFollow.followControl.xOffset = xOffsetCamFollow; 
+            Camera2DFollow.followControl.xOffset = xOffsetCamFollow; 
         }
         if (optionsDropDown.value != _value)
             optionsDropDown.value = _value;
