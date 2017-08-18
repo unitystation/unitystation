@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114345611133340038}
   - component: {fileID: 61675563521270964}
   - component: {fileID: 114387731682136518}
-  m_Layer: 9
+  m_Layer: 18
   m_Name: Grill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4963931355733786}
   - component: {fileID: 212077108352440974}
-  m_Layer: 9
+  m_Layer: 18
   m_Name: Grill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1445509977949530}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1836, y: 1105, z: 0}
+  m_LocalPosition: {x: 1971, y: 1180, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4963931355733786}
@@ -150,7 +150,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 2
-  savedPosition: {x: 0, y: 0, z: 0}
+  editModeControl: {fileID: 114345611133340038}
+  savedPosition: {x: 1971, y: 1180, z: 0}
 --- !u!212 &212077108352440974
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -191,3 +192,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

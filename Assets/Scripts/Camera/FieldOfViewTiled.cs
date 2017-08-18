@@ -5,23 +5,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum ManagerState
 {
 	Idle,
 	Thread,
 	Main
 }
-
-//What is the scene camera following
-public enum CurrentSource
-{
-	player,
-	brigCamera,
-	medbayCamera
-	//etc
-}
-
+	
 public struct ShroudAction
 {
 	public bool isRayCastAction;
@@ -39,22 +29,24 @@ public class FieldOfViewTiled : ThreadedBehaviour
 	public Dictionary<Vector2, GameObject> shroudTiles = new Dictionary<Vector2, GameObject>(new Vector2EqualityComparer());
 	private Vector3 lastPosition;
 	private Vector2 lastDirection;
-	public int WallLayer = 9;
 
 	public readonly static Queue<Action> ExecuteOnMainThread = new Queue<Action>();
 	private readonly static Queue<ShroudAction> shroudStatusQueue = new Queue<ShroudAction>();
 	public ManagerState State = ManagerState.Idle;
 	public List<Vector2> nearbyShrouds = new List<Vector2>();
 	bool updateFov = false;
-	CurrentSource currentSource;
-	Transform sourceCache;
 	Vector3 sourcePosCache;
 	LayerMask _layerMask;
+
+	//Enumerator cache
+	private static WaitForSeconds _waitForTick;
+	private static WaitForSeconds _waitForHalfTick;
+	private static WaitForSecondsRealtime _waitForSendDelay;
+	private static WaitForEndOfFrame _waitForEndOfFrame;
 
 	void Start()
 	{
 		_layerMask = LayerMask.GetMask("Walls", "Door Closed");
-		currentSource = CurrentSource.player;
 		StartManager();
 	}
 
@@ -99,25 +91,13 @@ public class FieldOfViewTiled : ThreadedBehaviour
 			});
 		}
 	}
-        
-	// This should return the current GameObject which is providing vision
-	// into the fog of war - such as a security camera or a player
-	public Transform GetPlayerSource()
-	{
-		// TODO Support security cameras etc
-		return PlayerManager.LocalPlayer.transform;
-	}
 
 	// TODO Support security cameras etc
 	public Vector2 GetSightSourceDirection()
 	{
+		//TODO: If Camera2DFollow target is a camera then do other things (i.e get the dir of cam)
 		return PlayerManager.LocalPlayerScript.playerSprites.currentDirection;
 	}
-
-	private static WaitForSeconds _waitForTick;
-	private static WaitForSeconds _waitForHalfTick;
-	private static WaitForSecondsRealtime _waitForSendDelay;
-	private static WaitForEndOfFrame _waitForEndOfFrame;
 
 	IEnumerator FovProcessing()
 	{
@@ -142,7 +122,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
 			yield return _waitForEndOfFrame;
 			nearbyShrouds.Clear();
 			// Update when we move the camera and we have a valid SightSource
-			if (sourceCache == null)
+			if (Camera2DFollow.followControl.target == null)
 				continue;
 
 			if (transform.hasChanged && !updateFov) {
@@ -151,8 +131,8 @@ public class FieldOfViewTiled : ThreadedBehaviour
 				if (transform.position == lastPosition && GetSightSourceDirection() == lastDirection)
 					continue;
 
+				sourcePosCache = Camera2DFollow.followControl.target.position;
 				nearbyShrouds = GetNearbyShroudTiles();
-				sourcePosCache = GetPlayerSource().transform.position;
 				updateFov = true;
 				lastPosition = transform.position;
 				lastDirection = GetSightSourceDirection();
@@ -162,34 +142,23 @@ public class FieldOfViewTiled : ThreadedBehaviour
 		yield return _waitForHalfTick;
 	}
 
-	// Update is called once per frame
-	public void Update()
-	{      
-		if (PlayerManager.LocalPlayer != null) {
-			if (currentSource == CurrentSource.player && sourceCache != PlayerManager.LocalPlayer.transform) {
-				sourceCache = GetPlayerSource();
-			}
-		}
-	}
-
-    //Worker Thread:
+    //Runs on Worker Thread:
 	public void UpdateSightSourceFov()
 	{
 		List<Vector2> inFieldOFVision = new List<Vector2>();
 		// Returns all shroud nodes in field of vision
 		for (int i = nearbyShrouds.Count; i-- > 0;) {
-			var j = i;
-			var sA = new ShroudAction(){ key = nearbyShrouds[j], enabled = true };
+			var sA = new ShroudAction(){ key = nearbyShrouds[i], enabled = true };
 			shroudStatusQueue.Enqueue(sA);
 			// Light close behind and around
 			if (Vector2.Distance(sourcePosCache, nearbyShrouds[i]) < InnatePreyVision) {
-				inFieldOFVision.Add(nearbyShrouds[j]);
+				inFieldOFVision.Add(nearbyShrouds[i]);
 				continue;
 			}
 
 			// In front cone
 			if (Vector3.Angle(new Vector3(nearbyShrouds[i].x, nearbyShrouds[i].y, 0f) - sourcePosCache, GetSightSourceDirection()) < FieldOfVision) {
-				inFieldOFVision.Add(nearbyShrouds[j]);
+				inFieldOFVision.Add(nearbyShrouds[i]);
 				continue;
 			}
 		}
@@ -198,18 +167,15 @@ public class FieldOfViewTiled : ThreadedBehaviour
 		for (int i = inFieldOFVision.Count; i-- > 0;) {
 			// There is a slight issue with linecast where objects directly diagonal to you are not hit by the cast
 			// and since we are standing next to the tile we should always be able to view it, lets always deactive the shroud
-			var j = i;
 			if (Vector2.Distance(inFieldOFVision[i], sourcePosCache) < 2) {
-				var lA = new ShroudAction(){ key = inFieldOFVision[j], enabled = false };
+				var lA = new ShroudAction(){ key = inFieldOFVision[i], enabled = false };
 				shroudStatusQueue.Enqueue(lA);
 				continue;
 			}
 			// Everything else:
 			// Perform a linecast to see if a wall is blocking vision of the target tile
-			Vector2 dir = ((Vector2)sourcePosCache - inFieldOFVision[j]).normalized;
-			float angle = Angle(dir);
-			Vector2 offsetPos = ShroudCornerOffset(angle);
-			var rA = new ShroudAction(){ isRayCastAction = true, endPos = inFieldOFVision[j] += offsetPos, offset = offsetPos };
+			Vector2 offsetPos = ShroudCornerOffset(Angle(((Vector2)sourcePosCache - inFieldOFVision[i]).normalized));
+			var rA = new ShroudAction(){ isRayCastAction = true, endPos = inFieldOFVision[i] += offsetPos, offset = offsetPos };
 			shroudStatusQueue.Enqueue(rA);
 		}	
 	}
@@ -245,7 +211,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
 
 	void RayCastQueue(Vector2 endPos, Vector2 offsetPos)
 	{
-		RaycastHit2D hit = Physics2D.Linecast(GetPlayerSource().transform.position, endPos, _layerMask);
+		RaycastHit2D hit = Physics2D.Linecast(Camera2DFollow.followControl.target.position, endPos, _layerMask);
 		// If it hits a wall we should enable the shroud
 //		Debug.DrawLine(GetPlayerSource().transform.position, endPos,Color.red);
 		if (hit) {
@@ -263,7 +229,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
 		}
 	}
 
-	// Changes a shroud to on or off
+	// This function handles every queued action on the main thread, set by the WT
 	private void SetShroudStatus(ShroudAction shroudAction)
 	{
 		if (shroudAction.isRayCastAction) {
@@ -272,7 +238,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
 			shroudTiles[shroudAction.key].SendMessage("SetShroudStatus", shroudAction.enabled, SendMessageOptions.DontRequireReceiver);
 		}
 	}
-
+	// Changes a shroud to on or off (calling from MT)
 	private void SetShroudStatus(Vector2 vector2, bool enabled)
 	{
 		if (shroudTiles.ContainsKey(vector2))
@@ -287,7 +253,6 @@ public class FieldOfViewTiled : ThreadedBehaviour
 		return shroudObject;
 	}
 
-	//TODO Matrix use has been removed now, we can move this method onto the Worker Thread
 	public List<Vector2> GetNearbyShroudTiles()
 	{
 		List<Vector2> nearbyShroudTiles = new List<Vector2>();
@@ -295,19 +260,12 @@ public class FieldOfViewTiled : ThreadedBehaviour
 		// Get nearby shroud tiles based on monitor radius
 		for (int offsetx = -MonitorRadius; offsetx <= MonitorRadius; offsetx++) {
 			for (int offsety = -MonitorRadius; offsety <= MonitorRadius; offsety++) {
-				int x = (int)GetPlayerSource().transform.position.x + offsetx;
-				int y = (int)GetPlayerSource().transform.position.y + offsety;
-
-				// TODO Registration should probably be moved elsewhere
-//				Matrix.MatrixNode node = Matrix.Matrix.At(new Vector2(x, y));
-				if (!shroudTiles.ContainsKey(new Vector2(x, y)))
-//				if (node.IsSpace() || node.IsWall() || node.IsDoor() || node.IsWindow())
-//					continue;
-	
+				int x = (int)sourcePosCache.x + offsetx;
+				int y = (int)sourcePosCache.y + offsety;
 
 				if (!shroudTiles.ContainsKey(new Vector2(x, y)))
 					RegisterNewShroud(new Vector2(x, y), false);
-
+		
 				nearbyShroudTiles.Add(new Vector2(x, y));
 			}
 		}
