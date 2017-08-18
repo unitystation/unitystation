@@ -5,7 +5,7 @@ public class UISlotObject
      public readonly string Slot;
      public readonly GameObject SlotContents;
 
-     public UISlotObject(string slot, GameObject slotContents)
+     public UISlotObject(string slot, GameObject slotContents = null)
      {
           Slot = slot;
           SlotContents = slotContents;

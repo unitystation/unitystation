@@ -14,14 +14,14 @@ namespace Items {
             {
                 if ( originator )
                 {   //someone else tried to pick up
-//                    originator.BroadcastMessage("TryToPickUpObject", gameObject);
+//                    originator.BroadcastMessage("ValidatePickUp", gameObject);
                     originator.GetComponent<PlayerNetworkActions>().
-                        TryToPickUpObject(gameObject, hand);
+                        ValidatePickUp(gameObject, hand);
                 }
                 else
                 {  //serverplayer picks something up himself
                    PlayerManager.LocalPlayerScript.playerNetworkActions.
-                       TryToPickUpObject(gameObject);  
+                       ValidatePickUp(gameObject);  
                 }
             }
         }

@@ -247,24 +247,25 @@ namespace Equipment
             syncEquipSprites[(int)enumA] = -1;
         }
 
-        // Does not try to instantiate (already instantiated by Unicloth factory)
-        private void SetItemUniclothToSlot(string eventName, GameObject uniCloth)
-        {
-            ItemAttributes att = uniCloth.GetComponent<ItemAttributes>();
-            EquipmentPool.AddGameObject(gameObject, uniCloth);
-
-            playerNetworkActions.TrySetItem(eventName, uniCloth);
-            //Sync all clothing items across network using SyncListInt syncEquipSprites
-            if (att.spriteType == SpriteType.Clothing)
-            {
-                Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
-                syncEquipSprites[(int)enumA] = att.clothingReference;
-            }
-        }
+//        // Does not try to instantiate (already instantiated by Unicloth factory)
+//        private void SetItemUniclothToSlot(string eventName, GameObject uniCloth)
+//        {
+//            ItemAttributes att = uniCloth.GetComponent<ItemAttributes>();
+//            EquipmentPool.AddGameObject(gameObject, uniCloth);
+//
+//            playerNetworkActions.TrySetItem(eventName, uniCloth);
+//            //Sync all clothing items across network using SyncListInt syncEquipSprites
+//            if (att.spriteType == SpriteType.Clothing)
+//            {
+//                Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
+//                syncEquipSprites[(int)enumA] = att.clothingReference;
+//            }
+//        }
 
         private void SetItem(string eventName, ItemAttributes itemAtts)
         {
-			if (String.IsNullOrEmpty(eventName) || itemAtts == null) {
+            playerNetworkActions.AddItem(itemAtts.gameObject, eventName, true);
+            /*			if (String.IsNullOrEmpty(eventName) || itemAtts == null) {
 				return;
 				Debug.LogError("Error with item attribute for object: " + itemAtts.gameObject.name);
 			}
@@ -277,7 +278,7 @@ namespace Equipment
             {
                 Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
                 syncEquipSprites[(int)enumA] = itemAtts.clothingReference;
-            }
+            }*/
         }
     }
 }

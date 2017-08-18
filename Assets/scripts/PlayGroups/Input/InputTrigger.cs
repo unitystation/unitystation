@@ -14,21 +14,7 @@ namespace InputControl {
 			Interact();
 		}
 
-//		protected GameObject originator;
-//		protected string hand;
-//		public InputTrigger From(GameObject originator)
-//		{
-//			this.originator = originator;
-//			return this;
-//		}
-//		//really don't like this
-//		public InputTrigger With(string withWhat)
-//		{
-//			this.hand = withWhat;
-//			return this;
-//		}
-
-		public void Interact()
+		private void Interact()
 		{
 			Interact(PlayerManager.LocalPlayerScript.gameObject, UIManager.Hands.CurrentSlot.eventName);
 		}
