@@ -8,6 +8,7 @@ public class Camera2DFollow: MonoBehaviour {
     //Static to make sure its the only cam in scene & for later access to camshake
     public static Camera2DFollow followControl;
 
+    public GameObject listenerObj;
     public Transform target;
 
     private float damping = 0f;

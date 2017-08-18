@@ -59,6 +59,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1187200688554218
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4227821997331168}
+  - component: {fileID: 81239162478120826}
+  m_Layer: 0
+  m_Name: listenerObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1280448994048180
 GameObject:
   m_ObjectHideFlags: 1
@@ -103,7 +119,6 @@ GameObject:
   - component: {fileID: 20680082919460720}
   - component: {fileID: 92038498063800884}
   - component: {fileID: 124367701722432646}
-  - component: {fileID: 81229977293903126}
   - component: {fileID: 114804737859769914}
   - component: {fileID: 114742085210312504}
   - component: {fileID: 114598896978409020}
@@ -188,6 +203,7 @@ GameObject:
   - component: {fileID: 4000674500765372}
   - component: {fileID: 20893246273762820}
   - component: {fileID: 114936676006390284}
+  - component: {fileID: 114598608611931166}
   m_Layer: 0
   m_Name: Interact Camera
   m_TagString: Untagged
@@ -268,6 +284,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4848993904202032}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4227821997331168
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1187200688554218}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4568765046733910}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4345995010067198
 Transform:
@@ -353,14 +382,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1365047106309440}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1987.7, y: 1165.7, z: -3}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1845.86, y: 1139, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4369993710743458}
   - {fileID: 4848993904202032}
   - {fileID: 4401924019199516}
   - {fileID: 4000674500765372}
+  - {fileID: 4227821997331168}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -571,7 +601,7 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4280287231
-  m_RenderingPath: -1
+  m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
@@ -582,12 +612,12 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
---- !u!81 &81229977293903126
+--- !u!81 &81239162478120826
 AudioListener:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1365047106309440}
+  m_GameObject: {fileID: 1187200688554218}
   m_Enabled: 1
 --- !u!92 &92038498063800884
 Behaviour:
@@ -619,10 +649,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e3142adc76418db1fe76b4e22c2035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  listenerObj: {fileID: 1187200688554218}
   target: {fileID: 0}
-  xOffset: 4
+  xOffset: 1.7
   pixelAdjustment: 64
   parallaxStars: {fileID: 114250123869584244}
+--- !u!114 &114598608611931166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1967244435330278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2975bf9cf63f9904c899f8add85452e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteSize: 32
+  zoom: 2
 --- !u!114 &114598896978409020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -634,10 +678,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 354c9994283644f49ba26665f82b4c3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsRunning: 0
+  Ticker: 0
+  TickSpeed: 1
   MonitorRadius: 12
   FieldOfVision: 90
   InnatePreyVision: 9
-  WallLayer: 9
+  State: 0
+  nearbyShrouds: []
 --- !u!114 &114742085210312504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -749,6 +797,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212026286140701356
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -790,6 +839,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212189143790654066
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -831,6 +881,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212246841866465430
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -872,6 +923,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212540458726019984
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -913,6 +965,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212627946102791444
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -954,6 +1007,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212661995302468534
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -995,6 +1049,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212716278640252580
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -1036,6 +1091,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212793563731481054
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -1077,3 +1133,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0

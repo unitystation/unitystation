@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using PlayGroup;
+
 
 //Resos:
 //0: 1024x640
@@ -78,8 +80,10 @@ public class DisplayManager : MonoBehaviour
         PlayerPrefs.SetInt("reso", _value);
         Screen.SetResolution(width, height, false);
 		if (GameData.IsInGame) {
-			Camera2DFollow.followControl.xOffset = xOffsetCamFollow;
-		}
+            Vector3 pos = PlayerManager.LocalPlayer.transform.position; // get player position from PlayerManager and store in pos
+            Camera2DFollow.followControl.listenerObj.transform.position = new Vector3(pos.x, pos.y); //set listenerObj's position to player's pos
+            Camera2DFollow.followControl.xOffset = xOffsetCamFollow; 
+        }
         if (optionsDropDown.value != _value)
             optionsDropDown.value = _value;
         if (lightingSystem != null)
