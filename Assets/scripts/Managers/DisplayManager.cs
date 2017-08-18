@@ -80,8 +80,7 @@ public class DisplayManager : MonoBehaviour
         PlayerPrefs.SetInt("reso", _value);
         Screen.SetResolution(width, height, false);
 		if (GameData.IsInGame) {
-            Vector3 pos = PlayerManager.LocalPlayer.transform.position; // get player position from PlayerManager and store in pos
-            Camera2DFollow.followControl.listenerObj.transform.position = new Vector3(pos.x, pos.y); //set listenerObj's position to player's pos
+			Camera2DFollow.followControl.listenerObj.transform.localPosition = new Vector3(-xOffsetCamFollow, 1f); //set listenerObj's position to player's pos
             Camera2DFollow.followControl.xOffset = xOffsetCamFollow; 
         }
         if (optionsDropDown.value != _value)
