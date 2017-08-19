@@ -140,22 +140,7 @@ public class CustomNetworkManager: NetworkManager
 		} else {
 		    //Set up for headless mode stuff here
 			//Useful for turning on and off components
-
-			/*Hacky approach, we are running a Host not a straight server.
-              so once the server player is spawned, we will remove him from the scene
-              and delete his name from player list
-              */
 			_isServer = true;
-			if(GameData.IsInGame){
-				yield return new WaitForSeconds(1.1f);
-				if (PlayerList.Instance != null) {
-//					PlayerList.Instance.RemovePlayer(PlayerManager.LocalPlayer.name);
-//                    PlayerManager.LocalPlayer.gameObject.SetActive(false);
-//                    var rt = PlayerManager.LocalPlayer.GetComponent<RegisterTile>();
-//                    rt.Unregister();
-//                    rt.enabled = false;
-                }
-			}
 		}
 	}
 
