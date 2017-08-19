@@ -9,7 +9,7 @@ namespace PlayGroup
 	public class PlayerSprites: NetworkBehaviour
 	{
 		[SyncVar(hook = "FaceDirection")]
-		public Vector2 currentDirection = Vector2.down;
+		public Vector2 currentDirection;
 
 		public PlayerMove playerMove;
 		private Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
@@ -19,7 +19,21 @@ namespace PlayGroup
 			foreach (var c in GetComponentsInChildren<ClothingItem>()) {
 				clothes[c.name] = c;
 			}
+		}
+
+		public override void OnStartServer(){
 			FaceDirection(Vector2.down);
+			base.OnStartServer();
+		}
+
+		public override void OnStartClient(){
+			StartCoroutine(WaitForLoad());
+			base.OnStartClient();
+		}
+
+		IEnumerator WaitForLoad(){
+			yield return new WaitForSeconds(2f);
+			FaceDirection(currentDirection);
 		}
 
 		public void AdjustSpriteOrders(int offsetOrder){

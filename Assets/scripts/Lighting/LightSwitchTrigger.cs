@@ -24,6 +24,7 @@ namespace Lighting
         public Sprite lightOff;
         private bool switchCoolDown = false;
         private AudioSource clickSFX;
+		private bool soundAllowed = false;
 
         void Awake()
         {
@@ -105,7 +106,7 @@ namespace Lighting
         {
             DetectLightsAndAction(state);
 	
-            if (clickSFX != null)
+			if (clickSFX != null && soundAllowed)
             {
                 clickSFX.Play();
             }
@@ -114,6 +115,7 @@ namespace Lighting
             {
                 spriteRenderer.sprite = state ? lightOn : lightOff;
             }
+			soundAllowed = true;
         }
     }
 }

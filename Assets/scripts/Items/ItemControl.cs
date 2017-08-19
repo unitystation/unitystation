@@ -21,7 +21,7 @@ public class ItemControl : NetworkBehaviour
 	}
 
 	IEnumerator WaitForLoad(){
-		yield return new WaitForSeconds(0.2f);
+		yield return new WaitForSeconds(3f);
 		UpdateState(aliveState);
 	}
 

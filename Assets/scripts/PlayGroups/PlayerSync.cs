@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine;
 using Matrix;
@@ -30,7 +31,7 @@ namespace PlayGroup {
         private PlayerState state;
         //pull objects
         [SyncVar(hook = "PullReset")]
-        public NetworkInstanceId pullObjectID = NetworkInstanceId.Invalid;
+        public NetworkInstanceId pullObjectID;
         public GameObject pullingObject;
         private RegisterTile pullRegister;
         private bool canRegister = false;
@@ -40,10 +41,20 @@ namespace PlayGroup {
             InitState();
         }
 
+		public override void OnStartServer(){
+			pullObjectID = NetworkInstanceId.Invalid;
+			base.OnStartServer();
+		}
         public override void OnStartClient() {
-            PullReset(pullObjectID);
-            base.OnStartClient();
+			StartCoroutine(WaitForLoad());
+			base.OnStartClient();
         }
+
+		IEnumerator WaitForLoad(){
+			yield return new WaitForSeconds(2f);
+
+//			PullReset(pullObjectID);
+		}
 
         [Server]
         private void InitState() {
@@ -161,6 +172,9 @@ namespace PlayGroup {
         }
 
         public void PullReset(NetworkInstanceId netID) {
+			if (netID == null)
+				netID = NetworkInstanceId.Invalid;
+			
             transform.hasChanged = false;
             if(netID == NetworkInstanceId.Invalid) {
                 if(pullingObject != null) {

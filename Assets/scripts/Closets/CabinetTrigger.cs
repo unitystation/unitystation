@@ -16,14 +16,31 @@ public class CabinetTrigger: InputTrigger
     public GameObject itemPrefab;
 
     [SyncVar (hook = "SyncCabinet")]
-    public bool IsClosed = true;
-    private bool isFull = true;
+    public bool IsClosed;
+
+	[SyncVar (hook="SyncItemSprite")]
+    public bool isFull;
 	private SpriteRenderer spriteRenderer;
     private bool sync = false;
 	void Start()
 	{
 		spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
+	}
+
+	public override void OnStartServer(){
 		IsClosed = true;
+		isFull = true;
+		base.OnStartServer();
+	}
+	public override void OnStartClient(){
+		StartCoroutine(WaitForLoad());
+		base.OnStartClient();
+	}
+
+	IEnumerator WaitForLoad(){
+		yield return new WaitForSeconds(3f);
+		SyncCabinet(IsClosed);
+		SyncItemSprite(isFull);
 	}
 
 	public override void Interact()
@@ -53,10 +70,14 @@ public class CabinetTrigger: InputTrigger
         }
 	}
 
-    [ClientRpc]
-    public void RpcSetEmptySprite(){
-        isFull = false;
-        spriteRenderer.sprite = spriteOpenedEmpty;
+	public void SyncItemSprite(bool _isFull){
+		isFull = _isFull;
+		if (!isFull) {
+			spriteRenderer.sprite = spriteOpenedEmpty;
+		} else {
+		//TODO putting the sprite back of the fire extinguisher
+
+		}
     }
 
     void SyncCabinet(bool _isClosed){
@@ -94,44 +115,6 @@ public class CabinetTrigger: InputTrigger
 			SoundManager.PlayAtPosition("OpenClose",transform.position);
         }
     }
-
-    //This was stuff that worked with photon (leaving for reference for
-    //help with developing the action of putting back the extinguisher
-//	private void OnClose()
-//	{
-//		if (ItemID != null) {
-//			var item = UIManager.Hands.CurrentSlot.Item;
-//			if (item != null && IsCorrectItem(item)) {
-//				var itemViewID = item.GetComponent<NetworkIdentity>().netId;
-//				ItemID = itemViewID;
-//				item.SetActive(false);
-//				item.transform.parent = transform;
-//				UIManager.Hands.CurrentSlot.Clear();
-//				SetState(itemViewID, false);
-//			} else {
-//				SetState(ItemID, true);
-//			}
-//		} else {
-//			var item = transform.FindChild("Extinguisher").gameObject;
-//			if (ItemManager.TryToPickUpObject(item)) {
-//				// remove extinguisher from closet
-//				item.SetActive(true);
-//                UpdateSprite();
-//			}
-//		}
-//	}
-
-
-//	public void SetState(NetworkInstanceId itemViewID, bool playSound)
-//	{
-//		ItemID = itemViewID;
-//		if (ItemID != null)
-//	
-//		if (playSound)
-//			SoundManager.Play("OpenClose");
-//
-//		UpdateSprite();
-//	}
 
 	private bool IsCorrectItem(GameObject item)
 	{

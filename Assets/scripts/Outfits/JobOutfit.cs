@@ -30,14 +30,4 @@ public class JobOutfit : MonoBehaviour {
     public string suit_store;
 
     public List<string> backpack_contents = new List<string>();
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

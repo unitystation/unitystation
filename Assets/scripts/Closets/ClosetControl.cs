@@ -30,11 +30,11 @@ namespace Cupboards
         {
             doorClosed = spriteRenderer.sprite;
 			registerTile = GetComponent<RegisterTile>();
-            IsClosed = true;
         }
 
 		public override void OnStartServer(){
             StartCoroutine(WaitForServerReg());
+			IsClosed = true;
 			base.OnStartServer();
 		}
 
@@ -52,8 +52,10 @@ namespace Cupboards
 
         IEnumerator WaitForLoad(){
 			yield return new WaitForSeconds(3f);
-			OpenClose(IsClosed);
-			LockUnlock(IsLocked);
+			bool iC = IsClosed;
+			bool iL = IsLocked;
+			OpenClose(iC);
+			LockUnlock(iL);
 		}
 
 		[Server]

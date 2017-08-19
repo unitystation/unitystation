@@ -350,7 +350,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         else
         {
             Debug.Log("TODO: condition to place extinguisher back");
-            c.RpcSetEmptySprite();
+			c.isFull = false;
         }
     }
 

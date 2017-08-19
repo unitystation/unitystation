@@ -55,8 +55,14 @@ public class ItemAttributes : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        ConstructItem(hierarchy);
+		StartCoroutine(WaitForLoad());
+		base.OnStartClient();
     }
+
+	IEnumerator WaitForLoad(){
+		yield return new WaitForSeconds(2f);
+		ConstructItem(hierarchy);
+	}
     
     
 //    Enum test:

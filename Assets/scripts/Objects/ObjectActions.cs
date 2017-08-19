@@ -39,17 +39,25 @@ public class ObjectActions : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        if (currentPos != Vector3.zero)
-        {
-            if (registerTile == null)
-            {
-                registerTile = GetComponent<RegisterTile>();
-            }
-            transform.position = RoundedPos(currentPos);
-            registerTile.UpdateTile();
-        }
+		StartCoroutine(WaitForLoad());
         base.OnStartClient();
     }
+	IEnumerator WaitForLoad(){
+		yield return new WaitForSeconds(2f);
+		if (currentPos != Vector3.zero)
+		{
+			if (registerTile == null)
+			{
+				registerTile = GetComponent<RegisterTile>();
+			}
+			transform.position = RoundedPos(currentPos);
+			registerTile.UpdateTile();
+		}
+
+		if (pushing) {
+			PushSync(serverPos);
+		}
+	}
 
     void OnMouseDown()
     {

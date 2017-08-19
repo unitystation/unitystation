@@ -17,6 +17,9 @@ public class MagazineBehaviour : NetworkBehaviour
 		ammoRemains = magazineSize;
 	}
 
+	//FIXME: this should be moved to an UpdateMe approach. 
+	// 1 manager that updates a list of UpdateMe actions as there may be many magazines
+	// in game at some point
 	void Update () {
 		if (ammoRemains <= 0) {
 			Usable = false;

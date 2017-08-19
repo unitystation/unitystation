@@ -9,6 +9,18 @@ public class BloodSplat : NetworkBehaviour {
 	public SpriteRenderer spriteRend;
 	private Sprite[] bloodSprites;
 
+	[SyncVar(hook="SetSprite")]
+	private int bloodSprite;
+
+	public override void OnStartClient(){
+		StartCoroutine(WaitForLoad());
+		base.OnStartClient();
+	}
+
+	IEnumerator WaitForLoad(){
+		yield return new WaitForSeconds(3f);
+		SetSprite(bloodSprite);
+	}
 	//TODO streaky blood from bullet wounds, dragging blood drops etc
 	[Server]
 	public void SplatBlood(BloodSplatSize bloodSize){
@@ -24,11 +36,10 @@ public class BloodSplat : NetworkBehaviour {
 				spriteNum = Random.Range(105, 108);
 				break;
 		}
-		RpcSetSprite(spriteNum);
+		bloodSprite = spriteNum;
 	}
-
-	[ClientRpc]
-	void RpcSetSprite(int spritenum){
+		
+	void SetSprite(int spritenum){
 		if (bloodSprites == null) {
 			bloodSprites = SpriteManager.BloodSprites["blood"];
 		}
