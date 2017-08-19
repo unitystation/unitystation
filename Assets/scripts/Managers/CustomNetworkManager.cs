@@ -126,7 +126,7 @@ public class CustomNetworkManager: NetworkManager
 
 	IEnumerator DoHeadlessCheck(){
 		yield return new WaitForSeconds(0.1f);
-		if (!GameData.IsHeadlessServer) {
+		if (!GameData.IsHeadlessServer && !GameData.Instance.testServer) {
 			if(!IsClientConnected())
 			UIManager.Display.logInWindow.SetActive(true);
 			
@@ -142,11 +142,11 @@ public class CustomNetworkManager: NetworkManager
 			if(GameData.IsInGame){
 				yield return new WaitForSeconds(1.1f);
 				if (PlayerList.Instance != null) {
-					PlayerList.Instance.RemovePlayer(PlayerManager.LocalPlayer.name);
-                    PlayerManager.LocalPlayer.gameObject.SetActive(false);
-                    var rt = PlayerManager.LocalPlayer.GetComponent<RegisterTile>();
-                    rt.Unregister();
-                    rt.enabled = false;
+//					PlayerList.Instance.RemovePlayer(PlayerManager.LocalPlayer.name);
+//                    PlayerManager.LocalPlayer.gameObject.SetActive(false);
+//                    var rt = PlayerManager.LocalPlayer.GetComponent<RegisterTile>();
+//                    rt.Unregister();
+//                    rt.enabled = false;
                 }
 			}
 		}

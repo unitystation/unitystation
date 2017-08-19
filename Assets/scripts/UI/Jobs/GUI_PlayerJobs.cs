@@ -38,11 +38,6 @@ public class GUI_PlayerJobs : MonoBehaviour {
         }
         screen_Jobs.SetActive(true);
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void BtnOk(JobType preference)
     {

@@ -68,21 +68,24 @@ namespace PlayGroup {
                     UIManager.Instance.playerListUIControl.window.SetActive(true);
                 }
 
-                if(!GameData.IsHeadlessServer) {
+				if (!GameData.IsHeadlessServer && !GameData.Instance.testServer) {
 
-                    if(!PlayerManager.HasSpawned) {
-                        //First
-                        CmdTrySetName(PlayerManager.PlayerNameCache);
-                    } else {
-                        //Manual after respawn
-                        CmdSetNameManual(PlayerManager.PlayerNameCache);
-                    }
-                }
+					if (!PlayerManager.HasSpawned) {
+						//First
+						CmdTrySetName(PlayerManager.PlayerNameCache);
+
+					} else {
+						//Manual after respawn
+						CmdSetNameManual(PlayerManager.PlayerNameCache);
+					}
+					// I (client) have connected to the server, ask what my job preference is
+					UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
+				} else {
+					this.enabled = false;
+					return;
+				}
 
                 PlayerManager.SetPlayerForControl(this.gameObject);
-
-                // I (client) have connected to the server, ask what my job preference is
-                UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 
             }
         }

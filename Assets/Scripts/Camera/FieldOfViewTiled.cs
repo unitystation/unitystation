@@ -46,6 +46,11 @@ public class FieldOfViewTiled : ThreadedBehaviour
 
 	void Start()
 	{
+		if (GameData.Instance.testServer || GameData.IsHeadlessServer) {
+			Debug.Log("Turn off FOV as this is a server");
+			this.enabled = false;
+			return;
+		}
 		_layerMask = LayerMask.GetMask("Walls", "Door Closed");
 		StartManager();
 	}

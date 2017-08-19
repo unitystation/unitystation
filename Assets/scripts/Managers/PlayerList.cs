@@ -36,8 +36,11 @@ public class PlayerList : NetworkBehaviour
 	//Check name on server
     public string CheckName(string name)
 	{
+		if (!connectedPlayers.ContainsKey(name))
+			return null;
+		
         string checkName = name;
-     
+
             while (connectedPlayers.ContainsKey(checkName))
             {
 			Debug.Log("NAME ALREADY EXISTS: " + checkName);
