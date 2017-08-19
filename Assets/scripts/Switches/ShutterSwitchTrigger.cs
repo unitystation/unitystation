@@ -17,6 +17,9 @@ public class ShutterSwitchTrigger: InputTrigger
 
 	void Start()
 	{
+		//This is needed because you can no longer apply shutterSwitch prefabs (it will move all of the child sprite positions)
+		gameObject.layer = LayerMask.NameToLayer("WallMounts");
+
 		animator = GetComponent<Animator>();
 	}
 
@@ -26,7 +29,7 @@ public class ShutterSwitchTrigger: InputTrigger
 	}
 
 	IEnumerator WaitForLoad(){
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(3f);
 		SyncShutters(IsClosed);
 	}
 		

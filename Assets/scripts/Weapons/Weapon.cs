@@ -168,14 +168,24 @@ namespace Weapons
 		//Gives it a chance for weaponNetworkActions to init
 		IEnumerator SetMagazineOnStart(GameObject magazine){
 			yield return new WaitForSeconds(2f);
-			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
+//			if (GameData.IsHeadlessServer || GameData.Instance.testServer) {
+				NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
+				MagNetID = networkID;
+//			} else {
+//				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
+//			}
 		}
 		#endregion
 
 		//Do all the weapon init for connecting clients
 		public override void OnStartClient(){
-			LoadUnloadAmmo(MagNetID);
+			StartCoroutine(WaitForLoad());
 			base.OnStartClient();
+		}
+
+		IEnumerator WaitForLoad(){
+			yield return new WaitForSeconds(3f);
+			LoadUnloadAmmo(MagNetID);
 		}
 
 		#region Weapon Firing Mechanism

@@ -30,15 +30,13 @@ public class PlayerList : NetworkBehaviour
 		RefreshPlayerListText();
 		base.OnStartClient();
 	}
+
 	void UpdateFromServer(SyncListString.Operation op, int index){
 		RefreshPlayerListText();
 	}
 	//Check name on server
     public string CheckName(string name)
 	{
-		if (!connectedPlayers.ContainsKey(name))
-			return null;
-		
         string checkName = name;
 
             while (connectedPlayers.ContainsKey(checkName))

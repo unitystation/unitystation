@@ -11,7 +11,7 @@ namespace InputControl {
 	public class InputController: MonoBehaviour {
 		private PlayerSprites playerSprites;
 		private PlayerMove playerMove;
-
+		private LayerMask layerMask;
 		private Vector2 LastTouchedTile;
 
 		/// <summary>
@@ -32,6 +32,10 @@ namespace InputControl {
 			//for changing direction on click
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
 			playerMove = GetComponent<PlayerMove>();
+
+			//Do not include the Default layer! Assign your object to one of the layers below:
+			layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines",
+				"Players", "Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls");
 		}
 
 		void Update() {
@@ -79,7 +83,7 @@ namespace InputControl {
 			//for debug purpose, mark the most recently touched tile location
 			LastTouchedTile = new Vector2 (Mathf.Round(position.x), Mathf.Round(position.y));
 
-			var hits = Physics2D.RaycastAll(position, Vector2.zero);
+			var hits = Physics2D.RaycastAll(position, Vector2.zero,10f,layerMask);
 
 			//raycast all colliders and collect pixel hit gameobjects
 			List<GameObject> hitGameObjects = new List<GameObject>();
@@ -165,7 +169,6 @@ namespace InputControl {
 					}
 				}
 			}
-
 			//if we are holding onto an item like a gun attempt to shoot it if we were not in range to trigger anything
 			return InteractHands();
 		}

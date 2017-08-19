@@ -40,7 +40,7 @@ namespace Cupboards
 
         IEnumerator WaitForServerReg()
         {
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(1f);
             SetItems(!IsClosed);
         }
 
@@ -51,8 +51,9 @@ namespace Cupboards
         }
 
         IEnumerator WaitForLoad(){
-			yield return new WaitForSeconds(0.2f);
+			yield return new WaitForSeconds(3f);
 			OpenClose(IsClosed);
+			LockUnlock(IsLocked);
 		}
 
 		[Server]
@@ -93,6 +94,8 @@ namespace Cupboards
 		}
 
 		void LockUnlock(bool lockIt){
+			if (lockLight == null)
+				return;
 			if (lockIt) {
 			
 			} else {

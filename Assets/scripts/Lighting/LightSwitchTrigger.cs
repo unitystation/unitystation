@@ -33,6 +33,9 @@ namespace Lighting
 
         void Start()
         {
+			//This is needed because you can no longer apply lightSwitch prefabs (it will move all of the child sprite positions)
+			gameObject.layer = LayerMask.NameToLayer("WallMounts");
+			//and the rest of the mask caches:
             lightingMask = LayerMask.GetMask("Lighting");
             obstacleMask = LayerMask.GetMask("Walls","Door Open","Door Closed");
 
@@ -45,7 +48,7 @@ namespace Lighting
 
         IEnumerator WaitForLoad()
         {
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(3f);
             SyncLightSwitch(isOn);
         }
 

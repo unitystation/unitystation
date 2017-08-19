@@ -65,7 +65,14 @@ public class CustomNetworkManager: NetworkManager
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId){
 		//This spawns the player prefab
-        StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
+		if (GameData.IsHeadlessServer || GameData.Instance.testServer) {
+			//this is a headless server || testing headless (it removes the server player for localClient)
+			if(conn.address != "localClient") 
+			StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
+		} else {
+			//This is a host server (keep the server player as it is for the host player)
+			StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
+		}
 	}
 
 	IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId){
