@@ -46,6 +46,14 @@ namespace Lighting
 		private bool waitToCheckState = false;
 		private bool tempStateCache;
 
+		const int MAX_TARGETS = 400;
+		public float radius = 6f;
+
+		int ambientMask;
+		int obstacleMask;
+
+		readonly Collider2D[] lightSpriteColliders = new Collider2D[MAX_TARGETS];
+
 		void Awake()
 		{
 			Renderer = GetComponentInChildren<SpriteRenderer>();
@@ -53,7 +61,32 @@ namespace Lighting
 
 		void Start()
 		{
+			ambientMask = LayerMask.GetMask("LightingAmbience");
+			obstacleMask = LayerMask.GetMask("Walls","Door Open","Door Closed");
 			InitLightSprites();
+		}
+
+		void SetLocalAmbientTiles(bool state)
+		{
+			var length = Physics2D.OverlapCircleNonAlloc(transform.position, radius, lightSpriteColliders, ambientMask);
+			for (int i = 0; i < length; i++)
+			{
+				var localCollider = lightSpriteColliders[i];
+				var localObject = localCollider.gameObject;
+				var localObjectPos = (Vector2)localObject.transform.position;
+				var distance = Vector3.Distance(transform.position, localObjectPos);
+				if (IsWithinReach(transform.position, localObjectPos, distance))
+				{
+					localObject.SendMessage("Trigger", state, SendMessageOptions.DontRequireReceiver);
+				}
+			}
+		}
+
+		private bool IsWithinReach(Vector2 pos, Vector2 targetPos, float distance)
+		{
+			return distance <= radius
+				&&
+				Physics2D.Raycast(pos, targetPos - pos, distance, obstacleMask).collider == null;
 		}
 
 		public override void Trigger(bool state)
@@ -72,6 +105,7 @@ namespace Lighting
 			if (Light != null) {
 				Light.SetActive(state);
 			}
+			SetLocalAmbientTiles(state);
 		}
 
 		private void InitLightSprites()

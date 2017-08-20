@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using InputControl;
 
+[ExecuteInEditMode]
 public class AmbientTile : ObjectTrigger {
 
 	public Color onColor = new Color32(105,105,105,255);
@@ -14,7 +15,7 @@ public class AmbientTile : ObjectTrigger {
 		spriteRend.color = onColor;
 	}
 
-    //FIXME this was for prototype (direct action from the light switch itself)
+	//LightSource sends a message to this method
 	public override void Trigger(bool state)
 	{
         if (spriteRend == null)
