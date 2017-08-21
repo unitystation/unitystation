@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4617881622939276}
+  - component: {fileID: 114757650918681418}
   - component: {fileID: 114483960431531440}
   - component: {fileID: 114661774911997286}
   - component: {fileID: 114514298924506604}
@@ -240,6 +241,17 @@ MonoBehaviour:
   inHandReferenceLeft: 256
   clothingReference: -1
   size: 2
+--- !u!114 &114757650918681418
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1228446059428988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212304549576919094
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -280,3 +292,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
