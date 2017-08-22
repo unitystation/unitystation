@@ -92,6 +92,8 @@ GameObject:
   - component: {fileID: 114455539620617546}
   - component: {fileID: 114974536311985952}
   - component: {fileID: 114619750295598678}
+  - component: {fileID: 114330242894580546}
+  - component: {fileID: 114280287742161768}
   m_Layer: 14
   m_Name: Table_Wood
   m_TagString: Untagged
@@ -193,6 +195,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114280287742161768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1844554874729730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114282980191973122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -206,6 +229,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spritePosition: 2
   spriteName: table_wood
+--- !u!114 &114330242894580546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1844554874729730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 134
+    i1: 56
+    i2: 88
+    i3: 3
+    i4: 26
+    i5: 198
+    i6: 51
+    i7: 68
+    i8: 25
+    i9: 101
+    i10: 167
+    i11: 62
+    i12: 152
+    i13: 212
+    i14: 202
+    i15: 65
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114445834041984710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -243,6 +298,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 2
+  editModeControl: {fileID: 0}
+  savedPosition: {x: 1833, y: 1144, z: -0.1}
 --- !u!114 &114851319466675406
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -335,6 +392,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212067001926961910
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -375,6 +433,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212505101909561434
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -415,6 +474,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212590389537591860
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -455,3 +515,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
