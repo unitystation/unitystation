@@ -187,18 +187,20 @@ namespace Weapons
 			if (gameObject == UIManager.Hands.CurrentSlot.GameObject()) {
 				AttemptToFireWeapon();
 			} 
-			//PickUpTrigger will take care of following pickup code
-//			//if the weapon is not in our hands not in hands, pick it up
-//			else {
-//				if ( !isServer )
-//				{
-//					SimpleInteractMessage.Send(gameObject);
-//				}
-//				else
-//				{
-//					PlayerManager.LocalPlayerScript.playerNetworkActions.ValidatePickUp(gameObject);
-//				}
-//			}
+			//if the weapon is not in our hands not in hands, pick it up
+			else {
+					if ( !isServer )
+					{    //Client informs server of interaction attempt
+						InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
+					}
+					else
+					{    //Server actions
+						if (!ValidatePickUp(originator, hand))
+						{
+							//Rollback prediction
+						}
+					}
+			}
 		}
 
 		void AttemptToFireWeapon()

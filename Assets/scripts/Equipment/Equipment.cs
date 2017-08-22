@@ -162,7 +162,7 @@ namespace Equipment
                 {
                     GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
                     ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-                    SetItem(GetLoadOutEventName(gearItem.Key), itemAtts);
+                    SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
                 }
             }
 
@@ -247,24 +247,10 @@ namespace Equipment
             syncEquipSprites[(int)enumA] = -1;
         }
 
-//        // Does not try to instantiate (already instantiated by Unicloth factory)
-//        private void SetItemUniclothToSlot(string slotName, GameObject uniCloth)
-//        {
-//            ItemAttributes att = uniCloth.GetComponent<ItemAttributes>();
-//            EquipmentPool.AddGameObject(gameObject, uniCloth);
-//
-//            playerNetworkActions.TrySetItem(slotName, uniCloth);
-//            //Sync all clothing items across network using SyncListInt syncEquipSprites
-//            if (att.spriteType == SpriteType.Clothing)
-//            {
-//                Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
-//                syncEquipSprites[(int)enumA] = att.clothingReference;
-//            }
-//        }
-
-        private void SetItem(string slotName, ItemAttributes itemAtts)
+        private void SetItem(string slotName, GameObject obj)
         {
-            playerNetworkActions.AddItem(itemAtts.gameObject, slotName, true);
+            StartCoroutine(SetItemPatiently(slotName, obj));
+            
             /*			if (String.IsNullOrEmpty(slotName) || itemAtts == null) {
 				return;
 				Debug.LogError("Error with item attribute for object: " + itemAtts.gameObject.name);
@@ -279,6 +265,13 @@ namespace Equipment
                 Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
                 syncEquipSprites[(int)enumA] = itemAtts.clothingReference;
             }*/
+        }
+        
+        private IEnumerator SetItemPatiently(string slotName, GameObject obj)
+        {
+            //Waiting for hier name resolve
+            yield return new WaitForSeconds(0.2f);
+            playerNetworkActions.AddItem(obj, slotName, true);
         }
     }
 }

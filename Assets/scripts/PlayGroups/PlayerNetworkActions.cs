@@ -197,33 +197,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             UIManager.Hands.CurrentSlot.TrySetItem(item);
         }
     }
-
-
-//    [ClientRpc]
-//    public void RpcTrySetItem(string slotName, GameObject obj)
-//    {
-//        if ( isLocalPlayer )
-//        {
-//            if ( slotName.Length > 0 )
-//            {
-//                StartCoroutine(SetItemPatiently(slotName, obj));
-//            }
-//        }
-//    }
-//
-    //TODO: set 'em patiently again!
-//    public IEnumerator SetItemPatiently(string slotName, GameObject obj)
-//    {
-//        //Waiting for hier name resolve
-//        yield return new WaitForSeconds(0.2f);
-//        EventManager.UI.TriggerEvent(slotName, obj);
-//    }
-
     //Dropping from a slot on the UI
-
     [Command][Obsolete]
     public void CmdDropItem(string eventName)
-    {//TODO: update
+    {
         if ( _inventory.ContainsKey(eventName) )
         {
             if ( _inventory[eventName] != null )
