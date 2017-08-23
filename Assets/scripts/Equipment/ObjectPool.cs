@@ -25,22 +25,31 @@ public class ObjectPool : MonoBehaviour {
 				currentObjects.Add(id, att);
 			}
 		}
-			
-		//When dropping items etc, remove them from the player equipment pool and place in scene
-		public void DropGameObject(GameObject gObj, Vector3 pos){
+
+	public void DestroyGameObject(GameObject gObj)
+	{
+		DropGameObject(gObj, Vector3.zero);
+	}
+
+	//When dropping items etc, remove them from the player equipment pool and place in scene
+		public void DropGameObject(GameObject gObj, Vector3 dropPos)
+		{
 			NetworkIdentity id = gObj.GetComponent<NetworkIdentity>();
-            if (currentObjects.ContainsKey(id))
-            {
-                currentObjects[id].gameObject.transform.parent = null;
-                currentObjects[id].gameObject.transform.position = pos;
-				EditModeControl e = gObj.GetComponent<EditModeControl>();
-                e.Snap();
-                currentObjects.Remove(id);
-            }
-            else
-            {
-                Debug.Log("item: " + gObj.name + "was not found in Player Equipment pool");
-            }
+			if ( !currentObjects.ContainsKey(id) )
+			{
+				Debug.Log("item: " + gObj.name + "was not found in Player Equipment pool");
+			}
+			else
+			{
+				if ( !dropPos.Equals(Vector3.zero) )
+				{
+					currentObjects[id].gameObject.transform.parent = null;
+					currentObjects[id].gameObject.transform.position = dropPos;
+					EditModeControl e = gObj.GetComponent<EditModeControl>();
+					e.Snap();
+				}
+				currentObjects.Remove(id);
+			}
 		}
 }
 }

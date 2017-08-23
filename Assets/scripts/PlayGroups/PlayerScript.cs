@@ -97,14 +97,23 @@ namespace PlayGroup
 					CmdSetNameManual(PlayerManager.PlayerNameCache);
 				}
 
-				PlayerManager.SetPlayerForControl(this.gameObject);
-				// I (client) have connected to the server, ask what my job preference is
-				UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
-			}
-		}
+                PlayerManager.SetPlayerForControl(this.gameObject);
+               
+                // I (client) have connected to the server, ask what my job preference is
+                UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 
-		void Update()
-		{
+            } else if ( isServer )
+	        {
+		        playerMove = GetComponent<PlayerMove>();
+	        }
+        }
+
+	    public bool canNotInteract()
+	    {
+		    return playerMove == null || !playerMove.allowInput || playerMove.isGhost;
+	    }
+	    
+        void Update(){
 			//Read out of ping in toolTip
 			pingUpdate += Time.deltaTime;
 			if (pingUpdate >= 5f) {

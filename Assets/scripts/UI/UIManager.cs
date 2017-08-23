@@ -104,6 +104,12 @@ namespace UI
 				listener.Reset();
 			}
 		}
+		
+		public static void UpdateSlot(UISlotObject slotInfo)
+		{
+			Debug.LogFormat("Updating slots: {0}", slotInfo);
+			InventorySlots[slotInfo.Slot].SetItem(slotInfo.SlotContents);
+		}
 
 		/// <summary>
 		/// Current Intent status

@@ -133,7 +133,7 @@ namespace Cupboards
             }
         }
 
-		public override void Interact(){
+		public override void Interact(GameObject originator, string hand){
 			if (Input.GetKey(KeyCode.LeftControl))
 				return;
 
@@ -150,7 +150,7 @@ namespace Cupboards
 				{
 					var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 					targetPosition.z = -0.2f;
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItem(UIManager.Hands.CurrentSlot.eventName, registerTile.editModeControl.Snap(transform.position), null);
+					PlayerManager.LocalPlayerScript.playerNetworkActions.PlaceItem(UIManager.Hands.CurrentSlot.eventName, registerTile.editModeControl.Snap(transform.position), null);
 
 					item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 					//

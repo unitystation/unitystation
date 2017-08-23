@@ -189,7 +189,8 @@ namespace Weapons
 		}
 
 		#region Weapon Firing Mechanism
-		public override void Interact() {
+		public override void Interact(GameObject originator, string hand) {
+			//todo: validate this on server
 			if (Input.GetKey(KeyCode.LeftControl))
 				return;
 			//shoot gun interation if its in hand
@@ -198,7 +199,17 @@ namespace Weapons
 			} 
 			//if the weapon is not in our hands not in hands, pick it up
 			else {
-				PlayerManager.LocalPlayerScript.playerNetworkActions.TryToPickUpObject(gameObject);
+					if ( !isServer )
+					{    //Client informs server of interaction attempt
+						InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
+					}
+					else
+					{    //Server actions
+						if (!ValidatePickUp(originator, hand))
+						{
+							//Rollback prediction
+						}
+					}
 			}
 		}
 
@@ -251,7 +262,7 @@ namespace Weapons
 			Debug.Log ("Reloading");
 			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m);
 			UIManager.Hands.CurrentSlot.Clear();
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdClearUISlot(hand);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.ClearInventorySlot(hand);
 		}
 
 		//atm unload with shortcut 'e'
@@ -271,14 +282,18 @@ namespace Weapons
 		{
 			//This checks to see if a new player who has joined needs to load up any weapon magazines because of missing sync hooks
 			if (MagNetID != NetworkInstanceId.Invalid) {
-                if(CurrentMagazine && PlayerManager.LocalPlayer != null)
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(CurrentMagazine.gameObject);
+				if(CurrentMagazine/* && PlayerManager.LocalPlayer != null*/)
+					PlayerManager.LocalPlayerScript.playerNetworkActions.AddToEquipmentPool(CurrentMagazine.gameObject);
 			}
 		}
 
 		//recieve broadcast msg when item is dropped from hand
 		public void OnRemoveFromInventory()
 		{
+			if (MagNetID != NetworkInstanceId.Invalid) {
+				if(CurrentMagazine)
+					PlayerManager.LocalPlayerScript.playerNetworkActions.DisposeOfChildItem(CurrentMagazine.gameObject);
+			}
 			Debug.Log("Dropped Weapon");
 		}
 
@@ -307,7 +322,7 @@ namespace Weapons
 			ControlledByPlayer = ownerId;
 			if (CurrentMagazine != null && PlayerManager.LocalPlayer == ClientScene.FindLocalObject(ownerId)) {
 				//As the magazine loaded is part of the weapon, then we do not need to add to server cache, we only need to add the item to the equipment pool
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryAddToEquipmentPool(CurrentMagazine.gameObject);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.AddToEquipmentPool(CurrentMagazine.gameObject);
 			}
 		}
 
