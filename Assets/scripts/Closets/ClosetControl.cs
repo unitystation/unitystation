@@ -141,7 +141,7 @@ namespace Cupboards
 				{
 					var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 					targetPosition.z = -0.2f;
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItem(UIManager.Hands.CurrentSlot.eventName, registerTile.editModeControl.Snap(transform.position), null);
+					PlayerManager.LocalPlayerScript.playerNetworkActions.PlaceItem(UIManager.Hands.CurrentSlot.eventName, registerTile.editModeControl.Snap(transform.position), null);
 
 					item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 					//

@@ -180,6 +180,7 @@ namespace Weapons
 
 		#region Weapon Firing Mechanism
 		public override void Interact(GameObject originator, string hand) {
+			//todo: validate this on server
 			if (Input.GetKey(KeyCode.LeftControl))
 				return;
 			//shoot gun interation if its in hand
@@ -188,14 +189,17 @@ namespace Weapons
 			} 
 			//if the weapon is not in our hands not in hands, pick it up
 			else {
-				if ( !isServer )
-				{
-					SimpleInteractMessage.Send(gameObject);
-				}
-				else
-				{
-					PlayerManager.LocalPlayerScript.playerNetworkActions.ValidatePickUp(gameObject);
-				}
+					if ( !isServer )
+					{    //Client informs server of interaction attempt
+						InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
+					}
+					else
+					{    //Server actions
+						if (!ValidatePickUp(originator, hand))
+						{
+							//Rollback prediction
+						}
+					}
 			}
 		}
 
@@ -248,7 +252,7 @@ namespace Weapons
 			Debug.Log ("Reloading");
 			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m);
 			UIManager.Hands.CurrentSlot.Clear();
-			PlayerManager.LocalPlayerScript.playerNetworkActions.ClearUISlot(hand);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.ClearInventorySlot(hand);
 		}
 
 		//atm unload with shortcut 'e'

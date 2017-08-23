@@ -20,5 +20,19 @@ namespace InputControl {
 		}
 
 		public abstract void Interact(GameObject originator, string hand);
+		
+		//Todo: move PNA stuff here and make nice hilevel methods
+		[Server]
+		public bool ValidatePickUp(GameObject originator, string handSlot = null)
+		{
+			var ps = originator.GetComponent<PlayerScript>();
+			var slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
+			if ( PlayerManager.PlayerScript == null || !ps.playerNetworkActions.Inventory.ContainsKey(slotName) )
+			{
+				return false;
+			}
+
+			return ps.playerNetworkActions.AddItem(gameObject, slotName);
+		}
 	}
 }

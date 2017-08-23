@@ -30,7 +30,7 @@ namespace UI {
             image.enabled = false;
             if (eventName.Length > 0)
             {
-//                Debug.LogErrorFormat("Triggered SetItem for {0}",eventName);
+//                Debug.LogErrorFormat("Triggered SetItem for {0}",slotName);
                 EventManager.UI.AddListener(eventName, SetItem);
             }
         }
@@ -67,10 +67,10 @@ namespace UI {
             Item = item;
             item.transform.position = transform.position;
 //			if (PlayerManager.LocalPlayer != null && item != null) {
-//				PlayerManager.LocalPlayerScript.playerNetworkActions.SetUISlot(eventName, item);
+//				PlayerManager.LocalPlayerScript.playerNetworkActions.SetInventorySlot(slotName, item);
 //			}
-//            if(eventName.Length > 0)
-//                EventManager.UI.TriggerEvent(eventName, item);
+//            if(slotName.Length > 0)
+//                EventManager.UI.TriggerEvent(slotName, item);
         }
 
         public bool TrySetItem(GameObject item) {
@@ -98,10 +98,10 @@ namespace UI {
             var item = Item;
             Item = null;
 
-//            if(eventName.Length > 0 && item != null)
-//                EventManager.UI.TriggerEvent(eventName, null);
+//            if(slotName.Length > 0 && item != null)
+//                EventManager.UI.TriggerEvent(slotName, null);
             
-//            PlayerManager.LocalPlayerScript.playerNetworkActions.ClearUISlot(eventName);
+//            PlayerManager.LocalPlayerScript.playerNetworkActions.ClearInventorySlot(slotName);
             image.sprite = null;
             image.enabled = false;
 

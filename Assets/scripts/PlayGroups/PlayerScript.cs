@@ -80,9 +80,17 @@ namespace PlayGroup {
                 // I (client) have connected to the server, ask what my job preference is
                 UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 
-            }
+            } else if ( isServer )
+	        {
+		        playerMove = GetComponent<PlayerMove>();
+	        }
         }
 
+	    public bool canNotInteract()
+	    {
+		    return playerMove == null || !playerMove.allowInput || playerMove.isGhost;
+	    }
+	    
         void Update(){
 			//Read out of ping in toolTip
 			pingUpdate += Time.deltaTime;

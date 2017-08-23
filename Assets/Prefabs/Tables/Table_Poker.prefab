@@ -41,6 +41,8 @@ GameObject:
   - component: {fileID: 114050828667014124}
   - component: {fileID: 114914949287907926}
   - component: {fileID: 114206675664727536}
+  - component: {fileID: 114095688322009708}
+  - component: {fileID: 114789854988955968}
   m_Layer: 14
   m_Name: Table_Poker
   m_TagString: Untagged
@@ -204,6 +206,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8989106609f026148bc44c29cfd46cb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114095688322009708
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1676648249221008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 118
+    i1: 36
+    i2: 237
+    i3: 247
+    i4: 178
+    i5: 216
+    i6: 219
+    i7: 148
+    i8: 57
+    i9: 40
+    i10: 3
+    i11: 160
+    i12: 255
+    i13: 1
+    i14: 102
+    i15: 34
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114206675664727536
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,6 +251,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 2
+  editModeControl: {fileID: 0}
+  savedPosition: {x: 1844, y: 1143, z: -0.1}
 --- !u!114 &114542726859144184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -270,6 +306,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spritePosition: 1
   spriteName: table_poker
+--- !u!114 &114789854988955968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1676648249221008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114914949287907926
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -335,6 +392,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212122064491149808
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -375,6 +433,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212308692784553376
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -415,6 +474,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212997858882950452
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -455,3 +515,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
