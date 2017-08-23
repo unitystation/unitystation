@@ -21,7 +21,7 @@ namespace InputControl {
 
 		public abstract void Interact(GameObject originator, string hand);
 		
-		//Todo: move PNA stuff here and make nice hilevel methods
+		//TODO: move more common stuff here?
 		[Server]
 		public bool ValidatePickUp(GameObject originator, string handSlot = null)
 		{

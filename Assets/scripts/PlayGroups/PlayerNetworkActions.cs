@@ -57,8 +57,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         get { return _inventory; }
     }
 
-    //TODO: introduce pickup prediction?
-
     [Server]
     public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false)
     {
@@ -80,7 +78,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     //This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
-//TODO add hi-level methods for children and make these private:
+    //TODO make these private(make some public child-aware high level methods instead):
     [Server]
     public void RemoveFromEquipmentPool(GameObject obj)
     {
@@ -235,7 +233,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Server]
     public void PlaceItem(string slotName, Vector3 pos, GameObject newParent)
     {
-        //todo update?
         if ( !SlotNotEmpty(slotName) ) return;
         GameObject item = _inventory[slotName];
         EquipmentPool.DropGameObject(gameObject, _inventory[slotName], pos);
