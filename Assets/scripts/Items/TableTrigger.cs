@@ -16,7 +16,7 @@ public class TableTrigger: InputTrigger {
 			if ( !ValidateTableInteraction(originator, hand) )
 			{
 				//Rollback prediction here
-				Debug.Log("Uh-oh, failed table interaction");
+//				Debug.Log("Uh-oh, failed table interaction");
 			}
 		}
 	}

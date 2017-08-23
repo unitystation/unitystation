@@ -76,7 +76,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     {
         UIManager.Hands.CurrentSlot.SetItem(item);
     }
-
+    //TODO fix dropped mags pickup
     //This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
     //TODO make these private(make some public child-aware high level methods instead):
     [Server]
@@ -108,7 +108,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
                 }
             }
             ClearInventorySlot(toBeCleared.ToArray());
-            Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
+//            Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
         }
         else
         {
@@ -133,7 +133,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
                 UpdateSlotMessage.Send(gameObject, slotNames[i]);
         }
-        Debug.LogFormat("Cleared {0}", slotNames);
+//        Debug.LogFormat("Cleared {0}", slotNames);
     }
 
     [Server]

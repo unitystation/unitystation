@@ -12,7 +12,7 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 
 	public override IEnumerator Process()
 	{
-		Debug.Log("Processed " + ToString());
+//		Debug.Log("Processed " + ToString());
 
 		yield return WaitFor(Subject, SentBy);
 

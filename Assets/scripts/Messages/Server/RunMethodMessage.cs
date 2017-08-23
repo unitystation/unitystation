@@ -13,7 +13,7 @@ public class RunMethodMessage : ServerMessage<RunMethodMessage>
     public override IEnumerator Process()
     {
         //To be run on client
-        Debug.Log("Processed " + ToString());
+//        Debug.Log("Processed " + ToString());
 
         yield return WaitFor(Recipient, Parameter);
 

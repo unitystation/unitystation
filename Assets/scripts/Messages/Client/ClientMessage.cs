@@ -12,7 +12,7 @@ public abstract class ClientMessage<T> : GameMessage<T>
 	{
 		SentBy = LocalPlayerId();
 		CustomNetworkManager.Instance.client.connection.Send(MessageType, this);
-		Debug.LogFormat("Sent {0}", this);
+//		Debug.LogFormat("Sent {0}", this);
 	}
 
 	public void SendUnreliable()

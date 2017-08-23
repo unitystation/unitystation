@@ -14,7 +14,7 @@ public class UpdateSlotMessage : ServerMessage<UpdateSlotMessage>
     public override IEnumerator Process()
     {
         //To be run on client
-        Debug.Log("Processed " + ToString());
+//        Debug.Log("Processed " + ToString());
 
         if ( ObjectForSlot == NetworkInstanceId.Invalid )
         {

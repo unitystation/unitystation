@@ -48,9 +48,9 @@ namespace Equipment
 				Instance.equipPools[playerName].AddGameObject(gObj);
 			}
 			
-			Debug.LogFormat("Added {1}({2}) to {0}'s pool.size={3}",
-			playerName, gObj.name, gObj.GetComponent<ItemAttributes>().itemName, 
-			Instance.equipPools[playerName].currentObjects.Count);
+//			Debug.LogFormat("Added {1}({2}) to {0}'s pool.size={3}",
+//			playerName, gObj.name, gObj.GetComponent<ItemAttributes>().itemName, 
+//			Instance.equipPools[playerName].currentObjects.Count);
 		}
 
 		//ghetto W.E.T. method intended for disposing of objects that aren't supposed to be dropped on the ground 
@@ -60,9 +60,9 @@ namespace Equipment
 			if ( !Instance.equipPools.ContainsKey(playerName) ) return;
 			Instance.equipPools[playerName].DestroyGameObject(gObj);
 			gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
-			Debug.LogFormat("{0}: destroyed {1}({2}) from pool. size={3} ", 
-				playerName, gObj.name, gObj.GetComponent<ItemAttributes>().itemName, 
-				Instance.equipPools[playerName].currentObjects.Count);
+//			Debug.LogFormat("{0}: destroyed {1}({2}) from pool. size={3} ", 
+//				playerName, gObj.name, gObj.GetComponent<ItemAttributes>().itemName, 
+//				Instance.equipPools[playerName].currentObjects.Count);
 		}
 
 		//When dropping items etc, remove them from the player equipment pool and place in scene
@@ -78,9 +78,9 @@ namespace Equipment
 			if ( !Instance.equipPools.ContainsKey(playerName) ) return;
 			Instance.equipPools[playerName].DropGameObject(gObj, pos);
 			gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
-			Debug.LogFormat("{0}: removed {1}({2}) from pool. size={3} ", 
-				playerName, gObj.name, gObj.GetComponent<ItemAttributes>().itemName, 
-				Instance.equipPools[playerName].currentObjects.Count);
+//			Debug.LogFormat("{0}: removed {1}({2}) from pool. size={3} ", 
+//				playerName, gObj.name, gObj.GetComponent<ItemAttributes>().itemName, 
+//				Instance.equipPools[playerName].currentObjects.Count);
 		}
 
 		public static void ClearPool(string playerName){

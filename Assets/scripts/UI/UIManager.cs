@@ -107,7 +107,7 @@ namespace UI
 		
 		public static void UpdateSlot(UISlotObject slotInfo)
 		{
-			Debug.LogFormat("Updating slots: {0}", slotInfo);
+//			Debug.LogFormat("Updating slots: {0}", slotInfo);
 			InventorySlots[slotInfo.Slot].SetItem(slotInfo.SlotContents);
 		}
 
