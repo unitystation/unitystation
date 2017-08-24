@@ -30,8 +30,8 @@ namespace UI {
             image.enabled = false;
             if (eventName.Length > 0)
             {
-//                Debug.LogErrorFormat("Triggered SetItem for {0}",eventName);
-                EventManager.UI.AddListener(eventName, x => TrySetItem(x));
+//                Debug.LogErrorFormat("Triggered SetItem for {0}",slotName);
+                EventManager.UI.AddListener(eventName, SetItem);
             }
         }
 
@@ -51,7 +51,13 @@ namespace UI {
 			image.enabled = false;
 		}
 
-        public void SetItem(GameObject item) {
+        public void SetItem(GameObject item)
+        {
+            if ( !item )
+            {
+                Clear();
+                return;
+            }
             if (PlayerManager.LocalPlayerScript != null)
                 if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
                     return;
@@ -60,17 +66,19 @@ namespace UI {
             image.enabled = true;
             Item = item;
             item.transform.position = transform.position;
-			if (PlayerManager.LocalPlayer != null && item != null) {
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetUISlot(eventName, item);
-			}
-//            if(eventName.Length > 0)
-//                EventManager.UI.TriggerEvent(eventName, item);
+//			if (PlayerManager.LocalPlayer != null && item != null) {
+//				PlayerManager.LocalPlayerScript.playerNetworkActions.SetInventorySlot(slotName, item);
+//			}
+//            if(slotName.Length > 0)
+//                EventManager.UI.TriggerEvent(slotName, item);
         }
 
         public bool TrySetItem(GameObject item) {
             if(!IsFull && item != null && CheckItemFit(item)) {
 //                Debug.LogErrorFormat("TrySetItem TRUE for {0}", item.GetComponent<ItemAttributes>().hierarchy);
-                SetItem(item);
+                InventoryInteractMessage.Send(item, eventName);
+               //predictions(?):
+//                SetItem(item);
 
                 return true;
             }
@@ -90,9 +98,10 @@ namespace UI {
             var item = Item;
             Item = null;
 
-//            if(eventName.Length > 0 && item != null)
-//                EventManager.UI.TriggerEvent(eventName, null);
-            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdClearUISlot(eventName);
+//            if(slotName.Length > 0 && item != null)
+//                EventManager.UI.TriggerEvent(slotName, null);
+            
+//            PlayerManager.LocalPlayerScript.playerNetworkActions.ClearInventorySlot(slotName);
             image.sprite = null;
             image.enabled = false;
 

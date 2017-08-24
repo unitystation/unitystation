@@ -19,7 +19,7 @@ namespace InputControl
 			microwave = GetComponent<Microwave>();
 		}
 
-		public override void Interact()
+		public override void Interact(GameObject originator, string hand)
 		{
 			var item = UIManager.Hands.CurrentSlot.Item;
 

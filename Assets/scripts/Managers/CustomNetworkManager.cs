@@ -15,28 +15,34 @@ public class CustomNetworkManager: NetworkManager
 	public bool _isServer = false;
 	[HideInInspector]
 	public bool spawnableListReady = false;
+
 	void Awake()
 	{
-		if (Instance == null)
-		{
+		if (Instance == null) {
 			Instance = this;
-		}
-		else
-		{
+		} else {
 			Destroy(this.gameObject);
 		}
 
 	}
 
-	void Start(){
+	void Start()
+	{
+		customConfig = true;
+
 		SetSpawnableList();
-		if (!IsClientConnected() && !GameData.IsHeadlessServer)
-		{
+		if (!IsClientConnected() && !GameData.IsHeadlessServer) {
 			UIManager.Display.logInWindow.SetActive(true);   
 		}
+
+		channels.Add(QosType.ReliableSequenced);
+
+		connectionConfig.AcksType = ConnectionAcksType.Acks64;
+		connectionConfig.FragmentSize = 512;
 	}
 
-	void SetSpawnableList(){
+	void SetSpawnableList()
+	{
 		spawnPrefabs.Clear();
 
 		var networkObjects = Resources.LoadAll<NetworkIdentity>("");
@@ -58,12 +64,15 @@ public class CustomNetworkManager: NetworkManager
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
-    public override void OnStartServer(){
+	public override void OnStartServer()
+	{
 		_isServer = true;
 		base.OnStartServer();
+		this.RegisterServerHandlers();
 	}
 
-	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId){
+	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+	{
 		//This spawns the player prefab
 		if (GameData.IsHeadlessServer || GameData.Instance.testServer) {
 			//this is a headless server || testing headless (it removes the server player for localClient)
@@ -75,25 +84,33 @@ public class CustomNetworkManager: NetworkManager
 		}
 	}
 
-	IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId){
+	IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId)
+	{
 		yield return new WaitForSeconds(1f);
-        base.OnServerAddPlayer(conn, playerControllerId);
-    }
+		base.OnServerAddPlayer(conn, playerControllerId);
+	}
 
 	public override void OnClientConnect(NetworkConnection conn)
 	{
 		if (_isServer) {
-		//do special server wizardry here
+			//do special server wizardry here
 		}
+		else
+		{
+			this.RegisterServerHandlers(); //ghetto fix for IDs to match
+		}
+
 		if (GameData.IsInGame) {
 			ObjectManager.StartPoolManager();
 		}
 
-        //This client connecting to server, wait for the spawnable prefabs to register
+		//This client connecting to server, wait for the spawnable prefabs to register
 		StartCoroutine(WaitForSpawnListSetUp(conn));
+		this.RegisterClientHandlers(conn);
 	}
 
-	IEnumerator WaitForSpawnListSetUp(NetworkConnection conn){
+	IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)
+	{
 	
 		while (!spawnableListReady) {
 		
@@ -119,26 +136,24 @@ public class CustomNetworkManager: NetworkManager
 			ObjectManager.StartPoolManager();
 		}
 		
-		if (IsClientConnected())
-		{
+		if (IsClientConnected()) {
 			//make sure login window does not show on scene changes if connected
 			UIManager.Display.logInWindow.SetActive(false);
 			StartCoroutine(DoHeadlessCheck());
-		}
-		else
-		{
+		} else {
 			StartCoroutine(DoHeadlessCheck());
 		}
 	}
 
-	IEnumerator DoHeadlessCheck(){
+	IEnumerator DoHeadlessCheck()
+	{
 		yield return new WaitForSeconds(0.1f);
 		if (!GameData.IsHeadlessServer && !GameData.Instance.testServer) {
 			if(!IsClientConnected())
 			UIManager.Display.logInWindow.SetActive(true);
 			
 		} else {
-		    //Set up for headless mode stuff here
+			//Set up for headless mode stuff here
 			//Useful for turning on and off components
 			_isServer = true;
 		}

@@ -43,7 +43,7 @@ public class CabinetTrigger: InputTrigger
 		SyncItemSprite(isFull);
 	}
 
-	public override void Interact()
+	public override void Interact(GameObject originator, string hand)
 	{
         if (IsClosed)
         {

@@ -58,6 +58,8 @@ GameObject:
   - component: {fileID: 114746944320791234}
   - component: {fileID: 114353293681900706}
   - component: {fileID: 114161888767839426}
+  - component: {fileID: 114512320140922642}
+  - component: {fileID: 114370520414871364}
   m_Layer: 14
   m_Name: Table_Reinforced
   m_TagString: Untagged
@@ -220,6 +222,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 2
+  editModeControl: {fileID: 0}
+  savedPosition: {x: 1836, y: 1140, z: -0.1}
 --- !u!114 &114164609776920370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -258,6 +262,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spritePosition: 2
   spriteName: table_reinforced
+--- !u!114 &114370520414871364
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1735212918361660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &114512320140922642
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1735212918361660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 3
+    i1: 102
+    i2: 178
+    i3: 132
+    i4: 205
+    i5: 92
+    i6: 235
+    i7: 4
+    i8: 74
+    i9: 25
+    i10: 195
+    i11: 236
+    i12: 88
+    i13: 114
+    i14: 54
+    i15: 94
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114541921009852466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -335,6 +392,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212164472600531352
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -375,6 +433,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212215365344346074
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -415,6 +474,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212433597886542902
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -455,3 +515,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

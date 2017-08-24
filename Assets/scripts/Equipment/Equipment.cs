@@ -162,7 +162,7 @@ namespace Equipment
                 {
                     GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
                     ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-                    SetItem(GetLoadOutEventName(gearItem.Key), itemAtts);
+                    SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
                 }
             }
 
@@ -170,12 +170,12 @@ namespace Equipment
         }
 
         //Hand item sprites after picking up an item (server)
-        public void SetHandItem(string eventName, GameObject obj)
+        public void SetHandItem(string slotName, GameObject obj)
         {
             ItemAttributes att = obj.GetComponent<ItemAttributes>();
             EquipmentPool.AddGameObject(gameObject, obj);
-            SetHandItemSprite(eventName, att);
-            RpcSendMessage(eventName, obj);
+            SetHandItemSprite(slotName, att);
+            RpcSendMessage(slotName, obj);
         }
 
         [ClientRpc]
@@ -227,10 +227,10 @@ namespace Equipment
         }
 
         //To set the actual sprite on the player obj
-        public void SetHandItemSprite(string eventName, ItemAttributes att)
+        public void SetHandItemSprite(string slotName, ItemAttributes att)
         {
-            Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
-            if (eventName == "leftHand")
+            Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
+            if (slotName == "leftHand")
             {
                 syncEquipSprites[(int)enumA] = att.NetworkInHandRefLeft();
             }
@@ -240,44 +240,38 @@ namespace Equipment
             }
         }
 
-        //Clear any sprite slot with -1 via the eventName (server)
+        //Clear any sprite slot with -1 via the slotName (server)
         public void ClearItemSprite(string eventName)
         {
             Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
             syncEquipSprites[(int)enumA] = -1;
         }
 
-        // Does not try to instantiate (already instantiated by Unicloth factory)
-        private void SetItemUniclothToSlot(string eventName, GameObject uniCloth)
+        private void SetItem(string slotName, GameObject obj)
         {
-            ItemAttributes att = uniCloth.GetComponent<ItemAttributes>();
-            EquipmentPool.AddGameObject(gameObject, uniCloth);
-
-            playerNetworkActions.TrySetItem(eventName, uniCloth);
-            //Sync all clothing items across network using SyncListInt syncEquipSprites
-            if (att.spriteType == SpriteType.Clothing)
-            {
-                Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
-                syncEquipSprites[(int)enumA] = att.clothingReference;
-            }
-        }
-
-        private void SetItem(string eventName, ItemAttributes itemAtts)
-        {
-			if (String.IsNullOrEmpty(eventName) || itemAtts == null) {
+            StartCoroutine(SetItemPatiently(slotName, obj));
+            
+            /*			if (String.IsNullOrEmpty(slotName) || itemAtts == null) {
 				return;
 				Debug.LogError("Error with item attribute for object: " + itemAtts.gameObject.name);
 			}
 
             EquipmentPool.AddGameObject(gameObject, itemAtts.gameObject);
 
-            playerNetworkActions.TrySetItem(eventName, itemAtts.gameObject);
+            playerNetworkActions.TrySetItem(slotName, itemAtts.gameObject);
             //Sync all clothing items across network using SyncListInt syncEquipSprites
             if (itemAtts.spriteType == SpriteType.Clothing)
             {
-                Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
+                Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
                 syncEquipSprites[(int)enumA] = itemAtts.clothingReference;
-            }
+            }*/
+        }
+        
+        private IEnumerator SetItemPatiently(string slotName, GameObject obj)
+        {
+            //Waiting for hier name resolve
+            yield return new WaitForSeconds(0.2f);
+            playerNetworkActions.AddItem(obj, slotName, true);
         }
     }
 }
