@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UI;
-
 namespace PlayGroup {
 
     public class PlayerMove: NetworkBehaviour {
@@ -161,10 +160,34 @@ namespace PlayGroup {
         private void Interact(Vector3 currentPosition, Vector3 direction) {
 			
             var doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
+            
             if (doorController != null && allowInput) {
-				allowInput = false;
-                doorController.CmdTryOpen(gameObject);
-				StartCoroutine(DoorInputCoolDown());
+                if (doorController.restriction.Length > 0)
+                {
+                    if (UIManager.InventorySlots.IDSlot.IsFull&& UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>() != null)
+                    {
+                        if (UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>().Access.Contains(doorController.restriction))
+                        {
+                            allowInput = false;
+                            doorController.CmdTryOpen(gameObject);
+                            StartCoroutine(DoorInputCoolDown());
+                        }else
+                        {
+                            allowInput = false;
+                            StartCoroutine(DoorInputCoolDown());
+                        }
+                    }else
+                    {
+                        allowInput = false;
+                        StartCoroutine(DoorInputCoolDown());
+                    }
+                }
+                else
+                {
+                    allowInput = false;
+                    doorController.CmdTryOpen(gameObject);
+                    StartCoroutine(DoorInputCoolDown());
+                }
             }
 
 			var objectActions = Matrix.Matrix.At(currentPosition + direction).GetObjectActions();

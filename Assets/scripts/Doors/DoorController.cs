@@ -12,6 +12,7 @@ public class DoorController: NetworkBehaviour {
     private RegisterTile registerTile;
     public bool usingAnimator = true;
     public bool isWindowedDoor = false;
+    public string restriction;
     [HideInInspector]
     public bool isPerformingAction = false;
     public DoorType doorType;
