@@ -33,7 +33,7 @@ public class ShutterSwitchTrigger: InputTrigger
 		SyncShutters(IsClosed);
 	}
 		
-	public override void Interact()
+	public override void Interact(GameObject originator, string hand)
 	{
 		if (!PlayerManager.LocalPlayerScript.IsInReach(transform, 1.5f) || PlayerManager.LocalPlayerScript.playerMove.isGhost)
 			return;

@@ -11,12 +11,14 @@ using Cupboards;
 using UI;
 using Items;
 using System.Linq;
+using UnityEngine.Assertions.Must;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
-    private Dictionary<string, GameObject> ServerCache = new Dictionary<string, GameObject>();
-    private string[] eventNames = new string[]
-    {"suit", "belt", "feet", "head", "mask", "uniform", "neck", "ear", "eyes", "hands",
+    private Dictionary<string, GameObject> _inventory = new Dictionary<string, GameObject>();
+
+    private string[] slotNames = {
+        "suit", "belt", "feet", "head", "mask", "uniform", "neck", "ear", "eyes", "hands",
         "id", "back", "rightHand", "leftHand", "storage01", "storage02", "suitStorage"
     };
 
@@ -26,6 +28,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     private PlayerScript playerScript;
     private SoundNetworkActions soundNetworkActions;
     private ChatIcon chatIcon;
+
     void Start()
     {
         equipment = GetComponent<Equipment.Equipment>();
@@ -39,203 +42,238 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
     public override void OnStartServer()
     {
-        if (isServer)
+        if ( isServer )
         {
-            foreach (string cacheName in eventNames)
+            foreach ( string slotName in slotNames )
             {
-                ServerCache.Add(cacheName, null);
+                _inventory.Add(slotName, null);
             }
         }
         base.OnStartServer();
     }
-    [Command]
-    void CmdSyncRoundTime(float currentTime)
+
+    public Dictionary<string, GameObject> Inventory
     {
-        RpcSyncRoundTime(currentTime);
+        get { return _inventory; }
     }
 
-    [ClientRpc]
-    void RpcSyncRoundTime(float currentTime)
+    [Server]
+    public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false)
     {
-        if (PlayerManager.LocalPlayer == gameObject)
+        var eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
+        if ( _inventory[eventName] != null && _inventory[eventName] != itemObject && !replaceIfOccupied )
         {
-            GameManager.Instance.SyncTime(currentTime);
-        }
-    }
-
-    //This is only called from interaction on the client (from PickUpTrigger)
-    public bool TryToPickUpObject(GameObject itemObject)
-    {
-        if (PlayerManager.PlayerScript != null)
-        {
-            if (!isLocalPlayer)
-                return false;
-
-            if (!UIManager.Hands.CurrentSlot.TrySetItem(itemObject))
-            {
-                return false;
-            }
-            else
-            {
-                CmdTryToPickUpObject(UIManager.Hands.CurrentSlot.eventName, itemObject);
-            }
-        }
-        else
-        {
+            Debug.LogFormat("{0}: Didn't replace existing {1} item {2} with {3}",
+                gameObject.name, eventName, _inventory[eventName].name, itemObject.name);
             return false;
         }
+        EquipmentPool.AddGameObject(gameObject, itemObject);
+        SetInventorySlot(slotName, itemObject);
+        UpdateSlotMessage.Send(gameObject, eventName, itemObject);
         return true;
     }
-
-    //Server only (from Equipment Initial SetItem method
-    public void TrySetItem(string eventName, GameObject obj)
+    void PlaceInHand(GameObject item)
     {
-//        Debug.LogErrorFormat("Server {0}", obj.GetComponentInChildren<ItemAttributes>().hierarchy);
-        if (ServerCache.ContainsKey(eventName))
-        {
-            if (ServerCache[eventName] == null)
-            {
-                ServerCache[eventName] = obj;
-                RpcTrySetItem(eventName, obj);
-            }
-        }
+        UIManager.Hands.CurrentSlot.SetItem(item);
     }
-
-    [Command]
-    public void CmdTryToPickUpObject(string eventName, GameObject obj)
-    {
-        if (ServerCache.ContainsKey(eventName))
-        {
-            if (ServerCache[eventName] == null || ServerCache[eventName] == obj)
-            {
-                EquipmentPool.AddGameObject(gameObject, obj);
-                ServerCache[eventName] = obj;
-                equipment.SetHandItem(eventName, obj);
-            }
-            else
-            {
-                Debug.Log("ServerCache slot is full");
-            }
-        }
-    }
-
+    //TODO fix dropped mags pickup
     //This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
-    [Command]
-    public void CmdTryAddToEquipmentPool(GameObject obj)
+    //TODO make these private(make some public child-aware high level methods instead):
+    [Server]
+    public void RemoveFromEquipmentPool(GameObject obj)
     {
-
+        EquipmentPool.DropGameObject(gameObject, obj);
+    }
+    [Server]
+    public void AddToEquipmentPool(GameObject obj)
+    {
         EquipmentPool.AddGameObject(gameObject, obj);
     }
 
+    [Server]
+    public void ValidateInvInteraction(string slot, GameObject gObj)
+    {
+        if ( !_inventory[slot] && _inventory.ContainsValue(gObj) )
+        {
+            UpdateSlotMessage.Send(gameObject, slot, gObj);
+            SetInventorySlot(slot, gObj);
+            //Clean up other slots
+            HashSet<string> toBeCleared = new HashSet<string>();
+            foreach ( string key in _inventory.Keys )
+            {
+                if (key.Equals(slot) || !_inventory[key]) continue;
+                if ( _inventory[key].Equals(gObj) )
+                {
+                    toBeCleared.Add(key);
+                }
+            }
+            ClearInventorySlot(toBeCleared.ToArray());
+//            Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
+        }
+        else
+        {
+            Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
+        }
+    }
+    
+    [Server]
+    public void ClearInventorySlot(params string[] slotNames)
+    {
+        for ( int i = 0; i < slotNames.Length; i++ )
+        {
+            _inventory[slotNames[i]] = null;
+            if (slotNames[i] == "id" || slotNames[i] == "storage01" 
+                || slotNames[i] == "storage02" || slotNames[i] == "suitStorage")
+            {
+                //Not clearing onPlayer sprites for these as they don't have any
+            }
+            else
+            {
+                equipment.ClearItemSprite(slotNames[i]);
+            }
+                UpdateSlotMessage.Send(gameObject, slotNames[i]);
+        }
+//        Debug.LogFormat("Cleared {0}", slotNames);
+    }
+
+    [Server]
+    public void SetInventorySlot(string slotName, GameObject obj)
+    {
+        _inventory[slotName] = obj;
+        ItemAttributes att = obj.GetComponent<ItemAttributes>();
+        if (slotName == "leftHand" || slotName == "rightHand")
+        {
+            equipment.SetHandItemSprite(slotName, att);
+        }
+        else
+        {
+            if (slotName == "id" || slotName == "storage01" 
+                || slotName == "storage02" || slotName == "suitStorage")
+            {
+                //Not setting onPlayer sprites for these as they don't have any
+            }
+            else
+            {
+                if (att.spriteType == SpriteType.Clothing)
+                {
+                    // Debug.Log("slotName = " + slotName);
+                    Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
+                    equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
+                }
+            }
+        }
+    }
     [Command]
+    [Obsolete]
     public void CmdTryToInstantiateInHand(string eventName, GameObject prefab)
     {
-        if (ServerCache.ContainsKey(eventName))
+        if ( _inventory.ContainsKey(eventName) )
         {
-            if (ServerCache[eventName] == null)
+            if ( _inventory[eventName] == null )
             {
                 GameObject item = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
                 NetworkServer.Spawn(item);
                 EquipmentPool.AddGameObject(gameObject, item);
-                ServerCache[eventName] = item;
+                _inventory[eventName] = item;
                 equipment.SetHandItem(eventName, item);
                 RpcInstantiateInHand(gameObject.name, item);
             }
             else
             {
-                Debug.Log("ServerCache slot is full");
+                Debug.Log("Inventory slot is full");
 
             }
         }
     }
 
     [ClientRpc]
+    [Obsolete]
     void RpcInstantiateInHand(string playerName, GameObject item)
     {
-        if (playerName == gameObject.name)
+        if ( playerName == gameObject.name )
         {
             UIManager.Hands.CurrentSlot.TrySetItem(item);
         }
     }
-
-    [ClientRpc]
-    public void RpcTrySetItem(string eventName, GameObject obj)
-    {
-        if (isLocalPlayer)
-        {
-            if (eventName.Length > 0)
-            {
-                StartCoroutine(SetItemPatiently(eventName, obj));
-            }
-        }
-    }
-
-    public IEnumerator SetItemPatiently(string eventName, GameObject obj)
-    {
-        //Waiting for hier name resolve
-        yield return new WaitForSeconds(0.2f);
-        EventManager.UI.TriggerEvent(eventName, obj);        
-    }
-
     //Dropping from a slot on the UI
-    [Command]
+    [Command][Obsolete]
     public void CmdDropItem(string eventName)
     {
-        if (ServerCache.ContainsKey(eventName))
+        if ( _inventory.ContainsKey(eventName) )
         {
-            if (ServerCache[eventName] != null)
+            if ( _inventory[eventName] != null )
             {
-                GameObject item = ServerCache[eventName];
-                EquipmentPool.DropGameObject(gameObject.name, ServerCache[eventName]);
+                GameObject item = _inventory[eventName];
+                EquipmentPool.DropGameObject(gameObject, _inventory[eventName]);
 
-                RpcAdjustItemParent(ServerCache[eventName], null);
-                ServerCache[eventName] = null;
+                RpcAdjustItemParent(_inventory[eventName], null);
+                _inventory[eventName] = null;
                 equipment.ClearItemSprite(eventName);
             }
             else
             {
-                Debug.Log("Object not found in ServerCache");
+                Debug.Log("Object not found in Inventory");
             }
         }
     }
+
     //Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)
-    [Command]
+
+    [Command][Obsolete]
     public void CmdDropItemNotInUISlot(GameObject obj)
     {
-        EquipmentPool.DropGameObject(gameObject.name, obj);
+        EquipmentPool.DropGameObject(gameObject, obj);
     }
 
-    [Command]
-    public void CmdPlaceItem(string eventName, Vector3 pos, GameObject newParent)
+    public void DisposeOfChildItem(GameObject obj)
     {
-        if (ServerCache.ContainsKey(eventName))
-        {
-            if (ServerCache[eventName] != null)
-            {
-                GameObject item = ServerCache[eventName];
-                EquipmentPool.DropGameObject(gameObject.name, ServerCache[eventName], pos);
-                ServerCache[eventName] = null;
-                if (item != null && newParent != null)
-                {
-                    item.transform.parent = newParent.transform;
-                    World.ReorderGameobjectsOnTile(pos);
-                }
-                RpcAdjustItemParent(item, newParent);
-                equipment.ClearItemSprite(eventName);
-            }
-        }
+        EquipmentPool.DisposeOfObject(gameObject, obj);
     }
 
-    [Command]
+    [Server]
+    public void PlaceItem(string slotName, Vector3 pos, GameObject newParent)
+    {
+        if ( !SlotNotEmpty(slotName) ) return;
+        GameObject item = _inventory[slotName];
+        EquipmentPool.DropGameObject(gameObject, _inventory[slotName], pos);
+        ClearInventorySlot(slotName);
+        if (item != null && newParent != null)
+        {
+            item.transform.parent = newParent.transform;
+            World.ReorderGameobjectsOnTile(pos);
+        }
+//        RpcAdjustItemParent(item, newParent);
+        
+        
+        
+//        if ( !SlotNotEmpty(slotName) ) return;
+//        GameObject item = _inventory[slotName];
+//        EquipmentPool.DropGameObject(gameObject, _inventory[slotName], pos);
+//        _inventory[slotName] = null;
+//        if (item != null && newParent != null)
+//        {
+//            item.transform.parent = newParent.transform;
+//            World.ReorderGameobjectsOnTile(pos);
+//        }
+//        RpcAdjustItemParent(item, newParent);
+//        equipment.ClearItemSprite(slotName);
+    }
+
+    public bool SlotNotEmpty(string eventName)
+    {
+        return _inventory.ContainsKey(eventName) && _inventory[eventName] != null;
+    }
+
+    [Command][Obsolete]//see placeitem
     public void CmdPlaceItemCupB(string eventName, Vector3 pos, GameObject newParent)
     {
-        if (ServerCache.ContainsKey(eventName))
+        if (_inventory.ContainsKey(eventName))
         {
-            if (ServerCache[eventName] != null)
+            if (_inventory[eventName] != null)
             {
-                GameObject item = ServerCache[eventName];
-                EquipmentPool.DropGameObject(gameObject.name, ServerCache[eventName], pos);
-                ServerCache[eventName] = null;
+                GameObject item = _inventory[eventName];
+                EquipmentPool.DropGameObject(gameObject, _inventory[eventName], pos);
+                _inventory[eventName] = null;
                 ClosetControl closetCtrl = newParent.GetComponent<ClosetControl>();
                 item.transform.parent = closetCtrl.items.transform;
                 RpcAdjustItemParentCupB(item, newParent);
@@ -251,45 +289,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         closetControl.ServerToggleCupboard();
     }
 
-    [Command]
-    public void CmdClearUISlot(string eventName)
-    {
-        ServerCache[eventName] = null;
-
-        if (eventName == "id" || eventName == "storage01" || eventName == "storage02" || eventName == "suitStorage")
-        {
-        }
-        else
-        {
-            equipment.ClearItemSprite(eventName);
-        }
-    }
-
-    [Command]
-    public void CmdSetUISlot(string eventName, GameObject obj)
-    {
-        ServerCache[eventName] = obj;
-        ItemAttributes att = obj.GetComponent<ItemAttributes>();
-        if (eventName == "leftHand" || eventName == "rightHand")
-        {
-            equipment.SetHandItemSprite(eventName, att);
-        }
-        else
-        {
-            if (eventName == "id" || eventName == "storage01" || eventName == "storage02" || eventName == "suitStorage")
-            {
-            }
-            else
-            {
-                if (att.spriteType == SpriteType.Clothing)
-                {
-                    // Debug.Log("eventName = " + eventName);
-                    Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
-                    equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
-                }
-            }
-        }
-    }
+ 
 
     [Command]
     public void CmdStartMicrowave(GameObject microwave, string mealName)
@@ -435,6 +435,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     //For falling over and getting back up again over network
+
     [ClientRpc]
     public void RpcSetPlayerRot(bool temporary, float rot)
     {
@@ -499,8 +500,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-	//Respawn action for Deathmatch v 0.1.3
-	[Server]
+
+    //Respawn action for Deathmatch v 0.1.3
+
+    [Server]
 	public void RespawnPlayer(){
 		RpcAdjustForRespawn();
 		var spawn = CustomNetworkManager.Instance.GetStartPosition();
@@ -511,9 +514,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		NetworkServer.ReplacePlayerForConnection( this.connectionToClient, newPlayer, this.playerControllerId );
 	}
 
-	[ClientRpc]
+    [ClientRpc]
 	private void RpcAdjustForRespawn(){
 			playerScript.ghost.SetActive(false);
 			gameObject.GetComponent<InputControl.InputController>().enabled = false;
 	}
+
+    [Command]
+    void CmdSyncRoundTime(float currentTime)
+    {
+        RpcSyncRoundTime(currentTime);
+    }
+
+    [ClientRpc]
+    void RpcSyncRoundTime(float currentTime)
+    {
+        if ( PlayerManager.LocalPlayer == gameObject )
+        {
+            GameManager.Instance.SyncTime(currentTime);
+        }
+    }
 }
