@@ -106,6 +106,11 @@ public class DoorController: NetworkBehaviour {
 			ResetWaiting();
 		}
     }
+    [Command]
+    public void CmdTryDenied()
+    {
+        Debug.Log("TODO: Access Denied");
+    }
 
     private void ResetWaiting() {
         if(coWaitOpened != null) {

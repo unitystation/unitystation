@@ -162,28 +162,30 @@ namespace PlayGroup {
             var doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
             
             if (doorController != null && allowInput) {
+                //checking if the door actually has a restriction (only need one because that's how ss13 works!
                 if (doorController.restriction.Length > 0)
-                {
+                {   //checking if the ID slot on player contains an ID with an itemIdentity component
                     if (UIManager.InventorySlots.IDSlot.IsFull&& UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>() != null)
-                    {
+                    {   //checking if the ID has access to bypass the restriction
                         if (UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>().Access.Contains(doorController.restriction))
-                        {
+                        {// has access
                             allowInput = false;
                             doorController.CmdTryOpen(gameObject);
                             StartCoroutine(DoorInputCoolDown());
                         }else
-                        {
+                        {// does not have access
                             allowInput = false;
                             StartCoroutine(DoorInputCoolDown());
+                            doorController.CmdTryDenied();
                         }
                     }else
-                    {
+                    {//does not have an ID
                         allowInput = false;
                         StartCoroutine(DoorInputCoolDown());
                     }
                 }
                 else
-                {
+                {//door does not have restriction
                     allowInput = false;
                     doorController.CmdTryOpen(gameObject);
                     StartCoroutine(DoorInputCoolDown());
