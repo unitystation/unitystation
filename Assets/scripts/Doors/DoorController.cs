@@ -12,6 +12,7 @@ public class DoorController: NetworkBehaviour {
     private RegisterTile registerTile;
     public bool usingAnimator = true;
     public bool isWindowedDoor = false;
+    public string restriction;
     [HideInInspector]
     public bool isPerformingAction = false;
     public DoorType doorType;
@@ -104,6 +105,11 @@ public class DoorController: NetworkBehaviour {
 		} else {
 			ResetWaiting();
 		}
+    }
+    [Command]
+    public void CmdTryDenied()
+    {
+        Debug.Log("TODO: Access Denied");
     }
 
     private void ResetWaiting() {
