@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using MapMatrix;
+using Matrix;
 using System.IO;
 using System;
 using UnityEditorInternal;
@@ -18,7 +18,6 @@ public class MapToPNG: Editor {
         var nodesMapped = GetMappedNodes();
 
         var mapTexture = new Texture2D(nodesMapped.GetLength(1) * 32, nodesMapped.GetLength(0) * 32);
-
 
         Color[] colors = new Color[nodesMapped.GetLength(1) * 32 * nodesMapped.GetLength(0) * 32];
 
@@ -90,8 +89,8 @@ public class MapToPNG: Editor {
 
     private static MatrixNode[,] GetMappedNodes() {
 
-        var keys = Matrix.Nodes.keys;
-        var values = Matrix.Nodes.values;
+        var keys = Matrix.Matrix.Nodes.keys;
+        var values = Matrix.Matrix.Nodes.values;
 
         var x = new List<int>();
         var y = new List<int>();
