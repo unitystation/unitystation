@@ -7,12 +7,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Matrix {
-    
+
     [Serializable]
     public class Matrix: ScriptableObject {
         private static string activeSceneName;
 
-        public static Matrix matrix;
+        private static Matrix matrix;
         public static Matrix Instance {
             get {
                 Scene scene = SceneManager.GetActiveScene();
@@ -26,17 +26,17 @@ namespace Matrix {
         private static void LoadMatrix() {
             Scene scene = SceneManager.GetActiveScene();
             activeSceneName = scene.name;
+#if UNITY_EDITOR
             string assetPath = "Assets/Data/" + activeSceneName + "_Matrix.asset";
-			#if UNITY_EDITOR
             matrix = AssetDatabase.LoadAssetAtPath<Matrix>(assetPath);
-            #endif
+#endif
 
             if(!matrix) {
                 matrix = CreateInstance<Matrix>();
+#if UNITY_EDITOR
                 Directory.CreateDirectory(Path.GetDirectoryName(assetPath));
-				#if UNITY_EDITOR
                 AssetDatabase.CreateAsset(matrix, assetPath);
-                #endif
+#endif
             }
         }
 
@@ -50,7 +50,7 @@ namespace Matrix {
                 map = new NodeDictionary();
             }
         }
-			
+
         public static MatrixNode At(Vector2 position, bool createIfNull = true) {
             return At(position.x, position.y);
         }
@@ -62,14 +62,16 @@ namespace Matrix {
         public static MatrixNode At(int x, int y, bool createIfNull = true) {
             if(Instance.map.ContainsKey(x, y)) {
                 return Instance.map[x, y];
-            }else if(createIfNull) {
+            } else if(createIfNull) {
                 Instance.map[x, y] = new MatrixNode();
                 return Instance.map[x, y];
             }
 
             return null;
         }
-			
+
+        public static NodeDictionary Nodes { get { return Instance.map; } }
+
         public static Vector3 GetClosestNode(Vector2 curPos, Vector2 vel) {
 
             float closestX;
