@@ -58,6 +58,7 @@ public class GridDictionary<TValue>: SerializableDictionary<long, TValue> {
         get { return this[calculateKey(x, y)]; }
         set { this[calculateKey(x, y)] = value; }
     }
+
     private long calculateKey(int x, int y) {
         return ((long) x << 32) + y;
     }

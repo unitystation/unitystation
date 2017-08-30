@@ -126,13 +126,11 @@ namespace Matrix {
             return isDoor;
         }
 
-        public bool IsWindow()
-        {
+        public bool IsWindow() {
             return isWindow;
         }
 
-        public bool IsWall()
-        {
+        public bool IsWall() {
             return isWall;
         }
 
@@ -212,6 +210,10 @@ namespace Matrix {
             return false;
         }
 
+        public List<GameObject> GetTiles() {
+            return tiles;
+        }
+
         private void UpdateValues() {
             tileValue = 0;
             connectValue = 0;
@@ -244,16 +246,14 @@ namespace Matrix {
                 if(registerTile.TileType == TileType.Player) {
                     isPlayer = true;
                 }
-                if (registerTile.TileType == TileType.Wall)
-                {
+                if(registerTile.TileType == TileType.Wall) {
                     isWall = true;
                 }
-                if (registerTile.TileType == TileType.Window)
-                {
+                if(registerTile.TileType == TileType.Window) {
                     isWindow = true;
                 }
 
-                if (registerTile.inSpace) {
+                if(registerTile.inSpace) {
                     isSpace = true;
                 }
             }
