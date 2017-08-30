@@ -69,7 +69,7 @@ SubShader {
 
 				half2 uv = i.texcoord + _Shift;
 
-                half localSamplingDist = _SamplingDist * 0.45;
+                half localSamplingDist = _SamplingDist * 0.001;
 				// computing average value of near pixels
 				half4 maxLight =		 tex2D(_MainTex, uv + half2(localSamplingDist, 0));
 				maxLight = max(maxLight, tex2D(_MainTex, uv + half2(-localSamplingDist, 0)));
