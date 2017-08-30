@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapValue: 1
-  depth: 0
+  depth: -0.2
   useInGame: 1
 --- !u!114 &114293222903219424
 MonoBehaviour:
@@ -152,13 +152,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cloth: 0
+  hierarchy: 
   itemName: Magazine
+  itemDescription: 
   spriteType: 0
+  type: 0
   inHandReferenceRight: -1
   inHandReferenceLeft: -1
   clothingReference: -1
   size: 0
-  type: 0
 --- !u!114 &114916373624861450
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -252,3 +255,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
