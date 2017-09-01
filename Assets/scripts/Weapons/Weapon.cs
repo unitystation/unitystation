@@ -290,7 +290,7 @@ namespace Weapons
 		//recieve broadcast msg when item is dropped from hand
 		public void OnRemoveFromInventory()
 		{
-			if (MagNetID != NetworkInstanceId.Invalid) {
+			if (MagNetID != NetworkInstanceId.Invalid && CustomNetworkManager.Instance._isServer) {
 				if(CurrentMagazine)
 					PlayerManager.LocalPlayerScript.playerNetworkActions.DisposeOfChildItem(CurrentMagazine.gameObject);
 			}

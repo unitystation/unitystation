@@ -57,7 +57,7 @@ namespace PlayGroup {
 
             var direction = GetDirection(action);
             if(!isGhost)
-                playerSprites.FaceDirection(direction);
+				playerSprites.FaceDirection(direction);
             
             var adjustedDirection = AdjustDirection(currentPosition, direction);
 
@@ -170,12 +170,17 @@ namespace PlayGroup {
                         if (UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>().Access.Contains(doorController.restriction))
                         {// has access
                             allowInput = false;
+							//Server only here but it is a cmd for the input trigger (opening with mouse click from client)
+							if(CustomNetworkManager.Instance._isServer)
                             doorController.CmdTryOpen(gameObject);
+							
                             StartCoroutine(DoorInputCoolDown());
                         }else
                         {// does not have access
                             allowInput = false;
                             StartCoroutine(DoorInputCoolDown());
+							//Server only here but it is a cmd for the input trigger (opening with mouse click from client)
+							if(CustomNetworkManager.Instance._isServer)
                             doorController.CmdTryDenied();
                         }
                     }else
@@ -187,7 +192,10 @@ namespace PlayGroup {
                 else
                 {//door does not have restriction
                     allowInput = false;
+					//Server only here but it is a cmd for the input trigger (opening with mouse click from client)
+					if(CustomNetworkManager.Instance._isServer)
                     doorController.CmdTryOpen(gameObject);
+					
                     StartCoroutine(DoorInputCoolDown());
                 }
             }

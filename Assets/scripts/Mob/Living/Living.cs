@@ -102,6 +102,7 @@ public class Living : Mob
     public void ReceiveDamage( string damagedBy, int damage, DamageType damageType, BodyPartType bodyPart )
     {
         RpcReceiveDamage( damagedBy, damage, damageType, bodyPart );
+
         BloodSplat( transform.position, BloodSplatSize.medium );
     }
 
@@ -118,13 +119,29 @@ public class Living : Mob
         BloodSplat( transform.position, BloodSplatSize.medium );
     }
 
-    //TODO Clean up: this is a duplicate of the same method on WeaponNetworkActions
+    //FIXME Clean up: this is a duplicate of the same method on WeaponNetworkActions but obviousily NPC's don't have WNA
     void BloodSplat( Vector3 pos, BloodSplatSize splatSize )
     {
-        GameObject b = GameObject.Instantiate( Resources.Load( "BloodSplat" ) as GameObject, pos, Quaternion.identity );
-        NetworkServer.Spawn( b );
-        BloodSplat bSplat = b.GetComponent<BloodSplat>();
-        bSplat.SplatBlood( splatSize );
+		GameObject b = GameObject.Instantiate(Resources.Load( "BloodSplat" ) as GameObject, pos, Quaternion.identity);
+		NetworkServer.Spawn(b);
+		BloodSplat bSplat = b.GetComponent<BloodSplat>();
+		//TODO streaky blood from bullet wounds, dragging blood drops etc
+		//choose a random blood sprite
+		int spriteNum = 0;
+		switch (splatSize) {
+			case BloodSplatSize.small:
+				spriteNum = UnityEngine.Random.Range(137, 139);
+				break;
+			case BloodSplatSize.medium:
+				spriteNum = UnityEngine.Random.Range(116, 120);
+				break;
+			case BloodSplatSize.large:
+				spriteNum = UnityEngine.Random.Range(105, 108);
+				break;
+		}
+
+		if(spriteNum != 0)
+		bSplat.bloodSprite = spriteNum;
     }
 
     IEnumerator ShotDamageCoolDown()

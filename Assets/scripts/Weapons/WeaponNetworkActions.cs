@@ -170,9 +170,24 @@ public class WeaponNetworkActions: NetworkBehaviour {
         GameObject b = GameObject.Instantiate(bloodSplatPrefab, pos, Quaternion.identity);
         NetworkServer.Spawn(b);
         BloodSplat bSplat = b.GetComponent<BloodSplat>();
-        bSplat.SplatBlood(splatSize);
-    }
+		//TODO streaky blood from bullet wounds, dragging blood drops etc
+		//choose a random blood sprite
+		int spriteNum = 0;
+		switch (splatSize) {
+			case BloodSplatSize.small:
+				spriteNum = Random.Range(137, 139);
+				break;
+			case BloodSplatSize.medium:
+				spriteNum = Random.Range(116, 120);
+				break;
+			case BloodSplatSize.large:
+				spriteNum = Random.Range(105, 108);
+				break;
+		}
 
+		bSplat.bloodSprite = spriteNum;
+    }
+		
     //Server lerps
     void Update() {
         if(lerping) {

@@ -75,7 +75,7 @@ namespace PlayGroup
 			inputController = GetComponent<InputController>();
 			hitIcon = GetComponentInChildren<HitIcon>();
 		}
-
+			
 		void Init()
 		{
 			if (isLocalPlayer) {
@@ -140,6 +140,7 @@ namespace PlayGroup
 		// and set in Playerlist for that client
 		public void OnNameChange(string newName)
 		{
+			playerName = newName;
 			gameObject.name = newName;
 			if (string.IsNullOrEmpty(newName)) {
 				Debug.LogError("NO NAME PROVIDED!");

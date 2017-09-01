@@ -28,6 +28,8 @@ public class CabinetTrigger: InputTrigger
 	}
 
 	public override void OnStartServer(){
+		if(spriteRenderer == null)
+			spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
 		IsClosed = true;
 		isFull = true;
 		base.OnStartServer();
@@ -71,7 +73,6 @@ public class CabinetTrigger: InputTrigger
 	}
 
 	public void SyncItemSprite(bool _isFull){
-		isFull = _isFull;
 		if (!isFull) {
 			spriteRenderer.sprite = spriteOpenedEmpty;
 		} else {

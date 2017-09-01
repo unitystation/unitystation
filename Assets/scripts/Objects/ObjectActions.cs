@@ -16,12 +16,12 @@ public class ObjectActions : NetworkBehaviour
  
     //cache
     private float journeyLength;
-    private Vector3 pushTarget;
+    public Vector3 pushTarget;
 
     public GameObject pusher { get; private set; }
 
-    private bool pushing = false;
-    private bool serverLittleLag = false;
+    public bool pushing = false;
+    public bool serverLittleLag = false;
 
     [SyncVar(hook = "PushSync")]
     public Vector3 serverPos;
@@ -30,7 +30,7 @@ public class ObjectActions : NetworkBehaviour
 	public Vector3 currentPos;
 
     //Temp solution for player stuck bug
-    private float timeInPush = 0f;
+    public float timeInPush = 0f;
 
     void Awake()
     {
@@ -54,9 +54,9 @@ public class ObjectActions : NetworkBehaviour
 			registerTile.UpdateTile();
 		}
 
-		if (pushing) {
-			PushSync(serverPos);
-		}
+//		if (pushing) {
+//			PushSync(serverPos);
+//		}
 	}
 
     void OnMouseDown()

@@ -37,18 +37,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         playerScript = GetComponent<PlayerScript>();
         soundNetworkActions = GetComponent<SoundNetworkActions>();
         chatIcon = GetComponentInChildren<ChatIcon>();
-        CmdSyncRoundTime(GameManager.Instance.GetRoundTime);
     }
 
     public override void OnStartServer()
     {
-        if ( isServer )
-        {
-            foreach ( string slotName in slotNames )
-            {
-                _inventory.Add(slotName, null);
-            }
-        }
+		if (isServer) {
+			foreach (string slotName in slotNames) {
+				_inventory.Add(slotName, null);
+			}
+		} else {
+			CmdSyncRoundTime(GameManager.Instance.GetRoundTime);
+		}
         base.OnStartServer();
     }
 
