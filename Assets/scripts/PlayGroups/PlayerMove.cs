@@ -20,7 +20,7 @@ namespace PlayGroup {
 		[SyncVar]
 		public bool isGhost = false;
         private bool _isPush;
-        public bool isPushing { get{ return _isPush;} set {Debug.Log("SET ISPUSHING: " + gameObject.name + " val: " + value);
+        public bool isPushing { get{ return _isPush;} set {
                 _isPush = value;} }
 
         private List<KeyCode> pressedKeys = new List<KeyCode>();

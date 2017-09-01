@@ -26,10 +26,10 @@ public class ObjectActions : NetworkBehaviour
     [SyncVar(hook = "PushSync")]
     public Vector3 serverPos;
 
-    [SyncVar] //FIXME hook SetPos
+    [SyncVar]
 	public Vector3 currentPos;
 
-    //Temp solution for player stuck bug
+    //A check to make sure there are no network errors
     public float timeInPush = 0f;
 
     void Awake()
@@ -53,10 +53,6 @@ public class ObjectActions : NetworkBehaviour
 			transform.position = RoundedPos(currentPos);
 			registerTile.UpdateTile();
 		}
-
-//		if (pushing) {
-//			PushSync(serverPos);
-//		}
 	}
 
     void OnMouseDown()
@@ -66,8 +62,10 @@ public class ObjectActions : NetworkBehaviour
             if (pulledBy == PlayerManager.LocalPlayer)
             {
                 PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(gameObject);
-
                 return;
+            }else if (pulledBy != PlayerManager.LocalPlayer)
+            {
+                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopOtherPulling(gameObject);
             }
             PlayerManager.LocalPlayerScript.playerSync.PullReset(gameObject.GetComponent<NetworkIdentity>().netId);
             PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPullObject(gameObject);
@@ -92,6 +90,12 @@ public class ObjectActions : NetworkBehaviour
             }
             else
             {
+                if (pulledBy == PlayerManager.LocalPlayer)
+                {
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.isPulling = false;
+                    PlayerManager.LocalPlayerScript.playerSync.pullingObject = null;
+                }
+
                 pulledBy = null;
             }
         }
@@ -103,20 +107,22 @@ public class ObjectActions : NetworkBehaviour
         {
             //Start the push on the client, then start on the server, the server then tells all other clients to start the push also
             pusher = pushedBy;
+            if(pusher == PlayerManager.LocalPlayer)
             PlayerManager.LocalPlayerScript.playerMove.isPushing = true;
+            
             pushTarget = newPos;
             journeyLength = Vector3.Distance(transform.position, newPos) + 0.2f;
             timeInPush = 0f;
             pushing = true;
+            //Start command to push on server
+            if(pusher == PlayerManager.LocalPlayer)
             PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, pushTarget);
-			
         } 
     }
 
     
     public void BreakPull()
     {
-        
         var player = PlayerManager.LocalPlayerScript;
         var pullingObject = player.playerSync.pullingObject;
         if ( !pullingObject || !pullingObject.Equals(gameObject) ) return;
@@ -133,17 +139,19 @@ public class ObjectActions : NetworkBehaviour
         {
             PushTowards();
         }
-
+        //This is a back up incase things go wrong as playerMove is important
         if (pusher != null)
         {
             timeInPush += Time.deltaTime;
-            if (timeInPush > 5f)
+            if (timeInPush > 3f)
             {
                 if (pusher == PlayerManager.LocalPlayer)
                 {
                     PlayerManager.LocalPlayerScript.playerMove.isPushing = false;
                 }
                 pusher = null;
+                serverLittleLag = false;
+                pushing = false;
             }
         }
     }

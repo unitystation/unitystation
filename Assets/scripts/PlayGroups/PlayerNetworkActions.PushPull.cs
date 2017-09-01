@@ -34,6 +34,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
 	}
 
+    //if two people try to pull the same object
+    [Command]
+    public void CmdStopOtherPulling(GameObject obj){
+        ObjectActions objA = obj.GetComponent<ObjectActions>();
+        if (objA.pulledBy != null)
+        {
+            objA.pulledBy.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
+        }
+    }
+
 	[Command]
 	public void CmdStopPulling(GameObject obj)
 	{

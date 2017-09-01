@@ -53,7 +53,7 @@ namespace PlayGroup {
 		IEnumerator WaitForLoad(){
 			yield return new WaitForSeconds(2f);
 
-//			PullReset(pullObjectID);
+			PullReset(pullObjectID);
 		}
 
         [Server]
@@ -172,6 +172,7 @@ namespace PlayGroup {
         }
 
         public void PullReset(NetworkInstanceId netID) {
+            pullObjectID = netID;
 			if (netID == null)
 				netID = NetworkInstanceId.Invalid;
 			
