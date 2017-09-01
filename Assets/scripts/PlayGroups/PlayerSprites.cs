@@ -11,6 +11,7 @@ namespace PlayGroup
 		[SyncVar(hook = "FaceDirection")]
 		public Vector2 currentDirection;
 
+        private bool initSync = false;
 		public PlayerMove playerMove;
 		private Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
@@ -46,25 +47,26 @@ namespace PlayGroup
 
 		[Command]
 		public void CmdChangeDirection(Vector2 direction){
-			SetDir(direction); 
+            FaceDirection(direction); 
 		}
 		//turning character input and sprite update
 		public void FaceDirection(Vector2 direction)
 		{
-			SetDir(direction); 
+            SetDir(direction);
 		}
-
-		void SetDir(Vector2 direction)
+         
+		public void SetDir(Vector2 direction)
 		{
-			if (playerMove.isGhost)
-				return;
-			
-			if (currentDirection != direction) {
+            if (playerMove.isGhost)
+                return;
+            if (currentDirection != direction || !initSync) {
+                if (!initSync)
+                    initSync = true;
+                
 				foreach (var c in clothes.Values) {
 					c.Direction = direction;
 				}
-
-				currentDirection = direction;
+                currentDirection = direction;
 			}
 		}
 	}
