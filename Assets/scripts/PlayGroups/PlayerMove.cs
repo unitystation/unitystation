@@ -160,33 +160,24 @@ namespace PlayGroup {
         private void Interact(Vector3 currentPosition, Vector3 direction) {
 			
             var doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
-            
+
             if (doorController != null && allowInput) {
                 //checking if the door actually has a restriction (only need one because that's how ss13 works!
                 if (doorController.restriction.Length > 0)
                 {   //checking if the ID slot on player contains an ID with an itemIdentity component
-                    if (UIManager.InventorySlots.IDSlot.IsFull&& UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>() != null)
+                    if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>() != null)
                     {   //checking if the ID has access to bypass the restriction
-                        if (UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>().Access.Contains(doorController.restriction))
-                        {// has access
-                            allowInput = false;
-							//Server only here but it is a cmd for the input trigger (opening with mouse click from client)
-							if(CustomNetworkManager.Instance._isServer)
-                            doorController.CmdTryOpen(gameObject);
-							
-                            StartCoroutine(DoorInputCoolDown());
-                        }else
-                        {// does not have access
-                            allowInput = false;
-                            StartCoroutine(DoorInputCoolDown());
-							//Server only here but it is a cmd for the input trigger (opening with mouse click from client)
-							if(CustomNetworkManager.Instance._isServer)
-                            doorController.CmdTryDenied();
-                        }
+                        CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>(), doorController);
+                        //Check the current hand for an ID
+                    }else if (UIManager.Hands.CurrentSlot.IsFull && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemIdentity>() != null)
+                    {
+                        CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<ItemIdentity>(), doorController);
                     }else
                     {//does not have an ID
                         allowInput = false;
                         StartCoroutine(DoorInputCoolDown());
+                        if(CustomNetworkManager.Instance._isServer)
+                            doorController.CmdTryDenied();
                     }
                 }
                 else
@@ -206,10 +197,30 @@ namespace PlayGroup {
 			}
         }
 
-		//FIXME an ugly temp fix for an ugly problem. Will implement callbacks after 0.1.3
-		IEnumerator DoorInputCoolDown(){
-			yield return new WaitForSeconds(0.3f);
-			allowInput = true;
-		}
+        void CheckDoorAccess(ItemIdentity cardID, DoorController doorController){
+            if (cardID.Access.Contains(doorController.restriction))
+            {// has access
+                allowInput = false;
+                //Server only here but it is a cmd for the input trigger (opening with mouse click from client)
+                if(CustomNetworkManager.Instance._isServer)
+                    doorController.CmdTryOpen(gameObject);
+
+                StartCoroutine(DoorInputCoolDown());
+            }else
+            {// does not have access
+                allowInput = false;
+                StartCoroutine(DoorInputCoolDown());
+                //Server only here but it is a cmd for the input trigger (opening with mouse click from client)
+                if(CustomNetworkManager.Instance._isServer)
+                    doorController.CmdTryDenied();
+            }
+        }
+
+        //FIXME an ugly temp fix for an ugly problem. Will implement callbacks after 0.1.3
+        IEnumerator DoorInputCoolDown(){
+            yield return new WaitForSeconds(0.3f);
+            allowInput = true;
+        }
+
     }
 }

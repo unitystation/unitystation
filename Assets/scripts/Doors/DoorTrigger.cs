@@ -19,22 +19,16 @@ public class DoorTrigger: InputTrigger {
             {
                 if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>() != null)
                 {
-                    if (UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>().Access.Contains(doorController.restriction))
-                    {
-                        allowInput = false;
-                        doorController.CmdTryOpen(gameObject);
-                        StartCoroutine(DoorInputCoolDown());
-                    }
-                    else
-                    {
-                        allowInput = false;
-                        StartCoroutine(DoorInputCoolDown());
-                    }
+                    CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>(), doorController);
+                }else if (UIManager.Hands.CurrentSlot.IsFull && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemIdentity>() != null)
+                {
+                    CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<ItemIdentity>(), doorController);
                 }
                 else
                 {
                     allowInput = false;
                     StartCoroutine(DoorInputCoolDown());
+                    PlayGroup.PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRestrictDoorDenied(gameObject);
                 }
             }
             else
@@ -45,6 +39,22 @@ public class DoorTrigger: InputTrigger {
             }
         }
     }
+
+    void CheckDoorAccess(ItemIdentity cardID, DoorController doorController){
+        if (cardID.Access.Contains(doorController.restriction))
+        {// has access
+            allowInput = false;
+            PlayGroup.PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryOpenRestrictDoor(gameObject);
+
+            StartCoroutine(DoorInputCoolDown());
+        }else
+        {// does not have access
+            allowInput = false;
+            StartCoroutine(DoorInputCoolDown());
+            PlayGroup.PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRestrictDoorDenied(gameObject);
+        }
+    }
+
     IEnumerator DoorInputCoolDown()
     {
         yield return new WaitForSeconds(0.3f);

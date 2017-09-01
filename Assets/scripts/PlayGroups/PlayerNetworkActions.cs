@@ -533,4 +533,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             GameManager.Instance.SyncTime(currentTime);
         }
     }
+
+    [Command]
+    public void CmdTryOpenRestrictDoor(GameObject door){
+        door.GetComponent<DoorController>().CmdTryOpen(gameObject);
+    }
+    [Command]
+    public void CmdRestrictDoorDenied(GameObject door){
+        door.GetComponent<DoorController>().CmdTryDenied();
+    }
 }

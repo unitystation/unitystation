@@ -109,7 +109,10 @@ public class DoorController: NetworkBehaviour {
     [Command]
     public void CmdTryDenied()
     {
-        Debug.Log("TODO: Access Denied");
+        if (!IsOpened && !isPerformingAction)
+        {
+            RpcAccessDenied();
+        }
     }
 
     private void ResetWaiting() {
@@ -130,6 +133,17 @@ public class DoorController: NetworkBehaviour {
             {
                 openTrigger = false;
                 OpenAction();
+            }
+        }
+    }
+
+    [ClientRpc]
+    public void RpcAccessDenied(){
+        if(usingAnimator) {
+            Debug.Log("TODO: Add access denied to animator for door");
+        } else {
+            if(!isPerformingAction) {
+                horizontalAnim.AccessDenied();
             }
         }
     }

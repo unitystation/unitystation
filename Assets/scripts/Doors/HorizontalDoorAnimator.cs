@@ -32,6 +32,31 @@ public class HorizontalDoorAnimator : MonoBehaviour
 		overlaySprites = SpriteManager.DoorSprites["overlays"];
 	}
 
+    public void AccessDenied(){
+        doorController.isPerformingAction = true;
+        StartCoroutine(_AccessDenied());
+    }
+
+    IEnumerator _AccessDenied(){
+        SoundManager.PlayAtPosition("AccessDenied", transform.position);
+        int loops = 0;
+        while (loops < 4)
+        {
+            loops++;
+            if (overlay_Lights.sprite == null)
+            {
+                overlay_Lights.sprite = overlaySprites[15];
+            }
+            else
+            {
+                overlay_Lights.sprite = null;
+            }
+            yield return new WaitForSeconds(0.15f);
+        }
+        yield return new WaitForSeconds(0.2f);
+        doorController.isPerformingAction = false;
+    }
+
 	public void OpenDoor()
 	{
 		doorController.isPerformingAction = true;
