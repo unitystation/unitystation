@@ -26,7 +26,7 @@ namespace Cupboards
 		[SyncVar(hook="OpenClose")]
 		public bool IsClosed;
 
-        void Start()
+        void Awake()
         {
             doorClosed = spriteRenderer.sprite;
 			registerTile = GetComponent<RegisterTile>();
