@@ -179,7 +179,6 @@ namespace PlayGroup {
             transform.hasChanged = false;
             if(netID == NetworkInstanceId.Invalid) {
                 if(pullingObject != null) {
-                    pullRegister.editModeControl.Snap();
                     pullRegister.UpdateTile(pullingObject.transform.position);
                     EditModeControl eM = pullingObject.GetComponent<EditModeControl>();
                     eM.Snap();

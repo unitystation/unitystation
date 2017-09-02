@@ -78,7 +78,7 @@ public class ShutterController : ObjectTrigger
 	[Server]
 	private void DamageOnClose()
 	{
-		var currentTile = Matrix.Matrix.At(registerTile.editModeControl.Snap(transform.position));
+		var currentTile = Matrix.Matrix.At(transform.position);
 //		var currentTile = Matrix.Matrix.At(transform.position);
 		if ( currentTile.IsObject() || currentTile.IsPlayer() )
 		{
