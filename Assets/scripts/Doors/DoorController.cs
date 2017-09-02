@@ -99,8 +99,8 @@ public class DoorController: NetworkBehaviour {
 
     [Command]
     public void CmdTryClose() {
-		if (IsOpened && !isPerformingAction && !Matrix.Matrix.At(transform.position).IsPlayer() &&
-		   !Matrix.Matrix.At(transform.position).IsObject()) {
+        
+		if (IsOpened && !isPerformingAction && Matrix.Matrix.At(transform.position).IsPassable()) {
 			RpcClose();
 		} else {
 			ResetWaiting();

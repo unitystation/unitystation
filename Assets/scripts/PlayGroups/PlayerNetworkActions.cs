@@ -263,24 +263,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         return _inventory.ContainsKey(eventName) && _inventory[eventName] != null;
     }
 
-    [Command][Obsolete]//see placeitem
-    public void CmdPlaceItemCupB(string eventName, Vector3 pos, GameObject newParent)
-    {
-        if (_inventory.ContainsKey(eventName))
-        {
-            if (_inventory[eventName] != null)
-            {
-                GameObject item = _inventory[eventName];
-                EquipmentPool.DropGameObject(gameObject, _inventory[eventName], pos);
-                _inventory[eventName] = null;
-                ClosetControl closetCtrl = newParent.GetComponent<ClosetControl>();
-                item.transform.parent = closetCtrl.items.transform;
-                RpcAdjustItemParentCupB(item, newParent);
-                equipment.ClearItemSprite(eventName);
-            }
-        }
-    }
-
     [Command]
     public void CmdToggleCupboard(GameObject cupbObj)
     {

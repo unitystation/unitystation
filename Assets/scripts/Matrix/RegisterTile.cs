@@ -15,13 +15,11 @@ namespace Matrix {
         public int tileTypeIndex;
         private int currentTileTypeIndex;
         public TileType TileType { get { return TileType.List[tileTypeIndex]; } }
-        public EditModeControl editModeControl;
         [HideInInspector]
         public Vector3 savedPosition = Vector3.zero;
 
         void Start() {
             UpdateTile();
-            editModeControl = GetComponent<EditModeControl>();
             currentTileTypeIndex = TileType.List.IndexOf(TileType);
             tileTypeIndex = currentTileTypeIndex;
         }
