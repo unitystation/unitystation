@@ -7,8 +7,17 @@ namespace MapEditor {
     
     public class ItemsView: CategoryView {
 
-        public ItemsView() : base("Items", "Category") {
-            optionList.Add("Kitchen", "Items/Kitchen", "Items");
+        public ItemsView(IEnumerable<string> fileName, string path) : base("Items", "Category") {
+            string pathString = path + "/Prefabs\\Items";
+            foreach (string f in fileName)
+            {
+                if ((f).Contains(pathString) && (f != pathString))
+                {
+                    string stringName = f.Replace(path + "/Prefabs\\", "");
+                    optionList.Add(stringName, stringName, stringName);
+                }
+            }
+            //optionList.Add("Kitchen", "Items/Kitchen", "Items");
         }
 
         protected override void DrawContent() {
