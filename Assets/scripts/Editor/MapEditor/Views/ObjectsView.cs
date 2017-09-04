@@ -8,12 +8,12 @@ namespace MapEditor {
     public class ObjectsView: CategoryView {
 
         public ObjectsView(IEnumerable<string> fileName, string path) : base("Objects", "Section") {
-            string pathString = path + "/Prefabs\\Objects";
+            string pathString = path + "/Prefabs/Objects";
             foreach (string f in fileName)
             {
                 if ((f).Contains(pathString) && (f != pathString))
                 {
-                    string stringName = f.Replace(path + "/Prefabs\\", "");
+                    string stringName = f.Replace(path + "/Prefabs/", "");
                     optionList.Add(stringName, stringName, stringName);
                 }
             }
