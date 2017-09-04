@@ -4,6 +4,7 @@ using PlayGroup;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Events;
 
 public enum ManagerState
 {
@@ -71,6 +72,14 @@ public class FieldOfViewTiled : ThreadedBehaviour
 
 	}
 
+	void OnEnable(){
+		EventManager.AddHandler(EVENT.UpdateFov, RecalculateFov);
+	}
+
+	void OnDisable(){
+		EventManager.RemoveHandler(EVENT.UpdateFov, RecalculateFov);
+	}
+
 	public override void ThreadedWork()
 	{
 		base.ThreadedWork();
@@ -136,11 +145,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
 				if (transform.position == lastPosition && GetSightSourceDirection() == lastDirection)
 					continue;
 
-				sourcePosCache = Camera2DFollow.followControl.target.position;
-				nearbyShrouds = GetNearbyShroudTiles();
-				updateFov = true;
-				lastPosition = transform.position;
-				lastDirection = GetSightSourceDirection();
+				RecalculateFov();
 			}
 
 		}
@@ -275,5 +280,13 @@ public class FieldOfViewTiled : ThreadedBehaviour
 			}
 		}
 		return nearbyShroudTiles;
+	}
+
+	private void RecalculateFov(){
+		sourcePosCache = Camera2DFollow.followControl.target.position;
+		nearbyShrouds = GetNearbyShroudTiles();
+		updateFov = true;
+		lastPosition = transform.position;
+		lastDirection = GetSightSourceDirection();
 	}
 }

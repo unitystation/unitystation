@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sprites;
+using Events;
 
 public class HorizontalDoorAnimator : MonoBehaviour
 {
@@ -104,6 +105,8 @@ public class HorizontalDoorAnimator : MonoBehaviour
             overlay_Glass.sprite = sprites[20];
         }
         overlay_Lights.sprite = overlaySprites[3];
+		if(doorbase.isVisible)
+			EventManager.Broadcast(EVENT.UpdateFov);
         yield return new WaitForSeconds(0.2f);
         doorbase.sprite = sprites[6];
         overlay_Lights.sprite = overlaySprites[4];
@@ -113,6 +116,8 @@ public class HorizontalDoorAnimator : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         doorbase.sprite = sprites[8];
         yield return new WaitForEndOfFrame();
+
+		
         doorController.isPerformingAction = false;
     }
 
@@ -162,6 +167,8 @@ public class HorizontalDoorAnimator : MonoBehaviour
 			overlay_Glass.sprite = sprites[15];
 		}
 		overlay_Lights.sprite = overlaySprites[0];
+		if(doorbase.isVisible)
+			EventManager.Broadcast(EVENT.UpdateFov);
 		yield return new WaitForSeconds(0.18f);
 		overlay_Lights.sprite = null;
 		yield return new WaitForSeconds(0.20f);
