@@ -112,21 +112,38 @@ public class WeaponNetworkActions: NetworkBehaviour {
 		}
     }
 
-    [Command]
+    [Command]//TODO fixme ghetto proof-of-concept
     public void CmdKnifeAttackMob(GameObject npcObj, Vector2 stabDirection) {
 		if(!playerMove.allowInput || !allowAttack || playerMove.isGhost)
             return;
 
-        Living attackTarget = npcObj.GetComponent<Living>();
-        if(npcObj != gameObject) {
-            RpcKnifeAttackLerp(stabDirection);
-        }
-        attackTarget.RpcReceiveDamage(gameObject.name, 20, DamageType.BRUTE, BodyPartType.CHEST);
-        BloodSplat(npcObj.transform.position, BloodSplatSize.medium);
+	    if(npcObj != gameObject) {
+		    RpcKnifeAttackLerp(stabDirection);
+	    }
+	    npcObj.GetComponent<HealthBehaviour>()
+		    .ApplyDamage( gameObject.name, 20, DamageType.BRUTE );
+	           
+	    //why do you need that bloodsplat after all?
+	    BloodSplat(npcObj.transform.position, BloodSplatSize.medium);
         soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 
         StartCoroutine(AttackCoolDown());
     }
+//    [Command]
+//    public void CmdKnifeAttackMob(GameObject npcObj, Vector2 stabDirection) {
+//		if(!playerMove.allowInput || !allowAttack || playerMove.isGhost)
+//            return;
+//
+//        Living attackTarget = npcObj.GetComponent<Living>();
+//        if(npcObj != gameObject) {
+//            RpcKnifeAttackLerp(stabDirection);
+//        }
+//        attackTarget.RpcReceiveDamage(gameObject.name, 20, DamageType.BRUTE, BodyPartType.CHEST);
+//        BloodSplat(npcObj.transform.position, BloodSplatSize.medium);
+//        soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
+//
+//        StartCoroutine(AttackCoolDown());
+//    }
 
     private bool allowAttack = true;
 

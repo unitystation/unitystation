@@ -7,7 +7,33 @@ namespace UI
     public class PlayerHealth : MonoBehaviour
     {
 
+        // TODO FIXME temp shit to check if it works 
+        public void SetBodyTypeOverlay(BodyPartBehaviour bodyPart)
+        {
+            foreach (var listener in UIManager.Instance.GetComponentsInChildren<DamageMonitorListener>())
+            {
+                if (listener.bodyPartType != bodyPart.Type)
+                    continue;
+                Sprite sprite;
+                switch (bodyPart.Severity)
+                {
+                    case DamageSeverity.None:
+                        sprite = bodyPart.GreenDamageMonitorIcon; break;
+                    case DamageSeverity.Moderate:
+                        sprite = bodyPart.YellowDamageMonitorIcon; break;
+                    case DamageSeverity.Bad:
+                        sprite = bodyPart.OrangeDamageMonitorIcon; break;
+                    case DamageSeverity.Critical:
+                        sprite = bodyPart.RedDamageMonitorIcon; break;
+                    default:
+                        sprite = bodyPart.GrayDamageMonitorIcon; break;
+                }
+                listener.GetComponent<Image>().sprite = sprite;
+            }
+        }
+
         // this just temporary to get something working
+        [Obsolete]
         public void SetBodyTypeOverlay(BodyPart bodyPart)
         {
             foreach (DamageMonitorListener listener in UI.UIManager.Instance.GetComponentsInChildren<DamageMonitorListener>())
@@ -41,6 +67,7 @@ namespace UI
         }
 
         // this just temporary to get something working
+        [Obsolete]
         public void SetBodyPartBruteOverlay(BodyPart bodyPart)
         {
             foreach (DamageMonitorListener listener in UI.UIManager.Instance.GetComponentsInChildren<DamageMonitorListener>())
@@ -74,6 +101,7 @@ namespace UI
         }
 
         // this just temporary to get something working
+        [Obsolete]
         public void SetBodyPartBurnOverlay(BodyPart bodyPart)
         {
             foreach (DamageMonitorListener listener in UI.UIManager.Instance.GetComponentsInChildren<DamageMonitorListener>())

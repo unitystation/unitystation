@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class BodyPartBehaviour : MonoBehaviour
+public class BodyPartBehaviour : NetworkBehaviour
 {
     public BodyPartType Type;
     
@@ -35,10 +36,16 @@ public class BodyPartBehaviour : MonoBehaviour
         UpdateSeverity();
     }
 
+    private void UpdateIcons()
+    {
+//        if (server)return;
+        UI.UIManager.PlayerHealth.SetBodyTypeOverlay(this);
+    }
+
     //todo: update icons here, too!
     private void UpdateSeverity()
     {
-        float severity = _damage / MaxDamage;
+        float severity = (float)_damage / MaxDamage;
         if ( severity >= 0.2 && severity < 0.4 )
         {
             _severity = DamageSeverity.Moderate;
@@ -55,11 +62,13 @@ public class BodyPartBehaviour : MonoBehaviour
         {
             _severity = DamageSeverity.None;
         }
+        UpdateIcons();
     }
 
 
     public virtual void RestoreDamage()
     {
         _damage = 0;
+        UpdateSeverity();
     }
 }

@@ -61,6 +61,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
 
     public void AddHealth(int amount)
     {
+        if (amount <= 0) return;
         Health += amount;
         
         if ( Health > maxHealth )

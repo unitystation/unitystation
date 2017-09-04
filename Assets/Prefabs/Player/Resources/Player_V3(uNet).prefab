@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1045510969552376
 GameObject:
   m_ObjectHideFlags: 1
@@ -93,7 +93,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1075270923249368
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +217,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4251119692072226}
-  - component: {fileID: 114437964966461556}
+  - component: {fileID: 114471835885000906}
+  - component: {fileID: 114457795912083674}
   m_Layer: 8
   m_Name: HumanBodyPartChest
   m_TagString: Untagged
@@ -323,7 +324,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4136849634666066}
-  - component: {fileID: 114660110064370962}
+  - component: {fileID: 114295812792711174}
+  - component: {fileID: 114593625294156532}
   m_Layer: 8
   m_Name: HumanBodyPartLeftArm
   m_TagString: Untagged
@@ -428,7 +430,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4479868398487846}
-  - component: {fileID: 114125674864464820}
+  - component: {fileID: 114759882742241320}
+  - component: {fileID: 114316649585772562}
   m_Layer: 8
   m_Name: HumanBodyPartHead
   m_TagString: Untagged
@@ -451,7 +454,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1795409780741894
 GameObject:
   m_ObjectHideFlags: 1
@@ -1053,37 +1056,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventName: underwear
---- !u!114 &114125674864464820
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1693036899965374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc997d59fea3c2b4da80d28aba274db0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Type: 0
-  DropItem: {fileID: 0}
-  Zone: head
-  BruteDamage: 0
-  BurnDamage: 0
-  MaxDamage: 200
-  Description: Didn't make sense not to live for fun, your brain gets smart but your
-    head gets dumb.
-  brutestate: 0
-  burnstate: 0
-  GreenDamageMonitorIcon: {fileID: 21300752, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300764, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300776, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300788, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300824, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
 --- !u!114 &114133756563624140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1128,6 +1100,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialHealth: 100
+  maxHealth: 100
+  BodyParts:
+  - {fileID: 114457795912083674}
+  - {fileID: 114316649585772562}
+  - {fileID: 114593625294156532}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  BloodLevel: 560
 --- !u!114 &114176283518884694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1252,6 +1233,38 @@ MonoBehaviour:
   reference: -1
   thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212144883045729364}
+--- !u!114 &114295812792711174
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1475777022527010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 68
+    i1: 168
+    i2: 163
+    i3: 190
+    i4: 145
+    i5: 39
+    i6: 244
+    i7: 70
+    i8: 90
+    i9: 80
+    i10: 183
+    i11: 129
+    i12: 29
+    i13: 5
+    i14: 155
+    i15: 179
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114310837791243998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1283,6 +1296,29 @@ MonoBehaviour:
     type: 3}
   GrayDamageMonitorIcon: {fileID: 21300832, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+--- !u!114 &114316649585772562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1693036899965374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286e2ff4e04b48b0b91e6ebfc4b212f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  GreenDamageMonitorIcon: {fileID: 21300752, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  YellowDamageMonitorIcon: {fileID: 21300764, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  OrangeDamageMonitorIcon: {fileID: 21300776, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  RedDamageMonitorIcon: {fileID: 21300788, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  GrayDamageMonitorIcon: {fileID: 21300824, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  MaxDamage: 200
 --- !u!114 &114317598722413354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1455,7 +1491,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8f53ce80bb8d1641a758dd9b308e8ea, type: 3}
   m_Name: 
@@ -1466,6 +1502,7 @@ MonoBehaviour:
   mobStat: 0
   StatusFlags: 15
   InitialMaxHealth: 100
+  lastDamager: 
   maxHealth: 100
   health: 100
   bruteLoss: 0
@@ -1484,36 +1521,6 @@ MonoBehaviour:
   - {fileID: 1010132269202050}
   - {fileID: 1708637642242452}
   DamageOverlayType: 0
---- !u!114 &114437964966461556
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1308134912561008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc997d59fea3c2b4da80d28aba274db0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Type: 3
-  DropItem: {fileID: 0}
-  Zone: chest
-  BruteDamage: 0
-  BurnDamage: 0
-  MaxDamage: 200
-  Description: It's impolite to stare at a person's chest.
-  brutestate: 3
-  burnstate: 0
-  GreenDamageMonitorIcon: {fileID: 21300754, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300766, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300778, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300790, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300830, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
 --- !u!114 &114446262269173418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1526,6 +1533,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventName: leftHand
+--- !u!114 &114457795912083674
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308134912561008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8b6bad0196f4cca947cdfe73fcf7ca5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 1
+  GreenDamageMonitorIcon: {fileID: 21300754, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  YellowDamageMonitorIcon: {fileID: 21300766, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  OrangeDamageMonitorIcon: {fileID: 21300778, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  RedDamageMonitorIcon: {fileID: 21300790, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  GrayDamageMonitorIcon: {fileID: 21300830, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  MaxDamage: 200
+--- !u!114 &114471835885000906
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308134912561008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 68
+    i1: 168
+    i2: 163
+    i3: 190
+    i4: 145
+    i5: 39
+    i6: 244
+    i7: 70
+    i8: 90
+    i9: 80
+    i10: 183
+    i11: 129
+    i12: 29
+    i13: 5
+    i14: 155
+    i15: 179
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114505375981646366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1566,6 +1628,29 @@ MonoBehaviour:
   reference: -1
   thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212924062595901212}
+--- !u!114 &114593625294156532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1475777022527010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 2
+  GreenDamageMonitorIcon: {fileID: 21300758, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  YellowDamageMonitorIcon: {fileID: 21300770, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  OrangeDamageMonitorIcon: {fileID: 21300782, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  RedDamageMonitorIcon: {fileID: 21300794, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  GrayDamageMonitorIcon: {fileID: 21300836, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  MaxDamage: 50
 --- !u!114 &114600225155881128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1668,38 +1753,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventName: back
---- !u!114 &114660110064370962
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1475777022527010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc997d59fea3c2b4da80d28aba274db0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Type: 4
-  DropItem: {fileID: 0}
-  Zone: l_arm
-  BruteDamage: 0
-  BurnDamage: 0
-  MaxDamage: 50
-  Description: Did you know that the word 'sinister' stems originally from the Latin
-    'sinestra' (left hand), because the left hand was supposed to be possessed by
-    the devil? This arm appears to be possessed by no one though.
-  brutestate: 0
-  burnstate: 0
-  GreenDamageMonitorIcon: {fileID: 21300758, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300770, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300782, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300794, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300836, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
 --- !u!114 &114683599938915282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1744,6 +1797,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventName: mask
+--- !u!114 &114759882742241320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1693036899965374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 68
+    i1: 168
+    i2: 163
+    i3: 190
+    i4: 145
+    i5: 39
+    i6: 244
+    i7: 70
+    i8: 90
+    i9: 80
+    i10: 183
+    i11: 129
+    i12: 29
+    i13: 5
+    i14: 155
+    i15: 179
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114761353998407626
 MonoBehaviour:
   m_ObjectHideFlags: 1

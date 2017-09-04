@@ -12,7 +12,8 @@ namespace Objects
     {
         //Fill this in editor:
         //1 HumanHead, 1 HumanTorso & 4 HumanLimbs for a standard human
-        public Dictionary<BodyPartType, BodyPartBehaviour> BodyParts = new Dictionary<BodyPartType, BodyPartBehaviour>();
+        //public Dictionary<BodyPartType, BodyPartBehaviour> BodyParts = new Dictionary<BodyPartType, BodyPartBehaviour>();
+        public List<BodyPartBehaviour> BodyParts = new List<BodyPartBehaviour>();
 
         //For now a simplified blood system will be here. To be refactored into a separate thing in the future.
         public int BloodLevel = (int) BloodVolume.NORMAL;
@@ -49,15 +50,28 @@ namespace Objects
 
         private BodyPartBehaviour findBodyPart(BodyPartType bodyPartAim)
         {
-            if ( BodyParts[bodyPartAim] )
+            //Don't like how you should iterate through bodyparts each time, but inspector doesn't seem to like dicts
+            for (int i = 0; i < BodyParts.Count; i++)
             {
-                return BodyParts[bodyPartAim];
+                if (BodyParts[i].Type == bodyPartAim) return BodyParts[i];
             }
             //dm code quotes:
             //"no bodypart, we deal damage with a more general method."
             //"missing limb? we select the first bodypart (you can never have zero, because of chest)"
-            return BodyParts.Values.PickRandom();
+            return BodyParts.PickRandom();
         }
+        
+//        private BodyPartBehaviour findBodyPart(BodyPartType bodyPartAim)
+//        {
+//            if ( BodyParts[bodyPartAim] )
+//            {
+//                return BodyParts[bodyPartAim];
+//            }
+//            //dm code quotes:
+//            //"no bodypart, we deal damage with a more general method."
+//            //"missing limb? we select the first bodypart (you can never have zero, because of chest)"
+//            return BodyParts.Values.PickRandom();
+//        }
 
         /// <summary>
         /// to be run from some kind of coroutine each n seconds
@@ -91,6 +105,12 @@ namespace Objects
             else                                    {scaleOfTragedy = BloodSplatSize.large;}
             BloodSplat(scaleOfTragedy);
 
+
+            if(BloodLevel <= (int)BloodVolume.SURVIVE)
+            {
+                OnCritActions();
+            }
+
             if ( BloodLevel <= 0 )
             {
                 Death();
@@ -105,7 +125,8 @@ namespace Objects
 
         public void RestoreBodyParts()
         {
-            foreach ( var bodyPart in BodyParts.Values )
+//            foreach ( var bodyPart in BodyParts.Values )
+            foreach ( var bodyPart in BodyParts )
             {
                 bodyPart.RestoreDamage();
             }
