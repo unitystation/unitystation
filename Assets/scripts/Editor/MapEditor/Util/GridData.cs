@@ -42,7 +42,7 @@ namespace MapEditor {
             var content = new List<Texture2D>();
 
             foreach(var p in prefabs) {
-                if (p.GetComponent<Matrix.RegisterTile>() != null) {
+                if (p.GetComponent<Matrix.RegisterTile>() != null|| (p.GetComponent<EditModeControl>() != null)) {
                 Texture2D texture;
                 do {
                     texture = AssetPreview.GetAssetPreview(p);

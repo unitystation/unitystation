@@ -30,10 +30,16 @@ namespace MapEditor {
 
         public void Initialize() {
             string path = Application.dataPath;
-            IEnumerable<string> files = Directory.GetDirectories(path + "/Prefabs", "*.*", SearchOption.AllDirectories);
-            categories = new CategoryView[] { new StructuresView(files,path), new ObjectsView(files,path), new ItemsView(files,path) };
+            string[] files = Directory.GetDirectories(path + "/Prefabs", "*.*", SearchOption.AllDirectories);
+            //fix the "\" that might show up in windows versions.
+            for (int i = 0; i < files.Length; i++)
+            {
+                files[i] = files[i].Replace('\\', '/');
+            }
+            categories = new CategoryView[] { new StructuresView(files, path), new ObjectsView(files, path), new ItemsView(files, path) };
             categoryNames = new string[categories.Length];
-            for(int i = 0; i < categoryNames.Length; i++) {
+            for (int i = 0; i < categoryNames.Length; i++)
+            {
                 categoryNames[i] = categories[i].Name;
             }
         }
