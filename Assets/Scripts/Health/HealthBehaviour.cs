@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-
 public abstract class HealthBehaviour : NetworkBehaviour
 {
     public int initialHealth = 100;
+    public int maxHealth = 100;
 
     private void OnEnable()
     {
@@ -16,11 +16,13 @@ public abstract class HealthBehaviour : NetworkBehaviour
 
         Health = initialHealth;
         IsDead = false;
+        IsCrit = false;
     }
 
     public int Health { get; private set; }
     public DamageType LastDamageType { get; private set; }
     public string LastDamagedBy { get; private set; }
+    public bool IsCrit { get; private set; }
     public bool IsDead { get; private set; }
 
     public void ApplyDamage(string damagedBy, int damage,
@@ -43,13 +45,43 @@ public abstract class HealthBehaviour : NetworkBehaviour
         return damage;
     }
 
+    ///Death from other causes
+    protected virtual void Death()
+    {
+        OnDeathActions();
+        IsDead = true;
+    }
 
     private void checkDeadStatus()
     {
-        if ( Health > 0 || IsDead ) return;
-        Health = 0;
-        onDeathActions();
-        IsDead = true;
+        if ( Health > -100 || IsDead ) return;
+        Health = -100;
+        Death();
     }
-    public abstract void onDeathActions();
+
+    public void AddHealth(int amount)
+    {
+        Health += amount;
+        
+        if ( Health > maxHealth )
+        {
+            Health = maxHealth;
+        }
+    }
+
+    public void RestoreHealth()
+    {
+        Health = initialHealth;
+    }
+
+    /// <summary>
+    /// placeholder method to make player unconscious upon crit
+    /// </summary>
+    public virtual void OnCritActions()
+    {
+        var pna = GetComponent<PlayerNetworkActions>();
+        pna.CmdConsciousState(false);
+    }
+
+    public abstract void OnDeathActions();
 }

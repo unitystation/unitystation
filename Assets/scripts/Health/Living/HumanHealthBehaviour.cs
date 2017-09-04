@@ -1,0 +1,196 @@
+﻿using System;
+using System.Collections.Generic;
+using PlayGroup;
+using Sprites;
+using UnityEngine;
+using UnityEngine.Networking;
+using Random = UnityEngine.Random;
+
+namespace Objects
+{
+    public class HumanHealthBehaviour : HealthBehaviour
+    {
+        //Fill this in editor:
+        //1 HumanHead, 1 HumanTorso & 4 HumanLimbs for a standard human
+        public Dictionary<BodyPartType, BodyPartBehaviour> BodyParts = new Dictionary<BodyPartType, BodyPartBehaviour>();
+
+        //For now a simplified blood system will be here. To be refactored into a separate thing in the future.
+        public int BloodLevel = (int) BloodVolume.NORMAL;
+        private int _bleedRate;
+
+        [Server]
+        public override int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType, BodyPartType bodyPartAim)
+        {
+            base.ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
+
+            BodyPartBehaviour bodyPart = findBodyPart(bodyPartAim);//randomise a bit here?
+            bodyPart.ReceiveDamage(damageType, damage);
+            switch ( bodyPart.Severity )
+            {
+                    case DamageSeverity.Moderate: 
+                    case DamageSeverity.Bad:
+                    case DamageSeverity.Critical: 
+                        AddBloodLoss(( int ) ( damage * BleedFactor(damageType) )); 
+                        break;
+            }
+            if ( headCritical(bodyPart) )
+            {
+                OnCritActions();
+            }
+
+            return damage;
+
+        }
+
+        private static bool headCritical(BodyPartBehaviour bodyPart)
+        {
+            return bodyPart.Type.Equals(BodyPartType.HEAD) && bodyPart.Severity == DamageSeverity.Critical;
+        }
+
+        private BodyPartBehaviour findBodyPart(BodyPartType bodyPartAim)
+        {
+            if ( BodyParts[bodyPartAim] )
+            {
+                return BodyParts[bodyPartAim];
+            }
+            //dm code quotes:
+            //"no bodypart, we deal damage with a more general method."
+            //"missing limb? we select the first bodypart (you can never have zero, because of chest)"
+            return BodyParts.Values.PickRandom();
+        }
+
+        /// <summary>
+        /// to be run from some kind of coroutine each n seconds
+        /// </summary>
+        private void UpdateHealth()
+        {
+            LoseBlood(_bleedRate);
+        }
+
+        private void AddBloodLoss(int amount)
+        {
+            if(amount <= 0) return;
+            LoseBlood(amount); //mwahaha
+            _bleedRate += amount;
+        }
+        
+        //ReduceBloodLoss for bandages and stuff in the future?
+
+        private void StopBleeding()
+        {
+            _bleedRate = 0;
+        }
+
+        private void LoseBlood(int amount)
+        {
+            if(amount <= 0) return;
+            BloodLevel -= amount;
+            BloodSplatSize scaleOfTragedy;
+            if      ( amount > 0 && amount < 15 )   {scaleOfTragedy = BloodSplatSize.small;}
+            else if ( amount >= 15 && amount < 45 ) {scaleOfTragedy = BloodSplatSize.medium;}
+            else                                    {scaleOfTragedy = BloodSplatSize.large;}
+            BloodSplat(scaleOfTragedy);
+
+            if ( BloodLevel <= 0 )
+            {
+                Death();
+            }
+        }
+
+        protected override void Death()
+        {
+            StopBleeding();
+            base.Death();
+        }
+
+        public void RestoreBodyParts()
+        {
+            foreach ( var bodyPart in BodyParts.Values )
+            {
+                bodyPart.RestoreDamage();
+            }
+        }
+
+        public void RestoreBlood()
+        {
+            BloodLevel = ( int ) BloodVolume.NORMAL;
+        }
+
+        public static float BleedFactor(DamageType damageType)
+        {
+            switch ( damageType )
+            {
+                case DamageType.BRUTE:
+                    return 1;
+                case DamageType.BURN:
+                    return 0.4f;
+                case DamageType.TOX:
+                    return 0.2f;
+            }
+            return 0;
+        }
+
+        /// a copypaste from Human
+        public override void OnDeathActions()
+        {
+            if (CustomNetworkManager.Instance._isServer)
+            {
+                PlayerNetworkActions pna = GetComponent<PlayerNetworkActions>();
+                pna.RpcSpawnGhost();
+
+                PlayerMove pM = GetComponent<PlayerMove>();
+                pM.isGhost = true;
+                pM.allowInput = true;
+                if ( LastDamagedBy == gameObject.name )
+                {
+                    pna.CmdSendAlertMessage( "<color=red><b>" + gameObject.name + " commited suicide</b></color>",
+                        true ); //killfeed
+                }
+                else if(LastDamagedBy.EndsWith( gameObject.name )) // chain reactions
+                {
+                    pna.CmdSendAlertMessage( "<color=red><b>" + gameObject.name + " screwed himself up with some help (" + 
+                                             LastDamagedBy
+                                             + ")</b></color>",
+                        true ); //killfeed
+                } 
+                else 
+                {
+                    PlayerList.Instance.UpdateKillScore( LastDamagedBy );
+                    pna.CmdSendAlertMessage(
+                        "<color=red><b>" + LastDamagedBy + "</b> has killed <b>" + gameObject.name + "</b></color>", true ); //killfeed
+                }
+                
+                pna.RespawnPlayer();
+                GetComponent<PlayerNetworkActions>().CmdDropItem("leftHand");
+                GetComponent<PlayerNetworkActions>().CmdDropItem("rightHand");
+                gameObject.GetComponent<WeaponNetworkActions>().BloodSplat(transform.position, BloodSplatSize.medium);
+                Debug.Log("respawn initiated..");
+            }
+        }
+
+        ///a copypaste from Living
+        private void BloodSplat( BloodSplatSize splatSize )
+        {
+            GameObject b = Instantiate(Resources.Load( "BloodSplat" ) as GameObject, transform.position, Quaternion.identity);
+            NetworkServer.Spawn(b);
+            BloodSplat bSplat = b.GetComponent<BloodSplat>();
+            //TODO streaky blood from bullet wounds, dragging blood drops etc
+            //choose a random blood sprite
+            int spriteNum = 0;
+            switch (splatSize) {
+                case BloodSplatSize.small:
+                    spriteNum = Random.Range(137, 139);
+                    break;
+                case BloodSplatSize.medium:
+                    spriteNum = Random.Range(116, 120);
+                    break;
+                case BloodSplatSize.large:
+                    spriteNum = Random.Range(105, 108);
+                    break;
+            }
+
+            if(spriteNum != 0)
+                bSplat.bloodSprite = spriteNum;
+        }
+    }
+}

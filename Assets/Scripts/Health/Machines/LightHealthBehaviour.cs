@@ -5,7 +5,7 @@ using UnityEngine;
 public class LightHealthBehaviour : HealthBehaviour
 {
 
-    public override void onDeathActions()
+    public override void OnDeathActions()
     {
 //        Debug.Log("Light ded!");
         GetComponentInParent<LightSource>().Trigger(false); //insert better solution here

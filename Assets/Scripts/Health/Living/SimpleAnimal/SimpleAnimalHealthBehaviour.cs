@@ -20,7 +20,7 @@ public class SimpleAnimalHealthBehaviour : HealthBehaviour
 
     }
 
-    public override void onDeathActions()
+    public override void OnDeathActions()
     {
         //handled by Living for now
     }

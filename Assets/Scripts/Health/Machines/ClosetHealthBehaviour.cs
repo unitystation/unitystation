@@ -20,7 +20,7 @@ namespace Objects
             closetControl = GetComponent<ClosetControl>();
         }
         
-        public override void onDeathActions()
+        public override void OnDeathActions()
         {
             if (isServer)
             {
