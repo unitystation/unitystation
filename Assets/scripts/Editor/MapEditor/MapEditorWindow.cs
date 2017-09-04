@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using Matrix;
-using System.Linq;
-using UI;
 using System.Collections.Generic;
+using System.IO;
 
 namespace MapEditor {
 
@@ -12,7 +10,7 @@ namespace MapEditor {
         private string[] categoryNames;
 
         private OptionsView optionsView = new OptionsView();
-        private CategoryView[] categories = { new StructuresView(), new ObjectsView(), new ItemsView() };
+        private CategoryView[] categories;
 
         private bool showOptions;
 
@@ -31,7 +29,9 @@ namespace MapEditor {
         }
 
         public void Initialize() {
-            categories = new CategoryView[] { new StructuresView(), new ObjectsView(), new ItemsView() };
+            string path = Application.dataPath;
+            IEnumerable<string> files = Directory.GetDirectories(path + "/Prefabs", "*.*", SearchOption.AllDirectories);
+            categories = new CategoryView[] { new StructuresView(files,path), new ObjectsView(files,path), new ItemsView(files,path) };
             categoryNames = new string[categories.Length];
             for(int i = 0; i < categoryNames.Length; i++) {
                 categoryNames[i] = categories[i].Name;
