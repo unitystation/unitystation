@@ -56,11 +56,13 @@ public abstract class HealthBehaviour : NetworkBehaviour
     ///Death from other causes
     protected virtual void Death()
     {
+        if (IsDead) return;
         IsDead = true;
         OnDeathActions();
     }
     protected virtual void Crit()
     {
+        if(ConsciousState != ConsciousState.CONSCIOUS) return;
         IsCrit = true;
         OnCritActions();
     }

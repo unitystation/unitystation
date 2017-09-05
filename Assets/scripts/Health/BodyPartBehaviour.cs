@@ -23,7 +23,7 @@ public class BodyPartBehaviour : MonoBehaviour
     public virtual void ReceiveDamage(DamageType damageType, int damage)
     {
         UpdateDamage(damage);
-        Debug.LogFormat("{0} received {1} {2} damage. Total {3}/{4}, condition is {5}",
+        Debug.LogFormat("{0} received {1} {2} damage. Total {3}/{4}, limb condition is {5}",
                          Type, damage, damageType, _damage, MaxDamage, Severity);
     }
 

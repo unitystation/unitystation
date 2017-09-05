@@ -19,6 +19,12 @@ namespace UI {
         public Sprite[] selectorSprites;
         public Image selImg;
 
+        private void Start()
+        {
+            //init chest selection. it clicks, yeah
+            SelectAction(1);
+        }
+
         public void SelectAction(int curSelect) {
             SoundManager.Play("Click01");
             selImg.sprite = selectorSprites[curSelect];

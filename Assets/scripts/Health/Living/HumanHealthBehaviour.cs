@@ -28,12 +28,17 @@ namespace Objects
 
             BodyPartBehaviour bodyPart = findBodyPart(bodyPartAim);//randomise a bit here?
             bodyPart.ReceiveDamage(damageType, damage);
+            
+            var bloodLoss = ( int ) ( damage * BleedFactor(damageType) );
+            LoseBlood(bloodLoss);
+            
+            // don't start bleeding if limb is in ok condition after it received damage
             switch ( bodyPart.Severity )
             {
                     case DamageSeverity.Moderate: 
                     case DamageSeverity.Bad:
-                    case DamageSeverity.Critical: 
-                        AddBloodLoss(( int ) ( damage * BleedFactor(damageType) )); 
+                    case DamageSeverity.Critical:
+                        AddBloodLoss(bloodLoss); 
                         break;
             }
             if ( headCritical(bodyPart) )
@@ -75,24 +80,17 @@ namespace Objects
 //            return BodyParts.Values.PickRandom();
 //        }
 
-        /// <summary>
-        /// to be run from some kind of coroutine each n seconds
-        /// </summary>
-        private void UpdateHealth()
-        {
-            LoseBlood(_bleedRate);
-        }
-
         private void AddBloodLoss(int amount)
         {
             if(amount <= 0) return;
-            LoseBlood(amount); //mwahaha
+//            LoseBlood(amount); //mwahaha
             _bleedRate += amount;
             TryBleed();
         }
 
         private void TryBleed()
         {
+            //don't start another coroutine when already bleeding
             if ( !IsBleeding )
             {
                 IsBleeding = true;
@@ -104,7 +102,7 @@ namespace Objects
         {
             while ( IsBleeding )
             {
-                UpdateHealth();
+                LoseBlood(_bleedRate);
                 yield return new WaitForSeconds(2f);
             }
         }
@@ -131,7 +129,7 @@ namespace Objects
 
             if(BloodLevel <= (int)BloodVolume.SURVIVE)
             {
-                OnCritActions();
+                Crit();
             }
 
             if ( BloodLevel <= 0 )
@@ -212,8 +210,9 @@ namespace Objects
             }
         }
 
+        //todo: move somewhere else?
         ///a copypaste from Living
-        private void BloodSplat( BloodSplatSize splatSize )
+        private void BloodSplat( BloodSplatSize splatSize, BloodSplatType splatType = BloodSplatType.Generic )
         {
             GameObject b = Instantiate(Resources.Load( "BloodSplat" ) as GameObject, transform.position, Quaternion.identity);
             NetworkServer.Spawn(b);
