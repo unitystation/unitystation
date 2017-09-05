@@ -89,7 +89,6 @@ public class Carbon : Living
     {
         if (mobStat != ConsciousState.DEAD)
         {
-            // TODO Check brain here
             if (health <= MobHealthThreshold.HEALTH_THRESHOLD_DEAD)
             {
                 Debug.Log("SQUASHED");
@@ -129,7 +128,6 @@ public class Carbon : Living
 
         UpdateDamageHud();
         UpdateHealthHud();
-        // TODO med_hud_set_status();
     }
     
     // 
@@ -230,7 +228,6 @@ public class Carbon : Living
     // /mob/living/carbon/proc/update_body_parts()
     public virtual void UpdateBodyParts()
     {
-        // TODO update body sprites here
         foreach (GameObject bodyPartGameObject in BodyParts)
         {
             BodyPart bodyPart = bodyPartGameObject.GetComponent<BodyPart>();
@@ -287,7 +284,6 @@ public class Carbon : Living
 
     public override int ApplyDamage(int damage, DamageType damagetype, BodyPartType def_zone, int blocked = 0)
     {
-        // TODO Blocking
         if (damage == 0)
             return 0;
 
@@ -384,7 +380,6 @@ public class Carbon : Living
 
         if (amount > 0)
             TakeOverallDamage(amount, 0, updatingHealth);
-        // TODO Healing
         //        else
         //            HealOverallDamage(-amount, 0, 0, 1, updatingHealth);
 
@@ -428,7 +423,6 @@ public class Carbon : Living
         if (updatingHealth)
             UpdateHealth();
 
-        // TODO: Damage overlays
         if (update)
             UpdateDamageOverlays();
     }
@@ -476,7 +470,6 @@ public class Carbon : Living
         if (mobStat == ConsciousState.DEAD)
             return;
         if (!gibbed)
-            //TODO emote("deathgasp")
 
             base.Death(gibbed);
     }

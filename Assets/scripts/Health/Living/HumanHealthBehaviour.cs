@@ -88,8 +88,16 @@ namespace Objects
             if(amount <= 0) return;
             LoseBlood(amount); //mwahaha
             _bleedRate += amount;
-            IsBleeding = true;
-            StartCoroutine(StartBleeding());
+            TryBleed();
+        }
+
+        private void TryBleed()
+        {
+            if ( !IsBleeding )
+            {
+                IsBleeding = true;
+                StartCoroutine(StartBleeding());
+            }
         }
 
         private IEnumerator StartBleeding()
@@ -116,7 +124,7 @@ namespace Objects
             BloodLevel -= amount;
             BloodSplatSize scaleOfTragedy;
             if      ( amount > 0 && amount < 15 )   {scaleOfTragedy = BloodSplatSize.small;}
-            else if ( amount >= 15 && amount < 45 ) {scaleOfTragedy = BloodSplatSize.medium;}
+            else if ( amount >= 15 && amount < 40 ) {scaleOfTragedy = BloodSplatSize.medium;}
             else                                    {scaleOfTragedy = BloodSplatSize.large;}
             BloodSplat(scaleOfTragedy);
 
@@ -197,11 +205,10 @@ namespace Objects
                         "<color=red><b>" + LastDamagedBy + "</b> has killed <b>" + gameObject.name + "</b></color>", true ); //killfeed
                 }
                 
-                pna.RespawnPlayer();
                 GetComponent<PlayerNetworkActions>().CmdDropItem("leftHand");
                 GetComponent<PlayerNetworkActions>().CmdDropItem("rightHand");
-                gameObject.GetComponent<WeaponNetworkActions>().BloodSplat(transform.position, BloodSplatSize.medium);
-                Debug.Log("respawn initiated..");
+                BloodSplat(BloodSplatSize.large);
+                pna.RespawnPlayer(10);
             }
         }
 

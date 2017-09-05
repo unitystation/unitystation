@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 public abstract class BulletBehaviour : MonoBehaviour {
@@ -38,7 +39,7 @@ public abstract class BulletBehaviour : MonoBehaviour {
 		     damageable.IsDead || 
 		     damageable.gameObject.name.Equals( shooterName ) ) return;
 		//todo: determine body part
-		damageable.ApplyDamage(shooterName, damage, DamageType.BRUTE, BodyPartType.CHEST);
+		damageable.ApplyDamage(shooterName, damage, DamageType.BRUTE, UIManager.DamageZone);
 //		Debug.LogFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", damageable.gameObject.name, damage);
 		PoolManager.PoolClientDestroy(gameObject);
 	}
