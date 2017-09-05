@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using Weapons;
 using PlayGroup;
 using Sprites;
+using UI;
 
 public class WeaponNetworkActions: NetworkBehaviour {
 
@@ -68,7 +69,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
 		}
 
         BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-        b.Shoot(direction, angle, gameObject.name);
+        b.Shoot(direction, angle, gameObject.name, UIManager.DamageZone);
 
 		//add additional recoil after shooting for the next round
 		AppendRecoil(wepBehavior, angle);
@@ -121,10 +122,10 @@ public class WeaponNetworkActions: NetworkBehaviour {
 		    RpcKnifeAttackLerp(stabDirection);
 	    }
 	    npcObj.GetComponent<HealthBehaviour>()
-		    .ApplyDamage( gameObject.name, 20, DamageType.BRUTE );
+		    .ApplyDamage( gameObject.name, 20, DamageType.BRUTE, UIManager.DamageZone );
 	           
 	    //why do you need that bloodsplat after all?
-	    BloodSplat(npcObj.transform.position, BloodSplatSize.medium);
+//	    BloodSplat(npcObj.transform.position, BloodSplatSize.medium);
         soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 
         StartCoroutine(AttackCoolDown());
@@ -182,28 +183,27 @@ public class WeaponNetworkActions: NetworkBehaviour {
         lerping = true;
     }
 
-    [Server]
-    public void BloodSplat(Vector3 pos, BloodSplatSize splatSize) {
-        GameObject b = GameObject.Instantiate(bloodSplatPrefab, pos, Quaternion.identity);
-        NetworkServer.Spawn(b);
-        BloodSplat bSplat = b.GetComponent<BloodSplat>();
-		//TODO streaky blood from bullet wounds, dragging blood drops etc
-		//choose a random blood sprite
-		int spriteNum = 0;
-		switch (splatSize) {
-			case BloodSplatSize.small:
-				spriteNum = Random.Range(137, 139);
-				break;
-			case BloodSplatSize.medium:
-				spriteNum = Random.Range(116, 120);
-				break;
-			case BloodSplatSize.large:
-				spriteNum = Random.Range(105, 108);
-				break;
-		}
-
-		bSplat.bloodSprite = spriteNum;
-    }
+//    [Server]
+//    public void BloodSplat(Vector3 pos, BloodSplatSize splatSize) {
+//        GameObject b = GameObject.Instantiate(bloodSplatPrefab, pos, Quaternion.identity);
+//        NetworkServer.Spawn(b);
+//        BloodSplat bSplat = b.GetComponent<BloodSplat>();
+//		//choose a random blood sprite
+//		int spriteNum = 0;
+//		switch (splatSize) {
+//			case BloodSplatSize.small:
+//				spriteNum = Random.Range(137, 139);
+//				break;
+//			case BloodSplatSize.medium:
+//				spriteNum = Random.Range(116, 120);
+//				break;
+//			case BloodSplatSize.large:
+//				spriteNum = Random.Range(105, 108);
+//				break;
+//		}
+//
+//		bSplat.bloodSprite = spriteNum;
+//    }
 		
     //Server lerps
     void Update() {

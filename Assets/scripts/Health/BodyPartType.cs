@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public enum BodyPartType
+﻿public enum BodyPartType
 {
     HEAD,
 //    EYES,
