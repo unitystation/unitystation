@@ -203,9 +203,12 @@ namespace Matrix {
 
         public bool HasTileType(TileType tileType) {
             foreach(var tile in tiles) {
-                var registerTile = tile.GetComponent<RegisterTile>();
-                if(tileType == registerTile.TileType)
-                    return true;
+                if(tile != null)
+                {
+                    var registerTile = tile.GetComponent<RegisterTile>();
+                    if (tileType == registerTile.TileType)
+                        return true;
+                }                
             }
             return false;
         }
