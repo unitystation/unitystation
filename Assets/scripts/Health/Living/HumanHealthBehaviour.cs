@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using PlayGroup;
 using Sprites;
@@ -18,6 +19,7 @@ namespace Objects
         //For now a simplified blood system will be here. To be refactored into a separate thing in the future.
         public int BloodLevel = (int) BloodVolume.NORMAL;
         private int _bleedRate;
+        public bool IsBleeding { get; private set; }
 
         [Server]
         public override int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType, BodyPartType bodyPartAim)
@@ -36,7 +38,7 @@ namespace Objects
             }
             if ( headCritical(bodyPart) )
             {
-                OnCritActions();
+                Crit();
             }
 
             return damage;
@@ -86,18 +88,31 @@ namespace Objects
             if(amount <= 0) return;
             LoseBlood(amount); //mwahaha
             _bleedRate += amount;
+            IsBleeding = true;
+            StartCoroutine(StartBleeding());
         }
-        
+
+        private IEnumerator StartBleeding()
+        {
+            while ( IsBleeding )
+            {
+                UpdateHealth();
+                yield return new WaitForSeconds(2f);
+            }
+        }
+
         //ReduceBloodLoss for bandages and stuff in the future?
 
         private void StopBleeding()
         {
             _bleedRate = 0;
+            IsBleeding = false;
         }
 
         private void LoseBlood(int amount)
         {
             if(amount <= 0) return;
+            Debug.LogFormat("Lost blood: {0}->{1}", BloodLevel, BloodLevel - amount);
             BloodLevel -= amount;
             BloodSplatSize scaleOfTragedy;
             if      ( amount > 0 && amount < 15 )   {scaleOfTragedy = BloodSplatSize.small;}
@@ -139,14 +154,15 @@ namespace Objects
 
         public static float BleedFactor(DamageType damageType)
         {
+            float random = Random.Range(-0.2f,0.2f);
             switch ( damageType )
             {
                 case DamageType.BRUTE:
-                    return 1;
+                    return 0.6f + random;
                 case DamageType.BURN:
-                    return 0.4f;
+                    return 0.4f + random;
                 case DamageType.TOX:
-                    return 0.2f;
+                    return 0.2f + random;
             }
             return 0;
         }

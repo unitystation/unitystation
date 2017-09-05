@@ -15,15 +15,23 @@ public abstract class HealthBehaviour : NetworkBehaviour
         }
 
         Health = initialHealth;
-        IsDead = false;
-        IsCrit = false;
+//        Dead = false;
+//        Crit = false;
+        ConsciousState = ConsciousState.CONSCIOUS;
     }
 
     public int Health { get; private set; }
     public DamageType LastDamageType { get; private set; }
     public string LastDamagedBy { get; private set; }
-    public bool IsCrit { get; private set; }
-    public bool IsDead { get; private set; }
+    public ConsciousState ConsciousState;
+    public bool IsCrit {
+        get { return ConsciousState == ConsciousState.UNCONSCIOUS; }
+        private set { ConsciousState = ConsciousState.UNCONSCIOUS; }
+    }
+    public bool IsDead {
+        get { return ConsciousState == ConsciousState.DEAD; }
+        private set { ConsciousState = ConsciousState.DEAD; }
+    }
 
     public void ApplyDamage(string damagedBy, int damage,
         DamageType damageType, BodyPartType bodyPartAim = BodyPartType.CHEST)
@@ -34,7 +42,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
 //        Debug.LogFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}",
 //            calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
         Health -= calculatedDamage;
-        checkDeadStatus();
+        checkDeadCritStatus();
     }
 
     public virtual int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType,
@@ -48,12 +56,21 @@ public abstract class HealthBehaviour : NetworkBehaviour
     ///Death from other causes
     protected virtual void Death()
     {
-        OnDeathActions();
         IsDead = true;
+        OnDeathActions();
+    }
+    protected virtual void Crit()
+    {
+        IsCrit = true;
+        OnCritActions();
     }
 
-    private void checkDeadStatus()
+    private void checkDeadCritStatus()
     {
+        if ( Health < 0 )
+        {
+           Crit();
+        }
         if ( Health > -100 || IsDead ) return;
         Health = -100;
         Death();

@@ -45,12 +45,12 @@ public class SimpleAnimal : Living
         if ((StatusFlags & MobStatusFlag.GODMODE) != 0)
             return;
 
-        if (mobStat != MobConsciousStat.DEAD)
+        if (mobStat != ConsciousState.DEAD)
         {
             if (health <= 0)
                 Death();
             else
-                mobStat = MobConsciousStat.CONSCIOUS;
+                mobStat = ConsciousState.CONSCIOUS;
         }
     }
 

@@ -13,7 +13,7 @@ public class Human : Carbon
     bool checkDeath = false;
     void Update()
     {
-        if (mobStat == MobConsciousStat.UNCONSCIOUS && CustomNetworkManager.Instance._isServer && !checkDeath)
+        if (mobStat == ConsciousState.UNCONSCIOUS && CustomNetworkManager.Instance._isServer && !checkDeath)
         {
             checkDeath = true;
             StartCoroutine(WaitForCritUpdate());
@@ -32,7 +32,7 @@ public class Human : Carbon
     IEnumerator WaitForCritUpdate()
     {
         yield return new WaitForSeconds(4f);
-        if (mobStat != MobConsciousStat.DEAD)
+        if (mobStat != ConsciousState.DEAD)
             Death(false);
     }
 
@@ -74,7 +74,7 @@ public class Human : Carbon
 			gameObject.GetComponent<WeaponNetworkActions>().BloodSplat(transform.position, Sprites.BloodSplatSize.medium);
 			Debug.Log("respawn initiated..");
         }
-        mobStat = MobConsciousStat.DEAD;
+        mobStat = ConsciousState.DEAD;
         base.Death(gibbed);
     }
 		

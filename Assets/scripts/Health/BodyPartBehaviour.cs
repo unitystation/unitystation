@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class BodyPartBehaviour : NetworkBehaviour
+public class BodyPartBehaviour : MonoBehaviour
 {
     public BodyPartType Type;
     
@@ -23,7 +23,8 @@ public class BodyPartBehaviour : NetworkBehaviour
     public virtual void ReceiveDamage(DamageType damageType, int damage)
     {
         UpdateDamage(damage);
-        
+        Debug.LogFormat("{0} received {1} {2} damage. Total {3}/{4}, condition is {5}",
+                         Type, damage, damageType, _damage, MaxDamage, Severity);
     }
 
     private void UpdateDamage(int damage)
@@ -42,7 +43,6 @@ public class BodyPartBehaviour : NetworkBehaviour
         UI.UIManager.PlayerHealth.SetBodyTypeOverlay(this);
     }
 
-    //todo: update icons here, too!
     private void UpdateSeverity()
     {
         float severity = (float)_damage / MaxDamage;

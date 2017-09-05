@@ -19,14 +19,14 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4021687629784058}
-  - component: {fileID: 114310837791243998}
+  - component: {fileID: 114859648697239420}
   m_Layer: 8
   m_Name: HumanBodyPartRightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1045510969552376
 GameObject:
   m_ObjectHideFlags: 1
@@ -86,14 +86,14 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4650464137434912}
-  - component: {fileID: 114382836866318324}
+  - component: {fileID: 114645575864574208}
   m_Layer: 8
   m_Name: HumanBodyPartLeftLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1075270923249368
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +217,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4251119692072226}
-  - component: {fileID: 114471835885000906}
   - component: {fileID: 114457795912083674}
   m_Layer: 8
   m_Name: HumanBodyPartChest
@@ -324,7 +323,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4136849634666066}
-  - component: {fileID: 114295812792711174}
   - component: {fileID: 114593625294156532}
   m_Layer: 8
   m_Name: HumanBodyPartLeftArm
@@ -430,7 +428,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4479868398487846}
-  - component: {fileID: 114759882742241320}
   - component: {fileID: 114316649585772562}
   m_Layer: 8
   m_Name: HumanBodyPartHead
@@ -447,14 +444,14 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4604220880130844}
-  - component: {fileID: 114221374756254514}
+  - component: {fileID: 114626459693876662}
   m_Layer: 8
   m_Name: HumanBodyPartRightLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1795409780741894
 GameObject:
   m_ObjectHideFlags: 1
@@ -1105,9 +1102,9 @@ MonoBehaviour:
   - {fileID: 114457795912083674}
   - {fileID: 114316649585772562}
   - {fileID: 114593625294156532}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 114859648697239420}
+  - {fileID: 114645575864574208}
+  - {fileID: 114626459693876662}
   BloodLevel: 560
 --- !u!114 &114176283518884694
 MonoBehaviour:
@@ -1141,38 +1138,6 @@ MonoBehaviour:
   reference: -1
   thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212847469326298166}
---- !u!114 &114221374756254514
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1708637642242452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc997d59fea3c2b4da80d28aba274db0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Type: 10
-  DropItem: {fileID: 0}
-  Zone: r_leg
-  BruteDamage: 0
-  BurnDamage: 0
-  MaxDamage: 50
-  Description: You put your right leg in, your right leg out. In, out, in, out, shake
-    it all about. And apparently then it detaches. The hokey pokey has certainly changed
-    a lot since space colonisation.
-  brutestate: 0
-  burnstate: 0
-  GreenDamageMonitorIcon: {fileID: 21300760, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300772, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300784, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300816, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300840, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
 --- !u!114 &114280887415014694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1233,69 +1198,6 @@ MonoBehaviour:
   reference: -1
   thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212144883045729364}
---- !u!114 &114295812792711174
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1475777022527010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 68
-    i1: 168
-    i2: 163
-    i3: 190
-    i4: 145
-    i5: 39
-    i6: 244
-    i7: 70
-    i8: 90
-    i9: 80
-    i10: 183
-    i11: 129
-    i12: 29
-    i13: 5
-    i14: 155
-    i15: 179
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &114310837791243998
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1010132269202050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc997d59fea3c2b4da80d28aba274db0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Type: 5
-  DropItem: {fileID: 0}
-  Zone: r_arm
-  BruteDamage: 0
-  BurnDamage: 0
-  MaxDamage: 50
-  Description: Over 87% of humans are right handed. That figure is much lower among
-    humans missing their right arm.
-  brutestate: 0
-  burnstate: 0
-  GreenDamageMonitorIcon: {fileID: 21300756, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300768, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300780, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300810, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300832, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
 --- !u!114 &114316649585772562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1379,37 +1281,6 @@ MonoBehaviour:
   reference: -1
   thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212039247469239700}
---- !u!114 &114382836866318324
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1074894628694278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc997d59fea3c2b4da80d28aba274db0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Type: 9
-  DropItem: {fileID: 0}
-  Zone: l_leg
-  BruteDamage: 0
-  BurnDamage: 0
-  MaxDamage: 50
-  Description: Some athletes prefer to tie their left shoelaces first for good luck.
-    In this instance, it probably would not have helped.
-  brutestate: 0
-  burnstate: 0
-  GreenDamageMonitorIcon: {fileID: 21300762, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300774, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300786, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300798, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300844, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
 --- !u!114 &114390575568471296
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1556,38 +1427,6 @@ MonoBehaviour:
   GrayDamageMonitorIcon: {fileID: 21300830, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   MaxDamage: 200
---- !u!114 &114471835885000906
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1308134912561008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 68
-    i1: 168
-    i2: 163
-    i3: 190
-    i4: 145
-    i5: 39
-    i6: 244
-    i7: 70
-    i8: 90
-    i9: 80
-    i10: 183
-    i11: 129
-    i12: 29
-    i13: 5
-    i14: 155
-    i15: 179
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114505375981646366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1717,6 +1556,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMove: {fileID: 114792299177679754}
   pullingObject: {fileID: 0}
+--- !u!114 &114626459693876662
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1708637642242452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 5
+  GreenDamageMonitorIcon: {fileID: 21300760, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  YellowDamageMonitorIcon: {fileID: 21300772, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  OrangeDamageMonitorIcon: {fileID: 21300784, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  RedDamageMonitorIcon: {fileID: 21300816, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  GrayDamageMonitorIcon: {fileID: 21300840, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  MaxDamage: 50
 --- !u!114 &114636370206516294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1741,6 +1603,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   muzzleFlash: {fileID: 1894933337466704}
+--- !u!114 &114645575864574208
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1074894628694278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 4
+  GreenDamageMonitorIcon: {fileID: 21300762, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  YellowDamageMonitorIcon: {fileID: 21300774, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  OrangeDamageMonitorIcon: {fileID: 21300786, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  RedDamageMonitorIcon: {fileID: 21300798, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  GrayDamageMonitorIcon: {fileID: 21300844, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  MaxDamage: 50
 --- !u!114 &114655767677116310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1797,38 +1682,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventName: mask
---- !u!114 &114759882742241320
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1693036899965374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 68
-    i1: 168
-    i2: 163
-    i3: 190
-    i4: 145
-    i5: 39
-    i6: 244
-    i7: 70
-    i8: 90
-    i9: 80
-    i10: 183
-    i11: 129
-    i12: 29
-    i13: 5
-    i14: 155
-    i15: 179
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114761353998407626
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1918,6 +1771,29 @@ MonoBehaviour:
   reference: -1
   thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212990490947787952}
+--- !u!114 &114859648697239420
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1010132269202050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 3
+  GreenDamageMonitorIcon: {fileID: 21300756, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  YellowDamageMonitorIcon: {fileID: 21300768, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  OrangeDamageMonitorIcon: {fileID: 21300780, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  RedDamageMonitorIcon: {fileID: 21300810, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  GrayDamageMonitorIcon: {fileID: 21300832, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  MaxDamage: 50
 --- !u!114 &114868184203081376
 MonoBehaviour:
   m_ObjectHideFlags: 1

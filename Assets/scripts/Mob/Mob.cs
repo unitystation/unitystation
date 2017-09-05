@@ -16,7 +16,7 @@ public abstract class Mob : NetworkBehaviour
     // see mob_defines.dm /mob/mob_defines.dm Paralysis
     public bool paralysis = false;
     // see mob_defines.dm /mob/mob_defines.dm var/stat
-    public MobConsciousStat mobStat = MobConsciousStat.CONSCIOUS; // Default to 0 (CONSCIOUS)
+    public ConsciousState mobStat = ConsciousState.CONSCIOUS; // Default to 0 (CONSCIOUS)
 
     // see mob_defines.dm /mob/mob_defines.dm status_flags
     // Bitwise mask

@@ -221,9 +221,9 @@ public class ExplodeWhenShot : NetworkBehaviour
         }
     }
 
-    [Obsolete]
-    internal virtual void HurtPeople( Living living, string damagedBy, int damage )
-    {
-        living.RpcReceiveDamage( damagedBy, damage, DamageType.BURN, BodyPartType.CHEST );
-    }
+//    [Obsolete]
+//    internal virtual void HurtPeople( Living living, string damagedBy, int damage )
+//    {
+//        living.RpcReceiveDamage( damagedBy, damage, DamageType.BURN, BodyPartType.CHEST );
+//    }
 }

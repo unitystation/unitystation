@@ -72,7 +72,7 @@ public class Living : Mob
             {
                 Vector2 dir = ( Camera.main.ScreenToWorldPoint( Input.mousePosition ) -
                                 PlayerManager.LocalPlayer.transform.position ).normalized;
-                if ( mobStat != MobConsciousStat.DEAD )
+                if ( mobStat != ConsciousState.DEAD )
                 {
                     PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeAttackMob( this.gameObject, dir );
                 }
@@ -185,7 +185,7 @@ public class Living : Mob
     // see living.dm InCritical
     public virtual bool InCritical()
     {
-        return ( health < 0 && health > -95 && mobStat == MobConsciousStat.UNCONSCIOUS );
+        return ( health < 0 && health > -95 && mobStat == ConsciousState.UNCONSCIOUS );
     }
 
     // see living.dm updateHealth
@@ -323,7 +323,7 @@ public class Living : Mob
     // see living death.dm /mob/living/death(gibbed)
     public override void Death( bool gibbed = false )
     {
-        mobStat = MobConsciousStat.DEAD;
+        mobStat = ConsciousState.DEAD;
         paralysis = false;
     }
 
@@ -331,7 +331,7 @@ public class Living : Mob
     [ClientRpc]
     public virtual void RpcGib( bool no_brain, bool no_organs, bool no_bodyparts )
     {
-        if ( mobStat != MobConsciousStat.DEAD )
+        if ( mobStat != ConsciousState.DEAD )
             Death( true );
 
         GibAnimation();

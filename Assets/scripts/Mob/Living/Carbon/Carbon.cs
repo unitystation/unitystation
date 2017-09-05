@@ -24,7 +24,7 @@ public class Carbon : Living
         if (!IsClient())
             return;
 
-        if (mobStat != MobConsciousStat.DEAD)
+        if (mobStat != ConsciousState.DEAD)
         {
             if (shownHealthAmount == 0)
                 shownHealthAmount = health;
@@ -76,7 +76,7 @@ public class Carbon : Living
         health = maxHealth - GetOxyLoss() - GetToxLoss() - GetCloneLoss() - total_burn - total_brute;
         UpdateStat();
 
-        if (((maxHealth - total_burn) < MobHealthThreshold.HEALTH_THRESHOLD_DEAD) && mobStat == MobConsciousStat.DEAD)
+        if (((maxHealth - total_burn) < MobHealthThreshold.HEALTH_THRESHOLD_DEAD) && mobStat == ConsciousState.DEAD)
         {
             BecomeHusk();
         }
@@ -87,7 +87,7 @@ public class Carbon : Living
     // See carbon.dm update_stat
     public override void UpdateStat()
     {
-        if (mobStat != MobConsciousStat.DEAD)
+        if (mobStat != ConsciousState.DEAD)
         {
             // TODO Check brain here
             if (health <= MobHealthThreshold.HEALTH_THRESHOLD_DEAD)
@@ -102,10 +102,10 @@ public class Carbon : Living
 
             if (paralysis || sleeping || oxyLoss > 50 || ((statusFlags & MobStatusFlag.FAKEDEATH) != 0) || health <= MobHealthThreshold.HEALTH_THRESHOLD_CRIT)
             {
-                if (mobStat == MobConsciousStat.CONSCIOUS)
+                if (mobStat == ConsciousState.CONSCIOUS)
                 {
 					Debug.Log("UNCONSCIOUS");
-                    mobStat = MobConsciousStat.UNCONSCIOUS;
+                    mobStat = ConsciousState.UNCONSCIOUS;
 					if (IsClient()) {
 						PlayerManager.LocalPlayerScript.playerNetworkActions.CmdConsciousState(false);
 //						//FIXME remove after the combat demo, this is just a fast way to go straight to death
@@ -139,7 +139,7 @@ public class Carbon : Living
         if (!IsClient())
             return;
 
-        if (mobStat == MobConsciousStat.UNCONSCIOUS && health <= MobHealthThreshold.HEALTH_THRESHOLD_CRIT)
+        if (mobStat == ConsciousState.UNCONSCIOUS && health <= MobHealthThreshold.HEALTH_THRESHOLD_CRIT)
         {
             int severity = 0;
             if (health >= -20 && health <= -10)
@@ -473,7 +473,7 @@ public class Carbon : Living
 		
         UI.UIManager.PlayerHealth.DisplayDeadScreen();
 
-        if (mobStat == MobConsciousStat.DEAD)
+        if (mobStat == ConsciousState.DEAD)
             return;
         if (!gibbed)
             //TODO emote("deathgasp")

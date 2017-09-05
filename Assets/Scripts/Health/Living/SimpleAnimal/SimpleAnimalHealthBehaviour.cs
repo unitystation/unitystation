@@ -10,7 +10,7 @@ public class SimpleAnimalHealthBehaviour : HealthBehaviour
 //            if (b != null && b.shooterName != gameObject.name && mobStat != MobConsciousStat.DEAD) {
         var simpleAnimal = GetComponent<SimpleAnimal>();
         if (simpleAnimal != null && 
-            simpleAnimal.mobStat != MobConsciousStat.DEAD && 
+            simpleAnimal.mobStat != ConsciousState.DEAD && 
             CustomNetworkManager.Instance._isServer) 
         {
             //delegated to Living atm
