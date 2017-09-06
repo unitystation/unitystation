@@ -250,4 +250,13 @@ namespace Sprites {
 		medium,
 		large
 	}
+
+	public enum BloodSplatType
+	{
+		Generic,
+		BloodLoss,
+		Brute,
+		Bullet,
+		//whatever
+	}
 }

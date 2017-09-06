@@ -12,7 +12,7 @@ public class FuelTankHealthBehaviour : HealthBehaviour
 
         }
 
-        public override void onDeathActions()
+        protected override void OnDeathActions()
         {
             objectActions.BreakPull();
             var delay = 0f;

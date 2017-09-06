@@ -6799,7 +6799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da5fbcb0c1b794419416e920d0c0612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyPartType: 9
+  bodyPartType: 4
 --- !u!114 &114036698900262940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7129,7 +7129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da5fbcb0c1b794419416e920d0c0612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyPartType: 5
+  bodyPartType: 3
 --- !u!114 &114100708504100264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7663,7 +7663,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 6
+          m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8031,7 +8031,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8758,7 +8758,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -9292,7 +9292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da5fbcb0c1b794419416e920d0c0612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyPartType: 3
+  bodyPartType: 1
 --- !u!114 &114322472945137938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9634,7 +9634,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -9772,14 +9772,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectorSprites:
-  - {fileID: 21300194, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
   - {fileID: 21300210, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
-  - {fileID: 21300206, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
-  - {fileID: 21300208, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
-  - {fileID: 21300200, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
+  - {fileID: 21300194, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
   - {fileID: 21300198, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
-  - {fileID: 21300204, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
+  - {fileID: 21300200, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
   - {fileID: 21300202, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
+  - {fileID: 21300204, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
   selImg: {fileID: 114886777557880474}
 --- !u!114 &114384860769954396
 MonoBehaviour:
@@ -10065,7 +10063,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 7
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -10352,7 +10350,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -12164,7 +12162,7 @@ MonoBehaviour:
   m_ContentType: 5
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 6
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 4
@@ -13087,7 +13085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da5fbcb0c1b794419416e920d0c0612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyPartType: 10
+  bodyPartType: 5
 --- !u!114 &114779247109612158
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13211,7 +13209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da5fbcb0c1b794419416e920d0c0612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyPartType: 4
+  bodyPartType: 2
 --- !u!114 &114801218149973166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13467,7 +13465,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -13964,7 +13962,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -19479,7 +19477,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0.000091552734, y: 247.5}
+  m_AnchoredPosition: {x: 0.000091552734, y: 247.50002}
   m_SizeDelta: {x: -34, y: 517}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224954026032160362
