@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
+using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
 using Weapons;
-using PlayGroup;
-using Sprites;
-using UI;
-using Random = UnityEngine.Random;
 
 public class WeaponNetworkActions: NetworkBehaviour {
 
     private GameObject spritesObj;
     private PlayerMove playerMove;
     private SoundNetworkActions soundNetworkActions;
-    private GameObject bloodSplatPrefab;
 	public GameObject muzzleFlash;
 
     //Lerp parameters
@@ -32,7 +26,6 @@ public class WeaponNetworkActions: NetworkBehaviour {
         spritesObj = transform.Find("Sprites").gameObject;
         playerMove = GetComponent<PlayerMove>();
         soundNetworkActions = GetComponent<SoundNetworkActions>();
-        bloodSplatPrefab = Resources.Load("BloodSplat") as GameObject;
     }
 
     [Command]
@@ -259,7 +252,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
 	}
 
 	void SpawnBulletCaseing() {
-		GameObject casing = GameObject.Instantiate(Resources.Load("BulletCasing") as GameObject, transform.position, Quaternion.identity);
+		GameObject casing = Instantiate(Resources.Load("BulletCasing") as GameObject, transform.position, Quaternion.identity);
 		NetworkServer.Spawn(casing);
 	}
 	#endregion

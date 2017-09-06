@@ -126,7 +126,10 @@ public abstract class HealthBehaviour : NetworkBehaviour
     protected virtual void OnCritActions()
     {
         var pna = GetComponent<PlayerNetworkActions>();
-        pna.CmdConsciousState(false);
+        if (isServer)
+        {
+            pna.CmdConsciousState(false);
+        }
     }
 
     protected abstract void OnDeathActions();
