@@ -398,7 +398,6 @@ namespace FullSerializer {
                     "multiple fsConverters -- please construct a new instance for " + converter);
             }
 
-            // TODO: wrap inside of a ConverterManager so we can control _converters and _cachedConverters lifetime
             if (converter is fsDirectConverter) {
                 var directConverter = (fsDirectConverter)converter;
                 _availableDirectConverters[directConverter.ModelType] = directConverter;
@@ -725,7 +724,6 @@ namespace FullSerializer {
                     deserializeResult += InternalDeserialize_3_Inheritance(overrideConverterType, data, path[0].ModelType, ref result, out processors);
                     if (deserializeResult.Failed) return deserializeResult;
 
-                    // TODO: we probably should be invoking object processors all along this pipeline
                     for (int i = 1; i < path.Count; ++i) {
                         result = path[i].Migrate(result);
                     }
@@ -816,7 +814,7 @@ namespace FullSerializer {
                 // NOTE: object references are handled at stage 1
 
                 // If this is a definition, then we have a serialization invariant that this is the
-                // first time we have encountered the object (TODO: verify in the deserialization logic)
+                // first time we have encountered the object (
 
                 // Since at this stage in the deserialization process we already have access to the
                 // object instance, so we just need to sync the object id to the references database

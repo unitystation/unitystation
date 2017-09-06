@@ -420,7 +420,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [ClientRpc]
     public void RpcSetPlayerRot(bool temporary, float rot)
     {
-		Debug.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
+//		Debug.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
 		SpriteRenderer[] spriteRends = GetComponentsInChildren<SpriteRenderer>();
 		foreach (SpriteRenderer sR in spriteRends) {
 			sR.sortingLayerName = "Blood";
@@ -485,15 +485,25 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     //Respawn action for Deathmatch v 0.1.3
 
     [Server]
-	public void RespawnPlayer(){
-		RpcAdjustForRespawn();
-		var spawn = CustomNetworkManager.Instance.GetStartPosition();
-		var newPlayer = ( GameObject) Instantiate(CustomNetworkManager.Instance.playerPrefab, spawn.position, spawn.rotation );
+	public void RespawnPlayer(int timeout = 0)
+    {
+        StartCoroutine(initiateRespawn(timeout));
+    }
+    
+    [Server]
+    private IEnumerator initiateRespawn(int timeout)
+    {
+        Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
+        yield return new WaitForSeconds(timeout);
+        RpcAdjustForRespawn();
+        var spawn = CustomNetworkManager.Instance.GetStartPosition();
+        var newPlayer =
+            Instantiate(CustomNetworkManager.Instance.playerPrefab, spawn.position, spawn.rotation);
 //		NetworkServer.Destroy( this.gameObject );
-		EquipmentPool.ClearPool(gameObject.name);
-		PlayerList.Instance.connectedPlayers[gameObject.name] = newPlayer;
-		NetworkServer.ReplacePlayerForConnection( this.connectionToClient, newPlayer, this.playerControllerId );
-	}
+        EquipmentPool.ClearPool(gameObject.name);
+        PlayerList.Instance.connectedPlayers[gameObject.name] = newPlayer;
+        NetworkServer.ReplacePlayerForConnection(connectionToClient, newPlayer, playerControllerId);
+    }
 
     [ClientRpc]
 	private void RpcAdjustForRespawn(){

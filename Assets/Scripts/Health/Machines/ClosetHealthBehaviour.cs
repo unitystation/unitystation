@@ -19,8 +19,8 @@ namespace Objects
             objectActions = GetComponent<ObjectActions>();
             closetControl = GetComponent<ClosetControl>();
         }
-        
-        public override void onDeathActions()
+
+        protected override void OnDeathActions()
         {
             if (isServer)
             {

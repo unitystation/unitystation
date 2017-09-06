@@ -13,9 +13,8 @@ public class GibMessage : ServerMessage<GibMessage>
 
 		yield return WaitFor(Subject);
 
-		foreach (var living in Object.FindObjectsOfType<Living>()) {
-			living.lastDamager = "God";
-			living.Death(true);
+		foreach (var living in Object.FindObjectsOfType<HealthBehaviour>()) {
+			living.Death();
 		}
 	}
 
