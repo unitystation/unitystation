@@ -12,7 +12,7 @@ namespace Sprites {
 //					Debug.Log("Sprite found with key: " + key);
 					return sprites[key];
 				} else {
-//					Debug.Log("SPRITE MANAGER ERROR, KEY " + key + "NOT FOUND IN SPRITES");
+					Debug.Log("SPRITE MANAGER ERROR, KEY " + key + "NOT FOUND IN SPRITES");
 					return null; 
 				}
             }
@@ -96,6 +96,7 @@ namespace Sprites {
 		        DoorSprites["science"] = dmi.getSprites("obj/doors/airlocks/station/science");
 		        DoorSprites["security"] = dmi.getSprites("obj/doors/airlocks/station/security");
 		        DoorSprites["virology"] = dmi.getSprites("obj/doors/airlocks/station/virology");
+                DoorSprites["shuttle"] = dmi.getSprites("obj/doors/airlocks/shuttle/shuttle");
 
 		        MonitorSprites["monitors"] = dmi.getSprites("obj/monitors");
 
@@ -240,7 +241,8 @@ namespace Sprites {
 		research,
 		science,
 		security,
-		virology
+		virology,
+        shuttle
 	}
 		
 	public enum BloodSplatSize{
