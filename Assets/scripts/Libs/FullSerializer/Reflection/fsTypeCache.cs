@@ -10,7 +10,6 @@ namespace FullSerializer.Internal {
         /// <summary>
         /// Cache from fully qualified type name to type instances.
         /// </summary>
-        // TODO: verify that type names will be unique
         private static Dictionary<string, Type> _cachedTypes = new Dictionary<string, Type>();
 
         /// <summary>

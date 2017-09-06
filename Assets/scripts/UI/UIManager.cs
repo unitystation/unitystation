@@ -119,7 +119,7 @@ namespace UI
 		/// <summary>
 		/// What is DamageZoneSeclector currently set at
 		/// </summary>
-		public static DamageZoneSelector DamageZone { get; set; }
+		public static BodyPartType DamageZone { get; set; }
 
 		/// <summary>
 		/// Is throw selected?

@@ -104,12 +104,12 @@ public class ExplodeWhenShotTest
 		public bool wentBoom;
 		public Action<Living> callback;
 
-		internal override void HurtPeople(Living living, string damagedBy, int damage)
-		{
-			if (callback != null) {
-				callback(living);
-			}
-		}
+//		internal override void HurtPeople(Living living, string damagedBy, int damage)
+//		{
+//			if (callback != null) {
+//				callback(living);
+//			}
+//		}
 
 		internal override void GoBoom()
 		{

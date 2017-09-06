@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using Weapons;
 using PlayGroup;
 using Sprites;
+using UI;
+using Random = UnityEngine.Random;
 
 public class WeaponNetworkActions: NetworkBehaviour {
 
@@ -47,7 +50,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
     }
 
     [Command]
-	public void CmdShootBullet(GameObject weapon, GameObject magazine, Vector2 direction, string bulletName) {
+	public void CmdShootBullet(GameObject weapon, GameObject magazine, Vector2 direction, string bulletName, BodyPartType damageZone) {
 		if(!playerMove.allowInput || playerMove.isGhost)
             return;
 
@@ -68,14 +71,14 @@ public class WeaponNetworkActions: NetworkBehaviour {
 		}
 
         BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-        b.Shoot(direction, angle, gameObject.name);
+        b.Shoot(direction, angle, gameObject.name, damageZone);
 
 		//add additional recoil after shooting for the next round
 		AppendRecoil(wepBehavior, angle);
 
         //This is used to determine where bullet shot should head towards on client
         Ray2D ray = new Ray2D(transform.position, direction);
-		RpcShootBullet(weapon, ray.GetPoint(30f), bulletName);
+		RpcShootBullet(weapon, ray.GetPoint(30f), bulletName, damageZone);
 
 		//TODO add a check to see if bullet or energy weapon
 		SpawnBulletCaseing();
@@ -88,7 +91,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
     //Bullets are just graphical candy on the client, give them the end point and let 
     //them work out the start pos and direction
     [ClientRpc]
-    void RpcShootBullet(GameObject weapon, Vector2 endPos, string bulletName) {
+    void RpcShootBullet(GameObject weapon, Vector2 endPos, string bulletName, BodyPartType damageZone) {
 		if(!playerMove.allowInput || playerMove.isGhost)
             return;
 
@@ -105,28 +108,46 @@ public class WeaponNetworkActions: NetworkBehaviour {
         Vector2 dir = (endPos - playerPos).normalized;
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-        b.Shoot(dir, angle, gameObject.name);
+        b.Shoot(dir, angle, gameObject.name, damageZone);
 		if (!isFlashing) {
 			isFlashing = true;
 			StartCoroutine(ShowMuzzleFlash());
 		}
     }
 
-    [Command]
-    public void CmdKnifeAttackMob(GameObject npcObj, Vector2 stabDirection) {
+    [Command]//TODO fixme ghetto proof-of-concept
+    public void CmdKnifeAttackMob(GameObject npcObj, Vector2 stabDirection, BodyPartType damageZone) {
 		if(!playerMove.allowInput || !allowAttack || playerMove.isGhost)
             return;
 
-        Living attackTarget = npcObj.GetComponent<Living>();
-        if(npcObj != gameObject) {
-            RpcKnifeAttackLerp(stabDirection);
-        }
-        attackTarget.RpcReceiveDamage(gameObject.name, 20, DamageType.BRUTE, BodyPartType.CHEST);
-        BloodSplat(npcObj.transform.position, BloodSplatSize.medium);
+	    if(npcObj != gameObject) {
+		    RpcKnifeAttackLerp(stabDirection);
+	    }
+	    var healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
+	    healthBehaviour
+		    .ApplyDamage( gameObject.name, 20, DamageType.BRUTE, damageZone );
+	    
+	    //this crap will remain here until moved to netmessages
+	    healthBehaviour.RpcApplyDamage( gameObject.name, 20, DamageType.BRUTE, damageZone );
+	           
         soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
-
         StartCoroutine(AttackCoolDown());
     }
+//    [Command]
+//    public void CmdKnifeAttackMob(GameObject npcObj, Vector2 stabDirection) {
+//		if(!playerMove.allowInput || !allowAttack || playerMove.isGhost)
+//            return;
+//
+//        Living attackTarget = npcObj.GetComponent<Living>();
+//        if(npcObj != gameObject) {
+//            RpcKnifeAttackLerp(stabDirection);
+//        }
+//        attackTarget.RpcReceiveDamage(gameObject.name, 20, DamageType.BRUTE, BodyPartType.CHEST);
+//        BloodSplat(npcObj.transform.position, BloodSplatSize.medium);
+//        soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
+//
+//        StartCoroutine(AttackCoolDown());
+//    }
 
     private bool allowAttack = true;
 
@@ -136,16 +157,17 @@ public class WeaponNetworkActions: NetworkBehaviour {
         allowAttack = true;
     }
 
-    [Command]
-    public void CmdKnifeHarvestMob(GameObject npcObj, Vector2 stabDirection) {
-		if(!playerMove.allowInput || playerMove.isGhost)
-            return;
-
-        Living attackTarget = npcObj.GetComponent<Living>();
-        RpcKnifeAttackLerp(stabDirection);
-        attackTarget.HarvestIt();
-        soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
-    }
+	// Harvest is turned off for now
+//    [Command][Obsolete]
+//    public void CmdKnifeHarvestMob(GameObject npcObj, Vector2 stabDirection) {
+//		if(!playerMove.allowInput || playerMove.isGhost)
+//            return;
+//
+//        Living attackTarget = npcObj.GetComponent<Living>();
+//        RpcKnifeAttackLerp(stabDirection);
+//        attackTarget.HarvestIt();
+//        soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
+//    }
 
     [ClientRpc]
     void RpcKnifeAttackLerp(Vector2 stabDir) {
@@ -165,28 +187,27 @@ public class WeaponNetworkActions: NetworkBehaviour {
         lerping = true;
     }
 
-    [Server]
-    public void BloodSplat(Vector3 pos, BloodSplatSize splatSize) {
-        GameObject b = GameObject.Instantiate(bloodSplatPrefab, pos, Quaternion.identity);
-        NetworkServer.Spawn(b);
-        BloodSplat bSplat = b.GetComponent<BloodSplat>();
-		//TODO streaky blood from bullet wounds, dragging blood drops etc
-		//choose a random blood sprite
-		int spriteNum = 0;
-		switch (splatSize) {
-			case BloodSplatSize.small:
-				spriteNum = Random.Range(137, 139);
-				break;
-			case BloodSplatSize.medium:
-				spriteNum = Random.Range(116, 120);
-				break;
-			case BloodSplatSize.large:
-				spriteNum = Random.Range(105, 108);
-				break;
-		}
-
-		bSplat.bloodSprite = spriteNum;
-    }
+//    [Server]
+//    public void BloodSplat(Vector3 pos, BloodSplatSize splatSize) {
+//        GameObject b = GameObject.Instantiate(bloodSplatPrefab, pos, Quaternion.identity);
+//        NetworkServer.Spawn(b);
+//        BloodSplat bSplat = b.GetComponent<BloodSplat>();
+//		//choose a random blood sprite
+//		int spriteNum = 0;
+//		switch (splatSize) {
+//			case BloodSplatSize.small:
+//				spriteNum = Random.Range(137, 139);
+//				break;
+//			case BloodSplatSize.medium:
+//				spriteNum = Random.Range(116, 120);
+//				break;
+//			case BloodSplatSize.large:
+//				spriteNum = Random.Range(105, 108);
+//				break;
+//		}
+//
+//		bSplat.bloodSprite = spriteNum;
+//    }
 		
     //Server lerps
     void Update() {
