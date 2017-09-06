@@ -7,7 +7,7 @@ namespace UI
     public class PlayerHealth : MonoBehaviour
     {
 
-        // TODO FIXME temp shit to check if it works 
+        /// placeholder based on old code
         public void SetBodyTypeOverlay(BodyPartBehaviour bodyPart)
         {
             foreach (var listener in UIManager.Instance.GetComponentsInChildren<DamageMonitorListener>())

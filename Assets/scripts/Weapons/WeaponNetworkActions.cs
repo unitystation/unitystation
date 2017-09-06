@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -6,6 +7,7 @@ using Weapons;
 using PlayGroup;
 using Sprites;
 using UI;
+using Random = UnityEngine.Random;
 
 public class WeaponNetworkActions: NetworkBehaviour {
 
@@ -155,16 +157,17 @@ public class WeaponNetworkActions: NetworkBehaviour {
         allowAttack = true;
     }
 
-    [Command]
-    public void CmdKnifeHarvestMob(GameObject npcObj, Vector2 stabDirection) {
-		if(!playerMove.allowInput || playerMove.isGhost)
-            return;
-
-        Living attackTarget = npcObj.GetComponent<Living>();
-        RpcKnifeAttackLerp(stabDirection);
-        attackTarget.HarvestIt();
-        soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
-    }
+	// Harvest is turned off for now
+//    [Command][Obsolete]
+//    public void CmdKnifeHarvestMob(GameObject npcObj, Vector2 stabDirection) {
+//		if(!playerMove.allowInput || playerMove.isGhost)
+//            return;
+//
+//        Living attackTarget = npcObj.GetComponent<Living>();
+//        RpcKnifeAttackLerp(stabDirection);
+//        attackTarget.HarvestIt();
+//        soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
+//    }
 
     [ClientRpc]
     void RpcKnifeAttackLerp(Vector2 stabDir) {

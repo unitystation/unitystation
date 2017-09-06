@@ -1098,6 +1098,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialHealth: 100
   maxHealth: 100
+  ConsciousState: 0
   BodyParts:
   - {fileID: 114457795912083674}
   - {fileID: 114316649585772562}
@@ -1220,7 +1221,7 @@ MonoBehaviour:
     type: 3}
   GrayDamageMonitorIcon: {fileID: 21300824, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  MaxDamage: 200
+  MaxDamage: 100
 --- !u!114 &114317598722413354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1384,14 +1385,6 @@ MonoBehaviour:
   brainLoss: 0
   staminaLoss: 0
   butcherResults: []
-  BodyParts:
-  - {fileID: 1308134912561008}
-  - {fileID: 1693036899965374}
-  - {fileID: 1475777022527010}
-  - {fileID: 1074894628694278}
-  - {fileID: 1010132269202050}
-  - {fileID: 1708637642242452}
-  DamageOverlayType: 0
 --- !u!114 &114446262269173418
 MonoBehaviour:
   m_ObjectHideFlags: 1

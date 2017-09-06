@@ -22,15 +22,20 @@ namespace UI {
 
         private void Start()
         {
-            //init chest selection. it clicks, yeah
-            SelectAction(1);
+            //init chest selection
+            SelectAction(1, false);
         }
 
-        public void SelectAction(int curSelect) {
-            SoundManager.Play("Click01");
+        //unity...
+        public void SelectAction(int curSelect)
+        {
+            SelectAction(curSelect, true);
+        }
+
+        public void SelectAction(int curSelect, bool click) {
+            if (click) {SoundManager.Play("Click01");}
             selImg.sprite = selectorSprites[curSelect];
             UIManager.DamageZone = (BodyPartType) curSelect;
-            PlayerScript.SelectedDamageZone = (BodyPartType) curSelect;
         }
     }
 }

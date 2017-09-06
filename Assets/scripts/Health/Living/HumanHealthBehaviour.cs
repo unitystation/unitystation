@@ -18,8 +18,9 @@ namespace Objects
 
         //For now a simplified blood system will be here. To be refactored into a separate thing in the future.
         public int BloodLevel = (int) BloodVolume.NORMAL;
-        private int _bleedRate;
+        private int bleedVolume;
         public bool IsBleeding { get; private set; }
+        private float bleedRate = 2f;
 
         public override int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType, BodyPartType bodyPartAim)
         {
@@ -69,23 +70,20 @@ namespace Objects
             return BodyParts.PickRandom();
         }
         
+//        dictionary version
 //        private BodyPartBehaviour findBodyPart(BodyPartType bodyPartAim)
 //        {
 //            if ( BodyParts[bodyPartAim] )
 //            {
 //                return BodyParts[bodyPartAim];
 //            }
-//            //dm code quotes:
-//            //"no bodypart, we deal damage with a more general method."
-//            //"missing limb? we select the first bodypart (you can never have zero, because of chest)"
 //            return BodyParts.Values.PickRandom();
 //        }
 
         private void AddBloodLoss(int amount)
         {
             if(amount <= 0) return;
-//            LoseBlood(amount); //mwahaha
-            _bleedRate += amount;
+            bleedVolume += amount;
             TryBleed();
         }
 
@@ -103,8 +101,9 @@ namespace Objects
         {
             while ( IsBleeding )
             {
-                LoseBlood(_bleedRate);
-                yield return new WaitForSeconds(2f);
+                LoseBlood(bleedVolume);
+                
+                yield return new WaitForSeconds(bleedRate);
             }
         }
 
@@ -112,7 +111,7 @@ namespace Objects
 
         private void StopBleeding()
         {
-            _bleedRate = 0;
+            bleedVolume = 0;
             IsBleeding = false;
         }
 

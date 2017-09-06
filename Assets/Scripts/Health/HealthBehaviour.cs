@@ -26,17 +26,23 @@ public abstract class HealthBehaviour : NetworkBehaviour
     public DamageType LastDamageType { get; private set; }
     public string LastDamagedBy {
         get { return lastDamagedBy; }
-        private set { lastDamagedBy = LastDamagedBy; }
+        private set
+        {
+            lastDamagedBy = value;
+        }
     }
     private string lastDamagedBy = "stressful work";
     public ConsciousState ConsciousState;
+
+    //be careful with falses, will make player conscious
     public bool IsCrit {
         get { return ConsciousState == ConsciousState.UNCONSCIOUS; }
-        private set { ConsciousState = ConsciousState.UNCONSCIOUS; }
+        private set { ConsciousState = value ? ConsciousState.UNCONSCIOUS : ConsciousState.CONSCIOUS; }
     }
+
     public bool IsDead {
         get { return ConsciousState == ConsciousState.DEAD; }
-        private set { ConsciousState = ConsciousState.DEAD; }
+        private set { ConsciousState = value ? ConsciousState.DEAD : ConsciousState.CONSCIOUS; }
     }
 
     ///fixme/todo: to be replaced by net messages, crappy and unsecure placeholder
@@ -137,7 +143,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
                 if ( ConsciousState != ConsciousState.DEAD )
                 {
                     var lps = PlayerManager.LocalPlayerScript;
-                    lps.weaponNetworkActions.CmdKnifeAttackMob( gameObject, dir, PlayerScript.SelectedDamageZone );
+                    lps.weaponNetworkActions.CmdKnifeAttackMob( gameObject, dir, UIManager.DamageZone/*PlayerScript.SelectedDamageZone*/ );
                 }
                 else
                 {

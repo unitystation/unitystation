@@ -245,7 +245,7 @@ namespace Weapons
 							Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
 							var lps = PlayerManager.LocalPlayerScript;
 							lps.weaponNetworkActions.CmdShootBullet(gameObject, CurrentMagazine.gameObject, dir, 
-																	Projectile.name, PlayerScript.SelectedDamageZone);
+																	Projectile.name, UIManager.DamageZone/*PlayerScript.SelectedDamageZone*/);
 							if (WeaponType == WeaponType.FullyAutomatic)
 								lps.inputController.OnMouseDownDir(dir);
 						}

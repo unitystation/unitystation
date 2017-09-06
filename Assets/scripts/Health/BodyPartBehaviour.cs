@@ -14,7 +14,7 @@ public class BodyPartBehaviour : MonoBehaviour
 
     //50 for limbs, 200 for the head and torso(?)
     public int MaxDamage = 50;
-    private int _damage = 0;
+    private int _damage;
     private DamageSeverity _severity;
     public DamageSeverity Severity
     {
@@ -24,8 +24,8 @@ public class BodyPartBehaviour : MonoBehaviour
     public virtual void ReceiveDamage(DamageType damageType, int damage)
     {
         UpdateDamage(damage);
-        Debug.LogFormat("{0} received {1} {2} damage. Total {3}/{4}, limb condition is {5}",
-                         Type, damage, damageType, _damage, MaxDamage, Severity);
+//        Debug.LogFormat("{0} received {1} {2} damage. Total {3}/{4}, limb condition is {5}",
+//                         Type, damage, damageType, _damage, MaxDamage, Severity);
     }
 
     private void UpdateDamage(int damage)
