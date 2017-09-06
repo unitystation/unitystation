@@ -33,6 +33,8 @@ namespace PlayGroup
 
 		public GameObject ghost;
 
+		public static BodyPartType SelectedDamageZone;
+
 		private float pingUpdate = 0f;
 
 		[SyncVar(hook = "OnNameChange")]

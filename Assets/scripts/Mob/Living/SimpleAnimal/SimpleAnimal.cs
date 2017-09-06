@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Networking;
-
+[Obsolete]
 public class SimpleAnimal : Living
 {
 

@@ -7,7 +7,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using Sprites;
-
+[Obsolete]
 public class Living : Mob
 {
     // Inspector Properties
@@ -64,27 +64,26 @@ public class Living : Mob
         return PlayerManager.LocalPlayer == this.gameObject;
     }
 
-    public virtual void OnMouseDown()
-    {
-        if ( UIManager.Hands.CurrentSlot.Item != null && PlayerManager.PlayerInReach( transform ) )
-        {
-            if ( UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife )
-            {
-                Vector2 dir = ( Camera.main.ScreenToWorldPoint( Input.mousePosition ) -
-                                PlayerManager.LocalPlayer.transform.position ).normalized;
-                if ( mobStat != ConsciousState.DEAD )
-                {
-                    PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeAttackMob( this.gameObject, dir );
-                }
-                else
-                {
-                    // TODO, please read onClick item_attack.dm for how harvest() is normally handled
-                    if ( !butcherResults.Count.Equals( 0 ) )
-                        PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeHarvestMob( this.gameObject, dir );
-                }
-            }
-        }
-    }
+//    public virtual void OnMouseDown()
+//    {
+//        if ( UIManager.Hands.CurrentSlot.Item != null && PlayerManager.PlayerInReach( transform ) )
+//        {
+//            if ( UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife )
+//            {
+//                Vector2 dir = ( Camera.main.ScreenToWorldPoint( Input.mousePosition ) -
+//                                PlayerManager.LocalPlayer.transform.position ).normalized;
+//                if ( mobStat != ConsciousState.DEAD )
+//                {
+//                    PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeAttackMob( this.gameObject, dir );
+//                }
+//                else
+//                {
+//                    if ( !butcherResults.Count.Equals( 0 ) )
+//                        PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeHarvestMob( this.gameObject, dir );
+//                }
+//            }
+//        }
+//    }
 
 //	void OnTriggerEnter2D(Collider2D coll){
 //		//if this living is on the server:

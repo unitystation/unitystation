@@ -12,14 +12,14 @@ public abstract class BulletBehaviour : MonoBehaviour {
 //	public BodyPartType BodyPartAim { get; private set; };
 
 
-	public void Shoot(Vector2 dir, float angle, string controlledByPlayer, BodyPartType bodyAim=BodyPartType.CHEST){
-		StartShoot(dir, angle, controlledByPlayer, bodyAim);
+	public void Shoot(Vector2 dir, float angle, string controlledByPlayer, BodyPartType targetZone=BodyPartType.CHEST){
+		StartShoot(dir, angle, controlledByPlayer, targetZone);
         OnShoot();
     }
 		
-	private void StartShoot(Vector2 dir, float angle, string controlledByPlayer, BodyPartType bodyAim)
+	private void StartShoot(Vector2 dir, float angle, string controlledByPlayer, BodyPartType targetZone)
 	{
-		this.bodyAim = bodyAim;
+		bodyAim = targetZone;
 		shooterName = controlledByPlayer;
     	transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 		Vector3 startPos = new Vector3(dir.x, dir.y, transform.position.z);
@@ -41,7 +41,6 @@ public abstract class BulletBehaviour : MonoBehaviour {
 		if ( damageable == null || 
 		     damageable.IsDead || 
 		     damageable.gameObject.name.Equals( shooterName ) ) return;
-		//todo: determine body part
 		damageable.ApplyDamage(shooterName, damage, DamageType.BRUTE, bodyAim);
 //		Debug.LogFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", damageable.gameObject.name, damage);
 		PoolManager.PoolClientDestroy(gameObject);

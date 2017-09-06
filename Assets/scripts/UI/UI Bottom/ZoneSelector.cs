@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PlayGroup;
+using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -29,6 +30,7 @@ namespace UI {
             SoundManager.Play("Click01");
             selImg.sprite = selectorSprites[curSelect];
             UIManager.DamageZone = (BodyPartType) curSelect;
+            PlayerScript.SelectedDamageZone = (BodyPartType) curSelect;
         }
     }
 }

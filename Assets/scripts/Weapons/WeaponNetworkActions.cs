@@ -48,7 +48,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
     }
 
     [Command]
-	public void CmdShootBullet(GameObject weapon, GameObject magazine, Vector2 direction, string bulletName) {
+	public void CmdShootBullet(GameObject weapon, GameObject magazine, Vector2 direction, string bulletName, BodyPartType damageZone) {
 		if(!playerMove.allowInput || playerMove.isGhost)
             return;
 
@@ -69,14 +69,14 @@ public class WeaponNetworkActions: NetworkBehaviour {
 		}
 
         BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-        b.Shoot(direction, angle, gameObject.name, UIManager.DamageZone);
+        b.Shoot(direction, angle, gameObject.name, damageZone);
 
 		//add additional recoil after shooting for the next round
 		AppendRecoil(wepBehavior, angle);
 
         //This is used to determine where bullet shot should head towards on client
         Ray2D ray = new Ray2D(transform.position, direction);
-		RpcShootBullet(weapon, ray.GetPoint(30f), bulletName);
+		RpcShootBullet(weapon, ray.GetPoint(30f), bulletName, damageZone);
 
 		//TODO add a check to see if bullet or energy weapon
 		SpawnBulletCaseing();
@@ -89,7 +89,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
     //Bullets are just graphical candy on the client, give them the end point and let 
     //them work out the start pos and direction
     [ClientRpc]
-    void RpcShootBullet(GameObject weapon, Vector2 endPos, string bulletName) {
+    void RpcShootBullet(GameObject weapon, Vector2 endPos, string bulletName, BodyPartType damageZone) {
 		if(!playerMove.allowInput || playerMove.isGhost)
             return;
 
@@ -106,7 +106,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
         Vector2 dir = (endPos - playerPos).normalized;
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-        b.Shoot(dir, angle, gameObject.name);
+        b.Shoot(dir, angle, gameObject.name, damageZone);
 		if (!isFlashing) {
 			isFlashing = true;
 			StartCoroutine(ShowMuzzleFlash());
@@ -114,20 +114,21 @@ public class WeaponNetworkActions: NetworkBehaviour {
     }
 
     [Command]//TODO fixme ghetto proof-of-concept
-    public void CmdKnifeAttackMob(GameObject npcObj, Vector2 stabDirection) {
+    public void CmdKnifeAttackMob(GameObject npcObj, Vector2 stabDirection, BodyPartType damageZone) {
 		if(!playerMove.allowInput || !allowAttack || playerMove.isGhost)
             return;
 
 	    if(npcObj != gameObject) {
 		    RpcKnifeAttackLerp(stabDirection);
 	    }
-	    npcObj.GetComponent<HealthBehaviour>()
-		    .ApplyDamage( gameObject.name, 20, DamageType.BRUTE, UIManager.DamageZone );
+	    var healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
+	    healthBehaviour
+		    .ApplyDamage( gameObject.name, 20, DamageType.BRUTE, damageZone );
+	    
+	    //this crap will remain here until moved to netmessages
+	    healthBehaviour.RpcApplyDamage( gameObject.name, 20, DamageType.BRUTE, damageZone );
 	           
-	    //why do you need that bloodsplat after all?
-//	    BloodSplat(npcObj.transform.position, BloodSplatSize.medium);
         soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
-
         StartCoroutine(AttackCoolDown());
     }
 //    [Command]

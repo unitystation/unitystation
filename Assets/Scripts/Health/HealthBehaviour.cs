@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using PlayGroup;
+using UI;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public abstract class HealthBehaviour : NetworkBehaviour
@@ -22,7 +24,11 @@ public abstract class HealthBehaviour : NetworkBehaviour
 
     public int Health { get; private set; }
     public DamageType LastDamageType { get; private set; }
-    public string LastDamagedBy { get; private set; }
+    public string LastDamagedBy {
+        get { return lastDamagedBy; }
+        private set { lastDamagedBy = LastDamagedBy; }
+    }
+    private string lastDamagedBy = "stressful work";
     public ConsciousState ConsciousState;
     public bool IsCrit {
         get { return ConsciousState == ConsciousState.UNCONSCIOUS; }
@@ -31,6 +37,15 @@ public abstract class HealthBehaviour : NetworkBehaviour
     public bool IsDead {
         get { return ConsciousState == ConsciousState.DEAD; }
         private set { ConsciousState = ConsciousState.DEAD; }
+    }
+
+    ///fixme/todo: to be replaced by net messages, crappy and unsecure placeholder
+    [ClientRpc]
+    public void RpcApplyDamage(string damagedBy, int damage,
+        DamageType damageType, BodyPartType bodyPartAim)
+    {
+        if(isServer) return;
+        ApplyDamage(damagedBy, damage, damageType, bodyPartAim);
     }
 
     public void ApplyDamage(string damagedBy, int damage,
@@ -54,13 +69,14 @@ public abstract class HealthBehaviour : NetworkBehaviour
     }
 
     ///Death from other causes
-    protected virtual void Death()
+    public virtual void Death()
     {
         if (IsDead) return;
         IsDead = true;
+        Health = HealthThreshold.Dead;
         OnDeathActions();
     }
-    protected virtual void Crit()
+    public virtual void Crit()
     {
         if(ConsciousState != ConsciousState.CONSCIOUS) return;
         IsCrit = true;
@@ -69,13 +85,17 @@ public abstract class HealthBehaviour : NetworkBehaviour
 
     private void checkDeadCritStatus()
     {
-        if ( Health < 0 )
+        if ( Health < HealthThreshold.Crit )
         {
            Crit();
         }
-        if ( Health > -100 || IsDead ) return;
-        Health = -100;
+        if ( notSuitableForDeath() ) return;
         Death();
+    }
+
+    private bool notSuitableForDeath()
+    {
+        return Health > HealthThreshold.Dead || IsDead;
     }
 
     public void AddHealth(int amount)
@@ -95,13 +115,42 @@ public abstract class HealthBehaviour : NetworkBehaviour
     }
 
     /// <summary>
-    /// placeholder method to make player unconscious upon crit
+    /// make player unconscious upon crit
     /// </summary>
-    public virtual void OnCritActions()
+    protected virtual void OnCritActions()
     {
         var pna = GetComponent<PlayerNetworkActions>();
         pna.CmdConsciousState(false);
     }
 
-    public abstract void OnDeathActions();
+    protected abstract void OnDeathActions();
+    
+    ///copypaste from living
+    public virtual void OnMouseDown()
+    {
+        if ( UIManager.Hands.CurrentSlot.Item != null && PlayerManager.PlayerInReach( transform ) )
+        {
+            if ( UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife )
+            {
+                Vector2 dir = ( Camera.main.ScreenToWorldPoint( Input.mousePosition ) -
+                                PlayerManager.LocalPlayer.transform.position ).normalized;
+                if ( ConsciousState != ConsciousState.DEAD )
+                {
+                    var lps = PlayerManager.LocalPlayerScript;
+                    lps.weaponNetworkActions.CmdKnifeAttackMob( gameObject, dir, PlayerScript.SelectedDamageZone );
+                }
+                else
+                {
+                    // no butchering for now
+//                    if ( !butcherResults.Count.Equals( 0 ) )
+//                        PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeHarvestMob( this.gameObject, dir );
+                }
+            }
+        }
+    }
+}
+public static class HealthThreshold
+{
+    public const int Crit = 0;
+    public const int Dead = -100;
 }

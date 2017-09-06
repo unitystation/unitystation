@@ -21,31 +21,32 @@ namespace Objects
         private int _bleedRate;
         public bool IsBleeding { get; private set; }
 
-        [Server]
         public override int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType, BodyPartType bodyPartAim)
         {
             base.ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
 
-            BodyPartBehaviour bodyPart = findBodyPart(bodyPartAim);//randomise a bit here?
+            var bodyPart = findBodyPart(bodyPartAim);//randomise a bit here?
             bodyPart.ReceiveDamage(damageType, damage);
-            
-            var bloodLoss = ( int ) ( damage * BleedFactor(damageType) );
-            LoseBlood(bloodLoss);
-            
-            // don't start bleeding if limb is in ok condition after it received damage
-            switch ( bodyPart.Severity )
+
+            if ( isServer )
             {
-                    case DamageSeverity.Moderate: 
+                var bloodLoss = ( int ) ( damage * BleedFactor(damageType) );
+                LoseBlood(bloodLoss);
+
+                // don't start bleeding if limb is in ok condition after it received damage
+                switch ( bodyPart.Severity )
+                {
+                    case DamageSeverity.Moderate:
                     case DamageSeverity.Bad:
                     case DamageSeverity.Critical:
-                        AddBloodLoss(bloodLoss); 
+                        AddBloodLoss(bloodLoss);
                         break;
+                }
+                if ( headCritical(bodyPart) )
+                {
+                    Crit();
+                }
             }
-            if ( headCritical(bodyPart) )
-            {
-                Crit();
-            }
-
             return damage;
 
         }
@@ -118,13 +119,13 @@ namespace Objects
         private void LoseBlood(int amount)
         {
             if(amount <= 0) return;
-            Debug.LogFormat("Lost blood: {0}->{1}", BloodLevel, BloodLevel - amount);
+//            Debug.LogFormat("Lost blood: {0}->{1}", BloodLevel, BloodLevel - amount);
             BloodLevel -= amount;
             BloodSplatSize scaleOfTragedy;
             if      ( amount > 0 && amount < 15 )   {scaleOfTragedy = BloodSplatSize.small;}
             else if ( amount >= 15 && amount < 40 ) {scaleOfTragedy = BloodSplatSize.medium;}
             else                                    {scaleOfTragedy = BloodSplatSize.large;}
-            BloodSplat(scaleOfTragedy);
+            BloodSplat(scaleOfTragedy, BloodSplatType.BloodLoss);
 
 
             if(BloodLevel <= (int)BloodVolume.SURVIVE)
@@ -138,7 +139,7 @@ namespace Objects
             }
         }
 
-        protected override void Death()
+        public override void Death()
         {
             StopBleeding();
             base.Death();
@@ -174,7 +175,7 @@ namespace Objects
         }
 
         /// a copypaste from Human
-        public override void OnDeathActions()
+        protected override void OnDeathActions()
         {
             if (CustomNetworkManager.Instance._isServer)
             {
@@ -228,7 +229,7 @@ namespace Objects
                     spriteNum = Random.Range(116, 120);
                     break;
                 case BloodSplatSize.large:
-                    spriteNum = Random.Range(105, 108);
+                    spriteNum = Random.Range(51, 56);
                     break;
             }
 

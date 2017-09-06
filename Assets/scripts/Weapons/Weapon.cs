@@ -243,9 +243,11 @@ namespace Weapons
 						//fire a single round if its a semi or automatic weapon
 						if (WeaponType == WeaponType.SemiAutomatic || WeaponType == WeaponType.FullyAutomatic) {
 							Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-							PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdShootBullet(gameObject, CurrentMagazine.gameObject, dir, Projectile.name);
+							var lps = PlayerManager.LocalPlayerScript;
+							lps.weaponNetworkActions.CmdShootBullet(gameObject, CurrentMagazine.gameObject, dir, 
+																	Projectile.name, PlayerScript.SelectedDamageZone);
 							if (WeaponType == WeaponType.FullyAutomatic)
-								PlayerManager.LocalPlayerScript.inputController.OnMouseDownDir(dir);
+								lps.inputController.OnMouseDownDir(dir);
 						}
 
 						if (WeaponType == WeaponType.FullyAutomatic) {

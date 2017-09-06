@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PlayGroup;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class BodyPartBehaviour : MonoBehaviour
@@ -11,7 +12,7 @@ public class BodyPartBehaviour : MonoBehaviour
     public Sprite RedDamageMonitorIcon;
     public Sprite GrayDamageMonitorIcon;
 
-    //50 for limbs, 200 for the head(?)
+    //50 for limbs, 200 for the head and torso(?)
     public int MaxDamage = 50;
     private int _damage = 0;
     private DamageSeverity _severity;
@@ -39,8 +40,15 @@ public class BodyPartBehaviour : MonoBehaviour
 
     private void UpdateIcons()
     {
-//        if (server)return;
+        if(!IsClient()) return;
         UI.UIManager.PlayerHealth.SetBodyTypeOverlay(this);
+    }
+
+    protected bool IsClient()
+    {
+        //kinda crappy way to determine local player,
+        //but otherwise UpdateIcons would have to be moved to HumanHealthBehaviour
+        return PlayerManager.LocalPlayerScript == gameObject.GetComponentInParent<PlayerScript>();
     }
 
     private void UpdateSeverity()
