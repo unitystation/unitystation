@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.IO;
 
 namespace MapEditor {
     
@@ -13,8 +14,11 @@ namespace MapEditor {
             {
                 if ((f).Contains(pathString) && (f != pathString))
                 {
+                    //name, path, subsection
                     string stringName = f.Replace(path + "/Prefabs/", "");
-                    optionList.Add(stringName, stringName, stringName);
+                    string subsection = stringName.Substring(stringName.LastIndexOf("/") + 1);
+                    optionList.Add(subsection, stringName, subsection);
+                    
                 }
             }
             //optionList.Add("Kitchen", "Items/Kitchen", "Items");

@@ -83,7 +83,8 @@ namespace Sprites {
 //		        ConnectSprites["lattice"] = dmi.getSprites("obj/smooth_structures/lattice");
 //		        ConnectSprites["carpet"] = dmi.getSprites("turf/floors/carpet");
 //		        ConnectSprites["catwalk"] = dmi.getSprites("obj/smooth_structures/catwalk");
-
+                    
+                //door list of sprites. you need to load the proper spritesheet to make it animate properly. the ommited folders are /Assets/resources/icons/
 		        DoorSprites["atmos"] = dmi.getSprites("obj/doors/airlocks/station/atmos");
 		        DoorSprites["command"] = dmi.getSprites("obj/doors/airlocks/station/command");
 		        DoorSprites["engineering"] = dmi.getSprites("obj/doors/airlocks/station/engineering");
@@ -97,7 +98,8 @@ namespace Sprites {
 		        DoorSprites["security"] = dmi.getSprites("obj/doors/airlocks/station/security");
 		        DoorSprites["virology"] = dmi.getSprites("obj/doors/airlocks/station/virology");
                 DoorSprites["shuttle"] = dmi.getSprites("obj/doors/airlocks/shuttle/shuttle");
-
+                //end of doorLists.
+                
 		        MonitorSprites["monitors"] = dmi.getSprites("obj/monitors");
 
 		        BloodSprites["blood"] = dmi.getSprites("effects/blood");
@@ -143,6 +145,8 @@ namespace Sprites {
             ConnectSprites["table_reinforced"] = Resources.LoadAll<Sprite>("tables/table_reinforced");
             ConnectSprites["table_wood"] = Resources.LoadAll<Sprite>("tables/table_wood");
             ConnectSprites["table_poker"] = Resources.LoadAll<Sprite>("tables/table_poker");
+
+            
 
             ConnectSprites["lattice"] = Resources.LoadAll<Sprite>("floors/lattice");
             ConnectSprites["carpet"] = Resources.LoadAll<Sprite>("floors/carpet");
