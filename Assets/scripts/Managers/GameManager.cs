@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour {
     }
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
-		if (scene.name != "Lobby") {
+		if (scene.name == "DeathMatch") {
 			counting = true;
 		}
 

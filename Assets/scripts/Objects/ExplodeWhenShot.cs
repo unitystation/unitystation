@@ -196,7 +196,7 @@ public class ExplodeWhenShot : NetworkBehaviour
         int cLength = 3;
         int rHeight = 3;
         var pos = (Vector2) transform.position;
-        ItemFactory.Instance.SpawnFileTile( Random.Range( 0.4f, 1f ), pos );
+        EffectsFactory.Instance.SpawnFileTile( Random.Range( 0.4f, 1f ), pos );
         pos.x -= 1f;
         pos.y += 1f;
 
@@ -210,7 +210,7 @@ public class ExplodeWhenShot : NetworkBehaviour
                 Vector2 checkPos = new Vector2( pos.x + (float) i, pos.y - (float) j );
                 if ( Matrix.Matrix.At( checkPos ).IsPassable() || Matrix.Matrix.At( checkPos ).IsPlayer() )
                 {
-                    ItemFactory.Instance.SpawnFileTile( Random.Range( 0.4f, 1f ), checkPos );
+                    EffectsFactory.Instance.SpawnFileTile( Random.Range( 0.4f, 1f ), checkPos );
                     maxNumOfFire--;
                 }
                 if ( maxNumOfFire <= 0 )

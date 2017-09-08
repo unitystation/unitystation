@@ -26,7 +26,6 @@ GameObject:
   - component: {fileID: 61711516699828072}
   - component: {fileID: 114478749026392066}
   - component: {fileID: 50113970382522722}
-  - component: {fileID: 114579492963829796}
   - component: {fileID: 114379432356965050}
   - component: {fileID: 114019849627944276}
   m_Layer: 0
@@ -43,7 +42,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722833055556988}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.7336426, y: 3.2425537, z: -0.0984375}
+  m_LocalPosition: {x: 1986.3973, y: 1164.3718, z: -0.0984375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -167,6 +166,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialHealth: 40
+  maxHealth: 100
+  isNPC: 0
+  allowKnifeHarvest: 1
+  ConsciousState: 0
+  butcherResults:
+  - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
+  - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
+  spriteRend: {fileID: 212099414062323906}
+  aliveSprite: {fileID: 21300552, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
+  deadSprite: {fileID: 21300560, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
+  deadState: 0
 --- !u!114 &114478749026392066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -179,37 +189,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
---- !u!114 &114579492963829796
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 426d98c9778dd324f9161efc7330f257, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageOverlayTemp: 0
-  sleeping: 0
-  paralysis: 0
-  mobStat: 0
-  StatusFlags: 15
-  InitialMaxHealth: 40
-  maxHealth: 100
-  health: 100
-  bruteLoss: 0
-  oxyLoss: 0
-  toxLoss: 0
-  fireLoss: 0
-  cloneLoss: 0
-  brainLoss: 0
-  staminaLoss: 0
-  butcherResults:
-  - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
-  sliced: 0
-  deadSprite: {fileID: 21300560, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
-  gibPrefab: {fileID: 1843853587201310, guid: 0f02ea038462b9a42afac8eb3d13bfcf, type: 2}
 --- !u!114 &114595648713084262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -282,3 +261,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

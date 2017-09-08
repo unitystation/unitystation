@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class PlayerHealth : MonoBehaviour
+    public class PlayerHealthUI : MonoBehaviour
     {
 
         /// placeholder based on old code

@@ -60,10 +60,10 @@ public class ExplodeWhenShotTest
 		var player = new GameObject();
 
 		player.AddComponent<BoxCollider2D>();
-		var living = player.AddComponent<Living>();
+		var living = player.AddComponent<HealthBehaviour>();
 		player.layer = LayerMask.NameToLayer("Players");
 
-		Living damaged = null;
+		HealthBehaviour damaged = null;
 		subject.callback = t => damaged = t;
 
 		try {
@@ -80,7 +80,7 @@ public class ExplodeWhenShotTest
 	{
 		var player = new GameObject();
 		player.AddComponent<BoxCollider2D>();
-		player.AddComponent<Living>();
+		player.AddComponent<HealthBehaviour>();
 		player.layer = LayerMask.NameToLayer("Players");
 		player.transform.position = new Vector3(2, 0);
 
@@ -89,7 +89,7 @@ public class ExplodeWhenShotTest
 		wall.layer = LayerMask.NameToLayer("Walls");
 		wall.transform.position = new Vector3(1, 0);
 
-		Living damaged = null;
+		HealthBehaviour damaged = null;
 		subject.callback = t => damaged = t;
 
 		subject.Explode(null);
@@ -102,7 +102,7 @@ public class ExplodeWhenShotTest
 	class MockExplodeWhenShot : ExplodeWhenShot
 	{
 		public bool wentBoom;
-		public Action<Living> callback;
+		public Action<HealthBehaviour> callback;
 
 //		internal override void HurtPeople(Living living, string damagedBy, int damage)
 //		{

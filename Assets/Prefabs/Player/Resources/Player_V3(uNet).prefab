@@ -144,7 +144,6 @@ GameObject:
   - component: {fileID: 114390575568471296}
   - component: {fileID: 114792299177679754}
   - component: {fileID: 114617980452984522}
-  - component: {fileID: 114422182472561696}
   - component: {fileID: 114173340621344012}
   - component: {fileID: 114644792539986700}
   - component: {fileID: 114600992077934460}
@@ -1098,6 +1097,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialHealth: 100
   maxHealth: 100
+  isNPC: 0
+  allowKnifeHarvest: 0
   ConsciousState: 0
   BodyParts:
   - {fileID: 114457795912083674}
@@ -1107,6 +1108,7 @@ MonoBehaviour:
   - {fileID: 114645575864574208}
   - {fileID: 114626459693876662}
   BloodLevel: 560
+  playerNetworkActions: {fileID: 114390575568471296}
 --- !u!114 &114176283518884694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1181,7 +1183,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 6
-  editModeControl: {fileID: 0}
   savedPosition: {x: 1843.988, y: 1143, z: 0}
 --- !u!114 &114292210339441364
 MonoBehaviour:
@@ -1357,34 +1358,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventName: hands
---- !u!114 &114422182472561696
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8f53ce80bb8d1641a758dd9b308e8ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageOverlayTemp: 0
-  sleeping: 0
-  paralysis: 0
-  mobStat: 0
-  StatusFlags: 15
-  InitialMaxHealth: 100
-  lastDamager: 
-  maxHealth: 100
-  health: 100
-  bruteLoss: 0
-  oxyLoss: 0
-  toxLoss: 0
-  fireLoss: 0
-  cloneLoss: 0
-  brainLoss: 0
-  staminaLoss: 0
-  butcherResults: []
 --- !u!114 &114446262269173418
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -19,6 +19,8 @@ namespace PlayGroup
 
 		public SoundNetworkActions soundNetworkActions { get; set; }
 
+		public PlayerHealth playerHealth { get; set; }
+
 		public PlayerMove playerMove { get; set; }
 
 		public PlayerSprites playerSprites { get; set; }
@@ -70,6 +72,7 @@ namespace PlayGroup
 		{
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
 			playerSync = GetComponent<PlayerSync>();
+			playerHealth = GetComponent<PlayerHealth>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 			soundNetworkActions = GetComponent<SoundNetworkActions>();
 			inputController = GetComponent<InputController>();

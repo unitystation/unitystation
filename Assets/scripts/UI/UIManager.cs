@@ -13,7 +13,7 @@ namespace UI
 		public ControlAction actionControl;
 		public ControlWalkRun walkRunControl;
 		public ControlDisplays displayControl;
-		public PlayerHealth playerHealth;
+		public PlayerHealthUI playerHealth;
 		public PlayerListUI playerListUIControl;
 		public Text toolTip;
 		public InventorySlotCache inventorySlotCache;
@@ -36,7 +36,7 @@ namespace UI
 			}
 		}
 
-		public static PlayerHealth PlayerHealth {
+		public static PlayerHealthUI PlayerHealth {
 			get {
 				return Instance.playerHealth;
 			}

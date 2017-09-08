@@ -40,11 +40,11 @@ public class BodyPartBehaviour : MonoBehaviour
 
     private void UpdateIcons()
     {
-        if(!IsClient()) return;
+        if(!IsLocalPlayer()) return;
         UI.UIManager.PlayerHealth.SetBodyTypeOverlay(this);
     }
 
-    protected bool IsClient()
+    protected bool IsLocalPlayer()
     {
         //kinda crappy way to determine local player,
         //but otherwise UpdateIcons would have to be moved to HumanHealthBehaviour

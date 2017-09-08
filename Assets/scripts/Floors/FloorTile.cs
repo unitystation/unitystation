@@ -11,7 +11,7 @@ public class FloorTile : MonoBehaviour {
 	public void AddFireScorch(){
 		if (fireScorch == null) {
 		//Do poolspawn here
-			fireScorch = ItemFactory.Instance.SpawnScorchMarks(transform);
+			fireScorch = EffectsFactory.Instance.SpawnScorchMarks(transform);
 		} 
 	}
 
