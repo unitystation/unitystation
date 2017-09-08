@@ -11,9 +11,14 @@ namespace MapEditor {
         public StructuresView(IEnumerable<string>fileName,string path) : base("Structures", "Category") {
             string pathString = path + "/Prefabs/Structures";
             foreach (string f in fileName) {
-                if ((f).Contains(pathString)&&(f!=pathString)) {
+                if ((f).Contains(pathString) && (f != pathString))
+                {
+                    //name, path, subsection
                     string stringName = f.Replace(path + "/Prefabs/", "");
-                    optionList.Add(stringName, stringName, stringName);                    
+                    string subsection = stringName.Substring(stringName.LastIndexOf("/") + 1);
+                    optionList.Add(subsection, stringName, subsection);
+
+
                 }
             }           
         }

@@ -28,14 +28,10 @@ namespace MapEditor {
             SceneView.onSceneGUIDelegate -= Main.OnSceneGUI;
         }
 
-        public void Initialize() {
+        public void Initialize() {            
             string path = Application.dataPath;
             string[] files = Directory.GetDirectories(path + "/Prefabs", "*.*", SearchOption.AllDirectories);
-            //fix the "\" that might show up in windows versions.
-            for (int i = 0; i < files.Length; i++)
-            {
-                files[i] = files[i].Replace('\\', '/');
-            }
+            TreatString(files);
             categories = new CategoryView[] { new StructuresView(files, path), new ObjectsView(files, path), new ItemsView(files, path) };
             categoryNames = new string[categories.Length];
             for (int i = 0; i < categoryNames.Length; i++)
@@ -43,6 +39,26 @@ namespace MapEditor {
                 categoryNames[i] = categories[i].Name;
             }
         }
+        
+        public void TreatString(string[] files) {
+            for (int i = 0; i < files.Length; i++)
+            {
+                files[i] = files[i].Replace('\\', '/');
+                string[] dirFiles = Directory.GetFiles(files[i]);                
+                foreach (var file in dirFiles)
+                {
+                    //checks if the folder is empty, or only has a folder inside, case it is empty the string.
+                    if (file.Contains(".prefab"))
+                    {                        
+                        break;
+                    }
+                    else {
+                        files[i] = "";
+                    }
+                }
+            }
+        }
+
 
         void OnGUI() {
 
