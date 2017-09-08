@@ -257,7 +257,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
 	// Adds new shroud to our cache and marks it as enabled
 	public GameObject RegisterNewShroud(Vector2 vector2, bool active)
 	{
-		GameObject shroudObject = ItemFactory.Instance.SpawnShroudTile(new Vector3(vector2.x, vector2.y, 0));
+		GameObject shroudObject = EffectsFactory.Instance.SpawnShroudTile(new Vector3(vector2.x, vector2.y, 0));
 		shroudTiles.Add(vector2, shroudObject);
 		SetShroudStatus(vector2, active);
 		return shroudObject;

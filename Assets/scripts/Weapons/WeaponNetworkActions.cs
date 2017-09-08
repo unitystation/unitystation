@@ -150,17 +150,17 @@ public class WeaponNetworkActions: NetworkBehaviour {
         allowAttack = true;
     }
 
-	// Harvest is turned off for now
-//    [Command][Obsolete]
-//    public void CmdKnifeHarvestMob(GameObject npcObj, Vector2 stabDirection) {
-//		if(!playerMove.allowInput || playerMove.isGhost)
-//            return;
-//
-//        Living attackTarget = npcObj.GetComponent<Living>();
-//        RpcKnifeAttackLerp(stabDirection);
-//        attackTarget.HarvestIt();
-//        soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
-//    }
+	// Harvest should only be used for animals like pete and cows
+    [Command]
+    public void CmdKnifeHarvestMob(GameObject npcObj, Vector2 stabDirection) {
+		if(!playerMove.allowInput || playerMove.isGhost)
+            return;
+
+		SimpleAnimal attackTarget = npcObj.GetComponent<SimpleAnimal>();
+        RpcKnifeAttackLerp(stabDirection);
+        attackTarget.Harvest();
+        soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
+    }
 
     [ClientRpc]
     void RpcKnifeAttackLerp(Vector2 stabDir) {
@@ -180,28 +180,6 @@ public class WeaponNetworkActions: NetworkBehaviour {
         lerping = true;
     }
 
-//    [Server]
-//    public void BloodSplat(Vector3 pos, BloodSplatSize splatSize) {
-//        GameObject b = GameObject.Instantiate(bloodSplatPrefab, pos, Quaternion.identity);
-//        NetworkServer.Spawn(b);
-//        BloodSplat bSplat = b.GetComponent<BloodSplat>();
-//		//choose a random blood sprite
-//		int spriteNum = 0;
-//		switch (splatSize) {
-//			case BloodSplatSize.small:
-//				spriteNum = Random.Range(137, 139);
-//				break;
-//			case BloodSplatSize.medium:
-//				spriteNum = Random.Range(116, 120);
-//				break;
-//			case BloodSplatSize.large:
-//				spriteNum = Random.Range(105, 108);
-//				break;
-//		}
-//
-//		bSplat.bloodSprite = spriteNum;
-//    }
-		
     //Server lerps
     void Update() {
         if(lerping) {
