@@ -1,4 +1,5 @@
 ﻿using InputControl;
+using Matrix;
 using PlayGroup;
 using UI;
 using UnityEngine;
@@ -17,9 +18,11 @@ namespace Items {
                 {
                     //Rollback prediction
                 }
+                else
+                {
+                    GetComponent<RegisterTile>().RemoveTile();
+                }
             }
         }
-        
-
     }
 }

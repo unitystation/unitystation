@@ -36,8 +36,8 @@ public class InteractMessage : ClientMessage<InteractMessage>
 		{
 			case "leftHand": return 1;
 			case "rightHand": return 2;
+			default: return 0;
 		}
-		return 0;
 	}
 	private static string decodeHand(byte handEventByte)
 	{

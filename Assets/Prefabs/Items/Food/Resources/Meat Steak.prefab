@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114608524725813366}
   - component: {fileID: 114360428989312324}
   - component: {fileID: 61202592083071704}
+  - component: {fileID: 114921701553923518}
   m_Layer: 10
   m_Name: Meat Steak
   m_TagString: Untagged
@@ -157,13 +158,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cloth: 0
+  hierarchy: 
   itemName: Meat Steak
+  itemDescription: 
   spriteType: 0
+  type: 14
   inHandReferenceRight: -1
   inHandReferenceLeft: -1
   clothingReference: -1
   size: 0
-  type: 14
 --- !u!114 &114842434566603030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -196,6 +200,20 @@ MonoBehaviour:
     i15: 15
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114921701553923518
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 7
+  savedPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &212850123619449406
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -236,3 +254,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

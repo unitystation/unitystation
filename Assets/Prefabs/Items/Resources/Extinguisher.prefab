@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 114022233371835864}
   - component: {fileID: 114229897149472310}
   - component: {fileID: 114254417711539772}
+  - component: {fileID: 114106561260684598}
   m_Layer: 10
   m_Name: Extinguisher
   m_TagString: Untagged
@@ -132,6 +133,20 @@ MonoBehaviour:
     i15: 93
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114106561260684598
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 7
+  savedPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114229897149472310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -189,13 +204,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cloth: 0
+  hierarchy: 
   itemName: Extinguisher
+  itemDescription: 
   spriteType: 0
+  type: 0
   inHandReferenceRight: 62
   inHandReferenceLeft: 61
   clothingReference: -1
   size: 1
-  type: 0
 --- !u!212 &212125191403727516
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -236,3 +254,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
