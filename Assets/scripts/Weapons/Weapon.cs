@@ -5,350 +5,397 @@ using UnityEngine.Networking;
 using PlayGroup;
 using UI;
 using InputControl;
+using Items;
 using Matrix;
+using UnityEngine.EventSystems;
 
 namespace Weapons
 {
-	/// <summary>
-	///  Generic weapon types
-	/// </summary>
-	public enum WeaponType
-	{
-		Melee,//TODO: SUPPORT MELEE WEAPONS
-		SemiAutomatic,
-		FullyAutomatic,
-		Burst//TODO: SUPPORT BURST WEAPONS
-	};
+    /// <summary>
+    ///  Generic weapon types
+    /// </summary>
+    public enum WeaponType
+    {
+        Melee, //TODO: SUPPORT MELEE WEAPONS
+        SemiAutomatic,
+        FullyAutomatic,
+        Burst //TODO: SUPPORT BURST WEAPONS
+    };
 
-	/// <summary>
-	///  Generic weapon base
-	/// </summary>
-	public class Weapon : InputTrigger
-	{
-		/// <summary>
-		///  Current Weapon Type
-		/// </summary>
-		public WeaponType WeaponType;
-		/// <summary>
-		///  The projectile fired from this weapon
-		/// </summary>
-		public GameObject Projectile;
-		/// <summary>
-		///  The damage for this weapon
-		/// </summary>
-		public int ProjectileDamage;
-		/// <summary>
-		///  The traveling speed for this weapons projectile
-		/// </summary>
-		public int ProjectileVelocity;
-		/// <summary>
-		/// The amount of times per second this weapon can fire
-		/// </summary>
-		public double FireRate;
-		/// <summary>
-		/// The amount of projectiles expended per shot
-		/// </summary>
-		public int ProjectilesFired;
-		/// <summary>
-		/// The max recoil angle this weapon can reach with sustained fire
-		/// </summary>
-		public float MaxRecoilVariance;
-		/// <summary>
-		/// The the name of the sound this gun makes when shooting
-		/// </summary>
-		public string FireingSound;
-		/// <summary>
-		/// The type of ammo this weapon will allow, this is a string and not an enum for diversity
-		/// </summary>
-		public string AmmoType;
-		/// <summary>
-		/// The current magazine for this weapon, null means empty
-		/// </summary>
-		private MagazineBehaviour CurrentMagazine;
-		/// <summary>
-		/// The countdown untill we can shoot again
-		/// </summary>
-		[HideInInspector]
-		public double FireCountDown;
-		/// <summary>
-		/// If the weapon is currently in automatic action
-		/// </summary>
-		[HideInInspector]
-		public bool InAutomaticAction;
-		/// <summary>
-		/// The the current recoil variance this weapon has reached
-		/// </summary>
-		[SyncVar]
-		[HideInInspector]
-		public float CurrentRecoilVariance;
+    /// <summary>
+    ///  Generic weapon base
+    /// </summary>
+    public class Weapon : PickUpTrigger
+    {
+        /// <summary>
+        ///  Current Weapon Type
+        /// </summary>
+        public WeaponType WeaponType;
 
-		[SyncVar(hook="LoadUnloadAmmo")]
-		public NetworkInstanceId MagNetID;
+        /// <summary>
+        ///  The projectile fired from this weapon
+        /// </summary>
+        public GameObject Projectile;
 
-		[SyncVar]
-		public NetworkInstanceId ControlledByPlayer;
+        /// <summary>
+        ///  The damage for this weapon
+        /// </summary>
+        public int ProjectileDamage;
 
-		void Start()
-		{
-			InAutomaticAction = false;
-			//init weapon with missing settings
-			if (AmmoType == null)
-				AmmoType = "12mm";
-			if (Projectile == null)
-				Projectile = Resources.Load("Bullet_12mm") as GameObject;
-		}
+        /// <summary>
+        ///  The traveling speed for this weapons projectile
+        /// </summary>
+        public int ProjectileVelocity;
 
-		void Update () {
-			if (ControlledByPlayer == NetworkInstanceId.Invalid)
-				return;
+        /// <summary>
+        /// The amount of times per second this weapon can fire
+        /// </summary>
+        public double FireRate;
 
-			//don't start it too early:
-			if (!PlayerManager.LocalPlayer)
-				return;
-			
-			//Only update if it is inhand of localplayer
-			if (PlayerManager.LocalPlayer != ClientScene.FindLocalObject(ControlledByPlayer))
-				return;
-			
-			if (FireCountDown > 0 )
-			{
-				FireCountDown -= Time.deltaTime;
-				//prevents the next projectile taking miliseconds longer than it should
-				if (FireCountDown < 0) {
-					FireCountDown = 0;
-				}
-			}
+        /// <summary>
+        /// The amount of projectiles expended per shot
+        /// </summary>
+        public int ProjectilesFired;
 
-			//Check if magazine in opposite hand or if unloading
-			if(Input.GetKeyDown(KeyCode.E)) { //PlaceHolder for click UI
-				GameObject currentHandItem = UIManager.Hands.CurrentSlot.Item; 
-				GameObject otherHandItem = UIManager.Hands.OtherSlot.Item;
-				string hand;
+        /// <summary>
+        /// The max recoil angle this weapon can reach with sustained fire
+        /// </summary>
+        public float MaxRecoilVariance;
 
-				if (currentHandItem != null) {
-					if (CurrentMagazine == null) { //RELOAD
-						MagazineBehaviour magazine = currentHandItem.GetComponent<MagazineBehaviour>();
+        /// <summary>
+        /// The the name of the sound this gun makes when shooting
+        /// </summary>
+        public string FireingSound;
 
-						if (magazine != null && otherHandItem.GetComponent<Weapon>() != null) {
-							hand = UIManager.Hands.CurrentSlot.eventName;
-							Reload(currentHandItem, hand);
-						}
-					} else { //UNLOAD
-						Weapon weapon = currentHandItem.GetComponent<Weapon>();
+        /// <summary>
+        /// The type of ammo this weapon will allow, this is a string and not an enum for diversity
+        /// </summary>
+        public string AmmoType;
 
-						if (weapon != null && otherHandItem == null) {
-							ManualUnload(CurrentMagazine);
-						}
-					}
-				}
-			}
+        /// <summary>
+        /// The current magazine for this weapon, null means empty
+        /// </summary>
+        private MagazineBehaviour CurrentMagazine;
 
-			if(Input.GetMouseButtonUp(0)) {
-				InAutomaticAction = false;
+        /// <summary>
+        /// The countdown untill we can shoot again
+        /// </summary>
+        [HideInInspector] 
+        public double FireCountDown;
 
-				//remove recoil after shooting is released
-				CurrentRecoilVariance = 0;
-			}
+        /// <summary>
+        /// If the weapon is currently in automatic action
+        /// </summary>
+        [HideInInspector] 
+        public bool InAutomaticAction;
 
-			if (InAutomaticAction && FireCountDown <= 0) {
-				AttemptToFireWeapon();
-			}
-		}
+        /// <summary>
+        /// The the current recoil variance this weapon has reached
+        /// </summary>
+        [SyncVar] [HideInInspector] 
+        public float CurrentRecoilVariance;
 
-		#region Weapon Server Init
-		public override void OnStartServer()
-		{
-			var ammoPrefab = Resources.Load("Magazine_" + AmmoType);
-			GameObject m = GameObject.Instantiate(ammoPrefab as GameObject, Vector3.zero, Quaternion.identity);
-			//spean the magazine
-			NetworkServer.Spawn(m);
-			StartCoroutine(SetMagazineOnStart(m));
-			base.OnStartServer();
-		}
+        [SyncVar(hook = "LoadUnloadAmmo")] 
+        public NetworkInstanceId MagNetID;
 
-		//Gives it a chance for weaponNetworkActions to init
-		IEnumerator SetMagazineOnStart(GameObject magazine){
-			yield return new WaitForSeconds(2f);
+        [SyncVar] 
+        public NetworkInstanceId ControlledByPlayer;
+
+        void Start()
+        {
+            InAutomaticAction = false;
+            //init weapon with missing settings
+            if (AmmoType == null)
+                AmmoType = "12mm";
+            if (Projectile == null)
+                Projectile = Resources.Load("Bullet_12mm") as GameObject;
+        }
+
+        void Update()
+        {
+            if (ControlledByPlayer == NetworkInstanceId.Invalid)
+                return;
+
+            //don't start it too early:
+            if (!PlayerManager.LocalPlayer)
+                return;
+
+            //Only update if it is inhand of localplayer
+            if (PlayerManager.LocalPlayer != ClientScene.FindLocalObject(ControlledByPlayer))
+                return;
+
+            if (FireCountDown > 0)
+            {
+                FireCountDown -= Time.deltaTime;
+                //prevents the next projectile taking miliseconds longer than it should
+                if (FireCountDown < 0)
+                {
+                    FireCountDown = 0;
+                }
+            }
+
+            //Check if magazine in opposite hand or if unloading
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                //PlaceHolder for click UI
+                GameObject currentHandItem = UIManager.Hands.CurrentSlot.Item;
+                GameObject otherHandItem = UIManager.Hands.OtherSlot.Item;
+                string hand;
+
+                if (currentHandItem != null)
+                {
+                    if (CurrentMagazine == null)
+                    {
+                        //RELOAD
+                        MagazineBehaviour magazine = currentHandItem.GetComponent<MagazineBehaviour>();
+
+                        if (magazine != null && otherHandItem.GetComponent<Weapon>() != null)
+                        {
+                            hand = UIManager.Hands.CurrentSlot.eventName;
+                            Reload(currentHandItem, hand);
+                        }
+                    }
+                    else
+                    {
+                        //UNLOAD
+                        Weapon weapon = currentHandItem.GetComponent<Weapon>();
+
+                        if (weapon != null && otherHandItem == null)
+                        {
+                            ManualUnload(CurrentMagazine);
+                        }
+                    }
+                }
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                InAutomaticAction = false;
+
+                //remove recoil after shooting is released
+                CurrentRecoilVariance = 0;
+            }
+
+            if (InAutomaticAction && FireCountDown <= 0)
+            {
+                AttemptToFireWeapon();
+            }
+        }
+
+        #region Weapon Server Init
+
+        public override void OnStartServer()
+        {
+            var ammoPrefab = Resources.Load("Magazine_" + AmmoType);
+            GameObject m = GameObject.Instantiate(ammoPrefab as GameObject, Vector3.zero, Quaternion.identity);
+            //spean the magazine
+            NetworkServer.Spawn(m);
+            StartCoroutine(SetMagazineOnStart(m));
+            base.OnStartServer();
+        }
+
+        //Gives it a chance for weaponNetworkActions to init
+        IEnumerator SetMagazineOnStart(GameObject magazine)
+        {
+            yield return new WaitForSeconds(2f);
 //			if (GameData.IsHeadlessServer || GameData.Instance.testServer) {
-				NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
-				MagNetID = networkID;
+            NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
+            MagNetID = networkID;
 //			} else {
 //				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
 //			}
-		}
-		#endregion
+        }
 
-		//Do all the weapon init for connecting clients
-		public override void OnStartClient(){
-			StartCoroutine(WaitForLoad());
-			base.OnStartClient();
-		}
+        #endregion
 
-		IEnumerator WaitForLoad(){
-			yield return new WaitForSeconds(3f);
-			LoadUnloadAmmo(MagNetID);
-		}
+        //Do all the weapon init for connecting clients
+        public override void OnStartClient()
+        {
+            StartCoroutine(WaitForLoad());
+            base.OnStartClient();
+        }
 
-		#region Weapon Firing Mechanism
-		public override void Interact(GameObject originator, string hand) {
-			//todo: validate fire attempts on server
-			if (Input.GetKey(KeyCode.LeftControl))
-				return;
-			//shoot gun interation if its in hand
-			if (gameObject == UIManager.Hands.CurrentSlot.GameObject()) {
-				AttemptToFireWeapon();
-			} 
-			//if the weapon is not in our hands not in hands, pick it up
-			else {
-					if ( !isServer )
-					{    //Client informs server of interaction attempt
-						InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
-					}
-					else
-					{    //Server actions
-						if (!ValidatePickUp(originator, hand))
-						{
-							//Rollback prediction
-						}
-						else
-						{
-							GetComponent<RegisterTile>().RemoveTile();
-						}
-					}
-			}
-		}
+        IEnumerator WaitForLoad()
+        {
+            yield return new WaitForSeconds(3f);
+            LoadUnloadAmmo(MagNetID);
+        }
 
-		void AttemptToFireWeapon()
-		{
-			
-			//ignore if we are hovering over UI
-			if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
-				return;
-			}
+        #region Weapon Firing Mechanism
 
-			//if the hand with the weapon in it is selected
-			if (UIManager.Hands.CurrentSlot == UIManager.InventorySlots.LeftHandSlot || UIManager.Hands.CurrentSlot == UIManager.InventorySlots.RightHandSlot) {
-				//if we have no mag/clip loaded play empty sound
-				if (CurrentMagazine == null) {
-					InAutomaticAction = false;
-					PlayEmptySFX();
-					return;
-				} 
-				//if we are out of ammo for this weapon eject magazine and play out of ammo sfx
-				else if (Projectile != null && CurrentMagazine.ammoRemains <= 0 && FireCountDown <= 0) {
-					InAutomaticAction = false;
-					ManualUnload(CurrentMagazine);
-					OutOfAmmoSFX();
-					return;
-				} else {
-					//if we have a projectile to shoot, we have ammo and we are not waiting to be allowed to shoot again, Fire!
-					if (Projectile != null && CurrentMagazine.ammoRemains > 0 && FireCountDown <= 0) {
-						//Add too the cooldown timer to being allowed to shoot again
-						FireCountDown += 1.0 / FireRate;
-						//fire a single round if its a semi or automatic weapon
-						if (WeaponType == WeaponType.SemiAutomatic || WeaponType == WeaponType.FullyAutomatic) {
-							Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-							var lps = PlayerManager.LocalPlayerScript;
-							lps.weaponNetworkActions.CmdShootBullet(gameObject, CurrentMagazine.gameObject, dir, 
-																	Projectile.name, UIManager.DamageZone/*PlayerScript.SelectedDamageZone*/);
-							if (WeaponType == WeaponType.FullyAutomatic)
-								lps.inputController.OnMouseDownDir(dir);
-						}
+        public override void Interact(GameObject originator, string hand)
+        {
+            //todo: validate fire attempts on server
+            if (Input.GetKey(KeyCode.LeftControl))
+                return;
+            //shoot gun interation if its in hand
+            if (gameObject == UIManager.Hands.CurrentSlot.GameObject())
+            {
+                AttemptToFireWeapon();
+            }
+            //if the weapon is not in our hands not in hands, pick it up
+            else
+            {
+                base.Interact(originator, hand);
+            }
+        }
 
-						if (WeaponType == WeaponType.FullyAutomatic) {
-							InAutomaticAction = true;
-						}
-					} 
-				}
-			}
-		}
-		#endregion
+        void AttemptToFireWeapon()
+        {
+            //ignore if we are hovering over UI
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
 
-		#region Weapon Loading and Unloading
-		void Reload(GameObject m, string hand){
-			Debug.Log ("Reloading");
-			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m);
-			UIManager.Hands.CurrentSlot.Clear();
-			PlayerManager.LocalPlayerScript.playerNetworkActions.ClearInventorySlot(hand);
-		}
+            //if we have no mag/clip loaded play empty sound
+            if (CurrentMagazine == null)
+            {
+                InAutomaticAction = false;
+                PlayEmptySFX();
+            }
+            //if we are out of ammo for this weapon eject magazine and play out of ammo sfx
+            else if (Projectile != null && CurrentMagazine.ammoRemains <= 0 && FireCountDown <= 0)
+            {
+                InAutomaticAction = false;
+                ManualUnload(CurrentMagazine);
+                OutOfAmmoSFX();
+            }
+            else
+            {
+                //if we have a projectile to shoot, we have ammo and we are not waiting to be allowed to shoot again, Fire!
+                if (Projectile != null && CurrentMagazine.ammoRemains > 0 && FireCountDown <= 0)
+                {
+                    //Add too the cooldown timer to being allowed to shoot again
+                    FireCountDown += 1.0 / FireRate;
+                    //fire a single round if its a semi or automatic weapon
+                    if (WeaponType == WeaponType.SemiAutomatic || WeaponType == WeaponType.FullyAutomatic)
+                    {
+                        Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) -
+                                       PlayerManager.LocalPlayer.transform.position).normalized;
+                        var lps = PlayerManager.LocalPlayerScript;
+                        lps.weaponNetworkActions.CmdShootBullet(gameObject, CurrentMagazine.gameObject, dir,
+                            Projectile.name, UIManager.DamageZone /*PlayerScript.SelectedDamageZone*/);
+                        if (WeaponType == WeaponType.FullyAutomatic)
+                            lps.inputController.OnMouseDownDir(dir);
+                    }
 
-		//atm unload with shortcut 'e'
-		//TODO dev right click unloading so it goes into the opposite hand if it is selected
-		void ManualUnload(MagazineBehaviour m){
-			Debug.Log ("Unloading");
-			if (m != null) {
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(m.gameObject);
-				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdUnloadWeapon(gameObject);
-			}
-		}
-		#endregion
+                    if (WeaponType == WeaponType.FullyAutomatic)
+                    {
+                        InAutomaticAction = true;
+                    }
+                }
+            }
+        }
 
-		#region Weapon Inventory Management
-		//Check which slot it was just added too (broadcast from UI_itemSlot)
-		public void OnAddToInventory(string slotName)
-		{
-			//This checks to see if a new player who has joined needs to load up any weapon magazines because of missing sync hooks
-			if (MagNetID != NetworkInstanceId.Invalid) {
-				if(CurrentMagazine/* && PlayerManager.LocalPlayer != null*/)
-					PlayerManager.LocalPlayerScript.playerNetworkActions.AddToEquipmentPool(CurrentMagazine.gameObject);
-			}
-		}
+        #endregion
 
-		//recieve broadcast msg when item is dropped from hand
-		public void OnRemoveFromInventory()
-		{
-			if (MagNetID != NetworkInstanceId.Invalid && CustomNetworkManager.Instance._isServer) {
-				if(CurrentMagazine)
-					PlayerManager.LocalPlayerScript.playerNetworkActions.DisposeOfChildItem(CurrentMagazine.gameObject);
-			}
-			Debug.Log("Dropped Weapon");
-		}
+        #region Weapon Loading and Unloading
 
-		public void LoadUnloadAmmo(NetworkInstanceId magazineID){
-			//if the magazine ID is invalid remove the magazine
-			if (magazineID == NetworkInstanceId.Invalid) {
-				CurrentMagazine = null;
-			} else {
-				//find the magazine by NetworkID
-				GameObject magazine = ClientScene.FindLocalObject(magazineID);
-				if (magazine != null) {
-					MagazineBehaviour magazineBehavior = magazine.GetComponent<MagazineBehaviour>();
-					CurrentMagazine = magazineBehavior;
+        void Reload(GameObject m, string hand)
+        {
+            Debug.Log("Reloading");
+            PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m);
+            UIManager.Hands.CurrentSlot.Clear();
+            PlayerManager.LocalPlayerScript.playerNetworkActions.ClearInventorySlot(hand);
+        }
+
+        //atm unload with shortcut 'e'
+        //TODO dev right click unloading so it goes into the opposite hand if it is selected
+        void ManualUnload(MagazineBehaviour m)
+        {
+            Debug.Log("Unloading");
+            if (m != null)
+            {
+                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(m.gameObject);
+                PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdUnloadWeapon(gameObject);
+            }
+        }
+
+        #endregion
+
+        #region Weapon Inventory Management
+
+        //Check which slot it was just added too (broadcast from UI_itemSlot)
+        public void OnAddToInventory(string slotName)
+        {
+            //This checks to see if a new player who has joined needs to load up any weapon magazines because of missing sync hooks
+            if (MagNetID != NetworkInstanceId.Invalid)
+            {
+                if (CurrentMagazine /* && PlayerManager.LocalPlayer != null*/)
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.AddToEquipmentPool(CurrentMagazine.gameObject);
+            }
+        }
+
+        //recieve broadcast msg when item is dropped from hand
+        public void OnRemoveFromInventory()
+        {
+            if (MagNetID != NetworkInstanceId.Invalid && CustomNetworkManager.Instance._isServer)
+            {
+                if (CurrentMagazine)
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.DisposeOfChildItem(CurrentMagazine.gameObject);
+            }
+            Debug.Log("Dropped Weapon");
+        }
+
+        public void LoadUnloadAmmo(NetworkInstanceId magazineID)
+        {
+            //if the magazine ID is invalid remove the magazine
+            if (magazineID == NetworkInstanceId.Invalid)
+            {
+                CurrentMagazine = null;
+            }
+            else
+            {
+                //find the magazine by NetworkID
+                GameObject magazine = ClientScene.FindLocalObject(magazineID);
+                if (magazine != null)
+                {
+                    MagazineBehaviour magazineBehavior = magazine.GetComponent<MagazineBehaviour>();
+                    CurrentMagazine = magazineBehavior;
 //					Debug.LogFormat("MagazineBehaviour found ok: {0}", magazineID);
-				} else {
+                }
+                else
+                {
 //					Debug.Log("Could not find MagazineBehaviour");
-				}
-			}
-		}
-		#endregion
+                }
+            }
+        }
 
-		#region Weapon Pooling
-		//This is only called on the serverside
-		public void OnAddToPool(NetworkInstanceId ownerId)
-		{
-			ControlledByPlayer = ownerId;
-			if (CurrentMagazine != null && PlayerManager.LocalPlayer == ClientScene.FindLocalObject(ownerId)) {
-				//As the magazine loaded is part of the weapon, then we do not need to add to server cache, we only need to add the item to the equipment pool
-				PlayerManager.LocalPlayerScript.playerNetworkActions.AddToEquipmentPool(CurrentMagazine.gameObject);
-			}
-		}
+        #endregion
 
-		public void OnRemoveFromPool()
-		{
-			ControlledByPlayer = NetworkInstanceId.Invalid;
-		}
-		#endregion
+        #region Weapon Pooling
 
-		#region Weapon Sounds
-		void OutOfAmmoSFX()
-		{
-			PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("OutOfAmmoAlarm");
-		}
+        //This is only called on the serverside
+        public void OnAddToPool(NetworkInstanceId ownerId)
+        {
+            ControlledByPlayer = ownerId;
+            if (CurrentMagazine != null && PlayerManager.LocalPlayer == ClientScene.FindLocalObject(ownerId))
+            {
+                //As the magazine loaded is part of the weapon, then we do not need to add to server cache, we only need to add the item to the equipment pool
+                PlayerManager.LocalPlayerScript.playerNetworkActions.AddToEquipmentPool(CurrentMagazine.gameObject);
+            }
+        }
 
-		void PlayEmptySFX()
-		{
-			PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("EmptyGunClick");
-		}
-		#endregion
-	}
+        public void OnRemoveFromPool()
+        {
+            ControlledByPlayer = NetworkInstanceId.Invalid;
+        }
+
+        #endregion
+
+        #region Weapon Sounds
+
+        void OutOfAmmoSFX()
+        {
+            PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("OutOfAmmoAlarm");
+        }
+
+        void PlayEmptySFX()
+        {
+            PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("EmptyGunClick");
+        }
+
+        #endregion
+    }
 }
