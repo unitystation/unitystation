@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 114675300122123158}
   - component: {fileID: 114473027090892988}
   - component: {fileID: 114348418980927824}
+  - component: {fileID: 114828755831851546}
   m_Layer: 10
   m_Name: Belt
   m_TagString: Untagged
@@ -111,13 +112,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cloth: 0
+  hierarchy: 
   itemName: 
+  itemDescription: 
   spriteType: 1
+  type: 10
   inHandReferenceRight: -1
   inHandReferenceLeft: -1
   clothingReference: 66
   size: 1
-  type: 10
 --- !u!114 &114348418980927824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -196,6 +200,20 @@ MonoBehaviour:
     i15: 1
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114828755831851546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1816790622172278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 7
+  savedPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &212980358063185662
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -236,3 +254,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

@@ -99,6 +99,12 @@ namespace Matrix {
             }
         }
 
+        public void RemoveTile() {
+            if(!Matrix.At(savedPosition).TryRemoveTile(gameObject)) {
+                Debug.Log("Couldn't add tile at " + savedPosition);
+            }
+        }
+
         public void OnMouseEnter() {
             UIManager.SetToolTip = this.gameObject.name;
         }

@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114914131618505528}
   - component: {fileID: 114383132860473892}
   - component: {fileID: 114331908573625224}
+  - component: {fileID: 114887892613399632}
   m_Layer: 10
   m_Name: Magazine_12mm
   m_TagString: Untagged
@@ -186,6 +187,20 @@ MonoBehaviour:
     i15: 251
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114887892613399632
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1894555049535168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 7
+  savedPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114914131618505528
 MonoBehaviour:
   m_ObjectHideFlags: 1

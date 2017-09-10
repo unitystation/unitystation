@@ -70,7 +70,6 @@ GameObject:
   - component: {fileID: 61198810039038856}
   - component: {fileID: 114815798438605644}
   - component: {fileID: 61420053973608350}
-  - component: {fileID: 114901160857561980}
   - component: {fileID: 114047843045061068}
   m_Layer: 9
   m_Name: shuttle_wall_Skew1
@@ -101,8 +100,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1695843218127068}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1929, y: 1174, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -1, w: 0}
+  m_LocalPosition: {x: 1987, y: 1126, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4391895992194314}
@@ -111,7 +110,7 @@ Transform:
   - {fileID: 4441322908837834}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
 --- !u!4 &4391895992194314
 Transform:
   m_ObjectHideFlags: 1
@@ -227,7 +226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 5
-  savedPosition: {x: 1929, y: 1174, z: 0}
+  savedPosition: {x: 1987, y: 1126, z: 0}
 --- !u!114 &114815798438605644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -242,18 +241,6 @@ MonoBehaviour:
   snapValue: 1
   depth: 0
   useInGame: 0
---- !u!114 &114901160857561980
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1695843218127068}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39d15e93876249c43aa2ddb5228bfc62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  connectTypeIndex: 7
 --- !u!212 &212239773909284544
 SpriteRenderer:
   m_ObjectHideFlags: 1

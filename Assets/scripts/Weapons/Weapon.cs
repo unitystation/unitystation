@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using PlayGroup;
 using UI;
 using InputControl;
+using Matrix;
 
 namespace Weapons
 {
@@ -208,6 +209,10 @@ namespace Weapons
 						if (!ValidatePickUp(originator, hand))
 						{
 							//Rollback prediction
+						}
+						else
+						{
+							GetComponent<RegisterTile>().RemoveTile();
 						}
 					}
 			}
