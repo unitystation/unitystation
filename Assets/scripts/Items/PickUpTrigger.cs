@@ -14,15 +14,24 @@ namespace Items {
             }
             else
             {    //Server actions
-                if (!ValidatePickUp(originator, hand))
-                {
-                    //Rollback prediction
-                }
-                else
+                if (ValidatePickUp(originator, hand))
                 {
                     GetComponent<RegisterTile>().RemoveTile();
                 }
             }
+        }
+        
+        [Server]
+        public bool ValidatePickUp(GameObject originator, string handSlot = null)
+        {
+            var ps = originator.GetComponent<PlayerScript>();
+            var slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
+            if ( PlayerManager.PlayerScript == null || !ps.playerNetworkActions.Inventory.ContainsKey(slotName) )
+            {
+                return false;
+            }
+
+            return ps.playerNetworkActions.AddItem(gameObject, slotName);
         }
     }
 }
