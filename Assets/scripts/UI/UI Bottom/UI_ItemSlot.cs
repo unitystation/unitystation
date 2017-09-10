@@ -6,6 +6,7 @@ using Events;
 using PlayGroup;
 using UnityEngine.Events;
 using Items;
+using Matrix;
 
 namespace UI {
 
@@ -66,6 +67,7 @@ namespace UI {
             image.enabled = true;
             Item = item;
             item.transform.position = transform.position;
+            
 //			if (PlayerManager.LocalPlayer != null && item != null) {
 //				PlayerManager.LocalPlayerScript.playerNetworkActions.SetInventorySlot(slotName, item);
 //			}

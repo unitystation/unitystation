@@ -6,27 +6,14 @@ using UnityEngine;
 
 public static class World
 {
-	public static List<Collider2D> GetGameObjectsWithinTile(Vector2 position, LayerMask layerMask)
-	{
-		var snappedPosition = new Vector2 (Mathf.Round (position.x), Mathf.Round (position.y));
-
-		var objects = Physics2D.OverlapBoxAll(snappedPosition, new Vector2(0.9f, 0.9f), 0, 1 << layerMask.value).ToList();
-
-		return objects;
-	}
-
 	public static void ReorderGameobjectsOnTile(Vector2 position) {
-		//get number of objects already at this position order them and then make the new item the highest
-		List<Collider2D> colliders = World.GetGameObjectsWithinTile(position, LayerMask.NameToLayer("Items"));
-		colliders.Reverse ();
-		int orderCount = 1;
-		for (int i = 0; i < colliders.Count; i++) {
-			var collider = colliders [i];
-			var sRenderer = collider.gameObject.GetComponentInChildren<SpriteRenderer> ();
+		var items = Matrix.Matrix.At(position).GetItems();
+		
+		for (int i = 0; i < items.Count; i++) {
+			var sRenderer = items[i].gameObject.GetComponentInChildren<SpriteRenderer> ();
 			if (sRenderer != null) {
-				sRenderer.sortingOrder = orderCount;
+				sRenderer.sortingOrder = (i+1);
 			}
-			orderCount++;
 		}
 	}
 }
