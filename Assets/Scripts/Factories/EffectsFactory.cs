@@ -72,7 +72,7 @@ public class EffectsFactory :  NetworkBehaviour {
 				spriteNum = Random.Range(116, 120);
 				break;
 			case BloodSplatSize.large:
-				spriteNum = Random.Range(105, 108);
+				spriteNum = Random.Range(51, 56);
 				break;
 		}
 
