@@ -90,7 +90,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     [Server]
-    public void ValidateInvInteraction(string slot, GameObject gObj)
+    public bool ValidateInvInteraction(string slot, GameObject gObj)
     {
         if ( !_inventory[slot] && _inventory.ContainsValue(gObj) )
         {
@@ -108,11 +108,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
             ClearInventorySlot(toBeCleared.ToArray());
 //            Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
+            return true;
         }
-        else
-        {
-            Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
-        }
+        Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
+        return false;
     }
     
     [Server]

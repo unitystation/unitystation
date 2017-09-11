@@ -16,7 +16,15 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 
 		yield return WaitFor(Subject, SentBy);
 
-		NetworkObjects[1].GetComponent<PlayerNetworkActions>().ValidateInvInteraction(decodeSlot(Slot), NetworkObjects[0]);
+		var clientPlayer = NetworkObjects[1];
+		var pna = clientPlayer.GetComponent<PlayerNetworkActions>();
+		var slot = decodeSlot(Slot);
+		if ( !pna.ValidateInvInteraction(slot, NetworkObjects[0]) )
+		{
+			//rollback
+			UpdateSlotMessage.Send(clientPlayer, slot, pna.Inventory[slot]);
+		}
+		
 	}
 
 	public static InventoryInteractMessage Send(GameObject subject, string hand)

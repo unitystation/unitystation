@@ -79,7 +79,8 @@ namespace UI {
             if(!IsFull && item != null && CheckItemFit(item)) {
 //                Debug.LogErrorFormat("TrySetItem TRUE for {0}", item.GetComponent<ItemAttributes>().hierarchy);
                 InventoryInteractMessage.Send(item, eventName);
-               //predictions(?):
+               //predictions:
+                UIManager.UpdateSlot(new UISlotObject(eventName, item));
 //                SetItem(item);
 
                 return true;
