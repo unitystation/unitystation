@@ -75,7 +75,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     {
         UIManager.Hands.CurrentSlot.SetItem(item);
     }
-    //TODO fix dropped mags pickup
     //This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
     //TODO make these private(make some public child-aware high level methods instead):
     [Server]
@@ -97,23 +96,30 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             UpdateSlotMessage.Send(gameObject, slot, gObj);
             SetInventorySlot(slot, gObj);
             //Clean up other slots
-            HashSet<string> toBeCleared = new HashSet<string>();
-            foreach ( string key in _inventory.Keys )
-            {
-                if (key.Equals(slot) || !_inventory[key]) continue;
-                if ( _inventory[key].Equals(gObj) )
-                {
-                    toBeCleared.Add(key);
-                }
-            }
-            ClearInventorySlot(toBeCleared.ToArray());
+            ClearObjectIfNotInSlot(gObj, slot);
 //            Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
             return true;
         }
         Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
+        //rollback validation message
+        UpdateSlotMessage.Send(gameObject, slot, _inventory[slot]);
         return false;
     }
-    
+
+    private void ClearObjectIfNotInSlot(GameObject gObj, string slot)
+    {
+        HashSet<string> toBeCleared = new HashSet<string>();
+        foreach (string key in _inventory.Keys)
+        {
+            if (key.Equals(slot) || !_inventory[key]) continue;
+            if (_inventory[key].Equals(gObj))
+            {
+                toBeCleared.Add(key);
+            }
+        }
+        ClearInventorySlot(toBeCleared.ToArray());
+    }
+
     [Server]
     public void ClearInventorySlot(params string[] slotNames)
     {
@@ -129,7 +135,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             {
                 equipment.ClearItemSprite(slotNames[i]);
             }
-                UpdateSlotMessage.Send(gameObject, slotNames[i]);
+//                UpdateSlotMessage.Send(gameObject, slotNames[i]);
         }
 //        Debug.LogFormat("Cleared {0}", slotNames);
     }

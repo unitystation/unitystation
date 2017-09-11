@@ -10,6 +10,7 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 	public byte Slot;
 	public NetworkInstanceId Subject;
 
+	//Serverside
 	public override IEnumerator Process()
 	{
 //		Debug.Log("Processed " + ToString());
@@ -21,8 +22,7 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 		var slot = decodeSlot(Slot);
 		if ( !pna.ValidateInvInteraction(slot, NetworkObjects[0]) )
 		{
-			//rollback
-			UpdateSlotMessage.Send(clientPlayer, slot, pna.Inventory[slot]);
+			//ValidateInvInteraction has rollback built in, but you can add more here
 		}
 		
 	}

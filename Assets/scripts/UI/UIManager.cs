@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using PlayGroup;
 using UnityEngine.UI;
 
@@ -109,6 +111,19 @@ namespace UI
 		{
 //			Debug.LogFormat("Updating slots: {0}", slotInfo);
 			InventorySlots[slotInfo.Slot].SetItem(slotInfo.SlotContents);
+			ClearObjectIfNotInSlot(slotInfo);
+		}
+		
+		private static void ClearObjectIfNotInSlot(UISlotObject slotInfo)
+		{
+			for (var i = 0; i < InventorySlots.Length; i++)
+			{
+				if (InventorySlots[i].eventName.Equals(slotInfo.Slot) || !InventorySlots[i].Item) continue;
+                	if (InventorySlots[i].Item.Equals(slotInfo.SlotContents))
+                	{
+					    InventorySlots[i].Clear();
+                	}
+			}
 		}
 
 		/// <summary>

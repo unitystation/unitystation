@@ -92,7 +92,7 @@ namespace UI
 
 		IEnumerator<UI_ItemSlot> IEnumerable<UI_ItemSlot>.GetEnumerator()
 		{
-			return (IEnumerator<UI_ItemSlot>)slots.GetEnumerator();
+			return (slots as IEnumerable<UI_ItemSlot>).GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
