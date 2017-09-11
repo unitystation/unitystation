@@ -17,7 +17,7 @@ public class DoorController: NetworkBehaviour {
     public bool isPerformingAction = false;
     public DoorType doorType;
     public float maxTimeOpen = 5;
-    private HorizontalDoorAnimator horizontalAnim;
+    private DoorAnimator doorAnimator;
     private bool openTrigger = false;
     private GameObject playerOpeningIt;
     private IEnumerator coWaitOpened;
@@ -29,6 +29,11 @@ public class DoorController: NetworkBehaviour {
 
     public bool IsOpened;
     public bool isWindowed = false;
+    public enum OppeningDirection : int {
+        Horizontal,
+        Vertical
+    };
+    public OppeningDirection oppeningDirection;
 
     void Start() {
         if (!isWindowedDoor)
@@ -45,10 +50,8 @@ public class DoorController: NetworkBehaviour {
         
         animator = gameObject.GetComponent<Animator>();
         registerTile = gameObject.GetComponent<RegisterTile>();
-        if(!usingAnimator) {
-            //TODO later change usingAnimator to horizontal checker (when vertical doors are done)
-            horizontalAnim = gameObject.AddComponent<HorizontalDoorAnimator>();
-        }
+        doorAnimator = gameObject.AddComponent<DoorAnimator>();
+        
     }
 
     public void BoxCollToggleOn() {
@@ -143,7 +146,7 @@ public class DoorController: NetworkBehaviour {
             Debug.Log("TODO: Add access denied to animator for door");
         } else {
             if(!isPerformingAction) {
-                horizontalAnim.AccessDenied();
+                doorAnimator.AccessDenied();
             }
         }
     }
@@ -164,7 +167,7 @@ public class DoorController: NetworkBehaviour {
             animator.SetBool("open", true);
         } else {
             if(!isPerformingAction) {
-                horizontalAnim.OpenDoor();
+                doorAnimator.OpenDoor();
             }
         }
     }
@@ -177,7 +180,7 @@ public class DoorController: NetworkBehaviour {
             animator.SetBool("open", false);
         } else {
             if(!isPerformingAction) {
-                horizontalAnim.CloseDoor();
+                doorAnimator.CloseDoor();
             }
         }
     }

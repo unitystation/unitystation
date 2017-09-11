@@ -85,22 +85,27 @@ namespace Sprites {
 //		        ConnectSprites["catwalk"] = dmi.getSprites("obj/smooth_structures/catwalk");
                     
                 //door list of sprites. you need to load the proper spritesheet to make it animate properly. the ommited folders are /Assets/resources/icons/
+                //Horizontal Doors Sprites
 		        DoorSprites["atmos"] = dmi.getSprites("obj/doors/airlocks/station/atmos");
 		        DoorSprites["command"] = dmi.getSprites("obj/doors/airlocks/station/command");
 		        DoorSprites["engineering"] = dmi.getSprites("obj/doors/airlocks/station/engineering");
 		        DoorSprites["maintenance"] = dmi.getSprites("obj/doors/airlocks/station/maintenance");
 		        DoorSprites["medical"] = dmi.getSprites("obj/doors/airlocks/station/medical");
 		        DoorSprites["mining"] = dmi.getSprites("obj/doors/airlocks/station/mining");
-		        DoorSprites["overlays"] = dmi.getSprites("obj/doors/airlocks/station/overlays");
-		        DoorSprites["publicdoor"] = dmi.getSprites("obj/doors/airlocks/station/public");
+		        DoorSprites["overlaysHorizontal"] = dmi.getSprites("obj/doors/airlocks/station/overlays");
+                DoorSprites["overlaysVertical"] = dmi.getSprites("obj/doors/airlocks/external/overlays");
+                DoorSprites["publicdoor"] = dmi.getSprites("obj/doors/airlocks/station/public");
 		        DoorSprites["research"] = dmi.getSprites("obj/doors/airlocks/station/research");
 		        DoorSprites["science"] = dmi.getSprites("obj/doors/airlocks/station/science");
 		        DoorSprites["security"] = dmi.getSprites("obj/doors/airlocks/station/security");
 		        DoorSprites["virology"] = dmi.getSprites("obj/doors/airlocks/station/virology");
                 DoorSprites["shuttle"] = dmi.getSprites("obj/doors/airlocks/shuttle/shuttle");
-                //end of doorLists.
+                //end of Horizontal doors.
+                //Vertical Doors Sprites
+                DoorSprites["airLock"] = dmi.getSprites("obj/doors/airlocks/external/external");
                 
-		        MonitorSprites["monitors"] = dmi.getSprites("obj/monitors");
+                //end of Horizontal doors.
+                MonitorSprites["monitors"] = dmi.getSprites("obj/monitors");
 
 		        BloodSprites["blood"] = dmi.getSprites("effects/blood");
 
@@ -246,8 +251,9 @@ namespace Sprites {
 		science,
 		security,
 		virology,
-        shuttle
-	}
+        shuttle,
+        airLock
+    }
 		
 	public enum BloodSplatSize{
 		small,
