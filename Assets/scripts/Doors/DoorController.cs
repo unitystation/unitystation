@@ -10,7 +10,6 @@ public class DoorController: NetworkBehaviour {
     public AudioSource closeSFX;
     private Animator animator;
     private RegisterTile registerTile;
-    public bool usingAnimator = true;
     public bool isWindowedDoor = false;
     public string restriction;
     [HideInInspector]
@@ -28,7 +27,7 @@ public class DoorController: NetworkBehaviour {
     private int openSortingLayer;
 
     public bool IsOpened;
-    public bool isWindowed = false;
+    //public bool isWindowed = false;
     public enum OppeningDirection : int {
         Horizontal,
         Vertical
@@ -142,13 +141,11 @@ public class DoorController: NetworkBehaviour {
 
     [ClientRpc]
     public void RpcAccessDenied(){
-        if(usingAnimator) {
-            Debug.Log("TODO: Add access denied to animator for door");
-        } else {
+        
             if(!isPerformingAction) {
                 doorAnimator.AccessDenied();
             }
-        }
+        
     }
 
     [ClientRpc]
@@ -163,25 +160,18 @@ public class DoorController: NetworkBehaviour {
     private void OpenAction(){
         IsOpened = true;
 
-        if(usingAnimator) {
-            animator.SetBool("open", true);
-        } else {
             if(!isPerformingAction) {
                 doorAnimator.OpenDoor();
             }
-        }
+        
     }
 
     [ClientRpc]
     public void RpcClose() {
         IsOpened = false;
         playerOpeningIt = null;
-        if(usingAnimator) {
-            animator.SetBool("open", false);
-        } else {
             if(!isPerformingAction) {
                 doorAnimator.CloseDoor();
-            }
-        }
+            }        
     }
 }

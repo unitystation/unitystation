@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sprites;
 using Events;
-//this class is deprecated, using DoorController instead since it controlls both horizontal and vertical animations. 
+/*
+ * this class is deprecated, using DoorController instead since it controlls both horizontal and vertical animations. 
+ * 
+ */ 
 public class HorizontalDoorAnimator : MonoBehaviour
 {
 	protected DoorController doorController;
@@ -29,7 +32,7 @@ public class HorizontalDoorAnimator : MonoBehaviour
 					break;
 			}
 		}
-		sprites = SpriteManager.DoorSprites[doorController.doorType.ToString()];
+		
 		overlaySprites = SpriteManager.DoorSprites["overlaysHorizontal"];
         
 	}

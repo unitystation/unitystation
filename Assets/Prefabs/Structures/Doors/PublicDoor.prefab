@@ -496,13 +496,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openSFX: {fileID: 82241881426066012}
   closeSFX: {fileID: 82491796335204434}
-  usingAnimator: 0
   isWindowedDoor: 1
+  restriction: 
   isPerformingAction: 0
   doorType: 7
   maxTimeOpen: 5
   IsOpened: 0
-  isWindowed: 0
+  oppeningDirection: 0
 --- !u!114 &114114746867991184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -516,7 +516,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
-  editModeControl: {fileID: 114000012487981754}
   savedPosition: {x: 1948, y: 1166, z: -0.1}
 --- !u!114 &114287951213915578
 MonoBehaviour:
@@ -529,6 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowInput: 1
 --- !u!114 &114752899670656194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -634,7 +634,7 @@ SpriteRenderer:
   m_SortingLayerID: -1883797623
   m_SortingLayer: 9
   m_SortingOrder: 11
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300058, guid: 5186da76a90ba4cfa9ca3f8229798e76, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -642,7 +642,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212000011330282726
 SpriteRenderer:
   m_ObjectHideFlags: 1

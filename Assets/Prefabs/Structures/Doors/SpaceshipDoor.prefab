@@ -214,7 +214,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1067917369029206}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1980, y: 1127, z: -0.1}
+  m_LocalPosition: {x: 1985, y: 1140, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4369049587030562}
@@ -494,14 +494,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openSFX: {fileID: 82121942072772510}
   closeSFX: {fileID: 82020299355121634}
-  usingAnimator: 0
   isWindowedDoor: 0
   restriction: 
   isPerformingAction: 0
   doorType: 12
   maxTimeOpen: 5
   IsOpened: 0
-  isWindowed: 0
+  oppeningDirection: 0
 --- !u!114 &114489728062938340
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -547,7 +546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
-  savedPosition: {x: 1980, y: 1127, z: -0.1}
+  savedPosition: {x: 1985, y: 1140, z: -0.1}
 --- !u!114 &114745369761271144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -635,7 +634,7 @@ SpriteRenderer:
   m_SortingLayerID: -1883797623
   m_SortingLayer: 9
   m_SortingOrder: 11
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300052, guid: cfe50577f2e1047679a52b943cb1123f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -643,7 +642,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212860882851672800
 SpriteRenderer:
   m_ObjectHideFlags: 1

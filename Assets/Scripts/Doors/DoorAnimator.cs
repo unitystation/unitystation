@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Sprites;
 using Events;
+using Sprites;
+using UnityEditor;
+using System.Linq;
 
 public class DoorAnimator : MonoBehaviour
 {
@@ -10,38 +12,42 @@ public class DoorAnimator : MonoBehaviour
     private SpriteRenderer overlay_Lights;
     private SpriteRenderer overlay_Glass;
     private SpriteRenderer doorbase;
-    private Sprite[] sprites;
-    private Sprite[] overlaySprites;
+    public Sprite[] doorBaseSprites;
+    public Sprite[] overlaySprites;
+    public Sprite[] overlayLights;
+
 
     void Start()
     {
         doorController = GetComponent<DoorController>();
         foreach (Transform child in transform)
         {
+            //loading the spritesLists without the use of the list of sprites from spritetype.
             switch (child.gameObject.name)
-            {
-                case "overlay_Lights":
-                    overlay_Lights = child.gameObject.GetComponent<SpriteRenderer>();
-                    break;
-                case "overlay_Glass":
-                    overlay_Glass = child.gameObject.GetComponent<SpriteRenderer>();
-                    break;
+            {   
+                
                 case "doorbase":
                     doorbase = child.gameObject.GetComponent<SpriteRenderer>();
+                    doorBaseSprites = GetListOfSpritesFromLoadedSprite(doorbase.sprite).ToArray();
+
                     break;
+                case "overlay_Glass":
+                    overlay_Glass = child.gameObject.GetComponent<SpriteRenderer>();                    
+                    overlaySprites = GetListOfSpritesFromLoadedSprite(overlay_Glass.sprite).ToArray();
+                    break;
+                case "overlay_Lights":
+                    overlay_Lights = child.gameObject.GetComponent<SpriteRenderer>();
+                    overlayLights = GetListOfSpritesFromLoadedSprite(overlay_Lights.sprite).ToArray();
+                    break;                
             }
-        }
-        sprites = SpriteManager.DoorSprites[doorController.doorType.ToString()];
-        if (doorController.oppeningDirection == 0)
-        {
-            overlaySprites = SpriteManager.DoorSprites["overlaysHorizontal"];
-        }
-        else {
-            overlaySprites = SpriteManager.DoorSprites["overlaysVertical"];
         }
         
     }
-
+    //getting the sprites from the prefab using the reference sprite
+    public Sprite[] GetListOfSpritesFromLoadedSprite(Sprite sprite) {
+        string basepath = AssetDatabase.GetAssetPath(sprite).Replace("Assets/Resources/","");        
+        return Resources.LoadAll<Sprite>(basepath.Replace("png",""));
+    }
     
 
     public void AccessDenied()
@@ -79,14 +85,14 @@ public class DoorAnimator : MonoBehaviour
 
     IEnumerator _OpenDoor()
     {
-        doorbase.sprite = sprites[0];
+        doorbase.sprite = doorBaseSprites[0];
         if (doorController.isWindowedDoor)
         {
             overlay_Glass.sprite = overlaySprites[39];
         }
         else
         {
-            overlay_Glass.sprite = sprites[15];
+            overlay_Glass.sprite = doorBaseSprites[15];
         }
         overlay_Lights.sprite = null;
         doorController.PlayOpenSound();
@@ -97,52 +103,50 @@ public class DoorAnimator : MonoBehaviour
         yield return new WaitForSeconds(0.09f);
         overlay_Lights.sprite = overlaySprites[0];
         yield return new WaitForSeconds(0.12f);
-        doorbase.sprite = sprites[3];
+        doorbase.sprite = doorBaseSprites[3];
         if (doorController.isWindowedDoor)
         {
             overlay_Glass.sprite = overlaySprites[41];
         }
         else
         {
-            overlay_Glass.sprite = sprites[19];
+            overlay_Glass.sprite = doorBaseSprites[19];
         }
         overlay_Lights.sprite = overlaySprites[1];
         yield return new WaitForSeconds(0.15f);
-        doorbase.sprite = sprites[4];
+        doorbase.sprite = doorBaseSprites[4];
         if (doorController.isWindowedDoor)
         {
             overlay_Glass.sprite = overlaySprites[42];
         }
         else
         {
-            overlay_Glass.sprite = sprites[20];
+            overlay_Glass.sprite = doorBaseSprites[20];
         }
         overlay_Lights.sprite = overlaySprites[2];
         doorController.BoxCollToggleOff();
         yield return new WaitForSeconds(0.2f);
-        doorbase.sprite = sprites[5];
+        doorbase.sprite = doorBaseSprites[5];
         if (doorController.isWindowedDoor)
         {
             overlay_Glass.sprite = overlaySprites[43];
         }
         else
         {
-            overlay_Glass.sprite = sprites[21];
+            overlay_Glass.sprite = doorBaseSprites[21];
         }
         overlay_Lights.sprite = overlaySprites[3];
         if (doorbase.isVisible)
             EventManager.Broadcast(EVENT.UpdateFov);
         yield return new WaitForSeconds(0.2f);
-        doorbase.sprite = sprites[6];
+        doorbase.sprite = doorBaseSprites[6];
         overlay_Lights.sprite = overlaySprites[4];
         yield return new WaitForSeconds(0.2f);
-        doorbase.sprite = sprites[7];
+        doorbase.sprite = doorBaseSprites[7];
         overlay_Lights.sprite = null;
         yield return new WaitForSeconds(0.2f);
-        doorbase.sprite = sprites[8];
+        doorbase.sprite = doorBaseSprites[8];
         yield return new WaitForEndOfFrame();
-
-
         doorController.isPerformingAction = false;
     }
 
@@ -154,52 +158,52 @@ public class DoorAnimator : MonoBehaviour
 
     IEnumerator _CloseDoor()
     {
-        doorbase.sprite = sprites[8];
+        doorbase.sprite = doorBaseSprites[8];
         overlay_Lights.sprite = overlaySprites[5];
         yield return new WaitForSeconds(0.03f);
-        doorbase.sprite = sprites[9];
+        doorbase.sprite = doorBaseSprites[9];
         overlay_Lights.sprite = overlaySprites[4];
         doorController.PlayCloseSFXshort();
         yield return new WaitForSeconds(0.04f);
         doorController.BoxCollToggleOn();
         yield return new WaitForSeconds(0.06f);
-        doorbase.sprite = sprites[10];
+        doorbase.sprite = doorBaseSprites[10];
         if (doorController.isWindowedDoor)
         {
             overlay_Glass.sprite = overlaySprites[43];
         }
         else
         {
-            overlay_Glass.sprite = sprites[21];
+            overlay_Glass.sprite = doorBaseSprites[21];
         }
         overlay_Lights.sprite = overlaySprites[3];
         yield return new WaitForSeconds(0.09f);
-        doorbase.sprite = sprites[11];
+        doorbase.sprite = doorBaseSprites[11];
         if (doorController.isWindowedDoor)
         {
             overlay_Glass.sprite = overlaySprites[42];
         }
         else
         {
-            overlay_Glass.sprite = sprites[20];
+            overlay_Glass.sprite = doorBaseSprites[20];
         }
         overlay_Lights.sprite = overlaySprites[2];
         yield return new WaitForSeconds(0.12f);
-        doorbase.sprite = sprites[12];
+        doorbase.sprite = doorBaseSprites[12];
         if (!doorController.isWindowedDoor)
         {
-            overlay_Glass.sprite = sprites[19];
+            overlay_Glass.sprite = doorBaseSprites[19];
         }
         overlay_Lights.sprite = overlaySprites[1];
         yield return new WaitForSeconds(0.15f);
-        doorbase.sprite = sprites[13];
+        doorbase.sprite = doorBaseSprites[13];
         if (doorController.isWindowedDoor)
         {
             overlay_Glass.sprite = overlaySprites[39];
         }
         else
         {
-            overlay_Glass.sprite = sprites[15];
+            overlay_Glass.sprite = doorBaseSprites[15];
         }
         overlay_Lights.sprite = overlaySprites[0];
         if (doorbase.isVisible)
@@ -207,7 +211,7 @@ public class DoorAnimator : MonoBehaviour
         yield return new WaitForSeconds(0.18f);
         overlay_Lights.sprite = null;
         yield return new WaitForSeconds(0.20f);
-        doorbase.sprite = sprites[13];
+        doorbase.sprite = doorBaseSprites[13];
         yield return new WaitForEndOfFrame();
         doorController.isPerformingAction = false;
     }
