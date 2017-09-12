@@ -113,7 +113,14 @@ namespace UI
 			InventorySlots[slotInfo.Slot].SetItem(slotInfo.SlotContents);
 			ClearObjectIfNotInSlot(slotInfo);
 		}
-		
+
+		public static bool CanPlaceItem(UISlotObject slotInfo)
+		{
+			var uiItemSlot = InventorySlots[slotInfo.Slot];
+			if ( uiItemSlot == null || uiItemSlot.IsFull /*insert more prechecks here*/) return false;
+			return true;
+		}
+
 		private static void ClearObjectIfNotInSlot(UISlotObject slotInfo)
 		{
 			for (var i = 0; i < InventorySlots.Length; i++)

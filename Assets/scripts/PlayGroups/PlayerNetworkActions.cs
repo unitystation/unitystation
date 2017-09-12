@@ -101,9 +101,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             return true;
         }
         Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
-        //rollback validation message
-        UpdateSlotMessage.Send(gameObject, slot, _inventory[slot]);
         return false;
+    }
+
+    public void RollbackPrediction(string slot)
+    {
+        UpdateSlotMessage.Send(gameObject, slot, _inventory[slot], true);
     }
 
     private void ClearObjectIfNotInSlot(GameObject gObj, string slot)
@@ -135,7 +138,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             {
                 equipment.ClearItemSprite(slotNames[i]);
             }
-//                UpdateSlotMessage.Send(gameObject, slotNames[i]);
+                UpdateSlotMessage.Send(gameObject, slotNames[i]);
         }
 //        Debug.LogFormat("Cleared {0}", slotNames);
     }
@@ -222,7 +225,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     //Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)
-
     [Command][Obsolete]
     public void CmdDropItemNotInUISlot(GameObject obj)
     {

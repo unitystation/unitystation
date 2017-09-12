@@ -22,7 +22,7 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 		var slot = decodeSlot(Slot);
 		if ( !pna.ValidateInvInteraction(slot, NetworkObjects[0]) )
 		{
-			//ValidateInvInteraction has rollback built in, but you can add more here
+			pna.RollbackPrediction(slot);
 		}
 		
 	}

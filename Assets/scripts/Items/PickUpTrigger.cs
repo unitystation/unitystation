@@ -9,10 +9,13 @@ namespace Items {
     public class PickUpTrigger: InputTrigger {
         public override void Interact(GameObject originator, string hand) {
             if ( !isServer )
-            {   //Client informs server of interaction attempt
-                InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
+            {
                 //Prediction
-                UIManager.UpdateSlot(new UISlotObject(hand, gameObject));
+                if ( ClientApprove(hand) )
+                {
+                    //Client informs server of interaction attempt
+                    InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
+                }
             }
             else
             {    //Server actions
@@ -23,13 +26,22 @@ namespace Items {
                 else
                 {
                     //Rollback prediction
-                    //todo think of caching?
-                    var pna = originator.GetComponent<PlayerNetworkActions>();
-                    UpdateSlotMessage.Send(originator, hand, pna.Inventory[hand]);
+                    originator.GetComponent<PlayerNetworkActions>().RollbackPrediction(hand);
                 }
             }
         }
-        
+
+        private bool ClientApprove(string hand)
+        {
+            var uiSlotObject = new UISlotObject(hand, gameObject);
+            if ( !UIManager.CanPlaceItem(uiSlotObject) )
+            {
+                return false;
+            }
+            UIManager.UpdateSlot(uiSlotObject);
+            return true;
+        }
+
         [Server]
         public bool ValidatePickUp(GameObject originator, string handSlot = null)
         {

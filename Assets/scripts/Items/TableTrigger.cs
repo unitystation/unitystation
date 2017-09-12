@@ -8,17 +8,33 @@ public class TableTrigger: InputTrigger {
 	public override void Interact(GameObject originator, string hand)
 	{
 		if ( !isServer )
-		{    //Client informs server of interaction attempt
-			InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
+		{
+			if ( ClientApprove() )
+			{
+				//Client informs server of interaction attempt
+                InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
+			}
 		}
 		else
 		{	//Server actions
 			if ( !ValidateTableInteraction(originator, hand) )
 			{
 				//Rollback prediction here
-//				Debug.Log("Uh-oh, failed table interaction");
+				originator.GetComponent<PlayerNetworkActions>().RollbackPrediction(hand);			
 			}
 		}
+	}
+
+	private bool ClientApprove()
+	{
+		var currentSlot = UIManager.Hands.CurrentSlot;
+		if ( !currentSlot.IsFull ) return false;
+		currentSlot.PlaceItemInScene();
+		currentSlot.Item.transform.parent = null;
+		currentSlot.Item.transform.position = gameObject.transform.position;
+		var e = currentSlot.Item.GetComponent<EditModeControl>();
+		e.Snap();
+		return true;
 	}
 
 	[Server]
@@ -39,23 +55,6 @@ public class TableTrigger: InputTrigger {
 		item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 
 		return true;
-//		if ( PlayerManager.LocalPlayerScript != null )
-//			if ( !PlayerManager.LocalPlayerScript.playerMove.allowInput ||
-//			     PlayerManager.LocalPlayerScript.playerMove.isGhost )
-//				return;
-//
-//		if ( PlayerManager.PlayerInReach(transform) )
-//		{
-//			GameObject item = UIManager.Hands.CurrentSlot.PlaceItemInScene();
-//			if ( item != null )
-//			{
-//				var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-//				targetPosition.z = -0.2f;
-//				PlayerManager.LocalPlayerScript.playerNetworkActions.PlaceItem(UIManager.Hands.CurrentSlot.slotName,
-//					targetPosition, gameObject);
-//				item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
-//			}
-//		}
 	}
 
 	
