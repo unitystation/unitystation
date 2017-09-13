@@ -89,16 +89,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     [Server]
-    public bool ValidateInvInteraction(string slot, GameObject gObj)
+    public bool ValidateInvInteraction(string slot, GameObject gObj = null, bool forceSlotUpdate = false)
     {
-        if ( !_inventory[slot] && _inventory.ContainsValue(gObj) )
+        if ( !_inventory[slot] && gObj && _inventory.ContainsValue(gObj) )
         {
-            UpdateSlotMessage.Send(gameObject, slot, gObj);
+            UpdateSlotMessage.Send(gameObject, slot, gObj, forceSlotUpdate);
             SetInventorySlot(slot, gObj);
             //Clean up other slots
             ClearObjectIfNotInSlot(gObj, slot);
 //            Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
             return true;
+        }
+        if ( !gObj )
+        {
+            return ValidateDropItem(slot, forceSlotUpdate);
         }
         Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
         return false;
@@ -202,26 +206,31 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             UIManager.Hands.CurrentSlot.TrySetItem(item);
         }
     }
-    //Dropping from a slot on the UI
-    [Command][Obsolete]
-    public void CmdDropItem(string eventName)
-    {
-        if ( _inventory.ContainsKey(eventName) )
-        {
-            if ( _inventory[eventName] != null )
-            {
-                GameObject item = _inventory[eventName];
-                EquipmentPool.DropGameObject(gameObject, _inventory[eventName]);
 
-                RpcAdjustItemParent(_inventory[eventName], null);
-                _inventory[eventName] = null;
-                equipment.ClearItemSprite(eventName);
-            }
-            else
-            {
-                Debug.Log("Object not found in Inventory");
-            }
+    /// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction, 
+    /// otherwise client will forcefully receive update slot messages
+    public void DropItem(string hand, bool forceSlotUpdate = true)
+    {
+        InventoryInteractMessage.Send(hand, forceSlotUpdate);
+    }
+
+    //Dropping from a slot on the UI
+    [Server]
+    public bool ValidateDropItem(string slot, bool forceSlotUpdate = false)
+    {
+        //decline if not dropped from hands?
+        if ( _inventory.ContainsKey(slot) && _inventory[slot] )
+        {
+            EquipmentPool.DropGameObject(gameObject, _inventory[slot]);
+
+            RpcAdjustItemParent(_inventory[slot], null);
+            _inventory[slot] = null;
+            equipment.ClearItemSprite(slot);
+            UpdateSlotMessage.Send(gameObject, slot, null, forceSlotUpdate);
+            return true;
         }
+        Debug.Log("Object not found in Inventory");
+        return false;
     }
 
     //Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)

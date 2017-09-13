@@ -9,30 +9,49 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 {
 	public byte Slot;
 	public NetworkInstanceId Subject;
+	public bool ForceSlotUpdate;
 
 	//Serverside
 	public override IEnumerator Process()
 	{
 //		Debug.Log("Processed " + ToString());
+		if ( Subject.Equals(NetworkInstanceId.Invalid) )
+		{
+			//Drop item message
+			yield return WaitFor(SentBy);
+			ProcessFurther(NetworkObject);
+		}
+		else
+		{
+			yield return WaitFor(SentBy, Subject);
+			ProcessFurther(NetworkObjects[0], NetworkObjects[1]);
+		}
 
-		yield return WaitFor(Subject, SentBy);
+	}
 
-		var clientPlayer = NetworkObjects[1];
+	private void ProcessFurther(GameObject player, GameObject item = null)
+	{
+		var clientPlayer = player;
 		var pna = clientPlayer.GetComponent<PlayerNetworkActions>();
 		var slot = decodeSlot(Slot);
-		if ( !pna.ValidateInvInteraction(slot, NetworkObjects[0]) )
+		if ( !pna.ValidateInvInteraction(slot, item, ForceSlotUpdate) )
 		{
 			pna.RollbackPrediction(slot);
 		}
-		
 	}
 
-	public static InventoryInteractMessage Send(GameObject subject, string hand)
+	public static InventoryInteractMessage Send(string hand, bool forceSlotUpdate = false)
+	{
+		return Send(hand, null, forceSlotUpdate);
+	}
+
+	public static InventoryInteractMessage Send(string hand, GameObject subject = null, bool forceSlotUpdate = false)
 	{
 		var msg = new InventoryInteractMessage
 		{
-			Subject = subject.GetComponent<NetworkIdentity>().netId,
-			Slot = encodeSlot(hand)
+			Subject = subject ? subject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			Slot = encodeSlot(hand),
+			ForceSlotUpdate = forceSlotUpdate
 		};
 		msg.Send();
 		return msg;

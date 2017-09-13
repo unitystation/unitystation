@@ -187,8 +187,8 @@ namespace PlayGroup
 						"<color=red><b>" + LastDamagedBy + "</b> has killed <b>" + gameObject.name + "</b></color>", true); //killfeed
 				}
                 
-				playerNetworkActions.CmdDropItem("leftHand");
-				playerNetworkActions.CmdDropItem("rightHand");
+				playerNetworkActions.DropItem("leftHand");
+				playerNetworkActions.DropItem("rightHand");
 				if(isServer)
 				EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.large);
 

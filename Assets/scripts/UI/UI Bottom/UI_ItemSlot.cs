@@ -78,7 +78,7 @@ namespace UI {
         public bool TrySetItem(GameObject item) {
             if(!IsFull && item != null && CheckItemFit(item)) {
 //                Debug.LogErrorFormat("TrySetItem TRUE for {0}", item.GetComponent<ItemAttributes>().hierarchy);
-                InventoryInteractMessage.Send(item, eventName);
+                InventoryInteractMessage.Send(eventName, item);
                //predictions:
                 UIManager.UpdateSlot(new UISlotObject(eventName, item));
 //                SetItem(item);

@@ -29,13 +29,17 @@ public class TableTrigger: InputTrigger {
 	{
 		var currentSlot = UIManager.Hands.CurrentSlot;
 		if ( !currentSlot.IsFull ) return false;
-		currentSlot.PlaceItemInScene();
-		currentSlot.Item.transform.parent = null;
-		currentSlot.Item.transform.position = gameObject.transform.position;
-		var e = currentSlot.Item.GetComponent<EditModeControl>();
-		e.Snap();
-		return true;
-	}
+		var item = currentSlot.PlaceItemInScene();
+		if ( item )
+		{
+			item.transform.position = gameObject.transform.position;
+			item.transform.parent = null;
+			var e = item.GetComponent<EditModeControl>();
+			e.Snap();
+		}
+		else return false;
+	return true;
+}
 
 	[Server]
 	private bool ValidateTableInteraction(GameObject originator, string hand)

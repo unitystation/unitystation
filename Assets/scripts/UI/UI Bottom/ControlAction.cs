@@ -42,24 +42,27 @@ namespace UI {
         }
 
         public void Drop() {
-            if (PlayerManager.LocalPlayerScript != null)
-                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
-                return;
-
-            if (UIManager.Hands.CurrentSlot.Item == null)
-				return;
-
+            //ClientApproval
+            var lps = PlayerManager.LocalPlayerScript;
+            if ( !lps || lps.canNotInteract() || !UIManager.Hands.CurrentSlot.Item ) return;
+            //Message
+            lps.playerNetworkActions.DropItem(UIManager.Hands.CurrentSlot.eventName);
+            
+            //ClientPrediction
             SoundManager.Play("Click01");
             Debug.Log("Drop Button");
-            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItem(UIManager.Hands.CurrentSlot.eventName);
-            GameObject item = UIManager.Hands.CurrentSlot.Clear();
+            //TODO! common client drop method
+            GameObject item = UIManager.Hands.CurrentSlot.PlaceItemInScene();
+            item.transform.parent = null;
+            item.transform.position = gameObject.transform.position;
+            var e = item.GetComponent<EditModeControl>();
+            e.Snap();
 			item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
         }
 
         public void Throw() {
-            if (PlayerManager.LocalPlayerScript != null)
-                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
-                    return;
+            var lps = PlayerManager.LocalPlayerScript;
+            if ( !lps || lps.canNotInteract()) return;
 
             SoundManager.Play("Click01");
             Debug.Log("Throw Button");

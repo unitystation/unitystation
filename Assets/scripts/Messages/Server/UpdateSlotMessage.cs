@@ -38,6 +38,11 @@ public class UpdateSlotMessage : ServerMessage<UpdateSlotMessage>
 
     }
 
+//    public static UpdateSlotMessage Send(GameObject recipient, string slot, bool forced = false)
+//    {
+//        return Send(recipient, slot, null, forced);
+//    }
+
     public static UpdateSlotMessage Send(GameObject recipient, string slot, GameObject objectForSlot = null, bool forced = false)
     {
         var msg = new UpdateSlotMessage{
