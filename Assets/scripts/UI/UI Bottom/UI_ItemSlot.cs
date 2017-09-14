@@ -120,7 +120,7 @@ namespace UI {
             if ( !IsFull ) return false;
             if ( simulatePlace )
             {
-                PlaceItem(pos);
+                return PlaceItem(pos);
             }
             return true;
         }
