@@ -134,7 +134,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011462531918}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1986, y: 1170, z: -0.1}
+  m_LocalPosition: {x: 1982, y: 1170, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4183345251610980}
@@ -496,13 +496,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorType: 13
+  restriction: 
+  isWindowedDoor: 0
+  DoorSpriteOffset: 2
+  DoorLightSpriteOffset: 0
+  DoorCoverSpriteOffset: 18
+  isPerformingAction: 0
+  maxTimeOpen: 5
   openSFX: {fileID: 82346760648337948}
   closeSFX: {fileID: 82771154139725662}
-  isWindowedDoor: 0
-  restriction: 
-  isPerformingAction: 0
-  doorType: 13
-  maxTimeOpen: 5
   IsOpened: 0
   oppeningDirection: 1
 --- !u!114 &114748385134728100
@@ -518,7 +521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
-  savedPosition: {x: 1986, y: 1170, z: -0.1}
+  savedPosition: {x: 1982, y: 1170, z: -0.1}
 --- !u!114 &114956925939094640
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -6,26 +6,35 @@ using Matrix;
 using Sprites;
 
 public class DoorController: NetworkBehaviour {
-    public AudioSource openSFX;
-    public AudioSource closeSFX;
-    private Animator animator;
+    public DoorType doorType;    
     private RegisterTile registerTile;
-    public bool isWindowedDoor = false;
     public string restriction;
+    [Tooltip("Does it have a glass window you can see trough?")]
+    public bool isWindowedDoor = false;
+    [Tooltip("how many sprites in the main door animation")]
+    public int doorAnimationSize;
+    [Tooltip("first frame of the door animation")]
+    public int DoorSpriteOffset =0;
+    [Tooltip("first frame of the light animation")]
+    public int DoorLightSpriteOffset =0;
+    [Tooltip("first frame of the door Cover/window animation")]
+    public int DoorCoverSpriteOffset = 0;
     [HideInInspector]
-    public bool isPerformingAction = false;
-    public DoorType doorType;
+    public bool isPerformingAction = false;    
     public float maxTimeOpen = 5;
     private DoorAnimator doorAnimator;
     private bool openTrigger = false;
     private GameObject playerOpeningIt;
     private IEnumerator coWaitOpened;
-    
+    public AudioSource openSFX;
+    public AudioSource closeSFX;
+   
+
     private int closedLayer;
     private int openLayer;
     private int closedSortingLayer;
     private int openSortingLayer;
-
+    private int doorDirection;
     public bool IsOpened;
     //public bool isWindowed = false;
     public enum OppeningDirection : int {
@@ -47,7 +56,6 @@ public class DoorController: NetworkBehaviour {
         openLayer = LayerMask.NameToLayer("Door Open");
         openSortingLayer = SortingLayer.NameToID("Doors Closed");
         
-        animator = gameObject.GetComponent<Animator>();
         registerTile = gameObject.GetComponent<RegisterTile>();
         doorAnimator = gameObject.AddComponent<DoorAnimator>();
         

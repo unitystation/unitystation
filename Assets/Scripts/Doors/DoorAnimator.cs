@@ -12,207 +12,128 @@ public class DoorAnimator : MonoBehaviour
     private SpriteRenderer overlay_Lights;
     private SpriteRenderer overlay_Glass;
     private SpriteRenderer doorbase;
-    public Sprite[] doorBaseSprites;
-    public Sprite[] overlaySprites;
-    public Sprite[] overlayLights;
+    private Sprite[] doorBaseSprites;
+    private Sprite[] overlaySprites;
+    private Sprite[] overlayLights;
+    //fix replace the hardcoded animation sizes;
+    private int animSize;
 
 
     void Start()
     {
         doorController = GetComponent<DoorController>();
+        animSize = doorController.doorAnimationSize;
         foreach (Transform child in transform)
         {
-            //loading the spritesLists without the use of the list of sprites from spritetype.
+            //loading the spritesLists from the child sprites. they are giving reference to the sprite Atlas that is being fed into the lists.
             switch (child.gameObject.name)
             {   
                 
                 case "doorbase":
                     doorbase = child.gameObject.GetComponent<SpriteRenderer>();
-                    doorBaseSprites = GetListOfSpritesFromLoadedSprite(doorbase.sprite).ToArray();
-
+                    doorBaseSprites = GetListOfSpritesFromLoadedSprite(doorbase.sprite);
                     break;
                 case "overlay_Glass":
                     overlay_Glass = child.gameObject.GetComponent<SpriteRenderer>();                    
-                    overlaySprites = GetListOfSpritesFromLoadedSprite(overlay_Glass.sprite).ToArray();
+                    overlaySprites = GetListOfSpritesFromLoadedSprite(overlay_Glass.sprite);
                     break;
                 case "overlay_Lights":
                     overlay_Lights = child.gameObject.GetComponent<SpriteRenderer>();
-                    overlayLights = GetListOfSpritesFromLoadedSprite(overlay_Lights.sprite).ToArray();
+                    overlayLights = GetListOfSpritesFromLoadedSprite(overlay_Lights.sprite);
                     break;                
             }
         }
         
     }
-    //getting the sprites from the prefab using the reference sprite
+    //getting the sprites from the resources folder using the reference sprites.
     public Sprite[] GetListOfSpritesFromLoadedSprite(Sprite sprite) {
-        string basepath = AssetDatabase.GetAssetPath(sprite).Replace("Assets/Resources/","");        
-        return Resources.LoadAll<Sprite>(basepath.Replace("png",""));
+        string basepath = AssetDatabase.GetAssetPath(sprite).Replace("Assets/Resources/","");
+        return Resources.LoadAll<Sprite>(basepath.Replace(".png", ""));
     }
     
-
+    //animations
     public void AccessDenied()
     {
         doorController.isPerformingAction = true;
-        StartCoroutine(_AccessDenied());
-    }
-
-    IEnumerator _AccessDenied()
-    {
         SoundManager.PlayAtPosition("AccessDenied", transform.position);
-        int loops = 0;
-        while (loops < 4)
+        if (doorController.oppeningDirection == DoorController.OppeningDirection.Vertical)
         {
-            loops++;
-            if (overlay_Lights.sprite == null)
-            {
-                overlay_Lights.sprite = overlaySprites[15];
-            }
-            else
-            {
-                overlay_Lights.sprite = null;
-            }
-            yield return new WaitForSeconds(0.15f);
+            StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset+2, 1));
         }
-        yield return new WaitForSeconds(0.2f);
-        doorController.isPerformingAction = false;
+        StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights,12,6,true,false,true));       
     }
 
     public void OpenDoor()
     {
         doorController.isPerformingAction = true;
-        StartCoroutine(_OpenDoor());
-    }
-
-    IEnumerator _OpenDoor()
-    {
-        doorbase.sprite = doorBaseSprites[0];
-        if (doorController.isWindowedDoor)
-        {
-            overlay_Glass.sprite = overlaySprites[39];
-        }
-        else
-        {
-            overlay_Glass.sprite = doorBaseSprites[15];
-        }
-        overlay_Lights.sprite = null;
         doorController.PlayOpenSound();
-        yield return new WaitForSeconds(0.03f);
-        overlay_Lights.sprite = overlaySprites[0];
-        yield return new WaitForSeconds(0.06f);
-        overlay_Lights.sprite = null;
-        yield return new WaitForSeconds(0.09f);
-        overlay_Lights.sprite = overlaySprites[0];
-        yield return new WaitForSeconds(0.12f);
-        doorbase.sprite = doorBaseSprites[3];
-        if (doorController.isWindowedDoor)
+        StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset, 6, false, true, true));
+        if (doorController.oppeningDirection == DoorController.OppeningDirection.Vertical)
         {
-            overlay_Glass.sprite = overlaySprites[41];
+            StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset,1));
         }
         else
         {
-            overlay_Glass.sprite = doorBaseSprites[19];
-        }
-        overlay_Lights.sprite = overlaySprites[1];
-        yield return new WaitForSeconds(0.15f);
-        doorbase.sprite = doorBaseSprites[4];
-        if (doorController.isWindowedDoor)
-        {
-            overlay_Glass.sprite = overlaySprites[42];
-        }
-        else
-        {
-            overlay_Glass.sprite = doorBaseSprites[20];
-        }
-        overlay_Lights.sprite = overlaySprites[2];
+            StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset));
+        }        
+        StartCoroutine(SpritesPlayer(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset));
+        //mabe the boxColliderStuff should be on the DoorController. 
         doorController.BoxCollToggleOff();
-        yield return new WaitForSeconds(0.2f);
-        doorbase.sprite = doorBaseSprites[5];
-        if (doorController.isWindowedDoor)
-        {
-            overlay_Glass.sprite = overlaySprites[43];
-        }
-        else
-        {
-            overlay_Glass.sprite = doorBaseSprites[21];
-        }
-        overlay_Lights.sprite = overlaySprites[3];
-        if (doorbase.isVisible)
-            EventManager.Broadcast(EVENT.UpdateFov);
-        yield return new WaitForSeconds(0.2f);
-        doorbase.sprite = doorBaseSprites[6];
-        overlay_Lights.sprite = overlaySprites[4];
-        yield return new WaitForSeconds(0.2f);
-        doorbase.sprite = doorBaseSprites[7];
-        overlay_Lights.sprite = null;
-        yield return new WaitForSeconds(0.2f);
-        doorbase.sprite = doorBaseSprites[8];
-        yield return new WaitForEndOfFrame();
-        doorController.isPerformingAction = false;
+
     }
 
     public void CloseDoor()
     {
         doorController.isPerformingAction = true;
-        StartCoroutine(_CloseDoor());
+        doorController.PlayCloseSound();
+        StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset+6, 6, false, true, true));
+        if (doorController.oppeningDirection==DoorController.OppeningDirection.Vertical)
+        {
+            StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset,1,true));
+        }
+        else
+        {
+            StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + 6, 6, true));
+        }        
+        StartCoroutine(SpritesPlayer(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset+6));
+        doorController.BoxCollToggleOn();
     }
 
-    IEnumerator _CloseDoor()
-    {
-        doorbase.sprite = doorBaseSprites[8];
-        overlay_Lights.sprite = overlaySprites[5];
-        yield return new WaitForSeconds(0.03f);
-        doorbase.sprite = doorBaseSprites[9];
-        overlay_Lights.sprite = overlaySprites[4];
-        doorController.PlayCloseSFXshort();
-        yield return new WaitForSeconds(0.04f);
-        doorController.BoxCollToggleOn();
-        yield return new WaitForSeconds(0.06f);
-        doorbase.sprite = doorBaseSprites[10];
-        if (doorController.isWindowedDoor)
+    /// <summary>
+    /// plays a range of sprites from a Sprite[] list starting from the int offset and stopping in a limit giving int numberOfSpritesToPlay.
+    /// offset is optional zero by deafult.
+    /// int numberOfSpritesToPlay is 6 by deafult, but can be changed to any positive number different from zero. 
+    /// bool nullfySprite will set the sprite to null in the end of the animation.
+    /// updateFov is optinal and deafult = false.
+    /// updateAction is a flag that is now coupled with the doorcontroller. 
+    /// </summary>
+    IEnumerator SpritesPlayer(SpriteRenderer renderer, Sprite[] list, int offset = 0, int numberOfSpritesToPlay = 6, bool nullfySprite = false, bool updateFOV=false,bool updateAction=false) {
+        if ((offset > -1)&&(numberOfSpritesToPlay>0))
         {
-            overlay_Glass.sprite = overlaySprites[43];
+            int limit = offset + numberOfSpritesToPlay;
+            for (int i = offset; i < limit; i++)
+            {
+                renderer.sprite = list[i];
+                yield return new WaitForSeconds(0.1f);
+            }
+            yield return new WaitForSeconds(0.1f);
+            if (nullfySprite)
+            {
+                renderer.sprite = null;
+            }
+            if (updateFOV == true)
+            {
+                if (doorbase.isVisible)EventManager.Broadcast(EVENT.UpdateFov);
+            }
+            if (updateAction == true)
+            {
+                doorController.isPerformingAction = false;
+            }            
         }
-        else
-        {
-            overlay_Glass.sprite = doorBaseSprites[21];
+        else {
+            Debug.Log("Offset and the range of sprites must be a positive or zero.");
+            yield break;
         }
-        overlay_Lights.sprite = overlaySprites[3];
-        yield return new WaitForSeconds(0.09f);
-        doorbase.sprite = doorBaseSprites[11];
-        if (doorController.isWindowedDoor)
-        {
-            overlay_Glass.sprite = overlaySprites[42];
-        }
-        else
-        {
-            overlay_Glass.sprite = doorBaseSprites[20];
-        }
-        overlay_Lights.sprite = overlaySprites[2];
-        yield return new WaitForSeconds(0.12f);
-        doorbase.sprite = doorBaseSprites[12];
-        if (!doorController.isWindowedDoor)
-        {
-            overlay_Glass.sprite = doorBaseSprites[19];
-        }
-        overlay_Lights.sprite = overlaySprites[1];
-        yield return new WaitForSeconds(0.15f);
-        doorbase.sprite = doorBaseSprites[13];
-        if (doorController.isWindowedDoor)
-        {
-            overlay_Glass.sprite = overlaySprites[39];
-        }
-        else
-        {
-            overlay_Glass.sprite = doorBaseSprites[15];
-        }
-        overlay_Lights.sprite = overlaySprites[0];
-        if (doorbase.isVisible)
-            EventManager.Broadcast(EVENT.UpdateFov);
-        yield return new WaitForSeconds(0.18f);
-        overlay_Lights.sprite = null;
-        yield return new WaitForSeconds(0.20f);
-        doorbase.sprite = doorBaseSprites[13];
-        yield return new WaitForEndOfFrame();
-        doorController.isPerformingAction = false;
-    }
+        
+    }  
 }

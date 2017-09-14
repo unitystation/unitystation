@@ -160,7 +160,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1807313548142900}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1830, y: 1135, z: -0.1}
+  m_LocalPosition: {x: 1996, y: 1170, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4383142365325550}
@@ -482,7 +482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
-  savedPosition: {x: 0, y: 0, z: 0}
+  savedPosition: {x: 1996, y: 1170, z: -0.1}
 --- !u!114 &114235526540606744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -538,13 +538,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorType: 11
+  restriction: 
+  isWindowedDoor: 0
+  DoorSpriteOffset: 2
+  DoorLightSpriteOffset: 0
+  DoorCoverSpriteOffset: 17
+  isPerformingAction: 0
+  maxTimeOpen: 5
   openSFX: {fileID: 82420744150140008}
   closeSFX: {fileID: 82586256685024074}
-  isWindowedDoor: 0
-  restriction: 
-  isPerformingAction: 0
-  doorType: 11
-  maxTimeOpen: 5
   IsOpened: 0
   oppeningDirection: 0
 --- !u!114 &114944838558853636
@@ -634,7 +637,7 @@ SpriteRenderer:
   m_SortingLayerID: -1883797623
   m_SortingLayer: 9
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: aa14d470b9024a228711e017ab802b6e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dcc76c55f951944c083fe6080f9b6a8e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -675,7 +678,7 @@ SpriteRenderer:
   m_SortingLayerID: -1883797623
   m_SortingLayer: 9
   m_SortingOrder: 9
-  m_Sprite: {fileID: 21300046, guid: aa14d470b9024a228711e017ab802b6e, type: 3}
+  m_Sprite: {fileID: 21300030, guid: dcc76c55f951944c083fe6080f9b6a8e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
