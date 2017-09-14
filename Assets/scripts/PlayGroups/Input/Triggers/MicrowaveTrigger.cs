@@ -31,7 +31,7 @@ namespace InputControl
 				var meal = CraftingManager.Meals.FindRecipe(new List<Ingredient>() { ingredient });
 
 				if (meal) {
-                    UIManager.Hands.CurrentSlot.PlaceItemInScene();
+                    UIManager.Hands.CurrentSlot.Clear();
                     PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStartMicrowave(gameObject, meal.name);
 				}
 			}

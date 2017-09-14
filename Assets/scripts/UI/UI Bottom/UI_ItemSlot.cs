@@ -59,9 +59,8 @@ namespace UI {
                 Clear();
                 return;
             }
-            if (PlayerManager.LocalPlayerScript != null)
-                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
-                    return;
+            var lps = PlayerManager.LocalPlayerScript;
+            if ( !lps || lps.canNotInteract()) return;
 
             image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
             image.enabled = true;
@@ -94,17 +93,11 @@ namespace UI {
         /// </summary>
         /// <returns></returns>
         public GameObject Clear() {
-            if (PlayerManager.LocalPlayerScript != null)
-                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
-                    return null;
+            var lps = PlayerManager.LocalPlayerScript;
+            if ( !lps || lps.canNotInteract()) return null;
 
             var item = Item;
             Item = null;
-
-//            if(slotName.Length > 0 && item != null)
-//                EventManager.UI.TriggerEvent(slotName, null);
-            
-//            PlayerManager.LocalPlayerScript.playerNetworkActions.ClearInventorySlot(slotName);
             image.sprite = null;
             image.enabled = false;
 
@@ -120,20 +113,30 @@ namespace UI {
 		}
 
         /// <summary>
-        /// for use with specific item placement (tables/cupboards etc);
+        /// Clientside method for dropping/placing objects from inventory slot
         /// </summary>
-        /// <returns></returns>
-        public GameObject PlaceItemInScene() {
-            if (PlayerManager.LocalPlayerScript != null)
-                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
-                    return null;
+        public bool CanPlaceItem(Vector3 pos, bool simulatePlace = true)
+        {
+            if ( !IsFull ) return false;
+            if ( simulatePlace )
+            {
+                PlaceItem(pos);
+            }
+            return true;
+        }
 
-            var item = Item;
-            Item = null;
-            image.sprite = null;
-            image.enabled = false;
-
-            return item;
+        /// <summary>
+        /// clientside prediction method that places 
+        /// </summary>
+        public bool PlaceItem(Vector3 pos)
+        {
+            var item = Clear();
+            if ( !item ) return false;
+            item.transform.position = pos;
+            item.transform.parent = null;
+            var e = item.GetComponent<EditModeControl>();
+            e.Snap();
+            return true;
         }
 
         public void Reset() {

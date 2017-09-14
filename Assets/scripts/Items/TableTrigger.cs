@@ -7,13 +7,10 @@ using UnityEngine.Networking;
 public class TableTrigger: InputTrigger {
 	public override void Interact(GameObject originator, string hand)
 	{
-		if ( !isServer )
+		if ( !isServer && ClientApprove() )
 		{
-			if ( ClientApprove() )
-			{
-				//Client informs server of interaction attempt
-                InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
-			}
+			//Client informs server of interaction attempt
+            InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
 		}
 		else
 		{	//Server actions
@@ -25,21 +22,13 @@ public class TableTrigger: InputTrigger {
 		}
 	}
 
+	/// <summary>
+	/// Client pre-approval and simulation
+	/// </summary>
 	private bool ClientApprove()
 	{
-		var currentSlot = UIManager.Hands.CurrentSlot;
-		if ( !currentSlot.IsFull ) return false;
-		var item = currentSlot.PlaceItemInScene();
-		if ( item )
-		{
-			item.transform.position = gameObject.transform.position;
-			item.transform.parent = null;
-			var e = item.GetComponent<EditModeControl>();
-			e.Snap();
-		}
-		else return false;
-	return true;
-}
+		return UIManager.Hands.CurrentSlot.CanPlaceItem(gameObject.transform.position);
+	}
 
 	[Server]
 	private bool ValidateTableInteraction(GameObject originator, string hand)

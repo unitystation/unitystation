@@ -42,22 +42,17 @@ namespace UI {
         }
 
         public void Drop() {
-            //ClientApproval
             var lps = PlayerManager.LocalPlayerScript;
-            if ( !lps || lps.canNotInteract() || !UIManager.Hands.CurrentSlot.Item ) return;
+            if ( !lps || lps.canNotInteract()) return;
+            var currentSlot = UIManager.Hands.CurrentSlot;
+            var dropPos = lps.gameObject.transform.position;
+            if ( !currentSlot.CanPlaceItem(dropPos, false) ) return;
             //Message
-            lps.playerNetworkActions.DropItem(UIManager.Hands.CurrentSlot.eventName);
-            
-            //ClientPrediction
+            lps.playerNetworkActions.DropItem(currentSlot.eventName);
+            //Client simulation
+            currentSlot.PlaceItem(dropPos);
             SoundManager.Play("Click01");
             Debug.Log("Drop Button");
-            //TODO! common client drop method
-            GameObject item = UIManager.Hands.CurrentSlot.PlaceItemInScene();
-            item.transform.parent = null;
-            item.transform.position = gameObject.transform.position;
-            var e = item.GetComponent<EditModeControl>();
-            e.Snap();
-			item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
         }
 
         public void Throw() {
