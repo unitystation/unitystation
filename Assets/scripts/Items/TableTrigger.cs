@@ -7,10 +7,13 @@ using UnityEngine.Networking;
 public class TableTrigger: InputTrigger {
 	public override void Interact(GameObject originator, string hand)
 	{
-		if ( !isServer && ClientApprove() )
+		if ( !isServer )
 		{
+			if ( ClientApprove() )
+			{
 			//Client informs server of interaction attempt
-            InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
+			InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
+			}
 		}
 		else
 		{	//Server actions

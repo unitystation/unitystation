@@ -110,6 +110,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
     public void RollbackPrediction(string slot)
     {
+        //todo fix
+        /*
+        KeyNotFoundException: The given key was not present in the dictionary.
+System.Collections.Generic.Dictionary`2[System.String,UnityEngine.GameObject].get_Item (System.String key) (at /Users/builduser/buildslave/mono/build/mcs/class/corlib/System.Collections.Generic/Dictionary.cs:150)
+PlayerNetworkActions.RollbackPrediction (System.String slot) (at Assets/Scripts/PlayGroups/PlayerNetworkActions.cs:113)
+TableTrigger.Interact (UnityEngine.GameObject originator, System.String hand) (at Assets/Scripts/Items/TableTrigger.cs:20)
+InputControl.InputTrigger.Interact () (at Assets/Scripts/PlayGroups/Input/InputTrigger.cs:19)
+InputControl.InputTrigger.Trigger () (at Assets/Scripts/PlayGroups/Input/InputTrigger.cs:14)
+InputControl.InputController.Interact (UnityEngine.Transform transform) (at Assets/Scripts/PlayGroups/Input/InputController.cs:186)
+*/
         UpdateSlotMessage.Send(gameObject, slot, _inventory[slot], true);
     }
 
@@ -223,7 +233,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         {
             EquipmentPool.DropGameObject(gameObject, _inventory[slot]);
 
-            RpcAdjustItemParent(_inventory[slot], null);
+//            RpcAdjustItemParent(_inventory[slot], null);
             _inventory[slot] = null;
             equipment.ClearItemSprite(slot);
             UpdateSlotMessage.Send(gameObject, slot, null, forceSlotUpdate);
@@ -453,32 +463,32 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    void RpcAdjustItemParent(GameObject item, GameObject parent)
-    {
-        if (parent != null)
-        {
-            item.transform.parent = parent.transform;
-        }
-        else
-        {
-            item.transform.parent = null;
-        }
-    }
-
-    [ClientRpc]
-    void RpcAdjustItemParentCupB(GameObject item, GameObject parent)
-    {
-        if (parent != null)
-        {
-            ClosetControl closetCtrl = parent.GetComponent<ClosetControl>();
-            item.transform.parent = closetCtrl.items.transform;
-        }
-        else
-        {
-            item.transform.parent = null;
-        }
-    }
+//    [ClientRpc]
+//    void RpcAdjustItemParent(GameObject item, GameObject parent)
+//    {
+//        if (parent != null)
+//        {
+//            item.transform.parent = parent.transform;
+//        }
+//        else
+//        {
+//            item.transform.parent = null;
+//        }
+//    }
+//
+//    [ClientRpc]
+//    void RpcAdjustItemParentCupB(GameObject item, GameObject parent)
+//    {
+//        if (parent != null)
+//        {
+//            ClosetControl closetCtrl = parent.GetComponent<ClosetControl>();
+//            item.transform.parent = closetCtrl.items.transform;
+//        }
+//        else
+//        {
+//            item.transform.parent = null;
+//        }
+//    }
 
     [ClientRpc]
     public void RpcSpawnGhost()
