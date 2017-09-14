@@ -160,7 +160,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1069162904971260}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1795, y: 1140, z: -0.1}
+  m_LocalPosition: {x: 1984, y: 1170, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4819004799810456}
@@ -494,6 +494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowInput: 1
 --- !u!114 &114137687150543668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -507,6 +508,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
+  savedPosition: {x: 1984, y: 1170, z: -0.1}
 --- !u!114 &114389256914724986
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -518,14 +520,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorType: 1
+  restriction: 
+  isWindowedDoor: 0
+  doorAnimationSize: 6
+  DoorSpriteOffset: 2
+  DoorLightSpriteOffset: 0
+  DoorCoverSpriteOffset: 17
+  isPerformingAction: 0
+  maxTimeOpen: 5
   openSFX: {fileID: 82352768117769496}
   closeSFX: {fileID: 82705712073591644}
-  usingAnimator: 0
-  isWindowedDoor: 0
-  isPerformingAction: 0
-  doorType: 1
-  maxTimeOpen: 5
   IsOpened: 0
+  oppeningDirection: 0
 --- !u!114 &114594704414043054
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -590,7 +597,7 @@ SpriteRenderer:
   m_SortingLayerID: -1883797623
   m_SortingLayer: 9
   m_SortingOrder: 9
-  m_Sprite: {fileID: 21300046, guid: bd7842b3597341d4b3e4002c57790cb2, type: 3}
+  m_Sprite: {fileID: 21300030, guid: 774c1913632e84715a61a1948840b4e3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -598,6 +605,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212393307592725592
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -630,7 +638,7 @@ SpriteRenderer:
   m_SortingLayerID: -1883797623
   m_SortingLayer: 9
   m_SortingOrder: 11
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300192, guid: 5186da76a90ba4cfa9ca3f8229798e76, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -638,6 +646,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &212398477298658288
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -670,7 +679,7 @@ SpriteRenderer:
   m_SortingLayerID: -1883797623
   m_SortingLayer: 9
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: bd7842b3597341d4b3e4002c57790cb2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 774c1913632e84715a61a1948840b4e3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -678,3 +687,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

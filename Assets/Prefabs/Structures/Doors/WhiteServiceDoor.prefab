@@ -54,7 +54,6 @@ GameObject:
   - component: {fileID: 61000012796496776}
   - component: {fileID: 114000011089653234}
   - component: {fileID: 114000013931071084}
-  - component: {fileID: 95000011124253226}
   - component: {fileID: 114565204265437400}
   - component: {fileID: 114229922813896132}
   - component: {fileID: 114672552748689518}
@@ -135,7 +134,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013430947772}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1951, y: 1165, z: -0.1}
+  m_LocalPosition: {x: 1997, y: 1170, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013110856560}
@@ -470,23 +469,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!95 &95000011124253226
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013430947772}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 3c5d5efd27497d843a6e10a2d5957e56, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114000011089653234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -498,15 +480,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorType: 14
+  restriction: 
+  isWindowedDoor: 1
+  doorAnimationSize: 6
+  DoorSpriteOffset: 2
+  DoorLightSpriteOffset: 0
+  DoorCoverSpriteOffset: 58
+  isPerformingAction: 0
+  maxTimeOpen: 5
   openSFX: {fileID: 82034696694369034}
   closeSFX: {fileID: 82262653965746812}
-  usingAnimator: 1
-  isWindowedDoor: 1
-  isPerformingAction: 0
-  doorType: 0
-  maxTimeOpen: 5
   IsOpened: 0
-  isWindowed: 0
+  oppeningDirection: 0
 --- !u!114 &114000013931071084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -566,8 +552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 3
-  editModeControl: {fileID: 114000013931071084}
-  savedPosition: {x: 1951, y: 1165, z: -0.1}
+  savedPosition: {x: 1997.02, y: 1170, z: 0}
 --- !u!114 &114672552748689518
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -579,6 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowInput: 1
 --- !u!212 &212000011094967888
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -611,7 +597,7 @@ SpriteRenderer:
   m_SortingLayerID: -1883797623
   m_SortingLayer: 9
   m_SortingOrder: 9
-  m_Sprite: {fileID: 21300082, guid: 3e4987268ca1409ab11864438256f5ec, type: 3}
+  m_Sprite: {fileID: 21300116, guid: aa62bd6401d4c406b8c477866454a587, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -652,7 +638,7 @@ SpriteRenderer:
   m_SortingLayerID: -1883797623
   m_SortingLayer: 9
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: c4bcb1d51a7b4281bd9e4422701c1643, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 63b7011f0f41a4a86b02c7a6eec1de98, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -693,7 +679,7 @@ SpriteRenderer:
   m_SortingLayerID: -1883797623
   m_SortingLayer: 9
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: c4bcb1d51a7b4281bd9e4422701c1643, type: 3}
+  m_Sprite: {fileID: 21300126, guid: aa62bd6401d4c406b8c477866454a587, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

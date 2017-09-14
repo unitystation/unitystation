@@ -6,29 +6,42 @@ using Matrix;
 using Sprites;
 
 public class DoorController: NetworkBehaviour {
-    public AudioSource openSFX;
-    public AudioSource closeSFX;
-    private Animator animator;
+    public DoorType doorType;    
     private RegisterTile registerTile;
-    public bool usingAnimator = true;
-    public bool isWindowedDoor = false;
     public string restriction;
+    [Tooltip("Does it have a glass window you can see trough?")]
+    public bool isWindowedDoor = false;
+    [Tooltip("how many sprites in the main door animation")]
+    public int doorAnimationSize;
+    [Tooltip("first frame of the door animation")]
+    public int DoorSpriteOffset =0;
+    [Tooltip("first frame of the light animation")]
+    public int DoorLightSpriteOffset =0;
+    [Tooltip("first frame of the door Cover/window animation")]
+    public int DoorCoverSpriteOffset = 0;
     [HideInInspector]
-    public bool isPerformingAction = false;
-    public DoorType doorType;
+    public bool isPerformingAction = false;    
     public float maxTimeOpen = 5;
-    private HorizontalDoorAnimator horizontalAnim;
+    private DoorAnimator doorAnimator;
     private bool openTrigger = false;
     private GameObject playerOpeningIt;
     private IEnumerator coWaitOpened;
-    
+    public AudioSource openSFX;
+    public AudioSource closeSFX;
+   
+
     private int closedLayer;
     private int openLayer;
     private int closedSortingLayer;
     private int openSortingLayer;
-
+    private int doorDirection;
     public bool IsOpened;
-    public bool isWindowed = false;
+    //public bool isWindowed = false;
+    public enum OppeningDirection : int {
+        Horizontal,
+        Vertical
+    };
+    public OppeningDirection oppeningDirection;
 
     void Start() {
         if (!isWindowedDoor)
@@ -43,12 +56,9 @@ public class DoorController: NetworkBehaviour {
         openLayer = LayerMask.NameToLayer("Door Open");
         openSortingLayer = SortingLayer.NameToID("Doors Closed");
         
-        animator = gameObject.GetComponent<Animator>();
         registerTile = gameObject.GetComponent<RegisterTile>();
-        if(!usingAnimator) {
-            //TODO later change usingAnimator to horizontal checker (when vertical doors are done)
-            horizontalAnim = gameObject.AddComponent<HorizontalDoorAnimator>();
-        }
+        doorAnimator = gameObject.AddComponent<DoorAnimator>();
+        
     }
 
     public void BoxCollToggleOn() {
@@ -139,13 +149,11 @@ public class DoorController: NetworkBehaviour {
 
     [ClientRpc]
     public void RpcAccessDenied(){
-        if(usingAnimator) {
-            Debug.Log("TODO: Add access denied to animator for door");
-        } else {
+        
             if(!isPerformingAction) {
-                horizontalAnim.AccessDenied();
+                doorAnimator.AccessDenied();
             }
-        }
+        
     }
 
     [ClientRpc]
@@ -160,25 +168,18 @@ public class DoorController: NetworkBehaviour {
     private void OpenAction(){
         IsOpened = true;
 
-        if(usingAnimator) {
-            animator.SetBool("open", true);
-        } else {
             if(!isPerformingAction) {
-                horizontalAnim.OpenDoor();
+                doorAnimator.OpenDoor();
             }
-        }
+        
     }
 
     [ClientRpc]
     public void RpcClose() {
         IsOpened = false;
         playerOpeningIt = null;
-        if(usingAnimator) {
-            animator.SetBool("open", false);
-        } else {
             if(!isPerformingAction) {
-                horizontalAnim.CloseDoor();
-            }
-        }
+                doorAnimator.CloseDoor();
+            }        
     }
 }

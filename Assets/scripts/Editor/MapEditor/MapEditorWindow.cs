@@ -47,7 +47,7 @@ namespace MapEditor {
                 string[] dirFiles = Directory.GetFiles(files[i]);                
                 foreach (var file in dirFiles)
                 {
-                    //checks if the folder is empty, or only has a folder inside, case it is empty the string.
+                    //checks if the folder is empty, or only has a folder inside, case it is empty, empty the string.
                     if (file.Contains(".prefab"))
                     {                        
                         break;

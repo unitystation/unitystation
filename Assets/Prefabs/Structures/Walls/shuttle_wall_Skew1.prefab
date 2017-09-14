@@ -71,6 +71,7 @@ GameObject:
   - component: {fileID: 114815798438605644}
   - component: {fileID: 61420053973608350}
   - component: {fileID: 114047843045061068}
+  - component: {fileID: 114188845057166070}
   m_Layer: 9
   m_Name: shuttle_wall_Skew1
   m_TagString: Untagged
@@ -227,6 +228,18 @@ MonoBehaviour:
   inSpace: 0
   tileTypeIndex: 5
   savedPosition: {x: 1987, y: 1126, z: 0}
+--- !u!114 &114188845057166070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1695843218127068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39d15e93876249c43aa2ddb5228bfc62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectTypeIndex: 7
 --- !u!114 &114815798438605644
 MonoBehaviour:
   m_ObjectHideFlags: 1
