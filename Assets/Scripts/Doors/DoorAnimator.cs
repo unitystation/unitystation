@@ -67,7 +67,7 @@ public class DoorAnimator : MonoBehaviour
     {
         doorController.isPerformingAction = true;
         doorController.PlayOpenSound();
-        StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset, 6, false, true, true));
+        StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset, animSize, false, true, true));
         if (doorController.oppeningDirection == DoorController.OppeningDirection.Vertical)
         {
             StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset,1));
@@ -79,21 +79,20 @@ public class DoorAnimator : MonoBehaviour
         StartCoroutine(SpritesPlayer(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset));
         //mabe the boxColliderStuff should be on the DoorController. 
         doorController.BoxCollToggleOff();
-
     }
 
     public void CloseDoor()
     {
         doorController.isPerformingAction = true;
         doorController.PlayCloseSound();
-        StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset+6, 6, false, true, true));
+        StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset+animSize,animSize, false, true, true));
         if (doorController.oppeningDirection==DoorController.OppeningDirection.Vertical)
         {
             StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset,1,true));
         }
         else
         {
-            StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + 6, 6, true));
+            StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + animSize, animSize, true));
         }        
         StartCoroutine(SpritesPlayer(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset+6));
         doorController.BoxCollToggleOn();
