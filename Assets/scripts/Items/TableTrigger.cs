@@ -9,10 +9,13 @@ public class TableTrigger: InputTrigger {
 	{
 		if ( !isServer )
 		{
-			if ( ClientApprove() )
+			var slot = UIManager.Hands.CurrentSlot;
+			if ( ClientApprove(slot) )
 			{
 			//Client informs server of interaction attempt
-			InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
+			InteractMessage.Send(gameObject, slot.eventName);
+			//Client simulation
+			slot.PlaceItem(gameObject.transform.position);
 			}
 		}
 		else
@@ -26,11 +29,11 @@ public class TableTrigger: InputTrigger {
 	}
 
 	/// <summary>
-	/// Client pre-approval and simulation
+	/// Client pre-approval
 	/// </summary>
-	private bool ClientApprove()
+	private bool ClientApprove(UI_ItemSlot slot)
 	{
-		return UIManager.Hands.CurrentSlot.CanPlaceItem(gameObject.transform.position);
+		return slot.CanPlaceItem();
 	}
 
 	[Server]

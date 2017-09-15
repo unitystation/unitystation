@@ -7,6 +7,8 @@ using PlayGroup;
 using UnityEngine.Events;
 using Items;
 using Matrix;
+using UnityEngine.Networking;
+using UnityEngine.Video;
 
 namespace UI {
 
@@ -113,20 +115,18 @@ namespace UI {
 		}
 
         /// <summary>
-        /// Clientside method for dropping/placing objects from inventory slot
+        /// Clientside check for dropping/placing objects from inventory slot
         /// </summary>
-        public bool CanPlaceItem(Vector3 pos, bool simulatePlace = true)
+        public bool CanPlaceItem()
         {
             if ( !IsFull ) return false;
-            if ( simulatePlace )
-            {
-                return PlaceItem(pos);
-            }
+            if ( !UIManager.ItemActionAllowed(Item) ) return false;
+
             return true;
         }
 
         /// <summary>
-        /// clientside prediction method that places 
+        /// clientside simulation of placement
         /// </summary>
         public bool PlaceItem(Vector3 pos)
         {

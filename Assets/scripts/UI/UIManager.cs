@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using PlayGroup;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace UI
@@ -114,11 +115,35 @@ namespace UI
 			ClearObjectIfNotInSlot(slotInfo);
 		}
 
-		public static bool CanPlaceItem(UISlotObject slotInfo)
+		public static bool CanPutItemToSlot(UISlotObject proposedSlotInfo)
 		{
-			var uiItemSlot = InventorySlots[slotInfo.Slot];
+			if ( !ItemActionAllowed(proposedSlotInfo.SlotContents) ) return false;
+			var uiItemSlot = InventorySlots[proposedSlotInfo.Slot];
 			if ( uiItemSlot == null || uiItemSlot.IsFull /*insert more prechecks here*/) return false;
 			return true;
+		}
+		
+		/// Checks if player received transform update after sending interact message
+		public static bool ItemActionAllowed(GameObject item)
+		{
+			var netId = item.GetComponent<NetworkIdentity>().netId;
+			var lastReceive = item.GetComponent<NetworkTransform>().lastSyncTime;
+			var lastSend = InteractMessage.msgCache.ContainsKey(netId) ? InteractMessage.msgCache[netId] : 0f;
+			if ( lastReceive < lastSend )
+			{
+				return CanTrySendAgain(lastSend, lastReceive);
+			}
+			Debug.LogFormat("ItemAction allowed! {2} msgcache {0} {1}", InteractMessage.msgCache.Count, lastSend, item.name);
+			return true;
+		}
+
+		private static bool CanTrySendAgain(float lastSend, float lastReceive)
+		{
+			var f = Time.time - lastSend;
+			var d = lastSend - lastReceive;
+			var canTrySendAgain = f >= d;
+			Debug.LogFormat("canTrySendAgain = {0} {1}>={2} ",canTrySendAgain, f, d);
+			return canTrySendAgain;
 		}
 
 		private static void ClearObjectIfNotInSlot(UISlotObject slotInfo)

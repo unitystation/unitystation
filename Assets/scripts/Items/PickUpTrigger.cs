@@ -34,7 +34,7 @@ namespace Items {
         private bool ClientApprove(string hand)
         {
             var uiSlotObject = new UISlotObject(hand, gameObject);
-            if ( !UIManager.CanPlaceItem(uiSlotObject) )
+            if ( !UIManager.CanPutItemToSlot(uiSlotObject) )
             {
                 return false;
             }

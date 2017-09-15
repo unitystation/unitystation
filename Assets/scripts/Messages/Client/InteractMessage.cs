@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using InputControl;
 using UnityEngine;
 using UnityEngine.Networking;
+using Util;
+
 /// <summary>
 /// Informs server of interaction
 /// </summary>
@@ -9,6 +12,9 @@ public class InteractMessage : ClientMessage<InteractMessage>
 {
 	public byte Hand;
 	public NetworkInstanceId Subject;
+	public static readonly Dictionary<NetworkInstanceId, float> msgCache 
+		= new Dictionary<NetworkInstanceId, float>(10);
+
 
 	public override IEnumerator Process()
 	{
@@ -16,7 +22,7 @@ public class InteractMessage : ClientMessage<InteractMessage>
 
 		yield return WaitFor(Subject, SentBy);
 
-		NetworkObjects[0].GetComponent<InputControl.InputTrigger>().Interact(NetworkObjects[1], decodeHand(Hand));
+		NetworkObjects[0].GetComponent<InputTrigger>().Interact(NetworkObjects[1], decodeHand(Hand));
 	}
 
 	public static InteractMessage Send(GameObject subject, string hand)
@@ -27,6 +33,7 @@ public class InteractMessage : ClientMessage<InteractMessage>
 			Hand = encodeHand(hand)
 		};
 		msg.Send();
+		msgCache[msg.Subject] = Time.time;
 		return msg;
 	}
 
@@ -39,6 +46,7 @@ public class InteractMessage : ClientMessage<InteractMessage>
 			default: return 0;
 		}
 	}
+
 	private static string decodeHand(byte handEventByte)
 	{
 		//we better start using enums for that soon!
@@ -55,19 +63,19 @@ public class InteractMessage : ClientMessage<InteractMessage>
 		return string.Format("[InteractMessage Subject={0} Hand={3} Type={1} SentBy={2}]",
 			Subject, MessageType, SentBy, decodeHand(Hand));
 	}
-	
+
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
 		Hand = reader.ReadByte();
 		Subject = reader.ReadNetworkId();
 
-	}	
+	}
+
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
 		writer.Write(Hand);
 		writer.Write(Subject);
 	}
-	
 }
