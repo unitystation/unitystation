@@ -34,7 +34,9 @@ namespace Matrix {
         private UnityAction[] listeners = new UnityAction[3];
 
         void Awake() {
-            sprites = SpriteManager.ConnectSprites[spriteName];
+			if (spriteName != "")
+				sprites = SpriteManager.ConnectSprites[spriteName];
+
             spriteRenderer = GetComponent<SpriteRenderer>();
             offsetIndex = (int) spritePosition * 2;
         }
@@ -100,8 +102,8 @@ namespace Matrix {
 
             if(sprites != null && index < sprites.Length)
                 spriteRenderer.sprite = sprites[index];
-            else
-                Debug.Log("Sprites are missing!");
+//            else
+//                Debug.Log("Sprites are missing!");
         }
     }
 }
