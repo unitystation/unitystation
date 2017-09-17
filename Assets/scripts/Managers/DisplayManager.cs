@@ -61,7 +61,6 @@ public class DisplayManager : MonoBehaviour
     public void SetResolution()
     {
 		int _value = resoDropDown.value;
-		Debug.Log("Set Reso " + _value);
         switch (_value){
 			case 0:
 				width = 1024;

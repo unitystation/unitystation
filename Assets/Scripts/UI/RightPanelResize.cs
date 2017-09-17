@@ -61,12 +61,22 @@ namespace UI{
 				* 0.4f) + 0.6f;
 				newScale.y = newScale.x;
 				hudBottom.localScale = newScale;
+
+                Vector3 newPos = hudBottom.anchoredPosition;
+                newPos.x = (((maxSize.x - panelRectTransform.sizeDelta.x) / leftRange)
+                * 51f) + 2f;
+                hudBottom.anchoredPosition = newPos;
 			} else {
 				Vector3 newScale = hudBottom.localScale;
 				newScale.x = 1.2f - (((panelRectTransform.sizeDelta.x - minSize.x) / rightRange)
 					* 0.2f);
 				newScale.y = newScale.x;
 				hudBottom.localScale = newScale;
+
+                Vector3 newPos = hudBottom.anchoredPosition;
+                newPos.x = (((rightRange - (panelRectTransform.sizeDelta.x - minSize.x)) / rightRange)
+                    * 128f) + 51f;
+                hudBottom.anchoredPosition = newPos;
 			}
 			UIManager.DisplayManager.SetCameraFollowPos();
 		}
