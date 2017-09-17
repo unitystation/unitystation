@@ -5,19 +5,21 @@ using UnityEngine.EventSystems;
 
 namespace UI
 {
+	/// <summary>
+	/// Resize a UI element, requires an Image to define draggable area
+	/// Add to a child gObj of the element you want to resize
+	/// </summary>
 	public class ResizePanel : MonoBehaviour, IPointerDownHandler,
 	IPointerUpHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 	{
-		//TODO handle max size on x and hide panel when below min x (showing the transparent chatbox)
 		public Vector2 minSize = new Vector2(100, 100);
 		public Vector2 maxSize = new Vector2(400, 400);
 
-		private RectTransform panelRectTransform;
-		private RectTransform thisRectTransform;
-		private Vector2 originalLocalPointerPosition;
-		private Vector2 originalSizeDelta;
-		private Rect originalRect;
-		private bool isDragging = false;
+		public RectTransform panelRectTransform { get; set; }
+		public RectTransform thisRectTransform { get; set; }
+		public Vector2 originalLocalPointerPosition { get; set; }
+		public Vector2 originalSizeDelta { get; set; }
+		public bool isDragging{ get; set; }
 		public Texture2D resizeCursor;
 
 		void Awake()
@@ -26,47 +28,50 @@ namespace UI
 			thisRectTransform = transform.GetComponent<RectTransform>();
 		}
 
-		public void OnPointerDown(PointerEventData data)
+		public virtual void OnPointerDown(PointerEventData data)
 		{
 			originalSizeDelta = panelRectTransform.sizeDelta;
-			originalRect = panelRectTransform.rect;
-			RectTransformUtility.ScreenPointToLocalPointInRectangle(panelRectTransform, data.position, data.pressEventCamera, out originalLocalPointerPosition);
+			Vector2 getLocalPos;
+			RectTransformUtility.ScreenPointToLocalPointInRectangle(panelRectTransform, data.position, data.pressEventCamera, out getLocalPos);
+			originalLocalPointerPosition = getLocalPos; //So child classes can use as you cannot 'out' to a property
 			isDragging = true;
 		}
 
-		public void OnPointerUp(PointerEventData data)
+		public virtual void OnPointerUp(PointerEventData data)
 		{
 			isDragging = false;
+			Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 		}
 
-		public void OnDrag(PointerEventData data)
+		public virtual void OnDrag(PointerEventData data)
 		{
 			if (panelRectTransform == null)
 				return;
 
 			Vector2 localPointerPosition;
-			RectTransformUtility.ScreenPointToLocalPointInRectangle (panelRectTransform, data.position, data.pressEventCamera, out localPointerPosition);
+			RectTransformUtility.ScreenPointToLocalPointInRectangle(panelRectTransform, data.position, data.pressEventCamera, out localPointerPosition);
 			Vector3 offsetToOriginal = localPointerPosition - originalLocalPointerPosition;
 
-			Vector2 sizeDelta = originalSizeDelta + new Vector2 (-offsetToOriginal.x, 0f);
-			//TODO handle the min and max actions
-//			sizeDelta = new Vector2 (
-//				Mathf.Clamp (sizeDelta.x, minSize.x, maxSize.x),
-//				Mathf.Clamp (sizeDelta.y, minSize.y, maxSize.y)
-//			);
+			Vector2 sizeDelta = originalSizeDelta + new Vector2(-offsetToOriginal.x, offsetToOriginal.y);
+		
+			sizeDelta = new Vector2(
+				Mathf.Clamp(sizeDelta.x, minSize.x, maxSize.x),
+				Mathf.Clamp(sizeDelta.y, minSize.y, maxSize.y)
+			);
 
 			panelRectTransform.sizeDelta = sizeDelta;
 		}
 
 		public void OnPointerEnter(PointerEventData data)
 		{
-			Cursor.SetCursor (resizeCursor, Vector2.zero, CursorMode.Auto);
+			//TODO corner cursor textures?
+			Cursor.SetCursor(resizeCursor, Vector2.zero, CursorMode.Auto);
 		}
 
 		public void OnPointerExit(PointerEventData data)
 		{
-			if(!isDragging)
-			Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+			if (!isDragging)
+				Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 		}
 	}
 }

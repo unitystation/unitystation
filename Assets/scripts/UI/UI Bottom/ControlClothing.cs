@@ -5,13 +5,12 @@ using System.Collections;
 namespace UI {
     public class ControlClothing: MonoBehaviour {
         public GameObject equipmentMenu;
-
 		private bool isOpen;
-		private RectTransform rect;
+		private Vector3 cacheLocalPos;
 
         void Start() {
 			isOpen = false;
-			rect = equipmentMenu.GetComponent<RectTransform>();
+			cacheLocalPos = equipmentMenu.transform.localPosition;
 			ToggleEquipMenu(false);
         }
 
@@ -28,13 +27,11 @@ namespace UI {
 		private void ToggleEquipMenu(bool isOn){
 			isOpen = isOn;
 			if (isOn) {
-				Vector2 pos = rect.anchoredPosition;
-				pos.x = -486f;
-				rect.anchoredPosition = pos;
+				equipmentMenu.transform.localPosition = cacheLocalPos;
 			} else {
-				Vector2 pos = rect.anchoredPosition;
-				pos.x = -1486f;
-				rect.anchoredPosition = pos;
+				Vector3 newPos = cacheLocalPos;
+				newPos.x -= 1000f;
+				equipmentMenu.transform.localPosition = newPos;
 			}
 		}
     }
