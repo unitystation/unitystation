@@ -11,8 +11,17 @@ namespace UI{
 	public class RightPanelResize : ResizePanel {
 
 		public RectTransform hudRight;
+		public RectTransform hudBottom;
 		float hudRight_dist;
+		float leftRange;
+		float rightRange;
+		float cacheWidth;
 
+		void Start(){
+			cacheWidth = panelRectTransform.sizeDelta.x;
+			leftRange = maxSize.x - cacheWidth;
+			rightRange = cacheWidth - minSize.x;
+		}
 		public override void OnPointerDown(PointerEventData data){
 			hudRight_dist = transform.position.x - hudRight.position.x;
 			base.OnPointerDown(data);
@@ -29,17 +38,37 @@ namespace UI{
 			Vector2 sizeDelta = originalSizeDelta + new Vector2(-offsetToOriginal.x, 0f);
 
 			if (sizeDelta.x < maxSize.x) {
-
 				panelRectTransform.sizeDelta = sizeDelta;
 			} else {
 				sizeDelta.x = maxSize.x;
 				panelRectTransform.sizeDelta = sizeDelta;
 			}
 
+			AdjustHudRight();
+			AdjustHudBottom();
+		}
+
+		void AdjustHudRight(){
 			Vector3 newHudRight_Pos = hudRight.position;
 			newHudRight_Pos.x = transform.position.x - hudRight_dist;
 			hudRight.position = newHudRight_Pos;
+		}
 
+		void AdjustHudBottom(){
+			if (panelRectTransform.sizeDelta.x > cacheWidth) {
+				Vector3 newScale = hudBottom.localScale;
+				newScale.x = (((maxSize.x - panelRectTransform.sizeDelta.x) / leftRange)
+				* 0.4f) + 0.6f;
+				newScale.y = newScale.x;
+				hudBottom.localScale = newScale;
+			} else {
+				Vector3 newScale = hudBottom.localScale;
+				newScale.x = 1.2f - (((panelRectTransform.sizeDelta.x - minSize.x) / rightRange)
+					* 0.2f);
+				newScale.y = newScale.x;
+				hudBottom.localScale = newScale;
+			}
+			UIManager.DisplayManager.SetCameraFollowPos();
 		}
 }
 }

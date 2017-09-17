@@ -22,7 +22,7 @@ public class DoorController: NetworkBehaviour {
     [HideInInspector]
     public bool isPerformingAction = false;    
     public float maxTimeOpen = 5;
-    private DoorAnimator doorAnimator;
+    public DoorAnimator doorAnimator;
     private bool openTrigger = false;
     private GameObject playerOpeningIt;
     private IEnumerator coWaitOpened;
@@ -43,7 +43,8 @@ public class DoorController: NetworkBehaviour {
     };
     public OppeningDirection oppeningDirection;
 
-    void Start() {
+    public override void OnStartClient() {
+		base.OnStartClient();
         if (!isWindowedDoor)
         {
             closedLayer = LayerMask.NameToLayer("Door Closed");
@@ -56,9 +57,7 @@ public class DoorController: NetworkBehaviour {
         openLayer = LayerMask.NameToLayer("Door Open");
         openSortingLayer = SortingLayer.NameToID("Doors Closed");
         
-        registerTile = gameObject.GetComponent<RegisterTile>();
-        doorAnimator = gameObject.AddComponent<DoorAnimator>();
-        
+        registerTile = gameObject.GetComponent<RegisterTile>();   
     }
 
     public void BoxCollToggleOn() {

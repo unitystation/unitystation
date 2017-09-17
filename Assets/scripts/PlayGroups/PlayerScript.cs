@@ -83,6 +83,7 @@ namespace PlayGroup
 		{
 			if (isLocalPlayer) {
 				UIManager.ResetAllUI();
+				UIManager.DisplayManager.SetCameraFollowPos();
 				int rA = UnityEngine.Random.Range(0, 3);
 				SoundManager.PlayVarAmbient(rA);
 				playerMove = GetComponent<PlayerMove>();
