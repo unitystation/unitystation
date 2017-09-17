@@ -12,6 +12,7 @@ namespace UI{
 
 		public RectTransform hudRight;
 		public RectTransform hudBottom;
+		public GameObject returnPanelButton;
 		float hudRight_dist;
 		float leftRange;
 		float rightRange;
@@ -28,7 +29,7 @@ namespace UI{
 		}
 		//TODO handle max size on x and hide panel when below min x (showing the transparent chatbox)
 		public override void OnDrag(PointerEventData data){
-			if (panelRectTransform == null)
+			if (panelRectTransform == null || !isDragging)
 				return;
 
 			Vector2 localPointerPosition;
@@ -42,6 +43,14 @@ namespace UI{
 			} else {
 				sizeDelta.x = maxSize.x;
 				panelRectTransform.sizeDelta = sizeDelta;
+			}
+
+			if (sizeDelta.x < minSize.x) {
+				returnPanelButton.SetActive(true);
+				sizeDelta.x = -2f;
+				panelRectTransform.sizeDelta = sizeDelta;
+				isDragging = false;
+				Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 			}
 
 			AdjustHudRight();
@@ -74,11 +83,28 @@ namespace UI{
 				hudBottom.localScale = newScale;
 
                 Vector3 newPos = hudBottom.anchoredPosition;
-                newPos.x = (((rightRange - (panelRectTransform.sizeDelta.x - minSize.x)) / rightRange)
-                    * 128f) + 51f;
+				if (panelRectTransform.sizeDelta.x > minSize.x) {
+					newPos.x = (((rightRange - (panelRectTransform.sizeDelta.x - minSize.x)) / rightRange)
+					* 104f) + 51f;
+				} else {
+					newPos.x = 155f;
+				}
                 hudBottom.anchoredPosition = newPos;
 			}
-			UIManager.DisplayManager.SetCameraFollowPos();
+			UIManager.DisplayManager.SetCameraFollowPos(returnPanelButton.activeSelf);
+		}
+
+		/// <summary>
+		/// To restore the RightPanel by clicking the arrow button in the top right of the screen
+		/// </summary>
+		public void RestoreRightPanel(){
+			SoundManager.Play("Click01");
+			returnPanelButton.SetActive(false);
+			Vector2 sizeDelta = panelRectTransform.sizeDelta;
+			sizeDelta.x = cacheWidth;
+			panelRectTransform.sizeDelta = sizeDelta;
+			AdjustHudRight();
+			AdjustHudBottom();
 		}
 }
 }

@@ -71,7 +71,7 @@ public class DisplayManager : MonoBehaviour
                 height = 720;
                 break;
             case 2:
-                //FIXME: Interact problems at this reso
+                //FIXME: FOV edge and BG edge can be seen at this reso
                 width = 1920;
                 height = 1080;
                 break;
@@ -79,7 +79,7 @@ public class DisplayManager : MonoBehaviour
         PlayerPrefs.SetInt("reso", _value);
         Screen.SetResolution(width, height, false);
 		if (GameData.IsInGame) {
-			Invoke("SetCameraFollowPos",1f);
+			StartCoroutine(WaitForResoSet());
         }
         if (lightingSystem != null){
             lightingSystem._renderTargetTexture = new RenderTexture(width, height, -2, RenderTextureFormat.ARGB32);
@@ -94,9 +94,18 @@ public class DisplayManager : MonoBehaviour
         }
     }
 
-	public void SetCameraFollowPos(){
+	IEnumerator WaitForResoSet(){
+		yield return new WaitForSeconds(1f);
+		SetCameraFollowPos();
+	}
+
+	public void SetCameraFollowPos(bool isPanelHidden = false){
 		float xOffSet = Mathf.Abs(Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x - Camera2DFollow.followControl.transform.position.x)
 			+ -0.06f;
+
+		if (isPanelHidden) {
+			xOffSet = -xOffSet;
+		}
 		Camera2DFollow.followControl.listenerObj.transform.localPosition = new Vector3(-xOffSet, 1f); //set listenerObj's position to player's pos
 		Camera2DFollow.followControl.xOffset = xOffSet; 
 	}
