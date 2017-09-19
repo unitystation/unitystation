@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using PlayGroup;
+using UI;
 
 
 //Resos:
@@ -14,11 +15,10 @@ public class DisplayManager : MonoBehaviour
 {
 	public static DisplayManager Instance;
 
-    public Dropdown optionsDropDown;
+    public Dropdown resoDropDown;
     public Light2D.LightingSystem lightingSystem;
     public Camera mainCamera;
 	public FieldOfViewTiled fieldOfView;
-
     private int width;
     private int height;
 
@@ -33,11 +33,13 @@ public class DisplayManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("reso"))
         {
-            SetResolution(PlayerPrefs.GetInt("reso"));
+			resoDropDown.value = PlayerPrefs.GetInt("reso");
+			SetResolution();
         }
         else
         {
-            SetResolution(1);
+			resoDropDown.value = 1;
+			SetResolution();
         }
         hasInt = true;
     }
@@ -56,23 +58,20 @@ public class DisplayManager : MonoBehaviour
 		}
 	}
 
-    public void SetResolution(int _value)
+    public void SetResolution()
     {
-		float xOffsetCamFollow = 0;
-        switch (_value)
-        {
+		int _value = resoDropDown.value;
+        switch (_value){
 			case 0:
 				width = 1024;
 				height = 640;
-				xOffsetCamFollow = 1.7f;
                 break;
             case 1:
                 width = 1280;
                 height = 720;
-				xOffsetCamFollow = 2.5f;
                 break;
             case 2:
-                //FIXME: Interact problems at this reso
+                //FIXME: FOV edge and BG edge can be seen at this reso
                 width = 1920;
                 height = 1080;
                 break;
@@ -80,21 +79,14 @@ public class DisplayManager : MonoBehaviour
         PlayerPrefs.SetInt("reso", _value);
         Screen.SetResolution(width, height, false);
 		if (GameData.IsInGame) {
-			Camera2DFollow.followControl.listenerObj.transform.localPosition = new Vector3(-xOffsetCamFollow, 1f); //set listenerObj's position to player's pos
-            Camera2DFollow.followControl.xOffset = xOffsetCamFollow; 
+			StartCoroutine(WaitForResoSet());
         }
-        if (optionsDropDown.value != _value)
-            optionsDropDown.value = _value;
-        if (lightingSystem != null)
-        {
-
+        if (lightingSystem != null){
             lightingSystem._renderTargetTexture = new RenderTexture(width, height, -2, RenderTextureFormat.ARGB32);
         }
-        else
-        {
+        else{
             lightingSystem = FindObjectOfType<Light2D.LightingSystem>();
-			if (lightingSystem != null && lightingSystem.enabled)
-            {
+			if (lightingSystem != null && lightingSystem.enabled){
                 mainCamera = lightingSystem.GetComponent<Camera>();
                 lightingSystem._renderTargetTexture = new RenderTexture(width, height, -2, RenderTextureFormat.ARGB32);
                 lightingSystem._camera.targetTexture = lightingSystem._renderTargetTexture;
@@ -102,12 +94,28 @@ public class DisplayManager : MonoBehaviour
         }
     }
 
+	IEnumerator WaitForResoSet(){
+		yield return new WaitForSeconds(1f);
+		SetCameraFollowPos();
+	}
+
+	public void SetCameraFollowPos(bool isPanelHidden = false){
+		float xOffSet = Mathf.Abs(Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x - Camera2DFollow.followControl.transform.position.x)
+			+ -0.06f;
+
+		if (isPanelHidden) {
+			xOffSet = -xOffSet;
+		}
+		Camera2DFollow.followControl.listenerObj.transform.localPosition = new Vector3(-xOffSet, 1f); //set listenerObj's position to player's pos
+		Camera2DFollow.followControl.xOffset = xOffSet; 
+	}
+
     private void LateUpdate()
     {
-        if (hasInt) { }
-        if (Screen.width != width || Screen.height != height)
-        {
-            Screen.SetResolution(width, height, false);
-        }
+		if (hasInt) {
+			if (Screen.width != width || Screen.height != height) {
+				Screen.SetResolution(width, height, false);
+			}
+		}
     }
 }

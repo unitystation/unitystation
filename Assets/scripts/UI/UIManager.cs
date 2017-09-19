@@ -15,6 +15,7 @@ namespace UI
 		public ControlDisplays displayControl;
 		public PlayerHealthUI playerHealth;
 		public PlayerListUI playerListUIControl;
+		public DisplayManager displayManager;
 		public Text toolTip;
 		public InventorySlotCache inventorySlotCache;
 
@@ -75,6 +76,12 @@ namespace UI
 		public static PlayerListUI PlayerListUI {
 			get {
 				return Instance.playerListUIControl;
+			}
+		}
+
+		public static DisplayManager DisplayManager {
+			get {
+				return Instance.displayManager;
 			}
 		}
 
