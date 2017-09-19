@@ -93,7 +93,7 @@ public class DisplayManager : MonoBehaviour
         else
         {
             lightingSystem = FindObjectOfType<Light2D.LightingSystem>();
-            if (lightingSystem != null)
+			if (lightingSystem != null && lightingSystem.enabled)
             {
                 mainCamera = lightingSystem.GetComponent<Camera>();
                 lightingSystem._renderTargetTexture = new RenderTexture(width, height, -2, RenderTextureFormat.ARGB32);
