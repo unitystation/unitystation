@@ -163,7 +163,7 @@ namespace PlayGroup {
 
             if (doorController != null && allowInput) {
                 //checking if the door actually has a restriction (only need one because that's how ss13 works!
-                if (doorController.restriction.Length > 0)
+                if (doorController.restriction >0)
                 {   //checking if the ID slot on player contains an ID with an itemIdentity component
                     if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>() != null)
                     {   //checking if the ID has access to bypass the restriction

@@ -86,6 +86,7 @@ namespace Sprites {
                     
                 //door list of sprites. you need to load the proper spritesheet to make it animate properly. the root folder is /Assets/resources/icons/
                 //Horizontal Doors Sprites
+                /*
 		        DoorSprites["atmos"] = dmi.getSprites("obj/doors/airlocks/station/atmos");
 		        DoorSprites["command"] = dmi.getSprites("obj/doors/airlocks/station/command");
 		        DoorSprites["engineering"] = dmi.getSprites("obj/doors/airlocks/station/engineering");
@@ -99,7 +100,9 @@ namespace Sprites {
 		        DoorSprites["virology"] = dmi.getSprites("obj/doors/airlocks/station/virology");
                 DoorSprites["shuttle"] = dmi.getSprites("obj/doors/airlocks/shuttle/shuttle");
                 DoorSprites["glassDoor"] = dmi.getSprites("obj/doors/airlocks/station2/glass");
+                */
                 //end of Horizontal doors.
+                
                 //Vertical Doors Sprites
                 DoorSprites["airLock"] = dmi.getSprites("obj/doors/airlocks/external/external");
                 //end of Horizontal doors.
@@ -112,7 +115,7 @@ namespace Sprites {
 
 		        BloodSprites["blood"] = dmi.getSprites("effects/blood");
 
-//		        LightSprites["lights"] = dmi.getSprites("effects/lighting");
+//		        LightSpr.ites["lights"] = dmi.getSprites("effects/lighting");
 		        
 		        
 	// old ones:	        

@@ -8,13 +8,13 @@ public class ItemIdentity : NetworkBehaviour
     // see cards_id.dm
 
     public int MiningPoints = 0; //For redeeming at mining equipment vendors
-    public List<string> Access = new List<string>();
+    public List<AccessType.Access> Access = new List<AccessType.Access>();
     public string RegisteredName;
     public string Assignment;
     
     // Use this for initialization
     void Start () {
-        Access.Add("Test");
+        Access.Add(AccessType.Access.security);
 	}
 	
 	// Update is called once per frame
