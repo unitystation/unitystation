@@ -8,7 +8,7 @@ using Sprites;
 public class DoorController: NetworkBehaviour {
     public DoorType doorType;    
     private RegisterTile registerTile;
-    public string restriction;
+    public AccessType.Access restriction;
     [Tooltip("Does it have a glass window you can see trough?")]
     public bool isWindowedDoor = false;
     [Tooltip("how many sprites in the main door animation")]
