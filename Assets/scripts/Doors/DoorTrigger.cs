@@ -15,7 +15,10 @@ public class DoorTrigger: InputTrigger {
     public override void Interact(GameObject originator, string hand) {
         if (doorController != null && allowInput)
         {
-            if (doorController.restriction.Length > 0)
+            if ((int
+                
+                
+                )doorController.restriction > 0)
             {
                 if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>() != null)
                 {
@@ -41,14 +44,16 @@ public class DoorTrigger: InputTrigger {
     }
 
     void CheckDoorAccess(ItemIdentity cardID, DoorController doorController){
+        Debug.Log("been here!");
         if (cardID.Access.Contains(doorController.restriction))
         {// has access
             allowInput = false;
             PlayGroup.PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryOpenRestrictDoor(gameObject);
-
+            Debug.Log(doorController.restriction.ToString() + " access granted");
             StartCoroutine(DoorInputCoolDown());
         }else
         {// does not have access
+            Debug.Log(doorController.restriction.ToString() + " no access");
             allowInput = false;
             StartCoroutine(DoorInputCoolDown());
             PlayGroup.PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRestrictDoorDenied(gameObject);

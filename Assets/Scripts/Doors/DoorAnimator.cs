@@ -57,7 +57,7 @@ public class DoorAnimator : MonoBehaviour
 		//loading the spritesLists from the child sprites. they are giving reference to the sprite Atlas that is being fed into the lists.
 		doorBaseSprites = GetListOfSpritesFromLoadedSprite(doorbase.sprite);               
 		overlaySprites = GetListOfSpritesFromLoadedSprite(overlay_Glass.sprite);
-		overlayLights = GetListOfSpritesFromLoadedSprite(overlay_Lights.sprite);  
+		overlayLights = GetListOfSpritesFromLoadedSprite(overlay_Lights.sprite);        
 	}
 	//getting the sprites from the resources folder using the reference sprites.
 	//only works in editor, so sprites are cached before play
