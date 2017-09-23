@@ -62,6 +62,15 @@ namespace PlayGroup {
             serverState = new PlayerState() { MoveNumber = 0, Position = position };
         }
 
+		/// <summary>
+		/// Server only transform.position setter
+		/// </summary>
+		/// <param name="pos">The new position to "teleport" player</param>
+		[Server]
+		public void SetPosition(Vector3 pos){
+			serverState = serverState = new PlayerState() { MoveNumber = 0, Position = pos };
+		}
+
         void Start() {
             if(isLocalPlayer) {
                 pendingActions = new Queue<PlayerAction>();

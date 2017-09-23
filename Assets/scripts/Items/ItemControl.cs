@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using Matrix;
+using PlayGroup;
 
 public class ItemControl : NetworkBehaviour
 {
 
 	[SyncVar(hook="UpdateState")]
 	public bool aliveState = true;
+
+	private bool isPlayer = false;
 
 	//Ignore these types
 	private const string networkId = "NetworkIdentity";
@@ -18,6 +21,10 @@ public class ItemControl : NetworkBehaviour
 	public override void OnStartClient(){
 		StartCoroutine(WaitForLoad());
 		base.OnStartClient();
+
+		PlayerScript pS = GetComponent<PlayerScript>();
+		if(pS != null)
+			isPlayer = true;
 	}
 
 	IEnumerator WaitForLoad(){
@@ -27,9 +34,9 @@ public class ItemControl : NetworkBehaviour
 
 	void UpdateState(bool _aliveState)
 	{
-		MonoBehaviour[] scripts = GetComponentsInChildren<MonoBehaviour>();
+		MonoBehaviour[] scripts = GetComponentsInChildren<MonoBehaviour>(true);
 		Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
-		Renderer[] renderers = GetComponentsInChildren<Renderer>();
+		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 		for (int i = 0; i < scripts.Length; i++) {
 			if (scripts[i].GetType().Name != networkId && scripts[i].GetType().Name != networkT
 				&& scripts[i].GetType().Name != itemControl) {
@@ -47,7 +54,9 @@ public class ItemControl : NetworkBehaviour
 			
 			RegisterTile rT = GetComponent<RegisterTile>();
 			if (rT != null) {
+			if(!isPlayer)
 				gameObject.GetComponent<EditModeControl>().Snap();
+			
 				rT.UpdateTile(transform.position);
 			}
 		}

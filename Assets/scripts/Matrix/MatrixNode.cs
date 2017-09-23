@@ -21,6 +21,9 @@ namespace Matrix {
         [NonSerialized]
         private List<HealthBehaviour> damageables = new List<HealthBehaviour>();
 
+        [NonSerialized]
+		private List<ItemControl> players = new List<ItemControl>();
+
         private bool isDoor;
         private bool isWindow;
         private bool isWall;
@@ -54,6 +57,12 @@ namespace Matrix {
                         damageables.Add(healthBehaviour);
                     }
                 }
+
+                if (tileType == TileType.Player)
+                {
+					players.Add(gameObject.GetComponent<ItemControl>());
+                }
+
                 tiles.Add(gameObject);
                 UpdateValues();
             }
@@ -76,6 +85,12 @@ namespace Matrix {
                         damageables.Remove(healthBehaviour);
                     }
                 }
+
+                if (tileType == TileType.Player)
+                {
+					players.Remove(gameObject.GetComponent<ItemControl>());
+                }
+
                 if(!tiles.Contains(gameObject)) {
                     return false;
                 }
@@ -165,6 +180,10 @@ namespace Matrix {
 
         public List<ItemControl> GetItems() {
             return items;
+        }
+
+        public List<ItemControl> GetPlayers(){
+            return players;
         }
 
         public List<HealthBehaviour> GetDamageables() {
