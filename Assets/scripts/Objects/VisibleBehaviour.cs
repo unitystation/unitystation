@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using Matrix;
@@ -15,26 +14,31 @@ public class VisibleBehaviour : NetworkBehaviour
 	/// <summary>
 	/// This will also set the enabled state of every component
 	/// </summary>
-	[SyncVar(hook="UpdateState")]
+	[SyncVar(hook = "UpdateState")]
 	public bool visibleState = true;
 
 	private bool isPlayer = false;
+	private RegisterTile registerTile;
 
 	//Ignore these types
 	private const string networkId = "NetworkIdentity";
 	private const string networkT = "NetworkTransform";
 	private const string objectBehaviour = "ObjectBehaviour";
+	private const string regTile = "RegisterTile";
 
-	public override void OnStartClient(){
+	public override void OnStartClient()
+	{
 		StartCoroutine(WaitForLoad());
 		base.OnStartClient();
 
+		registerTile = GetComponent<RegisterTile>();
 		PlayerScript pS = GetComponent<PlayerScript>();
-		if(pS != null)
+		if (pS != null)
 			isPlayer = true;
 	}
 
-	IEnumerator WaitForLoad(){
+	IEnumerator WaitForLoad()
+	{
 		yield return new WaitForSeconds(3f);
 		UpdateState(visibleState);
 	}
@@ -46,7 +50,8 @@ public class VisibleBehaviour : NetworkBehaviour
 		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 		for (int i = 0; i < scripts.Length; i++) {
 			if (scripts[i].GetType().Name != networkId && scripts[i].GetType().Name != networkT
-			    && scripts[i].GetType().Name != objectBehaviour) {
+				&& scripts[i].GetType().Name != objectBehaviour
+			   && scripts[i].GetType().Name != regTile) {
 				scripts[i].enabled = _aliveState;
 			}
 		}
@@ -58,15 +63,17 @@ public class VisibleBehaviour : NetworkBehaviour
 		for (int i = 0; i < renderers.Length; i++) {
 			renderers[i].enabled = _aliveState;
 		}
-			
-			RegisterTile rT = GetComponent<RegisterTile>();
-			if (rT != null) {
 
-			EditModeControl eC = gameObject.GetComponent<EditModeControl>();
-			if (eC != null)
-				eC.Snap();
-			
-				rT.UpdateTile(transform.position);
+		if (registerTile != null) {
+			if (_aliveState) {
+				EditModeControl eC = gameObject.GetComponent<EditModeControl>();
+				if (eC != null)
+					eC.Snap();
+
+				registerTile.UpdateTile(transform.position);
+			}else{
+				registerTile.RemoveTile();
 			}
 		}
 	}
+}

@@ -179,10 +179,12 @@ namespace Matrix {
         }
 
 		public List<ObjectBehaviour> GetItems() {
-            return items;
+			List<ObjectBehaviour> newList = new List<ObjectBehaviour>(items);
+            return newList;
         }
 
         public List<ObjectBehaviour> GetPlayers(){
+			List<ObjectBehaviour> newList = new List<ObjectBehaviour>(players);
             return players;
         }
 

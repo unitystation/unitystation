@@ -172,13 +172,14 @@ namespace Cupboards
 
 		private void SetItemsAliveState(bool on)
 		{
-			if(!on)
-			heldItems = Matrix.Matrix.At(transform.position).GetItems();
-			
+			if (!on)
+				heldItems = Matrix.Matrix.At(transform.position).GetItems();
+
 			for (int i = 0; i < heldItems.Count; i++) {
-				heldItems[i].visibleState = on;
 				if (on)
 					heldItems[i].transform.position = transform.position;
+				
+				heldItems[i].visibleState = on;
 			}
 		}
 
@@ -188,11 +189,9 @@ namespace Cupboards
 			
 			if (heldPlayers.Count > 0) {
 				for (int i = 0; i < heldPlayers.Count; i++) {
-					heldPlayers[i].visibleState = on;
-
-					if (on) {
+					if (on) 
 						heldPlayers[i].GetComponent<PlayerSync>().SetPosition(transform.position);
-					}
+					heldPlayers[i].visibleState = on;
 				}
 			}
 		}

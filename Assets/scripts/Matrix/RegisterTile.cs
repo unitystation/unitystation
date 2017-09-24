@@ -81,7 +81,7 @@ namespace Matrix {
         public void UpdateTile(Vector3 newPos) {
             if(currentTileTypeIndex == TileType.List.IndexOf(TileType.Item)) {
                 if(Matrix.At(transform.position).ContainsItem(gameObject)) {
-                    //Don't do anything
+					//Don't do anything
                     return;
                 }
             }
@@ -101,8 +101,8 @@ namespace Matrix {
 
         public void RemoveTile() {
             if(!Matrix.At(savedPosition).TryRemoveTile(gameObject)) {
-                Debug.Log("Couldn't add tile at " + savedPosition);
-            }
+                Debug.Log("Couldn't remove tile at " + savedPosition);
+			}
         }
 
         public void OnMouseEnter() {

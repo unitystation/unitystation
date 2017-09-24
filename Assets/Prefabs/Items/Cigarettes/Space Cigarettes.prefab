@@ -56,8 +56,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1645856876941636}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1984, y: 1170, z: -0.2}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 183.24207, y: 38.653076, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4915420850159430}
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 7
-  savedPosition: {x: 1981, y: 1174, z: -0.2}
+  savedPosition: {x: 1990, y: 1165, z: -0.2}
 --- !u!114 &114836435796936700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -258,7 +258,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
   m_SortingLayer: 8
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300002, guid: 0b284f34f73c45ad922c952b96d5da48, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
