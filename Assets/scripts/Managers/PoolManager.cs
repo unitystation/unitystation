@@ -43,7 +43,7 @@ public class PoolManager : NetworkBehaviour
 				int index = pools[prefab].Count - 1;
 				tempObject = pools[prefab][index];
 				pools[prefab].RemoveAt(index);
-				tempObject.GetComponent<ItemControl>().aliveState = true;
+				tempObject.GetComponent<ObjectBehaviour>().visibleState = true;
 				tempObject.transform.position = position;
 				tempObject.transform.rotation = rotation;
 				tempObject.transform.localScale = prefab.transform.localScale;
@@ -123,7 +123,7 @@ public class PoolManager : NetworkBehaviour
 	{
 		GameObject prefab = target.GetComponent<PoolPrefabTracker>().myPrefab;
 		prefab.transform.position = Vector2.zero;
-		target.GetComponent<ItemControl>().aliveState = false;
+		target.GetComponent<ObjectBehaviour>().visibleState = false;
 		pools[prefab].Add(target);
 	}
 

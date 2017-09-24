@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114360428989312324}
   - component: {fileID: 61202592083071704}
   - component: {fileID: 114921701553923518}
+  - component: {fileID: 114931546224579044}
   m_Layer: 10
   m_Name: Meat Steak
   m_TagString: Untagged
@@ -213,7 +214,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 7
-  savedPosition: {x: 0, y: 0, z: 0}
+  savedPosition: {x: -10, y: 12, z: -0.2}
+--- !u!114 &114931546224579044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleState: 1
 --- !u!212 &212850123619449406
 SpriteRenderer:
   m_ObjectHideFlags: 1

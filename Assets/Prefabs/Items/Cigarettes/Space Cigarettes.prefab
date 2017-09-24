@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 61321219257688126}
   - component: {fileID: 114911085872101582}
   - component: {fileID: 114812017921975818}
-  - component: {fileID: 114039270207629988}
+  - component: {fileID: 114923609856049834}
   m_Layer: 10
   m_Name: Space Cigarettes
   m_TagString: Untagged
@@ -113,18 +113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114039270207629988
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1645856876941636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41900971567fd49ee8cacf353fc1fd7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aliveState: 1
 --- !u!114 &114267115975049408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 7
-  savedPosition: {x: 1984, y: 1170, z: -0.2}
+  savedPosition: {x: 1981, y: 1174, z: -0.2}
 --- !u!114 &114836435796936700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -227,6 +215,18 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114923609856049834
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleState: 1
 --- !u!212 &212588640390319518
 SpriteRenderer:
   m_ObjectHideFlags: 1

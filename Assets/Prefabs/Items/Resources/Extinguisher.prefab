@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114229897149472310}
   - component: {fileID: 114254417711539772}
   - component: {fileID: 114106561260684598}
+  - component: {fileID: 114335573703485954}
   m_Layer: 10
   m_Name: Extinguisher
   m_TagString: Untagged
@@ -146,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 7
-  savedPosition: {x: 0, y: 0, z: 0}
+  savedPosition: {x: -11, y: 11, z: -0.1}
 --- !u!114 &114229897149472310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -193,6 +194,18 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
+--- !u!114 &114335573703485954
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleState: 1
 --- !u!114 &114567485071167784
 MonoBehaviour:
   m_ObjectHideFlags: 1

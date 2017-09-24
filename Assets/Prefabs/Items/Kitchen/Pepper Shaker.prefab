@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114671199612239122}
   - component: {fileID: 114067324845694254}
   - component: {fileID: 114575640009546126}
+  - component: {fileID: 114550632238722826}
   m_Layer: 10
   m_Name: Pepper Shaker
   m_TagString: Untagged
@@ -168,6 +169,18 @@ MonoBehaviour:
     i15: 179
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114550632238722826
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1651733465195328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleState: 1
 --- !u!114 &114575640009546126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,7 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 7
-  savedPosition: {x: 0, y: 0, z: 0}
+  savedPosition: {x: -14, y: 9, z: -0.2}
 --- !u!114 &114671199612239122
 MonoBehaviour:
   m_ObjectHideFlags: 1

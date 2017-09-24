@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 114775589154393974}
   - component: {fileID: 114213421555251312}
   - component: {fileID: 114085672853971900}
-  - component: {fileID: 114989159191015586}
+  - component: {fileID: 114934198401857942}
   m_Layer: 10
   m_Name: ID card (working)
   m_TagString: Untagged
@@ -116,8 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 7
-  editModeControl: {fileID: 114778091400862722}
-  savedPosition: {x: 1985, y: 1165, z: -0.2}
+  savedPosition: {x: 1982, y: 1169, z: -0.2}
 --- !u!114 &114213421555251312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -151,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MiningPoints: 0
-  Access: []
+  Access: 
   RegisteredName: Your mother
   Assignment: Figuring out these damn scripts
 --- !u!114 &114240090705740856
@@ -244,7 +243,7 @@ MonoBehaviour:
   inHandReferenceLeft: 48
   clothingReference: -1
   size: 0
---- !u!114 &114989159191015586
+--- !u!114 &114934198401857942
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -252,10 +251,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1424528690261082}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41900971567fd49ee8cacf353fc1fd7d, type: 3}
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aliveState: 1
+  visibleState: 1
 --- !u!212 &212927543219349186
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -297,4 +296,3 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0

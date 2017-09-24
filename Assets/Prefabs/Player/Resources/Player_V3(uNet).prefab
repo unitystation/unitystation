@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 114600992077934460}
   - component: {fileID: 114285504268110804}
   - component: {fileID: 61260641920390224}
-  - component: {fileID: 114728657910508996}
+  - component: {fileID: 114803877374308862}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -1649,18 +1649,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventName: mask
---- !u!114 &114728657910508996
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41900971567fd49ee8cacf353fc1fd7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aliveState: 1
 --- !u!114 &114761353998407626
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1689,6 +1677,18 @@ MonoBehaviour:
   isInSpace: 0
   allowInput: 1
   isGhost: 0
+--- !u!114 &114803877374308862
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleState: 1
 --- !u!114 &114804659299628030
 MonoBehaviour:
   m_ObjectHideFlags: 1

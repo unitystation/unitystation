@@ -28,6 +28,8 @@ GameObject:
   - component: {fileID: 50113970382522722}
   - component: {fileID: 114379432356965050}
   - component: {fileID: 114019849627944276}
+  - component: {fileID: 114187983988846628}
+  - component: {fileID: 114555785714625820}
   m_Layer: 0
   m_Name: NPC_Pete
   m_TagString: Untagged
@@ -133,6 +135,20 @@ MonoBehaviour:
   AdditiveColor: {r: 0.9098039, g: 0.9098039, b: 0.9098039, a: 0}
   Material: {fileID: 2100000, guid: 0a8c132f813f5514b9f5b48ff3956482, type: 2}
   LightObstacleScale: 1
+--- !u!114 &114187983988846628
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSpace: 0
+  tileTypeIndex: 7
+  savedPosition: {x: 1983.3973, y: 1168.3718, z: -0.0984375}
 --- !u!114 &114366662924069924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -189,6 +205,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
+--- !u!114 &114555785714625820
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleState: 1
 --- !u!114 &114595648713084262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -203,22 +231,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 88
-    i1: 143
-    i2: 194
-    i3: 35
-    i4: 77
-    i5: 121
-    i6: 36
-    i7: 3
-    i8: 8
-    i9: 222
-    i10: 7
-    i11: 220
-    i12: 223
-    i13: 163
-    i14: 214
-    i15: 184
+    i0: 10
+    i1: 49
+    i2: 1
+    i3: 226
+    i4: 235
+    i5: 192
+    i6: 223
+    i7: 68
+    i8: 154
+    i9: 6
+    i10: 21
+    i11: 85
+    i12: 9
+    i13: 5
+    i14: 135
+    i15: 127
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!212 &212099414062323906

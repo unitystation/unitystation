@@ -16,13 +16,13 @@ namespace Matrix {
         private List<GameObject> tiles = new List<GameObject>();
 
         [NonSerialized]
-        private List<ItemControl> items = new List<ItemControl>();
+		private List<ObjectBehaviour> items = new List<ObjectBehaviour>();
 
         [NonSerialized]
         private List<HealthBehaviour> damageables = new List<HealthBehaviour>();
 
         [NonSerialized]
-		private List<ItemControl> players = new List<ItemControl>();
+		private List<ObjectBehaviour> players = new List<ObjectBehaviour>();
 
         private bool isDoor;
         private bool isWindow;
@@ -46,9 +46,9 @@ namespace Matrix {
             var tileType = registerTile.TileType;
 
             if(tileType == TileType.Item) {
-                var itemControl = gameObject.GetComponent<ItemControl>();
-                if(!items.Contains(itemControl)) {
-                    items.Add(itemControl);
+				var obj = gameObject.GetComponent<ObjectBehaviour>();
+                if(!items.Contains(obj)) {
+                    items.Add(obj);
                 }
             } else {
                 if(tileType == TileType.Object || tileType == TileType.Player) {
@@ -60,7 +60,7 @@ namespace Matrix {
 
                 if (tileType == TileType.Player)
                 {
-					players.Add(gameObject.GetComponent<ItemControl>());
+					players.Add(gameObject.GetComponent<ObjectBehaviour>());
                 }
 
                 tiles.Add(gameObject);
@@ -74,9 +74,9 @@ namespace Matrix {
             var registerTile = gameObject.GetComponent<RegisterTile>();
             var tileType = registerTile.TileType;
             if(tileType == TileType.Item) {
-                var iT = gameObject.GetComponent<ItemControl>();
-                if(items.Contains(iT)) {
-                    items.Remove(iT);
+				var objB = gameObject.GetComponent<ObjectBehaviour>();
+                if(items.Contains(objB)) {
+                    items.Remove(objB);
                 }
             } else {
                 if(tileType == TileType.Object || tileType == TileType.Player) {
@@ -88,7 +88,7 @@ namespace Matrix {
 
                 if (tileType == TileType.Player)
                 {
-					players.Remove(gameObject.GetComponent<ItemControl>());
+					players.Remove(gameObject.GetComponent<ObjectBehaviour>());
                 }
 
                 if(!tiles.Contains(gameObject)) {
@@ -109,7 +109,7 @@ namespace Matrix {
         public bool ContainsItem(GameObject gameObject) {
             var rT = gameObject.GetComponent<RegisterTile>();
             if(rT.TileType == TileType.Item) {
-                var iT = gameObject.GetComponent<ItemControl>();
+				var iT = gameObject.GetComponent<ObjectBehaviour>();
                 return items.Contains(iT);
             }
             return false;
@@ -178,11 +178,11 @@ namespace Matrix {
             return null;
         }
 
-        public List<ItemControl> GetItems() {
+		public List<ObjectBehaviour> GetItems() {
             return items;
         }
 
-        public List<ItemControl> GetPlayers(){
+        public List<ObjectBehaviour> GetPlayers(){
             return players;
         }
 

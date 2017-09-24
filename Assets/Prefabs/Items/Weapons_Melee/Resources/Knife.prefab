@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 114186698601475536}
   - component: {fileID: 114196360688232010}
   - component: {fileID: 114723295003095458}
-  - component: {fileID: 114042758706603862}
+  - component: {fileID: 114457471827933586}
   m_Layer: 10
   m_Name: Knife
   m_TagString: Untagged
@@ -71,7 +71,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011622113908}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.321289, y: -1.6279297, z: -0.0984375}
+  m_LocalPosition: {x: -3, y: -2, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011569130768}
@@ -159,18 +159,6 @@ MonoBehaviour:
   inHandReferenceLeft: 564
   clothingReference: -1
   size: 0
---- !u!114 &114042758706603862
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011622113908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41900971567fd49ee8cacf353fc1fd7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aliveState: 1
 --- !u!114 &114112083421409656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -235,6 +223,18 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114457471827933586
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011622113908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleState: 1
 --- !u!114 &114723295003095458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -248,8 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 7
-  editModeControl: {fileID: 114000010316995314}
-  savedPosition: {x: 1827, y: 1126, z: -0.2}
+  savedPosition: {x: -6, y: 2, z: -0.2}
 --- !u!212 &212000011121867930
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -290,3 +289,4 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

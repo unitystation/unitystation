@@ -26,8 +26,8 @@ namespace Cupboards
 		public bool IsClosed;
 
 		//Inventory
-		private List<ItemControl> heldItems = new List<ItemControl>();
-		private List<ItemControl> heldPlayers = new List<ItemControl>();
+		private List<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
+		private List<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
 
 		void Awake()
 		{
@@ -175,11 +175,10 @@ namespace Cupboards
 			if(!on)
 			heldItems = Matrix.Matrix.At(transform.position).GetItems();
 			
-			ItemControl[] tempList = heldItems.ToArray();
-			for (int i = 0; i < tempList.Length; i++) {
-				tempList[i].aliveState = on;
+			for (int i = 0; i < heldItems.Count; i++) {
+				heldItems[i].visibleState = on;
 				if (on)
-					tempList[i].transform.position = transform.position;
+					heldItems[i].transform.position = transform.position;
 			}
 		}
 
@@ -189,7 +188,7 @@ namespace Cupboards
 			
 			if (heldPlayers.Count > 0) {
 				for (int i = 0; i < heldPlayers.Count; i++) {
-					heldPlayers[i].aliveState = on;
+					heldPlayers[i].visibleState = on;
 
 					if (on) {
 						heldPlayers[i].GetComponent<PlayerSync>().SetPosition(transform.position);

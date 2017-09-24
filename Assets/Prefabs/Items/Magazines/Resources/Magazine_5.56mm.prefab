@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114293222903219424}
   - component: {fileID: 114976434381614570}
   - component: {fileID: 114377462996063452}
+  - component: {fileID: 114615447094342146}
   m_Layer: 0
   m_Name: Magazine_5.56mm
   m_TagString: Untagged
@@ -57,7 +58,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1564961329676294}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1845, y: 1142, z: 0}
+  m_LocalPosition: {x: 1845, y: 1142, z: -0.2}
   m_LocalScale: {x: 0.5588054, y: 0.5588051, z: 0.5588051}
   m_Children:
   - {fileID: 4275761417540930}
@@ -155,7 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 7
-  savedPosition: {x: 0, y: 0, z: 0}
+  savedPosition: {x: 1842, y: 1146, z: -0.2}
 --- !u!114 &114415944281988084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -177,6 +178,18 @@ MonoBehaviour:
   inHandReferenceLeft: -1
   clothingReference: -1
   size: 0
+--- !u!114 &114615447094342146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1564961329676294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleState: 1
 --- !u!114 &114916373624861450
 MonoBehaviour:
   m_ObjectHideFlags: 1
