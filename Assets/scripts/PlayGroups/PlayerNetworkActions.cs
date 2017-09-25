@@ -12,6 +12,7 @@ using UI;
 using Items;
 using System.Linq;
 using UnityEngine.Assertions.Must;
+using Doors;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {

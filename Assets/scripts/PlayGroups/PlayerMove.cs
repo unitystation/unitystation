@@ -3,8 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UI;
+using Doors;
+
 namespace PlayGroup {
 
+	/// <summary>
+	/// Player move queues the directional move keys 
+	/// to be processed along with the server.
+	/// It also changes the sprite direction and 
+	/// handles interaction with objects that can 
+	/// be walked into it. 
+	/// </summary>
     public class PlayerMove: NetworkBehaviour {
 
         private PlayerSprites playerSprites;
