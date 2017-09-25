@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using InputControl;
 using PlayGroup;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -111,6 +112,7 @@ namespace UI
 		public static void UpdateSlot(UISlotObject slotInfo)
 		{
 //			Debug.LogFormat("Updating slots: {0}", slotInfo);
+			InputTrigger.Touch(slotInfo.SlotContents);
 			InventorySlots[slotInfo.Slot].SetItem(slotInfo.SlotContents);
 			ClearObjectIfNotInSlot(slotInfo);
 		}
@@ -126,14 +128,15 @@ namespace UI
 		/// Checks if player received transform update after sending interact message
 		public static bool ItemActionAllowed(GameObject item)
 		{
+			if ( CustomNetworkManager.Instance._isServer ) return true;
 			var netId = item.GetComponent<NetworkIdentity>().netId;
 			var lastReceive = item.GetComponent<NetworkTransform>().lastSyncTime;
-			var lastSend = InteractMessage.msgCache.ContainsKey(netId) ? InteractMessage.msgCache[netId] : 0f;
+			var lastSend = InputTrigger.interactCache.ContainsKey(netId) ? InputTrigger.interactCache[netId] : 0f;
 			if ( lastReceive < lastSend )
 			{
 				return CanTrySendAgain(lastSend, lastReceive);
 			}
-			Debug.LogFormat("ItemAction allowed! {2} msgcache {0} {1}", InteractMessage.msgCache.Count, lastSend, item.name);
+			Debug.LogFormat("ItemAction allowed! {2} msgcache {0} {1}", InputTrigger.interactCache.Count, lastSend, item.name);
 			return true;
 		}
 
@@ -141,7 +144,7 @@ namespace UI
 		{
 			var f = Time.time - lastSend;
 			var d = lastSend - lastReceive;
-			var canTrySendAgain = f >= d;
+			var canTrySendAgain = f >= d || f >= 1;
 			Debug.LogFormat("canTrySendAgain = {0} {1}>={2} ",canTrySendAgain, f, d);
 			return canTrySendAgain;
 		}

@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Events;
+using InputControl;
 using PlayGroup;
 using UnityEngine.Events;
 using Items;
@@ -99,6 +100,7 @@ namespace UI {
             if ( !lps || lps.canNotInteract()) return null;
 
             var item = Item;
+            InputTrigger.Touch(Item);
             Item = null;
             image.sprite = null;
             image.enabled = false;

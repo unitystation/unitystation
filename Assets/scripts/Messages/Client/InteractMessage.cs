@@ -12,8 +12,7 @@ public class InteractMessage : ClientMessage<InteractMessage>
 {
 	public byte Hand;
 	public NetworkInstanceId Subject;
-	public static readonly Dictionary<NetworkInstanceId, float> msgCache 
-		= new Dictionary<NetworkInstanceId, float>(10);
+
 
 
 	public override IEnumerator Process()
@@ -33,7 +32,7 @@ public class InteractMessage : ClientMessage<InteractMessage>
 			Hand = encodeHand(hand)
 		};
 		msg.Send();
-		msgCache[msg.Subject] = Time.time;
+//		InputTrigger.msgCache[msg.Subject] = Time.time;
 		return msg;
 	}
 
