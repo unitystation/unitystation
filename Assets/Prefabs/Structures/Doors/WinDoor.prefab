@@ -25,6 +25,8 @@ GameObject:
   - component: {fileID: 114853415866183752}
   - component: {fileID: 114536565904099246}
   - component: {fileID: 114650747344817572}
+  - component: {fileID: 114963074580024962}
+  - component: {fileID: 114763291148299888}
   m_Layer: 18
   m_Name: WinDoor
   m_TagString: Untagged
@@ -115,7 +117,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1038946861857688}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1987, y: 1163, z: -0.1}
+  m_LocalPosition: {x: 1987, y: 1165, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4432114613753636}
@@ -421,8 +423,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inSpace: 0
-  tileTypeIndex: 3
-  savedPosition: {x: 1987, y: 1163, z: -0.1}
+  tileTypeIndex: 8
+  savedPosition: {x: 1987, y: 1165, z: -0.1}
 --- !u!114 &114470805514062862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -460,20 +462,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1512c227a92a84b53aab092674fe7df6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorType: 14
-  restriction: 0
-  isWindowedDoor: 1
-  doorAnimationSize: 0
-  DoorSpriteOffset: 0
-  DoorLightSpriteOffset: 0
-  DoorCoverSpriteOffset: 0
-  isPerformingAction: 0
-  maxTimeOpen: 5
-  doorAnimator: {fileID: 0}
-  openSFX: {fileID: 0}
-  closeSFX: {fileID: 0}
-  IsOpened: 0
-  oppeningDirection: 0
+--- !u!114 &114763291148299888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1038946861857688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f4153739906e411b9229efd472aeb0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restrictNorth: 0
+  restrictSouth: 1
+  restrictEast: 0
+  restrictWest: 0
 --- !u!114 &114853415866183752
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -506,6 +509,17 @@ MonoBehaviour:
     i15: 136
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114963074580024962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1038946861857688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2cf30704fd754096ad1a718fc9b2782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212717538148874048
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -535,10 +549,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1883797623
-  m_SortingLayer: 9
+  m_SortingLayerID: -1825689229
+  m_SortingLayer: 11
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300154, guid: f0f465f2e2128495683d9e4cb833c45a, type: 3}
+  m_Sprite: {fileID: 21300152, guid: f0f465f2e2128495683d9e4cb833c45a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

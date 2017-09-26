@@ -133,14 +133,34 @@ namespace PlayGroup {
             return Vector3.zero;
         }
 
+		/// <summary>
+		/// Check current and next tiles to determine their status and if movement is allowed
+		/// </summary>
         private Vector3 AdjustDirection(Vector3 currentPosition, Vector3 direction) {
+			//TODO Spaced movement
+
             var horizontal = Vector3.Scale(direction, Vector3.right);
             var vertical = Vector3.Scale(direction, Vector3.up);
 
 			if (isGhost) {
 				return direction;
 			}
-            Vector3 _pos = currentPosition + direction;
+			//Is the current tile restrictive?
+			if(Matrix.Matrix.At(currentPosition).IsRestrictiveTile()){
+				if(!Matrix.Matrix.At(currentPosition).GetMoveRestrictions().CheckAllowedDir(direction)){
+					//could not pass
+					return Vector3.zero;
+				}
+			}
+
+			//Is the next tile restrictive?
+			if (Matrix.Matrix.At(currentPosition + direction).IsRestrictiveTile()) {
+				if (!Matrix.Matrix.At(currentPosition + direction).GetMoveRestrictions().CheckAllowedDir(-direction)) {
+					//could not pass
+					return Vector3.zero;
+				}
+			}
+ 
             if (Matrix.Matrix.At(currentPosition + direction).IsPassable() || Matrix.Matrix.At(currentPosition + direction).ContainsTile(gameObject))
             {
                 return direction;

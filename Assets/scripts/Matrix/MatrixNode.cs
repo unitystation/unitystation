@@ -31,7 +31,11 @@ namespace Matrix {
         private bool isObject;
         private bool isSpace;
         private bool isPlayer;
+		private bool isRestrictiveTile;
 
+		//Holds the details if tile is blocking movement in certain directions
+		private RestrictedMoveStruct restrictedMoveStruct;
+	
         [SerializeField]
         private Section section;
         public Section Section {
@@ -64,6 +68,11 @@ namespace Matrix {
 					players.Add(gameObject.GetComponent<ObjectBehaviour>());
                 }
 
+				if (tileType == TileType.RestrictedMovement) {
+					restrictedMoveStruct = gameObject.GetComponent<RestrictiveMoveTile>().GetRestrictedData;
+					isRestrictiveTile = true;
+				}
+
                 tiles.Add(gameObject);
                 UpdateValues();
             }
@@ -91,6 +100,10 @@ namespace Matrix {
                 {
 					players.Remove(gameObject.GetComponent<ObjectBehaviour>());
                 }
+
+				if (tileType == TileType.RestrictedMovement) {
+					isRestrictiveTile = false;
+				}
 
                 if(!tiles.Contains(gameObject)) {
                     return false;
@@ -153,6 +166,11 @@ namespace Matrix {
             return isObject;
         }
 
+		public bool IsRestrictiveTile()
+		{
+			return isRestrictiveTile;
+		}
+
         public DoorController GetDoor() {
             if(isDoor) {
                 foreach(var tile in tiles) {
@@ -165,6 +183,10 @@ namespace Matrix {
             }
             return null;
         }
+
+		public RestrictedMoveStruct GetMoveRestrictions(){
+				return restrictedMoveStruct;
+		}
 
         public ObjectActions GetObjectActions() {
             if(isObject) {
@@ -272,6 +294,9 @@ namespace Matrix {
                 if(registerTile.TileType == TileType.Window) {
                     isWindow = true;
                 }
+				if (registerTile.TileType == TileType.RestrictedMovement) {
+					isRestrictiveTile = true;
+				}
 
                 if(registerTile.inSpace) {
                     isSpace = true;

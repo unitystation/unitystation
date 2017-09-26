@@ -21,7 +21,7 @@ namespace Matrix {
         }
     }
 
-	[System.Flags] enum TileProperty { HasFloor = 1, AtmosNotPassable = 2, NotPassable = 4, IsItem = 128}
+	[System.Flags] enum TileProperty { HasFloor = 1, AtmosNotPassable = 2, NotPassable = 4, PassableRestrictions = 8, IsItem = 128}
 
     public class TileType: Type {
         private static List<TileType> tileTypes = new List<TileType>();
@@ -35,6 +35,8 @@ namespace Matrix {
         public static TileType Wall = new TileType("Wall", (int) (TileProperty.HasFloor | TileProperty.AtmosNotPassable | TileProperty.NotPassable));
 		public static TileType Player = new TileType("Player", (int) TileProperty.NotPassable);
 		public static TileType Item = new TileType("Item", (int) TileProperty.IsItem);
+		//this is for tiles with glass that prevents movement in some of the directions
+		public static TileType RestrictedMovement = new TileType("RestrictedMovement", (int)TileProperty.PassableRestrictions);
 
         public TileType(string name, int value=0) : base(name, value) {
             tileTypes.Add(this);
