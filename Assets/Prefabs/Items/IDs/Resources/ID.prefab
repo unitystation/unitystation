@@ -58,7 +58,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1748120534729806}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1989, y: 1165, z: -0.2}
+  m_LocalPosition: {x: 182.24207, y: 38.653076, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4871409285900632}
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 7
-  savedPosition: {x: 1986, y: 1169, z: -0.2}
+  savedPosition: {x: 1989, y: 1165, z: -0.2}
 --- !u!114 &114922150393857528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -240,9 +240,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MiningPoints: 0
-  Access: 00000000
+  ManuallyAddedAccess: 
+  ManuallyAssignCardType: 0
   RegisteredName: John Cena
-  Assignment: Security Officer
+  jobTypeInt: 0
+  idCardTypeInt: 0
+  spriteRenderer: {fileID: 212977371495627384}
+  standardSprite: {fileID: 21300002, guid: 3c5ea9c60b024de1a8718eddd1639ac5, type: 3}
+  commandSprite: {fileID: 21300008, guid: 3c5ea9c60b024de1a8718eddd1639ac5, type: 3}
+  captainSprite: {fileID: 21300006, guid: 3c5ea9c60b024de1a8718eddd1639ac5, type: 3}
 --- !u!212 &212977371495627384
 SpriteRenderer:
   m_ObjectHideFlags: 1

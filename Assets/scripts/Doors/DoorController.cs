@@ -4,6 +4,7 @@ using System.Collections;
 using PlayGroup;
 using Matrix;
 using Sprites;
+using AccessType;
 
 namespace Doors
 {
@@ -11,7 +12,7 @@ namespace Doors
 	{
 		public DoorType doorType;
 		private RegisterTile registerTile;
-		public AccessType.Access restriction;
+		public Access restriction;
 		[Tooltip("Does it have a glass window you can see trough?")]
 		public bool isWindowedDoor = false;
 		[Tooltip("how many sprites in the main door animation")]

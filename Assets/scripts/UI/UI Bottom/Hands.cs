@@ -71,6 +71,7 @@ namespace UI
             if (!CurrentSlot.IsFull)
 				return;
 
+			//This checks which UI slot the item can be equiped too and swaps it there
 			var type = Slots.GetItemType(CurrentSlot.Item);
 			var masterType = Slots.GetItemMasterType(CurrentSlot.Item);
 
@@ -80,7 +81,10 @@ namespace UI
 					var slot = Slots.GetSlotByItem(CurrentSlot.Item);
 					SwapItem(slot);
 					break;
-				case SpriteType.Items:	
+				case SpriteType.Items:
+					var itemSlot = Slots.GetSlotByItem(CurrentSlot.Item);
+					SwapItem(itemSlot);
+					break;
 				case SpriteType.Guns:	
 					break;
 			}

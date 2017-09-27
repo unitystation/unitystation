@@ -28,10 +28,10 @@ namespace Doors
 
 
 					)doorController.restriction > 0) {
-					if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>() != null) {
-						CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>(), doorController);
-					} else if (UIManager.Hands.CurrentSlot.IsFull && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemIdentity>() != null) {
-						CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<ItemIdentity>(), doorController);
+					if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>() != null) {
+						CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>(), doorController);
+					} else if (UIManager.Hands.CurrentSlot.IsFull && UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>() != null) {
+						CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>(), doorController);
 					} else {
 						allowInput = false;
 						StartCoroutine(DoorInputCoolDown());
@@ -45,10 +45,10 @@ namespace Doors
 			}
 		}
 
-		void CheckDoorAccess(ItemIdentity cardID, DoorController doorController)
+		void CheckDoorAccess(IDCard cardID, DoorController doorController)
 		{
 			Debug.Log("been here!");
-			if (cardID.Access.Contains(doorController.restriction)) {// has access
+			if (cardID.accessSyncList.Contains((int)doorController.restriction)) {// has access
 				allowInput = false;
 				PlayGroup.PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryOpenRestrictDoor(gameObject);
 				Debug.Log(doorController.restriction.ToString() + " access granted");

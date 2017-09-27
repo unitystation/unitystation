@@ -194,13 +194,13 @@ namespace PlayGroup {
                 //checking if the door actually has a restriction (only need one because that's how ss13 works!
                 if (doorController.restriction >0)
                 {   //checking if the ID slot on player contains an ID with an itemIdentity component
-                    if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>() != null)
+                    if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>() != null)
                     {   //checking if the ID has access to bypass the restriction
-                        CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<ItemIdentity>(), doorController);
+                        CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>(), doorController);
                         //Check the current hand for an ID
-                    }else if (UIManager.Hands.CurrentSlot.IsFull && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemIdentity>() != null)
+                    }else if (UIManager.Hands.CurrentSlot.IsFull && UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>() != null)
                     {
-                        CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<ItemIdentity>(), doorController);
+                        CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>(), doorController);
                     }else
                     {//does not have an ID
                         allowInput = false;
@@ -226,8 +226,8 @@ namespace PlayGroup {
 			}
         }
 
-        void CheckDoorAccess(ItemIdentity cardID, DoorController doorController){
-            if (cardID.Access.Contains(doorController.restriction))
+        void CheckDoorAccess(IDCard cardID, DoorController doorController){
+			if (cardID.accessSyncList.Contains((int)doorController.restriction))
             {// has access
                 allowInput = false;
                 //Server only here but it is a cmd for the input trigger (opening with mouse click from client)
