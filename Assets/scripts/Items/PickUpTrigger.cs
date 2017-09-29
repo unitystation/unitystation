@@ -52,7 +52,7 @@ namespace Items {
                 return false;
             }
 
-            return ps.playerNetworkActions.AddItem(gameObject, slotName);
+            return ps.playerNetworkActions.AddItem(gameObject, slotName, false);
         }
     }
 }

@@ -128,15 +128,15 @@ namespace UI
 		/// Checks if player received transform update after sending interact message
 		public static bool ItemActionAllowed(GameObject item)
 		{
-			if ( CustomNetworkManager.Instance._isServer ) return true;
-			var netId = item.GetComponent<NetworkIdentity>().netId;
-			var lastReceive = item.GetComponent<NetworkTransform>().lastSyncTime;
-			var lastSend = InputTrigger.interactCache.ContainsKey(netId) ? InputTrigger.interactCache[netId] : 0f;
-			if ( lastReceive < lastSend )
-			{
-				return CanTrySendAgain(lastSend, lastReceive);
-			}
-			Debug.LogFormat("ItemAction allowed! {2} msgcache {0} {1}", InputTrigger.interactCache.Count, lastSend, item.name);
+//			if ( CustomNetworkManager.Instance._isServer ) return true;
+//			var netId = item.GetComponent<NetworkIdentity>().netId;
+//			var lastReceive = item.GetComponent<NetworkTransform>().lastSyncTime;
+//			var lastSend = InputTrigger.interactCache.ContainsKey(netId) ? InputTrigger.interactCache[netId] : 0f;
+//			if ( lastReceive < lastSend )
+//			{
+//				return CanTrySendAgain(lastSend, lastReceive);
+//			}
+//			Debug.LogFormat("ItemAction allowed! {2} msgcache {0} {1}", InputTrigger.interactCache.Count, lastSend, item.name);
 			return true;
 		}
 

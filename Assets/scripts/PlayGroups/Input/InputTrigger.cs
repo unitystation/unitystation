@@ -19,7 +19,7 @@ namespace InputControl {
 			if ( !networkIdentity ) return;
 			var networkInstanceId = networkIdentity.netId;
 			var time = Time.time;
-			Debug.LogFormat("Touched {0}({1}) at {2}", gameObject.name, networkInstanceId, time);
+//			Debug.LogFormat("Touched {0}({1}) at {2}", gameObject.name, networkInstanceId, time);
 			Touch(networkInstanceId, time);
 		}
 

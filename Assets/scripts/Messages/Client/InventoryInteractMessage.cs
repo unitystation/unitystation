@@ -40,12 +40,12 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 		}
 	}
 
-	public static InventoryInteractMessage Send(string hand, bool forceSlotUpdate = false)
-	{
-		return Send(hand, null, forceSlotUpdate);
-	}
+//	public static InventoryInteractMessage Send(string hand, bool forceSlotUpdate/* = false*/)
+//	{
+//		return Send(hand, null, forceSlotUpdate);
+//	}
 
-	public static InventoryInteractMessage Send(string hand, GameObject subject = null, bool forceSlotUpdate = false)
+	public static InventoryInteractMessage Send(string hand, GameObject subject/* = null*/, bool forceSlotUpdate/* = false*/)
 	{
 		var msg = new InventoryInteractMessage
 		{

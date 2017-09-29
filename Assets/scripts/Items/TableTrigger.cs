@@ -12,10 +12,14 @@ public class TableTrigger: InputTrigger {
 			var slot = UIManager.Hands.CurrentSlot;
 			if ( ClientApprove(slot) )
 			{
-			//Client informs server of interaction attempt
-			InteractMessage.Send(gameObject, slot.eventName);
-			//Client simulation
-			slot.PlaceItem(gameObject.transform.position);
+				//Client informs server of interaction attempt
+				InteractMessage.Send(gameObject, slot.eventName);
+				//Client simulation
+				var placedOk = slot.PlaceItem(gameObject.transform.position);
+				if ( !placedOk )
+				{
+					Debug.Log("Client placing error");
+				}
 			}
 		}
 		else
@@ -49,8 +53,7 @@ public class TableTrigger: InputTrigger {
 		if ( item == null ) return false;
 		var targetPosition = gameObject.transform.position; //Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		targetPosition.z = -0.2f;
-		ps.playerNetworkActions.PlaceItem(UIManager.Hands.CurrentSlot.eventName,
-			targetPosition, gameObject);
+		ps.playerNetworkActions.PlaceItem(hand, targetPosition, gameObject);
 		item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 
 		return true;

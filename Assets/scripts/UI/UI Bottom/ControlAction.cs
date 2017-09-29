@@ -50,7 +50,11 @@ namespace UI {
             if ( isNotMovingClient(lps) )
             {
                 //Full client simulation(standing still)
-                currentSlot.PlaceItem(dropPos);
+                var placedOk = currentSlot.PlaceItem(dropPos);
+                if ( !placedOk )
+                {
+                    Debug.Log("Client dropping error");
+                }
             }
             else
             {

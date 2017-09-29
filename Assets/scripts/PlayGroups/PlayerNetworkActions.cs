@@ -57,7 +57,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     [Server]
-    public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false)
+    public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false, bool forceInform = true)
     {
         var eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
         if ( _inventory[eventName] != null && _inventory[eventName] != itemObject && !replaceIfOccupied )
@@ -68,7 +68,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
         EquipmentPool.AddGameObject(gameObject, itemObject);
         SetInventorySlot(slotName, itemObject);
-        UpdateSlotMessage.Send(gameObject, eventName, itemObject);
+        UpdateSlotMessage.Send(gameObject, eventName, itemObject, forceInform);
         return true;
     }
     void PlaceInHand(GameObject item)
@@ -89,20 +89,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     [Server]
-    public bool ValidateInvInteraction(string slot, GameObject gObj = null, bool forceSlotUpdate = false)
+    public bool ValidateInvInteraction(string slot, GameObject gObj = null, bool forceClientInform = true)
     {
         if ( !_inventory[slot] && gObj && _inventory.ContainsValue(gObj) )
         {
-            UpdateSlotMessage.Send(gameObject, slot, gObj, forceSlotUpdate);
+            UpdateSlotMessage.Send(gameObject, slot, gObj, forceClientInform);
             SetInventorySlot(slot, gObj);
             //Clean up other slots
-            ClearObjectIfNotInSlot(gObj, slot);
+            ClearObjectIfNotInSlot(gObj, slot, forceClientInform);
 //            Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
             return true;
         }
         if ( !gObj )
         {
-            return ValidateDropItem(slot, forceSlotUpdate);
+            return ValidateDropItem(slot, forceClientInform);
         }
         Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
         return false;
@@ -113,17 +113,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         //todo fix
         /*
         KeyNotFoundException: The given key was not present in the dictionary.
-System.Collections.Generic.Dictionary`2[System.String,UnityEngine.GameObject].get_Item (System.String key) (at /Users/builduser/buildslave/mono/build/mcs/class/corlib/System.Collections.Generic/Dictionary.cs:150)
-PlayerNetworkActions.RollbackPrediction (System.String slot) (at Assets/Scripts/PlayGroups/PlayerNetworkActions.cs:113)
-TableTrigger.Interact (UnityEngine.GameObject originator, System.String hand) (at Assets/Scripts/Items/TableTrigger.cs:20)
-InputControl.InputTrigger.Interact () (at Assets/Scripts/PlayGroups/Input/InputTrigger.cs:19)
-InputControl.InputTrigger.Trigger () (at Assets/Scripts/PlayGroups/Input/InputTrigger.cs:14)
-InputControl.InputController.Interact (UnityEngine.Transform transform) (at Assets/Scripts/PlayGroups/Input/InputController.cs:186)
-*/
+        System.Collections.Generic.Dictionary`2[System.String,UnityEngine.GameObject].get_Item (System.String key) 
+            (at /Users/builduser/buildslave/mono/build/mcs/class/corlib/System.Collections.Generic/Dictionary.cs:150)
+        PlayerNetworkActions.RollbackPrediction (System.String slot) (at Assets/Scripts/PlayGroups/PlayerNetworkActions.cs:113)
+        TableTrigger.Interact (UnityEngine.GameObject originator, System.String hand) (at Assets/Scripts/Items/TableTrigger.cs:20)
+        InputControl.InputTrigger.Interact () (at Assets/Scripts/PlayGroups/Input/InputTrigger.cs:19)
+        InputControl.InputTrigger.Trigger () (at Assets/Scripts/PlayGroups/Input/InputTrigger.cs:14)
+        InputControl.InputController.Interact (UnityEngine.Transform transform) (at Assets/Scripts/PlayGroups/Input/InputController.cs:186)
+        */
         UpdateSlotMessage.Send(gameObject, slot, _inventory[slot], true);
     }
 
-    private void ClearObjectIfNotInSlot(GameObject gObj, string slot)
+    [Server]
+    private void ClearObjectIfNotInSlot(GameObject gObj, string slot, bool forceClientInform)
     {
         HashSet<string> toBeCleared = new HashSet<string>();
         foreach (string key in _inventory.Keys)
@@ -134,11 +136,17 @@ InputControl.InputController.Interact (UnityEngine.Transform transform) (at Asse
                 toBeCleared.Add(key);
             }
         }
-        ClearInventorySlot(toBeCleared.ToArray());
+        ClearInventorySlot(forceClientInform, toBeCleared.ToArray());
     }
 
     [Server]
     public void ClearInventorySlot(params string[] slotNames)
+    {
+        ClearInventorySlot(true, slotNames);
+    }
+
+    [Server]
+    private void ClearInventorySlot(bool forceClientInform, params string[] slotNames)
     {
         for ( int i = 0; i < slotNames.Length; i++ )
         {
@@ -152,7 +160,7 @@ InputControl.InputController.Interact (UnityEngine.Transform transform) (at Asse
             {
                 equipment.ClearItemSprite(slotNames[i]);
             }
-                UpdateSlotMessage.Send(gameObject, slotNames[i]);
+                UpdateSlotMessage.Send(gameObject, slotNames[i], null, forceClientInform);
         }
 //        Debug.LogFormat("Cleared {0}", slotNames);
     }
@@ -219,14 +227,14 @@ InputControl.InputController.Interact (UnityEngine.Transform transform) (at Asse
 
     /// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction, 
     /// otherwise client will forcefully receive update slot messages
-    public void DropItem(string hand, bool forceSlotUpdate = true)
+    public void DropItem(string hand, bool forceClientInform = true)
     {
-        InventoryInteractMessage.Send(hand, forceSlotUpdate);
+        InventoryInteractMessage.Send(hand, null, forceClientInform);
     }
 
     //Dropping from a slot on the UI
     [Server]
-    public bool ValidateDropItem(string slot, bool forceSlotUpdate = false)
+    public bool ValidateDropItem(string slot, bool forceClientInform/* = false*/)
     {
         //decline if not dropped from hands?
         if ( _inventory.ContainsKey(slot) && _inventory[slot] )
@@ -236,7 +244,7 @@ InputControl.InputController.Interact (UnityEngine.Transform transform) (at Asse
 //            RpcAdjustItemParent(_inventory[slot], null);
             _inventory[slot] = null;
             equipment.ClearItemSprite(slot);
-            UpdateSlotMessage.Send(gameObject, slot, null, forceSlotUpdate);
+            UpdateSlotMessage.Send(gameObject, slot, null, forceClientInform);
             return true;
         }
         Debug.Log("Object not found in Inventory");

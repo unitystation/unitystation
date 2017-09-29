@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using InputControl;
 using UnityEngine;
 using UnityEngine.Networking;
-using Util;
 
 /// <summary>
 /// Informs server of interaction
