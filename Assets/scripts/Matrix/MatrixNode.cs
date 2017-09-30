@@ -188,12 +188,12 @@ namespace Matrix {
 				return restrictedMoveStruct;
 		}
 
-        public ObjectActions GetObjectActions() {
+        public PushPull GetPushPull() {
             if(isObject) {
                 foreach(var tile in tiles) {
                     var registerTile = tile.GetComponent<RegisterTile>();
                     if(registerTile.TileType == TileType.Object) {
-                        var objCollisions = registerTile.gameObject.GetComponent<ObjectActions>();
+                        var objCollisions = registerTile.gameObject.GetComponent<PushPull>();
                         return objCollisions;
                     }
                 }

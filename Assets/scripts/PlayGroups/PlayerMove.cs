@@ -220,7 +220,7 @@ namespace PlayGroup {
                 }
             }
 
-			var objectActions = Matrix.Matrix.At(currentPosition + direction).GetObjectActions();
+			var objectActions = Matrix.Matrix.At(currentPosition + direction).GetPushPull();
 			if (objectActions != null) {
 				objectActions.TryPush(gameObject, speed, direction);
 			}

@@ -196,7 +196,7 @@ namespace PlayGroup {
                 pullingObject = null;
             } else {
                 pullingObject = ClientScene.FindLocalObject(netID);
-                ObjectActions oA = pullingObject.GetComponent<ObjectActions>();
+                PushPull oA = pullingObject.GetComponent<PushPull>();
                 pullPos = pullingObject.transform.position;
                 if(oA != null) {
                     oA.pulledBy = gameObject;

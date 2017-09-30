@@ -4,17 +4,17 @@
 
 public class FuelTankHealthBehaviour : HealthBehaviour
     {
-        private ObjectActions objectActions;
+        private PushPull pushPull;
 
         private void Awake()
         {
-            objectActions = GetComponent<ObjectActions>();
+            pushPull = GetComponent<PushPull>();
 
         }
 
         protected override void OnDeathActions()
         {
-            objectActions.BreakPull();
+            pushPull.BreakPull();
             var delay = 0f;
             switch ( LastDamageType )
             {

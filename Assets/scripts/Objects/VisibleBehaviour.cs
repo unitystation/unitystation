@@ -5,7 +5,7 @@ using Matrix;
 using PlayGroup;
 
 /// <summary>
-/// Toggles the active state of the object by gather all components and setting
+/// Toggles the active state of the object by gathering all components and setting
 /// their active state. It ignores network components so item can be synced
 /// </summary>
 public class VisibleBehaviour : NetworkBehaviour
@@ -18,7 +18,7 @@ public class VisibleBehaviour : NetworkBehaviour
 	public bool visibleState = true;
 
 	private bool isPlayer = false;
-	private RegisterTile registerTile;
+	public RegisterTile registerTile;
 
 	//Ignore these types
 	private const string networkId = "NetworkIdentity";
@@ -26,12 +26,14 @@ public class VisibleBehaviour : NetworkBehaviour
 	private const string objectBehaviour = "ObjectBehaviour";
 	private const string regTile = "RegisterTile";
 
+	private void Awake()
+	{
+		registerTile = GetComponent<RegisterTile>();
+	}
 	public override void OnStartClient()
 	{
 		StartCoroutine(WaitForLoad());
 		base.OnStartClient();
-
-		registerTile = GetComponent<RegisterTile>();
 		PlayerScript pS = GetComponent<PlayerScript>();
 		if (pS != null)
 			isPlayer = true;

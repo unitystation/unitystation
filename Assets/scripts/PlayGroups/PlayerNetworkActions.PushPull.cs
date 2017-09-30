@@ -13,11 +13,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (isPulling) {
             GameObject cObj = gameObject.GetComponent<PlayerSync>().pullingObject;
-            cObj.GetComponent<ObjectActions>().pulledBy = null;
+            cObj.GetComponent<PushPull>().pulledBy = null;
             gameObject.GetComponent<PlayerSync>().pullObjectID = NetworkInstanceId.Invalid;
 		}
 		
-		ObjectActions pulled = obj.GetComponent<ObjectActions>();
+		PushPull pulled = obj.GetComponent<PushPull>();
         //Other player is pulling object, send stop on that player
 		if (pulled.pulledBy != null) {
             if (pulled.pulledBy != gameObject)
@@ -37,7 +37,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     //if two people try to pull the same object
     [Command]
     public void CmdStopOtherPulling(GameObject obj){
-        ObjectActions objA = obj.GetComponent<ObjectActions>();
+        PushPull objA = obj.GetComponent<PushPull>();
         if (objA.pulledBy != null)
         {
             objA.pulledBy.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
@@ -51,7 +51,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		
 		isPulling = false;
-		ObjectActions pulled = obj.GetComponent<ObjectActions>();
+		PushPull pulled = obj.GetComponent<PushPull>();
         if (pulled != null)
         {
 //			//this triggers currentPos syncvar hook to make sure registertile is been completed on all clients
@@ -65,7 +65,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	[Command]
 	public void CmdTryPush(GameObject obj, Vector3 pos){
-		ObjectActions pushed = obj.GetComponent<ObjectActions>();
+		PushPull pushed = obj.GetComponent<PushPull>();
 		if (pushed != null) {
 			pushed.serverPos = pos;
 		}

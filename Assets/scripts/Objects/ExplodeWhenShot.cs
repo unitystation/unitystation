@@ -158,7 +158,7 @@ public class ExplodeWhenShot : NetworkBehaviour
         spriteRend.enabled = false;
         try{
             Matrix.Matrix.At(transform.position).TryRemoveTile(gameObject);
-            ObjectActions oA = gameObject.GetComponent<ObjectActions>();
+            PushPull oA = gameObject.GetComponent<PushPull>();
             if(oA != null){
                 if(oA.pusher == PlayerManager.LocalPlayer){
                     PlayerManager.LocalPlayerScript.playerMove.isPushing = false;

@@ -58,7 +58,7 @@ namespace InputControl
 
 		private void CheckClick()
 		{
-			if (Input.GetMouseButtonDown(0)) {
+			if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.LeftControl)) {
 				//change the facingDirection of player on click
 				changeDirection();
 

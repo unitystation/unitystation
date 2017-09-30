@@ -4,12 +4,11 @@ using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class ObjectActions : NetworkBehaviour
+public class PushPull : VisibleBehaviour
 {
     public float moveSpeed = 7f;
     public bool allowedToMove = true;
     public bool isPushable = true;
-    private RegisterTile registerTile;
 
     [SyncVar]
     public GameObject pulledBy;
@@ -32,11 +31,6 @@ public class ObjectActions : NetworkBehaviour
     //A check to make sure there are no network errors
     public float timeInPush = 0f;
 
-    void Awake()
-    {
-        registerTile = GetComponent<RegisterTile>();
-    }
-
     public override void OnStartClient()
     {
 		StartCoroutine(WaitForLoad());
@@ -55,22 +49,24 @@ public class ObjectActions : NetworkBehaviour
 		}
 	}
 
-    void OnMouseDown()
+    public virtual void OnMouseDown()
     {
         if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform))
         {
-            if (pulledBy == PlayerManager.LocalPlayer)
-            {
-                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(gameObject);
-                return;
-            }else if (pulledBy != PlayerManager.LocalPlayer)
-            {
-                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopOtherPulling(gameObject);
-            }
-            PlayerManager.LocalPlayerScript.playerSync.PullReset(gameObject.GetComponent<NetworkIdentity>().netId);
+			CancelPullBehaviour();
             PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPullObject(gameObject);
         }
     }
+
+	public void CancelPullBehaviour(){
+		if (pulledBy == PlayerManager.LocalPlayer) {
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(gameObject);
+			return;
+		} else if (pulledBy != PlayerManager.LocalPlayer) {
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopOtherPulling(gameObject);
+		}
+		PlayerManager.LocalPlayerScript.playerSync.PullReset(gameObject.GetComponent<NetworkIdentity>().netId);
+	}
 
     public void TryPush(GameObject pushedBy, float pusherSpeed, Vector2 pushDir)
     {

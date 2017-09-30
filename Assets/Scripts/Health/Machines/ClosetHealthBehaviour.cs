@@ -9,14 +9,14 @@ namespace Objects
     {
         private Collider2D[] colliders;
         private RegisterTile registerTile;
-        private ObjectActions objectActions;
+        private PushPull objectActions;
         private ClosetControl closetControl;
 
         private void Awake()
         {
             colliders = GetComponents<Collider2D>();
             registerTile = GetComponent<RegisterTile>();
-            objectActions = GetComponent<ObjectActions>();
+            objectActions = GetComponent<PushPull>();
             closetControl = GetComponent<ClosetControl>();
         }
 
