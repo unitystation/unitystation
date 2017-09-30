@@ -178,20 +178,22 @@ namespace Cupboards
 			for (int i = 0; i < heldItems.Count; i++) {
 				if (on)
 					heldItems[i].transform.position = transform.position;
-				
+
 				heldItems[i].visibleState = on;
 			}
 		}
 
-		private void SetPlayersAliveState(bool on){
-			if(!on)
-			heldPlayers = Matrix.Matrix.At(transform.position).GetPlayers();
-			
-			if (heldPlayers.Count > 0) {
-				for (int i = 0; i < heldPlayers.Count; i++) {
-					if (on) 
+		private void SetPlayersAliveState(bool on)
+		{
+			if (!on) 
+				heldPlayers = Matrix.Matrix.At(transform.position).GetPlayers();
+
+			for (int i = 0; i < heldPlayers.Count; i++) {
+				heldPlayers[i].visibleState = on;
+
+				if (on) {
+					if (isServer)
 						heldPlayers[i].GetComponent<PlayerSync>().SetPosition(transform.position);
-					heldPlayers[i].visibleState = on;
 				}
 			}
 		}

@@ -48,6 +48,7 @@ public class IDCard : NetworkBehaviour
 	void InitCard(){
 		if (isInit) return;
 
+		isInit = true;
 		accessSyncList.Callback = SyncAccess;
 
 		//This will add the access from ManuallyAddedAccess list

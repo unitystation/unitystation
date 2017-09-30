@@ -5,7 +5,7 @@ using PlayGroup;
 using System.Linq;
 using UI;
 using UnityEngine.EventSystems;
-using Weapons;
+using Cupboards;
 
 namespace InputControl
 {
@@ -15,6 +15,7 @@ namespace InputControl
 		private PlayerMove playerMove;
 		private LayerMask layerMask;
 		private Vector2 LastTouchedTile;
+		private ObjectBehaviour objectBehaviour;
 
 		/// <summary>
 		///  The minimum time limit between each action
@@ -37,6 +38,7 @@ namespace InputControl
 			//for changing direction on click
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
 			playerMove = GetComponent<PlayerMove>();
+			objectBehaviour = GetComponent<ObjectBehaviour>();
 
 			//Do not include the Default layer! Assign your object to one of the layers below:
 			layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines",
@@ -158,13 +160,27 @@ namespace InputControl
 				//check the actual transform for an input trigger and if there is non, check the parent
 				var inputTrigger = _transform.GetComponent<InputTrigger>();
 				if (inputTrigger) {
-					inputTrigger.Trigger();
-					return true;
+					if (objectBehaviour.visibleState) {
+						inputTrigger.Trigger();
+						return true;
+					} else {
+						return false;
+					}
 				} else {
 					inputTrigger = _transform.parent.GetComponent<InputTrigger>();
 					if (inputTrigger) {
-						inputTrigger.Trigger();
-						return true;
+						if (objectBehaviour.visibleState) {
+							inputTrigger.Trigger();
+							return true;
+						} else {
+							//Allow interact with all cupboards because you may be in one!
+							ClosetControl cCtrl = inputTrigger.GetComponent<ClosetControl>();
+							if (cCtrl) {
+								inputTrigger.Trigger();
+								return true;
+							}
+							return false;
+						}
 					}
 				}
 			}
@@ -174,7 +190,7 @@ namespace InputControl
 
 		private bool InteractHands()
 		{
-			if (UIManager.Hands.CurrentSlot.GameObject() != null) {
+			if (UIManager.Hands.CurrentSlot.GameObject() != null && objectBehaviour.visibleState) {
 				var inputTrigger = UIManager.Hands.CurrentSlot.GameObject().GetComponent<InputTrigger>();
 				if (inputTrigger != null) {
 					inputTrigger.Trigger();

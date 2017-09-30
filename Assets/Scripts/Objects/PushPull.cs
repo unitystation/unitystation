@@ -51,7 +51,8 @@ public class PushPull : VisibleBehaviour
 
     public virtual void OnMouseDown()
     {
-        if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform))
+		if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform)
+			&& transform != PlayerManager.LocalPlayerScript.transform)
         {
 			CancelPullBehaviour();
             PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPullObject(gameObject);

@@ -25,6 +25,8 @@ public class VisibleBehaviour : NetworkBehaviour
 	private const string networkT = "NetworkTransform";
 	private const string objectBehaviour = "ObjectBehaviour";
 	private const string regTile = "RegisterTile";
+	private const string inputController = "InputController";
+	private const string playerSync = "PlayerSync";
 
 	private void Awake()
 	{
@@ -45,15 +47,22 @@ public class VisibleBehaviour : NetworkBehaviour
 		UpdateState(visibleState);
 	}
 
+	//For ObjectBehaviour to handle specific states with the various objects like players
+	public virtual void OnVisibilityChange(bool state){}
+
 	void UpdateState(bool _aliveState)
 	{
+		OnVisibilityChange(_aliveState);
+
 		MonoBehaviour[] scripts = GetComponentsInChildren<MonoBehaviour>(true);
 		Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
 		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 		for (int i = 0; i < scripts.Length; i++) {
 			if (scripts[i].GetType().Name != networkId && scripts[i].GetType().Name != networkT
 				&& scripts[i].GetType().Name != objectBehaviour
-			   && scripts[i].GetType().Name != regTile) {
+			    && scripts[i].GetType().Name != regTile && scripts[i].GetType().Name
+				!= inputController && scripts[i].GetType().Name
+				!= playerSync) {
 				scripts[i].enabled = _aliveState;
 			}
 		}

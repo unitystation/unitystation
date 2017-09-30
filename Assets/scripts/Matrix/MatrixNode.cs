@@ -208,7 +208,7 @@ namespace Matrix {
 
         public List<ObjectBehaviour> GetPlayers(){
 			List<ObjectBehaviour> newList = new List<ObjectBehaviour>(players);
-            return players;
+            return newList;
         }
 
         public List<HealthBehaviour> GetDamageables() {
