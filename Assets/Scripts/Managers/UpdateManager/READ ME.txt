@@ -1,0 +1,17 @@
+To use this Update manager all you need to do is let your class inherit from OverridableMonoBehaviour
+
+if you use the Awake function you'll have to change it into protected override void Awake()
+Also call the OverridableMonoBehaviour.Awake() function on the first line of your Awake function.
+
+You'll have to replace your Update method to public override void UpdateMe()
+Once you've done that you'll be able to use this package.
+
+If you're using the FixedUpdate and or the LateUpdate, you can use the FixedUpdateMe() method and or the LateUpdateMe() method.
+
+To remove objects from your UpdateManager, all you need to do is all the methods UpdateManager.RemoveSpecificItem or UpdateManager.RemoveSpecificItemAndDestroyIt
+These method names should speak for themselves.
+
+If somehow your object does not get added to the Update manage you can still add it by using the UpdateManager.AddItem method
+
+Please keep in mind to not destroy more than 2.000 objects at the same time, this will unfortunately decrease the performance for a few frames.
+Adding up to 10.000 objects on your Awake function is possible, but will take some time before your game will actually start.

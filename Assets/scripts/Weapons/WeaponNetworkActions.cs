@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Weapons;
 
-public class WeaponNetworkActions: NetworkBehaviour {
+public class WeaponNetworkActions: ManagedNetworkBehaviour {
 
     private GameObject spritesObj;
     private PlayerMove playerMove;
@@ -181,7 +181,7 @@ public class WeaponNetworkActions: NetworkBehaviour {
     }
 
     //Server lerps
-    void Update() {
+    public override void UpdateMe() {
         if(lerping) {
             lerpProgress += Time.deltaTime;
             spritesObj.transform.position = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress * speed);

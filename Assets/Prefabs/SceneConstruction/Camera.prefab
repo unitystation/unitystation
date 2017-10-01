@@ -205,12 +205,12 @@ GameObject:
   - component: {fileID: 114936676006390284}
   - component: {fileID: 114598608611931166}
   m_Layer: 0
-  m_Name: Interact Camera
+  m_Name: Interact Camera(Do not turn on)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1981950140328758
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1992843250854736
 GameObject:
   m_ObjectHideFlags: 1
@@ -382,8 +382,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1365047106309440}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1845.86, y: 1139, z: -1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1978, y: 1143, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4369993710743458}
@@ -564,7 +564,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4280287215
+    m_Bits: 4294967295
   m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -651,6 +651,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listenerObj: {fileID: 1187200688554218}
   target: {fileID: 0}
+  damping: 0
   xOffset: 1.7
   pixelAdjustment: 64
   parallaxStars: {fileID: 114250123869584244}

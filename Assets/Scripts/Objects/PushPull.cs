@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using Matrix;
 using PlayGroup;
 using UnityEngine;
@@ -130,7 +130,7 @@ public class PushPull : VisibleBehaviour
         pulledBy = null;
     }
     
-    void Update()
+	public override void UpdateMe()
     {
         if (pushing && transform.position != pushTarget)
         {
@@ -153,7 +153,7 @@ public class PushPull : VisibleBehaviour
         }
     }
 
-    void LateUpdate()
+    public override void LateUpdateMe()
     {
         if (CustomNetworkManager.Instance._isServer)
         {

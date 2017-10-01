@@ -73,7 +73,7 @@ namespace InputControl
 
 		private void changeDirection()
 		{
-			Vector2 dir = (InteractCamera.Instance.mainCam.ScreenToWorldPoint(Input.mousePosition) -
+			Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) -
 						   transform.position).normalized;
 			float angle = Angle(dir);
 			if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)

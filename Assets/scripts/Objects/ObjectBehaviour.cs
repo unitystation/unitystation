@@ -17,8 +17,9 @@ public class ObjectBehaviour : PushPull
 	private PlayerScript playerScript;
 	private ClosetPlayerHandler closetHandlerCache;
 
-	void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		//Determines if it is an item 
 		pickUpTrigger = GetComponent<PickUpTrigger>();
 		//Determines if it is a player

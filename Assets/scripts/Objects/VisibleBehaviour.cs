@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using Matrix;
@@ -8,7 +8,7 @@ using PlayGroup;
 /// Toggles the active state of the object by gathering all components and setting
 /// their active state. It ignores network components so item can be synced
 /// </summary>
-public class VisibleBehaviour : NetworkBehaviour
+public class VisibleBehaviour : ManagedNetworkBehaviour
 {
 
 	/// <summary>
@@ -28,8 +28,9 @@ public class VisibleBehaviour : NetworkBehaviour
 	private const string inputController = "InputController";
 	private const string playerSync = "PlayerSync";
 
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		registerTile = GetComponent<RegisterTile>();
 	}
 	public override void OnStartClient()

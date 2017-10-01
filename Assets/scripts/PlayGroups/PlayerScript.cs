@@ -8,7 +8,7 @@ using System;
 
 namespace PlayGroup
 {
-	public class PlayerScript: NetworkBehaviour
+	public class PlayerScript: ManagedNetworkBehaviour
 	{
 		// the maximum distance the player needs to be to an object to interact with it
 		public const float interactionDistance = 2f;
@@ -117,7 +117,7 @@ namespace PlayGroup
 		    return playerMove == null || !playerMove.allowInput || playerMove.isGhost;
 	    }
 	    
-        void Update(){
+        public override void UpdateMe(){
 			//Read out of ping in toolTip
 			pingUpdate += Time.deltaTime;
 			if (pingUpdate >= 5f) {

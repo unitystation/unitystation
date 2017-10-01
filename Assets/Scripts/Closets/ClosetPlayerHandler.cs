@@ -50,6 +50,11 @@ namespace Cupboards
 						closetControl.Interact(gameObject, "lefthand");
 					}
 				}
+				//take the player with the closet so they can interact with it
+				if (closetControl.transform.position != transform.position){
+					transform.position = closetControl.transform.position;
+
+				}
 			}
 		}
 

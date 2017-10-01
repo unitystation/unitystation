@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine;
@@ -18,7 +18,7 @@ namespace PlayGroup
 		public int[] keyCodes;
 	}
 
-	public class PlayerSync : NetworkBehaviour
+	public class PlayerSync : ManagedNetworkBehaviour //see UpdateManager
 	{
 
 		public PlayerMove playerMove;
@@ -27,7 +27,8 @@ namespace PlayGroup
 		private RegisterTile registerTile;
 		private Queue<PlayerAction> pendingActions;
 
-		[SyncVar(hook = "OnServerStateChange")]
+		[SyncVar]
+		private PlayerState serverStateCache; //used to sync with new players
 		private PlayerState serverState;
 		private PlayerState predictedState;
 
@@ -41,14 +42,10 @@ namespace PlayGroup
 		private bool canRegister = false;
 		private Vector3 pullPos;
 
-		void Awake()
-		{
-			InitState();
-		}
-
 		public override void OnStartServer()
 		{
 			pullObjectID = NetworkInstanceId.Invalid;
+			InitState();
 			base.OnStartServer();
 		}
 		public override void OnStartClient()
@@ -59,16 +56,26 @@ namespace PlayGroup
 
 		IEnumerator WaitForLoad()
 		{
+			yield return new WaitForEndOfFrame();
+			if (serverStateCache.Position != Vector3.zero && !isLocalPlayer) {
+				serverState = serverStateCache;
+				transform.position = RoundedPos(serverState.Position);
+			} else {
+				serverState = new PlayerState() { MoveNumber = 0, Position = RoundedPos(transform.position) };
+				predictedState = new PlayerState() { MoveNumber = 0, Position = RoundedPos(transform.position) };
+			}
 			yield return new WaitForSeconds(2f);
 
 			PullReset(pullObjectID);
 		}
 
-		[Server]
 		private void InitState()
 		{
-			var position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0);
-			serverState = new PlayerState() { MoveNumber = 0, Position = position };
+			if (isServer) {
+				var position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0);
+				serverState = new PlayerState() { MoveNumber = 0, Position = position };
+				serverStateCache = new PlayerState() { MoveNumber = 0, Position = position };
+			}
 		}
 
 		/// <summary>
@@ -79,16 +86,18 @@ namespace PlayGroup
 		public void SetPosition(Vector3 pos)
 		{
 			//TODO ^ check for an allowable type and other conditions to stop abuse of SetPosition
-			transform.position = pos;
-			serverState = new PlayerState() { MoveNumber = 0, Position = pos };
-			predictedState = new PlayerState() { MoveNumber = 0, Position = pos };
-			RpcSetPosition(pos);
+			Vector3 roundedPos = RoundedPos(pos);
+			transform.position = roundedPos;
+			serverState = new PlayerState() { MoveNumber = 0, Position = roundedPos };
+			serverStateCache = new PlayerState() { MoveNumber = 0, Position = roundedPos };
+			predictedState = new PlayerState() { MoveNumber = 0, Position = roundedPos };
+			RpcSetPosition(roundedPos);
 		}
 
 		[ClientRpc]
 		private void RpcSetPosition(Vector3 pos)
 		{
-			predictedState = new PlayerState() { MoveNumber = 0, Position = pos };
+		    predictedState = new PlayerState() { MoveNumber = 0, Position = pos };
 			serverState = new PlayerState() { MoveNumber = 0, Position = pos };
 			transform.position = pos;
 		}
@@ -103,7 +112,8 @@ namespace PlayGroup
 			registerTile = GetComponent<RegisterTile>();
 		}
 
-		void Update()
+		//managed by UpdateManager
+		public override void UpdateMe()
 		{
 			if (isLocalPlayer && playerMove != null) {
 				if (predictedState.Position == transform.position && !playerMove.isGhost) {
@@ -185,10 +195,13 @@ namespace PlayGroup
 			}
 		}
 
-		[Command]
+		[Command(channel=0)]
 		private void CmdAction(PlayerAction action)
 		{
 			serverState = NextState(serverState, action);
+			serverStateCache = serverState;
+			RpcOnServerStateChange(serverState);
+
 		}
 
 		private void UpdatePredictedState()
@@ -236,10 +249,10 @@ namespace PlayGroup
 			}
 		}
 
-		private void OnServerStateChange(PlayerState newState)
+		[ClientRpc(channel=0)]
+		private void RpcOnServerStateChange(PlayerState newState)
 		{
 			serverState = newState;
-
 			if (pendingActions != null) {
 				while (pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber)) {
 					pendingActions.Dequeue();

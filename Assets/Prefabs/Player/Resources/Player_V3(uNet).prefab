@@ -567,8 +567,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1133514949248654}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1975.95, y: 1143, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1978.95, y: 1139, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4027748146393864}
@@ -1673,7 +1673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diagonalMovement: 1
-  speed: 7
+  speed: 6
   isInSpace: 0
   allowInput: 1
   isGhost: 0
@@ -1689,6 +1689,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visibleState: 1
+  registerTile: {fileID: 0}
+  moveSpeed: 7
+  allowedToMove: 1
+  isPushable: 1
+  pulledBy: {fileID: 0}
+  pushTarget: {x: 0, y: 0, z: 0}
+  pushing: 0
+  serverLittleLag: 0
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
+  timeInPush: 0
 --- !u!114 &114804659299628030
 MonoBehaviour:
   m_ObjectHideFlags: 1
