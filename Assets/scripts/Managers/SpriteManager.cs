@@ -32,7 +32,8 @@ namespace Sprites {
 		private Sprites bloodSprites = new Sprites();
 		private Sprites lightSprites = new Sprites();
 		private Sprites fireSprites = new Sprites();
-	    public DmiIconData dmi;
+        private Sprites wireSprites = new Sprites();
+        public DmiIconData dmi;
         private void InitializeSpriteSheets() {
 	        if (spriteManager.dmi == null)
 	        {
@@ -182,12 +183,21 @@ namespace Sprites {
 //
 			LightSprites["lights"] = Resources.LoadAll<Sprite>("lighting");
 			FireSprites["fire"] = Resources.LoadAll<Sprite>("icons/effects/fire");
-  
-//	        }
-//	        else
-//	        {
-//		        Debug.LogError("wtf man, dmi is still null!");
-//	        }
+            
+            string FileLocation = "obj/power_cond/power_cond_";
+            string FileType = "";
+            string[] Keys = { "red", "blue", "cyan", "green", "orange", "pink", "white", "yellow" };
+            for (int i = 0; i < Keys.Length; i++)
+            {
+                string Key = Keys[i];
+                Sprite[] sprites = Resources.LoadAll<Sprite>(FileLocation + Key + FileType);
+                wireSprites[Key] = sprites;
+            }
+            //	        }
+            //	        else
+            //	        {
+            //		        Debug.LogError("wtf man, dmi is still null!");
+            //	        }
         }
 
         public static SpriteManager Instance {
@@ -241,7 +251,13 @@ namespace Sprites {
 				return Instance.fireSprites;
 			}
 		}
-
+        public static Sprites WireSprites
+        {
+            get
+            {
+                return Instance.wireSprites;
+            }
+        }
     }
 
 	public enum DoorType{
