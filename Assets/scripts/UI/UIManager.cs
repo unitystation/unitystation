@@ -108,7 +108,17 @@ namespace UI
 				listener.Reset();
 			}
 		}
-		
+
+		public static bool TryUpdateSlot(UISlotObject slotInfo)
+		{
+			var canPutItemToSlot = CanPutItemToSlot(slotInfo);
+			if ( canPutItemToSlot )
+			{
+				UpdateSlot(slotInfo);
+			}
+			return canPutItemToSlot;
+		}
+
 		public static void UpdateSlot(UISlotObject slotInfo)
 		{
 //			Debug.LogFormat("Updating slots: {0}", slotInfo);
@@ -126,17 +136,18 @@ namespace UI
 		}
 		
 		/// Checks if player received transform update after sending interact message
+		/// (Anti-blinking protection)
 		public static bool ItemActionAllowed(GameObject item)
 		{
-//			if ( CustomNetworkManager.Instance._isServer ) return true;
-//			var netId = item.GetComponent<NetworkIdentity>().netId;
-//			var lastReceive = item.GetComponent<NetworkTransform>().lastSyncTime;
-//			var lastSend = InputTrigger.interactCache.ContainsKey(netId) ? InputTrigger.interactCache[netId] : 0f;
-//			if ( lastReceive < lastSend )
-//			{
-//				return CanTrySendAgain(lastSend, lastReceive);
-//			}
-//			Debug.LogFormat("ItemAction allowed! {2} msgcache {0} {1}", InputTrigger.interactCache.Count, lastSend, item.name);
+			if ( CustomNetworkManager.Instance._isServer ) return true;
+			var netId = item.GetComponent<NetworkIdentity>().netId;
+			var lastReceive = item.GetComponent<NetworkTransform>().lastSyncTime;
+			var lastSend = InputTrigger.interactCache.ContainsKey(netId) ? InputTrigger.interactCache[netId] : 0f;
+			if ( lastReceive < lastSend )
+			{
+				return CanTrySendAgain(lastSend, lastReceive);
+			}
+			Debug.LogFormat("ItemAction allowed! {2} msgcache {0} {1}", InputTrigger.interactCache.Count, lastSend, item.name);
 			return true;
 		}
 
@@ -144,7 +155,7 @@ namespace UI
 		{
 			var f = Time.time - lastSend;
 			var d = lastSend - lastReceive;
-			var canTrySendAgain = f >= d || f >= 1;
+			var canTrySendAgain = f >= d || f >= 2;
 			Debug.LogFormat("canTrySendAgain = {0} {1}>={2} ",canTrySendAgain, f, d);
 			return canTrySendAgain;
 		}

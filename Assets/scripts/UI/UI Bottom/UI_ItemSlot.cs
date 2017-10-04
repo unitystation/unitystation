@@ -54,7 +54,10 @@ namespace UI {
 			image.sprite = null;
 			image.enabled = false;
 		}
-
+//TODO resolve setItem slot vs UIManager confusion!
+        /// <summary>
+        /// imperative low-level method 
+        /// </summary>
         public void SetItem(GameObject item)
         {
             if ( !item )
@@ -62,19 +65,15 @@ namespace UI {
                 Clear();
                 return;
             }
-            var lps = PlayerManager.LocalPlayerScript;
-            if ( !lps || lps.canNotInteract()) return;
-
+//            var lps = PlayerManager.LocalPlayerScript;
+//            if ( !lps || lps.canNotInteract()) return;
+//            var itemAttributes = item.GetComponent<ItemAttributes>();
+//            Debug.LogFormat("Setting item {0}/{1} to {2}", item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName);
             image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
             image.enabled = true;
             Item = item;
             item.transform.position = transform.position;
-            
-//			if (PlayerManager.LocalPlayer != null && item != null) {
-//				PlayerManager.LocalPlayerScript.playerNetworkActions.SetInventorySlot(slotName, item);
-//			}
-//            if(slotName.Length > 0)
-//                EventManager.UI.TriggerEvent(slotName, item);
+
         }
 
         public bool TrySetItem(GameObject item) {
@@ -134,10 +133,13 @@ namespace UI {
         {
             var item = Clear();
             if ( !item ) return false;
+            InputTrigger.Touch(item);
             item.transform.position = pos;
             item.transform.parent = null;
             var e = item.GetComponent<EditModeControl>();
             e.Snap();
+            var itemAttributes = item.GetComponent<ItemAttributes>();
+            Debug.LogFormat("Placing item {0}/{1} from {2} to {3}", item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
             return true;
         }
 

@@ -15,11 +15,11 @@ public class TableTrigger: InputTrigger {
 				//Client informs server of interaction attempt
 				InteractMessage.Send(gameObject, slot.eventName);
 				//Client simulation
-				var placedOk = slot.PlaceItem(gameObject.transform.position);
-				if ( !placedOk )
-				{
-					Debug.Log("Client placing error");
-				}
+//				var placedOk = slot.PlaceItem(gameObject.transform.position);
+//				if ( !placedOk )
+//				{
+//					Debug.Log("Client placing error");
+//				}
 			}
 		}
 		else

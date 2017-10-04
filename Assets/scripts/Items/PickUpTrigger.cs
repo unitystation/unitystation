@@ -16,7 +16,7 @@ namespace Items {
                 if ( ClientApprove(uiSlotObject) )
                 {
                     //Simulation
-//                    UIManager.UpdateSlot(uiSlotObject);
+                    UIManager.UpdateSlot(uiSlotObject);
 
                     //Client informs server of interaction attempt
                     InteractMessage.Send(gameObject, hand);
@@ -51,7 +51,7 @@ namespace Items {
                 return false;
             }
 
-            return ps.playerNetworkActions.AddItem(gameObject, slotName, false);
+            return ps.playerNetworkActions.AddItem(gameObject, slotName, false, false);
         }
     }
 }
