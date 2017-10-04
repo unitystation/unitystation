@@ -1,7 +1,7 @@
 ﻿﻿using System.Collections.Generic;
 using System.Collections;
- using System.Linq;
- using UnityEngine.Networking;
+using System.Linq;
+using UnityEngine.Networking;
 using UnityEngine;
 using Matrix;
 
@@ -168,9 +168,9 @@ namespace PlayGroup
 
 				state = isLocalPlayer ? predictedState : serverState;
 				transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
-				
-				if(state.Position != transform.position)
-				lastDirection = (state.Position - transform.position).normalized;
+
+				if (state.Position != transform.position)
+					lastDirection = (state.Position - transform.position).normalized;
 
 				if (pullingObject != null) {
 					if (transform.hasChanged) {
@@ -284,7 +284,7 @@ namespace PlayGroup
 			var node = nodes.FirstOrDefault(n => !n.IsEmpty());
 			if (node == null)
 			{
-				var newGoal = RoundedPos(transform.position) + (Vector3) lastDirection;
+				var newGoal = RoundedPos(transform.position) + RoundedPos(lastDirection);
 				serverState.Position = newGoal;
 				predictedState.Position = newGoal;
 			}
