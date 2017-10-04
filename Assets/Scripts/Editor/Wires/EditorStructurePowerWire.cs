@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEditor;
+using Sprites;
 
 namespace Wiring
 {
@@ -12,18 +11,23 @@ namespace Wiring
 	[CustomEditor(typeof(StructurePowerWire))]
 	public class EditorStructurePowerWire : Editor
 	{
+		private int startCache;
+		private int endCache;
+		private bool showError = false;
+		private float msgTime = 0f;
 		public override void OnInspectorGUI()
 		{
 
 			StructurePowerWire sTarget = (StructurePowerWire)target;
-			serializedObject.Update();
+			startCache = sTarget.DirectionStart;
+			endCache = sTarget.DirectionEnd;
 
+			EditorGUI.BeginChangeCheck();
 			EditorGUILayout.HelpBox("The starting dir of this wire in a turf, " +
 									"using 4 bits to indicate N S E W - 1 2 4 8\r\n" +
 									"Corners can also be used i.e.: 5 = NE (1 + 4) = 0101\r\n" +
 									"This is the edge of the location where the wire enters the turf", MessageType.Info);
-			SerializedProperty DirectionStart = serializedObject.FindProperty("DirectionStart");
-			EditorGUILayout.PropertyField((DirectionStart));
+			sTarget.DirectionStart = EditorGUILayout.IntField("DirectionStart: ",sTarget.DirectionStart);
 
 			EditorGUILayout.HelpBox("The ending dir of this wire in a turf, " +
 									"using 4 bits to indicate N S E W - 1 2 4 8\r\n" +
@@ -31,19 +35,36 @@ namespace Wiring
 									"This is the edge of the location where the wire exits the turf\r\n" +
 									"Can be null of knot wires", MessageType.Info);
 
-			SerializedProperty DirectionEnd = serializedObject.FindProperty("DirectionEnd");
-			EditorGUILayout.PropertyField((DirectionEnd));
+			sTarget.DirectionEnd = EditorGUILayout.IntField("DirectionEnd: ", sTarget.DirectionEnd);
 
-			SerializedProperty Color = serializedObject.FindProperty("Color");
-			EditorGUILayout.PropertyField((Color));
+			sTarget.Color = (WiringColor)EditorGUILayout.EnumPopup("Wiring Color: ",sTarget.Color);
 
+			if(EditorGUI.EndChangeCheck()){
+				try {
+					sTarget.SetDirection(sTarget.DirectionStart, sTarget.DirectionEnd);
+					showError = false;
+				} catch {
+					msgTime = 0f;
+					showError = true;
+					sTarget.DirectionStart = startCache;
+					sTarget.DirectionEnd = endCache;
+				}
+			}
+
+			if(showError){
+				msgTime += Time.deltaTime;
+				if (msgTime > 3f){
+					showError = false;
+					msgTime = 0f;
+				}
+				EditorGUILayout.HelpBox("Incorrect start and end combination", MessageType.Error);
+			}
 			SerializedProperty TRay = serializedObject.FindProperty("TRay");
-			EditorGUILayout.PropertyField((TRay));
+			EditorGUILayout.PropertyField((TRay),true);
 
 			EditorGUILayout.HelpBox("TODO: Create a specific component to handle wiring changes\r\n" +
 			                        "via the map editor. Do this by inheriting the component from\r\n" +
 			                        "SpriteRotate.cs", MessageType.Warning);
 		}
-
 	}
 }
