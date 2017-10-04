@@ -10,11 +10,16 @@ namespace Items {
         public override void Interact(GameObject originator, string hand) {
             if ( !isServer )
             {
-                //Prediction
-                if ( ClientApprove(hand) )
+                var uiSlotObject = new UISlotObject(hand, gameObject);
+
+                //PreCheck
+                if ( ClientApprove(uiSlotObject) )
                 {
+                    //Simulation
+//                    UIManager.UpdateSlot(uiSlotObject);
+
                     //Client informs server of interaction attempt
-                    InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
+                    InteractMessage.Send(gameObject, hand);
                 }
             }
             else
@@ -31,15 +36,9 @@ namespace Items {
             }
         }
 
-        private bool ClientApprove(string hand)
+        private bool ClientApprove(UISlotObject uiSlotObject)
         {
-            var uiSlotObject = new UISlotObject(hand, gameObject);
-            if ( !UIManager.CanPutItemToSlot(uiSlotObject) )
-            {
-                return false;
-            }
-            UIManager.UpdateSlot(uiSlotObject);
-            return true;
+            return UIManager.CanPutItemToSlot(uiSlotObject);
         }
 
         [Server]
