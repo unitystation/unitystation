@@ -23,7 +23,6 @@ namespace PlayGroup {
 
         public bool diagonalMovement;
         public float speed = 10;
-		public bool isInSpace = false;
 		[SyncVar]
 		public bool allowInput = true;
 		[SyncVar]
@@ -55,15 +54,6 @@ namespace PlayGroup {
         }
 
         public Vector3 GetNextPosition(Vector3 currentPosition, PlayerAction action) {
-			if (isServer) {
-				bool isSpace = Matrix.Matrix.At(currentPosition).IsSpace();
-				if (isSpace && !isInSpace) {
-					isInSpace = true;
-				} else if (!isSpace && isInSpace) {
-					isInSpace = false;
-				}
-			}
-
             var direction = GetDirection(action);
             if(!isGhost)
 				playerSprites.FaceDirection(direction);
@@ -73,7 +63,7 @@ namespace PlayGroup {
             if(adjustedDirection == Vector3.zero) {
                 Interact(currentPosition, direction);
             }
-
+            
             return currentPosition + adjustedDirection;
         }
 
