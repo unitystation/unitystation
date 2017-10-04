@@ -1,6 +1,7 @@
 ﻿﻿using System.Collections.Generic;
 using System.Collections;
-using UnityEngine.Networking;
+ using System.Linq;
+ using UnityEngine.Networking;
 using UnityEngine;
 using Matrix;
 
@@ -41,6 +42,8 @@ namespace PlayGroup
 		private RegisterTile pullRegister;
 		private bool canRegister = false;
 		private Vector3 pullPos;
+		
+		private Vector2 lastDirection;
 
 		public override void OnStartServer()
 		{
@@ -101,6 +104,7 @@ namespace PlayGroup
 			serverState = new PlayerState() { MoveNumber = 0, Position = pos };
 			transform.position = pos;
 		}
+		
 		void Start()
 		{
 			if (isLocalPlayer) {
@@ -115,10 +119,14 @@ namespace PlayGroup
 		//managed by UpdateManager
 		public override void UpdateMe()
 		{
-			if (isLocalPlayer && playerMove != null) {
-				if (predictedState.Position == transform.position && !playerMove.isGhost) {
+			if (isLocalPlayer && playerMove != null)
+			{
+				if (predictedState.Position == transform.position && !playerMove.isGhost)
+				{
 					DoAction();
-				} else if (predictedState.Position == playerScript.ghost.transform.position && playerMove.isGhost) {
+				}
+				else if (predictedState.Position == playerScript.ghost.transform.position && playerMove.isGhost)
+				{
 					DoAction();
 				}
 			}
@@ -149,6 +157,8 @@ namespace PlayGroup
 
 		private void Synchronize()
 		{
+			CheckSpaceWalk();
+			
 			if (isLocalPlayer && GameData.IsHeadlessServer)
 				return;
 
@@ -158,6 +168,9 @@ namespace PlayGroup
 
 				state = isLocalPlayer ? predictedState : serverState;
 				transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
+				
+				if(state.Position != transform.position)
+				lastDirection = (state.Position - transform.position).normalized;
 
 				if (pullingObject != null) {
 					if (transform.hasChanged) {
@@ -206,7 +219,6 @@ namespace PlayGroup
 
 		private void UpdatePredictedState()
 		{
-
 			predictedState = serverState;
 
 			foreach (var action in pendingActions) {
@@ -264,6 +276,18 @@ namespace PlayGroup
 		private Vector3 RoundedPos(Vector3 pos)
 		{
 			return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);
+		}
+
+		private void CheckSpaceWalk()
+		{
+			var nodes = Matrix.Matrix.At(transform.position, 1);
+			var node = nodes.FirstOrDefault(n => !n.IsEmpty());
+			if (node == null)
+			{
+				var newGoal = RoundedPos(transform.position) + (Vector3) lastDirection;
+				serverState.Position = newGoal;
+				predictedState.Position = newGoal;
+			}
 		}
 	}
 }

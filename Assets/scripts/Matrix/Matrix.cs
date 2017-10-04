@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -68,6 +69,31 @@ namespace Matrix {
             }
 
             return null;
+        }
+
+        public static List<MatrixNode> At(Vector2 position, int radius, bool createIfNull = true)
+        {
+            return At(position.x, position.y, radius, createIfNull);
+        }
+
+        public static List<MatrixNode> At(float x, float y, int radius, bool createIfNull = true)
+        {
+            var list = new List<MatrixNode>();
+
+            for (float xr = x - radius; xr <= x + radius; xr++)
+            {
+                for (float yr = y - radius; yr <= y + radius; yr++)
+                {
+                    var node = At(xr, yr, createIfNull);
+
+                    if (node != null)
+                    {
+                        list.Add(node);
+                    }
+                }  
+            }
+
+            return list;
         }
 
         public static NodeDictionary Nodes { get { return Instance.map; } }

@@ -17,6 +17,9 @@ namespace Matrix {
         private List<GameObject> tiles = new List<GameObject>();
 
         [NonSerialized]
+        private List<GameObject> structures = new List<GameObject>();
+
+        [NonSerialized]
 		private List<ObjectBehaviour> items = new List<ObjectBehaviour>();
 
         [NonSerialized]
@@ -65,7 +68,11 @@ namespace Matrix {
 
                 if (tileType == TileType.Player)
                 {
-					players.Add(gameObject.GetComponent<ObjectBehaviour>());
+                    players.Add(gameObject.GetComponent<ObjectBehaviour>());
+                }
+                else
+                {
+                    structures.Add(gameObject);
                 }
 
 				if (tileType == TileType.RestrictedMovement) {
@@ -99,6 +106,10 @@ namespace Matrix {
                 if (tileType == TileType.Player)
                 {
 					players.Remove(gameObject.GetComponent<ObjectBehaviour>());
+                }
+                else
+                {
+                    structures.Remove(gameObject);
                 }
 
 				if (tileType == TileType.RestrictedMovement) {
@@ -164,6 +175,11 @@ namespace Matrix {
 
         public bool IsObject() {
             return isObject;
+        }
+
+        public bool IsEmpty()
+        {
+            return structures.Count == 0;
         }
 
 		public bool IsRestrictiveTile()
