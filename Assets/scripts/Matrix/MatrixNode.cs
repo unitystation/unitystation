@@ -70,7 +70,7 @@ namespace Matrix {
                 {
                     players.Add(gameObject.GetComponent<ObjectBehaviour>());
                 }
-                else
+                else if(tileType == TileType.Floor || tileType == TileType.Door || tileType == TileType.Wall || tileType == TileType.Window)
                 {
                     structures.Add(gameObject);
                 }
