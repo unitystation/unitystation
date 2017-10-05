@@ -193,7 +193,7 @@ namespace PlayGroup
 
 		private void PullObject()
 		{
-			pullPos = transform.position - (Vector3)playerSprites.currentDirection;
+			pullPos = transform.position - (Vector3) lastDirection;
 			pullPos.z = pullingObject.transform.position.z;
 			if (Matrix.Matrix.At(pullPos).IsPassable() ||
 				Matrix.Matrix.At(pullPos).ContainsTile(pullingObject) ||
