@@ -13,7 +13,7 @@ namespace Items {
                 var uiSlotObject = new UISlotObject(hand, gameObject);
 
                 //PreCheck
-                if ( ClientApprove(uiSlotObject) )
+                if ( UIManager.CanPutItemToSlot(uiSlotObject) )
                 {
                     //Simulation
                     UIManager.UpdateSlot(uiSlotObject);
@@ -31,14 +31,9 @@ namespace Items {
                 else
                 {
                     //Rollback prediction
-                    originator.GetComponent<PlayerNetworkActions>().RollbackPrediction(hand);
+//                    originator.GetComponent<PlayerNetworkActions>().RollbackPrediction(hand);
                 }
             }
-        }
-
-        private bool ClientApprove(UISlotObject uiSlotObject)
-        {
-            return UIManager.CanPutItemToSlot(uiSlotObject);
         }
 
         [Server]

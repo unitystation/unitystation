@@ -1,8 +1,5 @@
 ﻿using PlayGroup;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace UI
 {
@@ -93,9 +90,7 @@ namespace UI
                 if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
                     return;
 
-            if (slot1.TrySetItem(slot2.Item)) {
-//				slot2.Clear();
-			}
+			UIManager.TryUpdateSlot(new UISlotObject(slot1.eventName, slot2.Item));
 		}
 
 		private InventorySlotCache Slots {

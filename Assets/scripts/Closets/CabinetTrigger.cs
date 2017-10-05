@@ -1,11 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+using InputControl;
 using PlayGroup;
 using UI;
-using Items;
-using InputControl;
+using UnityEngine;
+using UnityEngine.Networking;
 
 public class CabinetTrigger: InputTrigger
 {
@@ -57,7 +55,6 @@ public class CabinetTrigger: InputTrigger
             {
                 if (!UIManager.Hands.CurrentSlot.IsFull)
                 {
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryToInstantiateInHand(UIManager.Hands.CurrentSlot.eventName, itemPrefab);
                     PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleFireCabinet(gameObject,true);
                 }
                 else

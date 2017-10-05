@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
+using Cupboards;
+using Equipment;
+using InputControl;
+using Lighting;
+using Matrix;
+using PlayGroup;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using Events;
-using PlayGroup;
-using Equipment;
-using Cupboards;
-using UI;
-using Items;
-using System.Linq;
-using UnityEngine.Assertions.Must;
+using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -110,17 +111,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
     public void RollbackPrediction(string slot)
     {
-        //todo fix
-        /*
-        KeyNotFoundException: The given key was not present in the dictionary.
-        System.Collections.Generic.Dictionary`2[System.String,UnityEngine.GameObject].get_Item (System.String key) 
-            (at /Users/builduser/buildslave/mono/build/mcs/class/corlib/System.Collections.Generic/Dictionary.cs:150)
-        PlayerNetworkActions.RollbackPrediction (System.String slot) (at Assets/Scripts/PlayGroups/PlayerNetworkActions.cs:113)
-        TableTrigger.Interact (UnityEngine.GameObject originator, System.String hand) (at Assets/Scripts/Items/TableTrigger.cs:20)
-        InputControl.InputTrigger.Interact () (at Assets/Scripts/PlayGroups/Input/InputTrigger.cs:19)
-        InputControl.InputTrigger.Trigger () (at Assets/Scripts/PlayGroups/Input/InputTrigger.cs:14)
-        InputControl.InputController.Interact (UnityEngine.Transform transform) (at Assets/Scripts/PlayGroups/Input/InputController.cs:186)
-        */
         UpdateSlotMessage.Send(gameObject, slot, _inventory[slot], true);
     }
 
@@ -192,38 +182,38 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
         }
     }
-    [Command]
-    [Obsolete]
-    public void CmdTryToInstantiateInHand(string eventName, GameObject prefab)
-    {
-        if ( _inventory.ContainsKey(eventName) )
-        {
-            if ( _inventory[eventName] == null )
-            {
-                GameObject item = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
-                NetworkServer.Spawn(item);
-                EquipmentPool.AddGameObject(gameObject, item);
-                _inventory[eventName] = item;
-                equipment.SetHandItem(eventName, item);
-                RpcInstantiateInHand(gameObject.name, item);
-            }
-            else
-            {
-                Debug.Log("Inventory slot is full");
-
-            }
-        }
-    }
-
-    [ClientRpc]
-    [Obsolete]
-    void RpcInstantiateInHand(string playerName, GameObject item)
-    {
-        if ( playerName == gameObject.name )
-        {
-            UIManager.Hands.CurrentSlot.TrySetItem(item);
-        }
-    }
+//    [Command]
+//    [Obsolete]
+//    public void CmdTryToInstantiateInHand(string eventName, GameObject prefab)
+//    {
+//        if ( _inventory.ContainsKey(eventName) )
+//        {
+//            if ( _inventory[eventName] == null )
+//            {
+//                GameObject item = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
+//                NetworkServer.Spawn(item);
+//                EquipmentPool.AddGameObject(gameObject, item);
+//                _inventory[eventName] = item;
+//                equipment.SetHandItem(eventName, item);
+//                RpcInstantiateInHand(gameObject.name, item);
+//            }
+//            else
+//            {
+//                Debug.Log("Inventory slot is full");
+//
+//            }
+//        }
+//    }
+//
+//    [ClientRpc]
+//    [Obsolete]
+//    void RpcInstantiateInHand(string playerName, GameObject item)
+//    {
+//        if ( playerName == gameObject.name )
+//        {
+//            UIManager.Hands.CurrentSlot.TrySetItem(item);
+//        }
+//    }
 
     /// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction, 
     /// otherwise client will forcefully receive update slot messages
@@ -342,7 +332,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdToggleLightSwitch(GameObject switchObj)
     {
-        Lighting.LightSwitchTrigger s = switchObj.GetComponent<Lighting.LightSwitchTrigger>();
+        LightSwitchTrigger s = switchObj.GetComponent<LightSwitchTrigger>();
         s.isOn = !s.isOn;
     }
 
@@ -388,7 +378,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             playerMove.allowInput = false;
             RpcSetPlayerRot(false, -90f);
             soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
-            if (UnityEngine.Random.value > 0.5f)
+            if (Random.value > 0.5f)
             {
                 playerSprites.currentDirection = Vector2.up;
             }
@@ -459,7 +449,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		foreach (SpriteRenderer sR in spriteRends) {
 			sR.sortingLayerName = "Blood";
 		}
-		gameObject.GetComponent<Matrix.RegisterTile>().UpdateTileType(Matrix.TileType.None);
+		gameObject.GetComponent<RegisterTile>().UpdateTileType(TileType.None);
         var rotationVector = transform.rotation.eulerAngles;
         rotationVector.z = rot;
         transform.rotation = Quaternion.Euler(rotationVector);
@@ -542,7 +532,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [ClientRpc]
 	private void RpcAdjustForRespawn(){
 			playerScript.ghost.SetActive(false);
-			gameObject.GetComponent<InputControl.InputController>().enabled = false;
+			gameObject.GetComponent<InputController>().enabled = false;
 	}
 
     [Command]

@@ -1,15 +1,10 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Events;
 using InputControl;
 using PlayGroup;
-using UnityEngine.Events;
-using Items;
-using Matrix;
-using UnityEngine.Networking;
-using UnityEngine.Video;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace UI {
 
@@ -54,9 +49,9 @@ namespace UI {
 			image.sprite = null;
 			image.enabled = false;
 		}
-//TODO resolve setItem slot vs UIManager confusion!
+
         /// <summary>
-        /// imperative low-level method 
+        /// direct low-level method, doesn't send anything to server
         /// </summary>
         public void SetItem(GameObject item)
         {
@@ -65,8 +60,6 @@ namespace UI {
                 Clear();
                 return;
             }
-//            var lps = PlayerManager.LocalPlayerScript;
-//            if ( !lps || lps.canNotInteract()) return;
 //            var itemAttributes = item.GetComponent<ItemAttributes>();
 //            Debug.LogFormat("Setting item {0}/{1} to {2}", item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName);
             image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
@@ -76,19 +69,19 @@ namespace UI {
 
         }
 
-        public bool TrySetItem(GameObject item) {
-            if(!IsFull && item != null && CheckItemFit(item)) {
-//                Debug.LogErrorFormat("TrySetItem TRUE for {0}", item.GetComponent<ItemAttributes>().hierarchy);
-                InventoryInteractMessage.Send(eventName, item, true);
-               //predictions:
-                UIManager.UpdateSlot(new UISlotObject(eventName, item));
-//                SetItem(item);
-
-                return true;
-            }
-//            Debug.LogErrorFormat("TrySetItem FALSE for {0}", item.GetComponent<ItemAttributes>().hierarchy);
-            return false;
-        }
+//        public bool TrySetItem(GameObject item) {
+//            if(!IsFull && item != null && CheckItemFit(item)) {
+////                Debug.LogErrorFormat("TrySetItem TRUE for {0}", item.GetComponent<ItemAttributes>().hierarchy);
+//                InventoryInteractMessage.Send(eventName, item, true);
+//               //predictions:
+//                UIManager.UpdateSlot(new UISlotObject(eventName, item));
+////                SetItem(item);
+//
+//                return true;
+//            }
+////            Debug.LogErrorFormat("TrySetItem FALSE for {0}", item.GetComponent<ItemAttributes>().hierarchy);
+//            return false;
+//        }
 
         /// <summary>
         /// removes item from slot
@@ -120,10 +113,7 @@ namespace UI {
         /// </summary>
         public bool CanPlaceItem()
         {
-            if ( !IsFull ) return false;
-            if ( !UIManager.ItemActionAllowed(Item) ) return false;
-
-            return true;
+            return IsFull && UIManager.SendUpdateAllowed(Item);
         }
 
         /// <summary>
@@ -149,18 +139,17 @@ namespace UI {
 			Item = null;
         }
 
-        private bool CheckItemFit(GameObject item) {
+        public bool CheckItemFit(GameObject item) {
             var attributes = item.GetComponent<ItemAttributes>();
-            if(!allowAllItems) {
-                if(!allowedItemTypes.Contains(attributes.type)) {
-                    return false;
-                } //fixme: following code prevents player from holding/wearing stuff that is wearable in /tg/ 
-            }/*else if(maxItemSize != ItemSize.Large && (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size) {
-                Debug.Log("Item is too big!");
-                return false;
-            }*/
-
-            return true;
+            return allowAllItems || allowedItemTypes.Contains(attributes.type);
+//	        if(!allowAllItems) {
+//		        if(!allowedItemTypes.Contains(attributes.type)) {
+//			        return false;
+//		        } //fixme: following code prevents player from holding/wearing stuff that is wearable in /tg/ 
+//	        }/*else if(maxItemSize != ItemSize.Large && (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size) {
+//                Debug.Log("Item is too big!");
+//                return false;
+//            }*/
         }
     }
 }

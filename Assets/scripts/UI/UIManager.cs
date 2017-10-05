@@ -1,9 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using InputControl;
+﻿using InputControl;
 using PlayGroup;
+using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -100,25 +97,30 @@ namespace UI
 				slot.Reset();
 			}
 
-			foreach (CritListener listener in UI.UIManager.Instance.GetComponentsInChildren<CritListener>()) {
+			foreach (CritListener listener in Instance.GetComponentsInChildren<CritListener>()) {
 				listener.Reset();
 			}
 
-			foreach (DamageMonitorListener listener in UI.UIManager.Instance.GetComponentsInChildren<DamageMonitorListener>()) {
+			foreach (DamageMonitorListener listener in Instance.GetComponentsInChildren<DamageMonitorListener>()) {
 				listener.Reset();
 			}
 		}
 
+		/// <summary>
+		/// use this for client UI mangling attepts
+		/// </summary>
 		public static bool TryUpdateSlot(UISlotObject slotInfo)
 		{
-			var canPutItemToSlot = CanPutItemToSlot(slotInfo);
-			if ( canPutItemToSlot )
-			{
-				UpdateSlot(slotInfo);
-			}
-			return canPutItemToSlot;
+			if (  !CanPutItemToSlot(slotInfo)  ) return false;
+			InventoryInteractMessage.Send(slotInfo.Slot, slotInfo.SlotContents, true);
+			UpdateSlot(slotInfo);
+			return true;
 		}
 
+		/// <summary>
+		/// rather direct method that doesn't check anything.
+		/// probably should check if you CanPutItemToSlot before using it
+		/// </summary>
 		public static void UpdateSlot(UISlotObject slotInfo)
 		{
 //			Debug.LogFormat("Updating slots: {0}", slotInfo);
@@ -129,25 +131,28 @@ namespace UI
 
 		public static bool CanPutItemToSlot(UISlotObject proposedSlotInfo)
 		{
-			if ( !ItemActionAllowed(proposedSlotInfo.SlotContents) ) return false;
+			if ( !SendUpdateAllowed(proposedSlotInfo.SlotContents) ) return false;
 			var uiItemSlot = InventorySlots[proposedSlotInfo.Slot];
-			if ( uiItemSlot == null || uiItemSlot.IsFull /*insert more prechecks here*/) return false;
+			var lps = PlayerManager.LocalPlayerScript;
+			if ( !lps || lps.canNotInteract() || 
+			     uiItemSlot == null || uiItemSlot.IsFull || 
+			     !uiItemSlot.CheckItemFit(proposedSlotInfo.SlotContents) ) return false;
 			return true;
 		}
 		
 		/// Checks if player received transform update after sending interact message
 		/// (Anti-blinking protection)
-		public static bool ItemActionAllowed(GameObject item)
+		public static bool SendUpdateAllowed(GameObject item)
 		{
-			if ( CustomNetworkManager.Instance._isServer ) return true;
-			var netId = item.GetComponent<NetworkIdentity>().netId;
-			var lastReceive = item.GetComponent<NetworkTransform>().lastSyncTime;
-			var lastSend = InputTrigger.interactCache.ContainsKey(netId) ? InputTrigger.interactCache[netId] : 0f;
-			if ( lastReceive < lastSend )
-			{
-				return CanTrySendAgain(lastSend, lastReceive);
-			}
-			Debug.LogFormat("ItemAction allowed! {2} msgcache {0} {1}", InputTrigger.interactCache.Count, lastSend, item.name);
+//			if ( CustomNetworkManager.Instance._isServer ) return true;
+//			var netId = item.GetComponent<NetworkIdentity>().netId;
+//			var lastReceive = item.GetComponent<NetworkTransform>().lastSyncTime;
+//			var lastSend = InputTrigger.interactCache.ContainsKey(netId) ? InputTrigger.interactCache[netId] : 0f;
+//			if ( lastReceive < lastSend )
+//			{
+//				return CanTrySendAgain(lastSend, lastReceive);
+//			}
+//			Debug.LogFormat("ItemAction allowed! {2} msgcache {0} {1}", InputTrigger.interactCache.Count, lastSend, item.name);
 			return true;
 		}
 
@@ -155,7 +160,7 @@ namespace UI
 		{
 			var f = Time.time - lastSend;
 			var d = lastSend - lastReceive;
-			var canTrySendAgain = f >= d || f >= 2;
+			var canTrySendAgain = f >= d || f >= 1.5;
 			Debug.LogFormat("canTrySendAgain = {0} {1}>={2} ",canTrySendAgain, f, d);
 			return canTrySendAgain;
 		}

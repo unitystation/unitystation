@@ -10,7 +10,9 @@ public class TableTrigger: InputTrigger {
 		if ( !isServer )
 		{
 			var slot = UIManager.Hands.CurrentSlot;
-			if ( ClientApprove(slot) )
+			
+			// Client pre-approval
+			if ( slot.CanPlaceItem() )
 			{
 				//Client informs server of interaction attempt
 				InteractMessage.Send(gameObject, slot.eventName);
@@ -27,17 +29,9 @@ public class TableTrigger: InputTrigger {
 			if ( !ValidateTableInteraction(originator, hand) )
 			{
 				//Rollback prediction here
-				originator.GetComponent<PlayerNetworkActions>().RollbackPrediction(hand);			
+//				originator.GetComponent<PlayerNetworkActions>().RollbackPrediction(hand);			
 			}
 		}
-	}
-
-	/// <summary>
-	/// Client pre-approval
-	/// </summary>
-	private bool ClientApprove(UI_ItemSlot slot)
-	{
-		return slot.CanPlaceItem();
 	}
 
 	[Server]
