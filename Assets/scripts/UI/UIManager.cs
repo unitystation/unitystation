@@ -124,14 +124,14 @@ namespace UI
 		public static void UpdateSlot(UISlotObject slotInfo)
 		{
 //			Debug.LogFormat("Updating slots: {0}", slotInfo);
-			InputTrigger.Touch(slotInfo.SlotContents);
+//			InputTrigger.Touch(slotInfo.SlotContents);
 			InventorySlots[slotInfo.Slot].SetItem(slotInfo.SlotContents);
 			ClearObjectIfNotInSlot(slotInfo);
 		}
 
 		public static bool CanPutItemToSlot(UISlotObject proposedSlotInfo)
 		{
-			if ( !SendUpdateAllowed(proposedSlotInfo.SlotContents) ) return false;
+			if ( proposedSlotInfo.IsEmpty() || !SendUpdateAllowed(proposedSlotInfo.SlotContents) ) return false;
 			var uiItemSlot = InventorySlots[proposedSlotInfo.Slot];
 			var lps = PlayerManager.LocalPlayerScript;
 			if ( !lps || lps.canNotInteract() || 

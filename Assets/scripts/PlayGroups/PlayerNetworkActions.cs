@@ -182,38 +182,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
         }
     }
-//    [Command]
-//    [Obsolete]
-//    public void CmdTryToInstantiateInHand(string eventName, GameObject prefab)
-//    {
-//        if ( _inventory.ContainsKey(eventName) )
-//        {
-//            if ( _inventory[eventName] == null )
-//            {
-//                GameObject item = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
-//                NetworkServer.Spawn(item);
-//                EquipmentPool.AddGameObject(gameObject, item);
-//                _inventory[eventName] = item;
-//                equipment.SetHandItem(eventName, item);
-//                RpcInstantiateInHand(gameObject.name, item);
-//            }
-//            else
-//            {
-//                Debug.Log("Inventory slot is full");
-//
-//            }
-//        }
-//    }
-//
-//    [ClientRpc]
-//    [Obsolete]
-//    void RpcInstantiateInHand(string playerName, GameObject item)
-//    {
-//        if ( playerName == gameObject.name )
-//        {
-//            UIManager.Hands.CurrentSlot.TrySetItem(item);
-//        }
-//    }
 
     /// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction, 
     /// otherwise client will forcefully receive update slot messages
@@ -265,21 +233,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             item.transform.parent = newParent.transform;
             World.ReorderGameobjectsOnTile(pos);
         }
-//        RpcAdjustItemParent(item, newParent);
-        
-        
-        
-//        if ( !SlotNotEmpty(slotName) ) return;
-//        GameObject item = _inventory[slotName];
-//        EquipmentPool.DropGameObject(gameObject, _inventory[slotName], pos);
-//        _inventory[slotName] = null;
-//        if (item != null && newParent != null)
-//        {
-//            item.transform.parent = newParent.transform;
-//            World.ReorderGameobjectsOnTile(pos);
-//        }
-//        RpcAdjustItemParent(item, newParent);
-//        equipment.ClearItemSprite(slotName);
     }
 
     public bool SlotNotEmpty(string eventName)
@@ -460,33 +413,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             //TODO Coroutine with timer to get back up again
         }
     }
-
-//    [ClientRpc]
-//    void RpcAdjustItemParent(GameObject item, GameObject parent)
-//    {
-//        if (parent != null)
-//        {
-//            item.transform.parent = parent.transform;
-//        }
-//        else
-//        {
-//            item.transform.parent = null;
-//        }
-//    }
-//
-//    [ClientRpc]
-//    void RpcAdjustItemParentCupB(GameObject item, GameObject parent)
-//    {
-//        if (parent != null)
-//        {
-//            ClosetControl closetCtrl = parent.GetComponent<ClosetControl>();
-//            item.transform.parent = closetCtrl.items.transform;
-//        }
-//        else
-//        {
-//            item.transform.parent = null;
-//        }
-//    }
 
     [ClientRpc]
     public void RpcSpawnGhost()

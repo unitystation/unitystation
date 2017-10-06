@@ -38,11 +38,14 @@ public class UpdateSlotMessage : ServerMessage<UpdateSlotMessage>
 
     }
 
-//    public static UpdateSlotMessage Send(GameObject recipient, string slot, bool forced = false)
-//    {
-//        return Send(recipient, slot, null, forced);
-//    }
 
+/// <param name="recipient">Client GO</param>
+/// <param name="slot"></param>
+/// <param name="objectForSlot">Pass null to clear slot</param>
+/// <param name="forced">Used for client simulation, use false if client's slot is already updated by prediction
+/// (to avoid updating it twice)
+/// </param>
+/// <returns></returns>
     public static UpdateSlotMessage Send(GameObject recipient, string slot, GameObject objectForSlot = null, bool forced = true)
     {
         var msg = new UpdateSlotMessage{

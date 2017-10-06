@@ -47,20 +47,20 @@ namespace UI {
             var currentSlot = UIManager.Hands.CurrentSlot;
             var dropPos = lps.gameObject.transform.position;
             if ( !currentSlot.CanPlaceItem() ) return;
-            if ( isNotMovingClient(lps) )
-            {
-                //Full client simulation(standing still)
-                var placedOk = currentSlot.PlaceItem(dropPos);
-                if ( !placedOk )
-                {
-                    Debug.Log("Client dropping error");
-                }
-            }
-            else
-            {
+//            if ( isNotMovingClient(lps) )
+//            {
+//               // Full client simulation(standing still)
+//                var placedOk = currentSlot.PlaceItem(dropPos);
+//                if ( !placedOk )
+//                {
+//                    Debug.Log("Client dropping error");
+//                }
+//            }
+//            else
+//            {
                 //Only clear slot(while moving, as prediction is shit in this situation)
                 currentSlot.Clear();
-            }
+//            }
             //Message
             lps.playerNetworkActions.DropItem(currentSlot.eventName);
             SoundManager.Play("Click01");

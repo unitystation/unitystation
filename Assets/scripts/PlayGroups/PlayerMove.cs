@@ -27,7 +27,7 @@ namespace PlayGroup {
                 _isPush = value;} }
 
         private List<KeyCode> pressedKeys = new List<KeyCode>();
-        private bool _isMoving;
+        private bool _isMoving = false;
 
         void Start() {
             playerSprites = gameObject.GetComponent<PlayerSprites>();
@@ -39,18 +39,18 @@ namespace PlayGroup {
             get { return _isMoving; }
         }
 
-        private void Update()
-        {
-            if (transform.hasChanged)
-            {
-                _isMoving = true;
-                transform.hasChanged = false;
-            }
-            else
-            {
-                _isMoving = false;
-            }
-        }
+//        private void Update()
+//        {
+//            if (transform.hasChanged)
+//            {
+//                _isMoving = true;
+//                transform.hasChanged = false;
+//            }
+//            else
+//            {
+//                _isMoving = false;
+//            }
+//        }
 
         public PlayerAction SendAction() {
             var actionKeys = new List<int>();
