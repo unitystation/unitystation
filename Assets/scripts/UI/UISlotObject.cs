@@ -11,6 +11,11 @@ public class UISlotObject
           SlotContents = slotContents;
      }
 
+     public bool IsEmpty()
+     {
+          return !SlotContents;
+     }
+
      public override string ToString()
      {
           return string.Format("UISlotObject {0}: {1}", Slot, SlotContents);

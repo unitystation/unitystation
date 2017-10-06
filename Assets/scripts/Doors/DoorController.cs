@@ -147,7 +147,7 @@ namespace Doors
 
 		void Update()
 		{
-			if (openTrigger) {
+			if (openTrigger && playerOpeningIt) {
 				float distToTriggerPlayer = Vector3.Distance(playerOpeningIt.transform.position, transform.position);
 				if (distToTriggerPlayer < 1.5f) {
 					openTrigger = false;

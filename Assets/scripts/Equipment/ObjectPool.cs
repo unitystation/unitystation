@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -12,9 +13,10 @@ public class ObjectPool : MonoBehaviour {
 
 		public Dictionary<NetworkIdentity,ItemAttributes> currentObjects = new Dictionary<NetworkIdentity, ItemAttributes>();
 
-		public void AddGameObject(GameObject obj){
+	public void AddGameObject(GameObject obj){
 			obj.transform.position = transform.position;
 			obj.transform.parent = transform;
+	
 			NetworkIdentity id = obj.GetComponent<NetworkIdentity>();
 			ItemAttributes att = obj.GetComponent<ItemAttributes>();
 
@@ -43,13 +45,19 @@ public class ObjectPool : MonoBehaviour {
 			{
 				if ( !dropPos.Equals(Vector3.zero) )
 				{
-					currentObjects[id].gameObject.transform.parent = null;
-					currentObjects[id].gameObject.transform.position = dropPos;
-					EditModeControl e = gObj.GetComponent<EditModeControl>();
-					e.Snap();
+					var o = currentObjects[id].gameObject;
+					DropNow(o, dropPos);
 				}
 				currentObjects.Remove(id);
 			}
 		}
+
+	private static void DropNow(GameObject gObj, Vector3 dropPos)
+	{
+		gObj.transform.parent = null;
+		gObj.transform.position = dropPos;
+		var e = gObj.GetComponent<EditModeControl>();
+		e.Snap();
+	}
 }
 }

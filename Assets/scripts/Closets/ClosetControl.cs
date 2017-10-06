@@ -133,8 +133,8 @@ namespace Cupboards
 			}
 		}
 
-		public override void Interact(GameObject originator, string hand)
-		{
+		public override void Interact(GameObject originator, string hand){
+			//FIXME this should be rewritten to net messages, see i.e. TableTrigger
 			if (Input.GetKey(KeyCode.LeftControl))
 				return;
 
@@ -144,8 +144,9 @@ namespace Cupboards
 					return;
 				}
 
-				GameObject item = UIManager.Hands.CurrentSlot.PlaceItemInScene();
-				if (item != null) {
+				GameObject item = UIManager.Hands.CurrentSlot.Clear();
+				if (item != null)
+				{
 					var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 					targetPosition.z = -0.2f;
 					PlayerManager.LocalPlayerScript.playerNetworkActions.PlaceItem(UIManager.Hands.CurrentSlot.eventName, transform.position, null);
