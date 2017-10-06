@@ -92,7 +92,7 @@ namespace UI {
             if ( !lps || lps.canNotInteract()) return null;
 
             var item = Item;
-            InputTrigger.Touch(Item);
+//            InputTrigger.Touch(Item);
             Item = null;
             image.sprite = null;
             image.enabled = false;
@@ -123,7 +123,7 @@ namespace UI {
         {
             var item = Clear();
             if ( !item ) return false;
-            InputTrigger.Touch(item);
+//            InputTrigger.Touch(item);
             item.transform.position = pos;
             item.transform.parent = null;
             var e = item.GetComponent<EditModeControl>();
