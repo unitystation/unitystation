@@ -187,7 +187,9 @@ public class FieldOfViewTiled : ThreadedBehaviour
 			Vector2 offsetPos = ShroudCornerOffset(Angle(((Vector2)sourcePosCache - inFieldOFVision[i]).normalized));
 			var rA = new ShroudAction(){ isRayCastAction = true, endPos = inFieldOFVision[i] += offsetPos, offset = offsetPos };
 			shroudStatusQueue.Enqueue(rA);
-		}	
+		}
+
+		inFieldOFVision = null;
 	}
 
 	float Angle(Vector2 dir)
