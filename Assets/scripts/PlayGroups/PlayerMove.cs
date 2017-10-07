@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UI;
@@ -32,11 +33,30 @@ namespace PlayGroup {
                 _isPush = value;} }
 
         private List<KeyCode> pressedKeys = new List<KeyCode>();
+        private bool _isMoving = false;
 
         void Start() {
             playerSprites = gameObject.GetComponent<PlayerSprites>();
             playerSync = GetComponent<PlayerSync>();
         }
+
+        /// dumb temporary solution, but I need this now
+        public bool isMoving {
+            get { return _isMoving; }
+        }
+
+//        private void Update()
+//        {
+//            if (transform.hasChanged)
+//            {
+//                _isMoving = true;
+//                transform.hasChanged = false;
+//            }
+//            else
+//            {
+//                _isMoving = false;
+//            }
+//        }
 
         public PlayerAction SendAction() {
             var actionKeys = new List<int>();

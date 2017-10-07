@@ -42,24 +42,39 @@ namespace UI {
         }
 
         public void Drop() {
-            if (PlayerManager.LocalPlayerScript != null)
-                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
-                return;
-
-            if (UIManager.Hands.CurrentSlot.Item == null)
-				return;
-
+            var lps = PlayerManager.LocalPlayerScript;
+            if ( !lps || lps.canNotInteract()) return;
+            var currentSlot = UIManager.Hands.CurrentSlot;
+            var dropPos = lps.gameObject.transform.position;
+            if ( !currentSlot.CanPlaceItem() ) return;
+//            if ( isNotMovingClient(lps) )
+//            {
+//               // Full client simulation(standing still)
+//                var placedOk = currentSlot.PlaceItem(dropPos);
+//                if ( !placedOk )
+//                {
+//                    Debug.Log("Client dropping error");
+//                }
+//            }
+//            else
+//            {
+                //Only clear slot(while moving, as prediction is shit in this situation)
+                currentSlot.Clear();
+//            }
+            //Message
+            lps.playerNetworkActions.DropItem(currentSlot.eventName);
             SoundManager.Play("Click01");
             Debug.Log("Drop Button");
-            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItem(UIManager.Hands.CurrentSlot.eventName);
-            GameObject item = UIManager.Hands.CurrentSlot.Clear();
-			item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
+        }
+
+        private static bool isNotMovingClient(PlayerScript lps)
+        {
+            return !lps.isServer && !lps.playerMove.isMoving;
         }
 
         public void Throw() {
-            if (PlayerManager.LocalPlayerScript != null)
-                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
-                    return;
+            var lps = PlayerManager.LocalPlayerScript;
+            if ( !lps || lps.canNotInteract()) return;
 
             SoundManager.Play("Click01");
             Debug.Log("Throw Button");
