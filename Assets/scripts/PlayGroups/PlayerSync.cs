@@ -158,9 +158,10 @@ namespace PlayGroup
 		private void Synchronize()
 		{
 			CheckSpaceWalk();
-			
+
 			if (isLocalPlayer && GameData.IsHeadlessServer)
 				return;
+			
 
 			if (!playerMove.isGhost) {
 				if (isLocalPlayer && playerMove.isPushing)
