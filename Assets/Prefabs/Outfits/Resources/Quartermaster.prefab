@@ -52,7 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uniform: /obj/item/clothing/under/rank/cargo
-  id: 
+  jobType: 29
+  allowedAccess: 08000000090000001a0000001e00000022000000260000002c0000003000000031000000320000003500000036000000370000003c00000045000000
   ears: /obj/item/device/radio/headset/headset_cargo
   belt: /obj/item/device/pda/quartermaster
   back: 
@@ -62,9 +63,13 @@ MonoBehaviour:
   suit: 
   head: 
   accessory: 
+  mask: 
   backpack: 
   satchel: 
   duffelbag: 
   box: 
   l_hand: /obj/item/weapon/clipboard
+  l_pocket: 
+  r_pocket: 
+  suit_store: 
   backpack_contents: []

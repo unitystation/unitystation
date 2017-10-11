@@ -52,7 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uniform: /obj/item/clothing/under/rank/engineer
-  id: 
+  jobType: 20
+  allowedAccess: 1a0000001e0000001f00000020000000220000003100000032000000
   ears: /obj/item/device/radio/headset/headset_eng
   belt: /obj/item/weapon/storage/belt/utility/full
   back: 
@@ -70,5 +71,6 @@ MonoBehaviour:
   l_hand: 
   l_pocket: /obj/item/device/pda/engineering
   r_pocket: /obj/item/device/t_scanner
+  suit_store: 
   backpack_contents:
   - /obj/item/device/modular_computer/tablet/preset/advanced

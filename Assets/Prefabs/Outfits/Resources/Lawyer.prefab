@@ -52,7 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uniform: /obj/item/clothing/under/lawyer/bluesuit
-  id: 
+  jobType: 25
+  allowedAccess: 060000001a000000220000002e0000004400000043000000
   ears: /obj/item/device/radio/headset/headset_sec
   belt: /obj/item/device/pda/lawyer
   back: 
@@ -70,4 +71,5 @@ MonoBehaviour:
   l_hand: /obj/item/weapon/storage/briefcase/lawyer
   l_pocket: /obj/item/device/laser_pointer
   r_pocket: /obj/item/clothing/accessory/lawyers_badge
+  suit_store: 
   backpack_contents: []

@@ -52,7 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uniform: /obj/item/clothing/under/rank/mime
-  id: 
+  jobType: 27
+  allowedAccess: 220000001a0000003100000034000000
   ears: 
   belt: /obj/item/device/pda/mime
   back: 
@@ -69,5 +70,7 @@ MonoBehaviour:
   box: 
   l_hand: 
   l_pocket: 
+  r_pocket: 
+  suit_store: 
   backpack_contents:
   - /obj/item/weapon/reagent_containers/food/drinks/bottle/bottleofnothing

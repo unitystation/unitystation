@@ -52,7 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uniform: /obj/item/clothing/under/rank/head_of_personnel
-  id: /obj/item/weapon/card/id/silver
+  jobType: 22
+  allowedAccess: 06000000080000001a0000001b0000001e000000200000001f0000002200000026000000280000002b0000002c0000002f000000300000003100000033000000340000001800000042000000440000004300000015000000
   ears: /obj/item/device/radio/headset/heads/hop
   belt: /obj/item/device/pda/heads/hop
   back: 
@@ -62,10 +63,15 @@ MonoBehaviour:
   suit: 
   head: /obj/item/clothing/head/hopcap
   accessory: 
+  mask: 
   backpack: 
   satchel: 
   duffelbag: 
   box: 
+  l_hand: 
+  l_pocket: 
+  r_pocket: 
+  suit_store: 
   backpack_contents:
   - /obj/item/weapon/storage/box/ids
   - /obj/item/weapon/melee/classic_baton/telescopic

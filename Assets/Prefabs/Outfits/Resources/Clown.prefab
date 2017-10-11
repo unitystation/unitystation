@@ -52,7 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uniform: /obj/item/clothing/under/rank/clown
-  id: 
+  jobType: 12
+  allowedAccess: 180000003100000022000000
   ears: 
   belt: /obj/item/device/pda/clown
   back: 
@@ -69,6 +70,8 @@ MonoBehaviour:
   box: /obj/item/weapon/storage/box/hug/survival
   l_hand: 
   l_pocket: /obj/item/weapon/bikehorn
+  r_pocket: 
+  suit_store: 
   backpack_contents:
   - /obj/item/weapon/stamp/clown
   - /obj/item/weapon/reagent_containers/spray/waterflower

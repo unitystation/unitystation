@@ -52,7 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uniform: /obj/item/clothing/under/rank/curator
-  id: 
+  jobType: 15
+  allowedAccess: 1a00000031000000220000002f000000
   ears: 
   belt: /obj/item/device/pda/curator
   back: 
@@ -70,6 +71,7 @@ MonoBehaviour:
   l_hand: /obj/item/weapon/storage/bag/books
   l_pocket: /obj/item/device/laser_pointer
   r_pocket: /obj/item/key/displaycase
+  suit_store: 
   backpack_contents:
   - /obj/item/weapon/melee/curator_whip
   - /obj/item/soapstone

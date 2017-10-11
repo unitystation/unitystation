@@ -1,10 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using AccessType;
 
 public class JobOutfit : MonoBehaviour {
     public string uniform;
-    public string id;
+	public JobType jobType;
+	public List<Access> allowedAccess;
     public string ears;
     public string belt;
     public string back;

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UI;
+using System.IO;
 
 namespace Equipment
 {
@@ -95,7 +96,6 @@ namespace Equipment
             Dictionary<string, string> gear = new Dictionary<string, string>();
 
             gear.Add("uniform", standardOutfit.uniform);
-            //gear.Add("id", standardOutfit.id);
             gear.Add("ears", standardOutfit.ears);
             gear.Add("belt", standardOutfit.belt);
             gear.Add("back", standardOutfit.back);
@@ -165,9 +165,27 @@ namespace Equipment
                     SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
                 }
             }
-
-            
+			SpawnID(jobOutfit);
         }
+
+		private void SpawnID(JobOutfit outFit){
+
+			GameObject idObj;
+			if (outFit.jobType == JobType.CAPTAIN) {
+				idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.captain,
+				                                                    outFit.jobType, outFit.allowedAccess, name);
+			} else if (outFit.jobType == JobType.HOP || outFit.jobType == JobType.HOS ||
+			           outFit.jobType == JobType.CMO || outFit.jobType == JobType.RD || 
+			           outFit.jobType == JobType.CHIEF_ENGINEER){
+				idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.command,
+																	outFit.jobType, outFit.allowedAccess, name);
+			} else {
+				idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.standard,
+																	outFit.jobType, outFit.allowedAccess, name);
+			}
+
+			SetItem("id", idObj);
+		}
 
         //Hand item sprites after picking up an item (server)
         public void SetHandItem(string slotName, GameObject obj)
