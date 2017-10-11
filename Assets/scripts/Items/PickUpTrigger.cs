@@ -12,6 +12,10 @@ namespace Items {
             CheckSpriteOrder();
         }
         public override void Interact(GameObject originator, string hand) {
+
+			if (originator.GetComponent<PlayerMove>().isGhost)
+				return;
+
             if ( !isServer )
             {
                 var uiSlotObject = new UISlotObject(hand, gameObject);

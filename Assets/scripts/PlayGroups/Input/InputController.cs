@@ -155,6 +155,9 @@ namespace InputControl
 
 		private bool Interact(Transform _transform)
 		{
+			if (playerMove.isGhost)
+				return false;;
+			
 			//attempt to trigger the things in range we clicked on
 			if (PlayerManager.LocalPlayerScript.IsInReach(_transform)) {
 				//check the actual transform for an input trigger and if there is non, check the parent
