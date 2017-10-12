@@ -72,7 +72,7 @@ namespace NPC {
             }
 
             float ranPitch = Random.Range(0.5f, 1.5f);
-            SoundManager.Play("ClownHonk", pitch: ranPitch);
+            SoundManager.Play("ClownHonk", 0.3f, ranPitch);
 
             isMoving = false;
         }

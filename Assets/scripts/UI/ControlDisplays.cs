@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -29,7 +29,15 @@ namespace UI
 		public void SetScreenForLobby()
 		{
 			SoundManager.StopAmbient();
-			SoundManager.PlayRandomTrack();
+			if (Time.time > 10f) {
+				SoundManager.PlayRandomTrack();
+			} else {
+				//Start the patchmanager
+				GameObject patchManager = Resources.Load("PatchManager") as GameObject;
+				if(patchManager != null){
+					Instantiate(patchManager);
+				}
+			}
 			ResetUI(); //Make sure UI is back to default for next play
 			hudRight.gameObject.SetActive(false);
 			hudBottom.gameObject.SetActive(false);

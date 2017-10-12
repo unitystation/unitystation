@@ -13,7 +13,7 @@ namespace Items {
         }
         public override void Interact(GameObject originator, string hand) {
 
-			if (originator.GetComponent<PlayerMove>().isGhost)
+			if (originator.GetComponent<PlayerScript>().canNotInteract())
 				return;
 
             if ( !isServer )

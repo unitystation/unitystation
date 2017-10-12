@@ -57,13 +57,18 @@ public class SoundManager: MonoBehaviour {
         }
     }
 
-    public static void Play(string name, float volume = 1, float pitch = -1, float time = 0) {
+    public static void Play(string name, float volume, float pitch = -1, float time = 0) {
         if(pitch > 0)
             Instance.sounds[name].pitch = pitch;
         Instance.sounds[name].time = time;
         Instance.sounds[name].volume = volume;
         Instance.sounds[name].Play();
     }
+
+	public static void Play(string name)
+	{
+		Instance.sounds[name].Play();
+	}
 
 	public static void Stop(string name){
 		if(Instance.sounds.ContainsKey(name)){

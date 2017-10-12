@@ -9,7 +9,6 @@ namespace UI
 	public class GUI_PlayerOptions: MonoBehaviour
 	{
 		public Text title;
-		public Text versionT;
 
 		public InputField playerNameInput;
 		public InputField serverAddressInput;
@@ -22,8 +21,6 @@ namespace UI
 		public GameObject screen_WrongVersion;
 		public GameObject button;
 
-		private string versionCheck = "http://doobly.izz.moe/unitystation/checkversion.php";
-		private const string currentVersion = "0.1.3";
 		private const string UserNamePlayerPref = "PlayerName";
 
 		private const string DefaultServer = "LocalHost";
@@ -31,8 +28,6 @@ namespace UI
 
 		public void Start()
 		{
-			versionT.text = "V: " + currentVersion;
-			StartCoroutine(CheckVersion());
             networkManager = CustomNetworkManager.Instance;
 			screen_PlayerName.SetActive(true);
 			screen_ConnectTo.SetActive(false);
@@ -42,21 +37,6 @@ namespace UI
 			}
 			serverAddressInput.text = DefaultServer;
 			portInput.text = DefaultPort;
-		}
-
-		IEnumerator CheckVersion(){
-			WWW verCheck = new WWW(versionCheck);
-			yield return verCheck;
-			if (verCheck.error != null) {
-			//error stuff
-			} else {
-				if (verCheck.text != currentVersion) {
-					Debug.Log("Wrong Version");
-					WrongVersion();
-				} else {
-					Debug.Log("Correct Version");
-				}
-			}
 		}
 
 		void WrongVersion(){
