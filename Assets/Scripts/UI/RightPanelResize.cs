@@ -13,6 +13,7 @@ namespace UI{
 		public RectTransform hudRight;
 		public RectTransform hudBottom;
 		public GameObject returnPanelButton;
+		public RectTransform overlayCrit;
 		float hudRight_dist;
 		float leftRange;
 		float rightRange;
@@ -92,6 +93,7 @@ namespace UI{
                 hudBottom.anchoredPosition = newPos;
 			}
 			UIManager.DisplayManager.SetCameraFollowPos(returnPanelButton.activeSelf);
+			UIManager.OverlayCrits.AdjustOverlayPos();
 		}
 
 		/// <summary>

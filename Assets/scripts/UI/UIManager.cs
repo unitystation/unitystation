@@ -19,6 +19,7 @@ namespace UI
 		public DisplayManager displayManager;
 		public Text toolTip;
 		public InventorySlotCache inventorySlotCache;
+		public OverlayCrits overlayCrits;
 
 		private static UIManager uiManager;
 
@@ -95,6 +96,12 @@ namespace UI
 		public static InventorySlotCache InventorySlots {
 			get {
 				return Instance.inventorySlotCache;
+			}
+		}
+
+		public static OverlayCrits OverlayCrits {
+			get {
+				return Instance.overlayCrits;
 			}
 		}
 

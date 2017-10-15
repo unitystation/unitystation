@@ -18,7 +18,7 @@ public class Camera2DFollow : MonoBehaviour
 	private float lookAheadSave;
 	private float lookAheadReturnSpeed = 0.5f;
 	private float lookAheadMoveThreshold = 0.1f;
-	private float yOffSet = -1f;
+	private float yOffSet = -0.5f;
 	public float xOffset = 4f;
 	private float offsetZ = -1f;
 
