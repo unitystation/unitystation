@@ -18,6 +18,9 @@ namespace Matrix {
 
         [NonSerialized]
         private List<GameObject> structures = new List<GameObject>();
+        
+        [NonSerialized]
+        private List<GameObject> others = new List<GameObject>();
 
         [NonSerialized]
 		private List<ObjectBehaviour> items = new List<ObjectBehaviour>();
@@ -44,6 +47,27 @@ namespace Matrix {
         public Section Section {
             get { return section; }
             set { section = value; UpdateSection(); }
+        }
+
+        /// <summary>
+        /// Looking for non-registered EditModeControl-based stuff like wallmounts
+        /// </summary>
+        public bool TryAddOthers(GameObject gameObject)
+        {
+            var registerTile = gameObject.GetComponent<RegisterTile>();
+            if ( registerTile ) return false;
+            var emc = gameObject.GetComponent<EditModeControl>();
+            if ( !emc ) return false;
+            var ambientTile = gameObject.GetComponent<AmbientTile>();
+            var objectBehaviour = gameObject.GetComponent<ObjectBehaviour>();
+            if ( ambientTile || objectBehaviour ) return false;
+            if ( !others.Contains(gameObject) )
+            {
+                others.Add(gameObject);
+                //todo print sprite dimensions!
+                Debug.LogFormat("{0},{1}: added {2}", gameObject.transform.position.x, gameObject.transform.position.y, gameObject.name);
+            }
+            return true;
         }
 
         public bool TryAddTile(GameObject gameObject) {
@@ -224,6 +248,11 @@ namespace Matrix {
 
         public List<ObjectBehaviour> GetPlayers(){
 			List<ObjectBehaviour> newList = new List<ObjectBehaviour>(players);
+            return newList;
+        }
+        
+        public List<GameObject> GetOthers(){
+			List<GameObject> newList = new List<GameObject>(others);
             return newList;
         }
 
