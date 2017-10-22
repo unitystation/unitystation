@@ -12,23 +12,57 @@ namespace UI{
 
 		public RectTransform hudRight;
 		public RectTransform hudBottom;
+		public RectTransform panelRight;
 		public GameObject returnPanelButton;
 		public RectTransform overlayCrit;
 		float hudRight_dist;
 		float leftRange;
 		float rightRange;
 		float cacheWidth;
+		Vector2 originalHudSize;
+		float hudAspect;
+		bool monitorWindow;
+		float screenWidthCache;
+		float screenHeightCache;
+		float cacheHudAnchor;
 
 		void Start(){
 			cacheWidth = panelRectTransform.sizeDelta.x;
 			leftRange = maxSize.x - cacheWidth;
 			rightRange = cacheWidth - minSize.x;
+			originalHudSize = hudBottom.sizeDelta;
+			originalHudSize.x = 1920f - Mathf.Abs(originalHudSize.x);
+			hudAspect = originalHudSize.x / originalHudSize.y;
+			cacheHudAnchor = Mathf.Abs(hudBottom.anchoredPosition.x);
+			StartCoroutine(WaitForDisplay());
 		}
+
+		IEnumerator WaitForDisplay(){
+			yield return new WaitForSeconds(0.2f);
+			screenWidthCache = Screen.width;
+			screenHeightCache = Screen.height;
+			AdjustHudBottom(panelRectTransform.sizeDelta);
+			monitorWindow = true;
+		}
+
+		private void Update()
+		{
+			//Check if window has changed and adjust the bottom hud
+			if(monitorWindow){
+				if(screenWidthCache != Screen.width ||
+				   screenHeightCache != Screen.height){
+					AdjustHudBottom(panelRectTransform.sizeDelta);
+					screenWidthCache = Screen.width;
+					screenHeightCache = Screen.height;
+				}
+			}
+		}
+
 		public override void OnPointerDown(PointerEventData data){
 			hudRight_dist = transform.position.x - hudRight.position.x;
 			base.OnPointerDown(data);
 		}
-		//TODO handle max size on x and hide panel when below min x (showing the transparent chatbox)
+		//TODO showing the transparent chatbox when panel is hidden
 		public override void OnDrag(PointerEventData data){
 			if (panelRectTransform == null || !isDragging)
 				return;
@@ -52,10 +86,16 @@ namespace UI{
 				panelRectTransform.sizeDelta = sizeDelta;
 				isDragging = false;
 				Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+				//this part below ensures that the hudBottom is at the correct size
+				//it fixes a bug where the user resizes rightpanel super fast and it misses the width adjustment
+				//of hudBottom
+				Vector2 hudBottomSizeDelta = hudBottom.sizeDelta;
+				hudBottomSizeDelta.x = -cacheWidth;
+				hudBottom.sizeDelta = hudBottomSizeDelta;
 			}
 
 			AdjustHudRight();
-			AdjustHudBottom();
+			AdjustHudBottom(sizeDelta);
 		}
 
 		void AdjustHudRight(){
@@ -64,34 +104,29 @@ namespace UI{
 			hudRight.position = newHudRight_Pos;
 		}
 
-		void AdjustHudBottom(){
-			if (panelRectTransform.sizeDelta.x > cacheWidth) {
-				Vector3 newScale = hudBottom.localScale;
-				newScale.x = (((maxSize.x - panelRectTransform.sizeDelta.x) / leftRange)
-				* 0.4f) + 0.6f;
-				newScale.y = newScale.x;
-				hudBottom.localScale = newScale;
+		void AdjustHudBottom(Vector2 panelRightSizeDelta){
+			Vector2 hudBottomSizeDelta = hudBottom.sizeDelta;
+			//This is for pulling the rightpanel to the right of the screen from default position
+			if (panelRectTransform.sizeDelta.x < cacheWidth) {
+				//Calculate the new anchor point for hudBottom in the right direction of scale
+				float panelRightProgress = (cacheWidth - panelRight.rect.width) / cacheWidth;
+				float newAnchorPos = Mathf.Lerp(cacheHudAnchor, 0f, panelRightProgress);
+				Vector2 anchoredPos = hudBottom.anchoredPosition;
+				anchoredPos.x = -newAnchorPos;
+				hudBottom.anchoredPosition = anchoredPos;
 
-                Vector3 newPos = hudBottom.anchoredPosition;
-                newPos.x = (((maxSize.x - panelRectTransform.sizeDelta.x) / leftRange)
-                * 51f) + 2f;
-                hudBottom.anchoredPosition = newPos;
-			} else {
-				Vector3 newScale = hudBottom.localScale;
-				newScale.x = 1.2f - (((panelRectTransform.sizeDelta.x - minSize.x) / rightRange)
-					* 0.2f);
-				newScale.y = newScale.x;
-				hudBottom.localScale = newScale;
-
-                Vector3 newPos = hudBottom.anchoredPosition;
-				if (panelRectTransform.sizeDelta.x > minSize.x) {
-					newPos.x = (((rightRange - (panelRectTransform.sizeDelta.x - minSize.x)) / rightRange)
-					* 104f) + 51f;
-				} else {
-					newPos.x = 155f;
-				}
-                hudBottom.anchoredPosition = newPos;
+			} else { // this is for the left direction from the default position
+				float panelRightProgress = (cacheWidth - panelRight.rect.width) / cacheWidth;
+				float newAnchorPos = Mathf.Lerp(cacheHudAnchor, 562f, Mathf.Abs(panelRightProgress));
+				Vector2 anchoredPos = hudBottom.anchoredPosition;
+				anchoredPos.x = -newAnchorPos;
+				hudBottom.anchoredPosition = anchoredPos;
+				hudBottomSizeDelta.x = -panelRightSizeDelta.x;
+				hudBottom.sizeDelta = hudBottomSizeDelta;
 			}
+			//KEEP ASPECT RATIO:
+			hudBottomSizeDelta.y = (hudBottom.rect.width) * originalHudSize.y / originalHudSize.x;
+			hudBottom.sizeDelta = hudBottomSizeDelta;
 			UIManager.DisplayManager.SetCameraFollowPos(returnPanelButton.activeSelf);
 			UIManager.OverlayCrits.AdjustOverlayPos();
 		}
@@ -106,7 +141,7 @@ namespace UI{
 			sizeDelta.x = cacheWidth;
 			panelRectTransform.sizeDelta = sizeDelta;
 			AdjustHudRight();
-			AdjustHudBottom();
+			AdjustHudBottom(sizeDelta);
 		}
 }
 }

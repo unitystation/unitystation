@@ -59,6 +59,7 @@ namespace UI
 				Mathf.Clamp(sizeDelta.y, minSize.y, maxSize.y)
 			);
 
+
 			panelRectTransform.sizeDelta = sizeDelta;
 		}
 

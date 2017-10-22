@@ -19,11 +19,26 @@ public class DisplayManager : MonoBehaviour
     public Light2D.LightingSystem lightingSystem;
     public Camera mainCamera;
 	public FieldOfViewTiled fieldOfView;
+	[Header("All canvas elements need to be added here")]
+	public Canvas[] uiCanvases;
     private int width;
     private int height;
 
-    private bool hasInt = false;
+	private CanvasScaler canvasScaler;
+	public Vector2 ScreenScale{
+		get {
+			if(canvasScaler == null){
+				canvasScaler = GetComponentInParent<CanvasScaler>();
+			}
 
+			if(canvasScaler){
+				return new Vector2(canvasScaler.referenceResolution.x / Screen.width, 
+				                   canvasScaler.referenceResolution.y / Screen.height);
+			} else {
+				return Vector2.one;
+			}
+		}
+	}
 	void Awake(){
 		if (Instance == null) {
 			Instance = this;
@@ -31,17 +46,18 @@ public class DisplayManager : MonoBehaviour
 	}
     private void Start()
     {
-        if (PlayerPrefs.HasKey("reso"))
-        {
-			resoDropDown.value = PlayerPrefs.GetInt("reso");
-			SetResolution();
-        }
-        else
-        {
-			resoDropDown.value = 1;
-			SetResolution();
-        }
-        hasInt = true;
+   //     if (PlayerPrefs.HasKey("reso"))
+   //     {
+			//resoDropDown.value = PlayerPrefs.GetInt("reso");
+			//SetResolution();
+   //     }
+   //     else
+   //     {
+			//resoDropDown.value = 1;
+			//SetResolution();
+        //}
+
+		SetCameraFollowPos();
     }
 
 	void OnEnable(){
@@ -52,7 +68,8 @@ public class DisplayManager : MonoBehaviour
 		SceneManager.sceneLoaded -= SetUpScene;
 	}
 
-	void SetUpScene(Scene scene, LoadSceneMode mode){
+	void SetUpScene(Scene scene, LoadSceneMode mode)
+	{
 		if (GameData.IsInGame) {
 			fieldOfView = FindObjectOfType<FieldOfViewTiled>();
 		}
@@ -81,17 +98,6 @@ public class DisplayManager : MonoBehaviour
 		if (GameData.IsInGame) {
 			StartCoroutine(WaitForResoSet());
         }
-        if (lightingSystem != null){
-            lightingSystem._renderTargetTexture = new RenderTexture(width, height, -2, RenderTextureFormat.ARGB32);
-        }
-        else{
-            lightingSystem = FindObjectOfType<Light2D.LightingSystem>();
-			if (lightingSystem != null && lightingSystem.enabled){
-                mainCamera = lightingSystem.GetComponent<Camera>();
-                lightingSystem._renderTargetTexture = new RenderTexture(width, height, -2, RenderTextureFormat.ARGB32);
-                lightingSystem._camera.targetTexture = lightingSystem._renderTargetTexture;
-            }
-        }
     }
 
 	IEnumerator WaitForResoSet(){
@@ -109,13 +115,4 @@ public class DisplayManager : MonoBehaviour
 		Camera2DFollow.followControl.listenerObj.transform.localPosition = new Vector3(-xOffSet, 1f); //set listenerObj's position to player's pos
 		Camera2DFollow.followControl.xOffset = xOffSet;
 	}
-
-    private void LateUpdate()
-    {
-		if (hasInt) {
-			if (Screen.width != width || Screen.height != height) {
-				Screen.SetResolution(width, height, false);
-			}
-		}
-    }
 }
