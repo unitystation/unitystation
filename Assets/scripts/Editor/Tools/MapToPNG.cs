@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Matrix;
@@ -31,17 +30,13 @@ public class MapToPNG : Editor
                     continue;
                 var spriteRenderers = new List<SpriteRenderer>();
 
-                var gameObjects = /*n.GetOthers();//*/n.GetTiles();
+                var gameObjects = n.GetTiles();
 
-                //Other EditModeControls (like wallmounts)
-//                  gameObjects.AddRange(n.GetOthers()/*.FindAll(g => !g.name.Contains("igh"))*/);
-                
                 // +Items
                 foreach ( var item in n.GetItems() )
                 {
                     gameObjects.Add(item.gameObject);
                 }
-
                 
                 foreach (var t in gameObjects)
                 {
@@ -85,8 +80,8 @@ public class MapToPNG : Editor
                             {
                                 if ( colors.Length < i )
                                 {
-                                    Debug.LogFormat("{8}: rX={0}, rY={1}, tW={2}, tH={3}, lX={4}, lY={5}, texX={6}, texY={7}", 
-                                        rectX, rectY, texWidth, texHeight, localX, localY, texX, texY, sprite.name);
+//                                    Debug.LogFormat("{8}: rX={0}, rY={1}, tW={2}, tH={3}, lX={4}, lY={5}, texX={6}, texY={7}", 
+//                                        rectX, rectY, texWidth, texHeight, localX, localY, texX, texY, sprite.name);
                                     Debug.LogWarningFormat("{2}: No such index colors[{0}]! colors.Length={1}", i, colors.Length, sprite.name);
                                     continue;
                                 }
@@ -109,7 +104,7 @@ public class MapToPNG : Editor
     }
 
 
-    private static MatrixNode[,] GetMappedNodes()
+    internal static MatrixNode[,] GetMappedNodes()
     {
         var keys = Matrix.Matrix.Nodes.keys;
         var values = Matrix.Matrix.Nodes.values;
@@ -125,8 +120,7 @@ public class MapToPNG : Editor
             var v = values[i];
 
             if (v.GetTiles().Count > 0 
-                || v.GetItems().Count > 0
-                /*|| v.GetOthers().Count > 0*/)
+                || v.GetItems().Count > 0)
             {
                 nodes.Add(v);
                 x.Add((int) (k >> 32));
@@ -152,7 +146,7 @@ public class MapToPNG : Editor
         return nodesMapped;
     }
 
-    private static int CompareSpriteRenderer(SpriteRenderer x, SpriteRenderer y)
+    internal static int CompareSpriteRenderer(SpriteRenderer x, SpriteRenderer y)
     {
         var x_index = sortingLayerNames.FindIndex(s => s.Equals(x.sortingLayerName));
         var y_index = sortingLayerNames.FindIndex(s => s.Equals(y.sortingLayerName));
