@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 namespace UI{
 	/// <summary>
 	/// Custom ResizePanel for the PANEL_Right UI element
+	/// FIXME: Currently also controlling game screen responsiveness
+	/// FIXME: move screen responsive beaviour to display manager (when it is finished)
 	/// </summary>
 	public class RightPanelResize : ResizePanel {
 
@@ -25,6 +27,7 @@ namespace UI{
 		float screenWidthCache;
 		float screenHeightCache;
 		float cacheHudAnchor;
+		bool isFullScreen = false;
 
 		void Start(){
 			cacheWidth = panelRectTransform.sizeDelta.x;
@@ -51,12 +54,23 @@ namespace UI{
 			if(monitorWindow){
 				if(screenWidthCache != Screen.width ||
 				   screenHeightCache != Screen.height){
-					AdjustHudBottom(panelRectTransform.sizeDelta);
+					Invoke("AdjustHudBottomDelay", 0.1f);
 					screenWidthCache = Screen.width;
 					screenHeightCache = Screen.height;
 				}
+
+				if (isFullScreen != Screen.fullScreen){
+					isFullScreen = Screen.fullScreen;
+					Invoke("AdjustHudBottomDelay", 0.1f);
+				}
 			}
 		}
+
+		//It takes some time for the screen to redraw, wait for 0.1f
+		void AdjustHudBottomDelay(){
+			AdjustHudBottom(panelRectTransform.sizeDelta);
+		}
+
 
 		public override void OnPointerDown(PointerEventData data){
 			hudRight_dist = transform.position.x - hudRight.position.x;
