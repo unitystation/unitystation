@@ -12,7 +12,6 @@ public class EditModeControl: MonoBehaviour
 	void Start()
 	{
 		Snap(); // snap on instantiate
-		Matrix.Matrix.At(transform.position).TryAddOthers(gameObject);
 
 	}
 
