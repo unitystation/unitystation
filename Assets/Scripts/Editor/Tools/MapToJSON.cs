@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using FullSerializer;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MapToJSON : Editor
 {
@@ -123,12 +126,14 @@ public class MapToJSON : Editor
         {
             Debug.Log(layer.Value);
         }
+        
 
 //        mapTexture.SetPixels(0, 0, nodesMapped.GetLength(1) * 32, nodesMapped.GetLength(0) * 32, colors);
 //        mapTexture.Apply();
 //        byte[] bytes = mapTexture.EncodeToPNG();
-//        new fsSerializer().TrySerialize()
-//        File.WriteAllBytes(Application.dataPath + "/../" + SceneManager.GetActiveScene().name + ".png", bytes);
+        fsData data;
+        new fsSerializer().TrySerialize(tilemapLayers, out data);
+        File.WriteAllText(Application.dataPath + "/../" + SceneManager.GetActiveScene().name + ".json", fsJsonPrinter.PrettyJson(data));
 
         Debug.Log("Export kinda finished");
     }
