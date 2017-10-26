@@ -5,7 +5,6 @@ using UnityEngine.Tilemaps;
 [Serializable]
 public class UniTile : Tile
 {
-    //TODO add windows to dmi
     [SerializeField]
     private Matrix4x4 m_ChildTransform = Matrix4x4.identity;
 

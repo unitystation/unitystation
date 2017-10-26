@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using FullSerializer;
+using Matrix;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,42 +13,15 @@ public class MapToJSON : Editor
     [MenuItem("Tools/Export map (JSON)")]
     static void Map2JSON()
     {
-        //TODO: for each layer(GO or SR+OrderInLayer): get mapped nodes
-        // then detect dumb stuff: floors(RTile: Floor) and walls(RTile: Wall)
-        // for dumb stuff: create new Tile at its coords with:
-        //     - source GO's transform
-        //     - no gameObject?
-        //     - sprite: floor - just the sprite; walls - figure out spritesheet and select zero sprite
         // for smart stuff(doors, windoors): create new Tile with transform, no sprite and source GO (?)
         // 
         // export: (grilles, airlocks, firelocks, disposal, solars, wallmounts(incl.lights), furniture(chairs, beds, tables))
         /*  {
-         *  "name/layer": "floor"
-         *  (int[2,] -> Vector3Int[]) "positions":
-         *    [
-         *      { 1, 1 },
-         *      { 1, 2 }
-         *    ]
-         *  (UniTile[]) "tiles":
-         *    [ 
-         *      {
-         *       Name = GO.name
-         *       Transform = Matrix4x4.TRS (GO localoffset, GO rotation, GO scale)
-         *       (if only one child SR found) ChildTransform = Matrix4x4.TRS (SR localoffset, SR rotation, SR scale)
-         *       Sprite = SR.sprite
          *       ColliderType = Grid (all but wallmounts), none (wallmounts)
-         *      },
-         *      { ...
-         *      }
-         *    ]
-         *  }
          */
 
         var nodesMapped = MapToPNG.GetMappedNodes();
         var tilemapLayers = new Dictionary<string, TilemapLayer>();
-
-//        var mapTexture = new Texture2D(nodesMapped.GetLength(1) * 32, nodesMapped.GetLength(0) * 32);
-//        Color[] colors = new Color[nodesMapped.GetLength(1) * 32 * nodesMapped.GetLength(0) * 32];
 
         for (int y = 0; y < nodesMapped.GetLength(0); y++)
         {
@@ -58,32 +33,60 @@ public class MapToJSON : Editor
                     continue;
 
                 var spriteRenderers = new List<SpriteRenderer>();
-//                var gameObjects = new List<GameObject>();
-
+                
                 foreach (var tile in node.GetTiles())
                 {
                     var children = tile.GetComponentsInChildren<SpriteRenderer>();
                     if ( children == null || children.Length < 1 ) continue;
                     
-                    var spriteRenderer = children[0];
-                    if ( !spriteRenderer || !spriteRenderer.sprite || spriteRenderer.sortingLayerID == 0 ) 
+                    var renderer0 = children[0];
+                    if ( thisRendererSucks(renderer0) ) 
                         continue;
-                    if ( children.Length.Equals(1) )
+                    if ( (children.Length.Equals(1) || SpritesMatch(children)) && renderer0.sortingLayerID != 0 )
                     {
-                        spriteRenderers.Add(spriteRenderer);
+                        renderer0.name = renderer0.sprite.name;
+                        spriteRenderers.Add(renderer0);
                     }
                     else
                     {
-                        Debug.LogFormat("Several SR children detected, this one's called {0}, mimicking it", spriteRenderer.sprite.name);
-                        GameObject singleChild = new GameObject(tile.name+"_singleChild");
-                        singleChild.transform.parent = tile.transform;
-                        var singleSr = singleChild.AddComponent<SpriteRenderer>();
-                        singleSr.name = spriteRenderer.name;
-                        singleSr.sprite = spriteRenderer.sprite;
-                        singleSr.sortingLayerName = spriteRenderer.sortingLayerName;
-                        singleSr.sortingLayerID = spriteRenderer.sortingLayerID;
-                        singleSr.sortingOrder = spriteRenderer.sortingOrder;
-                        spriteRenderers.Add(singleSr);
+                        var tileconnects = 0;
+                        foreach ( var child in children )
+                        {
+                            if ( thisRendererSucks(child) || child.sortingLayerID == 0 ) 
+                                continue;
+                            if ( child.GetComponent<TileConnect>() )
+                            {
+                                tileconnects++;
+                                if ( tileconnects != 4 ) continue;
+                                if ( tileconnects > 4 )
+                                {
+                                    Debug.LogWarningFormat("{0} — wow man what the heck?", child.name);
+                                }
+                                // grouping four tileconnect sprites into a single thing
+                                GameObject singleChild = new GameObject(tile.name+"_singleChild");
+                                singleChild.transform.parent = tile.transform;
+                                singleChild.transform.position = Vector3.zero;
+                                var singleSr = singleChild.AddComponent<SpriteRenderer>();
+                                singleSr.name = renderer0.name;
+                                singleSr.sprite = renderer0.sprite;
+                                singleSr.sortingLayerName = renderer0.sortingLayerName;
+                                singleSr.sortingLayerID = renderer0.sortingLayerID;
+                                singleSr.sortingOrder = renderer0.sortingOrder;
+                                var spriteName = singleSr.sprite.name;
+                                if ( spriteName.Contains("_") )
+                                {
+                                    singleSr.name = "tc_" + spriteName.Substring(0, spriteName.LastIndexOf("_", StringComparison.Ordinal));
+                                }
+                                spriteRenderers.Add(singleSr);
+                            }
+                            else
+                            {
+                                child.name = child.sprite.name;
+                                spriteRenderers.Add(child);
+                            }
+                            
+                        }
+
                     }       
                 }
 
@@ -91,31 +94,34 @@ public class MapToJSON : Editor
 
                 foreach (var sr in spriteRenderers)
                 {
-                    //todo determine all sortinglayers and add each SR to corresponding slayer
                     var currentLayerName = GetSortingLayerName(sr);
                     TilemapLayer tilemapLayer;
-                    //following code is smelly
                     if ( tilemapLayers.ContainsKey(currentLayerName) )
                     {
                         tilemapLayer = tilemapLayers[currentLayerName];
                     }
                     else
                     {
-                        tilemapLayer = new TilemapLayer(currentLayerName);
+                        tilemapLayer = new TilemapLayer();
                         tilemapLayers[currentLayerName] = tilemapLayer;
                     }
                     if ( tilemapLayer == null )
                     {
                         continue;
                     }
-                    UniTile instance = CreateInstance<UniTile>();
-                    var parentObject = sr.gameObject;
-                    instance.name = parentObject.name;
+                    UniTileData instance = CreateInstance<UniTileData>();
+                    var parentObject = sr.transform.parent.gameObject;
+                    if ( parentObject )
+                    {
+                        instance.Name = parentObject.name;
+                    }
                     var childTransform = sr.transform;
                     instance.ChildTransform = Matrix4x4.TRS(childTransform.localPosition, childTransform.localRotation, childTransform.localScale);
                     var parentTransform = sr.transform.parent.gameObject.transform;
-                    instance.transform = Matrix4x4.TRS(parentTransform.localPosition, parentTransform.localRotation, parentTransform.localScale);
-                    instance.sprite = sr.sprite;
+                    instance.Transform = Matrix4x4.TRS(parentTransform.localPosition, parentTransform.localRotation, parentTransform.localScale);
+                    instance.OriginalSpriteName = sr.sprite.name;
+                    instance.SpriteName = sr.name;
+                    instance.SpriteSheet = AssetDatabase.GetAssetPath(sr.sprite.GetInstanceID()).Replace("Assets/Resources/","").Replace("Assets/textures/","").Replace("Resources/","").Replace(".png","");
                     tilemapLayer.Add(x, y, instance);
 
                 }
@@ -124,20 +130,49 @@ public class MapToJSON : Editor
 
         foreach ( var layer in tilemapLayers )
         {
-            Debug.Log(layer.Value);
+            Debug.LogFormat("{0}: {1}", layer.Key, layer.Value);
         }
         
-
-//        mapTexture.SetPixels(0, 0, nodesMapped.GetLength(1) * 32, nodesMapped.GetLength(0) * 32, colors);
-//        mapTexture.Apply();
-//        byte[] bytes = mapTexture.EncodeToPNG();
         fsData data;
         new fsSerializer().TrySerialize(tilemapLayers, out data);
         File.WriteAllText(Application.dataPath + "/../" + SceneManager.GetActiveScene().name + ".json", fsJsonPrinter.PrettyJson(data));
 
         Debug.Log("Export kinda finished");
     }
-    
+
+    private static bool thisRendererSucks(SpriteRenderer spriteRenderer)
+    {
+        return !spriteRenderer || !spriteRenderer.sprite;
+    }
+
+    /// <summary>
+    /// check whether all SR contain the same sprite
+    /// </summary>
+    private static bool SpritesMatch(SpriteRenderer[] children)
+    {
+        if ( children.Length < 2 )
+        {
+            return false;
+        }
+        string spritename = "";
+        foreach ( var child in children )
+        {
+            if ( child.sortingLayerID == 0 )
+            {
+                continue;
+            }
+            if ( spritename.Equals("") )
+            {
+                spritename = child.sprite.name;
+            }
+            if ( !spritename.Equals(child.sprite.name) )
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     internal static HashSet<string> GetSortingLayerOrderNames(IEnumerable<SpriteRenderer> renderers)
     {
         var hs = new HashSet<string>();

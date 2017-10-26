@@ -144636,7 +144636,7 @@
     "icon": "walls/wall_reinforced.dmi",
     "states": [
       {
-        "unityName": "wall_reinforced_0",
+        "unityName": "tc_wall_reinforced",
         "state": "",
         "offset": 0,
         "frames": 1,
@@ -144648,7 +144648,7 @@
     "icon": "walls/wall.dmi",
     "states": [
       {
-        "unityName": "wall_0",
+        "unityName": "tc_wall",
         "state": "",
         "offset": 0,
         "frames": 1,
@@ -144660,7 +144660,7 @@
     "icon": "walls/rock_wall.dmi",
     "states": [
       {
-        "unityName": "rock_wall_0",
+        "unityName": "tc_rock_wall",
         "state": "",
         "offset": 0,
         "frames": 1,
@@ -144672,7 +144672,7 @@
     "icon": "walls/rusty_reinforced_wall.dmi",
     "states": [
       {
-        "unityName": "rusty_reinforced_wall_0",
+        "unityName": "tc_rusty_reinforced_wall",
         "state": "",
         "offset": 0,
         "frames": 1,
@@ -144684,7 +144684,7 @@
     "icon": "walls/rusty_wall.dmi",
     "states": [
       {
-        "unityName": "rusty_wall_0",
+        "unityName": "tc_rusty_wall",
         "state": "",
         "offset": 0,
         "frames": 1,
@@ -144696,7 +144696,7 @@
     "icon": "walls/sandstone_wall.dmi",
     "states": [
       {
-        "unityName": "sandstone_wall_0",
+        "unityName": "tc_sandstone_wall",
         "state": "",
         "offset": 0,
         "frames": 1,
@@ -144708,7 +144708,67 @@
     "icon": "walls/shuttle_wall.dmi",
     "states": [
       {
-        "unityName": "shuttle_wall_0",
+        "unityName": "tc_shuttle_wall",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "tables/table.dmi",
+    "states": [
+      {
+        "unityName": "tc_table",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "tables/reinforced_table.dmi",
+    "states": [
+      {
+        "unityName": "tc_reinforced_table",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "Floors/lattice.dmi",
+    "states": [
+      {
+        "unityName": "tc_lattice",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "Floors/catwalk.dmi",
+    "states": [
+      {
+        "unityName": "tc_catwalk",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "windows/window_reinforced.dmi",
+    "states": [
+      {
+        "unityName": "tc_window_reinforced",
         "state": "",
         "offset": 0,
         "frames": 1,
