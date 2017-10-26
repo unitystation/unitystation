@@ -22,6 +22,7 @@ public class MapToJSON : Editor
 
         var nodesMapped = MapToPNG.GetMappedNodes();
         var tilemapLayers = new Dictionary<string, TilemapLayer>();
+        var tempGameObjects = new List<GameObject>();
 
         for (int y = 0; y < nodesMapped.GetLength(0); y++)
         {
@@ -63,27 +64,32 @@ public class MapToJSON : Editor
                                     Debug.LogWarningFormat("{0} — wow man what the heck?", child.name);
                                 }
                                 // grouping four tileconnect sprites into a single thing
-//                                GameObject singleChild = Instantiate(child.gameObject, Vector3.zero, Quaternion.identity, tile.transform);
-                                var singleChild = new GameObject(child.gameObject.name + " singleChild");
-                                singleChild.transform.parent = tile.transform;
-                                singleChild.transform.localPosition = Vector3.zero;
-                                singleChild.transform.localRotation = Quaternion.identity;
+                                GameObject tcMergeGameObject = Instantiate(child.gameObject, tile.transform.localPosition, Quaternion.identity, tile.transform);
+                                tempGameObjects.Add(tcMergeGameObject);
+//                                var singleChild = new GameObject(child.gameObject.name + " singleChild");
+//                                singleChild.transform.parent = tile.transform;
+//                                singleChild.transform.localPosition = Vector3.zero;
+//                                singleChild.transform.localRotation = Quaternion.identity;
                              
 //                                singleChild.transform.parent = tile.transform;
 //                                singleChild.transform.position = Vector3.zero;
                                 
-                                var singleSr = singleChild.AddComponent<SpriteRenderer>();
-                                singleSr.name = child.name;
-                                singleSr.sprite = child.sprite;
-                                singleSr.sortingLayerName = child.sortingLayerName;
-                                singleSr.sortingLayerID = child.sortingLayerID;
-                                singleSr.sortingOrder = child.sortingOrder;
-                                var spriteName = singleSr.sprite.name;
+//                                var singleSr = singleChild.AddComponent<SpriteRenderer>();
+//                                singleSr.name = child.name;
+//                                singleSr.sprite = child.sprite;
+//                                singleSr.sortingLayerName = child.sortingLayerName;
+//                                singleSr.sortingLayerID = child.sortingLayerID;
+//                                singleSr.sortingOrder = child.sortingOrder;
+//                                var spriteName = singleSr.sprite.name;
+                                var childClone = tcMergeGameObject.GetComponent<SpriteRenderer>();
+                                var spriteName = childClone.sprite.name;
+                                
                                 if ( spriteName.Contains("_") )
                                 {
-                                    singleSr.name = "tc_" + spriteName.Substring(0, spriteName.LastIndexOf("_", StringComparison.Ordinal));
+                                    childClone.name = "tc_" + spriteName.Substring(0, spriteName.LastIndexOf("_", StringComparison.Ordinal));
+//                                    singleSr.name = "tc_" + spriteName.Substring(0, spriteName.LastIndexOf("_", StringComparison.Ordinal));
                                 }
-                                spriteRenderers.Add(singleSr);
+                                spriteRenderers.Add(/*singleSr*/childClone);
                             }
                             else
                             {
@@ -143,6 +149,11 @@ public class MapToJSON : Editor
         new fsSerializer().TrySerialize(tilemapLayers, out data);
         File.WriteAllText(Application.dataPath + "/../" + SceneManager.GetActiveScene().name + ".json", fsJsonPrinter.PrettyJson(data));
 
+        //Cleanup
+//        foreach (var o in tempGameObjects)
+//        {
+//            Destroy(o);
+//        }
         Debug.Log("Export kinda finished");
     }
 
