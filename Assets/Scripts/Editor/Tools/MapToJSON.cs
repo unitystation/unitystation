@@ -63,15 +63,21 @@ public class MapToJSON : Editor
                                     Debug.LogWarningFormat("{0} — wow man what the heck?", child.name);
                                 }
                                 // grouping four tileconnect sprites into a single thing
-                                GameObject singleChild = new GameObject(tile.name+"_singleChild");
+//                                GameObject singleChild = Instantiate(child.gameObject, Vector3.zero, Quaternion.identity, tile.transform);
+                                var singleChild = new GameObject(child.gameObject.name + " singleChild");
                                 singleChild.transform.parent = tile.transform;
-                                singleChild.transform.position = Vector3.zero;
+                                singleChild.transform.localPosition = Vector3.zero;
+                                singleChild.transform.localRotation = Quaternion.identity;
+                             
+//                                singleChild.transform.parent = tile.transform;
+//                                singleChild.transform.position = Vector3.zero;
+                                
                                 var singleSr = singleChild.AddComponent<SpriteRenderer>();
-                                singleSr.name = renderer0.name;
-                                singleSr.sprite = renderer0.sprite;
-                                singleSr.sortingLayerName = renderer0.sortingLayerName;
-                                singleSr.sortingLayerID = renderer0.sortingLayerID;
-                                singleSr.sortingOrder = renderer0.sortingOrder;
+                                singleSr.name = child.name;
+                                singleSr.sprite = child.sprite;
+                                singleSr.sortingLayerName = child.sortingLayerName;
+                                singleSr.sortingLayerID = child.sortingLayerID;
+                                singleSr.sortingOrder = child.sortingOrder;
                                 var spriteName = singleSr.sprite.name;
                                 if ( spriteName.Contains("_") )
                                 {
