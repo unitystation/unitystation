@@ -61,35 +61,19 @@ public class MapToJSON : Editor
                                 if ( tileconnects != 4 ) continue;
                                 if ( tileconnects > 4 )
                                 {
-                                    Debug.LogWarningFormat("{0} — wow man what the heck?", child.name);
+                                    Debug.LogWarningFormat("{0} — more than 4 tileconnects found!", child.name);
                                 }
-                                // grouping four tileconnect sprites into a single thing
-                                GameObject tcMergeGameObject = Instantiate(child.gameObject, tile.transform.localPosition, Quaternion.identity, tile.transform);
+                                // grouping four tileconnect sprites into a single temporary thing
+                                GameObject tcMergeGameObject = Instantiate(child.gameObject, tile.transform.position, Quaternion.identity, tile.transform);
                                 tempGameObjects.Add(tcMergeGameObject);
-//                                var singleChild = new GameObject(child.gameObject.name + " singleChild");
-//                                singleChild.transform.parent = tile.transform;
-//                                singleChild.transform.localPosition = Vector3.zero;
-//                                singleChild.transform.localRotation = Quaternion.identity;
-                             
-//                                singleChild.transform.parent = tile.transform;
-//                                singleChild.transform.position = Vector3.zero;
-                                
-//                                var singleSr = singleChild.AddComponent<SpriteRenderer>();
-//                                singleSr.name = child.name;
-//                                singleSr.sprite = child.sprite;
-//                                singleSr.sortingLayerName = child.sortingLayerName;
-//                                singleSr.sortingLayerID = child.sortingLayerID;
-//                                singleSr.sortingOrder = child.sortingOrder;
-//                                var spriteName = singleSr.sprite.name;
                                 var childClone = tcMergeGameObject.GetComponent<SpriteRenderer>();
                                 var spriteName = childClone.sprite.name;
                                 
                                 if ( spriteName.Contains("_") )
                                 {
                                     childClone.name = "tc_" + spriteName.Substring(0, spriteName.LastIndexOf("_", StringComparison.Ordinal));
-//                                    singleSr.name = "tc_" + spriteName.Substring(0, spriteName.LastIndexOf("_", StringComparison.Ordinal));
                                 }
-                                spriteRenderers.Add(/*singleSr*/childClone);
+                                spriteRenderers.Add(childClone);
                             }
                             else
                             {
@@ -150,10 +134,11 @@ public class MapToJSON : Editor
         File.WriteAllText(Application.dataPath + "/../" + SceneManager.GetActiveScene().name + ".json", fsJsonPrinter.PrettyJson(data));
 
         //Cleanup
-//        foreach (var o in tempGameObjects)
-//        {
-//            Destroy(o);
-//        }
+        foreach (var o in tempGameObjects)
+        {
+            Destroy(o);
+        }
+        
         Debug.Log("Export kinda finished");
     }
 

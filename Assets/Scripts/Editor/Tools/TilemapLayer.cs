@@ -21,6 +21,10 @@ public class TilemapLayer
 //        this.name = name;
 //    }
 
+    public List<XYCoord> TilePositions => tilePositions;
+
+    public List<UniTileData> Tiles => tiles;
+
     public void Add(int x, int y, UniTileData tile)
     {
         tilePositions.Add(new XYCoord(x, y));
