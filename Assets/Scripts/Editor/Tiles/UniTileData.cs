@@ -24,7 +24,7 @@ public class UniTileData : ScriptableObject
     private string spriteSheet;
 
     [SerializeField]
-    private int spriteOffset = -1;
+    private bool isLegacy;
 
     [SerializeField]
     private Matrix4x4 childTransform = Matrix4x4.identity;
@@ -34,6 +34,12 @@ public class UniTileData : ScriptableObject
 
     [SerializeField]
     private Tile.ColliderType colliderType = Tile.ColliderType.Grid;
+
+    public bool IsLegacy
+    {
+        get { return isLegacy; }
+        set { isLegacy = value; }
+    }
 
     public string Name
     {
@@ -53,12 +59,6 @@ public class UniTileData : ScriptableObject
         set { spriteSheet = value; }
     }
 
-    public int SpriteOffset
-    {
-        get { return spriteOffset; }
-        set { spriteOffset = value; }
-    }
-
     public Matrix4x4 ChildTransform
     {
         get { return childTransform; }
@@ -75,5 +75,10 @@ public class UniTileData : ScriptableObject
     {
         get { return colliderType; }
         set { colliderType = value; }
+    }
+
+    public override string ToString()
+    {
+        return $"{base.ToString()}, {nameof( _name )}: {_name}, {nameof( originalSpriteName )}: {originalSpriteName}, {nameof( spriteName )}: {spriteName}, {nameof( spriteSheet )}: {spriteSheet}";
     }
 }

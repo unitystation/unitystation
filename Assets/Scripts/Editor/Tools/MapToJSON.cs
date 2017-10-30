@@ -6,13 +6,14 @@ using Matrix;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+#if UNITY_EDITOR
 public class MapToJSON : Editor
 {
 
     [MenuItem("Tools/Export map (JSON)")]
     static void Map2JSON()
     {
+        AssetDatabase.Refresh();
         // for smart stuff(doors, windoors): create new Tile with transform, no sprite and source GO (?)
         // 
         // export: (grilles, airlocks, firelocks, disposal, solars, wallmounts(incl.lights), furniture(chairs, beds, tables))
@@ -21,7 +22,7 @@ public class MapToJSON : Editor
          */
 
         var nodesMapped = MapToPNG.GetMappedNodes();
-        var tilemapLayers = new Dictionary<string, TilemapLayer>();
+        var tilemapLayers = new SortedDictionary<string, TilemapLayer>(Comparer<string>.Create(CompareSpriteLayer));
         var tempGameObjects = new List<GameObject>();
 
         for (int y = 0; y < nodesMapped.GetLength(0); y++)
@@ -86,6 +87,7 @@ public class MapToJSON : Editor
                     }       
                 }
 
+                //not sure if it's required anymore
                 spriteRenderers.Sort(MapToPNG.CompareSpriteRenderer);
 
                 foreach (var sr in spriteRenderers)
@@ -114,10 +116,12 @@ public class MapToJSON : Editor
                     var childTransform = sr.transform;
                     instance.ChildTransform = Matrix4x4.TRS(childTransform.localPosition, childTransform.localRotation, childTransform.localScale);
                     var parentTransform = sr.transform.parent.gameObject.transform;
-                    instance.Transform = Matrix4x4.TRS(parentTransform.localPosition, parentTransform.localRotation, parentTransform.localScale);
+                    instance.Transform = Matrix4x4.TRS(parentTransform.position, parentTransform.localRotation, parentTransform.localScale);
                     instance.OriginalSpriteName = sr.sprite.name;
                     instance.SpriteName = sr.name;
-                    instance.SpriteSheet = AssetDatabase.GetAssetPath(sr.sprite.GetInstanceID()).Replace("Assets/Resources/","").Replace("Assets/textures/","").Replace("Resources/","").Replace(".png","");
+                    var assetPath = AssetDatabase.GetAssetPath(sr.sprite.GetInstanceID());
+                    instance.IsLegacy = assetPath.Contains("textures");
+                    instance.SpriteSheet = assetPath.Replace("Assets/Resources/","").Replace("Assets/textures/","").Replace("Resources/","").Replace(".png","");
                     tilemapLayer.Add(x, y, instance);
 
                 }
@@ -131,15 +135,17 @@ public class MapToJSON : Editor
         
         fsData data;
         new fsSerializer().TrySerialize(tilemapLayers, out data);
-        File.WriteAllText(Application.dataPath + "/../" + SceneManager.GetActiveScene().name + ".json", fsJsonPrinter.PrettyJson(data));
+        File.WriteAllText(Application.dataPath + "/Resources/metadata/" + SceneManager.GetActiveScene().name + ".json", fsJsonPrinter.PrettyJson(data));
 
         //Cleanup
         foreach (var o in tempGameObjects)
         {
-            Destroy(o);
+            DestroyImmediate(o);
         }
         
         Debug.Log("Export kinda finished");
+        AssetDatabase.Refresh();
+
     }
 
     private static bool thisRendererSucks(SpriteRenderer spriteRenderer)
@@ -189,4 +195,30 @@ public class MapToJSON : Editor
         return renderer.sortingLayerName + renderer.sortingOrder;
     }
 
+    internal static string GetCleanLayerName(string dirtyName)
+    {
+        var lameTrimChars = new[] {'1','2','3','4','5','6','7','8','9','0','-'};
+        return dirtyName.TrimEnd(lameTrimChars);
+    }
+
+    internal static int CompareSpriteLayer(string x, string y)
+    {
+        var sortingLayerNames = MapToPNG.GetSortingLayerNames();
+        var xTrim = GetCleanLayerName(x);
+        var yTrim = GetCleanLayerName(y);
+        var x_index = sortingLayerNames.FindIndex(s => s.StartsWith(xTrim));
+        var y_index = sortingLayerNames.FindIndex(s => s.StartsWith(yTrim));
+
+        if (x_index == y_index)
+        {
+            return  GetLayerOffset(y) - GetLayerOffset(x);
+        }
+        return y_index - x_index;
+    }
+
+    internal static int GetLayerOffset(string dirtyName)
+    {
+        return int.Parse(dirtyName.Replace(GetCleanLayerName(dirtyName),""));
+    }
 }
+#endif

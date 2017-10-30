@@ -12,4 +12,8 @@ public class XYCoord
         this.x = x;
         this.y = y;
     }
+
+    public int X => x;
+
+    public int Y => y;
 }

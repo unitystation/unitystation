@@ -159,7 +159,7 @@ public class MapToPNG : Editor
     }
 
 
-    private static List<string> GetSortingLayerNames()
+    internal static List<string> GetSortingLayerNames()
     {
         var internalEditorUtilityType = typeof(InternalEditorUtility);
         PropertyInfo sortingLayersProperty =
