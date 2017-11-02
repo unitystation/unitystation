@@ -120,7 +120,7 @@ public class MapToJSON : Editor
                     instance.OriginalSpriteName = sr.sprite.name;
                     instance.SpriteName = sr.name;
                     var assetPath = AssetDatabase.GetAssetPath(sr.sprite.GetInstanceID());
-                    instance.IsLegacy = assetPath.Contains("textures");
+                    instance.IsLegacy = assetPath.Contains("textures") && !instance.SpriteName.StartsWith("tc_");
                     instance.SpriteSheet = assetPath.Replace("Assets/Resources/","").Replace("Assets/textures/","").Replace("Resources/","").Replace(".png","");
                     tilemapLayer.Add(x, y, instance);
 
