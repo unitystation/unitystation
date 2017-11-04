@@ -31,23 +31,26 @@ public class DmiIconData : ScriptableObject
 		return new Sprite[0];
 	}
 
-	/// <summary>
-	/// lots of code dup and crap here, sorry
-	/// </summary>
 	public Sprite getSpriteFromLegacyName(string spriteSheet, string legacyUnityName)
 	{
 		var iPath = getIconPath(spriteSheet);
 		if (legacyData.ContainsKey(iPath))
 		{		
 			var icon = legacyData[iPath];
-			var legacyDmiState = icon?.states.Find(state => state.unityName.Equals(legacyUnityName));
-			if ( legacyDmiState != null )
+			var legacyOffset = DmiIcon.getOffsetFromUnityName(legacyUnityName);
+			int relativeOffset;
+			var legacyDmiState = icon.getStateAtOffset(legacyOffset, out relativeOffset);
+			if ( legacyDmiState != null && data.ContainsKey(iPath) )
 			{
 				var legacyState = legacyDmiState.state;
-				var newState = searchStateInIcon(legacyState, spriteSheet, false);
+				var newState = data[iPath].getState(legacyState);//searchStateInIcon(legacyState, spriteSheet, false);
 				if ( newState != null )
 				{
-					return getSprite(spriteSheet, newState.unityName);
+//					if (legacyUnityName.Contains("shuttle_wall"))
+//					{
+//						Debug.Log("found ya!");
+//					}
+					return getSprite(spriteSheet, newState.offset + relativeOffset);
 				}
 			}
 		}
@@ -55,8 +58,26 @@ public class DmiIconData : ScriptableObject
 		return new Sprite();
 	}
 
+	public Sprite getSprite(string spriteSheet, int offset)
+	{
+		var icon = getIconBySheet(spriteSheet);
+		if ( !icon.getName().Equals("") && offset >= 0 && offset < icon.spriteSheet.Length )
+		{
+			return icon.spriteSheet[offset];
+		}
+		Debug.LogErrorFormat("Couldn't find sprite by offset: {0}({1}) in {2}", spriteSheet, offset, icon.icon);
+		return new Sprite();
+	}
+
 	public Sprite getSprite(string spriteSheet, string unityName)
 	{
+		//if it's a proper unityName with offset
+		var uOffset = DmiIcon.getOffsetFromUnityName(unityName);
+		if (!uOffset.Equals(-1))
+		{
+			return getSprite(spriteSheet, uOffset);
+		}
+		//if it's something custom ,like tileconnect handwritten stuff
 		var icon = getIconBySheet(spriteSheet);
 		if ( !icon.getName().Equals("") )
 		{
@@ -69,7 +90,7 @@ public class DmiIconData : ScriptableObject
 					return icon.spriteSheet[offset];
 				}
 			}
-			Debug.LogErrorFormat("Couldn't find sprite: {0}({1}) in {2}", spriteSheet, unityName, icon.icon);
+			Debug.LogErrorFormat("Couldn't find sprite by UN: {0}({1}) in {2}", spriteSheet, unityName, icon.icon);
 		}
 		return new Sprite();
 	}
@@ -204,12 +225,15 @@ public class DmiIconData : ScriptableObject
 
 	public static string getIconPath(string s)
 	{
-		if (s.Equals("")) return s;
-		if (s.StartsWith("icons/"))
+		if (!s.Contains("."))
 		{
-			return s;
+			s = s + ".dmi";
 		}
-		return "icons/" + s + ".dmi";
+		if (!s.StartsWith("icons/"))
+		{
+			s = "icons/" + s;
+		}
+		return s;
 	}
 
 	private void OnEnable()

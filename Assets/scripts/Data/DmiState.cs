@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 [Serializable]
 public class DmiState
@@ -26,6 +27,33 @@ public class DmiState
     public DmiState() : this("")
     {
     }
+
+//    public string GetUnityNameForRelOffset(int relativeOffset)
+//    {
+//        var subjectOffset = offset + relativeOffset;
+//        if (unityName.Contains("_") && OwnsOffset(subjectOffset))
+//        {
+//            var uName = unityName.Substring(0, unityName.LastIndexOf('_')+1);
+//            return uName + subjectOffset;
+//        }
+//        return "";
+//    }
+
+    public int GetRelativeOffset(int iconOffset)
+    {
+        if (OwnsOffset(iconOffset))
+        {
+            return iconOffset - offset;
+        }
+        return -1;
+    }
+
+    public bool OwnsOffset(int offset)
+    {
+        return this.offset.Equals(offset) || offset > this.offset && offset <= endOffset;
+    }
+
+    private int endOffset => offset + ( frames * dirs - 1 );
 
     protected bool Equals(DmiState other)
     {

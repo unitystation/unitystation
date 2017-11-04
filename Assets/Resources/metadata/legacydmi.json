@@ -44702,6 +44702,25 @@
     ]
   },
   {
+    "icon": "icons/obj/chairs.dmi",
+    "states": [
+      {
+        "unityName": "chairs_0",
+        "state": "stool",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "chairs_1",
+        "state": "chair",
+        "offset": 1,
+        "frames": 1,
+        "dirs": 4
+      }
+    ]
+  },
+  {
     "icon": "icons/obj/machines/implantchair.dmi",
     "states": [
       {
@@ -71606,7 +71625,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/blood.dmi",
+    "icon": "icons/blood.dmi",
     "states": [
       {
         "unityName": "blood_0",
@@ -72633,7 +72652,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/atmos.dmi",
+    "icon": "icons/doors/station/atmos.dmi",
     "states": [
       {
         "unityName": "atmos_0",
@@ -72712,7 +72731,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/bananium.dmi",
+    "icon": "icons/doors/station/bananium.dmi",
     "states": [
       {
         "unityName": "bananium_0",
@@ -72791,7 +72810,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/command.dmi",
+    "icon": "icons/doors/station/command.dmi",
     "states": [
       {
         "unityName": "command_0",
@@ -72870,7 +72889,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/diamond.dmi",
+    "icon": "icons/doors/station/diamond.dmi",
     "states": [
       {
         "unityName": "diamond_0",
@@ -72949,7 +72968,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/engineering.dmi",
+    "icon": "icons/doors/station/engineering.dmi",
     "states": [
       {
         "unityName": "engineering_0",
@@ -73028,7 +73047,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/freezer.dmi",
+    "icon": "icons/doors/station/freezer.dmi",
     "states": [
       {
         "unityName": "freezer_0",
@@ -73070,7 +73089,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/gold.dmi",
+    "icon": "icons/doors/station/gold.dmi",
     "states": [
       {
         "unityName": "gold_0",
@@ -73149,7 +73168,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/maintenance.dmi",
+    "icon": "icons/doors/station/maintenance.dmi",
     "states": [
       {
         "unityName": "maintenance_0",
@@ -73228,7 +73247,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/medical.dmi",
+    "icon": "icons/doors/station/medical.dmi",
     "states": [
       {
         "unityName": "medical_0",
@@ -73307,7 +73326,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/mining.dmi",
+    "icon": "icons/doors/station/mining.dmi",
     "states": [
       {
         "unityName": "mining_0",
@@ -73386,7 +73405,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/overlays.dmi",
+    "icon": "icons/doors/station/overlays.dmi",
     "states": [
       {
         "unityName": "overlays_0",
@@ -73557,7 +73576,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/plasma.dmi",
+    "icon": "icons/doors/station/plasma.dmi",
     "states": [
       {
         "unityName": "plasma_0",
@@ -73636,7 +73655,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/research.dmi",
+    "icon": "icons/doors/station/research.dmi",
     "states": [
       {
         "unityName": "research_0",
@@ -73715,7 +73734,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/sandstone.dmi",
+    "icon": "icons/doors/station/sandstone.dmi",
     "states": [
       {
         "unityName": "sandstone_0",
@@ -73794,7 +73813,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/science.dmi",
+    "icon": "icons/doors/station/science.dmi",
     "states": [
       {
         "unityName": "science_0",
@@ -73873,7 +73892,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/security.dmi",
+    "icon": "icons/doors/station/security.dmi",
     "states": [
       {
         "unityName": "security_0",
@@ -73952,7 +73971,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/silver.dmi",
+    "icon": "icons/doors/station/silver.dmi",
     "states": [
       {
         "unityName": "silver_0",
@@ -74031,7 +74050,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/uranium.dmi",
+    "icon": "icons/doors/station/uranium.dmi",
     "states": [
       {
         "unityName": "uranium_0",
@@ -74110,7 +74129,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/virology.dmi",
+    "icon": "icons/doors/station/virology.dmi",
     "states": [
       {
         "unityName": "virology_0",
@@ -74189,7 +74208,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/doors/station/wood.dmi",
+    "icon": "icons/doors/station/wood.dmi",
     "states": [
       {
         "unityName": "wood_0",
@@ -74268,7 +74287,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/lighting.dmi",
+    "icon": "icons/lighting.dmi",
     "states": [
       {
         "unityName": "lighting_0",
@@ -74727,7 +74746,7 @@
     ]
   },
   {
-    "icon": "icons/Resources/obj/monitors.dmi",
+    "icon": "icons/obj/monitors.dmi",
     "states": [
       {
         "unityName": "monitors_0",

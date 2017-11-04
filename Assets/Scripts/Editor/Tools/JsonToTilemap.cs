@@ -12,8 +12,8 @@ public class JsonToTilemap
     [MenuItem("Tools/Import map (JSON)")]
     static void Json2Map()
     {
-        //todo: assign GO layer?
         var gridGameObject = new GameObject(SceneManager.GetActiveScene().name + "_Tiled");
+        //gridGameObject.transform.position = new Vector3(-100,0,0);
         var grid = gridGameObject.AddComponent<Grid>();
         //set up grid here
         grid.cellSize = new Vector3(1f,1f,0);
@@ -46,9 +46,12 @@ public class JsonToTilemap
     {
         var tile = ScriptableObject.CreateInstance<UniTile>();
         tile.name = data.Name;
-//        tile.transform = data.Transform;//apply with caution!
-        tile.transform = data.ChildTransform;//experimental
-        tile.ChildTransform = data.ChildTransform;//not being interpreted by Tilemap 
+//        tile.transform = data.Transform;//apply with caution as x,y offsets are huge
+        var c = data.ChildTransform;
+        var p = data.Transform;
+        var customMainTransform = Matrix4x4.TRS(new Vector3(c.m03,c.m13,c.m23), p.rotation, c.lossyScale );
+        tile.transform = customMainTransform;//experimental
+        tile.ChildTransform = c;//not being interpreted by Tilemap 
         tile.colliderType = data.ColliderType;
         //generate asset?
         tile.sprite = data.IsLegacy ? SpriteManager.Instance.dmi.getSpriteFromLegacyName(data.SpriteSheet, data.SpriteName) 

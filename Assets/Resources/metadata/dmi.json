@@ -99754,6 +99754,810 @@
     ]
   },
   {
+    "icon": "icons/lighting.dmi",
+    "states": [
+      {
+        "unityName": "lighting_0",
+        "state": "tube1",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_4",
+        "state": "tube0",
+        "offset": 4,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_8",
+        "state": "tube-empty",
+        "offset": 8,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_12",
+        "state": "tube-burned",
+        "offset": 12,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_16",
+        "state": "tube-broken",
+        "offset": 16,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_20",
+        "state": "bulb1",
+        "offset": 20,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_24",
+        "state": "bulb0",
+        "offset": 24,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_28",
+        "state": "bulb-broken",
+        "offset": 28,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_32",
+        "state": "bulb-empty",
+        "offset": 32,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_36",
+        "state": "bulb-burned",
+        "offset": 36,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_40",
+        "state": "ltube",
+        "offset": 40,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_41",
+        "state": "ltube-burned",
+        "offset": 41,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_42",
+        "state": "ltube-broken",
+        "offset": 42,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_43",
+        "state": "lbulb",
+        "offset": 43,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_44",
+        "state": "lbulb-burned",
+        "offset": 44,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_45",
+        "state": "lbulb-broken",
+        "offset": 45,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_46",
+        "state": "glowshroomf",
+        "offset": 46,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_47",
+        "state": "glowshroom1",
+        "offset": 47,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_51",
+        "state": "glowshroom2",
+        "offset": 51,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_55",
+        "state": "glowshroom3",
+        "offset": 55,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_59",
+        "state": "glowshroomfold",
+        "offset": 59,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_60",
+        "state": "floor1",
+        "offset": 60,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_61",
+        "state": "floor0",
+        "offset": 61,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_62",
+        "state": "floor-empty",
+        "offset": 62,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_63",
+        "state": "floor-burned",
+        "offset": 63,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_64",
+        "state": "floor-broken",
+        "offset": 64,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_65",
+        "state": "firelight1",
+        "delay": "1,1,1,1,1,1,1,1",
+        "offset": 65,
+        "frames": 8,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_97",
+        "state": "firelight0",
+        "offset": 97,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_101",
+        "state": "firelight-broken",
+        "offset": 101,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_105",
+        "state": "flight",
+        "offset": 105,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_106",
+        "state": "flight-broken",
+        "offset": 106,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_107",
+        "state": "tube-construct-stage1",
+        "offset": 107,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_111",
+        "state": "bulb-construct-stage1",
+        "offset": 111,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_115",
+        "state": "tube-construct-stage2",
+        "offset": 115,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_119",
+        "state": "bulb-construct-stage2",
+        "offset": 119,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_123",
+        "state": "tube-construct-item",
+        "offset": 123,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_127",
+        "state": "bulb-construct-item",
+        "offset": 127,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_131",
+        "state": "flashlight",
+        "offset": 131,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_132",
+        "state": "flashlight-on",
+        "offset": 132,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_133",
+        "state": "lamp",
+        "offset": 133,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_134",
+        "state": "lamp-on",
+        "offset": 134,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_135",
+        "state": "lampgreen",
+        "offset": 135,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_136",
+        "state": "lampgreen-on",
+        "offset": 136,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_137",
+        "state": "lantern",
+        "offset": 137,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_138",
+        "state": "lantern-on",
+        "offset": 138,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_139",
+        "state": "flare-on",
+        "delay": "1,1,1,1",
+        "offset": 139,
+        "frames": 4,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_143",
+        "state": "flare-empty",
+        "offset": 143,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_144",
+        "state": "flare",
+        "offset": 144,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_145",
+        "state": "slime",
+        "offset": 145,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_146",
+        "state": "slime-on",
+        "offset": 146,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_147",
+        "state": "torch",
+        "offset": 147,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_148",
+        "state": "torch-on",
+        "delay": "1,1,1",
+        "offset": 148,
+        "frames": 3,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_151",
+        "state": "torch-empty",
+        "offset": 151,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_152",
+        "state": "penlight",
+        "offset": 152,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_153",
+        "state": "penlight-on",
+        "offset": 153,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_154",
+        "state": "bananalamp",
+        "offset": 154,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_155",
+        "state": "bananalamp-on",
+        "offset": 155,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_156",
+        "state": "seclite",
+        "offset": 156,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_157",
+        "state": "seclite-on",
+        "offset": 157,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_158",
+        "state": "bulb2",
+        "delay": "2.5,2.5",
+        "offset": 158,
+        "frames": 2,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_166",
+        "state": "tube2",
+        "delay": "2.5,2.5",
+        "offset": 166,
+        "frames": 2,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_174",
+        "state": "glowcapf",
+        "offset": 174,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_175",
+        "state": "glowcap1",
+        "offset": 175,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_179",
+        "state": "glowcap2",
+        "offset": 179,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_183",
+        "state": "glowcap3",
+        "offset": 183,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_187",
+        "state": "lantern-blue",
+        "offset": 187,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_188",
+        "state": "orb",
+        "delay": "2,2,2,2,2,2,2,2",
+        "offset": 188,
+        "frames": 8,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_196",
+        "state": "flashlight_eyes",
+        "offset": 196,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_197",
+        "state": "glowstick",
+        "offset": 197,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_198",
+        "state": "glowstick-empty",
+        "offset": 198,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_199",
+        "state": "glowstick-on",
+        "delay": "5,5",
+        "offset": 199,
+        "frames": 2,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_201",
+        "state": "glowstick-glow",
+        "offset": 201,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_202",
+        "state": "shadowshroomf",
+        "offset": 202,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_203",
+        "state": "shadowshroom1",
+        "offset": 203,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_207",
+        "state": "shadowshroom2",
+        "offset": 207,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_211",
+        "state": "shadowshroom3",
+        "offset": 211,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_215",
+        "state": "flashdark",
+        "offset": 215,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_216",
+        "state": "flashdark-on",
+        "offset": 216,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_217",
+        "state": "floodlight_on",
+        "offset": 217,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_218",
+        "state": "floodlight",
+        "offset": 218,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_219",
+        "state": "Floodlight Burned",
+        "offset": 219,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_220",
+        "state": "Floodlight Broken",
+        "offset": 220,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_221",
+        "state": "floodlight_c3",
+        "offset": 221,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_222",
+        "state": "floodlight_c1",
+        "offset": 222,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_223",
+        "state": "floodlight_c2",
+        "offset": 223,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_224",
+        "state": "disco1",
+        "delay": "1,1,1,1,1,1,1,1,1,1,1,1",
+        "offset": 224,
+        "frames": 12,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_236",
+        "state": "disco0",
+        "offset": 236,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_237",
+        "state": "disco-broken",
+        "offset": 237,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_238",
+        "state": "markerrandom",
+        "offset": 238,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_239",
+        "state": "markerburgundy-on",
+        "offset": 239,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_240",
+        "state": "markerburgundy",
+        "offset": 240,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_241",
+        "state": "markerbronze-on",
+        "offset": 241,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_242",
+        "state": "markerbronze",
+        "offset": 242,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_243",
+        "state": "markeryellow-on",
+        "offset": 243,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_244",
+        "state": "markeryellow",
+        "offset": 244,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_245",
+        "state": "markerlime-on",
+        "offset": 245,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_246",
+        "state": "markerlime",
+        "offset": 246,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_247",
+        "state": "markerolive-on",
+        "offset": 247,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_248",
+        "state": "markerolive",
+        "offset": 248,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_249",
+        "state": "markerjade-on",
+        "offset": 249,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_250",
+        "state": "markerjade",
+        "offset": 250,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_251",
+        "state": "markerteal-on",
+        "offset": 251,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_252",
+        "state": "markerteal",
+        "offset": 252,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_253",
+        "state": "markercerulean-on",
+        "offset": 253,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_254",
+        "state": "markercerulean",
+        "offset": 254,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_255",
+        "state": "markerindigo-on",
+        "offset": 255,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_256",
+        "state": "markerindigo",
+        "offset": 256,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_257",
+        "state": "markerpurple-on",
+        "offset": 257,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_258",
+        "state": "markerpurple",
+        "offset": 258,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_259",
+        "state": "markerviolet-on",
+        "offset": 259,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_260",
+        "state": "markerviolet",
+        "offset": 260,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_261",
+        "state": "markerfuchsia-on",
+        "offset": 261,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_262",
+        "state": "markerfuchsia",
+        "offset": 262,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
     "icon": "icons/obj/lighting.dmi",
     "states": [
       {
@@ -144729,7 +145533,19 @@
     ]
   },
   {
-    "icon": "icons/tables/reinforced_table.dmi",
+    "icon": "icons/tables/table_wood.dmi",
+    "states": [
+      {
+        "unityName": "tc_wood_table",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/tables/table_reinforced.dmi",
     "states": [
       {
         "unityName": "tc_reinforced_table",

@@ -9,7 +9,11 @@ using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 public class MapToJSON : Editor
 {
-
+//FIXME: look into z-position export (possible lightbulb size fix?)
+    //check weird turbine on top-left shuttle
+    //figure out what to do with the floors
+    //and shuttle corners
+    //try to combine local transforms and check if it helps the bottom shuttle fire closet
     [MenuItem("Tools/Export map (JSON)")]
     static void Map2JSON()
     {
