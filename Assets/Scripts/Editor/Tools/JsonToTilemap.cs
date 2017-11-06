@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using FullSerializer;
 using Sprites;
 using UnityEditor;
@@ -12,6 +13,9 @@ public class JsonToTilemap
     [MenuItem("Tools/Import map (JSON)")]
     static void Json2Map()
     {
+        //TODO investigate:
+        //AssetDatabase.CreateAsset(asset, assetPath);
+        //AssetDatabase.LoadAssetAtPath
         var gridGameObject = new GameObject(SceneManager.GetActiveScene().name + "_Tiled");
         //gridGameObject.transform.position = new Vector3(-100,0,0);
         var grid = gridGameObject.AddComponent<Grid>();
@@ -29,7 +33,15 @@ public class JsonToTilemap
             //convert tiles
             var tiles = layer.Value.Tiles.ConvertAll(DataToTile);
             Debug.LogFormat("Generated {0} tiles for layer {1}", tiles.Count, layer.Key);
-
+            
+            var overlaps = positions.GroupBy(x=>x)
+                .Where(g=>g.Count()>1)
+                .Select(y=> new { Element = y.Key, Counter = y.Count()})
+                .ToList();
+            if (overlaps.Count != 0)
+            {
+                Debug.LogWarning(overlaps.Aggregate("", (current, ds) => current + ds.ToString()));
+            }
 
             layerGO.transform.parent = gridGameObject.transform;
             var layerTilemap = layerGO.AddComponent<Tilemap>();
@@ -49,7 +61,7 @@ public class JsonToTilemap
 //        tile.transform = data.Transform;//apply with caution as x,y offsets are huge
         var c = data.ChildTransform;
         var p = data.Transform;
-        var customMainTransform = Matrix4x4.TRS(new Vector3(c.m03,c.m13,c.m23), p.rotation, c.lossyScale );
+        var customMainTransform = Matrix4x4.TRS(GetPosFromMatrix4x4(c), p.rotation, c.lossyScale );
         tile.transform = customMainTransform;//experimental
         tile.ChildTransform = c;//not being interpreted by Tilemap 
         tile.colliderType = data.ColliderType;
@@ -58,6 +70,11 @@ public class JsonToTilemap
                                     : SpriteManager.Instance.dmi.getSprite(data.SpriteSheet, data.SpriteName);
         
         return tile;
+    }
+
+    private static Vector3 GetPosFromMatrix4x4(Matrix4x4 c)
+    {
+        return new Vector3(c.m03,c.m13,0/*c.m23*/);
     }
 
     private static Dictionary<string, TilemapLayer> DeserializeJson()

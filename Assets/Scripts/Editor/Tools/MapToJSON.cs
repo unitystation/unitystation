@@ -92,7 +92,7 @@ public class MapToJSON : Editor
                 }
 
                 //not sure if it's required anymore
-                spriteRenderers.Sort(MapToPNG.CompareSpriteRenderer);
+//                spriteRenderers.Sort(MapToPNG.CompareSpriteRenderer);
 
                 foreach (var sr in spriteRenderers)
                 {
@@ -196,6 +196,12 @@ public class MapToJSON : Editor
     }
     internal static string GetSortingLayerName(SpriteRenderer renderer)
     {
+        var separateLayerMarker = "WarningLine";
+        var parentObj = renderer.transform.parent.gameObject;
+        if (parentObj && parentObj.name.Contains(separateLayerMarker))
+        {
+            return renderer.sortingLayerName + 33;
+        }
         return renderer.sortingLayerName + renderer.sortingOrder;
     }
 
