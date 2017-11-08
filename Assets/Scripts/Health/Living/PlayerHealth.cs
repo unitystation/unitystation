@@ -29,6 +29,11 @@ namespace PlayGroup
 
 		public PlayerNetworkActions playerNetworkActions;
 
+		private void Start()
+		{
+			UpdateManager.Instance.regularUpdate.Add(this);
+		}
+
 		public override int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType, BodyPartType bodyPartAim)
 		{
 			base.ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
@@ -53,6 +58,19 @@ namespace PlayGroup
 				}
 			}
 			return damage;
+		}
+
+		public override void UpdateMe()
+		{
+			if(isLocalPlayer){
+				//If blood goes below okay level and overlay crit is on normal
+				//then show the shroud around the edges of the screen
+				if(BloodLevel < (int)BloodVolume.OKAY && UI.UIManager.OverlayCrits.currentState
+				   == UI.OverlayState.normal){
+					UI.UIManager.OverlayCrits.SetState(UI.OverlayState.injured);
+				}
+			}
+			base.UpdateMe();
 		}
 
 		private static bool headCritical(BodyPartBehaviour bodyPart)
@@ -125,10 +143,12 @@ namespace PlayGroup
 
 
 			if (BloodLevel <= (int)BloodVolume.SURVIVE) {
+				UI.UIManager.OverlayCrits.SetState(UI.OverlayState.crit);
 				Crit();
 			}
 
 			if (BloodLevel <= 0) {
+				UI.UIManager.OverlayCrits.SetState(UI.OverlayState.death);
 				Death();
 			}
 		}

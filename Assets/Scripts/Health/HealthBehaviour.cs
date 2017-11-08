@@ -3,7 +3,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public abstract class HealthBehaviour : NetworkBehaviour
+public abstract class HealthBehaviour : ManagedNetworkBehaviour
 {
 	public int initialHealth = 100;
 	public int maxHealth = 100;
