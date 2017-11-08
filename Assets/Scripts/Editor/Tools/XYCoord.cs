@@ -16,4 +16,9 @@ public class XYCoord
     public int X => x;
 
     public int Y => y;
+
+    public override string ToString()
+    {
+        return $"{x},{y}";
+    }
 }

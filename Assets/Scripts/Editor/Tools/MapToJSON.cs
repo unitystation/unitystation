@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using FullSerializer;
 using Matrix;
+using NUnit.Framework.Constraints;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -91,9 +93,6 @@ public class MapToJSON : Editor
                     }       
                 }
 
-                //not sure if it's required anymore
-//                spriteRenderers.Sort(MapToPNG.CompareSpriteRenderer);
-
                 foreach (var sr in spriteRenderers)
                 {
                     var currentLayerName = GetSortingLayerName(sr);
@@ -124,7 +123,9 @@ public class MapToJSON : Editor
                     instance.OriginalSpriteName = sr.sprite.name;
                     instance.SpriteName = sr.name;
                     var assetPath = AssetDatabase.GetAssetPath(sr.sprite.GetInstanceID());
-                    instance.IsLegacy = assetPath.Contains("textures") && !instance.SpriteName.StartsWith("tc_");
+                    //not marking these as legacy
+                    var legacyExclusionList = new List<string>(new []{"turf/shuttle.png"});
+                    instance.IsLegacy = looksLikeLegacy(assetPath, instance) && notExcluded(legacyExclusionList, assetPath);
                     instance.SpriteSheet = assetPath.Replace("Assets/Resources/","").Replace("Assets/textures/","").Replace("Resources/","").Replace(".png","");
                     tilemapLayer.Add(x, y, instance);
 
@@ -150,6 +151,16 @@ public class MapToJSON : Editor
         Debug.Log("Export kinda finished");
         AssetDatabase.Refresh();
 
+    }
+
+    private static bool notExcluded(List<string> notObsolete, string assetPath)
+    {
+        return !notObsolete.Any(assetPath.Contains);
+    }
+
+    private static bool looksLikeLegacy(string assetPath, UniTileData instance)
+    {
+        return assetPath.Contains("textures") && !instance.SpriteName.StartsWith("tc_");
     }
 
     private static bool thisRendererSucks(SpriteRenderer spriteRenderer)
@@ -196,11 +207,13 @@ public class MapToJSON : Editor
     }
     internal static string GetSortingLayerName(SpriteRenderer renderer)
     {
-        var separateLayerMarker = "WarningLine";
+        var separateLayerMarkers = new List<string>(new []{"WarningLine"});
         var parentObj = renderer.transform.parent.gameObject;
-        if (parentObj && parentObj.name.Contains(separateLayerMarker))
+        var moveToSeparateLayer = parentObj && separateLayerMarkers.Any(parentObj.name.Contains);
+        if (moveToSeparateLayer)
         {
-            return renderer.sortingLayerName + 33;
+            var potentialLayerName = renderer.sortingLayerName + 50;
+            return potentialLayerName;
         }
         return renderer.sortingLayerName + renderer.sortingOrder;
     }
