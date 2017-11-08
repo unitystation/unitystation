@@ -29,9 +29,13 @@ namespace PlayGroup
 
 		public PlayerNetworkActions playerNetworkActions;
 
-		private void Start()
+		//Only for local player, it monitors and controls the UI for health
+		private LocalPlayerUIHelper playerUIHelper;
+
+		void Start()
 		{
-			UpdateManager.Instance.regularUpdate.Add(this);
+			if (isLocalPlayer)
+				playerUIHelper = gameObject.AddComponent<LocalPlayerUIHelper>();
 		}
 
 		public override int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType, BodyPartType bodyPartAim)
@@ -58,19 +62,6 @@ namespace PlayGroup
 				}
 			}
 			return damage;
-		}
-
-		public override void UpdateMe()
-		{
-			if(isLocalPlayer){
-				//If blood goes below okay level and overlay crit is on normal
-				//then show the shroud around the edges of the screen
-				if(BloodLevel < (int)BloodVolume.OKAY && UI.UIManager.OverlayCrits.currentState
-				   == UI.OverlayState.normal){
-					UI.UIManager.OverlayCrits.SetState(UI.OverlayState.injured);
-				}
-			}
-			base.UpdateMe();
 		}
 
 		private static bool headCritical(BodyPartBehaviour bodyPart)
@@ -143,12 +134,18 @@ namespace PlayGroup
 
 
 			if (BloodLevel <= (int)BloodVolume.SURVIVE) {
+				//Update the UI direct if this is local player
+				if(playerUIHelper)
 				UI.UIManager.OverlayCrits.SetState(UI.OverlayState.crit);
+
 				Crit();
 			}
 
 			if (BloodLevel <= 0) {
+				//Update the UI direct if this is a local player
+				if (playerUIHelper)
 				UI.UIManager.OverlayCrits.SetState(UI.OverlayState.death);
+
 				Death();
 			}
 		}

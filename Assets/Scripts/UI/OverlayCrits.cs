@@ -23,40 +23,52 @@ namespace UI
 
 		public async void AdjustOverlayPos()
 		{
+			await Task.Delay(TimeSpan.FromSeconds(0.1f));
+			DoAdjust();
+		}
+
+		private void DoAdjust()
+		{
 			if (PlayGroup.PlayerManager.LocalPlayer != null) {
-				await Task.Delay(TimeSpan.FromSeconds(0.1f));
 				Vector3 playerPos = Camera.main.WorldToScreenPoint(PlayGroup.PlayerManager.LocalPlayer.transform.position);
 				shroud.position = playerPos;
 			}
 		}
 
-		public void SetState(OverlayState state){
-			switch(state){
+		public void SetState(OverlayState state)
+		{
+			switch (state) {
 				case OverlayState.normal:
+					SoundManager.Stop("Critstate");
 					AdjustShroud(normalSettings);
 					break;
 				case OverlayState.injured:
+					SoundManager.Stop("Critstate");
 					AdjustShroud(injuredSettings);
 					break;
 				case OverlayState.unconscious:
+					SoundManager.Play("Critstate");
 					AdjustShroud(unconsciousSettings);
 					break;
 				case OverlayState.crit:
 					AdjustShroud(critcalSettings);
 					break;
 				case OverlayState.death:
+					SoundManager.Stop("Critstate");
 					AdjustShroud(normalSettings);
 					break;
 			}
 			currentState = state;
 		}
 
-		private void AdjustShroud(ShroudPreference pref){
-			if (!pref.shroudActive){
+		private async void AdjustShroud(ShroudPreference pref)
+		{
+			await Task.Delay(TimeSpan.FromSeconds(0.1f));
+			if (!pref.shroudActive) {
 				shroudImg.enabled = false;
 				return;
 			}
-
+			DoAdjust();
 			shroudImg.enabled = true;
 			holeMat.SetFloat("_Radius", pref.holeRadius);
 			holeMat.SetFloat("_Shape", pref.holeShape);
@@ -71,7 +83,8 @@ namespace UI
 		public float holeShape;
 	}
 
-	public enum OverlayState{
+	public enum OverlayState
+	{
 		normal,
 		injured,
 		unconscious,

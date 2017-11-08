@@ -110,11 +110,7 @@ namespace UI
 			foreach (UI_ItemSlot slot in slots) {
 				slot.Reset();
 			}
-
-			foreach (CritListener listener in Instance.GetComponentsInChildren<CritListener>()) {
-				listener.Reset();
-			}
-
+			Debug.Log("TODO: Reset health heart monitor");
 			foreach (DamageMonitorListener listener in Instance.GetComponentsInChildren<DamageMonitorListener>()) {
 				listener.Reset();
 			}
