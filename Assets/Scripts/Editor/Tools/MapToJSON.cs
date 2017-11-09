@@ -11,8 +11,7 @@ using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 public class MapToJSON : Editor
 {
-//FIXME: look into z-position export (possible lightbulb size fix?)
-    //check weird turbine on top-left shuttle
+//FIXME: look into lightbulb size fix (z-plane?)
     //figure out what to do with the floors
     //and shuttle corners
     //try to combine local transforms and check if it helps the bottom shuttle fire closet
@@ -85,6 +84,16 @@ public class MapToJSON : Editor
                             else
                             {
                                 child.name = child.sprite.name;
+                                var overlapFound = spriteRenderers.Any(renderer => GetSortingLayerName(renderer).Equals(GetSortingLayerName(child)));
+                                if ( overlapFound )
+                                {
+//                                    increment sorting order by 100 if overlap is detected
+                                    var newSortOrder = child.sortingOrder + 100;
+                                    if ( newSortOrder < int.MaxValue )
+                                    {
+                                        child.sortingOrder = newSortOrder;
+                                    }
+                                }
                                 spriteRenderers.Add(child);
                             }
                             
@@ -207,14 +216,14 @@ public class MapToJSON : Editor
     }
     internal static string GetSortingLayerName(SpriteRenderer renderer)
     {
-        var separateLayerMarkers = new List<string>(new []{"WarningLine"});
-        var parentObj = renderer.transform.parent.gameObject;
-        var moveToSeparateLayer = parentObj && separateLayerMarkers.Any(parentObj.name.Contains);
-        if (moveToSeparateLayer)
-        {
-            var potentialLayerName = renderer.sortingLayerName + 50;
-            return potentialLayerName;
-        }
+//        var separateLayerMarkers = new List<string>(new []{"WarningLine"});
+//        var parentObj = renderer.transform.parent.gameObject;
+//        var moveToSeparateLayer = parentObj && separateLayerMarkers.Any(parentObj.name.Contains);
+//        if (moveToSeparateLayer)
+//        {
+//            var potentialLayerName = renderer.sortingLayerName + 50;
+//            return potentialLayerName;
+//        }
         return renderer.sortingLayerName + renderer.sortingOrder;
     }
 
