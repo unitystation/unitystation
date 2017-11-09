@@ -36,6 +36,8 @@ namespace Sprites
 		private Sprites lightSprites = new Sprites();
 		private Sprites fireSprites = new Sprites();
 		private Sprites wireSprites = new Sprites();
+		private Sprites screenUISprites = new Sprites();
+
 		public DmiIconData dmi;
 		private void InitializeSpriteSheets()
 		{
@@ -93,6 +95,9 @@ namespace Sprites
 
 			LightSprites["lights"] = Resources.LoadAll<Sprite>("lighting");
 			FireSprites["fire"] = Resources.LoadAll<Sprite>("icons/effects/fire");
+
+			ScreenUISprites["gen"] = Resources.LoadAll<Sprite>("screen_gen");
+
 
 			string FileLocation = "obj/power_cond/power_cond_";
 			string FileType = "";
@@ -158,6 +163,12 @@ namespace Sprites
 		public static Sprites WireSprites {
 			get {
 				return Instance.wireSprites;
+			}
+		}
+
+		public static Sprites ScreenUISprites {
+			get {
+				return Instance.screenUISprites;
 			}
 		}
 	}

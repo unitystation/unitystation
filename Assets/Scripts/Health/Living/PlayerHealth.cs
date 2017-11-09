@@ -36,6 +36,32 @@ namespace PlayGroup
 		{
 			if (isLocalPlayer)
 				playerUIHelper = gameObject.AddComponent<LocalPlayerUIHelper>();
+
+			UpdateManager.Instance.regularUpdate.Add(this);
+		}
+
+		//Updated via the updatemanager
+		public override void UpdateMe()
+		{
+			UpdateMaxHealth();
+			base.UpdateMe();
+		}
+
+		private void UpdateMaxHealth()
+		{
+			//Update when there is other damage methods like brute etc
+			//atm there is only blood lose
+
+			//Blood calcs:
+			//TODO revist this when adding new methods of dmg
+			float bloodLoseCalc = (float)maxHealth;
+			if (BloodLevel >= 560) {
+				//Do not adjust max health
+			} else {
+				bloodLoseCalc = ((float)BloodLevel / 560f) * 100f;
+			}
+			//TODO update this with new dmg methods when they are added
+			maxHealth = (int)bloodLoseCalc;
 		}
 
 		public override int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType, BodyPartType bodyPartAim)
@@ -81,7 +107,7 @@ namespace PlayGroup
 			//"missing limb? we select the first bodypart (you can never have zero, because of chest)"
 			return BodyParts.PickRandom();
 		}
-        
+
 		private void AddBloodLoss(int amount)
 		{
 			if (amount <= 0)
@@ -103,7 +129,7 @@ namespace PlayGroup
 		{
 			while (IsBleeding) {
 				LoseBlood(bleedVolume);
-                
+
 				yield return new WaitForSeconds(bleedRate);
 			}
 		}
@@ -114,12 +140,12 @@ namespace PlayGroup
 			bleedVolume = 0;
 			IsBleeding = false;
 		}
-			
+
 		private void LoseBlood(int amount)
 		{
 			if (amount <= 0)
 				return;
-//            Debug.LogFormat("Lost blood: {0}->{1}", BloodLevel, BloodLevel - amount);
+			//            Debug.LogFormat("Lost blood: {0}->{1}", BloodLevel, BloodLevel - amount);
 			BloodLevel -= amount;
 			BloodSplatSize scaleOfTragedy;
 			if (amount > 0 && amount < 15) {
@@ -129,14 +155,14 @@ namespace PlayGroup
 			} else {
 				scaleOfTragedy = BloodSplatSize.large;
 			}
-			if(isServer)
+			if (isServer)
 				EffectsFactory.Instance.BloodSplat(transform.position, scaleOfTragedy);
 
 
 			if (BloodLevel <= (int)BloodVolume.SURVIVE) {
 				//Update the UI direct if this is local player
-				if(playerUIHelper)
-				UI.UIManager.OverlayCrits.SetState(UI.OverlayState.crit);
+				if (playerUIHelper)
+					UI.UIManager.OverlayCrits.SetState(UI.OverlayState.crit);
 
 				Crit();
 			}
@@ -144,7 +170,7 @@ namespace PlayGroup
 			if (BloodLevel <= 0) {
 				//Update the UI direct if this is a local player
 				if (playerUIHelper)
-				UI.UIManager.OverlayCrits.SetState(UI.OverlayState.death);
+					UI.UIManager.OverlayCrits.SetState(UI.OverlayState.death);
 
 				Death();
 			}
@@ -203,11 +229,11 @@ namespace PlayGroup
 					playerNetworkActions.CmdSendAlertMessage(
 						"<color=red><b>" + LastDamagedBy + "</b> has killed <b>" + gameObject.name + "</b></color>", true); //killfeed
 				}
-                
+
 				playerNetworkActions.DropItem("leftHand");
 				playerNetworkActions.DropItem("rightHand");
-				if(isServer)
-				EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.large);
+				if (isServer)
+					EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.large);
 
 				//FIXME Remove for next demo
 				playerNetworkActions.RespawnPlayer(10);

@@ -39,22 +39,18 @@ namespace UI
 		{
 			switch (state) {
 				case OverlayState.normal:
-					SoundManager.Stop("Critstate");
 					AdjustShroud(normalSettings);
 					break;
 				case OverlayState.injured:
-					SoundManager.Stop("Critstate");
 					AdjustShroud(injuredSettings);
 					break;
 				case OverlayState.unconscious:
-					SoundManager.Play("Critstate");
 					AdjustShroud(unconsciousSettings);
 					break;
 				case OverlayState.crit:
 					AdjustShroud(critcalSettings);
 					break;
 				case OverlayState.death:
-					SoundManager.Stop("Critstate");
 					AdjustShroud(normalSettings);
 					break;
 			}

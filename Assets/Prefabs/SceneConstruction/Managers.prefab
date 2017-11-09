@@ -3456,7 +3456,6 @@ GameObject:
   - component: {fileID: 224574693180278234}
   - component: {fileID: 222789693508964164}
   - component: {fileID: 114647038496954814}
-  - component: {fileID: 95350594424370844}
   - component: {fileID: 114197445664717508}
   m_Layer: 5
   m_Name: HealthMonitor
@@ -6568,23 +6567,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95350594424370844
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1933105474761000}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8a0fae071ba74f3e866798e056565606, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 1
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114002164715361318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8102,6 +8084,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41117fd98c2b04e9099257ff6cc45c6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pulseImg: {fileID: 114647038496954814}
+  fullHealthStart: 178
+  minorDmgStart: 206
+  medDmgStart: 234
+  mjrDmgStart: 262
+  critStart: 318
+  deathStart: 346
 --- !u!114 &114202073441999856
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12082,7 +12071,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300354, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
+  m_Sprite: {fileID: 21300356, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17516,14 +17505,14 @@ RectTransform:
   m_GameObject: {fileID: 1303819118782872}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3967073, y: 1.3967075, z: 1.3967075}
   m_Children: []
   m_Father: {fileID: 224898205694248858}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -114.31, y: 603.80005}
+  m_AnchoredPosition: {x: -114.31, y: 626.37994}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224323900474978438
@@ -18009,7 +17998,7 @@ RectTransform:
   m_GameObject: {fileID: 1867623867955198}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3427055, y: 1.3427055, z: 1.3427055}
   m_Children:
   - {fileID: 224608677430937666}
   - {fileID: 224996470632203742}
@@ -18022,7 +18011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -114.31, y: 458.5}
+  m_AnchoredPosition: {x: -114.31, y: 453.6}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224483603005407810
@@ -18353,14 +18342,14 @@ RectTransform:
   m_GameObject: {fileID: 1933105474761000}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3827943, y: 1.3827941, z: 1.3827941}
   m_Children: []
   m_Father: {fileID: 224898205694248858}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -114.31, y: 537.29}
+  m_AnchoredPosition: {x: -114.31, y: 537.48004}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224582159650461670
