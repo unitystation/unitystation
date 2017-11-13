@@ -21,15 +21,29 @@ namespace PlayGroup
 		public PlayerHealth playerHealth;
 
 		//server only caches
-		private int maxHealthServerCache;
+		private int healthServerCache;
+		private int bloodLevelCache;
+		private float BloodPercentage = 100f; 
 
-		private void Start()
+		protected override void Awake(){
+			//Do not call base method for this Awake.
+		}
+
+		public override void OnStartServer()
 		{
 			if (isServer) {
-				maxHealthServerCache = playerHealth.maxHealth;
+				healthServerCache = playerHealth.Health;
+				bloodLevelCache = playerHealth.BloodLevel;
 				UpdateManager.Instance.regularUpdate.Add(this);
-				RpcUpdateClientUI(100); //Set the UI for this player to 100 percent
+				StartCoroutine(WaitForLoad());
 			}
+			base.OnStartServer();
+		}
+
+		IEnumerator WaitForLoad(){
+			yield return new WaitForSeconds(1f); //1000ms wait for lag
+
+			RpcUpdateClientUI(100); //Set the UI for this player to 100 percent
 		}
 
 		private void OnDestroy()
@@ -41,28 +55,36 @@ namespace PlayGroup
 		//This only runs on the server, server will do the calculations and send
 		//messages to the client when needed (or requested)
 		public override void UpdateMe(){
-			ServerUpdateMaxHealth();
+			ServerMonitorHealth();
 			base.UpdateMe();
 		}
-		private void ServerUpdateMaxHealth()
+		private void ServerMonitorHealth()
 		{
-			//Update when there is other damage methods like brute etc
-			//atm there is only blood lose
+			//Add other damage methods here like burning, 
+			//suffication, etc
 
 			//Blood calcs:
-			//TODO revist this when adding new methods of dmg
-			float bloodLoseCalc = (float)playerHealth.maxHealth;
-			if (playerHealth.BloodLevel >= 560) {
-				//Do not adjust max health
-			} else {
-				bloodLoseCalc = ((float)playerHealth.BloodLevel / 560f) * 100f;
+			if (bloodLevelCache != playerHealth.BloodLevel) {
+				bloodLevelCache = playerHealth.BloodLevel;
+				if (playerHealth.BloodLevel >= 560) {
+					//Full blood (or more)
+					BloodPercentage = 100f;
+				} else {
+					BloodPercentage = ((float)playerHealth.BloodLevel / 560f) * 100f;
+				}
 			}
-			//TODO update this with new dmg methods when they are added
-			playerHealth.maxHealth = (int)bloodLoseCalc;
 
-			if(playerHealth.maxHealth != maxHealthServerCache){
-				maxHealthServerCache = playerHealth.maxHealth;
-				RpcUpdateClientUI(maxHealthServerCache);
+			//If blood level falls below health level, then set the health level
+			//manually and update the clients UI
+			if (BloodPercentage < playerHealth.Health) {
+				healthServerCache = (int)BloodPercentage;
+				playerHealth.ServerOnlySetHealth(healthServerCache);
+				RpcUpdateClientUI(healthServerCache);
+			}
+
+			if(playerHealth.Health != healthServerCache){
+				healthServerCache = playerHealth.Health;
+				RpcUpdateClientUI(healthServerCache);
 			}
 		}
 
@@ -73,10 +95,10 @@ namespace PlayGroup
 		/// carry on the action to the UI. 
 		/// </summary>
 		[ClientRpc]
-		private void RpcUpdateClientUI(int maxHealth){
+		private void RpcUpdateClientUI(int cHealth){
 			if(isLocalPlayer){
 				//Update the UI
-				UI.UIManager.PlayerHealthUI.UpdateHealthUI(this, maxHealth);
+				UI.UIManager.PlayerHealthUI.UpdateHealthUI(this, cHealth);
 			}
 		}
 	}

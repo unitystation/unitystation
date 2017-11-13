@@ -22,8 +22,8 @@ namespace UI
 			DetermineUIDisplay(maxHealth);
 		}
 
-		private void DetermineUIDisplay(int maxHealth){
-			heartMonitor.DetermineDisplay(this, maxHealth); //For the heart monitor anim (atm just working off maxHealth)
+		private void DetermineUIDisplay(int curHealth){
+			heartMonitor.DetermineDisplay(this, curHealth); //For the heart monitor anim (atm just working off maxHealth)
 			//TODO do any other updates required in here
 		}
 

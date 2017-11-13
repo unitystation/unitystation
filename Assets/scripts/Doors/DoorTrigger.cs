@@ -24,10 +24,7 @@ namespace Doors
 		public override void Interact(GameObject originator, string hand)
 		{
 			if (doorController != null && allowInput) {
-				if ((int
-
-
-					)doorController.restriction > 0) {
+				if ((int)doorController.restriction > 0) {
 					if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>() != null) {
 						CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>(), doorController);
 					} else if (UIManager.Hands.CurrentSlot.IsFull && UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>() != null) {

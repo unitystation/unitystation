@@ -8,7 +8,7 @@ using AccessType;
 
 namespace Doors
 {
-	public class DoorController : NetworkBehaviour
+	public class DoorController : ManagedNetworkBehaviour
 	{
 		public DoorType doorType;
 		private RegisterTile registerTile;
@@ -61,6 +61,7 @@ namespace Doors
 			openSortingLayer = SortingLayer.NameToID("Doors Closed");
 
 			registerTile = gameObject.GetComponent<RegisterTile>();
+			base.Awake();
 		}
 
 		public void BoxCollToggleOn()
@@ -145,7 +146,7 @@ namespace Doors
 			StartCoroutine(coWaitOpened);
 		}
 
-		void Update()
+		public override void UpdateMe()
 		{
 			if (openTrigger && playerOpeningIt) {
 				float distToTriggerPlayer = Vector3.Distance(playerOpeningIt.transform.position, transform.position);

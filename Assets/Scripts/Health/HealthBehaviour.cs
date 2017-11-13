@@ -3,7 +3,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public abstract class HealthBehaviour : ManagedNetworkBehaviour
+public abstract class HealthBehaviour : NetworkBehaviour
 {
 	public int initialHealth = 100;
 	public int maxHealth = 100;
@@ -27,6 +27,14 @@ public abstract class HealthBehaviour : ManagedNetworkBehaviour
 	}
 
 	public int Health { get; private set; }
+
+	[Server]
+	public void ServerOnlySetHealth(int newValue){
+		if (isServer) {
+			Health = newValue;
+			CheckDeadCritStatus();
+		}
+	}
 
 	public DamageType LastDamageType { get; private set; }
 
@@ -56,7 +64,7 @@ public abstract class HealthBehaviour : ManagedNetworkBehaviour
 	public void RpcApplyDamage(string damagedBy, int damage,
 	                              DamageType damageType, BodyPartType bodyPartAim)
 	{
-		if (isServer)
+		if (isServer || !isNPC)
 			return;
 		ApplyDamage(damagedBy, damage, damageType, bodyPartAim);
 	}
@@ -175,6 +183,6 @@ public abstract class HealthBehaviour : ManagedNetworkBehaviour
 
 public static class HealthThreshold
 {
-	public const int Crit = 0;
-	public const int Dead = -100;
+	public const int Crit = 30;
+	public const int Dead = 0;
 }

@@ -49,6 +49,7 @@ namespace UI
 		void OnSceneChange(Scene prev, Scene next){
 			if(next.name != "Lobby"){
 				if (!startMonitoring) {
+					spriteStart = fullHealthStart;
 					startMonitoring = true;
 					StartCoroutine(MonitorHealth());
 				}
@@ -79,54 +80,64 @@ namespace UI
 			yield return new WaitForEndOfFrame();
 		}
 
-		public void DetermineDisplay(PlayerHealthUI pHealthUI, int maxHealth){
+		public void DetermineDisplay(PlayerHealthUI pHealthUI, int curHealth){
 			if (pHealthUI == null)
 				return;
-
-			CheckHealth(maxHealth);
+			if (curHealth <= -1 && spriteStart == deathStart)
+				return; //Ensure that messages are not spammed when there is no more health to go
+			
+			CheckHealth(curHealth);
 		}
 
-		private void CheckHealth(int mHealth){
-			if (mHealth >= 100
+		private void CheckHealth(int cHealth){
+			//PlayGroup.PlayerManager.PlayerScript.playerNetworkActions.CmdSendAlertMessage("mHealth: " + cHealth, true);
+			//Debug.Log("PlayerHealth: " + PlayGroup.PlayerManager.PlayerScript.playerHealth.Health);
+			if (cHealth >= 100
 			    && spriteStart != fullHealthStart){
 				SoundManager.Stop("Critstate");
 				spriteStart = fullHealthStart;
 				pulseImg.sprite = sprites[spriteStart];
 				overlayCrits.SetState(OverlayState.normal);
 			}
-			if(mHealth < 100
-			   && mHealth > 80
+			if(cHealth < 100
+			   && cHealth > 80
 			   && spriteStart != minorDmgStart){
 				SoundManager.Stop("Critstate");
 				spriteStart = minorDmgStart;
 				pulseImg.sprite = sprites[spriteStart];
 				overlayCrits.SetState(OverlayState.injured);
 			}
-			if (mHealth < 80
-			    && mHealth > 50
+			if (cHealth < 80
+			    && cHealth > 50
 			    && spriteStart != medDmgStart) {
 				SoundManager.Stop("Critstate");
 				spriteStart = medDmgStart;
 				pulseImg.sprite = sprites[spriteStart];
 				overlayCrits.SetState(OverlayState.injured);
 			}
-			if (mHealth < 50
-			    && mHealth > 30
+			if (cHealth < 50
+			    && cHealth > 30
 				&& spriteStart != mjrDmgStart) {
-				SoundManager.Play("Critstate");
+				SoundManager.Stop("Critstate");
 				spriteStart = mjrDmgStart;
+				pulseImg.sprite = sprites[spriteStart];
+				overlayCrits.SetState(OverlayState.injured);
+			}
+			if (cHealth < 30
+			    && cHealth > 0
+				&& spriteStart != critStart) {
+				SoundManager.Play("Critstate");
+				spriteStart = critStart;
 				pulseImg.sprite = sprites[spriteStart];
 				overlayCrits.SetState(OverlayState.unconscious);
 			}
-			if (mHealth < 20
-			    && mHealth > 0
-				&& spriteStart != critStart) {
-				spriteStart = critStart;
-				pulseImg.sprite = sprites[spriteStart];
-				overlayCrits.SetState(OverlayState.crit);
-			}
 
-			if (mHealth <= 0
+			if(cHealth < 15
+			  && cHealth > 0
+			   && overlayCrits.currentState != OverlayState.crit)
+				overlayCrits.SetState(OverlayState.crit);
+
+			if (cHealth <= 0
 				&& spriteStart != deathStart) {
 				SoundManager.Stop("Critstate");
 				spriteStart = deathStart;
