@@ -100,7 +100,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             SetInventorySlot(slot, gObj);
             //Clean up other slots
             ClearObjectIfNotInSlot(gObj, slot, forceClientInform);
-//            Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
+            //Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
             return true;
         }
         if ( !gObj )
@@ -189,6 +189,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     /// otherwise client will forcefully receive update slot messages
     public void DropItem(string hand, bool forceClientInform = true)
     {
+		//If you need to drop items because of a server side event
+		//and not because of a UI interaction, then you should use
+		//ValidateDropItem directly instead
         InventoryInteractMessage.Send(hand, null, forceClientInform);
     }
 
@@ -207,7 +210,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             UpdateSlotMessage.Send(gameObject, slot, null, forceClientInform);
             return true;
         }
-        Debug.Log("Object not found in Inventory");
+		Debug.Log("Object not found in Inventory for: " + gameObject.name);
         return false;
     }
 
