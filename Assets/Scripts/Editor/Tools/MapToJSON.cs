@@ -8,6 +8,7 @@ using NUnit.Framework.Constraints;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 #if UNITY_EDITOR
 public class MapToJSON : Editor
 {
@@ -30,26 +31,27 @@ public class MapToJSON : Editor
         var tilemapLayers = new SortedDictionary<string, TilemapLayer>(Comparer<string>.Create(CompareSpriteLayer));
         var tempGameObjects = new List<GameObject>();
 
-        for (int y = 0; y < nodesMapped.GetLength(0); y++)
+        for ( int y = 0; y < nodesMapped.GetLength(0); y++ )
         {
-            for (int x = 0; x < nodesMapped.GetLength(1); x++)
+            for ( int x = 0; x < nodesMapped.GetLength(1); x++ )
             {
                 var node = nodesMapped[y, x];
 
-                if (node == null)
+                if ( node == null )
                     continue;
 
                 var spriteRenderers = new List<SpriteRenderer>();
-                
-                foreach (var tile in node.GetTiles())
+
+                foreach ( var tile in node.GetTiles() )
                 {
                     var children = tile.GetComponentsInChildren<SpriteRenderer>();
                     if ( children == null || children.Length < 1 ) continue;
-                    
+
                     var renderer0 = children[0];
-                    if ( thisRendererSucks(renderer0) ) 
+                    if ( thisRendererSucks(renderer0) )
                         continue;
-                    if ( (children.Length.Equals(1) || SpritesMatch(children)) && renderer0.sortingLayerID != 0 )
+                    //TODO investigate this and disappearing tiles on old map
+                    if ( ( children.Length.Equals(1) /*|| SpritesMatch(children) */ ) && renderer0.sortingLayerID != 0 )
                     {
                         renderer0.name = renderer0.sprite.name;
                         spriteRenderers.Add(renderer0);
@@ -59,7 +61,7 @@ public class MapToJSON : Editor
                         var tileconnects = 0;
                         foreach ( var child in children )
                         {
-                            if ( thisRendererSucks(child) || child.sortingLayerID == 0 ) 
+                            if ( thisRendererSucks(child) || child.sortingLayerID == 0 )
                                 continue;
                             if ( child.GetComponent<TileConnect>() )
                             {
@@ -70,39 +72,34 @@ public class MapToJSON : Editor
                                     Debug.LogWarningFormat("{0} — more than 4 tileconnects found!", child.name);
                                 }
                                 // grouping four tileconnect sprites into a single temporary thing
-                                GameObject tcMergeGameObject = Instantiate(child.gameObject, tile.transform.position, Quaternion.identity, tile.transform);
+                                GameObject tcMergeGameObject = Instantiate(child.gameObject, tile.transform.position,
+                                    Quaternion.identity, tile.transform);
                                 tempGameObjects.Add(tcMergeGameObject);
                                 var childClone = tcMergeGameObject.GetComponent<SpriteRenderer>();
                                 var spriteName = childClone.sprite.name;
-                                
+
                                 if ( spriteName.Contains("_") )
                                 {
-                                    childClone.name = "tc_" + spriteName.Substring(0, spriteName.LastIndexOf("_", StringComparison.Ordinal));
+                                    childClone.name = "tc_" + spriteName.Substring(0,
+                                                          spriteName.LastIndexOf("_", StringComparison.Ordinal));
                                 }
                                 spriteRenderers.Add(childClone);
                             }
                             else
                             {
                                 child.name = child.sprite.name;
-                                var overlapFound = spriteRenderers.Any(renderer => GetSortingLayerName(renderer).Equals(GetSortingLayerName(child)));
-                                if ( overlapFound )
+                                var uniqueSortingOrder = GetUniqueSortingOrder(child, spriteRenderers);
+                                if ( !uniqueSortingOrder.Equals(child.sortingOrder) )
                                 {
-//                                    increment sorting order by 100 if overlap is detected
-                                    var newSortOrder = child.sortingOrder + 100;
-                                    if ( newSortOrder < int.MaxValue )
-                                    {
-                                        child.sortingOrder = newSortOrder;
-                                    }
+                                    child.sortingOrder = uniqueSortingOrder;
                                 }
                                 spriteRenderers.Add(child);
                             }
-                            
                         }
-
-                    }       
+                    }
                 }
 
-                foreach (var sr in spriteRenderers)
+                foreach ( var sr in spriteRenderers )
                 {
                     var currentLayerName = GetSortingLayerName(sr);
                     TilemapLayer tilemapLayer;
@@ -126,18 +123,21 @@ public class MapToJSON : Editor
                         instance.Name = parentObject.name;
                     }
                     var childTransform = sr.transform;
-                    instance.ChildTransform = Matrix4x4.TRS(childTransform.localPosition, childTransform.localRotation, childTransform.localScale);
+                    instance.ChildTransform = Matrix4x4.TRS(childTransform.localPosition, childTransform.localRotation,
+                        childTransform.localScale);
                     var parentTransform = sr.transform.parent.gameObject.transform;
-                    instance.Transform = Matrix4x4.TRS(parentTransform.position, parentTransform.localRotation, parentTransform.localScale);
+                    instance.Transform = Matrix4x4.TRS(parentTransform.position, parentTransform.localRotation,
+                        parentTransform.localScale);
                     instance.OriginalSpriteName = sr.sprite.name;
                     instance.SpriteName = sr.name;
                     var assetPath = AssetDatabase.GetAssetPath(sr.sprite.GetInstanceID());
                     //not marking these as legacy
-                    var legacyExclusionList = new List<string>(new []{"turf/shuttle.png"});
-                    instance.IsLegacy = looksLikeLegacy(assetPath, instance) && notExcluded(legacyExclusionList, assetPath);
-                    instance.SpriteSheet = assetPath.Replace("Assets/Resources/","").Replace("Assets/textures/","").Replace("Resources/","").Replace(".png","");
+                    var legacyExclusionList = new List<string>(new[] {"turf/shuttle.png"});
+                    instance.IsLegacy = looksLikeLegacy(assetPath, instance) &&
+                                        notExcluded(legacyExclusionList, assetPath);
+                    instance.SpriteSheet = assetPath.Replace("Assets/Resources/", "").Replace("Assets/textures/", "")
+                        .Replace("Resources/", "").Replace(".png", "");
                     tilemapLayer.Add(x, y, instance);
-
                 }
             }
         }
@@ -146,20 +146,38 @@ public class MapToJSON : Editor
         {
             Debug.LogFormat("{0}: {1}", layer.Key, layer.Value);
         }
-        
+
         fsData data;
         new fsSerializer().TrySerialize(tilemapLayers, out data);
-        File.WriteAllText(Application.dataPath + "/Resources/metadata/" + SceneManager.GetActiveScene().name + ".json", fsJsonPrinter.PrettyJson(data));
+        File.WriteAllText(Application.dataPath + "/Resources/metadata/" + SceneManager.GetActiveScene().name + ".json",
+            fsJsonPrinter.PrettyJson(data));
 
         //Cleanup
-        foreach (var o in tempGameObjects)
+        foreach ( var o in tempGameObjects )
         {
             DestroyImmediate(o);
         }
-        
+
         Debug.Log("Export kinda finished");
         AssetDatabase.Refresh();
+    }
 
+    private static int GetUniqueSortingOrder(SpriteRenderer renderer, List<SpriteRenderer> list)
+    {
+        return GetUniqueSortingOrderRecursive(
+            new Tuple<string, int>(renderer.sortingLayerName, renderer.sortingOrder), list);
+    }
+
+    private static int GetUniqueSortingOrderRecursive(Tuple<string, int> renderer, List<SpriteRenderer> list)
+    {
+        var overlapFound = list.Any(r => r.sortingLayerName.Equals(renderer.Item1)
+                                         && r.sortingOrder.Equals(renderer.Item2));
+        // increment sorting order by 100 if overlap is detected and try again
+        if ( overlapFound )
+        {
+            return GetUniqueSortingOrderRecursive(new Tuple<string, int>(renderer.Item1, renderer.Item2 + 100), list);
+        }
+        return renderer.Item2;
     }
 
     private static bool notExcluded(List<string> notObsolete, string assetPath)
@@ -214,6 +232,7 @@ public class MapToJSON : Editor
         }
         return hs;
     }
+
     internal static string GetSortingLayerName(SpriteRenderer renderer)
     {
 //        var separateLayerMarkers = new List<string>(new []{"WarningLine"});
@@ -229,7 +248,7 @@ public class MapToJSON : Editor
 
     internal static string GetCleanLayerName(string dirtyName)
     {
-        var lameTrimChars = new[] {'1','2','3','4','5','6','7','8','9','0','-'};
+        var lameTrimChars = new[] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-'};
         return dirtyName.TrimEnd(lameTrimChars);
     }
 
@@ -241,16 +260,16 @@ public class MapToJSON : Editor
         var x_index = sortingLayerNames.FindIndex(s => s.StartsWith(xTrim));
         var y_index = sortingLayerNames.FindIndex(s => s.StartsWith(yTrim));
 
-        if (x_index == y_index)
+        if ( x_index == y_index )
         {
-            return  GetLayerOffset(y) - GetLayerOffset(x);
+            return GetLayerOffset(y) - GetLayerOffset(x);
         }
         return y_index - x_index;
     }
 
     internal static int GetLayerOffset(string dirtyName)
     {
-        return int.Parse(dirtyName.Replace(GetCleanLayerName(dirtyName),""));
+        return int.Parse(dirtyName.Replace(GetCleanLayerName(dirtyName), ""));
     }
 }
 #endif
