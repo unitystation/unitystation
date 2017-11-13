@@ -41,7 +41,7 @@ public class BodyPartBehaviour : MonoBehaviour
     private void UpdateIcons()
     {
         if(!IsLocalPlayer()) return;
-        UI.UIManager.PlayerHealth.SetBodyTypeOverlay(this);
+        UI.UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
     }
 
     protected bool IsLocalPlayer()

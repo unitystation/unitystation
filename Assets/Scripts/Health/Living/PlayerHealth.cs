@@ -11,8 +11,9 @@ namespace PlayGroup
 {
 	public class PlayerHealth : HealthBehaviour
 	{
-		//FIXME Torso should handle blood amounts and functions. This component should only be accessor and reporter
-		//TODO A simplified reporting system (properties with easy to find names to access from anywhere to see current state of player)
+		//Health reporting is being performed on PlayerHealthReporting component. You should use the reporting component
+		//to request health data of a particular player from the server. The reporting component also performs UI updates
+		//for local players
 
 		//Fill this in editor:
 		//1 HumanHead, 1 HumanTorso & 4 HumanLimbs for a standard human
@@ -28,41 +29,6 @@ namespace PlayGroup
 		private float bleedRate = 2f;
 
 		public PlayerNetworkActions playerNetworkActions;
-
-		//Only for local player, it monitors and controls the UI for health
-		private LocalPlayerUIHelper playerUIHelper;
-
-		void Start()
-		{
-			if (isLocalPlayer)
-				playerUIHelper = gameObject.AddComponent<LocalPlayerUIHelper>();
-
-			UpdateManager.Instance.regularUpdate.Add(this);
-		}
-
-		//Updated via the updatemanager
-		public override void UpdateMe()
-		{
-			UpdateMaxHealth();
-			base.UpdateMe();
-		}
-
-		private void UpdateMaxHealth()
-		{
-			//Update when there is other damage methods like brute etc
-			//atm there is only blood lose
-
-			//Blood calcs:
-			//TODO revist this when adding new methods of dmg
-			float bloodLoseCalc = (float)maxHealth;
-			if (BloodLevel >= 560) {
-				//Do not adjust max health
-			} else {
-				bloodLoseCalc = ((float)BloodLevel / 560f) * 100f;
-			}
-			//TODO update this with new dmg methods when they are added
-			maxHealth = (int)bloodLoseCalc;
-		}
 
 		public override int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType, BodyPartType bodyPartAim)
 		{
@@ -159,21 +125,11 @@ namespace PlayGroup
 				EffectsFactory.Instance.BloodSplat(transform.position, scaleOfTragedy);
 
 
-			if (BloodLevel <= (int)BloodVolume.SURVIVE) {
-				//Update the UI direct if this is local player
-				if (playerUIHelper)
-					UI.UIManager.OverlayCrits.SetState(UI.OverlayState.crit);
-
+			if (BloodLevel <= (int)BloodVolume.SURVIVE)
 				Crit();
-			}
-
-			if (BloodLevel <= 0) {
-				//Update the UI direct if this is a local player
-				if (playerUIHelper)
-					UI.UIManager.OverlayCrits.SetState(UI.OverlayState.death);
-
+			
+			if (BloodLevel <= 0) 
 				Death();
-			}
 		}
 
 		public override void Death()

@@ -28,6 +28,9 @@ namespace UI
 		private int currentSprite = 0;
 		private float timeWait = 0f;
 
+		//FIXME doing overlayCrit update based off heart monitor for time being
+		public OverlayCrits overlayCrits;
+
 		private void Start()
 		{
 			sprites = SpriteManager.ScreenUISprites["gen"];
@@ -60,11 +63,9 @@ namespace UI
 				while(PlayGroup.PlayerManager.LocalPlayer == null){
 					yield return new WaitForSeconds(1f);
 				}
-				CheckHealth();
 				pulseImg.sprite = sprites[spriteStart + currentSprite++];
 				while (currentSprite == 28) {
 					yield return new WaitForSeconds(0.05f);
-					CheckHealth();
 					timeWait += Time.deltaTime;
 					if (timeWait >= 3f) {
 						timeWait = 0f;
@@ -78,46 +79,59 @@ namespace UI
 			yield return new WaitForEndOfFrame();
 		}
 
-		private void CheckHealth(){
-			if (PlayGroup.PlayerManager.PlayerScript.playerHealth.maxHealth >= 100
+		public void DetermineDisplay(PlayerHealthUI pHealthUI, int maxHealth){
+			if (pHealthUI == null)
+				return;
+
+			CheckHealth(maxHealth);
+		}
+
+		private void CheckHealth(int mHealth){
+			if (mHealth >= 100
 			    && spriteStart != fullHealthStart){
 				SoundManager.Stop("Critstate");
 				spriteStart = fullHealthStart;
 				pulseImg.sprite = sprites[spriteStart];
+				overlayCrits.SetState(OverlayState.normal);
 			}
-			if(PlayGroup.PlayerManager.PlayerScript.playerHealth.maxHealth < 100
-			   && PlayGroup.PlayerManager.PlayerScript.playerHealth.maxHealth > 80
+			if(mHealth < 100
+			   && mHealth > 80
 			   && spriteStart != minorDmgStart){
 				SoundManager.Stop("Critstate");
 				spriteStart = minorDmgStart;
 				pulseImg.sprite = sprites[spriteStart];
+				overlayCrits.SetState(OverlayState.injured);
 			}
-			if (PlayGroup.PlayerManager.PlayerScript.playerHealth.maxHealth < 80
-			   && PlayGroup.PlayerManager.PlayerScript.playerHealth.maxHealth > 50
+			if (mHealth < 80
+			    && mHealth > 50
 			    && spriteStart != medDmgStart) {
 				SoundManager.Stop("Critstate");
 				spriteStart = medDmgStart;
 				pulseImg.sprite = sprites[spriteStart];
+				overlayCrits.SetState(OverlayState.injured);
 			}
-			if (PlayGroup.PlayerManager.PlayerScript.playerHealth.maxHealth < 50
-			   && PlayGroup.PlayerManager.PlayerScript.playerHealth.maxHealth > 30
+			if (mHealth < 50
+			    && mHealth > 30
 				&& spriteStart != mjrDmgStart) {
 				SoundManager.Play("Critstate");
 				spriteStart = mjrDmgStart;
 				pulseImg.sprite = sprites[spriteStart];
+				overlayCrits.SetState(OverlayState.unconscious);
 			}
-			if (PlayGroup.PlayerManager.PlayerScript.playerHealth.maxHealth < 20
-			   && PlayGroup.PlayerManager.PlayerScript.playerHealth.maxHealth > 0
+			if (mHealth < 20
+			    && mHealth > 0
 				&& spriteStart != critStart) {
 				spriteStart = critStart;
 				pulseImg.sprite = sprites[spriteStart];
+				overlayCrits.SetState(OverlayState.crit);
 			}
 
-			if (PlayGroup.PlayerManager.PlayerScript.playerHealth.maxHealth <= 0
+			if (mHealth <= 0
 				&& spriteStart != deathStart) {
 				SoundManager.Stop("Critstate");
 				spriteStart = deathStart;
 				pulseImg.sprite = sprites[spriteStart];
+				overlayCrits.SetState(OverlayState.death);
 			}
 		}
 	}

@@ -14,12 +14,11 @@ namespace UI
 		public ControlAction actionControl;
 		public ControlWalkRun walkRunControl;
 		public ControlDisplays displayControl;
-		public PlayerHealthUI playerHealth;
+		public PlayerHealthUI playerHealthUI;
 		public PlayerListUI playerListUIControl;
 		public DisplayManager displayManager;
 		public Text toolTip;
 		public InventorySlotCache inventorySlotCache;
-		public OverlayCrits overlayCrits;
 
 		private static UIManager uiManager;
 
@@ -39,9 +38,9 @@ namespace UI
 			}
 		}
 
-		public static PlayerHealthUI PlayerHealth {
+		public static PlayerHealthUI PlayerHealthUI {
 			get {
-				return Instance.playerHealth;
+				return Instance.playerHealthUI;
 			}
 		}
 
@@ -96,12 +95,6 @@ namespace UI
 		public static InventorySlotCache InventorySlots {
 			get {
 				return Instance.inventorySlotCache;
-			}
-		}
-
-		public static OverlayCrits OverlayCrits {
-			get {
-				return Instance.overlayCrits;
 			}
 		}
 

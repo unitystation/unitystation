@@ -142,7 +142,7 @@ namespace UI{
 			hudBottomSizeDelta.y = (hudBottom.rect.width) * originalHudSize.y / originalHudSize.x;
 			hudBottom.sizeDelta = hudBottomSizeDelta;
 			UIManager.DisplayManager.SetCameraFollowPos(returnPanelButton.activeSelf);
-			UIManager.OverlayCrits.AdjustOverlayPos();
+			UIManager.PlayerHealthUI.overlayCrits.AdjustOverlayPos();
 		}
 
 		/// <summary>

@@ -6,5 +6,5 @@
     SAFE		= 475,	
     OKAY		= 336,	
     BAD		    = 224,	
-    SURVIVE	    = 122	
+    SURVIVE	    = 168	
 }
