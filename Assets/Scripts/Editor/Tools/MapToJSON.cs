@@ -4,18 +4,28 @@ using System.IO;
 using System.Linq;
 using FullSerializer;
 using Matrix;
-using NUnit.Framework.Constraints;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static JsonToTilemap;
 
 #if UNITY_EDITOR
 public class MapToJSON : Editor
 {
-//FIXME: look into lightbulb size fix (z-plane?)
-    //figure out what to do with the floors
-    //and shuttle corners
-    //try to combine local transforms and check if it helps the bottom shuttle fire closet
+    //FIXME: try to combine local transforms and check if it helps the bottom shuttle fire closet
+
+    //adding +50 offset to spriteRenderers containing these:
+    static readonly List<string> separateLayerMarkers = new List<string>(new []{"WarningLine"});
+    //not marking these as legacy
+    static readonly List<string> legacyExclusionList = new List<string>(new[] {"turf/shuttle.png"/*,"lighting.png","obj/power.png"*/});
+    //pretending these contain TileConnect component (however, four of these are still required to generate a temporary tile)
+    //Item1: name to lookup (via Contains())
+    //Item2: asset path to use instead while exporting
+    static readonly List<Tuple<string,string>> tileConnectWannabes = new List<Tuple<string,string>>
+        (new []{new Tuple<string, string>("shuttle_wall_Skew","walls/shuttle_wall")});
+
+    
+
     [MenuItem("Tools/Export map (JSON)")]
     static void Map2JSON()
     {
@@ -40,39 +50,31 @@ public class MapToJSON : Editor
                 if ( node == null )
                     continue;
 
-                var spriteRenderers = new List<SpriteRenderer>();
+                var allRenderers = new List<SpriteRenderer>();
 
                 foreach ( var tile in node.GetTiles() )
                 {
-                    var children = tile.GetComponentsInChildren<SpriteRenderer>();
-                    if ( children == null || children.Length < 1 ) continue;
-
-                    var renderer0 = children[0];
-                    if ( thisRendererSucks(renderer0) )
-                        continue;
-                    //TODO investigate this and disappearing tiles on old map
-                    if ( ( children.Length.Equals(1) /*|| SpritesMatch(children) */ ) && renderer0.sortingLayerID != 0 )
-                    {
-                        renderer0.name = renderer0.sprite.name;
-                        spriteRenderers.Add(renderer0);
-                    }
-                    else
-                    {
+                    var tileRenderers = tile.GetComponentsInChildren<SpriteRenderer>();
+                    if ( tileRenderers == null || tileRenderers.Length < 1 ) continue;
+//                    //TODO fix excessive layers with obvious duplicates(identical transform and spritename?)
                         var tileconnects = 0;
-                        foreach ( var child in children )
+                        foreach ( var renderer in tileRenderers )
                         {
-                            if ( thisRendererSucks(child) || child.sortingLayerID == 0 )
+                            if ( thisRendererSucks(renderer) || renderer.sortingLayerID == 0 )
                                 continue;
-                            if ( child.GetComponent<TileConnect>() )
+                            
+                            TryMoveToSeparateLayer(renderer);
+                            
+                            if ( renderer.GetComponent<TileConnect>() || IsTileConnectWannabe(renderer) )
                             {
                                 tileconnects++;
                                 if ( tileconnects != 4 ) continue;
                                 if ( tileconnects > 4 )
                                 {
-                                    Debug.LogWarningFormat("{0} — more than 4 tileconnects found!", child.name);
+                                    Debug.LogWarningFormat("{0} — more than 4 tileconnects found!", renderer.name);
                                 }
                                 // grouping four tileconnect sprites into a single temporary thing
-                                GameObject tcMergeGameObject = Instantiate(child.gameObject, tile.transform.position,
+                                GameObject tcMergeGameObject = Instantiate(renderer.gameObject, tile.transform.position,
                                     Quaternion.identity, tile.transform);
                                 tempGameObjects.Add(tcMergeGameObject);
                                 var childClone = tcMergeGameObject.GetComponent<SpriteRenderer>();
@@ -80,28 +82,27 @@ public class MapToJSON : Editor
 
                                 if ( spriteName.Contains("_") )
                                 {
-                                    childClone.name = "tc_" + spriteName.Substring(0,
+                                    childClone.name = TC + spriteName.Substring(0,
                                                           spriteName.LastIndexOf("_", StringComparison.Ordinal));
                                 }
-                                spriteRenderers.Add(childClone);
+                                allRenderers.Add(childClone);
                             }
                             else
                             {
-                                child.name = child.sprite.name;
-                                var uniqueSortingOrder = GetUniqueSortingOrder(child, spriteRenderers);
-                                if ( !uniqueSortingOrder.Equals(child.sortingOrder) )
+                                renderer.name = renderer.sprite.name;
+                                var uniqueSortingOrder = GetUniqueSortingOrder(renderer, allRenderers);
+                                if ( !uniqueSortingOrder.Equals(renderer.sortingOrder) )
                                 {
-                                    child.sortingOrder = uniqueSortingOrder;
+                                    renderer.sortingOrder = uniqueSortingOrder;
                                 }
-                                spriteRenderers.Add(child);
+                                allRenderers.Add(renderer);
                             }
                         }
-                    }
                 }
 
-                foreach ( var sr in spriteRenderers )
+                foreach ( var renderer in allRenderers )
                 {
-                    var currentLayerName = GetSortingLayerName(sr);
+                    var currentLayerName = GetSortingLayerName(renderer);
                     TilemapLayer tilemapLayer;
                     if ( tilemapLayers.ContainsKey(currentLayerName) )
                     {
@@ -117,26 +118,35 @@ public class MapToJSON : Editor
                         continue;
                     }
                     UniTileData instance = CreateInstance<UniTileData>();
-                    var parentObject = sr.transform.parent.gameObject;
+                    var parentObject = renderer.transform.parent.gameObject;
                     if ( parentObject )
                     {
                         instance.Name = parentObject.name;
                     }
-                    var childTransform = sr.transform;
-                    instance.ChildTransform = Matrix4x4.TRS(childTransform.localPosition, childTransform.localRotation,
-                        childTransform.localScale);
-                    var parentTransform = sr.transform.parent.gameObject.transform;
-                    instance.Transform = Matrix4x4.TRS(parentTransform.position, parentTransform.localRotation,
-                        parentTransform.localScale);
-                    instance.OriginalSpriteName = sr.sprite.name;
-                    instance.SpriteName = sr.name;
-                    var assetPath = AssetDatabase.GetAssetPath(sr.sprite.GetInstanceID());
-                    //not marking these as legacy
-                    var legacyExclusionList = new List<string>(new[] {"turf/shuttle.png"});
-                    instance.IsLegacy = looksLikeLegacy(assetPath, instance) &&
-                                        notExcluded(legacyExclusionList, assetPath);
-                    instance.SpriteSheet = assetPath.Replace("Assets/Resources/", "").Replace("Assets/textures/", "")
-                        .Replace("Resources/", "").Replace(".png", "");
+                    var childtf = renderer.transform;
+                    var parenttf = renderer.transform.parent.gameObject.transform;
+                    //don't apply any rotation for tileconnects
+                    var isTC = renderer.name.StartsWith(TC);
+                    var zeroRot = Quaternion.Euler(0,0,0);
+
+                    instance.ChildTransform = 
+                        Matrix4x4.TRS(childtf.localPosition, isTC ? zeroRot : childtf.localRotation, childtf.localScale);
+
+                    instance.Transform = 
+                        Matrix4x4.TRS(parenttf.position, isTC ? zeroRot : parenttf.localRotation, parenttf.localScale);
+                    
+                    instance.OriginalSpriteName = renderer.sprite.name;
+                    instance.SpriteName = renderer.name;
+                    var assetPath = AssetDatabase.GetAssetPath(renderer.sprite.GetInstanceID());
+                    instance.IsLegacy = looksLikeLegacy(assetPath, instance) && !isExcluded(assetPath);
+
+                    string sheet = assetPath
+                        .Replace("Assets/Resources/", "")
+                        .Replace("Assets/textures/", "")
+                        .Replace("Resources/", "")
+                        .Replace(".png", "");
+                    string overrideSheet;
+                    instance.SpriteSheet = IsTileConnectWannabe(renderer, out overrideSheet) ? overrideSheet : sheet;
                     tilemapLayer.Add(x, y, instance);
                 }
             }
@@ -168,6 +178,34 @@ public class MapToJSON : Editor
             new Tuple<string, int>(renderer.sortingLayerName, renderer.sortingOrder), list);
     }
 
+    private static bool IsTileConnectWannabe(SpriteRenderer renderer)
+    {
+        string strEmpty;
+        return IsTileConnectWannabe(renderer, out strEmpty);
+    }
+
+    private static bool IsTileConnectWannabe(SpriteRenderer renderer, out string newPath)
+    {
+        var parentObj = renderer.transform.parent.gameObject;
+        var isTileConnectWannabe = parentObj && tileConnectWannabes.Any(tuple => parentObj.name.Contains(tuple.Item1));
+        newPath = "";
+        if ( isTileConnectWannabe )
+        {
+            newPath = tileConnectWannabes.Find(tuple => parentObj.name.Contains(tuple.Item1)).Item2;
+        }
+        return isTileConnectWannabe;
+    }
+
+    private static void TryMoveToSeparateLayer(SpriteRenderer renderer)
+    {
+        var parentObj = renderer.transform.parent.gameObject;
+        var moveToSeparateLayer = parentObj && separateLayerMarkers.Any(parentObj.name.Contains);
+        if ( moveToSeparateLayer )
+        {
+            renderer.sortingOrder += 50;
+        }
+    }
+
     private static int GetUniqueSortingOrderRecursive(Tuple<string, int> renderer, List<SpriteRenderer> list)
     {
         var overlapFound = list.Any(r => r.sortingLayerName.Equals(renderer.Item1)
@@ -180,14 +218,14 @@ public class MapToJSON : Editor
         return renderer.Item2;
     }
 
-    private static bool notExcluded(List<string> notObsolete, string assetPath)
+    private static bool isExcluded(string assetPath)
     {
-        return !notObsolete.Any(assetPath.Contains);
+        return legacyExclusionList.Any(assetPath.Contains);
     }
 
     private static bool looksLikeLegacy(string assetPath, UniTileData instance)
     {
-        return assetPath.Contains("textures") && !instance.SpriteName.StartsWith("tc_");
+        return assetPath.Contains("textures") && !instance.SpriteName.StartsWith(TC);
     }
 
     private static bool thisRendererSucks(SpriteRenderer spriteRenderer)
@@ -195,54 +233,47 @@ public class MapToJSON : Editor
         return !spriteRenderer || !spriteRenderer.sprite;
     }
 
-    /// <summary>
-    /// check whether all SR contain the same sprite
-    /// </summary>
-    private static bool SpritesMatch(SpriteRenderer[] children)
-    {
-        if ( children.Length < 2 )
-        {
-            return false;
-        }
-        string spritename = "";
-        foreach ( var child in children )
-        {
-            if ( child.sortingLayerID == 0 )
-            {
-                continue;
-            }
-            if ( spritename.Equals("") )
-            {
-                spritename = child.sprite.name;
-            }
-            if ( !spritename.Equals(child.sprite.name) )
-            {
-                return false;
-            }
-        }
-        return true;
-    }
+//    /// <summary>
+//    /// check whether all SR contain the same sprite
+//    /// </summary>
+//    private static bool SpritesMatch(SpriteRenderer[] children)
+//    {
+//        if ( children.Length < 2 )
+//        {
+//            return false;
+//        }
+//        string spritename = "";
+//        foreach ( var child in children )
+//        {
+//            if ( child.sortingLayerID == 0 )
+//            {
+//                continue;
+//            }
+//            if ( spritename.Equals("") )
+//            {
+//                spritename = child.sprite.name;
+//            }
+//            if ( !spritename.Equals(child.sprite.name) )
+//            {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
-    internal static HashSet<string> GetSortingLayerOrderNames(IEnumerable<SpriteRenderer> renderers)
-    {
-        var hs = new HashSet<string>();
-        foreach ( var renderer in renderers )
-        {
-            hs.Add(renderer.sortingLayerName + renderer.sortingOrder);
-        }
-        return hs;
-    }
+//    internal static HashSet<string> GetSortingLayerOrderNames(IEnumerable<SpriteRenderer> renderers)
+//    {
+//        var hs = new HashSet<string>();
+//        foreach ( var renderer in renderers )
+//        {
+//            hs.Add(renderer.sortingLayerName + renderer.sortingOrder);
+//        }
+//        return hs;
+//    }
 
     internal static string GetSortingLayerName(SpriteRenderer renderer)
     {
-//        var separateLayerMarkers = new List<string>(new []{"WarningLine"});
-//        var parentObj = renderer.transform.parent.gameObject;
-//        var moveToSeparateLayer = parentObj && separateLayerMarkers.Any(parentObj.name.Contains);
-//        if (moveToSeparateLayer)
-//        {
-//            var potentialLayerName = renderer.sortingLayerName + 50;
-//            return potentialLayerName;
-//        }
+
         return renderer.sortingLayerName + renderer.sortingOrder;
     }
 

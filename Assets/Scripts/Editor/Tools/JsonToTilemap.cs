@@ -10,6 +10,7 @@ using UnityEngine.Tilemaps;
 
 public class JsonToTilemap
 {
+    public const string TC = "tc_";
     [MenuItem("Tools/Import map (JSON)")]
     static void Json2Map()
     {
@@ -44,7 +45,7 @@ public class JsonToTilemap
             
             layerTilemap.SetTiles(positions.ToArray(), tiles.ToArray());
         }
-        gridGameObject.transform.position = new Vector3(-100,0,0); //nudge map's x -100 px?
+        gridGameObject.transform.position = new Vector3(-100,0,0); 
 
         Debug.Log("Import kinda finished");
     }
@@ -68,15 +69,27 @@ public class JsonToTilemap
 //        tile.transform = data.Transform;//apply with caution as x,y offsets are huge
         var c = data.ChildTransform;
         var p = data.Transform;
-        var customMainTransform = Matrix4x4.TRS(GetPosFromMatrix4x4(c), p.rotation, c.lossyScale );
-        tile.transform = customMainTransform;//experimental
+        //upscaling TC tiles for eye candy
+        if ( data.SpriteName.StartsWith(TC) )
+        {
+            p.m00 = 2;
+            p.m11 = 2;
+        }
+        tile.transform = CombineTransforms(p, c);//customMainTransform;//experimental
         tile.ChildTransform = c;//not being interpreted by Tilemap 
         tile.colliderType = data.ColliderType;
-        //generate asset?
+
+        //generate asset here?
         tile.sprite = data.IsLegacy ? SpriteManager.Instance.dmi.getSpriteFromLegacyName(data.SpriteSheet, data.SpriteName) 
                                     : SpriteManager.Instance.dmi.getSprite(data.SpriteSheet, data.SpriteName);
         
         return tile;
+    }
+
+    //TODO
+    private static Matrix4x4 CombineTransforms(Matrix4x4 p, Matrix4x4 c)
+    {
+        return Matrix4x4.TRS(GetPosFromMatrix4x4(c), p.rotation, p.lossyScale );
     }
 
     private static Vector3 GetPosFromMatrix4x4(Matrix4x4 c)
