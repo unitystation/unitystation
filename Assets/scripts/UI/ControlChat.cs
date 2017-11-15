@@ -43,7 +43,8 @@ namespace UI
 
         public void Update()
         {
-            if (!chatInputWindow.activeInHierarchy && Input.GetKey(KeyCode.T) && GameData.IsInGame)
+            if (!chatInputWindow.activeInHierarchy && Input.GetKey(KeyCode.T) && GameData.IsInGame
+			    && CustomNetworkManager.Instance.IsClientConnected())
             {
                 chatInputWindow.SetActive(true);
                 isChatFocus = true;
