@@ -28,7 +28,6 @@ public class MapToJSON : Editor
     static void Map2JSON()
     {
         AssetDatabase.Refresh();
-        //      ColliderType = Grid (all but wallmounts), none (wallmounts)
 
         var nodesMapped = MapToPNG.GetMappedNodes();
         var tilemapLayers = new SortedDictionary<string, TilemapLayer>(Comparer<string>.Create(CompareSpriteLayer));
@@ -45,7 +44,10 @@ public class MapToJSON : Editor
 
                 var nodeRenderers = new List<SpriteRenderer>();
 
-                foreach ( var tile in node.GetTiles() )
+                var objectsToExport = node.GetTiles();
+                node.GetItems().ForEach(behaviour => objectsToExport.Add(behaviour.gameObject));
+                
+                foreach ( var tile in objectsToExport )
                 {
                     var tileRenderers = tile.GetComponentsInChildren<SpriteRenderer>();
                     if ( tileRenderers == null || tileRenderers.Length < 1 ) continue;
