@@ -16,7 +16,6 @@ namespace UI{
 		public RectTransform hudBottom;
 		public RectTransform panelRight;
 		public GameObject returnPanelButton;
-		public RectTransform overlayCrit;
 		float hudRight_dist;
 		float leftRange;
 		float rightRange;

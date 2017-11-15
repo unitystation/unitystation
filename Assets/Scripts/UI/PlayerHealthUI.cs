@@ -15,11 +15,11 @@ namespace UI
 
 		//Server calls to update the UI
 
-		public void UpdateHealthUI(PlayerHealthReporting reportC, int maxHealth){
-			if (reportC == null) //can only be called from reporting component
+		public void UpdateHealthUI(UpdateUIMessage validateMsg, int curHealth){
+			if (validateMsg == null) //can only be called from server msg
 				return;
 
-			DetermineUIDisplay(maxHealth);
+			DetermineUIDisplay(curHealth);
 		}
 
 		private void DetermineUIDisplay(int curHealth){

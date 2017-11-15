@@ -23,9 +23,10 @@ namespace PlayGroup
 		//server only caches
 		private int healthServerCache;
 		private int bloodLevelCache;
-		private float BloodPercentage = 100f; 
+		private float BloodPercentage = 100f;
 
-		protected override void Awake(){
+		protected override void Awake()
+		{
 			//Do not call base method for this Awake.
 		}
 
@@ -40,10 +41,11 @@ namespace PlayGroup
 			base.OnStartServer();
 		}
 
-		IEnumerator WaitForLoad(){
+		IEnumerator WaitForLoad()
+		{
 			yield return new WaitForSeconds(1f); //1000ms wait for lag
 
-			RpcUpdateClientUI(100); //Set the UI for this player to 100 percent
+			UpdateClientUI(100); //Set the UI for this player to 100 percent
 		}
 
 		private void OnDestroy()
@@ -54,7 +56,8 @@ namespace PlayGroup
 
 		//This only runs on the server, server will do the calculations and send
 		//messages to the client when needed (or requested)
-		public override void UpdateMe(){
+		public override void UpdateMe()
+		{
 			ServerMonitorHealth();
 			base.UpdateMe();
 		}
@@ -79,27 +82,20 @@ namespace PlayGroup
 			if (BloodPercentage < playerHealth.Health) {
 				healthServerCache = (int)BloodPercentage;
 				playerHealth.ServerOnlySetHealth(healthServerCache);
-				RpcUpdateClientUI(healthServerCache);
+				UpdateClientUI(healthServerCache);
 			}
 
-			if(playerHealth.Health != healthServerCache){
+			if (playerHealth.Health != healthServerCache) {
 				healthServerCache = playerHealth.Health;
-				RpcUpdateClientUI(healthServerCache);
+				UpdateClientUI(healthServerCache);
 			}
 		}
 
-		//TODO convert these RPC's to a net messages so it only sends data to the 
-		//client that needs it
-		/// <summary>
-		/// Server will send Rpc if a value changes. Only the localplayer will
-		/// carry on the action to the UI. 
-		/// </summary>
-		[ClientRpc]
-		private void RpcUpdateClientUI(int cHealth){
-			if(isLocalPlayer){
-				//Update the UI
-				UI.UIManager.PlayerHealthUI.UpdateHealthUI(this, cHealth);
-			}
+		//Sends msg to the owner of this player to update their UI
+		[Server]
+		private void UpdateClientUI(int newHealth)
+		{
+			UpdateUIMessage.Send(gameObject, newHealth);
 		}
 	}
 }
