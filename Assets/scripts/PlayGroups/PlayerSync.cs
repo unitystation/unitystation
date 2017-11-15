@@ -42,6 +42,7 @@ namespace PlayGroup
 		private RegisterTile pullRegister;
 		private bool canRegister = false;
 		private Vector3 pullPos;
+		private PushPull pushPull; //The pushpull component on this player
 		
 		private Vector2 lastDirection;
 
@@ -81,6 +82,15 @@ namespace PlayGroup
 			}
 		}
 
+		//Currently used to set the pos of a player that has just been dragged by another player
+		[Command]
+		public void CmdSetPositionFromReset(GameObject fromObj, GameObject otherPlayer, Vector3 setPos){
+			if (fromObj.GetComponent<PlayerSync>() == null) //Validation
+				return;
+
+			PlayerSync otherPlayerSync = otherPlayer.GetComponent<PlayerSync>();
+			otherPlayerSync.SetPosition(setPos);
+		}
 		/// <summary>
 		/// Manually set a player to a specific position
 		/// </summary>
@@ -114,6 +124,7 @@ namespace PlayGroup
 			playerScript = GetComponent<PlayerScript>();
 			playerSprites = GetComponent<PlayerSprites>();
 			registerTile = GetComponent<RegisterTile>();
+			pushPull = GetComponent<PushPull>();
 		}
 
 		//managed by UpdateManager
@@ -161,10 +172,9 @@ namespace PlayGroup
 
 			if (isLocalPlayer && GameData.IsHeadlessServer)
 				return;
-			
 
 			if (!playerMove.isGhost) {
-				if (isLocalPlayer && playerMove.isPushing)
+				if (isLocalPlayer && playerMove.isPushing || pushPull.pulledBy != null)
 					return;
 
 				state = isLocalPlayer ? predictedState : serverState;
@@ -206,6 +216,7 @@ namespace PlayGroup
 					//If object gets too far away activate warp speed
 					pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, (playerMove.speed * Time.deltaTime) * 30f);
 				}
+				pullingObject.BroadcastMessage("FaceDirection", playerSprites.currentDirection, SendMessageOptions.DontRequireReceiver);
 			}
 		}
 
@@ -247,7 +258,15 @@ namespace PlayGroup
 				if (pullingObject != null) {
 					pullRegister.UpdateTile(pullingObject.transform.position);
 					EditModeControl eM = pullingObject.GetComponent<EditModeControl>();
-					eM.Snap();
+					if (eM != null) {
+						//This is for objects with editmodecontrol on them
+						eM.Snap();
+					} else {
+						//Could be a another player
+						PlayerSync otherPlayerSync = pullingObject.GetComponent<PlayerSync>();
+						if (otherPlayerSync != null)
+							CmdSetPositionFromReset(gameObject, otherPlayerSync.gameObject, pullingObject.transform.position);
+					}
 				}
 				pullRegister = null;
 				pullingObject = null;

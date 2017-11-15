@@ -17,7 +17,7 @@ public class VisibleBehaviour : ManagedNetworkBehaviour
 	[SyncVar(hook = "UpdateState")]
 	public bool visibleState = true;
 
-	private bool isPlayer = false;
+	public bool isPlayer = false;
 	public RegisterTile registerTile;
 
 	//Ignore these types

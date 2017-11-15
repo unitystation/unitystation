@@ -21,6 +21,8 @@ namespace PlayGroup
 
 		private PlayerSprites playerSprites;
 		private PlayerSync playerSync;
+		[HideInInspector]
+		public PushPull pushPull; //The push pull component attached to this player
 
 		private static KeyCode[] keyCodes = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
 
@@ -45,6 +47,7 @@ namespace PlayGroup
 		{
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
 			playerSync = GetComponent<PlayerSync>();
+			pushPull = GetComponent<PushPull>();
 		}
 
 		/// temp solution for use with the UI network prediction
@@ -111,7 +114,13 @@ namespace PlayGroup
 			var actionKeys = new List<int>(action.keyCodes);
 			foreach (var keyCode in keyCodes) {
 				if (actionKeys.Contains((int)keyCode) && !pressedKeys.Contains(keyCode)) {
-					pressedKeys.Add(keyCode);
+					if (pushPull.pulledBy != null && !isGhost) {
+						PushPull otherPlayer = pushPull.pulledBy.GetComponent<PushPull>();
+						otherPlayer.CancelPullBehaviour();
+						pressedKeys.Add(keyCode);
+					} else {
+						pressedKeys.Add(keyCode);
+					}
 				} else if (!actionKeys.Contains((int)keyCode) && pressedKeys.Contains(keyCode)) {
 					pressedKeys.Remove(keyCode);
 				}

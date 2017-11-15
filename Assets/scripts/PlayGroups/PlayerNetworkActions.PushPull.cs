@@ -18,6 +18,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		
 		PushPull pulled = obj.GetComponent<PushPull>();
+
+		//check if the object you want to pull is another player
+		if (pulled.isPlayer) {
+			PlayerSync playerS = obj.GetComponent<PlayerSync>();
+			//Anything that the other player is pulling should be stopped
+			if (playerS.pullingObject != null) {
+				PlayerNetworkActions otherPNA = obj.GetComponent<PlayerNetworkActions>();
+				otherPNA.CmdStopOtherPulling(playerS.pullingObject);
+			}
+				
+		}
         //Other player is pulling object, send stop on that player
 		if (pulled.pulledBy != null) {
             if (pulled.pulledBy != gameObject)
@@ -25,6 +36,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
                 pulled.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
             }
 		}
+
+
 
         if (pulled != null)
         {

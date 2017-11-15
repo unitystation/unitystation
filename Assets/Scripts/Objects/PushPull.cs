@@ -50,8 +50,11 @@ public class PushPull : VisibleBehaviour
 
 	public virtual void OnMouseDown()
 	{
+		// PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null condition makes sure that the player itself
+		// isn't being pulled. If he is then he is not allowed to pull anything else as this can cause problems
 		if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform)
-			&& transform != PlayerManager.LocalPlayerScript.transform) {
+		    && transform != PlayerManager.LocalPlayerScript.transform 
+		    && PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null) {
 			if (pulledBy == PlayerManager.LocalPlayer) {
 				CancelPullBehaviour();
 			} else {
