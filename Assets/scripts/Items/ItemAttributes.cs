@@ -220,17 +220,17 @@ public class ItemAttributes : NetworkBehaviour
         for (int i = 0; i < invSheetPaths.Length; i++)
         {
             var iconPath = DmiIconData.getIconPath(invSheetPaths[i]); //add extension junk
-            if (!iconPath.Equals("") && dmi.Data.ContainsKey(iconPath) && icon.Equals(""))
+            if (!iconPath.Equals("") && DmiIconData.Data.ContainsKey(iconPath) && icon.Equals(""))
             {
                 //					Debug.Log(name + ": iSheet = dmi.DataHier[" + iconPath +"] = " + dmi.Data[iconPath]);
-                return dmi.Data[iconPath];
+                return DmiIconData.Data[iconPath];
             }
         }
 
         if (!icon.Equals(""))
         {
             //				Debug.Log(name + ": iSheet = dmi.DataIcon["+icon+"] = "+iSheet);
-            return dmi.Data[icon];
+            return DmiIconData.Data[icon];
         }
         //pretty bad choice, should use this only as last resort as it's usually pretty inaccurate
         var invIcon = dmi.getIconByState(icon_state);

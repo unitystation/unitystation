@@ -12,6 +12,7 @@ public class EditModeControl: MonoBehaviour
 	void Start()
 	{
 		Snap(); // snap on instantiate
+
 	}
 
 	public Vector3 Snap()

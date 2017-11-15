@@ -28,13 +28,7 @@ namespace Matrix {
         [NonSerialized]
 		private List<ObjectBehaviour> players = new List<ObjectBehaviour>();
 
-        private bool isDoor;
-        private bool isWindow;
-        private bool isWall;
-        private bool isObject;
-        private bool isSpace;
-        private bool isPlayer;
-		private bool isRestrictiveTile;
+        private bool isDoor, isWindow, isWall, isWallMount, isObject, isSpace, isPlayer, isRestrictiveTile;
 
 		//Holds the details if tile is blocking movement in certain directions
 		private RestrictedMoveStruct restrictedMoveStruct;
@@ -70,7 +64,11 @@ namespace Matrix {
                 {
                     players.Add(gameObject.GetComponent<ObjectBehaviour>());
                 }
-                else if(tileType == TileType.Floor || tileType == TileType.Door || tileType == TileType.Wall || tileType == TileType.Window)
+                else if(tileType == TileType.Floor 
+                     || tileType == TileType.Door 
+                     || tileType == TileType.Wall 
+                     || tileType == TileType.Window 
+                     || tileType == TileType.WallMount)
                 {
                     structures.Add(gameObject);
                 }
@@ -167,6 +165,10 @@ namespace Matrix {
 
         public bool IsWall() {
             return isWall;
+        }
+
+        public bool IsWallMount() {
+            return isWallMount;
         }
 
         public bool IsPlayer() {
@@ -277,6 +279,7 @@ namespace Matrix {
             connectValue = 0;
             isDoor = false;
             isWall = false;
+            isWallMount = false;
             isSpace = false;
             isPlayer = false;
             isObject = false;
@@ -306,6 +309,9 @@ namespace Matrix {
                 }
                 if(registerTile.TileType == TileType.Wall) {
                     isWall = true;
+                }
+                if(registerTile.TileType == TileType.WallMount) {
+                    isWallMount = true;
                 }
                 if(registerTile.TileType == TileType.Window) {
                     isWindow = true;

@@ -7,7 +7,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MapToPNG : UnityEditor.Editor
+public class MapToPNG : Editor
 {
     private static List<string> sortingLayerNames = GetSortingLayerNames();
 
@@ -28,10 +28,17 @@ public class MapToPNG : UnityEditor.Editor
 
                 if (n == null)
                     continue;
-
                 var spriteRenderers = new List<SpriteRenderer>();
 
-                foreach (var t in n.GetTiles())
+                var gameObjects = n.GetTiles();
+
+                // +Items
+                foreach ( var item in n.GetItems() )
+                {
+                    gameObjects.Add(item.gameObject);
+                }
+                
+                foreach (var t in gameObjects)
                 {
                     foreach (var sr in t.GetComponentsInChildren<SpriteRenderer>())
                     {
@@ -48,11 +55,11 @@ public class MapToPNG : UnityEditor.Editor
                 {
                     var sprite = sr.sprite;
 
-                    var pixels = sprite.texture.GetPixels((int) sprite.rect.x,
-                        (int) sprite.rect.y,
-                        (int) sprite.rect.width,
-                        (int) sprite.rect.height);
-
+                    var rectX = (int) sprite.rect.x;
+                    var rectY = (int) sprite.rect.y;
+                    var rectWidth = (int) sprite.rect.width;
+                    var rectHeight = (int) sprite.rect.height;
+                    var pixels = sprite.texture.GetPixels(rectX, rectY, rectWidth, rectHeight);
                     var texWidth = sprite.rect.width;
                     var texHeight = sprite.rect.height;
                     var localX = sr.transform.localPosition.x;
@@ -65,12 +72,19 @@ public class MapToPNG : UnityEditor.Editor
                     {
                         for (int y1 = 0; y1 < texHeight; y1++)
                         {
-                            var px = pixels[y1 * (int) sprite.rect.width + x1];
+                            var px = pixels[y1 * rectWidth + x1];
 
                             var i = (texY + y1) * nodesMapped.GetLength(1) * 32 + texX + x1;
 
                             if (px.a > 0)
                             {
+                                if ( colors.Length < i )
+                                {
+//                                    Debug.LogFormat("{8}: rX={0}, rY={1}, tW={2}, tH={3}, lX={4}, lY={5}, texX={6}, texY={7}", 
+//                                        rectX, rectY, texWidth, texHeight, localX, localY, texX, texY, sprite.name);
+                                    Debug.LogWarningFormat("{2}: No such index colors[{0}]! colors.Length={1}", i, colors.Length, sprite.name);
+                                    continue;
+                                }
                                 colors[i] = colors[i] * (1 - px.a) + px * px.a;
                             }
                         }
@@ -89,7 +103,8 @@ public class MapToPNG : UnityEditor.Editor
         Debug.Log("Making Map Image Done");
     }
 
-    private static MatrixNode[,] GetMappedNodes()
+
+    internal static MatrixNode[,] GetMappedNodes()
     {
         var keys = Matrix.Matrix.Nodes.keys;
         var values = Matrix.Matrix.Nodes.values;
@@ -104,7 +119,8 @@ public class MapToPNG : UnityEditor.Editor
             var k = keys[i];
             var v = values[i];
 
-            if (v.GetTiles().Count > 0)
+            if (v.GetTiles().Count > 0 
+                || v.GetItems().Count > 0)
             {
                 nodes.Add(v);
                 x.Add((int) (k >> 32));
@@ -130,7 +146,7 @@ public class MapToPNG : UnityEditor.Editor
         return nodesMapped;
     }
 
-    private static int CompareSpriteRenderer(SpriteRenderer x, SpriteRenderer y)
+    internal static int CompareSpriteRenderer(SpriteRenderer x, SpriteRenderer y)
     {
         var x_index = sortingLayerNames.FindIndex(s => s.Equals(x.sortingLayerName));
         var y_index = sortingLayerNames.FindIndex(s => s.Equals(y.sortingLayerName));
@@ -143,7 +159,7 @@ public class MapToPNG : UnityEditor.Editor
     }
 
 
-    private static List<string> GetSortingLayerNames()
+    internal static List<string> GetSortingLayerNames()
     {
         var internalEditorUtilityType = typeof(InternalEditorUtility);
         PropertyInfo sortingLayersProperty =

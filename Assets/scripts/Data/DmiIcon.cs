@@ -25,7 +25,7 @@ public class DmiIcon
             int endIndex = icon.IndexOf(".dmi", StringComparison.Ordinal);
             return icon.Substring(startIndex, endIndex-startIndex);
         }
-        Debug.LogWarning("getName: something's wrong");
+//        Debug.LogWarning("getName: something's wrong");
         return "";
     }
 
@@ -41,6 +41,32 @@ public class DmiIcon
 //        Debug.LogWarning("Couldn't find dmiIcon by state " + state);
         return new DmiState();
     }
+
+    public DmiState getStateAtOffset(int offset, out int relativeOffset)
+    {
+        relativeOffset = 0;
+        if (!offset.Equals(-1))
+        {
+            var foundState = states.Find(x => x.OwnsOffset(offset));
+            if (foundState != null)
+            {
+                relativeOffset = foundState.GetRelativeOffset(offset);
+                return foundState;
+            }
+        }
+        return new DmiState();
+    }
+
+
+  /// <returns> -1 if you feed custom shit to it</returns>
+    internal static int getOffsetFromUnityName(string unityName)
+    {
+        var intStr = unityName.Split('_');
+        var last = intStr.Last();
+        int offset = int.TryParse(last, out offset) ? offset : -1;
+        return offset;
+    }
+
 
     public DmiIcon(string icon, List<DmiState> states)
     {
