@@ -8,7 +8,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
-public class JsonToTilemap
+#if UNITY_EDITOR
+public class JsonToTilemap : Editor
 {
     public const string TC = "tc_";
     [MenuItem("Tools/Import map (JSON)")]
@@ -29,19 +30,17 @@ public class JsonToTilemap
             
             //convert positions
             List<Vector3Int> positions = layer.Value.TilePositions.ConvertAll(coord => new Vector3Int(coord.X, coord.Y, 0));
-            Debug.LogFormat("Decoded {0} positions for layer {1}", positions.Count, layer.Key);
             //convert tiles
             List<UniTile> tiles = layer.Value.Tiles.ConvertAll(DataToTile);
-            Debug.LogFormat("Generated {0} tiles for layer {1}", tiles.Count, layer.Key);
+            Debug.LogFormat("Decoded {0} positions, generated {1} tiles for layer {2}", positions.Count, tiles.Count, layer.Key);
             
             logOverlaps(positions, tiles);
 
             layerGO.transform.parent = gridGameObject.transform;
             var layerTilemap = layerGO.AddComponent<Tilemap>();
             var layerRenderer = layerGO.AddComponent<TilemapRenderer>();
-            //set em up here
-            layerRenderer.sortingLayerName = MapToJSON.GetCleanLayerName(layer.Key);
-            layerRenderer.sortingOrder = MapToJSON.GetLayerOffset(layer.Key);
+            layerRenderer.sortingLayerName = GetCleanLayerName(layer.Key);
+            layerRenderer.sortingOrder = GetLayerOffset(layer.Key);
             
             layerTilemap.SetTiles(positions.ToArray(), tiles.ToArray());
         }
@@ -66,14 +65,12 @@ public class JsonToTilemap
     {
         var tile = ScriptableObject.CreateInstance<UniTile>();
         tile.name = data.Name;
-//        tile.transform = data.Transform;//apply with caution as x,y offsets are huge
         var c = data.ChildTransform;
         var p = data.Transform;
-        //upscaling TC tiles for eye candy
+        //upscaling TC tiles for eye candy, fixme: you will want to turn that off later when new tileconnect is ready
         if ( data.SpriteName.StartsWith(TC) )
         {
-            p.m00 = 2;
-            p.m11 = 2;
+            SetXyScale(ref p, 2);
         }
         tile.transform = CombineTransforms(p, c);//customMainTransform;//experimental
         tile.ChildTransform = c;//not being interpreted by Tilemap 
@@ -86,10 +83,19 @@ public class JsonToTilemap
         return tile;
     }
 
-    //TODO
+    private static void SetXyScale(ref Matrix4x4 matrix, float scale)
+    {
+        matrix.m00 = scale;
+        matrix.m11 = scale;
+    }
+
+
     private static Matrix4x4 CombineTransforms(Matrix4x4 p, Matrix4x4 c)
     {
-        return Matrix4x4.TRS(GetPosFromMatrix4x4(c), p.rotation, p.lossyScale );
+        var rotation = p.rotation * c.rotation;
+        var position = rotation * GetPosFromMatrix4x4(c); //parent position offsets are huge! don't think we should use them at all
+        var scale = p.lossyScale;
+        return Matrix4x4.TRS( position, rotation, scale );
     }
 
     private static Vector3 GetPosFromMatrix4x4(Matrix4x4 c)
@@ -109,4 +115,47 @@ public class JsonToTilemap
         } else throw new FileNotFoundException("Put your map json to /Assets/Resources/metadata/%mapname%.json!");
         return deserializedLayers;
     }
+    
+    internal static HashSet<string> GetSortingLayerOrderNames(IEnumerable<SpriteRenderer> renderers)
+    {
+        var hs = new HashSet<string>();
+        foreach ( var renderer in renderers )
+        {
+            hs.Add(renderer.sortingLayerName + renderer.sortingOrder);
+        }
+        return hs;
+    }
+
+    internal static string GetSortingLayerName(SpriteRenderer renderer)
+    {
+
+        return renderer.sortingLayerName + renderer.sortingOrder;
+    }
+
+    internal static string GetCleanLayerName(string dirtyName)
+    {
+        var lameTrimChars = new[] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-'};
+        return dirtyName.TrimEnd(lameTrimChars);
+    }
+
+    internal static int CompareSpriteLayer(string x, string y)
+    {
+        var sortingLayerNames = MapToPNG.GetSortingLayerNames();
+        var xTrim = GetCleanLayerName(x);
+        var yTrim = GetCleanLayerName(y);
+        var x_index = sortingLayerNames.FindIndex(s => s.StartsWith(xTrim));
+        var y_index = sortingLayerNames.FindIndex(s => s.StartsWith(yTrim));
+
+        if ( x_index == y_index )
+        {
+            return GetLayerOffset(y) - GetLayerOffset(x);
+        }
+        return y_index - x_index;
+    }
+
+    internal static int GetLayerOffset(string dirtyName)
+    {
+        return int.Parse(dirtyName.Replace(GetCleanLayerName(dirtyName), ""));
+    }
 }
+#endif
