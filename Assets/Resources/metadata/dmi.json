@@ -99754,6 +99754,810 @@
     ]
   },
   {
+    "icon": "icons/lighting.dmi",
+    "states": [
+      {
+        "unityName": "lighting_0",
+        "state": "tube1",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_4",
+        "state": "tube0",
+        "offset": 4,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_8",
+        "state": "tube-empty",
+        "offset": 8,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_12",
+        "state": "tube-burned",
+        "offset": 12,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_16",
+        "state": "tube-broken",
+        "offset": 16,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_20",
+        "state": "bulb1",
+        "offset": 20,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_24",
+        "state": "bulb0",
+        "offset": 24,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_28",
+        "state": "bulb-broken",
+        "offset": 28,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_32",
+        "state": "bulb-empty",
+        "offset": 32,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_36",
+        "state": "bulb-burned",
+        "offset": 36,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_40",
+        "state": "ltube",
+        "offset": 40,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_41",
+        "state": "ltube-burned",
+        "offset": 41,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_42",
+        "state": "ltube-broken",
+        "offset": 42,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_43",
+        "state": "lbulb",
+        "offset": 43,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_44",
+        "state": "lbulb-burned",
+        "offset": 44,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_45",
+        "state": "lbulb-broken",
+        "offset": 45,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_46",
+        "state": "glowshroomf",
+        "offset": 46,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_47",
+        "state": "glowshroom1",
+        "offset": 47,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_51",
+        "state": "glowshroom2",
+        "offset": 51,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_55",
+        "state": "glowshroom3",
+        "offset": 55,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_59",
+        "state": "glowshroomfold",
+        "offset": 59,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_60",
+        "state": "floor1",
+        "offset": 60,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_61",
+        "state": "floor0",
+        "offset": 61,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_62",
+        "state": "floor-empty",
+        "offset": 62,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_63",
+        "state": "floor-burned",
+        "offset": 63,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_64",
+        "state": "floor-broken",
+        "offset": 64,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_65",
+        "state": "firelight1",
+        "delay": "1,1,1,1,1,1,1,1",
+        "offset": 65,
+        "frames": 8,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_97",
+        "state": "firelight0",
+        "offset": 97,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_101",
+        "state": "firelight-broken",
+        "offset": 101,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_105",
+        "state": "flight",
+        "offset": 105,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_106",
+        "state": "flight-broken",
+        "offset": 106,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_107",
+        "state": "tube-construct-stage1",
+        "offset": 107,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_111",
+        "state": "bulb-construct-stage1",
+        "offset": 111,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_115",
+        "state": "tube-construct-stage2",
+        "offset": 115,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_119",
+        "state": "bulb-construct-stage2",
+        "offset": 119,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_123",
+        "state": "tube-construct-item",
+        "offset": 123,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_127",
+        "state": "bulb-construct-item",
+        "offset": 127,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_131",
+        "state": "flashlight",
+        "offset": 131,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_132",
+        "state": "flashlight-on",
+        "offset": 132,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_133",
+        "state": "lamp",
+        "offset": 133,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_134",
+        "state": "lamp-on",
+        "offset": 134,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_135",
+        "state": "lampgreen",
+        "offset": 135,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_136",
+        "state": "lampgreen-on",
+        "offset": 136,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_137",
+        "state": "lantern",
+        "offset": 137,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_138",
+        "state": "lantern-on",
+        "offset": 138,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_139",
+        "state": "flare-on",
+        "delay": "1,1,1,1",
+        "offset": 139,
+        "frames": 4,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_143",
+        "state": "flare-empty",
+        "offset": 143,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_144",
+        "state": "flare",
+        "offset": 144,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_145",
+        "state": "slime",
+        "offset": 145,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_146",
+        "state": "slime-on",
+        "offset": 146,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_147",
+        "state": "torch",
+        "offset": 147,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_148",
+        "state": "torch-on",
+        "delay": "1,1,1",
+        "offset": 148,
+        "frames": 3,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_151",
+        "state": "torch-empty",
+        "offset": 151,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_152",
+        "state": "penlight",
+        "offset": 152,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_153",
+        "state": "penlight-on",
+        "offset": 153,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_154",
+        "state": "bananalamp",
+        "offset": 154,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_155",
+        "state": "bananalamp-on",
+        "offset": 155,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_156",
+        "state": "seclite",
+        "offset": 156,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_157",
+        "state": "seclite-on",
+        "offset": 157,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_158",
+        "state": "bulb2",
+        "delay": "2.5,2.5",
+        "offset": 158,
+        "frames": 2,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_166",
+        "state": "tube2",
+        "delay": "2.5,2.5",
+        "offset": 166,
+        "frames": 2,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_174",
+        "state": "glowcapf",
+        "offset": 174,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_175",
+        "state": "glowcap1",
+        "offset": 175,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_179",
+        "state": "glowcap2",
+        "offset": 179,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_183",
+        "state": "glowcap3",
+        "offset": 183,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_187",
+        "state": "lantern-blue",
+        "offset": 187,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_188",
+        "state": "orb",
+        "delay": "2,2,2,2,2,2,2,2",
+        "offset": 188,
+        "frames": 8,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_196",
+        "state": "flashlight_eyes",
+        "offset": 196,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_197",
+        "state": "glowstick",
+        "offset": 197,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_198",
+        "state": "glowstick-empty",
+        "offset": 198,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_199",
+        "state": "glowstick-on",
+        "delay": "5,5",
+        "offset": 199,
+        "frames": 2,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_201",
+        "state": "glowstick-glow",
+        "offset": 201,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_202",
+        "state": "shadowshroomf",
+        "offset": 202,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_203",
+        "state": "shadowshroom1",
+        "offset": 203,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_207",
+        "state": "shadowshroom2",
+        "offset": 207,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_211",
+        "state": "shadowshroom3",
+        "offset": 211,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "lighting_215",
+        "state": "flashdark",
+        "offset": 215,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_216",
+        "state": "flashdark-on",
+        "offset": 216,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_217",
+        "state": "floodlight_on",
+        "offset": 217,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_218",
+        "state": "floodlight",
+        "offset": 218,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_219",
+        "state": "Floodlight Burned",
+        "offset": 219,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_220",
+        "state": "Floodlight Broken",
+        "offset": 220,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_221",
+        "state": "floodlight_c3",
+        "offset": 221,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_222",
+        "state": "floodlight_c1",
+        "offset": 222,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_223",
+        "state": "floodlight_c2",
+        "offset": 223,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_224",
+        "state": "disco1",
+        "delay": "1,1,1,1,1,1,1,1,1,1,1,1",
+        "offset": 224,
+        "frames": 12,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_236",
+        "state": "disco0",
+        "offset": 236,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_237",
+        "state": "disco-broken",
+        "offset": 237,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_238",
+        "state": "markerrandom",
+        "offset": 238,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_239",
+        "state": "markerburgundy-on",
+        "offset": 239,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_240",
+        "state": "markerburgundy",
+        "offset": 240,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_241",
+        "state": "markerbronze-on",
+        "offset": 241,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_242",
+        "state": "markerbronze",
+        "offset": 242,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_243",
+        "state": "markeryellow-on",
+        "offset": 243,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_244",
+        "state": "markeryellow",
+        "offset": 244,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_245",
+        "state": "markerlime-on",
+        "offset": 245,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_246",
+        "state": "markerlime",
+        "offset": 246,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_247",
+        "state": "markerolive-on",
+        "offset": 247,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_248",
+        "state": "markerolive",
+        "offset": 248,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_249",
+        "state": "markerjade-on",
+        "offset": 249,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_250",
+        "state": "markerjade",
+        "offset": 250,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_251",
+        "state": "markerteal-on",
+        "offset": 251,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_252",
+        "state": "markerteal",
+        "offset": 252,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_253",
+        "state": "markercerulean-on",
+        "offset": 253,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_254",
+        "state": "markercerulean",
+        "offset": 254,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_255",
+        "state": "markerindigo-on",
+        "offset": 255,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_256",
+        "state": "markerindigo",
+        "offset": 256,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_257",
+        "state": "markerpurple-on",
+        "offset": 257,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_258",
+        "state": "markerpurple",
+        "offset": 258,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_259",
+        "state": "markerviolet-on",
+        "offset": 259,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_260",
+        "state": "markerviolet",
+        "offset": 260,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_261",
+        "state": "markerfuchsia-on",
+        "offset": 261,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "lighting_262",
+        "state": "markerfuchsia",
+        "offset": 262,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
     "icon": "icons/obj/lighting.dmi",
     "states": [
       {
@@ -135578,1764 +136382,1852 @@
       },
       {
         "unityName": "floors_2",
-        "state": "pp_overlay",
+        "state": "white",
         "offset": 2,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_3",
-        "state": "white",
+        "state": "plating",
         "offset": 3,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_4",
-        "state": "plating",
+        "state": "dark",
         "offset": 4,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_5",
-        "state": "dark",
+        "state": "bar",
         "offset": 5,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_6",
-        "state": "bar",
+        "state": "stage_bottom",
         "offset": 6,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_7",
-        "state": "stage_bottom",
+        "state": "stage_left",
         "offset": 7,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_8",
-        "state": "stage_left",
+        "state": "stage_bleft",
         "offset": 8,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_9",
-        "state": "stage_bleft",
+        "state": "stairs-old",
         "offset": 9,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_10",
-        "state": "stairs-old",
+        "state": "stairs",
         "offset": 10,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_11",
-        "state": "stairs",
+        "state": "stairs-l",
         "offset": 11,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_12",
-        "state": "stairs-l",
+        "state": "stairs-m",
         "offset": 12,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_13",
-        "state": "stairs-m",
+        "state": "stairs-r",
         "offset": 13,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_14",
-        "state": "stairs-r",
+        "state": "cafeteria",
         "offset": 14,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_15",
-        "state": "cafeteria",
+        "state": "grimy",
         "offset": 15,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_16",
-        "state": "grimy",
-        "offset": 16,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_17",
         "state": "red",
-        "offset": 17,
+        "offset": 16,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_25",
+        "unityName": "floors_24",
         "state": "redcorner",
-        "offset": 25,
+        "offset": 24,
         "frames": 1,
         "dirs": 4
+      },
+      {
+        "unityName": "floors_28",
+        "state": "redfull",
+        "offset": 28,
+        "frames": 1,
+        "dirs": 1
       },
       {
         "unityName": "floors_29",
-        "state": "redfull",
-        "offset": 29,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_30",
         "state": "whitered",
-        "offset": 30,
+        "offset": 29,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_38",
+        "unityName": "floors_37",
         "state": "whiteredcorner",
-        "offset": 38,
+        "offset": 37,
         "frames": 1,
         "dirs": 4
+      },
+      {
+        "unityName": "floors_41",
+        "state": "whiteredfull",
+        "offset": 41,
+        "frames": 1,
+        "dirs": 1
       },
       {
         "unityName": "floors_42",
-        "state": "whiteredfull",
-        "offset": 42,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_43",
         "state": "blue",
-        "offset": 43,
+        "offset": 42,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_51",
+        "unityName": "floors_50",
         "state": "bluecorner",
-        "offset": 51,
+        "offset": 50,
         "frames": 1,
         "dirs": 4
+      },
+      {
+        "unityName": "floors_54",
+        "state": "bluefull",
+        "offset": 54,
+        "frames": 1,
+        "dirs": 1
       },
       {
         "unityName": "floors_55",
-        "state": "bluefull",
-        "offset": 55,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_56",
         "state": "whiteblue",
-        "offset": 56,
+        "offset": 55,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_64",
+        "unityName": "floors_63",
         "state": "whitebluecorner",
-        "offset": 64,
+        "offset": 63,
         "frames": 1,
         "dirs": 4
+      },
+      {
+        "unityName": "floors_67",
+        "state": "whitebluefull",
+        "offset": 67,
+        "frames": 1,
+        "dirs": 1
       },
       {
         "unityName": "floors_68",
-        "state": "whitebluefull",
-        "offset": 68,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_69",
         "state": "green",
-        "offset": 69,
+        "offset": 68,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_77",
+        "unityName": "floors_76",
         "state": "greencorner",
-        "offset": 77,
+        "offset": 76,
         "frames": 1,
         "dirs": 4
+      },
+      {
+        "unityName": "floors_80",
+        "state": "greenfull",
+        "offset": 80,
+        "frames": 1,
+        "dirs": 1
       },
       {
         "unityName": "floors_81",
-        "state": "greenfull",
-        "offset": 81,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_82",
         "state": "whitegreen",
-        "offset": 82,
+        "offset": 81,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_90",
+        "unityName": "floors_89",
         "state": "whitegreencorner",
-        "offset": 90,
+        "offset": 89,
         "frames": 1,
         "dirs": 4
+      },
+      {
+        "unityName": "floors_93",
+        "state": "whitegreenfull",
+        "offset": 93,
+        "frames": 1,
+        "dirs": 1
       },
       {
         "unityName": "floors_94",
-        "state": "whitegreenfull",
+        "state": "yellowsiding",
         "offset": 94,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_95",
-        "state": "yellowsiding",
-        "offset": 95,
-        "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_103",
+        "unityName": "floors_102",
         "state": "yellowcornersiding",
-        "offset": 103,
+        "offset": 102,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_107",
+        "unityName": "floors_106",
         "state": "yellow",
-        "offset": 107,
+        "offset": 106,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_115",
+        "unityName": "floors_114",
         "state": "yellowcorner",
-        "offset": 115,
+        "offset": 114,
         "frames": 1,
         "dirs": 4
+      },
+      {
+        "unityName": "floors_118",
+        "state": "yellowfull",
+        "offset": 118,
+        "frames": 1,
+        "dirs": 1
       },
       {
         "unityName": "floors_119",
-        "state": "yellowfull",
-        "offset": 119,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_120",
         "state": "whiteyellow",
-        "offset": 120,
+        "offset": 119,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_128",
+        "unityName": "floors_127",
         "state": "whiteyellowcorner",
-        "offset": 128,
+        "offset": 127,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_132",
+        "unityName": "floors_131",
         "state": "whiteyellowfull",
+        "offset": 131,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_132",
+        "state": "black",
         "offset": 132,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_133",
-        "state": "black",
-        "offset": 133,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_134",
         "state": "chapel",
-        "offset": 134,
+        "offset": 133,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_142",
+        "unityName": "floors_141",
         "state": "engine",
+        "offset": 141,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_142",
+        "state": "bcircuit",
         "offset": 142,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_143",
-        "state": "bcircuit",
+        "state": "bcircuitoff",
         "offset": 143,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_144",
-        "state": "bcircuitoff",
+        "state": "gcircuit",
         "offset": 144,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_145",
-        "state": "gcircuit",
+        "state": "gcircuitoff",
         "offset": 145,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_146",
-        "state": "gcircuitoff",
+        "state": "neutral",
         "offset": 146,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_147",
-        "state": "rcircuit",
-        "offset": 147,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_148",
-        "state": "rcircuitoff",
-        "offset": 148,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_149",
-        "state": "rcircuitanim",
-        "delay": "2,2,2,2",
-        "offset": 149,
-        "frames": 4,
-        "dirs": 4
-      },
-      {
-        "unityName": "floors_165",
-        "state": "gcircuitanim",
-        "delay": "2,2,2,2",
-        "offset": 165,
-        "frames": 4,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_169",
-        "state": "neutral",
-        "offset": 169,
-        "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_177",
+        "unityName": "floors_154",
         "state": "neutralfull",
-        "offset": 177,
+        "offset": 154,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_178",
+        "unityName": "floors_155",
         "state": "neutralcorner",
-        "offset": 178,
+        "offset": 155,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_182",
+        "unityName": "floors_159",
         "state": "orange",
-        "offset": 182,
+        "offset": 159,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_190",
+        "unityName": "floors_167",
         "state": "orangecorner",
-        "offset": 190,
+        "offset": 167,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_194",
+        "unityName": "floors_171",
         "state": "orangefull",
-        "offset": 194,
+        "offset": 171,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_195",
+        "unityName": "floors_172",
         "state": "whitehall",
-        "offset": 195,
+        "offset": 172,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_203",
+        "unityName": "floors_180",
         "state": "whitecorner",
-        "offset": 203,
+        "offset": 180,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_207",
+        "unityName": "floors_184",
         "state": "arrival",
-        "offset": 207,
+        "offset": 184,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_215",
+        "unityName": "floors_192",
         "state": "arrivalcorner",
-        "offset": 215,
+        "offset": 192,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_219",
+        "unityName": "floors_196",
         "state": "escape",
-        "offset": 219,
+        "offset": 196,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_227",
+        "unityName": "floors_204",
         "state": "escapecorner",
-        "offset": 227,
+        "offset": 204,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_231",
+        "unityName": "floors_208",
         "state": "pinkblack",
-        "offset": 231,
+        "offset": 208,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_232",
+        "unityName": "floors_209",
         "state": "purple",
-        "offset": 232,
+        "offset": 209,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_240",
+        "unityName": "floors_217",
         "state": "purplecorner",
-        "offset": 240,
+        "offset": 217,
         "frames": 1,
         "dirs": 4
+      },
+      {
+        "unityName": "floors_221",
+        "state": "purplefull",
+        "offset": 221,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_222",
+        "state": "whitepurple",
+        "offset": 222,
+        "frames": 1,
+        "dirs": 8
+      },
+      {
+        "unityName": "floors_230",
+        "state": "whitepurplecorner",
+        "offset": 230,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_234",
+        "state": "whitepurplefull",
+        "offset": 234,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_235",
+        "state": "cmo",
+        "offset": 235,
+        "frames": 1,
+        "dirs": 1
       },
       {
         "unityName": "floors_244",
-        "state": "purplefull",
+        "state": "blackcorner",
         "offset": 244,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_245",
-        "state": "whitepurple",
-        "offset": 245,
-        "frames": 1,
-        "dirs": 8
-      },
-      {
-        "unityName": "floors_253",
-        "state": "whitepurplecorner",
-        "offset": 253,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_257",
-        "state": "whitepurplefull",
-        "offset": 257,
+        "unityName": "floors_248",
+        "state": "caution",
+        "offset": 248,
+        "frames": 1,
+        "dirs": 8
+      },
+      {
+        "unityName": "floors_256",
+        "state": "cautioncorner",
+        "offset": 256,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_260",
+        "state": "grass",
+        "offset": 260,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_258",
-        "state": "cmo",
-        "offset": 258,
+        "unityName": "floors_261",
+        "state": "floorgrime",
+        "offset": 261,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_262",
+        "state": "L1",
+        "offset": 262,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_263",
+        "state": "L2",
+        "offset": 263,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_264",
+        "state": "L3",
+        "offset": 264,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_265",
+        "state": "L4",
+        "offset": 265,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_266",
+        "state": "L5",
+        "offset": 266,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_267",
-        "state": "blackcorner",
+        "state": "L6",
         "offset": 267,
         "frames": 1,
-        "dirs": 4
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_268",
+        "state": "L7",
+        "offset": 268,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_269",
+        "state": "L8",
+        "offset": 269,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_270",
+        "state": "L9",
+        "offset": 270,
+        "frames": 1,
+        "dirs": 1
       },
       {
         "unityName": "floors_271",
-        "state": "caution",
+        "state": "L10",
         "offset": 271,
         "frames": 1,
-        "dirs": 8
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_272",
+        "state": "L11",
+        "offset": 272,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_273",
+        "state": "L12",
+        "offset": 273,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_274",
+        "state": "L13",
+        "offset": 274,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_275",
+        "state": "L14",
+        "offset": 275,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_276",
+        "state": "solarpanel",
+        "offset": 276,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_277",
+        "state": "freezerfloor",
+        "offset": 277,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_278",
+        "state": "damaged1",
+        "offset": 278,
+        "frames": 1,
+        "dirs": 1
       },
       {
         "unityName": "floors_279",
-        "state": "cautioncorner",
+        "state": "damaged3",
         "offset": 279,
         "frames": 1,
-        "dirs": 4
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_280",
+        "state": "damaged2",
+        "offset": 280,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_281",
+        "state": "panelscorched",
+        "offset": 281,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_282",
+        "state": "floorscorched1",
+        "offset": 282,
+        "frames": 1,
+        "dirs": 1
       },
       {
         "unityName": "floors_283",
-        "state": "grass",
+        "state": "floorscorched2",
         "offset": 283,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_284",
-        "state": "floorgrime",
+        "state": "damaged4",
         "offset": 284,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_285",
-        "state": "L1",
+        "state": "damaged5",
         "offset": 285,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_286",
-        "state": "L2",
+        "state": "platingdmg1",
         "offset": 286,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_287",
-        "state": "L3",
+        "state": "platingdmg2",
         "offset": 287,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_288",
-        "state": "L4",
+        "state": "platingdmg3",
         "offset": 288,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_289",
-        "state": "L5",
+        "state": "delivery",
         "offset": 289,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_290",
-        "state": "L6",
+        "state": "bot",
         "offset": 290,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_291",
-        "state": "L7",
+        "state": "derelict1",
         "offset": 291,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_292",
-        "state": "L8",
+        "state": "derelict2",
         "offset": 292,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_293",
-        "state": "L9",
+        "state": "derelict3",
         "offset": 293,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_294",
-        "state": "L10",
+        "state": "derelict4",
         "offset": 294,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_295",
-        "state": "L11",
+        "state": "derelict5",
         "offset": 295,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_296",
-        "state": "L12",
+        "state": "derelict6",
         "offset": 296,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_297",
-        "state": "L13",
+        "state": "derelict7",
         "offset": 297,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_298",
-        "state": "L14",
+        "state": "derelict8",
         "offset": 298,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_299",
-        "state": "solarpanel",
+        "state": "derelict9",
         "offset": 299,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_300",
-        "state": "freezerfloor",
+        "state": "derelict10",
         "offset": 300,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_301",
-        "state": "damaged1",
+        "state": "derelict11",
         "offset": 301,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_302",
-        "state": "damaged3",
+        "state": "derelict12",
         "offset": 302,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_303",
-        "state": "damaged2",
+        "state": "derelict13",
         "offset": 303,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_304",
-        "state": "panelscorched",
+        "state": "derelict14",
         "offset": 304,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_305",
-        "state": "floorscorched1",
+        "state": "derelict15",
         "offset": 305,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_306",
-        "state": "floorscorched2",
+        "state": "derelict16",
         "offset": 306,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_307",
-        "state": "damaged4",
+        "state": "asteroid",
         "offset": 307,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_308",
-        "state": "damaged5",
+        "state": "asteroid_dug",
         "offset": 308,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_309",
-        "state": "platingdmg1",
+        "state": "hydrofloor",
         "offset": 309,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_310",
-        "state": "platingdmg2",
+        "state": "brownold",
         "offset": 310,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_311",
-        "state": "platingdmg3",
-        "offset": 311,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_312",
-        "state": "delivery",
-        "offset": 312,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_313",
-        "state": "bot",
-        "offset": 313,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_314",
-        "state": "derelict1",
-        "offset": 314,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_315",
-        "state": "derelict2",
-        "offset": 315,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_316",
-        "state": "derelict3",
-        "offset": 316,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_317",
-        "state": "derelict4",
-        "offset": 317,
-        "frames": 1,
-        "dirs": 1
+        "dirs": 8
       },
       {
         "unityName": "floors_318",
-        "state": "derelict5",
+        "state": "browncornerold",
         "offset": 318,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_319",
-        "state": "derelict6",
-        "offset": 319,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_320",
-        "state": "derelict7",
-        "offset": 320,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_321",
-        "state": "derelict8",
-        "offset": 321,
-        "frames": 1,
-        "dirs": 1
+        "dirs": 4
       },
       {
         "unityName": "floors_322",
-        "state": "derelict9",
+        "state": "brown",
         "offset": 322,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_323",
-        "state": "derelict10",
-        "offset": 323,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_324",
-        "state": "derelict11",
-        "offset": 324,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_325",
-        "state": "derelict12",
-        "offset": 325,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_326",
-        "state": "derelict13",
-        "offset": 326,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_327",
-        "state": "derelict14",
-        "offset": 327,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_328",
-        "state": "derelict15",
-        "offset": 328,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_329",
-        "state": "derelict16",
-        "offset": 329,
-        "frames": 1,
-        "dirs": 1
+        "dirs": 8
       },
       {
         "unityName": "floors_330",
-        "state": "asteroid",
+        "state": "browncorner",
         "offset": 330,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_331",
-        "state": "asteroid_dug",
-        "offset": 331,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_332",
-        "state": "hydrofloor",
-        "offset": 332,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_333",
-        "state": "brownold",
-        "offset": 333,
-        "frames": 1,
-        "dirs": 8
-      },
-      {
-        "unityName": "floors_341",
-        "state": "browncornerold",
-        "offset": 341,
-        "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_345",
-        "state": "brown",
-        "offset": 345,
-        "frames": 1,
-        "dirs": 8
-      },
-      {
-        "unityName": "floors_353",
-        "state": "browncorner",
-        "offset": 353,
-        "frames": 1,
-        "dirs": 4
-      },
-      {
-        "unityName": "floors_357",
+        "unityName": "floors_334",
         "state": "redyellow",
-        "offset": 357,
+        "offset": 334,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_365",
+        "unityName": "floors_342",
         "state": "redyellowfull",
-        "offset": 365,
+        "offset": 342,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_366",
+        "unityName": "floors_343",
         "state": "redblue",
-        "offset": 366,
+        "offset": 343,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_374",
+        "unityName": "floors_351",
         "state": "bluered",
-        "offset": 374,
+        "offset": 351,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_382",
+        "unityName": "floors_359",
         "state": "redbluefull",
-        "offset": 382,
+        "offset": 359,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_383",
+        "unityName": "floors_360",
         "state": "redgreen",
-        "offset": 383,
+        "offset": 360,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_391",
+        "unityName": "floors_368",
         "state": "redgreenfull",
-        "offset": 391,
+        "offset": 368,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_392",
+        "unityName": "floors_369",
         "state": "greenyellow",
-        "offset": 392,
+        "offset": 369,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_400",
+        "unityName": "floors_377",
         "state": "greenyellowfull",
-        "offset": 400,
+        "offset": 377,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_401",
+        "unityName": "floors_378",
         "state": "greenblue",
-        "offset": 401,
+        "offset": 378,
         "frames": 1,
         "dirs": 8
+      },
+      {
+        "unityName": "floors_386",
+        "state": "greenbluefull",
+        "offset": 386,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_387",
+        "state": "blueyellow",
+        "offset": 387,
+        "frames": 1,
+        "dirs": 8
+      },
+      {
+        "unityName": "floors_395",
+        "state": "blueyellowfull",
+        "offset": 395,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_396",
+        "state": "showroomfloor",
+        "offset": 396,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_397",
+        "state": "podhatch",
+        "offset": 397,
+        "frames": 1,
+        "dirs": 8
+      },
+      {
+        "unityName": "floors_405",
+        "state": "podhatchcorner",
+        "offset": 405,
+        "frames": 1,
+        "dirs": 4
       },
       {
         "unityName": "floors_409",
-        "state": "greenbluefull",
+        "state": "elevatorshaft",
         "offset": 409,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_410",
-        "state": "blueyellow",
+        "state": "vault",
         "offset": 410,
         "frames": 1,
         "dirs": 8
       },
       {
         "unityName": "floors_418",
-        "state": "blueyellowfull",
+        "state": "loadingarea",
         "offset": 418,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_419",
-        "state": "showroomfloor",
-        "offset": 419,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_420",
-        "state": "podhatch",
-        "offset": 420,
-        "frames": 1,
-        "dirs": 8
-      },
-      {
-        "unityName": "floors_428",
-        "state": "podhatchcorner",
-        "offset": 428,
-        "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_432",
-        "state": "elevatorshaft",
-        "offset": 432,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_433",
-        "state": "vault",
-        "offset": 433,
-        "frames": 1,
-        "dirs": 8
-      },
-      {
-        "unityName": "floors_441",
-        "state": "loadingarea",
-        "offset": 441,
-        "frames": 1,
-        "dirs": 4
-      },
-      {
-        "unityName": "floors_445",
+        "unityName": "floors_422",
         "state": "loadingareadirty1",
-        "offset": 445,
+        "offset": 422,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_449",
+        "unityName": "floors_426",
         "state": "loadingareadirty2",
-        "offset": 449,
+        "offset": 426,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_453",
+        "unityName": "floors_430",
         "state": "light_on_flicker1",
         "delay": "122,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
-        "offset": 453,
+        "offset": 430,
         "frames": 16,
         "dirs": 1
       },
       {
-        "unityName": "floors_469",
+        "unityName": "floors_446",
         "state": "light_on_flicker2",
         "delay": "100,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
-        "offset": 469,
+        "offset": 446,
         "frames": 16,
         "dirs": 1
       },
       {
-        "unityName": "floors_485",
+        "unityName": "floors_462",
         "state": "light_on_flicker3",
         "delay": "87,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
-        "offset": 485,
+        "offset": 462,
         "frames": 16,
         "dirs": 1
       },
       {
-        "unityName": "floors_501",
+        "unityName": "floors_478",
         "state": "light_on_flicker4",
         "delay": "70,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
-        "offset": 501,
+        "offset": 478,
         "frames": 16,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_494",
+        "state": "light_on_broken",
+        "delay": "1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
+        "offset": 494,
+        "frames": 16,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_510",
+        "state": "light_on",
+        "delay": "1,1",
+        "offset": 510,
+        "frames": 2,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_512",
+        "state": "light_off",
+        "offset": 512,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_513",
+        "state": "light_broken",
+        "offset": 513,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_514",
+        "state": "rockvault",
+        "offset": 514,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_515",
+        "state": "sandstonevault",
+        "offset": 515,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_516",
+        "state": "alienvault",
+        "offset": 516,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_517",
-        "state": "light_on_broken",
-        "delay": "1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
-        "offset": 517,
-        "frames": 16,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_533",
-        "state": "light_on",
+        "state": "light_on-r",
         "delay": "1,1",
-        "offset": 533,
+        "offset": 517,
         "frames": 2,
         "dirs": 1
       },
       {
-        "unityName": "floors_535",
-        "state": "light_off",
-        "offset": 535,
+        "unityName": "floors_519",
+        "state": "light_on-g",
+        "delay": "1,1",
+        "offset": 519,
+        "frames": 2,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_521",
+        "state": "light_on-y",
+        "delay": "1,1",
+        "offset": 521,
+        "frames": 2,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_523",
+        "state": "light_on-b",
+        "delay": "1,1",
+        "offset": 523,
+        "frames": 2,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_525",
+        "state": "light_on-p",
+        "delay": "1,1",
+        "offset": 525,
+        "frames": 2,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_527",
+        "state": "light_on-w",
+        "delay": "1,1",
+        "offset": 527,
+        "frames": 2,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_529",
+        "state": "wall_thermite",
+        "offset": 529,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_536",
-        "state": "light_broken",
-        "offset": 536,
+        "unityName": "floors_530",
+        "state": "asteroidplating",
+        "offset": 530,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_537",
-        "state": "rockvault",
-        "offset": 537,
+        "unityName": "floors_531",
+        "state": "asteroidfloor",
+        "offset": 531,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_538",
-        "state": "sandstonevault",
-        "offset": 538,
+        "unityName": "floors_532",
+        "state": "asteroidwarning",
+        "offset": 532,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_539",
-        "state": "alienvault",
-        "offset": 539,
-        "frames": 1,
-        "dirs": 1
+        "dirs": 8
       },
       {
         "unityName": "floors_540",
-        "state": "light_on-r",
-        "delay": "1,1",
+        "state": "barber",
         "offset": 540,
-        "frames": 2,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_541",
+        "state": "cult",
+        "offset": 541,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_542",
-        "state": "light_on-g",
-        "delay": "1,1",
+        "state": "cultdamage",
         "offset": 542,
-        "frames": 2,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_543",
+        "state": "cultdamage2",
+        "offset": 543,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_544",
-        "state": "light_on-y",
-        "delay": "1,1",
+        "state": "cultdamage3",
         "offset": 544,
-        "frames": 2,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_545",
+        "state": "cultdamage4",
+        "offset": 545,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_546",
-        "state": "light_on-b",
-        "delay": "1,1",
+        "state": "cultdamage5",
         "offset": 546,
-        "frames": 2,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_547",
+        "state": "cultdamage6",
+        "offset": 547,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_548",
-        "state": "light_on-p",
-        "delay": "1,1",
+        "state": "cultdamage7",
         "offset": 548,
-        "frames": 2,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_549",
+        "state": "whitebot",
+        "offset": 549,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_550",
-        "state": "light_on-w",
-        "delay": "1,1",
+        "state": "whitedelivery",
         "offset": 550,
-        "frames": 2,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_551",
+        "state": "plaque",
+        "offset": 551,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_552",
-        "state": "light_on-cycle_all",
-        "delay": "1,1,1,1,1,1,1,1,1,1,1,1",
+        "state": "wood",
         "offset": 552,
-        "frames": 12,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_553",
+        "state": "wood-broken",
+        "offset": 553,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_554",
+        "state": "wood-broken2",
+        "offset": 554,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_555",
+        "state": "wood-broken3",
+        "offset": 555,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_556",
+        "state": "wood-broken4",
+        "offset": 556,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_557",
+        "state": "wood-broken5",
+        "offset": 557,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_558",
+        "state": "wood-broken6",
+        "offset": 558,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_559",
+        "state": "wood-broken7",
+        "offset": 559,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_560",
+        "state": "ironsand1",
+        "offset": 560,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_561",
+        "state": "ironsand2",
+        "offset": 561,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_562",
+        "state": "ironsand3",
+        "offset": 562,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_563",
+        "state": "ironsand4",
+        "offset": 563,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_564",
-        "state": "light_on-dancefloor_A",
-        "delay": "1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
+        "state": "ironsand5",
         "offset": 564,
-        "frames": 24,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_565",
+        "state": "ironsand6",
+        "offset": 565,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_566",
+        "state": "ironsand7",
+        "offset": 566,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_567",
+        "state": "ironsand8",
+        "offset": 567,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_568",
+        "state": "ironsand9",
+        "offset": 568,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_569",
+        "state": "ironsand10",
+        "offset": 569,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_570",
+        "state": "ironsand11",
+        "offset": 570,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_571",
+        "state": "ironsand12",
+        "offset": 571,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_572",
+        "state": "ironsand13",
+        "offset": 572,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_573",
+        "state": "ironsand14",
+        "offset": 573,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_574",
+        "state": "ironsand15",
+        "offset": 574,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_575",
+        "state": "recharge_floor",
+        "delay": "6,6",
+        "offset": 575,
+        "frames": 2,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_577",
+        "state": "recharge_floor_asteroid",
+        "delay": "6,6",
+        "offset": 577,
+        "frames": 2,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_579",
+        "state": "plasma",
+        "offset": 579,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_580",
+        "state": "plasma_dam",
+        "offset": 580,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_581",
+        "state": "uranium",
+        "offset": 581,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_582",
+        "state": "uranium_dam",
+        "offset": 582,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_583",
+        "state": "bananium",
+        "offset": 583,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_584",
+        "state": "bananium_dam",
+        "offset": 584,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_585",
+        "state": "silver",
+        "offset": 585,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_586",
+        "state": "silver_dam",
+        "offset": 586,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_587",
+        "state": "diamond",
+        "offset": 587,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_588",
-        "state": "light_on-dancefloor_B",
-        "delay": "1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
+        "state": "diamond_dam",
         "offset": 588,
-        "frames": 24,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_612",
-        "state": "wall_thermite",
-        "offset": 612,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_613",
-        "state": "asteroidplating",
-        "offset": 613,
+        "unityName": "floors_589",
+        "state": "darkpurple",
+        "offset": 589,
+        "frames": 1,
+        "dirs": 8
+      },
+      {
+        "unityName": "floors_597",
+        "state": "darkpurplecorners",
+        "offset": 597,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_601",
+        "state": "darkpurplefull",
+        "offset": 601,
         "frames": 1,
         "dirs": 1
+      },
+      {
+        "unityName": "floors_602",
+        "state": "darkred",
+        "offset": 602,
+        "frames": 1,
+        "dirs": 8
+      },
+      {
+        "unityName": "floors_610",
+        "state": "darkredcorners",
+        "offset": 610,
+        "frames": 1,
+        "dirs": 4
       },
       {
         "unityName": "floors_614",
-        "state": "asteroidfloor",
+        "state": "darkredfull",
         "offset": 614,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_615",
-        "state": "asteroidwarning",
+        "state": "darkblue",
         "offset": 615,
         "frames": 1,
         "dirs": 8
       },
       {
         "unityName": "floors_623",
-        "state": "barber",
+        "state": "darkbluecorners",
         "offset": 623,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_624",
-        "state": "cult",
-        "offset": 624,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_625",
-        "state": "cultdamage",
-        "offset": 625,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_626",
-        "state": "cultdamage2",
-        "offset": 626,
-        "frames": 1,
-        "dirs": 1
+        "dirs": 4
       },
       {
         "unityName": "floors_627",
-        "state": "cultdamage3",
+        "state": "darkbluefull",
         "offset": 627,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_628",
-        "state": "cultdamage4",
+        "state": "darkgreen",
         "offset": 628,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_629",
-        "state": "cultdamage5",
-        "offset": 629,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_630",
-        "state": "cultdamage6",
-        "offset": 630,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_631",
-        "state": "cultdamage7",
-        "offset": 631,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_632",
-        "state": "whitebot",
-        "offset": 632,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_633",
-        "state": "whitedelivery",
-        "offset": 633,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_634",
-        "state": "plaque",
-        "offset": 634,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_635",
-        "state": "wood",
-        "offset": 635,
-        "frames": 1,
-        "dirs": 1
+        "dirs": 8
       },
       {
         "unityName": "floors_636",
-        "state": "wood-broken",
+        "state": "darkgreencorners",
         "offset": 636,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_637",
-        "state": "wood-broken2",
-        "offset": 637,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_638",
-        "state": "wood-broken3",
-        "offset": 638,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_639",
-        "state": "wood-broken4",
-        "offset": 639,
-        "frames": 1,
-        "dirs": 1
+        "dirs": 4
       },
       {
         "unityName": "floors_640",
-        "state": "wood-broken5",
+        "state": "darkgreenfull",
         "offset": 640,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_641",
-        "state": "wood-broken6",
+        "state": "darkyellow",
         "offset": 641,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_642",
-        "state": "wood-broken7",
-        "offset": 642,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_643",
-        "state": "ironsand1",
-        "offset": 643,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_644",
-        "state": "ironsand2",
-        "offset": 644,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_645",
-        "state": "ironsand3",
-        "offset": 645,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_646",
-        "state": "ironsand4",
-        "offset": 646,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_647",
-        "state": "ironsand5",
-        "offset": 647,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_648",
-        "state": "ironsand6",
-        "offset": 648,
-        "frames": 1,
-        "dirs": 1
+        "dirs": 8
       },
       {
         "unityName": "floors_649",
-        "state": "ironsand7",
+        "state": "darkyellowcorners",
         "offset": 649,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_650",
-        "state": "ironsand8",
-        "offset": 650,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_651",
-        "state": "ironsand9",
-        "offset": 651,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_652",
-        "state": "ironsand10",
-        "offset": 652,
-        "frames": 1,
-        "dirs": 1
+        "dirs": 4
       },
       {
         "unityName": "floors_653",
-        "state": "ironsand11",
+        "state": "darkyellowfull",
         "offset": 653,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_654",
-        "state": "ironsand12",
+        "state": "darkbrown",
         "offset": 654,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_655",
-        "state": "ironsand13",
-        "offset": 655,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_656",
-        "state": "ironsand14",
-        "offset": 656,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_657",
-        "state": "ironsand15",
-        "offset": 657,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_658",
-        "state": "recharge_floor",
-        "delay": "6,6",
-        "offset": 658,
-        "frames": 2,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_660",
-        "state": "recharge_floor_asteroid",
-        "delay": "6,6",
-        "offset": 660,
-        "frames": 2,
-        "dirs": 1
+        "dirs": 8
       },
       {
         "unityName": "floors_662",
-        "state": "bananium",
+        "state": "darkbrowncorners",
         "offset": 662,
         "frames": 1,
-        "dirs": 1
+        "dirs": 4
       },
       {
-        "unityName": "floors_663",
-        "state": "bananium_dam",
-        "offset": 663,
+        "unityName": "floors_666",
+        "state": "darkbrownfull",
+        "offset": 666,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_664",
-        "state": "darkpurple",
-        "offset": 664,
+        "unityName": "floors_667",
+        "state": "warningline",
+        "offset": 667,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_672",
-        "state": "darkpurplecorners",
-        "offset": 672,
+        "unityName": "floors_675",
+        "state": "warninglinecorners",
+        "offset": 675,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_676",
-        "state": "darkpurplefull",
-        "offset": 676,
+        "unityName": "floors_679",
+        "state": "sandeffect",
+        "offset": 679,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_677",
-        "state": "darkred",
-        "offset": 677,
+        "unityName": "floors_680",
+        "state": "warningsandeffect",
+        "offset": 680,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_685",
-        "state": "darkredcorners",
-        "offset": 685,
+        "unityName": "floors_688",
+        "state": "warningsandeffectcorners",
+        "offset": 688,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_689",
-        "state": "darkredfull",
-        "offset": 689,
+        "unityName": "floors_692",
+        "state": "platingsandeffect",
+        "offset": 692,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_690",
-        "state": "darkblue",
-        "offset": 690,
+        "unityName": "floors_693",
+        "state": "platingwarningsandeffect",
+        "offset": 693,
         "frames": 1,
         "dirs": 8
       },
       {
-        "unityName": "floors_698",
-        "state": "darkbluecorners",
-        "offset": 698,
+        "unityName": "floors_701",
+        "state": "platingwarningsandeffectcorners",
+        "offset": 701,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_702",
-        "state": "darkbluefull",
-        "offset": 702,
+        "unityName": "floors_705",
+        "state": "noslip-damaged1",
+        "offset": 705,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_703",
-        "state": "darkgreen",
-        "offset": 703,
+        "unityName": "floors_706",
+        "state": "noslip-damaged2",
+        "offset": 706,
         "frames": 1,
-        "dirs": 8
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_707",
+        "state": "noslip-damaged3",
+        "offset": 707,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_708",
+        "state": "noslip-scorched1",
+        "offset": 708,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_709",
+        "state": "noslip-scorched2",
+        "offset": 709,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_710",
+        "state": "noslip",
+        "offset": 710,
+        "frames": 1,
+        "dirs": 1
       },
       {
         "unityName": "floors_711",
-        "state": "darkgreencorners",
+        "state": "rcircuit",
         "offset": 711,
-        "frames": 1,
-        "dirs": 4
-      },
-      {
-        "unityName": "floors_715",
-        "state": "darkgreenfull",
-        "offset": 715,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_716",
-        "state": "darkyellow",
-        "offset": 716,
-        "frames": 1,
-        "dirs": 8
-      },
-      {
-        "unityName": "floors_724",
-        "state": "darkyellowcorners",
-        "offset": 724,
-        "frames": 1,
+        "unityName": "floors_712",
+        "state": "rcircuitanim",
+        "delay": "2,2,2,2",
+        "offset": 712,
+        "frames": 4,
         "dirs": 4
       },
       {
         "unityName": "floors_728",
-        "state": "darkyellowfull",
+        "state": "gcircuitanim",
+        "delay": "2,2,2,2",
         "offset": 728,
-        "frames": 1,
+        "frames": 4,
         "dirs": 1
       },
       {
-        "unityName": "floors_729",
-        "state": "darkbrown",
-        "offset": 729,
-        "frames": 1,
-        "dirs": 8
-      },
-      {
-        "unityName": "floors_737",
-        "state": "darkbrowncorners",
-        "offset": 737,
-        "frames": 1,
-        "dirs": 4
-      },
-      {
-        "unityName": "floors_741",
-        "state": "darkbrownfull",
-        "offset": 741,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_742",
-        "state": "sandeffect",
-        "offset": 742,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_743",
-        "state": "warningsandeffect",
-        "offset": 743,
-        "frames": 1,
-        "dirs": 8
-      },
-      {
-        "unityName": "floors_751",
-        "state": "warningsandeffectcorners",
-        "offset": 751,
-        "frames": 1,
-        "dirs": 4
-      },
-      {
-        "unityName": "floors_755",
-        "state": "platingsandeffect",
-        "offset": 755,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_756",
-        "state": "platingwarningsandeffect",
-        "offset": 756,
-        "frames": 1,
-        "dirs": 8
-      },
-      {
-        "unityName": "floors_764",
-        "state": "platingwarningsandeffectcorners",
-        "offset": 764,
-        "frames": 1,
-        "dirs": 4
-      },
-      {
-        "unityName": "floors_768",
-        "state": "noslip-damaged1",
-        "offset": 768,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_769",
-        "state": "noslip-damaged2",
-        "offset": 769,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_770",
-        "state": "noslip-damaged3",
-        "offset": 770,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_771",
-        "state": "noslip-scorched1",
-        "offset": 771,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_772",
-        "state": "noslip-scorched2",
-        "offset": 772,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_773",
-        "state": "noslip",
-        "offset": 773,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_774",
+        "unityName": "floors_732",
         "state": "light_on-o",
         "delay": "1,1",
-        "offset": 774,
+        "offset": 732,
         "frames": 2,
         "dirs": 1
       },
       {
-        "unityName": "floors_776",
+        "unityName": "floors_734",
         "state": "light_on-s",
         "delay": "1,1,1,1,1,1,1,1,1,1,1,1,1,1",
-        "offset": 776,
+        "offset": 734,
         "frames": 14,
         "dirs": 1
       },
       {
-        "unityName": "floors_790",
+        "unityName": "floors_748",
         "state": "vinefloor",
-        "offset": 790,
+        "offset": 748,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_791",
+        "unityName": "floors_749",
         "state": "sand",
-        "offset": 791,
+        "offset": 749,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_792",
+        "unityName": "floors_750",
         "state": "alienplating",
-        "offset": 792,
+        "offset": 750,
         "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_751",
+        "state": "alienpod1",
+        "delay": "1,1,1,1,1,1",
+        "offset": 751,
+        "frames": 6,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_757",
+        "state": "alienpod2",
+        "delay": "1,1,1,1,1,1",
+        "offset": 757,
+        "frames": 6,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_763",
+        "state": "alienpod3",
+        "delay": "1,1,1,1,1,1",
+        "offset": 763,
+        "frames": 6,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_769",
+        "state": "alienpod4",
+        "delay": "1,1,1,1,1,1",
+        "offset": 769,
+        "frames": 6,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_775",
+        "state": "alienpod5",
+        "delay": "1,1,1,1,1,1",
+        "offset": 775,
+        "frames": 6,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_781",
+        "state": "alienpod6",
+        "delay": "1,1,1,1,1,1",
+        "offset": 781,
+        "frames": 6,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_787",
+        "state": "alienpod7",
+        "delay": "1,1,1,1,1,1",
+        "offset": 787,
+        "frames": 6,
         "dirs": 1
       },
       {
         "unityName": "floors_793",
-        "state": "alienpod1",
+        "state": "alienpod8",
         "delay": "1,1,1,1,1,1",
         "offset": 793,
         "frames": 6,
@@ -137343,7 +138235,7 @@
       },
       {
         "unityName": "floors_799",
-        "state": "alienpod2",
+        "state": "alienpod9",
         "delay": "1,1,1,1,1,1",
         "offset": 799,
         "frames": 6,
@@ -137351,542 +138243,598 @@
       },
       {
         "unityName": "floors_805",
-        "state": "alienpod3",
-        "delay": "1,1,1,1,1,1",
+        "state": "bluespace",
+        "delay": "15,1,1,1,1,1",
         "offset": 805,
         "frames": 6,
         "dirs": 1
       },
       {
         "unityName": "floors_811",
-        "state": "alienpod4",
-        "delay": "1,1,1,1,1,1",
+        "state": "sepia",
         "offset": 811,
-        "frames": 6,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_812",
+        "state": "shuttlefloor",
+        "offset": 812,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_813",
+        "state": "shuttlefloor2",
+        "offset": 813,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_814",
+        "state": "shuttlefloor3",
+        "offset": 814,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_815",
+        "state": "shuttlefloor4",
+        "offset": 815,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_816",
+        "state": "shuttlefloor5",
+        "offset": 816,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_817",
-        "state": "alienpod5",
-        "delay": "1,1,1,1,1,1",
+        "state": "shuttlefloor_dam",
         "offset": 817,
-        "frames": 6,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_818",
+        "state": "shuttlefloor2_dam",
+        "offset": 818,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_819",
+        "state": "shuttlefloor3_dam",
+        "offset": 819,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_820",
+        "state": "shuttlefloor4_dam",
+        "offset": 820,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_821",
+        "state": "shuttlefloor5_dam",
+        "offset": 821,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_822",
+        "state": "basalt0",
+        "offset": 822,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_823",
-        "state": "alienpod6",
-        "delay": "1,1,1,1,1,1",
+        "state": "basalt1",
+        "delay": "20,20,20,20",
         "offset": 823,
-        "frames": 6,
+        "frames": 4,
         "dirs": 1
       },
       {
-        "unityName": "floors_829",
-        "state": "alienpod7",
-        "delay": "1,1,1,1,1,1",
-        "offset": 829,
-        "frames": 6,
+        "unityName": "floors_827",
+        "state": "basalt2",
+        "delay": "20,20,20,20",
+        "offset": 827,
+        "frames": 4,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_831",
+        "state": "basalt3",
+        "delay": "20,20,20,20",
+        "offset": 831,
+        "frames": 4,
         "dirs": 1
       },
       {
         "unityName": "floors_835",
-        "state": "alienpod8",
-        "delay": "1,1,1,1,1,1",
+        "state": "basalt4",
         "offset": 835,
-        "frames": 6,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_836",
+        "state": "basalt5",
+        "delay": "20,20,20,20",
+        "offset": 836,
+        "frames": 4,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_840",
+        "state": "basalt6",
+        "offset": 840,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_841",
-        "state": "alienpod9",
-        "delay": "1,1,1,1,1,1",
+        "state": "basalt7",
         "offset": 841,
-        "frames": 6,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_842",
+        "state": "basalt8",
+        "offset": 842,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_843",
+        "state": "basalt9",
+        "delay": "20,20,20,20",
+        "offset": 843,
+        "frames": 4,
         "dirs": 1
       },
       {
         "unityName": "floors_847",
-        "state": "bluespace",
-        "delay": "15,1,1,1,1,1",
+        "state": "basalt10",
         "offset": 847,
-        "frames": 6,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_853",
-        "state": "sepia",
-        "offset": 853,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_854",
-        "state": "shuttlefloor",
-        "offset": 854,
+        "unityName": "floors_848",
+        "state": "basalt11",
+        "offset": 848,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_855",
-        "state": "shuttlefloor2",
-        "offset": 855,
+        "unityName": "floors_849",
+        "state": "basalt12",
+        "offset": 849,
         "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_856",
-        "state": "shuttlefloor3",
-        "offset": 856,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_857",
-        "state": "shuttlefloor4",
-        "offset": 857,
-        "frames": 1,
+        "unityName": "floors_850",
+        "state": "lava",
+        "delay": "3,3,3,3,3,3,3,3",
+        "offset": 850,
+        "frames": 8,
         "dirs": 1
       },
       {
         "unityName": "floors_858",
-        "state": "shuttlefloor5",
+        "state": "asteroid0",
         "offset": 858,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_859",
-        "state": "shuttlefloor_dam",
+        "state": "asteroid1",
         "offset": 859,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_860",
-        "state": "shuttlefloor2_dam",
+        "state": "asteroid2",
         "offset": 860,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_861",
-        "state": "shuttlefloor3_dam",
+        "state": "asteroid3",
         "offset": 861,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_862",
-        "state": "shuttlefloor4_dam",
+        "state": "asteroid4",
         "offset": 862,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_863",
-        "state": "shuttlefloor5_dam",
+        "state": "asteroid5",
         "offset": 863,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_864",
-        "state": "basalt0",
+        "state": "asteroid6",
         "offset": 864,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_865",
-        "state": "basalt1",
-        "delay": "20,20,20,20",
+        "state": "asteroid7",
         "offset": 865,
-        "frames": 4,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_866",
+        "state": "asteroid8",
+        "offset": 866,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_867",
+        "state": "asteroid9",
+        "offset": 867,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_868",
+        "state": "asteroid10",
+        "offset": 868,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_869",
-        "state": "basalt2",
-        "delay": "20,20,20,20",
+        "state": "asteroid11",
         "offset": 869,
-        "frames": 4,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_870",
+        "state": "asteroid12",
+        "offset": 870,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_871",
+        "state": "basalt_dug",
+        "offset": 871,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_872",
+        "state": "basalt",
+        "offset": 872,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_873",
-        "state": "basalt3",
-        "delay": "20,20,20,20",
+        "state": "bus",
         "offset": 873,
-        "frames": 4,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_874",
+        "state": "podfloor",
+        "offset": 874,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_875",
+        "state": "podfloor_dark",
+        "offset": 875,
+        "frames": 1,
+        "dirs": 1
+      },
+      {
+        "unityName": "floors_876",
+        "state": "podfloor_light",
+        "offset": 876,
+        "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_877",
-        "state": "basalt4",
+        "state": "clockwork_floor",
         "offset": 877,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_878",
-        "state": "basalt5",
-        "delay": "20,20,20,20",
+        "state": "necro1",
         "offset": 878,
-        "frames": 4,
+        "frames": 1,
         "dirs": 1
       },
       {
-        "unityName": "floors_882",
-        "state": "basalt6",
-        "offset": 882,
-        "frames": 1,
+        "unityName": "floors_879",
+        "state": "necro2",
+        "delay": "15,20,5,10",
+        "offset": 879,
+        "frames": 4,
         "dirs": 1
       },
       {
         "unityName": "floors_883",
-        "state": "basalt7",
+        "state": "necro3",
+        "delay": "10,5,10,20,10,5",
         "offset": 883,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_884",
-        "state": "basalt8",
-        "offset": 884,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_885",
-        "state": "basalt9",
-        "delay": "20,20,20,20",
-        "offset": 885,
-        "frames": 4,
+        "frames": 6,
         "dirs": 1
       },
       {
         "unityName": "floors_889",
-        "state": "basalt10",
+        "state": "paperfloor",
         "offset": 889,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_890",
-        "state": "basalt11",
+        "state": "hierophant1",
         "offset": 890,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_891",
-        "state": "basalt12",
+        "state": "hierophant2",
         "offset": 891,
         "frames": 1,
         "dirs": 1
       },
       {
         "unityName": "floors_892",
-        "state": "lava",
-        "delay": "3,3,3,3,3,3,3,3",
+        "state": "plasteel_warn_side",
         "offset": 892,
-        "frames": 8,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_900",
-        "state": "asteroid0",
-        "offset": 900,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_901",
-        "state": "asteroid1",
-        "offset": 901,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_902",
-        "state": "asteroid2",
-        "offset": 902,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_903",
-        "state": "asteroid3",
-        "offset": 903,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_904",
-        "state": "asteroid4",
-        "offset": 904,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_905",
-        "state": "asteroid5",
-        "offset": 905,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_906",
-        "state": "asteroid6",
-        "offset": 906,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_907",
-        "state": "asteroid7",
-        "offset": 907,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_908",
-        "state": "asteroid8",
-        "offset": 908,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_909",
-        "state": "asteroid9",
-        "offset": 909,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_910",
-        "state": "asteroid10",
-        "offset": 910,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_911",
-        "state": "asteroid11",
-        "offset": 911,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_912",
-        "state": "asteroid12",
-        "offset": 912,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_913",
-        "state": "basalt_dug",
-        "offset": 913,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_914",
-        "state": "basalt",
-        "offset": 914,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_915",
-        "state": "bus",
-        "offset": 915,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_916",
-        "state": "podfloor",
-        "offset": 916,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_917",
-        "state": "podfloor_dark",
-        "offset": 917,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_918",
-        "state": "podfloor_light",
-        "offset": 918,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_919",
-        "state": "clockwork_floor",
-        "offset": 919,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_920",
-        "state": "necro1",
-        "offset": 920,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_921",
-        "state": "necro2",
-        "delay": "15,20,5,10",
-        "offset": 921,
-        "frames": 4,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_925",
-        "state": "necro3",
-        "delay": "10,5,10,20,10,5",
-        "offset": 925,
-        "frames": 6,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_931",
-        "state": "paperfloor",
-        "offset": 931,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_932",
-        "state": "hierophant1",
-        "offset": 932,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_933",
-        "state": "hierophant2",
-        "offset": 933,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_945",
-        "state": "gold",
-        "offset": 945,
         "frames": 1,
         "dirs": 4
       },
       {
-        "unityName": "floors_949",
-        "state": "gold_dam",
-        "offset": 949,
+        "unityName": "floors_896",
+        "state": "plasteel_warn_end",
+        "offset": 896,
         "frames": 1,
-        "dirs": 1
+        "dirs": 4
       },
       {
-        "unityName": "floors_950",
-        "state": "honk",
-        "offset": 950,
+        "unityName": "floors_900",
+        "state": "white_warn_side",
+        "offset": 900,
         "frames": 1,
-        "dirs": 1
+        "dirs": 4
       },
       {
-        "unityName": "floors_951",
-        "state": "diamond",
-        "offset": 951,
+        "unityName": "floors_904",
+        "state": "white_warn_end",
+        "offset": 904,
         "frames": 1,
-        "dirs": 1
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_908",
+        "state": "black_warn_side",
+        "offset": 908,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_912",
+        "state": "black_warn_end",
+        "offset": 912,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_916",
+        "state": "plating_warn_side",
+        "offset": 916,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_920",
+        "state": "plating_warn_end",
+        "offset": 920,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_924",
+        "state": "asteroid_warn_corner",
+        "offset": 924,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_928",
+        "state": "asteroid_warn_side",
+        "offset": 928,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_932",
+        "state": "asteroid_warn_end",
+        "offset": 932,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_936",
+        "state": "astplate_warn",
+        "offset": 936,
+        "frames": 1,
+        "dirs": 8
+      },
+      {
+        "unityName": "floors_944",
+        "state": "astplate_warn_corner",
+        "offset": 944,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_948",
+        "state": "astplate_warn_side",
+        "offset": 948,
+        "frames": 1,
+        "dirs": 4
       },
       {
         "unityName": "floors_952",
-        "state": "diamond_dam",
+        "state": "astplate_warn_end",
         "offset": 952,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_953",
-        "state": "plasma",
-        "offset": 953,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_954",
-        "state": "plasma_dam",
-        "offset": 954,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_955",
-        "state": "uranium",
-        "offset": 955,
-        "frames": 1,
-        "dirs": 1
+        "dirs": 4
       },
       {
         "unityName": "floors_956",
-        "state": "uranium_dam",
+        "state": "warn_side",
         "offset": 956,
         "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_957",
-        "state": "silver",
-        "offset": 957,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_958",
-        "state": "silver_dam",
-        "offset": 958,
-        "frames": 1,
-        "dirs": 1
-      },
-      {
-        "unityName": "floors_959",
-        "state": "oldsmoothdirt",
-        "offset": 959,
-        "frames": 1,
-        "dirs": 1
+        "dirs": 4
       },
       {
         "unityName": "floors_960",
-        "state": "oldsmoothdarkdirt",
+        "state": "warn_end",
         "offset": 960,
         "frames": 1,
-        "dirs": 1
+        "dirs": 4
       },
       {
-        "unityName": "floors_961",
-        "state": "riverwater",
-        "offset": 961,
+        "unityName": "floors_964",
+        "state": "ast_warn",
+        "offset": 964,
         "frames": 1,
-        "dirs": 1
+        "dirs": 8
       },
       {
-        "unityName": "floors_962",
-        "state": "dirt",
-        "offset": 962,
+        "unityName": "floors_972",
+        "state": "ast_warn_corner",
+        "offset": 972,
         "frames": 1,
-        "dirs": 1
+        "dirs": 4
       },
       {
-        "unityName": "floors_963",
-        "state": "greenerdirt",
-        "offset": 963,
+        "unityName": "floors_976",
+        "state": "ast_warn_side",
+        "offset": 976,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_980",
+        "state": "ast_warn_end",
+        "offset": 980,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_984",
+        "state": "asteroid_warn",
+        "offset": 984,
+        "frames": 1,
+        "dirs": 8
+      },
+      {
+        "unityName": "floors_992",
+        "state": "plasteel_warn",
+        "offset": 992,
+        "frames": 1,
+        "dirs": 8
+      },
+      {
+        "unityName": "floors_1000",
+        "state": "plasteel_warn_corner",
+        "offset": 1000,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_1004",
+        "state": "white_warn",
+        "offset": 1004,
+        "frames": 1,
+        "dirs": 8
+      },
+      {
+        "unityName": "floors_1012",
+        "state": "white_warn_corner",
+        "offset": 1012,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_1016",
+        "state": "black_warn",
+        "offset": 1016,
+        "frames": 1,
+        "dirs": 8
+      },
+      {
+        "unityName": "floors_1024",
+        "state": "black_warn_corner",
+        "offset": 1024,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_1028",
+        "state": "plating_warn",
+        "offset": 1028,
+        "frames": 1,
+        "dirs": 8
+      },
+      {
+        "unityName": "floors_1036",
+        "state": "plating_warn_corner",
+        "offset": 1036,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_1051",
+        "state": "gold",
+        "offset": 1051,
+        "frames": 1,
+        "dirs": 4
+      },
+      {
+        "unityName": "floors_1055",
+        "state": "gold_dam",
+        "offset": 1055,
         "frames": 1,
         "dirs": 1
       }
@@ -144627,6 +145575,174 @@
         "unityName": "walls_93",
         "state": "paperwall",
         "offset": 93,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/walls/wall_reinforced.dmi",
+    "states": [
+      {
+        "unityName": "tc_wall_reinforced",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/walls/wall.dmi",
+    "states": [
+      {
+        "unityName": "tc_wall",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/walls/rock_wall.dmi",
+    "states": [
+      {
+        "unityName": "tc_rock_wall",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/walls/rusty_reinforced_wall.dmi",
+    "states": [
+      {
+        "unityName": "tc_rusty_reinforced_wall",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/walls/rusty_wall.dmi",
+    "states": [
+      {
+        "unityName": "tc_rusty_wall",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/walls/sandstone_wall.dmi",
+    "states": [
+      {
+        "unityName": "tc_sandstone_wall",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/walls/shuttle_wall.dmi",
+    "states": [
+      {
+        "unityName": "tc_shuttle_wall",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/tables/table.dmi",
+    "states": [
+      {
+        "unityName": "tc_table",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/tables/table_wood.dmi",
+    "states": [
+      {
+        "unityName": "tc_wood_table",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/tables/table_reinforced.dmi",
+    "states": [
+      {
+        "unityName": "tc_reinforced_table",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/Floors/lattice.dmi",
+    "states": [
+      {
+        "unityName": "tc_lattice",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/Floors/catwalk.dmi",
+    "states": [
+      {
+        "unityName": "tc_catwalk",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/Floors/carpet.dmi",
+    "states": [
+      {
+        "unityName": "tc_carpet",
+        "state": "",
+        "offset": 0,
+        "frames": 1,
+        "dirs": 1
+      }
+    ]
+  },
+  {
+    "icon": "icons/windows/window_reinforced.dmi",
+    "states": [
+      {
+        "unityName": "tc_window_reinforced",
+        "state": "",
+        "offset": 0,
         "frames": 1,
         "dirs": 1
       }
