@@ -24,7 +24,7 @@ namespace PlayGroup
 		[HideInInspector]
 		public PushPull pushPull; //The push pull component attached to this player
 
-		private static KeyCode[] keyCodes = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
+		public KeyCode[] keyCodes = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
 
 		public bool diagonalMovement;
 		public float speed = 10;
@@ -69,12 +69,12 @@ namespace PlayGroup
 		{
 			var actionKeys = new List<int>();
 
-			foreach (var keyCode in keyCodes) {
+			for (int i = 0; i < keyCodes.Length; i++){
 				if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
 					return new PlayerAction() { keyCodes = actionKeys.ToArray() };
 
-				if (Input.GetKey(keyCode) && allowInput && !isPushing) {
-					actionKeys.Add((int)keyCode);
+				if (Input.GetKey(keyCodes[i]) && allowInput && !isPushing) {
+					actionKeys.Add((int)keyCodes[i]);
 				}
 			}
 
@@ -112,17 +112,11 @@ namespace PlayGroup
 		private void ProcessAction(PlayerAction action)
 		{
 			var actionKeys = new List<int>(action.keyCodes);
-			foreach (var keyCode in keyCodes) {
-				if (actionKeys.Contains((int)keyCode) && !pressedKeys.Contains(keyCode)) {
-					if (pushPull.pulledBy != null && !isGhost) {
-						PushPull otherPlayer = pushPull.pulledBy.GetComponent<PushPull>();
-						otherPlayer.CancelPullBehaviour();
-						pressedKeys.Add(keyCode);
-					} else {
-						pressedKeys.Add(keyCode);
-					}
-				} else if (!actionKeys.Contains((int)keyCode) && pressedKeys.Contains(keyCode)) {
-					pressedKeys.Remove(keyCode);
+			for (int i = 0; i < keyCodes.Length; i++){
+				if (actionKeys.Contains((int)keyCodes[i]) && !pressedKeys.Contains(keyCodes[i])) {
+					pressedKeys.Add(keyCodes[i]);
+				} else if (!actionKeys.Contains((int)keyCodes[i]) && pressedKeys.Contains(keyCodes[i])) {
+					pressedKeys.Remove(keyCodes[i]);
 				}
 			}
 		}
@@ -130,8 +124,8 @@ namespace PlayGroup
 		private Vector3 GetMoveDirection(List<KeyCode> actions)
 		{
 			var direction = Vector3.zero;
-			foreach (var keycode in pressedKeys) {
-				direction += GetMoveDirection(keycode);
+			for (int i = 0; i < pressedKeys.Count; i++){
+				direction += GetMoveDirection(pressedKeys[i]);
 			}
 			direction.x = Mathf.Clamp(direction.x, -1, 1);
 			direction.y = Mathf.Clamp(direction.y, -1, 1);

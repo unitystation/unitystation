@@ -132,6 +132,17 @@ namespace PlayGroup
 		{
 			if (isLocalPlayer && playerMove != null)
 			{
+				// If being pulled by another player and you try to break free
+				//TODO Condition to check for handcuffs / straight jacket 
+				// (probably better to adjust allowInput or something)
+				if (pushPull.pulledBy != null && !playerMove.isGhost) {
+					for (int i = 0; i < playerMove.keyCodes.Length; i++){
+						if(Input.GetKey(playerMove.keyCodes[i])){
+							playerScript.playerNetworkActions.CmdStopOtherPulling(gameObject);
+						}
+					}
+					return;
+				}
 				if (predictedState.Position == transform.position && !playerMove.isGhost)
 				{
 					DoAction();
