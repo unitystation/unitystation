@@ -28,7 +28,7 @@ namespace Matrix {
         [NonSerialized]
 		private List<ObjectBehaviour> players = new List<ObjectBehaviour>();
 
-        private bool isDoor, isWindow, isWall, isWallMount, isObject, isSpace, isPlayer, isRestrictiveTile;
+        private bool isDoor, isWindow, isWall, isWallMount, isObject, isSpace, isPlayer, isRestrictiveTile, isChair;
 
 		//Holds the details if tile is blocking movement in certain directions
 		private RestrictedMoveStruct restrictedMoveStruct;
@@ -179,6 +179,10 @@ namespace Matrix {
             return isObject;
         }
 
+        public bool IsChair(){
+            return isChair;
+        }
+
         public bool IsEmpty()
         {
             return structures.Count == 0;
@@ -283,6 +287,7 @@ namespace Matrix {
             isSpace = false;
             isPlayer = false;
             isObject = false;
+            isChair = false;
 
             foreach(var tile in tiles) {
                 if(tile == null)
@@ -319,6 +324,9 @@ namespace Matrix {
 				if (registerTile.TileType == TileType.RestrictedMovement) {
 					isRestrictiveTile = true;
 				}
+                if(registerTile.TileType == TileType.Chair){
+                    isChair = true;
+                }
 
                 if(registerTile.inSpace) {
                     isSpace = true;
