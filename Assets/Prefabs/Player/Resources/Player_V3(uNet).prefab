@@ -710,7 +710,7 @@ Transform:
   m_GameObject: {fileID: 1795409780741894}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.99, y: 0.96, z: 1}
   m_Children: []
   m_Father: {fileID: 4962232741225816}
   m_RootOrder: 12
@@ -1687,6 +1687,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ce4d8a508787441857fade34082bd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pushPull: {fileID: 0}
+  keyCodes: 7700000061000000730000006400000011010000140100001201000013010000
   diagonalMovement: 1
   speed: 6
   allowInput: 1
@@ -1703,6 +1705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visibleState: 1
+  isPlayer: 0
   registerTile: {fileID: 0}
   moveSpeed: 7
   allowedToMove: 1
@@ -1804,7 +1807,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1795409780741894}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0184ff86886f974d95dfead14754f36, type: 3}
   m_Name: 
