@@ -50,6 +50,8 @@ public class RestrictiveMoveTile : NetworkBehaviour {
 		UpdateWest(restrictWest);
 	}
 
+    
+
 
 	private void UpdateNorth(bool val){
 		restrictNorth = val;
@@ -77,4 +79,44 @@ public class RestrictiveMoveTile : NetworkBehaviour {
 		restrictMoveStruct.west = restrictWest;
 		registerTile.UpdateTile();
 	}
+
+
+
+    //setters
+    public void setNorth(bool val) {
+        restrictNorth = val;
+        restrictMoveStruct.north = restrictNorth;
+        registerTile.UpdateTile();
+    }
+    public void setSouth(bool val) {
+        restrictSouth = val;
+        restrictMoveStruct.south = restrictSouth;
+        registerTile.UpdateTile();
+    }
+    public void setEast(bool val) {
+        restrictEast = val;
+        restrictMoveStruct.east = restrictEast;
+        registerTile.UpdateTile();
+    }
+    public void setWest(bool val) {
+        restrictWest = val;
+        restrictMoveStruct.west = restrictWest;
+        registerTile.UpdateTile();
+    }
+
+    public void setAll(bool val){
+        //north
+        restrictNorth = val;
+        restrictMoveStruct.north = restrictNorth;
+        //south
+        restrictSouth = val;
+        restrictMoveStruct.south = restrictSouth;
+        //east
+        restrictEast = val;
+        restrictMoveStruct.east = restrictEast;
+        //west
+        restrictWest = val;
+        restrictMoveStruct.west = restrictWest;
+        registerTile.UpdateTile();
+    }
 }

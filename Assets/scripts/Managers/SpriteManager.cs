@@ -189,7 +189,8 @@ namespace Sprites
 		virology,
 		shuttle,
 		airLock,
-		glassDoor
+		glassDoor,
+        slidingDoor
 	}
 
 	public enum BloodSplatSize

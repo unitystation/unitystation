@@ -9,7 +9,7 @@ namespace Doors
 	/// DoorAnimatorEditor helps determine if the door
 	/// prefab has been set up correctly by the creator.
 	/// </summary>
-	[CustomEditor(typeof(DoorAnimator))]
+	[CustomEditor(typeof(AirLockAnimator))]
 	public class DoorAnimatorEditor : Editor
 	{
 
@@ -19,7 +19,7 @@ namespace Doors
 			//		SerializedProperty tps = serializedObject.FindProperty ("doorBaseSprites");
 			//		EditorGUILayout.PropertyField(tps, true);
 
-			DoorAnimator dTarget = (DoorAnimator)target;
+			AirLockAnimator dTarget = (AirLockAnimator)target;
 			if (dTarget.overlay_Lights == null || dTarget.overlay_Glass == null
 				|| dTarget.doorbase == null) {
 				EditorGUILayout.HelpBox("Please add the three child GameObjects overlay_Lights, " +
