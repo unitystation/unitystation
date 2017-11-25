@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114079267586071556}
   - component: {fileID: 114898495208177878}
   - component: {fileID: 114989240748267380}
+  - component: {fileID: 114658892309395672}
   m_Layer: 17
   m_Name: MaintDoor
   m_TagString: Untagged
@@ -482,18 +483,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorType: 3
-  restriction: 
+  restriction: 0
   isWindowedDoor: 0
   doorAnimationSize: 6
   DoorSpriteOffset: 2
   DoorLightSpriteOffset: 0
   DoorCoverSpriteOffset: 17
   isPerformingAction: 0
+  spriteRenderer: {fileID: 0}
   maxTimeOpen: 5
   doorAnimator: {fileID: 114989240748267380}
   openSFX: {fileID: 82377813942762574}
   closeSFX: {fileID: 82698941018732718}
   IsOpened: 0
+  FullDoor: 1
   oppeningDirection: 0
 --- !u!114 &114079267586071556
 MonoBehaviour:
@@ -555,6 +558,20 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
+--- !u!114 &114658892309395672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1006244272141468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 0
+  AtmosPassable: 0
 --- !u!114 &114898495208177878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -755,6 +772,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -770,6 +788,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -787,6 +806,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212637019369820934
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -796,6 +816,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -811,6 +832,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -828,6 +850,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212682416317525988
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -837,6 +860,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -852,6 +876,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -869,3 +894,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
