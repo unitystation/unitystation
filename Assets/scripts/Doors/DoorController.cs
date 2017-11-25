@@ -40,6 +40,8 @@ namespace Doors
 		private int openSortingLayer;
 		private int doorDirection;
 		public bool IsOpened;
+        //TODO: useful tooltip
+        public bool FullDoor = true;
 		//public bool isWindowed = false;
 		public enum OppeningDirection : int
 		{
@@ -61,19 +63,53 @@ namespace Doors
 			openSortingLayer = SortingLayer.NameToID("Doors Closed");
 
 			registerTile = gameObject.GetComponent<RegisterTile>();
+
+            var rmt = GetComponent<RestrictiveMoveTile>();
+            if(rmt != null) {
+                var dooranim = (WinDoorAnimator)GetComponent<DoorAnimator>();
+                if(dooranim != null) {
+                    rmt.setAll(false);
+                    switch ((int)dooranim.direction) {
+                        case 0: rmt.setSouth(true); break;
+                        case 1: rmt.setNorth(true); break;
+                        case 2: rmt.setEast(true); break;
+                        case 3: rmt.setWest(true); break;
+                    }
+                }
+            }
+
 			base.Awake();
 		}
 
 		public void BoxCollToggleOn()
 		{
-			registerTile.UpdateTileType(TileType.Door);
+            if(FullDoor){
+			    registerTile.UpdateTileType(TileType.Door);
+            } else {
+                registerTile.UpdateTileType(TileType.SlidingDoor);
+                var rmt = GetComponent<RestrictiveMoveTile>();
+                if(rmt != null){
+                    var anim = (WinDoorAnimator)GetComponent<DoorAnimator>();
+                    if(anim != null) {
+                        switch ((int)anim.direction) {
+                            case 0: rmt.setSouth(true); break;
+                            case 1: rmt.setNorth(true); break;
+                            case 2: rmt.setEast(true);  break;
+                            case 3: rmt.setWest(true);  break;
+                        }
+                    }
+                }
+            }
 			gameObject.layer = closedLayer;
 			GetComponentInChildren<SpriteRenderer>().sortingLayerID = closedSortingLayer;
 		}
 
-		public void BoxCollToggleOff()
-		{
-			registerTile.UpdateTileType(TileType.None);
+		public void BoxCollToggleOff(){
+            var rmt = GetComponent<RestrictiveMoveTile>();
+            if(rmt != null) {
+                rmt.setAll(false);
+            }
+            registerTile.UpdateTileType(TileType.None);
 			gameObject.layer = openLayer;
 			GetComponentInChildren<SpriteRenderer>().sortingLayerID = openSortingLayer;
 		}

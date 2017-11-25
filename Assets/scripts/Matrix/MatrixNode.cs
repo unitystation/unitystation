@@ -68,12 +68,13 @@ namespace Matrix {
                      || tileType == TileType.Door 
                      || tileType == TileType.Wall 
                      || tileType == TileType.Window 
+                     || tileType == TileType.SlidingDoor
                      || tileType == TileType.WallMount)
                 {
                     structures.Add(gameObject);
                 }
 
-				if (tileType == TileType.RestrictedMovement) {
+				if (tileType == TileType.RestrictedMovement || tileType == TileType.SlidingDoor) {
 					restrictedMoveStruct = gameObject.GetComponent<RestrictiveMoveTile>().GetRestrictedData;
 					isRestrictiveTile = true;
 				}
@@ -110,7 +111,7 @@ namespace Matrix {
                     structures.Remove(gameObject);
                 }
 
-				if (tileType == TileType.RestrictedMovement) {
+				if (tileType == TileType.RestrictedMovement || tileType == TileType.SlidingDoor) {
 					isRestrictiveTile = false;
 				}
 
@@ -197,7 +198,7 @@ namespace Matrix {
             if(isDoor) {
                 foreach(var tile in tiles) {
                     var registerTile = tile.GetComponent<RegisterTile>();
-                    if(registerTile.TileType == TileType.Door) {
+                    if(registerTile.TileType == TileType.Door || registerTile.TileType == TileType.SlidingDoor) {
                         var doorControl = registerTile.gameObject.GetComponent<DoorController>();
                         return doorControl;
                     }
@@ -303,7 +304,7 @@ namespace Matrix {
                     connectValue |= connectTrigger.ConnectType;
                 }
 
-                if(registerTile.TileType == TileType.Door) {
+                if(registerTile.TileType == TileType.Door || registerTile.TileType == TileType.SlidingDoor) {
                     isDoor = true;
                 }
                 if(registerTile.TileType == TileType.Object) {
@@ -321,7 +322,7 @@ namespace Matrix {
                 if(registerTile.TileType == TileType.Window) {
                     isWindow = true;
                 }
-				if (registerTile.TileType == TileType.RestrictedMovement) {
+				if (registerTile.TileType == TileType.RestrictedMovement || registerTile.TileType == TileType.SlidingDoor) {
 					isRestrictiveTile = true;
 				}
                 if(registerTile.TileType == TileType.Chair){

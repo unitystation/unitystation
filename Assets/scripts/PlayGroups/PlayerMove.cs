@@ -91,6 +91,7 @@ namespace PlayGroup
 
 			if (adjustedDirection == Vector3.zero) {
 				Interact(currentPosition, direction);
+                Interact(currentPosition, Vector3.zero);
 			}
 
 			return currentPosition + adjustedDirection;
@@ -206,9 +207,10 @@ namespace PlayGroup
 		private void Interact(Vector3 currentPosition, Vector3 direction)
 		{
 
-			var doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
+            var doorController = Matrix.Matrix.At(currentPosition + direction).GetDoor();
 
 			if (doorController != null && allowInput) {
+                //if(!doorController.FullDoor && direction != Vector3.zero){ return; }
 				//checking if the door actually has a restriction (only need one because that's how ss13 works!
 				if (doorController.restriction > 0) {   //checking if the ID slot on player contains an ID with an itemIdentity component
 					if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>() != null) {   //checking if the ID has access to bypass the restriction

@@ -39,6 +39,7 @@ namespace Matrix {
         public static TileType Chair = new TileType("Chair", (int) TileProperty.Chair);
 		//this is for tiles with glass that prevents movement in some of the directions
 		public static TileType RestrictedMovement = new TileType("RestrictedMovement", (int)TileProperty.PassableRestrictions);
+        public static TileType SlidingDoor = new TileType("SlidingDoor", (int)TileProperty.PassableRestrictions);
 
         public TileType(string name, int value=0) : base(name, value) {
             tileTypes.Add(this);
