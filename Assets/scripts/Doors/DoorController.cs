@@ -25,6 +25,8 @@ namespace Doors
 		public int DoorCoverSpriteOffset = 0;
 		[HideInInspector]
 		public bool isPerformingAction = false;
+        [HideInInspector]
+        public SpriteRenderer spriteRenderer;
 		public float maxTimeOpen = 5;
 		public DoorAnimator doorAnimator;
 		private bool openTrigger = false;
@@ -58,9 +60,11 @@ namespace Doors
 			} else {
 				closedLayer = LayerMask.NameToLayer("Windows");
 			}
-			closedSortingLayer = SortingLayer.NameToID("Doors Open");
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+			closedSortingLayer = SortingLayer.NameToID("Doors Closed");
+            openSortingLayer = SortingLayer.NameToID("Doors Open");
 			openLayer = LayerMask.NameToLayer("Door Open");
-			openSortingLayer = SortingLayer.NameToID("Doors Closed");
+			
 
 			registerTile = gameObject.GetComponent<RegisterTile>();
 
@@ -101,7 +105,7 @@ namespace Doors
                 }
             }
 			gameObject.layer = closedLayer;
-			GetComponentInChildren<SpriteRenderer>().sortingLayerID = closedSortingLayer;
+            spriteRenderer.sortingLayerID = closedSortingLayer;
 		}
 
 		public void BoxCollToggleOff(){
@@ -111,7 +115,7 @@ namespace Doors
             }
             registerTile.UpdateTileType(TileType.None);
 			gameObject.layer = openLayer;
-			GetComponentInChildren<SpriteRenderer>().sortingLayerID = openSortingLayer;
+            spriteRenderer.sortingLayerID = openSortingLayer;
 		}
 
 		private IEnumerator WaitUntilClose()
