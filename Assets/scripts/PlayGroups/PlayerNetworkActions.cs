@@ -454,10 +454,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdTryOpenRestrictDoor(GameObject door)
+	public void CmdTryOpenDoor(GameObject door)
 	{
 		door.GetComponent<DoorController>().CmdTryOpen(gameObject);
 	}
+    [Command]
+    public void CmdTryCloseDoor(GameObject door)
+    {
+        door.GetComponent<DoorController>().CmdTryClose();
+    }
 	[Command]
 	public void CmdRestrictDoorDenied(GameObject door)
 	{

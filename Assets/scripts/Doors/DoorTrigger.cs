@@ -36,7 +36,22 @@ namespace Doors
 					}
 				} else {
 					allowInput = false;
-					doorController.CmdTryOpen(gameObject);
+                    if (CustomNetworkManager.Instance._isServer)
+                    {
+                        if (!doorController.IsOpened)
+                            doorController.CmdTryOpen(gameObject);
+                        else
+                            doorController.CmdTryClose(); 
+                    }
+                    else
+                    {
+                        //for mouse click opening when not server
+                        if(!doorController.IsOpened)
+                            PlayGroup.PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryOpenDoor(gameObject); 
+                        else
+                            PlayGroup.PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryCloseDoor(gameObject);
+ 
+                    }
 					StartCoroutine(DoorInputCoolDown());
 				}
 			}
@@ -47,7 +62,11 @@ namespace Doors
 			Debug.Log("been here!");
 			if (cardID.accessSyncList.Contains((int)doorController.restriction)) {// has access
 				allowInput = false;
-				PlayGroup.PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryOpenRestrictDoor(gameObject);
+                if(!doorController.IsOpened)
+				    PlayGroup.PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryOpenDoor(gameObject);
+                else
+                    PlayGroup.PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryCloseDoor(gameObject);
+
 				Debug.Log(doorController.restriction.ToString() + " access granted");
 				StartCoroutine(DoorInputCoolDown());
 			} else {// does not have access

@@ -160,6 +160,10 @@ namespace Doors
 		[Command]
 		public void CmdTryClose()
 		{
+            if(!FullDoor && IsOpened){
+                RpcClose();
+                return;
+            }
 
 			if (IsOpened && !isPerformingAction && Matrix.Matrix.At(transform.position).IsPassable()) {
 				RpcClose();
