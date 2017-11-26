@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 114000010545478540}
   - component: {fileID: 114226724488088840}
   - component: {fileID: 82554502596860898}
-  - component: {fileID: 114343036321383186}
   - component: {fileID: 114643057465573826}
   - component: {fileID: 114017720843365374}
   - component: {fileID: 114645866740277954}
@@ -242,20 +241,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSprite: {fileID: 21300020, guid: 3f95a9fe53a3442ca95ab4434d2478e7, type: 3}
   cookTime: 10
---- !u!114 &114343036321383186
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010765165894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 2
-  savedPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114643057465573826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -300,7 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Offset: {x: 0, y: 0, z: 0}
-  Passable: 0
+  Passable: 1
   AtmosPassable: 1
 --- !u!212 &212000012631577124
 SpriteRenderer:

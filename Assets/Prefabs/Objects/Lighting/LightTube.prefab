@@ -41,7 +41,6 @@ GameObject:
   - component: {fileID: 61106100713950454}
   - component: {fileID: 114057055290497368}
   - component: {fileID: 114356547472611804}
-  - component: {fileID: 114828188799050942}
   - component: {fileID: 114510560690312678}
   m_Layer: 13
   m_Name: LightTube
@@ -193,20 +192,6 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
   AtmosPassable: 1
---- !u!114 &114828188799050942
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1745947215034166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 8
-  savedPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114984751247118002
 MonoBehaviour:
   m_ObjectHideFlags: 1

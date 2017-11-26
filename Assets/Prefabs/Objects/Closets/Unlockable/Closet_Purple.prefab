@@ -69,7 +69,6 @@ GameObject:
   - component: {fileID: 61007529738442410}
   - component: {fileID: 61116065849539486}
   - component: {fileID: 114966594259181116}
-  - component: {fileID: 114279845824610634}
   - component: {fileID: 114465697400450480}
   - component: {fileID: 114835786064520692}
   - component: {fileID: 114546295996061072}
@@ -225,20 +224,6 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 1
---- !u!114 &114279845824610634
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1967120683374944}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 2
-  savedPosition: {x: 1858, y: 1125, z: -0.1}
 --- !u!114 &114465697400450480
 MonoBehaviour:
   m_ObjectHideFlags: 1

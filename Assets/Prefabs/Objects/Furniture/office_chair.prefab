@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4522829813357324}
   - component: {fileID: 61212225019294628}
   - component: {fileID: 114428297093948186}
-  - component: {fileID: 114598804012031562}
   - component: {fileID: 114131188484085160}
   m_Layer: 11
   m_Name: office_chair
@@ -126,20 +125,6 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
---- !u!114 &114598804012031562
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1289257713136752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 2
-  savedPosition: {x: 1996, y: 1144, z: -0.1}
 --- !u!212 &212849400264349276
 SpriteRenderer:
   m_ObjectHideFlags: 1

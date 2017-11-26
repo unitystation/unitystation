@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 61000013231193044}
   - component: {fileID: 114000013104353964}
   - component: {fileID: 95687423394818094}
-  - component: {fileID: 114784184008693878}
+  - component: {fileID: 114630669365637708}
   m_Layer: 0
   m_Name: RequestConsole
   m_TagString: Untagged
@@ -149,7 +149,7 @@ MonoBehaviour:
   - {x: -0.935, y: 0}
   colliderOffset: {x: 0, y: 0, z: 0}
   rotateIndex: 0
---- !u!114 &114784184008693878
+--- !u!114 &114630669365637708
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -157,12 +157,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000010652479536}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 8
-  savedPosition: {x: 0, y: 0, z: 0}
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 1
+  AtmosPassable: 1
 --- !u!212 &212000013671142270
 SpriteRenderer:
   m_ObjectHideFlags: 1

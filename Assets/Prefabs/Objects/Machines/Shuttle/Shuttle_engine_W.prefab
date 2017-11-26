@@ -37,7 +37,6 @@ GameObject:
   - component: {fileID: 4982547716752472}
   - component: {fileID: 61971458488180702}
   - component: {fileID: 114996019910341438}
-  - component: {fileID: 114242740532222898}
   - component: {fileID: 114297752066753362}
   m_Layer: 11
   m_Name: Shuttle_engine_W
@@ -98,20 +97,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114242740532222898
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1846819303320804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 2
-  savedPosition: {x: 1932, y: 1173, z: -0.1}
 --- !u!114 &114297752066753362
 MonoBehaviour:
   m_ObjectHideFlags: 1

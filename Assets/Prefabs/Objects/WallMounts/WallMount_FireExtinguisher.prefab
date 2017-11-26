@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114000010752409192}
   - component: {fileID: 114762163834158284}
   - component: {fileID: 114487885281549826}
-  - component: {fileID: 114216548919702060}
+  - component: {fileID: 114838689195169320}
   m_Layer: 19
   m_Name: WallMount_FireExtinguisher
   m_TagString: Untagged
@@ -133,20 +133,6 @@ MonoBehaviour:
   - {x: -0.875, y: 0}
   colliderOffset: {x: 0, y: 0, z: 0}
   rotateIndex: 3
---- !u!114 &114216548919702060
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000014202525198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 8
-  savedPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114487885281549826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,6 +184,20 @@ MonoBehaviour:
   IsClosed: 1
   isFull: 1
   storedObject: {fileID: 0}
+--- !u!114 &114838689195169320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000014202525198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 1
+  AtmosPassable: 1
 --- !u!212 &212000010741384228
 SpriteRenderer:
   m_ObjectHideFlags: 1
