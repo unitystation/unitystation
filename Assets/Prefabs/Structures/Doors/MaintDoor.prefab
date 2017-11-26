@@ -20,13 +20,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4505898709889416}
   - component: {fileID: 61947071500429418}
+  - component: {fileID: 114079267586071556}
   - component: {fileID: 114052080359656786}
   - component: {fileID: 114294467039432784}
   - component: {fileID: 114151620913185490}
-  - component: {fileID: 114079267586071556}
   - component: {fileID: 114898495208177878}
   - component: {fileID: 114989240748267380}
   - component: {fileID: 114658892309395672}
+  - component: {fileID: 114976444947845894}
   m_Layer: 17
   m_Name: MaintDoor
   m_TagString: Untagged
@@ -584,6 +585,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allowInput: 1
+--- !u!114 &114976444947845894
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1006244272141468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f0eb35888c6dfb4dbac823eb8cad23b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 0
+  AtmosPassable: 0
+  closed: 1
+  OneDirectionRestricted: 0
 --- !u!114 &114989240748267380
 MonoBehaviour:
   m_ObjectHideFlags: 1

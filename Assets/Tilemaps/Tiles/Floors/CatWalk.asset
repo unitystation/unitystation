@@ -11,11 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: CatWalk
   m_EditorClassIdentifier: 
-  layerType: 3
+  LayerType: 3
   RequiredTiles: []
   Passable: 1
   AtmosPassable: 1
-  IsSpace: 1
+  IsSealed: 0
   spriteSheet: {fileID: 2800000, guid: 5bfb750c6506ba443b08e740a7ffcbad, type: 3}
   texturePath: Floors
   connectCategory: 3
