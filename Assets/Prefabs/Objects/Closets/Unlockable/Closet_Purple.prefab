@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 114835786064520692}
   - component: {fileID: 114546295996061072}
   - component: {fileID: 114008606363410360}
-  - component: {fileID: 114052672212633740}
+  - component: {fileID: 114092939811341892}
   m_Layer: 11
   m_Name: Closet_Purple
   m_TagString: Untagged
@@ -210,7 +210,7 @@ MonoBehaviour:
   serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
---- !u!114 &114052672212633740
+--- !u!114 &114092939811341892
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -218,12 +218,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1967120683374944}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 1
+  closed: 1
 --- !u!114 &114465697400450480
 MonoBehaviour:
   m_ObjectHideFlags: 1

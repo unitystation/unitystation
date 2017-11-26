@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 114859863419137498}
   - component: {fileID: 114064175606115938}
   - component: {fileID: 114092793192366008}
-  - component: {fileID: 114671165596877984}
+  - component: {fileID: 114407287186085312}
   m_Layer: 11
   m_Name: Closet_Grey
   m_TagString: Untagged
@@ -258,7 +258,7 @@ MonoBehaviour:
     i15: 235
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114671165596877984
+--- !u!114 &114407287186085312
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -266,12 +266,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1180280463732794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 1
+  closed: 1
 --- !u!114 &114767098743060394
 MonoBehaviour:
   m_ObjectHideFlags: 1
