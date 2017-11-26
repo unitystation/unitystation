@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4739493471594798}
   - component: {fileID: 61986875606633926}
   - component: {fileID: 114002818268536048}
-  - component: {fileID: 114988087857356152}
   - component: {fileID: 114380035635842018}
   m_Layer: 11
   m_Name: Shuttle_engine_E
@@ -126,20 +125,6 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 0
---- !u!114 &114988087857356152
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1227037416355100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 2
-  savedPosition: {x: 1932, y: 1173, z: -0.1}
 --- !u!212 &212746669731049444
 SpriteRenderer:
   m_ObjectHideFlags: 1

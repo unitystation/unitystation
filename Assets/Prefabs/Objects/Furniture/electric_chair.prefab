@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4584586038300460}
   - component: {fileID: 61719680097134856}
   - component: {fileID: 114350393372081528}
-  - component: {fileID: 114911370704928748}
   - component: {fileID: 114643077223507322}
   m_Layer: 11
   m_Name: electric_chair
@@ -126,20 +125,6 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
   AtmosPassable: 1
---- !u!114 &114911370704928748
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1530970050131386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 2
-  savedPosition: {x: 1997, y: 1144, z: -0.1}
 --- !u!212 &212037971801361064
 SpriteRenderer:
   m_ObjectHideFlags: 1

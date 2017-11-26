@@ -70,7 +70,6 @@ GameObject:
   - component: {fileID: 61000013105870566}
   - component: {fileID: 114752899670656194}
   - component: {fileID: 114000012557435128}
-  - component: {fileID: 114114746867991184}
   - component: {fileID: 114287951213915578}
   - component: {fileID: 114647979991530576}
   - component: {fileID: 114129184533949936}
@@ -497,20 +496,6 @@ MonoBehaviour:
   IsOpened: 0
   FullDoor: 1
   oppeningDirection: 0
---- !u!114 &114114746867991184
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013208201100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 3
-  savedPosition: {x: 1842, y: 1143, z: -0.1}
 --- !u!114 &114129184533949936
 MonoBehaviour:
   m_ObjectHideFlags: 1

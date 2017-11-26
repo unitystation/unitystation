@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 61865482733225672}
   - component: {fileID: 61672858922055336}
   - component: {fileID: 114975645364216650}
-  - component: {fileID: 114022986328103104}
   - component: {fileID: 114291124821434810}
   m_Layer: 11
   m_Name: Nanomed Plus
@@ -124,20 +123,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114022986328103104
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1647381200933862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 2
-  savedPosition: {x: 1844, y: 1129, z: -0.099998474}
 --- !u!114 &114291124821434810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -151,7 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
+  AtmosPassable: 0
 --- !u!114 &114975645364216650
 MonoBehaviour:
   m_ObjectHideFlags: 1

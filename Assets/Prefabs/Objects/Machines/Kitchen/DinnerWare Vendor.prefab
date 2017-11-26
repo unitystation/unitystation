@@ -38,7 +38,6 @@ GameObject:
   - component: {fileID: 61000010382385502}
   - component: {fileID: 114000012319812870}
   - component: {fileID: 61000013834188684}
-  - component: {fileID: 114865038255200466}
   - component: {fileID: 114737298292197450}
   m_Layer: 11
   m_Name: DinnerWare Vendor
@@ -151,21 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
---- !u!114 &114865038255200466
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013211423706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 2
-  savedPosition: {x: 0, y: 0, z: 0}
+  AtmosPassable: 0
 --- !u!212 &212000011546512838
 SpriteRenderer:
   m_ObjectHideFlags: 1

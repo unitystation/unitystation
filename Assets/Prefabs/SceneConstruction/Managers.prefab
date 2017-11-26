@@ -960,6 +960,7 @@ GameObject:
   - component: {fileID: 114897689305174086}
   - component: {fileID: 114421896026623462}
   - component: {fileID: 114735544628521044}
+  - component: {fileID: 114344582525543190}
   m_Layer: 5
   m_Name: UIManager
   m_TagString: Untagged
@@ -9225,11 +9226,11 @@ MonoBehaviour:
   minSize: {x: 100, y: 100}
   maxSize: {x: 1120, y: 400}
   resizeCursor: {fileID: 2800000, guid: 330cd428abd9a411484efa65008aa20f, type: 3}
+  responsiveControl: {fileID: 114344582525543190}
   hudRight: {fileID: 224898205694248858}
-  hudBottom: {fileID: 224342957805719492}
   panelRight: {fileID: 224935809136103218}
   returnPanelButton: {fileID: 1140216276525274}
-  overlayCrit: {fileID: 0}
+  originalHudSize: {x: 0, y: 0}
 --- !u!114 &114304643745017732
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9499,6 +9500,19 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Scrollbar+ScrollEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114344582525543190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1241466016374566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29370a05a73734add9a6cb9026be52b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightPanelResize: {fileID: 114301351052640114}
+  hudBottom: {fileID: 224342957805719492}
 --- !u!114 &114347322400473410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -17765,7 +17779,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.103439875, y: 0.4405464}
   m_AnchorMax: {x: 0.52516156, y: 0.8681598}
-  m_AnchoredPosition: {x: -0.19999981, y: -0.5999985}
+  m_AnchoredPosition: {x: -0.20000076, y: -0.5999985}
   m_SizeDelta: {x: -3.2536469, y: -0.068092346}
   m_Pivot: {x: 1, y: 0}
 --- !u!224 &224372900624216684
@@ -18054,7 +18068,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.24934894, y: 0.65668017}
   m_AnchorMax: {x: 0.7036511, y: 0.9250001}
-  m_AnchoredPosition: {x: 0.700016, y: 0.15002441}
+  m_AnchoredPosition: {x: 0.7000122, y: 0.15002441}
   m_SizeDelta: {x: -0.29999924, y: -0.099998474}
   m_Pivot: {x: 0, y: 0}
 --- !u!224 &224492769491476402

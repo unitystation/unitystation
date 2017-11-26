@@ -25,7 +25,6 @@ GameObject:
   - component: {fileID: 114821111878224580}
   - component: {fileID: 114217803941579194}
   - component: {fileID: 114811898791686074}
-  - component: {fileID: 114268668261406898}
   - component: {fileID: 114200006776994880}
   - component: {fileID: 114960262104882700}
   m_Layer: 10
@@ -169,20 +168,6 @@ MonoBehaviour:
   inHandReferenceLeft: -1
   clothingReference: -1
   size: 0
---- !u!114 &114268668261406898
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1036141445992816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 7
-  savedPosition: {x: 0, y: 6, z: -0.2}
 --- !u!114 &114468507207016222
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -53,7 +53,6 @@ GameObject:
   - component: {fileID: 4563839573017078}
   - component: {fileID: 61711863531822636}
   - component: {fileID: 114599530684292698}
-  - component: {fileID: 114443463631580324}
   - component: {fileID: 114166492686899678}
   m_Layer: 11
   m_Name: Condimaster Neo
@@ -142,20 +141,6 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 1
---- !u!114 &114443463631580324
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1828492656539854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 2
-  savedPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114599530684292698
 MonoBehaviour:
   m_ObjectHideFlags: 1

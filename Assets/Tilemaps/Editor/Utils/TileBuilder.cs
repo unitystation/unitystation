@@ -7,9 +7,9 @@ namespace Tilemaps.Editor.Utils
 {
     public static class TileBuilder
     {
-        public static void CreateTile<T>(LayerType layer, string tileName) where T : LayerTile
+        public static void CreateTile<T>(LayerType layer, string tileName, string path=null) where T : LayerTile
         {
-            CreateAsset(CreateTile<T>(layer), tileName);
+            CreateAsset(CreateTile<T>(layer), tileName, path);
         }
 
         public static T CreateTile<T>(LayerType layer) where T : LayerTile
@@ -19,10 +19,24 @@ namespace Tilemaps.Editor.Utils
             return tile;
         }
 
-        public static void CreateAsset(Object asset, string tileName)
+        public static void CreateAsset(Object asset, string tileName, string path=null)
         {
-            var assetPath = Path.Combine(GetPath(), tileName + ".asset");
-            AssetDatabase.CreateAsset(asset, assetPath);
+            var assetPath = Path.Combine(path ?? GetPath(), tileName + ".asset");
+
+            var i = 1;
+            while (File.Exists(assetPath))
+            {
+                assetPath = Path.Combine(path ?? GetPath(), tileName + "_" + (i++) + ".asset");
+            }
+
+            var folder = Path.GetDirectoryName(assetPath);
+            
+            if (folder != null)
+            {
+                Directory.CreateDirectory(folder);
+
+                AssetDatabase.CreateAsset(asset, assetPath);
+            }
         }
 
         private static string GetPath()

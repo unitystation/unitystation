@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 114000013385996602}
   - component: {fileID: 114067869038012234}
   - component: {fileID: 61655055042275860}
-  - component: {fileID: 114919829327624956}
+  - component: {fileID: 114072681450652006}
   m_Layer: 0
   m_Name: Monitor_CameraTopLeft
   m_TagString: Untagged
@@ -125,6 +125,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 0.3
+--- !u!114 &114072681450652006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000014018295980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 1
+  AtmosPassable: 1
 --- !u!114 &114530357707350240
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -148,20 +162,6 @@ MonoBehaviour:
   positions: []
   colliderOffset: {x: 0, y: 0, z: 0}
   rotateIndex: 0
---- !u!114 &114919829327624956
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000014018295980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 8
-  savedPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &212000013919365814
 SpriteRenderer:
   m_ObjectHideFlags: 1
