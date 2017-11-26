@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114259338949648092}
   - component: {fileID: 114075691637925416}
   - component: {fileID: 114248682173707124}
+  - component: {fileID: 114469489843686000}
   m_Layer: 13
   m_Name: LightBulb
   m_TagString: Untagged
@@ -146,6 +147,20 @@ MonoBehaviour:
   SpriteLightOn: {fileID: 21300042, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
   SpriteLightOff: {fileID: 21300050, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
   radius: 6
+--- !u!114 &114469489843686000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1614508754264130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 1
+  AtmosPassable: 1
 --- !u!114 &114651610379588122
 MonoBehaviour:
   m_ObjectHideFlags: 1

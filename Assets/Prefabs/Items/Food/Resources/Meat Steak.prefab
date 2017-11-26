@@ -19,14 +19,15 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4645335817288720}
+  - component: {fileID: 61202592083071704}
+  - component: {fileID: 114842434566603030}
+  - component: {fileID: 114360428989312324}
   - component: {fileID: 114391863234140238}
   - component: {fileID: 114828422824226692}
-  - component: {fileID: 114842434566603030}
   - component: {fileID: 114608524725813366}
-  - component: {fileID: 114360428989312324}
-  - component: {fileID: 61202592083071704}
   - component: {fileID: 114921701553923518}
   - component: {fileID: 114931546224579044}
+  - component: {fileID: 114121219251840654}
   m_Layer: 10
   m_Name: Meat Steak
   m_TagString: Untagged
@@ -102,6 +103,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114121219251840654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114360428989312324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -227,6 +239,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visibleState: 1
+  isPlayer: 0
+  registerTile: {fileID: 0}
+  moveSpeed: 7
+  allowedToMove: 1
+  isPushable: 1
+  pulledBy: {fileID: 0}
+  pushTarget: {x: 0, y: 0, z: 0}
+  pushing: 0
+  serverLittleLag: 0
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
+  timeInPush: 0
 --- !u!212 &212850123619449406
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -236,6 +260,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -251,6 +276,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -268,3 +294,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
