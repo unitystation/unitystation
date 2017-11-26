@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Tilemaps.Editor
 {
-    public class MatrixCheckEditor : EditorWindow
+    public class TilemapCheckEditor : EditorWindow
     {
         private static bool DrawGizmos;
 
@@ -20,10 +20,10 @@ namespace Tilemaps.Editor
 
         private SceneView currentSceneView;
 
-        [MenuItem("Window/Matrix Check")]
+        [MenuItem("Window/Tilemap Check")]
         public static void ShowWindow()
         {
-            GetWindow<MatrixCheckEditor>("Matrix Check");
+            GetWindow<TilemapCheckEditor>("Tilemap Check");
         }
 
         public void OnEnable()
