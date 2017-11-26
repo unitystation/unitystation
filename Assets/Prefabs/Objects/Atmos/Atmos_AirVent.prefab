@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 61000013103678858}
   - component: {fileID: 114000010258906310}
   - component: {fileID: 95590063989012254}
-  - component: {fileID: 114476076580474468}
   - component: {fileID: 114539998459752066}
   m_Layer: 11
   m_Name: Atmos_AirVent
@@ -130,20 +129,6 @@ MonoBehaviour:
   snapValue: 1
   depth: 0
   useInGame: 0
---- !u!114 &114476076580474468
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010733523080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 1
-  savedPosition: {x: 1857, y: 1135, z: 0}
 --- !u!114 &114539998459752066
 MonoBehaviour:
   m_ObjectHideFlags: 1

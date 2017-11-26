@@ -37,7 +37,6 @@ GameObject:
   - component: {fileID: 4759473417489106}
   - component: {fileID: 61542989738847636}
   - component: {fileID: 114731139198957494}
-  - component: {fileID: 114951611632087134}
   - component: {fileID: 114728226944580436}
   m_Layer: 11
   m_Name: bed
@@ -126,20 +125,6 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
---- !u!114 &114951611632087134
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609215198608670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 2
-  savedPosition: {x: 1961, y: 1176, z: -0.1}
 --- !u!212 &212260201524696720
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4000013194526306}
   - component: {fileID: 61000011546092986}
   - component: {fileID: 114000013289608292}
-  - component: {fileID: 114276956776457508}
   - component: {fileID: 114092131181364264}
   m_Layer: 11
   m_Name: Atmos_Scrubber
@@ -126,20 +125,6 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
   AtmosPassable: 1
---- !u!114 &114276956776457508
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011763452766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 1
-  savedPosition: {x: 1838, y: 1126, z: 0}
 --- !u!212 &212000014000328296
 SpriteRenderer:
   m_ObjectHideFlags: 1
