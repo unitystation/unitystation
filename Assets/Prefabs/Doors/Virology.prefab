@@ -69,7 +69,6 @@ GameObject:
   - component: {fileID: 61825246499241048}
   - component: {fileID: 114338759738806540}
   - component: {fileID: 114767970609396208}
-  - component: {fileID: 114172966145674404}
   - component: {fileID: 114235526540606744}
   - component: {fileID: 114072467774251574}
   - component: {fileID: 114823388259431498}
@@ -649,20 +648,6 @@ MonoBehaviour:
   - {fileID: 21300196, guid: 5186da76a90ba4cfa9ca3f8229798e76, type: 3}
   - {fileID: 21300198, guid: 5186da76a90ba4cfa9ca3f8229798e76, type: 3}
   animSize: 6
---- !u!114 &114172966145674404
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1807313548142900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 3
-  savedPosition: {x: 1837, y: 1143, z: -0.1}
 --- !u!114 &114235526540606744
 MonoBehaviour:
   m_ObjectHideFlags: 1

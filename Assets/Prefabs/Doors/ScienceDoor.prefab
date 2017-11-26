@@ -85,7 +85,6 @@ GameObject:
   - component: {fileID: 61064916821730822}
   - component: {fileID: 114915423448367456}
   - component: {fileID: 114116368055496416}
-  - component: {fileID: 114032662656742470}
   - component: {fileID: 114636056436692218}
   - component: {fileID: 114746668465746426}
   - component: {fileID: 114487638215291910}
@@ -470,20 +469,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114032662656742470
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1703130924713270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 3
-  savedPosition: {x: 1840, y: 1143, z: -0.1}
 --- !u!114 &114116368055496416
 MonoBehaviour:
   m_ObjectHideFlags: 1
