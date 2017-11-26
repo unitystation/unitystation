@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4905743905385754}
   - component: {fileID: 61595398863923038}
   - component: {fileID: 114753090022488696}
-  - component: {fileID: 114740345898027740}
+  - component: {fileID: 114601193997943186}
   m_Layer: 11
   m_Name: metal_chair
   m_TagString: Untagged
@@ -117,7 +117,7 @@ MonoBehaviour:
   positions: []
   colliderOffset: {x: 0, y: 0, z: 0}
   rotateIndex: 2
---- !u!114 &114740345898027740
+--- !u!114 &114601193997943186
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -125,12 +125,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1169897606440870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 9
-  savedPosition: {x: 1986, y: 1140, z: -0.1}
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 1
+  AtmosPassable: 1
 --- !u!114 &114753090022488696
 MonoBehaviour:
   m_ObjectHideFlags: 1

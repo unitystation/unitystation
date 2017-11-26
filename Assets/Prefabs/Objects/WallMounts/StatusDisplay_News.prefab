@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 61000011867125660}
   - component: {fileID: 114000011149286724}
   - component: {fileID: 95597919217018486}
-  - component: {fileID: 114871728034653594}
+  - component: {fileID: 114424065294691656}
   m_Layer: 0
   m_Name: StatusDisplay_News
   m_TagString: Untagged
@@ -130,6 +130,20 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
+--- !u!114 &114424065294691656
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011522901538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 1
+  AtmosPassable: 1
 --- !u!114 &114633928437044242
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -149,20 +163,6 @@ MonoBehaviour:
   - {x: -1, y: 0}
   colliderOffset: {x: 0, y: 0, z: 0}
   rotateIndex: 0
---- !u!114 &114871728034653594
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011522901538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 8
-  savedPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &212000011970849354
 SpriteRenderer:
   m_ObjectHideFlags: 1

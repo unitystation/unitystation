@@ -38,11 +38,11 @@ GameObject:
   - component: {fileID: 61525002680630820}
   - component: {fileID: 61084689437042768}
   - component: {fileID: 114551658854779228}
-  - component: {fileID: 114293415715230568}
   - component: {fileID: 114731756476040546}
   - component: {fileID: 114226188280779116}
   - component: {fileID: 114380320722249372}
   - component: {fileID: 114973538546967054}
+  - component: {fileID: 114266075331621570}
   m_Layer: 11
   m_Name: Closet_Brown
   m_TagString: Untagged
@@ -203,7 +203,7 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   items: {fileID: 1522744671779814}
   IsClosed: 0
---- !u!114 &114293415715230568
+--- !u!114 &114266075331621570
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -211,13 +211,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1326196951998806}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 2
-  editModeControl: {fileID: 0}
-  savedPosition: {x: 0, y: 0, z: 0}
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 0
+  AtmosPassable: 1
 --- !u!114 &114380320722249372
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -230,6 +229,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialHealth: 400
+  maxHealth: 100
+  isNPC: 0
+  allowKnifeHarvest: 0
+  ConsciousState: 0
 --- !u!114 &114551658854779228
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -287,12 +290,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visibleState: 1
+  isPlayer: 0
+  registerTile: {fileID: 0}
   moveSpeed: 7
   allowedToMove: 1
   isPushable: 1
   pulledBy: {fileID: 0}
+  pushTarget: {x: 0, y: 0, z: 0}
+  pushing: 0
+  serverLittleLag: 0
   serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
+  timeInPush: 0
 --- !u!212 &212585266423504292
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -302,6 +312,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -317,6 +328,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -334,6 +346,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212933743138707690
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -343,6 +356,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -358,6 +372,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -375,3 +390,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0

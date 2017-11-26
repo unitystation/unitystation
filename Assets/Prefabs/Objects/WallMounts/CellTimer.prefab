@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4623160831091164}
   - component: {fileID: 61984808375383360}
   - component: {fileID: 114027139414952174}
-  - component: {fileID: 114497745530420824}
+  - component: {fileID: 114685049020708038}
   m_Layer: 0
   m_Name: CellTimer
   m_TagString: Untagged
@@ -112,20 +112,6 @@ MonoBehaviour:
   snapValue: 1
   depth: -0.1
   useInGame: 0
---- !u!114 &114497745530420824
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1902605791976452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 8
-  savedPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114678438733570522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -145,6 +131,20 @@ MonoBehaviour:
   - {x: -1, y: 0}
   colliderOffset: {x: 0, y: 0, z: 0}
   rotateIndex: 0
+--- !u!114 &114685049020708038
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1902605791976452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 1
+  AtmosPassable: 1
 --- !u!212 &212025683009731848
 SpriteRenderer:
   m_ObjectHideFlags: 1
