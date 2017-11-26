@@ -135,10 +135,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4102488425209486}
-  - component: {fileID: 61619160360543986}
-  - component: {fileID: 61260641920390224}
   - component: {fileID: 114873879993554562}
   - component: {fileID: 114617133355526680}
+  - component: {fileID: 61619160360543986}
   - component: {fileID: 114285118255153820}
   - component: {fileID: 114413669770135258}
   - component: {fileID: 114407246905810916}
@@ -150,8 +149,8 @@ GameObject:
   - component: {fileID: 114644792539986700}
   - component: {fileID: 114600992077934460}
   - component: {fileID: 114285504268110804}
+  - component: {fileID: 61260641920390224}
   - component: {fileID: 114803877374308862}
-  - component: {fileID: 114044215798541148}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -711,7 +710,7 @@ Transform:
   m_GameObject: {fileID: 1795409780741894}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99, y: 0.96, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4962232741225816}
   m_RootOrder: 12
@@ -1020,17 +1019,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114044215798541148
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c7b6bc021c23c54d8e5410a430ca7fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114047399070133554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2362,7 +2350,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 10
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300064, guid: 0efa806c8250456db394143211292ac6, type: 3}
+  m_Sprite: {fileID: 21300066, guid: 5b1bf0b84c03440c89c5acd6dbd65024, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2370,7 +2358,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
 --- !u!212 &212695445263472394
 SpriteRenderer:
