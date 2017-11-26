@@ -50,8 +50,6 @@ namespace Tilemaps.Editor.Brushes
             {
                 if (tile != _currentPreviewTile)
                 {
-                    var layerTile = tile as LayerTile;
-
                     var objectTile = tile as ObjectTile;
                     if (objectTile && objectTile.Offset)
                     {
