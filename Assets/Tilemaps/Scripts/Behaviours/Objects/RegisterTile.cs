@@ -9,29 +9,26 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 	{
 		protected ObjectLayer layer;
 		
-		private Vector3Int _positon;
+		private Vector3Int _position;
 
 		protected Vector3Int position
 		{
-			get { return _positon; }
+			get { return _position; }
 			set
 			{
-				if (!value.Equals(_positon))
-				{
-					OnAddTile(_positon, value);
-					
-					_positon = value;
-				}
+				OnAddTile(value);
+				
+				layer?.Objects.Remove(_position, this);
+				layer?.Objects.Add(value, this);
+				_position = value;
 			}
 		}
 
-		public virtual void Start()
-		{
-			position = Vector3Int.FloorToInt(transform.localPosition);
-			
+		public void Start()
+		{			
 			layer = transform.parent.GetComponent<ObjectLayer>();
-			
-			layer.Objects.Add(position, this);
+
+			position = Vector3Int.FloorToInt(transform.localPosition);
 		}
 
 		private void OnEnable()
@@ -45,10 +42,9 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 			layer?.Objects.Remove(position, this);
 		}
 
-		protected virtual void OnAddTile(Vector3Int oldPosition, Vector3Int newPosition)
+		protected virtual void OnAddTile(Vector3Int newPosition)
 		{
-			layer?.Objects.Remove(oldPosition, this);
-			layer?.Objects.Add(newPosition, this);
+			
 		}
 
 		public virtual bool IsPassable()

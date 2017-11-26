@@ -15,7 +15,11 @@ namespace Tilemaps.Scripts.Utils
             {
                 _objects[position] = new List<RegisterTile>();
             }
-            _objects[position].Add(obj);
+
+            if (!_objects[position].Contains(obj))
+            {
+                _objects[position].Add(obj);
+            }
         }
 
         public IEnumerable<RegisterTile> Get(Vector3Int position)

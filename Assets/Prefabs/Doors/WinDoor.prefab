@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4361116827154484}
   - component: {fileID: 61408129348832566}
   - component: {fileID: 114853415866183752}
-  - component: {fileID: 114470805514062862}
   - component: {fileID: 114029365482680150}
   - component: {fileID: 114536565904099246}
   - component: {fileID: 114763291148299888}
@@ -469,20 +468,6 @@ MonoBehaviour:
   IsOpened: 0
   FullDoor: 0
   oppeningDirection: 0
---- !u!114 &114470805514062862
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1038946861857688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: -0.1
-  useInGame: 0
 --- !u!114 &114536565904099246
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -153,7 +153,7 @@ Tilemap:
   - first: {x: -6, y: -1, z: 0}
     second:
       m_TileIndex: 2
-      m_TileSpriteIndex: 7
+      m_TileSpriteIndex: 5
       m_TileMatrixIndex: 0
       m_TileColorIndex: 2
       m_ObjectToInstantiate: {fileID: 0}
@@ -162,7 +162,7 @@ Tilemap:
   - first: {x: -6, y: 0, z: 0}
     second:
       m_TileIndex: 3
-      m_TileSpriteIndex: 5
+      m_TileSpriteIndex: 7
       m_TileMatrixIndex: 0
       m_TileColorIndex: 2
       m_ObjectToInstantiate: {fileID: 0}
@@ -190,11 +190,11 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {fileID: 0}
   - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: cb888d57be2f08348a71bbbad9f02cbd, type: 3}
+    m_Data: {fileID: 21300000, guid: 0281635fd023cf34a83aad1d14df7337, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 422d47fe8949bbc42acb815ffd131927, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 0281635fd023cf34a83aad1d14df7337, type: 3}
+    m_Data: {fileID: 21300000, guid: cb888d57be2f08348a71bbbad9f02cbd, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 3
     m_Data:
@@ -246,10 +246,10 @@ Tilemap:
     e33: 1
   m_TileRefreshArray:
   - serializedVersion: 1
-    m_DirtyIndex: 2
+    m_DirtyIndex: 1
   - serializedVersion: 1
     m_DirtyIndex: 0
   - serializedVersion: 1
-    m_DirtyIndex: 0
+    m_DirtyIndex: 1
   - serializedVersion: 1
-    m_DirtyIndex: 0
+    m_DirtyIndex: 1
