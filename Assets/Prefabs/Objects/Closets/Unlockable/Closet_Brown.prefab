@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 114226188280779116}
   - component: {fileID: 114380320722249372}
   - component: {fileID: 114973538546967054}
-  - component: {fileID: 114266075331621570}
+  - component: {fileID: 114137355759862740}
   m_Layer: 11
   m_Name: Closet_Brown
   m_TagString: Untagged
@@ -186,6 +186,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.83569336, y: 0.9217529}
   m_EdgeRadius: 0
+--- !u!114 &114137355759862740
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1326196951998806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 0
+  AtmosPassable: 1
+  closed: 1
 --- !u!114 &114226188280779116
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -203,20 +218,6 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   items: {fileID: 1522744671779814}
   IsClosed: 0
---- !u!114 &114266075331621570
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1326196951998806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Offset: {x: 0, y: 0, z: 0}
-  Passable: 0
-  AtmosPassable: 1
 --- !u!114 &114380320722249372
 MonoBehaviour:
   m_ObjectHideFlags: 1

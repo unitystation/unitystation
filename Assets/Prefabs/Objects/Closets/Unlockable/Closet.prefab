@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 114239634461430000}
   - component: {fileID: 114014262675263028}
   - component: {fileID: 114485734239509306}
-  - component: {fileID: 114692464514507942}
+  - component: {fileID: 114332551563909192}
   m_Layer: 11
   m_Name: Closet
   m_TagString: Untagged
@@ -219,6 +219,21 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   items: {fileID: 1929978993690320}
   IsClosed: 0
+--- !u!114 &114332551563909192
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1615565101381030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 0
+  AtmosPassable: 1
+  closed: 1
 --- !u!114 &114485734239509306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,20 +290,6 @@ MonoBehaviour:
     i15: 92
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114692464514507942
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1615565101381030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Offset: {x: 0, y: 0, z: 0}
-  Passable: 0
-  AtmosPassable: 1
 --- !u!114 &114880708100990178
 MonoBehaviour:
   m_ObjectHideFlags: 1

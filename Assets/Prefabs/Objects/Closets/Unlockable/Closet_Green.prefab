@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 114672394582474368}
   - component: {fileID: 114092640990397102}
   - component: {fileID: 114034944277787380}
-  - component: {fileID: 114856183948809262}
+  - component: {fileID: 114471672769914432}
   m_Layer: 11
   m_Name: Closet_Green
   m_TagString: Untagged
@@ -226,6 +226,21 @@ MonoBehaviour:
   isNPC: 0
   allowKnifeHarvest: 0
   ConsciousState: 0
+--- !u!114 &114471672769914432
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1992679967695770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 0
+  AtmosPassable: 1
+  closed: 1
 --- !u!114 &114477434517256044
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,20 +290,6 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   items: {fileID: 1324633279772160}
   IsClosed: 0
---- !u!114 &114856183948809262
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1992679967695770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Offset: {x: 0, y: 0, z: 0}
-  Passable: 0
-  AtmosPassable: 1
 --- !u!114 &114984979541983468
 MonoBehaviour:
   m_ObjectHideFlags: 1
