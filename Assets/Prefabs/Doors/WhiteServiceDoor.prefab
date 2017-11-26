@@ -54,7 +54,6 @@ GameObject:
   - component: {fileID: 61000012796496776}
   - component: {fileID: 114229922813896132}
   - component: {fileID: 114000011089653234}
-  - component: {fileID: 114565204265437400}
   - component: {fileID: 114672552748689518}
   - component: {fileID: 114644895939695836}
   - component: {fileID: 114937751941926332}
@@ -529,20 +528,6 @@ MonoBehaviour:
     i15: 237
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114565204265437400
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013430947772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 3
-  savedPosition: {x: 1836, y: 1143, z: -0.1}
 --- !u!114 &114644895939695836
 MonoBehaviour:
   m_ObjectHideFlags: 1
