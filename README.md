@@ -18,9 +18,8 @@ Please join us on Discord: [https://discord.gg/tFcTpBp](https://discord.gg/tFcTp
 
 ## Feel like getting involved?
 1. Fork the repo
-2. Adjust the Game viewport aspect ratio to 16:9
-3. Add your changes
-4. Submit a pull request
+2. Add your changes
+3. Submit a pull request
 
 ## LICENSE
 [![forthebadge](http://forthebadge.com/images/badges/cc-by-nd.svg)](http://forthebadge.com) <br>
