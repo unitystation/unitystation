@@ -1,5 +1,6 @@
 ### Purpose
 _Describe the problem the PR fixes or the feature it introduces_
+_Don't forget to use the # to select issues and auto close them on merge_
 
 ### Approach
 _explain how you fixed the issue or added the feature and if it is a permanent fix or a crude temporary patch_
