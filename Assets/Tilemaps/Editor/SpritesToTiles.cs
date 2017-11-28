@@ -26,16 +26,14 @@ namespace Tilemaps.Editor
         {
             var assets = AssetDatabase.LoadAllAssetsAtPath(path);
             
-            foreach (KeyValuePair<string, DmiIcon> entry in DmiIconData.Data)
+            foreach (var entry in DmiIconData.Data)
             {
                 if (entry.Key.Contains("floors.dmi")) // TODO only supports floors right now
                 {
                     var folderPath = Path.Combine(tilesPath, assets[0].name);
                     
-                    for(int i = 0; i < entry.Value.states.Count; i++)
+                    foreach (var state in entry.Value.states)
                     {
-                        var state = entry.Value.states[i];
-                        
                         var dmiIndex = int.Parse(state.unityName.Replace("floors_", ""));
 
                         var tileCount = state.frames * state.dirs;

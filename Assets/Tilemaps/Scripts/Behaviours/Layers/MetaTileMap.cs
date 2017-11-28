@@ -65,6 +65,22 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             layers[tile.LayerType].SetTile(position, tile, transformMatrix);
         }
 
+        public void GetTile(Vector3Int position, LayerType layerType)
+        {
+            layers[layerType].GetTile(position);
+        }
+
+        public void RemoveTile(Vector3Int position, LayerType refLayer)
+        {
+            foreach (var layer in layers.Values)
+            {
+                if (layer.LayerType < refLayer && !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors))
+                {
+                    layer.RemoveTile(position);
+                }
+            }
+        }
+
         public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
         {
             foreach (var layer in layers.Values)
@@ -83,17 +99,6 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             foreach (var layer in layers.Values)
             {
                 layer.ClearPreview();
-            }
-        }
-
-        public void RemoveTile(Vector3Int position, LayerType refLayer)
-        {
-            foreach (var layer in layers.Values)
-            {
-                if (layer.LayerType < refLayer && !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors))
-                {
-                    layer.RemoveTile(position);
-                }
             }
         }
     }

@@ -1,55 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using FullSerializer;
 using Sprites;
+using Tilemaps.Scripts.Behaviours.Layers;
+using Tilemaps.Scripts.Tiles;
+using Tilemaps.Scripts.Utils;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
+using UnityStation.Tools;
 
-#if UNITY_EDITOR
 public class JsonToTilemap : Editor
 {
-    public const string TC = "tc_";
     [MenuItem("Tools/Import map (JSON)")]
     static void Json2Map()
     {
-        //TODO investigate:
-        //AssetDatabase.CreateAsset(asset, assetPath);
-        //AssetDatabase.LoadAssetAtPath
-        var gridGameObject = new GameObject(SceneManager.GetActiveScene().name + "_Tiled");
-        var grid = gridGameObject.AddComponent<Grid>();
-        //set up grid here
-        grid.cellSize = new Vector3(1f,1f,0);
+        var map = GameObject.FindGameObjectWithTag("Map");
+        var metaTileMap = map.GetComponentInChildren<MetaTileMap>();
+
+        TilemapConverter.LoadMapping();
+        
+        var builder = new TileMapBuilder(metaTileMap, true);
         
         var layers = DeserializeJson();
         foreach (var layer in layers)
         {
-            var layerGO = new GameObject(layer.Key);
-            
             //convert positions
-            List<Vector3Int> positions = layer.Value.TilePositions.ConvertAll(coord => new Vector3Int(coord.X, coord.Y, 0));
-            //convert tiles
-            List<UniTile> tiles = layer.Value.Tiles.ConvertAll(DataToTile);
-            Debug.LogFormat("Decoded {0} positions, generated {1} tiles for layer {2}", positions.Count, tiles.Count, layer.Key);
-            
-            logOverlaps(positions, tiles);
+            var positions = layer.Value.TilePositions.ConvertAll(coord => new Vector3Int(coord.X, coord.Y, 0));
 
-            layerGO.transform.parent = gridGameObject.transform;
-            var layerTilemap = layerGO.AddComponent<Tilemap>();
-            var layerRenderer = layerGO.AddComponent<TilemapRenderer>();
-            layerRenderer.sortingLayerName = GetCleanLayerName(layer.Key);
-            layerRenderer.sortingOrder = GetLayerOffset(layer.Key);
-            
-            layerTilemap.SetTiles(positions.ToArray(), tiles.ToArray());
+            for (int i = 0; i < positions.Count; i++)
+            {
+                var position = positions[i];
+                var tile = TilemapConverter.DataToTile(layer.Value.Tiles[i]);
+                
+                builder.PlaceTile(position, tile, Matrix4x4.identity);
+            }
         }
-        gridGameObject.transform.position = new Vector3(-100,0,0); 
 
         Debug.Log("Import kinda finished");
     }
 
-    private static void logOverlaps(List<Vector3Int> positions, List<UniTile> tiles)
+    private static void logOverlaps(IList<Vector3Int> positions, IReadOnlyList<UniTile> tiles)
     {
         var overlaps = positions.GroupBy(v => v)
             .Where(v => v.Count() > 1)
@@ -59,48 +54,6 @@ public class JsonToTilemap : Editor
         {
             Debug.LogWarning(overlaps.Aggregate("Overlaps found: ", (current, ds) => current + ds.ToString()));
         }
-    }
-
-    private static UniTile DataToTile(UniTileData data)
-    {
-        var tile = ScriptableObject.CreateInstance<UniTile>();
-        tile.name = data.Name;
-        var c = data.ChildTransform;
-        var p = data.Transform;
-        //upscaling TC tiles for eye candy, fixme: you will want to turn that off later when new tileconnect is ready
-        if ( data.SpriteName.StartsWith(TC) )
-        {
-            SetXyScale(ref p, 2);
-        }
-        tile.transform = CombineTransforms(p, c);//customMainTransform;//experimental
-        tile.ChildTransform = c;//not being interpreted by Tilemap 
-        tile.colliderType = data.ColliderType;
-
-        //generate asset here?
-        tile.sprite = data.IsLegacy ? SpriteManager.Instance.dmi.getSpriteFromLegacyName(data.SpriteSheet, data.SpriteName) 
-                                    : SpriteManager.Instance.dmi.getSprite(data.SpriteSheet, data.SpriteName);
-        
-        return tile;
-    }
-
-    private static void SetXyScale(ref Matrix4x4 matrix, float scale)
-    {
-        matrix.m00 = scale;
-        matrix.m11 = scale;
-    }
-
-
-    private static Matrix4x4 CombineTransforms(Matrix4x4 p, Matrix4x4 c)
-    {
-        var rotation = p.rotation * c.rotation;
-        var position = rotation * GetPosFromMatrix4x4(c); //parent position offsets are huge! don't think we should use them at all
-        var scale = p.lossyScale;
-        return Matrix4x4.TRS( position, rotation, scale );
-    }
-
-    private static Vector3 GetPosFromMatrix4x4(Matrix4x4 c)
-    {
-        return new Vector3(c.m03, c.m13, 0 /*c.m23*/);
     }
 
     private static Dictionary<string, TilemapLayer> DeserializeJson()
@@ -128,11 +81,10 @@ public class JsonToTilemap : Editor
 
     internal static string GetSortingLayerName(SpriteRenderer renderer)
     {
-
         return renderer.sortingLayerName + renderer.sortingOrder;
     }
 
-    internal static string GetCleanLayerName(string dirtyName)
+    private static string GetCleanLayerName(string dirtyName)
     {
         var lameTrimChars = new[] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-'};
         return dirtyName.TrimEnd(lameTrimChars);
@@ -153,9 +105,8 @@ public class JsonToTilemap : Editor
         return y_index - x_index;
     }
 
-    internal static int GetLayerOffset(string dirtyName)
+    private static int GetLayerOffset(string dirtyName)
     {
         return int.Parse(dirtyName.Replace(GetCleanLayerName(dirtyName), ""));
     }
 }
-#endif
