@@ -15,17 +15,6 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             tilemap = GetComponent<Tilemap>();
         }
 
-        public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)
-        {
-            tilemap.SetTile(position, tile);
-            tilemap.SetTransformMatrix(position, transformMatrix);
-        }
-        
-        public virtual void RemoveTile(Vector3Int position)
-        {
-            tilemap.SetTile(position, null);
-        }
-
         public virtual bool IsPassableAt(Vector3Int from, Vector3Int to)
         {
             var tileTo = tilemap.GetTile<BasicTile>(to);
@@ -48,6 +37,22 @@ namespace Tilemaps.Scripts.Behaviours.Layers
         {
             var tile = tilemap.GetTile<BasicTile>(position);
             return !tile || tile.IsSpace();
+        }
+
+        public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)
+        {
+            tilemap.SetTile(position, tile);
+            tilemap.SetTransformMatrix(position, transformMatrix);
+        }
+
+        public virtual LayerTile GetTile(Vector3Int position)
+        {
+            return tilemap.GetTile<LayerTile>(position);
+        }
+        
+        public virtual void RemoveTile(Vector3Int position)
+        {
+            tilemap.SetTile(position, null);
         }
 
         public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix )

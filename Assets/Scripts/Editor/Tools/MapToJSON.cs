@@ -23,7 +23,8 @@ public class MapToJSON : Editor
         (new []{new Tuple<string, string>("shuttle_wall_Skew","walls/shuttle_wall")});
 
     
-
+    private static string TC = "tc_";
+    
     [MenuItem("Tools/Export map (JSON)")]
     static void Map2JSON()
     {
