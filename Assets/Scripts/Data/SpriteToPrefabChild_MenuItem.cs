@@ -2,15 +2,16 @@
 using UnityEditor;
 using System.Collections;
 using System.Linq;
+using Tilemaps.Scripts.Behaviours.Objects;
 
 
 
-public class SpriteToPrefabChild_MenuItem
+public class Sprite2PrefabChild_MenuItem
 {
     /// <summary>
     /// Creates prefab, with sprites as child
     /// </summary>
-    [MenuItem("Assets/Create/SpriteToPrefabChild", false, 11)]
+    [MenuItem("Assets/Create/Sprite2PrefabChild", false, 11)]
     public static void ScriptableObjectTemplateMenuItem()
     {
         bool makeSeperateFolders = EditorUtility.DisplayDialog("Prefab Folders?", "Do you want each prefab in it's own folder?", "Yes", "No");
@@ -29,6 +30,9 @@ public class SpriteToPrefabChild_MenuItem
             }
 
 			GameObject parent = new GameObject ();
+			BoxCollider2D boxCollider = parent.AddComponent<BoxCollider2D>();
+			EditModeControl editModeControl = parent.AddComponent<EditModeControl> ();
+			RegisterObject registerObject = parent.AddComponent<RegisterObject> ();
             GameObject spriteObject = new GameObject();
 			SpriteRenderer spriteRenderer = spriteObject.AddComponent<SpriteRenderer>();
 			Material spriteMaterial = Resources.Load("Sprite-PixelSnap", typeof(Material)) as Material;
@@ -39,7 +43,8 @@ public class SpriteToPrefabChild_MenuItem
 				spriteObject.name = "Sprite";
                 spriteRenderer.sprite = sprites[j];
 				spriteObject.GetComponent<SpriteRenderer>().material = spriteMaterial;
-				BoxCollider2D boxCollider = parent.AddComponent<BoxCollider2D>();
+
+
 
                 string savePath = makeSeperateFolders ? fullFolderPath + "/" + sprites[j].name + "/" + sprites[j].name + ".prefab" : fullFolderPath + "/" + sprites[j].name + ".prefab";
 
@@ -54,8 +59,8 @@ public class SpriteToPrefabChild_MenuItem
 				spriteObject.transform.parent = parent.transform;
                 PrefabUtility.CreatePrefab(savePath, parent);
             }
-      //      GameObject.DestroyImmediate(parent);
-		//	GameObject.DestroyImmediate(gameObject);
+            GameObject.DestroyImmediate(parent);
+			GameObject.DestroyImmediate(spriteObject);
         }
         EditorUtility.ClearProgressBar();
 
