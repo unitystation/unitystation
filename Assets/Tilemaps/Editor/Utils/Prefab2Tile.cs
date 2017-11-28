@@ -27,7 +27,7 @@ public class Prefab2Tile : EditorWindow
 		FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Tilemaps/Tiles/Objects_Backup");
 //		FileUtil.MoveFileOrDirectory(Application.dataPath + "/Tilemaps/Tiles/Objects", Application.dataPath + "/Tilemaps/Tiles/Objects_Backup");
 		FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Tilemaps/Tiles/Objects");
-		string path = Application.dataPath + "Resources/Prefabs/Objects/";
+		string path = Application.dataPath + "/Resources/Prefabs/Objects/";
 		int counter = 0;
 		string[] scan = Directory.GetFiles (path, "*.prefab", SearchOption.AllDirectories);
 		foreach (String file in scan) {
