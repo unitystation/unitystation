@@ -12,7 +12,7 @@ Currently we have released a playtest Deathmatch mode, we gladly invite you to t
 You can play our demo releases here: [Unitystation Standalones](https://github.com/unitystation/unitystation/releases)
 
 ## Talk to us
-We are always open to feedback and ready to have a talk. No mater if it is development related or just a picture of your cat/husky.
+We are always open to feedback and ready to have a talk. No matter if it is development related or just a picture of your cat/husky.
 
 Please join us on Discord: [https://discord.gg/tFcTpBp](https://discord.gg/tFcTpBp) <br>
 
