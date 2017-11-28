@@ -47,7 +47,7 @@ public class Prefab2Tile : EditorWindow
 			//Generating the path needed to chose the right tile output sub-folder
 			string subPath = smallPath.Substring(smallPath.IndexOf("Objects") + 7);
 //			Debug.Log ("subPath data: " + subPath);
-			string barePath = subPath.Substring(0, subPath.LastIndexOf('/'));
+			string barePath = subPath.Substring(0, subPath.LastIndexOf(Path.DirectorySeparatorChar));
 //			Debug.Log ("barePath data: " + barePath);
 
 			//setup building the tile//

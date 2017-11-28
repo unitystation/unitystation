@@ -48,7 +48,7 @@ namespace UnityStation.Tools
                 }
                 else
                 {
-                    Debug.LogError("Missing tile at path: " + assetPath);
+                    Debug.LogError("Missing tile at path: " + assetPath + " (key: " + name + " )");
                     return null;
                 }
             }

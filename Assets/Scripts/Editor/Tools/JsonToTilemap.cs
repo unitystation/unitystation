@@ -37,7 +37,6 @@ public class JsonToTilemap : Editor
                 var position = positions[i];
                 var tile = TilemapConverter.DataToTile(layer.Value.Tiles[i]);
                 
-                Debug.Log(tile.name);
                 builder.PlaceTile(position, tile, Matrix4x4.identity);
             }
         }
