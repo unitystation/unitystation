@@ -29,22 +29,26 @@ public class Prefab2Tile : EditorWindow
 		FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Tilemaps/Tiles/Objects");
 		string path = Application.dataPath + "/Prefabs/Objects/";
 		int counter = 0;
-		foreach (String file in Directory.GetFiles(path, "*.prefab", SearchOption.AllDirectories)) {
-			Debug.Log ("Longpath data: " + file);
+		string[] scan = Directory.GetFiles (path, "*.prefab", SearchOption.AllDirectories);
+		foreach (String file in scan) {
+			counter++;
+			int t = scan.Length;
+			EditorUtility.DisplayProgressBar(t.ToString() + "/" + scan.Length + " Generating Tiles", "Tile: " + counter, (float)counter / (float)scan.Length);
+//			Debug.Log ("Longpath data: " + file);
 
 			//Get the filename without extention and path
 			string name = Path.GetFileNameWithoutExtension (file);		
-			Debug.Log ("Creating tile for prefab: " + name);
+//			Debug.Log ("Creating tile for prefab: " + name);
 
 			//Generating the path needed to hook onto for selecting the game object
 			string smallPath = file.Substring(file.IndexOf("Assets") + 0);
-			Debug.Log ("smallpath data: " + smallPath);
+//			Debug.Log ("smallpath data: " + smallPath);
 
 			//Generating the path needed to chose the right tile output sub-folder
 			string subPath = smallPath.Substring(smallPath.IndexOf("Objects") + 7);
-			Debug.Log ("subPath data: " + subPath);
+//			Debug.Log ("subPath data: " + subPath);
 			string barePath = subPath.Substring(0, subPath.LastIndexOf('/'));
-			Debug.Log ("barePath data: " + barePath);
+//			Debug.Log ("barePath data: " + barePath);
 
 			//setup building the tile//
 			var tile = TileBuilder.CreateTile<ObjectTile>(LayerType.Objects);
@@ -56,8 +60,8 @@ public class Prefab2Tile : EditorWindow
 			//Create the tile
 			TileBuilder.CreateAsset(tile, name, "Assets/Tilemaps/Tiles/Objects" + barePath);
 		
-			counter++;
 		}
+		EditorUtility.ClearProgressBar();
 		if (counter == 0)
 			Debug.Log ("No prefabs processed");
 		else
