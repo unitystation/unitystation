@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine.Networking;
 using UnityEngine;
 using Matrix;
+ using Tilemaps.Scripts.Behaviours.Objects;
 
 namespace PlayGroup
 {
@@ -159,11 +160,11 @@ namespace PlayGroup
 		private void RegisterObjects()
 		{
 			//Register playerpos in matrix
-			registerTile.UpdateTile(state.Position);
+			registerTile.UpdatePosition();
 			//Registering objects being pulled in matrix
 			if (pullRegister != null) {
 				Vector3 pos = state.Position - (Vector3)playerSprites.currentDirection;
-				pullRegister.UpdateTile(pos);
+				pullRegister.UpdatePosition();
 			}
 		}
 
@@ -204,7 +205,7 @@ namespace PlayGroup
 				}
 
 				//Registering
-				if (registerTile.savedPosition != state.Position) {
+				if (registerTile.Position != state.Position) {
 					RegisterObjects();
 				}
 			} else {
@@ -267,7 +268,7 @@ namespace PlayGroup
 			transform.hasChanged = false;
 			if (netID == NetworkInstanceId.Invalid) {
 				if (pullingObject != null) {
-					pullRegister.UpdateTile(pullingObject.transform.position);
+					pullRegister.UpdatePosition();
 					EditModeControl eM = pullingObject.GetComponent<EditModeControl>();
 					if (eM != null) {
 						//This is for objects with editmodecontrol on them

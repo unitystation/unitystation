@@ -43,21 +43,22 @@ namespace UnityStationTools
 				Debug.Log("Cannot revert to prefab - nothing selected");
 			}
 		}
-
-		[MenuItem("Tools/Resection Tiles")]
-		static void ConnectTiles2Sections()
-		{
-			var registerTiles = FindObjectsOfType<RegisterTile>();
-
-			foreach (var r in registerTiles) {
-				var p = r.transform.position;
-
-				int x = Mathf.RoundToInt(p.x);
-				int y = Mathf.RoundToInt(p.y);
-
-				r.transform.MoveToSection(Matrix.Matrix.At(x, y).Section);
-				//PrefabUtility.RevertPrefabInstance(r.gameObject);
-			}
-		}
+	
+		// TODO replace for new tilemap system
+//		[MenuItem("Tools/Resection Tiles")]
+//		static void ConnectTiles2Sections()
+//		{
+//			var registerTiles = FindObjectsOfType<RegisterTile>();
+//
+//			foreach (var r in registerTiles) {
+//				var p = r.transform.position;
+//
+//				int x = Mathf.RoundToInt(p.x);
+//				int y = Mathf.RoundToInt(p.y);
+//
+//				r.transform.MoveToSection(Matrix.Matrix.At(x, y).Section);
+//				//PrefabUtility.RevertPrefabInstance(r.gameObject);
+//			}
+//		}
 	}
 }

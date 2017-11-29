@@ -1,6 +1,7 @@
 ﻿using InputControl;
 using Matrix;
 using PlayGroup;
+using Tilemaps.Scripts.Behaviours.Objects;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -34,7 +35,7 @@ namespace Items {
             {    //Server actions
                 if (ValidatePickUp(originator, hand))
                 {
-                    GetComponent<RegisterTile>().RemoveTile();
+                    GetComponent<RegisterItem>().Unregister();
                 }
                 else
                 {

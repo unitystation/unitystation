@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Matrix;
 using PlayGroup;
+using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -44,7 +45,7 @@ public class PushPull : VisibleBehaviour
 				registerTile = GetComponent<RegisterTile>();
 			}
 			transform.position = RoundedPos(currentPos);
-			registerTile.UpdateTile();
+			registerTile.UpdatePosition();
 		}
 	}
 
@@ -164,7 +165,7 @@ public class PushPull : VisibleBehaviour
 		transform.position = Vector3.MoveTowards(transform.position, pushTarget, (moveSpeed * Time.deltaTime) * journeyLength);
 
 		if (transform.position == pushTarget) {
-			registerTile.UpdateTile(RoundedPos(pushTarget));
+			registerTile.UpdatePosition();
 
 			StartCoroutine(PushFinishWait());
 		}

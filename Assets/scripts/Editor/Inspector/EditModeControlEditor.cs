@@ -15,16 +15,16 @@ public class EditModeControlEditor: Editor {
         if(currentPosition != editModeControl.transform.position) {
             currentPosition = editModeControl.transform.position;
             editModeControl.Snap();
-
-            var registerTile = editModeControl.GetComponent<RegisterTile>();
-            if(registerTile) {
-                registerTile.UpdateTile();
-
-                var connectTrigger = editModeControl.GetComponent<ConnectTrigger>();
-                if(connectTrigger) {
-                    connectTrigger.UpdatePosition();
-                }
-            }
+            // TODO remove
+//            var registerTile = editModeControl.GetComponent<RegisterTile>();
+//            if(registerTile) {
+//                registerTile.UpdateTile();
+//
+//                var connectTrigger = editModeControl.GetComponent<ConnectTrigger>();
+//                if(connectTrigger) {
+//                    connectTrigger.UpdatePosition();
+//                }
+//            }
         }
     }
 }

@@ -23,20 +23,20 @@ namespace MapEditor {
             int x = Mathf.RoundToInt(r.origin.x);
             int y = Mathf.RoundToInt(r.origin.y);
 
-            var registerTile = PreviewObject.Prefab.GetComponent<RegisterTile>();
-            if(registerTile) { // it's something constructable
-                if(!CheckTileFit || Matrix.Matrix.At(x, y).FitsTile(PreviewObject.Prefab)) {
-
-                    CreateGameObject(x, y);
-
-                    return true;
-                }
-            } else {
-
-                CreateGameObject(x, y);
-
-                return true;
-            }
+//            var registerTile = PreviewObject.Prefab.GetComponent<RegisterTile>();
+//            if(registerTile) { // it's something constructable
+//                if(!CheckTileFit || Matrix.Matrix.At(x, y).FitsTile(PreviewObject.Prefab)) {
+//
+//                    CreateGameObject(x, y);
+//
+//                    return true;
+//                }
+//            } else {
+//
+//                CreateGameObject(x, y);
+//
+//                return true;
+//            }
             return false;
         }
 

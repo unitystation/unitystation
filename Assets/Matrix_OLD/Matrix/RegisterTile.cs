@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Matrix {
 
     [ExecuteInEditMode]
-    public class RegisterTile: MonoBehaviour {
+    public class RegisterTile2: MonoBehaviour {
 
         public bool inSpace;
 
