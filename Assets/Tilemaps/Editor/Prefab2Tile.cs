@@ -11,9 +11,8 @@ public class Prefab2Tile : EditorWindow
     public static void Apply()
     {
         //Moving old tiles
-        FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Tilemaps/Tiles/Objects_Backup");
-//		FileUtil.MoveFileOrDirectory(Application.dataPath + "/Tilemaps/Tiles/Objects", Application.dataPath + "/Tilemaps/Tiles/Objects_Backup");
-        FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Tilemaps/Tiles/Objects");
+//      FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Tilemaps/Tiles/Objects_Backup");
+//      FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Tilemaps/Tiles/Objects");
         string path = Application.dataPath + "/Resources/Prefabs/Objects/";
         int counter = 0;
         string[] scan = Directory.GetFiles(path, "*.prefab", SearchOption.AllDirectories);
@@ -32,28 +31,36 @@ public class Prefab2Tile : EditorWindow
             string smallPath = file.Substring(file.IndexOf("Assets") + 0);
 //			Debug.Log ("smallpath data: " + smallPath);
 
+
             //Generating the path needed to chose the right tile output sub-folder
             string subPath = smallPath.Substring(smallPath.IndexOf("Objects") + 7);
 //			Debug.Log ("subPath data: " + subPath);
             string barePath = subPath.Substring(0, subPath.LastIndexOf(Path.DirectorySeparatorChar));
 //			Debug.Log ("barePath data: " + barePath);
 
-            //setup building the tile//
-            var tile = TileBuilder.CreateTile<ObjectTile>(LayerType.Objects);
-
-            //Cast the gameobject
-            var cast = AssetDatabase.LoadAssetAtPath(smallPath, (typeof(GameObject))) as GameObject;
-			if (barePath == "/WallMounts") {
-				tile.Rotatable = true;
-				tile.Offset = true;
+			//Check if tile already exists
+			if (System.IO.File.Exists (Application.dataPath +  "/Tilemaps/Tiles/Objects" + barePath + "/" + name + ".asset")) {
+				Debug.Log ("A tile for " + name + " already exists... Skipping...");
 			} 
 			else {
-				tile.Rotatable = false;
-				tile.Offset = false;
+
+
+				//setup building the tile//
+				var tile = TileBuilder.CreateTile<ObjectTile> (LayerType.Objects);
+
+				//Cast the gameobject
+				var cast = AssetDatabase.LoadAssetAtPath (smallPath, (typeof(GameObject))) as GameObject;
+				if (barePath == "/WallMounts") {
+					tile.Rotatable = true;
+					tile.Offset = true;
+				} else {
+					tile.Rotatable = false;
+					tile.Offset = false;
+				}
+				tile.Object = cast;
+				//Create the tile
+				TileBuilder.CreateAsset (tile, name, "Assets/Tilemaps/Tiles/Objects" + barePath);
 			}
-            tile.Object = cast;
-            //Create the tile
-            TileBuilder.CreateAsset(tile, name, "Assets/Tilemaps/Tiles/Objects" + barePath);
         }
         EditorUtility.ClearProgressBar();
         if (counter == 0)
