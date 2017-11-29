@@ -36,7 +36,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4604100555381878}
   - component: {fileID: 61112155310572852}
-  - component: {fileID: 114191821730343760}
   - component: {fileID: 114518179293593798}
   m_Layer: 0
   m_Name: vending_126
@@ -97,20 +96,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114191821730343760
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1771454506785624}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
 --- !u!114 &114518179293593798
 MonoBehaviour:
   m_ObjectHideFlags: 1

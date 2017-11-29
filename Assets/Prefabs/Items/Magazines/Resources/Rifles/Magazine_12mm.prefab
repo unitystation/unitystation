@@ -38,7 +38,6 @@ GameObject:
   - component: {fileID: 61769843126846478}
   - component: {fileID: 114748270286923348}
   - component: {fileID: 114331908573625224}
-  - component: {fileID: 114929596904926670}
   - component: {fileID: 114525660935982552}
   - component: {fileID: 114914131618505528}
   - component: {fileID: 114383132860473892}
@@ -238,20 +237,6 @@ MonoBehaviour:
   magazineSize: 20
   Usable: 1
   ammoRemains: 20
---- !u!114 &114929596904926670
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1894555049535168}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: -0.2
-  useInGame: 1
 --- !u!212 &212969402576888992
 SpriteRenderer:
   m_ObjectHideFlags: 1

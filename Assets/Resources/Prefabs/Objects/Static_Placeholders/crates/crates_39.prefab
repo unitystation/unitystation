@@ -36,7 +36,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4910410184068020}
   - component: {fileID: 61850832509916282}
-  - component: {fileID: 114924805467899474}
   - component: {fileID: 114225691315203652}
   m_Layer: 0
   m_Name: crates_39
@@ -111,20 +110,6 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 1
---- !u!114 &114924805467899474
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1171324585748574}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
 --- !u!212 &212262577242760914
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -36,7 +36,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4636692636917062}
   - component: {fileID: 61547373610604738}
-  - component: {fileID: 114496981808198920}
   - component: {fileID: 114514113489433876}
   m_Layer: 0
   m_Name: stationobjs_200
@@ -97,20 +96,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114496981808198920
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1856925953304960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
 --- !u!114 &114514113489433876
 MonoBehaviour:
   m_ObjectHideFlags: 1

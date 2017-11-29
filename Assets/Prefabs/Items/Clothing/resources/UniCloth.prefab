@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 61728060443877980}
   - component: {fileID: 114790008314547624}
   - component: {fileID: 114956583463158008}
-  - component: {fileID: 114632485174790270}
   - component: {fileID: 114099586909895544}
   - component: {fileID: 114734890905785284}
   - component: {fileID: 114182420558184634}
@@ -147,20 +146,6 @@ MonoBehaviour:
   serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
---- !u!114 &114632485174790270
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1011433845357754}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: -0.2
-  useInGame: 0
 --- !u!114 &114734890905785284
 MonoBehaviour:
   m_ObjectHideFlags: 1

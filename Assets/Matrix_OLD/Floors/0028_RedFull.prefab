@@ -36,8 +36,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4322712679948250}
   - component: {fileID: 61815706420265106}
-  - component: {fileID: 114159016156285518}
   - component: {fileID: 114131067505248108}
+  - component: {fileID: 114820213163923696}
   m_Layer: 0
   m_Name: 0028_RedFull
   m_TagString: Untagged
@@ -110,9 +110,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inSpace: 0
   tileTypeIndex: 1
-  editModeControl: {fileID: 114159016156285518}
   savedPosition: {x: 1985, y: 1164, z: 0}
---- !u!114 &114159016156285518
+--- !u!114 &114820213163923696
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -120,12 +119,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1801978214073550}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
+  m_Script: {fileID: 11500000, guid: 92b9cb187be634b9e9480b3f74119164, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
+  fireScorch: {fileID: 0}
+  ambientTile: {fileID: 0}
 --- !u!212 &212915744231330300
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -135,6 +133,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -150,6 +149,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -167,3 +167,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0

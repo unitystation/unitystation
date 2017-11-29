@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4985579394404710}
   - component: {fileID: 61365212706015408}
-  - component: {fileID: 114389696449889530}
   - component: {fileID: 114214537201705188}
   m_Layer: 0
   m_Name: power_104
@@ -111,20 +110,6 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
   AtmosPassable: 1
---- !u!114 &114389696449889530
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1466225322154656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
 --- !u!212 &212915236527399282
 SpriteRenderer:
   m_ObjectHideFlags: 1

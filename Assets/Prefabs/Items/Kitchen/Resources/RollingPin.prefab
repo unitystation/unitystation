@@ -38,7 +38,6 @@ GameObject:
   - component: {fileID: 61702131476188450}
   - component: {fileID: 114945810224971394}
   - component: {fileID: 114436352088767182}
-  - component: {fileID: 114000013408745968}
   - component: {fileID: 114000011671410446}
   - component: {fileID: 114935930822245516}
   - component: {fileID: 114130006931618576}
@@ -123,20 +122,6 @@ MonoBehaviour:
   inHandReferenceLeft: 532
   clothingReference: -1
   size: 1
---- !u!114 &114000013408745968
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012939332086}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: -0.2
-  useInGame: 0
 --- !u!114 &114065043758903462
 MonoBehaviour:
   m_ObjectHideFlags: 1

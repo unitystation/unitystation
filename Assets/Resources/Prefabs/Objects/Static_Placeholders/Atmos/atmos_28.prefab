@@ -36,7 +36,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4683107490390884}
   - component: {fileID: 61596134970971984}
-  - component: {fileID: 114927266712491834}
   - component: {fileID: 114809015237144192}
   m_Layer: 0
   m_Name: atmos_28
@@ -111,20 +110,6 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
   AtmosPassable: 1
---- !u!114 &114927266712491834
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1768466219900516}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
 --- !u!212 &212466256841106906
 SpriteRenderer:
   m_ObjectHideFlags: 1

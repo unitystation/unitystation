@@ -38,7 +38,6 @@ GameObject:
   - component: {fileID: 61967111112008582}
   - component: {fileID: 61665323473156212}
   - component: {fileID: 114117985471735314}
-  - component: {fileID: 114938016013904264}
   - component: {fileID: 114329278433563846}
   - component: {fileID: 114527046222029886}
   - component: {fileID: 114533782473290288}
@@ -227,20 +226,6 @@ MonoBehaviour:
   isNPC: 0
   allowKnifeHarvest: 0
   ConsciousState: 0
---- !u!114 &114938016013904264
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1942658981970304}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: -0.1
-  useInGame: 0
 --- !u!212 &212357524740156146
 SpriteRenderer:
   m_ObjectHideFlags: 1
