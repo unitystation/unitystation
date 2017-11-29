@@ -36,7 +36,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4917660536286328}
-  - component: {fileID: 114219478986407194}
   - component: {fileID: 114197525563370534}
   - component: {fileID: 61106100713950454}
   - component: {fileID: 114057055290497368}
@@ -148,20 +147,6 @@ MonoBehaviour:
   SpriteLightOn: {fileID: 21300014, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
   SpriteLightOff: {fileID: 21300010, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
   radius: 6
---- !u!114 &114219478986407194
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1745947215034166}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: -0.1
-  useInGame: 0
 --- !u!114 &114356547472611804
 MonoBehaviour:
   m_ObjectHideFlags: 1

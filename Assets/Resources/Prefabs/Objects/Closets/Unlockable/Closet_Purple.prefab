@@ -68,7 +68,6 @@ GameObject:
   - component: {fileID: 4687247197246340}
   - component: {fileID: 61007529738442410}
   - component: {fileID: 61116065849539486}
-  - component: {fileID: 114966594259181116}
   - component: {fileID: 114465697400450480}
   - component: {fileID: 114835786064520692}
   - component: {fileID: 114546295996061072}
@@ -290,20 +289,6 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   items: {fileID: 1826381799243550}
   IsClosed: 0
---- !u!114 &114966594259181116
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1967120683374944}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: -0.1
-  useInGame: 0
 --- !u!212 &212765826932215146
 SpriteRenderer:
   m_ObjectHideFlags: 1

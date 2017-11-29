@@ -36,7 +36,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4113275882230610}
   - component: {fileID: 61733910100739344}
-  - component: {fileID: 114919276116081516}
   - component: {fileID: 114847283536098970}
   m_Layer: 0
   m_Name: washing_machine_0
@@ -111,20 +110,6 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 1
---- !u!114 &114919276116081516
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1710115528436200}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
 --- !u!212 &212309199176070446
 SpriteRenderer:
   m_ObjectHideFlags: 1

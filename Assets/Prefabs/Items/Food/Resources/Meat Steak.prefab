@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 61202592083071704}
   - component: {fileID: 114842434566603030}
   - component: {fileID: 114360428989312324}
-  - component: {fileID: 114391863234140238}
   - component: {fileID: 114828422824226692}
   - component: {fileID: 114608524725813366}
   - component: {fileID: 114931546224579044}
@@ -134,20 +133,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114391863234140238
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: -0.2
-  useInGame: 0
 --- !u!114 &114608524725813366
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -36,7 +36,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4759473417489106}
   - component: {fileID: 61542989738847636}
-  - component: {fileID: 114731139198957494}
   - component: {fileID: 114728226944580436}
   m_Layer: 11
   m_Name: bed
@@ -111,20 +110,6 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
   AtmosPassable: 1
---- !u!114 &114731139198957494
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609215198608670}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: -0.1
-  useInGame: 0
 --- !u!212 &212260201524696720
 SpriteRenderer:
   m_ObjectHideFlags: 1

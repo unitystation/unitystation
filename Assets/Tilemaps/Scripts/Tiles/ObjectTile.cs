@@ -52,8 +52,9 @@ namespace Tilemaps.Scripts.Tiles
         {
             if (!Object)
                 return;
-
-            var go = Instantiate(Object);
+            
+            var go = (GameObject) PrefabUtility.InstantiatePrefab(Object);
+            
             go.SetActive(false);
             go.transform.parent = tilemap.transform;
 

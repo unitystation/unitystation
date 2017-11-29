@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4682090453554700}
   - component: {fileID: 61451157459494364}
-  - component: {fileID: 114224428267532168}
   - component: {fileID: 114485594190251190}
   m_Layer: 0
   m_Name: dominator_25
@@ -97,20 +96,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114224428267532168
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1138636349567764}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
 --- !u!114 &114485594190251190
 MonoBehaviour:
   m_ObjectHideFlags: 1

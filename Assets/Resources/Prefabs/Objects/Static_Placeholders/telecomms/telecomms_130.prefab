@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4165134443525230}
   - component: {fileID: 61776720140618268}
-  - component: {fileID: 114121140582293652}
   - component: {fileID: 114675147371602500}
   m_Layer: 0
   m_Name: telecomms_130
@@ -97,20 +96,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114121140582293652
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1117558706870870}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
 --- !u!114 &114675147371602500
 MonoBehaviour:
   m_ObjectHideFlags: 1
