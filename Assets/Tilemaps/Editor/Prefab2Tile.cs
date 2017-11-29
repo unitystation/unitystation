@@ -21,7 +21,7 @@ public class Prefab2Tile : EditorWindow
         {
             counter++;
             int t = scan.Length;
-            EditorUtility.DisplayProgressBar(t.ToString() + "/" + scan.Length + " Generating Tiles", "Tile: " + counter, (float) counter / (float) scan.Length);
+			EditorUtility.DisplayProgressBar(counter.ToString() + "/" + scan.Length + " Generating Tiles", "Tile: " + counter, (float) counter / (float) scan.Length);
 //			Debug.Log ("Longpath data: " + file);
 
             //Get the filename without extention and path
@@ -43,7 +43,14 @@ public class Prefab2Tile : EditorWindow
 
             //Cast the gameobject
             var cast = AssetDatabase.LoadAssetAtPath(smallPath, (typeof(GameObject))) as GameObject;
-
+			if (barePath == "/WallMounts") {
+				tile.Rotatable = true;
+				tile.Offset = true;
+			} 
+			else {
+				tile.Rotatable = false;
+				tile.Offset = false;
+			}
             tile.Object = cast;
             //Create the tile
             TileBuilder.CreateAsset(tile, name, "Assets/Tilemaps/Tiles/Objects" + barePath);
