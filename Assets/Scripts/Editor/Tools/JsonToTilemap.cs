@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using FullSerializer;
-using Sprites;
 using Tilemaps.Scripts.Behaviours.Layers;
-using Tilemaps.Scripts.Tiles;
 using Tilemaps.Scripts.Utils;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Tilemaps;
 using UnityStation.Tools;
 
 public class JsonToTilemap : Editor
@@ -29,7 +25,6 @@ public class JsonToTilemap : Editor
         var layers = DeserializeJson();
         foreach (var layer in layers)
         {
-            //convert positions
             var positions = layer.Value.TilePositions.ConvertAll(coord => new Vector3Int(coord.X, coord.Y, 0));
 
             for (int i = 0; i < positions.Count; i++)
@@ -40,7 +35,9 @@ public class JsonToTilemap : Editor
                 builder.PlaceTile(position, tile, Matrix4x4.identity);
             }
         }
-
+        
+        // mark as dirty, otherwise the scene can't be saved.
+        EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         Debug.Log("Import kinda finished");
     }
 
