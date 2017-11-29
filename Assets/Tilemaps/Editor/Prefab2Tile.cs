@@ -43,9 +43,13 @@ public class Prefab2Tile : EditorWindow
 
             //Cast the gameobject
             var cast = AssetDatabase.LoadAssetAtPath(smallPath, (typeof(GameObject))) as GameObject;
-			if (barePath == "/Wallmounts") {
+			if (barePath == "/WallMounts") {
 				tile.Rotatable = true;
 				tile.Offset = true;
+			} 
+			else {
+				tile.Rotatable = false;
+				tile.Offset = false;
 			}
             tile.Object = cast;
             //Create the tile
