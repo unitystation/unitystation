@@ -49,6 +49,7 @@ namespace InputControl
 		{
 			CheckHandSwitch();
 			CheckClick();
+			CheckAltClick();
 		}
 
 		private void CheckHandSwitch()
@@ -68,6 +69,28 @@ namespace InputControl
 				if (!RayHit()) {
 					InteractHands();
 				}
+			}
+		}
+
+		private void CheckAltClick()
+		{
+			if(Input.GetMouseButtonDown(0) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))) {
+				GameObject panel = GameObject.Find("PANEL_Top_Windows");
+				if(!panel) {
+					Debug.LogError("Could not find PANEL_Top_Windows");
+				}
+
+				panel.GetComponent<ControlTabs>().ShowObjectsWindow();
+			}
+
+			if(Input.GetMouseButtonDown(1)){
+				GameObject panel = GameObject.Find("PANEL_Top_Windows");
+				if (!panel)
+				{
+					Debug.LogError("Could not find PANEL_Top_Windows");
+				}
+
+				panel.GetComponent<ControlTabs>().HideObjectsWindow();
 			}
 		}
 

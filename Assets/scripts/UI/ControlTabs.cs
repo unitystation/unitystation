@@ -8,19 +8,24 @@ namespace UI
 	public class ControlTabs : MonoBehaviour
 	{
 		public Button statsTab;
+		public Button objectsTab;
 		public Button optionsTab;
 		public Button moreTab;
 
 		public GameObject panelStats;
+		public GameObject panelObjects;
 		public GameObject panelOptions;
 		public GameObject panelMore;
 
 		public Color unselectColor;
 		public Color selectedColor;
 
+		private bool objectWindowExists;
+
 		private enum WindowSelect
 		{
 			stats,
+			objects,
 			options,
 			more
 		}
@@ -28,52 +33,108 @@ namespace UI
 		void Start()
 		{
 			SelectWindow(WindowSelect.stats);
+			this.objectWindowExists = false;
 		}
 
 		private void SelectWindow(WindowSelect winSelect)
 		{
 			switch (winSelect) {
 				case WindowSelect.stats:
+					UnselectAll();
 					statsTab.image.color = selectedColor;
-					optionsTab.image.color = unselectColor;
-					moreTab.image.color = unselectColor;
-					panelOptions.SetActive(false);
 					panelStats.SetActive(true);
-					panelMore.SetActive(false);
-
+					break;
+				case WindowSelect.objects:
+					UnselectAll();
+					objectsTab.image.color = selectedColor;
+					panelObjects.SetActive(true);
 					break;
 				case WindowSelect.options:
-					statsTab.image.color = unselectColor;
+					UnselectAll();
 					optionsTab.image.color = selectedColor;
-					moreTab.image.color = unselectColor;
 					panelOptions.SetActive(true);
-					panelStats.SetActive(false);
-					panelMore.SetActive(false);
 					break;
 				case WindowSelect.more:
-					statsTab.image.color = unselectColor;
-					optionsTab.image.color = unselectColor;
+					UnselectAll();
 					moreTab.image.color = selectedColor;
-					panelOptions.SetActive(false);
-					panelStats.SetActive(false);
 					panelMore.SetActive(true);
 					break;
 			}
 		}
 
-		public void Button_Stats(){
+		private void UnselectAll()
+		{
+			statsTab.image.color = unselectColor;
+			objectsTab.image.color = unselectColor;
+			optionsTab.image.color = unselectColor;
+			moreTab.image.color = unselectColor;
+			panelStats.SetActive(false);
+			panelObjects.SetActive(false);
+			panelOptions.SetActive(false);
+			panelMore.SetActive(false);
+		}
+
+		public void Button_Stats()
+		{
 			SelectWindow(WindowSelect.stats);
 			SoundManager.Play("Click01");
 		}
 
-		public void Button_Options(){
+		public void Button_Objects()
+		{
+			SelectWindow(WindowSelect.objects);
+			SoundManager.Play("Click01");
+		}
+
+		public void Button_Options()
+		{ 
 			SelectWindow(WindowSelect.options);
 			SoundManager.Play("Click01");
 		}
 
-		public void Button_More(){
+		public void Button_More()
+		{
 			SelectWindow(WindowSelect.more);
 			SoundManager.Play("Click01");
+		}
+
+		public void ShowObjectsWindow()
+		{
+			if(this.objectWindowExists) {
+				return;
+			}
+
+			float width = objectsTab.GetComponent<RectTransform>().rect.width;
+			RectTransform optionsRect = optionsTab.GetComponent<RectTransform>();
+			RectTransform moreRect = moreTab.GetComponent<RectTransform>();
+
+			//Slide over the other two tabs
+			optionsRect.localPosition += Vector3.right * (width / 2f);
+			moreRect.localPosition += Vector3.right * (width / 2f);
+
+			objectsTab.gameObject.SetActive(true);
+			Button_Objects();
+			this.objectWindowExists = true;
+		}
+
+		public void HideObjectsWindow()
+		{
+			if (!this.objectWindowExists)
+			{
+				return;
+			}
+
+			float width = objectsTab.GetComponent<RectTransform>().rect.width;
+			RectTransform optionsRect = optionsTab.GetComponent<RectTransform>();
+			RectTransform moreRect = moreTab.GetComponent<RectTransform>();
+
+			//Slide back the other two tabs
+			optionsRect.localPosition += Vector3.left * (width / 2f);
+			moreRect.localPosition += Vector3.left * (width / 2f);
+
+			objectsTab.gameObject.SetActive(false);
+			Button_Stats();
+			this.objectWindowExists = false;
 		}
 	}
 }
