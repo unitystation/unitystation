@@ -27,9 +27,9 @@ WallMount_Radio_Top,Objects/WallMounts/Radio
 RequestConsole,Objects/WallMounts/RequestConsole
 StatusDisplay_News,Objects/WallMounts/StatusDisplay_News
 ShutterSwitch,Objects/WallMounts/ShutterSwitch
-WallMount_FireExtinguisher,Objects/WallMounts/FireCabinet
-closet_47,Objects/Closets/Closet
-DisposalsChute,Objects/Disposals/DisposalsChute
+WallMount_FireExtinguisher,Objects/WallMounts/FireExtinguisherCabinet
+closet_47,Objects/Closets/Unlockable/Closet
+DisposalsChute,Objects/Static_Placeholders/DisposalsChute
 KitchenMeatHook,Objects/Machines/Kitchen/MeatHook
 Food Processor,Objects/Machines/Kitchen/FoodProcessor
 SmartFridge,Objects/Machines/Kitchen/SmartFridge
@@ -151,19 +151,19 @@ MiningDoor,Doors/MiningDoor
 ID,Items/IDs/ID
 Space Cigarettes,Items/Accessories/SpaceCigarettes
 CellTimer,Objects/WallMounts/CellTimer
-metal_chair,Objects/Furniture/Metal_chair
+metal_chair,Objects/Static_Placeholders/Furniture/metal_chair
 Shuttle_engine_center,Objects/Machines/Shuttle/Shuttle_Engine_Center
-HidrogenTubes,Objects/Machines/Shuttle/HydrogenTubes
-bed,Objects/Furniture/Bed
-Stool,Objects/Furniture/Stool
+HidrogenTubes,Objects/Machines/Shuttle/HidrogenTubes
+bed,Objects/Static_Placeholders/Furniture/Bed
+Stool,Objects/Static_Placeholders/Furniture/Stool
 Shuttle_engine_E,Objects/Machines/Shuttle/Shuttle_Engine_E
 Shuttle_engine_W,Objects/Machines/Shuttle/Shuttle_Engine_W
 Table,Tables/Table
 Table_Wood,Tables/Table_Wood
 Table_Reinforced,Tables/Table_Reinforced
-shuttle_wall_Skew1,Walls/Shuttle_Wall_Corner
+shuttle_wall_Skew1,Walls/shuttle_wall_corner
 shuttle_wall,Walls/Shuttle_Wall
-shuttle_wall_Skew_SW,Walls/Shuttle_Wall_Corner
+shuttle_wall_Skew_SW,Walls/shuttle_wall_corner
 0675_WarningLineCorner,Floors/warninglinecorner
 0083_ShuttleWhite,Floors/shuttlefloor3
 0082_ShuttleYellow,Floors/shuttlefloor2
