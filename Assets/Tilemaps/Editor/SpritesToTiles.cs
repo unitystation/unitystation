@@ -11,8 +11,8 @@ namespace Tilemaps.Editor
 {
     public class SpritesToTiles : MonoBehaviour
     {
-        private static string tilesPath = "Assets/Tilemaps/Tiles";
-    
+        private const string tilesPath = "Assets/Tilemaps/Tiles";
+
         [MenuItem("Assets/Sprites/Generate Tiles", false, 1000)]
         public static void ImportObjects()
         {
@@ -24,6 +24,8 @@ namespace Tilemaps.Editor
 
         private static void LoadTiles(string path)
         {
+            List<Tuple<string, string>> mapping = new List<Tuple<string, string>>();
+            
             var assets = AssetDatabase.LoadAllAssetsAtPath(path);
             
             foreach (var entry in DmiIconData.Data)
@@ -51,13 +53,19 @@ namespace Tilemaps.Editor
                                 tileName = "FloorTile";
                             }
                             
-                            TileBuilder.CreateAsset(tile, tileName, folderPath);
+                            if(dmiIndex + e > 796)
+                                mapping.Add(new Tuple<string, string>("floors_" + (dmiIndex + e), tileName));
+                            
+//                            TileBuilder.CreateAsset(tile, tileName, folderPath);
                         }
                     }
 
                     break;
                 }
             }
+            
+            Debug.Log(string.Join("\n", mapping.Select(tuple => tuple.Item1)));
+            Debug.Log(string.Join("\n", mapping.Select(tuple => "Floors/" + tuple.Item2)));
         }
     }
 }

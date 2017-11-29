@@ -30,14 +30,15 @@ namespace UnityStation.Tools
         
         public static GenericTile DataToTile(UniTileData data)
         {
-            var name = data.Name.Split('(')[0].Trim();
+            var name = mapping.ContainsKey(data.OriginalSpriteName) ? data.OriginalSpriteName : data.Name.Split('(')[0].Trim();
+
             if (!mapping.ContainsKey(name))
             {
                 Debug.LogError("Missing tile for key: " + name);
                 return null;
             }
-            
-            var assetPath = Path.Combine(tilePath, mapping[name] + ".asset");
+
+            var assetPath =  Path.Combine(tilePath, mapping[name] + ".asset");
 
             if (!File.Exists(assetPath))
             {
