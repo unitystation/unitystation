@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using InputControl;
 using Matrix;
+using Tilemaps.Scripts.Behaviours.Objects;
 
 namespace Cupboards
 {
@@ -15,7 +16,7 @@ namespace Cupboards
 		private Sprite doorClosed;
 
 		public SpriteRenderer spriteRenderer;
-		private RegisterTile registerTile;
+		private RegisterCloset registerTile;
 
 		[SyncVar(hook = "LockUnlock")]
 		public bool IsLocked;
@@ -32,7 +33,7 @@ namespace Cupboards
 		void Awake()
 		{
 			doorClosed = spriteRenderer.sprite;
-			registerTile = GetComponent<RegisterTile>();
+			registerTile = GetComponent<RegisterCloset>();
 		}
 
 		public override void OnStartServer()
@@ -86,9 +87,6 @@ namespace Cupboards
 
 		void OpenClose(bool isClosed)
 		{
-			if (!registerTile) {
-				registerTile = GetComponent<RegisterTile>();
-			}
 			if (isClosed) {
 				Close();
 			} else {
@@ -109,10 +107,7 @@ namespace Cupboards
 
 		void Close()
 		{
-			if (registerTile == null) {
-				registerTile = gameObject.GetComponent<RegisterTile>();
-			}
-			registerTile.UpdateTileType(TileType.Object);
+			registerTile.IsClosed = true;
 			SoundManager.PlayAtPosition("OpenClose", transform.position);
 			spriteRenderer.sprite = doorClosed;
 			if (lockLight != null) {
@@ -122,10 +117,7 @@ namespace Cupboards
 
 		void Open()
 		{
-			if (registerTile == null) {
-				registerTile = gameObject.GetComponent<RegisterTile>();
-			}
-			registerTile.UpdateTileType(TileType.None);
+			registerTile.IsClosed = false;
 			SoundManager.PlayAtPosition("OpenClose", transform.position);
 			spriteRenderer.sprite = doorOpened;
 			if (lockLight != null) {

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Matrix;
 using PlayGroup;
+ using Tilemaps.Scripts.Behaviours.Objects;
 
 /// <summary>
 /// Toggles the active state of the object by gathering all components and setting
@@ -82,9 +83,9 @@ public class VisibleBehaviour : ManagedNetworkBehaviour
 				if (eC != null)
 					eC.Snap();
 
-				registerTile.UpdateTile(transform.position);
+				registerTile.UpdatePosition();
 			}else{
-				registerTile.RemoveTile();
+				registerTile.Unregister();
 			}
 		}
 	}

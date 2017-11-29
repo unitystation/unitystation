@@ -1,5 +1,6 @@
 ﻿using Cupboards;
 using Matrix;
+using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -8,14 +9,14 @@ namespace Objects
     public class ClosetHealthBehaviour : HealthBehaviour
     {
         private Collider2D[] colliders;
-        private RegisterTile registerTile;
+        private RegisterCloset registerTile;
         private PushPull objectActions;
         private ClosetControl closetControl;
 
         private void Awake()
         {
             colliders = GetComponents<Collider2D>();
-            registerTile = GetComponent<RegisterTile>();
+            registerTile = GetComponent<RegisterCloset>();
             objectActions = GetComponent<PushPull>();
             closetControl = GetComponent<ClosetControl>();
         }
@@ -49,7 +50,7 @@ namespace Objects
             for ( var i = 0; i < colliders.Length; i++ ) colliders[i].enabled = false;
 
             objectActions.BreakPull();
-            registerTile.UpdateTileType(TileType.None);
+            registerTile.IsClosed = false;
             objectActions.allowedToMove = false;
             objectActions.isPushable = false;
         }

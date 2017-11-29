@@ -1,4 +1,5 @@
-﻿using Tilemaps.Scripts.Utils;
+﻿using Doors;
+using Tilemaps.Scripts.Utils;
 using UnityEngine;
 
 namespace Tilemaps.Scripts.Behaviours.Objects
@@ -6,16 +7,17 @@ namespace Tilemaps.Scripts.Behaviours.Objects
     [ExecuteInEditMode]
     public class RegisterDoor : RegisterObject
     {
-        public bool closed = true;
         public bool OneDirectionRestricted;
         
+        public bool IsClosed { get; set; }
+
         public override bool IsPassable(Vector3Int to)
         {
             if (OneDirectionRestricted)
             {
                 var v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
                 
-                return !(to-position).Equals(v);
+                return !(to-Position).Equals(v);
             }
             
             return true;
@@ -23,12 +25,12 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 
         public override bool IsPassable()
         {
-            return OneDirectionRestricted || !closed;
+            return OneDirectionRestricted || !IsClosed;
         }
 
         public override bool IsAtmosPassable()
         {
-            return OneDirectionRestricted || !closed;
+            return OneDirectionRestricted || !IsClosed;
         }
     }
 }

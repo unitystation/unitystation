@@ -7,14 +7,16 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 	[ExecuteInEditMode]
 	public abstract class RegisterTile : MonoBehaviour
 	{
+		public bool IsRegister { get; private set; }
+		
 		protected ObjectLayer layer;
 		
 		private Vector3Int _position;
 
-		protected Vector3Int position
+		public Vector3Int Position
 		{
 			get { return _position; }
-			set
+			protected set
 			{
 				OnAddTile(value);
 				
@@ -28,18 +30,41 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 		{			
 			layer = transform.parent.GetComponent<ObjectLayer>();
 
-			position = Vector3Int.FloorToInt(transform.localPosition);
+			Register();
 		}
 
 		private void OnEnable()
 		{
 			// In case of recompilation and Start doesn't get called
-			layer?.Objects.Add(position, this);
+			layer?.Objects.Add(Position, this);
+			IsRegister = true;
+		}
+
+		private void OnDisable()
+		{
+			Unregister();
 		}
 
 		public void OnDestroy()
 		{
-			layer?.Objects.Remove(position, this);
+			layer?.Objects.Remove(Position, this);
+		}
+
+		public void UpdatePosition()
+		{
+			Position = Vector3Int.FloorToInt(transform.localPosition);
+		}
+		
+		public void Register()
+		{
+			UpdatePosition();
+			IsRegister = true;
+		}
+        
+		public void Unregister()
+		{
+			layer.Objects.Remove(Position, this);
+			IsRegister = false;
 		}
 
 		protected virtual void OnAddTile(Vector3Int newPosition)

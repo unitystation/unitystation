@@ -16,6 +16,7 @@ using Items;
 using System.Linq;
 using UnityEngine.Assertions.Must;
 using Doors;
+using Tilemaps.Scripts.Behaviours.Objects;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -381,7 +382,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		foreach (SpriteRenderer sR in spriteRends) {
 			sR.sortingLayerName = "Blood";
 		}
-		gameObject.GetComponent<RegisterTile>().UpdateTileType(TileType.None);
+		gameObject.GetComponent<RegisterPlayer>().IsBlocking = false;
 		var rotationVector = transform.rotation.eulerAngles;
 		rotationVector.z = rot;
 		transform.rotation = Quaternion.Euler(rotationVector);

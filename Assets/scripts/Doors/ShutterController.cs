@@ -4,12 +4,13 @@ using UnityEngine;
 using PlayGroup;
 using Matrix;
 using InputControl;
+using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine.Networking;
 
 public class ShutterController : ObjectTrigger
 {
 	private Animator animator;
-	private RegisterTile registerTile;
+	private RegisterDoor registerTile;
 
 	public bool IsClosed { get; private set; }
 
@@ -25,7 +26,7 @@ public class ShutterController : ObjectTrigger
 	void Awake()
 	{
 		animator = gameObject.GetComponent<Animator>();
-		registerTile = gameObject.GetComponent<RegisterTile>();
+		registerTile = gameObject.GetComponent<RegisterDoor>();
 
 		closedLayer = LayerMask.NameToLayer("Door Closed");
 		closedSortingLayer = SortingLayer.NameToID("Doors Open");
@@ -50,7 +51,7 @@ public class ShutterController : ObjectTrigger
 
 	private void SetState(bool state){
 		IsClosed = state;
-		registerTile.UpdateTileType(state ? TileType.Door : TileType.None);
+		registerTile.IsClosed = state;
 		if ( state )
 		{
 			SetLayer(closedLayer, closedSortingLayer);

@@ -38,7 +38,7 @@ namespace Matrix {
         }
 
         private void UpdateConnectType() {
-            GetComponent<RegisterTile>().UpdateTile();
+//            GetComponent<RegisterTile>().UpdateTile();
         }
     }
 }

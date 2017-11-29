@@ -7,13 +7,11 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 	[ExecuteInEditMode]
 	public class RegisterPlayer : RegisterTile
 	{
-		void Update () {
-			var currentPos = Vector3Int.FloorToInt(transform.localPosition);
-			
-			if (!currentPos.Equals(position))
-			{
-				position = currentPos;
-			}
+		public bool IsBlocking { get; set; } = true;
+        
+		public override bool IsPassable()
+		{
+			return !IsBlocking;
 		}
 	}
 }

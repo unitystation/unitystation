@@ -11,7 +11,7 @@ using Matrix;
 /// </summary>
 [ExecuteInEditMode]
 public class RestrictiveMoveTile : NetworkBehaviour {
-
+	// TODO is this needed for new tilemap system?
 	private RestrictedMoveStruct restrictMoveStruct = new RestrictedMoveStruct();
 	public RestrictedMoveStruct GetRestrictedData{ get { return restrictMoveStruct; }}
 
@@ -26,7 +26,7 @@ public class RestrictiveMoveTile : NetworkBehaviour {
 	[SyncVar(hook = "UpdateWest")]
 	public bool restrictWest;
 
-	private RegisterTile registerTile;
+//	private RegisterTile registerTile;
 
 	private void Start()
 	{
@@ -37,7 +37,7 @@ public class RestrictiveMoveTile : NetworkBehaviour {
 	}
 
 	public override void OnStartClient(){
-		registerTile = GetComponent<RegisterTile>();
+//		registerTile = GetComponent<RegisterTile>();
 		StartCoroutine(WaitForLoad());
 		base.OnStartClient();
 	}
@@ -56,28 +56,28 @@ public class RestrictiveMoveTile : NetworkBehaviour {
 	private void UpdateNorth(bool val){
 		restrictNorth = val;
 		restrictMoveStruct.north = restrictNorth;
-		registerTile.UpdateTile();
+//		registerTile.UpdateTile();
 	}
 
 	private void UpdateSouth(bool val)
 	{
 		restrictSouth = val;
 		restrictMoveStruct.south = restrictSouth;
-		registerTile.UpdateTile();
+//		registerTile.UpdateTile();
 	}
 
 	private void UpdateEast(bool val)
 	{
 		restrictEast = val;
 		restrictMoveStruct.east = restrictEast;
-		registerTile.UpdateTile();
+//		registerTile.UpdateTile();
 	}
 
 	private void UpdateWest(bool val)
 	{
 		restrictWest = val;
 		restrictMoveStruct.west = restrictWest;
-		registerTile.UpdateTile();
+//		registerTile.UpdateTile();
 	}
 
 
@@ -86,22 +86,22 @@ public class RestrictiveMoveTile : NetworkBehaviour {
     public void setNorth(bool val) {
         restrictNorth = val;
         restrictMoveStruct.north = restrictNorth;
-        registerTile.UpdateTile();
+//        registerTile.UpdateTile();
     }
     public void setSouth(bool val) {
         restrictSouth = val;
         restrictMoveStruct.south = restrictSouth;
-        registerTile.UpdateTile();
+//        registerTile.UpdateTile();
     }
     public void setEast(bool val) {
         restrictEast = val;
         restrictMoveStruct.east = restrictEast;
-        registerTile.UpdateTile();
+//        registerTile.UpdateTile();
     }
     public void setWest(bool val) {
         restrictWest = val;
         restrictMoveStruct.west = restrictWest;
-        registerTile.UpdateTile();
+//        registerTile.UpdateTile();
     }
 
     public void setAll(bool val){
@@ -117,6 +117,6 @@ public class RestrictiveMoveTile : NetworkBehaviour {
         //west
         restrictWest = val;
         restrictMoveStruct.west = restrictWest;
-        registerTile.UpdateTile();
+//        registerTile.UpdateTile();
     }
 }
