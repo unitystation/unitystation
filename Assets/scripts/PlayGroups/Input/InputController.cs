@@ -114,6 +114,11 @@ namespace InputControl
 				}
 			}
 
+			//Clicking on tile with something, but missing it's pixels. Attempt to use object in hand
+			if (hits.Count() > 0 && spriteRenderers.Count == 0) {
+				InteractHands();
+			}
+
 			//check if we found nothing at all
 			return hits.Count() > 0;
 		}
@@ -156,7 +161,7 @@ namespace InputControl
 		private bool Interact(Transform _transform)
 		{
 			if (playerMove.isGhost)
-				return false;;
+				return false;
 			
 			//attempt to trigger the things in range we clicked on
 			if (PlayerManager.LocalPlayerScript.IsInReach(_transform)) {
