@@ -30,10 +30,25 @@ namespace UI
 			more
 		}
 
+		private static ControlTabs controlTabs;
+
+		public static ControlTabs Instance
+		{
+			get
+			{
+				if (!controlTabs)
+				{
+					controlTabs = FindObjectOfType<ControlTabs>();
+				}
+
+				return controlTabs;
+			}
+		}
+
 		void Start()
 		{
 			SelectWindow(WindowSelect.stats);
-			this.objectWindowExists = false;
+			objectWindowExists = false;
 		}
 
 		private void SelectWindow(WindowSelect winSelect)
@@ -47,7 +62,6 @@ namespace UI
 				case WindowSelect.objects:
 					UnselectAll();
 					objectsTab.image.color = selectedColor;
-					panelObjects.SetActive(true);
 					break;
 				case WindowSelect.options:
 					UnselectAll();
@@ -69,7 +83,6 @@ namespace UI
 			optionsTab.image.color = unselectColor;
 			moreTab.image.color = unselectColor;
 			panelStats.SetActive(false);
-			panelObjects.SetActive(false);
 			panelOptions.SetActive(false);
 			panelMore.SetActive(false);
 		}
@@ -98,43 +111,54 @@ namespace UI
 			SoundManager.Play("Click01");
 		}
 
-		public void ShowObjectsWindow()
+
+		/// <summary>
+		/// Displays the Tile List tab and moves the Options and More tabs out of the way
+		/// </summary>
+		public static void ShowObjectsWindow(List<GameObject> tiles)
 		{
-			if(this.objectWindowExists) {
+			if(Instance.objectWindowExists) {
 				return;
 			}
 
-			float width = objectsTab.GetComponent<RectTransform>().rect.width;
-			RectTransform optionsRect = optionsTab.GetComponent<RectTransform>();
-			RectTransform moreRect = moreTab.GetComponent<RectTransform>();
+			foreach (GameObject tile in tiles) {
+				UITileList.addObjectToPanel(tile);
+			}
+
+			float width = Instance.objectsTab.GetComponent<RectTransform>().rect.width;
+			RectTransform optionsRect = Instance.optionsTab.GetComponent<RectTransform>();
+			RectTransform moreRect = Instance.moreTab.GetComponent<RectTransform>();
 
 			//Slide over the other two tabs
 			optionsRect.localPosition += Vector3.right * (width / 2f);
 			moreRect.localPosition += Vector3.right * (width / 2f);
 
-			objectsTab.gameObject.SetActive(true);
-			Button_Objects();
-			this.objectWindowExists = true;
+			Instance.objectsTab.gameObject.SetActive(true);
+			Instance.Button_Objects();
+			Instance.objectWindowExists = true;
 		}
 
-		public void HideObjectsWindow()
+		/// <summary>
+		/// Hides the Tile List tab and moves the Options and More tabs back to their original positions
+		/// </summary>
+		public static void HideObjectsWindow()
 		{
-			if (!this.objectWindowExists)
+			if (!Instance.objectWindowExists)
 			{
 				return;
 			}
 
-			float width = objectsTab.GetComponent<RectTransform>().rect.width;
-			RectTransform optionsRect = optionsTab.GetComponent<RectTransform>();
-			RectTransform moreRect = moreTab.GetComponent<RectTransform>();
+			float width = Instance.objectsTab.GetComponent<RectTransform>().rect.width;
+			RectTransform optionsRect = Instance.optionsTab.GetComponent<RectTransform>();
+			RectTransform moreRect = Instance.moreTab.GetComponent<RectTransform>();
 
 			//Slide back the other two tabs
 			optionsRect.localPosition += Vector3.left * (width / 2f);
 			moreRect.localPosition += Vector3.left * (width / 2f);
 
-			objectsTab.gameObject.SetActive(false);
-			Button_Stats();
-			this.objectWindowExists = false;
+			Instance.objectsTab.gameObject.SetActive(false);
+			Instance.Button_Stats();
+			Instance.objectWindowExists = false;
 		}
 	}
 }

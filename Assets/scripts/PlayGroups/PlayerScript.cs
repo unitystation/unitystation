@@ -92,7 +92,7 @@ namespace PlayGroup
 				if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy) {
 					UIManager.Instance.playerListUIControl.window.SetActive(true);
 				}
-					
+
 				if (!PlayerManager.HasSpawned) {
 					//First
 					CmdTrySetName(PlayerManager.PlayerNameCache);

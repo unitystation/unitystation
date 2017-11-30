@@ -61,7 +61,7 @@ namespace InputControl
 
 		private void CheckClick()
 		{
-			if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.LeftControl)) {
+			if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftAlt)) {
 				//change the facingDirection of player on click
 				changeDirection();
 
@@ -75,23 +75,33 @@ namespace InputControl
 		private void CheckAltClick()
 		{
 			if(Input.GetMouseButtonDown(0) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))) {
-				GameObject panel = GameObject.Find("PANEL_Top_Windows");
-				if(!panel) {
-					Debug.LogError("Could not find PANEL_Top_Windows");
-				}
-
-				panel.GetComponent<ControlTabs>().ShowObjectsWindow();
+				List<GameObject> tiles = getTilesAtMousePosition();
+				ControlTabs.ShowObjectsWindow(tiles);
 			}
 
+			//DEBUG
 			if(Input.GetMouseButtonDown(1)){
-				GameObject panel = GameObject.Find("PANEL_Top_Windows");
-				if (!panel)
-				{
-					Debug.LogError("Could not find PANEL_Top_Windows");
-				}
-
-				panel.GetComponent<ControlTabs>().HideObjectsWindow();
+				ControlTabs.HideObjectsWindow();
 			}
+		}
+
+		private List<GameObject> getTilesAtMousePosition()
+		{
+			var position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			LayerMask layerMaskWithFloors = LayerMask.GetMask("Default", "Furniture", "Walls", "Windows", "Machines",
+				"Players", "Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls");
+			var hits = Physics2D.RaycastAll(position, Vector2.zero, 10f, layerMaskWithFloors);
+			List<GameObject> tiles = new List<GameObject>();
+
+			foreach (var hit in hits)
+			{
+				var gameObject = hit.collider.gameObject;
+				if (gameObject != null) {
+					tiles.Add(gameObject);
+				}
+			}
+
+			return tiles;
 		}
 
 		private void changeDirection()
