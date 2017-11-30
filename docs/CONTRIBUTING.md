@@ -52,7 +52,14 @@ After you have saved your changes in unity, open Github Desktop. You will notice
 4. Confirm you are happy with the description and press the Send Pull Request button
 5. When that is done make sure to press the Sync button to also push the changes to your fork on Github
 
+## Todo vs Feature vs bug:
+Please take note of the difference between a TODO and Feature
+* Bug: An unexpected behaviour of the game and/or server. Including, but not limited to, errors and warnings.
+* Todo: When you come across something that needs tweaking/adding during development, is not an unexpected behaviour
+* Feature: When you, out of personal preference, want something added or changed.
+
 ### That's it!
 Someone will come along and review the changes. If everything looks good then they will merge it with the main repo. If you need any help don't be afraid to ask in the discord channel: [https://discord.gg/tFcTpBp](https://discord.gg/tFcTpBp)
 
- 
+
+

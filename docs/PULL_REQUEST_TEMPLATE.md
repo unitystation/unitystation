@@ -7,8 +7,8 @@ _explain how you fixed the issue or added the feature and if it is a permanent f
 
 ### Open Questions and Pre-Merge TODOs
 
-- [ ]  The issue this PR refers to still exists in the branch it's PR'ed to.
-- [ ]  This PR has less than 5 commits or is squashed beforehand
+- [ ]  The issue solved or feature added is still open/missing in the branch you PR to.
+- [ ]  This PR has less than 5 commits or is squashed beforehand.
 - [ ]  This fix is tested on the branch it is PR'ed to.
 - [ ]  This PR is checked for side effects and it has none
 - [ ]  This PR does not bring up any new compile errors
