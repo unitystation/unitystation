@@ -10,13 +10,18 @@ using UnityEngine;
 
 namespace UnityStation.Tools
 {
-    public static class TilemapConverter
+    public class TilemapConverter
     {
-        private static Dictionary<string, string> mapping = null;
+        private Dictionary<string, string> mapping = null;
 
         private const string tilePath = "Assets/Tilemaps/Tiles/";
+        
+        public TilemapConverter()
+        {
+            LoadMapping();
+        }
 
-        public static void LoadMapping()
+        private void LoadMapping()
         {
             mapping = new Dictionary<string, string>();
             var lines = File.ReadLines("Assets/Tilemaps/Mapping.csv").Select(a => a.Split(';')).ToArray();
@@ -28,7 +33,7 @@ namespace UnityStation.Tools
             }
         }
         
-        public static GenericTile DataToTile(UniTileData data)
+        public GenericTile DataToTile(UniTileData data)
         {
             var name = mapping.ContainsKey(data.OriginalSpriteName) ? data.OriginalSpriteName : data.Name.Split('(')[0].Trim();
 

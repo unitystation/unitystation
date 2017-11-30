@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using Tilemaps.Scripts.Behaviours.Objects;
 using Tilemaps.Scripts.Utils;
 using UnityEditor;
@@ -52,44 +52,57 @@ namespace Tilemaps.Scripts.Tiles
         {
             if (!Object)
                 return;
-            
+
             var go = (GameObject) PrefabUtility.InstantiatePrefab(Object);
-            
+
             go.SetActive(false);
             go.transform.parent = tilemap.transform;
 
-            var offset = new Vector3(transformMatrix.m03, transformMatrix.m13, transformMatrix.m23);
-            
-            go.transform.localPosition = position + new Vector3(0.5f, 0.5f, 0) + offset;
-            go.transform.rotation = tilemap.transform.rotation * transformMatrix.rotation;
+            var objectOffset = !Offset ? Vector3.zero : transformMatrix.rotation * Vector3.up;
+
+            go.transform.localPosition = position + new Vector3(0.5f, 0.5f, 0) + objectOffset;
+            go.transform.rotation = tilemap.transform.rotation;
+
+            if (!KeepOrientation)
+            {
+                go.transform.rotation *= transformMatrix.rotation;
+            }
 
             go.name = Object.name;
 
             var registerObject = go.GetComponent<RegisterObject>() ?? go.AddComponent<RegisterObject>();
 
-            registerObject.Offset = Vector3Int.RoundToInt(-offset);
+            registerObject.Offset = Vector3Int.RoundToInt(-objectOffset);
 
             go.SetActive(true);
         }
 
-        public override Matrix4x4 Rotate(Matrix4x4 transformMatrix, bool clockwise)
+        public override Matrix4x4 Rotate(Matrix4x4 transformMatrix, bool anticlockwise=true, int count=1)
         {
             if (Rotatable)
             {
-                var rotation = Quaternion.Euler(0f, 0f, clockwise ? 90f : -90f);
-
-                var newRotation = KeepOrientation ? Quaternion.identity : transformMatrix.rotation * rotation;
-                var newTranslation = !Offset ? Vector3.zero : rotation * transformMatrix.GetColumn(3);
-
-                if (Offset && Math.Abs(newTranslation.magnitude) < 0.1)
+                for (int i = 0; i < count; i++)
                 {
-                    newTranslation = Vector3.up;
-                    newRotation = Quaternion.identity;
+                    transformMatrix = RotateOnce(transformMatrix, anticlockwise);
                 }
-
-                return Matrix4x4.TRS(newTranslation, newRotation, Vector3.one);
+                return transformMatrix;
             }
-            return base.Rotate(transformMatrix, clockwise);
+            return base.Rotate(transformMatrix, anticlockwise, count);
+        }
+
+        private Matrix4x4 RotateOnce(Matrix4x4 transformMatrix, bool anticlockwise)
+        {
+            var rotation = Quaternion.Euler(0f, 0f, anticlockwise ? 90f : -90f);
+
+            var newRotation = KeepOrientation ? Quaternion.identity : transformMatrix.rotation * rotation;
+            var newTranslation = !Offset ? Vector3.zero : rotation * transformMatrix.GetColumn(3);
+
+            if (Offset && transformMatrix.Equals(Matrix4x4.identity))
+            {
+                newTranslation = Vector3.left;
+            }
+
+            return Matrix4x4.TRS(newTranslation, newRotation, Vector3.one);
         }
     }
 }

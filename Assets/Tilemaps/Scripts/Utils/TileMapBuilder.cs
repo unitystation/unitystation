@@ -15,6 +15,11 @@ namespace Tilemaps.Scripts.Utils
             _importMode = importMode;
         }
 
+        public void PlaceTile(Vector3Int position, GenericTile tile)
+        {
+            PlaceTile(position, tile, Matrix4x4.identity);
+        }
+
         public void PlaceTile(Vector3Int position, GenericTile tile, Matrix4x4 matrixTransform)
         {
             if (tile is LayerTile)

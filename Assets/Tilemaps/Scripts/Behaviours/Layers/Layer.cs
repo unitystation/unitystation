@@ -49,6 +49,11 @@ namespace Tilemaps.Scripts.Behaviours.Layers
         {
             return tilemap.GetTile<LayerTile>(position);
         }
+
+        public virtual bool HasTile(Vector3Int position)
+        {
+            return GetTile(position);
+        }
         
         public virtual void RemoveTile(Vector3Int position)
         {
@@ -64,6 +69,11 @@ namespace Tilemaps.Scripts.Behaviours.Layers
         public void ClearPreview()
         {
             tilemap.ClearAllEditorPreviewTiles();
+        }
+
+        public virtual void ClearAllTiles()
+        {
+            tilemap.ClearAllTiles();
         }
     }
 }

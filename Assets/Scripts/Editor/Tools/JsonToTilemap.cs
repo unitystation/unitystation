@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using FullSerializer;
 using Tilemaps.Scripts.Behaviours.Layers;
+using Tilemaps.Scripts.Tiles;
 using Tilemaps.Scripts.Utils;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -18,11 +19,16 @@ public class JsonToTilemap : Editor
         var map = GameObject.FindGameObjectWithTag("Map");
         var metaTileMap = map.GetComponentInChildren<MetaTileMap>();
 
-        TilemapConverter.LoadMapping();
-        
+        metaTileMap.ClearAllTiles();
+
+        var converter = new TilemapConverter();
+
         var builder = new TileMapBuilder(metaTileMap, true);
-        
+
         var layers = DeserializeJson();
+
+        var objects = new List<Tuple<Vector3Int, ObjectTile>>();
+
         foreach (var layer in layers)
         {
             var positions = layer.Value.TilePositions.ConvertAll(coord => new Vector3Int(coord.X, coord.Y, 0));
@@ -30,27 +36,60 @@ public class JsonToTilemap : Editor
             for (int i = 0; i < positions.Count; i++)
             {
                 var position = positions[i];
-                var tile = TilemapConverter.DataToTile(layer.Value.Tiles[i]);
-                
-                builder.PlaceTile(position, tile, Matrix4x4.identity);
+                var tile = converter.DataToTile(layer.Value.Tiles[i]);
+
+                if (tile is ObjectTile)
+                {
+                    objects.Add(new Tuple<Vector3Int, ObjectTile>(position, (ObjectTile) tile));
+                }
+                else
+                {
+                    builder.PlaceTile(position, tile);
+                }
             }
         }
-        
+
+        foreach (var tuple in objects)
+        {
+            var position = tuple.Item1;
+            var obj = tuple.Item2;
+
+            var matrix = obj.Rotatable ? FindObjectPosition(metaTileMap, ref position, obj) : Matrix4x4.identity;
+
+            builder.PlaceTile(position, obj, matrix);
+        }
+
         // mark as dirty, otherwise the scene can't be saved.
         EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         Debug.Log("Import kinda finished");
     }
 
-    private static void logOverlaps(IList<Vector3Int> positions, IReadOnlyList<UniTile> tiles)
+    private static Matrix4x4 FindObjectPosition(MetaTileMap metaTileMap, ref Vector3Int position, LayerTile tile)
     {
-        var overlaps = positions.GroupBy(v => v)
-            .Where(v => v.Count() > 1)
-            .Select(v => new {Pos = new XYCoord(v.Key.x, v.Key.y), Tile = tiles[positions.IndexOf(v.Key)], Count = v.Count()})
-            .ToList();
-        if ( overlaps.Count != 0 )
+        var onStructure = metaTileMap.HasTile(position, LayerType.Structures);
+        
+        var rotation = Quaternion.identity;
+
+        for (int i = 0; i < 4; i++)
         {
-            Debug.LogWarning(overlaps.Aggregate("Overlaps found: ", (current, ds) => current + ds.ToString()));
+            var offset = Vector3Int.RoundToInt(rotation * Vector3.up);
+            var hasStructure = metaTileMap.HasTile(position + offset, LayerType.Structures);
+            var isOccupied = metaTileMap.HasTile(position + offset, onStructure ? LayerType.Base : LayerType.Objects);
+
+            if (onStructure != hasStructure && isOccupied == onStructure)
+            {
+                if (onStructure)
+                {
+                    position += offset;
+                    rotation *= Quaternion.Euler(0f, 0f, 180);
+                }
+                break;
+            }
+
+            rotation *= Quaternion.Euler(0, 0, 90);
         }
+
+        return Matrix4x4.TRS(Vector3.zero, rotation, Vector3.one);
     }
 
     private static Dictionary<string, TilemapLayer> DeserializeJson()
@@ -62,18 +101,9 @@ public class JsonToTilemap : Editor
             var data = fsJsonParser.Parse(asset.text);
             var serializer = new fsSerializer();
             serializer.TryDeserialize(data, ref deserializedLayers).AssertSuccessWithoutWarnings();
-        } else throw new FileNotFoundException("Put your map json to /Assets/Resources/metadata/%mapname%.json!");
-        return deserializedLayers;
-    }
-    
-    internal static HashSet<string> GetSortingLayerOrderNames(IEnumerable<SpriteRenderer> renderers)
-    {
-        var hs = new HashSet<string>();
-        foreach ( var renderer in renderers )
-        {
-            hs.Add(renderer.sortingLayerName + renderer.sortingOrder);
         }
-        return hs;
+        else throw new FileNotFoundException("Put your map json to /Assets/Resources/metadata/%mapname%.json!");
+        return deserializedLayers;
     }
 
     internal static string GetSortingLayerName(SpriteRenderer renderer)
@@ -95,7 +125,7 @@ public class JsonToTilemap : Editor
         var x_index = sortingLayerNames.FindIndex(s => s.StartsWith(xTrim));
         var y_index = sortingLayerNames.FindIndex(s => s.StartsWith(yTrim));
 
-        if ( x_index == y_index )
+        if (x_index == y_index)
         {
             return GetLayerOffset(y) - GetLayerOffset(x);
         }

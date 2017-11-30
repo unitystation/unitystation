@@ -8,6 +8,8 @@ namespace Tilemaps.Scripts.Utils
     public class TileList
     {
         private Dictionary<Vector3Int, List<RegisterTile>> _objects = new Dictionary<Vector3Int, List<RegisterTile>>();
+        
+        public List<RegisterTile> AllObjects => _objects.Values.SelectMany(x => x).ToList();
 
         public void Add(Vector3Int position, RegisterTile obj)
         {
@@ -22,14 +24,14 @@ namespace Tilemaps.Scripts.Utils
             }
         }
 
-        public IEnumerable<RegisterTile> Get(Vector3Int position)
+        public List<RegisterTile> Get(Vector3Int position)
         {
             return _objects.ContainsKey(position) ? _objects[position] : new List<RegisterTile>();
         }
 
-        public IEnumerable<T> Get<T>(Vector3Int position) where T : RegisterTile
+        public List<T> Get<T>(Vector3Int position) where T : RegisterTile
         {
-            return Get(position).OfType<T>();
+            return Get(position).OfType<T>().ToList();
         }
 
         public T GetFirst<T>(Vector3Int position) where T : RegisterTile

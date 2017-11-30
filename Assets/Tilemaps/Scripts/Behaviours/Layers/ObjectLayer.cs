@@ -30,6 +30,11 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             }
         }
 
+        public override bool HasTile(Vector3Int position)
+        {
+            return (Objects.Get(position).Count > 0) || base.HasTile(position);
+        }
+
         public override void RemoveTile(Vector3Int position)
         {
             foreach (var obj in Objects.Get(position).ToArray())
@@ -81,6 +86,19 @@ namespace Tilemaps.Scripts.Behaviours.Layers
         public override bool IsSpaceAt(Vector3Int position)
         {
             return IsAtmosPassableAt(position) && base.IsSpaceAt(position);
+        }
+
+        public override void ClearAllTiles()
+        {
+            foreach (var obj in Objects.AllObjects)
+            {
+                if (obj != null)
+                {
+                    DestroyImmediate(obj.gameObject);
+                }
+            }
+            
+            base.ClearAllTiles();
         }
     }
 }
