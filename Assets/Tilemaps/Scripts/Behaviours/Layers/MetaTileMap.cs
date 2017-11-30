@@ -65,10 +65,16 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             layers[tile.LayerType].SetTile(position, tile, transformMatrix);
         }
 
-        public void GetTile(Vector3Int position, LayerType layerType)
+        public LayerTile GetTile(Vector3Int position, LayerType layerType)
         {
-            layers[layerType].GetTile(position);
+            return layers[layerType].GetTile(position);
         }
+
+        public bool HasTile(Vector3Int position, LayerType layerType)
+        {
+            return layers[layerType].HasTile(position);
+        }
+
 
         public void RemoveTile(Vector3Int position, LayerType refLayer)
         {
@@ -99,6 +105,14 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             foreach (var layer in layers.Values)
             {
                 layer.ClearPreview();
+            }
+        }
+
+        public void ClearAllTiles()
+        {
+            foreach (var layer in layers.Values)
+            {
+                layer.ClearAllTiles();
             }
         }
     }

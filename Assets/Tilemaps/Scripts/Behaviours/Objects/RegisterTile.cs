@@ -63,7 +63,7 @@ namespace Tilemaps.Scripts.Behaviours.Objects
         
 		public void Unregister()
 		{
-			layer.Objects.Remove(Position, this);
+			layer?.Objects.Remove(Position, this);
 			IsRegister = false;
 		}
 
