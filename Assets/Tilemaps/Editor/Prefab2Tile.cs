@@ -4,6 +4,24 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System;
+using System;
+using Tilemaps.Scripts.Behaviours.Objects;
+using Tilemaps.Scripts.Utils;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.Tilemaps;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using Tilemaps.Scripts.Tiles;
+using UnityEditor;
+using UnityEditor.MemoryProfiler;
+using UnityEditorInternal;
+using UnityEngine;
+using UnityEngine.Timeline;
+
+
 
 public class Prefab2Tile : EditorWindow
 {
@@ -60,6 +78,9 @@ public class Prefab2Tile : EditorWindow
 				tile.Object = cast;
 				//Create the tile
 				TileBuilder.CreateAsset (tile, name, "Assets/Tilemaps/Tiles/Objects" + barePath);
+				PreviewSpriteBuilder.Create (cast);
+
+
 			}
         }
         EditorUtility.ClearProgressBar();
