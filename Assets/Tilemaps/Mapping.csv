@@ -11,8 +11,8 @@ PublicDoor,Doors/PublicDoor
 SecDoor,Doors/SecDoor
 AirLock,Doors/AirLock
 L6SAW_Ballistic,Items/Weapons/Ballistics/L6SAW_Ballistic
-Magazine_12mm,Items/Weapons/Magazines/Magazine_12mm
-Magazine_5.56mm,Items/Weapons/Magazines/Magazine_5.56mm
+Magazine_12mm,Items/Magazines/Magazine_12mm
+Magazine_5.56mm,Items/Magazines/Magazine_5.56mm
 C20rSMG_Ballistic,Items/Weapons/Ballistics/C20rSMG_Ballistic
 Knife,Items/Weapons/Knife
 RollingPin,Items/Kitchen/RollingPin
@@ -20,7 +20,7 @@ Monitor_FireAlarmLeft,Objects/WallMounts/FireAlarm
 MonitorAir,Objects/WallMounts/MonitorAir
 Microwave,Objects/Machines/Kitchen/Microwave
 Gibber,Objects/Machines/Kitchen/Gibber
-FoodCart,Objects/Carts/FoodCart
+FoodCart,Objects/Static_Placeholders/FoodCart
 Condimaster Neo,Objects/Machines/Kitchen/CondimasterNeo
 Monitor_CameraTopLeft,Objects/WallMounts/Camera
 WallMount_Radio_Top,Objects/WallMounts/Radio
@@ -30,11 +30,11 @@ ShutterSwitch,Objects/WallMounts/ShutterSwitch
 WallMount_FireExtinguisher,Objects/WallMounts/FireExtinguisherCabinet
 closet_47,Objects/Closets/Unlockable/Closet
 DisposalsChute,Objects/Static_Placeholders/DisposalsChute
-KitchenMeatHook,Objects/Machines/Kitchen/MeatHook
+KitchenMeatHook,Objects/Machines/Kitchen/KitchenMeatHook
 Food Processor,Objects/Machines/Kitchen/FoodProcessor
 SmartFridge,Objects/Machines/Kitchen/SmartFridge
 DinnerWare Vendor,Objects/Machines/Kitchen/DinnerWareVendor
-IcecreamCart,Objects/Carts/IcecreamCart
+IcecreamCart,Objects/Static_Placeholders/IcecreamCart
 OxygenCloset1,Objects/Closets/Unlockable/Closet_Oxygen
 EquipmentCloset,Objects/Closets/Unlockable/Closet
 Closet_Brown,Objects/Closets/Unlockable/Closet_Brown
@@ -129,7 +129,7 @@ HydroTile_LightGreen,Floors/hydrofloor
 DeliveryTile,Floors/delivery
 0343_RedBlue,Floors/redblue
 0260_Grass,Floors/grass
-Mining_0061,Floors/
+Mining_0061,Floors/Mining
 0167_OrangeCorner,Floors/orangecorner
 0159_Orange,Floors/orange
 0118_YellowFull,Floors/yellowfull
@@ -1232,6 +1232,3 @@ floors_1052,Floors/gold_1
 floors_1053,Floors/gold_2
 floors_1054,Floors/gold_3
 floors_1055,Floors/gold_dam
-UnityEngine.Debug:Log(Object),UnityEngine.Debug:Log(Object)
-Tilemaps.Editor.SpritesToTiles:LoadTiles(String) (at Assets/Tilemaps/Editor/SpritesToTiles.cs:67),Tilemaps.Editor.SpritesToTiles:LoadTiles(String) (at Assets/Tilemaps/Editor/SpritesToTiles.cs:68)
-Tilemaps.Editor.SpritesToTiles:ImportObjects() (at Assets/Tilemaps/Editor/SpritesToTiles.cs:21),Tilemaps.Editor.SpritesToTiles:ImportObjects() (at Assets/Tilemaps/Editor/SpritesToTiles.cs:21)
