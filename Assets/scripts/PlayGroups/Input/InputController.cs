@@ -75,6 +75,7 @@ namespace InputControl
 		private void CheckAltClick()
 		{
 			if (Input.GetMouseButtonDown(0) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))) {
+				//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
 				var position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				if(PlayerManager.LocalPlayerScript.IsInReach(position)) {
 					List<GameObject> tiles = UITileList.GetItemsAtPosition(position);
@@ -82,8 +83,6 @@ namespace InputControl
 				}
 			}
 		}
-
-		
 
 		private void changeDirection()
 		{

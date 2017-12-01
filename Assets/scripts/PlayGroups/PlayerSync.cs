@@ -192,6 +192,7 @@ namespace PlayGroup
 				state = isLocalPlayer ? predictedState : serverState;
 				transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
 
+				//Check if we should still be displaying an ItemListTab and update it, if so.
 				ControlTabs.CheckItemListTab();
 
 				if (state.Position != transform.position)

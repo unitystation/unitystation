@@ -6,17 +6,19 @@ using PlayGroup;
 
 public class UITileListItem : MonoBehaviour {
 
-	private GameObject tileItem;
-
 	public Button button;
 	public Image image;
 	public Text text;
 
+	private GameObject tileItem;
+	private SpriteRenderer spriteRenderer;
+
 	public void Update()
 	{
 		//Anyone know of a better way to get the "sprite" in the UI to sync with the sprite in game?
-		SpriteRenderer spriteRenderer = tileItem.transform.GetComponentInChildren<SpriteRenderer>(false);
-		image.sprite = spriteRenderer.sprite;
+		if(spriteRenderer) {
+			image.sprite = spriteRenderer.sprite;
+		}
 	}
 
 	public void Button_Item()
@@ -32,7 +34,7 @@ public class UITileListItem : MonoBehaviour {
 		get { return tileItem; }
 		set {
 			tileItem = value;
-			SpriteRenderer spriteRenderer = value.transform.GetComponentInChildren<SpriteRenderer>(false);
+		    spriteRenderer = value.transform.GetComponentInChildren<SpriteRenderer>(false);
 			image.sprite = spriteRenderer.sprite;
 			text.text = value.name;
 		}

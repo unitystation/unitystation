@@ -8,7 +8,6 @@ public class UITileList : MonoBehaviour {
 	public GameObject tileItemPanel;
 
 	private List<GameObject> listedObjects;
-
 	private static UITileList uiTileList;
 
 	private void Awake()
@@ -27,6 +26,10 @@ public class UITileList : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// Returns GameObjects eligible to be displayed in the Item List Tab
+	/// </summary>
+	/// <param name="position">Position where to look for items</param>
 	public static List<GameObject> GetItemsAtPosition(Vector3 position)
 	{
 		LayerMask layerMaskWithFloors = LayerMask.GetMask("Default", "Furniture", "Walls", "Windows", "Machines",
@@ -45,6 +48,9 @@ public class UITileList : MonoBehaviour {
 		return tiles;
 	}
 
+	/// <summary>
+	/// Returns world location of the items, currently being displayed in Item List Tab. Returns Vector3.zero on failure.
+	/// </summary>
 	public static Vector3 GetListedItemsLocation()
 	{
 		if(Instance.listedObjects.Count == 0) {
@@ -55,6 +61,10 @@ public class UITileList : MonoBehaviour {
 		return item.TileItem.transform.position;
 	}
 
+	/// <summary>
+	/// Adds game object to be displayed in Item List Tab.
+	/// </summary>
+	/// <param name="gameObject">The GameObject to be displayed</param>
 	public static void AddObjectToItemPanel(GameObject gameObject)
 	{
 		//Instantiate new item panel
@@ -67,6 +77,9 @@ public class UITileList : MonoBehaviour {
 		UpdateItemPanelSize();
 	}
 
+	/// <summary>
+	/// Updates Item List Tab to match what the current item stack holds
+	/// </summary>
 	public static void UpdateItemPanelList()
 	{
 		Vector3 position = GetListedItemsLocation();
@@ -77,7 +90,7 @@ public class UITileList : MonoBehaviour {
 			oldList.Add(gameObject.GetComponent<UITileListItem>().TileItem);
 		}
 
-		//If item stack has changed, redo the objects tab
+		//If item stack has changed, redo the itemList tab
 		if (!EnumerableExt.AreEquivalent<GameObject>(newList, oldList)) {
 			ClearItemPanel();
 			foreach(GameObject gameObject in newList) {
@@ -86,6 +99,9 @@ public class UITileList : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// Removes all itemList from the Item List Tab
+	/// </summary>
 	public static void ClearItemPanel() {
 		foreach(GameObject gameObject in Instance.listedObjects) {
 			Destroy(gameObject);
@@ -94,6 +110,10 @@ public class UITileList : MonoBehaviour {
 		UpdateItemPanelSize();
 	}
 
+	/// <summary>
+	/// Removes a specific object from the Item List Tab
+	/// </summary>
+	/// <param name="tileListItemObject">The GameObject to be removed</param>
 	public static void RemoveTileListItem(GameObject tileListItemObject)
 	{
 		if (!Instance.listedObjects.Contains(tileListItemObject)){
@@ -108,6 +128,7 @@ public class UITileList : MonoBehaviour {
 
 	private static void UpdateItemPanelSize()
 	{
+		//Since the content to this tab is added dynamically, we need to update the panel on any changes
 		float height = Instance.tileItemPanel.GetComponent<RectTransform>().rect.height;
 		int count = Instance.listedObjects.Count;
 		LayoutElement layoutElement = Instance.gameObject.GetComponent<LayoutElement>();

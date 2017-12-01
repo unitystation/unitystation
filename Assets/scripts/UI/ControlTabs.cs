@@ -9,24 +9,24 @@ namespace UI
 	public class ControlTabs : MonoBehaviour
 	{
 		public Button statsTab;
-		public Button objectsTab;
+		public Button ItemListTab;
 		public Button optionsTab;
 		public Button moreTab;
 
 		public GameObject panelStats;
-		public GameObject panelObjects;
+		public GameObject PanelItemList;
 		public GameObject panelOptions;
 		public GameObject panelMore;
 
 		public Color unselectColor;
 		public Color selectedColor;
 
-		private bool objectWindowExists;
+		private bool itemListTabExists;
 
 		private enum WindowSelect
 		{
 			stats,
-			objects,
+			itemList,
 			options,
 			more
 		}
@@ -49,7 +49,7 @@ namespace UI
 		void Start()
 		{
 			SelectWindow(WindowSelect.stats);
-			objectWindowExists = false;
+			itemListTabExists = false;
 		}
 
 		private void SelectWindow(WindowSelect winSelect)
@@ -60,9 +60,9 @@ namespace UI
 					statsTab.image.color = selectedColor;
 					panelStats.SetActive(true);
 					break;
-				case WindowSelect.objects:
+				case WindowSelect.itemList:
 					UnselectAll();
-					objectsTab.image.color = selectedColor;
+					ItemListTab.image.color = selectedColor;
 					break;
 				case WindowSelect.options:
 					UnselectAll();
@@ -80,7 +80,7 @@ namespace UI
 		private void UnselectAll()
 		{
 			statsTab.image.color = unselectColor;
-			objectsTab.image.color = unselectColor;
+			ItemListTab.image.color = unselectColor;
 			optionsTab.image.color = unselectColor;
 			moreTab.image.color = unselectColor;
 			panelStats.SetActive(false);
@@ -94,9 +94,9 @@ namespace UI
 			SoundManager.Play("Click01");
 		}
 
-		public void Button_Objects()
+		public void Button_Item_List()
 		{
-			SelectWindow(WindowSelect.objects);
+			SelectWindow(WindowSelect.itemList);
 			SoundManager.Play("Click01");
 		}
 
@@ -112,15 +112,18 @@ namespace UI
 			SoundManager.Play("Click01");
 		}
 
+		/// <summary>
+		/// Check if the Item List Tab needs to be updated or closed
+		/// </summary>
 		public static void CheckItemListTab()
 		{
-			if (!Instance.objectWindowExists){
+			if (!Instance.itemListTabExists){
 				return;
 			}
 
 			UITileList.UpdateItemPanelList();
-
-			if(!PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation())) {
+			//Slightly lower reach because distance from player to tile is shorter than from player to object. (Ends up allowing 2 floor tile reach otherwise)
+			if(!PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation(), 1.5f)) {
 				HideItemListTab();
 			}
 		}
@@ -128,11 +131,11 @@ namespace UI
 		/// <summary>
 		/// Displays the Objects tab
 		/// </summary>
-		/// <param name="tiles">List of GameObjects to include in the objects tab</param>
+		/// <param name="tiles">List of GameObjects to include in the Item List Tab</param>
 		public static void ShowItemListTab(List<GameObject> tiles)
 		{
-			//If window exists, player is perhaps alt-clicking at another tile. Only slide tabs if object window doesn't already exist.
-			if(Instance.objectWindowExists) {
+			//If window exists, player is perhaps alt-clicking at another tile. Only slide tabs if Item List Tab doesn't already exist.
+			if(Instance.itemListTabExists) {
 				UITileList.ClearItemPanel();
 			} else {
 				SlideOptionsAndMoreTabs(Vector3.right);
@@ -143,38 +146,38 @@ namespace UI
 
 				//TODO re-implement for new tile system
 				if(tile.GetComponent<FloorTile>()) {
-					Instance.objectsTab.GetComponentInChildren<Text>().text = tile.name;
+					Instance.ItemListTab.GetComponentInChildren<Text>().text = tile.name;
 				}
 			}
 
-			Instance.objectsTab.gameObject.SetActive(true);
-			Instance.Button_Objects();
-			Instance.objectWindowExists = true;
+			Instance.ItemListTab.gameObject.SetActive(true);
+			Instance.Button_Item_List();
+			Instance.itemListTabExists = true;
 		}
 
 		/// <summary>
-		/// Hides the Objects tab
+		/// Hides the Item List Tab
 		/// </summary>
 		public static void HideItemListTab()
 		{
-			if (!Instance.objectWindowExists)
+			if (!Instance.itemListTabExists)
 			{
 				return;
 			}
 
 			SlideOptionsAndMoreTabs(Vector3.left);
 
-			Instance.objectsTab.gameObject.SetActive(false);
+			Instance.ItemListTab.gameObject.SetActive(false);
 			Instance.Button_Stats();
-			Instance.objectWindowExists = false;
-			Instance.objectsTab.GetComponentInChildren<Text>().text = "Objects";
+			Instance.itemListTabExists = false;
+			Instance.ItemListTab.GetComponentInChildren<Text>().text = "Objects";
 			UITileList.ClearItemPanel();
 		}
 
 		//TODO: Perhaps implement a more robust solution that can arbitrarily insert tabs in any position? Would require refactor for tabs to be indexed.
 		private static void SlideOptionsAndMoreTabs(Vector3 direction)
 		{
-			float width = Instance.objectsTab.GetComponent<RectTransform>().rect.width;
+			float width = Instance.ItemListTab.GetComponent<RectTransform>().rect.width;
 			RectTransform optionsRect = Instance.optionsTab.GetComponent<RectTransform>();
 			RectTransform moreRect = Instance.moreTab.GetComponent<RectTransform>();
 
