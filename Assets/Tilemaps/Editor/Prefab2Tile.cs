@@ -1,26 +1,18 @@
-﻿using Tilemaps.Scripts.Tiles;
-using Tilemaps.Editor.Utils;
-using UnityEngine;
-using UnityEditor;
-using System.IO;
-using System;
-using System;
-using Tilemaps.Scripts.Behaviours.Objects;
-using Tilemaps.Scripts.Utils;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.Tilemaps;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Tilemaps.Scripts.Tiles;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Tilemaps;
+using UnityEngine.Timeline;
 using UnityEditor;
 using UnityEditor.MemoryProfiler;
 using UnityEditorInternal;
-using UnityEngine;
-using UnityEngine.Timeline;
-
+using Tilemaps.Editor.Utils;
+using Tilemaps.Scripts.Utils;
+using Tilemaps.Scripts.Tiles;
+using Tilemaps.Scripts.Behaviours.Objects;
 
 
 public class Prefab2Tile : EditorWindow
@@ -38,12 +30,11 @@ public class Prefab2Tile : EditorWindow
 
 	public static void GenerateTiles(string subject){
 		//Moving old tiles
-		//      FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Tilemaps/Tiles/Objects_Backup");
-		//      FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Tilemaps/Tiles/Objects");
 			string basePath = Application.dataPath + "/Resources/Prefabs/";
 			string basePath2 = basePath + subject + "/";
-			Debug.Log (basePath2);
+//			Debug.Log (basePath2);
 			int counter = 0;
+			int created = 0;
 			string[] scan = Directory.GetFiles (basePath2, "*.prefab", SearchOption.AllDirectories);
 			foreach (String file in scan) {
 				counter++;
@@ -73,7 +64,6 @@ public class Prefab2Tile : EditorWindow
 
 
 					//setup building the tile//
-					if (subject == "Objects") {
 						var tile = TileBuilder.CreateTile<ObjectTile> (LayerType.Objects);
 
 						//Cast the gameobject
@@ -89,20 +79,13 @@ public class Prefab2Tile : EditorWindow
 						//Create the tile
 						TileBuilder.CreateAsset (tile, name, "/Tilemaps/Tiles/" + subject + "/" + barePath);
 						PreviewSpriteBuilder.Create (cast);
-
-					}
-					if (subject == "Items") {
-						Debug.Log ("This has to be an item");
-					} 
+						created++;
 
 				}
 			}
 			EditorUtility.ClearProgressBar ();
-			if (counter == 0)
-				Debug.Log ("No prefabs processed");
-			else
-				Debug.Log (counter + " tiles created for prefabs");
-		} 
+		Debug.Log (created + " / " + counter + " Tiles created for prefabs");
+		}
 
 
 	public static void CleanSprites(string subject){
@@ -110,7 +93,6 @@ public class Prefab2Tile : EditorWindow
 		string basePath = Application.dataPath + "/textures/TilePreviews/Resources/Prefabs/";
 		string basePath2 = basePath + subject + "/";
 		int counter = 0;
-		int exist = 0;
 		int cleaned = 0;
 		string[] scan = Directory.GetFiles(basePath2, "*.png", SearchOption.AllDirectories);
 		foreach (String file in scan)
@@ -133,7 +115,7 @@ public class Prefab2Tile : EditorWindow
 			//Check if tile already exists
 			if (System.IO.File.Exists (Application.dataPath +  "/Resources/Prefabs/" + subject + barePath + "/" + name + ".prefab")) {
 				//				Debug.Log ("A prefab for " + name + " exists... Skipping...");
-				exist++;
+
 			} 
 			else {
 				FileUtil.DeleteFileOrDirectory(file);
@@ -144,9 +126,7 @@ public class Prefab2Tile : EditorWindow
 			}
 		}
 		EditorUtility.ClearProgressBar();
-		Debug.Log (counter + " Preview Sprites Processed");
-		Debug.Log (exist + " Previes Sprites skipped, Prefab exists");
-		Debug.Log(cleaned + " Preview Sprites deleted, prefab does not exist");
+		Debug.Log (cleaned + " / " + counter + " Preview sprites deleted for missing tiles");
 	}
 
 	public static void CheckTiles(string subject){
@@ -154,7 +134,6 @@ public class Prefab2Tile : EditorWindow
 		string basePath = Application.dataPath + "/Tilemaps/Tiles/";
 		string basePath2 = basePath + subject + "/";
 		int counter = 0;
-		int exist = 0;
 		int cleaned = 0;
 		string[] scan = Directory.GetFiles(basePath2, "*.asset", SearchOption.AllDirectories);
 		foreach (String file in scan)
@@ -177,7 +156,6 @@ public class Prefab2Tile : EditorWindow
 			//Check if tile already exists
 			if (System.IO.File.Exists (Application.dataPath +  "/Resources/Prefabs/" + subject + "/" + barePath + "/" + name + ".prefab")) {
 				//				Debug.Log ("A prefab for " + name + " exists... Skipping...");
-				exist++;
 			} 
 			else {
 				FileUtil.DeleteFileOrDirectory(file);
@@ -188,9 +166,7 @@ public class Prefab2Tile : EditorWindow
 			}
 		}
 		EditorUtility.ClearProgressBar();
-		Debug.Log (counter + " Tiles Processed");
-		Debug.Log (exist + " Tiles skipped, Prefab exists");
-		Debug.Log(cleaned + " Tiles deleted, prefab does not exist");
+		Debug.Log (cleaned + " / " + counter + " Tiles deleted for Prefabs");
 
 
 	}
