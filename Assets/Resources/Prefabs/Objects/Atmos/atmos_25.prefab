@@ -20,6 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4150503778020164}
   - component: {fileID: 61562588738703978}
+  - component: {fileID: 61607015728213872}
+  - component: {fileID: 114695926579887582}
+  - component: {fileID: 114493247054913196}
   - component: {fileID: 114208585595884322}
   m_Layer: 0
   m_Name: atmos_25
@@ -96,6 +99,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!61 &61607015728213872
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1291213769265592}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &114208585595884322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -110,6 +138,62 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
   AtmosPassable: 1
+--- !u!114 &114493247054913196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1291213769265592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleState: 1
+  isPlayer: 0
+  registerTile: {fileID: 0}
+  moveSpeed: 7
+  allowedToMove: 1
+  isPushable: 1
+  pulledBy: {fileID: 0}
+  pushTarget: {x: 0, y: 0, z: 0}
+  pushing: 0
+  serverLittleLag: 0
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
+  timeInPush: 0
+--- !u!114 &114695926579887582
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1291213769265592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 124
+    i1: 63
+    i2: 163
+    i3: 150
+    i4: 211
+    i5: 41
+    i6: 196
+    i7: 131
+    i8: 104
+    i9: 234
+    i10: 240
+    i11: 218
+    i12: 63
+    i13: 188
+    i14: 198
+    i15: 96
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212722044381060078
 SpriteRenderer:
   m_ObjectHideFlags: 1
