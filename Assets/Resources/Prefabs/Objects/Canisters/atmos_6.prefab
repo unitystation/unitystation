@@ -36,6 +36,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4473146189944030}
   - component: {fileID: 61178979822919022}
+  - component: {fileID: 61577444076955680}
+  - component: {fileID: 114015962946433376}
+  - component: {fileID: 114344858384178292}
   - component: {fileID: 114523911933682142}
   m_Layer: 0
   m_Name: atmos_6
@@ -96,6 +99,87 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!61 &61577444076955680
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1934211423403590}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &114015962946433376
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1934211423403590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 169
+    i1: 252
+    i2: 231
+    i3: 164
+    i4: 191
+    i5: 16
+    i6: 244
+    i7: 226
+    i8: 43
+    i9: 168
+    i10: 136
+    i11: 130
+    i12: 47
+    i13: 133
+    i14: 143
+    i15: 202
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114344858384178292
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1934211423403590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleState: 1
+  isPlayer: 0
+  registerTile: {fileID: 0}
+  moveSpeed: 7
+  allowedToMove: 1
+  isPushable: 1
+  pulledBy: {fileID: 0}
+  pushTarget: {x: 0, y: 0, z: 0}
+  pushing: 0
+  serverLittleLag: 0
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
+  timeInPush: 0
 --- !u!114 &114523911933682142
 MonoBehaviour:
   m_ObjectHideFlags: 1

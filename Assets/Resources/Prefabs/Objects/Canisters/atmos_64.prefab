@@ -20,6 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4116945656279958}
   - component: {fileID: 61342021851567566}
+  - component: {fileID: 61702476618110136}
+  - component: {fileID: 114119217471435826}
+  - component: {fileID: 114880483059364088}
   - component: {fileID: 114059016834853634}
   m_Layer: 0
   m_Name: atmos_64
@@ -96,6 +99,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!61 &61702476618110136
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1168677039942508}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &114059016834853634
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -110,6 +138,62 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 1
+--- !u!114 &114119217471435826
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1168677039942508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 119
+    i1: 72
+    i2: 216
+    i3: 113
+    i4: 212
+    i5: 56
+    i6: 20
+    i7: 108
+    i8: 24
+    i9: 138
+    i10: 190
+    i11: 231
+    i12: 112
+    i13: 24
+    i14: 204
+    i15: 146
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114880483059364088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1168677039942508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleState: 1
+  isPlayer: 0
+  registerTile: {fileID: 0}
+  moveSpeed: 7
+  allowedToMove: 1
+  isPushable: 1
+  pulledBy: {fileID: 0}
+  pushTarget: {x: 0, y: 0, z: 0}
+  pushing: 0
+  serverLittleLag: 0
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
+  timeInPush: 0
 --- !u!212 &212929601857864172
 SpriteRenderer:
   m_ObjectHideFlags: 1

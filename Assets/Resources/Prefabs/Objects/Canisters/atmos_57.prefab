@@ -20,6 +20,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4766924259767700}
   - component: {fileID: 61301747424175416}
+  - component: {fileID: 61764346627293238}
+  - component: {fileID: 114509662786697548}
+  - component: {fileID: 114910495961895788}
+  - component: {fileID: 114021474392254996}
+  - component: {fileID: 114375627953232240}
   - component: {fileID: 114703445277859372}
   m_Layer: 0
   m_Name: atmos_57
@@ -96,6 +101,93 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!61 &61764346627293238
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1051541562388458}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &114021474392254996
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1051541562388458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab49f7209d2b4a9d94184d4ea24e312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 150
+  radius: 3
+  spriteRend: {fileID: 0}
+--- !u!114 &114375627953232240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1051541562388458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d408beaded664de2817cddbbcd26c3dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialHealth: 100
+  maxHealth: 100
+  isNPC: 0
+  allowKnifeHarvest: 0
+  ConsciousState: 0
+--- !u!114 &114509662786697548
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1051541562388458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 206
+    i1: 16
+    i2: 11
+    i3: 105
+    i4: 41
+    i5: 184
+    i6: 4
+    i7: 112
+    i8: 235
+    i9: 202
+    i10: 93
+    i11: 49
+    i12: 150
+    i13: 113
+    i14: 84
+    i15: 189
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114703445277859372
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -110,6 +202,30 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 1
+--- !u!114 &114910495961895788
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1051541562388458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleState: 1
+  isPlayer: 0
+  registerTile: {fileID: 0}
+  moveSpeed: 7
+  allowedToMove: 1
+  isPushable: 1
+  pulledBy: {fileID: 0}
+  pushTarget: {x: 0, y: 0, z: 0}
+  pushing: 0
+  serverLittleLag: 0
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
+  timeInPush: 0
 --- !u!212 &212188953855684958
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -77,7 +77,7 @@ public class Prefab2Tile : EditorWindow
 						}
 						tile.Object = cast;
 						//Create the tile
-						TileBuilder.CreateAsset (tile, name, "/Tilemaps/Tiles/" + subject + "/" + barePath);
+						TileBuilder.CreateAsset (tile, name, "Assets/Tilemaps/Tiles/" + subject + "/" + barePath);
 						PreviewSpriteBuilder.Create (cast);
 						created++;
 
