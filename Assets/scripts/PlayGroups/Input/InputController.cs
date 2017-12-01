@@ -49,6 +49,7 @@ namespace InputControl
 		{
 			CheckHandSwitch();
 			CheckClick();
+			CheckAltClick();
 		}
 
 		private void CheckHandSwitch()
@@ -60,13 +61,25 @@ namespace InputControl
 
 		private void CheckClick()
 		{
-			if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.LeftControl)) {
+			if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftAlt)) {
 				//change the facingDirection of player on click
 				changeDirection();
 
 				//if we found nothing at all to click on try to use whats in our hands (might be shooting at someone in space)
 				if (!RayHit()) {
 					InteractHands();
+				}
+			}
+		}
+
+		private void CheckAltClick()
+		{
+			if (Input.GetMouseButtonDown(0) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))) {
+				//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
+				var position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				if(PlayerManager.LocalPlayerScript.IsInReach(position)) {
+					List<GameObject> tiles = UITileList.GetItemsAtPosition(position);
+					ControlTabs.ShowItemListTab(tiles);
 				}
 			}
 		}
@@ -158,7 +171,7 @@ namespace InputControl
 			return null;
 		}
 
-		private bool Interact(Transform _transform)
+		public bool Interact(Transform _transform)
 		{
 			if (playerMove.isGhost)
 				return false;
