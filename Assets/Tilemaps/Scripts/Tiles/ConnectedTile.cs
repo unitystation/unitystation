@@ -9,6 +9,8 @@ namespace Tilemaps.Scripts.Tiles
     {
         Walls,
         Windows,
+		Station,
+		Shuttle,
         Tables,
         Floors,
         None
