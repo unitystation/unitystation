@@ -169,5 +169,10 @@ namespace PlayGroup
 			//TODO: reimplement this timer higher up like in the InputController
 			return DistanceTo(transform.position) <= interactDist;
 		}
+
+		public bool IsInReach(Vector3 position, float interactDist = interactionDistance)
+		{
+			return DistanceTo(position) <= interactDist;
+		}
 	}
 }

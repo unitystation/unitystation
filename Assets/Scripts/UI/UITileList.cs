@@ -27,26 +27,93 @@ public class UITileList : MonoBehaviour {
 		}
 	}
 
-	public static void addObjectToPanel(GameObject gameObject)
+	public static List<GameObject> GetItemsAtPosition(Vector3 position)
 	{
-		//Add new item to the list
+		LayerMask layerMaskWithFloors = LayerMask.GetMask("Default", "Furniture", "Walls", "Windows", "Machines",
+			"Players", "Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls");
+		var hits = Physics2D.RaycastAll(position, Vector2.zero, 10f, layerMaskWithFloors);
+		List<GameObject> tiles = new List<GameObject>();
+
+		foreach (var hit in hits)
+		{
+			tiles.Add(hit.collider.gameObject);
+		}
+
+		//So that deepest objects (floors) appear first
+		tiles.Reverse();
+
+		return tiles;
+	}
+
+	public static Vector3 GetListedItemsLocation()
+	{
+		if(Instance.listedObjects.Count == 0) {
+			return Vector3.zero;
+		}
+
+		UITileListItem item = Instance.listedObjects[0].GetComponent<UITileListItem>();
+		return item.TileItem.transform.position;
+	}
+
+	public static void AddObjectToItemPanel(GameObject gameObject)
+	{
+		//Instantiate new item panel
 		GameObject tilePanel = GameObject.Instantiate(Instance.tileItemPanel, Instance.transform);
-
-		//Set the GameObject, Image and Text values for the display panel
 		UITileListItem uiTileListItem = tilePanel.GetComponent<UITileListItem>();
-		SpriteRenderer spriteRenderer = gameObject.transform.GetComponentInChildren<SpriteRenderer>(false);
-		uiTileListItem.tileItem = gameObject;
-		uiTileListItem.image.sprite = spriteRenderer.sprite;
-		uiTileListItem.text.text = gameObject.name;
+		uiTileListItem.TileItem = gameObject;
+		
+		//Add new panel to the list
+		Instance.listedObjects.Add(tilePanel);
+		UpdateItemPanelSize();
+	}
 
-		Instance.listedObjects.Add(gameObject);
+	public static void UpdateItemPanelList()
+	{
+		Vector3 position = GetListedItemsLocation();
+		List<GameObject> newList = GetItemsAtPosition(position);
+		List<GameObject> oldList = new List<GameObject>();
+
+		foreach(GameObject gameObject in Instance.listedObjects) {
+			oldList.Add(gameObject.GetComponent<UITileListItem>().TileItem);
+		}
+
+		//If item stack has changed, redo the objects tab
+		if (!EnumerableExt.AreEquivalent<GameObject>(newList, oldList)) {
+			ClearItemPanel();
+			foreach(GameObject gameObject in newList) {
+				AddObjectToItemPanel(gameObject);
+			}
+		}
+	}
+
+	public static void ClearItemPanel() {
+		foreach(GameObject gameObject in Instance.listedObjects) {
+			Destroy(gameObject);
+		} 
+		Instance.listedObjects.Clear();
+		UpdateItemPanelSize();
+	}
+
+	public static void RemoveTileListItem(GameObject tileListItemObject)
+	{
+		if (!Instance.listedObjects.Contains(tileListItemObject)){
+			Debug.LogError("Attempted to remove tileListItem not on list");
+			return;
+		}
+
+		Instance.listedObjects.Remove(tileListItemObject);
+		Destroy(tileListItemObject);
 		UpdateItemPanelSize();
 	}
 
 	private static void UpdateItemPanelSize()
 	{
 		float height = Instance.tileItemPanel.GetComponent<RectTransform>().rect.height;
-		Instance.gameObject.GetComponent<LayoutElement>().minHeight = height * Instance.listedObjects.Count;
+		int count = Instance.listedObjects.Count;
+		LayoutElement layoutElement = Instance.gameObject.GetComponent<LayoutElement>();
+		VerticalLayoutGroup verticalLayoutGroup = Instance.gameObject.GetComponent<VerticalLayoutGroup>();
+
+		layoutElement.minHeight = (height * count) + (verticalLayoutGroup.spacing * count);
 	}
 
 }

@@ -20,4 +20,9 @@ public static class EnumerableExt
     {
         return source.OrderBy(x => Guid.NewGuid());
     }
+
+	public static bool AreEquivalent<T>(this IEnumerable<T> list1, IEnumerable<T> list2)
+	{
+		return (list1.Count<T>() == list2.Count<T>()) && !list1.Except(list2).Any();
+	} 
 }

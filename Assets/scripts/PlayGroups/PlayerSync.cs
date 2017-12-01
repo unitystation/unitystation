@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine.Networking;
 using UnityEngine;
 using Matrix;
+using UI;
 
 namespace PlayGroup
 {
@@ -190,6 +191,8 @@ namespace PlayGroup
 
 				state = isLocalPlayer ? predictedState : serverState;
 				transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
+
+				ControlTabs.CheckItemListTab();
 
 				if (state.Position != transform.position)
 					lastDirection = (state.Position - transform.position).normalized;

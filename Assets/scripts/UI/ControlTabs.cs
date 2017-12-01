@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using PlayGroup;
 
 namespace UI
 {
@@ -111,27 +112,40 @@ namespace UI
 			SoundManager.Play("Click01");
 		}
 
-
-		/// <summary>
-		/// Displays the Tile List tab and moves the Options and More tabs out of the way
-		/// </summary>
-		public static void ShowObjectsWindow(List<GameObject> tiles)
+		public static void CheckItemListTab()
 		{
-			if(Instance.objectWindowExists) {
+			if (!Instance.objectWindowExists){
 				return;
 			}
 
-			foreach (GameObject tile in tiles) {
-				UITileList.addObjectToPanel(tile);
+			UITileList.UpdateItemPanelList();
+
+			if(!PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation())) {
+				HideItemListTab();
+			}
+		}
+
+		/// <summary>
+		/// Displays the Objects tab
+		/// </summary>
+		/// <param name="tiles">List of GameObjects to include in the objects tab</param>
+		public static void ShowItemListTab(List<GameObject> tiles)
+		{
+			//If window exists, player is perhaps alt-clicking at another tile. Only slide tabs if object window doesn't already exist.
+			if(Instance.objectWindowExists) {
+				UITileList.ClearItemPanel();
+			} else {
+				SlideOptionsAndMoreTabs(Vector3.right);
 			}
 
-			float width = Instance.objectsTab.GetComponent<RectTransform>().rect.width;
-			RectTransform optionsRect = Instance.optionsTab.GetComponent<RectTransform>();
-			RectTransform moreRect = Instance.moreTab.GetComponent<RectTransform>();
+			foreach (GameObject tile in tiles) {
+				UITileList.AddObjectToItemPanel(tile);
 
-			//Slide over the other two tabs
-			optionsRect.localPosition += Vector3.right * (width / 2f);
-			moreRect.localPosition += Vector3.right * (width / 2f);
+				//TODO re-implement for new tile system
+				if(tile.GetComponent<FloorTile>()) {
+					Instance.objectsTab.GetComponentInChildren<Text>().text = tile.name;
+				}
+			}
 
 			Instance.objectsTab.gameObject.SetActive(true);
 			Instance.Button_Objects();
@@ -139,26 +153,33 @@ namespace UI
 		}
 
 		/// <summary>
-		/// Hides the Tile List tab and moves the Options and More tabs back to their original positions
+		/// Hides the Objects tab
 		/// </summary>
-		public static void HideObjectsWindow()
+		public static void HideItemListTab()
 		{
 			if (!Instance.objectWindowExists)
 			{
 				return;
 			}
 
-			float width = Instance.objectsTab.GetComponent<RectTransform>().rect.width;
-			RectTransform optionsRect = Instance.optionsTab.GetComponent<RectTransform>();
-			RectTransform moreRect = Instance.moreTab.GetComponent<RectTransform>();
-
-			//Slide back the other two tabs
-			optionsRect.localPosition += Vector3.left * (width / 2f);
-			moreRect.localPosition += Vector3.left * (width / 2f);
+			SlideOptionsAndMoreTabs(Vector3.left);
 
 			Instance.objectsTab.gameObject.SetActive(false);
 			Instance.Button_Stats();
 			Instance.objectWindowExists = false;
+			Instance.objectsTab.GetComponentInChildren<Text>().text = "Objects";
+			UITileList.ClearItemPanel();
+		}
+
+		//TODO: Perhaps implement a more robust solution that can arbitrarily insert tabs in any position? Would require refactor for tabs to be indexed.
+		private static void SlideOptionsAndMoreTabs(Vector3 direction)
+		{
+			float width = Instance.objectsTab.GetComponent<RectTransform>().rect.width;
+			RectTransform optionsRect = Instance.optionsTab.GetComponent<RectTransform>();
+			RectTransform moreRect = Instance.moreTab.GetComponent<RectTransform>();
+
+			optionsRect.localPosition += direction * (width / 2f);
+			moreRect.localPosition += direction * (width / 2f);
 		}
 	}
 }

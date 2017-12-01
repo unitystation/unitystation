@@ -74,35 +74,16 @@ namespace InputControl
 
 		private void CheckAltClick()
 		{
-			if(Input.GetMouseButtonDown(0) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))) {
-				List<GameObject> tiles = getTilesAtMousePosition();
-				ControlTabs.ShowObjectsWindow(tiles);
-			}
-
-			//DEBUG
-			if(Input.GetMouseButtonDown(1)){
-				ControlTabs.HideObjectsWindow();
-			}
-		}
-
-		private List<GameObject> getTilesAtMousePosition()
-		{
-			var position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			LayerMask layerMaskWithFloors = LayerMask.GetMask("Default", "Furniture", "Walls", "Windows", "Machines",
-				"Players", "Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls");
-			var hits = Physics2D.RaycastAll(position, Vector2.zero, 10f, layerMaskWithFloors);
-			List<GameObject> tiles = new List<GameObject>();
-
-			foreach (var hit in hits)
-			{
-				var gameObject = hit.collider.gameObject;
-				if (gameObject != null) {
-					tiles.Add(gameObject);
+			if (Input.GetMouseButtonDown(0) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))) {
+				var position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				if(PlayerManager.LocalPlayerScript.IsInReach(position)) {
+					List<GameObject> tiles = UITileList.GetItemsAtPosition(position);
+					ControlTabs.ShowItemListTab(tiles);
 				}
 			}
-
-			return tiles;
 		}
+
+		
 
 		private void changeDirection()
 		{
@@ -191,7 +172,7 @@ namespace InputControl
 			return null;
 		}
 
-		private bool Interact(Transform _transform)
+		public bool Interact(Transform _transform)
 		{
 			if (playerMove.isGhost)
 				return false;
