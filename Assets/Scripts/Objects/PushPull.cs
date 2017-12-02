@@ -130,7 +130,7 @@ public class PushPull : VisibleBehaviour
 		}
 
 
-	public override void UpdateMe()
+	void Update()
 	{
 		if (pushing && transform.position != pushTarget) {
 			PushTowards();
@@ -149,7 +149,7 @@ public class PushPull : VisibleBehaviour
 		}
 	}
 
-	public override void LateUpdateMe()
+	void LateUpdate()
 	{
 		if (CustomNetworkManager.Instance._isServer) {
 			if (transform.hasChanged) {
