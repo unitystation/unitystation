@@ -70,9 +70,13 @@ namespace Tilemaps.Scripts.Tiles
 
             go.name = Object.name;
 
-            var registerObject = go.GetComponent<RegisterObject>() ?? go.AddComponent<RegisterObject>();
+			if (IsItem == true) {
 
-            registerObject.Offset = Vector3Int.RoundToInt(-objectOffset);
+			} else {
+				var registerObject = go.GetComponent<RegisterObject> () ?? go.AddComponent<RegisterObject> ();
+				registerObject.Offset = Vector3Int.RoundToInt(-objectOffset);
+			}
+            
 
             go.SetActive(true);
         }
