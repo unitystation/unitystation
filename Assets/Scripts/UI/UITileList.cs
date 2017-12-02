@@ -33,12 +33,11 @@ public class UITileList : MonoBehaviour {
 	public static List<GameObject> GetItemsAtPosition(Vector3 position)
 	{
 		LayerMask layerMaskWithFloors = LayerMask.GetMask("Default", "Furniture", "Walls", "Windows", "Machines",
-			"Players", "Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls");
+			"Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls");
 		var hits = Physics2D.RaycastAll(position, Vector2.zero, 10f, layerMaskWithFloors);
 		List<GameObject> tiles = new List<GameObject>();
 
-		foreach (var hit in hits)
-		{
+		foreach (var hit in hits) {
 			tiles.Add(hit.collider.gameObject);
 		}
 
@@ -102,7 +101,8 @@ public class UITileList : MonoBehaviour {
 	/// <summary>
 	/// Removes all itemList from the Item List Tab
 	/// </summary>
-	public static void ClearItemPanel() {
+	public static void ClearItemPanel()
+	{
 		foreach(GameObject gameObject in Instance.listedObjects) {
 			Destroy(gameObject);
 		} 
@@ -116,7 +116,7 @@ public class UITileList : MonoBehaviour {
 	/// <param name="tileListItemObject">The GameObject to be removed</param>
 	public static void RemoveTileListItem(GameObject tileListItemObject)
 	{
-		if (!Instance.listedObjects.Contains(tileListItemObject)){
+		if (!Instance.listedObjects.Contains(tileListItemObject)) {
 			Debug.LogError("Attempted to remove tileListItem not on list");
 			return;
 		}

@@ -403,8 +403,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			SoundManager.Stop("Critstate");
 			Camera2DFollow.followControl.target = playerScript.ghost.transform;
 			var fovScript = GetComponent<FieldOfView>();
-			if (fovScript != null)
+			if (fovScript != null) {
 				fovScript.enabled = false;
+			}
+				
+			Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("Ghosts"));
 		}
 	}
 
@@ -436,6 +439,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void RpcAdjustForRespawn()
 	{
 		playerScript.ghost.SetActive(false);
+		Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 		gameObject.GetComponent<InputController>().enabled = false;
 	}
 
