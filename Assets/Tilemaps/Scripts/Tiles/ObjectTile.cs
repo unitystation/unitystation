@@ -42,10 +42,11 @@ namespace Tilemaps.Scripts.Tiles
 
             _objectCurrent = Object;
 
-            if (_objectCurrent != null)
+			if (_objectCurrent != null && _objectCurrent.GetComponentInChildren<RegisterItem>() != null)
             {
-                IsItem = _objectCurrent.GetComponentInChildren<RegisterItem>() != null;
+                IsItem = true;
             }
+
         }
 
         public void SpawnObject(Vector3Int position, Tilemap tilemap, Matrix4x4 transformMatrix)
