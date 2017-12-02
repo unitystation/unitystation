@@ -14,7 +14,7 @@ namespace Tilemaps.Scripts.Tiles
         public bool Rotatable;
         public bool KeepOrientation;
         public bool Offset;
-        public bool IsItem { get; private set; }
+		public bool IsItem;
 
         private GameObject _objectCurrent;
 
@@ -43,9 +43,11 @@ namespace Tilemaps.Scripts.Tiles
             _objectCurrent = Object;
 
 			if (_objectCurrent != null && _objectCurrent.GetComponentInChildren<RegisterItem>() != null)
-            {
-                IsItem = true;
-            }
+			{
+				IsItem = true;
+			}
+
+
 
         }
 
