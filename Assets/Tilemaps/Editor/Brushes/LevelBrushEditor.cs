@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Tilemaps.Editor.Brushes.Utils;
 using Tilemaps.Scripts.Behaviours.Layers;
@@ -15,6 +16,8 @@ namespace Tilemaps.Editor.Brushes
         private TileBase _currentPreviewTile;
 
         private PreviewTile previewTile; // Preview Wrapper for ObjectTiles
+
+        private LayerTile[] previewTiles;
 
         public override GameObject[] validTargets
         {
@@ -46,9 +49,9 @@ namespace Tilemaps.Editor.Brushes
             
             var tile = brush.cells[0].tile;
             
-            if (tile is LayerTile)
+            if (tile != _currentPreviewTile)
             {
-                if (tile != _currentPreviewTile)
+                if (tile is LayerTile)
                 {
                     var objectTile = tile as ObjectTile;
                     if (objectTile && objectTile.Offset)
@@ -56,17 +59,19 @@ namespace Tilemaps.Editor.Brushes
                         brush.cells[0].matrix = Matrix4x4.TRS(Vector3.up, Quaternion.identity, Vector3.one);
                     }
                     
-                    _currentPreviewTile = tile;
+                    previewTiles = new LayerTile[] {(LayerTile)tile};
+                }
+                else if (tile is MetaTile)
+                {
+                    previewTiles = ((MetaTile) tile).GetTiles().ToArray();
                 }
                 
-                SetPreviewTile(metaTilemap, position, (LayerTile) tile);
+                _currentPreviewTile = tile;
             }
-            else if (tile is MetaTile)
+            
+            for (int i = 0; i < previewTiles.Length; i++)
             {
-                foreach (var layerTile in ((MetaTile)tile).GetTiles())
-                {
-                    SetPreviewTile(metaTilemap, position, layerTile);
-                }
+                SetPreviewTile(metaTilemap, position, previewTiles[i]);
             }
             
             _currentPreviewTilemap = metaTilemap;
@@ -84,15 +89,18 @@ namespace Tilemaps.Editor.Brushes
         {
             if (tile is ObjectTile)
             {
-                if (previewTile == null)
+                if ((previewTile == null || previewTile.ReferenceTile != tile))
                 {
-                    previewTile = CreateInstance<PreviewTile>();
+                    if (previewTile == null)
+                    {
+                        previewTile = CreateInstance<PreviewTile>();
+                    }
+
+                    previewTile.ReferenceTile = tile;
+                    previewTile.LayerType = LayerType.Structures;
                 }
 
-                previewTile.ReferenceTile = tile;
-                previewTile.LayerType = LayerType.Structures;
                 tile = previewTile;
-                
                 position.z++; // to draw the object over already existing stuff
             }
             

@@ -9,8 +9,6 @@ namespace Tilemaps.Scripts.Tiles
     {
         Walls,
         Windows,
-		Station,
-		Shuttle,
         Tables,
         Floors,
         None
@@ -76,19 +74,19 @@ namespace Tilemaps.Scripts.Tiles
 
             if ((mask & 3) == 3)
             {
-                mask += (HasSameTile(position + new Vector3Int(1, 1, 0), tilemap) ? 16 : 0);
+                mask += (HasSameTile(position + Vector3Int.right + Vector3Int.up, tilemap) ? 16 : 0);
             }
             if ((mask & 6) == 6)
             {
-                mask += (HasSameTile(position + new Vector3Int(1, -1, 0), tilemap) ? 32 : 0);
+                mask += (HasSameTile(position + Vector3Int.right + Vector3Int.down, tilemap) ? 32 : 0);
             }
             if ((mask & 12) == 12)
             {
-                mask += (HasSameTile(position + new Vector3Int(-1, -1, 0), tilemap) ? 64 : 0);
+                mask += (HasSameTile(position + Vector3Int.left + Vector3Int.down, tilemap) ? 64 : 0);
             }
             if ((mask & 9) == 9)
             {
-                mask += (HasSameTile(position + new Vector3Int(-1, 1, 0), tilemap) ? 128 : 0);
+                mask += (HasSameTile(position + Vector3Int.left + Vector3Int.up, tilemap) ? 128 : 0);
             }
 
             int i = Array.IndexOf(map, mask);
