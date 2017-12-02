@@ -14,7 +14,7 @@ namespace Tilemaps.Scripts.Tiles
         public bool Rotatable;
         public bool KeepOrientation;
         public bool Offset;
-        public bool IsItem { get; private set; }
+		public bool IsItem;
 
         private GameObject _objectCurrent;
 
@@ -42,10 +42,13 @@ namespace Tilemaps.Scripts.Tiles
 
             _objectCurrent = Object;
 
-            if (_objectCurrent != null)
-            {
-                IsItem = _objectCurrent.GetComponentInChildren<RegisterItem>() != null;
-            }
+			if (_objectCurrent != null && _objectCurrent.GetComponentInChildren<RegisterItem>() != null)
+			{
+				IsItem = true;
+			}
+
+
+
         }
 
         public void SpawnObject(Vector3Int position, Tilemap tilemap, Matrix4x4 transformMatrix)
@@ -70,9 +73,13 @@ namespace Tilemaps.Scripts.Tiles
 
             go.name = Object.name;
 
-            var registerObject = go.GetComponent<RegisterObject>() ?? go.AddComponent<RegisterObject>();
+			if (IsItem == true) {
 
-            registerObject.Offset = Vector3Int.RoundToInt(-objectOffset);
+			} else {
+				var registerObject = go.GetComponent<RegisterObject> () ?? go.AddComponent<RegisterObject> ();
+				registerObject.Offset = Vector3Int.RoundToInt(-objectOffset);
+			}
+            
 
             go.SetActive(true);
         }
