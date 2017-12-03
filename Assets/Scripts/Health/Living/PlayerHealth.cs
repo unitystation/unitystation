@@ -167,11 +167,9 @@ namespace PlayGroup
 		protected override void OnDeathActions()
 		{
 			if (CustomNetworkManager.Instance._isServer) {
-				playerNetworkActions.RpcSpawnGhost();
 
 				PlayerMove pM = GetComponent<PlayerMove>();
-				pM.isGhost = true;
-				pM.allowInput = true;
+
 				if (LastDamagedBy == gameObject.name) {
 					playerNetworkActions.CmdSendAlertMessage("<color=red><b>" + gameObject.name + " commited suicide</b></color>",
 						true); //killfeed
@@ -185,10 +183,18 @@ namespace PlayGroup
 					playerNetworkActions.CmdSendAlertMessage(
 						"<color=red><b>" + LastDamagedBy + "</b> has killed <b>" + gameObject.name + "</b></color>", true); //killfeed
 				}
-				playerNetworkActions.ValidateDropItem("leftHand", true);
-				playerNetworkActions.ValidateDropItem("rightHand", true);
+				var currentSlot = UI.UIManager.Hands.CurrentSlot;
+				var otherSlot = UI.UIManager.Hands.OtherSlot;
+				currentSlot.Clear();
+				otherSlot.Clear ();
+				playerNetworkActions.ValidateDropItem(currentSlot.eventName, true);
+				playerNetworkActions.ValidateDropItem(otherSlot.eventName, true);
 				if (isServer)
 					EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.large);
+				
+				playerNetworkActions.RpcSpawnGhost();
+				pM.isGhost = true;
+				pM.allowInput = true;
 
 				//FIXME Remove for next demo
 				playerNetworkActions.RespawnPlayer(10);
