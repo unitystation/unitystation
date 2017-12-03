@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ivy-module version="2.0">
+  <info version="2017.2.0" organisation="Facebook" module="FacebookSDK" e:packageType="UnityExtension" e:unityVersion="2017.2.0f3" xmlns:e="http://ant.apache.org/ivy/extra" />
+  <publications xmlns:e="http://ant.apache.org/ivy/extra">
+    <artifact name="Facebook.Unity" type="dll" ext="dll" e:guid="2403d1f95ea54028853403e595bc9274" />
+    <artifact name="Facebook.Unity.Arcade" type="dll" ext="dll" e:guid="bb6b4101ad2c42ec99f064a70c354e3c" />
+    <artifact name="Facebook.Unity.Settings" type="dll" ext="dll" e:guid="18b4dbf8a0b54ea4adf46fb7f4d71dd0" />
+    <artifact name="FacebookNamedPipeClient" type="dll" ext="dll" e:guid="51288a4fc4384861a5b1f9dd49b3da26" />
+  </publications>
+</ivy-module>

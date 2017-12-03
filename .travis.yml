@@ -1,0 +1,38 @@
+# do not install anything extra onto the image
+language: generic
+
+# use a Mac OSX image
+os: osx
+
+# only run builds on pushes to the master branch
+#branches:
+#  only:
+#  - Develop
+
+# send email notifications when the build changes from succeeding to broken
+notifications:
+  email:
+    on_success: never
+    on_failure: never
+
+# decrypt the encrypted SSH key file so it can be used for scp auth in post_build.sh
+#before_install:
+#- openssl aes-256-cbc -k "$KEYFILE_PASS" -in "${UPLOAD_KEYPATH}.enc" -out "${UPLOAD_KEYPATH}" -d
+
+# run the script to download and install Unity editor
+install:
+- sudo -E sh ./Travis/install.sh
+
+# run the script for unit tests and builds
+script:
+- sudo -E sh ./Travis/build.sh
+
+# run the script to upload the builds as tarballs
+after_success:
+- sudo -E sh ./Travis/post_build.sh
+
+# environment variables used in bash scripts
+env:
+  global:
+  - UNITYCI_PROJECT_NAME="UnityProject"
+  - UPLOAD_KEYPATH="./Travis/upload"
