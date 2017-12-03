@@ -301,7 +301,7 @@ namespace PlayGroup
 		{
 			serverState = newState;
 			if (pendingActions != null) {
-				while (pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber)) {
+				while (pendingActions.Count > 0 && pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber)) {
 					pendingActions.Dequeue();
 				}
 				UpdatePredictedState();
