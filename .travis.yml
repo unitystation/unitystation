@@ -34,5 +34,5 @@ after_success:
 # environment variables used in bash scripts
 env:
   global:
-  - UNITYCI_PROJECT_NAME="UnityStation"
+  - UNITYCI_PROJECT_NAME="UnityProject"
   - UPLOAD_KEYPATH="./Travis/upload"

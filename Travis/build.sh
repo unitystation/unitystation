@@ -6,13 +6,13 @@
 #  -projectPath argument to point to the right location.
 
 ## Run the editor unit tests
-echo "Running editor unit tests for UnityStation"
+echo "Running editor unit tests for ${UNITYCI_PROJECT_NAME}"
 /Applications/Unity/Unity.app/Contents/MacOS/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
 	-logFile $(pwd)/unity.log \
-	-projectPath "$(pwd)/UnityStation" \
+	-projectPath "$(pwd)/${UNITYCI_PROJECT_NAME}" \
 	-runEditorTests \
 	-editorTestsResultFile $(pwd)/test.xml \
 	-quit
@@ -25,28 +25,28 @@ if [ $rc0 -ne 0 ]; then { echo "Failed unit tests"; exit $rc0; } fi
 
 ## Make the builds
 # Recall from install.sh that a separate module was needed for Windows build support
-echo "Attempting build of UnityStation for Windows"
+echo "Attempting build of ${UNITYCI_PROJECT_NAME} for Windows"
 /Applications/Unity/Unity.app/Contents/MacOS/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
 	-logFile $(pwd)/unity.log \
-	-projectPath "$(pwd)/UnityStation" \
-	-buildWindowsPlayer "$(pwd)/Build/windows/UnityStation.exe" \
+	-projectPath "$(pwd)/${UNITYCI_PROJECT_NAME}" \
+	-buildWindowsPlayer "$(pwd)/Build/windows/${UNITYCI_PROJECT_NAME}.exe" \
 	-quit
 
 rc1=$?
 echo "Build logs (Windows)"
 cat $(pwd)/unity.log
 
-echo "Attempting build of UnityStation for OSX"
+echo "Attempting build of ${UNITYCI_PROJECT_NAME} for OSX"
 /Applications/Unity/Unity.app/Contents/MacOS/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
 	-logFile $(pwd)/unity.log \
-	-projectPath "$(pwd)/UnityStation" \
-	-buildOSXUniversalPlayer "$(pwd)/Build/osx/UnityStation.app" \
+	-projectPath "$(pwd)/${UNITYCI_PROJECT_NAME}" \
+	-buildOSXUniversalPlayer "$(pwd)/Build/osx/${UNITYCI_PROJECT_NAME}.app" \
 	-quit
 
 rc2=$?
