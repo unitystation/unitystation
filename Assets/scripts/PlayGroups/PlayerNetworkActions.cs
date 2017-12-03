@@ -407,7 +407,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				fovScript.enabled = false;
 			}
 				
+			//Show ghosts and hide FieldOfView
 			Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("Ghosts"));
+			Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("FieldOfView"));
 		}
 	}
 
@@ -439,7 +441,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void RpcAdjustForRespawn()
 	{
 		playerScript.ghost.SetActive(false);
+		//Hide ghosts and show FieldOfView
 		Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+		Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("FieldOfView"));
 		gameObject.GetComponent<InputController>().enabled = false;
 	}
 
