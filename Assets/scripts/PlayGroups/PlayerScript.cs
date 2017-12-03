@@ -11,7 +11,7 @@ namespace PlayGroup
 	public class PlayerScript: ManagedNetworkBehaviour
 	{
 		// the maximum distance the player needs to be to an object to interact with it
-		public const float interactionDistance = 2f;
+		public const float interactionDistance = 1.5f;
 
 		public PlayerNetworkActions playerNetworkActions { get; set; }
 
