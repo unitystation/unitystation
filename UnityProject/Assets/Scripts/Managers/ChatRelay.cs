@@ -8,32 +8,37 @@ using System.Linq;
 public class ChatRelay : NetworkBehaviour
 {
 
-    public static ChatRelay chatRelay;
-    public ChatEventList chatlog = new ChatEventList();
+	public static ChatRelay chatRelay;
+	private List<ChatEvent> chatlog = new List<ChatEvent>();
 
-    public static ChatRelay Instance
-    {
-        get
-        {
-            if (!chatRelay)
-            {
-                chatRelay = FindObjectOfType<ChatRelay>();
-            }
-            return chatRelay;
-        }
-    }
+	public static ChatRelay Instance
+	{
+		get
+		{
+			if (!chatRelay)
+			{
+				chatRelay = FindObjectOfType<ChatRelay>();
+			}
+			return chatRelay;
+		}
+	}
 
-    public override void OnStartClient()
-    {
-        chatlog.Callback = RefreshChatLog;
-        base.OnStartClient();
-    }
+	public override void OnStartClient()
+	{
+		RefreshLog();
+		base.OnStartClient();
+	}
 
-    void RefreshChatLog(SyncListStruct<ChatEvent>.Operation op, int index)
-    {
-        RefreshLog();
+	public List<ChatEvent> ChatLog
+	{
+		get { return chatlog; }
+	}
 
-    }
+	public void AddToChatLog(ChatEvent message)
+	{
+		chatlog.Add(message);
+		RefreshLog();
+	}
 
     public void RefreshLog()
     {

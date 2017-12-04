@@ -62,21 +62,28 @@ namespace PlayGroup
             SetDir(direction);
         }
 
-        public void SetDir(Vector2 direction)
-        {
-            if (playerMove.isGhost)
-                return;
-            if (currentDirection != direction || !initSync)
-            {
-                if (!initSync)
-                    initSync = true;
+		public void SetDir(Vector2 direction)
+		{
+			if (playerMove.isGhost) {
+				return;
+			}
 
-                foreach (var c in clothes.Values)
-                {
-                    c.Direction = direction;
-                }
-                currentDirection = direction;
-            }
-        }
-    }
+			if (currentDirection != direction || !initSync) {
+				if (!initSync) {
+					initSync = true;
+				}
+
+				foreach (var c in clothes.Values) {
+					c.Direction = direction;
+				}
+
+				//If both values are set, we're trying to face a diagonal sprite direction, which doesn't exist. To resolve, select one.
+				if (direction.x != 0 && direction.y != 0) {
+					direction.x = 0;
+				}
+
+				currentDirection = direction;
+			}
+		}
+	}
 }

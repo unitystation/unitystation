@@ -533,7 +533,8 @@ public class ItemAttributes : NetworkBehaviour
 
     public void OnExamine()
     {
-        if (!String.IsNullOrEmpty(itemDescription))
-            UI.UIManager.Chat.AddChatEvent(new ChatEvent(itemDescription));
+        if (!String.IsNullOrEmpty(itemDescription)) {
+			UI.UIManager.Chat.AddChatEvent(new ChatEvent(itemDescription, ChatChannel.Examine));
+		}
     }
 }

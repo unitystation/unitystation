@@ -24,7 +24,7 @@ namespace UI
 
         public bool ShowState = true;
 
-        private List<ChatEvent> _localEvents = new List<ChatEvent>();
+		private List<ChatEvent> _localEvents = new List<ChatEvent>();
         public void AddChatEvent(ChatEvent chatEvent)
         {
             _localEvents.Add(chatEvent);
@@ -53,7 +53,7 @@ namespace UI
             }
             if (isChatFocus)
             {
-                if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
+                if (!string.IsNullOrEmpty(this.InputFieldChat.text.Trim()) && (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)))
                 {
                     PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, true);
                     if (this.InputFieldChat.text != "")
@@ -94,8 +94,7 @@ namespace UI
         //Called from the server only
         public void ReportToChannel(string reportText)
         {
-            string txt = "<color=green>" + reportText + "</color>";
-            ChatRelay.Instance.chatlog.Add(new ChatEvent(txt));
+            ChatRelay.Instance.AddToChatLog(new ChatEvent(reportText, ChatChannel.System));
         }
     }
 }
