@@ -63,6 +63,15 @@ public class CustomNetworkManager : NetworkManager
 			}
 
 		}
+		var networkObjects2 = Resources.LoadAll<NetworkIdentity>("");
+		foreach (var netObj in networkObjects2)
+		{
+			if (!netObj.gameObject.name.Contains("Player"))
+			{
+				spawnPrefabs.Add(netObj.gameObject);
+			}
+		}
+
 		spawnableListReady = true;
 	}
 
