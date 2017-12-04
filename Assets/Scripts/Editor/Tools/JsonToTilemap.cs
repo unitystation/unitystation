@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using FullSerializer;
 using Tilemaps.Scripts.Behaviours.Layers;
 using Tilemaps.Scripts.Tiles;
@@ -40,7 +41,10 @@ public class JsonToTilemap : Editor
 
                 if (tile is ObjectTile)
                 {
-                    objects.Add(new Tuple<Vector3Int, ObjectTile>(position, (ObjectTile) tile));
+                    if (!objects.Exists(t => t.Item1.Equals(position) && t.Item2 == tile))
+                    {
+                        objects.Add(new Tuple<Vector3Int, ObjectTile>(position, (ObjectTile) tile));
+                    }
                 }
                 else
                 {

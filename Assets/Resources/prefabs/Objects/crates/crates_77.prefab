@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 114142976522380120}
   - component: {fileID: 114823007820511444}
   - component: {fileID: 114070046984260224}
-  - component: {fileID: 114647605312254844}
+  - component: {fileID: 114869123330114316}
   m_Layer: 0
   m_Name: crates_77
   m_TagString: Untagged
@@ -197,21 +197,6 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   items: {fileID: 1518830314280694, guid: 32dda09ef365b3241b818b82fa54f2af, type: 2}
   IsClosed: 0
---- !u!114 &114647605312254844
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1780409705432866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectType: 1
-  Offset: {x: 0, y: 0, z: 0}
-  Passable: 0
-  AtmosPassable: 1
 --- !u!114 &114823007820511444
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -228,6 +213,22 @@ MonoBehaviour:
   isNPC: 0
   allowKnifeHarvest: 0
   ConsciousState: 0
+--- !u!114 &114869123330114316
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1780409705432866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectType: 1
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 0
+  AtmosPassable: 1
+  IsClosed: 1
 --- !u!114 &114988128385835288
 MonoBehaviour:
   m_ObjectHideFlags: 1

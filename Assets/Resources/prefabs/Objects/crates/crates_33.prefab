@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114687776773198576}
   - component: {fileID: 114412503303399214}
   - component: {fileID: 114755658481990444}
-  - component: {fileID: 114742579957907968}
+  - component: {fileID: 114769490943460672}
   m_Layer: 0
   m_Name: crates_33
   m_TagString: Untagged
@@ -221,21 +221,6 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   items: {fileID: 1518830314280694, guid: 32dda09ef365b3241b818b82fa54f2af, type: 2}
   IsClosed: 0
---- !u!114 &114742579957907968
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1172562073016694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectType: 1
-  Offset: {x: 0, y: 0, z: 0}
-  Passable: 0
-  AtmosPassable: 1
 --- !u!114 &114755658481990444
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -260,6 +245,22 @@ MonoBehaviour:
   serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
+--- !u!114 &114769490943460672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1172562073016694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectType: 1
+  Offset: {x: 0, y: 0, z: 0}
+  Passable: 0
+  AtmosPassable: 1
+  IsClosed: 1
 --- !u!212 &212270530354059866
 SpriteRenderer:
   m_ObjectHideFlags: 1

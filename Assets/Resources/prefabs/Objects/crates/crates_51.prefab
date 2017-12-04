@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114810580295933042}
   - component: {fileID: 114899107644448570}
   - component: {fileID: 114162110669680936}
-  - component: {fileID: 114575448334543406}
+  - component: {fileID: 114764355540025994}
   m_Layer: 0
   m_Name: crates_51
   m_TagString: Untagged
@@ -212,7 +212,7 @@ MonoBehaviour:
     i15: 210
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114575448334543406
+--- !u!114 &114764355540025994
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -220,13 +220,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1211152131464520}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 1
+  IsClosed: 1
 --- !u!114 &114810580295933042
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 114005325939491094}
   - component: {fileID: 114088367131421412}
   - component: {fileID: 114332086181728130}
-  - component: {fileID: 114315130361450904}
+  - component: {fileID: 114249522964518044}
   m_Layer: 0
   m_Name: crates_41
   m_TagString: Untagged
@@ -221,7 +221,7 @@ MonoBehaviour:
   isNPC: 0
   allowKnifeHarvest: 0
   ConsciousState: 0
---- !u!114 &114315130361450904
+--- !u!114 &114249522964518044
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -229,13 +229,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1924829694925096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 1
+  IsClosed: 1
 --- !u!114 &114332086181728130
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using InputControl;
 using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours.Layers;
 using Tilemaps.Scripts.Behaviours.Objects;
 
 namespace Cupboards
@@ -17,8 +16,8 @@ namespace Cupboards
 		private Sprite doorClosed;
 
 		public SpriteRenderer spriteRenderer;
-		private RegisterCloset _registerTile;
-		private Matrix _matrix;
+		private RegisterCloset registerTile;
+		private Matrix matrix;
 
 		[SyncVar(hook = "LockUnlock")]
 		public bool IsLocked;
@@ -35,8 +34,12 @@ namespace Cupboards
 		void Awake()
 		{
 			doorClosed = spriteRenderer.sprite;
-			_registerTile = GetComponent<RegisterCloset>();
-			_matrix = Matrix.GetMatrix(this);
+		}
+
+		private void Start()
+		{
+			registerTile = GetComponent<RegisterCloset>();
+			matrix = Matrix.GetMatrix(this);
 		}
 
 		public override void OnStartServer()
@@ -110,7 +113,7 @@ namespace Cupboards
 
 		void Close()
 		{
-			_registerTile.IsClosed = true;
+			registerTile.IsClosed = true;
 			SoundManager.PlayAtPosition("OpenClose", transform.position);
 			spriteRenderer.sprite = doorClosed;
 			if (lockLight != null) {
@@ -120,7 +123,7 @@ namespace Cupboards
 
 		void Open()
 		{
-			_registerTile.IsClosed = false;
+			registerTile.IsClosed = false;
 			SoundManager.PlayAtPosition("OpenClose", transform.position);
 			spriteRenderer.sprite = doorOpened;
 			if (lockLight != null) {
@@ -169,7 +172,7 @@ namespace Cupboards
 		private void SetItemsAliveState(bool on)
 		{
 			if (!on)
-				heldItems = _matrix.Get<ObjectBehaviour>(_registerTile.Position, ObjectType.Item);
+				heldItems = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Item);
 
 			foreach (var item in heldItems)
 			{
@@ -182,7 +185,7 @@ namespace Cupboards
 		private void SetPlayersAliveState(bool on)
 		{
 			if (!on)
-				heldPlayers = _matrix.Get<ObjectBehaviour>(_registerTile.Position, ObjectType.Player);
+				heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Player);
 
 			foreach (var player in heldPlayers)
 			{
