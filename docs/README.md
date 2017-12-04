@@ -22,5 +22,14 @@ Please join us on Discord: [https://discord.gg/tFcTpBp](https://discord.gg/tFcTp
 3. Submit a pull request
 
 ## LICENSE
+
+All code after [commit 44695c862d6d84cfc99354d6dfba1f0b70f20407 on 2017/03/12 at 11:39 PM CET](https://github.com/unitystation/unitystation/commit/44695c862d6d84cfc99354d6dfba1f0b70f20407) is licensed under [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.html).
+
+All code before [commit 44695c862d6d84cfc99354d6dfba1f0b70f20407 on 2017/03/12 at 11:39 PM CET](https://github.com/unitystation/unitystation/commit/44695c862d6d84cfc99354d6dfba1f0b70f20407) is licensed under [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.html).
+_If you have committed code to this repository before this time, please contact us if you want your code distributed under GNU AGPL v3 instead_
+(Including tools unless their readme specifies otherwise.)
+
+See [LICENCE](https://github.com/unitystation/unitystation/blob/develop/LICENSE) and [GPLv3.txt](https://github.com/unitystation/unitystation/blob/develop/docs/GPLv3.txt) for more details.
+<br>
 [![forthebadge](http://forthebadge.com/images/badges/cc-by-nd.svg)](http://forthebadge.com) <br>
-All assets including icons and sound are under a Creative Commons 3.0 BY-SA license (http://creativecommons.org/licenses/by-sa/3.0/) unless otherwise indicated.
+All assets including icons and sound are under a [Creative Commons 3.0 BY-SA license](https://creativecommons.org/licenses/by-sa/3.0/) unless otherwise indicated.
