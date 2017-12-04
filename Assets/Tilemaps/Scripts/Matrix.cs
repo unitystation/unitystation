@@ -24,13 +24,6 @@ namespace Tilemaps.Scripts
         public static Matrix GetMatrix(MonoBehaviour behaviour)
         {
             var matrix =  behaviour.GetComponentInParent<Matrix>();
-            
-            if (!matrix)
-            {    // TODO hacky way... won't work with multilevel and multi ships
-                var map = GameObject.FindGameObjectWithTag("Map");
-                matrix = map.GetComponentInChildren<Matrix>();
-            }
-
             return matrix;
         }
 

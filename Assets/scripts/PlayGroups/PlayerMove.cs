@@ -48,9 +48,6 @@ namespace PlayGroup
             playerSprites = gameObject.GetComponent<PlayerSprites>();
             playerSync = GetComponent<PlayerSync>();
             pushPull = GetComponent<PushPull>();
-            
-            // TODO hacky way to move the player to the objects..
-            transform.parent = matrix.gameObject.transform.Find("ObjectLayer");
         }
 
         /// temp solution for use with the UI network prediction
