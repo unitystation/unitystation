@@ -1,6 +1,7 @@
 ﻿using Doors;
 using Tilemaps.Scripts.Utils;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Tilemaps.Scripts.Behaviours.Objects
 {
@@ -8,8 +9,8 @@ namespace Tilemaps.Scripts.Behaviours.Objects
     public class RegisterDoor : RegisterObject
     {
         public bool OneDirectionRestricted;
-        
-        public bool IsClosed { get; set; }
+
+        public bool IsClosed = true;
 
         public override bool IsPassable(Vector3Int to)
         {

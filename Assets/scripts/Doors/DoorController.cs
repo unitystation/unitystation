@@ -2,9 +2,9 @@
 using UnityEngine.Networking;
 using System.Collections;
 using PlayGroup;
-using Matrix;
 using Sprites;
 using AccessType;
+using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
 
 namespace Doors
@@ -12,7 +12,9 @@ namespace Doors
     public class DoorController : ManagedNetworkBehaviour
     {
         public DoorType doorType;
-        private RegisterDoor registerTile;
+        private RegisterDoor _registerTile;
+        private Matrix _matrix;
+        
         public Access restriction;
         [Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor = false;
         [Tooltip("how many sprites in the main door animation")] public int doorAnimationSize;
@@ -67,7 +69,8 @@ namespace Doors
             openLayer = LayerMask.NameToLayer("Door Open");
 
 
-            registerTile = gameObject.GetComponent<RegisterDoor>();
+            _registerTile = gameObject.GetComponent<RegisterDoor>();
+            _matrix = Matrix.GetMatrix(this);
 
             var rmt = GetComponent<RestrictiveMoveTile>();
             if (rmt != null)
@@ -94,7 +97,7 @@ namespace Doors
                 }
             }
 
-            base.Awake();
+            Awake();
         }
 
         public void BoxCollToggleOn()
@@ -136,7 +139,7 @@ namespace Doors
             {
                 rmt.setAll(false);
             }
-            registerTile.IsClosed = false;
+            _registerTile.IsClosed = false;
             gameObject.layer = openLayer;
             spriteRenderer.sortingLayerID = openSortingLayer;
         }
@@ -191,7 +194,7 @@ namespace Doors
                 return;
             }
 
-            if (IsOpened && !isPerformingAction && Matrix.Matrix.At(transform.position).IsPassable())
+            if (IsOpened && !isPerformingAction && _matrix.IsPassableAt(_registerTile.Position))
             {
                 RpcClose();
             }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UI;
 using UnityEngine;
 
-namespace Matrix {
+namespace MatrixOld {
 
     [ExecuteInEditMode]
     public class RegisterTile2: MonoBehaviour {
@@ -33,7 +33,7 @@ namespace Matrix {
 
         void OnDestroy() {
             try {
-                Matrix.At(savedPosition).TryRemoveTile(gameObject);
+//                Matrix.At(savedPosition).TryRemoveTile(gameObject);
             } catch(Exception) {
                 Debug.Log(savedPosition + " " + gameObject.name);
             }
@@ -61,13 +61,13 @@ namespace Matrix {
             }
 
             if(currentTileTypeIndex == TileType.List.IndexOf(TileType.Item)) {
-                if(Matrix.At(transform.position).ContainsItem(gameObject)) {
-                    //Don't do anything
-                    return;
-                }
+//                if(Matrix.At(transform.position).ContainsItem(gameObject)) {
+//                    //Don't do anything
+//                    return;
+//                }
             }
 
-            Matrix.At(savedPosition).TryRemoveTile(gameObject);
+//            Matrix.At(savedPosition).TryRemoveTile(gameObject);
 
             savedPosition = transform.position;
 
@@ -80,13 +80,13 @@ namespace Matrix {
         /// <param name="newPos">The target position if it is in motion</param>
         public void UpdateTile(Vector3 newPos) {
             if(currentTileTypeIndex == TileType.List.IndexOf(TileType.Item)) {
-                if(Matrix.At(transform.position).ContainsItem(gameObject)) {
-					//Don't do anything
-                    return;
-                }
+//                if(Matrix.At(transform.position).ContainsItem(gameObject)) {
+//					//Don't do anything
+//                    return;
+//                }
             }
 
-            Matrix.At(savedPosition).TryRemoveTile(gameObject);
+//            Matrix.At(savedPosition).TryRemoveTile(gameObject);
 
             savedPosition = newPos;
 
@@ -94,15 +94,15 @@ namespace Matrix {
         }
 
         private void AddTile() {
-            if(!Matrix.At(savedPosition).TryAddTile(gameObject)) {
-                Debug.Log("Couldn't add tile at " + savedPosition);
-            }
+//            if(!Matrix.At(savedPosition).TryAddTile(gameObject)) {
+//                Debug.Log("Couldn't add tile at " + savedPosition);
+//            }
         }
 
         public void RemoveTile() {
-            if(!Matrix.At(savedPosition).TryRemoveTile(gameObject)) {
-                Debug.Log("Couldn't remove tile at " + savedPosition);
-			}
+//            if(!Matrix.At(savedPosition).TryRemoveTile(gameObject)) {
+//                Debug.Log("Couldn't remove tile at " + savedPosition);
+//			}
         }
 
         public void OnMouseEnter() {
@@ -118,7 +118,7 @@ namespace Matrix {
         }
 
         public void Unregister() {
-            Matrix.At(savedPosition).TryRemoveTile(gameObject);
+//            Matrix.At(savedPosition).TryRemoveTile(gameObject);
         }
     }
 }

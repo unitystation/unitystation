@@ -3,8 +3,10 @@ using System.Collections;
 using System.Linq;
 using UnityEngine.Networking;
 using UnityEngine;
-using Matrix;
+using MatrixOld;
+ using Tilemaps.Scripts;
  using Tilemaps.Scripts.Behaviours.Objects;
+ using Matrix = Tilemaps.Scripts.Matrix;
 
 namespace PlayGroup
 {
@@ -47,6 +49,8 @@ namespace PlayGroup
 		
 		private Vector2 lastDirection;
 
+		private Matrix _matrix;
+
 		public override void OnStartServer()
 		{
 			pullObjectID = NetworkInstanceId.Invalid;
@@ -64,10 +68,10 @@ namespace PlayGroup
 			yield return new WaitForEndOfFrame();
 			if (serverStateCache.Position != Vector3.zero && !isLocalPlayer) {
 				serverState = serverStateCache;
-				transform.position = RoundedPos(serverState.Position);
+				transform.localPosition = RoundedPos(serverState.Position);
 			} else {
-				serverState = new PlayerState() { MoveNumber = 0, Position = RoundedPos(transform.position) };
-				predictedState = new PlayerState() { MoveNumber = 0, Position = RoundedPos(transform.position) };
+				serverState = new PlayerState() { MoveNumber = 0, Position = transform.localPosition };
+				predictedState = new PlayerState() { MoveNumber = 0, Position = transform.localPosition };
 			}
 			yield return new WaitForSeconds(2f);
 
@@ -76,8 +80,9 @@ namespace PlayGroup
 
 		private void InitState()
 		{
-			if (isServer) {
-				var position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0);
+			if (isServer)
+			{
+				var position = Vector3Int.RoundToInt(transform.localPosition);
 				serverState = new PlayerState() { MoveNumber = 0, Position = position };
 				serverStateCache = new PlayerState() { MoveNumber = 0, Position = position };
 			}
@@ -100,8 +105,8 @@ namespace PlayGroup
 		public void SetPosition(Vector3 pos)
 		{
 			//TODO ^ check for an allowable type and other conditions to stop abuse of SetPosition
-			Vector3 roundedPos = RoundedPos(pos);
-			transform.position = roundedPos;
+			var roundedPos =  Vector3Int.RoundToInt(pos);
+			transform.localPosition = roundedPos;
 			serverState = new PlayerState() { MoveNumber = 0, Position = roundedPos };
 			serverStateCache = new PlayerState() { MoveNumber = 0, Position = roundedPos };
 			predictedState = new PlayerState() { MoveNumber = 0, Position = roundedPos };
@@ -113,7 +118,7 @@ namespace PlayGroup
 		{
 		    predictedState = new PlayerState() { MoveNumber = 0, Position = pos };
 			serverState = new PlayerState() { MoveNumber = 0, Position = pos };
-			transform.position = pos;
+			transform.localPosition = pos;
 		}
 		
 		void Start()
@@ -126,6 +131,7 @@ namespace PlayGroup
 			playerSprites = GetComponent<PlayerSprites>();
 			registerTile = GetComponent<RegisterTile>();
 			pushPull = GetComponent<PushPull>();
+			_matrix = Matrix.GetMatrix(this);
 		}
 
 		//managed by UpdateManager
@@ -144,11 +150,11 @@ namespace PlayGroup
 					}
 					return;
 				}
-				if (predictedState.Position == transform.position && !playerMove.isGhost)
+				if (predictedState.Position == transform.localPosition && !playerMove.isGhost)
 				{
 					DoAction();
 				}
-				else if (predictedState.Position == playerScript.ghost.transform.position && playerMove.isGhost)
+				else if (predictedState.Position == playerScript.ghost.transform.localPosition && playerMove.isGhost)
 				{
 					DoAction();
 				}
@@ -190,17 +196,17 @@ namespace PlayGroup
 					return;
 
 				state = isLocalPlayer ? predictedState : serverState;
-				transform.position = Vector3.MoveTowards(transform.position, state.Position, playerMove.speed * Time.deltaTime);
+				transform.localPosition = Vector3.MoveTowards(transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
 
-				if (state.Position != transform.position)
-					lastDirection = (state.Position - transform.position).normalized;
+				if (state.Position != transform.localPosition)
+					lastDirection = (state.Position - transform.localPosition).normalized;
 
 				if (pullingObject != null) {
 					if (transform.hasChanged) {
 						transform.hasChanged = false;
 						PullObject();
-					} else if (pullingObject.transform.position != pullPos) {
-						pullingObject.transform.position = pullPos;
+					} else if (pullingObject.transform.localPosition != pullPos) {
+						pullingObject.transform.localPosition = pullPos;
 					}
 				}
 
@@ -210,23 +216,23 @@ namespace PlayGroup
 				}
 			} else {
 				var state = isLocalPlayer ? predictedState : serverState;
-				playerScript.ghost.transform.position = Vector3.MoveTowards(playerScript.ghost.transform.position, state.Position, playerMove.speed * Time.deltaTime);
+				playerScript.ghost.transform.localPosition = Vector3.MoveTowards(playerScript.ghost.transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
 			}
 		}
 
 		private void PullObject()
 		{
-			pullPos = transform.position - (Vector3) lastDirection;
-			pullPos.z = pullingObject.transform.position.z;
-			if (Matrix.Matrix.At(pullPos).IsPassable() ||
-				Matrix.Matrix.At(pullPos).ContainsTile(pullingObject) ||
-				Matrix.Matrix.At(pullPos).ContainsTile(gameObject)) {
-				float journeyLength = Vector3.Distance(pullingObject.transform.position, pullPos);
+			pullPos = transform.localPosition - (Vector3) lastDirection;
+			pullPos.z = pullingObject.transform.localPosition.z;
+
+			var pos = Vector3Int.RoundToInt(pullPos);
+			if (_matrix.IsPassableAt(pos) || _matrix.ContainsAt(pos, gameObject) || _matrix.ContainsAt(pos, pullingObject)) {
+				float journeyLength = Vector3.Distance(pullingObject.transform.localPosition, pullPos);
 				if (journeyLength <= 2f) {
-					pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, (playerMove.speed * Time.deltaTime) / journeyLength);
+					pullingObject.transform.localPosition = Vector3.MoveTowards(pullingObject.transform.localPosition, pullPos, (playerMove.speed * Time.deltaTime) / journeyLength);
 				} else {
 					//If object gets too far away activate warp speed
-					pullingObject.transform.position = Vector3.MoveTowards(pullingObject.transform.position, pullPos, (playerMove.speed * Time.deltaTime) * 30f);
+					pullingObject.transform.localPosition = Vector3.MoveTowards(pullingObject.transform.localPosition, pullPos, (playerMove.speed * Time.deltaTime) * 30f);
 				}
 				pullingObject.BroadcastMessage("FaceDirection", playerSprites.currentDirection, SendMessageOptions.DontRequireReceiver);
 			}
@@ -252,18 +258,15 @@ namespace PlayGroup
 
 		private PlayerState NextState(PlayerState state, PlayerAction action)
 		{
-
 			return new PlayerState() {
 				MoveNumber = state.MoveNumber + 1,
-				Position = playerMove.GetNextPosition(state.Position, action)
+				Position = playerMove.GetNextPosition(Vector3Int.RoundToInt(state.Position), action)
 			};
 		}
 
 		public void PullReset(NetworkInstanceId netID)
 		{
 			pullObjectID = netID;
-			if (netID == null)
-				netID = NetworkInstanceId.Invalid;
 
 			transform.hasChanged = false;
 			if (netID == NetworkInstanceId.Invalid) {
@@ -277,7 +280,7 @@ namespace PlayGroup
 						//Could be a another player
 						PlayerSync otherPlayerSync = pullingObject.GetComponent<PlayerSync>();
 						if (otherPlayerSync != null)
-							CmdSetPositionFromReset(gameObject, otherPlayerSync.gameObject, pullingObject.transform.position);
+							CmdSetPositionFromReset(gameObject, otherPlayerSync.gameObject, pullingObject.transform.localPosition);
 					}
 				}
 				pullRegister = null;
@@ -285,7 +288,7 @@ namespace PlayGroup
 			} else {
 				pullingObject = ClientScene.FindLocalObject(netID);
 				PushPull oA = pullingObject.GetComponent<PushPull>();
-				pullPos = pullingObject.transform.position;
+				pullPos = pullingObject.transform.localPosition;
 				if (oA != null) {
 					oA.pulledBy = gameObject;
 				}
@@ -312,14 +315,15 @@ namespace PlayGroup
 
 		private void CheckSpaceWalk()
 		{
-			var nodes = Matrix.Matrix.At(transform.position, 1);
-			var node = nodes.FirstOrDefault(n => !n.IsEmpty());
-			if (node == null)
-			{
-				var newGoal = RoundedPos(transform.position) + RoundedPos(lastDirection);
-				serverState.Position = newGoal;
-				predictedState.Position = newGoal;
-			}
+			// TODO space walk
+//			var nodes = MatrixOld.Matrix.At(transform.localPosition, 1);
+//			var node = nodes.FirstOrDefault(n => !n.IsEmpty());
+//			if (node == null)
+//			{
+//				var newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
+//				serverState.Position = newGoal;
+//				predictedState.Position = newGoal;
+//			}
 		}
 	}
 }

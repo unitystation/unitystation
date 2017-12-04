@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 
@@ -28,16 +29,25 @@ namespace Tilemaps.Scripts.Utils
         {
             return _objects.ContainsKey(position) ? _objects[position] : new List<RegisterTile>();
         }
+        
+        public List<RegisterTile> Get(Vector3Int position, ObjectType type)
+        {
+            return Get(position).Where(x => x.ObjectType == type).ToList();
+        }
 
         public List<T> Get<T>(Vector3Int position) where T : RegisterTile
         {
             return Get(position).OfType<T>().ToList();
         }
+        
+        public RegisterTile GetFirst(Vector3Int position)
+        {
+            return  Get(position).FirstOrDefault();
+        }
 
         public T GetFirst<T>(Vector3Int position) where T : RegisterTile
         {
-            var objects = Get(position).OfType<T>().ToArray();
-            return objects.FirstOrDefault();
+            return Get(position).OfType<T>().FirstOrDefault();
         }
 
         public void Remove(Vector3Int position, RegisterTile obj = null)

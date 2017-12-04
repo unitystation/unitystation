@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Matrix {
+namespace MatrixOld {
 
     public enum SpritePosition {
         UpperRight = 0, LowerRight = 1, LowerLeft = 2, UpperLeft = 3
@@ -50,10 +50,10 @@ namespace Matrix {
         }
 
         public void OnConnectChange(int index) {
-            bool connected = Matrix.At(adjacentTiles[index, 0], adjacentTiles[index, 1]).Connects(ConnectType);
-
-            c[index] = connected ? 1 : 0;
-            UpdateSprite();
+//            bool connected = Matrix.At(adjacentTiles[index, 0], adjacentTiles[index, 1]).Connects(ConnectType);
+//
+//            c[index] = connected ? 1 : 0;
+//            UpdateSprite();
         }
 
         public void UpdatePosition(int new_x, int new_y) {
@@ -65,29 +65,29 @@ namespace Matrix {
         }
 
         private void UpdateListeners() {
-            for(int i = 0; i < 3; i++) {
-                if(listeners[i] != null) {
-                    Matrix.At(adjacentTiles[i, 0], adjacentTiles[i, 1]).RemoveListener(listeners[i]);
-                } else {
-                    int i2 = i;
-                    listeners[i] = new UnityAction(() => OnConnectChange(i2));
-                }
-
-                if(x >= 0) {
-                    adjacentTiles[i, 0] = x + offsets[(offsetIndex + i) % 8];
-                    adjacentTiles[i, 1] = y + offsets[(offsetIndex + i + 2) % 8];
-
-                    Matrix.At(adjacentTiles[i, 0], adjacentTiles[i, 1]).AddListener(listeners[i]);
-                }
-            }
+//            for(int i = 0; i < 3; i++) {
+//                if(listeners[i] != null) {
+//                    Matrix.At(adjacentTiles[i, 0], adjacentTiles[i, 1]).RemoveListener(listeners[i]);
+//                } else {
+//                    int i2 = i;
+//                    listeners[i] = new UnityAction(() => OnConnectChange(i2));
+//                }
+//
+//                if(x >= 0) {
+//                    adjacentTiles[i, 0] = x + offsets[(offsetIndex + i) % 8];
+//                    adjacentTiles[i, 1] = y + offsets[(offsetIndex + i + 2) % 8];
+//
+//                    Matrix.At(adjacentTiles[i, 0], adjacentTiles[i, 1]).AddListener(listeners[i]);
+//                }
+//            }
         }
 
         void OnDestroy() {
-            if(listeners[0] != null) {
-                for(int i = 0; i < 3; i++) {
-                    Matrix.At(adjacentTiles[i, 0], adjacentTiles[i, 1]).RemoveListener(listeners[i]);
-                }
-            }
+//            if(listeners[0] != null) {
+//                for(int i = 0; i < 3; i++) {
+//                    Matrix.At(adjacentTiles[i, 0], adjacentTiles[i, 1]).RemoveListener(listeners[i]);
+//                }
+//            }
         }
 
         private void CheckAdjacentTiles() {

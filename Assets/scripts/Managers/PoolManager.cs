@@ -105,6 +105,12 @@ public class PoolManager : NetworkBehaviour
 	static public void PoolNetworkPreLoad(GameObject prefab)
 	{
 		GameObject tempObject = null;
+
+		if (prefab == null)
+		{
+			return;
+		}
+		
 		//pool for this prefab does not yet exist
 		if (!pools.ContainsKey(prefab)) {
 			pools.Add(prefab, new List<GameObject>());

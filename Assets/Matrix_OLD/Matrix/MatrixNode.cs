@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Doors;
 
-namespace Matrix {
+namespace MatrixOld {
 
     [Serializable]
     public class MatrixNode {

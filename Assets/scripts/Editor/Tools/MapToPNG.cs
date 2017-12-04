@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Matrix;
+using MatrixOld;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -106,8 +106,8 @@ public class MapToPNG : Editor
 
     internal static MatrixNode[,] GetMappedNodes()
     {
-        var keys = Matrix.Matrix.Nodes.keys;
-        var values = Matrix.Matrix.Nodes.values;
+        var keys = MatrixOld.Matrix.Nodes.keys;
+        var values = MatrixOld.Matrix.Nodes.values;
 
         var x = new List<int>();
         var y = new List<int>();

@@ -5,7 +5,8 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using InputControl;
-using Matrix;
+using Tilemaps.Scripts;
+using Tilemaps.Scripts.Behaviours.Layers;
 using Tilemaps.Scripts.Behaviours.Objects;
 
 namespace Cupboards
@@ -16,7 +17,8 @@ namespace Cupboards
 		private Sprite doorClosed;
 
 		public SpriteRenderer spriteRenderer;
-		private RegisterCloset registerTile;
+		private RegisterCloset _registerTile;
+		private Matrix _matrix;
 
 		[SyncVar(hook = "LockUnlock")]
 		public bool IsLocked;
@@ -27,13 +29,14 @@ namespace Cupboards
 		public bool IsClosed;
 
 		//Inventory
-		private List<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
-		private List<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
+		private IEnumerable<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
+		private IEnumerable<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
 
 		void Awake()
 		{
 			doorClosed = spriteRenderer.sprite;
-			registerTile = GetComponent<RegisterCloset>();
+			_registerTile = GetComponent<RegisterCloset>();
+			_matrix = Matrix.GetMatrix(this);
 		}
 
 		public override void OnStartServer()
@@ -107,7 +110,7 @@ namespace Cupboards
 
 		void Close()
 		{
-			registerTile.IsClosed = true;
+			_registerTile.IsClosed = true;
 			SoundManager.PlayAtPosition("OpenClose", transform.position);
 			spriteRenderer.sprite = doorClosed;
 			if (lockLight != null) {
@@ -117,7 +120,7 @@ namespace Cupboards
 
 		void Open()
 		{
-			registerTile.IsClosed = false;
+			_registerTile.IsClosed = false;
 			SoundManager.PlayAtPosition("OpenClose", transform.position);
 			spriteRenderer.sprite = doorOpened;
 			if (lockLight != null) {
@@ -166,28 +169,26 @@ namespace Cupboards
 		private void SetItemsAliveState(bool on)
 		{
 			if (!on)
-				heldItems = Matrix.Matrix.At(transform.position).GetItems();
+				heldItems = _matrix.Get<ObjectBehaviour>(_registerTile.Position, ObjectType.Item);
 
-			for (int i = 0; i < heldItems.Count; i++) {
+			foreach (var item in heldItems)
+			{
 				if (on)
-					heldItems[i].transform.position = transform.position;
-
-				heldItems[i].visibleState = on;
+					item.transform.position = transform.position;
+				item.visibleState = on;
 			}
 		}
 
 		private void SetPlayersAliveState(bool on)
 		{
-			if (!on) 
-				heldPlayers = Matrix.Matrix.At(transform.position).GetPlayers();
+			if (!on)
+				heldPlayers = _matrix.Get<ObjectBehaviour>(_registerTile.Position, ObjectType.Player);
 
-			for (int i = 0; i < heldPlayers.Count; i++) {
-				heldPlayers[i].visibleState = on;
-
-				if (on) {
-					if (isServer)
-						heldPlayers[i].GetComponent<PlayerSync>().SetPosition(transform.position);
-				}
+			foreach (var player in heldPlayers)
+			{
+				if (on)
+					player.transform.position = transform.position;
+				player.visibleState = on;
 			}
 		}
 	}

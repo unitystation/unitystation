@@ -1,9 +1,11 @@
 ﻿using System.Collections;
-using Matrix;
+using MatrixOld;
 using PlayGroup;
+using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
+using Matrix = Tilemaps.Scripts.Matrix;
 
 public class PushPull : VisibleBehaviour
 {
@@ -29,12 +31,16 @@ public class PushPull : VisibleBehaviour
 	[SyncVar]
 	public Vector3 currentPos;
 
+	private Matrix _matrix1;
+
 	//A check to make sure there are no network errors
 	public float timeInPush = 0f;
 
 	public override void OnStartClient()
 	{
 		StartCoroutine(WaitForLoad());
+		
+		_matrix1 = Matrix.GetMatrix(this);
 		base.OnStartClient();
 	}
 	IEnumerator WaitForLoad()
@@ -99,9 +105,12 @@ public class PushPull : VisibleBehaviour
 			}
 
 			moveSpeed = pusherSpeed;
-			Vector3 newPos = RoundedPos(transform.position) + (Vector3)pushDir;
-			newPos.z = transform.position.z;
-			if (Matrix.Matrix.At(newPos).IsPassable() || Matrix.Matrix.At(newPos).ContainsTile(gameObject)) {
+			var newPos = Vector3Int.RoundToInt(transform.position + (Vector3)pushDir);
+			//newPos.z = transform.position.z;
+			
+			
+			if (_matrix1.IsPassableAt(newPos)) // || MatrixOld.Matrix.At(newPos).ContainsTile(gameObject)) 
+			{
 				//Start the push on the client, then start on the server, the server then tells all other clients to start the push also
 				pusher = pushedBy;
 				if (pusher == PlayerManager.LocalPlayer)

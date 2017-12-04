@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Matrix {
+namespace MatrixOld {
 
     [Serializable]
     public class Matrix: ScriptableObject {
@@ -51,50 +51,50 @@ namespace Matrix {
                 map = new NodeDictionary();
             }
         }
+//
+//        public static MatrixNode At(Vector2 position, bool createIfNull = true) {
+//            return At(position.x, position.y);
+//        }
 
-        public static MatrixNode At(Vector2 position, bool createIfNull = true) {
-            return At(position.x, position.y);
-        }
-
-        public static MatrixNode At(float x, float y, bool createIfNull = true) {
-            return At(Mathf.RoundToInt(x), Mathf.RoundToInt(y), createIfNull);
-        }
-
-        public static MatrixNode At(int x, int y, bool createIfNull = true) {
-            if(Instance.map.ContainsKey(x, y)) {
-                return Instance.map[x, y];
-            } else if(createIfNull) {
-                Instance.map[x, y] = new MatrixNode();
-                return Instance.map[x, y];
-            }
-
-            return null;
-        }
-
-        public static List<MatrixNode> At(Vector2 position, int radius, bool createIfNull = true)
-        {
-            return At(position.x, position.y, radius, createIfNull);
-        }
-
-        public static List<MatrixNode> At(float x, float y, int radius, bool createIfNull = true)
-        {
-            var list = new List<MatrixNode>();
-
-            for (float xr = x - radius; xr <= x + radius; xr++)
-            {
-                for (float yr = y - radius; yr <= y + radius; yr++)
-                {
-                    var node = At(xr, yr, createIfNull);
-
-                    if (node != null)
-                    {
-                        list.Add(node);
-                    }
-                }  
-            }
-
-            return list;
-        }
+//        public static MatrixNode At(float x, float y, bool createIfNull = true) {
+//            return At(Mathf.RoundToInt(x), Mathf.RoundToInt(y), createIfNull);
+//        }
+//
+//        public static MatrixNode At(int x, int y, bool createIfNull = true) {
+//            if(Instance.map.ContainsKey(x, y)) {
+//                return Instance.map[x, y];
+//            } else if(createIfNull) {
+//                Instance.map[x, y] = new MatrixNode();
+//                return Instance.map[x, y];
+//            }
+//
+//            return null;
+//        }
+//
+//        public static List<MatrixNode> At(Vector2 position, int radius, bool createIfNull = true)
+//        {
+//            return At(position.x, position.y, radius, createIfNull);
+//        }
+//
+//        public static List<MatrixNode> At(float x, float y, int radius, bool createIfNull = true)
+//        {
+//            var list = new List<MatrixNode>();
+//
+//            for (float xr = x - radius; xr <= x + radius; xr++)
+//            {
+//                for (float yr = y - radius; yr <= y + radius; yr++)
+//                {
+//                    var node = At(xr, yr, createIfNull);
+//
+//                    if (node != null)
+//                    {
+//                        list.Add(node);
+//                    }
+//                }  
+//            }
+//
+//            return list;
+//        }
 
         public static NodeDictionary Nodes { get { return Instance.map; } }
 
@@ -122,10 +122,10 @@ namespace Matrix {
                 closestY = Mathf.Round(curPos.y);
             }
             // If target is not passable then target cur tile
-            if(!At((int) closestX, (int) closestY).IsPassable()) {
-                closestX = Mathf.Round(curPos.x);
-                closestY = Mathf.Round(curPos.y);
-            }
+//            if(!At((int) closestX, (int) closestY).IsPassable()) {
+//                closestX = Mathf.Round(curPos.x);
+//                closestY = Mathf.Round(curPos.y);
+//            }
 
             return new Vector3(closestX, closestY, 0f);
         }

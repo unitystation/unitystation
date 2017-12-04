@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using Matrix;
+using MatrixOld;
 
 /// <summary>
 /// This is grabbed by the matrix to determine if player can

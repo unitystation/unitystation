@@ -38,18 +38,18 @@ namespace SectionEditor {
             var end = Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth, Camera.current.pixelHeight));
 
             for(int y = Mathf.RoundToInt(start.y); y < Mathf.RoundToInt(end.y + 1); y++) {
-                for(int x = Mathf.RoundToInt(start.x); x < Mathf.RoundToInt(end.x + 1); x++) {
-                    var node = Matrix.Matrix.At(x, y, false);
-
-                    if(node != null) {
-                        foreach(Section section in SectionData.Sections) {
-                            if(node.Section == section) {
-                                Gizmos.color = section.color;
-                                Gizmos.DrawCube(new Vector3(x, y, 0), Vector3.one);
-                            }
-                        }
-                    }
-                }
+//                for(int x = Mathf.RoundToInt(start.x); x < Mathf.RoundToInt(end.x + 1); x++) {
+//                    var node = MatrixOld.Matrix.At(x, y, false);
+//
+//                    if(node != null) {
+//                        foreach(Section section in SectionData.Sections) {
+//                            if(node.Section == section) {
+//                                Gizmos.color = section.color;
+//                                Gizmos.DrawCube(new Vector3(x, y, 0), Vector3.one);
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
 
