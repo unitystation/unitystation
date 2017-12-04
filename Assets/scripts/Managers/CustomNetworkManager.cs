@@ -51,8 +51,7 @@ public class CustomNetworkManager : NetworkManager
 		string basePath = Application.dataPath + "/Resources/Prefabs/";
 		string[] scan = Directory.GetFiles (basePath, ".prefab", SearchOption.AllDirectories);
 		foreach (String file in scan) {
-			string path = file.Substring (file.IndexOf ("Resources") + 0);
-
+			string path = file.Substring (file.IndexOf ("Prefabs") + 0);
 			var networkObjects = Resources.LoadAll<NetworkIdentity>(path);
 			foreach (var netObj in networkObjects)
 			{
