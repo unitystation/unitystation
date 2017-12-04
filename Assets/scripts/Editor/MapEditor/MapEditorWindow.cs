@@ -3,9 +3,11 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
 
-namespace MapEditor {
+namespace MapEditor
+{
 
-    public class MapEditorWindow: EditorWindow {
+    public class MapEditorWindow : EditorWindow
+    {
         private int categoryIndex;
         private string[] categoryNames;
 
@@ -15,20 +17,24 @@ namespace MapEditor {
         private bool showOptions;
 
         [MenuItem("Window/Map Editor")]
-        public static void ShowWindow() {
+        public static void ShowWindow()
+        {
             GetWindow<MapEditorWindow>("Map Editor");
         }
 
-        public void OnEnable() {
+        public void OnEnable()
+        {
             SceneView.onSceneGUIDelegate += Main.OnSceneGUI;
             Initialize();
         }
 
-        public void OnDisable() {
+        public void OnDisable()
+        {
             SceneView.onSceneGUIDelegate -= Main.OnSceneGUI;
         }
 
-        public void Initialize() {            
+        public void Initialize()
+        {
             string path = Application.dataPath;
             string[] files = Directory.GetDirectories(path + "/Prefabs", "*.*", SearchOption.AllDirectories);
             TreatString(files);
@@ -39,20 +45,22 @@ namespace MapEditor {
                 categoryNames[i] = categories[i].Name;
             }
         }
-        
-        public void TreatString(string[] files) {
+
+        public void TreatString(string[] files)
+        {
             for (int i = 0; i < files.Length; i++)
             {
                 files[i] = files[i].Replace('\\', '/');
-                string[] dirFiles = Directory.GetFiles(files[i]);                
+                string[] dirFiles = Directory.GetFiles(files[i]);
                 foreach (var file in dirFiles)
                 {
                     //checks if the folder is empty, or only has a folder inside, case it is empty, empty the string.
                     if (file.Contains(".prefab"))
-                    {                        
+                    {
                         break;
                     }
-                    else {
+                    else
+                    {
                         files[i] = "";
                     }
                 }
@@ -60,7 +68,8 @@ namespace MapEditor {
         }
 
 
-        void OnGUI() {
+        void OnGUI()
+        {
 
             Main.EnableEdit = EditorGUILayout.BeginToggleGroup("Map Editor Mode", Main.EnableEdit);
 
@@ -79,10 +88,12 @@ namespace MapEditor {
             EditorGUILayout.EndToggleGroup();
         }
 
-        private void DrawContent() {
+        private void DrawContent()
+        {
             showOptions = EditorGUILayout.Foldout(showOptions, "Options");
 
-            if(showOptions) {
+            if (showOptions)
+            {
                 optionsView.OnGUI();
             }
 

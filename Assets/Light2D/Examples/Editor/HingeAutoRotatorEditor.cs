@@ -4,7 +4,7 @@ using UnityEditor;
 
 namespace Light2D.Examples
 {
-    [CustomEditor(typeof (HingeAutoRotator))]
+    [CustomEditor(typeof(HingeAutoRotator))]
     [CanEditMultipleObjects]
     public class HingeAutoRotatorEditor : Editor
     {
@@ -12,11 +12,11 @@ namespace Light2D.Examples
         {
             if (targets.Length == 1)
             {
-                var myScript = (HingeAutoRotator) target;
+                var myScript = (HingeAutoRotator)target;
                 var connBody = myScript.Joint == null ? null : myScript.Joint.connectedBody;
 
                 GUI.enabled = false;
-                EditorGUILayout.ObjectField("Connected body", connBody, typeof (Rigidbody2D), true);
+                EditorGUILayout.ObjectField("Connected body", connBody, typeof(Rigidbody2D), true);
                 GUI.enabled = true;
             }
 

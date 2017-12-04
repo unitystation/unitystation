@@ -9,7 +9,7 @@ public class DmiIcon
     public string icon;
     public List<DmiState> states;
 
-    private Sprite[] sprites = {};
+    private Sprite[] sprites = { };
 
     public Sprite[] spriteSheet
     {
@@ -23,22 +23,22 @@ public class DmiIcon
         {
             int startIndex = icon.LastIndexOf('/') + 1;
             int endIndex = icon.IndexOf(".dmi", StringComparison.Ordinal);
-            return icon.Substring(startIndex, endIndex-startIndex);
+            return icon.Substring(startIndex, endIndex - startIndex);
         }
-//        Debug.LogWarning("getName: something's wrong");
+        //        Debug.LogWarning("getName: something's wrong");
         return "";
     }
 
     public DmiState getState(string state)
     {
-            var foundState = states.Find(x => x.state == state);
-            if (foundState != null)
-            {
-//                Debug.Log("foundState: "+ foundState);
-                return foundState;
-            }
-        
-//        Debug.LogWarning("Couldn't find dmiIcon by state " + state);
+        var foundState = states.Find(x => x.state == state);
+        if (foundState != null)
+        {
+            //                Debug.Log("foundState: "+ foundState);
+            return foundState;
+        }
+
+        //        Debug.LogWarning("Couldn't find dmiIcon by state " + state);
         return new DmiState();
     }
 
@@ -58,7 +58,7 @@ public class DmiIcon
     }
 
 
-  /// <returns> -1 if you feed custom shit to it</returns>
+    /// <returns> -1 if you feed custom shit to it</returns>
     internal static int getOffsetFromUnityName(string unityName)
     {
         var intStr = unityName.Split('_');
@@ -92,7 +92,7 @@ public class DmiIcon
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != this.GetType()) return false;
-        return Equals((DmiIcon) obj);
+        return Equals((DmiIcon)obj);
     }
 
     public override int GetHashCode()

@@ -21,19 +21,19 @@ public class JsonToTilemap : Editor
         var gridGameObject = new GameObject(SceneManager.GetActiveScene().name + "_Tiled");
         var grid = gridGameObject.AddComponent<Grid>();
         //set up grid here
-        grid.cellSize = new Vector3(1f,1f,0);
-        
+        grid.cellSize = new Vector3(1f, 1f, 0);
+
         var layers = DeserializeJson();
         foreach (var layer in layers)
         {
             var layerGO = new GameObject(layer.Key);
-            
+
             //convert positions
             List<Vector3Int> positions = layer.Value.TilePositions.ConvertAll(coord => new Vector3Int(coord.X, coord.Y, 0));
             //convert tiles
             List<UniTile> tiles = layer.Value.Tiles.ConvertAll(DataToTile);
             Debug.LogFormat("Decoded {0} positions, generated {1} tiles for layer {2}", positions.Count, tiles.Count, layer.Key);
-            
+
             logOverlaps(positions, tiles);
 
             layerGO.transform.parent = gridGameObject.transform;
@@ -41,10 +41,10 @@ public class JsonToTilemap : Editor
             var layerRenderer = layerGO.AddComponent<TilemapRenderer>();
             layerRenderer.sortingLayerName = GetCleanLayerName(layer.Key);
             layerRenderer.sortingOrder = GetLayerOffset(layer.Key);
-            
+
             layerTilemap.SetTiles(positions.ToArray(), tiles.ToArray());
         }
-        gridGameObject.transform.position = new Vector3(-100,0,0); 
+        gridGameObject.transform.position = new Vector3(-100, 0, 0);
 
         Debug.Log("Import kinda finished");
     }
@@ -53,9 +53,9 @@ public class JsonToTilemap : Editor
     {
         var overlaps = positions.GroupBy(v => v)
             .Where(v => v.Count() > 1)
-            .Select(v => new {Pos = new XYCoord(v.Key.x, v.Key.y), Tile = tiles[positions.IndexOf(v.Key)], Count = v.Count()})
+            .Select(v => new { Pos = new XYCoord(v.Key.x, v.Key.y), Tile = tiles[positions.IndexOf(v.Key)], Count = v.Count() })
             .ToList();
-        if ( overlaps.Count != 0 )
+        if (overlaps.Count != 0)
         {
             Debug.LogWarning(overlaps.Aggregate("Overlaps found: ", (current, ds) => current + ds.ToString()));
         }
@@ -68,7 +68,7 @@ public class JsonToTilemap : Editor
         var c = data.ChildTransform;
         var p = data.Transform;
         //upscaling TC tiles for eye candy, fixme: you will want to turn that off later when new tileconnect is ready
-        if ( data.SpriteName.StartsWith(TC) )
+        if (data.SpriteName.StartsWith(TC))
         {
             SetXyScale(ref p, 2);
         }
@@ -77,9 +77,9 @@ public class JsonToTilemap : Editor
         tile.colliderType = data.ColliderType;
 
         //generate asset here?
-        tile.sprite = data.IsLegacy ? SpriteManager.Instance.dmi.getSpriteFromLegacyName(data.SpriteSheet, data.SpriteName) 
+        tile.sprite = data.IsLegacy ? SpriteManager.Instance.dmi.getSpriteFromLegacyName(data.SpriteSheet, data.SpriteName)
                                     : SpriteManager.Instance.dmi.getSprite(data.SpriteSheet, data.SpriteName);
-        
+
         return tile;
     }
 
@@ -95,7 +95,7 @@ public class JsonToTilemap : Editor
         var rotation = p.rotation * c.rotation;
         var position = rotation * GetPosFromMatrix4x4(c); //parent position offsets are huge! don't think we should use them at all
         var scale = p.lossyScale;
-        return Matrix4x4.TRS( position, rotation, scale );
+        return Matrix4x4.TRS(position, rotation, scale);
     }
 
     private static Vector3 GetPosFromMatrix4x4(Matrix4x4 c)
@@ -112,14 +112,15 @@ public class JsonToTilemap : Editor
             var data = fsJsonParser.Parse(asset.text);
             var serializer = new fsSerializer();
             serializer.TryDeserialize(data, ref deserializedLayers).AssertSuccessWithoutWarnings();
-        } else throw new FileNotFoundException("Put your map json to /Assets/Resources/metadata/%mapname%.json!");
+        }
+        else throw new FileNotFoundException("Put your map json to /Assets/Resources/metadata/%mapname%.json!");
         return deserializedLayers;
     }
-    
+
     internal static HashSet<string> GetSortingLayerOrderNames(IEnumerable<SpriteRenderer> renderers)
     {
         var hs = new HashSet<string>();
-        foreach ( var renderer in renderers )
+        foreach (var renderer in renderers)
         {
             hs.Add(renderer.sortingLayerName + renderer.sortingOrder);
         }
@@ -134,7 +135,7 @@ public class JsonToTilemap : Editor
 
     internal static string GetCleanLayerName(string dirtyName)
     {
-        var lameTrimChars = new[] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-'};
+        var lameTrimChars = new[] { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-' };
         return dirtyName.TrimEnd(lameTrimChars);
     }
 
@@ -146,7 +147,7 @@ public class JsonToTilemap : Editor
         var x_index = sortingLayerNames.FindIndex(s => s.StartsWith(xTrim));
         var y_index = sortingLayerNames.FindIndex(s => s.StartsWith(yTrim));
 
-        if ( x_index == y_index )
+        if (x_index == y_index)
         {
             return GetLayerOffset(y) - GetLayerOffset(x);
         }

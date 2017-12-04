@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace Light2D.Examples
 {
-    [CustomPropertyDrawer(typeof (ReadOnlyAttribute))]
+    [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
     public class ReadOnlyDrawer : PropertyDrawer
     {
         public override float GetPropertyHeight(SerializedProperty property,

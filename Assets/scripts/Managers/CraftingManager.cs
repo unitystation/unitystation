@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Crafting {
+namespace Crafting
+{
 
-    public class CraftingManager: MonoBehaviour {
+    public class CraftingManager : MonoBehaviour
+    {
         [SerializeField]
         private CraftingDatabase meals = new CraftingDatabase();
         public static CraftingDatabase Meals { get { return Instance.meals; } }
 
         private static CraftingManager craftingManager;
 
-        public static CraftingManager Instance {
-            get {
-                if(!craftingManager) {
+        public static CraftingManager Instance
+        {
+            get
+            {
+                if (!craftingManager)
+                {
                     craftingManager = FindObjectOfType<CraftingManager>();
                 }
 

@@ -44,7 +44,7 @@ namespace UI
         public void Update()
         {
             if (!chatInputWindow.activeInHierarchy && Input.GetKey(KeyCode.T) && GameData.IsInGame
-			    && CustomNetworkManager.Instance.IsClientConnected())
+                && CustomNetworkManager.Instance.IsClientConnected())
             {
                 chatInputWindow.SetActive(true);
                 isChatFocus = true;
@@ -66,7 +66,7 @@ namespace UI
 
         public void OnClickSend()
         {
-			if (!string.IsNullOrEmpty(this.InputFieldChat.text.Trim()))
+            if (!string.IsNullOrEmpty(this.InputFieldChat.text.Trim()))
             {
                 SoundManager.Play("Click01");
                 PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, true);

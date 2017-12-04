@@ -9,50 +9,60 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [Serializable]
-public class SectionData : ScriptableObject {
+public class SectionData : ScriptableObject
+{
     private static string AssetPath = "Assets/Data/Sections.asset";
     private static string activeSceneName;
 
     private static SectionData sectionData;
-    public static SectionData Instance {
-        get {
+    public static SectionData Instance
+    {
+        get
+        {
             Scene scene = SceneManager.GetActiveScene();
-            if(!sectionData || !activeSceneName.Equals(scene.name)) {
+            if (!sectionData || !activeSceneName.Equals(scene.name))
+            {
                 LoadSections();
             }
             return sectionData;
         }
     }
 
-    private static void LoadSections() {
-        #if UNITY_EDITOR
+    private static void LoadSections()
+    {
+#if UNITY_EDITOR
         Scene scene = SceneManager.GetActiveScene();
         activeSceneName = scene.name;
         AssetPath = "Assets/Data/" + activeSceneName + "_Sections.asset";
 
         sectionData = AssetDatabase.LoadAssetAtPath<SectionData>(AssetPath);
 
-        if(!sectionData) {
+        if (!sectionData)
+        {
             sectionData = CreateInstance<SectionData>();
             Directory.CreateDirectory(Path.GetDirectoryName(AssetPath));
             AssetDatabase.CreateAsset(sectionData, AssetPath);
         }
-        #endif
+#endif
     }
     [SerializeField]
     private List<Section> sections;
 
-    public void OnEnable() {
-        if(sections == null) {
+    public void OnEnable()
+    {
+        if (sections == null)
+        {
             sections = new List<Section>();
         }
     }
 
-    public static List<Section> Sections {
+    public static List<Section> Sections
+    {
         get { return Instance.sections; }
     }
 
-    public static Section AddSection(string name, Color color) {
+    public static Section AddSection(string name, Color color)
+    {
         var section = CreateInstance<Section>();
         section.Init(name, color);
         Sections.Add(section);

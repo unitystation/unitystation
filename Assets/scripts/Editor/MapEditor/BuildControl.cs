@@ -5,17 +5,20 @@ using UI;
 using UnityEditor;
 using UnityEngine;
 
-namespace MapEditor {
+namespace MapEditor
+{
 
-    public class BuildControl {
+    public class BuildControl
+    {
         private static SceneView currentSceneView;
         public static string CurrentSubSectionName { get; set; }
 
         public static int HashCode { get; set; }
         public static bool CheckTileFit { get; set; }
 
-        public static bool Build(Event e) {
-            if(!PreviewObject.Prefab)
+        public static bool Build(Event e)
+        {
+            if (!PreviewObject.Prefab)
                 return false;
 
             Ray r = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
@@ -24,14 +27,18 @@ namespace MapEditor {
             int y = Mathf.RoundToInt(r.origin.y);
 
             var registerTile = PreviewObject.Prefab.GetComponent<RegisterTile>();
-            if(registerTile) { // it's something constructable
-                if(!CheckTileFit || Matrix.Matrix.At(x, y).FitsTile(PreviewObject.Prefab)) {
+            if (registerTile)
+            { // it's something constructable
+                if (!CheckTileFit || Matrix.Matrix.At(x, y).FitsTile(PreviewObject.Prefab))
+                {
 
                     CreateGameObject(x, y);
 
                     return true;
                 }
-            } else {
+            }
+            else
+            {
 
                 CreateGameObject(x, y);
 
@@ -40,7 +47,8 @@ namespace MapEditor {
             return false;
         }
 
-        public static void CreateGameObject(int x, int y) {
+        public static void CreateGameObject(int x, int y)
+        {
             var gameObject = PreviewObject.CreateGameObject();
 
             gameObject.transform.position = new Vector3(x, y, 0);

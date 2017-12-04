@@ -7,17 +7,24 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
-public class TileTypeDrawer: MonoBehaviour {
+public class TileTypeDrawer : MonoBehaviour
+{
     public static bool DrawGizmos;
 
     private static TileTypeDrawer instance;
-    public static TileTypeDrawer Instance {
-        get {
-            if(!instance) {
+    public static TileTypeDrawer Instance
+    {
+        get
+        {
+            if (!instance)
+            {
                 GameObject instanceTemp = GameObject.FindGameObjectWithTag("MapEditor");
-                if(instanceTemp != null) {
+                if (instanceTemp != null)
+                {
                     instance = instanceTemp.GetComponentInChildren<TileTypeDrawer>(true);
-                } else {
+                }
+                else
+                {
                     instance = null;
                 }
             }
@@ -34,11 +41,13 @@ public class TileTypeDrawer: MonoBehaviour {
 }
 
 #if UNITY_EDITOR
-public class TileTypeGizmosDrawer {
+public class TileTypeGizmosDrawer
+{
     private static Color colorTrue;
     private static Color colorFalse;
 
-    static TileTypeGizmosDrawer() {
+    static TileTypeGizmosDrawer()
+    {
         colorTrue = Color.green;
         colorTrue.a = 0.5f;
         colorFalse = Color.red;
@@ -46,24 +55,32 @@ public class TileTypeGizmosDrawer {
     }
 
     [DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]
-    static void DrawGizmo(TileTypeDrawer scr, GizmoType gizmoType) {
-        if(!TileTypeDrawer.DrawGizmos)
+    static void DrawGizmo(TileTypeDrawer scr, GizmoType gizmoType)
+    {
+        if (!TileTypeDrawer.DrawGizmos)
             return;
 
         var start = Camera.current.ScreenToWorldPoint(Vector3.zero); // bottom left
         var end = Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth, Camera.current.pixelHeight));
 
-        for(int y = Mathf.RoundToInt(start.y); y < Mathf.RoundToInt(end.y + 1); y++) {
-            for(int x = Mathf.RoundToInt(start.x); x < Mathf.RoundToInt(end.x + 1); x++) {
+        for (int y = Mathf.RoundToInt(start.y); y < Mathf.RoundToInt(end.y + 1); y++)
+        {
+            for (int x = Mathf.RoundToInt(start.x); x < Mathf.RoundToInt(end.x + 1); x++)
+            {
                 var node = Matrix.Matrix.At(x, y, false);
 
-                if(node != null) {
-                    foreach(var tileType in TileTypeDrawer.BaseTileTypes) {
-                        if(node.HasTileType(tileType)) {
+                if (node != null)
+                {
+                    foreach (var tileType in TileTypeDrawer.BaseTileTypes)
+                    {
+                        if (node.HasTileType(tileType))
+                        {
                             Gizmos.color = colorTrue;
 
-                            foreach(var condtileType in TileTypeDrawer.ConditionalTileTypes) {
-                                if(!node.HasTileType(condtileType)) {
+                            foreach (var condtileType in TileTypeDrawer.ConditionalTileTypes)
+                            {
+                                if (!node.HasTileType(condtileType))
+                                {
                                     Gizmos.color = colorFalse;
                                     break;
                                 }

@@ -4,13 +4,17 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 
-namespace MapEditor {
+namespace MapEditor
+{
 
-    public class StructuresView: CategoryView {
+    public class StructuresView : CategoryView
+    {
 
-        public StructuresView(IEnumerable<string>fileName,string path) : base("Structures", "Category") {
+        public StructuresView(IEnumerable<string> fileName, string path) : base("Structures", "Category")
+        {
             string pathString = path + "/Prefabs/Structures";
-            foreach (string f in fileName) {
+            foreach (string f in fileName)
+            {
                 if ((f).Contains(pathString) && (f != pathString))
                 {
                     //name, path, subsection
@@ -20,11 +24,12 @@ namespace MapEditor {
 
 
                 }
-            }           
+            }
         }
         private int i;
-        protected override void DrawContent() {
-            
+        protected override void DrawContent()
+        {
+
         }
     }
 }

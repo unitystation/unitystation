@@ -179,7 +179,7 @@ namespace Light2D
         public void DrawLightNormalsNow(Material material)
         {
             Vector2 size = Sprite.bounds.size;
-            Vector2 center = _modelMatrix.MultiplyPoint3x4(((Vector2) LightOrigin).Mul(size));
+            Vector2 center = _modelMatrix.MultiplyPoint3x4(((Vector2)LightOrigin).Mul(size));
             var lightPos = new Vector4(center.x, center.y, LightOrigin.z);
 
             material.SetVector("_LightPos", lightPos);
@@ -191,7 +191,7 @@ namespace Light2D
             var v2 = _modelMatrix.MultiplyPoint3x4(_vertices[2]);
             var v3 = _modelMatrix.MultiplyPoint3x4(_vertices[3]);
             var v4 = _modelMatrix.MultiplyPoint3x4(_vertices[1]);
-            
+
             GL.Begin(GL.QUADS);
             GL.Vertex(v1);
             GL.Vertex(v2);

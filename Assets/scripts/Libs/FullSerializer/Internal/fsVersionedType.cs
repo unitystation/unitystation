@@ -1,7 +1,9 @@
 ﻿using System;
 
-namespace FullSerializer.Internal {
-    public struct fsVersionedType {
+namespace FullSerializer.Internal
+{
+    public struct fsVersionedType
+    {
         /// <summary>
         /// The direct ancestors that this type can import.
         /// </summary>
@@ -20,29 +22,35 @@ namespace FullSerializer.Internal {
         /// <summary>
         /// Migrate from an instance of an ancestor.
         /// </summary>
-        public object Migrate(object ancestorInstance) {
+        public object Migrate(object ancestorInstance)
+        {
             return Activator.CreateInstance(ModelType, ancestorInstance);
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return "fsVersionedType [ModelType=" + ModelType + ", VersionString=" + VersionString + ", Ancestors.Length=" + Ancestors.Length + "]";
         }
 
-        public static bool operator ==(fsVersionedType a, fsVersionedType b) {
+        public static bool operator ==(fsVersionedType a, fsVersionedType b)
+        {
             return a.ModelType == b.ModelType;
         }
 
-        public static bool operator !=(fsVersionedType a, fsVersionedType b) {
+        public static bool operator !=(fsVersionedType a, fsVersionedType b)
+        {
             return a.ModelType != b.ModelType;
         }
 
-        public override bool Equals(object obj) {
+        public override bool Equals(object obj)
+        {
             return
                 obj is fsVersionedType &&
                 ModelType == ((fsVersionedType)obj).ModelType;
         }
 
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             return ModelType.GetHashCode();
         }
     }

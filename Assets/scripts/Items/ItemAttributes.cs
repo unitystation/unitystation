@@ -14,7 +14,7 @@ public class ItemAttributes : NetworkBehaviour
     private static string[] hierList = { };
 
     public ClothEnum cloth;
-    
+
     [SyncVar(hook = "ConstructItem")]
     public string hierarchy;
     //the bare minimum you need to to make magic work
@@ -55,26 +55,27 @@ public class ItemAttributes : NetworkBehaviour
 
     public override void OnStartClient()
     {
-		StartCoroutine(WaitForLoad());
-		base.OnStartClient();
+        StartCoroutine(WaitForLoad());
+        base.OnStartClient();
     }
 
-	IEnumerator WaitForLoad(){
-		yield return new WaitForSeconds(2f);
-		ConstructItem(hierarchy);
-	}
-    
-    
-//    Enum test:
-//    
-//    private void OnEnable()
-//    {
-//        if (hierarchy == null || hierarchy.Equals(""))
-//        {
-//            hierarchy = cloth.GetDescription();
-//        }
-//        ConstructItem(hierarchy);
-//    }
+    IEnumerator WaitForLoad()
+    {
+        yield return new WaitForSeconds(2f);
+        ConstructItem(hierarchy);
+    }
+
+
+    //    Enum test:
+    //    
+    //    private void OnEnable()
+    //    {
+    //        if (hierarchy == null || hierarchy.Equals(""))
+    //        {
+    //            hierarchy = cloth.GetDescription();
+    //        }
+    //        ConstructItem(hierarchy);
+    //    }
 
     public void ConstructItem(string hierString)
     {

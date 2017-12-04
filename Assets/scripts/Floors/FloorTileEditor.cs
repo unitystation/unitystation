@@ -9,25 +9,28 @@ using UnityEditor;
  * This is used to add the ambient tiles so the
  * majority are instantiated in editmode
  * rather then on Start() when the game has started
- */ 
+ */
 #if UNITY_EDITOR
 [CustomEditor(typeof(FloorTile))]
 [CanEditMultipleObjects]
-public class FloorTileEditor : Editor{
+public class FloorTileEditor : Editor
+{
 
     private FloorTile floorTile;
-  
-    void OnSceneGUI(){
+
+    void OnSceneGUI()
+    {
         if (floorTile == null)
         {
             floorTile = target as FloorTile;
         }
         if (floorTile == null)
-        return;
+            return;
         EditorChangedActions();
     }
 
-    void EditorChangedActions(){
+    void EditorChangedActions()
+    {
         floorTile.CheckAmbientTile();
     }
 }

@@ -16,7 +16,7 @@ namespace Light2D.Examples
             if (Input.GetMouseButton(0) && RightClickRotation)
             {
                 var shift = Util.GetMousePosInUnits() - _pressPos;
-                if (shift.sqrMagnitude > 0.1f*0.1f)
+                if (shift.sqrMagnitude > 0.1f * 0.1f)
                 {
                     var angle = shift.AngleZ();
                     transform.rotation = Quaternion.Euler(0, 0, angle);
