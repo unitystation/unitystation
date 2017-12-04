@@ -8,8 +8,8 @@ namespace Tilemaps.Scripts.Utils
     {
         private MetaTileMap _metaTileMap;
         private bool _importMode;
-        
-        public TileMapBuilder(MetaTileMap tilemap, bool importMode=false)
+
+        public TileMapBuilder(MetaTileMap tilemap, bool importMode = false)
         {
             _metaTileMap = tilemap;
             _importMode = importMode;
@@ -24,11 +24,11 @@ namespace Tilemaps.Scripts.Utils
         {
             if (tile is LayerTile)
             {
-                PlaceLayerTile(position, (LayerTile) tile, matrixTransform);
+                PlaceLayerTile(position, (LayerTile)tile, matrixTransform);
             }
             else if (tile is MetaTile)
             {
-                PlaceMetaTile(position, (MetaTile) tile, matrixTransform);
+                PlaceMetaTile(position, (MetaTile)tile, matrixTransform);
             }
         }
 
@@ -46,7 +46,7 @@ namespace Tilemaps.Scripts.Utils
             {
                 _metaTileMap.RemoveTile(position, tile.LayerType);
             }
-            SetTile( position, tile, matrixTransform);
+            SetTile(position, tile, matrixTransform);
         }
 
         private void SetTile(Vector3Int position, LayerTile tile, Matrix4x4 matrixTransform)

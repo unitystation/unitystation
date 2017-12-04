@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace Light2D
 {
-    [CustomPropertyDrawer(typeof (Point2))]
+    [CustomPropertyDrawer(typeof(Point2))]
     internal class Point2Drawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

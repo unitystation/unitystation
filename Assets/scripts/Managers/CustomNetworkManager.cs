@@ -101,23 +101,23 @@ public class CustomNetworkManager : NetworkManager
 
     private void OnServerAddPlayerInternal(NetworkConnection conn, short playerControllerId)
     {
-        if ((UnityEngine.Object) playerPrefab == (UnityEngine.Object) null)
+        if ((UnityEngine.Object)playerPrefab == (UnityEngine.Object)null)
         {
             if (!LogFilter.logError)
                 return;
-            Debug.LogError((object) "The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.");
+            Debug.LogError((object)"The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.");
         }
-        else if ((UnityEngine.Object) playerPrefab.GetComponent<NetworkIdentity>() == (UnityEngine.Object) null)
+        else if ((UnityEngine.Object)playerPrefab.GetComponent<NetworkIdentity>() == (UnityEngine.Object)null)
         {
             if (!LogFilter.logError)
                 return;
-            Debug.LogError((object) "The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.");
+            Debug.LogError((object)"The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.");
         }
-        else if ((int) playerControllerId < conn.playerControllers.Count && conn.playerControllers[(int) playerControllerId].IsValid && (UnityEngine.Object) conn.playerControllers[(int) playerControllerId].gameObject != (UnityEngine.Object) null)
+        else if ((int)playerControllerId < conn.playerControllers.Count && conn.playerControllers[(int)playerControllerId].IsValid && (UnityEngine.Object)conn.playerControllers[(int)playerControllerId].gameObject != (UnityEngine.Object)null)
         {
             if (!LogFilter.logError)
                 return;
-            Debug.LogError((object) "There is already a player at that playerControllerId for this connections.");
+            Debug.LogError((object)"There is already a player at that playerControllerId for this connections.");
         }
         else
         {
@@ -125,15 +125,15 @@ public class CustomNetworkManager : NetworkManager
 
             var position = Vector3.zero;
             var rotation = Quaternion.identity;
-            
-            if ((UnityEngine.Object) startPosition != (UnityEngine.Object) null)
+
+            if ((UnityEngine.Object)startPosition != (UnityEngine.Object)null)
             {
                 position = startPosition.position;
                 rotation = startPosition.rotation;
             }
 
             var parent = startPosition?.GetComponentInParent<ObjectLayer>().transform;
-            
+
             var player = Instantiate(playerPrefab, position, rotation, parent);
             NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
         }

@@ -29,20 +29,20 @@ public class Sprite2PrefabChild_MenuItem
                 AssetDatabase.CreateFolder(adjFolderPath, folderName);
             }
 
-			GameObject parent = new GameObject ();
-			BoxCollider2D boxCollider = parent.AddComponent<BoxCollider2D>();
-			EditModeControl editModeControl = parent.AddComponent<EditModeControl> ();
-			RegisterObject registerObject = parent.AddComponent<RegisterObject> ();
+            GameObject parent = new GameObject();
+            BoxCollider2D boxCollider = parent.AddComponent<BoxCollider2D>();
+            EditModeControl editModeControl = parent.AddComponent<EditModeControl>();
+            RegisterObject registerObject = parent.AddComponent<RegisterObject>();
             GameObject spriteObject = new GameObject();
-			SpriteRenderer spriteRenderer = spriteObject.AddComponent<SpriteRenderer>();
-			Material spriteMaterial = Resources.Load("Sprite-PixelSnap", typeof(Material)) as Material;
+            SpriteRenderer spriteRenderer = spriteObject.AddComponent<SpriteRenderer>();
+            Material spriteMaterial = Resources.Load("Sprite-PixelSnap", typeof(Material)) as Material;
             for (int j = 0; j < sprites.Length; j++)
             {
                 EditorUtility.DisplayProgressBar((i + 1).ToString() + "/" + Selection.objects.Length + " Generating Prefabs", "Prefab: " + j, (float)j / (float)sprites.Length);
                 parent.name = sprites[j].name;
-				spriteObject.name = "Sprite";
+                spriteObject.name = "Sprite";
                 spriteRenderer.sprite = sprites[j];
-				spriteObject.GetComponent<SpriteRenderer>().material = spriteMaterial;
+                spriteObject.GetComponent<SpriteRenderer>().material = spriteMaterial;
 
 
 
@@ -56,11 +56,11 @@ public class Sprite2PrefabChild_MenuItem
                     }
 
                 }
-				spriteObject.transform.parent = parent.transform;
+                spriteObject.transform.parent = parent.transform;
                 PrefabUtility.CreatePrefab(savePath, parent);
             }
             GameObject.DestroyImmediate(parent);
-			GameObject.DestroyImmediate(spriteObject);
+            GameObject.DestroyImmediate(spriteObject);
         }
         EditorUtility.ClearProgressBar();
 

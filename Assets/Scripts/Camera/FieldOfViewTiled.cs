@@ -168,7 +168,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
         // Returns all shroud nodes in field of vision
         for (int i = nearbyShrouds.Count; i-- > 0;)
         {
-            var sA = new ShroudAction() {key = nearbyShrouds[i], enabled = true};
+            var sA = new ShroudAction() { key = nearbyShrouds[i], enabled = true };
             shroudStatusQueue.Enqueue(sA);
             // Light close behind and around
             if (Vector2.Distance(sourcePosCache, nearbyShrouds[i]) < InnatePreyVision)
@@ -192,14 +192,14 @@ public class FieldOfViewTiled : ThreadedBehaviour
             // and since we are standing next to the tile we should always be able to view it, lets always deactive the shroud
             if (Vector2.Distance(inFieldOFVision[i], sourcePosCache) < 2)
             {
-                var lA = new ShroudAction() {key = inFieldOFVision[i], enabled = false};
+                var lA = new ShroudAction() { key = inFieldOFVision[i], enabled = false };
                 shroudStatusQueue.Enqueue(lA);
                 continue;
             }
             // Everything else:
             // Perform a linecast to see if a wall is blocking vision of the target tile
-            Vector2 offsetPos = ShroudCornerOffset(Angle(((Vector2) sourcePosCache - inFieldOFVision[i]).normalized));
-            var rA = new ShroudAction() {isRayCastAction = true, endPos = inFieldOFVision[i] += offsetPos, offset = offsetPos};
+            Vector2 offsetPos = ShroudCornerOffset(Angle(((Vector2)sourcePosCache - inFieldOFVision[i]).normalized));
+            var rA = new ShroudAction() { isRayCastAction = true, endPos = inFieldOFVision[i] += offsetPos, offset = offsetPos };
             shroudStatusQueue.Enqueue(rA);
         }
 
@@ -242,7 +242,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
     {
         RaycastHit2D hit = Physics2D.Linecast(Camera2DFollow.followControl.target.position, endPos, _layerMask);
         // If it hits a wall we should enable the shroud
-//		Debug.DrawLine(GetPlayerSource().transform.position, endPos,Color.red);
+        //		Debug.DrawLine(GetPlayerSource().transform.position, endPos,Color.red);
         if (hit)
         {
             float dist = Vector2.Distance(hit.point, endPos);
@@ -302,8 +302,8 @@ public class FieldOfViewTiled : ThreadedBehaviour
         {
             for (int offsety = -MonitorRadius; offsety <= MonitorRadius; offsety++)
             {
-                int x = (int) sourcePosCache.x + offsetx;
-                int y = (int) sourcePosCache.y + offsety;
+                int x = (int)sourcePosCache.x + offsetx;
+                int y = (int)sourcePosCache.y + offsety;
 
                 if (!shroudTiles.ContainsKey(new Vector2(x, y)))
                     RegisterNewShroud(new Vector2(x, y), false);

@@ -7,8 +7,9 @@ using System.Text;
 using FullSerializer;
 using UnityEngine;
 [CreateAssetMenu(fileName = "DmObjectData")]
-public class DmObjectData : ScriptableObject {
-private static List<Dictionary<string, string>> objectList = new List<Dictionary<string, string>>();
+public class DmObjectData : ScriptableObject
+{
+    private static List<Dictionary<string, string>> objectList = new List<Dictionary<string, string>>();
 
     private void OnEnable()
     {
@@ -27,16 +28,17 @@ private static List<Dictionary<string, string>> objectList = new List<Dictionary
         // i.e. we have /obj/item/clothing/tie/armband/cargo
         var path = hierarchy.Split('/').ToList();
         var ancAttr = new Dictionary<string, string>();
-//        StringBuilder digLog = new StringBuilder();
-        
+        //        StringBuilder digLog = new StringBuilder();
+
         for (int i = path.Count; i-- > 2;)
         {
             var ancHier = String.Join("/", path.ToArray());
-//            digLog.AppendLine("scanning " + ancHier);
-            
+            //            digLog.AppendLine("scanning " + ancHier);
+
             var foundAttributes = lookupObject(ancHier);
-            if (foundAttributes.Count == 0 && !hierarchy.Equals(ancHier)) {
-//                Debug.Log(digLog.AppendLine("Stopped digging further than " + ancHier).ToString());
+            if (foundAttributes.Count == 0 && !hierarchy.Equals(ancHier))
+            {
+                //                Debug.Log(digLog.AppendLine("Stopped digging further than " + ancHier).ToString());
                 break;
             }
 
@@ -53,7 +55,7 @@ private static List<Dictionary<string, string>> objectList = new List<Dictionary
         return ancAttr;
     }
 
-    private Dictionary<string,string> lookupObject(string hierarchy)
+    private Dictionary<string, string> lookupObject(string hierarchy)
     {
         foreach (var obj in objectList)
         {
@@ -64,7 +66,7 @@ private static List<Dictionary<string, string>> objectList = new List<Dictionary
         }
         return new Dictionary<string, string>();
     }
-    
+
     public static void DeserializeJson()
     {
         var asset = Resources.Load(Path.Combine("metadata", "dm")) as TextAsset;
@@ -73,6 +75,7 @@ private static List<Dictionary<string, string>> objectList = new List<Dictionary
             var data = fsJsonParser.Parse(asset.text);
             var serializer = new fsSerializer();
             serializer.TryDeserialize(data, ref objectList).AssertSuccessWithoutWarnings();
-        } else throw new FileNotFoundException();
+        }
+        else throw new FileNotFoundException();
     }
 }

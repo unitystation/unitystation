@@ -7,7 +7,7 @@ namespace Tilemaps.Editor.Brushes.Utils
     public class PreviewTile : LayerTile
     {
         public GenericTile ReferenceTile;
-        
+
         public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
         {
             tileData.sprite = ReferenceTile.PreviewSprite;

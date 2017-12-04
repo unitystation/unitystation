@@ -14,7 +14,7 @@ namespace Doors
         public DoorType doorType;
         private RegisterDoor _registerTile;
         private Matrix _matrix;
-        
+
         public Access restriction;
         [Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor = false;
         [Tooltip("how many sprites in the main door animation")] public int doorAnimationSize;
@@ -75,11 +75,11 @@ namespace Doors
             var rmt = GetComponent<RestrictiveMoveTile>();
             if (rmt != null)
             {
-                var dooranim = (WinDoorAnimator) GetComponent<DoorAnimator>();
+                var dooranim = (WinDoorAnimator)GetComponent<DoorAnimator>();
                 if (dooranim != null)
                 {
                     rmt.setAll(false);
-                    switch ((int) dooranim.direction)
+                    switch ((int)dooranim.direction)
                     {
                         case 0:
                             rmt.setSouth(true);
@@ -107,10 +107,10 @@ namespace Doors
                 var rmt = GetComponent<RestrictiveMoveTile>();
                 if (rmt != null)
                 {
-                    var anim = (WinDoorAnimator) GetComponent<DoorAnimator>();
+                    var anim = (WinDoorAnimator)GetComponent<DoorAnimator>();
                     if (anim != null)
                     {
-                        switch ((int) anim.direction)
+                        switch ((int)anim.direction)
                         {
                             case 0:
                                 rmt.setSouth(true);

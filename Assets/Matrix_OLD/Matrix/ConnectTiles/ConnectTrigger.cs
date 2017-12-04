@@ -2,43 +2,52 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MatrixOld {
+namespace MatrixOld
+{
 
     [ExecuteInEditMode]
-    public class ConnectTrigger: MonoBehaviour {
+    public class ConnectTrigger : MonoBehaviour
+    {
 
         [HideInInspector]
         public int connectTypeIndex;
         private int currentConnectTypeIndex;
         public ConnectType ConnectType { get { return ConnectType.List[connectTypeIndex]; } }
-        
-        void Awake() {
+
+        void Awake()
+        {
             currentConnectTypeIndex = connectTypeIndex;
         }
 
-        void Start() { 
+        void Start()
+        {
             UpdateConnectType();
             UpdatePosition();
         }
 
-        void OnValidate() {
-            if(currentConnectTypeIndex != connectTypeIndex) {
+        void OnValidate()
+        {
+            if (currentConnectTypeIndex != connectTypeIndex)
+            {
                 currentConnectTypeIndex = connectTypeIndex;
                 UpdateConnectType();
             }
         }
 
-        public void UpdatePosition() {
+        public void UpdatePosition()
+        {
             int x = Mathf.RoundToInt(transform.position.x);
             int y = Mathf.RoundToInt(transform.position.y);
 
-            foreach(var c in GetComponentsInChildren<TileConnect>()) {
+            foreach (var c in GetComponentsInChildren<TileConnect>())
+            {
                 c.UpdatePosition(x, y);
             }
         }
 
-        private void UpdateConnectType() {
-//            GetComponent<RegisterTile>().UpdateTile();
+        private void UpdateConnectType()
+        {
+            //            GetComponent<RegisterTile>().UpdateTile();
         }
     }
 }

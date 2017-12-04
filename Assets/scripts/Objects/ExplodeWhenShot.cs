@@ -16,7 +16,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 
     const int MAX_TARGETS = 44;
 
-    readonly string[] explosions = {"Explosion1", "Explosion2"};
+    readonly string[] explosions = { "Explosion1", "Explosion2" };
     readonly Collider2D[] colliders = new Collider2D[MAX_TARGETS];
 
     int playerMask;
@@ -41,14 +41,14 @@ public class ExplodeWhenShot : NetworkBehaviour
         _matrix = Matrix.GetMatrix(this);
     }
 
-//#if !ENABLE_PLAYMODE_TESTS_RUNNER
-//	[Server]
-//	#endif
+    //#if !ENABLE_PLAYMODE_TESTS_RUNNER
+    //	[Server]
+    //	#endif
     public void ExplodeOnDamage(string damagedBy)
     {
         if (hasExploded)
             return;
-//        Debug.Log("Exploding on damage!");
+        //        Debug.Log("Exploding on damage!");
         if (isServer)
         {
             Explode(damagedBy); //fixme
@@ -59,10 +59,10 @@ public class ExplodeWhenShot : NetworkBehaviour
 
 #if !ENABLE_PLAYMODE_TESTS_RUNNER
 	[Server]
-	#endif
+#endif
     public void Explode(string thanksTo)
     {
-        var explosionPos = (Vector2) transform.position;
+        var explosionPos = (Vector2)transform.position;
         var length = Physics2D.OverlapCircleNonAlloc(explosionPos, radius, colliders, damageableMask);
         Dictionary<GameObject, int> toBeDamaged = new Dictionary<GameObject, int>();
         for (int i = 0; i < length; i++)
@@ -70,10 +70,10 @@ public class ExplodeWhenShot : NetworkBehaviour
             var localCollider = colliders[i];
             var localObject = localCollider.gameObject;
 
-            var localObjectPos = (Vector2) localObject.transform.position;
+            var localObjectPos = (Vector2)localObject.transform.position;
             var distance = Vector3.Distance(explosionPos, localObjectPos);
             var effect = 1 - ((distance * distance) / (radius * radius));
-            var actualDamage = (int) (damage * effect);
+            var actualDamage = (int)(damage * effect);
 
             if (NotSameObject(localCollider) &&
                 HasHealthComponent(localCollider) &&
@@ -141,7 +141,7 @@ public class ExplodeWhenShot : NetworkBehaviour
         try
         {
             _registerTile.Unregister();
-            
+
             var oA = gameObject.GetComponent<PushPull>();
             if (oA != null)
             {
@@ -199,8 +199,8 @@ public class ExplodeWhenShot : NetworkBehaviour
                 var checkPos = new Vector3Int(pos.x + i, pos.y - j, 0);
 
                 _matrix.IsPassableAt(checkPos);
-                
-                
+
+
                 if (_matrix.IsPassableAt(checkPos)) // || MatrixOld.Matrix.At(checkPos).IsPlayer())
                 {
                     EffectsFactory.Instance.SpawnFileTile(Random.Range(0.4f, 1f), checkPos);

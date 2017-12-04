@@ -133,8 +133,8 @@ namespace Light2D.Examples
                     unchecked
                     {
                         int hashCode = (obj.Material != null ? obj.Material.GetHashCode() : 0);
-                        hashCode = (hashCode*397) ^ obj.SortingOrder;
-                        hashCode = (hashCode*397) ^ obj.Layer;
+                        hashCode = (hashCode * 397) ^ obj.SortingOrder;
+                        hashCode = (hashCode * 397) ^ obj.Layer;
                         return hashCode;
                     }
                 }
@@ -150,7 +150,7 @@ namespace Light2D.Examples
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
-                return obj is GroupKey && Equals((GroupKey) obj);
+                return obj is GroupKey && Equals((GroupKey)obj);
             }
 
             public override int GetHashCode()
@@ -158,8 +158,8 @@ namespace Light2D.Examples
                 unchecked
                 {
                     int hashCode = (Material != null ? Material.GetHashCode() : 0);
-                    hashCode = (hashCode*397) ^ SortingOrder;
-                    hashCode = (hashCode*397) ^ Layer;
+                    hashCode = (hashCode * 397) ^ SortingOrder;
+                    hashCode = (hashCode * 397) ^ Layer;
                     return hashCode;
                 }
             }

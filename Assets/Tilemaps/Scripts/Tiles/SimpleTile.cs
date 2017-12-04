@@ -2,7 +2,7 @@
 
 namespace Tilemaps.Scripts.Tiles
 {
-    public class SimpleTile: BasicTile
+    public class SimpleTile : BasicTile
     {
         public Sprite sprite;
 

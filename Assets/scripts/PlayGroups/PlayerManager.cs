@@ -7,14 +7,14 @@ using UI;
 //Handles control and spawn of player prefab
 namespace PlayGroup
 {
-    public class PlayerManager: MonoBehaviour
+    public class PlayerManager : MonoBehaviour
     {
         public static GameObject LocalPlayer { get; private set; }
 
-		public static Equipment.Equipment Equipment { get; private set; }
+        public static Equipment.Equipment Equipment { get; private set; }
 
         public static PlayerScript LocalPlayerScript { get; private set; }
-        
+
         //For access via other parts of the game
         public static PlayerScript PlayerScript { get; private set; }
 
@@ -38,18 +38,21 @@ namespace PlayGroup
             }
         }
 
-        void OnEnable(){
+        void OnEnable()
+        {
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
         }
 
-        void OnDisable(){
+        void OnDisable()
+        {
             SceneManager.sceneLoaded -= OnLevelFinishedLoading;
         }
 
-        void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
+        void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+        {
             Reset();
         }
-           
+
         public static void Reset()
         {
             HasSpawned = false;
@@ -59,11 +62,11 @@ namespace PlayGroup
         {
             LocalPlayer = playerObjToControl;
             LocalPlayerScript = playerObjToControl.GetComponent<PlayerScript>();
-	
+
             PlayerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
             Camera2DFollow.followControl.target = LocalPlayer.transform;
 
-			HasSpawned = true;
+            HasSpawned = true;
         }
 
         public static bool PlayerInReach(Transform transform)

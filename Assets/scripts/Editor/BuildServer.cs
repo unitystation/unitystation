@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class BuildServer {
-    static void PerformBuild() {
+public class BuildServer
+{
+    static void PerformBuild()
+    {
         var buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = new[] { "Assets/scenes/Lobby.unity", "Assets/scenes/Deathmatch.unity" };
         buildPlayerOptions.locationPathName = "Builds/server/server";

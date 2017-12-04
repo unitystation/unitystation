@@ -2,22 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Crafting {
-    
+namespace Crafting
+{
+
     [System.Serializable]
-    public class CraftingDatabase {
+    public class CraftingDatabase
+    {
         public Recipe[] recipeList;
 
-        public GameObject FindRecipe(List<Ingredient> ingredients) {
-            foreach(var recipe in recipeList) {
-                if(recipe.Check(ingredients)) {
+        public GameObject FindRecipe(List<Ingredient> ingredients)
+        {
+            foreach (var recipe in recipeList)
+            {
+                if (recipe.Check(ingredients))
+                {
                     return recipe.output;
                 }
             }
             return null;
         }
 
-        public GameObject FindOutputMeal(string mealName){
+        public GameObject FindOutputMeal(string mealName)
+        {
             foreach (var recipe in recipeList)
             {
                 if (recipe.output.name == mealName)

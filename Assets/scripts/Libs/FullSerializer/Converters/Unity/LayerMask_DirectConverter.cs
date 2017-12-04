@@ -3,15 +3,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FullSerializer {
-    partial class fsConverterRegistrar {
+namespace FullSerializer
+{
+    partial class fsConverterRegistrar
+    {
         public static Internal.DirectConverters.LayerMask_DirectConverter Register_LayerMask_DirectConverter;
     }
 }
 
-namespace FullSerializer.Internal.DirectConverters {
-    public class LayerMask_DirectConverter : fsDirectConverter<LayerMask> {
-        protected override fsResult DoSerialize(LayerMask model, Dictionary<string, fsData> serialized) {
+namespace FullSerializer.Internal.DirectConverters
+{
+    public class LayerMask_DirectConverter : fsDirectConverter<LayerMask>
+    {
+        protected override fsResult DoSerialize(LayerMask model, Dictionary<string, fsData> serialized)
+        {
             var result = fsResult.Success;
 
             result += SerializeMember(serialized, null, "value", model.value);
@@ -19,7 +24,8 @@ namespace FullSerializer.Internal.DirectConverters {
             return result;
         }
 
-        protected override fsResult DoDeserialize(Dictionary<string, fsData> data, ref LayerMask model) {
+        protected override fsResult DoDeserialize(Dictionary<string, fsData> data, ref LayerMask model)
+        {
             var result = fsResult.Success;
 
             var t0 = model.value;
@@ -29,7 +35,8 @@ namespace FullSerializer.Internal.DirectConverters {
             return result;
         }
 
-        public override object CreateInstance(fsData data, Type storageType) {
+        public override object CreateInstance(fsData data, Type storageType)
+        {
             return new LayerMask();
         }
     }

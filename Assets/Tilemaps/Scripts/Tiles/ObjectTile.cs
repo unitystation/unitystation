@@ -14,7 +14,7 @@ namespace Tilemaps.Scripts.Tiles
         public bool Rotatable;
         public bool KeepOrientation;
         public bool Offset;
-		public bool IsItem;
+        public bool IsItem;
 
         private GameObject _objectCurrent;
 
@@ -42,10 +42,10 @@ namespace Tilemaps.Scripts.Tiles
 
             _objectCurrent = Object;
 
-			if (_objectCurrent != null && _objectCurrent.GetComponentInChildren<RegisterItem>() != null)
-			{
-				IsItem = true;
-			}
+            if (_objectCurrent != null && _objectCurrent.GetComponentInChildren<RegisterItem>() != null)
+            {
+                IsItem = true;
+            }
 
 
 
@@ -56,7 +56,7 @@ namespace Tilemaps.Scripts.Tiles
             if (!Object)
                 return;
 
-            var go = (GameObject) PrefabUtility.InstantiatePrefab(Object);
+            var go = (GameObject)PrefabUtility.InstantiatePrefab(Object);
 
             go.SetActive(false);
             go.transform.parent = tilemap.transform;
@@ -73,18 +73,21 @@ namespace Tilemaps.Scripts.Tiles
 
             go.name = Object.name;
 
-			if (IsItem == true) {
+            if (IsItem == true)
+            {
 
-			} else {
-				var registerObject = go.GetComponent<RegisterObject> () ?? go.AddComponent<RegisterObject> ();
-				registerObject.Offset = Vector3Int.RoundToInt(-objectOffset);
-			}
-            
+            }
+            else
+            {
+                var registerObject = go.GetComponent<RegisterObject>() ?? go.AddComponent<RegisterObject>();
+                registerObject.Offset = Vector3Int.RoundToInt(-objectOffset);
+            }
+
 
             go.SetActive(true);
         }
 
-        public override Matrix4x4 Rotate(Matrix4x4 transformMatrix, bool anticlockwise=true, int count=1)
+        public override Matrix4x4 Rotate(Matrix4x4 transformMatrix, bool anticlockwise = true, int count = 1)
         {
             if (Rotatable)
             {

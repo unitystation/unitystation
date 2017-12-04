@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Temp_ClothPoolTester : MonoBehaviour {
+public class Temp_ClothPoolTester : MonoBehaviour
+{
 
-	public void SpawnCloth(){
-		ClothFactory.CreateCloth("", transform.position);
-	}
+    public void SpawnCloth()
+    {
+        ClothFactory.CreateCloth("", transform.position);
+    }
 }

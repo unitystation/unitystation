@@ -15,7 +15,7 @@ namespace Tilemaps.Scripts.Utils
     public static class PreviewSpriteBuilder
     {
         private const string previewPath = "Assets/Textures/TilePreviews";
-        
+
         public static Sprite LoadSprite(Object obj)
         {
             return AssetDatabase.LoadAssetAtPath<Sprite>(GetSpritePath(obj));
@@ -25,7 +25,7 @@ namespace Tilemaps.Scripts.Utils
         {
             AssetDatabase.DeleteAsset(GetSpritePath(obj));
         }
-        
+
         public static Sprite Create(GameObject gameObject)
         {
             if (gameObject == null)
@@ -42,14 +42,14 @@ namespace Tilemaps.Scripts.Utils
         {
             if (metaTile == null)
                 return null;
-            
+
             List<Sprite> sprites = new List<Sprite>();
 
             foreach (var tile in metaTile.GetTiles())
             {
                 sprites.Add(tile.PreviewSprite);
             }
-            
+
             var sprite = MergeSprites(sprites);
 
             return SaveSpriteToEditorPath(sprite, metaTile);
@@ -83,7 +83,7 @@ namespace Tilemaps.Scripts.Utils
             foreach (var s in sprites)
             {
                 var rect = s.rect;
-                var pixels = s.texture.GetPixels((int) rect.x, (int) rect.y, (int) rect.width, (int) rect.height);
+                var pixels = s.texture.GetPixels((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
 
                 for (int i = 0; i < pixels.Length; i++)
                 {
@@ -97,7 +97,7 @@ namespace Tilemaps.Scripts.Utils
             }
 
             var old = sprites[0];
-            var texture = new Texture2D((int) old.rect.width, (int) old.rect.height, old.texture.format, false);
+            var texture = new Texture2D((int)old.rect.width, (int)old.rect.height, old.texture.format, false);
 
             texture.SetPixels(colors);
             texture.Apply();
@@ -108,7 +108,7 @@ namespace Tilemaps.Scripts.Utils
         private static Sprite SaveSpriteToEditorPath(Sprite sprite, Object obj)
         {
             var path = GetSpritePath(obj);
-            
+
             var dir = Path.GetDirectoryName(path);
 
             if (dir == null)
@@ -143,7 +143,7 @@ namespace Tilemaps.Scripts.Utils
             return AssetDatabase.LoadAssetAtPath<Sprite>(path);
         }
 
-        
+
         private static string GetSpritePath(Object obj)
         {
             var assetPath = AssetDatabase.GetAssetPath(obj);
@@ -154,7 +154,7 @@ namespace Tilemaps.Scripts.Utils
                 assetPath = assetPath.Replace("Assets", previewPath);
                 assetPath = Regex.Replace(assetPath, "resources", "res", RegexOptions.IgnoreCase);
             }
-            
+
             return assetPath;
         }
     }

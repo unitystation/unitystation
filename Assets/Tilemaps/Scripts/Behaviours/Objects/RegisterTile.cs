@@ -3,88 +3,89 @@ using UnityEngine;
 
 namespace Tilemaps.Scripts.Behaviours.Objects
 {
-	public enum ObjectType {
-		Item,
-		Object,
-		Player
-	}
-	
-	[ExecuteInEditMode]
-	public abstract class RegisterTile : MonoBehaviour
-	{
-		public bool IsRegistered { get; private set; }
+    public enum ObjectType
+    {
+        Item,
+        Object,
+        Player
+    }
 
-		public ObjectType ObjectType;
+    [ExecuteInEditMode]
+    public abstract class RegisterTile : MonoBehaviour
+    {
+        public bool IsRegistered { get; private set; }
 
-		private ObjectLayer layer;
-		
-		private Vector3Int _position;
+        public ObjectType ObjectType;
 
-		public Vector3Int Position
-		{
-			get { return _position; }
-			private set
-			{
-				layer?.Objects.Remove(_position, this);
-				layer?.Objects.Add(value, this);
-				_position = value;
-			}
-		}
+        private ObjectLayer layer;
 
-		public void Start()
-		{			
-			layer = transform.GetComponentInParent<ObjectLayer>();
+        private Vector3Int _position;
 
-			Register();
-		}
+        public Vector3Int Position
+        {
+            get { return _position; }
+            private set
+            {
+                layer?.Objects.Remove(_position, this);
+                layer?.Objects.Add(value, this);
+                _position = value;
+            }
+        }
 
-		private void OnEnable()
-		{
-			// In case of recompilation and Start doesn't get called
-			layer?.Objects.Add(Position, this);
-			IsRegistered = true;
-		}
+        public void Start()
+        {
+            layer = transform.GetComponentInParent<ObjectLayer>();
 
-		private void OnDisable()
-		{
-			Unregister();
-		}
+            Register();
+        }
 
-		public void OnDestroy()
-		{
-			layer?.Objects.Remove(Position, this);
-		}
+        private void OnEnable()
+        {
+            // In case of recompilation and Start doesn't get called
+            layer?.Objects.Add(Position, this);
+            IsRegistered = true;
+        }
 
-		public void UpdatePosition()
-		{
-			Position = Vector3Int.FloorToInt(transform.localPosition);
-		}
-		
-		public void Register()
-		{
-			UpdatePosition();
-			IsRegistered = true;
-		}
-        
-		public void Unregister()
-		{
-			layer?.Objects.Remove(Position, this);
-			IsRegistered = false;
-		}
+        private void OnDisable()
+        {
+            Unregister();
+        }
 
-		public virtual bool IsPassable()
-		{
-			return true;
-		}
+        public void OnDestroy()
+        {
+            layer?.Objects.Remove(Position, this);
+        }
 
-		public virtual bool IsPassable(Vector3Int to)
-		{
-			return true;
-		}
+        public void UpdatePosition()
+        {
+            Position = Vector3Int.FloorToInt(transform.localPosition);
+        }
 
-		public virtual bool IsAtmosPassable()
-		{
-			return true;
-		}
-	}
+        public void Register()
+        {
+            UpdatePosition();
+            IsRegistered = true;
+        }
+
+        public void Unregister()
+        {
+            layer?.Objects.Remove(Position, this);
+            IsRegistered = false;
+        }
+
+        public virtual bool IsPassable()
+        {
+            return true;
+        }
+
+        public virtual bool IsPassable(Vector3Int to)
+        {
+            return true;
+        }
+
+        public virtual bool IsAtmosPassable()
+        {
+            return true;
+        }
+    }
 }

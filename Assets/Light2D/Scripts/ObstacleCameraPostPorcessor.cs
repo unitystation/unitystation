@@ -47,7 +47,7 @@ namespace Light2D
         /// </summary>
         private void CreateMesh(Camera camera, float pixelWidth)
         {
-            var pixelSize = new Vector2(1f/camera.pixelWidth, 1f/camera.pixelHeight)*pixelWidth;
+            var pixelSize = new Vector2(1f / camera.pixelWidth, 1f / camera.pixelHeight) * pixelWidth;
 
             _vertices.Clear();
             _colors32.Clear();
@@ -70,8 +70,8 @@ namespace Light2D
 
         private void CreateQuad(Color32 color, Vector2 min, Vector2 max)
         {
-            min = min*2 - Vector2.one;
-            max = max*2 - Vector2.one;
+            min = min * 2 - Vector2.one;
+            max = max * 2 - Vector2.one;
 
             int startVertex = _vertices.Count;
 

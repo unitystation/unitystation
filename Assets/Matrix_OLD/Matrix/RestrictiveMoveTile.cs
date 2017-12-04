@@ -10,101 +10,110 @@ using MatrixOld;
 /// or climbing into a window.
 /// </summary>
 [ExecuteInEditMode]
-public class RestrictiveMoveTile : NetworkBehaviour {
-	// TODO is this needed for new tilemap system?
-	private RestrictedMoveStruct restrictMoveStruct = new RestrictedMoveStruct();
-	public RestrictedMoveStruct GetRestrictedData{ get { return restrictMoveStruct; }}
+public class RestrictiveMoveTile : NetworkBehaviour
+{
+    // TODO is this needed for new tilemap system?
+    private RestrictedMoveStruct restrictMoveStruct = new RestrictedMoveStruct();
+    public RestrictedMoveStruct GetRestrictedData { get { return restrictMoveStruct; } }
 
-	//As stated by unity team, it is preferable to sync individual
-	//values instead of syncing a whole struct.
-	[SyncVar(hook = "UpdateNorth")]
-	public bool restrictNorth;
-	[SyncVar(hook = "UpdateSouth")]
-	public bool restrictSouth;
-	[SyncVar(hook = "UpdateEast")]
-	public bool restrictEast;
-	[SyncVar(hook = "UpdateWest")]
-	public bool restrictWest;
+    //As stated by unity team, it is preferable to sync individual
+    //values instead of syncing a whole struct.
+    [SyncVar(hook = "UpdateNorth")]
+    public bool restrictNorth;
+    [SyncVar(hook = "UpdateSouth")]
+    public bool restrictSouth;
+    [SyncVar(hook = "UpdateEast")]
+    public bool restrictEast;
+    [SyncVar(hook = "UpdateWest")]
+    public bool restrictWest;
 
-//	private RegisterTile registerTile;
+    //	private RegisterTile registerTile;
 
-	private void Start()
-	{
-		restrictMoveStruct.north = restrictNorth;
-		restrictMoveStruct.south = restrictSouth;
-		restrictMoveStruct.east = restrictEast;
-		restrictMoveStruct.west = restrictWest;
-	}
+    private void Start()
+    {
+        restrictMoveStruct.north = restrictNorth;
+        restrictMoveStruct.south = restrictSouth;
+        restrictMoveStruct.east = restrictEast;
+        restrictMoveStruct.west = restrictWest;
+    }
 
-	public override void OnStartClient(){
-//		registerTile = GetComponent<RegisterTile>();
-		StartCoroutine(WaitForLoad());
-		base.OnStartClient();
-	}
+    public override void OnStartClient()
+    {
+        //		registerTile = GetComponent<RegisterTile>();
+        StartCoroutine(WaitForLoad());
+        base.OnStartClient();
+    }
 
-	IEnumerator WaitForLoad(){
-		yield return new WaitForSeconds(2f);
-		UpdateNorth(restrictNorth);
-		UpdateSouth(restrictSouth);
-		UpdateEast(restrictEast);
-		UpdateWest(restrictWest);
-	}
+    IEnumerator WaitForLoad()
+    {
+        yield return new WaitForSeconds(2f);
+        UpdateNorth(restrictNorth);
+        UpdateSouth(restrictSouth);
+        UpdateEast(restrictEast);
+        UpdateWest(restrictWest);
+    }
 
-    
 
 
-	private void UpdateNorth(bool val){
-		restrictNorth = val;
-		restrictMoveStruct.north = restrictNorth;
-//		registerTile.UpdateTile();
-	}
 
-	private void UpdateSouth(bool val)
-	{
-		restrictSouth = val;
-		restrictMoveStruct.south = restrictSouth;
-//		registerTile.UpdateTile();
-	}
+    private void UpdateNorth(bool val)
+    {
+        restrictNorth = val;
+        restrictMoveStruct.north = restrictNorth;
+        //		registerTile.UpdateTile();
+    }
 
-	private void UpdateEast(bool val)
-	{
-		restrictEast = val;
-		restrictMoveStruct.east = restrictEast;
-//		registerTile.UpdateTile();
-	}
+    private void UpdateSouth(bool val)
+    {
+        restrictSouth = val;
+        restrictMoveStruct.south = restrictSouth;
+        //		registerTile.UpdateTile();
+    }
 
-	private void UpdateWest(bool val)
-	{
-		restrictWest = val;
-		restrictMoveStruct.west = restrictWest;
-//		registerTile.UpdateTile();
-	}
+    private void UpdateEast(bool val)
+    {
+        restrictEast = val;
+        restrictMoveStruct.east = restrictEast;
+        //		registerTile.UpdateTile();
+    }
+
+    private void UpdateWest(bool val)
+    {
+        restrictWest = val;
+        restrictMoveStruct.west = restrictWest;
+        //		registerTile.UpdateTile();
+    }
 
 
 
     //setters
-    public void setNorth(bool val) {
+    public void setNorth(bool val)
+    {
         restrictNorth = val;
         restrictMoveStruct.north = restrictNorth;
-//        registerTile.UpdateTile();
+        //        registerTile.UpdateTile();
     }
-    public void setSouth(bool val) {
+    public void setSouth(bool val)
+    {
         restrictSouth = val;
         restrictMoveStruct.south = restrictSouth;
-//        registerTile.UpdateTile();
+        //        registerTile.UpdateTile();
     }
-    public void setEast(bool val) {
+    public void setEast(bool val)
+    {
         restrictEast = val;
         restrictMoveStruct.east = restrictEast;
-//        registerTile.UpdateTile();
+        //        registerTile.UpdateTile();
     }
-    public void setWest(bool val) {
+    public void setWest(bool val)
+    {
         restrictWest = val;
         restrictMoveStruct.west = restrictWest;
-//        registerTile.UpdateTile();
+        //        registerTile.UpdateTile();
     }
 
-    public void setAll(bool val){
+    public void setAll(bool val)
+    {
         //north
         restrictNorth = val;
         restrictMoveStruct.north = restrictNorth;
@@ -117,6 +126,6 @@ public class RestrictiveMoveTile : NetworkBehaviour {
         //west
         restrictWest = val;
         restrictMoveStruct.west = restrictWest;
-//        registerTile.UpdateTile();
+        //        registerTile.UpdateTile();
     }
 }

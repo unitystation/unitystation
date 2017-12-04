@@ -7,7 +7,7 @@ namespace Tilemaps.Editor.Utils
 {
     public static class TileBuilder
     {
-        public static void CreateTile<T>(LayerType layer, string tileName, string path=null) where T : LayerTile
+        public static void CreateTile<T>(LayerType layer, string tileName, string path = null) where T : LayerTile
         {
             CreateAsset(CreateTile<T>(layer), tileName, path);
         }
@@ -19,7 +19,7 @@ namespace Tilemaps.Editor.Utils
             return tile;
         }
 
-        public static void CreateAsset(Object asset, string tileName, string path=null)
+        public static void CreateAsset(Object asset, string tileName, string path = null)
         {
             var assetPath = Path.Combine(path ?? GetPath(), tileName + ".asset");
 
@@ -30,7 +30,7 @@ namespace Tilemaps.Editor.Utils
             }
 
             var folder = Path.GetDirectoryName(assetPath);
-            
+
             if (folder != null)
             {
                 Directory.CreateDirectory(folder);

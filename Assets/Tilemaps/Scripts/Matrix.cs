@@ -18,36 +18,36 @@ namespace Tilemaps.Scripts
         Item,
         Player
     }
-    
+
     public class Matrix : MonoBehaviour
     {
         public static Matrix GetMatrix(MonoBehaviour behaviour)
         {
             return behaviour.GetComponentInParent<Matrix>();
         }
-        
+
         private MetaTileMap _metaTileMap;
         private TileList _objects;
 
         private void Start()
         {
             _metaTileMap = GetComponent<MetaTileMap>();
-            _objects = ((ObjectLayer) _metaTileMap.Layers[LayerType.Objects]).Objects;
+            _objects = ((ObjectLayer)_metaTileMap.Layers[LayerType.Objects]).Objects;
         }
-        
+
         public bool IsPassableAt(Vector3Int origin, Vector3Int position) => _metaTileMap.IsPassableAt(origin, position);
 
         public bool IsPassableAt(Vector3Int position) => _metaTileMap.IsPassableAt(position);
-        
+
         public bool IsAtmosPassableAt(Vector3Int position) => _metaTileMap.IsAtmosPassableAt(position);
 
         public bool IsSpaceAt(Vector3Int position) => _metaTileMap.IsSpaceAt(position);
-        
+
         public IEnumerable<T> Get<T>(Vector3Int position) where T : MonoBehaviour
         {
             return _objects.Get(position).Select(x => x.GetComponent<T>()).Where(x => x != null);
         }
-        
+
         public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
         {
             return _objects.GetFirst(position)?.GetComponent<T>();

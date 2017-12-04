@@ -14,9 +14,9 @@ namespace PlayGroup
     }
 
     [RequireComponent(typeof(SpriteRenderer))]
-	public class ClothingItem: MonoBehaviour
+    public class ClothingItem : MonoBehaviour
     {
-		//choice between left or right or other(clothing)
+        //choice between left or right or other(clothing)
         public SpriteType spriteType;
 
         public string spriteSheetName;
@@ -28,7 +28,7 @@ namespace PlayGroup
             set
             {
                 reference = value;
-				SetSprite();
+                SetSprite();
             }
             get
             {
@@ -64,50 +64,53 @@ namespace PlayGroup
         {
             Reference = -1;
         }
-          
-		void SetSprite(){
 
-			if (reference == -1) {
-				UpdateSprite();
-				return;
-			}
+        void SetSprite()
+        {
 
-			if (spriteType == SpriteType.Other)
-			{
-				reference = Reference;
-			}
-			else
-			{
-				string networkRef = Reference.ToString();
-				int code = (int)Char.GetNumericValue(networkRef[0]);
-				networkRef = networkRef.Remove(0, 1);
-				int _reference = int.Parse(networkRef);
-				switch (code) {
-					case 1:
-						spriteSheetName = "items_";
-						break;
-					case 2:
-						spriteSheetName = "clothing_";
-						break;
-					case 3:
-						spriteSheetName = "guns_";
-						break;
-				}
-				if (spriteType == SpriteType.RightHand)
-				{
-					spriteSheetName = spriteSheetName + "righthand";
-					reference = _reference;
-				}
-				else
-				{
-					spriteSheetName = spriteSheetName + "lefthand";
-					reference = _reference;
-				}
-			}
+            if (reference == -1)
+            {
+                UpdateSprite();
+                return;
+            }
 
-			sprites = SpriteManager.PlayerSprites[spriteSheetName];
-			UpdateSprite();
-		}
+            if (spriteType == SpriteType.Other)
+            {
+                reference = Reference;
+            }
+            else
+            {
+                string networkRef = Reference.ToString();
+                int code = (int)Char.GetNumericValue(networkRef[0]);
+                networkRef = networkRef.Remove(0, 1);
+                int _reference = int.Parse(networkRef);
+                switch (code)
+                {
+                    case 1:
+                        spriteSheetName = "items_";
+                        break;
+                    case 2:
+                        spriteSheetName = "clothing_";
+                        break;
+                    case 3:
+                        spriteSheetName = "guns_";
+                        break;
+                }
+                if (spriteType == SpriteType.RightHand)
+                {
+                    spriteSheetName = spriteSheetName + "righthand";
+                    reference = _reference;
+                }
+                else
+                {
+                    spriteSheetName = spriteSheetName + "lefthand";
+                    reference = _reference;
+                }
+            }
+
+            sprites = SpriteManager.PlayerSprites[spriteSheetName];
+            UpdateSprite();
+        }
 
         private void UpdateReferenceOffset()
         {
@@ -125,15 +128,19 @@ namespace PlayGroup
         }
 
         private void UpdateSprite()
-		{
-			if (spriteRenderer != null) {
-				if (reference >= 0) { //If reference -1 then clear the sprite
-					if (sprites != null)
-						spriteRenderer.sprite = sprites[reference + referenceOffset];
-				} else {
-					spriteRenderer.sprite = null;
-				}
-			} 
-		}
+        {
+            if (spriteRenderer != null)
+            {
+                if (reference >= 0)
+                { //If reference -1 then clear the sprite
+                    if (sprites != null)
+                        spriteRenderer.sprite = sprites[reference + referenceOffset];
+                }
+                else
+                {
+                    spriteRenderer.sprite = null;
+                }
+            }
+        }
     }
 }

@@ -20,10 +20,10 @@ namespace Tilemaps.Scripts.Tiles
         ToSameCategory,
         ToSelf
     }
-    
+
     public class ConnectedTile : BasicTile
     {
-        
+
         public Texture2D spriteSheet;
         public string texturePath;
 
@@ -98,7 +98,7 @@ namespace Tilemaps.Scripts.Tiles
                 tileData.colliderType = Tile.ColliderType.None;
             }
         }
-        
+
         private bool HasSameTile(Vector3Int position, ITilemap tilemap)
         {
             var tile = tilemap.GetTile(position);

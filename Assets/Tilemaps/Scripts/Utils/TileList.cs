@@ -9,7 +9,7 @@ namespace Tilemaps.Scripts.Utils
     public class TileList
     {
         private Dictionary<Vector3Int, List<RegisterTile>> _objects = new Dictionary<Vector3Int, List<RegisterTile>>();
-        
+
         public List<RegisterTile> AllObjects => _objects.Values.SelectMany(x => x).ToList();
 
         public void Add(Vector3Int position, RegisterTile obj)
@@ -29,7 +29,7 @@ namespace Tilemaps.Scripts.Utils
         {
             return _objects.ContainsKey(position) ? _objects[position] : new List<RegisterTile>();
         }
-        
+
         public List<RegisterTile> Get(Vector3Int position, ObjectType type)
         {
             return Get(position).Where(x => x.ObjectType == type).ToList();
@@ -39,10 +39,10 @@ namespace Tilemaps.Scripts.Utils
         {
             return Get(position).OfType<T>().ToList();
         }
-        
+
         public RegisterTile GetFirst(Vector3Int position)
         {
-            return  Get(position).FirstOrDefault();
+            return Get(position).FirstOrDefault();
         }
 
         public T GetFirst<T>(Vector3Int position) where T : RegisterTile

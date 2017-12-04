@@ -3,17 +3,21 @@ using UnityEngine;
 using UnityEditor;
 using MatrixOld;
 
-public class MatrixCheck: EditorWindow {
+public class MatrixCheck : EditorWindow
+{
     [MenuItem("Window/Matrix Check")]
-    public static void ShowWindow() {
+    public static void ShowWindow()
+    {
         GetWindow<MatrixCheck>("Matrix Check");
     }
 
-    public void OnEnable() {
+    public void OnEnable()
+    {
         SceneView.onSceneGUIDelegate += OnSceneGUI;
     }
 
-    public void OnDisable() {
+    public void OnDisable()
+    {
         drawGizmos = false;
         TileTypeDrawer.DrawGizmos = false;
         TilePropertyDrawer.DrawGizmos = false;
@@ -25,10 +29,12 @@ public class MatrixCheck: EditorWindow {
     private bool drawGizmos;
     private int checkTypeIndex;
 
-    void OnGUI() {
+    void OnGUI()
+    {
         var tempDrawGizmos = GUILayout.Toggle(drawGizmos, "Draw Gizmos");
 
-        if(tempDrawGizmos != drawGizmos) {
+        if (tempDrawGizmos != drawGizmos)
+        {
             drawGizmos = tempDrawGizmos;
             TileTypeDrawer.DrawGizmos = drawGizmos;
             TilePropertyDrawer.DrawGizmos = drawGizmos;
@@ -37,9 +43,11 @@ public class MatrixCheck: EditorWindow {
 
         checkTypeIndex = GUILayout.Toolbar(checkTypeIndex, new string[] { "Tile Types", "Tile Property" });
 
-        if(checkTypeIndex == 0) {
-            foreach(var tiletype in TileType.List) {
-                if(tiletype == TileType.None) continue;
+        if (checkTypeIndex == 0)
+        {
+            foreach (var tiletype in TileType.List)
+            {
+                if (tiletype == TileType.None) continue;
 
                 GUILayout.BeginHorizontal();
 
@@ -50,23 +58,30 @@ public class MatrixCheck: EditorWindow {
                 GUILayout.EndHorizontal();
             }
             GUILayout.Label("1st column: base, 2nd column: condition");
-        } else if(checkTypeIndex == 1) {
-            foreach(var property in TilePropertyDrawer.Properties) {
+        }
+        else if (checkTypeIndex == 1)
+        {
+            foreach (var property in TilePropertyDrawer.Properties)
+            {
                 GUILayout.BeginHorizontal();
                 bool isSelected = property == TilePropertyDrawer.Selected;
                 bool selected = EditorGUILayout.Toggle(isSelected, GUILayout.MaxWidth(15));
 
-                if(selected && !isSelected) {
+                if (selected && !isSelected)
+                {
                     TilePropertyDrawer.Selected = property;
                     currentSceneView.Repaint();
-                } else if(!selected && isSelected) {
+                }
+                else if (!selected && isSelected)
+                {
                     TilePropertyDrawer.Selected = null;
                     currentSceneView.Repaint();
                 }
 
                 GUILayout.Label(property.Name);
                 var negate = EditorGUILayout.Toggle(property.Negate, GUILayout.MaxWidth(15));
-                if(negate != property.Negate) {
+                if (negate != property.Negate)
+                {
                     property.Negate = negate;
                     currentSceneView.Repaint();
 
@@ -77,23 +92,28 @@ public class MatrixCheck: EditorWindow {
         }
     }
 
-    private void OnGUISelection(List<TileType> tileTypeList, TileType tileType) {
+    private void OnGUISelection(List<TileType> tileTypeList, TileType tileType)
+    {
 
         var isSelected = tileTypeList.Contains(tileType);
 
         var selected = EditorGUILayout.Toggle(isSelected, GUILayout.MaxWidth(15));
 
-        if(selected && !isSelected) {
+        if (selected && !isSelected)
+        {
             tileTypeList.Add(tileType);
             currentSceneView.Repaint();
-        } else if(!selected && isSelected) {
+        }
+        else if (!selected && isSelected)
+        {
             tileTypeList.Remove(tileType);
             currentSceneView.Repaint();
         }
 
     }
 
-    void OnSceneGUI(SceneView sceneView) {
+    void OnSceneGUI(SceneView sceneView)
+    {
         currentSceneView = sceneView;
     }
 }

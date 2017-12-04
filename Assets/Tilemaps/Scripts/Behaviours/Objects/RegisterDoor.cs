@@ -17,10 +17,10 @@ namespace Tilemaps.Scripts.Behaviours.Objects
             if (OneDirectionRestricted)
             {
                 var v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
-                
-                return !(to-Position).Equals(v);
+
+                return !(to - Position).Equals(v);
             }
-            
+
             return true;
         }
 

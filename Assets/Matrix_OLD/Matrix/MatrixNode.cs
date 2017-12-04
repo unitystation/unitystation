@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using Doors;
 
-namespace MatrixOld {
+namespace MatrixOld
+{
 
     [Serializable]
-    public class MatrixNode {
+    public class MatrixNode
+    {
         private int tileValue = 0;
         private int connectValue = 0;
 
@@ -20,42 +22,50 @@ namespace MatrixOld {
         private List<GameObject> structures = new List<GameObject>();
 
         [NonSerialized]
-		private List<ObjectBehaviour> items = new List<ObjectBehaviour>();
+        private List<ObjectBehaviour> items = new List<ObjectBehaviour>();
 
         [NonSerialized]
         private List<HealthBehaviour> damageables = new List<HealthBehaviour>();
 
         [NonSerialized]
-		private List<ObjectBehaviour> players = new List<ObjectBehaviour>();
+        private List<ObjectBehaviour> players = new List<ObjectBehaviour>();
 
         private bool isDoor, isWindow, isWall, isWallMount, isObject, isSpace, isPlayer, isRestrictiveTile, isChair;
 
-		//Holds the details if tile is blocking movement in certain directions
-		private RestrictedMoveStruct restrictedMoveStruct;
-	
+        //Holds the details if tile is blocking movement in certain directions
+        private RestrictedMoveStruct restrictedMoveStruct;
+
         [SerializeField]
         private Section section;
-        public Section Section {
+        public Section Section
+        {
             get { return section; }
             set { section = value; UpdateSection(); }
         }
 
-        public bool TryAddTile(GameObject gameObject) {
-//            var registerTile = gameObject.GetComponent<RegisterTile>();
-//            if(!registerTile) {
-//                return false;
-//            }
+        public bool TryAddTile(GameObject gameObject)
+        {
+            //            var registerTile = gameObject.GetComponent<RegisterTile>();
+            //            if(!registerTile) {
+            //                return false;
+            //            }
             var tileType = TileType.Chair;
 
-            if(tileType == TileType.Item) {
-				var obj = gameObject.GetComponent<ObjectBehaviour>();
-                if(!items.Contains(obj)) {
+            if (tileType == TileType.Item)
+            {
+                var obj = gameObject.GetComponent<ObjectBehaviour>();
+                if (!items.Contains(obj))
+                {
                     items.Add(obj);
                 }
-            } else {
-                if(tileType == TileType.Object || tileType == TileType.Player) {
+            }
+            else
+            {
+                if (tileType == TileType.Object || tileType == TileType.Player)
+                {
                     var healthBehaviour = gameObject.GetComponent<HealthBehaviour>();
-                    if(healthBehaviour != null && !damageables.Contains(healthBehaviour)) {
+                    if (healthBehaviour != null && !damageables.Contains(healthBehaviour))
+                    {
                         damageables.Add(healthBehaviour);
                     }
                 }
@@ -64,20 +74,21 @@ namespace MatrixOld {
                 {
                     players.Add(gameObject.GetComponent<ObjectBehaviour>());
                 }
-                else if(tileType == TileType.Floor 
-                     || tileType == TileType.Door 
-                     || tileType == TileType.Wall 
-                     || tileType == TileType.Window 
+                else if (tileType == TileType.Floor
+                     || tileType == TileType.Door
+                     || tileType == TileType.Wall
+                     || tileType == TileType.Window
                      || tileType == TileType.SlidingDoor
                      || tileType == TileType.WallMount)
                 {
                     structures.Add(gameObject);
                 }
 
-				if (tileType == TileType.RestrictedMovement || tileType == TileType.SlidingDoor) {
-					restrictedMoveStruct = gameObject.GetComponent<RestrictiveMoveTile>().GetRestrictedData;
-					isRestrictiveTile = true;
-				}
+                if (tileType == TileType.RestrictedMovement || tileType == TileType.SlidingDoor)
+                {
+                    restrictedMoveStruct = gameObject.GetComponent<RestrictiveMoveTile>().GetRestrictedData;
+                    isRestrictiveTile = true;
+                }
 
                 tiles.Add(gameObject);
                 UpdateValues();
@@ -86,42 +97,43 @@ namespace MatrixOld {
             return true;
         }
 
-        public bool TryRemoveTile(GameObject gameObject) {
-//            var registerTile = gameObject.GetComponent<RegisterTile>();
-//            var tileType = registerTile.TileType;
-//            if(tileType == TileType.Item) {
-//				var objB = gameObject.GetComponent<ObjectBehaviour>();
-//                if(items.Contains(objB)) {
-//                    items.Remove(objB);
-//                }
-//            } else {
-//                if(tileType == TileType.Object || tileType == TileType.Player) {
-//                    var healthBehaviour = gameObject.GetComponent<HealthBehaviour>();
-//                    if(damageables.Contains(healthBehaviour)) {
-//                        damageables.Remove(healthBehaviour);
-//                    }
-//                }
-//
-//                if (tileType == TileType.Player)
-//                {
-//					players.Remove(gameObject.GetComponent<ObjectBehaviour>());
-//                }
-//                else
-//                {
-//                    structures.Remove(gameObject);
-//                }
-//
-//				if (tileType == TileType.RestrictedMovement || tileType == TileType.SlidingDoor) {
-//					isRestrictiveTile = false;
-//				}
-//
-//                if(!tiles.Contains(gameObject)) {
-//                    return false;
-//                }
-//
-//                tiles.Remove(gameObject);
-//                UpdateValues();
-//            }
+        public bool TryRemoveTile(GameObject gameObject)
+        {
+            //            var registerTile = gameObject.GetComponent<RegisterTile>();
+            //            var tileType = registerTile.TileType;
+            //            if(tileType == TileType.Item) {
+            //				var objB = gameObject.GetComponent<ObjectBehaviour>();
+            //                if(items.Contains(objB)) {
+            //                    items.Remove(objB);
+            //                }
+            //            } else {
+            //                if(tileType == TileType.Object || tileType == TileType.Player) {
+            //                    var healthBehaviour = gameObject.GetComponent<HealthBehaviour>();
+            //                    if(damageables.Contains(healthBehaviour)) {
+            //                        damageables.Remove(healthBehaviour);
+            //                    }
+            //                }
+            //
+            //                if (tileType == TileType.Player)
+            //                {
+            //					players.Remove(gameObject.GetComponent<ObjectBehaviour>());
+            //                }
+            //                else
+            //                {
+            //                    structures.Remove(gameObject);
+            //                }
+            //
+            //				if (tileType == TileType.RestrictedMovement || tileType == TileType.SlidingDoor) {
+            //					isRestrictiveTile = false;
+            //				}
+            //
+            //                if(!tiles.Contains(gameObject)) {
+            //                    return false;
+            //                }
+            //
+            //                tiles.Remove(gameObject);
+            //                UpdateValues();
+            //            }
             return true;
         }
 
@@ -130,58 +142,70 @@ namespace MatrixOld {
             return tiles.Contains(gameObject);
         }
 
-        public bool ContainsItem(GameObject gameObject) {
-//            var rT = gameObject.GetComponent<RegisterTile>();
-//            if(rT.TileType == TileType.Item) {
-//				var iT = gameObject.GetComponent<ObjectBehaviour>();
-//                return items.Contains(iT);
-//            }
+        public bool ContainsItem(GameObject gameObject)
+        {
+            //            var rT = gameObject.GetComponent<RegisterTile>();
+            //            if(rT.TileType == TileType.Item) {
+            //				var iT = gameObject.GetComponent<ObjectBehaviour>();
+            //                return items.Contains(iT);
+            //            }
             return false;
         }
 
-        public bool FitsTile(GameObject gameObject) {
-//            var registerTile = gameObject.GetComponent<RegisterTile>();
-//            return registerTile && (tileValue & registerTile.TileType) == 0;
+        public bool FitsTile(GameObject gameObject)
+        {
+            //            var registerTile = gameObject.GetComponent<RegisterTile>();
+            //            return registerTile && (tileValue & registerTile.TileType) == 0;
             return false;
         }
 
-        public bool IsSpace() {
-            return isSpace || (tileValue & (int) (TileProperty.AtmosNotPassable | TileProperty.HasFloor)) == 0;
+        public bool IsSpace()
+        {
+            return isSpace || (tileValue & (int)(TileProperty.AtmosNotPassable | TileProperty.HasFloor)) == 0;
         }
 
-        public bool IsPassable() {
-            return (tileValue & (int) TileProperty.NotPassable) == 0;
+        public bool IsPassable()
+        {
+            return (tileValue & (int)TileProperty.NotPassable) == 0;
         }
 
-        public bool IsAtmosPassable() {
-            return (tileValue & (int) TileProperty.AtmosNotPassable) == 0;
+        public bool IsAtmosPassable()
+        {
+            return (tileValue & (int)TileProperty.AtmosNotPassable) == 0;
         }
 
-        public bool IsDoor() {
+        public bool IsDoor()
+        {
             return isDoor;
         }
 
-        public bool IsWindow() {
+        public bool IsWindow()
+        {
             return isWindow;
         }
 
-        public bool IsWall() {
+        public bool IsWall()
+        {
             return isWall;
         }
 
-        public bool IsWallMount() {
+        public bool IsWallMount()
+        {
             return isWallMount;
         }
 
-        public bool IsPlayer() {
+        public bool IsPlayer()
+        {
             return isPlayer;
         }
 
-        public bool IsObject() {
+        public bool IsObject()
+        {
             return isObject;
         }
 
-        public bool IsChair(){
+        public bool IsChair()
+        {
             return isChair;
         }
 
@@ -190,97 +214,117 @@ namespace MatrixOld {
             return structures.Count == 0;
         }
 
-		public bool IsRestrictiveTile()
-		{
-			return isRestrictiveTile;
-		}
+        public bool IsRestrictiveTile()
+        {
+            return isRestrictiveTile;
+        }
 
-        public DoorController GetDoor() {
-            if(isDoor) {
-                foreach(var tile in tiles) {
-//                    var registerTile = tile.GetComponent<RegisterTile>();
-//                    if(registerTile.TileType == TileType.Door || registerTile.TileType == TileType.SlidingDoor) {
-//                        var doorControl = registerTile.gameObject.GetComponent<DoorController>();
-//                        return doorControl;
-//                    }
+        public DoorController GetDoor()
+        {
+            if (isDoor)
+            {
+                foreach (var tile in tiles)
+                {
+                    //                    var registerTile = tile.GetComponent<RegisterTile>();
+                    //                    if(registerTile.TileType == TileType.Door || registerTile.TileType == TileType.SlidingDoor) {
+                    //                        var doorControl = registerTile.gameObject.GetComponent<DoorController>();
+                    //                        return doorControl;
+                    //                    }
                 }
             }
             return null;
         }
 
-		public RestrictedMoveStruct GetMoveRestrictions(){
-				return restrictedMoveStruct;
-		}
+        public RestrictedMoveStruct GetMoveRestrictions()
+        {
+            return restrictedMoveStruct;
+        }
 
-        public PushPull GetPushPull() {
-            if(isObject) {
-                foreach(var tile in tiles) {
-//                    var registerTile = tile.GetComponent<RegisterTile>();
-//                    if(registerTile.TileType == TileType.Object) {
-//                        var objCollisions = registerTile.gameObject.GetComponent<PushPull>();
-//                        return objCollisions;
-//                    }
+        public PushPull GetPushPull()
+        {
+            if (isObject)
+            {
+                foreach (var tile in tiles)
+                {
+                    //                    var registerTile = tile.GetComponent<RegisterTile>();
+                    //                    if(registerTile.TileType == TileType.Object) {
+                    //                        var objCollisions = registerTile.gameObject.GetComponent<PushPull>();
+                    //                        return objCollisions;
+                    //                    }
                 }
             }
             return null;
         }
 
-		public List<ObjectBehaviour> GetItems() {
-			List<ObjectBehaviour> newList = new List<ObjectBehaviour>(items);
+        public List<ObjectBehaviour> GetItems()
+        {
+            List<ObjectBehaviour> newList = new List<ObjectBehaviour>(items);
             return newList;
         }
 
-        public List<ObjectBehaviour> GetPlayers(){
-			List<ObjectBehaviour> newList = new List<ObjectBehaviour>(players);
+        public List<ObjectBehaviour> GetPlayers()
+        {
+            List<ObjectBehaviour> newList = new List<ObjectBehaviour>(players);
             return newList;
         }
 
-        public List<HealthBehaviour> GetDamageables() {
+        public List<HealthBehaviour> GetDamageables()
+        {
             return damageables;
         }
 
-        public FloorTile GetFloorTile() {
-            foreach(var tile in tiles) {
-//                var registerTile = tile.GetComponent<RegisterTile>();
-//                if(registerTile.TileType == TileType.Floor) {
-//                    return registerTile.gameObject.GetComponent<FloorTile>();
-//                }
+        public FloorTile GetFloorTile()
+        {
+            foreach (var tile in tiles)
+            {
+                //                var registerTile = tile.GetComponent<RegisterTile>();
+                //                if(registerTile.TileType == TileType.Floor) {
+                //                    return registerTile.gameObject.GetComponent<FloorTile>();
+                //                }
             }
             return null;
         }
 
-        public bool Connects(ConnectType connectType) {
-            if(connectType != null) {
+        public bool Connects(ConnectType connectType)
+        {
+            if (connectType != null)
+            {
                 return ((connectType & (connectValue | tileValue)) > 0);
             }
             return false;
         }
 
-        public void AddListener(UnityAction listener) {
+        public void AddListener(UnityAction listener)
+        {
             connectEvent.AddListener(listener);
         }
 
-        public void RemoveListener(UnityAction listener) {
+        public void RemoveListener(UnityAction listener)
+        {
             connectEvent.RemoveListener(listener);
         }
 
-        public bool HasTileType(TileType tileType) {
-            foreach(var tile in tiles) {
-                if(tile != null)
+        public bool HasTileType(TileType tileType)
+        {
+            foreach (var tile in tiles)
+            {
+                if (tile != null)
                 {
-//                    var registerTile = tile.GetComponent<RegisterTile>();
-//                    if (tileType == registerTile.TileType)
-//                        return true;
-                }                
+                    //                    var registerTile = tile.GetComponent<RegisterTile>();
+                    //                    if (tileType == registerTile.TileType)
+                    //                        return true;
+                }
             }
             return false;
         }
 
-        public List<GameObject> GetTiles() {
+        public List<GameObject> GetTiles()
+        {
             return tiles;
         }
 
-        private void UpdateValues() {
+        private void UpdateValues()
+        {
             tileValue = 0;
             connectValue = 0;
             isDoor = false;
@@ -291,52 +335,55 @@ namespace MatrixOld {
             isObject = false;
             isChair = false;
 
-            foreach(var tile in tiles) {
-                if(tile == null)
+            foreach (var tile in tiles)
+            {
+                if (tile == null)
                     return;
-//                var registerTile = tile.GetComponent<RegisterTile>();
-//
-//
-//                if(registerTile.TileType != TileType.Item)
-//                    tileValue |= registerTile.TileType;
-//
-//                var connectTrigger = tile.GetComponent<ConnectTrigger>();
-//                if(connectTrigger) {
-//                    connectValue |= connectTrigger.ConnectType;
-//                }
-//
-//                if(registerTile.TileType == TileType.Door || registerTile.TileType == TileType.SlidingDoor) {
-//                    isDoor = true;
-//                }
-//                if(registerTile.TileType == TileType.Object) {
-//                    isObject = true;
-//                }
-//                if(registerTile.TileType == TileType.Player) {
-//                    isPlayer = true;
-//                }
-//                if(registerTile.TileType == TileType.Wall) {
-//                    isWall = true;
-//                }
-//                if(registerTile.TileType == TileType.WallMount) {
-//                    isWallMount = true;
-//                }
-//                if(registerTile.TileType == TileType.Window) {
-//                    isWindow = true;
-//                }
-//				if (registerTile.TileType == TileType.RestrictedMovement || registerTile.TileType == TileType.SlidingDoor) {
-//					isRestrictiveTile = true;
-//				}
-//                if(registerTile.TileType == TileType.Chair){
-//                    isChair = true;
-//                }
-//
-//                if(registerTile.inSpace) {
-//                    isSpace = true;
-//                }
+                //                var registerTile = tile.GetComponent<RegisterTile>();
+                //
+                //
+                //                if(registerTile.TileType != TileType.Item)
+                //                    tileValue |= registerTile.TileType;
+                //
+                //                var connectTrigger = tile.GetComponent<ConnectTrigger>();
+                //                if(connectTrigger) {
+                //                    connectValue |= connectTrigger.ConnectType;
+                //                }
+                //
+                //                if(registerTile.TileType == TileType.Door || registerTile.TileType == TileType.SlidingDoor) {
+                //                    isDoor = true;
+                //                }
+                //                if(registerTile.TileType == TileType.Object) {
+                //                    isObject = true;
+                //                }
+                //                if(registerTile.TileType == TileType.Player) {
+                //                    isPlayer = true;
+                //                }
+                //                if(registerTile.TileType == TileType.Wall) {
+                //                    isWall = true;
+                //                }
+                //                if(registerTile.TileType == TileType.WallMount) {
+                //                    isWallMount = true;
+                //                }
+                //                if(registerTile.TileType == TileType.Window) {
+                //                    isWindow = true;
+                //                }
+                //				if (registerTile.TileType == TileType.RestrictedMovement || registerTile.TileType == TileType.SlidingDoor) {
+                //					isRestrictiveTile = true;
+                //				}
+                //                if(registerTile.TileType == TileType.Chair){
+                //                    isChair = true;
+                //                }
+                //
+                //                if(registerTile.inSpace) {
+                //                    isSpace = true;
+                //                }
             }
 
-            if(isSpace) {
-                if((tileValue | (int) TileProperty.HasFloor) != (int) TileProperty.HasFloor) {
+            if (isSpace)
+            {
+                if ((tileValue | (int)TileProperty.HasFloor) != (int)TileProperty.HasFloor)
+                {
                     isSpace = false;
                 }
             }
@@ -344,8 +391,10 @@ namespace MatrixOld {
             connectEvent.Invoke();
         }
 
-        private void UpdateSection() {
-            foreach(var tile in tiles) {
+        private void UpdateSection()
+        {
+            foreach (var tile in tiles)
+            {
                 tile.transform.MoveToSection(section);
             }
         }

@@ -54,13 +54,13 @@ namespace Tilemaps.Scripts.Behaviours.Layers
         {
             return GetTile(position);
         }
-        
+
         public virtual void RemoveTile(Vector3Int position)
         {
             tilemap.SetTile(position, null);
         }
 
-        public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix )
+        public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
         {
             tilemap.SetEditorPreviewTile(position, tile);
             tilemap.SetEditorPreviewTransformMatrix(position, transformMatrix);

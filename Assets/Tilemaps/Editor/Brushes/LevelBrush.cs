@@ -37,11 +37,11 @@ namespace Tilemaps.Editor.Brushes
                 {
                     if (tile is LayerTile)
                     {
-                        PlaceLayerTile(metaTileMap, position, (LayerTile) tile);
+                        PlaceLayerTile(metaTileMap, position, (LayerTile)tile);
                     }
                     else if (tile is MetaTile)
                     {
-                        PlaceMetaTile(metaTileMap, position, (MetaTile) tile);
+                        PlaceMetaTile(metaTileMap, position, (MetaTile)tile);
                     }
                 }
             }
@@ -71,14 +71,14 @@ namespace Tilemaps.Editor.Brushes
                 // TODO flip?
             }
         }
-        
+
         public override void Rotate(RotationDirection direction, GridLayout.CellLayout layout)
         {
             if (Event.current.character == '<')
             {
                 var tile = cells[0].tile as LayerTile;
 
-                if (tile != null) 
+                if (tile != null)
                     cells[0].matrix = tile.Rotate(cells[0].matrix, direction == RotationDirection.Clockwise);
             }
         }

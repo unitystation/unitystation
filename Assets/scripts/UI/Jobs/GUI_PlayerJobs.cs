@@ -6,14 +6,16 @@ using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GUI_PlayerJobs : MonoBehaviour {
+public class GUI_PlayerJobs : MonoBehaviour
+{
     public Text title;
     public GameObject screen_Jobs;
     public GameObject buttonPrefab;
     private CustomNetworkManager networkManager;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
         screen_Jobs.SetActive(false);
         foreach (Transform child in screen_Jobs.transform)

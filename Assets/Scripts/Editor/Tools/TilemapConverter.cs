@@ -15,7 +15,7 @@ namespace UnityStation.Tools
         private Dictionary<string, string> mapping = null;
 
         private const string tilePath = "Assets/Tilemaps/Tiles/";
-        
+
         public TilemapConverter()
         {
             LoadMapping();
@@ -32,7 +32,7 @@ namespace UnityStation.Tools
                 mapping.Add(split[0], split[1]);
             }
         }
-        
+
         public GenericTile DataToTile(UniTileData data)
         {
             var name = mapping.ContainsKey(data.OriginalSpriteName) ? data.OriginalSpriteName : data.Name.Split('(')[0].Trim();
@@ -43,7 +43,7 @@ namespace UnityStation.Tools
                 return null;
             }
 
-            var assetPath =  Path.Combine(tilePath, mapping[name] + ".asset");
+            var assetPath = Path.Combine(tilePath, mapping[name] + ".asset");
 
             if (!File.Exists(assetPath))
             {
@@ -58,7 +58,7 @@ namespace UnityStation.Tools
                     return null;
                 }
             }
-            
+
             return AssetDatabase.LoadAssetAtPath<GenericTile>(assetPath);
         }
     }

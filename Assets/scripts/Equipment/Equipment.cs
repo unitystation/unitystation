@@ -156,7 +156,7 @@ namespace Equipment
             if (!String.IsNullOrEmpty(jobOutfit.suit_store))
                 gear["suit_store"] = jobOutfit.suit_store;*/
 
-            foreach(KeyValuePair<string,string> gearItem in gear)
+            foreach (KeyValuePair<string, string> gearItem in gear)
             {
                 if (gearItem.Value.Contains("cloth"))
                 {
@@ -165,27 +165,33 @@ namespace Equipment
                     SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
                 }
             }
-			SpawnID(jobOutfit);
+            SpawnID(jobOutfit);
         }
 
-		private void SpawnID(JobOutfit outFit){
+        private void SpawnID(JobOutfit outFit)
+        {
 
-			GameObject idObj;
-			if (outFit.jobType == JobType.CAPTAIN) {
-				idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.captain,
-				                                                    outFit.jobType, outFit.allowedAccess, name);
-			} else if (outFit.jobType == JobType.HOP || outFit.jobType == JobType.HOS ||
-			           outFit.jobType == JobType.CMO || outFit.jobType == JobType.RD || 
-			           outFit.jobType == JobType.CHIEF_ENGINEER){
-				idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.command,
-																	outFit.jobType, outFit.allowedAccess, name);
-			} else {
-				idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.standard,
-																	outFit.jobType, outFit.allowedAccess, name);
-			}
+            GameObject idObj;
+            if (outFit.jobType == JobType.CAPTAIN)
+            {
+                idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.captain,
+                                                                    outFit.jobType, outFit.allowedAccess, name);
+            }
+            else if (outFit.jobType == JobType.HOP || outFit.jobType == JobType.HOS ||
+                     outFit.jobType == JobType.CMO || outFit.jobType == JobType.RD ||
+                     outFit.jobType == JobType.CHIEF_ENGINEER)
+            {
+                idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.command,
+                                                                    outFit.jobType, outFit.allowedAccess, name);
+            }
+            else
+            {
+                idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.standard,
+                                                                    outFit.jobType, outFit.allowedAccess, name);
+            }
 
-			SetItem("id", idObj);
-		}
+            SetItem("id", idObj);
+        }
 
         //Hand item sprites after picking up an item (server)
         public void SetHandItem(string slotName, GameObject obj)
@@ -268,7 +274,7 @@ namespace Equipment
         private void SetItem(string slotName, GameObject obj)
         {
             StartCoroutine(SetItemPatiently(slotName, obj));
-            
+
             /*			if (String.IsNullOrEmpty(slotName) || itemAtts == null) {
 				return;
 				Debug.LogError("Error with item attribute for object: " + itemAtts.gameObject.name);
@@ -284,7 +290,7 @@ namespace Equipment
                 syncEquipSprites[(int)enumA] = itemAtts.clothingReference;
             }*/
         }
-        
+
         private IEnumerator SetItemPatiently(string slotName, GameObject obj)
         {
             //Waiting for hier name resolve

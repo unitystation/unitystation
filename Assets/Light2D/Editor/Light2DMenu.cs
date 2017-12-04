@@ -59,7 +59,7 @@ namespace Light2D
         [MenuItem("GameObject/Light2D/Enable 2DTK Support", false, 6)]
         public static void Enable2DToolkitSupport()
         {
-            var targets = (BuildTargetGroup[]) Enum.GetValues(typeof (BuildTargetGroup));
+            var targets = (BuildTargetGroup[])Enum.GetValues(typeof(BuildTargetGroup));
             foreach (var target in targets)
                 DefineSymbol("LIGHT2D_2DTK", target);
         }

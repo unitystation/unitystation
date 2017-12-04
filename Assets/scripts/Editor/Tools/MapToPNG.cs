@@ -33,11 +33,11 @@ public class MapToPNG : Editor
                 var gameObjects = n.GetTiles();
 
                 // +Items
-                foreach ( var item in n.GetItems() )
+                foreach (var item in n.GetItems())
                 {
                     gameObjects.Add(item.gameObject);
                 }
-                
+
                 foreach (var t in gameObjects)
                 {
                     foreach (var sr in t.GetComponentsInChildren<SpriteRenderer>())
@@ -55,18 +55,18 @@ public class MapToPNG : Editor
                 {
                     var sprite = sr.sprite;
 
-                    var rectX = (int) sprite.rect.x;
-                    var rectY = (int) sprite.rect.y;
-                    var rectWidth = (int) sprite.rect.width;
-                    var rectHeight = (int) sprite.rect.height;
+                    var rectX = (int)sprite.rect.x;
+                    var rectY = (int)sprite.rect.y;
+                    var rectWidth = (int)sprite.rect.width;
+                    var rectHeight = (int)sprite.rect.height;
                     var pixels = sprite.texture.GetPixels(rectX, rectY, rectWidth, rectHeight);
                     var texWidth = sprite.rect.width;
                     var texHeight = sprite.rect.height;
                     var localX = sr.transform.localPosition.x;
                     var localY = sr.transform.localPosition.y;
 
-                    var texX = (int) ((x + (1 - (texWidth / 32)) / 2 + localX) * 32);
-                    var texY = (int) ((y + (1 - (texHeight / 32)) / 2 + localY) * 32);
+                    var texX = (int)((x + (1 - (texWidth / 32)) / 2 + localX) * 32);
+                    var texY = (int)((y + (1 - (texHeight / 32)) / 2 + localY) * 32);
 
                     for (int x1 = 0; x1 < texWidth; x1++)
                     {
@@ -78,10 +78,10 @@ public class MapToPNG : Editor
 
                             if (px.a > 0)
                             {
-                                if ( colors.Length < i )
+                                if (colors.Length < i)
                                 {
-//                                    Debug.LogFormat("{8}: rX={0}, rY={1}, tW={2}, tH={3}, lX={4}, lY={5}, texX={6}, texY={7}", 
-//                                        rectX, rectY, texWidth, texHeight, localX, localY, texX, texY, sprite.name);
+                                    //                                    Debug.LogFormat("{8}: rX={0}, rY={1}, tW={2}, tH={3}, lX={4}, lY={5}, texX={6}, texY={7}", 
+                                    //                                        rectX, rectY, texWidth, texHeight, localX, localY, texX, texY, sprite.name);
                                     Debug.LogWarningFormat("{2}: No such index colors[{0}]! colors.Length={1}", i, colors.Length, sprite.name);
                                     continue;
                                 }
@@ -119,12 +119,12 @@ public class MapToPNG : Editor
             var k = keys[i];
             var v = values[i];
 
-            if (v.GetTiles().Count > 0 
+            if (v.GetTiles().Count > 0
                 || v.GetItems().Count > 0)
             {
                 nodes.Add(v);
-                x.Add((int) (k >> 32));
-                y.Add((int) (k & int.MaxValue));
+                x.Add((int)(k >> 32));
+                y.Add((int)(k & int.MaxValue));
             }
         }
 
@@ -164,7 +164,7 @@ public class MapToPNG : Editor
         var internalEditorUtilityType = typeof(InternalEditorUtility);
         PropertyInfo sortingLayersProperty =
             internalEditorUtilityType.GetProperty("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
-        var sortingLayerNames = (string[]) sortingLayersProperty.GetValue(null, new object[0]);
+        var sortingLayerNames = (string[])sortingLayersProperty.GetValue(null, new object[0]);
 
         return new List<string>(sortingLayerNames);
     }

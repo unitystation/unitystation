@@ -119,7 +119,7 @@ public class PushPull : VisibleBehaviour
         }
 
         moveSpeed = pusherSpeed;
-        var newPos = Vector3Int.RoundToInt(transform.localPosition + (Vector3) pushDir);
+        var newPos = Vector3Int.RoundToInt(transform.localPosition + (Vector3)pushDir);
         //newPos.z = transform.localPosition.z;
 
 

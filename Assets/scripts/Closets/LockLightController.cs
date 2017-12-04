@@ -2,43 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LockLightController : MonoBehaviour {
+public class LockLightController : MonoBehaviour
+{
 
     public Sprite spriteUnlocked;
 
     private Sprite spriteLocked;
     private SpriteRenderer spriteRenderer;
-   
+
     private bool locked = true;
-    
-	void Start () {
+
+    void Start()
+    {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteLocked = spriteRenderer.sprite;
     }
 
-    public void Lock() {
+    public void Lock()
+    {
         locked = true;
-		if(spriteRenderer != null)
-        spriteRenderer.sprite = spriteLocked;
+        if (spriteRenderer != null)
+            spriteRenderer.sprite = spriteLocked;
     }
 
-    public void Unlock() {
+    public void Unlock()
+    {
         locked = false;
-		if(spriteRenderer != null)
-        spriteRenderer.sprite = spriteUnlocked;
+        if (spriteRenderer != null)
+            spriteRenderer.sprite = spriteUnlocked;
     }
 
-    public void Show() {
-		if(spriteRenderer != null)
-        spriteRenderer.enabled = true;
+    public void Show()
+    {
+        if (spriteRenderer != null)
+            spriteRenderer.enabled = true;
     }
 
-    public void Hide() {
-		if(spriteRenderer != null)
-        spriteRenderer.enabled = false;
+    public void Hide()
+    {
+        if (spriteRenderer != null)
+            spriteRenderer.enabled = false;
     }
 
-    public bool IsLocked() {
+    public bool IsLocked()
+    {
         return locked;
     }
 }

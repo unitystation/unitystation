@@ -43,7 +43,7 @@ public class JsonToTilemap : Editor
                 {
                     if (!objects.Exists(t => t.Item1.Equals(position) && t.Item2 == tile))
                     {
-                        objects.Add(new Tuple<Vector3Int, ObjectTile>(position, (ObjectTile) tile));
+                        objects.Add(new Tuple<Vector3Int, ObjectTile>(position, (ObjectTile)tile));
                     }
                 }
                 else
@@ -71,7 +71,7 @@ public class JsonToTilemap : Editor
     private static Matrix4x4 FindObjectPosition(MetaTileMap metaTileMap, ref Vector3Int position, LayerTile tile)
     {
         var onStructure = metaTileMap.HasTile(position, LayerType.Structures);
-        
+
         var rotation = Quaternion.identity;
 
         for (int i = 0; i < 4; i++)
@@ -117,7 +117,7 @@ public class JsonToTilemap : Editor
 
     private static string GetCleanLayerName(string dirtyName)
     {
-        var lameTrimChars = new[] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-'};
+        var lameTrimChars = new[] { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-' };
         return dirtyName.TrimEnd(lameTrimChars);
     }
 

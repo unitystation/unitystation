@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using FullSerializer.Internal;
 
-namespace FullSerializer {
+namespace FullSerializer
+{
     /// <summary>
     /// The serialization converter allows for customization of the serialization process.
     /// </summary>
     /// <remarks>You do not want to derive from this class - there is no way to actually use it within
     /// the serializer.. Instead, derive from either fsConverter or fsDirectConverter</remarks>
-    public abstract class fsBaseConverter {
+    public abstract class fsBaseConverter
+    {
         /// <summary>
         /// The serializer that was owns this converter.
         /// </summary>
@@ -22,8 +24,10 @@ namespace FullSerializer {
         /// <param name="data">The data the object was serialized with.</param>
         /// <param name="storageType">The field/property type that is storing the instance.</param>
         /// <returns>An object instance</returns>
-        public virtual object CreateInstance(fsData data, Type storageType) {
-            if (RequestCycleSupport(storageType)) {
+        public virtual object CreateInstance(fsData data, Type storageType)
+        {
+            if (RequestCycleSupport(storageType))
+            {
                 throw new InvalidOperationException("Please override CreateInstance for " +
                     GetType().FullName + "; the object graph for " + storageType +
                     " can contain potentially contain cycles, so separated instance creation " +
@@ -39,7 +43,8 @@ namespace FullSerializer {
         /// </summary>
         /// <param name="storageType">The field/property type that is currently storing the object
         /// that is being serialized.</param>
-        public virtual bool RequestCycleSupport(Type storageType) {
+        public virtual bool RequestCycleSupport(Type storageType)
+        {
             if (storageType == typeof(string)) return false;
 
             return storageType.Resolve().IsClass || storageType.Resolve().IsInterface;
@@ -50,7 +55,8 @@ namespace FullSerializer {
         /// </summary>
         /// <param name="storageType">The field/property type that is currently storing the object
         /// that is being serialized.</param>
-        public virtual bool RequestInheritanceSupport(Type storageType) {
+        public virtual bool RequestInheritanceSupport(Type storageType)
+        {
             return storageType.Resolve().IsSealed == false;
         }
 
@@ -72,40 +78,49 @@ namespace FullSerializer {
         /// <returns>True if serialization was successful, false otherwise.</returns>
         public abstract fsResult TryDeserialize(fsData data, ref object instance, Type storageType);
 
-        protected fsResult FailExpectedType(fsData data, params fsDataType[] types) {
+        protected fsResult FailExpectedType(fsData data, params fsDataType[] types)
+        {
             return fsResult.Fail(GetType().Name + " expected one of " +
                 string.Join(", ", types.Select(t => t.ToString()).ToArray()) +
                 " but got " + data.Type + " in " + data);
         }
 
-        protected fsResult CheckType(fsData data, fsDataType type) {
-            if (data.Type != type) {
+        protected fsResult CheckType(fsData data, fsDataType type)
+        {
+            if (data.Type != type)
+            {
                 return fsResult.Fail(GetType().Name + " expected " + type + " but got " + data.Type + " in " + data);
             }
             return fsResult.Success;
         }
 
-        protected fsResult CheckKey(fsData data, string key, out fsData subitem) {
+        protected fsResult CheckKey(fsData data, string key, out fsData subitem)
+        {
             return CheckKey(data.AsDictionary, key, out subitem);
         }
 
-        protected fsResult CheckKey(Dictionary<string, fsData> data, string key, out fsData subitem) {
-            if (data.TryGetValue(key, out subitem) == false) {
+        protected fsResult CheckKey(Dictionary<string, fsData> data, string key, out fsData subitem)
+        {
+            if (data.TryGetValue(key, out subitem) == false)
+            {
                 return fsResult.Fail(GetType().Name + " requires a <" + key + "> key in the data " + data);
             }
             return fsResult.Success;
         }
 
-        protected fsResult SerializeMember<T>(Dictionary<string, fsData> data, Type overrideConverterType, string name, T value) {
+        protected fsResult SerializeMember<T>(Dictionary<string, fsData> data, Type overrideConverterType, string name, T value)
+        {
             fsData memberData;
             var result = Serializer.TrySerialize(typeof(T), overrideConverterType, value, out memberData);
             if (result.Succeeded) data[name] = memberData;
             return result;
         }
 
-        protected fsResult DeserializeMember<T>(Dictionary<string, fsData> data, Type overrideConverterType, string name, out T value) {
+        protected fsResult DeserializeMember<T>(Dictionary<string, fsData> data, Type overrideConverterType, string name, out T value)
+        {
             fsData memberData;
-            if (data.TryGetValue(name, out memberData) == false) {
+            if (data.TryGetValue(name, out memberData) == false)
+            {
                 value = default(T);
                 return fsResult.Fail("Unable to find member \"" + name + "\"");
             }

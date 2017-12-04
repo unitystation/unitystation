@@ -27,10 +27,10 @@ namespace Cupboards
         {
             _registerTile = GetComponent<RegisterTile>();
             //Closets have healthbehaviours on them, search through the list for the cupboard you are in
-            
+
             var matrix = Matrix.GetMatrix(this);
             var closetControls = matrix.Get<ClosetControl>(_registerTile.Position).ToArray();
-            
+
             closetControl = closetControls[0];
             //Set the camera to follow the closet
             Camera2DFollow.followControl.target = closetControl.transform;
