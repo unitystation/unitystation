@@ -39,6 +39,7 @@ public class EffectsFactory : NetworkBehaviour
         Instance.bloodTile = Resources.Load("BloodSplat") as GameObject;
         //Parents
         Instance.shroudParent = new GameObject();
+        Instance.shroudParent.transform.position += new Vector3(0.5f, 0.5f, 0);
         Instance.shroudParent.name = "FieldOfView(Shrouds)";
     }
 

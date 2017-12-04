@@ -13,16 +13,6 @@ namespace Tilemaps.Scripts.Behaviours.Objects
         public bool Passable = true;
         public bool AtmosPassable = true;
         
-        protected override void OnAddTile(Vector3Int newPosition)
-        {
-            var obj = layer?.Objects.GetFirst<RegisterObject>(newPosition);
-
-            if (obj != null)
-            {
-                DestroyImmediate(obj.gameObject);
-            }
-        }
-
         public override bool IsPassable()
         {
             return Passable;

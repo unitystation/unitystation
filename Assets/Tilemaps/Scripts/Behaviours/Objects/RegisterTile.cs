@@ -15,8 +15,8 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 		public bool IsRegistered { get; private set; }
 
 		public ObjectType ObjectType;
-		
-		protected ObjectLayer layer;
+
+		private ObjectLayer layer;
 		
 		private Vector3Int _position;
 
@@ -25,8 +25,6 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 			get { return _position; }
 			private set
 			{
-				OnAddTile(value);
-				
 				layer?.Objects.Remove(_position, this);
 				layer?.Objects.Add(value, this);
 				_position = value;
@@ -72,10 +70,6 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 		{
 			layer?.Objects.Remove(Position, this);
 			IsRegistered = false;
-		}
-
-		protected virtual void OnAddTile(Vector3Int newPosition)
-		{
 		}
 
 		public virtual bool IsPassable()

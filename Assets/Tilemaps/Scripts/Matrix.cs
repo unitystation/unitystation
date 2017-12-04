@@ -35,50 +35,22 @@ namespace Tilemaps.Scripts
             _objects = ((ObjectLayer) _metaTileMap.Layers[LayerType.Objects]).Objects;
         }
         
-        public bool IsPassableAt(Vector3Int origin, Vector3Int position)
-        {
-            return _metaTileMap.IsPassableAt(origin, position);
-        }
+        public bool IsPassableAt(Vector3Int origin, Vector3Int position) => _metaTileMap.IsPassableAt(origin, position);
 
-        public bool IsPassableAt(Vector3Int position)
-        {
-            return _metaTileMap.IsPassableAt(position);
-        }
+        public bool IsPassableAt(Vector3Int position) => _metaTileMap.IsPassableAt(position);
         
-        public bool IsAtmosPassableAt(Vector3Int position)
-        {
-            return _metaTileMap.IsAtmosPassableAt(position);
-        }
+        public bool IsAtmosPassableAt(Vector3Int position) => _metaTileMap.IsAtmosPassableAt(position);
+
+        public bool IsSpaceAt(Vector3Int position) => _metaTileMap.IsSpaceAt(position);
         
-        public bool IsSpaceAt(Vector3Int position)
+        public IEnumerable<T> Get<T>(Vector3Int position) where T : MonoBehaviour
         {
-            return _metaTileMap.IsSpaceAt(position);
-        }
-
-        public void GetObjectsAt(Vector3Int position, TileType a = TileType.All)
-        {
-            _objects.Get(position);
-            // TODO
-        }
-
-        public void InteractAt(Vector3Int position)
-        {
-            // TODO
+            return _objects.Get(position).Select(x => x.GetComponent<T>()).Where(x => x != null);
         }
         
         public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
         {
-            return _objects.GetFirst(position).GetComponent<T>();
-        }
-
-        public IEnumerable<T> Get<T>(Vector3Int position) where T : MonoBehaviour
-        {
-            return _objects.Get(position).Select(x => x.GetComponent<T>());
-        }
-        
-        public IEnumerable<T> GetFirst<T>(Vector3Int position, ObjectType type) where T : MonoBehaviour
-        {
-            return _objects.Get(position, type).Select(x => x.GetComponent<T>()).Where(x => x != null);
+            return _objects.GetFirst(position)?.GetComponent<T>();
         }
 
         public IEnumerable<T> Get<T>(Vector3Int position, ObjectType type) where T : MonoBehaviour
