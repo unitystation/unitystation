@@ -12,7 +12,7 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 
         public bool Passable = true;
         public bool AtmosPassable = true;
-        
+
         public override bool IsPassable()
         {
             return Passable;

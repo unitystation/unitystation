@@ -97,7 +97,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
                     DestroyImmediate(obj.gameObject);
                 }
             }
-            
+
             base.ClearAllTiles();
         }
     }

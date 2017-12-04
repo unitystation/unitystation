@@ -12,7 +12,7 @@ namespace Light2D
     /// Handles lighting operation like camera setup, shader setup, merging cameras output together, blurring and some others.
     /// </summary>
     [ExecuteInEditMode]
-    [RequireComponent(typeof (Camera))]
+    [RequireComponent(typeof(Camera))]
     public class LightingSystem : MonoBehaviour
     {
         /// <summary>
@@ -84,7 +84,7 @@ namespace Light2D
         public Material LightSourcesBlurMaterial;
         public Material AmbientLightBlurMaterial;
         public Camera LightCamera;
-		public Camera BgCamera;
+        public Camera BgCamera;
         public int LightSourcesLayer;
         public int AmbientLightLayer;
         public int LightObstaclesLayer;
@@ -125,7 +125,7 @@ namespace Light2D
 
         private float LightPixelsPerUnityMeter
         {
-            get { return 1/LightPixelSize; }
+            get { return 1 / LightPixelSize; }
         }
 
         public static LightingSystem Instance
@@ -142,10 +142,11 @@ namespace Light2D
 
         private void Start()
         {
-			if (GameData.Instance.testServer || GameData.IsHeadlessServer) {
-				Debug.Log("Turn off lightsystem as this is a server");
-				this.enabled = false;
-			}
+            if (GameData.Instance.testServer || GameData.IsHeadlessServer)
+            {
+                Debug.Log("Turn off lightsystem as this is a server");
+                this.enabled = false;
+            }
 #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
@@ -203,47 +204,47 @@ namespace Light2D
 
             if (_camera.orthographic)
             {
-                var rawCamHeight = (_camera.orthographicSize + LightCameraSizeAdd)*2f;
-                var rawCamWidth = (_camera.orthographicSize*_camera.aspect + LightCameraSizeAdd)*2f;
+                var rawCamHeight = (_camera.orthographicSize + LightCameraSizeAdd) * 2f;
+                var rawCamWidth = (_camera.orthographicSize * _camera.aspect + LightCameraSizeAdd) * 2f;
 
                 _extendedLightTextureSize = new Point2(
-                    Mathf.RoundToInt(rawCamWidth*lightPixelsPerUnityMeter),
-                    Mathf.RoundToInt(rawCamHeight*lightPixelsPerUnityMeter));
+                    Mathf.RoundToInt(rawCamWidth * lightPixelsPerUnityMeter),
+                    Mathf.RoundToInt(rawCamHeight * lightPixelsPerUnityMeter));
 
-                var rawSmallCamHeight = _camera.orthographicSize*2f*lightPixelsPerUnityMeter;
+                var rawSmallCamHeight = _camera.orthographicSize * 2f * lightPixelsPerUnityMeter;
                 _smallLightTextureSize = new Point2(
-                    Mathf.RoundToInt(rawSmallCamHeight*_camera.aspect),
+                    Mathf.RoundToInt(rawSmallCamHeight * _camera.aspect),
                     Mathf.RoundToInt(rawSmallCamHeight));
             }
             else
             {
                 {
-                    var lightCamHalfFov = (_camera.fieldOfView + LightCameraFovAdd)*Mathf.Deg2Rad/2f;
-                    var lightCamSize = Mathf.Tan(lightCamHalfFov)*LightObstaclesDistance*2;
+                    var lightCamHalfFov = (_camera.fieldOfView + LightCameraFovAdd) * Mathf.Deg2Rad / 2f;
+                    var lightCamSize = Mathf.Tan(lightCamHalfFov) * LightObstaclesDistance * 2;
                     //var gameCamHalfFov = _camera.fieldOfView*Mathf.Deg2Rad/2f;
-                    var texHeight = Mathf.RoundToInt(lightCamSize/LightPixelSize);
-                    var texWidth = texHeight*_camera.aspect;
+                    var texHeight = Mathf.RoundToInt(lightCamSize / LightPixelSize);
+                    var texWidth = texHeight * _camera.aspect;
                     _extendedLightTextureSize = Point2.Round(new Vector2(texWidth, texHeight));
 
                 }
                 {
-                    var lightCamHalfFov = _camera.fieldOfView*Mathf.Deg2Rad/2f;
-                    var lightCamSize = Mathf.Tan(lightCamHalfFov)*LightObstaclesDistance*2;
+                    var lightCamHalfFov = _camera.fieldOfView * Mathf.Deg2Rad / 2f;
+                    var lightCamSize = Mathf.Tan(lightCamHalfFov) * LightObstaclesDistance * 2;
                     //LightCamera.orthographicSize = lightCamSize/2f;
 
-                    var gameCamHalfFov = _camera.fieldOfView*Mathf.Deg2Rad/2f;
-                    var gameCamSize = Mathf.Tan(gameCamHalfFov)*LightObstaclesDistance*2;
-                    _camera.orthographicSize = gameCamSize/2f;
+                    var gameCamHalfFov = _camera.fieldOfView * Mathf.Deg2Rad / 2f;
+                    var gameCamSize = Mathf.Tan(gameCamHalfFov) * LightObstaclesDistance * 2;
+                    _camera.orthographicSize = gameCamSize / 2f;
 
-                    var texHeight = Mathf.RoundToInt(lightCamSize/LightPixelSize);
-                    var texWidth = texHeight*_camera.aspect;
+                    var texHeight = Mathf.RoundToInt(lightCamSize / LightPixelSize);
+                    var texWidth = texHeight * _camera.aspect;
                     _smallLightTextureSize = Point2.Round(new Vector2(texWidth, texHeight));
                 }
             }
 
-            if (_extendedLightTextureSize.x%2 != 0)
+            if (_extendedLightTextureSize.x % 2 != 0)
                 _extendedLightTextureSize.x++;
-            if (_extendedLightTextureSize.y%2 != 0)
+            if (_extendedLightTextureSize.y % 2 != 0)
                 _extendedLightTextureSize.y++;
 
             if (_extendedLightTextureSize.x > 1024 || _extendedLightTextureSize.y > 1024 ||
@@ -335,10 +336,11 @@ namespace Light2D
 
         }
 
-		void OnPreRender(){
-			if (BgCamera != null)
-				BgCamera.Render();
-		}
+        void OnPreRender()
+        {
+            if (BgCamera != null)
+                BgCamera.Render();
+        }
 
         void OnPreCull()
         {
@@ -459,7 +461,7 @@ namespace Light2D
             if (_normalMapBuffer == null)
             {
                 _normalMapBuffer = new RenderTexture(
-                    (int) _camera.pixelWidth, (int) _camera.pixelHeight, 0, RenderTextureFormat.ARGB32);
+                    (int)_camera.pixelWidth, (int)_camera.pixelHeight, 0, RenderTextureFormat.ARGB32);
                 _normalMapBuffer.filterMode = FilterMode.Point;
             }
 
@@ -497,7 +499,7 @@ namespace Light2D
 
             if (EnableNormalMapping)
             {
-                if(_singleLightSourceTexture == null)
+                if (_singleLightSourceTexture == null)
                 {
                     _singleLightSourceTexture = new RenderTexture(
                         _smallLightTextureSize.x, _smallLightTextureSize.y, 0, _texFormat);
@@ -580,10 +582,10 @@ namespace Light2D
                 if (_bluredLightTexture == null)
                 {
                     var w = _lightSourcesTexture.width == _smallLightTextureSize.x
-                        ? _lightSourcesTexture.width*2
+                        ? _lightSourcesTexture.width * 2
                         : _lightSourcesTexture.width;
                     var h = _lightSourcesTexture.height == _smallLightTextureSize.y
-                        ? _lightSourcesTexture.height*2
+                        ? _lightSourcesTexture.height * 2
                         : _lightSourcesTexture.height;
                     _bluredLightTexture = new RenderTexture(w, h, 0, _texFormat);
                 }
@@ -648,7 +650,7 @@ namespace Light2D
                 _ambientTexture = tmp;
 
                 var texSize = new Vector2(_ambientTexture.width, _ambientTexture.height);
-                var posShift = ((Vector2) (_currPos - _oldPos)/LightPixelSize).Div(texSize);
+                var posShift = ((Vector2)(_currPos - _oldPos) / LightPixelSize).Div(texSize);
                 _oldPos = _currPos;
 
                 AmbientLightComputeMaterial.SetTexture("_LightSourcesTex", _ambientEmissionTexture);
@@ -681,18 +683,18 @@ namespace Light2D
         private void RenderLightOverlay(RenderTexture src, RenderTexture dest)
         {
             UnityEngine.Profiling.Profiler.BeginSample("LightingSystem.OnRenderImage Light Overlay");
-            
+
             ConfigLightCamera(false);
 
             Vector2 lightTexelSize = new Vector2(1f / _smallLightTextureSize.x, 1f / _smallLightTextureSize.y);
             float lightPixelsPerUnityMeter = LightPixelsPerUnityMeter;
-            Vector2 worldOffset = Quaternion.Inverse(_camera.transform.rotation)*(LightCamera.transform.position - _camera.transform.position);
-            Vector2 offset = Vector2.Scale(lightTexelSize, -worldOffset*lightPixelsPerUnityMeter);
+            Vector2 worldOffset = Quaternion.Inverse(_camera.transform.rotation) * (LightCamera.transform.position - _camera.transform.position);
+            Vector2 offset = Vector2.Scale(lightTexelSize, -worldOffset * lightPixelsPerUnityMeter);
 
             var lightSourcesTex = BlurLightSources && LightSourcesBlurMaterial != null && LightTexturesFilterMode != FilterMode.Point
                 ? _bluredLightTexture
                 : _lightSourcesTexture;
-            float xDiff = _camera.aspect/LightCamera.aspect;
+            float xDiff = _camera.aspect / LightCamera.aspect;
 
             if (!_camera.orthographic)
             {
@@ -701,8 +703,8 @@ namespace Light2D
                 _camera.orthographicSize = gameCamSize / 2f;
             }
 
-            float scaleY = _camera.orthographicSize/LightCamera.orthographicSize;
-            var scale = new Vector2(scaleY*xDiff, scaleY);
+            float scaleY = _camera.orthographicSize / LightCamera.orthographicSize;
+            var scale = new Vector2(scaleY * xDiff, scaleY);
 
             var oldAmbientFilterMode = _ambientTexture == null ? FilterMode.Point : _ambientTexture.filterMode;
             LightOverlayMaterial.SetTexture("_AmbientLightTex", EnableAmbientLight ? _ambientTexture : null);
@@ -733,7 +735,7 @@ namespace Light2D
 
         private void UpdateCamera()
         {
-            LightPixelSize = _camera.orthographicSize*2f/_smallLightTextureSize.y;
+            LightPixelSize = _camera.orthographicSize * 2f / _smallLightTextureSize.y;
 
             var lightPixelsPerUnityMeter = LightPixelsPerUnityMeter;
             var mainPos = _camera.transform.position;
@@ -743,7 +745,7 @@ namespace Light2D
                 Mathf.Round(unrotMainPos.x * lightPixelsPerUnityMeter) / lightPixelsPerUnityMeter,
                 Mathf.Round(unrotMainPos.y * lightPixelsPerUnityMeter) / lightPixelsPerUnityMeter);
             Vector2 posDiff = gridPos - (Vector2)unrotMainPos;
-            var pos = camRot*posDiff + mainPos;
+            var pos = camRot * posDiff + mainPos;
             LightCamera.transform.position = pos;
             _currPos = pos;
         }
@@ -757,10 +759,10 @@ namespace Light2D
         {
             if (extended)
             {
-                LightCamera.orthographicSize = 
-                    _camera.orthographicSize*(_extendedLightTextureSize.y/(float)_smallLightTextureSize.y);// _extendedLightTextureSize.y/(2f*LightPixelsPerUnityMeter);
+                LightCamera.orthographicSize =
+                    _camera.orthographicSize * (_extendedLightTextureSize.y / (float)_smallLightTextureSize.y);// _extendedLightTextureSize.y/(2f*LightPixelsPerUnityMeter);
                 LightCamera.fieldOfView = _camera.fieldOfView + LightCameraFovAdd;
-                LightCamera.aspect = _extendedLightTextureSize.x/(float) _extendedLightTextureSize.y;
+                LightCamera.aspect = _extendedLightTextureSize.x / (float)_extendedLightTextureSize.y;
             }
             else
             {

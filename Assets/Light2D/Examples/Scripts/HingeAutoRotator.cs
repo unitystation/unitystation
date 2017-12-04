@@ -27,7 +27,7 @@ namespace Light2D.Examples
             var targetAngle = WorldAngle ? TargetAngle : _jointRigidbody.rotation - TargetAngle;
             var rotTarget = Mathf.DeltaAngle(targetAngle, Joint.connectedBody.rotation);
             var motor = Joint.motor;
-            motor.motorSpeed = Mathf.Clamp(-rotTarget*Speed, -MaxSpeed, MaxSpeed);
+            motor.motorSpeed = Mathf.Clamp(-rotTarget * Speed, -MaxSpeed, MaxSpeed);
             Joint.motor = motor;
         }
     }

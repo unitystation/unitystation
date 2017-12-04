@@ -6,7 +6,8 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable]
-public class SerializableDictionary<TKey, TValue>: ISerializationCallbackReceiver {
+public class SerializableDictionary<TKey, TValue> : ISerializationCallbackReceiver
+{
 
     private Dictionary<TKey, TValue> dictionary = new Dictionary<TKey, TValue>();
 
@@ -19,28 +20,33 @@ public class SerializableDictionary<TKey, TValue>: ISerializationCallbackReceive
     public Dictionary<TKey, TValue>.KeyCollection Keys { get { return dictionary.Keys; } }
     public Dictionary<TKey, TValue>.ValueCollection Values { get { return dictionary.Values; } }
 
-    public void OnBeforeSerialize() {
+    public void OnBeforeSerialize()
+    {
         keys.Clear();
         values.Clear();
 
-        foreach(KeyValuePair<TKey, TValue> pair in dictionary) {
+        foreach (KeyValuePair<TKey, TValue> pair in dictionary)
+        {
             keys.Add(pair.Key);
             values.Add(pair.Value);
         }
     }
 
-    public void OnAfterDeserialize() {
+    public void OnAfterDeserialize()
+    {
         dictionary.Clear();
 
-        for(int i = 0; i < keys.Count; i++)
+        for (int i = 0; i < keys.Count; i++)
             dictionary.Add(keys[i], values[i]);
     }
 
-    public void Add(TKey key, TValue value) {
+    public void Add(TKey key, TValue value)
+    {
         dictionary.Add(key, value);
     }
 
-    public TValue this[TKey key] {
+    public TValue this[TKey key]
+    {
         get { return dictionary[key]; }
         set { dictionary[key] = value; }
     }
@@ -53,14 +59,17 @@ public class SerializableDictionary<TKey, TValue>: ISerializationCallbackReceive
 }
 
 [Serializable]
-public class GridDictionary<TValue>: SerializableDictionary<long, TValue> {
-    public TValue this[int x, int y] {
+public class GridDictionary<TValue> : SerializableDictionary<long, TValue>
+{
+    public TValue this[int x, int y]
+    {
         get { return this[calculateKey(x, y)]; }
         set { this[calculateKey(x, y)] = value; }
     }
 
-    private long calculateKey(int x, int y) {
-        return ((long) x << 32) + y;
+    private long calculateKey(int x, int y)
+    {
+        return ((long)x << 32) + y;
     }
 
     public bool ContainsKey(int x, int y) { return ContainsKey(calculateKey(x, y)); }
@@ -69,7 +78,7 @@ public class GridDictionary<TValue>: SerializableDictionary<long, TValue> {
 }
 
 [Serializable]
-public class NodeDictionary: GridDictionary<MatrixNode> { }
+public class NodeDictionary : GridDictionary<MatrixNode> { }
 
 [Serializable]
-public class EventDictionary: GridDictionary<UnityEvent> { }
+public class EventDictionary : GridDictionary<UnityEvent> { }

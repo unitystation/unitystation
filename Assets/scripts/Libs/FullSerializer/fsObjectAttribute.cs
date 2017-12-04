@@ -1,12 +1,14 @@
 ﻿using System;
 
-namespace FullSerializer {
+namespace FullSerializer
+{
     /// <summary>
     /// This attribute controls some serialization behavior for a type. See the comments
     /// on each of the fields for more information.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-    public sealed class fsObjectAttribute : Attribute {
+    public sealed class fsObjectAttribute : Attribute
+    {
         /// <summary>
         /// The previous model that should be used if an old version of this
         /// object is encountered. Using this attribute also requires that the
@@ -44,7 +46,8 @@ namespace FullSerializer {
         public Type Processor;
 
         public fsObjectAttribute() { }
-        public fsObjectAttribute(string versionString, params Type[] previousModels) {
+        public fsObjectAttribute(string versionString, params Type[] previousModels)
+        {
             VersionString = versionString;
             PreviousModels = previousModels;
         }

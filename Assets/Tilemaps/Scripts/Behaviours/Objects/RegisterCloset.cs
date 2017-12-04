@@ -9,7 +9,7 @@ namespace Tilemaps.Scripts.Behaviours.Objects
     public class RegisterCloset : RegisterObject
     {
         public bool IsClosed = true;
-        
+
         public override bool IsPassable()
         {
             return !IsClosed;

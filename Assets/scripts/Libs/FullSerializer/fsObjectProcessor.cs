@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace FullSerializer {
+namespace FullSerializer
+{
     /// <summary>
     /// <para>
     /// Enables injecting code before/after an object has been serialized. This is most
@@ -14,7 +15,8 @@ namespace FullSerializer {
     /// p1#Before p2#Before /serialization/ p2#After p1#After.
     /// </para>
     /// </summary>
-    public abstract class fsObjectProcessor {
+    public abstract class fsObjectProcessor
+    {
         /// <summary>
         /// Is the processor interested in objects of the given type?
         /// </summary>

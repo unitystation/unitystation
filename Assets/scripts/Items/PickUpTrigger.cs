@@ -6,26 +6,29 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Items {
-    public class PickUpTrigger: InputTrigger {
+namespace Items
+{
+    public class PickUpTrigger : InputTrigger
+    {
         private void Start()
         {
             CheckSpriteOrder();
         }
-        public override void Interact(GameObject originator, string hand) {
+        public override void Interact(GameObject originator, string hand)
+        {
 
-			if (originator.GetComponent<PlayerScript>().canNotInteract())
-				return;
+            if (originator.GetComponent<PlayerScript>().canNotInteract())
+                return;
 
-            if ( !isServer )
+            if (!isServer)
             {
                 var uiSlotObject = new UISlotObject(hand, gameObject);
 
                 //PreCheck
-                if ( UIManager.CanPutItemToSlot(uiSlotObject) )
+                if (UIManager.CanPutItemToSlot(uiSlotObject))
                 {
                     //Simulation
-//                    UIManager.UpdateSlot(uiSlotObject);
+                    //                    UIManager.UpdateSlot(uiSlotObject);
 
                     //Client informs server of interaction attempt
                     InteractMessage.Send(gameObject, hand);
@@ -40,7 +43,7 @@ namespace Items {
                 else
                 {
                     //Rollback prediction
-//                    originator.GetComponent<PlayerNetworkActions>().RollbackPrediction(hand);
+                    //                    originator.GetComponent<PlayerNetworkActions>().RollbackPrediction(hand);
                 }
             }
         }
@@ -50,7 +53,7 @@ namespace Items {
         {
             var ps = originator.GetComponent<PlayerScript>();
             var slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
-            if ( PlayerManager.PlayerScript == null || !ps.playerNetworkActions.Inventory.ContainsKey(slotName) )
+            if (PlayerManager.PlayerScript == null || !ps.playerNetworkActions.Inventory.ContainsKey(slotName))
             {
                 return false;
             }
@@ -58,7 +61,7 @@ namespace Items {
             //set ForceInform to false for simulation
             return ps.playerNetworkActions.AddItem(gameObject, slotName, false /*, false*/);
         }
-        
+
         /// <summary>
         /// If a SpriteRenderer.sortingOrder is 0 then there will be difficulty
         /// interacting with the object via the InputTrigger especially when placed on
@@ -67,8 +70,10 @@ namespace Items {
         private void CheckSpriteOrder()
         {
             SpriteRenderer sR = GetComponentInChildren<SpriteRenderer>();
-            if (sR != null) {
-                if (sR.sortingLayerName == "Items" && sR.sortingOrder == 0) {
+            if (sR != null)
+            {
+                if (sR.sortingLayerName == "Items" && sR.sortingOrder == 0)
+                {
                     sR.sortingOrder = 1;
                 }
             }

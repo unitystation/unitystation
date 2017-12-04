@@ -9,7 +9,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
     public class MetaTileMap : MonoBehaviour
     {
         public Dictionary<LayerType, Layer> Layers { get; private set; }
-        
+
         private void OnEnable()
         {
             Layers = new Dictionary<LayerType, Layer>();
@@ -97,7 +97,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
                     Layers[layer.LayerType].SetPreviewTile(position, LayerTile.EmptyTile, Matrix4x4.identity);
                 }
             }
-            
+
             Layers[tile.LayerType].SetPreviewTile(position, tile, transformMatrix);
         }
 

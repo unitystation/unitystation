@@ -10,25 +10,27 @@ namespace UI
 {
     public class PlayerHealthUI : MonoBehaviour
     {
-		public OverlayCrits overlayCrits;
-		public UI_HeartMonitor heartMonitor;
+        public OverlayCrits overlayCrits;
+        public UI_HeartMonitor heartMonitor;
 
-		//Server calls to update the UI
+        //Server calls to update the UI
 
-		public void UpdateHealthUI(UpdateUIMessage validateMsg, int curHealth){
-			if (validateMsg == null) //can only be called from server msg
-				return;
+        public void UpdateHealthUI(UpdateUIMessage validateMsg, int curHealth)
+        {
+            if (validateMsg == null) //can only be called from server msg
+                return;
 
-			DetermineUIDisplay(curHealth);
-		}
+            DetermineUIDisplay(curHealth);
+        }
 
-		private void DetermineUIDisplay(int curHealth){
-			heartMonitor.DetermineDisplay(this, curHealth); //For the heart monitor anim (atm just working off maxHealth)
-			//TODO do any other updates required in here
-		}
+        private void DetermineUIDisplay(int curHealth)
+        {
+            heartMonitor.DetermineDisplay(this, curHealth); //For the heart monitor anim (atm just working off maxHealth)
+                                                            //TODO do any other updates required in here
+        }
 
-		/// placeholder based on old code
-		public void SetBodyTypeOverlay(BodyPartBehaviour bodyPart)
+        /// placeholder based on old code
+        public void SetBodyTypeOverlay(BodyPartBehaviour bodyPart)
         {
             foreach (var listener in UIManager.Instance.GetComponentsInChildren<DamageMonitorListener>())
             {

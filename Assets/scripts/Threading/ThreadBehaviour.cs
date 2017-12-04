@@ -6,7 +6,7 @@ public enum ThreadedBehaviourType
 {
     Atmospheric = 0,
     Electricity = 1,
-    Room = 2, 
+    Room = 2,
     FOV = 3
 }
 
@@ -15,7 +15,7 @@ public class ThreadedBehaviour : MonoBehaviour
 
     [Header("Threaded Manager")]
     public bool IsRunning;
-  
+
     public int Ticker;
     public int TickSpeed = 1;
     public Thread WorkingThread;
@@ -42,7 +42,7 @@ public class ThreadedBehaviour : MonoBehaviour
         WorkingThread.Start();
         var str = String.Format("<b>{0}</b> Started", GetType().Name);
         Debug.Log(str);
-//        ConsoleDebug.AddText("<color=#00FFFF>" + str + "</color>");
+        //        ConsoleDebug.AddText("<color=#00FFFF>" + str + "</color>");
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class ThreadedBehaviour : MonoBehaviour
         }
         var str = String.Format("<b>{0}</b> Stopped", GetType().Name);
         Debug.Log(str);
-//        ConsoleDebug.AddText("<color=#00FFFF>" + str + "</color>");
+        //        ConsoleDebug.AddText("<color=#00FFFF>" + str + "</color>");
         IsRunning = false;
     }
 

@@ -13,7 +13,7 @@ public class RunMethodMessage : ServerMessage<RunMethodMessage>
     public override IEnumerator Process()
     {
         //To be run on client
-//        Debug.Log("Processed " + ToString());
+        //        Debug.Log("Processed " + ToString());
 
         yield return WaitFor(Recipient, Parameter);
 
@@ -22,10 +22,11 @@ public class RunMethodMessage : ServerMessage<RunMethodMessage>
 
     public static RunMethodMessage Send(GameObject recipient, string method, GameObject parameter = null)
     {
-        var msg = new RunMethodMessage{
+        var msg = new RunMethodMessage
+        {
             Recipient = recipient.GetComponent<NetworkIdentity>().netId, //?
             Method = method,
-            Parameter = (parameter != null) ? 
+            Parameter = (parameter != null) ?
                 parameter.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid
         };
         msg.SendTo(recipient);
@@ -34,7 +35,7 @@ public class RunMethodMessage : ServerMessage<RunMethodMessage>
 
     public override string ToString()
     {
-        return string.Format("[RunMethodMessage Recipient={0} Method={2} Parameter={3} Type={1}]", 
+        return string.Format("[RunMethodMessage Recipient={0} Method={2} Parameter={3} Type={1}]",
                                                         Recipient, MessageType, Method, Parameter);
     }
 }

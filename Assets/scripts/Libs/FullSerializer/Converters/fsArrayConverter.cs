@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections;
 
-namespace FullSerializer.Internal {
-    public class fsArrayConverter : fsConverter {
-        public override bool CanProcess(Type type) {
+namespace FullSerializer.Internal
+{
+    public class fsArrayConverter : fsConverter
+    {
+        public override bool CanProcess(Type type)
+        {
             return type.IsArray;
         }
 
-        public override bool RequestCycleSupport(Type storageType) {
+        public override bool RequestCycleSupport(Type storageType)
+        {
             return false;
         }
 
-        public override bool RequestInheritanceSupport(Type storageType) {
+        public override bool RequestInheritanceSupport(Type storageType)
+        {
             return false;
         }
 
-        public override fsResult TrySerialize(object instance, out fsData serialized, Type storageType) {
+        public override fsResult TrySerialize(object instance, out fsData serialized, Type storageType)
+        {
             // note: IList[index] is **significantly** faster than Array.Get, so make sure we use
             //       that instead.
 
@@ -27,7 +33,8 @@ namespace FullSerializer.Internal {
             serialized = fsData.CreateList(arr.Count);
             var serializedList = serialized.AsList;
 
-            for (int i = 0; i < arr.Count; ++i) {
+            for (int i = 0; i < arr.Count; ++i)
+            {
                 object item = arr[i];
 
                 fsData serializedItem;
@@ -42,11 +49,13 @@ namespace FullSerializer.Internal {
             return result;
         }
 
-        public override fsResult TryDeserialize(fsData data, ref object instance, Type storageType) {
+        public override fsResult TryDeserialize(fsData data, ref object instance, Type storageType)
+        {
             var result = fsResult.Success;
 
             // Verify that we actually have an List
-            if ((result += CheckType(data, fsDataType.Array)).Failed) {
+            if ((result += CheckType(data, fsDataType.Array)).Failed)
+            {
                 return result;
             }
 
@@ -56,7 +65,8 @@ namespace FullSerializer.Internal {
             var list = new ArrayList(serializedList.Count);
             int existingCount = list.Count;
 
-            for (int i = 0; i < serializedList.Count; ++i) {
+            for (int i = 0; i < serializedList.Count; ++i)
+            {
                 var serializedItem = serializedList[i];
                 object deserialized = null;
                 if (i < existingCount) deserialized = list[i];
@@ -73,7 +83,8 @@ namespace FullSerializer.Internal {
             return result;
         }
 
-        public override object CreateInstance(fsData data, Type storageType) {
+        public override object CreateInstance(fsData data, Type storageType)
+        {
             return fsMetaType.Get(Serializer.Config, storageType).CreateInstance();
         }
     }

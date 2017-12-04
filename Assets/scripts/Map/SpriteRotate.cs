@@ -5,8 +5,9 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(SpriteRenderer))]
-public class SpriteRotate: MonoBehaviour {
-	#if UNITY_EDITOR
+public class SpriteRotate : MonoBehaviour
+{
+#if UNITY_EDITOR
     public Sprite[] sprites = new Sprite[0];
     public Vector2[] positions = new Vector2[0];
     public Vector3 colliderOffset;
@@ -15,32 +16,39 @@ public class SpriteRotate: MonoBehaviour {
     [HideInInspector]
     [SerializeField]
     private int rotateIndex = 0;
-    public  int RotateIndex {
+    public int RotateIndex
+    {
         get { return rotateIndex; }
-        set {
-            if(spriteRenderer && sprites.Length > 1) {
+        set
+        {
+            if (spriteRenderer && sprites.Length > 1)
+            {
                 rotateIndex = (value + sprites.Length) % sprites.Length;
                 spriteRenderer.sprite = sprites[rotateIndex];
             }
 
-            if(positions.Length > 1) {
+            if (positions.Length > 1)
+            {
                 rotateIndex = (value + positions.Length) % positions.Length;
                 transform.localPosition = positions[rotateIndex];
             }
         }
     }
 
-    void Awake() {
+    void Awake()
+    {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
-    public void RotateForwards() {
+    public void RotateForwards()
+    {
         RotateIndex++;
     }
 
-    public void RotateBackwards() {
+    public void RotateBackwards()
+    {
         RotateIndex--;
     }
-	#endif
+#endif
 }
 

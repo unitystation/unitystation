@@ -23,7 +23,7 @@ namespace PlayGroup
         private PlayerSync playerSync;
         [HideInInspector] public PushPull pushPull; //The push pull component attached to this player
 
-        public KeyCode[] keyCodes = {KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow};
+        public KeyCode[] keyCodes = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
 
         public bool diagonalMovement;
         public float speed = 10;
@@ -73,15 +73,15 @@ namespace PlayGroup
             for (int i = 0; i < keyCodes.Length; i++)
             {
                 if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
-                    return new PlayerAction() {keyCodes = actionKeys.ToArray()};
+                    return new PlayerAction() { keyCodes = actionKeys.ToArray() };
 
                 if (Input.GetKey(keyCodes[i]) && allowInput && !isPushing)
                 {
-                    actionKeys.Add((int) keyCodes[i]);
+                    actionKeys.Add((int)keyCodes[i]);
                 }
             }
 
-            return new PlayerAction() {keyCodes = actionKeys.ToArray()};
+            return new PlayerAction() { keyCodes = actionKeys.ToArray() };
         }
 
         public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action)
@@ -121,11 +121,11 @@ namespace PlayGroup
             var actionKeys = new List<int>(action.keyCodes);
             for (int i = 0; i < keyCodes.Length; i++)
             {
-                if (actionKeys.Contains((int) keyCodes[i]) && !pressedKeys.Contains(keyCodes[i]))
+                if (actionKeys.Contains((int)keyCodes[i]) && !pressedKeys.Contains(keyCodes[i]))
                 {
                     pressedKeys.Add(keyCodes[i]);
                 }
-                else if (!actionKeys.Contains((int) keyCodes[i]) && pressedKeys.Contains(keyCodes[i]))
+                else if (!actionKeys.Contains((int)keyCodes[i]) && pressedKeys.Contains(keyCodes[i]))
                 {
                     pressedKeys.Remove(keyCodes[i]);
                 }
@@ -182,7 +182,7 @@ namespace PlayGroup
 
             var curPos = Vector3Int.RoundToInt(currentPosition);
             var newPos = curPos + direction;
-    
+
             if (!matrix.IsPassableAt(curPos, newPos))
             {
                 return Vector3Int.zero;
@@ -192,7 +192,7 @@ namespace PlayGroup
             {
                 return direction;
             }
-            
+
             if (playerSync.pullingObject != null)
             {
                 if (matrix.ContainsAt(newPos, playerSync.pullingObject))
@@ -238,7 +238,7 @@ namespace PlayGroup
                     }
                     else
                     {
-//does not have an ID
+                        //does not have an ID
                         allowInput = false;
                         StartCoroutine(DoorInputCoolDown());
                         if (CustomNetworkManager.Instance._isServer)
@@ -247,7 +247,7 @@ namespace PlayGroup
                 }
                 else
                 {
-//door does not have restriction
+                    //door does not have restriction
                     allowInput = false;
                     //Server only here but it is a cmd for the input trigger (opening with mouse click from client)
                     if (CustomNetworkManager.Instance._isServer)
@@ -256,17 +256,17 @@ namespace PlayGroup
                     StartCoroutine(DoorInputCoolDown());
                 }
             }
-            
+
             var objectActions = matrix.GetFirst<PushPull>(position);
-            
+
             objectActions?.TryPush(gameObject, speed, direction);
         }
 
         void CheckDoorAccess(IDCard cardID, DoorController doorController)
         {
-            if (cardID.accessSyncList.Contains((int) doorController.restriction))
+            if (cardID.accessSyncList.Contains((int)doorController.restriction))
             {
-// has access
+                // has access
                 allowInput = false;
                 //Server only here but it is a cmd for the input trigger (opening with mouse click from client)
                 if (CustomNetworkManager.Instance._isServer)
@@ -276,7 +276,7 @@ namespace PlayGroup
             }
             else
             {
-// does not have access
+                // does not have access
                 allowInput = false;
                 StartCoroutine(DoorInputCoolDown());
                 //Server only here but it is a cmd for the input trigger (opening with mouse click from client)

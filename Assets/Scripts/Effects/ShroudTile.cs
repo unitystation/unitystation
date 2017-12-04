@@ -16,5 +16,5 @@ public class ShroudTile : MonoBehaviour
     {
         renderer.enabled = enabled;
     }
-        
+
 }

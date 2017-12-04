@@ -18,13 +18,13 @@ namespace Tilemaps.Scripts.Tiles
     {
         private static LayerTile _emptyTile;
         public static LayerTile EmptyTile => _emptyTile ?? (_emptyTile = CreateInstance<LayerTile>());
-        
-        public LayerType LayerType;
-        
-        public LayerTile[] RequiredTiles;
-        
 
-        public virtual Matrix4x4 Rotate(Matrix4x4 transformMatrix, bool anticlockwise=true, int count=1)
+        public LayerType LayerType;
+
+        public LayerTile[] RequiredTiles;
+
+
+        public virtual Matrix4x4 Rotate(Matrix4x4 transformMatrix, bool anticlockwise = true, int count = 1)
         {
             return transformMatrix;
         }
