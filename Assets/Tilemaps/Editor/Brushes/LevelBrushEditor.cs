@@ -28,7 +28,7 @@ namespace Tilemaps.Editor.Brushes
                 return grids?.Select(x => x.gameObject).ToArray();
             }
         }
-        
+
         public override void RegisterUndo(GameObject layer, GridBrushBase.Tool tool)
         {
             foreach (var tilemap in layer.GetComponentsInChildren<Tilemap>())
@@ -41,14 +41,14 @@ namespace Tilemaps.Editor.Brushes
         {
             if (brushTarget == null)
                 return;
-            
+
             var metaTilemap = brushTarget.GetComponent<MetaTileMap>();
 
             if (!metaTilemap)
                 return;
-            
+
             var tile = brush.cells[0].tile;
-            
+
             if (tile != _currentPreviewTile)
             {
                 if (tile is LayerTile)
@@ -58,22 +58,22 @@ namespace Tilemaps.Editor.Brushes
                     {
                         brush.cells[0].matrix = Matrix4x4.TRS(Vector3.up, Quaternion.identity, Vector3.one);
                     }
-                    
-                    previewTiles = new LayerTile[] {(LayerTile)tile};
+
+                    previewTiles = new LayerTile[] { (LayerTile)tile };
                 }
                 else if (tile is MetaTile)
                 {
-                    previewTiles = ((MetaTile) tile).GetTiles().ToArray();
+                    previewTiles = ((MetaTile)tile).GetTiles().ToArray();
                 }
-                
+
                 _currentPreviewTile = tile;
             }
-            
+
             for (int i = 0; i < previewTiles.Length; i++)
             {
                 SetPreviewTile(metaTilemap, position, previewTiles[i]);
             }
-            
+
             _currentPreviewTilemap = metaTilemap;
         }
 
@@ -103,7 +103,7 @@ namespace Tilemaps.Editor.Brushes
                 tile = previewTile;
                 position.z++; // to draw the object over already existing stuff
             }
-            
+
             metaTilemap.SetPreviewTile(position, tile, brush.cells[0].matrix);
         }
     }

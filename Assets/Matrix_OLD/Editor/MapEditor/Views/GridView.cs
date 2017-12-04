@@ -6,9 +6,11 @@ using System;
 using System.IO;
 using MatrixOld;
 
-namespace MapEditor {
+namespace MapEditor
+{
 
-    public class GridView: AbstractView {
+    public class GridView : AbstractView
+    {
 
         private int gridIndex;
         private GridData gridData;
@@ -19,21 +21,26 @@ namespace MapEditor {
 
         private int elementsPerLine = 4;
 
-        public GridView(string prefabPath, string subsectionPath) {
+        public GridView(string prefabPath, string subsectionPath)
+        {
             this.prefabPath = prefabPath;
             this.subsectionPath = subsectionPath;
         }
 
-        public override void OnGUI() {
+        public override void OnGUI()
+        {
             gridData = new GridData(prefabPath);
 
-            if(Event.current.type == EventType.Repaint) {
-                int fullWidth = (int) GUILayoutUtility.GetLastRect().width - 15;
+            if (Event.current.type == EventType.Repaint)
+            {
+                int fullWidth = (int)GUILayoutUtility.GetLastRect().width - 15;
                 elementsPerLine = ((fullWidth) / 80);
             }
 
-            GUIStyle buttonStyle = new GUIStyle(GUI.skin.button) {
-                fixedHeight = 75, fixedWidth = 75
+            GUIStyle buttonStyle = new GUIStyle(GUI.skin.button)
+            {
+                fixedHeight = 75,
+                fixedWidth = 75
             };
 
             EditorGUILayout.BeginHorizontal();
@@ -42,7 +49,8 @@ namespace MapEditor {
 
             gridIndex = GUILayout.SelectionGrid(gridIndex, gridData.Textures, elementsPerLine, buttonStyle);
 
-            if(gridIndex < gridData.Prefabs.Length) {
+            if (gridIndex < gridData.Prefabs.Length)
+            {
                 PreviewObject.Prefab = gridData.Prefabs[gridIndex];
             }
             BuildControl.CurrentSubSectionName = subsectionPath;
@@ -52,7 +60,8 @@ namespace MapEditor {
             EditorGUILayout.EndHorizontal();
         }
 
-        private void calculateMargin() {
+        private void calculateMargin()
+        {
         }
     }
 }

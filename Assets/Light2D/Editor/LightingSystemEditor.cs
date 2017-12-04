@@ -15,15 +15,15 @@ namespace Light2D
         private SerializedProperty _lightCameraFovAdd;
         private SerializedProperty _enableAmbientLight;
         private SerializedProperty _blurLightSources;
-        private SerializedProperty _blurAmbientLight ;
-        private SerializedProperty  _hdr ;
+        private SerializedProperty _blurAmbientLight;
+        private SerializedProperty _hdr;
         private SerializedProperty _lightObstaclesAntialiasing;
         private SerializedProperty _ambientLightComputeMaterial;
         private SerializedProperty _lightOverlayMaterial;
         private SerializedProperty _lightSourcesBlurMaterial;
         private SerializedProperty _ambientLightBlurMaterial;
         private SerializedProperty _lightCamera;
-		private SerializedProperty _BgCamera;
+        private SerializedProperty _BgCamera;
         private SerializedProperty _lightSourcesLayer;
         private SerializedProperty _ambientLightLayer;
         private SerializedProperty _lightObstaclesLayer;
@@ -51,7 +51,7 @@ namespace Light2D
             _lightSourcesBlurMaterial = serializedObject.FindProperty("LightSourcesBlurMaterial");
             _ambientLightBlurMaterial = serializedObject.FindProperty("AmbientLightBlurMaterial");
             _lightCamera = serializedObject.FindProperty("LightCamera");
-			_BgCamera = serializedObject.FindProperty("BgCamera");
+            _BgCamera = serializedObject.FindProperty("BgCamera");
             _lightSourcesLayer = serializedObject.FindProperty("LightSourcesLayer");
             _ambientLightLayer = serializedObject.FindProperty("AmbientLightLayer");
             _lightObstaclesLayer = serializedObject.FindProperty("LightObstaclesLayer");
@@ -101,21 +101,21 @@ namespace Light2D
                     float zoom = (tk2dCamera == null ? 1 : tk2dCamera.ZoomFactor);
                     size = (cam.orthographicSize*zoom + _lightCameraSizeAdd.floatValue) * 2f;
 #else
-                    size = (cam.orthographicSize + _lightCameraSizeAdd.floatValue)*2f;
+                    size = (cam.orthographicSize + _lightCameraSizeAdd.floatValue) * 2f;
 #endif
                 }
                 else
                 {
-                    var halfFov = (cam.fieldOfView + _lightCameraFovAdd.floatValue)*Mathf.Deg2Rad/2f;
-                    size = Mathf.Tan(halfFov)*_lightObstaclesDistance.floatValue*2;
+                    var halfFov = (cam.fieldOfView + _lightCameraFovAdd.floatValue) * Mathf.Deg2Rad / 2f;
+                    size = Mathf.Tan(halfFov) * _lightObstaclesDistance.floatValue * 2;
                 }
                 if (!Application.isPlaying)
                 {
 
-                    int lightTextureHeight = Mathf.RoundToInt(size/_lightPixelSize.floatValue);
+                    int lightTextureHeight = Mathf.RoundToInt(size / _lightPixelSize.floatValue);
                     var oldSize = lightTextureHeight;
                     lightTextureHeight = EditorGUILayout.IntField("Light Texture Height", lightTextureHeight);
-                    if (lightTextureHeight%2 != 0)
+                    if (lightTextureHeight % 2 != 0)
                         lightTextureHeight++;
                     if (lightTextureHeight < 16)
                     {
@@ -133,7 +133,7 @@ namespace Light2D
                     }
                     if (oldSize != lightTextureHeight && !sizeChanged)
                     {
-                        _lightPixelSize.floatValue = size/lightTextureHeight;
+                        _lightPixelSize.floatValue = size / lightTextureHeight;
                     }
                 }
             }
@@ -186,7 +186,7 @@ namespace Light2D
 
             EditorGUILayout.PropertyField(_lightOverlayMaterial, new GUIContent("Light Overlay Material"));
             EditorGUILayout.PropertyField(_lightCamera, new GUIContent("Lighting Camera"));
-			EditorGUILayout.PropertyField(_BgCamera, new GUIContent("BG Camera"));
+            EditorGUILayout.PropertyField(_BgCamera, new GUIContent("BG Camera"));
             _lightSourcesLayer.intValue = EditorGUILayout.LayerField(new GUIContent("Light Sources Layer"), _lightSourcesLayer.intValue);
             _lightObstaclesLayer.intValue = EditorGUILayout.LayerField(new GUIContent("Light Obstacles Layer"), _lightObstaclesLayer.intValue);
             _ambientLightLayer.intValue = EditorGUILayout.LayerField(new GUIContent("Ambient Light Layer"), _ambientLightLayer.intValue);

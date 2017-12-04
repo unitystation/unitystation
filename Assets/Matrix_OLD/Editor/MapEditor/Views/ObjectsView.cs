@@ -4,21 +4,24 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-namespace MapEditor {
+namespace MapEditor
+{
 
-    public class ObjectsView: CategoryView {
+    public class ObjectsView : CategoryView
+    {
 
-        public ObjectsView(IEnumerable<string> fileName, string path) : base("Objects", "Section") {
+        public ObjectsView(IEnumerable<string> fileName, string path) : base("Objects", "Section")
+        {
             string pathString = path + "/Prefabs/Objects";
             foreach (string f in fileName)
             {
                 if ((f).Contains(pathString) && (f != pathString))
-                {                   
+                {
                     //name, path, subsection
                     string stringName = f.Replace(path + "/Prefabs/", "");
                     string subsection = stringName.Substring(stringName.LastIndexOf("/") + 1);
                     optionList.Add(subsection, stringName, subsection);
-                    
+
 
                 }
             }
@@ -31,7 +34,8 @@ namespace MapEditor {
              optionList.Add("Kitchen", "Machines/Kitchen", "Objects*/
         }
 
-        protected override void DrawContent() {
+        protected override void DrawContent()
+        {
         }
     }
 }

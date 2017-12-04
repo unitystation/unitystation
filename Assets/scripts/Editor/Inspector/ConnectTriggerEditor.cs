@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace MatrixOld {
+namespace MatrixOld
+{
 
     [CustomEditor(typeof(ConnectTrigger))]
-    public class ConnectTriggerEditor: Editor {
+    public class ConnectTriggerEditor : Editor
+    {
         private static string[] connectTypeNames;
 
-        static ConnectTriggerEditor() {
+        static ConnectTriggerEditor()
+        {
             List<string> list = new List<string>();
-            foreach(var tileConnectType in ConnectType.List) {
+            foreach (var tileConnectType in ConnectType.List)
+            {
                 list.Add(tileConnectType.Name);
             }
             connectTypeNames = list.ToArray();
         }
 
-        public override void OnInspectorGUI() {
+        public override void OnInspectorGUI()
+        {
             DrawDefaultInspector();
 
             var connectTrigger = target as ConnectTrigger;

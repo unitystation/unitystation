@@ -12,10 +12,10 @@ namespace Tilemaps.Editor
         private static bool DrawGizmos;
 
         private static bool passable;
-        
+
         private static bool north;
         private static bool south;
-        
+
         private static bool space;
 
         private SceneView currentSceneView;
@@ -59,7 +59,7 @@ namespace Tilemaps.Editor
         {
             if (!DrawGizmos)
                 return;
-            
+
             var start = Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(Vector3.one * -32) - scr.transform.position); // bottom left
             var end = Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth + 32, Camera.current.pixelHeight + 32)) - scr.transform.position);
             start.z = 0;
@@ -71,13 +71,13 @@ namespace Tilemaps.Editor
                 // avoid being zoomed out too much (creates too many objects)
                 return;
             }
-            
+
             Gizmos.matrix = scr.transform.localToWorldMatrix;
-            
-            
+
+
             var blue = Color.blue;
             blue.a = 0.5f;
-            
+
             var red = Color.red;
             red.a = 0.5f;
 

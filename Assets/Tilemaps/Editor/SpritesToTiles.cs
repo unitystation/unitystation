@@ -25,23 +25,23 @@ namespace Tilemaps.Editor
         private static void LoadTiles(string path)
         {
             var assets = AssetDatabase.LoadAllAssetsAtPath(path);
-            
+
             foreach (var entry in DmiIconData.Data)
             {
                 if (entry.Key.Contains("floors.dmi")) // TODO only supports floors right now
                 {
                     var folderPath = Path.Combine(tilesPath, assets[0].name);
-                    
+
                     foreach (var state in entry.Value.states)
                     {
                         var dmiIndex = int.Parse(state.unityName.Replace("floors_", ""));
 
                         var tileCount = state.frames * state.dirs;
-                        
+
                         for (int e = 0; e < state.frames * state.dirs; e++)
                         {
-                            var tileName = state.state + (tileCount > 1? "_" + e: "");
-                            
+                            var tileName = state.state + (tileCount > 1 ? "_" + e : "");
+
                             var tile = TileBuilder.CreateTile<SimpleTile>(LayerType.Floors);
                             tile.sprite = assets[dmiIndex + e + 1] as Sprite;
                             tile.LayerType = LayerType.Floors;
@@ -50,7 +50,7 @@ namespace Tilemaps.Editor
                             {
                                 tileName = "FloorTile";
                             }
-                            
+
                             TileBuilder.CreateAsset(tile, tileName, folderPath);
                         }
                     }

@@ -13,18 +13,18 @@ using static JsonToTilemap;
 public class MapToJSON : Editor
 {
     //adding +50 offset to spriteRenderers containing these:
-    static readonly List<string> separateLayerMarkers = new List<string>(new []{"WarningLine"});
+    static readonly List<string> separateLayerMarkers = new List<string>(new[] { "WarningLine" });
     //not marking these as legacy:
-    static readonly List<string> legacyExclusionList = new List<string>(new[] {"turf/shuttle.png"/*,"lighting.png","obj/power.png"*/});
+    static readonly List<string> legacyExclusionList = new List<string>(new[] { "turf/shuttle.png"/*,"lighting.png","obj/power.png"*/});
     //pretending these contain TileConnect component (however, four of these are still required to generate a temporary tile):
     //Item1: name to lookup (via Contains())
     //Item2: asset path to use instead while exporting
-    static readonly List<Tuple<string,string>> tileConnectWannabes = new List<Tuple<string,string>>
-        (new []{new Tuple<string, string>("shuttle_wall_Skew","walls/shuttle_wall")});
+    static readonly List<Tuple<string, string>> tileConnectWannabes = new List<Tuple<string, string>>
+        (new[] { new Tuple<string, string>("shuttle_wall_Skew", "walls/shuttle_wall") });
 
-    
+
     private static string TC = "tc_";
-    
+
     [MenuItem("Tools/Export map (JSON)")]
     static void Map2JSON()
     {
@@ -34,77 +34,77 @@ public class MapToJSON : Editor
         var tilemapLayers = new SortedDictionary<string, TilemapLayer>(Comparer<string>.Create(CompareSpriteLayer));
         var tempGameObjects = new List<GameObject>();
 
-        for ( int y = 0; y < nodesMapped.GetLength(0); y++ )
+        for (int y = 0; y < nodesMapped.GetLength(0); y++)
         {
-            for ( int x = 0; x < nodesMapped.GetLength(1); x++ )
+            for (int x = 0; x < nodesMapped.GetLength(1); x++)
             {
                 var node = nodesMapped[y, x];
 
-                if ( node == null )
+                if (node == null)
                     continue;
 
                 var nodeRenderers = new List<SpriteRenderer>();
 
                 var objectsToExport = node.GetTiles();
                 node.GetItems().ForEach(behaviour => objectsToExport.Add(behaviour.gameObject));
-                
-                foreach ( var tile in objectsToExport )
+
+                foreach (var tile in objectsToExport)
                 {
                     var tileRenderers = tile.GetComponentsInChildren<SpriteRenderer>();
-                    if ( tileRenderers == null || tileRenderers.Length < 1 ) continue;
-                        var tileconnects = 0;
-                        foreach ( var renderer in tileRenderers )
-                        {
-                            if ( thisRendererSucks(renderer) || renderer.sortingLayerID == 0 )
-                                continue;
-                            
-                            TryMoveToSeparateLayer(renderer);
-                            
-                            if ( renderer.GetComponent<TileConnect>() || IsTileConnectWannabe(renderer) )
-                            {
-                                tileconnects++;
-                                if ( tileconnects != 4 ) continue;
-                                if ( tileconnects > 4 )
-                                {
-                                    Debug.LogWarningFormat("{0} — more than 4 tileconnects found!", renderer.name);
-                                }
-                                // grouping four tileconnect sprites into a single temporary thing
-                                GameObject tcMergeGameObject = Instantiate(renderer.gameObject, tile.transform.position,
-                                    Quaternion.identity, tile.transform);
-                                tempGameObjects.Add(tcMergeGameObject);
-                                var childClone = tcMergeGameObject.GetComponent<SpriteRenderer>();
-                                var spriteName = childClone.sprite.name;
+                    if (tileRenderers == null || tileRenderers.Length < 1) continue;
+                    var tileconnects = 0;
+                    foreach (var renderer in tileRenderers)
+                    {
+                        if (thisRendererSucks(renderer) || renderer.sortingLayerID == 0)
+                            continue;
 
-                                if ( spriteName.Contains("_") )
-                                {
-                                    childClone.name = TC + spriteName.Substring(0,
-                                                          spriteName.LastIndexOf("_", StringComparison.Ordinal));
-                                }
-                                nodeRenderers.Add(childClone);
-                            }
-                            else
+                        TryMoveToSeparateLayer(renderer);
+
+                        if (renderer.GetComponent<TileConnect>() || IsTileConnectWannabe(renderer))
+                        {
+                            tileconnects++;
+                            if (tileconnects != 4) continue;
+                            if (tileconnects > 4)
                             {
-                                renderer.name = renderer.sprite.name;
-                                if ( DuplicateFound(renderer, nodeRenderers) )
-                                {
-                                    Debug.LogFormat("Skipping {0}({1}) as duplicate", renderer.name, GetSortingLayerName(renderer));
-                                    continue;
-                                }
-                                var uniqueSortingOrder = GetUniqueSortingOrder(renderer, nodeRenderers);
-                                if ( !uniqueSortingOrder.Equals(renderer.sortingOrder) )
-                                {
-                                    renderer.sortingOrder = uniqueSortingOrder;
-                                }
-                                nodeRenderers.Add(renderer);
+                                Debug.LogWarningFormat("{0} — more than 4 tileconnects found!", renderer.name);
                             }
+                            // grouping four tileconnect sprites into a single temporary thing
+                            GameObject tcMergeGameObject = Instantiate(renderer.gameObject, tile.transform.position,
+                                Quaternion.identity, tile.transform);
+                            tempGameObjects.Add(tcMergeGameObject);
+                            var childClone = tcMergeGameObject.GetComponent<SpriteRenderer>();
+                            var spriteName = childClone.sprite.name;
+
+                            if (spriteName.Contains("_"))
+                            {
+                                childClone.name = TC + spriteName.Substring(0,
+                                                      spriteName.LastIndexOf("_", StringComparison.Ordinal));
+                            }
+                            nodeRenderers.Add(childClone);
                         }
+                        else
+                        {
+                            renderer.name = renderer.sprite.name;
+                            if (DuplicateFound(renderer, nodeRenderers))
+                            {
+                                Debug.LogFormat("Skipping {0}({1}) as duplicate", renderer.name, GetSortingLayerName(renderer));
+                                continue;
+                            }
+                            var uniqueSortingOrder = GetUniqueSortingOrder(renderer, nodeRenderers);
+                            if (!uniqueSortingOrder.Equals(renderer.sortingOrder))
+                            {
+                                renderer.sortingOrder = uniqueSortingOrder;
+                            }
+                            nodeRenderers.Add(renderer);
+                        }
+                    }
                 }
 
-                foreach ( var renderer in nodeRenderers )
+                foreach (var renderer in nodeRenderers)
                 {
                     var currentLayerName = GetSortingLayerName(renderer);
                     TilemapLayer tilemapLayer;
-                    if ( tilemapLayers.ContainsKey(currentLayerName) )
+                    if (tilemapLayers.ContainsKey(currentLayerName))
                     {
                         tilemapLayer = tilemapLayers[currentLayerName];
                     }
@@ -113,13 +113,13 @@ public class MapToJSON : Editor
                         tilemapLayer = new TilemapLayer();
                         tilemapLayers[currentLayerName] = tilemapLayer;
                     }
-                    if ( tilemapLayer == null )
+                    if (tilemapLayer == null)
                     {
                         continue;
                     }
                     UniTileData tileDataInstance = CreateInstance<UniTileData>();
                     var parentObject = renderer.transform.parent.gameObject;
-                    if ( parentObject )
+                    if (parentObject)
                     {
                         tileDataInstance.Name = parentObject.name;
                     }
@@ -127,14 +127,14 @@ public class MapToJSON : Editor
                     var parenttf = renderer.transform.parent.gameObject.transform;
                     //don't apply any rotation for tileconnects
                     var isTC = renderer.name.StartsWith(TC);
-                    var zeroRot = Quaternion.Euler(0,0,0);
+                    var zeroRot = Quaternion.Euler(0, 0, 0);
 
-                    tileDataInstance.ChildTransform = 
+                    tileDataInstance.ChildTransform =
                         Matrix4x4.TRS(childtf.localPosition, isTC ? zeroRot : childtf.localRotation, childtf.localScale);
 
-                    tileDataInstance.Transform = 
+                    tileDataInstance.Transform =
                         Matrix4x4.TRS(parenttf.position, isTC ? zeroRot : parenttf.localRotation, parenttf.localScale);
-                    
+
                     tileDataInstance.OriginalSpriteName = renderer.sprite.name;
                     tileDataInstance.SpriteName = renderer.name;
                     var assetPath = AssetDatabase.GetAssetPath(renderer.sprite.GetInstanceID());
@@ -152,7 +152,7 @@ public class MapToJSON : Editor
             }
         }
 
-        foreach ( var layer in tilemapLayers )
+        foreach (var layer in tilemapLayers)
         {
             Debug.LogFormat("{0}: {1}", layer.Key, layer.Value);
         }
@@ -163,7 +163,7 @@ public class MapToJSON : Editor
             fsJsonPrinter.PrettyJson(data));
 
         //Cleanup
-        foreach ( var o in tempGameObjects )
+        foreach (var o in tempGameObjects)
         {
             DestroyImmediate(o);
         }
@@ -174,7 +174,7 @@ public class MapToJSON : Editor
 
     private static bool DuplicateFound(SpriteRenderer renderer, List<SpriteRenderer> nodeRenderers)
     {
-        return nodeRenderers.FindAll(sr => sr.name.Equals(renderer.name) 
+        return nodeRenderers.FindAll(sr => sr.name.Equals(renderer.name)
                                            && sr.transform.position.Equals(renderer.transform.position)
                                            && sr.transform.rotation.Equals(renderer.transform.rotation)
                                            ).Count != 0;
@@ -197,7 +197,7 @@ public class MapToJSON : Editor
         var parentObj = renderer.transform.parent.gameObject;
         var isTileConnectWannabe = parentObj && tileConnectWannabes.Any(tuple => parentObj.name.Contains(tuple.Item1));
         newPath = "";
-        if ( isTileConnectWannabe )
+        if (isTileConnectWannabe)
         {
             newPath = tileConnectWannabes.Find(tuple => parentObj.name.Contains(tuple.Item1)).Item2;
         }
@@ -208,7 +208,7 @@ public class MapToJSON : Editor
     {
         var parentObj = renderer.transform.parent.gameObject;
         var moveToSeparateLayer = parentObj && separateLayerMarkers.Any(parentObj.name.Contains);
-        if ( moveToSeparateLayer )
+        if (moveToSeparateLayer)
         {
             renderer.sortingOrder += 50;
         }
@@ -219,7 +219,7 @@ public class MapToJSON : Editor
         var overlapFound = list.Any(r => r.sortingLayerName.Equals(renderer.Item1)
                                          && r.sortingOrder.Equals(renderer.Item2));
         // increment sorting order by 100 if overlap is detected and try again
-        if ( overlapFound )
+        if (overlapFound)
         {
             return GetUniqueSortingOrderRecursive(new Tuple<string, int>(renderer.Item1, renderer.Item2 + 100), list);
         }

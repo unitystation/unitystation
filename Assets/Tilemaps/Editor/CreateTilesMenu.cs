@@ -12,26 +12,26 @@ namespace Tilemaps.Editor
         {
             TileBuilder.CreateTile<SimpleTile>(LayerType.None, "SimpleTile");
         }
-        
+
         [MenuItem("Assets/Create/Tiles/General/Connected Tile", false, 0)]
         public static void CreateConnectedTile()
         {
             TileBuilder.CreateTile<ConnectedTile>(LayerType.None, "ConnectedTile");
         }
-        
+
         [MenuItem("Assets/Create/Tiles/General/Meta Tile", false, 0)]
         public static void CreateMetaTile()
         {
             var tile = ScriptableObject.CreateInstance<MetaTile>();
             TileBuilder.CreateAsset(tile, "MetaTile");
         }
-        
+
         [MenuItem("Assets/Create/Tiles/Floor", false, 0)]
         public static void CreateFloor()
         {
             TileBuilder.CreateTile<SimpleTile>(LayerType.Floors, "FloorTile");
         }
-        
+
         [MenuItem("Assets/Create/Tiles/Wall", false, 0)]
         public static void CreateWallConnected()
         {
@@ -77,7 +77,7 @@ namespace Tilemaps.Editor
             var tile = TileBuilder.CreateTile<ObjectTile>(LayerType.Objects);
             tile.Rotatable = true;
             tile.Offset = true;
-            
+
             TileBuilder.CreateAsset(tile, "WallMountTile");
         }
     }
