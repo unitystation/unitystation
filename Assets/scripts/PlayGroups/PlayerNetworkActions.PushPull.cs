@@ -78,7 +78,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	[Command]
 	public void CmdTryPush(GameObject obj, Vector3 pos){
-		PushPull pushed = obj.GetComponent<PushPull>();
+		var pushed = obj.GetComponent<PushPull>();
 		if (pushed != null) {
 			pushed.serverPos = pos;
 		}

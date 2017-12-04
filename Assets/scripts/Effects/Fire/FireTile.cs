@@ -52,6 +52,6 @@ public class FireTile : MonoBehaviour {
 //		if (fT != null) {
 //			fT.AddFireScorch();
 //		}
-//		PoolManager.PoolClientDestroy(gameObject);
+		PoolManager.PoolClientDestroy(gameObject);
 	}
 }

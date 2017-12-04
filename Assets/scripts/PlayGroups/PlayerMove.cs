@@ -217,52 +217,49 @@ namespace PlayGroup
 
         private void Interact(Vector3 currentPosition, Vector3 direction)
         {
-            // TODO
-//            var doorController = MatrixOld.Matrix.At(currentPosition + direction).GetDoor();
-//
-//            if (doorController != null && allowInput)
-//            {
-//                //if(!doorController.FullDoor && direction != Vector3.zero){ return; }
-//                //checking if the door actually has a restriction (only need one because that's how ss13 works!
-//                if (doorController.restriction > 0)
-//                {
-//                    //checking if the ID slot on player contains an ID with an itemIdentity component
-//                    if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>() != null)
-//                    {
-//                        //checking if the ID has access to bypass the restriction
-//                        CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>(), doorController);
-//                        //Check the current hand for an ID
-//                    }
-//                    else if (UIManager.Hands.CurrentSlot.IsFull && UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>() != null)
-//                    {
-//                        CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>(), doorController);
-//                    }
-//                    else
-//                    {
-////does not have an ID
-//                        allowInput = false;
-//                        StartCoroutine(DoorInputCoolDown());
-//                        if (CustomNetworkManager.Instance._isServer)
-//                            doorController.CmdTryDenied();
-//                    }
-//                }
-//                else
-//                {
-////door does not have restriction
-//                    allowInput = false;
-//                    //Server only here but it is a cmd for the input trigger (opening with mouse click from client)
-//                    if (CustomNetworkManager.Instance._isServer)
-//                        doorController.CmdTryOpen(gameObject);
-//
-//                    StartCoroutine(DoorInputCoolDown());
-//                }
-//            }
-//
-//            var objectActions = MatrixOld.Matrix.At(currentPosition + direction).GetPushPull();
-//            if (objectActions != null)
-//            {
-//                objectActions.TryPush(gameObject, speed, direction);
-//            }
+            var position = Vector3Int.RoundToInt(currentPosition + direction);
+            var doorController = matrix.GetFirst<DoorController>(position);
+
+            if (doorController != null && allowInput)
+            {
+                //checking if the door actually has a restriction (only need one because that's how ss13 works!
+                if (doorController.restriction > 0)
+                {
+                    //checking if the ID slot on player contains an ID with an itemIdentity component
+                    if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>() != null)
+                    {
+                        //checking if the ID has access to bypass the restriction
+                        CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>(), doorController);
+                        //Check the current hand for an ID
+                    }
+                    else if (UIManager.Hands.CurrentSlot.IsFull && UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>() != null)
+                    {
+                        CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>(), doorController);
+                    }
+                    else
+                    {
+//does not have an ID
+                        allowInput = false;
+                        StartCoroutine(DoorInputCoolDown());
+                        if (CustomNetworkManager.Instance._isServer)
+                            doorController.CmdTryDenied();
+                    }
+                }
+                else
+                {
+//door does not have restriction
+                    allowInput = false;
+                    //Server only here but it is a cmd for the input trigger (opening with mouse click from client)
+                    if (CustomNetworkManager.Instance._isServer)
+                        doorController.CmdTryOpen(gameObject);
+
+                    StartCoroutine(DoorInputCoolDown());
+                }
+            }
+            
+            var objectActions = matrix.GetFirst<PushPull>(position);
+            
+            objectActions?.TryPush(gameObject, speed, direction);
         }
 
         void CheckDoorAccess(IDCard cardID, DoorController doorController)
