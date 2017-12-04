@@ -33,7 +33,9 @@ namespace PlayGroup
 
         public JobType JobType = JobType.NULL;
 
-        public GameObject ghost;
+		public ChatChannel SelectedChannels;
+
+		public GameObject ghost;
 
         private float pingUpdate = 0f;
 
@@ -81,8 +83,7 @@ namespace PlayGroup
 
         void Init()
         {
-            if (isLocalPlayer)
-            {
+            if (isLocalPlayer) {
                 UIManager.ResetAllUI();
                 UIManager.DisplayManager.SetCameraFollowPos();
                 int rA = UnityEngine.Random.Range(0, 3);
@@ -112,9 +113,8 @@ namespace PlayGroup
                 // I (client) have connected to the server, ask what my job preference is
                 UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 
-            }
-            else if (isServer)
-            {
+				SelectedChannels = ChatChannel.OOC;
+			} else if (isServer) {
                 playerMove = GetComponent<PlayerMove>();
             }
         }
@@ -190,5 +190,24 @@ namespace PlayGroup
         {
             return DistanceTo(position) <= interactDist;
         }
-    }
+
+		public ChatChannel GetAvailableChannels()
+		{
+			//TODO get actual list based on headset
+			return (ChatChannel.Binary | ChatChannel.Cargo | ChatChannel.CentComm | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering
+				| ChatChannel.Local | ChatChannel.Medical | ChatChannel.OOC | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service | ChatChannel.Syndicate);
+		}
+
+		public ChatModifier GetCurrentChatModifiers()
+		{
+			//TODO add missing modifiers
+			ChatModifier modifiers = ChatModifier.None;
+
+			if (JobType == JobType.CLOWN) {
+				modifiers |= ChatModifier.Clown;
+			}
+
+			return modifiers;
+		}
+	}
 }

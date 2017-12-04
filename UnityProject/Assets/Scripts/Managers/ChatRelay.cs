@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UI;
+using PlayGroup;
 using System.Linq;
 
 public class ChatRelay : NetworkBehaviour
@@ -10,6 +12,8 @@ public class ChatRelay : NetworkBehaviour
 
 	public static ChatRelay chatRelay;
 	private List<ChatEvent> chatlog = new List<ChatEvent>();
+
+	private Dictionary<ChatChannel, string> chatColors;
 
 	public static ChatRelay Instance
 	{
@@ -26,6 +30,24 @@ public class ChatRelay : NetworkBehaviour
 	public override void OnStartClient()
 	{
 		RefreshLog();
+		chatColors = new Dictionary<ChatChannel, string>() {
+			{ChatChannel.Binary, "#ff00ff"},
+			{ChatChannel.Cargo, "#a8732b"},
+			{ChatChannel.CentComm, "#686868"},
+			{ChatChannel.Command, "#204090"},
+			{ChatChannel.Common, "#008000"},
+			{ChatChannel.Engineering, "#fb5613"},
+			{ChatChannel.Examine, ""},
+			{ChatChannel.Local, "#999999"},
+			{ChatChannel.Medical, "#337296"},
+			{ChatChannel.None, ""},
+			{ChatChannel.OOC, "#386aff"},
+			{ChatChannel.Science, "#993399"},
+			{ChatChannel.Security, "#a30000"},
+			{ChatChannel.Service, "#6eaa2c"},
+			{ChatChannel.Syndicate, "#6d3f40"},
+			{ChatChannel.System, "#dd5555"}
+		};
 		base.OnStartClient();
 	}
 
@@ -47,10 +69,21 @@ public class ChatRelay : NetworkBehaviour
         chatEvents.AddRange(chatlog);
         chatEvents.AddRange(UIManager.Chat.GetChatEvents());
 
-        foreach (ChatEvent chatline in chatEvents.OrderBy(c => c.timestamp))
-        {
-            string curList = UIManager.Chat.CurrentChannelText.text;
-            UIManager.Chat.CurrentChannelText.text = curList + chatline.message + "\r\n";
-        }
+		string curList = UIManager.Chat.CurrentChannelText.text;
+
+		foreach (ChatEvent chatline in chatEvents.OrderBy(c => c.timestamp)) {
+			string message = chatline.message;
+			foreach (ChatChannel channel in Enum.GetValues(typeof(ChatChannel))) {
+				if (channel == ChatChannel.None) {
+					continue;
+				}
+
+				if ((chatline.channels & channel) == channel) {
+					string colorMessage = "<color=" + chatColors[channel] + ">" + message + "</color>";
+					UIManager.Chat.CurrentChannelText.text = curList + colorMessage + "\r\n";
+					curList = UIManager.Chat.CurrentChannelText.text;
+				}
+			}
+		}
     }
 }

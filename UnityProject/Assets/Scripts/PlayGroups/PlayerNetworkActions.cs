@@ -365,11 +365,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
 	[Command]
-	public void CmdSendChatMessage(string msg, bool isLocalChat)
+	public void CmdSendChatMessage(string msg, ChatChannel channels, ChatModifier modifiers)
 	{
-		//TODO add proper channel checks after UI for them exists
-		//TODO add modifiers checks
-		ChatRelay.Instance.AddToChatLog(new ChatEvent(msg, gameObject.name, ChatChannel.Local, ChatModifier.None));
+		ChatRelay.Instance.AddToChatLog(new ChatEvent(msg, gameObject.name, channels, modifiers));
 	}
 
 	[Command]
