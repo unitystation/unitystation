@@ -145,7 +145,7 @@ namespace Light2D
 
         public static GameObject Instantiate(GameObject prefab)
         {
-            return (GameObject) Object.Instantiate(prefab);
+            return (GameObject)Object.Instantiate(prefab);
         }
 
         public static T Instantiate<T>(GameObject prefab) where T : Component
@@ -156,7 +156,7 @@ namespace Light2D
         public static T Instantiate<T>(GameObject prefab, Vector3 position, Quaternion rotation)
             where T : Component
         {
-            return ((GameObject) Object.Instantiate(prefab, position, rotation)).GetComponent<T>();
+            return ((GameObject)Object.Instantiate(prefab, position, rotation)).GetComponent<T>();
         }
 
         public static float ClampAngle(float angle)
@@ -169,30 +169,30 @@ namespace Light2D
         public static float AngleZ(this Vector2 angle)
         {
             if (angle == Vector2.zero) return 0;
-            return Vector2.Angle(Vector2.up, angle)*Mathf.Sign(-angle.x);
+            return Vector2.Angle(Vector2.up, angle) * Mathf.Sign(-angle.x);
         }
 
         public static float AngleZ(this Vector3 angle)
         {
             if (angle == Vector3.zero) return 0;
-            return Vector2.Angle(Vector2.up, angle)*Mathf.Sign(-angle.x);
+            return Vector2.Angle(Vector2.up, angle) * Mathf.Sign(-angle.x);
         }
 
         public static float Proj(Vector2 vector, Vector2 onNormal)
         {
-            return Vector2.Dot(vector, onNormal)*onNormal.magnitude;
+            return Vector2.Dot(vector, onNormal) * onNormal.magnitude;
         }
 
         public static float Cross(Vector2 lhs, Vector2 rhs)
         {
-            return lhs.x*rhs.y - lhs.y*rhs.x;
+            return lhs.x * rhs.y - lhs.y * rhs.x;
         }
 
         public static void Destroy(UnityEngine.Object obj)
         {
             if (obj == null) return;
             if (obj is GameObject)
-                ((GameObject) obj).transform.parent = null;
+                ((GameObject)obj).transform.parent = null;
 #if UNITY_EDITOR
             if (!Application.isPlaying)
                 GameObject.DestroyImmediate(obj);
@@ -216,11 +216,11 @@ namespace Light2D
 
         public static Vector2 RotateZ(this Vector2 v, float angle)
         {
-            float sin = Mathf.Sin(angle*Mathf.Deg2Rad);
-            float cos = Mathf.Cos(angle*Mathf.Deg2Rad);
+            float sin = Mathf.Sin(angle * Mathf.Deg2Rad);
+            float cos = Mathf.Cos(angle * Mathf.Deg2Rad);
             float tx = v.x;
             float ty = v.y;
-            return new Vector2((cos*tx) - (sin*ty), (cos*ty) + (sin*tx));
+            return new Vector2((cos * tx) - (sin * ty), (cos * ty) + (sin * tx));
         }
 
         public static Vector3 RotateZ(this Vector3 v, float angle)
@@ -229,7 +229,7 @@ namespace Light2D
             float cos = Mathf.Cos(angle);
             float tx = v.x;
             float ty = v.y;
-            return new Vector3((cos*tx) - (sin*ty), (cos*ty) + (sin*tx), v.z);
+            return new Vector3((cos * tx) - (sin * ty), (cos * ty) + (sin * tx), v.z);
         }
 
         public static Vector2 Rotate90(this Vector2 v)
@@ -322,7 +322,7 @@ namespace Light2D
         {
             using (var stream = File.Create(path))
             {
-                var serializer = new XmlSerializer(typeof (T));
+                var serializer = new XmlSerializer(typeof(T));
                 var xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
                 serializer.Serialize(xmlWriter, obj);
             }
@@ -332,7 +332,7 @@ namespace Light2D
         {
             using (var stream = new MemoryStream())
             {
-                var serializer = new XmlSerializer(typeof (T));
+                var serializer = new XmlSerializer(typeof(T));
                 var xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
                 serializer.Serialize(xmlWriter, obj);
                 return stream.ToArray();
@@ -343,7 +343,7 @@ namespace Light2D
         {
             using (var stream = File.OpenRead(path))
             {
-                var serializer = new XmlSerializer(typeof (T));
+                var serializer = new XmlSerializer(typeof(T));
                 var fromFile = serializer.Deserialize(stream) as T;
                 return fromFile;
             }
@@ -355,8 +355,8 @@ namespace Light2D
             {
                 using (var stream = new MemoryStream(data))
                 {
-                    var serializer = new XmlSerializer(typeof (T));
-                    var fromFile = (T) serializer.Deserialize(stream);
+                    var serializer = new XmlSerializer(typeof(T));
+                    var fromFile = (T)serializer.Deserialize(stream);
                     return fromFile;
                 }
             }
@@ -419,14 +419,14 @@ namespace Light2D
                 }
                 isEmpty = false;
             }
-            if (isEmpty) return default (T);
+            if (isEmpty) return default(T);
             return minObj;
         }
 
         public static Vector2 NearestPointOnLine(this Vector2 c, Vector2 a, Vector2 b)
         {
             var v = (a - b).normalized;
-            return b + v*Vector2.Dot(v, c - b);
+            return b + v * Vector2.Dot(v, c - b);
         }
 
         public static float DistToLine(this Vector2 c, Vector2 a, Vector2 b)
@@ -465,7 +465,7 @@ namespace Light2D
             if (min > max)
             {
                 if (angle > min || angle < max) return angle;
-                return angle > (min + max)/2f ? min : max;
+                return angle > (min + max) / 2f ? min : max;
             }
 
             if (angle > min && angle < max) return angle;
@@ -475,27 +475,27 @@ namespace Light2D
         public static int Hash<T>(T v1, T v2, T v3, T v4)
         {
             int hash = 23;
-            hash = hash*31 + v1.GetHashCode();
-            hash = hash*31 + v2.GetHashCode();
-            hash = hash*31 + v3.GetHashCode();
-            hash = hash*31 + v4.GetHashCode();
+            hash = hash * 31 + v1.GetHashCode();
+            hash = hash * 31 + v2.GetHashCode();
+            hash = hash * 31 + v3.GetHashCode();
+            hash = hash * 31 + v4.GetHashCode();
             return hash;
         }
 
         public static int Hash<T>(T v1, T v2, T v3)
         {
             int hash = 23;
-            hash = hash*31 + v1.GetHashCode();
-            hash = hash*31 + v2.GetHashCode();
-            hash = hash*31 + v3.GetHashCode();
+            hash = hash * 31 + v1.GetHashCode();
+            hash = hash * 31 + v2.GetHashCode();
+            hash = hash * 31 + v3.GetHashCode();
             return hash;
         }
 
         public static int Hash<T>(T v1, T v2)
         {
             int hash = 23;
-            hash = hash*31 + v1.GetHashCode();
-            hash = hash*31 + v2.GetHashCode();
+            hash = hash * 31 + v1.GetHashCode();
+            hash = hash * 31 + v2.GetHashCode();
             return hash;
         }
 
@@ -503,23 +503,23 @@ namespace Light2D
         {
             int hash = 23;
             for (int i = 0; i < els.Length; i++)
-                hash = hash*31 + els[i].GetHashCode();
+                hash = hash * 31 + els[i].GetHashCode();
             return hash;
         }
 
         public static Vector4 Div(this Vector4 vec, Vector4 div)
         {
-            return new Vector4(vec.x/div.x, vec.y/div.y, vec.z/div.z, vec.w/div.w);
+            return new Vector4(vec.x / div.x, vec.y / div.y, vec.z / div.z, vec.w / div.w);
         }
 
         public static Vector3 Div(this Vector3 vec, Vector3 div)
         {
-            return new Vector3(vec.x/div.x, vec.y/div.y, vec.z/div.z);
+            return new Vector3(vec.x / div.x, vec.y / div.y, vec.z / div.z);
         }
 
         public static Vector2 Div(this Vector2 vec, Vector2 div)
         {
-            return new Vector2(vec.x/div.x, vec.y/div.y);
+            return new Vector2(vec.x / div.x, vec.y / div.y);
         }
 
         public static Vector4 Mul(this Vector4 v1, Vector4 v2)
@@ -539,8 +539,8 @@ namespace Light2D
 
         public static float DecodeFloatRGBA(Vector3 enc)
         {
-            enc = new Vector3((byte) (enc.x*254f), (byte) (enc.y*254f), (byte) (enc.z*254f))/255f;
-            var kDecodeDot = new Vector4(1f, 1/255f, 1/65025f);
+            enc = new Vector3((byte)(enc.x * 254f), (byte)(enc.y * 254f), (byte)(enc.z * 254f)) / 255f;
+            var kDecodeDot = new Vector4(1f, 1 / 255f, 1 / 65025f);
             var result = Vector3.Dot(enc, kDecodeDot);
             return result;
         }
@@ -548,7 +548,7 @@ namespace Light2D
         public static Vector4 EncodeFloatRGBA(float v)
         {
             var kEncodeMul = new Vector3(1.0f, 255.0f, 65025.0f);
-            var enc = kEncodeMul*v;
+            var enc = kEncodeMul * v;
             enc = new Vector3(
                 enc.x - Mathf.Floor(enc.x), enc.y - Mathf.Floor(enc.y),
                 enc.z - Mathf.Floor(enc.z));

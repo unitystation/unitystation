@@ -4,12 +4,14 @@ using UI;
 using UnityEngine.UI;
 
 
-public class temp_ClownBtn: MonoBehaviour {
+public class temp_ClownBtn : MonoBehaviour
+{
     public Transform clowns;
     public Camera currentCam;
     public Text toolTip;
 
-    public void KloonButton() {
+    public void KloonButton()
+    {
 
         SoundManager.Play("Click01");
         float ranNum = Random.Range(1f, 3f);

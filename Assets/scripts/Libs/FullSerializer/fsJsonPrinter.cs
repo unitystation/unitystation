@@ -3,13 +3,17 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace FullSerializer {
-    public static class fsJsonPrinter {
+namespace FullSerializer
+{
+    public static class fsJsonPrinter
+    {
         /// <summary>
         /// Inserts the given number of indents into the builder.
         /// </summary>
-        private static void InsertSpacing(TextWriter stream, int count) {
-            for (int i = 0; i < count; ++i) {
+        private static void InsertSpacing(TextWriter stream, int count)
+        {
+            for (int i = 0; i < count; ++i)
+            {
                 stream.Write("    ");
             }
         }
@@ -17,22 +21,26 @@ namespace FullSerializer {
         /// <summary>
         /// Escapes a string.
         /// </summary>
-        private static string EscapeString(string str) {
+        private static string EscapeString(string str)
+        {
             // Escaping a string is pretty allocation heavy, so we try hard to not do it.
 
             bool needsEscape = false;
-            for (int i = 0; i < str.Length; ++i) {
+            for (int i = 0; i < str.Length; ++i)
+            {
                 char c = str[i];
 
                 // unicode code point
                 int intChar = Convert.ToInt32(c);
-                if (intChar < 0 || intChar > 127) {
+                if (intChar < 0 || intChar > 127)
+                {
                     needsEscape = true;
                     break;
                 }
 
                 // standard escape character
-                switch (c) {
+                switch (c)
+                {
                     case '"':
                     case '\\':
                     case '\a':
@@ -46,30 +54,35 @@ namespace FullSerializer {
                         break;
                 }
 
-                if (needsEscape) {
+                if (needsEscape)
+                {
                     break;
                 }
             }
 
-            if (needsEscape == false) {
+            if (needsEscape == false)
+            {
                 return str;
             }
 
 
             StringBuilder result = new StringBuilder();
 
-            for (int i = 0; i < str.Length; ++i) {
+            for (int i = 0; i < str.Length; ++i)
+            {
                 char c = str[i];
 
                 // unicode code point
                 int intChar = Convert.ToInt32(c);
-                if (intChar < 0 || intChar > 127) {
+                if (intChar < 0 || intChar > 127)
+                {
                     result.Append(string.Format("\\u{0:x4} ", intChar).Trim());
                     continue;
                 }
 
                 // standard escape character
-                switch (c) {
+                switch (c)
+                {
                     case '"': result.Append("\\\""); continue;
                     case '\\': result.Append(@"\\"); continue;
                     case '\a': result.Append(@"\a"); continue;
@@ -87,8 +100,10 @@ namespace FullSerializer {
             return result.ToString();
         }
 
-        private static void BuildCompressedString(fsData data, TextWriter stream) {
-            switch (data.Type) {
+        private static void BuildCompressedString(fsData data, TextWriter stream)
+        {
+            switch (data.Type)
+            {
                 case fsDataType.Null:
                     stream.Write("null");
                     break;
@@ -113,10 +128,12 @@ namespace FullSerializer {
                     stream.Write('"');
                     break;
 
-                case fsDataType.Object: {
+                case fsDataType.Object:
+                    {
                         stream.Write('{');
                         bool comma = false;
-                        foreach (var entry in data.AsDictionary) {
+                        foreach (var entry in data.AsDictionary)
+                        {
                             if (comma) stream.Write(',');
                             comma = true;
                             stream.Write('"');
@@ -129,10 +146,12 @@ namespace FullSerializer {
                         break;
                     }
 
-                case fsDataType.Array: {
+                case fsDataType.Array:
+                    {
                         stream.Write('[');
                         bool comma = false;
-                        foreach (var entry in data.AsList) {
+                        foreach (var entry in data.AsList)
+                        {
                             if (comma) stream.Write(',');
                             comma = true;
                             BuildCompressedString(entry, stream);
@@ -146,8 +165,10 @@ namespace FullSerializer {
         /// <summary>
         /// Formats this data into the given builder.
         /// </summary>
-        private static void BuildPrettyString(fsData data, TextWriter stream, int depth) {
-            switch (data.Type) {
+        private static void BuildPrettyString(fsData data, TextWriter stream, int depth)
+        {
+            switch (data.Type)
+            {
                 case fsDataType.Null:
                     stream.Write("null");
                     break;
@@ -172,12 +193,15 @@ namespace FullSerializer {
                     stream.Write('"');
                     break;
 
-                case fsDataType.Object: {
+                case fsDataType.Object:
+                    {
                         stream.Write('{');
                         stream.WriteLine();
                         bool comma = false;
-                        foreach (var entry in data.AsDictionary) {
-                            if (comma) {
+                        foreach (var entry in data.AsDictionary)
+                        {
+                            if (comma)
+                            {
                                 stream.Write(',');
                                 stream.WriteLine();
                             }
@@ -197,17 +221,21 @@ namespace FullSerializer {
 
                 case fsDataType.Array:
                     // special case for empty lists; we don't put an empty line between the brackets
-                    if (data.AsList.Count == 0) {
+                    if (data.AsList.Count == 0)
+                    {
                         stream.Write("[]");
                     }
 
-                    else {
+                    else
+                    {
                         bool comma = false;
 
                         stream.Write('[');
                         stream.WriteLine();
-                        foreach (var entry in data.AsList) {
-                            if (comma) {
+                        foreach (var entry in data.AsList)
+                        {
+                            if (comma)
+                            {
                                 stream.Write(',');
                                 stream.WriteLine();
                             }
@@ -228,16 +256,19 @@ namespace FullSerializer {
         /// </summary>
         /// <param name="data">The data to print.</param>
         /// <param name="outputStream">Where to write the printed data.</param>
-        public static void PrettyJson(fsData data, TextWriter outputStream) {
+        public static void PrettyJson(fsData data, TextWriter outputStream)
+        {
             BuildPrettyString(data, outputStream, 0);
         }
 
         /// <summary>
         /// Returns the data in a pretty printed JSON format.
         /// </summary>
-        public static string PrettyJson(fsData data) {
+        public static string PrettyJson(fsData data)
+        {
             var sb = new StringBuilder();
-            using (var writer = new StringWriter(sb)) {
+            using (var writer = new StringWriter(sb))
+            {
                 BuildPrettyString(data, writer, 0);
                 return sb.ToString();
             }
@@ -248,16 +279,19 @@ namespace FullSerializer {
         /// </summary>
         /// <param name="data">The data to print.</param>
         /// <param name="outputStream">Where to write the printed data.</param>
-        public static void CompressedJson(fsData data, StreamWriter outputStream) {
+        public static void CompressedJson(fsData data, StreamWriter outputStream)
+        {
             BuildCompressedString(data, outputStream);
         }
 
         /// <summary>
         /// Returns the data in a relatively compressed JSON format.
         /// </summary>
-        public static string CompressedJson(fsData data) {
+        public static string CompressedJson(fsData data)
+        {
             var sb = new StringBuilder();
-            using (var writer = new StringWriter(sb)) {
+            using (var writer = new StringWriter(sb))
+            {
                 BuildCompressedString(data, writer);
                 return sb.ToString();
             }
@@ -266,7 +300,8 @@ namespace FullSerializer {
         /// <summary>
         /// Utility method that converts a double to a string.
         /// </summary>
-        private static string ConvertDoubleToString(double d) {
+        private static string ConvertDoubleToString(double d)
+        {
             if (Double.IsInfinity(d) || Double.IsNaN(d))
                 return d.ToString(CultureInfo.InvariantCulture);
 
@@ -276,7 +311,8 @@ namespace FullSerializer {
             // then the number will be deserialized as an Int64, not a double.
             if (doubledString.Contains(".") == false &&
                 doubledString.Contains("e") == false &&
-                doubledString.Contains("E") == false) {
+                doubledString.Contains("E") == false)
+            {
                 doubledString += ".0";
             }
 

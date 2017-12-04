@@ -2,8 +2,10 @@
 using UnityEngine.UI;
 using System.Collections;
 
-namespace UI {
-    public class ControlWalkRun: MonoBehaviour {
+namespace UI
+{
+    public class ControlWalkRun : MonoBehaviour
+    {
 
         public Sprite[] runWalkSprites;
 
@@ -11,7 +13,8 @@ namespace UI {
 
         private Image image;
 
-        void Start() {
+        void Start()
+        {
 
             image = GetComponent<Image>();
 
@@ -21,16 +24,20 @@ namespace UI {
 		 * Button OnClick methods
 		 */
 
-        public void RunWalk() {
+        public void RunWalk()
+        {
             Debug.Log("RunWalk Button");
 
             SoundManager.Play("Click01");
 
-            if(!running) {
+            if (!running)
+            {
                 running = true;
                 image.sprite = runWalkSprites[1];
 
-            } else {
+            }
+            else
+            {
                 running = false;
                 image.sprite = runWalkSprites[0];
             }

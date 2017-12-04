@@ -3,15 +3,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FullSerializer {
-    partial class fsConverterRegistrar {
+namespace FullSerializer
+{
+    partial class fsConverterRegistrar
+    {
         public static Internal.DirectConverters.AnimationCurve_DirectConverter Register_AnimationCurve_DirectConverter;
     }
 }
 
-namespace FullSerializer.Internal.DirectConverters {
-    public class AnimationCurve_DirectConverter : fsDirectConverter<AnimationCurve> {
-        protected override fsResult DoSerialize(AnimationCurve model, Dictionary<string, fsData> serialized) {
+namespace FullSerializer.Internal.DirectConverters
+{
+    public class AnimationCurve_DirectConverter : fsDirectConverter<AnimationCurve>
+    {
+        protected override fsResult DoSerialize(AnimationCurve model, Dictionary<string, fsData> serialized)
+        {
             var result = fsResult.Success;
 
             result += SerializeMember(serialized, null, "keys", model.keys);
@@ -21,7 +26,8 @@ namespace FullSerializer.Internal.DirectConverters {
             return result;
         }
 
-        protected override fsResult DoDeserialize(Dictionary<string, fsData> data, ref AnimationCurve model) {
+        protected override fsResult DoDeserialize(Dictionary<string, fsData> data, ref AnimationCurve model)
+        {
             var result = fsResult.Success;
 
             var t0 = model.keys;
@@ -39,7 +45,8 @@ namespace FullSerializer.Internal.DirectConverters {
             return result;
         }
 
-        public override object CreateInstance(fsData data, Type storageType) {
+        public override object CreateInstance(fsData data, Type storageType)
+        {
             return new AnimationCurve();
         }
     }

@@ -3,23 +3,28 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Matrix {
+namespace Matrix
+{
 
     [CustomEditor(typeof(RegisterTile))]
     [CanEditMultipleObjects]
-    public class RegisterTileEditor: Editor {
+    public class RegisterTileEditor : Editor
+    {
 
         private static string[] tileTypeNames;
 
-        static RegisterTileEditor() {
+        static RegisterTileEditor()
+        {
             List<string> list = new List<string>();
-            foreach(var tileType in TileType.List) {
+            foreach (var tileType in TileType.List)
+            {
                 list.Add(tileType.Name);
             }
             tileTypeNames = list.ToArray();
         }
 
-        public override void OnInspectorGUI() {
+        public override void OnInspectorGUI()
+        {
             DrawDefaultInspector();
 
             var registerTile = target as RegisterTile;
@@ -29,9 +34,11 @@ namespace Matrix {
             EditorGUILayout.PrefixLabel("Tile Type");
             registerTile.tileTypeIndex = EditorGUILayout.Popup(registerTile.tileTypeIndex, tileTypeNames);
             EditorGUILayout.EndHorizontal();
-            if(EditorGUI.EndChangeCheck()) {
-                foreach(Object obj in targets) {
-                    ((RegisterTile) obj).tileTypeIndex = registerTile.tileTypeIndex;
+            if (EditorGUI.EndChangeCheck())
+            {
+                foreach (Object obj in targets)
+                {
+                    ((RegisterTile)obj).tileTypeIndex = registerTile.tileTypeIndex;
                 }
             }
         }

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Doors{
-    public abstract class DoorAnimator : MonoBehaviour {
+namespace Doors
+{
+    public abstract class DoorAnimator : MonoBehaviour
+    {
         public DoorController doorController;
 
 

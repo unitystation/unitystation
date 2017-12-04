@@ -13,14 +13,14 @@ public class UniTile : Tile
     /// </summary>
     public Matrix4x4 ChildTransform
     {
-      get
-      {
-        return m_ChildTransform;
-      }
-      set
-      {
-        m_ChildTransform = value;
-      }
+        get
+        {
+            return m_ChildTransform;
+        }
+        set
+        {
+            m_ChildTransform = value;
+        }
     }
 
 }

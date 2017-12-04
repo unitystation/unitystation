@@ -33,11 +33,11 @@ namespace Light2D.Examples
                 _timer = TweenInterval;
                 _startColor = _spriteRenderer.color;
                 _targetColor = new Vector4(
-                    Mathf.Clamp01(Random.value*ColorMul), Mathf.Clamp01(Random.value*ColorMul),
-                    Mathf.Clamp01(Random.value*ColorMul), Mathf.Clamp01(Random.value*ColorMul));
+                    Mathf.Clamp01(Random.value * ColorMul), Mathf.Clamp01(Random.value * ColorMul),
+                    Mathf.Clamp01(Random.value * ColorMul), Mathf.Clamp01(Random.value * ColorMul));
             }
 
-            _spriteRenderer.color = Color.Lerp(_startColor, _targetColor, 1 - _timer/TweenInterval);
+            _spriteRenderer.color = Color.Lerp(_startColor, _targetColor, 1 - _timer / TweenInterval);
         }
     }
 }

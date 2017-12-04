@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using FullSerializer.Internal;
 
-namespace FullSerializer {
+namespace FullSerializer
+{
     /// <summary>
     /// The AOT compilation manager
     /// </summary>
-    public class fsAotCompilationManager {
+    public class fsAotCompilationManager
+    {
         /// <summary>
         /// Ahead of time compilations that are available. The type maps to the object type the generated converter
         /// will serialize/deserialize, and the string is the text content for a converter that will do the serialization.
@@ -15,9 +17,12 @@ namespace FullSerializer {
         /// The generated serializer is completely independent and you don't need to do anything. Simply add the file to
         /// your project and it'll get used instead of the reflection based one.
         /// </summary>
-        public static Dictionary<Type, string> AvailableAotCompilations {
-            get {
-                for (int i = 0; i < _uncomputedAotCompilations.Count; ++i) {
+        public static Dictionary<Type, string> AvailableAotCompilations
+        {
+            get
+            {
+                for (int i = 0; i < _uncomputedAotCompilations.Count; ++i)
+                {
                     var item = _uncomputedAotCompilations[i];
                     _computedAotCompilations[item.Type] = GenerateDirectConverterForTypeInCSharp(item.Type, item.Members, item.IsConstructorPublic);
                 }
@@ -28,7 +33,8 @@ namespace FullSerializer {
         }
         private static Dictionary<Type, string> _computedAotCompilations = new Dictionary<Type, string>();
 
-        private struct AotCompilation {
+        private struct AotCompilation
+        {
             public Type Type;
             public fsMetaProperty[] Members;
             public bool IsConstructorPublic;
@@ -42,8 +48,10 @@ namespace FullSerializer {
         /// <param name="type">The type to perform the AOT compilation on.</param>
         /// <param name="aotCompiledClassInCSharp">The AOT class. Add this C# code to your project.</param>
         /// <returns>True if AOT compilation was successful.</returns>
-        public static bool TryToPerformAotCompilation(fsConfig config, Type type, out string aotCompiledClassInCSharp) {
-            if (fsMetaType.Get(config, type).EmitAotData()) {
+        public static bool TryToPerformAotCompilation(fsConfig config, Type type, out string aotCompiledClassInCSharp)
+        {
+            if (fsMetaType.Get(config, type).EmitAotData())
+            {
                 aotCompiledClassInCSharp = AvailableAotCompilations[type];
                 return true;
             }
@@ -57,15 +65,18 @@ namespace FullSerializer {
         /// </summary>
         /// <param name="type">The type of object we are AOT compiling.</param>
         /// <param name="members">The members on the object which will be serialized/deserialized.</param>
-        public static void AddAotCompilation(Type type, fsMetaProperty[] members, bool isConstructorPublic) {
-            _uncomputedAotCompilations.Add(new AotCompilation {
+        public static void AddAotCompilation(Type type, fsMetaProperty[] members, bool isConstructorPublic)
+        {
+            _uncomputedAotCompilations.Add(new AotCompilation
+            {
                 Type = type,
                 Members = members,
                 IsConstructorPublic = isConstructorPublic
             });
         }
 
-        private static string GetConverterString(fsMetaProperty member) {
+        private static string GetConverterString(fsMetaProperty member)
+        {
             if (member.OverrideConverterType == null)
                 return "null";
 
@@ -76,7 +87,8 @@ namespace FullSerializer {
         /// <summary>
         /// AOT compiles the object (in C#).
         /// </summary>
-        private static string GenerateDirectConverterForTypeInCSharp(Type type, fsMetaProperty[] members, bool isConstructorPublic) {
+        private static string GenerateDirectConverterForTypeInCSharp(Type type, fsMetaProperty[] members, bool isConstructorPublic)
+        {
             var sb = new StringBuilder();
             string typeName = type.CSharpName(/*includeNamespace:*/ true);
             string typeNameSafeDecl = type.CSharpName(true, true);
@@ -95,7 +107,8 @@ namespace FullSerializer {
             sb.AppendLine("        protected override fsResult DoSerialize(" + typeName + " model, Dictionary<string, fsData> serialized) {");
             sb.AppendLine("            var result = fsResult.Success;");
             sb.AppendLine();
-            foreach (var member in members) {
+            foreach (var member in members)
+            {
                 sb.AppendLine("            result += SerializeMember(serialized, " + GetConverterString(member) + ", \"" + member.JsonName + "\", model." + member.MemberName + ");");
             }
             sb.AppendLine();
@@ -105,7 +118,8 @@ namespace FullSerializer {
             sb.AppendLine("        protected override fsResult DoDeserialize(Dictionary<string, fsData> data, ref " + typeName + " model) {");
             sb.AppendLine("            var result = fsResult.Success;");
             sb.AppendLine();
-            for (int i = 0; i < members.Length; ++i) {
+            for (int i = 0; i < members.Length; ++i)
+            {
                 var member = members[i];
                 sb.AppendLine("            var t" + i + " = model." + member.MemberName + ";");
                 sb.AppendLine("            result += DeserializeMember(data, " + GetConverterString(member) + ", \"" + member.JsonName + "\", out t" + i + ");");
@@ -116,10 +130,12 @@ namespace FullSerializer {
             sb.AppendLine("        }");
             sb.AppendLine();
             sb.AppendLine("        public override object CreateInstance(fsData data, Type storageType) {");
-            if (isConstructorPublic) {
+            if (isConstructorPublic)
+            {
                 sb.AppendLine("            return new " + typeName + "();");
             }
-            else {
+            else
+            {
                 sb.AppendLine("            return Activator.CreateInstance(typeof(" + typeName + "), /*nonPublic:*/true);");
             }
             sb.AppendLine("        }");

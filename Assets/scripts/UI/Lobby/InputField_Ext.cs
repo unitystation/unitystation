@@ -2,13 +2,16 @@
 using UnityEngine.UI;
 using System.Collections;
 
-namespace UI {
-    public class InputField_Ext: InputField {
+namespace UI
+{
+    public class InputField_Ext : InputField
+    {
 
         private ScrollRect chatScrollArea;
         private ContentSizeFitter contentFitter;
         private bool caretFound = false;
-        protected override void Start() {
+        protected override void Start()
+        {
             contentFitter = GetComponentInChildren<ContentSizeFitter>();
             chatScrollArea = transform.parent.gameObject.GetComponent<ScrollRect>();
 
@@ -16,9 +19,11 @@ namespace UI {
         }
 
         // Resize input field as new lines get added
-        private void ResizeInput(string iText) {
+        private void ResizeInput(string iText)
+        {
 
-            if(!caretFound) {
+            if (!caretFound)
+            {
                 DetectCaret();
 
             }
@@ -33,13 +38,17 @@ namespace UI {
 
         }
 
-        void DetectCaret() {
+        void DetectCaret()
+        {
 
             GameObject findCaret = GameObject.Find(gameObject.name + " Input Caret");
-            if(findCaret != null) {
+            if (findCaret != null)
+            {
                 findCaret.transform.parent = textComponent.gameObject.transform;
                 caretFound = true;
-            } else {
+            }
+            else
+            {
                 Debug.Log("Caret obj not found");
 
             }
