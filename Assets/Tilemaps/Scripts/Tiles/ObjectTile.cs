@@ -1,7 +1,9 @@
 ﻿using System;
 using Tilemaps.Scripts.Behaviours.Objects;
 using Tilemaps.Scripts.Utils;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -18,6 +20,7 @@ namespace Tilemaps.Scripts.Tiles
 
         private GameObject _objectCurrent;
 
+        #if UNITY_EDITOR
         private void OnValidate()
         {
             if (Object != null)
@@ -46,18 +49,20 @@ namespace Tilemaps.Scripts.Tiles
             {
                 IsItem = true;
             }
-
-
-
         }
+        #endif
 
         public void SpawnObject(Vector3Int position, Tilemap tilemap, Matrix4x4 transformMatrix)
         {
             if (!Object)
                 return;
-
+            
+            #if UNITY_EDITOR
             var go = (GameObject)PrefabUtility.InstantiatePrefab(Object);
-
+            #else
+            var go = Instantiate(Object);
+            #endif
+            
             go.SetActive(false);
             go.transform.parent = tilemap.transform;
 

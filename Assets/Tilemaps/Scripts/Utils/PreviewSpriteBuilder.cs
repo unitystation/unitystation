@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
+﻿
+#if UNITY_EDITOR
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using Tilemaps.Scripts.Tiles;
 using UnityEditor;
-using UnityEditor.MemoryProfiler;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.Timeline;
 
 namespace Tilemaps.Scripts.Utils
 {
@@ -159,3 +157,4 @@ namespace Tilemaps.Scripts.Utils
         }
     }
 }
+#endif

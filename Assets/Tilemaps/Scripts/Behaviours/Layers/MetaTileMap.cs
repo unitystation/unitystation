@@ -87,7 +87,8 @@ namespace Tilemaps.Scripts.Behaviours.Layers
                 }
             }
         }
-
+        
+        #if UNITY_EDITOR
         public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
         {
             foreach (var layer in Layers.Values)
@@ -108,6 +109,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
                 layer.ClearPreview();
             }
         }
+        #endif
 
         public void ClearAllTiles()
         {

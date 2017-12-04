@@ -60,6 +60,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             tilemap.SetTile(position, null);
         }
 
+        #if UNITY_EDITOR
         public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
         {
             tilemap.SetEditorPreviewTile(position, tile);
@@ -70,6 +71,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
         {
             tilemap.ClearAllEditorPreviewTiles();
         }
+        #endif
 
         public virtual void ClearAllTiles()
         {
