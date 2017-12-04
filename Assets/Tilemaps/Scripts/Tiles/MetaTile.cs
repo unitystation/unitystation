@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Tilemaps.Scripts.Utils;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace Tilemaps.Scripts.Tiles
 {
@@ -15,7 +17,8 @@ namespace Tilemaps.Scripts.Tiles
         private LayerTile _objectCurrent;
         private LayerTile _floorCurrent;
         private LayerTile _baseCurrent;
-
+        
+        #if UNITY_EDITOR
         private void OnValidate()
         {
             CheckTileType(ref Structure, LayerType.Structures);
@@ -48,6 +51,7 @@ namespace Tilemaps.Scripts.Tiles
             _floorCurrent = Floor;
             _baseCurrent = Base;
         }
+        #endif
 
         private static void CheckTileType(ref LayerTile tile, LayerType requiredType)
         {

@@ -37,7 +37,8 @@ namespace PlayGroup
             set { _isPush = value; }
         }
 
-        private Matrix matrix;
+        private Matrix _matrix;
+        private Matrix matrix => _matrix ?? (_matrix = Matrix.GetMatrix(this));
 
         private List<KeyCode> pressedKeys = new List<KeyCode>();
         private bool _isMoving = false;
@@ -47,7 +48,9 @@ namespace PlayGroup
             playerSprites = gameObject.GetComponent<PlayerSprites>();
             playerSync = GetComponent<PlayerSync>();
             pushPull = GetComponent<PushPull>();
-            matrix = Matrix.GetMatrix(this);
+            
+            // TODO hacky way to move the player to the objects..
+            transform.parent = matrix.gameObject.transform.Find("ObjectLayer");
         }
 
         /// temp solution for use with the UI network prediction

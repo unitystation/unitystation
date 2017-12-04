@@ -12,9 +12,9 @@ namespace Doors
     public class DoorController : ManagedNetworkBehaviour
     {
         public DoorType doorType;
-        private RegisterDoor _registerTile;
-        private Matrix _matrix;
-
+        private RegisterDoor registerTile;
+        private Matrix matrix;
+        
         public Access restriction;
         [Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor = false;
         [Tooltip("how many sprites in the main door animation")] public int doorAnimationSize;
@@ -69,8 +69,8 @@ namespace Doors
             openLayer = LayerMask.NameToLayer("Door Open");
 
 
-            _registerTile = gameObject.GetComponent<RegisterDoor>();
-            _matrix = Matrix.GetMatrix(this);
+            registerTile = gameObject.GetComponent<RegisterDoor>();
+            matrix = Matrix.GetMatrix(this);
 
             var rmt = GetComponent<RestrictiveMoveTile>();
             if (rmt != null)
@@ -128,6 +128,7 @@ namespace Doors
                     }
                 }
             }
+            registerTile.IsClosed = true;
             gameObject.layer = closedLayer;
             spriteRenderer.sortingLayerID = closedSortingLayer;
         }
@@ -139,7 +140,7 @@ namespace Doors
             {
                 rmt.setAll(false);
             }
-            _registerTile.IsClosed = false;
+            registerTile.IsClosed = false;
             gameObject.layer = openLayer;
             spriteRenderer.sortingLayerID = openSortingLayer;
         }
@@ -194,7 +195,7 @@ namespace Doors
                 return;
             }
 
-            if (IsOpened && !isPerformingAction && _matrix.IsPassableAt(_registerTile.Position))
+            if (IsOpened && !isPerformingAction && matrix.IsPassableAt(registerTile.Position))
             {
                 RpcClose();
             }

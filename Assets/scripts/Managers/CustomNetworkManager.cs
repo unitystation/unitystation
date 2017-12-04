@@ -172,7 +172,7 @@ public class CustomNetworkManager : NetworkManager
 
     public override void OnServerDisconnect(NetworkConnection conn)
     {
-        if (conn != null)
+        if (conn != null && conn.playerControllers.Count > 0)
         {
             PlayerList.Instance.RemovePlayer(conn.playerControllers[0].gameObject.name);
             //TODO DROP ALL HIS OBJECTS

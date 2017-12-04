@@ -67,7 +67,7 @@ namespace Events
         // Fires the event
         public static void Broadcast(EVENT evnt)
         {
-            if (eventTable[evnt] != null) eventTable[evnt]();
+            if (eventTable.ContainsKey(evnt) && eventTable[evnt] != null) eventTable[evnt]();
         }
     }
 }
