@@ -1,13 +1,20 @@
 ﻿using Tilemaps.Scripts.Behaviours.Layers;
-using Tilemaps.Scripts.Utils;
 using UnityEngine;
 
 namespace Tilemaps.Scripts.Behaviours.Objects
 {
+	public enum ObjectType {
+		Item,
+		Object,
+		Player
+	}
+	
 	[ExecuteInEditMode]
 	public abstract class RegisterTile : MonoBehaviour
 	{
-		public bool IsRegister { get; private set; }
+		public bool IsRegistered { get; private set; }
+
+		public ObjectType ObjectType;
 		
 		protected ObjectLayer layer;
 		
@@ -16,7 +23,7 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 		public Vector3Int Position
 		{
 			get { return _position; }
-			protected set
+			private set
 			{
 				OnAddTile(value);
 				
@@ -28,7 +35,7 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 
 		public void Start()
 		{			
-			layer = transform.parent.GetComponent<ObjectLayer>();
+			layer = transform.GetComponentInParent<ObjectLayer>();
 
 			Register();
 		}
@@ -37,7 +44,7 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 		{
 			// In case of recompilation and Start doesn't get called
 			layer?.Objects.Add(Position, this);
-			IsRegister = true;
+			IsRegistered = true;
 		}
 
 		private void OnDisable()
@@ -58,18 +65,17 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 		public void Register()
 		{
 			UpdatePosition();
-			IsRegister = true;
+			IsRegistered = true;
 		}
         
 		public void Unregister()
 		{
 			layer?.Objects.Remove(Position, this);
-			IsRegister = false;
+			IsRegistered = false;
 		}
 
 		protected virtual void OnAddTile(Vector3Int newPosition)
 		{
-			
 		}
 
 		public virtual bool IsPassable()

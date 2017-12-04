@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Matrix {
+namespace MatrixOld {
     public class Type {
         protected int value;
         public string Name { get; private set; }

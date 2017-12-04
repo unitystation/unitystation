@@ -127,11 +127,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f0eb35888c6dfb4dbac823eb8cad23b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectType: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 0
-  closed: 0
   OneDirectionRestricted: 0
+  IsClosed: 0
 --- !u!114 &114640096819736908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -207,7 +208,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300030, guid: 3126d5359b7d4eb0944012e91bd4be16, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

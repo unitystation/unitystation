@@ -63,7 +63,7 @@ namespace Tilemaps.Scripts.Tiles
 
             var objectOffset = !Offset ? Vector3.zero : transformMatrix.rotation * Vector3.up;
 
-            go.transform.localPosition = position + new Vector3(0.5f, 0.5f, 0) + objectOffset;
+            go.transform.localPosition = position + objectOffset;
             go.transform.rotation = tilemap.transform.rotation;
 
             if (!KeepOrientation)

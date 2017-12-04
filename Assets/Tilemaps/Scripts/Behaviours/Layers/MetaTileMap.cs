@@ -8,23 +8,24 @@ namespace Tilemaps.Scripts.Behaviours.Layers
     [ExecuteInEditMode]
     public class MetaTileMap : MonoBehaviour
     {
-        private Dictionary<LayerType, Layer> layers;
-
+        public Dictionary<LayerType, Layer> Layers { get; private set; }
+        
         private void OnEnable()
         {
-            layers = new Dictionary<LayerType, Layer>();
+            Layers = new Dictionary<LayerType, Layer>();
 
             foreach (var layer in GetComponentsInChildren<Layer>(true))
             {
-                layers[layer.LayerType] = layer;
+                Layers[layer.LayerType] = layer;
             }
         }
 
-        public bool IsPassableAt(Vector3Int from, Vector3Int to)
+
+        public bool IsPassableAt(Vector3Int origin, Vector3Int to)
         {
-            foreach (var layer in layers.Values)
+            foreach (var layer in Layers.Values)
             {
-                if (!layer.IsPassableAt(from, to))
+                if (!layer.IsPassableAt(origin, to))
                     return false;
             }
             return true;
@@ -32,7 +33,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public bool IsPassableAt(Vector3Int position)
         {
-            foreach (var layer in layers.Values)
+            foreach (var layer in Layers.Values)
             {
                 if (!layer.IsPassableAt(position))
                     return false;
@@ -42,7 +43,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public bool IsAtmosPassableAt(Vector3Int position)
         {
-            foreach (var layer in layers.Values)
+            foreach (var layer in Layers.Values)
             {
                 if (!layer.IsAtmosPassableAt(position))
                     return false;
@@ -52,7 +53,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public bool IsSpaceAt(Vector3Int position)
         {
-            foreach (var layer in layers.Values)
+            foreach (var layer in Layers.Values)
             {
                 if (!layer.IsSpaceAt(position))
                     return false;
@@ -62,23 +63,23 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public void SetTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
         {
-            layers[tile.LayerType].SetTile(position, tile, transformMatrix);
+            Layers[tile.LayerType].SetTile(position, tile, transformMatrix);
         }
 
         public LayerTile GetTile(Vector3Int position, LayerType layerType)
         {
-            return layers[layerType].GetTile(position);
+            return Layers[layerType].GetTile(position);
         }
 
         public bool HasTile(Vector3Int position, LayerType layerType)
         {
-            return layers[layerType].HasTile(position);
+            return Layers[layerType].HasTile(position);
         }
 
 
         public void RemoveTile(Vector3Int position, LayerType refLayer)
         {
-            foreach (var layer in layers.Values)
+            foreach (var layer in Layers.Values)
             {
                 if (layer.LayerType < refLayer && !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors))
                 {
@@ -89,20 +90,20 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
         {
-            foreach (var layer in layers.Values)
+            foreach (var layer in Layers.Values)
             {
                 if (layer.LayerType < tile.LayerType)
                 {
-                    layers[layer.LayerType].SetPreviewTile(position, LayerTile.EmptyTile, Matrix4x4.identity);
+                    Layers[layer.LayerType].SetPreviewTile(position, LayerTile.EmptyTile, Matrix4x4.identity);
                 }
             }
             
-            layers[tile.LayerType].SetPreviewTile(position, tile, transformMatrix);
+            Layers[tile.LayerType].SetPreviewTile(position, tile, transformMatrix);
         }
 
         public void ClearPreview()
         {
-            foreach (var layer in layers.Values)
+            foreach (var layer in Layers.Values)
             {
                 layer.ClearPreview();
             }
@@ -110,7 +111,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public void ClearAllTiles()
         {
-            foreach (var layer in layers.Values)
+            foreach (var layer in Layers.Values)
             {
                 layer.ClearAllTiles();
             }

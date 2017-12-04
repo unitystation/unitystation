@@ -1,4 +1,4 @@
-﻿using Matrix;
+﻿using MatrixOld;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -55,24 +55,24 @@ public class TileTypeGizmosDrawer {
 
         for(int y = Mathf.RoundToInt(start.y); y < Mathf.RoundToInt(end.y + 1); y++) {
             for(int x = Mathf.RoundToInt(start.x); x < Mathf.RoundToInt(end.x + 1); x++) {
-                var node = Matrix.Matrix.At(x, y, false);
-
-                if(node != null) {
-                    foreach(var tileType in TileTypeDrawer.BaseTileTypes) {
-                        if(node.HasTileType(tileType)) {
-                            Gizmos.color = colorTrue;
-
-                            foreach(var condtileType in TileTypeDrawer.ConditionalTileTypes) {
-                                if(!node.HasTileType(condtileType)) {
-                                    Gizmos.color = colorFalse;
-                                    break;
-                                }
-                            }
-
-                            Gizmos.DrawCube(new Vector3(x, y, 0), Vector3.one);
-                        }
-                    }
-                }
+//                var node = MatrixOld.Matrix.At(x, y, false);
+//
+//                if(node != null) {
+//                    foreach(var tileType in TileTypeDrawer.BaseTileTypes) {
+//                        if(node.HasTileType(tileType)) {
+//                            Gizmos.color = colorTrue;
+//
+//                            foreach(var condtileType in TileTypeDrawer.ConditionalTileTypes) {
+//                                if(!node.HasTileType(condtileType)) {
+//                                    Gizmos.color = colorFalse;
+//                                    break;
+//                                }
+//                            }
+//
+//                            Gizmos.DrawCube(new Vector3(x, y, 0), Vector3.one);
+//                        }
+//                    }
+//                }
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using Matrix;
+﻿using MatrixOld;
 using System;
 using System.Collections.Generic;
 using UI;
@@ -44,7 +44,7 @@ namespace MapEditor {
             var gameObject = PreviewObject.CreateGameObject();
 
             gameObject.transform.position = new Vector3(x, y, 0);
-            gameObject.transform.MoveToSection(Matrix.Matrix.At(x, y).Section, CurrentSubSectionName);
+//            gameObject.transform.MoveToSection(Matrix.Matrix.At(x, y).Section, CurrentSubSectionName);
 
             Undo.RegisterCreatedObjectUndo(gameObject, "Create " + gameObject.name);
         }

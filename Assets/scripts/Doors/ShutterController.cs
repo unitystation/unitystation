@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PlayGroup;
-using Matrix;
+using MatrixOld;
 using InputControl;
+using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine.Networking;
+using Matrix = Tilemaps.Scripts.Matrix;
 
 public class ShutterController : ObjectTrigger
 {
 	private Animator animator;
-	private RegisterDoor registerTile;
+	private RegisterDoor _registerTile;
+	private Matrix _matrix;
 
 	public bool IsClosed { get; private set; }
 
@@ -26,7 +29,8 @@ public class ShutterController : ObjectTrigger
 	void Awake()
 	{
 		animator = gameObject.GetComponent<Animator>();
-		registerTile = gameObject.GetComponent<RegisterDoor>();
+		_registerTile = gameObject.GetComponent<RegisterDoor>();
+		_matrix = Matrix.GetMatrix(this);
 
 		closedLayer = LayerMask.NameToLayer("Door Closed");
 		closedSortingLayer = SortingLayer.NameToID("Doors Open");
@@ -51,7 +55,7 @@ public class ShutterController : ObjectTrigger
 
 	private void SetState(bool state){
 		IsClosed = state;
-		registerTile.IsClosed = state;
+		_registerTile.IsClosed = state;
 		if ( state )
 		{
 			SetLayer(closedLayer, closedSortingLayer);
@@ -79,15 +83,10 @@ public class ShutterController : ObjectTrigger
 	[Server]
 	private void DamageOnClose()
 	{
-		var currentTile = Matrix.Matrix.At(transform.position);
-//		var currentTile = Matrix.Matrix.At(transform.position);
-		if ( currentTile.IsObject() || currentTile.IsPlayer() )
+		var healthBehaviours = _matrix.Get<HealthBehaviour>(_registerTile.Position);
+		foreach(var healthBehaviour in healthBehaviours)
 		{
-			var healthBehaviours = currentTile.GetDamageables();
-			for ( var i = 0; i < healthBehaviours.Count; i++ )
-			{
-				healthBehaviours[i].ApplyDamage(gameObject.name, 500, DamageType.BRUTE);
-			}
+			healthBehaviour.ApplyDamage(gameObject.name, 500, DamageType.BRUTE);
 		}
 	}
 

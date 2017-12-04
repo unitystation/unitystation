@@ -89,6 +89,7 @@ namespace PlayGroup
 				playerMove = GetComponent<PlayerMove>();
 				playerSprites = GetComponent<PlayerSprites>();
 				GetComponent<InputController>().enabled = true;
+				
 				if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy) {
 					UIManager.Instance.playerListUIControl.window.SetActive(true);
 				}

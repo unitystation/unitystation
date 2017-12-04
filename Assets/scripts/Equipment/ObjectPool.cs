@@ -56,8 +56,6 @@ public class ObjectPool : MonoBehaviour {
 	{
 		gObj.transform.parent = null;
 		gObj.transform.position = dropPos;
-		var e = gObj.GetComponent<EditModeControl>();
-		e.Snap();
 	}
 }
 }

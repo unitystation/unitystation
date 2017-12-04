@@ -113,8 +113,8 @@ namespace SectionEditor {
         }
 
         private void SetSectionAt(int x, int y, Section section) {
-            Matrix.Matrix.At(x, y).Section = section;
-            EditorUtility.SetDirty(Matrix.Matrix.Instance);
+//            Matrix.Matrix.At(x, y).Section = section;
+            EditorUtility.SetDirty(MatrixOld.Matrix.Instance);
 
             EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         }

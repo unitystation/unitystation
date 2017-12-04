@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Matrix {
+namespace MatrixOld {
 
     [ExecuteInEditMode]
     public class ConnectTrigger: MonoBehaviour {

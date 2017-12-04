@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Tilemaps.Scripts.Tiles;
 using UnityEditor;
 using UnityEditor.MemoryProfiler;
@@ -142,12 +143,17 @@ namespace Tilemaps.Scripts.Utils
             return AssetDatabase.LoadAssetAtPath<Sprite>(path);
         }
 
+        
         private static string GetSpritePath(Object obj)
         {
             var assetPath = AssetDatabase.GetAssetPath(obj);
             assetPath = Path.ChangeExtension(assetPath, ".png");
-            
-            assetPath = assetPath?.Replace("Assets", previewPath);
+
+            if (assetPath != null)
+            {
+                assetPath = assetPath.Replace("Assets", previewPath);
+                assetPath = Regex.Replace(assetPath, "resources", "res", RegexOptions.IgnoreCase);
+            }
             
             return assetPath;
         }

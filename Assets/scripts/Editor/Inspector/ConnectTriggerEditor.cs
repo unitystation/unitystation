@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Matrix {
+namespace MatrixOld {
 
     [CustomEditor(typeof(ConnectTrigger))]
     public class ConnectTriggerEditor: Editor {

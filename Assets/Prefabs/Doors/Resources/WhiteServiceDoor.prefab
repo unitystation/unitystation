@@ -766,11 +766,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f0eb35888c6dfb4dbac823eb8cad23b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectType: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 0
-  closed: 1
   OneDirectionRestricted: 0
+  IsClosed: 1
 --- !u!212 &212000011094967888
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -803,7 +804,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1883797623
-  m_SortingLayer: 9
+  m_SortingLayer: 11
   m_SortingOrder: 9
   m_Sprite: {fileID: 21300116, guid: aa62bd6401d4c406b8c477866454a587, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -847,7 +848,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1883797623
-  m_SortingLayer: 9
+  m_SortingLayer: 11
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 63b7011f0f41a4a86b02c7a6eec1de98, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -891,7 +892,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1883797623
-  m_SortingLayer: 9
+  m_SortingLayer: 11
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300126, guid: aa62bd6401d4c406b8c477866454a587, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using Matrix;
+using MatrixOld;
 
 public class MatrixCheck: EditorWindow {
     [MenuItem("Window/Matrix Check")]

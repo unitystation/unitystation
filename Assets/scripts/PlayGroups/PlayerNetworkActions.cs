@@ -6,7 +6,7 @@ using Cupboards;
 using Equipment;
 using InputControl;
 using Lighting;
-using Matrix;
+using MatrixOld;
 using PlayGroup;
 using UI;
 using UnityEngine;
@@ -220,7 +220,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ClearInventorySlot(slotName);
 		if (item != null && newParent != null) {
 			item.transform.parent = newParent.transform;
-			World.ReorderGameobjectsOnTile(pos);
+			// TODO reorder items
+//			World.ReorderGameobjectsOnTile(pos);
 		}
 	}
 
