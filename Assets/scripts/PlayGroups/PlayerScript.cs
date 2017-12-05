@@ -180,5 +180,15 @@ namespace PlayGroup
             //TODO: reimplement this timer higher up like in the InputController
             return DistanceTo(transform.position) <= interactDist;
         }
+
+        /// <summary>
+        /// Checks if the player is within reach of something
+        /// </summary>
+        /// <param name="position">The position of whatever we are trying to reach</param>
+        /// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
+        public bool IsInReach(Vector3 position, float interactDist = interactionDistance)
+        {
+            return DistanceTo(position) <= interactDist;
+        }
     }
 }

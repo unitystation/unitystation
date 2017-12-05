@@ -1,0 +1,1 @@
+Any Unity project-root that needs to be feeded into travis should be moved here in the future

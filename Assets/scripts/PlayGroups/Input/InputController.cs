@@ -166,7 +166,7 @@ namespace InputControl
             return null;
         }
 
-        private bool Interact(Transform _transform)
+        public bool Interact(Transform _transform)
         {
             if (playerMove.isGhost)
                 return false; ;
