@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 61408129348832566}
   - component: {fileID: 114853415866183752}
   - component: {fileID: 114536565904099246}
-  - component: {fileID: 114763291148299888}
   - component: {fileID: 114282253040737854}
   - component: {fileID: 114690760486233274}
   - component: {fileID: 114131574291006662}
@@ -479,21 +478,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorController: {fileID: 114282253040737854}
   direction: 0
---- !u!114 &114763291148299888
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1038946861857688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f4153739906e411b9229efd472aeb0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restrictNorth: 0
-  restrictSouth: 1
-  restrictEast: 0
-  restrictWest: 0
 --- !u!114 &114853415866183752
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using FullSerializer;
-using MatrixOld;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,146 +29,146 @@ public class MapToJSON : Editor
     {
         AssetDatabase.Refresh();
 
-        var nodesMapped = MapToPNG.GetMappedNodes();
-        var tilemapLayers = new SortedDictionary<string, TilemapLayer>(Comparer<string>.Create(CompareSpriteLayer));
-        var tempGameObjects = new List<GameObject>();
-
-        for (int y = 0; y < nodesMapped.GetLength(0); y++)
-        {
-            for (int x = 0; x < nodesMapped.GetLength(1); x++)
-            {
-                var node = nodesMapped[y, x];
-
-                if (node == null)
-                    continue;
-
-                var nodeRenderers = new List<SpriteRenderer>();
-
-                var objectsToExport = node.GetTiles();
-                node.GetItems().ForEach(behaviour => objectsToExport.Add(behaviour.gameObject));
-
-                foreach (var tile in objectsToExport)
-                {
-                    var tileRenderers = tile.GetComponentsInChildren<SpriteRenderer>();
-                    if (tileRenderers == null || tileRenderers.Length < 1) continue;
-                    var tileconnects = 0;
-                    foreach (var renderer in tileRenderers)
-                    {
-                        if (thisRendererSucks(renderer) || renderer.sortingLayerID == 0)
-                            continue;
-
-                        TryMoveToSeparateLayer(renderer);
-
-                        if (renderer.GetComponent<TileConnect>() || IsTileConnectWannabe(renderer))
-                        {
-                            tileconnects++;
-                            if (tileconnects != 4) continue;
-                            if (tileconnects > 4)
-                            {
-                                Debug.LogWarningFormat("{0} — more than 4 tileconnects found!", renderer.name);
-                            }
-                            // grouping four tileconnect sprites into a single temporary thing
-                            GameObject tcMergeGameObject = Instantiate(renderer.gameObject, tile.transform.position,
-                                Quaternion.identity, tile.transform);
-                            tempGameObjects.Add(tcMergeGameObject);
-                            var childClone = tcMergeGameObject.GetComponent<SpriteRenderer>();
-                            var spriteName = childClone.sprite.name;
-
-                            if (spriteName.Contains("_"))
-                            {
-                                childClone.name = TC + spriteName.Substring(0,
-                                                      spriteName.LastIndexOf("_", StringComparison.Ordinal));
-                            }
-                            nodeRenderers.Add(childClone);
-                        }
-                        else
-                        {
-                            renderer.name = renderer.sprite.name;
-                            if (DuplicateFound(renderer, nodeRenderers))
-                            {
-                                Debug.LogFormat("Skipping {0}({1}) as duplicate", renderer.name, GetSortingLayerName(renderer));
-                                continue;
-                            }
-                            var uniqueSortingOrder = GetUniqueSortingOrder(renderer, nodeRenderers);
-                            if (!uniqueSortingOrder.Equals(renderer.sortingOrder))
-                            {
-                                renderer.sortingOrder = uniqueSortingOrder;
-                            }
-                            nodeRenderers.Add(renderer);
-                        }
-                    }
-                }
-
-                foreach (var renderer in nodeRenderers)
-                {
-                    var currentLayerName = GetSortingLayerName(renderer);
-                    TilemapLayer tilemapLayer;
-                    if (tilemapLayers.ContainsKey(currentLayerName))
-                    {
-                        tilemapLayer = tilemapLayers[currentLayerName];
-                    }
-                    else
-                    {
-                        tilemapLayer = new TilemapLayer();
-                        tilemapLayers[currentLayerName] = tilemapLayer;
-                    }
-                    if (tilemapLayer == null)
-                    {
-                        continue;
-                    }
-                    UniTileData tileDataInstance = CreateInstance<UniTileData>();
-                    var parentObject = renderer.transform.parent.gameObject;
-                    if (parentObject)
-                    {
-                        tileDataInstance.Name = parentObject.name;
-                    }
-                    var childtf = renderer.transform;
-                    var parenttf = renderer.transform.parent.gameObject.transform;
-                    //don't apply any rotation for tileconnects
-                    var isTC = renderer.name.StartsWith(TC);
-                    var zeroRot = Quaternion.Euler(0, 0, 0);
-
-                    tileDataInstance.ChildTransform =
-                        Matrix4x4.TRS(childtf.localPosition, isTC ? zeroRot : childtf.localRotation, childtf.localScale);
-
-                    tileDataInstance.Transform =
-                        Matrix4x4.TRS(parenttf.position, isTC ? zeroRot : parenttf.localRotation, parenttf.localScale);
-
-                    tileDataInstance.OriginalSpriteName = renderer.sprite.name;
-                    tileDataInstance.SpriteName = renderer.name;
-                    var assetPath = AssetDatabase.GetAssetPath(renderer.sprite.GetInstanceID());
-                    tileDataInstance.IsLegacy = looksLikeLegacy(assetPath, tileDataInstance) && !isExcluded(assetPath);
-
-                    string sheet = assetPath
-                        .Replace("Assets/Resources/", "")
-                        .Replace("Assets/textures/", "")
-                        .Replace("Resources/", "")
-                        .Replace(".png", "");
-                    string overrideSheet;
-                    tileDataInstance.SpriteSheet = IsTileConnectWannabe(renderer, out overrideSheet) ? overrideSheet : sheet;
-                    tilemapLayer.Add(x, y, tileDataInstance);
-                }
-            }
-        }
-
-        foreach (var layer in tilemapLayers)
-        {
-            Debug.LogFormat("{0}: {1}", layer.Key, layer.Value);
-        }
-
-        fsData data;
-        new fsSerializer().TrySerialize(tilemapLayers, out data);
-        File.WriteAllText(Application.dataPath + "/Resources/metadata/" + SceneManager.GetActiveScene().name + ".json",
-            fsJsonPrinter.PrettyJson(data));
-
-        //Cleanup
-        foreach (var o in tempGameObjects)
-        {
-            DestroyImmediate(o);
-        }
-
-        Debug.Log("Export kinda finished");
-        AssetDatabase.Refresh();
+//        var nodesMapped = MapToPNG.GetMappedNodes();
+//        var tilemapLayers = new SortedDictionary<string, TilemapLayer>(Comparer<string>.Create(CompareSpriteLayer));
+//        var tempGameObjects = new List<GameObject>();
+//
+//        for (int y = 0; y < nodesMapped.GetLength(0); y++)
+//        {
+//            for (int x = 0; x < nodesMapped.GetLength(1); x++)
+//            {
+//                var node = nodesMapped[y, x];
+//
+//                if (node == null)
+//                    continue;
+//
+//                var nodeRenderers = new List<SpriteRenderer>();
+//
+//                var objectsToExport = node.GetTiles();
+//                node.GetItems().ForEach(behaviour => objectsToExport.Add(behaviour.gameObject));
+//
+//                foreach (var tile in objectsToExport)
+//                {
+//                    var tileRenderers = tile.GetComponentsInChildren<SpriteRenderer>();
+//                    if (tileRenderers == null || tileRenderers.Length < 1) continue;
+//                    var tileconnects = 0;
+//                    foreach (var renderer in tileRenderers)
+//                    {
+//                        if (thisRendererSucks(renderer) || renderer.sortingLayerID == 0)
+//                            continue;
+//
+//                        TryMoveToSeparateLayer(renderer);
+//
+//                        if (renderer.GetComponent<TileConnect>() || IsTileConnectWannabe(renderer))
+//                        {
+//                            tileconnects++;
+//                            if (tileconnects != 4) continue;
+//                            if (tileconnects > 4)
+//                            {
+//                                Debug.LogWarningFormat("{0} — more than 4 tileconnects found!", renderer.name);
+//                            }
+//                            // grouping four tileconnect sprites into a single temporary thing
+//                            GameObject tcMergeGameObject = Instantiate(renderer.gameObject, tile.transform.position,
+//                                Quaternion.identity, tile.transform);
+//                            tempGameObjects.Add(tcMergeGameObject);
+//                            var childClone = tcMergeGameObject.GetComponent<SpriteRenderer>();
+//                            var spriteName = childClone.sprite.name;
+//
+//                            if (spriteName.Contains("_"))
+//                            {
+//                                childClone.name = TC + spriteName.Substring(0,
+//                                                      spriteName.LastIndexOf("_", StringComparison.Ordinal));
+//                            }
+//                            nodeRenderers.Add(childClone);
+//                        }
+//                        else
+//                        {
+//                            renderer.name = renderer.sprite.name;
+//                            if (DuplicateFound(renderer, nodeRenderers))
+//                            {
+//                                Debug.LogFormat("Skipping {0}({1}) as duplicate", renderer.name, GetSortingLayerName(renderer));
+//                                continue;
+//                            }
+//                            var uniqueSortingOrder = GetUniqueSortingOrder(renderer, nodeRenderers);
+//                            if (!uniqueSortingOrder.Equals(renderer.sortingOrder))
+//                            {
+//                                renderer.sortingOrder = uniqueSortingOrder;
+//                            }
+//                            nodeRenderers.Add(renderer);
+//                        }
+//                    }
+//                }
+//
+//                foreach (var renderer in nodeRenderers)
+//                {
+//                    var currentLayerName = GetSortingLayerName(renderer);
+//                    TilemapLayer tilemapLayer;
+//                    if (tilemapLayers.ContainsKey(currentLayerName))
+//                    {
+//                        tilemapLayer = tilemapLayers[currentLayerName];
+//                    }
+//                    else
+//                    {
+//                        tilemapLayer = new TilemapLayer();
+//                        tilemapLayers[currentLayerName] = tilemapLayer;
+//                    }
+//                    if (tilemapLayer == null)
+//                    {
+//                        continue;
+//                    }
+//                    UniTileData tileDataInstance = CreateInstance<UniTileData>();
+//                    var parentObject = renderer.transform.parent.gameObject;
+//                    if (parentObject)
+//                    {
+//                        tileDataInstance.Name = parentObject.name;
+//                    }
+//                    var childtf = renderer.transform;
+//                    var parenttf = renderer.transform.parent.gameObject.transform;
+//                    //don't apply any rotation for tileconnects
+//                    var isTC = renderer.name.StartsWith(TC);
+//                    var zeroRot = Quaternion.Euler(0, 0, 0);
+//
+//                    tileDataInstance.ChildTransform =
+//                        Matrix4x4.TRS(childtf.localPosition, isTC ? zeroRot : childtf.localRotation, childtf.localScale);
+//
+//                    tileDataInstance.Transform =
+//                        Matrix4x4.TRS(parenttf.position, isTC ? zeroRot : parenttf.localRotation, parenttf.localScale);
+//
+//                    tileDataInstance.OriginalSpriteName = renderer.sprite.name;
+//                    tileDataInstance.SpriteName = renderer.name;
+//                    var assetPath = AssetDatabase.GetAssetPath(renderer.sprite.GetInstanceID());
+//                    tileDataInstance.IsLegacy = looksLikeLegacy(assetPath, tileDataInstance) && !isExcluded(assetPath);
+//
+//                    string sheet = assetPath
+//                        .Replace("Assets/Resources/", "")
+//                        .Replace("Assets/textures/", "")
+//                        .Replace("Resources/", "")
+//                        .Replace(".png", "");
+//                    string overrideSheet;
+//                    tileDataInstance.SpriteSheet = IsTileConnectWannabe(renderer, out overrideSheet) ? overrideSheet : sheet;
+//                    tilemapLayer.Add(x, y, tileDataInstance);
+//                }
+//            }
+//        }
+//
+//        foreach (var layer in tilemapLayers)
+//        {
+//            Debug.LogFormat("{0}: {1}", layer.Key, layer.Value);
+//        }
+//
+//        fsData data;
+//        new fsSerializer().TrySerialize(tilemapLayers, out data);
+//        File.WriteAllText(Application.dataPath + "/Resources/metadata/" + SceneManager.GetActiveScene().name + ".json",
+//            fsJsonPrinter.PrettyJson(data));
+//
+//        //Cleanup
+//        foreach (var o in tempGameObjects)
+//        {
+//            DestroyImmediate(o);
+//        }
+//
+//        Debug.Log("Export kinda finished");
+//        AssetDatabase.Refresh();
     }
 
     private static bool DuplicateFound(SpriteRenderer renderer, List<SpriteRenderer> nodeRenderers)

@@ -28,7 +28,6 @@ GameObject:
   - component: {fileID: 50113970382522722}
   - component: {fileID: 114379432356965050}
   - component: {fileID: 114019849627944276}
-  - component: {fileID: 114187983988846628}
   - component: {fileID: 114555785714625820}
   m_Layer: 0
   m_Name: NPC_Pete
@@ -135,20 +134,6 @@ MonoBehaviour:
   AdditiveColor: {r: 0.9098039, g: 0.9098039, b: 0.9098039, a: 0}
   Material: {fileID: 2100000, guid: 0a8c132f813f5514b9f5b48ff3956482, type: 2}
   LightObstacleScale: 1
---- !u!114 &114187983988846628
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 7
-  savedPosition: {x: 1986.3973, y: 1164.3718, z: -0.0984375}
 --- !u!114 &114366662924069924
 MonoBehaviour:
   m_ObjectHideFlags: 1
