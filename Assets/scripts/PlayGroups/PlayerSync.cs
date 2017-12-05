@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
 using UnityEngine.Networking;
 using UnityEngine;
-using MatrixOld;
-using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
 using Matrix = Tilemaps.Scripts.Matrix;
 

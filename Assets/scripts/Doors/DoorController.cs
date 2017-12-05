@@ -72,30 +72,30 @@ namespace Doors
             registerTile = gameObject.GetComponent<RegisterDoor>();
             matrix = Matrix.GetMatrix(this);
 
-            var rmt = GetComponent<RestrictiveMoveTile>();
-            if (rmt != null)
-            {
-                var dooranim = (WinDoorAnimator)GetComponent<DoorAnimator>();
-                if (dooranim != null)
-                {
-                    rmt.setAll(false);
-                    switch ((int)dooranim.direction)
-                    {
-                        case 0:
-                            rmt.setSouth(true);
-                            break;
-                        case 1:
-                            rmt.setNorth(true);
-                            break;
-                        case 2:
-                            rmt.setEast(true);
-                            break;
-                        case 3:
-                            rmt.setWest(true);
-                            break;
-                    }
-                }
-            }
+//            var rmt = GetComponent<RestrictiveMoveTile>();
+//            if (rmt != null)
+//            {
+//                var dooranim = (WinDoorAnimator)GetComponent<DoorAnimator>();
+//                if (dooranim != null)
+//                {
+//                    rmt.setAll(false);
+//                    switch ((int)dooranim.direction)
+//                    {
+//                        case 0:
+//                            rmt.setSouth(true);
+//                            break;
+//                        case 1:
+//                            rmt.setNorth(true);
+//                            break;
+//                        case 2:
+//                            rmt.setEast(true);
+//                            break;
+//                        case 3:
+//                            rmt.setWest(true);
+//                            break;
+//                    }
+//                }
+//            }
 
             Awake();
         }
@@ -104,29 +104,29 @@ namespace Doors
         {
             if (!FullDoor)
             {
-                var rmt = GetComponent<RestrictiveMoveTile>();
-                if (rmt != null)
-                {
-                    var anim = (WinDoorAnimator)GetComponent<DoorAnimator>();
-                    if (anim != null)
-                    {
-                        switch ((int)anim.direction)
-                        {
-                            case 0:
-                                rmt.setSouth(true);
-                                break;
-                            case 1:
-                                rmt.setNorth(true);
-                                break;
-                            case 2:
-                                rmt.setEast(true);
-                                break;
-                            case 3:
-                                rmt.setWest(true);
-                                break;
-                        }
-                    }
-                }
+//                var rmt = GetComponent<RestrictiveMoveTile>();
+//                if (rmt != null)
+//                {
+//                    var anim = (WinDoorAnimator)GetComponent<DoorAnimator>();
+//                    if (anim != null)
+//                    {
+//                        switch ((int)anim.direction)
+//                        {
+//                            case 0:
+//                                rmt.setSouth(true);
+//                                break;
+//                            case 1:
+//                                rmt.setNorth(true);
+//                                break;
+//                            case 2:
+//                                rmt.setEast(true);
+//                                break;
+//                            case 3:
+//                                rmt.setWest(true);
+//                                break;
+//                        }
+//                    }
+//                }
             }
             registerTile.IsClosed = true;
             gameObject.layer = closedLayer;
@@ -135,11 +135,11 @@ namespace Doors
 
         public void BoxCollToggleOff()
         {
-            var rmt = GetComponent<RestrictiveMoveTile>();
-            if (rmt != null)
-            {
-                rmt.setAll(false);
-            }
+//            var rmt = GetComponent<RestrictiveMoveTile>();
+//            if (rmt != null)
+//            {
+//                rmt.setAll(false);
+//            }
             registerTile.IsClosed = false;
             gameObject.layer = openLayer;
             spriteRenderer.sortingLayerID = openSortingLayer;

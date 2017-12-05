@@ -1,12 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using PlayGroup;
 using UI;
-using InputControl;
 using Items;
-using MatrixOld;
 using UnityEngine.EventSystems;
 
 namespace Weapons

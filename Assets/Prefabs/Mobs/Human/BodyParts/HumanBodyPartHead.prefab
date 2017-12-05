@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4442501743089096}
-  - component: {fileID: 114057953198087338}
   m_Layer: 0
   m_Name: HumanBodyPartHead
   m_TagString: Untagged
@@ -40,34 +39,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114057953198087338
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1398632144117632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc997d59fea3c2b4da80d28aba274db0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Type: 0
-  DropItem: {fileID: 0}
-  Zone: head
-  BruteDamage: 0
-  BurnDamage: 0
-  MaxDamage: 200
-  Description: Didn't make sense not to live for fun, your brain gets smart but your
-    head gets dumb.
-  brutestate: 0
-  burnstate: 0
-  GreenDamageMonitorIcon: {fileID: 21300752, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300764, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300776, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300788, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300824, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}

@@ -1,10 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using PlayGroup;
-using MatrixOld;
 using InputControl;
-using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine.Networking;
 using Matrix = Tilemaps.Scripts.Matrix;
