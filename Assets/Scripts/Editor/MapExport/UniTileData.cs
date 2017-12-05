@@ -10,7 +10,7 @@ public class UniTileData : ScriptableObject
 
     [SerializeField]
     private string originalSpriteName;
-    
+
     [SerializeField]
     private string spriteName;
 
@@ -79,6 +79,6 @@ public class UniTileData : ScriptableObject
 
     public override string ToString()
     {
-        return $"{base.ToString()}, {nameof( _name )}: {_name}, {nameof( originalSpriteName )}: {originalSpriteName}, {nameof( spriteName )}: {spriteName}, {nameof( spriteSheet )}: {spriteSheet}";
+        return $"{base.ToString()}, {nameof(_name)}: {_name}, {nameof(originalSpriteName)}: {originalSpriteName}, {nameof(spriteName)}: {spriteName}, {nameof(spriteSheet)}: {spriteSheet}";
     }
 }

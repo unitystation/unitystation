@@ -5,198 +5,217 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using InputControl;
-using Matrix;
+using Tilemaps.Scripts;
+using Tilemaps.Scripts.Behaviours.Objects;
 
 namespace Cupboards
 {
-	public class ClosetControl : InputTrigger
-	{
-		public Sprite doorOpened;
-		private Sprite doorClosed;
+    public class ClosetControl : InputTrigger
+    {
+        public Sprite doorOpened;
+        private Sprite doorClosed;
 
-		public SpriteRenderer spriteRenderer;
-		private RegisterTile registerTile;
+        public SpriteRenderer spriteRenderer;
+        private RegisterCloset registerTile;
+        private Matrix matrix;
 
-		[SyncVar(hook = "LockUnlock")]
-		public bool IsLocked;
-		public LockLightController lockLight;
-		public GameObject items;
+        [SyncVar(hook = "LockUnlock")]
+        public bool IsLocked;
+        public LockLightController lockLight;
+        public GameObject items;
 
-		[SyncVar(hook = "OpenClose")]
-		public bool IsClosed;
+        [SyncVar(hook = "OpenClose")]
+        public bool IsClosed;
 
-		//Inventory
-		private List<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
-		private List<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
+        //Inventory
+        private IEnumerable<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
+        private IEnumerable<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
 
-		void Awake()
-		{
-			doorClosed = spriteRenderer.sprite;
-			registerTile = GetComponent<RegisterTile>();
-		}
+        void Awake()
+        {
+            doorClosed = spriteRenderer.sprite;
+        }
 
-		public override void OnStartServer()
-		{
-			StartCoroutine(WaitForServerReg());
-			IsClosed = true;
-			base.OnStartServer();
-		}
+        private void Start()
+        {
+            registerTile = GetComponent<RegisterCloset>();
+            matrix = Matrix.GetMatrix(this);
+        }
 
-		IEnumerator WaitForServerReg()
-		{
-			yield return new WaitForSeconds(1f);
-			SetItems(!IsClosed);
-		}
+        public override void OnStartServer()
+        {
+            StartCoroutine(WaitForServerReg());
+            IsClosed = true;
+            base.OnStartServer();
+        }
 
-		public override void OnStartClient()
-		{
-			StartCoroutine(WaitForLoad());
-			base.OnStartClient();
-		}
+        IEnumerator WaitForServerReg()
+        {
+            yield return new WaitForSeconds(1f);
+            SetItems(!IsClosed);
+        }
 
-		IEnumerator WaitForLoad()
-		{
-			yield return new WaitForSeconds(3f);
-			bool iC = IsClosed;
-			bool iL = IsLocked;
-			OpenClose(iC);
-			LockUnlock(iL);
-		}
+        public override void OnStartClient()
+        {
+            StartCoroutine(WaitForLoad());
+            base.OnStartClient();
+        }
 
-		[Server]
-		public void ServerToggleCupboard()
-		{
-			if (IsClosed) {
-				if (lockLight != null) {
-					if (lockLight.IsLocked()) {
-						IsLocked = false;
-						return;
-					}
-					IsClosed = false;
-					SetItems(true);
-				} else {
-					IsClosed = false;
-					SetItems(true);
-				}
-			} else {
-				IsClosed = true;
-				SetItems(false);
-			}
-		}
+        IEnumerator WaitForLoad()
+        {
+            yield return new WaitForSeconds(3f);
+            bool iC = IsClosed;
+            bool iL = IsLocked;
+            OpenClose(iC);
+            LockUnlock(iL);
+        }
 
-		void OpenClose(bool isClosed)
-		{
-			if (!registerTile) {
-				registerTile = GetComponent<RegisterTile>();
-			}
-			if (isClosed) {
-				Close();
-			} else {
-				Open();
-			}
-		}
+        [Server]
+        public void ServerToggleCupboard()
+        {
+            if (IsClosed)
+            {
+                if (lockLight != null)
+                {
+                    if (lockLight.IsLocked())
+                    {
+                        IsLocked = false;
+                        return;
+                    }
+                    IsClosed = false;
+                    SetItems(true);
+                }
+                else
+                {
+                    IsClosed = false;
+                    SetItems(true);
+                }
+            }
+            else
+            {
+                IsClosed = true;
+                SetItems(false);
+            }
+        }
 
-		void LockUnlock(bool lockIt)
-		{
-			if (lockLight == null)
-				return;
-			if (lockIt) {
+        void OpenClose(bool isClosed)
+        {
+            if (isClosed)
+            {
+                Close();
+            }
+            else
+            {
+                Open();
+            }
+        }
 
-			} else {
-				lockLight.Unlock();
-			}
-		}
+        void LockUnlock(bool lockIt)
+        {
+            if (lockLight == null)
+                return;
+            if (lockIt)
+            {
 
-		void Close()
-		{
-			if (registerTile == null) {
-				registerTile = gameObject.GetComponent<RegisterTile>();
-			}
-			registerTile.UpdateTileType(TileType.Object);
-			SoundManager.PlayAtPosition("OpenClose", transform.position);
-			spriteRenderer.sprite = doorClosed;
-			if (lockLight != null) {
-				lockLight.Show();
-			}
-		}
+            }
+            else
+            {
+                lockLight.Unlock();
+            }
+        }
 
-		void Open()
-		{
-			if (registerTile == null) {
-				registerTile = gameObject.GetComponent<RegisterTile>();
-			}
-			registerTile.UpdateTileType(TileType.None);
-			SoundManager.PlayAtPosition("OpenClose", transform.position);
-			spriteRenderer.sprite = doorOpened;
-			if (lockLight != null) {
-				lockLight.Hide();
-			}
-		}
+        void Close()
+        {
+            registerTile.IsClosed = true;
+            SoundManager.PlayAtPosition("OpenClose", transform.position);
+            spriteRenderer.sprite = doorClosed;
+            if (lockLight != null)
+            {
+                lockLight.Show();
+            }
+        }
 
-		public override void Interact(GameObject originator, string hand){
-			//FIXME this should be rewritten to net messages, see i.e. TableTrigger
-			if (Input.GetKey(KeyCode.LeftControl))
-				return;
+        void Open()
+        {
+            registerTile.IsClosed = false;
+            SoundManager.PlayAtPosition("OpenClose", transform.position);
+            spriteRenderer.sprite = doorOpened;
+            if (lockLight != null)
+            {
+                lockLight.Hide();
+            }
+        }
 
-			if (PlayerManager.PlayerInReach(transform)) {
-				if (IsClosed) {
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
-					return;
-				}
+        public override void Interact(GameObject originator, string hand)
+        {
+            //FIXME this should be rewritten to net messages, see i.e. TableTrigger
+            if (Input.GetKey(KeyCode.LeftControl))
+                return;
 
-				GameObject item = UIManager.Hands.CurrentSlot.Clear();
-				if (item != null)
-				{
-					var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-					targetPosition.z = -0.2f;
-					PlayerManager.LocalPlayerScript.playerNetworkActions.PlaceItem(UIManager.Hands.CurrentSlot.eventName, transform.position, null);
+            if (PlayerManager.PlayerInReach(transform))
+            {
+                if (IsClosed)
+                {
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
+                    return;
+                }
 
-					item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
-					//
-				} else {
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
-				}
-			}
-		}
+                GameObject item = UIManager.Hands.CurrentSlot.Clear();
+                if (item != null)
+                {
+                    var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    targetPosition.z = -0.2f;
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.PlaceItem(UIManager.Hands.CurrentSlot.eventName, transform.position, null);
 
-		private void SetItems(bool open)
-		{
+                    item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
+                    //
+                }
+                else
+                {
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
+                }
+            }
+        }
 
-			if (!open) {
-				SetItemsAliveState(false);
-				SetPlayersAliveState(false);
-			} else {
-				SetItemsAliveState(true);
-				SetPlayersAliveState(true);
-			}
-		}
+        private void SetItems(bool open)
+        {
 
-		private void SetItemsAliveState(bool on)
-		{
-			if (!on)
-				heldItems = Matrix.Matrix.At(transform.position).GetItems();
+            if (!open)
+            {
+                SetItemsAliveState(false);
+                SetPlayersAliveState(false);
+            }
+            else
+            {
+                SetItemsAliveState(true);
+                SetPlayersAliveState(true);
+            }
+        }
 
-			for (int i = 0; i < heldItems.Count; i++) {
-				if (on)
-					heldItems[i].transform.position = transform.position;
+        private void SetItemsAliveState(bool on)
+        {
+            if (!on)
+                heldItems = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Item);
 
-				heldItems[i].visibleState = on;
-			}
-		}
+            foreach (var item in heldItems)
+            {
+                if (on)
+                    item.transform.position = transform.position;
+                item.visibleState = on;
+            }
+        }
 
-		private void SetPlayersAliveState(bool on)
-		{
-			if (!on) 
-				heldPlayers = Matrix.Matrix.At(transform.position).GetPlayers();
+        private void SetPlayersAliveState(bool on)
+        {
+            if (!on)
+                heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Player);
 
-			for (int i = 0; i < heldPlayers.Count; i++) {
-				heldPlayers[i].visibleState = on;
-
-				if (on) {
-					if (isServer)
-						heldPlayers[i].GetComponent<PlayerSync>().SetPosition(transform.position);
-				}
-			}
-		}
-	}
+            foreach (var player in heldPlayers)
+            {
+                if (on)
+                    player.transform.position = transform.position;
+                player.visibleState = on;
+            }
+        }
+    }
 }

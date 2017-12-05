@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
+  m_Name: shuttle_wall
+  m_EditorClassIdentifier: 
+  LayerType: 0
+  RequiredTiles:
+  - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
+  Passable: 0
+  AtmosPassable: 0
+  IsSealed: 0
+  spriteSheet: {fileID: 2800000, guid: 0a0f91b9c43ff9743a56ea9ef270abbd, type: 3}
+  texturePath: Walls
+  connectCategory: 0
+  connectType: 1

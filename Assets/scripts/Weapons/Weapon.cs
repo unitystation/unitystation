@@ -1,12 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using PlayGroup;
 using UI;
-using InputControl;
 using Items;
-using Matrix;
 using UnityEngine.EventSystems;
 
 namespace Weapons
@@ -80,25 +77,26 @@ namespace Weapons
         /// <summary>
         /// The countdown untill we can shoot again
         /// </summary>
-        [HideInInspector] 
+        [HideInInspector]
         public double FireCountDown;
 
         /// <summary>
         /// If the weapon is currently in automatic action
         /// </summary>
-        [HideInInspector] 
+        [HideInInspector]
         public bool InAutomaticAction;
 
         /// <summary>
         /// The the current recoil variance this weapon has reached
         /// </summary>
-        [SyncVar] [HideInInspector] 
+        [SyncVar]
+        [HideInInspector]
         public float CurrentRecoilVariance;
 
-        [SyncVar(hook = "LoadUnloadAmmo")] 
+        [SyncVar(hook = "LoadUnloadAmmo")]
         public NetworkInstanceId MagNetID;
 
-        [SyncVar] 
+        [SyncVar]
         public NetworkInstanceId ControlledByPlayer;
 
         void Start()
@@ -186,11 +184,12 @@ namespace Weapons
 
         public override void OnStartServer()
         {
-            var ammoPrefab = Resources.Load("Magazine_" + AmmoType);
+            var ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType);
             GameObject m = GameObject.Instantiate(ammoPrefab as GameObject, Vector3.zero, Quaternion.identity);
             //spean the magazine
             NetworkServer.Spawn(m);
             StartCoroutine(SetMagazineOnStart(m));
+
             base.OnStartServer();
         }
 
@@ -198,12 +197,12 @@ namespace Weapons
         IEnumerator SetMagazineOnStart(GameObject magazine)
         {
             yield return new WaitForSeconds(2f);
-//			if (GameData.IsHeadlessServer || GameData.Instance.testServer) {
+            //			if (GameData.IsHeadlessServer || GameData.Instance.testServer) {
             NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
             MagNetID = networkID;
-//			} else {
-//				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
-//			}
+            //			} else {
+            //				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
+            //			}
         }
 
         #endregion
@@ -353,11 +352,11 @@ namespace Weapons
                 {
                     MagazineBehaviour magazineBehavior = magazine.GetComponent<MagazineBehaviour>();
                     CurrentMagazine = magazineBehavior;
-//					Debug.LogFormat("MagazineBehaviour found ok: {0}", magazineID);
+                    //					Debug.LogFormat("MagazineBehaviour found ok: {0}", magazineID);
                 }
                 else
                 {
-//					Debug.Log("Could not find MagazineBehaviour");
+                    //					Debug.Log("Could not find MagazineBehaviour");
                 }
             }
         }

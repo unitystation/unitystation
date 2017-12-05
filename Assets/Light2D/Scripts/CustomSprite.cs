@@ -72,7 +72,7 @@ namespace Light2D
             _uv1 = new Vector2[4];
             _uv0 = new Vector2[4];
             _vertices = new Vector3[4];
-            _triangles = new[] {2, 1, 0, 1, 2, 3};
+            _triangles = new[] { 2, 1, 0, 1, 2, 3 };
             _meshRenderer = GetComponent<MeshRenderer>();
             _meshFilter = GetComponent<MeshFilter>();
 
@@ -85,7 +85,7 @@ namespace Light2D
 #if UNITY_EDITOR
             if (Material == null)
             {
-				Material = Resources.Load<Material>("Sprites-PixelSnap.mat");
+                Material = Resources.Load<Material>("Sprites-PixelSnap.mat");
             }
 #endif
 
@@ -114,7 +114,7 @@ namespace Light2D
             if (Application.isPlaying && LightingSystem.Instance.EnableNormalMapping)
             {
                 RendererEnabled = _meshRenderer.enabled;
-                _meshRenderer.enabled = false; 
+                _meshRenderer.enabled = false;
             }
         }
 
@@ -130,18 +130,19 @@ namespace Light2D
         {
             StartCoroutine(colorFade(timeOut));
         }
-        
+
 
         private IEnumerator colorFade(float timeOut)
         {
             var oldColor = Color;
             var elapsed = 0f;
-            while (elapsed < timeOut) {
-                elapsed +=Time.deltaTime;
+            while (elapsed < timeOut)
+            {
+                elapsed += Time.deltaTime;
                 Color = Color.Lerp(oldColor, Color.black, elapsed / timeOut);
-               yield return null;
+                yield return null;
             }
-           yield return 0;
+            yield return 0;
         }
 
         /// <summary>
@@ -174,7 +175,7 @@ namespace Light2D
 
             return matValue.Material;
         }
-        
+
         /// <summary>
         /// Getting material from cache or instantiating new one.
         /// </summary>
@@ -201,7 +202,7 @@ namespace Light2D
             {
                 matValue.UsageCount++;
             }
-            
+
             return matValue.Material;
         }
 
@@ -263,12 +264,12 @@ namespace Light2D
         {
             if (Sprite == null)
                 return;
-            
+
             var rect = Sprite.textureRect;
             var bounds = Sprite.bounds;
             var tex = Sprite.texture;
             var textureSize = new Point2(tex.width, tex.height);
-            
+
             // HACK: mipmap could cause texture padding sometimes so padded size of texture needs to be computed.
             var realSize =
 #if UNITY_EDITOR || UNITY_STANDALONE
@@ -279,18 +280,18 @@ namespace Light2D
                     ? textureSize
                     : new Point2(Mathf.NextPowerOfTwo(textureSize.x), Mathf.NextPowerOfTwo(textureSize.y));
 
-            var unitSize2 = rect.size/Sprite.pixelsPerUnit/2f;
-            var offest = (Vector2) bounds.center;
+            var unitSize2 = rect.size / Sprite.pixelsPerUnit / 2f;
+            var offest = (Vector2)bounds.center;
 
             _vertices[0] = new Vector3(-unitSize2.x + offest.x, -unitSize2.y + offest.y, 0);
             _vertices[1] = new Vector3(unitSize2.x + offest.x, -unitSize2.y + offest.y, 0);
             _vertices[2] = new Vector3(-unitSize2.x + offest.x, unitSize2.y + offest.y, 0);
             _vertices[3] = new Vector3(unitSize2.x + offest.x, unitSize2.y + offest.y, 0);
 
-            _uv0[0] = new Vector2(rect.xMin/realSize.x, rect.yMin/realSize.y); // 0, 0
-            _uv0[1] = new Vector2(rect.xMax/realSize.x, rect.yMin/realSize.y); // 1, 0
-            _uv0[2] = new Vector2(rect.xMin/realSize.x, rect.yMax/realSize.y); // 0, 1
-            _uv0[3] = new Vector2(rect.xMax/realSize.x, rect.yMax/realSize.y); // 1, 1
+            _uv0[0] = new Vector2(rect.xMin / realSize.x, rect.yMin / realSize.y); // 0, 0
+            _uv0[1] = new Vector2(rect.xMax / realSize.x, rect.yMin / realSize.y); // 1, 0
+            _uv0[2] = new Vector2(rect.xMin / realSize.x, rect.yMax / realSize.y); // 0, 1
+            _uv0[3] = new Vector2(rect.xMax / realSize.x, rect.yMax / realSize.y); // 1, 1
 
             for (int i = 0; i < 4; i++)
             {
@@ -403,7 +404,7 @@ namespace Light2D
                 {
                     unchecked
                     {
-                        return ((obj.Texture != null ? obj.Texture.GetHashCode() : 0)*397) ^ (obj.Material != null ? obj.Material.GetHashCode() : 0);
+                        return ((obj.Texture != null ? obj.Texture.GetHashCode() : 0) * 397) ^ (obj.Material != null ? obj.Material.GetHashCode() : 0);
                     }
                 }
             }
@@ -427,14 +428,14 @@ namespace Light2D
                 if (ReferenceEquals(null, obj)) return false;
                 if (ReferenceEquals(this, obj)) return true;
                 if (obj.GetType() != this.GetType()) return false;
-                return Equals((MaterialKey) obj);
+                return Equals((MaterialKey)obj);
             }
 
             public override int GetHashCode()
             {
                 unchecked
                 {
-                    return ((Texture != null ? Texture.GetHashCode() : 0)*397) ^ (Material != null ? Material.GetHashCode() : 0);
+                    return ((Texture != null ? Texture.GetHashCode() : 0) * 397) ^ (Material != null ? Material.GetHashCode() : 0);
                 }
             }
 

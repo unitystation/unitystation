@@ -20,17 +20,17 @@ namespace Light2D.Examples
 
         public ulong longSeed
         {
-            get { return ((ulong) w << 32) + (ulong) z; }
+            get { return ((ulong)w << 32) + (ulong)z; }
             set
             {
-                w = (uint) (value >> 32);
-                z = unchecked ((uint) value);
+                w = (uint)(value >> 32);
+                z = unchecked((uint)value);
             }
         }
 
         public int seed
         {
-            set { w = unchecked ((uint) value); }
+            set { w = unchecked((uint)value); }
         }
 
         public float value
@@ -62,7 +62,7 @@ namespace Light2D.Examples
             w = u;
         }
 
-        public SimpleRNG(int u) : this((uint) u)
+        public SimpleRNG(int u) : this((uint)u)
         {
         }
 
@@ -70,7 +70,7 @@ namespace Light2D.Examples
         {
             System.DateTime dt = System.DateTime.Now;
             long x = dt.ToFileTime();
-            return new SimpleRNG((uint) (x >> 16), (uint) (x%4294967296));
+            return new SimpleRNG((uint)(x >> 16), (uint)(x % 4294967296));
         }
 
         // Produce a uniform random sample from the open interval (0, 1).
@@ -81,12 +81,12 @@ namespace Light2D.Examples
             uint u = GetUint();
             // The magic number below is 1/(2^32 + 2).
             // The result is strictly between 0 and 1.
-            return (u + 1.0)*2.328306435454494e-10;
+            return (u + 1.0) * 2.328306435454494e-10;
         }
 
         public float GetUniformF()
         {
-            return (float) GetUniform();
+            return (float)GetUniform();
         }
 
         public int Range(int minValue, int maxValue)
@@ -96,9 +96,9 @@ namespace Light2D.Examples
 
         public int Range(int maxValue)
         {
-            var num = (int) GetUint();
+            var num = (int)GetUint();
             if (num < 0) num = -num;
-            return num%maxValue;
+            return num % maxValue;
         }
 
         // This is the heart of the generator.
@@ -106,8 +106,8 @@ namespace Light2D.Examples
         // See http://www.bobwheeler.com/statistics/Password/MarsagliaPost.txt
         private uint GetUint()
         {
-            z = 36969*(z & 65535) + (z >> 16);
-            w = 18000*(w & 65535) + (w >> 16);
+            z = 36969 * (z & 65535) + (z >> 16);
+            w = 18000 * (w & 65535) + (w >> 16);
             return (z << 16) + w;
         }
 
@@ -117,9 +117,9 @@ namespace Light2D.Examples
             // Use Box-Muller algorithm
             double u1 = GetUniform();
             double u2 = GetUniform();
-            double r = Math.Sqrt(-2.0*Math.Log(u1));
-            double theta = 2.0*Math.PI*u2;
-            return r*Math.Sin(theta);
+            double r = Math.Sqrt(-2.0 * Math.Log(u1));
+            double theta = 2.0 * Math.PI * u2;
+            return r * Math.Sin(theta);
         }
 
         // Get normal (Gaussian) random sample with specified mean and standard deviation
@@ -130,7 +130,7 @@ namespace Light2D.Examples
                 string msg = string.Format("Shape must be positive. Received {0}.", standardDeviation);
                 throw new ArgumentOutOfRangeException(msg);
             }
-            return mean + standardDeviation*GetNormal();
+            return mean + standardDeviation * GetNormal();
         }
 
         // Get exponential random sample with mean 1
@@ -147,7 +147,7 @@ namespace Light2D.Examples
                 string msg = string.Format("Mean must be positive. Received {0}.", mean);
                 throw new ArgumentOutOfRangeException(msg);
             }
-            return mean*GetExponential();
+            return mean * GetExponential();
         }
 
         public double GetGamma(double shape, double scale)
@@ -160,20 +160,20 @@ namespace Light2D.Examples
 
             if (shape >= 1.0)
             {
-                d = shape - 1.0/3.0;
-                c = 1.0/Math.Sqrt(9.0*d);
-                for (;;)
+                d = shape - 1.0 / 3.0;
+                c = 1.0 / Math.Sqrt(9.0 * d);
+                for (; ; )
                 {
                     do
                     {
                         x = GetNormal();
-                        v = 1.0 + c*x;
+                        v = 1.0 + c * x;
                     } while (v <= 0.0);
-                    v = v*v*v;
+                    v = v * v * v;
                     u = GetUniform();
-                    xsquared = x*x;
-                    if (u < 1.0 - .0331*xsquared*xsquared || Math.Log(u) < 0.5*xsquared + d*(1.0 - v + Math.Log(v)))
-                        return scale*d*v;
+                    xsquared = x * x;
+                    if (u < 1.0 - .0331 * xsquared * xsquared || Math.Log(u) < 0.5 * xsquared + d * (1.0 - v + Math.Log(v)))
+                        return scale * d * v;
                 }
             }
             else if (shape <= 0.0)
@@ -185,7 +185,7 @@ namespace Light2D.Examples
             {
                 double g = GetGamma(shape + 1.0, 1.0);
                 double w = GetUniform();
-                return scale*g*Math.Pow(w, 1.0/shape);
+                return scale * g * Math.Pow(w, 1.0 / shape);
             }
         }
 
@@ -193,14 +193,14 @@ namespace Light2D.Examples
         {
             // A chi squared distribution with n degrees of freedom
             // is a gamma distribution with shape n/2 and scale 2.
-            return GetGamma(0.5*degreesOfFreedom, 2.0);
+            return GetGamma(0.5 * degreesOfFreedom, 2.0);
         }
 
         public double GetInverseGamma(double shape, double scale)
         {
             // If X is gamma(shape, scale) then
             // 1/Y is inverse gamma(shape, 1/scale)
-            return 1.0/GetGamma(shape, 1.0/scale);
+            return 1.0 / GetGamma(shape, 1.0 / scale);
         }
 
         public double GetWeibull(double shape, double scale)
@@ -212,7 +212,7 @@ namespace Light2D.Examples
                         shape, scale);
                 throw new ArgumentOutOfRangeException(msg);
             }
-            return scale*Math.Pow(-Math.Log(GetUniform()), 1.0/shape);
+            return scale * Math.Pow(-Math.Log(GetUniform()), 1.0 / shape);
         }
 
         public double GetCauchy(double median, double scale)
@@ -226,7 +226,7 @@ namespace Light2D.Examples
             double p = GetUniform();
 
             // Apply inverse of the Cauchy distribution function to a uniform
-            return median + scale*Math.Tan(Math.PI*(p - 0.5));
+            return median + scale * Math.Tan(Math.PI * (p - 0.5));
         }
 
         public double GetStudentT(double degreesOfFreedom)
@@ -240,7 +240,7 @@ namespace Light2D.Examples
             // See Seminumerical Algorithms by Knuth
             double y1 = GetNormal();
             double y2 = GetChiSquare(degreesOfFreedom);
-            return y1/Math.Sqrt(y2/degreesOfFreedom);
+            return y1 / Math.Sqrt(y2 / degreesOfFreedom);
         }
 
         // The Laplace distribution is also known as the double exponential distribution.
@@ -248,8 +248,8 @@ namespace Light2D.Examples
         {
             double u = GetUniform();
             return (u < 0.5)
-                ? mean + scale*Math.Log(2.0*u)
-                : mean - scale*Math.Log(2*(1 - u));
+                ? mean + scale * Math.Log(2.0 * u)
+                : mean - scale * Math.Log(2 * (1 - u));
         }
 
         public double GetLogNormal(double mu, double sigma)
@@ -272,7 +272,7 @@ namespace Light2D.Examples
 
             double u = GetGamma(a, 1.0);
             double v = GetGamma(b, 1.0);
-            return u/(u + v);
+            return u / (u + v);
         }
     }
 

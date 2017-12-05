@@ -50,7 +50,7 @@ namespace Light2D
             obstacleObj.transform.parent = gameObject.transform;
             obstacleObj.transform.localPosition = Vector3.zero;
             obstacleObj.transform.localRotation = Quaternion.identity;
-            obstacleObj.transform.localScale = Vector3.one*LightObstacleScale;
+            obstacleObj.transform.localScale = Vector3.one * LightObstacleScale;
             if (LightingSystem.Instance != null)
                 obstacleObj.layer = LightingSystem.Instance.LightObstaclesLayer;
 

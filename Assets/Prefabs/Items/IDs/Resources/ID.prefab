@@ -35,15 +35,14 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4847026064450114}
-  - component: {fileID: 114821144345615228}
-  - component: {fileID: 114593161572524446}
-  - component: {fileID: 114696162609604062}
-  - component: {fileID: 114716302871911692}
-  - component: {fileID: 114415532299363170}
   - component: {fileID: 61854855548246012}
+  - component: {fileID: 114696162609604062}
+  - component: {fileID: 114415532299363170}
+  - component: {fileID: 114593161572524446}
+  - component: {fileID: 114716302871911692}
   - component: {fileID: 114959086465697646}
-  - component: {fileID: 114914616408525980}
   - component: {fileID: 114922150393857528}
+  - component: {fileID: 114065903958209818}
   m_Layer: 10
   m_Name: ID
   m_TagString: Untagged
@@ -103,6 +102,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114065903958209818
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1748120534729806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114415532299363170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,34 +198,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114821144345615228
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1748120534729806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: -0.2
-  useInGame: 0
---- !u!114 &114914616408525980
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1748120534729806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 7
-  savedPosition: {x: 1989, y: 1165, z: -0.2}
 --- !u!114 &114922150393857528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -228,6 +210,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visibleState: 1
+  isPlayer: 0
+  registerTile: {fileID: 0}
+  moveSpeed: 7
+  allowedToMove: 1
+  isPushable: 1
+  pulledBy: {fileID: 0}
+  pushTarget: {x: 0, y: 0, z: 0}
+  pushing: 0
+  serverLittleLag: 0
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
+  timeInPush: 0
 --- !u!114 &114959086465697646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -258,6 +252,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -273,13 +268,14 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300002, guid: 3c5ea9c60b024de1a8718eddd1639ac5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -290,3 +286,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0

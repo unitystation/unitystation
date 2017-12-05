@@ -12,7 +12,7 @@ namespace Light2D.Examples
 
         void Update()
         {
-            transform.rotation *= Quaternion.Euler(0, 0, AngularSpeed*Time.deltaTime);
+            transform.rotation *= Quaternion.Euler(0, 0, AngularSpeed * Time.deltaTime);
         }
     }
 }

@@ -19,14 +19,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4617881622939276}
-  - component: {fileID: 114483960431531440}
-  - component: {fileID: 114661774911997286}
-  - component: {fileID: 114514298924506604}
   - component: {fileID: 61585818294511096}
   - component: {fileID: 114251161790680262}
   - component: {fileID: 114622076731193390}
-  - component: {fileID: 114472948669014522}
+  - component: {fileID: 114661774911997286}
+  - component: {fileID: 114514298924506604}
   - component: {fileID: 114606480918356138}
+  - component: {fileID: 114594973255241380}
   m_Layer: 10
   m_Name: L6SAW_Ballistic
   m_TagString: Untagged
@@ -134,34 +133,6 @@ MonoBehaviour:
     i15: 247
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114472948669014522
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1228446059428988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba98a4875c60884bb6b42f43b5b51ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inSpace: 0
-  tileTypeIndex: 7
-  savedPosition: {x: 27, y: 24, z: -0.2}
---- !u!114 &114483960431531440
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1228446059428988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: -0.2
-  useInGame: 1
 --- !u!114 &114514298924506604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -185,6 +156,17 @@ MonoBehaviour:
   FireCountDown: 0
   InAutomaticAction: 0
   CurrentRecoilVariance: 0
+--- !u!114 &114594973255241380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1228446059428988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114606480918356138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,6 +179,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visibleState: 1
+  isPlayer: 0
+  registerTile: {fileID: 0}
+  moveSpeed: 7
+  allowedToMove: 1
+  isPushable: 1
+  pulledBy: {fileID: 0}
+  pushTarget: {x: 0, y: 0, z: 0}
+  pushing: 0
+  serverLittleLag: 0
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
+  timeInPush: 0
 --- !u!114 &114622076731193390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -248,6 +242,7 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -263,13 +258,14 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300104, guid: e60fa16c12a54a28b5e8c06def0303f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -280,3 +276,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0

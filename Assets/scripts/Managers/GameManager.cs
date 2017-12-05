@@ -9,40 +9,46 @@ using PlayGroup;
 using System;
 using System.Linq;
 
-public class GameManager : MonoBehaviour {
-
-	public static GameManager Instance;
+public class GameManager : MonoBehaviour
+{
+    public static GameManager Instance;
 
     public GameObject StandardOutfit;
     public List<GameObject> Occupations = new List<GameObject>();
 
-	public Text roundTimer;
-	private bool counting = false;
-	private bool waitForRestart = false;
-	private float remainingTime = 480f; //6min rounds
-	private float cacheTime = 480f;
-	private float restartTime = 10f;
-	public float GetRoundTime {get{
-			return remainingTime;
-		}}
+    public Text roundTimer;
+    private bool counting = false;
+    private bool waitForRestart = false;
+    private float remainingTime = 480f; //6min rounds
+    private float cacheTime = 480f;
+    private float restartTime = 10f;
 
-	void Awake(){
-		if (Instance == null) {
-			Instance = this;
-		} else {
-			Destroy(this);
-		}
-	}
+    public float GetRoundTime
+    {
+        get { return remainingTime; }
+    }
 
-	void OnEnable()
-	{
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
-	}
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
-	void OnDisable()
-	{
-		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-	}
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }
 
     void OnValidate()
     {
@@ -50,78 +56,56 @@ public class GameManager : MonoBehaviour {
             Debug.LogError("There is no ASSISTANT job role defined in the the GameManager Occupation rosters");
     }
 
-	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
-		if (scene.name == "DeathMatch") {
-			counting = true;
-		}
+    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "DeathMatch")
+        {
+            counting = true;
+        }
+    }
 
-	}
-		
-	public void SyncTime(float currentTime){
-		remainingTime = currentTime;
-	}
+    public void SyncTime(float currentTime)
+    {
+        remainingTime = currentTime;
+    }
 
-	public void ResetRoundTime(){
-		remainingTime = cacheTime;
-		restartTime = 10f;
-		counting = true;
-	}
+    public void ResetRoundTime()
+    {
+        remainingTime = cacheTime;
+        restartTime = 10f;
+        counting = true;
+    }
 
-	void Update(){
+    void Update()
+    {
+        if (waitForRestart)
+        {
+            restartTime -= Time.deltaTime;
+            if (restartTime <= 0f)
+            {
+                waitForRestart = false;
+                RestartRound();
+            }
+        }
 
-		if (waitForRestart) {
-			restartTime -= Time.deltaTime;
-			if (restartTime <= 0f) {
-				waitForRestart = false;
-				RestartRound();
-			}
-		}
+        if (counting)
+        {
+            remainingTime -= Time.deltaTime;
+            roundTimer.text = Mathf.Floor(remainingTime / 60).ToString("00") + ":" + (remainingTime % 60).ToString("00");
+            if (remainingTime <= 0f)
+            {
+                counting = false;
+                roundTimer.text = "GameOver";
+                SoundManager.Play("ApcDestroyed", 0.3f, 1f, 0f);
 
-		if (counting) {
-			remainingTime -= Time.deltaTime;
-			roundTimer.text = Mathf.Floor(remainingTime / 60).ToString("00") + ":" + (remainingTime % 60).ToString("00");
-			if (remainingTime <= 0f) {
-				counting = false;
-				roundTimer.text = "GameOver";
-				SoundManager.Play("ApcDestroyed",0.3f,1f,0f);
-
-				if (CustomNetworkManager.Instance._isServer) {
-					PlayerList.Instance.ReportScores();
-					waitForRestart = true;
-				}
-			}
-		}
-
-		//NOTE: Switching off for 0.1.3
-		//if there are multiple people and everyone is dead besides one player, restart the match
-//		if (counting && PlayerList.playerList != null && PlayerList.Instance.connectedPlayers.Count > 1) {
-//			int playerCount = PlayerList.playerList.connectedPlayers.Count;
-//			int deadCount = 0;
-//			foreach (var player in PlayerList.playerList.connectedPlayers) {
-//				if (player.Value != null) {
-//					var human = player.Value.GetComponent<Human> ();
-//					if (human != null) {
-//						//if a player is dead or effectivly dead count them towards a dead total
-//						if (human.mobStat == MobConsciousStat.DEAD) {
-//							deadCount++;
-//						}
-//					}
-//				}
-//			}
-
-			//if there is only one or less people left, restart
-//			if (playerCount - deadCount <= 1) {
-//				counting = false;
-//				roundTimer.text = "GameOver";
-//				SoundManager.Play("ApcDestroyed",0.3f,1f,0f);
-//
-//				if (CustomNetworkManager.Instance._isServer) {
-//					PlayerList.Instance.ReportScores();
-//					waitForRestart = true;
-//				}
-//			}
-//		}
-	}
+                if (CustomNetworkManager.Instance._isServer)
+                {
+                    PlayerList.Instance.ReportScores();
+                    waitForRestart = true;
+                }
+            }
+        }
+    }
 
     public int GetOccupationsCount(JobType jobType)
     {
@@ -150,7 +134,7 @@ public class GameManager : MonoBehaviour {
 
     public JobOutfit GetOccupationOutfit(JobType jobType)
     {
-        return Occupations.Where(o => o.GetComponent<OccupationRoster>().Type == jobType).First().GetComponent<OccupationRoster>().outfit.GetComponent<JobOutfit>();
+        return Occupations.First(o => o.GetComponent<OccupationRoster>().Type == jobType).GetComponent<OccupationRoster>().outfit.GetComponent<JobOutfit>();
     }
 
     // Attempts to request job else assigns random occupation in order of priority
@@ -191,10 +175,12 @@ public class GameManager : MonoBehaviour {
 
         return JobType.ASSISTANT;
     }
-    
-    void RestartRound(){
-		if (CustomNetworkManager.Instance._isServer) {
-			CustomNetworkManager.Instance.ServerChangeScene(SceneManager.GetActiveScene().name);
-		}
-	}
+
+    void RestartRound()
+    {
+        if (CustomNetworkManager.Instance._isServer)
+        {
+            CustomNetworkManager.Instance.ServerChangeScene(SceneManager.GetActiveScene().name);
+        }
+    }
 }

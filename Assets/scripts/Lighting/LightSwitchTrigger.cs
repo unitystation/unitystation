@@ -7,7 +7,7 @@ using InputControl;
 
 namespace Lighting
 {
-    public class LightSwitchTrigger: InputTrigger
+    public class LightSwitchTrigger : InputTrigger
     {
         const int MAX_TARGETS = 44;
         public float radius = 10f;
@@ -24,7 +24,7 @@ namespace Lighting
         public Sprite lightOff;
         private bool switchCoolDown = false;
         private AudioSource clickSFX;
-		private bool soundAllowed = false;
+        private bool soundAllowed = false;
 
         void Awake()
         {
@@ -34,11 +34,11 @@ namespace Lighting
 
         void Start()
         {
-			//This is needed because you can no longer apply lightSwitch prefabs (it will move all of the child sprite positions)
-			gameObject.layer = LayerMask.NameToLayer("WallMounts");
-			//and the rest of the mask caches:
+            //This is needed because you can no longer apply lightSwitch prefabs (it will move all of the child sprite positions)
+            gameObject.layer = LayerMask.NameToLayer("WallMounts");
+            //and the rest of the mask caches:
             lightingMask = LayerMask.GetMask("Lighting");
-            obstacleMask = LayerMask.GetMask("Walls","Door Open","Door Closed");
+            obstacleMask = LayerMask.GetMask("Walls", "Door Open", "Door Closed");
 
         }
 
@@ -53,14 +53,14 @@ namespace Lighting
             SyncLightSwitch(isOn);
         }
 
-		public override void Interact(GameObject originator, string hand)
-		{
-			if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform, 1.4f))
-				return;
+        public override void Interact(GameObject originator, string hand)
+        {
+            if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform, 1.4f))
+                return;
 
             if (switchCoolDown)
                 return;
-			
+
             StartCoroutine(CoolDown());
             PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleLightSwitch(gameObject);
         }
@@ -84,7 +84,7 @@ namespace Lighting
                 var distance = Vector3.Distance(startPos, localObjectPos);
                 if (IsWithinReach(startPos, localObjectPos, distance))
                 {
-					localObject.SendMessage("Trigger", state, SendMessageOptions.DontRequireReceiver);
+                    localObject.SendMessage("Trigger", state, SendMessageOptions.DontRequireReceiver);
                 }
             }
         }
@@ -105,8 +105,8 @@ namespace Lighting
         void SyncLightSwitch(bool state)
         {
             DetectLightsAndAction(state);
-	
-			if (clickSFX != null && soundAllowed)
+
+            if (clickSFX != null && soundAllowed)
             {
                 clickSFX.Play();
             }
@@ -115,7 +115,7 @@ namespace Lighting
             {
                 spriteRenderer.sprite = state ? lightOn : lightOff;
             }
-			soundAllowed = true;
+            soundAllowed = true;
         }
     }
 }

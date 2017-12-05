@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
-public class SoundEntry {
+public class SoundEntry
+{
     public string name;
     public AudioSource source;
 }
 
-public class SoundManager: MonoBehaviour {
+public class SoundManager : MonoBehaviour
+{
 
     public List<SoundEntry> soundsList = new List<SoundEntry>();
     private Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
@@ -16,13 +18,16 @@ public class SoundManager: MonoBehaviour {
     //public AudioSource[] sounds;
     public AudioSource[] musicTracks;
     public AudioSource[] ambientTracks;
-	public int ambientPlaying { get; private set; }
+    public int ambientPlaying { get; private set; }
 
     private static SoundManager soundManager;
-   
-    public static SoundManager Instance {
-        get {
-            if(!soundManager) {
+
+    public static SoundManager Instance
+    {
+        get
+        {
+            if (!soundManager)
+            {
                 soundManager = FindObjectOfType<SoundManager>();
                 soundManager.Init();
             }
@@ -31,89 +36,108 @@ public class SoundManager: MonoBehaviour {
         }
     }
 
-	public AudioSource this [string key] {
-		get {
-			AudioSource source;
-			return sounds.TryGetValue(key, out source) ? source : null;
-		}
-	}
+    public AudioSource this[string key]
+    {
+        get
+        {
+            AudioSource source;
+            return sounds.TryGetValue(key, out source) ? source : null;
+        }
+    }
 
-    private void Init() {
+    private void Init()
+    {
         // add sounds to sounds dictionary
-        foreach(var s in soundsList) {
+        foreach (var s in soundsList)
+        {
             sounds.Add(s.name, s.source);
         }
     }
 
-    public static void StopMusic() {
-        foreach(AudioSource track in Instance.musicTracks) {
+    public static void StopMusic()
+    {
+        foreach (AudioSource track in Instance.musicTracks)
+        {
             track.Stop();
         }
     }
 
-    public static void StopAmbient() {
-        foreach(AudioSource source in Instance.ambientTracks) {
+    public static void StopAmbient()
+    {
+        foreach (AudioSource source in Instance.ambientTracks)
+        {
             source.Stop();
         }
     }
 
-    public static void Play(string name, float volume, float pitch = -1, float time = 0) {
-        if(pitch > 0)
+    public static void Play(string name, float volume, float pitch = -1, float time = 0)
+    {
+        if (pitch > 0)
             Instance.sounds[name].pitch = pitch;
         Instance.sounds[name].time = time;
         Instance.sounds[name].volume = volume;
         Instance.sounds[name].Play();
     }
 
-	public static void Play(string name)
-	{
-		Instance.sounds[name].Play();
-	}
+    public static void Play(string name)
+    {
+        Instance.sounds[name].Play();
+    }
 
-	public static void Stop(string name){
-		if(Instance.sounds.ContainsKey(name)){
-		Instance.sounds[name].Stop();
-		}
-	}
+    public static void Stop(string name)
+    {
+        if (Instance.sounds.ContainsKey(name))
+        {
+            Instance.sounds[name].Stop();
+        }
+    }
 
-    public static void PlayAtPosition(string name, Vector3 pos){
-        if(Instance.sounds.ContainsKey(name)){
+    public static void PlayAtPosition(string name, Vector3 pos)
+    {
+        if (Instance.sounds.ContainsKey(name))
+        {
             Instance.sounds[name].transform.position = pos;
             Instance.sounds[name].Play();
         }
     }
 
-    public static void PlayRandomTrack() {
+    public static void PlayRandomTrack()
+    {
         StopMusic();
         int randTrack = Random.Range(0, Instance.musicTracks.Length);
         Instance.musicTracks[randTrack].Play();
     }
 
-    public static void PlayVarAmbient(int variant) {
+    public static void PlayVarAmbient(int variant)
+    {
         //TODO ADD MORE AMBIENT VARIANTS
-        if(variant == 0) {
-			//Station ambience with announcement at start
-			Instance.ambientTracks[2].Stop();
+        if (variant == 0)
+        {
+            //Station ambience with announcement at start
+            Instance.ambientTracks[2].Stop();
             Instance.ambientTracks[0].Play();
             Instance.ambientTracks[1].Play();
-			Instance.ambientPlaying = 1;
+            Instance.ambientPlaying = 1;
         }
-		if (variant == 1) {
-			Instance.ambientTracks[0].Stop();
-			Instance.ambientTracks[1].Play();
-			Instance.ambientTracks[2].Play();
-			Instance.ambientPlaying = 1;
-		}
+        if (variant == 1)
+        {
+            Instance.ambientTracks[0].Stop();
+            Instance.ambientTracks[1].Play();
+            Instance.ambientTracks[2].Play();
+            Instance.ambientPlaying = 1;
+        }
 
-		if (variant == 2) {
-			Instance.ambientTracks[2].Stop();
-			Instance.ambientTracks[3].Play();
-			Instance.ambientTracks[1].Play();
-			Instance.ambientPlaying = 1;
-		}
+        if (variant == 2)
+        {
+            Instance.ambientTracks[2].Stop();
+            Instance.ambientTracks[3].Play();
+            Instance.ambientTracks[1].Play();
+            Instance.ambientPlaying = 1;
+        }
     }
 
-	public static void AmbientVolume(float volume){
-		Instance.ambientTracks[Instance.ambientPlaying].volume = volume;
-	}
+    public static void AmbientVolume(float volume)
+    {
+        Instance.ambientTracks[Instance.ambientPlaying].volume = volume;
+    }
 }

@@ -28,16 +28,16 @@ public class DmiState
     {
     }
 
-//    public string GetUnityNameForRelOffset(int relativeOffset)
-//    {
-//        var subjectOffset = offset + relativeOffset;
-//        if (unityName.Contains("_") && OwnsOffset(subjectOffset))
-//        {
-//            var uName = unityName.Substring(0, unityName.LastIndexOf('_')+1);
-//            return uName + subjectOffset;
-//        }
-//        return "";
-//    }
+    //    public string GetUnityNameForRelOffset(int relativeOffset)
+    //    {
+    //        var subjectOffset = offset + relativeOffset;
+    //        if (unityName.Contains("_") && OwnsOffset(subjectOffset))
+    //        {
+    //            var uName = unityName.Substring(0, unityName.LastIndexOf('_')+1);
+    //            return uName + subjectOffset;
+    //        }
+    //        return "";
+    //    }
 
     public int GetRelativeOffset(int iconOffset)
     {
@@ -53,7 +53,7 @@ public class DmiState
         return this.offset.Equals(offset) || offset > this.offset && offset <= endOffset;
     }
 
-    private int endOffset => offset + ( frames * dirs - 1 );
+    private int endOffset => offset + (frames * dirs - 1);
 
     protected bool Equals(DmiState other)
     {
@@ -65,7 +65,7 @@ public class DmiState
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != this.GetType()) return false;
-        return Equals((DmiState) obj);
+        return Equals((DmiState)obj);
     }
 
     public override int GetHashCode()

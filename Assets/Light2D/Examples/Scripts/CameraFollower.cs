@@ -39,14 +39,14 @@ namespace Light2D.Examples
                 var camPos = _cameraTransform.position;
                 var followedPos = Followed.position;
 
-                var vel = Followed.velocity.sqrMagnitude > MinAccountedSpeed*MinAccountedSpeed
+                var vel = Followed.velocity.sqrMagnitude > MinAccountedSpeed * MinAccountedSpeed
                     ? Followed.velocity
                     : Vector2.zero;
                 _smoothVelocity = Vector2.Lerp(vel, _smoothVelocity, VelocitySmoothnessLerp);
 
-                var camTargetPos = followedPos + _smoothVelocity*VelocityMul;
-                var camHalfWidth = _camera.orthographicSize*_camera.aspect*CamBordersMul;
-                var camHalfHeight = _camera.orthographicSize*CamBordersMul;
+                var camTargetPos = followedPos + _smoothVelocity * VelocityMul;
+                var camHalfWidth = _camera.orthographicSize * _camera.aspect * CamBordersMul;
+                var camHalfHeight = _camera.orthographicSize * CamBordersMul;
                 var followedDir = followedPos - camTargetPos;
 
                 if (followedDir.x > camHalfWidth)
@@ -58,8 +58,8 @@ namespace Light2D.Examples
                 if (followedDir.y < -camHalfHeight)
                     camTargetPos.y = followedPos.y + camHalfHeight;
 
-                var pos = (followedPos - (Vector2) camPos).sqrMagnitude < InstantJumpDistance*InstantJumpDistance
-                    ? Vector2.Lerp(camPos, camTargetPos, CameraPositionLerp*Time.deltaTime)
+                var pos = (followedPos - (Vector2)camPos).sqrMagnitude < InstantJumpDistance * InstantJumpDistance
+                    ? Vector2.Lerp(camPos, camTargetPos, CameraPositionLerp * Time.deltaTime)
                     : followedPos;
 
                 _cameraTransform.position = camPos.WithXY(pos);

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
+  m_Name: basalt2_1
+  m_EditorClassIdentifier: 
+  LayerType: 2
+  RequiredTiles:
+  - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
+  Passable: 1
+  AtmosPassable: 1
+  IsSealed: 1
+  sprite: {fileID: 21301656, guid: 2e616eb771f994ec8be36be7a2c5f4a6, type: 3}

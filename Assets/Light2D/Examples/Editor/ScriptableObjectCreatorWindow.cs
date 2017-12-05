@@ -28,11 +28,11 @@ internal class ScriptableObjectCreatorWindow : EditorWindow
             CreateAsset(_className);
         }
     }
-    
+
     /// <summary>
     //	This makes it easy to create, name and place unique new ScriptableObject asset files.
     /// </summary>
-    public static void CreateAsset(string type) 
+    public static void CreateAsset(string type)
     {
         var asset = ScriptableObject.CreateInstance(type);
 

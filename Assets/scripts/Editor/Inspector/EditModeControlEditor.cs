@@ -1,30 +1,30 @@
-﻿using Matrix;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 
 [CustomEditor(typeof(EditModeControl))]
-public class EditModeControlEditor: Editor {
+public class EditModeControlEditor : Editor
+{
 
     private Vector3 currentPosition;
 
-    void OnSceneGUI() {
+    void OnSceneGUI()
+    {
         var editModeControl = target as EditModeControl;
-        if(currentPosition != editModeControl.transform.position) {
+        if (currentPosition != editModeControl.transform.position)
+        {
             currentPosition = editModeControl.transform.position;
             editModeControl.Snap();
-
-            var registerTile = editModeControl.GetComponent<RegisterTile>();
-            if(registerTile) {
-                registerTile.UpdateTile();
-
-                var connectTrigger = editModeControl.GetComponent<ConnectTrigger>();
-                if(connectTrigger) {
-                    connectTrigger.UpdatePosition();
-                }
-            }
+            // TODO remove
+            //            var registerTile = editModeControl.GetComponent<RegisterTile>();
+            //            if(registerTile) {
+            //                registerTile.UpdateTile();
+            //
+            //                var connectTrigger = editModeControl.GetComponent<ConnectTrigger>();
+            //                if(connectTrigger) {
+            //                    connectTrigger.UpdatePosition();
+            //                }
+            //            }
         }
     }
 }

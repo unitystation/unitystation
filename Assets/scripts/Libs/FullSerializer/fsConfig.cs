@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Reflection;
 
-namespace FullSerializer {
+namespace FullSerializer
+{
     // Global configuration options.
-    public static class fsGlobalConfig {
+    public static class fsGlobalConfig
+    {
         /// <summary>
         /// Should deserialization be case sensitive? If this is false and the JSON has multiple members with the
         /// same keys only separated by case, then this results in undefined behavior.
@@ -26,7 +28,8 @@ namespace FullSerializer {
     /// <summary>
     /// Enables some top-level customization of Full Serializer.
     /// </summary>
-    public class fsConfig {
+    public class fsConfig
+    {
         /// <summary>
         /// The attributes that will force a field or property to be serialized.
         /// </summary>
