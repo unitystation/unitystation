@@ -23,7 +23,7 @@ namespace Tilemaps.Scripts
     {
         public static Matrix GetMatrix(MonoBehaviour behaviour)
         {
-            var matrix =  behaviour.GetComponentInParent<Matrix>();
+            var matrix = behaviour.GetComponentInParent<Matrix>();
             return matrix;
         }
 

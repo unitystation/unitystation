@@ -53,7 +53,7 @@ public class CustomNetworkManager : NetworkManager
                 spawnPrefabs.Add(netObj.gameObject);
             }
         }
-        
+
         var dirs = Directory.GetDirectories(Application.dataPath, "Resources", SearchOption.AllDirectories);
 
 
@@ -65,7 +65,7 @@ public class CustomNetworkManager : NetworkManager
                 loadFolder(subdir);
             }
         }
-        
+
         spawnableListReady = true;
     }
 

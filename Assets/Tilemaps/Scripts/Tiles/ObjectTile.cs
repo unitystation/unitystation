@@ -20,7 +20,7 @@ namespace Tilemaps.Scripts.Tiles
 
         private GameObject _objectCurrent;
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         private void OnValidate()
         {
             if (Object != null)
@@ -50,19 +50,19 @@ namespace Tilemaps.Scripts.Tiles
                 IsItem = true;
             }
         }
-        #endif
+#endif
 
         public void SpawnObject(Vector3Int position, Tilemap tilemap, Matrix4x4 transformMatrix)
         {
             if (!Object)
                 return;
-            
-            #if UNITY_EDITOR
+
+#if UNITY_EDITOR
             var go = (GameObject)PrefabUtility.InstantiatePrefab(Object);
-            #else
+#else
             var go = Instantiate(Object);
-            #endif
-            
+#endif
+
             go.SetActive(false);
             go.transform.parent = tilemap.transform;
 

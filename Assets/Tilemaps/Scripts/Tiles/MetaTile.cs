@@ -17,8 +17,8 @@ namespace Tilemaps.Scripts.Tiles
         private LayerTile _objectCurrent;
         private LayerTile _floorCurrent;
         private LayerTile _baseCurrent;
-        
-        #if UNITY_EDITOR
+
+#if UNITY_EDITOR
         private void OnValidate()
         {
             CheckTileType(ref Structure, LayerType.Structures);
@@ -51,7 +51,7 @@ namespace Tilemaps.Scripts.Tiles
             _floorCurrent = Floor;
             _baseCurrent = Base;
         }
-        #endif
+#endif
 
         private static void CheckTileType(ref LayerTile tile, LayerType requiredType)
         {

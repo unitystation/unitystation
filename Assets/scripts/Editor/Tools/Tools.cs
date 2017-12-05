@@ -9,12 +9,12 @@ namespace UnityStationTools
         [MenuItem("Tools/Reconnect TileConnect")]
         static void RevertTileConnect()
         {
-//            var triggers = FindObjectsOfType<ConnectTrigger>();
-//
-//            foreach (var t in triggers)
-//            {
-//                PrefabUtility.RevertPrefabInstance(t.gameObject);
-//            }
+            //            var triggers = FindObjectsOfType<ConnectTrigger>();
+            //
+            //            foreach (var t in triggers)
+            //            {
+            //                PrefabUtility.RevertPrefabInstance(t.gameObject);
+            //            }
         }
 
         [MenuItem("Tools/Set Ambient Tiles")]
