@@ -151,18 +151,21 @@ public abstract class HealthBehaviour : NetworkBehaviour
     /// <summary>
     /// make player unconscious upon crit
     /// </summary>
-    protected virtual void OnCritActions()
-    {
-        if (!isNPC && isServer)
-        {
-            var pna = GetComponent<PlayerNetworkActions>();
-            pna?.CmdConsciousState(false);
-        }
-        else
-        {
-            //No unconscious state for NPC's yet, just alive or dead
-        }
-    }
+	protected virtual void OnCritActions()
+	{
+		if (!isNPC) {
+			var pna = GetComponent<PlayerNetworkActions>();
+			if (pna == null) {
+				Debug.LogError("This is not a player, please set isNPC flag correctly");
+				return;
+			}
+			if (isServer) {
+				pna?.CmdConsciousState(false);
+			}
+		} else {
+			//No unconscious state for NPC's yet, just alive or dead
+		}
+	}
 
     protected abstract void OnDeathActions();
 

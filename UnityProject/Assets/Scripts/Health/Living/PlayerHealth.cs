@@ -207,11 +207,14 @@ namespace PlayGroup
 				otherSlot.Clear ();
 				playerNetworkActions.ValidateDropItem(currentSlot.eventName, true);
 				playerNetworkActions.ValidateDropItem(otherSlot.eventName, true);
+
                 if (isServer)
                     EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.large);
+				
 				playerNetworkActions.RpcSpawnGhost();
 				pM.isGhost = true;
 				pM.allowInput = true;
+
                 //FIXME Remove for next demo
                 playerNetworkActions.RespawnPlayer(10);
             }
