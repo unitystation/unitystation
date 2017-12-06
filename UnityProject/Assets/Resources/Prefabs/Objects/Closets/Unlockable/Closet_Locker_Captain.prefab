@@ -218,6 +218,7 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 1
+  IsClosed: 1
 --- !u!114 &114237266948380184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -233,6 +234,7 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 1
+  IsClosed: 1
 --- !u!114 &114239634461430000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -244,7 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e27ef87b09cc84988939559a2f51ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
+  doorOpened: {fileID: 21300206, guid: f507c5b8270d6416d9c92acb9683a1b9, type: 3}
   spriteRenderer: {fileID: 212255976647380646}
   IsLocked: 0
   lockLight: {fileID: 0}
@@ -321,6 +323,7 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
   AtmosPassable: 1
+  IsClosed: 1
 --- !u!212 &212094264515058204
 SpriteRenderer:
   m_ObjectHideFlags: 1
