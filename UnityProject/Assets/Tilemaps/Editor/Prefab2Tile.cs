@@ -101,7 +101,7 @@ public class Prefab2Tile : EditorWindow
     public static void CleanSprites(string subject)
     {
         //Moving old tiles  
-        string basePath = Application.dataPath + "/textures/TilePreviews/Resources/Prefabs/";
+        string basePath = Application.dataPath + "/Textures/TilePreviews/Prefabs/";
         string basePath2 = basePath + subject + "/";
         int counter = 0;
         int cleaned = 0;
