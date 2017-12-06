@@ -5,6 +5,7 @@ using UnityEngine;
 using Tilemaps.Scripts.Behaviours.Objects;
 using Matrix = Tilemaps.Scripts.Matrix;
 using UI;
+using UnityEngine.XR.WSA;
 
 namespace PlayGroup
 {
@@ -47,7 +48,7 @@ namespace PlayGroup
 
         private Vector2 lastDirection;
 
-        private Matrix _matrix;
+        private Matrix matrix;
 
         public override void OnStartServer()
         {
@@ -134,7 +135,7 @@ namespace PlayGroup
             playerSprites = GetComponent<PlayerSprites>();
             registerTile = GetComponent<RegisterTile>();
             pushPull = GetComponent<PushPull>();
-            _matrix = Matrix.GetMatrix(this);
+            matrix = Matrix.GetMatrix(this);
         }
 
         //managed by UpdateManager
@@ -245,7 +246,7 @@ namespace PlayGroup
             pullPos.z = pullingObject.transform.localPosition.z;
 
             var pos = Vector3Int.RoundToInt(pullPos);
-            if (_matrix.IsPassableAt(pos) || _matrix.ContainsAt(pos, gameObject) || _matrix.ContainsAt(pos, pullingObject))
+            if (matrix.IsPassableAt(pos) || matrix.ContainsAt(pos, gameObject) || matrix.ContainsAt(pos, pullingObject))
             {
                 float journeyLength = Vector3.Distance(pullingObject.transform.localPosition, pullPos);
                 if (journeyLength <= 2f)
@@ -350,15 +351,13 @@ namespace PlayGroup
 
         private void CheckSpaceWalk()
         {
-            // TODO space walk
-            //			var nodes = MatrixOld.Matrix.At(transform.localPosition, 1);
-            //			var node = nodes.FirstOrDefault(n => !n.IsEmpty());
-            //			if (node == null)
-            //			{
-            //				var newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
-            //				serverState.Position = newGoal;
-            //				predictedState.Position = newGoal;
-            //			}
+            var pos = Vector3Int.RoundToInt(transform.localPosition);
+            if(matrix != null && matrix.IsFloatingAt(pos))
+            {
+                var newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
+                serverState.Position = newGoal;
+                predictedState.Position = newGoal;
+            }
         }
     }
 }
