@@ -431,9 +431,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             SoundManager.Stop("Critstate");
             Camera2DFollow.followControl.target = playerScript.ghost.transform;
             var fovScript = GetComponent<FieldOfView>();
-            if (fovScript != null)
-                fovScript.enabled = false;
+			if (fovScript != null) {
+				fovScript.enabled = false;
+			}
+			//Show ghosts and hide FieldOfView
+			Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("Ghosts"));
+			Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("FieldOfView"));
         }
+
     }
 
 
@@ -464,6 +469,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     private void RpcAdjustForRespawn()
     {
         playerScript.ghost.SetActive(false);
+		//Hide ghosts and show FieldOfView
+		Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+		Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("FieldOfView"));
         gameObject.GetComponent<InputController>().enabled = false;
     }
 

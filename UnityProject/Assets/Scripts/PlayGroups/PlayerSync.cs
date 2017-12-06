@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 using UnityEngine;
 using Tilemaps.Scripts.Behaviours.Objects;
 using Matrix = Tilemaps.Scripts.Matrix;
+using UI;
 
 namespace PlayGroup
 {
@@ -206,6 +207,9 @@ namespace PlayGroup
                 state = isLocalPlayer ? predictedState : serverState;
                 transform.localPosition = Vector3.MoveTowards(transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
 
+				//Check if we should still be displaying an ItemListTab and update it, if so.
+				ControlTabs.CheckItemListTab();
+
                 if (state.Position != transform.localPosition)
                     lastDirection = (state.Position - transform.localPosition).normalized;
 
@@ -331,7 +335,7 @@ namespace PlayGroup
             serverState = newState;
             if (pendingActions != null)
             {
-                while (pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber))
+				while (pendingActions.Count > 0 && pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber))
                 {
                     pendingActions.Dequeue();
                 }

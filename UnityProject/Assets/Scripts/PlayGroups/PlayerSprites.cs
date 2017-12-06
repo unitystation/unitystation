@@ -77,10 +77,18 @@ namespace PlayGroup
 					c.Direction = direction;
 				}
 
-				//If both values are set, we're trying to face a diagonal sprite direction, which doesn't exist. To resolve, select one.
-				if (direction.x != 0 && direction.y != 0) {
-					direction.x = 0;
-				}
+
+				//If both values are set, we're trying to face a diagonal sprite direction, which doesn't exist. To resolve, randomly select one of the appropriate cardinal directions.
+				if(direction.x != 0 && direction.y != 0) {
+					switch(Random.Range(0, 1)) {
+					case 0:
+						direction.x = 0;
+						break;
+					case 1:
+						direction.y = 0;
+						break;
+					}
+					}
 
 				currentDirection = direction;
 			}

@@ -11,7 +11,7 @@ namespace PlayGroup
     public class PlayerScript : ManagedNetworkBehaviour
     {
         // the maximum distance the player needs to be to an object to interact with it
-        public const float interactionDistance = 2f;
+        public const float interactionDistance = 1.5f;
 
         public PlayerNetworkActions playerNetworkActions { get; set; }
 
@@ -171,6 +171,11 @@ namespace PlayGroup
         {
             return (transform.position - position).magnitude;
         }
+		/// <summary>
+		/// Checks if the player is within reach of something
+		/// </summary>
+		/// <param name="transform">The transform of whatever we are trying to reach</param>
+		/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
 
         public bool IsInReach(Transform transform, float interactDist = interactionDistance)
         {
