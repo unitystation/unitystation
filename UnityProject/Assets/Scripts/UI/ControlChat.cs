@@ -59,11 +59,8 @@ namespace UI
             {
                 if (!string.IsNullOrEmpty(this.InputFieldChat.text.Trim()) && (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)))
                 {
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels, PlayerManager.LocalPlayerScript.GetCurrentChatModifiers());
-                    if (this.InputFieldChat.text != "")
-                        PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
-                    this.InputFieldChat.text = "";
-                    CloseChatWindow();
+					PlayerSendChat();
+					CloseChatWindow();
                 }
             }
         }
@@ -73,13 +70,19 @@ namespace UI
             if (!string.IsNullOrEmpty(this.InputFieldChat.text.Trim()))
             {
                 SoundManager.Play("Click01");
-                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendChatMessage(InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels, PlayerManager.LocalPlayerScript.GetCurrentChatModifiers());
-                if (this.InputFieldChat.text != "")
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
-                this.InputFieldChat.text = "";
+				PlayerSendChat();
             }
             CloseChatWindow();
         }
+
+		private void PlayerSendChat()
+		{
+			PostToChatMessage.Send(InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels);
+			if (this.InputFieldChat.text != "") {
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
+			}
+			this.InputFieldChat.text = "";
+		}
 
         public void OnChatCancel()
         {
@@ -93,12 +96,6 @@ namespace UI
             isChatFocus = false;
             chatInputWindow.SetActive(false);
 
-        }
-
-        //Called from the server only
-        public void ReportToChannel(string reportText)
-        {
-            ChatRelay.Instance.AddToChatLog(new ChatEvent(reportText, ChatChannel.System));
         }
 
 		public void Toggle_ChannelPannel(bool isOn)

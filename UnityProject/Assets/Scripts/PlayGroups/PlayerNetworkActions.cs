@@ -365,19 +365,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
 	[Command]
-	public void CmdSendChatMessage(string msg, ChatChannel channels, ChatModifier modifiers)
-	{
-		ChatRelay.Instance.AddToChatLog(new ChatEvent(msg, gameObject.name, channels, modifiers));
-	}
-
-	[Command]
-	//send a generic message
-	public void CmdSendAlertMessage(string msg, bool isLocalChat)
-	{
-		ChatRelay.Instance.AddToChatLog(new ChatEvent(msg, ChatChannel.System));
-	}
-
-	[Command]
     public void CmdToggleChatIcon(bool turnOn)
     {
         RpcToggleChatIcon(turnOn);

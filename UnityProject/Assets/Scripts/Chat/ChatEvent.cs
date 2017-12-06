@@ -41,41 +41,6 @@ public class ChatEvent
 	public ChatChannel channels;
 	public ChatModifier modifiers;
 
-	public ChatEvent(string message, string speaker, double timestamp,  ChatChannel channels, ChatModifier modifiers)
-	{
-		this.timestamp = timestamp;
-		this.channels = channels;
-		this.modifiers = modifiers;
-		this.speaker = speaker;
-		this.message = ProcessMessage(message, speaker, this.channels, this.modifiers);
-	}
-
-	public ChatEvent(string message, string speaker, double timestamp, ChatChannel channels)
-	{
-		this.timestamp = timestamp;
-		this.channels = channels;
-		this.speaker = speaker;
-		this.message = ProcessMessage(message, speaker, this.channels, this.modifiers);
-	}
-
-	public ChatEvent(string message, string speaker, double timestamp)
-    {
-        this.timestamp = timestamp;
-		this.channels = ChatChannel.OOC;
-		this.modifiers = ChatModifier.None;
-		this.speaker = speaker;
-		this.message = ProcessMessage(message, speaker, this.channels, this.modifiers);
-    }
-
-    public ChatEvent(string message, string speaker)
-    {
-        this.timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
-		this.channels = ChatChannel.OOC;
-		this.modifiers = ChatModifier.None;
-		this.speaker = speaker;
-		this.message = ProcessMessage(message, speaker, this.channels, this.modifiers);
-	}
-
 	public ChatEvent(string message, string speaker, ChatChannel channels, ChatModifier modifiers)
 	{
 		this.timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
@@ -90,8 +55,13 @@ public class ChatEvent
 		this.timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
 		this.channels = channels;
 		this.modifiers = ChatModifier.None;
-		this.speaker = "Unknown";
+		this.speaker = "";
 		this.message = ProcessMessage(message, speaker, this.channels, this.modifiers);
+	}
+
+	public static ChatChannel GetNonNetworkedChannels()
+	{
+		return (ChatChannel.Examine | ChatChannel.System);
 	}
 
 	private string ProcessMessage(string message, string speaker, ChatChannel channels, ChatModifier modifiers)
