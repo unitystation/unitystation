@@ -14,6 +14,7 @@ public class ChatRelay : NetworkBehaviour
 	private List<ChatEvent> chatlog = new List<ChatEvent>();
 
 	private Dictionary<ChatChannel, string> chatColors;
+	private ChatChannel namelessChannels;
 
 	public static ChatRelay Instance
 	{
@@ -37,7 +38,7 @@ public class ChatRelay : NetworkBehaviour
 			{ChatChannel.Command, "#204090"},
 			{ChatChannel.Common, "#008000"},
 			{ChatChannel.Engineering, "#fb5613"},
-			{ChatChannel.Examine, ""},
+			{ChatChannel.Examine, "black"},
 			{ChatChannel.Local, "#999999"},
 			{ChatChannel.Medical, "#337296"},
 			{ChatChannel.None, ""},
@@ -48,6 +49,7 @@ public class ChatRelay : NetworkBehaviour
 			{ChatChannel.Syndicate, "#6d3f40"},
 			{ChatChannel.System, "#dd5555"}
 		};
+		namelessChannels = (ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System);
 		base.OnStartClient();
 	}
 
@@ -78,8 +80,13 @@ public class ChatRelay : NetworkBehaviour
 					continue;
 				}
 
-				if ((chatline.channels & channel) == channel) {
-					string colorMessage = "<color=" + chatColors[channel] + ">" + message + "</color>";
+				string name = "";
+				if((namelessChannels & channel) != channel) {
+					name = "<b>[" + channel.ToString() + "]</b> ";
+				}
+
+				if ((PlayerManager.LocalPlayerScript.GetAvailableChannels(false) & channel) == channel && (chatline.channels & channel) == channel) {
+					string colorMessage = "<color=" + chatColors[channel] + ">" + name + message + "</color>";
 					UIManager.Chat.CurrentChannelText.text = curList + colorMessage + "\r\n";
 					curList = UIManager.Chat.CurrentChannelText.text;
 				}

@@ -127,7 +127,7 @@ public class ChatEvent
 			this.channels = ChatChannel.OOC;
 			this.modifiers = ChatModifier.None;
 
-			message = "<b>OOC: " + speaker + ": " + message + "</b>";
+			message = "<b>" + speaker + ": " + message + "</b>";
 			return message;
 		}
 
@@ -166,7 +166,7 @@ public class ChatEvent
 		if ((modifiers & ChatModifier.Hiss) == ChatModifier.Hiss)
 		{
 			//Regex - find 1 or more "s"
-			var rx = new Regex("s+");
+			var rx = new Regex("s+|S+");
 			output = rx.Replace(output, new MatchEvaluator(ChatEvent.Hiss));
 		}
 
@@ -181,7 +181,7 @@ public class ChatEvent
 		//Drunk people slur all "s" into "sh", randomly ...hic!... between words and have high % to ...hic!... after a sentance
 		if ((modifiers & ChatModifier.Drunk) == ChatModifier.Drunk) {
 			//Regex - find 1 or more "s"
-			var rx = new Regex("s+");
+			var rx = new Regex("s+|S+");
 			output = rx.Replace(output, new MatchEvaluator(ChatEvent.Slur));
 			//Regex - find 1 or more whitespace
 			rx = new Regex(@"\s+");
@@ -198,7 +198,12 @@ public class ChatEvent
 #region Match Evaluators - contains the methods for string replacement magic  
 	private static string Slur(Match m) {
 		string x = m.ToString();
-		x = x + "h";
+		if(Char.IsLower(x[0])) {
+			x = x + "h";
+		} else {
+			x = x + "H";
+		}
+		
 		return x;
 	}
 
@@ -216,7 +221,12 @@ public class ChatEvent
 	private static string Hiss(Match m)
 	{
 		string x = m.ToString();
-		x = x + "ss";
+		if(Char.IsLower(x[0])) {
+			x = x + "ss";
+		} else {
+			x = x + "SS";
+		}
+		
 		return x;
 	}
 

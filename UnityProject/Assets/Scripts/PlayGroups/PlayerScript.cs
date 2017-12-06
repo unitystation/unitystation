@@ -191,17 +191,25 @@ namespace PlayGroup
             return DistanceTo(position) <= interactDist;
         }
 
-		public ChatChannel GetAvailableChannels()
+		public ChatChannel GetAvailableChannels(bool transmitOnly = true)
 		{
 			//TODO get actual list based on headset
-			return (ChatChannel.Binary | ChatChannel.Cargo | ChatChannel.CentComm | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering
-				| ChatChannel.Local | ChatChannel.Medical | ChatChannel.OOC | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service | ChatChannel.Syndicate);
+			//ChatChannel transmitChannels = (ChatChannel.Binary | ChatChannel.Cargo | ChatChannel.CentComm | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering
+			//	| ChatChannel.Local | ChatChannel.Medical | ChatChannel.OOC | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service | ChatChannel.Syndicate);
+			ChatChannel transmitChannels = (ChatChannel.Common | ChatChannel.Engineering | ChatChannel.Local | ChatChannel.OOC | ChatChannel.Command);
+			ChatChannel receiveChannels = (ChatChannel.Examine | ChatChannel.System);
+
+			if (transmitOnly) {
+				return transmitChannels;
+			} else {
+				return transmitChannels | receiveChannels;
+			}
 		}
 
 		public ChatModifier GetCurrentChatModifiers()
 		{
 			//TODO add missing modifiers
-			ChatModifier modifiers = ChatModifier.None;
+			ChatModifier modifiers = ChatModifier.Drunk;
 
 			if (JobType == JobType.CLOWN) {
 				modifiers |= ChatModifier.Clown;
