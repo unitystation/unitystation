@@ -64,7 +64,7 @@ namespace InputControl
             if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.LeftControl))
             {
                 //change the facingDirection of player on click
-                changeDirection();
+                ChangeDirection();
 
                 //if we found nothing at all to click on try to use whats in our hands (might be shooting at someone in space)
                 if (!RayHit())
@@ -74,7 +74,7 @@ namespace InputControl
             }
         }
 
-        private void changeDirection()
+        private void ChangeDirection()
         {
             Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) -
                            transform.position).normalized;
