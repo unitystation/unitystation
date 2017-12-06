@@ -120,6 +120,5 @@ namespace Tilemaps.Scripts.Tiles
                     throw new ArgumentOutOfRangeException();
             }
         }
-
     }
 }
