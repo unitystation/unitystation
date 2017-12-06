@@ -152,7 +152,7 @@ public class PushPull : VisibleBehaviour
     }
 
 
-    public override void UpdateMe()
+	void Update()
     {
         if (pushing && transform.localPosition != pushTarget)
         {
@@ -175,7 +175,7 @@ public class PushPull : VisibleBehaviour
         }
     }
 
-    public override void LateUpdateMe()
+	void LateUpdate()
     {
         if (CustomNetworkManager.Instance._isServer)
         {
