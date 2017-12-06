@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.Networking;
+﻿using InputControl;
 using System.Collections;
 using UI;
-using PlayGroup;
-using InputControl;
-using System;
+using UnityEngine;
+using UnityEngine.Networking;
 
 namespace PlayGroup
 {
@@ -118,6 +116,16 @@ namespace PlayGroup
                 playerMove = GetComponent<PlayerMove>();
             }
         }
+        #region UI MouseActions
+        public void OnMouseEnter()
+        {
+            UI.UIManager.SetToolTip = this.gameObject.name;
+        }
+        public void OnMouseExit()
+        {
+            UI.UIManager.SetToolTip = "";
+        }
+        #endregion
 
         public bool canNotInteract()
         {

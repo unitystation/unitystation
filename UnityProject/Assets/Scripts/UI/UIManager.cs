@@ -1,7 +1,5 @@
-﻿using InputControl;
-using PlayGroup;
+﻿using PlayGroup;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace UI

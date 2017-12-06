@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Cupboards;
 using PlayGroup;
+using System.Collections.Generic;
 using System.Linq;
 using UI;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using Cupboards;
 
 namespace InputControl
 {
@@ -169,7 +168,7 @@ namespace InputControl
         public bool Interact(Transform _transform)
         {
             if (playerMove.isGhost)
-                return false; ;
+                return false;
 
             //attempt to trigger the things in range we clicked on
             if (PlayerManager.LocalPlayerScript.IsInReach(_transform))
