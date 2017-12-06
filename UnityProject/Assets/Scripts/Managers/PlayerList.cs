@@ -69,7 +69,8 @@ public class PlayerList : NetworkBehaviour
     [Server]
     public void ReportScores()
     {
-
+		//TODO: Add server announcement messages
+		/*
         var scoreSort = playerScores.OrderByDescending(pair => pair.Value)
             .ToDictionary(pair => pair.Key, pair => pair.Value);
 
@@ -77,8 +78,9 @@ public class PlayerList : NetworkBehaviour
         {
             UIManager.Chat.ReportToChannel("<b>" + ps.Key + "</b>  total kills:  <b>" + ps.Value + "</b>");
         }
+		*/
 
-        UIManager.Chat.ReportToChannel("Game Restarting in 10 seconds...");
+		PostToChatMessage.Send("Game Restarting in 10 seconds...", ChatChannel.System);
     }
 
     public void RemovePlayer(string playerName)

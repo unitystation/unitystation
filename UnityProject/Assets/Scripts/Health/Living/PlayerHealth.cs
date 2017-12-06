@@ -185,21 +185,17 @@ namespace PlayGroup
 
                 if (LastDamagedBy == gameObject.name)
                 {
-                    playerNetworkActions.CmdSendAlertMessage("<color=red><b>" + gameObject.name + " commited suicide</b></color>",
-                        true); //killfeed
-                }
+					PostToChatMessage.Send(gameObject.name + " commited suicide", ChatChannel.System); //Killfeed
+
+				}
                 else if (LastDamagedBy.EndsWith(gameObject.name))
                 { // chain reactions
-                    playerNetworkActions.CmdSendAlertMessage("<color=red><b>" + gameObject.name + " screwed himself up with some help (" +
-                    LastDamagedBy
-                    + ")</b></color>",
-                        true); //killfeed
-                }
+					PostToChatMessage.Send(gameObject.name + " screwed himself up with some help (" + LastDamagedBy + ")", ChatChannel.System); //Killfeed
+				}
                 else
                 {
                     PlayerList.Instance.UpdateKillScore(LastDamagedBy);
-                    playerNetworkActions.CmdSendAlertMessage(
-                        "<color=red><b>" + LastDamagedBy + "</b> has killed <b>" + gameObject.name + "</b></color>", true); //killfeed
+					PostToChatMessage.Send(LastDamagedBy + " has killed " + gameObject.name, ChatChannel.System); //Killfeed
                 }
 				var currentSlot = UI.UIManager.Hands.CurrentSlot;
 				var otherSlot = UI.UIManager.Hands.OtherSlot;

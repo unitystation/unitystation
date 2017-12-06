@@ -58,10 +58,36 @@ public class ChatRelay : NetworkBehaviour
 		get { return chatlog; }
 	}
 
-	public void AddToChatLog(ChatEvent message)
+	public void AddToChatLogServer(string message, string sender, ChatChannel channels, ChatModifier modifiers = ChatModifier.None)
 	{
-		chatlog.Add(message);
+		PropagateChatToClients(message, sender, channels);
 		RefreshLog();
+	}
+
+	public void AddToChatLogClient(string message, string sender, ChatChannel channels, ChatModifier modifiers = ChatModifier.None)
+	{
+		UpdateClientChat(message, sender, channels, modifiers);
+		RefreshLog();
+	}
+
+	[Server]
+	private void PropagateChatToClients(string message, string sender, ChatChannel channels)
+	{
+		PlayerScript[] players = FindObjectsOfType<PlayerScript>();
+
+		foreach(PlayerScript player in players) {
+			if((player.GetAvailableChannels(false) & channels) == channels) {
+				ChatModifier modifiers = player.GetCurrentChatModifiers();
+				UpdateChatMessage.Send(player.gameObject, channels, modifiers, message, sender);
+			}
+		}
+	}
+
+	[Client]
+	private void UpdateClientChat(string message, string sender, ChatChannel channels, ChatModifier modifiers)
+	{
+		ChatEvent chatEvent = new ChatEvent(message, sender, channels, modifiers);
+		chatlog.Add(chatEvent);
 	}
 
     public void RefreshLog()

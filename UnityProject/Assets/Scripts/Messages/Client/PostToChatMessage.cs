@@ -17,15 +17,13 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
 	{
 		yield return WaitFor(SentBy);
 
-		GameObject player = NetworkObjects[0];
+		GameObject player = NetworkObject;
 		if(Validate(player)) {
-			ChatModifier modifiers = player.GetComponent<PlayerScript>().GetCurrentChatModifiers();
-			ChatEvent chatEvent = new ChatEvent(ChatMessageText, player.name, Channels, modifiers);
-
-			ChatRelay.Instance.AddToChatLog(chatEvent);
+			ChatRelay.Instance.AddToChatLogServer(ChatMessageText, player.name, Channels);
 		}
 	}
 
+	//We want ChatEvent to be created on the server, so we're only passing the individual variables
 	public static PostToChatMessage Send(string message, ChatChannel channels)
 	{
 		var msg = new PostToChatMessage
@@ -41,11 +39,11 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
 	public bool Validate(GameObject player)
 	{
 		PlayerScript playerScript = player.GetComponent<PlayerScript>();
-
+		//Need to add system channel here so player can transmit system level events but not select it in the UI
+		ChatChannel availableChannels = playerScript.GetAvailableChannels() | ChatChannel.System;
 		if((playerScript.GetAvailableChannels() & Channels) == Channels){
 			return true;
 		}
-
 		return false;
 	}
 
