@@ -130,12 +130,17 @@ public class IDCard : NetworkBehaviour
         }
     }
 
-    public void OnExamine()
-    {
-        UI.UIManager.Chat.AddChatEvent(new ChatEvent("This is " + RegisteredName + "'s ID card\nThey are the " + GetJobType.ToString() + " of the station!"));
-        if (MiningPoints > 0)
-        {
-            UI.UIManager.Chat.AddChatEvent(new ChatEvent("There's " + MiningPoints + " mining equipment redemption points loaded onto this card."));
-        }
-    }
+	public void OnExamine()
+	{
+		string message = "";
+
+		if (MiningPoints > 0) {
+			message = "There's " + MiningPoints + " mining equipment redemption points loaded onto this card.";
+		}
+		else {
+			message = "This is " + RegisteredName + "'s ID card\nThey are the " + GetJobType.ToString() + " of the station!";
+		}
+
+		UI.UIManager.Chat.AddChatEvent(new ChatEvent(message, ChatChannel.Examine));
+	}
 }

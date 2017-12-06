@@ -364,42 +364,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdSendChatMessage(string msg, bool isLocalChat)
-    {
-        if (isLocalChat)
-        {
-            //regex to sanitise any injected html tags
-            var rx = new Regex("[<][^>]+[>]");
-            var inputString = rx.Replace(msg, "");
+	[Command]
+	public void CmdSendChatMessage(string msg, ChatChannel channels, ChatModifier modifiers)
+	{
+		ChatRelay.Instance.AddToChatLog(new ChatEvent(msg, gameObject.name, channels, modifiers));
+	}
 
-            //might as well use it here so it doesn't matter how long the input string is
-            rx = new Regex("^(/me )");
-            if (rx.IsMatch(inputString))
-            { // /me message
-                inputString = rx.Replace(inputString, " ");
-                ChatRelay.Instance.chatlog.Add(new ChatEvent("<i><b>" + gameObject.name + "</b>" + inputString + "</i>."));
-            }
-            else
-            { // chat message
-                ChatRelay.Instance.chatlog.Add(new ChatEvent("<b>" + gameObject.name + "</b>" + " says, " + "\"" + inputString + "\""));
-            }
-        }
+	[Command]
+	//send a generic message
+	public void CmdSendAlertMessage(string msg, bool isLocalChat)
+	{
+		ChatRelay.Instance.AddToChatLog(new ChatEvent(msg, ChatChannel.System));
+	}
 
-    }
-
-
-    [Command]
-    //send a generic message
-    public void CmdSendAlertMessage(string msg, bool isLocalChat)
-    {
-        if (isLocalChat)
-        {
-            ChatRelay.Instance.chatlog.Add(new ChatEvent(msg));
-        }
-    }
-
-    [Command]
+	[Command]
     public void CmdToggleChatIcon(bool turnOn)
     {
         RpcToggleChatIcon(turnOn);
