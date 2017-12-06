@@ -26,6 +26,12 @@ namespace Tilemaps.Scripts
         public static Matrix GetMatrix(MonoBehaviour behaviour)
         {
             var matrix = behaviour.GetComponentInParent<Matrix>();
+
+            if (matrix == null)
+            {
+                behaviour.transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
+            }
+            
             return matrix;
         }
 
