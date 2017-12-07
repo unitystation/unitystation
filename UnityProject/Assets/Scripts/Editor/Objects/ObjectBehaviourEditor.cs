@@ -11,8 +11,11 @@ public class ObjectBehaviourEditor : Editor
     {
         ObjectBehaviour oTarget = (ObjectBehaviour)target;
         serializedObject.Update();
-        SerializedProperty isPushable = serializedObject.FindProperty("isPushable");
-        EditorGUILayout.PropertyField(isPushable);
+		var isPushable = serializedObject.FindProperty("isPushable");
+		EditorGUI.BeginChangeCheck();
+		EditorGUILayout.PropertyField(isPushable, true);
+		if (EditorGUI.EndChangeCheck())
+			serializedObject.ApplyModifiedProperties();
     }
 
 }

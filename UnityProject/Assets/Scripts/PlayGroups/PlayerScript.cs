@@ -1,4 +1,4 @@
-﻿using InputControl;
+using InputControl;
 using System.Collections;
 using UI;
 using UnityEngine;
@@ -9,7 +9,7 @@ namespace PlayGroup
     public class PlayerScript : ManagedNetworkBehaviour
     {
         // the maximum distance the player needs to be to an object to interact with it
-        public const float interactionDistance = 2f;
+        public const float interactionDistance = 1.5f;
 
         public PlayerNetworkActions playerNetworkActions { get; set; }
 
@@ -31,7 +31,9 @@ namespace PlayGroup
 
         public JobType JobType = JobType.NULL;
 
-        public GameObject ghost;
+		public ChatChannel SelectedChannels;
+
+		public GameObject ghost;
 
         private float pingUpdate = 0f;
 
@@ -79,8 +81,7 @@ namespace PlayGroup
 
         void Init()
         {
-            if (isLocalPlayer)
-            {
+            if (isLocalPlayer) {
                 UIManager.ResetAllUI();
                 UIManager.DisplayManager.SetCameraFollowPos();
                 int rA = UnityEngine.Random.Range(0, 3);
@@ -110,9 +111,8 @@ namespace PlayGroup
                 // I (client) have connected to the server, ask what my job preference is
                 UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 
-            }
-            else if (isServer)
-            {
+				SelectedChannels = ChatChannel.OOC;
+			} else if (isServer) {
                 playerMove = GetComponent<PlayerMove>();
             }
         }
@@ -169,6 +169,11 @@ namespace PlayGroup
         {
             return (transform.position - position).magnitude;
         }
+		/// <summary>
+		/// Checks if the player is within reach of something
+		/// </summary>
+		/// <param name="transform">The transform of whatever we are trying to reach</param>
+		/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
 
         public bool IsInReach(Transform transform, float interactDist = interactionDistance)
         {
@@ -189,16 +194,41 @@ namespace PlayGroup
             return DistanceTo(position) <= interactDist;
         }
 
-        #region UI Mouse Actions
-        public void OnMouseEnter()
-        {
-            UI.UIManager.SetToolTip = this.name;
-        }
-        public void OnMouseExit()
-        {
-            UI.UIManager.SetToolTip = "";
-        }
-        #endregion
+		public ChatChannel GetAvailableChannels(bool transmitOnly = true)
+		{
+			//TODO get actual list based on headset
+			//ChatChannel transmitChannels = (ChatChannel.Binary | ChatChannel.Cargo | ChatChannel.CentComm | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering
+			//	| ChatChannel.Local | ChatChannel.Medical | ChatChannel.OOC | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service | ChatChannel.Syndicate);
+			ChatChannel transmitChannels = (ChatChannel.Common | ChatChannel.Engineering | ChatChannel.Local | ChatChannel.OOC | ChatChannel.Command);
+			ChatChannel receiveChannels = (ChatChannel.Examine | ChatChannel.System);
 
+			if (transmitOnly) {
+				return transmitChannels;
+			} else {
+				return transmitChannels | receiveChannels;
+			}
+		}
+
+		public ChatModifier GetCurrentChatModifiers()
+		{
+			//TODO add missing modifiers
+			ChatModifier modifiers = ChatModifier.Drunk;
+
+			if (JobType == JobType.CLOWN) {
+				modifiers |= ChatModifier.Clown;
+			}
+
+			return modifiers;
+		}
+    
+    //Tooltips inspector bar
+    public void OnMouseEnter()
+    {
+        UI.UIManager.SetToolTip = this.name;
     }
+    public void OnMouseExit()
+    {
+        UI.UIManager.SetToolTip = "";
+    }
+	}
 }

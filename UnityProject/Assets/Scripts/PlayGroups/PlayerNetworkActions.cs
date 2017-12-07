@@ -364,42 +364,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdSendChatMessage(string msg, bool isLocalChat)
-    {
-        if (isLocalChat)
-        {
-            //regex to sanitise any injected html tags
-            var rx = new Regex("[<][^>]+[>]");
-            var inputString = rx.Replace(msg, "");
-
-            //might as well use it here so it doesn't matter how long the input string is
-            rx = new Regex("^(/me )");
-            if (rx.IsMatch(inputString))
-            { // /me message
-                inputString = rx.Replace(inputString, " ");
-                ChatRelay.Instance.chatlog.Add(new ChatEvent("<i><b>" + gameObject.name + "</b>" + inputString + "</i>."));
-            }
-            else
-            { // chat message
-                ChatRelay.Instance.chatlog.Add(new ChatEvent("<b>" + gameObject.name + "</b>" + " says, " + "\"" + inputString + "\""));
-            }
-        }
-
-    }
-
-
-    [Command]
-    //send a generic message
-    public void CmdSendAlertMessage(string msg, bool isLocalChat)
-    {
-        if (isLocalChat)
-        {
-            ChatRelay.Instance.chatlog.Add(new ChatEvent(msg));
-        }
-    }
-
-    [Command]
+	[Command]
     public void CmdToggleChatIcon(bool turnOn)
     {
         RpcToggleChatIcon(turnOn);
@@ -453,9 +418,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             SoundManager.Stop("Critstate");
             Camera2DFollow.followControl.target = playerScript.ghost.transform;
             var fovScript = GetComponent<FieldOfView>();
-            if (fovScript != null)
-                fovScript.enabled = false;
+			if (fovScript != null) {
+				fovScript.enabled = false;
+			}
+			//Show ghosts and hide FieldOfView
+			Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("Ghosts"));
+			Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("FieldOfView"));
         }
+
     }
 
 
@@ -486,6 +456,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     private void RpcAdjustForRespawn()
     {
         playerScript.ghost.SetActive(false);
+		//Hide ghosts and show FieldOfView
+		Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+		Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("FieldOfView"));
         gameObject.GetComponent<InputController>().enabled = false;
     }
 

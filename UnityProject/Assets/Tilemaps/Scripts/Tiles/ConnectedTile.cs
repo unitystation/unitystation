@@ -94,7 +94,8 @@ namespace Tilemaps.Scripts.Tiles
             {
                 tileData.sprite = sprites[i];
                 tileData.flags = TileFlags.LockAll;
-                tileData.colliderType = Tile.ColliderType.None;
+				// create collider for tiles, None, Sprite or Grid
+				tileData.colliderType = Tile.ColliderType.Sprite;
             }
         }
 

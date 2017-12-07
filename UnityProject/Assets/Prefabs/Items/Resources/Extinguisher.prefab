@@ -181,7 +181,7 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   moveSpeed: 7
   allowedToMove: 1
-  isPushable: 1
+  isPushable: 0
   pulledBy: {fileID: 0}
   pushTarget: {x: 0, y: 0, z: 0}
   pushing: 0
@@ -221,6 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectType: 0
 --- !u!212 &212125191403727516
 SpriteRenderer:
   m_ObjectHideFlags: 1

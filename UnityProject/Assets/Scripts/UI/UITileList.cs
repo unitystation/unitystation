@@ -36,7 +36,7 @@ public class UITileList : MonoBehaviour
     public static List<GameObject> GetItemsAtPosition(Vector3 position)
     {
         LayerMask layerMaskWithFloors = LayerMask.GetMask("Default", "Furniture", "Walls", "Windows", "Machines",
-            "Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls");
+			"Players", "Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls");
         var hits = Physics2D.RaycastAll(position, Vector2.zero, 10f, layerMaskWithFloors);
         List<GameObject> tiles = new List<GameObject>();
 
