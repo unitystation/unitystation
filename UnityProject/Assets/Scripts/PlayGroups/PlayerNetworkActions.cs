@@ -178,7 +178,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
             else
             {
-                if (att.spriteType == SpriteType.Clothing)
+                if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset"))
                 {
                     // Debug.Log("slotName = " + slotName);
                     Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
