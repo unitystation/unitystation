@@ -71,11 +71,20 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             return Layers[layerType].GetTile(position);
         }
 
+        public bool IsEmptyAt(Vector3Int position)
+        {
+            foreach (var layer in Layers.Keys)
+            {
+                if (layer != LayerType.Objects && HasTile(position, layer))
+                    return false;
+            }
+            return true;
+        }
+
         public bool HasTile(Vector3Int position, LayerType layerType)
         {
             return Layers[layerType].HasTile(position);
         }
-
 
         public void RemoveTile(Vector3Int position, LayerType refLayer)
         {

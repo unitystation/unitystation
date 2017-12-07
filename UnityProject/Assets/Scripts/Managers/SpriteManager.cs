@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Sprites
 {
@@ -211,15 +210,15 @@ namespace Sprites
         medical,
         mining,
         overlays,
-        publicdoor,
+        civilian,
         research,
         science,
         security,
         virology,
         shuttle,
         airLock,
-        glassDoor,
-        slidingDoor
+        glass,
+        sliding
     }
 
     public enum BloodSplatSize

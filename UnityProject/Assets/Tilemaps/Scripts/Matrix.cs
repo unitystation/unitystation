@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using NUnit.Framework.Constraints;
 using Tilemaps.Scripts.Behaviours.Layers;
 using Tilemaps.Scripts.Behaviours.Objects;
 using Tilemaps.Scripts.Tiles;
@@ -24,46 +26,67 @@ namespace Tilemaps.Scripts
         public static Matrix GetMatrix(MonoBehaviour behaviour)
         {
             var matrix = behaviour.GetComponentInParent<Matrix>();
+
+            if (matrix == null)
+            {
+                behaviour.transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
+            }
+            
             return matrix;
         }
 
-        private MetaTileMap _metaTileMap;
-        private TileList _objects;
+        private MetaTileMap metaTileMap;
+        private TileList objects;
 
         private void Start()
         {
-            _metaTileMap = GetComponent<MetaTileMap>();
-            _objects = ((ObjectLayer)_metaTileMap.Layers[LayerType.Objects]).Objects;
+            metaTileMap = GetComponent<MetaTileMap>();
+            objects = ((ObjectLayer)metaTileMap.Layers[LayerType.Objects]).Objects;
         }
 
-        public bool IsPassableAt(Vector3Int origin, Vector3Int position) => _metaTileMap.IsPassableAt(origin, position);
+        public bool IsPassableAt(Vector3Int origin, Vector3Int position) => metaTileMap.IsPassableAt(origin, position);
 
-        public bool IsPassableAt(Vector3Int position) => _metaTileMap.IsPassableAt(position);
+        public bool IsPassableAt(Vector3Int position) => metaTileMap.IsPassableAt(position);
 
-        public bool IsAtmosPassableAt(Vector3Int position) => _metaTileMap.IsAtmosPassableAt(position);
+        public bool IsAtmosPassableAt(Vector3Int position) => metaTileMap.IsAtmosPassableAt(position);
 
-        public bool IsSpaceAt(Vector3Int position) => _metaTileMap.IsSpaceAt(position);
+        public bool IsSpaceAt(Vector3Int position) => metaTileMap.IsSpaceAt(position);
+
+        public bool IsEmptyAt(Vector3Int position) => metaTileMap.IsEmptyAt(position);
+
+        public bool IsFloatingAt(Vector3Int position)
+        {
+            var bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
+            foreach (var pos in bounds.allPositionsWithin)
+            {
+                if (!metaTileMap.IsEmptyAt(pos))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         public IEnumerable<T> Get<T>(Vector3Int position) where T : MonoBehaviour
         {
-            return _objects.Get(position).Select(x => x.GetComponent<T>()).Where(x => x != null);
+            return objects.Get(position).Select(x => x.GetComponent<T>()).Where(x => x != null);
         }
 
         public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
         {
-            return _objects.GetFirst(position)?.GetComponent<T>();
+            return objects.GetFirst(position)?.GetComponent<T>();
         }
 
         public IEnumerable<T> Get<T>(Vector3Int position, ObjectType type) where T : MonoBehaviour
         {
-            return _objects.Get(position, type).Select(x => x.GetComponent<T>()).Where(x => x != null);
+            return objects.Get(position, type).Select(x => x.GetComponent<T>()).Where(x => x != null);
         }
 
         public bool ContainsAt(Vector3Int position, GameObject gameObject)
         {
             var registerTile = gameObject.GetComponent<RegisterTile>();
 
-            return registerTile && _objects.Get(position).Contains(registerTile);
+            return registerTile && objects.Get(position).Contains(registerTile);
         }
     }
 }
