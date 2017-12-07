@@ -121,7 +121,7 @@ namespace UI
 					GameObject channelToggleItem = GameObject.Instantiate(channelToggle, channelPanel.transform);
 					Toggle toggle = channelToggleItem.GetComponent<Toggle>();
 					toggle.GetComponent<UIToggleChannel>().channel = channel;
-					toggle.GetComponentInChildren<Text>().text = channel.ToString();
+					toggle.GetComponentInChildren<Text>().text = IconConstants.ChatPanelIcons[channel];
 					toggle.onValueChanged.AddListener(Toggle_Channel);
 
 					if ((channelsSelected & channel) == channel) {
@@ -132,7 +132,7 @@ namespace UI
 				}
 			}
 
-			float width = channelPanel.GetComponent<RectTransform>().rect.width;
+			float width = channelPanel.GetChild(0).GetComponent<RectTransform>().rect.width;
 			int count = channelPanel.transform.childCount;
 			LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
 			HorizontalLayoutGroup horizontalLayoutGroup = channelPanel.GetComponent<HorizontalLayoutGroup>();
@@ -142,7 +142,7 @@ namespace UI
 		public void EmptyChannelPanel()
 		{
 			LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
-			layoutElement.minHeight = 0;
+			layoutElement.minWidth = 0;
 
 			foreach (Transform child in channelPanel.transform)
 			{
