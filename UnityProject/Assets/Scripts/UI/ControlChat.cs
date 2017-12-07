@@ -132,7 +132,7 @@ namespace UI
 				}
 			}
 
-			float width = channelPanel.GetComponent<RectTransform>().rect.width;
+			float width = channelPanel.GetChild(0).GetComponent<RectTransform>().rect.width;
 			int count = channelPanel.transform.childCount;
 			LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
 			HorizontalLayoutGroup horizontalLayoutGroup = channelPanel.GetComponent<HorizontalLayoutGroup>();
@@ -142,7 +142,7 @@ namespace UI
 		public void EmptyChannelPanel()
 		{
 			LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
-			layoutElement.minHeight = 0;
+			layoutElement.minWidth = 0;
 
 			foreach (Transform child in channelPanel.transform)
 			{
