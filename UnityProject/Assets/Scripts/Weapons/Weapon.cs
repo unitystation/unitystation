@@ -133,7 +133,7 @@ namespace Weapons
             }
 
             //Check if magazine in opposite hand or if unloading
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 //PlaceHolder for click UI
                 GameObject currentHandItem = UIManager.Hands.CurrentSlot.Item;
