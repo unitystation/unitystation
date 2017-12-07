@@ -121,7 +121,7 @@ namespace UI
 					GameObject channelToggleItem = GameObject.Instantiate(channelToggle, channelPanel.transform);
 					Toggle toggle = channelToggleItem.GetComponent<Toggle>();
 					toggle.GetComponent<UIToggleChannel>().channel = channel;
-					toggle.GetComponentInChildren<Text>().text = channel.ToString();
+					toggle.GetComponentInChildren<Text>().text = IconConstants.ChatPanelIcons[channel];
 					toggle.onValueChanged.AddListener(Toggle_Channel);
 
 					if ((channelsSelected & channel) == channel) {
