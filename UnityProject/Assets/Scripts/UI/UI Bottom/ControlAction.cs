@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using PlayGroup;
@@ -72,7 +72,7 @@ namespace UI
             currentSlot.Clear();
             //            }
             //Message
-            lps.playerNetworkActions.DropItem(currentSlot.eventName);
+            lps.playerNetworkActions.RequestDropItem(currentSlot.eventName);
             SoundManager.Play("Click01");
             Debug.Log("Drop Button");
         }

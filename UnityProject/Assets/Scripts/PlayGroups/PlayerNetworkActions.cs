@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -190,12 +190,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
     /// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction, 
     /// otherwise client will forcefully receive update slot messages
-    public void DropItem(string hand, bool forceClientInform = true)
+    public void RequestDropItem(string hand, bool forceClientInform = true)
     {
-        if (CustomNetworkManager.Instance._isServer)
-            ValidateDropItem(hand, forceClientInform);
-        else
-            InventoryInteractMessage.Send(hand, null, forceClientInform);
+        InventoryInteractMessage.Send(hand, null, forceClientInform);
     }
 
     //Dropping from a slot on the UI
@@ -203,18 +200,25 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     public bool ValidateDropItem(string slot, bool forceClientInform/* = false*/)
     {
         //decline if not dropped from hands?
-        if (_inventory.ContainsKey(slot) && _inventory[slot])
+        if ( _inventory.ContainsKey(slot) && _inventory[slot] )
         {
-            EquipmentPool.DropGameObject(gameObject, _inventory[slot]);
-
-            //            RpcAdjustItemParent(_inventory[slot], null);
-            _inventory[slot] = null;
-            equipment.ClearItemSprite(slot);
-            UpdateSlotMessage.Send(gameObject, slot, null, forceClientInform);
+            DropItem(slot, forceClientInform);
             return true;
         }
-        Debug.Log("Object not found in Inventory for: " + gameObject.name);
+        Debug.Log("Object not found in Inventory");
         return false;
+    }
+
+    /// <summary>
+    /// Imperative drop
+    /// </summary>
+    [Server]
+    public void DropItem(string slot, bool forceClientInform = true)
+    {
+        EquipmentPool.DropGameObject(gameObject, _inventory[slot]);
+        _inventory[slot] = null;
+        equipment.ClearItemSprite(slot);
+        UpdateSlotMessage.Send(gameObject, slot, null, forceClientInform);
     }
 
     //Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)

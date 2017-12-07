@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using Events;
 using InputControl;
 using PlayGroup;
@@ -131,11 +131,13 @@ namespace UI
         {
             var item = Clear();
             if (!item) return false;
-            //            InputTrigger.Touch(item);
-            item.transform.position = pos;
-            item.transform.parent = null;
-            var e = item.GetComponent<EditModeControl>();
-            e.Snap();
+//            //            InputTrigger.Touch(item);
+//            item.transform.position = pos;
+//            item.transform.parent = null;
+//            var e = item.GetComponent<EditModeControl>();
+//            e.Snap();
+            var itemTransform = item.GetComponent<CustomNetTransform>();
+            itemTransform.AppearAtPosition(pos);
             var itemAttributes = item.GetComponent<ItemAttributes>();
             Debug.LogFormat("Placing item {0}/{1} from {2} to {3}", item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
             return true;

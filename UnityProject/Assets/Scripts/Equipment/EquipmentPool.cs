@@ -1,12 +1,13 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Equipment
 {
-    //For items that are the ownership of players, the items are kept in a pool serverside and sprites references
-    //sent to the client UI and playerobj
+    ///Per-player equipment pool. Low-level item operations are here (though the lowest ones are in ObjectPool)
+    ///For items that are the ownership of players, the items are kept in a pool serverside and sprites references
+    ///sent to the client UI and playerobj.
     public class EquipmentPool : MonoBehaviour
     {
         private static EquipmentPool equipmentPool;

@@ -111,6 +111,9 @@ namespace PlayGroup
                 // I (client) have connected to the server, ask what my job preference is
                 UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 
+                //Request sync to get all the latest data
+                new RequestSyncMessage().Send();
+                
 				SelectedChannels = ChatChannel.OOC;
 			} else if (isServer) {
                 playerMove = GetComponent<PlayerMove>();

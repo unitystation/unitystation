@@ -1,4 +1,4 @@
-﻿using InputControl;
+﻿﻿using InputControl;
 using PlayGroup;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UI;
@@ -27,6 +27,7 @@ namespace Items
                 if (UIManager.CanPutItemToSlot(uiSlotObject))
                 {
                     //Simulation
+                    gameObject.GetComponent<CustomNetTransform>().DisappearFromWorld();
                     //                    UIManager.UpdateSlot(uiSlotObject);
 
                     //Client informs server of interaction attempt
@@ -38,6 +39,7 @@ namespace Items
                 if (ValidatePickUp(originator, hand))
                 {
                     GetComponent<RegisterItem>().Unregister();
+                    GetComponent<CustomNetTransform>().DisappearFromWorldServer();
                 }
                 else
                 {
