@@ -8,6 +8,10 @@ git:
 # use a Mac OSX image
 os: osx
 
+cache:
+  directories:
+  - $HOME/Test
+
 # only run builds on pushes to the master branch
 branches:
   only:

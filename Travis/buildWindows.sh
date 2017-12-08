@@ -1,6 +1,6 @@
 ## Make the builds
 # Recall from install.sh that a separate module was needed for Windows build support
-echo "Installing "UnitySetup-Windows-Support-for-Editor-$VERSION.pkg"
+echo "Installing UnitySetup-Windows-Support-for-Editor-$VERSION"
 sudo installer -dumplog -package "UnitySetup-Windows-Support-for-Editor-$VERSION.pkg" -target /
 echo "Attempting build of ${UNITYCI_PROJECT_NAME} for Windows"
 /Applications/Unity/Unity.app/Contents/MacOS/Unity \
