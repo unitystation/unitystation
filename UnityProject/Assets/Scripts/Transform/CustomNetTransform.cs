@@ -17,7 +17,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
     public float speed = 10; //lerp speed
 
-    private RegisterTile registerTile;
+    protected RegisterTile registerTile;
 
     private TransformState _serverTransformStateCache; //used to sync with new players
     private TransformState _serverTransformState;
@@ -29,6 +29,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     private bool canRegister = false;
 
     private Vector2 lastDirection;
+    
+    protected Matrix matrix;
 
     public override void OnStartServer()
     {
@@ -74,7 +76,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     [Server]
     public void SetPosition(Vector3 pos)
     {
-        Vector3 roundedPos = RoundedPos(pos);
+        Vector3Int roundedPos = Vector3Int.RoundToInt(pos);
         transform.position = roundedPos;
         _serverTransformState = new TransformState {Active = gameObject.activeInHierarchy, Position = roundedPos};
         _serverTransformStateCache = new TransformState {Active = gameObject.activeInHierarchy, Position = roundedPos};
@@ -106,11 +108,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         NotifyPlayers();
     }
 
-    public void DisappearFromWorld(bool forceUpdate = true)
-    {
-        gameObject.SetActive(false);
-    }
-
     [Server]
     public void AppearAtPositionServer(Vector3 pos, bool forceUpdate = true)
     {
@@ -121,12 +118,31 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         NotifyPlayers();
     }
 
+    /// <summary>
+    /// Convenience method to make stuff disappear at position
+    /// </summary>
+    public void DisappearFromWorld(bool forceUpdate = true)
+    {
+        gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Convenience method to make stuff appear at position
+    /// </summary>
     public void AppearAtPosition(Vector3 pos, bool forceUpdate = true)
     {
         gameObject.SetActive(true);
         gameObject.transform.position = pos;
         _predictedTransformState = new TransformState {Active = true, Position = pos};
         _serverTransformState = new TransformState {Active = true, Position = pos};
+    }
+
+    public void UpdateState(TransformState state)
+    {
+        gameObject.SetActive(state.Active);
+        gameObject.transform.position = state.Position;
+        _predictedTransformState = state;
+        _serverTransformState = state;
     }
 
     /// <summary>
@@ -152,6 +168,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     void Start()
     {
         registerTile = GetComponent<RegisterTile>();
+        matrix = Matrix.GetMatrix(this);
     }
 
 //managed by UpdateManager
@@ -167,7 +184,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     private void RegisterObjects()
     {
         //Register item pos in matrix
-//        registerTile.UpdateTile(_transformState.Position);
+        registerTile.UpdatePosition();
     }
 
     private void Synchronize()
@@ -189,17 +206,17 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         }
 
         //Registering
-//        if ( registerTile.savedPosition != _transformState.Position )
-//        {
-//            RegisterObjects();
-//        }
+        if ( registerTile.Position != Vector3Int.RoundToInt(_transformState.Position) )
+        {
+            RegisterObjects();
+        }
     }
 
 
-    private Vector3 RoundedPos(Vector3 pos)
-    {
-        return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);
-    }
+//    private Vector3 RoundedPos(Vector3 pos)
+//    {
+//        return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);
+//    }
 
     private void CheckSpaceDrift()
     {
@@ -220,6 +237,13 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //            _serverTransformState.Position = newGoal;
 //            _predictedTransformState.Position = newGoal;
 //        }
+        var pos = Vector3Int.RoundToInt(transform.localPosition);
+        if(matrix != null && matrix.IsFloatingAt(pos))
+        {
+            var newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
+            _serverTransformState.Position = newGoal;
+            _predictedTransformState.Position = newGoal;
+        }
     }
 
 //todo: lerping for updated stuff

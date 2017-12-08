@@ -24,14 +24,15 @@ public class TransformStateMessage : ServerMessage<TransformStateMessage>
 			{
 				//update NetworkObject transformedObject state
 				var transform = NetworkObject.GetComponent<CustomNetTransform>();
-				if ( State.Active )
-				{
-					transform.AppearAtPosition(State.Position);
-				}
-				else
-				{
-					transform.DisappearFromWorld();
-				}
+				transform.UpdateState(State);
+//				if ( State.Active )
+//				{
+//					transform.AppearAtPosition(State.Position);
+//				}
+//				else
+//				{
+//					transform.DisappearFromWorld();
+//				}
 			}
 		}
 	}

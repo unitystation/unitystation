@@ -8,7 +8,7 @@ using Tilemaps.Scripts.Behaviours.Objects;
 /// Toggles the active state of the object by gathering all components and setting
 /// their active state. It ignores network components so item can be synced
 /// </summary>
-public class VisibleBehaviour : ManagedNetworkBehaviour
+public class VisibleBehaviour : CustomNetTransform
 {
 
     /// <summary>
