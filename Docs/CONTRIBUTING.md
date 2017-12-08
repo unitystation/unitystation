@@ -71,6 +71,15 @@ We all know your bounty program is awesome. But we need to be clear about it.
 * Your code is considered licenced under AGPLv3 the moment you have published the code
 
 
+### Review Guidelines
+***
+Even us review gods need some guidelines once in a while.
+
+* Let people learn from their mistakes
+* Review instead of merging without comment
+* 
+
+
 
 ### Todo vs Feature vs bug:
 ***
