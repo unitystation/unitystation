@@ -1,13 +1,18 @@
 # do not install anything extra onto the image
 language: generic
 
+git:
+  depth: 5
+  submodules: false
+
 # use a Mac OSX image
 os: osx
 
 # only run builds on pushes to the master branch
-#branches:
-#  only:
-#  - Develop
+branches:
+  only:
+  - Develop
+  - TravisCI
 
 # send email notifications when the build changes from succeeding to broken
 notifications:
