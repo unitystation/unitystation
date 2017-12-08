@@ -28,10 +28,11 @@ notifications:
 install: travis_wait 30 sudo -E sh ./Travis/install.sh
 
 # run the script for unit tests and builds
-script: travis_wait 30 sudo -E sh ./Travis/build.sh
+script: 
+- travis_wait 45 sudo -E sh ./Travis/build.sh
 
 # run the script to upload the builds as tarballs
-after_success:
+after_success: 
 - sudo -E sh ./Travis/post_build.sh
 
 # environment variables used in bash scripts
