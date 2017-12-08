@@ -33,7 +33,7 @@ public class ChatRelay : NetworkBehaviour
 		RefreshLog();
 		chatColors = new Dictionary<ChatChannel, string>() {
 			{ChatChannel.Binary, "#ff00ff"},
-			{ChatChannel.Cargo, "#a8732b"},
+			{ChatChannel.Supply, "#a8732b"},
 			{ChatChannel.CentComm, "#686868"},
 			{ChatChannel.Command, "#204090"},
 			{ChatChannel.Common, "#008000"},

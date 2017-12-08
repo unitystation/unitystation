@@ -164,7 +164,7 @@ namespace Equipment
 					GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
-					//TODO attach headset scripts here
+					obj.AddComponent<Headset>();
 				} else {
 					Debug.Log(gearItem.Value + " creation not implemented yet.");
 				}
