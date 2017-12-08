@@ -7,7 +7,3 @@ Echo $BASE_URL/$HASH/MacEditorInstaller/Unity-$VERSION.pkg $BASE_URL/$HASH/MacEd
 
 echo "Installing "/Unity-$VERSION.pkg"
 sudo installer -dumplog -package "Unity-$VERSION.pkg" -target /
-echo "Installing "UnitySetup-Windows-Support-for-Editor-$VERSION.pkg"
-sudo installer -dumplog -package "UnitySetup-Windows-Support-for-Editor-$VERSION.pkg" -target /
-echo "Installing "UnitySetup-Linux-Support-for-Editor-$VERSION.pkg"
-sudo installer -dumplog -package "UnitySetup-Linux-Support-for-Editor-$VERSION.pkg" -target /
