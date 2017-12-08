@@ -31,10 +31,12 @@ jobs:
   include:
     - stage: Testing
       script: travis_wait 45 sudo -E sh ./Travis/build.sh
+    - # stage name not required, will continue to use `test`
       script: travis_wait 45 sudo -E sh ./Travis/buildOSX.sh
+    - # stage name not required, will continue to use `test`
       script: travis_wait 45 sudo -E sh ./Travis/buildWindows.sh
+    - # stage name not required, will continue to use `test`
       script: travis_wait 45 sudo -E sh ./Travis/buildLinux.sh
-
     - stage: deploy
       script: sudo -E sh ./Travis/post_build.sh
 
