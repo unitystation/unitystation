@@ -29,7 +29,7 @@ notifications:
 #- openssl aes-256-cbc -k "$KEYFILE_PASS" -in "${UPLOAD_KEYPATH}.enc" -out "${UPLOAD_KEYPATH}" -d
 
 # run the script to download and install Unity editor
-install: travis_wait 30 -E sh ./Travis/upgrade.sh
+install: travis_wait 30 sh ./Travis/upgrade.sh
 
 jobs:
   include:
