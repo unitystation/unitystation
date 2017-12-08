@@ -29,7 +29,7 @@ install:
 - sudo -E sh ./Travis/install.sh
 
 # run the script for unit tests and builds
-script:
+travis_wait 30 script:
 - sudo -E sh ./Travis/build.sh
 
 # run the script to upload the builds as tarballs
