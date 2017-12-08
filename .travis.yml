@@ -34,7 +34,7 @@ install: travis_wait 30 sudo -E sh ./Travis/upgrade.sh
 jobs:
   include:
     - stage: Testing
-      script: travis_wait 45 sudo -E sh ./Travis/build.sh
+      script: travis_wait 45 sudo -E sh ./Travis/blank.sh
     - # stage name not required, will continue to use `test`
       script: travis_wait 45 sudo -E sh ./Travis/buildOSX.sh
     - # stage name not required, will continue to use `test`
