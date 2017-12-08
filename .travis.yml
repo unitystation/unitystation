@@ -27,13 +27,17 @@ notifications:
 # run the script to download and install Unity editor
 install: travis_wait 30 sudo -E sh ./Travis/install.sh
 
-# run the script for unit tests and builds
-script: 
-- travis_wait 45 sudo -E sh ./Travis/build.sh
+jobs:
+  include:
+    - stage: Testing
+      script: travis_wait 45 sudo -E sh ./Travis/build.sh
+      script: travis_wait 45 sudo -E sh ./Travis/buildOSX.sh
+      script: travis_wait 45 sudo -E sh ./Travis/buildWindows.sh
+      script: travis_wait 45 sudo -E sh ./Travis/buildLinux.sh
 
-# run the script to upload the builds as tarballs
-after_success: 
-- sudo -E sh ./Travis/post_build.sh
+    - stage: deploy
+      script: sudo -E sh ./Travis/post_build.sh
+
 
 # environment variables used in bash scripts
 env:
