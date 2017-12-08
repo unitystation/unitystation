@@ -21,7 +21,7 @@ namespace PlayGroup
         public int[] keyCodes;
     }
 
-    public class PlayerSync : ManagedNetworkBehaviour //see UpdateManager
+    public class PlayerSync : NetworkBehaviour
     {
 
         public PlayerMove playerMove;
@@ -138,8 +138,8 @@ namespace PlayGroup
             matrix = Matrix.GetMatrix(this);
         }
 
-        //managed by UpdateManager
-        public override void UpdateMe()
+
+        void Update()
         {
             if (isLocalPlayer && playerMove != null)
             {
