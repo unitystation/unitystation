@@ -15,7 +15,7 @@ GIT is a fantastic system, but while using it we have a few guidelines to keep i
 * Always try and fill in the whole form, even for small PR's.
 * Don't close when a reviewer requests changes (just push the changes).
 * Explain what you did in your PR.
-* Be thorough, A door is not the same a a shutter.
+* Be thorough, A door is not the same as a shutter.
 * If you can add screenshots to clearify.
 * Always try to add "Fixes #000" (where 000 is the Issue your PR fixes)
 * found something you want to fix yourself? Please do make an issue too.
@@ -53,6 +53,7 @@ Here at UnityStation, we value people having their own style. But your code need
 * Write simple code and don't try to impress.
 * We will run (Basic) automated reformating of code once in a while.
 * Document your changes in your code and if need be, on the wiki.
+* Add a description for every new class you create
 
 
 ### Bounty Guidelines
@@ -69,6 +70,15 @@ We all know your bounty program is awesome. But we need to be clear about it.
 * Code needs to be fully reviewed, tested and merged before the bounty will be paid
 * The bounty may be split over multiple contributors on request or moderator discration
 * Your code is considered licenced under AGPLv3 the moment you have published the code
+
+
+### Review Guidelines
+***
+Even us review gods need some guidelines once in a while.
+
+* Let people learn from their mistakes
+* Review instead of merging without comments
+* Abide by these guidelines in your review
 
 
 
