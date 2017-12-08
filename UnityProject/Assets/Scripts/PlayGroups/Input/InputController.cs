@@ -6,6 +6,8 @@ using System.Linq;
 using UI;
 using UnityEngine.EventSystems;
 using Cupboards;
+using Tilemaps.Scripts.Behaviours.Layers;
+using UnityEngine.Tilemaps;
 
 namespace InputControl
 {
@@ -42,7 +44,7 @@ namespace InputControl
 
             //Do not include the Default layer! Assign your object to one of the layers below:
             layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines",
-                "Players", "Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls");
+                "Players", "Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls", "Objects");
         }
 
         void Update()
@@ -106,42 +108,47 @@ namespace InputControl
             var hits = Physics2D.RaycastAll(position, Vector2.zero, 10f, layerMask);
 
             //collect all the sprite renderers
-            List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
+            var renderers = new List<Renderer>();
 
             foreach (var hit in hits)
             {
                 var objectTransform = hit.collider.gameObject.transform;
-                var gameObjectHit = IsPixelHit(objectTransform, (position - objectTransform.position));
-                if (gameObjectHit != null)
+                var _renderer = IsHit(objectTransform, (position - objectTransform.position));
+                if (_renderer != null)
                 {
-                    var spriteRenderer = gameObjectHit.GetComponent<SpriteRenderer>();
-                    if (spriteRenderer != null)
-                    {
-                        spriteRenderers.Add(spriteRenderer);
-                    }
+                        renderers.Add(_renderer);
                 }
             }
 
             //check which of the sprite renderers we hit and pixel checked is the highest
-            if (spriteRenderers.Count > 0)
+            if (renderers.Count > 0)
             {
-                foreach (var sprite in spriteRenderers.OrderByDescending(sr => sr.sortingOrder))
+                foreach (var sprite in renderers.OrderByDescending(sr => sr.sortingOrder))
                 {
-                    if (sprite != null)
+                    if (Interact(sprite.transform, position))
                     {
-                        if (Interact(sprite.transform))
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
             }
 
             //check if we found nothing at all
-            return hits.Count() > 0;
+            return hits.Any();
         }
 
-        private GameObject IsPixelHit(Transform _transform, Vector3 hitPosition)
+        private Renderer IsHit(Transform _transform, Vector3 hitPosition)
+        {
+            var tilemapRenderer = _transform.GetComponent<TilemapRenderer>();
+
+            if (tilemapRenderer)
+            {
+                return tilemapRenderer;
+            }
+            
+            return IsPixelHit(_transform, hitPosition);
+        }
+
+        private SpriteRenderer IsPixelHit(Transform _transform, Vector3 hitPosition)
         {
             var spriteRenderers = _transform.GetComponentsInChildren<SpriteRenderer>(false);
 
@@ -171,7 +178,7 @@ namespace InputControl
                     var pixelColor = sprite.texture.GetPixel(texPosX, texPosY);
                     if (pixelColor.a > 0)
                     {
-                        return spriteRenderer.gameObject;
+                        return spriteRenderer;
                     }
                 }
             }
@@ -181,11 +188,16 @@ namespace InputControl
 
         public bool Interact(Transform _transform)
         {
+            return Interact(_transform, _transform.position);
+        }
+
+        public bool Interact(Transform _transform, Vector3 position)
+        {
             if (playerMove.isGhost)
                 return false; ;
 
             //attempt to trigger the things in range we clicked on
-            if (PlayerManager.LocalPlayerScript.IsInReach(_transform))
+            if (PlayerManager.LocalPlayerScript.IsInReach(position))
             {
                 //check the actual transform for an input trigger and if there is non, check the parent
                 var inputTrigger = _transform.GetComponent<InputTrigger>();
@@ -193,7 +205,7 @@ namespace InputControl
                 {
                     if (objectBehaviour.visibleState)
                     {
-                        inputTrigger.Trigger();
+                        inputTrigger.Trigger(position);
                         return true;
                     }
                     else

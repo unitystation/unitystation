@@ -58,7 +58,7 @@ public class FireCabinetTrigger : InputTrigger
         SyncItemSprite(isFull);
     }
 
-    public override void Interact(GameObject originator, string hand)
+    public override void Interact(GameObject originator, Vector3 position, string hand)
     {
         if (IsClosed)
         {

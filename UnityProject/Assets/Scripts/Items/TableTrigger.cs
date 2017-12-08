@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 public class TableTrigger : InputTrigger
 {
-    public override void Interact(GameObject originator, string hand)
+    public override void Interact(GameObject originator, Vector3 position, string hand)
     {
         if (!isServer)
         {
@@ -16,7 +16,7 @@ public class TableTrigger : InputTrigger
             if (slot.CanPlaceItem())
             {
                 //Client informs server of interaction attempt
-                InteractMessage.Send(gameObject, slot.eventName);
+                InteractMessage.Send(gameObject, position, slot.eventName);
                 //Client simulation
                 //				var placedOk = slot.PlaceItem(gameObject.transform.position);
                 //				if ( !placedOk )
@@ -27,7 +27,7 @@ public class TableTrigger : InputTrigger
         }
         else
         {   //Server actions
-            if (!ValidateTableInteraction(originator, hand))
+            if (!ValidateTableInteraction(originator, position, hand))
             {
                 //Rollback prediction here
                 //				originator.GetComponent<PlayerNetworkActions>().RollbackPrediction(hand);			
@@ -36,10 +36,10 @@ public class TableTrigger : InputTrigger
     }
 
     [Server]
-    private bool ValidateTableInteraction(GameObject originator, string hand)
+    private bool ValidateTableInteraction(GameObject originator, Vector3 position, string hand)
     {
         var ps = originator.GetComponent<PlayerScript>();
-        if (ps.canNotInteract() || !ps.IsInReach(transform))
+        if (ps.canNotInteract() || !ps.IsInReach(position))
         {
             return false;
         }

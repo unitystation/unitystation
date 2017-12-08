@@ -32,14 +32,25 @@ namespace InputControl
 
         public void Trigger()
         {
-            Interact();
+            Trigger(transform.localPosition);
         }
-
-        private void Interact()
+        
+        
+        public void Trigger(Vector3 position)
         {
-            Interact(PlayerManager.LocalPlayerScript.gameObject, UIManager.Hands.CurrentSlot.eventName);
+            Interact(position);
         }
 
-        public abstract void Interact(GameObject originator, string hand);
+        private void Interact(Vector3 position)
+        {
+            Interact(PlayerManager.LocalPlayerScript.gameObject, position, UIManager.Hands.CurrentSlot.eventName);
+        }
+
+        public void Interact(GameObject originator, string hand)
+        {
+            Interact(originator, transform.localPosition, hand);
+        }
+
+        public abstract void Interact(GameObject originator, Vector3 position, string hand);
     }
 }

@@ -53,9 +53,9 @@ namespace Lighting
             SyncLightSwitch(isOn);
         }
 
-        public override void Interact(GameObject originator, string hand)
+        public override void Interact(GameObject originator, Vector3 position, string hand)
         {
-            if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform, 1.4f))
+            if (!PlayerManager.LocalPlayerScript.IsInReach(position, 1.4f))
                 return;
 
             if (switchCoolDown)
