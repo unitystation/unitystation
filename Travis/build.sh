@@ -35,6 +35,7 @@ echo "Attempting build of ${UNITYCI_PROJECT_NAME} for OSX"
 	-buildOSXUniversalPlayer "$(pwd)/Build/osx/${UNITYCI_PROJECT_NAME}.app" \
 	-quit
 
+ls -l $(pwd)/Build/osx/
 rc1=$?
 echo "Build logs (OSX)"
 cat $(pwd)/unity.log

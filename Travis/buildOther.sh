@@ -10,6 +10,7 @@ echo "Attempting build of ${UNITYCI_PROJECT_NAME} for Windows"
 	-buildWindows64Player "$(pwd)/Build/windows/${UNITYCI_PROJECT_NAME}.exe" \
 	-quit
 
+ls -l $(pwd)/Build/windows/
 rc2=$?
 echo "Build logs (Windows)"
 cat $(pwd)/unity.log
@@ -25,6 +26,8 @@ echo "Attempting build of ${UNITYCI_PROJECT_NAME} for Linux"
 	-projectPath "$(pwd)/${UNITYCI_PROJECT_NAME}" \
 	-buildLinuxUniversalPlayer  "$(pwd)/Build/linux/${UNITYCI_PROJECT_NAME}.bin" \
 	-quit
+
+ls -l $(pwd)/Build/linux/
 
 rc3=$?
 echo "Build logs (Linux)"
