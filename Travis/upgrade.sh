@@ -17,13 +17,15 @@ install() {
   download "$package"
 
   echo "Installing "`basename "$package"`
-  installer -dumplog -package `basename "$package"` -target CurrentUserHomeDirectory
+  installer -dumplog -package `basename "$package"` -target /
 }
 
 # See $BASE_URL/$HASH/unity-$VERSION-$PLATFORM.ini for complete list
 # of available packages, where PLATFORM is `osx` or `win`
 
-#install "MacEditorInstaller/Unity-$VERSION.pkg"
+install "MacEditorInstaller/Unity-$VERSION.pkg"
 install "MacEditorTargetInstaller/UnitySetup-Windows-Support-for-Editor-$VERSION.pkg"
 #install "MacEditorTargetInstaller/UnitySetup-Mac-Support-for-Editor-$VERSION.pkg"
-#install "MacEditorTargetInstaller/UnitySetup-Linux-Support-for-Editor-$VERSION.pkg"
+install "MacEditorTargetInstaller/UnitySetup-Linux-Support-for-Editor-$VERSION.pkg"
+
+mv -f /Applications/Unity /Users/Travis/Applications/Unity
