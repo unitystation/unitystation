@@ -35,7 +35,13 @@ namespace Tilemaps.Scripts.Behaviours.Objects
         public void Start()
         {
             layer = transform.GetComponentInParent<ObjectLayer>();
-
+            
+            if (layer == null)
+            {
+                transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
+                layer = transform.parent.GetComponentInParent<ObjectLayer>();
+            }
+            
             Register();
         }
 

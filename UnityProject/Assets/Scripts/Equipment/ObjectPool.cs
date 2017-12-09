@@ -60,7 +60,7 @@ namespace Equipment
 
         private static void DropNow(GameObject gObj, Vector3 dropPos)
         {
-            gObj.transform.parent = null;
+            gObj.transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
             gObj.transform.position = dropPos;
         }
     }
