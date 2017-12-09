@@ -8,7 +8,8 @@ namespace Tilemaps.Scripts.Tiles
 {
     public enum LayerType
     {
-        Structures,
+        Walls,
+        Windows,
         Objects,
         Floors,
         Base,
