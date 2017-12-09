@@ -18,8 +18,10 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
 		yield return WaitFor(SentBy);
 
 		GameObject player = NetworkObject;
-		if(Validate(player)) {
-			ChatRelay.Instance.AddToChatLogServer(ChatMessageText, player.name, Channels);
+		if(ValidRequest(player)) {
+			ChatModifier modifiers = player.GetComponent<PlayerScript>().GetCurrentChatModifiers();
+			ChatEvent chatEvent = new ChatEvent(ChatMessageText, player.name, Channels, modifiers); 
+			ChatRelay.Instance.AddToChatLogServer(chatEvent);
 		}
 	}
 
@@ -36,7 +38,7 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
 		return msg;
 	}
 
-	public bool Validate(GameObject player)
+	public bool ValidRequest(GameObject player)
 	{
 		PlayerScript playerScript = player.GetComponent<PlayerScript>();
 		//Need to add system channel here so player can transmit system level events but not select it in the UI
