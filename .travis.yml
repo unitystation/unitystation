@@ -10,11 +10,6 @@ cache:
   - "/Users/Travis/Library/Unity"
   - "/Users/Travis/Library/Preferences/Unity"
 
-branches:
-  only:
-  - Develop
-  - TravisCI
-
 notifications:
   email:
     on_success: never
