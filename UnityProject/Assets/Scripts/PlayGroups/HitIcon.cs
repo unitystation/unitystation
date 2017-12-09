@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PlayGroup
 {
@@ -20,18 +21,21 @@ namespace PlayGroup
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        //TODO accept a sprite, atm just prototyping with knife
-        public void ShowHitIcon(Vector2 dir)
+        public void ShowHitIcon(Vector2 dir, Sprite sprite)
         {
-            if (isFading)
-                return;
+            if (isFading){
+				return;
+			}
+                
             Vector3 newDir = new Vector3(dir.x, dir.y, 0f);
             lerpFrom = newDir * 0.75f;
             lerpTo = newDir;
             isFading = true;
+			spriteRenderer.sprite = sprite;
 
-            if (gameObject.activeInHierarchy)
-                StartCoroutine(FadeIcon());
+            if (gameObject.activeInHierarchy) {
+				StartCoroutine(FadeIcon());
+			} 
         }
 
         IEnumerator FadeIcon()

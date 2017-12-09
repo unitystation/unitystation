@@ -11,7 +11,7 @@ public enum ChatChannel
 	OOC = 4,
 	Common = 8,
 	Binary = 16,
-	Cargo = 32,
+	Supply = 32,
 	CentComm = 64,
 	Command = 128,
 	Engineering = 256,

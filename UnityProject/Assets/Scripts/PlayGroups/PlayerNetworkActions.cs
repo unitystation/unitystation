@@ -77,6 +77,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         UpdateSlotMessage.Send(gameObject, eventName, itemObject, forceInform);
         return true;
     }
+
+	[Server]
+	public void PlaceInSlot(GameObject item, string slotName)
+	{
+		UIManager.InventorySlots.GetSlotByEvent(slotName).SetItem(item);
+	}
+
     void PlaceInHand(GameObject item)
     {
         UIManager.Hands.CurrentSlot.SetItem(item);
@@ -178,7 +185,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
             else
             {
-                if (att.spriteType == SpriteType.Clothing)
+                if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset"))
                 {
                     // Debug.Log("slotName = " + slotName);
                     Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);

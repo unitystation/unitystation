@@ -141,6 +141,7 @@ public class ItemAttributes : NetworkBehaviour
         type = itemType;
         itemName = name;
         itemDescription = desc;
+		spriteType = masterType;
         GetComponentInChildren<SpriteRenderer>().sprite = stateSprite;
 
         //			Debug.Log(name + " size=" + size + " type=" + type + " spriteType=" 
@@ -179,9 +180,11 @@ public class ItemAttributes : NetworkBehaviour
 
     private static SpriteType getMasterType(string hs)
     {
-        if (hs.StartsWith(ObjItemClothing))
-            return SpriteType.Clothing;
-        return SpriteType.Items;
+        if (hs.StartsWith(ObjItemClothing)) {
+			return SpriteType.Clothing;
+		}
+
+		return SpriteType.Items;
     }
 
     private static string getMasterTypeHandsString(SpriteType masterType)
@@ -269,11 +272,11 @@ public class ItemAttributes : NetworkBehaviour
         if (item_state.Equals(""))
             return new[] { -1, -1 };
 
-        var stateLH = dmi.searchStateInIconShallow(item_state,
-                                "mob/inhands/" + getMasterTypeHandsString(masterType) + "_lefthand");
+		string searchString = getMasterTypeHandsString(masterType);
 
-        var stateRH = dmi.searchStateInIconShallow(item_state,
-                                "mob/inhands/" + getMasterTypeHandsString(masterType) + "_righthand");
+		var stateLH = dmi.searchStateInIconShallow(item_state, "mob/inhands/" + searchString + "_lefthand");
+	
+        var stateRH = dmi.searchStateInIconShallow(item_state, "mob/inhands/" + searchString + "_righthand");
 
         return new[] {stateLH == null ? -1 : stateLH.offset,
             stateRH == null ? -1 : stateRH.offset
@@ -428,6 +431,7 @@ public class ItemAttributes : NetworkBehaviour
             case "belts": return ItemType.Belt;
             case "eyes":
             case "glasses": return ItemType.Glasses;
+			case "radio":
             case "ears": return ItemType.Ear;
             case "gloves":
             case "hands": return ItemType.Gloves;
@@ -443,7 +447,10 @@ public class ItemAttributes : NetworkBehaviour
             case "suit":
             case "flightsuit":
             case "suits": return ItemType.Suit;
-            default: return ItemType.None;
+            default:
+				//GetItemType will be called several times on failure, with different string parameters
+				Debug.Log("Could not find item type for " + sCut + ". Will attempt fallbacks if any exist.");
+				return ItemType.None;
         }
     }
 
