@@ -1,14 +1,8 @@
-﻿using Crafting;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Items;
 using UI;
 using UnityEngine;
-using UnityEngine.Networking;
-using PlayGroup;
-using Items;
 
-namespace InputControl
+namespace PlayGroups.Input.Triggers
 {
     public class ScrewdriverTrigger : PickUpTrigger
     {
@@ -20,7 +14,7 @@ namespace InputControl
             headset = GetComponent<Headset>();
         }
 
-        public override void Interact(GameObject originator, string hand)
+        public override void Interact(GameObject originator, Vector3 position, string hand)
         {
 			Debug.Log("in headset interact");
             var item = UIManager.Hands.CurrentSlot.Item;
