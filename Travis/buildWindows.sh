@@ -3,7 +3,7 @@
 echo "Installing UnitySetup-Windows-Support-for-Editor-$VERSION"
 sudo installer -dumplog -package "UnitySetup-Windows-Support-for-Editor-$VERSION.pkg" -target /
 echo "Attempting build of ${UNITYCI_PROJECT_NAME} for Windows"
-/Applications/Unity/Unity.app/Contents/MacOS/Unity \
+/Users/travis/Applications/Unity/Unity.app/Contents/MacOS/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
