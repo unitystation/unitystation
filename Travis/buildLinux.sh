@@ -1,11 +1,7 @@
-
 ## Make the builds
 # Recall from install.sh that a separate module was needed for Windows build support
-echo "Installing UnitySetup-Linux-Support-for-Editor"
-sudo installer -dumplog -package "UnitySetup-Linux-Support-for-Editor-$VERSION.pkg" -target /
-
 echo "Attempting build of ${UNITYCI_PROJECT_NAME} for Linux"
-/Applications/Unity/Unity.app/Contents/MacOS/Unity \
+/Users/travis/Applications/Unity/Unity.app/Contents/MacOS/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
