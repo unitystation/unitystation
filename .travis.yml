@@ -1,3 +1,4 @@
+
 # do not install anything extra onto the image
 language: generic
 
@@ -11,7 +12,7 @@ os: osx
 cache:
   timeout: 1000
   directories:
-  - $HOME/Applications/Unity
+  - $HOME/Applications/unity
 
 # only run builds on pushes to the master branch
 branches:
@@ -30,14 +31,14 @@ notifications:
 #- openssl aes-256-cbc -k "$KEYFILE_PASS" -in "${UPLOAD_KEYPATH}.enc" -out "${UPLOAD_KEYPATH}" -d
 
 # run the script to download and install Unity editor
-#install: travis_wait 30 sudo -E sh ./Travis/upgrade.sh
+install: travis_wait 30 sudo -E sh ./Travis/upgrade.sh
 
 jobs:
   include:
     - stage: Testing
-      script: travis_wait 45 sudo -E sh ./Travis/build.sh
-    - # stage name not required, will continue to use `test`
-      script: travis_wait 45 sudo -E sh ./Travis/buildOther.sh
+      script: travis_wait 45 sudo -E sh ./Travis/blank.sh
+#    - # stage name not required, will continue to use `test`
+#      script: travis_wait 45 sudo -E sh ./Travis/buildOther.sh
 #    - stage: deploy
 #      script: sudo -E sh ./Travis/post_build.sh
 
