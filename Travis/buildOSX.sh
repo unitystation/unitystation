@@ -1,5 +1,5 @@
 echo "Attempting build of ${UNITYCI_PROJECT_NAME} for OSX"
-/Applications/Unity/Unity.app/Contents/MacOS/Unity \
+/Users/travis/Applications/Unity/Unity.app/Contents/MacOS/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
