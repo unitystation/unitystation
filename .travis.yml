@@ -30,6 +30,13 @@ env:
   - UNITYCI_PROJECT_NAME="UnityProject"
   - UPLOAD_KEYPATH="./Travis/upload"
 
+before_deploy:
+      # Set up git user name and tag this commit
+      if: branch = TravisCI
+      - git config --local user.name "Ornias1993"
+      - git config --local user.email "kjeld@schouten-lebbing.nl"
+      - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+
 deploy:
   provider: releases
   api_key:
