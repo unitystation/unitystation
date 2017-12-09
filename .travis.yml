@@ -10,6 +10,7 @@ cache:
   - "/Users/Travis/Library/Unity"
   - "/Users/Travis/Library/Preferences/Unity"
 
+
 notifications:
   email:
     on_success: never
@@ -43,3 +44,4 @@ deploy:
   on:
     repo: Ornias1993/unitystation
     tags: true
+    all_branches: true
