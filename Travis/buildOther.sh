@@ -7,7 +7,7 @@ echo "Attempting build of ${UNITYCI_PROJECT_NAME} for Windows"
 	-silent-crashes \
 	-logFile $(pwd)/unity.log \
 	-projectPath "$(pwd)/${UNITYCI_PROJECT_NAME}" \
-	-buildWindowsPlayer "$(pwd)/Build/windows/${UNITYCI_PROJECT_NAME}.exe" \
+	-buildWindows64Player "$(pwd)/Build/windows/${UNITYCI_PROJECT_NAME}.exe" \
 	-quit
 
 rc2=$?
@@ -23,7 +23,7 @@ echo "Attempting build of ${UNITYCI_PROJECT_NAME} for Linux"
 	-silent-crashes \
 	-logFile $(pwd)/unity.log \
 	-projectPath "$(pwd)/${UNITYCI_PROJECT_NAME}" \
-	-buildLinuxPlayer "$(pwd)/Build/linux/${UNITYCI_PROJECT_NAME}.exe" \
+	-buildLinuxUniversalPlayer  "$(pwd)/Build/linux/${UNITYCI_PROJECT_NAME}.bin" \
 	-quit
 
 rc3=$?
