@@ -87,7 +87,8 @@ namespace Tilemaps.Editor.Brushes
         {
             foreach (var tile in metaTile.GetTiles())
             {
-                PlaceLayerTile(metaTileMap, position, tile);
+                metaTileMap.RemoveTile(position, tile.LayerType);
+                metaTileMap.SetTile(position, tile, cells[0].matrix);
             }
         }
 

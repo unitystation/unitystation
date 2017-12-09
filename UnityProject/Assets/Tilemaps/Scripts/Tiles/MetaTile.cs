@@ -21,7 +21,7 @@ namespace Tilemaps.Scripts.Tiles
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            CheckTileType(ref Structure, LayerType.Structures);
+            CheckTileType(ref Structure, LayerType.Walls, LayerType.Windows);
             CheckTileType(ref Object, LayerType.Objects);
             CheckTileType(ref Floor, LayerType.Floors);
             CheckTileType(ref Base, LayerType.Base);
@@ -53,10 +53,17 @@ namespace Tilemaps.Scripts.Tiles
         }
 #endif
 
-        private static void CheckTileType(ref LayerTile tile, LayerType requiredType)
+        private static void CheckTileType(ref LayerTile tile, params LayerType[] requiredTypes)
         {
-            if (tile != null && tile.LayerType != requiredType)
+            if (tile != null)
             {
+                foreach (var requiredType in requiredTypes)
+                {
+                    if (tile.LayerType == requiredType)
+                    {
+                        return;
+                    }
+                }
                 tile = null;
             }
         }
