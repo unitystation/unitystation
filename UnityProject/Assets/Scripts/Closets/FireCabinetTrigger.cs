@@ -1,11 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using PlayGroup;
 using UI;
-using Items;
-using InputControl;
+using PlayGroups.Input;
 
 public class FireCabinetTrigger : InputTrigger
 {
@@ -15,17 +13,16 @@ public class FireCabinetTrigger : InputTrigger
 
     public GameObject itemPrefab;
 
-    [SyncVar(hook = "SyncCabinet")]
-    public bool IsClosed;
+    [SyncVar(hook = "SyncCabinet")] public bool IsClosed;
 
-    [SyncVar(hook = "SyncItemSprite")]
-    public bool isFull;
+    [SyncVar(hook = "SyncItemSprite")] public bool isFull;
     private SpriteRenderer spriteRenderer;
     private bool sync = false;
+
     private bool hasJustPlaced = false;
+
     //For storing extinguishers server side
-    [HideInInspector]
-    public ObjectBehaviour storedObject;
+    [HideInInspector] public ObjectBehaviour storedObject;
 
     void Start()
     {
@@ -45,6 +42,7 @@ public class FireCabinetTrigger : InputTrigger
         storedObject.visibleState = false;
         base.OnStartServer();
     }
+
     public override void OnStartClient()
     {
         StartCoroutine(WaitForLoad());
@@ -58,7 +56,7 @@ public class FireCabinetTrigger : InputTrigger
         SyncItemSprite(isFull);
     }
 
-    public override void Interact(GameObject originator, string hand)
+    public override void Interact(GameObject originator, Vector3 position, string hand)
     {
         if (IsClosed)
         {

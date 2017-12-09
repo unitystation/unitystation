@@ -13,6 +13,7 @@ using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 using System.Linq;
 using Doors;
+using PlayGroups.Input;
 using Tilemaps.Scripts.Behaviours.Objects;
 
 public partial class PlayerNetworkActions : NetworkBehaviour

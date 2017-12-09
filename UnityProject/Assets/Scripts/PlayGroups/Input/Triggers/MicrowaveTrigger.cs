@@ -6,6 +6,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using PlayGroup;
+using PlayGroups.Input;
 
 namespace InputControl
 {
@@ -19,7 +20,7 @@ namespace InputControl
             microwave = GetComponent<Microwave>();
         }
 
-        public override void Interact(GameObject originator, string hand)
+        public override void Interact(GameObject originator, Vector3 position, string hand)
         {
             var item = UIManager.Hands.CurrentSlot.Item;
 

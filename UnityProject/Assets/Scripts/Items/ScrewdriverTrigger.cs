@@ -4,11 +4,11 @@ using Items;
 
 public class ScrewdriverTrigger : PickUpTrigger
 {
-    public override void Interact(GameObject originator, string hand)
+    public override void Interact(GameObject originator, Vector3 position, string hand)
     {
 		//Only peform screwdriver actions on other things when holding the screwdriver
 		if(UIManager.Hands.CurrentSlot.Item != gameObject) {
-			base.Interact(originator, hand);
+			base.Interact(originator, position, hand);
 			return;
 		}
 
@@ -19,6 +19,6 @@ public class ScrewdriverTrigger : PickUpTrigger
 			RemoveEncryptionKeyMessage.Send(otherHandsItem);
         }
 
-		base.Interact(originator, hand);
+		base.Interact(originator, position, hand);
 	}
 }

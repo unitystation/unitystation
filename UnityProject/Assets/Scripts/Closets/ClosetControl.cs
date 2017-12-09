@@ -5,6 +5,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using InputControl;
+using PlayGroups.Input;
 using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
 
@@ -146,7 +147,7 @@ namespace Cupboards
             }
         }
 
-        public override void Interact(GameObject originator, string hand)
+        public override void Interact(GameObject originator, Vector3 position, string hand)
         {
             //FIXME this should be rewritten to net messages, see i.e. TableTrigger
             if (Input.GetKey(KeyCode.LeftControl))

@@ -27,7 +27,7 @@ public class PushPull : VisibleBehaviour
 
     [SyncVar] public Vector3 currentPos;
 
-    private Matrix _matrix1;
+    private Matrix matrix;
 
     //A check to make sure there are no network errors
     public float timeInPush = 0f;
@@ -36,7 +36,6 @@ public class PushPull : VisibleBehaviour
     {
         StartCoroutine(WaitForLoad());
 
-        _matrix1 = Matrix.GetMatrix(this);
         base.OnStartClient();
     }
 
@@ -51,6 +50,7 @@ public class PushPull : VisibleBehaviour
             }
             transform.localPosition = RoundedPos(currentPos);
             registerTile.UpdatePosition();
+            matrix = Matrix.GetMatrix(this);
         }
     }
 
@@ -121,7 +121,7 @@ public class PushPull : VisibleBehaviour
         //newPos.z = transform.localPosition.z;
 
 
-        if (_matrix1.IsPassableAt(newPos)) // || MatrixOld.Matrix.At(newPos).ContainsTile(gameObject)) 
+        if (matrix.IsPassableAt(newPos)) // || MatrixOld.Matrix.At(newPos).ContainsTile(gameObject)) 
         {
             //Start the push on the client, then start on the server, the server then tells all other clients to start the push also
             pusher = pushedBy;

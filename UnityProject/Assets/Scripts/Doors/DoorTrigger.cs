@@ -1,6 +1,7 @@
 ﻿using InputControl;
 using System.Collections;
 using System.Collections.Generic;
+using PlayGroups.Input;
 using UnityEngine;
 using UI;
 
@@ -13,7 +14,6 @@ namespace Doors
     /// </summary>
     public class DoorTrigger : InputTrigger
     {
-
         private DoorController doorController;
         public bool allowInput = true;
         public void Start()
@@ -21,7 +21,7 @@ namespace Doors
             doorController = GetComponent<DoorController>();
         }
 
-        public override void Interact(GameObject originator, string hand)
+        public override void Interact(GameObject originator, Vector3 position, string hand)
         {
             if (doorController != null && allowInput)
             {

@@ -1,13 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using PlayGroup;
 using System.Linq;
-using UI;
-using UnityEngine.EventSystems;
 using Cupboards;
+using PlayGroup;
+using UI;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.Tilemaps;
 
-namespace InputControl
+namespace PlayGroups.Input
 {
     public class InputController : MonoBehaviour
     {
@@ -42,7 +42,7 @@ namespace InputControl
 
             //Do not include the Default layer! Assign your object to one of the layers below:
             layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines",
-                "Players", "Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls");
+                "Players", "Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls", "Objects");
         }
 
         void Update()
@@ -54,7 +54,7 @@ namespace InputControl
 
         private void CheckHandSwitch()
         {
-            if (Input.GetMouseButtonDown(2))
+            if (UnityEngine.Input.GetMouseButtonDown(2))
             {
                 UIManager.Hands.Swap();
             }
@@ -62,7 +62,7 @@ namespace InputControl
 
         private void CheckClick()
         {
-			if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftAlt))
+			if (UnityEngine.Input.GetMouseButtonDown(0) && !UnityEngine.Input.GetKey(KeyCode.LeftControl) && !UnityEngine.Input.GetKey(KeyCode.LeftAlt))
 				           {
                 //change the facingDirection of player on click
                 ChangeDirection();
@@ -77,9 +77,9 @@ namespace InputControl
 
 		private void CheckAltClick()
 		{
-			if (Input.GetMouseButtonDown(0) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))) {
+			if (UnityEngine.Input.GetMouseButtonDown(0) && (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt))) {
 				//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
-				var position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				var position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 				if(PlayerManager.LocalPlayerScript.IsInReach(position)) {
 					List<GameObject> tiles = UITileList.GetItemsAtPosition(position);
 					ControlTabs.ShowItemListTab(tiles);
@@ -89,7 +89,7 @@ namespace InputControl
 
         private void ChangeDirection()
         {
-            Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) -
+            Vector2 dir = (Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition) -
                            transform.position).normalized;
             float angle = Angle(dir);
             if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
@@ -98,7 +98,7 @@ namespace InputControl
 
         private bool RayHit()
         {
-            var position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 
             //for debug purpose, mark the most recently touched tile location
             LastTouchedTile = new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
@@ -106,42 +106,47 @@ namespace InputControl
             var hits = Physics2D.RaycastAll(position, Vector2.zero, 10f, layerMask);
 
             //collect all the sprite renderers
-            List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
+            var renderers = new List<Renderer>();
 
             foreach (var hit in hits)
             {
                 var objectTransform = hit.collider.gameObject.transform;
-                var gameObjectHit = IsPixelHit(objectTransform, (position - objectTransform.position));
-                if (gameObjectHit != null)
+                var _renderer = IsHit(objectTransform, (position - objectTransform.position));
+                if (_renderer != null)
                 {
-                    var spriteRenderer = gameObjectHit.GetComponent<SpriteRenderer>();
-                    if (spriteRenderer != null)
-                    {
-                        spriteRenderers.Add(spriteRenderer);
-                    }
+                        renderers.Add(_renderer);
                 }
             }
 
             //check which of the sprite renderers we hit and pixel checked is the highest
-            if (spriteRenderers.Count > 0)
+            if (renderers.Count > 0)
             {
-                foreach (var sprite in spriteRenderers.OrderByDescending(sr => sr.sortingOrder))
+                foreach (var sprite in renderers.OrderByDescending(sr => sr.sortingOrder))
                 {
-                    if (sprite != null)
+                    if (Interact(sprite.transform, position))
                     {
-                        if (Interact(sprite.transform))
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
             }
 
             //check if we found nothing at all
-            return hits.Count() > 0;
+            return hits.Any();
         }
 
-        private GameObject IsPixelHit(Transform _transform, Vector3 hitPosition)
+        private Renderer IsHit(Transform _transform, Vector3 hitPosition)
+        {
+            var tilemapRenderer = _transform.GetComponent<TilemapRenderer>();
+
+            if (tilemapRenderer)
+            {
+                return tilemapRenderer;
+            }
+            
+            return IsPixelHit(_transform, hitPosition);
+        }
+
+        private SpriteRenderer IsPixelHit(Transform _transform, Vector3 hitPosition)
         {
             var spriteRenderers = _transform.GetComponentsInChildren<SpriteRenderer>(false);
 
@@ -171,7 +176,7 @@ namespace InputControl
                     var pixelColor = sprite.texture.GetPixel(texPosX, texPosY);
                     if (pixelColor.a > 0)
                     {
-                        return spriteRenderer.gameObject;
+                        return spriteRenderer;
                     }
                 }
             }
@@ -181,11 +186,16 @@ namespace InputControl
 
         public bool Interact(Transform _transform)
         {
+            return Interact(_transform, _transform.position);
+        }
+
+        public bool Interact(Transform _transform, Vector3 position)
+        {
             if (playerMove.isGhost)
                 return false; ;
 
             //attempt to trigger the things in range we clicked on
-            if (PlayerManager.LocalPlayerScript.IsInReach(_transform))
+            if (PlayerManager.LocalPlayerScript.IsInReach(position))
             {
                 //check the actual transform for an input trigger and if there is non, check the parent
                 var inputTrigger = _transform.GetComponent<InputTrigger>();
@@ -193,7 +203,7 @@ namespace InputControl
                 {
                     if (objectBehaviour.visibleState)
                     {
-                        inputTrigger.Trigger();
+                        inputTrigger.Trigger(position);
                         return true;
                     }
                     else

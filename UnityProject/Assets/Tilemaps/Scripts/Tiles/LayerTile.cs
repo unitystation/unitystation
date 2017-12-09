@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using InputControl;
 using Tilemaps.Scripts.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -13,6 +14,15 @@ namespace Tilemaps.Scripts.Tiles
         Base,
         None
     }
+    
+    public enum TileType
+    {
+        None,
+        Wall,
+        Window,
+        Floor,
+        Table
+    }
 
     public class LayerTile : GenericTile
     {
@@ -20,10 +30,10 @@ namespace Tilemaps.Scripts.Tiles
         public static LayerTile EmptyTile => _emptyTile ?? (_emptyTile = CreateInstance<LayerTile>());
 
         public LayerType LayerType;
+        public TileType TileType;
 
         public LayerTile[] RequiredTiles;
-
-
+        
         public virtual Matrix4x4 Rotate(Matrix4x4 transformMatrix, bool anticlockwise = true, int count = 1)
         {
             return transformMatrix;
