@@ -1,7 +1,7 @@
 ## Make the builds
 # Recall from install.sh that a separate module was needed for Windows build support
 echo "Attempting build of ${UNITYCI_PROJECT_NAME} for Windows"
-/Users/travis/Applications/Unity/Unity.app/Contents/MacOS/Unity \
+/Applications/Unity/Unity.app/Contents/MacOS/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
@@ -17,7 +17,7 @@ cat $(pwd)/unity.log
 ## Make the builds
 # Recall from install.sh that a separate module was needed for Linux build support
 echo "Attempting build of ${UNITYCI_PROJECT_NAME} for Linux"
-/Users/travis/Applications/Unity/Unity.app/Contents/MacOS/Unity \
+/Applications/Unity/Unity.app/Contents/MacOS/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
