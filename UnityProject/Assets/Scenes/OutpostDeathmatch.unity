@@ -64115,7 +64115,10 @@ GameObject:
   - component: {fileID: 969617904}
   - component: {fileID: 969617903}
   - component: {fileID: 969617902}
-  m_Layer: 0
+  - component: {fileID: 969617907}
+  - component: {fileID: 969617906}
+  - component: {fileID: 969617905}
+  m_Layer: 24
   m_Name: Objects
   m_TagString: SpawnParent
   m_Icon: {fileID: 0}
@@ -67619,6 +67622,62 @@ Tilemap:
     m_DirtyIndex: 0
   - serializedVersion: 1
     m_DirtyIndex: 0
+--- !u!114 &969617905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 969617901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 905a243a2c1a4fd79fd17a43b3c6f208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &969617906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 969617901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 69
+    i1: 210
+    i2: 68
+    i3: 22
+    i4: 164
+    i5: 23
+    i6: 109
+    i7: 68
+    i8: 59
+    i9: 201
+    i10: 53
+    i11: 224
+    i12: 38
+    i13: 75
+    i14: 132
+    i15: 161
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!19719996 &969617907
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 969617901}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
 --- !u!1001 &970279510
 Prefab:
   m_ObjectHideFlags: 0
