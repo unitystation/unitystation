@@ -17,8 +17,11 @@ namespace Equipment
 
         public void AddGameObject(GameObject obj)
         {
-            obj.transform.position = transform.position;
-            obj.transform.parent = transform;
+//            obj.transform.position = transform.position;
+//            obj.transform.parent = transform;
+            var objTransform = obj.GetComponent<CustomNetTransform>();
+            objTransform.SetParent(transform);
+            objTransform.SetPosition(transform.position);
 
             NetworkIdentity id = obj.GetComponent<NetworkIdentity>();
             ItemAttributes att = obj.GetComponent<ItemAttributes>();
@@ -60,8 +63,10 @@ namespace Equipment
 
         private static void DropNow(GameObject gObj, Vector3 dropPos)
         {
-            gObj.transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
-            gObj.transform.position = dropPos;
+           // gObj.transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
+           // gObj.transform.position = dropPos;
+            var objTransform = gObj.GetComponent<CustomNetTransform>();
+            objTransform.AppearAtPositionServer(dropPos);	
         }
     }
 }

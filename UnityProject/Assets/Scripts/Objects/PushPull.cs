@@ -23,9 +23,9 @@ public class PushPull : VisibleBehaviour
     public bool pushing = false;
     public bool serverLittleLag = false;
 
-    [SyncVar(hook = "PushSync")] public Vector3 serverPos;
+//    /*[SyncVar(hook = "PushSync")]*/ public Vector3 serverPos;
 
-    [SyncVar] public Vector3 currentPos;
+//    /*[SyncVar]*/ public Vector3 currentPos;
 
     private Matrix matrix;
 
@@ -125,16 +125,20 @@ public class PushPull : VisibleBehaviour
         {
             //Start the push on the client, then start on the server, the server then tells all other clients to start the push also
             pusher = pushedBy;
-            if (pusher == PlayerManager.LocalPlayer)
+            if ( pusher == PlayerManager.LocalPlayer )
+            {
                 PlayerManager.LocalPlayerScript.playerMove.IsPushing = true;
+            }
 
             pushTarget = newPos;
             journeyLength = Vector3.Distance(transform.localPosition, newPos) + 0.2f;
             timeInPush = 0f;
             pushing = true;
             //Start command to push on server
-            if (pusher == PlayerManager.LocalPlayer)
+            if ( pusher == PlayerManager.LocalPlayer )
+            {
                 PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, pushTarget);
+            }
         }
     }
 

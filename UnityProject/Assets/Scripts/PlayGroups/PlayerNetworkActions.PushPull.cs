@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -84,10 +84,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdTryPush(GameObject obj, Vector3 pos)
     {
-        var pushed = obj.GetComponent<PushPull>();
-        if (pushed != null)
-        {
-            pushed.serverPos = pos;
-        }
+//        var pushed = obj.GetComponent<PushPull>();
+//        if (pushed != null)
+//        {
+//            pushed.serverPos = pos;
+//        }
     }
 }
