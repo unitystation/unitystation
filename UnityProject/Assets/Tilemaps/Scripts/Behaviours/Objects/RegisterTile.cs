@@ -36,15 +36,6 @@ namespace Tilemaps.Scripts.Behaviours.Objects
         public void Start()
         {
             layer = transform.GetComponentInParent<ObjectLayer>();
-
-            StartCoroutine(WaitForLoad());
-        }
-
-        IEnumerator WaitForLoad()
-        {
-            yield return new WaitForSeconds(2f);
-            
-            layer = transform.GetComponentInParent<ObjectLayer>();
             
             if (layer == null)
             {

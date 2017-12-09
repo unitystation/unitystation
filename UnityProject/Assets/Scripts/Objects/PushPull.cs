@@ -243,9 +243,4 @@ public class PushPull : VisibleBehaviour
         timeInPush = 0f;
         pushing = true;
     }
-
-    private Vector3 RoundedPos(Vector3 pos)
-    {
-        return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);
-    }
 }
