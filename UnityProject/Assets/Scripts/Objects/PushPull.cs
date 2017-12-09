@@ -42,16 +42,16 @@ public class PushPull : VisibleBehaviour
     IEnumerator WaitForLoad()
     {
         yield return new WaitForSeconds(2f);
-        if (currentPos != Vector3.zero)
-        {
+//        if (currentPos != Vector3.zero)
+//        {
             if (registerTile == null)
             {
                 registerTile = GetComponent<RegisterTile>();
             }
-            transform.localPosition = RoundedPos(currentPos);
+//            transform.localPosition = RoundedPos(currentPos);
             registerTile.UpdatePosition();
             matrix = Matrix.GetMatrix(this);
-        }
+//        }
     }
 
     public virtual void OnMouseDown()
@@ -121,12 +121,12 @@ public class PushPull : VisibleBehaviour
         //newPos.z = transform.localPosition.z;
 
 
-        if (matrix.IsPassableAt(newPos)) // || MatrixOld.Matrix.At(newPos).ContainsTile(gameObject)) 
+        if (matrix.IsPassableAt(newPos) || matrix.ContainsAt(newPos, gameObject)) 
         {
             //Start the push on the client, then start on the server, the server then tells all other clients to start the push also
             pusher = pushedBy;
             if (pusher == PlayerManager.LocalPlayer)
-                PlayerManager.LocalPlayerScript.playerMove.isPushing = true;
+                PlayerManager.LocalPlayerScript.playerMove.IsPushing = true;
 
             pushTarget = newPos;
             journeyLength = Vector3.Distance(transform.localPosition, newPos) + 0.2f;
@@ -166,7 +166,7 @@ public class PushPull : VisibleBehaviour
             {
                 if (pusher == PlayerManager.LocalPlayer)
                 {
-                    PlayerManager.LocalPlayerScript.playerMove.isPushing = false;
+                    PlayerManager.LocalPlayerScript.playerMove.IsPushing = false;
                 }
                 pusher = null;
                 serverLittleLag = false;
@@ -208,7 +208,7 @@ public class PushPull : VisibleBehaviour
             if (serverLittleLag)
             {
                 serverLittleLag = false;
-                PlayerManager.LocalPlayerScript.playerMove.isPushing = false;
+                PlayerManager.LocalPlayerScript.playerMove.IsPushing = false;
                 pusher = null;
             }
             pushing = false;
@@ -234,7 +234,7 @@ public class PushPull : VisibleBehaviour
         }
         if (transform.localPosition == pos && pusher == PlayerManager.LocalPlayer)
         {
-            PlayerManager.LocalPlayerScript.playerMove.isPushing = false;
+            PlayerManager.LocalPlayerScript.playerMove.IsPushing = false;
             pusher = null;
             return;
         }
