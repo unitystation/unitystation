@@ -31,6 +31,6 @@ install "MacEditorTargetInstaller/UnitySetup-Linux-Support-for-Editor-$VERSION.p
 Echo "Deleting application"
 sudo rm -rf /Users/travis/Applications/Unity/*.*
 Echo "Moving Application"
-sudo mv -rf /Applications/Unity/ /Users/travis/Applications/
+sudo mv -f -v /Applications/Unity/ /Users/travis/Applications/
 sudo chmod -R 777 /Users/Travis/Applications/Unity/*.*
 ls /Users/Travis/Applications/Unity
