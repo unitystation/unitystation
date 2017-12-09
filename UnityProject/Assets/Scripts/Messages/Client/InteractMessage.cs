@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using InputControl;
+using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -25,7 +26,7 @@ public class InteractMessage : ClientMessage<InteractMessage>
 
     public static InteractMessage Send(GameObject subject, string hand)
     {
-        return Send(subject, subject.transform.localPosition, hand);
+        return Send(subject, subject.transform.position, hand);
     }
 
     public static InteractMessage Send(GameObject subject, Vector3 position, string hand)

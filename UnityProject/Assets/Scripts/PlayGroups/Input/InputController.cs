@@ -1,15 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using PlayGroup;
 using System.Linq;
-using UI;
-using UnityEngine.EventSystems;
 using Cupboards;
-using Tilemaps.Scripts.Behaviours.Layers;
+using PlayGroup;
+using UI;
+using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
-namespace InputControl
+namespace PlayGroups.Input
 {
     public class InputController : MonoBehaviour
     {
@@ -56,7 +54,7 @@ namespace InputControl
 
         private void CheckHandSwitch()
         {
-            if (Input.GetMouseButtonDown(2))
+            if (UnityEngine.Input.GetMouseButtonDown(2))
             {
                 UIManager.Hands.Swap();
             }
@@ -64,7 +62,7 @@ namespace InputControl
 
         private void CheckClick()
         {
-			if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftAlt))
+			if (UnityEngine.Input.GetMouseButtonDown(0) && !UnityEngine.Input.GetKey(KeyCode.LeftControl) && !UnityEngine.Input.GetKey(KeyCode.LeftAlt))
 				           {
                 //change the facingDirection of player on click
                 ChangeDirection();
@@ -79,9 +77,9 @@ namespace InputControl
 
 		private void CheckAltClick()
 		{
-			if (Input.GetMouseButtonDown(0) && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))) {
+			if (UnityEngine.Input.GetMouseButtonDown(0) && (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt))) {
 				//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
-				var position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				var position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 				if(PlayerManager.LocalPlayerScript.IsInReach(position)) {
 					List<GameObject> tiles = UITileList.GetItemsAtPosition(position);
 					ControlTabs.ShowItemListTab(tiles);
@@ -91,7 +89,7 @@ namespace InputControl
 
         private void ChangeDirection()
         {
-            Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) -
+            Vector2 dir = (Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition) -
                            transform.position).normalized;
             float angle = Angle(dir);
             if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
@@ -100,7 +98,7 @@ namespace InputControl
 
         private bool RayHit()
         {
-            var position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 
             //for debug purpose, mark the most recently touched tile location
             LastTouchedTile = new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));

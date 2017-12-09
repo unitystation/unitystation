@@ -10,17 +10,6 @@ using UnityEngine;
 
 namespace Tilemaps.Scripts
 {
-    public enum TileType
-    {
-        All,
-        Door,
-        Wall,
-        Window,
-        Floor,
-        Item,
-        Player
-    }
-
     public class Matrix : MonoBehaviour
     {
         public static Matrix GetMatrix(MonoBehaviour behaviour)

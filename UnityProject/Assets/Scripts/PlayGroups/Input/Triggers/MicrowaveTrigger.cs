@@ -6,6 +6,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using PlayGroup;
+using PlayGroups.Input;
 
 namespace InputControl
 {

@@ -1,6 +1,7 @@
 ﻿using InputControl;
 using System.Collections;
 using System.Collections.Generic;
+using PlayGroups.Input;
 using UnityEngine;
 
 public class WireAttackController : InputTrigger

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using PlayGroup;
 using InputControl;
+using PlayGroups.Input;
 
 namespace Lighting
 {
