@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UI;
+using InputControl;
 using System.IO;
 
 namespace Equipment
@@ -58,13 +59,10 @@ namespace Equipment
             {
                 //All the other slots:
                 clothingSlots[i].Reference = -1;
-                if (isServer)
-                {
-                    syncEquipSprites.Add(-1);
-                }
-                else
-                {
-                    clothingSlots[i].Reference = syncEquipSprites[i];
+                if (isServer) {
+					syncEquipSprites.Add(-1);
+                } else {
+					clothingSlots[i].Reference = syncEquipSprites[i];
                 }
             }
             isInit = true;
@@ -75,7 +73,7 @@ namespace Equipment
 
         public void SyncSprites(SyncListInt.Operation op, int index)
         {
-            clothingSlots[index].Reference = syncEquipSprites[index];
+			clothingSlots[index].Reference = syncEquipSprites[index];
         }
 
         public IEnumerator SetPlayerLoadOuts()
@@ -158,12 +156,19 @@ namespace Equipment
 
             foreach (KeyValuePair<string, string> gearItem in gear)
             {
-                if (gearItem.Value.Contains("cloth"))
-                {
-                    GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
-                    ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-                    SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
-                }
+				if (gearItem.Value.Contains("cloth"))
+				{
+					GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
+					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
+				} else if (gearItem.Value.Contains("headset")) {
+					GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
+					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
+					obj.AddComponent<Headset>();
+				} else {
+					Debug.Log(gearItem.Value + " creation not implemented yet.");
+				}
             }
             SpawnID(jobOutfit);
         }

@@ -10,7 +10,7 @@ namespace UI
 			{ ChatChannel.Local, "" },
 			{ ChatChannel.OOC, "" },
 			{ ChatChannel.Binary, "" },
-			{ ChatChannel.Cargo, "" },
+			{ ChatChannel.Supply, "" },
 			{ ChatChannel.CentComm, "" },
 			{ ChatChannel.Command, "" },
 			{ ChatChannel.Common, "" },

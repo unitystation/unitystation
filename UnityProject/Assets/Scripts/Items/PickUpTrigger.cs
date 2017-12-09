@@ -15,7 +15,6 @@ namespace Items
         }
         public override void Interact(GameObject originator, string hand)
         {
-
             if (originator.GetComponent<PlayerScript>().canNotInteract())
                 return;
 
