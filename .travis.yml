@@ -9,6 +9,7 @@ git:
 os: osx
 
 cache:
+  timeout: 1000
   directories:
   - $HOME/Applications/Unity
 
@@ -29,12 +30,12 @@ notifications:
 #- openssl aes-256-cbc -k "$KEYFILE_PASS" -in "${UPLOAD_KEYPATH}.enc" -out "${UPLOAD_KEYPATH}" -d
 
 # run the script to download and install Unity editor
-install: travis_wait 30 sh ./Travis/upgrade.sh
+ install: travis_wait 30 sh ./Travis/upgrade.sh
 
 jobs:
   include:
     - stage: Testing
-      script: travis_wait 45 sudo -E sh ./Travis/blank.sh
+      script: travis_wait 45 sudo -E sh ./Travis/build.sh
 #    - # stage name not required, will continue to use `test`
 #      script: travis_wait 45 sudo -E sh ./Travis/buildOSX.sh
 #    - # stage name not required, will continue to use `test`
