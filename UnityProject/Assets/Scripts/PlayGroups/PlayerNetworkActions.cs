@@ -77,6 +77,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         UpdateSlotMessage.Send(gameObject, eventName, itemObject, forceInform);
         return true;
     }
+
+	[Server]
+	public void PlaceInSlot(GameObject item, string slotName)
+	{
+		UIManager.InventorySlots.GetSlotByEvent(slotName).SetItem(item);
+	}
+
     void PlaceInHand(GameObject item)
     {
         UIManager.Hands.CurrentSlot.SetItem(item);

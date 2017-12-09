@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114061379760793102}
   - component: {fileID: 114780098485158714}
   - component: {fileID: 114239101562504668}
-  - component: {fileID: 114933429935145084}
+  - component: {fileID: 114123234982290488}
   - component: {fileID: 114535661936412438}
   - component: {fileID: 114929202879641106}
   m_Layer: 10
@@ -123,6 +123,17 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114123234982290488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1599349953373750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cf506c5a1f18344a80b82acaac00e23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114239101562504668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -228,8 +239,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cloth: 0
   hierarchy: 
-  itemName: identification card
-  itemDescription: A card used to provide ID and determine access across the station.
+  itemName: standard encryption key
+  itemDescription: An encryption key for a radio headset.
   spriteType: 0
   type: 0
   inHandReferenceRight: 0
@@ -248,17 +259,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 0
---- !u!114 &114933429935145084
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1599349953373750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &212971472180254508
 SpriteRenderer:
   m_ObjectHideFlags: 1

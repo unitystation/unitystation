@@ -31,16 +31,25 @@ namespace PlayGroup
 
         public JobType JobType = JobType.NULL;
 
-		public ChatChannel SelectedChannels;
-
 		public GameObject ghost;
 
         private float pingUpdate = 0f;
 
+		private ChatChannel selectedChannels;
+
         [SyncVar(hook = "OnNameChange")]
         public string playerName = " ";
 
-        public override void OnStartClient()
+		public ChatChannel SelectedChannels
+		{
+			get
+			{
+				return selectedChannels & GetAvailableChannels();
+			}
+			set { this.selectedChannels = value; }
+		}
+
+		public override void OnStartClient()
         {
             //Local player is set a frame or two after OnStartClient
             StartCoroutine(WaitForLoad());
@@ -196,10 +205,14 @@ namespace PlayGroup
 
 		public ChatChannel GetAvailableChannels(bool transmitOnly = true)
 		{
-			//TODO get actual list based on headset
-			//ChatChannel transmitChannels = (ChatChannel.Binary | ChatChannel.Cargo | ChatChannel.CentComm | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering
-			//	| ChatChannel.Local | ChatChannel.Medical | ChatChannel.OOC | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service | ChatChannel.Syndicate);
-			ChatChannel transmitChannels = (ChatChannel.Common | ChatChannel.Engineering | ChatChannel.Local | ChatChannel.OOC | ChatChannel.Command);
+			//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
+			ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
+
+			/*GameObject headset = UIManager.InventorySlots.EarSlot.Item;
+			if(headset) {
+				EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
+				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+			}*/
 			ChatChannel receiveChannels = (ChatChannel.Examine | ChatChannel.System);
 
 			if (transmitOnly) {

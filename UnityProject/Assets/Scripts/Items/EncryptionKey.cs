@@ -53,6 +53,7 @@ public class EncryptionKey : NetworkBehaviour
 	public static readonly Dictionary<EncryptionKeyType, ChatChannel> Permissions
 		= new Dictionary<EncryptionKeyType, ChatChannel>
 	{
+		{ EncryptionKeyType.None, ChatChannel.None },
 		{ EncryptionKeyType.Common, ChatChannel.Common },
 		{ EncryptionKeyType.Binary, ChatChannel.Common | ChatChannel.Binary },
 		{ EncryptionKeyType.Captain, ChatChannel.Common | ChatChannel.Command | ChatChannel.Security | ChatChannel.Engineering | ChatChannel.Supply | ChatChannel.Service | ChatChannel.Medical | ChatChannel.Science },

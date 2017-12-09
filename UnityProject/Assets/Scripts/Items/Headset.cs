@@ -15,19 +15,6 @@ public class Headset : NetworkBehaviour
 		getEncryptionTypeFromHier();
 	}
 
-	public void RemoveEncryptionKey()
-	{
-		if(EncryptionKey == EncryptionKeyType.None) {
-			UI.UIManager.Chat.AddChatEvent(new ChatEvent("This headset is already missing its encryption key.", ChatChannel.System));
-			return;
-		}
-
-		GameObject encryptionKey = Instantiate(Resources.Load("Encryptionkey", typeof(GameObject)), transform.parent) as GameObject;
-		encryptionKey.GetComponent<EncryptionKey>().Type = EncryptionKey;
-
-		EncryptionKey = EncryptionKeyType.None;
-	}
-
 	public void InsertEncryptionKey(EncryptionKey encryptionKeyComponent)
 	{
 		if (EncryptionKey != EncryptionKeyType.None)
