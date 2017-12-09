@@ -31,3 +31,6 @@ install "MacEditorTargetInstaller/UnitySetup-Linux-Support-for-Editor-$VERSION.p
 
 sudo chmod -R 777 /Applications/Unity
 ls /Applications/Unity
+ls /Applications/Unity/PlaybackEngines
+ls /Users/Travis/Library/Unity
+ls /Users/Travis/Library/Preferences/Unity

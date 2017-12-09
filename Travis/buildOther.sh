@@ -23,7 +23,7 @@ echo "Attempting build of ${UNITYCI_PROJECT_NAME} for Linux"
 	-silent-crashes \
 	-logFile $(pwd)/unity.log \
 	-projectPath "$(pwd)/${UNITYCI_PROJECT_NAME}" \
-	-buildWindowsPlayer "$(pwd)/Build/linux/${UNITYCI_PROJECT_NAME}.exe" \
+	-buildLinuxPlayer "$(pwd)/Build/linux/${UNITYCI_PROJECT_NAME}.exe" \
 	-quit
 
 rc3=$?
