@@ -147,7 +147,7 @@ public class ExplodeWhenShot : NetworkBehaviour
             {
                 if (oA.pusher == PlayerManager.LocalPlayer)
                 {
-                    PlayerManager.LocalPlayerScript.playerMove.isPushing = false;
+                    PlayerManager.LocalPlayerScript.playerMove.IsPushing = false;
                 }
                 oA.isPushable = false;
             }

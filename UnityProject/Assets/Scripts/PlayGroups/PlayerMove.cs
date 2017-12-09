@@ -31,7 +31,7 @@ namespace PlayGroup
         [SyncVar] public bool isGhost = false;
         private bool _isPush;
 
-        public bool isPushing
+        public bool IsPushing
         {
             get { return _isPush; }
             set { _isPush = value; }
@@ -75,7 +75,7 @@ namespace PlayGroup
                 if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
                     return new PlayerAction() { keyCodes = actionKeys.ToArray() };
 
-                if (Input.GetKey(keyCodes[i]) && allowInput && !isPushing)
+                if (Input.GetKey(keyCodes[i]) && allowInput && !IsPushing)
                 {
                     actionKeys.Add((int)keyCodes[i]);
                 }
@@ -95,7 +95,6 @@ namespace PlayGroup
             if (adjustedDirection == Vector3.zero)
             {
                 Interact(currentPosition, direction);
-                Interact(currentPosition, Vector3.zero);
             }
 
             return currentPosition + adjustedDirection;
@@ -178,17 +177,16 @@ namespace PlayGroup
             {
                 return direction;
             }
+            
             //Is the current tile restrictive?
+            var newPos = currentPosition + direction;
 
-            var curPos = Vector3Int.RoundToInt(currentPosition);
-            var newPos = curPos + direction;
-
-            if (!matrix.IsPassableAt(curPos, newPos))
+            if (!matrix.IsPassableAt(currentPosition, newPos))
             {
                 return Vector3Int.zero;
             }
 
-            if (matrix.IsPassableAt(newPos)) // || MatrixOld.Matrix.At(currentPosition + direction).ContainsTile(gameObject))
+            if (matrix.IsPassableAt(newPos) || matrix.ContainsAt(newPos, gameObject)) 
             {
                 return direction;
             }
@@ -259,7 +257,10 @@ namespace PlayGroup
 
             var objectActions = matrix.GetFirst<PushPull>(position);
 
-            objectActions?.TryPush(gameObject, speed, direction);
+            if (objectActions && objectActions.gameObject != gameObject)
+            {
+                objectActions.TryPush(gameObject, speed, direction);
+            }
         }
 
         void CheckDoorAccess(IDCard cardID, DoorController doorController)

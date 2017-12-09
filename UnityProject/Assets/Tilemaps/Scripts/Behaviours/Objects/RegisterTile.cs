@@ -1,4 +1,5 @@
-﻿using Tilemaps.Scripts.Behaviours.Layers;
+﻿using System.Collections;
+using Tilemaps.Scripts.Behaviours.Layers;
 using UnityEngine;
 
 namespace Tilemaps.Scripts.Behaviours.Objects
@@ -35,11 +36,20 @@ namespace Tilemaps.Scripts.Behaviours.Objects
         public void Start()
         {
             layer = transform.GetComponentInParent<ObjectLayer>();
+
+            StartCoroutine(WaitForLoad());
+        }
+
+        IEnumerator WaitForLoad()
+        {
+            yield return new WaitForSeconds(2f);
+            
+            layer = transform.GetComponentInParent<ObjectLayer>();
             
             if (layer == null)
             {
                 transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
-                layer = transform.parent.GetComponentInParent<ObjectLayer>();
+                layer = transform.GetComponentInParent<ObjectLayer>();
             }
             
             Register();
