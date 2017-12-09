@@ -12,7 +12,7 @@ os: osx
 cache:
   timeout: 1000
   directories:
-  - $HOME/Applications/unity
+  - /Applications/Unity
 
 # only run builds on pushes to the master branch
 branches:
