@@ -7,7 +7,7 @@ echo "Attempting build of ${UNITYCI_PROJECT_NAME} for Windows"
 	-silent-crashes \
 	-logFile $(pwd)/unity.log \
 	-projectPath "$(pwd)/${UNITYCI_PROJECT_NAME}" \
-	-buildWindows64Player "$(pwd)/Build/windows/${UNITYCI_PROJECT_NAME}.exe" \
+	-buildWindows64Player "$(pwd)/Build/windows/UnityStation-Windows-X64.exe" \
 	-quit
 
 ls -l $(pwd)/Build/windows/
@@ -24,7 +24,7 @@ echo "Attempting build of ${UNITYCI_PROJECT_NAME} for Linux"
 	-silent-crashes \
 	-logFile $(pwd)/unity.log \
 	-projectPath "$(pwd)/${UNITYCI_PROJECT_NAME}" \
-	-buildLinuxUniversalPlayer  "$(pwd)/Build/linux/${UNITYCI_PROJECT_NAME}.bin" \
+	-buildLinuxUniversalPlayer  "$(pwd)/Build/linux/UnityStation-Linux.bin" \
 	-quit
 
 ls -l $(pwd)/Build/linux/

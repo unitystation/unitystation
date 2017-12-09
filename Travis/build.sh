@@ -32,7 +32,7 @@ echo "Attempting build of ${UNITYCI_PROJECT_NAME} for OSX"
 	-silent-crashes \
 	-logFile $(pwd)/unity.log \
 	-projectPath "$(pwd)/${UNITYCI_PROJECT_NAME}" \
-	-buildOSXUniversalPlayer "$(pwd)/Build/osx/${UNITYCI_PROJECT_NAME}.app" \
+	-buildOSXUniversalPlayer "$(pwd)/Build/osx/UnityStation-OSX.app" \
 	-quit
 
 ls -l $(pwd)/Build/osx/

@@ -1,52 +1,44 @@
-
-# do not install anything extra onto the image
 language: generic
-
 git:
   depth: 5
   submodules: false
-
-# use a Mac OSX image
 os: osx
-
 cache:
   timeout: 1000
   directories:
-  - /Applications/Unity
-  - /Users/Travis/Library/Unity
-  - /Users/Travis/Library/Preferences/Unity
+  - "/Applications/Unity"
+  - "/Users/Travis/Library/Unity"
+  - "/Users/Travis/Library/Preferences/Unity"
 
-# only run builds on pushes to the master branch
 branches:
   only:
   - Develop
   - TravisCI
 
-# send email notifications when the build changes from succeeding to broken
 notifications:
   email:
     on_success: never
     on_failure: never
-
-# decrypt the encrypted SSH key file so it can be used for scp auth in post_build.sh
-#before_install:
-#- openssl aes-256-cbc -k "$KEYFILE_PASS" -in "${UPLOAD_KEYPATH}.enc" -out "${UPLOAD_KEYPATH}" -d
-
-# run the script to download and install Unity editor
-#install: travis_wait 30 sudo -E sh ./Travis/upgrade.sh
-
 jobs:
   include:
-    - stage: Testing
-      script: travis_wait 45 sudo -E sh ./Travis/build.sh
-    - # stage name not required, will continue to use `test`
-      script: travis_wait 45 sudo -E sh ./Travis/buildOther.sh
-#    - stage: deploy
-#      script: sudo -E sh ./Travis/post_build.sh
+  - stage: Testing
+    script: travis_wait 45 sudo -E sh ./Travis/build.sh
+  - script: travis_wait 45 sudo -E sh ./Travis/buildOther.sh
 
-
-# environment variables used in bash scripts
 env:
   global:
   - UNITYCI_PROJECT_NAME="UnityProject"
   - UPLOAD_KEYPATH="./Travis/upload"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: MQ5wYVmBIskGabr5y+OgbrZ6Au0UQUiW+u5oGXpDHwbxO+5oWpEGcKho98XLJlHSi5dazxjUq1idpvW9ilCMA7x4bPSlnS5FBvFG17S8JAdGVHmIGNkeGBU6llr0i074DUEV0AA37QeoUm+0jk+ql6CIocIdEKMPIJo5tksM5bOSAhSw7L/leYl4LFWr1krYQtPiAZ1igVMhSTXgE/jssLDXpNCd80klM2BKsQCtR9AXE1akBi1HzAR3SdQ0gqwQMADVFQiZ+zv87im0kzdFu5h5ugXIdddMhAwIvWerPACpH7bAPOHiMvCJboPpOKs+wkkGKfS05zLNSskJxhVavOxHvX3LEvAFaLZ/qY75dP3xYCydX2u6/uTAGpBB6h/sFlnhjIC9wD205UGW6d3a7qVJqBncfVAAEQ88ZAfTCtdyVn5zbTqAo8dD0YDmI9ThoBm4DQc5EN9w1RBakdmm4Snstlo3DmWfJZkp3lW/k3DJHpAet/OxaVomEHPEdFt4cZYhfmGcHgHGCm70BMsYzGRQyFJ68njUMvlRhUj3WRpxo8CIFaNUafYDybsg4vcDSfFmKK+zLFqPVyfZ+xs7O7hIb/1GiiCdQwt78HmLX7VoLGfRQXKP0Vsi+drLlHXpWuAb/IaKcISk7wQMP/lXjV+E6FCtGvKDlvjmjH3Vvi0=
+  file: 
+  - Build/osx/UnityStation-OSX.app
+  - Build/windows/UnityStation-Windows-X64.exe
+  - Build/linux/UnityStation-Linux.bin
+  on:
+    repo: Ornias1993/unitystation
+    branch: TravisCI
+    tags: true
