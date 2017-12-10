@@ -197,12 +197,8 @@ namespace PlayGroup
                     PlayerList.Instance.UpdateKillScore(LastDamagedBy);
 					PostToChatMessage.Send(LastDamagedBy + " has killed " + gameObject.name, ChatChannel.System); //Killfeed
                 }
-				var currentSlot = UI.UIManager.Hands.CurrentSlot;
-				var otherSlot = UI.UIManager.Hands.OtherSlot;
-				currentSlot.Clear();
-				otherSlot.Clear ();
-				playerNetworkActions.ValidateDropItem(currentSlot.eventName, true);
-				playerNetworkActions.ValidateDropItem(otherSlot.eventName, true);
+				playerNetworkActions.ValidateDropItem("rightHand", true);
+				playerNetworkActions.ValidateDropItem("leftHand", true);
 
                 if (isServer)
                     EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.large);

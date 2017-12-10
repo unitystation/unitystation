@@ -39,7 +39,14 @@ namespace Tilemaps.Scripts.Behaviours.Objects
             
             if (layer == null)
             {
-                transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
+                GameObject tempParent = GameObject.FindGameObjectWithTag("SpawnParent");
+				//FIXME: Still issues with init for registering objects. Sometimes SpawnParent tag cannot be found
+				// Suggestion: Move to a Matrix Manager system
+				if(tempParent != null){
+					transform.parent = tempParent.transform;
+				} else {
+					Debug.LogError("GameObject: " + gameObject.name + " could not find the matrix");
+				}
                 layer = transform.GetComponentInParent<ObjectLayer>();
             }
             
