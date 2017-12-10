@@ -35,25 +35,21 @@ namespace PlayGroup
 
         public JobType JobType = JobType.NULL;
 
-		public GameObject ghost;
+        public GameObject ghost;
 
         private float pingUpdate = 0f;
 
-		private ChatChannel selectedChannels;
+        private ChatChannel selectedChannels;
 
-        [SyncVar(hook = "OnNameChange")]
-        public string playerName = " ";
+        [SyncVar(hook = "OnNameChange")] public string playerName = " ";
 
-		public ChatChannel SelectedChannels
-		{
-			get
-			{
-				return selectedChannels & GetAvailableChannels();
-			}
-			set { this.selectedChannels = value; }
-		}
+        public ChatChannel SelectedChannels
+        {
+            get { return selectedChannels & GetAvailableChannels(); }
+            set { this.selectedChannels = value; }
+        }
 
-		public override void OnStartClient()
+        public override void OnStartClient()
         {
             //Local player is set a frame or two after OnStartClient
             StartCoroutine(WaitForLoad());
@@ -94,7 +90,8 @@ namespace PlayGroup
 
         void Init()
         {
-            if (isLocalPlayer) {
+            if (isLocalPlayer)
+            {
                 UIManager.ResetAllUI();
                 UIManager.DisplayManager.SetCameraFollowPos();
                 int rA = UnityEngine.Random.Range(0, 3);
@@ -119,13 +116,18 @@ namespace PlayGroup
                     CmdSetNameManual(PlayerManager.PlayerNameCache);
                 }
 
-                PlayerManager.SetPlayerForControl(this.gameObject);
+                PlayerManager.SetPlayerForControl(gameObject);
 
-                // I (client) have connected to the server, ask what my job preference is
-                UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
+                if (PlayerManager.LocalPlayerScript.JobType == JobType.NULL)
+                {
+                    // I (client) have connected to the server, ask what my job preference is
+                    UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
+                }
 
-				SelectedChannels = ChatChannel.OOC;
-			} else if (isServer) {
+                SelectedChannels = ChatChannel.OOC;
+            }
+            else if (isServer)
+            {
                 playerMove = GetComponent<PlayerMove>();
             }
         }
@@ -208,45 +210,50 @@ namespace PlayGroup
 			return DistanceTo(position) <= interactDist;
         }
 
-		public ChatChannel GetAvailableChannels(bool transmitOnly = true)
-		{
-			//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
-			ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
+        public ChatChannel GetAvailableChannels(bool transmitOnly = true)
+        {
+            //TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
+            ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
 
-			/*GameObject headset = UIManager.InventorySlots.EarSlot.Item;
-			if(headset) {
-				EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
-				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
-			}*/
-			ChatChannel receiveChannels = (ChatChannel.Examine | ChatChannel.System);
+            /*GameObject headset = UIManager.InventorySlots.EarSlot.Item;
+            if(headset) {
+                EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
+                transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+            }*/
+            ChatChannel receiveChannels = (ChatChannel.Examine | ChatChannel.System);
 
-			if (transmitOnly) {
-				return transmitChannels;
-			} else {
-				return transmitChannels | receiveChannels;
-			}
-		}
+            if (transmitOnly)
+            {
+                return transmitChannels;
+            }
+            else
+            {
+                return transmitChannels | receiveChannels;
+            }
+        }
 
-		public ChatModifier GetCurrentChatModifiers()
-		{
-			//TODO add missing modifiers
-			ChatModifier modifiers = ChatModifier.Drunk;
+        public ChatModifier GetCurrentChatModifiers()
+        {
+            //TODO add missing modifiers
+            ChatModifier modifiers = ChatModifier.Drunk;
 
-			if (JobType == JobType.CLOWN) {
-				modifiers |= ChatModifier.Clown;
-			}
+            if (JobType == JobType.CLOWN)
+            {
+                modifiers |= ChatModifier.Clown;
+            }
 
-			return modifiers;
-		}
-    
-    //Tooltips inspector bar
-    public void OnMouseEnter()
-    {
-        UI.UIManager.SetToolTip = this.name;
+            return modifiers;
+        }
+
+        //Tooltips inspector bar
+        public void OnMouseEnter()
+        {
+            UI.UIManager.SetToolTip = this.name;
+        }
+
+        public void OnMouseExit()
+        {
+            UI.UIManager.SetToolTip = "";
+        }
     }
-    public void OnMouseExit()
-    {
-        UI.UIManager.SetToolTip = "";
-    }
-	}
 }

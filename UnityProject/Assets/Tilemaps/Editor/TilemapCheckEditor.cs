@@ -2,6 +2,7 @@
 using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours;
 using Tilemaps.Scripts.Behaviours.Layers;
+using Tilemaps.Scripts.Tiles;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,6 +18,9 @@ namespace Tilemaps.Editor
         private static bool south;
 
         private static bool space;
+
+        private static bool corners;
+        private static bool room;
 
         private SceneView currentSceneView;
 
@@ -49,6 +53,8 @@ namespace Tilemaps.Editor
             north = GUILayout.Toggle(north, "From North");
             south = GUILayout.Toggle(south, "From South");
             space = GUILayout.Toggle(space, "Is Space");
+            corners = GUILayout.Toggle(corners, "Show Corners");
+            room = GUILayout.Toggle(room, "Show Room");
 
             if (currentSceneView)
                 currentSceneView.Repaint();
@@ -81,47 +87,154 @@ namespace Tilemaps.Editor
             var red = Color.red;
             red.a = 0.5f;
 
-            foreach (var position in new BoundsInt(start, end - start).allPositionsWithin)
+            var green = Color.green;
+            red.a = 0.5f;
+
+            if (room)
             {
-                if (!space)
+                DrawRoom(scr);
+            }
+            else
+            {
+                foreach (var position in new BoundsInt(start, end - start).allPositionsWithin)
                 {
-                    Gizmos.color = blue;
-                    if (passable)
+                    if (space)
                     {
-                        if (north)
+                        if (scr.IsSpaceAt(position))
                         {
-                            if (!scr.IsPassableAt(position + Vector3Int.up, position))
-                            {
-                                Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
-                            }
-                        }
-                        else if (south)
-                        {
-                            if (!scr.IsPassableAt(position + Vector3Int.down, position))
-                            {
-                                Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
-                            }
-                        }
-                        else if (!scr.IsPassableAt(position))
-                        {
+                            Gizmos.color = red;
                             Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
                         }
                     }
                     else
                     {
-                        if (!scr.IsAtmosPassableAt(position))
+                        if (corners)
                         {
-                            Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+                            if (scr.HasTile(position, LayerType.Walls))
+                            {
+                                Gizmos.color = green;
+
+                                var corner_count = 0;
+                                foreach (var pos in new[] {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right, Vector3Int.up})
+                                {
+                                    if (!scr.HasTile(position + pos, LayerType.Walls))
+                                    {
+                                        corner_count++;
+                                    }
+                                    else
+                                    {
+                                        corner_count = 0;
+                                    }
+
+                                    if (corner_count > 1)
+                                    {
+                                        Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Gizmos.color = blue;
+                            if (passable)
+                            {
+                                if (north)
+                                {
+                                    if (!scr.IsPassableAt(position + Vector3Int.up, position))
+                                    {
+                                        Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+                                    }
+                                }
+                                else if (south)
+                                {
+                                    if (!scr.IsPassableAt(position + Vector3Int.down, position))
+                                    {
+                                        Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+                                    }
+                                }
+                                else if (!scr.IsPassableAt(position))
+                                {
+                                    Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+                                }
+                            }
+                            else
+                            {
+                                if (!scr.IsAtmosPassableAt(position))
+                                {
+                                    Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+                                }
+                            }
                         }
                     }
                 }
-                else
+            }
+        }
+
+        
+        private static List<HashSet<Vector3Int>> rooms = new List<HashSet<Vector3Int>>();
+        
+        private static HashSet<Vector3Int> currentRoom;
+
+        private static void DrawRoom(MetaTileMap metaTileMap)
+        {
+            var mousePos = Vector3Int.RoundToInt(HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin);
+            mousePos -= Vector3Int.one;
+            mousePos.z = 0;
+
+            if (currentRoom == null || !currentRoom.Contains(mousePos))
+            {
+                currentRoom = rooms.Find(x => x.Contains(mousePos));
+
+                if (currentRoom == null)
                 {
-                    if (scr.IsSpaceAt(position))
+                    if (metaTileMap.IsAtmosPassableAt(mousePos) && !metaTileMap.IsSpaceAt(mousePos))
                     {
-                        Gizmos.color = red;
-                        Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+                        currentRoom = new HashSet<Vector3Int>();
+
+                        var posToCheck = new Queue<Vector3Int>();
+                        posToCheck.Enqueue(mousePos);
+    
+                        while (posToCheck.Count > 0)
+                        {
+                            var pos = posToCheck.Dequeue();
+                            currentRoom.Add(pos);
+    
+                            foreach (var dir in new[] {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right})
+                            {
+                                var neighbor = pos + dir;
+    
+                                if (!posToCheck.Contains(neighbor) && !currentRoom.Contains(neighbor))
+                                {
+                                    if (metaTileMap.IsSpaceAt(neighbor))
+                                    {
+                                        currentRoom.Clear();
+                                        posToCheck.Clear();
+                                        break;
+                                    }
+                                    
+                                    if (metaTileMap.IsAtmosPassableAt(neighbor))
+                                    {
+                                        posToCheck.Enqueue(neighbor);
+                                    }
+                                }
+                            }
+                        }
+                    
+                        rooms.Add(currentRoom);
                     }
+                }
+            }
+
+            if (currentRoom != null)
+            {
+                var color = Color.cyan;
+                color.a = 0.5f;
+                Gizmos.color = color;
+
+                foreach (var pos in currentRoom)
+                {
+                    Gizmos.DrawCube(pos + new Vector3(0.5f, 0.5f, 0), Vector3.one);
                 }
             }
         }

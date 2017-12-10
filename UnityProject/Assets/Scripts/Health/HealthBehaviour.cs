@@ -22,9 +22,6 @@ public abstract class HealthBehaviour : NetworkBehaviour
         }
 
         Health = initialHealth;
-        //        Dead = false;
-        //        Crit = false;
-        ConsciousState = ConsciousState.CONSCIOUS;
     }
 
     public int Health { get; private set; }
@@ -51,7 +48,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
     }
 
     private string lastDamagedBy = "stressful work";
-    public ConsciousState ConsciousState;
+    public ConsciousState ConsciousState { get; protected set; }
 
     //be careful with falses, will make player conscious
     public bool IsCrit
@@ -71,7 +68,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
     public void RpcApplyDamage(string damagedBy, int damage,
                                   DamageType damageType, BodyPartType bodyPartAim)
     {
-        if (isServer || !isNPC)
+        if (isServer || !isNPC || IsDead)
             return;
         ApplyDamage(damagedBy, damage, damageType, bodyPartAim);
     }

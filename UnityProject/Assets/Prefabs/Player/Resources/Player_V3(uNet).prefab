@@ -1103,7 +1103,6 @@ MonoBehaviour:
   maxHealth: 100
   isNPC: 0
   allowKnifeHarvest: 0
-  ConsciousState: 0
   BodyParts:
   - {fileID: 114457795912083674}
   - {fileID: 114316649585772562}
@@ -1112,7 +1111,6 @@ MonoBehaviour:
   - {fileID: 114645575864574208}
   - {fileID: 114626459693876662}
   BloodLevel: 560
-  playerNetworkActions: {fileID: 114390575568471296}
 --- !u!114 &114176283518884694
 MonoBehaviour:
   m_ObjectHideFlags: 1

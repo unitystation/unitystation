@@ -20,7 +20,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 {
     private Dictionary<string, GameObject> _inventory = new Dictionary<string, GameObject>();
 
-    private string[] slotNames = {
+    private string[] slotNames =
+    {
         "suit", "belt", "feet", "head", "mask", "uniform", "neck", "ear", "eyes", "hands",
         "id", "back", "rightHand", "leftHand", "storage01", "storage02", "suitStorage"
     };
@@ -79,16 +80,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         return true;
     }
 
-	[Server]
-	public void PlaceInSlot(GameObject item, string slotName)
-	{
-		UIManager.InventorySlots.GetSlotByEvent(slotName).SetItem(item);
-	}
+    [Server]
+    public void PlaceInSlot(GameObject item, string slotName)
+    {
+        UIManager.InventorySlots.GetSlotByEvent(slotName).SetItem(item);
+    }
 
     void PlaceInHand(GameObject item)
     {
         UIManager.Hands.CurrentSlot.SetItem(item);
     }
+
     //This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
     //TODO make these private(make some public child-aware high level methods instead):
     [Server]
@@ -96,6 +98,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     {
         EquipmentPool.DropGameObject(gameObject, obj);
     }
+
     [Server]
     public void AddToEquipmentPool(GameObject obj)
     {
@@ -189,8 +192,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
                 if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset"))
                 {
                     // Debug.Log("slotName = " + slotName);
-                    Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
-                    equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
+                    Epos enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
+                    equipment.syncEquipSprites[(int) enumA] = att.clothingReference;
                 }
             }
         }
@@ -208,7 +211,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
     //Dropping from a slot on the UI
     [Server]
-    public bool ValidateDropItem(string slot, bool forceClientInform/* = false*/)
+    public bool ValidateDropItem(string slot, bool forceClientInform /* = false*/)
     {
         //decline if not dropped from hands?
         if (_inventory.ContainsKey(slot) && _inventory[slot])
@@ -266,7 +269,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
 
-
     [Command]
     public void CmdStartMicrowave(GameObject microwave, string mealName)
     {
@@ -283,7 +285,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             return;
 
         playerScript.JobType = GameManager.Instance.GetRandomFreeOccupation(jobType);
-        StartCoroutine(equipment.SetPlayerLoadOuts());
+
+        RespawnPlayer();
     }
 
     [Command]
@@ -309,7 +312,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
     [Command]
     public void CmdToggleFireCabinet(GameObject cabObj, bool forItemInteract,
-                                    string currentSlotName)
+        string currentSlotName)
     {
         FireCabinetTrigger c = cabObj.GetComponent<FireCabinetTrigger>();
 
@@ -334,7 +337,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
                     c.storedObject.visibleState = true;
                     c.storedObject = null;
                 }
-
             }
             else
             {
@@ -372,7 +374,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
     }
 
-	[Command]
+    [Command]
     public void CmdToggleChatIcon(bool turnOn)
     {
         RpcToggleChatIcon(turnOn);
@@ -426,14 +428,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             SoundManager.Stop("Critstate");
             Camera2DFollow.followControl.target = playerScript.ghost.transform;
             var fovScript = GetComponent<FieldOfView>();
-			if (fovScript != null) {
-				fovScript.enabled = false;
-			}
-			//Show ghosts and hide FieldOfView
-			Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("Ghosts"));
-			Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("FieldOfView"));
+            if (fovScript != null)
+            {
+                fovScript.enabled = false;
+            }
+            //Show ghosts and hide FieldOfView
+            Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("Ghosts"));
+            Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("FieldOfView"));
         }
-
     }
 
 
@@ -442,31 +444,30 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Server]
     public void RespawnPlayer(int timeout = 0)
     {
-        StartCoroutine(initiateRespawn(timeout));
+        StartCoroutine(InitiateRespawn(timeout));
     }
 
     [Server]
-    private IEnumerator initiateRespawn(int timeout)
+    private IEnumerator InitiateRespawn(int timeout)
     {
         Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
         yield return new WaitForSeconds(timeout);
         RpcAdjustForRespawn();
-        var spawn = CustomNetworkManager.Instance.GetStartPosition();
-        var newPlayer =
-            Instantiate(CustomNetworkManager.Instance.playerPrefab, spawn.position, spawn.rotation);
-        //		NetworkServer.Destroy( this.gameObject );
+
         EquipmentPool.ClearPool(gameObject.name);
-        PlayerList.Instance.connectedPlayers[gameObject.name] = newPlayer;
-        NetworkServer.ReplacePlayerForConnection(connectionToClient, newPlayer, playerControllerId);
+
+        PlayerList.Instance.RemovePlayer(gameObject.name);
+
+        SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType);
     }
 
     [ClientRpc]
     private void RpcAdjustForRespawn()
     {
         playerScript.ghost.SetActive(false);
-		//Hide ghosts and show FieldOfView
-		Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-		Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("FieldOfView"));
+        //Hide ghosts and show FieldOfView
+        Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+        Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("FieldOfView"));
         gameObject.GetComponent<InputController>().enabled = false;
     }
 
@@ -490,11 +491,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     {
         door.GetComponent<DoorController>().CmdTryOpen(gameObject);
     }
+
     [Command]
     public void CmdTryCloseDoor(GameObject door)
     {
         door.GetComponent<DoorController>().CmdTryClose();
     }
+
     [Command]
     public void CmdRestrictDoorDenied(GameObject door)
     {
