@@ -181,13 +181,13 @@ public abstract class HealthBehaviour : NetworkBehaviour
                 if (ConsciousState != ConsciousState.DEAD)
                 {
                     var lps = PlayerManager.LocalPlayerScript;
-                    lps.weaponNetworkActions.CmdKnifeAttackMob(gameObject, dir, UIManager.DamageZone/*PlayerScript.SelectedDamageZone*/);
+                    lps.weaponNetworkActions.CmdKnifeAttackMob(gameObject,UIManager.Hands.CurrentSlot.Item, dir, UIManager.DamageZone/*PlayerScript.SelectedDamageZone*/);
                 }
                 else
                 {
                     if (allowKnifeHarvest)
                     {
-                        PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeHarvestMob(this.gameObject, dir);
+                        PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeHarvestMob(this.gameObject,UIManager.Hands.CurrentSlot.Item, dir);
                         allowKnifeHarvest = false;
                     }
                 }
