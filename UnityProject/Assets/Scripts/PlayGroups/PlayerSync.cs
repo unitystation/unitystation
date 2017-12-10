@@ -29,6 +29,7 @@ namespace PlayGroup
         private PlayerSprites playerSprites;
         private RegisterTile registerTile;
         private Queue<PlayerAction> pendingActions;
+        private HealthBehaviour healthBehaviorScript;
 
         [SyncVar]
         private PlayerState serverStateCache; //used to sync with new players
@@ -131,6 +132,7 @@ namespace PlayGroup
             }
             playerScript = GetComponent<PlayerScript>();
             playerSprites = GetComponent<PlayerSprites>();
+            healthBehaviorScript = GetComponent<HealthBehaviour>();
             registerTile = GetComponent<RegisterTile>();
             pushPull = GetComponent<PushPull>();
             matrix = Matrix.GetMatrix(this);
@@ -354,6 +356,10 @@ namespace PlayGroup
                 var newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
                 serverState.Position = newGoal;
                 predictedState.Position = newGoal;
+                if (!healthBehaviorScript.IsDead)
+                {
+                    healthBehaviorScript.ApplyDamage(gameObject.name, 1, DamageType.OXY, BodyPartType.HEAD);
+                }
             }
         }
     }
