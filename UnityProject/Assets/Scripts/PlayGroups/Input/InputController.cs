@@ -6,6 +6,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
+using Tilemaps.Scripts.Tiles;
 
 namespace PlayGroups.Input
 {
@@ -80,12 +81,14 @@ namespace PlayGroups.Input
 			if (UnityEngine.Input.GetMouseButtonDown(0) && (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt))) {
 				//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
 				var position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+				position.z = 0f;
 				if(PlayerManager.LocalPlayerScript.IsInReach(position)) {
-					List<GameObject> tiles = UITileList.GetItemsAtPosition(position);
-					ControlTabs.ShowItemListTab(tiles);
-					}
+					List<GameObject> objects = UITileList.GetItemsAtPosition(position);
+					LayerTile tile = UITileList.GetTileAtPosition(position);
+					ControlTabs.ShowItemListTab(objects, tile, position);
 				}
 			}
+		}
 
         private void ChangeDirection()
         {

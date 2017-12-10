@@ -58,7 +58,7 @@ public class PushPull : VisibleBehaviour
     {
         // PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null condition makes sure that the player itself
         // isn't being pulled. If he is then he is not allowed to pull anything else as this can cause problems
-        if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform)
+        if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform.position)
             && transform != PlayerManager.LocalPlayerScript.transform
             && PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null)
         {

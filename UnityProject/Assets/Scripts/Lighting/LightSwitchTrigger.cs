@@ -56,7 +56,7 @@ namespace Lighting
 
         public override void Interact(GameObject originator, Vector3 position, string hand)
         {
-            if (!PlayerManager.LocalPlayerScript.IsInReach(position, 1.4f))
+            if (!PlayerManager.LocalPlayerScript.IsInReach(position))
                 return;
 
             if (switchCoolDown)

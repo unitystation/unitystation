@@ -10,7 +10,10 @@ namespace PlayGroup
     public class PlayerScript : ManagedNetworkBehaviour
     {
         // the maximum distance the player needs to be to an object to interact with it
-        public const float interactionDistance = 1.5f;
+		//1.75 is the optimal distance to now have any direction click too far
+		//NOTE FOR ANYONE EDITING THIS IN THE FUTURE: Character's head is slightly below the top of the tile
+		//hence top reach is slightly lowered than bottom reach, where the legs go exactly to the bottom of the tile.
+        public const float interactionDistance = 1.75f;
 
         public PlayerNetworkActions playerNetworkActions { get; set; }
 
@@ -177,21 +180,14 @@ namespace PlayGroup
 
         public float DistanceTo(Vector3 position)
         {
-            return (transform.position - position).magnitude;
-        }
-		/// <summary>
-		/// Checks if the player is within reach of something
-		/// </summary>
-		/// <param name="transform">The transform of whatever we are trying to reach</param>
-		/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
-
-        public bool IsInReach(Transform transform, float interactDist = interactionDistance)
-        {
-            //if(pickUpCoolDown)
-            //    return false;
-            //StartCoroutine(PickUpCooldown());
-            //TODO: reimplement this timer higher up like in the InputController
-            return DistanceTo(transform.position) <= interactDist;
+			//Because characters are taller than they are wider, their reach upwards/downards was greater
+			//Flooring that shit fixes it
+			Vector3Int pos = new Vector3Int(
+				Mathf.FloorToInt(transform.position.x),
+				Mathf.FloorToInt(transform.position.y),
+				Mathf.FloorToInt(transform.position.z)
+			);
+            return (pos - position).magnitude;
         }
 
         /// <summary>
@@ -201,7 +197,15 @@ namespace PlayGroup
         /// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
         public bool IsInReach(Vector3 position, float interactDist = interactionDistance)
         {
-            return DistanceTo(position) <= interactDist;
+			//If click is in diagonal direction, extend reach slightly
+			float distanceX = Mathf.FloorToInt(Mathf.Abs(transform.position.x - position.x));
+			float distanceY = Mathf.FloorToInt(Mathf.Abs(transform.position.y - position.y));
+			if(distanceX == 1 && distanceY == 1) {
+				return DistanceTo(position) <= interactDist + 0.4f;
+			}
+
+			//if cardinal direction, use regular reach
+			return DistanceTo(position) <= interactDist;
         }
 
 		public ChatChannel GetAvailableChannels(bool transmitOnly = true)
