@@ -255,12 +255,15 @@ namespace PlayGroup
                 }
             }
 
-            var objectActions = matrix.GetFirst<PushPull>(position);
-
-            if (objectActions && objectActions.gameObject != gameObject)
-            {
-                objectActions.TryPush(gameObject, speed, direction);
-            }
+			//Is the object pushable (iterate through all of the objects at the position):
+			IEnumerable<PushPull> pushPulls = pushPulls = matrix.Get<PushPull>(position);
+			if(pushPulls.Count() > 0){
+				foreach(PushPull moveable in pushPulls){
+					if(moveable.gameObject != gameObject){
+						moveable.TryPush(gameObject, speed, direction);
+					}
+				}
+			}
         }
 
         void CheckDoorAccess(IDCard cardID, DoorController doorController)
