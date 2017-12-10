@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using InputControl;
+using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -9,6 +10,7 @@ using UnityEngine.Networking;
 public class InteractMessage : ClientMessage<InteractMessage>
 {
     public byte Hand;
+    public Vector3 Position;
     public NetworkInstanceId Subject;
 
 
@@ -19,14 +21,20 @@ public class InteractMessage : ClientMessage<InteractMessage>
 
         yield return WaitFor(Subject, SentBy);
 
-        NetworkObjects[0].GetComponent<InputTrigger>().Interact(NetworkObjects[1], decodeHand(Hand));
+        NetworkObjects[0].GetComponent<InputTrigger>().Interact(NetworkObjects[1], Position, decodeHand(Hand));
     }
 
     public static InteractMessage Send(GameObject subject, string hand)
     {
+        return Send(subject, subject.transform.position, hand);
+    }
+
+    public static InteractMessage Send(GameObject subject, Vector3 position, string hand)
+    {
         var msg = new InteractMessage
         {
             Subject = subject.GetComponent<NetworkIdentity>().netId,
+            Position = position,
             Hand = encodeHand(hand)
         };
         msg.Send();
@@ -65,6 +73,7 @@ public class InteractMessage : ClientMessage<InteractMessage>
     {
         base.Deserialize(reader);
         Hand = reader.ReadByte();
+        Position = reader.ReadVector3();
         Subject = reader.ReadNetworkId();
 
     }
@@ -73,6 +82,7 @@ public class InteractMessage : ClientMessage<InteractMessage>
     {
         base.Serialize(writer);
         writer.Write(Hand);
+        writer.Write(Position);
         writer.Write(Subject);
     }
 }

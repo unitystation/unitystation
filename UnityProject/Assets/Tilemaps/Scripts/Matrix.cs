@@ -10,17 +10,6 @@ using UnityEngine;
 
 namespace Tilemaps.Scripts
 {
-    public enum TileType
-    {
-        All,
-        Door,
-        Wall,
-        Window,
-        Floor,
-        Item,
-        Player
-    }
-
     public class Matrix : MonoBehaviour
     {
         public static Matrix GetMatrix(MonoBehaviour behaviour)
@@ -30,8 +19,12 @@ namespace Tilemaps.Scripts
             if (matrix == null)
             {
                 behaviour.transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
+                matrix = behaviour.transform.parent.GetComponentInParent<Matrix>();
             }
-            
+            if(matrix == null){
+                Debug.LogError("Matrix still null for: " + behaviour.gameObject.name +
+                               " with parent: " + behaviour.transform.parent.name);
+            }
             return matrix;
         }
 

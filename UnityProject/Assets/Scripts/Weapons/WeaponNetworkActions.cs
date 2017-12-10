@@ -3,6 +3,7 @@ using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
 using Weapons;
+using UI;
 
 public class WeaponNetworkActions : ManagedNetworkBehaviour
 {
@@ -12,7 +13,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
     private SoundNetworkActions soundNetworkActions;
     public GameObject muzzleFlash;
 
-    //Lerp parameters
+	//Lerp parameters
+	private Sprite lerpSprite;
     private float lerpProgress = 0f;
     private bool lerping = false;
     private Vector3 lerpFrom;
@@ -28,6 +30,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
         spritesObj = transform.Find("Sprites").gameObject;
         playerMove = GetComponent<PlayerMove>();
         soundNetworkActions = GetComponent<SoundNetworkActions>();
+		lerpSprite = null;
     }
 
     [Command]
@@ -118,6 +121,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
         }
     }
 
+	//TODO move to network messages
+	//TODO make it detect the type of weapon used, change code accordingly
     [Command]//TODO fixme ghetto proof-of-concept
     public void CmdKnifeAttackMob(GameObject npcObj, Vector2 stabDirection, BodyPartType damageZone)
     {
@@ -126,7 +131,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
         if (npcObj != gameObject)
         {
-            RpcKnifeAttackLerp(stabDirection);
+            RpcMeleAttackLerp(stabDirection);
         }
         var healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
         healthBehaviour
@@ -145,7 +150,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
     //
     //        Living attackTarget = npcObj.GetComponent<Living>();
     //        if(npcObj != gameObject) {
-    //            RpcKnifeAttackLerp(stabDirection);
+    //            RpcMeleAttackLerp(stabDirection);
     //        }
     //        attackTarget.RpcReceiveDamage(gameObject.name, 20, DamageType.BRUTE, BodyPartType.CHEST);
     //        BloodSplat(npcObj.transform.position, BloodSplatSize.medium);
@@ -171,22 +176,30 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
             return;
 
         SimpleAnimal attackTarget = npcObj.GetComponent<SimpleAnimal>();
-        RpcKnifeAttackLerp(stabDirection);
+        RpcMeleAttackLerp(stabDirection);
         attackTarget.Harvest();
         soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
     }
 
     [ClientRpc]
-    void RpcKnifeAttackLerp(Vector2 stabDir)
+    void RpcMeleAttackLerp(Vector2 stabDir)
     {
-        if (lerping)
-            return;
+        if (lerping) {
+			return;
+		}
 
-        if (PlayerManager.LocalPlayer.name == gameObject.name)
-        {
-            PlayerManager.LocalPlayerScript.hitIcon.ShowHitIcon(stabDir);
-            PlayerManager.LocalPlayerScript.playerMove.allowInput = false;
-        }
+		if (PlayerManager.LocalPlayer.name == gameObject.name) {
+			GameObject item = UIManager.Hands.CurrentSlot.Item;
+			if (item && lerpSprite == null) {
+				SpriteRenderer spriteRenderer = item.GetComponentInChildren<SpriteRenderer>();
+				lerpSprite = spriteRenderer.sprite;
+			}
+
+			if (lerpSprite != null) {
+				PlayerManager.LocalPlayerScript.hitIcon.ShowHitIcon(stabDir, lerpSprite);
+				PlayerManager.LocalPlayerScript.playerMove.allowInput = false;
+			}
+		}
         lerpFrom = transform.position;
         Vector3 newDir = stabDir * 0.5f;
         newDir.z = lerpFrom.z;
@@ -231,6 +244,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
         lerpProgress = 0f;
         lerping = false;
         isForLerpBack = false;
+		lerpSprite = null;
     }
 
     #region Weapon Network Supporting Methods

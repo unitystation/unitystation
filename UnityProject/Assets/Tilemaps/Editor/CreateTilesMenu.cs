@@ -35,7 +35,7 @@ namespace Tilemaps.Editor
         [MenuItem("Assets/Create/Tiles/Wall", false, 0)]
         public static void CreateWallConnected()
         {
-            var tile = TileBuilder.CreateTile<ConnectedTile>(LayerType.Structures);
+            var tile = TileBuilder.CreateTile<ConnectedTile>(LayerType.Walls);
             tile.texturePath = "Walls";
             tile.connectCategory = ConnectCategory.Walls;
             tile.connectType = ConnectType.ToSameCategory;
@@ -46,7 +46,7 @@ namespace Tilemaps.Editor
         [MenuItem("Assets/Create/Tiles/Window", false, 0)]
         public static void CreateWindow()
         {
-            var tile = TileBuilder.CreateTile<ConnectedTile>(LayerType.Structures);
+            var tile = TileBuilder.CreateTile<ConnectedTile>(LayerType.Windows);
             tile.texturePath = "Windows";
             tile.connectCategory = ConnectCategory.Windows;
             tile.connectType = ConnectType.ToSameCategory;

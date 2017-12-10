@@ -8,7 +8,7 @@ using Tilemaps.Scripts.Behaviours.Objects;
 /// Toggles the active state of the object by gathering all components and setting
 /// their active state. It ignores network components so item can be synced
 /// </summary>
-public class VisibleBehaviour : ManagedNetworkBehaviour
+public class VisibleBehaviour : NetworkBehaviour
 {
 
     /// <summary>
@@ -28,9 +28,8 @@ public class VisibleBehaviour : ManagedNetworkBehaviour
     private const string inputController = "InputController";
     private const string playerSync = "PlayerSync";
 
-    protected override void Awake()
+    protected virtual void Awake()
     {
-        base.Awake();
         registerTile = GetComponent<RegisterTile>();
     }
     public override void OnStartClient()

@@ -33,7 +33,7 @@ public class ChatRelay : NetworkBehaviour
 		RefreshLog();
 		chatColors = new Dictionary<ChatChannel, string>() {
 			{ChatChannel.Binary, "#ff00ff"},
-			{ChatChannel.Cargo, "#a8732b"},
+			{ChatChannel.Supply, "#a8732b"},
 			{ChatChannel.CentComm, "#686868"},
 			{ChatChannel.Command, "#204090"},
 			{ChatChannel.Common, "#008000"},
@@ -58,35 +58,35 @@ public class ChatRelay : NetworkBehaviour
 		get { return chatlog; }
 	}
 
-	public void AddToChatLogServer(string message, string sender, ChatChannel channels, ChatModifier modifiers = ChatModifier.None)
+	[Server]
+	public void AddToChatLogServer(ChatEvent chatEvent)
 	{
-		PropagateChatToClients(message, sender, channels);
+		PropagateChatToClients(chatEvent);
 		RefreshLog();
 	}
 
-	public void AddToChatLogClient(string message, string sender, ChatChannel channels, ChatModifier modifiers = ChatModifier.None)
+	[Client]
+	public void AddToChatLogClient(string message, ChatChannel channels)
 	{
-		UpdateClientChat(message, sender, channels, modifiers);
+		UpdateClientChat(message, channels);
 		RefreshLog();
 	}
 
 	[Server]
-	private void PropagateChatToClients(string message, string sender, ChatChannel channels)
+	private void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		PlayerScript[] players = FindObjectsOfType<PlayerScript>();
 
 		foreach(PlayerScript player in players) {
-			if((player.GetAvailableChannels(false) & channels) == channels) {
-				ChatModifier modifiers = player.GetCurrentChatModifiers();
-				UpdateChatMessage.Send(player.gameObject, channels, modifiers, message, sender);
-			}
+			ChatChannel channels = player.GetAvailableChannels(false) & chatEvent.channels;
+			UpdateChatMessage.Send(player.gameObject, channels, chatEvent.message);
 		}
 	}
 
 	[Client]
-	private void UpdateClientChat(string message, string sender, ChatChannel channels, ChatModifier modifiers)
+	private void UpdateClientChat(string message, ChatChannel channels)
 	{
-		ChatEvent chatEvent = new ChatEvent(message, sender, channels, modifiers);
+		ChatEvent chatEvent = new ChatEvent(message, channels, true);
 		chatlog.Add(chatEvent);
 	}
 

@@ -21,7 +21,7 @@ namespace PlayGroup
         public int[] keyCodes;
     }
 
-    public class PlayerSync : ManagedNetworkBehaviour //see UpdateManager
+    public class PlayerSync : NetworkBehaviour
     {
 
         public PlayerMove playerMove;
@@ -35,8 +35,6 @@ namespace PlayGroup
         private PlayerState serverState;
         private PlayerState predictedState;
 
-        //cache
-        private PlayerState state;
         //pull objects
         [SyncVar(hook = "PullReset")]
         public NetworkInstanceId pullObjectID;
@@ -138,8 +136,8 @@ namespace PlayGroup
             matrix = Matrix.GetMatrix(this);
         }
 
-        //managed by UpdateManager
-        public override void UpdateMe()
+
+        void Update()
         {
             if (isLocalPlayer && playerMove != null)
             {
@@ -177,7 +175,6 @@ namespace PlayGroup
             //Registering objects being pulled in matrix
             if (pullRegister != null)
             {
-                Vector3 pos = state.Position - (Vector3)playerSprites.currentDirection;
                 pullRegister.UpdatePosition();
             }
         }
@@ -202,10 +199,10 @@ namespace PlayGroup
 
             if (!playerMove.isGhost)
             {
-                if (isLocalPlayer && playerMove.isPushing || pushPull.pulledBy != null)
+                if (isLocalPlayer && playerMove.IsPushing || pushPull.pulledBy != null)
                     return;
 
-                state = isLocalPlayer ? predictedState : serverState;
+                var state = isLocalPlayer ? predictedState : serverState;
                 transform.localPosition = Vector3.MoveTowards(transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
 
 				//Check if we should still be displaying an ItemListTab and update it, if so.
@@ -228,7 +225,7 @@ namespace PlayGroup
                 }
 
                 //Registering
-                if (registerTile.Position != state.Position)
+                if (registerTile.Position != Vector3Int.RoundToInt(state.Position))
                 {
                     RegisterObjects();
                 }

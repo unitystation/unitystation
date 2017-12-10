@@ -65,15 +65,9 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public override bool IsPassableAt(Vector3Int position)
         {
-            var obj = Objects.GetFirst<RegisterObject>(position);
-
-            if (obj)
-            {
-                return obj.IsPassable();
-            }
-
-            var player = Objects.GetFirst<RegisterPlayer>(position);
-            return player ? player.IsPassable() : base.IsPassableAt(position);
+            var objects = Objects.Get<RegisterTile>(position);
+            
+            return objects.All(x => x.IsPassable()) && base.IsPassableAt(position);
         }
 
         public override bool IsAtmosPassableAt(Vector3Int position)

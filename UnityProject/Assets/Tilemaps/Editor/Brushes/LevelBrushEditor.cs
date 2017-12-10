@@ -97,7 +97,7 @@ namespace Tilemaps.Editor.Brushes
                     }
 
                     previewTile.ReferenceTile = tile;
-                    previewTile.LayerType = LayerType.Structures;
+                    previewTile.LayerType = LayerType.Walls;
                 }
 
                 tile = previewTile;
