@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 61406855764091890}
   - component: {fileID: 114791573741947326}
   - component: {fileID: 114632538563507240}
-  - component: {fileID: 114748197265156476}
   - component: {fileID: 114099162067639636}
   - component: {fileID: 114486296961930180}
   - component: {fileID: 114308092689403558}
@@ -86,7 +85,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -117,8 +116,8 @@ MonoBehaviour:
   hierarchy: 
   itemName: 
   itemDescription: 
-  spriteType: 0
-  type: 0
+  spriteType: 2
+  type: 16
   inHandReferenceRight: 0
   inHandReferenceLeft: 0
   clothingReference: -1
@@ -139,7 +138,7 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   moveSpeed: 7
   allowedToMove: 1
-  isPushable: 1
+  isPushable: 0
   pulledBy: {fileID: 0}
   pushTarget: {x: 0, y: 0, z: 0}
   pushing: 0
@@ -158,15 +157,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ad712be1fefd043b45761b18e23798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponType: 0
-  Projectile: {fileID: 0}
-  ProjectileDamage: 0
-  ProjectileVelocity: 0
-  FireRate: 0
-  ProjectilesFired: 0
+  WeaponType: 1
+  Projectile: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 2}
+  ProjectileDamage: 10
+  ProjectileVelocity: 10
+  FireRate: 2
+  ProjectilesFired: 1
   MaxRecoilVariance: 0
-  FireingSound: 
-  AmmoType: 
+  FireingSound: ShootLMG
+  AmmoType: 12mm
   FireCountDown: 0
   InAutomaticAction: 0
   CurrentRecoilVariance: 0
@@ -191,30 +190,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114748197265156476
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1047755990211004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  visibleState: 1
-  isPlayer: 0
-  registerTile: {fileID: 0}
-  moveSpeed: 7
-  allowedToMove: 1
-  isPushable: 1
-  pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
-  pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
-  timeInPush: 0
 --- !u!114 &114791573741947326
 MonoBehaviour:
   m_ObjectHideFlags: 1
