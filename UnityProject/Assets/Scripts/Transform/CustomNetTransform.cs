@@ -74,14 +74,17 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     /// Manually set an item to a specific position
     /// Internal server stuff atm, actually
     [Server]
-    public void SetPosition(Vector3 pos)
+    public void SetPosition(Vector3 pos, bool notify = true)
     {
         Vector3Int roundedPos = Vector3Int.RoundToInt(pos);
         transform.position = roundedPos;
         _serverTransformState = new TransformState {Active = gameObject.activeInHierarchy, Position = roundedPos};
         _serverTransformStateCache = new TransformState {Active = gameObject.activeInHierarchy, Position = roundedPos};
         _predictedTransformState = new TransformState {Active = gameObject.activeInHierarchy, Position = roundedPos};
-        NotifyPlayers();
+        if (notify)
+        {
+            NotifyPlayers();
+        }
     }
 
 
@@ -123,7 +126,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     /// </summary>
     public void DisappearFromWorld(bool forceUpdate = true)
     {
-        gameObject.SetActive(false);
+        UpdateState(new TransformState{Active = false});
     }
 
     /// <summary>
@@ -131,10 +134,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     /// </summary>
     public void AppearAtPosition(Vector3 pos, bool forceUpdate = true)
     {
-        gameObject.SetActive(true);
-        gameObject.transform.position = pos;
-        _predictedTransformState = new TransformState {Active = true, Position = pos};
-        _serverTransformState = new TransformState {Active = true, Position = pos};
+        UpdateState(new TransformState {Active = true, Position = pos});
     }
 
     public void UpdateState(TransformState state)
@@ -213,30 +213,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     }
 
 
-//    private Vector3 RoundedPos(Vector3 pos)
-//    {
-//        return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);
-//    }
-
     private void CheckSpaceDrift()
     {
-//        var nodes = Matrix.Matrix.At(transform.position, 1);
-//        MatrixNode node = null;
-//        for ( var i = 0; i < nodes.Count; i++ )
-//        {
-//            var n = nodes[i];
-//            if ( !n.IsSpace() )
-//            {
-//                node = n;
-//                break;
-//            }
-//        }
-//        if ( node == null )
-//        {
-//            var newGoal = RoundedPos(transform.position) + RoundedPos(lastDirection);
-//            _serverTransformState.Position = newGoal;
-//            _predictedTransformState.Position = newGoal;
-//        }
         var pos = Vector3Int.RoundToInt(transform.localPosition);
         if(matrix != null && matrix.IsFloatingAt(pos))
         {

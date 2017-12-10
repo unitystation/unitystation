@@ -192,7 +192,9 @@ namespace PlayGroups.Input
         public bool Interact(Transform _transform, Vector3 position)
         {
             if (playerMove.isGhost)
-                return false; ;
+            {
+                return false;
+            }
 
             //attempt to trigger the things in range we clicked on
             if (PlayerManager.LocalPlayerScript.IsInReach(position))
@@ -201,38 +203,29 @@ namespace PlayGroups.Input
                 var inputTrigger = _transform.GetComponent<InputTrigger>();
                 if (inputTrigger)
                 {
-                    if (objectBehaviour.visibleState)
-                    {
+//                    if (objectBehaviour.visibleState)
+//                    {
                         inputTrigger.Trigger(position);
                         return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+//                    }
+                    return false;
                 }
-                else
+                inputTrigger = _transform.parent.GetComponent<InputTrigger>();
+                if (inputTrigger)
                 {
-                    inputTrigger = _transform.parent.GetComponent<InputTrigger>();
-                    if (inputTrigger)
+//                    if (objectBehaviour.visibleState)
+//                    {
+                        inputTrigger.Trigger();
+                        return true;
+//                    }
+                    //Allow interact with all cupboards because you may be in one!
+                    ClosetControl cCtrl = inputTrigger.GetComponent<ClosetControl>();
+                    if (cCtrl)
                     {
-                        if (objectBehaviour.visibleState)
-                        {
-                            inputTrigger.Trigger();
-                            return true;
-                        }
-                        else
-                        {
-                            //Allow interact with all cupboards because you may be in one!
-                            ClosetControl cCtrl = inputTrigger.GetComponent<ClosetControl>();
-                            if (cCtrl)
-                            {
-                                inputTrigger.Trigger();
-                                return true;
-                            }
-                            return false;
-                        }
+                        inputTrigger.Trigger();
+                        return true;
                     }
+                    return false;
                 }
             }
             //if we are holding onto an item like a gun attempt to shoot it if we were not in range to trigger anything
@@ -241,7 +234,7 @@ namespace PlayGroups.Input
 
         private bool InteractHands()
         {
-            if (UIManager.Hands.CurrentSlot.GameObject() != null && objectBehaviour.visibleState)
+            if (UIManager.Hands.CurrentSlot.GameObject() != null /*&& objectBehaviour.visibleState*/)
             {
                 var inputTrigger = UIManager.Hands.CurrentSlot.GameObject().GetComponent<InputTrigger>();
                 if (inputTrigger != null)

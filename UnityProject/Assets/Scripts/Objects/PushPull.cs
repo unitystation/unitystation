@@ -23,11 +23,11 @@ public class PushPull : VisibleBehaviour
     public bool pushing = false;
     public bool serverLittleLag = false;
 
-//    /*[SyncVar(hook = "PushSync")]*/ public Vector3 serverPos;
+    /*[SyncVar(hook = "PushSync")]*/ public Vector3 serverPos;
 
-//    /*[SyncVar]*/ public Vector3 currentPos;
+    /*[SyncVar]*/ public Vector3 currentPos;
 
-    private Matrix matrix;
+//    private Matrix matrix;
 
     //A check to make sure there are no network errors
     public float timeInPush = 0f;

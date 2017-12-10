@@ -144,17 +144,17 @@ namespace PlayGroup
                 // If being pulled by another player and you try to break free
                 //TODO Condition to check for handcuffs / straight jacket 
                 // (probably better to adjust allowInput or something)
-                if (pushPull.pulledBy != null && !playerMove.isGhost)
-                {
-                    for (int i = 0; i < playerMove.keyCodes.Length; i++)
-                    {
-                        if (Input.GetKey(playerMove.keyCodes[i]))
-                        {
-                            playerScript.playerNetworkActions.CmdStopOtherPulling(gameObject);
-                        }
-                    }
-                    return;
-                }
+//                if (pushPull.pulledBy != null && !playerMove.isGhost)
+//                {
+//                    for (int i = 0; i < playerMove.keyCodes.Length; i++)
+//                    {
+//                        if (Input.GetKey(playerMove.keyCodes[i]))
+//                        {
+//                            playerScript.playerNetworkActions.CmdStopOtherPulling(gameObject);
+//                        }
+//                    }
+//                    return;
+//                }
                 if (predictedState.Position == transform.localPosition && !playerMove.isGhost)
                 {
                     DoAction();
@@ -199,7 +199,7 @@ namespace PlayGroup
 
             if (!playerMove.isGhost)
             {
-                if (isLocalPlayer && playerMove.IsPushing || pushPull.pulledBy != null)
+                if (isLocalPlayer && playerMove.IsPushing /*|| pushPull.pulledBy != null*/)
                     return;
 
                 var state = isLocalPlayer ? predictedState : serverState;

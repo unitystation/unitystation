@@ -18,7 +18,7 @@ namespace Items
         {
             if (originator.GetComponent<PlayerScript>().canNotInteract())
                 return;
-
+            //Fixme: this is being called for the item in your hand when clicking world
             if (!isServer)
             {
                 var uiSlotObject = new UISlotObject(hand, gameObject);
@@ -54,7 +54,10 @@ namespace Items
         {
             var ps = originator.GetComponent<PlayerScript>();
             var slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
-            if (PlayerManager.PlayerScript == null || !ps.playerNetworkActions.Inventory.ContainsKey(slotName))
+            if (PlayerManager.PlayerScript == null 
+                || !ps.playerNetworkActions.Inventory.ContainsKey(slotName)
+                || ps.playerNetworkActions.SlotNotEmpty(slotName) //already picked up
+                )
             {
                 return false;
             }

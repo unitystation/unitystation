@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +21,7 @@ namespace Equipment
 //            obj.transform.parent = transform;
             var objTransform = obj.GetComponent<CustomNetTransform>();
             objTransform.SetParent(transform);
-            objTransform.SetPosition(transform.position);
+            objTransform.SetPosition(transform.position, false);
 
             NetworkIdentity id = obj.GetComponent<NetworkIdentity>();
             ItemAttributes att = obj.GetComponent<ItemAttributes>();
