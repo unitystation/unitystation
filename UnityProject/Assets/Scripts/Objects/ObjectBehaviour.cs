@@ -28,7 +28,7 @@ public class ObjectBehaviour : PushPull
 
     public override void OnMouseDown()
     {
-        if (PlayerManager.LocalPlayerScript.IsInReach(transform))
+        if (PlayerManager.LocalPlayerScript.IsInReach(transform.position))
         {
             //If this is an item with a pick up trigger and player is
             //not holding control, then check if it is being pulled
