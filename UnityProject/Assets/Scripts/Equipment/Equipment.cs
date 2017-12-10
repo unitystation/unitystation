@@ -69,6 +69,7 @@ namespace Equipment
             //Player sprite offset:
             clothingSlots[10].Reference = 33;
 
+            StartCoroutine(SetPlayerLoadOuts());
         }
 
         public void SyncSprites(SyncListInt.Operation op, int index)

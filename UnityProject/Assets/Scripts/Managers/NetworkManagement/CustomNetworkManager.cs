@@ -144,21 +144,7 @@ public class CustomNetworkManager : NetworkManager
         }
         else
         {
-            var startPosition = GetStartPosition();
-
-            var position = Vector3.zero;
-            var rotation = Quaternion.identity;
-
-            if ((UnityEngine.Object)startPosition != (UnityEngine.Object)null)
-            {
-                position = startPosition.position;
-                rotation = startPosition.rotation;
-            }
-
-            var parent = startPosition?.GetComponentInParent<ObjectLayer>().transform;
-
-            var player = Instantiate(playerPrefab, position, rotation, parent);
-            NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+            SpawnHandler.SpawnPlayer(conn, playerControllerId);
         }
     }
 
