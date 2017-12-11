@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4867358543139262}
   - component: {fileID: 212207744414007142}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 114078522730665838}
   - component: {fileID: 114586490647730340}
   - component: {fileID: 114437442048880876}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: projectile_157
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1557459482202932}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4867358543139262}
@@ -230,10 +230,10 @@ MonoBehaviour:
   itemDescription: 
   spriteType: 2
   type: 16
-  inHandReferenceRight: 0
-  inHandReferenceLeft: 0
+  inHandReferenceRight: 268
+  inHandReferenceLeft: 112
   clothingReference: -1
-  size: 0
+  size: 2
 --- !u!212 &212207744414007142
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -265,9 +265,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1463207863
+  m_SortingLayer: 10
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300314, guid: e60fa16c12a54a28b5e8c06def0303f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
