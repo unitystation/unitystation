@@ -6,12 +6,12 @@ using Tilemaps.Scripts.Behaviours.Objects;
 
 
 
-public class Sprite2PrefabChild_MenuItem
+public class Sprite2PrefabChild_Object_MenuItem
 {
     /// <summary>
     /// Creates prefab, with sprites as child
     /// </summary>
-    [MenuItem("Assets/Create/Sprite2PrefabChild", false, 11)]
+    [MenuItem("Assets/Create/Sprite2PrefabChild/Object", false, 11)]
     public static void ScriptableObjectTemplateMenuItem()
     {
         bool makeSeperateFolders = EditorUtility.DisplayDialog("Prefab Folders?", "Do you want each prefab in it's own folder?", "Yes", "No");
