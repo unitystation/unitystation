@@ -207,8 +207,8 @@ MonoBehaviour:
   itemDescription: 
   spriteType: 2
   type: 16
-  inHandReferenceRight: 152
-  inHandReferenceLeft: 48
+  inHandReferenceRight: 112
+  inHandReferenceLeft: 304
   clothingReference: -1
   size: 0
 --- !u!114 &114776078380092352
@@ -224,11 +224,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponType: 1
   Projectile: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 2}
-  ProjectileDamage: 10
-  ProjectileVelocity: 10
+  ProjectileDamage: 5
+  ProjectileVelocity: 8
   FireRate: 2
-  ProjectilesFired: 1
-  MaxRecoilVariance: 0
+  ProjectilesFired: 3
+  MaxRecoilVariance: 0.4
   FireingSound: ShootLMG
   AmmoType: 12mm
   FireCountDown: 0

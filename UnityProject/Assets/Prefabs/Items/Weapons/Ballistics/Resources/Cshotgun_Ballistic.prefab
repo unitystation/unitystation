@@ -158,11 +158,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponType: 1
   Projectile: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 2}
-  ProjectileDamage: 10
+  ProjectileDamage: 5
   ProjectileVelocity: 10
   FireRate: 2
-  ProjectilesFired: 1
-  MaxRecoilVariance: 0
+  ProjectilesFired: 3
+  MaxRecoilVariance: 0.1
   FireingSound: ShootLMG
   AmmoType: 12mm
   FireCountDown: 0
