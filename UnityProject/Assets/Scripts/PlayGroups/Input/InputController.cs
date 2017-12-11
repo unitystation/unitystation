@@ -176,8 +176,8 @@ namespace PlayGroups.Input
                     var x = hitPosition.y * Mathf.Sin(angle) - hitPosition.x * Mathf.Cos(angle);
                     var y = hitPosition.y * Mathf.Cos(angle) - hitPosition.x * Mathf.Sin(angle);
                     
-                    var texPosX = Mathf.RoundToInt((x / scale.x - offset.x % 1) * pixelsPerUnit + sprite.rect.width * 0.5f);
-                    var texPosY = Mathf.RoundToInt((y / scale.y - offset.y % 1) * pixelsPerUnit + sprite.rect.height * 0.5f);
+                    var texPosX = Mathf.RoundToInt(sprite.rect.x + (x / scale.x - offset.x % 1) * pixelsPerUnit + sprite.rect.width * 0.5f);
+                    var texPosY = Mathf.RoundToInt(sprite.rect.y + (y / scale.y - offset.y % 1) * pixelsPerUnit + sprite.rect.height * 0.5f);
 
                     var pixelColor = sprite.texture.GetPixel(texPosX, texPosY);
                     if (pixelColor.a > 0)
