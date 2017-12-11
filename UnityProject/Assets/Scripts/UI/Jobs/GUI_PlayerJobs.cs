@@ -16,7 +16,6 @@ public class GUI_PlayerJobs : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
         screen_Jobs.SetActive(false);
         foreach (Transform child in screen_Jobs.transform)
         {
