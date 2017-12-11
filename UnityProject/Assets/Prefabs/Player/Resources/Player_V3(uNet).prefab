@@ -516,7 +516,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4643036614374916}
   - component: {fileID: 212308868696160634}
-  m_Layer: 8
+  m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -568,8 +568,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1133514949248654}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1843.988, y: 1143, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1978.95, y: 1139, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4027748146393864}
@@ -1103,7 +1103,6 @@ MonoBehaviour:
   maxHealth: 100
   isNPC: 0
   allowKnifeHarvest: 0
-  ConsciousState: 0
   BodyParts:
   - {fileID: 114457795912083674}
   - {fileID: 114316649585772562}
@@ -1112,7 +1111,6 @@ MonoBehaviour:
   - {fileID: 114645575864574208}
   - {fileID: 114626459693876662}
   BloodLevel: 560
-  playerNetworkActions: {fileID: 114390575568471296}
 --- !u!114 &114176283518884694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1157,7 +1155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteType: 0
-  spriteSheetName: hands
+  spriteSheetName: ears
   reference: -1
   thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212458270926585534}
@@ -1707,7 +1705,7 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   moveSpeed: 7
   allowedToMove: 1
-  isPushable: 1
+  isPushable: 0
   pulledBy: {fileID: 0}
   pushTarget: {x: 0, y: 0, z: 0}
   pushing: 0

@@ -22,9 +22,6 @@ public abstract class HealthBehaviour : NetworkBehaviour
         }
 
         Health = initialHealth;
-        //        Dead = false;
-        //        Crit = false;
-        ConsciousState = ConsciousState.CONSCIOUS;
     }
 
     public int Health { get; private set; }
@@ -51,7 +48,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
     }
 
     private string lastDamagedBy = "stressful work";
-    public ConsciousState ConsciousState;
+    public ConsciousState ConsciousState { get; protected set; }
 
     //be careful with falses, will make player conscious
     public bool IsCrit
@@ -71,7 +68,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
     public void RpcApplyDamage(string damagedBy, int damage,
                                   DamageType damageType, BodyPartType bodyPartAim)
     {
-        if (isServer || !isNPC)
+        if (isServer || !isNPC || IsDead)
             return;
         ApplyDamage(damagedBy, damage, damageType, bodyPartAim);
     }
@@ -181,13 +178,13 @@ public abstract class HealthBehaviour : NetworkBehaviour
                 if (ConsciousState != ConsciousState.DEAD)
                 {
                     var lps = PlayerManager.LocalPlayerScript;
-                    lps.weaponNetworkActions.CmdKnifeAttackMob(gameObject, dir, UIManager.DamageZone/*PlayerScript.SelectedDamageZone*/);
+                    lps.weaponNetworkActions.CmdKnifeAttackMob(gameObject,UIManager.Hands.CurrentSlot.Item, dir, UIManager.DamageZone/*PlayerScript.SelectedDamageZone*/);
                 }
                 else
                 {
                     if (allowKnifeHarvest)
                     {
-                        PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeHarvestMob(this.gameObject, dir);
+                        PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeHarvestMob(this.gameObject,UIManager.Hands.CurrentSlot.Item, dir);
                         allowKnifeHarvest = false;
                     }
                 }

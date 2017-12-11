@@ -7938,7 +7938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.328}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8929,8 +8929,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114117857999182964}
   m_HandleRect: {fileID: 224454349079915406}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9787235
+  m_Value: 0.9999972
+  m_Size: 0.9787234
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13007,7 +13007,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114445223306499362}
-        m_MethodName: Button_Objects
+        m_MethodName: Button_Item_List
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

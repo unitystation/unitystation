@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using PlayGroup;
 using InputControl;
+using PlayGroups.Input;
 
 namespace Lighting
 {
@@ -53,9 +54,9 @@ namespace Lighting
             SyncLightSwitch(isOn);
         }
 
-        public override void Interact(GameObject originator, string hand)
+        public override void Interact(GameObject originator, Vector3 position, string hand)
         {
-            if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform, 1.4f))
+            if (!PlayerManager.LocalPlayerScript.IsInReach(position))
                 return;
 
             if (switchCoolDown)

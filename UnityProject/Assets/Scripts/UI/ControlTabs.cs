@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using PlayGroup;
+using Tilemaps.Scripts.Tiles;
 
 namespace UI
 {
@@ -118,47 +119,39 @@ namespace UI
         /// </summary>
         public static void CheckItemListTab()
         {
-            if (!Instance.itemListTabExists)
-            {
+            if (!Instance.itemListTabExists) {
                 return;
             }
 
             UITileList.UpdateItemPanelList();
-            //Slightly lower reach because distance from player to tile is shorter than from player to object. (Ends up allowing 2 floor tile reach otherwise)
-            if (!PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation(), 1.5f))
-            {
+            if (!PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation())) {
                 HideItemListTab();
             }
         }
 
-        /// <summary>
-        /// Displays the Objects tab
-        /// </summary>
-        /// <param name="tiles">List of GameObjects to include in the Item List Tab</param>
-        public static void ShowItemListTab(List<GameObject> tiles)
+		/// <summary>
+		/// Displays the Objects tab
+		/// </summary>
+		/// <param name="objects">List of GameObjects to include in the Item List Tab</param>
+		/// <param name="tile">Tile to include in the Item List Tab</param>
+		/// <param name="position">Position of objects</param>
+		public static void ShowItemListTab(List<GameObject> objects, LayerTile tile, Vector3 position)
         {
             //If window exists, player is perhaps alt-clicking at another tile. Only slide tabs if Item List Tab doesn't already exist.
-            if (Instance.itemListTabExists)
-            {
+            if (Instance.itemListTabExists) {
                 UITileList.ClearItemPanel();
-            }
-            else
-            {
+            } else {
                 SlideOptionsAndMoreTabs(Vector3.right);
             }
 
-            foreach (GameObject tile in tiles)
+			UITileList.AddTileToItemPanel(tile, position);
+			foreach (GameObject itemObject in objects)
             {
-                UITileList.AddObjectToItemPanel(tile);
-
-                //TODO re-implement for new tile system
-                if (tile.GetComponent<FloorTile>())
-                {
-                    Instance.ItemListTab.GetComponentInChildren<Text>().text = tile.name;
-                }
+                UITileList.AddObjectToItemPanel(itemObject);
             }
 
-            Instance.ItemListTab.gameObject.SetActive(true);
+			Instance.ItemListTab.GetComponentInChildren<Text>().text = tile.name;
+			Instance.ItemListTab.gameObject.SetActive(true);
             Instance.Button_Item_List();
             Instance.itemListTabExists = true;
         }

@@ -34,6 +34,11 @@ namespace UI
         private void Start()
         {
             sprites = SpriteManager.ScreenUISprites["gen"];
+            if(SceneManager.GetActiveScene().name != "Lobby"){
+                //Game has been started without the lobby scene
+                //so start the heart monitor manually
+                TryStartMonitor();
+            }
         }
 
         private void OnEnable()
@@ -50,16 +55,21 @@ namespace UI
         {
             if (next.name != "Lobby")
             {
-                if (!startMonitoring)
-                {
-                    spriteStart = fullHealthStart;
-                    startMonitoring = true;
-                    StartCoroutine(MonitorHealth());
-                }
+                TryStartMonitor();
             }
             else
             {
                 startMonitoring = false;
+            }
+        }
+
+        void TryStartMonitor()
+        {
+            if (!startMonitoring)
+            {
+                spriteStart = fullHealthStart;
+                startMonitoring = true;
+                StartCoroutine(MonitorHealth());
             }
         }
 
@@ -77,7 +87,7 @@ namespace UI
                 {
                     yield return new WaitForSeconds(0.05f);
                     timeWait += Time.deltaTime;
-                    if (timeWait >= 3f)
+                    if (timeWait >= 2f)
                     {
                         timeWait = 0f;
                         currentSprite = 0;

@@ -11,7 +11,7 @@ public enum ChatChannel
 	OOC = 4,
 	Common = 8,
 	Binary = 16,
-	Cargo = 32,
+	Supply = 32,
 	CentComm = 64,
 	Command = 128,
 	Engineering = 256,
@@ -50,13 +50,18 @@ public class ChatEvent
 		this.message = ProcessMessage(message, speaker, this.channels, this.modifiers);
 	}
 
-	public ChatEvent(string message, ChatChannel channels)
+	public ChatEvent(string message, ChatChannel channels, bool skipProcessing = false)
 	{
 		this.timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
 		this.channels = channels;
 		this.modifiers = ChatModifier.None;
 		this.speaker = "";
-		this.message = ProcessMessage(message, speaker, this.channels, this.modifiers);
+		if(skipProcessing) {
+			this.message = message;
+		} else {
+			this.message = ProcessMessage(message, speaker, this.channels, this.modifiers);
+		}
+		
 	}
 
 	public static ChatChannel GetNonNetworkedChannels()

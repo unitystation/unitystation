@@ -16,6 +16,9 @@ public abstract class ServerMessage<T> : GameMessage<T>
     }
     public void SendTo(GameObject recipient)
     {
+        if (recipient == null)
+            return;
+        
         NetworkServer.SendToClientOfPlayer(recipient, MessageType, this);
         //		Debug.LogFormat("SentTo {0}", this);
     }

@@ -70,14 +70,14 @@ public class JsonToTilemap : Editor
 
     private static Matrix4x4 FindObjectPosition(MetaTileMap metaTileMap, ref Vector3Int position, LayerTile tile)
     {
-        var onStructure = metaTileMap.HasTile(position, LayerType.Structures);
+        var onStructure = metaTileMap.HasTile(position, LayerType.Walls) || metaTileMap.HasTile(position, LayerType.Windows);
 
         var rotation = Quaternion.identity;
 
         for (int i = 0; i < 4; i++)
         {
             var offset = Vector3Int.RoundToInt(rotation * Vector3.up);
-            var hasStructure = metaTileMap.HasTile(position + offset, LayerType.Structures);
+            var hasStructure = metaTileMap.HasTile(position + offset, LayerType.Walls) || metaTileMap.HasTile(position, LayerType.Windows);
             var isOccupied = metaTileMap.HasTile(position + offset, onStructure ? LayerType.Base : LayerType.Objects);
 
             if (onStructure != hasStructure && isOccupied == onStructure)

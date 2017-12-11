@@ -2,6 +2,7 @@
 using PlayGroup;
 using System.Collections;
 using System.Collections.Generic;
+using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -35,9 +36,9 @@ public class ShutterSwitchTrigger : InputTrigger
         SyncShutters(IsClosed);
     }
 
-    public override void Interact(GameObject originator, string hand)
+    public override void Interact(GameObject originator, Vector3 position, string hand)
     {
-        if (!PlayerManager.LocalPlayerScript.IsInReach(transform, 1.5f) || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+        if (!PlayerManager.LocalPlayerScript.IsInReach(transform.position, 1.5f) || PlayerManager.LocalPlayerScript.playerMove.isGhost)
             return;
 
         //if the button is idle and not animating it can be pressed

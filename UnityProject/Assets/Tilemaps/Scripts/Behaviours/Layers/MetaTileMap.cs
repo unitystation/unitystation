@@ -68,7 +68,14 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public LayerTile GetTile(Vector3Int position, LayerType layerType)
         {
-            return Layers[layerType].GetTile(position);
+			Layer layer = null;
+			Layers.TryGetValue(layerType, out layer);
+			if(layer) {
+				return Layers[layerType].GetTile(position);
+			} else {
+				return null;
+			}
+			
         }
 
         public bool IsEmptyAt(Vector3Int position)

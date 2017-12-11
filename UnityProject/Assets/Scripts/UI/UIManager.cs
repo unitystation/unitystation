@@ -170,6 +170,18 @@ namespace UI
             return true;
         }
 
+		public static string FindEmptySlotForItem(GameObject itemToPlace)
+		{
+			foreach (UI_ItemSlot slot in Instance.inventorySlotCache) {
+				UISlotObject slottingAttempt = new UISlotObject(slot.eventName, itemToPlace);
+				if(CanPutItemToSlot(slottingAttempt)) {
+					return slot.eventName;
+				}
+			}
+
+			return null;
+		}
+
         /// Checks if player received transform update after sending interact message
         /// (Anti-blinking protection)
         public static bool SendUpdateAllowed(GameObject item)

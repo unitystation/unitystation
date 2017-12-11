@@ -5,11 +5,9 @@ using UnityEngine;
 using Tilemaps.Scripts.Behaviours.Objects;
 using Matrix = Tilemaps.Scripts.Matrix;
 using UI;
-using UnityEngine.XR.WSA;
 
 namespace PlayGroup
 {
-
     public struct PlayerState
     {
         public int MoveNumber;
@@ -21,25 +19,22 @@ namespace PlayGroup
         public int[] keyCodes;
     }
 
-    public class PlayerSync : ManagedNetworkBehaviour //see UpdateManager
+    public class PlayerSync : NetworkBehaviour
     {
-
         public PlayerMove playerMove;
         private PlayerScript playerScript;
         private PlayerSprites playerSprites;
         private RegisterTile registerTile;
         private Queue<PlayerAction> pendingActions;
+        private HealthBehaviour healthBehaviorScript;
 
-        [SyncVar]
-        private PlayerState serverStateCache; //used to sync with new players
+        [SyncVar] private PlayerState serverStateCache; //used to sync with new players
         private PlayerState serverState;
         private PlayerState predictedState;
 
-        //cache
-        private PlayerState state;
         //pull objects
-        [SyncVar(hook = "PullReset")]
-        public NetworkInstanceId pullObjectID;
+        [SyncVar(hook = "PullReset")] public NetworkInstanceId pullObjectID;
+
         public GameObject pullingObject;
         private RegisterTile pullRegister;
         private bool canRegister = false;
@@ -50,12 +45,16 @@ namespace PlayGroup
 
         private Matrix matrix;
 
+        //TODO: Remove the space damage coroutine when atmos is implemented
+        private bool isApplyingSpaceDmg = false;
+
         public override void OnStartServer()
         {
             pullObjectID = NetworkInstanceId.Invalid;
             InitState();
             base.OnStartServer();
         }
+
         public override void OnStartClient()
         {
             StartCoroutine(WaitForLoad());
@@ -72,8 +71,8 @@ namespace PlayGroup
             }
             else
             {
-                serverState = new PlayerState() { MoveNumber = 0, Position = transform.localPosition };
-                predictedState = new PlayerState() { MoveNumber = 0, Position = transform.localPosition };
+                serverState = new PlayerState() {MoveNumber = 0, Position = transform.localPosition};
+                predictedState = new PlayerState() {MoveNumber = 0, Position = transform.localPosition};
             }
             yield return new WaitForSeconds(2f);
 
@@ -85,8 +84,8 @@ namespace PlayGroup
             if (isServer)
             {
                 var position = Vector3Int.RoundToInt(transform.localPosition);
-                serverState = new PlayerState() { MoveNumber = 0, Position = position };
-                serverStateCache = new PlayerState() { MoveNumber = 0, Position = position };
+                serverState = new PlayerState() {MoveNumber = 0, Position = position};
+                serverStateCache = new PlayerState() {MoveNumber = 0, Position = position};
             }
         }
 
@@ -100,6 +99,7 @@ namespace PlayGroup
             PlayerSync otherPlayerSync = otherPlayer.GetComponent<PlayerSync>();
             otherPlayerSync.SetPosition(setPos);
         }
+
         /// <summary>
         /// Manually set a player to a specific position
         /// </summary>
@@ -110,17 +110,17 @@ namespace PlayGroup
             //TODO ^ check for an allowable type and other conditions to stop abuse of SetPosition
             var roundedPos = Vector3Int.RoundToInt(pos);
             transform.localPosition = roundedPos;
-            serverState = new PlayerState() { MoveNumber = 0, Position = roundedPos };
-            serverStateCache = new PlayerState() { MoveNumber = 0, Position = roundedPos };
-            predictedState = new PlayerState() { MoveNumber = 0, Position = roundedPos };
+            serverState = new PlayerState() {MoveNumber = 0, Position = roundedPos};
+            serverStateCache = new PlayerState() {MoveNumber = 0, Position = roundedPos};
+            predictedState = new PlayerState() {MoveNumber = 0, Position = roundedPos};
             RpcSetPosition(roundedPos);
         }
 
         [ClientRpc]
         private void RpcSetPosition(Vector3 pos)
         {
-            predictedState = new PlayerState() { MoveNumber = 0, Position = pos };
-            serverState = new PlayerState() { MoveNumber = 0, Position = pos };
+            predictedState = new PlayerState() {MoveNumber = 0, Position = pos};
+            serverState = new PlayerState() {MoveNumber = 0, Position = pos};
             transform.localPosition = pos;
         }
 
@@ -133,13 +133,14 @@ namespace PlayGroup
             }
             playerScript = GetComponent<PlayerScript>();
             playerSprites = GetComponent<PlayerSprites>();
+            healthBehaviorScript = GetComponent<HealthBehaviour>();
             registerTile = GetComponent<RegisterTile>();
             pushPull = GetComponent<PushPull>();
             matrix = Matrix.GetMatrix(this);
         }
 
-        //managed by UpdateManager
-        public override void UpdateMe()
+
+        void Update()
         {
             if (isLocalPlayer && playerMove != null)
             {
@@ -177,7 +178,6 @@ namespace PlayGroup
             //Registering objects being pulled in matrix
             if (pullRegister != null)
             {
-                Vector3 pos = state.Position - (Vector3)playerSprites.currentDirection;
                 pullRegister.UpdatePosition();
             }
         }
@@ -195,21 +195,21 @@ namespace PlayGroup
 
         private void Synchronize()
         {
-            CheckSpaceWalk();
-
             if (isLocalPlayer && GameData.IsHeadlessServer)
                 return;
 
             if (!playerMove.isGhost)
             {
-                if (isLocalPlayer && playerMove.isPushing || pushPull.pulledBy != null)
+                CheckSpaceWalk();
+
+                if (isLocalPlayer && playerMove.IsPushing || pushPull.pulledBy != null)
                     return;
 
-                state = isLocalPlayer ? predictedState : serverState;
+                var state = isLocalPlayer ? predictedState : serverState;
                 transform.localPosition = Vector3.MoveTowards(transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
 
-				//Check if we should still be displaying an ItemListTab and update it, if so.
-				ControlTabs.CheckItemListTab();
+                //Check if we should still be displaying an ItemListTab and update it, if so.
+                ControlTabs.CheckItemListTab();
 
                 if (state.Position != transform.localPosition)
                     lastDirection = (state.Position - transform.localPosition).normalized;
@@ -228,7 +228,7 @@ namespace PlayGroup
                 }
 
                 //Registering
-                if (registerTile.Position != state.Position)
+                if (registerTile.Position != Vector3Int.RoundToInt(state.Position))
                 {
                     RegisterObjects();
                 }
@@ -242,7 +242,7 @@ namespace PlayGroup
 
         private void PullObject()
         {
-            pullPos = transform.localPosition - (Vector3)lastDirection;
+            pullPos = transform.localPosition - (Vector3) lastDirection;
             pullPos.z = pullingObject.transform.localPosition.z;
 
             var pos = Vector3Int.RoundToInt(pullPos);
@@ -268,7 +268,6 @@ namespace PlayGroup
             serverState = NextState(serverState, action);
             serverStateCache = serverState;
             RpcOnServerStateChange(serverState);
-
         }
 
         private void UpdatePredictedState()
@@ -336,7 +335,7 @@ namespace PlayGroup
             serverState = newState;
             if (pendingActions != null)
             {
-				while (pendingActions.Count > 0 && pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber))
+                while (pendingActions.Count > 0 && pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber))
                 {
                     pendingActions.Dequeue();
                 }
@@ -352,12 +351,29 @@ namespace PlayGroup
         private void CheckSpaceWalk()
         {
             var pos = Vector3Int.RoundToInt(transform.localPosition);
-            if(matrix != null && matrix.IsFloatingAt(pos))
+            if (matrix != null && matrix.IsFloatingAt(pos))
             {
                 var newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
                 serverState.Position = newGoal;
                 predictedState.Position = newGoal;
+                if (!healthBehaviorScript.IsDead && CustomNetworkManager.Instance._isServer
+                    && !isApplyingSpaceDmg)
+                {
+                    StartCoroutine(ApplyTempSpaceDamage());
+                    isApplyingSpaceDmg = true;
+                }
             }
+        }
+
+        //TODO: Remove this when atmos is implemented 
+        //This prevents players drifting into space indefinitely 
+        IEnumerator ApplyTempSpaceDamage()
+        {
+            yield return new WaitForSeconds(1f);
+            healthBehaviorScript.RpcApplyDamage("SPESS", 5, DamageType.OXY, BodyPartType.HEAD);
+            //No idea why there is an isServer catch on RpcApplyDamage, but will apply on server as well in mean time:
+            healthBehaviorScript.ApplyDamage("SPESS", 5, DamageType.OXY, BodyPartType.HEAD);
+            isApplyingSpaceDmg = false;
         }
     }
 }

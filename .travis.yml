@@ -1,13 +1,26 @@
+
 # do not install anything extra onto the image
 language: generic
+
+git:
+  depth: 5
+  submodules: false
 
 # use a Mac OSX image
 os: osx
 
+cache:
+  timeout: 1000
+  directories:
+  - /Applications/Unity
+  - /Users/Travis/Library/Unity
+  - /Users/Travis/Library/Preferences/Unity
+
 # only run builds on pushes to the master branch
-#branches:
-#  only:
-#  - Develop
+branches:
+  only:
+  - develop
+  - TravisCI
 
 # send email notifications when the build changes from succeeding to broken
 notifications:
@@ -20,16 +33,17 @@ notifications:
 #- openssl aes-256-cbc -k "$KEYFILE_PASS" -in "${UPLOAD_KEYPATH}.enc" -out "${UPLOAD_KEYPATH}" -d
 
 # run the script to download and install Unity editor
-install:
-- sudo -E sh ./Travis/install.sh
+#install: travis_wait 30 sudo -E sh ./Travis/upgrade.sh
 
-# run the script for unit tests and builds
-script:
-- sudo -E sh ./Travis/build.sh
+jobs:
+  include:
+    - stage: Testing
+      script: travis_wait 45 sudo -E sh ./Travis/build.sh
+    - # stage name not required, will continue to use `test`
+      script: travis_wait 45 sudo -E sh ./Travis/buildOther.sh
+#    - stage: deploy
+#      script: sudo -E sh ./Travis/post_build.sh
 
-# run the script to upload the builds as tarballs
-after_success:
-- sudo -E sh ./Travis/post_build.sh
 
 # environment variables used in bash scripts
 env:

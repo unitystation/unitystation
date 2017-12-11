@@ -133,7 +133,7 @@ namespace Weapons
             }
 
             //Check if magazine in opposite hand or if unloading
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 //PlaceHolder for click UI
                 GameObject currentHandItem = UIManager.Hands.CurrentSlot.Item;
@@ -222,7 +222,7 @@ namespace Weapons
 
         #region Weapon Firing Mechanism
 
-        public override void Interact(GameObject originator, string hand)
+        public override void Interact(GameObject originator, Vector3 position, string hand)
         {
             //todo: validate fire attempts on server
             if (Input.GetKey(KeyCode.LeftControl))
@@ -235,7 +235,7 @@ namespace Weapons
             //if the weapon is not in our hands not in hands, pick it up
             else
             {
-                base.Interact(originator, hand);
+                base.Interact(originator, position, hand);
             }
         }
 

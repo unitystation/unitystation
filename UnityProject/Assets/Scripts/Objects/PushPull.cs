@@ -27,7 +27,7 @@ public class PushPull : VisibleBehaviour
 
     [SyncVar] public Vector3 currentPos;
 
-    private Matrix _matrix1;
+    private Matrix matrix;
 
     //A check to make sure there are no network errors
     public float timeInPush = 0f;
@@ -36,29 +36,29 @@ public class PushPull : VisibleBehaviour
     {
         StartCoroutine(WaitForLoad());
 
-        _matrix1 = Matrix.GetMatrix(this);
         base.OnStartClient();
     }
 
     IEnumerator WaitForLoad()
     {
         yield return new WaitForSeconds(2f);
-        if (currentPos != Vector3.zero)
-        {
+//        if (currentPos != Vector3.zero)
+//        {
             if (registerTile == null)
             {
                 registerTile = GetComponent<RegisterTile>();
             }
-            transform.localPosition = RoundedPos(currentPos);
+//            transform.localPosition = RoundedPos(currentPos);
             registerTile.UpdatePosition();
-        }
+            matrix = Matrix.GetMatrix(this);
+//        }
     }
 
     public virtual void OnMouseDown()
     {
         // PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null condition makes sure that the player itself
         // isn't being pulled. If he is then he is not allowed to pull anything else as this can cause problems
-        if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform)
+        if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform.position)
             && transform != PlayerManager.LocalPlayerScript.transform
             && PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null)
         {
@@ -121,12 +121,12 @@ public class PushPull : VisibleBehaviour
         //newPos.z = transform.localPosition.z;
 
 
-        if (_matrix1.IsPassableAt(newPos)) // || MatrixOld.Matrix.At(newPos).ContainsTile(gameObject)) 
+        if (matrix.IsPassableAt(newPos) || matrix.ContainsAt(newPos, gameObject)) 
         {
             //Start the push on the client, then start on the server, the server then tells all other clients to start the push also
             pusher = pushedBy;
             if (pusher == PlayerManager.LocalPlayer)
-                PlayerManager.LocalPlayerScript.playerMove.isPushing = true;
+                PlayerManager.LocalPlayerScript.playerMove.IsPushing = true;
 
             pushTarget = newPos;
             journeyLength = Vector3.Distance(transform.localPosition, newPos) + 0.2f;
@@ -166,7 +166,7 @@ public class PushPull : VisibleBehaviour
             {
                 if (pusher == PlayerManager.LocalPlayer)
                 {
-                    PlayerManager.LocalPlayerScript.playerMove.isPushing = false;
+                    PlayerManager.LocalPlayerScript.playerMove.IsPushing = false;
                 }
                 pusher = null;
                 serverLittleLag = false;
@@ -208,7 +208,7 @@ public class PushPull : VisibleBehaviour
             if (serverLittleLag)
             {
                 serverLittleLag = false;
-                PlayerManager.LocalPlayerScript.playerMove.isPushing = false;
+                PlayerManager.LocalPlayerScript.playerMove.IsPushing = false;
                 pusher = null;
             }
             pushing = false;
@@ -234,7 +234,7 @@ public class PushPull : VisibleBehaviour
         }
         if (transform.localPosition == pos && pusher == PlayerManager.LocalPlayer)
         {
-            PlayerManager.LocalPlayerScript.playerMove.isPushing = false;
+            PlayerManager.LocalPlayerScript.playerMove.IsPushing = false;
             pusher = null;
             return;
         }
@@ -242,10 +242,5 @@ public class PushPull : VisibleBehaviour
         journeyLength = Vector3.Distance(transform.localPosition, pos) + 0.2f;
         timeInPush = 0f;
         pushing = true;
-    }
-
-    private Vector3 RoundedPos(Vector3 pos)
-    {
-        return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);
     }
 }

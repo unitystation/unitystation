@@ -179,7 +179,9 @@ public class FieldOfViewTiled : ThreadedBehaviour
             // In front cone
             if (Vector3.Angle(new Vector3(nearbyShrouds[i].x, nearbyShrouds[i].y, 0f) - sourcePosCache, GetSightSourceDirection()) < FieldOfVision)
             {
-                inFieldOFVision.Add(nearbyShrouds[i]);
+				if (i < nearbyShrouds.Count) {
+					inFieldOFVision.Add(nearbyShrouds[i]);
+				}
                 continue;
             }
         }
