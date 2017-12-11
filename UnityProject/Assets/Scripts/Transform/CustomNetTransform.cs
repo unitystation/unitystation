@@ -11,23 +11,41 @@ public struct TransformState
 }
 
 
-//TODO: split into ItemTransform and ObjectTransform?
-//todo: check if unregistering actually happens
+//don't forget to: turn off FOV, set ping to 200, remove ObjectBehaviour from player
+
+//todo: consider moving unregistering here
+//todo: lerping for updated stuff
+
+/*
+ * fixme client errors:
+ *NullReferenceException: Object reference not set to an instance of an object
+  at Tilemaps.Scripts.Matrix.GetMatrix (UnityEngine.MonoBehaviour behaviour) [0x00025] in C:\homeproj\unitystation\UnityProject\Assets\Tilemaps\Scripts\Matrix.cs:21 
+  at CustomNetTransform.Start () [0x0000f] in C:\homeproj\unitystation\UnityProject\Assets\Scripts\Transform\CustomNetTransform.cs:163 
+ 
+(Filename: C:/homeproj/unitystation/UnityProject/Assets/Tilemaps/Scripts/Matrix.cs Line: 21)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Tilemaps.Scripts.Behaviours.Objects.RegisterTile.Start () [0x00034] in C:\homeproj\unitystation\UnityProject\Assets\Tilemaps\Scripts\Behaviours\Objects\RegisterTile.cs:42 
+ 
+(Filename: C:/homeproj/unitystation/UnityProject/Assets/Tilemaps/Scripts/Behaviours/Objects/RegisterTile.cs Line: 42)
+
+
+when client sees host drop/pick stuff
+NullReferenceException: Object reference not set to an instance of an object
+  at TransformStateMessage+<Process>c__Iterator0.MoveNext () [0x000be] in C:\homeproj\unitystation\UnityProject\Assets\Scripts\Messages\Server\TransformStateMessage.cs:26 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00028] in C:\buildslave\unity\build\Runtime\Export\Coroutines.cs:17 
+ 
+(Filename: C:/homeproj/unitystation/UnityProject/Assets/Scripts/Messages/Server/TransformStateMessage.cs Line: 26)
+ */
 public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
-    public float speed = 10; //lerp speed
+    public float speed = 2; //lerp speed
 
     protected RegisterTile registerTile;
 
-    private TransformState _serverTransformStateCache; //used to sync with new players
-    private TransformState _serverTransformState;
-    private TransformState _predictedTransformState;
-
-    //cache
-    private TransformState _transformState;
-
-    private bool canRegister = false;
-
+    private TransformState serverTransformState; //used for syncing with players
+    private TransformState transformState;
+    
     private Vector2 lastDirection;
     
     protected Matrix matrix;
@@ -38,61 +56,69 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         base.OnStartServer();
     }
 
-    public override void OnStartClient()
-    {
-        StartCoroutine(WaitForLoad());
-        base.OnStartClient();
-    }
-
-    IEnumerator WaitForLoad()
-    {
-        yield return new WaitForEndOfFrame();
+//    public override void OnStartClient()
+//    {
+//        StartCoroutine(WaitForLoad());
+//        base.OnStartClient();
+//    }
+//    IEnumerator WaitForLoad()
+//    {
+//        yield return new WaitForEndOfFrame();
 //        if ( _serverTransformStateCache.Position != Vector3.zero && !isClient )
 //        {
-//            _serverTransformState = _serverTransformStateCache;
-//            transform.position = RoundedPos(_serverTransformState.Position);
+//            transformState = _serverTransformStateCache;
+//            transform.position = RoundedPos(transformState.Position);
 //        }
 //        else
 //        {
-            _serverTransformState = new TransformState {Active = false};
-            _predictedTransformState = new TransformState {Active = false};
+//            transformState = new TransformState {Active = false};
+//            _predictedTransformState = new TransformState {Active = false};
 //        }
-        yield return new WaitForSeconds(2f);
-    }
+//        yield return new WaitForSeconds(2f);
+//    }
 
     private void InitState()
     {
         if ( isServer )
         {
-            var position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0);
-            _serverTransformState = new TransformState {Active = gameObject.activeInHierarchy, Position = position};
-            _serverTransformStateCache =
-                new TransformState {Active = gameObject.activeInHierarchy, Position = position};
+            var position = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
+            serverTransformState = new TransformState {Active = gameObject.activeInHierarchy, Position = position};
         }
     }
 
     /// Manually set an item to a specific position
-    /// Internal server stuff atm, actually
     [Server]
     public void SetPosition(Vector3 pos, bool notify = true)
     {
-        Vector3Int roundedPos = Vector3Int.RoundToInt(pos);
-        transform.position = roundedPos;
-        _serverTransformState = new TransformState {Active = gameObject.activeInHierarchy, Position = roundedPos};
-        _serverTransformStateCache = new TransformState {Active = gameObject.activeInHierarchy, Position = roundedPos};
-        _predictedTransformState = new TransformState {Active = gameObject.activeInHierarchy, Position = roundedPos};
+//        Vector3Int roundedPos = Vector3Int.RoundToInt(pos);
+//        transform.position = roundedPos; //this eliminates lerping on serverplayer
+        serverTransformState = new TransformState {Active = gameObject.activeInHierarchy, Position = pos};
         if (notify)
         {
             NotifyPlayers();
         }
     }
+    
+    [Server]
+    public void DisappearFromWorldServer(/*bool forceUpdate = true*/)
+    {
+        //be careful with forceupdate=false, it should be false only to the initiator w/preditction (if at all)
+        serverTransformState = new TransformState {Active = false, Position = Vector3.zero};
+        NotifyPlayers();
+    }
 
+    [Server]
+    public void AppearAtPositionServer(Vector3 pos/*, bool forceUpdate = true*/)
+    {
+        serverTransformState = new TransformState {Active = true, Position = pos};
+        NotifyPlayers();
+    }
 
     /// <summary>
     /// New method to substitute transform.parent = x stuff.
     /// You shouldn't really use it a lot anymore, 
     /// as there are high level methods that should suit your needs better.
-    /// Server-only for now
+    /// Server-only for now, client is not notified
     /// </summary>
     [Server]
     public void SetParent(Transform pos)
@@ -100,49 +126,39 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         transform.parent = pos;
     }
 
-    [Server]
-    public void DisappearFromWorldServer(bool forceUpdate = true)
-    {
-        //be careful with forceupdate=false, it should be false only to the initiator w/preditction (if at all)
-        var newState = new TransformState {Active = false, Position = Vector3.zero};
-        _serverTransformState = newState;
-        _serverTransformStateCache = newState;
-        _predictedTransformState = newState;
-        NotifyPlayers();
-    }
-
-    [Server]
-    public void AppearAtPositionServer(Vector3 pos, bool forceUpdate = true)
-    {
-        var newState = new TransformState {Active = true, Position = pos};
-        _serverTransformState = newState;
-        _serverTransformStateCache = newState;
-        _predictedTransformState = newState;
-        NotifyPlayers();
-    }
-
     /// <summary>
-    /// Convenience method to make stuff disappear at position
+    /// Convenience method to make stuff disappear at position.
+    /// For client prediction purposes.
     /// </summary>
-    public void DisappearFromWorld(bool forceUpdate = true)
+    public void DisappearFromWorld(/*bool forceUpdate = true*/)
     {
-        UpdateState(new TransformState{Active = false});
+        UpdateClientState(new TransformState{Active = false});
     }
 
     /// <summary>
     /// Convenience method to make stuff appear at position
+    /// For client prediction purposes.
     /// </summary>
-    public void AppearAtPosition(Vector3 pos, bool forceUpdate = true)
+    public void AppearAtPosition(Vector3 pos/*, bool forceUpdate = true*/)
     {
-        UpdateState(new TransformState {Active = true, Position = pos});
+        UpdateClientState(new TransformState {Active = true, Position = pos});
     }
 
-    public void UpdateState(TransformState state)
+    public void UpdateClientState(TransformState newState)
     {
-        gameObject.SetActive(state.Active);
-        gameObject.transform.position = state.Position;
-        _predictedTransformState = state;
-        _serverTransformState = state;
+        
+        if ( transformState.Active && newState.Active )
+        {
+            transformState = newState;
+            Lerp();
+        }
+        else
+        {
+            //no lerp
+            transformState = newState;
+            gameObject.SetActive(newState.Active);
+            transform.position = newState.Position;
+        }
     }
 
     /// <summary>
@@ -151,7 +167,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     [Server]
     private void NotifyPlayers()
     {
-        TransformStateMessage.SendToAll(gameObject, _serverTransformStateCache);
+        TransformStateMessage.SendToAll(gameObject, serverTransformState);
     }
 
     /// <summary>
@@ -161,7 +177,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     [Server]
     public void NotifyPlayer(GameObject playerGameObject)
     {
-        TransformStateMessage.Send(playerGameObject, gameObject, _serverTransformStateCache);
+        TransformStateMessage.Send(playerGameObject, gameObject, serverTransformState);
     }
 
 
@@ -171,7 +187,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         matrix = Matrix.GetMatrix(this);
     }
 
-//managed by UpdateManager
+    //managed by UpdateManager
     public override void UpdateMe()
     {
         if ( !registerTile )
@@ -196,20 +212,26 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
             return;
         }
 
-        _transformState = isClient ? _predictedTransformState : _serverTransformState;
-        transform.position = Vector3.MoveTowards(transform.position, _transformState.Position, speed * Time.deltaTime);
+        //fixme??
+//        _transformState = isClient ? _predictedTransformState : transformState;
+        
 //        transform.position = _transformState.Position;
-
-        if ( _transformState.Position != transform.position )
+        if ( transformState.Position != transform.position )
         {
-            lastDirection = ( _transformState.Position - transform.position ).normalized;
+            Lerp();
+            lastDirection = ( transformState.Position - transform.position ).normalized;
         }
 
         //Registering
-        if ( registerTile.Position != Vector3Int.RoundToInt(_transformState.Position) )
+        if ( registerTile.Position != Vector3Int.RoundToInt(transformState.Position) )
         {
             RegisterObjects();
         }
+    }
+
+    private void Lerp()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, transformState.Position, speed * Time.deltaTime);
     }
 
 
@@ -219,12 +241,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         if(matrix != null && matrix.IsFloatingAt(pos))
         {
             var newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
-            _serverTransformState.Position = newGoal;
-            _predictedTransformState.Position = newGoal;
+            transformState.Position = newGoal;
         }
     }
 
-//todo: lerping for updated stuff
 //    private TransformState NextState(TransformState transformState, ItemTransformAction transformAction)
 //    {
 //        return new TransformState
@@ -235,10 +255,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //    }
 //    private void OnServerStateChange(TransformState newTransformState) //ex-RPC
 //    {
-//        _serverTransformState = newTransformState;
+//        transformState = newTransformState;
 //        if ( pendingActions != null )
 //        {
-//            while ( pendingActions.Count > ( _predictedTransformState.MoveNumber - _serverTransformState.MoveNumber ) )
+//            while ( pendingActions.Count > ( _predictedTransformState.MoveNumber - transformState.MoveNumber ) )
 //            {
 //                pendingActions.Dequeue();
 //            }
