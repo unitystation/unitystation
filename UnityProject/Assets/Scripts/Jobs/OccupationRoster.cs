@@ -5,6 +5,7 @@ using UnityEngine;
 public class OccupationRoster : MonoBehaviour
 {
     public JobType Type;
+    public JobDepartment department;
     public int limit;
     public int priority = 99;
     public GameObject outfit;
