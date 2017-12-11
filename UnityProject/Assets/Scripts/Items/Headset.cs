@@ -8,9 +8,10 @@ using UnityEngine.Networking;
 /// </summary>
 public class Headset : NetworkBehaviour
 {
+	[SyncVar]
 	public EncryptionKeyType EncryptionKey;
 
-	private void Start()
+	public void init()
 	{
 		getEncryptionTypeFromHier();
 	}

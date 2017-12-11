@@ -12,7 +12,7 @@ namespace PlayGroup
         // the maximum distance the player needs to be to an object to interact with it
 		//1.75 is the optimal distance to now have any direction click too far
 		//NOTE FOR ANYONE EDITING THIS IN THE FUTURE: Character's head is slightly below the top of the tile
-		//hence top reach is slightly lowered than bottom reach, where the legs go exactly to the bottom of the tile.
+		//hence top reach is slightly lower than bottom reach, where the legs go exactly to the bottom of the tile.
         public const float interactionDistance = 1.75f;
 
         public PlayerNetworkActions playerNetworkActions { get; set; }
@@ -216,11 +216,11 @@ namespace PlayGroup
             //TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
             ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
 
-            /*GameObject headset = UIManager.InventorySlots.EarSlot.Item;
+            GameObject headset = UIManager.InventorySlots.EarSlot.Item;
             if(headset) {
                 EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
                 transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
-            }*/
+            }
             ChatChannel receiveChannels = (ChatChannel.Examine | ChatChannel.System);
 
             if (transmitOnly)

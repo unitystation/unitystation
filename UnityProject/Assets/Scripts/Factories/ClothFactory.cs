@@ -8,6 +8,9 @@ public class ClothFactory : NetworkBehaviour
 {
     public static ClothFactory Instance;
 
+	public static string ClothingHierIdentifier = "cloth";
+	public static string HeadsetHierIdentifier = "headset";
+
     private GameObject uniCloth { get; set; }
     private GameObject uniHeadSet { get; set; }
 
@@ -23,7 +26,8 @@ public class ClothFactory : NetworkBehaviour
     {
         //Do init stuff
         uniCloth = Resources.Load("UniCloth") as GameObject;
-    }
+		uniHeadSet = Resources.Load("UniHeadSet") as GameObject;
+	}
 
     public void PreLoadCloth(int preLoads)
     {
@@ -37,12 +41,35 @@ public class ClothFactory : NetworkBehaviour
     public GameObject CreateCloth(string hierString, Vector3 spawnPos)
     {
         if (!CustomNetworkManager.Instance._isServer)
-            return null;
+		{
+			return null;
+		}
 
-        //PoolManager handles networkspawn
-        GameObject clothObj = PoolManager.Instance.PoolNetworkInstantiate(uniCloth, spawnPos, Quaternion.identity);
+		//PoolManager handles networkspawn
+		GameObject uniItem = pickClothObject(hierString);
+		GameObject clothObj = PoolManager.Instance.PoolNetworkInstantiate(uniItem, spawnPos, Quaternion.identity);
         ItemAttributes i = clothObj.GetComponent<ItemAttributes>();
         i.hierarchy = hierString;
+		if(uniItem == uniHeadSet)
+		{
+			Headset headset = clothObj.GetComponent<Headset>();
+			headset.init();
+		}
         return clothObj;
     }
+
+	private GameObject pickClothObject(string hierarchy)
+	{
+		if(hierarchy.Contains(ClothingHierIdentifier))
+		{
+			return uniCloth;
+		} else if (hierarchy.Contains(HeadsetHierIdentifier))
+		{
+			return uniHeadSet;
+		} else
+		{
+			Debug.LogError("Clot factory could not pick uni item. Falling back to uniCloth");
+			return uniCloth;
+		}
+	}
 }
