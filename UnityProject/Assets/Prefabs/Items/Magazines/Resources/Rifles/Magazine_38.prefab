@@ -9,39 +9,41 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1269203658156660}
+  m_RootGameObject: {fileID: 1887694972930660}
   m_IsPrefabParent: 1
---- !u!1 &1269203658156660
+--- !u!1 &1887694972930660
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4971596471621404}
-  - component: {fileID: 61238897345605914}
-  - component: {fileID: 114416506546312668}
-  - component: {fileID: 114921827116301792}
-  - component: {fileID: 114064114876883076}
-  - component: {fileID: 114815510690793504}
-  - component: {fileID: 114083348550750644}
-  - component: {fileID: 114335168548285402}
+  - component: {fileID: 4118331507209158}
+  - component: {fileID: 61355786838506926}
+  - component: {fileID: 114184922719460598}
+  - component: {fileID: 114297517411051912}
+  - component: {fileID: 114891067180309740}
+  - component: {fileID: 114462994006981904}
+  - component: {fileID: 114673342454476188}
+  - component: {fileID: 114726631009728650}
+  - component: {fileID: 114554720864615500}
+  - component: {fileID: 114595661855791112}
   m_Layer: 10
-  m_Name: Heirloom_Handgun_Ballistic
+  m_Name: Magazine_38
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1752804189775886
+--- !u!1 &1960548086557526
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4105064929275890}
-  - component: {fileID: 212311458304787894}
+  - component: {fileID: 4160258961686506}
+  - component: {fileID: 212683567471066810}
   m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
@@ -49,39 +51,39 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4105064929275890
+--- !u!4 &4118331507209158
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1752804189775886}
+  m_GameObject: {fileID: 1887694972930660}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_Children:
+  - {fileID: 4160258961686506}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4160258961686506
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1960548086557526}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4971596471621404}
+  m_Father: {fileID: 4118331507209158}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4971596471621404
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1269203658156660}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4105064929275890}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61238897345605914
+--- !u!61 &61355786838506926
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1269203658156660}
+  m_GameObject: {fileID: 1887694972930660}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -101,12 +103,65 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114064114876883076
+--- !u!114 &114184922719460598
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1269203658156660}
+  m_GameObject: {fileID: 1887694972930660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 67
+    i1: 184
+    i2: 40
+    i3: 104
+    i4: 254
+    i5: 165
+    i6: 228
+    i7: 216
+    i8: 185
+    i9: 49
+    i10: 200
+    i11: 88
+    i12: 96
+    i13: 222
+    i14: 64
+    i15: 198
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114297517411051912
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887694972930660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &114462994006981904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887694972930660}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
@@ -114,20 +169,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cloth: 0
   hierarchy: 
-  itemName: Heirloom Handgun
+  itemName: 38 Magnum Magazine
   itemDescription: 
-  spriteType: 2
-  type: 16
-  inHandReferenceRight: 268
-  inHandReferenceLeft: 112
+  spriteType: 0
+  type: 0
+  inHandReferenceRight: 0
+  inHandReferenceLeft: 0
   clothingReference: -1
-  size: 2
---- !u!114 &114083348550750644
+  size: 0
+--- !u!114 &114554720864615500
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1269203658156660}
+  m_GameObject: {fileID: 1887694972930660}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
@@ -146,100 +201,74 @@ MonoBehaviour:
   serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
---- !u!114 &114335168548285402
+--- !u!114 &114595661855791112
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1269203658156660}
+  m_GameObject: {fileID: 1887694972930660}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 0
---- !u!114 &114416506546312668
+--- !u!114 &114673342454476188
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1269203658156660}
+  m_GameObject: {fileID: 1887694972930660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 110
-    i1: 91
-    i2: 172
-    i3: 98
-    i4: 168
-    i5: 59
-    i6: 212
-    i7: 232
-    i8: 233
-    i9: 118
-    i10: 79
-    i11: 63
-    i12: 125
-    i13: 72
-    i14: 190
-    i15: 170
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &114815510690793504
+  ammoType: 38
+  magazineSize: 6
+  Usable: 1
+  ammoRemains: 6
+--- !u!114 &114726631009728650
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1269203658156660}
+  m_GameObject: {fileID: 1887694972930660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12ad712be1fefd043b45761b18e23798, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponType: 1
-  Projectile: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 2}
-  ProjectileDamage: 7
-  ProjectileVelocity: 10
-  FireRate: 4
-  ProjectilesFired: 1
-  MaxRecoilVariance: 0
-  FireingSound: ShootSMG
-  AmmoType: 9mm
-  FireCountDown: 0
-  InAutomaticAction: 0
-  CurrentRecoilVariance: 0
---- !u!114 &114921827116301792
+--- !u!114 &114891067180309740
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1269203658156660}
+  m_GameObject: {fileID: 1887694972930660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
---- !u!212 &212311458304787894
+  visibleState: 1
+  isPlayer: 0
+  registerTile: {fileID: 0}
+  moveSpeed: 7
+  allowedToMove: 1
+  isPushable: 0
+  pulledBy: {fileID: 0}
+  pushTarget: {x: 0, y: 0, z: 0}
+  pushing: 0
+  serverLittleLag: 0
+  serverPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
+  timeInPush: 0
+--- !u!212 &212683567471066810
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1752804189775886}
+  m_GameObject: {fileID: 1960548086557526}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -268,7 +297,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 10
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300326, guid: e60fa16c12a54a28b5e8c06def0303f1, type: 3}
+  m_Sprite: {fileID: 21300294, guid: 6019d144b0abc4a98bb168dd6d96bedf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
