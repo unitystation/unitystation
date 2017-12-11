@@ -14,7 +14,7 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 
         public override bool IsPassable(Vector3Int to)
         {
-            if (OneDirectionRestricted)
+            if (IsClosed && OneDirectionRestricted)
             {
                 var v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
