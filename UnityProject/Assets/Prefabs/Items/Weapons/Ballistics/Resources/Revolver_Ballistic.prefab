@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 114529648990615742}
   - component: {fileID: 114451834042202350}
   m_Layer: 10
-  m_Name: Revolver_ballistic
+  m_Name: Revolver_Ballistic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,7 +152,7 @@ MonoBehaviour:
   ProjectilesFired: 1
   MaxRecoilVariance: 0
   FireingSound: ShootSMG
-  AmmoType: 12mm
+  AmmoType: 357
   FireCountDown: 0
   InAutomaticAction: 0
   CurrentRecoilVariance: 0
