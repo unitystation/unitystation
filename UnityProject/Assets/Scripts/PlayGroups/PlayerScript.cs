@@ -33,6 +33,7 @@ namespace PlayGroup
 
         public HitIcon hitIcon { get; set; }
 
+        [SyncVar]
         public JobType JobType = JobType.NULL;
 
         public GameObject ghost;
