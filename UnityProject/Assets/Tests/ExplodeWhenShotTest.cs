@@ -26,7 +26,7 @@ public class ExplodeWhenShotTest
     public IEnumerator Should_Destroy_Bullet()
     {
         var bullet = new GameObject();
-        PoolManager.PoolClientInstantiate(bullet, Vector2.zero, Quaternion.identity);
+        PoolManager.Instance.PoolClientInstantiate(bullet, Vector2.zero, Quaternion.identity);
         var collider = bullet.AddComponent<BoxCollider2D>();
         var tracker = bullet.AddComponent<PoolPrefabTracker>();
         tracker.myPrefab = bullet;

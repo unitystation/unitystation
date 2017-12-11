@@ -64,7 +64,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		magBehaviour.ammoRemains--; //TODO: remove more bullets if burst
 
 		//get the bullet prefab being shot
-		GameObject bullet = PoolManager.PoolClientInstantiate(Resources.Load(bulletName) as GameObject, transform.position, Quaternion.identity);
+		GameObject bullet = PoolManager.Instance.PoolClientInstantiate(Resources.Load(bulletName) as GameObject, transform.position, Quaternion.identity);
 		var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
 		//if we have recoil variance add it, and get the new attack angle
@@ -106,7 +106,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (CustomNetworkManager.Instance._isServer)
 			return;
 
-		GameObject bullet = PoolManager.PoolClientInstantiate(Resources.Load(bulletName) as GameObject, transform.position, Quaternion.identity);
+		GameObject bullet = PoolManager.Instance.PoolClientInstantiate(Resources.Load(bulletName) as GameObject, transform.position, Quaternion.identity);
 		Vector2 playerPos = new Vector2(transform.position.x, transform.position.y);
 		Vector2 dir = (endPos - playerPos).normalized;
 		var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

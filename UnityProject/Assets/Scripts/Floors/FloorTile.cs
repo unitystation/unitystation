@@ -36,7 +36,7 @@ public class FloorTile : MonoBehaviour
         if (fireScorch != null)
         {
             fireScorch.transform.parent = null;
-            PoolManager.PoolClientDestroy(fireScorch);
+            PoolManager.Instance.PoolClientDestroy(fireScorch);
         }
     }
 }

@@ -159,11 +159,11 @@ namespace Equipment
             {
 				if (gearItem.Value.Contains("cloth"))
 				{
-					GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
+					GameObject obj = ClothFactory.Instance.CreateCloth(gearItem.Value, Vector3.zero);
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
 				} else if (gearItem.Value.Contains("headset")) {
-					GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
+					GameObject obj = ClothFactory.Instance.CreateCloth(gearItem.Value, Vector3.zero);
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
 					obj.AddComponent<Headset>();

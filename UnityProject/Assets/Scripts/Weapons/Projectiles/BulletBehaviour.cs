@@ -34,7 +34,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        PoolManager.PoolClientDestroy(gameObject);
+        PoolManager.Instance.PoolClientDestroy(gameObject);
 
     }
 
@@ -46,6 +46,6 @@ public abstract class BulletBehaviour : MonoBehaviour
              damageable.gameObject.name.Equals(shooterName)) return;
         damageable.ApplyDamage(shooterName, damage, DamageType.BRUTE, bodyAim);
         //		Debug.LogFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", damageable.gameObject.name, damage);
-        PoolManager.PoolClientDestroy(gameObject);
+        PoolManager.Instance.PoolClientDestroy(gameObject);
     }
 }

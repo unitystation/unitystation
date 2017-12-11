@@ -6,22 +6,19 @@ using System.Linq;
 
 public class PlayerList : NetworkBehaviour
 {
-    public static PlayerList playerList;
     public SyncListString nameList = new SyncListString();
     public Dictionary<string, GameObject> connectedPlayers = new Dictionary<string, GameObject>();
     //For combat demo
     public Dictionary<string, int> playerScores = new Dictionary<string, int>();
     int numSameNames = 0;
 
-    public static PlayerList Instance
-    {
-        get
-        {
-            if (!playerList)
-            {
-                playerList = FindObjectOfType<PlayerList>();
-            }
-            return playerList;
+    public static PlayerList Instance;
+
+    void Awake(){
+        if(Instance == null){
+            Instance = this;
+        } else {
+            Destroy(gameObject);
         }
     }
 

@@ -111,10 +111,10 @@ public class GameManager : MonoBehaviour
     {
         int count = 0;
 
-        if (PlayerList.playerList == null)
+        if (PlayerList.Instance == null)
             return 0;
 
-        foreach (var player in PlayerList.playerList.connectedPlayers)
+        foreach (var player in PlayerList.Instance.connectedPlayers)
         {
             if (player.Value != null)
             {

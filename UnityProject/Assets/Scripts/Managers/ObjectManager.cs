@@ -35,7 +35,7 @@ public class ObjectManager : MonoBehaviour
         clothFactory = pM.GetComponent<ClothFactory>();
 
         //Preload to save on Instantiation during gameplay
-        ClothFactory.PreLoadCloth(Instance.preLoadClothAmount);
+        ClothFactory.Instance.PreLoadCloth(Instance.preLoadClothAmount);
     }
 }
 
