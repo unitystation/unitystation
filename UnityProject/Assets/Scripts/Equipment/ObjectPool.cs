@@ -20,8 +20,8 @@ namespace Equipment
 //            obj.transform.position = transform.position;
 //            obj.transform.parent = transform;
             var objTransform = obj.GetComponent<CustomNetTransform>();
-            objTransform.SetParent(transform);
-            objTransform.SetPosition(transform.position, false);
+//            objTransform.SetParent(transform);
+            objTransform.DisappearFromWorldServer();//SetPosition(transform.position, false);
 
             NetworkIdentity id = obj.GetComponent<NetworkIdentity>();
             ItemAttributes att = obj.GetComponent<ItemAttributes>();

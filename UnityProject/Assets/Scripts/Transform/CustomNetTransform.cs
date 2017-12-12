@@ -11,7 +11,7 @@ public struct TransformState
     public Vector3 Position;
 }
 
-
+//todo: check flow to avoid redundant messages
 //todo: consider moving unregistering here
 public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
@@ -37,8 +37,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         if ( isServer )
         {
             var position = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
-            serverTransformState = new TransformState {Active = gameObject.activeInHierarchy, Position = position};
+            serverTransformState = new TransformState {Active = true, Position = position, Speed = this.Speed};
             transformState = serverTransformState;
+            NotifyPlayers();
         }
     }
 
@@ -62,11 +63,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
     /// Manually set an item to a specific position
     [Server]
-    public void SetPosition(Vector3 pos, bool notify = true)
+    public void SetPosition(Vector3 pos, bool notify = true) //consider adding optional lerp param
     {
-//        Vector3Int roundedPos = Vector3Int.RoundToInt(pos);
-//        transform.position = roundedPos; //this eliminates lerping on serverplayer
-        serverTransformState = new TransformState {Active = gameObject.activeInHierarchy, Position = pos, Speed = this.Speed};
+        serverTransformState.Position = pos;
         if (notify)
         {
             NotifyPlayers();
@@ -77,15 +76,16 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     public void DisappearFromWorldServer(/*bool forceUpdate = true*/)
     {
         //be careful with forceupdate=false, it should be false only to the initiator w/preditction (if at all)
-        serverTransformState = new TransformState {Active = false, Position = Vector3.zero};
+        serverTransformState.Active = false;
+        serverTransformState.Position = Vector3.zero;// = new TransformState {Active = false, Position = Vector3.zero};
         NotifyPlayers();
     }
 
     [Server]
     public void AppearAtPositionServer(Vector3 pos/*, bool forceUpdate = true*/)
     {
-        serverTransformState = new TransformState {Active = true, Position = pos};
-        NotifyPlayers();
+        serverTransformState.Active = true;
+        SetPosition( pos );
     }
 
     /// <summary>
@@ -121,15 +121,15 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     public void UpdateClientState(TransformState newState)
     {
         transformState = newState;
-        transform.position = newState.Position;
-        if ( !newState.Speed.Equals(0f) )
+        transform.position = transformState.Position;
+        if ( !transformState.Speed.Equals(0f) )
         {
-            Speed = newState.Speed;
+            Speed = transformState.Speed;
         }
-        if ( gameObject.activeInHierarchy && transformState.Active )
-        {
-            Lerp();
-        }
+//        if ( gameObject.activeInHierarchy && transformState.Active )
+//        {
+//            Lerp();
+//        }
         
         updateActiveStatus();
     }
@@ -183,6 +183,11 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
     private void Synchronize()
     {
+        if ( !transformState.Active )
+        {
+            return;
+        }
+        
         CheckSpaceDrift();
 
         if ( GameData.IsHeadlessServer )
@@ -214,7 +219,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     [Server]
     private void CheckSpaceDrift()
     {
-        var pos = Vector3Int.RoundToInt(transform.position);
+        var pos = Vector3Int.RoundToInt(serverTransformState.Position);
         if( !pos.Equals(Vector3Int.zero) && matrix != null && matrix.IsFloatingAt(pos) )
         {
             var newGoal = Vector3Int.RoundToInt(transform.position + (Vector3) lastDirection);
