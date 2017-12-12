@@ -8,11 +8,6 @@ using Crafting;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UI;
-using UnityEngine;
-using UnityEngine.Networking;
-using PlayGroup;
-using PlayGroups.Input;
 using Equipment;
 
 
@@ -36,8 +31,8 @@ public class MicrowaveTrigger : InputTrigger
                 //Client informs server of interaction attempt
                 InteractMessage.Send(gameObject, position, slot.eventName);
                 //Client simulation
-                //              var placedOk = slot.PlaceItem(gameObject.transform.position);
-                //              if ( !placedOk )
+                //              
+                //              if ( !waveOk )
                 //              {
                 //                  Debug.Log("Client placing error");
                 //              }
@@ -64,9 +59,6 @@ public class MicrowaveTrigger : InputTrigger
 
         GameObject item = ps.playerNetworkActions.Inventory[hand];
         if (item == null) return false;
-        //        var targetPosition = gameObject.transform.position; //Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //        targetPosition.z = -0.2f;
-        //        ps.playerNetworkActions.PlaceItem(hand, targetPosition, gameObject);
         var attr = item.GetComponent<ItemAttributes>();
 
         var ingredient = new Ingredient(attr.itemName);
