@@ -27,7 +27,7 @@ public class PushPull : VisibleBehaviour
 
     [SyncVar] public Vector3 currentPos;
 
-//    private Matrix matrix;
+    private Matrix matrix;
 
     //A check to make sure there are no network errors
     public float timeInPush = 0f;

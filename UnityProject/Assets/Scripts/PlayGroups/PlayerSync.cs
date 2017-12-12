@@ -5,7 +5,6 @@ using UnityEngine;
 using Tilemaps.Scripts.Behaviours.Objects;
 using Matrix = Tilemaps.Scripts.Matrix;
 using UI;
-using UnityEngine.XR.WSA;
 
 namespace PlayGroup
 {
@@ -29,6 +28,7 @@ namespace PlayGroup
         private PlayerSprites playerSprites;
         private RegisterTile registerTile;
         private Queue<PlayerAction> pendingActions;
+        private HealthBehaviour healthBehaviorScript;
 
         [SyncVar]
         private PlayerState serverStateCache; //used to sync with new players
@@ -47,6 +47,9 @@ namespace PlayGroup
         private Vector2 lastDirection;
 
         private Matrix matrix;
+
+        //TODO: Remove the space damage coroutine when atmos is implemented
+        private bool isApplyingSpaceDmg = false;
 
         public override void OnStartServer()
         {
@@ -131,6 +134,7 @@ namespace PlayGroup
             }
             playerScript = GetComponent<PlayerScript>();
             playerSprites = GetComponent<PlayerSprites>();
+            healthBehaviorScript = GetComponent<HealthBehaviour>();
             registerTile = GetComponent<RegisterTile>();
             pushPull = GetComponent<PushPull>();
             matrix = Matrix.GetMatrix(this);
@@ -144,17 +148,17 @@ namespace PlayGroup
                 // If being pulled by another player and you try to break free
                 //TODO Condition to check for handcuffs / straight jacket 
                 // (probably better to adjust allowInput or something)
-//                if (pushPull.pulledBy != null && !playerMove.isGhost)
-//                {
-//                    for (int i = 0; i < playerMove.keyCodes.Length; i++)
-//                    {
-//                        if (Input.GetKey(playerMove.keyCodes[i]))
-//                        {
-//                            playerScript.playerNetworkActions.CmdStopOtherPulling(gameObject);
-//                        }
-//                    }
-//                    return;
-//                }
+                if (pushPull.pulledBy != null && !playerMove.isGhost)
+                {
+                    for (int i = 0; i < playerMove.keyCodes.Length; i++)
+                    {
+                        if (Input.GetKey(playerMove.keyCodes[i]))
+                        {
+                            playerScript.playerNetworkActions.CmdStopOtherPulling(gameObject);
+                        }
+                    }
+                    return;
+                }
                 if (predictedState.Position == transform.localPosition && !playerMove.isGhost)
                 {
                     DoAction();
@@ -192,14 +196,14 @@ namespace PlayGroup
 
         private void Synchronize()
         {
-            CheckSpaceWalk();
-
             if (isLocalPlayer && GameData.IsHeadlessServer)
                 return;
 
             if (!playerMove.isGhost)
             {
-                if (isLocalPlayer && playerMove.IsPushing /*|| pushPull.pulledBy != null*/)
+                CheckSpaceWalk();
+
+                if (isLocalPlayer && playerMove.IsPushing || pushPull.pulledBy != null)
                     return;
 
                 var state = isLocalPlayer ? predictedState : serverState;
@@ -354,7 +358,24 @@ namespace PlayGroup
                 var newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
                 serverState.Position = newGoal;
                 predictedState.Position = newGoal;
+                if (!healthBehaviorScript.IsDead && CustomNetworkManager.Instance._isServer
+                    && !isApplyingSpaceDmg)
+                {
+                    StartCoroutine(ApplyTempSpaceDamage());
+                    isApplyingSpaceDmg = true;
             }
+        }
+    }
+
+        //TODO: Remove this when atmos is implemented 
+        //This prevents players drifting into space indefinitely 
+        IEnumerator ApplyTempSpaceDamage()
+        {
+            yield return new WaitForSeconds(1f);
+            healthBehaviorScript.RpcApplyDamage("SPESS", 5, DamageType.OXY, BodyPartType.HEAD);
+            //No idea why there is an isServer catch on RpcApplyDamage, but will apply on server as well in mean time:
+            healthBehaviorScript.ApplyDamage("SPESS", 5, DamageType.OXY, BodyPartType.HEAD);
+            isApplyingSpaceDmg = false;
         }
     }
 }

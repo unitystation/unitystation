@@ -216,7 +216,39 @@ namespace PlayGroup
         private void Interact(Vector3 currentPosition, Vector3 direction)
         {
             var position = Vector3Int.RoundToInt(currentPosition + direction);
+
+            InteractDoor(currentPosition, direction);
+
+            //Is the object pushable (iterate through all of the objects at the position):
+            var pushPulls = matrix.Get<PushPull>(position).ToArray();
+            for (int i = 0; i < pushPulls.Length; i++)
+            {
+                if (pushPulls[i] && pushPulls[i].gameObject != gameObject)
+                {
+                    pushPulls[i].TryPush(gameObject, speed, direction);
+                }
+            }
+        }
+
+        private void InteractDoor(Vector3 currentPosition, Vector3 direction)
+        {
+            var position = Vector3Int.RoundToInt(currentPosition + direction);
+
             var doorController = matrix.GetFirst<DoorController>(position);
+
+            if (!doorController)
+            {
+                doorController = matrix.GetFirst<DoorController>(Vector3Int.RoundToInt(currentPosition));
+
+                if (doorController)
+                {
+                    var registerDoor = doorController.GetComponent<RegisterDoor>();
+                    if (registerDoor.IsPassable(position))
+                    {
+                        doorController = null;
+                    }
+                }
+            }
 
             if (doorController != null && allowInput)
             {
@@ -253,13 +285,6 @@ namespace PlayGroup
 
                     StartCoroutine(DoorInputCoolDown());
                 }
-            }
-
-            var objectActions = matrix.GetFirst<PushPull>(position);
-
-            if (objectActions && objectActions.gameObject != gameObject)
-            {
-                objectActions.TryPush(gameObject, speed, direction);
             }
         }
 

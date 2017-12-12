@@ -7,39 +7,15 @@ using UnityEngine.Networking;
 public struct TransformState
 {
     public bool Active;
+    public float Speed;
     public Vector3 Position;
 }
 
 
-//don't forget to: turn off FOV, set ping to 200, remove ObjectBehaviour from player
-
 //todo: consider moving unregistering here
-//todo: lerping for updated stuff
-
-/*
- * fixme client errors:
- *NullReferenceException: Object reference not set to an instance of an object
-  at Tilemaps.Scripts.Matrix.GetMatrix (UnityEngine.MonoBehaviour behaviour) [0x00025] in C:\homeproj\unitystation\UnityProject\Assets\Tilemaps\Scripts\Matrix.cs:21 
-  at CustomNetTransform.Start () [0x0000f] in C:\homeproj\unitystation\UnityProject\Assets\Scripts\Transform\CustomNetTransform.cs:163 
- 
-(Filename: C:/homeproj/unitystation/UnityProject/Assets/Tilemaps/Scripts/Matrix.cs Line: 21)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at Tilemaps.Scripts.Behaviours.Objects.RegisterTile.Start () [0x00034] in C:\homeproj\unitystation\UnityProject\Assets\Tilemaps\Scripts\Behaviours\Objects\RegisterTile.cs:42 
- 
-(Filename: C:/homeproj/unitystation/UnityProject/Assets/Tilemaps/Scripts/Behaviours/Objects/RegisterTile.cs Line: 42)
-
-
-when client sees host drop/pick stuff
-NullReferenceException: Object reference not set to an instance of an object
-  at TransformStateMessage+<Process>c__Iterator0.MoveNext () [0x000be] in C:\homeproj\unitystation\UnityProject\Assets\Scripts\Messages\Server\TransformStateMessage.cs:26 
-  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00028] in C:\buildslave\unity\build\Runtime\Export\Coroutines.cs:17 
- 
-(Filename: C:/homeproj/unitystation/UnityProject/Assets/Scripts/Messages/Server/TransformStateMessage.cs Line: 26)
- */
 public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
-    public float speed = 2; //lerp speed
+    public float Speed = 2; //lerp speed
 
     protected RegisterTile registerTile;
 
@@ -52,38 +28,36 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
     public override void OnStartServer()
     {
-        InitState();
+        InitServerState();
         base.OnStartServer();
     }
 
-//    public override void OnStartClient()
-//    {
-//        StartCoroutine(WaitForLoad());
-//        base.OnStartClient();
-//    }
-//    IEnumerator WaitForLoad()
-//    {
-//        yield return new WaitForEndOfFrame();
-//        if ( _serverTransformStateCache.Position != Vector3.zero && !isClient )
-//        {
-//            transformState = _serverTransformStateCache;
-//            transform.position = RoundedPos(transformState.Position);
-//        }
-//        else
-//        {
-//            transformState = new TransformState {Active = false};
-//            _predictedTransformState = new TransformState {Active = false};
-//        }
-//        yield return new WaitForSeconds(2f);
-//    }
-
-    private void InitState()
+    private void InitServerState()
     {
         if ( isServer )
         {
             var position = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
             serverTransformState = new TransformState {Active = gameObject.activeInHierarchy, Position = position};
+            transformState = serverTransformState;
         }
+    }
+
+    public override void OnStartClient()
+    {
+        StartCoroutine(WaitForLoad());
+        base.OnStartClient();
+    }
+
+    IEnumerator WaitForLoad()
+    {
+//        yield return new WaitForEndOfFrame();
+//        //hide shit until initalized
+//        if ( transformState.Position == Vector3.zero )
+//        {
+//            updateActiveStatus();
+//        }
+        //idk
+        yield return new WaitForSeconds(2f);
     }
 
     /// Manually set an item to a specific position
@@ -92,7 +66,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     {
 //        Vector3Int roundedPos = Vector3Int.RoundToInt(pos);
 //        transform.position = roundedPos; //this eliminates lerping on serverplayer
-        serverTransformState = new TransformState {Active = gameObject.activeInHierarchy, Position = pos};
+        serverTransformState = new TransformState {Active = gameObject.activeInHierarchy, Position = pos, Speed = this.Speed};
         if (notify)
         {
             NotifyPlayers();
@@ -146,19 +120,23 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
     public void UpdateClientState(TransformState newState)
     {
-        
-        if ( transformState.Active && newState.Active )
+        transformState = newState;
+        transform.position = newState.Position;
+        if ( !newState.Speed.Equals(0f) )
         {
-            transformState = newState;
+            Speed = newState.Speed;
+        }
+        if ( gameObject.activeInHierarchy && transformState.Active )
+        {
             Lerp();
         }
-        else
-        {
-            //no lerp
-            transformState = newState;
-            gameObject.SetActive(newState.Active);
-            transform.position = newState.Position;
-        }
+        
+        updateActiveStatus();
+    }
+
+    private void updateActiveStatus()
+    {
+        gameObject.SetActive(transformState.Active);
     }
 
     /// <summary>
@@ -171,7 +149,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     }
 
     /// <summary>
-    /// attempt to replace syncvar; this method should be called when new player joins
+    /// sync with new player joining
     /// </summary>
     /// <param name="playerGameObject"></param>
     [Server]
@@ -211,12 +189,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         {
             return;
         }
-
-        //fixme??
-//        _transformState = isClient ? _predictedTransformState : transformState;
         
-//        transform.position = _transformState.Position;
-        if ( transformState.Position != transform.position )
+        if ( transformState.Position != transform.position && transformState.Active )
         {
             Lerp();
             lastDirection = ( transformState.Position - transform.position ).normalized;
@@ -231,78 +205,27 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
     private void Lerp()
     {
-        transform.position = Vector3.MoveTowards(transform.position, transformState.Position, speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, transformState.Position, Speed * Time.deltaTime);
     }
 
-
+    /// <summary>
+    /// trying to make drift detection serverside only, and then just send state updates to lerp to
+    /// </summary>
+    [Server]
     private void CheckSpaceDrift()
     {
-        var pos = Vector3Int.RoundToInt(transform.localPosition);
-        if(matrix != null && matrix.IsFloatingAt(pos))
+        var pos = Vector3Int.RoundToInt(transform.position);
+        if( !pos.Equals(Vector3Int.zero) && matrix != null && matrix.IsFloatingAt(pos) )
         {
-            var newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
-            transformState.Position = newGoal;
+            var newGoal = Vector3Int.RoundToInt(transform.position + (Vector3) lastDirection);
+            if ( matrix.IsFloatingAt(newGoal) )
+            {
+                SetPosition(newGoal);
+            }
+            else
+            {
+                Debug.LogFormat($"{gameObject.name}: not floating due to an obstacle at {newGoal}");
+            }
         }
     }
-
-//    private TransformState NextState(TransformState transformState, ItemTransformAction transformAction)
-//    {
-//        return new TransformState
-//        {
-//            MoveNumber = transformState.MoveNumber + 1,
-//            Position = GetNextPosition(transformState.Position, transformAction)
-//        };
-//    }
-//    private void OnServerStateChange(TransformState newTransformState) //ex-RPC
-//    {
-//        transformState = newTransformState;
-//        if ( pendingActions != null )
-//        {
-//            while ( pendingActions.Count > ( _predictedTransformState.MoveNumber - transformState.MoveNumber ) )
-//            {
-//                pendingActions.Dequeue();
-//            }
-//            UpdatePredictedState();
-//        }
-//    }
-//    public Vector3 GetNextPosition(Vector3 currentPosition, ItemTransformAction action)
-//    {
-//        var direction = GetDirection(action);
-//
-//        var adjustedDirection = AdjustDirection(currentPosition, direction);
-//
-//        if ( adjustedDirection == Vector3.zero )
-//        {
-//            Interact(currentPosition, direction);
-//        }
-//
-//        return currentPosition + adjustedDirection;
-//    }
-//    public ItemTransformAction SendAction()
-//    {
-////		var actionKeys = new List<int>();
-////
-////		for (int i = 0; i < keyCodes.Length; i++){
-//////			if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
-//////				return new ItemTransformAction() { keyCodes = actionKeys.ToArray() };
-////
-////			if (Input.GetKey(keyCodes[i]) && allowInput) {
-////				actionKeys.Add((int)keyCodes[i]);
-////			}
-////		}
-//
-//        return new ItemTransformAction() /*{ keyCodes = actionKeys.ToArray() }*/;
-//    }
-//    private void Interact(Vector3 currentPosition, Vector3 direction)
-//    {
-//        var objectActions = Matrix.Matrix.At(currentPosition + direction).GetPushPull();
-//        if ( objectActions != null )
-//        {
-//            objectActions.TryPush(gameObject, speed, direction);
-//        }
-//    }
-//    private Vector3 AdjustDirection(Vector3 currentPosition, Vector3 direction)
-//    {
-//        return direction;
-//    }
 }
