@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cupboards;
@@ -6,6 +7,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
+using Tilemaps.Scripts.Tiles;
 
 namespace PlayGroups.Input
 {
@@ -49,7 +51,7 @@ namespace PlayGroups.Input
         {
             CheckHandSwitch();
             CheckClick();
-			CheckAltClick();
+            CheckAltClick();
         }
 
         private void CheckHandSwitch()
@@ -62,8 +64,8 @@ namespace PlayGroups.Input
 
         private void CheckClick()
         {
-			if (UnityEngine.Input.GetMouseButtonDown(0) && !UnityEngine.Input.GetKey(KeyCode.LeftControl) && !UnityEngine.Input.GetKey(KeyCode.LeftAlt))
-				           {
+            if (UnityEngine.Input.GetMouseButtonDown(0) && !UnityEngine.Input.GetKey(KeyCode.LeftControl) && !UnityEngine.Input.GetKey(KeyCode.LeftAlt))
+            {
                 //change the facingDirection of player on click
                 ChangeDirection();
 
@@ -75,17 +77,21 @@ namespace PlayGroups.Input
             }
         }
 
-		private void CheckAltClick()
-		{
-			if (UnityEngine.Input.GetMouseButtonDown(0) && (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt))) {
-				//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
-				var position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-				if(PlayerManager.LocalPlayerScript.IsInReach(position)) {
-					List<GameObject> tiles = UITileList.GetItemsAtPosition(position);
-					ControlTabs.ShowItemListTab(tiles);
-					}
-				}
-			}
+        private void CheckAltClick()
+        {
+            if (UnityEngine.Input.GetMouseButtonDown(0) && (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt)))
+            {
+                //Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
+                var position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+                position.z = 0f;
+                if (PlayerManager.LocalPlayerScript.IsInReach(position))
+                {
+                    List<GameObject> objects = UITileList.GetItemsAtPosition(position);
+                    LayerTile tile = UITileList.GetTileAtPosition(position);
+                    ControlTabs.ShowItemListTab(objects, tile, position);
+                }
+            }
+        }
 
         private void ChangeDirection()
         {
@@ -114,7 +120,7 @@ namespace PlayGroups.Input
                 var _renderer = IsHit(objectTransform, (position - objectTransform.position));
                 if (_renderer != null)
                 {
-                        renderers.Add(_renderer);
+                    renderers.Add(_renderer);
                 }
             }
 
@@ -142,7 +148,7 @@ namespace PlayGroups.Input
             {
                 return tilemapRenderer;
             }
-            
+
             return IsPixelHit(_transform, hitPosition);
         }
 
@@ -165,13 +171,13 @@ namespace PlayGroups.Input
 
                     float pixelsPerUnit = sprite.pixelsPerUnit;
 
-                    int texPosX = Mathf.RoundToInt(sprite.rect.x +
-                                                   ((hitPosition.x / scale.x - offset.x % 1) * pixelsPerUnit +
-                                                    sprite.rect.width * 0.5f));
-                    int texPosY = Mathf.RoundToInt(sprite.rect.y +
-                                                   ((hitPosition.y / scale.y - offset.y % 1) * pixelsPerUnit +
-                                                    sprite.rect.height * 0.5f));
+                    var angle = spriteRenderer.gameObject.transform.parent.localEulerAngles.z * Mathf.Deg2Rad;
 
+                    var x = hitPosition.y * Mathf.Sin(angle) - hitPosition.x * Mathf.Cos(angle);
+                    var y = hitPosition.y * Mathf.Cos(angle) - hitPosition.x * Mathf.Sin(angle);
+                    
+                    var texPosX = Mathf.RoundToInt(sprite.rect.x + sprite.rect.width * 0.5f - (x / scale.x - offset.x % 1) * pixelsPerUnit);
+                    var texPosY = Mathf.RoundToInt(sprite.rect.y + (y / scale.y - offset.y % 1) * pixelsPerUnit + sprite.rect.height * 0.5f);
 
                     var pixelColor = sprite.texture.GetPixel(texPosX, texPosY);
                     if (pixelColor.a > 0)
@@ -192,7 +198,8 @@ namespace PlayGroups.Input
         public bool Interact(Transform _transform, Vector3 position)
         {
             if (playerMove.isGhost)
-                return false; ;
+                return false;
+            ;
 
             //attempt to trigger the things in range we clicked on
             if (PlayerManager.LocalPlayerScript.IsInReach(position))

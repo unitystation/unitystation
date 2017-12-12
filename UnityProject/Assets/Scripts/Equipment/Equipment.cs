@@ -69,6 +69,7 @@ namespace Equipment
             //Player sprite offset:
             clothingSlots[10].Reference = 33;
 
+            StartCoroutine(SetPlayerLoadOuts());
         }
 
         public void SyncSprites(SyncListInt.Operation op, int index)
@@ -156,17 +157,13 @@ namespace Equipment
 
             foreach (KeyValuePair<string, string> gearItem in gear)
             {
-				if (gearItem.Value.Contains("cloth"))
+				if (gearItem.Value.Contains(ClothFactory.ClothingHierIdentifier) ||
+					gearItem.Value.Contains(ClothFactory.HeadsetHierIdentifier))
 				{
-					GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
+					GameObject obj = ClothFactory.Instance.CreateCloth(gearItem.Value, Vector3.zero);
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
-				} else if (gearItem.Value.Contains("headset")) {
-					GameObject obj = ClothFactory.CreateCloth(gearItem.Value, Vector3.zero);
-					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
-					obj.AddComponent<Headset>();
-				} else {
+				} else if (!String.IsNullOrEmpty(gearItem.Value)) {
 					Debug.Log(gearItem.Value + " creation not implemented yet.");
 				}
             }

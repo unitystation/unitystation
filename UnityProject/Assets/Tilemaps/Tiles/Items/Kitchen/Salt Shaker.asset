@@ -11,9 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6d9c91341f45b9b64b432bc7100ddc, type: 3}
   m_Name: Salt Shaker
   m_EditorClassIdentifier: 
-  LayerType: 1
+  LayerType: 2
+  TileType: 0
   RequiredTiles: []
   Object: {fileID: 1036141445992816, guid: dd31a44e0061599419dba34dd9e7fff7, type: 2}
   Rotatable: 0
   KeepOrientation: 0
   Offset: 0
+  IsItem: 1

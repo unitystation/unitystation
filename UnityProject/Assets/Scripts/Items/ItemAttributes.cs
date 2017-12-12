@@ -263,7 +263,7 @@ public class ItemAttributes : NetworkBehaviour
             }
         }
 
-        Debug.LogError("No clothing offset found!  ClothHier=" + onPlayerClothSheetHier[0] + ", " + getItemDebugInfo());
+        //Debug.LogError("No clothing offset found!  ClothHier=" + onPlayerClothSheetHier[0] + ", " + getItemDebugInfo());
         return -1;
     }
 

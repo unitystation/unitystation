@@ -10,7 +10,10 @@ namespace PlayGroup
     public class PlayerScript : ManagedNetworkBehaviour
     {
         // the maximum distance the player needs to be to an object to interact with it
-        public const float interactionDistance = 1.5f;
+		//1.75 is the optimal distance to now have any direction click too far
+		//NOTE FOR ANYONE EDITING THIS IN THE FUTURE: Character's head is slightly below the top of the tile
+		//hence top reach is slightly lower than bottom reach, where the legs go exactly to the bottom of the tile.
+        public const float interactionDistance = 1.75f;
 
         public PlayerNetworkActions playerNetworkActions { get; set; }
 
@@ -30,27 +33,24 @@ namespace PlayGroup
 
         public HitIcon hitIcon { get; set; }
 
+        [SyncVar]
         public JobType JobType = JobType.NULL;
 
-		public GameObject ghost;
+        public GameObject ghost;
 
         private float pingUpdate = 0f;
 
-		private ChatChannel selectedChannels;
+        private ChatChannel selectedChannels;
 
-        [SyncVar(hook = "OnNameChange")]
-        public string playerName = " ";
+        [SyncVar(hook = "OnNameChange")] public string playerName = " ";
 
-		public ChatChannel SelectedChannels
-		{
-			get
-			{
-				return selectedChannels & GetAvailableChannels();
-			}
-			set { this.selectedChannels = value; }
-		}
+        public ChatChannel SelectedChannels
+        {
+            get { return selectedChannels & GetAvailableChannels(); }
+            set { this.selectedChannels = value; }
+        }
 
-		public override void OnStartClient()
+        public override void OnStartClient()
         {
             //Local player is set a frame or two after OnStartClient
             StartCoroutine(WaitForLoad());
@@ -91,7 +91,8 @@ namespace PlayGroup
 
         void Init()
         {
-            if (isLocalPlayer) {
+            if (isLocalPlayer)
+            {
                 UIManager.ResetAllUI();
                 UIManager.DisplayManager.SetCameraFollowPos();
                 int rA = UnityEngine.Random.Range(0, 3);
@@ -116,13 +117,18 @@ namespace PlayGroup
                     CmdSetNameManual(PlayerManager.PlayerNameCache);
                 }
 
-                PlayerManager.SetPlayerForControl(this.gameObject);
+                PlayerManager.SetPlayerForControl(gameObject);
 
-                // I (client) have connected to the server, ask what my job preference is
-                UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
+                if (PlayerManager.LocalPlayerScript.JobType == JobType.NULL)
+                {
+                    // I (client) have connected to the server, ask what my job preference is
+                    UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
+                }
 
-				SelectedChannels = ChatChannel.OOC;
-			} else if (isServer) {
+                SelectedChannels = ChatChannel.OOC;
+            }
+            else if (isServer)
+            {
                 playerMove = GetComponent<PlayerMove>();
             }
         }
@@ -177,21 +183,14 @@ namespace PlayGroup
 
         public float DistanceTo(Vector3 position)
         {
-            return (transform.position - position).magnitude;
-        }
-		/// <summary>
-		/// Checks if the player is within reach of something
-		/// </summary>
-		/// <param name="transform">The transform of whatever we are trying to reach</param>
-		/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
-
-        public bool IsInReach(Transform transform, float interactDist = interactionDistance)
-        {
-            //if(pickUpCoolDown)
-            //    return false;
-            //StartCoroutine(PickUpCooldown());
-            //TODO: reimplement this timer higher up like in the InputController
-            return DistanceTo(transform.position) <= interactDist;
+			//Because characters are taller than they are wider, their reach upwards/downards was greater
+			//Flooring that shit fixes it
+			Vector3Int pos = new Vector3Int(
+				Mathf.FloorToInt(transform.position.x),
+				Mathf.FloorToInt(transform.position.y),
+				Mathf.FloorToInt(transform.position.z)
+			);
+            return (pos - position).magnitude;
         }
 
         /// <summary>
@@ -201,48 +200,61 @@ namespace PlayGroup
         /// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
         public bool IsInReach(Vector3 position, float interactDist = interactionDistance)
         {
-            return DistanceTo(position) <= interactDist;
+			//If click is in diagonal direction, extend reach slightly
+			float distanceX = Mathf.FloorToInt(Mathf.Abs(transform.position.x - position.x));
+			float distanceY = Mathf.FloorToInt(Mathf.Abs(transform.position.y - position.y));
+			if(distanceX == 1 && distanceY == 1) {
+				return DistanceTo(position) <= interactDist + 0.4f;
+			}
+
+			//if cardinal direction, use regular reach
+			return DistanceTo(position) <= interactDist;
         }
 
-		public ChatChannel GetAvailableChannels(bool transmitOnly = true)
-		{
-			//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
-			ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
+        public ChatChannel GetAvailableChannels(bool transmitOnly = true)
+        {
+            //TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
+            ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
 
-			/*GameObject headset = UIManager.InventorySlots.EarSlot.Item;
-			if(headset) {
-				EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
-				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
-			}*/
-			ChatChannel receiveChannels = (ChatChannel.Examine | ChatChannel.System);
+            GameObject headset = UIManager.InventorySlots.EarSlot.Item;
+            if(headset) {
+                EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
+                transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+            }
+            ChatChannel receiveChannels = (ChatChannel.Examine | ChatChannel.System);
 
-			if (transmitOnly) {
-				return transmitChannels;
-			} else {
-				return transmitChannels | receiveChannels;
-			}
-		}
+            if (transmitOnly)
+            {
+                return transmitChannels;
+            }
+            else
+            {
+                return transmitChannels | receiveChannels;
+            }
+        }
 
-		public ChatModifier GetCurrentChatModifiers()
-		{
-			//TODO add missing modifiers
-			ChatModifier modifiers = ChatModifier.Drunk;
+        public ChatModifier GetCurrentChatModifiers()
+        {
+            //TODO add missing modifiers
+            ChatModifier modifiers = ChatModifier.Drunk;
 
-			if (JobType == JobType.CLOWN) {
-				modifiers |= ChatModifier.Clown;
-			}
+            if (JobType == JobType.CLOWN)
+            {
+                modifiers |= ChatModifier.Clown;
+            }
 
-			return modifiers;
-		}
-    
-    //Tooltips inspector bar
-    public void OnMouseEnter()
-    {
-        UI.UIManager.SetToolTip = this.name;
+            return modifiers;
+        }
+
+        //Tooltips inspector bar
+        public void OnMouseEnter()
+        {
+            UI.UIManager.SetToolTip = this.name;
+        }
+
+        public void OnMouseExit()
+        {
+            UI.UIManager.SetToolTip = "";
+        }
     }
-    public void OnMouseExit()
-    {
-        UI.UIManager.SetToolTip = "";
-    }
-	}
 }
