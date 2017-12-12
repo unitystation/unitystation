@@ -11,9 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6d9c91341f45b9b64b432bc7100ddc, type: 3}
   m_Name: RollingPin
   m_EditorClassIdentifier: 
-  LayerType: 1
+  LayerType: 2
+  TileType: 0
   RequiredTiles: []
   Object: {fileID: 1000012939332086, guid: 04684ac0ef7f4d938957d3420c0d938f, type: 2}
   Rotatable: 0
   KeepOrientation: 0
   Offset: 0
+  IsItem: 1
