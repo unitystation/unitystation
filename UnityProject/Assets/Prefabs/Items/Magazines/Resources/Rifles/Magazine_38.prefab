@@ -26,7 +26,6 @@ GameObject:
   - component: {fileID: 114462994006981904}
   - component: {fileID: 114673342454476188}
   - component: {fileID: 114726631009728650}
-  - component: {fileID: 114554720864615500}
   - component: {fileID: 114595661855791112}
   m_Layer: 10
   m_Name: Magazine_38
@@ -177,30 +176,6 @@ MonoBehaviour:
   inHandReferenceLeft: 0
   clothingReference: -1
   size: 0
---- !u!114 &114554720864615500
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1887694972930660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  visibleState: 1
-  isPlayer: 0
-  registerTile: {fileID: 0}
-  moveSpeed: 7
-  allowedToMove: 1
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
-  pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
-  timeInPush: 0
 --- !u!114 &114595661855791112
 MonoBehaviour:
   m_ObjectHideFlags: 1

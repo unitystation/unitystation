@@ -26,7 +26,6 @@ GameObject:
   - component: {fileID: 114162752830568772}
   - component: {fileID: 114015820852929730}
   - component: {fileID: 114607729733656858}
-  - component: {fileID: 114644331076306408}
   - component: {fileID: 114908791848257368}
   m_Layer: 10
   m_Name: Magazine_uzi9mm
@@ -171,30 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114644331076306408
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1249881654656566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  visibleState: 1
-  isPlayer: 0
-  registerTile: {fileID: 0}
-  moveSpeed: 7
-  allowedToMove: 1
-  isPushable: 1
-  pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
-  pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
-  timeInPush: 0
 --- !u!114 &114714776944677938
 MonoBehaviour:
   m_ObjectHideFlags: 1
