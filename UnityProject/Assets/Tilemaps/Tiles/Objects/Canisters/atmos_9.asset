@@ -11,9 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6d9c91341f45b9b64b432bc7100ddc, type: 3}
   m_Name: atmos_9
   m_EditorClassIdentifier: 
-  LayerType: 1
+  LayerType: 2
+  TileType: 0
   RequiredTiles: []
   Object: {fileID: 1119116655853260, guid: 8f03245a26aeb44158121e596f34b067, type: 2}
   Rotatable: 0
   KeepOrientation: 0
   Offset: 0
+  IsItem: 0
