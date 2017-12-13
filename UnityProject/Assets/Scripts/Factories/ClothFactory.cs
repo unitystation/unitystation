@@ -34,7 +34,8 @@ public class ClothFactory : NetworkBehaviour
         for (int i = 0; i < preLoads; i++)
         {
             PoolManager.Instance.PoolNetworkPreLoad(Instance.uniCloth);
-        }
+			PoolManager.Instance.PoolNetworkPreLoad(Instance.uniHeadSet);
+		}
     }
 
     //TODO is it going to be spawned on a player in equipment etc?

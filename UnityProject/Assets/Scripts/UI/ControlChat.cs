@@ -63,6 +63,11 @@ namespace UI
 					CloseChatWindow();
                 }
             }
+
+			if(channelPanel.gameObject.activeInHierarchy && !isChannelListUpToDate())
+			{
+				//TODO figure out how to update the channel list without it spazzing out
+			}
         }
 
         public void OnClickSend()
@@ -195,6 +200,28 @@ namespace UI
 				 text.text = "Multiple";
 				return;
 			} 
+		}
+
+		private bool isChannelListUpToDate()
+		{
+			ChatChannel availableChannels = PlayerManager.LocalPlayerScript.GetAvailableChannels();
+			int availableCount = EnumUtils.GetSetBitCount((long)availableChannels);
+			UIToggleChannel[] displayedChannels = channelPanel.GetComponentsInChildren<UIToggleChannel>();
+
+			if(availableCount != displayedChannels.Length)
+			{
+				return false;
+			}
+
+			foreach(UIToggleChannel toggleChannel in displayedChannels)
+			{
+				if((availableChannels & toggleChannel.channel) != toggleChannel.channel)
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
     }
 }
