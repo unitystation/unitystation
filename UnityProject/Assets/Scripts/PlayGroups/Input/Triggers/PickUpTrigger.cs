@@ -39,7 +39,7 @@ namespace Items
                 if (ValidatePickUp(originator, hand))
                 {
                     GetComponent<RegisterItem>().Unregister();
-                    GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+//                    GetComponent<CustomNetTransform>().DisappearFromWorldServer(); //Disappearing happens in ObjectPool
                 }
                 else
                 {

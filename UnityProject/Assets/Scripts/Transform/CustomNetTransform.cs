@@ -11,10 +11,11 @@ public struct TransformState
     public Vector3 Position;
 }
 
-//todo: check flow to avoid redundant messages
+//todo: check flow and figure out double message for equipment; check if UpdateManager behaves normally
 //todo: consider moving unregistering here
 public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
+    public static readonly Vector3Int InvalidPos = new Vector3Int(0, 0, -100);
     public float Speed = 2; //lerp speed
 
     protected RegisterTile registerTile;
@@ -22,7 +23,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     private TransformState serverTransformState; //used for syncing with players
     private TransformState transformState;
     
-    private Vector2 lastDirection;
+    private Vector2 lastDirection = Vector2.down;
     
     protected Matrix matrix;
 
@@ -32,12 +33,30 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         base.OnStartServer();
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+    }
+
+
+
     private void InitServerState()
     {
         if ( isServer )
         {
-            var position = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
-            serverTransformState = new TransformState {Active = true, Position = position, Speed = this.Speed};
+            serverTransformState.Speed = Speed;
+            if ( !transform.position.Equals(Vector3.zero) )
+            {
+                serverTransformState.Active = true;
+                serverTransformState.Position =
+                    Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
+            }
+            else
+            {
+                //For stuff hidden on spawn, like player equipment
+                serverTransformState.Active = false;
+                serverTransformState.Position = InvalidPos;
+            }
             transformState = serverTransformState;
             NotifyPlayers();
         }
@@ -77,7 +96,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     {
         //be careful with forceupdate=false, it should be false only to the initiator w/preditction (if at all)
         serverTransformState.Active = false;
-        serverTransformState.Position = Vector3.zero;// = new TransformState {Active = false, Position = Vector3.zero};
+        serverTransformState.Position = InvalidPos;// = new TransformState {Active = false, Position = Vector3.zero};
         NotifyPlayers();
     }
 
@@ -89,10 +108,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     }
 
     /// <summary>
-    /// New method to substitute transform.parent = x stuff.
-    /// You shouldn't really use it a lot anymore, 
+    /// Method to substitute transform.parent = x stuff.
+    /// You shouldn't really use it anymore, 
     /// as there are high level methods that should suit your needs better.
-    /// Server-only for now, client is not notified
+    /// Server-only, client is not being notified
     /// </summary>
     [Server]
     public void SetParent(Transform pos)
@@ -106,7 +125,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     /// </summary>
     public void DisappearFromWorld(/*bool forceUpdate = true*/)
     {
-        UpdateClientState(new TransformState{Active = false});
+        transformState.Active = false;
+        UpdateClientState(transformState);
     }
 
     /// <summary>
@@ -115,7 +135,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     /// </summary>
     public void AppearAtPosition(Vector3 pos/*, bool forceUpdate = true*/)
     {
-        UpdateClientState(new TransformState {Active = true, Position = pos});
+        transformState.Active = true;
+        transformState.Position = pos;
+        UpdateClientState(transformState);
     }
 
     public void UpdateClientState(TransformState newState)
@@ -126,16 +148,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         {
             Speed = transformState.Speed;
         }
-//        if ( gameObject.activeInHierarchy && transformState.Active )
-//        {
-//            Lerp();
-//        }
-        
-        updateActiveStatus();
-    }
 
-    private void updateActiveStatus()
-    {
         gameObject.SetActive(transformState.Active);
     }
 
@@ -195,10 +208,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
             return;
         }
         
-        if ( transformState.Position != transform.position && transformState.Active )
+        if ( transformState.Position != transform.position )
         {
             Lerp();
-            lastDirection = ( transformState.Position - transform.position ).normalized;
+            lastDirection = Vector2.up;//( transformState.Position - transform.position ).normalized;
         }
 
         //Registering
@@ -220,9 +233,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     private void CheckSpaceDrift()
     {
         var pos = Vector3Int.RoundToInt(serverTransformState.Position);
-        if( !pos.Equals(Vector3Int.zero) && matrix != null && matrix.IsFloatingAt(pos) )
+        if( /*!pos.Equals(InvalidPos) &&*/ matrix != null && matrix.IsFloatingAt(pos) && !lastDirection.Equals(Vector2.zero))
         {
-            var newGoal = Vector3Int.RoundToInt(transform.position + (Vector3) lastDirection);
+            var newGoal = Vector3Int.RoundToInt(serverTransformState.Position + (Vector3) lastDirection);
             if ( matrix.IsFloatingAt(newGoal) )
             {
                 SetPosition(newGoal);

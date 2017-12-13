@@ -25,9 +25,9 @@ namespace PlayGroup
         private int bloodLevelCache;
         private float BloodPercentage = 100f;
 
-        protected override void Awake()
+        protected override void OnEnable()
         {
-            //Do not call base method for this Awake.
+            //Do not call base method for this OnEnable.
         }
 
         public override void OnStartServer()

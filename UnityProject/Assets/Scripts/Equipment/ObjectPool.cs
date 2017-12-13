@@ -20,8 +20,9 @@ namespace Equipment
 //            obj.transform.position = transform.position;
 //            obj.transform.parent = transform;
             var objTransform = obj.GetComponent<CustomNetTransform>();
-//            objTransform.SetParent(transform);
-            objTransform.DisappearFromWorldServer();//SetPosition(transform.position, false);
+            objTransform.DisappearFromWorldServer();
+            objTransform.SetParent(transform);
+            //SetPosition(transform.position, false);
 
             NetworkIdentity id = obj.GetComponent<NetworkIdentity>();
             ItemAttributes att = obj.GetComponent<ItemAttributes>();
@@ -67,6 +68,7 @@ namespace Equipment
            // gObj.transform.position = dropPos;
             var objTransform = gObj.GetComponent<CustomNetTransform>();
             objTransform.AppearAtPositionServer(dropPos);	
+            objTransform.SetParent(null);
         }
     }
 }
