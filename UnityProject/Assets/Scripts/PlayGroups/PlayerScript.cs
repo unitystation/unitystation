@@ -1,6 +1,5 @@
-using InputControl;
-using System.Collections;
 using PlayGroups.Input;
+using System.Collections;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -10,9 +9,9 @@ namespace PlayGroup
     public class PlayerScript : ManagedNetworkBehaviour
     {
         // the maximum distance the player needs to be to an object to interact with it
-		//1.75 is the optimal distance to now have any direction click too far
-		//NOTE FOR ANYONE EDITING THIS IN THE FUTURE: Character's head is slightly below the top of the tile
-		//hence top reach is slightly lower than bottom reach, where the legs go exactly to the bottom of the tile.
+        //1.75 is the optimal distance to now have any direction click too far
+        //NOTE FOR ANYONE EDITING THIS IN THE FUTURE: Character's head is slightly below the top of the tile
+        //hence top reach is slightly lower than bottom reach, where the legs go exactly to the bottom of the tile.
         public const float interactionDistance = 1.75f;
 
         public PlayerNetworkActions playerNetworkActions { get; set; }
@@ -42,7 +41,10 @@ namespace PlayGroup
 
         private ChatChannel selectedChannels;
 
-        [SyncVar(hook = "OnNameChange")] public string playerName = " ";
+        public bool standingInCloset { get; set; }
+
+        [SyncVar(hook = "OnNameChange")]
+        public string playerName = " ";
 
         public ChatChannel SelectedChannels
         {
@@ -183,13 +185,13 @@ namespace PlayGroup
 
         public float DistanceTo(Vector3 position)
         {
-			//Because characters are taller than they are wider, their reach upwards/downards was greater
-			//Flooring that shit fixes it
-			Vector3Int pos = new Vector3Int(
-				Mathf.FloorToInt(transform.position.x),
-				Mathf.FloorToInt(transform.position.y),
-				Mathf.FloorToInt(transform.position.z)
-			);
+            //Because characters are taller than they are wider, their reach upwards/downards was greater
+            //Flooring that shit fixes it
+            Vector3Int pos = new Vector3Int(
+                Mathf.FloorToInt(transform.position.x),
+                Mathf.FloorToInt(transform.position.y),
+                Mathf.FloorToInt(transform.position.z)
+            );
             return (pos - position).magnitude;
         }
 
@@ -200,36 +202,38 @@ namespace PlayGroup
         /// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
         public bool IsInReach(Vector3 position, float interactDist = interactionDistance)
         {
-			//If click is in diagonal direction, extend reach slightly
-			float distanceX = Mathf.FloorToInt(Mathf.Abs(transform.position.x - position.x));
-			float distanceY = Mathf.FloorToInt(Mathf.Abs(transform.position.y - position.y));
-			if(distanceX == 1 && distanceY == 1) {
-				return DistanceTo(position) <= interactDist + 0.4f;
-			}
+            //If click is in diagonal direction, extend reach slightly
+            float distanceX = Mathf.FloorToInt(Mathf.Abs(transform.position.x - position.x));
+            float distanceY = Mathf.FloorToInt(Mathf.Abs(transform.position.y - position.y));
+            if (distanceX == 1 && distanceY == 1)
+            {
+                return DistanceTo(position) <= interactDist + 0.4f;
+            }
 
-			//if cardinal direction, use regular reach
-			return DistanceTo(position) <= interactDist;
+            //if cardinal direction, use regular reach
+            return DistanceTo(position) <= interactDist;
         }
 
         public ChatChannel GetAvailableChannels(bool transmitOnly = true)
         {
-			if(playerMove.isGhost)
-			{
-				if(transmitOnly)
-				{
-					return ChatChannel.Ghost | ChatChannel.OOC;
-				}
-				else
-				{
-					return ~ChatChannel.None;
-				}
-			}
+            if (playerMove.isGhost)
+            {
+                if (transmitOnly)
+                {
+                    return ChatChannel.Ghost | ChatChannel.OOC;
+                }
+                else
+                {
+                    return ~ChatChannel.None;
+                }
+            }
 
             //TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
             ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
 
             GameObject headset = UIManager.InventorySlots.EarSlot.Item;
-            if(headset) {
+            if (headset)
+            {
                 EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
                 transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
             }
@@ -247,13 +251,13 @@ namespace PlayGroup
 
         public ChatModifier GetCurrentChatModifiers()
         {
-			if (playerMove.isGhost)
-			{
-				return ChatModifier.None;
-			}
+            if (playerMove.isGhost)
+            {
+                return ChatModifier.None;
+            }
 
-			//TODO add missing modifiers
-			ChatModifier modifiers = ChatModifier.Drunk;
+            //TODO add missing modifiers
+            ChatModifier modifiers = ChatModifier.Drunk;
 
             if (JobType == JobType.CLOWN)
             {

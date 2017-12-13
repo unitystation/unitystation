@@ -1,13 +1,12 @@
 ﻿using PlayGroup;
+using PlayGroups.Input;
 using System.Collections;
 using System.Collections.Generic;
+using Tilemaps.Scripts;
+using Tilemaps.Scripts.Behaviours.Objects;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using InputControl;
-using PlayGroups.Input;
-using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours.Objects;
 
 namespace Cupboards
 {
@@ -152,26 +151,41 @@ namespace Cupboards
             //FIXME this should be rewritten to net messages, see i.e. TableTrigger
             if (Input.GetKey(KeyCode.LeftControl))
                 return;
-
             if (PlayerManager.PlayerInReach(transform))
             {
-                if (IsClosed)
+                //we round to int because this wasn't done where it needs to be done on the player
+                Vector3 playerPos = new Vector3(Mathf.RoundToInt(PlayerManager.LocalPlayer.transform.position.x), Mathf.RoundToInt(PlayerManager.LocalPlayer.transform.position.y), PlayerManager.LocalPlayer.transform.position.z);
+                //if the closet is closed and the player's newly minted location are the same, interact!
+                if (IsClosed && PlayerManager.LocalPlayerScript.standingInCloset && playerPos == this.transform.position)
                 {
+                    PlayerManager.LocalPlayerScript.standingInCloset = false;
                     PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
+                    return;
+                }
+                //if the positions are not the same and our boy is locked down, return;;;;
+                if (IsClosed && PlayerManager.LocalPlayerScript.standingInCloset && playerPos != this.transform.position)
+                {
                     return;
                 }
 
                 GameObject item = UIManager.Hands.CurrentSlot.Clear();
+                //place the item if there is one in the hand
                 if (item != null)
                 {
                     var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     targetPosition.z = 0f;
                     PlayerManager.LocalPlayerScript.playerNetworkActions.PlaceItem(UIManager.Hands.CurrentSlot.eventName, transform.position, null);
-
                     item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
                 }
+                //if (((b))) is standing outside
+                else if (!IsClosed && playerPos != this.transform.position)
+                {
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
+                }
+                //oh damn he needs a nap, time to close him up in this space locker bro
                 else
                 {
+                    PlayerManager.LocalPlayerScript.standingInCloset = true;
                     PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
                 }
             }
@@ -194,15 +208,16 @@ namespace Cupboards
 
         private void SetItemsAliveState(bool on)
         {
-			if (!on)
-			{
-				heldItems = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Item);
-			}
+            if (!on)
+            {
+                heldItems = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Item);
+            }
             foreach (var item in heldItems)
             {
-                if (on) {
-					item.transform.position = transform.position;
-				}
+                if (on)
+                {
+                    item.transform.position = transform.position;
+                }
 
                 item.visibleState = on;
             }
@@ -211,9 +226,10 @@ namespace Cupboards
         private void SetPlayersAliveState(bool on)
         {
             if (!on)
-			{
-				heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Player);
-			}
+            {
+                Debug.Log("ran");
+                heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Player);
+            }
 
             foreach (var player in heldPlayers)
             {
