@@ -169,7 +169,6 @@ namespace Cupboards
                     PlayerManager.LocalPlayerScript.playerNetworkActions.PlaceItem(UIManager.Hands.CurrentSlot.eventName, transform.position, null);
 
                     item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
-                    //
                 }
                 else
                 {
@@ -195,12 +194,15 @@ namespace Cupboards
 
         private void SetItemsAliveState(bool on)
         {
-            if (!on)
-                heldItems = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Item);
+			if (!on)
+			{
+				heldItems = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Item);
+			}
             foreach (var item in heldItems)
             {
-                if (on)
-                { item.transform.position = transform.position; }
+                if (on) {
+					item.transform.position = transform.position;
+				}
 
                 item.visibleState = on;
             }
@@ -209,7 +211,9 @@ namespace Cupboards
         private void SetPlayersAliveState(bool on)
         {
             if (!on)
-                heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Player);
+			{
+				heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Player);
+			}
 
             foreach (var player in heldPlayers)
             {

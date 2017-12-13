@@ -47,7 +47,8 @@ public class ChatRelay : NetworkBehaviour
 			{ChatChannel.Security, "#a30000"},
 			{ChatChannel.Service, "#6eaa2c"},
 			{ChatChannel.Syndicate, "#6d3f40"},
-			{ChatChannel.System, "#dd5555"}
+			{ChatChannel.System, "#dd5555"},
+			{ChatChannel.Ghost, "#386aff"},
 		};
 		namelessChannels = (ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System);
 		base.OnStartClient();

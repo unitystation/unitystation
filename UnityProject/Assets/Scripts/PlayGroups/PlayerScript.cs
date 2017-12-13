@@ -125,7 +125,7 @@ namespace PlayGroup
                     UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
                 }
 
-                SelectedChannels = ChatChannel.OOC;
+                SelectedChannels = ChatChannel.Local;
             }
             else if (isServer)
             {
@@ -213,6 +213,18 @@ namespace PlayGroup
 
         public ChatChannel GetAvailableChannels(bool transmitOnly = true)
         {
+			if(playerMove.isGhost)
+			{
+				if(transmitOnly)
+				{
+					return ChatChannel.Ghost | ChatChannel.OOC;
+				}
+				else
+				{
+					return ~ChatChannel.None;
+				}
+			}
+
             //TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
             ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
 
@@ -235,8 +247,13 @@ namespace PlayGroup
 
         public ChatModifier GetCurrentChatModifiers()
         {
-            //TODO add missing modifiers
-            ChatModifier modifiers = ChatModifier.Drunk;
+			if (playerMove.isGhost)
+			{
+				return ChatModifier.None;
+			}
+
+			//TODO add missing modifiers
+			ChatModifier modifiers = ChatModifier.Drunk;
 
             if (JobType == JobType.CLOWN)
             {
