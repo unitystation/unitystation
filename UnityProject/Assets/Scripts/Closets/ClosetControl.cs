@@ -165,7 +165,7 @@ namespace Cupboards
                 if (item != null)
                 {
                     var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    targetPosition.z = -0.2f;
+                    targetPosition.z = 0f;
                     PlayerManager.LocalPlayerScript.playerNetworkActions.PlaceItem(UIManager.Hands.CurrentSlot.eventName, transform.position, null);
 
                     item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
@@ -197,11 +197,11 @@ namespace Cupboards
         {
             if (!on)
                 heldItems = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Item);
-
             foreach (var item in heldItems)
             {
                 if (on)
-                    item.transform.position = transform.position;
+                { item.transform.position = transform.position; }
+
                 item.visibleState = on;
             }
         }

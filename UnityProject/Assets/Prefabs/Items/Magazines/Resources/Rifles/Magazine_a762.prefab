@@ -26,7 +26,6 @@ GameObject:
   - component: {fileID: 114110166021715606}
   - component: {fileID: 114496109277905418}
   - component: {fileID: 114129525222004082}
-  - component: {fileID: 114549149174987832}
   - component: {fileID: 114045955017882788}
   m_Layer: 10
   m_Name: Magazine_a762
@@ -215,30 +214,6 @@ MonoBehaviour:
   magazineSize: 100
   Usable: 1
   ammoRemains: 50
---- !u!114 &114549149174987832
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1505511589050458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  visibleState: 1
-  isPlayer: 0
-  registerTile: {fileID: 0}
-  moveSpeed: 7
-  allowedToMove: 1
-  isPushable: 1
-  pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
-  pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
-  timeInPush: 0
 --- !u!114 &114631740818005732
 MonoBehaviour:
   m_ObjectHideFlags: 1
