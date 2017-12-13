@@ -46,9 +46,6 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
 		if((playerScript.GetAvailableChannels() & Channels) == Channels){
 			return true;
 		}
-		Debug.Log("Player " + player.name);
-		Debug.Log("Available Channels " + availableChannels);
-		Debug.Log("Required Channels" + Channels);
 		return false;
 	}
 
