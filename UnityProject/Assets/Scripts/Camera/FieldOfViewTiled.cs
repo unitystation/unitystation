@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Events;
+using System.Collections.ObjectModel;
 
 public enum ManagerState
 {
@@ -33,7 +34,8 @@ public class FieldOfViewTiled : ThreadedBehaviour
     public readonly static Queue<Action> ExecuteOnMainThread = new Queue<Action>();
     private readonly static Queue<ShroudAction> shroudStatusQueue = new Queue<ShroudAction>();
     public ManagerState State = ManagerState.Idle;
-    public List<Vector2> nearbyShrouds = new List<Vector2>();
+    private ReadOnlyCollection<Vector2> nearbyShroudsInWorkerThread = new List<Vector2>().AsReadOnly();
+    private ReadOnlyCollection<Vector2> nextShrouds = new List<Vector2>().AsReadOnly();
     bool updateFov = false;
     Vector3 sourcePosCache;
     LayerMask _layerMask;
@@ -142,7 +144,6 @@ public class FieldOfViewTiled : ThreadedBehaviour
             }
 
             yield return _waitForEndOfFrame;
-            nearbyShrouds.Clear();
             // Update when we move the camera and we have a valid SightSource
             if (Camera2DFollow.followControl.target == null)
                 continue;
@@ -163,24 +164,28 @@ public class FieldOfViewTiled : ThreadedBehaviour
     //Runs on Worker Thread:
     public void UpdateSightSourceFov()
     {
+        if (nextShrouds != nearbyShroudsInWorkerThread) { }
+        nearbyShroudsInWorkerThread = nextShrouds;
+    }
+
         List<Vector2> inFieldOFVision = new List<Vector2>();
         // Returns all shroud nodes in field of vision
-        for (int i = nearbyShrouds.Count; i-- > 0;)
+        for (int i = nearbyShroudsInWorkerThread.Count; i-- > 0;)
         {
-            var sA = new ShroudAction() { key = nearbyShrouds[i], enabled = true };
+            var sA = new ShroudAction() { key = nearbyShroudsInWorkerThread[i], enabled = true };
             shroudStatusQueue.Enqueue(sA);
             // Light close behind and around
-            if (Vector2.Distance(sourcePosCache, nearbyShrouds[i]) < InnatePreyVision)
+            if (Vector2.Distance(sourcePosCache, nearbyShroudsInWorkerThread[i]) < InnatePreyVision)
             {
-                inFieldOFVision.Add(nearbyShrouds[i]);
+                inFieldOFVision.Add(nearbyShroudsInWorkerThread[i]);
                 continue;
             }
 
             // In front cone
-            if (Vector3.Angle(new Vector3(nearbyShrouds[i].x, nearbyShrouds[i].y, 0f) - sourcePosCache, GetSightSourceDirection()) < FieldOfVision)
+            if (Vector3.Angle(new Vector3(nearbyShroudsInWorkerThread[i].x, nearbyShroudsInWorkerThread[i].y, 0f) - sourcePosCache, GetSightSourceDirection()) < FieldOfVision)
             {
-				if (i < nearbyShrouds.Count) {
-					inFieldOFVision.Add(nearbyShrouds[i]);
+                if (i < nearbyShroudsInWorkerThread.Count) {
+                    inFieldOFVision.Add(nearbyShroudsInWorkerThread[i]);
 				}
                 continue;
             }
@@ -294,7 +299,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
         return shroudObject;
     }
 
-    public List<Vector2> GetNearbyShroudTiles()
+    public ReadOnlyCollection<Vector2> GetNearbyShroudTiles()
     {
         List<Vector2> nearbyShroudTiles = new List<Vector2>();
 
@@ -312,13 +317,13 @@ public class FieldOfViewTiled : ThreadedBehaviour
                 nearbyShroudTiles.Add(new Vector2(x, y));
             }
         }
-        return nearbyShroudTiles;
+        return nearbyShroudTiles.AsReadOnly();
     }
 
     private void RecalculateFov()
     {
         sourcePosCache = Camera2DFollow.followControl.target.position;
-        nearbyShrouds = GetNearbyShroudTiles();
+        nextShrouds = GetNearbyShroudTiles();
         updateFov = true;
         lastPosition = transform.position;
         lastDirection = GetSightSourceDirection();
