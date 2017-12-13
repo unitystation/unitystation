@@ -81,7 +81,9 @@ namespace Equipment
         public static void DropGameObject(GameObject player, GameObject gObj, Vector3 pos)
         {
             var playerName = player.name;
-            if (!Instance.equipPools.ContainsKey(playerName)) return;
+			if (!Instance.equipPools.ContainsKey(playerName)) {
+				return;
+			}
             Instance.equipPools[playerName].DropGameObject(gObj, pos);
             gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
             //			Debug.LogFormat("{0}: removed {1}({2}) from pool. size={3} ", 
