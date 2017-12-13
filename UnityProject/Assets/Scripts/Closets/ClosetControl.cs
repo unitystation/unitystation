@@ -227,7 +227,6 @@ namespace Cupboards
         {
             if (!on)
             {
-                Debug.Log("ran");
                 heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Player);
             }
 
