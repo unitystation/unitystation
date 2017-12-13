@@ -244,7 +244,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Server]
     public void PlaceItem(string slotName, Vector3 pos, GameObject newParent)
     {
-        if (!SlotNotEmpty(slotName)) return;
+		if (!SlotNotEmpty(slotName))
+		{
+			return;
+		}
+
         GameObject item = _inventory[slotName];
         EquipmentPool.DropGameObject(gameObject, _inventory[slotName], pos);
         ClearInventorySlot(slotName);

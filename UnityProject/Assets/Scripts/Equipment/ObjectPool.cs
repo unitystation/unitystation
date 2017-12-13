@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Items;
 using UI;
+using Tilemaps.Scripts.Behaviours.Objects;
 
 namespace Equipment
 {
@@ -55,7 +56,8 @@ namespace Equipment
                     DropNow(o, dropPos);
                 }
                 currentObjects.Remove(id);
-            }
+				gObj.GetComponent<RegisterTile>().UpdatePosition();
+			}
         }
 
         private static void DropNow(GameObject gObj, Vector3 dropPos)
