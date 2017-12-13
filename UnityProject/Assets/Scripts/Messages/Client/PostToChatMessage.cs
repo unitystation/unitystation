@@ -46,6 +46,9 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
 		if((playerScript.GetAvailableChannels() & Channels) == Channels){
 			return true;
 		}
+		Debug.Log("Player " + player.name);
+		Debug.Log("Available Channels " + availableChannels);
+		Debug.Log("Required Channels" + Channels);
 		return false;
 	}
 
@@ -58,7 +61,7 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Channels = (ChatChannel)reader.ReadInt16();
+		Channels = (ChatChannel)reader.ReadUInt32();
 		ChatMessageText = reader.ReadString();
 
 	}
@@ -66,7 +69,7 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write((Int16)Channels);
+		writer.Write((Int32)Channels);
 		writer.Write(ChatMessageText);
 	}
 }

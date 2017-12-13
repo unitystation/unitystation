@@ -38,16 +38,16 @@ namespace Equipment
             var playerName = player.name;
             if (Instance.equipPools.ContainsKey(playerName))
             {
-                //add obj to pool
-                Instance.equipPools[playerName].AddGameObject(gObj);
+				//add obj to pool
+				Instance.equipPools[playerName].AddGameObject(gObj);
 
                 var ownerId = player.GetComponent<NetworkIdentity>().netId;
                 gObj.BroadcastMessage("OnAddToPool", ownerId, SendMessageOptions.DontRequireReceiver);
             }
             else
             {
-                //set up new pool and then add the obj
-                GameObject newPool = Instantiate(Instance.objectPoolPrefab, Vector2.zero, Quaternion.identity) as GameObject;
+				//set up new pool and then add the obj
+				GameObject newPool = Instantiate(Instance.objectPoolPrefab, Vector2.zero, Quaternion.identity) as GameObject;
                 newPool.transform.parent = Instance.transform;
                 newPool.name = playerName;
                 Instance.equipPools.Add(playerName, newPool.GetComponent<ObjectPool>());

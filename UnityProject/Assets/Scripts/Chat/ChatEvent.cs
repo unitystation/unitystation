@@ -20,7 +20,8 @@ public enum ChatChannel
 	Security = 2048,
 	Service = 4096,
 	Syndicate = 8192,
-	System = 16384
+	System = 16384,
+	Ghost = 32768
 }
 
 [Flags]
@@ -104,6 +105,14 @@ public class ChatEvent
 
 			message = "<b>" + speaker + ": " + message + "</b>";
 			return message;
+		}
+
+		//Ghosts don't get modifiers
+		if ((channels & ChatChannel.Ghost) == ChatChannel.Ghost)
+		{
+			this.channels = ChatChannel.Ghost;
+			this.modifiers = ChatModifier.None;
+			return message = "<b>" + speaker + ": " + message + "</b>";
 		}
 
 		message = ApplyModifiers(message, modifiers);
