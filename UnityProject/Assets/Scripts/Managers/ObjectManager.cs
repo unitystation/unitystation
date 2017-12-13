@@ -1,8 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using PlayGroup;
-using UI;
 
 public class ObjectManager : MonoBehaviour
 {
@@ -109,7 +105,8 @@ public enum SpriteType
 {
     Items,
     Clothing,
-    Guns
+    Guns,
+    Food
 }
 
 [System.Serializable]
