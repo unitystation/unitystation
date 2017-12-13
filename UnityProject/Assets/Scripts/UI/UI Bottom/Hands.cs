@@ -78,9 +78,26 @@ namespace UI
             //This checks which UI slot the item can be equiped too and swaps it there
             var type = Slots.GetItemType(CurrentSlot.Item);
             var masterType = Slots.GetItemMasterType(CurrentSlot.Item);
+            var itemObj = Slots.GetGameObject(CurrentSlot.Item);
 
             switch (masterType)
             {
+                case SpriteType.Food:
+                    if (itemObj.GetComponent<BaseFood>() != null)
+                    {
+                        BaseFood foodScript = itemObj.GetComponent<BaseFood>();
+                        foodScript.EatFood();
+                        Destroy(itemObj);
+
+                    }
+                    else
+                    {
+
+                        Debug.Log("Item does not have food script! Returning...");
+                        return;
+                    }
+                    break;
+
                 case SpriteType.Clothing:
                     var slot = Slots.GetSlotByItem(CurrentSlot.Item);
                     SwapItem(slot);

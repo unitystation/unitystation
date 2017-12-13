@@ -119,6 +119,11 @@ namespace UI
             var item = obj.GetComponent<ItemAttributes>();
             return item.type;
         }
+        public GameObject GetGameObject(GameObject obj)
+        {
+            var item = obj.GetComponent<ItemAttributes>();
+            return item.gameObject;
+        }
         public SpriteType GetItemMasterType(GameObject obj)
         {
             var item = obj.GetComponent<ItemAttributes>();

@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Sprites;
 using System.Collections;
 using System.Collections.Generic;
-using PlayGroup;
-using Sprites;
 using UnityEngine;
-using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
 namespace PlayGroup
@@ -21,7 +18,7 @@ namespace PlayGroup
         public List<BodyPartBehaviour> BodyParts = new List<BodyPartBehaviour>();
 
         //For now a simplified blood system will be here. To be refactored into a separate thing in the future.
-        public int BloodLevel = (int) BloodVolume.NORMAL;
+        public int BloodLevel = (int)BloodVolume.NORMAL;
 
         private int bleedVolume;
 
@@ -49,7 +46,7 @@ namespace PlayGroup
                 ConsciousState = ConsciousState.DEAD;
                 playerMove.allowInput = false;
             }
-            
+
             base.OnStartClient();
         }
 
@@ -62,7 +59,7 @@ namespace PlayGroup
 
             if (isServer)
             {
-                var bloodLoss = (int) (damage * BleedFactor(damageType));
+                var bloodLoss = (int)(damage * BleedFactor(damageType));
                 LoseBlood(bloodLoss);
 
                 // don't start bleeding if limb is in ok condition after it received damage
@@ -130,7 +127,7 @@ namespace PlayGroup
         }
 
         //ReduceBloodLoss for bandages and stuff in the future?
-        private void StopBleeding()
+        public void StopBleeding()
         {
             bleedVolume = 0;
             IsBleeding = false;
@@ -159,7 +156,7 @@ namespace PlayGroup
                 EffectsFactory.Instance.BloodSplat(transform.position, scaleOfTragedy);
 
 
-            if (BloodLevel <= (int) BloodVolume.SURVIVE)
+            if (BloodLevel <= (int)BloodVolume.SURVIVE)
                 Crit();
 
             if (BloodLevel <= 0)
@@ -182,7 +179,7 @@ namespace PlayGroup
 
         public void RestoreBlood()
         {
-            BloodLevel = (int) BloodVolume.NORMAL;
+            BloodLevel = (int)BloodVolume.NORMAL;
         }
 
         public static float BleedFactor(DamageType damageType)

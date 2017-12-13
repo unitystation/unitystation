@@ -23,9 +23,9 @@ GameObject:
   - component: {fileID: 114842434566603030}
   - component: {fileID: 114360428989312324}
   - component: {fileID: 114828422824226692}
-  - component: {fileID: 114608524725813366}
   - component: {fileID: 114931546224579044}
   - component: {fileID: 114121219251840654}
+  - component: {fileID: 114774635882333410}
   m_Layer: 10
   m_Name: Meat Steak
   m_TagString: Untagged
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114608524725813366
+--- !u!114 &114774635882333410
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Script: {fileID: 11500000, guid: 2062eaf2b54a2f64b92bc81f79ecd17c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114828422824226692
@@ -160,7 +160,7 @@ MonoBehaviour:
   hierarchy: 
   itemName: Meat Steak
   itemDescription: 
-  spriteType: 0
+  spriteType: 3
   type: 14
   inHandReferenceRight: -1
   inHandReferenceLeft: -1
