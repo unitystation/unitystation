@@ -164,9 +164,8 @@ public class FieldOfViewTiled : ThreadedBehaviour
     //Runs on Worker Thread:
     public void UpdateSightSourceFov()
     {
-        if (nextShrouds != nearbyShroudsInWorkerThread) {
+
         nearbyShroudsInWorkerThread = nextShrouds;
-   	}
 
         List<Vector2> inFieldOFVision = new List<Vector2>();
         // Returns all shroud nodes in field of vision
