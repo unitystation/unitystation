@@ -5,7 +5,6 @@ namespace UI
 {
     public class WindowDrag : MonoBehaviour
     {
-
         float offsetX;
         float offsetY;
 

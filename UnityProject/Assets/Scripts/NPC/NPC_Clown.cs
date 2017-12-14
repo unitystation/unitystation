@@ -5,7 +5,6 @@ namespace NPC
 {
     public class NPC_Clown : MonoBehaviour
     {
-
         private SpriteRenderer spriteRenderer;
         public Sprite[] clownSprites;
 
@@ -17,7 +16,8 @@ namespace NPC
             spriteRenderer = GetComponent<SpriteRenderer>();
             //Snap to grid
             //FIXME need to figure out the grid and how to round to it
-            Vector2 newPos = new Vector2(Mathf.Round(transform.position.x / 100f) * 100f, Mathf.Round(transform.position.y / 100f) * 100f);
+            Vector2 newPos = new Vector2(Mathf.Round(transform.position.x / 100f) * 100f,
+                Mathf.Round(transform.position.y / 100f) * 100f);
             transform.position = newPos;
             StartCoroutine(RandMove());
         }
@@ -48,7 +48,6 @@ namespace NPC
                 spriteRenderer.sprite = clownSprites[2];
                 Vector2 movePos = new Vector2(transform.position.x, transform.position.y + 32f);
                 transform.position = movePos;
-
             }
             else if (ranDir == 1)
             {
@@ -62,7 +61,6 @@ namespace NPC
                     isRight = true;
                     Flip();
                 }
-
             }
             else if (ranDir == 2)
             {
@@ -70,7 +68,6 @@ namespace NPC
                 spriteRenderer.sprite = clownSprites[0];
                 Vector2 movePos = new Vector2(transform.position.x, transform.position.y - 32f);
                 transform.position = movePos;
-
             }
             else if (ranDir == 3)
             {

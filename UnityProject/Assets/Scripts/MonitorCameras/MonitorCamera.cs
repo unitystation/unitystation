@@ -5,7 +5,6 @@ using Sprites;
 
 public class MonitorCamera : MonoBehaviour
 {
-
     public float time = 0.3f;
 
     private Sprite[] sprites;

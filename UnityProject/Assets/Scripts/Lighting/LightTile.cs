@@ -64,17 +64,17 @@ namespace Lighting
                     {
                         //toprow
                         //Starting at top left
-                        Vector2 tilePos = new Vector2(transform.position.x - (float)i, transform.position.y + (float)i);
+                        Vector2 tilePos = new Vector2(transform.position.x - (float) i,
+                            transform.position.y + (float) i);
                         for (int tile = 1; tile <= rangeFinder; tile++)
                         {
-
                             if (tile == 1)
                             {
                                 lightTiles.Add(tilePos);
                             }
                             else
                             {
-                                Vector2 nextTile = new Vector2((tilePos.x + (float)tile) - 1f, tilePos.y);
+                                Vector2 nextTile = new Vector2((tilePos.x + (float) tile) - 1f, tilePos.y);
                                 lightTiles.Add(nextTile);
                             }
                         }
@@ -82,17 +82,17 @@ namespace Lighting
                     else if (k == rangeFinder)
                     {
                         //lastrow
-                        Vector2 tilePos = new Vector2(transform.position.x - (float)i, transform.position.y - (float)i);
+                        Vector2 tilePos = new Vector2(transform.position.x - (float) i,
+                            transform.position.y - (float) i);
                         for (int tile = 1; tile <= rangeFinder; tile++)
                         {
-
                             if (tile == 1)
                             {
                                 lightTiles.Add(tilePos);
                             }
                             else
                             {
-                                Vector2 nextTile = new Vector2((tilePos.x + (float)tile) - 1f, tilePos.y);
+                                Vector2 nextTile = new Vector2((tilePos.x + (float) tile) - 1f, tilePos.y);
                                 lightTiles.Add(nextTile);
                             }
                         }
@@ -100,10 +100,12 @@ namespace Lighting
                     else
                     {
                         //everything else
-                        Vector2 tilePos = new Vector2(transform.position.x - (float)i, transform.position.y + (float)i);
-                        Vector2 firstTilePos = new Vector2(tilePos.x, (tilePos.y - (float)k) + 1f);
+                        Vector2 tilePos = new Vector2(transform.position.x - (float) i,
+                            transform.position.y + (float) i);
+                        Vector2 firstTilePos = new Vector2(tilePos.x, (tilePos.y - (float) k) + 1f);
                         lightTiles.Add(firstTilePos);
-                        Vector2 lastTilePos = new Vector2((tilePos.x + (float)rangeFinder) - 1f, (tilePos.y - (float)k) + 1f);
+                        Vector2 lastTilePos = new Vector2((tilePos.x + (float) rangeFinder) - 1f,
+                            (tilePos.y - (float) k) + 1f);
                         lightTiles.Add(lastTilePos);
                     }
                 }

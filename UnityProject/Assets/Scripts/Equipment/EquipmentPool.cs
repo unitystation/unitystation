@@ -38,16 +38,17 @@ namespace Equipment
             var playerName = player.name;
             if (Instance.equipPools.ContainsKey(playerName))
             {
-				//add obj to pool
-				Instance.equipPools[playerName].AddGameObject(gObj);
+                //add obj to pool
+                Instance.equipPools[playerName].AddGameObject(gObj);
 
                 var ownerId = player.GetComponent<NetworkIdentity>().netId;
                 gObj.BroadcastMessage("OnAddToPool", ownerId, SendMessageOptions.DontRequireReceiver);
             }
             else
             {
-				//set up new pool and then add the obj
-				GameObject newPool = Instantiate(Instance.objectPoolPrefab, Vector2.zero, Quaternion.identity) as GameObject;
+                //set up new pool and then add the obj
+                GameObject newPool =
+                    Instantiate(Instance.objectPoolPrefab, Vector2.zero, Quaternion.identity) as GameObject;
                 newPool.transform.parent = Instance.transform;
                 newPool.name = playerName;
                 Instance.equipPools.Add(playerName, newPool.GetComponent<ObjectPool>());
@@ -81,9 +82,10 @@ namespace Equipment
         public static void DropGameObject(GameObject player, GameObject gObj, Vector3 pos)
         {
             var playerName = player.name;
-			if (!Instance.equipPools.ContainsKey(playerName)) {
-				return;
-			}
+            if (!Instance.equipPools.ContainsKey(playerName))
+            {
+                return;
+            }
             Instance.equipPools[playerName].DropGameObject(gObj, pos);
             gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
             //			Debug.LogFormat("{0}: removed {1}({2}) from pool. size={3} ", 

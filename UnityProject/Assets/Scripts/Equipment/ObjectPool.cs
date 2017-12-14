@@ -13,8 +13,8 @@ namespace Equipment
     //sent to the client UI and playerobj
     public class ObjectPool : MonoBehaviour
     {
-
-        public Dictionary<NetworkIdentity, ItemAttributes> currentObjects = new Dictionary<NetworkIdentity, ItemAttributes>();
+        public Dictionary<NetworkIdentity, ItemAttributes> currentObjects =
+            new Dictionary<NetworkIdentity, ItemAttributes>();
 
         public void AddGameObject(GameObject obj)
         {
@@ -56,8 +56,8 @@ namespace Equipment
                     DropNow(o, dropPos);
                 }
                 currentObjects.Remove(id);
-				gObj.GetComponent<RegisterTile>().UpdatePosition();
-			}
+                gObj.GetComponent<RegisterTile>().UpdatePosition();
+            }
         }
 
         private static void DropNow(GameObject gObj, Vector3 dropPos)

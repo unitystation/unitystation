@@ -25,7 +25,7 @@ namespace FullSerializer.Internal
             // note: IList[index] is **significantly** faster than Array.Get, so make sure we use
             //       that instead.
 
-            IList arr = (Array)instance;
+            IList arr = (Array) instance;
             Type elementType = storageType.GetElementType();
 
             var result = fsResult.Success;

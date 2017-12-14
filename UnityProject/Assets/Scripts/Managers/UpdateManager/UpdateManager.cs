@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class UpdateManager : MonoBehaviour
 {
     private static UpdateManager updateManager;
+
     public static UpdateManager Instance
     {
         get
@@ -55,17 +56,4 @@ public class UpdateManager : MonoBehaviour
             regularUpdate[i].LateUpdateMe();
         }
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -25,6 +25,7 @@ namespace Light2D
         /// Color is packed in mesh UV1.
         /// </summary>
         public Color AdditiveColor;
+
         private Color _oldSecondaryColor;
         private Renderer _oldGameSpriteRenderer;
         private SpriteRenderer _oldUnitySprite;
@@ -35,7 +36,8 @@ namespace Light2D
 #if UNITY_EDITOR
             if (Material == null)
             {
-                Material = (Material)AssetDatabase.LoadAssetAtPath("Assets/Light2D/Materials/DualColor.mat", typeof(Material));
+                Material = (Material) AssetDatabase.LoadAssetAtPath("Assets/Light2D/Materials/DualColor.mat",
+                    typeof(Material));
             }
 #endif
 
@@ -52,7 +54,7 @@ namespace Light2D
         private void UpdateSecondaryColor()
         {
             var uv1 = new Vector2(
-                Util.DecodeFloatRGBA((Vector4)AdditiveColor),
+                Util.DecodeFloatRGBA((Vector4) AdditiveColor),
                 Util.DecodeFloatRGBA(new Vector4(AdditiveColor.a, 0, 0)));
             for (int i = 0; i < _uv1.Length; i++)
             {
@@ -66,8 +68,10 @@ namespace Light2D
                 return;
 
             if (GameSpriteRenderer != null && (GameSpriteRenderer != _oldGameSpriteRenderer || forceUpdate ||
-                (_oldUnitySprite != null && _oldUnitySprite.sprite != null && _oldUnitySprite.sprite != Sprite) ||
-                (_oldCustomSprite != null && _oldCustomSprite.Sprite != null && _oldCustomSprite.Sprite != Sprite)))
+                                               (_oldUnitySprite != null && _oldUnitySprite.sprite != null &&
+                                                _oldUnitySprite.sprite != Sprite) ||
+                                               (_oldCustomSprite != null && _oldCustomSprite.Sprite != null &&
+                                                _oldCustomSprite.Sprite != Sprite)))
             {
                 _oldGameSpriteRenderer = GameSpriteRenderer;
 
@@ -97,4 +101,3 @@ namespace Light2D
         }
     }
 }
-

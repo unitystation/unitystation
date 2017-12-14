@@ -8,8 +8,7 @@ using System;
 public class FieldOfView : MonoBehaviour
 {
     public float viewRadius;
-    [Range(0, 360)]
-    public float viewAngle;
+    [Range(0, 360)] public float viewAngle;
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
@@ -99,8 +98,8 @@ public class FieldOfView : MonoBehaviour
 
             Vector3 dirToTarget = (targetPos - fovPos).normalized;
 
-            float x = (float)Math.Round(dirToTarget.x, MidpointRounding.AwayFromZero) / 2;
-            float y = (float)Math.Round(dirToTarget.y, MidpointRounding.AwayFromZero) / 2;
+            float x = (float) Math.Round(dirToTarget.x, MidpointRounding.AwayFromZero) / 2;
+            float y = (float) Math.Round(dirToTarget.y, MidpointRounding.AwayFromZero) / 2;
             float z = dirToTarget.z;
 
             if (fovPos.y > targetPos.y)
@@ -161,7 +160,8 @@ public class FieldOfView : MonoBehaviour
             if (i > 0)
             {
                 bool edgeDstThreshholdExceeded = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > edgeDistanceThreshhold;
-                if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeDstThreshholdExceeded))
+                if (oldViewCast.hit != newViewCast.hit ||
+                    (oldViewCast.hit && newViewCast.hit && edgeDstThreshholdExceeded))
                 {
                     EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
                     if (edge.pointA != Vector3.zero)
@@ -229,7 +229,6 @@ public class FieldOfView : MonoBehaviour
         }
 
         return new EdgeInfo(minPoint, maxPoint);
-
     }
 
     ViewCastInfo ViewCast(float globalAngle)

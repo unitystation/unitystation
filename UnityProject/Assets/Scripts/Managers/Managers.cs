@@ -5,8 +5,7 @@ using UI;
 
 public class Managers : MonoBehaviour
 {
-    [Header("For turning UI on and off to free up the editor window")]
-    public GameObject UIParent;
+    [Header("For turning UI on and off to free up the editor window")] public GameObject UIParent;
 
     public static Managers instance;
 
@@ -38,14 +37,16 @@ public class Managers : MonoBehaviour
     }
 
     public void SetScreenForGame()
-    { //Called by GameData
+    {
+        //Called by GameData
 
         UIParent.SetActive(true);
         UIManager.Display.SetScreenForGame();
     }
 
     public void SetScreenForLobby()
-    { //Called by GameData
+    {
+        //Called by GameData
         UIParent.SetActive(true);
         UIManager.Display.SetScreenForLobby();
     }

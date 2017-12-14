@@ -1,5 +1,4 @@
-﻿
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -81,7 +80,7 @@ namespace Tilemaps.Scripts.Utils
             foreach (var s in sprites)
             {
                 var rect = s.rect;
-                var pixels = s.texture.GetPixels((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
+                var pixels = s.texture.GetPixels((int) rect.x, (int) rect.y, (int) rect.width, (int) rect.height);
 
                 for (int i = 0; i < pixels.Length; i++)
                 {
@@ -95,12 +94,13 @@ namespace Tilemaps.Scripts.Utils
             }
 
             var old = sprites[0];
-            var texture = new Texture2D((int)old.rect.width, (int)old.rect.height, old.texture.format, false);
+            var texture = new Texture2D((int) old.rect.width, (int) old.rect.height, old.texture.format, false);
 
             texture.SetPixels(colors);
             texture.Apply();
 
-            return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), old.pixelsPerUnit);
+            return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f),
+                old.pixelsPerUnit);
         }
 
         private static Sprite SaveSpriteToEditorPath(Sprite sprite, Object obj)

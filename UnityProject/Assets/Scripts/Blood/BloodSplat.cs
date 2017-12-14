@@ -6,12 +6,10 @@ using Sprites;
 
 public class BloodSplat : NetworkBehaviour
 {
-
     public SpriteRenderer spriteRend;
     private Sprite[] bloodSprites;
 
-    [SyncVar(hook = "SetSprite")]
-    public int bloodSprite;
+    [SyncVar(hook = "SetSprite")] public int bloodSprite;
 
     public override void OnStartClient()
     {
@@ -27,7 +25,8 @@ public class BloodSplat : NetworkBehaviour
 
     void SetSprite(int spritenum)
     {
-        bloodSprite = spritenum; //officially recognized unet problem (feature?), you need to manually update the syncvar int if using with hook
+        bloodSprite =
+            spritenum; //officially recognized unet problem (feature?), you need to manually update the syncvar int if using with hook
         if (bloodSprites == null)
         {
             bloodSprites = SpriteManager.BloodSprites["blood"];
@@ -35,5 +34,4 @@ public class BloodSplat : NetworkBehaviour
         spriteRend.sprite = bloodSprites[spritenum];
         spriteRend.enabled = true;
     }
-
 }

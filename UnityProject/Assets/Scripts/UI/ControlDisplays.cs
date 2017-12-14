@@ -65,8 +65,6 @@ namespace UI
 
         public void HideRightPanel()
         {
-
         }
-
     }
 }

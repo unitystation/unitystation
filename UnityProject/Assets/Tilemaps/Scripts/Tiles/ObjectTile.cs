@@ -28,7 +28,11 @@ namespace Tilemaps.Scripts.Tiles
                 if (_objectCurrent == null)
                 {
                     // if sprite already exists (e.g. at startup), then load it, otherwise create a new one
-                    EditorApplication.delayCall += () => { PreviewSprite = PreviewSpriteBuilder.LoadSprite(Object) ?? PreviewSpriteBuilder.Create(Object); };
+                    EditorApplication.delayCall += () =>
+                    {
+                        PreviewSprite = PreviewSpriteBuilder.LoadSprite(Object) ??
+                                        PreviewSpriteBuilder.Create(Object);
+                    };
                 }
                 else if (Object != _objectCurrent)
                 {
@@ -58,7 +62,7 @@ namespace Tilemaps.Scripts.Tiles
                 return;
 
 #if UNITY_EDITOR
-            var go = (GameObject)PrefabUtility.InstantiatePrefab(Object);
+            var go = (GameObject) PrefabUtility.InstantiatePrefab(Object);
 #else
             var go = Instantiate(Object);
 #endif
@@ -80,7 +84,6 @@ namespace Tilemaps.Scripts.Tiles
 
             if (IsItem == true)
             {
-
             }
             else
             {

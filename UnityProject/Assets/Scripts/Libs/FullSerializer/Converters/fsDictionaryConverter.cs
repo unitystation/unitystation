@@ -22,7 +22,7 @@ namespace FullSerializer.Internal
 
         public override fsResult TryDeserialize(fsData data, ref object instance_, Type storageType)
         {
-            var instance = (IDictionary)instance_;
+            var instance = (IDictionary) instance_;
             var result = fsResult.Success;
 
             Type keyStorageType, valueStorageType;
@@ -41,8 +41,10 @@ namespace FullSerializer.Internal
                     if ((result += CheckKey(item, "Value", out valueData)).Failed) return result;
 
                     object keyInstance = null, valueInstance = null;
-                    if ((result += Serializer.TryDeserialize(keyData, keyStorageType, ref keyInstance)).Failed) return result;
-                    if ((result += Serializer.TryDeserialize(valueData, valueStorageType, ref valueInstance)).Failed) return result;
+                    if ((result += Serializer.TryDeserialize(keyData, keyStorageType, ref keyInstance)).Failed)
+                        return result;
+                    if ((result += Serializer.TryDeserialize(valueData, valueStorageType, ref valueInstance)).Failed)
+                        return result;
 
                     AddItemToDictionary(instance, keyInstance, valueInstance);
                 }
@@ -56,8 +58,10 @@ namespace FullSerializer.Internal
                     fsData keyData = new fsData(entry.Key), valueData = entry.Value;
                     object keyInstance = null, valueInstance = null;
 
-                    if ((result += Serializer.TryDeserialize(keyData, keyStorageType, ref keyInstance)).Failed) return result;
-                    if ((result += Serializer.TryDeserialize(valueData, valueStorageType, ref valueInstance)).Failed) return result;
+                    if ((result += Serializer.TryDeserialize(keyData, keyStorageType, ref keyInstance)).Failed)
+                        return result;
+                    if ((result += Serializer.TryDeserialize(valueData, valueStorageType, ref valueInstance)).Failed)
+                        return result;
 
                     AddItemToDictionary(instance, keyInstance, valueInstance);
                 }
@@ -76,7 +80,7 @@ namespace FullSerializer.Internal
 
             var result = fsResult.Success;
 
-            var instance = (IDictionary)instance_;
+            var instance = (IDictionary) instance_;
 
             Type keyStorageType, valueStorageType;
             GetKeyValueTypes(instance.GetType(), out keyStorageType, out valueStorageType);
@@ -90,8 +94,10 @@ namespace FullSerializer.Internal
             while (enumerator.MoveNext())
             {
                 fsData keyData, valueData;
-                if ((result += Serializer.TrySerialize(keyStorageType, enumerator.Key, out keyData)).Failed) return result;
-                if ((result += Serializer.TrySerialize(valueStorageType, enumerator.Value, out valueData)).Failed) return result;
+                if ((result += Serializer.TrySerialize(keyStorageType, enumerator.Key, out keyData)).Failed)
+                    return result;
+                if ((result += Serializer.TrySerialize(valueStorageType, enumerator.Value, out valueData)).Failed)
+                    return result;
 
                 serializedKeys.Add(keyData);
                 serializedValues.Add(valueData);
@@ -161,7 +167,7 @@ namespace FullSerializer.Internal
                 var keyValuePairType = collectionType.GetGenericArguments()[0];
                 object keyValueInstance = Activator.CreateInstance(keyValuePairType, key, value);
                 MethodInfo add = collectionType.GetFlattenedMethod("Add");
-                add.Invoke(dictionary, new object[] { keyValueInstance });
+                add.Invoke(dictionary, new object[] {keyValueInstance});
                 return fsResult.Success;
             }
 

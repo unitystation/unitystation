@@ -7,10 +7,9 @@ using UI;
 [CustomEditor(typeof(UI_ItemSlot))]
 public class UI_ItemSlotEditor : Editor
 {
-
     public override void OnInspectorGUI()
     {
-        var itemSlot = (UI_ItemSlot)target;
+        var itemSlot = (UI_ItemSlot) target;
 
         itemSlot.eventName = EditorGUILayout.TextField("Event Name", itemSlot.eventName);
 
@@ -18,7 +17,7 @@ public class UI_ItemSlotEditor : Editor
 
         if (itemSlot.allowAllItems)
         {
-            itemSlot.maxItemSize = (ItemSize)EditorGUILayout.EnumPopup("Maximal Item Size", itemSlot.maxItemSize);
+            itemSlot.maxItemSize = (ItemSize) EditorGUILayout.EnumPopup("Maximal Item Size", itemSlot.maxItemSize);
         }
         else
         {

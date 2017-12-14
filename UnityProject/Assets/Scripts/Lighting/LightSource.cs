@@ -44,6 +44,7 @@ namespace Lighting
 
         //For network sync reliability
         private bool waitToCheckState = false;
+
         private bool tempStateCache;
 
         const int MAX_TARGETS = 400;
@@ -73,7 +74,7 @@ namespace Lighting
             {
                 var localCollider = lightSpriteColliders[i];
                 var localObject = localCollider.gameObject;
-                var localObjectPos = (Vector2)localObject.transform.position;
+                var localObjectPos = (Vector2) localObject.transform.position;
                 var distance = Vector3.Distance(transform.position, localObjectPos);
                 if (IsWithinReach(transform.position, localObjectPos, distance))
                 {
@@ -85,8 +86,8 @@ namespace Lighting
         private bool IsWithinReach(Vector2 pos, Vector2 targetPos, float distance)
         {
             return distance <= radius
-                &&
-                Physics2D.Raycast(pos, targetPos - pos, distance, obstacleMask).collider == null;
+                   &&
+                   Physics2D.Raycast(pos, targetPos - pos, distance, obstacleMask).collider == null;
         }
 
         public override void Trigger(bool state)

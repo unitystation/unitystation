@@ -24,6 +24,7 @@ namespace UI
 
         //Caches
         public float screenWidthCache { get; set; }
+
         public float screenHeightCache { get; set; }
         public float cacheWidth { get; set; }
 
@@ -53,7 +54,7 @@ namespace UI
             if (monitorWindow)
             {
                 if (screenWidthCache != Screen.width ||
-                   screenHeightCache != Screen.height)
+                    screenHeightCache != Screen.height)
                 {
                     Invoke("AdjustHudBottomDelay", 0.1f);
                     monitorWindow = false;
@@ -87,12 +88,13 @@ namespace UI
             yield return new WaitForSeconds(0.2f);
             if (!Screen.fullScreen)
             {
-                float screenWidth = (float)Screen.height * targetAspect;
+                float screenWidth = (float) Screen.height * targetAspect;
 
                 //The following conditions check if the screen width or height
                 //is an odd number. If it is, then it adjusted to be an even number
                 //This fixes the sprite bleeding between tiles:
-                if(((int)screenWidth % 2) != 0){
+                if (((int) screenWidth % 2) != 0)
+                {
                     screenWidth += 1f;
                 }
                 int screenHeight = Screen.height;
@@ -101,7 +103,7 @@ namespace UI
                     screenHeight++;
                 }
 
-                Screen.SetResolution((int)screenWidth, screenHeight, false);
+                Screen.SetResolution((int) screenWidth, screenHeight, false);
                 camResizer.AdjustCam();
                 Camera.main.ResetAspect();
                 screenWidthCache = Screen.width;
@@ -132,7 +134,8 @@ namespace UI
                 hudBottom.anchoredPosition = anchoredPos;
             }
             else
-            { // this is for the left direction from the default position
+            {
+                // this is for the left direction from the default position
                 float panelRightProgress = (cacheWidth - rightPanelResize.panelRight.rect.width) / cacheWidth;
                 float newAnchorPos = Mathf.Lerp(rightPanelResize.cacheHudAnchor, 562f, Mathf.Abs(panelRightProgress));
                 Vector2 anchoredPos = hudBottom.anchoredPosition;
@@ -142,7 +145,8 @@ namespace UI
                 hudBottom.sizeDelta = hudBottomSizeDelta;
             }
             //KEEP ASPECT RATIO:
-            hudBottomSizeDelta.y = (hudBottom.rect.width) * rightPanelResize.originalHudSize.y / rightPanelResize.originalHudSize.x;
+            hudBottomSizeDelta.y = (hudBottom.rect.width) * rightPanelResize.originalHudSize.y /
+                                   rightPanelResize.originalHudSize.x;
             hudBottom.sizeDelta = hudBottomSizeDelta;
             UIManager.DisplayManager.SetCameraFollowPos(rightPanelResize.returnPanelButton.activeSelf);
             UIManager.PlayerHealthUI.overlayCrits.AdjustOverlayPos();

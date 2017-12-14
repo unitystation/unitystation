@@ -18,10 +18,12 @@ namespace Light2D
         [MenuItem("GameObject/Light2D/Light Obstacle", false, 6)]
         public static void CreateLightObstacle()
         {
-            var baseObjects = Selection.gameObjects.Select(o => o.GetComponent<Renderer>()).Where(r => r != null).ToList();
+            var baseObjects = Selection.gameObjects.Select(o => o.GetComponent<Renderer>()).Where(r => r != null)
+                .ToList();
             if (baseObjects.Count == 0)
             {
-                Debug.LogError("Can't create light obstacle from selected object. You need to select any object with renderer attached to it to create light obstacle.");
+                Debug.LogError(
+                    "Can't create light obstacle from selected object. You need to select any object with renderer attached to it to create light obstacle.");
             }
 
             foreach (var gameObj in baseObjects)
@@ -59,7 +61,7 @@ namespace Light2D
         [MenuItem("GameObject/Light2D/Enable 2DTK Support", false, 6)]
         public static void Enable2DToolkitSupport()
         {
-            var targets = (BuildTargetGroup[])Enum.GetValues(typeof(BuildTargetGroup));
+            var targets = (BuildTargetGroup[]) Enum.GetValues(typeof(BuildTargetGroup));
             foreach (var target in targets)
                 DefineSymbol("LIGHT2D_2DTK", target);
         }
@@ -67,7 +69,7 @@ namespace Light2D
         [MenuItem("GameObject/Light2D/Disable 2DTK Support", false, 6)]
         public static void Disable2DToolkitSupport()
         {
-            var targets = (BuildTargetGroup[])Enum.GetValues(typeof(BuildTargetGroup));
+            var targets = (BuildTargetGroup[]) Enum.GetValues(typeof(BuildTargetGroup));
             foreach (var target in targets)
                 UndefineSymbol("LIGHT2D_2DTK", target);
         }

@@ -5,7 +5,6 @@ using UnityEngine;
 [CustomEditor(typeof(EditModeControl))]
 public class EditModeControlEditor : Editor
 {
-
     private Vector3 currentPosition;
 
     void OnSceneGUI()

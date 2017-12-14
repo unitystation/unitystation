@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LockLightController : MonoBehaviour
 {
-
     public Sprite spriteUnlocked;
 
     private Sprite spriteLocked;

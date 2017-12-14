@@ -58,7 +58,7 @@ namespace Light2D.Examples
                 if (followedDir.y < -camHalfHeight)
                     camTargetPos.y = followedPos.y + camHalfHeight;
 
-                var pos = (followedPos - (Vector2)camPos).sqrMagnitude < InstantJumpDistance * InstantJumpDistance
+                var pos = (followedPos - (Vector2) camPos).sqrMagnitude < InstantJumpDistance * InstantJumpDistance
                     ? Vector2.Lerp(camPos, camTargetPos, CameraPositionLerp * Time.deltaTime)
                     : followedPos;
 

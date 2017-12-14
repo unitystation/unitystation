@@ -51,7 +51,8 @@ namespace UI
 
         void Start()
         {
-            slots = new[] {
+            slots = new[]
+            {
                 BackSlot,
                 BeltSlot,
                 EarSlot,
@@ -74,26 +75,17 @@ namespace UI
 
         public UI_ItemSlot this[int index]
         {
-            get
-            {
-                return slots[index];
-            }
+            get { return slots[index]; }
         }
 
         public UI_ItemSlot this[ItemType type]
         {
-            get
-            {
-                return GetSlotByItemType(type);
-            }
+            get { return GetSlotByItemType(type); }
         }
 
         public UI_ItemSlot this[string eventName]
         {
-            get
-            {
-                return GetSlotByEvent(eventName);
-            }
+            get { return GetSlotByEvent(eventName); }
         }
 
         IEnumerator<UI_ItemSlot> IEnumerable<UI_ItemSlot>.GetEnumerator()
@@ -108,10 +100,7 @@ namespace UI
 
         public int Length
         {
-            get
-            {
-                return slots != null ? slots.Length : 0;
-            }
+            get { return slots != null ? slots.Length : 0; }
         }
 
         public ItemType GetItemType(GameObject obj)
@@ -119,6 +108,7 @@ namespace UI
             var item = obj.GetComponent<ItemAttributes>();
             return item.type;
         }
+
         public SpriteType GetItemMasterType(GameObject obj)
         {
             var item = obj.GetComponent<ItemAttributes>();

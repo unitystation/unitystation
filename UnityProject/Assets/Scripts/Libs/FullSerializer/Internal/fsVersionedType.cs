@@ -29,7 +29,8 @@ namespace FullSerializer.Internal
 
         public override string ToString()
         {
-            return "fsVersionedType [ModelType=" + ModelType + ", VersionString=" + VersionString + ", Ancestors.Length=" + Ancestors.Length + "]";
+            return "fsVersionedType [ModelType=" + ModelType + ", VersionString=" + VersionString +
+                   ", Ancestors.Length=" + Ancestors.Length + "]";
         }
 
         public static bool operator ==(fsVersionedType a, fsVersionedType b)
@@ -46,7 +47,7 @@ namespace FullSerializer.Internal
         {
             return
                 obj is fsVersionedType &&
-                ModelType == ((fsVersionedType)obj).ModelType;
+                ModelType == ((fsVersionedType) obj).ModelType;
         }
 
         public override int GetHashCode()

@@ -28,7 +28,7 @@ namespace Light2D
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj is Point2 && Equals((Point2)obj);
+            return obj is Point2 && Equals((Point2) obj);
         }
 
         public override int GetHashCode()
@@ -61,7 +61,7 @@ namespace Light2D
 
         public static Point2 Floor(Vector2 v)
         {
-            return new Point2((int)v.x, (int)v.y);
+            return new Point2((int) v.x, (int) v.y);
         }
 
         public static Point2 Round(Vector2 v)
@@ -71,7 +71,7 @@ namespace Light2D
 
         public static Point2 Floor(float x, float y)
         {
-            return new Point2((int)x, (int)y);
+            return new Point2((int) x, (int) y);
         }
 
         public static Point2 Round(float x, float y)

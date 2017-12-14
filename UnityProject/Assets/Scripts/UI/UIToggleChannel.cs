@@ -4,5 +4,5 @@ using System.Collections.Generic;
 
 public class UIToggleChannel : MonoBehaviour
 {
-	public ChatChannel channel;
+    public ChatChannel channel;
 }

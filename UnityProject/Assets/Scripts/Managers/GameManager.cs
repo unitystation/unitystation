@@ -91,7 +91,8 @@ public class GameManager : MonoBehaviour
         if (counting)
         {
             remainingTime -= Time.deltaTime;
-            roundTimer.text = Mathf.Floor(remainingTime / 60).ToString("00") + ":" + (remainingTime % 60).ToString("00");
+            roundTimer.text = Mathf.Floor(remainingTime / 60).ToString("00") + ":" +
+                              (remainingTime % 60).ToString("00");
             if (remainingTime <= 0f)
             {
                 counting = false;
@@ -134,7 +135,8 @@ public class GameManager : MonoBehaviour
 
     public JobOutfit GetOccupationOutfit(JobType jobType)
     {
-        return Occupations.First(o => o.GetComponent<OccupationRoster>().Type == jobType).GetComponent<OccupationRoster>().outfit.GetComponent<JobOutfit>();
+        return Occupations.First(o => o.GetComponent<OccupationRoster>().Type == jobType)
+            .GetComponent<OccupationRoster>().outfit.GetComponent<JobOutfit>();
     }
 
     // Attempts to request job else assigns random occupation in order of priority
@@ -143,7 +145,8 @@ public class GameManager : MonoBehaviour
         // Try to assign specific job
         if (jobTypeRequest != JobType.NULL)
         {
-            foreach (GameObject jobObject in Occupations.Where(o => o.GetComponent<OccupationRoster>().Type == jobTypeRequest))
+            foreach (GameObject jobObject in Occupations.Where(o =>
+                o.GetComponent<OccupationRoster>().Type == jobTypeRequest))
             {
                 OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
                 if (job.limit != -1)

@@ -6,7 +6,6 @@ using InputControl;
 [ExecuteInEditMode]
 public class AmbientTile : ObjectTrigger
 {
-
     public Color onColor = new Color32(105, 105, 105, 255);
     public Color offColor = new Color32(0, 0, 0, 255);
     private SpriteRenderer spriteRend;
@@ -28,4 +27,3 @@ public class AmbientTile : ObjectTrigger
         spriteRend.color = state ? onColor : offColor;
     }
 }
-

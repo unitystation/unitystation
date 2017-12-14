@@ -5,9 +5,9 @@ using Sprites;
 
 public class FireTile : MonoBehaviour
 {
-
     //Not networked, this is client side effects
     public SpriteRenderer spriteRend;
+
     public GameObject ambientTile;
     private Sprite[] sprites;
     private bool burning = false;
@@ -32,6 +32,7 @@ public class FireTile : MonoBehaviour
     {
         fuel += addFuel;
     }
+
     // Update is called once per frame
     void Update()
     {

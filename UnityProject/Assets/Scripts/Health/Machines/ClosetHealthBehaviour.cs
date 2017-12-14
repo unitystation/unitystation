@@ -61,7 +61,6 @@ namespace Objects
 
         private void openCloset()
         {
-
             if (closetControl.IsClosed)
             {
                 closetControl.ServerToggleCupboard();

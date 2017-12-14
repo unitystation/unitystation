@@ -17,12 +17,15 @@ namespace FullSerializer
 
     public abstract class fsDirectConverter<TModel> : fsDirectConverter
     {
-        public override Type ModelType { get { return typeof(TModel); } }
+        public override Type ModelType
+        {
+            get { return typeof(TModel); }
+        }
 
         public sealed override fsResult TrySerialize(object instance, out fsData serialized, Type storageType)
         {
             var serializedDictionary = new Dictionary<string, fsData>();
-            var result = DoSerialize((TModel)instance, serializedDictionary);
+            var result = DoSerialize((TModel) instance, serializedDictionary);
             serialized = new fsData(serializedDictionary);
             return result;
         }
@@ -32,7 +35,7 @@ namespace FullSerializer
             var result = fsResult.Success;
             if ((result += CheckType(data, fsDataType.Object)).Failed) return result;
 
-            var obj = (TModel)instance;
+            var obj = (TModel) instance;
             result += DoDeserialize(data.AsDictionary, ref obj);
             instance = obj;
             return result;

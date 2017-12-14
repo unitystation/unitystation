@@ -14,10 +14,12 @@ namespace FullSerializer.Internal
         {
             get { return _hasValue; }
         }
+
         public bool IsEmpty
         {
             get { return _hasValue == false; }
         }
+
         public T Value
         {
             get

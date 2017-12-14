@@ -49,6 +49,7 @@ namespace FullSerializer.Internal
         public static Type[] EmptyTypes = { };
 
         #region Attribute Queries
+
 #if USE_TYPEINFO
         public static TAttribute GetAttribute<TAttribute>(Type type)
             where TAttribute : Attribute {
@@ -117,7 +118,7 @@ namespace FullSerializer.Internal
             {
                 var attributes = element.GetCustomAttributes(attributeType, /*inherit:*/ true);
                 if (attributes.Length > 0)
-                    attribute = (Attribute)attributes[0];
+                    attribute = (Attribute) attributes[0];
                 if (shouldCache)
                     _cachedAttributeQueries[query] = attribute;
             }
@@ -135,21 +136,24 @@ namespace FullSerializer.Internal
         public static TAttribute GetAttribute<TAttribute>(MemberInfo element, bool shouldCache)
             where TAttribute : Attribute
         {
-
-            return (TAttribute)GetAttribute(element, typeof(TAttribute), shouldCache);
+            return (TAttribute) GetAttribute(element, typeof(TAttribute), shouldCache);
         }
+
         public static TAttribute GetAttribute<TAttribute>(MemberInfo element)
             where TAttribute : Attribute
         {
             return GetAttribute<TAttribute>(element, /*shouldCache:*/true);
         }
+
         private struct AttributeQuery
         {
             public MemberInfo MemberInfo;
             public Type AttributeType;
         }
+
         private static IDictionary<AttributeQuery, Attribute> _cachedAttributeQueries =
             new Dictionary<AttributeQuery, Attribute>(new AttributeQueryComparator());
+
         private class AttributeQueryComparator : IEqualityComparer<AttributeQuery>
         {
             public bool Equals(AttributeQuery x, AttributeQuery y)
@@ -166,6 +170,7 @@ namespace FullSerializer.Internal
                     (17 * obj.AttributeType.GetHashCode());
             }
         }
+
         #endregion
 
 #if !USE_TYPEINFO
@@ -394,7 +399,7 @@ namespace FullSerializer.Internal
 #if USE_TYPEINFO
             return ((TypeInfo)member).AsType();
 #else
-            return (Type)member;
+            return (Type) member;
 #endif
         }
 
@@ -447,6 +452,7 @@ namespace FullSerializer.Internal
             return type.GetTypeInfo().GenericTypeArguments.ToArray();
         }
 #endif
+
         #endregion
     }
 }

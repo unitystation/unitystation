@@ -2,11 +2,13 @@
 {
     //these weird ints are for the UI
     HEAD = 0,
+
     //    EYES,
     //    MOUTH,
     CHEST = 1,
     LEFT_ARM = 3,
     RIGHT_ARM = 2,
+
     //    LEFT_HAND,
     //    RIGHT_HAND,
     //    GROIN,

@@ -2,6 +2,7 @@
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+
 /// <summary>
 /// Tells client to update certain slot (place an object)
 /// </summary>
@@ -43,14 +44,16 @@ public class UpdateSlotMessage : ServerMessage<UpdateSlotMessage>
     /// (to avoid updating it twice)
     /// </param>
     /// <returns></returns>
-    public static UpdateSlotMessage Send(GameObject recipient, string slot, GameObject objectForSlot = null, bool forced = true)
+    public static UpdateSlotMessage Send(GameObject recipient, string slot, GameObject objectForSlot = null,
+        bool forced = true)
     {
         var msg = new UpdateSlotMessage
         {
             Recipient = recipient.GetComponent<NetworkIdentity>().netId, //?
             Slot = slot,
-            ObjectForSlot = (objectForSlot != null) ?
-                objectForSlot.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+            ObjectForSlot = (objectForSlot != null)
+                ? objectForSlot.GetComponent<NetworkIdentity>().netId
+                : NetworkInstanceId.Invalid,
             ForceRefresh = forced
         };
         msg.SendTo(recipient);
@@ -60,6 +63,6 @@ public class UpdateSlotMessage : ServerMessage<UpdateSlotMessage>
     public override string ToString()
     {
         return string.Format("[UpdateSlotMessage Recipient={0} Method={2} Parameter={3} Type={1} Forced={4}]",
-                                                        Recipient, MessageType, Slot, ObjectForSlot, ForceRefresh);
+            Recipient, MessageType, Slot, ObjectForSlot, ForceRefresh);
     }
 }

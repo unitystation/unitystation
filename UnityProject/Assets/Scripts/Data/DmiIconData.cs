@@ -7,7 +7,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DmiIconData")]
 public class DmiIconData : ScriptableObject
 {
-
     private static Dictionary<string, DmiIcon> data = new Dictionary<string, DmiIcon>();
     private static Dictionary<string, DmiIcon> legacyData = new Dictionary<string, DmiIcon>();
 
@@ -43,7 +42,7 @@ public class DmiIconData : ScriptableObject
             if (legacyDmiState != null && data.ContainsKey(iPath))
             {
                 var legacyState = legacyDmiState.state;
-                var newState = data[iPath].getState(legacyState);//searchStateInIcon(legacyState, spriteSheet, false);
+                var newState = data[iPath].getState(legacyState); //searchStateInIcon(legacyState, spriteSheet, false);
                 if (newState != null)
                 {
                     //					if (legacyUnityName.Contains("shuttle_wall"))
@@ -116,7 +115,6 @@ public class DmiIconData : ScriptableObject
             .ToDictionary(p => p.Key, p => p.Value);
         foreach (var dmiIcon in tmpData.Values)
         {
-
             var foundState = dmiIcon.states.Find(x => x.state == state);
             if (foundState != null)
             {
@@ -174,13 +172,14 @@ public class DmiIconData : ScriptableObject
 
     public DmiState searchStateInIcon(string state, string icon, bool deepSearch)
     {
-        return searchStateInIcon(state, new[] { icon }, deepSearch);
+        return searchStateInIcon(state, new[] {icon}, deepSearch);
     }
 
     public DmiState searchStateFourDirectional(string state, string icon)
     {
-        return searchStateInIcon(state, new[] { icon }, 4, true);
+        return searchStateInIcon(state, new[] {icon}, 4, true);
     }
+
     public DmiState searchStateFourDirectional(string state, string[] icons)
     {
         return searchStateInIcon(state, icons, 4, true);
@@ -259,7 +258,6 @@ public class DmiIconData : ScriptableObject
                 list.Value.Add(icon.icon, icon);
             }
         }
-
     }
 
     private static IconList<DmiIcon> DeserializeJson(string name)
@@ -276,8 +274,8 @@ public class DmiIconData : ScriptableObject
         var icons = new IconList<DmiIcon>();
         JsonUtility.FromJsonOverwrite(myJson, icons);
         return icons;
-
     }
+
     [Serializable]
     private class IconList<T>
     {

@@ -10,6 +10,7 @@ namespace AccessType
     public enum Access
     {
         ai_upload = 1,
+
         //all_personal_lockers = 2,
         armory = 3,
         atmospherics = 4,
@@ -19,6 +20,7 @@ namespace AccessType
         cargo = 8, // Cargo Bay
         cargo_bot = 9,
         ce = 10,
+
         //cent_captain = 11,
         //cent_creed = 12,
         //cent_ert = 13,
@@ -36,6 +38,7 @@ namespace AccessType
         cmo = 25,
         construction = 26, // Vacant office, etc
         court = 27,
+
         //crate_cash = 28,
         crematorium = 29,
         emergency_storage = 30,
@@ -64,6 +67,7 @@ namespace AccessType
         mining = 53,
         mining_office = 54,
         mining_station = 55,
+
         //mint = 56,
         //mint_vault = 57,
         morgue = 58,
@@ -73,6 +77,7 @@ namespace AccessType
         rd = 62,
         rnd_lab = 63, // Research and Development lab
         robotics = 64,
+
         //salvage_captain = 65,
         science = 66, // Research Division hallway
         sec_doors = 67, // Security front doors
@@ -80,6 +85,7 @@ namespace AccessType
         shop = 69,
         surgery = 70,
         syndicate = 71,
+
         //taxi = 72,
         tcomsat = 73, // has access to the entire telecomms satellite / machinery
         tech_storage = 74,

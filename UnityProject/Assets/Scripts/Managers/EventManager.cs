@@ -5,21 +5,24 @@ using System.Collections.Generic;
 
 namespace Events
 {
-
-    public class UIEvent : UnityEvent<GameObject> { }
+    public class UIEvent : UnityEvent<GameObject>
+    {
+    }
 
     //For simple broadcasts:
-    public enum EVENT { UpdateFov }; // + other events. Add them as you need them
+    public enum EVENT
+    {
+        UpdateFov
+    }; // + other events. Add them as you need them
 
     [ExecuteInEditMode]
     public class EventManager : MonoBehaviour
     {
-
         private EventController<string, GameObject> ui = new EventController<string, GameObject>();
 
         // Stores the delegates that get called when an event is fired (Simple Events)
         private static Dictionary<EVENT, Action> eventTable
-        = new Dictionary<EVENT, Action>();
+            = new Dictionary<EVENT, Action>();
 
         public static EventController<string, GameObject> UI
         {
@@ -42,7 +45,6 @@ namespace Events
 
         public static void UpdateLights()
         {
-
         }
 
         /*

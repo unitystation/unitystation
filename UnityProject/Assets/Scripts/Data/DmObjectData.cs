@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using FullSerializer;
 using UnityEngine;
+
 [CreateAssetMenu(fileName = "DmObjectData")]
 public class DmObjectData : ScriptableObject
 {
@@ -46,7 +47,6 @@ public class DmObjectData : ScriptableObject
                 .GroupBy(d => d.Key)
                 .ToDictionary(d => d.Key, d => d.First().Value);
             path.RemoveAt(i);
-
         }
         if (ancAttr.Count == 0)
         {
@@ -59,7 +59,7 @@ public class DmObjectData : ScriptableObject
     {
         foreach (var obj in objectList)
         {
-            if (/*obj.ContainsKey("hierarchy") && */obj["hierarchy"].Equals(hierarchy))
+            if ( /*obj.ContainsKey("hierarchy") && */obj["hierarchy"].Equals(hierarchy))
             {
                 return obj;
             }

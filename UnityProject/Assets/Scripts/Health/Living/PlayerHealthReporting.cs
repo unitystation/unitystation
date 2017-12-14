@@ -22,6 +22,7 @@ namespace PlayGroup
 
         //server only caches
         private int healthServerCache;
+
         private int bloodLevelCache;
         private float BloodPercentage = 100f;
 
@@ -62,6 +63,7 @@ namespace PlayGroup
             ServerMonitorHealth();
             base.UpdateMe();
         }
+
         private void ServerMonitorHealth()
         {
             //Add other damage methods here like burning, 
@@ -78,7 +80,7 @@ namespace PlayGroup
                 }
                 else
                 {
-                    BloodPercentage = ((float)playerHealth.BloodLevel / 560f) * 100f;
+                    BloodPercentage = ((float) playerHealth.BloodLevel / 560f) * 100f;
                 }
             }
 
@@ -86,7 +88,7 @@ namespace PlayGroup
             //manually and update the clients UI
             if (BloodPercentage < playerHealth.Health)
             {
-                healthServerCache = (int)BloodPercentage;
+                healthServerCache = (int) BloodPercentage;
                 playerHealth.ServerOnlySetHealth(healthServerCache);
                 UpdateClientUI(healthServerCache);
             }

@@ -37,11 +37,11 @@ namespace Tilemaps.Editor.Brushes
                 {
                     if (tile is LayerTile)
                     {
-                        PlaceLayerTile(metaTileMap, position, (LayerTile)tile);
+                        PlaceLayerTile(metaTileMap, position, (LayerTile) tile);
                     }
                     else if (tile is MetaTile)
                     {
-                        PlaceMetaTile(metaTileMap, position, (MetaTile)tile);
+                        PlaceMetaTile(metaTileMap, position, (MetaTile) tile);
                     }
                 }
             }

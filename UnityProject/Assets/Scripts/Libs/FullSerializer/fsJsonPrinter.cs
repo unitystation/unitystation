@@ -83,15 +83,33 @@ namespace FullSerializer
                 // standard escape character
                 switch (c)
                 {
-                    case '"': result.Append("\\\""); continue;
-                    case '\\': result.Append(@"\\"); continue;
-                    case '\a': result.Append(@"\a"); continue;
-                    case '\b': result.Append(@"\b"); continue;
-                    case '\f': result.Append(@"\f"); continue;
-                    case '\n': result.Append(@"\n"); continue;
-                    case '\r': result.Append(@"\r"); continue;
-                    case '\t': result.Append(@"\t"); continue;
-                    case '\0': result.Append(@"\0"); continue;
+                    case '"':
+                        result.Append("\\\"");
+                        continue;
+                    case '\\':
+                        result.Append(@"\\");
+                        continue;
+                    case '\a':
+                        result.Append(@"\a");
+                        continue;
+                    case '\b':
+                        result.Append(@"\b");
+                        continue;
+                    case '\f':
+                        result.Append(@"\f");
+                        continue;
+                    case '\n':
+                        result.Append(@"\n");
+                        continue;
+                    case '\r':
+                        result.Append(@"\r");
+                        continue;
+                    case '\t':
+                        result.Append(@"\t");
+                        continue;
+                    case '\0':
+                        result.Append(@"\0");
+                        continue;
                 }
 
                 // no escaping needed
@@ -129,36 +147,36 @@ namespace FullSerializer
                     break;
 
                 case fsDataType.Object:
+                {
+                    stream.Write('{');
+                    bool comma = false;
+                    foreach (var entry in data.AsDictionary)
                     {
-                        stream.Write('{');
-                        bool comma = false;
-                        foreach (var entry in data.AsDictionary)
-                        {
-                            if (comma) stream.Write(',');
-                            comma = true;
-                            stream.Write('"');
-                            stream.Write(entry.Key);
-                            stream.Write('"');
-                            stream.Write(":");
-                            BuildCompressedString(entry.Value, stream);
-                        }
-                        stream.Write('}');
-                        break;
+                        if (comma) stream.Write(',');
+                        comma = true;
+                        stream.Write('"');
+                        stream.Write(entry.Key);
+                        stream.Write('"');
+                        stream.Write(":");
+                        BuildCompressedString(entry.Value, stream);
                     }
+                    stream.Write('}');
+                    break;
+                }
 
                 case fsDataType.Array:
+                {
+                    stream.Write('[');
+                    bool comma = false;
+                    foreach (var entry in data.AsList)
                     {
-                        stream.Write('[');
-                        bool comma = false;
-                        foreach (var entry in data.AsList)
-                        {
-                            if (comma) stream.Write(',');
-                            comma = true;
-                            BuildCompressedString(entry, stream);
-                        }
-                        stream.Write(']');
-                        break;
+                        if (comma) stream.Write(',');
+                        comma = true;
+                        BuildCompressedString(entry, stream);
                     }
+                    stream.Write(']');
+                    break;
+                }
             }
         }
 
@@ -194,30 +212,30 @@ namespace FullSerializer
                     break;
 
                 case fsDataType.Object:
+                {
+                    stream.Write('{');
+                    stream.WriteLine();
+                    bool comma = false;
+                    foreach (var entry in data.AsDictionary)
                     {
-                        stream.Write('{');
-                        stream.WriteLine();
-                        bool comma = false;
-                        foreach (var entry in data.AsDictionary)
+                        if (comma)
                         {
-                            if (comma)
-                            {
-                                stream.Write(',');
-                                stream.WriteLine();
-                            }
-                            comma = true;
-                            InsertSpacing(stream, depth + 1);
-                            stream.Write('"');
-                            stream.Write(entry.Key);
-                            stream.Write('"');
-                            stream.Write(": ");
-                            BuildPrettyString(entry.Value, stream, depth + 1);
+                            stream.Write(',');
+                            stream.WriteLine();
                         }
-                        stream.WriteLine();
-                        InsertSpacing(stream, depth);
-                        stream.Write('}');
-                        break;
+                        comma = true;
+                        InsertSpacing(stream, depth + 1);
+                        stream.Write('"');
+                        stream.Write(entry.Key);
+                        stream.Write('"');
+                        stream.Write(": ");
+                        BuildPrettyString(entry.Value, stream, depth + 1);
                     }
+                    stream.WriteLine();
+                    InsertSpacing(stream, depth);
+                    stream.Write('}');
+                    break;
+                }
 
                 case fsDataType.Array:
                     // special case for empty lists; we don't put an empty line between the brackets
@@ -318,6 +336,5 @@ namespace FullSerializer
 
             return doubledString;
         }
-
     }
 }

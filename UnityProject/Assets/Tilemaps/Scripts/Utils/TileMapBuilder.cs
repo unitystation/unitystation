@@ -24,11 +24,11 @@ namespace Tilemaps.Scripts.Utils
         {
             if (tile is LayerTile)
             {
-                PlaceLayerTile(position, (LayerTile)tile, matrixTransform);
+                PlaceLayerTile(position, (LayerTile) tile, matrixTransform);
             }
             else if (tile is MetaTile)
             {
-                PlaceMetaTile(position, (MetaTile)tile, matrixTransform);
+                PlaceMetaTile(position, (MetaTile) tile, matrixTransform);
             }
         }
 

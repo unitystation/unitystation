@@ -16,7 +16,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 
     const int MAX_TARGETS = 44;
 
-    readonly string[] explosions = { "Explosion1", "Explosion2" };
+    readonly string[] explosions = {"Explosion1", "Explosion2"};
     readonly Collider2D[] colliders = new Collider2D[MAX_TARGETS];
 
     int playerMask;
@@ -62,7 +62,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 #endif
     public void Explode(string thanksTo)
     {
-        var explosionPos = (Vector2)transform.position;
+        var explosionPos = (Vector2) transform.position;
         var length = Physics2D.OverlapCircleNonAlloc(explosionPos, radius, colliders, damageableMask);
         Dictionary<GameObject, int> toBeDamaged = new Dictionary<GameObject, int>();
         for (int i = 0; i < length; i++)
@@ -70,10 +70,10 @@ public class ExplodeWhenShot : NetworkBehaviour
             var localCollider = colliders[i];
             var localObject = localCollider.gameObject;
 
-            var localObjectPos = (Vector2)localObject.transform.position;
+            var localObjectPos = (Vector2) localObject.transform.position;
             var distance = Vector3.Distance(explosionPos, localObjectPos);
             var effect = 1 - ((distance * distance) / (radius * radius));
-            var actualDamage = (int)(damage * effect);
+            var actualDamage = (int) (damage * effect);
 
             if (NotSameObject(localCollider) &&
                 HasHealthComponent(localCollider) &&

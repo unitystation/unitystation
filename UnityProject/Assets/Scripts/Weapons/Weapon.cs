@@ -77,27 +77,21 @@ namespace Weapons
         /// <summary>
         /// The countdown untill we can shoot again
         /// </summary>
-        [HideInInspector]
-        public double FireCountDown;
+        [HideInInspector] public double FireCountDown;
 
         /// <summary>
         /// If the weapon is currently in automatic action
         /// </summary>
-        [HideInInspector]
-        public bool InAutomaticAction;
+        [HideInInspector] public bool InAutomaticAction;
 
         /// <summary>
         /// The the current recoil variance this weapon has reached
         /// </summary>
-        [SyncVar]
-        [HideInInspector]
-        public float CurrentRecoilVariance;
+        [SyncVar] [HideInInspector] public float CurrentRecoilVariance;
 
-        [SyncVar(hook = "LoadUnloadAmmo")]
-        public NetworkInstanceId MagNetID;
+        [SyncVar(hook = "LoadUnloadAmmo")] public NetworkInstanceId MagNetID;
 
-        [SyncVar]
-        public NetworkInstanceId ControlledByPlayer;
+        [SyncVar] public NetworkInstanceId ControlledByPlayer;
 
         void Start()
         {

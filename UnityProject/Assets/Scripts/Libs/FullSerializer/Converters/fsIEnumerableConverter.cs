@@ -23,7 +23,7 @@ namespace FullSerializer.Internal
 
         public override fsResult TrySerialize(object instance_, out fsData serialized, Type storageType)
         {
-            var instance = (IEnumerable)instance_;
+            var instance = (IEnumerable) instance_;
             var result = fsResult.Success;
 
             Type elementType = GetElementType(storageType);
@@ -61,7 +61,7 @@ namespace FullSerializer.Internal
 
         public override fsResult TryDeserialize(fsData data, ref object instance_, Type storageType)
         {
-            var instance = (IEnumerable)instance_;
+            var instance = (IEnumerable) instance_;
             var result = fsResult.Success;
 
             if ((result += CheckType(data, fsDataType.Array)).Failed) return result;
@@ -82,7 +82,7 @@ namespace FullSerializer.Internal
                 object itemInstance = null;
                 if (getMethod != null && i < existingSize)
                 {
-                    itemInstance = getMethod.Invoke(instance, new object[] { i });
+                    itemInstance = getMethod.Invoke(instance, new object[] {i});
                 }
 
                 // note: We don't fail the entire deserialization even if the item failed
@@ -92,11 +92,11 @@ namespace FullSerializer.Internal
 
                 if (setMethod != null && i < existingSize)
                 {
-                    setMethod.Invoke(instance, new object[] { i, itemInstance });
+                    setMethod.Invoke(instance, new object[] {i, itemInstance});
                 }
                 else
                 {
-                    addMethod.Invoke(instance, new object[] { itemInstance });
+                    addMethod.Invoke(instance, new object[] {itemInstance});
                 }
             }
 
@@ -107,7 +107,7 @@ namespace FullSerializer.Internal
         {
             if (collection is ICollection)
             {
-                return ((ICollection)collection).Count;
+                return ((ICollection) collection).Count;
             }
             return 0;
         }
@@ -139,7 +139,7 @@ namespace FullSerializer.Internal
             var count = type.GetFlattenedProperty("Count");
             if (count != null)
             {
-                return (int)count.GetGetMethod().Invoke(instance, null);
+                return (int) count.GetGetMethod().Invoke(instance, null);
             }
             return 0;
         }

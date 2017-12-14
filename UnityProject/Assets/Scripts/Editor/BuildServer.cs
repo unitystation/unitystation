@@ -8,7 +8,7 @@ public class BuildServer
     static void PerformBuild()
     {
         var buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = new[] { "Assets/scenes/Lobby.unity", "Assets/scenes/Deathmatch.unity" };
+        buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/Deathmatch.unity"};
         buildPlayerOptions.locationPathName = "Builds/server/server";
         buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
         buildPlayerOptions.options = BuildOptions.EnableHeadlessMode;

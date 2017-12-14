@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class UseMainCameraSize : MonoBehaviour
 {
-
     private Camera MainCamera;
     private Camera Camera;
 

@@ -58,4 +58,3 @@ internal class ScriptableObjectCreatorWindow : EditorWindow
         Selection.activeObject = asset;
     }
 }
-

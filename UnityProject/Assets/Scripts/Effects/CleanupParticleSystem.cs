@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CleanupParticleSystem : MonoBehaviour
 {
-
     void Start()
     {
         var duration = GetComponent<ParticleSystem>().main.duration;

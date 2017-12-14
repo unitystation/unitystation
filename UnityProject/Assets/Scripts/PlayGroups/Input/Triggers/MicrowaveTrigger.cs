@@ -14,6 +14,7 @@ using Equipment;
 public class MicrowaveTrigger : InputTrigger
 {
     private Microwave microwave;
+
     void Start()
     {
         microwave = GetComponent<Microwave>();
@@ -39,7 +40,8 @@ public class MicrowaveTrigger : InputTrigger
             }
         }
         else
-        {   //Server actions
+        {
+            //Server actions
             if (!ValidateMicrowaveInteraction(originator, position, hand))
             {
                 //Rollback prediction here
@@ -63,7 +65,7 @@ public class MicrowaveTrigger : InputTrigger
 
         var ingredient = new Ingredient(attr.itemName);
 
-        var meal = CraftingManager.Meals.FindRecipe(new List<Ingredient>() { ingredient });
+        var meal = CraftingManager.Meals.FindRecipe(new List<Ingredient>() {ingredient});
 
         if (meal)
         {
@@ -74,6 +76,4 @@ public class MicrowaveTrigger : InputTrigger
 
         return true;
     }
-
-
 }

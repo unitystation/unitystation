@@ -14,8 +14,10 @@ public class BodyPartBehaviour : MonoBehaviour
 
     //50 for limbs, 200 for the head and torso(?)
     public int MaxDamage = 50;
+
     private int _damage;
     private DamageSeverity _severity;
+
     public DamageSeverity Severity
     {
         get { return _severity; }
@@ -53,7 +55,7 @@ public class BodyPartBehaviour : MonoBehaviour
 
     private void UpdateSeverity()
     {
-        float severity = (float)_damage / MaxDamage;
+        float severity = (float) _damage / MaxDamage;
         if (severity >= 0.2 && severity < 0.4)
         {
             _severity = DamageSeverity.Moderate;

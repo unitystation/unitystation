@@ -20,17 +20,17 @@ namespace Light2D.Examples
 
         public ulong longSeed
         {
-            get { return ((ulong)w << 32) + (ulong)z; }
+            get { return ((ulong) w << 32) + (ulong) z; }
             set
             {
-                w = (uint)(value >> 32);
-                z = unchecked((uint)value);
+                w = (uint) (value >> 32);
+                z = unchecked((uint) value);
             }
         }
 
         public int seed
         {
-            set { w = unchecked((uint)value); }
+            set { w = unchecked((uint) value); }
         }
 
         public float value
@@ -62,7 +62,7 @@ namespace Light2D.Examples
             w = u;
         }
 
-        public SimpleRNG(int u) : this((uint)u)
+        public SimpleRNG(int u) : this((uint) u)
         {
         }
 
@@ -70,7 +70,7 @@ namespace Light2D.Examples
         {
             System.DateTime dt = System.DateTime.Now;
             long x = dt.ToFileTime();
-            return new SimpleRNG((uint)(x >> 16), (uint)(x % 4294967296));
+            return new SimpleRNG((uint) (x >> 16), (uint) (x % 4294967296));
         }
 
         // Produce a uniform random sample from the open interval (0, 1).
@@ -86,7 +86,7 @@ namespace Light2D.Examples
 
         public float GetUniformF()
         {
-            return (float)GetUniform();
+            return (float) GetUniform();
         }
 
         public int Range(int minValue, int maxValue)
@@ -96,7 +96,7 @@ namespace Light2D.Examples
 
         public int Range(int maxValue)
         {
-            var num = (int)GetUint();
+            var num = (int) GetUint();
             if (num < 0) num = -num;
             return num % maxValue;
         }
@@ -162,7 +162,7 @@ namespace Light2D.Examples
             {
                 d = shape - 1.0 / 3.0;
                 c = 1.0 / Math.Sqrt(9.0 * d);
-                for (; ; )
+                for (;;)
                 {
                     do
                     {
@@ -172,7 +172,8 @@ namespace Light2D.Examples
                     v = v * v * v;
                     u = GetUniform();
                     xsquared = x * x;
-                    if (u < 1.0 - .0331 * xsquared * xsquared || Math.Log(u) < 0.5 * xsquared + d * (1.0 - v + Math.Log(v)))
+                    if (u < 1.0 - .0331 * xsquared * xsquared ||
+                        Math.Log(u) < 0.5 * xsquared + d * (1.0 - v + Math.Log(v)))
                         return scale * d * v;
                 }
             }

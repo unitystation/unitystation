@@ -59,11 +59,11 @@ namespace Tilemaps.Editor.Brushes
                         brush.cells[0].matrix = Matrix4x4.TRS(Vector3.up, Quaternion.identity, Vector3.one);
                     }
 
-                    previewTiles = new LayerTile[] { (LayerTile)tile };
+                    previewTiles = new LayerTile[] {(LayerTile) tile};
                 }
                 else if (tile is MetaTile)
                 {
-                    previewTiles = ((MetaTile)tile).GetTiles().ToArray();
+                    previewTiles = ((MetaTile) tile).GetTiles().ToArray();
                 }
 
                 _currentPreviewTile = tile;

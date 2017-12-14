@@ -1,6 +1,7 @@
 using System;
 #if !NO_UNITY
 using UnityEngine;
+
 #endif
 
 #if !UNITY_EDITOR && UNITY_WSA
@@ -57,31 +58,34 @@ namespace FullSerializer.Internal
         {
             // Don't call the callback on null instances.
             if (instance == null) return;
-            ((fsISerializationCallbacks)instance).OnBeforeSerialize(storageType);
+            ((fsISerializationCallbacks) instance).OnBeforeSerialize(storageType);
         }
 
         public override void OnAfterSerialize(Type storageType, object instance, ref fsData data)
         {
             // Don't call the callback on null instances.
             if (instance == null) return;
-            ((fsISerializationCallbacks)instance).OnAfterSerialize(storageType, ref data);
+            ((fsISerializationCallbacks) instance).OnAfterSerialize(storageType, ref data);
         }
 
-        public override void OnBeforeDeserializeAfterInstanceCreation(Type storageType, object instance, ref fsData data)
+        public override void OnBeforeDeserializeAfterInstanceCreation(Type storageType, object instance,
+            ref fsData data)
         {
             if (instance is fsISerializationCallbacks == false)
             {
-                throw new InvalidCastException("Please ensure the converter for " + storageType + " actually returns an instance of it, not an instance of " + instance.GetType());
+                throw new InvalidCastException("Please ensure the converter for " + storageType +
+                                               " actually returns an instance of it, not an instance of " +
+                                               instance.GetType());
             }
 
-            ((fsISerializationCallbacks)instance).OnBeforeDeserialize(storageType, ref data);
+            ((fsISerializationCallbacks) instance).OnBeforeDeserialize(storageType, ref data);
         }
 
         public override void OnAfterDeserialize(Type storageType, object instance)
         {
             // Don't call the callback on null instances.
             if (instance == null) return;
-            ((fsISerializationCallbacks)instance).OnAfterDeserialize(storageType);
+            ((fsISerializationCallbacks) instance).OnAfterDeserialize(storageType);
         }
     }
 
@@ -97,14 +101,14 @@ namespace FullSerializer.Internal
         {
             // Don't call the callback on null instances.
             if (instance == null) return;
-            ((ISerializationCallbackReceiver)instance).OnBeforeSerialize();
+            ((ISerializationCallbackReceiver) instance).OnBeforeSerialize();
         }
 
         public override void OnAfterDeserialize(Type storageType, object instance)
         {
             // Don't call the callback on null instances.
             if (instance == null) return;
-            ((ISerializationCallbackReceiver)instance).OnAfterDeserialize();
+            ((ISerializationCallbackReceiver) instance).OnAfterDeserialize();
         }
     }
 #endif

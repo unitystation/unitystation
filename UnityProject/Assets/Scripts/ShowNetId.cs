@@ -5,11 +5,11 @@ using UnityEngine.Networking;
 
 public class ShowNetId : NetworkBehaviour
 {
+    public uint netId2;
 
-	public uint netId2;
-	
-	// Update is called once per frame
-	void Update () {
-		netId2 = netId.Value;
-	}
+    // Update is called once per frame
+    void Update()
+    {
+        netId2 = netId.Value;
+    }
 }

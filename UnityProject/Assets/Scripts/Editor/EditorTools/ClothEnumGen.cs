@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 
@@ -21,9 +22,9 @@ public class ClothEnumGen : MonoBehaviour
         Dictionary<string, string> hierName = prepareObjects();
         // the path we want to write to
         string path = string.Concat(Application.dataPath, Path.DirectorySeparatorChar,
-                "scripts", Path.DirectorySeparatorChar,
-                "Items", Path.DirectorySeparatorChar,
-                "ClothEnum.cs");
+            "scripts", Path.DirectorySeparatorChar,
+            "Items", Path.DirectorySeparatorChar,
+            "ClothEnum.cs");
         if (File.Exists(path))
         {
             File.Delete(path);
@@ -89,17 +90,17 @@ public class ClothEnumGen : MonoBehaviour
                 //                                        .ToLower();
                 var hierz = hier.Split('/');
                 var name = Regex.Replace(
-                        ItemAttributes.tryGetAttr(dic, "name")
-                                .Trim().Replace('-', '_').Replace(' ', '_')
-                        , @"[^a-zA-Z0-9_]", "")
+                               ItemAttributes.tryGetAttr(dic, "name")
+                                   .Trim().Replace('-', '_').Replace(' ', '_')
+                               , @"[^a-zA-Z0-9_]", "")
                            + "__" + hierz[hierz.GetUpperBound(0) - 2]
                            + "_" + hierz[hierz.GetUpperBound(0) - 1]
                            + "_" + hierz[hierz.GetUpperBound(0)]
-                        ;
+                    ;
 
                 tmpDic.Add(
-                        hier,
-                        name
+                    hier,
+                    name
                 );
             }
         }

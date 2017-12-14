@@ -14,8 +14,8 @@ public class DamageMonitorListener : MonoBehaviour
     {
         image = GetComponent<Image>();
         initSprite = image.sprite;
-
     }
+
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
@@ -28,7 +28,6 @@ public class DamageMonitorListener : MonoBehaviour
 
     public void UpdateDamageSeverity(int severity)
     {
-
     }
 
     //Reset healthHUD

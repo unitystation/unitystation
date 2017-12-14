@@ -5,7 +5,6 @@ using UnityEngine.Networking;
 
 public class SoundNetworkActions : NetworkBehaviour
 {
-
     [Command]
     public void CmdPlaySound(string soundName, Vector3 pos)
     {

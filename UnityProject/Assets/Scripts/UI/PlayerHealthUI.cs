@@ -25,8 +25,9 @@ namespace UI
 
         private void DetermineUIDisplay(int curHealth)
         {
-            heartMonitor.DetermineDisplay(this, curHealth); //For the heart monitor anim (atm just working off maxHealth)
-                                                            //TODO do any other updates required in here
+            heartMonitor.DetermineDisplay(this,
+                curHealth); //For the heart monitor anim (atm just working off maxHealth)
+            //TODO do any other updates required in here
         }
 
         /// placeholder based on old code
@@ -40,15 +41,20 @@ namespace UI
                 switch (bodyPart.Severity)
                 {
                     case DamageSeverity.None:
-                        sprite = bodyPart.GreenDamageMonitorIcon; break;
+                        sprite = bodyPart.GreenDamageMonitorIcon;
+                        break;
                     case DamageSeverity.Moderate:
-                        sprite = bodyPart.YellowDamageMonitorIcon; break;
+                        sprite = bodyPart.YellowDamageMonitorIcon;
+                        break;
                     case DamageSeverity.Bad:
-                        sprite = bodyPart.OrangeDamageMonitorIcon; break;
+                        sprite = bodyPart.OrangeDamageMonitorIcon;
+                        break;
                     case DamageSeverity.Critical:
-                        sprite = bodyPart.RedDamageMonitorIcon; break;
+                        sprite = bodyPart.RedDamageMonitorIcon;
+                        break;
                     default:
-                        sprite = bodyPart.GrayDamageMonitorIcon; break;
+                        sprite = bodyPart.GrayDamageMonitorIcon;
+                        break;
                 }
                 listener.GetComponent<Image>().sprite = sprite;
             }

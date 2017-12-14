@@ -145,7 +145,7 @@ namespace Light2D
 
         public static GameObject Instantiate(GameObject prefab)
         {
-            return (GameObject)Object.Instantiate(prefab);
+            return (GameObject) Object.Instantiate(prefab);
         }
 
         public static T Instantiate<T>(GameObject prefab) where T : Component
@@ -156,7 +156,7 @@ namespace Light2D
         public static T Instantiate<T>(GameObject prefab, Vector3 position, Quaternion rotation)
             where T : Component
         {
-            return ((GameObject)Object.Instantiate(prefab, position, rotation)).GetComponent<T>();
+            return ((GameObject) Object.Instantiate(prefab, position, rotation)).GetComponent<T>();
         }
 
         public static float ClampAngle(float angle)
@@ -192,7 +192,7 @@ namespace Light2D
         {
             if (obj == null) return;
             if (obj is GameObject)
-                ((GameObject)obj).transform.parent = null;
+                ((GameObject) obj).transform.parent = null;
 #if UNITY_EDITOR
             if (!Application.isPlaying)
                 GameObject.DestroyImmediate(obj);
@@ -356,7 +356,7 @@ namespace Light2D
                 using (var stream = new MemoryStream(data))
                 {
                     var serializer = new XmlSerializer(typeof(T));
-                    var fromFile = (T)serializer.Deserialize(stream);
+                    var fromFile = (T) serializer.Deserialize(stream);
                     return fromFile;
                 }
             }
@@ -539,7 +539,7 @@ namespace Light2D
 
         public static float DecodeFloatRGBA(Vector3 enc)
         {
-            enc = new Vector3((byte)(enc.x * 254f), (byte)(enc.y * 254f), (byte)(enc.z * 254f)) / 255f;
+            enc = new Vector3((byte) (enc.x * 254f), (byte) (enc.y * 254f), (byte) (enc.z * 254f)) / 255f;
             var kDecodeDot = new Vector4(1f, 1 / 255f, 1 / 65025f);
             var result = Vector3.Dot(enc, kDecodeDot);
             return result;
@@ -628,6 +628,5 @@ namespace Light2D
 
     public class ReadOnlyAttribute : PropertyAttribute
     {
-
     }
 }

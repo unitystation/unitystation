@@ -29,7 +29,7 @@ namespace Light2D.Examples
             yield return null;
             var groups = GetComponentsInChildren<Renderer>()
                 .Where(r => r.GetComponent<MeshRenderer>() != null && r.GetComponent<MeshFilter>() != null &&
-                     r.GetComponent<MeshFilter>().sharedMesh != null)
+                            r.GetComponent<MeshFilter>().sharedMesh != null)
                 .GroupBy(r => new GroupKey
                 {
                     Material = r.sharedMaterial,
@@ -55,7 +55,7 @@ namespace Light2D.Examples
                 obj.layer = group.Key.Layer;
 
                 var meshRenderer = obj.AddComponent<MeshRenderer>();
-                meshRenderer.material = (Material)Instantiate(group.Key.Material);
+                meshRenderer.material = (Material) Instantiate(group.Key.Material);
                 meshRenderer.sortingOrder = group.Key.SortingOrder;
 
                 var firstMesh = group.First().GetComponent<MeshFilter>().mesh;
@@ -83,7 +83,7 @@ namespace Light2D.Examples
                     var localTangents = smallMesh.tangents == null || smallMesh.tangents.Length == 0
                         ? Enumerable.Repeat(new Vector4(1, 0), smallMesh.vertexCount)
                         : smallMesh.tangents;
-                    tangents.AddRange(localTangents.Select(t => (Vector4)filter.transform.TransformVector(t)));
+                    tangents.AddRange(localTangents.Select(t => (Vector4) filter.transform.TransformVector(t)));
 
                     if (useUv0) uv0.AddRange(smallMesh.uv);
                     if (useUv1) uv1.AddRange(smallMesh.uv2);
@@ -140,7 +140,8 @@ namespace Light2D.Examples
                 }
             }
 
-            private static readonly IEqualityComparer<GroupKey> MaterialSortingOrderLayerComparerInstance = new MaterialSortingOrderLayerEqualityComparer();
+            private static readonly IEqualityComparer<GroupKey> MaterialSortingOrderLayerComparerInstance =
+                new MaterialSortingOrderLayerEqualityComparer();
 
             public static IEqualityComparer<GroupKey> MaterialSortingOrderLayerComparer
             {
@@ -150,7 +151,7 @@ namespace Light2D.Examples
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
-                return obj is GroupKey && Equals((GroupKey)obj);
+                return obj is GroupKey && Equals((GroupKey) obj);
             }
 
             public override int GetHashCode()

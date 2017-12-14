@@ -225,7 +225,6 @@ namespace Light2D
                     var texHeight = Mathf.RoundToInt(lightCamSize / LightPixelSize);
                     var texWidth = texHeight * _camera.aspect;
                     _extendedLightTextureSize = Point2.Round(new Vector2(texWidth, texHeight));
-
                 }
                 {
                     var lightCamHalfFov = _camera.fieldOfView * Mathf.Deg2Rad / 2f;
@@ -261,14 +260,14 @@ namespace Light2D
                 return;
             }
 
-            _screenBlitTempTex = new RenderTexture((int)_camera.pixelWidth, (int)_camera.pixelHeight, 0, _texFormat);
+            _screenBlitTempTex = new RenderTexture((int) _camera.pixelWidth, (int) _camera.pixelHeight, 0, _texFormat);
             _screenBlitTempTex.filterMode = FilterMode.Point;
 
             LightCamera.orthographic = _camera.orthographic;
 
             if (EnableNormalMapping)
             {
-                _lightSourcesTexture = new RenderTexture((int)_camera.pixelWidth, (int)_camera.pixelHeight,
+                _lightSourcesTexture = new RenderTexture((int) _camera.pixelWidth, (int) _camera.pixelHeight,
                     0, _texFormat);
                 _lightSourcesTexture.filterMode = FilterMode.Point;
             }
@@ -292,7 +291,8 @@ namespace Light2D
 
             if (AffectOnlyThisCamera)
             {
-                _renderTargetTexture = new RenderTexture((int)_camera.pixelWidth, (int)_camera.pixelHeight, -2, RenderTextureFormat.ARGB32);
+                _renderTargetTexture = new RenderTexture((int) _camera.pixelWidth, (int) _camera.pixelHeight, -2,
+                    RenderTextureFormat.ARGB32);
                 _renderTargetTexture.filterMode = FilterMode.Point;
                 _camera.targetTexture = _renderTargetTexture;
                 _camera.clearFlags = CameraClearFlags.SolidColor;
@@ -333,7 +333,6 @@ namespace Light2D
             RenderAmbientLight();
 
             RenderLightOverlay(src, dest);
-
         }
 
         void OnPreRender()
@@ -344,7 +343,6 @@ namespace Light2D
 
         void OnPreCull()
         {
-
             if (Application.isPlaying && AffectOnlyThisCamera)
             {
                 _camera.targetTexture = _renderTargetTexture;
@@ -446,10 +444,12 @@ namespace Light2D
             Shader.SetGlobalTexture("_ObstacleTex", _obstaclesTexture);
             Shader.SetGlobalFloat("_PixelsPerBlock", lightPixelsPerUnityMeter);
             Shader.SetGlobalVector("_ExtendedToSmallTextureScale", new Vector2(
-                _smallLightTextureSize.x / (float)_extendedLightTextureSize.x,
-                _smallLightTextureSize.y / (float)_extendedLightTextureSize.y));
+                _smallLightTextureSize.x / (float) _extendedLightTextureSize.x,
+                _smallLightTextureSize.y / (float) _extendedLightTextureSize.y));
             Shader.SetGlobalVector("_PosOffset", LightObstaclesAntialiasing
-                ? (EnableNormalMapping ? _obstaclesUpsampledTexture.texelSize * 0.75f : _obstaclesUpsampledTexture.texelSize * 0.25f)
+                ? (EnableNormalMapping
+                    ? _obstaclesUpsampledTexture.texelSize * 0.75f
+                    : _obstaclesUpsampledTexture.texelSize * 0.25f)
                 : (EnableNormalMapping ? _obstaclesTexture.texelSize : _obstaclesTexture.texelSize * 0.5f));
         }
 
@@ -461,7 +461,7 @@ namespace Light2D
             if (_normalMapBuffer == null)
             {
                 _normalMapBuffer = new RenderTexture(
-                    (int)_camera.pixelWidth, (int)_camera.pixelHeight, 0, RenderTextureFormat.ARGB32);
+                    (int) _camera.pixelWidth, (int) _camera.pixelHeight, 0, RenderTextureFormat.ARGB32);
                 _normalMapBuffer.filterMode = FilterMode.Point;
             }
 
@@ -650,7 +650,7 @@ namespace Light2D
                 _ambientTexture = tmp;
 
                 var texSize = new Vector2(_ambientTexture.width, _ambientTexture.height);
-                var posShift = ((Vector2)(_currPos - _oldPos) / LightPixelSize).Div(texSize);
+                var posShift = ((Vector2) (_currPos - _oldPos) / LightPixelSize).Div(texSize);
                 _oldPos = _currPos;
 
                 AmbientLightComputeMaterial.SetTexture("_LightSourcesTex", _ambientEmissionTexture);
@@ -688,10 +688,12 @@ namespace Light2D
 
             Vector2 lightTexelSize = new Vector2(1f / _smallLightTextureSize.x, 1f / _smallLightTextureSize.y);
             float lightPixelsPerUnityMeter = LightPixelsPerUnityMeter;
-            Vector2 worldOffset = Quaternion.Inverse(_camera.transform.rotation) * (LightCamera.transform.position - _camera.transform.position);
+            Vector2 worldOffset = Quaternion.Inverse(_camera.transform.rotation) *
+                                  (LightCamera.transform.position - _camera.transform.position);
             Vector2 offset = Vector2.Scale(lightTexelSize, -worldOffset * lightPixelsPerUnityMeter);
 
-            var lightSourcesTex = BlurLightSources && LightSourcesBlurMaterial != null && LightTexturesFilterMode != FilterMode.Point
+            var lightSourcesTex = BlurLightSources && LightSourcesBlurMaterial != null &&
+                                  LightTexturesFilterMode != FilterMode.Point
                 ? _bluredLightTexture
                 : _lightSourcesTexture;
             float xDiff = _camera.aspect / LightCamera.aspect;
@@ -744,7 +746,7 @@ namespace Light2D
             var gridPos = new Vector2(
                 Mathf.Round(unrotMainPos.x * lightPixelsPerUnityMeter) / lightPixelsPerUnityMeter,
                 Mathf.Round(unrotMainPos.y * lightPixelsPerUnityMeter) / lightPixelsPerUnityMeter);
-            Vector2 posDiff = gridPos - (Vector2)unrotMainPos;
+            Vector2 posDiff = gridPos - (Vector2) unrotMainPos;
             var pos = camRot * posDiff + mainPos;
             LightCamera.transform.position = pos;
             _currPos = pos;
@@ -760,15 +762,18 @@ namespace Light2D
             if (extended)
             {
                 LightCamera.orthographicSize =
-                    _camera.orthographicSize * (_extendedLightTextureSize.y / (float)_smallLightTextureSize.y);// _extendedLightTextureSize.y/(2f*LightPixelsPerUnityMeter);
+                    _camera.orthographicSize *
+                    (_extendedLightTextureSize.y /
+                     (float) _smallLightTextureSize.y); // _extendedLightTextureSize.y/(2f*LightPixelsPerUnityMeter);
                 LightCamera.fieldOfView = _camera.fieldOfView + LightCameraFovAdd;
-                LightCamera.aspect = _extendedLightTextureSize.x / (float)_extendedLightTextureSize.y;
+                LightCamera.aspect = _extendedLightTextureSize.x / (float) _extendedLightTextureSize.y;
             }
             else
             {
-                LightCamera.orthographicSize = _camera.orthographicSize;// _smallLightTextureSize.y / (2f * LightPixelsPerUnityMeter);
+                LightCamera.orthographicSize =
+                    _camera.orthographicSize; // _smallLightTextureSize.y / (2f * LightPixelsPerUnityMeter);
                 LightCamera.fieldOfView = _camera.fieldOfView;
-                LightCamera.aspect = _smallLightTextureSize.x / (float)_smallLightTextureSize.y;
+                LightCamera.aspect = _smallLightTextureSize.x / (float) _smallLightTextureSize.y;
             }
         }
     }

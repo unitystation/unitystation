@@ -28,7 +28,7 @@ namespace FullSerializer.Internal
         {
             // In .NET compact, Enum.ToObject(Type, Object) is defined but the overloads like
             // Enum.ToObject(Type, int) are not -- so we get around this by boxing the value.
-            return Enum.ToObject(storageType, (object)0);
+            return Enum.ToObject(storageType, (object) 0);
         }
 
         public override fsResult TrySerialize(object instance, out fsData serialized, Type storageType)
@@ -69,7 +69,7 @@ namespace FullSerializer.Internal
         {
             if (data.IsString)
             {
-                string[] enumValues = data.AsString.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] enumValues = data.AsString.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
                 long instanceValue = 0;
                 for (int i = 0; i < enumValues.Length; ++i)
@@ -83,21 +83,21 @@ namespace FullSerializer.Internal
                         return fsResult.Fail("Cannot find enum name " + enumValue + " on type " + storageType);
                     }
 
-                    long flagValue = (long)Convert.ChangeType(Enum.Parse(storageType, enumValue), typeof(long));
+                    long flagValue = (long) Convert.ChangeType(Enum.Parse(storageType, enumValue), typeof(long));
                     instanceValue |= flagValue;
                 }
 
-                instance = Enum.ToObject(storageType, (object)instanceValue);
+                instance = Enum.ToObject(storageType, (object) instanceValue);
                 return fsResult.Success;
             }
 
             else if (data.IsInt64)
             {
-                int enumValue = (int)data.AsInt64;
+                int enumValue = (int) data.AsInt64;
 
                 // In .NET compact, Enum.ToObject(Type, Object) is defined but the overloads like
                 // Enum.ToObject(Type, int) are not -- so we get around this by boxing the value.
-                instance = Enum.ToObject(storageType, (object)enumValue);
+                instance = Enum.ToObject(storageType, (object) enumValue);
 
                 return fsResult.Success;
             }

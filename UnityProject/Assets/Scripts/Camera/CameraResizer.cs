@@ -2,13 +2,13 @@
 
 public class CameraResizer : MonoBehaviour
 {
-
-    public float fWidth = 9.0f;  // Desired width 
+    public float fWidth = 9.0f; // Desired width 
 
     void Start()
     {
         AdjustCam();
     }
+
     //Adjusts cam in relation to game window size
     public void AdjustCam()
     {

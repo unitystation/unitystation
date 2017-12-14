@@ -99,7 +99,7 @@ namespace FullSerializer
             return new fsResult
             {
                 _success = true,
-                _messages = new List<string> { warning }
+                _messages = new List<string> {warning}
             };
         }
 
@@ -111,7 +111,7 @@ namespace FullSerializer
             return new fsResult
             {
                 _success = false,
-                _messages = new List<string> { warning }
+                _messages = new List<string> {warning}
             };
         }
 
@@ -128,10 +128,7 @@ namespace FullSerializer
         /// </summary>
         public bool Failed
         {
-            get
-            {
-                return _success == false;
-            }
+            get { return _success == false; }
         }
 
         /// <summary>
@@ -140,10 +137,7 @@ namespace FullSerializer
         /// </summary>
         public bool Succeeded
         {
-            get
-            {
-                return _success;
-            }
+            get { return _success; }
         }
 
         /// <summary>
@@ -152,10 +146,7 @@ namespace FullSerializer
         /// </summary>
         public bool HasWarnings
         {
-            get
-            {
-                return _messages != null && _messages.Any();
-            }
+            get { return _messages != null && _messages.Any(); }
         }
 
         /// <summary>
@@ -187,7 +178,8 @@ namespace FullSerializer
         {
             get
             {
-                if (!Failed && !RawMessages.Any()) throw new Exception("Only a failed result can be converted to an exception");
+                if (!Failed && !RawMessages.Any())
+                    throw new Exception("Only a failed result can be converted to an exception");
                 return new Exception(FormattedMessages);
             }
         }
@@ -206,10 +198,7 @@ namespace FullSerializer
 
         public string FormattedMessages
         {
-            get
-            {
-                return string.Join(",\n", RawMessages.ToArray());
-            }
+            get { return string.Join(",\n", RawMessages.ToArray()); }
         }
     }
 }

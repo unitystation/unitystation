@@ -25,7 +25,6 @@ namespace Light2D.Examples
             _lifetimeElapsed += Time.deltaTime;
 
 
-
             if (_lifetimeElapsed > Lifetime)
             {
                 _lifetimeElapsed = Lifetime;
@@ -34,7 +33,8 @@ namespace Light2D.Examples
 
 
             var alpha = Mathf.Lerp(0, _startColor.a, Mathf.Min(_lifetimeElapsed, AlphaGrowTime) / AlphaGrowTime);
-            Light.Color = Color.Lerp(_startColor.WithAlpha(alpha), _startColor.WithAlpha(0), _lifetimeElapsed / Lifetime);
+            Light.Color = Color.Lerp(_startColor.WithAlpha(alpha), _startColor.WithAlpha(0),
+                _lifetimeElapsed / Lifetime);
         }
     }
 }

@@ -6,7 +6,6 @@ namespace UI
 {
     public class ControlWalkRun : MonoBehaviour
     {
-
         public Sprite[] runWalkSprites;
 
         public bool running { get; set; }
@@ -15,9 +14,7 @@ namespace UI
 
         void Start()
         {
-
             image = GetComponent<Image>();
-
         }
 
         /* 
@@ -34,7 +31,6 @@ namespace UI
             {
                 running = true;
                 image.sprite = runWalkSprites[1];
-
             }
             else
             {

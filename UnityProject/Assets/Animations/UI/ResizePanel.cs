@@ -10,7 +10,7 @@ namespace UI
     /// Add to a child gObj of the element you want to resize
     /// </summary>
     public class ResizePanel : MonoBehaviour, IPointerDownHandler,
-    IPointerUpHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
+        IPointerUpHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
     {
         public Vector2 minSize = new Vector2(100, 100);
         public Vector2 maxSize = new Vector2(400, 400);
@@ -32,7 +32,8 @@ namespace UI
         {
             originalSizeDelta = panelRectTransform.sizeDelta;
             Vector2 getLocalPos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(panelRectTransform, data.position, data.pressEventCamera, out getLocalPos);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(panelRectTransform, data.position,
+                data.pressEventCamera, out getLocalPos);
             originalLocalPointerPosition = getLocalPos; //So child classes can use as you cannot 'out' to a property
             isDragging = true;
         }
@@ -49,7 +50,8 @@ namespace UI
                 return;
 
             Vector2 localPointerPosition;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(panelRectTransform, data.position, data.pressEventCamera, out localPointerPosition);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(panelRectTransform, data.position,
+                data.pressEventCamera, out localPointerPosition);
             Vector3 offsetToOriginal = localPointerPosition - originalLocalPointerPosition;
 
             Vector2 sizeDelta = originalSizeDelta + new Vector2(-offsetToOriginal.x, offsetToOriginal.y);

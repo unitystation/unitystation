@@ -41,10 +41,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
     public string LastDamagedBy
     {
         get { return lastDamagedBy; }
-        private set
-        {
-            lastDamagedBy = value;
-        }
+        private set { lastDamagedBy = value; }
     }
 
     private string lastDamagedBy = "stressful work";
@@ -66,7 +63,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
     ///fixme/todo: to be replaced by net messages, crappy and unsecure placeholder
     [ClientRpc]
     public void RpcApplyDamage(string damagedBy, int damage,
-                                  DamageType damageType, BodyPartType bodyPartAim)
+        DamageType damageType, BodyPartType bodyPartAim)
     {
         if (isServer || !isNPC || IsDead)
             return;
@@ -74,7 +71,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
     }
 
     public void ApplyDamage(string damagedBy, int damage,
-                               DamageType damageType, BodyPartType bodyPartAim = BodyPartType.CHEST)
+        DamageType damageType, BodyPartType bodyPartAim = BodyPartType.CHEST)
     {
         if (damage <= 0 || IsDead)
             return;
@@ -87,7 +84,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
     }
 
     public virtual int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType,
-                                                    BodyPartType bodyPartAim)
+        BodyPartType bodyPartAim)
     {
         LastDamageType = damageType;
         LastDamagedBy = damagedBy;
@@ -148,21 +145,26 @@ public abstract class HealthBehaviour : NetworkBehaviour
     /// <summary>
     /// make player unconscious upon crit
     /// </summary>
-	protected virtual void OnCritActions()
-	{
-		if (!isNPC) {
-			var pna = GetComponent<PlayerNetworkActions>();
-			if (pna == null) {
-				Debug.LogError("This is not a player, please set isNPC flag correctly");
-				return;
-			}
-			if (isServer) {
-				pna?.CmdConsciousState(false);
-			}
-		} else {
-			//No unconscious state for NPC's yet, just alive or dead
-		}
-	}
+    protected virtual void OnCritActions()
+    {
+        if (!isNPC)
+        {
+            var pna = GetComponent<PlayerNetworkActions>();
+            if (pna == null)
+            {
+                Debug.LogError("This is not a player, please set isNPC flag correctly");
+                return;
+            }
+            if (isServer)
+            {
+                pna?.CmdConsciousState(false);
+            }
+        }
+        else
+        {
+            //No unconscious state for NPC's yet, just alive or dead
+        }
+    }
 
     protected abstract void OnDeathActions();
 
@@ -174,17 +176,19 @@ public abstract class HealthBehaviour : NetworkBehaviour
             if (UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife)
             {
                 Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) -
-                                          PlayerManager.LocalPlayer.transform.position).normalized;
+                               PlayerManager.LocalPlayer.transform.position).normalized;
                 if (ConsciousState != ConsciousState.DEAD)
                 {
                     var lps = PlayerManager.LocalPlayerScript;
-                    lps.weaponNetworkActions.CmdKnifeAttackMob(gameObject,UIManager.Hands.CurrentSlot.Item, dir, UIManager.DamageZone/*PlayerScript.SelectedDamageZone*/);
+                    lps.weaponNetworkActions.CmdKnifeAttackMob(gameObject, UIManager.Hands.CurrentSlot.Item, dir,
+                        UIManager.DamageZone /*PlayerScript.SelectedDamageZone*/);
                 }
                 else
                 {
                     if (allowKnifeHarvest)
                     {
-                        PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeHarvestMob(this.gameObject,UIManager.Hands.CurrentSlot.Item, dir);
+                        PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeHarvestMob(this.gameObject,
+                            UIManager.Hands.CurrentSlot.Item, dir);
                         allowKnifeHarvest = false;
                     }
                 }

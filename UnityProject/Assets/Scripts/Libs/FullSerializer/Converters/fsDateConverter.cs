@@ -10,14 +10,12 @@ namespace FullSerializer.Internal
     {
         // The format strings that we use when serializing DateTime and DateTimeOffset types.
         private const string DefaultDateTimeFormatString = @"o";
+
         private const string DateTimeOffsetFormatString = @"o";
 
         private string DateTimeFormatString
         {
-            get
-            {
-                return Serializer.Config.CustomDateTimeFormatString ?? DefaultDateTimeFormatString;
-            }
+            get { return Serializer.Config.CustomDateTimeFormatString ?? DefaultDateTimeFormatString; }
         }
 
         public override bool CanProcess(Type type)
@@ -32,21 +30,21 @@ namespace FullSerializer.Internal
         {
             if (instance is DateTime)
             {
-                var dateTime = (DateTime)instance;
+                var dateTime = (DateTime) instance;
                 serialized = new fsData(dateTime.ToString(DateTimeFormatString));
                 return fsResult.Success;
             }
 
             if (instance is DateTimeOffset)
             {
-                var dateTimeOffset = (DateTimeOffset)instance;
+                var dateTimeOffset = (DateTimeOffset) instance;
                 serialized = new fsData(dateTimeOffset.ToString(DateTimeOffsetFormatString));
                 return fsResult.Success;
             }
 
             if (instance is TimeSpan)
             {
-                var timeSpan = (TimeSpan)instance;
+                var timeSpan = (TimeSpan) instance;
                 serialized = new fsData(timeSpan.ToString());
                 return fsResult.Success;
             }
@@ -80,7 +78,8 @@ namespace FullSerializer.Internal
                     }
                     catch (Exception e)
                     {
-                        return fsResult.Fail("Unable to parse " + data.AsString + " into a DateTime; got exception " + e);
+                        return fsResult.Fail(
+                            "Unable to parse " + data.AsString + " into a DateTime; got exception " + e);
                     }
                 }
 

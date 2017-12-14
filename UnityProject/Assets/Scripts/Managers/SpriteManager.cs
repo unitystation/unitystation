@@ -22,16 +22,12 @@ namespace Sprites
                     return null;
                 }
             }
-            set
-            {
-                sprites[key] = value;
-            }
+            set { sprites[key] = value; }
         }
     }
 
     public class SpriteManager : MonoBehaviour
     {
-
         private static SpriteManager spriteManager;
         private Sprites playerSprites = new Sprites();
         private Sprites wallSprites = new Sprites();
@@ -44,6 +40,7 @@ namespace Sprites
         private Sprites screenUISprites = new Sprites();
 
         public DmiIconData dmi;
+
         private void InitializeSpriteSheets()
         {
             if (spriteManager.dmi == null)
@@ -107,7 +104,7 @@ namespace Sprites
 
             string FileLocation = "obj/power_cond/power_cond_";
             string FileType = "";
-            string[] Keys = { "red", "blue", "cyan", "green", "orange", "pink", "white", "yellow" };
+            string[] Keys = {"red", "blue", "cyan", "green", "orange", "pink", "white", "yellow"};
             for (int i = 0; i < Keys.Length; i++)
             {
                 string Key = Keys[i];
@@ -131,73 +128,47 @@ namespace Sprites
 
         public static Sprites PlayerSprites
         {
-            get
-            {
-                return Instance.playerSprites;
-            }
+            get { return Instance.playerSprites; }
         }
 
         public static Sprites ConnectSprites
         {
-            get
-            {
-                return Instance.wallSprites;
-            }
+            get { return Instance.wallSprites; }
         }
 
         public static Sprites DoorSprites
         {
-            get
-            {
-                return Instance.doorSprites;
-            }
+            get { return Instance.doorSprites; }
         }
 
         public static Sprites MonitorSprites
         {
-            get
-            {
-                return Instance.monitorSprites;
-            }
+            get { return Instance.monitorSprites; }
         }
 
         public static Sprites BloodSprites
         {
-            get
-            {
-                return Instance.bloodSprites;
-            }
+            get { return Instance.bloodSprites; }
         }
 
         public static Sprites LightSprites
         {
-            get
-            {
-                return Instance.lightSprites;
-            }
+            get { return Instance.lightSprites; }
         }
 
         public static Sprites FireSprites
         {
-            get
-            {
-                return Instance.fireSprites;
-            }
+            get { return Instance.fireSprites; }
         }
+
         public static Sprites WireSprites
         {
-            get
-            {
-                return Instance.wireSprites;
-            }
+            get { return Instance.wireSprites; }
         }
 
         public static Sprites ScreenUISprites
         {
-            get
-            {
-                return Instance.screenUISprites;
-            }
+            get { return Instance.screenUISprites; }
         }
     }
 

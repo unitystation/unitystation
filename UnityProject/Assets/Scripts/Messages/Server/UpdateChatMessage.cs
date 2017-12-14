@@ -9,24 +9,24 @@ using PlayGroup;
 public class UpdateChatMessage : ServerMessage<UpdateChatMessage>
 {
     public NetworkInstanceId Recipient;
-	public ChatChannel Channels;
-	public string ChatMessageText;
+    public ChatChannel Channels;
+    public string ChatMessageText;
 
-	public override IEnumerator Process()
+    public override IEnumerator Process()
     {
         yield return WaitFor(Recipient);
 
-		ChatRelay.Instance.AddToChatLogClient(ChatMessageText, Channels);
-	}
+        ChatRelay.Instance.AddToChatLogClient(ChatMessageText, Channels);
+    }
 
     public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, string message)
     {
-		var msg = new UpdateChatMessage
-		{
-			Recipient = recipient.GetComponent<NetworkIdentity>().netId,
-			Channels = channels,
-			ChatMessageText = message,
-		};
+        var msg = new UpdateChatMessage
+        {
+            Recipient = recipient.GetComponent<NetworkIdentity>().netId,
+            Channels = channels,
+            ChatMessageText = message,
+        };
 
         msg.SendTo(recipient);
         return msg;
@@ -35,6 +35,6 @@ public class UpdateChatMessage : ServerMessage<UpdateChatMessage>
     public override string ToString()
     {
         return string.Format("[UpdateChatMessage Recipient={0} Channels={1} ChatMessageText={2}]",
-                                                        Recipient, Channels, ChatMessageText);
+            Recipient, Channels, ChatMessageText);
     }
 }

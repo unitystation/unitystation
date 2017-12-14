@@ -6,8 +6,7 @@ namespace Tilemaps.Scripts.Behaviours.Objects
     [ExecuteInEditMode]
     public class RegisterObject : RegisterTile
     {
-        [HideInInspector]
-        public Vector3Int Offset = Vector3Int.zero;
+        [HideInInspector] public Vector3Int Offset = Vector3Int.zero;
 
         public bool Passable = true;
         public bool AtmosPassable = true;
@@ -21,7 +20,9 @@ namespace Tilemaps.Scripts.Behaviours.Objects
         {
             return AtmosPassable;
         }
+
         #region UI Mouse Actions
+
         public void OnMouseEnter()
         {
             if (this.name.ToString().Contains("Door"))
@@ -38,11 +39,12 @@ namespace Tilemaps.Scripts.Behaviours.Objects
             string tmp = r.Replace(this.name, " ");
             UI.UIManager.SetToolTip = tmp;
         }
+
         public void OnMouseExit()
         {
             UI.UIManager.SetToolTip = "";
         }
-        #endregion
 
+        #endregion
     }
 }

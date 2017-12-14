@@ -8,7 +8,6 @@ namespace UI
     /// </summary>
     public class RightPanelResize : ResizePanel
     {
-
         public ResponsiveUI responsiveControl;
 
         public RectTransform hudRight;
@@ -17,8 +16,7 @@ namespace UI
         float hudRight_dist;
         float leftRange;
         float rightRange;
-        [HideInInspector]
-        public Vector2 originalHudSize;
+        [HideInInspector] public Vector2 originalHudSize;
         float hudAspect;
 
         public float cacheHudAnchor { get; set; }
@@ -38,6 +36,7 @@ namespace UI
             hudRight_dist = transform.position.x - hudRight.position.x;
             base.OnPointerDown(data);
         }
+
         //TODO showing the transparent chatbox when panel is hidden
         public override void OnDrag(PointerEventData data)
         {
@@ -45,7 +44,8 @@ namespace UI
                 return;
 
             Vector2 localPointerPosition;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(panelRectTransform, data.position, data.pressEventCamera, out localPointerPosition);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(panelRectTransform, data.position,
+                data.pressEventCamera, out localPointerPosition);
             Vector3 offsetToOriginal = localPointerPosition - originalLocalPointerPosition;
 
             Vector2 sizeDelta = originalSizeDelta + new Vector2(-offsetToOriginal.x, 0f);

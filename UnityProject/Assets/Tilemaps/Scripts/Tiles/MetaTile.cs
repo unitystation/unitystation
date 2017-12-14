@@ -2,6 +2,7 @@
 using Tilemaps.Scripts.Utils;
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 namespace Tilemaps.Scripts.Tiles
@@ -26,23 +27,23 @@ namespace Tilemaps.Scripts.Tiles
             CheckTileType(ref Floor, LayerType.Floors);
             CheckTileType(ref Base, LayerType.Base);
 
-            if (Structure != _structureCurrent || Object != _objectCurrent || Floor != _floorCurrent || Base != _baseCurrent)
+            if (Structure != _structureCurrent || Object != _objectCurrent || Floor != _floorCurrent ||
+                Base != _baseCurrent)
             {
-                if (_structureCurrent == null && _objectCurrent == null && _floorCurrent == null && _baseCurrent == null)
+                if (_structureCurrent == null && _objectCurrent == null && _floorCurrent == null &&
+                    _baseCurrent == null)
                 {
                     // if everything is null, it could be that it's loading on startup, so there already should be an preview sprite to load
                     EditorApplication.delayCall += () =>
-                      {
-                          PreviewSprite = PreviewSpriteBuilder.LoadSprite(this) ?? PreviewSpriteBuilder.Create(this); ;
-                      };
+                    {
+                        PreviewSprite = PreviewSpriteBuilder.LoadSprite(this) ?? PreviewSpriteBuilder.Create(this);
+                        ;
+                    };
                 }
                 else
                 {
                     // something changed, so create a new preview sprite
-                    EditorApplication.delayCall += () =>
-                      {
-                          PreviewSprite = PreviewSpriteBuilder.Create(this);
-                      };
+                    EditorApplication.delayCall += () => { PreviewSprite = PreviewSpriteBuilder.Create(this); };
                 }
             }
 

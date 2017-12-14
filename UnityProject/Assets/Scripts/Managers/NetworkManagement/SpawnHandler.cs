@@ -16,7 +16,7 @@ public static class SpawnHandler
 
     public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
     {
-        NetworkServer.ReplacePlayerForConnection(conn,  CreatePlayer(jobType), playerControllerId);
+        NetworkServer.ReplacePlayerForConnection(conn, CreatePlayer(jobType), playerControllerId);
     }
 
     private static GameObject CreatePlayer(JobType jobType)
@@ -38,7 +38,7 @@ public static class SpawnHandler
         {
             player = Object.Instantiate(playerPrefab);
         }
-        
+
         player.GetComponent<PlayerScript>().JobType = jobType;
 
         return player;
@@ -51,8 +51,9 @@ public static class SpawnHandler
             return null;
         }
 
-        var spawnPoints = networkManager.startPositions.Select(x => x.GetComponent<SpawnPoint>()).Where(x => x.JobRestrictions.Contains(jobType)).ToList();
-        
+        var spawnPoints = networkManager.startPositions.Select(x => x.GetComponent<SpawnPoint>())
+            .Where(x => x.JobRestrictions.Contains(jobType)).ToList();
+
         return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
     }
 }

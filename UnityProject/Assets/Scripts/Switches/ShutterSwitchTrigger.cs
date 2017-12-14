@@ -8,11 +8,9 @@ using UnityEngine.Networking;
 
 public class ShutterSwitchTrigger : InputTrigger
 {
-
     public ObjectTrigger[] TriggeringObjects;
 
-    [SyncVar(hook = "SyncShutters")]
-    public bool IsClosed;
+    [SyncVar(hook = "SyncShutters")] public bool IsClosed;
 
     private Animator animator;
 
@@ -38,7 +36,8 @@ public class ShutterSwitchTrigger : InputTrigger
 
     public override void Interact(GameObject originator, Vector3 position, string hand)
     {
-        if (!PlayerManager.LocalPlayerScript.IsInReach(transform.position, 1.5f) || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+        if (!PlayerManager.LocalPlayerScript.IsInReach(transform.position, 1.5f) ||
+            PlayerManager.LocalPlayerScript.playerMove.isGhost)
             return;
 
         //if the button is idle and not animating it can be pressed

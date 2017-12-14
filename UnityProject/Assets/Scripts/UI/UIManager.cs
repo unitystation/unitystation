@@ -37,90 +37,57 @@ namespace UI
 
         public static ControlChat Chat
         {
-            get
-            {
-                return Instance.chatControl;
-            }
+            get { return Instance.chatControl; }
         }
 
         public static PlayerHealthUI PlayerHealthUI
         {
-            get
-            {
-                return Instance.playerHealthUI;
-            }
+            get { return Instance.playerHealthUI; }
         }
 
         public static Hands Hands
         {
-            get
-            {
-                return Instance.hands;
-            }
+            get { return Instance.hands; }
         }
 
         public static ControlIntent Intent
         {
-            get
-            {
-                return Instance.intentControl;
-            }
+            get { return Instance.intentControl; }
         }
 
         public static ControlAction Action
         {
-            get
-            {
-                return Instance.actionControl;
-            }
+            get { return Instance.actionControl; }
         }
 
         public static ControlWalkRun WalkRun
         {
-            get
-            {
-                return Instance.walkRunControl;
-            }
+            get { return Instance.walkRunControl; }
         }
 
         public static ControlDisplays Display
         {
-            get
-            {
-                return Instance.displayControl;
-            }
+            get { return Instance.displayControl; }
         }
 
         public static PlayerListUI PlayerListUI
         {
-            get
-            {
-                return Instance.playerListUIControl;
-            }
+            get { return Instance.playerListUIControl; }
         }
 
         public static DisplayManager DisplayManager
         {
-            get
-            {
-                return Instance.displayManager;
-            }
+            get { return Instance.displayManager; }
         }
 
         public static string SetToolTip
         {
-            set
-            {
-                Instance.toolTip.text = value;
-            }
+            set { Instance.toolTip.text = value; }
         }
 
         public static InventorySlotCache InventorySlots
         {
-            get
-            {
-                return Instance.inventorySlotCache;
-            }
+            get { return Instance.inventorySlotCache; }
         }
 
         public static void ResetAllUI()
@@ -165,22 +132,24 @@ namespace UI
             var uiItemSlot = InventorySlots[proposedSlotInfo.Slot];
             var lps = PlayerManager.LocalPlayerScript;
             if (!lps || lps.canNotInteract() ||
-                 uiItemSlot == null || uiItemSlot.IsFull ||
-                 !uiItemSlot.CheckItemFit(proposedSlotInfo.SlotContents)) return false;
+                uiItemSlot == null || uiItemSlot.IsFull ||
+                !uiItemSlot.CheckItemFit(proposedSlotInfo.SlotContents)) return false;
             return true;
         }
 
-		public static string FindEmptySlotForItem(GameObject itemToPlace)
-		{
-			foreach (UI_ItemSlot slot in Instance.inventorySlotCache) {
-				UISlotObject slottingAttempt = new UISlotObject(slot.eventName, itemToPlace);
-				if(CanPutItemToSlot(slottingAttempt)) {
-					return slot.eventName;
-				}
-			}
+        public static string FindEmptySlotForItem(GameObject itemToPlace)
+        {
+            foreach (UI_ItemSlot slot in Instance.inventorySlotCache)
+            {
+                UISlotObject slottingAttempt = new UISlotObject(slot.eventName, itemToPlace);
+                if (CanPutItemToSlot(slottingAttempt))
+                {
+                    return slot.eventName;
+                }
+            }
 
-			return null;
-		}
+            return null;
+        }
 
         /// Checks if player received transform update after sending interact message
         /// (Anti-blinking protection)

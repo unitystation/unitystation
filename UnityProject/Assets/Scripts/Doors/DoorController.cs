@@ -15,20 +15,13 @@ namespace Doors
         private Matrix matrix;
 
         public Access restriction;
-        [Tooltip("Does it have a glass window you can see trough?")]
-        public bool isWindowedDoor = false;
-        [Tooltip("how many sprites in the main door animation")]
-        public int doorAnimationSize;
-        [Tooltip("first frame of the door animation")]
-        public int DoorSpriteOffset = 0;
-        [Tooltip("first frame of the light animation")]
-        public int DoorLightSpriteOffset = 0;
-        [Tooltip("first frame of the door Cover/window animation")]
-        public int DoorCoverSpriteOffset = 0;
-        [HideInInspector]
-        public bool isPerformingAction = false;
-        [HideInInspector]
-        public SpriteRenderer spriteRenderer;
+        [Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor = false;
+        [Tooltip("how many sprites in the main door animation")] public int doorAnimationSize;
+        [Tooltip("first frame of the door animation")] public int DoorSpriteOffset = 0;
+        [Tooltip("first frame of the light animation")] public int DoorLightSpriteOffset = 0;
+        [Tooltip("first frame of the door Cover/window animation")] public int DoorCoverSpriteOffset = 0;
+        [HideInInspector] public bool isPerformingAction = false;
+        [HideInInspector] public SpriteRenderer spriteRenderer;
         public float maxTimeOpen = 5;
         public DoorAnimator doorAnimator;
         private bool openTrigger = false;
@@ -284,15 +277,19 @@ namespace Doors
                 doorAnimator.CloseDoor();
             }
         }
+
         #region UI Mouse Actions
+
         public void OnMouseEnter()
         {
             UI.UIManager.SetToolTip = doorType + " Door";
         }
+
         public void OnMouseExit()
         {
             UI.UIManager.SetToolTip = "";
         }
+
         #endregion
     }
 }

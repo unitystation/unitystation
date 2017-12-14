@@ -19,7 +19,7 @@ public static class NetworkManagerExtensions
         foreach (var type in types)
         {
             var method = mi.MakeGenericMethod(type);
-            method.Invoke(null, new object[] { manager, null });
+            method.Invoke(null, new object[] {manager, null});
         }
     }
 
@@ -34,18 +34,20 @@ public static class NetworkManagerExtensions
         foreach (var type in types)
         {
             var method = mi.MakeGenericMethod(type);
-            method.Invoke(null, new object[] { manager, conn });
+            method.Invoke(null, new object[] {manager, conn});
         }
     }
 
-    public static void RegisterHandler<T>(this CustomNetworkManager manager, NetworkConnection conn) where T : GameMessage<T>, new()
+    public static void RegisterHandler<T>(this CustomNetworkManager manager, NetworkConnection conn)
+        where T : GameMessage<T>, new()
     {
         // In normal C# this would just be `T.MessageType` but it seems unity's compiler has some stipulations about that...
-        FieldInfo field = typeof(T).GetField("MessageType", BindingFlags.Static | BindingFlags.FlattenHierarchy | BindingFlags.Public);
-        var msgType = (short)field.GetValue(null);
-        NetworkMessageDelegate cb = delegate (NetworkMessage msg)
+        FieldInfo field = typeof(T).GetField("MessageType",
+            BindingFlags.Static | BindingFlags.FlattenHierarchy | BindingFlags.Public);
+        var msgType = (short) field.GetValue(null);
+        NetworkMessageDelegate cb = delegate(NetworkMessage msg)
         {
-            manager.StartCoroutine(((GameMessage<T>)msg.ReadMessage<T>()).Process());
+            manager.StartCoroutine(((GameMessage<T>) msg.ReadMessage<T>()).Process());
         };
 
         if (conn != null)
@@ -71,7 +73,8 @@ public static class NetworkManagerExtensions
     /// </summary>
     private static IEnumerable<Type> GetDerivedTypes(Type baseType)
     {
-        return Assembly.GetExecutingAssembly().GetTypes().Where(t => !t.IsAbstract && t.IsSubclassOfOpen(baseType)).ToArray();
+        return Assembly.GetExecutingAssembly().GetTypes().Where(t => !t.IsAbstract && t.IsSubclassOfOpen(baseType))
+            .ToArray();
     }
 
     // https://stackoverflow.com/questions/457676/check-if-a-class-is-derived-from-a-generic-class

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ChatIcon : MonoBehaviour
 {
-
     public Sprite talkSprite;
     public Sprite questionSprite;
     public Sprite exlaimSprite;
@@ -18,6 +17,7 @@ public class ChatIcon : MonoBehaviour
         spriteRend = GetComponent<SpriteRenderer>();
         spriteRend.enabled = false;
     }
+
     //TODO needs work
     public void TurnOnTalkIcon()
     {

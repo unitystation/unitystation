@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Crafting
 {
-
     [System.Serializable]
     public class CraftingDatabase
     {

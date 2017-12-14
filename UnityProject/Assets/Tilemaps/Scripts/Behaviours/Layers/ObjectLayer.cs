@@ -66,7 +66,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
         public override bool IsPassableAt(Vector3Int position)
         {
             var objects = Objects.Get<RegisterTile>(position);
-            
+
             return objects.All(x => x.IsPassable()) && base.IsPassableAt(position);
         }
 

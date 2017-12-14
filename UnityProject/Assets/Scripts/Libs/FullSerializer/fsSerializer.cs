@@ -12,10 +12,13 @@ namespace FullSerializer
     public class fsSerializer
     {
         #region Keys
+
         private static HashSet<string> _reservedKeywords;
+
         static fsSerializer()
         {
-            _reservedKeywords = new HashSet<string> {
+            _reservedKeywords = new HashSet<string>
+            {
                 Key_ObjectReference,
                 Key_ObjectDefinition,
                 Key_InstanceType,
@@ -23,6 +26,7 @@ namespace FullSerializer
                 Key_Content
             };
         }
+
         /// <summary>
         /// Returns true if the given key is a special keyword that full serializer uses to
         /// add additional metadata on top of the emitted JSON.
@@ -35,12 +39,14 @@ namespace FullSerializer
         /// <summary>
         /// This is an object reference in part of a cyclic graph.
         /// </summary>
-        private static readonly string Key_ObjectReference = string.Format("{0}ref", fsGlobalConfig.InternalFieldPrefix);
+        private static readonly string Key_ObjectReference = string.Format("{0}ref", fsGlobalConfig.InternalFieldPrefix)
+            ;
 
         /// <summary>
         /// This is an object definition, as part of a cyclic graph.
         /// </summary>
-        private static readonly string Key_ObjectDefinition = string.Format("{0}id", fsGlobalConfig.InternalFieldPrefix);
+        private static readonly string Key_ObjectDefinition = string.Format("{0}id", fsGlobalConfig.InternalFieldPrefix)
+            ;
 
         /// <summary>
         /// This specifies the actual type of an object (the instance type was different from
@@ -64,21 +70,25 @@ namespace FullSerializer
             if (data.IsDictionary == false) return false;
             return data.AsDictionary.ContainsKey(Key_ObjectReference);
         }
+
         private static bool IsObjectDefinition(fsData data)
         {
             if (data.IsDictionary == false) return false;
             return data.AsDictionary.ContainsKey(Key_ObjectDefinition);
         }
+
         private static bool IsVersioned(fsData data)
         {
             if (data.IsDictionary == false) return false;
             return data.AsDictionary.ContainsKey(Key_Version);
         }
+
         private static bool IsTypeSpecified(fsData data)
         {
             if (data.IsDictionary == false) return false;
             return data.AsDictionary.ContainsKey(Key_InstanceType);
         }
+
         private static bool IsWrappedData(fsData data)
         {
             if (data.IsDictionary == false) return false;
@@ -154,17 +164,22 @@ namespace FullSerializer
                 data.AsDictionary[Key_ObjectReference] = dict[referenceIdString];
             }
         }
+
         #endregion
 
         #region Utility Methods
-        private static void Invoke_OnBeforeSerialize(List<fsObjectProcessor> processors, Type storageType, object instance)
+
+        private static void Invoke_OnBeforeSerialize(List<fsObjectProcessor> processors, Type storageType,
+            object instance)
         {
             for (int i = 0; i < processors.Count; ++i)
             {
                 processors[i].OnBeforeSerialize(storageType, instance);
             }
         }
-        private static void Invoke_OnAfterSerialize(List<fsObjectProcessor> processors, Type storageType, object instance, ref fsData data)
+
+        private static void Invoke_OnAfterSerialize(List<fsObjectProcessor> processors, Type storageType,
+            object instance, ref fsData data)
         {
             // We run the after calls in reverse order; this significantly reduces the interaction burden between
             // multiple processors - it makes each one much more independent and ignorant of the other ones.
@@ -174,27 +189,34 @@ namespace FullSerializer
                 processors[i].OnAfterSerialize(storageType, instance, ref data);
             }
         }
-        private static void Invoke_OnBeforeDeserialize(List<fsObjectProcessor> processors, Type storageType, ref fsData data)
+
+        private static void Invoke_OnBeforeDeserialize(List<fsObjectProcessor> processors, Type storageType,
+            ref fsData data)
         {
             for (int i = 0; i < processors.Count; ++i)
             {
                 processors[i].OnBeforeDeserialize(storageType, ref data);
             }
         }
-        private static void Invoke_OnBeforeDeserializeAfterInstanceCreation(List<fsObjectProcessor> processors, Type storageType, object instance, ref fsData data)
+
+        private static void Invoke_OnBeforeDeserializeAfterInstanceCreation(List<fsObjectProcessor> processors,
+            Type storageType, object instance, ref fsData data)
         {
             for (int i = 0; i < processors.Count; ++i)
             {
                 processors[i].OnBeforeDeserializeAfterInstanceCreation(storageType, instance, ref data);
             }
         }
-        private static void Invoke_OnAfterDeserialize(List<fsObjectProcessor> processors, Type storageType, object instance)
+
+        private static void Invoke_OnAfterDeserialize(List<fsObjectProcessor> processors, Type storageType,
+            object instance)
         {
             for (int i = processors.Count - 1; i >= 0; --i)
             {
                 processors[i].OnAfterDeserialize(storageType, instance);
             }
         }
+
         #endregion
 
         /// <summary>
@@ -300,6 +322,7 @@ namespace FullSerializer
         /// Reference manager for cycle detection.
         /// </summary>
         private readonly fsCyclicReferenceManager _references;
+
         private readonly fsLazyCycleDefinitionWriter _lazyReferenceWriter;
 
         public fsSerializer()
@@ -314,23 +337,25 @@ namespace FullSerializer
             // note: The order here is important. Items at the beginning of this
             //       list will be used before converters at the end. Converters
             //       added via AddConverter() are added to the front of the list.
-            _availableConverters = new List<fsConverter> {
-                new fsNullableConverter { Serializer = this },
-                new fsGuidConverter { Serializer = this },
-                new fsTypeConverter { Serializer = this },
-                new fsDateConverter { Serializer = this },
-                new fsEnumConverter { Serializer = this },
-                new fsPrimitiveConverter { Serializer = this },
-                new fsArrayConverter { Serializer = this },
-                new fsDictionaryConverter { Serializer = this },
-                new fsIEnumerableConverter { Serializer = this },
-                new fsKeyValuePairConverter { Serializer = this },
-                new fsWeakReferenceConverter { Serializer = this },
-                new fsReflectedConverter { Serializer = this }
+            _availableConverters = new List<fsConverter>
+            {
+                new fsNullableConverter {Serializer = this},
+                new fsGuidConverter {Serializer = this},
+                new fsTypeConverter {Serializer = this},
+                new fsDateConverter {Serializer = this},
+                new fsEnumConverter {Serializer = this},
+                new fsPrimitiveConverter {Serializer = this},
+                new fsArrayConverter {Serializer = this},
+                new fsDictionaryConverter {Serializer = this},
+                new fsIEnumerableConverter {Serializer = this},
+                new fsKeyValuePairConverter {Serializer = this},
+                new fsWeakReferenceConverter {Serializer = this},
+                new fsReflectedConverter {Serializer = this}
             };
             _availableDirectConverters = new Dictionary<Type, fsDirectConverter>();
 
-            _processors = new List<fsObjectProcessor>() {
+            _processors = new List<fsObjectProcessor>()
+            {
                 new fsSerializationCallbackProcessor()
             };
 
@@ -344,7 +369,7 @@ namespace FullSerializer
             // Register the converters from the registrar
             foreach (var converterType in fsConverterRegistrar.Converters)
             {
-                AddConverter((fsBaseConverter)Activator.CreateInstance(converterType));
+                AddConverter((fsBaseConverter) Activator.CreateInstance(converterType));
             }
         }
 
@@ -410,7 +435,7 @@ namespace FullSerializer
             var attr = fsPortableReflection.GetAttribute<fsObjectAttribute>(type);
             if (attr != null && attr.Processor != null)
             {
-                var processor = (fsObjectProcessor)Activator.CreateInstance(attr.Processor);
+                var processor = (fsObjectProcessor) Activator.CreateInstance(attr.Processor);
                 processors = new List<fsObjectProcessor>();
                 processors.Add(processor);
                 _cachedProcessors[type] = processors;
@@ -445,23 +470,24 @@ namespace FullSerializer
             if (converter.Serializer != null)
             {
                 throw new InvalidOperationException("Cannot add a single converter instance to " +
-                    "multiple fsConverters -- please construct a new instance for " + converter);
+                                                    "multiple fsConverters -- please construct a new instance for " +
+                                                    converter);
             }
 
             if (converter is fsDirectConverter)
             {
-                var directConverter = (fsDirectConverter)converter;
+                var directConverter = (fsDirectConverter) converter;
                 _availableDirectConverters[directConverter.ModelType] = directConverter;
             }
             else if (converter is fsConverter)
             {
-                _availableConverters.Insert(0, (fsConverter)converter);
+                _availableConverters.Insert(0, (fsConverter) converter);
             }
             else
             {
                 throw new InvalidOperationException("Unable to add converter " + converter +
-                    "; the type association strategy is unknown. Please use either " +
-                    "fsDirectConverter or fsConverter as your base type.");
+                                                    "; the type association strategy is unknown. Please use either " +
+                                                    "fsDirectConverter or fsConverter as your base type.");
             }
 
             converter.Serializer = this;
@@ -483,7 +509,7 @@ namespace FullSerializer
                 fsBaseConverter overrideConverter;
                 if (_cachedConverterTypeInstances.TryGetValue(overrideConverterType, out overrideConverter) == false)
                 {
-                    overrideConverter = (fsBaseConverter)Activator.CreateInstance(overrideConverterType);
+                    overrideConverter = (fsBaseConverter) Activator.CreateInstance(overrideConverterType);
                     overrideConverter.Serializer = this;
                     _cachedConverterTypeInstances[overrideConverterType] = overrideConverter;
                 }
@@ -505,7 +531,7 @@ namespace FullSerializer
                 var attr = fsPortableReflection.GetAttribute<fsObjectAttribute>(type);
                 if (attr != null && attr.Converter != null)
                 {
-                    converter = (fsBaseConverter)Activator.CreateInstance(attr.Converter);
+                    converter = (fsBaseConverter) Activator.CreateInstance(attr.Converter);
                     converter.Serializer = this;
                     return _cachedConverters[type] = converter;
                 }
@@ -565,7 +591,7 @@ namespace FullSerializer
             var fail = TryDeserialize(data, typeof(T), ref boxed);
             if (fail.Succeeded)
             {
-                instance = (T)boxed;
+                instance = (T) boxed;
             }
             return fail;
         }
@@ -614,7 +640,8 @@ namespace FullSerializer
             return result;
         }
 
-        private fsResult InternalSerialize_1_ProcessCycles(Type storageType, Type overrideConverterType, object instance, out fsData data)
+        private fsResult InternalSerialize_1_ProcessCycles(Type storageType, Type overrideConverterType,
+            object instance, out fsData data)
         {
             // We have an object definition to serialize.
             try
@@ -665,7 +692,9 @@ namespace FullSerializer
                 }
             }
         }
-        private fsResult InternalSerialize_2_Inheritance(Type storageType, Type overrideConverterType, object instance, out fsData data)
+
+        private fsResult InternalSerialize_2_Inheritance(Type storageType, Type overrideConverterType, object instance,
+            out fsData data)
         {
             // Serialize the actual object with the field type being the same as the object
             // type so that we won't go into an infinite loop.
@@ -680,7 +709,6 @@ namespace FullSerializer
             if (storageType != instance.GetType() &&
                 GetConverter(storageType, overrideConverterType).RequestInheritanceSupport(storageType))
             {
-
                 // Add the inheritance metadata
                 EnsureDictionary(data);
                 data.AsDictionary[Key_InstanceType] = new fsData(instance.GetType().FullName);
@@ -689,7 +717,8 @@ namespace FullSerializer
             return serializeResult;
         }
 
-        private fsResult InternalSerialize_3_ProcessVersioning(Type overrideConverterType, object instance, out fsData data)
+        private fsResult InternalSerialize_3_ProcessVersioning(Type overrideConverterType, object instance,
+            out fsData data)
         {
             // note: We do not have to take a Type parameter here, since at this point in the serialization
             //       algorithm inheritance has *always* been handled. If we took a type parameter, it will
@@ -715,6 +744,7 @@ namespace FullSerializer
             // This type has no versioning information -- directly serialize it using the selected converter.
             return InternalSerialize_4_Converter(overrideConverterType, instance, out data);
         }
+
         private fsResult InternalSerialize_4_Converter(Type overrideConverterType, object instance, out fsData data)
         {
             var instanceType = instance.GetType();
@@ -754,7 +784,8 @@ namespace FullSerializer
                 _references.Enter();
 
                 List<fsObjectProcessor> processors;
-                var r = InternalDeserialize_1_CycleReference(overrideConverterType, data, storageType, ref result, out processors);
+                var r = InternalDeserialize_1_CycleReference(overrideConverterType, data, storageType, ref result,
+                    out processors);
                 if (r.Succeeded)
                 {
                     Invoke_OnAfterDeserialize(processors, storageType, result);
@@ -767,7 +798,8 @@ namespace FullSerializer
             }
         }
 
-        private fsResult InternalDeserialize_1_CycleReference(Type overrideConverterType, fsData data, Type storageType, ref object result, out List<fsObjectProcessor> processors)
+        private fsResult InternalDeserialize_1_CycleReference(Type overrideConverterType, fsData data, Type storageType,
+            ref object result, out List<fsObjectProcessor> processors)
         {
             // We handle object references first because we could be deserializing a cyclic type that is
             // inherited. If that is the case, then if we handle references after inheritances we will try
@@ -790,7 +822,8 @@ namespace FullSerializer
             return InternalDeserialize_2_Version(overrideConverterType, data, storageType, ref result, out processors);
         }
 
-        private fsResult InternalDeserialize_2_Version(Type overrideConverterType, fsData data, Type storageType, ref object result, out List<fsObjectProcessor> processors)
+        private fsResult InternalDeserialize_2_Version(Type overrideConverterType, fsData data, Type storageType,
+            ref object result, out List<fsObjectProcessor> processors)
         {
             if (IsVersioned(data))
             {
@@ -801,7 +834,6 @@ namespace FullSerializer
                 if (versionedType.HasValue &&
                     versionedType.Value.VersionString != version)
                 {
-
                     // we have to do a migration
                     var deserializeResult = fsResult.Success;
 
@@ -814,7 +846,8 @@ namespace FullSerializer
                     }
 
                     // deserialize as the original type
-                    deserializeResult += InternalDeserialize_3_Inheritance(overrideConverterType, data, path[0].ModelType, ref result, out processors);
+                    deserializeResult += InternalDeserialize_3_Inheritance(overrideConverterType, data,
+                        path[0].ModelType, ref result, out processors);
                     if (deserializeResult.Failed) return deserializeResult;
 
                     for (int i = 1; i < path.Count; ++i)
@@ -837,10 +870,12 @@ namespace FullSerializer
                 }
             }
 
-            return InternalDeserialize_3_Inheritance(overrideConverterType, data, storageType, ref result, out processors);
+            return InternalDeserialize_3_Inheritance(overrideConverterType, data, storageType, ref result,
+                out processors);
         }
 
-        private fsResult InternalDeserialize_3_Inheritance(Type overrideConverterType, fsData data, Type storageType, ref object result, out List<fsObjectProcessor> processors)
+        private fsResult InternalDeserialize_3_Inheritance(Type overrideConverterType, fsData data, Type storageType,
+            ref object result, out List<fsObjectProcessor> processors)
         {
             var deserializeResult = fsResult.Success;
 
@@ -872,7 +907,8 @@ namespace FullSerializer
 
                     if (storageType.IsAssignableFrom(type) == false)
                     {
-                        deserializeResult.AddMessage("Ignoring type specifier; a field/property of type " + storageType + " cannot hold an instance of " + type);
+                        deserializeResult.AddMessage("Ignoring type specifier; a field/property of type " +
+                                                     storageType + " cannot hold an instance of " + type);
                         break;
                     }
 
@@ -908,10 +944,12 @@ namespace FullSerializer
             //       return dummy values for CreateInstance() (for example, the default behavior
             //       for structs is to just return the type of the struct).
 
-            return deserializeResult += InternalDeserialize_4_Cycles(overrideConverterType, data, objectType, ref result);
+            return deserializeResult +=
+                InternalDeserialize_4_Cycles(overrideConverterType, data, objectType, ref result);
         }
 
-        private fsResult InternalDeserialize_4_Cycles(Type overrideConverterType, fsData data, Type resultType, ref object result)
+        private fsResult InternalDeserialize_4_Cycles(Type overrideConverterType, fsData data, Type resultType,
+            ref object result)
         {
             if (IsObjectDefinition(data))
             {
@@ -934,7 +972,8 @@ namespace FullSerializer
             return InternalDeserialize_5_Converter(overrideConverterType, data, resultType, ref result);
         }
 
-        private fsResult InternalDeserialize_5_Converter(Type overrideConverterType, fsData data, Type resultType, ref object result)
+        private fsResult InternalDeserialize_5_Converter(Type overrideConverterType, fsData data, Type resultType,
+            ref object result)
         {
             if (IsWrappedData(data))
             {

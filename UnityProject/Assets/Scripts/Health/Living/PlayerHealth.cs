@@ -49,11 +49,12 @@ namespace PlayGroup
                 ConsciousState = ConsciousState.DEAD;
                 playerMove.allowInput = false;
             }
-            
+
             base.OnStartClient();
         }
 
-        public override int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType, BodyPartType bodyPartAim)
+        public override int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType,
+            BodyPartType bodyPartAim)
         {
             base.ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
 
@@ -130,7 +131,7 @@ namespace PlayGroup
         }
 
         //ReduceBloodLoss for bandages and stuff in the future?
-		[Server]
+        [Server]
         public void StopBleeding()
         {
             bleedVolume = 0;
@@ -212,12 +213,15 @@ namespace PlayGroup
                 else if (LastDamagedBy.EndsWith(gameObject.name))
                 {
                     // chain reactions
-                    PostToChatMessage.Send(gameObject.name + " screwed himself up with some help (" + LastDamagedBy + ")", ChatChannel.System); //Killfeed
+                    PostToChatMessage.Send(
+                        gameObject.name + " screwed himself up with some help (" + LastDamagedBy + ")",
+                        ChatChannel.System); //Killfeed
                 }
                 else
                 {
                     PlayerList.Instance.UpdateKillScore(LastDamagedBy);
-                    PostToChatMessage.Send(LastDamagedBy + " has killed " + gameObject.name, ChatChannel.System); //Killfeed
+                    PostToChatMessage.Send(LastDamagedBy + " has killed " + gameObject.name,
+                        ChatChannel.System); //Killfeed
                 }
                 playerNetworkActions.ValidateDropItem("rightHand", true);
                 playerNetworkActions.ValidateDropItem("leftHand", true);

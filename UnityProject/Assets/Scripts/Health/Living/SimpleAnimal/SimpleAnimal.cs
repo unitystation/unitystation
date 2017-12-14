@@ -5,16 +5,14 @@ using Sprites;
 
 public class SimpleAnimal : HealthBehaviour
 {
-    [Header("For harvestable animals")]
-    public GameObject[] butcherResults;
+    [Header("For harvestable animals")] public GameObject[] butcherResults;
 
     public SpriteRenderer spriteRend;
     public Sprite aliveSprite;
     public Sprite deadSprite;
 
     //Syncvar hook so that new players can sync state on start
-    [SyncVar(hook = "SetAliveState")]
-    public bool deadState;
+    [SyncVar(hook = "SetAliveState")] public bool deadState;
 
     void Start()
     {
@@ -34,13 +32,13 @@ public class SimpleAnimal : HealthBehaviour
         SetAliveState(deadState);
     }
 
-    public override int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType, BodyPartType bodyPartAim)
+    public override int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType,
+        BodyPartType bodyPartAim)
     {
         base.ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
         if (isServer)
             EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
         return damage;
-
     }
 
     [Server]

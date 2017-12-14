@@ -10,18 +10,17 @@ using Tilemaps.Scripts.Behaviours.Objects;
 /// </summary>
 public class VisibleBehaviour : NetworkBehaviour
 {
-
     /// <summary>
     /// This will also set the enabled state of every component
     /// </summary>
-    [SyncVar(hook = "UpdateState")]
-    public bool visibleState = true;
+    [SyncVar(hook = "UpdateState")] public bool visibleState = true;
 
     public bool isPlayer = false;
     public RegisterTile registerTile;
 
     //Ignore these types
     private const string networkId = "NetworkIdentity";
+
     private const string networkT = "NetworkTransform";
     private const string objectBehaviour = "ObjectBehaviour";
     private const string regTile = "RegisterTile";
@@ -32,6 +31,7 @@ public class VisibleBehaviour : NetworkBehaviour
     {
         registerTile = GetComponent<RegisterTile>();
     }
+
     public override void OnStartClient()
     {
         StartCoroutine(WaitForLoad());
@@ -48,7 +48,9 @@ public class VisibleBehaviour : NetworkBehaviour
     }
 
     //For ObjectBehaviour to handle specific states with the various objects like players
-    public virtual void OnVisibilityChange(bool state) { }
+    public virtual void OnVisibilityChange(bool state)
+    {
+    }
 
     void UpdateState(bool _aliveState)
     {

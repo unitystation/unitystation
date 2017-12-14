@@ -31,10 +31,10 @@ public abstract class ClientMessage<T> : GameMessage<T>
         base.Deserialize(reader);
         SentBy = reader.ReadNetworkId();
     }
+
     public override void Serialize(NetworkWriter writer)
     {
         base.Serialize(writer);
         writer.Write(SentBy);
     }
-
 }

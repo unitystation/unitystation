@@ -11,12 +11,14 @@ public class SoundEntry
 
 public class SoundManager : MonoBehaviour
 {
-
     public List<SoundEntry> soundsList = new List<SoundEntry>();
+
     private Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
+
     // Use this for initialization
     //public AudioSource[] sounds;
     public AudioSource[] musicTracks;
+
     public AudioSource[] ambientTracks;
     public int ambientPlaying { get; private set; }
 

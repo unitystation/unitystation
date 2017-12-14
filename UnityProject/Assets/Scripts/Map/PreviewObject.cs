@@ -11,6 +11,7 @@ namespace MapEditor
     {
 #if UNITY_EDITOR
         private static PreviewObject instance;
+
         public static PreviewObject Instance
         {
             get
@@ -36,12 +37,10 @@ namespace MapEditor
         private static SceneView currentSceneView;
 
         private static GameObject prefab;
+
         public static GameObject Prefab
         {
-            get
-            {
-                return prefab;
-            }
+            get { return prefab; }
             set
             {
                 if (prefab != value)
@@ -77,7 +76,7 @@ namespace MapEditor
 
         public static GameObject CreateGameObject()
         {
-            var gameObject = (GameObject)PrefabUtility.InstantiatePrefab(Prefab);
+            var gameObject = (GameObject) PrefabUtility.InstantiatePrefab(Prefab);
 
             var spriteRotates = gameObject.GetComponentsInChildren<SpriteRotate>();
             for (int i = 0; i < spriteRotates.Length; i++)
@@ -134,7 +133,8 @@ namespace MapEditor
 
         private void FollowMouse(Event e)
         {
-            Ray r = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
+            Ray r = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x,
+                -e.mousePosition.y + Camera.current.pixelHeight));
 
             int x = Mathf.RoundToInt(r.origin.x);
             int y = Mathf.RoundToInt(r.origin.y);

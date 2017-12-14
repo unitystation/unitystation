@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 namespace UI
 {
-
     public enum Intent
     {
         Help,
@@ -19,7 +18,6 @@ namespace UI
 
         void Start()
         {
-
             UIManager.CurrentIntent = Intent.Help;
             thisImg = GetComponent<Image>();
         }
@@ -31,10 +29,10 @@ namespace UI
 
             SoundManager.Play("Click01");
 
-            int intent = (int)UIManager.CurrentIntent;
+            int intent = (int) UIManager.CurrentIntent;
             intent = (intent + 1) % 4;
 
-            UIManager.CurrentIntent = (Intent)intent;
+            UIManager.CurrentIntent = (Intent) intent;
 
             thisImg.sprite = sprites[intent];
         }

@@ -25,7 +25,6 @@ namespace FullSerializer
             {
                 if (method.Name.StartsWith("Register_")) method.Invoke(null, null);
             }
-
         }
 
         public static List<Type> Converters;

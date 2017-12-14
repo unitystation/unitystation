@@ -59,76 +59,45 @@ namespace FullSerializer.Internal
         /// The type of value that is stored inside of the property. For example, for an int field,
         /// StorageType will be typeof(int).
         /// </summary>
-        public Type StorageType
-        {
-            get;
-            private set;
-        }
+        public Type StorageType { get; private set; }
 
         /// <summary>
         /// A custom fsBaseConverter instance to use for this field/property, if requested. This will be
         /// null if the default converter selection algorithm should be used. This is specified using the
         /// [fsObject] annotation with the Converter field.
         /// </summary>
-        public Type OverrideConverterType
-        {
-            get;
-            private set;
-        }
+        public Type OverrideConverterType { get; private set; }
 
         /// <summary>
         /// Can this property be read?
         /// </summary>
-        public bool CanRead
-        {
-            get;
-            private set;
-        }
+        public bool CanRead { get; private set; }
 
         /// <summary>
         /// Can this property be written to?
         /// </summary>
-        public bool CanWrite
-        {
-            get;
-            private set;
-        }
+        public bool CanWrite { get; private set; }
 
         /// <summary>
         /// The serialized name of the property, as it should appear in JSON.
         /// </summary>
-        public string JsonName
-        {
-            get;
-            private set;
-        }
+        public string JsonName { get; private set; }
 
         /// <summary>
         /// The name of the actual member.
         /// </summary>
-        public string MemberName
-        {
-            get;
-            private set;
-        }
+        public string MemberName { get; private set; }
 
         /// <summary>
         /// Is this member public?
         /// </summary>
-        public bool IsPublic
-        {
-            get;
-            private set;
-        }
+        public bool IsPublic { get; private set; }
 
         /// <summary>
         /// Is this type readonly? We can modify readonly properties using reflection, but not
         /// using generated C#.
         /// </summary>
-        public bool IsReadOnly
-        {
-            get; private set;
-        }
+        public bool IsReadOnly { get; private set; }
 
         /// <summary>
         /// Writes a value to the property that this MetaProperty represents, using given object
@@ -146,10 +115,10 @@ namespace FullSerializer.Internal
 
             else if (property != null)
             {
-                MethodInfo setMethod = property.GetSetMethod(/*nonPublic:*/ true);
+                MethodInfo setMethod = property.GetSetMethod( /*nonPublic:*/ true);
                 if (setMethod != null)
                 {
-                    setMethod.Invoke(context, new object[] { value });
+                    setMethod.Invoke(context, new object[] {value});
                 }
             }
         }
@@ -162,12 +131,12 @@ namespace FullSerializer.Internal
         {
             if (_memberInfo is PropertyInfo)
             {
-                return ((PropertyInfo)_memberInfo).GetValue(context, new object[] { });
+                return ((PropertyInfo) _memberInfo).GetValue(context, new object[] { });
             }
 
             else
             {
-                return ((FieldInfo)_memberInfo).GetValue(context);
+                return ((FieldInfo) _memberInfo).GetValue(context);
             }
         }
     }

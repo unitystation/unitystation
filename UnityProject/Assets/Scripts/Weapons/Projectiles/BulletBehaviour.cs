@@ -5,10 +5,10 @@ using UnityEngine;
 
 public abstract class BulletBehaviour : MonoBehaviour
 {
-
     private Rigidbody2D thisRigi;
     public string shooterName;
     public int damage = 25;
+
     private BodyPartType bodyAim;
     //	public BodyPartType BodyPartAim { get; private set; };
 
@@ -35,15 +35,14 @@ public abstract class BulletBehaviour : MonoBehaviour
     void OnCollisionEnter2D(Collision2D coll)
     {
         PoolManager.Instance.PoolClientDestroy(gameObject);
-
     }
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
         var damageable = coll.GetComponent<HealthBehaviour>();
         if (damageable == null ||
-             damageable.IsDead ||
-             damageable.gameObject.name.Equals(shooterName)) return;
+            damageable.IsDead ||
+            damageable.gameObject.name.Equals(shooterName)) return;
         damageable.ApplyDamage(shooterName, damage, DamageType.BRUTE, bodyAim);
         //		Debug.LogFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", damageable.gameObject.name, damage);
         PoolManager.Instance.PoolClientDestroy(gameObject);
