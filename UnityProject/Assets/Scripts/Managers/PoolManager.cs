@@ -120,7 +120,7 @@ public class PoolManager : NetworkBehaviour
 	/// For any objects placed in the scene prior to build
 	/// that need to be added to the serverside object pool
 	/// pass the object here and make sure object has a
-	/// ObjectBehaviour component attatched
+	/// ObjectBehaviour component attached
 	/// </summary>
 	[Server]
 	public void PoolCacheObject(GameObject obj)

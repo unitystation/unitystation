@@ -26,7 +26,14 @@ public class FoodBehaviour : NetworkBehaviour {
 	}
 
 	IEnumerator WaitForServerLoad(){
+		//Checking directly in while loop crashes unity
+		PoolManager pI = PoolManager.Instance;
+		while(pI == null){
+			yield return new WaitForSeconds(0.1f);
+			pI = PoolManager.Instance;
+		}
 		yield return new WaitForEndOfFrame();
+
 		PoolManager.Instance.PoolCacheObject(gameObject);
 	}
 
