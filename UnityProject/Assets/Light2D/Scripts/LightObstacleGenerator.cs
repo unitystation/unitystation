@@ -1,7 +1,6 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Light2D
+namespace Light2D.Scripts
 {
     /// <summary>
     ///     That class is generating obstacles for object it attached to.
@@ -37,7 +36,7 @@ namespace Light2D
 #if UNITY_EDITOR
             if (Material == null)
             {
-                Material = (Material) AssetDatabase.LoadAssetAtPath(
+                Material = (Material) UnityEditor.AssetDatabase.LoadAssetAtPath(
                     "Assets/Light2D/Materials/DualColor.mat", typeof(Material));
             }
 #endif
