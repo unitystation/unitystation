@@ -31,13 +31,13 @@ public class Sprite2PrefabChild_Gun_MenuItem
             }
 
             GameObject parent = new GameObject();
-            BoxCollider2D boxCollider = parent.AddComponent<BoxCollider2D>();
-            NetworkIdentity networkIdentiy = parent.AddComponent<NetworkIdentity>();
-            NetworkTransform networkTransform = parent.AddComponent<NetworkTransform>();
-            ItemAttributes itemAttributes = parent.AddComponent<ItemAttributes>();
-            Weapon weapon = parent.AddComponent<Weapon>();
-            ObjectBehaviour objectBehaviour = parent.AddComponent<ObjectBehaviour>();
-            RegisterItem registerItem = parent.AddComponent<RegisterItem>();
+            parent.AddComponent<BoxCollider2D>();
+            parent.AddComponent<NetworkIdentity>();
+            parent.AddComponent<NetworkTransform>();
+            parent.AddComponent<ItemAttributes>();
+            parent.AddComponent<Weapon>();
+            parent.AddComponent<ObjectBehaviour>();
+            parent.AddComponent<RegisterItem>();
             GameObject spriteObject = new GameObject();
             SpriteRenderer spriteRenderer = spriteObject.AddComponent<SpriteRenderer>();
             Material spriteMaterial = Resources.Load("Sprite-PixelSnap", typeof(Material)) as Material;

@@ -29,9 +29,9 @@ public class Sprite2PrefabChild_Object_MenuItem
             }
 
             GameObject parent = new GameObject();
-            BoxCollider2D boxCollider = parent.AddComponent<BoxCollider2D>();
-            EditModeControl editModeControl = parent.AddComponent<EditModeControl>();
-            RegisterObject registerObject = parent.AddComponent<RegisterObject>();
+            parent.AddComponent<BoxCollider2D>();
+            parent.AddComponent<EditModeControl>();
+            parent.AddComponent<RegisterObject>();
             GameObject spriteObject = new GameObject();
             SpriteRenderer spriteRenderer = spriteObject.AddComponent<SpriteRenderer>();
             Material spriteMaterial = Resources.Load("Sprite-PixelSnap", typeof(Material)) as Material;
