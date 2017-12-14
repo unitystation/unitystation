@@ -1,13 +1,8 @@
-﻿using System;
-using InputControl;
-using PlayGroup;
-using PlayGroups.Input;
+﻿using PlayGroups.Input;
 using Tilemaps.Scripts.Behaviours.Interaction;
 using Tilemaps.Scripts.Behaviours.Layers;
 using Tilemaps.Scripts.Tiles;
-using UI;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace Tilemaps.Scripts.Behaviours
 {

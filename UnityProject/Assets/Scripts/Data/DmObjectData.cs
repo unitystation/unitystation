@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using FullSerializer;
 using UnityEngine;
 
@@ -12,15 +9,15 @@ public class DmObjectData : ScriptableObject
 {
     private static List<Dictionary<string, string>> objectList = new List<Dictionary<string, string>>();
 
+    public List<Dictionary<string, string>> ObjectList => objectList;
+
     private void OnEnable()
     {
-        if (objectList.Count != 0) return;
+        if (objectList.Count != 0)
+        {
+            return;
+        }
         DeserializeJson();
-    }
-
-    public List<Dictionary<string, string>> ObjectList
-    {
-        get { return objectList; }
     }
 
     //Scans hierarchy for attributes
@@ -31,9 +28,9 @@ public class DmObjectData : ScriptableObject
         var ancAttr = new Dictionary<string, string>();
         //        StringBuilder digLog = new StringBuilder();
 
-        for (int i = path.Count; i-- > 2;)
+        for (var i = path.Count; i-- > 2;)
         {
-            var ancHier = String.Join("/", path.ToArray());
+            var ancHier = string.Join("/", path.ToArray());
             //            digLog.AppendLine("scanning " + ancHier);
 
             var foundAttributes = lookupObject(ancHier);
@@ -76,6 +73,9 @@ public class DmObjectData : ScriptableObject
             var serializer = new fsSerializer();
             serializer.TryDeserialize(data, ref objectList).AssertSuccessWithoutWarnings();
         }
-        else throw new FileNotFoundException();
+        else
+        {
+            throw new FileNotFoundException();
+        }
     }
 }

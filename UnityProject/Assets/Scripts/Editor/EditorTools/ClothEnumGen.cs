@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -17,11 +16,11 @@ public class ClothEnumGen : MonoBehaviour
 
 
     [MenuItem("Tools/Generate Cloth Enum")]
-    static void GenerateClothEnum()
+    private static void GenerateClothEnum()
     {
-        Dictionary<string, string> hierName = prepareObjects();
+        var hierName = prepareObjects();
         // the path we want to write to
-        string path = string.Concat(Application.dataPath, Path.DirectorySeparatorChar,
+        var path = string.Concat(Application.dataPath, Path.DirectorySeparatorChar,
             "scripts", Path.DirectorySeparatorChar,
             "Items", Path.DirectorySeparatorChar,
             "ClothEnum.cs");
@@ -33,11 +32,11 @@ public class ClothEnumGen : MonoBehaviour
         try
         {
             // opens the file if it allready exists, creates it otherwise
-            using (FileStream stream = File.Open(path, FileMode.OpenOrCreate, FileAccess.Write))
+            using (var stream = File.Open(path, FileMode.OpenOrCreate, FileAccess.Write))
             {
-                using (StreamWriter writer = new StreamWriter(stream))
+                using (var writer = new StreamWriter(stream))
                 {
-                    StringBuilder sb = new StringBuilder();
+                    var sb = new StringBuilder();
                     sb.AppendLine("// ----- AUTO GENERATED CODE ----- //");
                     sb.AppendLine("using System.ComponentModel;");
                     sb.AppendLine("public enum ClothEnum");
@@ -46,7 +45,7 @@ public class ClothEnumGen : MonoBehaviour
                     sb.AppendLine("\t[Description(\"\")]");
                     sb.AppendLine("\tnone,");
 
-                    foreach (string hier in hierName.Keys)
+                    foreach (var hier in hierName.Keys)
                     {
                         sb.AppendLine("\t");
                         sb.AppendLine(string.Format("\t[Description(\"{0}\")]", hier));
@@ -73,7 +72,7 @@ public class ClothEnumGen : MonoBehaviour
         AssetDatabase.Refresh();
     }
 
-    static Dictionary<string, string> prepareObjects()
+    private static Dictionary<string, string> prepareObjects()
     {
         var tmpDic = new Dictionary<string, string>();
         var dm = Resources.Load("DmObjectData") as DmObjectData;

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Tilemaps.Scripts.Behaviours.Objects;
 using Tilemaps.Scripts.Tiles;
 using Tilemaps.Scripts.Utils;
@@ -21,7 +20,9 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             if (objectTile)
             {
                 if (!objectTile.IsItem)
+                {
                     tilemap.SetTile(position, null);
+                }
                 objectTile.SpawnObject(position, tilemap, transformMatrix);
             }
             else
@@ -32,7 +33,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public override bool HasTile(Vector3Int position)
         {
-            return (Objects.Get(position).Count > 0) || base.HasTile(position);
+            return Objects.Get(position).Count > 0 || base.HasTile(position);
         }
 
         public override void RemoveTile(Vector3Int position)

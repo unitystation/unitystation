@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 
 public class BuildServer
 {
-    static void PerformBuild()
+    private static void PerformBuild()
     {
         var buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/Deathmatch.unity"};

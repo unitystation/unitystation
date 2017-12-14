@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace FullSerializer.Internal
 {
@@ -31,20 +30,33 @@ namespace FullSerializer.Internal
             if (data.IsList)
             {
                 var list = data.AsList;
-                for (int i = 0; i < list.Count; ++i)
+                for (var i = 0; i < list.Count; ++i)
                 {
                     var item = list[i];
 
                     fsData keyData, valueData;
-                    if ((result += CheckType(item, fsDataType.Object)).Failed) return result;
-                    if ((result += CheckKey(item, "Key", out keyData)).Failed) return result;
-                    if ((result += CheckKey(item, "Value", out valueData)).Failed) return result;
+                    if ((result += CheckType(item, fsDataType.Object)).Failed)
+                    {
+                        return result;
+                    }
+                    if ((result += CheckKey(item, "Key", out keyData)).Failed)
+                    {
+                        return result;
+                    }
+                    if ((result += CheckKey(item, "Value", out valueData)).Failed)
+                    {
+                        return result;
+                    }
 
                     object keyInstance = null, valueInstance = null;
                     if ((result += Serializer.TryDeserialize(keyData, keyStorageType, ref keyInstance)).Failed)
+                    {
                         return result;
+                    }
                     if ((result += Serializer.TryDeserialize(valueData, valueStorageType, ref valueInstance)).Failed)
+                    {
                         return result;
+                    }
 
                     AddItemToDictionary(instance, keyInstance, valueInstance);
                 }
@@ -53,15 +65,22 @@ namespace FullSerializer.Internal
             {
                 foreach (var entry in data.AsDictionary)
                 {
-                    if (fsSerializer.IsReservedKeyword(entry.Key)) continue;
+                    if (fsSerializer.IsReservedKeyword(entry.Key))
+                    {
+                        continue;
+                    }
 
                     fsData keyData = new fsData(entry.Key), valueData = entry.Value;
                     object keyInstance = null, valueInstance = null;
 
                     if ((result += Serializer.TryDeserialize(keyData, keyStorageType, ref keyInstance)).Failed)
+                    {
                         return result;
+                    }
                     if ((result += Serializer.TryDeserialize(valueData, valueStorageType, ref valueInstance)).Failed)
+                    {
                         return result;
+                    }
 
                     AddItemToDictionary(instance, keyInstance, valueInstance);
                 }
@@ -86,18 +105,22 @@ namespace FullSerializer.Internal
             GetKeyValueTypes(instance.GetType(), out keyStorageType, out valueStorageType);
 
             // No other way to iterate dictionaries and still have access to the key/value info
-            IDictionaryEnumerator enumerator = instance.GetEnumerator();
+            var enumerator = instance.GetEnumerator();
 
-            bool allStringKeys = true;
+            var allStringKeys = true;
             var serializedKeys = new List<fsData>(instance.Count);
             var serializedValues = new List<fsData>(instance.Count);
             while (enumerator.MoveNext())
             {
                 fsData keyData, valueData;
                 if ((result += Serializer.TrySerialize(keyStorageType, enumerator.Key, out keyData)).Failed)
+                {
                     return result;
+                }
                 if ((result += Serializer.TrySerialize(valueStorageType, enumerator.Value, out valueData)).Failed)
+                {
                     return result;
+                }
 
                 serializedKeys.Add(keyData);
                 serializedValues.Add(valueData);
@@ -110,10 +133,10 @@ namespace FullSerializer.Internal
                 serialized = fsData.CreateDictionary();
                 var serializedDictionary = serialized.AsDictionary;
 
-                for (int i = 0; i < serializedKeys.Count; ++i)
+                for (var i = 0; i < serializedKeys.Count; ++i)
                 {
-                    fsData key = serializedKeys[i];
-                    fsData value = serializedValues[i];
+                    var key = serializedKeys[i];
+                    var value = serializedValues[i];
                     serializedDictionary[key.AsString] = value;
                 }
             }
@@ -122,10 +145,10 @@ namespace FullSerializer.Internal
                 serialized = fsData.CreateList(serializedKeys.Count);
                 var serializedList = serialized.AsList;
 
-                for (int i = 0; i < serializedKeys.Count; ++i)
+                for (var i = 0; i < serializedKeys.Count; ++i)
                 {
-                    fsData key = serializedKeys[i];
-                    fsData value = serializedValues[i];
+                    var key = serializedKeys[i];
+                    var value = serializedValues[i];
 
                     var container = new Dictionary<string, fsData>();
                     container["Key"] = key;
@@ -165,9 +188,9 @@ namespace FullSerializer.Internal
                 }
 
                 var keyValuePairType = collectionType.GetGenericArguments()[0];
-                object keyValueInstance = Activator.CreateInstance(keyValuePairType, key, value);
-                MethodInfo add = collectionType.GetFlattenedMethod("Add");
-                add.Invoke(dictionary, new object[] {keyValueInstance});
+                var keyValueInstance = Activator.CreateInstance(keyValuePairType, key, value);
+                var add = collectionType.GetFlattenedMethod("Add");
+                add.Invoke(dictionary, new[] {keyValueInstance});
                 return fsResult.Success;
             }
 

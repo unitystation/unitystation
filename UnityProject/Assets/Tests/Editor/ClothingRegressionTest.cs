@@ -1,14 +1,10 @@
-﻿using UnityEngine;
-using UnityEditor;
-using UnityEngine.TestTools;
-using NUnit.Framework;
-using System.Collections;
-using UI;
+﻿using NUnit.Framework;
+using UnityEngine;
 
 public class ClothingRegressionTest
 {
-    GameObject obj;
-    ItemAttributes subject;
+    private GameObject obj;
+    private ItemAttributes subject;
 
     [SetUp]
     public void setUp()
@@ -45,7 +41,7 @@ public class ClothingRegressionTest
         Assert.That(subject.inHandReferenceRight != -1);
     }
 
-    void refreshItem()
+    private void refreshItem()
     {
         obj.SetActive(false);
         obj.SetActive(true);

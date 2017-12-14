@@ -3,13 +3,13 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-/// Message that tells clent to run some method
+///     Message that tells clent to run some method
 /// </summary>
 public class RunMethodMessage : ServerMessage<RunMethodMessage>
 {
-    public NetworkInstanceId Recipient;
     public string Method;
     public NetworkInstanceId Parameter;
+    public NetworkInstanceId Recipient;
 
     public override IEnumerator Process()
     {
@@ -27,7 +27,7 @@ public class RunMethodMessage : ServerMessage<RunMethodMessage>
         {
             Recipient = recipient.GetComponent<NetworkIdentity>().netId, //?
             Method = method,
-            Parameter = (parameter != null)
+            Parameter = parameter != null
                 ? parameter.GetComponent<NetworkIdentity>().netId
                 : NetworkInstanceId.Invalid
         };

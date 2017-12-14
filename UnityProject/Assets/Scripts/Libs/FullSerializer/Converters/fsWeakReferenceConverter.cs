@@ -3,7 +3,7 @@
 namespace FullSerializer.Internal
 {
     /// <summary>
-    /// Serializes and deserializes WeakReferences.
+    ///     Serializes and deserializes WeakReferences.
     /// </summary>
     public class fsWeakReferenceConverter : fsConverter
     {
@@ -48,7 +48,10 @@ namespace FullSerializer.Internal
         {
             var result = fsResult.Success;
 
-            if ((result += CheckType(data, fsDataType.Object)).Failed) return result;
+            if ((result += CheckType(data, fsDataType.Object)).Failed)
+            {
+                return result;
+            }
 
             if (data.AsDictionary.ContainsKey("Target"))
             {
@@ -56,9 +59,11 @@ namespace FullSerializer.Internal
                 object targetInstance = null;
 
                 if ((result += Serializer.TryDeserialize(targetData, typeof(object), ref targetInstance)).Failed)
+                {
                     return result;
+                }
 
-                bool trackResurrection = false;
+                var trackResurrection = false;
                 if (data.AsDictionary.ContainsKey("TrackResurrection") && data.AsDictionary["TrackResurrection"].IsBool)
                 {
                     trackResurrection = data.AsDictionary["TrackResurrection"].AsBool;

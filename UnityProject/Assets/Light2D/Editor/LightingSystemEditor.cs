@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace Light2D
@@ -36,7 +32,7 @@ namespace Light2D
         private DateTime _sizeChangeTime;
 #endif
 
-        void OnEnable()
+        private void OnEnable()
         {
             _lightPixelSize = serializedObject.FindProperty("LightPixelSize");
             _lightCameraSizeAdd = serializedObject.FindProperty("LightCameraSizeAdd");
@@ -67,12 +63,14 @@ namespace Light2D
             serializedObject.Update();
 
             if (Application.isPlaying)
+            {
                 GUI.enabled = false;
+            }
 
             var lightingSystem = (LightingSystem) target;
             var cam = lightingSystem.GetComponent<Camera>();
-            bool isMobileTarget = EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS ||
-                                  EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android;
+            var isMobileTarget = EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS ||
+                                 EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android;
 
             if (cam == null)
             {
@@ -81,7 +79,7 @@ namespace Light2D
 
             EditorGUILayout.PropertyField(_lightPixelSize, new GUIContent("Light Pixel Size"));
 
-            bool sizeChanged = false;
+            var sizeChanged = false;
 #if LIGHT2D_2DTK
             var tk2dCamera = lightingSystem.GetComponent<tk2dCamera>();
             var tk2dCamSize = tk2dCamera == null
@@ -111,22 +109,28 @@ namespace Light2D
                 }
                 if (!Application.isPlaying)
                 {
-                    int lightTextureHeight = Mathf.RoundToInt(size / _lightPixelSize.floatValue);
+                    var lightTextureHeight = Mathf.RoundToInt(size / _lightPixelSize.floatValue);
                     var oldSize = lightTextureHeight;
                     lightTextureHeight = EditorGUILayout.IntField("Light Texture Height", lightTextureHeight);
                     if (lightTextureHeight % 2 != 0)
+                    {
                         lightTextureHeight++;
+                    }
                     if (lightTextureHeight < 16)
                     {
                         if (lightTextureHeight < 8)
+                        {
                             lightTextureHeight = 8;
+                        }
                         EditorGUILayout.LabelField("WARNING: Light Texture Height is too small.");
                         EditorGUILayout.LabelField(" 50-200 (mobile) and 200-1000 (pc) is recommended.");
                     }
                     if (lightTextureHeight > (isMobileTarget ? 200 : 1000))
                     {
                         if (lightTextureHeight > 2048)
+                        {
                             lightTextureHeight = 2048;
+                        }
                         EditorGUILayout.LabelField("WARNING: Light Texture Height is too big.");
                         EditorGUILayout.LabelField(" 50-200 (mobile) and 200-1000 (pc) is recommended.");
                     }
@@ -166,19 +170,25 @@ namespace Light2D
                 EditorGUILayout.LabelField("     could significantly reduce lighting quality.");
             }
 
-            bool normalGuiEnableState = GUI.enabled;
+            var normalGuiEnableState = GUI.enabled;
             if (!_blurLightSources.boolValue)
+            {
                 GUI.enabled = false;
+            }
             EditorGUILayout.PropertyField(_lightSourcesBlurMaterial, new GUIContent("   Light Sources Blur Material"));
             GUI.enabled = normalGuiEnableState;
 
             EditorGUILayout.PropertyField(_enableAmbientLight, new GUIContent("Enable Ambient Light"));
             if (!_enableAmbientLight.boolValue)
+            {
                 GUI.enabled = false;
+            }
             EditorGUILayout.PropertyField(_blurAmbientLight, new GUIContent("   Blur Ambient Light"));
             var oldEnabled = GUI.enabled;
             if (!_blurAmbientLight.boolValue)
+            {
                 GUI.enabled = false;
+            }
             EditorGUILayout.PropertyField(_ambientLightBlurMaterial, new GUIContent("   Ambient Light Blur Material"));
             GUI.enabled = oldEnabled;
             EditorGUILayout.PropertyField(_ambientLightComputeMaterial,

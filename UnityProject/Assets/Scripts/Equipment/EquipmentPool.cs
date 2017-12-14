@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,6 +9,9 @@ namespace Equipment
     public class EquipmentPool : MonoBehaviour
     {
         private static EquipmentPool equipmentPool;
+        private readonly Dictionary<string, ObjectPool> equipPools = new Dictionary<string, ObjectPool>();
+
+        private GameObject objectPoolPrefab;
 
         public static EquipmentPool Instance
         {
@@ -24,10 +26,7 @@ namespace Equipment
             }
         }
 
-        private GameObject objectPoolPrefab;
-        private Dictionary<string, ObjectPool> equipPools = new Dictionary<string, ObjectPool>();
-
-        void Init()
+        private void Init()
         {
             Instance.transform.position = Vector2.zero;
             Instance.objectPoolPrefab = Resources.Load("ObjectPool") as GameObject;
@@ -47,8 +46,8 @@ namespace Equipment
             else
             {
                 //set up new pool and then add the obj
-                GameObject newPool =
-                    Instantiate(Instance.objectPoolPrefab, Vector2.zero, Quaternion.identity) as GameObject;
+                var newPool =
+                    Instantiate(Instance.objectPoolPrefab, Vector2.zero, Quaternion.identity);
                 newPool.transform.parent = Instance.transform;
                 newPool.name = playerName;
                 Instance.equipPools.Add(playerName, newPool.GetComponent<ObjectPool>());
@@ -64,7 +63,10 @@ namespace Equipment
         public static void DisposeOfObject(GameObject player, GameObject gObj)
         {
             var playerName = player.name;
-            if (!Instance.equipPools.ContainsKey(playerName)) return;
+            if (!Instance.equipPools.ContainsKey(playerName))
+            {
+                return;
+            }
             Instance.equipPools[playerName].DestroyGameObject(gObj);
             gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
             //			Debug.LogFormat("{0}: destroyed {1}({2}) from pool. size={3} ", 

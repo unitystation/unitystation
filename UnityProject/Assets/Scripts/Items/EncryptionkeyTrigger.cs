@@ -1,6 +1,6 @@
-﻿using UI;
+﻿using Items;
+using UI;
 using UnityEngine;
-using Items;
 
 public class EncryptionkeyTrigger : PickUpTrigger
 {

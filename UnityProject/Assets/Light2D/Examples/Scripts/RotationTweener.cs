@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Light2D.Examples
 {
@@ -10,7 +6,7 @@ namespace Light2D.Examples
     {
         public float AngularSpeed;
 
-        void Update()
+        private void Update()
         {
             transform.rotation *= Quaternion.Euler(0, 0, AngularSpeed * Time.deltaTime);
         }

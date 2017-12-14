@@ -1,21 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 namespace UI
 {
     public class InputField_Ext : InputField
     {
+        private bool caretFound;
         private ScrollRect chatScrollArea;
         private ContentSizeFitter contentFitter;
-        private bool caretFound = false;
 
         protected override void Start()
         {
             contentFitter = GetComponentInChildren<ContentSizeFitter>();
             chatScrollArea = transform.parent.gameObject.GetComponent<ScrollRect>();
 
-            onValueChanged.AddListener(new UnityEngine.Events.UnityAction<string>(ResizeInput));
+            onValueChanged.AddListener(ResizeInput);
         }
 
         // Resize input field as new lines get added
@@ -36,9 +35,9 @@ namespace UI
                 0f; //TODO: if the user is highlighting or has scrolled up then do not force the position (as it will be annoying a f)
         }
 
-        void DetectCaret()
+        private void DetectCaret()
         {
-            GameObject findCaret = GameObject.Find(gameObject.name + " Input Caret");
+            var findCaret = GameObject.Find(gameObject.name + " Input Caret");
             if (findCaret != null)
             {
                 findCaret.transform.parent = textComponent.gameObject.transform;

@@ -1,59 +1,82 @@
-using System;
-using UnityEngine;
-using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UI;
+using UnityEngine;
+using UnityEngine.Networking;
+using Random = System.Random;
 
 [RequireComponent(typeof(ObjectBehaviour))]
 public class ItemAttributes : NetworkBehaviour
 {
+    private const string ObjItemClothing = "/obj/item/clothing";
     private static DmiIconData dmi;
     private static DmObjectData dm;
     private static string[] hierList = { };
 
+    //on-player references
+    private static readonly string[] onPlayer =
+    {
+        "mob/uniform",
+        "mob/underwear",
+        "mob/ties",
+        "mob/back",
+        "mob/belt_mirror",
+        "mob/belt",
+        "mob/eyes",
+        "mob/ears",
+        "mob/hands",
+        "mob/feet",
+        "mob/head",
+        "mob/mask",
+        "mob/neck",
+        "mob/suit"
+    };
+
     public ClothEnum cloth;
-
-    [SyncVar(hook = "ConstructItem")] public string hierarchy;
-    //the bare minimum you need to to make magic work
-
-    // item name and description.
-    public string itemName;
-
-    //dm "name"
-    public string itemDescription;
-    //dm "desc"
-
-    public SpriteType spriteType;
-    public ItemType type;
-
-    //reference numbers for item on inhands spritesheet. should be one corresponding to player facing down
-    public int inHandReferenceRight;
-
-    public int inHandReferenceLeft;
+    private int clothingOffset = -1;
     public int clothingReference = -1;
+    private string desc;
 
-    public ItemSize size;
+    private Dictionary<string, string> dmDic;
     //dm "w_class";
 
     //		dm datafile info
     private string hier;
 
-    private Dictionary<string, string> dmDic;
-    private SpriteType masterType;
-    private ItemType itemType = ItemType.None;
+    [SyncVar(hook = "ConstructItem")] public string hierarchy;
+    private string icon;
+    private string icon_state;
+    private int inHandLeft = -1;
+
+    public int inHandReferenceLeft;
+
+    //reference numbers for item on inhands spritesheet. should be one corresponding to player facing down
+    public int inHandReferenceRight;
+
+    private int inHandRight = -1;
     private DmiIcon inventoryIcon;
     private string[] invSheetPaths;
-    private new string name;
-    private string icon;
-    private string desc;
-    private string icon_state;
     private string item_color;
     private string item_state;
-    private int inHandLeft = -1;
-    private int inHandRight = -1;
-    private int clothingOffset = -1;
+
+    //dm "name"
+    public string itemDescription;
+    //the bare minimum you need to to make magic work
+
+    // item name and description.
+    public string itemName;
+
+    private ItemType itemType = ItemType.None;
+    private SpriteType masterType;
+    private new string name;
+
+    public ItemSize size;
+    //dm "desc"
+
+    public SpriteType spriteType;
+    public ItemType type;
 
     public override void OnStartClient()
     {
@@ -61,7 +84,7 @@ public class ItemAttributes : NetworkBehaviour
         base.OnStartClient();
     }
 
-    IEnumerator WaitForLoad()
+    private IEnumerator WaitForLoad()
     {
         yield return new WaitForSeconds(2f);
         ConstructItem(hierarchy);
@@ -87,7 +110,9 @@ public class ItemAttributes : NetworkBehaviour
         //don't do anything if hierarchy string is empty
         hier = hierString.Trim();
         if (hier.Length == 0)
+        {
             return;
+        }
 
         //init datafiles
         if (!dmi)
@@ -121,7 +146,7 @@ public class ItemAttributes : NetworkBehaviour
         itemType = getItemType(hier, getInvIconPrefix(masterType));
         invSheetPaths = getItemClothSheetHier(itemType);
         //			size = getItemSize(tryGetAttr("w_class"));
-        int[] inHandOffsets = tryGetInHand();
+        var inHandOffsets = tryGetInHand();
         inHandLeft = inHandOffsets[0];
         inHandRight = inHandOffsets[1];
         inventoryIcon = tryGetInventoryIcon();
@@ -134,7 +159,7 @@ public class ItemAttributes : NetworkBehaviour
         }
 
         //inventory item sprite
-        Sprite stateSprite = tryGetStateSprite(inventoryIcon, icon_state);
+        var stateSprite = tryGetStateSprite(inventoryIcon, icon_state);
 
         //finally setting things
         inHandReferenceLeft = inHandLeft;
@@ -161,7 +186,7 @@ public class ItemAttributes : NetworkBehaviour
             return new Sprite();
         }
 
-        DmiState iState = dmiIcon.getState(icon_state);
+        var iState = dmiIcon.getState(icon_state);
         if (!iState.state.Equals(""))
         {
             return dmiIcon.spriteSheet[iState.offset];
@@ -170,11 +195,11 @@ public class ItemAttributes : NetworkBehaviour
         return new Sprite();
     }
 
-    string getItemDebugInfo()
+    private string getItemDebugInfo()
     {
         return string.Format("name={0}, type={1}, spriteType={2} ({3}) : {4} / {5} / C: {6}, L: {7}, R: {8}, I: {9}" +
                              '\n'
-                             + dmDic.Keys.Aggregate("", (current, key) => current + (key + ": ") + dmDic[key] + "\n"),
+                             + dmDic.Keys.Aggregate("", (current, key) => current + key + ": " + dmDic[key] + "\n"),
             name, itemType, spriteType,
             desc, icon_state, item_state,
             clothingReference, inHandLeft, inHandRight,
@@ -225,7 +250,7 @@ public class ItemAttributes : NetworkBehaviour
     private /*static*/ DmiIcon tryGetInventoryIcon( /*DmiIconData dmi, string[] invSheetPaths, string icon = ""*/)
     {
         //determining invIcon
-        for (int i = 0; i < invSheetPaths.Length; i++)
+        for (var i = 0; i < invSheetPaths.Length; i++)
         {
             var iconPath = DmiIconData.getIconPath(invSheetPaths[i]); //add extension junk
             if (!iconPath.Equals("") && DmiIconData.Data.ContainsKey(iconPath) && icon.Equals(""))
@@ -255,7 +280,7 @@ public class ItemAttributes : NetworkBehaviour
     private /*static*/ int tryGetClothingOffset(string[] states)
     {
         var onPlayerClothSheetHier = getOnPlayerClothSheetHier(itemType);
-        for (int i = 0; i < states.Length; i++)
+        for (var i = 0; i < states.Length; i++)
         {
             if (!states[i].Equals(""))
             {
@@ -275,9 +300,11 @@ public class ItemAttributes : NetworkBehaviour
     private /*static*/ int[] tryGetInHand()
     {
         if (item_state.Equals(""))
+        {
             return new[] {-1, -1};
+        }
 
-        string searchString = getMasterTypeHandsString(masterType);
+        var searchString = getMasterTypeHandsString(masterType);
 
         var stateLH = dmi.searchStateInIconShallow(item_state, "mob/inhands/" + searchString + "_lefthand");
 
@@ -375,27 +402,6 @@ public class ItemAttributes : NetworkBehaviour
         }
     }
 
-    //on-player references
-    private static readonly string[] onPlayer =
-    {
-        "mob/uniform",
-        "mob/underwear",
-        "mob/ties",
-        "mob/back",
-        "mob/belt_mirror",
-        "mob/belt",
-        "mob/eyes",
-        "mob/ears",
-        "mob/hands",
-        "mob/feet",
-        "mob/head",
-        "mob/mask",
-        "mob/neck",
-        "mob/suit"
-    };
-
-    private const string ObjItemClothing = "/obj/item/clothing";
-
     private /*static*/ void randomizeClothHierIfEmpty()
     {
         if (hierList.Length == 0)
@@ -411,7 +417,7 @@ public class ItemAttributes : NetworkBehaviour
         }
         if (hierarchy.Length == 0 && spriteType == SpriteType.Clothing)
         {
-            hierarchy = hierList[new System.Random().Next(hierList.Length)];
+            hierarchy = hierList[new Random().Next(hierList.Length)];
         }
     }
 
@@ -484,11 +490,13 @@ public class ItemAttributes : NetworkBehaviour
     public int NetworkInHandRefLeft()
     {
         if (inHandReferenceLeft == -1)
+        {
             return -1;
+        }
 
-        string code = SpriteTypeCode();
-        string newRef = code + inHandReferenceLeft.ToString();
-        int i = -1;
+        var code = SpriteTypeCode();
+        var newRef = code + inHandReferenceLeft;
+        var i = -1;
         int.TryParse(newRef, out i);
         return i;
     }
@@ -496,18 +504,20 @@ public class ItemAttributes : NetworkBehaviour
     public int NetworkInHandRefRight()
     {
         if (inHandReferenceRight == -1)
+        {
             return -1;
+        }
 
-        string code = SpriteTypeCode();
-        string newRef = code + inHandReferenceRight.ToString();
-        int i = -1;
+        var code = SpriteTypeCode();
+        var newRef = code + inHandReferenceRight;
+        var i = -1;
         int.TryParse(newRef, out i);
         return i;
     }
 
     private string SpriteTypeCode()
     {
-        int i = -1;
+        var i = -1;
         switch (spriteType)
         {
             case SpriteType.Items:
@@ -525,12 +535,12 @@ public class ItemAttributes : NetworkBehaviour
 
     public void OnMouseEnter()
     {
-        UI.UIManager.SetToolTip = this.itemName + " (" + this.itemDescription + ")";
+        UIManager.SetToolTip = itemName + " (" + itemDescription + ")";
     }
 
     public void OnMouseExit()
     {
-        UI.UIManager.SetToolTip = "";
+        UIManager.SetToolTip = "";
     }
 
     // Sends examine event to all monobehaviors on gameobject
@@ -550,9 +560,9 @@ public class ItemAttributes : NetworkBehaviour
 
     public void OnExamine()
     {
-        if (!String.IsNullOrEmpty(itemDescription))
+        if (!string.IsNullOrEmpty(itemDescription))
         {
-            UI.UIManager.Chat.AddChatEvent(new ChatEvent(itemDescription, ChatChannel.Examine));
+            UIManager.Chat.AddChatEvent(new ChatEvent(itemDescription, ChatChannel.Examine));
         }
     }
 }

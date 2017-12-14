@@ -1,34 +1,35 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 using UnityEditor;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 
 public class SearchAndDestroy : EditorWindow
 {
+    private string componentName = "";
+    private int editorMode, editorModeOld;
+
+    private List<string> listResult;
+
+
+    private readonly string[] modes =
+        {"Search for component usage", "Search for missing components", "Remove from All prefabs"};
+
+    private Vector2 scroll;
+    private MonoScript targetComponent, lastChecked;
+
     [MenuItem("Tools/Components: Search and Destroy")]
-    static void Init()
+    private static void Init()
     {
-        SearchAndDestroy window = (SearchAndDestroy) EditorWindow.GetWindow(typeof(SearchAndDestroy));
+        var window = (SearchAndDestroy) GetWindow(typeof(SearchAndDestroy));
         window.Show();
         window.position = new Rect(50, 100, 600, 600);
     }
 
-
-    string[] modes = new string[]
-        {"Search for component usage", "Search for missing components", "Remove from All prefabs"};
-
-    List<string> listResult;
-    int editorMode, editorModeOld;
-    MonoScript targetComponent, lastChecked;
-    string componentName = "";
-    Vector2 scroll;
-
-    void OnGUI()
+    private void OnGUI()
     {
         GUILayout.Space(4);
-        int oldValue = GUI.skin.window.padding.bottom;
+        var oldValue = GUI.skin.window.padding.bottom;
         GUI.skin.window.padding.bottom = -20;
-        Rect windowRect = GUILayoutUtility.GetRect(1, 17);
+        var windowRect = GUILayoutUtility.GetRect(1, 17);
         windowRect.x += 4;
         windowRect.width -= 7;
         editorMode = GUI.SelectionGrid(windowRect, editorMode, modes, 3, "Window");
@@ -52,19 +53,19 @@ public class SearchAndDestroy : EditorWindow
                     lastChecked = targetComponent;
                     componentName = targetComponent.name;
                     AssetDatabase.SaveAssets();
-                    string targetPath = AssetDatabase.GetAssetPath(targetComponent);
-                    string[] allPrefabs = GetAllPrefabs();
+                    var targetPath = AssetDatabase.GetAssetPath(targetComponent);
+                    var allPrefabs = GetAllPrefabs();
                     listResult = new List<string>();
-                    int t = allPrefabs.Length;
-                    int counter = 0;
-                    foreach (string prefab in allPrefabs)
+                    var t = allPrefabs.Length;
+                    var counter = 0;
+                    foreach (var prefab in allPrefabs)
                     {
                         counter++;
-                        EditorUtility.DisplayProgressBar(t.ToString() + "/" + t + " Searching for Component...",
-                            "prefab: " + counter, (float) counter / (float) t);
-                        string[] single = new string[] {prefab};
-                        string[] dependencies = AssetDatabase.GetDependencies(single);
-                        foreach (string dependedAsset in dependencies)
+                        EditorUtility.DisplayProgressBar(t + "/" + t + " Searching for Component...",
+                            "prefab: " + counter, counter / (float) t);
+                        string[] single = {prefab};
+                        var dependencies = AssetDatabase.GetDependencies(single);
+                        foreach (var dependedAsset in dependencies)
                         {
                             if (dependedAsset == targetPath)
                             {
@@ -78,22 +79,22 @@ public class SearchAndDestroy : EditorWindow
             case 1:
                 if (GUILayout.Button("Search!"))
                 {
-                    string[] allPrefabs = GetAllPrefabs();
+                    var allPrefabs = GetAllPrefabs();
                     listResult = new List<string>();
-                    int t = allPrefabs.Length;
-                    int counter = 0;
-                    foreach (string prefab in allPrefabs)
+                    var t = allPrefabs.Length;
+                    var counter = 0;
+                    foreach (var prefab in allPrefabs)
                     {
                         counter++;
-                        EditorUtility.DisplayProgressBar(t.ToString() + "/" + t + " Searching for... nothing... ",
-                            "prefab: " + counter, (float) counter / (float) t);
-                        UnityEngine.Object o = AssetDatabase.LoadMainAssetAtPath(prefab);
+                        EditorUtility.DisplayProgressBar(t + "/" + t + " Searching for... nothing... ",
+                            "prefab: " + counter, counter / (float) t);
+                        var o = AssetDatabase.LoadMainAssetAtPath(prefab);
                         GameObject go;
                         try
                         {
                             go = (GameObject) o;
-                            Component[] components = go.GetComponentsInChildren<Component>(true);
-                            foreach (Component c in components)
+                            var components = go.GetComponentsInChildren<Component>(true);
+                            foreach (var c in components)
                             {
                                 if (c == null)
                                 {
@@ -117,20 +118,20 @@ public class SearchAndDestroy : EditorWindow
                     lastChecked = targetComponent;
                     componentName = targetComponent.name;
                     AssetDatabase.SaveAssets();
-                    string targetPath = AssetDatabase.GetAssetPath(targetComponent);
-                    string[] allPrefabs = GetAllPrefabs();
+                    var targetPath = AssetDatabase.GetAssetPath(targetComponent);
+                    var allPrefabs = GetAllPrefabs();
                     listResult = new List<string>();
-                    int t = allPrefabs.Length;
-                    int i = 0;
-                    int counter = 0;
-                    foreach (string prefab in allPrefabs)
+                    var t = allPrefabs.Length;
+                    var i = 0;
+                    var counter = 0;
+                    foreach (var prefab in allPrefabs)
                     {
                         counter++;
-                        EditorUtility.DisplayProgressBar(counter.ToString() + "/" + t + " Removing Component...",
-                            "prefab: " + counter, (float) counter / (float) t);
-                        string[] single = new string[] {prefab};
-                        string[] dependencies = AssetDatabase.GetDependencies(single);
-                        foreach (string dependedAsset in dependencies)
+                        EditorUtility.DisplayProgressBar(counter + "/" + t + " Removing Component...",
+                            "prefab: " + counter, counter / (float) t);
+                        string[] single = {prefab};
+                        var dependencies = AssetDatabase.GetDependencies(single);
+                        foreach (var dependedAsset in dependencies)
                         {
                             if (dependedAsset == targetPath)
                             {
@@ -144,13 +145,13 @@ public class SearchAndDestroy : EditorWindow
                                     AssetDatabase.LoadAssetAtPath(prefab, typeof(GameObject))) as GameObject;
 
                                 //			EditorUtility.SetDirty (castGO);
-                                var component = cast.GetComponent(componentName) as Component;
+                                var component = cast.GetComponent(componentName);
                                 DestroyImmediate(component, true);
                                 //Debug.Log
                                 //			PrefabUtility.ReplacePrefab(castGO, castPrefab, ReplacePrefabOptions.Default);
                                 PrefabUtility.ReplacePrefab(cast, PrefabUtility.GetPrefabParent(cast),
                                     ReplacePrefabOptions.ConnectToPrefab);
-                                GameObject.DestroyImmediate(cast, true);
+                                DestroyImmediate(cast, true);
                                 Debug.Log("Removed " + componentName + " From " + prefab);
                                 i++;
                             }
@@ -168,15 +169,15 @@ public class SearchAndDestroy : EditorWindow
             {
                 GUILayout.Label(editorMode == 0
                     ? (componentName == "" ? "Choose a component" : "No prefabs use component " + componentName)
-                    : ("No prefabs have missing components!\nClick Search to check again"));
+                    : "No prefabs have missing components!\nClick Search to check again");
             }
             else
             {
                 GUILayout.Label(editorMode == 0
-                    ? ("The following prefabs use component " + componentName + ":")
-                    : ("The following prefabs have missing components:"));
+                    ? "The following prefabs use component " + componentName + ":"
+                    : "The following prefabs have missing components:");
                 scroll = GUILayout.BeginScrollView(scroll);
-                foreach (string s in listResult)
+                foreach (var s in listResult)
                 {
                     GUILayout.BeginHorizontal();
                     GUILayout.Label(s, GUILayout.Width(position.width / 2));
@@ -193,11 +194,14 @@ public class SearchAndDestroy : EditorWindow
 
     public static string[] GetAllPrefabs()
     {
-        string[] temp = AssetDatabase.GetAllAssetPaths();
-        List<string> result = new List<string>();
-        foreach (string s in temp)
+        var temp = AssetDatabase.GetAllAssetPaths();
+        var result = new List<string>();
+        foreach (var s in temp)
         {
-            if (s.Contains(".prefab")) result.Add(s);
+            if (s.Contains(".prefab"))
+            {
+                result.Add(s);
+            }
         }
         return result.ToArray();
     }

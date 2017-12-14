@@ -1,11 +1,10 @@
 ﻿using System.Collections;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using System;
-using UI;
 
 /// <summary>
-/// Removes Encryptionkey from a headset
+///     Removes Encryptionkey from a headset
 /// </summary>
 public class RemoveEncryptionKeyMessage : ClientMessage<RemoveEncryptionKeyMessage>
 {
@@ -15,17 +14,17 @@ public class RemoveEncryptionKeyMessage : ClientMessage<RemoveEncryptionKeyMessa
     {
         yield return WaitFor(SentBy);
 
-        GameObject player = NetworkObject;
+        var player = NetworkObject;
 
         if (ValidRequest(HeadsetItem))
         {
-            Headset headset = HeadsetItem.GetComponent<Headset>();
-            GameObject encryptionKey = GameObject.Instantiate(Resources.Load("Encryptionkey", typeof(GameObject)),
+            var headset = HeadsetItem.GetComponent<Headset>();
+            var encryptionKey = Object.Instantiate(Resources.Load("Encryptionkey", typeof(GameObject)),
                 HeadsetItem.transform.parent) as GameObject;
             encryptionKey.GetComponent<EncryptionKey>().Type = headset.EncryptionKey;
 
-            PlayerNetworkActions pna = player.GetComponent<PlayerNetworkActions>();
-            string slot = UIManager.FindEmptySlotForItem(encryptionKey);
+            var pna = player.GetComponent<PlayerNetworkActions>();
+            var slot = UIManager.FindEmptySlotForItem(encryptionKey);
             if (pna.AddItem(encryptionKey, slot))
             {
                 NetworkServer.Spawn(encryptionKey);
@@ -34,7 +33,7 @@ public class RemoveEncryptionKeyMessage : ClientMessage<RemoveEncryptionKeyMessa
             }
             else
             {
-                GameObject.Destroy(encryptionKey);
+                Object.Destroy(encryptionKey);
                 Debug.LogError("Could not add Encryptionkey item to player.");
             }
         }
@@ -53,7 +52,7 @@ public class RemoveEncryptionKeyMessage : ClientMessage<RemoveEncryptionKeyMessa
 
     public bool ValidRequest(GameObject headset)
     {
-        EncryptionKeyType encryptionKeyType = headset.GetComponent<Headset>().EncryptionKey;
+        var encryptionKeyType = headset.GetComponent<Headset>().EncryptionKey;
         if (encryptionKeyType == EncryptionKeyType.None)
         {
             //TODO add error message for the player

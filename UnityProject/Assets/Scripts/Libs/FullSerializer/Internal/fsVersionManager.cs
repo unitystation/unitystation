@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace FullSerializer.Internal
 {
@@ -27,9 +26,9 @@ namespace FullSerializer.Internal
         private static bool GetVersionImportPathRecursive(List<fsVersionedType> path, string currentVersion,
             fsVersionedType current)
         {
-            for (int i = 0; i < current.Ancestors.Length; ++i)
+            for (var i = 0; i < current.Ancestors.Length; ++i)
             {
-                fsVersionedType ancestor = current.Ancestors[i];
+                var ancestor = current.Ancestors[i];
 
                 if (ancestor.VersionString == currentVersion ||
                     GetVersionImportPathRecursive(path, currentVersion, ancestor))
@@ -62,11 +61,11 @@ namespace FullSerializer.Internal
                         }
 
                         // Map the ancestor types into versioned types
-                        fsVersionedType[] ancestors =
+                        var ancestors =
                             new fsVersionedType[attr.PreviousModels != null ? attr.PreviousModels.Length : 0];
-                        for (int i = 0; i < ancestors.Length; ++i)
+                        for (var i = 0; i < ancestors.Length; ++i)
                         {
-                            fsOption<fsVersionedType> ancestorType = GetVersionedType(attr.PreviousModels[i]);
+                            var ancestorType = GetVersionedType(attr.PreviousModels[i]);
                             if (ancestorType.IsEmpty)
                             {
                                 throw new Exception("Unable to create versioned type for ancestor " + ancestorType +
@@ -76,7 +75,7 @@ namespace FullSerializer.Internal
                         }
 
                         // construct the actual versioned type instance
-                        fsVersionedType versionedType = new fsVersionedType
+                        var versionedType = new fsVersionedType
                         {
                             Ancestors = ancestors,
                             VersionString = attr.VersionString,
@@ -98,18 +97,18 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Verifies that the given type has constructors to migrate from all ancestor types.
+        ///     Verifies that the given type has constructors to migrate from all ancestor types.
         /// </summary>
         private static void VerifyConstructors(fsVersionedType type)
         {
-            ConstructorInfo[] publicConstructors = type.ModelType.GetDeclaredConstructors();
+            var publicConstructors = type.ModelType.GetDeclaredConstructors();
 
-            for (int i = 0; i < type.Ancestors.Length; ++i)
+            for (var i = 0; i < type.Ancestors.Length; ++i)
             {
-                Type requiredConstructorType = type.Ancestors[i].ModelType;
+                var requiredConstructorType = type.Ancestors[i].ModelType;
 
-                bool found = false;
-                for (int j = 0; j < publicConstructors.Length; ++j)
+                var found = false;
+                for (var j = 0; j < publicConstructors.Length; ++j)
                 {
                     var parameters = publicConstructors[j].GetParameters();
                     if (parameters.Length == 1 && parameters[0].ParameterType == requiredConstructorType)
@@ -127,7 +126,7 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Verifies that the given version graph contains only unique versions.
+        ///     Verifies that the given version graph contains only unique versions.
         /// </summary>
         private static void VerifyUniqueVersionStrings(fsVersionedType type)
         {
@@ -140,7 +139,7 @@ namespace FullSerializer.Internal
 
             while (remaining.Count > 0)
             {
-                fsVersionedType item = remaining.Dequeue();
+                var item = remaining.Dequeue();
 
                 // Verify we do not already have the version string. Take into account that we're not just
                 // comparing the same model twice, since we can have a valid import graph that has the same

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Light2D.Examples
@@ -12,23 +10,10 @@ namespace Light2D.Examples
         {
             Empty,
             BackgroundWall,
-            CollidingWall,
+            CollidingWall
         }
 
-        [Serializable]
-        public class BlockInfo
-        {
-            public string Name;
-            public float MinNoise;
-            public float MaxNoise;
-            public BlockType BlockType;
-            public int Weight = 1;
-            public Color LightEmission = new Color(0, 0, 0, 0);
-            public Color LightAbsorption = new Color(0, 0, 0, 0);
-            public float AditionalObjectProbability;
-            public GameObject AditionalObjectPrefab;
-            public Sprite[] SpriteInfo = new Sprite[0];
-        }
+        public List<BlockInfo> BlockInfos = new List<BlockInfo>();
 
         //[Serializable]
         //public class BlockTilingInfo
@@ -43,9 +28,23 @@ namespace Light2D.Examples
         //}
 
         public float FirstNoiseScale = 0.02f;
-        public float SecondNoiseScale = 0.2f;
         public float SecondNoiseMul = 0.075f;
-        public List<BlockInfo> BlockInfos = new List<BlockInfo>();
+        public float SecondNoiseScale = 0.2f;
+
+        [Serializable]
+        public class BlockInfo
+        {
+            public GameObject AditionalObjectPrefab;
+            public float AditionalObjectProbability;
+            public BlockType BlockType;
+            public Color LightAbsorption = new Color(0, 0, 0, 0);
+            public Color LightEmission = new Color(0, 0, 0, 0);
+            public float MaxNoise;
+            public float MinNoise;
+            public string Name;
+            public Sprite[] SpriteInfo = new Sprite[0];
+            public int Weight = 1;
+        }
 
         //[ContextMenu("Fix sprite infos")]
         //private void FixSpriteInfos()

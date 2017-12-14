@@ -1,12 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Sprites;
 using UnityEngine;
 using UnityEngine.Networking;
-using Sprites;
 
 public class EffectsFactory : NetworkBehaviour
 {
     public static EffectsFactory Instance;
+
+    //Parents to make tidy
+    private GameObject shroudParent;
 
     private GameObject fireTile { get; set; }
     private GameObject scorchMarksTile { get; set; }
@@ -14,10 +15,7 @@ public class EffectsFactory : NetworkBehaviour
 
     private GameObject bloodTile { get; set; }
 
-    //Parents to make tidy
-    private GameObject shroudParent;
-
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -29,7 +27,7 @@ public class EffectsFactory : NetworkBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         //Do init stuff
         fireTile = Resources.Load("FireTile") as GameObject;
@@ -46,15 +44,15 @@ public class EffectsFactory : NetworkBehaviour
     public void SpawnFileTile(float fuelAmt, Vector3 position)
     {
         //ClientSide pool spawn
-        GameObject fireObj = PoolManager.Instance.PoolClientInstantiate(fireTile, position, Quaternion.identity);
-        FireTile fT = fireObj.GetComponent<FireTile>();
+        var fireObj = PoolManager.Instance.PoolClientInstantiate(fireTile, position, Quaternion.identity);
+        var fT = fireObj.GetComponent<FireTile>();
         fT.StartFire(fuelAmt);
     }
 
     public GameObject SpawnScorchMarks(Transform parent)
     {
         //ClientSide spawn
-        GameObject sM =
+        var sM =
             PoolManager.Instance.PoolClientInstantiate(scorchMarksTile, parent.position, Quaternion.identity);
         sM.transform.parent = parent;
         return sM;
@@ -62,7 +60,7 @@ public class EffectsFactory : NetworkBehaviour
 
     public GameObject SpawnShroudTile(Vector3 pos)
     {
-        GameObject sT = PoolManager.Instance.PoolClientInstantiate(shroudTile, pos, Quaternion.identity);
+        var sT = PoolManager.Instance.PoolClientInstantiate(shroudTile, pos, Quaternion.identity);
         sT.transform.parent = shroudParent.transform;
         return sT;
     }
@@ -70,10 +68,10 @@ public class EffectsFactory : NetworkBehaviour
     [Server]
     public void BloodSplat(Vector3 pos, BloodSplatSize splatSize)
     {
-        GameObject b = PoolManager.Instance.PoolNetworkInstantiate(bloodTile, pos, Quaternion.identity);
-        BloodSplat bSplat = b.GetComponent<BloodSplat>();
+        var b = PoolManager.Instance.PoolNetworkInstantiate(bloodTile, pos, Quaternion.identity);
+        var bSplat = b.GetComponent<BloodSplat>();
         //choose a random blood sprite
-        int spriteNum = 0;
+        var spriteNum = 0;
         switch (splatSize)
         {
             case BloodSplatSize.small:

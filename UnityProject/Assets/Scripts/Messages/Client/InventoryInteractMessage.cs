@@ -1,16 +1,15 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-/// Informs server of inventory mangling
+///     Informs server of inventory mangling
 /// </summary>
 public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 {
+    public bool ForceSlotUpdate;
     public byte Slot;
     public NetworkInstanceId Subject;
-    public bool ForceSlotUpdate;
 
     //Serverside
     public override IEnumerator Process()

@@ -1,14 +1,14 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Crafting
 {
-    [System.Serializable]
+    [Serializable]
     public class Recipe
     {
-        public string name;
         public Ingredient[] ingredients;
+        public string name;
         public GameObject output;
 
         public bool Check(List<Ingredient> other)

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using NUnit.Framework;
-using UnityEngine.Networking;
+﻿using UnityEngine.Networking;
 
 public class SpawnPoint : NetworkStartPosition
 {

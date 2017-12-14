@@ -1,30 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 namespace Light2D.Examples
 {
     public class ColorTweener : MonoBehaviour
     {
-        public float TweenInterval = 2.5f;
-        public float ColorMul = 2;
         private SpriteRenderer _spriteRenderer;
-        private float _timer;
-        private Color _targetColor;
         private Color _startColor;
+        private Color _targetColor;
+        private float _timer;
+        public float ColorMul = 2;
+        public float TweenInterval = 2.5f;
 
-        void OnEnable()
+        private void OnEnable()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        void Update()
+        private void Update()
         {
             if (_spriteRenderer == null)
+            {
                 return;
+            }
 
             _timer -= Time.deltaTime;
 

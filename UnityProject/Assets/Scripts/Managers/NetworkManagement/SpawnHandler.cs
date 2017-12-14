@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using PlayGroup;
 using Tilemaps.Scripts.Behaviours.Layers;
 using UnityEngine;
@@ -7,30 +6,30 @@ using UnityEngine.Networking;
 
 public static class SpawnHandler
 {
-    private static CustomNetworkManager networkManager = CustomNetworkManager.Instance;
+    private static readonly CustomNetworkManager networkManager = CustomNetworkManager.Instance;
 
     public static void SpawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType = JobType.NULL)
     {
-        GameObject player = CreatePlayer(jobType);
+        var player = CreatePlayer(jobType);
         NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
 
-        Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
+        var connectedPlayers = PlayerList.Instance.connectedPlayers;
 
         //Notify all clients that connected players list should be updated
-        GameObject[] players = new GameObject[connectedPlayers.Count];
+        var players = new GameObject[connectedPlayers.Count];
         connectedPlayers.Values.CopyTo(players, 0);
         UpdateConnectedPlayersMessage.Send(players);
     }
 
     public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
     {
-        GameObject player = CreatePlayer(jobType);
+        var player = CreatePlayer(jobType);
         NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
 
-        Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
+        var connectedPlayers = PlayerList.Instance.connectedPlayers;
 
         //Notify all clients that connected players list should be updated
-        GameObject[] players = new GameObject[connectedPlayers.Count];
+        var players = new GameObject[connectedPlayers.Count];
         connectedPlayers.Values.CopyTo(players, 0);
         UpdateConnectedPlayersMessage.Send(players);
     }

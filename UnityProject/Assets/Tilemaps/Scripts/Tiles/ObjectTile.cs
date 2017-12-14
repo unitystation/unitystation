@@ -1,24 +1,23 @@
 ﻿using System;
 using Tilemaps.Scripts.Behaviours.Objects;
 using Tilemaps.Scripts.Utils;
+using UnityEngine;
+using UnityEngine.Tilemaps;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace Tilemaps.Scripts.Tiles
 {
     [Serializable]
     public class ObjectTile : LayerTile
     {
-        public GameObject Object;
-        public bool Rotatable;
-        public bool KeepOrientation;
-        public bool Offset;
-        public bool IsItem;
-
         private GameObject _objectCurrent;
+        public bool IsItem;
+        public bool KeepOrientation;
+        public GameObject Object;
+        public bool Offset;
+        public bool Rotatable;
 
 #if UNITY_EDITOR
         private void OnValidate()
@@ -59,7 +58,9 @@ namespace Tilemaps.Scripts.Tiles
         public void SpawnObject(Vector3Int position, Tilemap tilemap, Matrix4x4 transformMatrix)
         {
             if (!Object)
+            {
                 return;
+            }
 
 #if UNITY_EDITOR
             var go = (GameObject) PrefabUtility.InstantiatePrefab(Object);
@@ -82,7 +83,7 @@ namespace Tilemaps.Scripts.Tiles
 
             go.name = Object.name;
 
-            if (IsItem == true)
+            if (IsItem)
             {
             }
             else
@@ -99,7 +100,7 @@ namespace Tilemaps.Scripts.Tiles
         {
             if (Rotatable)
             {
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     transformMatrix = RotateOnce(transformMatrix, anticlockwise);
                 }

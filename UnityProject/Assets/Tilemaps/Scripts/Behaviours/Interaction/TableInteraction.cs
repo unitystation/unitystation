@@ -1,8 +1,6 @@
-﻿using System;
-using PlayGroup;
+﻿using PlayGroup;
 using UI;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace Tilemaps.Scripts.Behaviours.Interaction
 {

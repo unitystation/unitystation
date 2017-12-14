@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -12,7 +11,7 @@ public abstract class GameMessageBase : MessageBase
 
     protected IEnumerator WaitFor(NetworkInstanceId id)
     {
-        int tries = 0;
+        var tries = 0;
         while ((NetworkObject = ClientScene.FindLocalObject(id)) == null)
         {
             if (tries++ > 10)
@@ -35,13 +34,15 @@ public abstract class GameMessageBase : MessageBase
         }
     }
 
-    bool AllLoaded(NetworkInstanceId[] ids)
+    private bool AllLoaded(NetworkInstanceId[] ids)
     {
-        for (int i = 0; i < ids.Length; i++)
+        for (var i = 0; i < ids.Length; i++)
         {
             var obj = ClientScene.FindLocalObject(ids[i]);
             if (obj == null)
+            {
                 return false;
+            }
 
             NetworkObjects[i] = obj;
         }

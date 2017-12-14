@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -26,31 +26,10 @@ public enum EncryptionKeyType
 }
 
 /// <summary>
-/// Encryption Key properties
+///     Encryption Key properties
 /// </summary>
 public class EncryptionKey : NetworkBehaviour
 {
-    //So that we don't have to create a different item for each type
-    public SpriteRenderer spriteRenderer;
-
-    public Sprite commonSprite;
-    public Sprite medicalSprite;
-    public Sprite scienceSprite;
-    public Sprite serviceSprite;
-    public Sprite securitySprite;
-    public Sprite supplySprite;
-    public Sprite quarterMasterSprite;
-    public Sprite engineeringSprite;
-    public Sprite headOfPersonnelSprite;
-    public Sprite captainSprite;
-    public Sprite researchDirectorSprite;
-    public Sprite headOfSecuritySprite;
-    public Sprite chiefEngineerSprite;
-    public Sprite chiefMedicalOfficerSprite;
-    public Sprite binarySprite;
-    public Sprite syndicateSprite;
-    public Sprite centCommSprite;
-
     public static readonly Dictionary<EncryptionKeyType, ChatChannel> Permissions
         = new Dictionary<EncryptionKeyType, ChatChannel>
         {
@@ -78,11 +57,8 @@ public class EncryptionKey : NetworkBehaviour
             {EncryptionKeyType.Science, ChatChannel.Common | ChatChannel.Science},
             {EncryptionKeyType.Security, ChatChannel.Common | ChatChannel.Security},
             {EncryptionKeyType.Service, ChatChannel.Common | ChatChannel.Service},
-            {EncryptionKeyType.Syndicate, ChatChannel.Common | ChatChannel.Syndicate},
+            {EncryptionKeyType.Syndicate, ChatChannel.Common | ChatChannel.Syndicate}
         };
-
-    [SerializeField] //to show in inspector
-    private EncryptionKeyType type;
 
     private static readonly Dictionary<EncryptionKeyType, string> ExamineTexts
         = new Dictionary<EncryptionKeyType, string>
@@ -154,13 +130,35 @@ public class EncryptionKey : NetworkBehaviour
             {
                 EncryptionKeyType.Syndicate,
                 "An encryption key for a radio headset.\nTo access the syndicate channel, use :t."
-            },
+            }
         };
 
-    private void Start()
-    {
-        UpdateSprite();
-    }
+    public Sprite binarySprite;
+    public Sprite captainSprite;
+    public Sprite centCommSprite;
+    public Sprite chiefEngineerSprite;
+    public Sprite chiefMedicalOfficerSprite;
+
+    public Sprite commonSprite;
+    public Sprite engineeringSprite;
+    public Sprite headOfPersonnelSprite;
+    public Sprite headOfSecuritySprite;
+    public Sprite medicalSprite;
+    public Sprite quarterMasterSprite;
+    public Sprite researchDirectorSprite;
+    public Sprite scienceSprite;
+    public Sprite securitySprite;
+
+    public Sprite serviceSprite;
+
+    //So that we don't have to create a different item for each type
+    public SpriteRenderer spriteRenderer;
+
+    public Sprite supplySprite;
+    public Sprite syndicateSprite;
+
+    [SerializeField] //to show in inspector
+    private EncryptionKeyType type;
 
     public EncryptionKeyType Type
     {
@@ -175,6 +173,11 @@ public class EncryptionKey : NetworkBehaviour
             }
             UpdateSprite();
         }
+    }
+
+    private void Start()
+    {
+        UpdateSprite();
     }
 
     #region Set the sprite based on key type
@@ -244,6 +247,6 @@ public class EncryptionKey : NetworkBehaviour
 
     public void OnExamine()
     {
-        UI.UIManager.Chat.AddChatEvent(new ChatEvent(ExamineTexts[Type], ChatChannel.Examine));
+        UIManager.Chat.AddChatEvent(new ChatEvent(ExamineTexts[Type], ChatChannel.Examine));
     }
 }

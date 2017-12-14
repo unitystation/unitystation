@@ -4,7 +4,7 @@ namespace Wiring
 {
     public static class WireDirections
     {
-        static Dictionary<string, int> LogicToIndexMap;
+        private static Dictionary<string, int> LogicToIndexMap;
 
         public static int GetSpriteIndex(string logic)
         {

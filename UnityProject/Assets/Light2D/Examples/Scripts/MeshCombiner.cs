@@ -2,20 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Light2D.Examples
 {
     /// <summary>
-    /// Combines child mesh renderers into one mesh at startup.
-    /// It gives much better performance for small meshes than StaticBatchingUtility.Combine.
+    ///     Combines child mesh renderers into one mesh at startup.
+    ///     It gives much better performance for small meshes than StaticBatchingUtility.Combine.
     /// </summary>
     public class MeshCombiner : MonoBehaviour
     {
-        private bool _isDone = false;
+        private bool _isDone;
 
-        void OnEnable()
+        private void OnEnable()
         {
             if (!_isDone)
             {
@@ -55,22 +54,31 @@ namespace Light2D.Examples
                 obj.layer = group.Key.Layer;
 
                 var meshRenderer = obj.AddComponent<MeshRenderer>();
-                meshRenderer.material = (Material) Instantiate(group.Key.Material);
+                meshRenderer.material = Instantiate(group.Key.Material);
                 meshRenderer.sortingOrder = group.Key.SortingOrder;
 
                 var firstMesh = group.First().GetComponent<MeshFilter>().mesh;
 
-                bool useUv0 = firstMesh.uv != null && firstMesh.uv.Length != 0;
-                bool useUv1 = firstMesh.uv2 != null && firstMesh.uv2.Length != 0;
-                bool useColors = firstMesh.colors != null && firstMesh.colors.Length != 0;
+                var useUv0 = firstMesh.uv != null && firstMesh.uv.Length != 0;
+                var useUv1 = firstMesh.uv2 != null && firstMesh.uv2.Length != 0;
+                var useColors = firstMesh.colors != null && firstMesh.colors.Length != 0;
 
                 vertices.Clear();
                 triangles.Clear();
                 tangents.Clear();
 
-                if (useUv0) uv0.Clear();
-                if (useUv1) uv1.Clear();
-                if (useColors) colors.Clear();
+                if (useUv0)
+                {
+                    uv0.Clear();
+                }
+                if (useUv1)
+                {
+                    uv1.Clear();
+                }
+                if (useColors)
+                {
+                    colors.Clear();
+                }
 
                 foreach (var meshPart in group)
                 {
@@ -85,15 +93,26 @@ namespace Light2D.Examples
                         : smallMesh.tangents;
                     tangents.AddRange(localTangents.Select(t => (Vector4) filter.transform.TransformVector(t)));
 
-                    if (useUv0) uv0.AddRange(smallMesh.uv);
-                    if (useUv1) uv1.AddRange(smallMesh.uv2);
-                    if (useColors) colors.AddRange(smallMesh.colors);
+                    if (useUv0)
+                    {
+                        uv0.AddRange(smallMesh.uv);
+                    }
+                    if (useUv1)
+                    {
+                        uv1.AddRange(smallMesh.uv2);
+                    }
+                    if (useColors)
+                    {
+                        colors.AddRange(smallMesh.colors);
+                    }
 
                     Destroy(meshPart);
                     Destroy(filter);
                     var customSprite = meshPart.GetComponent<CustomSprite>();
                     if (customSprite != null)
+                    {
                         Destroy(customSprite);
+                    }
                 }
 
                 var meshFilter = obj.AddComponent<MeshFilter>();
@@ -102,15 +121,24 @@ namespace Light2D.Examples
                 mesh.vertices = vertices.ToArray();
                 mesh.triangles = triangles.ToArray();
                 mesh.tangents = tangents.ToArray();
-                if (useUv0) mesh.uv = uv0.ToArray();
-                if (useUv1) mesh.uv2 = uv1.ToArray();
-                if (useColors) mesh.colors = colors.ToArray();
+                if (useUv0)
+                {
+                    mesh.uv = uv0.ToArray();
+                }
+                if (useUv1)
+                {
+                    mesh.uv2 = uv1.ToArray();
+                }
+                if (useColors)
+                {
+                    mesh.colors = colors.ToArray();
+                }
             }
 
             _isDone = true;
         }
 
-        struct GroupKey : IEquatable<GroupKey>
+        private struct GroupKey : IEquatable<GroupKey>
         {
             public Material Material;
             public int SortingOrder;
@@ -132,7 +160,7 @@ namespace Light2D.Examples
                 {
                     unchecked
                     {
-                        int hashCode = (obj.Material != null ? obj.Material.GetHashCode() : 0);
+                        var hashCode = obj.Material != null ? obj.Material.GetHashCode() : 0;
                         hashCode = (hashCode * 397) ^ obj.SortingOrder;
                         hashCode = (hashCode * 397) ^ obj.Layer;
                         return hashCode;
@@ -140,17 +168,15 @@ namespace Light2D.Examples
                 }
             }
 
-            private static readonly IEqualityComparer<GroupKey> MaterialSortingOrderLayerComparerInstance =
+            public static IEqualityComparer<GroupKey> MaterialSortingOrderLayerComparer { get; } =
                 new MaterialSortingOrderLayerEqualityComparer();
-
-            public static IEqualityComparer<GroupKey> MaterialSortingOrderLayerComparer
-            {
-                get { return MaterialSortingOrderLayerComparerInstance; }
-            }
 
             public override bool Equals(object obj)
             {
-                if (ReferenceEquals(null, obj)) return false;
+                if (ReferenceEquals(null, obj))
+                {
+                    return false;
+                }
                 return obj is GroupKey && Equals((GroupKey) obj);
             }
 
@@ -158,7 +184,7 @@ namespace Light2D.Examples
             {
                 unchecked
                 {
-                    int hashCode = (Material != null ? Material.GetHashCode() : 0);
+                    var hashCode = Material != null ? Material.GetHashCode() : 0;
                     hashCode = (hashCode * 397) ^ SortingOrder;
                     hashCode = (hashCode * 397) ^ Layer;
                     return hashCode;

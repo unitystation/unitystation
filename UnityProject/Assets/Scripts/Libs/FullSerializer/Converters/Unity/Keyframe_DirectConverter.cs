@@ -1,13 +1,14 @@
 #if !NO_UNITY
 using System;
 using System.Collections.Generic;
+using FullSerializer.Internal.DirectConverters;
 using UnityEngine;
 
 namespace FullSerializer
 {
     partial class fsConverterRegistrar
     {
-        public static Internal.DirectConverters.Keyframe_DirectConverter Register_Keyframe_DirectConverter;
+        public static Keyframe_DirectConverter Register_Keyframe_DirectConverter;
     }
 }
 

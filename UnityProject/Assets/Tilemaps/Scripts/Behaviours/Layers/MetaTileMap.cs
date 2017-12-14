@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Tilemaps.Scripts.Tiles;
 using UnityEngine;
 
@@ -26,7 +25,9 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             foreach (var layer in Layers.Values)
             {
                 if (!layer.IsPassableAt(origin, to))
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -36,7 +37,9 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             foreach (var layer in Layers.Values)
             {
                 if (!layer.IsPassableAt(position))
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -46,7 +49,9 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             foreach (var layer in Layers.Values)
             {
                 if (!layer.IsAtmosPassableAt(position))
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -56,7 +61,9 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             foreach (var layer in Layers.Values)
             {
                 if (!layer.IsSpaceAt(position))
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -74,10 +81,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             {
                 return Layers[layerType].GetTile(position);
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public bool IsEmptyAt(Vector3Int position)
@@ -85,7 +89,9 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             foreach (var layer in Layers.Keys)
             {
                 if (layer != LayerType.Objects && HasTile(position, layer))
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -104,6 +110,14 @@ namespace Tilemaps.Scripts.Behaviours.Layers
                 {
                     layer.RemoveTile(position);
                 }
+            }
+        }
+
+        public void ClearAllTiles()
+        {
+            foreach (var layer in Layers.Values)
+            {
+                layer.ClearAllTiles();
             }
         }
 
@@ -129,13 +143,5 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             }
         }
 #endif
-
-        public void ClearAllTiles()
-        {
-            foreach (var layer in Layers.Values)
-            {
-                layer.ClearAllTiles();
-            }
-        }
     }
 }

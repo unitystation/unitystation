@@ -1,19 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Sprites;
 using UnityEngine;
-using Sprites;
 
 public class FireTile : MonoBehaviour
 {
+    public GameObject ambientTile;
+    private float animSpriteTime;
+    private bool burning;
+    private readonly float changeRate = 0.1f;
+
+    private float fuel;
+
     //Not networked, this is client side effects
     public SpriteRenderer spriteRend;
 
-    public GameObject ambientTile;
     private Sprite[] sprites;
-    private bool burning = false;
-    private float fuel = 0f;
-    private float animSpriteTime = 0f;
-    private float changeRate = 0.1f;
 
 
     public void StartFire(float addFuel)
@@ -34,7 +34,7 @@ public class FireTile : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (burning)
         {

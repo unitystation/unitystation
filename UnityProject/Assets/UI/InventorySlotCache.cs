@@ -6,50 +6,68 @@ using UnityEngine;
 namespace UI
 {
     /// <summary>
-    /// A pseudo-array/dictionary for retrieving inventory slots. 
-    /// Supports multiple interactions to make it easier to access the slot you want to reference.
+    ///     A pseudo-array/dictionary for retrieving inventory slots.
+    ///     Supports multiple interactions to make it easier to access the slot you want to reference.
     /// </summary>
     /// <example>
-    /// var beltSlot = inventorySlotCache.BeltSlot;
+    ///     var beltSlot = inventorySlotCache.BeltSlot;
     /// </example>
     /// <example>
-    /// var firstSlot = inventorySlotCache[0];
+    ///     var firstSlot = inventorySlotCache[0];
     /// </example>
     /// <example>
-    /// var hatSlot = inventorySlotCache[ItemType.Hat];
+    ///     var hatSlot = inventorySlotCache[ItemType.Hat];
     /// </example>
     /// <example>
-    /// var idSlot = inventorySlotCache["id"];
+    ///     var idSlot = inventorySlotCache["id"];
     /// </example>
     /// <example>
-    /// foreach (var slot in inventorySlotCache)
+    ///     foreach (var slot in inventorySlotCache)
     /// </example>
     /// <example>
-    /// inventorySlotCache.GetSlotByItem(CurrentSlot.Item)
+    ///     inventorySlotCache.GetSlotByItem(CurrentSlot.Item)
     /// </example>
     public class InventorySlotCache : MonoBehaviour, IEnumerable<UI_ItemSlot>
     {
-        public UI_ItemSlot BeltSlot;
         public UI_ItemSlot BackSlot;
-        public UI_ItemSlot SuitStorageSlot;
-        public UI_ItemSlot IDSlot;
-        public UI_ItemSlot LeftPocketSlot;
-        public UI_ItemSlot RightPocketSlot;
-        public UI_ItemSlot RightHandSlot;
-        public UI_ItemSlot LeftHandSlot;
-        public UI_ItemSlot HeadSlot;
-        public UI_ItemSlot SuitSlot;
-        public UI_ItemSlot HandsSlot;
-        public UI_ItemSlot ShoeSlot;
-        public UI_ItemSlot UniformSlot;
+        public UI_ItemSlot BeltSlot;
         public UI_ItemSlot EarSlot;
         public UI_ItemSlot EyesSlot;
-        public UI_ItemSlot NeckSlot;
+        public UI_ItemSlot HandsSlot;
+        public UI_ItemSlot HeadSlot;
+        public UI_ItemSlot IDSlot;
+        public UI_ItemSlot LeftHandSlot;
+        public UI_ItemSlot LeftPocketSlot;
         public UI_ItemSlot MaskSlot;
+        public UI_ItemSlot NeckSlot;
+        public UI_ItemSlot RightHandSlot;
+        public UI_ItemSlot RightPocketSlot;
+        public UI_ItemSlot ShoeSlot;
 
         private UI_ItemSlot[] slots;
+        public UI_ItemSlot SuitSlot;
+        public UI_ItemSlot SuitStorageSlot;
+        public UI_ItemSlot UniformSlot;
 
-        void Start()
+        public UI_ItemSlot this[int index] => slots[index];
+
+        public UI_ItemSlot this[ItemType type] => GetSlotByItemType(type);
+
+        public UI_ItemSlot this[string eventName] => GetSlotByEvent(eventName);
+
+        public int Length => slots != null ? slots.Length : 0;
+
+        IEnumerator<UI_ItemSlot> IEnumerable<UI_ItemSlot>.GetEnumerator()
+        {
+            return (slots as IEnumerable<UI_ItemSlot>).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return slots.GetEnumerator();
+        }
+
+        private void Start()
         {
             slots = new[]
             {
@@ -69,38 +87,8 @@ namespace UI
                 SuitSlot,
                 SuitStorageSlot,
                 ShoeSlot,
-                UniformSlot,
+                UniformSlot
             };
-        }
-
-        public UI_ItemSlot this[int index]
-        {
-            get { return slots[index]; }
-        }
-
-        public UI_ItemSlot this[ItemType type]
-        {
-            get { return GetSlotByItemType(type); }
-        }
-
-        public UI_ItemSlot this[string eventName]
-        {
-            get { return GetSlotByEvent(eventName); }
-        }
-
-        IEnumerator<UI_ItemSlot> IEnumerable<UI_ItemSlot>.GetEnumerator()
-        {
-            return (slots as IEnumerable<UI_ItemSlot>).GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return slots.GetEnumerator();
-        }
-
-        public int Length
-        {
-            get { return slots != null ? slots.Length : 0; }
         }
 
         public ItemType GetItemType(GameObject obj)
@@ -116,10 +104,10 @@ namespace UI
         }
 
         /// <summary>
-        /// Returns the most fitting slot for a given item to be equipped.
+        ///     Returns the most fitting slot for a given item to be equipped.
         /// </summary>
         /// <remarks>
-        /// Returns the left pocket for non-equippable items.
+        ///     Returns the left pocket for non-equippable items.
         /// </remarks>
         public UI_ItemSlot GetSlotByItem(GameObject obj)
         {

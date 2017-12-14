@@ -5,10 +5,10 @@ namespace UI
 {
     public class ControlClothing : MonoBehaviour
     {
-        private bool isOpen;
         public Image[] equipImgs;
+        private bool isOpen;
 
-        void Start()
+        private void Start()
         {
             isOpen = false;
             ToggleEquipMenu(false);
@@ -35,9 +35,9 @@ namespace UI
             {
                 //Adjusting the alpha to hide the slots as the enabled state is handled
                 //by other components. Raycast target is also adjusted based on on or off
-                for (int i = 0; i < equipImgs.Length; i++)
+                for (var i = 0; i < equipImgs.Length; i++)
                 {
-                    Color tempCol = equipImgs[i].color;
+                    var tempCol = equipImgs[i].color;
                     tempCol.a = 1f;
                     equipImgs[i].color = tempCol;
                     equipImgs[i].raycastTarget = true;
@@ -45,9 +45,9 @@ namespace UI
             }
             else
             {
-                for (int i = 0; i < equipImgs.Length; i++)
+                for (var i = 0; i < equipImgs.Length; i++)
                 {
-                    Color tempCol = equipImgs[i].color;
+                    var tempCol = equipImgs[i].color;
                     tempCol.a = 0f;
                     equipImgs[i].color = tempCol;
                     equipImgs[i].raycastTarget = false;

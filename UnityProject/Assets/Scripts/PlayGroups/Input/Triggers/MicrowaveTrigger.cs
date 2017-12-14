@@ -1,21 +1,16 @@
-﻿using InputControl;
+﻿using System.Collections.Generic;
+using Crafting;
 using PlayGroup;
 using PlayGroups.Input;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using Crafting;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Equipment;
-
 
 public class MicrowaveTrigger : InputTrigger
 {
     private Microwave microwave;
 
-    void Start()
+    private void Start()
     {
         microwave = GetComponent<Microwave>();
     }
@@ -59,13 +54,16 @@ public class MicrowaveTrigger : InputTrigger
             return false;
         }
 
-        GameObject item = ps.playerNetworkActions.Inventory[hand];
-        if (item == null) return false;
+        var item = ps.playerNetworkActions.Inventory[hand];
+        if (item == null)
+        {
+            return false;
+        }
         var attr = item.GetComponent<ItemAttributes>();
 
         var ingredient = new Ingredient(attr.itemName);
 
-        var meal = CraftingManager.Meals.FindRecipe(new List<Ingredient>() {ingredient});
+        var meal = CraftingManager.Meals.FindRecipe(new List<Ingredient> {ingredient});
 
         if (meal)
         {

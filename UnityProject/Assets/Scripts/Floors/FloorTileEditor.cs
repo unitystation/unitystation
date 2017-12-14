@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using UnityEditor;
 
 #endif
@@ -18,18 +15,20 @@ public class FloorTileEditor : Editor
 {
     private FloorTile floorTile;
 
-    void OnSceneGUI()
+    private void OnSceneGUI()
     {
         if (floorTile == null)
         {
             floorTile = target as FloorTile;
         }
         if (floorTile == null)
+        {
             return;
+        }
         EditorChangedActions();
     }
 
-    void EditorChangedActions()
+    private void EditorChangedActions()
     {
         floorTile.CheckAmbientTile();
     }

@@ -1,12 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using PlayGroup;
-using UI;
+﻿using System;
+using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
 {
     private static ObjectManager objectManager;
+
+    [Header("How many prefabs to preload")] public int preLoadClothAmount = 15;
 
     public static ObjectManager Instance
     {
@@ -23,14 +22,14 @@ public class ObjectManager : MonoBehaviour
     //Factories will only be available serverside, referencing from client will return null exception
     public static ClothFactory clothFactory { get; private set; }
 
-    [Header("How many prefabs to preload")] public int preLoadClothAmount = 15;
-
     //Server only
     public static void StartPoolManager()
     {
-        GameObject pM = (GameObject) Instantiate(Resources.Load("PoolManager") as GameObject);
+        var pM = Instantiate(Resources.Load("PoolManager") as GameObject);
         if (clothFactory != null || !CustomNetworkManager.Instance._isServer)
+        {
             return;
+        }
 
         clothFactory = pM.GetComponent<ClothFactory>();
 
@@ -152,7 +151,7 @@ public enum SpriteType
     Guns
 }
 
-[System.Serializable]
+[Serializable]
 public enum ItemType
 {
     None,

@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-
+﻿using UnityEngine;
 
 namespace Light2D.Examples
 {
     public class CameraFollower : MonoBehaviour
     {
-        public Rigidbody2D Followed;
-        public float CameraPositionLerp = 0.02f;
-        public float VelocityMul = 1;
-        public float VelocitySmoothnessLerp = 0.9f;
-        public float MinAccountedSpeed = 10;
-        public float CamBordersMul = 0.8f;
-        public float InstantJumpDistance = 50;
+        private Camera _camera;
         private Transform _cameraTransform;
         private Vector2 _smoothVelocity;
-        private Camera _camera;
+        public float CamBordersMul = 0.8f;
+        public float CameraPositionLerp = 0.02f;
+        public Rigidbody2D Followed;
+        public float InstantJumpDistance = 50;
+        public float MinAccountedSpeed = 10;
+        public float VelocityMul = 1;
+        public float VelocitySmoothnessLerp = 0.9f;
 
         private void OnEnable()
         {
@@ -50,13 +45,21 @@ namespace Light2D.Examples
                 var followedDir = followedPos - camTargetPos;
 
                 if (followedDir.x > camHalfWidth)
+                {
                     camTargetPos.x = followedPos.x - camHalfWidth;
+                }
                 if (followedDir.x < -camHalfWidth)
+                {
                     camTargetPos.x = followedPos.x + camHalfWidth;
+                }
                 if (followedDir.y > camHalfHeight)
+                {
                     camTargetPos.y = followedPos.y - camHalfHeight;
+                }
                 if (followedDir.y < -camHalfHeight)
+                {
                     camTargetPos.y = followedPos.y + camHalfHeight;
+                }
 
                 var pos = (followedPos - (Vector2) camPos).sqrMagnitude < InstantJumpDistance * InstantJumpDistance
                     ? Vector2.Lerp(camPos, camTargetPos, CameraPositionLerp * Time.deltaTime)

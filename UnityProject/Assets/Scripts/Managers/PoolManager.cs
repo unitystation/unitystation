@@ -1,13 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
-using System.Collections;
-using System.Collections.Generic;
 
 public class PoolManager : NetworkBehaviour
 {
-    public Dictionary<GameObject, List<GameObject>> pools = new Dictionary<GameObject, List<GameObject>>();
-
     public static PoolManager Instance;
+
+    public Dictionary<GameObject, List<GameObject>> pools = new Dictionary<GameObject, List<GameObject>>();
     /*
     * Use this function for general purpose GameObject instantiation. It will instantiate the
     * a pooled instance immediately. If it doesn't find a pooled instance, it uses GetInstanceInactive()
@@ -15,7 +14,7 @@ public class PoolManager : NetworkBehaviour
     * in the pool (for example, one obtained from GetInstanceInactive), it just instantiates it.
     */
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -29,19 +28,19 @@ public class PoolManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// For items that are network synced only!
+    ///     For items that are network synced only!
     /// </summary>
     [Server]
     public GameObject PoolNetworkInstantiate(GameObject prefab, Vector2 position, Quaternion rotation)
     {
         GameObject tempObject = null;
-        bool makeNew = false;
+        var makeNew = false;
         if (pools.ContainsKey(prefab))
         {
             if (pools[prefab].Count > 0)
             {
                 //pool exists and has unused instances
-                int index = pools[prefab].Count - 1;
+                var index = pools[prefab].Count - 1;
                 tempObject = pools[prefab][index];
                 pools[prefab].RemoveAt(index);
                 tempObject.GetComponent<ObjectBehaviour>().visibleState = true;
@@ -50,11 +49,8 @@ public class PoolManager : NetworkBehaviour
                 tempObject.transform.localScale = prefab.transform.localScale;
                 return tempObject;
             }
-            else
-            {
-                //pool exists but is empty
-                makeNew = true;
-            }
+            //pool exists but is empty
+            makeNew = true;
         }
         else
         {
@@ -64,7 +60,7 @@ public class PoolManager : NetworkBehaviour
         }
         if (makeNew)
         {
-            tempObject = (GameObject) Instantiate(prefab, position, rotation);
+            tempObject = Instantiate(prefab, position, rotation);
             tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
             NetworkServer.Spawn(tempObject);
             return tempObject;
@@ -73,18 +69,18 @@ public class PoolManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// For non network stuff only! (e.g. bullets)
+    ///     For non network stuff only! (e.g. bullets)
     /// </summary>
     public GameObject PoolClientInstantiate(GameObject prefab, Vector2 position, Quaternion rotation)
     {
         GameObject tempObject = null;
-        bool makeNew = false;
+        var makeNew = false;
         if (pools.ContainsKey(prefab))
         {
             if (pools[prefab].Count > 0)
             {
                 //pool exists and has unused instances
-                int index = pools[prefab].Count - 1;
+                var index = pools[prefab].Count - 1;
                 tempObject = pools[prefab][index];
                 pools[prefab].RemoveAt(index);
                 tempObject.SetActive(true);
@@ -93,11 +89,8 @@ public class PoolManager : NetworkBehaviour
                 tempObject.transform.localScale = prefab.transform.localScale;
                 return tempObject;
             }
-            else
-            {
-                //pool exists but is empty
-                makeNew = true;
-            }
+            //pool exists but is empty
+            makeNew = true;
         }
         else
         {
@@ -107,7 +100,7 @@ public class PoolManager : NetworkBehaviour
         }
         if (makeNew)
         {
-            tempObject = (GameObject) Instantiate(prefab, position, rotation);
+            tempObject = Instantiate(prefab, position, rotation);
             tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
             return tempObject;
         }
@@ -129,17 +122,17 @@ public class PoolManager : NetworkBehaviour
         {
             pools.Add(prefab, new List<GameObject>());
         }
-        tempObject = (GameObject) Instantiate(prefab, Vector2.zero, Quaternion.identity);
+        tempObject = Instantiate(prefab, Vector2.zero, Quaternion.identity);
         tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
         NetworkServer.Spawn(tempObject);
         PoolNetworkDestroy(tempObject);
     }
 
     /// <summary>
-    /// For any objects placed in the scene prior to build
-    /// that need to be added to the serverside object pool
-    /// pass the object here and make sure object has a
-    /// ObjectBehaviour component attached
+    ///     For any objects placed in the scene prior to build
+    ///     that need to be added to the serverside object pool
+    ///     pass the object here and make sure object has a
+    ///     ObjectBehaviour component attached
     /// </summary>
     [Server]
     public void PoolCacheObject(GameObject obj)
@@ -152,23 +145,23 @@ public class PoolManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// For items that are network synced only!
+    ///     For items that are network synced only!
     /// </summary>
     [Server]
     public void PoolNetworkDestroy(GameObject target)
     {
-        GameObject prefab = target.GetComponent<PoolPrefabTracker>().myPrefab;
+        var prefab = target.GetComponent<PoolPrefabTracker>().myPrefab;
         prefab.transform.position = Vector2.zero;
         target.GetComponent<ObjectBehaviour>().visibleState = false;
         pools[prefab].Add(target);
     }
 
     /// <summary>
-    /// For non network stuff only! (e.g. bullets)
+    ///     For non network stuff only! (e.g. bullets)
     /// </summary>
     public void PoolClientDestroy(GameObject target)
     {
-        GameObject prefab = target.GetComponent<PoolPrefabTracker>().myPrefab;
+        var prefab = target.GetComponent<PoolPrefabTracker>().myPrefab;
         prefab.transform.position = Vector2.zero;
         target.SetActive(false);
         pools[prefab].Add(target);
@@ -183,19 +176,16 @@ public class PoolManager : NetworkBehaviour
     public GameObject GetInstanceInactive(GameObject prefab)
     {
         GameObject tempObject = null;
-        bool makeNew = false;
+        var makeNew = false;
         if (pools.ContainsKey(prefab))
         {
             if (pools[prefab].Count > 0)
             {
-                int index = pools[prefab].Count - 1;
+                var index = pools[prefab].Count - 1;
                 tempObject = pools[prefab][index];
                 return tempObject;
             }
-            else
-            {
-                makeNew = true;
-            }
+            makeNew = true;
         }
         else
         {
@@ -204,7 +194,7 @@ public class PoolManager : NetworkBehaviour
         }
         if (makeNew)
         {
-            tempObject = (GameObject) Instantiate(prefab);
+            tempObject = Instantiate(prefab);
             tempObject.SetActive(false);
             tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
             return tempObject;

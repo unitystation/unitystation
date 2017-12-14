@@ -1,5 +1,4 @@
-﻿using InputControl;
-using PlayGroup;
+﻿using PlayGroup;
 using PlayGroups.Input;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UI;
@@ -18,7 +17,9 @@ namespace Items
         public override void Interact(GameObject originator, Vector3 position, string hand)
         {
             if (originator.GetComponent<PlayerScript>().canNotInteract())
+            {
                 return;
+            }
 
             if (!isServer)
             {
@@ -41,11 +42,6 @@ namespace Items
                 {
                     GetComponent<RegisterItem>().Unregister();
                 }
-                else
-                {
-                    //Rollback prediction
-                    //                    originator.GetComponent<PlayerNetworkActions>().RollbackPrediction(hand);
-                }
             }
         }
 
@@ -64,13 +60,13 @@ namespace Items
         }
 
         /// <summary>
-        /// If a SpriteRenderer.sortingOrder is 0 then there will be difficulty
-        /// interacting with the object via the InputTrigger especially when placed on
-        /// tables. This method makes sure that it is never 0 on start
+        ///     If a SpriteRenderer.sortingOrder is 0 then there will be difficulty
+        ///     interacting with the object via the InputTrigger especially when placed on
+        ///     tables. This method makes sure that it is never 0 on start
         /// </summary>
         private void CheckSpriteOrder()
         {
-            SpriteRenderer sR = GetComponentInChildren<SpriteRenderer>();
+            var sR = GetComponentInChildren<SpriteRenderer>();
             if (sR != null)
             {
                 if (sR.sortingLayerName == "Items" && sR.sortingOrder == 0)

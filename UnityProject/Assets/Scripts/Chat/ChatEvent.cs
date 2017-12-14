@@ -1,6 +1,6 @@
 ﻿using System;
-using UnityEngine;
 using System.Text.RegularExpressions;
+using Random = UnityEngine.Random;
 
 [Flags]
 public enum ChatChannel
@@ -31,20 +31,20 @@ public enum ChatModifier
     Drunk = 1,
     Stutter = 2,
     Hiss = 4,
-    Clown = 8,
+    Clown = 8
 }
 
 public class ChatEvent
 {
+    public ChatChannel channels;
     public string message;
+    public ChatModifier modifiers;
     public string speaker;
     public double timestamp;
-    public ChatChannel channels;
-    public ChatModifier modifiers;
 
     public ChatEvent(string message, string speaker, ChatChannel channels, ChatModifier modifiers)
     {
-        this.timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+        timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
         this.channels = channels;
         this.modifiers = modifiers;
         this.speaker = speaker;
@@ -53,23 +53,23 @@ public class ChatEvent
 
     public ChatEvent(string message, ChatChannel channels, bool skipProcessing = false)
     {
-        this.timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+        timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
         this.channels = channels;
-        this.modifiers = ChatModifier.None;
-        this.speaker = "";
+        modifiers = ChatModifier.None;
+        speaker = "";
         if (skipProcessing)
         {
             this.message = message;
         }
         else
         {
-            this.message = ProcessMessage(message, speaker, this.channels, this.modifiers);
+            this.message = ProcessMessage(message, speaker, this.channels, modifiers);
         }
     }
 
     public static ChatChannel GetNonNetworkedChannels()
     {
-        return (ChatChannel.Examine | ChatChannel.System);
+        return ChatChannel.Examine | ChatChannel.System;
     }
 
     private string ProcessMessage(string message, string speaker, ChatChannel channels, ChatModifier modifiers)
@@ -143,8 +143,8 @@ public class ChatEvent
         //Clowns say a random number (1-3) HONK!'s after every message
         if ((modifiers & ChatModifier.Clown) == ChatModifier.Clown)
         {
-            int intensity = UnityEngine.Random.Range(1, 4);
-            for (int i = 0; i < intensity; i++)
+            var intensity = Random.Range(1, 4);
+            for (var i = 0; i < intensity; i++)
             {
                 if (i == 0)
                 {
@@ -162,7 +162,7 @@ public class ChatEvent
         {
             //Regex - find 1 or more "s"
             var rx = new Regex("s+|S+");
-            output = rx.Replace(output, new MatchEvaluator(ChatEvent.Hiss));
+            output = rx.Replace(output, Hiss);
         }
 
         //Stuttering people randomly repeat beginnings of words
@@ -170,7 +170,7 @@ public class ChatEvent
         {
             //Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
             var rx = new Regex(@"(\b)+([^\d\W])\B");
-            output = rx.Replace(output, new MatchEvaluator(ChatEvent.Stutter));
+            output = rx.Replace(output, Stutter);
         }
 
         //Drunk people slur all "s" into "sh", randomly ...hic!... between words and have high % to ...hic!... after a sentance
@@ -178,12 +178,12 @@ public class ChatEvent
         {
             //Regex - find 1 or more "s"
             var rx = new Regex("s+|S+");
-            output = rx.Replace(output, new MatchEvaluator(ChatEvent.Slur));
+            output = rx.Replace(output, Slur);
             //Regex - find 1 or more whitespace
             rx = new Regex(@"\s+");
-            output = rx.Replace(output, new MatchEvaluator(ChatEvent.Hic));
+            output = rx.Replace(output, Hic);
             //50% chance to ...hic!... at end of sentance
-            if (UnityEngine.Random.Range(1, 3) == 1)
+            if (Random.Range(1, 3) == 1)
             {
                 output = output + " ...hic!...";
             }
@@ -196,8 +196,8 @@ public class ChatEvent
 
     private static string Slur(Match m)
     {
-        string x = m.ToString();
-        if (Char.IsLower(x[0]))
+        var x = m.ToString();
+        if (char.IsLower(x[0]))
         {
             x = x + "h";
         }
@@ -211,9 +211,9 @@ public class ChatEvent
 
     private static string Hic(Match m)
     {
-        string x = m.ToString();
+        var x = m.ToString();
         //10% chance to hic at any given space
-        if (UnityEngine.Random.Range(1, 11) == 1)
+        if (Random.Range(1, 11) == 1)
         {
             x = " ...hic!... ";
         }
@@ -223,8 +223,8 @@ public class ChatEvent
 
     private static string Hiss(Match m)
     {
-        string x = m.ToString();
-        if (Char.IsLower(x[0]))
+        var x = m.ToString();
+        if (char.IsLower(x[0]))
         {
             x = x + "ss";
         }
@@ -238,14 +238,14 @@ public class ChatEvent
 
     private static string Stutter(Match m)
     {
-        string x = m.ToString();
-        string stutter = "";
+        var x = m.ToString();
+        var stutter = "";
         //20% chance to stutter at any given consonant
-        if (UnityEngine.Random.Range(1, 6) == 1)
+        if (Random.Range(1, 6) == 1)
         {
             //Randomly pick how bad is the stutter
-            int intensity = UnityEngine.Random.Range(1, 4);
-            for (int i = 0; i < intensity; i++)
+            var intensity = Random.Range(1, 4);
+            for (var i = 0; i < intensity; i++)
             {
                 stutter = stutter + x + "... "; //h... h... h...
             }

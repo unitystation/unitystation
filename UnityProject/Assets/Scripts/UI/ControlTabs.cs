@@ -1,38 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using System.Collections.Generic;
 using PlayGroup;
 using Tilemaps.Scripts.Tiles;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
     public class ControlTabs : MonoBehaviour
     {
-        public Button statsTab;
+        private static ControlTabs controlTabs;
         public Button ItemListTab;
-        public Button optionsTab;
-        public Button moreTab;
-
-        public GameObject panelStats;
-        public GameObject PanelItemList;
-        public GameObject panelOptions;
-        public GameObject panelMore;
-
-        public Color unselectColor;
-        public Color selectedColor;
 
         private bool itemListTabExists;
+        public Button moreTab;
+        public Button optionsTab;
+        public GameObject PanelItemList;
+        public GameObject panelMore;
+        public GameObject panelOptions;
 
-        private enum WindowSelect
-        {
-            stats,
-            itemList,
-            options,
-            more
-        }
+        public GameObject panelStats;
+        public Color selectedColor;
+        public Button statsTab;
 
-        private static ControlTabs controlTabs;
+        public Color unselectColor;
 
         public static ControlTabs Instance
         {
@@ -47,7 +37,7 @@ namespace UI
             }
         }
 
-        void Start()
+        private void Start()
         {
             SelectWindow(WindowSelect.stats);
             itemListTabExists = false;
@@ -115,7 +105,7 @@ namespace UI
         }
 
         /// <summary>
-        /// Check if the Item List Tab needs to be updated or closed
+        ///     Check if the Item List Tab needs to be updated or closed
         /// </summary>
         public static void CheckItemListTab()
         {
@@ -132,7 +122,7 @@ namespace UI
         }
 
         /// <summary>
-        /// Displays the Objects tab
+        ///     Displays the Objects tab
         /// </summary>
         /// <param name="objects">List of GameObjects to include in the Item List Tab</param>
         /// <param name="tile">Tile to include in the Item List Tab</param>
@@ -150,7 +140,7 @@ namespace UI
             }
 
             UITileList.AddTileToItemPanel(tile, position);
-            foreach (GameObject itemObject in objects)
+            foreach (var itemObject in objects)
             {
                 UITileList.AddObjectToItemPanel(itemObject);
             }
@@ -162,7 +152,7 @@ namespace UI
         }
 
         /// <summary>
-        /// Hides the Item List Tab
+        ///     Hides the Item List Tab
         /// </summary>
         public static void HideItemListTab()
         {
@@ -183,12 +173,20 @@ namespace UI
         //TODO: Perhaps implement a more robust solution that can arbitrarily insert tabs in any position? Would require refactor for tabs to be indexed.
         private static void SlideOptionsAndMoreTabs(Vector3 direction)
         {
-            float width = Instance.ItemListTab.GetComponent<RectTransform>().rect.width;
-            RectTransform optionsRect = Instance.optionsTab.GetComponent<RectTransform>();
-            RectTransform moreRect = Instance.moreTab.GetComponent<RectTransform>();
+            var width = Instance.ItemListTab.GetComponent<RectTransform>().rect.width;
+            var optionsRect = Instance.optionsTab.GetComponent<RectTransform>();
+            var moreRect = Instance.moreTab.GetComponent<RectTransform>();
 
             optionsRect.localPosition += direction * (width / 2f);
             moreRect.localPosition += direction * (width / 2f);
+        }
+
+        private enum WindowSelect
+        {
+            stats,
+            itemList,
+            options,
+            more
         }
     }
 }

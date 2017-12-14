@@ -26,7 +26,7 @@ namespace Tilemaps.Editor.Utils
             var i = 1;
             while (File.Exists(assetPath))
             {
-                assetPath = Path.Combine(path ?? GetPath(), tileName + "_" + (i++) + ".asset");
+                assetPath = Path.Combine(path ?? GetPath(), tileName + "_" + i++ + ".asset");
             }
 
             var folder = Path.GetDirectoryName(assetPath);
@@ -41,7 +41,7 @@ namespace Tilemaps.Editor.Utils
 
         private static string GetPath()
         {
-            string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+            var path = AssetDatabase.GetAssetPath(Selection.activeObject);
 
             if (string.IsNullOrEmpty(path))
             {

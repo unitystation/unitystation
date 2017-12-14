@@ -1,27 +1,25 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-using System;
-using UI;
 
 /// <summary>
-/// Adds Encryptionkey to a headset
+///     Adds Encryptionkey to a headset
 /// </summary>
 public class AddEncryptionkeyMessage : ClientMessage<AddEncryptionkeyMessage>
 {
-    public GameObject HeadsetItem;
     public GameObject Encryptionkey;
+    public GameObject HeadsetItem;
 
     public override IEnumerator Process()
     {
         yield return WaitFor(SentBy);
 
-        GameObject player = NetworkObject;
+        var player = NetworkObject;
 
         if (ValidRequest(HeadsetItem, Encryptionkey))
         {
-            Headset headset = HeadsetItem.GetComponent<Headset>();
-            EncryptionKey encryptionkey = Encryptionkey.GetComponent<EncryptionKey>();
+            var headset = HeadsetItem.GetComponent<Headset>();
+            var encryptionkey = Encryptionkey.GetComponent<EncryptionKey>();
 
             headset.EncryptionKey = encryptionkey.Type;
 
@@ -43,8 +41,8 @@ public class AddEncryptionkeyMessage : ClientMessage<AddEncryptionkeyMessage>
 
     public bool ValidRequest(GameObject headset, GameObject encryptionkey)
     {
-        EncryptionKeyType encryptionKeyTypeOfHeadset = headset.GetComponent<Headset>().EncryptionKey;
-        EncryptionKeyType encryptionKeyTypeOfKey = encryptionkey.GetComponent<EncryptionKey>().Type;
+        var encryptionKeyTypeOfHeadset = headset.GetComponent<Headset>().EncryptionKey;
+        var encryptionKeyTypeOfKey = encryptionkey.GetComponent<EncryptionKey>().Type;
         if (encryptionKeyTypeOfHeadset != EncryptionKeyType.None || encryptionKeyTypeOfKey == EncryptionKeyType.None)
         {
             //TODO add error message for the player

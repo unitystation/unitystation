@@ -5,9 +5,9 @@ namespace Tilemaps.Scripts.Tiles
 {
     public abstract class BasicTile : LayerTile
     {
-        public bool Passable;
         public bool AtmosPassable;
         public bool IsSealed;
+        public bool Passable;
 
         public override void RefreshTile(Vector3Int position, ITilemap tilemap)
         {

@@ -1,10 +1,11 @@
 ﻿using System.Collections;
+using PlayGroup;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using PlayGroup;
 
 /// <summary>
-/// Food behaviour. The base for every food item in the game
+///     Food behaviour. The base for every food item in the game
 /// </summary>
 public class FoodBehaviour : NetworkBehaviour
 {
@@ -17,7 +18,7 @@ public class FoodBehaviour : NetworkBehaviour
     {
         //If this wasn't spawned via ItemFactory (i.e via map editing) then add it to 
         //poolmanager so it can be safely destroyed
-        PoolPrefabTracker pT = GetComponent<PoolPrefabTracker>();
+        var pT = GetComponent<PoolPrefabTracker>();
         if (pT == null)
         {
             StartCoroutine(WaitForServerLoad());
@@ -25,10 +26,10 @@ public class FoodBehaviour : NetworkBehaviour
         base.OnStartServer();
     }
 
-    IEnumerator WaitForServerLoad()
+    private IEnumerator WaitForServerLoad()
     {
         //Checking directly in while loop crashes unity
-        PoolManager pI = PoolManager.Instance;
+        var pI = PoolManager.Instance;
         while (pI == null)
         {
             yield return new WaitForSeconds(0.1f);
@@ -43,6 +44,6 @@ public class FoodBehaviour : NetworkBehaviour
     {
         //FIXME: PNA Cmd is being used to heal the player instead of heal hunger for the TDM
         PlayerManager.LocalPlayerScript.playerNetworkActions.CmdEatFood(gameObject,
-            UI.UIManager.Hands.CurrentSlot.eventName);
+            UIManager.Hands.CurrentSlot.eventName);
     }
 }

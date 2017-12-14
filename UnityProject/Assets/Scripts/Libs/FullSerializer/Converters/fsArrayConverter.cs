@@ -26,22 +26,25 @@ namespace FullSerializer.Internal
             //       that instead.
 
             IList arr = (Array) instance;
-            Type elementType = storageType.GetElementType();
+            var elementType = storageType.GetElementType();
 
             var result = fsResult.Success;
 
             serialized = fsData.CreateList(arr.Count);
             var serializedList = serialized.AsList;
 
-            for (int i = 0; i < arr.Count; ++i)
+            for (var i = 0; i < arr.Count; ++i)
             {
-                object item = arr[i];
+                var item = arr[i];
 
                 fsData serializedItem;
 
                 var itemResult = Serializer.TrySerialize(elementType, item, out serializedItem);
                 result.AddMessages(itemResult);
-                if (itemResult.Failed) continue;
+                if (itemResult.Failed)
+                {
+                    continue;
+                }
 
                 serializedList.Add(serializedItem);
             }
@@ -59,24 +62,36 @@ namespace FullSerializer.Internal
                 return result;
             }
 
-            Type elementType = storageType.GetElementType();
+            var elementType = storageType.GetElementType();
 
             var serializedList = data.AsList;
             var list = new ArrayList(serializedList.Count);
-            int existingCount = list.Count;
+            var existingCount = list.Count;
 
-            for (int i = 0; i < serializedList.Count; ++i)
+            for (var i = 0; i < serializedList.Count; ++i)
             {
                 var serializedItem = serializedList[i];
                 object deserialized = null;
-                if (i < existingCount) deserialized = list[i];
+                if (i < existingCount)
+                {
+                    deserialized = list[i];
+                }
 
                 var itemResult = Serializer.TryDeserialize(serializedItem, elementType, ref deserialized);
                 result.AddMessages(itemResult);
-                if (itemResult.Failed) continue;
+                if (itemResult.Failed)
+                {
+                    continue;
+                }
 
-                if (i < existingCount) list[i] = deserialized;
-                else list.Add(deserialized);
+                if (i < existingCount)
+                {
+                    list[i] = deserialized;
+                }
+                else
+                {
+                    list.Add(deserialized);
+                }
             }
 
             instance = list.ToArray(elementType);

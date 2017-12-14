@@ -1,21 +1,18 @@
 ﻿using PlayGroup;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GUI_PlayerJobs : MonoBehaviour
 {
-    public Text title;
-    public GameObject screen_Jobs;
     public GameObject buttonPrefab;
+
+    private bool isInit;
     private CustomNetworkManager networkManager;
+    public GameObject screen_Jobs;
+    public Text title;
 
-    private bool isInit = false;
-
-    void Update()
+    private void Update()
     {
         //We only want the job selection screen to show up once
         //And only when we've received the connectedPlayers list from the server
@@ -37,15 +34,15 @@ public class GUI_PlayerJobs : MonoBehaviour
         screen_Jobs.SetActive(false);
         foreach (Transform child in screen_Jobs.transform)
         {
-            GameObject.Destroy(child.gameObject);
+            Destroy(child.gameObject);
         }
 
-        foreach (GameObject occupationGo in GameManager.Instance.Occupations)
+        foreach (var occupationGo in GameManager.Instance.Occupations)
         {
-            GameObject occupation = Instantiate(buttonPrefab);
-            JobType jobType = occupationGo.GetComponent<OccupationRoster>().Type;
-            int active = GameManager.Instance.GetOccupationsCount(jobType);
-            int available = GameManager.Instance.GetOccupationMaxCount(jobType);
+            var occupation = Instantiate(buttonPrefab);
+            var jobType = occupationGo.GetComponent<OccupationRoster>().Type;
+            var active = GameManager.Instance.GetOccupationsCount(jobType);
+            var available = GameManager.Instance.GetOccupationMaxCount(jobType);
 
 
             occupation.GetComponentInChildren<Text>().text = jobType + " (" + active + " of " + available + ")";
@@ -59,7 +56,7 @@ public class GUI_PlayerJobs : MonoBehaviour
             }
             else //Enabled button with listener for vacant jobs
             {
-                occupation.GetComponent<Button>().onClick.AddListener(() => { this.BtnOk(jobType); });
+                occupation.GetComponent<Button>().onClick.AddListener(() => { BtnOk(jobType); });
             }
 
             occupation.SetActive(true);

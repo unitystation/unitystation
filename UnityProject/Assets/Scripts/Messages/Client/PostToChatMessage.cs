@@ -1,12 +1,10 @@
 ﻿using System.Collections;
-using InputControl;
+using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
-using System;
-using PlayGroup;
 
 /// <summary>
-/// Attempts to send a chat message to the server
+///     Attempts to send a chat message to the server
 /// </summary>
 public class PostToChatMessage : ClientMessage<PostToChatMessage>
 {
@@ -17,11 +15,11 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
     {
         yield return WaitFor(SentBy);
 
-        GameObject player = NetworkObject;
+        var player = NetworkObject;
         if (ValidRequest(player))
         {
-            ChatModifier modifiers = player.GetComponent<PlayerScript>().GetCurrentChatModifiers();
-            ChatEvent chatEvent = new ChatEvent(ChatMessageText, player.name, Channels, modifiers);
+            var modifiers = player.GetComponent<PlayerScript>().GetCurrentChatModifiers();
+            var chatEvent = new ChatEvent(ChatMessageText, player.name, Channels, modifiers);
             ChatRelay.Instance.AddToChatLogServer(chatEvent);
         }
     }
@@ -41,9 +39,9 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
 
     public bool ValidRequest(GameObject player)
     {
-        PlayerScript playerScript = player.GetComponent<PlayerScript>();
+        var playerScript = player.GetComponent<PlayerScript>();
         //Need to add system channel here so player can transmit system level events but not select it in the UI
-        ChatChannel availableChannels = playerScript.GetAvailableChannels() | ChatChannel.System;
+        var availableChannels = playerScript.GetAvailableChannels() | ChatChannel.System;
         if ((playerScript.GetAvailableChannels() & Channels) == Channels)
         {
             return true;
@@ -67,7 +65,7 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
     public override void Serialize(NetworkWriter writer)
     {
         base.Serialize(writer);
-        writer.Write((Int32) Channels);
+        writer.Write((int) Channels);
         writer.Write(ChatMessageText);
     }
 }

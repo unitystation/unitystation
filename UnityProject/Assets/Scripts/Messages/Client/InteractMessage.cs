@@ -1,11 +1,10 @@
 ﻿using System.Collections;
-using InputControl;
 using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-/// Informs server of interaction
+///     Informs server of interaction
 /// </summary>
 public class InteractMessage : ClientMessage<InteractMessage>
 {

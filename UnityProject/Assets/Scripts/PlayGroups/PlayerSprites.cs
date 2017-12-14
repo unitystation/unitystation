@@ -1,20 +1,19 @@
-﻿using UnityEngine;
-using UnityEngine.Networking;
-using System.Collections;
-using UI;
+﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Networking;
 
 namespace PlayGroup
 {
     public class PlayerSprites : NetworkBehaviour
     {
+        private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
         [SyncVar(hook = "FaceDirection")] public Vector2 currentDirection;
 
-        private bool initSync = false;
+        private bool initSync;
         public PlayerMove playerMove;
-        private Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
-        void Awake()
+        private void Awake()
         {
             foreach (var c in GetComponentsInChildren<ClothingItem>())
             {
@@ -34,7 +33,7 @@ namespace PlayGroup
             base.OnStartClient();
         }
 
-        IEnumerator WaitForLoad()
+        private IEnumerator WaitForLoad()
         {
             yield return new WaitForSeconds(2f);
             FaceDirection(currentDirection);
@@ -42,9 +41,9 @@ namespace PlayGroup
 
         public void AdjustSpriteOrders(int offsetOrder)
         {
-            foreach (SpriteRenderer s in GetComponentsInChildren<SpriteRenderer>())
+            foreach (var s in GetComponentsInChildren<SpriteRenderer>())
             {
-                int newOrder = s.sortingOrder;
+                var newOrder = s.sortingOrder;
                 newOrder += offsetOrder;
                 s.sortingOrder = newOrder;
             }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,7 +32,9 @@ namespace Light2D
                 var obstacleObj = child == null ? new GameObject(name) : child.gameObject;
 
                 foreach (var obstacleSprite in obstacleObj.GetComponents<LightObstacleSprite>())
+                {
                     Util.Destroy(obstacleSprite);
+                }
 
                 obstacleObj.transform.parent = gameObj.transform;
                 obstacleObj.transform.localPosition = Vector3.zero;
@@ -50,7 +50,9 @@ namespace Light2D
         {
             var obj = new GameObject("Light");
             if (LightingSystem.Instance != null)
+            {
                 obj.layer = LightingSystem.Instance.LightSourcesLayer;
+            }
             var light = obj.AddComponent<LightSprite>();
             light.Material = AssetDatabase.LoadAssetAtPath<Material>("Assets/Light2D/Materials/Light60Points.mat");
             light.Sprite = Resources.Load<Sprite>("DefaultLight");
@@ -63,7 +65,9 @@ namespace Light2D
         {
             var targets = (BuildTargetGroup[]) Enum.GetValues(typeof(BuildTargetGroup));
             foreach (var target in targets)
+            {
                 DefineSymbol("LIGHT2D_2DTK", target);
+            }
         }
 
         [MenuItem("GameObject/Light2D/Disable 2DTK Support", false, 6)]
@@ -71,7 +75,9 @@ namespace Light2D
         {
             var targets = (BuildTargetGroup[]) Enum.GetValues(typeof(BuildTargetGroup));
             foreach (var target in targets)
+            {
                 UndefineSymbol("LIGHT2D_2DTK", target);
+            }
         }
 
         public static void DefineSymbol(string symbol, BuildTargetGroup target)
@@ -80,7 +86,9 @@ namespace Light2D
 
             var defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
             if (!defines.EndsWith(";"))
+            {
                 defines += ";";
+            }
             defines += symbol;
             PlayerSettings.SetScriptingDefineSymbolsForGroup(target, defines);
         }

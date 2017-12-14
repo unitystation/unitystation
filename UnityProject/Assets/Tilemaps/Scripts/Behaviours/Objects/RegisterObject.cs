@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using UI;
 using UnityEngine;
 
 namespace Tilemaps.Scripts.Behaviours.Objects
@@ -6,10 +7,10 @@ namespace Tilemaps.Scripts.Behaviours.Objects
     [ExecuteInEditMode]
     public class RegisterObject : RegisterTile
     {
+        public bool AtmosPassable = true;
         [HideInInspector] public Vector3Int Offset = Vector3Int.zero;
 
         public bool Passable = true;
-        public bool AtmosPassable = true;
 
         public override bool IsPassable()
         {
@@ -25,7 +26,7 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 
         public void OnMouseEnter()
         {
-            if (this.name.ToString().Contains("Door"))
+            if (name.Contains("Door"))
             {
                 //door names are bade, so we bail out because we do that in door controller
                 return;
@@ -36,13 +37,13 @@ namespace Tilemaps.Scripts.Behaviours.Objects
                  (?<=[^A-Z])(?=[A-Z]) |
                  (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
 
-            string tmp = r.Replace(this.name, " ");
-            UI.UIManager.SetToolTip = tmp;
+            var tmp = r.Replace(name, " ");
+            UIManager.SetToolTip = tmp;
         }
 
         public void OnMouseExit()
         {
-            UI.UIManager.SetToolTip = "";
+            UIManager.SetToolTip = "";
         }
 
         #endregion

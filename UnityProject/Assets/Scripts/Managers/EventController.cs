@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Events;
 
 namespace Events
 {
     public class EventController<K, V>
     {
-        private class Event : UnityEvent<V>
-        {
-        }
+        private readonly Dictionary<int, Event> events = new Dictionary<int, Event>();
 
-        private Dictionary<int, Event> events = new Dictionary<int, Event>();
-
-        private Func<K, int> hashFunction;
+        private readonly Func<K, int> hashFunction;
 
         public EventController(Func<K, int> hashFunction = null)
         {
@@ -68,10 +62,11 @@ namespace Events
             {
                 return eventKey.GetHashCode();
             }
-            else
-            {
-                return hashFunction(eventKey);
-            }
+            return hashFunction(eventKey);
+        }
+
+        private class Event : UnityEvent<V>
+        {
         }
     }
 }

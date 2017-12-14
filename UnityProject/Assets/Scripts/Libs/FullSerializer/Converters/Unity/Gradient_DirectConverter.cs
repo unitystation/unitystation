@@ -1,13 +1,14 @@
 #if !NO_UNITY
 using System;
 using System.Collections.Generic;
+using FullSerializer.Internal.DirectConverters;
 using UnityEngine;
 
 namespace FullSerializer
 {
     partial class fsConverterRegistrar
     {
-        public static Internal.DirectConverters.Gradient_DirectConverter Register_Gradient_DirectConverter;
+        public static Gradient_DirectConverter Register_Gradient_DirectConverter;
     }
 }
 

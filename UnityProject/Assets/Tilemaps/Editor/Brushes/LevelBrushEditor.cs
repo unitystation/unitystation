@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Tilemaps.Editor.Brushes.Utils;
 using Tilemaps.Scripts.Behaviours.Layers;
@@ -12,8 +11,8 @@ namespace Tilemaps.Editor.Brushes
     [CustomEditor(typeof(LevelBrush))]
     public class LevelBrushEditor : GridBrushEditor
     {
-        private MetaTileMap _currentPreviewTilemap;
         private TileBase _currentPreviewTile;
+        private MetaTileMap _currentPreviewTilemap;
 
         private PreviewTile previewTile; // Preview Wrapper for ObjectTiles
 
@@ -23,7 +22,7 @@ namespace Tilemaps.Editor.Brushes
         {
             get
             {
-                Grid[] grids = FindObjectsOfType<Grid>();
+                var grids = FindObjectsOfType<Grid>();
 
                 return grids?.Select(x => x.gameObject).ToArray();
             }
@@ -40,12 +39,16 @@ namespace Tilemaps.Editor.Brushes
         public override void PaintPreview(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
         {
             if (brushTarget == null)
+            {
                 return;
+            }
 
             var metaTilemap = brushTarget.GetComponent<MetaTileMap>();
 
             if (!metaTilemap)
+            {
                 return;
+            }
 
             var tile = brush.cells[0].tile;
 
@@ -59,7 +62,7 @@ namespace Tilemaps.Editor.Brushes
                         brush.cells[0].matrix = Matrix4x4.TRS(Vector3.up, Quaternion.identity, Vector3.one);
                     }
 
-                    previewTiles = new LayerTile[] {(LayerTile) tile};
+                    previewTiles = new[] {(LayerTile) tile};
                 }
                 else if (tile is MetaTile)
                 {
@@ -69,7 +72,7 @@ namespace Tilemaps.Editor.Brushes
                 _currentPreviewTile = tile;
             }
 
-            for (int i = 0; i < previewTiles.Length; i++)
+            for (var i = 0; i < previewTiles.Length; i++)
             {
                 SetPreviewTile(metaTilemap, position, previewTiles[i]);
             }
@@ -89,7 +92,7 @@ namespace Tilemaps.Editor.Brushes
         {
             if (tile is ObjectTile)
             {
-                if ((previewTile == null || previewTile.ReferenceTile != tile))
+                if (previewTile == null || previewTile.ReferenceTile != tile)
                 {
                     if (previewTile == null)
                     {

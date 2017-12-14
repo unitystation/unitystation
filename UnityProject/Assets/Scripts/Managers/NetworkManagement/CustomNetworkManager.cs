@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using UI;
 using UnityEngine.SceneManagement;
-using Tilemaps.Scripts.Behaviours.Layers;
 
 public class CustomNetworkManager : NetworkManager
 {
     public static CustomNetworkManager Instance;
-    [HideInInspector] public bool _isServer = false;
-    [HideInInspector] public bool spawnableListReady = false;
+    [HideInInspector] public bool _isServer;
+    [HideInInspector] public bool spawnableListReady;
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -21,11 +20,11 @@ public class CustomNetworkManager : NetworkManager
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
-    void Start()
+    private void Start()
     {
         customConfig = true;
 
@@ -41,7 +40,7 @@ public class CustomNetworkManager : NetworkManager
         connectionConfig.FragmentSize = 512;
     }
 
-    void SetSpawnableList()
+    private void SetSpawnableList()
     {
         spawnPrefabs.Clear();
 
@@ -57,7 +56,7 @@ public class CustomNetworkManager : NetworkManager
         var dirs = Directory.GetDirectories(Application.dataPath, "Resources", SearchOption.AllDirectories);
 
 
-        foreach (string dir in dirs)
+        foreach (var dir in dirs)
         {
             loadFolder(dir);
             foreach (var subdir in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
@@ -82,12 +81,12 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
     }
@@ -117,7 +116,7 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
-    IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId)
+    private IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId)
     {
         yield return new WaitForSeconds(1f);
         OnServerAddPlayerInternal(conn, playerControllerId);
@@ -125,29 +124,34 @@ public class CustomNetworkManager : NetworkManager
 
     private void OnServerAddPlayerInternal(NetworkConnection conn, short playerControllerId)
     {
-        if ((UnityEngine.Object) playerPrefab == (UnityEngine.Object) null)
+        if (playerPrefab == null)
         {
             if (!LogFilter.logError)
+            {
                 return;
+            }
             Debug.LogError(
-                (object) "The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.");
+                "The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.");
         }
-        else if ((UnityEngine.Object) playerPrefab.GetComponent<NetworkIdentity>() == (UnityEngine.Object) null)
+        else if (playerPrefab.GetComponent<NetworkIdentity>() == null)
         {
             if (!LogFilter.logError)
+            {
                 return;
+            }
             Debug.LogError(
-                (object)
                 "The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.");
         }
-        else if ((int) playerControllerId < conn.playerControllers.Count &&
-                 conn.playerControllers[(int) playerControllerId].IsValid &&
-                 (UnityEngine.Object) conn.playerControllers[(int) playerControllerId].gameObject !=
-                 (UnityEngine.Object) null)
+        else if (playerControllerId < conn.playerControllers.Count &&
+                 conn.playerControllers[playerControllerId].IsValid &&
+                 conn.playerControllers[playerControllerId].gameObject !=
+                 null)
         {
             if (!LogFilter.logError)
+            {
                 return;
-            Debug.LogError((object) "There is already a player at that playerControllerId for this connections.");
+            }
+            Debug.LogError("There is already a player at that playerControllerId for this connections.");
         }
         else
         {
@@ -176,7 +180,7 @@ public class CustomNetworkManager : NetworkManager
         this.RegisterClientHandlers(conn);
     }
 
-    IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)
+    private IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)
     {
         while (!spawnableListReady)
         {
@@ -190,11 +194,11 @@ public class CustomNetworkManager : NetworkManager
     {
         if (conn != null && conn.playerControllers.Count > 0)
         {
-            GameObject player = conn.playerControllers[0].gameObject;
+            var player = conn.playerControllers[0].gameObject;
             PlayerList.Instance.RemovePlayer(player.name);
 
             //Notify clients that the connected players list should be updated
-            GameObject[] players = new GameObject[PlayerList.Instance.connectedPlayers.Count];
+            var players = new GameObject[PlayerList.Instance.connectedPlayers.Count];
             PlayerList.Instance.connectedPlayers.Values.CopyTo(players, 0);
             UpdateConnectedPlayersMessage.Send(players);
 
@@ -204,7 +208,7 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
-    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
         if (GameData.IsInGame)
         {
@@ -223,13 +227,15 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
-    IEnumerator DoHeadlessCheck()
+    private IEnumerator DoHeadlessCheck()
     {
         yield return new WaitForSeconds(0.1f);
         if (!GameData.IsHeadlessServer && !GameData.Instance.testServer)
         {
             if (!IsClientConnected())
+            {
                 UIManager.Display.logInWindow.SetActive(true);
+            }
         }
         else
         {

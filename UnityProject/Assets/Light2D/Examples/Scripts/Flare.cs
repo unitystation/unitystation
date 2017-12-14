@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Light2D.Examples
 {
     public class Flare : MonoBehaviour
     {
+        private float _lifetimeElapsed;
+        private Color _startColor;
+        public float AlphaGrowTime = 0.5f;
         public float Lifetime;
         public LightSprite Light;
-        public float AlphaGrowTime = 0.5f;
-        private float _lifetimeElapsed = 0;
-        private Color _startColor;
 
-        void Start()
+        private void Start()
         {
             _startColor = Light.Color;
             Light.Color = _startColor.WithAlpha(0);
         }
 
-        void Update()
+        private void Update()
         {
             _lifetimeElapsed += Time.deltaTime;
 

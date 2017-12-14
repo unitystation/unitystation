@@ -7,9 +7,24 @@ using UnityEngine;
 public class DmiIcon
 {
     public string icon;
-    public List<DmiState> states;
 
     private Sprite[] sprites = { };
+    public List<DmiState> states;
+
+
+    public DmiIcon(string icon, List<DmiState> states)
+    {
+        this.icon = icon;
+        this.states = states;
+    }
+
+    public DmiIcon(string icon) : this(icon, new List<DmiState>())
+    {
+    }
+
+    public DmiIcon() : this("")
+    {
+    }
 
     public Sprite[] spriteSheet
     {
@@ -21,8 +36,8 @@ public class DmiIcon
     {
         if (icon != null && icon.Contains(".dmi"))
         {
-            int startIndex = icon.LastIndexOf('/') + 1;
-            int endIndex = icon.IndexOf(".dmi", StringComparison.Ordinal);
+            var startIndex = icon.LastIndexOf('/') + 1;
+            var endIndex = icon.IndexOf(".dmi", StringComparison.Ordinal);
             return icon.Substring(startIndex, endIndex - startIndex);
         }
         //        Debug.LogWarning("getName: something's wrong");
@@ -67,21 +82,6 @@ public class DmiIcon
         return offset;
     }
 
-
-    public DmiIcon(string icon, List<DmiState> states)
-    {
-        this.icon = icon;
-        this.states = states;
-    }
-
-    public DmiIcon(string icon) : this(icon, new List<DmiState>())
-    {
-    }
-
-    public DmiIcon() : this("")
-    {
-    }
-
     protected bool Equals(DmiIcon other)
     {
         return string.Equals(icon, other.icon);
@@ -89,9 +89,18 @@ public class DmiIcon
 
     public override bool Equals(object obj)
     {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (ReferenceEquals(null, obj))
+        {
+            return false;
+        }
+        if (ReferenceEquals(this, obj))
+        {
+            return true;
+        }
+        if (obj.GetType() != GetType())
+        {
+            return false;
+        }
         return Equals((DmiIcon) obj);
     }
 

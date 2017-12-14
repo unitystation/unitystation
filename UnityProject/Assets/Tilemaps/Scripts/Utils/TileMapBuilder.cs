@@ -6,8 +6,8 @@ namespace Tilemaps.Scripts.Utils
 {
     public class TileMapBuilder
     {
-        private MetaTileMap _metaTileMap;
-        private bool _importMode;
+        private readonly bool _importMode;
+        private readonly MetaTileMap _metaTileMap;
 
         public TileMapBuilder(MetaTileMap tilemap, bool importMode = false)
         {

@@ -1,13 +1,15 @@
-﻿using UnityEngine;
-using UnityEngine.TestTools;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections;
+using NUnit.Framework;
+using Sprites;
+using UnityEngine;
+using UnityEngine.TestTools;
+using Object = UnityEngine.Object;
 
 public class ExplodeWhenShotTest
 {
-    SpriteRenderer spriteRenderer;
-    MockExplodeWhenShot subject;
+    private SpriteRenderer spriteRenderer;
+    private MockExplodeWhenShot subject;
 
     [SetUp]
     public void SetUp()
@@ -16,7 +18,7 @@ public class ExplodeWhenShotTest
         obj.AddComponent<SoundManager>();
         obj.AddComponent<ItemFactory>();
         obj.AddComponent<PoolManager>();
-        obj.AddComponent<Sprites.SpriteManager>();
+        obj.AddComponent<SpriteManager>();
         spriteRenderer = obj.AddComponent<SpriteRenderer>();
         subject = obj.AddComponent<MockExplodeWhenShot>();
         subject.spriteRend = spriteRenderer;
@@ -43,7 +45,7 @@ public class ExplodeWhenShotTest
         }
         finally
         {
-            UnityEngine.Object.Destroy(bullet);
+            Object.Destroy(bullet);
         }
     }
 
@@ -77,7 +79,7 @@ public class ExplodeWhenShotTest
         }
         finally
         {
-            UnityEngine.Object.Destroy(player);
+            Object.Destroy(player);
         }
     }
 
@@ -105,10 +107,10 @@ public class ExplodeWhenShotTest
 
     // TODO: Add a unity-friendly mock library. A few blogs mention a unity flavor of NSubstitute, but development
     // doesn't appear to be ongoing, no activity in 3+ years, so let's just do a manual mock instead.
-    class MockExplodeWhenShot : ExplodeWhenShot
+    private class MockExplodeWhenShot : ExplodeWhenShot
     {
-        public bool wentBoom;
         public Action<HealthBehaviour> callback;
+        public bool wentBoom;
 
         //		internal override void HurtPeople(Living living, string damagedBy, int damage)
         //		{

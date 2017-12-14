@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UI;
 using UnityEditor;
-using UI;
 
 [CustomEditor(typeof(UI_ItemSlot))]
 public class UI_ItemSlotEditor : Editor
@@ -25,7 +22,9 @@ public class UI_ItemSlotEditor : Editor
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(tps, true);
             if (EditorGUI.EndChangeCheck())
+            {
                 serializedObject.ApplyModifiedProperties();
+            }
         }
     }
 }

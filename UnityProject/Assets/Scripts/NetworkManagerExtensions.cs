@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEngine;
 using UnityEngine.Networking;
 
 public static class NetworkManagerExtensions
 {
     /// <summary>
-    /// Finds all classes derived from ClientMessage<> and registers their server handlers.
+    ///     Finds all classes derived from ClientMessage<> and registers their server handlers.
     /// </summary>
     public static void RegisterServerHandlers(this CustomNetworkManager manager)
     {
@@ -24,7 +22,7 @@ public static class NetworkManagerExtensions
     }
 
     /// <summary>
-    /// Finds all classes derived from ServerMessage<> and registers their client handlers.
+    ///     Finds all classes derived from ServerMessage<> and registers their client handlers.
     /// </summary>
     public static void RegisterClientHandlers(this CustomNetworkManager manager, NetworkConnection conn)
     {
@@ -42,12 +40,12 @@ public static class NetworkManagerExtensions
         where T : GameMessage<T>, new()
     {
         // In normal C# this would just be `T.MessageType` but it seems unity's compiler has some stipulations about that...
-        FieldInfo field = typeof(T).GetField("MessageType",
+        var field = typeof(T).GetField("MessageType",
             BindingFlags.Static | BindingFlags.FlattenHierarchy | BindingFlags.Public);
         var msgType = (short) field.GetValue(null);
         NetworkMessageDelegate cb = delegate(NetworkMessage msg)
         {
-            manager.StartCoroutine(((GameMessage<T>) msg.ReadMessage<T>()).Process());
+            manager.StartCoroutine(msg.ReadMessage<T>().Process());
         };
 
         if (conn != null)
@@ -61,7 +59,7 @@ public static class NetworkManagerExtensions
     }
 
     /// <summary>
-    /// Gets the method info for the RegisterHandler method above.
+    ///     Gets the method info for the RegisterHandler method above.
     /// </summary>
     private static MethodInfo GetHandlerInfo()
     {
@@ -69,7 +67,7 @@ public static class NetworkManagerExtensions
     }
 
     /// <summary>
-    /// Finds all types that derive from the given type.
+    ///     Finds all types that derive from the given type.
     /// </summary>
     private static IEnumerable<Type> GetDerivedTypes(Type baseType)
     {

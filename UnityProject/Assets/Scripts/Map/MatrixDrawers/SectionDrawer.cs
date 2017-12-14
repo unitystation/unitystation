@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using UnityEngine;
 
 namespace SectionEditor
 {
@@ -12,13 +9,15 @@ namespace SectionEditor
     {
         private static SectionDrawer instance;
 
+        public static bool DrawGizmos;
+
         public static SectionDrawer Instance
         {
             get
             {
                 if (!instance)
                 {
-                    GameObject instanceTemp = GameObject.FindGameObjectWithTag("MapEditor");
+                    var instanceTemp = GameObject.FindGameObjectWithTag("MapEditor");
                     if (instanceTemp != null)
                     {
                         instance = instanceTemp.GetComponentInChildren<SectionDrawer>(true);
@@ -32,23 +31,23 @@ namespace SectionEditor
                 return instance;
             }
         }
-
-        public static bool DrawGizmos;
     }
 #if UNITY_EDITOR
     public class GizmoDrawer
     {
         [DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]
-        static void DrawGizmo(SectionDrawer scr, GizmoType gizmoType)
+        private static void DrawGizmo(SectionDrawer scr, GizmoType gizmoType)
         {
             if (!SectionDrawer.DrawGizmos)
+            {
                 return;
+            }
 
             var start = Camera.current.ScreenToWorldPoint(Vector3.zero); // bottom left
             var end = Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth,
                 Camera.current.pixelHeight));
 
-            for (int y = Mathf.RoundToInt(start.y); y < Mathf.RoundToInt(end.y + 1); y++)
+            for (var y = Mathf.RoundToInt(start.y); y < Mathf.RoundToInt(end.y + 1); y++)
             {
                 //                for(int x = Mathf.RoundToInt(start.x); x < Mathf.RoundToInt(end.x + 1); x++) {
                 //                    var node = MatrixOld.Matrix.At(x, y, false);

@@ -3,7 +3,7 @@
 namespace FullSerializer.Internal
 {
     /// <summary>
-    /// Serializes and deserializes guids.
+    ///     Serializes and deserializes guids.
     /// </summary>
     public class fsGuidConverter : fsConverter
     {

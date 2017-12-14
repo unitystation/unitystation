@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-
 
 namespace UI
 {
@@ -10,15 +7,15 @@ namespace UI
     {
         private UI_ItemSlot itemSlot;
 
-        void Start()
-        {
-            itemSlot = GetComponentInChildren<UI_ItemSlot>();
-        }
-
         public void OnPointerClick(PointerEventData eventData)
         {
             SoundManager.Play("Click01");
             UIManager.Hands.SwapItem(itemSlot);
+        }
+
+        private void Start()
+        {
+            itemSlot = GetComponentInChildren<UI_ItemSlot>();
         }
     }
 }

@@ -6,11 +6,11 @@ namespace Lighting
 {
     public class LightTile : MonoBehaviour
     {
-        public SpriteRenderer thisSprite { get; set; }
         private LightingTileManager tileManager;
-        private bool transmitting = false;
+        private bool transmitting;
+        public SpriteRenderer thisSprite { get; set; }
 
-        void Start()
+        private void Start()
         {
             thisSprite = GetComponentInChildren<SpriteRenderer>();
             tileManager = GetComponentInParent<LightingTileManager>();
@@ -33,7 +33,7 @@ namespace Lighting
             var tempColor = thisSprite.color;
             if (brightness != 0f)
             {
-                float alpha = Mathf.Clamp(tempColor.a - (brightness / 100f), 0f, 1f);
+                var alpha = Mathf.Clamp(tempColor.a - brightness / 100f, 0f, 1f);
                 tempColor.a = alpha;
                 thisSprite.color = tempColor;
             }
@@ -45,28 +45,28 @@ namespace Lighting
         }
 
         //Pass the brightness of the light to neighbor tiles
-        IEnumerator PassTheLight(float _brightness, int range)
+        private IEnumerator PassTheLight(float _brightness, int range)
         {
             //the range is key 1 = closest
-            Dictionary<int, List<Vector2>> radialDispersion = new Dictionary<int, List<Vector2>>();
+            var radialDispersion = new Dictionary<int, List<Vector2>>();
             //the different ranges for the Dictionary
-            for (int i = 1; i <= range; i++)
+            for (var i = 1; i <= range; i++)
             {
                 //row and column length for the box radial
-                int rangeFinder = i + 1 + i;
+                var rangeFinder = i + 1 + i;
                 //To store the current range box radial tile positions
-                List<Vector2> lightTiles = new List<Vector2>();
+                var lightTiles = new List<Vector2>();
 
                 //working left to right, for-loop below iterates through the rows
-                for (int k = 1; k <= rangeFinder; k++)
+                for (var k = 1; k <= rangeFinder; k++)
                 {
                     if (k == 1)
                     {
                         //toprow
                         //Starting at top left
-                        Vector2 tilePos = new Vector2(transform.position.x - (float) i,
-                            transform.position.y + (float) i);
-                        for (int tile = 1; tile <= rangeFinder; tile++)
+                        var tilePos = new Vector2(transform.position.x - i,
+                            transform.position.y + i);
+                        for (var tile = 1; tile <= rangeFinder; tile++)
                         {
                             if (tile == 1)
                             {
@@ -74,7 +74,7 @@ namespace Lighting
                             }
                             else
                             {
-                                Vector2 nextTile = new Vector2((tilePos.x + (float) tile) - 1f, tilePos.y);
+                                var nextTile = new Vector2(tilePos.x + tile - 1f, tilePos.y);
                                 lightTiles.Add(nextTile);
                             }
                         }
@@ -82,9 +82,9 @@ namespace Lighting
                     else if (k == rangeFinder)
                     {
                         //lastrow
-                        Vector2 tilePos = new Vector2(transform.position.x - (float) i,
-                            transform.position.y - (float) i);
-                        for (int tile = 1; tile <= rangeFinder; tile++)
+                        var tilePos = new Vector2(transform.position.x - i,
+                            transform.position.y - i);
+                        for (var tile = 1; tile <= rangeFinder; tile++)
                         {
                             if (tile == 1)
                             {
@@ -92,7 +92,7 @@ namespace Lighting
                             }
                             else
                             {
-                                Vector2 nextTile = new Vector2((tilePos.x + (float) tile) - 1f, tilePos.y);
+                                var nextTile = new Vector2(tilePos.x + tile - 1f, tilePos.y);
                                 lightTiles.Add(nextTile);
                             }
                         }
@@ -100,12 +100,12 @@ namespace Lighting
                     else
                     {
                         //everything else
-                        Vector2 tilePos = new Vector2(transform.position.x - (float) i,
-                            transform.position.y + (float) i);
-                        Vector2 firstTilePos = new Vector2(tilePos.x, (tilePos.y - (float) k) + 1f);
+                        var tilePos = new Vector2(transform.position.x - i,
+                            transform.position.y + i);
+                        var firstTilePos = new Vector2(tilePos.x, tilePos.y - k + 1f);
                         lightTiles.Add(firstTilePos);
-                        Vector2 lastTilePos = new Vector2((tilePos.x + (float) rangeFinder) - 1f,
-                            (tilePos.y - (float) k) + 1f);
+                        var lastTilePos = new Vector2(tilePos.x + rangeFinder - 1f,
+                            tilePos.y - k + 1f);
                         lightTiles.Add(lastTilePos);
                     }
                 }
@@ -115,14 +115,14 @@ namespace Lighting
 
             yield return new WaitForEndOfFrame();
 
-            int secondLast = range - 1;
-            foreach (KeyValuePair<int, List<Vector2>> tileRadial in radialDispersion)
+            var secondLast = range - 1;
+            foreach (var tileRadial in radialDispersion)
             {
                 //TODO improve light fade off here, at the moment I'm just changing brightness on the last two ranges to fade off
                 if (tileRadial.Key == range && _brightness > 0f)
                 {
                     //Quarter brightness on last range
-                    foreach (Vector2 tilePos in tileRadial.Value)
+                    foreach (var tilePos in tileRadial.Value)
                     {
                         CheckNeighbor(tilePos, 25f);
                     }
@@ -130,14 +130,14 @@ namespace Lighting
                 else if (tileRadial.Key == secondLast && _brightness > 0f)
                 {
                     //Half brightness on second last range
-                    foreach (Vector2 tilePos in tileRadial.Value)
+                    foreach (var tilePos in tileRadial.Value)
                     {
                         CheckNeighbor(tilePos, 50f);
                     }
                 }
                 else
                 {
-                    foreach (Vector2 tilePos in tileRadial.Value)
+                    foreach (var tilePos in tileRadial.Value)
                     {
                         CheckNeighbor(tilePos, _brightness);
                     }

@@ -5,22 +5,22 @@ using UnityEngine.UI;
 namespace UI
 {
     /// <summary>
-    /// Responds to any UI or game window size changes
-    /// and adjusts all the elements accordingly
-    /// (i.e. forcing 16:9 aspect ratio, resizing camera size etc)
+    ///     Responds to any UI or game window size changes
+    ///     and adjusts all the elements accordingly
+    ///     (i.e. forcing 16:9 aspect ratio, resizing camera size etc)
     /// </summary>
     public class ResponsiveUI : MonoBehaviour
     {
-        float targetAspect = 1.777f; // 16 : 9 aspect
         private CameraResizer camResizer;
-        private Canvas parentCanvas;
         private CanvasScaler canvasScaler;
         private GraphicRaycaster graphicRaycaster;
-        public RightPanelResize rightPanelResize;
         public RectTransform hudBottom;
+        private bool isFullScreen;
 
         private bool monitorWindow;
-        private bool isFullScreen = false;
+        private Canvas parentCanvas;
+        public RightPanelResize rightPanelResize;
+        private readonly float targetAspect = 1.777f; // 16 : 9 aspect
 
         //Caches
         public float screenWidthCache { get; set; }
@@ -28,7 +28,7 @@ namespace UI
         public float screenHeightCache { get; set; }
         public float cacheWidth { get; set; }
 
-        void Start()
+        private void Start()
         {
             cacheWidth = rightPanelResize.panelRectTransform.sizeDelta.x;
             camResizer = FindObjectOfType<CameraResizer>();
@@ -38,7 +38,7 @@ namespace UI
             StartCoroutine(WaitForDisplay());
         }
 
-        IEnumerator WaitForDisplay()
+        private IEnumerator WaitForDisplay()
         {
             yield return new WaitForSeconds(0.2f);
             screenWidthCache = Screen.width;
@@ -69,7 +69,7 @@ namespace UI
         }
 
         //It takes some time for the screen to redraw, wait for 0.1f
-        void AdjustHudBottomDelay()
+        private void AdjustHudBottomDelay()
         {
             AdjustHudBottom(rightPanelResize.panelRectTransform.sizeDelta);
             if (!Screen.fullScreen)
@@ -83,22 +83,22 @@ namespace UI
             }
         }
 
-        IEnumerator ForceGameWindowAspect()
+        private IEnumerator ForceGameWindowAspect()
         {
             yield return new WaitForSeconds(0.2f);
             if (!Screen.fullScreen)
             {
-                float screenWidth = (float) Screen.height * targetAspect;
+                var screenWidth = Screen.height * targetAspect;
 
                 //The following conditions check if the screen width or height
                 //is an odd number. If it is, then it adjusted to be an even number
                 //This fixes the sprite bleeding between tiles:
-                if (((int) screenWidth % 2) != 0)
+                if ((int) screenWidth % 2 != 0)
                 {
                     screenWidth += 1f;
                 }
-                int screenHeight = Screen.height;
-                if ((screenHeight % 2) != 0)
+                var screenHeight = Screen.height;
+                if (screenHeight % 2 != 0)
                 {
                     screenHeight++;
                 }
@@ -122,30 +122,30 @@ namespace UI
 
         public void AdjustHudBottom(Vector2 panelRightSizeDelta)
         {
-            Vector2 hudBottomSizeDelta = hudBottom.sizeDelta;
+            var hudBottomSizeDelta = hudBottom.sizeDelta;
             //This is when pulling the rightpanel to the right of the screen from default position
             if (rightPanelResize.panelRectTransform.sizeDelta.x < cacheWidth)
             {
                 //Calculate the new anchor point for hudBottom in the right direction of scale
-                float panelRightProgress = (cacheWidth - rightPanelResize.panelRight.rect.width) / cacheWidth;
-                float newAnchorPos = Mathf.Lerp(rightPanelResize.cacheHudAnchor, 0f, panelRightProgress);
-                Vector2 anchoredPos = hudBottom.anchoredPosition;
+                var panelRightProgress = (cacheWidth - rightPanelResize.panelRight.rect.width) / cacheWidth;
+                var newAnchorPos = Mathf.Lerp(rightPanelResize.cacheHudAnchor, 0f, panelRightProgress);
+                var anchoredPos = hudBottom.anchoredPosition;
                 anchoredPos.x = -newAnchorPos;
                 hudBottom.anchoredPosition = anchoredPos;
             }
             else
             {
                 // this is for the left direction from the default position
-                float panelRightProgress = (cacheWidth - rightPanelResize.panelRight.rect.width) / cacheWidth;
-                float newAnchorPos = Mathf.Lerp(rightPanelResize.cacheHudAnchor, 562f, Mathf.Abs(panelRightProgress));
-                Vector2 anchoredPos = hudBottom.anchoredPosition;
+                var panelRightProgress = (cacheWidth - rightPanelResize.panelRight.rect.width) / cacheWidth;
+                var newAnchorPos = Mathf.Lerp(rightPanelResize.cacheHudAnchor, 562f, Mathf.Abs(panelRightProgress));
+                var anchoredPos = hudBottom.anchoredPosition;
                 anchoredPos.x = -newAnchorPos;
                 hudBottom.anchoredPosition = anchoredPos;
                 hudBottomSizeDelta.x = -panelRightSizeDelta.x;
                 hudBottom.sizeDelta = hudBottomSizeDelta;
             }
             //KEEP ASPECT RATIO:
-            hudBottomSizeDelta.y = (hudBottom.rect.width) * rightPanelResize.originalHudSize.y /
+            hudBottomSizeDelta.y = hudBottom.rect.width * rightPanelResize.originalHudSize.y /
                                    rightPanelResize.originalHudSize.x;
             hudBottom.sizeDelta = hudBottomSizeDelta;
             UIManager.DisplayManager.SetCameraFollowPos(rightPanelResize.returnPanelButton.activeSelf);

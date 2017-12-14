@@ -1,27 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Events;
 using UnityEngine;
-using UnityEngine.Networking;
-using Events;
-using UnityEngine.Events;
 
 namespace PlayGroup
 {
     public class ItemChanged : MonoBehaviour
     {
-        public string eventName;
-
         private ClothingItem clothingItem;
+        public string eventName;
         private PlayerScript playerScript;
 
-        void Start()
+        private void Start()
         {
             clothingItem = GetComponent<ClothingItem>();
             playerScript = GetComponentInParent<PlayerScript>();
-            EventManager.UI.AddListener(eventName, new UnityAction<GameObject>(OnChanged));
+            EventManager.UI.AddListener(eventName, OnChanged);
         }
 
-        void OnChanged(GameObject item)
+        private void OnChanged(GameObject item)
         {
             if (playerScript.isLocalPlayer)
             {
@@ -35,7 +30,7 @@ namespace PlayGroup
             }
         }
 
-        void ChangeItem(GameObject item)
+        private void ChangeItem(GameObject item)
         {
             if (item)
             {

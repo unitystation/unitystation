@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using PlayGroup;
 using Sprites;
 using UnityEngine;
 using UnityEngine.Networking;
-using Random = UnityEngine.Random;
 
 namespace PlayGroup
 {
     public class PlayerHealth : HealthBehaviour
     {
+        private readonly float bleedRate = 2f;
+
+        private int bleedVolume;
+
+        //For now a simplified blood system will be here. To be refactored into a separate thing in the future.
+        public int BloodLevel = (int) BloodVolume.NORMAL;
         //Health reporting is being performed on PlayerHealthReporting component. You should use the reporting component
         //to request health data of a particular player from the server. The reporting component also performs UI updates
         //for local players
@@ -20,17 +23,11 @@ namespace PlayGroup
         //public Dictionary<BodyPartType, BodyPartBehaviour> BodyParts = new Dictionary<BodyPartType, BodyPartBehaviour>();
         public List<BodyPartBehaviour> BodyParts = new List<BodyPartBehaviour>();
 
-        //For now a simplified blood system will be here. To be refactored into a separate thing in the future.
-        public int BloodLevel = (int) BloodVolume.NORMAL;
-
-        private int bleedVolume;
-
-        public bool IsBleeding { get; private set; }
-
-        private float bleedRate = 2f;
+        private PlayerMove playerMove;
 
         private PlayerNetworkActions playerNetworkActions;
-        private PlayerMove playerMove;
+
+        public bool IsBleeding { get; private set; }
 
         public override void OnStartClient()
         {
@@ -91,10 +88,12 @@ namespace PlayGroup
         private BodyPartBehaviour findBodyPart(BodyPartType bodyPartAim)
         {
             //Don't like how you should iterate through bodyparts each time, but inspector doesn't seem to like dicts
-            for (int i = 0; i < BodyParts.Count; i++)
+            for (var i = 0; i < BodyParts.Count; i++)
             {
                 if (BodyParts[i].Type == bodyPartAim)
+                {
                     return BodyParts[i];
+                }
             }
             //dm code quotes:
             //"no bodypart, we deal damage with a more general method."
@@ -105,7 +104,9 @@ namespace PlayGroup
         private void AddBloodLoss(int amount)
         {
             if (amount <= 0)
+            {
                 return;
+            }
             bleedVolume += amount;
             TryBleed();
         }
@@ -141,7 +142,9 @@ namespace PlayGroup
         private void LoseBlood(int amount)
         {
             if (amount <= 0)
+            {
                 return;
+            }
             //            Debug.LogFormat("Lost blood: {0}->{1}", BloodLevel, BloodLevel - amount);
             BloodLevel -= amount;
             BloodSplatSize scaleOfTragedy;
@@ -158,14 +161,20 @@ namespace PlayGroup
                 scaleOfTragedy = BloodSplatSize.large;
             }
             if (isServer)
+            {
                 EffectsFactory.Instance.BloodSplat(transform.position, scaleOfTragedy);
+            }
 
 
             if (BloodLevel <= (int) BloodVolume.SURVIVE)
+            {
                 Crit();
+            }
 
             if (BloodLevel <= 0)
+            {
                 Death();
+            }
         }
 
         public override void Death()
@@ -189,7 +198,7 @@ namespace PlayGroup
 
         public static float BleedFactor(DamageType damageType)
         {
-            float random = Random.Range(-0.2f, 0.2f);
+            var random = Random.Range(-0.2f, 0.2f);
             switch (damageType)
             {
                 case DamageType.BRUTE:
@@ -227,7 +236,9 @@ namespace PlayGroup
                 playerNetworkActions.ValidateDropItem("leftHand", true);
 
                 if (isServer)
+                {
                     EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.large);
+                }
 
                 playerNetworkActions.RpcSpawnGhost();
                 playerMove.isGhost = true;

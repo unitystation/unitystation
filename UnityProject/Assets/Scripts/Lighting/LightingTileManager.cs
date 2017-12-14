@@ -1,25 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Lighting
 {
     public class LightingTileManager : MonoBehaviour
     {
+        public Vector4 bounds;
         public Dictionary<Vector2, LightTile> lightTiles = new Dictionary<Vector2, LightTile>();
 
-        public Vector4 bounds;
-
-        void Start()
+        private void Start()
         {
             LoadLightTiles();
         }
 
-        void LoadLightTiles()
+        private void LoadLightTiles()
         {
             foreach (Transform child in transform)
             {
-                LightTile lightTile = child.gameObject.GetComponent<LightTile>();
+                var lightTile = child.gameObject.GetComponent<LightTile>();
                 if (lightTile != null)
                 {
                     if (!lightTiles.ContainsKey(child.transform.position))
@@ -41,12 +39,12 @@ namespace Lighting
         }
 
         //Calculate the bounds of the lightTiles in the room
-        void CalculateBounds()
+        private void CalculateBounds()
         {
             bounds = Vector4.zero;
-            Vector2 topLeft = Vector2.zero;
-            Vector2 bottomRight = Vector2.zero;
-            foreach (KeyValuePair<Vector2, LightTile> key in lightTiles)
+            var topLeft = Vector2.zero;
+            var bottomRight = Vector2.zero;
+            foreach (var key in lightTiles)
             {
                 //starting point
                 if (topLeft == Vector2.zero)
@@ -62,7 +60,7 @@ namespace Lighting
             bounds = new Vector4(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
         }
 
-        Vector2 CompareTopLeft(Vector2 curValue, Vector2 newValue)
+        private Vector2 CompareTopLeft(Vector2 curValue, Vector2 newValue)
         {
             if (newValue.x < curValue.x)
             {
@@ -75,7 +73,7 @@ namespace Lighting
             return curValue;
         }
 
-        Vector2 CompareBottomRight(Vector2 curValue, Vector2 newValue)
+        private Vector2 CompareBottomRight(Vector2 curValue, Vector2 newValue)
         {
             if (newValue.x > curValue.x)
             {

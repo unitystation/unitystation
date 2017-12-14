@@ -1,35 +1,34 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
+using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
-using PlayGroup;
-using System.Linq;
 
 /// <summary>
-/// Message that tells clients what their ConnectedPlayers list should contain
+///     Message that tells clients what their ConnectedPlayers list should contain
 /// </summary>
 public class UpdateConnectedPlayersMessage : ServerMessage<UpdateConnectedPlayersMessage>
 {
-    public NetworkInstanceId Subject;
     public GameObject[] Players;
+    public NetworkInstanceId Subject;
 
     public override IEnumerator Process()
     {
         yield return WaitFor(Subject);
 
-        Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
+        var connectedPlayers = PlayerList.Instance.connectedPlayers;
         //Add missing players
-        foreach (GameObject player in Players)
+        foreach (var player in Players)
         {
             if (!connectedPlayers.ContainsKey(player.name))
             {
-                string name = player.GetComponent<PlayerScript>().playerName;
+                var name = player.GetComponent<PlayerScript>().playerName;
                 connectedPlayers.Add(name, player);
             }
         }
 
         //Remove players that are stored locally, but not on server. Unless its us.
-        foreach (KeyValuePair<string, GameObject> entry in connectedPlayers)
+        foreach (var entry in connectedPlayers)
         {
             if (!Players.Contains(entry.Value) && entry.Key != PlayerManager.LocalPlayerScript.playerName)
             {

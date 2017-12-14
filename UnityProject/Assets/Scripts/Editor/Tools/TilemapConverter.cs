@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using NUnit.Framework.Constraints;
-using Sprites;
 using Tilemaps.Scripts.Tiles;
 using UnityEditor;
 using UnityEngine;
@@ -12,9 +9,8 @@ namespace UnityStation.Tools
 {
     public class TilemapConverter
     {
-        private Dictionary<string, string> mapping = null;
-
         private const string tilePath = "Assets/Tilemaps/Tiles/";
+        private Dictionary<string, string> mapping;
 
         public TilemapConverter()
         {

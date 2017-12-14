@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public static class EnumerableExt
 {
@@ -24,6 +22,6 @@ public static class EnumerableExt
 
     public static bool AreEquivalent<T>(this IEnumerable<T> list1, IEnumerable<T> list2)
     {
-        return (list1.Count<T>() == list2.Count<T>()) && !list1.Except(list2).Any();
+        return list1.Count() == list2.Count() && !list1.Except(list2).Any();
     }
 }
