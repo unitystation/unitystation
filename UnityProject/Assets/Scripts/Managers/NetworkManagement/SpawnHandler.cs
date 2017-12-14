@@ -11,29 +11,29 @@ public static class SpawnHandler
 
     public static void SpawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType = JobType.NULL)
     {
-		GameObject player = CreatePlayer(jobType);
-		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+        GameObject player = CreatePlayer(jobType);
+        NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
 
-		Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
+        Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
 
-		//Notify all clients that connected players list should be updated
-		GameObject[] players = new GameObject[connectedPlayers.Count];
-		connectedPlayers.Values.CopyTo(players, 0);
-		UpdateConnectedPlayersMessage.Send(players);
-	}
+        //Notify all clients that connected players list should be updated
+        GameObject[] players = new GameObject[connectedPlayers.Count];
+        connectedPlayers.Values.CopyTo(players, 0);
+        UpdateConnectedPlayersMessage.Send(players);
+    }
 
     public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
     {
-		GameObject player = CreatePlayer(jobType);
-		NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
+        GameObject player = CreatePlayer(jobType);
+        NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
 
-		Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
+        Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
 
-		//Notify all clients that connected players list should be updated
-		GameObject[] players = new GameObject[connectedPlayers.Count];
-		connectedPlayers.Values.CopyTo(players, 0);
-		UpdateConnectedPlayersMessage.Send(players);
-	}
+        //Notify all clients that connected players list should be updated
+        GameObject[] players = new GameObject[connectedPlayers.Count];
+        connectedPlayers.Values.CopyTo(players, 0);
+        UpdateConnectedPlayersMessage.Send(players);
+    }
 
     private static GameObject CreatePlayer(JobType jobType)
     {
@@ -57,7 +57,7 @@ public static class SpawnHandler
 
         player.GetComponent<PlayerScript>().JobType = jobType;
 
-		return player;
+        return player;
     }
 
     private static Transform GetSpawnForJob(JobType jobType)

@@ -11,37 +11,37 @@ using System.Linq;
 public class UpdateConnectedPlayersMessage : ServerMessage<UpdateConnectedPlayersMessage>
 {
     public NetworkInstanceId Subject;
-	public GameObject[] Players;
+    public GameObject[] Players;
 
     public override IEnumerator Process()
     {
         yield return WaitFor(Subject);
 
-		Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
-		//Add missing players
-		foreach (GameObject player in Players)
-		{
-			if(!connectedPlayers.ContainsKey(player.name))
-			{
-				string name = player.GetComponent<PlayerScript>().playerName;
-				connectedPlayers.Add(name, player);
-			}
-		}
+        Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
+        //Add missing players
+        foreach (GameObject player in Players)
+        {
+            if (!connectedPlayers.ContainsKey(player.name))
+            {
+                string name = player.GetComponent<PlayerScript>().playerName;
+                connectedPlayers.Add(name, player);
+            }
+        }
 
-		//Remove players that are stored locally, but not on server. Unless its us.
-		foreach(KeyValuePair<string, GameObject> entry in connectedPlayers)
-		{
-			if(!Players.Contains(entry.Value) && entry.Key != PlayerManager.LocalPlayerScript.playerName)
-			{
-				connectedPlayers.Remove(entry.Key);
-			}
-		}
-	}
+        //Remove players that are stored locally, but not on server. Unless its us.
+        foreach (KeyValuePair<string, GameObject> entry in connectedPlayers)
+        {
+            if (!Players.Contains(entry.Value) && entry.Key != PlayerManager.LocalPlayerScript.playerName)
+            {
+                connectedPlayers.Remove(entry.Key);
+            }
+        }
+    }
 
     public static UpdateConnectedPlayersMessage Send(GameObject[] players)
     {
         var msg = new UpdateConnectedPlayersMessage();
-		msg.Players = players;
+        msg.Players = players;
 
         msg.SendToAll();
         return msg;

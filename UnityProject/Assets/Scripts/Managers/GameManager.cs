@@ -113,9 +113,9 @@ public class GameManager : MonoBehaviour
         int count = 0;
 
         if (PlayerList.Instance == null || PlayerList.Instance.connectedPlayers.Count == 0)
-		{
-			return 0;
-		}
+        {
+            return 0;
+        }
 
         foreach (var player in PlayerList.Instance.connectedPlayers)
         {
@@ -135,14 +135,14 @@ public class GameManager : MonoBehaviour
         return count;
     }
 
-	public int GetOccupationMaxCount(JobType jobType)
-	{
-		GameObject jobObject = Occupations.Find(o => o.GetComponent<OccupationRoster>().Type == jobType);
-		OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
-		return job.limit;
-	}
+    public int GetOccupationMaxCount(JobType jobType)
+    {
+        GameObject jobObject = Occupations.Find(o => o.GetComponent<OccupationRoster>().Type == jobType);
+        OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
+        return job.limit;
+    }
 
-	public JobOutfit GetOccupationOutfit(JobType jobType)
+    public JobOutfit GetOccupationOutfit(JobType jobType)
     {
         return Occupations.First(o => o.GetComponent<OccupationRoster>().Type == jobType)
             .GetComponent<OccupationRoster>().outfit.GetComponent<JobOutfit>();
