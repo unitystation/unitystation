@@ -1671,5 +1671,5 @@ public enum ClothEnum
 
     [Description("/obj/item/clothing/under/villain")] villain_suit__clothing_under_villain,
 
-    [Description("/obj/item/clothing/under/waiter")] waiters_outfit__clothing_under_waiter,
+    [Description("/obj/item/clothing/under/waiter")] waiters_outfit__clothing_under_waiter
 }

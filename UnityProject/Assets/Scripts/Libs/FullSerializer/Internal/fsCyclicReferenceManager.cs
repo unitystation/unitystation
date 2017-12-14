@@ -6,32 +6,14 @@ namespace FullSerializer.Internal
 {
     public class fsCyclicReferenceManager
     {
-        // We use the default ReferenceEquals when comparing two objects because
-        // custom objects may override equals methods. These overriden equals may
-        // treat equals differently; we want to serialize/deserialize the object
-        // graph *identically* to how it currently exists.
-        class ObjectReferenceEqualityComparator : IEqualityComparer<object>
-        {
-            bool IEqualityComparer<object>.Equals(object x, object y)
-            {
-                return ReferenceEquals(x, y);
-            }
+        private int _depth;
 
-            int IEqualityComparer<object>.GetHashCode(object obj)
-            {
-                return RuntimeHelpers.GetHashCode(obj);
-            }
-
-            public static readonly IEqualityComparer<object> Instance = new ObjectReferenceEqualityComparator();
-        }
-
-        private Dictionary<object, int> _objectIds =
-            new Dictionary<object, int>(ObjectReferenceEqualityComparator.Instance);
+        private Dictionary<int, object> _marked = new Dictionary<int, object>();
 
         private int _nextId;
 
-        private Dictionary<int, object> _marked = new Dictionary<int, object>();
-        private int _depth;
+        private Dictionary<object, int> _objectIds =
+            new Dictionary<object, int>(ObjectReferenceEqualityComparator.Instance);
 
         public void Enter()
         {
@@ -95,7 +77,7 @@ namespace FullSerializer.Internal
 
         public void MarkSerialized(object item)
         {
-            int referenceId = GetReferenceId(item);
+            var referenceId = GetReferenceId(item);
 
             if (_marked.ContainsKey(referenceId))
             {
@@ -104,6 +86,25 @@ namespace FullSerializer.Internal
             }
 
             _marked[referenceId] = item;
+        }
+
+        // We use the default ReferenceEquals when comparing two objects because
+        // custom objects may override equals methods. These overriden equals may
+        // treat equals differently; we want to serialize/deserialize the object
+        // graph *identically* to how it currently exists.
+        private class ObjectReferenceEqualityComparator : IEqualityComparer<object>
+        {
+            public static readonly IEqualityComparer<object> Instance = new ObjectReferenceEqualityComparator();
+
+            bool IEqualityComparer<object>.Equals(object x, object y)
+            {
+                return ReferenceEquals(x, y);
+            }
+
+            int IEqualityComparer<object>.GetHashCode(object obj)
+            {
+                return RuntimeHelpers.GetHashCode(obj);
+            }
         }
     }
 }

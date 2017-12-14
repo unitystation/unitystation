@@ -1,24 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using PlayGroup;
+﻿using Light2D;
 using UI;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class DisplayManager : MonoBehaviour
 {
     public static DisplayManager Instance;
 
-    public Dropdown resoDropDown;
-    public Light2D.LightingSystem lightingSystem;
-    public Camera mainCamera;
+    private CanvasScaler canvasScaler;
     public FieldOfViewTiled fieldOfView;
+    private int height;
+    public LightingSystem lightingSystem;
+    public Camera mainCamera;
+
+    public Dropdown resoDropDown;
     [Header("All canvas elements need to be added here")] public Canvas[] uiCanvases;
     private int width;
-    private int height;
-
-    private CanvasScaler canvasScaler;
 
     public Vector2 ScreenScale
     {
@@ -34,14 +32,11 @@ public class DisplayManager : MonoBehaviour
                 return new Vector2(canvasScaler.referenceResolution.x / Screen.width,
                     canvasScaler.referenceResolution.y / Screen.height);
             }
-            else
-            {
-                return Vector2.one;
-            }
+            return Vector2.one;
         }
     }
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -54,17 +49,17 @@ public class DisplayManager : MonoBehaviour
         SetCameraFollowPos();
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         SceneManager.sceneLoaded += SetUpScene;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         SceneManager.sceneLoaded -= SetUpScene;
     }
 
-    void SetUpScene(Scene scene, LoadSceneMode mode)
+    private void SetUpScene(Scene scene, LoadSceneMode mode)
     {
         if (GameData.IsInGame)
         {
@@ -74,9 +69,9 @@ public class DisplayManager : MonoBehaviour
 
     public void SetCameraFollowPos(bool isPanelHidden = false)
     {
-        float xOffSet = Mathf.Abs(Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x -
-                                  Camera2DFollow.followControl.transform.position.x)
-                        + -0.06f;
+        var xOffSet = Mathf.Abs(Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x -
+                                Camera2DFollow.followControl.transform.position.x)
+                      + -0.06f;
 
         if (isPanelHidden)
         {

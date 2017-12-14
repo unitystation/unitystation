@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 #if USE_TYPEINFO
@@ -42,7 +41,7 @@ namespace System {
 namespace FullSerializer.Internal
 {
     /// <summary>
-    /// This wraps reflection types so that it is portable across different Unity runtimes.
+    ///     This wraps reflection types so that it is portable across different Unity runtimes.
     /// </summary>
     public static class fsPortableReflection
     {
@@ -67,7 +66,7 @@ namespace FullSerializer.Internal
 #endif
 
         /// <summary>
-        /// Returns true if the given attribute is defined on the given element.
+        ///     Returns true if the given attribute is defined on the given element.
         /// </summary>
         public static bool HasAttribute<TAttribute>(MemberInfo element)
         {
@@ -75,7 +74,7 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Returns true if the given attribute is defined on the given element.
+        ///     Returns true if the given attribute is defined on the given element.
         /// </summary>
         public static bool HasAttribute<TAttribute>(MemberInfo element, bool shouldCache)
         {
@@ -83,7 +82,7 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Returns true if the given attribute is defined on the given element.
+        ///     Returns true if the given attribute is defined on the given element.
         /// </summary>
         public static bool HasAttribute(MemberInfo element, Type attributeType)
         {
@@ -91,7 +90,7 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Returns true if the given attribute is defined on the given element.
+        ///     Returns true if the given attribute is defined on the given element.
         /// </summary>
         public static bool HasAttribute(MemberInfo element, Type attributeType, bool shouldCache)
         {
@@ -99,8 +98,8 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Fetches the given attribute from the given MemberInfo. This method applies caching
-        /// and is allocation free (after caching has been performed).
+        ///     Fetches the given attribute from the given MemberInfo. This method applies caching
+        ///     and is allocation free (after caching has been performed).
         /// </summary>
         /// <param name="element">The MemberInfo the get the attribute from.</param>
         /// <param name="attributeType">The type of attribute to fetch.</param>
@@ -118,20 +117,27 @@ namespace FullSerializer.Internal
             {
                 var attributes = element.GetCustomAttributes(attributeType, /*inherit:*/ true);
                 if (attributes.Length > 0)
+                {
                     attribute = (Attribute) attributes[0];
+                }
                 if (shouldCache)
+                {
                     _cachedAttributeQueries[query] = attribute;
+                }
             }
 
             return attribute;
         }
 
         /// <summary>
-        /// Fetches the given attribute from the given MemberInfo.
+        ///     Fetches the given attribute from the given MemberInfo.
         /// </summary>
         /// <typeparam name="TAttribute">The type of attribute to fetch.</typeparam>
         /// <param name="element">The MemberInfo to get the attribute from.</param>
-        /// <param name="shouldCache">Should this computation be cached? If this is the only time it will ever be done, don't bother caching.</param>
+        /// <param name="shouldCache">
+        ///     Should this computation be cached? If this is the only time it will ever be done, don't
+        ///     bother caching.
+        /// </param>
         /// <returns>The attribute or null.</returns>
         public static TAttribute GetAttribute<TAttribute>(MemberInfo element, bool shouldCache)
             where TAttribute : Attribute
@@ -151,7 +157,7 @@ namespace FullSerializer.Internal
             public Type AttributeType;
         }
 
-        private static IDictionary<AttributeQuery, Attribute> _cachedAttributeQueries =
+        private static readonly IDictionary<AttributeQuery, Attribute> _cachedAttributeQueries =
             new Dictionary<AttributeQuery, Attribute>(new AttributeQueryComparator());
 
         private class AttributeQueryComparator : IEqualityComparer<AttributeQuery>
@@ -167,14 +173,14 @@ namespace FullSerializer.Internal
             {
                 return
                     obj.MemberInfo.GetHashCode() +
-                    (17 * obj.AttributeType.GetHashCode());
+                    17 * obj.AttributeType.GetHashCode();
             }
         }
 
         #endregion
 
 #if !USE_TYPEINFO
-        private static BindingFlags DeclaredFlags =
+        private static readonly BindingFlags DeclaredFlags =
             BindingFlags.NonPublic |
             BindingFlags.Public |
             BindingFlags.Instance |
@@ -186,7 +192,7 @@ namespace FullSerializer.Internal
         {
             var props = GetDeclaredProperties(type);
 
-            for (int i = 0; i < props.Length; ++i)
+            for (var i = 0; i < props.Length; ++i)
             {
                 if (props[i].Name == propertyName)
                 {
@@ -201,7 +207,7 @@ namespace FullSerializer.Internal
         {
             var methods = GetDeclaredMethods(type);
 
-            for (int i = 0; i < methods.Length; ++i)
+            for (var i = 0; i < methods.Length; ++i)
             {
                 if (methods[i].Name == methodName)
                 {
@@ -217,17 +223,22 @@ namespace FullSerializer.Internal
         {
             var ctors = GetDeclaredConstructors(type);
 
-            for (int i = 0; i < ctors.Length; ++i)
+            for (var i = 0; i < ctors.Length; ++i)
             {
                 var ctor = ctors[i];
                 var ctorParams = ctor.GetParameters();
 
-                if (parameters.Length != ctorParams.Length) continue;
+                if (parameters.Length != ctorParams.Length)
+                {
+                    continue;
+                }
 
-                for (int j = 0; j < ctorParams.Length; ++j)
+                for (var j = 0; j < ctorParams.Length; ++j)
                 {
                     // require an exact match
-                    if (ctorParams[j].ParameterType != parameters[j]) continue;
+                    if (ctorParams[j].ParameterType != parameters[j])
+                    {
+                    }
                 }
 
                 return ctor;
@@ -253,7 +264,7 @@ namespace FullSerializer.Internal
             {
                 var members = GetDeclaredMembers(type);
 
-                for (int i = 0; i < members.Length; ++i)
+                for (var i = 0; i < members.Length; ++i)
                 {
                     if (members[i].Name == memberName)
                     {
@@ -273,7 +284,7 @@ namespace FullSerializer.Internal
             {
                 var methods = GetDeclaredMethods(type);
 
-                for (int i = 0; i < methods.Length; ++i)
+                for (var i = 0; i < methods.Length; ++i)
                 {
                     if (methods[i].Name == methodName)
                     {
@@ -293,7 +304,7 @@ namespace FullSerializer.Internal
             {
                 var methods = GetDeclaredMethods(type);
 
-                for (int i = 0; i < methods.Length; ++i)
+                for (var i = 0; i < methods.Length; ++i)
                 {
                     if (methods[i].Name == methodName)
                     {
@@ -311,7 +322,7 @@ namespace FullSerializer.Internal
             {
                 var properties = GetDeclaredProperties(type);
 
-                for (int i = 0; i < properties.Length; ++i)
+                for (var i = 0; i < properties.Length; ++i)
                 {
                     if (properties[i].Name == propertyName)
                     {
@@ -329,7 +340,7 @@ namespace FullSerializer.Internal
         {
             var members = GetDeclaredMembers(type);
 
-            for (int i = 0; i < members.Length; ++i)
+            for (var i = 0; i < members.Length; ++i)
             {
                 if (members[i].Name == memberName)
                 {

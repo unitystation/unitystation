@@ -26,7 +26,9 @@ namespace Tilemaps.Scripts.Utils
         public static Sprite Create(GameObject gameObject)
         {
             if (gameObject == null)
+            {
                 return null;
+            }
 
             var sprites = GetObjectSprites(gameObject);
 
@@ -38,9 +40,11 @@ namespace Tilemaps.Scripts.Utils
         public static Sprite Create(MetaTile metaTile)
         {
             if (metaTile == null)
+            {
                 return null;
+            }
 
-            List<Sprite> sprites = new List<Sprite>();
+            var sprites = new List<Sprite>();
 
             foreach (var tile in metaTile.GetTiles())
             {
@@ -54,7 +58,7 @@ namespace Tilemaps.Scripts.Utils
 
         private static IReadOnlyList<Sprite> GetObjectSprites(GameObject gameObject)
         {
-            List<Sprite> sprites = new List<Sprite>();
+            var sprites = new List<Sprite>();
 
             if (gameObject != null)
             {
@@ -82,7 +86,7 @@ namespace Tilemaps.Scripts.Utils
                 var rect = s.rect;
                 var pixels = s.texture.GetPixels((int) rect.x, (int) rect.y, (int) rect.width, (int) rect.height);
 
-                for (int i = 0; i < pixels.Length; i++)
+                for (var i = 0; i < pixels.Length; i++)
                 {
                     var px = pixels[i];
 

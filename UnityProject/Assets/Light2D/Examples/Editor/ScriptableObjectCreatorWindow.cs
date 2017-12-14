@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using UnityEditor;
 using UnityEngine;
-
 
 internal class ScriptableObjectCreatorWindow : EditorWindow
 {
@@ -34,9 +29,9 @@ internal class ScriptableObjectCreatorWindow : EditorWindow
     /// </summary>
     public static void CreateAsset(string type)
     {
-        var asset = ScriptableObject.CreateInstance(type);
+        var asset = CreateInstance(type);
 
-        string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+        var path = AssetDatabase.GetAssetPath(Selection.activeObject);
         if (path == "")
         {
             path = "Assets";
@@ -48,7 +43,7 @@ internal class ScriptableObjectCreatorWindow : EditorWindow
 
         Debug.Log(path + "/" + type + ".asset");
 
-        string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/" + type + ".asset");
+        var assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/" + type + ".asset");
 
         AssetDatabase.CreateAsset(asset, assetPathAndName);
 

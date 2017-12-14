@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using NUnit.Framework.Constraints;
 using Tilemaps.Scripts.Behaviours.Layers;
 using Tilemaps.Scripts.Behaviours.Objects;
 using Tilemaps.Scripts.Tiles;
@@ -12,6 +10,9 @@ namespace Tilemaps.Scripts
 {
     public class Matrix : MonoBehaviour
     {
+        private MetaTileMap metaTileMap;
+        private TileList objects;
+
         public static Matrix GetMatrix(MonoBehaviour behaviour)
         {
             var matrix = behaviour.GetComponentInParent<Matrix>();
@@ -29,24 +30,36 @@ namespace Tilemaps.Scripts
             return matrix;
         }
 
-        private MetaTileMap metaTileMap;
-        private TileList objects;
-
         private void Start()
         {
             metaTileMap = GetComponent<MetaTileMap>();
             objects = ((ObjectLayer) metaTileMap.Layers[LayerType.Objects]).Objects;
         }
 
-        public bool IsPassableAt(Vector3Int origin, Vector3Int position) => metaTileMap.IsPassableAt(origin, position);
+        public bool IsPassableAt(Vector3Int origin, Vector3Int position)
+        {
+            return metaTileMap.IsPassableAt(origin, position);
+        }
 
-        public bool IsPassableAt(Vector3Int position) => metaTileMap.IsPassableAt(position);
+        public bool IsPassableAt(Vector3Int position)
+        {
+            return metaTileMap.IsPassableAt(position);
+        }
 
-        public bool IsAtmosPassableAt(Vector3Int position) => metaTileMap.IsAtmosPassableAt(position);
+        public bool IsAtmosPassableAt(Vector3Int position)
+        {
+            return metaTileMap.IsAtmosPassableAt(position);
+        }
 
-        public bool IsSpaceAt(Vector3Int position) => metaTileMap.IsSpaceAt(position);
+        public bool IsSpaceAt(Vector3Int position)
+        {
+            return metaTileMap.IsSpaceAt(position);
+        }
 
-        public bool IsEmptyAt(Vector3Int position) => metaTileMap.IsEmptyAt(position);
+        public bool IsEmptyAt(Vector3Int position)
+        {
+            return metaTileMap.IsEmptyAt(position);
+        }
 
         public bool IsFloatingAt(Vector3Int position)
         {

@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-
 namespace UI
 {
     public class OxygenButton : MonoBehaviour
     {
+        private Image image;
         public Sprite[] stateSprites;
 
-        private Image image;
-
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             image = GetComponent<Image>();
             UIManager.IsOxygen = false;

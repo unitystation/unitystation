@@ -1,8 +1,9 @@
-﻿using AccessType;
+﻿using System.Collections;
+using AccessType;
 using Sprites;
-using System.Collections;
 using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,46 +11,45 @@ namespace Doors
 {
     public class DoorController : ManagedNetworkBehaviour
     {
-        public DoorType doorType;
-        private RegisterDoor registerTile;
-        private Matrix matrix;
-
-        public Access restriction;
-        [Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor = false;
-        [Tooltip("how many sprites in the main door animation")] public int doorAnimationSize;
-        [Tooltip("first frame of the door animation")] public int DoorSpriteOffset = 0;
-        [Tooltip("first frame of the light animation")] public int DoorLightSpriteOffset = 0;
-        [Tooltip("first frame of the door Cover/window animation")] public int DoorCoverSpriteOffset = 0;
-        [HideInInspector] public bool isPerformingAction = false;
-        [HideInInspector] public SpriteRenderer spriteRenderer;
-        public float maxTimeOpen = 5;
-        public DoorAnimator doorAnimator;
-        private bool openTrigger = false;
-        private GameObject playerOpeningIt;
-        private IEnumerator coWaitOpened;
-        public AudioSource openSFX;
-        public AudioSource closeSFX;
+        //public bool isWindowed = false;
+        public enum OppeningDirection
+        {
+            Horizontal,
+            Vertical
+        }
 
 
         private int closedLayer;
-        private int openLayer;
         private int closedSortingLayer;
-        private int openSortingLayer;
+        public AudioSource closeSFX;
+        private IEnumerator coWaitOpened;
+        [Tooltip("how many sprites in the main door animation")] public int doorAnimationSize;
+        public DoorAnimator doorAnimator;
+        [Tooltip("first frame of the door Cover/window animation")] public int DoorCoverSpriteOffset;
         private int doorDirection;
-
-        public bool IsOpened;
+        [Tooltip("first frame of the light animation")] public int DoorLightSpriteOffset;
+        [Tooltip("first frame of the door animation")] public int DoorSpriteOffset;
+        public DoorType doorType;
 
         //TODO: useful tooltip
         public bool FullDoor = true;
 
-        //public bool isWindowed = false;
-        public enum OppeningDirection : int
-        {
-            Horizontal,
-            Vertical
-        };
+        public bool IsOpened;
+        [HideInInspector] public bool isPerformingAction;
+        [Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor;
+        private Matrix matrix;
+        public float maxTimeOpen = 5;
+        private int openLayer;
+        public AudioSource openSFX;
+        private int openSortingLayer;
+        private bool openTrigger;
 
         public OppeningDirection oppeningDirection;
+        private GameObject playerOpeningIt;
+        private RegisterDoor registerTile;
+
+        public Access restriction;
+        [HideInInspector] public SpriteRenderer spriteRenderer;
 
         public override void OnStartClient()
         {
@@ -149,20 +149,26 @@ namespace Doors
             // After the door opens, wait until it's supposed to close.
             yield return new WaitForSeconds(maxTimeOpen);
             if (isServer)
+            {
                 CmdTryClose();
+            }
         }
 
         //3d sounds
         public void PlayOpenSound()
         {
             if (openSFX != null)
+            {
                 openSFX.Play();
+            }
         }
 
         public void PlayCloseSound()
         {
             if (closeSFX != null)
+            {
                 closeSFX.Play();
+            }
         }
 
         public void PlayCloseSFXshort()
@@ -229,7 +235,7 @@ namespace Doors
         {
             if (openTrigger && playerOpeningIt)
             {
-                float distToTriggerPlayer = Vector3.Distance(playerOpeningIt.transform.position, transform.position);
+                var distToTriggerPlayer = Vector3.Distance(playerOpeningIt.transform.position, transform.position);
                 if (distToTriggerPlayer < 1.5f)
                 {
                     openTrigger = false;
@@ -251,7 +257,9 @@ namespace Doors
         public void RpcOpen(GameObject _playerOpeningIt)
         {
             if (_playerOpeningIt == null)
+            {
                 return;
+            }
 
             openTrigger = true;
             playerOpeningIt = _playerOpeningIt;
@@ -282,12 +290,12 @@ namespace Doors
 
         public void OnMouseEnter()
         {
-            UI.UIManager.SetToolTip = doorType + " Door";
+            UIManager.SetToolTip = doorType + " Door";
         }
 
         public void OnMouseExit()
         {
-            UI.UIManager.SetToolTip = "";
+            UIManager.SetToolTip = "";
         }
 
         #endregion

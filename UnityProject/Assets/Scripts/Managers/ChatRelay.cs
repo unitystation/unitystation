@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
-using UI;
-using PlayGroup;
 using System.Linq;
+using PlayGroup;
+using UI;
+using UnityEngine.Networking;
 
 public class ChatRelay : NetworkBehaviour
 {
     public static ChatRelay chatRelay;
-    private List<ChatEvent> chatlog = new List<ChatEvent>();
 
     private Dictionary<ChatChannel, string> chatColors;
     private ChatChannel namelessChannels;
@@ -27,10 +24,12 @@ public class ChatRelay : NetworkBehaviour
         }
     }
 
+    public List<ChatEvent> ChatLog { get; } = new List<ChatEvent>();
+
     public override void OnStartClient()
     {
         RefreshLog();
-        chatColors = new Dictionary<ChatChannel, string>()
+        chatColors = new Dictionary<ChatChannel, string>
         {
             {ChatChannel.Binary, "#ff00ff"},
             {ChatChannel.Supply, "#a8732b"},
@@ -48,15 +47,10 @@ public class ChatRelay : NetworkBehaviour
             {ChatChannel.Service, "#6eaa2c"},
             {ChatChannel.Syndicate, "#6d3f40"},
             {ChatChannel.System, "#dd5555"},
-            {ChatChannel.Ghost, "#386aff"},
+            {ChatChannel.Ghost, "#386aff"}
         };
-        namelessChannels = (ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System);
+        namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System;
         base.OnStartClient();
-    }
-
-    public List<ChatEvent> ChatLog
-    {
-        get { return chatlog; }
     }
 
     [Server]
@@ -76,11 +70,11 @@ public class ChatRelay : NetworkBehaviour
     [Server]
     private void PropagateChatToClients(ChatEvent chatEvent)
     {
-        PlayerScript[] players = FindObjectsOfType<PlayerScript>();
+        var players = FindObjectsOfType<PlayerScript>();
 
-        foreach (PlayerScript player in players)
+        foreach (var player in players)
         {
-            ChatChannel channels = player.GetAvailableChannels(false) & chatEvent.channels;
+            var channels = player.GetAvailableChannels(false) & chatEvent.channels;
             UpdateChatMessage.Send(player.gameObject, channels, chatEvent.message);
         }
     }
@@ -88,22 +82,22 @@ public class ChatRelay : NetworkBehaviour
     [Client]
     private void UpdateClientChat(string message, ChatChannel channels)
     {
-        ChatEvent chatEvent = new ChatEvent(message, channels, true);
-        chatlog.Add(chatEvent);
+        var chatEvent = new ChatEvent(message, channels, true);
+        ChatLog.Add(chatEvent);
     }
 
     public void RefreshLog()
     {
         UIManager.Chat.CurrentChannelText.text = "";
-        List<ChatEvent> chatEvents = new List<ChatEvent>();
-        chatEvents.AddRange(chatlog);
+        var chatEvents = new List<ChatEvent>();
+        chatEvents.AddRange(ChatLog);
         chatEvents.AddRange(UIManager.Chat.GetChatEvents());
 
-        string curList = UIManager.Chat.CurrentChannelText.text;
+        var curList = UIManager.Chat.CurrentChannelText.text;
 
-        foreach (ChatEvent chatline in chatEvents.OrderBy(c => c.timestamp))
+        foreach (var chatline in chatEvents.OrderBy(c => c.timestamp))
         {
-            string message = chatline.message;
+            var message = chatline.message;
             foreach (ChatChannel channel in Enum.GetValues(typeof(ChatChannel)))
             {
                 if (channel == ChatChannel.None)
@@ -111,16 +105,16 @@ public class ChatRelay : NetworkBehaviour
                     continue;
                 }
 
-                string name = "";
+                var name = "";
                 if ((namelessChannels & channel) != channel)
                 {
-                    name = "<b>[" + channel.ToString() + "]</b> ";
+                    name = "<b>[" + channel + "]</b> ";
                 }
 
                 if ((PlayerManager.LocalPlayerScript.GetAvailableChannels(false) & channel) == channel &&
                     (chatline.channels & channel) == channel)
                 {
-                    string colorMessage = "<color=" + chatColors[channel] + ">" + name + message + "</color>";
+                    var colorMessage = "<color=" + chatColors[channel] + ">" + name + message + "</color>";
                     UIManager.Chat.CurrentChannelText.text = curList + colorMessage + "\r\n";
                     curList = UIManager.Chat.CurrentChannelText.text;
                 }

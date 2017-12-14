@@ -1,7 +1,5 @@
-﻿using System.Linq;
+﻿using UnityEditor;
 using UnityEngine;
-using System.Collections;
-using UnityEditor;
 
 public class HingeJointUtil : MonoBehaviour
 {

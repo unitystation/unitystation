@@ -6,7 +6,7 @@ namespace UnityStationTools
     public class Tools : Editor
     {
         [MenuItem("Tools/Reconnect TileConnect")]
-        static void RevertTileConnect()
+        private static void RevertTileConnect()
         {
             //            var triggers = FindObjectsOfType<ConnectTrigger>();
             //
@@ -17,7 +17,7 @@ namespace UnityStationTools
         }
 
         [MenuItem("Tools/Set Ambient Tiles")]
-        static void SetAmbientTiles()
+        private static void SetAmbientTiles()
         {
             var tiles = FindObjectsOfType<FloorTile>();
 
@@ -28,7 +28,7 @@ namespace UnityStationTools
         }
 
         [MenuItem("Tools/Revert To Prefab %r")]
-        static void RevertPrefabs()
+        private static void RevertPrefabs()
         {
             var selection = Selection.gameObjects;
 

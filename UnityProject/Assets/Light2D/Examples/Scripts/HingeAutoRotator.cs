@@ -1,24 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-
+﻿using UnityEngine;
 
 namespace Light2D.Examples
 {
     public class HingeAutoRotator : MonoBehaviour
     {
+        private Rigidbody2D _jointRigidbody;
+        public HingeJoint2D Joint;
+        public float MaxSpeed = 360;
+        public float Speed = 1;
         public float TargetAngle;
         public bool WorldAngle = true;
-        public float Speed = 1;
-        public float MaxSpeed = 360;
-        public HingeJoint2D Joint;
-        private Rigidbody2D _jointRigidbody;
 
         private void Awake()
         {
             if (Joint == null)
+            {
                 Joint = GetComponent<HingeJoint2D>();
+            }
             _jointRigidbody = Joint.GetComponent<Rigidbody2D>();
         }
 

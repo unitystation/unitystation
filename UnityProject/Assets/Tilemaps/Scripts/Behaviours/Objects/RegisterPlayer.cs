@@ -1,6 +1,4 @@
-﻿using Tilemaps.Scripts.Behaviours.Layers;
-using Tilemaps.Scripts.Utils;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tilemaps.Scripts.Behaviours.Objects
 {

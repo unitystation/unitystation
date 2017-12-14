@@ -1,8 +1,7 @@
 ﻿//C# Example
 
-using UnityEngine;
 using UnityEditor;
-using System.Collections;
+using UnityEngine;
 
 namespace Light2D
 {
@@ -12,7 +11,7 @@ namespace Light2D
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             label = EditorGUI.BeginProperty(position, label, property);
-            Rect contentPosition = EditorGUI.PrefixLabel(position, label);
+            var contentPosition = EditorGUI.PrefixLabel(position, label);
             EditorGUIUtility.labelWidth = 12f;
             contentPosition.width = 94f;
             EditorGUI.indentLevel = 0;

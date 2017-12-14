@@ -2,12 +2,11 @@
 
 public class ParallaxStars : MonoBehaviour
 {
-    public float speed = 1f;
+    private Transform[,] backgrounds;
 
     private Vector3 currentPosition = Vector2.zero;
-
-    private Transform[,] backgrounds;
     private int offsetX, offsetY;
+    public float speed = 1f;
 
     private void Start()
     {
@@ -15,8 +14,8 @@ public class ParallaxStars : MonoBehaviour
         foreach (Transform child in transform)
         {
             var localPos = child.localPosition;
-            int x = (int) (localPos.x == 0 ? 0 : Mathf.Sign(localPos.x)) + 1;
-            int y = (int) (localPos.y == 0 ? 0 : Mathf.Sign(localPos.y)) + 1;
+            var x = (int) (localPos.x == 0 ? 0 : Mathf.Sign(localPos.x)) + 1;
+            var y = (int) (localPos.y == 0 ? 0 : Mathf.Sign(localPos.y)) + 1;
             backgrounds[x, y] = child;
         }
         currentPosition = transform.localPosition;
@@ -39,17 +38,17 @@ public class ParallaxStars : MonoBehaviour
     {
         if (Mathf.Abs(diffValue) > 5)
         {
-            int index = (1 + (int) Mathf.Sign(diffValue) + offset) % 3;
+            var index = (1 + (int) Mathf.Sign(diffValue) + offset) % 3;
 
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var position = atX ? backgrounds[index, i] : backgrounds[i, index];
-                position.position -= (Mathf.Sign(diffValue)) * (atX ? Vector3.right : Vector3.up) * 3 * 10;
+                position.position -= Mathf.Sign(diffValue) * (atX ? Vector3.right : Vector3.up) * 3 * 10;
             }
 
-            offset = (3 + offset - ((int) Mathf.Sign(diffValue))) % 3;
+            offset = (3 + offset - (int) Mathf.Sign(diffValue)) % 3;
             var localPos = transform.localPosition;
-            return (atX ? localPos.x : localPos.y) + (Mathf.Sign(diffValue)) * 5;
+            return (atX ? localPos.x : localPos.y) + Mathf.Sign(diffValue) * 5;
         }
         return oldValue;
     }

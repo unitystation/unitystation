@@ -1,29 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Lighting
 {
     public class LightingSourceManager : MonoBehaviour
     {
-        public Dictionary<Vector2, LightSource> lights = new Dictionary<Vector2, LightSource>();
         private LightingRoom lightingRoomParent;
+        public Dictionary<Vector2, LightSource> lights = new Dictionary<Vector2, LightSource>();
 
-        void Awake()
+        private void Awake()
         {
             lightingRoomParent = GetComponentInParent<LightingRoom>();
         }
 
-        void Start()
+        private void Start()
         {
             LoadAllLights();
         }
 
-        void LoadAllLights()
+        private void LoadAllLights()
         {
             foreach (Transform child in transform)
             {
-                LightSource source = child.gameObject.GetComponent<LightSource>();
+                var source = child.gameObject.GetComponent<LightSource>();
                 if (source != null)
                 {
                     lights.Add(child.transform.position, source);

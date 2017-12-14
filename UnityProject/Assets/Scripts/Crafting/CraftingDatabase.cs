@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Crafting
 {
-    [System.Serializable]
+    [Serializable]
     public class CraftingDatabase
     {
         public Recipe[] recipeList;

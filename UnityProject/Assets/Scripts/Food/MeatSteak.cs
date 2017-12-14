@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-/// <summary>
-/// Meat steak. The glorious meat steak. Microwaved to perfection
+﻿/// <summary>
+///     Meat steak. The glorious meat steak. Microwaved to perfection
 /// </summary>
 public class MeatSteak : FoodBehaviour
 {

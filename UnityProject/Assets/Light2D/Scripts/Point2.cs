@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Light2D
 {
     /// <summary>
-    /// Class is almost same as Vector2, but using int data type instead of float.
+    ///     Class is almost same as Vector2, but using int data type instead of float.
     /// </summary>
     [Serializable]
     public struct Point2 : IEquatable<Point2>
@@ -27,7 +24,10 @@ namespace Light2D
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
             return obj is Point2 && Equals((Point2) obj);
         }
 
@@ -119,15 +119,9 @@ namespace Light2D
             return new Vector2(p.x / div, p.y / div);
         }
 
-        public static Point2 one
-        {
-            get { return new Point2(1, 1); }
-        }
+        public static Point2 one => new Point2(1, 1);
 
-        public static Point2 zero
-        {
-            get { return new Point2(0, 0); }
-        }
+        public static Point2 zero => new Point2(0, 0);
 
         public override string ToString()
         {

@@ -1,18 +1,17 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ChatIcon : MonoBehaviour
 {
-    public Sprite talkSprite;
-    public Sprite questionSprite;
     public Sprite exlaimSprite;
+    public Sprite questionSprite;
     private SpriteRenderer spriteRend;
+    public Sprite talkSprite;
 
-    private bool waitToTurnOff = false;
+    private bool waitToTurnOff;
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         spriteRend = GetComponent<SpriteRenderer>();
         spriteRend.enabled = false;
@@ -41,7 +40,7 @@ public class ChatIcon : MonoBehaviour
         waitToTurnOff = false;
     }
 
-    IEnumerator WaitToTurnOff()
+    private IEnumerator WaitToTurnOff()
     {
         yield return new WaitForSeconds(3f);
         spriteRend.enabled = false;

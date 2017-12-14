@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 
@@ -8,7 +7,8 @@ namespace Tilemaps.Scripts.Utils
 {
     public class TileList
     {
-        private Dictionary<Vector3Int, List<RegisterTile>> _objects = new Dictionary<Vector3Int, List<RegisterTile>>();
+        private readonly Dictionary<Vector3Int, List<RegisterTile>> _objects =
+            new Dictionary<Vector3Int, List<RegisterTile>>();
 
         public List<RegisterTile> AllObjects => _objects.Values.SelectMany(x => x).ToList();
 

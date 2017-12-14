@@ -1,36 +1,36 @@
 ﻿using System.Collections;
 using PlayGroup;
+using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
-using Matrix = Tilemaps.Scripts.Matrix;
 
 public class PushPull : VisibleBehaviour
 {
-    public float moveSpeed = 7f;
     public bool allowedToMove = true;
-    public bool isPushable = true;
 
-    [SyncVar] public GameObject pulledBy;
+    [SyncVar] public Vector3 currentPos;
+    public bool isPushable = true;
 
     //cache
     private float journeyLength;
 
+    private Matrix matrix;
+    public float moveSpeed = 7f;
+
+    [SyncVar] public GameObject pulledBy;
+
+    public bool pushing;
+
     public Vector3 pushTarget;
-
-    public GameObject pusher { get; private set; }
-
-    public bool pushing = false;
-    public bool serverLittleLag = false;
+    public bool serverLittleLag;
 
     [SyncVar(hook = "PushSync")] public Vector3 serverPos;
 
-    [SyncVar] public Vector3 currentPos;
-
-    private Matrix matrix;
-
     //A check to make sure there are no network errors
-    public float timeInPush = 0f;
+    public float timeInPush;
+
+    public GameObject pusher { get; private set; }
 
     public override void OnStartClient()
     {
@@ -39,7 +39,7 @@ public class PushPull : VisibleBehaviour
         base.OnStartClient();
     }
 
-    IEnumerator WaitForLoad()
+    private IEnumerator WaitForLoad()
     {
         yield return new WaitForSeconds(2f);
 //        if (currentPos != Vector3.zero)
@@ -81,7 +81,7 @@ public class PushPull : VisibleBehaviour
             PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(gameObject);
             return;
         }
-        else if (pulledBy != PlayerManager.LocalPlayer)
+        if (pulledBy != PlayerManager.LocalPlayer)
         {
             PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopOtherPulling(gameObject);
         }
@@ -92,7 +92,9 @@ public class PushPull : VisibleBehaviour
     {
         if (pushDir != Vector2.up && pushDir != Vector2.right
             && pushDir != Vector2.down && pushDir != Vector2.left)
+        {
             return;
+        }
         if (pushing || !isPushable)
         {
             return;
@@ -126,7 +128,9 @@ public class PushPull : VisibleBehaviour
             //Start the push on the client, then start on the server, the server then tells all other clients to start the push also
             pusher = pushedBy;
             if (pusher == PlayerManager.LocalPlayer)
+            {
                 PlayerManager.LocalPlayerScript.playerMove.IsPushing = true;
+            }
 
             pushTarget = newPos;
             journeyLength = Vector3.Distance(transform.localPosition, newPos) + 0.2f;
@@ -134,7 +138,9 @@ public class PushPull : VisibleBehaviour
             pushing = true;
             //Start command to push on server
             if (pusher == PlayerManager.LocalPlayer)
+            {
                 PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, pushTarget);
+            }
         }
     }
 
@@ -143,7 +149,10 @@ public class PushPull : VisibleBehaviour
     {
         var player = PlayerManager.LocalPlayerScript;
         var pullingObject = player.playerSync.pullingObject;
-        if (!pullingObject || !pullingObject.Equals(gameObject)) return;
+        if (!pullingObject || !pullingObject.Equals(gameObject))
+        {
+            return;
+        }
         player.playerSync.PullReset(NetworkInstanceId.Invalid);
         player.playerSync.pullingObject = null;
         player.playerSync.pullObjectID = NetworkInstanceId.Invalid;
@@ -152,7 +161,7 @@ public class PushPull : VisibleBehaviour
     }
 
 
-    void Update()
+    private void Update()
     {
         if (pushing && transform.localPosition != pushTarget)
         {
@@ -175,7 +184,7 @@ public class PushPull : VisibleBehaviour
         }
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         if (CustomNetworkManager.Instance._isServer)
         {
@@ -190,7 +199,7 @@ public class PushPull : VisibleBehaviour
     private void PushTowards()
     {
         transform.localPosition = Vector3.MoveTowards(transform.localPosition, pushTarget,
-            (moveSpeed * Time.deltaTime) * journeyLength);
+            moveSpeed * Time.deltaTime * journeyLength);
 
         if (transform.localPosition == pushTarget)
         {
@@ -200,7 +209,7 @@ public class PushPull : VisibleBehaviour
         }
     }
 
-    IEnumerator PushFinishWait()
+    private IEnumerator PushFinishWait()
     {
         yield return new WaitForSeconds(0.05f);
 

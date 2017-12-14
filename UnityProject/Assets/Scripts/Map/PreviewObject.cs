@@ -1,8 +1,8 @@
 ﻿using System;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using UnityEngine;
 
 namespace MapEditor
 {
@@ -18,7 +18,7 @@ namespace MapEditor
             {
                 if (!instance)
                 {
-                    GameObject instanceTemp = GameObject.FindGameObjectWithTag("MapEditor");
+                    var instanceTemp = GameObject.FindGameObjectWithTag("MapEditor");
                     if (instanceTemp != null)
                     {
                         instance = instanceTemp.GetComponentInChildren<PreviewObject>(true);
@@ -48,7 +48,9 @@ namespace MapEditor
                     prefab = value;
 
                     if (Instance)
+                    {
                         Instance.UpdatePrefab();
+                    }
 
                     if (prefab && currentSceneView)
                     {
@@ -79,7 +81,7 @@ namespace MapEditor
             var gameObject = (GameObject) PrefabUtility.InstantiatePrefab(Prefab);
 
             var spriteRotates = gameObject.GetComponentsInChildren<SpriteRotate>();
-            for (int i = 0; i < spriteRotates.Length; i++)
+            for (var i = 0; i < spriteRotates.Length; i++)
             {
                 spriteRotates[i].RotateIndex = Instance.spriteRotates[i].RotateIndex;
             }
@@ -133,11 +135,11 @@ namespace MapEditor
 
         private void FollowMouse(Event e)
         {
-            Ray r = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x,
+            var r = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x,
                 -e.mousePosition.y + Camera.current.pixelHeight));
 
-            int x = Mathf.RoundToInt(r.origin.x);
-            int y = Mathf.RoundToInt(r.origin.y);
+            var x = Mathf.RoundToInt(r.origin.x);
+            var y = Mathf.RoundToInt(r.origin.y);
 
             transform.position = new Vector3(x, y, 0);
         }
@@ -146,7 +148,7 @@ namespace MapEditor
         {
             if (Selection.Contains(gameObject))
             {
-                Selection.objects = Array.FindAll(Selection.objects, o => (o != gameObject));
+                Selection.objects = Array.FindAll(Selection.objects, o => o != gameObject);
             }
             RemoveSelectionChildren(transform);
         }
@@ -159,7 +161,7 @@ namespace MapEditor
 
                 if (Selection.Contains(child.gameObject))
                 {
-                    Selection.objects = Array.FindAll(Selection.objects, o => (o != child.gameObject));
+                    Selection.objects = Array.FindAll(Selection.objects, o => o != child.gameObject);
                 }
             }
         }
@@ -186,7 +188,7 @@ namespace MapEditor
 
         private void UpdatePrefab()
         {
-            for (int i = transform.childCount - 1; i >= 0; i--)
+            for (var i = transform.childCount - 1; i >= 0; i--)
             {
                 DestroyImmediate(transform.GetChild(i).gameObject);
             }

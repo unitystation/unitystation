@@ -1,29 +1,29 @@
 ﻿using System.Collections;
-using UnityEngine;
 using InputControl;
+using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
+using UnityEngine;
 using UnityEngine.Networking;
-using Matrix = Tilemaps.Scripts.Matrix;
 
 public class ShutterController : ObjectTrigger
 {
-    private Animator animator;
-    private RegisterDoor _registerTile;
     private Matrix _matrix;
-
-    public bool IsClosed { get; private set; }
+    private RegisterDoor _registerTile;
+    private Animator animator;
 
     private int closedLayer;
-    private int openLayer;
     private int closedSortingLayer;
+    private int openLayer;
     private int openSortingLayer;
-
-    //For network sync reliability
-    private bool waitToCheckState = false;
 
     private bool tempStateCache;
 
-    void Awake()
+    //For network sync reliability
+    private bool waitToCheckState;
+
+    public bool IsClosed { get; private set; }
+
+    private void Awake()
     {
         animator = gameObject.GetComponent<Animator>();
         _registerTile = gameObject.GetComponent<RegisterDoor>();
@@ -40,7 +40,9 @@ public class ShutterController : ObjectTrigger
     {
         tempStateCache = state;
         if (waitToCheckState)
+        {
             return;
+        }
 
         if (animator == null)
         {
@@ -92,7 +94,7 @@ public class ShutterController : ObjectTrigger
     }
 
     //Handle network spawn sync failure
-    IEnumerator WaitToTryAgain()
+    private IEnumerator WaitToTryAgain()
     {
         yield return new WaitForSeconds(0.2f);
         if (animator == null)

@@ -1,16 +1,12 @@
-﻿using Doors;
-using Tilemaps.Scripts.Utils;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 
 namespace Tilemaps.Scripts.Behaviours.Objects
 {
     [ExecuteInEditMode]
     public class RegisterDoor : RegisterObject
     {
-        public bool OneDirectionRestricted;
-
         public bool IsClosed = true;
+        public bool OneDirectionRestricted;
 
         public override bool IsPassable(Vector3Int to)
         {

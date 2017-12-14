@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
 [Serializable]
 public class DmiState
 {
-    public string unityName;
-    public string state;
     public string delay;
-    public int offset = -1;
-    public int frames;
     public int dirs;
+    public int frames;
+    public int offset = -1;
+    public string state;
+    public string unityName;
 
     public DmiState(string unityName, string state, string delay, int offset, int frames, int dirs)
     {
@@ -28,6 +27,8 @@ public class DmiState
     public DmiState() : this("")
     {
     }
+
+    private int endOffset => offset + (frames * dirs - 1);
 
     //    public string GetUnityNameForRelOffset(int relativeOffset)
     //    {
@@ -54,8 +55,6 @@ public class DmiState
         return this.offset.Equals(offset) || offset > this.offset && offset <= endOffset;
     }
 
-    private int endOffset => offset + (frames * dirs - 1);
-
     protected bool Equals(DmiState other)
     {
         return string.Equals(state, other.state) && dirs == other.dirs;
@@ -63,9 +62,18 @@ public class DmiState
 
     public override bool Equals(object obj)
     {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (ReferenceEquals(null, obj))
+        {
+            return false;
+        }
+        if (ReferenceEquals(this, obj))
+        {
+            return true;
+        }
+        if (obj.GetType() != GetType())
+        {
+            return false;
+        }
         return Equals((DmiState) obj);
     }
 

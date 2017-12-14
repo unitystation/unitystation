@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Light2D.Examples
 {
     public class MouseFollower : MonoBehaviour
     {
-        public bool RightClickRotation = false;
         private Vector2 _pressPos;
+        public bool RightClickRotation;
 
         private void LateUpdate()
         {
             if (Input.GetMouseButtonDown(0))
+            {
                 _pressPos = Util.GetMousePosInUnits();
+            }
 
             if (Input.GetMouseButton(0) && RightClickRotation)
             {

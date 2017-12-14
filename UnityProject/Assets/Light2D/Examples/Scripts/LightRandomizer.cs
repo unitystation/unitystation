@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 namespace Light2D.Examples
 {
     [RequireComponent(typeof(LightSprite))]
     public class LightRandomizer : MonoBehaviour
     {
-        public float MinRadius = 5;
+        public float MaxLightAlpha = 0.8f;
         public float MaxRadius = 35;
         public float MinLightAlpha = 0.3f;
-        public float MaxLightAlpha = 0.8f;
+        public float MinRadius = 5;
 
         private void Start()
         {

@@ -1,34 +1,31 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+﻿using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+#endif
 
 namespace Light2D
 {
     /// <summary>
-    /// Used to draw lights. Puts LightOrigin world position to UV1.
-    /// Supports Point and Line light types.
+    ///     Used to draw lights. Puts LightOrigin world position to UV1.
+    ///     Supports Point and Line light types.
     /// </summary>
     [ExecuteInEditMode]
     public class LightSprite : CustomSprite
     {
+        public enum LightShape
+        {
+            Point,
+            Line
+        }
+
         public static List<LightSprite> AllLightSprites = new List<LightSprite>();
-        public Vector3 LightOrigin = new Vector3(0, 0, 1);
-        public LightShape Shape = LightShape.Point;
         private Matrix4x4 _modelMatrix;
         private Vector3 _oldLightOrigin;
         private LightShape _oldLightShape;
+        public Vector3 LightOrigin = new Vector3(0, 0, 1);
+        public LightShape Shape = LightShape.Point;
 
-        public MeshRenderer Renderer
-        {
-            get { return _meshRenderer; }
-        }
+        public MeshRenderer Renderer => _meshRenderer;
 
         protected override void OnEnable()
         {
@@ -36,18 +33,20 @@ namespace Light2D
             AllLightSprites.Add(this);
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             AllLightSprites.Remove(this);
         }
 
         /// <summary>
-        /// Update UV1 which is used for raytracking in shader. UV1 is set to world position of LightOrigin.
+        ///     Update UV1 which is used for raytracking in shader. UV1 is set to world position of LightOrigin.
         /// </summary>
         private void UpdatePosition()
         {
             if (Sprite == null || !Application.isPlaying)
+            {
                 return;
+            }
 
             var mat = _modelMatrix;
             Vector2 size = Sprite.bounds.size;
@@ -59,14 +58,18 @@ namespace Light2D
                 var pos = mat.MultiplyPoint(((Vector2) LightOrigin).Mul(size));
                 if (!LightingSystem.Instance.XZPlane)
                 {
-                    for (int i = 0; i < _uv1.Length; i++)
+                    for (var i = 0; i < _uv1.Length; i++)
+                    {
                         _uv1[i] = pos;
+                    }
                 }
                 else
                 {
                     var p = new Vector2(pos.x, pos.z);
-                    for (int i = 0; i < _uv1.Length; i++)
+                    for (var i = 0; i < _uv1.Length; i++)
+                    {
                         _uv1[i] = p;
+                    }
                 }
             }
             else if (Shape == LightShape.Line)
@@ -95,7 +98,9 @@ namespace Light2D
         protected override void UpdateMeshData(bool forceUpdate = false)
         {
             if (IsPartOfStaticBatch)
+            {
                 return;
+            }
 
             var objMat = transform.localToWorldMatrix;
             if (!objMat.FastEquals(_modelMatrix) ||
@@ -111,16 +116,12 @@ namespace Light2D
             base.UpdateMeshData(forceUpdate);
         }
 
-        public enum LightShape
-        {
-            Point,
-            Line,
-        }
-
         private void OnDrawGizmosSelected()
         {
             if (Sprite == null)
+            {
                 return;
+            }
 
             var size = Sprite.bounds.size;
             if (Shape == LightShape.Point)
@@ -146,7 +147,9 @@ namespace Light2D
             var material = _meshRenderer.sharedMaterial;
 
             if (!material.SetPass(0))
+            {
                 return;
+            }
 
             var v1 = _modelMatrix.MultiplyPoint(_vertices[0]) - (Vector3) lightCamLocalPos;
             var v2 = _modelMatrix.MultiplyPoint(_vertices[2]) - (Vector3) lightCamLocalPos;
@@ -185,7 +188,9 @@ namespace Light2D
             material.SetVector("_LightPos", lightPos);
 
             if (!material.SetPass(0))
+            {
                 return;
+            }
 
             var v1 = _modelMatrix.MultiplyPoint3x4(_vertices[0]);
             var v2 = _modelMatrix.MultiplyPoint3x4(_vertices[2]);

@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using PlayGroup;
 
 namespace UI
 {
     public class PlayerHealthUI : MonoBehaviour
     {
-        public OverlayCrits overlayCrits;
         public UI_HeartMonitor heartMonitor;
+        public OverlayCrits overlayCrits;
 
         //Server calls to update the UI
 
         public void UpdateHealthUI(UpdateUIMessage validateMsg, int curHealth)
         {
             if (validateMsg == null) //can only be called from server msg
+            {
                 return;
+            }
 
             DetermineUIDisplay(curHealth);
         }
@@ -36,7 +33,9 @@ namespace UI
             foreach (var listener in UIManager.Instance.GetComponentsInChildren<DamageMonitorListener>())
             {
                 if (listener.bodyPartType != bodyPart.Type)
+                {
                     continue;
+                }
                 Sprite sprite;
                 switch (bodyPart.Severity)
                 {

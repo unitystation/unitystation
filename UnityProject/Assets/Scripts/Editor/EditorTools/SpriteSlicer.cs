@@ -1,52 +1,51 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
 public class SpriteSlicer : MonoBehaviour
 {
 #if UNITY_EDITOR
     [MenuItem("Tools/Slice Sprites")]
-    static void SliceSpritesTest()
+    private static void SliceSpritesTest()
     {
-        StringBuilder ignoredSB = new StringBuilder();
+        var ignoredSB = new StringBuilder();
 
         var textures = new List<Texture2D>(Resources.LoadAll<Texture2D>("icons"));
         foreach (var spr in textures)
         {
-            string path = AssetDatabase.GetAssetPath(spr);
+            var path = AssetDatabase.GetAssetPath(spr);
             //cutting off extension:
-            string filename = path.Substring(
+            var filename = path.Substring(
                 path.LastIndexOf("/", StringComparison.Ordinal) + 1
             );
 
-            int SliceWidth = 32;
-            int SliceHeight = 32;
+            var SliceWidth = 32;
+            var SliceHeight = 32;
 
             //ignore files starting with digit and not dividable by w/h
-            if (char.IsDigit(filename[0]) | spr.width % SliceWidth != 0 | spr.height % SliceHeight != 0)
+            if (char.IsDigit(filename[0]) | (spr.width % SliceWidth != 0) | (spr.height % SliceHeight != 0))
             {
                 ignoredSB.AppendLine(path);
                 continue;
             }
-            TextureImporter ti = AssetImporter.GetAtPath(path) as TextureImporter;
+            var ti = AssetImporter.GetAtPath(path) as TextureImporter;
             ti.isReadable = true;
             ti.spriteImportMode = SpriteImportMode.Multiple;
 
-            List<SpriteMetaData> newData = new List<SpriteMetaData>();
+            var newData = new List<SpriteMetaData>();
 
 
-            int offset = -1;
-            for (int j = spr.height; j > 0; j -= SliceHeight)
+            var offset = -1;
+            for (var j = spr.height; j > 0; j -= SliceHeight)
             {
-                for (int i = 0; i < spr.width; i += SliceWidth)
+                for (var i = 0; i < spr.width; i += SliceWidth)
                 {
                     offset++;
-                    SpriteMetaData smd = new SpriteMetaData();
+                    var smd = new SpriteMetaData();
                     smd.pivot = new Vector2(0.5f, 0.5f);
                     smd.alignment = 9;
                     smd.name = filename.Substring(0, filename.IndexOf(".", StringComparison.Ordinal)) + "_" + offset;

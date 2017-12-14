@@ -1,5 +1,6 @@
 #if !NO_UNITY
 using System;
+using FullSerializer.Internal.Converters;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,7 +8,7 @@ namespace FullSerializer
 {
     partial class fsConverterRegistrar
     {
-        public static Internal.Converters.UnityEvent_Converter Register_UnityEvent_Converter;
+        public static UnityEvent_Converter Register_UnityEvent_Converter;
     }
 }
 
@@ -32,16 +33,16 @@ namespace FullSerializer.Internal.Converters
 
         public override fsResult TryDeserialize(fsData data, ref object instance, Type storageType)
         {
-            Type objectType = (Type) instance;
+            var objectType = (Type) instance;
 
-            fsResult result = fsResult.Success;
+            var result = fsResult.Success;
             instance = JsonUtility.FromJson(fsJsonPrinter.CompressedJson(data), objectType);
             return result;
         }
 
         public override fsResult TrySerialize(object instance, out fsData serialized, Type storageType)
         {
-            fsResult result = fsResult.Success;
+            var result = fsResult.Success;
             serialized = fsJsonParser.Parse(JsonUtility.ToJson(instance));
             return result;
         }

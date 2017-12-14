@@ -1,42 +1,20 @@
 using System;
 using System.Collections.Generic;
 
-
 namespace Light2D.Examples
 {
     /// <summary>
-    /// SimpleRNG is a simple random number generator based on 
-    /// George Marsaglia's MWC (multiply with carry) generator.
-    /// Although it is very simple, it passes Marsaglia's DIEHARD
-    /// series of random number generator tests.
-    /// 
-    /// Written by John D. Cook 
-    /// http://www.johndcook.com
+    ///     SimpleRNG is a simple random number generator based on
+    ///     George Marsaglia's MWC (multiply with carry) generator.
+    ///     Although it is very simple, it passes Marsaglia's DIEHARD
+    ///     series of random number generator tests.
+    ///     Written by John D. Cook
+    ///     http://www.johndcook.com
     /// </summary>
     public class SimpleRNG
     {
         public uint w;
         public uint z;
-
-        public ulong longSeed
-        {
-            get { return ((ulong) w << 32) + (ulong) z; }
-            set
-            {
-                w = (uint) (value >> 32);
-                z = unchecked((uint) value);
-            }
-        }
-
-        public int seed
-        {
-            set { w = unchecked((uint) value); }
-        }
-
-        public float value
-        {
-            get { return GetUniformF(); }
-        }
 
         public SimpleRNG()
         {
@@ -53,8 +31,14 @@ namespace Light2D.Examples
 
         public SimpleRNG(uint u, uint v) : this()
         {
-            if (u != 0) w = u;
-            if (v != 0) z = v;
+            if (u != 0)
+            {
+                w = u;
+            }
+            if (v != 0)
+            {
+                z = v;
+            }
         }
 
         public SimpleRNG(uint u) : this()
@@ -66,10 +50,27 @@ namespace Light2D.Examples
         {
         }
 
+        public ulong longSeed
+        {
+            get { return ((ulong) w << 32) + z; }
+            set
+            {
+                w = (uint) (value >> 32);
+                z = unchecked((uint) value);
+            }
+        }
+
+        public int seed
+        {
+            set { w = unchecked((uint) value); }
+        }
+
+        public float value => GetUniformF();
+
         public static SimpleRNG FromSystemTime()
         {
-            System.DateTime dt = System.DateTime.Now;
-            long x = dt.ToFileTime();
+            var dt = DateTime.Now;
+            var x = dt.ToFileTime();
             return new SimpleRNG((uint) (x >> 16), (uint) (x % 4294967296));
         }
 
@@ -78,7 +79,7 @@ namespace Light2D.Examples
         public double GetUniform()
         {
             // 0 <= u < 2^32
-            uint u = GetUint();
+            var u = GetUint();
             // The magic number below is 1/(2^32 + 2).
             // The result is strictly between 0 and 1.
             return (u + 1.0) * 2.328306435454494e-10;
@@ -97,7 +98,10 @@ namespace Light2D.Examples
         public int Range(int maxValue)
         {
             var num = (int) GetUint();
-            if (num < 0) num = -num;
+            if (num < 0)
+            {
+                num = -num;
+            }
             return num % maxValue;
         }
 
@@ -115,10 +119,10 @@ namespace Light2D.Examples
         public double GetNormal()
         {
             // Use Box-Muller algorithm
-            double u1 = GetUniform();
-            double u2 = GetUniform();
-            double r = Math.Sqrt(-2.0 * Math.Log(u1));
-            double theta = 2.0 * Math.PI * u2;
+            var u1 = GetUniform();
+            var u2 = GetUniform();
+            var r = Math.Sqrt(-2.0 * Math.Log(u1));
+            var theta = 2.0 * Math.PI * u2;
             return r * Math.Sin(theta);
         }
 
@@ -127,7 +131,7 @@ namespace Light2D.Examples
         {
             if (standardDeviation <= 0.0)
             {
-                string msg = string.Format("Shape must be positive. Received {0}.", standardDeviation);
+                var msg = string.Format("Shape must be positive. Received {0}.", standardDeviation);
                 throw new ArgumentOutOfRangeException(msg);
             }
             return mean + standardDeviation * GetNormal();
@@ -144,7 +148,7 @@ namespace Light2D.Examples
         {
             if (mean <= 0.0)
             {
-                string msg = string.Format("Mean must be positive. Received {0}.", mean);
+                var msg = string.Format("Mean must be positive. Received {0}.", mean);
                 throw new ArgumentOutOfRangeException(msg);
             }
             return mean * GetExponential();
@@ -174,20 +178,19 @@ namespace Light2D.Examples
                     xsquared = x * x;
                     if (u < 1.0 - .0331 * xsquared * xsquared ||
                         Math.Log(u) < 0.5 * xsquared + d * (1.0 - v + Math.Log(v)))
+                    {
                         return scale * d * v;
+                    }
                 }
             }
-            else if (shape <= 0.0)
+            if (shape <= 0.0)
             {
-                string msg = string.Format("Shape must be positive. Received {0}.", shape);
+                var msg = string.Format("Shape must be positive. Received {0}.", shape);
                 throw new ArgumentOutOfRangeException(msg);
             }
-            else
-            {
-                double g = GetGamma(shape + 1.0, 1.0);
-                double w = GetUniform();
-                return scale * g * Math.Pow(w, 1.0 / shape);
-            }
+            var g = GetGamma(shape + 1.0, 1.0);
+            var w = GetUniform();
+            return scale * g * Math.Pow(w, 1.0 / shape);
         }
 
         public double GetChiSquare(double degreesOfFreedom)
@@ -208,7 +211,7 @@ namespace Light2D.Examples
         {
             if (shape <= 0.0 || scale <= 0.0)
             {
-                string msg =
+                var msg =
                     string.Format("Shape and scale parameters must be positive. Recieved shape {0} and scale{1}.",
                         shape, scale);
                 throw new ArgumentOutOfRangeException(msg);
@@ -220,11 +223,11 @@ namespace Light2D.Examples
         {
             if (scale <= 0)
             {
-                string msg = string.Format("Scale must be positive. Received {0}.", scale);
+                var msg = string.Format("Scale must be positive. Received {0}.", scale);
                 throw new ArgumentException(msg);
             }
 
-            double p = GetUniform();
+            var p = GetUniform();
 
             // Apply inverse of the Cauchy distribution function to a uniform
             return median + scale * Math.Tan(Math.PI * (p - 0.5));
@@ -234,21 +237,21 @@ namespace Light2D.Examples
         {
             if (degreesOfFreedom <= 0)
             {
-                string msg = string.Format("Degrees of freedom must be positive. Received {0}.", degreesOfFreedom);
+                var msg = string.Format("Degrees of freedom must be positive. Received {0}.", degreesOfFreedom);
                 throw new ArgumentException(msg);
             }
 
             // See Seminumerical Algorithms by Knuth
-            double y1 = GetNormal();
-            double y2 = GetChiSquare(degreesOfFreedom);
+            var y1 = GetNormal();
+            var y2 = GetChiSquare(degreesOfFreedom);
             return y1 / Math.Sqrt(y2 / degreesOfFreedom);
         }
 
         // The Laplace distribution is also known as the double exponential distribution.
         public double GetLaplace(double mean, double scale)
         {
-            double u = GetUniform();
-            return (u < 0.5)
+            var u = GetUniform();
+            return u < 0.5
                 ? mean + scale * Math.Log(2.0 * u)
                 : mean - scale * Math.Log(2 * (1 - u));
         }
@@ -262,7 +265,7 @@ namespace Light2D.Examples
         {
             if (a <= 0.0 || b <= 0.0)
             {
-                string msg = string.Format("Beta parameters must be positive. Received {0} and {1}.", a, b);
+                var msg = string.Format("Beta parameters must be positive. Received {0} and {1}.", a, b);
                 throw new ArgumentOutOfRangeException(msg);
             }
 
@@ -271,8 +274,8 @@ namespace Light2D.Examples
             // For an explanation of why the following method works, see
             // http://www.johndcook.com/distribution_chart.html#gamma_beta
 
-            double u = GetGamma(a, 1.0);
-            double v = GetGamma(b, 1.0);
+            var u = GetGamma(a, 1.0);
+            var v = GetGamma(b, 1.0);
             return u / (u + v);
         }
     }
@@ -281,14 +284,16 @@ namespace Light2D.Examples
     {
         public static T RandomElement<T>(this IEnumerable<T> enumerable, Func<T, int> weightFunc, SimpleRNG rand)
         {
-            int totalWeight = 0; // this stores sum of weights of all elements before current
-            T selected = default(T); // currently selected element
+            var totalWeight = 0; // this stores sum of weights of all elements before current
+            var selected = default(T); // currently selected element
             foreach (var data in enumerable)
             {
-                int weight = weightFunc(data); // weight of current element
-                int r = rand.Range(0, totalWeight + weight); // random value
+                var weight = weightFunc(data); // weight of current element
+                var r = rand.Range(0, totalWeight + weight); // random value
                 if (r >= totalWeight) // probability of this is weight/(totalWeight+weight)
+                {
                     selected = data;
+                }
                 // it is the probability of discarding last selected element and selecting current one instead
                 totalWeight += weight; // increase weight sum
             }

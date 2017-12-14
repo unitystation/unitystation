@@ -1,5 +1,4 @@
-﻿using InputControl;
-using PlayGroup;
+﻿using PlayGroup;
 using PlayGroups.Input;
 using UI;
 using UnityEngine;
@@ -46,8 +45,11 @@ public class TableTrigger : InputTrigger
             return false;
         }
 
-        GameObject item = ps.playerNetworkActions.Inventory[hand];
-        if (item == null) return false;
+        var item = ps.playerNetworkActions.Inventory[hand];
+        if (item == null)
+        {
+            return false;
+        }
         var targetPosition = gameObject.transform.position; //Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPosition.z = -0.2f;
         ps.playerNetworkActions.PlaceItem(hand, targetPosition, gameObject);

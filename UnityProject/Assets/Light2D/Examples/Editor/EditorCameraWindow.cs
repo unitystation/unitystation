@@ -1,20 +1,20 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
 public class EditorCameraWindow : EditorWindow
 {
-    string myString = "Hello World";
-    bool groupEnabled;
-    bool myBool = true;
-    float myFloat = 1.23f;
+    private bool groupEnabled;
+    private bool myBool = true;
+    private float myFloat = 1.23f;
+    private string myString = "Hello World";
 
     [MenuItem("Window/Editor Camera Settings")]
-    static void Init()
+    private static void Init()
     {
         GetWindow<EditorCameraWindow>();
     }
 
-    void OnGUI()
+    private void OnGUI()
     {
         GUILayout.Label("Base Settings", EditorStyles.boldLabel);
         myString = EditorGUILayout.TextField("Text Field", myString);

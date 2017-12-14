@@ -5,12 +5,14 @@ namespace UI
 {
     public class Hands : MonoBehaviour
     {
+        public Transform selector;
         public UI_ItemSlot CurrentSlot { get; private set; }
         public UI_ItemSlot OtherSlot { get; private set; }
         public bool IsRight { get; private set; }
-        public Transform selector;
 
-        void Start()
+        private InventorySlotCache Slots => UIManager.InventorySlots;
+
+        private void Start()
         {
             CurrentSlot = Slots.RightHandSlot;
             OtherSlot = Slots.LeftHandSlot;
@@ -20,9 +22,13 @@ namespace UI
         public void Swap()
         {
             if (PlayerManager.LocalPlayerScript != null)
+            {
                 if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
                     PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                {
                     return;
+                }
+            }
 
             SetHand(!IsRight);
         }
@@ -30,9 +36,13 @@ namespace UI
         public void SetHand(bool right)
         {
             if (PlayerManager.LocalPlayerScript != null)
+            {
                 if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
                     PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                {
                     return;
+                }
+            }
 
             if (right)
             {
@@ -52,9 +62,13 @@ namespace UI
         public void SwapItem(UI_ItemSlot itemSlot)
         {
             if (PlayerManager.LocalPlayerScript != null)
+            {
                 if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
                     PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                {
                     return;
+                }
+            }
 
             if (CurrentSlot != itemSlot)
             {
@@ -72,12 +86,18 @@ namespace UI
         public void Use()
         {
             if (PlayerManager.LocalPlayerScript != null)
+            {
                 if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
                     PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                {
                     return;
+                }
+            }
 
             if (!CurrentSlot.IsFull)
+            {
                 return;
+            }
 
             //Is the item edible?
             if (CheckEdible())
@@ -107,7 +127,7 @@ namespace UI
         //Check if the item is edible and eat it
         private bool CheckEdible()
         {
-            FoodBehaviour baseFood = CurrentSlot.Item.GetComponent<FoodBehaviour>();
+            var baseFood = CurrentSlot.Item.GetComponent<FoodBehaviour>();
             if (baseFood != null)
             {
                 baseFood.TryEat();
@@ -119,16 +139,15 @@ namespace UI
         private void Swap(UI_ItemSlot slot1, UI_ItemSlot slot2)
         {
             if (PlayerManager.LocalPlayerScript != null)
+            {
                 if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
                     PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                {
                     return;
+                }
+            }
 
             UIManager.TryUpdateSlot(new UISlotObject(slot1.eventName, slot2.Item));
-        }
-
-        private InventorySlotCache Slots
-        {
-            get { return UIManager.InventorySlots; }
         }
     }
 }

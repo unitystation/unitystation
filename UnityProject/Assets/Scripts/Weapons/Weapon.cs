@@ -1,15 +1,15 @@
 ﻿using System.Collections;
-using UnityEngine;
-using UnityEngine.Networking;
+using Items;
 using PlayGroup;
 using UI;
-using Items;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 
 namespace Weapons
 {
     /// <summary>
-    ///  Generic weapon types
+    ///     Generic weapon types
     /// </summary>
     public enum WeaponType
     {
@@ -17,104 +17,114 @@ namespace Weapons
         SemiAutomatic,
         FullyAutomatic,
         Burst //TODO: SUPPORT BURST WEAPONS
-    };
+    }
 
     /// <summary>
-    ///  Generic weapon base
+    ///     Generic weapon base
     /// </summary>
     public class Weapon : PickUpTrigger
     {
         /// <summary>
-        ///  Current Weapon Type
-        /// </summary>
-        public WeaponType WeaponType;
-
-        /// <summary>
-        ///  The projectile fired from this weapon
-        /// </summary>
-        public GameObject Projectile;
-
-        /// <summary>
-        ///  The damage for this weapon
-        /// </summary>
-        public int ProjectileDamage;
-
-        /// <summary>
-        ///  The traveling speed for this weapons projectile
-        /// </summary>
-        public int ProjectileVelocity;
-
-        /// <summary>
-        /// The amount of times per second this weapon can fire
-        /// </summary>
-        public double FireRate;
-
-        /// <summary>
-        /// The amount of projectiles expended per shot
-        /// </summary>
-        public int ProjectilesFired;
-
-        /// <summary>
-        /// The max recoil angle this weapon can reach with sustained fire
-        /// </summary>
-        public float MaxRecoilVariance;
-
-        /// <summary>
-        /// The the name of the sound this gun makes when shooting
-        /// </summary>
-        public string FireingSound;
-
-        /// <summary>
-        /// The type of ammo this weapon will allow, this is a string and not an enum for diversity
+        ///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
         /// </summary>
         public string AmmoType;
 
+        [SyncVar] public NetworkInstanceId ControlledByPlayer;
+
         /// <summary>
-        /// The current magazine for this weapon, null means empty
+        ///     The current magazine for this weapon, null means empty
         /// </summary>
         private MagazineBehaviour CurrentMagazine;
 
         /// <summary>
-        /// The countdown untill we can shoot again
+        ///     The the current recoil variance this weapon has reached
+        /// </summary>
+        [SyncVar] [HideInInspector] public float CurrentRecoilVariance;
+
+        /// <summary>
+        ///     The countdown untill we can shoot again
         /// </summary>
         [HideInInspector] public double FireCountDown;
 
         /// <summary>
-        /// If the weapon is currently in automatic action
+        ///     The the name of the sound this gun makes when shooting
+        /// </summary>
+        public string FireingSound;
+
+        /// <summary>
+        ///     The amount of times per second this weapon can fire
+        /// </summary>
+        public double FireRate;
+
+        /// <summary>
+        ///     If the weapon is currently in automatic action
         /// </summary>
         [HideInInspector] public bool InAutomaticAction;
 
-        /// <summary>
-        /// The the current recoil variance this weapon has reached
-        /// </summary>
-        [SyncVar] [HideInInspector] public float CurrentRecoilVariance;
-
         [SyncVar(hook = "LoadUnloadAmmo")] public NetworkInstanceId MagNetID;
 
-        [SyncVar] public NetworkInstanceId ControlledByPlayer;
+        /// <summary>
+        ///     The max recoil angle this weapon can reach with sustained fire
+        /// </summary>
+        public float MaxRecoilVariance;
 
-        void Start()
+        /// <summary>
+        ///     The projectile fired from this weapon
+        /// </summary>
+        public GameObject Projectile;
+
+        /// <summary>
+        ///     The damage for this weapon
+        /// </summary>
+        public int ProjectileDamage;
+
+        /// <summary>
+        ///     The amount of projectiles expended per shot
+        /// </summary>
+        public int ProjectilesFired;
+
+        /// <summary>
+        ///     The traveling speed for this weapons projectile
+        /// </summary>
+        public int ProjectileVelocity;
+
+        /// <summary>
+        ///     Current Weapon Type
+        /// </summary>
+        public WeaponType WeaponType;
+
+        private void Start()
         {
             InAutomaticAction = false;
             //init weapon with missing settings
             if (AmmoType == null)
+            {
                 AmmoType = "12mm";
+            }
             if (Projectile == null)
+            {
                 Projectile = Resources.Load("Bullet_12mm") as GameObject;
+            }
         }
 
-        void Update()
+        private void Update()
         {
             if (ControlledByPlayer == NetworkInstanceId.Invalid)
+            {
                 return;
+            }
 
             //don't start it too early:
             if (!PlayerManager.LocalPlayer)
+            {
                 return;
+            }
 
             //Only update if it is inhand of localplayer
             if (PlayerManager.LocalPlayer != ClientScene.FindLocalObject(ControlledByPlayer))
+            {
                 return;
+            }
 
             if (FireCountDown > 0)
             {
@@ -130,8 +140,8 @@ namespace Weapons
             if (Input.GetKeyDown(KeyCode.R))
             {
                 //PlaceHolder for click UI
-                GameObject currentHandItem = UIManager.Hands.CurrentSlot.Item;
-                GameObject otherHandItem = UIManager.Hands.OtherSlot.Item;
+                var currentHandItem = UIManager.Hands.CurrentSlot.Item;
+                var otherHandItem = UIManager.Hands.OtherSlot.Item;
                 string hand;
 
                 if (currentHandItem != null)
@@ -139,7 +149,7 @@ namespace Weapons
                     if (CurrentMagazine == null)
                     {
                         //RELOAD
-                        MagazineBehaviour magazine = currentHandItem.GetComponent<MagazineBehaviour>();
+                        var magazine = currentHandItem.GetComponent<MagazineBehaviour>();
 
                         if (magazine != null && otherHandItem.GetComponent<Weapon>() != null)
                         {
@@ -150,7 +160,7 @@ namespace Weapons
                     else
                     {
                         //UNLOAD
-                        Weapon weapon = currentHandItem.GetComponent<Weapon>();
+                        var weapon = currentHandItem.GetComponent<Weapon>();
 
                         if (weapon != null && otherHandItem == null)
                         {
@@ -174,12 +184,25 @@ namespace Weapons
             }
         }
 
+        //Do all the weapon init for connecting clients
+        public override void OnStartClient()
+        {
+            StartCoroutine(WaitForLoad());
+            base.OnStartClient();
+        }
+
+        private IEnumerator WaitForLoad()
+        {
+            yield return new WaitForSeconds(3f);
+            LoadUnloadAmmo(MagNetID);
+        }
+
         #region Weapon Server Init
 
         public override void OnStartServer()
         {
             var ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType);
-            GameObject m = GameObject.Instantiate(ammoPrefab as GameObject, Vector3.zero, Quaternion.identity);
+            var m = Instantiate(ammoPrefab as GameObject, Vector3.zero, Quaternion.identity);
             //spean the magazine
             NetworkServer.Spawn(m);
             StartCoroutine(SetMagazineOnStart(m));
@@ -188,11 +211,11 @@ namespace Weapons
         }
 
         //Gives it a chance for weaponNetworkActions to init
-        IEnumerator SetMagazineOnStart(GameObject magazine)
+        private IEnumerator SetMagazineOnStart(GameObject magazine)
         {
             yield return new WaitForSeconds(2f);
             //			if (GameData.IsHeadlessServer || GameData.Instance.testServer) {
-            NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
+            var networkID = magazine.GetComponent<NetworkIdentity>().netId;
             MagNetID = networkID;
             //			} else {
             //				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
@@ -201,26 +224,15 @@ namespace Weapons
 
         #endregion
 
-        //Do all the weapon init for connecting clients
-        public override void OnStartClient()
-        {
-            StartCoroutine(WaitForLoad());
-            base.OnStartClient();
-        }
-
-        IEnumerator WaitForLoad()
-        {
-            yield return new WaitForSeconds(3f);
-            LoadUnloadAmmo(MagNetID);
-        }
-
         #region Weapon Firing Mechanism
 
         public override void Interact(GameObject originator, Vector3 position, string hand)
         {
             //todo: validate fire attempts on server
             if (Input.GetKey(KeyCode.LeftControl))
+            {
                 return;
+            }
             //shoot gun interation if its in hand
             if (gameObject == UIManager.Hands.CurrentSlot.GameObject())
             {
@@ -233,7 +245,7 @@ namespace Weapons
             }
         }
 
-        void AttemptToFireWeapon()
+        private void AttemptToFireWeapon()
         {
             //ignore if we are hovering over UI
             if (EventSystem.current.IsPointerOverGameObject())
@@ -270,7 +282,9 @@ namespace Weapons
                         lps.weaponNetworkActions.CmdShootBullet(gameObject, CurrentMagazine.gameObject, dir,
                             Projectile.name, UIManager.DamageZone /*PlayerScript.SelectedDamageZone*/);
                         if (WeaponType == WeaponType.FullyAutomatic)
+                        {
                             lps.inputController.OnMouseDownDir(dir);
+                        }
                     }
 
                     if (WeaponType == WeaponType.FullyAutomatic)
@@ -285,7 +299,7 @@ namespace Weapons
 
         #region Weapon Loading and Unloading
 
-        void Reload(GameObject m, string hand)
+        private void Reload(GameObject m, string hand)
         {
             Debug.Log("Reloading");
             PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m);
@@ -295,7 +309,7 @@ namespace Weapons
 
         //atm unload with shortcut 'e'
         //TODO dev right click unloading so it goes into the opposite hand if it is selected
-        void ManualUnload(MagazineBehaviour m)
+        private void ManualUnload(MagazineBehaviour m)
         {
             Debug.Log("Unloading");
             if (m != null)
@@ -316,7 +330,9 @@ namespace Weapons
             if (MagNetID != NetworkInstanceId.Invalid)
             {
                 if (CurrentMagazine /* && PlayerManager.LocalPlayer != null*/)
+                {
                     PlayerManager.LocalPlayerScript.playerNetworkActions.AddToEquipmentPool(CurrentMagazine.gameObject);
+                }
             }
         }
 
@@ -326,7 +342,9 @@ namespace Weapons
             if (MagNetID != NetworkInstanceId.Invalid && CustomNetworkManager.Instance._isServer)
             {
                 if (CurrentMagazine)
+                {
                     PlayerManager.LocalPlayerScript.playerNetworkActions.DisposeOfChildItem(CurrentMagazine.gameObject);
+                }
             }
             Debug.Log("Dropped Weapon");
         }
@@ -341,16 +359,12 @@ namespace Weapons
             else
             {
                 //find the magazine by NetworkID
-                GameObject magazine = ClientScene.FindLocalObject(magazineID);
+                var magazine = ClientScene.FindLocalObject(magazineID);
                 if (magazine != null)
                 {
-                    MagazineBehaviour magazineBehavior = magazine.GetComponent<MagazineBehaviour>();
+                    var magazineBehavior = magazine.GetComponent<MagazineBehaviour>();
                     CurrentMagazine = magazineBehavior;
                     //					Debug.LogFormat("MagazineBehaviour found ok: {0}", magazineID);
-                }
-                else
-                {
-                    //					Debug.Log("Could not find MagazineBehaviour");
                 }
             }
         }
@@ -379,12 +393,12 @@ namespace Weapons
 
         #region Weapon Sounds
 
-        void OutOfAmmoSFX()
+        private void OutOfAmmoSFX()
         {
             PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("OutOfAmmoAlarm");
         }
 
-        void PlayEmptySFX()
+        private void PlayEmptySFX()
         {
             PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("EmptyGunClick");
         }

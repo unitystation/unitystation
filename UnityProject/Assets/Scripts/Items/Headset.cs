@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UI;
 using UnityEngine.Networking;
 
 /// <summary>
-/// Headset properties
+///     Headset properties
 /// </summary>
 public class Headset : NetworkBehaviour
 {
@@ -19,18 +17,18 @@ public class Headset : NetworkBehaviour
     {
         if (EncryptionKey != EncryptionKeyType.None)
         {
-            UI.UIManager.Chat.AddChatEvent(new ChatEvent("This headset already has an encryption key",
+            UIManager.Chat.AddChatEvent(new ChatEvent("This headset already has an encryption key",
                 ChatChannel.System));
             return;
         }
 
         EncryptionKey = encryptionKeyComponent.Type;
-        GameObject.Destroy(encryptionKeyComponent.gameObject);
+        Destroy(encryptionKeyComponent.gameObject);
     }
 
     private void getEncryptionTypeFromHier()
     {
-        ItemAttributes attr = GetComponent<ItemAttributes>();
+        var attr = GetComponent<ItemAttributes>();
 
         switch (attr.hierarchy)
         {

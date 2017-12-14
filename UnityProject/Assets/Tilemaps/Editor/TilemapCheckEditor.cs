@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours;
 using Tilemaps.Scripts.Behaviours.Layers;
 using Tilemaps.Scripts.Tiles;
 using UnityEditor;
@@ -22,6 +20,11 @@ namespace Tilemaps.Editor
         private static bool corners;
         private static bool room;
 
+
+        private static readonly List<HashSet<Vector3Int>> rooms = new List<HashSet<Vector3Int>>();
+
+        private static HashSet<Vector3Int> currentRoom;
+
         private SceneView currentSceneView;
 
         [MenuItem("Window/Tilemap Check")]
@@ -40,12 +43,12 @@ namespace Tilemaps.Editor
             SceneView.onSceneGUIDelegate -= OnSceneGUI;
         }
 
-        void OnSceneGUI(SceneView sceneView)
+        private void OnSceneGUI(SceneView sceneView)
         {
             currentSceneView = sceneView;
         }
 
-        void OnGUI()
+        private void OnGUI()
         {
             DrawGizmos = GUILayout.Toggle(DrawGizmos, "Draw Gizmos");
             passable = GUILayout.Toggle(passable, "Passable");
@@ -57,14 +60,18 @@ namespace Tilemaps.Editor
             room = GUILayout.Toggle(room, "Show Room");
 
             if (currentSceneView)
+            {
                 currentSceneView.Repaint();
+            }
         }
 
         [DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]
-        static void DrawGizmo(MetaTileMap scr, GizmoType gizmoType)
+        private static void DrawGizmo(MetaTileMap scr, GizmoType gizmoType)
         {
             if (!DrawGizmos)
+            {
                 return;
+            }
 
             var start = Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(Vector3.one * -32) -
                                               scr.transform.position); // bottom left
@@ -174,11 +181,6 @@ namespace Tilemaps.Editor
                 }
             }
         }
-
-
-        private static List<HashSet<Vector3Int>> rooms = new List<HashSet<Vector3Int>>();
-
-        private static HashSet<Vector3Int> currentRoom;
 
         private static void DrawRoom(MetaTileMap metaTileMap)
         {

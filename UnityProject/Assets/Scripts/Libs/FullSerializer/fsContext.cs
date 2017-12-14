@@ -4,18 +4,18 @@ using System.Collections.Generic;
 namespace FullSerializer
 {
     /// <summary>
-    /// fsContext stores global metadata that can be used to customize how fsConverters operate
-    /// during serialization.
+    ///     fsContext stores global metadata that can be used to customize how fsConverters operate
+    ///     during serialization.
     /// </summary>
     public sealed class fsContext
     {
         /// <summary>
-        /// All of the context objects.
+        ///     All of the context objects.
         /// </summary>
         private readonly Dictionary<Type, object> _contextObjects = new Dictionary<Type, object>();
 
         /// <summary>
-        /// Removes all context objects from the context.
+        ///     Removes all context objects from the context.
         /// </summary>
         public void Reset()
         {
@@ -23,7 +23,7 @@ namespace FullSerializer
         }
 
         /// <summary>
-        /// Sets the context object for the given type with the given value.
+        ///     Sets the context object for the given type with the given value.
         /// </summary>
         public void Set<T>(T obj)
         {
@@ -31,7 +31,7 @@ namespace FullSerializer
         }
 
         /// <summary>
-        /// Returns true if there is a context object for the given type.
+        ///     Returns true if there is a context object for the given type.
         /// </summary>
         public bool Has<T>()
         {
@@ -39,7 +39,7 @@ namespace FullSerializer
         }
 
         /// <summary>
-        /// Fetches the context object for the given type.
+        ///     Fetches the context object for the given type.
         /// </summary>
         public T Get<T>()
         {

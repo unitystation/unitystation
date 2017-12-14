@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using FullSerializer;
 using Tilemaps.Scripts.Behaviours.Layers;
 using Tilemaps.Scripts.Tiles;
@@ -15,7 +14,7 @@ using UnityStation.Tools;
 public class JsonToTilemap : Editor
 {
     [MenuItem("Tools/Import map (JSON)")]
-    static void Json2Map()
+    private static void Json2Map()
     {
         var map = GameObject.FindGameObjectWithTag("Map");
         var metaTileMap = map.GetComponentInChildren<MetaTileMap>();
@@ -34,7 +33,7 @@ public class JsonToTilemap : Editor
         {
             var positions = layer.Value.TilePositions.ConvertAll(coord => new Vector3Int(coord.X, coord.Y, 0));
 
-            for (int i = 0; i < positions.Count; i++)
+            for (var i = 0; i < positions.Count; i++)
             {
                 var position = positions[i];
                 var tile = converter.DataToTile(layer.Value.Tiles[i]);
@@ -75,7 +74,7 @@ public class JsonToTilemap : Editor
 
         var rotation = Quaternion.identity;
 
-        for (int i = 0; i < 4; i++)
+        for (var i = 0; i < 4; i++)
         {
             var offset = Vector3Int.RoundToInt(rotation * Vector3.up);
             var hasStructure = metaTileMap.HasTile(position + offset, LayerType.Walls) ||
@@ -108,7 +107,10 @@ public class JsonToTilemap : Editor
             var serializer = new fsSerializer();
             serializer.TryDeserialize(data, ref deserializedLayers).AssertSuccessWithoutWarnings();
         }
-        else throw new FileNotFoundException("Put your map json to /Assets/Resources/metadata/%mapname%.json!");
+        else
+        {
+            throw new FileNotFoundException("Put your map json to /Assets/Resources/metadata/%mapname%.json!");
+        }
         return deserializedLayers;
     }
 

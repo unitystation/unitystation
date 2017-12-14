@@ -1,34 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.UI;
-using UI;
-using UnityEngine.SceneManagement;
-using PlayGroup;
-using System;
+﻿using System.Collections.Generic;
 using System.Linq;
+using PlayGroup;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
-    public GameObject StandardOutfit;
+    private readonly float cacheTime = 480f;
+    private bool counting;
     public List<GameObject> Occupations = new List<GameObject>();
-
-    public Text roundTimer;
-    private bool counting = false;
-    private bool waitForRestart = false;
-    private float remainingTime = 480f; //6min rounds
-    private float cacheTime = 480f;
     private float restartTime = 10f;
 
-    public float GetRoundTime
-    {
-        get { return remainingTime; }
-    }
+    public Text roundTimer;
 
-    void Awake()
+    public GameObject StandardOutfit;
+    private bool waitForRestart;
+
+    public float GetRoundTime { get; private set; } = 480f;
+
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -40,23 +32,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
     }
 
-    void OnValidate()
+    private void OnValidate()
     {
         if (Occupations.All(o => o.GetComponent<OccupationRoster>().Type != JobType.ASSISTANT))
+        {
             Debug.LogError("There is no ASSISTANT job role defined in the the GameManager Occupation rosters");
+        }
     }
 
-    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "DeathMatch")
         {
@@ -66,17 +60,17 @@ public class GameManager : MonoBehaviour
 
     public void SyncTime(float currentTime)
     {
-        remainingTime = currentTime;
+        GetRoundTime = currentTime;
     }
 
     public void ResetRoundTime()
     {
-        remainingTime = cacheTime;
+        GetRoundTime = cacheTime;
         restartTime = 10f;
         counting = true;
     }
 
-    void Update()
+    private void Update()
     {
         if (waitForRestart)
         {
@@ -90,10 +84,10 @@ public class GameManager : MonoBehaviour
 
         if (counting)
         {
-            remainingTime -= Time.deltaTime;
-            roundTimer.text = Mathf.Floor(remainingTime / 60).ToString("00") + ":" +
-                              (remainingTime % 60).ToString("00");
-            if (remainingTime <= 0f)
+            GetRoundTime -= Time.deltaTime;
+            roundTimer.text = Mathf.Floor(GetRoundTime / 60).ToString("00") + ":" +
+                              (GetRoundTime % 60).ToString("00");
+            if (GetRoundTime <= 0f)
             {
                 counting = false;
                 roundTimer.text = "GameOver";
@@ -110,12 +104,12 @@ public class GameManager : MonoBehaviour
 
     public int GetOccupationsCount(JobType jobType)
     {
-        int count = 0;
+        var count = 0;
 
         if (PlayerList.Instance == null || PlayerList.Instance.connectedPlayers.Count == 0)
-		{
-			return 0;
-		}
+        {
+            return 0;
+        }
 
         foreach (var player in PlayerList.Instance.connectedPlayers)
         {
@@ -135,14 +129,14 @@ public class GameManager : MonoBehaviour
         return count;
     }
 
-	public int GetOccupationMaxCount(JobType jobType)
-	{
-		GameObject jobObject = Occupations.Find(o => o.GetComponent<OccupationRoster>().Type == jobType);
-		OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
-		return job.limit;
-	}
+    public int GetOccupationMaxCount(JobType jobType)
+    {
+        var jobObject = Occupations.Find(o => o.GetComponent<OccupationRoster>().Type == jobType);
+        var job = jobObject.GetComponent<OccupationRoster>();
+        return job.limit;
+    }
 
-	public JobOutfit GetOccupationOutfit(JobType jobType)
+    public JobOutfit GetOccupationOutfit(JobType jobType)
     {
         return Occupations.First(o => o.GetComponent<OccupationRoster>().Type == jobType)
             .GetComponent<OccupationRoster>().outfit.GetComponent<JobOutfit>();
@@ -154,15 +148,17 @@ public class GameManager : MonoBehaviour
         // Try to assign specific job
         if (jobTypeRequest != JobType.NULL)
         {
-            foreach (GameObject jobObject in Occupations.Where(o =>
+            foreach (var jobObject in Occupations.Where(o =>
                 o.GetComponent<OccupationRoster>().Type == jobTypeRequest))
             {
-                OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
+                var job = jobObject.GetComponent<OccupationRoster>();
                 if (job.limit != -1)
+                {
                     if (job.limit > GetOccupationsCount(job.Type))
                     {
                         return job.Type;
                     }
+                }
                 if (job.limit == -1)
                 {
                     return job.Type;
@@ -171,14 +167,16 @@ public class GameManager : MonoBehaviour
         }
 
         // No job found, get random via priority
-        foreach (GameObject jobObject in Occupations.OrderBy(o => o.GetComponent<OccupationRoster>().priority))
+        foreach (var jobObject in Occupations.OrderBy(o => o.GetComponent<OccupationRoster>().priority))
         {
-            OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
+            var job = jobObject.GetComponent<OccupationRoster>();
             if (job.limit != -1)
+            {
                 if (job.limit > GetOccupationsCount(job.Type))
                 {
                     return job.Type;
                 }
+            }
             if (job.limit == -1)
             {
                 return job.Type;
@@ -188,7 +186,7 @@ public class GameManager : MonoBehaviour
         return JobType.ASSISTANT;
     }
 
-    void RestartRound()
+    private void RestartRound()
     {
         if (CustomNetworkManager.Instance._isServer)
         {

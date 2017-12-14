@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MapToPNG : Editor
 {
-    private static List<string> sortingLayerNames = GetSortingLayerNames();
+    private static readonly List<string> sortingLayerNames = GetSortingLayerNames();
 
     [MenuItem("Tools/Make Map PNG")]
-    static void Map2PNG()
+    private static void Map2PNG()
     {
         //        var nodesMapped = GetMappedNodes();
         //
@@ -161,7 +159,7 @@ public class MapToPNG : Editor
     internal static List<string> GetSortingLayerNames()
     {
         var internalEditorUtilityType = typeof(InternalEditorUtility);
-        PropertyInfo sortingLayersProperty =
+        var sortingLayersProperty =
             internalEditorUtilityType.GetProperty("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
         var sortingLayerNames = (string[]) sortingLayersProperty.GetValue(null, new object[0]);
 

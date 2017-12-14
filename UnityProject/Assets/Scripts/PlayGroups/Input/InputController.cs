@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cupboards;
@@ -7,35 +6,34 @@ using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
-using Tilemaps.Scripts.Tiles;
 
 namespace PlayGroups.Input
 {
     public class InputController : MonoBehaviour
     {
-        private PlayerSprites playerSprites;
-        private PlayerMove playerMove;
-        private LayerMask layerMask;
-        private Vector2 LastTouchedTile;
-        private ObjectBehaviour objectBehaviour;
-
         /// <summary>
-        ///  The minimum time limit between each action
-        /// </summary>
-        private float InputCooldownTimer = 0.01f;
-
-        /// <summary>
-        ///  The cooldown before another action can be performed
+        ///     The cooldown before another action can be performed
         /// </summary>
         private float CurrentCooldownTime;
 
-        void OnDrawGizmos()
+        /// <summary>
+        ///     The minimum time limit between each action
+        /// </summary>
+        private float InputCooldownTimer = 0.01f;
+
+        private Vector2 LastTouchedTile;
+        private LayerMask layerMask;
+        private ObjectBehaviour objectBehaviour;
+        private PlayerMove playerMove;
+        private PlayerSprites playerSprites;
+
+        private void OnDrawGizmos()
         {
             Gizmos.color = new Color(1, 0, 0, 0.5F);
             Gizmos.DrawCube(LastTouchedTile, new Vector3(1, 1, 1));
         }
 
-        void Start()
+        private void Start()
         {
             //for changing direction on click
             playerSprites = gameObject.GetComponent<PlayerSprites>();
@@ -47,7 +45,7 @@ namespace PlayGroups.Input
                 "Players", "Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls", "Objects");
         }
 
-        void Update()
+        private void Update()
         {
             CheckHandSwitch();
             CheckClick();
@@ -88,8 +86,8 @@ namespace PlayGroups.Input
                 position.z = 0f;
                 if (PlayerManager.LocalPlayerScript.IsInReach(position))
                 {
-                    List<GameObject> objects = UITileList.GetItemsAtPosition(position);
-                    LayerTile tile = UITileList.GetTileAtPosition(position);
+                    var objects = UITileList.GetItemsAtPosition(position);
+                    var tile = UITileList.GetTileAtPosition(position);
                     ControlTabs.ShowItemListTab(objects, tile, position);
                 }
             }
@@ -99,9 +97,11 @@ namespace PlayGroups.Input
         {
             Vector2 dir = (Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition) -
                            transform.position).normalized;
-            float angle = Angle(dir);
+            var angle = Angle(dir);
             if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
+            {
                 CheckPlayerDirection(angle);
+            }
         }
 
         private bool RayHit()
@@ -119,7 +119,7 @@ namespace PlayGroups.Input
             foreach (var hit in hits)
             {
                 var objectTransform = hit.collider.gameObject.transform;
-                var _renderer = IsHit(objectTransform, (position - objectTransform.position));
+                var _renderer = IsHit(objectTransform, position - objectTransform.position);
                 if (_renderer != null)
                 {
                     renderers.Add(_renderer);
@@ -171,7 +171,7 @@ namespace PlayGroups.Input
                     var scale = spriteRenderer.gameObject.transform.localScale;
                     var offset = spriteRenderer.gameObject.transform.localPosition;
 
-                    float pixelsPerUnit = sprite.pixelsPerUnit;
+                    var pixelsPerUnit = sprite.pixelsPerUnit;
 
                     var angle = spriteRenderer.gameObject.transform.parent.localEulerAngles.z * Mathf.Deg2Rad;
 
@@ -202,7 +202,9 @@ namespace PlayGroups.Input
         public bool Interact(Transform _transform, Vector3 position)
         {
             if (playerMove.isGhost)
+            {
                 return false;
+            }
             ;
 
             //attempt to trigger the things in range we clicked on
@@ -217,33 +219,24 @@ namespace PlayGroups.Input
                         inputTrigger.Trigger(position);
                         return true;
                     }
-                    else
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-                else
+                inputTrigger = _transform.parent.GetComponent<InputTrigger>();
+                if (inputTrigger)
                 {
-                    inputTrigger = _transform.parent.GetComponent<InputTrigger>();
-                    if (inputTrigger)
+                    if (objectBehaviour.visibleState)
                     {
-                        if (objectBehaviour.visibleState)
-                        {
-                            inputTrigger.Trigger();
-                            return true;
-                        }
-                        else
-                        {
-                            //Allow interact with all cupboards because you may be in one!
-                            ClosetControl cCtrl = inputTrigger.GetComponent<ClosetControl>();
-                            if (cCtrl)
-                            {
-                                inputTrigger.Trigger();
-                                return true;
-                            }
-                            return false;
-                        }
+                        inputTrigger.Trigger();
+                        return true;
                     }
+                    //Allow interact with all cupboards because you may be in one!
+                    var cCtrl = inputTrigger.GetComponent<ClosetControl>();
+                    if (cCtrl)
+                    {
+                        inputTrigger.Trigger();
+                        return true;
+                    }
+                    return false;
                 }
             }
             //if we are holding onto an item like a gun attempt to shoot it if we were not in range to trigger anything
@@ -267,12 +260,12 @@ namespace PlayGroups.Input
 
         public void OnMouseDownDir(Vector2 dir)
         {
-            float angle = Angle(dir);
+            var angle = Angle(dir);
             CheckPlayerDirection(angle);
         }
 
         //Calculate the mouse click angle in relation to player(for facingDirection on PlayerSprites)
-        float Angle(Vector2 dir)
+        private float Angle(Vector2 dir)
         {
             var angle = Vector2.Angle(Vector2.up, dir);
 
@@ -284,16 +277,24 @@ namespace PlayGroups.Input
             return angle;
         }
 
-        void CheckPlayerDirection(float angle)
+        private void CheckPlayerDirection(float angle)
         {
             if (angle >= 315f && angle <= 360f || angle >= 0f && angle <= 45f)
+            {
                 playerSprites.CmdChangeDirection(Vector2.up);
+            }
             if (angle > 45f && angle <= 135f)
+            {
                 playerSprites.CmdChangeDirection(Vector2.right);
+            }
             if (angle > 135f && angle <= 225f)
+            {
                 playerSprites.CmdChangeDirection(Vector2.down);
+            }
             if (angle > 225f && angle < 315f)
+            {
                 playerSprites.CmdChangeDirection(Vector2.left);
+            }
         }
     }
 }

@@ -1,27 +1,23 @@
 ﻿using PlayGroup;
+using UI;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class BodyPartBehaviour : MonoBehaviour
 {
-    public BodyPartType Type;
+    private int _damage;
+    public Sprite GrayDamageMonitorIcon;
 
     public Sprite GreenDamageMonitorIcon;
-    public Sprite YellowDamageMonitorIcon;
-    public Sprite OrangeDamageMonitorIcon;
-    public Sprite RedDamageMonitorIcon;
-    public Sprite GrayDamageMonitorIcon;
 
     //50 for limbs, 200 for the head and torso(?)
     public int MaxDamage = 50;
 
-    private int _damage;
-    private DamageSeverity _severity;
+    public Sprite OrangeDamageMonitorIcon;
+    public Sprite RedDamageMonitorIcon;
+    public BodyPartType Type;
+    public Sprite YellowDamageMonitorIcon;
 
-    public DamageSeverity Severity
-    {
-        get { return _severity; }
-    }
+    public DamageSeverity Severity { get; private set; }
 
     public virtual void ReceiveDamage(DamageType damageType, int damage)
     {
@@ -42,8 +38,11 @@ public class BodyPartBehaviour : MonoBehaviour
 
     private void UpdateIcons()
     {
-        if (!IsLocalPlayer()) return;
-        UI.UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
+        if (!IsLocalPlayer())
+        {
+            return;
+        }
+        UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
     }
 
     protected bool IsLocalPlayer()
@@ -55,22 +54,22 @@ public class BodyPartBehaviour : MonoBehaviour
 
     private void UpdateSeverity()
     {
-        float severity = (float) _damage / MaxDamage;
+        var severity = (float) _damage / MaxDamage;
         if (severity >= 0.2 && severity < 0.4)
         {
-            _severity = DamageSeverity.Moderate;
+            Severity = DamageSeverity.Moderate;
         }
         else if (severity >= 0.4 && severity < 0.7)
         {
-            _severity = DamageSeverity.Bad;
+            Severity = DamageSeverity.Bad;
         }
         else if (severity >= 0.7)
         {
-            _severity = DamageSeverity.Critical;
+            Severity = DamageSeverity.Critical;
         }
         else
         {
-            _severity = DamageSeverity.None;
+            Severity = DamageSeverity.None;
         }
         UpdateIcons();
     }

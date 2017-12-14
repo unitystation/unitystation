@@ -1,34 +1,32 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System.Collections;
 using PlayGroup;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace UI
 {
     public class ControlChat : MonoBehaviour
     {
-        public GameObject chatInputWindow;
-        public GameObject channelToggle;
-        public InputField usernameInput;
-        public RectTransform ChatPanel;
+        private readonly List<ChatEvent> _localEvents = new List<ChatEvent>();
+        public Toggle channelListToggle;
 
         public RectTransform channelPanel;
+        public GameObject channelToggle;
+        public GameObject chatInputWindow;
+        public RectTransform ChatPanel;
+
+        public Text CurrentChannelText;
         // set in inspector (to enable/disable panel)
 
         public InputField InputFieldChat;
-        public Text CurrentChannelText;
-        public Scrollbar scrollBar;
-        public Toggle channelListToggle;
 
-        public bool isChatFocus = false;
+        public bool isChatFocus;
+        public Scrollbar scrollBar;
 
         public bool ShowState = true;
-
-        private List<ChatEvent> _localEvents = new List<ChatEvent>();
+        public InputField usernameInput;
 
         public void AddChatEvent(ChatEvent chatEvent)
         {
@@ -59,7 +57,7 @@ namespace UI
             }
             if (isChatFocus)
             {
-                if (!string.IsNullOrEmpty(this.InputFieldChat.text.Trim()) &&
+                if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()) &&
                     (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)))
                 {
                     PlayerSendChat();
@@ -75,7 +73,7 @@ namespace UI
 
         public void OnClickSend()
         {
-            if (!string.IsNullOrEmpty(this.InputFieldChat.text.Trim()))
+            if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
             {
                 SoundManager.Play("Click01");
                 PlayerSendChat();
@@ -86,21 +84,21 @@ namespace UI
         private void PlayerSendChat()
         {
             PostToChatMessage.Send(InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels);
-            if (this.InputFieldChat.text != "")
+            if (InputFieldChat.text != "")
             {
                 PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
             }
-            this.InputFieldChat.text = "";
+            InputFieldChat.text = "";
         }
 
         public void OnChatCancel()
         {
             SoundManager.Play("Click01");
-            this.InputFieldChat.text = "";
+            InputFieldChat.text = "";
             CloseChatWindow();
         }
 
-        void CloseChatWindow()
+        private void CloseChatWindow()
         {
             isChatFocus = false;
             chatInputWindow.SetActive(false);
@@ -133,8 +131,8 @@ namespace UI
 
                 if ((channelsAvailable & channel) == channel)
                 {
-                    GameObject channelToggleItem = GameObject.Instantiate(channelToggle, channelPanel.transform);
-                    Toggle toggle = channelToggleItem.GetComponent<Toggle>();
+                    var channelToggleItem = Instantiate(channelToggle, channelPanel.transform);
+                    var toggle = channelToggleItem.GetComponent<Toggle>();
                     toggle.GetComponent<UIToggleChannel>().channel = channel;
                     toggle.GetComponentInChildren<Text>().text = IconConstants.ChatPanelIcons[channel];
                     toggle.onValueChanged.AddListener(Toggle_Channel);
@@ -150,16 +148,16 @@ namespace UI
                 }
             }
 
-            float width = channelPanel.GetChild(0).GetComponent<RectTransform>().rect.width;
-            int count = channelPanel.transform.childCount;
-            LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
-            HorizontalLayoutGroup horizontalLayoutGroup = channelPanel.GetComponent<HorizontalLayoutGroup>();
-            layoutElement.minWidth = (width * count) + (horizontalLayoutGroup.spacing * count);
+            var width = channelPanel.GetChild(0).GetComponent<RectTransform>().rect.width;
+            var count = channelPanel.transform.childCount;
+            var layoutElement = channelPanel.GetComponent<LayoutElement>();
+            var horizontalLayoutGroup = channelPanel.GetComponent<HorizontalLayoutGroup>();
+            layoutElement.minWidth = width * count + horizontalLayoutGroup.spacing * count;
         }
 
         public void EmptyChannelPanel()
         {
-            LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
+            var layoutElement = channelPanel.GetComponent<LayoutElement>();
             layoutElement.minWidth = 0;
 
             foreach (Transform child in channelPanel.transform)
@@ -171,12 +169,12 @@ namespace UI
         public void Toggle_Channel(bool isOn)
         {
             SoundManager.Play("Click01");
-            UIToggleChannel source = EventSystem.current.currentSelectedGameObject.GetComponent<UIToggleChannel>();
+            var source = EventSystem.current.currentSelectedGameObject.GetComponent<UIToggleChannel>();
             if (!source)
             {
                 return;
             }
-            ChatChannel channel = source.channel;
+            var channel = source.channel;
 
             if (isOn)
             {
@@ -192,9 +190,9 @@ namespace UI
 
         private void UpdateChannelToggleText()
         {
-            ChatChannel channelsSelected = PlayerManager.LocalPlayerScript.SelectedChannels;
-            int selectedCount = EnumUtils.GetSetBitCount((long) channelsSelected);
-            Text text = channelListToggle.GetComponentInChildren<Text>();
+            var channelsSelected = PlayerManager.LocalPlayerScript.SelectedChannels;
+            var selectedCount = EnumUtils.GetSetBitCount((long) channelsSelected);
+            var text = channelListToggle.GetComponentInChildren<Text>();
 
             if (selectedCount == 1)
             {
@@ -221,22 +219,21 @@ namespace UI
             if (selectedCount > 1)
             {
                 text.text = "Multiple";
-                return;
             }
         }
 
         private bool isChannelListUpToDate()
         {
-            ChatChannel availableChannels = PlayerManager.LocalPlayerScript.GetAvailableChannels();
-            int availableCount = EnumUtils.GetSetBitCount((long) availableChannels);
-            UIToggleChannel[] displayedChannels = channelPanel.GetComponentsInChildren<UIToggleChannel>();
+            var availableChannels = PlayerManager.LocalPlayerScript.GetAvailableChannels();
+            var availableCount = EnumUtils.GetSetBitCount((long) availableChannels);
+            var displayedChannels = channelPanel.GetComponentsInChildren<UIToggleChannel>();
 
             if (availableCount != displayedChannels.Length)
             {
                 return false;
             }
 
-            foreach (UIToggleChannel toggleChannel in displayedChannels)
+            foreach (var toggleChannel in displayedChannels)
             {
                 if ((availableChannels & toggleChannel.channel) != toggleChannel.channel)
                 {

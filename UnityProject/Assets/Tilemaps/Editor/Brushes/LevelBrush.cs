@@ -1,7 +1,4 @@
-﻿using System;
-using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours;
-using Tilemaps.Scripts.Behaviours.Layers;
+﻿using Tilemaps.Scripts.Behaviours.Layers;
 using Tilemaps.Scripts.Tiles;
 using UnityEditor;
 using UnityEngine;
@@ -31,7 +28,9 @@ namespace Tilemaps.Editor.Brushes
                 var metaTileMap = grid.GetComponent<MetaTileMap>();
 
                 if (!metaTileMap)
+                {
                     return;
+                }
 
                 foreach (var position in area.allPositionsWithin)
                 {
@@ -79,7 +78,9 @@ namespace Tilemaps.Editor.Brushes
                 var tile = cells[0].tile as LayerTile;
 
                 if (tile != null)
+                {
                     cells[0].matrix = tile.Rotate(cells[0].matrix, direction == RotationDirection.Clockwise);
+                }
             }
         }
 

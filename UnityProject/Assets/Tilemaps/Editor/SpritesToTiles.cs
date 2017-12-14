@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using Tilemaps.Editor.Utils;
 using Tilemaps.Scripts.Tiles;
 using UnityEditor;
@@ -38,7 +35,7 @@ namespace Tilemaps.Editor
 
                         var tileCount = state.frames * state.dirs;
 
-                        for (int e = 0; e < state.frames * state.dirs; e++)
+                        for (var e = 0; e < state.frames * state.dirs; e++)
                         {
                             var tileName = state.state + (tileCount > 1 ? "_" + e : "");
 

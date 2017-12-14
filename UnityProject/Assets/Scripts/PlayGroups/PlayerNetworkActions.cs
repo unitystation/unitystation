@@ -1,39 +1,39 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Linq;
 using Cupboards;
+using Doors;
 using Equipment;
-using InputControl;
 using Lighting;
 using PlayGroup;
+using PlayGroups.Input;
+using Tilemaps.Scripts.Behaviours.Objects;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
-using System.Linq;
-using Doors;
-using PlayGroups.Input;
-using Tilemaps.Scripts.Behaviours.Objects;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
-    private Dictionary<string, GameObject> _inventory = new Dictionary<string, GameObject>();
+    private ChatIcon chatIcon;
 
-    private string[] slotNames =
+    private Equipment.Equipment equipment;
+    private PlayerMove playerMove;
+    private PlayerScript playerScript;
+    private PlayerSprites playerSprites;
+
+    private readonly string[] slotNames =
     {
         "suit", "belt", "feet", "head", "mask", "uniform", "neck", "ear", "eyes", "hands",
         "id", "back", "rightHand", "leftHand", "storage01", "storage02", "suitStorage"
     };
 
-    private Equipment.Equipment equipment;
-    private PlayerMove playerMove;
-    private PlayerSprites playerSprites;
-    private PlayerScript playerScript;
     private SoundNetworkActions soundNetworkActions;
-    private ChatIcon chatIcon;
 
-    void Start()
+    public Dictionary<string, GameObject> Inventory { get; } = new Dictionary<string, GameObject>();
+
+    private void Start()
     {
         equipment = GetComponent<Equipment.Equipment>();
         playerMove = GetComponent<PlayerMove>();
@@ -47,9 +47,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     {
         if (isServer)
         {
-            foreach (string slotName in slotNames)
+            foreach (var slotName in slotNames)
             {
-                _inventory.Add(slotName, null);
+                Inventory.Add(slotName, null);
             }
         }
         else
@@ -59,20 +59,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         base.OnStartServer();
     }
 
-    public Dictionary<string, GameObject> Inventory
-    {
-        get { return _inventory; }
-    }
-
     [Server]
     public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false,
         bool forceInform = true)
     {
         var eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
-        if (_inventory[eventName] != null && _inventory[eventName] != itemObject && !replaceIfOccupied)
+        if (Inventory[eventName] != null && Inventory[eventName] != itemObject && !replaceIfOccupied)
         {
             Debug.LogFormat("{0}: Didn't replace existing {1} item {2} with {3}",
-                gameObject.name, eventName, _inventory[eventName].name, itemObject.name);
+                gameObject.name, eventName, Inventory[eventName].name, itemObject.name);
             return false;
         }
         EquipmentPool.AddGameObject(gameObject, itemObject);
@@ -87,7 +82,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         UIManager.InventorySlots.GetSlotByEvent(slotName).SetItem(item);
     }
 
-    void PlaceInHand(GameObject item)
+    private void PlaceInHand(GameObject item)
     {
         UIManager.Hands.CurrentSlot.SetItem(item);
     }
@@ -109,7 +104,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Server]
     public bool ValidateInvInteraction(string slot, GameObject gObj = null, bool forceClientInform = true)
     {
-        if (!_inventory[slot] && gObj && _inventory.ContainsValue(gObj))
+        if (!Inventory[slot] && gObj && Inventory.ContainsValue(gObj))
         {
             UpdateSlotMessage.Send(gameObject, slot, gObj, forceClientInform);
             SetInventorySlot(slot, gObj);
@@ -128,17 +123,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
     public void RollbackPrediction(string slot)
     {
-        UpdateSlotMessage.Send(gameObject, slot, _inventory[slot], true);
+        UpdateSlotMessage.Send(gameObject, slot, Inventory[slot], true);
     }
 
     [Server]
     private void ClearObjectIfNotInSlot(GameObject gObj, string slot, bool forceClientInform)
     {
-        HashSet<string> toBeCleared = new HashSet<string>();
-        foreach (string key in _inventory.Keys)
+        var toBeCleared = new HashSet<string>();
+        foreach (var key in Inventory.Keys)
         {
-            if (key.Equals(slot) || !_inventory[key]) continue;
-            if (_inventory[key].Equals(gObj))
+            if (key.Equals(slot) || !Inventory[key])
+            {
+                continue;
+            }
+            if (Inventory[key].Equals(gObj))
             {
                 toBeCleared.Add(key);
             }
@@ -155,9 +153,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Server]
     private void ClearInventorySlot(bool forceClientInform, params string[] slotNames)
     {
-        for (int i = 0; i < slotNames.Length; i++)
+        for (var i = 0; i < slotNames.Length; i++)
         {
-            _inventory[slotNames[i]] = null;
+            Inventory[slotNames[i]] = null;
             if (slotNames[i] == "id" || slotNames[i] == "storage01"
                 || slotNames[i] == "storage02" || slotNames[i] == "suitStorage")
             {
@@ -175,8 +173,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Server]
     public void SetInventorySlot(string slotName, GameObject obj)
     {
-        _inventory[slotName] = obj;
-        ItemAttributes att = obj.GetComponent<ItemAttributes>();
+        Inventory[slotName] = obj;
+        var att = obj.GetComponent<ItemAttributes>();
         if (slotName == "leftHand" || slotName == "rightHand")
         {
             equipment.SetHandItemSprite(slotName, att);
@@ -193,7 +191,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
                 if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset"))
                 {
                     // Debug.Log("slotName = " + slotName);
-                    Epos enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
+                    var enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
                     equipment.syncEquipSprites[(int) enumA] = att.clothingReference;
                 }
             }
@@ -205,9 +203,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     public void DropItem(string hand, bool forceClientInform = true)
     {
         if (CustomNetworkManager.Instance._isServer)
+        {
             ValidateDropItem(hand, forceClientInform);
+        }
         else
+        {
             InventoryInteractMessage.Send(hand, null, forceClientInform);
+        }
     }
 
     //Dropping from a slot on the UI
@@ -215,12 +217,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     public bool ValidateDropItem(string slot, bool forceClientInform /* = false*/)
     {
         //decline if not dropped from hands?
-        if (_inventory.ContainsKey(slot) && _inventory[slot])
+        if (Inventory.ContainsKey(slot) && Inventory[slot])
         {
-            EquipmentPool.DropGameObject(gameObject, _inventory[slot]);
+            EquipmentPool.DropGameObject(gameObject, Inventory[slot]);
 
             //            RpcAdjustItemParent(_inventory[slot], null);
-            _inventory[slot] = null;
+            Inventory[slot] = null;
             equipment.ClearItemSprite(slot);
             UpdateSlotMessage.Send(gameObject, slot, null, forceClientInform);
             return true;
@@ -250,8 +252,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             return;
         }
 
-        GameObject item = _inventory[slotName];
-        EquipmentPool.DropGameObject(gameObject, _inventory[slotName], pos);
+        var item = Inventory[slotName];
+        EquipmentPool.DropGameObject(gameObject, Inventory[slotName], pos);
         ClearInventorySlot(slotName);
         if (item != null && newParent != null)
         {
@@ -263,13 +265,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
     public bool SlotNotEmpty(string eventName)
     {
-        return _inventory.ContainsKey(eventName) && _inventory[eventName] != null;
+        return Inventory.ContainsKey(eventName) && Inventory[eventName] != null;
     }
 
     [Command]
     public void CmdToggleCupboard(GameObject cupbObj)
     {
-        ClosetControl closetControl = cupbObj.GetComponent<ClosetControl>();
+        var closetControl = cupbObj.GetComponent<ClosetControl>();
         closetControl.ServerToggleCupboard();
     }
 
@@ -277,7 +279,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdStartMicrowave(string slotName, GameObject microwave, string mealName)
     {
-        Microwave m = microwave.GetComponent<Microwave>();
+        var m = microwave.GetComponent<Microwave>();
         m.ServerSetOutputMeal(mealName);
         ClearInventorySlot(slotName);
         m.RpcStartCooking();
@@ -286,12 +288,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdRequestJob(JobType jobType)
     {
-		// Already have a job buddy!
-		if (playerScript.JobType != JobType.NULL)
-		{
-			return;
-		}
-            
+        // Already have a job buddy!
+        if (playerScript.JobType != JobType.NULL)
+        {
+            return;
+        }
+
         playerScript.JobType = GameManager.Instance.GetRandomFreeOccupation(jobType);
 
         RespawnPlayer();
@@ -300,7 +302,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdToggleShutters(GameObject switchObj)
     {
-        ShutterSwitchTrigger s = switchObj.GetComponent<ShutterSwitchTrigger>();
+        var s = switchObj.GetComponent<ShutterSwitchTrigger>();
         if (s.IsClosed)
         {
             s.IsClosed = false;
@@ -314,7 +316,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdToggleLightSwitch(GameObject switchObj)
     {
-        LightSwitchTrigger s = switchObj.GetComponent<LightSwitchTrigger>();
+        var s = switchObj.GetComponent<LightSwitchTrigger>();
         s.isOn = !s.isOn;
     }
 
@@ -322,7 +324,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     public void CmdToggleFireCabinet(GameObject cabObj, bool forItemInteract,
         string currentSlotName)
     {
-        FireCabinetTrigger c = cabObj.GetComponent<FireCabinetTrigger>();
+        var c = cabObj.GetComponent<FireCabinetTrigger>();
 
         if (!forItemInteract)
         {
@@ -348,7 +350,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             }
             else
             {
-                c.storedObject = _inventory[currentSlotName].GetComponent<ObjectBehaviour>();
+                c.storedObject = Inventory[currentSlotName].GetComponent<ObjectBehaviour>();
                 ClearInventorySlot(currentSlotName);
                 c.storedObject.visibleState = false;
                 c.isFull = true;
@@ -389,7 +391,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcToggleChatIcon(bool turnOn)
+    private void RpcToggleChatIcon(bool turnOn)
     {
         if (turnOn)
         {
@@ -407,8 +409,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     public void RpcSetPlayerRot(bool temporary, float rot)
     {
         //		Debug.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
-        SpriteRenderer[] spriteRends = GetComponentsInChildren<SpriteRenderer>();
-        foreach (SpriteRenderer sR in spriteRends)
+        var spriteRends = GetComponentsInChildren<SpriteRenderer>();
+        foreach (var sR in spriteRends)
         {
             sR.sortingLayerName = "Blood";
         }
@@ -441,7 +443,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
                 fovScript.enabled = false;
             }
             //Show ghosts and hide FieldOfView
-            Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("Ghosts"));
+            Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("Ghosts");
             Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("FieldOfView"));
         }
     }
@@ -464,10 +466,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
         EquipmentPool.ClearPool(gameObject.name);
 
-		//Remove player objects
+        //Remove player objects
         PlayerList.Instance.RemovePlayer(gameObject.name);
-		//Re-add player to name list because a respawning player didn't disconnect
-		PlayerList.Instance.CheckName(gameObject.name);
+        //Re-add player to name list because a respawning player didn't disconnect
+        PlayerList.Instance.CheckName(gameObject.name);
 
         SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType);
     }
@@ -478,18 +480,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         playerScript.ghost.SetActive(false);
         //Hide ghosts and show FieldOfView
         Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-        Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("FieldOfView"));
+        Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("FieldOfView");
         gameObject.GetComponent<InputController>().enabled = false;
     }
 
     [Command]
-    void CmdSyncRoundTime(float currentTime)
+    private void CmdSyncRoundTime(float currentTime)
     {
         RpcSyncRoundTime(currentTime);
     }
 
     [ClientRpc]
-    void RpcSyncRoundTime(float currentTime)
+    private void RpcSyncRoundTime(float currentTime)
     {
         if (PlayerManager.LocalPlayer == gameObject)
         {
@@ -519,22 +521,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdEatFood(GameObject food, string fromSlot)
     {
-        if (_inventory[fromSlot] == null)
+        if (Inventory[fromSlot] == null)
         {
             //Already been eaten or the food is no longer in hand
             return;
         }
 
-        FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
+        var baseFood = food.GetComponent<FoodBehaviour>();
         soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
-        PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+        var playerHealth = GetComponent<PlayerHealth>();
 
         playerHealth.AddHealth(baseFood.healAmount);
         playerHealth.StopBleeding();
 
         PoolManager.Instance.PoolNetworkDestroy(food);
         UpdateSlotMessage.Send(gameObject, fromSlot, null, true);
-        _inventory[fromSlot] = null;
+        Inventory[fromSlot] = null;
         equipment.ClearItemSprite(fromSlot);
     }
 }

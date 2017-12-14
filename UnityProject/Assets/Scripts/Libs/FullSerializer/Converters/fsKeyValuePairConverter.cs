@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace FullSerializer.Internal
 {
@@ -28,8 +27,14 @@ namespace FullSerializer.Internal
             var result = fsResult.Success;
 
             fsData keyData, valueData;
-            if ((result += CheckKey(data, "Key", out keyData)).Failed) return result;
-            if ((result += CheckKey(data, "Value", out valueData)).Failed) return result;
+            if ((result += CheckKey(data, "Key", out keyData)).Failed)
+            {
+                return result;
+            }
+            if ((result += CheckKey(data, "Value", out valueData)).Failed)
+            {
+                return result;
+            }
 
             var genericArguments = storageType.GetGenericArguments();
             Type keyType = genericArguments[0], valueType = genericArguments[1];
@@ -44,11 +49,11 @@ namespace FullSerializer.Internal
 
         public override fsResult TrySerialize(object instance, out fsData serialized, Type storageType)
         {
-            PropertyInfo keyProperty = storageType.GetDeclaredProperty("Key");
-            PropertyInfo valueProperty = storageType.GetDeclaredProperty("Value");
+            var keyProperty = storageType.GetDeclaredProperty("Key");
+            var valueProperty = storageType.GetDeclaredProperty("Value");
 
-            object keyObject = keyProperty.GetValue(instance, null);
-            object valueObject = valueProperty.GetValue(instance, null);
+            var keyObject = keyProperty.GetValue(instance, null);
+            var valueObject = valueProperty.GetValue(instance, null);
 
             var genericArguments = storageType.GetGenericArguments();
             Type keyType = genericArguments[0], valueType = genericArguments[1];
@@ -60,8 +65,14 @@ namespace FullSerializer.Internal
             result.AddMessages(Serializer.TrySerialize(valueType, valueObject, out valueData));
 
             serialized = fsData.CreateDictionary();
-            if (keyData != null) serialized.AsDictionary["Key"] = keyData;
-            if (valueData != null) serialized.AsDictionary["Value"] = valueData;
+            if (keyData != null)
+            {
+                serialized.AsDictionary["Key"] = keyData;
+            }
+            if (valueData != null)
+            {
+                serialized.AsDictionary["Value"] = valueData;
+            }
 
             return result;
         }

@@ -1,23 +1,21 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 
 namespace UI
 {
     public class ControlDisplays : MonoBehaviour
     {
-        public UIManager parentScript;
-        public GameObject logInWindow;
         public GameObject backGround;
-        public GameObject jobSelectWindow;
-
-        public RectTransform hudRight;
         public RectTransform hudBottom;
 
+        public RectTransform hudRight;
+        public GameObject jobSelectWindow;
+        public GameObject logInWindow;
+
         public RectTransform panelRight;
+        public UIManager parentScript;
 
         /// <summary>
-        /// Clears all of the UI slot items
+        ///     Clears all of the UI slot items
         /// </summary>
         public void ResetUI()
         {
@@ -37,7 +35,7 @@ namespace UI
             else
             {
                 //Start the patchmanager
-                GameObject patchManager = Resources.Load("PatchManager") as GameObject;
+                var patchManager = Resources.Load("PatchManager") as GameObject;
                 if (patchManager != null)
                 {
                     Instantiate(patchManager);

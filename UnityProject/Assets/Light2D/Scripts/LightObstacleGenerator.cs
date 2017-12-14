@@ -1,37 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Light2D
+namespace Light2D.Scripts
 {
     /// <summary>
-    /// That class is generating obstacles for object it attached to.
-    /// Obect must have MeshRenderer, SpriteRenderer or CustomSprite script from which texture for obstacle will be grabbed.
-    /// For rendering obstacle of SpriteRenderer and CustomSprite LightObstacleSprite with material "Material" (material with dual color shader by default) will be used.
-    /// For objects with MeshRenderer "Material" property is ignored. MeshRenderer.sharedMaterial is used instead.
+    ///     That class is generating obstacles for object it attached to.
+    ///     Obect must have MeshRenderer, SpriteRenderer or CustomSprite script from which texture for obstacle will be
+    ///     grabbed.
+    ///     For rendering obstacle of SpriteRenderer and CustomSprite LightObstacleSprite with material "Material" (material
+    ///     with dual color shader by default) will be used.
+    ///     For objects with MeshRenderer "Material" property is ignored. MeshRenderer.sharedMaterial is used instead.
     /// </summary>
     [ExecuteInEditMode]
     public class LightObstacleGenerator : MonoBehaviour
     {
         /// <summary>
-        /// Vertex color.
-        /// </summary>
-        public Color MultiplicativeColor = new Color(0, 0, 0, 1);
-
-        /// <summary>
-        /// AdditiveColor that will be used for obstacle when SpriteRenderer or CustomSprite scripts is attached.
-        /// Only DualColor shader supports additive color.
+        ///     AdditiveColor that will be used for obstacle when SpriteRenderer or CustomSprite scripts is attached.
+        ///     Only DualColor shader supports additive color.
         /// </summary>
         public Color AdditiveColor;
 
+        public float LightObstacleScale = 1;
+
         /// <summary>
-        /// Material that will be used for obstacle when SpriteRenderer or CustomSprite scripts is attached.
+        ///     Material that will be used for obstacle when SpriteRenderer or CustomSprite scripts is attached.
         /// </summary>
         public Material Material;
 
-        public float LightObstacleScale = 1;
+        /// <summary>
+        ///     Vertex color.
+        /// </summary>
+        public Color MultiplicativeColor = new Color(0, 0, 0, 1);
 
         private void Start()
         {
@@ -44,7 +42,9 @@ namespace Light2D
 #endif
 
             if (!Application.isPlaying)
+            {
                 return;
+            }
 
             var obstacleObj = new GameObject(gameObject.name + " Light Obstacle");
 
@@ -53,7 +53,9 @@ namespace Light2D
             obstacleObj.transform.localRotation = Quaternion.identity;
             obstacleObj.transform.localScale = Vector3.one * LightObstacleScale;
             if (LightingSystem.Instance != null)
+            {
                 obstacleObj.layer = LightingSystem.Instance.LightObstaclesLayer;
+            }
 
             if (GetComponent<SpriteRenderer>() != null || GetComponent<CustomSprite>() != null)
             {
