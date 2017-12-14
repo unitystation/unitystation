@@ -48,6 +48,8 @@ namespace PlayGroups.Input
 
         private void Update()
         {
+			//Needs to be rewritted to be server authoritative
+			//Clients can currently ignore most intaract limitations (other than reach)
             CheckHandSwitch();
             CheckClick();
             CheckAltClick();
@@ -231,9 +233,9 @@ namespace PlayGroups.Input
                         inputTrigger.Trigger();
                         return true;
                     }
-                    //Allow interact with all cupboards because you may be in one!
+                    //Allow interact with cupboards we are inside of!
                     ClosetControl cCtrl = inputTrigger.GetComponent<ClosetControl>();
-                    if (cCtrl)
+                    if (cCtrl && cCtrl.transform.position == PlayerManager.LocalPlayerScript.transform.position)
                     {
                         inputTrigger.Trigger();
                         return true;
