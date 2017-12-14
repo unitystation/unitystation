@@ -1,6 +1,5 @@
-﻿
+﻿// See \code\__DEFINES\jobs.dm
 
-// See \code\__DEFINES\jobs.dm
 public enum JobDepartment
 {
     Graytide,

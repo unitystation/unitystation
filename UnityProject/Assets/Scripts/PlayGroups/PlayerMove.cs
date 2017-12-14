@@ -19,6 +19,7 @@ namespace PlayGroup
     /// </summary>
     public class PlayerMove : NetworkBehaviour
     {
+        private readonly List<KeyCode> pressedKeys = new List<KeyCode>();
         private Matrix _matrix;
         [SyncVar] public bool allowInput = true;
 
@@ -33,8 +34,6 @@ namespace PlayGroup
 
         private PlayerSprites playerSprites;
         private PlayerSync playerSync;
-
-        private readonly List<KeyCode> pressedKeys = new List<KeyCode>();
         [HideInInspector] public PushPull pushPull; //The push pull component attached to this player
         public float speed = 10;
 

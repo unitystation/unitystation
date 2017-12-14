@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class SearchAndDestroy : EditorWindow
 {
+    private readonly string[] modes =
+        {"Search for component usage", "Search for missing components", "Remove from All prefabs"};
+
     private string componentName = "";
     private int editorMode, editorModeOld;
 
     private List<string> listResult;
-
-
-    private readonly string[] modes =
-        {"Search for component usage", "Search for missing components", "Remove from All prefabs"};
 
     private Vector2 scroll;
     private MonoScript targetComponent, lastChecked;

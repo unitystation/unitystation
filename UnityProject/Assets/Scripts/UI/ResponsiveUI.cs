@@ -11,6 +11,7 @@ namespace UI
     /// </summary>
     public class ResponsiveUI : MonoBehaviour
     {
+        private readonly float targetAspect = 1.777f; // 16 : 9 aspect
         private CameraResizer camResizer;
         private CanvasScaler canvasScaler;
         private GraphicRaycaster graphicRaycaster;
@@ -20,7 +21,6 @@ namespace UI
         private bool monitorWindow;
         private Canvas parentCanvas;
         public RightPanelResize rightPanelResize;
-        private readonly float targetAspect = 1.777f; // 16 : 9 aspect
 
         //Caches
         public float screenWidthCache { get; set; }

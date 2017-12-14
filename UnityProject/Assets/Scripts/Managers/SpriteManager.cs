@@ -27,8 +27,6 @@ namespace Sprites
     {
         private static SpriteManager spriteManager;
         private readonly Sprites bloodSprites = new Sprites();
-
-        public DmiIconData dmi;
         private readonly Sprites doorSprites = new Sprites();
         private readonly Sprites fireSprites = new Sprites();
         private readonly Sprites lightSprites = new Sprites();
@@ -37,6 +35,8 @@ namespace Sprites
         private readonly Sprites screenUISprites = new Sprites();
         private readonly Sprites wallSprites = new Sprites();
         private readonly Sprites wireSprites = new Sprites();
+
+        public DmiIconData dmi;
 
         public static SpriteManager Instance
         {

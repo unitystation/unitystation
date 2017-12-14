@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class FireTile : MonoBehaviour
 {
+    private readonly float changeRate = 0.1f;
     public GameObject ambientTile;
     private float animSpriteTime;
     private bool burning;
-    private readonly float changeRate = 0.1f;
 
     private float fuel;
 

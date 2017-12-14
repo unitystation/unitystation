@@ -8,6 +8,9 @@ public class Camera2DFollow : MonoBehaviour
 
 
     private readonly bool adjustPixel = false;
+    private readonly float lookAheadMoveThreshold = 0.1f;
+    private readonly float lookAheadReturnSpeed = 0.5f;
+    private readonly float yOffSet = -0.5f;
 
     private Vector3 cachePos;
     private Vector3 currentVelocity;
@@ -21,9 +24,7 @@ public class Camera2DFollow : MonoBehaviour
     public GameObject listenerObj;
 
     private float lookAheadFactor;
-    private readonly float lookAheadMoveThreshold = 0.1f;
     private Vector3 lookAheadPos;
-    private readonly float lookAheadReturnSpeed = 0.5f;
     private float lookAheadSave;
     private float offsetZ = -1f;
 
@@ -35,7 +36,6 @@ public class Camera2DFollow : MonoBehaviour
 
     public Transform target;
     public float xOffset = 4f;
-    private readonly float yOffSet = -0.5f;
 
     private void Awake()
     {

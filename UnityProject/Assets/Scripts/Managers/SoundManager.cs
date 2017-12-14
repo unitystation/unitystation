@@ -14,13 +14,14 @@ public class SoundManager : MonoBehaviour
 {
     private static SoundManager soundManager;
 
+    private readonly Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
+
     public AudioSource[] ambientTracks;
 
     // Use this for initialization
     //public AudioSource[] sounds;
     public AudioSource[] musicTracks;
 
-    private readonly Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
     public List<SoundEntry> soundsList = new List<SoundEntry>();
     public int ambientPlaying { get; private set; }
 

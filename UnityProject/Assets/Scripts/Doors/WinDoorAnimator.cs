@@ -20,10 +20,10 @@ namespace Doors
         private readonly int[] animFrames = {48, 36, 32, 28, 20, 16};
         private readonly int closeFrame = 76;
         private readonly int deniedFrame = 80;
-        public DoorDirection direction;
-        private SpriteRenderer doorbase;
 
         private readonly int openFrame = 0;
+        public DoorDirection direction;
+        private SpriteRenderer doorbase;
         private Sprite[] sprites;
 
         public void Awake()

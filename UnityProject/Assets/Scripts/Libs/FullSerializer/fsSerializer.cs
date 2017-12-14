@@ -24,6 +24,12 @@ namespace FullSerializer
         /// </summary>
         private readonly Dictionary<Type, fsDirectConverter> _availableDirectConverters;
 
+        /// <summary>
+        ///     Converter type to converter instance lookup table. This could likely be stored inside
+        ///     from serialized type to converter.
+        /// </summary>
+        private readonly Dictionary<Type, fsBaseConverter> _cachedConverterTypeInstances;
+
         private readonly fsLazyCycleDefinitionWriter _lazyReferenceWriter;
 
         /// <summary>
@@ -40,12 +46,6 @@ namespace FullSerializer
         ///     A cache from type to it's converter.
         /// </summary>
         private Dictionary<Type, fsBaseConverter> _cachedConverters;
-
-        /// <summary>
-        ///     Converter type to converter instance lookup table. This could likely be stored inside
-        ///     from serialized type to converter.
-        /// </summary>
-        private readonly Dictionary<Type, fsBaseConverter> _cachedConverterTypeInstances;
 
         /// <summary>
         ///     A cache from type to the set of processors that are interested in it.
