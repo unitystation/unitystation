@@ -153,8 +153,10 @@ namespace PlayGroup
         void CmdTrySetName(string name)
         {
             if (PlayerList.Instance != null)
+			{
                 playerName = PlayerList.Instance.CheckName(name);
-        }
+			}
+		}
 
         [Command]
         void CmdSetNameManual(string name)
