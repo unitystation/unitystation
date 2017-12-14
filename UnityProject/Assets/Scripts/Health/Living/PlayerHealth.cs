@@ -130,7 +130,8 @@ namespace PlayGroup
         }
 
         //ReduceBloodLoss for bandages and stuff in the future?
-        private void StopBleeding()
+		[Server]
+        public void StopBleeding()
         {
             bleedVolume = 0;
             IsBleeding = false;

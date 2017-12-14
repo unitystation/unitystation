@@ -508,4 +508,26 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     {
         door.GetComponent<DoorController>().CmdTryDenied();
     }
+
+	//FOOD
+	[Command]
+	public void CmdEatFood(GameObject food, string fromSlot)
+	{
+		if (_inventory[fromSlot] == null) {
+			//Already been eaten or the food is no longer in hand
+			return;
+		}
+
+		FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
+		soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
+		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+
+		playerHealth.AddHealth(baseFood.healAmount);
+		playerHealth.StopBleeding();
+
+		PoolManager.Instance.PoolNetworkDestroy(food);
+		UpdateSlotMessage.Send(gameObject, fromSlot, null, true);
+		_inventory[fromSlot] = null;
+		equipment.ClearItemSprite(fromSlot);
+	}
 }

@@ -75,6 +75,11 @@ namespace UI
             if (!CurrentSlot.IsFull)
                 return;
 
+			//Is the item edible?
+			if (CheckEdible()) {
+				return;
+			}
+
             //This checks which UI slot the item can be equiped too and swaps it there
             var type = Slots.GetItemType(CurrentSlot.Item);
             var masterType = Slots.GetItemMasterType(CurrentSlot.Item);
@@ -94,6 +99,17 @@ namespace UI
             }
 
         }
+
+		//Check if the item is edible and eat it
+		private bool CheckEdible()
+		{
+			FoodBehaviour baseFood = CurrentSlot.Item.GetComponent<FoodBehaviour>();
+			if (baseFood != null) {
+				baseFood.TryEat();
+				return true;
+			}
+			return false;
+		}
 
         private void Swap(UI_ItemSlot slot1, UI_ItemSlot slot2)
         {

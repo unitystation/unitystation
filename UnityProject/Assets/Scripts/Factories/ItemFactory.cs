@@ -12,6 +12,7 @@ public class ItemFactory : MonoBehaviour
     */
 
 	private GameObject idCard { get; set; }
+	private List<GameObject> foods = new List<GameObject>();
 
 	void Awake()
 	{
@@ -28,6 +29,15 @@ public class ItemFactory : MonoBehaviour
 		Instance.someItem = Resources.Load("SomeItem") as GameObject;
 		*/
 		idCard = Resources.Load("ID") as GameObject;
+		LoadFoodResources();
+	}
+
+	//Please keep food prefabs at Resources root level for the time being
+	void LoadFoodResources(){
+		var foodPrefabs = Resources.LoadAll<FoodBehaviour>("");
+		foreach (var foodObj in foodPrefabs){
+				foods.Add(foodObj.gameObject);
+		}
 	}
 
 	/* Example Spawn:
@@ -59,5 +69,20 @@ public class ItemFactory : MonoBehaviour
 		ID.idCardTypeInt = (int)idCardType;
 		ID.AddAccessList(allowedAccess);
 		return idObj;
+	}
+
+	/// <summary>
+	/// For spawning Meals/Food items. Pass the prefab from the crafting manager here to be spawned
+	/// Server Side only!
+	/// </summary>
+	public GameObject SpawnMeal(GameObject mealPrefab, Vector3 position){
+		GameObject mealObj = null;
+		if (foods.Contains(mealPrefab)){
+			mealObj = PoolManager.Instance.PoolNetworkInstantiate(mealPrefab, position, Quaternion.identity);
+		} else {
+			Debug.LogError("Food prefab not added to ItemFactory: " + mealPrefab.name);
+		}
+
+		return mealObj;
 	}
 }

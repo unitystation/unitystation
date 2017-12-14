@@ -63,8 +63,7 @@ public class Microwave : NetworkBehaviour
         if (isServer)
         {
             GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal(meal);
-            GameObject newMeal = Instantiate(mealPrefab, transform.position, Quaternion.identity) as GameObject;
-            NetworkServer.Spawn(newMeal);
+			ItemFactory.Instance.SpawnMeal(mealPrefab, transform.position);
         }
         meal = null;
     }
