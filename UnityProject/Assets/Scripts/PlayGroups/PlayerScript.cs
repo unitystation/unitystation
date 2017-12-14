@@ -1,4 +1,3 @@
-using InputControl;
 using System.Collections;
 using PlayGroups.Input;
 using UI;
@@ -14,6 +13,16 @@ namespace PlayGroup
         //NOTE FOR ANYONE EDITING THIS IN THE FUTURE: Character's head is slightly below the top of the tile
         //hence top reach is slightly lower than bottom reach, where the legs go exactly to the bottom of the tile.
         public const float interactionDistance = 1.75f;
+
+        public GameObject ghost;
+
+        [SyncVar] public JobType JobType = JobType.NULL;
+
+        private float pingUpdate;
+
+        [SyncVar(hook = "OnNameChange")] public string playerName = " ";
+
+        private ChatChannel selectedChannels;
 
         public PlayerNetworkActions playerNetworkActions { get; set; }
 
@@ -33,20 +42,10 @@ namespace PlayGroup
 
         public HitIcon hitIcon { get; set; }
 
-        [SyncVar] public JobType JobType = JobType.NULL;
-
-        public GameObject ghost;
-
-        private float pingUpdate = 0f;
-
-        private ChatChannel selectedChannels;
-
-        [SyncVar(hook = "OnNameChange")] public string playerName = " ";
-
         public ChatChannel SelectedChannels
         {
             get { return selectedChannels & GetAvailableChannels(); }
-            set { this.selectedChannels = value; }
+            set { selectedChannels = value; }
         }
 
         public override void OnStartClient()
@@ -56,7 +55,7 @@ namespace PlayGroup
             base.OnStartClient();
         }
 
-        IEnumerator WaitForLoad()
+        private IEnumerator WaitForLoad()
         {
             yield return new WaitForSeconds(2f);
             OnNameChange(playerName);
@@ -77,7 +76,7 @@ namespace PlayGroup
             base.OnStartServer();
         }
 
-        void Start()
+        private void Start()
         {
             playerNetworkActions = GetComponent<PlayerNetworkActions>();
             playerSync = GetComponent<PlayerSync>();
@@ -88,13 +87,13 @@ namespace PlayGroup
             hitIcon = GetComponentInChildren<HitIcon>();
         }
 
-        void Init()
+        private void Init()
         {
             if (isLocalPlayer)
             {
                 UIManager.ResetAllUI();
                 UIManager.DisplayManager.SetCameraFollowPos();
-                int rA = UnityEngine.Random.Range(0, 3);
+                int rA = Random.Range(0, 3);
                 SoundManager.PlayVarAmbient(rA);
                 playerMove = GetComponent<PlayerMove>();
                 playerSprites = GetComponent<PlayerSprites>();
@@ -145,21 +144,21 @@ namespace PlayGroup
             {
                 pingUpdate = 0f;
                 int ping = CustomNetworkManager.Instance.client.GetRTT();
-                UIManager.SetToolTip = "ping: " + ping.ToString();
+                UIManager.SetToolTip = "ping: " + ping;
             }
         }
 
         [Command]
-        void CmdTrySetName(string name)
+        private void CmdTrySetName(string name)
         {
             if (PlayerList.Instance != null)
-			{
+            {
                 playerName = PlayerList.Instance.CheckName(name);
-			}
-		}
+            }
+        }
 
         [Command]
-        void CmdSetNameManual(string name)
+        private void CmdSetNameManual(string name)
         {
             playerName = name;
         }
@@ -195,7 +194,7 @@ namespace PlayGroup
         }
 
         /// <summary>
-        /// Checks if the player is within reach of something
+        ///     Checks if the player is within reach of something
         /// </summary>
         /// <param name="position">The position of whatever we are trying to reach</param>
         /// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
@@ -221,10 +220,7 @@ namespace PlayGroup
                 {
                     return ChatChannel.Ghost | ChatChannel.OOC;
                 }
-                else
-                {
-                    return ~ChatChannel.None;
-                }
+                return ~ChatChannel.None;
             }
 
             //TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
@@ -236,16 +232,13 @@ namespace PlayGroup
                 EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
                 transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
             }
-            ChatChannel receiveChannels = (ChatChannel.Examine | ChatChannel.System);
+            ChatChannel receiveChannels = ChatChannel.Examine | ChatChannel.System;
 
             if (transmitOnly)
             {
                 return transmitChannels;
             }
-            else
-            {
-                return transmitChannels | receiveChannels;
-            }
+            return transmitChannels | receiveChannels;
         }
 
         public ChatModifier GetCurrentChatModifiers()
@@ -269,12 +262,12 @@ namespace PlayGroup
         //Tooltips inspector bar
         public void OnMouseEnter()
         {
-            UI.UIManager.SetToolTip = this.name;
+            UIManager.SetToolTip = name;
         }
 
         public void OnMouseExit()
         {
-            UI.UIManager.SetToolTip = "";
+            UIManager.SetToolTip = "";
         }
     }
 }

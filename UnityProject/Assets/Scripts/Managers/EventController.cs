@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Events;
 
 namespace Events
 {
     public class EventController<K, V>
     {
-        private class Event : UnityEvent<V>
-        {
-        }
+        private readonly Dictionary<int, Event> events = new Dictionary<int, Event>();
 
-        private Dictionary<int, Event> events = new Dictionary<int, Event>();
-
-        private Func<K, int> hashFunction;
+        private readonly Func<K, int> hashFunction;
 
         public EventController(Func<K, int> hashFunction = null)
         {
@@ -25,7 +19,7 @@ namespace Events
         {
             Event _event;
 
-            var hashKey = calculateHash(eventKey);
+            int hashKey = calculateHash(eventKey);
             if (!events.TryGetValue(hashKey, out _event))
             {
                 _event = new Event();
@@ -37,7 +31,7 @@ namespace Events
 
         public void RemoveListener(K eventKey, UnityAction<V> listener)
         {
-            var hashKey = calculateHash(eventKey);
+            int hashKey = calculateHash(eventKey);
             if (events.ContainsKey(hashKey))
             {
                 events[hashKey].RemoveListener(listener);
@@ -46,7 +40,7 @@ namespace Events
 
         public void TriggerEvent(K eventKey, V value)
         {
-            var hashKey = calculateHash(eventKey);
+            int hashKey = calculateHash(eventKey);
 
             if (events.ContainsKey(hashKey))
             {
@@ -56,7 +50,7 @@ namespace Events
 
         public void Clear()
         {
-            foreach (var v in events.Values)
+            foreach (Event v in events.Values)
             {
                 v.RemoveAllListeners();
             }
@@ -68,10 +62,11 @@ namespace Events
             {
                 return eventKey.GetHashCode();
             }
-            else
-            {
-                return hashFunction(eventKey);
-            }
+            return hashFunction(eventKey);
+        }
+
+        private class Event : UnityEvent<V>
+        {
         }
     }
 }

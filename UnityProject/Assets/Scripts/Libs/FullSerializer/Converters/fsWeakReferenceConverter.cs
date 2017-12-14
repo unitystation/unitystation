@@ -3,7 +3,7 @@
 namespace FullSerializer.Internal
 {
     /// <summary>
-    /// Serializes and deserializes WeakReferences.
+    ///     Serializes and deserializes WeakReferences.
     /// </summary>
     public class fsWeakReferenceConverter : fsConverter
     {
@@ -24,9 +24,9 @@ namespace FullSerializer.Internal
 
         public override fsResult TrySerialize(object instance, out fsData serialized, Type storageType)
         {
-            var weakRef = (WeakReference) instance;
+            WeakReference weakRef = (WeakReference) instance;
 
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
             serialized = fsData.CreateDictionary();
 
             if (weakRef.IsAlive)
@@ -46,17 +46,22 @@ namespace FullSerializer.Internal
 
         public override fsResult TryDeserialize(fsData data, ref object instance, Type storageType)
         {
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
-            if ((result += CheckType(data, fsDataType.Object)).Failed) return result;
+            if ((result += CheckType(data, fsDataType.Object)).Failed)
+            {
+                return result;
+            }
 
             if (data.AsDictionary.ContainsKey("Target"))
             {
-                var targetData = data.AsDictionary["Target"];
+                fsData targetData = data.AsDictionary["Target"];
                 object targetInstance = null;
 
                 if ((result += Serializer.TryDeserialize(targetData, typeof(object), ref targetInstance)).Failed)
+                {
                     return result;
+                }
 
                 bool trackResurrection = false;
                 if (data.AsDictionary.ContainsKey("TrackResurrection") && data.AsDictionary["TrackResurrection"].IsBool)

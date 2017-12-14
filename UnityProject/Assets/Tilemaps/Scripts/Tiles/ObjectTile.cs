@@ -1,24 +1,23 @@
 ﻿using System;
 using Tilemaps.Scripts.Behaviours.Objects;
 using Tilemaps.Scripts.Utils;
+using UnityEngine;
+using UnityEngine.Tilemaps;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace Tilemaps.Scripts.Tiles
 {
     [Serializable]
     public class ObjectTile : LayerTile
     {
-        public GameObject Object;
-        public bool Rotatable;
-        public bool KeepOrientation;
-        public bool Offset;
-        public bool IsItem;
-
         private GameObject _objectCurrent;
+        public bool IsItem;
+        public bool KeepOrientation;
+        public GameObject Object;
+        public bool Offset;
+        public bool Rotatable;
 
 #if UNITY_EDITOR
         private void OnValidate()
@@ -43,7 +42,7 @@ namespace Tilemaps.Scripts.Tiles
             else if (_objectCurrent != null)
             {
                 // setting to None object (delete current sprite)
-                var obj = _objectCurrent;
+                GameObject obj = _objectCurrent;
                 EditorApplication.delayCall += () => { PreviewSpriteBuilder.DeleteSprite(obj); };
             }
 
@@ -59,10 +58,12 @@ namespace Tilemaps.Scripts.Tiles
         public void SpawnObject(Vector3Int position, Tilemap tilemap, Matrix4x4 transformMatrix)
         {
             if (!Object)
+            {
                 return;
+            }
 
 #if UNITY_EDITOR
-            var go = (GameObject) PrefabUtility.InstantiatePrefab(Object);
+            GameObject go = (GameObject) PrefabUtility.InstantiatePrefab(Object);
 #else
             var go = Instantiate(Object);
 #endif
@@ -70,7 +71,7 @@ namespace Tilemaps.Scripts.Tiles
             go.SetActive(false);
             go.transform.parent = tilemap.transform;
 
-            var objectOffset = !Offset ? Vector3.zero : transformMatrix.rotation * Vector3.up;
+            Vector3 objectOffset = !Offset ? Vector3.zero : transformMatrix.rotation * Vector3.up;
 
             go.transform.localPosition = position + objectOffset;
             go.transform.rotation = tilemap.transform.rotation;
@@ -82,12 +83,12 @@ namespace Tilemaps.Scripts.Tiles
 
             go.name = Object.name;
 
-            if (IsItem == true)
+            if (IsItem)
             {
             }
             else
             {
-                var registerObject = go.GetComponent<RegisterObject>() ?? go.AddComponent<RegisterObject>();
+                RegisterObject registerObject = go.GetComponent<RegisterObject>() ?? go.AddComponent<RegisterObject>();
                 registerObject.Offset = Vector3Int.RoundToInt(-objectOffset);
             }
 
@@ -110,10 +111,10 @@ namespace Tilemaps.Scripts.Tiles
 
         private Matrix4x4 RotateOnce(Matrix4x4 transformMatrix, bool anticlockwise)
         {
-            var rotation = Quaternion.Euler(0f, 0f, anticlockwise ? 90f : -90f);
+            Quaternion rotation = Quaternion.Euler(0f, 0f, anticlockwise ? 90f : -90f);
 
-            var newRotation = KeepOrientation ? Quaternion.identity : transformMatrix.rotation * rotation;
-            var newTranslation = !Offset ? Vector3.zero : rotation * transformMatrix.GetColumn(3);
+            Quaternion newRotation = KeepOrientation ? Quaternion.identity : transformMatrix.rotation * rotation;
+            Vector3 newTranslation = !Offset ? Vector3.zero : rotation * transformMatrix.GetColumn(3);
 
             if (Offset && transformMatrix.Equals(Matrix4x4.identity))
             {

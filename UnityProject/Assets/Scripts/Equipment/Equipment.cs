@@ -1,29 +1,25 @@
-﻿using Events;
-using System;
-using PlayGroup;
-using Sprites;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AccessType;
+using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
-using UI;
-using InputControl;
-using System.IO;
 
 namespace Equipment
 {
     public class Equipment : NetworkBehaviour
     {
-        public SyncListInt syncEquipSprites = new SyncListInt();
         public ClothingItem[] clothingSlots;
+
+        private bool isInit;
         private PlayerNetworkActions playerNetworkActions;
         private PlayerScript playerScript;
+        public SyncListInt syncEquipSprites = new SyncListInt();
 
         public NetworkIdentity networkIdentity { get; set; }
 
-        private bool isInit = false;
-
-        void Start()
+        private void Start()
         {
             networkIdentity = GetComponent<NetworkIdentity>();
             playerNetworkActions = gameObject.GetComponent<PlayerNetworkActions>();
@@ -49,10 +45,12 @@ namespace Equipment
             base.OnStartClient();
         }
 
-        void InitEquipment()
+        private void InitEquipment()
         {
             if (isInit)
+            {
                 return;
+            }
 
             syncEquipSprites.Callback = SyncSprites;
             for (int i = 0; i < clothingSlots.Length; i++)
@@ -75,7 +73,7 @@ namespace Equipment
             StartCoroutine(SetPlayerLoadOuts());
         }
 
-        public void SyncSprites(SyncListInt.Operation op, int index)
+        public void SyncSprites(SyncList<int>.Operation op, int index)
         {
             clothingSlots[index].Reference = syncEquipSprites[index];
         }
@@ -87,7 +85,9 @@ namespace Equipment
 
             // Null Job players dont get a loadout
             if (playerScript.JobType == JobType.NULL)
+            {
                 yield break;
+            }
 
             PlayerScript pS = GetComponent<PlayerScript>();
             pS.JobType = playerScript.JobType;
@@ -117,30 +117,50 @@ namespace Equipment
             //gear.Add("r_pocket", standardOutfit.r_pocket);
             //gear.Add("suit_store", standardOutfit.suit_store);
 
-            if (!String.IsNullOrEmpty(jobOutfit.uniform))
+            if (!string.IsNullOrEmpty(jobOutfit.uniform))
+            {
                 gear["uniform"] = jobOutfit.uniform;
+            }
             /*if (!String.IsNullOrEmpty(jobOutfit.id))
                 gear["id"] = jobOutfit.id;*/
-            if (!String.IsNullOrEmpty(jobOutfit.ears))
+            if (!string.IsNullOrEmpty(jobOutfit.ears))
+            {
                 gear["ears"] = jobOutfit.ears;
-            if (!String.IsNullOrEmpty(jobOutfit.belt))
+            }
+            if (!string.IsNullOrEmpty(jobOutfit.belt))
+            {
                 gear["belt"] = jobOutfit.belt;
-            if (!String.IsNullOrEmpty(jobOutfit.back))
+            }
+            if (!string.IsNullOrEmpty(jobOutfit.back))
+            {
                 gear["back"] = jobOutfit.back;
-            if (!String.IsNullOrEmpty(jobOutfit.shoes))
+            }
+            if (!string.IsNullOrEmpty(jobOutfit.shoes))
+            {
                 gear["shoes"] = jobOutfit.shoes;
-            if (!String.IsNullOrEmpty(jobOutfit.glasses))
+            }
+            if (!string.IsNullOrEmpty(jobOutfit.glasses))
+            {
                 gear["glasses"] = jobOutfit.glasses;
-            if (!String.IsNullOrEmpty(jobOutfit.gloves))
+            }
+            if (!string.IsNullOrEmpty(jobOutfit.gloves))
+            {
                 gear["gloves"] = jobOutfit.gloves;
-            if (!String.IsNullOrEmpty(jobOutfit.suit))
+            }
+            if (!string.IsNullOrEmpty(jobOutfit.suit))
+            {
                 gear["suit"] = jobOutfit.suit;
-            if (!String.IsNullOrEmpty(jobOutfit.head))
+            }
+            if (!string.IsNullOrEmpty(jobOutfit.head))
+            {
                 gear["head"] = jobOutfit.head;
+            }
             /*if (!String.IsNullOrEmpty(jobOutfit.accessory))
                 gear["accessory"] = jobOutfit.accessory;*/
-            if (!String.IsNullOrEmpty(jobOutfit.mask))
+            if (!string.IsNullOrEmpty(jobOutfit.mask))
+            {
                 gear["mask"] = jobOutfit.mask;
+            }
             /*if (!String.IsNullOrEmpty(jobOutfit.backpack))
                 gear["backpack"] = jobOutfit.backpack;
             if (!String.IsNullOrEmpty(jobOutfit.satchel))
@@ -167,7 +187,7 @@ namespace Equipment
                     ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
                     SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
                 }
-                else if (!String.IsNullOrEmpty(gearItem.Value))
+                else if (!string.IsNullOrEmpty(gearItem.Value))
                 {
                     Debug.Log(gearItem.Value + " creation not implemented yet.");
                 }
@@ -180,19 +200,19 @@ namespace Equipment
             GameObject idObj;
             if (outFit.jobType == JobType.CAPTAIN)
             {
-                idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.captain,
+                idObj = ItemFactory.Instance.SpawnIDCard(IDCardType.captain,
                     outFit.jobType, outFit.allowedAccess, name);
             }
             else if (outFit.jobType == JobType.HOP || outFit.jobType == JobType.HOS ||
                      outFit.jobType == JobType.CMO || outFit.jobType == JobType.RD ||
                      outFit.jobType == JobType.CHIEF_ENGINEER)
             {
-                idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.command,
+                idObj = ItemFactory.Instance.SpawnIDCard(IDCardType.command,
                     outFit.jobType, outFit.allowedAccess, name);
             }
             else
             {
-                idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.standard,
+                idObj = ItemFactory.Instance.SpawnIDCard(IDCardType.standard,
                     outFit.jobType, outFit.allowedAccess, name);
             }
 
@@ -209,7 +229,7 @@ namespace Equipment
         }
 
         [ClientRpc]
-        void RpcSendMessage(string eventName, GameObject obj)
+        private void RpcSendMessage(string eventName, GameObject obj)
         {
             obj.BroadcastMessage("OnAddToInventory", eventName, SendMessageOptions.DontRequireReceiver);
         }

@@ -4,26 +4,26 @@ using UnityEngine;
 namespace Doors
 {
     /// <summary>
-    /// Window door animator. For controlling glass sliding door
-    /// animations.
+    ///     Window door animator. For controlling glass sliding door
+    ///     animations.
     /// </summary>
     public class WinDoorAnimator : DoorAnimator
     {
-        public DoorDirection direction;
-
         public enum DoorDirection
         {
             SOUTH,
             NORTH,
             EAST,
             WEST
-        };
+        }
 
-        private int openFrame = 0;
-        private int closeFrame = 76;
-        private int deniedFrame = 80;
-        private int[] animFrames = {48, 36, 32, 28, 20, 16};
+        private readonly int[] animFrames = {48, 36, 32, 28, 20, 16};
+        private readonly int closeFrame = 76;
+        private readonly int deniedFrame = 80;
+        public DoorDirection direction;
         private SpriteRenderer doorbase;
+
+        private readonly int openFrame = 0;
         private Sprite[] sprites;
 
         public void Awake()
@@ -34,7 +34,7 @@ namespace Doors
                 switch (child.gameObject.name)
                 {
                     case "doorbase":
-                        doorbase = (child.gameObject.GetComponent<SpriteRenderer>());
+                        doorbase = child.gameObject.GetComponent<SpriteRenderer>();
                         break;
                 }
             }
@@ -63,13 +63,13 @@ namespace Doors
             StartCoroutine(PlayDeniedAnim());
         }
 
-        IEnumerator Delay()
+        private IEnumerator Delay()
         {
             yield return new WaitForSeconds(0.3f);
             doorController.isPerformingAction = false;
         }
 
-        IEnumerator PlayCloseAnim()
+        private IEnumerator PlayCloseAnim()
         {
             for (int i = animFrames.Length - 1; i >= 0; i--)
             {
@@ -85,7 +85,7 @@ namespace Doors
             doorController.isPerformingAction = false;
         }
 
-        IEnumerator PlayOpenAnim()
+        private IEnumerator PlayOpenAnim()
         {
             for (int j = 0; j < animFrames.Length; j++)
             {
@@ -103,7 +103,7 @@ namespace Doors
         }
 
 
-        IEnumerator PlayDeniedAnim()
+        private IEnumerator PlayDeniedAnim()
         {
             bool light = false;
             for (int i = 0; i < animFrames.Length * 2; i++)

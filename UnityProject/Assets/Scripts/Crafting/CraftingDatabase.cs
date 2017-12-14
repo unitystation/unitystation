@@ -1,17 +1,17 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Crafting
 {
-    [System.Serializable]
+    [Serializable]
     public class CraftingDatabase
     {
         public Recipe[] recipeList;
 
         public GameObject FindRecipe(List<Ingredient> ingredients)
         {
-            foreach (var recipe in recipeList)
+            foreach (Recipe recipe in recipeList)
             {
                 if (recipe.Check(ingredients))
                 {
@@ -23,7 +23,7 @@ namespace Crafting
 
         public GameObject FindOutputMeal(string mealName)
         {
-            foreach (var recipe in recipeList)
+            foreach (Recipe recipe in recipeList)
             {
                 if (recipe.output.name == mealName)
                 {

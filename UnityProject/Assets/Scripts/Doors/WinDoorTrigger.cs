@@ -1,7 +1,4 @@
-﻿using InputControl;
-using UI;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using PlayGroups.Input;
 using UnityEngine;
 
@@ -11,7 +8,7 @@ namespace Doors
     {
         public override void Interact(GameObject originator, Vector3 position, string hand)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,33 +1,32 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using PlayGroup;
-using System.Linq;
-using System;
+using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
-    public float viewRadius;
-    [Range(0, 360)] public float viewAngle;
+    public float edgeDistanceThreshhold;
+    public int edgeResolveIterations;
+
+    public List<Line> lines = new List<Line>(256);
+
+    public float maskCutawayDst;
+
+    public float meshResolution;
+    public LayerMask obstacleMask;
 
     public LayerMask targetMask;
-    public LayerMask obstacleMask;
+    [Range(0, 360)] public float viewAngle;
+    public Mesh viewMesh;
+
+    public MeshFilter viewMeshFilter;
+    public float viewRadius;
 
     //used to show gameobjects the player can see on the target mask
     public List<Transform> visibleTargets = new List<Transform>();
 
-    public float meshResolution;
-    public int edgeResolveIterations;
-    public float edgeDistanceThreshhold;
-
-    public float maskCutawayDst;
-
-    public MeshFilter viewMeshFilter;
-    public Mesh viewMesh;
-
-    public List<Line> lines = new List<Line>(256);
-
-    void Start()
+    private void Start()
     {
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
@@ -36,15 +35,17 @@ public class FieldOfView : MonoBehaviour
         StartCoroutine("FindTargetsWithDelay", 0.05f);
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         if (!PlayerManager.LocalPlayer)
+        {
             return;
+        }
 
         DrawFieldOfView();
     }
 
-    IEnumerator FindTargetsWithDelay(float delay)
+    private IEnumerator FindTargetsWithDelay(float delay)
     {
         while (true)
         {
@@ -54,43 +55,31 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
-    public struct Line
-    {
-        public Vector2 start;
-        public Vector2 end;
-
-        public Line(Vector2 start, Vector2 end)
-        {
-            this.start = start;
-            this.end = end;
-        }
-    }
-
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         if (lines.Count > 0)
         {
             for (int i = 0; i < lines.Count; i++)
             {
-                var line = lines[i];
+                Line line = lines[i];
                 Gizmos.color = Color.red;
                 Gizmos.DrawLine(line.start, line.end);
             }
         }
     }
 
-    void FindVisibleTargets()
+    private void FindVisibleTargets()
     {
         visibleTargets.Clear();
-        var fovPos = transform.position;
+        Vector3 fovPos = transform.position;
         Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(fovPos, viewRadius, targetMask);
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             Transform target = targetsInViewRadius[i].transform;
-            var targetPos = target.position;
+            Vector3 targetPos = target.position;
 
-            var hideAll = target.gameObject.GetComponentsInChildren<SpriteRenderer>();
+            SpriteRenderer[] hideAll = target.gameObject.GetComponentsInChildren<SpriteRenderer>();
             foreach (SpriteRenderer renderer in hideAll)
             {
                 renderer.enabled = false;
@@ -124,17 +113,18 @@ public class FieldOfView : MonoBehaviour
                 x = 0.0f;
             }
 
-            var snappedDirToTarget = new Vector3(x, y, z);
+            Vector3 snappedDirToTarget = new Vector3(x, y, z);
 
-            var normalizedDirection = targetPos + -snappedDirToTarget;
+            Vector3 normalizedDirection = targetPos + -snappedDirToTarget;
 
             lines.Add(new Line(fovPos, targetPos));
             //raycast to a position infront of blocks normalized to the direction of the player
-            var rayTest = Physics2D.Linecast(fovPos, normalizedDirection, obstacleMask);
+            RaycastHit2D rayTest = Physics2D.Linecast(fovPos, normalizedDirection, obstacleMask);
             //lines.Add (new Line (fovPos, normalizedDirection));
             if (rayTest != null && rayTest.collider == null)
             {
-                var visibleRenderers = target.gameObject.transform.GetComponentsInChildren<SpriteRenderer>();
+                SpriteRenderer[] visibleRenderers =
+                    target.gameObject.transform.GetComponentsInChildren<SpriteRenderer>();
                 foreach (SpriteRenderer renderer in visibleRenderers)
                 {
                     renderer.enabled = true;
@@ -143,14 +133,14 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
-    void DrawFieldOfView()
+    private void DrawFieldOfView()
     {
         int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
         float stepAngleSize = viewAngle / stepCount;
         List<Vector3> viewPoints = new List<Vector3>(1024);
 
         ViewCastInfo oldViewCast = new ViewCastInfo();
-        var eulerZ = transform.eulerAngles.z;
+        float eulerZ = transform.eulerAngles.z;
 
         for (int i = 0; i <= stepCount; i++)
         {
@@ -161,7 +151,7 @@ public class FieldOfView : MonoBehaviour
             {
                 bool edgeDstThreshholdExceeded = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > edgeDistanceThreshhold;
                 if (oldViewCast.hit != newViewCast.hit ||
-                    (oldViewCast.hit && newViewCast.hit && edgeDstThreshholdExceeded))
+                    oldViewCast.hit && newViewCast.hit && edgeDstThreshholdExceeded)
                 {
                     EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
                     if (edge.pointA != Vector3.zero)
@@ -203,7 +193,7 @@ public class FieldOfView : MonoBehaviour
         viewMesh.RecalculateNormals();
     }
 
-    EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
+    private EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
     {
         float minAngle = minViewCast.angle;
         float maxAngle = maxViewCast.angle;
@@ -231,19 +221,16 @@ public class FieldOfView : MonoBehaviour
         return new EdgeInfo(minPoint, maxPoint);
     }
 
-    ViewCastInfo ViewCast(float globalAngle)
+    private ViewCastInfo ViewCast(float globalAngle)
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
-        var fovPos = transform.position;
+        Vector3 fovPos = transform.position;
         RaycastHit2D hit = Physics2D.Raycast(fovPos, dir, viewRadius, obstacleMask);
         if (hit && hit.collider != null)
         {
             return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
         }
-        else
-        {
-            return new ViewCastInfo(false, fovPos + dir * viewRadius, viewRadius, globalAngle);
-        }
+        return new ViewCastInfo(false, fovPos + dir * viewRadius, viewRadius, globalAngle);
     }
 
     public Vector3 DirFromAngle(float angle, bool angleIsGlobal)
@@ -256,6 +243,18 @@ public class FieldOfView : MonoBehaviour
         angle -= transform.eulerAngles.z;
 
         return new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad), 0);
+    }
+
+    public struct Line
+    {
+        public Vector2 start;
+        public Vector2 end;
+
+        public Line(Vector2 start, Vector2 end)
+        {
+            this.start = start;
+            this.end = end;
+        }
     }
 
     public struct ViewCastInfo

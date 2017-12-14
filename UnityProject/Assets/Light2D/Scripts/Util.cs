@@ -2,22 +2,20 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Light2D
 {
     /// <summary>
-    /// Bunch of utility functions that could be userful sometimes.
+    ///     Bunch of utility functions that could be userful sometimes.
     /// </summary>
     public static class Util
     {
@@ -52,14 +50,17 @@ namespace Light2D
         {
             for (int i = list.Count - 1; i >= 0; i--)
             {
-                if (i >= list.Count) continue;
+                if (i >= list.Count)
+                {
+                    continue;
+                }
                 action(list[i], i);
             }
         }
 
         public static void SafeIterateBackward<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
-            var list = enumerable.ToArray();
+            T[] list = enumerable.ToArray();
             for (int i = list.Length - 1; i >= 0; i--)
             {
                 action(list[i]);
@@ -68,7 +69,7 @@ namespace Light2D
 
         public static void SafeIterateBackward<T>(this IEnumerable<T> enumerable, Action<T, int> action)
         {
-            var list = enumerable.ToArray();
+            T[] list = enumerable.ToArray();
             for (int i = list.Length - 1; i >= 0; i--)
             {
                 action(list[i], i);
@@ -77,7 +78,7 @@ namespace Light2D
 
         public static IEnumerable<T> ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
-            foreach (var obj in enumerable)
+            foreach (T obj in enumerable)
             {
                 action(obj);
                 yield return obj;
@@ -86,8 +87,8 @@ namespace Light2D
 
         public static IEnumerable<T> ForEach<T>(this IEnumerable<T> enumerable, Action<T, int> action)
         {
-            var i = 0;
-            foreach (var obj in enumerable)
+            int i = 0;
+            foreach (T obj in enumerable)
             {
                 action(obj, i);
                 yield return obj;
@@ -104,77 +105,88 @@ namespace Light2D
         {
             foreach (Transform child in root.transform)
             {
-                var cgo = child.gameObject;
+                GameObject cgo = child.gameObject;
                 yield return cgo;
-                foreach (var gameObject in cgo.GetChildRecursive())
+                foreach (GameObject gameObject in cgo.GetChildRecursive())
+                {
                     yield return gameObject;
+                }
             }
         }
 
         public static Rigidbody2D GetRigidbodyUnderCursor()
         {
-            var mousePos = GetMousePosInUnits();
-            var click = Physics2D.OverlapPoint(mousePos);
+            Vector2 mousePos = GetMousePosInUnits();
+            Collider2D click = Physics2D.OverlapPoint(mousePos);
             return click != null ? click.attachedRigidbody : null;
         }
 
         public static Vector2 GetMousePosInUnits()
         {
-            var mouse = Input.mousePosition;
-            var camera = Camera.main;
-            var mouseWorld = camera.ScreenToWorldPoint(
+            Vector3 mouse = Input.mousePosition;
+            Camera camera = Camera.main;
+            Vector3 mouseWorld = camera.ScreenToWorldPoint(
                 new Vector3(mouse.x, mouse.y, -camera.transform.position.z));
             return mouseWorld;
         }
 
         public static Vector2 ScreenToWorld(Vector2 screen)
         {
-            var camera = Camera.main;
-            var mouseWorld = camera.ScreenToWorldPoint(
+            Camera camera = Camera.main;
+            Vector3 mouseWorld = camera.ScreenToWorldPoint(
                 new Vector3(screen.x, screen.y, -camera.transform.position.z));
             return mouseWorld;
         }
 
         public static Vector2 WorldToScreen(Vector2 screen)
         {
-            var camera = Camera.main;
-            var mouseWorld = camera.WorldToScreenPoint(
+            Camera camera = Camera.main;
+            Vector3 mouseWorld = camera.WorldToScreenPoint(
                 new Vector3(screen.x, screen.y, -camera.transform.position.z));
             return mouseWorld;
         }
 
         public static GameObject Instantiate(GameObject prefab)
         {
-            return (GameObject) Object.Instantiate(prefab);
+            return Object.Instantiate(prefab);
         }
 
         public static T Instantiate<T>(GameObject prefab) where T : Component
         {
-            return (Instantiate(prefab)).GetComponent<T>();
+            return Instantiate(prefab).GetComponent<T>();
         }
 
         public static T Instantiate<T>(GameObject prefab, Vector3 position, Quaternion rotation)
             where T : Component
         {
-            return ((GameObject) Object.Instantiate(prefab, position, rotation)).GetComponent<T>();
+            return Object.Instantiate(prefab, position, rotation).GetComponent<T>();
         }
 
         public static float ClampAngle(float angle)
         {
             angle = Mathf.Repeat(angle, 360);
-            if (angle > 180) angle -= 360;
+            if (angle > 180)
+            {
+                angle -= 360;
+            }
             return angle;
         }
 
         public static float AngleZ(this Vector2 angle)
         {
-            if (angle == Vector2.zero) return 0;
+            if (angle == Vector2.zero)
+            {
+                return 0;
+            }
             return Vector2.Angle(Vector2.up, angle) * Mathf.Sign(-angle.x);
         }
 
         public static float AngleZ(this Vector3 angle)
         {
-            if (angle == Vector3.zero) return 0;
+            if (angle == Vector3.zero)
+            {
+                return 0;
+            }
             return Vector2.Angle(Vector2.up, angle) * Mathf.Sign(-angle.x);
         }
 
@@ -188,15 +200,25 @@ namespace Light2D
             return lhs.x * rhs.y - lhs.y * rhs.x;
         }
 
-        public static void Destroy(UnityEngine.Object obj)
+        public static void Destroy(Object obj)
         {
-            if (obj == null) return;
+            if (obj == null)
+            {
+                return;
+            }
             if (obj is GameObject)
+            {
                 ((GameObject) obj).transform.parent = null;
+            }
 #if UNITY_EDITOR
             if (!Application.isPlaying)
-                GameObject.DestroyImmediate(obj);
-            else GameObject.Destroy(obj);
+            {
+                Object.DestroyImmediate(obj);
+            }
+            else
+            {
+                Object.Destroy(obj);
+            }
 #else
         GameObject.Destroy(obj);
 #endif
@@ -204,13 +226,13 @@ namespace Light2D
 
         public static T RandomElement<T>(this IList<T> coll)
         {
-            var index = Random.Range(0, coll.Count);
+            int index = Random.Range(0, coll.Count);
             return coll[index];
         }
 
         public static T RandomElement<T>(this T[] coll)
         {
-            var index = Random.Range(0, coll.Length);
+            int index = Random.Range(0, coll.Length);
             return coll[index];
         }
 
@@ -220,7 +242,7 @@ namespace Light2D
             float cos = Mathf.Cos(angle * Mathf.Deg2Rad);
             float tx = v.x;
             float ty = v.y;
-            return new Vector2((cos * tx) - (sin * ty), (cos * ty) + (sin * tx));
+            return new Vector2(cos * tx - sin * ty, cos * ty + sin * tx);
         }
 
         public static Vector3 RotateZ(this Vector3 v, float angle)
@@ -229,7 +251,7 @@ namespace Light2D
             float cos = Mathf.Cos(angle);
             float tx = v.x;
             float ty = v.y;
-            return new Vector3((cos * tx) - (sin * ty), (cos * ty) + (sin * tx), v.z);
+            return new Vector3(cos * tx - sin * ty, cos * ty + sin * tx, v.z);
         }
 
         public static Vector2 Rotate90(this Vector2 v)
@@ -239,21 +261,27 @@ namespace Light2D
 
         public static void Log(params object[] vals)
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < vals.Length; i++)
             {
-                if (i != 0) sb.Append(", ");
+                if (i != 0)
+                {
+                    sb.Append(", ");
+                }
                 sb.Append(vals[i]);
             }
             Debug.Log(sb.ToString());
         }
 
-        public static void Log(UnityEngine.Object context, params object[] vals)
+        public static void Log(Object context, params object[] vals)
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < vals.Length; i++)
             {
-                if (i != 0) sb.Append(", ");
+                if (i != 0)
+                {
+                    sb.Append(", ");
+                }
                 sb.Append(vals[i]);
             }
             Debug.Log(sb.ToString(), context);
@@ -261,8 +289,8 @@ namespace Light2D
 
         public static void LogArray<T>(IEnumerable<T> enumerable)
         {
-            var sb = new StringBuilder();
-            var vals = enumerable.ToArray();
+            StringBuilder sb = new StringBuilder();
+            T[] vals = enumerable.ToArray();
             for (int i = 0; i < vals.Length; i++)
             {
                 sb.Append(i);
@@ -320,20 +348,20 @@ namespace Light2D
 #if !UNITY_WINRT
         public static void Serialize<T>(string path, T obj) where T : class
         {
-            using (var stream = File.Create(path))
+            using (FileStream stream = File.Create(path))
             {
-                var serializer = new XmlSerializer(typeof(T));
-                var xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                XmlTextWriter xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
                 serializer.Serialize(xmlWriter, obj);
             }
         }
 
         public static byte[] Serialize<T>(T obj)
         {
-            using (var stream = new MemoryStream())
+            using (MemoryStream stream = new MemoryStream())
             {
-                var serializer = new XmlSerializer(typeof(T));
-                var xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                XmlTextWriter xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
                 serializer.Serialize(xmlWriter, obj);
                 return stream.ToArray();
             }
@@ -341,10 +369,10 @@ namespace Light2D
 
         public static T Deserialize<T>(string path) where T : class
         {
-            using (var stream = File.OpenRead(path))
+            using (FileStream stream = File.OpenRead(path))
             {
-                var serializer = new XmlSerializer(typeof(T));
-                var fromFile = serializer.Deserialize(stream) as T;
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                T fromFile = serializer.Deserialize(stream) as T;
                 return fromFile;
             }
         }
@@ -353,10 +381,10 @@ namespace Light2D
         {
             try
             {
-                using (var stream = new MemoryStream(data))
+                using (MemoryStream stream = new MemoryStream(data))
                 {
-                    var serializer = new XmlSerializer(typeof(T));
-                    var fromFile = (T) serializer.Deserialize(stream);
+                    XmlSerializer serializer = new XmlSerializer(typeof(T));
+                    T fromFile = (T) serializer.Deserialize(stream);
                     return fromFile;
                 }
             }
@@ -374,8 +402,8 @@ namespace Light2D
             float minVal = float.MaxValue;
             for (int i = 0; i < list.Count; i++)
             {
-                var obj = list[i];
-                var val = pred(obj);
+                T obj = list[i];
+                float val = pred(obj);
                 if (val < minVal)
                 {
                     minId = i;
@@ -390,9 +418,9 @@ namespace Light2D
             T minObj = default(T);
             float minVal = float.MaxValue;
             bool isEmpty = true;
-            foreach (var obj in list)
+            foreach (T obj in list)
             {
-                var val = pred(obj);
+                float val = pred(obj);
                 if (val < minVal)
                 {
                     minObj = obj;
@@ -400,7 +428,10 @@ namespace Light2D
                 }
                 isEmpty = false;
             }
-            if (isEmpty) throw new ArgumentException();
+            if (isEmpty)
+            {
+                throw new ArgumentException();
+            }
             return minObj;
         }
 
@@ -409,9 +440,9 @@ namespace Light2D
             T minObj = default(T);
             float minVal = float.MaxValue;
             bool isEmpty = true;
-            foreach (var obj in list)
+            foreach (T obj in list)
             {
-                var val = pred(obj);
+                float val = pred(obj);
                 if (val < minVal)
                 {
                     minObj = obj;
@@ -419,20 +450,23 @@ namespace Light2D
                 }
                 isEmpty = false;
             }
-            if (isEmpty) return default(T);
+            if (isEmpty)
+            {
+                return default(T);
+            }
             return minObj;
         }
 
         public static Vector2 NearestPointOnLine(this Vector2 c, Vector2 a, Vector2 b)
         {
-            var v = (a - b).normalized;
+            Vector2 v = (a - b).normalized;
             return b + v * Vector2.Dot(v, c - b);
         }
 
         public static float DistToLine(this Vector2 c, Vector2 a, Vector2 b)
         {
-            var n = new Vector2(b.y - a.y, a.x - b.x).normalized;
-            var v = c - a;
+            Vector2 n = new Vector2(b.y - a.y, a.x - b.x).normalized;
+            Vector2 v = c - a;
             return Vector2.Dot(n, v);
         }
 
@@ -445,7 +479,7 @@ namespace Light2D
             }
             for (int i = 0; i < Input.touchCount; i++)
             {
-                var touch = Input.GetTouch(i);
+                Touch touch = Input.GetTouch(i);
                 if (touch.fingerId == fingerId)
                 {
                     resultTouch = touch;
@@ -464,11 +498,17 @@ namespace Light2D
 
             if (min > max)
             {
-                if (angle > min || angle < max) return angle;
+                if (angle > min || angle < max)
+                {
+                    return angle;
+                }
                 return angle > (min + max) / 2f ? min : max;
             }
 
-            if (angle > min && angle < max) return angle;
+            if (angle > min && angle < max)
+            {
+                return angle;
+            }
             return angle < min ? min : max;
         }
 
@@ -503,7 +543,9 @@ namespace Light2D
         {
             int hash = 23;
             for (int i = 0; i < els.Length; i++)
+            {
                 hash = hash * 31 + els[i].GetHashCode();
+            }
             return hash;
         }
 
@@ -540,15 +582,15 @@ namespace Light2D
         public static float DecodeFloatRGBA(Vector3 enc)
         {
             enc = new Vector3((byte) (enc.x * 254f), (byte) (enc.y * 254f), (byte) (enc.z * 254f)) / 255f;
-            var kDecodeDot = new Vector4(1f, 1 / 255f, 1 / 65025f);
-            var result = Vector3.Dot(enc, kDecodeDot);
+            Vector4 kDecodeDot = new Vector4(1f, 1 / 255f, 1 / 65025f);
+            float result = Vector3.Dot(enc, kDecodeDot);
             return result;
         }
 
         public static Vector4 EncodeFloatRGBA(float v)
         {
-            var kEncodeMul = new Vector3(1.0f, 255.0f, 65025.0f);
-            var enc = kEncodeMul * v;
+            Vector3 kEncodeMul = new Vector3(1.0f, 255.0f, 65025.0f);
+            Vector3 enc = kEncodeMul * v;
             enc = new Vector3(
                 enc.x - Mathf.Floor(enc.x), enc.y - Mathf.Floor(enc.y),
                 enc.z - Mathf.Floor(enc.z));
@@ -556,14 +598,8 @@ namespace Light2D
         }
 
 #if UNITY_EDITOR
-        public static bool IsSceneViewFocused
-        {
-            get
-            {
-                return SceneView.currentDrawingSceneView != null &&
-                       SceneView.currentDrawingSceneView == EditorWindow.focusedWindow;
-            }
-        }
+        public static bool IsSceneViewFocused => SceneView.currentDrawingSceneView != null &&
+                                                 SceneView.currentDrawingSceneView == EditorWindow.focusedWindow;
 #endif
 
         public static bool FastEquals(this Matrix4x4 m1, Matrix4x4 m2)
@@ -582,8 +618,8 @@ namespace Light2D
 
     internal class GenericEqualityComparer<T> : IEqualityComparer<T>
     {
-        private Func<T, T, bool> distinct;
-        private Func<T, int> hash;
+        private readonly Func<T, T, bool> distinct;
+        private readonly Func<T, int> hash;
 
         public GenericEqualityComparer(Func<T, T, bool> distinct, Func<T, int> hash)
         {
@@ -593,12 +629,12 @@ namespace Light2D
 
         public bool Equals(T x, T y)
         {
-            if (System.Object.ReferenceEquals(x, y))
+            if (ReferenceEquals(x, y))
             {
                 return true;
             }
-            if (System.Object.ReferenceEquals(x, null) ||
-                System.Object.ReferenceEquals(y, null))
+            if (ReferenceEquals(x, null) ||
+                ReferenceEquals(y, null))
             {
                 return false;
             }
@@ -613,7 +649,7 @@ namespace Light2D
 
     internal class GenericComparer<T> : IComparer<T>
     {
-        private Func<T, T, int> comparer;
+        private readonly Func<T, T, int> comparer;
 
         public GenericComparer(Func<T, T, int> comparer)
         {

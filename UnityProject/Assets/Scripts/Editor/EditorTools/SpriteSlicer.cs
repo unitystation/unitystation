@@ -1,22 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
 public class SpriteSlicer : MonoBehaviour
 {
 #if UNITY_EDITOR
     [MenuItem("Tools/Slice Sprites")]
-    static void SliceSpritesTest()
+    private static void SliceSpritesTest()
     {
         StringBuilder ignoredSB = new StringBuilder();
 
-        var textures = new List<Texture2D>(Resources.LoadAll<Texture2D>("icons"));
-        foreach (var spr in textures)
+        List<Texture2D> textures = new List<Texture2D>(Resources.LoadAll<Texture2D>("icons"));
+        foreach (Texture2D spr in textures)
         {
             string path = AssetDatabase.GetAssetPath(spr);
             //cutting off extension:
@@ -28,7 +27,7 @@ public class SpriteSlicer : MonoBehaviour
             int SliceHeight = 32;
 
             //ignore files starting with digit and not dividable by w/h
-            if (char.IsDigit(filename[0]) | spr.width % SliceWidth != 0 | spr.height % SliceHeight != 0)
+            if (char.IsDigit(filename[0]) | (spr.width % SliceWidth != 0) | (spr.height % SliceHeight != 0))
             {
                 ignoredSB.AppendLine(path);
                 continue;

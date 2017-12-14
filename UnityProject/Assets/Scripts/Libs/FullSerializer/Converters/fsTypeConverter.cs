@@ -26,7 +26,7 @@ namespace FullSerializer.Internal
 
         public override fsResult TrySerialize(object instance, out fsData serialized, Type storageType)
         {
-            var type = (Type) instance;
+            Type type = (Type) instance;
             serialized = new fsData(type.FullName);
             return fsResult.Success;
         }

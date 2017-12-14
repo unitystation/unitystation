@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 #if USE_TYPEINFO
@@ -42,7 +41,7 @@ namespace System {
 namespace FullSerializer.Internal
 {
     /// <summary>
-    /// This wraps reflection types so that it is portable across different Unity runtimes.
+    ///     This wraps reflection types so that it is portable across different Unity runtimes.
     /// </summary>
     public static class fsPortableReflection
     {
@@ -67,7 +66,7 @@ namespace FullSerializer.Internal
 #endif
 
         /// <summary>
-        /// Returns true if the given attribute is defined on the given element.
+        ///     Returns true if the given attribute is defined on the given element.
         /// </summary>
         public static bool HasAttribute<TAttribute>(MemberInfo element)
         {
@@ -75,7 +74,7 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Returns true if the given attribute is defined on the given element.
+        ///     Returns true if the given attribute is defined on the given element.
         /// </summary>
         public static bool HasAttribute<TAttribute>(MemberInfo element, bool shouldCache)
         {
@@ -83,7 +82,7 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Returns true if the given attribute is defined on the given element.
+        ///     Returns true if the given attribute is defined on the given element.
         /// </summary>
         public static bool HasAttribute(MemberInfo element, Type attributeType)
         {
@@ -91,7 +90,7 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Returns true if the given attribute is defined on the given element.
+        ///     Returns true if the given attribute is defined on the given element.
         /// </summary>
         public static bool HasAttribute(MemberInfo element, Type attributeType, bool shouldCache)
         {
@@ -99,15 +98,15 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Fetches the given attribute from the given MemberInfo. This method applies caching
-        /// and is allocation free (after caching has been performed).
+        ///     Fetches the given attribute from the given MemberInfo. This method applies caching
+        ///     and is allocation free (after caching has been performed).
         /// </summary>
         /// <param name="element">The MemberInfo the get the attribute from.</param>
         /// <param name="attributeType">The type of attribute to fetch.</param>
         /// <returns>The attribute or null.</returns>
         public static Attribute GetAttribute(MemberInfo element, Type attributeType, bool shouldCache)
         {
-            var query = new AttributeQuery
+            AttributeQuery query = new AttributeQuery
             {
                 MemberInfo = element,
                 AttributeType = attributeType
@@ -116,22 +115,29 @@ namespace FullSerializer.Internal
             Attribute attribute;
             if (_cachedAttributeQueries.TryGetValue(query, out attribute) == false)
             {
-                var attributes = element.GetCustomAttributes(attributeType, /*inherit:*/ true);
+                object[] attributes = element.GetCustomAttributes(attributeType, /*inherit:*/ true);
                 if (attributes.Length > 0)
+                {
                     attribute = (Attribute) attributes[0];
+                }
                 if (shouldCache)
+                {
                     _cachedAttributeQueries[query] = attribute;
+                }
             }
 
             return attribute;
         }
 
         /// <summary>
-        /// Fetches the given attribute from the given MemberInfo.
+        ///     Fetches the given attribute from the given MemberInfo.
         /// </summary>
         /// <typeparam name="TAttribute">The type of attribute to fetch.</typeparam>
         /// <param name="element">The MemberInfo to get the attribute from.</param>
-        /// <param name="shouldCache">Should this computation be cached? If this is the only time it will ever be done, don't bother caching.</param>
+        /// <param name="shouldCache">
+        ///     Should this computation be cached? If this is the only time it will ever be done, don't
+        ///     bother caching.
+        /// </param>
         /// <returns>The attribute or null.</returns>
         public static TAttribute GetAttribute<TAttribute>(MemberInfo element, bool shouldCache)
             where TAttribute : Attribute
@@ -151,7 +157,7 @@ namespace FullSerializer.Internal
             public Type AttributeType;
         }
 
-        private static IDictionary<AttributeQuery, Attribute> _cachedAttributeQueries =
+        private static readonly IDictionary<AttributeQuery, Attribute> _cachedAttributeQueries =
             new Dictionary<AttributeQuery, Attribute>(new AttributeQueryComparator());
 
         private class AttributeQueryComparator : IEqualityComparer<AttributeQuery>
@@ -167,14 +173,14 @@ namespace FullSerializer.Internal
             {
                 return
                     obj.MemberInfo.GetHashCode() +
-                    (17 * obj.AttributeType.GetHashCode());
+                    17 * obj.AttributeType.GetHashCode();
             }
         }
 
         #endregion
 
 #if !USE_TYPEINFO
-        private static BindingFlags DeclaredFlags =
+        private static readonly BindingFlags DeclaredFlags =
             BindingFlags.NonPublic |
             BindingFlags.Public |
             BindingFlags.Instance |
@@ -184,7 +190,7 @@ namespace FullSerializer.Internal
 
         public static PropertyInfo GetDeclaredProperty(this Type type, string propertyName)
         {
-            var props = GetDeclaredProperties(type);
+            PropertyInfo[] props = GetDeclaredProperties(type);
 
             for (int i = 0; i < props.Length; ++i)
             {
@@ -199,7 +205,7 @@ namespace FullSerializer.Internal
 
         public static MethodInfo GetDeclaredMethod(this Type type, string methodName)
         {
-            var methods = GetDeclaredMethods(type);
+            MethodInfo[] methods = GetDeclaredMethods(type);
 
             for (int i = 0; i < methods.Length; ++i)
             {
@@ -215,19 +221,24 @@ namespace FullSerializer.Internal
 
         public static ConstructorInfo GetDeclaredConstructor(this Type type, Type[] parameters)
         {
-            var ctors = GetDeclaredConstructors(type);
+            ConstructorInfo[] ctors = GetDeclaredConstructors(type);
 
             for (int i = 0; i < ctors.Length; ++i)
             {
-                var ctor = ctors[i];
-                var ctorParams = ctor.GetParameters();
+                ConstructorInfo ctor = ctors[i];
+                ParameterInfo[] ctorParams = ctor.GetParameters();
 
-                if (parameters.Length != ctorParams.Length) continue;
+                if (parameters.Length != ctorParams.Length)
+                {
+                    continue;
+                }
 
                 for (int j = 0; j < ctorParams.Length; ++j)
                 {
                     // require an exact match
-                    if (ctorParams[j].ParameterType != parameters[j]) continue;
+                    if (ctorParams[j].ParameterType != parameters[j])
+                    {
+                    }
                 }
 
                 return ctor;
@@ -247,11 +258,11 @@ namespace FullSerializer.Internal
 
         public static MemberInfo[] GetFlattenedMember(this Type type, string memberName)
         {
-            var result = new List<MemberInfo>();
+            List<MemberInfo> result = new List<MemberInfo>();
 
             while (type != null)
             {
-                var members = GetDeclaredMembers(type);
+                MemberInfo[] members = GetDeclaredMembers(type);
 
                 for (int i = 0; i < members.Length; ++i)
                 {
@@ -271,7 +282,7 @@ namespace FullSerializer.Internal
         {
             while (type != null)
             {
-                var methods = GetDeclaredMethods(type);
+                MethodInfo[] methods = GetDeclaredMethods(type);
 
                 for (int i = 0; i < methods.Length; ++i)
                 {
@@ -291,7 +302,7 @@ namespace FullSerializer.Internal
         {
             while (type != null)
             {
-                var methods = GetDeclaredMethods(type);
+                MethodInfo[] methods = GetDeclaredMethods(type);
 
                 for (int i = 0; i < methods.Length; ++i)
                 {
@@ -309,7 +320,7 @@ namespace FullSerializer.Internal
         {
             while (type != null)
             {
-                var properties = GetDeclaredProperties(type);
+                PropertyInfo[] properties = GetDeclaredProperties(type);
 
                 for (int i = 0; i < properties.Length; ++i)
                 {
@@ -327,7 +338,7 @@ namespace FullSerializer.Internal
 
         public static MemberInfo GetDeclaredMember(this Type type, string memberName)
         {
-            var members = GetDeclaredMembers(type);
+            MemberInfo[] members = GetDeclaredMembers(type);
 
             for (int i = 0; i < members.Length; ++i)
             {

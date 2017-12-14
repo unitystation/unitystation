@@ -1,13 +1,14 @@
 ﻿#if !NO_UNITY
 using System;
 using System.Collections.Generic;
+using FullSerializer.Internal.DirectConverters;
 using UnityEngine;
 
 namespace FullSerializer
 {
     partial class fsConverterRegistrar
     {
-        public static Internal.DirectConverters.GUIStyle_DirectConverter Register_GUIStyle_DirectConverter;
+        public static GUIStyle_DirectConverter Register_GUIStyle_DirectConverter;
     }
 }
 
@@ -17,7 +18,7 @@ namespace FullSerializer.Internal.DirectConverters
     {
         protected override fsResult DoSerialize(GUIStyle model, Dictionary<string, fsData> serialized)
         {
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
             result += SerializeMember(serialized, null, "active", model.active);
             result += SerializeMember(serialized, null, "alignment", model.alignment);
@@ -51,109 +52,109 @@ namespace FullSerializer.Internal.DirectConverters
 
         protected override fsResult DoDeserialize(Dictionary<string, fsData> data, ref GUIStyle model)
         {
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
-            var t0 = model.active;
+            GUIStyleState t0 = model.active;
             result += DeserializeMember(data, null, "active", out t0);
             model.active = t0;
 
-            var t2 = model.alignment;
+            TextAnchor t2 = model.alignment;
             result += DeserializeMember(data, null, "alignment", out t2);
             model.alignment = t2;
 
-            var t3 = model.border;
+            RectOffset t3 = model.border;
             result += DeserializeMember(data, null, "border", out t3);
             model.border = t3;
 
-            var t4 = model.clipping;
+            TextClipping t4 = model.clipping;
             result += DeserializeMember(data, null, "clipping", out t4);
             model.clipping = t4;
 
-            var t5 = model.contentOffset;
+            Vector2 t5 = model.contentOffset;
             result += DeserializeMember(data, null, "contentOffset", out t5);
             model.contentOffset = t5;
 
-            var t6 = model.fixedHeight;
+            float t6 = model.fixedHeight;
             result += DeserializeMember(data, null, "fixedHeight", out t6);
             model.fixedHeight = t6;
 
-            var t7 = model.fixedWidth;
+            float t7 = model.fixedWidth;
             result += DeserializeMember(data, null, "fixedWidth", out t7);
             model.fixedWidth = t7;
 
-            var t8 = model.focused;
+            GUIStyleState t8 = model.focused;
             result += DeserializeMember(data, null, "focused", out t8);
             model.focused = t8;
 
-            var t9 = model.font;
+            Font t9 = model.font;
             result += DeserializeMember(data, null, "font", out t9);
             model.font = t9;
 
-            var t10 = model.fontSize;
+            int t10 = model.fontSize;
             result += DeserializeMember(data, null, "fontSize", out t10);
             model.fontSize = t10;
 
-            var t11 = model.fontStyle;
+            FontStyle t11 = model.fontStyle;
             result += DeserializeMember(data, null, "fontStyle", out t11);
             model.fontStyle = t11;
 
-            var t12 = model.hover;
+            GUIStyleState t12 = model.hover;
             result += DeserializeMember(data, null, "hover", out t12);
             model.hover = t12;
 
-            var t13 = model.imagePosition;
+            ImagePosition t13 = model.imagePosition;
             result += DeserializeMember(data, null, "imagePosition", out t13);
             model.imagePosition = t13;
 
-            var t16 = model.margin;
+            RectOffset t16 = model.margin;
             result += DeserializeMember(data, null, "margin", out t16);
             model.margin = t16;
 
-            var t17 = model.name;
+            string t17 = model.name;
             result += DeserializeMember(data, null, "name", out t17);
             model.name = t17;
 
-            var t18 = model.normal;
+            GUIStyleState t18 = model.normal;
             result += DeserializeMember(data, null, "normal", out t18);
             model.normal = t18;
 
-            var t19 = model.onActive;
+            GUIStyleState t19 = model.onActive;
             result += DeserializeMember(data, null, "onActive", out t19);
             model.onActive = t19;
 
-            var t20 = model.onFocused;
+            GUIStyleState t20 = model.onFocused;
             result += DeserializeMember(data, null, "onFocused", out t20);
             model.onFocused = t20;
 
-            var t21 = model.onHover;
+            GUIStyleState t21 = model.onHover;
             result += DeserializeMember(data, null, "onHover", out t21);
             model.onHover = t21;
 
-            var t22 = model.onNormal;
+            GUIStyleState t22 = model.onNormal;
             result += DeserializeMember(data, null, "onNormal", out t22);
             model.onNormal = t22;
 
-            var t23 = model.overflow;
+            RectOffset t23 = model.overflow;
             result += DeserializeMember(data, null, "overflow", out t23);
             model.overflow = t23;
 
-            var t24 = model.padding;
+            RectOffset t24 = model.padding;
             result += DeserializeMember(data, null, "padding", out t24);
             model.padding = t24;
 
-            var t25 = model.richText;
+            bool t25 = model.richText;
             result += DeserializeMember(data, null, "richText", out t25);
             model.richText = t25;
 
-            var t26 = model.stretchHeight;
+            bool t26 = model.stretchHeight;
             result += DeserializeMember(data, null, "stretchHeight", out t26);
             model.stretchHeight = t26;
 
-            var t27 = model.stretchWidth;
+            bool t27 = model.stretchWidth;
             result += DeserializeMember(data, null, "stretchWidth", out t27);
             model.stretchWidth = t27;
 
-            var t28 = model.wordWrap;
+            bool t28 = model.wordWrap;
             result += DeserializeMember(data, null, "wordWrap", out t28);
             model.wordWrap = t28;
 

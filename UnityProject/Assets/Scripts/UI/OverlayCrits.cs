@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Threading.Tasks;
+using PlayGroup;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
     /// <summary>
-    /// To control the critical overlays (unconscious, dying, oxygen loss etc)
+    ///     To control the critical overlays (unconscious, dying, oxygen loss etc)
     /// </summary>
     public class OverlayCrits : MonoBehaviour
     {
-        public Material holeMat;
-        public RectTransform shroud;
-        public Image shroudImg;
-
-        public ShroudPreference normalSettings;
-        public ShroudPreference injuredSettings;
-        public ShroudPreference unconsciousSettings;
         public ShroudPreference critcalSettings;
 
         public OverlayState currentState;
+        public Material holeMat;
+        public ShroudPreference injuredSettings;
+
+        public ShroudPreference normalSettings;
+        public RectTransform shroud;
+        public Image shroudImg;
+        public ShroudPreference unconsciousSettings;
 
         public async void AdjustOverlayPos()
         {
@@ -29,10 +30,10 @@ namespace UI
 
         private void DoAdjust()
         {
-            if (PlayGroup.PlayerManager.LocalPlayer != null)
+            if (PlayerManager.LocalPlayer != null)
             {
                 Vector3 playerPos =
-                    Camera.main.WorldToScreenPoint(PlayGroup.PlayerManager.LocalPlayer.transform.position);
+                    Camera.main.WorldToScreenPoint(PlayerManager.LocalPlayer.transform.position);
                 shroud.position = playerPos;
             }
         }
@@ -78,9 +79,9 @@ namespace UI
     [Serializable]
     public class ShroudPreference
     {
-        public bool shroudActive = true;
         public float holeRadius;
         public float holeShape;
+        public bool shroudActive = true;
     }
 
     public enum OverlayState

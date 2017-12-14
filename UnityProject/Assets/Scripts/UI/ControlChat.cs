@@ -1,34 +1,32 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System.Collections;
 using PlayGroup;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace UI
 {
     public class ControlChat : MonoBehaviour
     {
-        public GameObject chatInputWindow;
-        public GameObject channelToggle;
-        public InputField usernameInput;
-        public RectTransform ChatPanel;
+        private readonly List<ChatEvent> _localEvents = new List<ChatEvent>();
+        public Toggle channelListToggle;
 
         public RectTransform channelPanel;
+        public GameObject channelToggle;
+        public GameObject chatInputWindow;
+        public RectTransform ChatPanel;
+
+        public Text CurrentChannelText;
         // set in inspector (to enable/disable panel)
 
         public InputField InputFieldChat;
-        public Text CurrentChannelText;
-        public Scrollbar scrollBar;
-        public Toggle channelListToggle;
 
-        public bool isChatFocus = false;
+        public bool isChatFocus;
+        public Scrollbar scrollBar;
 
         public bool ShowState = true;
-
-        private List<ChatEvent> _localEvents = new List<ChatEvent>();
+        public InputField usernameInput;
 
         public void AddChatEvent(ChatEvent chatEvent)
         {
@@ -59,7 +57,7 @@ namespace UI
             }
             if (isChatFocus)
             {
-                if (!string.IsNullOrEmpty(this.InputFieldChat.text.Trim()) &&
+                if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()) &&
                     (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)))
                 {
                     PlayerSendChat();
@@ -75,7 +73,7 @@ namespace UI
 
         public void OnClickSend()
         {
-            if (!string.IsNullOrEmpty(this.InputFieldChat.text.Trim()))
+            if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
             {
                 SoundManager.Play("Click01");
                 PlayerSendChat();
@@ -86,21 +84,21 @@ namespace UI
         private void PlayerSendChat()
         {
             PostToChatMessage.Send(InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels);
-            if (this.InputFieldChat.text != "")
+            if (InputFieldChat.text != "")
             {
                 PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
             }
-            this.InputFieldChat.text = "";
+            InputFieldChat.text = "";
         }
 
         public void OnChatCancel()
         {
             SoundManager.Play("Click01");
-            this.InputFieldChat.text = "";
+            InputFieldChat.text = "";
             CloseChatWindow();
         }
 
-        void CloseChatWindow()
+        private void CloseChatWindow()
         {
             isChatFocus = false;
             chatInputWindow.SetActive(false);
@@ -133,7 +131,7 @@ namespace UI
 
                 if ((channelsAvailable & channel) == channel)
                 {
-                    GameObject channelToggleItem = GameObject.Instantiate(channelToggle, channelPanel.transform);
+                    GameObject channelToggleItem = Instantiate(channelToggle, channelPanel.transform);
                     Toggle toggle = channelToggleItem.GetComponent<Toggle>();
                     toggle.GetComponent<UIToggleChannel>().channel = channel;
                     toggle.GetComponentInChildren<Text>().text = IconConstants.ChatPanelIcons[channel];
@@ -154,7 +152,7 @@ namespace UI
             int count = channelPanel.transform.childCount;
             LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
             HorizontalLayoutGroup horizontalLayoutGroup = channelPanel.GetComponent<HorizontalLayoutGroup>();
-            layoutElement.minWidth = (width * count) + (horizontalLayoutGroup.spacing * count);
+            layoutElement.minWidth = width * count + horizontalLayoutGroup.spacing * count;
         }
 
         public void EmptyChannelPanel()
@@ -221,7 +219,6 @@ namespace UI
             if (selectedCount > 1)
             {
                 text.text = "Multiple";
-                return;
             }
         }
 

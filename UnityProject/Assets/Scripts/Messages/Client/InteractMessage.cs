@@ -1,11 +1,10 @@
 ﻿using System.Collections;
-using InputControl;
 using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-/// Informs server of interaction
+///     Informs server of interaction
 /// </summary>
 public class InteractMessage : ClientMessage<InteractMessage>
 {
@@ -30,7 +29,7 @@ public class InteractMessage : ClientMessage<InteractMessage>
 
     public static InteractMessage Send(GameObject subject, Vector3 position, string hand)
     {
-        var msg = new InteractMessage
+        InteractMessage msg = new InteractMessage
         {
             Subject = subject.GetComponent<NetworkIdentity>().netId,
             Position = position,
@@ -45,9 +44,12 @@ public class InteractMessage : ClientMessage<InteractMessage>
     {
         switch (handEventString)
         {
-            case "leftHand": return 1;
-            case "rightHand": return 2;
-            default: return 0;
+            case "leftHand":
+                return 1;
+            case "rightHand":
+                return 2;
+            default:
+                return 0;
         }
     }
 
@@ -56,9 +58,12 @@ public class InteractMessage : ClientMessage<InteractMessage>
         //we better start using enums for that soon!
         switch (handEventByte)
         {
-            case 1: return "leftHand";
-            case 2: return "rightHand";
-            default: return null;
+            case 1:
+                return "leftHand";
+            case 2:
+                return "rightHand";
+            default:
+                return null;
         }
     }
 

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Collections;
-using UnityEngine.Networking;
-using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
-using Matrix = Tilemaps.Scripts.Matrix;
 using UI;
+using UnityEngine;
+using UnityEngine.Networking;
 
 namespace PlayGroup
 {
@@ -21,32 +21,33 @@ namespace PlayGroup
 
     public class PlayerSync : NetworkBehaviour
     {
-        public PlayerMove playerMove;
-        private PlayerScript playerScript;
-        private PlayerSprites playerSprites;
-        private RegisterTile registerTile;
-        private Queue<PlayerAction> pendingActions;
+        private bool canRegister = false;
         private HealthBehaviour healthBehaviorScript;
 
-        [SyncVar] private PlayerState serverStateCache; //used to sync with new players
-        private PlayerState serverState;
-        private PlayerState predictedState;
-
-        //pull objects
-        [SyncVar(hook = "PullReset")] public NetworkInstanceId pullObjectID;
-
-        public GameObject pullingObject;
-        private RegisterTile pullRegister;
-        private bool canRegister = false;
-        private Vector3 pullPos;
-        private PushPull pushPull; //The pushpull component on this player
+        //TODO: Remove the space damage coroutine when atmos is implemented
+        private bool isApplyingSpaceDmg;
 
         private Vector2 lastDirection;
 
         private Matrix matrix;
+        private Queue<PlayerAction> pendingActions;
+        public PlayerMove playerMove;
+        private PlayerScript playerScript;
+        private PlayerSprites playerSprites;
+        private PlayerState predictedState;
 
-        //TODO: Remove the space damage coroutine when atmos is implemented
-        private bool isApplyingSpaceDmg = false;
+        public GameObject pullingObject;
+
+        //pull objects
+        [SyncVar(hook = "PullReset")] public NetworkInstanceId pullObjectID;
+
+        private Vector3 pullPos;
+        private RegisterTile pullRegister;
+        private PushPull pushPull; //The pushpull component on this player
+        private RegisterTile registerTile;
+        private PlayerState serverState;
+
+        [SyncVar] private PlayerState serverStateCache; //used to sync with new players
 
         public override void OnStartServer()
         {
@@ -61,7 +62,7 @@ namespace PlayGroup
             base.OnStartClient();
         }
 
-        IEnumerator WaitForLoad()
+        private IEnumerator WaitForLoad()
         {
             yield return new WaitForEndOfFrame();
             if (serverStateCache.Position != Vector3.zero && !isLocalPlayer)
@@ -71,8 +72,8 @@ namespace PlayGroup
             }
             else
             {
-                serverState = new PlayerState() {MoveNumber = 0, Position = transform.localPosition};
-                predictedState = new PlayerState() {MoveNumber = 0, Position = transform.localPosition};
+                serverState = new PlayerState {MoveNumber = 0, Position = transform.localPosition};
+                predictedState = new PlayerState {MoveNumber = 0, Position = transform.localPosition};
             }
             yield return new WaitForSeconds(2f);
 
@@ -83,9 +84,9 @@ namespace PlayGroup
         {
             if (isServer)
             {
-                var position = Vector3Int.RoundToInt(transform.localPosition);
-                serverState = new PlayerState() {MoveNumber = 0, Position = position};
-                serverStateCache = new PlayerState() {MoveNumber = 0, Position = position};
+                Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
+                serverState = new PlayerState {MoveNumber = 0, Position = position};
+                serverStateCache = new PlayerState {MoveNumber = 0, Position = position};
             }
         }
 
@@ -94,37 +95,39 @@ namespace PlayGroup
         public void CmdSetPositionFromReset(GameObject fromObj, GameObject otherPlayer, Vector3 setPos)
         {
             if (fromObj.GetComponent<PlayerSync>() == null) //Validation
+            {
                 return;
+            }
 
             PlayerSync otherPlayerSync = otherPlayer.GetComponent<PlayerSync>();
             otherPlayerSync.SetPosition(setPos);
         }
 
         /// <summary>
-        /// Manually set a player to a specific position
+        ///     Manually set a player to a specific position
         /// </summary>
         /// <param name="pos">The new position to "teleport" player</param>
         [Server]
         public void SetPosition(Vector3 pos)
         {
             //TODO ^ check for an allowable type and other conditions to stop abuse of SetPosition
-            var roundedPos = Vector3Int.RoundToInt(pos);
+            Vector3Int roundedPos = Vector3Int.RoundToInt(pos);
             transform.localPosition = roundedPos;
-            serverState = new PlayerState() {MoveNumber = 0, Position = roundedPos};
-            serverStateCache = new PlayerState() {MoveNumber = 0, Position = roundedPos};
-            predictedState = new PlayerState() {MoveNumber = 0, Position = roundedPos};
+            serverState = new PlayerState {MoveNumber = 0, Position = roundedPos};
+            serverStateCache = new PlayerState {MoveNumber = 0, Position = roundedPos};
+            predictedState = new PlayerState {MoveNumber = 0, Position = roundedPos};
             RpcSetPosition(roundedPos);
         }
 
         [ClientRpc]
         private void RpcSetPosition(Vector3 pos)
         {
-            predictedState = new PlayerState() {MoveNumber = 0, Position = pos};
-            serverState = new PlayerState() {MoveNumber = 0, Position = pos};
+            predictedState = new PlayerState {MoveNumber = 0, Position = pos};
+            serverState = new PlayerState {MoveNumber = 0, Position = pos};
             transform.localPosition = pos;
         }
 
-        void Start()
+        private void Start()
         {
             if (isLocalPlayer)
             {
@@ -140,7 +143,7 @@ namespace PlayGroup
         }
 
 
-        void Update()
+        private void Update()
         {
             if (isLocalPlayer && playerMove != null)
             {
@@ -184,7 +187,7 @@ namespace PlayGroup
 
         private void DoAction()
         {
-            var action = playerMove.SendAction();
+            PlayerAction action = playerMove.SendAction();
             if (action.keyCodes.Length != 0)
             {
                 pendingActions.Enqueue(action);
@@ -196,16 +199,20 @@ namespace PlayGroup
         private void Synchronize()
         {
             if (isLocalPlayer && GameData.IsHeadlessServer)
+            {
                 return;
+            }
 
             if (!playerMove.isGhost)
             {
                 CheckSpaceWalk();
 
                 if (isLocalPlayer && playerMove.IsPushing || pushPull.pulledBy != null)
+                {
                     return;
+                }
 
-                var state = isLocalPlayer ? predictedState : serverState;
+                PlayerState state = isLocalPlayer ? predictedState : serverState;
                 transform.localPosition = Vector3.MoveTowards(transform.localPosition, state.Position,
                     playerMove.speed * Time.deltaTime);
 
@@ -213,7 +220,9 @@ namespace PlayGroup
                 ControlTabs.CheckItemListTab();
 
                 if (state.Position != transform.localPosition)
+                {
                     lastDirection = (state.Position - transform.localPosition).normalized;
+                }
 
                 if (pullingObject != null)
                 {
@@ -236,7 +245,7 @@ namespace PlayGroup
             }
             else
             {
-                var state = isLocalPlayer ? predictedState : serverState;
+                PlayerState state = isLocalPlayer ? predictedState : serverState;
                 playerScript.ghost.transform.localPosition = Vector3.MoveTowards(
                     playerScript.ghost.transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
             }
@@ -247,20 +256,20 @@ namespace PlayGroup
             pullPos = transform.localPosition - (Vector3) lastDirection;
             pullPos.z = pullingObject.transform.localPosition.z;
 
-            var pos = Vector3Int.RoundToInt(pullPos);
+            Vector3Int pos = Vector3Int.RoundToInt(pullPos);
             if (matrix.IsPassableAt(pos) || matrix.ContainsAt(pos, gameObject) || matrix.ContainsAt(pos, pullingObject))
             {
                 float journeyLength = Vector3.Distance(pullingObject.transform.localPosition, pullPos);
                 if (journeyLength <= 2f)
                 {
                     pullingObject.transform.localPosition = Vector3.MoveTowards(pullingObject.transform.localPosition,
-                        pullPos, (playerMove.speed * Time.deltaTime) / journeyLength);
+                        pullPos, playerMove.speed * Time.deltaTime / journeyLength);
                 }
                 else
                 {
                     //If object gets too far away activate warp speed
                     pullingObject.transform.localPosition = Vector3.MoveTowards(pullingObject.transform.localPosition,
-                        pullPos, (playerMove.speed * Time.deltaTime) * 30f);
+                        pullPos, playerMove.speed * Time.deltaTime * 30f);
                 }
                 pullingObject.BroadcastMessage("FaceDirection", playerSprites.currentDirection,
                     SendMessageOptions.DontRequireReceiver);
@@ -279,7 +288,7 @@ namespace PlayGroup
         {
             predictedState = serverState;
 
-            foreach (var action in pendingActions)
+            foreach (PlayerAction action in pendingActions)
             {
                 predictedState = NextState(predictedState, action);
             }
@@ -287,7 +296,7 @@ namespace PlayGroup
 
         private PlayerState NextState(PlayerState state, PlayerAction action)
         {
-            return new PlayerState()
+            return new PlayerState
             {
                 MoveNumber = state.MoveNumber + 1,
                 Position = playerMove.GetNextPosition(Vector3Int.RoundToInt(state.Position), action)
@@ -315,8 +324,10 @@ namespace PlayGroup
                         //Could be a another player
                         PlayerSync otherPlayerSync = pullingObject.GetComponent<PlayerSync>();
                         if (otherPlayerSync != null)
+                        {
                             CmdSetPositionFromReset(gameObject, otherPlayerSync.gameObject,
                                 pullingObject.transform.localPosition);
+                        }
                     }
                 }
                 pullRegister = null;
@@ -342,7 +353,7 @@ namespace PlayGroup
             if (pendingActions != null)
             {
                 while (pendingActions.Count > 0 &&
-                       pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber))
+                       pendingActions.Count > predictedState.MoveNumber - serverState.MoveNumber)
                 {
                     pendingActions.Dequeue();
                 }
@@ -357,10 +368,10 @@ namespace PlayGroup
 
         private void CheckSpaceWalk()
         {
-            var pos = Vector3Int.RoundToInt(transform.localPosition);
+            Vector3Int pos = Vector3Int.RoundToInt(transform.localPosition);
             if (matrix != null && matrix.IsFloatingAt(pos))
             {
-                var newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
+                Vector3Int newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
                 serverState.Position = newGoal;
                 predictedState.Position = newGoal;
                 if (!healthBehaviorScript.IsDead && CustomNetworkManager.Instance._isServer
@@ -374,7 +385,7 @@ namespace PlayGroup
 
         //TODO: Remove this when atmos is implemented 
         //This prevents players drifting into space indefinitely 
-        IEnumerator ApplyTempSpaceDamage()
+        private IEnumerator ApplyTempSpaceDamage()
         {
             yield return new WaitForSeconds(1f);
             healthBehaviorScript.RpcApplyDamage("SPESS", 5, DamageType.OXY, BodyPartType.HEAD);

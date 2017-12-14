@@ -1,5 +1,4 @@
-﻿using InputControl;
-using PlayGroup;
+﻿using PlayGroup;
 using PlayGroups.Input;
 using UI;
 using UnityEngine;
@@ -11,7 +10,7 @@ public class TableTrigger : InputTrigger
     {
         if (!isServer)
         {
-            var slot = UIManager.Hands.CurrentSlot;
+            UI_ItemSlot slot = UIManager.Hands.CurrentSlot;
 
             // Client pre-approval
             if (slot.CanPlaceItem())
@@ -40,15 +39,18 @@ public class TableTrigger : InputTrigger
     [Server]
     private bool ValidateTableInteraction(GameObject originator, Vector3 position, string hand)
     {
-        var ps = originator.GetComponent<PlayerScript>();
+        PlayerScript ps = originator.GetComponent<PlayerScript>();
         if (ps.canNotInteract() || !ps.IsInReach(position))
         {
             return false;
         }
 
         GameObject item = ps.playerNetworkActions.Inventory[hand];
-        if (item == null) return false;
-        var targetPosition = gameObject.transform.position; //Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (item == null)
+        {
+            return false;
+        }
+        Vector3 targetPosition = gameObject.transform.position; //Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPosition.z = -0.2f;
         ps.playerNetworkActions.PlaceItem(hand, targetPosition, gameObject);
         item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);

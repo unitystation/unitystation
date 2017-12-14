@@ -1,17 +1,17 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace NPC
 {
     public class NPC_Clown : MonoBehaviour
     {
-        private SpriteRenderer spriteRenderer;
         public Sprite[] clownSprites;
+        private bool isMoving;
 
-        private bool isRight = false;
-        private bool isMoving = false;
+        private bool isRight;
+        private SpriteRenderer spriteRenderer;
 
-        void Start()
+        private void Start()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
             //Snap to grid
@@ -22,18 +22,20 @@ namespace NPC
             StartCoroutine(RandMove());
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             StopCoroutine(RandMove());
         }
 
-        void Update()
+        private void Update()
         {
             if (!isMoving)
+            {
                 StartCoroutine(RandMove());
+            }
         }
 
-        IEnumerator RandMove()
+        private IEnumerator RandMove()
         {
             isMoving = true;
             float ranTime = Random.Range(0.2f, 6f);
@@ -89,7 +91,7 @@ namespace NPC
             isMoving = false;
         }
 
-        void Flip()
+        private void Flip()
         {
             Vector2 newScale = transform.localScale;
             newScale.x = -newScale.x;

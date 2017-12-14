@@ -1,6 +1,6 @@
-﻿using UI;
+﻿using Items;
+using UI;
 using UnityEngine;
-using Items;
 
 public class EncryptionkeyTrigger : PickUpTrigger
 {
@@ -13,7 +13,7 @@ public class EncryptionkeyTrigger : PickUpTrigger
             return;
         }
 
-        var otherHandsItem = UIManager.Hands.OtherSlot.Item;
+        GameObject otherHandsItem = UIManager.Hands.OtherSlot.Item;
 
         if (otherHandsItem && otherHandsItem.GetComponent<Headset>())
         {

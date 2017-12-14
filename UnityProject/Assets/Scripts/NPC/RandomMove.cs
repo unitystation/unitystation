@@ -1,28 +1,26 @@
-﻿using UnityEngine;
-using System.Collections;
-using PlayGroup;
+﻿using System.Collections;
 using Tilemaps.Scripts;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace NPC
 {
     public class RandomMove : NetworkBehaviour
     {
-        private bool isRight = false;
-        public float speed = 6f;
-        private Vector3Int currentPosition, targetPosition, currentDirection;
-
         private HealthBehaviour _healthBehaviour;
         private Matrix _matrix;
+        private Vector3Int currentPosition, targetPosition, currentDirection;
+        private bool isRight;
+        public float speed = 6f;
 
-        void Start()
+        private void Start()
         {
             _healthBehaviour = GetComponent<HealthBehaviour>();
             targetPosition = Vector3Int.RoundToInt(transform.position);
             currentPosition = targetPosition;
         }
 
-        void Update()
+        private void Update()
         {
             if (NetworkServer.active && !_healthBehaviour.IsDead)
             {
@@ -40,19 +38,19 @@ namespace NPC
         }
 
         [ClientRpc]
-        void RpcFlip()
+        private void RpcFlip()
         {
             Vector2 newScale = transform.localScale;
             newScale.x = -newScale.x;
             transform.localScale = newScale;
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             StopCoroutine(RandMove());
         }
 
-        void OnTriggerExit2D(Collider2D coll)
+        private void OnTriggerExit2D(Collider2D coll)
         {
             //Players layer
             if (coll.gameObject.layer == 8)
@@ -62,7 +60,7 @@ namespace NPC
         }
 
         //COROUTINES
-        IEnumerator RandMove()
+        private IEnumerator RandMove()
         {
             float ranTime = Random.Range(2f, 10f);
             yield return new WaitForSeconds(ranTime);
@@ -106,7 +104,7 @@ namespace NPC
             StartCoroutine(RandMove());
         }
 
-        void Move()
+        private void Move()
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
             if (targetPosition == transform.position)
@@ -117,13 +115,13 @@ namespace NPC
 
         private bool TryToMove(Vector3Int direction)
         {
-            var horizontal = Vector3Int.Scale(direction, Vector3Int.right);
-            var vertical = Vector3Int.Scale(direction, Vector3Int.up);
+            Vector3Int horizontal = Vector3Int.Scale(direction, Vector3Int.right);
+            Vector3Int vertical = Vector3Int.Scale(direction, Vector3Int.up);
 
             if (_matrix.IsPassableAt(currentPosition + direction))
             {
-                if ((_matrix.IsPassableAt(currentPosition + horizontal) ||
-                     _matrix.IsPassableAt(currentPosition + vertical)))
+                if (_matrix.IsPassableAt(currentPosition + horizontal) ||
+                    _matrix.IsPassableAt(currentPosition + vertical))
                 {
                     targetPosition = currentPosition + direction;
                     return true;
@@ -132,8 +130,8 @@ namespace NPC
 
             if (_matrix.IsPassableAt(currentPosition + direction))
             {
-                if ((_matrix.IsPassableAt(currentPosition + horizontal) ||
-                     _matrix.IsPassableAt(currentPosition + vertical)))
+                if (_matrix.IsPassableAt(currentPosition + horizontal) ||
+                    _matrix.IsPassableAt(currentPosition + vertical))
                 {
                     targetPosition = currentPosition + direction;
                     return true;

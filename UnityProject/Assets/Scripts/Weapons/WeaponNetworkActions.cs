@@ -3,30 +3,32 @@ using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
 using Weapons;
-using UI;
 
 public class WeaponNetworkActions : ManagedNetworkBehaviour
 {
-    private GameObject spritesObj;
-    private PlayerMove playerMove;
-    private SoundNetworkActions soundNetworkActions;
-    public GameObject muzzleFlash;
-    private PlayerScript playerScript;
+    private bool allowAttack = true;
+
+    //muzzle flash
+    private bool isFlashing;
+
+    private bool isForLerpBack;
+    private Vector3 lerpFrom;
+    private bool lerping;
+
+    private float lerpProgress;
 
     //Lerp parameters
     private Sprite lerpSprite;
 
-    private float lerpProgress = 0f;
-    private bool lerping = false;
-    private Vector3 lerpFrom;
     private Vector3 lerpTo;
-    private float speed = 7f;
-    private bool isForLerpBack = false;
+    public GameObject muzzleFlash;
+    private PlayerMove playerMove;
+    private PlayerScript playerScript;
+    private SoundNetworkActions soundNetworkActions;
+    private readonly float speed = 7f;
+    private GameObject spritesObj;
 
-    //muzzle flash
-    private bool isFlashing = false;
-
-    void Start()
+    private void Start()
     {
         spritesObj = transform.Find("Sprites").gameObject;
         playerMove = GetComponent<PlayerMove>();
@@ -56,7 +58,9 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
         BodyPartType damageZone)
     {
         if (!playerMove.allowInput || playerMove.isGhost)
+        {
             return;
+        }
 
         //get componants
         Weapon wepBehavior = weapon.GetComponent<Weapon>();
@@ -68,7 +72,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
         //get the bullet prefab being shot
         GameObject bullet = PoolManager.Instance.PoolClientInstantiate(Resources.Load(bulletName) as GameObject,
             transform.position, Quaternion.identity);
-        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         //if we have recoil variance add it, and get the new attack angle
         if (wepBehavior != null && wepBehavior.CurrentRecoilVariance > 0)
@@ -98,10 +102,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
     //Bullets are just graphical candy on the client, give them the end point and let 
     //them work out the start pos and direction
     [ClientRpc]
-    void RpcShootBullet(GameObject weapon, Vector2 endPos, string bulletName, BodyPartType damageZone)
+    private void RpcShootBullet(GameObject weapon, Vector2 endPos, string bulletName, BodyPartType damageZone)
     {
         if (!playerMove.allowInput || playerMove.isGhost)
+        {
             return;
+        }
 
         Weapon wepBehavior = weapon.GetComponent<Weapon>();
         if (wepBehavior != null)
@@ -110,13 +116,15 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
         }
 
         if (CustomNetworkManager.Instance._isServer)
+        {
             return;
+        }
 
         GameObject bullet = PoolManager.Instance.PoolClientInstantiate(Resources.Load(bulletName) as GameObject,
             transform.position, Quaternion.identity);
         Vector2 playerPos = new Vector2(transform.position.x, transform.position.y);
         Vector2 dir = (endPos - playerPos).normalized;
-        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
         b.Shoot(dir, angle, gameObject.name, damageZone);
         if (!isFlashing)
@@ -132,13 +140,15 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
     public void CmdKnifeAttackMob(GameObject npcObj, GameObject weapon, Vector2 stabDirection, BodyPartType damageZone)
     {
         if (!playerMove.allowInput || !allowAttack || playerMove.isGhost)
+        {
             return;
+        }
 
         if (npcObj != gameObject)
         {
             RpcMeleAttackLerp(stabDirection, weapon);
         }
-        var healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
+        HealthBehaviour healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
         healthBehaviour
             .ApplyDamage(gameObject.name, 20, DamageType.BRUTE, damageZone);
 
@@ -148,8 +158,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
         soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
         StartCoroutine(AttackCoolDown());
     }
-
-    private bool allowAttack = true;
 
     private IEnumerator AttackCoolDown(float seconds = 0.5f)
     {
@@ -163,7 +171,9 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
     public void CmdKnifeHarvestMob(GameObject npcObj, GameObject weapon, Vector2 stabDirection)
     {
         if (!playerMove.allowInput || playerMove.isGhost)
+        {
             return;
+        }
 
         SimpleAnimal attackTarget = npcObj.GetComponent<SimpleAnimal>();
         RpcMeleAttackLerp(stabDirection, weapon);
@@ -172,7 +182,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcMeleAttackLerp(Vector2 stabDir, GameObject weapon)
+    private void RpcMeleAttackLerp(Vector2 stabDir, GameObject weapon)
     {
         if (lerping)
         {
@@ -232,7 +242,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
         }
     }
 
-    void ResetLerp()
+    private void ResetLerp()
     {
         lerpProgress = 0f;
         lerping = false;
@@ -240,22 +250,30 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
         lerpSprite = null;
     }
 
+    private IEnumerator ShowMuzzleFlash()
+    {
+        muzzleFlash.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        muzzleFlash.gameObject.SetActive(false);
+        isFlashing = false;
+    }
+
     #region Weapon Network Supporting Methods
 
-    Vector2 GetRecoilOffset(Weapon weapon, float angle)
+    private Vector2 GetRecoilOffset(Weapon weapon, float angle)
     {
-        var angleVariance = Random.Range(-weapon.CurrentRecoilVariance, weapon.CurrentRecoilVariance);
-        var newAngle = (angle * Mathf.Deg2Rad) + angleVariance;
+        float angleVariance = Random.Range(-weapon.CurrentRecoilVariance, weapon.CurrentRecoilVariance);
+        float newAngle = angle * Mathf.Deg2Rad + angleVariance;
         Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;
         return vec2;
     }
 
-    void AppendRecoil(Weapon weapon, float angle)
+    private void AppendRecoil(Weapon weapon, float angle)
     {
         if (weapon != null && weapon.CurrentRecoilVariance < weapon.MaxRecoilVariance)
         {
             //get a random recoil
-            var randRecoil = Random.Range(weapon.CurrentRecoilVariance, weapon.MaxRecoilVariance);
+            float randRecoil = Random.Range(weapon.CurrentRecoilVariance, weapon.MaxRecoilVariance);
             weapon.CurrentRecoilVariance += randRecoil;
             //make sure the recoil is not too high
             if (weapon.CurrentRecoilVariance > weapon.MaxRecoilVariance)
@@ -265,7 +283,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
         }
     }
 
-    void SpawnBulletCaseing()
+    private void SpawnBulletCaseing()
     {
         GameObject casing = Instantiate(Resources.Load("BulletCasing") as GameObject, transform.position,
             Quaternion.identity);
@@ -273,12 +291,4 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
     }
 
     #endregion
-
-    IEnumerator ShowMuzzleFlash()
-    {
-        muzzleFlash.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
-        muzzleFlash.gameObject.SetActive(false);
-        isFlashing = false;
-    }
 }

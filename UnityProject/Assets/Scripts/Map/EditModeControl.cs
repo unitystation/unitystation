@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 [ExecuteInEditMode]
 public class EditModeControl : MonoBehaviour
 {
+    public float depth;
     public float snapValue = 1f;
-    public float depth = 0f;
 
     public bool useInGame;
 
-    void Start()
+    private void Start()
     {
         Snap(); // snap on instantiate
     }

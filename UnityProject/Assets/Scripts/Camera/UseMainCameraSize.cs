@@ -1,21 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UseMainCameraSize : MonoBehaviour
 {
-    private Camera MainCamera;
     private Camera Camera;
+    private Camera MainCamera;
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         Camera = GetComponent<Camera>();
         MainCamera = Camera.main;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (MainCamera != null && Camera != null)
         {

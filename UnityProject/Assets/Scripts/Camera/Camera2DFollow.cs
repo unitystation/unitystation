@@ -1,39 +1,43 @@
-using UnityEngine;
 using System.Collections;
-using PlayGroup;
-
+using UnityEngine;
 
 public class Camera2DFollow : MonoBehaviour
 {
     //Static to make sure its the only cam in scene & for later access to camshake
     public static Camera2DFollow followControl;
 
+
+    private readonly bool adjustPixel = false;
+
+    private Vector3 cachePos;
+    private Vector3 currentVelocity;
+
+    public float damping;
+
+    private bool isShaking;
+
+    private Vector3 lastTargetPosition;
+
     public GameObject listenerObj;
-    public Transform target;
 
-    public float damping = 0f;
-
-    private float lookAheadFactor = 0f;
+    private float lookAheadFactor;
+    private readonly float lookAheadMoveThreshold = 0.1f;
+    private Vector3 lookAheadPos;
+    private readonly float lookAheadReturnSpeed = 0.5f;
     private float lookAheadSave;
-    private float lookAheadReturnSpeed = 0.5f;
-    private float lookAheadMoveThreshold = 0.1f;
-    private float yOffSet = -0.5f;
-    public float xOffset = 4f;
     private float offsetZ = -1f;
 
-    Vector3 lastTargetPosition;
-    Vector3 currentVelocity;
-    Vector3 lookAheadPos;
-
-    private bool isShaking = false;
-
-
-    private bool adjustPixel = false;
+    public ParallaxStars parallaxStars;
     public float pixelAdjustment = 64f;
 
-    public ParallaxStars parallaxStars;
+    //Shake Cam
+    private float shakeAmount;
 
-    void Awake()
+    public Transform target;
+    public float xOffset = 4f;
+    private readonly float yOffSet = -0.5f;
+
+    private void Awake()
     {
         if (followControl == null)
         {
@@ -41,11 +45,11 @@ public class Camera2DFollow : MonoBehaviour
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
-    void Start()
+    private void Start()
     {
         lookAheadSave = lookAheadFactor;
         if (target != null)
@@ -56,7 +60,7 @@ public class Camera2DFollow : MonoBehaviour
         transform.parent = null;
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         if (target != null && !isShaking)
         {
@@ -101,16 +105,11 @@ public class Camera2DFollow : MonoBehaviour
         StartCoroutine(LookAheadSwitch());
     }
 
-    IEnumerator LookAheadSwitch()
+    private IEnumerator LookAheadSwitch()
     {
         yield return new WaitForSeconds(2f);
         lookAheadFactor = lookAheadSave;
     }
-
-    //Shake Cam
-    float shakeAmount = 0;
-
-    private Vector3 cachePos;
 
     public void Shake(float amt, float length)
     {
@@ -121,7 +120,7 @@ public class Camera2DFollow : MonoBehaviour
         Invoke("StopShake", length);
     }
 
-    void DoShake()
+    private void DoShake()
     {
         if (shakeAmount > 0)
         {
@@ -134,7 +133,7 @@ public class Camera2DFollow : MonoBehaviour
         }
     }
 
-    void StopShake()
+    private void StopShake()
     {
         isShaking = false;
         CancelInvoke("DoShake");

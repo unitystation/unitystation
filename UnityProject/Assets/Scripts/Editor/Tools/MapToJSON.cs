@@ -1,34 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using FullSerializer;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using static JsonToTilemap;
 
 #if UNITY_EDITOR
 public class MapToJSON : Editor
 {
     //adding +50 offset to spriteRenderers containing these:
-    static readonly List<string> separateLayerMarkers = new List<string>(new[] {"WarningLine"});
+    private static readonly List<string> separateLayerMarkers = new List<string>(new[] {"WarningLine"});
 
     //not marking these as legacy:
-    static readonly List<string> legacyExclusionList =
+    private static readonly List<string> legacyExclusionList =
         new List<string>(new[] {"turf/shuttle.png" /*,"lighting.png","obj/power.png"*/});
 
     //pretending these contain TileConnect component (however, four of these are still required to generate a temporary tile):
     //Item1: name to lookup (via Contains())
     //Item2: asset path to use instead while exporting
-    static readonly List<Tuple<string, string>> tileConnectWannabes = new List<Tuple<string, string>>
+    private static readonly List<Tuple<string, string>> tileConnectWannabes = new List<Tuple<string, string>>
         (new[] {new Tuple<string, string>("shuttle_wall_Skew", "walls/shuttle_wall")});
 
 
-    private static string TC = "tc_";
+    private static readonly string TC = "tc_";
 
     [MenuItem("Tools/Export map (JSON)")]
-    static void Map2JSON()
+    private static void Map2JSON()
     {
         AssetDatabase.Refresh();
 
@@ -196,8 +192,8 @@ public class MapToJSON : Editor
 
     private static bool IsTileConnectWannabe(SpriteRenderer renderer, out string newPath)
     {
-        var parentObj = renderer.transform.parent.gameObject;
-        var isTileConnectWannabe = parentObj && tileConnectWannabes.Any(tuple => parentObj.name.Contains(tuple.Item1));
+        GameObject parentObj = renderer.transform.parent.gameObject;
+        bool isTileConnectWannabe = parentObj && tileConnectWannabes.Any(tuple => parentObj.name.Contains(tuple.Item1));
         newPath = "";
         if (isTileConnectWannabe)
         {
@@ -208,8 +204,8 @@ public class MapToJSON : Editor
 
     private static void TryMoveToSeparateLayer(SpriteRenderer renderer)
     {
-        var parentObj = renderer.transform.parent.gameObject;
-        var moveToSeparateLayer = parentObj && separateLayerMarkers.Any(parentObj.name.Contains);
+        GameObject parentObj = renderer.transform.parent.gameObject;
+        bool moveToSeparateLayer = parentObj && separateLayerMarkers.Any(parentObj.name.Contains);
         if (moveToSeparateLayer)
         {
             renderer.sortingOrder += 50;
@@ -218,8 +214,8 @@ public class MapToJSON : Editor
 
     private static int GetUniqueSortingOrderRecursive(Tuple<string, int> renderer, List<SpriteRenderer> list)
     {
-        var overlapFound = list.Any(r => r.sortingLayerName.Equals(renderer.Item1)
-                                         && r.sortingOrder.Equals(renderer.Item2));
+        bool overlapFound = list.Any(r => r.sortingLayerName.Equals(renderer.Item1)
+                                          && r.sortingOrder.Equals(renderer.Item2));
         // increment sorting order by 100 if overlap is detected and try again
         if (overlapFound)
         {

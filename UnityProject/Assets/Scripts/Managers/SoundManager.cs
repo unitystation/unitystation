@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
-[System.Serializable]
+[Serializable]
 public class SoundEntry
 {
     public string name;
@@ -11,18 +12,17 @@ public class SoundEntry
 
 public class SoundManager : MonoBehaviour
 {
-    public List<SoundEntry> soundsList = new List<SoundEntry>();
+    private static SoundManager soundManager;
 
-    private Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
+    public AudioSource[] ambientTracks;
 
     // Use this for initialization
     //public AudioSource[] sounds;
     public AudioSource[] musicTracks;
 
-    public AudioSource[] ambientTracks;
+    private readonly Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
+    public List<SoundEntry> soundsList = new List<SoundEntry>();
     public int ambientPlaying { get; private set; }
-
-    private static SoundManager soundManager;
 
     public static SoundManager Instance
     {
@@ -50,7 +50,7 @@ public class SoundManager : MonoBehaviour
     private void Init()
     {
         // add sounds to sounds dictionary
-        foreach (var s in soundsList)
+        foreach (SoundEntry s in soundsList)
         {
             sounds.Add(s.name, s.source);
         }
@@ -75,7 +75,9 @@ public class SoundManager : MonoBehaviour
     public static void Play(string name, float volume, float pitch = -1, float time = 0)
     {
         if (pitch > 0)
+        {
             Instance.sounds[name].pitch = pitch;
+        }
         Instance.sounds[name].time = time;
         Instance.sounds[name].volume = volume;
         Instance.sounds[name].Play();

@@ -3,23 +3,84 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using FullSerializer.Internal;
+using UnityEngine;
 
 namespace FullSerializer
 {
     /// <summary>
-    /// MetaType contains metadata about a type. This is used by the reflection serializer.
+    ///     MetaType contains metadata about a type. This is used by the reflection serializer.
     /// </summary>
     public class fsMetaType
     {
         private static Dictionary<fsConfig, Dictionary<Type, fsMetaType>> _configMetaTypes =
             new Dictionary<fsConfig, Dictionary<Type, fsMetaType>>();
 
+        private bool? _hasDefaultConstructorCache;
+
+        private bool _hasEmittedAotData;
+        private bool _isDefaultConstructorPublic;
+
+        public Type ReflectedType;
+
+        private fsMetaType(fsConfig config, Type reflectedType)
+        {
+            ReflectedType = reflectedType;
+
+            List<fsMetaProperty> properties = new List<fsMetaProperty>();
+            CollectProperties(config, properties, reflectedType);
+            Properties = properties.ToArray();
+        }
+
+        public fsMetaProperty[] Properties { get; }
+
+        /// <summary>
+        ///     Returns true if the type represented by this metadata contains a default constructor.
+        /// </summary>
+        public bool HasDefaultConstructor
+        {
+            get
+            {
+                if (_hasDefaultConstructorCache.HasValue == false)
+                {
+                    // arrays are considered to have a default constructor
+                    if (ReflectedType.Resolve().IsArray)
+                    {
+                        _hasDefaultConstructorCache = true;
+                        _isDefaultConstructorPublic = true;
+                    }
+
+                    // value types (ie, structs) always have a default constructor
+                    else if (ReflectedType.Resolve().IsValueType)
+                    {
+                        _hasDefaultConstructorCache = true;
+                        _isDefaultConstructorPublic = true;
+                    }
+
+                    else
+                    {
+                        // consider private constructors as well
+                        ConstructorInfo ctor = ReflectedType.GetDeclaredConstructor(fsPortableReflection.EmptyTypes);
+                        _hasDefaultConstructorCache = ctor != null;
+                        if (ctor != null)
+                        {
+                            _isDefaultConstructorPublic = ctor.IsPublic;
+                        }
+                    }
+                }
+
+                return _hasDefaultConstructorCache.Value;
+            }
+        }
+
         public static fsMetaType Get(fsConfig config, Type type)
         {
             Dictionary<Type, fsMetaType> metaTypes;
             if (_configMetaTypes.TryGetValue(config, out metaTypes) == false)
+            {
                 metaTypes = _configMetaTypes[config] = new Dictionary<Type, fsMetaType>();
+            }
 
             fsMetaType metaType;
             if (metaTypes.TryGetValue(type, out metaType) == false)
@@ -32,24 +93,13 @@ namespace FullSerializer
         }
 
         /// <summary>
-        /// Clears out the cached type results. Useful if some prior assumptions become invalid, ie, the default member
-        /// serialization mode.
+        ///     Clears out the cached type results. Useful if some prior assumptions become invalid, ie, the default member
+        ///     serialization mode.
         /// </summary>
         public static void ClearCache()
         {
             _configMetaTypes = new Dictionary<fsConfig, Dictionary<Type, fsMetaType>>();
         }
-
-        private fsMetaType(fsConfig config, Type reflectedType)
-        {
-            ReflectedType = reflectedType;
-
-            List<fsMetaProperty> properties = new List<fsMetaProperty>();
-            CollectProperties(config, properties, reflectedType);
-            Properties = properties.ToArray();
-        }
-
-        public Type ReflectedType;
 
         private static void CollectProperties(fsConfig config, List<fsMetaProperty> properties, Type reflectedType)
         {
@@ -65,7 +115,7 @@ namespace FullSerializer
             }
 
             MemberInfo[] members = reflectedType.GetDeclaredMembers();
-            foreach (var member in members)
+            foreach (MemberInfo member in members)
             {
                 // We don't serialize members annotated with any of the ignore serialize attributes
                 if (config.IgnoreSerializeAttributes.Any(t => fsPortableReflection.HasAttribute(member, t)))
@@ -135,7 +185,7 @@ namespace FullSerializer
         }
 
         /// <summary>
-        /// Returns if the given property should be serialized.
+        ///     Returns if the given property should be serialized.
         /// </summary>
         /// <param name="annotationFreeValue">Should a property without any annotations be serialized?</param>
         private static bool CanSerializeProperty(fsConfig config, PropertyInfo property, MemberInfo[] members,
@@ -147,12 +197,12 @@ namespace FullSerializer
                 return false;
             }
 
-            var publicGetMethod = property.GetGetMethod( /*nonPublic:*/ false);
-            var publicSetMethod = property.GetSetMethod( /*nonPublic:*/ false);
+            MethodInfo publicGetMethod = property.GetGetMethod( /*nonPublic:*/ false);
+            MethodInfo publicSetMethod = property.GetSetMethod( /*nonPublic:*/ false);
 
             // We do not bother to serialize static fields.
-            if ((publicGetMethod != null && publicGetMethod.IsStatic) ||
-                (publicSetMethod != null && publicSetMethod.IsStatic))
+            if (publicGetMethod != null && publicGetMethod.IsStatic ||
+                publicSetMethod != null && publicSetMethod.IsStatic)
             {
                 return false;
             }
@@ -182,7 +232,7 @@ namespace FullSerializer
 
             // Depending on the configuration options, check whether the property is automatic
             // and if it has a public setter to determine whether it should be serialized
-            if ((publicGetMethod != null && (config.SerializeNonPublicSetProperties || publicSetMethod != null)) &&
+            if (publicGetMethod != null && (config.SerializeNonPublicSetProperties || publicSetMethod != null) &&
                 (config.SerializeNonAutoProperties || IsAutoProperty(property, members)))
             {
                 return true;
@@ -232,7 +282,7 @@ namespace FullSerializer
         }
 
         /// <summary>
-        /// Attempt to emit an AOT compiled direct converter for this type.
+        ///     Attempt to emit an AOT compiled direct converter for this type.
         /// </summary>
         /// <returns>True if AOT data was emitted, false otherwise.</returns>
         public bool EmitAotData()
@@ -250,15 +300,21 @@ namespace FullSerializer
                 {
                     // Cannot AOT compile since we need to public member access.
                     if (Properties[i].IsPublic == false)
+                    {
                         return false;
+                    }
                     // Cannot AOT compile since readonly members can only be modified using reflection.
                     if (Properties[i].IsReadOnly)
+                    {
                         return false;
+                    }
                 }
 
                 // Cannot AOT compile since we need a default ctor.
                 if (HasDefaultConstructor == false)
+                {
                     return false;
+                }
 
                 fsAotCompilationManager.AddAotCompilation(ReflectedType, Properties, _isDefaultConstructorPublic);
                 return true;
@@ -267,57 +323,11 @@ namespace FullSerializer
             return false;
         }
 
-        private bool _hasEmittedAotData;
-
-        public fsMetaProperty[] Properties { get; private set; }
-
         /// <summary>
-        /// Returns true if the type represented by this metadata contains a default constructor.
-        /// </summary>
-        public bool HasDefaultConstructor
-        {
-            get
-            {
-                if (_hasDefaultConstructorCache.HasValue == false)
-                {
-                    // arrays are considered to have a default constructor
-                    if (ReflectedType.Resolve().IsArray)
-                    {
-                        _hasDefaultConstructorCache = true;
-                        _isDefaultConstructorPublic = true;
-                    }
-
-                    // value types (ie, structs) always have a default constructor
-                    else if (ReflectedType.Resolve().IsValueType)
-                    {
-                        _hasDefaultConstructorCache = true;
-                        _isDefaultConstructorPublic = true;
-                    }
-
-                    else
-                    {
-                        // consider private constructors as well
-                        var ctor = ReflectedType.GetDeclaredConstructor(fsPortableReflection.EmptyTypes);
-                        _hasDefaultConstructorCache = ctor != null;
-                        if (ctor != null)
-                        {
-                            _isDefaultConstructorPublic = ctor.IsPublic;
-                        }
-                    }
-                }
-
-                return _hasDefaultConstructorCache.Value;
-            }
-        }
-
-        private bool? _hasDefaultConstructorCache;
-        private bool _isDefaultConstructorPublic;
-
-        /// <summary>
-        /// Creates a new instance of the type that this metadata points back to. If this type has a
-        /// default constructor, then Activator.CreateInstance will be used to construct the type
-        /// (or Array.CreateInstance if it an array). Otherwise, an uninitialized object created via
-        /// FormatterServices.GetSafeUninitializedObject is used to construct the instance.
+        ///     Creates a new instance of the type that this metadata points back to. If this type has a
+        ///     default constructor, then Activator.CreateInstance will be used to construct the type
+        ///     (or Array.CreateInstance if it an array). Otherwise, an uninitialized object created via
+        ///     FormatterServices.GetSafeUninitializedObject is used to construct the instance.
         /// </summary>
         public object CreateInstance()
         {
@@ -329,9 +339,9 @@ namespace FullSerializer
 #if !NO_UNITY
             // Unity requires special construction logic for types that derive from
             // ScriptableObject.
-            if (typeof(UnityEngine.ScriptableObject).IsAssignableFrom(ReflectedType))
+            if (typeof(ScriptableObject).IsAssignableFrom(ReflectedType))
             {
-                return UnityEngine.ScriptableObject.CreateInstance(ReflectedType);
+                return ScriptableObject.CreateInstance(ReflectedType);
             }
 #endif
 
@@ -348,7 +358,7 @@ namespace FullSerializer
                 throw new InvalidOperationException("The selected Unity platform requires " +
                     ReflectedType.FullName + " to have a default constructor. Please add one.");
 #else
-                return System.Runtime.Serialization.FormatterServices.GetSafeUninitializedObject(ReflectedType);
+                return FormatterServices.GetSafeUninitializedObject(ReflectedType);
 #endif
             }
 

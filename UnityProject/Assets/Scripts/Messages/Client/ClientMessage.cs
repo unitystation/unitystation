@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using PlayGroup;
 using UnityEngine.Networking;
-using PlayGroup;
 
 public abstract class ClientMessage<T> : GameMessage<T>
 {

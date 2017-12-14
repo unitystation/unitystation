@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using System.Collections;
 
 public abstract class GameMessage<T> : GameMessageBase
 {
@@ -19,7 +15,7 @@ public abstract class GameMessage<T> : GameMessageBase
         // to GameMessage<T> and simply pass in the derived class as the parameter.
         // It's a hack, but it effectively turns a forgetful programmer mistake from being 
         // a runtime error into being a compile-time error.
-        MessageType = GameMessageBase.msgTypeCounter++;
+        MessageType = msgTypeCounter++;
     }
 
     public abstract IEnumerator Process();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// object representation of JSON map
+///     object representation of JSON map
 /// </summary>
 [Serializable]
 public class TilemapLayer
@@ -35,6 +35,6 @@ public class TilemapLayer
 
     public override string ToString()
     {
-        return String.Format("{0} positions, {1} tiles", tilePositions.Count, tiles.Count);
+        return string.Format("{0} positions, {1} tiles", tilePositions.Count, tiles.Count);
     }
 }

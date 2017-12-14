@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace AccessType
+﻿namespace AccessType
 {
     /// <summary>
-    /// Used to set access restrictions on ID cards and doors
+    ///     Used to set access restrictions on ID cards and doors
     /// </summary>
     public enum Access
     {
@@ -94,11 +90,11 @@ namespace AccessType
         tox_storage = 77, // Toxins mixing and storage
         virology = 78,
         weapons = 79, //Weapon authorization for secbots
-        xenobiology = 80,
+        xenobiology = 80
     }
 
     /// <summary>
-    /// To identify the card type
+    ///     To identify the card type
     /// </summary>
     public enum IDCardType
     {

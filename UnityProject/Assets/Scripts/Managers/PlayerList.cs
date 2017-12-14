@@ -1,23 +1,21 @@
 ﻿using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using UI;
-using System.Linq;
 
 public class PlayerList : NetworkBehaviour
 {
-    public SyncListString nameList = new SyncListString();
+    public static PlayerList Instance;
 
     public Dictionary<string, GameObject> connectedPlayers = new Dictionary<string, GameObject>();
+    public SyncListString nameList = new SyncListString();
+
+    private int numSameNames;
 
     //For combat demo
     public Dictionary<string, int> playerScores = new Dictionary<string, int>();
 
-    int numSameNames = 0;
-
-    public static PlayerList Instance;
-
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -36,7 +34,7 @@ public class PlayerList : NetworkBehaviour
         base.OnStartClient();
     }
 
-    void UpdateFromServer(SyncListString.Operation op, int index)
+    private void UpdateFromServer(SyncList<string>.Operation op, int index)
     {
         RefreshPlayerListText();
     }
@@ -50,7 +48,7 @@ public class PlayerList : NetworkBehaviour
         {
             Debug.Log("NAME ALREADY EXISTS: " + checkName);
             numSameNames++;
-            checkName = name + numSameNames.ToString();
+            checkName = name + numSameNames;
             Debug.Log("TRYING: " + checkName);
         }
         nameList.Add(checkName);

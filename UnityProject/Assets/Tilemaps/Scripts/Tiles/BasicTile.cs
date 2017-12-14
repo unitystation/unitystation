@@ -5,13 +5,13 @@ namespace Tilemaps.Scripts.Tiles
 {
     public abstract class BasicTile : LayerTile
     {
-        public bool Passable;
         public bool AtmosPassable;
         public bool IsSealed;
+        public bool Passable;
 
         public override void RefreshTile(Vector3Int position, ITilemap tilemap)
         {
-            foreach (var p in new BoundsInt(-1, -1, 0, 3, 3, 1).allPositionsWithin)
+            foreach (Vector3Int p in new BoundsInt(-1, -1, 0, 3, 3, 1).allPositionsWithin)
             {
                 tilemap.RefreshTile(position + p);
             }

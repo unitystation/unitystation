@@ -5,46 +5,21 @@ using UnityEngine.Networking;
 
 public abstract class HealthBehaviour : NetworkBehaviour
 {
-    public int initialHealth = 100;
-    public int maxHealth = 100;
-
-    public bool isNPC = false;
-
     //For meat harvest (pete etc)
-    public bool allowKnifeHarvest = false;
+    public bool allowKnifeHarvest;
 
-    private void OnEnable()
-    {
-        if (initialHealth <= 0)
-        {
-            Debug.LogWarningFormat("Initial health ({0}) set to zero/below zero!", initialHealth);
-            initialHealth = 1;
-        }
+    public int initialHealth = 100;
 
-        Health = initialHealth;
-    }
+    public bool isNPC;
+
+    public int maxHealth = 100;
 
     public int Health { get; private set; }
 
-    [Server]
-    public void ServerOnlySetHealth(int newValue)
-    {
-        if (isServer)
-        {
-            Health = newValue;
-            CheckDeadCritStatus();
-        }
-    }
-
     public DamageType LastDamageType { get; private set; }
 
-    public string LastDamagedBy
-    {
-        get { return lastDamagedBy; }
-        private set { lastDamagedBy = value; }
-    }
+    public string LastDamagedBy { get; private set; } = "stressful work";
 
-    private string lastDamagedBy = "stressful work";
     public ConsciousState ConsciousState { get; protected set; }
 
     //be careful with falses, will make player conscious
@@ -60,13 +35,36 @@ public abstract class HealthBehaviour : NetworkBehaviour
         private set { ConsciousState = value ? ConsciousState.DEAD : ConsciousState.CONSCIOUS; }
     }
 
+    private void OnEnable()
+    {
+        if (initialHealth <= 0)
+        {
+            Debug.LogWarningFormat("Initial health ({0}) set to zero/below zero!", initialHealth);
+            initialHealth = 1;
+        }
+
+        Health = initialHealth;
+    }
+
+    [Server]
+    public void ServerOnlySetHealth(int newValue)
+    {
+        if (isServer)
+        {
+            Health = newValue;
+            CheckDeadCritStatus();
+        }
+    }
+
     ///fixme/todo: to be replaced by net messages, crappy and unsecure placeholder
     [ClientRpc]
     public void RpcApplyDamage(string damagedBy, int damage,
         DamageType damageType, BodyPartType bodyPartAim)
     {
         if (isServer || !isNPC || IsDead)
+        {
             return;
+        }
         ApplyDamage(damagedBy, damage, damageType, bodyPartAim);
     }
 
@@ -74,8 +72,10 @@ public abstract class HealthBehaviour : NetworkBehaviour
         DamageType damageType, BodyPartType bodyPartAim = BodyPartType.CHEST)
     {
         if (damage <= 0 || IsDead)
+        {
             return;
-        var calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
+        }
+        int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
 
         //        Debug.LogFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}",
         //            calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
@@ -95,7 +95,9 @@ public abstract class HealthBehaviour : NetworkBehaviour
     public virtual void Death()
     {
         if (IsDead)
+        {
             return;
+        }
         IsDead = true;
         Health = HealthThreshold.Dead;
         OnDeathActions();
@@ -104,7 +106,9 @@ public abstract class HealthBehaviour : NetworkBehaviour
     public virtual void Crit()
     {
         if (ConsciousState != ConsciousState.CONSCIOUS)
+        {
             return;
+        }
         IsCrit = true;
         OnCritActions();
     }
@@ -116,7 +120,9 @@ public abstract class HealthBehaviour : NetworkBehaviour
             Crit();
         }
         if (NotSuitableForDeath())
+        {
             return;
+        }
         Death();
     }
 
@@ -128,7 +134,9 @@ public abstract class HealthBehaviour : NetworkBehaviour
     public void AddHealth(int amount)
     {
         if (amount <= 0)
+        {
             return;
+        }
         Health += amount;
 
         if (Health > maxHealth)
@@ -143,13 +151,13 @@ public abstract class HealthBehaviour : NetworkBehaviour
     }
 
     /// <summary>
-    /// make player unconscious upon crit
+    ///     make player unconscious upon crit
     /// </summary>
     protected virtual void OnCritActions()
     {
         if (!isNPC)
         {
-            var pna = GetComponent<PlayerNetworkActions>();
+            PlayerNetworkActions pna = GetComponent<PlayerNetworkActions>();
             if (pna == null)
             {
                 Debug.LogError("This is not a player, please set isNPC flag correctly");
@@ -159,10 +167,6 @@ public abstract class HealthBehaviour : NetworkBehaviour
             {
                 pna?.CmdConsciousState(false);
             }
-        }
-        else
-        {
-            //No unconscious state for NPC's yet, just alive or dead
         }
     }
 
@@ -179,7 +183,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
                                PlayerManager.LocalPlayer.transform.position).normalized;
                 if (ConsciousState != ConsciousState.DEAD)
                 {
-                    var lps = PlayerManager.LocalPlayerScript;
+                    PlayerScript lps = PlayerManager.LocalPlayerScript;
                     lps.weaponNetworkActions.CmdKnifeAttackMob(gameObject, UIManager.Hands.CurrentSlot.Item, dir,
                         UIManager.DamageZone /*PlayerScript.SelectedDamageZone*/);
                 }
@@ -187,7 +191,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
                 {
                     if (allowKnifeHarvest)
                     {
-                        PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeHarvestMob(this.gameObject,
+                        PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdKnifeHarvestMob(gameObject,
                             UIManager.Hands.CurrentSlot.Item, dir);
                         allowKnifeHarvest = false;
                     }

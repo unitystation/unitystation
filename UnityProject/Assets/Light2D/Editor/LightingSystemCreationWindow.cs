@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace Light2D
 {
     public class LightingSystemCreationWindow : EditorWindow
     {
+        private int _ambientLightLayer;
         private int _lightObstaclesLayer;
         private int _lightSourcesLayer;
-        private int _ambientLightLayer;
 
         public static void CreateWindow()
         {
-            var window = GetWindow<LightingSystemCreationWindow>("Lighting system creation window");
+            LightingSystemCreationWindow window =
+                GetWindow<LightingSystemCreationWindow>("Lighting system creation window");
             window.position = new Rect(200, 200, 500, 140);
         }
 
-        void OnGUI()
+        private void OnGUI()
         {
             if (FindObjectOfType<LightingSystem>())
             {
@@ -35,19 +32,19 @@ namespace Light2D
 
             if (GUILayout.Button("Create"))
             {
-                var mainCamera = Camera.main;
-                var lighingSystem = mainCamera.GetComponent<LightingSystem>() ??
-                                    mainCamera.gameObject.AddComponent<LightingSystem>();
+                Camera mainCamera = Camera.main;
+                LightingSystem lighingSystem = mainCamera.GetComponent<LightingSystem>() ??
+                                               mainCamera.gameObject.AddComponent<LightingSystem>();
 
-                var prefab = Resources.Load<GameObject>("Lighting Camera");
-                var lightingSystemObj = (GameObject) Instantiate(prefab);
+                GameObject prefab = Resources.Load<GameObject>("Lighting Camera");
+                GameObject lightingSystemObj = Instantiate(prefab);
                 lightingSystemObj.name = lightingSystemObj.name.Replace("(Clone)", "");
                 lightingSystemObj.transform.parent = mainCamera.transform;
                 lightingSystemObj.transform.localPosition = Vector3.zero;
                 lightingSystemObj.transform.localScale = Vector3.one;
                 lightingSystemObj.transform.localRotation = Quaternion.identity;
 
-                var config = lightingSystemObj.GetComponent<LightingSystemPrefabConfig>();
+                LightingSystemPrefabConfig config = lightingSystemObj.GetComponent<LightingSystemPrefabConfig>();
 
                 lighingSystem.LightCamera = lightingSystemObj.GetComponent<Camera>();
                 lighingSystem.AmbientLightComputeMaterial = config.AmbientLightComputeMaterial;

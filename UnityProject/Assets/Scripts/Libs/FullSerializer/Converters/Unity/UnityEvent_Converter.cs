@@ -1,5 +1,6 @@
 #if !NO_UNITY
 using System;
+using FullSerializer.Internal.Converters;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,7 +8,7 @@ namespace FullSerializer
 {
     partial class fsConverterRegistrar
     {
-        public static Internal.Converters.UnityEvent_Converter Register_UnityEvent_Converter;
+        public static UnityEvent_Converter Register_UnityEvent_Converter;
     }
 }
 

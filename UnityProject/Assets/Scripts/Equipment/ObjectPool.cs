@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
-using Items;
-using UI;
-using Tilemaps.Scripts.Behaviours.Objects;
 
 namespace Equipment
 {
@@ -52,7 +48,7 @@ namespace Equipment
             {
                 if (!dropPos.Equals(Vector3.zero))
                 {
-                    var o = currentObjects[id].gameObject;
+                    GameObject o = currentObjects[id].gameObject;
                     DropNow(o, dropPos);
                 }
                 currentObjects.Remove(id);

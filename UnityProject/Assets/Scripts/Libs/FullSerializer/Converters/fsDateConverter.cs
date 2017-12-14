@@ -4,7 +4,7 @@ using System.Globalization;
 namespace FullSerializer.Internal
 {
     /// <summary>
-    /// Supports serialization for DateTime, DateTimeOffset, and TimeSpan.
+    ///     Supports serialization for DateTime, DateTimeOffset, and TimeSpan.
     /// </summary>
     public class fsDateConverter : fsConverter
     {
@@ -13,10 +13,8 @@ namespace FullSerializer.Internal
 
         private const string DateTimeOffsetFormatString = @"o";
 
-        private string DateTimeFormatString
-        {
-            get { return Serializer.Config.CustomDateTimeFormatString ?? DefaultDateTimeFormatString; }
-        }
+        private string DateTimeFormatString =>
+            Serializer.Config.CustomDateTimeFormatString ?? DefaultDateTimeFormatString;
 
         public override bool CanProcess(Type type)
         {
@@ -30,21 +28,21 @@ namespace FullSerializer.Internal
         {
             if (instance is DateTime)
             {
-                var dateTime = (DateTime) instance;
+                DateTime dateTime = (DateTime) instance;
                 serialized = new fsData(dateTime.ToString(DateTimeFormatString));
                 return fsResult.Success;
             }
 
             if (instance is DateTimeOffset)
             {
-                var dateTimeOffset = (DateTimeOffset) instance;
+                DateTimeOffset dateTimeOffset = (DateTimeOffset) instance;
                 serialized = new fsData(dateTimeOffset.ToString(DateTimeOffsetFormatString));
                 return fsResult.Success;
             }
 
             if (instance is TimeSpan)
             {
-                var timeSpan = (TimeSpan) instance;
+                TimeSpan timeSpan = (TimeSpan) instance;
                 serialized = new fsData(timeSpan.ToString());
                 return fsResult.Success;
             }

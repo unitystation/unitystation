@@ -1,22 +1,22 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Cupboards;
 using Items;
 using PlayGroup;
-using Cupboards;
+using UnityEngine;
 
 /// <summary>
-/// Object behaviour controls all of the basic features of an object
-/// like being able to hide the obj, being able to set on fire, throwing etc
+///     Object behaviour controls all of the basic features of an object
+///     like being able to hide the obj, being able to set on fire, throwing etc
 /// </summary>
 public class ObjectBehaviour : PushPull
 {
+    private ClosetPlayerHandler closetHandlerCache;
+
     //Inspector is controlled by ObjectBehaviourEditor
     //Please expose any properties you need in there
     private PickUpTrigger pickUpTrigger;
 
     private PlayerScript playerScript;
-    private ClosetPlayerHandler closetHandlerCache;
 
     protected override void Awake()
     {
@@ -71,7 +71,7 @@ public class ObjectBehaviour : PushPull
         }
     }
 
-    IEnumerator AddHiddenHandler()
+    private IEnumerator AddHiddenHandler()
     {
         //wait for all the components to be disabled on the 
         //player before adding the handler

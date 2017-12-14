@@ -6,7 +6,7 @@ namespace UnityStationTools
     public class Tools : Editor
     {
         [MenuItem("Tools/Reconnect TileConnect")]
-        static void RevertTileConnect()
+        private static void RevertTileConnect()
         {
             //            var triggers = FindObjectsOfType<ConnectTrigger>();
             //
@@ -17,24 +17,24 @@ namespace UnityStationTools
         }
 
         [MenuItem("Tools/Set Ambient Tiles")]
-        static void SetAmbientTiles()
+        private static void SetAmbientTiles()
         {
-            var tiles = FindObjectsOfType<FloorTile>();
+            FloorTile[] tiles = FindObjectsOfType<FloorTile>();
 
-            foreach (var t in tiles)
+            foreach (FloorTile t in tiles)
             {
                 t.CheckAmbientTile();
             }
         }
 
         [MenuItem("Tools/Revert To Prefab %r")]
-        static void RevertPrefabs()
+        private static void RevertPrefabs()
         {
-            var selection = Selection.gameObjects;
+            GameObject[] selection = Selection.gameObjects;
 
             if (selection.Length > 0)
             {
-                for (var i = 0; i < selection.Length; i++)
+                for (int i = 0; i < selection.Length; i++)
                 {
                     PrefabUtility.RevertPrefabInstance(selection[i]);
                     PrefabUtility.ReconnectToLastPrefab(selection[i]);

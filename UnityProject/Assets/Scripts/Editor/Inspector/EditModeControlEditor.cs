@@ -1,15 +1,14 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-
 [CustomEditor(typeof(EditModeControl))]
 public class EditModeControlEditor : Editor
 {
     private Vector3 currentPosition;
 
-    void OnSceneGUI()
+    private void OnSceneGUI()
     {
-        var editModeControl = target as EditModeControl;
+        EditModeControl editModeControl = target as EditModeControl;
         if (currentPosition != editModeControl.transform.position)
         {
             currentPosition = editModeControl.transform.position;

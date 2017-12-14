@@ -1,34 +1,35 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+using PlayGroup;
 using Sprites;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace UI
 {
     /// <summary>
-    /// Controller for the heart monitor GUI
+    ///     Controller for the heart monitor GUI
     /// </summary>
     public class UI_HeartMonitor : MonoBehaviour
     {
-        public Image pulseImg;
-        private Sprite[] sprites;
-        private bool startMonitoring;
-
-        [Header("Start of sprite positions for anim")] public int fullHealthStart;
-        public int minorDmgStart;
-        public int medDmgStart;
-        public int mjrDmgStart;
         public int critStart;
+        private int currentSprite;
         public int deathStart;
 
-        private int spriteStart;
-        private int currentSprite = 0;
-        private float timeWait = 0f;
+        [Header("Start of sprite positions for anim")] public int fullHealthStart;
+        public int medDmgStart;
+        public int minorDmgStart;
+        public int mjrDmgStart;
 
         //FIXME doing overlayCrit update based off heart monitor for time being
         public OverlayCrits overlayCrits;
+
+        public Image pulseImg;
+        private Sprite[] sprites;
+
+        private int spriteStart;
+        private bool startMonitoring;
+        private float timeWait;
 
         private void Start()
         {
@@ -51,7 +52,7 @@ namespace UI
             SceneManager.activeSceneChanged -= OnSceneChange;
         }
 
-        void OnSceneChange(Scene prev, Scene next)
+        private void OnSceneChange(Scene prev, Scene next)
         {
             if (next.name != "Lobby")
             {
@@ -63,7 +64,7 @@ namespace UI
             }
         }
 
-        void TryStartMonitor()
+        private void TryStartMonitor()
         {
             if (!startMonitoring)
             {
@@ -73,12 +74,12 @@ namespace UI
             }
         }
 
-        IEnumerator MonitorHealth()
+        private IEnumerator MonitorHealth()
         {
             currentSprite = 0; //28 length for monitor anim
             while (startMonitoring)
             {
-                while (PlayGroup.PlayerManager.LocalPlayer == null)
+                while (PlayerManager.LocalPlayer == null)
                 {
                     yield return new WaitForSeconds(1f);
                 }
@@ -103,9 +104,13 @@ namespace UI
         public void DetermineDisplay(PlayerHealthUI pHealthUI, int curHealth)
         {
             if (pHealthUI == null)
+            {
                 return;
+            }
             if (curHealth <= -1 && spriteStart == deathStart)
+            {
                 return; //Ensure that messages are not spammed when there is no more health to go
+            }
 
             CheckHealth(curHealth);
         }
@@ -162,7 +167,9 @@ namespace UI
             if (cHealth < 15
                 && cHealth > 0
                 && overlayCrits.currentState != OverlayState.crit)
+            {
                 overlayCrits.SetState(OverlayState.crit);
+            }
 
             if (cHealth <= 0
                 && spriteStart != deathStart)

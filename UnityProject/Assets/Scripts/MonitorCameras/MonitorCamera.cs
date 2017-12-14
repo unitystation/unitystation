@@ -1,17 +1,16 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Sprites;
+using UnityEngine;
 
 public class MonitorCamera : MonoBehaviour
 {
-    public float time = 0.3f;
+    private int baseSprite = 2;
+    private SpriteRenderer spriteRenderer;
 
     private Sprite[] sprites;
-    private SpriteRenderer spriteRenderer;
-    private int baseSprite = 2;
+    public float time = 0.3f;
 
-    void Start()
+    private void Start()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         sprites = SpriteManager.MonitorSprites["monitors"];
@@ -19,7 +18,7 @@ public class MonitorCamera : MonoBehaviour
         StartCoroutine(Animate());
     }
 
-    IEnumerator Animate()
+    private IEnumerator Animate()
     {
         spriteRenderer.sprite = sprites[baseSprite];
 

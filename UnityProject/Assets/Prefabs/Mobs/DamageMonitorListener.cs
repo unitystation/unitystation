@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -10,18 +8,18 @@ public class DamageMonitorListener : MonoBehaviour
     private Image image;
     private Sprite initSprite;
 
-    void Start()
+    private void Start()
     {
         image = GetComponent<Image>();
         initSprite = image.sprite;
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
     }
@@ -31,7 +29,7 @@ public class DamageMonitorListener : MonoBehaviour
     }
 
     //Reset healthHUD
-    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
         Reset();
     }

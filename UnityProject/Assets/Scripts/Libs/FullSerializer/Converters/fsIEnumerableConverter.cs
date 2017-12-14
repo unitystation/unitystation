@@ -6,13 +6,16 @@ using System.Reflection;
 namespace FullSerializer.Internal
 {
     /// <summary>
-    /// Provides serialization support for anything which extends from `IEnumerable` and has an `Add` method.
+    ///     Provides serialization support for anything which extends from `IEnumerable` and has an `Add` method.
     /// </summary>
     public class fsIEnumerableConverter : fsConverter
     {
         public override bool CanProcess(Type type)
         {
-            if (typeof(IEnumerable).IsAssignableFrom(type) == false) return false;
+            if (typeof(IEnumerable).IsAssignableFrom(type) == false)
+            {
+                return false;
+            }
             return GetAddMethod(type) != null;
         }
 
@@ -23,22 +26,25 @@ namespace FullSerializer.Internal
 
         public override fsResult TrySerialize(object instance_, out fsData serialized, Type storageType)
         {
-            var instance = (IEnumerable) instance_;
-            var result = fsResult.Success;
+            IEnumerable instance = (IEnumerable) instance_;
+            fsResult result = fsResult.Success;
 
             Type elementType = GetElementType(storageType);
 
             serialized = fsData.CreateList(HintSize(instance));
-            var serializedList = serialized.AsList;
+            List<fsData> serializedList = serialized.AsList;
 
             foreach (object item in instance)
             {
                 fsData itemData;
 
                 // note: We don't fail the entire deserialization even if the item failed
-                var itemResult = Serializer.TrySerialize(elementType, item, out itemData);
+                fsResult itemResult = Serializer.TrySerialize(elementType, item, out itemData);
                 result.AddMessages(itemResult);
-                if (itemResult.Failed) continue;
+                if (itemResult.Failed)
+                {
+                    continue;
+                }
 
                 serializedList.Add(itemData);
             }
@@ -61,24 +67,30 @@ namespace FullSerializer.Internal
 
         public override fsResult TryDeserialize(fsData data, ref object instance_, Type storageType)
         {
-            var instance = (IEnumerable) instance_;
-            var result = fsResult.Success;
+            IEnumerable instance = (IEnumerable) instance_;
+            fsResult result = fsResult.Success;
 
-            if ((result += CheckType(data, fsDataType.Array)).Failed) return result;
+            if ((result += CheckType(data, fsDataType.Array)).Failed)
+            {
+                return result;
+            }
 
             // For general strategy, instance may already have items in it. We will try to deserialize into
             // the existing element.
-            var elementStorageType = GetElementType(storageType);
-            var addMethod = GetAddMethod(storageType);
-            var getMethod = storageType.GetFlattenedMethod("get_Item");
-            var setMethod = storageType.GetFlattenedMethod("set_Item");
-            if (setMethod == null) TryClear(storageType, instance);
-            var existingSize = TryGetExistingSize(storageType, instance);
+            Type elementStorageType = GetElementType(storageType);
+            MethodInfo addMethod = GetAddMethod(storageType);
+            MethodInfo getMethod = storageType.GetFlattenedMethod("get_Item");
+            MethodInfo setMethod = storageType.GetFlattenedMethod("set_Item");
+            if (setMethod == null)
+            {
+                TryClear(storageType, instance);
+            }
+            int existingSize = TryGetExistingSize(storageType, instance);
 
-            var serializedList = data.AsList;
+            List<fsData> serializedList = data.AsList;
             for (int i = 0; i < serializedList.Count; ++i)
             {
-                var itemData = serializedList[i];
+                fsData itemData = serializedList[i];
                 object itemInstance = null;
                 if (getMethod != null && i < existingSize)
                 {
@@ -86,17 +98,20 @@ namespace FullSerializer.Internal
                 }
 
                 // note: We don't fail the entire deserialization even if the item failed
-                var itemResult = Serializer.TryDeserialize(itemData, elementStorageType, ref itemInstance);
+                fsResult itemResult = Serializer.TryDeserialize(itemData, elementStorageType, ref itemInstance);
                 result.AddMessages(itemResult);
-                if (itemResult.Failed) continue;
+                if (itemResult.Failed)
+                {
+                    continue;
+                }
 
                 if (setMethod != null && i < existingSize)
                 {
-                    setMethod.Invoke(instance, new object[] {i, itemInstance});
+                    setMethod.Invoke(instance, new[] {i, itemInstance});
                 }
                 else
                 {
-                    addMethod.Invoke(instance, new object[] {itemInstance});
+                    addMethod.Invoke(instance, new[] {itemInstance});
                 }
             }
 
@@ -113,21 +128,27 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Fetches the element type for objects inside of the collection.
+        ///     Fetches the element type for objects inside of the collection.
         /// </summary>
         private static Type GetElementType(Type objectType)
         {
-            if (objectType.HasElementType) return objectType.GetElementType();
+            if (objectType.HasElementType)
+            {
+                return objectType.GetElementType();
+            }
 
             Type enumerableList = fsReflectionUtility.GetInterface(objectType, typeof(IEnumerable<>));
-            if (enumerableList != null) return enumerableList.GetGenericArguments()[0];
+            if (enumerableList != null)
+            {
+                return enumerableList.GetGenericArguments()[0];
+            }
 
             return typeof(object);
         }
 
         private static void TryClear(Type type, object instance)
         {
-            var clear = type.GetFlattenedMethod("Clear");
+            MethodInfo clear = type.GetFlattenedMethod("Clear");
             if (clear != null)
             {
                 clear.Invoke(instance, null);
@@ -136,7 +157,7 @@ namespace FullSerializer.Internal
 
         private static int TryGetExistingSize(Type type, object instance)
         {
-            var count = type.GetFlattenedProperty("Count");
+            PropertyInfo count = type.GetFlattenedProperty("Count");
             if (count != null)
             {
                 return (int) count.GetGetMethod().Invoke(instance, null);
@@ -154,7 +175,10 @@ namespace FullSerializer.Internal
             if (collectionInterface != null)
             {
                 MethodInfo add = collectionInterface.GetDeclaredMethod("Add");
-                if (add != null) return add;
+                if (add != null)
+                {
+                    return add;
+                }
             }
 
             // Otherwise try and look up a general Add method.

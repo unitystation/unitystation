@@ -1,11 +1,10 @@
 ﻿using System.Collections;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using System;
-using UI;
 
 /// <summary>
-/// Removes Encryptionkey from a headset
+///     Removes Encryptionkey from a headset
 /// </summary>
 public class RemoveEncryptionKeyMessage : ClientMessage<RemoveEncryptionKeyMessage>
 {
@@ -20,7 +19,7 @@ public class RemoveEncryptionKeyMessage : ClientMessage<RemoveEncryptionKeyMessa
         if (ValidRequest(HeadsetItem))
         {
             Headset headset = HeadsetItem.GetComponent<Headset>();
-            GameObject encryptionKey = GameObject.Instantiate(Resources.Load("Encryptionkey", typeof(GameObject)),
+            GameObject encryptionKey = Object.Instantiate(Resources.Load("Encryptionkey", typeof(GameObject)),
                 HeadsetItem.transform.parent) as GameObject;
             encryptionKey.GetComponent<EncryptionKey>().Type = headset.EncryptionKey;
 
@@ -34,7 +33,7 @@ public class RemoveEncryptionKeyMessage : ClientMessage<RemoveEncryptionKeyMessa
             }
             else
             {
-                GameObject.Destroy(encryptionKey);
+                Object.Destroy(encryptionKey);
                 Debug.LogError("Could not add Encryptionkey item to player.");
             }
         }
@@ -42,7 +41,7 @@ public class RemoveEncryptionKeyMessage : ClientMessage<RemoveEncryptionKeyMessa
 
     public static RemoveEncryptionKeyMessage Send(GameObject headsetItem)
     {
-        var msg = new RemoveEncryptionKeyMessage
+        RemoveEncryptionKeyMessage msg = new RemoveEncryptionKeyMessage
         {
             HeadsetItem = headsetItem
         };

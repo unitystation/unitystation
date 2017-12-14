@@ -1,19 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OutsideFlashingLight : MonoBehaviour
 {
-    public SpriteRenderer lightSprite;
-    public Color spriteOnCol;
-    public Color spriteOffCol;
+    public float flashWaitTime = 1f;
 
     public GameObject lightSource;
+    public SpriteRenderer lightSprite;
+    public Color spriteOffCol;
+    public Color spriteOnCol;
+    private float timeCount;
 
-    public float flashWaitTime = 1f;
-    private float timeCount = 0f;
-
-    void Update()
+    private void Update()
     {
         timeCount += Time.deltaTime;
         if (timeCount >= flashWaitTime)
@@ -23,7 +20,7 @@ public class OutsideFlashingLight : MonoBehaviour
         }
     }
 
-    void SwitchLights()
+    private void SwitchLights()
     {
         if (!lightSource.activeSelf)
         {

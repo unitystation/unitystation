@@ -1,18 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AccessType;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using AccessType;
 
 /// <summary>
-/// ID card properties
+///     ID card properties
 /// </summary>
 public class IDCard : NetworkBehaviour
 {
-    public int MiningPoints = 0; //For redeeming at mining equipment vendors
-
     //The actual list of access allowed set via the server and synced to all clients
     public SyncListInt accessSyncList = new SyncListInt();
+
+    public Sprite captainSprite;
+    public Sprite commandSprite;
+
+    //What type of card? (standard, command, captain, emag etc)
+    [SyncVar(hook = "SyncIDCardType")] public int idCardTypeInt;
+
+    private bool isInit;
+
+    [SyncVar(hook = "SyncJobType")] public int jobTypeInt;
 
     [Tooltip("This is used to place ID cards via map editor and then setting their initial access type")]
     public List<Access> ManuallyAddedAccess = new List<Access>();
@@ -20,31 +29,18 @@ public class IDCard : NetworkBehaviour
     [Tooltip("For cards added via map editor and set their initial IDCardType here. This will only work" +
              "if there are entries in ManuallyAddedAccess list")] public IDCardType ManuallyAssignCardType;
 
+    public int MiningPoints; //For redeeming at mining equipment vendors
+
     [SyncVar(hook = "SyncName")] public string RegisteredName;
-
-    [SyncVar(hook = "SyncJobType")] public int jobTypeInt;
-
-    //What type of card? (standard, command, captain, emag etc)
-    [SyncVar(hook = "SyncIDCardType")] public int idCardTypeInt;
-
-    public JobType GetJobType
-    {
-        get { return (JobType) jobTypeInt; }
-    }
-
-    public IDCardType GetIdCardType
-    {
-        get { return (IDCardType) idCardTypeInt; }
-    }
-
-    private bool isInit = false;
 
     //To switch the card sprites when the type changes
     public SpriteRenderer spriteRenderer;
 
     public Sprite standardSprite;
-    public Sprite commandSprite;
-    public Sprite captainSprite;
+
+    public JobType GetJobType => (JobType) jobTypeInt;
+
+    public IDCardType GetIdCardType => (IDCardType) idCardTypeInt;
 
     public override void OnStartServer()
     {
@@ -59,9 +55,12 @@ public class IDCard : NetworkBehaviour
         base.OnStartClient();
     }
 
-    void InitCard()
+    private void InitCard()
     {
-        if (isInit) return;
+        if (isInit)
+        {
+            return;
+        }
 
         isInit = true;
         accessSyncList.Callback = SyncAccess;
@@ -78,7 +77,7 @@ public class IDCard : NetworkBehaviour
     }
 
     //Sync all of the current in game ID's throughout the map with new players
-    IEnumerator WaitForLoad()
+    private IEnumerator WaitForLoad()
     {
         yield return new WaitForSeconds(3f);
         SyncName(RegisteredName);
@@ -110,7 +109,7 @@ public class IDCard : NetworkBehaviour
         }
     }
 
-    public void SyncAccess(SyncListInt.Operation op, int index)
+    public void SyncAccess(SyncList<int>.Operation op, int index)
     {
         //Do anything special when the synclist changes on the client
     }
@@ -153,10 +152,10 @@ public class IDCard : NetworkBehaviour
         }
         else
         {
-            message = "This is " + RegisteredName + "'s ID card\nThey are the " + GetJobType.ToString() +
+            message = "This is " + RegisteredName + "'s ID card\nThey are the " + GetJobType +
                       " of the station!";
         }
 
-        UI.UIManager.Chat.AddChatEvent(new ChatEvent(message, ChatChannel.Examine));
+        UIManager.Chat.AddChatEvent(new ChatEvent(message, ChatChannel.Examine));
     }
 }

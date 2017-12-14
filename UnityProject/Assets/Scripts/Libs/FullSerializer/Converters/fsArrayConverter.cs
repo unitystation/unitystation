@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace FullSerializer.Internal
 {
@@ -28,10 +29,10 @@ namespace FullSerializer.Internal
             IList arr = (Array) instance;
             Type elementType = storageType.GetElementType();
 
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
             serialized = fsData.CreateList(arr.Count);
-            var serializedList = serialized.AsList;
+            List<fsData> serializedList = serialized.AsList;
 
             for (int i = 0; i < arr.Count; ++i)
             {
@@ -39,9 +40,12 @@ namespace FullSerializer.Internal
 
                 fsData serializedItem;
 
-                var itemResult = Serializer.TrySerialize(elementType, item, out serializedItem);
+                fsResult itemResult = Serializer.TrySerialize(elementType, item, out serializedItem);
                 result.AddMessages(itemResult);
-                if (itemResult.Failed) continue;
+                if (itemResult.Failed)
+                {
+                    continue;
+                }
 
                 serializedList.Add(serializedItem);
             }
@@ -51,7 +55,7 @@ namespace FullSerializer.Internal
 
         public override fsResult TryDeserialize(fsData data, ref object instance, Type storageType)
         {
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
             // Verify that we actually have an List
             if ((result += CheckType(data, fsDataType.Array)).Failed)
@@ -61,22 +65,34 @@ namespace FullSerializer.Internal
 
             Type elementType = storageType.GetElementType();
 
-            var serializedList = data.AsList;
-            var list = new ArrayList(serializedList.Count);
+            List<fsData> serializedList = data.AsList;
+            ArrayList list = new ArrayList(serializedList.Count);
             int existingCount = list.Count;
 
             for (int i = 0; i < serializedList.Count; ++i)
             {
-                var serializedItem = serializedList[i];
+                fsData serializedItem = serializedList[i];
                 object deserialized = null;
-                if (i < existingCount) deserialized = list[i];
+                if (i < existingCount)
+                {
+                    deserialized = list[i];
+                }
 
-                var itemResult = Serializer.TryDeserialize(serializedItem, elementType, ref deserialized);
+                fsResult itemResult = Serializer.TryDeserialize(serializedItem, elementType, ref deserialized);
                 result.AddMessages(itemResult);
-                if (itemResult.Failed) continue;
+                if (itemResult.Failed)
+                {
+                    continue;
+                }
 
-                if (i < existingCount) list[i] = deserialized;
-                else list.Add(deserialized);
+                if (i < existingCount)
+                {
+                    list[i] = deserialized;
+                }
+                else
+                {
+                    list.Add(deserialized);
+                }
             }
 
             instance = list.ToArray(elementType);

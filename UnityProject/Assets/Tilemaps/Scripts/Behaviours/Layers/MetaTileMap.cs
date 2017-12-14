@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Tilemaps.Scripts.Tiles;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
         {
             Layers = new Dictionary<LayerType, Layer>();
 
-            foreach (var layer in GetComponentsInChildren<Layer>(true))
+            foreach (Layer layer in GetComponentsInChildren<Layer>(true))
             {
                 Layers[layer.LayerType] = layer;
             }
@@ -23,40 +22,48 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public bool IsPassableAt(Vector3Int origin, Vector3Int to)
         {
-            foreach (var layer in Layers.Values)
+            foreach (Layer layer in Layers.Values)
             {
                 if (!layer.IsPassableAt(origin, to))
+                {
                     return false;
+                }
             }
             return true;
         }
 
         public bool IsPassableAt(Vector3Int position)
         {
-            foreach (var layer in Layers.Values)
+            foreach (Layer layer in Layers.Values)
             {
                 if (!layer.IsPassableAt(position))
+                {
                     return false;
+                }
             }
             return true;
         }
 
         public bool IsAtmosPassableAt(Vector3Int position)
         {
-            foreach (var layer in Layers.Values)
+            foreach (Layer layer in Layers.Values)
             {
                 if (!layer.IsAtmosPassableAt(position))
+                {
                     return false;
+                }
             }
             return true;
         }
 
         public bool IsSpaceAt(Vector3Int position)
         {
-            foreach (var layer in Layers.Values)
+            foreach (Layer layer in Layers.Values)
             {
                 if (!layer.IsSpaceAt(position))
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -74,18 +81,17 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             {
                 return Layers[layerType].GetTile(position);
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public bool IsEmptyAt(Vector3Int position)
         {
-            foreach (var layer in Layers.Keys)
+            foreach (LayerType layer in Layers.Keys)
             {
                 if (layer != LayerType.Objects && HasTile(position, layer))
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -97,7 +103,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public void RemoveTile(Vector3Int position, LayerType refLayer)
         {
-            foreach (var layer in Layers.Values)
+            foreach (Layer layer in Layers.Values)
             {
                 if (layer.LayerType < refLayer &&
                     !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors))
@@ -107,10 +113,18 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             }
         }
 
+        public void ClearAllTiles()
+        {
+            foreach (Layer layer in Layers.Values)
+            {
+                layer.ClearAllTiles();
+            }
+        }
+
 #if UNITY_EDITOR
         public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
         {
-            foreach (var layer in Layers.Values)
+            foreach (Layer layer in Layers.Values)
             {
                 if (layer.LayerType < tile.LayerType)
                 {
@@ -123,19 +137,11 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public void ClearPreview()
         {
-            foreach (var layer in Layers.Values)
+            foreach (Layer layer in Layers.Values)
             {
                 layer.ClearPreview();
             }
         }
 #endif
-
-        public void ClearAllTiles()
-        {
-            foreach (var layer in Layers.Values)
-            {
-                layer.ClearAllTiles();
-            }
-        }
     }
 }

@@ -9,15 +9,15 @@ namespace Tilemaps.Scripts.Tiles
 {
     public class MetaTile : GenericTile
     {
-        public LayerTile Structure;
-        public LayerTile Object;
-        public LayerTile Floor;
-        public LayerTile Base;
+        private LayerTile _baseCurrent;
+        private LayerTile _floorCurrent;
+        private LayerTile _objectCurrent;
 
         private LayerTile _structureCurrent;
-        private LayerTile _objectCurrent;
-        private LayerTile _floorCurrent;
-        private LayerTile _baseCurrent;
+        public LayerTile Base;
+        public LayerTile Floor;
+        public LayerTile Object;
+        public LayerTile Structure;
 
 #if UNITY_EDITOR
         private void OnValidate()
@@ -58,7 +58,7 @@ namespace Tilemaps.Scripts.Tiles
         {
             if (tile != null)
             {
-                foreach (var requiredType in requiredTypes)
+                foreach (LayerType requiredType in requiredTypes)
                 {
                     if (tile.LayerType == requiredType)
                     {
@@ -71,12 +71,24 @@ namespace Tilemaps.Scripts.Tiles
 
         public IEnumerable<LayerTile> GetTiles()
         {
-            var list = new List<LayerTile>();
+            List<LayerTile> list = new List<LayerTile>();
 
-            if (Base) list.Add(Base);
-            if (Floor) list.Add(Floor);
-            if (Object) list.Add(Object);
-            if (Structure) list.Add(Structure);
+            if (Base)
+            {
+                list.Add(Base);
+            }
+            if (Floor)
+            {
+                list.Add(Floor);
+            }
+            if (Object)
+            {
+                list.Add(Object);
+            }
+            if (Structure)
+            {
+                list.Add(Structure);
+            }
 
             return list.ToArray();
         }

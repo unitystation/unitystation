@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
-using UI;
 
 public class ClothFactory : NetworkBehaviour
 {
@@ -14,7 +11,7 @@ public class ClothFactory : NetworkBehaviour
     private GameObject uniCloth { get; set; }
     private GameObject uniHeadSet { get; set; }
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -26,7 +23,7 @@ public class ClothFactory : NetworkBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         //Do init stuff
         uniCloth = Resources.Load("UniCloth") as GameObject;
@@ -69,14 +66,11 @@ public class ClothFactory : NetworkBehaviour
         {
             return uniCloth;
         }
-        else if (hierarchy.Contains(HeadsetHierIdentifier))
+        if (hierarchy.Contains(HeadsetHierIdentifier))
         {
             return uniHeadSet;
         }
-        else
-        {
-            Debug.LogError("Clot factory could not pick uni item. Falling back to uniCloth");
-            return uniCloth;
-        }
+        Debug.LogError("Clot factory could not pick uni item. Falling back to uniCloth");
+        return uniCloth;
     }
 }

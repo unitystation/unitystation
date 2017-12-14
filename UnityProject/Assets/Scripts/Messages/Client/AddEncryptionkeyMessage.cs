@@ -1,16 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-using System;
-using UI;
 
 /// <summary>
-/// Adds Encryptionkey to a headset
+///     Adds Encryptionkey to a headset
 /// </summary>
 public class AddEncryptionkeyMessage : ClientMessage<AddEncryptionkeyMessage>
 {
-    public GameObject HeadsetItem;
     public GameObject Encryptionkey;
+    public GameObject HeadsetItem;
 
     public override IEnumerator Process()
     {
@@ -31,7 +29,7 @@ public class AddEncryptionkeyMessage : ClientMessage<AddEncryptionkeyMessage>
 
     public static AddEncryptionkeyMessage Send(GameObject headsetItem, GameObject encryptionkey)
     {
-        var msg = new AddEncryptionkeyMessage
+        AddEncryptionkeyMessage msg = new AddEncryptionkeyMessage
         {
             HeadsetItem = headsetItem,
             Encryptionkey = encryptionkey

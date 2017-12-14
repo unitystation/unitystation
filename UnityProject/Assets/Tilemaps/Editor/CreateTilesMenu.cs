@@ -22,7 +22,7 @@ namespace Tilemaps.Editor
         [MenuItem("Assets/Create/Tiles/General/Meta Tile", false, 0)]
         public static void CreateMetaTile()
         {
-            var tile = ScriptableObject.CreateInstance<MetaTile>();
+            MetaTile tile = ScriptableObject.CreateInstance<MetaTile>();
             TileBuilder.CreateAsset(tile, "MetaTile");
         }
 
@@ -35,7 +35,7 @@ namespace Tilemaps.Editor
         [MenuItem("Assets/Create/Tiles/Wall", false, 0)]
         public static void CreateWallConnected()
         {
-            var tile = TileBuilder.CreateTile<ConnectedTile>(LayerType.Walls);
+            ConnectedTile tile = TileBuilder.CreateTile<ConnectedTile>(LayerType.Walls);
             tile.texturePath = "Walls";
             tile.connectCategory = ConnectCategory.Walls;
             tile.connectType = ConnectType.ToSameCategory;
@@ -46,7 +46,7 @@ namespace Tilemaps.Editor
         [MenuItem("Assets/Create/Tiles/Window", false, 0)]
         public static void CreateWindow()
         {
-            var tile = TileBuilder.CreateTile<ConnectedTile>(LayerType.Windows);
+            ConnectedTile tile = TileBuilder.CreateTile<ConnectedTile>(LayerType.Windows);
             tile.texturePath = "Windows";
             tile.connectCategory = ConnectCategory.Windows;
             tile.connectType = ConnectType.ToSameCategory;
@@ -57,7 +57,7 @@ namespace Tilemaps.Editor
         [MenuItem("Assets/Create/Tiles/Table", false, 0)]
         public static void CreateTable()
         {
-            var tile = TileBuilder.CreateTile<ConnectedTile>(LayerType.Objects);
+            ConnectedTile tile = TileBuilder.CreateTile<ConnectedTile>(LayerType.Objects);
             tile.texturePath = "Tables";
             tile.connectCategory = ConnectCategory.Tables;
             tile.connectType = ConnectType.ToSameCategory;
@@ -74,7 +74,7 @@ namespace Tilemaps.Editor
         [MenuItem("Assets/Create/Tiles/Wall Mount", false, 0)]
         public static void CreateWallMount()
         {
-            var tile = TileBuilder.CreateTile<ObjectTile>(LayerType.Objects);
+            ObjectTile tile = TileBuilder.CreateTile<ObjectTile>(LayerType.Objects);
             tile.Rotatable = true;
             tile.Offset = true;
 

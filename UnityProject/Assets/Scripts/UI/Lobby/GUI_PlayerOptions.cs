@@ -1,37 +1,34 @@
-﻿using UnityEngine;
-using UnityEngine.Networking;
+﻿using PlayGroup;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using Items;
 
 namespace UI
 {
     public class GUI_PlayerOptions : MonoBehaviour
     {
-        public Text title;
-
-        public InputField playerNameInput;
-        public InputField serverAddressInput;
-        public InputField portInput;
-
-        public Toggle hostServer;
-        private CustomNetworkManager networkManager;
-        public GameObject screen_PlayerName;
-        public GameObject screen_ConnectTo;
-        public GameObject screen_WrongVersion;
-        public GameObject button;
-
         private const string UserNamePlayerPref = "PlayerName";
 
         private const string DefaultServer = "LocalHost";
         private const string DefaultPort = "7777";
+        public GameObject button;
+
+        public Toggle hostServer;
+        private CustomNetworkManager networkManager;
+
+        public InputField playerNameInput;
+        public InputField portInput;
+        public GameObject screen_ConnectTo;
+        public GameObject screen_PlayerName;
+        public GameObject screen_WrongVersion;
+        public InputField serverAddressInput;
+        public Text title;
 
         public void Start()
         {
             networkManager = CustomNetworkManager.Instance;
             screen_PlayerName.SetActive(true);
             screen_ConnectTo.SetActive(false);
-            string prefsName = PlayerPrefs.GetString(GUI_PlayerOptions.UserNamePlayerPref);
+            string prefsName = PlayerPrefs.GetString(UserNamePlayerPref);
             if (!string.IsNullOrEmpty(prefsName))
             {
                 playerNameInput.text = prefsName;
@@ -40,7 +37,7 @@ namespace UI
             portInput.text = DefaultPort;
         }
 
-        void WrongVersion()
+        private void WrongVersion()
         {
             screen_PlayerName.SetActive(false);
             screen_ConnectTo.SetActive(false);
@@ -60,13 +57,15 @@ namespace UI
         {
             SoundManager.Play("Click01");
             if (string.IsNullOrEmpty(playerNameInput.text.Trim()))
+            {
                 return;
+            }
 
             //Connecting as client
             if (screen_ConnectTo.activeInHierarchy || Managers.instance.isForRelease)
             {
-                PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
-                PlayGroup.PlayerManager.PlayerNameCache = playerNameInput.text;
+                PlayerPrefs.SetString(UserNamePlayerPref, playerNameInput.text);
+                PlayerManager.PlayerNameCache = playerNameInput.text;
                 ConnectToServer();
                 gameObject.SetActive(false);
                 UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
@@ -75,8 +74,8 @@ namespace UI
 
             if (screen_PlayerName.activeInHierarchy && !hostServer.isOn)
             {
-                PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
-                PlayGroup.PlayerManager.PlayerNameCache = playerNameInput.text;
+                PlayerPrefs.SetString(UserNamePlayerPref, playerNameInput.text);
+                PlayerManager.PlayerNameCache = playerNameInput.text;
                 screen_PlayerName.SetActive(false);
                 screen_ConnectTo.SetActive(true);
                 title.text = "Connection";
@@ -85,8 +84,8 @@ namespace UI
             //Connecting as server from a map scene
             if (screen_PlayerName.activeInHierarchy && hostServer.isOn && GameData.IsInGame)
             {
-                PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
-                PlayGroup.PlayerManager.PlayerNameCache = playerNameInput.text;
+                PlayerPrefs.SetString(UserNamePlayerPref, playerNameInput.text);
+                PlayerManager.PlayerNameCache = playerNameInput.text;
                 networkManager.StartHost();
                 gameObject.SetActive(false);
             }
@@ -94,14 +93,14 @@ namespace UI
             //Connecting as server from the lobby
             if (screen_PlayerName.activeInHierarchy && hostServer.isOn && !GameData.IsInGame)
             {
-                PlayerPrefs.SetString(GUI_PlayerOptions.UserNamePlayerPref, playerNameInput.text);
-                PlayGroup.PlayerManager.PlayerNameCache = playerNameInput.text;
+                PlayerPrefs.SetString(UserNamePlayerPref, playerNameInput.text);
+                PlayerManager.PlayerNameCache = playerNameInput.text;
                 networkManager.StartHost();
                 gameObject.SetActive(false);
             }
         }
 
-        void ConnectToServer()
+        private void ConnectToServer()
         {
             if (Managers.instance.isForRelease)
             {

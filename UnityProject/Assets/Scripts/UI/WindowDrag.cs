@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace UI
 {
     public class WindowDrag : MonoBehaviour
     {
-        float offsetX;
-        float offsetY;
+        private float offsetX;
+        private float offsetY;
 
         public void BeginDrag()
         {

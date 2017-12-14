@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditorInternal;
@@ -10,10 +11,10 @@ namespace Tilemaps.Scripts.Utils
     {
         public static int Compare(Renderer x, Renderer y)
         {
-            var sortingLayerNames = GetSortingLayerNames();
+            List<string> sortingLayerNames = GetSortingLayerNames();
 
-            var x_index = sortingLayerNames.FindIndex(s => s.Equals(x.sortingLayerName));
-            var y_index = sortingLayerNames.FindIndex(s => s.Equals(y.sortingLayerName));
+            int x_index = sortingLayerNames.FindIndex(s => s.Equals(x.sortingLayerName));
+            int y_index = sortingLayerNames.FindIndex(s => s.Equals(y.sortingLayerName));
 
             if (x_index == y_index)
             {
@@ -24,11 +25,11 @@ namespace Tilemaps.Scripts.Utils
 
         private static List<string> GetSortingLayerNames()
         {
-            var internalEditorUtilityType = typeof(InternalEditorUtility);
-            var sortingLayersProperty =
+            Type internalEditorUtilityType = typeof(InternalEditorUtility);
+            PropertyInfo sortingLayersProperty =
                 internalEditorUtilityType.GetProperty("sortingLayerNames",
                     BindingFlags.Static | BindingFlags.NonPublic);
-            var sortingLayerNames = (string[]) sortingLayersProperty?.GetValue(null, new object[0]);
+            string[] sortingLayerNames = (string[]) sortingLayersProperty?.GetValue(null, new object[0]);
 
             return sortingLayerNames != null ? new List<string>(sortingLayerNames) : null;
         }

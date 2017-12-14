@@ -1,5 +1,4 @@
 ﻿using Lighting;
-using UnityEngine;
 
 public class LightHealthBehaviour : HealthBehaviour
 {

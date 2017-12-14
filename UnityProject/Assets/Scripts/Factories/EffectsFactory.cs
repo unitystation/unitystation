@@ -1,12 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Sprites;
 using UnityEngine;
 using UnityEngine.Networking;
-using Sprites;
 
 public class EffectsFactory : NetworkBehaviour
 {
     public static EffectsFactory Instance;
+
+    //Parents to make tidy
+    private GameObject shroudParent;
 
     private GameObject fireTile { get; set; }
     private GameObject scorchMarksTile { get; set; }
@@ -14,10 +15,7 @@ public class EffectsFactory : NetworkBehaviour
 
     private GameObject bloodTile { get; set; }
 
-    //Parents to make tidy
-    private GameObject shroudParent;
-
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -29,7 +27,7 @@ public class EffectsFactory : NetworkBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         //Do init stuff
         fireTile = Resources.Load("FireTile") as GameObject;
