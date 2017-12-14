@@ -286,10 +286,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdRequestJob(JobType jobType)
     {
-        // Already have a job buddy!
-        if (playerScript.JobType != JobType.NULL)
-            return;
-
+		// Already have a job buddy!
+		if (playerScript.JobType != JobType.NULL)
+		{
+			return;
+		}
+            
         playerScript.JobType = GameManager.Instance.GetRandomFreeOccupation(jobType);
 
         RespawnPlayer();
@@ -462,7 +464,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
         EquipmentPool.ClearPool(gameObject.name);
 
+		//Remove player objects
         PlayerList.Instance.RemovePlayer(gameObject.name);
+		//Re-add player to name list because a respawning player didn't disconnect
+		PlayerList.Instance.CheckName(gameObject.name);
 
         SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType);
     }

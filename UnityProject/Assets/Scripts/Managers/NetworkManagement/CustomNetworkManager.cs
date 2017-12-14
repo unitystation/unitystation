@@ -190,7 +190,14 @@ public class CustomNetworkManager : NetworkManager
     {
         if (conn != null && conn.playerControllers.Count > 0)
         {
-            PlayerList.Instance.RemovePlayer(conn.playerControllers[0].gameObject.name);
+			GameObject player = conn.playerControllers[0].gameObject;
+			PlayerList.Instance.RemovePlayer(player.name);
+
+			//Notify clients that the connected players list should be updated
+			GameObject[] players = new GameObject[PlayerList.Instance.connectedPlayers.Count];
+			PlayerList.Instance.connectedPlayers.Values.CopyTo(players, 0);
+			UpdateConnectedPlayersMessage.Send(players);
+
             //TODO DROP ALL HIS OBJECTS
             Debug.Log("PlayerDisconnected: " + conn.playerControllers[0].gameObject.name);
             NetworkServer.Destroy(conn.playerControllers[0].gameObject);
