@@ -117,6 +117,21 @@ public class PoolManager : NetworkBehaviour
 	}
 
 	/// <summary>
+	/// For any objects placed in the scene prior to build
+	/// that need to be added to the serverside object pool
+	/// pass the object here and make sure object has a
+	/// ObjectBehaviour component attatched
+	/// </summary>
+	[Server]
+	public void PoolCacheObject(GameObject obj)
+	{
+		obj.AddComponent<PoolPrefabTracker>().myPrefab = obj;
+		if (!pools.ContainsKey(obj)) {
+			pools.Add(obj, new List<GameObject>());
+		}
+	}
+
+	/// <summary>
 	/// For items that are network synced only!
 	/// </summary>
 	[Server]

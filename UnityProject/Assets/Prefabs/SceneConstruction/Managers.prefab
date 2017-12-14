@@ -406,7 +406,7 @@ GameObject:
   - component: {fileID: 4309031378112188}
   - component: {fileID: 82590463644255994}
   m_Layer: 0
-  m_Name: EmptyGunClick
+  m_Name: EatFood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1444,6 +1444,22 @@ GameObject:
   - component: {fileID: 224222749707064364}
   m_Layer: 5
   m_Name: Fill Area
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1347630397593322
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4505308846061170}
+  - component: {fileID: 82928582613886630}
+  m_Layer: 0
+  m_Name: EmptyGunClick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4304,13 +4320,14 @@ Transform:
   - {fileID: 4356245964482816}
   - {fileID: 4498084308154956}
   - {fileID: 4571508935139138}
-  - {fileID: 4309031378112188}
+  - {fileID: 4505308846061170}
   - {fileID: 4847910665674872}
   - {fileID: 4987521100531956}
   - {fileID: 4000845964114320}
   - {fileID: 4084453169858592}
   - {fileID: 4629922075858340}
   - {fileID: 4030886427083674}
+  - {fileID: 4309031378112188}
   m_Father: {fileID: 4244501537706558}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4325,7 +4342,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4275372777489054}
-  m_RootOrder: 14
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4345657823882958
 Transform:
@@ -4391,6 +4408,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4244501537706558}
   m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4505308846061170
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1347630397593322}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4275372777489054}
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4508349874118178
 Transform:
@@ -5912,10 +5942,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: db64cb0bdb39548dc94e89e0909228e2, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 35f1b73cc713c4cccb3f122b85c10ddf, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.48
-  m_Pitch: 1.2
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -5933,26 +5963,26 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: 0.1
+      time: 0.07018814
       value: 1
       inSlope: -10.0039835
       outSlope: -10.0039835
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.2
-      value: 0.5
+      time: 0.1729004
+      value: 0.46014404
       inSlope: -2.5009959
       outSlope: -2.5009959
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.4
-      value: 0.25
+      time: 0.3593506
+      value: 0.17427063
       inSlope: -0.62524897
       outSlope: -0.62524897
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.8
-      value: 0.125
+      time: 0.7241333
+      value: 0.045288086
       inSlope: -0.15631224
       outSlope: -0.15631224
       tangentMode: 0
@@ -6679,6 +6709,105 @@ AudioSource:
     - serializedVersion: 2
       time: 0
       value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!82 &82928582613886630
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1347630397593322}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: db64cb0bdb39548dc94e89e0909228e2, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.48
+  m_Pitch: 1.2
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 10
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0.1
+      value: 1
+      inSlope: -10.0039835
+      outSlope: -10.0039835
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.2
+      value: 0.5
+      inSlope: -2.5009959
+      outSlope: -2.5009959
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.4
+      value: 0.25
+      inSlope: -0.62524897
+      outSlope: -0.62524897
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.8
+      value: 0.125
+      inSlope: -0.15631224
+      outSlope: -0.15631224
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: -0.10003988
+      outSlope: -0.10003988
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -15334,7 +15463,7 @@ MonoBehaviour:
   - name: Critstate
     source: {fileID: 82843161278427726}
   - name: EmptyGunClick
-    source: {fileID: 82590463644255994}
+    source: {fileID: 82928582613886630}
   - name: OutOfAmmoAlarm
     source: {fileID: 82216366948410700}
   - name: BladeSlice
@@ -15351,6 +15480,8 @@ MonoBehaviour:
     source: {fileID: 82277153218908812}
   - name: AccessDenied
     source: {fileID: 82138595918371806}
+  - name: EatFood
+    source: {fileID: 82590463644255994}
   musicTracks:
   - {fileID: 82911923507476304}
   - {fileID: 82527346793861930}
