@@ -6,6 +6,7 @@ using Weapons;
 
 public class WeaponNetworkActions : ManagedNetworkBehaviour
 {
+    private readonly float speed = 7f;
     private bool allowAttack = true;
 
     //muzzle flash
@@ -25,7 +26,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
     private PlayerMove playerMove;
     private PlayerScript playerScript;
     private SoundNetworkActions soundNetworkActions;
-    private readonly float speed = 7f;
     private GameObject spritesObj;
 
     private void Start()

@@ -16,18 +16,18 @@ using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
+    private readonly string[] slotNames =
+    {
+        "suit", "belt", "feet", "head", "mask", "uniform", "neck", "ear", "eyes", "hands",
+        "id", "back", "rightHand", "leftHand", "storage01", "storage02", "suitStorage"
+    };
+
     private ChatIcon chatIcon;
 
     private Equipment.Equipment equipment;
     private PlayerMove playerMove;
     private PlayerScript playerScript;
     private PlayerSprites playerSprites;
-
-    private readonly string[] slotNames =
-    {
-        "suit", "belt", "feet", "head", "mask", "uniform", "neck", "ear", "eyes", "hands",
-        "id", "back", "rightHand", "leftHand", "storage01", "storage02", "suitStorage"
-    };
 
     private SoundNetworkActions soundNetworkActions;
 
