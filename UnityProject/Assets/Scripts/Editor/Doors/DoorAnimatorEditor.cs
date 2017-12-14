@@ -32,12 +32,12 @@ namespace Doors
                 {
                     dTarget.LoadSprites();
                 }
-                if (dTarget.doorBaseSprites.Length == null || dTarget.overlaySprites.Length == null
-                    || dTarget.overlayLights.Length == null)
-                {
-                    EditorGUILayout.HelpBox("No sprites loaded into the arrays yet. Please press" +
-                                            "'Auto Load Sprites' button.", MessageType.Info);
-                }
+//               if (dTarget.doorBaseSprites.Length == null || dTarget.overlaySprites.Length == null
+//                   || dTarget.overlayLights.Length == null)
+//               {
+//                  EditorGUILayout.HelpBox("No sprites loaded into the arrays yet. Please press" +
+//                                          "'Auto Load Sprites' button.", MessageType.Info);
+//                }
                 else
                 {
                     EditorGUILayout.HelpBox("All Sprites Loaded. You can always refresh them again by pressing " +
