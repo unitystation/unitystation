@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 /* Editor control over the FloorTile component:
@@ -15,7 +16,6 @@ using UnityEditor;
 [CanEditMultipleObjects]
 public class FloorTileEditor : Editor
 {
-
     private FloorTile floorTile;
 
     void OnSceneGUI()

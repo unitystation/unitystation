@@ -8,7 +8,6 @@ using Crafting;
 
 public class Microwave : NetworkBehaviour
 {
-
     public Sprite onSprite;
     public float cookTime = 10;
 
@@ -63,7 +62,7 @@ public class Microwave : NetworkBehaviour
         if (isServer)
         {
             GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal(meal);
-			ItemFactory.Instance.SpawnMeal(mealPrefab, transform.position);
+            ItemFactory.Instance.SpawnMeal(mealPrefab, transform.position);
         }
         meal = null;
     }

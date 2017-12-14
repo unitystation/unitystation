@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -22,8 +21,8 @@ public class SpriteSlicer : MonoBehaviour
             string path = AssetDatabase.GetAssetPath(spr);
             //cutting off extension:
             string filename = path.Substring(
-                                                path.LastIndexOf("/", StringComparison.Ordinal) + 1
-                                            );
+                path.LastIndexOf("/", StringComparison.Ordinal) + 1
+            );
 
             int SliceWidth = 32;
             int SliceHeight = 32;
@@ -39,7 +38,6 @@ public class SpriteSlicer : MonoBehaviour
             ti.spriteImportMode = SpriteImportMode.Multiple;
 
             List<SpriteMetaData> newData = new List<SpriteMetaData>();
-
 
 
             int offset = -1;
@@ -67,7 +65,6 @@ public class SpriteSlicer : MonoBehaviour
         }
         ignoredSB.Insert(0, "Done Slicing!\n");
         Debug.Log(ignoredSB.ToString());
-
     }
 #endif
 }

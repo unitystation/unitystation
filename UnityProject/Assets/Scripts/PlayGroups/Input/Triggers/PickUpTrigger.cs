@@ -14,6 +14,7 @@ namespace Items
         {
             CheckSpriteOrder();
         }
+
         public override void Interact(GameObject originator, Vector3 position, string hand)
         {
             if (originator.GetComponent<PlayerScript>().canNotInteract())
@@ -34,7 +35,8 @@ namespace Items
                 }
             }
             else
-            {    //Server actions
+            {
+                //Server actions
                 if (ValidatePickUp(originator, hand))
                 {
                     GetComponent<RegisterItem>().Unregister();

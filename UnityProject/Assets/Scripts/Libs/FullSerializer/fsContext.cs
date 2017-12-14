@@ -46,7 +46,7 @@ namespace FullSerializer
             object val;
             if (_contextObjects.TryGetValue(typeof(T), out val))
             {
-                return (T)val;
+                return (T) val;
             }
             throw new InvalidOperationException("There is no context object of type " + typeof(T));
         }

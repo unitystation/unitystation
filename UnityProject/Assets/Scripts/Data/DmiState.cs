@@ -24,6 +24,7 @@ public class DmiState
     public DmiState(string state) : this("", state, "", -1, -1, -1)
     {
     }
+
     public DmiState() : this("")
     {
     }
@@ -65,7 +66,7 @@ public class DmiState
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != this.GetType()) return false;
-        return Equals((DmiState)obj);
+        return Equals((DmiState) obj);
     }
 
     public override int GetHashCode()
@@ -78,6 +79,7 @@ public class DmiState
 
     public override string ToString()
     {
-        return string.Format("UnityName: {0}, State: {1}, Delay: {2}, Offset: {3}, Frames: {4}, Dirs: {5};", unityName, state, delay, offset, frames, dirs);
+        return string.Format("UnityName: {0}, State: {1}, Delay: {2}, Offset: {3}, Frames: {4}, Dirs: {5};", unityName,
+            state, delay, offset, frames, dirs);
     }
 }

@@ -66,8 +66,11 @@ namespace Tilemaps.Editor
             if (!DrawGizmos)
                 return;
 
-            var start = Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(Vector3.one * -32) - scr.transform.position); // bottom left
-            var end = Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth + 32, Camera.current.pixelHeight + 32)) - scr.transform.position);
+            var start = Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(Vector3.one * -32) -
+                                              scr.transform.position); // bottom left
+            var end = Vector3Int.RoundToInt(
+                Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth + 32,
+                    Camera.current.pixelHeight + 32)) - scr.transform.position);
             start.z = 0;
             end.z = 1;
 
@@ -115,7 +118,8 @@ namespace Tilemaps.Editor
                                 Gizmos.color = green;
 
                                 var corner_count = 0;
-                                foreach (var pos in new[] {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right, Vector3Int.up})
+                                foreach (var pos in new[]
+                                    {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right, Vector3Int.up})
                                 {
                                     if (!scr.HasTile(position + pos, LayerType.Walls))
                                     {
@@ -171,9 +175,9 @@ namespace Tilemaps.Editor
             }
         }
 
-        
+
         private static List<HashSet<Vector3Int>> rooms = new List<HashSet<Vector3Int>>();
-        
+
         private static HashSet<Vector3Int> currentRoom;
 
         private static void DrawRoom(MetaTileMap metaTileMap)
@@ -194,16 +198,17 @@ namespace Tilemaps.Editor
 
                         var posToCheck = new Queue<Vector3Int>();
                         posToCheck.Enqueue(mousePos);
-    
+
                         while (posToCheck.Count > 0)
                         {
                             var pos = posToCheck.Dequeue();
                             currentRoom.Add(pos);
-    
-                            foreach (var dir in new[] {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right})
+
+                            foreach (var dir in new[]
+                                {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right})
                             {
                                 var neighbor = pos + dir;
-    
+
                                 if (!posToCheck.Contains(neighbor) && !currentRoom.Contains(neighbor))
                                 {
                                     if (metaTileMap.IsSpaceAt(neighbor))
@@ -212,7 +217,7 @@ namespace Tilemaps.Editor
                                         posToCheck.Clear();
                                         break;
                                     }
-                                    
+
                                     if (metaTileMap.IsAtmosPassableAt(neighbor))
                                     {
                                         posToCheck.Enqueue(neighbor);
@@ -220,7 +225,7 @@ namespace Tilemaps.Editor
                                 }
                             }
                         }
-                    
+
                         rooms.Add(currentRoom);
                     }
                 }

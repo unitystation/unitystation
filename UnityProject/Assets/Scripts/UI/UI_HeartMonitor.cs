@@ -16,8 +16,7 @@ namespace UI
         private Sprite[] sprites;
         private bool startMonitoring;
 
-        [Header("Start of sprite positions for anim")]
-        public int fullHealthStart;
+        [Header("Start of sprite positions for anim")] public int fullHealthStart;
         public int minorDmgStart;
         public int medDmgStart;
         public int mjrDmgStart;
@@ -34,7 +33,8 @@ namespace UI
         private void Start()
         {
             sprites = SpriteManager.ScreenUISprites["gen"];
-            if(SceneManager.GetActiveScene().name != "Lobby"){
+            if (SceneManager.GetActiveScene().name != "Lobby")
+            {
                 //Game has been started without the lobby scene
                 //so start the heart monitor manually
                 TryStartMonitor();
@@ -123,8 +123,8 @@ namespace UI
                 overlayCrits.SetState(OverlayState.normal);
             }
             if (cHealth < 100
-               && cHealth > 80
-               && spriteStart != minorDmgStart)
+                && cHealth > 80
+                && spriteStart != minorDmgStart)
             {
                 SoundManager.Stop("Critstate");
                 spriteStart = minorDmgStart;
@@ -160,8 +160,8 @@ namespace UI
             }
 
             if (cHealth < 15
-              && cHealth > 0
-               && overlayCrits.currentState != OverlayState.crit)
+                && cHealth > 0
+                && overlayCrits.currentState != OverlayState.crit)
                 overlayCrits.SetState(OverlayState.crit);
 
             if (cHealth <= 0

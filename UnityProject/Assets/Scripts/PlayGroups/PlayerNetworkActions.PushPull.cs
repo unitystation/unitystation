@@ -6,8 +6,8 @@ using PlayGroup;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
-    [HideInInspector]
-    public bool isPulling = false;
+    [HideInInspector] public bool isPulling = false;
+
     [Command]
     public void CmdPullObject(GameObject obj)
     {
@@ -30,7 +30,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
                 PlayerNetworkActions otherPNA = obj.GetComponent<PlayerNetworkActions>();
                 otherPNA.CmdStopOtherPulling(playerS.pullingObject);
             }
-
         }
         //Other player is pulling object, send stop on that player
         if (pulled.pulledBy != null)
@@ -40,7 +39,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
                 pulled.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
             }
         }
-
 
 
         if (pulled != null)

@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace SectionEditor
 {
-
     public class SectionDrawer : MonoBehaviour
     {
         private static SectionDrawer instance;
+
         public static SectionDrawer Instance
         {
             get
@@ -45,7 +45,8 @@ namespace SectionEditor
                 return;
 
             var start = Camera.current.ScreenToWorldPoint(Vector3.zero); // bottom left
-            var end = Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth, Camera.current.pixelHeight));
+            var end = Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth,
+                Camera.current.pixelHeight));
 
             for (int y = Mathf.RoundToInt(start.y); y < Mathf.RoundToInt(end.y + 1); y++)
             {
@@ -63,7 +64,6 @@ namespace SectionEditor
                 //                }
             }
         }
-
     }
 #endif
 }

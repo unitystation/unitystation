@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class VersionCheck : MonoBehaviour
 {
-
     private static VersionCheck versionCheck;
     const string VERSION_NUMBER = "0.1.3";
     const string urlCheck = "http://doobly.izz.moe/unitystation/checkversion.php";

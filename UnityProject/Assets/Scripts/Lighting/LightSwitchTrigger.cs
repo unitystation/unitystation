@@ -18,8 +18,7 @@ namespace Lighting
 
         readonly Collider2D[] lightSpriteColliders = new Collider2D[MAX_TARGETS];
 
-        [SyncVar(hook = "SyncLightSwitch")]
-        public bool isOn = true;
+        [SyncVar(hook = "SyncLightSwitch")] public bool isOn = true;
         private SpriteRenderer spriteRenderer;
         public Sprite lightOn;
         public Sprite lightOff;
@@ -40,7 +39,6 @@ namespace Lighting
             //and the rest of the mask caches:
             lightingMask = LayerMask.GetMask("Lighting");
             obstacleMask = LayerMask.GetMask("Walls", "Door Open", "Door Closed");
-
         }
 
         public override void OnStartClient()
@@ -81,7 +79,7 @@ namespace Lighting
             {
                 var localCollider = lightSpriteColliders[i];
                 var localObject = localCollider.gameObject;
-                var localObjectPos = (Vector2)localObject.transform.position;
+                var localObjectPos = (Vector2) localObject.transform.position;
                 var distance = Vector3.Distance(startPos, localObjectPos);
                 if (IsWithinReach(startPos, localObjectPos, distance))
                 {
@@ -93,8 +91,8 @@ namespace Lighting
         private bool IsWithinReach(Vector2 pos, Vector2 targetPos, float distance)
         {
             return distance <= radius
-            &&
-            Physics2D.Raycast(pos, targetPos - pos, distance, obstacleMask).collider == null;
+                   &&
+                   Physics2D.Raycast(pos, targetPos - pos, distance, obstacleMask).collider == null;
         }
 
         Vector2 GetCastPos()

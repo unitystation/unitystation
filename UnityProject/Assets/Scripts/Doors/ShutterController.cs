@@ -20,6 +20,7 @@ public class ShutterController : ObjectTrigger
 
     //For network sync reliability
     private bool waitToCheckState = false;
+
     private bool tempStateCache;
 
     void Awake()
@@ -79,6 +80,7 @@ public class ShutterController : ObjectTrigger
             child.gameObject.layer = layer;
         }
     }
+
     [Server]
     private void DamageOnClose()
     {

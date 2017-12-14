@@ -27,7 +27,8 @@ public class TableTrigger : InputTrigger
             }
         }
         else
-        {   //Server actions
+        {
+            //Server actions
             if (!ValidateTableInteraction(originator, position, hand))
             {
                 //Rollback prediction here
@@ -54,6 +55,4 @@ public class TableTrigger : InputTrigger
 
         return true;
     }
-
-
 }

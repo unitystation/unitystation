@@ -119,39 +119,44 @@ namespace UI
         /// </summary>
         public static void CheckItemListTab()
         {
-            if (!Instance.itemListTabExists) {
+            if (!Instance.itemListTabExists)
+            {
                 return;
             }
 
             UITileList.UpdateItemPanelList();
-            if (!PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation())) {
+            if (!PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation()))
+            {
                 HideItemListTab();
             }
         }
 
-		/// <summary>
-		/// Displays the Objects tab
-		/// </summary>
-		/// <param name="objects">List of GameObjects to include in the Item List Tab</param>
-		/// <param name="tile">Tile to include in the Item List Tab</param>
-		/// <param name="position">Position of objects</param>
-		public static void ShowItemListTab(List<GameObject> objects, LayerTile tile, Vector3 position)
+        /// <summary>
+        /// Displays the Objects tab
+        /// </summary>
+        /// <param name="objects">List of GameObjects to include in the Item List Tab</param>
+        /// <param name="tile">Tile to include in the Item List Tab</param>
+        /// <param name="position">Position of objects</param>
+        public static void ShowItemListTab(List<GameObject> objects, LayerTile tile, Vector3 position)
         {
             //If window exists, player is perhaps alt-clicking at another tile. Only slide tabs if Item List Tab doesn't already exist.
-            if (Instance.itemListTabExists) {
+            if (Instance.itemListTabExists)
+            {
                 UITileList.ClearItemPanel();
-            } else {
+            }
+            else
+            {
                 SlideOptionsAndMoreTabs(Vector3.right);
             }
 
-			UITileList.AddTileToItemPanel(tile, position);
-			foreach (GameObject itemObject in objects)
+            UITileList.AddTileToItemPanel(tile, position);
+            foreach (GameObject itemObject in objects)
             {
                 UITileList.AddObjectToItemPanel(itemObject);
             }
 
-			Instance.ItemListTab.GetComponentInChildren<Text>().text = tile.name;
-			Instance.ItemListTab.gameObject.SetActive(true);
+            Instance.ItemListTab.GetComponentInChildren<Text>().text = tile.name;
+            Instance.ItemListTab.gameObject.SetActive(true);
             Instance.Button_Item_List();
             Instance.itemListTabExists = true;
         }

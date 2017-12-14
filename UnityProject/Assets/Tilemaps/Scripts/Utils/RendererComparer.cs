@@ -26,8 +26,9 @@ namespace Tilemaps.Scripts.Utils
         {
             var internalEditorUtilityType = typeof(InternalEditorUtility);
             var sortingLayersProperty =
-                internalEditorUtilityType.GetProperty("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
-            var sortingLayerNames = (string[])sortingLayersProperty?.GetValue(null, new object[0]);
+                internalEditorUtilityType.GetProperty("sortingLayerNames",
+                    BindingFlags.Static | BindingFlags.NonPublic);
+            var sortingLayerNames = (string[]) sortingLayersProperty?.GetValue(null, new object[0]);
 
             return sortingLayerNames != null ? new List<string>(sortingLayerNames) : null;
         }

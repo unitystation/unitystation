@@ -10,7 +10,7 @@ namespace Light2D.Examples
     {
         public LightSprite[] ColoredLights = new LightSprite[0];
         public GameObject[] Examples = new GameObject[0];
-        public Color[] LightColors = { Color.white };
+        public Color[] LightColors = {Color.white};
         private int _currExampleIndex;
         private int _currColorIndex;
 

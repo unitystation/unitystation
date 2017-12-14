@@ -60,12 +60,10 @@ namespace Lighting
             }
 
             bounds = new Vector4(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
-
         }
 
         Vector2 CompareTopLeft(Vector2 curValue, Vector2 newValue)
         {
-
             if (newValue.x < curValue.x)
             {
                 curValue.x = newValue.x;
@@ -79,7 +77,6 @@ namespace Lighting
 
         Vector2 CompareBottomRight(Vector2 curValue, Vector2 newValue)
         {
-
             if (newValue.x > curValue.x)
             {
                 curValue.x = newValue.x;

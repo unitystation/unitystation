@@ -5,7 +5,6 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class FloorTile : MonoBehaviour
 {
-
     public GameObject fireScorch;
     public GameObject ambientTile;
 
@@ -27,7 +26,8 @@ public class FloorTile : MonoBehaviour
     {
         if (ambientTile == null)
         {
-            ambientTile = GameObject.Instantiate(Resources.Load("AmbientTile") as GameObject, transform.position, Quaternion.identity, transform);
+            ambientTile = GameObject.Instantiate(Resources.Load("AmbientTile") as GameObject, transform.position,
+                Quaternion.identity, transform);
         }
     }
 
@@ -40,5 +40,3 @@ public class FloorTile : MonoBehaviour
         }
     }
 }
-
-

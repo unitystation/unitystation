@@ -25,11 +25,11 @@ namespace FullSerializer.Internal
             if (interfaceType.Resolve().IsGenericType &&
                 interfaceType.Resolve().IsGenericTypeDefinition == false)
             {
-
                 throw new ArgumentException("GetInterface requires that if the interface " +
-                    "type is generic, then it must be the generic type definition, not a " +
-                    "specific generic type instantiation");
-            };
+                                            "type is generic, then it must be the generic type definition, not a " +
+                                            "specific generic type instantiation");
+            }
+            ;
 
             while (type != null)
             {

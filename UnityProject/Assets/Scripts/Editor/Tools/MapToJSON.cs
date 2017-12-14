@@ -12,14 +12,17 @@ using static JsonToTilemap;
 public class MapToJSON : Editor
 {
     //adding +50 offset to spriteRenderers containing these:
-    static readonly List<string> separateLayerMarkers = new List<string>(new[] { "WarningLine" });
+    static readonly List<string> separateLayerMarkers = new List<string>(new[] {"WarningLine"});
+
     //not marking these as legacy:
-    static readonly List<string> legacyExclusionList = new List<string>(new[] { "turf/shuttle.png"/*,"lighting.png","obj/power.png"*/});
+    static readonly List<string> legacyExclusionList =
+        new List<string>(new[] {"turf/shuttle.png" /*,"lighting.png","obj/power.png"*/});
+
     //pretending these contain TileConnect component (however, four of these are still required to generate a temporary tile):
     //Item1: name to lookup (via Contains())
     //Item2: asset path to use instead while exporting
     static readonly List<Tuple<string, string>> tileConnectWannabes = new List<Tuple<string, string>>
-        (new[] { new Tuple<string, string>("shuttle_wall_Skew", "walls/shuttle_wall") });
+        (new[] {new Tuple<string, string>("shuttle_wall_Skew", "walls/shuttle_wall")});
 
 
     private static string TC = "tc_";
@@ -176,7 +179,7 @@ public class MapToJSON : Editor
         return nodeRenderers.FindAll(sr => sr.name.Equals(renderer.name)
                                            && sr.transform.position.Equals(renderer.transform.position)
                                            && sr.transform.rotation.Equals(renderer.transform.rotation)
-                                           ).Count != 0;
+               ).Count != 0;
     }
 
     private static int GetUniqueSortingOrder(SpriteRenderer renderer, List<SpriteRenderer> list)
@@ -239,7 +242,5 @@ public class MapToJSON : Editor
     {
         return !spriteRenderer || !spriteRenderer.sprite;
     }
-
-
 }
 #endif

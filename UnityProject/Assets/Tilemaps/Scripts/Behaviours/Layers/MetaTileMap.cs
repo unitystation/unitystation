@@ -68,14 +68,16 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public LayerTile GetTile(Vector3Int position, LayerType layerType)
         {
-			Layer layer = null;
-			Layers.TryGetValue(layerType, out layer);
-			if(layer) {
-				return Layers[layerType].GetTile(position);
-			} else {
-				return null;
-			}
-			
+            Layer layer = null;
+            Layers.TryGetValue(layerType, out layer);
+            if (layer)
+            {
+                return Layers[layerType].GetTile(position);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public bool IsEmptyAt(Vector3Int position)
@@ -97,7 +99,8 @@ namespace Tilemaps.Scripts.Behaviours.Layers
         {
             foreach (var layer in Layers.Values)
             {
-                if (layer.LayerType < refLayer && !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors))
+                if (layer.LayerType < refLayer &&
+                    !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors))
                 {
                     layer.RemoveTile(position);
                 }

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class PlayerListUI : MonoBehaviour
 {
-
     public GameObject window;
 
     public Text nameList;

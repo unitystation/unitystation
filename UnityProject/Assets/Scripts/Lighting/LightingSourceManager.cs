@@ -6,7 +6,6 @@ namespace Lighting
 {
     public class LightingSourceManager : MonoBehaviour
     {
-
         public Dictionary<Vector2, LightSource> lights = new Dictionary<Vector2, LightSource>();
         private LightingRoom lightingRoomParent;
 
@@ -33,13 +32,11 @@ namespace Lighting
                 {
                     Debug.LogError("No LightSource component found!");
                 }
-
             }
         }
 
         public void UpdateRoomBrightness(LightSource theSource)
         {
-
         }
     }
 }

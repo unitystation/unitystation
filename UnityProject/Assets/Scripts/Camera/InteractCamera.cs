@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class InteractCamera : MonoBehaviour
 {
-
     public static InteractCamera Instance;
     public Camera mainCam;
     public Camera interactCam;
@@ -16,10 +15,10 @@ public class InteractCamera : MonoBehaviour
             Instance = this;
         }
     }
+
     void Start()
     {
         interactCam.orthographicSize = mainCam.orthographicSize;
-
     }
 
     void Update()

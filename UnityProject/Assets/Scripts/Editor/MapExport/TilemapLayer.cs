@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 /// <summary>
 /// object representation of JSON map
 /// </summary>
@@ -9,6 +10,7 @@ public class TilemapLayer
 {
     //    [SerializeField] private string name;
     [SerializeField] private List<XYCoord> tilePositions = new List<XYCoord>(); //to be converted into Vector3Int
+
     [SerializeField] private List<UniTileData> tiles = new List<UniTileData>();
     //    [SerializeField] private List<UniTile> tiles = new List<UniTile>();
 

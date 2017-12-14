@@ -29,9 +29,9 @@ namespace FullSerializer
             if (RequestCycleSupport(storageType))
             {
                 throw new InvalidOperationException("Please override CreateInstance for " +
-                    GetType().FullName + "; the object graph for " + storageType +
-                    " can contain potentially contain cycles, so separated instance creation " +
-                    "is needed");
+                                                    GetType().FullName + "; the object graph for " + storageType +
+                                                    " can contain potentially contain cycles, so separated instance creation " +
+                                                    "is needed");
             }
 
             return storageType;
@@ -81,8 +81,8 @@ namespace FullSerializer
         protected fsResult FailExpectedType(fsData data, params fsDataType[] types)
         {
             return fsResult.Fail(GetType().Name + " expected one of " +
-                string.Join(", ", types.Select(t => t.ToString()).ToArray()) +
-                " but got " + data.Type + " in " + data);
+                                 string.Join(", ", types.Select(t => t.ToString()).ToArray()) +
+                                 " but got " + data.Type + " in " + data);
         }
 
         protected fsResult CheckType(fsData data, fsDataType type)
@@ -108,7 +108,8 @@ namespace FullSerializer
             return fsResult.Success;
         }
 
-        protected fsResult SerializeMember<T>(Dictionary<string, fsData> data, Type overrideConverterType, string name, T value)
+        protected fsResult SerializeMember<T>(Dictionary<string, fsData> data, Type overrideConverterType, string name,
+            T value)
         {
             fsData memberData;
             var result = Serializer.TrySerialize(typeof(T), overrideConverterType, value, out memberData);
@@ -116,7 +117,8 @@ namespace FullSerializer
             return result;
         }
 
-        protected fsResult DeserializeMember<T>(Dictionary<string, fsData> data, Type overrideConverterType, string name, out T value)
+        protected fsResult DeserializeMember<T>(Dictionary<string, fsData> data, Type overrideConverterType,
+            string name, out T value)
         {
             fsData memberData;
             if (data.TryGetValue(name, out memberData) == false)
@@ -127,7 +129,7 @@ namespace FullSerializer
 
             object storage = null;
             var result = Serializer.TryDeserialize(memberData, typeof(T), overrideConverterType, ref storage);
-            value = (T)storage;
+            value = (T) storage;
             return result;
         }
     }

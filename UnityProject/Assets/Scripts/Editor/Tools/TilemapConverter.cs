@@ -35,7 +35,9 @@ namespace UnityStation.Tools
 
         public GenericTile DataToTile(UniTileData data)
         {
-            var name = mapping.ContainsKey(data.OriginalSpriteName) ? data.OriginalSpriteName : data.Name.Split('(')[0].Trim();
+            var name = mapping.ContainsKey(data.OriginalSpriteName)
+                ? data.OriginalSpriteName
+                : data.Name.Split('(')[0].Trim();
 
             if (!mapping.ContainsKey(name))
             {

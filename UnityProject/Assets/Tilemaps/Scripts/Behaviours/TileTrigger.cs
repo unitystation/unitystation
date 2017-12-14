@@ -14,7 +14,7 @@ namespace Tilemaps.Scripts.Behaviours
     public class TileTrigger : InputTrigger
     {
         private Layer layer;
-        
+
         private void Start()
         {
             layer = GetComponent<Layer>();
@@ -30,7 +30,7 @@ namespace Tilemaps.Scripts.Behaviours
             if (tile?.TileType == TileType.Table)
             {
                 var interaction = new TableInteraction(gameObject, originator, position, hand);
-                
+
                 interaction.Interact(isServer);
             }
         }

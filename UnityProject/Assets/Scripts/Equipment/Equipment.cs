@@ -59,10 +59,13 @@ namespace Equipment
             {
                 //All the other slots:
                 clothingSlots[i].Reference = -1;
-                if (isServer) {
-					syncEquipSprites.Add(-1);
-                } else {
-					clothingSlots[i].Reference = syncEquipSprites[i];
+                if (isServer)
+                {
+                    syncEquipSprites.Add(-1);
+                }
+                else
+                {
+                    clothingSlots[i].Reference = syncEquipSprites[i];
                 }
             }
             isInit = true;
@@ -74,7 +77,7 @@ namespace Equipment
 
         public void SyncSprites(SyncListInt.Operation op, int index)
         {
-			clothingSlots[index].Reference = syncEquipSprites[index];
+            clothingSlots[index].Reference = syncEquipSprites[index];
         }
 
         public IEnumerator SetPlayerLoadOuts()
@@ -157,39 +160,40 @@ namespace Equipment
 
             foreach (KeyValuePair<string, string> gearItem in gear)
             {
-				if (gearItem.Value.Contains(ClothFactory.ClothingHierIdentifier) ||
-					gearItem.Value.Contains(ClothFactory.HeadsetHierIdentifier))
-				{
-					GameObject obj = ClothFactory.Instance.CreateCloth(gearItem.Value, Vector3.zero);
-					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
-				} else if (!String.IsNullOrEmpty(gearItem.Value)) {
-					Debug.Log(gearItem.Value + " creation not implemented yet.");
-				}
+                if (gearItem.Value.Contains(ClothFactory.ClothingHierIdentifier) ||
+                    gearItem.Value.Contains(ClothFactory.HeadsetHierIdentifier))
+                {
+                    GameObject obj = ClothFactory.Instance.CreateCloth(gearItem.Value, Vector3.zero);
+                    ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+                    SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
+                }
+                else if (!String.IsNullOrEmpty(gearItem.Value))
+                {
+                    Debug.Log(gearItem.Value + " creation not implemented yet.");
+                }
             }
             SpawnID(jobOutfit);
         }
 
         private void SpawnID(JobOutfit outFit)
         {
-
             GameObject idObj;
             if (outFit.jobType == JobType.CAPTAIN)
             {
                 idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.captain,
-                                                                    outFit.jobType, outFit.allowedAccess, name);
+                    outFit.jobType, outFit.allowedAccess, name);
             }
             else if (outFit.jobType == JobType.HOP || outFit.jobType == JobType.HOS ||
                      outFit.jobType == JobType.CMO || outFit.jobType == JobType.RD ||
                      outFit.jobType == JobType.CHIEF_ENGINEER)
             {
                 idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.command,
-                                                                    outFit.jobType, outFit.allowedAccess, name);
+                    outFit.jobType, outFit.allowedAccess, name);
             }
             else
             {
                 idObj = ItemFactory.Instance.SpawnIDCard(AccessType.IDCardType.standard,
-                                                                    outFit.jobType, outFit.allowedAccess, name);
+                    outFit.jobType, outFit.allowedAccess, name);
             }
 
             SetItem("id", idObj);
@@ -255,22 +259,22 @@ namespace Equipment
         //To set the actual sprite on the player obj
         public void SetHandItemSprite(string slotName, ItemAttributes att)
         {
-            Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
+            Epos enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
             if (slotName == "leftHand")
             {
-                syncEquipSprites[(int)enumA] = att.NetworkInHandRefLeft();
+                syncEquipSprites[(int) enumA] = att.NetworkInHandRefLeft();
             }
             else
             {
-                syncEquipSprites[(int)enumA] = att.NetworkInHandRefRight();
+                syncEquipSprites[(int) enumA] = att.NetworkInHandRefRight();
             }
         }
 
         //Clear any sprite slot with -1 via the slotName (server)
         public void ClearItemSprite(string eventName)
         {
-            Epos enumA = (Epos)Enum.Parse(typeof(Epos), eventName);
-            syncEquipSprites[(int)enumA] = -1;
+            Epos enumA = (Epos) Enum.Parse(typeof(Epos), eventName);
+            syncEquipSprites[(int) enumA] = -1;
         }
 
         private void SetItem(string slotName, GameObject obj)

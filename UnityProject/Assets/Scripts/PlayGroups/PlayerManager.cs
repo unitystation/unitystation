@@ -63,7 +63,8 @@ namespace PlayGroup
             LocalPlayer = playerObjToControl;
             LocalPlayerScript = playerObjToControl.GetComponent<PlayerScript>();
 
-            PlayerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
+            PlayerScript =
+                LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
             Camera2DFollow.followControl.target = LocalPlayer.transform;
 
             HasSpawned = true;

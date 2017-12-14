@@ -15,7 +15,6 @@ namespace FullSerializer.Internal
             if (type.Resolve().IsArray ||
                 typeof(ICollection).IsAssignableFrom(type))
             {
-
                 return false;
             }
 
@@ -38,7 +37,7 @@ namespace FullSerializer.Internal
                 fsData serializedData;
 
                 var itemResult = Serializer.TrySerialize(property.StorageType, property.OverrideConverterType,
-                                                         property.Read(instance), out serializedData);
+                    property.Read(instance), out serializedData);
                 result.AddMessages(itemResult);
                 if (itemResult.Failed)
                 {
@@ -85,7 +84,7 @@ namespace FullSerializer.Internal
                     }
 
                     var itemResult = Serializer.TryDeserialize(propertyData, property.StorageType,
-                                                               property.OverrideConverterType, ref deserializedValue);
+                        property.OverrideConverterType, ref deserializedValue);
                     result.AddMessages(itemResult);
                     if (itemResult.Failed) continue;
 

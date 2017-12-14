@@ -8,7 +8,8 @@ namespace Tilemaps.Scripts.Behaviours.Interaction
 {
     public class TableInteraction : TileInteraction
     {
-        public TableInteraction(GameObject gameObject, GameObject originator, Vector3 position, string hand) : base(gameObject, originator, position, hand)
+        public TableInteraction(GameObject gameObject, GameObject originator, Vector3 position, string hand) : base(
+            gameObject, originator, position, hand)
         {
         }
 

@@ -25,7 +25,9 @@ namespace FullSerializer.Internal
             public static readonly IEqualityComparer<object> Instance = new ObjectReferenceEqualityComparator();
         }
 
-        private Dictionary<object, int> _objectIds = new Dictionary<object, int>(ObjectReferenceEqualityComparator.Instance);
+        private Dictionary<object, int> _objectIds =
+            new Dictionary<object, int>(ObjectReferenceEqualityComparator.Instance);
+
         private int _nextId;
 
         private Dictionary<int, object> _marked = new Dictionary<int, object>();
@@ -61,10 +63,10 @@ namespace FullSerializer.Internal
             if (_marked.ContainsKey(id) == false)
             {
                 throw new InvalidOperationException("Internal Deserialization Error - Object " +
-                    "definition has not been encountered for object with id=" + id +
-                    "; have you reordered or modified the serialized data? If this is an issue " +
-                    "with an unmodified Full Serializer implementation and unmodified serialization " +
-                    "data, please report an issue with an included test case.");
+                                                    "definition has not been encountered for object with id=" + id +
+                                                    "; have you reordered or modified the serialized data? If this is an issue " +
+                                                    "with an unmodified Full Serializer implementation and unmodified serialization " +
+                                                    "data, please report an issue with an included test case.");
             }
 
             return _marked[id];
@@ -98,7 +100,7 @@ namespace FullSerializer.Internal
             if (_marked.ContainsKey(referenceId))
             {
                 throw new InvalidOperationException("Internal Error - " + item +
-                    " has already been marked as serialized");
+                                                    " has already been marked as serialized");
             }
 
             _marked[referenceId] = item;

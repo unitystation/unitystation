@@ -7,7 +7,6 @@ namespace UI
 {
     public class ControlAmbientVolume : MonoBehaviour
     {
-
         private Slider slider;
 
         void OnEnable()

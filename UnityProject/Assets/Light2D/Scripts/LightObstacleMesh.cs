@@ -42,7 +42,8 @@ namespace Light2D
 
         void Refresh()
         {
-            if (_parentMeshFilter == null || _parentMeshFilter == null || _meshRenderer == null || _meshFilter == null ||
+            if (_parentMeshFilter == null || _parentMeshFilter == null || _meshRenderer == null ||
+                _meshFilter == null ||
                 _parentMeshFilter.sharedMesh == null || _parentMeshRenderer.sharedMaterial == null)
             {
                 if (_meshRenderer != null)
@@ -55,7 +56,7 @@ namespace Light2D
             {
                 if (_meshFilter.mesh != null)
                     Destroy(_meshFilter.mesh);
-                _meshFilter.mesh = (Mesh)Instantiate(_parentMeshFilter.sharedMesh);
+                _meshFilter.mesh = (Mesh) Instantiate(_parentMeshFilter.sharedMesh);
                 _meshFilter.mesh.MarkDynamic();
 
                 if (_meshFilter.mesh.tangents == null)
@@ -95,7 +96,7 @@ namespace Light2D
                 _meshFilter.mesh.colors32 = colors;
 
                 var uv1 = new Vector2(
-                    Util.DecodeFloatRGBA((Vector4)AdditiveColor),
+                    Util.DecodeFloatRGBA((Vector4) AdditiveColor),
                     Util.DecodeFloatRGBA(new Vector4(AdditiveColor.a, 0, 0)));
                 var uv1Arr = _meshFilter.mesh.uv2;
                 if (uv1Arr == null || uv1Arr.Length != colors.Length)

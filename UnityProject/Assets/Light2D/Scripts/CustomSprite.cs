@@ -38,6 +38,7 @@ namespace Light2D
 
         // mesh data
         protected Color[] _colors;
+
         protected Vector2[] _uv0;
         protected Vector2[] _uv1;
         protected Vector3[] _vertices;
@@ -72,7 +73,7 @@ namespace Light2D
             _uv1 = new Vector2[4];
             _uv0 = new Vector2[4];
             _vertices = new Vector3[4];
-            _triangles = new[] { 2, 1, 0, 1, 2, 3 };
+            _triangles = new[] {2, 1, 0, 1, 2, 3};
             _meshRenderer = GetComponent<MeshRenderer>();
             _meshFilter = GetComponent<MeshFilter>();
 
@@ -161,7 +162,7 @@ namespace Light2D
 
             if (!MaterialMap.TryGetValue(key, out matValue))
             {
-                var mat = (Material)Instantiate(Material);
+                var mat = (Material) Instantiate(Material);
                 mat.name = GeneratedMaterialName;
                 mat.mainTexture = Sprite.texture;
                 MaterialMap[key] = matValue = new MaterialValue(mat, 1);
@@ -180,7 +181,8 @@ namespace Light2D
         /// Getting material from cache or instantiating new one.
         /// </summary>
         /// <returns></returns>
-        public static Material GetOrCreateMaterial(Material baseMaterial, Texture2D texture, out MaterialKey materialKey)
+        public static Material GetOrCreateMaterial(Material baseMaterial, Texture2D texture,
+            out MaterialKey materialKey)
         {
             if (baseMaterial == null || texture == null)
             {
@@ -193,7 +195,7 @@ namespace Light2D
 
             if (!MaterialMap.TryGetValue(key, out matValue))
             {
-                var mat = (Material)Instantiate(baseMaterial);
+                var mat = (Material) Instantiate(baseMaterial);
                 mat.name = GeneratedMaterialName;
                 mat.mainTexture = texture;
                 MaterialMap[key] = matValue = new MaterialValue(mat, 1);
@@ -281,7 +283,7 @@ namespace Light2D
                     : new Point2(Mathf.NextPowerOfTwo(textureSize.x), Mathf.NextPowerOfTwo(textureSize.y));
 
             var unitSize2 = rect.size / Sprite.pixelsPerUnit / 2f;
-            var offest = (Vector2)bounds.center;
+            var offest = (Vector2) bounds.center;
 
             _vertices[0] = new Vector3(-unitSize2.x + offest.x, -unitSize2.y + offest.y, 0);
             _vertices[1] = new Vector3(unitSize2.x + offest.x, -unitSize2.y + offest.y, 0);
@@ -404,12 +406,14 @@ namespace Light2D
                 {
                     unchecked
                     {
-                        return ((obj.Texture != null ? obj.Texture.GetHashCode() : 0) * 397) ^ (obj.Material != null ? obj.Material.GetHashCode() : 0);
+                        return ((obj.Texture != null ? obj.Texture.GetHashCode() : 0) * 397) ^
+                               (obj.Material != null ? obj.Material.GetHashCode() : 0);
                     }
                 }
             }
 
-            private static readonly IEqualityComparer<MaterialKey> TextureMaterialComparerInstance = new TextureMaterialEqualityComparer();
+            private static readonly IEqualityComparer<MaterialKey> TextureMaterialComparerInstance =
+                new TextureMaterialEqualityComparer();
 
             public static IEqualityComparer<MaterialKey> TextureMaterialComparer
             {
@@ -428,14 +432,15 @@ namespace Light2D
                 if (ReferenceEquals(null, obj)) return false;
                 if (ReferenceEquals(this, obj)) return true;
                 if (obj.GetType() != this.GetType()) return false;
-                return Equals((MaterialKey)obj);
+                return Equals((MaterialKey) obj);
             }
 
             public override int GetHashCode()
             {
                 unchecked
                 {
-                    return ((Texture != null ? Texture.GetHashCode() : 0) * 397) ^ (Material != null ? Material.GetHashCode() : 0);
+                    return ((Texture != null ? Texture.GetHashCode() : 0) * 397) ^
+                           (Material != null ? Material.GetHashCode() : 0);
                 }
             }
 

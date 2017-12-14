@@ -14,6 +14,7 @@ public class ObjectBehaviour : PushPull
     //Inspector is controlled by ObjectBehaviourEditor
     //Please expose any properties you need in there
     private PickUpTrigger pickUpTrigger;
+
     private PlayerScript playerScript;
     private ClosetPlayerHandler closetHandlerCache;
 
@@ -34,7 +35,7 @@ public class ObjectBehaviour : PushPull
             //not holding control, then check if it is being pulled
             //before adding to inventory
             if (!Input.GetKey(KeyCode.LeftControl) && pickUpTrigger !=
-               null && pulledBy != null)
+                null && pulledBy != null)
             {
                 CancelPullBehaviour();
             }

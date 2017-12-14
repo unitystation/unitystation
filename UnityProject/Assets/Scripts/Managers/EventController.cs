@@ -6,10 +6,11 @@ using UnityEngine.Events;
 
 namespace Events
 {
-
     public class EventController<K, V>
     {
-        private class Event : UnityEvent<V> { }
+        private class Event : UnityEvent<V>
+        {
+        }
 
         private Dictionary<int, Event> events = new Dictionary<int, Event>();
 

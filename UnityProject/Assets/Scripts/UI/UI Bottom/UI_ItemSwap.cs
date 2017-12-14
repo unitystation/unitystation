@@ -8,7 +8,6 @@ namespace UI
 {
     public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler
     {
-
         private UI_ItemSlot itemSlot;
 
         void Start()

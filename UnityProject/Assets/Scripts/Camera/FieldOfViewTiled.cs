@@ -27,7 +27,10 @@ public class FieldOfViewTiled : ThreadedBehaviour
     public int MonitorRadius = 12;
     public int FieldOfVision = 90;
     public int InnatePreyVision = 6;
-    public Dictionary<Vector2, GameObject> shroudTiles = new Dictionary<Vector2, GameObject>(new Vector2EqualityComparer());
+
+    public Dictionary<Vector2, GameObject> shroudTiles =
+        new Dictionary<Vector2, GameObject>(new Vector2EqualityComparer());
+
     private Vector3 lastPosition;
     private Vector2 lastDirection;
 
@@ -164,14 +167,13 @@ public class FieldOfViewTiled : ThreadedBehaviour
     //Runs on Worker Thread:
     public void UpdateSightSourceFov()
     {
-
         nearbyShroudsInWorkerThread = nextShrouds;
 
         List<Vector2> inFieldOFVision = new List<Vector2>();
         // Returns all shroud nodes in field of vision
         for (int i = nearbyShroudsInWorkerThread.Count; i-- > 0;)
         {
-            var sA = new ShroudAction() { key = nearbyShroudsInWorkerThread[i], enabled = true };
+            var sA = new ShroudAction() {key = nearbyShroudsInWorkerThread[i], enabled = true};
             shroudStatusQueue.Enqueue(sA);
             // Light close behind and around
             if (Vector2.Distance(sourcePosCache, nearbyShroudsInWorkerThread[i]) < InnatePreyVision)
@@ -181,11 +183,14 @@ public class FieldOfViewTiled : ThreadedBehaviour
             }
 
             // In front cone
-            if (Vector3.Angle(new Vector3(nearbyShroudsInWorkerThread[i].x, nearbyShroudsInWorkerThread[i].y, 0f) - sourcePosCache, GetSightSourceDirection()) < FieldOfVision)
+            if (Vector3.Angle(
+                    new Vector3(nearbyShroudsInWorkerThread[i].x, nearbyShroudsInWorkerThread[i].y, 0f) -
+                    sourcePosCache, GetSightSourceDirection()) < FieldOfVision)
             {
-                if (i < nearbyShroudsInWorkerThread.Count) {
+                if (i < nearbyShroudsInWorkerThread.Count)
+                {
                     inFieldOFVision.Add(nearbyShroudsInWorkerThread[i]);
-				}
+                }
                 continue;
             }
         }
@@ -197,14 +202,19 @@ public class FieldOfViewTiled : ThreadedBehaviour
             // and since we are standing next to the tile we should always be able to view it, lets always deactive the shroud
             if (Vector2.Distance(inFieldOFVision[i], sourcePosCache) < 2)
             {
-                var lA = new ShroudAction() { key = inFieldOFVision[i], enabled = false };
+                var lA = new ShroudAction() {key = inFieldOFVision[i], enabled = false};
                 shroudStatusQueue.Enqueue(lA);
                 continue;
             }
             // Everything else:
             // Perform a linecast to see if a wall is blocking vision of the target tile
-            Vector2 offsetPos = ShroudCornerOffset(Angle(((Vector2)sourcePosCache - inFieldOFVision[i]).normalized));
-            var rA = new ShroudAction() { isRayCastAction = true, endPos = inFieldOFVision[i] += offsetPos, offset = offsetPos };
+            Vector2 offsetPos = ShroudCornerOffset(Angle(((Vector2) sourcePosCache - inFieldOFVision[i]).normalized));
+            var rA = new ShroudAction()
+            {
+                isRayCastAction = true,
+                endPos = inFieldOFVision[i] += offsetPos,
+                offset = offsetPos
+            };
             shroudStatusQueue.Enqueue(rA);
         }
 
@@ -278,7 +288,8 @@ public class FieldOfViewTiled : ThreadedBehaviour
         }
         else if (shroudTiles.ContainsKey(shroudAction.key))
         {
-            shroudTiles[shroudAction.key].SendMessage("SetShroudStatus", shroudAction.enabled, SendMessageOptions.DontRequireReceiver);
+            shroudTiles[shroudAction.key].SendMessage("SetShroudStatus", shroudAction.enabled,
+                SendMessageOptions.DontRequireReceiver);
         }
     }
 
@@ -307,8 +318,8 @@ public class FieldOfViewTiled : ThreadedBehaviour
         {
             for (int offsety = -MonitorRadius; offsety <= MonitorRadius; offsety++)
             {
-                int x = (int)sourcePosCache.x + offsetx;
-                int y = (int)sourcePosCache.y + offsety;
+                int x = (int) sourcePosCache.x + offsetx;
+                int y = (int) sourcePosCache.y + offsety;
 
                 if (!shroudTiles.ContainsKey(new Vector2(x, y)))
                     RegisterNewShroud(new Vector2(x, y), false);

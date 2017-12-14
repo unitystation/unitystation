@@ -56,7 +56,7 @@ namespace Light2D
             {
                 // LightOrigin needs to be send in world position instead of local because 
                 // Unity non uniform scaling is breaking model matrix in shader.
-                var pos = mat.MultiplyPoint(((Vector2)LightOrigin).Mul(size));
+                var pos = mat.MultiplyPoint(((Vector2) LightOrigin).Mul(size));
                 if (!LightingSystem.Instance.XZPlane)
                 {
                     for (int i = 0; i < _uv1.Length; i++)
@@ -148,10 +148,10 @@ namespace Light2D
             if (!material.SetPass(0))
                 return;
 
-            var v1 = _modelMatrix.MultiplyPoint(_vertices[0]) - (Vector3)lightCamLocalPos;
-            var v2 = _modelMatrix.MultiplyPoint(_vertices[2]) - (Vector3)lightCamLocalPos;
-            var v3 = _modelMatrix.MultiplyPoint(_vertices[3]) - (Vector3)lightCamLocalPos;
-            var v4 = _modelMatrix.MultiplyPoint(_vertices[1]) - (Vector3)lightCamLocalPos;
+            var v1 = _modelMatrix.MultiplyPoint(_vertices[0]) - (Vector3) lightCamLocalPos;
+            var v2 = _modelMatrix.MultiplyPoint(_vertices[2]) - (Vector3) lightCamLocalPos;
+            var v3 = _modelMatrix.MultiplyPoint(_vertices[3]) - (Vector3) lightCamLocalPos;
+            var v4 = _modelMatrix.MultiplyPoint(_vertices[1]) - (Vector3) lightCamLocalPos;
 
             GL.Begin(GL.QUADS);
 
@@ -179,7 +179,7 @@ namespace Light2D
         public void DrawLightNormalsNow(Material material)
         {
             Vector2 size = Sprite.bounds.size;
-            Vector2 center = _modelMatrix.MultiplyPoint3x4(((Vector2)LightOrigin).Mul(size));
+            Vector2 center = _modelMatrix.MultiplyPoint3x4(((Vector2) LightOrigin).Mul(size));
             var lightPos = new Vector4(center.x, center.y, LightOrigin.z);
 
             material.SetVector("_LightPos", lightPos);
@@ -199,8 +199,5 @@ namespace Light2D
             GL.Vertex(v4);
             GL.End();
         }
-
-
     }
 }
-

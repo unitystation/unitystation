@@ -12,9 +12,7 @@ public enum ThreadedBehaviourType
 
 public class ThreadedBehaviour : MonoBehaviour
 {
-
-    [Header("Threaded Manager")]
-    public bool IsRunning;
+    [Header("Threaded Manager")] public bool IsRunning;
 
     public int Ticker;
     public int TickSpeed = 1;

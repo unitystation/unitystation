@@ -7,7 +7,6 @@ namespace PlayGroup
 {
     public class HitIcon : MonoBehaviour
     {
-
         private Color transparent = new Color(1f, 1f, 1f, 0f);
         private Color visible = new Color(1f, 1f, 1f, 1f);
         private Vector3 lerpFrom;
@@ -23,19 +22,21 @@ namespace PlayGroup
 
         public void ShowHitIcon(Vector2 dir, Sprite sprite)
         {
-            if (isFading){
-				return;
-			}
-                
+            if (isFading)
+            {
+                return;
+            }
+
             Vector3 newDir = new Vector3(dir.x, dir.y, 0f);
             lerpFrom = newDir * 0.75f;
             lerpTo = newDir;
             isFading = true;
-			spriteRenderer.sprite = sprite;
+            spriteRenderer.sprite = sprite;
 
-            if (gameObject.activeInHierarchy) {
-				StartCoroutine(FadeIcon());
-			} 
+            if (gameObject.activeInHierarchy)
+            {
+                StartCoroutine(FadeIcon());
+            }
         }
 
         IEnumerator FadeIcon()

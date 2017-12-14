@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class OutsideFlashingLight : MonoBehaviour
 {
-
     public SpriteRenderer lightSprite;
     public Color spriteOnCol;
     public Color spriteOffCol;
@@ -36,6 +35,5 @@ public class OutsideFlashingLight : MonoBehaviour
             lightSource.SetActive(false);
             lightSprite.color = spriteOffCol;
         }
-
     }
 }

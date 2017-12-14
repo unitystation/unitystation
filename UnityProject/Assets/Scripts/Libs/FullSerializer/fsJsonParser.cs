@@ -5,7 +5,6 @@ using System.Text;
 
 namespace FullSerializer
 {
-
     /// <summary>
     /// A simple recursive descent parser for JSON.
     /// </summary>
@@ -20,7 +19,7 @@ namespace FullSerializer
             int length = Math.Min(50, _input.Length - start);
 
             string error = "Error while parsing: " + message + "; context = <" +
-                _input.Substring(start, length) + ">";
+                           _input.Substring(start, length) + ">";
             return fsResult.Fail(error);
         }
 
@@ -112,22 +111,23 @@ namespace FullSerializer
         }
 
         #region Escaping
+
         private bool IsHex(char c)
         {
             return ((c >= '0' && c <= '9') ||
-                     (c >= 'a' && c <= 'f') ||
-                     (c >= 'A' && c <= 'F'));
+                    (c >= 'a' && c <= 'f') ||
+                    (c >= 'A' && c <= 'F'));
         }
 
         private uint ParseSingleChar(char c1, uint multipliyer)
         {
             uint p1 = 0;
             if (c1 >= '0' && c1 <= '9')
-                p1 = (uint)(c1 - '0') * multipliyer;
+                p1 = (uint) (c1 - '0') * multipliyer;
             else if (c1 >= 'A' && c1 <= 'F')
-                p1 = (uint)((c1 - 'A') + 10) * multipliyer;
+                p1 = (uint) ((c1 - 'A') + 10) * multipliyer;
             else if (c1 >= 'a' && c1 <= 'f')
-                p1 = (uint)((c1 - 'a') + 10) * multipliyer;
+                p1 = (uint) ((c1 - 'a') + 10) * multipliyer;
             return p1;
         }
 
@@ -153,24 +153,53 @@ namespace FullSerializer
 
             switch (Character())
             {
-                case '\\': TryMoveNext(); escaped = '\\'; return fsResult.Success;
-                case '/': TryMoveNext(); escaped = '/'; return fsResult.Success;
-                case '"': TryMoveNext(); escaped = '\"'; return fsResult.Success;
-                case 'a': TryMoveNext(); escaped = '\a'; return fsResult.Success;
-                case 'b': TryMoveNext(); escaped = '\b'; return fsResult.Success;
-                case 'f': TryMoveNext(); escaped = '\f'; return fsResult.Success;
-                case 'n': TryMoveNext(); escaped = '\n'; return fsResult.Success;
-                case 'r': TryMoveNext(); escaped = '\r'; return fsResult.Success;
-                case 't': TryMoveNext(); escaped = '\t'; return fsResult.Success;
-                case '0': TryMoveNext(); escaped = '\0'; return fsResult.Success;
+                case '\\':
+                    TryMoveNext();
+                    escaped = '\\';
+                    return fsResult.Success;
+                case '/':
+                    TryMoveNext();
+                    escaped = '/';
+                    return fsResult.Success;
+                case '"':
+                    TryMoveNext();
+                    escaped = '\"';
+                    return fsResult.Success;
+                case 'a':
+                    TryMoveNext();
+                    escaped = '\a';
+                    return fsResult.Success;
+                case 'b':
+                    TryMoveNext();
+                    escaped = '\b';
+                    return fsResult.Success;
+                case 'f':
+                    TryMoveNext();
+                    escaped = '\f';
+                    return fsResult.Success;
+                case 'n':
+                    TryMoveNext();
+                    escaped = '\n';
+                    return fsResult.Success;
+                case 'r':
+                    TryMoveNext();
+                    escaped = '\r';
+                    return fsResult.Success;
+                case 't':
+                    TryMoveNext();
+                    escaped = '\t';
+                    return fsResult.Success;
+                case '0':
+                    TryMoveNext();
+                    escaped = '\0';
+                    return fsResult.Success;
                 case 'u':
                     TryMoveNext();
                     if (IsHex(Character(0))
-                     && IsHex(Character(1))
-                     && IsHex(Character(2))
-                     && IsHex(Character(3)))
+                        && IsHex(Character(1))
+                        && IsHex(Character(2))
+                        && IsHex(Character(3)))
                     {
-
                         uint codePoint = ParseUnicode(Character(0), Character(1), Character(2), Character(3));
 
                         TryMoveNext();
@@ -178,12 +207,12 @@ namespace FullSerializer
                         TryMoveNext();
                         TryMoveNext();
 
-                        escaped = (char)codePoint;
+                        escaped = (char) codePoint;
                         return fsResult.Success;
                     }
 
                     // invalid escape sequence
-                    escaped = (char)0;
+                    escaped = (char) 0;
                     return MakeFailure(
                         string.Format("invalid escape sequence '\\u{0}{1}{2}{3}'\n",
                             Character(0),
@@ -191,10 +220,11 @@ namespace FullSerializer
                             Character(2),
                             Character(3)));
                 default:
-                    escaped = (char)0;
+                    escaped = (char) 0;
                     return MakeFailure(string.Format("Invalid escape sequence \\{0}", Character()));
             }
         }
+
         #endregion
 
         private fsResult TryParseExact(string content)
@@ -285,7 +315,8 @@ namespace FullSerializer
                 numberString == "Infinity" || numberString == "-Infinity" || numberString == "NaN")
             {
                 double doubleValue;
-                if (double.TryParse(numberString, NumberStyles.Any, CultureInfo.InvariantCulture, out doubleValue) == false)
+                if (double.TryParse(numberString, NumberStyles.Any, CultureInfo.InvariantCulture, out doubleValue) ==
+                    false)
                 {
                     data = null;
                     return MakeFailure("Bad double format with " + numberString);
@@ -309,6 +340,7 @@ namespace FullSerializer
         }
 
         private readonly StringBuilder _cachedStringBuilder = new StringBuilder(256);
+
         /// <summary>
         /// Parses a string
         /// </summary>
@@ -522,17 +554,17 @@ namespace FullSerializer
                 case '8':
                 case '9': return TryParseNumber(out data);
                 case '"':
+                {
+                    string str;
+                    fsResult fail = TryParseString(out str);
+                    if (fail.Failed)
                     {
-                        string str;
-                        fsResult fail = TryParseString(out str);
-                        if (fail.Failed)
-                        {
-                            data = null;
-                            return fail;
-                        }
-                        data = new fsData(str);
-                        return fsResult.Success;
+                        data = null;
+                        return fail;
                     }
+                    data = new fsData(str);
+                    return fsResult.Success;
+                }
                 case '[': return TryParseArray(out data);
                 case '{': return TryParseObject(out data);
                 case 't': return TryParseTrue(out data);

@@ -34,10 +34,7 @@ public class GameData : MonoBehaviour
 
     public bool IsTestMode
     {
-        get
-        {
-            return UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.StartsWith("InitTestScene");
-        }
+        get { return UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.StartsWith("InitTestScene"); }
     }
 
     void Init()
@@ -132,7 +129,7 @@ public class GameData : MonoBehaviour
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "/genData01.dat", FileMode.Open);
-            UserData data = (UserData)bf.Deserialize(file);
+            UserData data = (UserData) bf.Deserialize(file);
             //DO SOMETHNG WITH THE VALUES HERE, I.E STORE THEM IN A CACHE IN THIS CLASS
             //TODO: LOAD SOME STUFF
 
@@ -157,9 +154,9 @@ public class GameData : MonoBehaviour
         //Ambient Volume
         if (PlayerPrefs.HasKey("AmbientVol"))
         {
-            SoundManager.Instance.ambientTracks[SoundManager.Instance.ambientPlaying].volume = PlayerPrefs.GetFloat("AmbientVol");
+            SoundManager.Instance.ambientTracks[SoundManager.Instance.ambientPlaying].volume =
+                PlayerPrefs.GetFloat("AmbientVol");
         }
-
     }
 }
 
@@ -167,5 +164,4 @@ public class GameData : MonoBehaviour
 class UserData
 {
     //TODO: add your members here
-
 }

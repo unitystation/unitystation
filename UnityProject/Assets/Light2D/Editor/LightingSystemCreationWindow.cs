@@ -23,7 +23,9 @@ namespace Light2D
         {
             if (FindObjectOfType<LightingSystem>())
             {
-                GUILayout.Label("WARNING: existing lighting system is found.\nIt is recommended to remove it first, before adding new one.", EditorStyles.boldLabel);
+                GUILayout.Label(
+                    "WARNING: existing lighting system is found.\nIt is recommended to remove it first, before adding new one.",
+                    EditorStyles.boldLabel);
             }
 
             GUILayout.Label("Select layers you wish to use. You could modify them later in created object.");
@@ -34,10 +36,11 @@ namespace Light2D
             if (GUILayout.Button("Create"))
             {
                 var mainCamera = Camera.main;
-                var lighingSystem = mainCamera.GetComponent<LightingSystem>() ?? mainCamera.gameObject.AddComponent<LightingSystem>();
+                var lighingSystem = mainCamera.GetComponent<LightingSystem>() ??
+                                    mainCamera.gameObject.AddComponent<LightingSystem>();
 
                 var prefab = Resources.Load<GameObject>("Lighting Camera");
-                var lightingSystemObj = (GameObject)Instantiate(prefab);
+                var lightingSystemObj = (GameObject) Instantiate(prefab);
                 lightingSystemObj.name = lightingSystemObj.name.Replace("(Clone)", "");
                 lightingSystemObj.transform.parent = mainCamera.transform;
                 lightingSystemObj.transform.localPosition = Vector3.zero;

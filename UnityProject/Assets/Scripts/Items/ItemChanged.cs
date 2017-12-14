@@ -9,7 +9,6 @@ namespace PlayGroup
 {
     public class ItemChanged : MonoBehaviour
     {
-
         public string eventName;
 
         private ClothingItem clothingItem;
@@ -25,11 +24,13 @@ namespace PlayGroup
         void OnChanged(GameObject item)
         {
             if (playerScript.isLocalPlayer)
-            { //Only change the one that is mine
+            {
+                //Only change the one that is mine
                 ChangeItem(item);
             }
             else
-            { //Dev mode
+            {
+                //Dev mode
                 ChangeItem(item);
             }
         }
@@ -38,13 +39,11 @@ namespace PlayGroup
         {
             if (item)
             {
-
             }
             else
             {
                 clothingItem.Clear();
             }
-
         }
     }
 }

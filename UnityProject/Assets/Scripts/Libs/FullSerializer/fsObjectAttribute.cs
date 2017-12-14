@@ -45,7 +45,10 @@ namespace FullSerializer
         /// </summary>
         public Type Processor;
 
-        public fsObjectAttribute() { }
+        public fsObjectAttribute()
+        {
+        }
+
         public fsObjectAttribute(string versionString, params Type[] previousModels)
         {
             VersionString = versionString;

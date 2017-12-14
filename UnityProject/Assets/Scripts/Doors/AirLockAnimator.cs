@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Events;
 using Sprites;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -14,13 +13,14 @@ namespace Doors
     [ExecuteInEditMode]
     public class AirLockAnimator : DoorAnimator
     {
-
         public SpriteRenderer overlay_Lights;
         public SpriteRenderer overlay_Glass;
         public SpriteRenderer doorbase;
         public Sprite[] doorBaseSprites;
         public Sprite[] overlaySprites;
+
         public Sprite[] overlayLights;
+
         //fix replace the hardcoded animation sizes;
         public int animSize;
 
@@ -64,6 +64,7 @@ namespace Doors
             overlaySprites = GetListOfSpritesFromLoadedSprite(overlay_Glass.sprite);
             overlayLights = GetListOfSpritesFromLoadedSprite(overlay_Lights.sprite);
         }
+
         //getting the sprites from the resources folder using the reference sprites.
         //only works in editor, so sprites are cached before play
         public Sprite[] GetListOfSpritesFromLoadedSprite(Sprite sprite)
@@ -79,7 +80,8 @@ namespace Doors
             SoundManager.PlayAtPosition("AccessDenied", transform.position);
             if (doorController.oppeningDirection == DoorController.OppeningDirection.Vertical)
             {
-                StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + 2, 1));
+                StartCoroutine(
+                    SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + 2, 1));
             }
             StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, 12, 6, true, false, true));
         }
@@ -88,7 +90,8 @@ namespace Doors
         {
             doorController.isPerformingAction = true;
             doorController.PlayOpenSound();
-            StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset, animSize, false, true, true));
+            StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset, animSize, false,
+                true, true));
             if (doorController.oppeningDirection == DoorController.OppeningDirection.Vertical)
             {
                 StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1));
@@ -106,14 +109,17 @@ namespace Doors
         {
             doorController.isPerformingAction = true;
             doorController.PlayCloseSound();
-            StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset + animSize, animSize, false, true, true));
+            StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset + animSize,
+                animSize, false, true, true));
             if (doorController.oppeningDirection == DoorController.OppeningDirection.Vertical)
             {
-                StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, true));
+                StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1,
+                    true));
             }
             else
             {
-                StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + animSize, animSize, true));
+                StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights,
+                    doorController.DoorLightSpriteOffset + animSize, animSize, true));
             }
             StartCoroutine(SpritesPlayer(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset + 6));
             doorController.BoxCollToggleOn();
@@ -127,7 +133,8 @@ namespace Doors
         /// updateFov is optinal and deafult = false.
         /// updateAction is a flag that is now coupled with the doorcontroller. 
         /// </summary>
-        IEnumerator SpritesPlayer(SpriteRenderer renderer, Sprite[] list, int offset = 0, int numberOfSpritesToPlay = 6, bool nullfySprite = false, bool updateFOV = false, bool updateAction = false)
+        IEnumerator SpritesPlayer(SpriteRenderer renderer, Sprite[] list, int offset = 0, int numberOfSpritesToPlay = 6,
+            bool nullfySprite = false, bool updateFOV = false, bool updateAction = false)
         {
             if ((offset > -1) && (numberOfSpritesToPlay > 0))
             {

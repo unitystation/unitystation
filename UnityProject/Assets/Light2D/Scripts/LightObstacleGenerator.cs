@@ -38,7 +38,8 @@ namespace Light2D
 #if UNITY_EDITOR
             if (Material == null)
             {
-                Material = (Material)UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Light2D/Materials/DualColor.mat", typeof(Material));
+                Material = (Material) UnityEditor.AssetDatabase.LoadAssetAtPath(
+                    "Assets/Light2D/Materials/DualColor.mat", typeof(Material));
             }
 #endif
 

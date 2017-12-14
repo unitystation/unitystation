@@ -31,6 +31,7 @@ namespace FullSerializer
         private object _value;
 
         #region Constructors
+
         /// <summary>
         /// Creates a fsData instance that holds null.
         /// </summary>
@@ -115,9 +116,11 @@ namespace FullSerializer
         public readonly static fsData True = new fsData(true);
         public readonly static fsData False = new fsData(false);
         public readonly static fsData Null = new fsData();
+
         #endregion
 
         #region Internal Helper Methods
+
         /// <summary>
         /// Transforms the internal fsData instance into a dictionary.
         /// </summary>
@@ -135,9 +138,11 @@ namespace FullSerializer
             clone._value = _value;
             return clone;
         }
+
         #endregion
 
         #region Casting Predicates
+
         public fsDataType Type
         {
             get
@@ -159,10 +164,7 @@ namespace FullSerializer
         /// </summary>
         public bool IsNull
         {
-            get
-            {
-                return _value == null;
-            }
+            get { return _value == null; }
         }
 
         /// <summary>
@@ -170,10 +172,7 @@ namespace FullSerializer
         /// </summary>
         public bool IsDouble
         {
-            get
-            {
-                return _value is double;
-            }
+            get { return _value is double; }
         }
 
         /// <summary>
@@ -181,10 +180,7 @@ namespace FullSerializer
         /// </summary>
         public bool IsInt64
         {
-            get
-            {
-                return _value is Int64;
-            }
+            get { return _value is Int64; }
         }
 
         /// <summary>
@@ -192,10 +188,7 @@ namespace FullSerializer
         /// </summary>
         public bool IsBool
         {
-            get
-            {
-                return _value is bool;
-            }
+            get { return _value is bool; }
         }
 
         /// <summary>
@@ -203,10 +196,7 @@ namespace FullSerializer
         /// </summary>
         public bool IsString
         {
-            get
-            {
-                return _value is string;
-            }
+            get { return _value is string; }
         }
 
         /// <summary>
@@ -214,10 +204,7 @@ namespace FullSerializer
         /// </summary>
         public bool IsDictionary
         {
-            get
-            {
-                return _value is Dictionary<string, fsData>;
-            }
+            get { return _value is Dictionary<string, fsData>; }
         }
 
         /// <summary>
@@ -225,24 +212,20 @@ namespace FullSerializer
         /// </summary>
         public bool IsList
         {
-            get
-            {
-                return _value is List<fsData>;
-            }
+            get { return _value is List<fsData>; }
         }
+
         #endregion
 
         #region Casts
+
         /// <summary>
         /// Casts this fsData to a double. Throws an exception if it is not a double.
         /// </summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public double AsDouble
         {
-            get
-            {
-                return Cast<double>();
-            }
+            get { return Cast<double>(); }
         }
 
         /// <summary>
@@ -251,10 +234,7 @@ namespace FullSerializer
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Int64 AsInt64
         {
-            get
-            {
-                return Cast<Int64>();
-            }
+            get { return Cast<Int64>(); }
         }
 
 
@@ -264,10 +244,7 @@ namespace FullSerializer
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AsBool
         {
-            get
-            {
-                return Cast<bool>();
-            }
+            get { return Cast<bool>(); }
         }
 
         /// <summary>
@@ -276,10 +253,7 @@ namespace FullSerializer
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string AsString
         {
-            get
-            {
-                return Cast<string>();
-            }
+            get { return Cast<string>(); }
         }
 
         /// <summary>
@@ -289,10 +263,7 @@ namespace FullSerializer
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public Dictionary<string, fsData> AsDictionary
         {
-            get
-            {
-                return Cast<Dictionary<string, fsData>>();
-            }
+            get { return Cast<Dictionary<string, fsData>>(); }
         }
 
         /// <summary>
@@ -301,10 +272,7 @@ namespace FullSerializer
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public List<fsData> AsList
         {
-            get
-            {
-                return Cast<List<fsData>>();
-            }
+            get { return Cast<List<fsData>>(); }
         }
 
         /// <summary>
@@ -315,22 +283,26 @@ namespace FullSerializer
         {
             if (_value is T)
             {
-                return (T)_value;
+                return (T) _value;
             }
 
             throw new InvalidCastException("Unable to cast <" + this + "> (with type = " +
-                _value.GetType() + ") to type " + typeof(T));
+                                           _value.GetType() + ") to type " + typeof(T));
         }
+
         #endregion
 
         #region ToString Implementation
+
         public override string ToString()
         {
             return fsJsonPrinter.CompressedJson(this);
         }
+
         #endregion
 
         #region Equality Comparisons
+
         /// <summary>
         /// Determines whether the specified object is equal to the current object.
         /// </summary>
@@ -419,7 +391,7 @@ namespace FullSerializer
             }
 
             // If one is null, but not both, return false.
-            if (((object)a == null) || ((object)b == null))
+            if (((object) a == null) || ((object) b == null))
             {
                 return false;
             }
@@ -449,7 +421,7 @@ namespace FullSerializer
         {
             return _value.GetHashCode();
         }
+
         #endregion
     }
-
 }

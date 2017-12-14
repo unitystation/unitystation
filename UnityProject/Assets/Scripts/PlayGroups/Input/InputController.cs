@@ -64,7 +64,8 @@ namespace PlayGroups.Input
 
         private void CheckClick()
         {
-            if (UnityEngine.Input.GetMouseButtonDown(0) && !UnityEngine.Input.GetKey(KeyCode.LeftControl) && !UnityEngine.Input.GetKey(KeyCode.LeftAlt))
+            if (UnityEngine.Input.GetMouseButtonDown(0) && !UnityEngine.Input.GetKey(KeyCode.LeftControl) &&
+                !UnityEngine.Input.GetKey(KeyCode.LeftAlt))
             {
                 //change the facingDirection of player on click
                 ChangeDirection();
@@ -79,7 +80,8 @@ namespace PlayGroups.Input
 
         private void CheckAltClick()
         {
-            if (UnityEngine.Input.GetMouseButtonDown(0) && (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt)))
+            if (UnityEngine.Input.GetMouseButtonDown(0) &&
+                (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt)))
             {
                 //Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
                 var position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
@@ -175,9 +177,11 @@ namespace PlayGroups.Input
 
                     var x = hitPosition.y * Mathf.Sin(angle) - hitPosition.x * Mathf.Cos(angle);
                     var y = hitPosition.y * Mathf.Cos(angle) - hitPosition.x * Mathf.Sin(angle);
-                    
-                    var texPosX = Mathf.RoundToInt(sprite.rect.x + sprite.rect.width * 0.5f - (x / scale.x - offset.x % 1) * pixelsPerUnit);
-                    var texPosY = Mathf.RoundToInt(sprite.rect.y + (y / scale.y - offset.y % 1) * pixelsPerUnit + sprite.rect.height * 0.5f);
+
+                    var texPosX = Mathf.RoundToInt(sprite.rect.x + sprite.rect.width * 0.5f -
+                                                   (x / scale.x - offset.x % 1) * pixelsPerUnit);
+                    var texPosY = Mathf.RoundToInt(sprite.rect.y + (y / scale.y - offset.y % 1) * pixelsPerUnit +
+                                                   sprite.rect.height * 0.5f);
 
                     var pixelColor = sprite.texture.GetPixel(texPosX, texPosY);
                     if (pixelColor.a > 0)

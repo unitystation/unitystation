@@ -8,10 +8,8 @@ using UnityEngine.UI;
 
 namespace UI
 {
-
     public class UI_ItemSlot : MonoBehaviour
     {
-
         public string eventName;
         public bool allowAllItems;
         public List<ItemType> allowedItemTypes;
@@ -20,12 +18,10 @@ namespace UI
         private Image image;
 
         public GameObject Item { get; private set; }
+
         public bool IsFull
         {
-            get
-            {
-                return Item != null;
-            }
+            get { return Item != null; }
         }
 
         void Awake()
@@ -72,7 +68,6 @@ namespace UI
             image.enabled = true;
             Item = item;
             item.transform.position = transform.position;
-
         }
 
         //        public bool TrySetItem(GameObject item) {
@@ -137,7 +132,8 @@ namespace UI
             var e = item.GetComponent<EditModeControl>();
             e.Snap();
             var itemAttributes = item.GetComponent<ItemAttributes>();
-            Debug.LogFormat("Placing item {0}/{1} from {2} to {3}", item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
+            Debug.LogFormat("Placing item {0}/{1} from {2} to {3}", item.name,
+                itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
             return true;
         }
 

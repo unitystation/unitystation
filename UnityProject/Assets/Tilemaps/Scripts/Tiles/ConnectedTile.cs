@@ -22,7 +22,6 @@ namespace Tilemaps.Scripts.Tiles
 
     public class ConnectedTile : BasicTile
     {
-
         public Texture2D spriteSheet;
         public string texturePath;
 
@@ -94,8 +93,8 @@ namespace Tilemaps.Scripts.Tiles
             {
                 tileData.sprite = sprites[i];
                 tileData.flags = TileFlags.LockAll;
-				// create collider for tiles, None, Sprite or Grid
-				tileData.colliderType = Tile.ColliderType.Grid;
+                // create collider for tiles, None, Sprite or Grid
+                tileData.colliderType = Tile.ColliderType.Grid;
             }
         }
 

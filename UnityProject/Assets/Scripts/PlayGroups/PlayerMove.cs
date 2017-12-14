@@ -23,7 +23,11 @@ namespace PlayGroup
         private PlayerSync playerSync;
         [HideInInspector] public PushPull pushPull; //The push pull component attached to this player
 
-        public KeyCode[] keyCodes = {KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow};
+        public KeyCode[] keyCodes =
+        {
+            KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow,
+            KeyCode.RightArrow
+        };
 
         public bool diagonalMovement;
         public float speed = 10;
@@ -185,7 +189,8 @@ namespace PlayGroup
             {
                 if (matrix.ContainsAt(newPos, playerSync.pullingObject))
                 {
-                    Vector2 directionToPullObj = playerSync.pullingObject.transform.localPosition - transform.localPosition;
+                    Vector2 directionToPullObj =
+                        playerSync.pullingObject.transform.localPosition - transform.localPosition;
                     if (directionToPullObj.normalized != playerSprites.currentDirection)
                     {
                         // Ran into pullObject but was not facing it, saved direction
@@ -246,13 +251,15 @@ namespace PlayGroup
                 if (doorController.restriction > 0)
                 {
                     //checking if the ID slot on player contains an ID with an itemIdentity component
-                    if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>() != null)
+                    if (UIManager.InventorySlots.IDSlot.IsFull &&
+                        UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>() != null)
                     {
                         //checking if the ID has access to bypass the restriction
                         CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>(), doorController);
                         //Check the current hand for an ID
                     }
-                    else if (UIManager.Hands.CurrentSlot.IsFull && UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>() != null)
+                    else if (UIManager.Hands.CurrentSlot.IsFull &&
+                             UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>() != null)
                     {
                         CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>(), doorController);
                     }

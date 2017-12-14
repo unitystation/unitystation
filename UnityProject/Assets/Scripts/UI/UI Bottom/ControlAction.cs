@@ -8,7 +8,6 @@ namespace UI
 {
     public class ControlAction : MonoBehaviour
     {
-
         public Sprite[] throwSprites;
         public Image throwImage;
 
@@ -94,7 +93,6 @@ namespace UI
             {
                 UIManager.IsThrow = true;
                 throwImage.sprite = throwSprites[1];
-
             }
             else
             {

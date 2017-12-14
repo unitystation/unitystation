@@ -92,7 +92,7 @@ public class DmiIcon
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != this.GetType()) return false;
-        return Equals((DmiIcon)obj);
+        return Equals((DmiIcon) obj);
     }
 
     public override int GetHashCode()

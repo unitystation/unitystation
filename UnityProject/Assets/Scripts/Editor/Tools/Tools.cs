@@ -5,7 +5,6 @@ namespace UnityStationTools
 {
     public class Tools : Editor
     {
-
         [MenuItem("Tools/Reconnect TileConnect")]
         static void RevertTileConnect()
         {

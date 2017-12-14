@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+
 /// <summary>
 /// Message that updates the hud of the Client's UI sent from the server
 /// </summary>
@@ -8,6 +9,7 @@ public class UpdateUIMessage : ServerMessage<UpdateUIMessage>
 {
     public NetworkInstanceId Recipient;
     public int CurHealth;
+
     public override IEnumerator Process()
     {
         yield return WaitFor(Recipient);

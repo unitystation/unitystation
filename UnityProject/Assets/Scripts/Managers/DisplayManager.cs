@@ -14,12 +14,12 @@ public class DisplayManager : MonoBehaviour
     public Light2D.LightingSystem lightingSystem;
     public Camera mainCamera;
     public FieldOfViewTiled fieldOfView;
-    [Header("All canvas elements need to be added here")]
-    public Canvas[] uiCanvases;
+    [Header("All canvas elements need to be added here")] public Canvas[] uiCanvases;
     private int width;
     private int height;
 
     private CanvasScaler canvasScaler;
+
     public Vector2 ScreenScale
     {
         get
@@ -32,7 +32,7 @@ public class DisplayManager : MonoBehaviour
             if (canvasScaler)
             {
                 return new Vector2(canvasScaler.referenceResolution.x / Screen.width,
-                                   canvasScaler.referenceResolution.y / Screen.height);
+                    canvasScaler.referenceResolution.y / Screen.height);
             }
             else
             {
@@ -40,6 +40,7 @@ public class DisplayManager : MonoBehaviour
             }
         }
     }
+
     void Awake()
     {
         if (Instance == null)
@@ -47,6 +48,7 @@ public class DisplayManager : MonoBehaviour
             Instance = this;
         }
     }
+
     private void Start()
     {
         SetCameraFollowPos();
@@ -72,14 +74,16 @@ public class DisplayManager : MonoBehaviour
 
     public void SetCameraFollowPos(bool isPanelHidden = false)
     {
-        float xOffSet = Mathf.Abs(Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x - Camera2DFollow.followControl.transform.position.x)
-            + -0.06f;
+        float xOffSet = Mathf.Abs(Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x -
+                                  Camera2DFollow.followControl.transform.position.x)
+                        + -0.06f;
 
         if (isPanelHidden)
         {
             xOffSet = -xOffSet;
         }
-        Camera2DFollow.followControl.listenerObj.transform.localPosition = new Vector3(-xOffSet, 1f); //set listenerObj's position to player's pos
+        Camera2DFollow.followControl.listenerObj.transform.localPosition =
+            new Vector3(-xOffSet, 1f); //set listenerObj's position to player's pos
         Camera2DFollow.followControl.xOffset = xOffSet;
     }
 }

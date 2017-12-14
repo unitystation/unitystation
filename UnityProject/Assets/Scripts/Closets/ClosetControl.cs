@@ -20,16 +20,15 @@ namespace Cupboards
         private RegisterCloset registerTile;
         private Matrix matrix;
 
-        [SyncVar(hook = "LockUnlock")]
-        public bool IsLocked;
+        [SyncVar(hook = "LockUnlock")] public bool IsLocked;
         public LockLightController lockLight;
         public GameObject items;
 
-        [SyncVar(hook = "OpenClose")]
-        public bool IsClosed;
+        [SyncVar(hook = "OpenClose")] public bool IsClosed;
 
         //Inventory
         private IEnumerable<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
+
         private IEnumerable<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
 
         void Awake()
@@ -117,7 +116,6 @@ namespace Cupboards
                 return;
             if (lockIt)
             {
-
             }
             else
             {
@@ -166,7 +164,8 @@ namespace Cupboards
                 {
                     var targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     targetPosition.z = 0f;
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.PlaceItem(UIManager.Hands.CurrentSlot.eventName, transform.position, null);
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.PlaceItem(
+                        UIManager.Hands.CurrentSlot.eventName, transform.position, null);
 
                     item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
                 }
@@ -179,7 +178,6 @@ namespace Cupboards
 
         private void SetItems(bool open)
         {
-
             if (!open)
             {
                 SetItemsAliveState(false);
@@ -194,15 +192,16 @@ namespace Cupboards
 
         private void SetItemsAliveState(bool on)
         {
-			if (!on)
-			{
-				heldItems = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Item);
-			}
+            if (!on)
+            {
+                heldItems = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Item);
+            }
             foreach (var item in heldItems)
             {
-                if (on) {
-					item.transform.position = transform.position;
-				}
+                if (on)
+                {
+                    item.transform.position = transform.position;
+                }
 
                 item.visibleState = on;
             }
@@ -211,9 +210,9 @@ namespace Cupboards
         private void SetPlayersAliveState(bool on)
         {
             if (!on)
-			{
-				heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Player);
-			}
+            {
+                heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Player);
+            }
 
             foreach (var player in heldPlayers)
             {

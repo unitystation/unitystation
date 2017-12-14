@@ -21,7 +21,8 @@ namespace Tilemaps.Scripts
                 behaviour.transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
                 matrix = behaviour.transform.parent.GetComponentInParent<Matrix>();
             }
-            if(matrix == null){
+            if (matrix == null)
+            {
                 Debug.LogError("Matrix still null for: " + behaviour.gameObject.name +
                                " with parent: " + behaviour.transform.parent.name);
             }
@@ -34,7 +35,7 @@ namespace Tilemaps.Scripts
         private void Start()
         {
             metaTileMap = GetComponent<MetaTileMap>();
-            objects = ((ObjectLayer)metaTileMap.Layers[LayerType.Objects]).Objects;
+            objects = ((ObjectLayer) metaTileMap.Layers[LayerType.Objects]).Objects;
         }
 
         public bool IsPassableAt(Vector3Int origin, Vector3Int position) => metaTileMap.IsPassableAt(origin, position);

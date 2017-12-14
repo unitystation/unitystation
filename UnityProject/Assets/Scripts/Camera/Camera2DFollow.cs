@@ -5,7 +5,6 @@ using PlayGroup;
 
 public class Camera2DFollow : MonoBehaviour
 {
-
     //Static to make sure its the only cam in scene & for later access to camshake
     public static Camera2DFollow followControl;
 
@@ -98,7 +97,6 @@ public class Camera2DFollow : MonoBehaviour
 
     public void LookAheadTemp(float newLookAhead)
     {
-
         lookAheadFactor = newLookAhead;
         StartCoroutine(LookAheadSwitch());
     }
@@ -111,6 +109,7 @@ public class Camera2DFollow : MonoBehaviour
 
     //Shake Cam
     float shakeAmount = 0;
+
     private Vector3 cachePos;
 
     public void Shake(float amt, float length)
@@ -134,6 +133,7 @@ public class Camera2DFollow : MonoBehaviour
             transform.position = camPos;
         }
     }
+
     void StopShake()
     {
         isShaking = false;

@@ -18,7 +18,7 @@ namespace Crafting
 
         public override bool Equals(object obj)
         {
-            var other = (Ingredient)obj;
+            var other = (Ingredient) obj;
             return ingredientName == other.ingredientName && amount == other.amount;
         }
 

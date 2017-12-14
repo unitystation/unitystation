@@ -9,8 +9,7 @@ public class MagazineBehaviour : NetworkBehaviour
     public int magazineSize = 20;
     public bool Usable;
 
-    [SyncVar]
-    public int ammoRemains;
+    [SyncVar] public int ammoRemains;
 
     void Start()
     {

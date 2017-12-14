@@ -13,9 +13,8 @@ public class SpriteRotate : MonoBehaviour
     public Vector3 colliderOffset;
     private SpriteRenderer spriteRenderer;
 
-    [HideInInspector]
-    [SerializeField]
-    private int rotateIndex = 0;
+    [HideInInspector] [SerializeField] private int rotateIndex = 0;
+
     public int RotateIndex
     {
         get { return rotateIndex; }
@@ -51,4 +50,3 @@ public class SpriteRotate : MonoBehaviour
     }
 #endif
 }
-

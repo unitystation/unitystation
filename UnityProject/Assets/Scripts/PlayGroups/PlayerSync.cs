@@ -206,7 +206,8 @@ namespace PlayGroup
                     return;
 
                 var state = isLocalPlayer ? predictedState : serverState;
-                transform.localPosition = Vector3.MoveTowards(transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, state.Position,
+                    playerMove.speed * Time.deltaTime);
 
                 //Check if we should still be displaying an ItemListTab and update it, if so.
                 ControlTabs.CheckItemListTab();
@@ -236,7 +237,8 @@ namespace PlayGroup
             else
             {
                 var state = isLocalPlayer ? predictedState : serverState;
-                playerScript.ghost.transform.localPosition = Vector3.MoveTowards(playerScript.ghost.transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
+                playerScript.ghost.transform.localPosition = Vector3.MoveTowards(
+                    playerScript.ghost.transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
             }
         }
 
@@ -251,14 +253,17 @@ namespace PlayGroup
                 float journeyLength = Vector3.Distance(pullingObject.transform.localPosition, pullPos);
                 if (journeyLength <= 2f)
                 {
-                    pullingObject.transform.localPosition = Vector3.MoveTowards(pullingObject.transform.localPosition, pullPos, (playerMove.speed * Time.deltaTime) / journeyLength);
+                    pullingObject.transform.localPosition = Vector3.MoveTowards(pullingObject.transform.localPosition,
+                        pullPos, (playerMove.speed * Time.deltaTime) / journeyLength);
                 }
                 else
                 {
                     //If object gets too far away activate warp speed
-                    pullingObject.transform.localPosition = Vector3.MoveTowards(pullingObject.transform.localPosition, pullPos, (playerMove.speed * Time.deltaTime) * 30f);
+                    pullingObject.transform.localPosition = Vector3.MoveTowards(pullingObject.transform.localPosition,
+                        pullPos, (playerMove.speed * Time.deltaTime) * 30f);
                 }
-                pullingObject.BroadcastMessage("FaceDirection", playerSprites.currentDirection, SendMessageOptions.DontRequireReceiver);
+                pullingObject.BroadcastMessage("FaceDirection", playerSprites.currentDirection,
+                    SendMessageOptions.DontRequireReceiver);
             }
         }
 
@@ -310,7 +315,8 @@ namespace PlayGroup
                         //Could be a another player
                         PlayerSync otherPlayerSync = pullingObject.GetComponent<PlayerSync>();
                         if (otherPlayerSync != null)
-                            CmdSetPositionFromReset(gameObject, otherPlayerSync.gameObject, pullingObject.transform.localPosition);
+                            CmdSetPositionFromReset(gameObject, otherPlayerSync.gameObject,
+                                pullingObject.transform.localPosition);
                     }
                 }
                 pullRegister = null;
@@ -335,7 +341,8 @@ namespace PlayGroup
             serverState = newState;
             if (pendingActions != null)
             {
-                while (pendingActions.Count > 0 && pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber))
+                while (pendingActions.Count > 0 &&
+                       pendingActions.Count > (predictedState.MoveNumber - serverState.MoveNumber))
                 {
                     pendingActions.Dequeue();
                 }

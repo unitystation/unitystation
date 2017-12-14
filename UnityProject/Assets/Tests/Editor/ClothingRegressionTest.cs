@@ -34,6 +34,7 @@ public class ClothingRegressionTest
         refreshItem();
         Assert.That(subject.clothingReference != -1);
     }
+
     [Test]
     public void GeneticsSuit_Should_Have_Offsets()
     {
@@ -48,8 +49,7 @@ public class ClothingRegressionTest
     {
         obj.SetActive(false);
         obj.SetActive(true);
-        Debug.LogFormat("{0}: c={1}, l={2}, r={3}", subject.itemName, subject.clothingReference, subject.inHandReferenceLeft, subject.inHandReferenceRight);
-
+        Debug.LogFormat("{0}: c={1}, l={2}, r={3}", subject.itemName, subject.clothingReference,
+            subject.inHandReferenceLeft, subject.inHandReferenceRight);
     }
-
 }

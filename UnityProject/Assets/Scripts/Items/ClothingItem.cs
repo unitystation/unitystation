@@ -10,7 +10,9 @@ namespace PlayGroup
 {
     public enum SpriteType
     {
-        Other, RightHand, LeftHand
+        Other,
+        RightHand,
+        LeftHand
     }
 
     [RequireComponent(typeof(SpriteRenderer))]
@@ -30,10 +32,7 @@ namespace PlayGroup
                 reference = value;
                 SetSprite();
             }
-            get
-            {
-                return reference;
-            }
+            get { return reference; }
         }
 
         public Vector2 Direction
@@ -43,10 +42,7 @@ namespace PlayGroup
                 currentDirection = value;
                 UpdateReferenceOffset();
             }
-            get
-            {
-                return currentDirection;
-            }
+            get { return currentDirection; }
         }
 
         public SpriteRenderer spriteRenderer;
@@ -67,7 +63,6 @@ namespace PlayGroup
 
         void SetSprite()
         {
-
             if (reference == -1)
             {
                 UpdateSprite();
@@ -81,7 +76,7 @@ namespace PlayGroup
             else
             {
                 string networkRef = Reference.ToString();
-                int code = (int)Char.GetNumericValue(networkRef[0]);
+                int code = (int) Char.GetNumericValue(networkRef[0]);
                 networkRef = networkRef.Remove(0, 1);
                 int _reference = int.Parse(networkRef);
                 switch (code)
@@ -114,7 +109,6 @@ namespace PlayGroup
 
         private void UpdateReferenceOffset()
         {
-
             if (currentDirection == Vector2.down)
                 referenceOffset = 0;
             if (currentDirection == Vector2.up)
@@ -132,7 +126,8 @@ namespace PlayGroup
             if (spriteRenderer != null)
             {
                 if (reference >= 0)
-                { //If reference -1 then clear the sprite
+                {
+                    //If reference -1 then clear the sprite
                     if (sprites != null)
                         spriteRenderer.sprite = sprites[reference + referenceOffset];
                 }

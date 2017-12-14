@@ -15,10 +15,10 @@ namespace Wiring
         private int endCache;
         private bool showError = false;
         private float msgTime = 0f;
+
         public override void OnInspectorGUI()
         {
-
-            StructurePowerWire sTarget = (StructurePowerWire)target;
+            StructurePowerWire sTarget = (StructurePowerWire) target;
             startCache = sTarget.DirectionStart;
             endCache = sTarget.DirectionEnd;
 
@@ -26,7 +26,8 @@ namespace Wiring
             EditorGUILayout.HelpBox("The starting dir of this wire in a turf, " +
                                     "using 4 bits to indicate N S E W - 1 2 4 8\r\n" +
                                     "Corners can also be used i.e.: 5 = NE (1 + 4) = 0101\r\n" +
-                                    "This is the edge of the location where the wire enters the turf", MessageType.Info);
+                                    "This is the edge of the location where the wire enters the turf",
+                MessageType.Info);
             sTarget.DirectionStart = EditorGUILayout.IntField("DirectionStart: ", sTarget.DirectionStart);
 
             EditorGUILayout.HelpBox("The ending dir of this wire in a turf, " +
@@ -37,7 +38,7 @@ namespace Wiring
 
             sTarget.DirectionEnd = EditorGUILayout.IntField("DirectionEnd: ", sTarget.DirectionEnd);
 
-            sTarget.Color = (WiringColor)EditorGUILayout.EnumPopup("Wiring Color: ", sTarget.Color);
+            sTarget.Color = (WiringColor) EditorGUILayout.EnumPopup("Wiring Color: ", sTarget.Color);
 
             if (EditorGUI.EndChangeCheck())
             {

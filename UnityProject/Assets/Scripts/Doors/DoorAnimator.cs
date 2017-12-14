@@ -13,6 +13,5 @@ namespace Doors
         public abstract void OpenDoor();
         public abstract void CloseDoor();
         public abstract void AccessDenied();
-
     }
 }

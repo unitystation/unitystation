@@ -163,7 +163,7 @@ public class MapToPNG : Editor
         var internalEditorUtilityType = typeof(InternalEditorUtility);
         PropertyInfo sortingLayersProperty =
             internalEditorUtilityType.GetProperty("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
-        var sortingLayerNames = (string[])sortingLayersProperty.GetValue(null, new object[0]);
+        var sortingLayerNames = (string[]) sortingLayersProperty.GetValue(null, new object[0]);
 
         return new List<string>(sortingLayerNames);
     }

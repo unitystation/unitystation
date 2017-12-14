@@ -33,7 +33,8 @@ namespace FullSerializer
         /// <summary>
         /// The attributes that will force a field or property to be serialized.
         /// </summary>
-        public Type[] SerializeAttributes = {
+        public Type[] SerializeAttributes =
+        {
 #if !NO_UNITY
             typeof(UnityEngine.SerializeField),
 #endif
@@ -43,7 +44,7 @@ namespace FullSerializer
         /// <summary>
         /// The attributes that will force a field or property to *not* be serialized.
         /// </summary>
-        public Type[] IgnoreSerializeAttributes = { typeof(NonSerializedAttribute), typeof(fsIgnoreAttribute) };
+        public Type[] IgnoreSerializeAttributes = {typeof(NonSerializedAttribute), typeof(fsIgnoreAttribute)};
 
         /// <summary>
         /// The default member serialization.

@@ -51,7 +51,7 @@ namespace FullSerializer
 
             string name = "";
 
-            var genericArguments = (IEnumerable<Type>)type.GetGenericArguments();
+            var genericArguments = (IEnumerable<Type>) type.GetGenericArguments();
             if (type.IsNested)
             {
                 name += type.DeclaringType.CSharpName() + ".";
@@ -75,7 +75,9 @@ namespace FullSerializer
             else
             {
                 name += type.Name.Substring(0, type.Name.IndexOf('`'));
-                name += "<" + String.Join(",", genericArguments.Select(t => CSharpName(t, includeNamespace)).ToArray()) + ">";
+                name +=
+                    "<" + String.Join(",", genericArguments.Select(t => CSharpName(t, includeNamespace)).ToArray()) +
+                    ">";
             }
 
             if (includeNamespace && type.Namespace != null)

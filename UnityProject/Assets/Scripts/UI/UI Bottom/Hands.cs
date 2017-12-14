@@ -20,7 +20,8 @@ namespace UI
         public void Swap()
         {
             if (PlayerManager.LocalPlayerScript != null)
-                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+                    PlayerManager.LocalPlayerScript.playerMove.isGhost)
                     return;
 
             SetHand(!IsRight);
@@ -29,7 +30,8 @@ namespace UI
         public void SetHand(bool right)
         {
             if (PlayerManager.LocalPlayerScript != null)
-                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+                    PlayerManager.LocalPlayerScript.playerMove.isGhost)
                     return;
 
             if (right)
@@ -50,7 +52,8 @@ namespace UI
         public void SwapItem(UI_ItemSlot itemSlot)
         {
             if (PlayerManager.LocalPlayerScript != null)
-                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+                    PlayerManager.LocalPlayerScript.playerMove.isGhost)
                     return;
 
             if (CurrentSlot != itemSlot)
@@ -69,16 +72,18 @@ namespace UI
         public void Use()
         {
             if (PlayerManager.LocalPlayerScript != null)
-                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+                    PlayerManager.LocalPlayerScript.playerMove.isGhost)
                     return;
 
             if (!CurrentSlot.IsFull)
                 return;
 
-			//Is the item edible?
-			if (CheckEdible()) {
-				return;
-			}
+            //Is the item edible?
+            if (CheckEdible())
+            {
+                return;
+            }
 
             //This checks which UI slot the item can be equiped too and swaps it there
             var type = Slots.GetItemType(CurrentSlot.Item);
@@ -97,24 +102,25 @@ namespace UI
                 case SpriteType.Guns:
                     break;
             }
-
         }
 
-		//Check if the item is edible and eat it
-		private bool CheckEdible()
-		{
-			FoodBehaviour baseFood = CurrentSlot.Item.GetComponent<FoodBehaviour>();
-			if (baseFood != null) {
-				baseFood.TryEat();
-				return true;
-			}
-			return false;
-		}
+        //Check if the item is edible and eat it
+        private bool CheckEdible()
+        {
+            FoodBehaviour baseFood = CurrentSlot.Item.GetComponent<FoodBehaviour>();
+            if (baseFood != null)
+            {
+                baseFood.TryEat();
+                return true;
+            }
+            return false;
+        }
 
         private void Swap(UI_ItemSlot slot1, UI_ItemSlot slot2)
         {
             if (PlayerManager.LocalPlayerScript != null)
-                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput || PlayerManager.LocalPlayerScript.playerMove.isGhost)
+                if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+                    PlayerManager.LocalPlayerScript.playerMove.isGhost)
                     return;
 
             UIManager.TryUpdateSlot(new UISlotObject(slot1.eventName, slot2.Item));
@@ -122,10 +128,7 @@ namespace UI
 
         private InventorySlotCache Slots
         {
-            get
-            {
-                return UIManager.InventorySlots;
-            }
+            get { return UIManager.InventorySlots; }
         }
     }
 }

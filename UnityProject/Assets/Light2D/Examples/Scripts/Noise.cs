@@ -84,7 +84,7 @@ namespace Light2D.Examples
             int i = FastFloor(xs);
             int j = FastFloor(ys);
 
-            float t = (float)(i + j) * G2;
+            float t = (float) (i + j) * G2;
             float X0 = i - t; // Unskew the cell origin back to (x,y) space
             float Y0 = j - t;
             float x0 = x - X0; // The x,y distances from the cell origin
@@ -165,7 +165,7 @@ namespace Light2D.Examples
             int j = FastFloor(ys);
             int k = FastFloor(zs);
 
-            float t = (float)(i + j + k) * G3;
+            float t = (float) (i + j + k) * G3;
             float X0 = i - t; // Unskew the cell origin back to (x,y,z) space
             float Y0 = j - t;
             float Z0 = k - t;
@@ -331,7 +331,7 @@ namespace Light2D.Examples
 
         private static int FastFloor(float x)
         {
-            return (x > 0) ? ((int)x) : (((int)x) - 1);
+            return (x > 0) ? ((int) x) : (((int) x) - 1);
         }
 
         private static int Mod(int x, int m)
@@ -360,7 +360,8 @@ namespace Light2D.Examples
         {
             int h = hash & 15; // Convert low 4 bits of hash code into 12 simple
             float u = h < 8 ? x : y; // gradient directions, and compute dot product.
-            float v = h < 4 ? y : h == 12 || h == 14 ? x : z; // Fix repeats at h = 12 to 15
+            float v = h < 4 ? y :
+                h == 12 || h == 14 ? x : z; // Fix repeats at h = 12 to 15
             return ((h & 1) != 0 ? -u : u) + ((h & 2) != 0 ? -v : v);
         }
 
@@ -373,5 +374,4 @@ namespace Light2D.Examples
             return ((h & 1) != 0 ? -u : u) + ((h & 2) != 0 ? -v : v) + ((h & 4) != 0 ? -w : w);
         }
     }
-
 }

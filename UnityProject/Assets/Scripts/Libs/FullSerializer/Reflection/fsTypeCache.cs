@@ -44,7 +44,7 @@ namespace FullSerializer.Internal
 
             _cachedTypes = new Dictionary<string, Type>();
 
-#if !(UNITY_WP8  || UNITY_METRO) // AssemblyLoad events are not supported on these platforms
+#if !(UNITY_WP8 || UNITY_METRO) // AssemblyLoad events are not supported on these platforms
             AppDomain.CurrentDomain.AssemblyLoad += OnAssemblyLoaded;
 #endif
         }
@@ -183,4 +183,3 @@ namespace FullSerializer.Internal
         }
     }
 }
-

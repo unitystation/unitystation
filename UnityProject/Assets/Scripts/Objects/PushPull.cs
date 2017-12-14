@@ -44,13 +44,13 @@ public class PushPull : VisibleBehaviour
         yield return new WaitForSeconds(2f);
 //        if (currentPos != Vector3.zero)
 //        {
-            if (registerTile == null)
-            {
-                registerTile = GetComponent<RegisterTile>();
-            }
+        if (registerTile == null)
+        {
+            registerTile = GetComponent<RegisterTile>();
+        }
 //            transform.localPosition = RoundedPos(currentPos);
-            registerTile.UpdatePosition();
-            matrix = Matrix.GetMatrix(this);
+        registerTile.UpdatePosition();
+        matrix = Matrix.GetMatrix(this);
 //        }
     }
 
@@ -117,11 +117,11 @@ public class PushPull : VisibleBehaviour
         }
 
         moveSpeed = pusherSpeed;
-        var newPos = Vector3Int.RoundToInt(transform.localPosition + (Vector3)pushDir);
+        var newPos = Vector3Int.RoundToInt(transform.localPosition + (Vector3) pushDir);
         //newPos.z = transform.localPosition.z;
 
 
-        if (matrix.IsPassableAt(newPos) || matrix.ContainsAt(newPos, gameObject)) 
+        if (matrix.IsPassableAt(newPos) || matrix.ContainsAt(newPos, gameObject))
         {
             //Start the push on the client, then start on the server, the server then tells all other clients to start the push also
             pusher = pushedBy;
@@ -152,7 +152,7 @@ public class PushPull : VisibleBehaviour
     }
 
 
-	void Update()
+    void Update()
     {
         if (pushing && transform.localPosition != pushTarget)
         {
@@ -175,7 +175,7 @@ public class PushPull : VisibleBehaviour
         }
     }
 
-	void LateUpdate()
+    void LateUpdate()
     {
         if (CustomNetworkManager.Instance._isServer)
         {
@@ -189,7 +189,8 @@ public class PushPull : VisibleBehaviour
 
     private void PushTowards()
     {
-        transform.localPosition = Vector3.MoveTowards(transform.localPosition, pushTarget, (moveSpeed * Time.deltaTime) * journeyLength);
+        transform.localPosition = Vector3.MoveTowards(transform.localPosition, pushTarget,
+            (moveSpeed * Time.deltaTime) * journeyLength);
 
         if (transform.localPosition == pushTarget)
         {

@@ -10,7 +10,7 @@ namespace Tilemaps.Scripts.Behaviours.Interaction
         protected Vector3 position;
         protected readonly string hand;
 
-        public TileInteraction(GameObject gameObject, GameObject originator, Vector3 position, string hand )
+        public TileInteraction(GameObject gameObject, GameObject originator, Vector3 position, string hand)
         {
             this.gameObject = gameObject;
             this.originator = originator;
@@ -31,7 +31,7 @@ namespace Tilemaps.Scripts.Behaviours.Interaction
         }
 
         public abstract void ClientAction();
-        
+
         [Server]
         public abstract void ServerAction();
     }

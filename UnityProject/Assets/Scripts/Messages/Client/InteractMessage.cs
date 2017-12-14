@@ -14,7 +14,6 @@ public class InteractMessage : ClientMessage<InteractMessage>
     public NetworkInstanceId Subject;
 
 
-
     public override IEnumerator Process()
     {
         //		Debug.Log("Processed " + ToString());
@@ -75,7 +74,6 @@ public class InteractMessage : ClientMessage<InteractMessage>
         Hand = reader.ReadByte();
         Position = reader.ReadVector3();
         Subject = reader.ReadNetworkId();
-
     }
 
     public override void Serialize(NetworkWriter writer)

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ShroudTile : MonoBehaviour
 {
-
     public Renderer renderer;
 
     void OnEnable()
@@ -16,5 +15,4 @@ public class ShroudTile : MonoBehaviour
     {
         renderer.enabled = enabled;
     }
-
 }

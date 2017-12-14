@@ -31,7 +31,8 @@ namespace UI
         {
             if (PlayGroup.PlayerManager.LocalPlayer != null)
             {
-                Vector3 playerPos = Camera.main.WorldToScreenPoint(PlayGroup.PlayerManager.LocalPlayer.transform.position);
+                Vector3 playerPos =
+                    Camera.main.WorldToScreenPoint(PlayGroup.PlayerManager.LocalPlayer.transform.position);
                 shroud.position = playerPos;
             }
         }

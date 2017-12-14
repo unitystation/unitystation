@@ -93,7 +93,6 @@ namespace FullSerializer
                 if (requireOptIn &&
                     !config.SerializeAttributes.Any(t => fsPortableReflection.HasAttribute(member, t)))
                 {
-
                     continue;
                 }
 
@@ -102,7 +101,6 @@ namespace FullSerializer
                 if (requireOptOut &&
                     config.IgnoreSerializeAttributes.Any(t => fsPortableReflection.HasAttribute(member, t)))
                 {
-
                     continue;
                 }
 
@@ -133,14 +131,15 @@ namespace FullSerializer
             return
                 property.CanWrite && property.CanRead &&
                 fsPortableReflection.HasAttribute(
-                        property.GetGetMethod(), typeof(CompilerGeneratedAttribute), /*shouldCache:*/false);
+                    property.GetGetMethod(), typeof(CompilerGeneratedAttribute), /*shouldCache:*/false);
         }
 
         /// <summary>
         /// Returns if the given property should be serialized.
         /// </summary>
         /// <param name="annotationFreeValue">Should a property without any annotations be serialized?</param>
-        private static bool CanSerializeProperty(fsConfig config, PropertyInfo property, MemberInfo[] members, bool annotationFreeValue)
+        private static bool CanSerializeProperty(fsConfig config, PropertyInfo property, MemberInfo[] members,
+            bool annotationFreeValue)
         {
             // We don't serialize delegates
             if (typeof(Delegate).IsAssignableFrom(property.PropertyType))
@@ -148,8 +147,8 @@ namespace FullSerializer
                 return false;
             }
 
-            var publicGetMethod = property.GetGetMethod(/*nonPublic:*/ false);
-            var publicSetMethod = property.GetSetMethod(/*nonPublic:*/ false);
+            var publicGetMethod = property.GetGetMethod( /*nonPublic:*/ false);
+            var publicSetMethod = property.GetSetMethod( /*nonPublic:*/ false);
 
             // We do not bother to serialize static fields.
             if ((publicGetMethod != null && publicGetMethod.IsStatic) ||
@@ -267,13 +266,10 @@ namespace FullSerializer
 
             return false;
         }
+
         private bool _hasEmittedAotData;
 
-        public fsMetaProperty[] Properties
-        {
-            get;
-            private set;
-        }
+        public fsMetaProperty[] Properties { get; private set; }
 
         /// <summary>
         /// Returns true if the type represented by this metadata contains a default constructor.
@@ -313,6 +309,7 @@ namespace FullSerializer
                 return _hasDefaultConstructorCache.Value;
             }
         }
+
         private bool? _hasDefaultConstructorCache;
         private bool _isDefaultConstructorPublic;
 
@@ -365,7 +362,7 @@ namespace FullSerializer
             try
             {
 #if (!UNITY_EDITOR && (UNITY_METRO))
-                // In WinRT/WinStore builds, Activator.CreateInstance(..., true) is broken
+// In WinRT/WinStore builds, Activator.CreateInstance(..., true) is broken
                 return Activator.CreateInstance(ReflectedType);
 #else
                 return Activator.CreateInstance(ReflectedType, /*nonPublic:*/ true);
@@ -374,12 +371,14 @@ namespace FullSerializer
 #if (!UNITY_EDITOR && (UNITY_METRO)) == false
             catch (MissingMethodException e)
             {
-                throw new InvalidOperationException("Unable to create instance of " + ReflectedType + "; there is no default constructor", e);
+                throw new InvalidOperationException(
+                    "Unable to create instance of " + ReflectedType + "; there is no default constructor", e);
             }
 #endif
             catch (TargetInvocationException e)
             {
-                throw new InvalidOperationException("Constructor of " + ReflectedType + " threw an exception when creating an instance", e);
+                throw new InvalidOperationException(
+                    "Constructor of " + ReflectedType + " threw an exception when creating an instance", e);
             }
             catch (MemberAccessException e)
             {

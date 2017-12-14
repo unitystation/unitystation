@@ -65,7 +65,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     [Server]
-    public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false, bool forceInform = true)
+    public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false,
+        bool forceInform = true)
     {
         var eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
         if (_inventory[eventName] != null && _inventory[eventName] != itemObject && !replaceIfOccupied)
@@ -244,10 +245,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Server]
     public void PlaceItem(string slotName, Vector3 pos, GameObject newParent)
     {
-		if (!SlotNotEmpty(slotName))
-		{
-			return;
-		}
+        if (!SlotNotEmpty(slotName))
+        {
+            return;
+        }
 
         GameObject item = _inventory[slotName];
         EquipmentPool.DropGameObject(gameObject, _inventory[slotName], pos);
@@ -509,25 +510,26 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         door.GetComponent<DoorController>().CmdTryDenied();
     }
 
-	//FOOD
-	[Command]
-	public void CmdEatFood(GameObject food, string fromSlot)
-	{
-		if (_inventory[fromSlot] == null) {
-			//Already been eaten or the food is no longer in hand
-			return;
-		}
+    //FOOD
+    [Command]
+    public void CmdEatFood(GameObject food, string fromSlot)
+    {
+        if (_inventory[fromSlot] == null)
+        {
+            //Already been eaten or the food is no longer in hand
+            return;
+        }
 
-		FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
-		soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
-		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+        FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
+        soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
+        PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
-		playerHealth.AddHealth(baseFood.healAmount);
-		playerHealth.StopBleeding();
+        playerHealth.AddHealth(baseFood.healAmount);
+        playerHealth.StopBleeding();
 
-		PoolManager.Instance.PoolNetworkDestroy(food);
-		UpdateSlotMessage.Send(gameObject, fromSlot, null, true);
-		_inventory[fromSlot] = null;
-		equipment.ClearItemSprite(fromSlot);
-	}
+        PoolManager.Instance.PoolNetworkDestroy(food);
+        UpdateSlotMessage.Send(gameObject, fromSlot, null, true);
+        _inventory[fromSlot] = null;
+        equipment.ClearItemSprite(fromSlot);
+    }
 }

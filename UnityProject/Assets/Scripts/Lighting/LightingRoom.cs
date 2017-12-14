@@ -9,6 +9,7 @@ namespace Lighting
     {
         public LightingTileManager tileManager { get; set; }
         public LightingSourceManager sourceManager { get; set; }
+
         /// <summary>
         /// x = left
         /// y = top
@@ -28,7 +29,6 @@ namespace Lighting
                 {
                     return Vector4.zero;
                 }
-
             }
         }
 
@@ -60,7 +60,6 @@ namespace Lighting
             foreach (KeyValuePair<Vector2, LightSource> light in sourceManager.lights)
             {
                 light.Value.Trigger(false);
-
             }
         }
 

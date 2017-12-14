@@ -12,6 +12,7 @@ public class Networking : Editor
         var gameObject = items[Random.Range(1, items.Length)].gameObject;
         InteractMessage.Send(gameObject, "id");
     }
+
     [MenuItem("Networking/Give Random Item To All (Server)")]
     static void GiveItems()
     {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+
 /// <summary>
 /// Informs server of inventory mangling
 /// </summary>
@@ -26,7 +27,6 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
             yield return WaitFor(SentBy, Subject);
             ProcessFurther(NetworkObjects[0], NetworkObjects[1]);
         }
-
     }
 
     private void ProcessFurther(GameObject player, GameObject item = null)
@@ -45,7 +45,8 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
     //		return Send(hand, null, forceSlotUpdate);
     //	}
 
-    public static InventoryInteractMessage Send(string hand, GameObject subject/* = null*/, bool forceSlotUpdate/* = false*/)
+    public static InventoryInteractMessage Send(string hand, GameObject subject /* = null*/,
+        bool forceSlotUpdate /* = false*/)
     {
         var msg = new InventoryInteractMessage
         {
@@ -81,6 +82,7 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
         }
         return 0;
     }
+
     private static string decodeSlot(byte slotEventByte)
     {
         //we better start using enums for that soon!
@@ -118,13 +120,12 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
         base.Deserialize(reader);
         Slot = reader.ReadByte();
         Subject = reader.ReadNetworkId();
-
     }
+
     public override void Serialize(NetworkWriter writer)
     {
         base.Serialize(writer);
         writer.Write(Slot);
         writer.Write(Subject);
     }
-
 }
