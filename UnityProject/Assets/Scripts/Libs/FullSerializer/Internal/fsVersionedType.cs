@@ -5,22 +5,22 @@ namespace FullSerializer.Internal
     public struct fsVersionedType
     {
         /// <summary>
-        /// The direct ancestors that this type can import.
+        ///     The direct ancestors that this type can import.
         /// </summary>
         public fsVersionedType[] Ancestors;
 
         /// <summary>
-        /// The identifying string that is unique among all ancestors.
+        ///     The identifying string that is unique among all ancestors.
         /// </summary>
         public string VersionString;
 
         /// <summary>
-        /// The modeling type that this versioned type maps back to.
+        ///     The modeling type that this versioned type maps back to.
         /// </summary>
         public Type ModelType;
 
         /// <summary>
-        /// Migrate from an instance of an ancestor.
+        ///     Migrate from an instance of an ancestor.
         /// </summary>
         public object Migrate(object ancestorInstance)
         {

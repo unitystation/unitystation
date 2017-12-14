@@ -4,24 +4,24 @@ using UnityEngine.EventSystems;
 namespace UI
 {
     /// <summary>
-    /// Custom ResizePanel for the PANEL_Right UI element
+    ///     Custom ResizePanel for the PANEL_Right UI element
     /// </summary>
     public class RightPanelResize : ResizePanel
     {
-        public ResponsiveUI responsiveControl;
+        private float hudAspect;
 
         public RectTransform hudRight;
-        public RectTransform panelRight;
-        public GameObject returnPanelButton;
-        float hudRight_dist;
-        float leftRange;
-        float rightRange;
+        private float hudRight_dist;
+        private float leftRange;
         [HideInInspector] public Vector2 originalHudSize;
-        float hudAspect;
+        public RectTransform panelRight;
+        public ResponsiveUI responsiveControl;
+        public GameObject returnPanelButton;
+        private float rightRange;
 
         public float cacheHudAnchor { get; set; }
 
-        void Start()
+        private void Start()
         {
             leftRange = maxSize.x - responsiveControl.cacheWidth;
             rightRange = responsiveControl.cacheWidth - minSize.x;
@@ -41,7 +41,9 @@ namespace UI
         public override void OnDrag(PointerEventData data)
         {
             if (panelRectTransform == null || !isDragging)
+            {
                 return;
+            }
 
             Vector2 localPointerPosition;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(panelRectTransform, data.position,
@@ -79,7 +81,7 @@ namespace UI
             responsiveControl.AdjustHudBottom(sizeDelta);
         }
 
-        void AdjustHudRight()
+        private void AdjustHudRight()
         {
             Vector3 newHudRight_Pos = hudRight.position;
             newHudRight_Pos.x = transform.position.x - hudRight_dist;
@@ -87,7 +89,7 @@ namespace UI
         }
 
         /// <summary>
-        /// To restore the RightPanel by clicking the arrow button in the top right of the screen
+        ///     To restore the RightPanel by clicking the arrow button in the top right of the screen
         /// </summary>
         public void RestoreRightPanel()
         {

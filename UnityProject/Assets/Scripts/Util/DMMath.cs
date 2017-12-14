@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = System.Random;
 
 public static class DMMath
 {
@@ -23,7 +22,7 @@ public static class DMMath
 
     public static bool Prob(double percent)
     {
-        System.Random rand = new System.Random(Guid.NewGuid().GetHashCode());
+        Random rand = new Random(Guid.NewGuid().GetHashCode());
         return rand.NextDouble() < percent / 100.0;
     }
 }

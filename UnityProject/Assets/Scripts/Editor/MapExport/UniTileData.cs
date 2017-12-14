@@ -7,25 +7,25 @@ public class UniTileData : ScriptableObject
 {
     [SerializeField] private string _name;
 
+    [SerializeField] private Matrix4x4 childTransform = Matrix4x4.identity;
+
+    [SerializeField] private Tile.ColliderType colliderType = Tile.ColliderType.Grid;
+
+    [SerializeField] private bool isLegacy;
+
     [SerializeField] private string originalSpriteName;
 
     [SerializeField] private string spriteName;
+
+    [SerializeField] private string spriteSheet;
+
+    [SerializeField] private Matrix4x4 transform = Matrix4x4.identity;
 
     public string SpriteName
     {
         get { return spriteName; }
         set { spriteName = value; }
     }
-
-    [SerializeField] private string spriteSheet;
-
-    [SerializeField] private bool isLegacy;
-
-    [SerializeField] private Matrix4x4 childTransform = Matrix4x4.identity;
-
-    [SerializeField] private Matrix4x4 transform = Matrix4x4.identity;
-
-    [SerializeField] private Tile.ColliderType colliderType = Tile.ColliderType.Grid;
 
     public bool IsLegacy
     {

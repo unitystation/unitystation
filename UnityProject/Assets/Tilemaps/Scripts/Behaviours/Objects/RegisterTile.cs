@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Tilemaps.Scripts.Behaviours.Layers;
+﻿using Tilemaps.Scripts.Behaviours.Layers;
 using UnityEngine;
 
 namespace Tilemaps.Scripts.Behaviours.Objects
@@ -14,13 +13,12 @@ namespace Tilemaps.Scripts.Behaviours.Objects
     [ExecuteInEditMode]
     public abstract class RegisterTile : MonoBehaviour
     {
-        public bool IsRegistered { get; private set; }
-
-        public ObjectType ObjectType;
+        private Vector3Int _position;
 
         private ObjectLayer layer;
 
-        private Vector3Int _position;
+        public ObjectType ObjectType;
+        public bool IsRegistered { get; private set; }
 
         public Vector3Int Position
         {

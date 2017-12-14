@@ -1,13 +1,14 @@
 #if !NO_UNITY
 using System;
 using System.Collections.Generic;
+using FullSerializer.Internal.DirectConverters;
 using UnityEngine;
 
 namespace FullSerializer
 {
     partial class fsConverterRegistrar
     {
-        public static Internal.DirectConverters.Keyframe_DirectConverter Register_Keyframe_DirectConverter;
+        public static Keyframe_DirectConverter Register_Keyframe_DirectConverter;
     }
 }
 
@@ -17,7 +18,7 @@ namespace FullSerializer.Internal.DirectConverters
     {
         protected override fsResult DoSerialize(Keyframe model, Dictionary<string, fsData> serialized)
         {
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
             result += SerializeMember(serialized, null, "time", model.time);
             result += SerializeMember(serialized, null, "value", model.value);
@@ -30,25 +31,25 @@ namespace FullSerializer.Internal.DirectConverters
 
         protected override fsResult DoDeserialize(Dictionary<string, fsData> data, ref Keyframe model)
         {
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
-            var t0 = model.time;
+            float t0 = model.time;
             result += DeserializeMember(data, null, "time", out t0);
             model.time = t0;
 
-            var t1 = model.value;
+            float t1 = model.value;
             result += DeserializeMember(data, null, "value", out t1);
             model.value = t1;
 
-            var t2 = model.tangentMode;
+            int t2 = model.tangentMode;
             result += DeserializeMember(data, null, "tangentMode", out t2);
             model.tangentMode = t2;
 
-            var t3 = model.inTangent;
+            float t3 = model.inTangent;
             result += DeserializeMember(data, null, "inTangent", out t3);
             model.inTangent = t3;
 
-            var t4 = model.outTangent;
+            float t4 = model.outTangent;
             result += DeserializeMember(data, null, "outTangent", out t4);
             model.outTangent = t4;
 

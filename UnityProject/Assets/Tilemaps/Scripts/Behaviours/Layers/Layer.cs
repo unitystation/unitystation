@@ -17,25 +17,25 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public virtual bool IsPassableAt(Vector3Int from, Vector3Int to)
         {
-            var tileTo = tilemap.GetTile<BasicTile>(to);
+            BasicTile tileTo = tilemap.GetTile<BasicTile>(to);
             return !tileTo || tileTo.IsPassable();
         }
 
         public virtual bool IsPassableAt(Vector3Int position)
         {
-            var tile = tilemap.GetTile<BasicTile>(position);
+            BasicTile tile = tilemap.GetTile<BasicTile>(position);
             return !tile || tile.IsPassable();
         }
 
         public virtual bool IsAtmosPassableAt(Vector3Int position)
         {
-            var tile = tilemap.GetTile<BasicTile>(position);
+            BasicTile tile = tilemap.GetTile<BasicTile>(position);
             return !tile || tile.IsAtmosPassable();
         }
 
         public virtual bool IsSpaceAt(Vector3Int position)
         {
-            var tile = tilemap.GetTile<BasicTile>(position);
+            BasicTile tile = tilemap.GetTile<BasicTile>(position);
             return !tile || tile.IsSpace();
         }
 
@@ -60,6 +60,11 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             tilemap.SetTile(position, null);
         }
 
+        public virtual void ClearAllTiles()
+        {
+            tilemap.ClearAllTiles();
+        }
+
 #if UNITY_EDITOR
         public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
         {
@@ -72,10 +77,5 @@ namespace Tilemaps.Scripts.Behaviours.Layers
             tilemap.ClearAllEditorPreviewTiles();
         }
 #endif
-
-        public virtual void ClearAllTiles()
-        {
-            tilemap.ClearAllTiles();
-        }
     }
 }

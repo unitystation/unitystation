@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using FullSerializer;
 using UnityEngine;
 
@@ -12,31 +9,31 @@ public class DmObjectData : ScriptableObject
 {
     private static List<Dictionary<string, string>> objectList = new List<Dictionary<string, string>>();
 
+    public List<Dictionary<string, string>> ObjectList => objectList;
+
     private void OnEnable()
     {
-        if (objectList.Count != 0) return;
+        if (objectList.Count != 0)
+        {
+            return;
+        }
         DeserializeJson();
-    }
-
-    public List<Dictionary<string, string>> ObjectList
-    {
-        get { return objectList; }
     }
 
     //Scans hierarchy for attributes
     public Dictionary<string, string> getObject(string hierarchy)
     {
         // i.e. we have /obj/item/clothing/tie/armband/cargo
-        var path = hierarchy.Split('/').ToList();
-        var ancAttr = new Dictionary<string, string>();
+        List<string> path = hierarchy.Split('/').ToList();
+        Dictionary<string, string> ancAttr = new Dictionary<string, string>();
         //        StringBuilder digLog = new StringBuilder();
 
         for (int i = path.Count; i-- > 2;)
         {
-            var ancHier = String.Join("/", path.ToArray());
+            string ancHier = string.Join("/", path.ToArray());
             //            digLog.AppendLine("scanning " + ancHier);
 
-            var foundAttributes = lookupObject(ancHier);
+            Dictionary<string, string> foundAttributes = lookupObject(ancHier);
             if (foundAttributes.Count == 0 && !hierarchy.Equals(ancHier))
             {
                 //                Debug.Log(digLog.AppendLine("Stopped digging further than " + ancHier).ToString());
@@ -57,7 +54,7 @@ public class DmObjectData : ScriptableObject
 
     private Dictionary<string, string> lookupObject(string hierarchy)
     {
-        foreach (var obj in objectList)
+        foreach (Dictionary<string, string> obj in objectList)
         {
             if ( /*obj.ContainsKey("hierarchy") && */obj["hierarchy"].Equals(hierarchy))
             {
@@ -69,13 +66,16 @@ public class DmObjectData : ScriptableObject
 
     public static void DeserializeJson()
     {
-        var asset = Resources.Load(Path.Combine("metadata", "dm")) as TextAsset;
+        TextAsset asset = Resources.Load(Path.Combine("metadata", "dm")) as TextAsset;
         if (asset != null)
         {
-            var data = fsJsonParser.Parse(asset.text);
-            var serializer = new fsSerializer();
+            fsData data = fsJsonParser.Parse(asset.text);
+            fsSerializer serializer = new fsSerializer();
             serializer.TryDeserialize(data, ref objectList).AssertSuccessWithoutWarnings();
         }
-        else throw new FileNotFoundException();
+        else
+        {
+            throw new FileNotFoundException();
+        }
     }
 }

@@ -22,15 +22,7 @@ namespace Tilemaps.Scripts.Tiles
 
     public class ConnectedTile : BasicTile
     {
-        public Texture2D spriteSheet;
-        public string texturePath;
-
-        public ConnectCategory connectCategory = ConnectCategory.None;
-        public ConnectType connectType = ConnectType.ToAll;
-
-        public override Sprite PreviewSprite => sprites[0];
-
-        private static int[] map =
+        private static readonly int[] map =
         {
             0, 2, 4, 8, 1, 255,
             3, 6, 12, 9, 10, 5,
@@ -43,6 +35,13 @@ namespace Tilemaps.Scripts.Tiles
         };
 
         private Sprite[] _sprites;
+
+        public ConnectCategory connectCategory = ConnectCategory.None;
+        public ConnectType connectType = ConnectType.ToAll;
+        public Texture2D spriteSheet;
+        public string texturePath;
+
+        public override Sprite PreviewSprite => sprites[0];
 
         private Sprite[] sprites
         {
@@ -72,19 +71,19 @@ namespace Tilemaps.Scripts.Tiles
 
             if ((mask & 3) == 3)
             {
-                mask += (HasSameTile(position + Vector3Int.right + Vector3Int.up, tilemap) ? 16 : 0);
+                mask += HasSameTile(position + Vector3Int.right + Vector3Int.up, tilemap) ? 16 : 0;
             }
             if ((mask & 6) == 6)
             {
-                mask += (HasSameTile(position + Vector3Int.right + Vector3Int.down, tilemap) ? 32 : 0);
+                mask += HasSameTile(position + Vector3Int.right + Vector3Int.down, tilemap) ? 32 : 0;
             }
             if ((mask & 12) == 12)
             {
-                mask += (HasSameTile(position + Vector3Int.left + Vector3Int.down, tilemap) ? 64 : 0);
+                mask += HasSameTile(position + Vector3Int.left + Vector3Int.down, tilemap) ? 64 : 0;
             }
             if ((mask & 9) == 9)
             {
-                mask += (HasSameTile(position + Vector3Int.left + Vector3Int.up, tilemap) ? 128 : 0);
+                mask += HasSameTile(position + Vector3Int.left + Vector3Int.up, tilemap) ? 128 : 0;
             }
 
             int i = Array.IndexOf(map, mask);
@@ -100,7 +99,7 @@ namespace Tilemaps.Scripts.Tiles
 
         private bool HasSameTile(Vector3Int position, ITilemap tilemap)
         {
-            var tile = tilemap.GetTile(position);
+            TileBase tile = tilemap.GetTile(position);
 
             if (tile == null)
             {
@@ -112,7 +111,7 @@ namespace Tilemaps.Scripts.Tiles
                 case ConnectType.ToAll:
                     return true;
                 case ConnectType.ToSameCategory:
-                    var t = tile as ConnectedTile;
+                    ConnectedTile t = tile as ConnectedTile;
                     return t != null && t.connectCategory == connectCategory;
                 case ConnectType.ToSelf:
                     return tile == this;

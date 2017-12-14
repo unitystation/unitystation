@@ -30,9 +30,9 @@ namespace FullSerializer.Internal
         private static bool UseInt64(Type type)
         {
             return type == typeof(sbyte) || type == typeof(byte) ||
-                   type == typeof(Int16) || type == typeof(UInt16) ||
-                   type == typeof(Int32) || type == typeof(UInt32) ||
-                   type == typeof(Int64) || type == typeof(UInt64);
+                   type == typeof(short) || type == typeof(ushort) ||
+                   type == typeof(int) || type == typeof(uint) ||
+                   type == typeof(long) || type == typeof(ulong);
         }
 
         private static bool UseDouble(Type type)
@@ -50,10 +50,10 @@ namespace FullSerializer.Internal
 
         public override fsResult TrySerialize(object instance, out fsData serialized, Type storageType)
         {
-            var instanceType = instance.GetType();
+            Type instanceType = instance.GetType();
 
             if (Serializer.Config.Serialize64BitIntegerAsString &&
-                (instanceType == typeof(Int64) || instanceType == typeof(UInt64)))
+                (instanceType == typeof(long) || instanceType == typeof(ulong)))
             {
                 serialized = new fsData((string) Convert.ChangeType(instance, typeof(string)));
                 return fsResult.Success;
@@ -67,7 +67,7 @@ namespace FullSerializer.Internal
 
             if (UseInt64(instanceType))
             {
-                serialized = new fsData((Int64) Convert.ChangeType(instance, typeof(Int64)));
+                serialized = new fsData((long) Convert.ChangeType(instance, typeof(long)));
                 return fsResult.Success;
             }
 
@@ -103,7 +103,7 @@ namespace FullSerializer.Internal
 
         public override fsResult TryDeserialize(fsData storage, ref object instance, Type storageType)
         {
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
             if (UseBool(storageType))
             {
@@ -125,7 +125,7 @@ namespace FullSerializer.Internal
                     instance = Convert.ChangeType(storage.AsInt64, storageType);
                 }
                 else if (Serializer.Config.Serialize64BitIntegerAsString && storage.IsString &&
-                         (storageType == typeof(Int64) || storageType == typeof(UInt64)))
+                         (storageType == typeof(long) || storageType == typeof(ulong)))
                 {
                     instance = Convert.ChangeType(storage.AsString, storageType);
                 }

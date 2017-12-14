@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours;
 using Tilemaps.Scripts.Behaviours.Layers;
 using Tilemaps.Scripts.Tiles;
 using UnityEditor;
@@ -22,6 +20,11 @@ namespace Tilemaps.Editor
         private static bool corners;
         private static bool room;
 
+
+        private static readonly List<HashSet<Vector3Int>> rooms = new List<HashSet<Vector3Int>>();
+
+        private static HashSet<Vector3Int> currentRoom;
+
         private SceneView currentSceneView;
 
         [MenuItem("Window/Tilemap Check")]
@@ -40,12 +43,12 @@ namespace Tilemaps.Editor
             SceneView.onSceneGUIDelegate -= OnSceneGUI;
         }
 
-        void OnSceneGUI(SceneView sceneView)
+        private void OnSceneGUI(SceneView sceneView)
         {
             currentSceneView = sceneView;
         }
 
-        void OnGUI()
+        private void OnGUI()
         {
             DrawGizmos = GUILayout.Toggle(DrawGizmos, "Draw Gizmos");
             passable = GUILayout.Toggle(passable, "Passable");
@@ -57,18 +60,22 @@ namespace Tilemaps.Editor
             room = GUILayout.Toggle(room, "Show Room");
 
             if (currentSceneView)
+            {
                 currentSceneView.Repaint();
+            }
         }
 
         [DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]
-        static void DrawGizmo(MetaTileMap scr, GizmoType gizmoType)
+        private static void DrawGizmo(MetaTileMap scr, GizmoType gizmoType)
         {
             if (!DrawGizmos)
+            {
                 return;
+            }
 
-            var start = Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(Vector3.one * -32) -
-                                              scr.transform.position); // bottom left
-            var end = Vector3Int.RoundToInt(
+            Vector3Int start = Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(Vector3.one * -32) -
+                                                     scr.transform.position); // bottom left
+            Vector3Int end = Vector3Int.RoundToInt(
                 Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth + 32,
                     Camera.current.pixelHeight + 32)) - scr.transform.position);
             start.z = 0;
@@ -84,13 +91,13 @@ namespace Tilemaps.Editor
             Gizmos.matrix = scr.transform.localToWorldMatrix;
 
 
-            var blue = Color.blue;
+            Color blue = Color.blue;
             blue.a = 0.5f;
 
-            var red = Color.red;
+            Color red = Color.red;
             red.a = 0.5f;
 
-            var green = Color.green;
+            Color green = Color.green;
             red.a = 0.5f;
 
             if (room)
@@ -99,7 +106,7 @@ namespace Tilemaps.Editor
             }
             else
             {
-                foreach (var position in new BoundsInt(start, end - start).allPositionsWithin)
+                foreach (Vector3Int position in new BoundsInt(start, end - start).allPositionsWithin)
                 {
                     if (space)
                     {
@@ -117,8 +124,8 @@ namespace Tilemaps.Editor
                             {
                                 Gizmos.color = green;
 
-                                var corner_count = 0;
-                                foreach (var pos in new[]
+                                int corner_count = 0;
+                                foreach (Vector3Int pos in new[]
                                     {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right, Vector3Int.up})
                                 {
                                     if (!scr.HasTile(position + pos, LayerType.Walls))
@@ -175,14 +182,10 @@ namespace Tilemaps.Editor
             }
         }
 
-
-        private static List<HashSet<Vector3Int>> rooms = new List<HashSet<Vector3Int>>();
-
-        private static HashSet<Vector3Int> currentRoom;
-
         private static void DrawRoom(MetaTileMap metaTileMap)
         {
-            var mousePos = Vector3Int.RoundToInt(HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin);
+            Vector3Int mousePos =
+                Vector3Int.RoundToInt(HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin);
             mousePos -= Vector3Int.one;
             mousePos.z = 0;
 
@@ -196,18 +199,18 @@ namespace Tilemaps.Editor
                     {
                         currentRoom = new HashSet<Vector3Int>();
 
-                        var posToCheck = new Queue<Vector3Int>();
+                        Queue<Vector3Int> posToCheck = new Queue<Vector3Int>();
                         posToCheck.Enqueue(mousePos);
 
                         while (posToCheck.Count > 0)
                         {
-                            var pos = posToCheck.Dequeue();
+                            Vector3Int pos = posToCheck.Dequeue();
                             currentRoom.Add(pos);
 
-                            foreach (var dir in new[]
+                            foreach (Vector3Int dir in new[]
                                 {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right})
                             {
-                                var neighbor = pos + dir;
+                                Vector3Int neighbor = pos + dir;
 
                                 if (!posToCheck.Contains(neighbor) && !currentRoom.Contains(neighbor))
                                 {
@@ -233,11 +236,11 @@ namespace Tilemaps.Editor
 
             if (currentRoom != null)
             {
-                var color = Color.cyan;
+                Color color = Color.cyan;
                 color.a = 0.5f;
                 Gizmos.color = color;
 
-                foreach (var pos in currentRoom)
+                foreach (Vector3Int pos in currentRoom)
                 {
                     Gizmos.DrawCube(pos + new Vector3(0.5f, 0.5f, 0), Vector3.one);
                 }

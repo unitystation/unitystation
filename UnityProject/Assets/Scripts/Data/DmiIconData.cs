@@ -7,20 +7,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DmiIconData")]
 public class DmiIconData : ScriptableObject
 {
-    private static Dictionary<string, DmiIcon> data = new Dictionary<string, DmiIcon>();
-    private static Dictionary<string, DmiIcon> legacyData = new Dictionary<string, DmiIcon>();
+    private static readonly Dictionary<string, DmiIcon> legacyData = new Dictionary<string, DmiIcon>();
 
     //	public static Dictionary<string, DmiIcon> LegacyData => legacyData;
-    public static Dictionary<string, DmiIcon> Data => data;
+    public static Dictionary<string, DmiIcon> Data { get; } = new Dictionary<string, DmiIcon>();
 
     //Stuff for SpriteManager compatibility
     public Sprite[] getSprites(string path)
     {
-        var iPath = getIconPath(path);
+        string iPath = getIconPath(path);
         //		var iconPath = "icons/" + path + ".dmi";
-        if (data.ContainsKey(iPath))
+        if (Data.ContainsKey(iPath))
         {
-            var sprites = data[iPath].spriteSheet;
+            Sprite[] sprites = Data[iPath].spriteSheet;
             if (sprites != null)
             {
                 return sprites;
@@ -32,17 +31,18 @@ public class DmiIconData : ScriptableObject
 
     public Sprite getSpriteFromLegacyName(string spriteSheet, string legacyUnityName)
     {
-        var iPath = getIconPath(spriteSheet);
+        string iPath = getIconPath(spriteSheet);
         if (legacyData.ContainsKey(iPath))
         {
-            var icon = legacyData[iPath];
-            var legacyOffset = DmiIcon.getOffsetFromUnityName(legacyUnityName);
+            DmiIcon icon = legacyData[iPath];
+            int legacyOffset = DmiIcon.getOffsetFromUnityName(legacyUnityName);
             int relativeOffset;
-            var legacyDmiState = icon.getStateAtOffset(legacyOffset, out relativeOffset);
-            if (legacyDmiState != null && data.ContainsKey(iPath))
+            DmiState legacyDmiState = icon.getStateAtOffset(legacyOffset, out relativeOffset);
+            if (legacyDmiState != null && Data.ContainsKey(iPath))
             {
-                var legacyState = legacyDmiState.state;
-                var newState = data[iPath].getState(legacyState); //searchStateInIcon(legacyState, spriteSheet, false);
+                string legacyState = legacyDmiState.state;
+                DmiState
+                    newState = Data[iPath].getState(legacyState); //searchStateInIcon(legacyState, spriteSheet, false);
                 if (newState != null)
                 {
                     //					if (legacyUnityName.Contains("shuttle_wall"))
@@ -59,7 +59,7 @@ public class DmiIconData : ScriptableObject
 
     public Sprite getSprite(string spriteSheet, int offset)
     {
-        var icon = getIconBySheet(spriteSheet);
+        DmiIcon icon = getIconBySheet(spriteSheet);
         if (!icon.getName().Equals("") && offset >= 0 && offset < icon.spriteSheet.Length)
         {
             return icon.spriteSheet[offset];
@@ -71,19 +71,19 @@ public class DmiIconData : ScriptableObject
     public Sprite getSprite(string spriteSheet, string unityName)
     {
         //if it's a proper unityName with offset
-        var uOffset = DmiIcon.getOffsetFromUnityName(unityName);
+        int uOffset = DmiIcon.getOffsetFromUnityName(unityName);
         if (!uOffset.Equals(-1))
         {
             return getSprite(spriteSheet, uOffset);
         }
         //if it's something custom ,like tileconnect handwritten stuff
-        var icon = getIconBySheet(spriteSheet);
+        DmiIcon icon = getIconBySheet(spriteSheet);
         if (!icon.getName().Equals(""))
         {
-            var dmiState = icon.states.Find(state => state.unityName.Equals(unityName));
+            DmiState dmiState = icon.states.Find(state => state.unityName.Equals(unityName));
             if (dmiState != null)
             {
-                var offset = dmiState.offset;
+                int offset = dmiState.offset;
                 if (icon.spriteSheet.Length > offset && !offset.Equals(-1))
                 {
                     return icon.spriteSheet[offset];
@@ -96,10 +96,10 @@ public class DmiIconData : ScriptableObject
 
     public DmiIcon getIconBySheet(string path)
     {
-        var iPath = getIconPath(path);
-        if (data.ContainsKey(iPath))
+        string iPath = getIconPath(path);
+        if (Data.ContainsKey(iPath))
         {
-            var icon = data[iPath];
+            DmiIcon icon = Data[iPath];
             if (icon != null)
             {
                 return icon;
@@ -111,11 +111,11 @@ public class DmiIconData : ScriptableObject
 
     public DmiIcon getIconByState(string state, string scanPath)
     {
-        var tmpData = data.Where(p => p.Key.StartsWith(scanPath))
+        Dictionary<string, DmiIcon> tmpData = Data.Where(p => p.Key.StartsWith(scanPath))
             .ToDictionary(p => p.Key, p => p.Value);
-        foreach (var dmiIcon in tmpData.Values)
+        foreach (DmiIcon dmiIcon in tmpData.Values)
         {
-            var foundState = dmiIcon.states.Find(x => x.state == state);
+            DmiState foundState = dmiIcon.states.Find(x => x.state == state);
             if (foundState != null)
             {
                 //				Debug.Log("foundState: "+ foundState);
@@ -128,9 +128,9 @@ public class DmiIconData : ScriptableObject
 
     public DmiIcon getIconByState(string state, bool inLegacy = false)
     {
-        foreach (var dmiIcon in inLegacy ? legacyData.Values : data.Values)
+        foreach (DmiIcon dmiIcon in inLegacy ? legacyData.Values : Data.Values)
         {
-            var foundState = dmiIcon.states.Find(x => x.state.Equals(state));
+            DmiState foundState = dmiIcon.states.Find(x => x.state.Equals(state));
             if (foundState != null)
             {
                 //				Debug.Log("foundState: "+ foundState);
@@ -150,9 +150,9 @@ public class DmiIconData : ScriptableObject
     {
         if (state != "")
         {
-            foreach (var dmiIcon in data.Values)
+            foreach (DmiIcon dmiIcon in Data.Values)
             {
-                var foundState = dmiIcon.states.Find(x => x.state.Equals(state) && (dirs == -1 || x.dirs == dirs));
+                DmiState foundState = dmiIcon.states.Find(x => x.state.Equals(state) && (dirs == -1 || x.dirs == dirs));
                 if (foundState != null)
                 {
                     //				Debug.Log("foundState: "+ foundState);
@@ -198,12 +198,12 @@ public class DmiIconData : ScriptableObject
             {
                 string s = getIconPath(icons[i]);
 
-                if (data.ContainsKey(s))
+                if (Data.ContainsKey(s))
                 {
-                    var icon = data[s]; /*data.Values.ToList().Find(x => x.icon == s);*/
+                    DmiIcon icon = Data[s]; /*data.Values.ToList().Find(x => x.icon == s);*/
 
-                    var foundState = icon.states.Find(
-                        x => (x.state == state) && (dirs == -1 || x.dirs == dirs)
+                    DmiState foundState = icon.states.Find(
+                        x => x.state == state && (dirs == -1 || x.dirs == dirs)
                     );
                     if (foundState != null)
                     {
@@ -237,19 +237,23 @@ public class DmiIconData : ScriptableObject
 
     private void OnEnable()
     {
-        if (data.Count != 0) return;
+        if (Data.Count != 0)
+        {
+            return;
+        }
         IconList<DmiIcon> ilist = DeserializeJson("dmi");
         IconList<DmiIcon> iLegacylist = DeserializeJson("legacydmi");
         //		KeyValuePair<IconList<DmiIcon>, Dictionary<string, DmiIcon>> listsKeyValuePair
-        var lists = new Dictionary<IconList<DmiIcon>, Dictionary<string, DmiIcon>>();
-        lists.Add(ilist, data);
+        Dictionary<IconList<DmiIcon>, Dictionary<string, DmiIcon>> lists =
+            new Dictionary<IconList<DmiIcon>, Dictionary<string, DmiIcon>>();
+        lists.Add(ilist, Data);
         lists.Add(iLegacylist, legacyData);
         //		{iLegacylist, legacyData}};
-        foreach (var list in lists)
+        foreach (KeyValuePair<IconList<DmiIcon>, Dictionary<string, DmiIcon>> list in lists)
         {
-            foreach (var icon in list.Key.icons)
+            foreach (DmiIcon icon in list.Key.icons)
             {
-                var substring = icon.icon.Substring(0, icon.icon.IndexOf(".dmi", StringComparison.Ordinal));
+                string substring = icon.icon.Substring(0, icon.icon.IndexOf(".dmi", StringComparison.Ordinal));
                 Sprite[] sprites = Resources.LoadAll<Sprite>(
                     substring
                 ); //todo: consider cutting off 'icons/' and extension on java side to avoid further substr mess?
@@ -263,15 +267,18 @@ public class DmiIconData : ScriptableObject
     private static IconList<DmiIcon> DeserializeJson(string name)
     {
         string myJson = null;
-        var asset = Resources.Load(Path.Combine("metadata", name)) as TextAsset;
+        TextAsset asset = Resources.Load(Path.Combine("metadata", name)) as TextAsset;
         if (asset != null)
         {
             //workaround for headerless JSONs
             myJson = "{ \"icons\": " + asset.text + "}";
         }
-        else Debug.LogError("Make sure dmi.json is in Resources/metadata/ !");
+        else
+        {
+            Debug.LogError("Make sure dmi.json is in Resources/metadata/ !");
+        }
 
-        var icons = new IconList<DmiIcon>();
+        IconList<DmiIcon> icons = new IconList<DmiIcon>();
         JsonUtility.FromJsonOverwrite(myJson, icons);
         return icons;
     }

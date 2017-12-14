@@ -38,5 +38,5 @@ public enum JobType
     SCIENTIST,
     SECURITY_OFFICER,
     VIROLOGIST,
-    WARDEN,
+    WARDEN
 }

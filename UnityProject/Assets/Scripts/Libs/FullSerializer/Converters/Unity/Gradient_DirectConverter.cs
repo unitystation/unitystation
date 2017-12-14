@@ -1,13 +1,14 @@
 #if !NO_UNITY
 using System;
 using System.Collections.Generic;
+using FullSerializer.Internal.DirectConverters;
 using UnityEngine;
 
 namespace FullSerializer
 {
     partial class fsConverterRegistrar
     {
-        public static Internal.DirectConverters.Gradient_DirectConverter Register_Gradient_DirectConverter;
+        public static Gradient_DirectConverter Register_Gradient_DirectConverter;
     }
 }
 
@@ -17,7 +18,7 @@ namespace FullSerializer.Internal.DirectConverters
     {
         protected override fsResult DoSerialize(Gradient model, Dictionary<string, fsData> serialized)
         {
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
             result += SerializeMember(serialized, null, "alphaKeys", model.alphaKeys);
             result += SerializeMember(serialized, null, "colorKeys", model.colorKeys);
@@ -27,13 +28,13 @@ namespace FullSerializer.Internal.DirectConverters
 
         protected override fsResult DoDeserialize(Dictionary<string, fsData> data, ref Gradient model)
         {
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
-            var t0 = model.alphaKeys;
+            GradientAlphaKey[] t0 = model.alphaKeys;
             result += DeserializeMember(data, null, "alphaKeys", out t0);
             model.alphaKeys = t0;
 
-            var t1 = model.colorKeys;
+            GradientColorKey[] t1 = model.colorKeys;
             result += DeserializeMember(data, null, "colorKeys", out t1);
             model.colorKeys = t1;
 

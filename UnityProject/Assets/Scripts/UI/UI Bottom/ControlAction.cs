@@ -1,17 +1,15 @@
-﻿using UnityEngine;
+﻿using PlayGroup;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using PlayGroup;
-
 
 namespace UI
 {
     public class ControlAction : MonoBehaviour
     {
-        public Sprite[] throwSprites;
         public Image throwImage;
+        public Sprite[] throwSprites;
 
-        void Start()
+        private void Start()
         {
             UIManager.IsThrow = false;
         }
@@ -20,12 +18,12 @@ namespace UI
 		 * Button OnClick methods
 		 */
 
-        void Update()
+        private void Update()
         {
             CheckKeyboardInput();
         }
 
-        void CheckKeyboardInput()
+        private void CheckKeyboardInput()
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -51,11 +49,17 @@ namespace UI
 
         public void Drop()
         {
-            var lps = PlayerManager.LocalPlayerScript;
-            if (!lps || lps.canNotInteract()) return;
-            var currentSlot = UIManager.Hands.CurrentSlot;
-            var dropPos = lps.gameObject.transform.position;
-            if (!currentSlot.CanPlaceItem()) return;
+            PlayerScript lps = PlayerManager.LocalPlayerScript;
+            if (!lps || lps.canNotInteract())
+            {
+                return;
+            }
+            UI_ItemSlot currentSlot = UIManager.Hands.CurrentSlot;
+            Vector3 dropPos = lps.gameObject.transform.position;
+            if (!currentSlot.CanPlaceItem())
+            {
+                return;
+            }
             //            if ( isNotMovingClient(lps) )
             //            {
             //               // Full client simulation(standing still)
@@ -83,8 +87,11 @@ namespace UI
 
         public void Throw()
         {
-            var lps = PlayerManager.LocalPlayerScript;
-            if (!lps || lps.canNotInteract()) return;
+            PlayerScript lps = PlayerManager.LocalPlayerScript;
+            if (!lps || lps.canNotInteract())
+            {
+                return;
+            }
 
             SoundManager.Play("Click01");
             Debug.Log("Throw Button");

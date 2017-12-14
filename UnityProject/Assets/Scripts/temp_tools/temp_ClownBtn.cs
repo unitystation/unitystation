@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UI;
 using UnityEngine.UI;
-
 
 public class temp_ClownBtn : MonoBehaviour
 {

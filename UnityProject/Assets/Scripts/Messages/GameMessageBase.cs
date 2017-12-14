@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -35,13 +34,15 @@ public abstract class GameMessageBase : MessageBase
         }
     }
 
-    bool AllLoaded(NetworkInstanceId[] ids)
+    private bool AllLoaded(NetworkInstanceId[] ids)
     {
         for (int i = 0; i < ids.Length; i++)
         {
-            var obj = ClientScene.FindLocalObject(ids[i]);
+            GameObject obj = ClientScene.FindLocalObject(ids[i]);
             if (obj == null)
+            {
                 return false;
+            }
 
             NetworkObjects[i] = obj;
         }

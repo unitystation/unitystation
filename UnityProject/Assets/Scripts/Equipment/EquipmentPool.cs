@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,6 +9,9 @@ namespace Equipment
     public class EquipmentPool : MonoBehaviour
     {
         private static EquipmentPool equipmentPool;
+        private readonly Dictionary<string, ObjectPool> equipPools = new Dictionary<string, ObjectPool>();
+
+        private GameObject objectPoolPrefab;
 
         public static EquipmentPool Instance
         {
@@ -24,10 +26,7 @@ namespace Equipment
             }
         }
 
-        private GameObject objectPoolPrefab;
-        private Dictionary<string, ObjectPool> equipPools = new Dictionary<string, ObjectPool>();
-
-        void Init()
+        private void Init()
         {
             Instance.transform.position = Vector2.zero;
             Instance.objectPoolPrefab = Resources.Load("ObjectPool") as GameObject;
@@ -35,20 +34,20 @@ namespace Equipment
 
         public static void AddGameObject(GameObject player, GameObject gObj)
         {
-            var playerName = player.name;
+            string playerName = player.name;
             if (Instance.equipPools.ContainsKey(playerName))
             {
                 //add obj to pool
                 Instance.equipPools[playerName].AddGameObject(gObj);
 
-                var ownerId = player.GetComponent<NetworkIdentity>().netId;
+                NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
                 gObj.BroadcastMessage("OnAddToPool", ownerId, SendMessageOptions.DontRequireReceiver);
             }
             else
             {
                 //set up new pool and then add the obj
                 GameObject newPool =
-                    Instantiate(Instance.objectPoolPrefab, Vector2.zero, Quaternion.identity) as GameObject;
+                    Instantiate(Instance.objectPoolPrefab, Vector2.zero, Quaternion.identity);
                 newPool.transform.parent = Instance.transform;
                 newPool.name = playerName;
                 Instance.equipPools.Add(playerName, newPool.GetComponent<ObjectPool>());
@@ -63,8 +62,11 @@ namespace Equipment
         //ghetto W.E.T. method intended for disposing of objects that aren't supposed to be dropped on the ground 
         public static void DisposeOfObject(GameObject player, GameObject gObj)
         {
-            var playerName = player.name;
-            if (!Instance.equipPools.ContainsKey(playerName)) return;
+            string playerName = player.name;
+            if (!Instance.equipPools.ContainsKey(playerName))
+            {
+                return;
+            }
             Instance.equipPools[playerName].DestroyGameObject(gObj);
             gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
             //			Debug.LogFormat("{0}: destroyed {1}({2}) from pool. size={3} ", 
@@ -81,7 +83,7 @@ namespace Equipment
         //When placing items at a position etc also removes them from the player equipment pool and places it in scene
         public static void DropGameObject(GameObject player, GameObject gObj, Vector3 pos)
         {
-            var playerName = player.name;
+            string playerName = player.name;
             if (!Instance.equipPools.ContainsKey(playerName))
             {
                 return;

@@ -1,12 +1,10 @@
 ﻿using System.Collections;
-using InputControl;
+using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
-using System;
-using PlayGroup;
 
 /// <summary>
-/// Attempts to send a chat message to the server
+///     Attempts to send a chat message to the server
 /// </summary>
 public class PostToChatMessage : ClientMessage<PostToChatMessage>
 {
@@ -29,7 +27,7 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
     //We want ChatEvent to be created on the server, so we're only passing the individual variables
     public static PostToChatMessage Send(string message, ChatChannel channels)
     {
-        var msg = new PostToChatMessage
+        PostToChatMessage msg = new PostToChatMessage
         {
             Channels = channels,
             ChatMessageText = message
@@ -67,7 +65,7 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
     public override void Serialize(NetworkWriter writer)
     {
         base.Serialize(writer);
-        writer.Write((Int32) Channels);
+        writer.Write((int) Channels);
         writer.Write(ChatMessageText);
     }
 }

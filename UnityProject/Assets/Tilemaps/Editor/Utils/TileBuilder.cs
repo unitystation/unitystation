@@ -14,22 +14,22 @@ namespace Tilemaps.Editor.Utils
 
         public static T CreateTile<T>(LayerType layer) where T : LayerTile
         {
-            var tile = ScriptableObject.CreateInstance<T>();
+            T tile = ScriptableObject.CreateInstance<T>();
             tile.LayerType = layer;
             return tile;
         }
 
         public static void CreateAsset(Object asset, string tileName, string path = null)
         {
-            var assetPath = Path.Combine(path ?? GetPath(), tileName + ".asset");
+            string assetPath = Path.Combine(path ?? GetPath(), tileName + ".asset");
 
-            var i = 1;
+            int i = 1;
             while (File.Exists(assetPath))
             {
-                assetPath = Path.Combine(path ?? GetPath(), tileName + "_" + (i++) + ".asset");
+                assetPath = Path.Combine(path ?? GetPath(), tileName + "_" + i++ + ".asset");
             }
 
-            var folder = Path.GetDirectoryName(assetPath);
+            string folder = Path.GetDirectoryName(assetPath);
 
             if (folder != null)
             {

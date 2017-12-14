@@ -1,21 +1,18 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace PlayGroup
 {
     public class HitIcon : MonoBehaviour
     {
-        private Color transparent = new Color(1f, 1f, 1f, 0f);
-        private Color visible = new Color(1f, 1f, 1f, 1f);
+        private bool isFading;
         private Vector3 lerpFrom;
         private Vector3 lerpTo;
         private SpriteRenderer spriteRenderer;
+        private readonly Color transparent = new Color(1f, 1f, 1f, 0f);
+        private readonly Color visible = new Color(1f, 1f, 1f, 1f);
 
-        private bool isFading = false;
-
-        void Start()
+        private void Start()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
@@ -39,7 +36,7 @@ namespace PlayGroup
             }
         }
 
-        IEnumerator FadeIcon()
+        private IEnumerator FadeIcon()
         {
             float timer = 0f;
             float time = 0.1f;

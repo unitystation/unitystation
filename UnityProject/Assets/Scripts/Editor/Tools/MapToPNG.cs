@@ -1,17 +1,16 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MapToPNG : Editor
 {
-    private static List<string> sortingLayerNames = GetSortingLayerNames();
+    private static readonly List<string> sortingLayerNames = GetSortingLayerNames();
 
     [MenuItem("Tools/Make Map PNG")]
-    static void Map2PNG()
+    private static void Map2PNG()
     {
         //        var nodesMapped = GetMappedNodes();
         //
@@ -147,8 +146,8 @@ public class MapToPNG : Editor
 
     internal static int CompareSpriteRenderer(SpriteRenderer x, SpriteRenderer y)
     {
-        var x_index = sortingLayerNames.FindIndex(s => s.Equals(x.sortingLayerName));
-        var y_index = sortingLayerNames.FindIndex(s => s.Equals(y.sortingLayerName));
+        int x_index = sortingLayerNames.FindIndex(s => s.Equals(x.sortingLayerName));
+        int y_index = sortingLayerNames.FindIndex(s => s.Equals(y.sortingLayerName));
 
         if (x_index == y_index)
         {
@@ -160,10 +159,10 @@ public class MapToPNG : Editor
 
     internal static List<string> GetSortingLayerNames()
     {
-        var internalEditorUtilityType = typeof(InternalEditorUtility);
+        Type internalEditorUtilityType = typeof(InternalEditorUtility);
         PropertyInfo sortingLayersProperty =
             internalEditorUtilityType.GetProperty("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
-        var sortingLayerNames = (string[]) sortingLayersProperty.GetValue(null, new object[0]);
+        string[] sortingLayerNames = (string[]) sortingLayersProperty.GetValue(null, new object[0]);
 
         return new List<string>(sortingLayerNames);
     }

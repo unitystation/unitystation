@@ -1,13 +1,14 @@
 #if !NO_UNITY
 using System;
 using System.Collections.Generic;
+using FullSerializer.Internal.DirectConverters;
 using UnityEngine;
 
 namespace FullSerializer
 {
     partial class fsConverterRegistrar
     {
-        public static Internal.DirectConverters.LayerMask_DirectConverter Register_LayerMask_DirectConverter;
+        public static LayerMask_DirectConverter Register_LayerMask_DirectConverter;
     }
 }
 
@@ -17,7 +18,7 @@ namespace FullSerializer.Internal.DirectConverters
     {
         protected override fsResult DoSerialize(LayerMask model, Dictionary<string, fsData> serialized)
         {
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
             result += SerializeMember(serialized, null, "value", model.value);
 
@@ -26,9 +27,9 @@ namespace FullSerializer.Internal.DirectConverters
 
         protected override fsResult DoDeserialize(Dictionary<string, fsData> data, ref LayerMask model)
         {
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
-            var t0 = model.value;
+            int t0 = model.value;
             result += DeserializeMember(data, null, "value", out t0);
             model.value = t0;
 

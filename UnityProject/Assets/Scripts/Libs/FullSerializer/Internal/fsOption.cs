@@ -3,35 +3,31 @@
 namespace FullSerializer.Internal
 {
     /// <summary>
-    /// Simple option type. This is akin to nullable types.
+    ///     Simple option type. This is akin to nullable types.
     /// </summary>
     public struct fsOption<T>
     {
-        private bool _hasValue;
-        private T _value;
+        private readonly T _value;
 
-        public bool HasValue
-        {
-            get { return _hasValue; }
-        }
+        public bool HasValue { get; }
 
-        public bool IsEmpty
-        {
-            get { return _hasValue == false; }
-        }
+        public bool IsEmpty => HasValue == false;
 
         public T Value
         {
             get
             {
-                if (IsEmpty) throw new InvalidOperationException("fsOption is empty");
+                if (IsEmpty)
+                {
+                    throw new InvalidOperationException("fsOption is empty");
+                }
                 return _value;
             }
         }
 
         public fsOption(T value)
         {
-            _hasValue = true;
+            HasValue = true;
             _value = value;
         }
 

@@ -8,7 +8,7 @@ public class ImportSprites : MonoBehaviour
     [MenuItem("Assets/Sprites/Slice Spritesheet", false, 1000)]
     public static void ImportObjects()
     {
-        foreach (var obj in Selection.objects)
+        foreach (Object obj in Selection.objects)
         {
             ImportObject(obj);
         }
@@ -16,9 +16,9 @@ public class ImportSprites : MonoBehaviour
 
     private static void ImportObject(Object obj)
     {
-        var path = AssetDatabase.GetAssetPath(obj);
+        string path = AssetDatabase.GetAssetPath(obj);
 
-        var textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
+        TextureImporter textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
 
         if (textureImporter == null)
         {
@@ -43,15 +43,15 @@ public class ImportSprites : MonoBehaviour
 
     private static void SpliceSpriteSheet(string path, int sliceWidth, int sliceHeight, TextureImporter textureImporter)
     {
-        var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+        Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         List<SpriteMetaData> newData = new List<SpriteMetaData>();
 
-        var index = 0;
-        var name = Path.GetFileNameWithoutExtension(path);
+        int index = 0;
+        string name = Path.GetFileNameWithoutExtension(path);
 
-        for (var y = texture.height; y > 0; y -= sliceHeight)
+        for (int y = texture.height; y > 0; y -= sliceHeight)
         {
-            for (var x = 0; x < texture.width; x += sliceWidth)
+            for (int x = 0; x < texture.width; x += sliceWidth)
             {
                 newData.Add(new SpriteMetaData
                 {

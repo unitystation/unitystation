@@ -1,13 +1,14 @@
 #if !NO_UNITY
 using System;
 using System.Collections.Generic;
+using FullSerializer.Internal.DirectConverters;
 using UnityEngine;
 
 namespace FullSerializer
 {
     partial class fsConverterRegistrar
     {
-        public static Internal.DirectConverters.Rect_DirectConverter Register_Rect_DirectConverter;
+        public static Rect_DirectConverter Register_Rect_DirectConverter;
     }
 }
 
@@ -17,7 +18,7 @@ namespace FullSerializer.Internal.DirectConverters
     {
         protected override fsResult DoSerialize(Rect model, Dictionary<string, fsData> serialized)
         {
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
             result += SerializeMember(serialized, null, "xMin", model.xMin);
             result += SerializeMember(serialized, null, "yMin", model.yMin);
@@ -29,21 +30,21 @@ namespace FullSerializer.Internal.DirectConverters
 
         protected override fsResult DoDeserialize(Dictionary<string, fsData> data, ref Rect model)
         {
-            var result = fsResult.Success;
+            fsResult result = fsResult.Success;
 
-            var t0 = model.xMin;
+            float t0 = model.xMin;
             result += DeserializeMember(data, null, "xMin", out t0);
             model.xMin = t0;
 
-            var t1 = model.yMin;
+            float t1 = model.yMin;
             result += DeserializeMember(data, null, "yMin", out t1);
             model.yMin = t1;
 
-            var t2 = model.xMax;
+            float t2 = model.xMax;
             result += DeserializeMember(data, null, "xMax", out t2);
             model.xMax = t2;
 
-            var t3 = model.yMax;
+            float t3 = model.yMax;
             result += DeserializeMember(data, null, "yMax", out t3);
             model.yMax = t3;
 

@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public enum DamageType
+﻿public enum DamageType
 {
     // These were found in combat.dm under damage defines
     /*public const string*/
@@ -21,5 +17,5 @@ public enum DamageType
     CLONE, /*= "clone";*/
 
     /*public const string*/
-    STAMINA, /*= "stamina";*/
+    STAMINA /*= "stamina";*/
 }

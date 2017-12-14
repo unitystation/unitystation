@@ -1,30 +1,30 @@
 ﻿using System.Collections;
+using PlayGroup;
+using PlayGroups.Input;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using PlayGroup;
-using UI;
-using PlayGroups.Input;
 
 public class FireCabinetTrigger : InputTrigger
 {
-    public Sprite spriteClosed;
-    public Sprite spriteOpenedOccupied;
-    public Sprite spriteOpenedEmpty;
-
-    public GameObject itemPrefab;
+    private bool hasJustPlaced;
 
     [SyncVar(hook = "SyncCabinet")] public bool IsClosed;
 
     [SyncVar(hook = "SyncItemSprite")] public bool isFull;
-    private SpriteRenderer spriteRenderer;
-    private bool sync = false;
 
-    private bool hasJustPlaced = false;
+    public GameObject itemPrefab;
+    public Sprite spriteClosed;
+    public Sprite spriteOpenedEmpty;
+    public Sprite spriteOpenedOccupied;
+    private SpriteRenderer spriteRenderer;
 
     //For storing extinguishers server side
     [HideInInspector] public ObjectBehaviour storedObject;
 
-    void Start()
+    private bool sync;
+
+    private void Start()
     {
         spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
     }
@@ -32,11 +32,13 @@ public class FireCabinetTrigger : InputTrigger
     public override void OnStartServer()
     {
         if (spriteRenderer == null)
+        {
             spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
+        }
         IsClosed = true;
         isFull = true;
 
-        GameObject item = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+        GameObject item = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
         NetworkServer.Spawn(item);
         storedObject = item.GetComponent<ObjectBehaviour>();
         storedObject.visibleState = false;
@@ -49,7 +51,7 @@ public class FireCabinetTrigger : InputTrigger
         base.OnStartClient();
     }
 
-    IEnumerator WaitForLoad()
+    private IEnumerator WaitForLoad()
     {
         yield return new WaitForSeconds(3f);
         SyncCabinet(IsClosed);
@@ -116,11 +118,13 @@ public class FireCabinetTrigger : InputTrigger
         else
         {
             if (!IsClosed)
+            {
                 spriteRenderer.sprite = spriteOpenedOccupied;
+            }
         }
     }
 
-    void SyncCabinet(bool _isClosed)
+    private void SyncCabinet(bool _isClosed)
     {
         IsClosed = _isClosed;
         if (_isClosed)
@@ -133,7 +137,7 @@ public class FireCabinetTrigger : InputTrigger
         }
     }
 
-    void Open()
+    private void Open()
     {
         PlaySound();
         if (isFull)
@@ -146,13 +150,13 @@ public class FireCabinetTrigger : InputTrigger
         }
     }
 
-    void Close()
+    private void Close()
     {
         PlaySound();
         spriteRenderer.sprite = spriteClosed;
     }
 
-    void PlaySound()
+    private void PlaySound()
     {
         if (!sync)
         {

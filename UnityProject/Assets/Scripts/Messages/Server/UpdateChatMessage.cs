@@ -1,16 +1,15 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-using PlayGroup;
 
 /// <summary>
-/// Message that tells client to add a ChatEvent to their chat 
+///     Message that tells client to add a ChatEvent to their chat
 /// </summary>
 public class UpdateChatMessage : ServerMessage<UpdateChatMessage>
 {
-    public NetworkInstanceId Recipient;
     public ChatChannel Channels;
     public string ChatMessageText;
+    public NetworkInstanceId Recipient;
 
     public override IEnumerator Process()
     {
@@ -21,11 +20,11 @@ public class UpdateChatMessage : ServerMessage<UpdateChatMessage>
 
     public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, string message)
     {
-        var msg = new UpdateChatMessage
+        UpdateChatMessage msg = new UpdateChatMessage
         {
             Recipient = recipient.GetComponent<NetworkIdentity>().netId,
             Channels = channels,
-            ChatMessageText = message,
+            ChatMessageText = message
         };
 
         msg.SendTo(recipient);

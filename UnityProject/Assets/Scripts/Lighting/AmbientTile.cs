@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using InputControl;
 using UnityEngine;
-using InputControl;
 
 [ExecuteInEditMode]
 public class AmbientTile : ObjectTrigger
 {
-    public Color onColor = new Color32(105, 105, 105, 255);
     public Color offColor = new Color32(0, 0, 0, 255);
+    public Color onColor = new Color32(105, 105, 105, 255);
     private SpriteRenderer spriteRend;
 
-    void Start()
+    private void Start()
     {
         spriteRend = GetComponent<SpriteRenderer>();
         spriteRend.color = onColor;

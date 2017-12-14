@@ -1,6 +1,6 @@
-﻿using UI;
+﻿using Items;
+using UI;
 using UnityEngine;
-using Items;
 
 public class ScrewdriverTrigger : PickUpTrigger
 {
@@ -14,7 +14,7 @@ public class ScrewdriverTrigger : PickUpTrigger
         }
 
         //TODO detect the actual target of the interact, instead of requiring the headset to be in the other hand
-        var otherHandsItem = UIManager.Hands.OtherSlot.Item;
+        GameObject otherHandsItem = UIManager.Hands.OtherSlot.Item;
 
         if (otherHandsItem && otherHandsItem.GetComponent<Headset>())
         {

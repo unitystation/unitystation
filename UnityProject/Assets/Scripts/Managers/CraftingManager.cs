@@ -1,19 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Crafting
 {
     public class CraftingManager : MonoBehaviour
     {
+        private static CraftingManager craftingManager;
         [SerializeField] private CraftingDatabase meals = new CraftingDatabase();
 
-        public static CraftingDatabase Meals
-        {
-            get { return Instance.meals; }
-        }
-
-        private static CraftingManager craftingManager;
+        public static CraftingDatabase Meals => Instance.meals;
 
         public static CraftingManager Instance
         {

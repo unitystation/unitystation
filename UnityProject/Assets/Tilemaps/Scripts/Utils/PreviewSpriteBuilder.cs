@@ -26,11 +26,13 @@ namespace Tilemaps.Scripts.Utils
         public static Sprite Create(GameObject gameObject)
         {
             if (gameObject == null)
+            {
                 return null;
+            }
 
-            var sprites = GetObjectSprites(gameObject);
+            IReadOnlyList<Sprite> sprites = GetObjectSprites(gameObject);
 
-            var sprite = MergeSprites(sprites);
+            Sprite sprite = MergeSprites(sprites);
 
             return SaveSpriteToEditorPath(sprite, gameObject);
         }
@@ -38,16 +40,18 @@ namespace Tilemaps.Scripts.Utils
         public static Sprite Create(MetaTile metaTile)
         {
             if (metaTile == null)
+            {
                 return null;
+            }
 
             List<Sprite> sprites = new List<Sprite>();
 
-            foreach (var tile in metaTile.GetTiles())
+            foreach (LayerTile tile in metaTile.GetTiles())
             {
                 sprites.Add(tile.PreviewSprite);
             }
 
-            var sprite = MergeSprites(sprites);
+            Sprite sprite = MergeSprites(sprites);
 
             return SaveSpriteToEditorPath(sprite, metaTile);
         }
@@ -58,13 +62,13 @@ namespace Tilemaps.Scripts.Utils
 
             if (gameObject != null)
             {
-                var renderers = gameObject.GetComponentsInChildren<SpriteRenderer>(true).ToList();
+                List<SpriteRenderer> renderers = gameObject.GetComponentsInChildren<SpriteRenderer>(true).ToList();
 
                 if (renderers.Count > 0)
                 {
                     renderers.Sort(RendererComparer.Compare);
 
-                    foreach (var r in renderers)
+                    foreach (SpriteRenderer r in renderers)
                     {
                         sprites.Add(r.sprite);
                     }
@@ -76,15 +80,15 @@ namespace Tilemaps.Scripts.Utils
 
         private static Sprite MergeSprites(IReadOnlyList<Sprite> sprites)
         {
-            var colors = new Color[1024];
-            foreach (var s in sprites)
+            Color[] colors = new Color[1024];
+            foreach (Sprite s in sprites)
             {
-                var rect = s.rect;
-                var pixels = s.texture.GetPixels((int) rect.x, (int) rect.y, (int) rect.width, (int) rect.height);
+                Rect rect = s.rect;
+                Color[] pixels = s.texture.GetPixels((int) rect.x, (int) rect.y, (int) rect.width, (int) rect.height);
 
                 for (int i = 0; i < pixels.Length; i++)
                 {
-                    var px = pixels[i];
+                    Color px = pixels[i];
 
                     if (px.a > 0)
                     {
@@ -93,8 +97,8 @@ namespace Tilemaps.Scripts.Utils
                 }
             }
 
-            var old = sprites[0];
-            var texture = new Texture2D((int) old.rect.width, (int) old.rect.height, old.texture.format, false);
+            Sprite old = sprites[0];
+            Texture2D texture = new Texture2D((int) old.rect.width, (int) old.rect.height, old.texture.format, false);
 
             texture.SetPixels(colors);
             texture.Apply();
@@ -105,9 +109,9 @@ namespace Tilemaps.Scripts.Utils
 
         private static Sprite SaveSpriteToEditorPath(Sprite sprite, Object obj)
         {
-            var path = GetSpritePath(obj);
+            string path = GetSpritePath(obj);
 
-            var dir = Path.GetDirectoryName(path);
+            string dir = Path.GetDirectoryName(path);
 
             if (dir == null)
             {
@@ -122,7 +126,7 @@ namespace Tilemaps.Scripts.Utils
             AssetDatabase.AddObjectToAsset(sprite, path);
             AssetDatabase.SaveAssets();
 
-            var textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
+            TextureImporter textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
 
             if (textureImporter == null)
             {
@@ -144,7 +148,7 @@ namespace Tilemaps.Scripts.Utils
 
         private static string GetSpritePath(Object obj)
         {
-            var assetPath = AssetDatabase.GetAssetPath(obj);
+            string assetPath = AssetDatabase.GetAssetPath(obj);
             assetPath = Path.ChangeExtension(assetPath, ".png");
 
             if (assetPath != null)

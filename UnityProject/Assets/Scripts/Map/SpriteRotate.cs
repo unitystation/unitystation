@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(SpriteRenderer))]
@@ -13,7 +10,7 @@ public class SpriteRotate : MonoBehaviour
     public Vector3 colliderOffset;
     private SpriteRenderer spriteRenderer;
 
-    [HideInInspector] [SerializeField] private int rotateIndex = 0;
+    [HideInInspector] [SerializeField] private int rotateIndex;
 
     public int RotateIndex
     {
@@ -34,7 +31,7 @@ public class SpriteRotate : MonoBehaviour
         }
     }
 
-    void Awake()
+    private void Awake()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }

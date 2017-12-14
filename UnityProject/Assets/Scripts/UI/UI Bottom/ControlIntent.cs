@@ -16,7 +16,7 @@ namespace UI
         public Sprite[] sprites;
         private Image thisImg;
 
-        void Start()
+        private void Start()
         {
             UIManager.CurrentIntent = Intent.Help;
             thisImg = GetComponent<Image>();

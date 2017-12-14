@@ -1,6 +1,6 @@
 ﻿using System;
-using UnityEngine;
 using System.Text.RegularExpressions;
+using Random = UnityEngine.Random;
 
 [Flags]
 public enum ChatChannel
@@ -31,20 +31,20 @@ public enum ChatModifier
     Drunk = 1,
     Stutter = 2,
     Hiss = 4,
-    Clown = 8,
+    Clown = 8
 }
 
 public class ChatEvent
 {
+    public ChatChannel channels;
     public string message;
+    public ChatModifier modifiers;
     public string speaker;
     public double timestamp;
-    public ChatChannel channels;
-    public ChatModifier modifiers;
 
     public ChatEvent(string message, string speaker, ChatChannel channels, ChatModifier modifiers)
     {
-        this.timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+        timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
         this.channels = channels;
         this.modifiers = modifiers;
         this.speaker = speaker;
@@ -53,23 +53,23 @@ public class ChatEvent
 
     public ChatEvent(string message, ChatChannel channels, bool skipProcessing = false)
     {
-        this.timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+        timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
         this.channels = channels;
-        this.modifiers = ChatModifier.None;
-        this.speaker = "";
+        modifiers = ChatModifier.None;
+        speaker = "";
         if (skipProcessing)
         {
             this.message = message;
         }
         else
         {
-            this.message = ProcessMessage(message, speaker, this.channels, this.modifiers);
+            this.message = ProcessMessage(message, speaker, this.channels, modifiers);
         }
     }
 
     public static ChatChannel GetNonNetworkedChannels()
     {
-        return (ChatChannel.Examine | ChatChannel.System);
+        return ChatChannel.Examine | ChatChannel.System;
     }
 
     private string ProcessMessage(string message, string speaker, ChatChannel channels, ChatModifier modifiers)
@@ -93,7 +93,7 @@ public class ChatEvent
         }
 
         //Check for emote. If found skip chat modifiers, make sure emote is only in Local channel
-        var rx = new Regex("^(/me )");
+        Regex rx = new Regex("^(/me )");
         if (rx.IsMatch(message))
         {
             // /me message
@@ -130,20 +130,20 @@ public class ChatEvent
     private string StripTags(string input)
     {
         //Regex - find "<" followed by any number of not ">" and ending in ">". Matches any HTML tags.
-        var rx = new Regex("[<][^>]+[>]");
-        var output = rx.Replace(input, "");
+        Regex rx = new Regex("[<][^>]+[>]");
+        string output = rx.Replace(input, "");
 
         return output;
     }
 
     private string ApplyModifiers(string input, ChatModifier modifiers)
     {
-        var output = input;
+        string output = input;
 
         //Clowns say a random number (1-3) HONK!'s after every message
         if ((modifiers & ChatModifier.Clown) == ChatModifier.Clown)
         {
-            int intensity = UnityEngine.Random.Range(1, 4);
+            int intensity = Random.Range(1, 4);
             for (int i = 0; i < intensity; i++)
             {
                 if (i == 0)
@@ -161,29 +161,29 @@ public class ChatEvent
         if ((modifiers & ChatModifier.Hiss) == ChatModifier.Hiss)
         {
             //Regex - find 1 or more "s"
-            var rx = new Regex("s+|S+");
-            output = rx.Replace(output, new MatchEvaluator(ChatEvent.Hiss));
+            Regex rx = new Regex("s+|S+");
+            output = rx.Replace(output, Hiss);
         }
 
         //Stuttering people randomly repeat beginnings of words
         if ((modifiers & ChatModifier.Stutter) == ChatModifier.Stutter)
         {
             //Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
-            var rx = new Regex(@"(\b)+([^\d\W])\B");
-            output = rx.Replace(output, new MatchEvaluator(ChatEvent.Stutter));
+            Regex rx = new Regex(@"(\b)+([^\d\W])\B");
+            output = rx.Replace(output, Stutter);
         }
 
         //Drunk people slur all "s" into "sh", randomly ...hic!... between words and have high % to ...hic!... after a sentance
         if ((modifiers & ChatModifier.Drunk) == ChatModifier.Drunk)
         {
             //Regex - find 1 or more "s"
-            var rx = new Regex("s+|S+");
-            output = rx.Replace(output, new MatchEvaluator(ChatEvent.Slur));
+            Regex rx = new Regex("s+|S+");
+            output = rx.Replace(output, Slur);
             //Regex - find 1 or more whitespace
             rx = new Regex(@"\s+");
-            output = rx.Replace(output, new MatchEvaluator(ChatEvent.Hic));
+            output = rx.Replace(output, Hic);
             //50% chance to ...hic!... at end of sentance
-            if (UnityEngine.Random.Range(1, 3) == 1)
+            if (Random.Range(1, 3) == 1)
             {
                 output = output + " ...hic!...";
             }
@@ -197,7 +197,7 @@ public class ChatEvent
     private static string Slur(Match m)
     {
         string x = m.ToString();
-        if (Char.IsLower(x[0]))
+        if (char.IsLower(x[0]))
         {
             x = x + "h";
         }
@@ -213,7 +213,7 @@ public class ChatEvent
     {
         string x = m.ToString();
         //10% chance to hic at any given space
-        if (UnityEngine.Random.Range(1, 11) == 1)
+        if (Random.Range(1, 11) == 1)
         {
             x = " ...hic!... ";
         }
@@ -224,7 +224,7 @@ public class ChatEvent
     private static string Hiss(Match m)
     {
         string x = m.ToString();
-        if (Char.IsLower(x[0]))
+        if (char.IsLower(x[0]))
         {
             x = x + "ss";
         }
@@ -241,10 +241,10 @@ public class ChatEvent
         string x = m.ToString();
         string stutter = "";
         //20% chance to stutter at any given consonant
-        if (UnityEngine.Random.Range(1, 6) == 1)
+        if (Random.Range(1, 6) == 1)
         {
             //Randomly pick how bad is the stutter
-            int intensity = UnityEngine.Random.Range(1, 4);
+            int intensity = Random.Range(1, 4);
             for (int i = 0; i < intensity; i++)
             {
                 stutter = stutter + x + "... "; //h... h... h...

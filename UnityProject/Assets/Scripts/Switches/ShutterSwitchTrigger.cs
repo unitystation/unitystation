@@ -1,20 +1,18 @@
-﻿using InputControl;
+﻿using System.Collections;
+using InputControl;
 using PlayGroup;
-using System.Collections;
-using System.Collections.Generic;
 using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class ShutterSwitchTrigger : InputTrigger
 {
-    public ObjectTrigger[] TriggeringObjects;
-
-    [SyncVar(hook = "SyncShutters")] public bool IsClosed;
-
     private Animator animator;
 
-    void Start()
+    [SyncVar(hook = "SyncShutters")] public bool IsClosed;
+    public ObjectTrigger[] TriggeringObjects;
+
+    private void Start()
     {
         //This is needed because you can no longer apply shutterSwitch prefabs (it will move all of the child sprite positions)
         gameObject.layer = LayerMask.NameToLayer("WallMounts");
@@ -28,7 +26,7 @@ public class ShutterSwitchTrigger : InputTrigger
         base.OnStartClient();
     }
 
-    IEnumerator WaitForLoad()
+    private IEnumerator WaitForLoad()
     {
         yield return new WaitForSeconds(3f);
         SyncShutters(IsClosed);
@@ -38,11 +36,13 @@ public class ShutterSwitchTrigger : InputTrigger
     {
         if (!PlayerManager.LocalPlayerScript.IsInReach(transform.position, 1.5f) ||
             PlayerManager.LocalPlayerScript.playerMove.isGhost)
+        {
             return;
+        }
 
         //if the button is idle and not animating it can be pressed
         //this is weird it should check all children objects to see if they are idle and finished
-        if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
             PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleShutters(gameObject);
         }
@@ -52,9 +52,9 @@ public class ShutterSwitchTrigger : InputTrigger
         }
     }
 
-    void SyncShutters(bool isClosed)
+    private void SyncShutters(bool isClosed)
     {
-        foreach (var s in TriggeringObjects)
+        foreach (ObjectTrigger s in TriggeringObjects)
         {
             s.Trigger(isClosed);
         }

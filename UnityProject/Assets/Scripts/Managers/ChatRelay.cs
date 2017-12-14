@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
-using UI;
-using PlayGroup;
 using System.Linq;
+using PlayGroup;
+using UI;
+using UnityEngine.Networking;
 
 public class ChatRelay : NetworkBehaviour
 {
     public static ChatRelay chatRelay;
-    private List<ChatEvent> chatlog = new List<ChatEvent>();
 
     private Dictionary<ChatChannel, string> chatColors;
     private ChatChannel namelessChannels;
@@ -27,10 +24,12 @@ public class ChatRelay : NetworkBehaviour
         }
     }
 
+    public List<ChatEvent> ChatLog { get; } = new List<ChatEvent>();
+
     public override void OnStartClient()
     {
         RefreshLog();
-        chatColors = new Dictionary<ChatChannel, string>()
+        chatColors = new Dictionary<ChatChannel, string>
         {
             {ChatChannel.Binary, "#ff00ff"},
             {ChatChannel.Supply, "#a8732b"},
@@ -48,15 +47,10 @@ public class ChatRelay : NetworkBehaviour
             {ChatChannel.Service, "#6eaa2c"},
             {ChatChannel.Syndicate, "#6d3f40"},
             {ChatChannel.System, "#dd5555"},
-            {ChatChannel.Ghost, "#386aff"},
+            {ChatChannel.Ghost, "#386aff"}
         };
-        namelessChannels = (ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System);
+        namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System;
         base.OnStartClient();
-    }
-
-    public List<ChatEvent> ChatLog
-    {
-        get { return chatlog; }
     }
 
     [Server]
@@ -89,14 +83,14 @@ public class ChatRelay : NetworkBehaviour
     private void UpdateClientChat(string message, ChatChannel channels)
     {
         ChatEvent chatEvent = new ChatEvent(message, channels, true);
-        chatlog.Add(chatEvent);
+        ChatLog.Add(chatEvent);
     }
 
     public void RefreshLog()
     {
         UIManager.Chat.CurrentChannelText.text = "";
         List<ChatEvent> chatEvents = new List<ChatEvent>();
-        chatEvents.AddRange(chatlog);
+        chatEvents.AddRange(ChatLog);
         chatEvents.AddRange(UIManager.Chat.GetChatEvents());
 
         string curList = UIManager.Chat.CurrentChannelText.text;
@@ -114,7 +108,7 @@ public class ChatRelay : NetworkBehaviour
                 string name = "";
                 if ((namelessChannels & channel) != channel)
                 {
-                    name = "<b>[" + channel.ToString() + "]</b> ";
+                    name = "<b>[" + channel + "]</b> ";
                 }
 
                 if ((PlayerManager.LocalPlayerScript.GetAvailableChannels(false) & channel) == channel &&

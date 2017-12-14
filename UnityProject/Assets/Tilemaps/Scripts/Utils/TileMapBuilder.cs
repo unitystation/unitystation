@@ -6,8 +6,8 @@ namespace Tilemaps.Scripts.Utils
 {
     public class TileMapBuilder
     {
-        private MetaTileMap _metaTileMap;
-        private bool _importMode;
+        private readonly bool _importMode;
+        private readonly MetaTileMap _metaTileMap;
 
         public TileMapBuilder(MetaTileMap tilemap, bool importMode = false)
         {
@@ -34,7 +34,7 @@ namespace Tilemaps.Scripts.Utils
 
         private void PlaceMetaTile(Vector3Int position, MetaTile metaTile, Matrix4x4 matrixTransform)
         {
-            foreach (var tile in metaTile.GetTiles())
+            foreach (LayerTile tile in metaTile.GetTiles())
             {
                 PlaceLayerTile(position, tile, matrixTransform);
             }
@@ -51,7 +51,7 @@ namespace Tilemaps.Scripts.Utils
 
         private void SetTile(Vector3Int position, LayerTile tile, Matrix4x4 matrixTransform)
         {
-            foreach (var requiredTile in tile.RequiredTiles)
+            foreach (LayerTile requiredTile in tile.RequiredTiles)
             {
                 SetTile(position, requiredTile, matrixTransform);
             }

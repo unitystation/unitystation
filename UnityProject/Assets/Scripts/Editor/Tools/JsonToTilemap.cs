@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using FullSerializer;
 using Tilemaps.Scripts.Behaviours.Layers;
 using Tilemaps.Scripts.Tiles;
@@ -15,29 +14,30 @@ using UnityStation.Tools;
 public class JsonToTilemap : Editor
 {
     [MenuItem("Tools/Import map (JSON)")]
-    static void Json2Map()
+    private static void Json2Map()
     {
-        var map = GameObject.FindGameObjectWithTag("Map");
-        var metaTileMap = map.GetComponentInChildren<MetaTileMap>();
+        GameObject map = GameObject.FindGameObjectWithTag("Map");
+        MetaTileMap metaTileMap = map.GetComponentInChildren<MetaTileMap>();
 
         metaTileMap.ClearAllTiles();
 
-        var converter = new TilemapConverter();
+        TilemapConverter converter = new TilemapConverter();
 
-        var builder = new TileMapBuilder(metaTileMap, true);
+        TileMapBuilder builder = new TileMapBuilder(metaTileMap, true);
 
-        var layers = DeserializeJson();
+        Dictionary<string, TilemapLayer> layers = DeserializeJson();
 
-        var objects = new List<Tuple<Vector3Int, ObjectTile>>();
+        List<Tuple<Vector3Int, ObjectTile>> objects = new List<Tuple<Vector3Int, ObjectTile>>();
 
-        foreach (var layer in layers)
+        foreach (KeyValuePair<string, TilemapLayer> layer in layers)
         {
-            var positions = layer.Value.TilePositions.ConvertAll(coord => new Vector3Int(coord.X, coord.Y, 0));
+            List<Vector3Int> positions =
+                layer.Value.TilePositions.ConvertAll(coord => new Vector3Int(coord.X, coord.Y, 0));
 
             for (int i = 0; i < positions.Count; i++)
             {
-                var position = positions[i];
-                var tile = converter.DataToTile(layer.Value.Tiles[i]);
+                Vector3Int position = positions[i];
+                GenericTile tile = converter.DataToTile(layer.Value.Tiles[i]);
 
                 if (tile is ObjectTile)
                 {
@@ -53,12 +53,12 @@ public class JsonToTilemap : Editor
             }
         }
 
-        foreach (var tuple in objects)
+        foreach (Tuple<Vector3Int, ObjectTile> tuple in objects)
         {
-            var position = tuple.Item1;
-            var obj = tuple.Item2;
+            Vector3Int position = tuple.Item1;
+            ObjectTile obj = tuple.Item2;
 
-            var matrix = obj.Rotatable ? FindObjectPosition(metaTileMap, ref position, obj) : Matrix4x4.identity;
+            Matrix4x4 matrix = obj.Rotatable ? FindObjectPosition(metaTileMap, ref position, obj) : Matrix4x4.identity;
 
             builder.PlaceTile(position, obj, matrix);
         }
@@ -70,17 +70,17 @@ public class JsonToTilemap : Editor
 
     private static Matrix4x4 FindObjectPosition(MetaTileMap metaTileMap, ref Vector3Int position, LayerTile tile)
     {
-        var onStructure = metaTileMap.HasTile(position, LayerType.Walls) ||
-                          metaTileMap.HasTile(position, LayerType.Windows);
+        bool onStructure = metaTileMap.HasTile(position, LayerType.Walls) ||
+                           metaTileMap.HasTile(position, LayerType.Windows);
 
-        var rotation = Quaternion.identity;
+        Quaternion rotation = Quaternion.identity;
 
         for (int i = 0; i < 4; i++)
         {
-            var offset = Vector3Int.RoundToInt(rotation * Vector3.up);
-            var hasStructure = metaTileMap.HasTile(position + offset, LayerType.Walls) ||
-                               metaTileMap.HasTile(position, LayerType.Windows);
-            var isOccupied = metaTileMap.HasTile(position + offset, onStructure ? LayerType.Base : LayerType.Objects);
+            Vector3Int offset = Vector3Int.RoundToInt(rotation * Vector3.up);
+            bool hasStructure = metaTileMap.HasTile(position + offset, LayerType.Walls) ||
+                                metaTileMap.HasTile(position, LayerType.Windows);
+            bool isOccupied = metaTileMap.HasTile(position + offset, onStructure ? LayerType.Base : LayerType.Objects);
 
             if (onStructure != hasStructure && isOccupied == onStructure)
             {
@@ -100,15 +100,18 @@ public class JsonToTilemap : Editor
 
     private static Dictionary<string, TilemapLayer> DeserializeJson()
     {
-        var deserializedLayers = new Dictionary<string, TilemapLayer>();
-        var asset = Resources.Load(Path.Combine("metadata", SceneManager.GetActiveScene().name)) as TextAsset;
+        Dictionary<string, TilemapLayer> deserializedLayers = new Dictionary<string, TilemapLayer>();
+        TextAsset asset = Resources.Load(Path.Combine("metadata", SceneManager.GetActiveScene().name)) as TextAsset;
         if (asset != null)
         {
-            var data = fsJsonParser.Parse(asset.text);
-            var serializer = new fsSerializer();
+            fsData data = fsJsonParser.Parse(asset.text);
+            fsSerializer serializer = new fsSerializer();
             serializer.TryDeserialize(data, ref deserializedLayers).AssertSuccessWithoutWarnings();
         }
-        else throw new FileNotFoundException("Put your map json to /Assets/Resources/metadata/%mapname%.json!");
+        else
+        {
+            throw new FileNotFoundException("Put your map json to /Assets/Resources/metadata/%mapname%.json!");
+        }
         return deserializedLayers;
     }
 
@@ -119,17 +122,17 @@ public class JsonToTilemap : Editor
 
     private static string GetCleanLayerName(string dirtyName)
     {
-        var lameTrimChars = new[] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-'};
+        char[] lameTrimChars = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-'};
         return dirtyName.TrimEnd(lameTrimChars);
     }
 
     internal static int CompareSpriteLayer(string x, string y)
     {
-        var sortingLayerNames = MapToPNG.GetSortingLayerNames();
-        var xTrim = GetCleanLayerName(x);
-        var yTrim = GetCleanLayerName(y);
-        var x_index = sortingLayerNames.FindIndex(s => s.StartsWith(xTrim));
-        var y_index = sortingLayerNames.FindIndex(s => s.StartsWith(yTrim));
+        List<string> sortingLayerNames = MapToPNG.GetSortingLayerNames();
+        string xTrim = GetCleanLayerName(x);
+        string yTrim = GetCleanLayerName(y);
+        int x_index = sortingLayerNames.FindIndex(s => s.StartsWith(xTrim));
+        int y_index = sortingLayerNames.FindIndex(s => s.StartsWith(yTrim));
 
         if (x_index == y_index)
         {

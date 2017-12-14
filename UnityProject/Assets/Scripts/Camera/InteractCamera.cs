@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InteractCamera : MonoBehaviour
 {
     public static InteractCamera Instance;
-    public Camera mainCam;
     public Camera interactCam;
+    public Camera mainCam;
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -16,12 +14,12 @@ public class InteractCamera : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         interactCam.orthographicSize = mainCam.orthographicSize;
     }
 
-    void Update()
+    private void Update()
     {
         if (interactCam.orthographicSize != mainCam.orthographicSize)
         {

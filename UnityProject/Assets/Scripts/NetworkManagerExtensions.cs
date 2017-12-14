@@ -1,39 +1,37 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEngine;
 using UnityEngine.Networking;
 
 public static class NetworkManagerExtensions
 {
     /// <summary>
-    /// Finds all classes derived from ClientMessage<> and registers their server handlers.
+    ///     Finds all classes derived from ClientMessage<> and registers their server handlers.
     /// </summary>
     public static void RegisterServerHandlers(this CustomNetworkManager manager)
     {
-        var types = GetDerivedTypes(typeof(ClientMessage<>));
-        var mi = GetHandlerInfo();
+        IEnumerable<Type> types = GetDerivedTypes(typeof(ClientMessage<>));
+        MethodInfo mi = GetHandlerInfo();
 
-        foreach (var type in types)
+        foreach (Type type in types)
         {
-            var method = mi.MakeGenericMethod(type);
+            MethodInfo method = mi.MakeGenericMethod(type);
             method.Invoke(null, new object[] {manager, null});
         }
     }
 
     /// <summary>
-    /// Finds all classes derived from ServerMessage<> and registers their client handlers.
+    ///     Finds all classes derived from ServerMessage<> and registers their client handlers.
     /// </summary>
     public static void RegisterClientHandlers(this CustomNetworkManager manager, NetworkConnection conn)
     {
-        var types = GetDerivedTypes(typeof(ServerMessage<>));
-        var mi = GetHandlerInfo();
+        IEnumerable<Type> types = GetDerivedTypes(typeof(ServerMessage<>));
+        MethodInfo mi = GetHandlerInfo();
 
-        foreach (var type in types)
+        foreach (Type type in types)
         {
-            var method = mi.MakeGenericMethod(type);
+            MethodInfo method = mi.MakeGenericMethod(type);
             method.Invoke(null, new object[] {manager, conn});
         }
     }
@@ -44,10 +42,10 @@ public static class NetworkManagerExtensions
         // In normal C# this would just be `T.MessageType` but it seems unity's compiler has some stipulations about that...
         FieldInfo field = typeof(T).GetField("MessageType",
             BindingFlags.Static | BindingFlags.FlattenHierarchy | BindingFlags.Public);
-        var msgType = (short) field.GetValue(null);
+        short msgType = (short) field.GetValue(null);
         NetworkMessageDelegate cb = delegate(NetworkMessage msg)
         {
-            manager.StartCoroutine(((GameMessage<T>) msg.ReadMessage<T>()).Process());
+            manager.StartCoroutine(msg.ReadMessage<T>().Process());
         };
 
         if (conn != null)
@@ -61,7 +59,7 @@ public static class NetworkManagerExtensions
     }
 
     /// <summary>
-    /// Gets the method info for the RegisterHandler method above.
+    ///     Gets the method info for the RegisterHandler method above.
     /// </summary>
     private static MethodInfo GetHandlerInfo()
     {
@@ -69,7 +67,7 @@ public static class NetworkManagerExtensions
     }
 
     /// <summary>
-    /// Finds all types that derive from the given type.
+    ///     Finds all types that derive from the given type.
     /// </summary>
     private static IEnumerable<Type> GetDerivedTypes(Type baseType)
     {
@@ -82,7 +80,7 @@ public static class NetworkManagerExtensions
     {
         while (t != null && t != typeof(object))
         {
-            var cur = t.IsGenericType ? t.GetGenericTypeDefinition() : t;
+            Type cur = t.IsGenericType ? t.GetGenericTypeDefinition() : t;
             if (baseType == cur)
             {
                 return true;

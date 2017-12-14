@@ -1,7 +1,4 @@
-﻿using Cupboards;
-using Tilemaps.Scripts.Utils;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 
 namespace Tilemaps.Scripts.Behaviours.Objects
 {

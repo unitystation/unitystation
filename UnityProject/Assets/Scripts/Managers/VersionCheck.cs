@@ -1,21 +1,20 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class VersionCheck : MonoBehaviour
 {
+    private const string VERSION_NUMBER = "0.1.3";
+    private const string urlCheck = "http://doobly.izz.moe/unitystation/checkversion.php";
     private static VersionCheck versionCheck;
-    const string VERSION_NUMBER = "0.1.3";
-    const string urlCheck = "http://doobly.izz.moe/unitystation/checkversion.php";
+    public GameObject errorWindow;
+
+    public GameObject loginWindow;
+    public Text newVerText;
+    public GameObject updateWindow;
 
     public Text versionText;
     public Text yourVerText;
-    public Text newVerText;
-
-    public GameObject loginWindow;
-    public GameObject updateWindow;
-    public GameObject errorWindow;
 
     public static VersionCheck Instance
     {
@@ -29,13 +28,13 @@ public class VersionCheck : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         versionText.text = VERSION_NUMBER;
         //		StartCoroutine(CheckVersion());
     }
 
-    IEnumerator CheckVersion()
+    private IEnumerator CheckVersion()
     {
         string url = urlCheck + "?ver=" + VERSION_NUMBER;
         WWW get_curVersion = new WWW(url);

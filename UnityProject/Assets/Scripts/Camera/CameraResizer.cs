@@ -4,7 +4,7 @@ public class CameraResizer : MonoBehaviour
 {
     public float fWidth = 9.0f; // Desired width 
 
-    void Start()
+    private void Start()
     {
         AdjustCam();
     }

@@ -1,20 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using AccessType;
+using UnityEngine;
 
 public class ItemFactory : MonoBehaviour
 {
     public static ItemFactory Instance;
+    private readonly List<GameObject> foods = new List<GameObject>();
 
     /* Example:
     private GameObject someItem{ get; set; }
     */
 
     private GameObject idCard { get; set; }
-    private List<GameObject> foods = new List<GameObject>();
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -26,7 +25,7 @@ public class ItemFactory : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         /* Example:
         Instance.someItem = Resources.Load("SomeItem") as GameObject;
@@ -36,10 +35,10 @@ public class ItemFactory : MonoBehaviour
     }
 
     //Please keep food prefabs at Resources root level for the time being
-    void LoadFoodResources()
+    private void LoadFoodResources()
     {
-        var foodPrefabs = Resources.LoadAll<FoodBehaviour>("");
-        foreach (var foodObj in foodPrefabs)
+        FoodBehaviour[] foodPrefabs = Resources.LoadAll<FoodBehaviour>("");
+        foreach (FoodBehaviour foodObj in foodPrefabs)
         {
             foods.Add(foodObj.gameObject);
         }
@@ -60,7 +59,7 @@ public class ItemFactory : MonoBehaviour
     */
 
     /// <summary>
-    /// For spawning new ID cards, mostly used on new player spawn
+    ///     For spawning new ID cards, mostly used on new player spawn
     /// </summary>
     public GameObject SpawnIDCard(IDCardType idCardType, JobType jobType, List<Access> allowedAccess, string name)
     {
@@ -77,8 +76,8 @@ public class ItemFactory : MonoBehaviour
     }
 
     /// <summary>
-    /// For spawning Meals/Food items. Pass the prefab from the crafting manager here to be spawned
-    /// Server Side only!
+    ///     For spawning Meals/Food items. Pass the prefab from the crafting manager here to be spawned
+    ///     Server Side only!
     /// </summary>
     public GameObject SpawnMeal(GameObject mealPrefab, Vector3 position)
     {

@@ -1,15 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UI;
 using UnityEditor;
-using UI;
 
 [CustomEditor(typeof(UI_ItemSlot))]
 public class UI_ItemSlotEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        var itemSlot = (UI_ItemSlot) target;
+        UI_ItemSlot itemSlot = (UI_ItemSlot) target;
 
         itemSlot.eventName = EditorGUILayout.TextField("Event Name", itemSlot.eventName);
 
@@ -21,11 +18,13 @@ public class UI_ItemSlotEditor : Editor
         }
         else
         {
-            var tps = serializedObject.FindProperty("allowedItemTypes");
+            SerializedProperty tps = serializedObject.FindProperty("allowedItemTypes");
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(tps, true);
             if (EditorGUI.EndChangeCheck())
+            {
                 serializedObject.ApplyModifiedProperties();
+            }
         }
     }
 }

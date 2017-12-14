@@ -7,10 +7,10 @@ namespace Objects
 {
     public class ClosetHealthBehaviour : HealthBehaviour
     {
-        private Collider2D[] colliders;
-        private RegisterCloset registerTile;
-        private PushPull objectActions;
         private ClosetControl closetControl;
+        private Collider2D[] colliders;
+        private PushPull objectActions;
+        private RegisterCloset registerTile;
 
         private void Awake()
         {
@@ -46,7 +46,10 @@ namespace Objects
 
         private void disableInteraction()
         {
-            for (var i = 0; i < colliders.Length; i++) colliders[i].enabled = false;
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                colliders[i].enabled = false;
+            }
 
             objectActions.BreakPull();
             registerTile.IsClosed = false;

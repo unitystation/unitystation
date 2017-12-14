@@ -48,7 +48,7 @@ namespace FullSerializer.Internal
 
             if (_cache.TryGetValue(type, out optionalVersionedType) == false)
             {
-                var attr = fsPortableReflection.GetAttribute<fsObjectAttribute>(type);
+                fsObjectAttribute attr = fsPortableReflection.GetAttribute<fsObjectAttribute>(type);
 
                 if (attr != null)
                 {
@@ -98,7 +98,7 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Verifies that the given type has constructors to migrate from all ancestor types.
+        ///     Verifies that the given type has constructors to migrate from all ancestor types.
         /// </summary>
         private static void VerifyConstructors(fsVersionedType type)
         {
@@ -111,7 +111,7 @@ namespace FullSerializer.Internal
                 bool found = false;
                 for (int j = 0; j < publicConstructors.Length; ++j)
                 {
-                    var parameters = publicConstructors[j].GetParameters();
+                    ParameterInfo[] parameters = publicConstructors[j].GetParameters();
                     if (parameters.Length == 1 && parameters[0].ParameterType == requiredConstructorType)
                     {
                         found = true;
@@ -127,15 +127,15 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Verifies that the given version graph contains only unique versions.
+        ///     Verifies that the given version graph contains only unique versions.
         /// </summary>
         private static void VerifyUniqueVersionStrings(fsVersionedType type)
         {
             // simple tree traversal
 
-            var found = new Dictionary<string, Type>();
+            Dictionary<string, Type> found = new Dictionary<string, Type>();
 
-            var remaining = new Queue<fsVersionedType>();
+            Queue<fsVersionedType> remaining = new Queue<fsVersionedType>();
             remaining.Enqueue(type);
 
             while (remaining.Count > 0)
@@ -153,7 +153,7 @@ namespace FullSerializer.Internal
                 found[item.VersionString] = item.ModelType;
 
                 // scan the ancestors as well
-                foreach (var ancestor in item.Ancestors)
+                foreach (fsVersionedType ancestor in item.Ancestors)
                 {
                     remaining.Enqueue(ancestor);
                 }

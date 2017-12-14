@@ -5,7 +5,7 @@ namespace Sprites
 {
     public class Sprites
     {
-        private Dictionary<string, Sprite[]> sprites = new Dictionary<string, Sprite[]>();
+        private readonly Dictionary<string, Sprite[]> sprites = new Dictionary<string, Sprite[]>();
 
         public Sprite[] this[string key]
         {
@@ -16,11 +16,8 @@ namespace Sprites
                     //					Debug.Log("Sprite found with key: " + key);
                     return sprites[key];
                 }
-                else
-                {
-                    Debug.Log("SPRITE MANAGER ERROR, KEY " + key + "NOT FOUND IN SPRITES");
-                    return null;
-                }
+                Debug.Log("SPRITE MANAGER ERROR, KEY " + key + "NOT FOUND IN SPRITES");
+                return null;
             }
             set { sprites[key] = value; }
         }
@@ -29,17 +26,48 @@ namespace Sprites
     public class SpriteManager : MonoBehaviour
     {
         private static SpriteManager spriteManager;
-        private Sprites playerSprites = new Sprites();
-        private Sprites wallSprites = new Sprites();
-        private Sprites doorSprites = new Sprites();
-        private Sprites monitorSprites = new Sprites();
-        private Sprites bloodSprites = new Sprites();
-        private Sprites lightSprites = new Sprites();
-        private Sprites fireSprites = new Sprites();
-        private Sprites wireSprites = new Sprites();
-        private Sprites screenUISprites = new Sprites();
+        private readonly Sprites bloodSprites = new Sprites();
 
         public DmiIconData dmi;
+        private readonly Sprites doorSprites = new Sprites();
+        private readonly Sprites fireSprites = new Sprites();
+        private readonly Sprites lightSprites = new Sprites();
+        private readonly Sprites monitorSprites = new Sprites();
+        private readonly Sprites playerSprites = new Sprites();
+        private readonly Sprites screenUISprites = new Sprites();
+        private readonly Sprites wallSprites = new Sprites();
+        private readonly Sprites wireSprites = new Sprites();
+
+        public static SpriteManager Instance
+        {
+            get
+            {
+                if (!spriteManager)
+                {
+                    spriteManager = FindObjectOfType<SpriteManager>();
+                    spriteManager.InitializeSpriteSheets();
+                }
+                return spriteManager;
+            }
+        }
+
+        public static Sprites PlayerSprites => Instance.playerSprites;
+
+        public static Sprites ConnectSprites => Instance.wallSprites;
+
+        public static Sprites DoorSprites => Instance.doorSprites;
+
+        public static Sprites MonitorSprites => Instance.monitorSprites;
+
+        public static Sprites BloodSprites => Instance.bloodSprites;
+
+        public static Sprites LightSprites => Instance.lightSprites;
+
+        public static Sprites FireSprites => Instance.fireSprites;
+
+        public static Sprites WireSprites => Instance.wireSprites;
+
+        public static Sprites ScreenUISprites => Instance.screenUISprites;
 
         private void InitializeSpriteSheets()
         {
@@ -112,64 +140,6 @@ namespace Sprites
                 wireSprites[Key] = sprites;
             }
         }
-
-        public static SpriteManager Instance
-        {
-            get
-            {
-                if (!spriteManager)
-                {
-                    spriteManager = FindObjectOfType<SpriteManager>();
-                    spriteManager.InitializeSpriteSheets();
-                }
-                return spriteManager;
-            }
-        }
-
-        public static Sprites PlayerSprites
-        {
-            get { return Instance.playerSprites; }
-        }
-
-        public static Sprites ConnectSprites
-        {
-            get { return Instance.wallSprites; }
-        }
-
-        public static Sprites DoorSprites
-        {
-            get { return Instance.doorSprites; }
-        }
-
-        public static Sprites MonitorSprites
-        {
-            get { return Instance.monitorSprites; }
-        }
-
-        public static Sprites BloodSprites
-        {
-            get { return Instance.bloodSprites; }
-        }
-
-        public static Sprites LightSprites
-        {
-            get { return Instance.lightSprites; }
-        }
-
-        public static Sprites FireSprites
-        {
-            get { return Instance.fireSprites; }
-        }
-
-        public static Sprites WireSprites
-        {
-            get { return Instance.wireSprites; }
-        }
-
-        public static Sprites ScreenUISprites
-        {
-            get { return Instance.screenUISprites; }
-        }
     }
 
     public enum DoorType
@@ -204,7 +174,8 @@ namespace Sprites
         Generic,
         BloodLoss,
         Brute,
-        Bullet,
+
+        Bullet
         //whatever
     }
 

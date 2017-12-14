@@ -5,7 +5,7 @@ using System.Text;
 namespace FullSerializer.Internal
 {
     /// <summary>
-    /// Serializes and deserializes enums by their current name.
+    ///     Serializes and deserializes enums by their current name.
     /// </summary>
     public class fsEnumConverter : fsConverter
     {
@@ -40,19 +40,22 @@ namespace FullSerializer.Internal
             else if (fsPortableReflection.GetAttribute<FlagsAttribute>(storageType) != null)
             {
                 long instanceValue = Convert.ToInt64(instance);
-                var result = new StringBuilder();
+                StringBuilder result = new StringBuilder();
 
                 bool first = true;
-                foreach (var value in Enum.GetValues(storageType))
+                foreach (object value in Enum.GetValues(storageType))
                 {
                     long integralValue = Convert.ToInt64(value);
                     bool isSet = (instanceValue & integralValue) != 0;
 
                     if (isSet)
                     {
-                        if (first == false) result.Append(",");
+                        if (first == false)
+                        {
+                            result.Append(",");
+                        }
                         first = false;
-                        result.Append(value.ToString());
+                        result.Append(value);
                     }
                 }
 
@@ -91,7 +94,7 @@ namespace FullSerializer.Internal
                 return fsResult.Success;
             }
 
-            else if (data.IsInt64)
+            if (data.IsInt64)
             {
                 int enumValue = (int) data.AsInt64;
 
@@ -106,7 +109,7 @@ namespace FullSerializer.Internal
         }
 
         /// <summary>
-        /// Returns true if the given value is contained within the specified array.
+        ///     Returns true if the given value is contained within the specified array.
         /// </summary>
         private static bool ArrayContains<T>(T[] values, T value)
         {

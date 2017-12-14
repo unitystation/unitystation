@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using UnityEngine;
 
 namespace SectionEditor
 {
     public class SectionDrawer : MonoBehaviour
     {
         private static SectionDrawer instance;
+
+        public static bool DrawGizmos;
 
         public static SectionDrawer Instance
         {
@@ -32,20 +31,20 @@ namespace SectionEditor
                 return instance;
             }
         }
-
-        public static bool DrawGizmos;
     }
 #if UNITY_EDITOR
     public class GizmoDrawer
     {
         [DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]
-        static void DrawGizmo(SectionDrawer scr, GizmoType gizmoType)
+        private static void DrawGizmo(SectionDrawer scr, GizmoType gizmoType)
         {
             if (!SectionDrawer.DrawGizmos)
+            {
                 return;
+            }
 
-            var start = Camera.current.ScreenToWorldPoint(Vector3.zero); // bottom left
-            var end = Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth,
+            Vector3 start = Camera.current.ScreenToWorldPoint(Vector3.zero); // bottom left
+            Vector3 end = Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth,
                 Camera.current.pixelHeight));
 
             for (int y = Mathf.RoundToInt(start.y); y < Mathf.RoundToInt(end.y + 1); y++)

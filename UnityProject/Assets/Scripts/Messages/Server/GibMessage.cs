@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -13,7 +12,7 @@ public class GibMessage : ServerMessage<GibMessage>
 
         yield return WaitFor(Subject);
 
-        foreach (var living in Object.FindObjectsOfType<HealthBehaviour>())
+        foreach (HealthBehaviour living in Object.FindObjectsOfType<HealthBehaviour>())
         {
             living.Death();
         }
@@ -21,7 +20,7 @@ public class GibMessage : ServerMessage<GibMessage>
 
     public static GibMessage Send()
     {
-        var msg = new GibMessage();
+        GibMessage msg = new GibMessage();
         msg.SendToAll();
         return msg;
     }

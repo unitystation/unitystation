@@ -5,10 +5,10 @@ namespace UI
 {
     public class ControlClothing : MonoBehaviour
     {
-        private bool isOpen;
         public Image[] equipImgs;
+        private bool isOpen;
 
-        void Start()
+        private void Start()
         {
             isOpen = false;
             ToggleEquipMenu(false);

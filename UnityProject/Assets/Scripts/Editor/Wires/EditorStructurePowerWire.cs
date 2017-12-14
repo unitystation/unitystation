@@ -1,20 +1,20 @@
-﻿using UnityEditor;
+﻿using Sprites;
+using UnityEditor;
 using UnityEngine;
-using Sprites;
 
 namespace Wiring
 {
     /// <summary>
-    /// This StructurePowerWire editor script helps set the correct
-    /// wires when building maps
+    ///     This StructurePowerWire editor script helps set the correct
+    ///     wires when building maps
     /// </summary>
     [CustomEditor(typeof(StructurePowerWire))]
     public class EditorStructurePowerWire : Editor
     {
-        private int startCache;
         private int endCache;
-        private bool showError = false;
-        private float msgTime = 0f;
+        private float msgTime;
+        private bool showError;
+        private int startCache;
 
         public override void OnInspectorGUI()
         {
@@ -67,7 +67,7 @@ namespace Wiring
                 EditorGUILayout.HelpBox("Incorrect start and end combination", MessageType.Error);
             }
             SerializedProperty TRay = serializedObject.FindProperty("TRay");
-            EditorGUILayout.PropertyField((TRay), true);
+            EditorGUILayout.PropertyField(TRay, true);
 
             EditorGUILayout.HelpBox("TODO: Create a specific component to handle wiring changes\r\n" +
                                     "via the map editor. Do this by inheriting the component from\r\n" +

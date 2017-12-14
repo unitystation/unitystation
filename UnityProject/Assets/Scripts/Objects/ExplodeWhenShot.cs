@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Light2D;
-using UnityEngine;
-using UnityEngine.Networking;
 using PlayGroup;
 using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
-using Random = UnityEngine.Random;
+using UnityEngine;
+using UnityEngine.Networking;
 
 public class ExplodeWhenShot : NetworkBehaviour
 {
     public int damage = 150;
     public float radius = 3f;
 
-    const int MAX_TARGETS = 44;
+    private const int MAX_TARGETS = 44;
 
-    readonly string[] explosions = {"Explosion1", "Explosion2"};
-    readonly Collider2D[] colliders = new Collider2D[MAX_TARGETS];
+    private readonly string[] explosions = {"Explosion1", "Explosion2"};
+    private readonly Collider2D[] colliders = new Collider2D[MAX_TARGETS];
 
-    int playerMask;
-    int damageableMask;
-    int obstacleMask;
-    private bool hasExploded = false;
+    private int playerMask;
+    private int damageableMask;
+    private int obstacleMask;
+    private bool hasExploded;
 
     private GameObject lightFxInstance;
     private LightSprite lightSprite;
@@ -31,7 +29,7 @@ public class ExplodeWhenShot : NetworkBehaviour
     private Matrix _matrix;
     private RegisterTile _registerTile;
 
-    void Start()
+    private void Start()
     {
         playerMask = LayerMask.GetMask("Players");
         damageableMask = LayerMask.GetMask("Players", "Machines", "Default" /*, "Lighting", "Items"*/);
@@ -47,7 +45,9 @@ public class ExplodeWhenShot : NetworkBehaviour
     public void ExplodeOnDamage(string damagedBy)
     {
         if (hasExploded)
+        {
             return;
+        }
         //        Debug.Log("Exploding on damage!");
         if (isServer)
         {
@@ -62,18 +62,18 @@ public class ExplodeWhenShot : NetworkBehaviour
 #endif
     public void Explode(string thanksTo)
     {
-        var explosionPos = (Vector2) transform.position;
-        var length = Physics2D.OverlapCircleNonAlloc(explosionPos, radius, colliders, damageableMask);
+        Vector2 explosionPos = transform.position;
+        int length = Physics2D.OverlapCircleNonAlloc(explosionPos, radius, colliders, damageableMask);
         Dictionary<GameObject, int> toBeDamaged = new Dictionary<GameObject, int>();
         for (int i = 0; i < length; i++)
         {
-            var localCollider = colliders[i];
-            var localObject = localCollider.gameObject;
+            Collider2D localCollider = colliders[i];
+            GameObject localObject = localCollider.gameObject;
 
-            var localObjectPos = (Vector2) localObject.transform.position;
-            var distance = Vector3.Distance(explosionPos, localObjectPos);
-            var effect = 1 - ((distance * distance) / (radius * radius));
-            var actualDamage = (int) (damage * effect);
+            Vector2 localObjectPos = localObject.transform.position;
+            float distance = Vector3.Distance(explosionPos, localObjectPos);
+            float effect = 1 - distance * distance / (radius * radius);
+            int actualDamage = (int) (damage * effect);
 
             if (NotSameObject(localCollider) &&
                 HasHealthComponent(localCollider) &&
@@ -85,7 +85,7 @@ public class ExplodeWhenShot : NetworkBehaviour
             }
         }
 
-        foreach (var pair in toBeDamaged)
+        foreach (KeyValuePair<GameObject, int> pair in toBeDamaged)
         {
             pair.Key.GetComponent<HealthBehaviour>()
                 .ApplyDamage($"{gameObject.name} – {thanksTo}", pair.Value, DamageType.BURN);
@@ -95,7 +95,7 @@ public class ExplodeWhenShot : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcClientExplode()
+    private void RpcClientExplode()
     {
         if (!hasExploded)
         {
@@ -104,7 +104,7 @@ public class ExplodeWhenShot : NetworkBehaviour
         }
     }
 
-    IEnumerator WaitToDestroy()
+    private IEnumerator WaitToDestroy()
     {
         yield return new WaitForSeconds(5f);
         NetworkServer.Destroy(gameObject);
@@ -135,14 +135,16 @@ public class ExplodeWhenShot : NetworkBehaviour
     internal virtual void GoBoom()
     {
         if (spriteRend.isVisible)
+        {
             Camera2DFollow.followControl.Shake(0.2f, 0.2f);
+        }
         // Instantiate a clone of the source so that multiple explosions can play at the same time.
         spriteRend.enabled = false;
         try
         {
             _registerTile.Unregister();
 
-            var oA = gameObject.GetComponent<PushPull>();
+            PushPull oA = gameObject.GetComponent<PushPull>();
             if (oA != null)
             {
                 if (oA.pusher == PlayerManager.LocalPlayer)
@@ -157,34 +159,34 @@ public class ExplodeWhenShot : NetworkBehaviour
             Debug.LogWarning("Object may of already been removed");
         }
 
-        foreach (var collider2d in gameObject.GetComponents<Collider2D>())
+        foreach (Collider2D collider2d in gameObject.GetComponents<Collider2D>())
         {
             collider2d.enabled = false;
         }
 
-        var name = explosions[Random.Range(0, explosions.Length)];
-        var source = SoundManager.Instance[name];
+        string name = explosions[Random.Range(0, explosions.Length)];
+        AudioSource source = SoundManager.Instance[name];
         if (source != null)
         {
-            Instantiate<AudioSource>(source, transform.position, Quaternion.identity).Play();
+            Instantiate(source, transform.position, Quaternion.identity).Play();
         }
 
-        var fireRing = Resources.Load<GameObject>("effects/FireRing");
+        GameObject fireRing = Resources.Load<GameObject>("effects/FireRing");
         Instantiate(fireRing, transform.position, Quaternion.identity);
 
-        var lightFx = Resources.Load<GameObject>("lighting/BoomLight");
+        GameObject lightFx = Resources.Load<GameObject>("lighting/BoomLight");
         lightFxInstance = Instantiate(lightFx, transform.position, Quaternion.identity);
         lightSprite = lightFxInstance.GetComponentInChildren<LightSprite>();
         lightSprite.fadeFX(1f);
         SetFire();
     }
 
-    void SetFire()
+    private void SetFire()
     {
         int maxNumOfFire = 4;
         int cLength = 3;
         int rHeight = 3;
-        var pos = Vector3Int.RoundToInt(transform.position);
+        Vector3Int pos = Vector3Int.RoundToInt(transform.position);
         EffectsFactory.Instance.SpawnFileTile(Random.Range(0.4f, 1f), pos);
         pos.x--;
         pos.y++;
@@ -194,9 +196,11 @@ public class ExplodeWhenShot : NetworkBehaviour
             for (int j = 0; j < rHeight; j++)
             {
                 if (j == 0 && i == 0 || j == 2 && i == 0 || j == 2 && i == 2)
+                {
                     continue;
+                }
 
-                var checkPos = new Vector3Int(pos.x + i, pos.y - j, 0);
+                Vector3Int checkPos = new Vector3Int(pos.x + i, pos.y - j, 0);
 
                 _matrix.IsPassableAt(checkPos);
 

@@ -16,12 +16,14 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public override void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)
         {
-            var objectTile = tile as ObjectTile;
+            ObjectTile objectTile = tile as ObjectTile;
 
             if (objectTile)
             {
                 if (!objectTile.IsItem)
+                {
                     tilemap.SetTile(position, null);
+                }
                 objectTile.SpawnObject(position, tilemap, transformMatrix);
             }
             else
@@ -32,12 +34,12 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public override bool HasTile(Vector3Int position)
         {
-            return (Objects.Get(position).Count > 0) || base.HasTile(position);
+            return Objects.Get(position).Count > 0 || base.HasTile(position);
         }
 
         public override void RemoveTile(Vector3Int position)
         {
-            foreach (var obj in Objects.Get(position).ToArray())
+            foreach (RegisterTile obj in Objects.Get(position).ToArray())
             {
                 DestroyImmediate(obj.gameObject);
             }
@@ -47,14 +49,14 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public override bool IsPassableAt(Vector3Int origin, Vector3Int to)
         {
-            var objTo = Objects.GetFirst<RegisterObject>(to);
+            RegisterObject objTo = Objects.GetFirst<RegisterObject>(to);
 
             if (objTo && (!objTo.IsPassable() || !objTo.IsPassable(origin)))
             {
                 return false;
             }
 
-            var objOrigin = Objects.GetFirst<RegisterObject>(origin);
+            RegisterObject objOrigin = Objects.GetFirst<RegisterObject>(origin);
             if (objOrigin && !objOrigin.IsPassable(to))
             {
                 return false;
@@ -65,14 +67,14 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public override bool IsPassableAt(Vector3Int position)
         {
-            var objects = Objects.Get<RegisterTile>(position);
+            List<RegisterTile> objects = Objects.Get<RegisterTile>(position);
 
             return objects.All(x => x.IsPassable()) && base.IsPassableAt(position);
         }
 
         public override bool IsAtmosPassableAt(Vector3Int position)
         {
-            var obj = Objects.GetFirst<RegisterObject>(position);
+            RegisterObject obj = Objects.GetFirst<RegisterObject>(position);
 
             return obj ? obj.IsAtmosPassable() : base.IsAtmosPassableAt(position);
         }
@@ -84,7 +86,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public override void ClearAllTiles()
         {
-            foreach (var obj in Objects.AllObjects)
+            foreach (RegisterTile obj in Objects.AllObjects)
             {
                 if (obj != null)
                 {

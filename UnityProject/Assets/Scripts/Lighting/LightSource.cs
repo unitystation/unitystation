@@ -1,14 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using InputControl;
-using Events;
-using UnityEngine.Events;
 using Sprites;
+using UnityEngine;
 
 namespace Lighting
 {
-    enum LightState
+    internal enum LightState
     {
         On,
         Off,
@@ -17,65 +14,66 @@ namespace Lighting
 
     public class LightSource : ObjectTrigger
     {
-        /// <summary>
-        /// The SpriteRenderer for this light
-        /// </summary>
-        private SpriteRenderer Renderer;
+        private const int MAX_TARGETS = 400;
+
+        private readonly Collider2D[] lightSpriteColliders = new Collider2D[MAX_TARGETS];
+
+        private int ambientMask;
 
         /// <summary>
-        /// The state of this light
-        /// </summary>
-        private LightState LightState;
-
-        /// <summary>
-        /// The actual light effect that the light source represents
+        ///     The actual light effect that the light source represents
         /// </summary>
         public GameObject Light;
 
         /// <summary>
-        /// The sprite to show when this light is turned on
+        ///     The state of this light
         /// </summary>
-        public Sprite SpriteLightOn;
+        private LightState LightState;
+
+        private int obstacleMask;
+        public float radius = 6f;
 
         /// <summary>
-        /// The sprite to show when this light is turned off
+        ///     The SpriteRenderer for this light
+        /// </summary>
+        private SpriteRenderer Renderer;
+
+        /// <summary>
+        ///     The sprite to show when this light is turned off
         /// </summary>
         public Sprite SpriteLightOff;
 
-        //For network sync reliability
-        private bool waitToCheckState = false;
+        /// <summary>
+        ///     The sprite to show when this light is turned on
+        /// </summary>
+        public Sprite SpriteLightOn;
 
         private bool tempStateCache;
 
-        const int MAX_TARGETS = 400;
-        public float radius = 6f;
+        //For network sync reliability
+        private bool waitToCheckState;
 
-        int ambientMask;
-        int obstacleMask;
-
-        readonly Collider2D[] lightSpriteColliders = new Collider2D[MAX_TARGETS];
-
-        void Awake()
+        private void Awake()
         {
             Renderer = GetComponentInChildren<SpriteRenderer>();
         }
 
-        void Start()
+        private void Start()
         {
             ambientMask = LayerMask.GetMask("LightingAmbience");
             obstacleMask = LayerMask.GetMask("Walls", "Door Open", "Door Closed");
             InitLightSprites();
         }
 
-        void SetLocalAmbientTiles(bool state)
+        private void SetLocalAmbientTiles(bool state)
         {
-            var length = Physics2D.OverlapCircleNonAlloc(transform.position, radius, lightSpriteColliders, ambientMask);
+            int length = Physics2D.OverlapCircleNonAlloc(transform.position, radius, lightSpriteColliders, ambientMask);
             for (int i = 0; i < length; i++)
             {
-                var localCollider = lightSpriteColliders[i];
-                var localObject = localCollider.gameObject;
-                var localObjectPos = (Vector2) localObject.transform.position;
-                var distance = Vector3.Distance(transform.position, localObjectPos);
+                Collider2D localCollider = lightSpriteColliders[i];
+                GameObject localObject = localCollider.gameObject;
+                Vector2 localObjectPos = localObject.transform.position;
+                float distance = Vector3.Distance(transform.position, localObjectPos);
                 if (IsWithinReach(transform.position, localObjectPos, distance))
                 {
                     localObject.SendMessage("Trigger", state, SendMessageOptions.DontRequireReceiver);
@@ -95,7 +93,9 @@ namespace Lighting
             tempStateCache = state;
 
             if (waitToCheckState)
+            {
                 return;
+            }
 
             if (Renderer == null)
             {
@@ -116,7 +116,7 @@ namespace Lighting
             LightState = LightState.On;
 
             //set the ON sprite to whatever the spriterenderer child has?
-            var lightSprites = SpriteManager.LightSprites["lights"];
+            Sprite[] lightSprites = SpriteManager.LightSprites["lights"];
             SpriteLightOn = Renderer.sprite;
 
             //find the OFF light?
@@ -127,7 +127,7 @@ namespace Lighting
         }
 
         //Handle sync failure
-        IEnumerator WaitToTryAgain()
+        private IEnumerator WaitToTryAgain()
         {
             yield return new WaitForSeconds(0.2f);
             if (Renderer == null)

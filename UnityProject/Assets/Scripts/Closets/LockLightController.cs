@@ -1,17 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LockLightController : MonoBehaviour
 {
-    public Sprite spriteUnlocked;
+    private bool locked = true;
 
     private Sprite spriteLocked;
     private SpriteRenderer spriteRenderer;
+    public Sprite spriteUnlocked;
 
-    private bool locked = true;
-
-    void Start()
+    private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteLocked = spriteRenderer.sprite;
@@ -21,26 +18,34 @@ public class LockLightController : MonoBehaviour
     {
         locked = true;
         if (spriteRenderer != null)
+        {
             spriteRenderer.sprite = spriteLocked;
+        }
     }
 
     public void Unlock()
     {
         locked = false;
         if (spriteRenderer != null)
+        {
             spriteRenderer.sprite = spriteUnlocked;
+        }
     }
 
     public void Show()
     {
         if (spriteRenderer != null)
+        {
             spriteRenderer.enabled = true;
+        }
     }
 
     public void Hide()
     {
         if (spriteRenderer != null)
+        {
             spriteRenderer.enabled = false;
+        }
     }
 
     public bool IsLocked()

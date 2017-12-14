@@ -3,7 +3,7 @@
 namespace FullSerializer.Internal
 {
     /// <summary>
-    /// Serializes and deserializes guids.
+    ///     Serializes and deserializes guids.
     /// </summary>
     public class fsGuidConverter : fsConverter
     {
@@ -24,7 +24,7 @@ namespace FullSerializer.Internal
 
         public override fsResult TrySerialize(object instance, out fsData serialized, Type storageType)
         {
-            var guid = (Guid) instance;
+            Guid guid = (Guid) instance;
             serialized = new fsData(guid.ToString());
             return fsResult.Success;
         }

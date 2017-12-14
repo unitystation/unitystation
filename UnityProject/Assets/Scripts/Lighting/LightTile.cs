@@ -6,11 +6,11 @@ namespace Lighting
 {
     public class LightTile : MonoBehaviour
     {
-        public SpriteRenderer thisSprite { get; set; }
         private LightingTileManager tileManager;
-        private bool transmitting = false;
+        private bool transmitting;
+        public SpriteRenderer thisSprite { get; set; }
 
-        void Start()
+        private void Start()
         {
             thisSprite = GetComponentInChildren<SpriteRenderer>();
             tileManager = GetComponentInParent<LightingTileManager>();
@@ -30,10 +30,10 @@ namespace Lighting
         //Set alpha of tile
         public void ChangeBrightness(float brightness)
         {
-            var tempColor = thisSprite.color;
+            Color tempColor = thisSprite.color;
             if (brightness != 0f)
             {
-                float alpha = Mathf.Clamp(tempColor.a - (brightness / 100f), 0f, 1f);
+                float alpha = Mathf.Clamp(tempColor.a - brightness / 100f, 0f, 1f);
                 tempColor.a = alpha;
                 thisSprite.color = tempColor;
             }
@@ -45,7 +45,7 @@ namespace Lighting
         }
 
         //Pass the brightness of the light to neighbor tiles
-        IEnumerator PassTheLight(float _brightness, int range)
+        private IEnumerator PassTheLight(float _brightness, int range)
         {
             //the range is key 1 = closest
             Dictionary<int, List<Vector2>> radialDispersion = new Dictionary<int, List<Vector2>>();
@@ -64,8 +64,8 @@ namespace Lighting
                     {
                         //toprow
                         //Starting at top left
-                        Vector2 tilePos = new Vector2(transform.position.x - (float) i,
-                            transform.position.y + (float) i);
+                        Vector2 tilePos = new Vector2(transform.position.x - i,
+                            transform.position.y + i);
                         for (int tile = 1; tile <= rangeFinder; tile++)
                         {
                             if (tile == 1)
@@ -74,7 +74,7 @@ namespace Lighting
                             }
                             else
                             {
-                                Vector2 nextTile = new Vector2((tilePos.x + (float) tile) - 1f, tilePos.y);
+                                Vector2 nextTile = new Vector2(tilePos.x + tile - 1f, tilePos.y);
                                 lightTiles.Add(nextTile);
                             }
                         }
@@ -82,8 +82,8 @@ namespace Lighting
                     else if (k == rangeFinder)
                     {
                         //lastrow
-                        Vector2 tilePos = new Vector2(transform.position.x - (float) i,
-                            transform.position.y - (float) i);
+                        Vector2 tilePos = new Vector2(transform.position.x - i,
+                            transform.position.y - i);
                         for (int tile = 1; tile <= rangeFinder; tile++)
                         {
                             if (tile == 1)
@@ -92,7 +92,7 @@ namespace Lighting
                             }
                             else
                             {
-                                Vector2 nextTile = new Vector2((tilePos.x + (float) tile) - 1f, tilePos.y);
+                                Vector2 nextTile = new Vector2(tilePos.x + tile - 1f, tilePos.y);
                                 lightTiles.Add(nextTile);
                             }
                         }
@@ -100,12 +100,12 @@ namespace Lighting
                     else
                     {
                         //everything else
-                        Vector2 tilePos = new Vector2(transform.position.x - (float) i,
-                            transform.position.y + (float) i);
-                        Vector2 firstTilePos = new Vector2(tilePos.x, (tilePos.y - (float) k) + 1f);
+                        Vector2 tilePos = new Vector2(transform.position.x - i,
+                            transform.position.y + i);
+                        Vector2 firstTilePos = new Vector2(tilePos.x, tilePos.y - k + 1f);
                         lightTiles.Add(firstTilePos);
-                        Vector2 lastTilePos = new Vector2((tilePos.x + (float) rangeFinder) - 1f,
-                            (tilePos.y - (float) k) + 1f);
+                        Vector2 lastTilePos = new Vector2(tilePos.x + rangeFinder - 1f,
+                            tilePos.y - k + 1f);
                         lightTiles.Add(lastTilePos);
                     }
                 }

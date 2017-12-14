@@ -6,9 +6,9 @@ namespace Tilemaps.Scripts.Behaviours.Interaction
     public abstract class TileInteraction
     {
         protected readonly GameObject gameObject;
+        protected readonly string hand;
         protected readonly GameObject originator;
         protected Vector3 position;
-        protected readonly string hand;
 
         public TileInteraction(GameObject gameObject, GameObject originator, Vector3 position, string hand)
         {

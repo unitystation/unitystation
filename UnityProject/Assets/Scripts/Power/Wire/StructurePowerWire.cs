@@ -1,6 +1,6 @@
-﻿using Sprites;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using Sprites;
 using UnityEngine;
 
 namespace Wiring
@@ -9,47 +9,47 @@ namespace Wiring
     public class StructurePowerWire : MonoBehaviour
     {
         /// <summary>
-        /// The starting dir of this wire in a turf, using 4 bits to indicate N S E W - 1 2 4 8
-        /// Corners can also be used i.e.: 5 = NE (1 + 4) = 0101
-        /// This is the edge of the location where the wire enters the turf
+        ///     Go to the Start method to add to this.
+        ///     Push the sprite things with a string color as key so you can change it easily or whatever.
         /// </summary>
-        public int DirectionStart = 2;
+        protected static Dictionary<string, Sprite[]> ColorToSpriteArray;
 
         /// <summary>
-        /// The ending dir of this wire in a turf, using 4 bits to indicate N S E W - 1 2 4 8
-        /// Corners can also be used i.e.: 5 = NE (1 + 4) = 0101
-        /// This is the edge of the location where the wire exits the turf
-        /// Can be null of knot wires
-        /// </summary>
-        public int DirectionEnd = 0;
-
-        /// <summary>
-        /// Color of the wire
+        ///     Color of the wire
         /// </summary>
         public WiringColor Color = WiringColor.red;
 
         /// <summary>
-        /// If you have some tray goggles on then set this bool to true to get the right sprite.
-        /// I guess you still need to faff about with display layers but that isn't my issue.
+        ///     The ending dir of this wire in a turf, using 4 bits to indicate N S E W - 1 2 4 8
+        ///     Corners can also be used i.e.: 5 = NE (1 + 4) = 0101
+        ///     This is the edge of the location where the wire exits the turf
+        ///     Can be null of knot wires
         /// </summary>
-        public bool TRay = false;
+        public int DirectionEnd;
 
         /// <summary>
-        /// Go to the Start method to add to this.
-        /// Push the sprite things with a string color as key so you can change it easily or whatever.
+        ///     The starting dir of this wire in a turf, using 4 bits to indicate N S E W - 1 2 4 8
+        ///     Corners can also be used i.e.: 5 = NE (1 + 4) = 0101
+        ///     This is the edge of the location where the wire enters the turf
         /// </summary>
-        protected static Dictionary<string, Sprite[]> ColorToSpriteArray;
+        public int DirectionStart = 2;
+
+        /// <summary>
+        ///     If you have some tray goggles on then set this bool to true to get the right sprite.
+        ///     I guess you still need to faff about with display layers but that isn't my issue.
+        /// </summary>
+        public bool TRay;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
-            this.SetDirection(this.DirectionStart, this.DirectionEnd);
+            SetDirection(DirectionStart, DirectionEnd);
         }
 
         public void SetDirection(int DirectionStart)
         {
             this.DirectionStart = DirectionStart;
-            this.DirectionEnd = 0;
+            DirectionEnd = 0;
             SetSprite();
         }
 
@@ -64,27 +64,27 @@ namespace Wiring
             //This ensures that the DirectionStart is always the lower one after constructing it.
             //It solves some complexity issues with the sprite's path
             //Casting here is to solve nullable somehow not noticing my nullcheck earlier
-            this.DirectionStart = System.Math.Min(DirectionStart, DirectionEnd);
-            this.DirectionEnd = System.Math.Max(DirectionStart, DirectionEnd);
+            this.DirectionStart = Math.Min(DirectionStart, DirectionEnd);
+            this.DirectionEnd = Math.Max(DirectionStart, DirectionEnd);
             SetSprite();
         }
 
         private void SetSprite()
         {
-            string spritePath = this.DirectionStart + (this.DirectionEnd != 0 ? "_" + this.DirectionEnd : "");
+            string spritePath = DirectionStart + (DirectionEnd != 0 ? "_" + DirectionEnd : "");
             Sprite[] Color = SpriteManager.WireSprites[this.Color.ToString()];
-            SpriteRenderer SR = this.gameObject.GetComponentInChildren<SpriteRenderer>();
+            SpriteRenderer SR = gameObject.GetComponentInChildren<SpriteRenderer>();
             //the red sprite is spliced differently than the rest for some reason :^(
             int spriteIndex = WireDirections.GetSpriteIndex(spritePath);
             if (this.Color == WiringColor.red)
             {
                 spriteIndex *= 2;
-                if (this.TRay)
+                if (TRay)
                 {
                     spriteIndex++;
                 }
             }
-            else if (this.TRay)
+            else if (TRay)
             {
                 spriteIndex += 36;
             }
@@ -92,7 +92,7 @@ namespace Wiring
             if (SR.sprite == null)
             {
                 this.Color = WiringColor.red;
-                this.SetDirection(1);
+                SetDirection(1);
             }
         }
     }

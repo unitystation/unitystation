@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEditor;
 
 namespace Doors
 {
     /// <summary>
-    /// DoorAnimatorEditor helps determine if the door
-    /// prefab has been set up correctly by the creator.
+    ///     DoorAnimatorEditor helps determine if the door
+    ///     prefab has been set up correctly by the creator.
     /// </summary>
     [CustomEditor(typeof(AirLockAnimator))]
     public class DoorAnimatorEditor : Editor

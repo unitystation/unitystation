@@ -1,21 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Lighting
 {
     public class LightingTileManager : MonoBehaviour
     {
+        public Vector4 bounds;
         public Dictionary<Vector2, LightTile> lightTiles = new Dictionary<Vector2, LightTile>();
 
-        public Vector4 bounds;
-
-        void Start()
+        private void Start()
         {
             LoadLightTiles();
         }
 
-        void LoadLightTiles()
+        private void LoadLightTiles()
         {
             foreach (Transform child in transform)
             {
@@ -41,7 +39,7 @@ namespace Lighting
         }
 
         //Calculate the bounds of the lightTiles in the room
-        void CalculateBounds()
+        private void CalculateBounds()
         {
             bounds = Vector4.zero;
             Vector2 topLeft = Vector2.zero;
@@ -62,7 +60,7 @@ namespace Lighting
             bounds = new Vector4(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
         }
 
-        Vector2 CompareTopLeft(Vector2 curValue, Vector2 newValue)
+        private Vector2 CompareTopLeft(Vector2 curValue, Vector2 newValue)
         {
             if (newValue.x < curValue.x)
             {
@@ -75,7 +73,7 @@ namespace Lighting
             return curValue;
         }
 
-        Vector2 CompareBottomRight(Vector2 curValue, Vector2 newValue)
+        private Vector2 CompareBottomRight(Vector2 curValue, Vector2 newValue)
         {
             if (newValue.x > curValue.x)
             {

@@ -1,21 +1,16 @@
-﻿using InputControl;
+﻿using System.Collections.Generic;
+using Crafting;
 using PlayGroup;
 using PlayGroups.Input;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using Crafting;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Equipment;
-
 
 public class MicrowaveTrigger : InputTrigger
 {
     private Microwave microwave;
 
-    void Start()
+    private void Start()
     {
         microwave = GetComponent<Microwave>();
     }
@@ -24,7 +19,7 @@ public class MicrowaveTrigger : InputTrigger
     {
         if (!isServer)
         {
-            var slot = UIManager.Hands.CurrentSlot;
+            UI_ItemSlot slot = UIManager.Hands.CurrentSlot;
 
             // Client pre-approval
             if (!microwave.Cooking && slot.CanPlaceItem())
@@ -53,19 +48,22 @@ public class MicrowaveTrigger : InputTrigger
     [Server]
     private bool ValidateMicrowaveInteraction(GameObject originator, Vector3 position, string hand)
     {
-        var ps = originator.GetComponent<PlayerScript>();
+        PlayerScript ps = originator.GetComponent<PlayerScript>();
         if (ps.canNotInteract() || !ps.IsInReach(position))
         {
             return false;
         }
 
         GameObject item = ps.playerNetworkActions.Inventory[hand];
-        if (item == null) return false;
-        var attr = item.GetComponent<ItemAttributes>();
+        if (item == null)
+        {
+            return false;
+        }
+        ItemAttributes attr = item.GetComponent<ItemAttributes>();
 
-        var ingredient = new Ingredient(attr.itemName);
+        Ingredient ingredient = new Ingredient(attr.itemName);
 
-        var meal = CraftingManager.Meals.FindRecipe(new List<Ingredient>() {ingredient});
+        GameObject meal = CraftingManager.Meals.FindRecipe(new List<Ingredient> {ingredient});
 
         if (meal)
         {
