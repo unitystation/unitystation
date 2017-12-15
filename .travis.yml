@@ -17,10 +17,10 @@ cache:
   - /Users/Travis/Library/Preferences/Unity
 
 # only run builds on pushes to the master branch
-#branches:
-#  only:
-#  - develop
-#  - TravisCI
+branches:
+  only:
+  - develop
+  - TravisCI
 
 # send email notifications when the build changes from succeeding to broken
 notifications:
