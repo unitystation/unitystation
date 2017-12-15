@@ -23,9 +23,9 @@ public class PushPull : VisibleBehaviour
     public bool pushing = false;
     public bool serverLittleLag = false;
 
-    [SyncVar(hook = "PushSync")] public Vector3 serverPos;
+    /*[SyncVar(hook = "PushSync")]*/ public Vector3 serverPos;
 
-    [SyncVar] public Vector3 currentPos;
+    /*[SyncVar]*/ public Vector3 currentPos;
 
     private Matrix matrix;
 

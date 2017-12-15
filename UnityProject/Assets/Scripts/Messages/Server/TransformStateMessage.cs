@@ -69,6 +69,6 @@ public class TransformStateMessage : ServerMessage<TransformStateMessage>
 	public override string ToString()
 	{
 		return
-			$"[TransformStateMessage Parameter={TransformedObject} Pos={State.Position} Active={State.Active} Type={MessageType} Forced={ForceRefresh}]";
+			$"[TransformStateMessage Parameter={TransformedObject} Active={State.Active} Pos={State.Position} Spd={State.Speed} Imp={State.Impulse} Type={MessageType} Forced={ForceRefresh}]";
 	}
 }

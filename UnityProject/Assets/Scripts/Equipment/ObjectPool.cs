@@ -67,7 +67,11 @@ namespace Equipment
            // gObj.transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
            // gObj.transform.position = dropPos;
             var objTransform = gObj.GetComponent<CustomNetTransform>();
-            objTransform.AppearAtPositionServer(dropPos);	
+//            objTransform.AppearAtPositionServer(dropPos);
+            objTransform.SetState(new TransformState{ Active = true, 
+                                                      Position = dropPos, 
+                                                      Impulse = Vector2.up, 
+                                                      Speed = 2f }); //dropping creates an impulse for testing
             objTransform.SetParent(null);
         }
     }

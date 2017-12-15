@@ -361,7 +361,7 @@ namespace PlayGroup
                 if (!healthBehaviorScript.IsDead && CustomNetworkManager.Instance._isServer
                     && !isApplyingSpaceDmg)
                 {
-                    StartCoroutine(ApplyTempSpaceDamage());
+//                    StartCoroutine(ApplyTempSpaceDamage());
                     isApplyingSpaceDmg = true;
             }
         }

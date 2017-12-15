@@ -170,7 +170,7 @@ public class CustomNetworkManager : NetworkManager
         }
         else
         {
-            this.RegisterServerHandlers(); //ghetto fix for IDs to match
+            this.RegisterServerHandlers();
         }
 
         if (GameData.IsInGame)

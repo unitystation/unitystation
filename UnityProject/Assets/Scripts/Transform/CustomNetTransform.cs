@@ -8,6 +8,7 @@ public struct TransformState
 {
     public bool Active;
     public float Speed;
+    public Vector2 Impulse;
     public Vector3 Position;
 }
 
@@ -15,7 +16,9 @@ public struct TransformState
 //todo: consider moving unregistering here
 public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
-    public static readonly Vector3Int InvalidPos = new Vector3Int(0, 0, -100);
+    public static readonly Vector3Int InvalidPos = new Vector3Int(0, 0, -100)
+                                      , deOffset = new Vector3Int(-1, -1, 0);
+    
     public float Speed = 2; //lerp speed
 
     protected RegisterTile registerTile;
@@ -23,7 +26,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     private TransformState serverTransformState; //used for syncing with players
     private TransformState transformState;
     
-    private Vector2 lastDirection = Vector2.down;
+//    private Vector2 impulse = Vector2.left;
+
     
     protected Matrix matrix;
 
@@ -58,7 +62,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
                 serverTransformState.Position = InvalidPos;
             }
             transformState = serverTransformState;
-            NotifyPlayers();
+//            NotifyPlayers(); this breaks message IDs!!!!!!!!!!!!
         }
     }
 
@@ -70,7 +74,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
     IEnumerator WaitForLoad()
     {
-//        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
 //        //hide shit until initalized
 //        if ( transformState.Position == Vector3.zero )
 //        {
@@ -89,6 +93,13 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         {
             NotifyPlayers();
         }
+    }
+    /// Manually set an item to a specific position
+    [Server]
+    public void SetState(TransformState state, bool notify = true)
+    {
+        serverTransformState = state;
+        NotifyPlayers();
     }
     
     [Server]
@@ -142,8 +153,12 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
     public void UpdateClientState(TransformState newState)
     {
+        //No lerp only if active state was changed
+        if ( transformState.Active != newState.Active )
+        {
+            transform.position = newState.Position;
+        }
         transformState = newState;
-        transform.position = transformState.Position;
         if ( !transformState.Speed.Equals(0f) )
         {
             Speed = transformState.Speed;
@@ -211,7 +226,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         if ( transformState.Position != transform.position )
         {
             Lerp();
-            lastDirection = Vector2.up;//( transformState.Position - transform.position ).normalized;
         }
 
         //Registering
@@ -232,18 +246,27 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     [Server]
     private void CheckSpaceDrift()
     {
-        var pos = Vector3Int.RoundToInt(serverTransformState.Position);
-        if( /*!pos.Equals(InvalidPos) &&*/ matrix != null && matrix.IsFloatingAt(pos) && !lastDirection.Equals(Vector2.zero))
+//        var pos = Vector3Int.RoundToInt(serverTransformState.Position);
+        if ( hasImpulse() && matrix != null )
         {
-            var newGoal = Vector3Int.RoundToInt(serverTransformState.Position + (Vector3) lastDirection);
-            if ( matrix.IsFloatingAt(newGoal) )
-            {
-                SetPosition(newGoal);
+            var newGoal = Vector3Int.RoundToInt(serverTransformState.Position + ( Vector3 ) serverTransformState.Impulse);
+            //FIXME: deOffset is a temp solution to this weird matrix 1,1 offset
+            if ( matrix.IsEmptyAt(newGoal + deOffset) ) 
+            {    //Spess drifting
+                serverTransformState.Position = newGoal;
+                transformState.Position = newGoal;
             }
-            else
+            else //Stopping drift
             {
-                Debug.LogFormat($"{gameObject.name}: not floating due to an obstacle at {newGoal}");
+                serverTransformState.Impulse = Vector2.zero; //killing impulse, be aware when doing throw!
+                NotifyPlayers();
+                Debug.LogFormat($"{gameObject.name}: stopped floating @{serverTransformState.Position}");
             }
         }
+    }
+
+    private bool hasImpulse()
+    {
+        return !serverTransformState.Impulse.Equals(Vector2.zero);
     }
 }
