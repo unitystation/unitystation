@@ -119,7 +119,7 @@ namespace UI
         {
             //PlayGroup.PlayerManager.PlayerScript.playerNetworkActions.CmdSendAlertMessage("mHealth: " + cHealth, true);
             //Debug.Log("PlayerHealth: " + PlayGroup.PlayerManager.PlayerScript.playerHealth.Health);
-            if (cHealth >= 100
+            if (cHealth >= 90
                 && spriteStart != fullHealthStart)
             {
                 SoundManager.Stop("Critstate");
@@ -127,7 +127,7 @@ namespace UI
                 pulseImg.sprite = sprites[spriteStart];
                 overlayCrits.SetState(OverlayState.normal);
             }
-            if (cHealth < 100
+            if (cHealth < 90
                 && cHealth > 80
                 && spriteStart != minorDmgStart)
             {
