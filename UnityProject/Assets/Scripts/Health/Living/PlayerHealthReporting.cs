@@ -14,6 +14,7 @@ namespace PlayGroup
     {
         private int bloodLevelCache;
         private float BloodPercentage = 100f;
+        private PlayerMove playerMove;
 
         //server only caches
         private int healthServerCache;
@@ -34,6 +35,7 @@ namespace PlayGroup
             {
                 healthServerCache = playerHealth.Health;
                 bloodLevelCache = playerHealth.BloodLevel;
+                playerMove = GetComponent<PlayerMove>();
                 UpdateManager.Instance.regularUpdate.Add(this);
                 StartCoroutine(WaitForLoad());
             }
@@ -67,7 +69,11 @@ namespace PlayGroup
         {
             //Add other damage methods here like burning, 
             //suffication, etc
-
+            
+            //If already dead then do not check the status of the body anymore
+            if (playerMove.isGhost)
+                return;
+            
             //Blood calcs:
             if (bloodLevelCache != playerHealth.BloodLevel)
             {
