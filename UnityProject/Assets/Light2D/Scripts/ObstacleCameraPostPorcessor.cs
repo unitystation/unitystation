@@ -13,9 +13,9 @@ namespace Light2D
         private readonly List<Color32> _colors32 = new List<Color32>();
         private readonly List<int> _indices = new List<int>();
         private readonly Material _material;
-        private readonly List<Vector3> _vertices = new List<Vector3>();
         private Mesh _mesh;
         private Point2 _oldCameraSize;
+        private readonly List<Vector3> _vertices = new List<Vector3>();
 
         public ObstacleCameraPostPorcessor()
         {
