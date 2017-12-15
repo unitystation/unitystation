@@ -1,5 +1,5 @@
 echo "Attempting build of UnityStation for OSX"
-/Users/travis/Applications/Unity/Unity.app/Contents/MacOS/Unity \
+/Applications/Unity/Unity.app/Contents/MacOS/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
