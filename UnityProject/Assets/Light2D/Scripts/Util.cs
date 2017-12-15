@@ -10,7 +10,6 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 #if UNITY_EDITOR
 using UnityEditor;
-
 #endif
 
 namespace Light2D
