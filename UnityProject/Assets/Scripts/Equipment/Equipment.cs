@@ -69,8 +69,10 @@ namespace Equipment
             isInit = true;
             //Player sprite offset:
             clothingSlots[10].Reference = 33;
-
-            StartCoroutine(SetPlayerLoadOuts());
+            if (isServer)
+            {
+                StartCoroutine(SetPlayerLoadOuts());
+            }
         }
 
         public void SyncSprites(SyncList<int>.Operation op, int index)
@@ -184,6 +186,11 @@ namespace Equipment
                     gearItem.Value.Contains(ClothFactory.HeadsetHierIdentifier))
                 {
                     GameObject obj = ClothFactory.Instance.CreateCloth(gearItem.Value, Vector3.zero);
+                    //if ClothFactory does not return an object then move on to the next clothing item
+                    if (!obj){
+                        Debug.LogWarning("Trying to instantiate clothing item "+ gearItem.Value+" failed!");
+                        continue;
+                    }
                     ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
                     SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
                 }
