@@ -29,12 +29,19 @@ public class UpdateConnectedPlayersMessage : ServerMessage<UpdateConnectedPlayer
         }
 
         //Remove players that are stored locally, but not on server. Unless its us.
+        //foreach does not allow mutations on the dictionary collection while it is iterating over it
+        //Store names to be removed and do it after
+        List<string> playersToRemove = new List<string>();
         foreach (KeyValuePair<string, GameObject> entry in connectedPlayers)
         {
             if (!Players.Contains(entry.Value) && entry.Key != PlayerManager.LocalPlayerScript.playerName)
             {
-                connectedPlayers.Remove(entry.Key);
+                playersToRemove.Add(entry.Key);
             }
+        }
+        for (int i = 0; i < playersToRemove.Count; i++)
+        {
+            connectedPlayers.Remove(playersToRemove[i]);
         }
     }
 
