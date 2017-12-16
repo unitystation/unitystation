@@ -10,20 +10,20 @@ public class FuelTankHealthBehaviour : HealthBehaviour
 		pushPull = GetComponent<PushPull>();
 	}
 
-	protected override void OnDeathActions()
-	{
-		pushPull.BreakPull();
-		float delay = 0f;
-		switch (LastDamageType)
-		{
-			case DamageType.BRUTE:
-				delay = 0.1f;
-				break;
-			case DamageType.BURN:
-				delay = Random.Range(0.2f, 2f);
-				break; //surprise
-		}
-		StartCoroutine(explodeWithDelay(delay, LastDamagedBy));
+    protected override void OnDeathActions()
+    {
+        pushPull.BreakPull();
+        float delay = 0f;
+        switch (LastDamageType)
+        {
+            case DamageType.BRUTE:
+                delay = 0.1f;
+                break;
+            case DamageType.BURN:
+                delay = Random.Range(0.2f, 2f);
+                break; //surprise
+        }
+        StartCoroutine(explodeWithDelay(delay, LastDamagedBy.name));
 
 		//            Debug.Log("FuelTank ded!");
 	}

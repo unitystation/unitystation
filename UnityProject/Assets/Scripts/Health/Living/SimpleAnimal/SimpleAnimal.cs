@@ -32,16 +32,16 @@ public class SimpleAnimal : HealthBehaviour
 		SetAliveState(deadState);
 	}
 
-	public override int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType,
-		BodyPartType bodyPartAim)
-	{
-		base.ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
-		if (isServer)
-		{
-			EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
-		}
-		return damage;
-	}
+    public override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
+        BodyPartType bodyPartAim)
+    {
+        base.ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
+        if (isServer)
+        {
+            EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
+        }
+        return damage;
+    }
 
 	[Server]
 	public virtual void Harvest()

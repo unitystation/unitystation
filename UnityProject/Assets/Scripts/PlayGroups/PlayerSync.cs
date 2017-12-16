@@ -374,15 +374,15 @@ namespace PlayGroup
 			}
 		}
 
-		//TODO: Remove this when atmos is implemented 
-		//This prevents players drifting into space indefinitely 
-		private IEnumerator ApplyTempSpaceDamage()
-		{
-			yield return new WaitForSeconds(1f);
-			healthBehaviorScript.RpcApplyDamage("SPESS", 5, DamageType.OXY, BodyPartType.HEAD);
-			//No idea why there is an isServer catch on RpcApplyDamage, but will apply on server as well in mean time:
-			healthBehaviorScript.ApplyDamage("SPESS", 5, DamageType.OXY, BodyPartType.HEAD);
-			isApplyingSpaceDmg = false;
-		}
-	}
+        //TODO: Remove this when atmos is implemented 
+        //This prevents players drifting into space indefinitely 
+        private IEnumerator ApplyTempSpaceDamage()
+        {
+            yield return new WaitForSeconds(1f);
+            healthBehaviorScript.RpcApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
+            //No idea why there is an isServer catch on RpcApplyDamage, but will apply on server as well in mean time:
+            healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
+            isApplyingSpaceDmg = false;
+        }
+    }
 }

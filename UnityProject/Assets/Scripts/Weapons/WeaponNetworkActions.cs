@@ -147,16 +147,16 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				return;
 			}
 
-			if (npcObj != gameObject)
-			{
-				RpcMeleAttackLerp(stabDirection, weapon);
-			}
+        if (npcObj != gameObject)
+        {
+            RpcMeleAttackLerp(stabDirection, weapon);
+        }
+        HealthBehaviour healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
+        healthBehaviour
+            .ApplyDamage(gameObject, 20, DamageType.BRUTE, damageZone);
 
-			healthBehaviour
-				.ApplyDamage(gameObject.name, 20, DamageType.BRUTE, damageZone);
-
-			//this crap will remain here until moved to netmessages
-			healthBehaviour.RpcApplyDamage(gameObject.name, 20, DamageType.BRUTE, damageZone);
+        //this crap will remain here until moved to netmessages
+        healthBehaviour.RpcApplyDamage(gameObject, 20, DamageType.BRUTE, damageZone);
 
 			soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 			StartCoroutine(AttackCoolDown());

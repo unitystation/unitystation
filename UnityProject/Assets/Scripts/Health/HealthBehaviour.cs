@@ -18,7 +18,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
 
 	public DamageType LastDamageType { get; private set; }
 
-	public string LastDamagedBy { get; private set; } = "stressful work";
+    public GameObject LastDamagedBy { get; private set; }
 
 	public ConsciousState ConsciousState { get; protected set; }
 
@@ -56,24 +56,26 @@ public abstract class HealthBehaviour : NetworkBehaviour
 		}
 	}
 
-	///fixme/todo: to be replaced by net messages, crappy and unsecure placeholder
-	[ClientRpc]
-	public void RpcApplyDamage(string damagedBy, int damage, DamageType damageType, BodyPartType bodyPartAim)
-	{
-		if (isServer || !isNPC || IsDead)
-		{
-			return;
-		}
-		ApplyDamage(damagedBy, damage, damageType, bodyPartAim);
-	}
+    ///fixme/todo: to be replaced by net messages, crappy and unsecure placeholder
+    [ClientRpc]
+    public void RpcApplyDamage(GameObject damagedBy, int damage,
+        DamageType damageType, BodyPartType bodyPartAim)
+    {
+        if (isServer || !isNPC || IsDead)
+        {
+            return;
+        }
+        ApplyDamage(damagedBy, damage, damageType, bodyPartAim);
+    }
 
-	public void ApplyDamage(string damagedBy, int damage, DamageType damageType, BodyPartType bodyPartAim = BodyPartType.CHEST)
-	{
-		if (damage <= 0 || IsDead)
-		{
-			return;
-		}
-		int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
+    public void ApplyDamage(GameObject damagedBy, int damage,
+        DamageType damageType, BodyPartType bodyPartAim = BodyPartType.CHEST)
+    {
+        if (damage <= 0 || IsDead)
+        {
+            return;
+        }
+        int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
 
 		//        Debug.LogFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}",
 		//            calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
@@ -81,12 +83,13 @@ public abstract class HealthBehaviour : NetworkBehaviour
 		CheckDeadCritStatus();
 	}
 
-	public virtual int ReceiveAndCalculateDamage(string damagedBy, int damage, DamageType damageType, BodyPartType bodyPartAim)
-	{
-		LastDamageType = damageType;
-		LastDamagedBy = damagedBy;
-		return damage;
-	}
+    public virtual int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
+        BodyPartType bodyPartAim)
+    {
+        LastDamageType = damageType;
+        LastDamagedBy = damagedBy;
+        return damage;
+    }
 
 	///Death from other causes
 	public virtual void Death()

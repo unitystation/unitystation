@@ -83,13 +83,14 @@ public class ExplodeWhenShot : NetworkBehaviour
 			}
 		}
 
-		foreach (KeyValuePair<GameObject, int> pair in toBeDamaged)
-		{
-			pair.Key.GetComponent<HealthBehaviour>().ApplyDamage($"{gameObject.name} – {thanksTo}", pair.Value, DamageType.BURN);
-		}
-		RpcClientExplode();
-		StartCoroutine(WaitToDestroy());
-	}
+        foreach (KeyValuePair<GameObject, int> pair in toBeDamaged)
+        {
+            pair.Key.GetComponent<HealthBehaviour>()
+                .ApplyDamage(pair.Key, pair.Value, DamageType.BURN);
+        }
+        RpcClientExplode();
+        StartCoroutine(WaitToDestroy());
+    }
 
 	[ClientRpc]
 	private void RpcClientExplode()

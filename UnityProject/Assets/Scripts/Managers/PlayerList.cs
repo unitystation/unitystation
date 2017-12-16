@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using PlayGroup;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -12,8 +13,11 @@ public class PlayerList : NetworkBehaviour
 
 	private int numSameNames;
 
-	//For combat demo
-	public Dictionary<string, int> playerScores = new Dictionary<string, int>();
+    //For combat demo
+    public Dictionary<string, int> playerScores = new Dictionary<string, int>();
+    
+    //For TDM demo
+    public Dictionary<Department, int> departmentScores = new Dictionary<Department, int>();
 
 	private void Awake()
 	{
@@ -59,15 +63,34 @@ public class PlayerList : NetworkBehaviour
 		return checkName;
 	}
 
-	//Called on the server when a kill is confirmed
-	[Server]
-	public void UpdateKillScore(string playerName)
-	{
-		if (playerName != null && playerScores.ContainsKey(playerName))
-		{
-			playerScores[playerName]++;
-		}
-	}
+    //Called on the server when a kill is confirmed
+    [Server]
+    public void UpdateKillScore(GameObject player)
+    {
+        if (player != null && playerScores.ContainsKey(player.name))
+        {
+            playerScores[player.name]++;
+        }
+        if (player == null)
+        {
+            return;
+        }
+        
+        Department dept = SpawnPoint.GetJobDepartment(player.GetComponent<PlayerScript>().JobType);
+
+        if (!departmentScores.ContainsKey(dept))
+        {
+            departmentScores = new Dictionary<Department, int>();
+            departmentScores[dept] = 0;
+        }
+
+        departmentScores[dept]++;
+
+        foreach (KeyValuePair<Department, int> score in departmentScores)
+        {
+            Debug.Log(score.Key + " score is " + score.Value);
+        }
+    }
 
 	[Server]
 	public void ReportScores()
