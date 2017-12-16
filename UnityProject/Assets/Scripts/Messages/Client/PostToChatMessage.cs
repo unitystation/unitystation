@@ -37,17 +37,17 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
 		return msg;
 	}
 
-	public bool ValidRequest(GameObject player)
-	{
-		PlayerScript playerScript = player.GetComponent<PlayerScript>();
-		//Need to add system channel here so player can transmit system level events but not select it in the UI
-		ChatChannel availableChannels = playerScript.GetAvailableChannels() | ChatChannel.System;
-		if ((playerScript.GetAvailableChannels() & Channels) == Channels)
-		{
-			return true;
-		}
-		return false;
-	}
+    public bool ValidRequest(GameObject player)
+    {
+        PlayerScript playerScript = player.GetComponent<PlayerScript>();
+        //Need to add system channel here so player can transmit system level events but not select it in the UI
+        ChatChannel availableChannels = playerScript.GetAvailableChannels() | ChatChannel.System;
+        if ((availableChannels & Channels) == Channels)
+        {
+            return true;
+        }
+        return false;
+    }
 
 	public override string ToString()
 	{

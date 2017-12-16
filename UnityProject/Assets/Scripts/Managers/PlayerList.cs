@@ -65,30 +65,43 @@ public class PlayerList : NetworkBehaviour
 
     //Called on the server when a kill is confirmed
     [Server]
-    public void UpdateKillScore(GameObject player)
+    public void UpdateKillScore(GameObject perpetrator, GameObject victim)
     {
-        if (player != null && playerScores.ContainsKey(player.name))
-        {
-            playerScores[player.name]++;
-        }
-        if (player == null)
+        if (perpetrator == null)
         {
             return;
         }
         
-        Department dept = SpawnPoint.GetJobDepartment(player.GetComponent<PlayerScript>().JobType);
-
-        if (!departmentScores.ContainsKey(dept))
+        if (playerScores.ContainsKey(perpetrator.name))
         {
-            departmentScores = new Dictionary<Department, int>();
-            departmentScores[dept] = 0;
+            playerScores[perpetrator.name]++;
         }
 
-        departmentScores[dept]++;
+        JobType perpetratorJob = perpetrator.GetComponent<PlayerScript>().JobType;
+        Department perpetratorDept = SpawnPoint.GetJobDepartment(perpetratorJob);
 
-        foreach (KeyValuePair<Department, int> score in departmentScores)
+        if (!departmentScores.ContainsKey(perpetratorDept))
         {
-            Debug.Log(score.Key + " score is " + score.Value);
+            departmentScores = new Dictionary<Department, int>();
+            departmentScores[perpetratorDept] = 0;
+        }
+
+        if (victim == null)
+        {
+            departmentScores[perpetratorDept]++;
+            return;
+        }
+
+        JobType victimJob = victim.GetComponent<PlayerScript>().JobType;
+        Department victimDept = SpawnPoint.GetJobDepartment(victimJob);
+
+        if (perpetratorDept == victimDept)
+        {
+            departmentScores[perpetratorDept]--;
+        }
+        else
+        {
+            departmentScores[perpetratorDept]++;
         }
     }
 

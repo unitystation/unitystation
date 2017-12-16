@@ -236,14 +236,26 @@ namespace PlayGroup
                 }
                 else
                 {
-                    PlayerList.Instance.UpdateKillScore(LastDamagedBy);
+                    PlayerList.Instance.UpdateKillScore(LastDamagedBy, gameObject);
 
                     string departmentKillText = "";
                     if (LastDamagedBy != null)
                     {
-                        Department department =
+                        Department killerDepartment =
                             SpawnPoint.GetJobDepartment(LastDamagedBy.GetComponent<PlayerScript>().JobType);
-                        departmentKillText = ", 1 point to " + department + "!";
+                        Department victimDepartment =
+                            SpawnPoint.GetJobDepartment(gameObject.GetComponent<PlayerScript>().JobType);
+
+                        if (killerDepartment == victimDepartment)
+                        {
+                            departmentKillText = ", losing " + EnumUtils.GetDescription(killerDepartment) +
+                                                 " 1 point for team killing!";
+                        }
+                        else
+                        {
+                            departmentKillText = ", 1 point to " + EnumUtils.GetDescription(killerDepartment) + "!";
+                        }
+                        
                     }
 
                     //TDM demo killfeed
