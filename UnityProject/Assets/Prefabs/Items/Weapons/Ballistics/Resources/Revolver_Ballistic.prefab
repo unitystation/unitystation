@@ -68,8 +68,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1863058284462694}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
+  m_LocalPosition: {x: 34, y: 30, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4740587549331180}
@@ -144,18 +144,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ad712be1fefd043b45761b18e23798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponType: 1
+  AmmoType: 357
+  CurrentRecoilVariance: 0
+  FireCountDown: 0
+  FireingSound: ShootGun01
+  FireRate: 3
+  InAutomaticAction: 0
+  MaxRecoilVariance: 0
   Projectile: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 2}
   ProjectileDamage: 11
-  ProjectileVelocity: 10
-  FireRate: 3
   ProjectilesFired: 1
-  MaxRecoilVariance: 0
-  FireingSound: ShootSMG
-  AmmoType: 357
-  FireCountDown: 0
-  InAutomaticAction: 0
-  CurrentRecoilVariance: 0
+  ProjectileVelocity: 10
+  WeaponType: 1
 --- !u!114 &114451834042202350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -180,15 +180,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloth: 0
+  clothingReference: -1
   hierarchy: 
-  itemName: Revolver
+  inHandReferenceLeft: 112
+  inHandReferenceRight: 268
   itemDescription: 
+  itemName: Revolver
+  size: 2
   spriteType: 2
   type: 16
-  inHandReferenceRight: 268
-  inHandReferenceLeft: 112
-  clothingReference: -1
-  size: 2
 --- !u!114 &114529648990615742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -200,18 +200,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
+  moveSpeed: 7
   pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
   pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
   serverLittleLag: 0
   serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
 --- !u!114 &114569181287920238
 MonoBehaviour:
