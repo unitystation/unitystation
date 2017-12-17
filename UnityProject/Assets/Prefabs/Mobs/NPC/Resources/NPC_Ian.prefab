@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114555785714625820}
   - component: {fileID: 114713267190622314}
   m_Layer: 0
-  m_Name: NPC_Pete
+  m_Name: NPC_Ian
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,11 +111,11 @@ MonoBehaviour:
   initialHealth: 40
   isNPC: 0
   maxHealth: 100
-  aliveSprite: {fileID: 21300552, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
+  aliveSprite: {fileID: 21300130, guid: 9222585df95e4391bbd7cd83ddfd0474, type: 3}
   butcherResults:
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
-  deadSprite: {fileID: 21300560, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
+  deadSprite: {fileID: 21300132, guid: 9222585df95e4391bbd7cd83ddfd0474, type: 3}
   deadState: 0
   spriteRend: {fileID: 212099414062323906}
 --- !u!114 &114555785714625820
@@ -171,22 +171,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 10
-    i1: 49
-    i2: 1
-    i3: 226
-    i4: 235
-    i5: 192
-    i6: 223
-    i7: 68
-    i8: 154
-    i9: 6
-    i10: 21
-    i11: 85
-    i12: 9
-    i13: 5
-    i14: 135
-    i15: 127
+    i0: 4
+    i1: 80
+    i2: 35
+    i3: 172
+    i4: 246
+    i5: 104
+    i6: 148
+    i7: 28
+    i8: 25
+    i9: 13
+    i10: 115
+    i11: 4
+    i12: 126
+    i13: 216
+    i14: 126
+    i15: 116
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!212 &212099414062323906
@@ -223,7 +223,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 12
   m_SortingOrder: -70
-  m_Sprite: {fileID: 21300552, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
+  m_Sprite: {fileID: 21300130, guid: 9222585df95e4391bbd7cd83ddfd0474, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
