@@ -5,6 +5,7 @@ using Tilemaps.Scripts.Behaviours.Objects;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+ using UnityEngine.XR.WSA;
 
 namespace Items
 {
@@ -54,11 +55,17 @@ namespace Items
         {
             var ps = originator.GetComponent<PlayerScript>();
             var slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
+            var statePosition = GetComponent<CustomNetTransform>().State.Position;
             if (PlayerManager.PlayerScript == null 
                 || !ps.playerNetworkActions.Inventory.ContainsKey(slotName)
                 || ps.playerNetworkActions.SlotNotEmpty(slotName) //already picked up
                 )
             {
+                return false;
+            }
+            if (!ps.IsInReach(statePosition))
+            {
+                Debug.LogWarningFormat($"Not in reach! server pos:{statePosition} player pos:{originator.transform.position}");
                 return false;
             }
 

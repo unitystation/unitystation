@@ -8,11 +8,12 @@ public struct TransformState
 {
     public bool Active;
     public float Speed;
-    public Vector2 Impulse;
+    public Vector2 Impulse; //Vector2Int would be ideal, but you can't cast V2I<->V3I
     public Vector3 Position;
 }
 
-//todo: check flow and figure out double message for equipment; check if UpdateManager behaves normally
+//todo: fix item freezing on click for client
+//todo: investigate client item init failing
 //todo: consider moving unregistering here
 public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
@@ -23,11 +24,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
     protected RegisterTile registerTile;
 
-    private TransformState serverTransformState; //used for syncing with players
+    private TransformState serverTransformState; //used for syncing with players, matters only for server
     private TransformState transformState;
-    
-//    private Vector2 impulse = Vector2.left;
-
+//    private TransformState predictedTransformState;
     
     protected Matrix matrix;
 
@@ -42,7 +41,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         base.OnEnable();
     }
 
-
+    public TransformState State => serverTransformState;
 
     private void InitServerState()
     {
@@ -61,14 +60,13 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
                 serverTransformState.Active = false;
                 serverTransformState.Position = InvalidPos;
             }
-            transformState = serverTransformState;
-//            NotifyPlayers(); this breaks message IDs!!!!!!!!!!!!
+//            transformState = serverTransformState;
         }
     }
 
     public override void OnStartClient()
     {
-        StartCoroutine(WaitForLoad());
+//        StartCoroutine(WaitForLoad());
         base.OnStartClient();
     }
 
@@ -101,13 +99,31 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         serverTransformState = state;
         NotifyPlayers();
     }
-    
+
+    /// <summary>
+    /// Dropping with some force. For space floating demo purposes.
+    /// </summary>
+    [Server]
+    public void ForceDrop(Vector3 pos)
+    {
+        serverTransformState.Active = true;
+        serverTransformState.Position = pos;
+        //don't do impulses if item isn't going to float
+        var impulse = Vector3.right;
+        if ( CanDriftTo(Vector3Int.RoundToInt( serverTransformState.Position + impulse) ) )
+        {
+            serverTransformState.Impulse = impulse;
+            serverTransformState.Speed = Random.Range(1f, 5f);
+        }
+        NotifyPlayers();
+    }
+
     [Server]
     public void DisappearFromWorldServer(/*bool forceUpdate = true*/)
     {
         //be careful with forceupdate=false, it should be false only to the initiator w/preditction (if at all)
         serverTransformState.Active = false;
-        serverTransformState.Position = InvalidPos;// = new TransformState {Active = false, Position = Vector3.zero};
+        serverTransformState.Position = InvalidPos;
         NotifyPlayers();
     }
 
@@ -137,7 +153,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     public void DisappearFromWorld(/*bool forceUpdate = true*/)
     {
         transformState.Active = false;
-        UpdateClientState(transformState);
+        transformState.Position = InvalidPos;
     }
 
     /// <summary>
@@ -148,7 +164,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     {
         transformState.Active = true;
         transformState.Position = pos;
-        UpdateClientState(transformState);
     }
 
     public void UpdateClientState(TransformState newState)
@@ -164,7 +179,11 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
             Speed = transformState.Speed;
         }
 
+//        predictedTransformState = transformState;
+
         gameObject.SetActive(transformState.Active);
+        
+        RegisterObjects();
     }
 
     /// <summary>
@@ -215,12 +234,21 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         {
             return;
         }
-        
-        CheckSpaceDrift();
 
-        if ( GameData.IsHeadlessServer )
+        if (isServer)
         {
-            return;
+            CheckSpaceDrift();
+        }
+
+//        if ( GameData.IsHeadlessServer )
+//        {
+//            return;
+//        }
+       
+        if (transformState.Impulse != Vector2Int.zero)
+        {
+            //fixme: warning: this makes transformState.Position unrealistic!
+            transformState.Position += (Vector3) transformState.Impulse.normalized; //perpetual flying
         }
         
         if ( transformState.Position != transform.position )
@@ -229,7 +257,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         }
 
         //Registering
-        if ( registerTile.Position != Vector3Int.RoundToInt(transformState.Position) )
+        if ( registerTile.Position - deOffset != Vector3Int.RoundToInt(transformState.Position) )
         {
             RegisterObjects();
         }
@@ -249,12 +277,13 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //        var pos = Vector3Int.RoundToInt(serverTransformState.Position);
         if ( hasImpulse() && matrix != null )
         {
-            var newGoal = Vector3Int.RoundToInt(serverTransformState.Position + ( Vector3 ) serverTransformState.Impulse);
-            //FIXME: deOffset is a temp solution to this weird matrix 1,1 offset
-            if ( matrix.IsEmptyAt(newGoal + deOffset) ) 
+            Vector3Int newGoal = Vector3Int.RoundToInt(serverTransformState.Position + (Vector3) serverTransformState.Impulse.normalized);
+            if ( CanDriftTo(newGoal) ) 
             {    //Spess drifting
-                serverTransformState.Position = newGoal;
-                transformState.Position = newGoal;
+//                if (registerTile.Position == Vector3Int.RoundToInt(serverTransformState.Position))
+//                {
+                    serverTransformState.Position = registerTile.Position - deOffset;
+//                }
             }
             else //Stopping drift
             {
@@ -263,6 +292,12 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
                 Debug.LogFormat($"{gameObject.name}: stopped floating @{serverTransformState.Position}");
             }
         }
+    }
+
+    private bool CanDriftTo(Vector3Int goal)
+    {
+        //FIXME: deOffset is a temp solution to this weird matrix 1,1 offset
+        return matrix != null && matrix.IsEmptyAt(goal + deOffset);
     }
 
     private bool hasImpulse()

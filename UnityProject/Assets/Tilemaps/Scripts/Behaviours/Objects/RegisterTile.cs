@@ -14,13 +14,12 @@ namespace Tilemaps.Scripts.Behaviours.Objects
     [ExecuteInEditMode]
     public abstract class RegisterTile : MonoBehaviour
     {
-        public bool IsRegistered { get; private set; }
-
-        public ObjectType ObjectType;
+        private Vector3Int _position;
 
         private ObjectLayer layer;
 
-        private Vector3Int _position;
+        public ObjectType ObjectType;
+        public bool IsRegistered { get; private set; }
 
         public Vector3Int Position
         {
@@ -36,13 +35,23 @@ namespace Tilemaps.Scripts.Behaviours.Objects
         public void Start()
         {
             layer = transform.GetComponentInParent<ObjectLayer>();
-            
+
             if (layer == null)
             {
-                transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
+                GameObject tempParent = GameObject.FindGameObjectWithTag("SpawnParent");
+                //FIXME: Still issues with init for registering objects. Sometimes SpawnParent tag cannot be found
+                // Suggestion: Move to a Matrix Manager system
+                if (tempParent != null)
+                {
+                    transform.parent = tempParent.transform;
+                }
+                else
+                {
+                    Debug.LogError("GameObject: " + gameObject.name + " could not find the matrix");
+                }
                 layer = transform.GetComponentInParent<ObjectLayer>();
             }
-            
+
             Register();
         }
 
@@ -65,7 +74,7 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 
         public void UpdatePosition()
         {
-            Position = Vector3Int.FloorToInt(transform.localPosition);
+            Position = Vector3Int.FloorToInt(transform.localPosition); //fixme localPosition -> position
         }
 
         public void Register()

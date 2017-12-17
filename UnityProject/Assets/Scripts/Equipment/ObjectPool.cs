@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Items;
 using UI;
+ using Random = UnityEngine.Random;
 
 namespace Equipment
 {
@@ -68,10 +69,7 @@ namespace Equipment
            // gObj.transform.position = dropPos;
             var objTransform = gObj.GetComponent<CustomNetTransform>();
 //            objTransform.AppearAtPositionServer(dropPos);
-            objTransform.SetState(new TransformState{ Active = true, 
-                                                      Position = dropPos, 
-                                                      Impulse = Vector2.up, 
-                                                      Speed = 2f }); //dropping creates an impulse for testing
+            objTransform.ForceDrop(dropPos);
             objTransform.SetParent(null);
         }
     }
