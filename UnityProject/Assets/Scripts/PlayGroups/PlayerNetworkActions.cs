@@ -501,9 +501,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     [Command]
-    public void CmdTryOpenDoor(GameObject door)
+    public void CmdTryOpenDoor(GameObject door, GameObject originator)
     {
-        door.GetComponent<DoorController>().CmdTryOpen(gameObject);
+        door.GetComponent<DoorController>().CmdTryOpen(originator);
     }
 
     [Command]
