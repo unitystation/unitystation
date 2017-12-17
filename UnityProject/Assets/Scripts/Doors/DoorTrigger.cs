@@ -29,12 +29,12 @@ namespace Doors
                     if (UIManager.InventorySlots.IDSlot.IsFull &&
                         UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>() != null)
                     {
-                        CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>(), doorController);
+                        CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>(), doorController, originator);
                     }
                     else if (UIManager.Hands.CurrentSlot.IsFull &&
                              UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>() != null)
                     {
-                        CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>(), doorController);
+                        CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>(), doorController, originator);
                     }
                     else
                     {
@@ -46,12 +46,13 @@ namespace Doors
                 }
                 else
                 {
+                    Debug.Log("no restriction required");
                     allowInput = false;
                     if (CustomNetworkManager.Instance._isServer)
                     {
                         if (!doorController.IsOpened)
                         {
-                            doorController.CmdTryOpen(gameObject);
+                            doorController.CmdTryOpen(originator);
                         }
                         else
                         {
@@ -63,7 +64,7 @@ namespace Doors
                         //for mouse click opening when not server
                         if (!doorController.IsOpened)
                         {
-                            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryOpenDoor(gameObject);
+                            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryOpenDoor(gameObject, originator);
                         }
                         else
                         {
@@ -75,7 +76,7 @@ namespace Doors
             }
         }
 
-        private void CheckDoorAccess(IDCard cardID, DoorController doorController)
+        private void CheckDoorAccess(IDCard cardID, DoorController doorController, GameObject originator)
         {
             Debug.Log("been here!");
             if (cardID.accessSyncList.Contains((int) doorController.restriction))
@@ -84,7 +85,7 @@ namespace Doors
                 allowInput = false;
                 if (!doorController.IsOpened)
                 {
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryOpenDoor(gameObject);
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryOpenDoor(gameObject, originator);
                 }
                 else
                 {
