@@ -1041,9 +1041,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d845653319a64ba5a7817f7abd873f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  talkSprite: {fileID: 21300028, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
-  questionSprite: {fileID: 21300032, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
   exlaimSprite: {fileID: 21300036, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
+  questionSprite: {fileID: 21300032, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
+  talkSprite: {fileID: 21300028, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
 --- !u!114 &114068656812549090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1067,11 +1067,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: mask
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212068773527747804}
+  spriteSheetName: mask
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114150458415481364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1083,11 +1083,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: uniform
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212437748770145178}
+  spriteSheetName: uniform
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114173340621344012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1099,10 +1099,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ec24547a834ed59569affa30e7249b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowKnifeHarvest: 1
   initialHealth: 100
-  maxHealth: 100
   isNPC: 0
-  allowKnifeHarvest: 0
+  maxHealth: 100
+  butcherResults:
+  - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
+  - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
+  BloodLevel: 560
   BodyParts:
   - {fileID: 114457795912083674}
   - {fileID: 114316649585772562}
@@ -1110,7 +1114,6 @@ MonoBehaviour:
   - {fileID: 114859648697239420}
   - {fileID: 114645575864574208}
   - {fileID: 114626459693876662}
-  BloodLevel: 560
 --- !u!114 &114176283518884694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1122,11 +1125,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: back
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212940191652905820}
+  spriteSheetName: back
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114186826461219604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1138,11 +1141,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: eyes
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212847469326298166}
+  spriteSheetName: eyes
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114280887415014694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1154,11 +1157,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: ears
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212458270926585534}
+  spriteSheetName: ears
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114285118255153820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1195,11 +1198,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: head
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212144883045729364}
+  spriteSheetName: head
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114316649585772562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1211,18 +1214,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286e2ff4e04b48b0b91e6ebfc4b212f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  GrayDamageMonitorIcon: {fileID: 21300824, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
   GreenDamageMonitorIcon: {fileID: 21300752, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300764, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
+  MaxDamage: 100
   OrangeDamageMonitorIcon: {fileID: 21300776, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   RedDamageMonitorIcon: {fileID: 21300788, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300824, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  Type: 0
+  YellowDamageMonitorIcon: {fileID: 21300764, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  MaxDamage: 100
 --- !u!114 &114317598722413354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1246,11 +1249,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: feet
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212344525557824326}
+  spriteSheetName: feet
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114354390467757956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1262,11 +1265,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: human
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212492286651421720}
+  spriteSheetName: human
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114361174706508060
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1278,11 +1281,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: human_face
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212039247469239700}
+  spriteSheetName: human_face
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114390575568471296
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1393,18 +1396,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b6bad0196f4cca947cdfe73fcf7ca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 1
+  GrayDamageMonitorIcon: {fileID: 21300830, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
   GreenDamageMonitorIcon: {fileID: 21300754, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300766, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
+  MaxDamage: 200
   OrangeDamageMonitorIcon: {fileID: 21300778, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   RedDamageMonitorIcon: {fileID: 21300790, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300830, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  Type: 1
+  YellowDamageMonitorIcon: {fileID: 21300766, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  MaxDamage: 200
 --- !u!114 &114505375981646366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1440,11 +1443,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: belt
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212924062595901212}
+  spriteSheetName: belt
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114593625294156532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1456,18 +1459,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 2
+  GrayDamageMonitorIcon: {fileID: 21300836, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
   GreenDamageMonitorIcon: {fileID: 21300758, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300770, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
+  MaxDamage: 50
   OrangeDamageMonitorIcon: {fileID: 21300782, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   RedDamageMonitorIcon: {fileID: 21300794, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300836, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  Type: 2
+  YellowDamageMonitorIcon: {fileID: 21300770, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  MaxDamage: 50
 --- !u!114 &114600225155881128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1479,11 +1482,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 1
-  spriteSheetName: items_righthand
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212695445263472394}
+  spriteSheetName: items_righthand
+  spriteType: 1
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114600992077934460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1518,8 +1521,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f99bb0ad07434da089f740997e6916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JobType: 0
   ghost: {fileID: 1962188613804782}
+  JobType: 0
   playerName: ' '
 --- !u!114 &114617980452984522
 MonoBehaviour:
@@ -1545,18 +1548,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 5
+  GrayDamageMonitorIcon: {fileID: 21300840, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
   GreenDamageMonitorIcon: {fileID: 21300760, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300772, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
+  MaxDamage: 50
   OrangeDamageMonitorIcon: {fileID: 21300784, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   RedDamageMonitorIcon: {fileID: 21300816, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300840, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  Type: 5
+  YellowDamageMonitorIcon: {fileID: 21300772, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  MaxDamage: 50
 --- !u!114 &114636370206516294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1592,18 +1595,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 4
+  GrayDamageMonitorIcon: {fileID: 21300844, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
   GreenDamageMonitorIcon: {fileID: 21300762, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300774, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
+  MaxDamage: 50
   OrangeDamageMonitorIcon: {fileID: 21300786, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   RedDamageMonitorIcon: {fileID: 21300798, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300844, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  Type: 4
+  YellowDamageMonitorIcon: {fileID: 21300774, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  MaxDamage: 50
 --- !u!114 &114655767677116310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1627,11 +1630,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: suit
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212005797941245090}
+  spriteSheetName: suit
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114686590975304092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1643,11 +1646,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: hands
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212272552631623328}
+  spriteSheetName: hands
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114705432356065350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1683,12 +1686,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ce4d8a508787441857fade34082bd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPull: {fileID: 0}
-  keyCodes: 7700000061000000730000006400000011010000140100001201000013010000
-  diagonalMovement: 1
-  speed: 6
   allowInput: 1
+  diagonalMovement: 1
   isGhost: 0
+  keyCodes: 7700000061000000730000006400000011010000140100001201000013010000
+  pushPull: {fileID: 0}
+  speed: 6
 --- !u!114 &114803877374308862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1700,18 +1703,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
+  moveSpeed: 7
   pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
   pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
   serverLittleLag: 0
   serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
 --- !u!114 &114804659299628030
 MonoBehaviour:
@@ -1737,9 +1740,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Color: {r: 1, g: 0.9754564, b: 0.83823526, a: 0.359}
-  Sprite: {fileID: 21300000, guid: 1a2fa03369d897e439ef81a5d10d7241, type: 3}
-  SortingOrder: 0
   Material: {fileID: 2100000, guid: 5d8645bc2e5501a4ebd138db5aa609bd, type: 2}
+  SortingOrder: 0
+  Sprite: {fileID: 21300000, guid: 1a2fa03369d897e439ef81a5d10d7241, type: 3}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
 --- !u!114 &114844944412084042
@@ -1753,11 +1756,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: underwear
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212853338683630810}
+  spriteSheetName: underwear
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114857622421506280
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1769,11 +1772,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 2
-  spriteSheetName: items_lefthand
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212990490947787952}
+  spriteSheetName: items_lefthand
+  spriteType: 2
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114859648697239420
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1785,18 +1788,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 3
+  GrayDamageMonitorIcon: {fileID: 21300832, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
   GreenDamageMonitorIcon: {fileID: 21300756, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300768, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
+  MaxDamage: 50
   OrangeDamageMonitorIcon: {fileID: 21300780, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   RedDamageMonitorIcon: {fileID: 21300810, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300832, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  Type: 3
+  YellowDamageMonitorIcon: {fileID: 21300768, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  MaxDamage: 50
 --- !u!114 &114868184203081376
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1808,10 +1811,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0184ff86886f974d95dfead14754f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MultiplicativeColor: {r: 0, g: 0, b: 0, a: 0}
   AdditiveColor: {r: 0.9117647, g: 0.9117647, b: 0.9117647, a: 0}
-  Material: {fileID: 2100000, guid: 0a8c132f813f5514b9f5b48ff3956482, type: 2}
   LightObstacleScale: 1
+  Material: {fileID: 2100000, guid: 0a8c132f813f5514b9f5b48ff3956482, type: 2}
+  MultiplicativeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114873879993554562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1867,11 +1870,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: neck
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212073504853382616}
+  spriteSheetName: neck
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!212 &212005797941245090
 SpriteRenderer:
   m_ObjectHideFlags: 1

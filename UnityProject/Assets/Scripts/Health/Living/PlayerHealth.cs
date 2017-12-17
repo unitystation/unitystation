@@ -9,6 +9,7 @@ namespace PlayGroup
     public class PlayerHealth : HealthBehaviour
     {
         private readonly float bleedRate = 2f;
+        [Header("For harvestable animals")] public GameObject[] butcherResults;
 
         private int bleedVolume;
 
@@ -247,6 +248,29 @@ namespace PlayGroup
                 //FIXME Remove for next demo
                 playerNetworkActions.RespawnPlayer(10);
             }
+        }
+        [Server]
+        public virtual void Harvest()
+        {
+            foreach (GameObject harvestPrefab in butcherResults)
+            {
+                GameObject harvest = Instantiate(harvestPrefab, transform.position, Quaternion.identity);
+                NetworkServer.Spawn(harvest);
+            }
+            EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
+            //Remove the NPC after all has been harvested
+            RpcHideBody(gameObject);
+        }
+        
+        [ClientRpc]
+        private void RpcHideBody(GameObject target)
+        {
+            SpriteRenderer[] componentList = target.GetComponentsInChildren<SpriteRenderer>();
+            foreach( SpriteRenderer comp in componentList )
+            {
+                comp.enabled = false;
+            } 
+            
         }
     }
 }
