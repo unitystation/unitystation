@@ -157,18 +157,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
+  moveSpeed: 7
   pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
   pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
   serverLittleLag: 0
   serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
 --- !u!114 &114546555560900714
 MonoBehaviour:
@@ -182,15 +182,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloth: 0
+  clothingReference: -1
   hierarchy: 
-  itemName: 
+  inHandReferenceLeft: -1
+  inHandReferenceRight: -1
   itemDescription: 
+  itemName: 
+  size: 0
   spriteType: 1
   type: 5
-  inHandReferenceRight: -1
-  inHandReferenceLeft: -1
-  clothingReference: -1
-  size: 1
 --- !u!114 &114622794189216516
 MonoBehaviour:
   m_ObjectHideFlags: 1
