@@ -68,6 +68,9 @@ namespace Items
                 Debug.LogWarningFormat($"Not in reach! server pos:{statePosition} player pos:{originator.transform.position}");
                 return false;
             }
+            
+            Debug.LogFormat($"Pickup success! server pos:{statePosition} player pos:{originator.transform.position}");
+            
 
             //set ForceInform to false for simulation
             return ps.playerNetworkActions.AddItem(gameObject, slotName, false /*, false*/);

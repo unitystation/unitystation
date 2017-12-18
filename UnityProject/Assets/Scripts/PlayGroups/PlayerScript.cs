@@ -122,7 +122,7 @@ namespace PlayGroup
                 UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 
                 //Request sync to get all the latest data
-                new RequestSyncMessage().Send();
+//                new RequestSyncMessage().Send();
                 
 				SelectedChannels = ChatChannel.OOC;
 			} else if (isServer) {

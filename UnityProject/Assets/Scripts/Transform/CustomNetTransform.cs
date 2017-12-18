@@ -248,7 +248,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         if (transformState.Impulse != Vector2Int.zero)
         {
             //fixme: warning: this makes transformState.Position unrealistic!
-            transformState.Position += (Vector3) transformState.Impulse.normalized; //perpetual flying
+            transformState.Position = registerTilePos() + (Vector3) transformState.Impulse.normalized; //perpetual flying
         }
         
         if ( transformState.Position != transform.position )
@@ -257,10 +257,15 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         }
 
         //Registering
-        if ( registerTile.Position - deOffset != Vector3Int.RoundToInt(transformState.Position) )
+        if ( registerTilePos() != Vector3Int.RoundToInt(transformState.Position) )
         {
             RegisterObjects();
         }
+    }
+
+    private Vector3Int registerTilePos()
+    {
+        return registerTile.Position - deOffset;
     }
 
     private void Lerp()
@@ -282,7 +287,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
             {    //Spess drifting
 //                if (registerTile.Position == Vector3Int.RoundToInt(serverTransformState.Position))
 //                {
-                    serverTransformState.Position = registerTile.Position - deOffset;
+                    serverTransformState.Position = registerTilePos();
 //                }
             }
             else //Stopping drift
