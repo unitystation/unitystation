@@ -280,7 +280,13 @@ namespace PlayGroup
         private void CmdAction(PlayerAction action)
         {
             serverState = NextState(serverState, action);
-            serverStateCache = serverState;
+            //Do not cache the position if the player is a ghost
+            //or else new players will sync the deadbody with the last pos
+            //of the gost:
+            if (!playerMove.isGhost)
+            {
+                serverStateCache = serverState;
+            }
             RpcOnServerStateChange(serverState);
         }
 
