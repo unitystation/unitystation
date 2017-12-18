@@ -33,7 +33,14 @@ namespace Tilemaps.Scripts
         private void Start()
         {
             metaTileMap = GetComponent<MetaTileMap>();
-            objects = ((ObjectLayer) metaTileMap.Layers[LayerType.Objects]).Objects;
+            try
+            {
+                objects = ((ObjectLayer)metaTileMap.Layers[LayerType.Objects]).Objects;
+            }
+            catch
+            {
+                Debug.LogError("CAST ERROR: Make sure everything is in its proper layer type.");
+            }
         }
 
         public bool IsPassableAt(Vector3Int origin, Vector3Int position)
