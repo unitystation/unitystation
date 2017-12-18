@@ -508,7 +508,7 @@ GameObject:
   - component: {fileID: 4571508935139138}
   - component: {fileID: 82590390951037464}
   m_Layer: 0
-  m_Name: ShootGun04
+  m_Name: ShootGunUzi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2048,6 +2048,22 @@ GameObject:
   - component: {fileID: 114027460256335880}
   m_Layer: 5
   m_Name: LinksTitle (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1502023635662542
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4173196296633954}
+  - component: {fileID: 82505232785455990}
+  m_Layer: 0
+  m_Name: ShootGun04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4292,6 +4308,19 @@ Transform:
   m_Father: {fileID: 4275372777489054}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4173196296633954
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502023635662542}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4831593447424314}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4244501537706558
 Transform:
   m_ObjectHideFlags: 1
@@ -4531,7 +4560,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4831593447424314}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4624278404612234
 Transform:
@@ -4652,6 +4681,7 @@ Transform:
   - {fileID: 4498084308154956}
   - {fileID: 4281552198231310}
   - {fileID: 4797488480436972}
+  - {fileID: 4173196296633954}
   - {fileID: 4571508935139138}
   m_Father: {fileID: 4275372777489054}
   m_RootOrder: 20
@@ -5754,6 +5784,123 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!82 &82505232785455990
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502023635662542}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: b0141e3a5f5ac464caea2ce69a1f944f, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.6
+  m_Pitch: 1.1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 90
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0.011111111
+      value: 1
+      inSlope: -90.03599
+      outSlope: -90.03599
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.022222223
+      value: 0.5
+      inSlope: -22.508997
+      outSlope: -22.508997
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.044444446
+      value: 0.25
+      inSlope: -5.6272492
+      outSlope: -5.6272492
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.08888889
+      value: 0.125
+      inSlope: -1.4068123
+      outSlope: -1.4068123
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.17777778
+      value: 0.0625
+      inSlope: -0.35170308
+      outSlope: -0.35170308
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.35555556
+      value: 0.03125
+      inSlope: -0.08792577
+      outSlope: -0.08792577
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.7111111
+      value: 0.015625
+      inSlope: -0.021981442
+      outSlope: -0.021981442
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: -0.0111155445
+      outSlope: -0.0111155445
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!82 &82527346793861930
 AudioSource:
   m_ObjectHideFlags: 1
@@ -6031,7 +6178,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: b0141e3a5f5ac464caea2ce69a1f944f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 62c48e87d15684568a120b7cbe7b651f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1.1
@@ -6715,26 +6862,26 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: 0.1
+      time: 0.053369142
       value: 1
       inSlope: -10.0039835
       outSlope: -10.0039835
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.2
-      value: 0.5
+      time: 0.15336914
+      value: 0.43888855
       inSlope: -2.5009959
       outSlope: -2.5009959
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.4
-      value: 0.25
+      time: 0.32745972
+      value: 0.1812439
       inSlope: -0.62524897
       outSlope: -0.62524897
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.8
-      value: 0.125
+      time: 0.7274597
+      value: 0.018051147
       inSlope: -0.15631224
       outSlope: -0.15631224
       tangentMode: 0
@@ -15816,6 +15963,8 @@ MonoBehaviour:
   - name: ShootGun01
     source: {fileID: 82869475643785832}
   - name: ShootGun04
+    source: {fileID: 82505232785455990}
+  - name: ShootGunUzi
     source: {fileID: 82590390951037464}
 --- !u!114 &114894754659389486
 MonoBehaviour:
