@@ -166,18 +166,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
+  moveSpeed: 7
   pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
   pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
   serverLittleLag: 0
   serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
 --- !u!114 &114632442228932846
 MonoBehaviour:
@@ -202,10 +202,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoRemains: 7
   ammoType: 357mm
   magazineSize: 7
   Usable: 1
-  ammoRemains: 7
 --- !u!114 &114826983953154742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -229,15 +229,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloth: 0
+  clothingReference: -1
   hierarchy: 
+  inHandReferenceLeft: -1
+  inHandReferenceRight: -1
+  itemDescription: Magazine for normal revolvers
   itemName: 357 Magnum Magazine
-  itemDescription: 
+  size: 0
   spriteType: 0
   type: 0
-  inHandReferenceRight: -1
-  inHandReferenceLeft: -1
-  clothingReference: -1
-  size: 0
 --- !u!212 &212550872491921026
 SpriteRenderer:
   m_ObjectHideFlags: 1
