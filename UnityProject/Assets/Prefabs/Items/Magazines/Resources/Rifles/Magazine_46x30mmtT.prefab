@@ -167,15 +167,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloth: 0
+  clothingReference: -1
   hierarchy: 
-  itemName: 
+  inHandReferenceLeft: 0
+  inHandReferenceRight: 0
   itemDescription: 
+  itemName: ERT Gun Magazine
+  size: 0
   spriteType: 0
   type: 0
-  inHandReferenceRight: 0
-  inHandReferenceLeft: 0
-  clothingReference: -1
-  size: 0
 --- !u!114 &114802394935135262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -187,18 +187,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
+  moveSpeed: 7
   pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
   pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
   serverLittleLag: 0
   serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
 --- !u!114 &114831615385714540
 MonoBehaviour:
@@ -211,10 +211,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoRemains: 35
   ammoType: 46x30mmtT
   magazineSize: 35
   Usable: 1
-  ammoRemains: 35
 --- !u!114 &114851554163762622
 MonoBehaviour:
   m_ObjectHideFlags: 1

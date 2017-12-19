@@ -149,11 +149,11 @@ MonoBehaviour:
   CurrentRecoilVariance: 0
   FireCountDown: 0
   FireingSound: ShootSMG
-  FireRate: 4
+  FireRate: 10
   InAutomaticAction: 0
-  MaxRecoilVariance: 0
+  MaxRecoilVariance: 0.08
   Projectile: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 2}
-  ProjectileDamage: 10
+  ProjectileDamage: 8
   ProjectilesFired: 1
   ProjectileVelocity: 10
   WeaponType: 2

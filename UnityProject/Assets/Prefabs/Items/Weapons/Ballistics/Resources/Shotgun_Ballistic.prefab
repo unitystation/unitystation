@@ -208,7 +208,7 @@ MonoBehaviour:
   inHandReferenceRight: 112
   itemDescription: 
   itemName: Shotgun
-  size: 2
+  size: 3
   spriteType: 2
   type: 16
 --- !u!114 &114776078380092352
@@ -226,12 +226,12 @@ MonoBehaviour:
   CurrentRecoilVariance: 0
   FireCountDown: 0
   FireingSound: ShootLMG
-  FireRate: 2
+  FireRate: 1.5
   InAutomaticAction: 0
-  MaxRecoilVariance: 0.4
+  MaxRecoilVariance: 0
   Projectile: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 2}
-  ProjectileDamage: 5
-  ProjectilesFired: 3
+  ProjectileDamage: 17
+  ProjectilesFired: 1
   ProjectileVelocity: 8
   WeaponType: 1
 --- !u!212 &212145237817660662
