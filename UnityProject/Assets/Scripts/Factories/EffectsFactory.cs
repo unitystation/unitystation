@@ -41,10 +41,13 @@ public class EffectsFactory : NetworkBehaviour
     }
 
     //FileTiles are client side effects only, no need for network sync (triggered by same event on all clients/server)
-    public void SpawnFileTile(float fuelAmt, Vector3 position)
+    public void SpawnFileTileLocal(float fuelAmt, Vector3 localPosition, Transform parent)
     {
         //ClientSide pool spawn
-        GameObject fireObj = PoolManager.Instance.PoolClientInstantiate(fireTile, position, Quaternion.identity);
+        GameObject fireObj = PoolManager.Instance.PoolClientInstantiate(fireTile, Vector3.zero, Quaternion.identity);
+        //Spawn tiles need to be placed in a local matrix:
+        fireObj.transform.parent = parent;
+        fireObj.transform.localPosition = localPosition;
         FireTile fT = fireObj.GetComponent<FireTile>();
         fT.StartFire(fuelAmt);
     }

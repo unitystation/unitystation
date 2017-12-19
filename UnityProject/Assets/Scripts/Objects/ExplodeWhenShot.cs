@@ -37,6 +37,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 
         _registerTile = GetComponent<RegisterTile>();
         _matrix = Matrix.GetMatrix(this);
+        
     }
 
     //#if !ENABLE_PLAYMODE_TESTS_RUNNER
@@ -186,8 +187,8 @@ public class ExplodeWhenShot : NetworkBehaviour
         int maxNumOfFire = 4;
         int cLength = 3;
         int rHeight = 3;
-        Vector3Int pos = Vector3Int.RoundToInt(transform.position);
-        EffectsFactory.Instance.SpawnFileTile(Random.Range(0.4f, 1f), pos);
+        Vector3Int pos = Vector3Int.RoundToInt(transform.localPosition);
+        EffectsFactory.Instance.SpawnFileTileLocal(Random.Range(0.4f, 1f), pos, transform.parent);
         pos.x--;
         pos.y++;
 
@@ -199,15 +200,11 @@ public class ExplodeWhenShot : NetworkBehaviour
                 {
                     continue;
                 }
-
+                
                 Vector3Int checkPos = new Vector3Int(pos.x + i, pos.y - j, 0);
-
-                _matrix.IsPassableAt(checkPos);
-
-
                 if (_matrix.IsPassableAt(checkPos)) // || MatrixOld.Matrix.At(checkPos).IsPlayer())
                 {
-                    EffectsFactory.Instance.SpawnFileTile(Random.Range(0.4f, 1f), checkPos);
+                    EffectsFactory.Instance.SpawnFileTileLocal(Random.Range(0.4f, 1f), checkPos, transform.parent);
                     maxNumOfFire--;
                 }
                 if (maxNumOfFire <= 0)
