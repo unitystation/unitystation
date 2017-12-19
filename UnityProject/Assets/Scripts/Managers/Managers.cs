@@ -47,4 +47,12 @@ public class Managers : MonoBehaviour
         UIParent.SetActive(true);
         UIManager.Display.SetScreenForLobby();
     }
+
+    private void OnApplicationQuit()
+    {
+        if ( !Application.isEditor )
+        {
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
+        }
+    }
 }
