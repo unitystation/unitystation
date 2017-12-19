@@ -244,11 +244,26 @@ namespace PlayGroup
                 playerNetworkActions.RpcSpawnGhost();
                 playerMove.isGhost = true;
                 playerMove.allowInput = true;
+                RpcPassBullets(gameObject);
 
                 //FIXME Remove for next demo
                 playerNetworkActions.RespawnPlayer(10);
             }
         }
+        [ClientRpc]
+        private void RpcPassBullets(GameObject target)
+        {
+            foreach( BoxCollider2D comp in target.GetComponents<BoxCollider2D>())
+            {
+                if (!comp.isTrigger)
+                {
+                    comp.enabled = false;
+                }
+
+            } 
+            
+        }
+
         [Server]
         public virtual void Harvest()
         {
