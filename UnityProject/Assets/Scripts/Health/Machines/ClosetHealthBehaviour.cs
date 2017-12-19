@@ -1,4 +1,5 @@
-﻿using Cupboards;
+﻿using System;
+using Cupboards;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -25,6 +26,14 @@ namespace Objects
             if (isServer)
             {
                 ServerDeathActions();
+            }
+        }
+
+        public override void OnMouseDown()
+        {
+            if (closetControl.IsClosed)
+            {
+                base.OnMouseDown();
             }
         }
 

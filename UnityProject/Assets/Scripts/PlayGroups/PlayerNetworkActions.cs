@@ -244,8 +244,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         EquipmentPool.DisposeOfObject(gameObject, obj);
     }
 
-    [Server]
-    public void PlaceItem(string slotName, Vector3 pos, GameObject newParent)
+    [Command]
+    public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent)
     {
         if (!SlotNotEmpty(slotName))
         {

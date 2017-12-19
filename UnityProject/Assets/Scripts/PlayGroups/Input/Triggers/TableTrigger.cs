@@ -52,7 +52,7 @@ public class TableTrigger : InputTrigger
         }
         Vector3 targetPosition = gameObject.transform.position; //Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPosition.z = -0.2f;
-        ps.playerNetworkActions.PlaceItem(hand, targetPosition, gameObject);
+        ps.playerNetworkActions.CmdPlaceItem(hand, targetPosition, gameObject);
         item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 
         return true;
