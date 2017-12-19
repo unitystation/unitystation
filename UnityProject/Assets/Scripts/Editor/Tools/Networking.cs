@@ -26,6 +26,12 @@ public class Networking : Editor
         }
     }
 
+    [MenuItem("Networking/Transform Waltz (Server)")]
+    static void MoveAll()
+    {
+        CustomNetworkManager.Instance.MoveAll();
+    }
+
     [MenuItem("Networking/Gib All (Server)")]
     private static void GibAll()
     {

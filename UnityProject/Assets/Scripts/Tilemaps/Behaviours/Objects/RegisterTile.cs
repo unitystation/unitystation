@@ -73,7 +73,7 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 
         public void UpdatePosition()
         {
-            Position = Vector3Int.FloorToInt(transform.localPosition);
+            Position = Vector3Int.FloorToInt(transform.localPosition); //fixme localPosition -> position
         }
 
         public void Register()

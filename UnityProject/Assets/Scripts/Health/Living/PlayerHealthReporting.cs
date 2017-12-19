@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -24,9 +24,14 @@ namespace PlayGroup
 
         public PlayerHealth playerHealth;
 
-        protected override void Awake()
+        //server only caches
+        private int healthServerCache;
+        private int bloodLevelCache;
+        private float BloodPercentage = 100f;
+
+        protected override void OnEnable()
         {
-            //Do not call base method for this Awake.
+            //Do not call base method for this OnEnable.
         }
 
         public override void OnStartServer()

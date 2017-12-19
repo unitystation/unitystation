@@ -122,7 +122,8 @@ namespace PlayGroup
                     // I (client) have connected to the server, ask what my job preference is
                     UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
                 }
-
+                //Request sync to get all the latest transform data
+//                new RequestSyncMessage().Send();
                 SelectedChannels = ChatChannel.Local;
             }
             else if (isServer)

@@ -1,9 +1,11 @@
-﻿using PlayGroup;
+﻿﻿using InputControl;
+using PlayGroup;
 using PlayGroups.Input;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+ using UnityEngine.XR.WSA;
 
 namespace Items
 {
@@ -21,6 +23,7 @@ namespace Items
                 return;
             }
 
+            //Fixme: this is being called for the item in your hand when clicking world
             if (!isServer)
             {
                 UISlotObject uiSlotObject = new UISlotObject(hand, gameObject);
@@ -29,6 +32,7 @@ namespace Items
                 if (UIManager.CanPutItemToSlot(uiSlotObject))
                 {
                     //Simulation
+                    gameObject.GetComponent<CustomNetTransform>().DisappearFromWorld();
                     //                    UIManager.UpdateSlot(uiSlotObject);
 
                     //Client informs server of interaction attempt
@@ -48,12 +52,24 @@ namespace Items
         [Server]
         public bool ValidatePickUp(GameObject originator, string handSlot = null)
         {
-            PlayerScript ps = originator.GetComponent<PlayerScript>();
-            string slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
-            if (PlayerManager.PlayerScript == null || !ps.playerNetworkActions.Inventory.ContainsKey(slotName))
+            var ps = originator.GetComponent<PlayerScript>();
+            var slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
+            var statePosition = GetComponent<CustomNetTransform>().State.Position;
+            if (PlayerManager.PlayerScript == null 
+                || !ps.playerNetworkActions.Inventory.ContainsKey(slotName)
+                || ps.playerNetworkActions.SlotNotEmpty(slotName) //already picked up
+                )
             {
                 return false;
             }
+            if (!ps.IsInReach(statePosition))
+            {
+                Debug.LogWarningFormat($"Not in reach! server pos:{statePosition} player pos:{originator.transform.position}");
+                return false;
+            }
+            
+            Debug.LogFormat($"Pickup success! server pos:{statePosition} player pos:{originator.transform.position}");
+            
 
             //set ForceInform to false for simulation
             return ps.playerNetworkActions.AddItem(gameObject, slotName, false /*, false*/);

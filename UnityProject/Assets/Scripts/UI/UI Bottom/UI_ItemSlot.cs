@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using Events;
 using PlayGroup;
 using UnityEngine;
@@ -123,19 +123,19 @@ namespace UI
         /// </summary>
         public bool PlaceItem(Vector3 pos)
         {
-            GameObject item = Clear();
-            if (!item)
+            var item = Clear();
+            if ( !item )
             {
                 return false;
             }
-            //            InputTrigger.Touch(item);
-            item.transform.position = pos;
-            item.transform.parent = null;
-            EditModeControl e = item.GetComponent<EditModeControl>();
-            e.Snap();
-            ItemAttributes itemAttributes = item.GetComponent<ItemAttributes>();
-            Debug.LogFormat("Placing item {0}/{1} from {2} to {3}", item.name,
-                itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
+//            item.transform.position = pos;
+//            item.transform.parent = null;
+//            var e = item.GetComponent<EditModeControl>();
+//            e.Snap();
+            var itemTransform = item.GetComponent<CustomNetTransform>();
+            itemTransform.AppearAtPosition(pos);
+            var itemAttributes = item.GetComponent<ItemAttributes>();
+            Debug.LogFormat("Placing item {0}/{1} from {2} to {3}", item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
             return true;
         }
 

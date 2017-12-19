@@ -209,7 +209,6 @@ namespace PlayGroups.Input
             {
                 return false;
             }
-            ;
 
             //attempt to trigger the things in range we clicked on
             if (PlayerManager.LocalPlayerScript.IsInReach(position))

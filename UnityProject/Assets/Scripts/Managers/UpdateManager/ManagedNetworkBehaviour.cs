@@ -2,7 +2,12 @@
 
 public class ManagedNetworkBehaviour : NetworkBehaviour
 {
-    protected virtual void Awake()
+
+//    protected virtual void Awake()
+//    {
+//        UpdateManager.Instance.regularUpdate.Add(this);
+//    }
+    protected virtual void OnEnable()
     {
         UpdateManager.Instance.regularUpdate.Add(this);
     }
