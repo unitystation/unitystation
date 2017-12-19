@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Tilemaps.Scripts.Behaviours.Objects;
@@ -23,7 +23,7 @@ namespace Equipment
 //            obj.transform.parent = transform;
             var objTransform = obj.GetComponent<CustomNetTransform>();
             objTransform.DisappearFromWorldServer();
-            objTransform.SetParent(transform);
+//            objTransform.SetParent(transform);
             //SetPosition(transform.position, false);
 
             NetworkIdentity id = obj.GetComponent<NetworkIdentity>();
@@ -72,7 +72,7 @@ namespace Equipment
             var objTransform = gObj.GetComponent<CustomNetTransform>();
 //            objTransform.AppearAtPositionServer(dropPos);
             objTransform.ForceDrop(dropPos);
-            objTransform.SetParent(null);
+//            objTransform.SetParent(null);
         }
     }
 }

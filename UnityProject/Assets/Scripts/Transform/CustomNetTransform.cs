@@ -22,13 +22,13 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     
     public float Speed = 2; //lerp speed
 
-    protected RegisterTile registerTile;
+    private RegisterTile registerTile;
 
     private TransformState serverTransformState; //used for syncing with players, matters only for server
     private TransformState transformState;
 //    private TransformState predictedTransformState;
-    
-    protected Matrix matrix;
+
+    private Matrix matrix;
 
     public override void OnStartServer()
     {

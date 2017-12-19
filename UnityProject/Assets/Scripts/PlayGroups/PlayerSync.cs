@@ -374,18 +374,23 @@ namespace PlayGroup
 
         private void CheckSpaceWalk()
         {
+            if ( matrix == null )
+            {
+                return;
+            }
             Vector3Int pos = Vector3Int.RoundToInt(transform.localPosition);
-            if (matrix != null && matrix.IsFloatingAt(pos))
+            if (matrix.IsFloatingAt(pos))
             {
                 Vector3Int newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
                 serverState.Position = newGoal;
                 predictedState.Position = newGoal;
-                if (!healthBehaviorScript.IsDead && CustomNetworkManager.Instance._isServer
-                    && !isApplyingSpaceDmg)
-                {
-                    StartCoroutine(ApplyTempSpaceDamage());
-                    isApplyingSpaceDmg = true;
-                }
+            }
+            if ( matrix.IsEmptyAt(pos) && !healthBehaviorScript.IsDead && CustomNetworkManager.Instance._isServer
+                && !isApplyingSpaceDmg )
+            {
+                //Hurting people in space even if they are next to the wall
+                StartCoroutine(ApplyTempSpaceDamage());
+                isApplyingSpaceDmg = true;
             }
         }
 
@@ -394,9 +399,9 @@ namespace PlayGroup
         private IEnumerator ApplyTempSpaceDamage()
         {
             yield return new WaitForSeconds(1f);
-            healthBehaviorScript.RpcApplyDamage("SPESS", 5, DamageType.OXY, BodyPartType.HEAD);
+            healthBehaviorScript.RpcApplyDamage("SPESS", 1, DamageType.OXY, BodyPartType.HEAD);
             //No idea why there is an isServer catch on RpcApplyDamage, but will apply on server as well in mean time:
-            healthBehaviorScript.ApplyDamage("SPESS", 5, DamageType.OXY, BodyPartType.HEAD);
+            healthBehaviorScript.ApplyDamage("SPESS", 1, DamageType.OXY, BodyPartType.HEAD);
             isApplyingSpaceDmg = false;
         }
     }

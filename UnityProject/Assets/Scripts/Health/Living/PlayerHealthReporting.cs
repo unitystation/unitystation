@@ -24,11 +24,6 @@ namespace PlayGroup
 
         public PlayerHealth playerHealth;
 
-        //server only caches
-        private int healthServerCache;
-        private int bloodLevelCache;
-        private float BloodPercentage = 100f;
-
         protected override void OnEnable()
         {
             //Do not call base method for this OnEnable.
