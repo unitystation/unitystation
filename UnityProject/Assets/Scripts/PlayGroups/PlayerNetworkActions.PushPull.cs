@@ -80,12 +80,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     }
 
     [Command]
-    public void CmdTryPush(GameObject obj, Vector3 pos)
+    public void CmdTryPush(GameObject obj, Vector3 startLocalPos, Vector3 targetPos)
     {
         PushPull pushed = obj.GetComponent<PushPull>();
         if (pushed != null)
         {
-            pushed.serverPos = pos;
+           pushed.RpcPushSync(startLocalPos,targetPos);
         }
     }
 }

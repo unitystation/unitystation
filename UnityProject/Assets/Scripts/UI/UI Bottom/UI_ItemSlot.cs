@@ -148,7 +148,6 @@ namespace UI
 
         public bool CheckItemFit(GameObject item)
         {
-            
             ItemAttributes attributes = item.GetComponent<ItemAttributes>();
            
             if(!allowAllItems) 
@@ -164,9 +163,7 @@ namespace UI
             Debug.Log("Item is too big!");
             return false;
             }
-            Debug.Log("end of script");
             return allowAllItems || allowedItemTypes.Contains(attributes.type);
-
         }
     }
 }

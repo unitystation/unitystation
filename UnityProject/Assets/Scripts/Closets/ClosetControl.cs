@@ -99,6 +99,7 @@ namespace Cupboards
 
         private void OpenClose(bool isClosed)
         {
+            IsClosed = isClosed;
             if (isClosed)
             {
                 Close();
@@ -111,6 +112,7 @@ namespace Cupboards
 
         private void LockUnlock(bool lockIt)
         {
+            IsLocked = lockIt;
             if (lockLight == null)
             {
                 return;
@@ -162,12 +164,12 @@ namespace Cupboards
                     return;
                 }
 
-                GameObject item = UIManager.Hands.CurrentSlot.Clear();
+                GameObject item = UIManager.Hands.CurrentSlot.Item;
                 if (item != null)
                 {
                     Vector3 targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     targetPosition.z = 0f;
-                    PlayerManager.LocalPlayerScript.playerNetworkActions.PlaceItem(
+                    PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItem(
                         UIManager.Hands.CurrentSlot.eventName, transform.position, null);
 
                     item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);

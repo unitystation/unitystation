@@ -33,7 +33,7 @@ namespace Tilemaps.Scripts.Behaviours.Interaction
 
             Vector3 targetPosition = position;
             targetPosition.z = -0.2f;
-            ps.playerNetworkActions.PlaceItem(hand, targetPosition, gameObject);
+            ps.playerNetworkActions.CmdPlaceItem(hand, targetPosition, gameObject);
 
             item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
         }

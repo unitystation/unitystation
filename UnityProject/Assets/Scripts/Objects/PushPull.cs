@@ -23,9 +23,9 @@ public class PushPull : VisibleBehaviour
     public bool pushing;
 
     public Vector3 pushTarget;
+    private Vector3 pushFrom;
+    private float pushStep;
     public bool serverLittleLag;
-
-    [SyncVar(hook = "PushSync")] public Vector3 serverPos;
 
     //A check to make sure there are no network errors
     public float timeInPush;
@@ -133,13 +133,15 @@ public class PushPull : VisibleBehaviour
             }
 
             pushTarget = newPos;
+            pushFrom = transform.localPosition;
+            pushStep = 0f;
             journeyLength = Vector3.Distance(transform.localPosition, newPos) + 0.2f;
             timeInPush = 0f;
             pushing = true;
             //Start command to push on server
             if (pusher == PlayerManager.LocalPlayer)
             {
-                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, pushTarget);
+                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, transform.localPosition,pushTarget);
             }
         }
     }
@@ -168,7 +170,7 @@ public class PushPull : VisibleBehaviour
             PushTowards();
         }
         //This is a back up incase things go wrong as playerMove is important
-        if (pushing)
+        if (pusher != null)
         {
             timeInPush += Time.deltaTime;
             if (timeInPush > 3f)
@@ -198,58 +200,58 @@ public class PushPull : VisibleBehaviour
 
     private void PushTowards()
     {
-        transform.localPosition = Vector3.MoveTowards(transform.localPosition, pushTarget,
-            moveSpeed * Time.deltaTime * journeyLength);
+        pushStep += ((Time.deltaTime * moveSpeed) / journeyLength);
+        transform.localPosition = Vector3.Lerp(pushFrom, pushTarget, pushStep);
 
         if (transform.localPosition == pushTarget)
         {
             registerTile.UpdatePosition();
-
-            StartCoroutine(PushFinishWait());
+            if (pusher == PlayerManager.LocalPlayer)
+            {
+                StartCoroutine(PushFinishWait());   
+            }
+            pushing = false;
         }
     }
 
     private IEnumerator PushFinishWait()
     {
         yield return new WaitForSeconds(0.05f);
-
-        if (pusher == PlayerManager.LocalPlayer)
+        if (serverLittleLag)
         {
-            if (serverLittleLag)
-            {
-                serverLittleLag = false;
-                PlayerManager.LocalPlayerScript.playerMove.IsPushing = false;
-                pusher = null;
-            }
-            pushing = false;
+            pusher = null;
+            PlayerManager.LocalPlayerScript.playerMove.IsPushing = false;
         }
         else
         {
-            pushing = false;
-        }
-    }
-
-    private void PushSync(Vector3 pos)
-    {
-        if (pushing)
-        {
-            if (pusher == PlayerManager.LocalPlayer)
-            {
-                if (pos == pushTarget)
-                {
-                    serverLittleLag = true;
-                }
-            }
-            return;
-        }
-        if (transform.localPosition == pos && pusher == PlayerManager.LocalPlayer)
-        {
-            PlayerManager.LocalPlayerScript.playerMove.IsPushing = false;
+            //Server is a bit behind, wait before allowing to push again
+            //TODO: Determine how far behind the server actual is and use that to wait
+            yield return new WaitForSeconds(0.4f);
             pusher = null;
+            PlayerManager.LocalPlayerScript.playerMove.IsPushing = false;
+        }
+
+    }
+    
+    [ClientRpc]
+    public void RpcPushSync(Vector3 startLocalPos, Vector3 targetPos)
+    {
+        if (pusher == PlayerManager.LocalPlayer || transform.localPosition == targetPos)
+        {
+            //Rpc happened on the pushee before he was finished
+            //this means there is very little lag so allow him to move straight away after it's done
+            if (pushing)
+            {
+                serverLittleLag = true;
+            }
+            //No need to push if it is already at the position or is the one initiating the push
             return;
         }
-        pushTarget = pos;
-        journeyLength = Vector3.Distance(transform.localPosition, pos) + 0.2f;
+
+        pushFrom = startLocalPos;
+        pushTarget = targetPos;
+        pushStep = 0f;
+        journeyLength = Vector3.Distance(transform.localPosition, targetPos) + 0.2f;
         timeInPush = 0f;
         pushing = true;
     }
