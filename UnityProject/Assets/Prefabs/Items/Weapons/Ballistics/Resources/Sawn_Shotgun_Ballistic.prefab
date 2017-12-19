@@ -184,12 +184,12 @@ MonoBehaviour:
   CurrentRecoilVariance: 0
   FireCountDown: 0
   FireingSound: ShootLMG
-  FireRate: 2
+  FireRate: 1.5
   InAutomaticAction: 0
-  MaxRecoilVariance: 0.6
+  MaxRecoilVariance: 0
   Projectile: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 2}
-  ProjectileDamage: 10
-  ProjectilesFired: 2
+  ProjectileDamage: 16
+  ProjectilesFired: 1
   ProjectileVelocity: 8
   WeaponType: 1
 --- !u!114 &114629140058265264
@@ -231,7 +231,7 @@ MonoBehaviour:
   inHandReferenceRight: 112
   itemDescription: 
   itemName: Sawnoff shotgun
-  size: 2
+  size: 3
   spriteType: 2
   type: 16
 --- !u!212 &212654387980484846
