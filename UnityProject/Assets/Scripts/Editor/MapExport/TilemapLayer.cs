@@ -8,33 +8,33 @@ using UnityEngine;
 [Serializable]
 public class TilemapLayer
 {
-    //    [SerializeField] private string name;
-    [SerializeField] private List<XYCoord> tilePositions = new List<XYCoord>(); //to be converted into Vector3Int
+	//    [SerializeField] private string name;
+	[SerializeField] private List<XYCoord> tilePositions = new List<XYCoord>(); //to be converted into Vector3Int
 
-    [SerializeField] private List<UniTileData> tiles = new List<UniTileData>();
-    //    [SerializeField] private List<UniTile> tiles = new List<UniTile>();
+	[SerializeField] private List<UniTileData> tiles = new List<UniTileData>();
+	//    [SerializeField] private List<UniTile> tiles = new List<UniTile>();
 
-    //    public TilemapLayer()
-    //    {
-    //    }
+	//    public TilemapLayer()
+	//    {
+	//    }
 
-    //    public TilemapLayer(string name)
-    //    {
-    //        this.name = name;
-    //    }
+	//    public TilemapLayer(string name)
+	//    {
+	//        this.name = name;
+	//    }
 
-    public List<XYCoord> TilePositions => tilePositions;
+	public List<XYCoord> TilePositions => tilePositions;
 
-    public List<UniTileData> Tiles => tiles;
+	public List<UniTileData> Tiles => tiles;
 
-    public void Add(int x, int y, UniTileData tile)
-    {
-        tilePositions.Add(new XYCoord(x, y));
-        tiles.Add(tile);
-    }
+	public void Add(int x, int y, UniTileData tile)
+	{
+		tilePositions.Add(new XYCoord(x, y));
+		tiles.Add(tile);
+	}
 
-    public override string ToString()
-    {
-        return string.Format("{0} positions, {1} tiles", tilePositions.Count, tiles.Count);
-    }
+	public override string ToString()
+	{
+		return string.Format("{0} positions, {1} tiles", tilePositions.Count, tiles.Count);
+	}
 }

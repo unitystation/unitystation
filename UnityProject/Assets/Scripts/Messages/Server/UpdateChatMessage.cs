@@ -7,33 +7,28 @@ using UnityEngine.Networking;
 /// </summary>
 public class UpdateChatMessage : ServerMessage<UpdateChatMessage>
 {
-    public ChatChannel Channels;
-    public string ChatMessageText;
-    public NetworkInstanceId Recipient;
+	public ChatChannel Channels;
+	public string ChatMessageText;
+	public NetworkInstanceId Recipient;
 
-    public override IEnumerator Process()
-    {
-        yield return WaitFor(Recipient);
+	public override IEnumerator Process()
+	{
+		yield return WaitFor(Recipient);
 
-        ChatRelay.Instance.AddToChatLogClient(ChatMessageText, Channels);
-    }
+		ChatRelay.Instance.AddToChatLogClient(ChatMessageText, Channels);
+	}
 
-    public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, string message)
-    {
-        UpdateChatMessage msg = new UpdateChatMessage
-        {
-            Recipient = recipient.GetComponent<NetworkIdentity>().netId,
-            Channels = channels,
-            ChatMessageText = message
-        };
+	public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, string message)
+	{
+		UpdateChatMessage msg =
+			new UpdateChatMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId, Channels = channels, ChatMessageText = message};
 
-        msg.SendTo(recipient);
-        return msg;
-    }
+		msg.SendTo(recipient);
+		return msg;
+	}
 
-    public override string ToString()
-    {
-        return string.Format("[UpdateChatMessage Recipient={0} Channels={1} ChatMessageText={2}]",
-            Recipient, Channels, ChatMessageText);
-    }
+	public override string ToString()
+	{
+		return string.Format("[UpdateChatMessage Recipient={0} Channels={1} ChatMessageText={2}]", Recipient, Channels, ChatMessageText);
+	}
 }

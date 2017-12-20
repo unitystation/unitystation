@@ -6,268 +6,265 @@ using UnityEngine.Networking;
 
 namespace PlayGroup
 {
-    public class PlayerScript : ManagedNetworkBehaviour
-    {
-        // the maximum distance the player needs to be to an object to interact with it
-        //1.75 is the optimal distance to now have any direction click too far
-        //NOTE FOR ANYONE EDITING THIS IN THE FUTURE: Character's head is slightly below the top of the tile
-        //hence top reach is slightly lower than bottom reach, where the legs go exactly to the bottom of the tile.
-        public const float interactionDistance = 1.75f;
+	public class PlayerScript : ManagedNetworkBehaviour
+	{
+		// the maximum distance the player needs to be to an object to interact with it
+		//1.75 is the optimal distance to now have any direction click too far
+		//NOTE FOR ANYONE EDITING THIS IN THE FUTURE: Character's head is slightly below the top of the tile
+		//hence top reach is slightly lower than bottom reach, where the legs go exactly to the bottom of the tile.
+		public const float interactionDistance = 1.75f;
 
-        public GameObject ghost;
+		public GameObject ghost;
 
-        [SyncVar] public JobType JobType = JobType.NULL;
+		[SyncVar] public JobType JobType = JobType.NULL;
 
-        private float pingUpdate;
+		private float pingUpdate;
 
-        [SyncVar(hook = "OnNameChange")] public string playerName = " ";
+		[SyncVar(hook = "OnNameChange")] public string playerName = " ";
 
-        private ChatChannel selectedChannels;
+		private ChatChannel selectedChannels;
 
-        public PlayerNetworkActions playerNetworkActions { get; set; }
+		public PlayerNetworkActions playerNetworkActions { get; set; }
 
-        public WeaponNetworkActions weaponNetworkActions { get; set; }
+		public WeaponNetworkActions weaponNetworkActions { get; set; }
 
-        public SoundNetworkActions soundNetworkActions { get; set; }
+		public SoundNetworkActions soundNetworkActions { get; set; }
 
-        public PlayerHealth playerHealth { get; set; }
+		public PlayerHealth playerHealth { get; set; }
 
-        public PlayerMove playerMove { get; set; }
+		public PlayerMove playerMove { get; set; }
 
-        public PlayerSprites playerSprites { get; set; }
+		public PlayerSprites playerSprites { get; set; }
 
-        public PlayerSync playerSync { get; set; }
+		public PlayerSync playerSync { get; set; }
 
-        public InputController inputController { get; set; }
+		public InputController inputController { get; set; }
 
-        public HitIcon hitIcon { get; set; }
+		public HitIcon hitIcon { get; set; }
 
-        public ChatChannel SelectedChannels
-        {
-            get { return selectedChannels & GetAvailableChannels(); }
-            set { selectedChannels = value; }
-        }
+		public ChatChannel SelectedChannels
+		{
+			get { return selectedChannels & GetAvailableChannels(); }
+			set { selectedChannels = value; }
+		}
 
-        public override void OnStartClient()
-        {
-            //Local player is set a frame or two after OnStartClient
-            StartCoroutine(WaitForLoad());
-            base.OnStartClient();
-        }
+		public override void OnStartClient()
+		{
+			//Local player is set a frame or two after OnStartClient
+			StartCoroutine(WaitForLoad());
+			base.OnStartClient();
+		}
 
-        private IEnumerator WaitForLoad()
-        {
-            yield return new WaitForSeconds(2f);
-            OnNameChange(playerName);
-        }
+		private IEnumerator WaitForLoad()
+		{
+			yield return new WaitForSeconds(2f);
+			OnNameChange(playerName);
+		}
 
-        //isLocalPlayer is always called after OnStartClient
-        public override void OnStartLocalPlayer()
-        {
-            Init();
+		//isLocalPlayer is always called after OnStartClient
+		public override void OnStartLocalPlayer()
+		{
+			Init();
 
-            base.OnStartLocalPlayer();
-        }
+			base.OnStartLocalPlayer();
+		}
 
-        //You know the drill
-        public override void OnStartServer()
-        {
-            Init();
-            base.OnStartServer();
-        }
+		//You know the drill
+		public override void OnStartServer()
+		{
+			Init();
+			base.OnStartServer();
+		}
 
-        private void Start()
-        {
-            playerNetworkActions = GetComponent<PlayerNetworkActions>();
-            playerSync = GetComponent<PlayerSync>();
-            playerHealth = GetComponent<PlayerHealth>();
-            weaponNetworkActions = GetComponent<WeaponNetworkActions>();
-            soundNetworkActions = GetComponent<SoundNetworkActions>();
-            inputController = GetComponent<InputController>();
-            hitIcon = GetComponentInChildren<HitIcon>();
-        }
+		private void Start()
+		{
+			playerNetworkActions = GetComponent<PlayerNetworkActions>();
+			playerSync = GetComponent<PlayerSync>();
+			playerHealth = GetComponent<PlayerHealth>();
+			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
+			soundNetworkActions = GetComponent<SoundNetworkActions>();
+			inputController = GetComponent<InputController>();
+			hitIcon = GetComponentInChildren<HitIcon>();
+		}
 
-        private void Init()
-        {
-            if (isLocalPlayer)
-            {
-                UIManager.ResetAllUI();
-                UIManager.DisplayManager.SetCameraFollowPos();
-                int rA = Random.Range(0, 3);
-                SoundManager.PlayVarAmbient(rA);
-                playerMove = GetComponent<PlayerMove>();
-                playerSprites = GetComponent<PlayerSprites>();
-                GetComponent<InputController>().enabled = true;
+		private void Init()
+		{
+			if (isLocalPlayer)
+			{
+				UIManager.ResetAllUI();
+				UIManager.DisplayManager.SetCameraFollowPos();
+				int rA = Random.Range(0, 3);
+				SoundManager.PlayVarAmbient(rA);
+				playerMove = GetComponent<PlayerMove>();
+				playerSprites = GetComponent<PlayerSprites>();
+				GetComponent<InputController>().enabled = true;
 
-                if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)
-                {
-                    UIManager.Instance.playerListUIControl.window.SetActive(true);
-                }
+				if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)
+				{
+					UIManager.Instance.playerListUIControl.window.SetActive(true);
+				}
 
-                if (!PlayerManager.HasSpawned)
-                {
-                    //First
-                    CmdTrySetName(PlayerManager.PlayerNameCache);
-                }
-                else
-                {
-                    //Manual after respawn
-                    CmdSetNameManual(PlayerManager.PlayerNameCache);
-                }
+				if (!PlayerManager.HasSpawned)
+				{
+					//First
+					CmdTrySetName(PlayerManager.PlayerNameCache);
+				}
+				else
+				{
+					//Manual after respawn
+					CmdSetNameManual(PlayerManager.PlayerNameCache);
+				}
 
-                PlayerManager.SetPlayerForControl(gameObject);
+				PlayerManager.SetPlayerForControl(gameObject);
 
-                if (PlayerManager.LocalPlayerScript.JobType == JobType.NULL)
-                {
-                    // I (client) have connected to the server, ask what my job preference is
-                    UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
-                }
+				if (PlayerManager.LocalPlayerScript.JobType == JobType.NULL)
+				{
+					// I (client) have connected to the server, ask what my job preference is
+					UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
+				}
 
-                SelectedChannels = ChatChannel.Local;
-            }
-            else if (isServer)
-            {
-                playerMove = GetComponent<PlayerMove>();
-            }
-        }
+				SelectedChannels = ChatChannel.Local;
+			}
+			else if (isServer)
+			{
+				playerMove = GetComponent<PlayerMove>();
+			}
+		}
 
-        public bool canNotInteract()
-        {
-            return playerMove == null || !playerMove.allowInput || playerMove.isGhost;
-        }
+		public bool canNotInteract()
+		{
+			return playerMove == null || !playerMove.allowInput || playerMove.isGhost;
+		}
 
-        public override void UpdateMe()
-        {
-            //Read out of ping in toolTip
-            pingUpdate += Time.deltaTime;
-            if (pingUpdate >= 5f)
-            {
-                pingUpdate = 0f;
-                int ping = CustomNetworkManager.Instance.client.GetRTT();
-                UIManager.SetToolTip = "ping: " + ping;
-            }
-        }
+		public override void UpdateMe()
+		{
+			//Read out of ping in toolTip
+			pingUpdate += Time.deltaTime;
+			if (pingUpdate >= 5f)
+			{
+				pingUpdate = 0f;
+				int ping = CustomNetworkManager.Instance.client.GetRTT();
+				UIManager.SetToolTip = "ping: " + ping;
+			}
+		}
 
-        [Command]
-        private void CmdTrySetName(string name)
-        {
-            if (PlayerList.Instance != null)
-            {
-                playerName = PlayerList.Instance.CheckName(name);
-            }
-        }
+		[Command]
+		private void CmdTrySetName(string name)
+		{
+			if (PlayerList.Instance != null)
+			{
+				playerName = PlayerList.Instance.CheckName(name);
+			}
+		}
 
-        [Command]
-        private void CmdSetNameManual(string name)
-        {
-            playerName = name;
-        }
+		[Command]
+		private void CmdSetNameManual(string name)
+		{
+			playerName = name;
+		}
 
-        // On playerName variable change across all clients, make sure obj is named correctly
-        // and set in Playerlist for that client
-        public void OnNameChange(string newName)
-        {
-            playerName = newName;
-            gameObject.name = newName;
-            if (string.IsNullOrEmpty(newName))
-            {
-                Debug.LogError("NO NAME PROVIDED!");
-                return;
-            }
-            if (!PlayerList.Instance.connectedPlayers.ContainsKey(newName))
-            {
-                PlayerList.Instance.connectedPlayers.Add(newName, gameObject);
-            }
-            PlayerList.Instance.RefreshPlayerListText();
-        }
+		// On playerName variable change across all clients, make sure obj is named correctly
+		// and set in Playerlist for that client
+		public void OnNameChange(string newName)
+		{
+			playerName = newName;
+			gameObject.name = newName;
+			if (string.IsNullOrEmpty(newName))
+			{
+				Debug.LogError("NO NAME PROVIDED!");
+				return;
+			}
+			if (!PlayerList.Instance.connectedPlayers.ContainsKey(newName))
+			{
+				PlayerList.Instance.connectedPlayers.Add(newName, gameObject);
+			}
+			PlayerList.Instance.RefreshPlayerListText();
+		}
 
-        public float DistanceTo(Vector3 position)
-        {
-            //Because characters are taller than they are wider, their reach upwards/downards was greater
-            //Flooring that shit fixes it
-            Vector3Int pos = new Vector3Int(
-                Mathf.FloorToInt(transform.position.x),
-                Mathf.FloorToInt(transform.position.y),
-                Mathf.FloorToInt(transform.position.z)
-            );
-            return (pos - position).magnitude;
-        }
+		public float DistanceTo(Vector3 position)
+		{
+			//Because characters are taller than they are wider, their reach upwards/downards was greater
+			//Flooring that shit fixes it
+			Vector3Int pos = new Vector3Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y),
+				Mathf.FloorToInt(transform.position.z));
+			return (pos - position).magnitude;
+		}
 
-        /// <summary>
-        ///     Checks if the player is within reach of something
-        /// </summary>
-        /// <param name="position">The position of whatever we are trying to reach</param>
-        /// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
-        public bool IsInReach(Vector3 position, float interactDist = interactionDistance)
-        {
-            //If click is in diagonal direction, extend reach slightly
-            float distanceX = Mathf.FloorToInt(Mathf.Abs(transform.position.x - position.x));
-            float distanceY = Mathf.FloorToInt(Mathf.Abs(transform.position.y - position.y));
-            if (distanceX == 1 && distanceY == 1)
-            {
-                return DistanceTo(position) <= interactDist + 0.4f;
-            }
+		/// <summary>
+		///     Checks if the player is within reach of something
+		/// </summary>
+		/// <param name="position">The position of whatever we are trying to reach</param>
+		/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
+		public bool IsInReach(Vector3 position, float interactDist = interactionDistance)
+		{
+			//If click is in diagonal direction, extend reach slightly
+			float distanceX = Mathf.FloorToInt(Mathf.Abs(transform.position.x - position.x));
+			float distanceY = Mathf.FloorToInt(Mathf.Abs(transform.position.y - position.y));
+			if (distanceX == 1 && distanceY == 1)
+			{
+				return DistanceTo(position) <= interactDist + 0.4f;
+			}
 
-            //if cardinal direction, use regular reach
-            return DistanceTo(position) <= interactDist;
-        }
+			//if cardinal direction, use regular reach
+			return DistanceTo(position) <= interactDist;
+		}
 
-        public ChatChannel GetAvailableChannels(bool transmitOnly = true)
-        {
-            if (playerMove.isGhost)
-            {
-                if (transmitOnly)
-                {
-                    return ChatChannel.Ghost | ChatChannel.OOC;
-                }
-                return ~ChatChannel.None;
-            }
+		public ChatChannel GetAvailableChannels(bool transmitOnly = true)
+		{
+			if (playerMove.isGhost)
+			{
+				if (transmitOnly)
+				{
+					return ChatChannel.Ghost | ChatChannel.OOC;
+				}
+				return ~ChatChannel.None;
+			}
 
-            //TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
-            ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
+			//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
+			ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
 
-            GameObject headset = UIManager.InventorySlots.EarSlot.Item;
-            if (headset)
-            {
-                EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
-                transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
-            }
-            ChatChannel receiveChannels = ChatChannel.Examine | ChatChannel.System;
+			GameObject headset = UIManager.InventorySlots.EarSlot.Item;
+			if (headset)
+			{
+				EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
+				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+			}
+			ChatChannel receiveChannels = ChatChannel.Examine | ChatChannel.System;
 
-            if (transmitOnly)
-            {
-                return transmitChannels;
-            }
-            return transmitChannels | receiveChannels;
-        }
+			if (transmitOnly)
+			{
+				return transmitChannels;
+			}
+			return transmitChannels | receiveChannels;
+		}
 
-        public ChatModifier GetCurrentChatModifiers()
-        {
-            if (playerMove.isGhost)
-            {
-                return ChatModifier.None;
-            }
+		public ChatModifier GetCurrentChatModifiers()
+		{
+			if (playerMove.isGhost)
+			{
+				return ChatModifier.None;
+			}
 
-            //TODO add missing modifiers
-            ChatModifier modifiers = ChatModifier.Drunk;
+			//TODO add missing modifiers
+			ChatModifier modifiers = ChatModifier.Drunk;
 
-            if (JobType == JobType.CLOWN)
-            {
-                modifiers |= ChatModifier.Clown;
-            }
+			if (JobType == JobType.CLOWN)
+			{
+				modifiers |= ChatModifier.Clown;
+			}
 
-            return modifiers;
-        }
+			return modifiers;
+		}
 
-        //Tooltips inspector bar
-        public void OnMouseEnter()
-        {
-            UIManager.SetToolTip = name;
-        }
+		//Tooltips inspector bar
+		public void OnMouseEnter()
+		{
+			UIManager.SetToolTip = name;
+		}
 
-        public void OnMouseExit()
-        {
-            UIManager.SetToolTip = "";
-        }
-    }
+		public void OnMouseExit()
+		{
+			UIManager.SetToolTip = "";
+		}
+	}
 }

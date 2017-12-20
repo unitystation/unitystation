@@ -10,95 +10,92 @@ using UnityEngine.Networking;
 /// </summary>
 public class VisibleBehaviour : NetworkBehaviour
 {
-    //Ignore these types
-    private const string networkId = "NetworkIdentity";
+	//Ignore these types
+	private const string networkId = "NetworkIdentity";
 
-    private const string networkT = "NetworkTransform";
-    private const string objectBehaviour = "ObjectBehaviour";
-    private const string regTile = "RegisterTile";
-    private const string inputController = "InputController";
-    private const string playerSync = "PlayerSync";
+	private const string networkT = "NetworkTransform";
+	private const string objectBehaviour = "ObjectBehaviour";
+	private const string regTile = "RegisterTile";
+	private const string inputController = "InputController";
+	private const string playerSync = "PlayerSync";
 
-    public bool isPlayer;
-    public RegisterTile registerTile;
+	public bool isPlayer;
+	public RegisterTile registerTile;
 
-    /// <summary>
-    ///     This will also set the enabled state of every component
-    /// </summary>
-    [SyncVar(hook = "UpdateState")] public bool visibleState = true;
+	/// <summary>
+	///     This will also set the enabled state of every component
+	/// </summary>
+	[SyncVar(hook = "UpdateState")] public bool visibleState = true;
 
-    protected virtual void Awake()
-    {
-        registerTile = GetComponent<RegisterTile>();
-    }
+	protected virtual void Awake()
+	{
+		registerTile = GetComponent<RegisterTile>();
+	}
 
-    public override void OnStartClient()
-    {
-        StartCoroutine(WaitForLoad());
-        base.OnStartClient();
-        PlayerScript pS = GetComponent<PlayerScript>();
-        if (pS != null)
-        {
-            isPlayer = true;
-        }
-    }
+	public override void OnStartClient()
+	{
+		StartCoroutine(WaitForLoad());
+		base.OnStartClient();
+		PlayerScript pS = GetComponent<PlayerScript>();
+		if (pS != null)
+		{
+			isPlayer = true;
+		}
+	}
 
-    private IEnumerator WaitForLoad()
-    {
-        yield return new WaitForSeconds(3f);
-        UpdateState(visibleState);
-    }
+	private IEnumerator WaitForLoad()
+	{
+		yield return new WaitForSeconds(3f);
+		UpdateState(visibleState);
+	}
 
-    //For ObjectBehaviour to handle specific states with the various objects like players
-    public virtual void OnVisibilityChange(bool state)
-    {
-    }
+	//For ObjectBehaviour to handle specific states with the various objects like players
+	public virtual void OnVisibilityChange(bool state)
+	{
+	}
 
-    private void UpdateState(bool _aliveState)
-    {
-        OnVisibilityChange(_aliveState);
+	private void UpdateState(bool _aliveState)
+	{
+		OnVisibilityChange(_aliveState);
 
-        MonoBehaviour[] scripts = GetComponentsInChildren<MonoBehaviour>(true);
-        Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
-        Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
-        for (int i = 0; i < scripts.Length; i++)
-        {
-            if (scripts[i].GetType().Name != networkId && scripts[i].GetType().Name != networkT
-                && scripts[i].GetType().Name != objectBehaviour
-                && scripts[i].GetType().Name != regTile && scripts[i].GetType().Name
-                != inputController && scripts[i].GetType().Name
-                != playerSync)
-            {
-                scripts[i].enabled = _aliveState;
-            }
-        }
+		MonoBehaviour[] scripts = GetComponentsInChildren<MonoBehaviour>(true);
+		Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
+		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
+		for (int i = 0; i < scripts.Length; i++)
+		{
+			if (scripts[i].GetType().Name != networkId && scripts[i].GetType().Name != networkT && scripts[i].GetType().Name != objectBehaviour &&
+			    scripts[i].GetType().Name != regTile && scripts[i].GetType().Name != inputController && scripts[i].GetType().Name != playerSync)
+			{
+				scripts[i].enabled = _aliveState;
+			}
+		}
 
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            colliders[i].enabled = _aliveState;
-        }
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			colliders[i].enabled = _aliveState;
+		}
 
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            renderers[i].enabled = _aliveState;
-        }
+		for (int i = 0; i < renderers.Length; i++)
+		{
+			renderers[i].enabled = _aliveState;
+		}
 
-        if (registerTile != null)
-        {
-            if (_aliveState)
-            {
-                EditModeControl eC = gameObject.GetComponent<EditModeControl>();
-                if (eC != null)
-                {
-                    eC.Snap();
-                }
+		if (registerTile != null)
+		{
+			if (_aliveState)
+			{
+				EditModeControl eC = gameObject.GetComponent<EditModeControl>();
+				if (eC != null)
+				{
+					eC.Snap();
+				}
 
-                registerTile.UpdatePosition();
-            }
-            else
-            {
-                registerTile.Unregister();
-            }
-        }
-    }
+				registerTile.UpdatePosition();
+			}
+			else
+			{
+				registerTile.Unregister();
+			}
+		}
+	}
 }

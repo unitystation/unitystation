@@ -8,106 +8,106 @@ using UnityEngine.Tilemaps;
 
 namespace Tilemaps.Editor.Brushes
 {
-    [CustomEditor(typeof(LevelBrush))]
-    public class LevelBrushEditor : GridBrushEditor
-    {
-        private TileBase _currentPreviewTile;
-        private MetaTileMap _currentPreviewTilemap;
+	[CustomEditor(typeof(LevelBrush))]
+	public class LevelBrushEditor : GridBrushEditor
+	{
+		private TileBase _currentPreviewTile;
+		private MetaTileMap _currentPreviewTilemap;
 
-        private PreviewTile previewTile; // Preview Wrapper for ObjectTiles
+		private PreviewTile previewTile; // Preview Wrapper for ObjectTiles
 
-        private LayerTile[] previewTiles;
+		private LayerTile[] previewTiles;
 
-        public override GameObject[] validTargets
-        {
-            get
-            {
-                Grid[] grids = FindObjectsOfType<Grid>();
+		public override GameObject[] validTargets
+		{
+			get
+			{
+				Grid[] grids = FindObjectsOfType<Grid>();
 
-                return grids?.Select(x => x.gameObject).ToArray();
-            }
-        }
+				return grids?.Select(x => x.gameObject).ToArray();
+			}
+		}
 
-        public override void RegisterUndo(GameObject layer, GridBrushBase.Tool tool)
-        {
-            foreach (Tilemap tilemap in layer.GetComponentsInChildren<Tilemap>())
-            {
-                Undo.RegisterCompleteObjectUndo(tilemap, "Paint");
-            }
-        }
+		public override void RegisterUndo(GameObject layer, GridBrushBase.Tool tool)
+		{
+			foreach (Tilemap tilemap in layer.GetComponentsInChildren<Tilemap>())
+			{
+				Undo.RegisterCompleteObjectUndo(tilemap, "Paint");
+			}
+		}
 
-        public override void PaintPreview(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
-        {
-            if (brushTarget == null)
-            {
-                return;
-            }
+		public override void PaintPreview(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
+		{
+			if (brushTarget == null)
+			{
+				return;
+			}
 
-            MetaTileMap metaTilemap = brushTarget.GetComponent<MetaTileMap>();
+			MetaTileMap metaTilemap = brushTarget.GetComponent<MetaTileMap>();
 
-            if (!metaTilemap)
-            {
-                return;
-            }
+			if (!metaTilemap)
+			{
+				return;
+			}
 
-            TileBase tile = brush.cells[0].tile;
+			TileBase tile = brush.cells[0].tile;
 
-            if (tile != _currentPreviewTile)
-            {
-                if (tile is LayerTile)
-                {
-                    ObjectTile objectTile = tile as ObjectTile;
-                    if (objectTile && objectTile.Offset)
-                    {
-                        brush.cells[0].matrix = Matrix4x4.TRS(Vector3.up, Quaternion.identity, Vector3.one);
-                    }
+			if (tile != _currentPreviewTile)
+			{
+				if (tile is LayerTile)
+				{
+					ObjectTile objectTile = tile as ObjectTile;
+					if (objectTile && objectTile.Offset)
+					{
+						brush.cells[0].matrix = Matrix4x4.TRS(Vector3.up, Quaternion.identity, Vector3.one);
+					}
 
-                    previewTiles = new[] {(LayerTile) tile};
-                }
-                else if (tile is MetaTile)
-                {
-                    previewTiles = ((MetaTile) tile).GetTiles().ToArray();
-                }
+					previewTiles = new[] {(LayerTile) tile};
+				}
+				else if (tile is MetaTile)
+				{
+					previewTiles = ((MetaTile) tile).GetTiles().ToArray();
+				}
 
-                _currentPreviewTile = tile;
-            }
+				_currentPreviewTile = tile;
+			}
 
-            for (int i = 0; i < previewTiles.Length; i++)
-            {
-                SetPreviewTile(metaTilemap, position, previewTiles[i]);
-            }
+			for (int i = 0; i < previewTiles.Length; i++)
+			{
+				SetPreviewTile(metaTilemap, position, previewTiles[i]);
+			}
 
-            _currentPreviewTilemap = metaTilemap;
-        }
+			_currentPreviewTilemap = metaTilemap;
+		}
 
-        public override void ClearPreview()
-        {
-            if (_currentPreviewTilemap)
-            {
-                _currentPreviewTilemap.ClearPreview();
-            }
-        }
+		public override void ClearPreview()
+		{
+			if (_currentPreviewTilemap)
+			{
+				_currentPreviewTilemap.ClearPreview();
+			}
+		}
 
-        private void SetPreviewTile(MetaTileMap metaTilemap, Vector3Int position, LayerTile tile)
-        {
-            if (tile is ObjectTile)
-            {
-                if (previewTile == null || previewTile.ReferenceTile != tile)
-                {
-                    if (previewTile == null)
-                    {
-                        previewTile = CreateInstance<PreviewTile>();
-                    }
+		private void SetPreviewTile(MetaTileMap metaTilemap, Vector3Int position, LayerTile tile)
+		{
+			if (tile is ObjectTile)
+			{
+				if (previewTile == null || previewTile.ReferenceTile != tile)
+				{
+					if (previewTile == null)
+					{
+						previewTile = CreateInstance<PreviewTile>();
+					}
 
-                    previewTile.ReferenceTile = tile;
-                    previewTile.LayerType = LayerType.Walls;
-                }
+					previewTile.ReferenceTile = tile;
+					previewTile.LayerType = LayerType.Walls;
+				}
 
-                tile = previewTile;
-                position.z++; // to draw the object over already existing stuff
-            }
+				tile = previewTile;
+				position.z++; // to draw the object over already existing stuff
+			}
 
-            metaTilemap.SetPreviewTile(position, tile, brush.cells[0].matrix);
-        }
-    }
+			metaTilemap.SetPreviewTile(position, tile, brush.cells[0].matrix);
+		}
+	}
 }

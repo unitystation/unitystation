@@ -3,9 +3,9 @@
 /// </summary>
 public class MeatSteak : FoodBehaviour
 {
-    //TODO Do specific meat steak eating effects?
-    public override void TryEat()
-    {
-        base.TryEat();
-    }
+	//TODO Do specific meat steak eating effects?
+	public override void TryEat()
+	{
+		base.TryEat();
+	}
 }

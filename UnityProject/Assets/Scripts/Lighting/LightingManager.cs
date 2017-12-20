@@ -2,7 +2,7 @@
 
 namespace Lighting
 {
-    public class LightingManager : MonoBehaviour
-    {
-    }
+	public class LightingManager : MonoBehaviour
+	{
+	}
 }

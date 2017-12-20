@@ -7,169 +7,169 @@ using UnityEngine.Networking;
 
 public class FireCabinetTrigger : InputTrigger
 {
-    private bool hasJustPlaced;
+	private bool hasJustPlaced;
 
-    [SyncVar(hook = "SyncCabinet")] public bool IsClosed;
+	[SyncVar(hook = "SyncCabinet")] public bool IsClosed;
 
-    [SyncVar(hook = "SyncItemSprite")] public bool isFull;
+	[SyncVar(hook = "SyncItemSprite")] public bool isFull;
 
-    public GameObject itemPrefab;
-    public Sprite spriteClosed;
-    public Sprite spriteOpenedEmpty;
-    public Sprite spriteOpenedOccupied;
-    private SpriteRenderer spriteRenderer;
+	public GameObject itemPrefab;
+	public Sprite spriteClosed;
+	public Sprite spriteOpenedEmpty;
+	public Sprite spriteOpenedOccupied;
+	private SpriteRenderer spriteRenderer;
 
-    //For storing extinguishers server side
-    [HideInInspector] public ObjectBehaviour storedObject;
+	//For storing extinguishers server side
+	[HideInInspector] public ObjectBehaviour storedObject;
 
-    private bool sync;
+	private bool sync;
 
-    private void Start()
-    {
-        spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
-    }
+	private void Start()
+	{
+		spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
+	}
 
-    public override void OnStartServer()
-    {
-        if (spriteRenderer == null)
-        {
-            spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
-        }
-        IsClosed = true;
-        isFull = true;
+	public override void OnStartServer()
+	{
+		if (spriteRenderer == null)
+		{
+			spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
+		}
+		IsClosed = true;
+		isFull = true;
 
-        GameObject item = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
-        NetworkServer.Spawn(item);
-        storedObject = item.GetComponent<ObjectBehaviour>();
-        storedObject.visibleState = false;
-        base.OnStartServer();
-    }
+		GameObject item = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
+		NetworkServer.Spawn(item);
+		storedObject = item.GetComponent<ObjectBehaviour>();
+		storedObject.visibleState = false;
+		base.OnStartServer();
+	}
 
-    public override void OnStartClient()
-    {
-        StartCoroutine(WaitForLoad());
-        base.OnStartClient();
-    }
+	public override void OnStartClient()
+	{
+		StartCoroutine(WaitForLoad());
+		base.OnStartClient();
+	}
 
-    private IEnumerator WaitForLoad()
-    {
-        yield return new WaitForSeconds(3f);
-        SyncCabinet(IsClosed);
-        SyncItemSprite(isFull);
-    }
+	private IEnumerator WaitForLoad()
+	{
+		yield return new WaitForSeconds(3f);
+		SyncCabinet(IsClosed);
+		SyncItemSprite(isFull);
+	}
 
-    public override void Interact(GameObject originator, Vector3 position, string hand)
-    {
-        if (IsClosed)
-        {
-            HandleInteraction(false, hand);
-        }
-        else
-        {
-            if (isFull && !hasJustPlaced)
-            {
-                if (!UIManager.Hands.CurrentSlot.IsFull)
-                {
-                    HandleInteraction(true, hand);
-                }
-                else
-                {
-                    HandleInteraction(false, hand);
-                }
-            }
-            else
-            {
-                GameObject handItem = UIManager.Hands.CurrentSlot.Item;
-                if (handItem != null)
-                {
-                    if (handItem.GetComponent<ItemAttributes>().itemName == "Extinguisher")
-                    {
-                        HandleInteraction(true, hand);
-                        hasJustPlaced = true;
-                    }
-                    else
-                    {
-                        HandleInteraction(false, hand);
-                        hasJustPlaced = false;
-                    }
-                }
-                else
-                {
-                    HandleInteraction(false, hand);
-                    hasJustPlaced = false;
-                }
-            }
-        }
-    }
+	public override void Interact(GameObject originator, Vector3 position, string hand)
+	{
+		if (IsClosed)
+		{
+			HandleInteraction(false, hand);
+		}
+		else
+		{
+			if (isFull && !hasJustPlaced)
+			{
+				if (!UIManager.Hands.CurrentSlot.IsFull)
+				{
+					HandleInteraction(true, hand);
+				}
+				else
+				{
+					HandleInteraction(false, hand);
+				}
+			}
+			else
+			{
+				GameObject handItem = UIManager.Hands.CurrentSlot.Item;
+				if (handItem != null)
+				{
+					if (handItem.GetComponent<ItemAttributes>().itemName == "Extinguisher")
+					{
+						HandleInteraction(true, hand);
+						hasJustPlaced = true;
+					}
+					else
+					{
+						HandleInteraction(false, hand);
+						hasJustPlaced = false;
+					}
+				}
+				else
+				{
+					HandleInteraction(false, hand);
+					hasJustPlaced = false;
+				}
+			}
+		}
+	}
 
-    private void HandleInteraction(bool forItemInteract, string currentHand)
-    {
-        PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleFireCabinet(
-            gameObject, forItemInteract, currentHand);
-    }
+	private void HandleInteraction(bool forItemInteract, string currentHand)
+	{
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleFireCabinet(
+			gameObject, forItemInteract, currentHand);
+	}
 
-    public void SyncItemSprite(bool _isFull)
-    {
-        isFull = _isFull;
-        if (!isFull)
-        {
-            spriteRenderer.sprite = spriteOpenedEmpty;
-        }
-        else
-        {
-            if (!IsClosed)
-            {
-                spriteRenderer.sprite = spriteOpenedOccupied;
-            }
-        }
-    }
+	public void SyncItemSprite(bool _isFull)
+	{
+		isFull = _isFull;
+		if (!isFull)
+		{
+			spriteRenderer.sprite = spriteOpenedEmpty;
+		}
+		else
+		{
+			if (!IsClosed)
+			{
+				spriteRenderer.sprite = spriteOpenedOccupied;
+			}
+		}
+	}
 
-    private void SyncCabinet(bool _isClosed)
-    {
-        IsClosed = _isClosed;
-        if (_isClosed)
-        {
-            Close();
-        }
-        else
-        {
-            Open();
-        }
-    }
+	private void SyncCabinet(bool _isClosed)
+	{
+		IsClosed = _isClosed;
+		if (_isClosed)
+		{
+			Close();
+		}
+		else
+		{
+			Open();
+		}
+	}
 
-    private void Open()
-    {
-        PlaySound();
-        if (isFull)
-        {
-            spriteRenderer.sprite = spriteOpenedOccupied;
-        }
-        else
-        {
-            spriteRenderer.sprite = spriteOpenedEmpty;
-        }
-    }
+	private void Open()
+	{
+		PlaySound();
+		if (isFull)
+		{
+			spriteRenderer.sprite = spriteOpenedOccupied;
+		}
+		else
+		{
+			spriteRenderer.sprite = spriteOpenedEmpty;
+		}
+	}
 
-    private void Close()
-    {
-        PlaySound();
-        spriteRenderer.sprite = spriteClosed;
-    }
+	private void Close()
+	{
+		PlaySound();
+		spriteRenderer.sprite = spriteClosed;
+	}
 
-    private void PlaySound()
-    {
-        if (!sync)
-        {
-            sync = true;
-        }
-        else
-        {
-            SoundManager.PlayAtPosition("OpenClose", transform.position);
-        }
-    }
+	private void PlaySound()
+	{
+		if (!sync)
+		{
+			sync = true;
+		}
+		else
+		{
+			SoundManager.PlayAtPosition("OpenClose", transform.position);
+		}
+	}
 
-    private bool IsCorrectItem(GameObject item)
-    {
-        return item.GetComponent<ItemAttributes>().itemName == itemPrefab.GetComponent<ItemAttributes>().itemName;
-    }
+	private bool IsCorrectItem(GameObject item)
+	{
+		return item.GetComponent<ItemAttributes>().itemName == itemPrefab.GetComponent<ItemAttributes>().itemName;
+	}
 }

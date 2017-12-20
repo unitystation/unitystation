@@ -4,122 +4,122 @@ using UnityEngine;
 
 namespace Tilemaps.Scripts.Behaviours.Objects
 {
-    public enum ObjectType
-    {
-        Item,
-        Object,
-        Player
-    }
+	public enum ObjectType
+	{
+		Item,
+		Object,
+		Player
+	}
 
-    [ExecuteInEditMode]
-    public abstract class RegisterTile : MonoBehaviour
-    {
-        private Vector3Int _position;
+	[ExecuteInEditMode]
+	public abstract class RegisterTile : MonoBehaviour
+	{
+		private Vector3Int _position;
 
-        private ObjectLayer layer;
+		private ObjectLayer layer;
 
-        public ObjectType ObjectType;
-        public bool IsRegistered { get; private set; }
+		public ObjectType ObjectType;
+		public bool IsRegistered { get; private set; }
 
-        public Vector3Int Position
-        {
-            get { return _position; }
-            private set
-            {
-                layer?.Objects.Remove(_position, this);
-                layer?.Objects.Add(value, this);
-                _position = value;
-            }
-        }
+		public Vector3Int Position
+		{
+			get { return _position; }
+			private set
+			{
+				layer?.Objects.Remove(_position, this);
+				layer?.Objects.Add(value, this);
+				_position = value;
+			}
+		}
 
-        public void Start()
-        {
-            layer = transform.GetComponentInParent<ObjectLayer>();
+		public void Start()
+		{
+			layer = transform.GetComponentInParent<ObjectLayer>();
 
-            if (layer == null)
-            {
-                GameObject tempParent = GameObject.FindGameObjectWithTag("SpawnParent");
-                //FIXME: Still issues with init for registering objects. Sometimes SpawnParent tag cannot be found
-                // Suggestion: Move to a Matrix Manager system
-                if (tempParent != null)
-                {
-                    transform.parent = tempParent.transform;
-                }
-                else
-                {
-                    //Matrix could not be found, this client is lagging so matrix will still be loading:
-                    StartCoroutine(WaitForServer());
-                    return;
-                    //     Debug.LogError("GameObject: " + gameObject.name + " could not find the matrix");
-                }
-                layer = transform.GetComponentInParent<ObjectLayer>();
-            }
+			if (layer == null)
+			{
+				GameObject tempParent = GameObject.FindGameObjectWithTag("SpawnParent");
+				//FIXME: Still issues with init for registering objects. Sometimes SpawnParent tag cannot be found
+				// Suggestion: Move to a Matrix Manager system
+				if (tempParent != null)
+				{
+					transform.parent = tempParent.transform;
+				}
+				else
+				{
+					//Matrix could not be found, this client is lagging so matrix will still be loading:
+					StartCoroutine(WaitForServer());
+					return;
+					//     Debug.LogError("GameObject: " + gameObject.name + " could not find the matrix");
+				}
+				layer = transform.GetComponentInParent<ObjectLayer>();
+			}
 
-            Register();
-        }
+			Register();
+		}
 
-        //Wait for the matrix to initialize (high lag situation)
-        IEnumerator WaitForServer()
-        {
-            yield return new WaitForEndOfFrame();
-            GameObject tempParent = GameObject.FindGameObjectWithTag("SpawnParent");
-            while (tempParent == null)
-            {
-                yield return new WaitForSeconds(0.1f);
-            }
-            yield return new WaitForEndOfFrame();
-            transform.parent = tempParent.transform;
-            layer = transform.GetComponentInParent<ObjectLayer>();
-            Register();
-        }
+		//Wait for the matrix to initialize (high lag situation)
+		private IEnumerator WaitForServer()
+		{
+			yield return new WaitForEndOfFrame();
+			GameObject tempParent = GameObject.FindGameObjectWithTag("SpawnParent");
+			while (tempParent == null)
+			{
+				yield return new WaitForSeconds(0.1f);
+			}
+			yield return new WaitForEndOfFrame();
+			transform.parent = tempParent.transform;
+			layer = transform.GetComponentInParent<ObjectLayer>();
+			Register();
+		}
 
-        private void OnEnable()
-        {
-            // In case of recompilation and Start doesn't get called
-            layer?.Objects.Add(Position, this);
-            IsRegistered = true;
-        }
+		private void OnEnable()
+		{
+			// In case of recompilation and Start doesn't get called
+			layer?.Objects.Add(Position, this);
+			IsRegistered = true;
+		}
 
-        private void OnDisable()
-        {
-            Unregister();
-        }
+		private void OnDisable()
+		{
+			Unregister();
+		}
 
-        public void OnDestroy()
-        {
-            layer?.Objects.Remove(Position, this);
-        }
+		public void OnDestroy()
+		{
+			layer?.Objects.Remove(Position, this);
+		}
 
-        public void UpdatePosition()
-        {
-            Position = Vector3Int.FloorToInt(transform.localPosition);
-        }
+		public void UpdatePosition()
+		{
+			Position = Vector3Int.FloorToInt(transform.localPosition);
+		}
 
-        public void Register()
-        {
-            UpdatePosition();
-            IsRegistered = true;
-        }
+		public void Register()
+		{
+			UpdatePosition();
+			IsRegistered = true;
+		}
 
-        public void Unregister()
-        {
-            layer?.Objects.Remove(Position, this);
-            IsRegistered = false;
-        }
+		public void Unregister()
+		{
+			layer?.Objects.Remove(Position, this);
+			IsRegistered = false;
+		}
 
-        public virtual bool IsPassable()
-        {
-            return true;
-        }
+		public virtual bool IsPassable()
+		{
+			return true;
+		}
 
-        public virtual bool IsPassable(Vector3Int to)
-        {
-            return true;
-        }
+		public virtual bool IsPassable(Vector3Int to)
+		{
+			return true;
+		}
 
-        public virtual bool IsAtmosPassable()
-        {
-            return true;
-        }
-    }
+		public virtual bool IsAtmosPassable()
+		{
+			return true;
+		}
+	}
 }

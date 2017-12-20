@@ -2,8 +2,8 @@
 
 public class DisableOnPlay : MonoBehaviour
 {
-    private void Start()
-    {
-        gameObject.SetActive(false);
-    }
+	private void Start()
+	{
+		gameObject.SetActive(false);
+	}
 }

@@ -4,8 +4,8 @@
 /// </summary>
 public enum DamageSeverity
 {
-    None,
-    Moderate,
-    Bad,
-    Critical
+	None,
+	Moderate,
+	Bad,
+	Critical
 }

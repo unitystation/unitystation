@@ -13,24 +13,24 @@ using UnityEditor;
 [CanEditMultipleObjects]
 public class FloorTileEditor : Editor
 {
-    private FloorTile floorTile;
+	private FloorTile floorTile;
 
-    private void OnSceneGUI()
-    {
-        if (floorTile == null)
-        {
-            floorTile = target as FloorTile;
-        }
-        if (floorTile == null)
-        {
-            return;
-        }
-        EditorChangedActions();
-    }
+	private void OnSceneGUI()
+	{
+		if (floorTile == null)
+		{
+			floorTile = target as FloorTile;
+		}
+		if (floorTile == null)
+		{
+			return;
+		}
+		EditorChangedActions();
+	}
 
-    private void EditorChangedActions()
-    {
-        floorTile.CheckAmbientTile();
-    }
+	private void EditorChangedActions()
+	{
+		floorTile.CheckAmbientTile();
+	}
 }
 #endif

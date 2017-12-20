@@ -2,19 +2,19 @@
 
 public class OccupationRoster : MonoBehaviour
 {
-    public JobDepartment department;
-    public int limit;
-    public GameObject outfit;
-    public int priority = 99;
-    public JobType Type;
+	public JobDepartment department;
+	public int limit;
+	public GameObject outfit;
+	public int priority = 99;
+	public JobType Type;
 
-    // Use this for initialization
-    private void Start()
-    {
-    }
+	// Use this for initialization
+	private void Start()
+	{
+	}
 
-    // Update is called once per frame
-    private void Update()
-    {
-    }
+	// Update is called once per frame
+	private void Update()
+	{
+	}
 }
