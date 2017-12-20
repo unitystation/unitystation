@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Light2D
 {
@@ -37,7 +36,7 @@ namespace Light2D
 #if UNITY_EDITOR
 			if (Material == null)
 			{
-				Material = (Material) AssetDatabase.LoadAssetAtPath("Assets/Light2D/Materials/DualColor.mat", typeof(Material));
+				Material = (Material) UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Light2D/Materials/DualColor.mat", typeof(Material));
 			}
 #endif
 
