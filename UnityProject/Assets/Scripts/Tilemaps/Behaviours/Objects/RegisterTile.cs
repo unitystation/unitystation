@@ -1,4 +1,5 @@
-﻿using Tilemaps.Scripts.Behaviours.Layers;
+﻿using System.Collections;
+using Tilemaps.Scripts.Behaviours.Layers;
 using UnityEngine;
 
 namespace Tilemaps.Scripts.Behaviours.Objects
@@ -46,11 +47,29 @@ namespace Tilemaps.Scripts.Behaviours.Objects
                 }
                 else
                 {
-                    Debug.LogError("GameObject: " + gameObject.name + " could not find the matrix");
+                    //Matrix could not be found, this client is lagging so matrix will still be loading:
+                    StartCoroutine(WaitForServer());
+                    return;
+                    //     Debug.LogError("GameObject: " + gameObject.name + " could not find the matrix");
                 }
                 layer = transform.GetComponentInParent<ObjectLayer>();
             }
 
+            Register();
+        }
+
+        //Wait for the matrix to initialize (high lag situation)
+        IEnumerator WaitForServer()
+        {
+            yield return new WaitForEndOfFrame();
+            GameObject tempParent = GameObject.FindGameObjectWithTag("SpawnParent");
+            while (tempParent == null)
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
+            yield return new WaitForEndOfFrame();
+            transform.parent = tempParent.transform;
+            layer = transform.GetComponentInParent<ObjectLayer>();
             Register();
         }
 

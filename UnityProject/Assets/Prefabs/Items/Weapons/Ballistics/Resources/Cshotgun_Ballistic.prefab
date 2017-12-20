@@ -162,11 +162,11 @@ MonoBehaviour:
   FireingSound: ShootLMG
   FireRate: 2
   InAutomaticAction: 0
-  MaxRecoilVariance: 0.1
+  MaxRecoilVariance: 0
   Projectile: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 2}
-  ProjectileDamage: 5
-  ProjectilesFired: 3
-  ProjectileVelocity: 10
+  ProjectileDamage: 18
+  ProjectilesFired: 1
+  ProjectileVelocity: 8
   WeaponType: 1
 --- !u!114 &114469284172845192
 MonoBehaviour:
@@ -186,7 +186,7 @@ MonoBehaviour:
   inHandReferenceRight: 152
   itemDescription: 
   itemName: Combat Shotgun
-  size: 2
+  size: 3
   spriteType: 2
   type: 16
 --- !u!114 &114500871586828832
