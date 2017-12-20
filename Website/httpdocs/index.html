@@ -1,129 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="assets/ico/favicon.ico">
 
-    <title>UnityStation</title>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="assets/ico/favicon.ico">
 
-    <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+  <title>UnityStation</title>
 
-    <!-- Custom styles for this template -->
-    <link href="assets/css/style.css" rel="stylesheet">
-	  <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <!-- Custom styles for this template -->
+  <link href="assets/css/style.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
+  <!-- Font Awesome Icons -->
+  <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
 
-  <body>
 
-    <!-- Static navbar -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.html"></a>
+  <link rel="icon" type="image/png" href="assets/img/ss13_32.png" />
+</head>
+
+<body>
+  <nav class="navbar sticky-top navbar-custom-dark navbar-expand-lg">
+    <a class="navbar-brand" href="#"><img class="ss13-brand-image" src="assets/img/ss13_64.png">Unity Station</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#download">Download</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+      <li class="nav-item">
+        <a class="nav-link p-2 socialMedia-github" href="https://github.com/unitystation/unitystation" target="_blank" rel="noopener" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link p-2 socialMedia-patreon" href="https://www.patreon.com/unitystation" target="_blank" rel="noopener" aria-label="GitHub">
+          <i class="fab fa-patreon"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link p-2 socialMedia-twitter" href="https://twitter.com/UnityStation" target="_blank" rel="noopener" aria-label="GitHub">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link p-2 socialMedia-facebook" href="https://www.facebook.com/UnityStation13/" target="_blank" rel="noopener" aria-label="GitHub">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link p-2 socialMedia-reddit" href="https://www.reddit.com/r/unitystation/" target="_blank" rel="noopener" aria-label="GitHub">
+          <i class="fab fa-reddit-alien"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link p-2 socialMedia-youtube" href="https://www.youtube.com/channel/UCBfgfy7t3VOI5nsgkR5k4Tw" target="_blank" rel="noopener" aria-label="GitHub">
+          <i class="fab fa-youtube"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="headerImage">
+  </div>
+
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <section id="about">
+          <h2>About</h2>
+          <h3 class="ourProject text-center">Our Project, Our Unity</h3>
+          <div class="row">
+            <div class="col-md-6">
+              <p>
+                Space Station 13, the greatest clown simulator ever created, or atmos simulator? Who knows, but if you have ever played SS13 before you can agree on one thing and that is that BYOND sucks! This is where unitystation comes in. Started in November 2016
+                unitystation has endeavored to ensure SS13 has a long and prosperous future outside of Byond by cloning the /TG/ source to Unity.
+              </p>
+
+              <p>
+                It has a fully working net framework, a dedicated server, map editor, inventory, basic interactions, all the items and clothes from the TG branch, weapons, damage and over 15 contributors who are eager to see this thing become a reality. Best of all it
+                is all open source and available on GitHub.
+              </p>
+            </div>
+
+            <div class="col-md-6">
+              <p>
+                But the journey to Version 1.0 is still a long one and this is where patreon comes in. Funds raised will be used to place 'Bounties' on each TODO ticket that will provide an incentive for contributors to complete work a lot sooner then what would of occurred. We call this the <strong>Nanotrasen Bounty System</strong>. Code submitted for each ticket will be peer reviewed before the bounty is awarded. On top of this patrons will have a say in the development of unitystation with larger donors having more power. Having the NBS system means unitystation can achieve version 1.0 at lightning speed while also rewarding those who take the time out to contribute!
+              </p>
+
+              <p>
+                All transactions will be made visible and public on our <a href="https://discord.gg/tFcTpBp">discord channel</a>.
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-center margin-top-30">
+              <h4>Support this open source project today and <a href="https://www.patreon.com/unitystation">Become a Patron</a>.</h4>
+              <a href="https://www.patreon.com/unitystation"><img src="assets/img/become_a_patron_button.png"></a>
+            </div>
         </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-			  <li><a href="download.html">Download</a></li>
-			  <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
+        </section>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-12">
+        <section id="download">
+          <h2>Download</h2>
+        </section>
+      </div>
 
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <section id="contact">
+          <h2>Contact</h2>
+        </section>
+      </div>
+    </div>
+  </div>
 
-	<div id="headerwrap">
-	    <div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-lg-offset-3">
-					<h4></h4>
-					<h1></h1>
-					<h4></h4>
-				</div>
-			</div><! --/row -->
-	    </div> <!-- /container -->
-	</div><! --/headerwrap -->
-	
-	<section id="works"></section>
-	<div class="container">
-		<div class="row centered mt mb">
-			<h1>Our Project, Our Unity</h1>
-			
-			
-			</div>
-		</div><! --/row -->
-	</div><! --/container -->
-	
-	<div id="social">
-		<div class="container">
-			<div class="row centered">
-				<div class="col-lg-2">
-					<a href="#"><i class="fab fa-reddit"></i></a>
-				</div>
-				<div class="col-lg-2">
-					<a href="#"><i class="fab fa-facebook"></i></a>
-				</div>
-				<div class="col-lg-2">
-					<a href="#"><i class="fab fa-twitter"></i></a>
-				</div>
-				<div class="col-lg-2">
-					<a href="#"><i class="fab fa-youtube"></i></a>
-				</div>
-				<div class="col-lg-2">
-					<a href="#"><i class="fab fa-patreon"></i></a>
-				</div>
-				<div class="col-lg-2">
-					<a href="#"><i class="fab fa-github"></i></a>
-				</div>
-			
-			</div><! --/row -->
-		</div><! --/container -->
-	</div><! --/social -->
+  <div id="footerwrap">
+    <div class="container">
+      <div class="row centered">
+        <div class="col-lg-4">
+          <img src="http://forthebadge.com/images/badges/built-with-resentment.svg">
+        </div>
 
-	<div id="footerwrap">
-		<div class="container">
-			<div class="row centered">
-				<div class="col-lg-4">
-					<img src="http://forthebadge.com/images/badges/built-with-resentment.svg">
-				</div>
-			
-				<div class="col-lg-4">
-					<p>Our Project, Our Unity</p>
-				</div>
-				<div class="col-lg-4">
-					<img src="http://forthebadge.com/images/badges/contains-technical-debt.svg">
-				</div>
-			</div>
-		</div>
-	</div><! --/footerwrap -->
-	
+        <div class="col-lg-4">
+          <p>Our Project, Our Unity</p>
+        </div>
+        <div class="col-lg-4">
+          <img src="http://forthebadge.com/images/badges/contains-technical-debt.svg">
+        </div>
+      </div>
+    </div>
+  </div>
 
-
-    <!-- Bootstrap core JavaScript
+  <!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-  </body>
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+</body>
+
 </html>

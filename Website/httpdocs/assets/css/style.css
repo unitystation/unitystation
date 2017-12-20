@@ -1,238 +1,195 @@
-/*
- * Author: Carlos Alvarez
- * URL: http://Alvarez.is
- *
- * Project Name: NYC Design
- * Version: 1.0
- * Date: 04-20-2014
- * URL: 
- */
+/* DOC INFO
+  VERSION: 1.0
+  AUTHOR: IndiJosh, Ornias
+  DATE: Dec 20, 2017
 
-
-/* ==========================================================================
-   Base Styles, Bootstrap Modifications & Fonts Import
-   ========================================================================== */
+  Made with love for Unity Station - CC0.
+*/
 
 @import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
 
-
-::-moz-selection {
-    background: #f2c2c9;
-    color: #a4003a;
-    text-shadow: none;
-}
-
-::selection {
-    background: #16a085;
-    color: #a4003a;
-    text-shadow: none;
-}
-
-/*
- * A better looking default horizontal rule
- */
-
- hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 1em 0;
-    padding: 0;
-}
-
-.centered {
-	text-align: center
-}
-
-.mt {
-	margin-top: 80px;
-}
-
-.mb {
-	margin-bottom: 80px;
-}
-
-/* ==========================================================================
-   General styles
-   ========================================================================== */
-
-
+/* ===== GLOBAL ===== */
 body {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-
-    -webkit-font-smoothing: antialiased;
-    -webkit-overflow-scrolling: touch;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  background-color: #efefef;
+  -webkit-font-smoothing: antialiased;
+  -webkit-overflow-scrolling: touch;
 }
 
-h1, h2, h3, h4, h5, h6 {
-	font-weight: 700;
-    color: #4a4a4a;
+.margin-top-30{
+  margin-top: 30px;
 }
 
+/* ===== HEADER ===== */
+.flex-end{
+  justify-content: flex-end;
+}
+
+.ss13-brand-image {
+  width: 48px;
+  height: 48px;
+  margin-right: 15px;
+}
 
 .navbar-brand {
-	font-weight: 700;
+  font-weight: 700;
+  font-size: 2rem;
+  color: white !important;
 }
 
-.navbar-default .navbar-brand {
-	color: #1abc9c;
+.navbar-custom-dark {
+  background-color: #2f2f2f;
 }
 
-.navbar-default {
-	background-color: transparent;
-	border-color: transparent;
-	border-radius: 25px;
+.navbar-custom-dark a {
+  color: #aaa;
 }
 
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-	color: #1abc9c;
-	background-color: rgba(0,0,0,0.5);
-	border-bottom: 2px solid #8b0000
+.navbar-custom-dark a:hover,
+.navbar-custom-dark a:active  {
+  color: white;
 }
 
-.navbar-default .navbar-nav > li > a {
-	color: #1abc9c;
-	background-color: rgba(0,0,0,0.5);
+/* ===== ABOUT ===== */
+.ourProject{
+  font-size: 2.5rem;
 }
 
-.navbar-default .navbar-nav > li > a:hover{
-	color: #1abc9c;
-	border-bottom: 2px solid #8b0000;
-	background-color: rgba(0,0,0,0.5);
+/* ===== SOCIAL MEDIA ===== */
+.socialMedia-github:hover{
+  color: #6cc644 !important;
 }
 
-	/* ==========================================================================
-       Wrap Sections
-       ========================================================================== */
+.socialMedia-patreon:hover{
+  color: #f96854 !important;
+}
 
-#headerwrap {
-	background: url(../img/back.png) no-repeat center top;
-	margin-top: -70px;
-	padding-top: 250px;
-	text-align:center;
-	background-attachment: relative;
-	background-position: center center;
-	min-height: 300px;
-	width: 100%;
-	
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
-    background-size: 100%;
+.socialMedia-twitter:hover{
+  color: #1da1f2 !important;
+}
 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+.socialMedia-facebook:hover{
+  color: #3b5998 !important;
+}
+
+.socialMedia-reddit:hover{
+  color: #ff4500 !important;
+}
+
+.socialMedia-youtube:hover{
+  color: #f00 !important;
+}
+
+/* ===== HERO IMAGE ===== */
+.headerImage {
+  background: url(../img/back.png) no-repeat center top;
+  background-attachment: relative;
+  background-position: center center;
+  min-height: 475px;
+  background-size: cover;
 }
 
 #headerwrap h1 {
-	color:#ffffff;
-	padding-top: 10px;
-	padding-bottom: 20px;
-	letter-spacing: 4px;
-	font-size: 80px;
-	font-weight: bold;
+  color: #ffffff;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  letter-spacing: 4px;
+  font-size: 80px;
+  font-weight: bold;
 }
 
 #headerwrap h4 {
-	font-weight: 400;
-	color: #ffffff
+  font-weight: 400;
+  color: #ffffff
 }
 
 #social {
-	padding-top: 50px;
-	padding-bottom: 50px;
-	background-color: #f2f2f2;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background-color: #f2f2f2;
 }
 
 #social i {
-	font-size: 20px;
-	color: #4a4a4a
+  font-size: 20px;
+  color: #4a4a4a
 }
 
 #social i:hover {
-	color: #1abc9c
+  color: #1abc9c
 }
 
 #footerwrap {
-	padding-top: 70px;
-	padding-bottom: 50px;
-	background-color: #2f2f2f;
+  padding-top: 70px;
+  padding-bottom: 50px;
+  background-color: #2f2f2f;
 }
 
 #footerwrap p {
-	color: #f2f2f2;
-	margin-left: 10px;
+  color: #f2f2f2;
+  margin-left: 10px;
 }
 
-#workwrap {	
-	background: url(../img/work.jpg) no-repeat center top;
-	margin-top: -70px;
-	padding-top: 250px;
-	text-align:center;
-	background-attachment: relative;
-	background-position: center center;
-	min-height: 650px;
-	width: 100%;
-	
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
-    background-size: 100%;
-
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+#workwrap {
+  background: url(../img/work.jpg) no-repeat center top;
+  margin-top: -70px;
+  padding-top: 250px;
+  text-align: center;
+  background-attachment: relative;
+  background-position: center center;
+  min-height: 650px;
+  width: 100%;
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  -o-background-size: 100%;
+  background-size: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 #workwrap h1 {
-	color:#ffffff;
-	padding-top: 10px;
-	padding-bottom: 20px;
-	letter-spacing: 4px;
-	font-size: 80px;
-	font-weight: bold;
+  color: #ffffff;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  letter-spacing: 4px;
+  font-size: 80px;
+  font-weight: bold;
 }
 
 #workwrap h4 {
-	font-weight: 400;
-	color: #ffffff
+  font-weight: 400;
+  color: #ffffff
 }
 
-#aboutwrap {	
-	background: url(../img/about.jpg) no-repeat center top;
-	margin-top: -70px;
-	padding-top: 250px;
-	text-align:center;
-	background-attachment: relative;
-	background-position: center center;
-	min-height: 550px;
-	width: 100%;
-	
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
-    background-size: 100%;
-
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+#aboutwrap {
+  background: url(../img/about.jpg) no-repeat center top;
+  margin-top: -70px;
+  padding-top: 250px;
+  text-align: center;
+  background-attachment: relative;
+  background-position: center center;
+  min-height: 550px;
+  width: 100%;
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  -o-background-size: 100%;
+  background-size: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
-
-
 
 
 /* Gallery */
+
 .gallery {
-	margin-top: 30px;
+  margin-top: 30px;
 }
 
 .gallery img:hover {
-	opacity: 0.4;
+  opacity: 0.4;
 }
