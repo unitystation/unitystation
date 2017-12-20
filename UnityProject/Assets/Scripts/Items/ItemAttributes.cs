@@ -250,7 +250,7 @@ public class ItemAttributes : NetworkBehaviour
     private /*static*/ DmiIcon tryGetInventoryIcon( /*DmiIconData dmi, string[] invSheetPaths, string icon = ""*/)
     {
         //determining invIcon
-        for (int i = 0; i < invSheetPaths.Length; i++)
+        for (var i = 0; i < invSheetPaths.Length; i++)
         {
             string iconPath = DmiIconData.getIconPath(invSheetPaths[i]); //add extension junk
             if (!iconPath.Equals("") && DmiIconData.Data.ContainsKey(iconPath) && icon.Equals(""))
@@ -280,7 +280,7 @@ public class ItemAttributes : NetworkBehaviour
     private /*static*/ int tryGetClothingOffset(string[] states)
     {
         string[] onPlayerClothSheetHier = getOnPlayerClothSheetHier(itemType);
-        for (int i = 0; i < states.Length; i++)
+        for (var i = 0; i < states.Length; i++)
         {
             if (!states[i].Equals(""))
             {
@@ -330,7 +330,7 @@ public class ItemAttributes : NetworkBehaviour
 
     private static string[] getItemClothSheetHier(ItemType type)
     {
-        string p = "obj/clothing/";
+        var p = "obj/clothing/";
         switch (type)
         {
             case ItemType.Belt:
@@ -364,7 +364,7 @@ public class ItemAttributes : NetworkBehaviour
 
     private static string[] getOnPlayerClothSheetHier(ItemType type)
     {
-        string p = "mob/";
+        var p = "mob/";
         switch (type)
         {
             case ItemType.Belt:
@@ -406,7 +406,7 @@ public class ItemAttributes : NetworkBehaviour
     {
         if (hierList.Length == 0)
         {
-            TextAsset asset = Resources.Load(Path.Combine("metadata", "hier")) as TextAsset;
+            var asset = Resources.Load(Path.Combine("metadata", "hier")) as TextAsset;
             if (asset != null)
             {
                 List<string> objects = asset.text.Split('\n').ToList();

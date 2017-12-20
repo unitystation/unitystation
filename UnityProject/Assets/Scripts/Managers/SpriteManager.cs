@@ -130,10 +130,10 @@ namespace Sprites
             ScreenUISprites["gen"] = Resources.LoadAll<Sprite>("screen_gen");
 
 
-            string FileLocation = "obj/power_cond/power_cond_";
-            string FileType = "";
+            var FileLocation = "obj/power_cond/power_cond_";
+            var FileType = "";
             string[] Keys = {"red", "blue", "cyan", "green", "orange", "pink", "white", "yellow"};
-            for (int i = 0; i < Keys.Length; i++)
+            for (var i = 0; i < Keys.Length; i++)
             {
                 string Key = Keys[i];
                 Sprite[] sprites = Resources.LoadAll<Sprite>(FileLocation + Key + FileType);

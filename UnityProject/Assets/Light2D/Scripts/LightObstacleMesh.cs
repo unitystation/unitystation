@@ -55,7 +55,7 @@ namespace Light2D
                 return;
             }
 
-            bool dirty = false;
+            var dirty = false;
             if (_parentMeshFilter.mesh != _oldParentMesh)
             {
                 if (_meshFilter.mesh != null)
@@ -67,8 +67,8 @@ namespace Light2D
 
                 if (_meshFilter.mesh.tangents == null)
                 {
-                    Vector4[] tangents = new Vector4[_meshFilter.mesh.vertexCount];
-                    for (int i = 0; i < tangents.Length; i++)
+                    var tangents = new Vector4[_meshFilter.mesh.vertexCount];
+                    for (var i = 0; i < tangents.Length; i++)
                     {
                         tangents[i] = new Vector4(1, 0);
                     }
@@ -88,7 +88,7 @@ namespace Light2D
                     CustomSprite.ReleaseMaterial(_materialKey);
                 }
                 Material baseMat = Material == null ? _parentMeshRenderer.sharedMaterial : Material;
-                Texture2D tex = _parentMeshRenderer.sharedMaterial.mainTexture as Texture2D;
+                var tex = _parentMeshRenderer.sharedMaterial.mainTexture as Texture2D;
                 _meshRenderer.sharedMaterial = CustomSprite.GetOrCreateMaterial(baseMat, tex, out _materialKey);
                 _oldMaterial = _parentMeshRenderer.sharedMaterial;
             }
@@ -101,13 +101,13 @@ namespace Light2D
                     colors = new Color32[_meshFilter.mesh.vertexCount];
                 }
 
-                for (int i = 0; i < colors.Length; i++)
+                for (var i = 0; i < colors.Length; i++)
                 {
                     colors[i] = MultiplicativeColor;
                 }
                 _meshFilter.mesh.colors32 = colors;
 
-                Vector2 uv1 = new Vector2(
+                var uv1 = new Vector2(
                     Util.DecodeFloatRGBA((Vector4) AdditiveColor),
                     Util.DecodeFloatRGBA(new Vector4(AdditiveColor.a, 0, 0)));
                 Vector2[] uv1Arr = _meshFilter.mesh.uv2;
@@ -115,7 +115,7 @@ namespace Light2D
                 {
                     uv1Arr = new Vector2[colors.Length];
                 }
-                for (int i = 0; i < uv1Arr.Length; i++)
+                for (var i = 0; i < uv1Arr.Length; i++)
                 {
                     uv1Arr[i] = uv1;
                 }

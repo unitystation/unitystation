@@ -15,7 +15,7 @@ namespace Tilemaps.Scripts
 
         public static Matrix GetMatrix(MonoBehaviour behaviour)
         {
-            Matrix matrix = behaviour.GetComponentInParent<Matrix>();
+            var matrix = behaviour.GetComponentInParent<Matrix>();
 
             if (matrix == null)
             {
@@ -35,7 +35,7 @@ namespace Tilemaps.Scripts
             metaTileMap = GetComponent<MetaTileMap>();
             try
             {
-                objects = ((ObjectLayer)metaTileMap.Layers[LayerType.Objects]).Objects;
+                objects = ((ObjectLayer) metaTileMap.Layers[LayerType.Objects]).Objects;
             }
             catch
             {
@@ -70,7 +70,7 @@ namespace Tilemaps.Scripts
 
         public bool IsFloatingAt(Vector3Int position)
         {
-            BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
+            var bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
             foreach (Vector3Int pos in bounds.allPositionsWithin)
             {
                 if (!metaTileMap.IsEmptyAt(pos))
@@ -98,7 +98,7 @@ namespace Tilemaps.Scripts
 
         public bool ContainsAt(Vector3Int position, GameObject gameObject)
         {
-            RegisterTile registerTile = gameObject.GetComponent<RegisterTile>();
+            var registerTile = gameObject.GetComponent<RegisterTile>();
 
             return registerTile && objects.Get(position).Contains(registerTile);
         }

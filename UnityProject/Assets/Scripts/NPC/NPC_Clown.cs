@@ -16,7 +16,7 @@ namespace NPC
             spriteRenderer = GetComponent<SpriteRenderer>();
             //Snap to grid
             //FIXME need to figure out the grid and how to round to it
-            Vector2 newPos = new Vector2(Mathf.Round(transform.position.x / 100f) * 100f,
+            var newPos = new Vector2(Mathf.Round(transform.position.x / 100f) * 100f,
                 Mathf.Round(transform.position.y / 100f) * 100f);
             transform.position = newPos;
             StartCoroutine(RandMove());
@@ -48,14 +48,14 @@ namespace NPC
             {
                 //Move Up
                 spriteRenderer.sprite = clownSprites[2];
-                Vector2 movePos = new Vector2(transform.position.x, transform.position.y + 32f);
+                var movePos = new Vector2(transform.position.x, transform.position.y + 32f);
                 transform.position = movePos;
             }
             else if (ranDir == 1)
             {
                 //Move Right
                 spriteRenderer.sprite = clownSprites[3];
-                Vector2 movePos = new Vector2(transform.position.x + 32f, transform.position.y);
+                var movePos = new Vector2(transform.position.x + 32f, transform.position.y);
                 transform.position = movePos;
 
                 if (!isRight)
@@ -68,14 +68,14 @@ namespace NPC
             {
                 //Move Down
                 spriteRenderer.sprite = clownSprites[0];
-                Vector2 movePos = new Vector2(transform.position.x, transform.position.y - 32f);
+                var movePos = new Vector2(transform.position.x, transform.position.y - 32f);
                 transform.position = movePos;
             }
             else if (ranDir == 3)
             {
                 //Move Left
                 spriteRenderer.sprite = clownSprites[3];
-                Vector2 movePos = new Vector2(transform.position.x - 32f, transform.position.y);
+                var movePos = new Vector2(transform.position.x - 32f, transform.position.y);
                 transform.position = movePos;
 
                 if (isRight)

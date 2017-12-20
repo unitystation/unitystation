@@ -20,7 +20,7 @@ public class UpdateChatMessage : ServerMessage<UpdateChatMessage>
 
     public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, string message)
     {
-        UpdateChatMessage msg = new UpdateChatMessage
+        var msg = new UpdateChatMessage
         {
             Recipient = recipient.GetComponent<NetworkIdentity>().netId,
             Channels = channels,

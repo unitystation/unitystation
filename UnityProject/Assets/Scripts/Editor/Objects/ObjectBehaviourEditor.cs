@@ -5,7 +5,7 @@ public class ObjectBehaviourEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        ObjectBehaviour oTarget = (ObjectBehaviour) target;
+        var oTarget = (ObjectBehaviour) target;
         serializedObject.Update();
         SerializedProperty isPushable = serializedObject.FindProperty("isPushable");
         EditorGUI.BeginChangeCheck();

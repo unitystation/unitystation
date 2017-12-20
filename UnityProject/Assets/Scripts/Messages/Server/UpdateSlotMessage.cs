@@ -48,7 +48,7 @@ public class UpdateSlotMessage : ServerMessage<UpdateSlotMessage>
     public static UpdateSlotMessage Send(GameObject recipient, string slot, GameObject objectForSlot = null,
         bool forced = true)
     {
-        UpdateSlotMessage msg = new UpdateSlotMessage
+        var msg = new UpdateSlotMessage
         {
             Recipient = recipient.GetComponent<NetworkIdentity>().netId, //?
             Slot = slot,

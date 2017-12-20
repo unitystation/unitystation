@@ -34,7 +34,7 @@ namespace UnityStationTools
 
             if (selection.Length > 0)
             {
-                for (int i = 0; i < selection.Length; i++)
+                for (var i = 0; i < selection.Length; i++)
                 {
                     PrefabUtility.RevertPrefabInstance(selection[i]);
                     PrefabUtility.ReconnectToLastPrefab(selection[i]);

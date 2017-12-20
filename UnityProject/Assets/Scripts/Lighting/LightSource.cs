@@ -68,7 +68,7 @@ namespace Lighting
         private void SetLocalAmbientTiles(bool state)
         {
             int length = Physics2D.OverlapCircleNonAlloc(transform.position, radius, lightSpriteColliders, ambientMask);
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
                 Collider2D localCollider = lightSpriteColliders[i];
                 GameObject localObject = localCollider.gameObject;

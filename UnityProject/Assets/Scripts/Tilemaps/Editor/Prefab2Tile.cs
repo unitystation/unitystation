@@ -26,8 +26,8 @@ public class Prefab2Tile : EditorWindow
         string basePath = Application.dataPath + "/Resources/Prefabs/";
         string basePath2 = basePath + subject + "/";
         //			Debug.Log (basePath2);
-        int counter = 0;
-        int created = 0;
+        var counter = 0;
+        var created = 0;
         string[] scan = Directory.GetFiles(basePath2, "*.prefab", SearchOption.AllDirectories);
         foreach (string file in scan)
         {
@@ -62,10 +62,10 @@ public class Prefab2Tile : EditorWindow
             else
             {
                 //setup building the tile//
-                ObjectTile tile = TileBuilder.CreateTile<ObjectTile>(LayerType.Objects);
+                var tile = TileBuilder.CreateTile<ObjectTile>(LayerType.Objects);
 
                 //Cast the gameobject
-                GameObject cast = AssetDatabase.LoadAssetAtPath(smallPath, typeof(GameObject)) as GameObject;
+                var cast = AssetDatabase.LoadAssetAtPath(smallPath, typeof(GameObject)) as GameObject;
                 if (barePath == "/WallMounts")
                 {
                     tile.Rotatable = true;
@@ -93,8 +93,8 @@ public class Prefab2Tile : EditorWindow
         //Moving old tiles  
         string basePath = Application.dataPath + "/Textures/TilePreviews/res/Prefabs/";
         string basePath2 = basePath + subject + "/";
-        int counter = 0;
-        int cleaned = 0;
+        var counter = 0;
+        var cleaned = 0;
         string[] scan = Directory.GetFiles(basePath2, "*.png", SearchOption.AllDirectories);
         foreach (string file in scan)
         {
@@ -139,8 +139,8 @@ public class Prefab2Tile : EditorWindow
         //Moving old tiles  
         string basePath = Application.dataPath + "/Tilemaps/Tiles/";
         string basePath2 = basePath + subject + "/";
-        int counter = 0;
-        int cleaned = 0;
+        var counter = 0;
+        var cleaned = 0;
         string[] scan = Directory.GetFiles(basePath2, "*.asset", SearchOption.AllDirectories);
         foreach (string file in scan)
         {

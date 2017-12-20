@@ -11,7 +11,7 @@ namespace Light2D
 
         public static void CreateWindow()
         {
-            LightingSystemCreationWindow window =
+            var window =
                 GetWindow<LightingSystemCreationWindow>("Lighting system creation window");
             window.position = new Rect(200, 200, 500, 140);
         }
@@ -36,7 +36,7 @@ namespace Light2D
                 LightingSystem lighingSystem = mainCamera.GetComponent<LightingSystem>() ??
                                                mainCamera.gameObject.AddComponent<LightingSystem>();
 
-                GameObject prefab = Resources.Load<GameObject>("Lighting Camera");
+                var prefab = Resources.Load<GameObject>("Lighting Camera");
                 GameObject lightingSystemObj = Instantiate(prefab);
                 lightingSystemObj.name = lightingSystemObj.name.Replace("(Clone)", "");
                 lightingSystemObj.transform.parent = mainCamera.transform;
@@ -44,7 +44,7 @@ namespace Light2D
                 lightingSystemObj.transform.localScale = Vector3.one;
                 lightingSystemObj.transform.localRotation = Quaternion.identity;
 
-                LightingSystemPrefabConfig config = lightingSystemObj.GetComponent<LightingSystemPrefabConfig>();
+                var config = lightingSystemObj.GetComponent<LightingSystemPrefabConfig>();
 
                 lighingSystem.LightCamera = lightingSystemObj.GetComponent<Camera>();
                 lighingSystem.AmbientLightComputeMaterial = config.AmbientLightComputeMaterial;

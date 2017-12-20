@@ -131,9 +131,9 @@ namespace UI
             //            InputTrigger.Touch(item);
             item.transform.position = pos;
             item.transform.parent = null;
-            EditModeControl e = item.GetComponent<EditModeControl>();
+            var e = item.GetComponent<EditModeControl>();
             e.Snap();
-            ItemAttributes itemAttributes = item.GetComponent<ItemAttributes>();
+            var itemAttributes = item.GetComponent<ItemAttributes>();
             Debug.LogFormat("Placing item {0}/{1} from {2} to {3}", item.name,
                 itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
             return true;
@@ -148,20 +148,22 @@ namespace UI
 
         public bool CheckItemFit(GameObject item)
         {
-            ItemAttributes attributes = item.GetComponent<ItemAttributes>();
-           
-            if(!allowAllItems) 
+            var attributes = item.GetComponent<ItemAttributes>();
+
+            if (!allowAllItems)
             {
-                if(!allowedItemTypes.Contains(attributes.type)) 
-                 {
-                 return false;
-                  } 
+                if (!allowedItemTypes.Contains(attributes.type))
+                {
+                    return false;
+                }
                 //fixme: following code prevents player from holding/wearing stuff that is wearable in /tg/ 
             }
-            else if(maxItemSize != ItemSize.Large && (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size) 
+            else if (maxItemSize != ItemSize.Large &&
+                     (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) &&
+                     maxItemSize != attributes.size)
             {
-            Debug.Log("Item is too big!");
-            return false;
+                Debug.Log("Item is too big!");
+                return false;
             }
             return allowAllItems || allowedItemTypes.Contains(attributes.type);
         }

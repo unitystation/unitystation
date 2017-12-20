@@ -17,24 +17,24 @@ public class JsonToTilemap : Editor
     private static void Json2Map()
     {
         GameObject map = GameObject.FindGameObjectWithTag("Map");
-        MetaTileMap metaTileMap = map.GetComponentInChildren<MetaTileMap>();
+        var metaTileMap = map.GetComponentInChildren<MetaTileMap>();
 
         metaTileMap.ClearAllTiles();
 
-        TilemapConverter converter = new TilemapConverter();
+        var converter = new TilemapConverter();
 
-        TileMapBuilder builder = new TileMapBuilder(metaTileMap, true);
+        var builder = new TileMapBuilder(metaTileMap, true);
 
         Dictionary<string, TilemapLayer> layers = DeserializeJson();
 
-        List<Tuple<Vector3Int, ObjectTile>> objects = new List<Tuple<Vector3Int, ObjectTile>>();
+        var objects = new List<Tuple<Vector3Int, ObjectTile>>();
 
         foreach (KeyValuePair<string, TilemapLayer> layer in layers)
         {
             List<Vector3Int> positions =
                 layer.Value.TilePositions.ConvertAll(coord => new Vector3Int(coord.X, coord.Y, 0));
 
-            for (int i = 0; i < positions.Count; i++)
+            for (var i = 0; i < positions.Count; i++)
             {
                 Vector3Int position = positions[i];
                 GenericTile tile = converter.DataToTile(layer.Value.Tiles[i]);
@@ -75,7 +75,7 @@ public class JsonToTilemap : Editor
 
         Quaternion rotation = Quaternion.identity;
 
-        for (int i = 0; i < 4; i++)
+        for (var i = 0; i < 4; i++)
         {
             Vector3Int offset = Vector3Int.RoundToInt(rotation * Vector3.up);
             bool hasStructure = metaTileMap.HasTile(position + offset, LayerType.Walls) ||
@@ -100,12 +100,12 @@ public class JsonToTilemap : Editor
 
     private static Dictionary<string, TilemapLayer> DeserializeJson()
     {
-        Dictionary<string, TilemapLayer> deserializedLayers = new Dictionary<string, TilemapLayer>();
-        TextAsset asset = Resources.Load(Path.Combine("metadata", SceneManager.GetActiveScene().name)) as TextAsset;
+        var deserializedLayers = new Dictionary<string, TilemapLayer>();
+        var asset = Resources.Load(Path.Combine("metadata", SceneManager.GetActiveScene().name)) as TextAsset;
         if (asset != null)
         {
             fsData data = fsJsonParser.Parse(asset.text);
-            fsSerializer serializer = new fsSerializer();
+            var serializer = new fsSerializer();
             serializer.TryDeserialize(data, ref deserializedLayers).AssertSuccessWithoutWarnings();
         }
         else

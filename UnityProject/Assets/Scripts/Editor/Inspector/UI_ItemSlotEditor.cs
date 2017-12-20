@@ -6,7 +6,7 @@ public class UI_ItemSlotEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        UI_ItemSlot itemSlot = (UI_ItemSlot) target;
+        var itemSlot = (UI_ItemSlot) target;
 
         itemSlot.eventName = EditorGUILayout.TextField("Event Name", itemSlot.eventName);
 

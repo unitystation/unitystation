@@ -1,4 +1,5 @@
-﻿using UI;
+﻿using System.Diagnostics;
+using UI;
 using UnityEngine;
 
 public class Managers : MonoBehaviour
@@ -50,9 +51,9 @@ public class Managers : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        if ( !Application.isEditor )
+        if (!Application.isEditor)
         {
-            System.Diagnostics.Process.GetCurrentProcess().Kill();
+            Process.GetCurrentProcess().Kill();
         }
     }
 }

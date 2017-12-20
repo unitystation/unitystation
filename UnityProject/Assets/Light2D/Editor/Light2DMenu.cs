@@ -50,12 +50,12 @@ namespace Light2D
         [MenuItem("GameObject/Light2D/Light Source", false, 6)]
         public static void CreateLightSource()
         {
-            GameObject obj = new GameObject("Light");
+            var obj = new GameObject("Light");
             if (LightingSystem.Instance != null)
             {
                 obj.layer = LightingSystem.Instance.LightSourcesLayer;
             }
-            LightSprite light = obj.AddComponent<LightSprite>();
+            var light = obj.AddComponent<LightSprite>();
             light.Material = AssetDatabase.LoadAssetAtPath<Material>("Assets/Light2D/Materials/Light60Points.mat");
             light.Sprite = Resources.Load<Sprite>("DefaultLight");
             light.Color = new Color(1, 1, 1, 0.5f);
@@ -65,7 +65,7 @@ namespace Light2D
         [MenuItem("GameObject/Light2D/Enable 2DTK Support", false, 6)]
         public static void Enable2DToolkitSupport()
         {
-            BuildTargetGroup[] targets = (BuildTargetGroup[]) Enum.GetValues(typeof(BuildTargetGroup));
+            var targets = (BuildTargetGroup[]) Enum.GetValues(typeof(BuildTargetGroup));
             foreach (BuildTargetGroup target in targets)
             {
                 DefineSymbol("LIGHT2D_2DTK", target);
@@ -75,7 +75,7 @@ namespace Light2D
         [MenuItem("GameObject/Light2D/Disable 2DTK Support", false, 6)]
         public static void Disable2DToolkitSupport()
         {
-            BuildTargetGroup[] targets = (BuildTargetGroup[]) Enum.GetValues(typeof(BuildTargetGroup));
+            var targets = (BuildTargetGroup[]) Enum.GetValues(typeof(BuildTargetGroup));
             foreach (BuildTargetGroup target in targets)
             {
                 UndefineSymbol("LIGHT2D_2DTK", target);

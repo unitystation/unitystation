@@ -8,7 +8,7 @@ public class EditModeControlEditor : Editor
 
     private void OnSceneGUI()
     {
-        EditModeControl editModeControl = target as EditModeControl;
+        var editModeControl = target as EditModeControl;
         if (currentPosition != editModeControl.transform.position)
         {
             currentPosition = editModeControl.transform.position;

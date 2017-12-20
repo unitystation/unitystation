@@ -96,7 +96,7 @@ namespace Light2D
             _mesh.name = GeneratedMeshName;
 
             _tangents = new Vector4[4];
-            for (int i = 0; i < _tangents.Length; i++)
+            for (var i = 0; i < _tangents.Length; i++)
             {
                 _tangents[i] = new Vector4(1, 0, 0);
             }
@@ -138,7 +138,7 @@ namespace Light2D
         private IEnumerator colorFade(float timeOut)
         {
             Color oldColor = Color;
-            float elapsed = 0f;
+            var elapsed = 0f;
             while (elapsed < timeOut)
             {
                 elapsed += Time.deltaTime;
@@ -162,7 +162,7 @@ namespace Light2D
             }
 
             MaterialValue matValue;
-            MaterialKey key = new MaterialKey(Material, Sprite.texture);
+            var key = new MaterialKey(Material, Sprite.texture);
 
             if (!MaterialMap.TryGetValue(key, out matValue))
             {
@@ -261,7 +261,7 @@ namespace Light2D
 
         protected virtual void UpdateColor()
         {
-            for (int i = 0; i < _colors.Length; i++)
+            for (var i = 0; i < _colors.Length; i++)
             {
                 _colors[i] = Color;
             }
@@ -280,7 +280,7 @@ namespace Light2D
             Rect rect = Sprite.textureRect;
             Bounds bounds = Sprite.bounds;
             Texture2D tex = Sprite.texture;
-            Point2 textureSize = new Point2(tex.width, tex.height);
+            var textureSize = new Point2(tex.width, tex.height);
 
             // HACK: mipmap could cause texture padding sometimes so padded size of texture needs to be computed.
             Point2 realSize =
@@ -305,7 +305,7 @@ namespace Light2D
             _uv0[2] = new Vector2(rect.xMin / realSize.x, rect.yMax / realSize.y); // 0, 1
             _uv0[3] = new Vector2(rect.xMax / realSize.x, rect.yMax / realSize.y); // 1, 1
 
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 _colors[i] = Color;
             }

@@ -71,7 +71,7 @@ namespace Tilemaps.Scripts.Tiles
 
         public IEnumerable<LayerTile> GetTiles()
         {
-            List<LayerTile> list = new List<LayerTile>();
+            var list = new List<LayerTile>();
 
             if (Base)
             {

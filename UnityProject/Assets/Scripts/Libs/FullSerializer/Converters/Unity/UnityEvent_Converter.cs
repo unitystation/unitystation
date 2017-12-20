@@ -33,7 +33,7 @@ namespace FullSerializer.Internal.Converters
 
         public override fsResult TryDeserialize(fsData data, ref object instance, Type storageType)
         {
-            Type objectType = (Type) instance;
+            var objectType = (Type) instance;
 
             fsResult result = fsResult.Success;
             instance = JsonUtility.FromJson(fsJsonPrinter.CompressedJson(data), objectType);

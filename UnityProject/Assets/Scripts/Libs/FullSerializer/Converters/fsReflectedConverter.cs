@@ -29,7 +29,7 @@ namespace FullSerializer.Internal
             fsMetaType metaType = fsMetaType.Get(Serializer.Config, instance.GetType());
             metaType.EmitAotData();
 
-            for (int i = 0; i < metaType.Properties.Length; ++i)
+            for (var i = 0; i < metaType.Properties.Length; ++i)
             {
                 fsMetaProperty property = metaType.Properties[i];
                 if (property.CanRead == false)
@@ -66,7 +66,7 @@ namespace FullSerializer.Internal
             fsMetaType metaType = fsMetaType.Get(Serializer.Config, storageType);
             metaType.EmitAotData();
 
-            for (int i = 0; i < metaType.Properties.Length; ++i)
+            for (var i = 0; i < metaType.Properties.Length; ++i)
             {
                 fsMetaProperty property = metaType.Properties[i];
                 if (property.CanWrite == false)

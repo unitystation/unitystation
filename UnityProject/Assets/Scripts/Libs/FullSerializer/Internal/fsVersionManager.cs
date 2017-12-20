@@ -27,7 +27,7 @@ namespace FullSerializer.Internal
         private static bool GetVersionImportPathRecursive(List<fsVersionedType> path, string currentVersion,
             fsVersionedType current)
         {
-            for (int i = 0; i < current.Ancestors.Length; ++i)
+            for (var i = 0; i < current.Ancestors.Length; ++i)
             {
                 fsVersionedType ancestor = current.Ancestors[i];
 
@@ -48,7 +48,7 @@ namespace FullSerializer.Internal
 
             if (_cache.TryGetValue(type, out optionalVersionedType) == false)
             {
-                fsObjectAttribute attr = fsPortableReflection.GetAttribute<fsObjectAttribute>(type);
+                var attr = fsPortableReflection.GetAttribute<fsObjectAttribute>(type);
 
                 if (attr != null)
                 {
@@ -62,9 +62,9 @@ namespace FullSerializer.Internal
                         }
 
                         // Map the ancestor types into versioned types
-                        fsVersionedType[] ancestors =
+                        var ancestors =
                             new fsVersionedType[attr.PreviousModels != null ? attr.PreviousModels.Length : 0];
-                        for (int i = 0; i < ancestors.Length; ++i)
+                        for (var i = 0; i < ancestors.Length; ++i)
                         {
                             fsOption<fsVersionedType> ancestorType = GetVersionedType(attr.PreviousModels[i]);
                             if (ancestorType.IsEmpty)
@@ -76,7 +76,7 @@ namespace FullSerializer.Internal
                         }
 
                         // construct the actual versioned type instance
-                        fsVersionedType versionedType = new fsVersionedType
+                        var versionedType = new fsVersionedType
                         {
                             Ancestors = ancestors,
                             VersionString = attr.VersionString,
@@ -104,12 +104,12 @@ namespace FullSerializer.Internal
         {
             ConstructorInfo[] publicConstructors = type.ModelType.GetDeclaredConstructors();
 
-            for (int i = 0; i < type.Ancestors.Length; ++i)
+            for (var i = 0; i < type.Ancestors.Length; ++i)
             {
                 Type requiredConstructorType = type.Ancestors[i].ModelType;
 
-                bool found = false;
-                for (int j = 0; j < publicConstructors.Length; ++j)
+                var found = false;
+                for (var j = 0; j < publicConstructors.Length; ++j)
                 {
                     ParameterInfo[] parameters = publicConstructors[j].GetParameters();
                     if (parameters.Length == 1 && parameters[0].ParameterType == requiredConstructorType)
@@ -133,9 +133,9 @@ namespace FullSerializer.Internal
         {
             // simple tree traversal
 
-            Dictionary<string, Type> found = new Dictionary<string, Type>();
+            var found = new Dictionary<string, Type>();
 
-            Queue<fsVersionedType> remaining = new Queue<fsVersionedType>();
+            var remaining = new Queue<fsVersionedType>();
             remaining.Enqueue(type);
 
             while (remaining.Count > 0)

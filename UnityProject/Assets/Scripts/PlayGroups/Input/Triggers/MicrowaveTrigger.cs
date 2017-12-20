@@ -48,7 +48,7 @@ public class MicrowaveTrigger : InputTrigger
     [Server]
     private bool ValidateMicrowaveInteraction(GameObject originator, Vector3 position, string hand)
     {
-        PlayerScript ps = originator.GetComponent<PlayerScript>();
+        var ps = originator.GetComponent<PlayerScript>();
         if (ps.canNotInteract() || !ps.IsInReach(position))
         {
             return false;
@@ -59,9 +59,9 @@ public class MicrowaveTrigger : InputTrigger
         {
             return false;
         }
-        ItemAttributes attr = item.GetComponent<ItemAttributes>();
+        var attr = item.GetComponent<ItemAttributes>();
 
-        Ingredient ingredient = new Ingredient(attr.itemName);
+        var ingredient = new Ingredient(attr.itemName);
 
         GameObject meal = CraftingManager.Meals.FindRecipe(new List<Ingredient> {ingredient});
 

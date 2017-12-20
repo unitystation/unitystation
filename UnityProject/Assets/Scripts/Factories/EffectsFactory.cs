@@ -48,7 +48,7 @@ public class EffectsFactory : NetworkBehaviour
         //Spawn tiles need to be placed in a local matrix:
         fireObj.transform.parent = parent;
         fireObj.transform.localPosition = localPosition;
-        FireTile fT = fireObj.GetComponent<FireTile>();
+        var fT = fireObj.GetComponent<FireTile>();
         fT.StartFire(fuelAmt);
     }
 
@@ -72,9 +72,9 @@ public class EffectsFactory : NetworkBehaviour
     public void BloodSplat(Vector3 pos, BloodSplatSize splatSize)
     {
         GameObject b = PoolManager.Instance.PoolNetworkInstantiate(bloodTile, pos, Quaternion.identity);
-        BloodSplat bSplat = b.GetComponent<BloodSplat>();
+        var bSplat = b.GetComponent<BloodSplat>();
         //choose a random blood sprite
-        int spriteNum = 0;
+        var spriteNum = 0;
         switch (splatSize)
         {
             case BloodSplatSize.small:

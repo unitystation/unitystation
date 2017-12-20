@@ -26,7 +26,7 @@ namespace FullSerializer.Internal
 
         public override fsResult TrySerialize(object instance_, out fsData serialized, Type storageType)
         {
-            IEnumerable instance = (IEnumerable) instance_;
+            var instance = (IEnumerable) instance_;
             fsResult result = fsResult.Success;
 
             Type elementType = GetElementType(storageType);
@@ -67,7 +67,7 @@ namespace FullSerializer.Internal
 
         public override fsResult TryDeserialize(fsData data, ref object instance_, Type storageType)
         {
-            IEnumerable instance = (IEnumerable) instance_;
+            var instance = (IEnumerable) instance_;
             fsResult result = fsResult.Success;
 
             if ((result += CheckType(data, fsDataType.Array)).Failed)
@@ -88,7 +88,7 @@ namespace FullSerializer.Internal
             int existingSize = TryGetExistingSize(storageType, instance);
 
             List<fsData> serializedList = data.AsList;
-            for (int i = 0; i < serializedList.Count; ++i)
+            for (var i = 0; i < serializedList.Count; ++i)
             {
                 fsData itemData = serializedList[i];
                 object itemInstance = null;

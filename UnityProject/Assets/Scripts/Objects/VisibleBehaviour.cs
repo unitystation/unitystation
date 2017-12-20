@@ -36,7 +36,7 @@ public class VisibleBehaviour : NetworkBehaviour
     {
         StartCoroutine(WaitForLoad());
         base.OnStartClient();
-        PlayerScript pS = GetComponent<PlayerScript>();
+        var pS = GetComponent<PlayerScript>();
         if (pS != null)
         {
             isPlayer = true;
@@ -61,7 +61,7 @@ public class VisibleBehaviour : NetworkBehaviour
         MonoBehaviour[] scripts = GetComponentsInChildren<MonoBehaviour>(true);
         Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
         Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
-        for (int i = 0; i < scripts.Length; i++)
+        for (var i = 0; i < scripts.Length; i++)
         {
             if (scripts[i].GetType().Name != networkId && scripts[i].GetType().Name != networkT
                 && scripts[i].GetType().Name != objectBehaviour
@@ -73,12 +73,12 @@ public class VisibleBehaviour : NetworkBehaviour
             }
         }
 
-        for (int i = 0; i < colliders.Length; i++)
+        for (var i = 0; i < colliders.Length; i++)
         {
             colliders[i].enabled = _aliveState;
         }
 
-        for (int i = 0; i < renderers.Length; i++)
+        for (var i = 0; i < renderers.Length; i++)
         {
             renderers[i].enabled = _aliveState;
         }
@@ -87,7 +87,7 @@ public class VisibleBehaviour : NetworkBehaviour
         {
             if (_aliveState)
             {
-                EditModeControl eC = gameObject.GetComponent<EditModeControl>();
+                var eC = gameObject.GetComponent<EditModeControl>();
                 if (eC != null)
                 {
                     eC.Snap();

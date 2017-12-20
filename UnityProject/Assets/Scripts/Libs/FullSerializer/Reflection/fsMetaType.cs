@@ -28,7 +28,7 @@ namespace FullSerializer
         {
             ReflectedType = reflectedType;
 
-            List<fsMetaProperty> properties = new List<fsMetaProperty>();
+            var properties = new List<fsMetaProperty>();
             CollectProperties(config, properties, reflectedType);
             Properties = properties.ToArray();
         }
@@ -107,7 +107,7 @@ namespace FullSerializer
             bool requireOptIn = config.DefaultMemberSerialization == fsMemberSerialization.OptIn;
             bool requireOptOut = config.DefaultMemberSerialization == fsMemberSerialization.OptOut;
 
-            fsObjectAttribute attr = fsPortableReflection.GetAttribute<fsObjectAttribute>(reflectedType);
+            var attr = fsPortableReflection.GetAttribute<fsObjectAttribute>(reflectedType);
             if (attr != null)
             {
                 requireOptIn = attr.MemberSerialization == fsMemberSerialization.OptIn;
@@ -123,8 +123,8 @@ namespace FullSerializer
                     continue;
                 }
 
-                PropertyInfo property = member as PropertyInfo;
-                FieldInfo field = member as FieldInfo;
+                var property = member as PropertyInfo;
+                var field = member as FieldInfo;
 
                 // Early out if it's neither a field or a property, since we don't serialize anything else.
                 if (property == null && field == null)
@@ -296,7 +296,7 @@ namespace FullSerializer
                 // Direct converters are not used for inherited types, so the reflected converter or something
                 // similar will be used for the derived type instead of our AOT compiled one.
 
-                for (int i = 0; i < Properties.Length; ++i)
+                for (var i = 0; i < Properties.Length; ++i)
                 {
                     // Cannot AOT compile since we need to public member access.
                     if (Properties[i].IsPublic == false)

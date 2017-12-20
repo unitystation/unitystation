@@ -18,7 +18,7 @@ public class ImportSprites : MonoBehaviour
     {
         string path = AssetDatabase.GetAssetPath(obj);
 
-        TextureImporter textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
+        var textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
 
         if (textureImporter == null)
         {
@@ -43,15 +43,15 @@ public class ImportSprites : MonoBehaviour
 
     private static void SpliceSpriteSheet(string path, int sliceWidth, int sliceHeight, TextureImporter textureImporter)
     {
-        Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-        List<SpriteMetaData> newData = new List<SpriteMetaData>();
+        var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+        var newData = new List<SpriteMetaData>();
 
-        int index = 0;
+        var index = 0;
         string name = Path.GetFileNameWithoutExtension(path);
 
         for (int y = texture.height; y > 0; y -= sliceHeight)
         {
-            for (int x = 0; x < texture.width; x += sliceWidth)
+            for (var x = 0; x < texture.width; x += sliceWidth)
             {
                 newData.Add(new SpriteMetaData
                 {

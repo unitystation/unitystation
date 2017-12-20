@@ -22,7 +22,7 @@ namespace Lighting
         {
             foreach (Transform child in transform)
             {
-                LightSource source = child.gameObject.GetComponent<LightSource>();
+                var source = child.gameObject.GetComponent<LightSource>();
                 if (source != null)
                 {
                     lights.Add(child.transform.position, source);

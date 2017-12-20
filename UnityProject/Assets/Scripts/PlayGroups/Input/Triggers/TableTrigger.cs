@@ -39,7 +39,7 @@ public class TableTrigger : InputTrigger
     [Server]
     private bool ValidateTableInteraction(GameObject originator, Vector3 position, string hand)
     {
-        PlayerScript ps = originator.GetComponent<PlayerScript>();
+        var ps = originator.GetComponent<PlayerScript>();
         if (ps.canNotInteract() || !ps.IsInReach(position))
         {
             return false;

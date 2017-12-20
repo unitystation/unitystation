@@ -12,7 +12,7 @@ public class ClothingRegressionTest
         obj = new GameObject("Item");
         obj.SetActive(false);
 
-        GameObject sprite = new GameObject("Sprite");
+        var sprite = new GameObject("Sprite");
         sprite.AddComponent<SpriteRenderer>();
 
         sprite.transform.SetParent(obj.transform); //is this how you add a child?

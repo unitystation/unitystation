@@ -64,7 +64,7 @@ namespace Tilemaps.Scripts.Tiles
             }
 
 #if UNITY_EDITOR
-            GameObject go = (GameObject) PrefabUtility.InstantiatePrefab(Object);
+            var go = (GameObject) PrefabUtility.InstantiatePrefab(Object);
 #else
             var go = Instantiate(Object);
 #endif
@@ -101,7 +101,7 @@ namespace Tilemaps.Scripts.Tiles
         {
             if (Rotatable)
             {
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     transformMatrix = RotateOnce(transformMatrix, anticlockwise);
                 }

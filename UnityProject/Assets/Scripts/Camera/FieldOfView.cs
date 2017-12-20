@@ -59,7 +59,7 @@ public class FieldOfView : MonoBehaviour
     {
         if (lines.Count > 0)
         {
-            for (int i = 0; i < lines.Count; i++)
+            for (var i = 0; i < lines.Count; i++)
             {
                 Line line = lines[i];
                 Gizmos.color = Color.red;
@@ -74,7 +74,7 @@ public class FieldOfView : MonoBehaviour
         Vector3 fovPos = transform.position;
         Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(fovPos, viewRadius, targetMask);
 
-        for (int i = 0; i < targetsInViewRadius.Length; i++)
+        for (var i = 0; i < targetsInViewRadius.Length; i++)
         {
             Transform target = targetsInViewRadius[i].transform;
             Vector3 targetPos = target.position;
@@ -113,7 +113,7 @@ public class FieldOfView : MonoBehaviour
                 x = 0.0f;
             }
 
-            Vector3 snappedDirToTarget = new Vector3(x, y, z);
+            var snappedDirToTarget = new Vector3(x, y, z);
 
             Vector3 normalizedDirection = targetPos + -snappedDirToTarget;
 
@@ -137,12 +137,12 @@ public class FieldOfView : MonoBehaviour
     {
         int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
         float stepAngleSize = viewAngle / stepCount;
-        List<Vector3> viewPoints = new List<Vector3>(1024);
+        var viewPoints = new List<Vector3>(1024);
 
-        ViewCastInfo oldViewCast = new ViewCastInfo();
+        var oldViewCast = new ViewCastInfo();
         float eulerZ = transform.eulerAngles.z;
 
-        for (int i = 0; i <= stepCount; i++)
+        for (var i = 0; i <= stepCount; i++)
         {
             float angle = eulerZ - viewAngle / 2 + stepAngleSize * i;
             ViewCastInfo newViewCast = ViewCast(angle);
@@ -170,12 +170,12 @@ public class FieldOfView : MonoBehaviour
         }
 
         int vertexCount = viewPoints.Count + 1;
-        Vector3[] verticies = new Vector3[vertexCount];
-        int[] triangles = new int[(vertexCount - 2) * 3];
+        var verticies = new Vector3[vertexCount];
+        var triangles = new int[(vertexCount - 2) * 3];
 
         verticies[0] = Vector3.zero;
 
-        for (int i = 0; i < vertexCount - 1; i++)
+        for (var i = 0; i < vertexCount - 1; i++)
         {
             verticies[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
 
@@ -200,7 +200,7 @@ public class FieldOfView : MonoBehaviour
         Vector3 minPoint = Vector3.zero;
         Vector3 maxPoint = Vector3.zero;
 
-        for (int i = 0; i < edgeResolveIterations; i++)
+        for (var i = 0; i < edgeResolveIterations; i++)
         {
             float angle = (minAngle + maxAngle) / 2;
             ViewCastInfo newViewCast = ViewCast(angle);

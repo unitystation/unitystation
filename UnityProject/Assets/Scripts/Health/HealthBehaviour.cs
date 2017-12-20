@@ -157,7 +157,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
     {
         if (!isNPC)
         {
-            PlayerNetworkActions pna = GetComponent<PlayerNetworkActions>();
+            var pna = GetComponent<PlayerNetworkActions>();
             if (pna == null)
             {
                 Debug.LogError("This is not a player, please set isNPC flag correctly");
@@ -183,8 +183,8 @@ public abstract class HealthBehaviour : NetworkBehaviour
                                PlayerManager.LocalPlayer.transform.position).normalized;
 
                 PlayerScript lps = PlayerManager.LocalPlayerScript;
-                lps.weaponNetworkActions.CmdKnifeAttackMob(gameObject, UIManager.Hands.CurrentSlot.Item, dir, UIManager.DamageZone /*PlayerScript.SelectedDamageZone*/);
-                
+                lps.weaponNetworkActions.CmdKnifeAttackMob(gameObject, UIManager.Hands.CurrentSlot.Item, dir,
+                    UIManager.DamageZone /*PlayerScript.SelectedDamageZone*/);
             }
         }
     }

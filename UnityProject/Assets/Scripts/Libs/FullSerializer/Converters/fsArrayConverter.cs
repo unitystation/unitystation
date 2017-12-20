@@ -34,7 +34,7 @@ namespace FullSerializer.Internal
             serialized = fsData.CreateList(arr.Count);
             List<fsData> serializedList = serialized.AsList;
 
-            for (int i = 0; i < arr.Count; ++i)
+            for (var i = 0; i < arr.Count; ++i)
             {
                 object item = arr[i];
 
@@ -66,10 +66,10 @@ namespace FullSerializer.Internal
             Type elementType = storageType.GetElementType();
 
             List<fsData> serializedList = data.AsList;
-            ArrayList list = new ArrayList(serializedList.Count);
+            var list = new ArrayList(serializedList.Count);
             int existingCount = list.Count;
 
-            for (int i = 0; i < serializedList.Count; ++i)
+            for (var i = 0; i < serializedList.Count; ++i)
             {
                 fsData serializedItem = serializedList[i];
                 object deserialized = null;

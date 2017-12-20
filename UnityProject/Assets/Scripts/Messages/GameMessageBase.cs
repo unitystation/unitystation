@@ -11,7 +11,7 @@ public abstract class GameMessageBase : MessageBase
 
     protected IEnumerator WaitFor(NetworkInstanceId id)
     {
-        int tries = 0;
+        var tries = 0;
         while ((NetworkObject = ClientScene.FindLocalObject(id)) == null)
         {
             if (tries++ > 10)
@@ -36,7 +36,7 @@ public abstract class GameMessageBase : MessageBase
 
     private bool AllLoaded(NetworkInstanceId[] ids)
     {
-        for (int i = 0; i < ids.Length; i++)
+        for (var i = 0; i < ids.Length; i++)
         {
             GameObject obj = ClientScene.FindLocalObject(ids[i]);
             if (obj == null)

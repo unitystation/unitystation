@@ -67,8 +67,8 @@ namespace Light2D
                 GUI.enabled = false;
             }
 
-            LightingSystem lightingSystem = (LightingSystem) target;
-            Camera cam = lightingSystem.GetComponent<Camera>();
+            var lightingSystem = (LightingSystem) target;
+            var cam = lightingSystem.GetComponent<Camera>();
             bool isMobileTarget = EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS ||
                                   EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android;
 
@@ -79,7 +79,7 @@ namespace Light2D
 
             EditorGUILayout.PropertyField(_lightPixelSize, new GUIContent("Light Pixel Size"));
 
-            bool sizeChanged = false;
+            var sizeChanged = false;
 #if LIGHT2D_2DTK
             var tk2dCamera = lightingSystem.GetComponent<tk2dCamera>();
             var tk2dCamSize = tk2dCamera == null

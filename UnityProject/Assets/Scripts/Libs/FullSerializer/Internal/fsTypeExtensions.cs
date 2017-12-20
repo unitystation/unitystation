@@ -70,7 +70,7 @@ namespace FullSerializer
                 return type.ToString();
             }
 
-            string name = "";
+            var name = "";
 
             IEnumerable<Type> genericArguments = type.GetGenericArguments();
             if (type.IsNested)

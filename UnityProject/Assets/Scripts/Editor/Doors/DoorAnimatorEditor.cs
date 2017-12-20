@@ -16,7 +16,7 @@ namespace Doors
             //		SerializedProperty tps = serializedObject.FindProperty ("doorBaseSprites");
             //		EditorGUILayout.PropertyField(tps, true);
 
-            AirLockAnimator dTarget = (AirLockAnimator) target;
+            var dTarget = (AirLockAnimator) target;
             if (dTarget.overlay_Lights == null || dTarget.overlay_Glass == null
                 || dTarget.doorbase == null)
             {

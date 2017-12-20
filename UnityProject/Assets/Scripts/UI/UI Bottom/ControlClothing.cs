@@ -35,7 +35,7 @@ namespace UI
             {
                 //Adjusting the alpha to hide the slots as the enabled state is handled
                 //by other components. Raycast target is also adjusted based on on or off
-                for (int i = 0; i < equipImgs.Length; i++)
+                for (var i = 0; i < equipImgs.Length; i++)
                 {
                     Color tempCol = equipImgs[i].color;
                     tempCol.a = 1f;
@@ -45,7 +45,7 @@ namespace UI
             }
             else
             {
-                for (int i = 0; i < equipImgs.Length; i++)
+                for (var i = 0; i < equipImgs.Length; i++)
                 {
                     Color tempCol = equipImgs[i].color;
                     tempCol.a = 0f;

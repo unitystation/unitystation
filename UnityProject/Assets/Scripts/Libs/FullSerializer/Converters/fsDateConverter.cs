@@ -28,21 +28,21 @@ namespace FullSerializer.Internal
         {
             if (instance is DateTime)
             {
-                DateTime dateTime = (DateTime) instance;
+                var dateTime = (DateTime) instance;
                 serialized = new fsData(dateTime.ToString(DateTimeFormatString));
                 return fsResult.Success;
             }
 
             if (instance is DateTimeOffset)
             {
-                DateTimeOffset dateTimeOffset = (DateTimeOffset) instance;
+                var dateTimeOffset = (DateTimeOffset) instance;
                 serialized = new fsData(dateTimeOffset.ToString(DateTimeOffsetFormatString));
                 return fsResult.Success;
             }
 
             if (instance is TimeSpan)
             {
-                TimeSpan timeSpan = (TimeSpan) instance;
+                var timeSpan = (TimeSpan) instance;
                 serialized = new fsData(timeSpan.ToString());
                 return fsResult.Success;
             }

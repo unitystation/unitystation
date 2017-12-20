@@ -23,7 +23,7 @@ public class RunMethodMessage : ServerMessage<RunMethodMessage>
 
     public static RunMethodMessage Send(GameObject recipient, string method, GameObject parameter = null)
     {
-        RunMethodMessage msg = new RunMethodMessage
+        var msg = new RunMethodMessage
         {
             Recipient = recipient.GetComponent<NetworkIdentity>().netId, //?
             Method = method,

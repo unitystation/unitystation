@@ -178,7 +178,7 @@ namespace Light2D
 
             // if both FlareLayer component and AffectOnlyThisCamera setting is enabled
             // Unity will print an error "Flare renderer to update not found" 
-            FlareLayer flare = GetComponent<FlareLayer>();
+            var flare = GetComponent<FlareLayer>();
             if (flare != null && flare.enabled)
             {
                 Debug.Log("Disabling FlareLayer since AffectOnlyThisCamera setting is checked.");
@@ -492,7 +492,7 @@ namespace Light2D
 
             if (_normalMapCamera == null)
             {
-                GameObject camObj = new GameObject();
+                var camObj = new GameObject();
                 camObj.name = "Normals Camera";
                 camObj.transform.parent = _camera.transform;
                 camObj.transform.localScale = Vector3.one;
@@ -667,13 +667,13 @@ namespace Light2D
                 LightCamera.backgroundColor = oldBackgroundColor;
             }
 
-            for (int i = 0; i < _aditionalAmbientLightCycles + 1; i++)
+            for (var i = 0; i < _aditionalAmbientLightCycles + 1; i++)
             {
                 RenderTexture tmp = _prevAmbientTexture;
                 _prevAmbientTexture = _ambientTexture;
                 _ambientTexture = tmp;
 
-                Vector2 texSize = new Vector2(_ambientTexture.width, _ambientTexture.height);
+                var texSize = new Vector2(_ambientTexture.width, _ambientTexture.height);
                 Vector2 posShift = ((Vector2) (_currPos - _oldPos) / LightPixelSize).Div(texSize);
                 _oldPos = _currPos;
 
@@ -710,7 +710,7 @@ namespace Light2D
 
             ConfigLightCamera(false);
 
-            Vector2 lightTexelSize = new Vector2(1f / _smallLightTextureSize.x, 1f / _smallLightTextureSize.y);
+            var lightTexelSize = new Vector2(1f / _smallLightTextureSize.x, 1f / _smallLightTextureSize.y);
             float lightPixelsPerUnityMeter = LightPixelsPerUnityMeter;
             Vector2 worldOffset = Quaternion.Inverse(_camera.transform.rotation) *
                                   (LightCamera.transform.position - _camera.transform.position);
@@ -730,7 +730,7 @@ namespace Light2D
             }
 
             float scaleY = _camera.orthographicSize / LightCamera.orthographicSize;
-            Vector2 scale = new Vector2(scaleY * xDiff, scaleY);
+            var scale = new Vector2(scaleY * xDiff, scaleY);
 
             FilterMode oldAmbientFilterMode = _ambientTexture == null ? FilterMode.Point : _ambientTexture.filterMode;
             LightOverlayMaterial.SetTexture("_AmbientLightTex", EnableAmbientLight ? _ambientTexture : null);
@@ -771,7 +771,7 @@ namespace Light2D
             Vector3 mainPos = _camera.transform.position;
             Quaternion camRot = _camera.transform.rotation;
             Vector3 unrotMainPos = Quaternion.Inverse(camRot) * mainPos;
-            Vector2 gridPos = new Vector2(
+            var gridPos = new Vector2(
                 Mathf.Round(unrotMainPos.x * lightPixelsPerUnityMeter) / lightPixelsPerUnityMeter,
                 Mathf.Round(unrotMainPos.y * lightPixelsPerUnityMeter) / lightPixelsPerUnityMeter);
             Vector2 posDiff = gridPos - (Vector2) unrotMainPos;

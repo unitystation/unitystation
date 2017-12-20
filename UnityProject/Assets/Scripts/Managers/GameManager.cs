@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
 
     public int GetOccupationsCount(JobType jobType)
     {
-        int count = 0;
+        var count = 0;
 
         if (PlayerList.Instance == null || PlayerList.Instance.connectedPlayers.Count == 0)
         {
@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
         {
             if (player.Value != null)
             {
-                PlayerScript mob = player.Value.GetComponent<PlayerScript>();
+                var mob = player.Value.GetComponent<PlayerScript>();
                 if (mob != null)
                 {
                     if (mob.JobType == jobType)
@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
     public int GetOccupationMaxCount(JobType jobType)
     {
         GameObject jobObject = Occupations.Find(o => o.GetComponent<OccupationRoster>().Type == jobType);
-        OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
+        var job = jobObject.GetComponent<OccupationRoster>();
         return job.limit;
     }
 
@@ -151,7 +151,7 @@ public class GameManager : MonoBehaviour
             foreach (GameObject jobObject in Occupations.Where(o =>
                 o.GetComponent<OccupationRoster>().Type == jobTypeRequest))
             {
-                OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
+                var job = jobObject.GetComponent<OccupationRoster>();
                 if (job.limit != -1)
                 {
                     if (job.limit > GetOccupationsCount(job.Type))
@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour
         // No job found, get random via priority
         foreach (GameObject jobObject in Occupations.OrderBy(o => o.GetComponent<OccupationRoster>().priority))
         {
-            OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
+            var job = jobObject.GetComponent<OccupationRoster>();
             if (job.limit != -1)
             {
                 if (job.limit > GetOccupationsCount(job.Type))

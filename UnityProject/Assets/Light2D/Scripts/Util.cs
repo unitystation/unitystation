@@ -10,6 +10,7 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 namespace Light2D
@@ -87,7 +88,7 @@ namespace Light2D
 
         public static IEnumerable<T> ForEach<T>(this IEnumerable<T> enumerable, Action<T, int> action)
         {
-            int i = 0;
+            var i = 0;
             foreach (T obj in enumerable)
             {
                 action(obj, i);
@@ -261,8 +262,8 @@ namespace Light2D
 
         public static void Log(params object[] vals)
         {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < vals.Length; i++)
+            var sb = new StringBuilder();
+            for (var i = 0; i < vals.Length; i++)
             {
                 if (i != 0)
                 {
@@ -275,8 +276,8 @@ namespace Light2D
 
         public static void Log(Object context, params object[] vals)
         {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < vals.Length; i++)
+            var sb = new StringBuilder();
+            for (var i = 0; i < vals.Length; i++)
             {
                 if (i != 0)
                 {
@@ -289,9 +290,9 @@ namespace Light2D
 
         public static void LogArray<T>(IEnumerable<T> enumerable)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             T[] vals = enumerable.ToArray();
-            for (int i = 0; i < vals.Length; i++)
+            for (var i = 0; i < vals.Length; i++)
             {
                 sb.Append(i);
                 sb.Append(": ");
@@ -350,18 +351,18 @@ namespace Light2D
         {
             using (FileStream stream = File.Create(path))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(T));
-                XmlTextWriter xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
+                var serializer = new XmlSerializer(typeof(T));
+                var xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
                 serializer.Serialize(xmlWriter, obj);
             }
         }
 
         public static byte[] Serialize<T>(T obj)
         {
-            using (MemoryStream stream = new MemoryStream())
+            using (var stream = new MemoryStream())
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(T));
-                XmlTextWriter xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
+                var serializer = new XmlSerializer(typeof(T));
+                var xmlWriter = new XmlTextWriter(stream, Encoding.UTF8);
                 serializer.Serialize(xmlWriter, obj);
                 return stream.ToArray();
             }
@@ -371,8 +372,8 @@ namespace Light2D
         {
             using (FileStream stream = File.OpenRead(path))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(T));
-                T fromFile = serializer.Deserialize(stream) as T;
+                var serializer = new XmlSerializer(typeof(T));
+                var fromFile = serializer.Deserialize(stream) as T;
                 return fromFile;
             }
         }
@@ -381,10 +382,10 @@ namespace Light2D
         {
             try
             {
-                using (MemoryStream stream = new MemoryStream(data))
+                using (var stream = new MemoryStream(data))
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(T));
-                    T fromFile = (T) serializer.Deserialize(stream);
+                    var serializer = new XmlSerializer(typeof(T));
+                    var fromFile = (T) serializer.Deserialize(stream);
                     return fromFile;
                 }
             }
@@ -400,7 +401,7 @@ namespace Light2D
         {
             int minId = -1;
             float minVal = float.MaxValue;
-            for (int i = 0; i < list.Count; i++)
+            for (var i = 0; i < list.Count; i++)
             {
                 T obj = list[i];
                 float val = pred(obj);
@@ -417,7 +418,7 @@ namespace Light2D
         {
             T minObj = default(T);
             float minVal = float.MaxValue;
-            bool isEmpty = true;
+            var isEmpty = true;
             foreach (T obj in list)
             {
                 float val = pred(obj);
@@ -439,7 +440,7 @@ namespace Light2D
         {
             T minObj = default(T);
             float minVal = float.MaxValue;
-            bool isEmpty = true;
+            var isEmpty = true;
             foreach (T obj in list)
             {
                 float val = pred(obj);
@@ -477,7 +478,7 @@ namespace Light2D
                 resultTouch = new Touch();
                 return false;
             }
-            for (int i = 0; i < Input.touchCount; i++)
+            for (var i = 0; i < Input.touchCount; i++)
             {
                 Touch touch = Input.GetTouch(i);
                 if (touch.fingerId == fingerId)
@@ -514,7 +515,7 @@ namespace Light2D
 
         public static int Hash<T>(T v1, T v2, T v3, T v4)
         {
-            int hash = 23;
+            var hash = 23;
             hash = hash * 31 + v1.GetHashCode();
             hash = hash * 31 + v2.GetHashCode();
             hash = hash * 31 + v3.GetHashCode();
@@ -524,7 +525,7 @@ namespace Light2D
 
         public static int Hash<T>(T v1, T v2, T v3)
         {
-            int hash = 23;
+            var hash = 23;
             hash = hash * 31 + v1.GetHashCode();
             hash = hash * 31 + v2.GetHashCode();
             hash = hash * 31 + v3.GetHashCode();
@@ -533,7 +534,7 @@ namespace Light2D
 
         public static int Hash<T>(T v1, T v2)
         {
-            int hash = 23;
+            var hash = 23;
             hash = hash * 31 + v1.GetHashCode();
             hash = hash * 31 + v2.GetHashCode();
             return hash;
@@ -541,8 +542,8 @@ namespace Light2D
 
         public static int Hash<T>(params T[] els)
         {
-            int hash = 23;
-            for (int i = 0; i < els.Length; i++)
+            var hash = 23;
+            for (var i = 0; i < els.Length; i++)
             {
                 hash = hash * 31 + els[i].GetHashCode();
             }
@@ -582,14 +583,14 @@ namespace Light2D
         public static float DecodeFloatRGBA(Vector3 enc)
         {
             enc = new Vector3((byte) (enc.x * 254f), (byte) (enc.y * 254f), (byte) (enc.z * 254f)) / 255f;
-            Vector4 kDecodeDot = new Vector4(1f, 1 / 255f, 1 / 65025f);
+            var kDecodeDot = new Vector4(1f, 1 / 255f, 1 / 65025f);
             float result = Vector3.Dot(enc, kDecodeDot);
             return result;
         }
 
         public static Vector4 EncodeFloatRGBA(float v)
         {
-            Vector3 kEncodeMul = new Vector3(1.0f, 255.0f, 65025.0f);
+            var kEncodeMul = new Vector3(1.0f, 255.0f, 65025.0f);
             Vector3 enc = kEncodeMul * v;
             enc = new Vector3(
                 enc.x - Mathf.Floor(enc.x), enc.y - Mathf.Floor(enc.y),

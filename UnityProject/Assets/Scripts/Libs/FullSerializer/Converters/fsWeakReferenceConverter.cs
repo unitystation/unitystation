@@ -24,7 +24,7 @@ namespace FullSerializer.Internal
 
         public override fsResult TrySerialize(object instance, out fsData serialized, Type storageType)
         {
-            WeakReference weakRef = (WeakReference) instance;
+            var weakRef = (WeakReference) instance;
 
             fsResult result = fsResult.Success;
             serialized = fsData.CreateDictionary();
@@ -63,7 +63,7 @@ namespace FullSerializer.Internal
                     return result;
                 }
 
-                bool trackResurrection = false;
+                var trackResurrection = false;
                 if (data.AsDictionary.ContainsKey("TrackResurrection") && data.AsDictionary["TrackResurrection"].IsBool)
                 {
                     trackResurrection = data.AsDictionary["TrackResurrection"].AsBool;

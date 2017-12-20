@@ -132,7 +132,7 @@ namespace UI
                 if ((channelsAvailable & channel) == channel)
                 {
                     GameObject channelToggleItem = Instantiate(channelToggle, channelPanel.transform);
-                    Toggle toggle = channelToggleItem.GetComponent<Toggle>();
+                    var toggle = channelToggleItem.GetComponent<Toggle>();
                     toggle.GetComponent<UIToggleChannel>().channel = channel;
                     toggle.GetComponentInChildren<Text>().text = IconConstants.ChatPanelIcons[channel];
                     toggle.onValueChanged.AddListener(Toggle_Channel);
@@ -150,14 +150,14 @@ namespace UI
 
             float width = channelPanel.GetChild(0).GetComponent<RectTransform>().rect.width;
             int count = channelPanel.transform.childCount;
-            LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
-            HorizontalLayoutGroup horizontalLayoutGroup = channelPanel.GetComponent<HorizontalLayoutGroup>();
+            var layoutElement = channelPanel.GetComponent<LayoutElement>();
+            var horizontalLayoutGroup = channelPanel.GetComponent<HorizontalLayoutGroup>();
             layoutElement.minWidth = width * count + horizontalLayoutGroup.spacing * count;
         }
 
         public void EmptyChannelPanel()
         {
-            LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
+            var layoutElement = channelPanel.GetComponent<LayoutElement>();
             layoutElement.minWidth = 0;
 
             foreach (Transform child in channelPanel.transform)
@@ -169,7 +169,7 @@ namespace UI
         public void Toggle_Channel(bool isOn)
         {
             SoundManager.Play("Click01");
-            UIToggleChannel source = EventSystem.current.currentSelectedGameObject.GetComponent<UIToggleChannel>();
+            var source = EventSystem.current.currentSelectedGameObject.GetComponent<UIToggleChannel>();
             if (!source)
             {
                 return;
@@ -192,7 +192,7 @@ namespace UI
         {
             ChatChannel channelsSelected = PlayerManager.LocalPlayerScript.SelectedChannels;
             int selectedCount = EnumUtils.GetSetBitCount((long) channelsSelected);
-            Text text = channelListToggle.GetComponentInChildren<Text>();
+            var text = channelListToggle.GetComponentInChildren<Text>();
 
             if (selectedCount == 1)
             {

@@ -14,7 +14,7 @@ public class ExplodeWhenShotTest
     [SetUp]
     public void SetUp()
     {
-        GameObject obj = new GameObject();
+        var obj = new GameObject();
         obj.AddComponent<SoundManager>();
         obj.AddComponent<ItemFactory>();
         obj.AddComponent<PoolManager>();
@@ -27,10 +27,10 @@ public class ExplodeWhenShotTest
     [UnityTest]
     public IEnumerator Should_Destroy_Bullet()
     {
-        GameObject bullet = new GameObject();
+        var bullet = new GameObject();
         PoolManager.Instance.PoolClientInstantiate(bullet, Vector2.zero, Quaternion.identity);
-        BoxCollider2D collider = bullet.AddComponent<BoxCollider2D>();
-        PoolPrefabTracker tracker = bullet.AddComponent<PoolPrefabTracker>();
+        var collider = bullet.AddComponent<BoxCollider2D>();
+        var tracker = bullet.AddComponent<PoolPrefabTracker>();
         tracker.myPrefab = bullet;
         bullet.AddComponent<Bullet_12mm>();
 
@@ -62,10 +62,10 @@ public class ExplodeWhenShotTest
     [Test]
     public void Should_Damage_Nearby_Player()
     {
-        GameObject player = new GameObject();
+        var player = new GameObject();
 
         player.AddComponent<BoxCollider2D>();
-        HealthBehaviour living = player.AddComponent<HealthBehaviour>();
+        var living = player.AddComponent<HealthBehaviour>();
         player.layer = LayerMask.NameToLayer("Players");
 
         HealthBehaviour damaged = null;
@@ -86,13 +86,13 @@ public class ExplodeWhenShotTest
     [Test]
     public void Should_Not_Damage_Player_Through_Wall()
     {
-        GameObject player = new GameObject();
+        var player = new GameObject();
         player.AddComponent<BoxCollider2D>();
         player.AddComponent<HealthBehaviour>();
         player.layer = LayerMask.NameToLayer("Players");
         player.transform.position = new Vector3(2, 0);
 
-        GameObject wall = new GameObject();
+        var wall = new GameObject();
         wall.AddComponent<BoxCollider2D>();
         wall.layer = LayerMask.NameToLayer("Walls");
         wall.transform.position = new Vector3(1, 0);

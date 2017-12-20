@@ -77,7 +77,7 @@ namespace Lighting
         {
             Vector2 startPos = GetCastPos();
             int length = Physics2D.OverlapCircleNonAlloc(startPos, radius, lightSpriteColliders, lightingMask);
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
                 Collider2D localCollider = lightSpriteColliders[i];
                 GameObject localObject = localCollider.gameObject;

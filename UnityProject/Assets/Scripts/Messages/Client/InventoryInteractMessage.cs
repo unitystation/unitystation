@@ -31,7 +31,7 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
     private void ProcessFurther(GameObject player, GameObject item = null)
     {
         GameObject clientPlayer = player;
-        PlayerNetworkActions pna = clientPlayer.GetComponent<PlayerNetworkActions>();
+        var pna = clientPlayer.GetComponent<PlayerNetworkActions>();
         string slot = decodeSlot(Slot);
         if (!pna.ValidateInvInteraction(slot, item, ForceSlotUpdate))
         {
@@ -47,7 +47,7 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
     public static InventoryInteractMessage Send(string hand, GameObject subject /* = null*/,
         bool forceSlotUpdate /* = false*/)
     {
-        InventoryInteractMessage msg = new InventoryInteractMessage
+        var msg = new InventoryInteractMessage
         {
             Subject = subject ? subject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
             Slot = encodeSlot(hand),

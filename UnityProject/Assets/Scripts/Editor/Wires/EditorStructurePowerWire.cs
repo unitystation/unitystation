@@ -18,7 +18,7 @@ namespace Wiring
 
         public override void OnInspectorGUI()
         {
-            StructurePowerWire sTarget = (StructurePowerWire) target;
+            var sTarget = (StructurePowerWire) target;
             startCache = sTarget.DirectionStart;
             endCache = sTarget.DirectionEnd;
 

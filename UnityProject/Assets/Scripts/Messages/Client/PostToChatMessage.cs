@@ -19,7 +19,7 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
         if (ValidRequest(player))
         {
             ChatModifier modifiers = player.GetComponent<PlayerScript>().GetCurrentChatModifiers();
-            ChatEvent chatEvent = new ChatEvent(ChatMessageText, player.name, Channels, modifiers);
+            var chatEvent = new ChatEvent(ChatMessageText, player.name, Channels, modifiers);
             ChatRelay.Instance.AddToChatLogServer(chatEvent);
         }
     }
@@ -27,7 +27,7 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
     //We want ChatEvent to be created on the server, so we're only passing the individual variables
     public static PostToChatMessage Send(string message, ChatChannel channels)
     {
-        PostToChatMessage msg = new PostToChatMessage
+        var msg = new PostToChatMessage
         {
             Channels = channels,
             ChatMessageText = message
@@ -39,7 +39,7 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
 
     public bool ValidRequest(GameObject player)
     {
-        PlayerScript playerScript = player.GetComponent<PlayerScript>();
+        var playerScript = player.GetComponent<PlayerScript>();
         //Need to add system channel here so player can transmit system level events but not select it in the UI
         ChatChannel availableChannels = playerScript.GetAvailableChannels() | ChatChannel.System;
         if ((playerScript.GetAvailableChannels() & Channels) == Channels)

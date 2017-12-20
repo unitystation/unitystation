@@ -40,9 +40,9 @@ namespace FullSerializer.Internal
             else if (fsPortableReflection.GetAttribute<FlagsAttribute>(storageType) != null)
             {
                 long instanceValue = Convert.ToInt64(instance);
-                StringBuilder result = new StringBuilder();
+                var result = new StringBuilder();
 
-                bool first = true;
+                var first = true;
                 foreach (object value in Enum.GetValues(storageType))
                 {
                     long integralValue = Convert.ToInt64(value);
@@ -75,7 +75,7 @@ namespace FullSerializer.Internal
                 string[] enumValues = data.AsString.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
                 long instanceValue = 0;
-                for (int i = 0; i < enumValues.Length; ++i)
+                for (var i = 0; i < enumValues.Length; ++i)
                 {
                     string enumValue = enumValues[i];
 
@@ -86,7 +86,7 @@ namespace FullSerializer.Internal
                         return fsResult.Fail("Cannot find enum name " + enumValue + " on type " + storageType);
                     }
 
-                    long flagValue = (long) Convert.ChangeType(Enum.Parse(storageType, enumValue), typeof(long));
+                    var flagValue = (long) Convert.ChangeType(Enum.Parse(storageType, enumValue), typeof(long));
                     instanceValue |= flagValue;
                 }
 
@@ -96,7 +96,7 @@ namespace FullSerializer.Internal
 
             if (data.IsInt64)
             {
-                int enumValue = (int) data.AsInt64;
+                var enumValue = (int) data.AsInt64;
 
                 // In .NET compact, Enum.ToObject(Type, Object) is defined but the overloads like
                 // Enum.ToObject(Type, int) are not -- so we get around this by boxing the value.
@@ -114,7 +114,7 @@ namespace FullSerializer.Internal
         private static bool ArrayContains<T>(T[] values, T value)
         {
             // note: We don't use LINQ because this function will *not* allocate
-            for (int i = 0; i < values.Length; ++i)
+            for (var i = 0; i < values.Length; ++i)
             {
                 if (EqualityComparer<T>.Default.Equals(values[i], value))
                 {

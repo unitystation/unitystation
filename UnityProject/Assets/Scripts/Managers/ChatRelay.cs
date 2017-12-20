@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using PlayGroup;
 using UI;
-using UnityEngine;
 using UnityEngine.Networking;
 
 public class ChatRelay : NetworkBehaviour
@@ -73,7 +72,7 @@ public class ChatRelay : NetworkBehaviour
     {
         PlayerScript[] players = FindObjectsOfType<PlayerScript>();
 
-        for (int i = 0; i < players.Length; i++)
+        for (var i = 0; i < players.Length; i++)
         {
             //First check if the players object is owned by a client
             //by checking if the inputController is enabled:
@@ -88,14 +87,14 @@ public class ChatRelay : NetworkBehaviour
     [Client]
     private void UpdateClientChat(string message, ChatChannel channels)
     {
-        ChatEvent chatEvent = new ChatEvent(message, channels, true);
+        var chatEvent = new ChatEvent(message, channels, true);
         ChatLog.Add(chatEvent);
     }
 
     public void RefreshLog()
     {
         UIManager.Chat.CurrentChannelText.text = "";
-        List<ChatEvent> chatEvents = new List<ChatEvent>();
+        var chatEvents = new List<ChatEvent>();
         chatEvents.AddRange(ChatLog);
         chatEvents.AddRange(UIManager.Chat.GetChatEvents());
 
@@ -111,7 +110,7 @@ public class ChatRelay : NetworkBehaviour
                     continue;
                 }
 
-                string name = "";
+                var name = "";
                 if ((namelessChannels & channel) != channel)
                 {
                     name = "<b>[" + channel + "]</b> ";

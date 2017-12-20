@@ -143,7 +143,7 @@ namespace FullSerializer
         /// </summary>
         public void RemoveProcessor<TProcessor>()
         {
-            int i = 0;
+            var i = 0;
             while (i < _processors.Count)
             {
                 if (_processors[i] is TProcessor)
@@ -172,10 +172,10 @@ namespace FullSerializer
             // Check to see if the user has defined a custom processor for the type. If they
             // have, then we don't need to scan through all of the processor to check which
             // one can process the type; instead, we directly use the specified processor.
-            fsObjectAttribute attr = fsPortableReflection.GetAttribute<fsObjectAttribute>(type);
+            var attr = fsPortableReflection.GetAttribute<fsObjectAttribute>(type);
             if (attr != null && attr.Processor != null)
             {
-                fsObjectProcessor processor = (fsObjectProcessor) Activator.CreateInstance(attr.Processor);
+                var processor = (fsObjectProcessor) Activator.CreateInstance(attr.Processor);
                 processors = new List<fsObjectProcessor>();
                 processors.Add(processor);
                 _cachedProcessors[type] = processors;
@@ -185,7 +185,7 @@ namespace FullSerializer
             {
                 processors = new List<fsObjectProcessor>();
 
-                for (int i = 0; i < _processors.Count; ++i)
+                for (var i = 0; i < _processors.Count; ++i)
                 {
                     fsObjectProcessor processor = _processors[i];
                     if (processor.CanProcess(type))
@@ -216,7 +216,7 @@ namespace FullSerializer
 
             if (converter is fsDirectConverter)
             {
-                fsDirectConverter directConverter = (fsDirectConverter) converter;
+                var directConverter = (fsDirectConverter) converter;
                 _availableDirectConverters[directConverter.ModelType] = directConverter;
             }
             else if (converter is fsConverter)
@@ -268,7 +268,7 @@ namespace FullSerializer
             // have, then we don't need to scan through all of the converters to check which
             // one can process the type; instead, we directly use the specified converter.
             {
-                fsObjectAttribute attr = fsPortableReflection.GetAttribute<fsObjectAttribute>(type);
+                var attr = fsPortableReflection.GetAttribute<fsObjectAttribute>(type);
                 if (attr != null && attr.Converter != null)
                 {
                     converter = (fsBaseConverter) Activator.CreateInstance(attr.Converter);
@@ -279,7 +279,7 @@ namespace FullSerializer
 
             // Check for a [fsForward] attribute.
             {
-                fsForwardAttribute attr = fsPortableReflection.GetAttribute<fsForwardAttribute>(type);
+                var attr = fsPortableReflection.GetAttribute<fsForwardAttribute>(type);
                 if (attr != null)
                 {
                     converter = new fsForwardConverter(attr);
@@ -298,7 +298,7 @@ namespace FullSerializer
                     converter = _availableDirectConverters[type];
                     return _cachedConverters[type] = converter;
                 }
-                for (int i = 0; i < _availableConverters.Count; ++i)
+                for (var i = 0; i < _availableConverters.Count; ++i)
                 {
                     if (_availableConverters[i].CanProcess(type))
                     {
@@ -606,7 +606,7 @@ namespace FullSerializer
                         return deserializeResult;
                     }
 
-                    for (int i = 1; i < path.Count; ++i)
+                    for (var i = 1; i < path.Count; ++i)
                     {
                         result = path[i].Migrate(result);
                     }
@@ -936,11 +936,11 @@ namespace FullSerializer
             }
 
             // Key strings used in the legacy system
-            string referenceIdString = "ReferenceId";
-            string sourceIdString = "SourceId";
-            string sourceDataString = "Data";
-            string typeString = "Type";
-            string typeDataString = "Data";
+            var referenceIdString = "ReferenceId";
+            var sourceIdString = "SourceId";
+            var sourceDataString = "Data";
+            var typeString = "Type";
+            var typeDataString = "Data";
 
             // type specifier
             if (dict.Count == 2 && dict.ContainsKey(typeString) && dict.ContainsKey(typeDataString))
@@ -977,7 +977,7 @@ namespace FullSerializer
         private static void Invoke_OnBeforeSerialize(List<fsObjectProcessor> processors, Type storageType,
             object instance)
         {
-            for (int i = 0; i < processors.Count; ++i)
+            for (var i = 0; i < processors.Count; ++i)
             {
                 processors[i].OnBeforeSerialize(storageType, instance);
             }
@@ -998,7 +998,7 @@ namespace FullSerializer
         private static void Invoke_OnBeforeDeserialize(List<fsObjectProcessor> processors, Type storageType,
             ref fsData data)
         {
-            for (int i = 0; i < processors.Count; ++i)
+            for (var i = 0; i < processors.Count; ++i)
             {
                 processors[i].OnBeforeDeserialize(storageType, ref data);
             }
@@ -1007,7 +1007,7 @@ namespace FullSerializer
         private static void Invoke_OnBeforeDeserializeAfterInstanceCreation(List<fsObjectProcessor> processors,
             Type storageType, object instance, ref fsData data)
         {
-            for (int i = 0; i < processors.Count; ++i)
+            for (var i = 0; i < processors.Count; ++i)
             {
                 processors[i].OnBeforeDeserializeAfterInstanceCreation(storageType, instance, ref data);
             }

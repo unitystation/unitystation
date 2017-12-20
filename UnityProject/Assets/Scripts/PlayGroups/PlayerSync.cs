@@ -99,7 +99,7 @@ namespace PlayGroup
                 return;
             }
 
-            PlayerSync otherPlayerSync = otherPlayer.GetComponent<PlayerSync>();
+            var otherPlayerSync = otherPlayer.GetComponent<PlayerSync>();
             otherPlayerSync.SetPosition(setPos);
         }
 
@@ -152,7 +152,7 @@ namespace PlayGroup
                 // (probably better to adjust allowInput or something)
                 if (pushPull.pulledBy != null && !playerMove.isGhost)
                 {
-                    for (int i = 0; i < playerMove.keyCodes.Length; i++)
+                    for (var i = 0; i < playerMove.keyCodes.Length; i++)
                     {
                         if (Input.GetKey(playerMove.keyCodes[i]))
                         {
@@ -319,7 +319,7 @@ namespace PlayGroup
                 if (pullingObject != null)
                 {
                     pullRegister.UpdatePosition();
-                    EditModeControl eM = pullingObject.GetComponent<EditModeControl>();
+                    var eM = pullingObject.GetComponent<EditModeControl>();
                     if (eM != null)
                     {
                         //This is for objects with editmodecontrol on them
@@ -328,7 +328,7 @@ namespace PlayGroup
                     else
                     {
                         //Could be a another player
-                        PlayerSync otherPlayerSync = pullingObject.GetComponent<PlayerSync>();
+                        var otherPlayerSync = pullingObject.GetComponent<PlayerSync>();
                         if (otherPlayerSync != null)
                         {
                             CmdSetPositionFromReset(gameObject, otherPlayerSync.gameObject,
@@ -342,7 +342,7 @@ namespace PlayGroup
             else
             {
                 pullingObject = ClientScene.FindLocalObject(netID);
-                PushPull oA = pullingObject.GetComponent<PushPull>();
+                var oA = pullingObject.GetComponent<PushPull>();
                 pullPos = pullingObject.transform.localPosition;
                 if (oA != null)
                 {

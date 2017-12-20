@@ -16,16 +16,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             gameObject.GetComponent<PlayerSync>().pullObjectID = NetworkInstanceId.Invalid;
         }
 
-        PushPull pulled = obj.GetComponent<PushPull>();
+        var pulled = obj.GetComponent<PushPull>();
 
         //check if the object you want to pull is another player
         if (pulled.isPlayer)
         {
-            PlayerSync playerS = obj.GetComponent<PlayerSync>();
+            var playerS = obj.GetComponent<PlayerSync>();
             //Anything that the other player is pulling should be stopped
             if (playerS.pullingObject != null)
             {
-                PlayerNetworkActions otherPNA = obj.GetComponent<PlayerNetworkActions>();
+                var otherPNA = obj.GetComponent<PlayerNetworkActions>();
                 otherPNA.CmdStopOtherPulling(playerS.pullingObject);
             }
         }
@@ -41,7 +41,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
         if (pulled != null)
         {
-            PlayerSync pS = GetComponent<PlayerSync>();
+            var pS = GetComponent<PlayerSync>();
             pS.pullObjectID = pulled.netId;
             isPulling = true;
         }
@@ -51,7 +51,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdStopOtherPulling(GameObject obj)
     {
-        PushPull objA = obj.GetComponent<PushPull>();
+        var objA = obj.GetComponent<PushPull>();
         if (objA.pulledBy != null)
         {
             objA.pulledBy.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
@@ -67,13 +67,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
         }
 
         isPulling = false;
-        PushPull pulled = obj.GetComponent<PushPull>();
+        var pulled = obj.GetComponent<PushPull>();
         if (pulled != null)
         {
             //			//this triggers currentPos syncvar hook to make sure registertile is been completed on all clients
             //			pulled.currentPos = pulled.transform.position;
 
-            PlayerSync pS = gameObject.GetComponent<PlayerSync>();
+            var pS = gameObject.GetComponent<PlayerSync>();
             pS.pullObjectID = NetworkInstanceId.Invalid;
             pulled.pulledBy = null;
         }
@@ -82,10 +82,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdTryPush(GameObject obj, Vector3 startLocalPos, Vector3 targetPos)
     {
-        PushPull pushed = obj.GetComponent<PushPull>();
+        var pushed = obj.GetComponent<PushPull>();
         if (pushed != null)
         {
-           pushed.RpcPushSync(startLocalPos,targetPos);
+            pushed.RpcPushSync(startLocalPos, targetPos);
         }
     }
 }

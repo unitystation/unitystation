@@ -37,7 +37,6 @@ public class ExplodeWhenShot : NetworkBehaviour
 
         _registerTile = GetComponent<RegisterTile>();
         _matrix = Matrix.GetMatrix(this);
-        
     }
 
     //#if !ENABLE_PLAYMODE_TESTS_RUNNER
@@ -65,8 +64,8 @@ public class ExplodeWhenShot : NetworkBehaviour
     {
         Vector2 explosionPos = transform.position;
         int length = Physics2D.OverlapCircleNonAlloc(explosionPos, radius, colliders, damageableMask);
-        Dictionary<GameObject, int> toBeDamaged = new Dictionary<GameObject, int>();
-        for (int i = 0; i < length; i++)
+        var toBeDamaged = new Dictionary<GameObject, int>();
+        for (var i = 0; i < length; i++)
         {
             Collider2D localCollider = colliders[i];
             GameObject localObject = localCollider.gameObject;
@@ -74,7 +73,7 @@ public class ExplodeWhenShot : NetworkBehaviour
             Vector2 localObjectPos = localObject.transform.position;
             float distance = Vector3.Distance(explosionPos, localObjectPos);
             float effect = 1 - distance * distance / (radius * radius);
-            int actualDamage = (int) (damage * effect);
+            var actualDamage = (int) (damage * effect);
 
             if (NotSameObject(localCollider) &&
                 HasHealthComponent(localCollider) &&
@@ -145,7 +144,7 @@ public class ExplodeWhenShot : NetworkBehaviour
         {
             _registerTile.Unregister();
 
-            PushPull oA = gameObject.GetComponent<PushPull>();
+            var oA = gameObject.GetComponent<PushPull>();
             if (oA != null)
             {
                 if (oA.pusher == PlayerManager.LocalPlayer)
@@ -172,10 +171,10 @@ public class ExplodeWhenShot : NetworkBehaviour
             Instantiate(source, transform.position, Quaternion.identity).Play();
         }
 
-        GameObject fireRing = Resources.Load<GameObject>("effects/FireRing");
+        var fireRing = Resources.Load<GameObject>("effects/FireRing");
         Instantiate(fireRing, transform.position, Quaternion.identity);
 
-        GameObject lightFx = Resources.Load<GameObject>("lighting/BoomLight");
+        var lightFx = Resources.Load<GameObject>("lighting/BoomLight");
         lightFxInstance = Instantiate(lightFx, transform.position, Quaternion.identity);
         lightSprite = lightFxInstance.GetComponentInChildren<LightSprite>();
         lightSprite.fadeFX(1f);
@@ -184,24 +183,24 @@ public class ExplodeWhenShot : NetworkBehaviour
 
     private void SetFire()
     {
-        int maxNumOfFire = 4;
-        int cLength = 3;
-        int rHeight = 3;
+        var maxNumOfFire = 4;
+        var cLength = 3;
+        var rHeight = 3;
         Vector3Int pos = Vector3Int.RoundToInt(transform.localPosition);
         EffectsFactory.Instance.SpawnFileTileLocal(Random.Range(0.4f, 1f), pos, transform.parent);
         pos.x--;
         pos.y++;
 
-        for (int i = 0; i < cLength; i++)
+        for (var i = 0; i < cLength; i++)
         {
-            for (int j = 0; j < rHeight; j++)
+            for (var j = 0; j < rHeight; j++)
             {
                 if (j == 0 && i == 0 || j == 2 && i == 0 || j == 2 && i == 2)
                 {
                     continue;
                 }
-                
-                Vector3Int checkPos = new Vector3Int(pos.x + i, pos.y - j, 0);
+
+                var checkPos = new Vector3Int(pos.x + i, pos.y - j, 0);
                 if (_matrix.IsPassableAt(checkPos)) // || MatrixOld.Matrix.At(checkPos).IsPlayer())
                 {
                     EffectsFactory.Instance.SpawnFileTileLocal(Random.Range(0.4f, 1f), checkPos, transform.parent);

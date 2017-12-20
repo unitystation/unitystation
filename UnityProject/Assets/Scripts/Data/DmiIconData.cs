@@ -192,7 +192,7 @@ public class DmiIconData : ScriptableObject
 
     public DmiState searchStateInIcon(string state, string[] icons, int dirs, bool deepSearch)
     {
-        for (int i = 0; i < icons.Length; i++)
+        for (var i = 0; i < icons.Length; i++)
         {
             if (icons[i] != "" && state != "")
             {
@@ -244,7 +244,7 @@ public class DmiIconData : ScriptableObject
         IconList<DmiIcon> ilist = DeserializeJson("dmi");
         IconList<DmiIcon> iLegacylist = DeserializeJson("legacydmi");
         //		KeyValuePair<IconList<DmiIcon>, Dictionary<string, DmiIcon>> listsKeyValuePair
-        Dictionary<IconList<DmiIcon>, Dictionary<string, DmiIcon>> lists =
+        var lists =
             new Dictionary<IconList<DmiIcon>, Dictionary<string, DmiIcon>>();
         lists.Add(ilist, Data);
         lists.Add(iLegacylist, legacyData);
@@ -267,7 +267,7 @@ public class DmiIconData : ScriptableObject
     private static IconList<DmiIcon> DeserializeJson(string name)
     {
         string myJson = null;
-        TextAsset asset = Resources.Load(Path.Combine("metadata", name)) as TextAsset;
+        var asset = Resources.Load(Path.Combine("metadata", name)) as TextAsset;
         if (asset != null)
         {
             //workaround for headerless JSONs
@@ -278,7 +278,7 @@ public class DmiIconData : ScriptableObject
             Debug.LogError("Make sure dmi.json is in Resources/metadata/ !");
         }
 
-        IconList<DmiIcon> icons = new IconList<DmiIcon>();
+        var icons = new IconList<DmiIcon>();
         JsonUtility.FromJsonOverwrite(myJson, icons);
         return icons;
     }

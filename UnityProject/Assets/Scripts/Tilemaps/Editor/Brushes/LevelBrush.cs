@@ -25,7 +25,7 @@ namespace Tilemaps.Editor.Brushes
             {
                 TileBase tile = cells[0].tile;
 
-                MetaTileMap metaTileMap = grid.GetComponent<MetaTileMap>();
+                var metaTileMap = grid.GetComponent<MetaTileMap>();
 
                 if (!metaTileMap)
                 {
@@ -48,7 +48,7 @@ namespace Tilemaps.Editor.Brushes
 
         public override void BoxErase(GridLayout grid, GameObject layer, BoundsInt area)
         {
-            MetaTileMap metaTileMap = grid.GetComponent<MetaTileMap>();
+            var metaTileMap = grid.GetComponent<MetaTileMap>();
 
             foreach (Vector3Int position in area.allPositionsWithin)
             {
@@ -75,7 +75,7 @@ namespace Tilemaps.Editor.Brushes
         {
             if (Event.current.character == '<')
             {
-                LayerTile tile = cells[0].tile as LayerTile;
+                var tile = cells[0].tile as LayerTile;
 
                 if (tile != null)
                 {

@@ -88,7 +88,7 @@ public class IDCard : NetworkBehaviour
     [Server]
     public void AddAccessList(List<Access> accessToBeAdded)
     {
-        for (int i = 0; i < accessToBeAdded.Count; i++)
+        for (var i = 0; i < accessToBeAdded.Count; i++)
         {
             if (!accessSyncList.Contains((int) accessToBeAdded[i]))
             {
@@ -100,7 +100,7 @@ public class IDCard : NetworkBehaviour
     [Server]
     public void RemoveAccessList(List<Access> accessToBeRemoved)
     {
-        for (int i = 0; i < accessToBeRemoved.Count; i++)
+        for (var i = 0; i < accessToBeRemoved.Count; i++)
         {
             if (accessSyncList.Contains((int) accessToBeRemoved[i]))
             {
@@ -144,7 +144,7 @@ public class IDCard : NetworkBehaviour
 
     public void OnExamine()
     {
-        string message = "";
+        var message = "";
 
         if (MiningPoints > 0)
         {

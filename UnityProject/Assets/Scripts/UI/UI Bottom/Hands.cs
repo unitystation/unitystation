@@ -127,7 +127,7 @@ namespace UI
         //Check if the item is edible and eat it
         private bool CheckEdible()
         {
-            FoodBehaviour baseFood = CurrentSlot.Item.GetComponent<FoodBehaviour>();
+            var baseFood = CurrentSlot.Item.GetComponent<FoodBehaviour>();
             if (baseFood != null)
             {
                 baseFood.TryEat();

@@ -24,7 +24,7 @@ namespace PlayGroup
                 return;
             }
 
-            Vector3 newDir = new Vector3(dir.x, dir.y, 0f);
+            var newDir = new Vector3(dir.x, dir.y, 0f);
             lerpFrom = newDir * 0.75f;
             lerpTo = newDir;
             isFading = true;
@@ -38,8 +38,8 @@ namespace PlayGroup
 
         private IEnumerator FadeIcon()
         {
-            float timer = 0f;
-            float time = 0.1f;
+            var timer = 0f;
+            var time = 0.1f;
 
             while (timer <= time)
             {

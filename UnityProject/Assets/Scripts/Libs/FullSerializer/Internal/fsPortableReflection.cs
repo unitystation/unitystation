@@ -106,7 +106,7 @@ namespace FullSerializer.Internal
         /// <returns>The attribute or null.</returns>
         public static Attribute GetAttribute(MemberInfo element, Type attributeType, bool shouldCache)
         {
-            AttributeQuery query = new AttributeQuery
+            var query = new AttributeQuery
             {
                 MemberInfo = element,
                 AttributeType = attributeType
@@ -192,7 +192,7 @@ namespace FullSerializer.Internal
         {
             PropertyInfo[] props = GetDeclaredProperties(type);
 
-            for (int i = 0; i < props.Length; ++i)
+            for (var i = 0; i < props.Length; ++i)
             {
                 if (props[i].Name == propertyName)
                 {
@@ -207,7 +207,7 @@ namespace FullSerializer.Internal
         {
             MethodInfo[] methods = GetDeclaredMethods(type);
 
-            for (int i = 0; i < methods.Length; ++i)
+            for (var i = 0; i < methods.Length; ++i)
             {
                 if (methods[i].Name == methodName)
                 {
@@ -223,7 +223,7 @@ namespace FullSerializer.Internal
         {
             ConstructorInfo[] ctors = GetDeclaredConstructors(type);
 
-            for (int i = 0; i < ctors.Length; ++i)
+            for (var i = 0; i < ctors.Length; ++i)
             {
                 ConstructorInfo ctor = ctors[i];
                 ParameterInfo[] ctorParams = ctor.GetParameters();
@@ -233,7 +233,7 @@ namespace FullSerializer.Internal
                     continue;
                 }
 
-                for (int j = 0; j < ctorParams.Length; ++j)
+                for (var j = 0; j < ctorParams.Length; ++j)
                 {
                     // require an exact match
                     if (ctorParams[j].ParameterType != parameters[j])
@@ -258,13 +258,13 @@ namespace FullSerializer.Internal
 
         public static MemberInfo[] GetFlattenedMember(this Type type, string memberName)
         {
-            List<MemberInfo> result = new List<MemberInfo>();
+            var result = new List<MemberInfo>();
 
             while (type != null)
             {
                 MemberInfo[] members = GetDeclaredMembers(type);
 
-                for (int i = 0; i < members.Length; ++i)
+                for (var i = 0; i < members.Length; ++i)
                 {
                     if (members[i].Name == memberName)
                     {
@@ -284,7 +284,7 @@ namespace FullSerializer.Internal
             {
                 MethodInfo[] methods = GetDeclaredMethods(type);
 
-                for (int i = 0; i < methods.Length; ++i)
+                for (var i = 0; i < methods.Length; ++i)
                 {
                     if (methods[i].Name == methodName)
                     {
@@ -304,7 +304,7 @@ namespace FullSerializer.Internal
             {
                 MethodInfo[] methods = GetDeclaredMethods(type);
 
-                for (int i = 0; i < methods.Length; ++i)
+                for (var i = 0; i < methods.Length; ++i)
                 {
                     if (methods[i].Name == methodName)
                     {
@@ -322,7 +322,7 @@ namespace FullSerializer.Internal
             {
                 PropertyInfo[] properties = GetDeclaredProperties(type);
 
-                for (int i = 0; i < properties.Length; ++i)
+                for (var i = 0; i < properties.Length; ++i)
                 {
                     if (properties[i].Name == propertyName)
                     {
@@ -340,7 +340,7 @@ namespace FullSerializer.Internal
         {
             MemberInfo[] members = GetDeclaredMembers(type);
 
-            for (int i = 0; i < members.Length; ++i)
+            for (var i = 0; i < members.Length; ++i)
             {
                 if (members[i].Name == memberName)
                 {

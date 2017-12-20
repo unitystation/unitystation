@@ -143,7 +143,7 @@ namespace FullSerializer
         /// </summary>
         internal fsData Clone()
         {
-            fsData clone = new fsData();
+            var clone = new fsData();
             clone._value = _value;
             return clone;
         }
@@ -329,7 +329,7 @@ namespace FullSerializer
                         return false;
                     }
 
-                    for (int i = 0; i < thisList.Count; ++i)
+                    for (var i = 0; i < thisList.Count; ++i)
                     {
                         if (thisList[i].Equals(otherList[i]) == false)
                         {

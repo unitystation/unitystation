@@ -32,7 +32,7 @@ public class ClothFactory : NetworkBehaviour
 
     public void PreLoadCloth(int preLoads)
     {
-        for (int i = 0; i < preLoads; i++)
+        for (var i = 0; i < preLoads; i++)
         {
             PoolManager.Instance.PoolNetworkPreLoad(Instance.uniCloth);
             PoolManager.Instance.PoolNetworkPreLoad(Instance.uniHeadSet);
@@ -50,11 +50,11 @@ public class ClothFactory : NetworkBehaviour
         //PoolManager handles networkspawn
         GameObject uniItem = pickClothObject(hierString);
         GameObject clothObj = PoolManager.Instance.PoolNetworkInstantiate(uniItem, spawnPos, Quaternion.identity);
-        ItemAttributes i = clothObj.GetComponent<ItemAttributes>();
+        var i = clothObj.GetComponent<ItemAttributes>();
         i.hierarchy = hierString;
         if (uniItem == uniHeadSet)
         {
-            Headset headset = clothObj.GetComponent<Headset>();
+            var headset = clothObj.GetComponent<Headset>();
             headset.init();
         }
         return clothObj;

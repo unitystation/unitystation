@@ -129,7 +129,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Server]
     private void ClearObjectIfNotInSlot(GameObject gObj, string slot, bool forceClientInform)
     {
-        HashSet<string> toBeCleared = new HashSet<string>();
+        var toBeCleared = new HashSet<string>();
         foreach (string key in Inventory.Keys)
         {
             if (key.Equals(slot) || !Inventory[key])
@@ -153,7 +153,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Server]
     private void ClearInventorySlot(bool forceClientInform, params string[] slotNames)
     {
-        for (int i = 0; i < slotNames.Length; i++)
+        for (var i = 0; i < slotNames.Length; i++)
         {
             Inventory[slotNames[i]] = null;
             if (slotNames[i] == "id" || slotNames[i] == "storage01"
@@ -174,7 +174,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     public void SetInventorySlot(string slotName, GameObject obj)
     {
         Inventory[slotName] = obj;
-        ItemAttributes att = obj.GetComponent<ItemAttributes>();
+        var att = obj.GetComponent<ItemAttributes>();
         if (slotName == "leftHand" || slotName == "rightHand")
         {
             equipment.SetHandItemSprite(slotName, att);
@@ -191,7 +191,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
                 if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset"))
                 {
                     // Debug.Log("slotName = " + slotName);
-                    Epos enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
+                    var enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
                     equipment.syncEquipSprites[(int) enumA] = att.clothingReference;
                 }
             }
@@ -271,7 +271,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdToggleCupboard(GameObject cupbObj)
     {
-        ClosetControl closetControl = cupbObj.GetComponent<ClosetControl>();
+        var closetControl = cupbObj.GetComponent<ClosetControl>();
         closetControl.ServerToggleCupboard();
     }
 
@@ -279,7 +279,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdStartMicrowave(string slotName, GameObject microwave, string mealName)
     {
-        Microwave m = microwave.GetComponent<Microwave>();
+        var m = microwave.GetComponent<Microwave>();
         m.ServerSetOutputMeal(mealName);
         ClearInventorySlot(slotName);
         m.RpcStartCooking();
@@ -302,7 +302,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdToggleShutters(GameObject switchObj)
     {
-        ShutterSwitchTrigger s = switchObj.GetComponent<ShutterSwitchTrigger>();
+        var s = switchObj.GetComponent<ShutterSwitchTrigger>();
         if (s.IsClosed)
         {
             s.IsClosed = false;
@@ -316,7 +316,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     [Command]
     public void CmdToggleLightSwitch(GameObject switchObj)
     {
-        LightSwitchTrigger s = switchObj.GetComponent<LightSwitchTrigger>();
+        var s = switchObj.GetComponent<LightSwitchTrigger>();
         s.isOn = !s.isOn;
     }
 
@@ -324,7 +324,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
     public void CmdToggleFireCabinet(GameObject cabObj, bool forItemInteract,
         string currentSlotName)
     {
-        FireCabinetTrigger c = cabObj.GetComponent<FireCabinetTrigger>();
+        var c = cabObj.GetComponent<FireCabinetTrigger>();
 
         if (!forItemInteract)
         {
@@ -438,7 +438,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             SoundManager.Stop("Critstate");
             UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
             Camera2DFollow.followControl.target = playerScript.ghost.transform;
-            FieldOfView fovScript = GetComponent<FieldOfView>();
+            var fovScript = GetComponent<FieldOfView>();
             if (fovScript != null)
             {
                 fovScript.enabled = false;
@@ -528,10 +528,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
             return;
         }
 
-        FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
+        var baseFood = food.GetComponent<FoodBehaviour>();
         soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
-        PlayerHealth playerHealth = GetComponent<PlayerHealth>();
-        
+        var playerHealth = GetComponent<PlayerHealth>();
+
         //FIXME: remove health and blood changes after TDM
         //and use this Cmd for healing hunger and applying 
         //food related attributes instead:

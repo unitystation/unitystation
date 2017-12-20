@@ -97,7 +97,7 @@ namespace FullSerializer.Internal
             // OutOfSync exception. To resolve that, we just iterate through the assemblies by
             // index.
 
-            int i = 0;
+            var i = 0;
             while (i < _assembliesByIndex.Count)
             {
                 Assembly assembly = _assembliesByIndex[i];

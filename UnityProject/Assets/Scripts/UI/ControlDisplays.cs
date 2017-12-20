@@ -35,7 +35,7 @@ namespace UI
             else
             {
                 //Start the patchmanager
-                GameObject patchManager = Resources.Load("PatchManager") as GameObject;
+                var patchManager = Resources.Load("PatchManager") as GameObject;
                 if (patchManager != null)
                 {
                     Instantiate(patchManager);

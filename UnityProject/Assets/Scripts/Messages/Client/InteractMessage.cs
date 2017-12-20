@@ -29,7 +29,7 @@ public class InteractMessage : ClientMessage<InteractMessage>
 
     public static InteractMessage Send(GameObject subject, Vector3 position, string hand)
     {
-        InteractMessage msg = new InteractMessage
+        var msg = new InteractMessage
         {
             Subject = subject.GetComponent<NetworkIdentity>().netId,
             Position = position,
