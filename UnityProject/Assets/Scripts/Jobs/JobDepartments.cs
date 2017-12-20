@@ -1,11 +1,9 @@
-﻿// See \code\__DEFINES\jobs.dm
-
-public enum JobDepartment
+﻿public enum JobDepartment
 {
-    Graytide,
-    Medical,
-    Engineering,
-    Security,
-    Research,
-    Personal
+	Graytide,
+	Medical,
+	Engineering,
+	Security,
+	Research,
+	Personal
 }

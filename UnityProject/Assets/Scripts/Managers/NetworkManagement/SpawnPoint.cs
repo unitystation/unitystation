@@ -2,5 +2,5 @@
 
 public class SpawnPoint : NetworkStartPosition
 {
-    public JobType[] JobRestrictions;
+	public JobType[] JobRestrictions;
 }

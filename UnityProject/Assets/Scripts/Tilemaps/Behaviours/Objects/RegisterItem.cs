@@ -2,8 +2,8 @@
 
 namespace Tilemaps.Scripts.Behaviours.Objects
 {
-    [ExecuteInEditMode]
-    public class RegisterItem : RegisterTile
-    {
-    }
+	[ExecuteInEditMode]
+	public class RegisterItem : RegisterTile
+	{
+	}
 }

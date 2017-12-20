@@ -4,49 +4,49 @@ using UnityEngine.Networking;
 
 public abstract class GameMessageBase : MessageBase
 {
-    protected static short msgTypeCounter = 1000;
+	protected static short msgTypeCounter = 1000;
 
-    public GameObject NetworkObject;
-    public GameObject[] NetworkObjects;
+	public GameObject NetworkObject;
+	public GameObject[] NetworkObjects;
 
-    protected IEnumerator WaitFor(NetworkInstanceId id)
-    {
-        int tries = 0;
-        while ((NetworkObject = ClientScene.FindLocalObject(id)) == null)
-        {
-            if (tries++ > 10)
-            {
-                Debug.Log("Could not find " + id);
-                yield break;
-            }
+	protected IEnumerator WaitFor(NetworkInstanceId id)
+	{
+		int tries = 0;
+		while ((NetworkObject = ClientScene.FindLocalObject(id)) == null)
+		{
+			if (tries++ > 10)
+			{
+				Debug.Log("Could not find " + id);
+				yield break;
+			}
 
-            yield return YieldHelper.EndOfFrame;
-        }
-    }
+			yield return YieldHelper.EndOfFrame;
+		}
+	}
 
-    protected IEnumerator WaitFor(params NetworkInstanceId[] ids)
-    {
-        NetworkObjects = new GameObject[ids.Length];
+	protected IEnumerator WaitFor(params NetworkInstanceId[] ids)
+	{
+		NetworkObjects = new GameObject[ids.Length];
 
-        while (!AllLoaded(ids))
-        {
-            yield return YieldHelper.EndOfFrame;
-        }
-    }
+		while (!AllLoaded(ids))
+		{
+			yield return YieldHelper.EndOfFrame;
+		}
+	}
 
-    private bool AllLoaded(NetworkInstanceId[] ids)
-    {
-        for (int i = 0; i < ids.Length; i++)
-        {
-            GameObject obj = ClientScene.FindLocalObject(ids[i]);
-            if (obj == null)
-            {
-                return false;
-            }
+	private bool AllLoaded(NetworkInstanceId[] ids)
+	{
+		for (int i = 0; i < ids.Length; i++)
+		{
+			GameObject obj = ClientScene.FindLocalObject(ids[i]);
+			if (obj == null)
+			{
+				return false;
+			}
 
-            NetworkObjects[i] = obj;
-        }
+			NetworkObjects[i] = obj;
+		}
 
-        return true;
-    }
+		return true;
+	}
 }

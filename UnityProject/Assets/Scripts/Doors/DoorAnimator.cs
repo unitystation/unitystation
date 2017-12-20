@@ -2,13 +2,13 @@
 
 namespace Doors
 {
-    public abstract class DoorAnimator : MonoBehaviour
-    {
-        public DoorController doorController;
+	public abstract class DoorAnimator : MonoBehaviour
+	{
+		public DoorController doorController;
 
 
-        public abstract void OpenDoor();
-        public abstract void CloseDoor();
-        public abstract void AccessDenied();
-    }
+		public abstract void OpenDoor();
+		public abstract void CloseDoor();
+		public abstract void AccessDenied();
+	}
 }

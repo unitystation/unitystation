@@ -2,8 +2,8 @@
 
 public class Temp_ClothPoolTester : MonoBehaviour
 {
-    public void SpawnCloth()
-    {
-        ClothFactory.Instance.CreateCloth("", transform.position);
-    }
+	public void SpawnCloth()
+	{
+		ClothFactory.Instance.CreateCloth("", transform.position);
+	}
 }
