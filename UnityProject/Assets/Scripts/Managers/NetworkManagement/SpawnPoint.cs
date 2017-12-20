@@ -30,7 +30,7 @@ public class SpawnPoint : NetworkStartPosition
 
     private JobType[] _jobRestrictions;
 
-    private void Awake()
+    public void Awake()
     {
         base.Awake();
         _jobRestrictions = DepartmentJobs[Department];

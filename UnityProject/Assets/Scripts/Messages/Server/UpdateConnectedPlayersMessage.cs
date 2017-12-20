@@ -54,8 +54,8 @@ public class UpdateConnectedPlayersMessage : ServerMessage<UpdateConnectedPlayer
 		return msg;
 	}
 
-	public override string ToString()
-	{
-		return string.Format("[GibMessage Subject={0} Type={1} Players={2}]", Subject, MessageType, Players);
-	}
+    public override string ToString()
+    {
+        return string.Format("[UpdateConnectedPlayersMessage Subject={0} Type={1} Players={2}]", Subject, MessageType, Players);
+    }
 }

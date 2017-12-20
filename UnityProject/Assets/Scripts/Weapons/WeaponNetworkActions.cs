@@ -80,8 +80,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			direction = GetRecoilOffset(wepBehavior, angle);
 		}
 
-		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-		b.Shoot(direction, angle, gameObject.name, damageZone);
+        BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
+        b.Shoot(direction, angle, gameObject, damageZone);
 
 		//add additional recoil after shooting for the next round
 		AppendRecoil(wepBehavior, angle);
@@ -120,19 +120,19 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
-		GameObject bullet = PoolManager.Instance.PoolClientInstantiate(Resources.Load(bulletName) as GameObject,
-			transform.position, Quaternion.identity);
-		Vector2 playerPos = new Vector2(transform.position.x, transform.position.y);
-		Vector2 dir = (endPos - playerPos).normalized;
-		float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-		b.Shoot(dir, angle, gameObject.name, damageZone);
-		if (!isFlashing)
-		{
-			isFlashing = true;
-			StartCoroutine(ShowMuzzleFlash());
-		}
-	}
+        GameObject bullet = PoolManager.Instance.PoolClientInstantiate(Resources.Load(bulletName) as GameObject,
+            transform.position, Quaternion.identity);
+        Vector2 playerPos = new Vector2(transform.position.x, transform.position.y);
+        Vector2 dir = (endPos - playerPos).normalized;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
+        b.Shoot(dir, angle, gameObject, damageZone);
+        if (!isFlashing)
+        {
+            isFlashing = true;
+            StartCoroutine(ShowMuzzleFlash());
+        }
+    }
 
 	//TODO move to network messages
 	//TODO make it detect the type of weapon used, change code accordingly

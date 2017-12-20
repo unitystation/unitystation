@@ -23,7 +23,13 @@ public class FuelTankHealthBehaviour : HealthBehaviour
                 delay = Random.Range(0.2f, 2f);
                 break; //surprise
         }
-        StartCoroutine(explodeWithDelay(delay, LastDamagedBy.name));
+        
+        string killer = "God";
+        if (LastDamagedBy != null)
+        {
+            killer = LastDamagedBy.name;
+        }
+        StartCoroutine(explodeWithDelay(delay, killer));
 
 		//            Debug.Log("FuelTank ded!");
 	}

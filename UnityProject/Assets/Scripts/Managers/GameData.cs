@@ -101,27 +101,27 @@ public class GameData : MonoBehaviour
 			SetPlayerPreferences();
 		}
 
-		if (CustomNetworkManager.Instance.isNetworkActive)
-		{
-			//Reset stuff
-			if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
-			{
-				IsHeadlessServer = true;
-			}
-			if (IsInGame && GameManager.Instance != null)
-			{
-				GameManager.Instance.ResetRoundTime();
-			}
-			return;
-		}
-		//Check if running in batchmode (headless server)
-		if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
-		{
-			Debug.Log("START SERVER HEADLESS MODE");
-			IsHeadlessServer = true;
-			StartCoroutine(WaitToStartServer());
-		}
-	}
+        if (CustomNetworkManager.Instance.isNetworkActive)
+        {
+            //Reset stuff
+            if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
+            {
+                IsHeadlessServer = true;
+            }
+            if (IsInGame && GameManager.Instance != null && CustomNetworkManager.Instance._isServer)
+            {
+                GameManager.Instance.ResetRoundTime();
+            }
+            return;
+        }
+        //Check if running in batchmode (headless server)
+        if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
+        {
+            Debug.Log("START SERVER HEADLESS MODE");
+            IsHeadlessServer = true;
+            StartCoroutine(WaitToStartServer());
+        }
+    }
 
 	private IEnumerator WaitToStartServer()
 	{
