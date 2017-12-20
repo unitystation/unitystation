@@ -84,11 +84,6 @@ public class VisibleBehaviour : NetworkBehaviour
 		{
 			if (_aliveState)
 			{
-				EditModeControl eC = gameObject.GetComponent<EditModeControl>();
-				if (eC != null)
-				{
-					eC.Snap();
-				}
 
 				registerTile.UpdatePosition();
 			}

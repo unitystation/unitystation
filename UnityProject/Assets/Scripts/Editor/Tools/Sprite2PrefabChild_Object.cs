@@ -28,7 +28,6 @@ public class Sprite2PrefabChild_Object_MenuItem
 
 			GameObject parent = new GameObject();
 			parent.AddComponent<BoxCollider2D>();
-			parent.AddComponent<EditModeControl>();
 			parent.AddComponent<RegisterObject>();
 			GameObject spriteObject = new GameObject();
 			SpriteRenderer spriteRenderer = spriteObject.AddComponent<SpriteRenderer>();
