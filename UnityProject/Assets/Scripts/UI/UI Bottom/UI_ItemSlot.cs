@@ -118,26 +118,7 @@ namespace UI
 			return IsFull && UIManager.SendUpdateAllowed(Item);
 		}
 
-		/// <summary>
-		///     clientside simulation of placement
-		/// </summary>
-		public bool PlaceItem(Vector3 pos)
-		{
-			GameObject item = Clear();
-			if (!item)
-			{
-				return false;
-			}
-			//            InputTrigger.Touch(item);
-			item.transform.position = pos;
-			item.transform.parent = null;
-			EditModeControl e = item.GetComponent<EditModeControl>();
-			e.Snap();
-			ItemAttributes itemAttributes = item.GetComponent<ItemAttributes>();
-			Debug.LogFormat("Placing item {0}/{1} from {2} to {3}", item.name,
-				itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
-			return true;
-		}
+
 
 		public void Reset()
 		{

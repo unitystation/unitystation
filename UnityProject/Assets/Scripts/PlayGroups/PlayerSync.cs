@@ -313,21 +313,15 @@ namespace PlayGroup
 				if (pullingObject != null)
 				{
 					pullRegister.UpdatePosition();
-					EditModeControl eM = pullingObject.GetComponent<EditModeControl>();
-					if (eM != null)
-					{
-						//This is for objects with editmodecontrol on them
-						eM.Snap();
-					}
-					else
-					{
+
+
 						//Could be a another player
 						PlayerSync otherPlayerSync = pullingObject.GetComponent<PlayerSync>();
 						if (otherPlayerSync != null)
 						{
 							CmdSetPositionFromReset(gameObject, otherPlayerSync.gameObject, pullingObject.transform.localPosition);
 						}
-					}
+					
 				}
 				pullRegister = null;
 				pullingObject = null;
