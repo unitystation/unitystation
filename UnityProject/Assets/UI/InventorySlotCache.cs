@@ -93,13 +93,13 @@ namespace UI
 
         public ItemType GetItemType(GameObject obj)
         {
-            ItemAttributes item = obj.GetComponent<ItemAttributes>();
+            var item = obj.GetComponent<ItemAttributes>();
             return item.type;
         }
 
         public SpriteType GetItemMasterType(GameObject obj)
         {
-            ItemAttributes item = obj.GetComponent<ItemAttributes>();
+            var item = obj.GetComponent<ItemAttributes>();
             return item.spriteType;
         }
 
@@ -111,7 +111,7 @@ namespace UI
         /// </remarks>
         public UI_ItemSlot GetSlotByItem(GameObject obj)
         {
-            ItemAttributes item = obj.GetComponent<ItemAttributes>();
+            var item = obj.GetComponent<ItemAttributes>();
             return GetSlotByItemType(item.type);
         }
 

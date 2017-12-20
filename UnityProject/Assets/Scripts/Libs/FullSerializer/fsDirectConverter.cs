@@ -23,7 +23,7 @@ namespace FullSerializer
 
         public sealed override fsResult TrySerialize(object instance, out fsData serialized, Type storageType)
         {
-            Dictionary<string, fsData> serializedDictionary = new Dictionary<string, fsData>();
+            var serializedDictionary = new Dictionary<string, fsData>();
             fsResult result = DoSerialize((TModel) instance, serializedDictionary);
             serialized = new fsData(serializedDictionary);
             return result;
@@ -37,7 +37,7 @@ namespace FullSerializer
                 return result;
             }
 
-            TModel obj = (TModel) instance;
+            var obj = (TModel) instance;
             result += DoDeserialize(data.AsDictionary, ref obj);
             instance = obj;
             return result;

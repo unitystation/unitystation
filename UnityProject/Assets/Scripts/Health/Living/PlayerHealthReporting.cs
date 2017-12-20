@@ -14,7 +14,6 @@ namespace PlayGroup
     {
         private int bloodLevelCache;
         private float BloodPercentage = 100f;
-        private PlayerMove playerMove;
 
         //server only caches
         private int healthServerCache;
@@ -23,6 +22,7 @@ namespace PlayGroup
         //the current state of the UI overlays and hud
 
         public PlayerHealth playerHealth;
+        private PlayerMove playerMove;
 
         protected override void Awake()
         {
@@ -69,11 +69,13 @@ namespace PlayGroup
         {
             //Add other damage methods here like burning, 
             //suffication, etc
-            
+
             //If already dead then do not check the status of the body anymore
             if (playerMove.isGhost)
+            {
                 return;
-            
+            }
+
             //Blood calcs:
             if (bloodLevelCache != playerHealth.BloodLevel)
             {

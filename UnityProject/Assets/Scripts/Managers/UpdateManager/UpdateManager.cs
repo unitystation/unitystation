@@ -49,7 +49,7 @@ public class UpdateManager : MonoBehaviour
 
     private void Update()
     {
-        for (int i = 0; i < regularUpdate.Count; i++)
+        for (var i = 0; i < regularUpdate.Count; i++)
         {
             regularUpdate[i].UpdateMe();
             regularUpdate[i].FixedUpdateMe();

@@ -149,7 +149,7 @@ namespace Weapons
                     if (CurrentMagazine == null)
                     {
                         //RELOAD
-                        MagazineBehaviour magazine = currentHandItem.GetComponent<MagazineBehaviour>();
+                        var magazine = currentHandItem.GetComponent<MagazineBehaviour>();
 
                         if (magazine != null && otherHandItem.GetComponent<Weapon>() != null)
                         {
@@ -160,7 +160,7 @@ namespace Weapons
                     else
                     {
                         //UNLOAD
-                        Weapon weapon = currentHandItem.GetComponent<Weapon>();
+                        var weapon = currentHandItem.GetComponent<Weapon>();
 
                         if (weapon != null && otherHandItem == null)
                         {
@@ -362,7 +362,7 @@ namespace Weapons
                 GameObject magazine = ClientScene.FindLocalObject(magazineID);
                 if (magazine != null)
                 {
-                    MagazineBehaviour magazineBehavior = magazine.GetComponent<MagazineBehaviour>();
+                    var magazineBehavior = magazine.GetComponent<MagazineBehaviour>();
                     CurrentMagazine = magazineBehavior;
                     //					Debug.LogFormat("MagazineBehaviour found ok: {0}", magazineID);
                 }

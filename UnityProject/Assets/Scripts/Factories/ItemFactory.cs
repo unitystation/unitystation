@@ -65,7 +65,7 @@ public class ItemFactory : MonoBehaviour
     {
         //No need to pool it but doesn't hurt (and requires less lines)
         GameObject idObj = PoolManager.Instance.PoolNetworkInstantiate(idCard, Vector2.zero, Quaternion.identity);
-        IDCard ID = idObj.GetComponent<IDCard>();
+        var ID = idObj.GetComponent<IDCard>();
 
         //Set all the synced properties for the card
         ID.RegisteredName = name;

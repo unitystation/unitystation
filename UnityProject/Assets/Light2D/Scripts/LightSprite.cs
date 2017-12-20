@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+
 #if UNITY_EDITOR
 #endif
 
@@ -58,15 +59,15 @@ namespace Light2D
                 Vector3 pos = mat.MultiplyPoint(((Vector2) LightOrigin).Mul(size));
                 if (!LightingSystem.Instance.XZPlane)
                 {
-                    for (int i = 0; i < _uv1.Length; i++)
+                    for (var i = 0; i < _uv1.Length; i++)
                     {
                         _uv1[i] = pos;
                     }
                 }
                 else
                 {
-                    Vector2 p = new Vector2(pos.x, pos.z);
-                    for (int i = 0; i < _uv1.Length; i++)
+                    var p = new Vector2(pos.x, pos.z);
+                    for (var i = 0; i < _uv1.Length; i++)
                     {
                         _uv1[i] = p;
                     }
@@ -85,8 +86,8 @@ namespace Light2D
                 }
                 else
                 {
-                    Vector2 lp = new Vector2(lpos.x, lpos.z);
-                    Vector2 rp = new Vector2(rpos.x, rpos.z);
+                    var lp = new Vector2(lpos.x, lpos.z);
+                    var rp = new Vector2(rpos.x, rpos.z);
                     _uv1[0] = lp;
                     _uv1[1] = rp;
                     _uv1[2] = lp;
@@ -183,7 +184,7 @@ namespace Light2D
         {
             Vector2 size = Sprite.bounds.size;
             Vector2 center = _modelMatrix.MultiplyPoint3x4(((Vector2) LightOrigin).Mul(size));
-            Vector4 lightPos = new Vector4(center.x, center.y, LightOrigin.z);
+            var lightPos = new Vector4(center.x, center.y, LightOrigin.z);
 
             material.SetVector("_LightPos", lightPos);
 

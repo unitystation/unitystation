@@ -22,7 +22,7 @@ public static class DMMath
 
     public static bool Prob(double percent)
     {
-        Random rand = new Random(Guid.NewGuid().GetHashCode());
+        var rand = new Random(Guid.NewGuid().GetHashCode());
         return rand.NextDouble() < percent / 100.0;
     }
 }

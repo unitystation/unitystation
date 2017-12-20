@@ -73,7 +73,7 @@ namespace PlayGroup
             else
             {
                 string networkRef = Reference.ToString();
-                int code = (int) char.GetNumericValue(networkRef[0]);
+                var code = (int) char.GetNumericValue(networkRef[0]);
                 networkRef = networkRef.Remove(0, 1);
                 int _reference = int.Parse(networkRef);
                 switch (code)

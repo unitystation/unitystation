@@ -17,8 +17,8 @@ namespace Equipment
             obj.transform.position = transform.position;
             obj.transform.parent = transform;
 
-            NetworkIdentity id = obj.GetComponent<NetworkIdentity>();
-            ItemAttributes att = obj.GetComponent<ItemAttributes>();
+            var id = obj.GetComponent<NetworkIdentity>();
+            var att = obj.GetComponent<ItemAttributes>();
 
             if (currentObjects.ContainsKey(id))
             {
@@ -39,7 +39,7 @@ namespace Equipment
         //When dropping items etc, remove them from the player equipment pool and place in scene
         public void DropGameObject(GameObject gObj, Vector3 dropPos)
         {
-            NetworkIdentity id = gObj.GetComponent<NetworkIdentity>();
+            var id = gObj.GetComponent<NetworkIdentity>();
             if (!currentObjects.ContainsKey(id))
             {
                 Debug.Log("item: " + gObj.name + "was not found in Player Equipment pool");

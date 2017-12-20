@@ -37,7 +37,7 @@ public class VersionCheck : MonoBehaviour
     private IEnumerator CheckVersion()
     {
         string url = urlCheck + "?ver=" + VERSION_NUMBER;
-        WWW get_curVersion = new WWW(url);
+        var get_curVersion = new WWW(url);
         yield return get_curVersion;
 
         if (get_curVersion.text == "1")

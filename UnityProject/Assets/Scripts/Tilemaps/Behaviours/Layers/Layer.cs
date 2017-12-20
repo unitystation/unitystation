@@ -17,25 +17,25 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
         public virtual bool IsPassableAt(Vector3Int from, Vector3Int to)
         {
-            BasicTile tileTo = tilemap.GetTile<BasicTile>(to);
+            var tileTo = tilemap.GetTile<BasicTile>(to);
             return !tileTo || tileTo.IsPassable();
         }
 
         public virtual bool IsPassableAt(Vector3Int position)
         {
-            BasicTile tile = tilemap.GetTile<BasicTile>(position);
+            var tile = tilemap.GetTile<BasicTile>(position);
             return !tile || tile.IsPassable();
         }
 
         public virtual bool IsAtmosPassableAt(Vector3Int position)
         {
-            BasicTile tile = tilemap.GetTile<BasicTile>(position);
+            var tile = tilemap.GetTile<BasicTile>(position);
             return !tile || tile.IsAtmosPassable();
         }
 
         public virtual bool IsSpaceAt(Vector3Int position)
         {
-            BasicTile tile = tilemap.GetTile<BasicTile>(position);
+            var tile = tilemap.GetTile<BasicTile>(position);
             return !tile || tile.IsSpace();
         }
 

@@ -48,25 +48,25 @@ namespace Lighting
         private IEnumerator PassTheLight(float _brightness, int range)
         {
             //the range is key 1 = closest
-            Dictionary<int, List<Vector2>> radialDispersion = new Dictionary<int, List<Vector2>>();
+            var radialDispersion = new Dictionary<int, List<Vector2>>();
             //the different ranges for the Dictionary
-            for (int i = 1; i <= range; i++)
+            for (var i = 1; i <= range; i++)
             {
                 //row and column length for the box radial
                 int rangeFinder = i + 1 + i;
                 //To store the current range box radial tile positions
-                List<Vector2> lightTiles = new List<Vector2>();
+                var lightTiles = new List<Vector2>();
 
                 //working left to right, for-loop below iterates through the rows
-                for (int k = 1; k <= rangeFinder; k++)
+                for (var k = 1; k <= rangeFinder; k++)
                 {
                     if (k == 1)
                     {
                         //toprow
                         //Starting at top left
-                        Vector2 tilePos = new Vector2(transform.position.x - i,
+                        var tilePos = new Vector2(transform.position.x - i,
                             transform.position.y + i);
-                        for (int tile = 1; tile <= rangeFinder; tile++)
+                        for (var tile = 1; tile <= rangeFinder; tile++)
                         {
                             if (tile == 1)
                             {
@@ -74,7 +74,7 @@ namespace Lighting
                             }
                             else
                             {
-                                Vector2 nextTile = new Vector2(tilePos.x + tile - 1f, tilePos.y);
+                                var nextTile = new Vector2(tilePos.x + tile - 1f, tilePos.y);
                                 lightTiles.Add(nextTile);
                             }
                         }
@@ -82,9 +82,9 @@ namespace Lighting
                     else if (k == rangeFinder)
                     {
                         //lastrow
-                        Vector2 tilePos = new Vector2(transform.position.x - i,
+                        var tilePos = new Vector2(transform.position.x - i,
                             transform.position.y - i);
-                        for (int tile = 1; tile <= rangeFinder; tile++)
+                        for (var tile = 1; tile <= rangeFinder; tile++)
                         {
                             if (tile == 1)
                             {
@@ -92,7 +92,7 @@ namespace Lighting
                             }
                             else
                             {
-                                Vector2 nextTile = new Vector2(tilePos.x + tile - 1f, tilePos.y);
+                                var nextTile = new Vector2(tilePos.x + tile - 1f, tilePos.y);
                                 lightTiles.Add(nextTile);
                             }
                         }
@@ -100,11 +100,11 @@ namespace Lighting
                     else
                     {
                         //everything else
-                        Vector2 tilePos = new Vector2(transform.position.x - i,
+                        var tilePos = new Vector2(transform.position.x - i,
                             transform.position.y + i);
-                        Vector2 firstTilePos = new Vector2(tilePos.x, tilePos.y - k + 1f);
+                        var firstTilePos = new Vector2(tilePos.x, tilePos.y - k + 1f);
                         lightTiles.Add(firstTilePos);
-                        Vector2 lastTilePos = new Vector2(tilePos.x + rangeFinder - 1f,
+                        var lastTilePos = new Vector2(tilePos.x + rangeFinder - 1f,
                             tilePos.y - k + 1f);
                         lightTiles.Add(lastTilePos);
                     }

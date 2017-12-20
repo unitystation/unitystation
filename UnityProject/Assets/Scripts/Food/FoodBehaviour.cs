@@ -18,7 +18,7 @@ public class FoodBehaviour : NetworkBehaviour
     {
         //If this wasn't spawned via ItemFactory (i.e via map editing) then add it to 
         //poolmanager so it can be safely destroyed
-        PoolPrefabTracker pT = GetComponent<PoolPrefabTracker>();
+        var pT = GetComponent<PoolPrefabTracker>();
         if (pT == null)
         {
             StartCoroutine(WaitForServerLoad());

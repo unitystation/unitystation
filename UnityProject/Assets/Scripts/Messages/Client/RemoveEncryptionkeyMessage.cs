@@ -18,12 +18,12 @@ public class RemoveEncryptionKeyMessage : ClientMessage<RemoveEncryptionKeyMessa
 
         if (ValidRequest(HeadsetItem))
         {
-            Headset headset = HeadsetItem.GetComponent<Headset>();
-            GameObject encryptionKey = Object.Instantiate(Resources.Load("Encryptionkey", typeof(GameObject)),
+            var headset = HeadsetItem.GetComponent<Headset>();
+            var encryptionKey = Object.Instantiate(Resources.Load("Encryptionkey", typeof(GameObject)),
                 HeadsetItem.transform.parent) as GameObject;
             encryptionKey.GetComponent<EncryptionKey>().Type = headset.EncryptionKey;
 
-            PlayerNetworkActions pna = player.GetComponent<PlayerNetworkActions>();
+            var pna = player.GetComponent<PlayerNetworkActions>();
             string slot = UIManager.FindEmptySlotForItem(encryptionKey);
             if (pna.AddItem(encryptionKey, slot))
             {
@@ -41,7 +41,7 @@ public class RemoveEncryptionKeyMessage : ClientMessage<RemoveEncryptionKeyMessa
 
     public static RemoveEncryptionKeyMessage Send(GameObject headsetItem)
     {
-        RemoveEncryptionKeyMessage msg = new RemoveEncryptionKeyMessage
+        var msg = new RemoveEncryptionKeyMessage
         {
             HeadsetItem = headsetItem
         };

@@ -14,7 +14,7 @@ namespace Tilemaps.Editor.Utils
 
         public static T CreateTile<T>(LayerType layer) where T : LayerTile
         {
-            T tile = ScriptableObject.CreateInstance<T>();
+            var tile = ScriptableObject.CreateInstance<T>();
             tile.LayerType = layer;
             return tile;
         }
@@ -23,7 +23,7 @@ namespace Tilemaps.Editor.Utils
         {
             string assetPath = Path.Combine(path ?? GetPath(), tileName + ".asset");
 
-            int i = 1;
+            var i = 1;
             while (File.Exists(assetPath))
             {
                 assetPath = Path.Combine(path ?? GetPath(), tileName + "_" + i++ + ".asset");

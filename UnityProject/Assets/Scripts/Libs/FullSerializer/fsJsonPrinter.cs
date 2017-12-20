@@ -13,7 +13,7 @@ namespace FullSerializer
         /// </summary>
         private static void InsertSpacing(TextWriter stream, int count)
         {
-            for (int i = 0; i < count; ++i)
+            for (var i = 0; i < count; ++i)
             {
                 stream.Write("    ");
             }
@@ -26,8 +26,8 @@ namespace FullSerializer
         {
             // Escaping a string is pretty allocation heavy, so we try hard to not do it.
 
-            bool needsEscape = false;
-            for (int i = 0; i < str.Length; ++i)
+            var needsEscape = false;
+            for (var i = 0; i < str.Length; ++i)
             {
                 char c = str[i];
 
@@ -67,9 +67,9 @@ namespace FullSerializer
             }
 
 
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
 
-            for (int i = 0; i < str.Length; ++i)
+            for (var i = 0; i < str.Length; ++i)
             {
                 char c = str[i];
 
@@ -156,7 +156,7 @@ namespace FullSerializer
                 case fsDataType.Object:
                 {
                     stream.Write('{');
-                    bool comma = false;
+                    var comma = false;
                     foreach (KeyValuePair<string, fsData> entry in data.AsDictionary)
                     {
                         if (comma)
@@ -177,7 +177,7 @@ namespace FullSerializer
                 case fsDataType.Array:
                 {
                     stream.Write('[');
-                    bool comma = false;
+                    var comma = false;
                     foreach (fsData entry in data.AsList)
                     {
                         if (comma)
@@ -234,7 +234,7 @@ namespace FullSerializer
                 {
                     stream.Write('{');
                     stream.WriteLine();
-                    bool comma = false;
+                    var comma = false;
                     foreach (KeyValuePair<string, fsData> entry in data.AsDictionary)
                     {
                         if (comma)
@@ -265,7 +265,7 @@ namespace FullSerializer
 
                     else
                     {
-                        bool comma = false;
+                        var comma = false;
 
                         stream.Write('[');
                         stream.WriteLine();
@@ -303,8 +303,8 @@ namespace FullSerializer
         /// </summary>
         public static string PrettyJson(fsData data)
         {
-            StringBuilder sb = new StringBuilder();
-            using (StringWriter writer = new StringWriter(sb))
+            var sb = new StringBuilder();
+            using (var writer = new StringWriter(sb))
             {
                 BuildPrettyString(data, writer, 0);
                 return sb.ToString();
@@ -326,8 +326,8 @@ namespace FullSerializer
         /// </summary>
         public static string CompressedJson(fsData data)
         {
-            StringBuilder sb = new StringBuilder();
-            using (StringWriter writer = new StringWriter(sb))
+            var sb = new StringBuilder();
+            using (var writer = new StringWriter(sb))
             {
                 BuildCompressedString(data, writer);
                 return sb.ToString();

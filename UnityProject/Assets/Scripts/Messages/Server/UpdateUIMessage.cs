@@ -26,7 +26,7 @@ public class UpdateUIMessage : ServerMessage<UpdateUIMessage>
     /// <param name="cHealth">Current server health.</param>
     public static UpdateUIMessage Send(GameObject recipient, int cHealth)
     {
-        UpdateUIMessage msg = new UpdateUIMessage
+        var msg = new UpdateUIMessage
         {
             Recipient = recipient.GetComponent<NetworkIdentity>().netId,
             CurHealth = cHealth

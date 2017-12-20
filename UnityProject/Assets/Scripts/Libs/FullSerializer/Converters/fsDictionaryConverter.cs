@@ -22,7 +22,7 @@ namespace FullSerializer.Internal
 
         public override fsResult TryDeserialize(fsData data, ref object instance_, Type storageType)
         {
-            IDictionary instance = (IDictionary) instance_;
+            var instance = (IDictionary) instance_;
             fsResult result = fsResult.Success;
 
             Type keyStorageType, valueStorageType;
@@ -31,7 +31,7 @@ namespace FullSerializer.Internal
             if (data.IsList)
             {
                 List<fsData> list = data.AsList;
-                for (int i = 0; i < list.Count; ++i)
+                for (var i = 0; i < list.Count; ++i)
                 {
                     fsData item = list[i];
 
@@ -100,7 +100,7 @@ namespace FullSerializer.Internal
 
             fsResult result = fsResult.Success;
 
-            IDictionary instance = (IDictionary) instance_;
+            var instance = (IDictionary) instance_;
 
             Type keyStorageType, valueStorageType;
             GetKeyValueTypes(instance.GetType(), out keyStorageType, out valueStorageType);
@@ -108,9 +108,9 @@ namespace FullSerializer.Internal
             // No other way to iterate dictionaries and still have access to the key/value info
             IDictionaryEnumerator enumerator = instance.GetEnumerator();
 
-            bool allStringKeys = true;
-            List<fsData> serializedKeys = new List<fsData>(instance.Count);
-            List<fsData> serializedValues = new List<fsData>(instance.Count);
+            var allStringKeys = true;
+            var serializedKeys = new List<fsData>(instance.Count);
+            var serializedValues = new List<fsData>(instance.Count);
             while (enumerator.MoveNext())
             {
                 fsData keyData, valueData;
@@ -134,7 +134,7 @@ namespace FullSerializer.Internal
                 serialized = fsData.CreateDictionary();
                 Dictionary<string, fsData> serializedDictionary = serialized.AsDictionary;
 
-                for (int i = 0; i < serializedKeys.Count; ++i)
+                for (var i = 0; i < serializedKeys.Count; ++i)
                 {
                     fsData key = serializedKeys[i];
                     fsData value = serializedValues[i];
@@ -146,12 +146,12 @@ namespace FullSerializer.Internal
                 serialized = fsData.CreateList(serializedKeys.Count);
                 List<fsData> serializedList = serialized.AsList;
 
-                for (int i = 0; i < serializedKeys.Count; ++i)
+                for (var i = 0; i < serializedKeys.Count; ++i)
                 {
                     fsData key = serializedKeys[i];
                     fsData value = serializedValues[i];
 
-                    Dictionary<string, fsData> container = new Dictionary<string, fsData>();
+                    var container = new Dictionary<string, fsData>();
                     container["Key"] = key;
                     container["Value"] = value;
                     serializedList.Add(new fsData(container));

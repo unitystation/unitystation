@@ -36,11 +36,11 @@ namespace Tilemaps.Editor
 
                         int tileCount = state.frames * state.dirs;
 
-                        for (int e = 0; e < state.frames * state.dirs; e++)
+                        for (var e = 0; e < state.frames * state.dirs; e++)
                         {
                             string tileName = state.state + (tileCount > 1 ? "_" + e : "");
 
-                            SimpleTile tile = TileBuilder.CreateTile<SimpleTile>(LayerType.Floors);
+                            var tile = TileBuilder.CreateTile<SimpleTile>(LayerType.Floors);
                             tile.sprite = assets[dmiIndex + e + 1] as Sprite;
                             tile.LayerType = LayerType.Floors;
 

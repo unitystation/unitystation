@@ -29,7 +29,7 @@ namespace Tilemaps.Scripts.Utils
             PropertyInfo sortingLayersProperty =
                 internalEditorUtilityType.GetProperty("sortingLayerNames",
                     BindingFlags.Static | BindingFlags.NonPublic);
-            string[] sortingLayerNames = (string[]) sortingLayersProperty?.GetValue(null, new object[0]);
+            var sortingLayerNames = (string[]) sortingLayersProperty?.GetValue(null, new object[0]);
 
             return sortingLayerNames != null ? new List<string>(sortingLayerNames) : null;
         }

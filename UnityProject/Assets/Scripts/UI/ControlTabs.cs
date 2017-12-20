@@ -174,8 +174,8 @@ namespace UI
         private static void SlideOptionsAndMoreTabs(Vector3 direction)
         {
             float width = Instance.ItemListTab.GetComponent<RectTransform>().rect.width;
-            RectTransform optionsRect = Instance.optionsTab.GetComponent<RectTransform>();
-            RectTransform moreRect = Instance.moreTab.GetComponent<RectTransform>();
+            var optionsRect = Instance.optionsTab.GetComponent<RectTransform>();
+            var moreRect = Instance.moreTab.GetComponent<RectTransform>();
 
             optionsRect.localPosition += direction * (width / 2f);
             moreRect.localPosition += direction * (width / 2f);

@@ -21,7 +21,7 @@ public abstract class BulletBehaviour : MonoBehaviour
         bodyAim = targetZone;
         shooterName = controlledByPlayer;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        Vector3 startPos = new Vector3(dir.x, dir.y, transform.position.z);
+        var startPos = new Vector3(dir.x, dir.y, transform.position.z);
         transform.position += startPos;
         thisRigi = GetComponent<Rigidbody2D>();
         thisRigi.AddForce(dir.normalized * 24f, ForceMode2D.Impulse);
@@ -36,7 +36,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        HealthBehaviour damageable = coll.GetComponent<HealthBehaviour>();
+        var damageable = coll.GetComponent<HealthBehaviour>();
         if (damageable == null ||
             damageable.IsDead ||
             damageable.gameObject.name.Equals(shooterName))

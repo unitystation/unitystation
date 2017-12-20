@@ -20,7 +20,7 @@ public class GibMessage : ServerMessage<GibMessage>
 
     public static GibMessage Send()
     {
-        GibMessage msg = new GibMessage();
+        var msg = new GibMessage();
         msg.SendToAll();
         return msg;
     }

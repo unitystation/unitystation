@@ -44,7 +44,7 @@ namespace Tilemaps.Scripts.Utils
                 return null;
             }
 
-            List<Sprite> sprites = new List<Sprite>();
+            var sprites = new List<Sprite>();
 
             foreach (LayerTile tile in metaTile.GetTiles())
             {
@@ -58,7 +58,7 @@ namespace Tilemaps.Scripts.Utils
 
         private static IReadOnlyList<Sprite> GetObjectSprites(GameObject gameObject)
         {
-            List<Sprite> sprites = new List<Sprite>();
+            var sprites = new List<Sprite>();
 
             if (gameObject != null)
             {
@@ -80,13 +80,13 @@ namespace Tilemaps.Scripts.Utils
 
         private static Sprite MergeSprites(IReadOnlyList<Sprite> sprites)
         {
-            Color[] colors = new Color[1024];
+            var colors = new Color[1024];
             foreach (Sprite s in sprites)
             {
                 Rect rect = s.rect;
                 Color[] pixels = s.texture.GetPixels((int) rect.x, (int) rect.y, (int) rect.width, (int) rect.height);
 
-                for (int i = 0; i < pixels.Length; i++)
+                for (var i = 0; i < pixels.Length; i++)
                 {
                     Color px = pixels[i];
 
@@ -98,7 +98,7 @@ namespace Tilemaps.Scripts.Utils
             }
 
             Sprite old = sprites[0];
-            Texture2D texture = new Texture2D((int) old.rect.width, (int) old.rect.height, old.texture.format, false);
+            var texture = new Texture2D((int) old.rect.width, (int) old.rect.height, old.texture.format, false);
 
             texture.SetPixels(colors);
             texture.Apply();
@@ -126,7 +126,7 @@ namespace Tilemaps.Scripts.Utils
             AssetDatabase.AddObjectToAsset(sprite, path);
             AssetDatabase.SaveAssets();
 
-            TextureImporter textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
+            var textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
 
             if (textureImporter == null)
             {

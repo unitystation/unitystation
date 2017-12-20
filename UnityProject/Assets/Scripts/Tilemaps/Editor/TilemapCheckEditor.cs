@@ -124,7 +124,7 @@ namespace Tilemaps.Editor
                             {
                                 Gizmos.color = green;
 
-                                int corner_count = 0;
+                                var corner_count = 0;
                                 foreach (Vector3Int pos in new[]
                                     {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right, Vector3Int.up})
                                 {
@@ -199,7 +199,7 @@ namespace Tilemaps.Editor
                     {
                         currentRoom = new HashSet<Vector3Int>();
 
-                        Queue<Vector3Int> posToCheck = new Queue<Vector3Int>();
+                        var posToCheck = new Queue<Vector3Int>();
                         posToCheck.Enqueue(mousePos);
 
                         while (posToCheck.Count > 0)

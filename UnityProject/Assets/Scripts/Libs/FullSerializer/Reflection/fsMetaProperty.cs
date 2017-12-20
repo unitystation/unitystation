@@ -86,7 +86,7 @@ namespace FullSerializer.Internal
 
         private void CommonInitialize(fsConfig config)
         {
-            fsPropertyAttribute attr = fsPortableReflection.GetAttribute<fsPropertyAttribute>(_memberInfo);
+            var attr = fsPortableReflection.GetAttribute<fsPropertyAttribute>(_memberInfo);
             if (attr != null)
             {
                 JsonName = attr.Name;
@@ -105,8 +105,8 @@ namespace FullSerializer.Internal
         /// </summary>
         public void Write(object context, object value)
         {
-            FieldInfo field = _memberInfo as FieldInfo;
-            PropertyInfo property = _memberInfo as PropertyInfo;
+            var field = _memberInfo as FieldInfo;
+            var property = _memberInfo as PropertyInfo;
 
             if (field != null)
             {

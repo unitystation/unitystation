@@ -15,7 +15,7 @@ public class Sprite2PrefabChild_Gun_MenuItem
     {
         bool makeSeperateFolders = EditorUtility.DisplayDialog("Prefab Folders?",
             "Do you want each prefab in it's own folder?", "Yes", "No");
-        for (int i = 0; i < Selection.objects.Length; i++)
+        for (var i = 0; i < Selection.objects.Length; i++)
         {
             string spriteSheet = AssetDatabase.GetAssetPath(Selection.objects[i]);
             Sprite[] sprites = AssetDatabase.LoadAllAssetsAtPath(spriteSheet).OfType<Sprite>().ToArray();
@@ -30,7 +30,7 @@ public class Sprite2PrefabChild_Gun_MenuItem
                 AssetDatabase.CreateFolder(adjFolderPath, folderName);
             }
 
-            GameObject parent = new GameObject();
+            var parent = new GameObject();
             parent.AddComponent<BoxCollider2D>();
             parent.AddComponent<NetworkIdentity>();
             parent.AddComponent<NetworkTransform>();
@@ -38,10 +38,10 @@ public class Sprite2PrefabChild_Gun_MenuItem
             parent.AddComponent<Weapon>();
             parent.AddComponent<ObjectBehaviour>();
             parent.AddComponent<RegisterItem>();
-            GameObject spriteObject = new GameObject();
-            SpriteRenderer spriteRenderer = spriteObject.AddComponent<SpriteRenderer>();
-            Material spriteMaterial = Resources.Load("Sprite-PixelSnap", typeof(Material)) as Material;
-            for (int j = 0; j < sprites.Length; j++)
+            var spriteObject = new GameObject();
+            var spriteRenderer = spriteObject.AddComponent<SpriteRenderer>();
+            var spriteMaterial = Resources.Load("Sprite-PixelSnap", typeof(Material)) as Material;
+            for (var j = 0; j < sprites.Length; j++)
             {
                 EditorUtility.DisplayProgressBar(
                     i + 1 + "/" + Selection.objects.Length + " Generating Prefabs", "Prefab: " + j,

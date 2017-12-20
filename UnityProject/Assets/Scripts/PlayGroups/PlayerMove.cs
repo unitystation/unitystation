@@ -53,9 +53,9 @@ namespace PlayGroup
 
         public PlayerAction SendAction()
         {
-            List<int> actionKeys = new List<int>();
+            var actionKeys = new List<int>();
 
-            for (int i = 0; i < keyCodes.Length; i++)
+            for (var i = 0; i < keyCodes.Length; i++)
             {
                 if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
                 {
@@ -106,8 +106,8 @@ namespace PlayGroup
 
         private void ProcessAction(PlayerAction action)
         {
-            List<int> actionKeys = new List<int>(action.keyCodes);
-            for (int i = 0; i < keyCodes.Length; i++)
+            var actionKeys = new List<int>(action.keyCodes);
+            for (var i = 0; i < keyCodes.Length; i++)
             {
                 if (actionKeys.Contains((int) keyCodes[i]) && !pressedKeys.Contains(keyCodes[i]))
                 {
@@ -123,7 +123,7 @@ namespace PlayGroup
         private Vector3Int GetMoveDirection(List<KeyCode> actions)
         {
             Vector3Int direction = Vector3Int.zero;
-            for (int i = 0; i < pressedKeys.Count; i++)
+            for (var i = 0; i < pressedKeys.Count; i++)
             {
                 direction += GetMoveDirection(pressedKeys[i]);
             }
@@ -210,7 +210,7 @@ namespace PlayGroup
 
             //Is the object pushable (iterate through all of the objects at the position):
             PushPull[] pushPulls = matrix.Get<PushPull>(position).ToArray();
-            for (int i = 0; i < pushPulls.Length; i++)
+            for (var i = 0; i < pushPulls.Length; i++)
             {
                 if (pushPulls[i] && pushPulls[i].gameObject != gameObject)
                 {
@@ -223,7 +223,7 @@ namespace PlayGroup
         {
             Vector3Int position = Vector3Int.RoundToInt(currentPosition + direction);
 
-            DoorController doorController = matrix.GetFirst<DoorController>(position);
+            var doorController = matrix.GetFirst<DoorController>(position);
 
             if (!doorController)
             {
@@ -231,7 +231,7 @@ namespace PlayGroup
 
                 if (doorController)
                 {
-                    RegisterDoor registerDoor = doorController.GetComponent<RegisterDoor>();
+                    var registerDoor = doorController.GetComponent<RegisterDoor>();
                     if (registerDoor.IsPassable(position))
                     {
                         doorController = null;

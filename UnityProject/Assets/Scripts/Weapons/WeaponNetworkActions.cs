@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Objects;
 using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -41,7 +40,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
     [Command]
     public void CmdLoadMagazine(GameObject weapon, GameObject magazine)
     {
-        Weapon w = weapon.GetComponent<Weapon>();
+        var w = weapon.GetComponent<Weapon>();
         NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
         w.MagNetID = networkID;
     }
@@ -49,7 +48,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
     [Command]
     public void CmdUnloadWeapon(GameObject weapon)
     {
-        Weapon w = weapon.GetComponent<Weapon>();
+        var w = weapon.GetComponent<Weapon>();
         NetworkInstanceId networkID = NetworkInstanceId.Invalid;
         w.MagNetID = networkID;
     }
@@ -64,8 +63,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
         }
 
         //get componants
-        Weapon wepBehavior = weapon.GetComponent<Weapon>();
-        MagazineBehaviour magBehaviour = magazine.GetComponent<MagazineBehaviour>();
+        var wepBehavior = weapon.GetComponent<Weapon>();
+        var magBehaviour = magazine.GetComponent<MagazineBehaviour>();
 
         //reduce ammo for shooting
         magBehaviour.ammoRemains--; //TODO: remove more bullets if burst
@@ -81,14 +80,14 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
             direction = GetRecoilOffset(wepBehavior, angle);
         }
 
-        BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
+        var b = bullet.GetComponent<BulletBehaviour>();
         b.Shoot(direction, angle, gameObject.name, damageZone);
 
         //add additional recoil after shooting for the next round
         AppendRecoil(wepBehavior, angle);
 
         //This is used to determine where bullet shot should head towards on client
-        Ray2D ray = new Ray2D(transform.position, direction);
+        var ray = new Ray2D(transform.position, direction);
         RpcShootBullet(weapon, ray.GetPoint(30f), bulletName, damageZone);
 
         //TODO add a check to see if bullet or energy weapon
@@ -110,7 +109,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
             return;
         }
 
-        Weapon wepBehavior = weapon.GetComponent<Weapon>();
+        var wepBehavior = weapon.GetComponent<Weapon>();
         if (wepBehavior != null)
         {
             SoundManager.PlayAtPosition(wepBehavior.FireingSound, transform.position);
@@ -123,10 +122,10 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
         GameObject bullet = PoolManager.Instance.PoolClientInstantiate(Resources.Load(bulletName) as GameObject,
             transform.position, Quaternion.identity);
-        Vector2 playerPos = new Vector2(transform.position.x, transform.position.y);
+        var playerPos = new Vector2(transform.position.x, transform.position.y);
         Vector2 dir = (endPos - playerPos).normalized;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
+        var b = bullet.GetComponent<BulletBehaviour>();
         b.Shoot(dir, angle, gameObject.name, damageZone);
         if (!isFlashing)
         {
@@ -140,7 +139,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
     [Command] //TODO fixme ghetto proof-of-concept
     public void CmdKnifeAttackMob(GameObject npcObj, GameObject weapon, Vector2 stabDirection, BodyPartType damageZone)
     {
-        HealthBehaviour healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
+        var healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
         if (healthBehaviour.IsDead == false)
         {
             if (!playerMove.allowInput || !allowAttack || playerMove.isGhost)
@@ -170,14 +169,14 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
             }
             if (npcObj.GetComponent<SimpleAnimal>())
             {
-                SimpleAnimal attackTarget = npcObj.GetComponent<SimpleAnimal>(); 
+                var attackTarget = npcObj.GetComponent<SimpleAnimal>();
                 RpcMeleAttackLerp(stabDirection, weapon);
                 attackTarget.Harvest();
                 soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
             }
             else
             {
-                PlayerHealth attackTarget = npcObj.GetComponent<PlayerHealth>(); 
+                var attackTarget = npcObj.GetComponent<PlayerHealth>();
                 RpcMeleAttackLerp(stabDirection, weapon);
                 attackTarget.Harvest();
                 soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
@@ -205,7 +204,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
         if (weapon && lerpSprite == null)
         {
-            SpriteRenderer spriteRenderer = weapon.GetComponentInChildren<SpriteRenderer>();
+            var spriteRenderer = weapon.GetComponentInChildren<SpriteRenderer>();
             lerpSprite = spriteRenderer.sprite;
         }
 

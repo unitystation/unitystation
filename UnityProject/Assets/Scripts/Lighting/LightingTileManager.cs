@@ -17,7 +17,7 @@ namespace Lighting
         {
             foreach (Transform child in transform)
             {
-                LightTile lightTile = child.gameObject.GetComponent<LightTile>();
+                var lightTile = child.gameObject.GetComponent<LightTile>();
                 if (lightTile != null)
                 {
                     if (!lightTiles.ContainsKey(child.transform.position))

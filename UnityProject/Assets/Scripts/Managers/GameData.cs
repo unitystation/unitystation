@@ -134,9 +134,9 @@ public class GameData : MonoBehaviour
         Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
         if (File.Exists(Application.persistentDataPath + "/genData01.dat"))
         {
-            BinaryFormatter bf = new BinaryFormatter();
+            var bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "/genData01.dat", FileMode.Open);
-            UserData data = (UserData) bf.Deserialize(file);
+            var data = (UserData) bf.Deserialize(file);
             //DO SOMETHNG WITH THE VALUES HERE, I.E STORE THEM IN A CACHE IN THIS CLASS
             //TODO: LOAD SOME STUFF
 
@@ -146,9 +146,9 @@ public class GameData : MonoBehaviour
 
     private void SaveData()
     {
-        BinaryFormatter bf = new BinaryFormatter();
+        var bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/genData01.dat");
-        UserData data = new UserData();
+        var data = new UserData();
         /// PUT YOUR MEMBER VALUES HERE, ADD THE PROPERTY TO USERDATA CLASS AND THIS WILL SAVE IT
 
         //TODO: SAVE SOME STUFF

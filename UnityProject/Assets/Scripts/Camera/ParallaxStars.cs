@@ -40,7 +40,7 @@ public class ParallaxStars : MonoBehaviour
         {
             int index = (1 + (int) Mathf.Sign(diffValue) + offset) % 3;
 
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 Transform position = atX ? backgrounds[index, i] : backgrounds[i, index];
                 position.position -= Mathf.Sign(diffValue) * (atX ? Vector3.right : Vector3.up) * 3 * 10;

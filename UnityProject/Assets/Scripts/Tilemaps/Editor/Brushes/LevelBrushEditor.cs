@@ -43,7 +43,7 @@ namespace Tilemaps.Editor.Brushes
                 return;
             }
 
-            MetaTileMap metaTilemap = brushTarget.GetComponent<MetaTileMap>();
+            var metaTilemap = brushTarget.GetComponent<MetaTileMap>();
 
             if (!metaTilemap)
             {
@@ -56,7 +56,7 @@ namespace Tilemaps.Editor.Brushes
             {
                 if (tile is LayerTile)
                 {
-                    ObjectTile objectTile = tile as ObjectTile;
+                    var objectTile = tile as ObjectTile;
                     if (objectTile && objectTile.Offset)
                     {
                         brush.cells[0].matrix = Matrix4x4.TRS(Vector3.up, Quaternion.identity, Vector3.one);
@@ -72,7 +72,7 @@ namespace Tilemaps.Editor.Brushes
                 _currentPreviewTile = tile;
             }
 
-            for (int i = 0; i < previewTiles.Length; i++)
+            for (var i = 0; i < previewTiles.Length; i++)
             {
                 SetPreviewTile(metaTilemap, position, previewTiles[i]);
             }

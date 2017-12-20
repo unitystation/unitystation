@@ -25,7 +25,7 @@ namespace FullSerializer
         {
             get
             {
-                for (int i = 0; i < _uncomputedAotCompilations.Count; ++i)
+                for (var i = 0; i < _uncomputedAotCompilations.Count; ++i)
                 {
                     AotCompilation item = _uncomputedAotCompilations[i];
                     _computedAotCompilations[item.Type] =
@@ -88,7 +88,7 @@ namespace FullSerializer
         private static string GenerateDirectConverterForTypeInCSharp(Type type, fsMetaProperty[] members,
             bool isConstructorPublic)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             string typeName = type.CSharpName( /*includeNamespace:*/ true);
             string typeNameSafeDecl = type.CSharpName(true, true);
 
@@ -122,7 +122,7 @@ namespace FullSerializer
                           typeName + " model) {");
             sb.AppendLine("            var result = fsResult.Success;");
             sb.AppendLine();
-            for (int i = 0; i < members.Length; ++i)
+            for (var i = 0; i < members.Length; ++i)
             {
                 fsMetaProperty member = members[i];
                 sb.AppendLine("            var t" + i + " = model." + member.MemberName + ";");

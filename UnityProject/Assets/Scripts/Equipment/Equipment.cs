@@ -30,7 +30,7 @@ namespace Equipment
         {
             InitEquipment();
 
-            EquipmentPool equipPool = FindObjectOfType<EquipmentPool>();
+            var equipPool = FindObjectOfType<EquipmentPool>();
             if (equipPool == null)
             {
                 Instantiate(Resources.Load("EquipmentPool") as GameObject, Vector2.zero, Quaternion.identity);
@@ -53,7 +53,7 @@ namespace Equipment
             }
 
             syncEquipSprites.Callback = SyncSprites;
-            for (int i = 0; i < clothingSlots.Length; i++)
+            for (var i = 0; i < clothingSlots.Length; i++)
             {
                 //All the other slots:
                 clothingSlots[i].Reference = -1;
@@ -91,13 +91,13 @@ namespace Equipment
                 yield break;
             }
 
-            PlayerScript pS = GetComponent<PlayerScript>();
+            var pS = GetComponent<PlayerScript>();
             pS.JobType = playerScript.JobType;
 
-            JobOutfit standardOutfit = GameManager.Instance.StandardOutfit.GetComponent<JobOutfit>();
+            var standardOutfit = GameManager.Instance.StandardOutfit.GetComponent<JobOutfit>();
             JobOutfit jobOutfit = GameManager.Instance.GetOccupationOutfit(playerScript.JobType);
 
-            Dictionary<string, string> gear = new Dictionary<string, string>();
+            var gear = new Dictionary<string, string>();
 
             gear.Add("uniform", standardOutfit.uniform);
             gear.Add("ears", standardOutfit.ears);
@@ -187,11 +187,12 @@ namespace Equipment
                 {
                     GameObject obj = ClothFactory.Instance.CreateCloth(gearItem.Value, Vector3.zero);
                     //if ClothFactory does not return an object then move on to the next clothing item
-                    if (!obj){
-                        Debug.LogWarning("Trying to instantiate clothing item "+ gearItem.Value+" failed!");
+                    if (!obj)
+                    {
+                        Debug.LogWarning("Trying to instantiate clothing item " + gearItem.Value + " failed!");
                         continue;
                     }
-                    ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+                    var itemAtts = obj.GetComponent<ItemAttributes>();
                     SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
                 }
                 else if (!string.IsNullOrEmpty(gearItem.Value))
@@ -229,7 +230,7 @@ namespace Equipment
         //Hand item sprites after picking up an item (server)
         public void SetHandItem(string slotName, GameObject obj)
         {
-            ItemAttributes att = obj.GetComponent<ItemAttributes>();
+            var att = obj.GetComponent<ItemAttributes>();
             EquipmentPool.AddGameObject(gameObject, obj);
             SetHandItemSprite(slotName, att);
             RpcSendMessage(slotName, obj);
@@ -286,7 +287,7 @@ namespace Equipment
         //To set the actual sprite on the player obj
         public void SetHandItemSprite(string slotName, ItemAttributes att)
         {
-            Epos enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
+            var enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
             if (slotName == "leftHand")
             {
                 syncEquipSprites[(int) enumA] = att.NetworkInHandRefLeft();
@@ -300,7 +301,7 @@ namespace Equipment
         //Clear any sprite slot with -1 via the slotName (server)
         public void ClearItemSprite(string eventName)
         {
-            Epos enumA = (Epos) Enum.Parse(typeof(Epos), eventName);
+            var enumA = (Epos) Enum.Parse(typeof(Epos), eventName);
             syncEquipSprites[(int) enumA] = -1;
         }
 

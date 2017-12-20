@@ -87,7 +87,7 @@ namespace Doors
 
         private IEnumerator PlayOpenAnim()
         {
-            for (int j = 0; j < animFrames.Length; j++)
+            for (var j = 0; j < animFrames.Length; j++)
             {
                 doorbase.sprite = sprites[animFrames[j] + (int) direction];
                 //Allow movement half way through door opening to sync up with sortingOrder layer change
@@ -105,8 +105,8 @@ namespace Doors
 
         private IEnumerator PlayDeniedAnim()
         {
-            bool light = false;
-            for (int i = 0; i < animFrames.Length * 2; i++)
+            var light = false;
+            for (var i = 0; i < animFrames.Length * 2; i++)
             {
                 if (!light)
                 {

@@ -49,7 +49,7 @@ namespace FullSerializer.Internal
         private fsResult GetProperty(object instance, out fsMetaProperty property)
         {
             fsMetaProperty[] properties = fsMetaType.Get(Serializer.Config, instance.GetType()).Properties;
-            for (int i = 0; i < properties.Length; ++i)
+            for (var i = 0; i < properties.Length; ++i)
             {
                 if (properties[i].MemberName == _memberName)
                 {

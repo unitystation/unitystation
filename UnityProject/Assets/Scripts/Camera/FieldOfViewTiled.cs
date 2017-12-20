@@ -173,11 +173,11 @@ public class FieldOfViewTiled : ThreadedBehaviour
     {
         nearbyShroudsInWorkerThread = nextShrouds;
 
-        List<Vector2> inFieldOFVision = new List<Vector2>();
+        var inFieldOFVision = new List<Vector2>();
         // Returns all shroud nodes in field of vision
         for (int i = nearbyShroudsInWorkerThread.Count; i-- > 0;)
         {
-            ShroudAction sA = new ShroudAction {key = nearbyShroudsInWorkerThread[i], enabled = true};
+            var sA = new ShroudAction {key = nearbyShroudsInWorkerThread[i], enabled = true};
             shroudStatusQueue.Enqueue(sA);
             // Light close behind and around
             if (Vector2.Distance(sourcePosCache, nearbyShroudsInWorkerThread[i]) < InnatePreyVision)
@@ -205,14 +205,14 @@ public class FieldOfViewTiled : ThreadedBehaviour
             // and since we are standing next to the tile we should always be able to view it, lets always deactive the shroud
             if (Vector2.Distance(inFieldOFVision[i], sourcePosCache) < 2)
             {
-                ShroudAction lA = new ShroudAction {key = inFieldOFVision[i], enabled = false};
+                var lA = new ShroudAction {key = inFieldOFVision[i], enabled = false};
                 shroudStatusQueue.Enqueue(lA);
                 continue;
             }
             // Everything else:
             // Perform a linecast to see if a wall is blocking vision of the target tile
             Vector2 offsetPos = ShroudCornerOffset(Angle(((Vector2) sourcePosCache - inFieldOFVision[i]).normalized));
-            ShroudAction rA = new ShroudAction
+            var rA = new ShroudAction
             {
                 isRayCastAction = true,
                 endPos = inFieldOFVision[i] += offsetPos,
@@ -321,7 +321,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
 
     public ReadOnlyCollection<Vector2> GetNearbyShroudTiles()
     {
-        List<Vector2> nearbyShroudTiles = new List<Vector2>();
+        var nearbyShroudTiles = new List<Vector2>();
 
         // Get nearby shroud tiles based on monitor radius
         for (int offsetx = -MonitorRadius; offsetx <= MonitorRadius; offsetx++)

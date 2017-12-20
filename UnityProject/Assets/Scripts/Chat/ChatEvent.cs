@@ -93,7 +93,7 @@ public class ChatEvent
         }
 
         //Check for emote. If found skip chat modifiers, make sure emote is only in Local channel
-        Regex rx = new Regex("^(/me )");
+        var rx = new Regex("^(/me )");
         if (rx.IsMatch(message))
         {
             // /me message
@@ -130,7 +130,7 @@ public class ChatEvent
     private string StripTags(string input)
     {
         //Regex - find "<" followed by any number of not ">" and ending in ">". Matches any HTML tags.
-        Regex rx = new Regex("[<][^>]+[>]");
+        var rx = new Regex("[<][^>]+[>]");
         string output = rx.Replace(input, "");
 
         return output;
@@ -144,7 +144,7 @@ public class ChatEvent
         if ((modifiers & ChatModifier.Clown) == ChatModifier.Clown)
         {
             int intensity = Random.Range(1, 4);
-            for (int i = 0; i < intensity; i++)
+            for (var i = 0; i < intensity; i++)
             {
                 if (i == 0)
                 {
@@ -161,7 +161,7 @@ public class ChatEvent
         if ((modifiers & ChatModifier.Hiss) == ChatModifier.Hiss)
         {
             //Regex - find 1 or more "s"
-            Regex rx = new Regex("s+|S+");
+            var rx = new Regex("s+|S+");
             output = rx.Replace(output, Hiss);
         }
 
@@ -169,7 +169,7 @@ public class ChatEvent
         if ((modifiers & ChatModifier.Stutter) == ChatModifier.Stutter)
         {
             //Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
-            Regex rx = new Regex(@"(\b)+([^\d\W])\B");
+            var rx = new Regex(@"(\b)+([^\d\W])\B");
             output = rx.Replace(output, Stutter);
         }
 
@@ -177,7 +177,7 @@ public class ChatEvent
         if ((modifiers & ChatModifier.Drunk) == ChatModifier.Drunk)
         {
             //Regex - find 1 or more "s"
-            Regex rx = new Regex("s+|S+");
+            var rx = new Regex("s+|S+");
             output = rx.Replace(output, Slur);
             //Regex - find 1 or more whitespace
             rx = new Regex(@"\s+");
@@ -239,13 +239,13 @@ public class ChatEvent
     private static string Stutter(Match m)
     {
         string x = m.ToString();
-        string stutter = "";
+        var stutter = "";
         //20% chance to stutter at any given consonant
         if (Random.Range(1, 6) == 1)
         {
             //Randomly pick how bad is the stutter
             int intensity = Random.Range(1, 4);
-            for (int i = 0; i < intensity; i++)
+            for (var i = 0; i < intensity; i++)
             {
                 stutter = stutter + x + "... "; //h... h... h...
             }

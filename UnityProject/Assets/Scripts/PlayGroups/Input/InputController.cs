@@ -48,8 +48,8 @@ namespace PlayGroups.Input
 
         private void Update()
         {
-			//Needs to be rewritted to be server authoritative
-			//Clients can currently ignore most intaract limitations (other than reach)
+            //Needs to be rewritted to be server authoritative
+            //Clients can currently ignore most intaract limitations (other than reach)
             CheckHandSwitch();
             CheckClick();
             CheckAltClick();
@@ -117,7 +117,7 @@ namespace PlayGroups.Input
             RaycastHit2D[] hits = Physics2D.RaycastAll(position, Vector2.zero, 10f, layerMask);
 
             //collect all the sprite renderers
-            List<Renderer> renderers = new List<Renderer>();
+            var renderers = new List<Renderer>();
 
             foreach (RaycastHit2D hit in hits)
             {
@@ -147,7 +147,7 @@ namespace PlayGroups.Input
 
         private Renderer IsHit(Transform _transform, Vector3 hitPosition)
         {
-            TilemapRenderer tilemapRenderer = _transform.GetComponent<TilemapRenderer>();
+            var tilemapRenderer = _transform.GetComponent<TilemapRenderer>();
 
             if (tilemapRenderer)
             {
@@ -215,7 +215,7 @@ namespace PlayGroups.Input
             if (PlayerManager.LocalPlayerScript.IsInReach(position))
             {
                 //check the actual transform for an input trigger and if there is non, check the parent
-                InputTrigger inputTrigger = _transform.GetComponent<InputTrigger>();
+                var inputTrigger = _transform.GetComponent<InputTrigger>();
                 if (inputTrigger)
                 {
                     if (objectBehaviour.visibleState)
@@ -234,7 +234,7 @@ namespace PlayGroups.Input
                         return true;
                     }
                     //Allow interact with cupboards we are inside of!
-                    ClosetControl cCtrl = inputTrigger.GetComponent<ClosetControl>();
+                    var cCtrl = inputTrigger.GetComponent<ClosetControl>();
                     if (cCtrl && cCtrl.transform.position == PlayerManager.LocalPlayerScript.transform.position)
                     {
                         inputTrigger.Trigger();
@@ -251,7 +251,7 @@ namespace PlayGroups.Input
         {
             if (UIManager.Hands.CurrentSlot.GameObject() != null && objectBehaviour.visibleState)
             {
-                InputTrigger inputTrigger = UIManager.Hands.CurrentSlot.GameObject().GetComponent<InputTrigger>();
+                var inputTrigger = UIManager.Hands.CurrentSlot.GameObject().GetComponent<InputTrigger>();
                 if (inputTrigger != null)
                 {
                     inputTrigger.Trigger();

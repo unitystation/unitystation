@@ -29,7 +29,7 @@ namespace UI
 
             SoundManager.Play("Click01");
 
-            int intent = (int) UIManager.CurrentIntent;
+            var intent = (int) UIManager.CurrentIntent;
             intent = (intent + 1) % 4;
 
             UIManager.CurrentIntent = (Intent) intent;

@@ -198,7 +198,7 @@ public class CustomNetworkManager : NetworkManager
             PlayerList.Instance.RemovePlayer(player.name);
 
             //Notify clients that the connected players list should be updated
-            GameObject[] players = new GameObject[PlayerList.Instance.connectedPlayers.Count];
+            var players = new GameObject[PlayerList.Instance.connectedPlayers.Count];
             PlayerList.Instance.connectedPlayers.Values.CopyTo(players, 0);
             UpdateConnectedPlayersMessage.Send(players);
 

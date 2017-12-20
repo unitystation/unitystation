@@ -18,8 +18,8 @@ public class AddEncryptionkeyMessage : ClientMessage<AddEncryptionkeyMessage>
 
         if (ValidRequest(HeadsetItem, Encryptionkey))
         {
-            Headset headset = HeadsetItem.GetComponent<Headset>();
-            EncryptionKey encryptionkey = Encryptionkey.GetComponent<EncryptionKey>();
+            var headset = HeadsetItem.GetComponent<Headset>();
+            var encryptionkey = Encryptionkey.GetComponent<EncryptionKey>();
 
             headset.EncryptionKey = encryptionkey.Type;
 
@@ -29,7 +29,7 @@ public class AddEncryptionkeyMessage : ClientMessage<AddEncryptionkeyMessage>
 
     public static AddEncryptionkeyMessage Send(GameObject headsetItem, GameObject encryptionkey)
     {
-        AddEncryptionkeyMessage msg = new AddEncryptionkeyMessage
+        var msg = new AddEncryptionkeyMessage
         {
             HeadsetItem = headsetItem,
             Encryptionkey = encryptionkey

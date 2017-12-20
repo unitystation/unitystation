@@ -25,7 +25,7 @@ public class DmObjectData : ScriptableObject
     {
         // i.e. we have /obj/item/clothing/tie/armband/cargo
         List<string> path = hierarchy.Split('/').ToList();
-        Dictionary<string, string> ancAttr = new Dictionary<string, string>();
+        var ancAttr = new Dictionary<string, string>();
         //        StringBuilder digLog = new StringBuilder();
 
         for (int i = path.Count; i-- > 2;)
@@ -66,11 +66,11 @@ public class DmObjectData : ScriptableObject
 
     public static void DeserializeJson()
     {
-        TextAsset asset = Resources.Load(Path.Combine("metadata", "dm")) as TextAsset;
+        var asset = Resources.Load(Path.Combine("metadata", "dm")) as TextAsset;
         if (asset != null)
         {
             fsData data = fsJsonParser.Parse(asset.text);
-            fsSerializer serializer = new fsSerializer();
+            var serializer = new fsSerializer();
             serializer.TryDeserialize(data, ref objectList).AssertSuccessWithoutWarnings();
         }
         else

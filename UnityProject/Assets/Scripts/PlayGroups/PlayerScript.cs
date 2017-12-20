@@ -185,7 +185,7 @@ namespace PlayGroup
         {
             //Because characters are taller than they are wider, their reach upwards/downards was greater
             //Flooring that shit fixes it
-            Vector3Int pos = new Vector3Int(
+            var pos = new Vector3Int(
                 Mathf.FloorToInt(transform.position.x),
                 Mathf.FloorToInt(transform.position.y),
                 Mathf.FloorToInt(transform.position.z)
@@ -249,7 +249,7 @@ namespace PlayGroup
             }
 
             //TODO add missing modifiers
-            ChatModifier modifiers = ChatModifier.Drunk;
+            var modifiers = ChatModifier.Drunk;
 
             if (JobType == JobType.CLOWN)
             {

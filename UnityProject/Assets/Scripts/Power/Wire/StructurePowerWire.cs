@@ -73,7 +73,7 @@ namespace Wiring
         {
             string spritePath = DirectionStart + (DirectionEnd != 0 ? "_" + DirectionEnd : "");
             Sprite[] Color = SpriteManager.WireSprites[this.Color.ToString()];
-            SpriteRenderer SR = gameObject.GetComponentInChildren<SpriteRenderer>();
+            var SR = gameObject.GetComponentInChildren<SpriteRenderer>();
             //the red sprite is spliced differently than the rest for some reason :^(
             int spriteIndex = WireDirections.GetSpriteIndex(spritePath);
             if (this.Color == WiringColor.red)

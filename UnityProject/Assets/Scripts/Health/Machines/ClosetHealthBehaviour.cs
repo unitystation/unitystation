@@ -1,5 +1,4 @@
-﻿using System;
-using Cupboards;
+﻿using Cupboards;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -55,7 +54,7 @@ namespace Objects
 
         private void disableInteraction()
         {
-            for (int i = 0; i < colliders.Length; i++)
+            for (var i = 0; i < colliders.Length; i++)
             {
                 colliders[i].enabled = false;
             }

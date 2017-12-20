@@ -34,9 +34,9 @@ public class ClothEnumGen : MonoBehaviour
             // opens the file if it allready exists, creates it otherwise
             using (FileStream stream = File.Open(path, FileMode.OpenOrCreate, FileAccess.Write))
             {
-                using (StreamWriter writer = new StreamWriter(stream))
+                using (var writer = new StreamWriter(stream))
                 {
-                    StringBuilder sb = new StringBuilder();
+                    var sb = new StringBuilder();
                     sb.AppendLine("// ----- AUTO GENERATED CODE ----- //");
                     sb.AppendLine("using System.ComponentModel;");
                     sb.AppendLine("public enum ClothEnum");
@@ -74,8 +74,8 @@ public class ClothEnumGen : MonoBehaviour
 
     private static Dictionary<string, string> prepareObjects()
     {
-        Dictionary<string, string> tmpDic = new Dictionary<string, string>();
-        DmObjectData dm = Resources.Load("DmObjectData") as DmObjectData;
+        var tmpDic = new Dictionary<string, string>();
+        var dm = Resources.Load("DmObjectData") as DmObjectData;
         foreach (Dictionary<string, string> dic in dm.ObjectList)
         {
             string hier = ItemAttributes.tryGetAttr(dic, "hierarchy");

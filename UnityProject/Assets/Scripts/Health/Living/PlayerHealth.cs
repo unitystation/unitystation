@@ -9,7 +9,6 @@ namespace PlayGroup
     public class PlayerHealth : HealthBehaviour
     {
         private readonly float bleedRate = 2f;
-        [Header("For harvestable animals")] public GameObject[] butcherResults;
 
         private int bleedVolume;
 
@@ -24,6 +23,8 @@ namespace PlayGroup
         //public Dictionary<BodyPartType, BodyPartBehaviour> BodyParts = new Dictionary<BodyPartType, BodyPartBehaviour>();
         public List<BodyPartBehaviour> BodyParts = new List<BodyPartBehaviour>();
 
+        [Header("For harvestable animals")] public GameObject[] butcherResults;
+
         private PlayerMove playerMove;
 
         private PlayerNetworkActions playerNetworkActions;
@@ -35,7 +36,7 @@ namespace PlayGroup
             playerNetworkActions = GetComponent<PlayerNetworkActions>();
             playerMove = GetComponent<PlayerMove>();
 
-            PlayerScript playerScript = GetComponent<PlayerScript>();
+            var playerScript = GetComponent<PlayerScript>();
 
             if (playerScript.JobType == JobType.NULL)
             {
@@ -61,7 +62,7 @@ namespace PlayGroup
 
             if (isServer)
             {
-                int bloodLoss = (int) (damage * BleedFactor(damageType));
+                var bloodLoss = (int) (damage * BleedFactor(damageType));
                 LoseBlood(bloodLoss);
 
                 // don't start bleeding if limb is in ok condition after it received damage
@@ -89,7 +90,7 @@ namespace PlayGroup
         private BodyPartBehaviour findBodyPart(BodyPartType bodyPartAim)
         {
             //Don't like how you should iterate through bodyparts each time, but inspector doesn't seem to like dicts
-            for (int i = 0; i < BodyParts.Count; i++)
+            for (var i = 0; i < BodyParts.Count; i++)
             {
                 if (BodyParts[i].Type == bodyPartAim)
                 {
@@ -250,18 +251,17 @@ namespace PlayGroup
                 playerNetworkActions.RespawnPlayer(10);
             }
         }
+
         [ClientRpc]
         private void RpcPassBullets(GameObject target)
         {
-            foreach( BoxCollider2D comp in target.GetComponents<BoxCollider2D>())
+            foreach (BoxCollider2D comp in target.GetComponents<BoxCollider2D>())
             {
                 if (!comp.isTrigger)
                 {
                     comp.enabled = false;
                 }
-
-            } 
-            
+            }
         }
 
         [Server]
@@ -276,16 +276,15 @@ namespace PlayGroup
             //Remove the NPC after all has been harvested
             RpcHideBody(gameObject);
         }
-        
+
         [ClientRpc]
         private void RpcHideBody(GameObject target)
         {
             SpriteRenderer[] componentList = target.GetComponentsInChildren<SpriteRenderer>();
-            foreach( SpriteRenderer comp in componentList )
+            foreach (SpriteRenderer comp in componentList)
             {
                 comp.enabled = false;
-            } 
-            
+            }
         }
     }
 }

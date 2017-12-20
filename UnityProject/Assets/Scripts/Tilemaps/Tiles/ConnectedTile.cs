@@ -111,7 +111,7 @@ namespace Tilemaps.Scripts.Tiles
                 case ConnectType.ToAll:
                     return true;
                 case ConnectType.ToSameCategory:
-                    ConnectedTile t = tile as ConnectedTile;
+                    var t = tile as ConnectedTile;
                     return t != null && t.connectCategory == connectCategory;
                 case ConnectType.ToSelf:
                     return tile == this;

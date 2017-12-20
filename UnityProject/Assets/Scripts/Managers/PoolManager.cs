@@ -34,7 +34,7 @@ public class PoolManager : NetworkBehaviour
     public GameObject PoolNetworkInstantiate(GameObject prefab, Vector2 position, Quaternion rotation)
     {
         GameObject tempObject = null;
-        bool makeNew = false;
+        var makeNew = false;
         if (pools.ContainsKey(prefab))
         {
             if (pools[prefab].Count > 0)
@@ -74,7 +74,7 @@ public class PoolManager : NetworkBehaviour
     public GameObject PoolClientInstantiate(GameObject prefab, Vector2 position, Quaternion rotation)
     {
         GameObject tempObject = null;
-        bool makeNew = false;
+        var makeNew = false;
         if (pools.ContainsKey(prefab))
         {
             if (pools[prefab].Count > 0)
@@ -176,7 +176,7 @@ public class PoolManager : NetworkBehaviour
     public GameObject GetInstanceInactive(GameObject prefab)
     {
         GameObject tempObject = null;
-        bool makeNew = false;
+        var makeNew = false;
         if (pools.ContainsKey(prefab))
         {
             if (pools[prefab].Count > 0)

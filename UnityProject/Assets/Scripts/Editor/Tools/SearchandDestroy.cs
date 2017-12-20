@@ -18,7 +18,7 @@ public class SearchAndDestroy : EditorWindow
     [MenuItem("Tools/Components: Search and Destroy")]
     private static void Init()
     {
-        SearchAndDestroy window = (SearchAndDestroy) GetWindow(typeof(SearchAndDestroy));
+        var window = (SearchAndDestroy) GetWindow(typeof(SearchAndDestroy));
         window.Show();
         window.position = new Rect(50, 100, 600, 600);
     }
@@ -56,7 +56,7 @@ public class SearchAndDestroy : EditorWindow
                     string[] allPrefabs = GetAllPrefabs();
                     listResult = new List<string>();
                     int t = allPrefabs.Length;
-                    int counter = 0;
+                    var counter = 0;
                     foreach (string prefab in allPrefabs)
                     {
                         counter++;
@@ -81,7 +81,7 @@ public class SearchAndDestroy : EditorWindow
                     string[] allPrefabs = GetAllPrefabs();
                     listResult = new List<string>();
                     int t = allPrefabs.Length;
-                    int counter = 0;
+                    var counter = 0;
                     foreach (string prefab in allPrefabs)
                     {
                         counter++;
@@ -121,8 +121,8 @@ public class SearchAndDestroy : EditorWindow
                     string[] allPrefabs = GetAllPrefabs();
                     listResult = new List<string>();
                     int t = allPrefabs.Length;
-                    int i = 0;
-                    int counter = 0;
+                    var i = 0;
+                    var counter = 0;
                     foreach (string prefab in allPrefabs)
                     {
                         counter++;
@@ -140,7 +140,7 @@ public class SearchAndDestroy : EditorWindow
                                 //			Debug.Log ("DETROYED");
                                 //			var castPrefab = AssetDatabase.LoadAssetAtPath(prefab, (typeof(GameObject))) as GameObject;
                                 //			var cast = AssetDatabase.LoadAssetAtPath(prefab, (typeof(GameObject))) as GameObject;
-                                GameObject cast = PrefabUtility.InstantiatePrefab(
+                                var cast = PrefabUtility.InstantiatePrefab(
                                     AssetDatabase.LoadAssetAtPath(prefab, typeof(GameObject))) as GameObject;
 
                                 //			EditorUtility.SetDirty (castGO);
@@ -194,7 +194,7 @@ public class SearchAndDestroy : EditorWindow
     public static string[] GetAllPrefabs()
     {
         string[] temp = AssetDatabase.GetAllAssetPaths();
-        List<string> result = new List<string>();
+        var result = new List<string>();
         foreach (string s in temp)
         {
             if (s.Contains(".prefab"))

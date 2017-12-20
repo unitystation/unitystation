@@ -29,12 +29,14 @@ namespace Doors
                     if (UIManager.InventorySlots.IDSlot.IsFull &&
                         UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>() != null)
                     {
-                        CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>(), doorController, originator);
+                        CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>(), doorController,
+                            originator);
                     }
                     else if (UIManager.Hands.CurrentSlot.IsFull &&
                              UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>() != null)
                     {
-                        CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>(), doorController, originator);
+                        CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>(), doorController,
+                            originator);
                     }
                     else
                     {

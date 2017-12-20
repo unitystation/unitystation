@@ -23,7 +23,7 @@ namespace Items
 
             if (!isServer)
             {
-                UISlotObject uiSlotObject = new UISlotObject(hand, gameObject);
+                var uiSlotObject = new UISlotObject(hand, gameObject);
 
                 //PreCheck
                 if (UIManager.CanPutItemToSlot(uiSlotObject))
@@ -48,7 +48,7 @@ namespace Items
         [Server]
         public bool ValidatePickUp(GameObject originator, string handSlot = null)
         {
-            PlayerScript ps = originator.GetComponent<PlayerScript>();
+            var ps = originator.GetComponent<PlayerScript>();
             string slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
             if (PlayerManager.PlayerScript == null || !ps.playerNetworkActions.Inventory.ContainsKey(slotName))
             {
@@ -66,7 +66,7 @@ namespace Items
         /// </summary>
         private void CheckSpriteOrder()
         {
-            SpriteRenderer sR = GetComponentInChildren<SpriteRenderer>();
+            var sR = GetComponentInChildren<SpriteRenderer>();
             if (sR != null)
             {
                 if (sR.sortingLayerName == "Items" && sR.sortingOrder == 0)

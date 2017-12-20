@@ -24,7 +24,7 @@ namespace Tilemaps.Scripts.Behaviours.Interaction
 
         public override void ServerAction()
         {
-            PlayerScript ps = originator.GetComponent<PlayerScript>();
+            var ps = originator.GetComponent<PlayerScript>();
             GameObject item = ps.playerNetworkActions.Inventory[hand];
             if (ps.canNotInteract() || !ps.IsInReach(position) || item == null)
             {

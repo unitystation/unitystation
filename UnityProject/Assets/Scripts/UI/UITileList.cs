@@ -42,7 +42,7 @@ public class UITileList : MonoBehaviour
         LayerMask layerMaskWithFloors = LayerMask.GetMask("Default", "Furniture", "Walls", "Windows", "Machines",
             "Items", "Door Open", "Door Closed", "WallMounts", "HiddenWalls");
         RaycastHit2D[] hits = Physics2D.RaycastAll(position, Vector2.zero, 2f, layerMaskWithFloors);
-        List<GameObject> tiles = new List<GameObject>();
+        var tiles = new List<GameObject>();
 
         foreach (RaycastHit2D hit in hits)
         {
@@ -58,8 +58,8 @@ public class UITileList : MonoBehaviour
     /// <param name="position">Position where to look for tile</param>
     public static LayerTile GetTileAtPosition(Vector3 position)
     {
-        MetaTileMap metaTileMap = PlayerManager.LocalPlayerScript.gameObject.GetComponentInParent<MetaTileMap>();
-        Vector3Int tilePosition = new Vector3Int(
+        var metaTileMap = PlayerManager.LocalPlayerScript.gameObject.GetComponentInParent<MetaTileMap>();
+        var tilePosition = new Vector3Int(
             Mathf.FloorToInt(position.x),
             Mathf.FloorToInt(position.y),
             Mathf.FloorToInt(position.z)
@@ -93,7 +93,7 @@ public class UITileList : MonoBehaviour
             return Instance.listedTilePosition;
         }
 
-        UITileListItem item = Instance.listedObjects[0].GetComponent<UITileListItem>();
+        var item = Instance.listedObjects[0].GetComponent<UITileListItem>();
         return item.Item.transform.position;
     }
 
@@ -105,7 +105,7 @@ public class UITileList : MonoBehaviour
     {
         //Instantiate new item panel
         GameObject tilePanel = Instantiate(Instance.tileItemPanel, Instance.transform);
-        UITileListItem uiTileListItem = tilePanel.GetComponent<UITileListItem>();
+        var uiTileListItem = tilePanel.GetComponent<UITileListItem>();
         uiTileListItem.Item = gameObject;
 
         //Add new panel to the list
@@ -122,7 +122,7 @@ public class UITileList : MonoBehaviour
     {
         //Instantiate new item panel
         GameObject tilePanel = Instantiate(Instance.tileItemPanel, Instance.transform);
-        UITileListItem uiTileListItem = tilePanel.GetComponent<UITileListItem>();
+        var uiTileListItem = tilePanel.GetComponent<UITileListItem>();
         uiTileListItem.Tile = tile;
 
         //Add new panel to the list
@@ -146,7 +146,7 @@ public class UITileList : MonoBehaviour
         }
 
         List<GameObject> newList = GetItemsAtPosition(position);
-        List<GameObject> oldList = new List<GameObject>();
+        var oldList = new List<GameObject>();
 
         foreach (GameObject gameObject in Instance.listedObjects)
         {
@@ -210,8 +210,8 @@ public class UITileList : MonoBehaviour
         float height = Instance.tileItemPanel.GetComponent<RectTransform>().rect.height;
         int count = Instance.listedObjects.Count;
 
-        LayoutElement layoutElement = Instance.gameObject.GetComponent<LayoutElement>();
-        VerticalLayoutGroup verticalLayoutGroup = Instance.gameObject.GetComponent<VerticalLayoutGroup>();
+        var layoutElement = Instance.gameObject.GetComponent<LayoutElement>();
+        var verticalLayoutGroup = Instance.gameObject.GetComponent<VerticalLayoutGroup>();
 
         layoutElement.minHeight = height * count + verticalLayoutGroup.spacing * count;
     }

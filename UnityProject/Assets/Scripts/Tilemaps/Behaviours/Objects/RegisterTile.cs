@@ -59,7 +59,7 @@ namespace Tilemaps.Scripts.Behaviours.Objects
         }
 
         //Wait for the matrix to initialize (high lag situation)
-        IEnumerator WaitForServer()
+        private IEnumerator WaitForServer()
         {
             yield return new WaitForEndOfFrame();
             GameObject tempParent = GameObject.FindGameObjectWithTag("SpawnParent");

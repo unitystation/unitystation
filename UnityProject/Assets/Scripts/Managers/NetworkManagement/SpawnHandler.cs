@@ -17,7 +17,7 @@ public static class SpawnHandler
         Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
 
         //Notify all clients that connected players list should be updated
-        GameObject[] players = new GameObject[connectedPlayers.Count];
+        var players = new GameObject[connectedPlayers.Count];
         connectedPlayers.Values.CopyTo(players, 0);
         UpdateConnectedPlayersMessage.Send(players);
     }
@@ -30,7 +30,7 @@ public static class SpawnHandler
         Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
 
         //Notify all clients that connected players list should be updated
-        GameObject[] players = new GameObject[connectedPlayers.Count];
+        var players = new GameObject[connectedPlayers.Count];
         connectedPlayers.Values.CopyTo(players, 0);
         UpdateConnectedPlayersMessage.Send(players);
     }

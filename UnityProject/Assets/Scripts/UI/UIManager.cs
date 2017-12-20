@@ -137,7 +137,7 @@ namespace UI
         {
             foreach (UI_ItemSlot slot in Instance.inventorySlotCache)
             {
-                UISlotObject slottingAttempt = new UISlotObject(slot.eventName, itemToPlace);
+                var slottingAttempt = new UISlotObject(slot.eventName, itemToPlace);
                 if (CanPutItemToSlot(slottingAttempt))
                 {
                     return slot.eventName;
@@ -174,7 +174,7 @@ namespace UI
 
         private static void ClearObjectIfNotInSlot(UISlotObject slotInfo)
         {
-            for (int i = 0; i < InventorySlots.Length; i++)
+            for (var i = 0; i < InventorySlots.Length; i++)
             {
                 if (InventorySlots[i].eventName.Equals(slotInfo.Slot) || !InventorySlots[i].Item)
                 {

@@ -79,17 +79,17 @@ namespace MapEditor
 
         public static GameObject CreateGameObject()
         {
-            GameObject gameObject = (GameObject) PrefabUtility.InstantiatePrefab(Prefab);
+            var gameObject = (GameObject) PrefabUtility.InstantiatePrefab(Prefab);
 
             SpriteRotate[] spriteRotates = gameObject.GetComponentsInChildren<SpriteRotate>();
-            for (int i = 0; i < spriteRotates.Length; i++)
+            for (var i = 0; i < spriteRotates.Length; i++)
             {
                 spriteRotates[i].RotateIndex = Instance.spriteRotates[i].RotateIndex;
             }
 
             if (Instance.boxCollider2D)
             {
-                BoxCollider2D boxCollider2D = gameObject.GetComponentInChildren<BoxCollider2D>();
+                var boxCollider2D = gameObject.GetComponentInChildren<BoxCollider2D>();
                 boxCollider2D.size = Instance.boxCollider2D.size;
                 boxCollider2D.offset = Instance.boxCollider2D.offset;
             }

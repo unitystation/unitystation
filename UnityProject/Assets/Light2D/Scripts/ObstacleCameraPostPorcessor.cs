@@ -13,9 +13,9 @@ namespace Light2D
         private readonly List<Color32> _colors32 = new List<Color32>();
         private readonly List<int> _indices = new List<int>();
         private readonly Material _material;
+        private readonly List<Vector3> _vertices = new List<Vector3>();
         private Mesh _mesh;
         private Point2 _oldCameraSize;
-        private readonly List<Vector3> _vertices = new List<Vector3>();
 
         public ObstacleCameraPostPorcessor()
         {
@@ -27,7 +27,7 @@ namespace Light2D
 
         public void DrawMesh(Camera camera, float pixelWidth)
         {
-            Point2 camSize = new Point2(Mathf.RoundToInt(camera.pixelWidth), Mathf.RoundToInt(camera.pixelHeight));
+            var camSize = new Point2(Mathf.RoundToInt(camera.pixelWidth), Mathf.RoundToInt(camera.pixelHeight));
             if (_oldCameraSize != camSize || _mesh == null)
             {
                 _oldCameraSize = camSize;
@@ -85,7 +85,7 @@ namespace Light2D
             _vertices.Add(new Vector3(max.x, max.y, 1));
             _vertices.Add(new Vector3(max.x, min.y, 1));
 
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 _colors32.Add(color);
             }

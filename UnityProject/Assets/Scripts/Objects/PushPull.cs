@@ -19,12 +19,12 @@ public class PushPull : VisibleBehaviour
     public float moveSpeed = 7f;
 
     [SyncVar] public GameObject pulledBy;
+    private Vector3 pushFrom;
 
     public bool pushing;
+    private float pushStep;
 
     public Vector3 pushTarget;
-    private Vector3 pushFrom;
-    private float pushStep;
     public bool serverLittleLag;
 
     //A check to make sure there are no network errors
@@ -141,7 +141,8 @@ public class PushPull : VisibleBehaviour
             //Start command to push on server
             if (pusher == PlayerManager.LocalPlayer)
             {
-                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, transform.localPosition,pushTarget);
+                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, transform.localPosition,
+                    pushTarget);
             }
         }
     }
@@ -200,7 +201,7 @@ public class PushPull : VisibleBehaviour
 
     private void PushTowards()
     {
-        pushStep += ((Time.deltaTime * moveSpeed) / journeyLength);
+        pushStep += Time.deltaTime * moveSpeed / journeyLength;
         transform.localPosition = Vector3.Lerp(pushFrom, pushTarget, pushStep);
 
         if (transform.localPosition == pushTarget)
@@ -208,7 +209,7 @@ public class PushPull : VisibleBehaviour
             registerTile.UpdatePosition();
             if (pusher == PlayerManager.LocalPlayer)
             {
-                StartCoroutine(PushFinishWait());   
+                StartCoroutine(PushFinishWait());
             }
             pushing = false;
         }
@@ -230,9 +231,8 @@ public class PushPull : VisibleBehaviour
             pusher = null;
             PlayerManager.LocalPlayerScript.playerMove.IsPushing = false;
         }
-
     }
-    
+
     [ClientRpc]
     public void RpcPushSync(Vector3 startLocalPos, Vector3 targetPos)
     {

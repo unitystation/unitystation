@@ -115,7 +115,7 @@ namespace FullSerializer
 
         private fsResult TryParseExact(string content)
         {
-            for (int i = 0; i < content.Length; ++i)
+            for (var i = 0; i < content.Length; ++i)
             {
                 if (Character() != content[i])
                 {
@@ -298,7 +298,7 @@ namespace FullSerializer
             }
             SkipSpace();
 
-            List<fsData> result = new List<fsData>();
+            var result = new List<fsData>();
 
             while (HasValue() && Character() != ']')
             {
@@ -352,7 +352,7 @@ namespace FullSerializer
             }
             SkipSpace();
 
-            Dictionary<string, fsData> result = new Dictionary<string, fsData>(
+            var result = new Dictionary<string, fsData>(
                 fsGlobalConfig.IsCaseSensitive ? StringComparer.Ordinal : StringComparer.OrdinalIgnoreCase);
 
             while (HasValue() && Character() != '}')
@@ -482,7 +482,7 @@ namespace FullSerializer
                 return fsResult.Fail("No input");
             }
 
-            fsJsonParser context = new fsJsonParser(input);
+            var context = new fsJsonParser(input);
             return context.RunParse(out data);
         }
 
