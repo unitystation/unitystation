@@ -219,96 +219,36 @@ namespace PlayGroup
 			}
 		}
 
-		private void InteractDoor(Vector3 currentPosition, Vector3 direction)
-		{
-			Vector3Int position = Vector3Int.RoundToInt(currentPosition + direction);
+        private void InteractDoor(Vector3 currentPosition, Vector3 direction)
+        {
+            // Make sure there is a door controller
+            Vector3Int position = Vector3Int.RoundToInt(currentPosition + direction);
 
-			DoorController doorController = matrix.GetFirst<DoorController>(position);
+            DoorController doorController = matrix.GetFirst<DoorController>(position);
 
-			if (!doorController)
-			{
-				doorController = matrix.GetFirst<DoorController>(Vector3Int.RoundToInt(currentPosition));
+            if (!doorController)
+            {
+                doorController = matrix.GetFirst<DoorController>(Vector3Int.RoundToInt(currentPosition));
 
-				if (doorController)
-				{
-					RegisterDoor registerDoor = doorController.GetComponent<RegisterDoor>();
-					if (registerDoor.IsPassable(position))
-					{
-						doorController = null;
-					}
-				}
-			}
+                if (doorController)
+                {
+                    RegisterDoor registerDoor = doorController.GetComponent<RegisterDoor>();
+                    if (registerDoor.IsPassable(position))
+                    {
+                        doorController = null;
+                    }
+                }
+            }
 
-			if (doorController != null && allowInput)
-			{
-				//checking if the door actually has a restriction (only need one because that's how ss13 works!
-				if (doorController.restriction > 0)
-				{
-					//checking if the ID slot on player contains an ID with an itemIdentity component
-					if (UIManager.InventorySlots.IDSlot.IsFull &&
-					    UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>() != null)
-					{
-						//checking if the ID has access to bypass the restriction
-						CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>(), doorController);
-						//Check the current hand for an ID
-					}
-					else if (UIManager.Hands.CurrentSlot.IsFull &&
-					         UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>() != null)
-					{
-						CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>(), doorController);
-					}
-					else
-					{
-						//does not have an ID
-						allowInput = false;
-						StartCoroutine(DoorInputCoolDown());
-						if (CustomNetworkManager.Instance._isServer)
-						{
-							doorController.CmdTryDenied();
-						}
-					}
-				}
-				else
-				{
-					//door does not have restriction
-					allowInput = false;
-					//Server only here but it is a cmd for the input trigger (opening with mouse click from client)
-					if (CustomNetworkManager.Instance._isServer)
-					{
-						doorController.CmdTryOpen(gameObject);
-					}
+            // Attempt to open door
+            if (doorController != null && allowInput)
+            {
+                doorController.CmdCheckDoorPermissions(doorController.gameObject, this.gameObject);
 
-					StartCoroutine(DoorInputCoolDown());
-				}
-			}
-		}
-
-		private void CheckDoorAccess(IDCard cardID, DoorController doorController)
-		{
-			if (cardID.accessSyncList.Contains((int) doorController.restriction))
-			{
-				// has access
-				allowInput = false;
-				//Server only here but it is a cmd for the input trigger (opening with mouse click from client)
-				if (CustomNetworkManager.Instance._isServer)
-				{
-					doorController.CmdTryOpen(gameObject);
-				}
-
-				StartCoroutine(DoorInputCoolDown());
-			}
-			else
-			{
-				// does not have access
-				allowInput = false;
-				StartCoroutine(DoorInputCoolDown());
-				//Server only here but it is a cmd for the input trigger (opening with mouse click from client)
-				if (CustomNetworkManager.Instance._isServer)
-				{
-					doorController.CmdTryDenied();
-				}
-			}
-		}
+                allowInput = false;
+                StartCoroutine(DoorInputCoolDown());
+            }
+        }
 
 		//FIXME an ugly temp fix for an ugly problem. Will implement callbacks after 0.1.3
 		private IEnumerator DoorInputCoolDown()

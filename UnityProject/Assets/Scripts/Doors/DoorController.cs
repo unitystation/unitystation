@@ -219,7 +219,28 @@ namespace Doors
 			}
 		}
 
-		private void ResetWaiting()
+        // How the client attempts to open the door. If there is no AccessRestrictions component, it returns an error and everything goes about its business.
+        [Command]
+        public void CmdCheckDoorPermissions(GameObject Door, GameObject Originator)
+        {
+            if (Door.GetComponent<AccessRestrictions>() != null)
+            {
+                if (Door.GetComponent<AccessRestrictions>().checkAccess(Originator, Door))
+                {
+                    CmdTryOpen(Originator);
+                }
+                else
+                {
+                    CmdTryDenied();
+                }
+            }
+            else
+            {
+                Debug.LogError("Door lacks access restriction component!");
+            }
+        }
+
+        private void ResetWaiting()
 		{
 			if (coWaitOpened != null)
 			{
