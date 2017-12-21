@@ -224,7 +224,7 @@ namespace Doors
         {
             if (Door.GetComponent<AccessRestrictions>() != null)
             {
-                if (Door.GetComponent<AccessRestrictions>().checkAccess(Originator, Door))
+                if (Door.GetComponent<AccessRestrictions>().CheckAccess(Originator, Door))
                 {
                     CmdTryOpen(Originator);
                 }

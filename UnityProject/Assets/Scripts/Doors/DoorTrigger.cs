@@ -22,16 +22,20 @@ namespace Doors
 
         public override void Interact(GameObject originator, Vector3 position, string hand)
         {
-            AccessRestrictions AR = GetComponent<AccessRestrictions>();
-            
-            if(doorController.IsOpened)
+            PlayerNetworkActions pna = PlayerManager.LocalPlayer.GetComponent<PlayerNetworkActions>();
+            // Close the door if it's open
+            if(doorController.IsOpened && allowInput)
             {
-                doorController.CmdTryClose();
+                pna.CmdTryCloseDoor(gameObject);
+
+                allowInput = false;
+                StartCoroutine(DoorInputCoolDown());
             }
 
+            // Attempt to open if it's closed
             if (doorController != null && allowInput)
             {
-                doorController.CmdCheckDoorPermissions(this.gameObject, originator);
+                pna.CmdCheckDoorPermissions(gameObject, PlayerManager.LocalPlayerScript.gameObject);
 
                 allowInput = false;
                 StartCoroutine(DoorInputCoolDown());
