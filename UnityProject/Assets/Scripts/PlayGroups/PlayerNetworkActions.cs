@@ -22,6 +22,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		"suitStorage"
 	};
 
+    // For access checking. Must be nonserialized.
+    // This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
+    [System.NonSerialized]
+    public string activeHand = "right";
+
 	private ChatIcon chatIcon;
 
 	private Equipment.Equipment equipment;
@@ -539,4 +544,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Inventory[fromSlot] = null;
 		equipment.ClearItemSprite(fromSlot);
 	}
+
+    [Command]
+    public void CmdSetActiveHand(string hand)
+    {
+        activeHand = hand;
+    }
+    
 }
