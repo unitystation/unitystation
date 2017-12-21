@@ -46,6 +46,11 @@ namespace Items
                 {
                     GetComponent<RegisterItem>().Unregister();
                 }
+                else
+                {
+                    //Rollback prediction (inform player about item's true state)
+                    GetComponent<CustomNetTransform>().NotifyPlayer(originator);
+                }
             }
         }
 
@@ -54,25 +59,38 @@ namespace Items
         {
             var ps = originator.GetComponent<PlayerScript>();
             var slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
-            var statePosition = GetComponent<CustomNetTransform>().State.Position;
-            if (PlayerManager.PlayerScript == null 
-                || !ps.playerNetworkActions.Inventory.ContainsKey(slotName)
-                || ps.playerNetworkActions.SlotNotEmpty(slotName) //already picked up
-                )
+            var cnt = GetComponent<CustomNetTransform>();
+            var state = cnt.State;
+            if ( SlotUnavailable(ps, slotName) )
             {
                 return false;
             }
-            if (!ps.IsInReach(statePosition))
+            if ( cnt.IsFloating() ? !CanReachFloating(ps, state) : !ps.IsInReach(state.Position) ) 
             {
-                Debug.LogWarningFormat($"Not in reach! server pos:{statePosition} player pos:{originator.transform.position}");
+                Debug.LogWarningFormat($"Not in reach! server pos:{state.Position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
                 return false;
             }
             
-            Debug.LogFormat($"Pickup success! server pos:{statePosition} player pos:{originator.transform.position}");
+            Debug.LogFormat($"Pickup success! server pos:{state.Position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
             
 
             //set ForceInform to false for simulation
             return ps.playerNetworkActions.AddItem(gameObject, slotName, false /*, false*/);
+        }
+
+        /// <summary>
+        /// Making reach check less strict when object is flying, otherwise high ping players can never catch shit!
+        /// </summary>
+        private static bool CanReachFloating(PlayerScript ps, TransformState state)
+        {
+            return ps.IsInReach(state.Position) || ps.IsInReach(state.Position - ( Vector3 ) state.Impulse, 2f);
+        }
+
+        private static bool SlotUnavailable(PlayerScript ps, string slotName)
+        {
+            return PlayerManager.PlayerScript == null 
+                   || !ps.playerNetworkActions.Inventory.ContainsKey(slotName)
+                   || ps.playerNetworkActions.SlotNotEmpty(slotName);
         }
 
         /// <summary>
