@@ -48,7 +48,6 @@ namespace Doors
 		private GameObject playerOpeningIt;
 		private RegisterDoor registerTile;
 
-		public Access restriction;
 		[HideInInspector] public SpriteRenderer spriteRenderer;
 
 		public override void OnStartClient()
