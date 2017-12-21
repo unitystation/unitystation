@@ -13,15 +13,14 @@ public class AccessRestrictions : MonoBehaviour
 {
     public Access restriction;
 
-    public bool checkAccess(GameObject Player)
+    public bool CheckAccess(GameObject Player)
     {
-        return checkAccess(Player, this.gameObject);
+        return CheckAccess(Player, gameObject);
     }
 
-    public bool checkAccess(GameObject Player, GameObject Object)
+    public bool CheckAccess(GameObject Player, GameObject Object)
     {
         IDCard card;
-        UIManager playerUIManager = Player.GetComponent<UIManager>();
         PlayerNetworkActions PNA = Player.GetComponent<PlayerNetworkActions>();
 
         // Check for an ID card
