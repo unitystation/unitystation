@@ -194,20 +194,22 @@
   </div>
   <h2 class="sr-only">Contact</h2>
   <div class="container-narrow margin-top-30 margin-bottom-30" id="emailForm">
-    <form id="contactForm">
+      <form id="contactForm" action="https://formspree.io/info@unitystation.org" method="POST">
       <div class="form-group">
         <label for="inputEmail">Email address</label>
-        <input type="email" class="form-control orange-form-box" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+        <input type="email" name="_replyto" class="form-control orange-form-box" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
       </div>
       <div class="form-group">
         <label for="inputName">Name</label>
-        <input class="form-control orange-form-box" id="inputName" placeholder="Name">
+        <input type="text" name="name" class="form-control orange-form-box" id="inputName" placeholder="Name">
       </div>
       <div class="form-group">
         <label for="textArea">Comments</label>
-        <textarea class="form-control orange-form-box" id="textArea" rows="3" placeholder="Leave a comment..."></textarea>
+        <textarea name="message"  class="form-control orange-form-box" id="textArea" rows="3" placeholder="Leave a comment..."></textarea>
       </div>
-      <button type="button" class="btn btn-primary" id="submitContactButton" onclick="">Submit</button>
+        <input type="hidden" name="_format" value="plain" />
+        <input type="hidden" name="_next" value="https://unitystation.org" />
+      <button type="submit" class="btn btn-primary" id="submitContactButton" onclick="">Submit</button>
     </form>
   </div>
 
@@ -338,18 +340,7 @@
       closePlayer.css("display","none");
     }
 
-    $(document).ready(function() {
-        $('#submitContactButton').click(function() {
-            $('#contactForm').attr('action',
-                           'mailto:joshuaasalazar@gmail.com?subject=' +
-                           "Feedback from website" + '&body=' + $('#inputEmail').val() + $('#inputName').val() + $('#textArea').val());
-            $('#contactForm').submit();
-        });
-    });
-    function hideForm(){
-      $('#emailForm').hide();
-      $('.emailConfirmBox').show();
-    }
+
   </script>
 </body>
 
