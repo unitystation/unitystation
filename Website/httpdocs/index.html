@@ -25,6 +25,7 @@
 </head>
 
 <body>
+  <!-- START NAV -->
   <nav class="navbar sticky-top navbar-custom-dark navbar-expand-lg">
     <a class="navbar-brand" href="#"><img class="ss13-brand-image" src="assets/img/ss13_64.png">Unity Station</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,59 +77,107 @@
       </li>
     </ul>
   </nav>
+  <!-- END NAV -->
 
+  <!-- START HERO IMAGE / EMBEDDED VIDEO -->
   <div class="headerImage">
   </div>
+  <!-- END HERO IMAGE / EMBEDDED VIDEO -->
 
+  <!-- START ABOUT-->
+  <div class="leftBar">
+  </div>
 
-
-
-  <div class="container">
+  <!-- our project container -->
+  <div class="container" id="about">
+    <div class="flex-center">
+      <img class="about-image" src="assets/img/about.png">
+    </div>
+    <h2 class="sr-only">About</h2>
+    <h3 class="ourProject text-center">Our Project, Our Unity</h3>
     <div class="row">
-      <div class="col-md-12">
-        <section id="about">
-          <h2>About</h2>
-          <h3 class="ourProject text-center">Our Project, Our Unity</h3>
-          <div class="row">
-            <div class="col-md-6">
-              <p>
-                Space Station 13, the greatest clown simulator ever created, or atmos simulator? Who knows, but if you have ever played SS13 before you can agree on one thing and that is that BYOND sucks! This is where unitystation comes in. Started in November 2016
-                unitystation has endeavored to ensure SS13 has a long and prosperous future outside of Byond by cloning the /TG/ source to Unity.
-              </p>
+      <div class="col-md-6">
+        <p>
+          Space Station 13, the greatest clown simulator ever created, or atmos simulator? Who knows, but if you have ever played SS13 before you can agree on one thing and that is that BYOND sucks! This is where unitystation comes in. Started in November 2016
+          unitystation has endeavored to ensure SS13 has a long and prosperous future outside of Byond by cloning the /TG/ source to Unity.
+        </p>
 
-              <p>
-                It has a fully working net framework, a dedicated server, map editor, inventory, basic interactions, all the items and clothes from the TG branch, weapons, damage and over 15 contributors who are eager to see this thing become a reality. Best of all it
-                is all open source and available on GitHub.
-              </p>
-            </div>
+        <p>
+          It has a fully working net framework, a dedicated server, map editor, inventory, basic interactions, all the items and clothes from the TG branch, weapons, damage and over 15 contributors who are eager to see this thing become a reality. Best of all it
+          is all open source and <a href="https://github.com/unitystation/unitystation">available on GitHub</a>.
+        </p>
+      </div>
 
-            <div class="col-md-6">
-              <p>
-                But the journey to Version 1.0 is still a long one and this is where patreon comes in. Funds raised will be used to place 'Bounties' on each TODO ticket that will provide an incentive for contributors to complete work a lot sooner then what would of occurred. We call this the <strong>Nanotrasen Bounty System</strong>. Code submitted for each ticket will be peer reviewed before the bounty is awarded. On top of this patrons will have a say in the development of unitystation with larger donors having more power. Having the NBS system means unitystation can achieve version 1.0 at lightning speed while also rewarding those who take the time out to contribute!
-              </p>
+      <div class="col-md-6">
+        <p>
+          But the journey to Version 1.0 is still a long one and this is where patreon comes in. Funds raised will be used to place 'Bounties' on each TODO ticket that will provide an incentive for contributors to complete work a lot sooner then what would of occurred.
+          We call this the <strong>Nanotrasen Bounty System</strong>. Code submitted for each ticket will be peer reviewed before the bounty is awarded. On top of this patrons will have a say in the development of unitystation with larger donors
+          having more power. Having the NBS system means unitystation can achieve version 1.0 at lightning speed while also rewarding those who take the time out to contribute!
+        </p>
 
-              <p>
-                All transactions will be made visible and public on our <a href="https://discord.gg/tFcTpBp">discord channel</a>.
-              </p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 text-center margin-top-30">
-              <h4>Support this open source project today and <a href="https://www.patreon.com/unitystation">Become a Patron</a>.</h4>
-              <a href="https://www.patreon.com/unitystation"><img src="assets/img/become_a_patron_button.png"></a>
-            </div>
+        <p>
+          All transactions will be made visible and public on our <a href="https://discord.gg/tFcTpBp">discord channel</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- patreon container -->
+  <div class="patreon-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center margin-top-30">
+          <h4 class="margin-bottom-1rem">Support this open source project today and <a href="https://www.patreon.com/unitystation">Become a Patron</a>.</h4>
+          <a id="patron-button" href="https://www.patreon.com/unitystation">
+              <img id="patron-button-white" src="assets/img/become_a_patron_button-white.png">
+              <img id="patron-button" src="assets/img/become_a_patron_button.png" style="display:none;">
+            </a>
         </div>
-        </section>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <section id="download">
-          <h2>Download</h2>
-        </section>
-      </div>
+  </div>
+  <!-- END ABOUT -->
 
+  <!-- START DOWNLOAD -->
+  <div class="download-container" id="download">
+    <div class="honk" id="honk">
     </div>
+    <audio id="audio" src="assets/audio/Clown.wmv.mp3"></audio>
+    <button class="audio-button" onclick="toggleAudio()" type="button">
+      <i id="audio-button-icon" class="fas fa-volume-off"></i>
+    </button>
+    <div class="container download-container-inner">
+      <div class="flex-center">
+        <img class="download-image" src="assets/img/download.png">
+      </div>
+      <h2 class="sr-only">Download</h2>
+      <div class="version-container">
+        <p>v0.1.3 - &nbsp;</p>
+        <p>July 15, 2017</p>
+      </div>
+      <div class="row button-container">
+        <div class="col-md-4 flex-center">
+          <a class="btn btn-lg btn-primary" href="https://github.com/unitystation/unitystation/releases/download/0.1.3/windows.zip" role="button">
+            <i class="fab fa-windows"></i> Windows
+          </a>
+        </div>
+        <div class="col-md-4 flex-center">
+          <a class="btn btn-lg btn-primary" href="https://github.com/unitystation/unitystation/releases/download/0.1.3/osx.zip" role="button">
+            <i class="fab fa-apple"></i> OSX
+          </a>
+        </div>
+        <div class="col-md-4 flex-center">
+          <a class="btn btn-lg btn-primary" href="https://github.com/unitystation/unitystation/releases/download/0.1.3/linux.zip" role="button">
+            <i class="fab fa-linux"></i> Linux
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END DOWNLOAD -->
+
+  <!-- START CONTACT -->
+  <div class="container">
     <div class="row">
       <div class="col-md-12">
         <section id="contact">
@@ -137,6 +186,7 @@
       </div>
     </div>
   </div>
+  <!-- END CONTACT -->
 
   <div id="footerwrap">
     <div class="container">
@@ -155,12 +205,80 @@
     </div>
   </div>
 
-  <!-- Bootstrap core JavaScript
-    ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+  <!-- Changes Patreon button on hover -->
+  <script tpye="text/JavaScript">
+    $('#patron-button').hover(
+      function() {
+        $('#patron-button-white').attr("src", "assets/img/become_a_patron_button.png");
+      },
+      function() {
+        $('#patron-button-white').attr("src", "assets/img/become_a_patron_button-white.png");
+      }
+    );
+  </script>
+
+  <!-- Very important .js to toggle honk -->
+  <script type="text/JavaScript">
+    var audioIsPlaying = false;
+
+    function toggleAudio(){
+      var audio = document.getElementById("audio");
+
+      if(!audioIsPlaying){
+        audio.play();
+        $("#audio-button-icon").attr("class","fas fa-volume-up");
+        audioIsPlaying = true;
+      }
+      else{
+        audio.pause();
+        audio.currentTime = 0;
+        $("#audio-button-icon").attr("class","fas fa-volume-off");
+        audioIsPlaying = false;
+      }
+    }
+  </script>
+
+  <!-- Very important .js to animate honk -->
+  <script type="text/JavaScript">
+    // get element once for optimization
+    $elem = $("#honk");
+
+    // animate the honk every 15 seconds
+    $(document).ready(function(e) {
+      window.setInterval(function(){
+        animateHonk()
+      }, 15000);
+    });
+
+    function animateHonk(){
+      // width is the screen width plus 150.
+      // The +150 will allow the clown to leave the screen
+      var width = "+=" + ($(document).width() + 150);
+
+      // get a random value for the top offset between
+      // 25px (top) and 250px (bottom)
+      var top = Math.floor(Math.random() * (250 - 25 + 1)) + 25;
+
+      // apply top offset...
+      $elem.css("top",top);
+
+      // animate the clown across the screen with the JQuery animate() function.
+      // the first parameter are the css properties to animateHonk
+      // the second parameter is the time it takes in miliseconds for the animation to background
+      // the third parameter is what to do once the animation is complete.
+      $elem.animate({
+        left: width
+      }, 10000, "linear", function() {
+        // resent the clown's x position
+        $elem.css("left", "-100px");
+      });
+    }
+  </script>
 </body>
 
 </html>

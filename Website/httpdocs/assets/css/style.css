@@ -16,18 +16,33 @@ body {
   background-color: #efefef;
   -webkit-font-smoothing: antialiased;
   -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
 }
 
-.margin-top-30{
+.margin-top-1rem {
+  margin-top: 1rem;
+}
+
+.margin-bottom-1rem {
+  margin-bottom: 1rem;
+}
+
+.margin-top-30 {
   margin-top: 30px;
 }
 
-/* ===== HEADER ===== */
-.flex-end{
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-end {
   justify-content: flex-end;
 }
 
-.ss13-brand-image {
+/* ===== HEADER ===== */
+.ss13-brand-image{
   width: 48px;
   height: 48px;
   margin-right: 15px;
@@ -47,39 +62,8 @@ body {
   color: #aaa;
 }
 
-.navbar-custom-dark a:hover,
-.navbar-custom-dark a:active  {
+.navbar-custom-dark a:hover, .navbar-custom-dark a:active {
   color: white;
-}
-
-/* ===== ABOUT ===== */
-.ourProject{
-  font-size: 2.5rem;
-}
-
-/* ===== SOCIAL MEDIA ===== */
-.socialMedia-github:hover{
-  color: #6cc644 !important;
-}
-
-.socialMedia-patreon:hover{
-  color: #f96854 !important;
-}
-
-.socialMedia-twitter:hover{
-  color: #1da1f2 !important;
-}
-
-.socialMedia-facebook:hover{
-  color: #3b5998 !important;
-}
-
-.socialMedia-reddit:hover{
-  color: #ff4500 !important;
-}
-
-.socialMedia-youtube:hover{
-  color: #f00 !important;
 }
 
 /* ===== HERO IMAGE ===== */
@@ -90,6 +74,132 @@ body {
   min-height: 475px;
   background-size: cover;
 }
+
+/* ===== ABOUT ===== */
+.about-image {
+  width: 200px;
+}
+
+.ourProject {
+  font-size: 2.5rem;
+  margin: 2rem 0;
+}
+
+.patreon-container {
+  background-color: #f96854;
+  color: #fff;
+  padding-bottom: 30px;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+}
+
+.patreon-container a {
+  color: #052d49;
+}
+
+/* ===== DOWNLOAD AREA ===== */
+.honk {
+  background-image: url("../img/clown.gif");
+  width: 50px;
+  height: 50px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: -100px;
+  z-index: 1;
+  display:inline;
+
+  animation-name: spin;
+  animation-duration: 4000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@-moz-keyframes spin {
+  from { -moz-transform: rotate(0deg); }
+  to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
+.download-container {
+  background-image: url("../img/stars.png");
+  background-repeat: repeat;
+  background-attachment: fixed;
+  color: white;
+  position: relative;
+  padding-bottom: 2rem;
+}
+
+.download-container-inner{
+  position: relative;
+  z-index: 2;
+}
+
+.button-container {
+  margin: 2rem 0;
+}
+
+.version-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.download-image {
+  margin: 2rem 0;
+  width: 300px;
+}
+
+.audio-button {
+  background: none;
+  color: #fff;
+  border: none;
+  position: absolute;
+  margin: 2rem;
+  font-size: 2rem;
+  z-index: 2;
+}
+
+.audio-button:focus {
+  outline: none;
+}
+
+
+/* ===== SOCIAL MEDIA ===== */
+.socialMedia-github:hover {
+  color: #6cc644 !important;
+}
+
+.socialMedia-patreon:hover {
+  color: #f96854 !important;
+}
+
+.socialMedia-twitter:hover {
+  color: #1da1f2 !important;
+}
+
+.socialMedia-facebook:hover {
+  color: #3b5998 !important;
+}
+
+.socialMedia-reddit:hover {
+  color: #ff4500 !important;
+}
+
+.socialMedia-youtube:hover {
+  color: #f00 !important;
+}
+
 
 #headerwrap h1 {
   color: #ffffff;
