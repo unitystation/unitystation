@@ -518,6 +518,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		door.GetComponent<DoorController>().CmdTryDenied();
 	}
 
+    [Command]
+    public void CmdCheckDoorPermissions(GameObject door, GameObject player)
+    {
+        if(door.GetComponent<DoorController>() != null)
+        {
+            door.GetComponent<DoorController>().CmdCheckDoorPermissions(door, player);
+        }
+    }
+
 	//FOOD
 	[Command]
 	public void CmdEatFood(GameObject food, string fromSlot)

@@ -24,14 +24,19 @@ namespace Doors
         {
             AccessRestrictions AR = GetComponent<AccessRestrictions>();
             
-            if(doorController.IsOpened)
+            // Close the door if it's open
+            if(doorController.IsOpened && allowInput)
             {
-                doorController.CmdTryClose();
+                PlayerManager.LocalPlayer.GetComponent<PlayerNetworkActions>().CmdTryCloseDoor(gameObject);
+
+                allowInput = false;
+                StartCoroutine(DoorInputCoolDown());
             }
 
+            // Attempt to open if it's closed
             if (doorController != null && allowInput)
             {
-                doorController.CmdCheckDoorPermissions(this.gameObject, originator);
+                PlayerManager.LocalPlayer.GetComponent<PlayerNetworkActions>().CmdCheckDoorPermissions(gameObject, PlayerManager.LocalPlayerScript.gameObject);
 
                 allowInput = false;
                 StartCoroutine(DoorInputCoolDown());
