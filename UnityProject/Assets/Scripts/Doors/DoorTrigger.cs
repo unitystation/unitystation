@@ -22,7 +22,6 @@ namespace Doors
 
         public override void Interact(GameObject originator, Vector3 position, string hand)
         {
-            AccessRestrictions AR = GetComponent<AccessRestrictions>();
             
             // Close the door if it's open
             if(doorController.IsOpened && allowInput)
