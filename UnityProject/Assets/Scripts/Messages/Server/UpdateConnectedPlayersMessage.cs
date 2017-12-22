@@ -12,6 +12,7 @@ public class UpdateConnectedPlayersMessage : ServerMessage<UpdateConnectedPlayer
 {
 	public GameObject[] Players;
 	public NetworkInstanceId Subject;
+	public static short MessageType = (short) MessageTypes.UpdateConnectedPlayersMessage;
 
 	public override IEnumerator Process()
 	{
@@ -54,8 +55,8 @@ public class UpdateConnectedPlayersMessage : ServerMessage<UpdateConnectedPlayer
 		return msg;
 	}
 
-	public override string ToString()
-	{
-		return string.Format("[GibMessage Subject={0} Type={1} Players={2}]", Subject, MessageType, Players);
-	}
+    public override string ToString()
+    {
+        return string.Format("[UpdateConnectedPlayersMessage Subject={0} Type={1} Players={2}]", Subject, MessageType, Players);
+    }
 }

@@ -2,30 +2,30 @@
 
 public abstract class BulletBehaviour : MonoBehaviour
 {
-	private BodyPartType bodyAim;
-	public int damage = 25;
-	public string shooterName;
+    private BodyPartType bodyAim;
+    public int damage = 25;
+    public GameObject shooter;
 
 	private Rigidbody2D thisRigi;
 	//	public BodyPartType BodyPartAim { get; private set; };
 
 
-	public void Shoot(Vector2 dir, float angle, string controlledByPlayer, BodyPartType targetZone = BodyPartType.CHEST)
-	{
-		StartShoot(dir, angle, controlledByPlayer, targetZone);
-		OnShoot();
-	}
+    public void Shoot(Vector2 dir, float angle, GameObject controlledByPlayer, BodyPartType targetZone = BodyPartType.CHEST)
+    {
+        StartShoot(dir, angle, controlledByPlayer, targetZone);
+        OnShoot();
+    }
 
-	private void StartShoot(Vector2 dir, float angle, string controlledByPlayer, BodyPartType targetZone)
-	{
-		bodyAim = targetZone;
-		shooterName = controlledByPlayer;
-		transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-		Vector3 startPos = new Vector3(dir.x, dir.y, transform.position.z);
-		transform.position += startPos;
-		thisRigi = GetComponent<Rigidbody2D>();
-		thisRigi.AddForce(dir.normalized * 24f, ForceMode2D.Impulse);
-	}
+    private void StartShoot(Vector2 dir, float angle, GameObject controlledByPlayer, BodyPartType targetZone)
+    {
+        bodyAim = targetZone;
+        shooter = controlledByPlayer;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        Vector3 startPos = new Vector3(dir.x, dir.y, transform.position.z);
+        transform.position += startPos;
+        thisRigi = GetComponent<Rigidbody2D>();
+        thisRigi.AddForce(dir.normalized * 24f, ForceMode2D.Impulse);
+    }
 
 	public abstract void OnShoot();
 
@@ -34,17 +34,17 @@ public abstract class BulletBehaviour : MonoBehaviour
 		PoolManager.Instance.PoolClientDestroy(gameObject);
 	}
 
-	private void OnTriggerEnter2D(Collider2D coll)
-	{
-		HealthBehaviour damageable = coll.GetComponent<HealthBehaviour>();
-		if (damageable == null ||
-		    damageable.IsDead ||
-		    damageable.gameObject.name.Equals(shooterName))
-		{
-			return;
-		}
-		damageable.ApplyDamage(shooterName, damage, DamageType.BRUTE, bodyAim);
-		//		Debug.LogFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", damageable.gameObject.name, damage);
-		PoolManager.Instance.PoolClientDestroy(gameObject);
-	}
+    private void OnTriggerEnter2D(Collider2D coll)
+    {
+        HealthBehaviour damageable = coll.GetComponent<HealthBehaviour>();
+        if (damageable == null ||
+            damageable.IsDead ||
+            damageable.gameObject.name.Equals(shooter.name))
+        {
+            return;
+        }
+        damageable.ApplyDamage(shooter, damage, DamageType.BRUTE, bodyAim);
+        //		Debug.LogFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", damageable.gameObject.name, damage);
+        PoolManager.Instance.PoolClientDestroy(gameObject);
+    }
 }

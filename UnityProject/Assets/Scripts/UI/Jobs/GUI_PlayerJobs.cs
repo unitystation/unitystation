@@ -7,18 +7,19 @@ public class GUI_PlayerJobs : MonoBehaviour
 {
 	public GameObject buttonPrefab;
 
-	private bool isInit;
+	public bool isUpToDate;
 	private CustomNetworkManager networkManager;
 	public GameObject screen_Jobs;
 	public Text title;
+	public bool hasPickedAJob;
 
 	private void Update()
 	{
 		//We only want the job selection screen to show up once
 		//And only when we've received the connectedPlayers list from the server
-		if (canBeInit())
+		if (canBeUpdated())
 		{
-			Init();
+			UpdateJobsList();
 		}
 	}
 
@@ -27,9 +28,10 @@ public class GUI_PlayerJobs : MonoBehaviour
 		SoundManager.Play("Click01");
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestJob(preference);
 		UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(false);
+		hasPickedAJob = true;
 	}
 
-	private void Init()
+	private void UpdateJobsList()
 	{
 		screen_Jobs.SetActive(false);
 		foreach (Transform child in screen_Jobs.transform)
@@ -62,12 +64,12 @@ public class GUI_PlayerJobs : MonoBehaviour
 			occupation.SetActive(true);
 		}
 		screen_Jobs.SetActive(true);
-		isInit = true;
+		isUpToDate = true;
 	}
 
-	private bool canBeInit()
+	private bool canBeUpdated()
 	{
-		if (isInit)
+		if (isUpToDate || hasPickedAJob)
 		{
 			return false;
 		}

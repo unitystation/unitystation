@@ -48,21 +48,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		chatIcon = GetComponentInChildren<ChatIcon>();
 	}
 
-	public override void OnStartServer()
-	{
-		if (isServer)
-		{
-			foreach (string slotName in slotNames)
-			{
-				Inventory.Add(slotName, null);
-			}
-		}
-		else
-		{
-			CmdSyncRoundTime(GameManager.Instance.GetRoundTime);
-		}
-		base.OnStartServer();
-	}
+    public override void OnStartServer()
+    {
+        if (isServer)
+        {
+            foreach (string slotName in slotNames)
+            {
+                Inventory.Add(slotName, null);
+            }
+        }
+        
+        base.OnStartServer();
+    }
 
 	[Server]
 	public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false, bool forceInform = true)
@@ -296,8 +293,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		playerScript.JobType = GameManager.Instance.GetRandomFreeOccupation(jobType);
-
 		RespawnPlayer();
+		ForceJobListUpdateMessage.Send();
 	}
 
 	[Command]
@@ -461,7 +458,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	private IEnumerator InitiateRespawn(int timeout)
 	{
-		Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
+		//Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
 		yield return new WaitForSeconds(timeout);
 		RpcAdjustForRespawn();
 
@@ -485,26 +482,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		gameObject.GetComponent<InputController>().enabled = false;
 	}
 
-	[Command]
-	private void CmdSyncRoundTime(float currentTime)
-	{
-		RpcSyncRoundTime(currentTime);
-	}
-
-	[ClientRpc]
-	private void RpcSyncRoundTime(float currentTime)
-	{
-		if (PlayerManager.LocalPlayer == gameObject)
-		{
-			GameManager.Instance.SyncTime(currentTime);
-		}
-	}
-
-	[Command]
-	public void CmdTryOpenDoor(GameObject door, GameObject originator)
-	{
-		door.GetComponent<DoorController>().CmdTryOpen(originator);
-	}
+    [Command]
+    public void CmdTryOpenDoor(GameObject door)
+    {
+        door.GetComponent<DoorController>().CmdTryOpen(gameObject);
+    }
 
 	[Command]
 	public void CmdTryCloseDoor(GameObject door)

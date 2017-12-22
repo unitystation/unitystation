@@ -44,13 +44,13 @@ namespace Cupboards
 		public override void OnStartServer()
 		{
 			StartCoroutine(WaitForServerReg());
-			IsClosed = true;
 			base.OnStartServer();
 		}
 
 		private IEnumerator WaitForServerReg()
 		{
 			yield return new WaitForSeconds(1f);
+			IsClosed = true;
 			SetItems(!IsClosed);
 		}
 

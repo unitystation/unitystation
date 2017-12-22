@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Reflection;
+using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
@@ -9,7 +10,7 @@ public abstract class ServerMessage<T> : GameMessage<T>
 {
 	public void SendToAll()
 	{
-		NetworkServer.SendToAll(MessageType, this);
+		NetworkServer.SendToAll(GetMessageType(), this);
 		//		Debug.LogFormat("SentToAll {0}", this);
 	}
 
@@ -20,7 +21,14 @@ public abstract class ServerMessage<T> : GameMessage<T>
 			return;
 		}
 
-		NetworkServer.SendToClientOfPlayer(recipient, MessageType, this);
+		NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
 		//		Debug.LogFormat("SentTo {0}", this);
+	}
+
+	private short GetMessageType()
+	{
+		FieldInfo field = typeof(T).GetField("MessageType",
+			BindingFlags.Static | BindingFlags.FlattenHierarchy | BindingFlags.Public);
+		return (short) field.GetValue(null);
 	}
 }

@@ -13,22 +13,9 @@ public class Headset : NetworkBehaviour
 		getEncryptionTypeFromHier();
 	}
 
-	public void InsertEncryptionKey(EncryptionKey encryptionKeyComponent)
-	{
-		if (EncryptionKey != EncryptionKeyType.None)
-		{
-			UIManager.Chat.AddChatEvent(new ChatEvent("This headset already has an encryption key",
-				ChatChannel.System));
-			return;
-		}
-
-		EncryptionKey = encryptionKeyComponent.Type;
-		Destroy(encryptionKeyComponent.gameObject);
-	}
-
-	private void getEncryptionTypeFromHier()
-	{
-		ItemAttributes attr = GetComponent<ItemAttributes>();
+    private void getEncryptionTypeFromHier()
+    {
+        ItemAttributes attr = GetComponent<ItemAttributes>();
 
 		switch (attr.hierarchy)
 		{
