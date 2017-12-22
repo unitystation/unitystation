@@ -234,7 +234,7 @@ namespace Weapons
 				return;
 			}
 			//shoot gun interation if its in hand
-			if (gameObject == UIManager.Hands.CurrentSlot.GameObject())
+			if (gameObject == UIManager.Hands.CurrentSlot.Item)
 			{
 				AttemptToFireWeapon();
 			}
