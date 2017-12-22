@@ -148,6 +148,10 @@ public class PushPull : VisibleBehaviour
 	public void BreakPull()
 	{
 		PlayerScript player = PlayerManager.LocalPlayerScript;
+		if (!player.playerSync) //FIXME: this doesn't exist on the client sometimes
+		{
+			return;
+		}
 		GameObject pullingObject = player.playerSync.pullingObject;
 		if (!pullingObject || !pullingObject.Equals(gameObject))
 		{

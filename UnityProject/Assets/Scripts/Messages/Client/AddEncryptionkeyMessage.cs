@@ -9,6 +9,7 @@ public class AddEncryptionkeyMessage : ClientMessage<AddEncryptionkeyMessage>
 {
 	public GameObject Encryptionkey;
 	public GameObject HeadsetItem;
+	public static short MessageType = (short) MessageTypes.AddEncryptionKeyMessage;
 
 	public override IEnumerator Process()
 	{

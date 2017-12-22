@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,7 +9,8 @@ public class UpdateRoundTimeMessage : ServerMessage<UpdateRoundTimeMessage>
 {
     public float Time;
     public NetworkInstanceId Subject;
-
+    public static short MessageType = (short) MessageTypes.UpdateRoundTimeMessage;
+    
     public override IEnumerator Process()
     {
         yield return WaitFor(Subject);
@@ -24,7 +24,6 @@ public class UpdateRoundTimeMessage : ServerMessage<UpdateRoundTimeMessage>
         {
             Time = time
         };
-        Debug.Log("Server network msg received " + time);
         msg.SendToAll();
         return msg;
     }

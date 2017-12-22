@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PlayGroup;
 using UI;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class ChatRelay : NetworkBehaviour
@@ -74,9 +75,8 @@ public class ChatRelay : NetworkBehaviour
 
 		for (int i = 0; i < players.Length; i++)
 		{
-			//First check if the players object is owned by a client
-			//by checking if the inputController is enabled:
-			if (players[i].inputController.enabled)
+			//Make sure we're not sending to inactive players
+			if (players[i].playerMove.allowInput)
 			{
 				ChatChannel channels = players[i].GetAvailableChannels(false) & chatEvent.channels;
 				UpdateChatMessage.Send(players[i].gameObject, channels, chatEvent.message);

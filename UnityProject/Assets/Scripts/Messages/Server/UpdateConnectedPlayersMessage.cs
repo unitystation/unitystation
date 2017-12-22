@@ -12,6 +12,7 @@ public class UpdateConnectedPlayersMessage : ServerMessage<UpdateConnectedPlayer
 {
 	public GameObject[] Players;
 	public NetworkInstanceId Subject;
+	public static short MessageType = (short) MessageTypes.UpdateConnectedPlayersMessage;
 
 	public override IEnumerator Process()
 	{

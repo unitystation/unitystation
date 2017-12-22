@@ -5,7 +5,8 @@ using UnityEngine.Networking;
 public class SimpleInteractMessage : ClientMessage<SimpleInteractMessage>
 {
 	public NetworkInstanceId Subject;
-
+	public static short MessageType = (short) MessageTypes.SimpleInteractMessage;
+	
 	public override IEnumerator Process()
 	{
 		//		Debug.Log("Processed " + ToString());

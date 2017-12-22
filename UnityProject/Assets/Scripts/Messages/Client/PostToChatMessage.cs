@@ -10,7 +10,8 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
 {
 	public ChatChannel Channels;
 	public string ChatMessageText;
-
+	public static short MessageType = (short) MessageTypes.PostToChatMessage;
+	
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(SentBy);
@@ -51,8 +52,8 @@ public class PostToChatMessage : ClientMessage<PostToChatMessage>
 
 	public override string ToString()
 	{
-		return string.Format("[PostToChatMessage SentBy={0} ChatMessageText={1} Channels={2}]",
-			SentBy, ChatMessageText, Channels);
+		return string.Format("[PostToChatMessage SentBy={0} ChatMessageText={1} Channels={2} MessageType={3}]",
+			SentBy, ChatMessageText, Channels, MessageType);
 	}
 
 	public override void Deserialize(NetworkReader reader)

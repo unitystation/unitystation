@@ -10,6 +10,7 @@ public class UpdateUIMessage : ServerMessage<UpdateUIMessage>
 {
 	public int CurHealth;
 	public NetworkInstanceId Recipient;
+	public static short MessageType = (short) MessageTypes.UpdateUIMessage;
 
 	public override IEnumerator Process()
 	{

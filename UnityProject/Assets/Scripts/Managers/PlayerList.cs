@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using PlayGroup;
 using UI;
 using UnityEngine;
@@ -82,13 +83,11 @@ public class PlayerList : NetworkBehaviour
 
         if (!departmentScores.ContainsKey(perpetratorDept))
         {
-            departmentScores = new Dictionary<Department, int>();
-            departmentScores[perpetratorDept] = 0;
+            departmentScores.Add(perpetratorDept, 0);
         }
 
         if (victim == null)
         {
-            departmentScores[perpetratorDept]++;
             return;
         }
 
@@ -119,6 +118,19 @@ public class PlayerList : NetworkBehaviour
 		}
 		*/
 
+		if (departmentScores.Count == 0)
+		{
+			PostToChatMessage.Send("Nobody killed anybody. Fucking hippies.", ChatChannel.System);
+		}
+		
+		var scoreSort = departmentScores.OrderByDescending(pair => pair.Value)
+			.ToDictionary(pair => pair.Key, pair => pair.Value);
+		
+		foreach (KeyValuePair<Department, int> ds in scoreSort)
+		{
+			PostToChatMessage.Send("<b>" + ds.Key + "</b>  total kills:  <b>" + ds.Value + "</b>", ChatChannel.System);
+		}
+		
 		PostToChatMessage.Send("Game Restarting in 10 seconds...", ChatChannel.System);
 	}
 

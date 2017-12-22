@@ -12,6 +12,7 @@ public class UpdateSlotMessage : ServerMessage<UpdateSlotMessage>
 	public NetworkInstanceId ObjectForSlot;
 	public NetworkInstanceId Recipient;
 	public string Slot;
+	public static short MessageType = (short) MessageTypes.UpdateSlotMessage;
 
 	public override IEnumerator Process()
 	{

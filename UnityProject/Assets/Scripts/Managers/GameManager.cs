@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    private readonly float cacheTime = 60f;
+    private readonly float cacheTime = 30f;
     private bool counting;
     public List<GameObject> Occupations = new List<GameObject>();
     private float restartTime = 10f;
@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 	public GameObject StandardOutfit;
 	private bool waitForRestart;
 
-    public float GetRoundTime { get; private set; } = 60f;
+    public float GetRoundTime { get; private set; } = 30f;
 
 	private void Awake()
 	{
@@ -60,9 +60,7 @@ public class GameManager : MonoBehaviour
 
     public void SyncTime(float currentTime)
     {
-        Debug.Log("sync time function");
         GetRoundTime = currentTime;
-        Debug.Log("new time is " + GetRoundTime);
     }
 
     public void SyncTimendResetCounter(float currentTime)
@@ -76,7 +74,6 @@ public class GameManager : MonoBehaviour
         GetRoundTime = cacheTime;
         restartTime = 10f;
         counting = true;
-        Debug.Log("Sending reset round time " + GetRoundTime);
         UpdateRoundTimeMessage.Send(GetRoundTime);
     }
 

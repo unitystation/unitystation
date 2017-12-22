@@ -151,9 +151,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
         {
             RpcMeleAttackLerp(stabDirection, weapon);
         }
-        HealthBehaviour healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
-        healthBehaviour
-            .ApplyDamage(gameObject, 20, DamageType.BRUTE, damageZone);
+
+        healthBehaviour.ApplyDamage(gameObject, 20, DamageType.BRUTE, damageZone);
 
         //this crap will remain here until moved to netmessages
         healthBehaviour.RpcApplyDamage(gameObject, 20, DamageType.BRUTE, damageZone);

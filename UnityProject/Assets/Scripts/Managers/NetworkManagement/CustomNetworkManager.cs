@@ -118,7 +118,6 @@ public class CustomNetworkManager : NetworkManager
         if (_isServer)
         {
             //Tell them what the current round time is
-            Debug.Log("Sending connected round time " + GameManager.Instance.GetRoundTime);
             UpdateRoundTimeMessage.Send(GameManager.Instance.GetRoundTime);
         }
     }

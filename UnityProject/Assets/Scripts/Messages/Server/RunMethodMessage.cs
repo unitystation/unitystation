@@ -10,7 +10,8 @@ public class RunMethodMessage : ServerMessage<RunMethodMessage>
 	public string Method;
 	public NetworkInstanceId Parameter;
 	public NetworkInstanceId Recipient;
-
+	public static short MessageType = (short) MessageTypes.RunMethodMessage;
+	
 	public override IEnumerator Process()
 	{
 		//To be run on client

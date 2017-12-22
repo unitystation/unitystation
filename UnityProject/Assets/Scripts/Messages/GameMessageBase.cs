@@ -4,8 +4,6 @@ using UnityEngine.Networking;
 
 public abstract class GameMessageBase : MessageBase
 {
-	protected static short msgTypeCounter = 1000;
-
 	public GameObject NetworkObject;
 	public GameObject[] NetworkObjects;
 
@@ -16,7 +14,7 @@ public abstract class GameMessageBase : MessageBase
 		{
 			if (tries++ > 10)
 			{
-				Debug.Log("Could not find " + id);
+				Debug.LogWarning("GameMessageBase could not find object with id " + id);
 				yield break;
 			}
 
