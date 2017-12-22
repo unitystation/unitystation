@@ -6,3 +6,7 @@ Header set Cache-Control "max-age=31536000, public"
 <filesMatch ".(css|js)$">
 Header set Cache-Control "max-age=2628000, public"
 </filesMatch>
+# Two Days for HTML
+<filesMatch ".(html)$">
+Header set Cache-Control "max-age=172800, public"
+</filesMatch>
