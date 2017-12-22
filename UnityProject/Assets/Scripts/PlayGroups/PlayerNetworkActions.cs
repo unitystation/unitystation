@@ -293,8 +293,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		playerScript.JobType = GameManager.Instance.GetRandomFreeOccupation(jobType);
-
 		RespawnPlayer();
+		ForceJobListUpdateMessage.Send();
 	}
 
 	[Command]

@@ -13,6 +13,8 @@ enum MessageTypes : short
     UpdateRoundTimeMessage = 1004,
     UpdateSlotMessage = 1005,
     UpdateUIMessage = 1006,
+    ClosetHandlerMessage = 1007,
+    ForceJobListUpdateMessage = 1008,
     
     AddEncryptionKeyMessage = 2000,
     InteractMessage = 2001,

@@ -14,6 +14,7 @@ public class ClosetHandlerMessage : ServerMessage<ClosetHandlerMessage> {
 
 	public NetworkInstanceId Recipient;
 	public GameObject Closet;
+	public static short MessageType = (short) MessageTypes.ClosetHandlerMessage;
 
 	public override IEnumerator Process()
 	{
