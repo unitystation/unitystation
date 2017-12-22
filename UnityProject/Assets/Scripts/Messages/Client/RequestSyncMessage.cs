@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 /// </summary>
 public class RequestSyncMessage : ClientMessage<RequestSyncMessage>
 {
-//	public NetworkInstanceId Subject;
+	public static short MessageType = (short) MessageTypes.RequestSyncMessage;
 
 	public override IEnumerator Process()
 	{

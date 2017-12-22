@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 /// </summary>
 public class TransformStateMessage : ServerMessage<TransformStateMessage>
 {
+	public static short MessageType = (short) MessageTypes.TransformStateMessage;
 	public NetworkInstanceId TransformedObject;
 	public TransformState State;
 	public bool ForceRefresh;
@@ -22,17 +23,9 @@ public class TransformStateMessage : ServerMessage<TransformStateMessage>
 			yield return WaitFor(TransformedObject);
 			if (CustomNetworkManager.Instance._isServer || ForceRefresh)
 			{
-				//update NetworkObject transformedObject state
+				//update NetworkObject transform state
 				var transform = NetworkObject.GetComponent<CustomNetTransform>();
 				transform.UpdateClientState(State);
-//				if ( State.Active )
-//				{
-//					transform.AppearAtPosition(State.Position);
-//				}
-//				else
-//				{
-//					transform.DisappearFromWorld();
-//				}
 			}
 		}
 	}
