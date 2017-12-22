@@ -10,3 +10,10 @@ Header set Cache-Control "max-age=2628000, public"
 <filesMatch ".(html)$">
 Header set Cache-Control "max-age=172800, public"
 </filesMatch>
+
+# Extra Security Headers
+<IfModule mod_headers.c>
+	Header set X-XSS-Protection "1; mode=block"
+	Header always append X-Frame-Options SAMEORIGIN
+	Header set X-Content-Type-Options nosniff
+</IfModule>
