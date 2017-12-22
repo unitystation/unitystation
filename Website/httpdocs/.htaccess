@@ -1,3 +1,7 @@
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 # One year for image files
 <filesMatch ".(jpg|jpeg|png|gif|ico|mp3)$">
 Header set Cache-Control "max-age=31536000, public"
