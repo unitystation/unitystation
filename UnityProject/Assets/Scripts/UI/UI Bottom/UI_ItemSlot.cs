@@ -102,15 +102,6 @@ namespace UI
 		}
 
 		/// <summary>
-		///     returnes the current item from the slot
-		/// </summary>
-		/// <returns></returns>
-		public GameObject GameObject()
-		{
-			return Item;
-		}
-
-		/// <summary>
 		///     Clientside check for dropping/placing objects from inventory slot
 		/// </summary>
 		public bool CanPlaceItem()

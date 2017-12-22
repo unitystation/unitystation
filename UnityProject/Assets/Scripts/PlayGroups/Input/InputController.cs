@@ -243,9 +243,9 @@ namespace PlayGroups.Input
 
 		private bool InteractHands()
 		{
-			if (UIManager.Hands.CurrentSlot.GameObject() != null && objectBehaviour.visibleState)
+			if (UIManager.Hands.CurrentSlot.Item != null && objectBehaviour.visibleState)
 			{
-				InputTrigger inputTrigger = UIManager.Hands.CurrentSlot.GameObject().GetComponent<InputTrigger>();
+				InputTrigger inputTrigger = UIManager.Hands.CurrentSlot.Item.GetComponent<InputTrigger>();
 				if (inputTrigger != null)
 				{
 					inputTrigger.Trigger();
