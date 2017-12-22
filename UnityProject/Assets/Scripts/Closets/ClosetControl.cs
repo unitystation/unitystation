@@ -226,6 +226,13 @@ namespace Cupboards
 					player.transform.position = transform.position;
 				}
 				player.visibleState = on;
+
+				if (!on)
+				{
+					//Make sure a ClosetPlayerHandler is created on the client to monitor 
+					//the players input inside the storage. The handler also controls the camera follow targets:
+					ClosetHandlerMessage.Send(player.gameObject, this.gameObject);
+				}
 			}
 		}
 	}

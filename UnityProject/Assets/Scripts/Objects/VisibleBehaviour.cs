@@ -18,6 +18,7 @@ public class VisibleBehaviour : NetworkBehaviour
 	private const string regTile = "RegisterTile";
 	private const string inputController = "InputController";
 	private const string playerSync = "PlayerSync";
+	private const string closetHandler = "ClosetPlayerHandler";
 
 	public bool isPlayer;
 	public RegisterTile registerTile;
@@ -56,6 +57,7 @@ public class VisibleBehaviour : NetworkBehaviour
 
 	private void UpdateState(bool _aliveState)
 	{
+		visibleState = _aliveState;
 		OnVisibilityChange(_aliveState);
 
 		MonoBehaviour[] scripts = GetComponentsInChildren<MonoBehaviour>(true);
@@ -64,7 +66,8 @@ public class VisibleBehaviour : NetworkBehaviour
 		for (int i = 0; i < scripts.Length; i++)
 		{
 			if (scripts[i].GetType().Name != networkId && scripts[i].GetType().Name != networkT && scripts[i].GetType().Name != objectBehaviour &&
-			    scripts[i].GetType().Name != regTile && scripts[i].GetType().Name != inputController && scripts[i].GetType().Name != playerSync)
+			    scripts[i].GetType().Name != regTile && scripts[i].GetType().Name != inputController && scripts[i].GetType().Name != playerSync
+			    && scripts[i].GetType().Name != closetHandler)
 			{
 				scripts[i].enabled = _aliveState;
 			}
