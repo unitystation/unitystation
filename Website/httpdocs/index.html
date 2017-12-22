@@ -2,7 +2,13 @@
 <html lang="en">
 
 <head>
+
   <meta charset="utf-8">
+    <script type="text/javascript">
+        if(window.location.protocol != 'https:') {
+            location.href =   location.href.replace("http://", "https://");
+        }
+    </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Shamelessly porting Spacestation 13 to Unity">
   <meta name="author" content="">
@@ -30,7 +36,6 @@
 
   <!-- Font Awesome Icons -->
   <link href="assets/css/combined.min.css" rel="stylesheet">
-  
 </head>
 
 <body>
@@ -235,19 +240,19 @@
       </div>
       <div class="row centered footerBottomRow">
         <div class="col-lg-4 flex-center">
-          <img  src="assets/img/built-with-resentment.svg" alt="Build with Resentment">
+            <img  src="https://unitystation.org/assets/img/built-with-resentment.svg" alt="Build with Resentment">
+           </div>
+           <div class="col-lg-4 flex-center">
+             <p>Our Project, Our Unity</p>
+           </div>
+           <div class="col-lg-4 flex-center">
+               <img src="https://unitystation.org/assets/img/contains-technical-debt.svg" alt="Contains Technical Dept">
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-lg-4 flex-center">
-          <p>Our Project, Our Unity</p>
-        </div>
-        <div class="col-lg-4 flex-center">
-          <img src="assets/img/contains-technical-debt.svg" alt="Contains Technical Dept">
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Bootstrap core JavaScript -->
+        <!-- Bootstrap core JavaScript -->
   <script src="assets/js/jquery-3.2.1.min.js"></script>
   <script src="assets/js/combined.min.js"></script>
 </body>
