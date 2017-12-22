@@ -6,9 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Shamelessly porting Spacestation 13 to Unity">
   <meta name="author" content="">
-  <link rel="shortcut icon" type="image/png" href="assets/img/ss13_16.png" sizes="16x16" alt="Favicon 16pix">
-  <link rel="shortcut icon" type="image/png" href="assets/img/ss13_32.png" sizes="32x32" alt="Favicon 32pix">
-  <link rel="shortcut icon" type="image/png" href="assets/img/ss13_64.png" sizes="64x64" alt="Favicon 64pix">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#224ce0">
+    <link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="UnityStation">
+    <meta name="application-name" content="UnityStation">
+    <meta name="msapplication-TileColor" content="#2b5797">
+    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
   <meta property="og:title" content="UnityStation" />
   <meta property="og:type" content="Website" />
   <meta property="og:url" content="http://unitystation.org/" />
@@ -17,13 +27,9 @@
   <title>UnityStation</title>
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="assets/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-
-  <!-- Custom styles for this template -->
-  <link href="assets/css/style.css" rel="stylesheet">
 
   <!-- Font Awesome Icons -->
-  <link href="assets/css/fa-all.css" rel="stylesheet">
+  <link href="assets/css/combined.min.css" rel="stylesheet">
   
 </head>
 
@@ -242,107 +248,8 @@
   </div>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="assets/js/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="assets/js/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-  <script src="assets/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-
-  <!-- Changes Patreon button on hover -->
-  <script tpye="text/JavaScript">
-    $('#patron-button').hover(
-      function() {
-        $('#patron-button-white').attr("src", "assets/img/become_a_patron_button.png");
-      },
-      function() {
-        $('#patron-button-white').attr("src", "assets/img/become_a_patron_button-white.png");
-      }
-    );
-  </script>
-
-  <!-- Very important .js to toggle honk -->
-  <script type="text/JavaScript">
-    var audioIsPlaying = false;
-
-    function toggleAudio(){
-      var audio = document.getElementById("audio");
-
-      if(!audioIsPlaying){
-        audio.play();
-        $("#audio-button-icon").attr("class","fas fa-volume-up");
-        audioIsPlaying = true;
-      }
-      else{
-        audio.pause();
-        audio.currentTime = 0;
-        $("#audio-button-icon").attr("class","fas fa-volume-off");
-        audioIsPlaying = false;
-      }
-    }
-  </script>
-
-  <!-- Very important .js to animate honk -->
-  <script type="text/JavaScript">
-    // get element once for optimization
-    $elem = $("#honk");
-
-    // animate the honk every 15 seconds
-    $(document).ready(function(e) {
-      animateHonk()
-    });
-
-    function animateHonk(){
-      // width is the screen width plus 150.
-      // The +150 will allow the clown to leave the screen
-      var width = "+=" + ($(document).width() + 150);
-
-      // get a random value for the top offset between
-      // 25px (top) and 250px (bottom)
-      var top = Math.floor(Math.random() * (250 - 25 + 1)) + 25;
-
-      // apply top offset...
-      $elem.css("top",top);
-
-      // animate the clown across the screen with the JQuery animate() function.
-      // the first parameter are the css properties to animateHonk
-      // the second parameter is the time it takes in miliseconds for the animation to background
-      // the third parameter sets the animation to linear so it doesn't have awkward easing
-      // the fourth parameter is what to do once the animation is complete.
-      $elem.animate({
-        left: width
-      }, 10000, "linear", function() {
-        // resent the clown's x position
-        $elem.css("left", "-100px");
-        // re-run this function after 5 seconds
-        setTimeout(function(){ animateHonk() }, 8000);
-      });
-    }
-  </script>
-
-  <script type="text/JavaScript">
-    var headerImage = $('.headerImage');
-    var embeddedVideo = $('#embeddedVideo');
-    var videoWrapper = $('.videoWrapper');
-    var playButton = $('.playButton');
-    var closePlayer = $('.closePlayer');
-
-    function playVideo(){
-      embeddedVideo.attr("src", "https://www.youtube.com/embed/YKVmXn-Gv0M?autoplay=1");
-      videoWrapper.css("display","inline");
-      headerImage.css("background-image","none");
-      headerImage.css("background-color","black");
-      playButton.css("display","none");
-      closePlayer.css("display","inline");
-    }
-
-    function closeVideo(){
-      embeddedVideo.attr("src", "");
-      videoWrapper.css("display","none");
-      headerImage.removeAttr("style");
-      playButton.css("display","inline");
-      closePlayer.css("display","none");
-    }
-
-
-  </script>
+  <script src="assets/js/jquery-3.2.1.min.js"></script>
+  <script src="assets/js/combined.min.js"></script>
 </body>
 
 </html>
