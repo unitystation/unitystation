@@ -17,3 +17,20 @@ Header set Cache-Control "max-age=172800, public"
 	Header always append X-Frame-Options SAMEORIGIN
 	Header set X-Content-Type-Options nosniff
 </IfModule>
+
+<filesMatch "\.(html|css|js|woff2)$">
+AddDefaultCharset UTF-8
+DefaultLanguage en-US
+</filesMatch>
+
+<IfModule mod_headers.c>
+  <FilesMatch ".(js|css|xml|gz|html|svg)$">
+    Header append Vary: Accept-Encoding
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch ".(js|css|xml|gz|html|svg)$">
+    Header append Content-Type: application/font-woff2
+  </FilesMatch>
+</IfModule>
