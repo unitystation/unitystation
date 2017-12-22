@@ -1,3 +1,10 @@
+
+
+
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
 # One year for image files
 <filesMatch ".(jpg|jpeg|png|gif|ico|mp3)$">
 Header set Cache-Control "max-age=31536000, public"
@@ -11,33 +18,45 @@ Header set Cache-Control "max-age=2628000, public"
 Header set Cache-Control "max-age=172800, public"
 </filesMatch>
 
+AddType application/vnd.ms-fontobject    .eot
+AddType application/x-font-opentype      .otf
+AddType image/svg+xml                    .svg
+AddType application/x-font-ttf           .ttf
+AddType application/font-woff            .woff
+AddType application/font-woff2           .woff2
+
+
+
+  <FilesMatch ".(eot|otf|svg|ttf|woff|woff2|json)$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+
+Header always set Strict-Transport-Security "max-age=300; includeSubDomains;"
+
 # Extra Security Headers
-<IfModule mod_headers.c>
+
 	Header set X-XSS-Protection "1; mode=block"
 	Header always append X-Frame-Options SAMEORIGIN
 	Header set X-Content-Type-Options nosniff
-	# Header set Content-Security-Policy "default-src 'self' child-src https://youtube.com"
-</IfModule>
+	Header set Content-Security-Policy: "default-src 'self' 'unsafe-inline'; script-src 'unsafe-inline' https://unitystation.org/; img-src *; media-src *; child-src https://player.vimeo.com https://www.youtube.com https://youtube.com; base-uri 'self'"
 
 <filesMatch "\.(html|css|js|woff2)$">
 AddDefaultCharset UTF-8
 DefaultLanguage en-US
 </filesMatch>
 
-<IfModule mod_headers.c>
-  <FilesMatch ".(js|css|xml|gz|html|svg)$">
-    Header append Vary: Accept-Encoding
-  </FilesMatch>
-</IfModule>
 
-<IfModule mod_headers.c>
-  <FilesMatch ".(woff2)$">
-    Header append Content-Type: application/font-woff2
-  </FilesMatch>
-</IfModule>
+<FilesMatch ".(js|css|xml|gz|html|svg)$">
+Header append Vary: Accept-Encoding
+</FilesMatch>
+
+
+
+<FilesMatch ".(woff2)$">
+Header append Content-Type: application/font-woff2
+</FilesMatch>
+
 
 <FilesMatch "\.(htm|html|php)$">
-	<IfModule mod_headers.c>
-		Header set X-UA-Compatible "IE=Edge,chrome=1"
-	</IfModule>
+Header set X-UA-Compatible "IE=Edge,chrome=1"
 </FilesMatch>
