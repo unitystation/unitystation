@@ -3,36 +3,34 @@
 
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
+  <meta name="description" content="Shamelessly porting Spacestation 13 to Unity">
   <meta name="author" content="">
-  <link rel="shortcut icon" type="image/png" href="assets/img/ss13_16.png" sizes="16x16">
-  <link rel="shortcut icon" type="image/png" href="assets/img/ss13_32.png" sizes="32x32">
-  <link rel="shortcut icon" type="image/png" href="assets/img/ss13_64.png" sizes="64x64">
-
+  <link rel="shortcut icon" type="image/png" href="assets/img/ss13_16.png" sizes="16x16" alt="Favicon 16pix">
+  <link rel="shortcut icon" type="image/png" href="assets/img/ss13_32.png" sizes="32x32" alt="Favicon 32pix">
+  <link rel="shortcut icon" type="image/png" href="assets/img/ss13_64.png" sizes="64x64" alt="Favicon 64pix">
+  <meta property="og:title" content="UnityStation" />
+  <meta property="og:type" content="Website" />
+  <meta property="og:url" content="http://unitystation.org/" />
+  <meta property="og:image" content="http://unitystation.org/assets/img/ian.jpg" />
 
   <title>UnityStation</title>
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 
   <!-- Custom styles for this template -->
   <link href="assets/css/style.css" rel="stylesheet">
 
   <!-- Font Awesome Icons -->
-  <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
-
-  <!-- Montserrat web font -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-
-  <link rel="icon" type="image/png" href="assets/img/ss13_32.png" />
+  <link href="assets/css/fa-all.css" rel="stylesheet">
+  
 </head>
 
 <body>
   <!-- START NAV -->
   <nav class="navbar sticky-top navbar-custom-dark navbar-expand-lg">
-    <a class="navbar-brand" href="#"><img class="ss13-brand-image" src="assets/img/ss13_64.png">Unity Station</a>
+    <a class="navbar-brand" href="#"><img class="ss13-brand-image" src="assets/img/ss13_64.png" alt="Site Logo">Unity Station</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -87,7 +85,7 @@
   <!-- START HERO IMAGE / EMBEDDED VIDEO -->
   <div class="headerImage flex-center">
     <div class="videoWrapper" style="display:none">
-      <iframe id="embeddedVideo" width="420" height="315">
+      <iframe sandbox id="embeddedVideo" width="420" height="315">
       </iframe>
     </div>
     <div class="closePlayer" style="display: none;" onclick="closeVideo()">
@@ -106,7 +104,7 @@
   <!-- our project container -->
   <div class="container" id="about">
     <div class="flex-center">
-      <img class="about-image" src="assets/img/about.png">
+      <img class="about-image" src="assets/img/about.png" alt="About Text">
     </div>
     <h2 class="sr-only">About</h2>
     <h3 class="ourProject text-center">Our Project, Our Unity</h3>
@@ -144,8 +142,8 @@
         <div class="col-md-12 text-center margin-top-30">
           <h4 class="margin-bottom-1rem">Support this open source project today and <a href="https://www.patreon.com/unitystation">Become a Patron</a>.</h4>
           <a id="patron-button" href="https://www.patreon.com/unitystation">
-              <img id="patron-button-white" src="assets/img/become_a_patron_button-white.png">
-              <img id="patron-button" src="assets/img/become_a_patron_button.png" style="display:none;">
+              <img id="patron-button-white" src="assets/img/become_a_patron_button-white.png" alt="Become a Patron-white">
+              <img id="patron-button-color" src="assets/img/become_a_patron_button.png" style="display:none;" alt="Become a Patron">
             </a>
         </div>
       </div>
@@ -157,13 +155,13 @@
   <div class="download-container" id="download">
     <div class="honk" id="honk">
     </div>
-    <audio id="audio" src="assets/audio/Clown.wmv.mp3"></audio>
+    <audio preload="none" id="audio" src="assets/audio/Clown.aac"></audio>
     <button class="audio-button" onclick="toggleAudio()" type="button">
       <i id="audio-button-icon" class="fas fa-volume-off"></i>
     </button>
     <div class="container download-container-inner">
       <div class="flex-center">
-        <img class="download-image" src="assets/img/download.png">
+        <img class="download-image" src="assets/img/download.png" alt="Download text">
       </div>
       <h2 class="sr-only">Download</h2>
       <div class="version-container">
@@ -193,7 +191,7 @@
 
   <!-- START CONTACT -->
   <div class="flex-center" id="contact">
-    <img class="contact-image" src="assets/img/contact.png">
+    <img class="contact-image" src="assets/img/contact.png" alt="Contact text">
   </div>
   <h2 class="sr-only">Contact</h2>
   <div class="container-narrow margin-top-30 margin-bottom-30" id="emailForm">
@@ -227,26 +225,26 @@
   <div class="footer-container">
     <div class="container">
       <div class="flex-center footerBrand">
-        <a class="navbar-brand" href="#"><img class="ss13-brand-image" src="assets/img/ss13_64.png">Unity Station</a>
+        <a class="navbar-brand" href="#"><img class="ss13-brand-image" src="assets/img/ss13_64.png" alt="Footer Logo">Unity Station</a>
       </div>
       <div class="row centered footerBottomRow">
         <div class="col-lg-4 flex-center">
-          <img src="assets/img/built-with-resentment.svg">
+          <img  src="assets/img/built-with-resentment.svg" alt="Build with Resentment">
         </div>
         <div class="col-lg-4 flex-center">
           <p>Our Project, Our Unity</p>
         </div>
         <div class="col-lg-4 flex-center">
-          <img src="assets/img/contains-technical-debt.svg">
+          <img src="assets/img/contains-technical-debt.svg" alt="Contains Technical Dept">
         </div>
       </div>
     </div>
   </div>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <script src="assets/js/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="assets/js/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="assets/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
   <!-- Changes Patreon button on hover -->
   <script tpye="text/JavaScript">

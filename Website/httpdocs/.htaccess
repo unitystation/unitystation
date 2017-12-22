@@ -6,3 +6,38 @@ Header set Cache-Control "max-age=31536000, public"
 <filesMatch ".(css|js)$">
 Header set Cache-Control "max-age=2628000, public"
 </filesMatch>
+# Two Days for HTML
+<filesMatch ".(html)$">
+Header set Cache-Control "max-age=172800, public"
+</filesMatch>
+
+# Extra Security Headers
+<IfModule mod_headers.c>
+	Header set X-XSS-Protection "1; mode=block"
+	Header always append X-Frame-Options SAMEORIGIN
+	Header set X-Content-Type-Options nosniff
+	# Header set Content-Security-Policy "default-src 'self' child-src https://youtube.com"
+</IfModule>
+
+<filesMatch "\.(html|css|js|woff2)$">
+AddDefaultCharset UTF-8
+DefaultLanguage en-US
+</filesMatch>
+
+<IfModule mod_headers.c>
+  <FilesMatch ".(js|css|xml|gz|html|svg)$">
+    Header append Vary: Accept-Encoding
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch ".(woff2)$">
+    Header append Content-Type: application/font-woff2
+  </FilesMatch>
+</IfModule>
+
+<FilesMatch "\.(htm|html|php)$">
+	<IfModule mod_headers.c>
+		Header set X-UA-Compatible "IE=Edge,chrome=1"
+	</IfModule>
+</FilesMatch>
