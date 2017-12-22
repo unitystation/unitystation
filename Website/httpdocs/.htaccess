@@ -16,6 +16,7 @@ Header set Cache-Control "max-age=172800, public"
 	Header set X-XSS-Protection "1; mode=block"
 	Header always append X-Frame-Options SAMEORIGIN
 	Header set X-Content-Type-Options nosniff
+	# Header set Content-Security-Policy "default-src 'self' child-src https://youtube.com"
 </IfModule>
 
 <filesMatch "\.(html|css|js|woff2)$">
