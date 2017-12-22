@@ -16,20 +16,14 @@ namespace Cupboards
 	/// </summary>
 	public class ClosetPlayerHandler : MonoBehaviour
 	{
-		private RegisterTile _registerTile;
 		private ClosetControl closetControl;
 		private bool monitor;
 
-		private void Start()
+		public void Init(ClosetControl closetCtrl)
 		{
-			_registerTile = GetComponent<RegisterTile>();
-			//Closets have healthbehaviours on them, search through the list for the cupboard you are in
-
+			closetControl = closetCtrl;
+			
 			Matrix matrix = Matrix.GetMatrix(this);
-			ClosetControl[] closetControls = matrix.Get<ClosetControl>(_registerTile.Position).ToArray();
-
-			closetControl = closetControls[0];
-			//Set the camera to follow the closet
 			Camera2DFollow.followControl.target = closetControl.transform;
 			Camera2DFollow.followControl.damping = 0.2f;
 

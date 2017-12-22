@@ -10,7 +10,8 @@ using UnityEngine;
 /// </summary>
 public class ObjectBehaviour : PushPull
 {
-	private ClosetPlayerHandler closetHandlerCache;
+	[HideInInspector]
+	public ClosetPlayerHandler closetHandlerCache;
 
 	//Inspector is controlled by ObjectBehaviourEditor
 	//Please expose any properties you need in there
@@ -53,12 +54,7 @@ public class ObjectBehaviour : PushPull
 				//itself if not needed
 				//TODO turn the ClosetPlayerHandler into a more generic component to handle disposals bin,
 				//coffins etc
-				if (!state)
-				{
-					StartCoroutine(AddHiddenHandler());
-				}
-				else
-				{
+				if(state){
 					if (closetHandlerCache)
 					{
 						//Set the camera to follow the player again
@@ -69,13 +65,5 @@ public class ObjectBehaviour : PushPull
 				}
 			}
 		}
-	}
-
-	private IEnumerator AddHiddenHandler()
-	{
-		//wait for all the components to be disabled on the 
-		//player before adding the handler
-		yield return new WaitForEndOfFrame();
-		closetHandlerCache = playerScript.gameObject.AddComponent<ClosetPlayerHandler>();
 	}
 }
