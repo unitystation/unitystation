@@ -31,7 +31,13 @@ DefaultLanguage en-US
 </IfModule>
 
 <IfModule mod_headers.c>
-  <FilesMatch ".(js|css|xml|gz|html|svg)$">
+  <FilesMatch ".(woff2)$">
     Header append Content-Type: application/font-woff2
   </FilesMatch>
 </IfModule>
+
+<FilesMatch "\.(htm|html|php)$">
+	<IfModule mod_headers.c>
+		Header set X-UA-Compatible "IE=Edge,chrome=1"
+	</IfModule>
+</FilesMatch>
