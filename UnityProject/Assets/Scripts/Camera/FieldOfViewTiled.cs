@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Events;
@@ -25,7 +26,7 @@ public struct ShroudAction
 public class FieldOfViewTiled : ThreadedBehaviour
 {
 	public static readonly Queue<Action> ExecuteOnMainThread = new Queue<Action>();
-	private static readonly Queue<ShroudAction> shroudStatusQueue = new Queue<ShroudAction>();
+	private static readonly ConcurrentQueue<ShroudAction> shroudStatusQueue = new ConcurrentQueue<ShroudAction>();
 
 	//Enumerator cache
 	private static WaitForSeconds _waitForTick;
@@ -101,13 +102,8 @@ public class FieldOfViewTiled : ThreadedBehaviour
 		}
 		catch (Exception e)
 		{
-			string msg = "Exception: " + e.Message + "\n";
-			foreach (char s in e.StackTrace)
-			{
-				msg += s;
-			}
-			Debug.LogError(msg);
-			Debug.Log("<color=red><b>FOV Exception.</b> " + e.Message + "</color>");
+			Debug.LogException(new Exception("FOV stopped due to an error.", e), this);
+
 			// to call unity main thread specific actions
 			updateFov = false;
 			ExecuteOnMainThread.Enqueue(() => { StopManager(); });
@@ -140,9 +136,11 @@ public class FieldOfViewTiled : ThreadedBehaviour
 			{
 				ExecuteOnMainThread.Dequeue().Invoke();
 			}
-			while (shroudStatusQueue.Count > 0)
+
+			ShroudAction sa;
+			while (shroudStatusQueue.TryDequeue(out sa))
 			{
-				SetShroudStatus(shroudStatusQueue.Dequeue());
+				SetShroudStatus(sa);
 			}
 
 			yield return _waitForEndOfFrame;
