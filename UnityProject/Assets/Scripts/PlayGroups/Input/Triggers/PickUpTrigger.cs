@@ -1,6 +1,5 @@
 ﻿using PlayGroup;
 using PlayGroups.Input;
-using Tilemaps.Scripts.Behaviours.Objects;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -16,19 +15,20 @@ namespace Items
 
 		public override void Interact(GameObject originator, Vector3 position, string hand)
 		{
-			if (originator.GetComponent<PlayerScript>().canNotInteract())
+			if ( originator.GetComponent<PlayerScript>().canNotInteract() )
 			{
 				return;
 			}
 
-			if (!isServer)
+			if ( !isServer )
 			{
 				UISlotObject uiSlotObject = new UISlotObject(hand, gameObject);
 
 				//PreCheck
-				if (UIManager.CanPutItemToSlot(uiSlotObject))
+				if ( UIManager.CanPutItemToSlot(uiSlotObject) )
 				{
 					//Simulation
+					gameObject.GetComponent<CustomNetTransform>().DisappearFromWorld();
 					//                    UIManager.UpdateSlot(uiSlotObject);
 
 					//Client informs server of interaction attempt
@@ -38,9 +38,10 @@ namespace Items
 			else
 			{
 				//Server actions
-				if (ValidatePickUp(originator, hand))
+				if ( !ValidatePickUp(originator, hand) )
 				{
-					GetComponent<RegisterItem>().Unregister();
+					//Rollback prediction (inform player about item's true state)
+					GetComponent<CustomNetTransform>().NotifyPlayer(originator);
 				}
 			}
 		}
@@ -48,15 +49,40 @@ namespace Items
 		[Server]
 		public bool ValidatePickUp(GameObject originator, string handSlot = null)
 		{
-			PlayerScript ps = originator.GetComponent<PlayerScript>();
-			string slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
-			if (PlayerManager.PlayerScript == null || !ps.playerNetworkActions.Inventory.ContainsKey(slotName))
+			var ps = originator.GetComponent<PlayerScript>();
+			var slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
+			var cnt = GetComponent<CustomNetTransform>();
+			var state = cnt.State;
+			if ( SlotUnavailable(ps, slotName) )
 			{
 				return false;
 			}
+			if ( cnt.IsFloating() ? !CanReachFloating(ps, state) : !ps.IsInReach(state.Position) )
+			{
+				Debug.LogWarningFormat($"Not in reach! server pos:{state.Position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
+				return false;
+			}
+
+			Debug.LogFormat($"Pickup success! server pos:{state.Position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
+
 
 			//set ForceInform to false for simulation
 			return ps.playerNetworkActions.AddItem(gameObject, slotName, false /*, false*/);
+		}
+
+		/// <summary>
+		/// Making reach check less strict when object is flying, otherwise high ping players can never catch shit!
+		/// </summary>
+		private static bool CanReachFloating(PlayerScript ps, TransformState state)
+		{
+			return ps.IsInReach(state.Position) || ps.IsInReach(state.Position - ( Vector3 ) state.Impulse, 2f);
+		}
+
+		private static bool SlotUnavailable(PlayerScript ps, string slotName)
+		{
+			return PlayerManager.PlayerScript == null
+			       || !ps.playerNetworkActions.Inventory.ContainsKey(slotName)
+			       || ps.playerNetworkActions.SlotNotEmpty(slotName);
 		}
 
 		/// <summary>
@@ -67,9 +93,9 @@ namespace Items
 		private void CheckSpriteOrder()
 		{
 			SpriteRenderer sR = GetComponentInChildren<SpriteRenderer>();
-			if (sR != null)
+			if ( sR != null )
 			{
-				if (sR.sortingLayerName == "Items" && sR.sortingOrder == 0)
+				if ( sR.sortingLayerName == "Items" && sR.sortingOrder == 0 )
 				{
 					sR.sortingOrder = 1;
 				}

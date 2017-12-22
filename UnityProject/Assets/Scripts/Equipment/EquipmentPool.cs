@@ -4,8 +4,9 @@ using UnityEngine.Networking;
 
 namespace Equipment
 {
-	//For items that are the ownership of players, the items are kept in a pool serverside and sprites references
-	//sent to the client UI and playerobj
+	///Per-player equipment pool. Low-level item operations are here (though the lowest ones are in ObjectPool)
+	///For items that are the ownership of players, the items are kept in a pool serverside and sprites references
+	///sent to the client UI and playerobj.
 	public class EquipmentPool : MonoBehaviour
 	{
 		private static EquipmentPool equipmentPool;
@@ -17,7 +18,7 @@ namespace Equipment
 		{
 			get
 			{
-				if (!equipmentPool)
+				if ( !equipmentPool )
 				{
 					equipmentPool = FindObjectOfType<EquipmentPool>();
 					equipmentPool.Init();
@@ -35,7 +36,7 @@ namespace Equipment
 		public static void AddGameObject(GameObject player, GameObject gObj)
 		{
 			string playerName = player.name;
-			if (Instance.equipPools.ContainsKey(playerName))
+			if ( Instance.equipPools.ContainsKey(playerName) )
 			{
 				//add obj to pool
 				Instance.equipPools[playerName].AddGameObject(gObj);
@@ -63,7 +64,7 @@ namespace Equipment
 		public static void DisposeOfObject(GameObject player, GameObject gObj)
 		{
 			string playerName = player.name;
-			if (!Instance.equipPools.ContainsKey(playerName))
+			if ( !Instance.equipPools.ContainsKey(playerName) )
 			{
 				return;
 			}
@@ -84,7 +85,7 @@ namespace Equipment
 		public static void DropGameObject(GameObject player, GameObject gObj, Vector3 pos)
 		{
 			string playerName = player.name;
-			if (!Instance.equipPools.ContainsKey(playerName))
+			if ( !Instance.equipPools.ContainsKey(playerName) )
 			{
 				return;
 			}
@@ -97,7 +98,7 @@ namespace Equipment
 
 		public static void ClearPool(string playerName)
 		{
-			if (Instance.equipPools.ContainsKey(playerName))
+			if ( Instance.equipPools.ContainsKey(playerName) )
 			{
 				Instance.equipPools[playerName].currentObjects.Clear();
 			}

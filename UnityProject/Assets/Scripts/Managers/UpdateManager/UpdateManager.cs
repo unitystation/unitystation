@@ -12,13 +12,13 @@ public class UpdateManager : MonoBehaviour
 	private static UpdateManager updateManager;
 
 	//List of all the objects to override UpdateMe method in Update
-	public List<ManagedNetworkBehaviour> regularUpdate = new List<ManagedNetworkBehaviour>();
+	public HashSet /*List*/<ManagedNetworkBehaviour> regularUpdate = new HashSet /*List*/<ManagedNetworkBehaviour>();
 
 	public static UpdateManager Instance
 	{
 		get
 		{
-			if (updateManager == null)
+			if ( updateManager == null )
 			{
 				updateManager = FindObjectOfType<UpdateManager>();
 			}
@@ -49,11 +49,18 @@ public class UpdateManager : MonoBehaviour
 
 	private void Update()
 	{
-		for (int i = 0; i < regularUpdate.Count; i++)
+		//todo figure out optimal way
+//        for (int i = 0; i < regularUpdate.Count; i++)
+//        {
+//            regularUpdate[i].UpdateMe();
+//            regularUpdate[i].FixedUpdateMe();
+//            regularUpdate[i].LateUpdateMe();
+//        }
+		foreach ( var script in regularUpdate )
 		{
-			regularUpdate[i].UpdateMe();
-			regularUpdate[i].FixedUpdateMe();
-			regularUpdate[i].LateUpdateMe();
+			script.UpdateMe();
+			script.FixedUpdateMe();
+			script.LateUpdateMe();
 		}
 	}
 }

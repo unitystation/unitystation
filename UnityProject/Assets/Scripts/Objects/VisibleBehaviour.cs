@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 ///     Toggles the active state of the object by gathering all components and setting
 ///     their active state. It ignores network components so item can be synced
 /// </summary>
-public class VisibleBehaviour : NetworkBehaviour
+public class VisibleBehaviour : /*CustomNetTransform*/NetworkBehaviour
 {
 	//Ignore these types
 	private const string networkId = "NetworkIdentity";

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -24,10 +24,10 @@ namespace PlayGroup
 		public PlayerHealth playerHealth;
 		private PlayerMove playerMove;
 
-		protected override void Awake()
-		{
-			//Do not call base method for this Awake.
-		}
+        protected override void OnEnable()
+        {
+            //Do not call base method for this OnEnable.
+        }
 
 		public override void OnStartServer()
 		{
