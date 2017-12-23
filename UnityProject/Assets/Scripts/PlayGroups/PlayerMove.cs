@@ -44,11 +44,14 @@ namespace PlayGroup
 		/// temp solution for use with the UI network prediction
 		public bool isMoving { get; } = false;
 
+        PlayerNetworkActions pna;
+
 		private void Start()
 		{
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
 			playerSync = GetComponent<PlayerSync>();
 			pushPull = GetComponent<PushPull>();
+            pna = PlayerManager.LocalPlayer.GetComponent<PlayerNetworkActions>();
 		}
 
 		public PlayerAction SendAction()
@@ -194,7 +197,7 @@ namespace PlayGroup
 						return direction;
 					}
 					//Hit Pull obj
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(playerSync.pullingObject);
+					pna.CmdStopPulling(playerSync.pullingObject);
 				}
 			}
 
@@ -243,7 +246,7 @@ namespace PlayGroup
             // Attempt to open door
             if (doorController != null && allowInput)
             {
-                doorController.CmdCheckDoorPermissions(doorController.gameObject, this.gameObject);
+                pna.CmdCheckDoorPermissions(doorController.gameObject, this.gameObject);
 
                 allowInput = false;
                 StartCoroutine(DoorInputCoolDown());
