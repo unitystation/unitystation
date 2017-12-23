@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4203027626724152}
   - component: {fileID: 82801123418606930}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: closeSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4315317885973854}
   - component: {fileID: 82779476563424656}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: openSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +52,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4297137456908486}
   - component: {fileID: 212760610372601884}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: doorbase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 114719229024385200}
   - component: {fileID: 114476203546729768}
   - component: {fileID: 114531569165117964}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: WinDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4222531525585324}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: soundfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +435,6 @@ MonoBehaviour:
   maxTimeOpen: 2
   openSFX: {fileID: 82779476563424656}
   oppeningDirection: 0
-  restriction: 0
   spriteRenderer: {fileID: 0}
 --- !u!114 &114412479674324666
 MonoBehaviour:
@@ -554,8 +553,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1825689229
-  m_SortingLayer: 13
+  m_SortingLayerID: -2102490269
+  m_SortingLayer: 5
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300152, guid: f0f465f2e2128495683d9e4cb833c45a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
