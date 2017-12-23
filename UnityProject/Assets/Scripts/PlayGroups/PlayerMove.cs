@@ -243,7 +243,7 @@ namespace PlayGroup
             // Attempt to open door
             if (doorController != null && allowInput)
             {
-                doorController.CmdCheckDoorPermissions(doorController.gameObject, this.gameObject);
+                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdCheckDoorPermissions(doorController.gameObject, this.gameObject);
 
                 allowInput = false;
                 StartCoroutine(DoorInputCoolDown());
