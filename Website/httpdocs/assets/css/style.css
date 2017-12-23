@@ -99,13 +99,32 @@ body {
   border: 2px solid #aaa;
   padding: 5px;
 }
-
+/*
 .headerImage {
   background: url(../img/back.jpg) no-repeat center top;
   background-attachment: relative;
   background-position: center center;
   height: 475px;
   background-size: cover;
+} */
+@media screen and (min-width:871px) {
+  .headerImage {
+    background: url(../img/back.jpg) no-repeat center top;
+    background-attachment: relative;
+    background-position: center center;
+    height: 475px;
+    background-size: cover;
+  }
+}
+
+@media screen and (max-width:870px){
+  .headerImage{
+    background: url(../img/backmob.jpg) no-repeat center top;
+    background-attachment: relative;
+    background-position: center center;
+    height: 200px;
+    background-size: cover;
+  }
 }
 
 /* ===== ABOUT ===== */
