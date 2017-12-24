@@ -1,57 +1,53 @@
+#V0.5
 import time
 import math
 import sys
 import cProfile
 import pyglet
-#import numba
-#import array
-#from numba import jit
-#import numpy as np
-#from multiprocessing import Pool
-#from pycallgraph import PyCallGraph
-#from pycallgraph.output import GraphvizOutput
-#import numexpr
-#from random import shuffle
-#import line_profiler 
-from ram_Atmospherics_list import Air, Tile_range
-#from small_ram_Atmospherics_list import Air, Tile_range
-#from ram_Random_Atmospherics_list import Air, Tile_range
-#from line_profiler import LineProfiler
+
 
 
 sys.setrecursionlimit(9000)
 
-Look_UP =  {'Oxygen': 0.659, 'Nitrogen': 0.743}
+
+Air = {}
+Look_UP =  {'Oxygen': 0.659, 'Nitrogen': 0.743, 'Plasma': 0.8 }
 Check_count_Dictionary = {}
 update_list = []
 Has_done = {}
 Dictionary_of_adjacents = {}
 R = 8.3144598
+Temporary = {}
+Temporary2 = {}
+Tile_range = [255,255]
+
+r = range(0,256)
+r2 = range(0,256)
+
+a = []
+for z in r:
+
+    x = []
+    for p in r2:
+        tuple_z_p = tuple((z,p))
+        Temporary['Temperature'] = 293.15
+        Temporary['Pressure'] = 101.325
+
+        
+        Temporary2['Oxygen'] = 16.628484400890768491815384755837
+        Temporary2['Nitrogen']= 66.513937603563073967261539023347
+        Temporary['Mix'] = Temporary2.copy()
+        Temporary['Moles'] = 83.142422004453842459076923779184
+        Temporary['Fire'] = 0         
+        Temporary['Obstructed'] = False
+        Air[tuple_z_p] = Temporary.copy()
+        
+        
+        
+#print(Air[(50,50)]['Obstructed'],'hey?')
 
 
-#https://chrisalbon.com/python/break_list_into_chunks_of_equal_size.html
-# Create a function called "chunks" with two arguments, l and n:
-def chunks(l, n):
-    # For item i in a range that is a length of l,
-    for i in range(0, len(l), n):
-        # Create an index range for l of n items:
-        yield l[i:i+n]
 
-
-#Pressure = np.empty([Tile_range[0],Tile_range[1]],dtype=np.dtype(float))
-#def Making_array_for_Pressure():
-#    r = range(0,Tile_range[0])
-#    r2 = range(0,Tile_range[1])
-#    a = []
-#    for z in r:
-#        #print (z,'in 1')
-#        x = []
-#        for p in r2:
-#            Pressure[[z,p]] = 101.325
-#    print('Making_arry_for_Pressure Done!')
-
-#Making_array_for_Pressure()
-            
 def Orientation(tile):
     T = []
     p = [[0,0],[1,0],[0,1],[-1,0],[0,-1]]
@@ -81,7 +77,7 @@ def Making_Dictionary_of_adjacents():
     print('Making_Dictionary_of_adjacents Done!')
     
 Making_Dictionary_of_adjacents()
-#print(Dictionary_of_adjacents[(50,50)])
+
 
 
 def Worse_case_update_list():
@@ -106,10 +102,10 @@ def Making_check_count_Dictionary():
             Check_count_Dictionary[(z,p)] = 0
     print('Check_count_Dictionary Done!')
 Making_check_count_Dictionary()
-#print(Check_count_Dictionary,'Check_count_Dictionary')
+
 #Worse_case_update_list()
 
-#edge_tiles = list(update_list)
+
 
 def old_Visual_check():
     r = range(0,Tile_range[0] + 1)
@@ -128,25 +124,35 @@ def new_pressure():
     for Origin_tile in update_list:
         are_different_pressure_set = set(Dictionary_of_adjacents[Origin_tile])
         mix_calculation_dictionary = {}
+        JM_calculation_dictionary = {}
         c = False
         JM = 0
         nall = JM
         count = JM
+        T = 0
         for tile in are_different_pressure_set:
             if Air[tile]['Obstructed'] == False:
                 for key in Air[tile]['Mix']:
-                    mix_calculation_dictionary[key] = ((Air[tile]['Mix'][key] * Air[tile]['Moles']) + mix_calculation_dictionary.get(key, 0))   
-                nall += Air[tile]['Moles']
-                JM += (Air[tile]['Temperature'] * Air[tile]['Moles'])
+                    mix_calculation_dictionary[key] = (Air[tile]['Mix'][key] + mix_calculation_dictionary.get(key, 0))
+                    JM_calculation_dictionary[key] = ((Air[tile]['Temperature'] * Air[tile]['Mix'][key]) * Look_UP[key]) + JM_calculation_dictionary.get(key, 0) 
+
+
                 if not math.isclose(Air[tile]['Pressure'], Air[Origin_tile]['Pressure'], rel_tol=1e-5, abs_tol=0.0):
                     c = True
                 count += 1
                 
-        nall = (nall / count)
-        T = (JM / count) / nall
-        P = ((nall*R*T)/(2)/1000)
+
+
         for key in mix_calculation_dictionary:
-            Air[Origin_tile]['Mix'][key] = round((mix_calculation_dictionary[key] / count) /(nall), 3)
+            key_mix_worked_out = (mix_calculation_dictionary[key] / count)
+            Air[Origin_tile]['Mix'][key] = key_mix_worked_out
+            nall += key_mix_worked_out
+
+            JM_calculation_dictionary[key] = (((JM_calculation_dictionary[key] /  Look_UP[key]) / key_mix_worked_out) / len(JM_calculation_dictionary)) ##########
+            T += (JM_calculation_dictionary[key] / count )
+            
+            
+        P = ((nall*R*T)/(2)/1000)   
         for tile in are_different_pressure_set:
             if Air[tile]['Obstructed'] == False:
                 for key in mix_calculation_dictionary:
@@ -169,11 +175,9 @@ def new_pressure():
                 
 #@profile
 def Do_the_edge(edge_tiles):
-    #print(edge_tiles,'edge_tiles')
-    #print(update_list,'update_list')
+
     The_return = {}
     new_edge_tiles = []
-    #print(update_list)
     update_set = set(update_list)
     edge_tiles_set = set(edge_tiles)
     #if not all(isinstance(i, int) for i in edge_tiles):
@@ -186,7 +190,7 @@ def Do_the_edge(edge_tiles):
             for Tile_orientated in the_orientation:
                 Tile_orientated_tuple = tuple(Tile_orientated)
                 if Air[Tile_orientated_tuple]['Obstructed'] == False:
-                    if not math.isclose(Air[Tile_orientated_tuple]['Pressure'], Air[tile]['Pressure'], rel_tol=1e-3, abs_tol=0.0):
+                    if not math.isclose(Air[Tile_orientated_tuple]['Pressure'], Air[tile]['Pressure'], rel_tol=1e-4, abs_tol=0.0):
                         C += 1
                         if not Tile_orientated in new_edge_tiles:
                             if not Tile_orientated_tuple in update_set:
@@ -210,7 +214,7 @@ def Do_the_edge(edge_tiles):
             Tile_orientated_tuple = tuple(Tile_orientated)
             if Air[Tile_orientated_tuple]['Obstructed'] == False:
                 #if not Air[tuple(Tile_orientated)]['Pressure'] == Air[tuple(tuple_edge_tiles)]['Pressure']:
-                if not math.isclose(Air[Tile_orientated_tuple]['Pressure'], Air[edge_tiles]['Pressure'], rel_tol=1e-3, abs_tol=0.0):
+                if not math.isclose(Air[Tile_orientated_tuple]['Pressure'], Air[edge_tiles]['Pressure'], rel_tol=1e-4, abs_tol=0.0):
                     C += 1  
                     if not Tile_orientated in new_edge_tiles:
                         if not Tile_orientated_tuple in update_set:
@@ -257,16 +261,26 @@ def Atmospherics():
     
     start_time = time.time()
     count =  0
-    Air[(50,50)]['Temperature'] = 5000000
-    Air[(50,50)]['Pressure'] = 500
+    #Air[(50,50)]['Temperature'] = 5000000
+    #Air[(50,50)]['Pressure'] = 500
+    
+    #Air[(50,50)]['Temperature'] = 300
+    Air[(50,50)]['Moles'] = 80
+    #Air[(50,50)]['Pressure'] = 1
+    #print(Air[(50,50)]['Pressure'])
+    #Air[(50,50)]['Temperature'] = 50000
+    #mixe = {'Oxygen': 16, 'Nitrogen': 63.2, 'Plasma': 0.8}
+    #Air[(50,50)]['Mix'] = mixe
     edge_tiles = Do_the_edge((50,50))
-    while count < 100:
-        #if count < 1000:
-            #Air[(50,50)]['Temperature'] = 500000
-            #Air[(50,50)]['Moles'] = 0
-            #Air[(50,50)]['Pressure'] = 0
-            #mixe = {'Oxygen':0,'Nitrogen':0}
-            #Air[(1,1)]['Mix'] = mixe
+    while count < 0:
+        if count < 1000:
+            #Air[(50,50)]['Pressure'] = 1
+            #Air[(50,50)]['Moles'] = 1
+            mixe = {'Oxygen': 0.1, 'Nitrogen': 0.1, 'Plasma': 0.1}
+            Air[(50,50)]['Mix'] = mixe   
+            #Air[(50,50)]['Moles'] = 80
+            #Air[(50,50)]['Pressure'] = 0.1
+            
             #Air[(51,50)]['Temperature'] = 0
             #Air[(51,50)]['Moles'] = 0.1
             #Air[(51,50)]['Pressure'] = 0.1
@@ -303,7 +317,7 @@ print (Air[(50,50)]['Temperature'],Air[(51,50)]['Temperature'],Air[(50,49)]['Tem
 print (Air[(50,50)]['Moles'],Air[(51,50)]['Moles'],Air[(50,49)]['Moles'],'Just Counting')
 
 
-#nots Worse_case_update_list() =  18 s for 10 so 0.5 pre s
+
 
 
 #cProfile.run('Atmospherics()')
@@ -322,8 +336,9 @@ print (Air[(50,50)]['Mix'],Air[(51,50)]['Mix'],Air[(50,49)]['Mix'],'Just Mixing'
 print (Air[(50,50)]['Temperature'],Air[(51,50)]['Temperature'],Air[(50,49)]['Temperature'],'Just tempting')
 print (Air[(50,50)]['Moles'],Air[(51,50)]['Moles'],Air[(50,49)]['Moles'],'Just Counting')
 
-#Visual_check()
-#print(update_list)
+
+print (Air[(60,60)]['Temperature'])
+print (Air[(60,60)]['Mix'])
 
 
 
@@ -343,7 +358,9 @@ def Drawing_boxes():
         t = 100
         x = 0
         for p in r2:
+            #print(Air[tuple((z,p))]['Obstructed'])
             if Air[tuple((z,p))]['Obstructed'] == True:
+                #print('wall!')
                 int_wall = 255
             else:
                 int_wall = 0
@@ -366,7 +383,6 @@ def Drawing_boxes():
     batch.draw()
 
 print(len(update_list),'the length of update list ')
-#print(update_list)
 
 def do_wins():      
 
@@ -382,11 +398,6 @@ def do_wins():
 do_wins()
 
 
-#old_Visual_check()
-
-
-
-#person = input('Enter your name: ')
 
 
 
