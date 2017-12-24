@@ -5,6 +5,11 @@ RewriteEngine On
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
+#RewriteEngine On
+RewriteCond %{HTTP:X-Forwarded-Protocol} !=https
+RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
+
+
 # One year for image files
 <filesMatch ".(jpg|jpeg|png|gif|ico|mp3)$">
 Header set Cache-Control "max-age=31536000, public"
@@ -12,10 +17,6 @@ Header set Cache-Control "max-age=31536000, public"
 # One month for css and js
 <filesMatch ".(css|js)$">
 Header set Cache-Control "max-age=2628000, public"
-</filesMatch>
-# Two Days for HTML
-<filesMatch ".(html)$">
-Header set Cache-Control "max-age=172800, public"
 </filesMatch>
 
 AddType application/vnd.ms-fontobject    .eot
