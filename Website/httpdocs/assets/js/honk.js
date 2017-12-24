@@ -67,6 +67,7 @@ var embeddedVideo = $('#embeddedVideo');
 var videoWrapper = $('.videoWrapper');
 var playButton = $('.playButton');
 var closePlayer = $('.closePlayer');
+var closePlayerMob = $('.closePlayerMob');
 
 function playVideo(){
     embeddedVideo.attr("src", "https://www.youtube.com/embed/YKVmXn-Gv0M?autoplay=1");
@@ -75,6 +76,7 @@ function playVideo(){
     headerImage.css("background-color","black");
     playButton.css("display","none");
     closePlayer.css("display","inline");
+    closePlayerMob.css("display","inline");
 }
 
 function closeVideo(){
@@ -83,4 +85,5 @@ function closeVideo(){
     headerImage.removeAttr("style");
     playButton.css("display","inline");
     closePlayer.css("display","none");
+    closePlayerMob.css("display","none");
 }

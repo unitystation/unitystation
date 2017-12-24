@@ -83,22 +83,63 @@ body {
 	width: 100%;
 	height: 100%;
 }
+@media screen and (min-width:401px) {
+  .playButton {
+    color: #f00;
+    font-size: 11rem;
+    cursor: pointer;
+  }
+}
+@media screen and (max-width:400px) {
+  .playButton {
+    color: #f00;
+    font-size: 8rem;
+    cursor: pointer;
+  }
+}
+  @media screen and (min-width:581px) {
+    .closePlayer{
+      cursor: pointer;
+      position: absolute;
+      left: 1%;
+      color: #aaa;
+      text-align: center;
+      border: 2px solid #aaa;
+      padding: 5px;
+    }
+  }
 
-.playButton{
-  color: #f00;
-  font-size: 11rem;
-  cursor:pointer;
+@media screen and (max-width:580px) {
+  .closePlayer{
+    display: none;
+    visibility: hidden;
+  }
 }
 
-.closePlayer{
-  cursor: pointer;
-  position: absolute;
-  left: 1%;
-  color: #aaa;
-  text-align: center;
-  border: 2px solid #aaa;
-  padding: 5px;
+@media screen and (min-width:581px) {
+  .closePlayerMob{
+display: none;
+    visibility: hidden;
+  }
 }
+
+@media screen and (max-width:580px) {
+  .closePlayerMob{
+    cursor: pointer;
+    position: absolute;
+    left: 1%;
+    color: #aaa;
+    text-align: center;
+    border: 2px solid #aaa;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}
+
+
+
 /*
 .headerImage {
   background: url(../img/back.jpg) no-repeat center top;
@@ -107,7 +148,17 @@ body {
   height: 475px;
   background-size: cover;
 } */
-@media screen and (min-width:871px) {
+@media screen and (min-width:2001px) {
+  .headerImage {
+    background: url(../img/backhigh.jpg) no-repeat center top;
+    background-attachment: relative;
+    background-position: center center;
+    height: 475px;
+    background-size: cover;
+  }
+}
+
+@media screen and (min-width:871px) and (max-width:2000px) {
   .headerImage {
     background: url(../img/back.jpg) no-repeat center top;
     background-attachment: relative;
@@ -117,15 +168,28 @@ body {
   }
 }
 
-@media screen and (max-width:870px){
-  .headerImage{
-    background: url(../img/backmob.jpg) no-repeat center top;
-    background-attachment: relative;
-    background-position: center center;
-    height: 200px;
-    background-size: cover;
-  }
+@media screen and (max-width:870px)  and (min-width: 396px) {
+
+    .headerImage {
+      background: url(../img/backlow.jpg) no-repeat center top;
+      background-attachment: relative;
+      background-position: center center;
+      height: 210px;
+      background-size: cover;
+    }
+
 }
+@media screen and (max-width:395px) {
+    .headerImage {
+      background: url(../img/backmob.jpg) no-repeat center top;
+      background-attachment: relative;
+      background-position: center center;
+      height: 150px;
+      background-size: cover;
+    }
+  }
+
+
 
 /* ===== ABOUT ===== */
 .about-image {
