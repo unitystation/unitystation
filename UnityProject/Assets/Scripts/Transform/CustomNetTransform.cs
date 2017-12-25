@@ -1,19 +1,17 @@
-using System.Collections;
 using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 public struct TransformState
 {
     public bool Active;
     public float Speed;
-    public Vector2 Impulse; //Vector2Int would be ideal, but you can't cast V2I<->V3I
+    public Vector2 Impulse; //Should always be normalized in calculations
     public Vector3 Position;
 }
 
-//todo: investigate client not getting existing players equipment netIDs (unless they die and respawn in client's presence)
-//todo: investigate client's equip init failing (no items found in pool when dropping -> they vanish)
 public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
     public static readonly Vector3Int InvalidPos = new Vector3Int(0, 0, -100)
@@ -70,19 +68,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         }
     }
 
-//    public override void OnStartClient()
-//    {
-//        StartCoroutine(WaitForLoad());
-//        base.OnStartClient();
-//    }
-//    IEnumerator WaitForLoad()
-//    {
-//        yield return new WaitForSeconds(2f);
-//    }
-
     /// Manually set an item to a specific position
     [Server]
-    public void SetPosition(Vector3 pos, bool notify = true) //consider adding optional lerp param
+    public void SetPosition(Vector3 pos, bool notify = true)
     {
         serverTransformState.Position = pos;
         if (notify)
@@ -90,13 +78,14 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
             NotifyPlayers();
         }
     }
-    /// Manually set an item to a specific position
-    [Server]
-    public void SetState(TransformState state, bool notify = true)
-    {
-        serverTransformState = state;
-        NotifyPlayers();
-    }
+    
+//    /// Overwrite server state with a completely new one. (Are you sure you really want that?)
+//    [Server]
+//    public void SetState(TransformState state)
+//    {
+//        serverTransformState = state;
+//        NotifyPlayers();
+//    }
 
     /// <summary>
     /// Dropping with some force. For space floating demo purposes.
@@ -106,27 +95,27 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     {
         serverTransformState.Active = true;
         serverTransformState.Position = pos;
+        var impulse = (Vector3) Random.insideUnitCircle;
+        impulse.Normalize();
         //don't do impulses if item isn't going to float
-        var impulse = Vector3.right;
         if ( CanDriftTo(Vector3Int.RoundToInt( serverTransformState.Position + impulse) ) )
         {
-            serverTransformState.Impulse = impulse.normalized;
-            serverTransformState.Speed = Random.Range(1f, 5f);
+            serverTransformState.Impulse = impulse;
+            serverTransformState.Speed = Random.Range(1f, 2f);
         }
         NotifyPlayers();
     }
 
     [Server]
-    public void DisappearFromWorldServer(/*bool forceUpdate = true*/)
+    public void DisappearFromWorldServer()
     {
-        //be careful with forceupdate=false, it should be false only to the initiator w/preditction (if at all)
         serverTransformState.Active = false;
         serverTransformState.Position = InvalidPos;
         NotifyPlayers();
     }
 
     [Server]
-    public void AppearAtPositionServer(Vector3 pos/*, bool forceUpdate = true*/)
+    public void AppearAtPositionServer(Vector3 pos)
     {
         serverTransformState.Active = true;
         SetPosition( pos );
@@ -146,28 +135,30 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
     /// <summary>
     /// Convenience method to make stuff disappear at position.
-    /// For client prediction purposes.
+    /// For CLIENT prediction purposes.
     /// </summary>
-    public void DisappearFromWorld(/*bool forceUpdate = true*/)
+    public void DisappearFromWorld()
     {
         transformState.Active = false;
         transformState.Position = InvalidPos;
+        updateActiveStatus();        
     }
 
     /// <summary>
     /// Convenience method to make stuff appear at position
-    /// For client prediction purposes.
+    /// For CLIENT prediction purposes.
     /// </summary>
-    public void AppearAtPosition(Vector3 pos/*, bool forceUpdate = true*/)
+    public void AppearAtPosition(Vector3 pos)
     {
         transformState.Active = true;
         transformState.Position = pos;
+        updateActiveStatus();        
     }
 
     public void UpdateClientState(TransformState newState)
     {
-        //No lerp only if active state was changed
-        if ( transformState.Active != newState.Active )
+        //Don't lerp (instantly change pos) if active state was changed or speed is zero
+        if ( transformState.Active != newState.Active || newState.Speed == 0 )
         {
             transform.position = newState.Position;
         }
@@ -186,7 +177,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
         {
             registerTile.Unregister();
         }
-        gameObject.SetActive(transformState.Active);
+        //todo: Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example. 
+        VisibleBehaviour vb = gameObject.GetComponent<VisibleBehaviour>();
+        vb.visibleState = transformState.Active; //this a syncvar -> only works for server
+        vb.UpdateState(transformState.Active); //Hack to make VB work with clientside prediction
     }
 
     /// <summary>
@@ -248,7 +242,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //            return;
 //        }
        
-        if (IsFloating()) //be careful
+        if (IsFloating())
         {
             transformState.Position = registerTilePos() + (Vector3) transformState.Impulse.normalized; //predictive perpetual flying
         }
@@ -276,23 +270,21 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
     }
 
     /// <summary>
-    /// trying to make drift detection serverside only, and then just send state updates to lerp to
+    /// Space drift detection is serverside only
     /// </summary>
     [Server]
     private void CheckSpaceDrift()
     {
-//        var pos = Vector3Int.RoundToInt(serverTransformState.Position);
         if ( IsFloating() && matrix != null )
         {
             Vector3Int newGoal = Vector3Int.RoundToInt(serverTransformState.Position + (Vector3) serverTransformState.Impulse.normalized);
             if ( CanDriftTo(newGoal) ) 
             {    //Spess drifting
-
                 serverTransformState.Position = registerTilePos();
             }
             else //Stopping drift
             {
-                serverTransformState.Impulse = Vector2.zero; //killing impulse, be aware when doing throw!
+                serverTransformState.Impulse = Vector2.zero; //killing impulse, be aware when implementing throw!
                 NotifyPlayers();
                 Debug.LogFormat($"{gameObject.name}: stopped floating @{serverTransformState.Position}");
             }
@@ -301,7 +293,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
     private bool CanDriftTo(Vector3Int goal)
     {
-        //FIXME: deOffset is a temp solution to this weird matrix 1,1 offset
+        //FIXME: deOffset is a temp solution to this weird matrix 1,1 offset (but don't touch it unless you re-enable ObjectPool parenting)
         return matrix != null && matrix.IsEmptyAt(goal + deOffset);
     }
 }

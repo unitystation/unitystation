@@ -2,12 +2,13 @@ using System.Collections;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+
 /// <summary>
-/// Tells client to make world object disappear or appear at some position
+/// Tells client to change world object's transform state ((dis)appear/change pos/start floating)
 /// </summary>
 public class TransformStateMessage : ServerMessage<TransformStateMessage>
 {
-	public static short MessageType = (short) MessageTypes.TransformStateMessage;
+	public static short MessageType = ( short ) MessageTypes.TransformStateMessage;
 	public NetworkInstanceId TransformedObject;
 	public TransformState State;
 	public bool ForceRefresh;
@@ -15,13 +16,16 @@ public class TransformStateMessage : ServerMessage<TransformStateMessage>
 	///To be run on client
 	public override IEnumerator Process()
 	{
-		Debug.Log("Processed " + ToString());
-		if (TransformedObject == NetworkInstanceId.Invalid) {
+//		Debug.Log("Processed " + ToString());
+		if ( TransformedObject == NetworkInstanceId.Invalid )
+		{
 			//Doesn't make any sense
 			yield return null;
-		} else {
+		}
+		else
+		{
 			yield return WaitFor(TransformedObject);
-			if (CustomNetworkManager.Instance._isServer || ForceRefresh)
+			if ( CustomNetworkManager.Instance._isServer || ForceRefresh )
 			{
 				//update NetworkObject transform state
 				var transform = NetworkObject.GetComponent<CustomNetTransform>();
@@ -29,12 +33,12 @@ public class TransformStateMessage : ServerMessage<TransformStateMessage>
 			}
 		}
 	}
-	
-		public static TransformStateMessage Send(GameObject recipient, GameObject transformedObject, TransformState state, bool forced = true)
+
+	public static TransformStateMessage Send(GameObject recipient, GameObject transformedObject, TransformState state, bool forced = true)
 	{
-		var msg = new TransformStateMessage {
-			TransformedObject = (transformedObject != null) ?
-				transformedObject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+		var msg = new TransformStateMessage
+		{
+			TransformedObject = ( transformedObject != null ) ? transformedObject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
 			State = state,
 			ForceRefresh = forced
 		};
@@ -49,9 +53,9 @@ public class TransformStateMessage : ServerMessage<TransformStateMessage>
 	/// </param>
 	public static TransformStateMessage SendToAll(GameObject transformedObject, TransformState state, bool forced = true)
 	{
-		var msg = new TransformStateMessage {
-			TransformedObject = (transformedObject != null) ?
-				transformedObject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+		var msg = new TransformStateMessage
+		{
+			TransformedObject = ( transformedObject != null ) ? transformedObject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
 			State = state,
 			ForceRefresh = forced
 		};
@@ -62,6 +66,7 @@ public class TransformStateMessage : ServerMessage<TransformStateMessage>
 	public override string ToString()
 	{
 		return
-			$"[TransformStateMessage Parameter={TransformedObject} Active={State.Active} Pos={State.Position} Spd={State.Speed} Imp={State.Impulse} Type={MessageType} Forced={ForceRefresh}]";
+			$"[TransformStateMessage Parameter={TransformedObject} Active={State.Active} Pos={State.Position} " +
+			$"Spd={State.Speed} Imp={State.Impulse} Type={MessageType} Forced={ForceRefresh}]";
 	}
 }

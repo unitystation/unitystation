@@ -61,7 +61,7 @@ namespace Equipment
 			//			Instance.equipPools[playerName].currentObjects.Count);
 		}
 
-		//ghetto W.E.T. method intended for disposing of objects that aren't supposed to be dropped on the ground 
+		///Disposing of objects that aren't supposed to be dropped on the ground 
 		public static void DisposeOfObject(GameObject player, GameObject gObj)
 		{
 			NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
@@ -76,7 +76,7 @@ namespace Equipment
 			//				Instance.equipPools[playerName].currentObjects.Count);
 		}
 
-		//When dropping items etc, remove them from the player equipment pool and place in scene
+		///When dropping items etc, remove them from the player equipment pool and place in scene
 		public static void DropGameObject(GameObject player, GameObject gObj)
 		{
 			DropGameObject(player, gObj, PlayerList.Instance.connectedPlayers[player.name].transform.position);
