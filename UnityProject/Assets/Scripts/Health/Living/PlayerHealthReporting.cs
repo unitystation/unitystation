@@ -36,7 +36,7 @@ namespace PlayGroup
 				healthServerCache = playerHealth.Health;
 				bloodLevelCache = playerHealth.BloodLevel;
 				playerMove = GetComponent<PlayerMove>();
-				UpdateManager.Instance.regularUpdate.Add(this);
+				UpdateManager.Instance.Add(this);
 				StartCoroutine(WaitForLoad());
 			}
 			base.OnStartServer();
@@ -53,7 +53,7 @@ namespace PlayGroup
 		{
 			if (isServer)
 			{
-				UpdateManager.Instance.regularUpdate.Remove(this);
+				UpdateManager.Instance.Remove(this);
 			}
 		}
 

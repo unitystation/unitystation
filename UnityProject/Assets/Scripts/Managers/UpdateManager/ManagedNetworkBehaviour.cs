@@ -8,7 +8,7 @@ public class ManagedNetworkBehaviour : NetworkBehaviour
 //    }
 	protected virtual void OnEnable()
 	{
-		UpdateManager.Instance.regularUpdate.Add(this);
+		UpdateManager.Instance.Add(this);
 	}
 
 	/// <summary>
