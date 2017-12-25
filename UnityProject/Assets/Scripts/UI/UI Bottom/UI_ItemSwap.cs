@@ -9,8 +9,11 @@ namespace UI
 
 		public void OnPointerClick(PointerEventData eventData)
 		{
-			SoundManager.Play("Click01");
-			UIManager.Hands.SwapItem(itemSlot);
+			if (eventData.button == PointerEventData.InputButton.Left)
+			{
+				SoundManager.Play("Click01");
+				UIManager.Hands.SwapItem(itemSlot);
+			}
 		}
 
 		private void Start()
