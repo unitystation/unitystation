@@ -103,6 +103,9 @@ GameObject:
   - component: {fileID: 8195094279554307744}
   - component: {fileID: 3664157344542419682}
   - component: {fileID: 114586145093559558}
+  - component: {fileID: 2113883505881321950}
+  - component: {fileID: 114119817095846462}
+  - component: {fileID: 114670253872525662}
   m_Layer: 0
   m_Name: Objects
   m_TagString: Untagged
@@ -391,6 +394,38 @@ CompositeCollider2D:
   m_CompositePaths:
     m_Paths: []
   m_VertexDistance: 0.0005
+--- !u!114 &114119817095846462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1283473129698256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 69
+    i1: 210
+    i2: 68
+    i3: 22
+    i4: 164
+    i5: 23
+    i6: 109
+    i7: 68
+    i8: 59
+    i9: 201
+    i10: 53
+    i11: 224
+    i12: 38
+    i13: 75
+    i14: 132
+    i15: 161
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114158422661485394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -458,7 +493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2845199befc4cf8ad5a9702b3bc76ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LayerType: 1
+  LayerType: 2
 --- !u!114 &114668254107574584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -471,6 +506,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LayerType: 0
+--- !u!114 &114670253872525662
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1283473129698256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 905a243a2c1a4fd79fd17a43b3c6f208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114699905288899512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -517,6 +563,19 @@ TilemapCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 1
+  m_Offset: {x: 0, y: 0}
+--- !u!19719996 &2113883505881321950
+TilemapCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1283473129698256}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
 --- !u!156049354 &2569400267726922214
 Grid:
@@ -600,7 +659,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_MaxChunkCount: 16
@@ -678,7 +737,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 402453981
-  m_SortingLayer: 4
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_MaxChunkCount: 16
