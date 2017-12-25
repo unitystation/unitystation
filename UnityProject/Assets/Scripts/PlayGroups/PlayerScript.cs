@@ -57,6 +57,8 @@ namespace PlayGroup
 
 		private IEnumerator WaitForLoad()
 		{
+			//fixme: name isn't resolved at the moment of pool creation 
+			//(player pools now use netIDs, but it would be nice to have names for readability)
 			yield return new WaitForSeconds(2f);
 			OnNameChange(playerName);
 		}
@@ -123,7 +125,7 @@ namespace PlayGroup
 					UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 				}
 				//Request sync to get all the latest transform data
-//                new RequestSyncMessage().Send();
+                new RequestSyncMessage().Send();
 				SelectedChannels = ChatChannel.Local;
 			}
 			else if ( isServer )

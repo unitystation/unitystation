@@ -461,7 +461,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		yield return new WaitForSeconds(timeout);
 		RpcAdjustForRespawn();
 
-		EquipmentPool.ClearPool(gameObject.name);
+		EquipmentPool.ClearPool(gameObject);
 
 		//Remove player objects
 		PlayerList.Instance.RemovePlayer(gameObject.name);

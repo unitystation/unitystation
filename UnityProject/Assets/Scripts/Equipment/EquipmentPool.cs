@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,7 +11,7 @@ namespace Equipment
 	public class EquipmentPool : MonoBehaviour
 	{
 		private static EquipmentPool equipmentPool;
-		private readonly Dictionary<string, ObjectPool> equipPools = new Dictionary<string, ObjectPool>();
+		private readonly Dictionary<NetworkInstanceId, ObjectPool> equipPools = new Dictionary<NetworkInstanceId, ObjectPool>();
 
 		private GameObject objectPoolPrefab;
 
@@ -36,12 +37,12 @@ namespace Equipment
 		public static void AddGameObject(GameObject player, GameObject gObj)
 		{
 			string playerName = player.name;
-			if ( Instance.equipPools.ContainsKey(playerName) )
+			NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
+			if ( Instance.equipPools.ContainsKey(ownerId) )
 			{
 				//add obj to pool
-				Instance.equipPools[playerName].AddGameObject(gObj);
+				Instance.equipPools[ownerId].AddGameObject(gObj);
 
-				NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
 				gObj.BroadcastMessage("OnAddToPool", ownerId, SendMessageOptions.DontRequireReceiver);
 			}
 			else
@@ -50,9 +51,9 @@ namespace Equipment
 				GameObject newPool =
 					Instantiate(Instance.objectPoolPrefab, Vector2.zero, Quaternion.identity);
 				newPool.transform.parent = Instance.transform;
-				newPool.name = playerName;
-				Instance.equipPools.Add(playerName, newPool.GetComponent<ObjectPool>());
-				Instance.equipPools[playerName].AddGameObject(gObj);
+				newPool.name = $"{playerName} ({ownerId})";
+				Instance.equipPools.Add(ownerId, newPool.GetComponent<ObjectPool>());
+				Instance.equipPools[ownerId].AddGameObject(gObj);
 			}
 
 			//			Debug.LogFormat("Added {1}({2}) to {0}'s pool.size={3}",
@@ -63,12 +64,12 @@ namespace Equipment
 		//ghetto W.E.T. method intended for disposing of objects that aren't supposed to be dropped on the ground 
 		public static void DisposeOfObject(GameObject player, GameObject gObj)
 		{
-			string playerName = player.name;
-			if ( !Instance.equipPools.ContainsKey(playerName) )
+			NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
+			if ( !Instance.equipPools.ContainsKey(ownerId) )
 			{
 				return;
 			}
-			Instance.equipPools[playerName].DestroyGameObject(gObj);
+			Instance.equipPools[ownerId].DestroyGameObject(gObj);
 			gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
 			//			Debug.LogFormat("{0}: destroyed {1}({2}) from pool. size={3} ", 
 			//				playerName, gObj.name, gObj.GetComponent<ItemAttributes>().itemName, 
@@ -84,23 +85,24 @@ namespace Equipment
 		//When placing items at a position etc also removes them from the player equipment pool and places it in scene
 		public static void DropGameObject(GameObject player, GameObject gObj, Vector3 pos)
 		{
-			string playerName = player.name;
-			if ( !Instance.equipPools.ContainsKey(playerName) )
+			NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
+			if ( !Instance.equipPools.ContainsKey(ownerId) )
 			{
 				return;
 			}
-			Instance.equipPools[playerName].DropGameObject(gObj, pos);
+			Instance.equipPools[ownerId].DropGameObject(gObj, pos);
 			gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
 			//			Debug.LogFormat("{0}: removed {1}({2}) from pool. size={3} ", 
 			//				playerName, gObj.name, gObj.GetComponent<ItemAttributes>().itemName, 
 			//				Instance.equipPools[playerName].currentObjects.Count);
 		}
 
-		public static void ClearPool(string playerName)
+		public static void ClearPool(GameObject player)
 		{
-			if ( Instance.equipPools.ContainsKey(playerName) )
+			NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
+			if ( Instance.equipPools.ContainsKey(ownerId) )
 			{
-				Instance.equipPools[playerName].currentObjects.Clear();
+				Instance.equipPools[ownerId].currentObjects.Clear();
 			}
 		}
 	}
