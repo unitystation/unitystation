@@ -57,13 +57,13 @@ namespace Items
 			{
 				return false;
 			}
-			if ( cnt.IsFloating() ? !CanReachFloating(ps, state) : !ps.IsInReach(state.Position) )
+			if ( cnt.IsFloating() ? !CanReachFloating(ps, state) : !ps.IsInReach(state.position) )
 			{
-				Debug.LogWarningFormat($"Not in reach! server pos:{state.Position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
+				Debug.LogWarningFormat($"Not in reach! server pos:{state.position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
 				return false;
 			}
 
-			Debug.LogFormat($"Pickup success! server pos:{state.Position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
+			Debug.LogFormat($"Pickup success! server pos:{state.position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
 
 
 			//set ForceInform to false for simulation
@@ -75,7 +75,7 @@ namespace Items
 		/// </summary>
 		private static bool CanReachFloating(PlayerScript ps, TransformState state)
 		{
-			return ps.IsInReach(state.Position) || ps.IsInReach(state.Position - ( Vector3 ) state.Impulse, 2f);
+			return ps.IsInReach(state.position) || ps.IsInReach(state.position - ( Vector3 ) state.Impulse, 2f);
 		}
 
 		private static bool SlotUnavailable(PlayerScript ps, string slotName)
