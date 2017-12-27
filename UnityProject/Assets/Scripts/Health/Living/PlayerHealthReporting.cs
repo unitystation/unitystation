@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -24,10 +24,10 @@ namespace PlayGroup
 		public PlayerHealth playerHealth;
 		private PlayerMove playerMove;
 
-		protected override void Awake()
-		{
-			//Do not call base method for this Awake.
-		}
+        protected override void OnEnable()
+        {
+            //Do not call base method for this OnEnable.
+        }
 
 		public override void OnStartServer()
 		{
@@ -36,7 +36,7 @@ namespace PlayGroup
 				healthServerCache = playerHealth.Health;
 				bloodLevelCache = playerHealth.BloodLevel;
 				playerMove = GetComponent<PlayerMove>();
-				UpdateManager.Instance.regularUpdate.Add(this);
+				UpdateManager.Instance.Add(this);
 				StartCoroutine(WaitForLoad());
 			}
 			base.OnStartServer();
@@ -53,7 +53,7 @@ namespace PlayGroup
 		{
 			if (isServer)
 			{
-				UpdateManager.Instance.regularUpdate.Remove(this);
+				UpdateManager.Instance.Remove(this);
 			}
 		}
 

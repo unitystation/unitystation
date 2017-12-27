@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using PlayGroup;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
@@ -12,13 +13,24 @@ public class VisibleBehaviour : NetworkBehaviour
 {
 	//Ignore these types
 	private const string networkId = "NetworkIdentity";
-
 	private const string networkT = "NetworkTransform";
+	private const string customNetTransform = "CustomNetTransform";
 	private const string objectBehaviour = "ObjectBehaviour";
 	private const string regTile = "RegisterTile";
 	private const string inputController = "InputController";
 	private const string playerSync = "PlayerSync";
 	private const string closetHandler = "ClosetPlayerHandler";
+	private string[] neverDisabled =
+	{
+		networkId,
+		networkT,
+		customNetTransform,
+		objectBehaviour,
+		regTile,
+		inputController,
+		playerSync,
+		closetHandler
+	};
 
 	public bool isPlayer;
 	public RegisterTile registerTile;
@@ -55,7 +67,7 @@ public class VisibleBehaviour : NetworkBehaviour
 	{
 	}
 
-	private void UpdateState(bool _aliveState)
+	public void UpdateState(bool _aliveState)
 	{
 		visibleState = _aliveState;
 		OnVisibilityChange(_aliveState);
@@ -65,9 +77,7 @@ public class VisibleBehaviour : NetworkBehaviour
 		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 		for (int i = 0; i < scripts.Length; i++)
 		{
-			if (scripts[i].GetType().Name != networkId && scripts[i].GetType().Name != networkT && scripts[i].GetType().Name != objectBehaviour &&
-			    scripts[i].GetType().Name != regTile && scripts[i].GetType().Name != inputController && scripts[i].GetType().Name != playerSync
-			    && scripts[i].GetType().Name != closetHandler)
+			if (canBeDisabled(scripts, i))
 			{
 				scripts[i].enabled = _aliveState;
 			}
@@ -95,5 +105,10 @@ public class VisibleBehaviour : NetworkBehaviour
 				registerTile.Unregister();
 			}
 		}
+	}
+
+	private bool canBeDisabled(MonoBehaviour[] scripts, int i)
+	{
+		return !neverDisabled.Contains(scripts[i].GetType().Name);
 	}
 }
