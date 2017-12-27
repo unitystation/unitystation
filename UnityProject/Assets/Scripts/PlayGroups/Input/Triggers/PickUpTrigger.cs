@@ -63,7 +63,7 @@ namespace Items
 				return false;
 			}
 
-			Debug.LogFormat($"Pickup success! server pos:{state.position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
+//			Debug.LogFormat($"Pickup success! server pos:{state.position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
 
 
 			//set ForceInform to false for simulation

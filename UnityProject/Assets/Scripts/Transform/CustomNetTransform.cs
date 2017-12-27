@@ -6,43 +6,33 @@ using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
-
 public struct TransformState
 {
 	public bool Active;
 	public float Speed;
-	public Vector2 Impulse; //Should always be prepared via PrepareImpulseVector
-	public Vector3 Position; //localPosition!
-
+	public Vector2 Impulse; //Direction of throw
+	public Vector3 localPos;
 	public Vector3 position
 	{
 		get
 		{
-			if ( Position == CustomNetTransform.InvalidPos )
+			if ( localPos == CustomNetTransform.InvalidPos )
 			{
-				return Position;
+				return localPos;
 			}
-			return CustomNetTransform.localToWorld(Position);
+			return CustomNetTransform.localToWorld(localPos);
 		}
 		set
 		{
 			if ( value == CustomNetTransform.InvalidPos )
 			{
-				Position = value;
+				localPos = value;
 			}
 			else
 			{
-				Position = CustomNetTransform.worldToLocal(value);
+				localPos = CustomNetTransform.worldToLocal(value);
 			}
 		}
-	}
-	public Vector3 localPos
-	{
-		get
-		{
-			return Position;
-		}
-		set { Position = value; }
 	}
 }
 
@@ -50,12 +40,12 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
 	public static readonly Vector3Int InvalidPos = new Vector3Int(0, 0, -100), deOffset = new Vector3Int(-1, -1, 0);
 
-	public float SpeedMultiplier = 1; //Multiplier for flying/lerping speed, could indicate weight, for example
+	public float SpeedMultiplier = 1; //Multiplier for flying/lerping speed, could corelate with weight, for example
 
 	private RegisterTile registerTile;
 
 	private TransformState serverTransformState; //used for syncing with players, matters only for server
-	private TransformState transformState;
+	private TransformState transformState; //client's transform, can get dirty/predictive
 
 	private Matrix matrix;
 
@@ -103,8 +93,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		}
 	}
 
-
-	//    /// Overwrite server state with a completely new one. (Are you sure you really want that?)
+//    /// Overwrite server state with a completely new one. (Are you sure you really want that?)
 //    [Server]
 //    public void SetState(TransformState state)
 //    {
@@ -112,19 +101,12 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //        NotifyPlayers();
 //    }
 
-	private Vector2 PrepareImpulseVector(Vector2 impulse)
-	{
-		var newImpulse = impulse.normalized;// * 1.5f;
-//		Debug.LogFormat($"{impulse}->{impulse.normalized}");//->{newImpulse}
-		return newImpulse;
-	}
-	
-	//FIXME: deOffset is a temp solution to this weird matrix 0.5;0.5 offset
+	//FIXME: deOffset is a temp solution to this weird matrix offset
 	public static Vector3 localToWorld(Vector3 localVector3)
 	{
 		return localVector3 - deOffset;
 	}
-	
+
 	public static Vector3 worldToLocal(Vector3 worldVector3)
 	{
 		return worldVector3 + deOffset;
@@ -136,22 +118,22 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	[Server]
 	public void ForceDrop(Vector3 pos)
 	{
-		GetComponentInChildren<SpriteRenderer>().color = Color.white;
+//		GetComponentInChildren<SpriteRenderer>().color = Color.white;
 		serverTransformState.Active = true;
 		serverTransformState.position = pos;
-		Vector2	impulse = PrepareImpulseVector(Random.insideUnitCircle);//PrepareImpulseVector(new Vector2(0.8f,1)); 
+		Vector2	impulse = Random.insideUnitCircle.normalized;
 		//don't apply impulses if item isn't going to float in that direction
 		var newGoal = Vector3Int.RoundToInt(serverTransformState.localPos + ( Vector3 ) impulse);
 		if ( CanDriftTo(newGoal) )
 		{
-			Debug.LogFormat($"ForceDrop success: from {pos} to {localToWorld(newGoal)}");
+//			Debug.LogFormat($"ForceDrop success: from {pos} to {localToWorld(newGoal)}");
 			serverTransformState.Impulse = impulse;
-			serverTransformState.Speed = Random.Range(1f, 2f);
+			serverTransformState.Speed = Random.Range(0.5f, 5f);
 		}
-		else
-		{
-			Debug.LogWarningFormat($"ForceDrop fail: from {pos} to {localToWorld(newGoal)}");			
-		}
+//		else
+//		{
+//			Debug.LogWarningFormat($"ForceDrop fail: from {pos} to {localToWorld(newGoal)}");			
+//		}
 		NotifyPlayers();
 	}
 
@@ -242,7 +224,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	/// <summary>
-	/// sync with new player joining
+	/// Sync with new player joining
 	/// </summary>
 	/// <param name="playerGameObject"></param>
 	[Server]
@@ -259,7 +241,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	//managed by UpdateManager
-
 	public override void UpdateMe()
 	{
 		if ( !registerTile )
@@ -287,15 +268,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			CheckSpaceDrift();
 		}
 
-//        if ( GameData.IsHeadlessServer )
-//        {
-//            return;
-//        }
-
 		if ( IsFloating() )
 		{
-			//predictive perpetual flying
-			transformState.localPos += ( Vector3 ) transformState.Impulse * ( transformState.Speed * SpeedMultiplier ) * Time.deltaTime; 
+			SimulateFloating();
 		}
 
 		if ( transformState.localPos != transform.localPosition )
@@ -304,17 +279,24 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		}
 
 		//Registering
-		if ( registerTilePos() != Vector3Int.FloorToInt(transformState.localPos) )
+		if ( registerTilePos() != Vector3Int.RoundToInt(transformState.localPos) )
 		{
-			Debug.LogFormat($"registerTile updating {localToWorld(registerTilePos())}->{localToWorld(Vector3Int.FloorToInt(transform.localPosition))}, " +
-			                $"ts={localToWorld(Vector3Int.FloorToInt(transformState.localPos))}");
+//			Debug.LogFormat($"registerTile updating {localToWorld(registerTilePos())}->{localToWorld(Vector3Int.RoundToInt(transform.localPosition))}, " +
+//			                $"ts={localToWorld(Vector3Int.RoundToInt(transformState.localPos))}");
 			RegisterObjects();
 		}
 	}
 
+	///predictive perpetual flying
+	private void SimulateFloating()
+	{
+		transformState.localPos +=
+			(Vector3) transformState.Impulse * (transformState.Speed * SpeedMultiplier) * Time.deltaTime;
+	}
+
 	private Vector3Int registerTilePos()
 	{
-		return registerTile.Position /*- deOffset*/;
+		return registerTile.Position;
 	}
 
 	private void Lerp()
@@ -332,26 +314,32 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		{
 			Vector3 newGoal = serverTransformState.localPos + 
 			             ( Vector3 ) serverTransformState.Impulse * ( serverTransformState.Speed * SpeedMultiplier ) * Time.deltaTime;
-			/*= Vector3.MoveTowards(serverTransformState.localPos, 
-					serverTransformState.localPos + (Vector3) serverTransformState.Impulse, 
-					serverTransformState.Speed * SpeedMultiplier * Time.deltaTime);*/
-			Vector3Int intGoal = Vector3Int.RoundToInt(newGoal);
-
+			Vector3Int intGoal = RoundWithContext(newGoal, serverTransformState.Impulse);
 			if ( CanDriftTo(intGoal) )
-			{
-				//Spess drifting
+			{	//Spess drifting
 				serverTransformState.localPos = newGoal;
 			}
 			else //Stopping drift
 			{
-//				serverTransformState.Position = newGoal - ( Vector3 ) serverTransformState.Impulse;//registerTilePos();
-//				serverTransformState.Position += ( Vector3 ) serverTransformState.Impulse * ( serverTransformState.Speed * SpeedMultiplier ) * Time.deltaTime;
-				Debug.LogFormat($"{gameObject.name}: not floating to {localToWorld(intGoal)}, stopped @{serverTransformState.position} (transform.pos={localToWorld(transform.localPosition)})");
-				GetComponentInChildren<SpriteRenderer>().color = Color.red;
+//				serverTransformState.localPos = newGoal; //another micronudge :)
+//				Debug.LogFormat($"{gameObject.name}: not floating to {localToWorld(intGoal)}, stopped @{serverTransformState.position} (transform.pos={localToWorld(transform.localPosition)})");
+//				GetComponentInChildren<SpriteRenderer>().color = Color.red;
 				serverTransformState.Impulse = Vector2.zero; //killing impulse, be aware when implementing throw!
 				NotifyPlayers();
 			}
 		}
+	}
+
+	///Special rounding for collision detection
+	///returns V3Int of next tile
+	private static Vector3Int RoundWithContext(Vector3 roundable, Vector2 impulseContext)
+	{
+		float x = impulseContext.x;
+		float y = impulseContext.y;
+		return new Vector3Int(
+			x < 0 ? (int) Math.Floor(roundable.x) : (int) Math.Ceiling(roundable.x),
+			y < 0 ? (int) Math.Floor(roundable.y) : (int) Math.Ceiling(roundable.y),
+			0 );
 	}
 
 	public bool IsFloating()
@@ -363,10 +351,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		return transformState.Impulse != Vector2.zero && transformState.Speed != 0f;
 	}
 
+	/// Make sure to use localPos when asking
 	private bool CanDriftTo(Vector3Int goal)
 	{
-		var worldGoal = localToWorld(goal);
-		bool canDriftTo = matrix != null && matrix.IsEmptyAt(goal);
-		return canDriftTo;
+		return matrix != null && matrix.IsEmptyAt(goal);
 	}
 }
