@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4004768846296984}
   - component: {fileID: 61473308885118922}
   - component: {fileID: 114188201664829890}
-  - component: {fileID: 114622794189216516}
+  - component: {fileID: 114383778497471820}
   - component: {fileID: 114546555560900714}
   - component: {fileID: 114974857860112182}
   - component: {fileID: 114335198416293264}
@@ -168,8 +168,20 @@ MonoBehaviour:
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
   serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
+  closetHandlerCache: {fileID: 0}
+--- !u!114 &114383778497471820
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1639223380925416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
 --- !u!114 &114546555560900714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -191,27 +203,6 @@ MonoBehaviour:
   size: 0
   spriteType: 1
   type: 5
---- !u!114 &114622794189216516
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1639223380925416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114763204956872164
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4153443880121968}
   - component: {fileID: 61874701466316104}
   - component: {fileID: 114468507207016222}
-  - component: {fileID: 114054752856084266}
+  - component: {fileID: 114983458888184870}
   - component: {fileID: 114217803941579194}
   - component: {fileID: 114811898791686074}
   - component: {fileID: 114200006776994880}
@@ -101,27 +101,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114054752856084266
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1036141445992816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114200006776994880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,19 +112,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
-  pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
+  isPushable: 0
+  moveSpeed: 7
+  pulledBy: {fileID: 0}
+  pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
+  serverLittleLag: 0
   timeInPush: 0
+  closetHandlerCache: {fileID: 0}
 --- !u!114 &114217803941579194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -158,15 +137,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloth: 0
+  clothingReference: -1
   hierarchy: 
-  itemName: 
+  inHandReferenceLeft: -1
+  inHandReferenceRight: -1
   itemDescription: 
+  itemName: 
+  size: 0
   spriteType: 0
   type: 0
-  inHandReferenceRight: -1
-  inHandReferenceLeft: -1
-  clothingReference: -1
-  size: 0
 --- !u!114 &114468507207016222
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -222,6 +201,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 0
+--- !u!114 &114983458888184870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1036141445992816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
 --- !u!212 &212084795858203154
 SpriteRenderer:
   m_ObjectHideFlags: 1

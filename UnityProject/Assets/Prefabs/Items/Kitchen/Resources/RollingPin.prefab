@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4000013738803548}
   - component: {fileID: 61702131476188450}
   - component: {fileID: 114945810224971394}
-  - component: {fileID: 114436352088767182}
+  - component: {fileID: 114716961639846354}
   - component: {fileID: 114000011671410446}
   - component: {fileID: 114935930822245516}
   - component: {fileID: 114130006931618576}
@@ -113,15 +113,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloth: 0
+  clothingReference: -1
   hierarchy: 
-  itemName: 
+  inHandReferenceLeft: 532
+  inHandReferenceRight: 538
   itemDescription: 
+  itemName: 
+  size: 1
   spriteType: 0
   type: 0
-  inHandReferenceRight: 538
-  inHandReferenceLeft: 532
-  clothingReference: -1
-  size: 1
 --- !u!114 &114065043758903462
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -145,20 +145,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
-  pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
+  isPushable: 0
+  moveSpeed: 7
+  pulledBy: {fileID: 0}
+  pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
+  serverLittleLag: 0
   timeInPush: 0
---- !u!114 &114436352088767182
+  closetHandlerCache: {fileID: 0}
+--- !u!114 &114716961639846354
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -166,19 +166,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012939332086}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  SpeedMultiplier: 1
 --- !u!114 &114935930822245516
 MonoBehaviour:
   m_ObjectHideFlags: 1
