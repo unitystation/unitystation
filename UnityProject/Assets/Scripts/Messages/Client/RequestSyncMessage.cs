@@ -13,18 +13,12 @@ public class RequestSyncMessage : ClientMessage<RequestSyncMessage>
 	{
 //		Debug.Log("Processed " + ToString());
 
-		yield return WaitFor(/*Subject, */SentBy);
+		yield return WaitFor(SentBy);
 		//verify that the message isn't being abused here!
 //		Debug.Log("Requested sync");
 		CustomNetworkManager.Instance.SyncPlayerData(NetworkObject);
 	}
 
-//	public static RequestSyncMessage Send(/*GameObject subject*/)
-//	{
-//		var msg = new RequestSyncMessage{ /*Subject = subject.GetComponent<NetworkIdentity>().netId*/ };
-//		msg.Send();
-//		return msg;
-//	}
 
 	public override string ToString()
 	{

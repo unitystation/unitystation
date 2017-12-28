@@ -77,7 +77,7 @@ public class VisibleBehaviour : NetworkBehaviour
 		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 		for (int i = 0; i < scripts.Length; i++)
 		{
-			if (canBeDisabled(scripts, i))
+			if (canBeDisabled(scripts[i]))
 			{
 				scripts[i].enabled = _aliveState;
 			}
@@ -107,8 +107,8 @@ public class VisibleBehaviour : NetworkBehaviour
 		}
 	}
 
-	private bool canBeDisabled(MonoBehaviour[] scripts, int i)
+	private bool canBeDisabled(MonoBehaviour script)
 	{
-		return !neverDisabled.Contains(scripts[i].GetType().Name);
+		return !neverDisabled.Contains(script.GetType().Name);
 	}
 }

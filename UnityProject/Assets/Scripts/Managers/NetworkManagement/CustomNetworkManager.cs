@@ -167,11 +167,6 @@ public class CustomNetworkManager : NetworkManager
         {
             //do special server wizardry here
         }
-//	 no need to register server handlers for client anymore  
-//        else
-//        {
-//            this.RegisterServerHandlers();
-//        }
 
 		if (GameData.IsInGame)
 		{
