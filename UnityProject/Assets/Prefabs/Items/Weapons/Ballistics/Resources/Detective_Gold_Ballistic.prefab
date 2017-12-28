@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4078685264655768}
   - component: {fileID: 61418684701184482}
   - component: {fileID: 114514418339880956}
-  - component: {fileID: 114836095424701346}
+  - component: {fileID: 114855409686197490}
   - component: {fileID: 114840681176295264}
   - component: {fileID: 114793187246988634}
   - component: {fileID: 114859515791178996}
@@ -168,27 +168,6 @@ MonoBehaviour:
   ProjectilesFired: 1
   ProjectileVelocity: 10
   WeaponType: 1
---- !u!114 &114836095424701346
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1946347799520078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114840681176295264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -210,6 +189,18 @@ MonoBehaviour:
   size: 0
   spriteType: 2
   type: 16
+--- !u!114 &114855409686197490
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1946347799520078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
 --- !u!114 &114859515791178996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -232,8 +223,8 @@ MonoBehaviour:
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
   serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
+  closetHandlerCache: {fileID: 0}
 --- !u!212 &212360716249096890
 SpriteRenderer:
   m_ObjectHideFlags: 1

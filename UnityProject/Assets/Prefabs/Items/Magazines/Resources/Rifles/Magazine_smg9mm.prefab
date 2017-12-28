@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4493919025566808}
   - component: {fileID: 61498569631186102}
   - component: {fileID: 114395108806851474}
-  - component: {fileID: 114672392873781482}
+  - component: {fileID: 114059359577379422}
   - component: {fileID: 114588700412026578}
   - component: {fileID: 114704218100228718}
   - component: {fileID: 114589406112588394}
@@ -102,6 +102,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114059359577379422
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1549444462283266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
 --- !u!114 &114395108806851474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,8 +179,8 @@ MonoBehaviour:
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
   serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
+  closetHandlerCache: {fileID: 0}
 --- !u!114 &114589406112588394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,27 +196,6 @@ MonoBehaviour:
   ammoType: smg9mm
   magazineSize: 25
   Usable: 1
---- !u!114 &114672392873781482
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1549444462283266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114704218100228718
 MonoBehaviour:
   m_ObjectHideFlags: 1

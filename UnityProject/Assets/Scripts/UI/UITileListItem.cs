@@ -36,9 +36,9 @@ public class UITileListItem : MonoBehaviour
 			item = null;
 			tile = value;
 			itemSpriteRenderer = null;
-			tileSprite = tile.PreviewSprite;
+			tileSprite = tile?.PreviewSprite;
 			image.sprite = tileSprite;
-			text.text = value.name;
+			text.text = value?.name;
 		}
 	}
 

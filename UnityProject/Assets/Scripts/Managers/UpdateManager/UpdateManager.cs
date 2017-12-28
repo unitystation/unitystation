@@ -12,18 +12,31 @@ public class UpdateManager : MonoBehaviour
 	private static UpdateManager updateManager;
 
 	//List of all the objects to override UpdateMe method in Update
-	public List<ManagedNetworkBehaviour> regularUpdate = new List<ManagedNetworkBehaviour>();
+	private List<ManagedNetworkBehaviour> regularUpdate = new List<ManagedNetworkBehaviour>();
 
 	public static UpdateManager Instance
 	{
 		get
 		{
-			if (updateManager == null)
+			if ( updateManager == null )
 			{
 				updateManager = FindObjectOfType<UpdateManager>();
 			}
 			return updateManager;
 		}
+	}
+
+	public void Add(ManagedNetworkBehaviour updatable)
+	{
+		if ( !regularUpdate.Contains(updatable) )
+		{
+			regularUpdate.Add(updatable);
+		}
+	}
+
+	public void Remove(ManagedNetworkBehaviour updatable)
+	{
+		regularUpdate.Remove(updatable);
 	}
 
 	private void OnEnable()
@@ -49,11 +62,11 @@ public class UpdateManager : MonoBehaviour
 
 	private void Update()
 	{
-		for (int i = 0; i < regularUpdate.Count; i++)
-		{
-			regularUpdate[i].UpdateMe();
-			regularUpdate[i].FixedUpdateMe();
-			regularUpdate[i].LateUpdateMe();
-		}
+        for (int i = 0; i < regularUpdate.Count; i++)
+        {
+            regularUpdate[i].UpdateMe();
+            regularUpdate[i].FixedUpdateMe();
+            regularUpdate[i].LateUpdateMe();
+        }
 	}
 }

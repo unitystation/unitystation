@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4448654656461664}
   - component: {fileID: 61488701927675910}
   - component: {fileID: 114324331423241832}
-  - component: {fileID: 114175942821522510}
+  - component: {fileID: 114231557869331478}
   - component: {fileID: 114381276020981326}
   - component: {fileID: 114695018772429564}
   - component: {fileID: 114609473813204842}
@@ -103,27 +103,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114175942821522510
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1175051805306024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114178848517747998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -135,19 +114,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
-  isPushable: 1
-  pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
-  pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
+  isPushable: 1
+  moveSpeed: 7
+  pulledBy: {fileID: 0}
+  pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
+  serverLittleLag: 0
   timeInPush: 0
+  closetHandlerCache: {fileID: 0}
+--- !u!114 &114231557869331478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1175051805306024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
 --- !u!114 &114309909979161082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -203,19 +194,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
-  pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
+  isPushable: 0
+  moveSpeed: 7
+  pulledBy: {fileID: 0}
+  pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
+  serverLittleLag: 0
   timeInPush: 0
+  closetHandlerCache: {fileID: 0}
 --- !u!114 &114582122828152908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -238,10 +229,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoRemains: 0
   ammoType: 
   magazineSize: 20
   Usable: 0
-  ammoRemains: 0
 --- !u!114 &114695018772429564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -254,15 +245,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloth: 0
+  clothingReference: -1
   hierarchy: 
-  itemName: 
+  inHandReferenceLeft: 0
+  inHandReferenceRight: 0
   itemDescription: 
+  itemName: 
+  size: 0
   spriteType: 0
   type: 0
-  inHandReferenceRight: 0
-  inHandReferenceLeft: 0
-  clothingReference: -1
-  size: 0
 --- !u!212 &212262106843082654
 SpriteRenderer:
   m_ObjectHideFlags: 1

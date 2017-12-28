@@ -36,7 +36,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012120925626}
   - component: {fileID: 114759099205373710}
-  - component: {fileID: 114332724714900006}
   - component: {fileID: 114630834922322798}
   - component: {fileID: 61865588668533116}
   - component: {fileID: 114767645651203294}
@@ -189,27 +188,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114332724714900006
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013052373872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114522763113633208
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -266,11 +244,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300098, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
-  spriteRenderer: {fileID: 212000010167664066}
-  IsLocked: 0
-  lockLight: {fileID: 114522763113633208}
-  items: {fileID: 1511929446573950}
   IsClosed: 0
+  IsLocked: 0
+  items: {fileID: 1511929446573950}
+  lockLight: {fileID: 114522763113633208}
+  spriteRenderer: {fileID: 212000010167664066}
 --- !u!114 &114767645651203294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -283,9 +261,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 0
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
+  IsClosed: 1
 --- !u!212 &212000010167664066
 SpriteRenderer:
   m_ObjectHideFlags: 1

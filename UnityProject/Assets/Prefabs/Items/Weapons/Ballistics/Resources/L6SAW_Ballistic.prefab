@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4617881622939276}
   - component: {fileID: 61585818294511096}
   - component: {fileID: 114251161790680262}
-  - component: {fileID: 114622076731193390}
+  - component: {fileID: 114632163286020052}
   - component: {fileID: 114661774911997286}
   - component: {fileID: 114514298924506604}
   - component: {fileID: 114606480918356138}
@@ -190,9 +190,9 @@ MonoBehaviour:
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
   serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
---- !u!114 &114622076731193390
+  closetHandlerCache: {fileID: 0}
+--- !u!114 &114632163286020052
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -200,19 +200,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1228446059428988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  SpeedMultiplier: 1
 --- !u!114 &114661774911997286
 MonoBehaviour:
   m_ObjectHideFlags: 1

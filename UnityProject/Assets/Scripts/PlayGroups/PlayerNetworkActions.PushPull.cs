@@ -1,4 +1,6 @@
 ﻿using PlayGroup;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -56,6 +58,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			objA.pulledBy.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
 		}
+			var netTransform = obj.GetComponent<CustomNetTransform>();
+			netTransform.SetPosition(obj.transform.localPosition);
 	}
 
 	[Command]
@@ -77,6 +81,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			pS.pullObjectID = NetworkInstanceId.Invalid;
 			pulled.pulledBy = null;
 		}
+			var netTransform = obj.GetComponent<CustomNetTransform>();
+			netTransform.SetPosition(obj.transform.localPosition);
 	}
 
 	[Command]
@@ -86,6 +92,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (pushed != null)
 		{
 			pushed.RpcPushSync(startLocalPos, targetPos);
+			var netTransform = obj.GetComponent<CustomNetTransform>();
+			netTransform.SetPosition(targetPos);
 		}
 	}
 }

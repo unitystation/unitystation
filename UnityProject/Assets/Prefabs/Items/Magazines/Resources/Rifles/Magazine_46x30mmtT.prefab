@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4986694799187396}
   - component: {fileID: 61994096233940062}
   - component: {fileID: 114679419001679394}
-  - component: {fileID: 114089759250488178}
+  - component: {fileID: 114610390258240226}
   - component: {fileID: 114802394935135262}
   - component: {fileID: 114788448572266270}
   - component: {fileID: 114831615385714540}
@@ -102,7 +102,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114089759250488178
+--- !u!114 &114610390258240226
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -110,19 +110,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1976442409144630}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  SpeedMultiplier: 1
 --- !u!114 &114679419001679394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,8 +189,8 @@ MonoBehaviour:
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
   serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
   timeInPush: 0
+  closetHandlerCache: {fileID: 0}
 --- !u!114 &114831615385714540
 MonoBehaviour:
   m_ObjectHideFlags: 1

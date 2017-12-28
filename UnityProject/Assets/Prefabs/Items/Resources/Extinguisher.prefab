@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4827893193398430}
   - component: {fileID: 61818042941755762}
   - component: {fileID: 114022233371835864}
-  - component: {fileID: 114254417711539772}
+  - component: {fileID: 114875290499615288}
   - component: {fileID: 114567485071167784}
   - component: {fileID: 114229897149472310}
   - component: {fileID: 114335573703485954}
@@ -144,27 +144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114254417711539772
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1907679543779350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114335573703485954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -176,19 +155,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
-  pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
+  isPushable: 0
+  moveSpeed: 7
+  pulledBy: {fileID: 0}
+  pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
+  serverLittleLag: 0
   timeInPush: 0
+  closetHandlerCache: {fileID: 0}
 --- !u!114 &114567485071167784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -201,15 +180,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloth: 0
+  clothingReference: -1
   hierarchy: 
-  itemName: Extinguisher
+  inHandReferenceLeft: 88
+  inHandReferenceRight: 96
   itemDescription: 
+  itemName: Extinguisher
+  size: 1
   spriteType: 0
   type: 0
-  inHandReferenceRight: 96
-  inHandReferenceLeft: 88
-  clothingReference: -1
-  size: 1
 --- !u!114 &114690376875817604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -222,6 +201,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 0
+--- !u!114 &114875290499615288
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
 --- !u!212 &212125191403727516
 SpriteRenderer:
   m_ObjectHideFlags: 1

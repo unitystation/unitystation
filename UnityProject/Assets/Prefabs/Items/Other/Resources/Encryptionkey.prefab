@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4348374245144522}
   - component: {fileID: 61099568655720156}
   - component: {fileID: 114303603080766812}
-  - component: {fileID: 114061379760793102}
+  - component: {fileID: 114542940909424808}
   - component: {fileID: 114780098485158714}
   - component: {fileID: 114239101562504668}
   - component: {fileID: 114123234982290488}
@@ -102,27 +102,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114061379760793102
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1599349953373750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114123234982290488
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -145,30 +124,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39031962c2560794798fb20ca683975d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 212971472180254508}
-  commonSprite: {fileID: 21300046, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
-  medicalSprite: {fileID: 21300048, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
-  scienceSprite: {fileID: 21300050, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
-  serviceSprite: {fileID: 21300054, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
-  securitySprite: {fileID: 21300056, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
-  supplySprite: {fileID: 21300058, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
-  quarterMasterSprite: {fileID: 21300062, guid: 97a0b0300a0ef4a1f8e1d2af7b214308,
-    type: 3}
-  engineeringSprite: {fileID: 21300064, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
-  headOfPersonnelSprite: {fileID: 21300070, guid: 97a0b0300a0ef4a1f8e1d2af7b214308,
-    type: 3}
+  binarySprite: {fileID: 21300082, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
   captainSprite: {fileID: 21300072, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
-  researchDirectorSprite: {fileID: 21300074, guid: 97a0b0300a0ef4a1f8e1d2af7b214308,
-    type: 3}
-  headOfSecuritySprite: {fileID: 21300076, guid: 97a0b0300a0ef4a1f8e1d2af7b214308,
-    type: 3}
+  centCommSprite: {fileID: 21300086, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
   chiefEngineerSprite: {fileID: 21300078, guid: 97a0b0300a0ef4a1f8e1d2af7b214308,
     type: 3}
   chiefMedicalOfficerSprite: {fileID: 21300080, guid: 97a0b0300a0ef4a1f8e1d2af7b214308,
     type: 3}
-  binarySprite: {fileID: 21300082, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
+  commonSprite: {fileID: 21300046, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
+  engineeringSprite: {fileID: 21300064, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
+  headOfPersonnelSprite: {fileID: 21300070, guid: 97a0b0300a0ef4a1f8e1d2af7b214308,
+    type: 3}
+  headOfSecuritySprite: {fileID: 21300076, guid: 97a0b0300a0ef4a1f8e1d2af7b214308,
+    type: 3}
+  medicalSprite: {fileID: 21300048, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
+  quarterMasterSprite: {fileID: 21300062, guid: 97a0b0300a0ef4a1f8e1d2af7b214308,
+    type: 3}
+  researchDirectorSprite: {fileID: 21300074, guid: 97a0b0300a0ef4a1f8e1d2af7b214308,
+    type: 3}
+  scienceSprite: {fileID: 21300050, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
+  securitySprite: {fileID: 21300056, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
+  serviceSprite: {fileID: 21300054, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
+  spriteRenderer: {fileID: 212971472180254508}
+  supplySprite: {fileID: 21300058, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
   syndicateSprite: {fileID: 21300084, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
-  centCommSprite: {fileID: 21300086, guid: 97a0b0300a0ef4a1f8e1d2af7b214308, type: 3}
   type: 1
 --- !u!114 &114303603080766812
 MonoBehaviour:
@@ -213,19 +192,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
-  pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
+  isPushable: 0
+  moveSpeed: 7
+  pulledBy: {fileID: 0}
+  pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
+  serverLittleLag: 0
   timeInPush: 0
+  closetHandlerCache: {fileID: 0}
+--- !u!114 &114542940909424808
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1599349953373750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
 --- !u!114 &114780098485158714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -238,15 +229,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloth: 0
+  clothingReference: -1
   hierarchy: 
-  itemName: standard encryption key
+  inHandReferenceLeft: 0
+  inHandReferenceRight: 0
   itemDescription: An encryption key for a radio headset.
+  itemName: standard encryption key
+  size: 0
   spriteType: 0
   type: 0
-  inHandReferenceRight: 0
-  inHandReferenceLeft: 0
-  clothingReference: -1
-  size: 0
 --- !u!114 &114929202879641106
 MonoBehaviour:
   m_ObjectHideFlags: 1
