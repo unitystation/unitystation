@@ -138,32 +138,27 @@ display: none;
   }
 }
 
+@media (min-width: 992px){
+  .container {
+    max-width: 940px;
+  }}
+@media (min-width: 768px) and (max-width: 991px){
+    .container {
+      max-width: 720px;
+    }}
+@media (max-width: 767px){
+      .container {
+        max-width: 540px;
+      }}
 
 
-/*
-.headerImage {
-  background: url(../img/back.jpg) no-repeat center top;
-  background-attachment: relative;
-  background-position: center center;
-  height: 475px;
-  background-size: cover;
-} */
-@media screen and (min-width:2001px) {
+
+@media screen and (min-width:871px){
   .headerImage {
-    background: url(../img/backhigh.jpg) no-repeat center top;
+    background: url(../img/header-min.png) no-repeat center top;
     background-attachment: relative;
     background-position: center center;
-    height: 475px;
-    background-size: cover;
-  }
-}
-
-@media screen and (min-width:871px) and (max-width:2000px) {
-  .headerImage {
-    background: url(../img/back.jpg) no-repeat center top;
-    background-attachment: relative;
-    background-position: center center;
-    height: 475px;
+    height: 300px;
     background-size: cover;
   }
 }
@@ -171,7 +166,7 @@ display: none;
 @media screen and (max-width:870px)  and (min-width: 396px) {
 
     .headerImage {
-      background: url(../img/backlow.jpg) no-repeat center top;
+      background: url(../img/headerlow-min.png) no-repeat center top;
       background-attachment: relative;
       background-position: center center;
       height: 210px;
@@ -181,7 +176,7 @@ display: none;
 }
 @media screen and (max-width:395px) {
     .headerImage {
-      background: url(../img/backmob.jpg) no-repeat center top;
+      background: url(../img/headermob-min.png) no-repeat center top;
       background-attachment: relative;
       background-position: center center;
       height: 150px;
@@ -215,7 +210,7 @@ display: none;
 
 /* ===== DOWNLOAD AREA ===== */
 .honk {
-  background-image: url("../img/clown.gif");
+  background-image: url("../img/clown.png");
   width: 50px;
   height: 50px;
   background-size: 100%;
@@ -363,12 +358,12 @@ display: none;
 }
 
 .footerBottomRow{
-  padding-bottom:30px;
+  padding-bottom:25px;
 }
 
 .footerBrand{
-  margin-bottom: 30px;
-  padding-top: 30px;
+  margin-bottom: 15px;
+  padding-top: 15px;
 }
 
 /* ===== SOCIAL MEDIA ===== */
@@ -394,46 +389,4 @@ display: none;
 
 .socialMedia-youtube:hover {
   color: #f00 !important;
-}
-
-/* ==== MONSERAT FONT STYLESETTINGS ====  */
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(assets/webfonts/monserat-cir-ext.woff2) format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* cyrillic */
-@font-face {
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(/assets/webfonts/monserat-cir.woff2) format('woff2');
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(/assets/webfonts/monserat-viet.woff2) format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(/assets/webfonts/monserat-lat-ext.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(/assets/webfonts/monserat-lat.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215;
 }
