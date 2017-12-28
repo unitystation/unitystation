@@ -93,7 +93,7 @@ namespace PlayGroup
 			{
 				UIManager.ResetAllUI();
 				UIManager.DisplayManager.SetCameraFollowPos();
-                int rA = Random.Range(0, 3);
+				int rA = Random.Range(0, 3);
 				SoundManager.PlayVarAmbient(rA);
 				playerMove = GetComponent<PlayerMove>();
 				playerSprites = GetComponent<PlayerSprites>();
@@ -122,9 +122,9 @@ namespace PlayGroup
 					// I (client) have connected to the server, ask what my job preference is
 					UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 				}
-                UIManager.SetDeathVisibility(true);
-                SelectedChannels = ChatChannel.Local;
-            }
+				UIManager.SetDeathVisibility(true);
+				SelectedChannels = ChatChannel.Local;
+			}
 			else if (isServer)
 			{
 				playerMove = GetComponent<PlayerMove>();
