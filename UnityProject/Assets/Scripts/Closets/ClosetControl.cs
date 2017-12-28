@@ -203,9 +203,15 @@ namespace Cupboards
 			}
 			foreach (ObjectBehaviour item in heldItems)
 			{
+				CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
 				if (on)
 				{
-					item.transform.position = transform.position;
+					netTransform.AppearAtPositionServer(transform.localPosition);
+//					item.transform.position = transform.position;
+				}
+				else
+				{
+					netTransform.DisappearFromWorldServer();
 				}
 
 				item.visibleState = on;
