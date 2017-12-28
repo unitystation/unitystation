@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Sprites;
 using UnityEngine;
 using UnityEngine.Networking;
+using UI;
 
 namespace PlayGroup
 {
@@ -277,9 +278,10 @@ namespace PlayGroup
 				playerMove.isGhost = true;
 				playerMove.allowInput = true;
 				RpcPassBullets(gameObject);
+	            PlayerDeathMessage.Send(gameObject);
 
-				//FIXME Remove for next demo
-				playerNetworkActions.RespawnPlayer(10);
+                //FIXME Remove for next demo
+                playerNetworkActions.RespawnPlayer(10);
 			}
 		}
 
