@@ -49,6 +49,12 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	private Matrix matrix;
 
+	void Start()
+	{
+		registerTile = GetComponent<RegisterTile>();
+		matrix = Matrix.GetMatrix(this);
+	}
+
 	public override void OnStartServer()
 	{
 		InitServerState();
@@ -64,25 +70,27 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	private void InitServerState()
 	{
-		if ( isServer )
+		if ( !isServer )
 		{
-			serverTransformState.Speed = SpeedMultiplier;
-			if ( !transform.localPosition.Equals(Vector3.zero) )
-			{
-				serverTransformState.Active = true;
-				serverTransformState.localPos =
-					Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
-			}
-			else
-			{
-				//For stuff hidden on spawn, like player equipment
-				serverTransformState.Active = false;
-				serverTransformState.localPos = InvalidPos;
-			}
+			return;
+		}
+	
+		serverTransformState.Speed = SpeedMultiplier;
+		if ( transform.localPosition.Equals(Vector3.zero) )
+		{
+			//For stuff hidden on spawn, like player equipment
+			serverTransformState.Active = false;
+			serverTransformState.localPos = InvalidPos;
+		}
+		else
+		{
+			serverTransformState.Active = true;
+			serverTransformState.localPos =
+				Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
 		}
 	}
 
-	/// Manually set an item to a specific position
+	/// Manually set an item to a specific position. Use localPosition!
 	[Server]
 	public void SetPosition(Vector3 pos, bool notify = true)
 	{
@@ -123,12 +131,12 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		serverTransformState.position = pos;
 		Vector2	impulse = Random.insideUnitCircle.normalized;
 		//don't apply impulses if item isn't going to float in that direction
-		var newGoal = Vector3Int.RoundToInt(serverTransformState.localPos + ( Vector3 ) impulse);
+		Vector3Int newGoal = RoundWithContext(serverTransformState.localPos + ( Vector3 ) impulse, impulse);
 		if ( CanDriftTo(newGoal) )
 		{
 //			Debug.LogFormat($"ForceDrop success: from {pos} to {localToWorld(newGoal)}");
 			serverTransformState.Impulse = impulse;
-			serverTransformState.Speed = Random.Range(0.5f, 5f);
+			serverTransformState.Speed = Random.Range(0.5f, 3f);
 		}
 //		else
 //		{
@@ -209,9 +217,11 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			registerTile.Unregister();
 		}
 		//todo: Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example. 
-		VisibleBehaviour vb = gameObject.GetComponent<VisibleBehaviour>();
-		vb.visibleState = transformState.Active; //this a syncvar -> only works for server
-		vb.UpdateState(transformState.Active); //Hack to make VB work with clientside prediction
+		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
+		for (int i = 0; i < renderers.Length; i++)
+		{
+			renderers[i].enabled = transformState.Active;
+		}
 	}
 
 	/// <summary>
@@ -233,12 +243,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		TransformStateMessage.Send(playerGameObject, gameObject, serverTransformState);
 	}
 
-
-	void Start()
-	{
-		registerTile = GetComponent<RegisterTile>();
-		matrix = Matrix.GetMatrix(this);
-	}
 
 	//managed by UpdateManager
 	public override void UpdateMe()

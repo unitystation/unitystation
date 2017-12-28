@@ -67,7 +67,7 @@ public class VisibleBehaviour : NetworkBehaviour
 	{
 	}
 
-	public void UpdateState(bool _aliveState)
+	private void UpdateState(bool _aliveState)
 	{
 		visibleState = _aliveState;
 		OnVisibilityChange(_aliveState);
