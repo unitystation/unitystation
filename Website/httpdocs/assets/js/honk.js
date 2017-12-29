@@ -70,7 +70,7 @@ var closePlayer = $('.closePlayer');
 var closePlayerMob = $('.closePlayerMob');
 
 function playVideo(){
-    embeddedVideo.attr("src", "https://www.youtube.com/embed/YKVmXn-Gv0M?autoplay=1");
+    embeddedVideo.attr("src", "https://www.youtube.com/embed/YKVmXn-Gv0M?autoplay=1?"+Math.random());
     videoWrapper.css("display","inline");
     headerImage.css("background-image","none");
     headerImage.css("background-color","black");
