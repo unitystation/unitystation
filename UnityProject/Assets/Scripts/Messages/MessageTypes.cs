@@ -15,6 +15,7 @@ enum MessageTypes : short
     UpdateUIMessage = 1006,
     ClosetHandlerMessage = 1007,
     ForceJobListUpdateMessage = 1008,
+    TransformStateMessage = 1009,
     PlayerDeathMessage = 1010,
     
     AddEncryptionKeyMessage = 2000,
@@ -23,4 +24,5 @@ enum MessageTypes : short
     PostToChatMessage = 2003,
     RemoveEncryptionKeyMessage = 2004,
     SimpleInteractMessage = 2005,
+    RequestSyncMessage = 2006,
 }

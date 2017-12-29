@@ -24,7 +24,7 @@ namespace UI
 		{
 			image = GetComponent<Image>();
 			image.enabled = false;
-			if (eventName.Length > 0)
+			if ( eventName.Length > 0 )
 			{
 				//                Debug.LogErrorFormat("Triggered SetItem for {0}",slotName);
 				EventManager.UI.AddListener(eventName, SetItem);
@@ -53,7 +53,7 @@ namespace UI
 		/// </summary>
 		public void SetItem(GameObject item)
 		{
-			if (!item)
+			if ( !item )
 			{
 				Clear();
 				return;
@@ -87,7 +87,7 @@ namespace UI
 		public GameObject Clear()
 		{
 			PlayerScript lps = PlayerManager.LocalPlayerScript;
-			if (!lps || lps.canNotInteract())
+			if ( !lps || lps.canNotInteract() )
 			{
 				return null;
 			}
@@ -109,7 +109,22 @@ namespace UI
 			return IsFull && UIManager.SendUpdateAllowed(Item);
 		}
 
-
+		/// <summary>
+		///     clientside simulation of placement
+		/// </summary>
+		public bool PlaceItem(Vector3 pos)
+		{
+			var item = Clear();
+			if ( !item )
+			{
+				return false;
+			}
+			var itemTransform = item.GetComponent<CustomNetTransform>();
+			itemTransform.AppearAtPosition(pos);
+			var itemAttributes = item.GetComponent<ItemAttributes>();
+			Debug.LogFormat("Placing item {0}/{1} from {2} to {3}", item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
+			return true;
+		}
 
 		public void Reset()
 		{
@@ -122,15 +137,16 @@ namespace UI
 		{
 			ItemAttributes attributes = item.GetComponent<ItemAttributes>();
 
-			if (!allowAllItems)
+			if ( !allowAllItems )
 			{
-				if (!allowedItemTypes.Contains(attributes.type))
+				if ( !allowedItemTypes.Contains(attributes.type) )
 				{
 					return false;
 				}
 				//fixme: following code prevents player from holding/wearing stuff that is wearable in /tg/ 
 			}
-			else if (maxItemSize != ItemSize.Large && (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) && maxItemSize != attributes.size)
+			else if ( maxItemSize != ItemSize.Large && ( maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large ) &&
+			          maxItemSize != attributes.size )
 			{
 				Debug.Log("Item is too big!");
 				return false;

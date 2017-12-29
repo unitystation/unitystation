@@ -14,13 +14,13 @@ namespace Equipment
 
 		public void AddGameObject(GameObject obj)
 		{
-			obj.transform.position = transform.position;
-			obj.transform.parent = transform;
+			var objTransform = obj.GetComponent<CustomNetTransform>();
+			objTransform.DisappearFromWorldServer();
 
 			NetworkIdentity id = obj.GetComponent<NetworkIdentity>();
 			ItemAttributes att = obj.GetComponent<ItemAttributes>();
 
-			if (currentObjects.ContainsKey(id))
+			if ( currentObjects.ContainsKey(id) )
 			{
 				currentObjects.Remove(id);
 				currentObjects.Add(id, att);
@@ -40,13 +40,13 @@ namespace Equipment
 		public void DropGameObject(GameObject gObj, Vector3 dropPos)
 		{
 			NetworkIdentity id = gObj.GetComponent<NetworkIdentity>();
-			if (!currentObjects.ContainsKey(id))
+			if ( !currentObjects.ContainsKey(id) )
 			{
 				Debug.Log("item: " + gObj.name + "was not found in Player Equipment pool");
 			}
 			else
 			{
-				if (!dropPos.Equals(Vector3.zero))
+				if ( !dropPos.Equals(Vector3.zero) )
 				{
 					GameObject o = currentObjects[id].gameObject;
 					DropNow(o, dropPos);
@@ -58,8 +58,9 @@ namespace Equipment
 
 		private static void DropNow(GameObject gObj, Vector3 dropPos)
 		{
-			gObj.transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
-			gObj.transform.position = dropPos;
+			var objTransform = gObj.GetComponent<CustomNetTransform>();
+			objTransform.ForceDrop(dropPos); //For demo purposes
+			//Normally you would do objTransform.AppearAtPositionServer(dropPos); 
 		}
 	}
 }

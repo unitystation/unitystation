@@ -95,8 +95,9 @@ namespace Doors
 			//                }
 			//            }
 
-			Awake();
-		}
+//            Awake();
+//            OnEnable();
+        }
 
 		public void BoxCollToggleOn()
 		{

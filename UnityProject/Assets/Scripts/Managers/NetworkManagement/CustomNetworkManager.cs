@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections;
 using System.IO;
 using UI;
@@ -161,16 +161,12 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
-	public override void OnClientConnect(NetworkConnection conn)
-	{
-		if (_isServer)
-		{
-			//do special server wizardry here
-		}
-		else
-		{
-			this.RegisterServerHandlers(); //ghetto fix for IDs to match
-		}
+    public override void OnClientConnect(NetworkConnection conn)
+    {
+        if (_isServer)
+        {
+            //do special server wizardry here
+        }
 
 		if (GameData.IsInGame)
 		{
@@ -182,12 +178,53 @@ public class CustomNetworkManager : NetworkManager
 		this.RegisterClientHandlers(conn);
 	}
 
-	private IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)
-	{
-		while (!spawnableListReady)
-		{
-			yield return new WaitForSeconds(1);
-		}
+    ///A crude proof-of-concept representation of how player is going to receive sync data
+    public void SyncPlayerData(GameObject playerGameObject)
+    {
+        CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
+        for ( var i = 0; i < scripts.Length; i++ )
+        {
+            var script = scripts[i];
+            script.NotifyPlayer(playerGameObject);
+        }
+        Debug.LogFormat($"Sent sync data ({scripts.Length} scripts) to {playerGameObject.name}");
+    }
+
+    //Editor item transform dance experiments
+#if UNITY_EDITOR
+    public void MoveAll()
+    {
+        StartCoroutine(TransformWaltz());
+    }
+    private IEnumerator TransformWaltz()
+    {
+        CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
+        var sequence = new[]
+        {
+            Vector3.right, Vector3.up, Vector3.left, Vector3.down,
+            Vector3.down, Vector3.left, Vector3.up, Vector3.right
+        };
+        for ( var i = 0; i < sequence.Length; i++ )
+        {
+            for ( var j = 0; j < scripts.Length; j++ )
+            {
+                NudgeTransform(scripts[j], sequence[i]);
+            }
+            yield return new WaitForSeconds(1.5f);
+        }
+    }
+    static void NudgeTransform(CustomNetTransform netTransform, Vector3 where)
+    {
+        netTransform.SetPosition(netTransform.transform.position + where);
+    }
+#endif
+    
+    private IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)
+    {
+        while (!spawnableListReady)
+        {
+            yield return new WaitForSeconds(1);
+        }
 
 		base.OnClientConnect(conn);
 	}

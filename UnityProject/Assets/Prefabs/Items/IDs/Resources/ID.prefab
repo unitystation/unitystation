@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4847026064450114}
   - component: {fileID: 61854855548246012}
   - component: {fileID: 114696162609604062}
-  - component: {fileID: 114415532299363170}
+  - component: {fileID: 114664589915332152}
   - component: {fileID: 114593161572524446}
   - component: {fileID: 114716302871911692}
   - component: {fileID: 114959086465697646}
@@ -114,27 +114,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 0
---- !u!114 &114415532299363170
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1748120534729806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114593161572524446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,15 +126,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloth: 0
+  clothingReference: -1
   hierarchy: 
-  itemName: identification card
+  inHandReferenceLeft: 0
+  inHandReferenceRight: 0
   itemDescription: A card used to provide ID and determine access across the station.
+  itemName: identification card
+  size: 0
   spriteType: 0
   type: 12
-  inHandReferenceRight: 0
-  inHandReferenceLeft: 0
-  clothingReference: -1
-  size: 0
+--- !u!114 &114664589915332152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1748120534729806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
 --- !u!114 &114696162609604062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -210,19 +201,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
-  pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
+  isPushable: 0
+  moveSpeed: 7
+  pulledBy: {fileID: 0}
+  pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
+  serverLittleLag: 0
   timeInPush: 0
+  closetHandlerCache: {fileID: 0}
 --- !u!114 &114959086465697646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -234,16 +225,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee6d21d82f3c5e640a47344d3a17ac18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MiningPoints: 0
+  captainSprite: {fileID: 21300006, guid: 3c5ea9c60b024de1a8718eddd1639ac5, type: 3}
+  commandSprite: {fileID: 21300008, guid: 3c5ea9c60b024de1a8718eddd1639ac5, type: 3}
+  idCardTypeInt: 0
+  jobTypeInt: 0
   ManuallyAddedAccess: 
   ManuallyAssignCardType: 0
+  MiningPoints: 0
   RegisteredName: John Cena
-  jobTypeInt: 0
-  idCardTypeInt: 0
   spriteRenderer: {fileID: 212977371495627384}
   standardSprite: {fileID: 21300002, guid: 3c5ea9c60b024de1a8718eddd1639ac5, type: 3}
-  commandSprite: {fileID: 21300008, guid: 3c5ea9c60b024de1a8718eddd1639ac5, type: 3}
-  captainSprite: {fileID: 21300006, guid: 3c5ea9c60b024de1a8718eddd1639ac5, type: 3}
 --- !u!212 &212977371495627384
 SpriteRenderer:
   m_ObjectHideFlags: 1

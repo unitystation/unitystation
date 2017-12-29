@@ -21,11 +21,11 @@ GameObject:
   - component: {fileID: 4579856977360442}
   - component: {fileID: 61541833423010570}
   - component: {fileID: 114207956578442862}
-  - component: {fileID: 114067324845694254}
   - component: {fileID: 114785202808129786}
   - component: {fileID: 114671199612239122}
   - component: {fileID: 114550632238722826}
   - component: {fileID: 114967777731387712}
+  - component: {fileID: 114591536286367976}
   m_Layer: 10
   m_Name: Pepper Shaker
   m_TagString: Untagged
@@ -101,27 +101,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114067324845694254
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651733465195328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114207956578442862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,19 +144,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
-  pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
+  isPushable: 0
+  moveSpeed: 7
+  pulledBy: {fileID: 0}
+  pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
+  serverLittleLag: 0
   timeInPush: 0
+  closetHandlerCache: {fileID: 0}
+--- !u!114 &114591536286367976
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1651733465195328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
 --- !u!114 &114671199612239122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -201,15 +192,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloth: 0
+  clothingReference: -1
   hierarchy: 
-  itemName: 
+  inHandReferenceLeft: -1
+  inHandReferenceRight: -1
   itemDescription: 
+  itemName: 
+  size: 0
   spriteType: 0
   type: 0
-  inHandReferenceRight: -1
-  inHandReferenceLeft: -1
-  clothingReference: -1
-  size: 0
 --- !u!114 &114967777731387712
 MonoBehaviour:
   m_ObjectHideFlags: 1
