@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -19,7 +18,7 @@ namespace Equipment
 		{
 			get
 			{
-				if ( !equipmentPool )
+				if (!equipmentPool)
 				{
 					equipmentPool = FindObjectOfType<EquipmentPool>();
 					equipmentPool.Init();
@@ -38,7 +37,7 @@ namespace Equipment
 		{
 			string playerName = player.name;
 			NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
-			if ( Instance.equipPools.ContainsKey(ownerId) )
+			if (Instance.equipPools.ContainsKey(ownerId))
 			{
 				//add obj to pool
 				Instance.equipPools[ownerId].AddGameObject(gObj);
@@ -61,11 +60,11 @@ namespace Equipment
 			//			Instance.equipPools[playerName].currentObjects.Count);
 		}
 
-		///Disposing of objects that aren't supposed to be dropped on the ground 
+		/// Disposing of objects that aren't supposed to be dropped on the ground
 		public static void DisposeOfObject(GameObject player, GameObject gObj)
 		{
 			NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
-			if ( !Instance.equipPools.ContainsKey(ownerId) )
+			if (!Instance.equipPools.ContainsKey(ownerId))
 			{
 				return;
 			}
@@ -86,7 +85,7 @@ namespace Equipment
 		public static void DropGameObject(GameObject player, GameObject gObj, Vector3 pos)
 		{
 			NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
-			if ( !Instance.equipPools.ContainsKey(ownerId) )
+			if (!Instance.equipPools.ContainsKey(ownerId))
 			{
 				return;
 			}
@@ -100,7 +99,7 @@ namespace Equipment
 		public static void ClearPool(GameObject player)
 		{
 			NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
-			if ( Instance.equipPools.ContainsKey(ownerId) )
+			if (Instance.equipPools.ContainsKey(ownerId))
 			{
 				Instance.equipPools[ownerId].currentObjects.Clear();
 			}

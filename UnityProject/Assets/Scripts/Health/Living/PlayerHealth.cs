@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Sprites;
 using UnityEngine;
 using UnityEngine.Networking;
-using UI;
 
 namespace PlayGroup
 {
@@ -223,7 +222,7 @@ namespace PlayGroup
 				{
 					killerName = LastDamagedBy.name;
 				}
-				
+
 				if (killerName == gameObject.name)
 				{
 					PostToChatMessage.Send(gameObject.name + " commited suicide", ChatChannel.System); //Killfeed
@@ -249,14 +248,13 @@ namespace PlayGroup
 
 						if (killerDepartment == victimDepartment)
 						{
-							departmentKillText = ", losing " + EnumUtils.GetDescription(killerDepartment) +
-												 " 1 point for team killing!";
+							departmentKillText = ", losing " + killerDepartment.GetDescription() +
+							                     " 1 point for team killing!";
 						}
 						else
 						{
-							departmentKillText = ", 1 point to " + EnumUtils.GetDescription(killerDepartment) + "!";
+							departmentKillText = ", 1 point to " + killerDepartment.GetDescription() + "!";
 						}
-						
 					}
 
 					//TDM demo killfeed

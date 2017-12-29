@@ -8,9 +8,9 @@ using UnityEngine.Networking;
 /// </summary>
 public class UpdateUIMessage : ServerMessage<UpdateUIMessage>
 {
+	public static short MessageType = (short) MessageTypes.UpdateUIMessage;
 	public int CurHealth;
 	public NetworkInstanceId Recipient;
-	public static short MessageType = (short) MessageTypes.UpdateUIMessage;
 
 	public override IEnumerator Process()
 	{

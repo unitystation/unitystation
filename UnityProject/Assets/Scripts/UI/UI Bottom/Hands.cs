@@ -48,14 +48,14 @@ namespace UI
 			{
 				CurrentSlot = Slots.RightHandSlot;
 				OtherSlot = Slots.LeftHandSlot;
-                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("right");
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("right");
 			}
 			else
 			{
 				CurrentSlot = Slots.LeftHandSlot;
 				OtherSlot = Slots.RightHandSlot;
-                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("left");
-            }
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("left");
+			}
 
 			IsRight = right;
 			selector.position = CurrentSlot.transform.position;

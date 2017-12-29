@@ -24,7 +24,7 @@ namespace UI
 		{
 			image = GetComponent<Image>();
 			image.enabled = false;
-			if ( eventName.Length > 0 )
+			if (eventName.Length > 0)
 			{
 				//                Debug.LogErrorFormat("Triggered SetItem for {0}",slotName);
 				EventManager.UI.AddListener(eventName, SetItem);
@@ -53,7 +53,7 @@ namespace UI
 		/// </summary>
 		public void SetItem(GameObject item)
 		{
-			if ( !item )
+			if (!item)
 			{
 				Clear();
 				return;
@@ -87,7 +87,7 @@ namespace UI
 		public GameObject Clear()
 		{
 			PlayerScript lps = PlayerManager.LocalPlayerScript;
-			if ( !lps || lps.canNotInteract() )
+			if (!lps || lps.canNotInteract())
 			{
 				return null;
 			}
@@ -115,7 +115,7 @@ namespace UI
 		public bool PlaceItem(Vector3 pos)
 		{
 			var item = Clear();
-			if ( !item )
+			if (!item)
 			{
 				return false;
 			}
@@ -137,16 +137,16 @@ namespace UI
 		{
 			ItemAttributes attributes = item.GetComponent<ItemAttributes>();
 
-			if ( !allowAllItems )
+			if (!allowAllItems)
 			{
-				if ( !allowedItemTypes.Contains(attributes.type) )
+				if (!allowedItemTypes.Contains(attributes.type))
 				{
 					return false;
 				}
 				//fixme: following code prevents player from holding/wearing stuff that is wearable in /tg/ 
 			}
-			else if ( maxItemSize != ItemSize.Large && ( maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large ) &&
-			          maxItemSize != attributes.size )
+			else if (maxItemSize != ItemSize.Large && (maxItemSize != ItemSize.Medium || attributes.size == ItemSize.Large) &&
+			         maxItemSize != attributes.size)
 			{
 				Debug.Log("Item is too big!");
 				return false;

@@ -7,11 +7,11 @@ using UnityEngine.Networking;
 /// </summary>
 public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 {
+	public static short MessageType = (short) MessageTypes.InventoryInteractMessage;
 	public bool ForceSlotUpdate;
 	public byte Slot;
 	public NetworkInstanceId Subject;
-	public static short MessageType = (short) MessageTypes.InventoryInteractMessage;
-	
+
 	//Serverside
 	public override IEnumerator Process()
 	{

@@ -7,11 +7,11 @@ using UnityEngine.Networking;
 /// </summary>
 public class UpdateChatMessage : ServerMessage<UpdateChatMessage>
 {
+	public static short MessageType = (short) MessageTypes.UpdateChatMessage;
 	public ChatChannel Channels;
 	public string ChatMessageText;
 	public NetworkInstanceId Recipient;
-	public static short MessageType = (short) MessageTypes.UpdateChatMessage;
-	
+
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(Recipient);

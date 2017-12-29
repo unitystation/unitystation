@@ -15,17 +15,17 @@ namespace Items
 
 		public override void Interact(GameObject originator, Vector3 position, string hand)
 		{
-			if ( originator.GetComponent<PlayerScript>().canNotInteract() )
+			if (originator.GetComponent<PlayerScript>().canNotInteract())
 			{
 				return;
 			}
 
-			if ( !isServer )
+			if (!isServer)
 			{
 				UISlotObject uiSlotObject = new UISlotObject(hand, gameObject);
 
 				//PreCheck
-				if ( UIManager.CanPutItemToSlot(uiSlotObject) )
+				if (UIManager.CanPutItemToSlot(uiSlotObject))
 				{
 					//Simulation
 					gameObject.GetComponent<CustomNetTransform>().DisappearFromWorld();
@@ -38,7 +38,7 @@ namespace Items
 			else
 			{
 				//Server actions
-				if ( !ValidatePickUp(originator, hand) )
+				if (!ValidatePickUp(originator, hand))
 				{
 					//Rollback prediction (inform player about item's true state)
 					GetComponent<CustomNetTransform>().NotifyPlayer(originator);
@@ -53,11 +53,11 @@ namespace Items
 			var slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
 			var cnt = GetComponent<CustomNetTransform>();
 			var state = cnt.State;
-			if ( SlotUnavailable(ps, slotName) )
+			if (SlotUnavailable(ps, slotName))
 			{
 				return false;
 			}
-			if ( cnt.IsFloating() ? !CanReachFloating(ps, state) : !ps.IsInReach(state.position) )
+			if (cnt.IsFloating() ? !CanReachFloating(ps, state) : !ps.IsInReach(state.position))
 			{
 				Debug.LogWarningFormat($"Not in reach! server pos:{state.position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
 				return false;
@@ -71,11 +71,11 @@ namespace Items
 		}
 
 		/// <summary>
-		/// Making reach check less strict when object is flying, otherwise high ping players can never catch shit!
+		///     Making reach check less strict when object is flying, otherwise high ping players can never catch shit!
 		/// </summary>
 		private static bool CanReachFloating(PlayerScript ps, TransformState state)
 		{
-			return ps.IsInReach(state.position) || ps.IsInReach(state.position - ( Vector3 ) state.Impulse, 2f);
+			return ps.IsInReach(state.position) || ps.IsInReach(state.position - (Vector3) state.Impulse, 2f);
 		}
 
 		private static bool SlotUnavailable(PlayerScript ps, string slotName)
@@ -93,9 +93,9 @@ namespace Items
 		private void CheckSpriteOrder()
 		{
 			SpriteRenderer sR = GetComponentInChildren<SpriteRenderer>();
-			if ( sR != null )
+			if (sR != null)
 			{
-				if ( sR.sortingLayerName == "Items" && sR.sortingOrder == 0 )
+				if (sR.sortingLayerName == "Items" && sR.sortingOrder == 0)
 				{
 					sR.sortingOrder = 1;
 				}

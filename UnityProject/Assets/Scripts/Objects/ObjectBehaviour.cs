@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Cupboards;
+﻿using Cupboards;
 using Items;
 using PlayGroup;
 using UnityEngine;
@@ -10,8 +9,7 @@ using UnityEngine;
 /// </summary>
 public class ObjectBehaviour : PushPull
 {
-	[HideInInspector]
-	public ClosetPlayerHandler closetHandlerCache;
+	[HideInInspector] public ClosetPlayerHandler closetHandlerCache;
 
 	//Inspector is controlled by ObjectBehaviourEditor
 	//Please expose any properties you need in there
@@ -54,7 +52,8 @@ public class ObjectBehaviour : PushPull
 				//itself if not needed
 				//TODO turn the ClosetPlayerHandler into a more generic component to handle disposals bin,
 				//coffins etc
-				if(state){
+				if (state)
+				{
 					if (closetHandlerCache)
 					{
 						//Set the camera to follow the player again

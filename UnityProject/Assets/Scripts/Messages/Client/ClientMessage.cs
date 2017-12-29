@@ -35,7 +35,7 @@ public abstract class ClientMessage<T> : GameMessage<T>
 		base.Serialize(writer);
 		writer.Write(SentBy);
 	}
-	
+
 	private short GetMessageType()
 	{
 		FieldInfo field = typeof(T).GetField("MessageType",

@@ -7,9 +7,9 @@ using UnityEngine.Networking;
 /// </summary>
 public class AddEncryptionkeyMessage : ClientMessage<AddEncryptionkeyMessage>
 {
+	public static short MessageType = (short) MessageTypes.AddEncryptionKeyMessage;
 	public GameObject Encryptionkey;
 	public GameObject HeadsetItem;
-	public static short MessageType = (short) MessageTypes.AddEncryptionKeyMessage;
 
 	public override IEnumerator Process()
 	{
