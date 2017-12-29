@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Sprites;
 using UnityEngine;
 using UnityEngine.Networking;
+using UI;
 
 namespace PlayGroup
 {
@@ -52,10 +53,10 @@ namespace PlayGroup
 			base.OnStartClient();
 		}
 
-        public override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
-            BodyPartType bodyPartAim)
-        {
-            base.ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
+		public override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
+			BodyPartType bodyPartAim)
+		{
+			base.ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
 
 			BodyPartBehaviour bodyPart = findBodyPart(bodyPartAim); //randomise a bit here?
 			bodyPart.ReceiveDamage(damageType, damage);
@@ -213,60 +214,60 @@ namespace PlayGroup
 			return 0;
 		}
 
-        protected override void OnDeathActions()
-        {
-            if (CustomNetworkManager.Instance._isServer)
-            {
-                string killerName = "stressfull work";
-                if (LastDamagedBy != null)
-                {
-                    killerName = LastDamagedBy.name;
-                }
-                
-                if (killerName == gameObject.name)
-                {
-                    PostToChatMessage.Send(gameObject.name + " commited suicide", ChatChannel.System); //Killfeed
-                }
-                else if (killerName.EndsWith(gameObject.name))
-                {
-                    // chain reactions
-                    PostToChatMessage.Send(
-                        gameObject.name + " screwed himself up with some help (" + killerName + ")",
-                        ChatChannel.System); //Killfeed
-                }
-                else
-                {
-                    PlayerList.Instance.UpdateKillScore(LastDamagedBy, gameObject);
+		protected override void OnDeathActions()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				string killerName = "stressfull work";
+				if (LastDamagedBy != null)
+				{
+					killerName = LastDamagedBy.name;
+				}
+				
+				if (killerName == gameObject.name)
+				{
+					PostToChatMessage.Send(gameObject.name + " commited suicide", ChatChannel.System); //Killfeed
+				}
+				else if (killerName.EndsWith(gameObject.name))
+				{
+					// chain reactions
+					PostToChatMessage.Send(
+						gameObject.name + " screwed himself up with some help (" + killerName + ")",
+						ChatChannel.System); //Killfeed
+				}
+				else
+				{
+					PlayerList.Instance.UpdateKillScore(LastDamagedBy, gameObject);
 
-                    string departmentKillText = "";
-                    if (LastDamagedBy != null)
-                    {
-                        Department killerDepartment =
-                            SpawnPoint.GetJobDepartment(LastDamagedBy.GetComponent<PlayerScript>().JobType);
-                        Department victimDepartment =
-                            SpawnPoint.GetJobDepartment(gameObject.GetComponent<PlayerScript>().JobType);
+					string departmentKillText = "";
+					if (LastDamagedBy != null)
+					{
+						Department killerDepartment =
+							SpawnPoint.GetJobDepartment(LastDamagedBy.GetComponent<PlayerScript>().JobType);
+						Department victimDepartment =
+							SpawnPoint.GetJobDepartment(gameObject.GetComponent<PlayerScript>().JobType);
 
-                        if (killerDepartment == victimDepartment)
-                        {
-                            departmentKillText = ", losing " + EnumUtils.GetDescription(killerDepartment) +
-                                                 " 1 point for team killing!";
-                        }
-                        else
-                        {
-                            departmentKillText = ", 1 point to " + EnumUtils.GetDescription(killerDepartment) + "!";
-                        }
-                        
-                    }
+						if (killerDepartment == victimDepartment)
+						{
+							departmentKillText = ", losing " + EnumUtils.GetDescription(killerDepartment) +
+												 " 1 point for team killing!";
+						}
+						else
+						{
+							departmentKillText = ", 1 point to " + EnumUtils.GetDescription(killerDepartment) + "!";
+						}
+						
+					}
 
-                    //TDM demo killfeed
-                    PostToChatMessage.Send(killerName + " has killed " + gameObject.name + departmentKillText,
-                        ChatChannel.System);
+					//TDM demo killfeed
+					PostToChatMessage.Send(killerName + " has killed " + gameObject.name + departmentKillText,
+						ChatChannel.System);
 
-                    //Combat demo killfeed
-                    //PostToChatMessage.Send(killerName + " has killed " + gameObject.name, ChatChannel.System);
-                }
-                playerNetworkActions.ValidateDropItem("rightHand", true);
-                playerNetworkActions.ValidateDropItem("leftHand", true);
+					//Combat demo killfeed
+					//PostToChatMessage.Send(killerName + " has killed " + gameObject.name, ChatChannel.System);
+				}
+				playerNetworkActions.ValidateDropItem("rightHand", true);
+				playerNetworkActions.ValidateDropItem("leftHand", true);
 
 				if (isServer)
 				{
@@ -277,6 +278,7 @@ namespace PlayGroup
 				playerMove.isGhost = true;
 				playerMove.allowInput = true;
 				RpcPassBullets(gameObject);
+				PlayerDeathMessage.Send(gameObject);
 
 				//FIXME Remove for next demo
 				playerNetworkActions.RespawnPlayer(10);
