@@ -240,15 +240,27 @@ else                /* send the submitted data */
     $name=$_REQUEST['name'];
     $email=$_REQUEST['email'];
     $message=$_REQUEST['message'];
+    $sender='noreply@unitystation.org';
+    $sendernick='Unitystation Website';
     if (($name=="")||($email=="")||($message==""))
         {
 		echo "<p class=\"flex-center\" style=\"font-size:1.5rem;\">ERROR</p>.";
   }
   else{
-  $from="From: $name<$email>\r\nReturn-path: $email";
-  $subject="Message sent using your contact form";
-  mail("info@unitystation.org", $subject, $message, $from);
-  echo "    <p class=\"flex-center\" style=\"font-size:2rem;\">Thank you! <br /></p>
+
+  $headers .= "Reply-To: $name <$email>\r\n";
+  $headers .= "Return-Path: $name <$email>\r\n";
+  $headers .= "From: $sendernick <$sender>\r\n";
+  $headers .= "Organization: $sendernick\r\n";
+  $headers .= "MIME-Version: 1.0\r\n";
+  $headers .= "Content-type: text/plain; charset=iso-8859-1\r\n";
+  $headers .= "X-Priority: 3\r\n";
+  $headers .= "X-Mailer: PHP". phpversion() ."\r\n";
+  mail("info@unitystation.org", "New form submission", "$message.", $headers);
+
+
+
+      echo "    <p class=\"flex-center\" style=\"font-size:2rem;\">Thank you! <br /></p>
     <p class=\"flex-center\" style=\"font-size:1.5rem;\">Your email has been sent.</p>";
   }
   echo "  </div>";
