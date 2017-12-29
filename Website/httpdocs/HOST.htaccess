@@ -1,10 +1,5 @@
 
-Modpagespeed Off
-
 RewriteEngine On
-RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
-
 RewriteCond %{HTTP:X-Forwarded-Protocol} =http
 RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
 
