@@ -9221,10 +9221,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonPrefab: {fileID: 1507566313556698, guid: 3b52d6fa17127c9488995cfa7d74e421,
     type: 2}
+  hasPickedAJob: 0
   isUpToDate: 0
   screen_Jobs: {fileID: 1397058543955360}
   title: {fileID: 114830297415599834}
-  hasPickedAJob: 0
 --- !u!114 &114225086096664526
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11592,7 +11592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5becb0357443a41449a1dc06b7b68eae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regularUpdate: []
 --- !u!114 &114462797507512556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12631,7 +12630,7 @@ MonoBehaviour:
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
-  m_OfflineScene: OutpostDeathmatch
+  m_OfflineScene: Lobby
   m_OnlineScene: OutpostDeathmatch
   m_SpawnPrefabs: []
   m_CustomConfig: 1
