@@ -72,10 +72,14 @@ namespace UI
 			//            else
 			//            {
 			//Only clear slot(while moving, as prediction is shit in this situation)
+			GameObject dropObj = currentSlot.Item;
+			CustomNetTransform cnt = dropObj.GetComponent<CustomNetTransform>();
+			//It is converted to LocalPos in transformstate struct
+			cnt.AppearAtPosition(PlayerManager.LocalPlayer.transform.position);
 			currentSlot.Clear();
 			//            }
 			//Message
-			lps.playerNetworkActions.RequestDropItem(currentSlot.eventName);
+			lps.playerNetworkActions.RequestDropItem(currentSlot.eventName, PlayerManager.LocalPlayer.transform.position ,false);
 			SoundManager.Play("Click01");
 			Debug.Log("Drop Button");
 		}

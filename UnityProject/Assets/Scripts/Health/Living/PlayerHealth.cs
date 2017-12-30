@@ -264,8 +264,8 @@ namespace PlayGroup
 					//Combat demo killfeed
 					//PostToChatMessage.Send(killerName + " has killed " + gameObject.name, ChatChannel.System);
 				}
-				playerNetworkActions.ValidateDropItem("rightHand", true);
-				playerNetworkActions.ValidateDropItem("leftHand", true);
+				playerNetworkActions.ValidateDropItem("rightHand", true, transform.position);
+				playerNetworkActions.ValidateDropItem("leftHand", true, transform.position);
 
 				if (isServer)
 				{

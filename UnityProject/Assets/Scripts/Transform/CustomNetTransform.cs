@@ -64,11 +64,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		base.OnStartServer();
 	}
 
-	protected override void OnEnable()
-	{
-		base.OnEnable();
-	}
-
 	private void InitServerState()
 	{
 		if (!isServer)
@@ -192,6 +187,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	{
 		transformState.Active = true;
 		transformState.position = pos;
+		transform.localPosition = pos + deOffset;
 		updateActiveStatus();
 	}
 

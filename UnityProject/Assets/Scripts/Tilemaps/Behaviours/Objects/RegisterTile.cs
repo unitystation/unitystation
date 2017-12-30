@@ -66,6 +66,7 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 			while (tempParent == null)
 			{
 				yield return new WaitForSeconds(0.1f);
+				tempParent = GameObject.FindGameObjectWithTag("SpawnParent");
 			}
 			yield return new WaitForEndOfFrame();
 			transform.parent = tempParent.transform;

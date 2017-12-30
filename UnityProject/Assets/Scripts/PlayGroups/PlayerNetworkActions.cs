@@ -100,8 +100,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		EquipmentPool.AddGameObject(gameObject, obj);
 	}
 
+	/// <summary>
+	/// Validates the inv interaction.
+	/// If you are not validating a drop action then pass Vector3.zero to dropWorldPos
+	/// </summary>
 	[Server]
-	public bool ValidateInvInteraction(string slot, GameObject gObj = null, bool forceClientInform = true)
+	public bool ValidateInvInteraction(string slot, Vector3 dropWorldPos, GameObject gObj = null, bool forceClientInform = true)
 	{
 		if (!Inventory[slot] && gObj && Inventory.ContainsValue(gObj))
 		{
@@ -114,7 +118,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		if (!gObj)
 		{
-			return ValidateDropItem(slot, forceClientInform);
+			return ValidateDropItem(slot, forceClientInform, dropWorldPos);
 		}
 		Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
 		return false;
@@ -197,19 +201,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction, 
 	/// otherwise client will forcefully receive update slot messages
-	public void RequestDropItem(string hand, bool forceClientInform = true)
+	public void RequestDropItem(string hand, Vector3 dropWorldPos, bool forceClientInform = true)
 	{
-		InventoryInteractMessage.Send(hand, null, forceClientInform);
+		InventoryInteractMessage.Send(hand, null, forceClientInform, dropWorldPos);
 	}
 
 	//Dropping from a slot on the UI
 	[Server]
-	public bool ValidateDropItem(string slot, bool forceClientInform /* = false*/)
+	public bool ValidateDropItem(string slot, bool forceClientInform /* = false*/, Vector3 dropWorldPos)
 	{
 		//decline if not dropped from hands?
 		if (Inventory.ContainsKey(slot) && Inventory[slot])
 		{
-			DropItem(slot, forceClientInform);
+			DropItem(slot, dropWorldPos, forceClientInform);
 			return true;
 		}
 		Debug.Log("Object not found in Inventory");
@@ -220,9 +224,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	///     Imperative drop
 	/// </summary>
 	[Server]
-	public void DropItem(string slot, bool forceClientInform = true)
+	public void DropItem(string slot,Vector3 dropWorldPos, bool forceClientInform = true)
 	{
-		EquipmentPool.DropGameObject(gameObject, Inventory[slot]);
+		EquipmentPool.DropGameObjectAtPos(gameObject, Inventory[slot], dropWorldPos);
 		Inventory[slot] = null;
 		equipment.ClearItemSprite(slot);
 		UpdateSlotMessage.Send(gameObject, slot, null, forceClientInform);

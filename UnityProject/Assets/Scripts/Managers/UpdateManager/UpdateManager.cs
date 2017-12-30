@@ -36,7 +36,9 @@ public class UpdateManager : MonoBehaviour
 
 	public void Remove(ManagedNetworkBehaviour updatable)
 	{
-		regularUpdate.Remove(updatable);
+		if (regularUpdate.Contains(updatable)) {
+			regularUpdate.Remove(updatable);
+		}
 	}
 
 	private void OnEnable()
