@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using PlayGroup;
 using PlayGroups.Input;
+using Tilemaps;
 using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
 using UI;
@@ -20,13 +21,14 @@ namespace Cupboards
 
 		private IEnumerable<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
 
-		[SyncVar(hook = "OpenClose")] public bool IsClosed;
+		[SyncVar(hook = nameof(OpenClose))] public bool IsClosed;
 
-		[SyncVar(hook = "LockUnlock")] public bool IsLocked;
+		[SyncVar(hook = nameof(LockUnlock))] public bool IsLocked;
 		public GameObject items;
 		public LockLightController lockLight;
-		private Matrix matrix;
+		
 		private RegisterCloset registerTile;
+		private Matrix matrix => registerTile.Matrix;
 
 		public SpriteRenderer spriteRenderer;
 
@@ -38,7 +40,6 @@ namespace Cupboards
 		private void Start()
 		{
 			registerTile = GetComponent<RegisterCloset>();
-			matrix = Matrix.GetMatrix(this);
 		}
 
 		public override void OnStartServer()

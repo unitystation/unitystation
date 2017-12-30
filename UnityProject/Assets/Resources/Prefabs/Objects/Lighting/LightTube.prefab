@@ -36,9 +36,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4917660536286328}
-  - component: {fileID: 114197525563370534}
   - component: {fileID: 61106100713950454}
   - component: {fileID: 114057055290497368}
+  - component: {fileID: 114197525563370534}
   - component: {fileID: 114356547472611804}
   - component: {fileID: 114510560690312678}
   m_Layer: 13
@@ -144,9 +144,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Light: {fileID: 0}
-  SpriteLightOn: {fileID: 21300014, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
-  SpriteLightOff: {fileID: 21300010, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
   radius: 6
+  SpriteLightOff: {fileID: 21300010, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
+  SpriteLightOn: {fileID: 21300014, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
 --- !u!114 &114356547472611804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -158,11 +158,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c71dff50f4f426eaf5ff7e2079f00fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialHealth: 10
-  maxHealth: 100
-  isNPC: 0
   allowKnifeHarvest: 0
-  ConsciousState: 0
+  initialHealth: 10
+  isNPC: 0
+  maxHealth: 100
 --- !u!114 &114510560690312678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -175,9 +174,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
 --- !u!114 &114984751247118002
 MonoBehaviour:
   m_ObjectHideFlags: 1

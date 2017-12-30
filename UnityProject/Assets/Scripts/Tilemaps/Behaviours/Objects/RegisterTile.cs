@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Tilemaps.Scripts.Behaviours.Layers;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Tilemaps.Scripts.Behaviours.Objects
 {
@@ -12,73 +13,61 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 	}
 
 	[ExecuteInEditMode]
-	public abstract class RegisterTile : MonoBehaviour
+	public abstract class RegisterTile : NetworkBehaviour
 	{
-		private Vector3Int _position;
+		private Vector3Int position;
 
 		private ObjectLayer layer;
 
 		public ObjectType ObjectType;
-		public bool IsRegistered { get; private set; }
+		
+		public Matrix Matrix { get; private set; }
+
+		[SyncVar(hook = nameof(SetParent))]
+		private NetworkInstanceId parentNetId;
+		
+		public NetworkInstanceId ParentNetId
+		{
+			get { return parentNetId; }
+			set { parentNetId = value; }
+		}
+
+		private void SetParent(NetworkInstanceId netId)
+		{
+			GameObject parent = ClientScene.FindLocalObject(netId);
+			Unregister();
+			layer = parent.GetComponent<ObjectLayer>();
+			Matrix = parent.GetComponentInParent<Matrix>();
+			transform.parent = parent.transform;
+			Register();
+		}
 
 		public Vector3Int Position
 		{
-			get { return _position; }
+			get { return position; }
 			private set
 			{
-				layer?.Objects.Remove(_position, this);
+				layer?.Objects.Remove(position, this);
 				layer?.Objects.Add(value, this);
-				_position = value;
+				position = value;
 			}
 		}
 
 		public void Start()
 		{
-			layer = transform.GetComponentInParent<ObjectLayer>();
-
-			if (layer == null)
+			if (GetComponent<NetworkIdentity>())
 			{
-				GameObject tempParent = GameObject.FindGameObjectWithTag("SpawnParent");
-				//FIXME: Still issues with init for registering objects. Sometimes SpawnParent tag cannot be found
-				// Suggestion: Move to a Matrix Manager system
-				if (tempParent != null)
+				if (isServer && transform.parent != null)
 				{
-					transform.parent = tempParent.transform;
+					ParentNetId = transform.parent.GetComponentInParent<NetworkIdentity>().netId;
 				}
-				else
-				{
-					//Matrix could not be found, this client is lagging so matrix will still be loading:
-					StartCoroutine(WaitForServer());
-					return;
-					//     Debug.LogError("GameObject: " + gameObject.name + " could not find the matrix");
-				}
-				layer = transform.GetComponentInParent<ObjectLayer>();
 			}
-
-			Register();
-		}
-
-		//Wait for the matrix to initialize (high lag situation)
-		private IEnumerator WaitForServer()
-		{
-			yield return new WaitForEndOfFrame();
-			GameObject tempParent = GameObject.FindGameObjectWithTag("SpawnParent");
-			while (tempParent == null)
-			{
-				yield return new WaitForSeconds(0.1f);
-				tempParent = GameObject.FindGameObjectWithTag("SpawnParent");
-			}
-			yield return new WaitForEndOfFrame();
-			transform.parent = tempParent.transform;
-			layer = transform.GetComponentInParent<ObjectLayer>();
-			Register();
 		}
 
 		private void OnEnable()
 		{
 			// In case of recompilation and Start doesn't get called
 			layer?.Objects.Add(Position, this);
-			IsRegistered = true;
 		}
 
 		private void OnDisable()
@@ -99,13 +88,11 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 		public void Register()
 		{
 			UpdatePosition();
-			IsRegistered = true;
 		}
 
 		public void Unregister()
 		{
 			layer?.Objects.Remove(Position, this);
-			IsRegistered = false;
 		}
 
 		public virtual bool IsPassable()

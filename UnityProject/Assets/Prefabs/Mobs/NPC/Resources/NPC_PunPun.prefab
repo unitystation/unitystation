@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114379432356965050}
   - component: {fileID: 114555785714625820}
   - component: {fileID: 114713267190622314}
+  - component: {fileID: 114432418502425888}
   m_Layer: 0
   m_Name: NPC_PunPun
   m_TagString: Untagged
@@ -40,7 +41,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722833055556988}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1986, y: 1164, z: 0}
+  m_LocalPosition: {x: 30, y: 44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -118,6 +119,20 @@ MonoBehaviour:
   deadSprite: {fileID: 21300016, guid: 6b5e9bef671444aa82bc2e31fc4280b1, type: 3}
   deadState: 0
   spriteRend: {fileID: 212099414062323906}
+--- !u!114 &114432418502425888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114555785714625820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -135,13 +150,10 @@ MonoBehaviour:
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
-  moveSpeed: 7
   pulledBy: {fileID: 0}
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
-  timeInPush: 0
+  closetHandlerCache: {fileID: 0}
 --- !u!114 &114713267190622314
 MonoBehaviour:
   m_ObjectHideFlags: 1
