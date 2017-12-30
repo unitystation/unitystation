@@ -148,7 +148,16 @@ public class PushPull : VisibleBehaviour
 	private void Update()
 	{
 		if(pushing){
-			if(transform.localPosition == pushTarget && !customNetTransform.isPushing){
+			if(customNetTransform.predictivePushing){
+				//Wait for the server to catch up to the pushtarget if predictivePushing is true
+				if(currentPos == pushTarget){
+					//if it is then set it to false, this ensures that the player cannot keep pushing if
+					//he is experiencing high lag by waiting for the server position to match up
+					customNetTransform.predictivePushing = false;
+				}
+			}
+
+			if(transform.localPosition == pushTarget && !customNetTransform.isPushing && !customNetTransform.predictivePushing){
 				pushing = false;
 			}
 		}
