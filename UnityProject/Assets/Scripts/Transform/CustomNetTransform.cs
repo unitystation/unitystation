@@ -52,6 +52,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	public TransformState State => serverTransformState;
 
+	[SyncVar]
+	public bool isPushing;
+	public bool predictivePushing = false;
+
 	private void Start()
 	{
 		registerTile = GetComponent<RegisterTile>();
@@ -71,6 +75,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			return;
 		}
 
+		isPushing = false;
+
 		serverTransformState.Speed = SpeedMultiplier;
 		if (transform.localPosition.Equals(Vector3.zero))
 		{
@@ -88,11 +94,33 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	/// Manually set an item to a specific position. Use localPosition!
 	[Server]
-	public void SetPosition(Vector3 pos, bool notify = true)
+	public void SetPosition(Vector3 pos, bool notify = true, float speed = 4f, bool _isPushing = false)
 	{
+		//Only allow one movement at a time if it is currently being pushed
+		if(isPushing || predictivePushing){
+			if(predictivePushing && _isPushing){
+				//This is if the server player is pushing because the predictive flag
+				//will be set early we still need to notify the players so call it here:
+				UpdateServerTransformState(pos, notify, speed);
+				//And then set the isPushing flag:
+				isPushing = true;
+			}
+			return;
+		}
+		UpdateServerTransformState(pos, notify, speed);
+
+		//Set it to being pushed if it is a push net action
+		if(_isPushing){
+			//This is synced via syncvar with all players
+			isPushing = true;
+		}
+	}
+
+	[Server]
+	private void UpdateServerTransformState(Vector3 pos, bool notify = true, float speed = 4f){
+		serverTransformState.Speed = speed;
 		serverTransformState.localPos = pos;
-		if (notify)
-		{
+		if (notify) {
 			NotifyPlayers();
 		}
 	}
@@ -191,6 +219,26 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		updateActiveStatus();
 	}
 
+	/// <summary>
+	/// Client side prediction for pushing
+	/// This allows instant pushing reaction to a pushing event
+	/// on the client who instigated it. The server then validates
+	/// the transform position and returns it if it is illegal
+	/// </summary>
+	public void PushToPosition(Vector3 pos, float speed, PushPull pushComponent)
+	{
+		if(pushComponent.pushing || predictivePushing){
+			return;
+		}
+		TransformState newState = new TransformState();
+		newState.Active = true;
+		newState.Speed = speed;
+		newState.localPos = pos;
+		UpdateClientState(newState);
+		predictivePushing = true;
+		pushComponent.pushing = true;
+	}
+
 	public void UpdateClientState(TransformState newState)
 	{
 		//Don't lerp (instantly change pos) if active state was changed or speed is zero
@@ -267,7 +315,16 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		if (isServer)
 		{
 			CheckSpaceDrift();
-		}
+			//Sync the pushing state to all players
+			//this makes sure that players with high pings cannot get too
+			//far with prediction
+			if(isPushing){
+				if(transformState.localPos == transform.localPosition){
+					isPushing = false;
+					predictivePushing = false;
+				}
+			}
+		} 
 
 		if (IsFloating())
 		{
@@ -280,7 +337,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		}
 
 		//Registering
-		if (registerTilePos() != Vector3Int.RoundToInt(transformState.localPos))
+		if (registerTilePos() != Vector3Int.RoundToInt(transformState.localPos) && !isPushing && !predictivePushing)
 		{
 //			Debug.LogFormat($"registerTile updating {localToWorld(registerTilePos())}->{localToWorld(Vector3Int.RoundToInt(transform.localPosition))}, " +
 //			                $"ts={localToWorld(Vector3Int.RoundToInt(transformState.localPos))}");
