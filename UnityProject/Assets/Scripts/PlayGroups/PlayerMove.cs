@@ -217,7 +217,7 @@ namespace PlayGroup
 			{
 				if (pushPulls[i] && pushPulls[i].gameObject != gameObject)
 				{
-					pushPulls[i].TryPush(gameObject, speed, direction);
+					pushPulls[i].TryPush(gameObject, direction);
 				}
 			}
 		}

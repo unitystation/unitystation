@@ -245,8 +245,9 @@ namespace PlayGroup
 			else
 			{
 				PlayerState state = isLocalPlayer ? predictedState : serverState;
-				playerScript.ghost.transform.localPosition =
-					Vector3.MoveTowards(playerScript.ghost.transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
+					playerScript.ghost.transform.localPosition =
+						Vector3.MoveTowards(playerScript.ghost.transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
+				
 			}
 		}
 

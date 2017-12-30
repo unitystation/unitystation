@@ -84,14 +84,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdTryPush(GameObject obj, Vector3 startLocalPos, Vector3 targetPos)
+	public void CmdTryPush(GameObject obj, Vector3 startLocalPos, Vector3 targetPos, float speed)
 	{
 		PushPull pushed = obj.GetComponent<PushPull>();
 		if (pushed != null)
 		{
-			pushed.RpcPushSync(startLocalPos, targetPos);
 			var netTransform = obj.GetComponent<CustomNetTransform>();
-			netTransform.SetPosition(targetPos);
+			netTransform.SetPosition(targetPos, true, speed, true);
 		}
 	}
 }
