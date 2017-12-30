@@ -34,6 +34,8 @@ namespace PlayGroup
 
 		private PlayerSprites playerSprites;
 		private PlayerSync playerSync;
+
+		private PlayerNetworkActions pna;
 		[HideInInspector] public PushPull pushPull; //The push pull component attached to this player
 		public float speed = 10;
 
@@ -44,14 +46,12 @@ namespace PlayGroup
 		/// temp solution for use with the UI network prediction
 		public bool isMoving { get; } = false;
 
-        PlayerNetworkActions pna;
-
 		private void Start()
 		{
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
 			playerSync = GetComponent<PlayerSync>();
 			pushPull = GetComponent<PushPull>();
-            pna = PlayerManager.LocalPlayer.GetComponent<PlayerNetworkActions>();
+			pna = PlayerManager.LocalPlayer.GetComponent<PlayerNetworkActions>();
 		}
 
 		public PlayerAction SendAction()
@@ -222,36 +222,36 @@ namespace PlayGroup
 			}
 		}
 
-        private void InteractDoor(Vector3 currentPosition, Vector3 direction)
-        {
-            // Make sure there is a door controller
-            Vector3Int position = Vector3Int.RoundToInt(currentPosition + direction);
+		private void InteractDoor(Vector3 currentPosition, Vector3 direction)
+		{
+			// Make sure there is a door controller
+			Vector3Int position = Vector3Int.RoundToInt(currentPosition + direction);
 
-            DoorController doorController = matrix.GetFirst<DoorController>(position);
+			DoorController doorController = matrix.GetFirst<DoorController>(position);
 
-            if (!doorController)
-            {
-                doorController = matrix.GetFirst<DoorController>(Vector3Int.RoundToInt(currentPosition));
+			if (!doorController)
+			{
+				doorController = matrix.GetFirst<DoorController>(Vector3Int.RoundToInt(currentPosition));
 
-                if (doorController)
-                {
-                    RegisterDoor registerDoor = doorController.GetComponent<RegisterDoor>();
-                    if (registerDoor.IsPassable(position))
-                    {
-                        doorController = null;
-                    }
-                }
-            }
+				if (doorController)
+				{
+					RegisterDoor registerDoor = doorController.GetComponent<RegisterDoor>();
+					if (registerDoor.IsPassable(position))
+					{
+						doorController = null;
+					}
+				}
+			}
 
-            // Attempt to open door
-            if (doorController != null && allowInput)
-            {
-                pna.CmdCheckDoorPermissions(doorController.gameObject, this.gameObject);
+			// Attempt to open door
+			if (doorController != null && allowInput)
+			{
+				pna.CmdCheckDoorPermissions(doorController.gameObject, gameObject);
 
-                allowInput = false;
-                StartCoroutine(DoorInputCoolDown());
-            }
-        }
+				allowInput = false;
+				StartCoroutine(DoorInputCoolDown());
+			}
+		}
 
 		//FIXME an ugly temp fix for an ugly problem. Will implement callbacks after 0.1.3
 		private IEnumerator DoorInputCoolDown()

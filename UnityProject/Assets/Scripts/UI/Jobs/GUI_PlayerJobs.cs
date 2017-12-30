@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class GUI_PlayerJobs : MonoBehaviour
 {
 	public GameObject buttonPrefab;
+	public bool hasPickedAJob;
 
 	public bool isUpToDate;
 	private CustomNetworkManager networkManager;
 	public GameObject screen_Jobs;
 	public Text title;
-	public bool hasPickedAJob;
 
 	private void Update()
 	{

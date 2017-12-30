@@ -65,7 +65,7 @@ namespace PlayGroup
 		private IEnumerator WaitForLoad()
 		{
 			yield return new WaitForEndOfFrame();
-			if ( serverStateCache.Position != Vector3.zero && !isLocalPlayer )
+			if (serverStateCache.Position != Vector3.zero && !isLocalPlayer)
 			{
 				serverState = serverStateCache;
 				transform.localPosition = RoundedPos(serverState.Position);
@@ -82,7 +82,7 @@ namespace PlayGroup
 
 		private void InitState()
 		{
-			if ( isServer )
+			if (isServer)
 			{
 				Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
 				serverState = new PlayerState {MoveNumber = 0, Position = position};
@@ -94,7 +94,7 @@ namespace PlayGroup
 		[Command]
 		public void CmdSetPositionFromReset(GameObject fromObj, GameObject otherPlayer, Vector3 setPos)
 		{
-			if ( fromObj.GetComponent<PlayerSync>() == null ) //Validation
+			if (fromObj.GetComponent<PlayerSync>() == null) //Validation
 			{
 				return;
 			}
@@ -129,7 +129,7 @@ namespace PlayGroup
 
 		private void Start()
 		{
-			if ( isLocalPlayer )
+			if (isLocalPlayer)
 			{
 				pendingActions = new Queue<PlayerAction>();
 				UpdatePredictedState();
@@ -145,27 +145,27 @@ namespace PlayGroup
 
 		private void Update()
 		{
-			if ( isLocalPlayer && playerMove != null )
+			if (isLocalPlayer && playerMove != null)
 			{
 				// If being pulled by another player and you try to break free
 				//TODO Condition to check for handcuffs / straight jacket 
 				// (probably better to adjust allowInput or something)
-				if ( pushPull.pulledBy != null && !playerMove.isGhost )
+				if (pushPull.pulledBy != null && !playerMove.isGhost)
 				{
-					for ( int i = 0; i < playerMove.keyCodes.Length; i++ )
+					for (int i = 0; i < playerMove.keyCodes.Length; i++)
 					{
-						if ( Input.GetKey(playerMove.keyCodes[i]) )
+						if (Input.GetKey(playerMove.keyCodes[i]))
 						{
 							playerScript.playerNetworkActions.CmdStopOtherPulling(gameObject);
 						}
 					}
 					return;
 				}
-				if ( predictedState.Position == transform.localPosition && !playerMove.isGhost )
+				if (predictedState.Position == transform.localPosition && !playerMove.isGhost)
 				{
 					DoAction();
 				}
-				else if ( predictedState.Position == playerScript.ghost.transform.localPosition && playerMove.isGhost )
+				else if (predictedState.Position == playerScript.ghost.transform.localPosition && playerMove.isGhost)
 				{
 					DoAction();
 				}
@@ -179,7 +179,7 @@ namespace PlayGroup
 			//Register playerpos in matrix
 			registerTile.UpdatePosition();
 			//Registering objects being pulled in matrix
-			if ( pullRegister != null )
+			if (pullRegister != null)
 			{
 				pullRegister.UpdatePosition();
 			}
@@ -188,7 +188,7 @@ namespace PlayGroup
 		private void DoAction()
 		{
 			PlayerAction action = playerMove.SendAction();
-			if ( action.keyCodes.Length != 0 )
+			if (action.keyCodes.Length != 0)
 			{
 				pendingActions.Enqueue(action);
 				UpdatePredictedState();
@@ -198,16 +198,16 @@ namespace PlayGroup
 
 		private void Synchronize()
 		{
-			if ( isLocalPlayer && GameData.IsHeadlessServer )
+			if (isLocalPlayer && GameData.IsHeadlessServer)
 			{
 				return;
 			}
 
-			if ( !playerMove.isGhost )
+			if (!playerMove.isGhost)
 			{
 				CheckSpaceWalk();
 
-				if ( isLocalPlayer && playerMove.IsPushing || pushPull.pulledBy != null )
+				if (isLocalPlayer && playerMove.IsPushing || pushPull.pulledBy != null)
 				{
 					return;
 				}
@@ -218,26 +218,26 @@ namespace PlayGroup
 				//Check if we should still be displaying an ItemListTab and update it, if so.
 				ControlTabs.CheckItemListTab();
 
-				if ( state.Position != transform.localPosition )
+				if (state.Position != transform.localPosition)
 				{
-					lastDirection = ( state.Position - transform.localPosition ).normalized;
+					lastDirection = (state.Position - transform.localPosition).normalized;
 				}
 
-				if ( pullingObject != null )
+				if (pullingObject != null)
 				{
-					if ( transform.hasChanged )
+					if (transform.hasChanged)
 					{
 						transform.hasChanged = false;
 						PullObject();
 					}
-					else if ( pullingObject.transform.localPosition != pullPos )
+					else if (pullingObject.transform.localPosition != pullPos)
 					{
 						pullingObject.transform.localPosition = pullPos;
 					}
 				}
 
 				//Registering
-				if ( registerTile.Position != Vector3Int.RoundToInt(state.Position) )
+				if (registerTile.Position != Vector3Int.RoundToInt(state.Position))
 				{
 					RegisterObjects();
 				}
@@ -252,14 +252,14 @@ namespace PlayGroup
 
 		private void PullObject()
 		{
-			pullPos = transform.localPosition - ( Vector3 ) lastDirection;
+			pullPos = transform.localPosition - (Vector3) lastDirection;
 			pullPos.z = pullingObject.transform.localPosition.z;
 
 			Vector3Int pos = Vector3Int.RoundToInt(pullPos);
-			if ( matrix.IsPassableAt(pos) || matrix.ContainsAt(pos, gameObject) || matrix.ContainsAt(pos, pullingObject) )
+			if (matrix.IsPassableAt(pos) || matrix.ContainsAt(pos, gameObject) || matrix.ContainsAt(pos, pullingObject))
 			{
 				float journeyLength = Vector3.Distance(pullingObject.transform.localPosition, pullPos);
-				if ( journeyLength <= 2f )
+				if (journeyLength <= 2f)
 				{
 					pullingObject.transform.localPosition =
 						Vector3.MoveTowards(pullingObject.transform.localPosition, pullPos, playerMove.speed * Time.deltaTime / journeyLength);
@@ -281,7 +281,7 @@ namespace PlayGroup
 			//Do not cache the position if the player is a ghost
 			//or else new players will sync the deadbody with the last pos
 			//of the gost:
-			if ( !playerMove.isGhost )
+			if (!playerMove.isGhost)
 			{
 				serverStateCache = serverState;
 			}
@@ -292,7 +292,7 @@ namespace PlayGroup
 		{
 			predictedState = serverState;
 
-			foreach ( PlayerAction action in pendingActions )
+			foreach (PlayerAction action in pendingActions)
 			{
 				predictedState = NextState(predictedState, action);
 			}
@@ -308,16 +308,16 @@ namespace PlayGroup
 			pullObjectID = netID;
 
 			transform.hasChanged = false;
-			if ( netID == NetworkInstanceId.Invalid )
+			if (netID == NetworkInstanceId.Invalid)
 			{
-				if ( pullingObject != null )
+				if (pullingObject != null)
 				{
 					pullRegister.UpdatePosition();
 
 
 					//Could be a another player
 					PlayerSync otherPlayerSync = pullingObject.GetComponent<PlayerSync>();
-					if ( otherPlayerSync != null )
+					if (otherPlayerSync != null)
 					{
 						CmdSetPositionFromReset(gameObject, otherPlayerSync.gameObject, pullingObject.transform.localPosition);
 					}
@@ -330,7 +330,7 @@ namespace PlayGroup
 				pullingObject = ClientScene.FindLocalObject(netID);
 				PushPull oA = pullingObject.GetComponent<PushPull>();
 				pullPos = pullingObject.transform.localPosition;
-				if ( oA != null )
+				if (oA != null)
 				{
 					oA.pulledBy = gameObject;
 				}
@@ -342,9 +342,9 @@ namespace PlayGroup
 		private void RpcOnServerStateChange(PlayerState newState)
 		{
 			serverState = newState;
-			if ( pendingActions != null )
+			if (pendingActions != null)
 			{
-				while ( pendingActions.Count > 0 && pendingActions.Count > predictedState.MoveNumber - serverState.MoveNumber )
+				while (pendingActions.Count > 0 && pendingActions.Count > predictedState.MoveNumber - serverState.MoveNumber)
 				{
 					pendingActions.Dequeue();
 				}
@@ -359,19 +359,19 @@ namespace PlayGroup
 
 		private void CheckSpaceWalk()
 		{
-			if ( matrix == null )
+			if (matrix == null)
 			{
 				return;
 			}
 			Vector3Int pos = Vector3Int.RoundToInt(transform.localPosition);
-			if ( matrix.IsFloatingAt(pos) )
+			if (matrix.IsFloatingAt(pos))
 			{
-				Vector3Int newGoal = Vector3Int.RoundToInt(transform.localPosition + ( Vector3 ) lastDirection);
+				Vector3Int newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
 				serverState.Position = newGoal;
 				predictedState.Position = newGoal;
 			}
-			if ( matrix.IsEmptyAt(pos) && !healthBehaviorScript.IsDead && CustomNetworkManager.Instance._isServer
-			     && !isApplyingSpaceDmg )
+			if (matrix.IsEmptyAt(pos) && !healthBehaviorScript.IsDead && CustomNetworkManager.Instance._isServer
+			    && !isApplyingSpaceDmg)
 			{
 				//Hurting people in space even if they are next to the wall
 				StartCoroutine(ApplyTempSpaceDamage());

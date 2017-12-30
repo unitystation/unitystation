@@ -25,17 +25,17 @@ namespace UI
 
 		private void CheckKeyboardInput()
 		{
-			if ( Input.GetKeyDown(KeyCode.Q) )
+			if (Input.GetKeyDown(KeyCode.Q))
 			{
 				Drop();
 			}
 
-			if ( Input.GetKeyDown(KeyCode.X) )
+			if (Input.GetKeyDown(KeyCode.X))
 			{
 				UIManager.Hands.Swap();
 			}
 
-			if ( Input.GetKeyDown(KeyCode.E) )
+			if (Input.GetKeyDown(KeyCode.E))
 			{
 				UIManager.Hands.Use();
 			}
@@ -50,13 +50,13 @@ namespace UI
 		public void Drop()
 		{
 			PlayerScript lps = PlayerManager.LocalPlayerScript;
-			if ( !lps || lps.canNotInteract() )
+			if (!lps || lps.canNotInteract())
 			{
 				return;
 			}
 			UI_ItemSlot currentSlot = UIManager.Hands.CurrentSlot;
 			Vector3 dropPos = lps.gameObject.transform.position;
-			if ( !currentSlot.CanPlaceItem() )
+			if (!currentSlot.CanPlaceItem())
 			{
 				return;
 			}
@@ -88,7 +88,7 @@ namespace UI
 		public void Throw()
 		{
 			PlayerScript lps = PlayerManager.LocalPlayerScript;
-			if ( !lps || lps.canNotInteract() )
+			if (!lps || lps.canNotInteract())
 			{
 				return;
 			}
@@ -96,7 +96,7 @@ namespace UI
 			SoundManager.Play("Click01");
 			Debug.Log("Throw Button");
 
-			if ( !UIManager.IsThrow )
+			if (!UIManager.IsThrow)
 			{
 				UIManager.IsThrow = true;
 				throwImage.sprite = throwSprites[1];

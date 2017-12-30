@@ -91,7 +91,7 @@ namespace PlayGroup
 
 		private void Init()
 		{
-			if ( isLocalPlayer )
+			if (isLocalPlayer)
 			{
 				UIManager.ResetAllUI();
 				UIManager.DisplayManager.SetCameraFollowPos();
@@ -101,12 +101,12 @@ namespace PlayGroup
 				playerSprites = GetComponent<PlayerSprites>();
 				GetComponent<InputController>().enabled = true;
 
-				if ( !UIManager.Instance.playerListUIControl.window.activeInHierarchy )
+				if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)
 				{
 					UIManager.Instance.playerListUIControl.window.SetActive(true);
 				}
 
-				if ( !PlayerManager.HasSpawned )
+				if (!PlayerManager.HasSpawned)
 				{
 					//First
 					CmdTrySetName(PlayerManager.PlayerNameCache);
@@ -119,17 +119,17 @@ namespace PlayGroup
 
 				PlayerManager.SetPlayerForControl(gameObject);
 
-				if ( PlayerManager.LocalPlayerScript.JobType == JobType.NULL )
+				if (PlayerManager.LocalPlayerScript.JobType == JobType.NULL)
 				{
 					// I (client) have connected to the server, ask what my job preference is
 					UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 				}
 				UIManager.SetDeathVisibility(true);
 				//Request sync to get all the latest transform data
-                new RequestSyncMessage().Send();
+				new RequestSyncMessage().Send();
 				SelectedChannels = ChatChannel.Local;
 			}
-			else if ( isServer )
+			else if (isServer)
 			{
 				playerMove = GetComponent<PlayerMove>();
 			}
@@ -144,7 +144,7 @@ namespace PlayGroup
 		{
 			//Read out of ping in toolTip
 			pingUpdate += Time.deltaTime;
-			if ( pingUpdate >= 5f )
+			if (pingUpdate >= 5f)
 			{
 				pingUpdate = 0f;
 				int ping = CustomNetworkManager.Instance.client.GetRTT();
@@ -155,7 +155,7 @@ namespace PlayGroup
 		[Command]
 		private void CmdTrySetName(string name)
 		{
-			if ( PlayerList.Instance != null )
+			if (PlayerList.Instance != null)
 			{
 				playerName = PlayerList.Instance.CheckName(name);
 			}
@@ -173,12 +173,12 @@ namespace PlayGroup
 		{
 			playerName = newName;
 			gameObject.name = newName;
-			if ( string.IsNullOrEmpty(newName) )
+			if (string.IsNullOrEmpty(newName))
 			{
 				Debug.LogError("NO NAME PROVIDED!");
 				return;
 			}
-			if ( !PlayerList.Instance.connectedPlayers.ContainsKey(newName) )
+			if (!PlayerList.Instance.connectedPlayers.ContainsKey(newName))
 			{
 				PlayerList.Instance.connectedPlayers.Add(newName, gameObject);
 			}
@@ -191,7 +191,7 @@ namespace PlayGroup
 			//Flooring that shit fixes it
 			Vector3Int pos = new Vector3Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y),
 				Mathf.FloorToInt(transform.position.z));
-			return ( pos - position ).magnitude;
+			return (pos - position).magnitude;
 		}
 
 		/// <summary>
@@ -204,7 +204,7 @@ namespace PlayGroup
 			//If click is in diagonal direction, extend reach slightly
 			float distanceX = Mathf.FloorToInt(Mathf.Abs(transform.position.x - position.x));
 			float distanceY = Mathf.FloorToInt(Mathf.Abs(transform.position.y - position.y));
-			if ( distanceX == 1 && distanceY == 1 )
+			if (distanceX == 1 && distanceY == 1)
 			{
 				return DistanceTo(position) <= interactDist + 0.4f;
 			}
@@ -215,9 +215,9 @@ namespace PlayGroup
 
 		public ChatChannel GetAvailableChannels(bool transmitOnly = true)
 		{
-			if ( playerMove.isGhost )
+			if (playerMove.isGhost)
 			{
-				if ( transmitOnly )
+				if (transmitOnly)
 				{
 					return ChatChannel.Ghost | ChatChannel.OOC;
 				}
@@ -228,14 +228,14 @@ namespace PlayGroup
 			ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
 
 			GameObject headset = UIManager.InventorySlots.EarSlot.Item;
-			if ( headset )
+			if (headset)
 			{
 				EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
 				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
 			}
 			ChatChannel receiveChannels = ChatChannel.Examine | ChatChannel.System;
 
-			if ( transmitOnly )
+			if (transmitOnly)
 			{
 				return transmitChannels;
 			}
@@ -244,7 +244,7 @@ namespace PlayGroup
 
 		public ChatModifier GetCurrentChatModifiers()
 		{
-			if ( playerMove.isGhost )
+			if (playerMove.isGhost)
 			{
 				return ChatModifier.None;
 			}
@@ -252,7 +252,7 @@ namespace PlayGroup
 			//TODO add missing modifiers
 			ChatModifier modifiers = ChatModifier.Drunk;
 
-			if ( JobType == JobType.CLOWN )
+			if (JobType == JobType.CLOWN)
 			{
 				modifiers |= ChatModifier.Clown;
 			}

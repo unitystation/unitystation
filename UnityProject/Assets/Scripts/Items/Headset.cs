@@ -1,5 +1,4 @@
-﻿using UI;
-using UnityEngine.Networking;
+﻿using UnityEngine.Networking;
 
 /// <summary>
 ///     Headset properties
@@ -13,9 +12,9 @@ public class Headset : NetworkBehaviour
 		getEncryptionTypeFromHier();
 	}
 
-    private void getEncryptionTypeFromHier()
-    {
-        ItemAttributes attr = GetComponent<ItemAttributes>();
+	private void getEncryptionTypeFromHier()
+	{
+		ItemAttributes attr = GetComponent<ItemAttributes>();
 
 		switch (attr.hierarchy)
 		{

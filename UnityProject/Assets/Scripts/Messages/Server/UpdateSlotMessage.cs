@@ -8,11 +8,11 @@ using UnityEngine.Networking;
 /// </summary>
 public class UpdateSlotMessage : ServerMessage<UpdateSlotMessage>
 {
+	public static short MessageType = (short) MessageTypes.UpdateSlotMessage;
 	public bool ForceRefresh;
 	public NetworkInstanceId ObjectForSlot;
 	public NetworkInstanceId Recipient;
 	public string Slot;
-	public static short MessageType = (short) MessageTypes.UpdateSlotMessage;
 
 	public override IEnumerator Process()
 	{

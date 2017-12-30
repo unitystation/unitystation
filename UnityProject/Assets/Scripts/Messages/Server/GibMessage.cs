@@ -4,9 +4,9 @@ using UnityEngine.Networking;
 
 public class GibMessage : ServerMessage<GibMessage>
 {
-	public NetworkInstanceId Subject;
 	public static short MessageType = (short) MessageTypes.GibMessage;
-	
+	public NetworkInstanceId Subject;
+
 	public override IEnumerator Process()
 	{
 		Debug.Log(ToString());

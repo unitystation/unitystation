@@ -20,7 +20,7 @@ namespace Equipment
 			NetworkIdentity id = obj.GetComponent<NetworkIdentity>();
 			ItemAttributes att = obj.GetComponent<ItemAttributes>();
 
-			if ( currentObjects.ContainsKey(id) )
+			if (currentObjects.ContainsKey(id))
 			{
 				currentObjects.Remove(id);
 				currentObjects.Add(id, att);
@@ -40,13 +40,13 @@ namespace Equipment
 		public void DropGameObject(GameObject gObj, Vector3 dropPos)
 		{
 			NetworkIdentity id = gObj.GetComponent<NetworkIdentity>();
-			if ( !currentObjects.ContainsKey(id) )
+			if (!currentObjects.ContainsKey(id))
 			{
 				Debug.Log("item: " + gObj.name + "was not found in Player Equipment pool");
 			}
 			else
 			{
-				if ( !dropPos.Equals(Vector3.zero) )
+				if (!dropPos.Equals(Vector3.zero))
 				{
 					GameObject o = currentObjects[id].gameObject;
 					DropNow(o, dropPos);

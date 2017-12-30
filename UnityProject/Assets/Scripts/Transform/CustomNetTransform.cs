@@ -12,11 +12,12 @@ public struct TransformState
 	public float Speed;
 	public Vector2 Impulse; //Direction of throw
 	public Vector3 localPos;
+
 	public Vector3 position
 	{
 		get
 		{
-			if ( localPos == CustomNetTransform.InvalidPos )
+			if (localPos == CustomNetTransform.InvalidPos)
 			{
 				return localPos;
 			}
@@ -24,7 +25,7 @@ public struct TransformState
 		}
 		set
 		{
-			if ( value == CustomNetTransform.InvalidPos )
+			if (value == CustomNetTransform.InvalidPos)
 			{
 				localPos = value;
 			}
@@ -40,16 +41,18 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
 	public static readonly Vector3Int InvalidPos = new Vector3Int(0, 0, -100), deOffset = new Vector3Int(-1, -1, 0);
 
-	public float SpeedMultiplier = 1; //Multiplier for flying/lerping speed, could corelate with weight, for example
+	private Matrix matrix;
 
 	private RegisterTile registerTile;
 
 	private TransformState serverTransformState; //used for syncing with players, matters only for server
+
+	public float SpeedMultiplier = 1; //Multiplier for flying/lerping speed, could corelate with weight, for example
 	private TransformState transformState; //client's transform, can get dirty/predictive
 
-	private Matrix matrix;
+	public TransformState State => serverTransformState;
 
-	void Start()
+	private void Start()
 	{
 		registerTile = GetComponent<RegisterTile>();
 		matrix = Matrix.GetMatrix(this);
@@ -66,17 +69,15 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		base.OnEnable();
 	}
 
-	public TransformState State => serverTransformState;
-
 	private void InitServerState()
 	{
-		if ( !isServer )
+		if (!isServer)
 		{
 			return;
 		}
-	
+
 		serverTransformState.Speed = SpeedMultiplier;
-		if ( transform.localPosition.Equals(Vector3.zero) )
+		if (transform.localPosition.Equals(Vector3.zero))
 		{
 			//For stuff hidden on spawn, like player equipment
 			serverTransformState.Active = false;
@@ -95,7 +96,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	public void SetPosition(Vector3 pos, bool notify = true)
 	{
 		serverTransformState.localPos = pos;
-		if ( notify )
+		if (notify)
 		{
 			NotifyPlayers();
 		}
@@ -121,7 +122,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	/// <summary>
-	/// Dropping with some force, in random direction. For space floating demo purposes.
+	///     Dropping with some force, in random direction. For space floating demo purposes.
 	/// </summary>
 	[Server]
 	public void ForceDrop(Vector3 pos)
@@ -129,10 +130,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //		GetComponentInChildren<SpriteRenderer>().color = Color.white;
 		serverTransformState.Active = true;
 		serverTransformState.position = pos;
-		Vector2	impulse = Random.insideUnitCircle.normalized;
+		Vector2 impulse = Random.insideUnitCircle.normalized;
 		//don't apply impulses if item isn't going to float in that direction
-		Vector3Int newGoal = RoundWithContext(serverTransformState.localPos + ( Vector3 ) impulse, impulse);
-		if ( CanDriftTo(newGoal) )
+		Vector3Int newGoal = RoundWithContext(serverTransformState.localPos + (Vector3) impulse, impulse);
+		if (CanDriftTo(newGoal))
 		{
 //			Debug.LogFormat($"ForceDrop success: from {pos} to {localToWorld(newGoal)}");
 			serverTransformState.Impulse = impulse;
@@ -161,10 +162,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	/// <summary>
-	/// Method to substitute transform.parent = x stuff.
-	/// You shouldn't really use it anymore, 
-	/// as there are high level methods that should suit your needs better.
-	/// Server-only, client is not being notified
+	///     Method to substitute transform.parent = x stuff.
+	///     You shouldn't really use it anymore,
+	///     as there are high level methods that should suit your needs better.
+	///     Server-only, client is not being notified
 	/// </summary>
 	[Server]
 	public void SetParent(Transform pos)
@@ -173,8 +174,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	/// <summary>
-	/// Convenience method to make stuff disappear at position.
-	/// For CLIENT prediction purposes.
+	///     Convenience method to make stuff disappear at position.
+	///     For CLIENT prediction purposes.
 	/// </summary>
 	public void DisappearFromWorld()
 	{
@@ -184,8 +185,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	/// <summary>
-	/// Convenience method to make stuff appear at position
-	/// For CLIENT prediction purposes.
+	///     Convenience method to make stuff appear at position
+	///     For CLIENT prediction purposes.
 	/// </summary>
 	public void AppearAtPosition(Vector3 pos)
 	{
@@ -197,7 +198,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	public void UpdateClientState(TransformState newState)
 	{
 		//Don't lerp (instantly change pos) if active state was changed or speed is zero
-		if ( transformState.Active != newState.Active || newState.Speed == 0 )
+		if (transformState.Active != newState.Active || newState.Speed == 0)
 		{
 			transform.localPosition = newState.localPos;
 		}
@@ -208,7 +209,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	private void updateActiveStatus()
 	{
-		if ( transformState.Active )
+		if (transformState.Active)
 		{
 			RegisterObjects();
 		}
@@ -225,7 +226,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	/// <summary>
-	/// Currently sending to everybody, but should be sent to nearby players only
+	///     Currently sending to everybody, but should be sent to nearby players only
 	/// </summary>
 	[Server]
 	private void NotifyPlayers()
@@ -234,7 +235,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	/// <summary>
-	/// Sync with new player joining
+	///     Sync with new player joining
 	/// </summary>
 	/// <param name="playerGameObject"></param>
 	[Server]
@@ -247,7 +248,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	//managed by UpdateManager
 	public override void UpdateMe()
 	{
-		if ( !registerTile )
+		if (!registerTile)
 		{
 			registerTile = GetComponent<RegisterTile>();
 		}
@@ -262,28 +263,28 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	private void Synchronize()
 	{
-		if ( !transformState.Active )
+		if (!transformState.Active)
 		{
 			return;
 		}
 
-		if ( isServer )
+		if (isServer)
 		{
 			CheckSpaceDrift();
 		}
 
-		if ( IsFloating() )
+		if (IsFloating())
 		{
 			SimulateFloating();
 		}
 
-		if ( transformState.localPos != transform.localPosition )
+		if (transformState.localPos != transform.localPosition)
 		{
 			Lerp();
 		}
 
 		//Registering
-		if ( registerTilePos() != Vector3Int.RoundToInt(transformState.localPos) )
+		if (registerTilePos() != Vector3Int.RoundToInt(transformState.localPos))
 		{
 //			Debug.LogFormat($"registerTile updating {localToWorld(registerTilePos())}->{localToWorld(Vector3Int.RoundToInt(transform.localPosition))}, " +
 //			                $"ts={localToWorld(Vector3Int.RoundToInt(transformState.localPos))}");
@@ -305,22 +306,24 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	private void Lerp()
 	{
-		transform.localPosition = Vector3.MoveTowards(transform.localPosition, transformState.localPos, ( transformState.Speed * SpeedMultiplier ) * Time.deltaTime);
+		transform.localPosition =
+			Vector3.MoveTowards(transform.localPosition, transformState.localPos, transformState.Speed * SpeedMultiplier * Time.deltaTime);
 	}
 
 	/// <summary>
-	/// Space drift detection is serverside only
+	///     Space drift detection is serverside only
 	/// </summary>
 	[Server]
 	private void CheckSpaceDrift()
 	{
-		if ( IsFloating() && matrix != null )
+		if (IsFloating() && matrix != null)
 		{
-			Vector3 newGoal = serverTransformState.localPos + 
-			             ( Vector3 ) serverTransformState.Impulse * ( serverTransformState.Speed * SpeedMultiplier ) * Time.deltaTime;
+			Vector3 newGoal = serverTransformState.localPos +
+			                  (Vector3) serverTransformState.Impulse * (serverTransformState.Speed * SpeedMultiplier) * Time.deltaTime;
 			Vector3Int intGoal = RoundWithContext(newGoal, serverTransformState.Impulse);
-			if ( CanDriftTo(intGoal) )
-			{	//Spess drifting
+			if (CanDriftTo(intGoal))
+			{
+				//Spess drifting
 				serverTransformState.localPos = newGoal;
 			}
 			else //Stopping drift
@@ -343,12 +346,12 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		return new Vector3Int(
 			x < 0 ? (int) Math.Floor(roundable.x) : (int) Math.Ceiling(roundable.x),
 			y < 0 ? (int) Math.Floor(roundable.y) : (int) Math.Ceiling(roundable.y),
-			0 );
+			0);
 	}
 
 	public bool IsFloating()
 	{
-		if ( isServer )
+		if (isServer)
 		{
 			return serverTransformState.Impulse != Vector2.zero && serverTransformState.Speed != 0f;
 		}

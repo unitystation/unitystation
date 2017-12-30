@@ -13,6 +13,7 @@ public class VisibleBehaviour : NetworkBehaviour
 {
 	//Ignore these types
 	private const string networkId = "NetworkIdentity";
+
 	private const string networkT = "NetworkTransform";
 	private const string customNetTransform = "CustomNetTransform";
 	private const string objectBehaviour = "ObjectBehaviour";
@@ -20,7 +21,10 @@ public class VisibleBehaviour : NetworkBehaviour
 	private const string inputController = "InputController";
 	private const string playerSync = "PlayerSync";
 	private const string closetHandler = "ClosetPlayerHandler";
-	private string[] neverDisabled =
+
+	public bool isPlayer;
+
+	private readonly string[] neverDisabled =
 	{
 		networkId,
 		networkT,
@@ -32,7 +36,6 @@ public class VisibleBehaviour : NetworkBehaviour
 		closetHandler
 	};
 
-	public bool isPlayer;
 	public RegisterTile registerTile;
 
 	/// <summary>
@@ -97,7 +100,6 @@ public class VisibleBehaviour : NetworkBehaviour
 		{
 			if (_aliveState)
 			{
-
 				registerTile.UpdatePosition();
 			}
 			else

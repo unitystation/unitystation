@@ -19,7 +19,7 @@ public class Networking : Editor
 		PickUpTrigger[] items = FindObjectsOfType<PickUpTrigger>();
 
 		//		var gameObject = items[Random.Range(1, items.Length)].gameObject;
-		for ( int i = 0; i < players.Length; i++ )
+		for (int i = 0; i < players.Length; i++)
 		{
 			GameObject gameObject = items[Random.Range(1, items.Length)].gameObject;
 			players[i].AddItem(gameObject, "leftHand", true);
@@ -27,7 +27,7 @@ public class Networking : Editor
 	}
 
 	[MenuItem("Networking/Transform Waltz (Server)")]
-	static void MoveAll()
+	private static void MoveAll()
 	{
 		CustomNetworkManager.Instance.MoveAll();
 	}

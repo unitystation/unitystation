@@ -8,9 +8,9 @@ using UnityEngine.Networking;
 /// </summary>
 public class RemoveEncryptionKeyMessage : ClientMessage<RemoveEncryptionKeyMessage>
 {
-	public GameObject HeadsetItem;
 	public static short MessageType = (short) MessageTypes.RemoveEncryptionKeyMessage;
-	
+	public GameObject HeadsetItem;
+
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(SentBy);

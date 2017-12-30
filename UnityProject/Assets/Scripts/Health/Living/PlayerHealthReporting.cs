@@ -24,10 +24,10 @@ namespace PlayGroup
 		public PlayerHealth playerHealth;
 		private PlayerMove playerMove;
 
-        protected override void OnEnable()
-        {
-            //Do not call base method for this OnEnable.
-        }
+		protected override void OnEnable()
+		{
+			//Do not call base method for this OnEnable.
+		}
 
 		public override void OnStartServer()
 		{

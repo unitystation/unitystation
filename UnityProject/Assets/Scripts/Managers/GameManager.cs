@@ -7,18 +7,18 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
-    private readonly float cacheTime = 480f;
-    private bool counting;
-    public List<GameObject> Occupations = new List<GameObject>();
-    private float restartTime = 10f;
+	public static GameManager Instance;
+	private readonly float cacheTime = 480f;
+	private bool counting;
+	public List<GameObject> Occupations = new List<GameObject>();
+	private float restartTime = 10f;
 
 	public Text roundTimer;
 
 	public GameObject StandardOutfit;
 	private bool waitForRestart;
 
-    public float GetRoundTime { get; private set; } = 480f;
+	public float GetRoundTime { get; private set; } = 480f;
 
 	private void Awake()
 	{
@@ -50,32 +50,32 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-    private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "DeathMatch" || scene.name == "OutpostDeathmatch")
-        {
-            counting = true;
-        }
-    }
+	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	{
+		if (scene.name == "DeathMatch" || scene.name == "OutpostDeathmatch")
+		{
+			counting = true;
+		}
+	}
 
-    public void SyncTime(float currentTime)
-    {
-        GetRoundTime = currentTime;
-    }
+	public void SyncTime(float currentTime)
+	{
+		GetRoundTime = currentTime;
+	}
 
-    public void SyncTimendResetCounter(float currentTime)
-    {
-        SyncTime(currentTime);
-        counting = true;
-    }
+	public void SyncTimendResetCounter(float currentTime)
+	{
+		SyncTime(currentTime);
+		counting = true;
+	}
 
-    public void ResetRoundTime()
-    {
-        GetRoundTime = cacheTime;
-        restartTime = 10f;
-        counting = true;
-        UpdateRoundTimeMessage.Send(GetRoundTime);
-    }
+	public void ResetRoundTime()
+	{
+		GetRoundTime = cacheTime;
+		restartTime = 10f;
+		counting = true;
+		UpdateRoundTimeMessage.Send(GetRoundTime);
+	}
 
 	private void Update()
 	{

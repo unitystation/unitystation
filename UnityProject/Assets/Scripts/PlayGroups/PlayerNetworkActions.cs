@@ -24,7 +24,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
-	[System.NonSerialized] public string activeHand = "right";
+	[NonSerialized] public string activeHand = "right";
 
 	private ChatIcon chatIcon;
 
@@ -49,9 +49,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	public override void OnStartServer()
 	{
-		if ( isServer )
+		if (isServer)
 		{
-			foreach ( string slotName in slotNames )
+			foreach (string slotName in slotNames)
 			{
 				Inventory.Add(slotName, null);
 			}
@@ -64,7 +64,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false, bool forceInform = true)
 	{
 		string eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
-		if ( Inventory[eventName] != null && Inventory[eventName] != itemObject && !replaceIfOccupied )
+		if (Inventory[eventName] != null && Inventory[eventName] != itemObject && !replaceIfOccupied)
 		{
 			Debug.LogFormat("{0}: Didn't replace existing {1} item {2} with {3}", gameObject.name, eventName, Inventory[eventName].name, itemObject.name);
 			return false;
@@ -103,7 +103,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public bool ValidateInvInteraction(string slot, GameObject gObj = null, bool forceClientInform = true)
 	{
-		if ( !Inventory[slot] && gObj && Inventory.ContainsValue(gObj) )
+		if (!Inventory[slot] && gObj && Inventory.ContainsValue(gObj))
 		{
 			UpdateSlotMessage.Send(gameObject, slot, gObj, forceClientInform);
 			SetInventorySlot(slot, gObj);
@@ -112,7 +112,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			//Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
 			return true;
 		}
-		if ( !gObj )
+		if (!gObj)
 		{
 			return ValidateDropItem(slot, forceClientInform);
 		}
@@ -129,13 +129,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void ClearObjectIfNotInSlot(GameObject gObj, string slot, bool forceClientInform)
 	{
 		HashSet<string> toBeCleared = new HashSet<string>();
-		foreach ( string key in Inventory.Keys )
+		foreach (string key in Inventory.Keys)
 		{
-			if ( key.Equals(slot) || !Inventory[key] )
+			if (key.Equals(slot) || !Inventory[key])
 			{
 				continue;
 			}
-			if ( Inventory[key].Equals(gObj) )
+			if (Inventory[key].Equals(gObj))
 			{
 				toBeCleared.Add(key);
 			}
@@ -152,10 +152,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	private void ClearInventorySlot(bool forceClientInform, params string[] slotNames)
 	{
-		for ( int i = 0; i < slotNames.Length; i++ )
+		for (int i = 0; i < slotNames.Length; i++)
 		{
 			Inventory[slotNames[i]] = null;
-			if ( slotNames[i] == "id" || slotNames[i] == "storage01" || slotNames[i] == "storage02" || slotNames[i] == "suitStorage" )
+			if (slotNames[i] == "id" || slotNames[i] == "storage01" || slotNames[i] == "storage02" || slotNames[i] == "suitStorage")
 			{
 				//Not clearing onPlayer sprites for these as they don't have any
 			}
@@ -173,23 +173,23 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		Inventory[slotName] = obj;
 		ItemAttributes att = obj.GetComponent<ItemAttributes>();
-		if ( slotName == "leftHand" || slotName == "rightHand" )
+		if (slotName == "leftHand" || slotName == "rightHand")
 		{
 			equipment.SetHandItemSprite(slotName, att);
 		}
 		else
 		{
-			if ( slotName == "id" || slotName == "storage01" || slotName == "storage02" || slotName == "suitStorage" )
+			if (slotName == "id" || slotName == "storage01" || slotName == "storage02" || slotName == "suitStorage")
 			{
 				//Not setting onPlayer sprites for these as they don't have any
 			}
 			else
 			{
-				if ( att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset") )
+				if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset"))
 				{
 					// Debug.Log("slotName = " + slotName);
-					Epos enumA = ( Epos ) Enum.Parse(typeof( Epos ), slotName);
-					equipment.syncEquipSprites[( int ) enumA] = att.clothingReference;
+					Epos enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
+					equipment.syncEquipSprites[(int) enumA] = att.clothingReference;
 				}
 			}
 		}
@@ -207,7 +207,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public bool ValidateDropItem(string slot, bool forceClientInform /* = false*/)
 	{
 		//decline if not dropped from hands?
-		if ( Inventory.ContainsKey(slot) && Inventory[slot] )
+		if (Inventory.ContainsKey(slot) && Inventory[slot])
 		{
 			DropItem(slot, forceClientInform);
 			return true;
@@ -217,7 +217,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Imperative drop
+	///     Imperative drop
 	/// </summary>
 	[Server]
 	public void DropItem(string slot, bool forceClientInform = true)
@@ -244,7 +244,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent)
 	{
-		if ( !SlotNotEmpty(slotName) )
+		if (!SlotNotEmpty(slotName))
 		{
 			return;
 		}
@@ -252,7 +252,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		GameObject item = Inventory[slotName];
 		EquipmentPool.DropGameObject(gameObject, Inventory[slotName], pos);
 		ClearInventorySlot(slotName);
-		if ( item != null && newParent != null )
+		if (item != null && newParent != null)
 		{
 			item.transform.parent = newParent.transform;
 			// TODO reorder items
@@ -286,7 +286,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdRequestJob(JobType jobType)
 	{
 		// Already have a job buddy!
-		if ( playerScript.JobType != JobType.NULL )
+		if (playerScript.JobType != JobType.NULL)
 		{
 			return;
 		}
@@ -300,7 +300,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleShutters(GameObject switchObj)
 	{
 		ShutterSwitchTrigger s = switchObj.GetComponent<ShutterSwitchTrigger>();
-		if ( s.IsClosed )
+		if (s.IsClosed)
 		{
 			s.IsClosed = false;
 		}
@@ -322,9 +322,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		FireCabinetTrigger c = cabObj.GetComponent<FireCabinetTrigger>();
 
-		if ( !forItemInteract )
+		if (!forItemInteract)
 		{
-			if ( c.IsClosed )
+			if (c.IsClosed)
 			{
 				c.IsClosed = false;
 			}
@@ -335,10 +335,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else
 		{
-			if ( c.isFull )
+			if (c.isFull)
 			{
 				c.isFull = false;
-				if ( AddItem(c.storedObject.gameObject, currentSlotName) )
+				if (AddItem(c.storedObject.gameObject, currentSlotName))
 				{
 					c.storedObject.visibleState = true;
 					c.storedObject = null;
@@ -363,7 +363,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdConsciousState(bool conscious)
 	{
-		if ( conscious )
+		if (conscious)
 		{
 			playerMove.allowInput = true;
 			RpcSetPlayerRot(false, 0f);
@@ -373,7 +373,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			playerMove.allowInput = false;
 			RpcSetPlayerRot(false, -90f);
 			soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
-			if ( Random.value > 0.5f )
+			if (Random.value > 0.5f)
 			{
 				playerSprites.currentDirection = Vector2.up;
 			}
@@ -389,7 +389,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[ClientRpc]
 	private void RpcToggleChatIcon(bool turnOn)
 	{
-		if ( turnOn )
+		if (turnOn)
 		{
 			chatIcon.TurnOnTalkIcon();
 		}
@@ -406,7 +406,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//		Debug.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
 		SpriteRenderer[] spriteRends = GetComponentsInChildren<SpriteRenderer>();
-		foreach ( SpriteRenderer sR in spriteRends )
+		foreach (SpriteRenderer sR in spriteRends)
 		{
 			sR.sortingLayerName = "Blood";
 		}
@@ -416,7 +416,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		transform.rotation = Quaternion.Euler(rotationVector);
 		//So other players can walk over the Unconscious
 		playerSprites.AdjustSpriteOrders(-30);
-		if ( temporary )
+		if (temporary)
 		{
 			//TODO Coroutine with timer to get back up again
 		}
@@ -429,19 +429,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerScript.ghost.transform.parent = null;
 		chatIcon.gameObject.transform.parent = playerScript.ghost.transform;
 		playerScript.ghost.transform.rotation = Quaternion.identity;
-		if ( PlayerManager.LocalPlayer == gameObject )
+		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			SoundManager.Stop("Critstate");
 			UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
 			Camera2DFollow.followControl.target = playerScript.ghost.transform;
 			FieldOfView fovScript = GetComponent<FieldOfView>();
-			if ( fovScript != null )
+			if (fovScript != null)
 			{
 				fovScript.enabled = false;
 			}
 			//Show ghosts and hide FieldOfView
 			Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("Ghosts");
-			Camera.main.cullingMask &= ~( 1 << LayerMask.NameToLayer("FieldOfView") );
+			Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("FieldOfView"));
 		}
 	}
 
@@ -476,7 +476,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		playerScript.ghost.SetActive(false);
 		//Hide ghosts and show FieldOfView
-		Camera.main.cullingMask &= ~( 1 << LayerMask.NameToLayer("Ghosts") );
+		Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 		Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("FieldOfView");
 		gameObject.GetComponent<InputController>().enabled = false;
 	}
@@ -502,7 +502,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdCheckDoorPermissions(GameObject door, GameObject player)
 	{
-		if ( door.GetComponent<DoorController>() != null )
+		if (door.GetComponent<DoorController>() != null)
 		{
 			door.GetComponent<DoorController>().CmdCheckDoorPermissions(door, player);
 		}
@@ -512,7 +512,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdEatFood(GameObject food, string fromSlot)
 	{
-		if ( Inventory[fromSlot] == null )
+		if (Inventory[fromSlot] == null)
 		{
 			//Already been eaten or the food is no longer in hand
 			return;

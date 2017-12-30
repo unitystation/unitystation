@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections;
 using System.IO;
 using UI;
@@ -97,30 +97,30 @@ public class CustomNetworkManager : NetworkManager
 		this.RegisterServerHandlers();
 	}
 
-    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
-    {
-        //This spawns the player prefab
-        if (GameData.IsHeadlessServer || GameData.Instance.testServer)
-        {
-            //this is a headless server || testing headless (it removes the server player for localClient)
-            if (conn.address != "localClient")
-            {
-                StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
-            }
-        }
-        else
-        {
-            //This is a host server (keep the server player as it is for the host player)
-            StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
-        }
+	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+	{
+		//This spawns the player prefab
+		if (GameData.IsHeadlessServer || GameData.Instance.testServer)
+		{
+			//this is a headless server || testing headless (it removes the server player for localClient)
+			if (conn.address != "localClient")
+			{
+				StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
+			}
+		}
+		else
+		{
+			//This is a host server (keep the server player as it is for the host player)
+			StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
+		}
 
 
-        if (_isServer)
-        {
-            //Tell them what the current round time is
-            UpdateRoundTimeMessage.Send(GameManager.Instance.GetRoundTime);
-        }
-    }
+		if (_isServer)
+		{
+			//Tell them what the current round time is
+			UpdateRoundTimeMessage.Send(GameManager.Instance.GetRoundTime);
+		}
+	}
 
 	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId)
 	{
@@ -161,12 +161,12 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
-    public override void OnClientConnect(NetworkConnection conn)
-    {
-        if (_isServer)
-        {
-            //do special server wizardry here
-        }
+	public override void OnClientConnect(NetworkConnection conn)
+	{
+		if (_isServer)
+		{
+			//do special server wizardry here
+		}
 
 		if (GameData.IsInGame)
 		{
@@ -178,53 +178,24 @@ public class CustomNetworkManager : NetworkManager
 		this.RegisterClientHandlers(conn);
 	}
 
-    ///A crude proof-of-concept representation of how player is going to receive sync data
-    public void SyncPlayerData(GameObject playerGameObject)
-    {
-        CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
-        for ( var i = 0; i < scripts.Length; i++ )
-        {
-            var script = scripts[i];
-            script.NotifyPlayer(playerGameObject);
-        }
-        Debug.LogFormat($"Sent sync data ({scripts.Length} scripts) to {playerGameObject.name}");
-    }
+	///A crude proof-of-concept representation of how player is going to receive sync data
+	public void SyncPlayerData(GameObject playerGameObject)
+	{
+		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
+		for (var i = 0; i < scripts.Length; i++)
+		{
+			var script = scripts[i];
+			script.NotifyPlayer(playerGameObject);
+		}
+		Debug.LogFormat($"Sent sync data ({scripts.Length} scripts) to {playerGameObject.name}");
+	}
 
-    //Editor item transform dance experiments
-#if UNITY_EDITOR
-    public void MoveAll()
-    {
-        StartCoroutine(TransformWaltz());
-    }
-    private IEnumerator TransformWaltz()
-    {
-        CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
-        var sequence = new[]
-        {
-            Vector3.right, Vector3.up, Vector3.left, Vector3.down,
-            Vector3.down, Vector3.left, Vector3.up, Vector3.right
-        };
-        for ( var i = 0; i < sequence.Length; i++ )
-        {
-            for ( var j = 0; j < scripts.Length; j++ )
-            {
-                NudgeTransform(scripts[j], sequence[i]);
-            }
-            yield return new WaitForSeconds(1.5f);
-        }
-    }
-    static void NudgeTransform(CustomNetTransform netTransform, Vector3 where)
-    {
-        netTransform.SetPosition(netTransform.transform.position + where);
-    }
-#endif
-    
-    private IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)
-    {
-        while (!spawnableListReady)
-        {
-            yield return new WaitForSeconds(1);
-        }
+	private IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)
+	{
+		while (!spawnableListReady)
+		{
+			yield return new WaitForSeconds(1);
+		}
 
 		base.OnClientConnect(conn);
 	}
@@ -283,4 +254,35 @@ public class CustomNetworkManager : NetworkManager
 			_isServer = true;
 		}
 	}
+
+	//Editor item transform dance experiments
+#if UNITY_EDITOR
+	public void MoveAll()
+	{
+		StartCoroutine(TransformWaltz());
+	}
+
+	private IEnumerator TransformWaltz()
+	{
+		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
+		var sequence = new[]
+		{
+			Vector3.right, Vector3.up, Vector3.left, Vector3.down,
+			Vector3.down, Vector3.left, Vector3.up, Vector3.right
+		};
+		for (var i = 0; i < sequence.Length; i++)
+		{
+			for (var j = 0; j < scripts.Length; j++)
+			{
+				NudgeTransform(scripts[j], sequence[i]);
+			}
+			yield return new WaitForSeconds(1.5f);
+		}
+	}
+
+	private static void NudgeTransform(CustomNetTransform netTransform, Vector3 where)
+	{
+		netTransform.SetPosition(netTransform.transform.position + where);
+	}
+#endif
 }

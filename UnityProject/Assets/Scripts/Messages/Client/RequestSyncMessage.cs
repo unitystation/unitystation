@@ -2,8 +2,8 @@ using System.Collections;
 using UnityEngine.Networking;
 
 /// <summary>
-/// A message that is supposed to be sent from client when he's ready to accept sync data(transforms, etc.)
-/// Should probably be sent only once 
+///     A message that is supposed to be sent from client when he's ready to accept sync data(transforms, etc.)
+///     Should probably be sent only once
 /// </summary>
 public class RequestSyncMessage : ClientMessage<RequestSyncMessage>
 {
@@ -24,14 +24,14 @@ public class RequestSyncMessage : ClientMessage<RequestSyncMessage>
 	{
 		return $"[RequestSyncMessage Type={MessageType} SentBy={SentBy}]";
 	}
-	
+
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-	}	
+	}
+
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
 	}
-	
 }

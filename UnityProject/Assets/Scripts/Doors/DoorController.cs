@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using AccessType;
 using Sprites;
 using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Objects;
@@ -97,7 +96,7 @@ namespace Doors
 
 //            Awake();
 //            OnEnable();
-        }
+		}
 
 		public void BoxCollToggleOn()
 		{
@@ -219,28 +218,28 @@ namespace Doors
 			}
 		}
 
-        // How the client attempts to open the door. If there is no AccessRestrictions component, it returns an error and everything goes about its business.
-        [Command]
-        public void CmdCheckDoorPermissions(GameObject Door, GameObject Originator)
-        {
-            if (Door.GetComponent<AccessRestrictions>() != null)
-            {
-                if (Door.GetComponent<AccessRestrictions>().CheckAccess(Originator, Door))
-                {
-                    CmdTryOpen(Originator);
-                }
-                else
-                {
-                    CmdTryDenied();
-                }
-            }
-            else
-            {
-                Debug.LogError("Door lacks access restriction component!");
-            }
-        }
+		// How the client attempts to open the door. If there is no AccessRestrictions component, it returns an error and everything goes about its business.
+		[Command]
+		public void CmdCheckDoorPermissions(GameObject Door, GameObject Originator)
+		{
+			if (Door.GetComponent<AccessRestrictions>() != null)
+			{
+				if (Door.GetComponent<AccessRestrictions>().CheckAccess(Originator, Door))
+				{
+					CmdTryOpen(Originator);
+				}
+				else
+				{
+					CmdTryDenied();
+				}
+			}
+			else
+			{
+				Debug.LogError("Door lacks access restriction component!");
+			}
+		}
 
-        private void ResetWaiting()
+		private void ResetWaiting()
 		{
 			if (coWaitOpened != null)
 			{
