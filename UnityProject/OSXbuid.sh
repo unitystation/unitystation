@@ -12,7 +12,7 @@ echo "Attempting build of UnityStation for Windows"
 	-projectPath $script_dir \
 	-buildWindows64Player "Builds/Clients/Windows/Unitystation.exe" \
 	-quit
-echo "Build logs (OSX)"
+echo "Build logs (Windows)"
 cat Builds/Logs/Windows.log
 
 echo "Attempting build of UnityStation for OSX"
@@ -25,7 +25,7 @@ echo "Attempting build of UnityStation for OSX"
 	-buildOSXUniversalPlayer "Builds/Clients/OSX/Unitystation.app" \
 	-quit
 echo "Build logs (OSX)"
-cat Builds/Logs/Windows.log
+cat Builds/Logs/OSX.log
 
 
 echo "Attempting build of UnityStation for Linux"
@@ -38,8 +38,8 @@ echo "Attempting build of UnityStation for Linux"
 	-buildLinuxUniversalPlayer "Builds/Clients/Linux/Unitystation" \
 	-quit
 
-echo "Build logs (OSX)"
-cat Builds/Logs/Windows.log
+echo "Build logs (Linux)"
+cat Builds/Logs/Linux.log
 
 echo "Attempting build of UnityStation Server"
 /Applications/Unity/Unity.app/Contents/MacOS/Unity \
@@ -50,5 +50,5 @@ echo "Attempting build of UnityStation Server"
 	-projectPath $script_dir \
 	-executeMethod BuildServer.PerformBuild \
 	-quit
-echo "Build logs (OSX)"
-cat Builds/Logs/Windows.log
+echo "Build logs (Server)"
+cat Builds/Logs/Server.log
