@@ -69937,12 +69937,12 @@ Prefab:
     - target: {fileID: 224082241428792102, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0.000000059604645
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224652079256797148, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000045776367
+      value: -0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 224347802705061360, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
@@ -82258,12 +82258,9 @@ MonoBehaviour:
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 1
-  moveSpeed: 7
   pulledBy: {fileID: 0}
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
-  serverLittleLag: 0
-  timeInPush: 0
 --- !u!114 &1627578025
 MonoBehaviour:
   m_ObjectHideFlags: 0
