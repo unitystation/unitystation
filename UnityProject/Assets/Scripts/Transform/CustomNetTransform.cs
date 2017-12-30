@@ -239,29 +239,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		pushComponent.pushing = true;
 	}
 
-	////Used with the syncvar as a hook
-	//private void UpdatePushing(bool _isPushing){
-	//	isPushing = _isPushing;
-	//	if(isServer){
-	//		return;
-	//	}
-	//	//Client use only. Mainly to prevent more pushing in high lag clients
-	//	if (predictivePushing && !serverRegisteredPush) {
-	//		//This means the syncvar has caught up
-	//		if (isPushing) {
-	//			serverRegisteredPush = true;
-	//		}
-	//	}
-
-	//	if (predictivePushing && serverRegisteredPush && !isPushing) {
-	//		//Now we can turn off predictivepush for clients as the server has stopped
-	//		//pushing:
-	//		RegisterObjects();
-	//		predictivePushing = false;
-	//		serverRegisteredPush = false;
-	//	}
-	//}
-
 	public void UpdateClientState(TransformState newState)
 	{
 		//Don't lerp (instantly change pos) if active state was changed or speed is zero
