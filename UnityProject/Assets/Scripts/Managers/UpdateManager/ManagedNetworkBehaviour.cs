@@ -11,6 +11,11 @@ public class ManagedNetworkBehaviour : NetworkBehaviour
 		UpdateManager.Instance.Add(this);
 	}
 
+	protected virtual void OnDisable()
+	{
+		UpdateManager.Instance.Remove(this);
+	}
+
 	/// <summary>
 	///     If your class uses the Awake function, please use  protected override void Awake() instead.
 	///     Also don't forget to call ManagedNetworkBehaviour.Awake(); first.

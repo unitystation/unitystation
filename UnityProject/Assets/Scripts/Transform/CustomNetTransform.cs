@@ -64,11 +64,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		base.OnStartServer();
 	}
 
-	protected override void OnEnable()
-	{
-		base.OnEnable();
-	}
-
 	private void InitServerState()
 	{
 		if (!isServer)
