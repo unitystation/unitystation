@@ -13,7 +13,9 @@ public class ManagedNetworkBehaviour : NetworkBehaviour
 
 	protected virtual void OnDisable()
 	{
-		UpdateManager.Instance.Remove(this);
+		if (UpdateManager.Instance != null) {
+			UpdateManager.Instance.Remove(this);
+		}
 	}
 
 	/// <summary>

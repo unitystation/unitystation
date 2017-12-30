@@ -187,6 +187,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	{
 		transformState.Active = true;
 		transformState.position = pos;
+		transform.localPosition = pos + deOffset;
 		updateActiveStatus();
 	}
 

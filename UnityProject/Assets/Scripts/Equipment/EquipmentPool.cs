@@ -81,6 +81,12 @@ namespace Equipment
 			DropGameObject(player, gObj, PlayerList.Instance.connectedPlayers[player.name].transform.position);
 		}
 
+		///When dropping items etc, remove them from the player equipment pool and place in scene
+		public static void DropGameObjectAtPos(GameObject player, GameObject gObj, Vector3 dropAtWorldPos)
+		{
+			DropGameObject(player, gObj, dropAtWorldPos);
+		}
+
 		//When placing items at a position etc also removes them from the player equipment pool and places it in scene
 		public static void DropGameObject(GameObject player, GameObject gObj, Vector3 pos)
 		{

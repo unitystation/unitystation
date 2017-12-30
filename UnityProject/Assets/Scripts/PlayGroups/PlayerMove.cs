@@ -51,7 +51,7 @@ namespace PlayGroup
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
 			playerSync = GetComponent<PlayerSync>();
 			pushPull = GetComponent<PushPull>();
-			pna = PlayerManager.LocalPlayer.GetComponent<PlayerNetworkActions>();
+			pna = GetComponent<PlayerNetworkActions>();
 		}
 
 		public PlayerAction SendAction()

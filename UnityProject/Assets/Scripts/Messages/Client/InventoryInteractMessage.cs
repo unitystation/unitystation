@@ -10,6 +10,7 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 	public static short MessageType = (short) MessageTypes.InventoryInteractMessage;
 	public bool ForceSlotUpdate;
 	public byte Slot;
+	public Vector3 DropPosition;
 	public NetworkInstanceId Subject;
 
 	//Serverside
@@ -34,7 +35,7 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 		GameObject clientPlayer = player;
 		PlayerNetworkActions pna = clientPlayer.GetComponent<PlayerNetworkActions>();
 		string slot = decodeSlot(Slot);
-		if (!pna.ValidateInvInteraction(slot, item, ForceSlotUpdate))
+		if (!pna.ValidateInvInteraction(slot, DropPosition, item, ForceSlotUpdate))
 		{
 			pna.RollbackPrediction(slot);
 		}
@@ -45,13 +46,19 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 	//		return Send(hand, null, forceSlotUpdate);
 	//	}
 
-	public static InventoryInteractMessage Send(string hand, GameObject subject /* = null*/, bool forceSlotUpdate /* = false*/)
+	/// <summary>
+	/// A serverside inventory request, for updating UI slots etc. 
+	/// You can give a position to dropWorldPos when dropping an item
+	/// or else use Vector3.zero when not placing or dropping to ignore it.
+	/// (The world pos is converted to local position automatically)
+	/// </summary>
+	public static InventoryInteractMessage Send(string hand, GameObject subject /* = null*/, bool forceSlotUpdate /* = false*/, Vector3 dropWorldPos)
 	{
-		InventoryInteractMessage msg = new InventoryInteractMessage
-		{
+		InventoryInteractMessage msg = new InventoryInteractMessage {
 			Subject = subject ? subject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
 			Slot = encodeSlot(hand),
-			ForceSlotUpdate = forceSlotUpdate
+			ForceSlotUpdate = forceSlotUpdate,
+			DropPosition = dropWorldPos
 		};
 		msg.Send();
 		return msg;
@@ -153,6 +160,7 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 		base.Deserialize(reader);
 		Slot = reader.ReadByte();
 		Subject = reader.ReadNetworkId();
+		DropPosition = reader.ReadVector3();
 	}
 
 	public override void Serialize(NetworkWriter writer)
@@ -160,5 +168,6 @@ public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
 		base.Serialize(writer);
 		writer.Write(Slot);
 		writer.Write(Subject);
+		writer.Write(DropPosition);
 	}
 }
