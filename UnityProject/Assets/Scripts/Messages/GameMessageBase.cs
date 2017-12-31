@@ -9,6 +9,12 @@ public abstract class GameMessageBase : MessageBase
 
 	protected IEnumerator WaitFor(NetworkInstanceId id)
 	{
+		if (id.IsEmpty()) 
+		{
+			Debug.LogError($"{this} tried to wait on an empty (0) id");
+			yield break;
+		}
+
 		int tries = 0;
 		while ((NetworkObject = ClientScene.FindLocalObject(id)) == null)
 		{
