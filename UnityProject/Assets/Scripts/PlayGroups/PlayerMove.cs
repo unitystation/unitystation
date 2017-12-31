@@ -54,7 +54,7 @@ namespace PlayGroup
 			playerSync = GetComponent<PlayerSync>();
 			pushPull = GetComponent<PushPull>();
 			registerTile = GetComponent<RegisterTile>();
-            pna = PlayerManager.LocalPlayer.GetComponent<PlayerNetworkActions>();
+			pna = gameObject.GetComponent<PlayerNetworkActions>();
 		}
 
 		public PlayerAction SendAction()

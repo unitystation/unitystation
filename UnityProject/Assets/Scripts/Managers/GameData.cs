@@ -108,7 +108,7 @@ public class GameData : MonoBehaviour
 			{
 				IsHeadlessServer = true;
 			}
-			if (IsInGame && GameManager.Instance != null && CustomNetworkManager.Instance._isServer)
+			if (GameManager.Instance != null && CustomNetworkManager.Instance._isServer)
 			{
 				GameManager.Instance.ResetRoundTime();
 			}
