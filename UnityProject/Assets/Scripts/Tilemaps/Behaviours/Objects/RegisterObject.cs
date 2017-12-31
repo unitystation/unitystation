@@ -2,7 +2,7 @@
 using UI;
 using UnityEngine;
 
-namespace Tilemaps.Scripts.Behaviours.Objects
+namespace Tilemaps.Behaviours.Objects
 {
 	[ExecuteInEditMode]
 	public class RegisterObject : RegisterTile

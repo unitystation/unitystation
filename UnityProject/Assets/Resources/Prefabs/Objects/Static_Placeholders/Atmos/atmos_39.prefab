@@ -36,6 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4612395462201560}
   - component: {fileID: 61988407458676822}
+  - component: {fileID: 114165970960220048}
   - component: {fileID: 114942966740997010}
   m_Layer: 0
   m_Name: atmos_39
@@ -96,6 +97,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114165970960220048
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1773320741659664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 112
+    i1: 131
+    i2: 78
+    i3: 145
+    i4: 115
+    i5: 10
+    i6: 244
+    i7: 250
+    i8: 233
+    i9: 8
+    i10: 104
+    i11: 137
+    i12: 84
+    i13: 140
+    i14: 220
+    i15: 150
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114942966740997010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,9 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
 --- !u!212 &212618283338855116
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -143,7 +176,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300078, guid: 73b44edfc9994ce4a7fb1bd22c556761, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

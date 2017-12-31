@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using PlayGroup;
+using Tilemaps;
+using Tilemaps.Behaviours.Objects;
 using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -12,7 +13,7 @@ public class PushPull : VisibleBehaviour
 	[SyncVar] public Vector3 currentPos;
 	public bool isPushable = true;
 
-	private Matrix matrix;
+	private Matrix matrix => registerTile.Matrix;
 	private CustomNetTransform customNetTransform;
 
 	[SyncVar] public GameObject pulledBy;
@@ -33,14 +34,14 @@ public class PushPull : VisibleBehaviour
 	private IEnumerator WaitForLoad()
 	{
 		yield return new WaitForSeconds(2f);
-
+		
 		if (registerTile == null)
 		{
 			registerTile = GetComponent<RegisterTile>();
 		}
-
+		
 		registerTile.UpdatePosition();
-		matrix = Matrix.GetMatrix(this);
+		
 		customNetTransform = GetComponent<CustomNetTransform>();
 	}
 

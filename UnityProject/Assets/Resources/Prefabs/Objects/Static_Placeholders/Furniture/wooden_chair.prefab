@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4780967559265654}
   - component: {fileID: 61621606232497146}
+  - component: {fileID: 114778108084627968}
   - component: {fileID: 114808124634426912}
   m_Layer: 11
   m_Name: wooden_chair
@@ -116,6 +117,38 @@ MonoBehaviour:
   positions: []
   colliderOffset: {x: 0, y: 0, z: 0}
   rotateIndex: 0
+--- !u!114 &114778108084627968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1568171546625408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 243
+    i1: 187
+    i2: 190
+    i3: 244
+    i4: 237
+    i5: 116
+    i6: 172
+    i7: 148
+    i8: 154
+    i9: 243
+    i10: 90
+    i11: 30
+    i12: 134
+    i13: 69
+    i14: 38
+    i15: 105
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114808124634426912
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -128,9 +161,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
 --- !u!212 &212886088440604212
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Tilemaps;
+using Tilemaps.Behaviours.Objects;
 using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours.Objects;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -29,7 +30,7 @@ namespace PlayGroup
 
 		private Vector2 lastDirection;
 
-		private Matrix matrix;
+		private Matrix matrix => registerTile.Matrix;
 		private Queue<PlayerAction> pendingActions;
 		public PlayerMove playerMove;
 		private PlayerScript playerScript;
@@ -39,7 +40,7 @@ namespace PlayGroup
 		public GameObject pullingObject;
 
 		//pull objects
-		[SyncVar(hook = "PullReset")] public NetworkInstanceId pullObjectID;
+		[SyncVar(hook = nameof(PullReset))] public NetworkInstanceId pullObjectID;
 
 		private Vector3 pullPos;
 		private RegisterTile pullRegister;
@@ -139,7 +140,6 @@ namespace PlayGroup
 			healthBehaviorScript = GetComponent<HealthBehaviour>();
 			registerTile = GetComponent<RegisterTile>();
 			pushPull = GetComponent<PushPull>();
-			matrix = Matrix.GetMatrix(this);
 		}
 
 

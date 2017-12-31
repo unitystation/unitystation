@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4176042359509128}
   - component: {fileID: 61752803408377482}
+  - component: {fileID: 114319333851523448}
   - component: {fileID: 114739519536560000}
   m_Layer: 0
   m_Name: vending_107
@@ -96,6 +97,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114319333851523448
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1459620712919388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 129
+    i1: 117
+    i2: 177
+    i3: 160
+    i4: 202
+    i5: 42
+    i6: 164
+    i7: 219
+    i8: 40
+    i9: 46
+    i10: 88
+    i11: 67
+    i12: 44
+    i13: 60
+    i14: 5
+    i15: 197
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114739519536560000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,9 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
 --- !u!212 &212917313431182876
 SpriteRenderer:
   m_ObjectHideFlags: 1

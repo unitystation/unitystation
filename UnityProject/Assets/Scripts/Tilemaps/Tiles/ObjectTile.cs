@@ -1,5 +1,5 @@
 ﻿using System;
-using Tilemaps.Scripts.Behaviours.Objects;
+using Tilemaps.Behaviours.Objects;
 using Tilemaps.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.Tilemaps;

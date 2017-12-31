@@ -8,7 +8,7 @@ using Equipment;
 using Lighting;
 using PlayGroup;
 using PlayGroups.Input;
-using Tilemaps.Scripts.Behaviours.Objects;
+using Tilemaps.Behaviours.Objects;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;

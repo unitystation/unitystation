@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using PlayGroup;
+using Tilemaps.Behaviours.Objects;
+using Tilemaps.Scripts;
 using Tilemaps.Scripts.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -13,13 +15,8 @@ public static class SpawnHandler
 	{
 		GameObject player = CreatePlayer(jobType);
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
-
-		Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
-
-		//Notify all clients that connected players list should be updated
-		GameObject[] players = new GameObject[connectedPlayers.Count];
-		connectedPlayers.Values.CopyTo(players, 0);
-		UpdateConnectedPlayersMessage.Send(players);
+		
+		UpdatePlayerList();
 	}
 
 	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
@@ -27,6 +24,11 @@ public static class SpawnHandler
 		GameObject player = CreatePlayer(jobType);
 		NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
 
+		UpdatePlayerList();
+	}
+
+	private static void UpdatePlayerList()
+	{
 		Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
 
 		//Notify all clients that connected players list should be updated
@@ -41,7 +43,7 @@ public static class SpawnHandler
 
 		Transform spawnPosition = GetSpawnForJob(jobType);
 
-		GameObject player;
+		GameObject player; 
 
 		if (spawnPosition != null)
 		{
@@ -49,12 +51,13 @@ public static class SpawnHandler
 			Quaternion rotation = spawnPosition.rotation;
 			Transform parent = spawnPosition.GetComponentInParent<ObjectLayer>().transform;
 			player = Object.Instantiate(playerPrefab, position, rotation, parent);
+			player.GetComponent<RegisterPlayer>().ParentNetId = spawnPosition.GetComponentInParent<NetworkIdentity>().netId;
 		}
 		else
 		{
 			player = Object.Instantiate(playerPrefab);
 		}
-
+		
 		player.GetComponent<PlayerScript>().JobType = jobType;
 
 		return player;

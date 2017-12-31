@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000010777369922}
   - component: {fileID: 61000011253900482}
-  - component: {fileID: 61831679300409028}
+  - component: {fileID: 114258798091397834}
   - component: {fileID: 114312756739737956}
   m_Layer: 11
   m_Name: SmartFridge
@@ -97,31 +97,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61831679300409028
-BoxCollider2D:
+--- !u!114 &114258798091397834
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013344912928}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 132
+    i1: 21
+    i2: 165
+    i3: 223
+    i4: 76
+    i5: 97
+    i6: 66
+    i7: 61
+    i8: 172
+    i9: 214
+    i10: 185
+    i11: 69
+    i12: 146
+    i13: 253
+    i14: 142
+    i15: 114
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114312756739737956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,9 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 0
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 0
 --- !u!212 &212000010262366132
 SpriteRenderer:
   m_ObjectHideFlags: 1

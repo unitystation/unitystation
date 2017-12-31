@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using Sprites;
+using Tilemaps;
+using Tilemaps.Behaviours.Objects;
 using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours.Objects;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -36,7 +37,6 @@ namespace Doors
 		public bool IsOpened;
 		[HideInInspector] public bool isPerformingAction;
 		[Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor;
-		private Matrix matrix;
 		public float maxTimeOpen = 5;
 		private int openLayer;
 		public AudioSource openSFX;
@@ -46,6 +46,7 @@ namespace Doors
 		public OppeningDirection oppeningDirection;
 		private GameObject playerOpeningIt;
 		private RegisterDoor registerTile;
+		private Matrix matrix => registerTile.Matrix;
 
 		[HideInInspector] public SpriteRenderer spriteRenderer;
 
@@ -67,65 +68,10 @@ namespace Doors
 
 
 			registerTile = gameObject.GetComponent<RegisterDoor>();
-			matrix = Matrix.GetMatrix(this);
-
-			//            var rmt = GetComponent<RestrictiveMoveTile>();
-			//            if (rmt != null)
-			//            {
-			//                var dooranim = (WinDoorAnimator)GetComponent<DoorAnimator>();
-			//                if (dooranim != null)
-			//                {
-			//                    rmt.setAll(false);
-			//                    switch ((int)dooranim.direction)
-			//                    {
-			//                        case 0:
-			//                            rmt.setSouth(true);
-			//                            break;
-			//                        case 1:
-			//                            rmt.setNorth(true);
-			//                            break;
-			//                        case 2:
-			//                            rmt.setEast(true);
-			//                            break;
-			//                        case 3:
-			//                            rmt.setWest(true);
-			//                            break;
-			//                    }
-			//                }
-			//            }
-
-//            Awake();
-//            OnEnable();
 		}
 
 		public void BoxCollToggleOn()
 		{
-			if (!FullDoor)
-			{
-				//                var rmt = GetComponent<RestrictiveMoveTile>();
-				//                if (rmt != null)
-				//                {
-				//                    var anim = (WinDoorAnimator)GetComponent<DoorAnimator>();
-				//                    if (anim != null)
-				//                    {
-				//                        switch ((int)anim.direction)
-				//                        {
-				//                            case 0:
-				//                                rmt.setSouth(true);
-				//                                break;
-				//                            case 1:
-				//                                rmt.setNorth(true);
-				//                                break;
-				//                            case 2:
-				//                                rmt.setEast(true);
-				//                                break;
-				//                            case 3:
-				//                                rmt.setWest(true);
-				//                                break;
-				//                        }
-				//                    }
-				//                }
-			}
 			registerTile.IsClosed = true;
 			gameObject.layer = closedLayer;
 			spriteRenderer.sortingLayerID = closedSortingLayer;
@@ -133,11 +79,6 @@ namespace Doors
 
 		public void BoxCollToggleOff()
 		{
-			//            var rmt = GetComponent<RestrictiveMoveTile>();
-			//            if (rmt != null)
-			//            {
-			//                rmt.setAll(false);
-			//            }
 			registerTile.IsClosed = false;
 			gameObject.layer = openLayer;
 			spriteRenderer.sortingLayerID = openSortingLayer;

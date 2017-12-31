@@ -1,34 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Tilemaps.Behaviours.Objects;
 using Tilemaps.Scripts.Behaviours.Layers;
-using Tilemaps.Scripts.Behaviours.Objects;
 using Tilemaps.Scripts.Tiles;
 using Tilemaps.Scripts.Utils;
 using UnityEngine;
 
-namespace Tilemaps.Scripts
+namespace Tilemaps
 {
 	public class Matrix : MonoBehaviour
 	{
 		private MetaTileMap metaTileMap;
 		private TileList objects;
-
-		public static Matrix GetMatrix(MonoBehaviour behaviour)
-		{
-			Matrix matrix = behaviour.GetComponentInParent<Matrix>();
-
-			if (matrix == null)
-			{
-				behaviour.transform.parent = GameObject.FindGameObjectWithTag("SpawnParent").transform;
-				matrix = behaviour.transform.parent.GetComponentInParent<Matrix>();
-			}
-			if (matrix == null)
-			{
-				Debug.LogError("Matrix still null for: " + behaviour.gameObject.name +
-				               " with parent: " + behaviour.transform.parent.name);
-			}
-			return matrix;
-		}
 
 		private void Start()
 		{

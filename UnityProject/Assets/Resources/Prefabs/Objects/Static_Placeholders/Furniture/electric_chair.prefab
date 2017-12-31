@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4584586038300460}
   - component: {fileID: 61719680097134856}
+  - component: {fileID: 114720231764689980}
   - component: {fileID: 114643077223507322}
   m_Layer: 11
   m_Name: electric_chair
@@ -108,9 +109,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
+--- !u!114 &114720231764689980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1530970050131386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 58
+    i1: 28
+    i2: 143
+    i3: 155
+    i4: 246
+    i5: 232
+    i6: 130
+    i7: 228
+    i8: 248
+    i9: 77
+    i10: 57
+    i11: 77
+    i12: 75
+    i13: 52
+    i14: 59
+    i15: 165
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212037971801361064
 SpriteRenderer:
   m_ObjectHideFlags: 1

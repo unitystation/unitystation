@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Doors;
+using Tilemaps;
+using Tilemaps.Behaviours.Objects;
 using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours.Objects;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -41,7 +42,8 @@ namespace PlayGroup
 
 		public bool IsPushing { get; set; }
 
-		private Matrix matrix => _matrix ?? (_matrix = Matrix.GetMatrix(this));
+		private RegisterTile registerTile;
+		private Matrix matrix => registerTile.Matrix;
 
 		/// temp solution for use with the UI network prediction
 		public bool isMoving { get; } = false;
@@ -51,7 +53,8 @@ namespace PlayGroup
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
 			playerSync = GetComponent<PlayerSync>();
 			pushPull = GetComponent<PushPull>();
-			pna = GetComponent<PlayerNetworkActions>();
+			registerTile = GetComponent<RegisterTile>();
+            pna = PlayerManager.LocalPlayer.GetComponent<PlayerNetworkActions>();
 		}
 
 		public PlayerAction SendAction()

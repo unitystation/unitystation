@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using InputControl;
+using Tilemaps;
+using Tilemaps.Behaviours.Objects;
 using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class ShutterController : ObjectTrigger
 {
-	private Matrix _matrix;
-	private RegisterDoor _registerTile;
+	private RegisterDoor registerTile;
+	private Matrix matrix => registerTile.Matrix;
 	private Animator animator;
 
 	private int closedLayer;
@@ -27,8 +28,7 @@ public class ShutterController : ObjectTrigger
 	private void Awake()
 	{
 		animator = gameObject.GetComponent<Animator>();
-		_registerTile = gameObject.GetComponent<RegisterDoor>();
-		_matrix = Matrix.GetMatrix(this);
+		registerTile = gameObject.GetComponent<RegisterDoor>();
 
 		closedLayer = LayerMask.NameToLayer("Door Closed");
 		closedSortingLayer = SortingLayer.NameToID("Doors Open");
@@ -57,7 +57,7 @@ public class ShutterController : ObjectTrigger
 	private void SetState(bool state)
 	{
 		IsClosed = state;
-		_registerTile.IsClosed = state;
+		registerTile.IsClosed = state;
 		if (state)
 		{
 			SetLayer(closedLayer, closedSortingLayer);
@@ -84,15 +84,15 @@ public class ShutterController : ObjectTrigger
 		}
 	}
 
-	[Server]
-	private void DamageOnClose()
-	{
-		IEnumerable<HealthBehaviour> healthBehaviours = _matrix.Get<HealthBehaviour>(_registerTile.Position);
-		foreach (HealthBehaviour healthBehaviour in healthBehaviours)
-		{
-			healthBehaviour.ApplyDamage(gameObject, 500, DamageType.BRUTE);
-		}
-	}
+    [Server]
+    private void DamageOnClose()
+    {
+        IEnumerable<HealthBehaviour> healthBehaviours = matrix.Get<HealthBehaviour>(registerTile.Position);
+        foreach (HealthBehaviour healthBehaviour in healthBehaviours)
+        {
+            healthBehaviour.ApplyDamage(gameObject, 500, DamageType.BRUTE);
+        }
+    }
 
 	//Handle network spawn sync failure
 	private IEnumerator WaitToTryAgain()

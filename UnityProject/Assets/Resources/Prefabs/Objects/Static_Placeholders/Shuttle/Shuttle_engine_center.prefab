@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4699640297835872}
   - component: {fileID: 61988555908928504}
+  - component: {fileID: 114660158993463546}
   - component: {fileID: 114394273069994774}
   m_Layer: 11
   m_Name: Shuttle_engine_center
@@ -108,9 +109,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 0
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 0
+--- !u!114 &114660158993463546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1418031129727510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 250
+    i1: 38
+    i2: 220
+    i3: 138
+    i4: 126
+    i5: 118
+    i6: 151
+    i7: 52
+    i8: 137
+    i9: 190
+    i10: 237
+    i11: 24
+    i12: 188
+    i13: 89
+    i14: 215
+    i15: 146
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212463543190777694
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -36,6 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4267047507413020}
   - component: {fileID: 61561659268607446}
+  - component: {fileID: 114607041743159712}
   - component: {fileID: 114982786800817256}
   m_Layer: 0
   m_Name: cloning_1
@@ -96,6 +97,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114607041743159712
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1991370028281868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 46
+    i1: 172
+    i2: 74
+    i3: 122
+    i4: 79
+    i5: 118
+    i6: 196
+    i7: 22
+    i8: 216
+    i9: 70
+    i10: 1
+    i11: 53
+    i12: 137
+    i13: 224
+    i14: 254
+    i15: 142
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114982786800817256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,9 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
 --- !u!212 &212396618877099864
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -143,7 +176,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300002, guid: 81e026231754b4cef89ed568b7af049e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

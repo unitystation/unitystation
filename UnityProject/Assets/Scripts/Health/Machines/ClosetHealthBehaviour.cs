@@ -1,5 +1,5 @@
 ﻿using Cupboards;
-using Tilemaps.Scripts.Behaviours.Objects;
+using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 

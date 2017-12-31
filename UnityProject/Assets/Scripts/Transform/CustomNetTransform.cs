@@ -1,6 +1,7 @@
 using System;
+using Tilemaps;
+using Tilemaps.Behaviours.Objects;
 using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
@@ -41,8 +42,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
 	public static readonly Vector3Int InvalidPos = new Vector3Int(0, 0, -100), deOffset = new Vector3Int(-1, -1, 0);
 
-	private Matrix matrix;
-
 	private RegisterTile registerTile;
 
 	private TransformState serverTransformState; //used for syncing with players, matters only for server
@@ -50,6 +49,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	public float SpeedMultiplier = 1; //Multiplier for flying/lerping speed, could corelate with weight, for example
 	private TransformState transformState; //client's transform, can get dirty/predictive
 
+	private Matrix matrix => registerTile.Matrix;
+	
 	public TransformState State => serverTransformState;
 
 	[SyncVar]
@@ -59,7 +60,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	private void Start()
 	{
 		registerTile = GetComponent<RegisterTile>();
-		matrix = Matrix.GetMatrix(this);
 	}
 
 	public override void OnStartServer()
@@ -124,14 +124,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			NotifyPlayers();
 		}
 	}
-
-//    /// Overwrite server state with a completely new one. (Are you sure you really want that?)
-//    [Server]
-//    public void SetState(TransformState state)
-//    {
-//        serverTransformState = state;
-//        NotifyPlayers();
-//    }
 
 	//FIXME: deOffset is a temp solution to this weird matrix offset
 	public static Vector3 localToWorld(Vector3 localVector3)
@@ -381,9 +373,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			}
 			else //Stopping drift
 			{
-//				serverTransformState.localPos = newGoal; //another micronudge :)
-//				Debug.LogFormat($"{gameObject.name}: not floating to {localToWorld(intGoal)}, stopped @{serverTransformState.position} (transform.pos={localToWorld(transform.localPosition)})");
-//				GetComponentInChildren<SpriteRenderer>().color = Color.red;
 				serverTransformState.Impulse = Vector2.zero; //killing impulse, be aware when implementing throw!
 				NotifyPlayers();
 			}

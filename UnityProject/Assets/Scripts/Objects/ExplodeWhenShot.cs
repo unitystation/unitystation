@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using Light2D;
 using PlayGroup;
+using Tilemaps;
+using Tilemaps.Behaviours.Objects;
 using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -26,8 +27,8 @@ public class ExplodeWhenShot : NetworkBehaviour
 	private LightSprite lightSprite;
 	public SpriteRenderer spriteRend;
 
-	private Matrix _matrix;
-	private RegisterTile _registerTile;
+	private RegisterTile registerTile;
+	private Matrix matrix => registerTile.Matrix;
 
 	private void Start()
 	{
@@ -35,8 +36,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		damageableMask = LayerMask.GetMask("Players", "Machines", "Default" /*, "Lighting", "Items"*/);
 		obstacleMask = LayerMask.GetMask("Walls", "Door Closed");
 
-		_registerTile = GetComponent<RegisterTile>();
-		_matrix = Matrix.GetMatrix(this);
+		registerTile = GetComponent<RegisterTile>();
 	}
 
 	//#if !ENABLE_PLAYMODE_TESTS_RUNNER
@@ -138,7 +138,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		spriteRend.enabled = false;
 		try
 		{
-			_registerTile.Unregister();
+			registerTile.Unregister();
 
 			PushPull oA = gameObject.GetComponent<PushPull>();
 			if (oA != null)
@@ -197,7 +197,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 				}
 
 				Vector3Int checkPos = new Vector3Int(pos.x + i, pos.y - j, 0);
-				if (_matrix.IsPassableAt(checkPos)) // || MatrixOld.Matrix.At(checkPos).IsPlayer())
+				if (matrix.IsPassableAt(checkPos)) // || MatrixOld.Matrix.At(checkPos).IsPlayer())
 				{
 					EffectsFactory.Instance.SpawnFileTileLocal(Random.Range(0.4f, 1f), checkPos, transform.parent);
 					maxNumOfFire--;
