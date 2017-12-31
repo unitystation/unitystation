@@ -3,7 +3,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class PlayerDeathMessage : ServerMessage<PlayerDeathMessage>
+public class PlayerDeathMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.PlayerDeathMessage;
 

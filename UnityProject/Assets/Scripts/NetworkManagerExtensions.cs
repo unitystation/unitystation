@@ -7,11 +7,11 @@ using UnityEngine.Networking;
 public static class NetworkManagerExtensions
 {
 	/// <summary>
-	///     Finds all classes derived from ClientMessage<> and registers their server handlers.
+	///     Finds all classes derived from ClientMessage and registers their server handlers.
 	/// </summary>
 	public static void RegisterServerHandlers(this CustomNetworkManager manager)
 	{
-		IEnumerable<Type> types = GetDerivedTypes(typeof(ClientMessage<>));
+		IEnumerable<Type> types = GetDerivedTypes(typeof(ClientMessage));
 		MethodInfo mi = GetHandlerInfo();
 
 		foreach (Type type in types)
@@ -22,11 +22,11 @@ public static class NetworkManagerExtensions
 	}
 
 	/// <summary>
-	///     Finds all classes derived from ServerMessage<> and registers their client handlers.
+	///     Finds all classes derived from ServerMessage and registers their client handlers.
 	/// </summary>
 	public static void RegisterClientHandlers(this CustomNetworkManager manager, NetworkConnection conn)
 	{
-		IEnumerable<Type> types = GetDerivedTypes(typeof(ServerMessage<>));
+		IEnumerable<Type> types = GetDerivedTypes(typeof(ServerMessage));
 		MethodInfo mi = GetHandlerInfo();
 
 		foreach (Type type in types)
@@ -37,7 +37,7 @@ public static class NetworkManagerExtensions
 	}
 
 	public static void RegisterHandler<T>(this CustomNetworkManager manager, NetworkConnection conn)
-		where T : GameMessage<T>, new()
+		where T : GameMessageBase, new()
 	{
 		// In normal C# this would just be `T.MessageType` but it seems unity's compiler has some stipulations about that...
 		FieldInfo field = typeof(T).GetField("MessageType",

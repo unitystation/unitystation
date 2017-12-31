@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Tells client to change world object's transform state ((dis)appear/change pos/start floating)
 /// </summary>
-public class TransformStateMessage : ServerMessage<TransformStateMessage>
+public class TransformStateMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.TransformStateMessage;
 	public bool ForceRefresh;

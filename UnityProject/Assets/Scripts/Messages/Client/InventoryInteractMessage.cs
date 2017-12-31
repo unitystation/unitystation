@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Informs server of inventory mangling
 /// </summary>
-public class InventoryInteractMessage : ClientMessage<InventoryInteractMessage>
+public class InventoryInteractMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.InventoryInteractMessage;
 	public bool ForceSlotUpdate;

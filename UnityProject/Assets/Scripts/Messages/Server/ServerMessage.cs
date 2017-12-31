@@ -1,4 +1,3 @@
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -6,7 +5,7 @@ using UnityEngine.Networking;
 ///     Represents a network message sent from the server to clients.
 ///     Sending a message will invoke the Process() method on the client.
 /// </summary>
-public abstract class ServerMessage<T> : GameMessage<T>
+public abstract class ServerMessage : GameMessageBase
 {
 	public void SendToAll()
 	{
@@ -23,12 +22,5 @@ public abstract class ServerMessage<T> : GameMessage<T>
 
 		NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
 		//		Debug.LogFormat("SentTo {0}", this);
-	}
-
-	private short GetMessageType()
-	{
-		FieldInfo field = typeof(T).GetField("MessageType",
-			BindingFlags.Static | BindingFlags.FlattenHierarchy | BindingFlags.Public);
-		return (short) field.GetValue(null);
 	}
 }

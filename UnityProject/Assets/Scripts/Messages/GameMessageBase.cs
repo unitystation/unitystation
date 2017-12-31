@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -6,6 +7,8 @@ public abstract class GameMessageBase : MessageBase
 {
 	public GameObject NetworkObject;
 	public GameObject[] NetworkObjects;
+
+	public abstract IEnumerator Process();
 
 	protected IEnumerator WaitFor(NetworkInstanceId id)
 	{
@@ -26,6 +29,13 @@ public abstract class GameMessageBase : MessageBase
 
 			yield return YieldHelper.EndOfFrame;
 		}
+	}
+
+	protected short GetMessageType()
+	{
+		const BindingFlags FLAGS = BindingFlags.Static | BindingFlags.FlattenHierarchy | BindingFlags.Public;
+		FieldInfo field = this.GetType().GetField("MessageType", FLAGS);
+		return (short) field.GetValue(null);
 	}
 
 	protected IEnumerator WaitFor(params NetworkInstanceId[] ids)

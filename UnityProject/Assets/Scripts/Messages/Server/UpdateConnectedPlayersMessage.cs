@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Message that tells clients what their ConnectedPlayers list should contain
 /// </summary>
-public class UpdateConnectedPlayersMessage : ServerMessage<UpdateConnectedPlayersMessage>
+public class UpdateConnectedPlayersMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateConnectedPlayersMessage;
 	public GameObject[] Players;
@@ -57,6 +57,6 @@ public class UpdateConnectedPlayersMessage : ServerMessage<UpdateConnectedPlayer
 
 	public override string ToString()
 	{
-		return string.Format("[UpdateConnectedPlayersMessage Subject={0} Type={1} Players={2}]", Subject, MessageType, Players);
+		return string.Format("[UpdateConnectedPlayersMessage Subject={0} Type={1} Players={2}]", Subject, MessageType, string.Join(", ", Players.Select(p => p.name)));
 	}
 }

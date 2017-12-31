@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 ///     A message that is supposed to be sent from client when he's ready to accept sync data(transforms, etc.)
 ///     Should probably be sent only once
 /// </summary>
-public class RequestSyncMessage : ClientMessage<RequestSyncMessage>
+public class RequestSyncMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.RequestSyncMessage;
 

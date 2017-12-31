@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Tells client to update certain slot (place an object)
 /// </summary>
-public class UpdateSlotMessage : ServerMessage<UpdateSlotMessage>
+public class UpdateSlotMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateSlotMessage;
 	public bool ForceRefresh;

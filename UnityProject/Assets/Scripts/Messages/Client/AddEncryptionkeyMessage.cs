@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Adds Encryptionkey to a headset
 /// </summary>
-public class AddEncryptionkeyMessage : ClientMessage<AddEncryptionkeyMessage>
+public class AddEncryptionkeyMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.AddEncryptionKeyMessage;
 	public GameObject Encryptionkey;

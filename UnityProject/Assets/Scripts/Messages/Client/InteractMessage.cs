@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Informs server of interaction
 /// </summary>
-public class InteractMessage : ClientMessage<InteractMessage>
+public class InteractMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.InteractMessage;
 	public byte Hand;
