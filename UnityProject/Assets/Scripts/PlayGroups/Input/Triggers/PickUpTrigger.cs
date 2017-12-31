@@ -80,7 +80,7 @@ namespace Items
 
 		private static bool SlotUnavailable(PlayerScript ps, string slotName)
 		{
-			return PlayerManager.PlayerScript == null
+			return ps == null
 			       || !ps.playerNetworkActions.Inventory.ContainsKey(slotName)
 			       || ps.playerNetworkActions.SlotNotEmpty(slotName);
 		}
