@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using Tilemaps.Scripts.Behaviours.Layers;
+﻿using Tilemaps.Scripts.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Tilemaps.Scripts.Behaviours.Objects
+namespace Tilemaps.Behaviours.Objects
 {
 	public enum ObjectType
 	{
@@ -20,12 +19,11 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 		private ObjectLayer layer;
 
 		public ObjectType ObjectType;
-		
+
 		public Matrix Matrix { get; private set; }
 
-		[SyncVar(hook = nameof(SetParent))]
-		private NetworkInstanceId parentNetId;
-		
+		[SyncVar(hook = nameof(SetParent))] private NetworkInstanceId parentNetId;
+
 		public NetworkInstanceId ParentNetId
 		{
 			get { return parentNetId; }
@@ -52,15 +50,20 @@ namespace Tilemaps.Scripts.Behaviours.Objects
 				position = value;
 			}
 		}
+		
+		public override void OnStartClient()
+		{
+			if (!parentNetId.IsEmpty())
+			{
+				SetParent(parentNetId);
+			}
+		}
 
 		public void Start()
 		{
-			if (GetComponent<NetworkIdentity>())
+			if (isServer && transform.parent != null)
 			{
-				if (isServer && transform.parent != null)
-				{
-					ParentNetId = transform.parent.GetComponentInParent<NetworkIdentity>().netId;
-				}
+				ParentNetId = transform.parent.GetComponentInParent<NetworkIdentity>().netId;
 			}
 		}
 

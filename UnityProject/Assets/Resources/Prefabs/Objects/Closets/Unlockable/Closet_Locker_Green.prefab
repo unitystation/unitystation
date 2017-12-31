@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4625006096954862}
   - component: {fileID: 212255976647380646}
-  - component: {fileID: 114264891417235284}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -60,7 +59,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4640903062742584}
   - component: {fileID: 212094264515058204}
-  - component: {fileID: 114022257938342860}
   m_Layer: 0
   m_Name: BaseSprite
   m_TagString: Untagged
@@ -200,6 +198,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114014262675263028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -215,22 +215,6 @@ MonoBehaviour:
   initialHealth: 400
   isNPC: 0
   maxHealth: 100
---- !u!114 &114022257938342860
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1660108514398418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectType: 0
-  AtmosPassable: 1
-  Offset: {x: 0, y: 0, z: 0}
-  Passable: 0
-  IsClosed: 1
 --- !u!114 &114239634461430000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -248,22 +232,6 @@ MonoBehaviour:
   items: {fileID: 1929978993690320}
   lockLight: {fileID: 0}
   spriteRenderer: {fileID: 212255976647380646}
---- !u!114 &114264891417235284
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1492916052409252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectType: 0
-  AtmosPassable: 1
-  Offset: {x: 0, y: 0, z: 0}
-  Passable: 0
-  IsClosed: 1
 --- !u!114 &114485734239509306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -281,12 +249,9 @@ MonoBehaviour:
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 1
-  moveSpeed: 7
   pulledBy: {fileID: 0}
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
-  serverLittleLag: 0
-  timeInPush: 0
 --- !u!114 &114678338651277788
 MonoBehaviour:
   m_ObjectHideFlags: 1

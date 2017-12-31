@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Light2D;
 using PlayGroup;
 using Tilemaps;
+using Tilemaps.Behaviours.Objects;
 using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 

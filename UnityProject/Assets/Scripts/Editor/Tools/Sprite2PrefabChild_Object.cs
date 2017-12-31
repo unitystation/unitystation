@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Tilemaps.Scripts.Behaviours.Objects;
+using Tilemaps.Behaviours.Objects;
 using UnityEditor;
 using UnityEngine;
 
