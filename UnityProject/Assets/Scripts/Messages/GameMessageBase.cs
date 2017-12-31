@@ -14,7 +14,7 @@ public abstract class GameMessageBase : MessageBase
 		{
 			if (tries++ > 10)
 			{
-				Debug.LogWarning("GameMessageBase could not find object with id " + id);
+				Debug.LogWarning($"{this} could not find object with id {id}");
 				yield break;
 			}
 
