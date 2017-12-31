@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Message that tells client what is the current round time
 /// </summary>
-public class UpdateRoundTimeMessage : ServerMessage<UpdateRoundTimeMessage>
+public class UpdateRoundTimeMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateRoundTimeMessage;
 	public NetworkInstanceId Subject;

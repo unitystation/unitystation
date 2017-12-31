@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Message that tells client to add a ChatEvent to their chat
 /// </summary>
-public class UpdateChatMessage : ServerMessage<UpdateChatMessage>
+public class UpdateChatMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateChatMessage;
 	public ChatChannel Channels;

@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Attempts to send a chat message to the server
 /// </summary>
-public class PostToChatMessage : ClientMessage<PostToChatMessage>
+public class PostToChatMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.PostToChatMessage;
 	public ChatChannel Channels;

@@ -1,8 +1,7 @@
-﻿using System.Reflection;
-using PlayGroup;
+﻿using PlayGroup;
 using UnityEngine.Networking;
 
-public abstract class ClientMessage<T> : GameMessage<T>
+public abstract class ClientMessage : GameMessageBase
 {
 	public NetworkInstanceId SentBy;
 
@@ -34,12 +33,5 @@ public abstract class ClientMessage<T> : GameMessage<T>
 	{
 		base.Serialize(writer);
 		writer.Write(SentBy);
-	}
-
-	private short GetMessageType()
-	{
-		FieldInfo field = typeof(T).GetField("MessageType",
-			BindingFlags.Static | BindingFlags.FlattenHierarchy | BindingFlags.Public);
-		return (short) field.GetValue(null);
 	}
 }

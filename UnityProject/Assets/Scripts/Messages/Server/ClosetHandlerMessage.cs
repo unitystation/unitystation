@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 ///     It makes sure the relevant ClosetHandler is created on the client to monitor the players actions while the
 ///     player is being hidden inside
 /// </summary>
-public class ClosetHandlerMessage : ServerMessage<ClosetHandlerMessage>
+public class ClosetHandlerMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.ClosetHandlerMessage;
 	public GameObject Closet;

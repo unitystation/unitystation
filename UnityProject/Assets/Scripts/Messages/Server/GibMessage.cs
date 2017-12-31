@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class GibMessage : ServerMessage<GibMessage>
+public class GibMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.GibMessage;
 	public NetworkInstanceId Subject;

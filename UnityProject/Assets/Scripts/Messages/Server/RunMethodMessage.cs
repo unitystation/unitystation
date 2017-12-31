@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Message that tells clent to run some method
 /// </summary>
-public class RunMethodMessage : ServerMessage<RunMethodMessage>
+public class RunMethodMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.RunMethodMessage;
 	public string Method;

@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Removes Encryptionkey from a headset
 /// </summary>
-public class RemoveEncryptionKeyMessage : ClientMessage<RemoveEncryptionKeyMessage>
+public class RemoveEncryptionKeyMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.RemoveEncryptionKeyMessage;
 	public GameObject HeadsetItem;

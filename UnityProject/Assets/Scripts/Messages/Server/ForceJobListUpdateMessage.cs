@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Message that tells client to update thier job lists
 /// </summary>
-public class ForceJobListUpdateMessage : ServerMessage<ForceJobListUpdateMessage>
+public class ForceJobListUpdateMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.ForceJobListUpdateMessage;
 	public NetworkInstanceId Subject;
