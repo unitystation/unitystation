@@ -114,9 +114,17 @@ public class GameData : MonoBehaviour
 			}
 			return;
 		}
+		//force vsync when not-headless
+		if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !Instance.testServer && !IsHeadlessServer)
+		{
+			Application.targetFrameRate = 60;
+			QualitySettings.vSyncCount = 1;
+		}
 		//Check if running in batchmode (headless server)
 		if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
 		{
+			float calcFrameRate =  1f / Time.fixedDeltaTime;
+			Application.targetFrameRate = (int) calcFrameRate;
 			Debug.Log("START SERVER HEADLESS MODE");
 			IsHeadlessServer = true;
 			StartCoroutine(WaitToStartServer());
