@@ -217,6 +217,13 @@ namespace PlayGroup
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
+				PlayerNetworkActions pna = gameObject.GetComponent<PlayerNetworkActions>();
+				PlayerMove pm = gameObject.GetComponent<PlayerMove>();
+				
+				// FIXME
+				// reenable killfeed once the systemmessages are fixed
+				
+				/*
 				string killerName = "stressfull work";
 				if (LastDamagedBy != null)
 				{
@@ -263,23 +270,23 @@ namespace PlayGroup
 
 					//Combat demo killfeed
 					//PostToChatMessage.Send(killerName + " has killed " + gameObject.name, ChatChannel.System);
-				}
-				playerNetworkActions.ValidateDropItem("rightHand", true, transform.position);
-				playerNetworkActions.ValidateDropItem("leftHand", true, transform.position);
+				}*/
+				pna.ValidateDropItem("rightHand", true, transform.position);
+				pna.ValidateDropItem("leftHand", true, transform.position);
 
 				if (isServer)
 				{
 					EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.large);
 				}
 
-				playerNetworkActions.RpcSpawnGhost();
-				playerMove.isGhost = true;
-				playerMove.allowInput = true;
+				pna.RpcSpawnGhost();
+				pm.isGhost = true;
+				pm.allowInput = true;
 				RpcPassBullets(gameObject);
 				PlayerDeathMessage.Send(gameObject);
 
 				//FIXME Remove for next demo
-				playerNetworkActions.RespawnPlayer(10);
+				pna.RespawnPlayer(10);
 			}
 		}
 
