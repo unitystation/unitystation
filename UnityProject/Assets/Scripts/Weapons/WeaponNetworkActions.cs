@@ -210,12 +210,9 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (lerpSprite != null)
 		{
 			playerScript.hitIcon.ShowHitIcon(stabDir, lerpSprite);
-			if (PlayerManager.LocalPlayer)
+			if (PlayerManager.LocalPlayer && PlayerManager.LocalPlayer.gameObject.name == gameObject.name)
 			{
-				if (PlayerManager.LocalPlayer.gameObject.name == gameObject.name)
-				{
-					PlayerManager.LocalPlayerScript.playerMove.allowInput = true;
-				}
+				PlayerManager.LocalPlayerScript.playerMove.allowInput = true;
 			}
 		}
 		lerpFrom = transform.position;
@@ -240,14 +237,10 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				{
 					ResetLerp();
 					spritesObj.transform.localPosition = Vector3.zero;
-					if (PlayerManager.LocalPlayer)
-					{
-						if (PlayerManager.LocalPlayer.gameObject.name == gameObject.name)
+						if (PlayerManager.LocalPlayer && PlayerManager.LocalPlayer.gameObject.name == gameObject.name)
 						{
 							PlayerManager.LocalPlayerScript.playerMove.allowInput = true;
-
 						}
-					}
 				}
 				else
 				{
