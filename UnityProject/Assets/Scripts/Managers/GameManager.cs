@@ -52,10 +52,7 @@ public class GameManager : MonoBehaviour
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
-		if (scene.name == "DeathMatch" || scene.name == "OutpostDeathmatch")
-		{
-			counting = true;
-		}
+
 	}
 
 	public void SyncTime(float currentTime)
@@ -84,29 +81,35 @@ public class GameManager : MonoBehaviour
 			restartTime -= Time.deltaTime;
 			if (restartTime <= 0f)
 			{
+				restartTime = 0;
 				waitForRestart = false;
 				RestartRound();
 			}
 		}
 
-		if (counting)
+		else if (counting)
 		{
 			GetRoundTime -= Time.deltaTime;
 			roundTimer.text = Mathf.Floor(GetRoundTime / 60).ToString("00") + ":" +
 			                  (GetRoundTime % 60).ToString("00");
 			if (GetRoundTime <= 0f)
 			{
+				GetRoundTime = 0;
 				counting = false;
 				roundTimer.text = "GameOver";
 				SoundManager.Play("ApcDestroyed", 0.3f, 1f, 0f);
 
 				if (CustomNetworkManager.Instance._isServer)
 				{
-					PlayerList.Instance.ReportScores();
 					waitForRestart = true;
+					// FIXME 
+					// This again lets the server execute a chat, which wont work as intended
+					//	PlayerList.Instance.ReportScores();
+
 				}
 			}
 		}
+
 	}
 
 	public int GetOccupationsCount(JobType jobType)
