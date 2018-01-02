@@ -43,6 +43,13 @@ public class GameData : MonoBehaviour
 		}
 
 		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
+
+		string testServerEnv = Environment.GetEnvironmentVariable("TEST_SERVER");
+		if (!string.IsNullOrEmpty(testServerEnv))
+		{
+			testServer = Convert.ToBoolean(testServerEnv);
+		}
+
 		LoadData();
 	}
 
