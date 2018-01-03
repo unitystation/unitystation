@@ -184,7 +184,7 @@ namespace Equipment
 			{
 				if (gearItem.Value.Contains(ClothFactory.ClothingHierIdentifier) || gearItem.Value.Contains(ClothFactory.HeadsetHierIdentifier))
 				{
-					GameObject obj = ClothFactory.Instance.CreateCloth(gearItem.Value, Vector3.zero);
+					GameObject obj = ClothFactory.Instance.CreateCloth(gearItem.Value, Vector3.zero, transform.parent);
 					//if ClothFactory does not return an object then move on to the next clothing item
 					if (!obj)
 					{

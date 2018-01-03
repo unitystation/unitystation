@@ -40,7 +40,7 @@ public class ClothFactory : NetworkBehaviour
 	}
 
 	//TODO is it going to be spawned on a player in equipment etc?
-	public GameObject CreateCloth(string hierString, Vector3 spawnPos)
+	public GameObject CreateCloth(string hierString, Vector3 spawnPos, Transform parent)
 	{
 		if (!CustomNetworkManager.Instance._isServer)
 		{
@@ -49,7 +49,7 @@ public class ClothFactory : NetworkBehaviour
 
 		//PoolManager handles networkspawn
 		GameObject uniItem = pickClothObject(hierString);
-		GameObject clothObj = PoolManager.Instance.PoolNetworkInstantiate(uniItem, spawnPos, Quaternion.identity);
+		GameObject clothObj = ItemFactory.SpawnItem(uniItem, spawnPos, parent);
 		ItemAttributes i = clothObj.GetComponent<ItemAttributes>();
 		i.hierarchy = hierString;
 		if (uniItem == uniHeadSet)

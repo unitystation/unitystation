@@ -55,6 +55,7 @@ public class PoolManager : NetworkBehaviour
 				tempObject = pools[prefab][index];
 				pools[prefab].RemoveAt(index);
 				tempObject.SetActive(true);
+				tempObject.GetComponent<ObjectBehaviour>().visibleState = true;
 				tempObject.transform.position = position;
 				tempObject.transform.rotation = rotation;
 				tempObject.transform.localScale = prefab.transform.localScale;

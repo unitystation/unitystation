@@ -41,7 +41,7 @@ public class VisibleBehaviour : NetworkBehaviour
 	/// <summary>
 	///     This will also set the enabled state of every component
 	/// </summary>
-	[SyncVar(hook = "UpdateState")] public bool visibleState = true;
+	[SyncVar(hook = nameof(UpdateState))] public bool visibleState = true;
 
 	protected virtual void Awake()
 	{
