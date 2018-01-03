@@ -3,8 +3,6 @@ using System.Linq;
 using Cupboards;
 using PlayGroup;
 using Tilemaps.Scripts.Tiles;
-using Tilemaps.Scripts.Utils;
-using Tilemaps.Utils;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
