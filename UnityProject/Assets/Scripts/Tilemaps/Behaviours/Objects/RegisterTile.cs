@@ -36,7 +36,7 @@ namespace Tilemaps.Behaviours.Objects
 			Unregister();
 			layer = parent.GetComponent<ObjectLayer>();
 			Matrix = parent.GetComponentInParent<Matrix>();
-			transform.parent = parent.transform;
+			transform.parent = parent.transform; 
 			Register();
 		}
 

@@ -207,16 +207,16 @@ namespace Equipment
 			GameObject idObj;
 			if (outFit.jobType == JobType.CAPTAIN)
 			{
-				idObj = ItemFactory.Instance.SpawnIDCard(IDCardType.captain, outFit.jobType, outFit.allowedAccess, name);
+				idObj = ItemFactory.Instance.SpawnIDCard(IDCardType.captain, outFit.jobType, outFit.allowedAccess, name, transform.parent);
 			}
 			else if (outFit.jobType == JobType.HOP || outFit.jobType == JobType.HOS || outFit.jobType == JobType.CMO || outFit.jobType == JobType.RD ||
 			         outFit.jobType == JobType.CHIEF_ENGINEER)
 			{
-				idObj = ItemFactory.Instance.SpawnIDCard(IDCardType.command, outFit.jobType, outFit.allowedAccess, name);
+				idObj = ItemFactory.Instance.SpawnIDCard(IDCardType.command, outFit.jobType, outFit.allowedAccess, name, transform.parent);
 			}
 			else
 			{
-				idObj = ItemFactory.Instance.SpawnIDCard(IDCardType.standard, outFit.jobType, outFit.allowedAccess, name);
+				idObj = ItemFactory.Instance.SpawnIDCard(IDCardType.standard, outFit.jobType, outFit.allowedAccess, name, transform.parent);
 			}
 
 			SetItem("id", idObj);

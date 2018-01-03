@@ -3,6 +3,8 @@ using System.Linq;
 using Cupboards;
 using PlayGroup;
 using Tilemaps.Scripts.Tiles;
+using Tilemaps.Scripts.Utils;
+using Tilemaps.Utils;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -134,9 +136,9 @@ namespace PlayGroups.Input
 			//check which of the sprite renderers we hit and pixel checked is the highest
 			if (renderers.Count > 0)
 			{
-				foreach (Renderer sprite in renderers.OrderByDescending(sr => sr.sortingOrder))
+				foreach (Renderer _renderer in renderers.OrderByDescending(sr => sr.sortingOrder)) 
 				{
-					if (Interact(sprite.transform, position))
+					if (Interact(_renderer.transform, position))
 					{
 						break;
 					}
@@ -213,7 +215,7 @@ namespace PlayGroups.Input
 			if (PlayerManager.LocalPlayerScript.IsInReach(position))
 			{
 				//check the actual transform for an input trigger and if there is non, check the parent
-				InputTrigger inputTrigger = _transform.GetComponent<InputTrigger>();
+				InputTrigger inputTrigger = _transform.GetComponentInParent<InputTrigger>();
 				if (inputTrigger)
 				{
 					if (objectBehaviour.visibleState)
@@ -221,21 +223,11 @@ namespace PlayGroups.Input
 						inputTrigger.Trigger(position);
 						return true;
 					}
-					return false;
-				}
-				inputTrigger = _transform.parent.GetComponent<InputTrigger>();
-				if (inputTrigger)
-				{
-					if (objectBehaviour.visibleState)
-					{
-						inputTrigger.Trigger();
-						return true;
-					}
 					//Allow interact with cupboards we are inside of!
 					ClosetControl cCtrl = inputTrigger.GetComponent<ClosetControl>();
 					if (cCtrl && cCtrl.transform.position == PlayerManager.LocalPlayerScript.transform.position)
 					{
-						inputTrigger.Trigger();
+						inputTrigger.Trigger(position);
 						return true;
 					}
 					return false;

@@ -9,9 +9,9 @@ public class FireCabinetTrigger : InputTrigger
 {
 	private bool hasJustPlaced;
 
-	[SyncVar(hook = "SyncCabinet")] public bool IsClosed;
+	[SyncVar(hook = nameof(SyncCabinet))] public bool IsClosed;
 
-	[SyncVar(hook = "SyncItemSprite")] public bool isFull;
+	[SyncVar(hook = nameof(SyncItemSprite))] public bool isFull;
 
 	public GameObject itemPrefab;
 	public Sprite spriteClosed;
@@ -38,8 +38,8 @@ public class FireCabinetTrigger : InputTrigger
 		IsClosed = true;
 		isFull = true;
 
-		GameObject item = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
-		NetworkServer.Spawn(item);
+		GameObject item = ItemFactory.SpawnItem(itemPrefab, transform.parent);
+		
 		storedObject = item.GetComponent<ObjectBehaviour>();
 		storedObject.visibleState = false;
 		base.OnStartServer();

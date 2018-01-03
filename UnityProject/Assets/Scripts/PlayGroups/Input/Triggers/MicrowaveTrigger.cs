@@ -26,22 +26,11 @@ public class MicrowaveTrigger : InputTrigger
 			{
 				//Client informs server of interaction attempt
 				InteractMessage.Send(gameObject, position, slot.eventName);
-				//Client simulation
-				//              
-				//              if ( !waveOk )
-				//              {
-				//                  Debug.Log("Client placing error");
-				//              }
 			}
 		}
 		else
 		{
-			//Server actions
-			if (!ValidateMicrowaveInteraction(originator, position, hand))
-			{
-				//Rollback prediction here
-				//              originator.GetComponent<PlayerNetworkActions>().RollbackPrediction(hand);           
-			}
+			ValidateMicrowaveInteraction(originator, position, hand);
 		}
 	}
 

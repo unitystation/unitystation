@@ -307,8 +307,7 @@ namespace PlayGroup
 		{
 			foreach (GameObject harvestPrefab in butcherResults)
 			{
-				GameObject harvest = Instantiate(harvestPrefab, transform.position, Quaternion.identity);
-				NetworkServer.Spawn(harvest);
+				ItemFactory.SpawnItem(harvestPrefab, transform.position, transform.parent);
 			}
 			EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
 			//Remove the NPC after all has been harvested
