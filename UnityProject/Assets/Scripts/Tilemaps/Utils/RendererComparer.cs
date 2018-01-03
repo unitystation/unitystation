@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace Tilemaps.Scripts.Utils
+namespace Tilemaps.Utils
 {
 	public static class RendererComparer
 	{
@@ -13,14 +13,19 @@ namespace Tilemaps.Scripts.Utils
 		{
 			List<string> sortingLayerNames = GetSortingLayerNames();
 
-			int x_index = sortingLayerNames.FindIndex(s => s.Equals(x.sortingLayerName));
-			int y_index = sortingLayerNames.FindIndex(s => s.Equals(y.sortingLayerName));
+			int xIndex = sortingLayerNames.FindIndex(s => s.Equals(x.sortingLayerName));
+			int yIndex = sortingLayerNames.FindIndex(s => s.Equals(y.sortingLayerName));
 
-			if (x_index == y_index)
+			if (xIndex == yIndex)
 			{
 				return x.sortingOrder - y.sortingOrder;
 			}
-			return x_index - y_index;
+			return xIndex - yIndex;
+		}
+		
+		public static int CompareDescending(Renderer x, Renderer y)
+		{
+			return Compare(y, x);
 		}
 
 		private static List<string> GetSortingLayerNames()

@@ -61,10 +61,10 @@ public class ItemFactory : MonoBehaviour
 	/// <summary>
 	///     For spawning new ID cards, mostly used on new player spawn
 	/// </summary>
-	public GameObject SpawnIDCard(IDCardType idCardType, JobType jobType, List<Access> allowedAccess, string name)
+	public GameObject SpawnIDCard(IDCardType idCardType, JobType jobType, List<Access> allowedAccess, string name, Transform parent)
 	{
 		//No need to pool it but doesn't hurt (and requires less lines)
-		GameObject idObj = PoolManager.Instance.PoolNetworkInstantiate(idCard, Vector2.zero, Quaternion.identity);
+		GameObject idObj = SpawnItem(idCard, parent);
 		IDCard ID = idObj.GetComponent<IDCard>();
 
 		//Set all the synced properties for the card
@@ -79,12 +79,12 @@ public class ItemFactory : MonoBehaviour
 	///     For spawning Meals/Food items. Pass the prefab from the crafting manager here to be spawned
 	///     Server Side only!
 	/// </summary>
-	public GameObject SpawnMeal(GameObject mealPrefab, Vector3 position)
+	public GameObject SpawnMeal(GameObject mealPrefab, Vector3 position, Transform parent)
 	{
 		GameObject mealObj = null;
 		if (foods.Contains(mealPrefab))
 		{
-			mealObj = PoolManager.Instance.PoolNetworkInstantiate(mealPrefab, position, Quaternion.identity);
+			mealObj = SpawnItem(mealPrefab, position, parent);
 		}
 		else
 		{
@@ -92,5 +92,20 @@ public class ItemFactory : MonoBehaviour
 		}
 
 		return mealObj;
+	}
+	
+	public static GameObject SpawnItem(GameObject itemPrefab, Transform parent=null)
+	{
+		return SpawnItem(itemPrefab, Vector3.zero, Quaternion.identity, parent);
+	}
+	
+	public static GameObject SpawnItem(GameObject itemPrefab, Vector3 position, Transform parent=null)
+	{
+		return SpawnItem(itemPrefab, position, Quaternion.identity, parent);
+	}
+
+	public static GameObject SpawnItem(GameObject itemPrefab, Vector3 position, Quaternion rotation, Transform parent=null)
+	{
+		return PoolManager.Instance.PoolNetworkInstantiate(itemPrefab, position, rotation, parent);
 	}
 }

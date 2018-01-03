@@ -61,7 +61,7 @@ namespace Weapons
 		/// </summary>
 		[HideInInspector] public bool InAutomaticAction;
 
-		[SyncVar(hook = "LoadUnloadAmmo")] public NetworkInstanceId MagNetID;
+		[SyncVar(hook = nameof(LoadUnloadAmmo))] public NetworkInstanceId MagNetID;
 
 		/// <summary>
 		///     The max recoil angle this weapon can reach with sustained fire
@@ -201,10 +201,10 @@ namespace Weapons
 
 		public override void OnStartServer()
 		{
-			Object ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType);
-			GameObject m = Instantiate(ammoPrefab as GameObject, Vector3.zero, Quaternion.identity);
-			//spean the magazine
-			NetworkServer.Spawn(m);
+			GameObject ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType)  as GameObject;
+			
+			GameObject m =  ItemFactory.SpawnItem(ammoPrefab, transform.parent);
+			
 			StartCoroutine(SetMagazineOnStart(m));
 
 			base.OnStartServer();
