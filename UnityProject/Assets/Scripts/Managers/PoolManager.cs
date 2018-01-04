@@ -33,17 +33,15 @@ public class PoolManager : NetworkBehaviour
 	[Server]
 	public GameObject PoolNetworkInstantiate(GameObject prefab, Vector2 position, Quaternion rotation, Transform parent=null)
 	{
-		GameObject tempObject = PoolClientInstantiate(prefab, position, rotation, parent);
+		GameObject tempObject = PoolClientInstantiate(prefab, position, rotation, parent, true);
 		
-		NetworkServer.Spawn(tempObject);
-
 		return tempObject;
 	}
 
 	/// <summary>
 	///     For non network stuff only! (e.g. bullets)
 	/// </summary>
-	public GameObject PoolClientInstantiate(GameObject prefab, Vector2 position, Quaternion rotation, Transform parent=null)
+	public GameObject PoolClientInstantiate(GameObject prefab, Vector2 position, Quaternion rotation, Transform parent=null, bool netSpawn=false)
 	{
 		GameObject tempObject = null;
 		if (pools.ContainsKey(prefab))
@@ -55,7 +53,13 @@ public class PoolManager : NetworkBehaviour
 				tempObject = pools[prefab][index];
 				pools[prefab].RemoveAt(index);
 				tempObject.SetActive(true);
-				tempObject.GetComponent<ObjectBehaviour>().visibleState = true;
+
+				ObjectBehaviour objBehaviour = tempObject.GetComponent<ObjectBehaviour>();
+				if (objBehaviour)
+				{
+					objBehaviour.visibleState = true;
+				}
+
 				tempObject.transform.position = position;
 				tempObject.transform.rotation = rotation;
 				tempObject.transform.localScale = prefab.transform.localScale;
@@ -67,6 +71,12 @@ public class PoolManager : NetworkBehaviour
 
 		tempObject = Instantiate(prefab, position, rotation, parent);
 		tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
+
+		if (netSpawn)
+		{
+			NetworkServer.Spawn(tempObject);
+		}
+		
 		return tempObject;
 	}
 
