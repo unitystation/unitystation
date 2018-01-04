@@ -4,21 +4,22 @@ using PlayGroup;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
-	private readonly float cacheTime = 480f;
-	private bool counting;
+	private readonly float cacheTime = 60f;
+	public bool counting;
 	public List<GameObject> Occupations = new List<GameObject>();
-	private float restartTime = 10f;
+	public float restartTime = 10f;
 
 	public Text roundTimer;
 
 	public GameObject StandardOutfit;
-	private bool waitForRestart;
+	public bool waitForRestart;
 
-	public float GetRoundTime { get; private set; } = 480f;
+	public float GetRoundTime { get; private set; } = 60f;
 
 	private void Awake()
 	{
@@ -52,25 +53,27 @@ public class GameManager : MonoBehaviour
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
-
+		GetRoundTime = cacheTime;
 	}
 
 	public void SyncTime(float currentTime)
 	{
-		GetRoundTime = currentTime;
-	}
-
-	public void SyncTimendResetCounter(float currentTime)
-	{
-		SyncTime(currentTime);
-		counting = true;
+		if (!CustomNetworkManager.Instance._isServer)
+		{
+			GetRoundTime = currentTime;
+			if (currentTime > 0f)
+			{
+				counting = true;
+			}
+		}
 	}
 
 	public void ResetRoundTime()
 	{
 		GetRoundTime = cacheTime;
-		restartTime = 10f;
+		waitForRestart = false;
 		counting = true;
+		restartTime = 10f;
 		UpdateRoundTimeMessage.Send(GetRoundTime);
 	}
 
@@ -78,10 +81,10 @@ public class GameManager : MonoBehaviour
 	{
 		if (waitForRestart)
 		{
+
 			restartTime -= Time.deltaTime;
 			if (restartTime <= 0f)
 			{
-				restartTime = 0;
 				waitForRestart = false;
 				RestartRound();
 			}
@@ -94,18 +97,19 @@ public class GameManager : MonoBehaviour
 			                  (GetRoundTime % 60).ToString("00");
 			if (GetRoundTime <= 0f)
 			{
-				GetRoundTime = 0;
 				counting = false;
 				roundTimer.text = "GameOver";
-				SoundManager.Play("ApcDestroyed", 0.3f, 1f, 0f);
+				
+				// Prevents annoying sound duplicate when testing
+				if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
+				{
+					SoundManager.Play("ApcDestroyed", 0.3f, 1f, 0f);
+				}
 
 				if (CustomNetworkManager.Instance._isServer)
 				{
 					waitForRestart = true;
-					// FIXME 
-					// This again lets the server execute a chat, which wont work as intended
-					//	PlayerList.Instance.ReportScores();
-
+					PlayerList.Instance.ReportScores();
 				}
 			}
 		}
