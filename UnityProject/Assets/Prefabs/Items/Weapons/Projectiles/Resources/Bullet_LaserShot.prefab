@@ -36,8 +36,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4915955108055458}
   - component: {fileID: 61418712789390974}
-  - component: {fileID: 114143021341349988}
   - component: {fileID: 50232003219609382}
+  - component: {fileID: 114546474527566670}
   m_Layer: 15
   m_Name: Bullet_LaserShot
   m_TagString: Untagged
@@ -117,7 +117,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7285118, y: 0.79995537}
   m_EdgeRadius: 0
---- !u!114 &114143021341349988
+--- !u!114 &114546474527566670
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -125,10 +125,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1553142956179786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75c614f3170cce34e8fd4d7bf73b024a, type: 3}
+  m_Script: {fileID: 11500000, guid: 0329febabe4f76d42871108a78574f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 27
+  damage: 25
   shooter: {fileID: 0}
 --- !u!212 &212330207800450856
 SpriteRenderer:
