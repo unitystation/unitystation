@@ -4,20 +4,19 @@ using PlayGroup;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
 	private readonly float cacheTime = 480f;
-	public bool counting;
+	private bool counting;
 	public List<GameObject> Occupations = new List<GameObject>();
-	public float restartTime = 10f;
+	private float restartTime = 10f;
 
 	public Text roundTimer;
 
 	public GameObject StandardOutfit;
-	public bool waitForRestart;
+	private bool waitForRestart;
 
 	public float GetRoundTime { get; private set; } = 480f;
 
@@ -53,27 +52,25 @@ public class GameManager : MonoBehaviour
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
-		GetRoundTime = cacheTime;
+
 	}
 
 	public void SyncTime(float currentTime)
 	{
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			GetRoundTime = currentTime;
-			if (currentTime > 0f)
-			{
-				counting = true;
-			}
-		}
+		GetRoundTime = currentTime;
+	}
+
+	public void SyncTimendResetCounter(float currentTime)
+	{
+		SyncTime(currentTime);
+		counting = true;
 	}
 
 	public void ResetRoundTime()
 	{
 		GetRoundTime = cacheTime;
-		waitForRestart = false;
-		counting = true;
 		restartTime = 10f;
+		counting = true;
 		UpdateRoundTimeMessage.Send(GetRoundTime);
 	}
 
@@ -81,10 +78,10 @@ public class GameManager : MonoBehaviour
 	{
 		if (waitForRestart)
 		{
-
 			restartTime -= Time.deltaTime;
 			if (restartTime <= 0f)
 			{
+				restartTime = 0;
 				waitForRestart = false;
 				RestartRound();
 			}
@@ -97,19 +94,18 @@ public class GameManager : MonoBehaviour
 			                  (GetRoundTime % 60).ToString("00");
 			if (GetRoundTime <= 0f)
 			{
+				GetRoundTime = 0;
 				counting = false;
 				roundTimer.text = "GameOver";
-				
-				// Prevents annoying sound duplicate when testing
-				if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
-				{
-					SoundManager.Play("ApcDestroyed", 0.3f, 1f, 0f);
-				}
+				SoundManager.Play("ApcDestroyed", 0.3f, 1f, 0f);
 
 				if (CustomNetworkManager.Instance._isServer)
 				{
 					waitForRestart = true;
-					PlayerList.Instance.ReportScores();
+					// FIXME 
+					// This again lets the server execute a chat, which wont work as intended
+					//	PlayerList.Instance.ReportScores();
+
 				}
 			}
 		}
