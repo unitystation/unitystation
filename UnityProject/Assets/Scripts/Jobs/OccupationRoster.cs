@@ -2,7 +2,6 @@
 
 public class OccupationRoster : MonoBehaviour
 {
-	public JobDepartment department;
 	public int limit;
 	public GameObject outfit;
 	public int priority = 99;

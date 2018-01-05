@@ -38,6 +38,10 @@ public class CustomNetworkManager : NetworkManager
 
 		connectionConfig.AcksType = ConnectionAcksType.Acks64;
 		connectionConfig.FragmentSize = 512;
+
+		if(GameData.IsInGame && PoolManager.Instance == null){
+			ObjectManager.StartPoolManager();
+		}
 	}
 
 	private void SetSpawnableList()
@@ -168,7 +172,7 @@ public class CustomNetworkManager : NetworkManager
 			//do special server wizardry here
 		}
 
-		if (GameData.IsInGame)
+		if (GameData.IsInGame && PoolManager.Instance == null)
 		{
 			ObjectManager.StartPoolManager();
 		}
@@ -220,7 +224,7 @@ public class CustomNetworkManager : NetworkManager
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
-		if (GameData.IsInGame)
+		if (GameData.IsInGame && PoolManager.Instance == null)
 		{
 			ObjectManager.StartPoolManager();
 		}

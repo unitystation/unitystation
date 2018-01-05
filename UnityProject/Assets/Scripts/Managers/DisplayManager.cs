@@ -68,6 +68,10 @@ public class DisplayManager : MonoBehaviour
 
 	public void SetCameraFollowPos(bool isPanelHidden = false)
 	{
+		if(Camera2DFollow.followControl == null){
+			return;
+		}
+
 		float xOffSet =
 			Mathf.Abs(Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x - Camera2DFollow.followControl.transform.position.x) + -0.06f;
 

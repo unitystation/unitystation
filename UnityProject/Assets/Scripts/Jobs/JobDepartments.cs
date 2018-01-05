@@ -1,9 +1,9 @@
 ﻿public enum JobDepartment
 {
-	Graytide,
+	TheGrayTide,
 	Medical,
 	Engineering,
 	Security,
 	Research,
-	Personal
+	Personnel
 }

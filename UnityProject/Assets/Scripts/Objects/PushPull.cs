@@ -52,6 +52,10 @@ public class PushPull : VisibleBehaviour
 		if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform.position) &&
 		    transform != PlayerManager.LocalPlayerScript.transform && PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null)
 		{
+			Debug.Log("Pull is turned off until doobles can fix it");
+			//FIXME: Working on a fix for pull. It is turned off for time being.
+			return;
+
 			if (pulledBy == PlayerManager.LocalPlayer)
 			{
 				CancelPullBehaviour();
@@ -128,6 +132,9 @@ public class PushPull : VisibleBehaviour
 
 	public void BreakPull()
 	{
+		Debug.Log("Doobles is currently working on pull fixes");
+		//FIXME: Pulling is a WIP
+		return;
 		PlayerScript player = PlayerManager.LocalPlayerScript;
 		if (!player.playerSync) //FIXME: this doesn't exist on the client sometimes
 		{

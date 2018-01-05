@@ -274,18 +274,26 @@ namespace PlayGroups.Input
 			if (angle >= 315f && angle <= 360f || angle >= 0f && angle <= 45f)
 			{
 				playerSprites.CmdChangeDirection(Vector2.up);
+				//Prediction
+				playerSprites.FaceDirection(Vector2.up);
 			}
 			if (angle > 45f && angle <= 135f)
 			{
 				playerSprites.CmdChangeDirection(Vector2.right);
+				//Prediction
+				playerSprites.FaceDirection(Vector2.right);
 			}
 			if (angle > 135f && angle <= 225f)
 			{
 				playerSprites.CmdChangeDirection(Vector2.down);
+				//Prediction
+				playerSprites.FaceDirection(Vector2.down);
 			}
 			if (angle > 225f && angle < 315f)
 			{
 				playerSprites.CmdChangeDirection(Vector2.left);
+				//Prediction
+				playerSprites.FaceDirection(Vector2.left);
 			}
 		}
 	}

@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114930344040478920}
   - component: {fileID: 114278101468313644}
   - component: {fileID: 114149446815694932}
+  - component: {fileID: 114672592214754418}
   m_Layer: 0
   m_Name: atmos_5
   m_TagString: Untagged
@@ -138,9 +139,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
 --- !u!114 &114278101468313644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -152,11 +153,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d408beaded664de2817cddbbcd26c3dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialHealth: 100
-  maxHealth: 100
-  isNPC: 0
   allowKnifeHarvest: 0
-  ConsciousState: 0
+  initialHealth: 100
+  isNPC: 0
+  maxHealth: 100
 --- !u!114 &114369194254655814
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -168,19 +168,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
   isPushable: 1
   pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
   pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
-  timeInPush: 0
+  pushTarget: {x: 0, y: 0, z: 0}
+--- !u!114 &114672592214754418
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1498044554059982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114897936616392166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -259,7 +269,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300010, guid: 73b44edfc9994ce4a7fb1bd22c556761, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

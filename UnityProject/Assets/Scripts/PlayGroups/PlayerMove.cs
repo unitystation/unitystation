@@ -80,18 +80,12 @@ namespace PlayGroup
 		public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action)
 		{
 			Vector3Int direction = GetDirection(action);
-			if (!isGhost)
-			{
-				playerSprites.FaceDirection(new Vector2(direction.x, direction.y));
-			}
-
 			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction);
 
 			if (adjustedDirection == Vector3.zero)
 			{
 				Interact(currentPosition, direction);
 			}
-
 			return currentPosition + adjustedDirection;
 		}
 
@@ -135,6 +129,12 @@ namespace PlayGroup
 			}
 			direction.x = Mathf.Clamp(direction.x, -1, 1);
 			direction.y = Mathf.Clamp(direction.y, -1, 1);
+
+			if (!isGhost && PlayerManager.LocalPlayer == gameObject) {
+				playerSprites.CmdChangeDirection(new Vector2(direction.x, direction.y));
+				//Prediction:
+				playerSprites.FaceDirection(new Vector2(direction.x, direction.y));
+			}
 
 			return direction;
 		}

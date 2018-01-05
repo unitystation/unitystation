@@ -164,7 +164,7 @@ MonoBehaviour:
   InAutomaticAction: 0
   MaxRecoilVariance: 0
   Projectile: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 2}
-  ProjectileDamage: 18
+  ProjectileDamage: 40
   ProjectilesFired: 1
   ProjectileVelocity: 8
   WeaponType: 1
@@ -201,6 +201,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114500871586828832
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -218,12 +220,9 @@ MonoBehaviour:
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
-  moveSpeed: 7
   pulledBy: {fileID: 0}
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
-  serverLittleLag: 0
-  timeInPush: 0
   closetHandlerCache: {fileID: 0}
 --- !u!212 &212596363462601882
 SpriteRenderer:
