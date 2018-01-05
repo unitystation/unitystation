@@ -14,7 +14,7 @@ public class UpdateRoundTimeMessage : ServerMessage
 	{
 		yield return WaitFor(Subject);
 
-		GameManager.Instance.SyncTime(Time);
+		GameManager.Instance.SyncTimendResetCounter(Time);
 	}
 
 	public static UpdateRoundTimeMessage Send(float time)
