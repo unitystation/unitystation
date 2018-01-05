@@ -220,10 +220,6 @@ namespace PlayGroup
 				PlayerNetworkActions pna = gameObject.GetComponent<PlayerNetworkActions>();
 				PlayerMove pm = gameObject.GetComponent<PlayerMove>();
 				
-				// FIXME
-				// reenable killfeed once the systemmessages are fixed
-				
-				/*
 				string killerName = "stressfull work";
 				if (LastDamagedBy != null)
 				{
@@ -270,7 +266,7 @@ namespace PlayGroup
 
 					//Combat demo killfeed
 					//PostToChatMessage.Send(killerName + " has killed " + gameObject.name, ChatChannel.System);
-				}*/
+				}
 				pna.ValidateDropItem("rightHand", true, transform.position);
 				pna.ValidateDropItem("leftHand", true, transform.position);
 

@@ -244,17 +244,20 @@ namespace PlayGroup
 
 		public ChatModifier GetCurrentChatModifiers()
 		{
+			ChatModifier modifiers = ChatModifier.None;
 			if (playerMove.isGhost)
 			{
 				return ChatModifier.None;
 			}
 
 			//TODO add missing modifiers
-			ChatModifier modifiers = ChatModifier.Drunk;
+			//TODO add if for being drunk
+			//ChatModifier modifiers = ChatModifier.Drunk;
 
 			if (JobType == JobType.CLOWN)
 			{
 				modifiers |= ChatModifier.Clown;
+				
 			}
 
 			return modifiers;
