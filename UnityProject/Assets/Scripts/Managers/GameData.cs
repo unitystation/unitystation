@@ -140,7 +140,7 @@ public class GameData : MonoBehaviour
 
 	private IEnumerator WaitToStartServer()
 	{
-		yield return new WaitForSeconds(5f);
+		yield return new WaitForSeconds(0.1f);
 		CustomNetworkManager.Instance.StartHost();
 	}
 
