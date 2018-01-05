@@ -1,6 +1,5 @@
 ﻿using PlayGroup;
 using UnityEngine.Networking;
-using UnityEngine;
 
 public abstract class ClientMessage : GameMessageBase
 {
@@ -8,13 +7,9 @@ public abstract class ClientMessage : GameMessageBase
 
 	public void Send()
 	{
-		if (PlayerManager.LocalPlayer)
-		{
-			SentBy = LocalPlayerId();
-		}
-
+		SentBy = LocalPlayerId();
 		CustomNetworkManager.Instance.client.connection.Send(GetMessageType(), this);
-		Debug.LogFormat("Sent {0}", this);
+		//		Debug.LogFormat("Sent {0}", this);
 	}
 
 	public void SendUnreliable()
@@ -25,7 +20,6 @@ public abstract class ClientMessage : GameMessageBase
 
 	private static NetworkInstanceId LocalPlayerId()
 	{
-		
 		return PlayerManager.LocalPlayer.GetComponent<NetworkIdentity>().netId;
 	}
 
