@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace UI
 {
@@ -21,6 +22,7 @@ namespace UI
 		private bool monitorWindow;
 		private Canvas parentCanvas;
 		public RightPanelResize rightPanelResize;
+		private bool checkingDisplayOnLoad = false;
 
 		//Caches
 		public float screenWidthCache { get; set; }
@@ -35,11 +37,31 @@ namespace UI
 			parentCanvas = GetComponent<Canvas>();
 			canvasScaler = GetComponent<CanvasScaler>();
 			graphicRaycaster = GetComponent<GraphicRaycaster>();
-			StartCoroutine(WaitForDisplay());
+			if (!checkingDisplayOnLoad) {
+				StartCoroutine(WaitForDisplay());
+			}
+		}
+
+		private void OnEnable()
+		{
+			SceneManager.activeSceneChanged += OnSceneChange;
+		}
+
+		private void OnDisable()
+		{
+			SceneManager.activeSceneChanged -= OnSceneChange;
+		}
+
+		private void OnSceneChange(Scene last, Scene newScene){
+			//Doesn't matter what InGame scene, just check the display on change:
+			if (!checkingDisplayOnLoad && newScene.name != "Lobby") {
+				StartCoroutine(WaitForDisplay());
+			}
 		}
 
 		private IEnumerator WaitForDisplay()
 		{
+			checkingDisplayOnLoad = true;
 			yield return new WaitForSeconds(0.2f);
 			screenWidthCache = Screen.width;
 			screenHeightCache = Screen.height;
@@ -104,7 +126,9 @@ namespace UI
 				}
 
 				Screen.SetResolution((int) screenWidth, screenHeight, false);
-				camResizer.AdjustCam();
+				if (camResizer != null) {
+					camResizer.AdjustCam();
+				}
 				Camera.main.ResetAspect();
 				screenWidthCache = Screen.width;
 				screenHeightCache = Screen.height;
@@ -118,6 +142,7 @@ namespace UI
 			canvasScaler.enabled = true;
 			graphicRaycaster.enabled = true;
 			monitorWindow = true;
+			checkingDisplayOnLoad = false;
 		}
 
 		public void AdjustHudBottom(Vector2 panelRightSizeDelta)
