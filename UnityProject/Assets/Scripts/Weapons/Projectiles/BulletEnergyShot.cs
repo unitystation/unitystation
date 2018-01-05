@@ -2,6 +2,6 @@
 {
     public override void OnShoot()
     {
-        //Bullet specific stuff
+        damageType = DamageType.BURN;
     }
 }
