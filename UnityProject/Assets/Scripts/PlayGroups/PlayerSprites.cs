@@ -8,15 +8,13 @@ namespace PlayGroup
 	public class PlayerSprites : NetworkBehaviour
 	{
 		private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
-		[SyncVar(hook = "FaceDirection")] public Vector2 currentDirection;
+		[SyncVar(hook = "FaceDirectionSync")] public Vector2 currentDirection;
 
-		private bool initSync;
 		public PlayerMove playerMove;
 
 		private void Awake()
 		{
-			foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
-			{
+			foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>()) {
 				clothes[c.name] = c;
 			}
 		}
@@ -36,13 +34,12 @@ namespace PlayGroup
 		private IEnumerator WaitForLoad()
 		{
 			yield return new WaitForSeconds(2f);
-			FaceDirection(currentDirection);
+			FaceDirectionSync(currentDirection);
 		}
 
 		public void AdjustSpriteOrders(int offsetOrder)
 		{
-			foreach (SpriteRenderer s in GetComponentsInChildren<SpriteRenderer>())
-			{
+			foreach (SpriteRenderer s in GetComponentsInChildren<SpriteRenderer>()) {
 				int newOrder = s.sortingOrder;
 				newOrder += offsetOrder;
 				s.sortingOrder = newOrder;
@@ -55,48 +52,37 @@ namespace PlayGroup
 			FaceDirection(direction);
 		}
 
-		//turning character input and sprite update
+		//turning character input and sprite update for local only! (prediction)
 		public void FaceDirection(Vector2 direction)
 		{
 			SetDir(direction);
 		}
 
-		public void SetDir(Vector2 direction)
+		//For syncing all other players (not locally owned)
+		private void FaceDirectionSync(Vector2 dir)
 		{
-			if (playerMove.isGhost)
-			{
-				return;
-			}
-
-			if (currentDirection != direction || !initSync)
-			{
-				if (!initSync)
-				{
-					initSync = true;
-				}
-
-				foreach (ClothingItem c in clothes.Values)
-				{
-					c.Direction = direction;
-				}
-
-
-				//If both values are set, we're trying to face a diagonal sprite direction, which doesn't exist. To resolve, randomly select one of the appropriate cardinal directions.
-				if (direction.x != 0 && direction.y != 0)
-				{
-					switch (Random.Range(0, 1))
-					{
-						case 0:
-							direction.x = 0;
-							break;
-						case 1:
-							direction.y = 0;
-							break;
-					}
-				}
-
-				currentDirection = direction;
+			if (PlayerManager.LocalPlayer != gameObject) {
+				currentDirection = dir;
+				SetDir(dir);
 			}
 		}
+
+
+		public void SetDir(Vector2 direction)
+		{
+			if (playerMove.isGhost) {
+				return;
+			}
+			if (direction.x != 0f && direction.y != 0f) {
+				direction.y = 0f;
+			}
+
+			foreach (ClothingItem c in clothes.Values) {
+				c.Direction = direction;
+			}
+
+			currentDirection = direction;
+		}
+
 	}
 }

@@ -14,7 +14,7 @@ public abstract class GameMessageBase : MessageBase
 	{
 		if (id.IsEmpty()) 
 		{
-			Debug.LogError($"{this} tried to wait on an empty (0) id");
+			Debug.LogWarning($"{this} tried to wait on an empty (0) id");
 			yield break;
 		}
 
