@@ -244,9 +244,9 @@ namespace PlayGroup
 					string departmentKillText = "";
 					if (LastDamagedBy != null)
 					{
-						Department killerDepartment =
+						JobDepartment killerDepartment =
 							SpawnPoint.GetJobDepartment(LastDamagedBy.GetComponent<PlayerScript>().JobType);
-						Department victimDepartment =
+						JobDepartment victimDepartment =
 							SpawnPoint.GetJobDepartment(gameObject.GetComponent<PlayerScript>().JobType);
 
 						if (killerDepartment == victimDepartment)

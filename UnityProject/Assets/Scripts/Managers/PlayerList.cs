@@ -12,7 +12,7 @@ public class PlayerList : NetworkBehaviour
 	public Dictionary<string, GameObject> connectedPlayers = new Dictionary<string, GameObject>();
 
 	//For TDM demo
-	public Dictionary<Department, int> departmentScores = new Dictionary<Department, int>();
+	public Dictionary<JobDepartment, int> departmentScores = new Dictionary<JobDepartment, int>();
 
 	public SyncListString nameList = new SyncListString();
 
@@ -80,7 +80,7 @@ public class PlayerList : NetworkBehaviour
 		}
 
 		JobType perpetratorJob = perpetrator.GetComponent<PlayerScript>().JobType;
-		Department perpetratorDept = SpawnPoint.GetJobDepartment(perpetratorJob);
+		JobDepartment perpetratorDept = SpawnPoint.GetJobDepartment(perpetratorJob);
 
 		if (!departmentScores.ContainsKey(perpetratorDept))
 		{
@@ -93,7 +93,7 @@ public class PlayerList : NetworkBehaviour
 		}
 
 		JobType victimJob = victim.GetComponent<PlayerScript>().JobType;
-		Department victimDept = SpawnPoint.GetJobDepartment(victimJob);
+		JobDepartment victimDept = SpawnPoint.GetJobDepartment(victimJob);
 
 		if (perpetratorDept == victimDept)
 		{
@@ -127,7 +127,7 @@ public class PlayerList : NetworkBehaviour
 		var scoreSort = departmentScores.OrderByDescending(pair => pair.Value)
 			.ToDictionary(pair => pair.Key, pair => pair.Value);
 
-		foreach (KeyValuePair<Department, int> ds in scoreSort)
+		foreach (KeyValuePair<JobDepartment, int> ds in scoreSort)
 		{
 			PostToChatMessage.Send("<b>" + ds.Key + "</b>  total kills:  <b>" + ds.Value + "</b>", ChatChannel.System);
 		}
