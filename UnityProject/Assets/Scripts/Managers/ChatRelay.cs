@@ -38,7 +38,7 @@ public class ChatRelay : NetworkBehaviour
 			{ChatChannel.Common, "#008000"},
 			{ChatChannel.Engineering, "#fb5613"},
 			{ChatChannel.Examine, "black"},
-			{ChatChannel.Local, "#999999"},
+			{ChatChannel.Local, "black"},
 			{ChatChannel.Medical, "#337296"},
 			{ChatChannel.None, ""},
 			{ChatChannel.OOC, "#386aff"},

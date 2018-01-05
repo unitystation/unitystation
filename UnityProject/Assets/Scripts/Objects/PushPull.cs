@@ -52,6 +52,10 @@ public class PushPull : VisibleBehaviour
 		if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform.position) &&
 		    transform != PlayerManager.LocalPlayerScript.transform && PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null)
 		{
+			Debug.Log("Pull is turned off until doobles can fix it");
+			//FIXME: Working on a fix for pull. It is turned off for time being.
+			return;
+
 			if (pulledBy == PlayerManager.LocalPlayer)
 			{
 				CancelPullBehaviour();
