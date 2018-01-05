@@ -37,7 +37,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 	private void OnTriggerEnter2D(Collider2D coll)
 	{
 		HealthBehaviour damageable = coll.GetComponent<HealthBehaviour>();
-		if (damageable == null || damageable.IsDead )
+		if (damageable == null || damageable.IsDead || coll.gameObject == shooter)
 		{
 			return;
 		}

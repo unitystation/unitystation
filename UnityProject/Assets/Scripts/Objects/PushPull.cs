@@ -132,6 +132,9 @@ public class PushPull : VisibleBehaviour
 
 	public void BreakPull()
 	{
+		Debug.Log("Doobles is currently working on pull fixes");
+		//FIXME: Pulling is a WIP
+		return;
 		PlayerScript player = PlayerManager.LocalPlayerScript;
 		if (!player.playerSync) //FIXME: this doesn't exist on the client sometimes
 		{
