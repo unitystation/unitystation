@@ -15,19 +15,12 @@ public class PostToChatMessage : ClientMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(SentBy);
-		if (NetworkObject)
+
+		GameObject player = NetworkObject;
+		if (ValidRequest(player))
 		{
-			GameObject player = NetworkObject;
-			if (ValidRequest(player))
-			{
-				ChatModifier modifiers = player.GetComponent<PlayerScript>().GetCurrentChatModifiers();
-				ChatEvent chatEvent = new ChatEvent(ChatMessageText, player.name, Channels, modifiers);
-				ChatRelay.Instance.AddToChatLogServer(chatEvent);
-			}
-		}
-		else
-		{
-			ChatEvent chatEvent = new ChatEvent(ChatMessageText, Channels);
+			ChatModifier modifiers = player.GetComponent<PlayerScript>().GetCurrentChatModifiers();
+			ChatEvent chatEvent = new ChatEvent(ChatMessageText, player.name, Channels, modifiers);
 			ChatRelay.Instance.AddToChatLogServer(chatEvent);
 		}
 	}
