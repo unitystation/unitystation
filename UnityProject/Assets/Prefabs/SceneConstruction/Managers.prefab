@@ -6355,9 +6355,9 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 164ffe688eab71a4ba9e3ae67877597c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8e463cd3151312149a6cef903b798ccb, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 0.2
   m_Pitch: 1.1
   Loop: 0
   Mute: 0
@@ -12971,9 +12971,9 @@ MonoBehaviour:
     m_MaxNetSimulatorTimeout: 12000
   m_Channels: 0500000000000000
   m_UseWebSockets: 0
-  m_UseSimulator: 0
-  m_SimulatedLatency: 200
-  m_PacketLossPercentage: 0
+  m_UseSimulator: 1
+  m_SimulatedLatency: 400
+  m_PacketLossPercentage: 4.8
   m_MaxBufferedPackets: 16
   m_AllowFragmentation: 1
   m_MatchHost: mm.unet.unity3d.com
