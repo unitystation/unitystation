@@ -94,10 +94,10 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		Ray2D ray = new Ray2D(transform.position, direction);
 		RpcShootBullet(weapon, ray.GetPoint(30f), bulletName, damageZone);
 
-        if (wepBehavior.SpawnsCaseing)
-        {
-            ItemFactory.SpawnItem(casingPrefab, transform.position, transform.parent);
-        }
+		if (wepBehavior.SpawnsCaseing)
+		{
+			ItemFactory.SpawnItem(casingPrefab, transform.position, transform.parent);
+		}
 
         if (!isFlashing)
 		{

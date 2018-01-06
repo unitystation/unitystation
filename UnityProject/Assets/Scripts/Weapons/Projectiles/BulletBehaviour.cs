@@ -28,7 +28,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 		thisRigi.AddForce(dir.normalized * 24f, ForceMode2D.Impulse);
 	}
 
-	//TODO  -- change so that on call the bullets damage is set
+	//TODO  - change so that on call the bullets damage is set properly
 	public abstract void OnShoot();
 
 	private void OnCollisionEnter2D(Collision2D coll)

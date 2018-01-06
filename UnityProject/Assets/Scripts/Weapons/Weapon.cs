@@ -36,15 +36,15 @@ namespace Weapons
 		/// </summary>
 		private MagazineBehaviour CurrentMagazine;
 
-        /// <summary>
-        ///     Checks if the weapon should spawn weapon casings
-        /// </summary>
-        public bool SpawnsCaseing = true;
+		/// <summary>
+		///     Checks if the weapon should spawn weapon casings
+		/// </summary>
+		public bool SpawnsCaseing = true;
 
-        /// <summary>
-        ///     The the current recoil variance this weapon has reached
-        /// </summary>
-        [SyncVar] [HideInInspector] public float CurrentRecoilVariance;
+		/// <summary>
+		///     The the current recoil variance this weapon has reached
+		/// </summary>
+		[SyncVar] [HideInInspector] public float CurrentRecoilVariance;
 
 		/// <summary>
 		///     The countdown untill we can shoot again
