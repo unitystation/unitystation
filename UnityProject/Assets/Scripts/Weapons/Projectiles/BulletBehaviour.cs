@@ -4,7 +4,8 @@ public abstract class BulletBehaviour : MonoBehaviour
 {
 	private BodyPartType bodyAim;
 	public int damage = 25;
-	public GameObject shooter;
+    public DamageType damageType = DamageType.BRUTE;
+    public GameObject shooter;
 
 	private Rigidbody2D thisRigi;
 	//	public BodyPartType BodyPartAim { get; private set; };
@@ -27,7 +28,17 @@ public abstract class BulletBehaviour : MonoBehaviour
 		thisRigi.AddForce(dir.normalized * 24f, ForceMode2D.Impulse);
 	}
 
-	public abstract void OnShoot();
+
+    //TODO
+    /**
+     * This function should be converted to a standard non abstract function as to  
+     *      Move forward with making the guns be the deteriminers of damage. This means you will
+     *      go by Gun's damage value and type rather then the bullet. Note we probably want to store/use the weapon that
+     *      does the firing here some how. 
+    **/
+    public abstract void OnShoot();
+    
+
 
 	private void OnCollisionEnter2D(Collision2D coll)
 	{
@@ -41,7 +52,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 		{
 			return;
 		}
-		damageable.ApplyDamage(shooter, damage, DamageType.BRUTE, bodyAim);
+		damageable.ApplyDamage(shooter, damage, damageType, bodyAim);
 		//		Debug.LogFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", damageable.gameObject.name, damage);
 		PoolManager.Instance.PoolClientDestroy(gameObject);
 	}

@@ -51,10 +51,15 @@ namespace Weapons
 		/// </summary>
 		public string FireingSound;
 
-		/// <summary>
-		///     The amount of times per second this weapon can fire
-		/// </summary>
-		public double FireRate;
+        /// <summary>
+        ///     Checks if the weapon should spawn weapon casings
+        /// </summary>
+        public bool SpawnsCaseing = true; //be default treat weapons a spawning casing
+
+        /// <summary>
+        ///     The amount of times per second this weapon can fire
+        /// </summary>
+        public double FireRate;
 
 		/// <summary>
 		///     If the weapon is currently in automatic action
