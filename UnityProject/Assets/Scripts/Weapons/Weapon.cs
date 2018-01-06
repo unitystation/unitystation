@@ -63,6 +63,7 @@ namespace Weapons
 
 		[SyncVar(hook = nameof(LoadUnloadAmmo))] public NetworkInstanceId MagNetID;
 
+		//TODO connect these with the actual shooting of a projectile
 		/// <summary>
 		///     The max recoil angle this weapon can reach with sustained fire
 		/// </summary>
