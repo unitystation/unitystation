@@ -215,24 +215,40 @@ namespace PlayGroup
 
 		public ChatChannel GetAvailableChannels(bool transmitOnly = true)
 		{
-			if (playerMove.isGhost)
+			PlayerMove pm = gameObject.GetComponent<PlayerMove>();
+			if (pm.isGhost)
 			{
+				ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
+				ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System;
 				if (transmitOnly)
 				{
-					return ChatChannel.Ghost | ChatChannel.OOC;
+					return ghostTransmitChannels;
 				}
-				return ~ChatChannel.None;
+				return ghostTransmitChannels | ghostReceiveChannels;
 			}
 
 			//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
 			ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
-
-			GameObject headset = UIManager.InventorySlots.EarSlot.Item;
-			if (headset)
+			if (CustomNetworkManager.Instance._isServer)
 			{
-				EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
-				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+				PlayerNetworkActions pna = gameObject.GetComponent<PlayerNetworkActions>();
+				if (pna)
+				{
+					EncryptionKeyType key = pna.Inventory["ear"].GetComponent<Headset>().GetComponent<Headset>().EncryptionKey;
+					transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+				}
 			}
+			else
+			{
+				GameObject headset = UIManager.InventorySlots.EarSlot.Item;
+				if (headset)
+				{
+					EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
+					transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+				}
+			}
+
+
 			ChatChannel receiveChannels = ChatChannel.Examine | ChatChannel.System;
 
 			if (transmitOnly)
