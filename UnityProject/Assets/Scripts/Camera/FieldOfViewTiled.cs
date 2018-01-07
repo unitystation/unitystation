@@ -254,6 +254,16 @@ public class FieldOfViewTiled : ThreadedBehaviour
 
 	private void RayCastQueue(Vector2 endPos, Vector2 offsetPos)
 	{
+		if(Camera2DFollow.followControl != null){
+			if(Camera2DFollow.followControl.target == null){
+				Debug.LogWarning("Client player not ready yet for the FOV - Possibly due to lag");
+				return;
+			}
+		} else {
+			//Just incase for any reason the Camera instance is not yet set
+			return;
+		}
+
 		RaycastHit2D hit = Physics2D.Linecast(Camera2DFollow.followControl.target.position, endPos, _layerMask);
 		// If it hits a wall we should enable the shroud
 		//		Debug.DrawLine(GetPlayerSource().transform.position, endPos,Color.red);
