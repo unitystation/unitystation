@@ -307,17 +307,8 @@ namespace PlayGroup
 			}
 			EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
 			//Remove the NPC after all has been harvested
-			RpcHideBody(gameObject);
-		}
-
-		[ClientRpc]
-		private void RpcHideBody(GameObject target)
-		{
-			SpriteRenderer[] componentList = target.GetComponentsInChildren<SpriteRenderer>();
-			foreach (SpriteRenderer comp in componentList)
-			{
-				comp.enabled = false;
-			}
+			ObjectBehaviour objectBehaviour = gameObject.GetComponent<ObjectBehaviour>();
+			objectBehaviour.visibleState = false;
 		}
 	}
 }
