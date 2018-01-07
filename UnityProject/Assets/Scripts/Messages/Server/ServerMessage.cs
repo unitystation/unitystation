@@ -15,12 +15,19 @@ public abstract class ServerMessage : GameMessageBase
 
 	public void SendTo(GameObject recipient)
 	{
-		if (recipient == null)
-		{
+		NetworkIdentity netIdentity = recipient.GetComponent<NetworkIdentity>();
+
+		//Only send to the client of the currently owned player as some
+		//netID's being used in this method could be dead players, exclude them:
+		if (PlayerList.Instance.connectedPlayers.ContainsValue(recipient)) {
+			netIdentity.connectionToClient.Send(GetMessageType(), this);
+		} else {
+			//only send to players that are currently controlled by a client
 			return;
 		}
 
-		NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
-		//		Debug.LogFormat("SentTo {0}", this);
+		//Obsolete version:
+		//NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
+		//Debug.LogFormat("SentTo {0}", this);
 	}
 }
