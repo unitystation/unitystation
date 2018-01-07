@@ -40,7 +40,6 @@ GameObject:
   - component: {fileID: 114731756476040546}
   - component: {fileID: 114178227343361656}
   - component: {fileID: 114226188280779116}
-  - component: {fileID: 114380320722249372}
   - component: {fileID: 114973538546967054}
   - component: {fileID: 114137355759862740}
   m_Layer: 11
@@ -214,6 +213,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114226188280779116
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -231,21 +232,6 @@ MonoBehaviour:
   items: {fileID: 1522744671779814}
   lockLight: {fileID: 0}
   spriteRenderer: {fileID: 212585266423504292}
---- !u!114 &114380320722249372
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1326196951998806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53718f00af634879afe9838de3e391ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allowKnifeHarvest: 0
-  initialHealth: 400
-  isNPC: 0
-  maxHealth: 100
 --- !u!114 &114731756476040546
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -295,12 +281,9 @@ MonoBehaviour:
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 1
-  moveSpeed: 7
   pulledBy: {fileID: 0}
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
-  serverLittleLag: 0
-  timeInPush: 0
 --- !u!212 &212585266423504292
 SpriteRenderer:
   m_ObjectHideFlags: 1
