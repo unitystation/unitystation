@@ -16,27 +16,14 @@ public class RemoveEncryptionKeyMessage : ClientMessage
 		yield return WaitFor(SentBy);
 
 		GameObject player = NetworkObject;
-
 		if (ValidRequest(HeadsetItem))
 		{
 			Headset headset = HeadsetItem.GetComponent<Headset>();
-			GameObject encryptionKey = Object.Instantiate(Resources.Load("Encryptionkey", typeof(GameObject)),
-				HeadsetItem.transform.parent) as GameObject;
+			GameObject encryptionKey = Object.Instantiate(Resources.Load("Encryptionkey", typeof(GameObject)),HeadsetItem.transform.parent) as GameObject;
 			encryptionKey.GetComponent<EncryptionKey>().Type = headset.EncryptionKey;
-
-			PlayerNetworkActions pna = player.GetComponent<PlayerNetworkActions>();
-			string slot = UIManager.FindEmptySlotForItem(encryptionKey);
-			if (pna.AddItem(encryptionKey, slot))
-			{
-				NetworkServer.Spawn(encryptionKey);
-				headset.EncryptionKey = EncryptionKeyType.None;
-				pna.PlaceInSlot(encryptionKey, slot);
-			}
-			else
-			{
-				Object.Destroy(encryptionKey);
-				Debug.LogError("Could not add Encryptionkey item to player.");
-			}
+			//TODO when added interact with dropped headset, add encryption key to empty hand
+			headset.EncryptionKey = EncryptionKeyType.None;
+			ItemFactory.SpawnItem(encryptionKey, player.transform.position, player.transform.parent);
 		}
 	}
 
