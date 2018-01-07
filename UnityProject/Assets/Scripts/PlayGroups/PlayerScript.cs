@@ -218,16 +218,18 @@ namespace PlayGroup
 			PlayerMove pm = gameObject.GetComponent<PlayerMove>();
 			if (pm.isGhost)
 			{
+				ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
+				ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System;
 				if (transmitOnly)
 				{
-					return ChatChannel.Ghost | ChatChannel.OOC;
+					return ghostTransmitChannels;
 				}
-				return ChatChannel.None;
+				return ghostTransmitChannels | ghostReceiveChannels;
 			}
 
 			//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
 			ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
-			if (isServer)
+			if (CustomNetworkManager.Instance._isServer)
 			{
 				PlayerNetworkActions pna = gameObject.GetComponent<PlayerNetworkActions>();
 				if (pna)
@@ -245,6 +247,7 @@ namespace PlayGroup
 					transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
 				}
 			}
+
 
 			ChatChannel receiveChannels = ChatChannel.Examine | ChatChannel.System;
 
