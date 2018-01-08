@@ -146,6 +146,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	[Command] //TODO fixme ghetto proof-of-concept
 	public void CmdKnifeAttackMob(GameObject npcObj, GameObject weapon, Vector2 stabDirection, BodyPartType damageZone)
 	{
+		// checks object and component existence before defining healthBehaviour variable.
 		if (npcObj && npcObj.GetComponent<HealthBehaviour>().IsDead == false)
 		{
 			HealthBehaviour healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
