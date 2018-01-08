@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -33,7 +34,53 @@ public class PoolManager : NetworkBehaviour
 	[Server]
 	public GameObject PoolNetworkInstantiate(GameObject prefab, Vector2 position, Quaternion rotation, Transform parent=null)
 	{
-		GameObject tempObject = PoolClientInstantiate(prefab, position, rotation, parent, true);
+		bool isPooled;
+
+		GameObject tempObject = PoolInstantiate(prefab, position, rotation, parent, out isPooled);
+
+		var cnt = tempObject.GetComponent<CustomNetTransform>();
+		if (cnt)
+		{
+			cnt.InitServerState();
+		}
+		if (!isPooled)
+		{
+			NetworkServer.Spawn(tempObject);
+		}
+		return tempObject;
+	}
+
+	private GameObject PoolInstantiate(GameObject prefab, Vector2 position, Quaternion rotation, Transform parent, out bool pooledInstance)
+	{
+		GameObject tempObject = null;
+		if (CanLoadFromPool(prefab))
+		{
+			//pool exists and has unused instances
+			int index = pools[prefab].Count - 1;
+			tempObject = pools[prefab][index];
+			pools[prefab].RemoveAt(index);
+			tempObject.SetActive(true);
+
+			ObjectBehaviour objBehaviour = tempObject.GetComponent<ObjectBehaviour>();
+			if (objBehaviour)
+			{
+				objBehaviour.visibleState = true;
+			}
+
+			tempObject.transform.position = position;
+			tempObject.transform.rotation = rotation;
+			tempObject.transform.localScale = prefab.transform.localScale;
+			tempObject.transform.parent = parent;
+
+			pooledInstance = true;
+			
+			return tempObject;
+		}
+
+		tempObject = Instantiate(prefab, position, rotation, parent);
+		tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
+
+		pooledInstance = false;
 		
 		return tempObject;
 	}
@@ -41,43 +88,16 @@ public class PoolManager : NetworkBehaviour
 	/// <summary>
 	///     For non network stuff only! (e.g. bullets)
 	/// </summary>
-	public GameObject PoolClientInstantiate(GameObject prefab, Vector2 position, Quaternion rotation, Transform parent=null, bool netSpawn=false)
+	public GameObject PoolClientInstantiate(GameObject prefab, Vector2 position, Quaternion rotation, 
+		Transform parent=null)
 	{
-		GameObject tempObject = null;
-		if (pools.ContainsKey(prefab))
-		{
-			if (pools[prefab].Count > 0)
-			{
-				//pool exists and has unused instances
-				int index = pools[prefab].Count - 1;
-				tempObject = pools[prefab][index];
-				pools[prefab].RemoveAt(index);
-				tempObject.SetActive(true);
+		bool isPooled; // not used for Client-only instantiation
+		return PoolInstantiate(prefab, position, rotation, parent, out isPooled);
+	}
 
-				ObjectBehaviour objBehaviour = tempObject.GetComponent<ObjectBehaviour>();
-				if (objBehaviour)
-				{
-					objBehaviour.visibleState = true;
-				}
-
-				tempObject.transform.position = position;
-				tempObject.transform.rotation = rotation;
-				tempObject.transform.localScale = prefab.transform.localScale;
-				tempObject.transform.parent = parent;
-
-				return tempObject;
-			}
-		}
-
-		tempObject = Instantiate(prefab, position, rotation, parent);
-		tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
-
-		if (netSpawn)
-		{
-			NetworkServer.Spawn(tempObject);
-		}
-		
-		return tempObject;
+	private bool CanLoadFromPool(GameObject prefab)
+	{
+		return pools.ContainsKey(prefab) && pools[prefab].Count > 0;
 	}
 
 	[Server]

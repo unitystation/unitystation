@@ -68,7 +68,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		base.OnStartServer();
 	}
 
-	private void InitServerState()
+	public void InitServerState()
 	{
 		if (!isServer)
 		{
@@ -91,6 +91,22 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 				Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
 		}
 	}
+
+	/// Intended for runtime spawning, so that CNT could initialize accordingly
+	[Server]
+	public void ReInitServerState()
+	{
+		InitServerState();
+		NotifyPlayers();
+	}
+
+//	/// Overwrite server state with a completely new one
+//    [Server]
+//    public void SetState(TransformState state)
+//    {
+//        serverTransformState = state;
+//        NotifyPlayers();
+//    }
 
 	/// Manually set an item to a specific position. Use localPosition!
 	[Server]
