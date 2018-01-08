@@ -146,9 +146,10 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	[Command] //TODO fixme ghetto proof-of-concept
 	public void CmdKnifeAttackMob(GameObject npcObj, GameObject weapon, Vector2 stabDirection, BodyPartType damageZone)
 	{
-		HealthBehaviour healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
-		if (healthBehaviour.IsDead == false)
+		if (npcObj && npcObj.GetComponent<HealthBehaviour>().IsDead == false)
 		{
+			HealthBehaviour healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
+
 			if (!playerMove.allowInput || !allowAttack || playerMove.isGhost)
 			{
 				return;
@@ -166,6 +167,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
 			soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 			StartCoroutine(AttackCoolDown());
+
 		}
 		else
 		{
