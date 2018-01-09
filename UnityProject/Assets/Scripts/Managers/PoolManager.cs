@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -38,16 +36,26 @@ public class PoolManager : NetworkBehaviour
 
 		GameObject tempObject = PoolInstantiate(prefab, position, rotation, parent, out isPooled);
 
-		var cnt = tempObject.GetComponent<CustomNetTransform>();
-		if (cnt)
-		{
-			cnt.InitServerState();
-		}
 		if (!isPooled)
 		{
 			NetworkServer.Spawn(tempObject);
 		}
+		var cnt = tempObject.GetComponent<CustomNetTransform>();
+		if (cnt)
+		{
+			cnt.ReInitServerState();
+		}
 		return tempObject;
+	}
+
+	/// <summary>
+	///     For non network stuff only! (e.g. bullets)
+	/// </summary>
+	public GameObject PoolClientInstantiate(GameObject prefab, Vector2 position, Quaternion rotation, 
+		Transform parent=null)
+	{
+		bool isPooled; // not used for Client-only instantiation
+		return PoolInstantiate(prefab, position, rotation, parent, out isPooled);
 	}
 
 	private GameObject PoolInstantiate(GameObject prefab, Vector2 position, Quaternion rotation, Transform parent, out bool pooledInstance)
@@ -83,16 +91,6 @@ public class PoolManager : NetworkBehaviour
 		pooledInstance = false;
 		
 		return tempObject;
-	}
-
-	/// <summary>
-	///     For non network stuff only! (e.g. bullets)
-	/// </summary>
-	public GameObject PoolClientInstantiate(GameObject prefab, Vector2 position, Quaternion rotation, 
-		Transform parent=null)
-	{
-		bool isPooled; // not used for Client-only instantiation
-		return PoolInstantiate(prefab, position, rotation, parent, out isPooled);
 	}
 
 	private bool CanLoadFromPool(GameObject prefab)

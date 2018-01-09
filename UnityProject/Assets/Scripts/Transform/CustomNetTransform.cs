@@ -68,7 +68,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		base.OnStartServer();
 	}
 
-	public void InitServerState()
+	private void InitServerState()
 	{
 		if (!isServer)
 		{
@@ -77,7 +77,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 		isPushing = false;
 
-		serverTransformState.Speed = SpeedMultiplier;
+		serverTransformState.Speed = 0;
 		if (transform.localPosition.Equals(Vector3.zero))
 		{
 			//For stuff hidden on spawn, like player equipment
