@@ -157,7 +157,7 @@ namespace Weapons
 						//RELOAD
 						MagazineBehaviour magazine = currentHandItem.GetComponent<MagazineBehaviour>();
 
-						if (magazine != null && otherHandItem.GetComponent<Weapon>() != null)
+						if (magazine != null && otherHandItem.GetComponent<Weapon>() != null && AmmoType == magazine.ammoType)
 						{
 							hand = UIManager.Hands.CurrentSlot.eventName;
 							Reload(currentHandItem, hand);
