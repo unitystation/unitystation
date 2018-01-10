@@ -308,9 +308,8 @@ namespace Weapons
 		private void Reload(GameObject m, string hand)
 		{
 			Debug.Log("Reloading");
-			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m);
+			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m, hand);
 			UIManager.Hands.CurrentSlot.Clear();
-			PlayerManager.LocalPlayerScript.playerNetworkActions.ClearInventorySlot(hand);
 		}
 
 		//atm unload with shortcut 'e'
