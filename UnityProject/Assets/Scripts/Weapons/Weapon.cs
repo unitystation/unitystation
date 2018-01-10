@@ -5,6 +5,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 namespace Weapons
 {
@@ -209,7 +210,7 @@ namespace Weapons
 		{
 			GameObject ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType)  as GameObject;
 			
-			GameObject m =  ItemFactory.SpawnItem(ammoPrefab, transform.parent);
+			GameObject m = ItemFactory.SpawnItem(ammoPrefab, transform.parent);
 			
 			StartCoroutine(SetMagazineOnStart(m));
 
@@ -382,15 +383,20 @@ namespace Weapons
 		public void OnAddToPool(NetworkInstanceId ownerId)
 		{
 			ControlledByPlayer = ownerId;
-			if (CurrentMagazine != null && PlayerManager.LocalPlayer == ClientScene.FindLocalObject(ownerId))
+			if (CurrentMagazine != null)
 			{
 				//As the magazine loaded is part of the weapon, then we do not need to add to server cache, we only need to add the item to the equipment pool
-				PlayerManager.LocalPlayerScript.playerNetworkActions.AddToEquipmentPool(CurrentMagazine.gameObject);
+				//PlayerManager.LocalPlayerScript.playerNetworkActions.AddToEquipmentPool(CurrentMagazine.gameObject);
+				NetworkServer.FindLocalObject(ownerId).GetComponent<PlayerNetworkActions>().AddToEquipmentPool(CurrentMagazine.gameObject);
 			}
 		}
 
 		public void OnRemoveFromPool()
 		{
+			if (CurrentMagazine != null)
+			{
+				NetworkServer.FindLocalObject(ControlledByPlayer).GetComponent<PlayerNetworkActions>().RemoveFromEquipmentPool(CurrentMagazine.gameObject);
+			}
 			ControlledByPlayer = NetworkInstanceId.Invalid;
 		}
 
