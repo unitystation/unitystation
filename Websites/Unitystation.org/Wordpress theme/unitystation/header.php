@@ -35,7 +35,7 @@
                 <nav class="navbar sticky-top navbar-custom-dark navbar-expand-lg">
 
                     <a class="navbar-brand" href="#"><img class="ss13-brand-image" src="<?php bloginfo('stylesheet_directory'); ?>/img/ss13_64.png" alt="Site Logo"></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler hidden-md-up pull-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                         <?php unitystation_navMenu(); ?>
