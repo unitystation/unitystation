@@ -74,9 +74,10 @@
                 </nav>
 					<!-- /nav -->
                 <!-- headerImage -->
-                <div class="headerImage flex-center" >
+                <div class="headerImage flex-center">
                     <div class="pagename">
-                        <a>unitystation</a>
+                        <a class="flex-center">UNITYSTATION</a>
+												<div class="flex-center small-header-text">SS13 REMAKE</div>
                     </div>
                 </div>
                 <!-- /headerimage -->
