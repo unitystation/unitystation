@@ -32,7 +32,7 @@
 			<header class="header clear" role="banner">
 
 					<!-- nav -->
-                <nav class="navbar sticky-top navbar-custom-dark navbar-expand-lg">
+                <nav class="navbar navbar-custom-dark navbar-expand-lg uppernav">
 
                     <a class="navbar-brand" href="#"><img class="ss13-brand-image" src="<?php bloginfo('stylesheet_directory'); ?>/img/ss13_64.png" alt="Site Logo"></a>
                     <button class="navbar-toggler hidden-md-up pull-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,6 +78,10 @@
                     <div class="pagename">
                         <a class="flex-center">UNITYSTATION</a>
 												<div class="flex-center small-header-text">SS13 REMAKE</div>
+                    </div>
+                    <div class="navbar navbar-fixed-top navbar-custom-dark navbar-expand-lg lowernav">
+                        <?php unitystation_pageMenu(); ?>
+                        <?php unitystation_userMenu(); ?>
                     </div>
                 </div>
                 <!-- /headerimage -->
