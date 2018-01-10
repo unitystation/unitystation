@@ -89,6 +89,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	//This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
 	//TODO make these private(make some public child-aware high level methods instead):
 	[Server]
+	public void RemoveFromEquipmentPool(GameObject obj, bool noDrop)
+	{
+		if (!noDrop)
+		{
+			RemoveFromEquipmentPool(obj);
+		}
+		else
+		{
+			EquipmentPool.DisposeOfObject(gameObject, obj);
+		}
+	}
+	
+	[Server]
 	public void RemoveFromEquipmentPool(GameObject obj)
 	{
 		EquipmentPool.DropGameObject(gameObject, obj);

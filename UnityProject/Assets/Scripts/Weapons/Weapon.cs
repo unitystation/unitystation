@@ -394,7 +394,7 @@ namespace Weapons
 		{
 			if (CurrentMagazine != null)
 			{
-				NetworkServer.FindLocalObject(ControlledByPlayer).GetComponent<PlayerNetworkActions>().RemoveFromEquipmentPool(CurrentMagazine.gameObject);
+				NetworkServer.FindLocalObject(ControlledByPlayer).GetComponent<PlayerNetworkActions>().RemoveFromEquipmentPool(CurrentMagazine.gameObject, true);
 			}
 			ControlledByPlayer = NetworkInstanceId.Invalid;
 		}
