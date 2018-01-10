@@ -25,7 +25,7 @@
 			<!-- article -->
 			<article>
 
-				<h2><?php _e( 'Sorry, nothing to display.', 'html5blank' ); ?></h2>
+				<h2><?php _e( 'Sorry, nothing to display.', 'unitystation' ); ?></h2>
 
 			</article>
 			<!-- /article -->
@@ -36,6 +36,5 @@
 		<!-- /section -->
 	</main>
 
-<?php //get_sidebar(); ?>
 
 <?php get_footer(); ?>

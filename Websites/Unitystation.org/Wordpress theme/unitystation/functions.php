@@ -1,7 +1,7 @@
 <?php
 /*
- *  Author: Todd Motto | @toddmotto
- *  URL: html5blank.com | @html5blank
+ *  Author: IndiJosh and Ornias
+ *  URL: unitystation.org | @Unitystation
  *  Custom functions, support, custom post types and more.
  */
 
@@ -55,24 +55,22 @@ if (function_exists('add_theme_support'))
     add_theme_support('automatic-feed-links');
 
     // Localisation Support
-    load_theme_textdomain('html5blank', get_template_directory() . '/languages');
+    load_theme_textdomain('unitystation', get_template_directory() . '/languages');
 }
 
 /*------------------------------------*\
 	Functions
 \*------------------------------------*/
 
-// HTML5 Blank navigation
-function html5blank_nav()
+// unitystation navigation
+function unitystation_navMenu()
 {
 	wp_nav_menu(
 	array(
-		'theme_location'  => 'header-menu',
-		'menu'            => '',
-		'container'       => 'div',
-		'container_class' => 'collapse navbar-collapse',
-		'container_id'    => 'navbarSupportedContent',
-		'menu_class'      => 'navbar-nav',
+		'theme_location'  => 'header-navmenu',
+		'menu'            => '0',
+		'container'       => false,
+		'menu_class'      => 'navbar-nav mr-auto',
 		'menu_id'         => '',
 		'echo'            => true,
 		'fallback_cb'     => 'wp_page_menu',
@@ -87,8 +85,56 @@ function html5blank_nav()
 	);
 }
 
-// Load HTML5 Blank scripts (header.php)
-function html5blank_header_scripts()
+function unitystation_pageMenu()
+{
+    wp_nav_menu(
+        array(
+            'theme_location'  => 'header-pagemenu',
+            'menu'            => '1',
+            'container'       => 'div',
+            'container_class' => 'collapse navbar-collapse',
+            'container_id'    => 'navbarSupportedContent',
+            'menu_class'      => 'navbar-nav',
+            'menu_id'         => '',
+            'echo'            => true,
+            'fallback_cb'     => 'wp_page_menu',
+            'before'          => '',
+            'after'           => '',
+            'link_before'     => '',
+            'link_after'      => '',
+            'items_wrap'      => '<ul class="%2$s">%3$s</ul>',
+            'depth'           => 0,
+            'walker'          => ''
+        )
+    );
+}
+
+function unitystation_userMenu()
+{
+    wp_nav_menu(
+        array(
+            'theme_location'  => 'header-usermenu',
+            'menu'            => '',
+            'container'       => 'div',
+            'container_class' => 'collapse navbar-collapse',
+            'container_id'    => 'navbarSupportedContent',
+            'menu_class'      => 'navbar-nav flex-row ml-md-auto d-md-flex',
+            'menu_id'         => '',
+            'echo'            => true,
+            'fallback_cb'     => 'wp_page_menu',
+            'before'          => '',
+            'after'           => '',
+            'link_before'     => '',
+            'link_after'      => '',
+            'items_wrap'      => '<ul class="%2$s">%3$s</ul>',
+            'depth'           => 0,
+            'walker'          => ''
+        )
+    );
+}
+
+// Load unitystation scripts (header.php)
+function unitystation_header_scripts()
 {
     if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
 
@@ -98,13 +144,27 @@ function html5blank_header_scripts()
         wp_register_script('modernizr', get_template_directory_uri() . '/js/lib/modernizr-2.7.1.min.js', array(), '2.7.1'); // Modernizr
         wp_enqueue_script('modernizr'); // Enqueue it!
 
-        wp_register_script('html5blankscripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0'); // Custom scripts
-        wp_enqueue_script('html5blankscripts'); // Enqueue it!
+        wp_register_script('unitystationscripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0'); // Custom scripts
+        wp_enqueue_script('unitystationscripts'); // Enqueue it!
+
+        wp_register_script('popperscript', "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js", array('jquery'), false); // popper script
+        wp_enqueue_script('popperscript'); // Enqueue it!
+
+        wp_register_script('bootstrapscript', "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js", array('popperscript'), false); // popper script
+        wp_enqueue_script('bootstrapscript'); // Enqueue it!
+
+        wp_register_script('honkscript', get_template_directory_uri() . '/js/honk.js', array('bootstrapscript'), false); // Custom scripts
+        wp_enqueue_script('honkscript'); // Enqueue it!
     }
 }
-
-// Load HTML5 Blank conditional scripts
-function html5blank_conditional_scripts()
+function replace_core_jquery_version() {
+    wp_deregister_script( 'jquery-core' );
+    wp_register_script( 'jquery-core', "https://code.jquery.com/jquery-3.2.1.min.js", array(), '3.2.1' );
+    wp_deregister_script( 'jquery-migrate' );
+    wp_register_script( 'jquery-migrate', "https://code.jquery.com/jquery-migrate-3.0.1.min.js", array(), '3.0.1' );
+}
+// Load unitystation conditional scripts
+function unitystation_conditional_scripts()
 {
     if (is_page('pagenamehere')) {
         wp_register_script('scriptname', get_template_directory_uri() . '/js/scriptname.js', array('jquery'), '1.0.0'); // Conditional script(s)
@@ -112,23 +172,29 @@ function html5blank_conditional_scripts()
     }
 }
 
-// Load HTML5 Blank styles
-function html5blank_styles()
+// Load unitystation styles
+function unitystation_styles()
 {
+    wp_register_style('bootstrap', "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css", array(), false, 'all');
+    wp_enqueue_style('bootstrap'); // Enqueue it!
+
+    wp_register_style('fontawesome', "https://use.fontawesome.com/releases/v5.0.2/css/all.css", array('bootstrap'), false, 'all');
+    wp_enqueue_style('fontawesome'); // Enqueue it!
+
     wp_register_style('normalize', get_template_directory_uri() . '/normalize.css', array(), '1.0', 'all');
     wp_enqueue_style('normalize'); // Enqueue it!
 
-    wp_register_style('html5blank', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
-    wp_enqueue_style('html5blank'); // Enqueue it!
+    wp_register_style('unitystation', get_template_directory_uri() . '/style.css', array('fontawesome'), '1.0', 'all');
+    wp_enqueue_style('unitystation'); // Enqueue it!
 }
 
-// Register HTML5 Blank Navigation
-function register_html5_menu()
+// Register unitystation Navigation
+function register_unitystation_menu()
 {
     register_nav_menus(array( // Using array to specify more menus if needed
-        'header-menu' => __('Header Menu', 'html5blank'), // Main Navigation
-        'sidebar-menu' => __('Sidebar Menu', 'html5blank'), // Sidebar Navigation
-        'extra-menu' => __('Extra Menu', 'html5blank') // Extra Navigation if needed (duplicate as many as you need!)
+        'header-navmenu' => __('Header NavMenu', 'unitystation'), // Site Navigation
+        'header-pagemenu' => __('Header PageMenu', 'unitystation'), // In-Page Navigation
+        'header-usermenu' => __('Header UserMenu', 'unitystation'), // User Specific Navigation
     ));
 }
 
@@ -174,8 +240,8 @@ if (function_exists('register_sidebar'))
 {
     // Define Sidebar Widget Area 1
     register_sidebar(array(
-        'name' => __('Widget Area 1', 'html5blank'),
-        'description' => __('Description for this widget-area...', 'html5blank'),
+        'name' => __('Widget Area 1', 'unitystation'),
+        'description' => __('Description for this widget-area...', 'unitystation'),
         'id' => 'widget-area-1',
         'before_widget' => '<div id="%1$s" class="%2$s">',
         'after_widget' => '</div>',
@@ -185,8 +251,8 @@ if (function_exists('register_sidebar'))
 
     // Define Sidebar Widget Area 2
     register_sidebar(array(
-        'name' => __('Widget Area 2', 'html5blank'),
-        'description' => __('Description for this widget-area...', 'html5blank'),
+        'name' => __('Widget Area 2', 'unitystation'),
+        'description' => __('Description for this widget-area...', 'unitystation'),
         'id' => 'widget-area-2',
         'before_widget' => '<div id="%1$s" class="%2$s">',
         'after_widget' => '</div>',
@@ -206,7 +272,7 @@ function my_remove_recent_comments_style()
 }
 
 // Pagination for paged posts, Page 1, Page 2, Page 3, with Next and Previous Links, No plugin
-function html5wp_pagination()
+function unitystationwp_pagination()
 {
     global $wp_query;
     $big = 999999999;
@@ -219,19 +285,19 @@ function html5wp_pagination()
 }
 
 // Custom Excerpts
-function html5wp_index($length) // Create 20 Word Callback for Index page Excerpts, call using html5wp_excerpt('html5wp_index');
+function unitystationwp_index($length) // Create 20 Word Callback for Index page Excerpts, call using unitystationwp_excerpt('unitystationwp_index');
 {
     return 20;
 }
 
-// Create 40 Word Callback for Custom Post Excerpts, call using html5wp_excerpt('html5wp_custom_post');
-function html5wp_custom_post($length)
+// Create 40 Word Callback for Custom Post Excerpts, call using unitystationwp_excerpt('unitystationwp_custom_post');
+function unitystationwp_custom_post($length)
 {
     return 40;
 }
 
 // Create the Custom Excerpts callback
-function html5wp_excerpt($length_callback = '', $more_callback = '')
+function unitystationwp_excerpt($length_callback = '', $more_callback = '')
 {
     global $post;
     if (function_exists($length_callback)) {
@@ -248,10 +314,10 @@ function html5wp_excerpt($length_callback = '', $more_callback = '')
 }
 
 // Custom View Article link to Post
-function html5_blank_view_article($more)
+function unitystation_blank_view_article($more)
 {
     global $post;
-    return '... <a class="view-article" href="' . get_permalink($post->ID) . '">' . __('View Article', 'html5blank') . '</a>';
+    return '... <a class="view-article" href="' . get_permalink($post->ID) . '">' . __('View Article', 'unitystation') . '</a>';
 }
 
 // Remove Admin bar
@@ -261,7 +327,7 @@ function remove_admin_bar()
 }
 
 // Remove 'text/css' from our enqueued stylesheet
-function html5_style_remove($tag)
+function unitystation_style_remove($tag)
 {
     return preg_replace('~\s+type=["\'][^"\']++["\']~', '', $tag);
 }
@@ -274,7 +340,7 @@ function remove_thumbnail_dimensions( $html )
 }
 
 // Custom Gravatar in Settings > Discussion
-function html5blankgravatar ($avatar_defaults)
+function unitystationgravatar ($avatar_defaults)
 {
     $myavatar = get_template_directory_uri() . '/img/gravatar.jpg';
     $avatar_defaults[$myavatar] = "Custom Gravatar";
@@ -292,7 +358,7 @@ function enable_threaded_comments()
 }
 
 // Custom Comments Callback
-function html5blankcomments($comment, $args, $depth)
+function unitystationcomments($comment, $args, $depth)
 {
 	$GLOBALS['comment'] = $comment;
 	extract($args, EXTR_SKIP);
@@ -340,14 +406,16 @@ function html5blankcomments($comment, $args, $depth)
 \*------------------------------------*/
 
 // Add Actions
-add_action('init', 'html5blank_header_scripts'); // Add Custom Scripts to wp_head
-add_action('wp_print_scripts', 'html5blank_conditional_scripts'); // Add Conditional Page Scripts
+add_action( 'wp_enqueue_scripts', 'replace_core_jquery_version' );
+add_action('init', 'unitystation_header_scripts'); // Add Custom Scripts to wp_head
+add_action('wp_print_scripts', 'unitystation_conditional_scripts'); // Add Conditional Page Scripts
 add_action('get_header', 'enable_threaded_comments'); // Enable Threaded Comments
-add_action('wp_enqueue_scripts', 'html5blank_styles'); // Add Theme Stylesheet
-add_action('init', 'register_html5_menu'); // Add HTML5 Blank Menu
-add_action('init', 'create_post_type_html5'); // Add our HTML5 Blank Custom Post Type
+add_action('wp_enqueue_scripts', 'unitystation_scripts'); // Add Theme Scripts
+add_action('wp_enqueue_scripts', 'unitystation_styles'); // Add Theme Stylesheet
+add_action('init', 'register_unitystation_menu'); // Add unitystation Menu
+add_action('init', 'create_post_type_unitystation'); // Add our unitystation Custom Post Type
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
-add_action('init', 'html5wp_pagination'); // Add our HTML5 Pagination
+add_action('init', 'unitystationwp_pagination'); // Add our unitystation Pagination
 
 // Remove Actions
 remove_action('wp_head', 'feed_links_extra', 3); // Display the links to the extra feeds such as category feeds
@@ -364,7 +432,7 @@ remove_action('wp_head', 'rel_canonical');
 remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
 
 // Add Filters
-add_filter('avatar_defaults', 'html5blankgravatar'); // Custom Gravatar in Settings > Discussion
+add_filter('avatar_defaults', 'unitystationgravatar'); // Custom Gravatar in Settings > Discussion
 add_filter('body_class', 'add_slug_to_body_class'); // Add slug to body class (Starkers build)
 add_filter('widget_text', 'do_shortcode'); // Allow shortcodes in Dynamic Sidebar
 add_filter('widget_text', 'shortcode_unautop'); // Remove <p> tags in Dynamic Sidebars (better!)
@@ -375,9 +443,9 @@ add_filter('widget_text', 'shortcode_unautop'); // Remove <p> tags in Dynamic Si
 add_filter('the_category', 'remove_category_rel_from_category_list'); // Remove invalid rel attribute
 add_filter('the_excerpt', 'shortcode_unautop'); // Remove auto <p> tags in Excerpt (Manual Excerpts only)
 add_filter('the_excerpt', 'do_shortcode'); // Allows Shortcodes to be executed in Excerpt (Manual Excerpts only)
-add_filter('excerpt_more', 'html5_blank_view_article'); // Add 'View Article' button instead of [...] for Excerpts
+add_filter('excerpt_more', 'unitystation_view_article'); // Add 'View Article' button instead of [...] for Excerpts
 add_filter('show_admin_bar', 'remove_admin_bar'); // Remove Admin bar
-add_filter('style_loader_tag', 'html5_style_remove'); // Remove 'text/css' from enqueued stylesheet
+add_filter('style_loader_tag', 'unitystation_style_remove'); // Remove 'text/css' from enqueued stylesheet
 add_filter('post_thumbnail_html', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to thumbnails
 add_filter('image_send_to_editor', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to post images
 
@@ -385,36 +453,36 @@ add_filter('image_send_to_editor', 'remove_thumbnail_dimensions', 10); // Remove
 remove_filter('the_excerpt', 'wpautop'); // Remove <p> tags from Excerpt altogether
 
 // Shortcodes
-add_shortcode('html5_shortcode_demo', 'html5_shortcode_demo'); // You can place [html5_shortcode_demo] in Pages, Posts now.
-add_shortcode('html5_shortcode_demo_2', 'html5_shortcode_demo_2'); // Place [html5_shortcode_demo_2] in Pages, Posts now.
+add_shortcode('unitystation_shortcode_demo', 'unitystation_shortcode_demo'); // You can place [unitystation_shortcode_demo] in Pages, Posts now.
+add_shortcode('unitystation_shortcode_demo_2', 'unitystation_shortcode_demo_2'); // Place [unitystation_shortcode_demo_2] in Pages, Posts now.
 
 // Shortcodes above would be nested like this -
-// [html5_shortcode_demo] [html5_shortcode_demo_2] Here's the page title! [/html5_shortcode_demo_2] [/html5_shortcode_demo]
+// [unitystation_shortcode_demo] [unitystation_shortcode_demo_2] Here's the page title! [/unitystation_shortcode_demo_2] [/unitystation_shortcode_demo]
 
 /*------------------------------------*\
 	Custom Post Types
 \*------------------------------------*/
 
-// Create 1 Custom Post type for a Demo, called HTML5-Blank
-function create_post_type_html5()
+// Create 1 Custom Post type for a Demo, called unitystation
+function create_post_type_unitystation()
 {
-    register_taxonomy_for_object_type('category', 'html5-blank'); // Register Taxonomies for Category
-    register_taxonomy_for_object_type('post_tag', 'html5-blank');
-    register_post_type('html5-blank', // Register Custom Post Type
+    register_taxonomy_for_object_type('category', 'unitystation'); // Register Taxonomies for Category
+    register_taxonomy_for_object_type('post_tag', 'unitystation');
+    register_post_type('unitystation', // Register Custom Post Type
         array(
         'labels' => array(
-            'name' => __('HTML5 Blank Custom Post', 'html5blank'), // Rename these to suit
-            'singular_name' => __('HTML5 Blank Custom Post', 'html5blank'),
-            'add_new' => __('Add New', 'html5blank'),
-            'add_new_item' => __('Add New HTML5 Blank Custom Post', 'html5blank'),
-            'edit' => __('Edit', 'html5blank'),
-            'edit_item' => __('Edit HTML5 Blank Custom Post', 'html5blank'),
-            'new_item' => __('New HTML5 Blank Custom Post', 'html5blank'),
-            'view' => __('View HTML5 Blank Custom Post', 'html5blank'),
-            'view_item' => __('View HTML5 Blank Custom Post', 'html5blank'),
-            'search_items' => __('Search HTML5 Blank Custom Post', 'html5blank'),
-            'not_found' => __('No HTML5 Blank Custom Posts found', 'html5blank'),
-            'not_found_in_trash' => __('No HTML5 Blank Custom Posts found in Trash', 'html5blank')
+            'name' => __('unitystation Custom Post', 'unitystation'), // Rename these to suit
+            'singular_name' => __('unitystation Custom Post', 'unitystation'),
+            'add_new' => __('Add New', 'unitystation'),
+            'add_new_item' => __('Add New unitystation Custom Post', 'unitystation'),
+            'edit' => __('Edit', 'unitystation'),
+            'edit_item' => __('Edit unitystation Custom Post', 'unitystation'),
+            'new_item' => __('New unitystation Custom Post', 'unitystation'),
+            'view' => __('View unitystation Custom Post', 'unitystation'),
+            'view_item' => __('View unitystation Custom Post', 'unitystation'),
+            'search_items' => __('Search unitystation Custom Post', 'unitystation'),
+            'not_found' => __('No unitystation Custom Posts found', 'unitystation'),
+            'not_found_in_trash' => __('No unitystation Custom Posts found in Trash', 'unitystation')
         ),
         'public' => true,
         'hierarchical' => true, // Allows your posts to behave like Hierarchy Pages
@@ -424,7 +492,7 @@ function create_post_type_html5()
             'editor',
             'excerpt',
             'thumbnail'
-        ), // Go to Dashboard Custom HTML5 Blank post for supports
+        ), // Go to Dashboard Custom unitystation post for supports
         'can_export' => true, // Allows export in Tools > Export
         'taxonomies' => array(
             'post_tag',
@@ -438,13 +506,13 @@ function create_post_type_html5()
 \*------------------------------------*/
 
 // Shortcode Demo with Nested Capability
-function html5_shortcode_demo($atts, $content = null)
+function unitystation_shortcode_demo($atts, $content = null)
 {
     return '<div class="shortcode-demo">' . do_shortcode($content) . '</div>'; // do_shortcode allows for nested Shortcodes
 }
 
 // Shortcode Demo with simple <h2> tag
-function html5_shortcode_demo_2($atts, $content = null) // Demo Heading H2 shortcode, allows for nesting within above element. Fully expandable.
+function unitystation_shortcode_demo_2($atts, $content = null) // Demo Heading H2 shortcode, allows for nesting within above element. Fully expandable.
 {
     return '<h2>' . $content . '</h2>';
 }

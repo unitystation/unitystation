@@ -1,14 +1,4 @@
 
-
-    $('#patron-button').hover(
-        function() {
-            $('#patron-button-white').attr("src", "assets/img/become_a_patron_button.png");
-        },
-        function() {
-            $('#patron-button-white').attr("src", "assets/img/become_a_patron_button-white.png");
-        }
-    );
-
 var audioIsPlaying = false;
 
 function toggleAudio(){
