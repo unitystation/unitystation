@@ -63,11 +63,11 @@ if (function_exists('add_theme_support'))
 \*------------------------------------*/
 
 // HTML5 Blank navigation
-function html5blank_nav()
+function html5blank_navMenu()
 {
 	wp_nav_menu(
 	array(
-		'theme_location'  => 'header-menu',
+		'theme_location'  => 'header-navmenu',
 		'menu'            => '',
 		'container'       => 'div',
 		'container_class' => 'collapse navbar-collapse',
@@ -85,6 +85,54 @@ function html5blank_nav()
 		'walker'          => ''
 		)
 	);
+}
+
+function html5blank_PageMenu()
+{
+    wp_nav_menu(
+        array(
+            'theme_location'  => 'header-Pagemenu',
+            'menu'            => '',
+            'container'       => 'div',
+            'container_class' => 'collapse navbar-collapse',
+            'container_id'    => 'navbarSupportedContent',
+            'menu_class'      => 'navbar-nav',
+            'menu_id'         => '',
+            'echo'            => true,
+            'fallback_cb'     => 'wp_page_menu',
+            'before'          => '',
+            'after'           => '',
+            'link_before'     => '',
+            'link_after'      => '',
+            'items_wrap'      => '<ul class="%2$s">%3$s</ul>',
+            'depth'           => 0,
+            'walker'          => ''
+        )
+    );
+}
+
+function html5blank_UserMenu()
+{
+    wp_nav_menu(
+        array(
+            'theme_location'  => 'header-usermenu',
+            'menu'            => '',
+            'container'       => 'div',
+            'container_class' => 'collapse navbar-collapse',
+            'container_id'    => 'navbarSupportedContent',
+            'menu_class'      => 'navbar-nav',
+            'menu_id'         => '',
+            'echo'            => true,
+            'fallback_cb'     => 'wp_page_menu',
+            'before'          => '',
+            'after'           => '',
+            'link_before'     => '',
+            'link_after'      => '',
+            'items_wrap'      => '<ul class="%2$s">%3$s</ul>',
+            'depth'           => 0,
+            'walker'          => ''
+        )
+    );
 }
 
 // Load HTML5 Blank scripts (header.php)
@@ -126,9 +174,9 @@ function html5blank_styles()
 function register_html5_menu()
 {
     register_nav_menus(array( // Using array to specify more menus if needed
-        'header-menu' => __('Header Menu', 'html5blank'), // Main Navigation
-        'sidebar-menu' => __('Sidebar Menu', 'html5blank'), // Sidebar Navigation
-        'extra-menu' => __('Extra Menu', 'html5blank') // Extra Navigation if needed (duplicate as many as you need!)
+        'header-navmenu' => __('Header NavMenu', 'html5blank'), // Site Navigation
+        'header-pagemenu' => __('Header PageMenu', 'html5blank'), // In-Page Navigation
+        'header-usermenu' => __('Header UserMenu', 'html5blank'), // User Specific Navigation
     ));
 }
 

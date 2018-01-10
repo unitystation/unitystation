@@ -38,7 +38,7 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                        <?php html5blank_nav(); ?>
+                        <?php html5blank_navMenu(); ?>
                     <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
                         <li class="nav-item">
                             <a class="nav-link p-2 socialMedia-github" href="https://github.com/unitystation/unitystation" target="_blank" rel="noopener" aria-label="GitHub">
