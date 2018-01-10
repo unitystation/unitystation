@@ -1,3 +1,22 @@
+
+var audioIsPlaying = false;
+
+function toggleAudio(){
+    var audio = document.getElementById("audio");
+
+    if(!audioIsPlaying){
+        audio.play();
+        $("#audio-button-icon").attr("class","fas fa-volume-up");
+        audioIsPlaying = true;
+    }
+    else{
+        audio.pause();
+        audio.currentTime = 0;
+        $("#audio-button-icon").attr("class","fas fa-volume-off");
+        audioIsPlaying = false;
+    }
+}
+
 // get element once for optimization
 $elem = $("#honk");
 

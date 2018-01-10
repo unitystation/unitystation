@@ -36,41 +36,43 @@
 
                     <a class="navbar-brand" href="#"><img class="ss13-brand-image" src="<?php bloginfo('stylesheet_directory'); ?>/img/ss13_64.png" alt="Site Logo"></a>
                     <button class="navbar-toggler hidden-md-up pull-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+                        <span class="navbar-toggler-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
                     </button>
-                        <?php unitystation_navMenu(); ?>
-                    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-                        <li class="nav-item">
-                            <a class="nav-link p-2 socialMedia-github" href="https://github.com/unitystation/unitystation" target="_blank" rel="noopener" aria-label="GitHub">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link p-2 socialMedia-patreon" href="https://www.patreon.com/unitystation" target="_blank" rel="noopener" aria-label="GitHub">
-                                <i class="fab fa-patreon"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link p-2 socialMedia-twitter" href="https://twitter.com/UnityStation" target="_blank" rel="noopener" aria-label="GitHub">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link p-2 socialMedia-facebook" href="https://www.facebook.com/UnityStation13/" target="_blank" rel="noopener" aria-label="GitHub">
-                                <i class="fab fa-facebook"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link p-2 socialMedia-reddit" href="https://www.reddit.com/r/unitystation/" target="_blank" rel="noopener" aria-label="GitHub">
-                                <i class="fab fa-reddit-alien"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link p-2 socialMedia-youtube" href="https://www.youtube.com/channel/UCBfgfy7t3VOI5nsgkR5k4Tw" target="_blank" rel="noopener" aria-label="GitHub">
-                                <i class="fab fa-youtube"></i>
-                            </a>
-                        </li>
-                    </ul>
+										<div id="navbarSupportedContent" class="collapse navbar-collapse">
+                      <?php unitystation_navMenu(); ?>
+	                    <ul class="navbar-nav flex-row flex-center socialMedia-container">
+	                        <li class="nav-item">
+	                            <a class="nav-link p-2 socialMedia-github" href="https://github.com/unitystation/unitystation" target="_blank" rel="noopener" aria-label="GitHub">
+	                                <i class="fab fa-github"></i>
+	                            </a>
+	                        </li>
+	                        <li class="nav-item">
+	                            <a class="nav-link p-2 socialMedia-patreon" href="https://www.patreon.com/unitystation" target="_blank" rel="noopener" aria-label="GitHub">
+	                                <i class="fab fa-patreon"></i>
+	                            </a>
+	                        </li>
+	                        <li class="nav-item">
+	                            <a class="nav-link p-2 socialMedia-twitter" href="https://twitter.com/UnityStation" target="_blank" rel="noopener" aria-label="GitHub">
+	                                <i class="fab fa-twitter"></i>
+	                            </a>
+	                        </li>
+	                        <li class="nav-item">
+	                            <a class="nav-link p-2 socialMedia-facebook" href="https://www.facebook.com/UnityStation13/" target="_blank" rel="noopener" aria-label="GitHub">
+	                                <i class="fab fa-facebook"></i>
+	                            </a>
+	                        </li>
+	                        <li class="nav-item">
+	                            <a class="nav-link p-2 socialMedia-reddit" href="https://www.reddit.com/r/unitystation/" target="_blank" rel="noopener" aria-label="GitHub">
+	                                <i class="fab fa-reddit-alien"></i>
+	                            </a>
+	                        </li>
+	                        <li class="nav-item">
+	                            <a class="nav-link p-2 socialMedia-youtube" href="https://www.youtube.com/channel/UCBfgfy7t3VOI5nsgkR5k4Tw" target="_blank" rel="noopener" aria-label="GitHub">
+	                                <i class="fab fa-youtube"></i>
+	                            </a>
+	                        </li>
+	                    </ul>
+									</div>
                 </nav>
 					<!-- /nav -->
                 <!-- headerImage -->
