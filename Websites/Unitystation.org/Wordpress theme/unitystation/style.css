@@ -226,6 +226,23 @@ body {
 	color: #052d49;
 }
 
+.patron-button {
+	width: 217px;
+	height: 51px;
+	position: relative;
+	display: inline-block;
+}
+.patron-button .img-top {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 99;
+}
+.patron-button:hover .img-top {
+	display: inline;
+}
+
 /* ===== DOWNLOAD AREA ===== */
 .honk {
 	background-image: url("img/clown.png");

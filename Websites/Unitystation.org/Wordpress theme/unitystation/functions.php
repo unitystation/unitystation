@@ -152,10 +152,10 @@ function unitystation_header_scripts()
         wp_register_script('popperscript', "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js", array('jquery'), false); // popper script
         wp_enqueue_script('popperscript'); // Enqueue it!
 
-        wp_register_script('bootstrapscript', "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js", array('jquery'), false); // popper script
+        wp_register_script('bootstrapscript', "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js", array('popperscript'), false); // popper script
         wp_enqueue_script('bootstrapscript'); // Enqueue it!
 
-        wp_register_script('honkscript', get_template_directory_uri() . '/js/honk.js', array('popperscript'), '1.0.0'); // Custom scripts
+        wp_register_script('honkscript', get_template_directory_uri() . '/js/honk.js', array('bootstrapscript'), false); // Custom scripts
         wp_enqueue_script('honkscript'); // Enqueue it!
     }
 }
