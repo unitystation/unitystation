@@ -410,6 +410,7 @@ namespace Weapons
 		private void PlayEmptySFX()
 		{
 			PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("EmptyGunClick");
+			//slash
 		}
 
 		#endregion
