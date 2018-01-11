@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cupboards;
 using PlayGroup;
+using Tilemaps.Behaviours.Objects;
 using Tilemaps.Scripts.Tiles;
 using UI;
 using UnityEngine;
@@ -89,12 +90,9 @@ namespace PlayGroups.Input
 				{
 					List<GameObject> objects = UITileList.GetItemsAtPosition(position);
 					LayerTile tile = UITileList.GetTileAtPosition(position);
-					if (tile)
-					{
-						ControlTabs.ShowItemListTab(objects, tile, position);
-					}
+					ControlTabs.ShowItemListTab(objects, tile, position);
 				}
-				Debug.LogFormat($"clicked position:{Vector3Int.RoundToInt(position)}");
+				
 				UIManager.SetToolTip = $"clicked position: {Vector3Int.RoundToInt(position)}";
 			}
 		}
