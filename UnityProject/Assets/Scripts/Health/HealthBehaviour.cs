@@ -1,9 +1,10 @@
 ﻿using PlayGroup;
+using PlayGroups.Input;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public abstract class HealthBehaviour : NetworkBehaviour
+public abstract class HealthBehaviour : InputTrigger
 {
 	//For meat harvest (pete etc)
 	public bool allowKnifeHarvest;
@@ -171,19 +172,18 @@ public abstract class HealthBehaviour : NetworkBehaviour
 	}
 
 	protected abstract void OnDeathActions();
-
-	///copypaste from living
-	public virtual void OnMouseDown()
+	
+	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
 		if (UIManager.Hands.CurrentSlot.Item != null && PlayerManager.PlayerInReach(transform))
 		{
 			if (UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife)
 			{
 				Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-
+	
 				PlayerScript lps = PlayerManager.LocalPlayerScript;
 				lps.weaponNetworkActions.CmdKnifeAttackMob(gameObject, UIManager.Hands.CurrentSlot.Item, dir,
-					UIManager.DamageZone /*PlayerScript.SelectedDamageZone*/);
+					UIManager.DamageZone);
 			}
 		}
 	}
