@@ -142,10 +142,13 @@ namespace UI
 
 			UITileList.UpdateTileList(objects, tile, position);
 
-			Instance.ItemListTab.GetComponentInChildren<Text>().text = tile ? tile.name: "Objects";
-			Instance.ItemListTab.gameObject.SetActive(true);
-			Instance.Button_Item_List();
-			Instance.itemListTabExists = true;
+			if (!UITileList.IsEmpty())
+			{
+				Instance.ItemListTab.GetComponentInChildren<Text>().text = tile ? tile.name : "Objects";
+				Instance.ItemListTab.gameObject.SetActive(true);
+				Instance.Button_Item_List();
+				Instance.itemListTabExists = true;
+			}
 		}
 
 		/// <summary>

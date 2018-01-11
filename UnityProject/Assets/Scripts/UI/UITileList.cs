@@ -139,37 +139,23 @@ public class UITileList : MonoBehaviour
 		IEnumerable<GameObject> newList = GetItemsAtPosition(position);
 		LayerTile newTile = GetTileAtPosition(position);
 		
-		
-		
-//		List<GameObject> oldList = new List<GameObject>();
-//
-//		foreach (GameObject gameObject in Instance.listedObjects)
-//		{
-//			GameObject item = gameObject.GetComponent<UITileListItem>().Item;
-//			//We don't want to add the TileLayer in listedObjects
-//			if (item != null)
-//			{
-//				oldList.Add(item);
-//			}
-//		}
-//
-////		LayerTile newTile = GetTileAtPosition(position);
-//
-//		//If item stack has changed, redo the itemList tab
-//		if (!newList.AreEquivalent(oldList) || newTile.name != Instance.listedTile.name)
-//		{
-//			ClearItemPanel();
-//			AddTileToItemPanel(newTile, position);
-//			foreach (GameObject gameObject in newList)
-//			{
-//				AddObjectToItemPanel(gameObject);
-//			}
-//			
-//		}
+		List<GameObject> oldList = new List<GameObject>();
 
-		UpdateTileList(newList, newTile, position);
+		foreach (GameObject gameObject in Instance.listedObjects)
+		{
+			GameObject item = gameObject.GetComponent<UITileListItem>().Item;
+			//We don't want to add the TileLayer in listedObjects
+			if (item != null)
+			{
+				oldList.Add(item);
+			}
+		}
 
-
+		//If item stack has changed, redo the itemList tab
+		if (!newList.AreEquivalent(oldList) || newTile != Instance.listedTile)
+		{
+			UpdateTileList(newList, newTile, position);
+		}
 	}
 
 	public static void UpdateTileList(IEnumerable<GameObject> objects, LayerTile tile, Vector3 position)
@@ -200,6 +186,11 @@ public class UITileList : MonoBehaviour
 		Instance.listedTile = null;
 		Instance.listedTilePosition = new Vector3(0f, 0f, -100f);
 		UpdateItemPanelSize();
+	}
+
+	public static bool IsEmpty()
+	{
+		return Instance.listedObjects.Count == 0 && Instance.listedTile == null;
 	}
 
 	/// <summary>
