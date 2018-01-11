@@ -84,6 +84,20 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 			return null;
 		}
 
+		public LayerTile GetTile(Vector3Int position)
+		{
+			foreach (Layer layer in Layers.Values)
+			{
+				LayerTile tile = layer.GetTile(position);
+				if (tile != null)
+				{
+					return tile;
+				}
+			}
+
+			return null;
+		}
+
 		public bool IsEmptyAt(Vector3Int position)
 		{
 			foreach (LayerType layer in Layers.Keys)
@@ -120,6 +134,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 				layer.ClearAllTiles();
 			}
 		}
+		
 
 #if UNITY_EDITOR
 		public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
