@@ -26,7 +26,7 @@
 					<!-- nav -->
                 <nav class="navbar navbar-custom-dark navbar-expand-lg uppernav">
 
-                    <a class="navbar-brand" href="#"><img class="ss13-brand-image" src="<?php bloginfo('stylesheet_directory'); ?>/img/ss13_64.png" alt="Site Logo"></a>
+                    <a class="navbar-brand" href="#"><img class="ss13-brand-image" src="https://unitystation.org/wp-content/uploads/ss13_64.png" alt="Site Logo"></a>
                     <button class="navbar-toggler hidden-md-up pull-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
                     </button>

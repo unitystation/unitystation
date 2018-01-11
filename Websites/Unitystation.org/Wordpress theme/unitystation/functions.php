@@ -137,13 +137,7 @@ function unitystation_header_scripts()
 {
     if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
 
-        wp_register_script('popperscript', "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js", array('jquery'), false); // popper script
-        wp_enqueue_script('popperscript'); // Enqueue it!
-
-        wp_register_script('bootstrapscript', "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js", array('popperscript'), false); // popper script
-        wp_enqueue_script('bootstrapscript'); // Enqueue it!
-
-        wp_register_script('homescript', get_template_directory_uri() . '/js/honk.js', array('bootstrapscript'), false); // Custom scripts
+        wp_register_script('homescript', get_template_directory_uri() . '/js/unitystation.js', array('jquery'), false); // Custom scripts
         wp_enqueue_script('homescript'); // Enqueue it!
     }
 }
@@ -151,10 +145,19 @@ function unitystation_header_scripts()
 function replace_core_jquery_version() {
     wp_deregister_script( 'jquery-core' );
     wp_register_script( 'jquery-core', "https://code.jquery.com/jquery-3.2.1.min.js", array(), '3.2.1' );
-    wp_deregister_script( 'jquery-migrate' );
+    //wp_deregister_script( 'jquery-migrate' );
     //Enable if needed
-    wp_register_script( 'jquery-migrate', "https://code.jquery.com/jquery-migrate-3.0.1.min.js", array(), '3.0.1' );
+   // wp_register_script( 'jquery-migrate', "https://code.jquery.com/jquery-migrate-3.0.1.min.js", array(), '3.0.1' );
 }
+
+function isa_remove_jquery_migrate( &$scripts) {
+    if(!is_admin()) {
+        $scripts->remove( 'jquery');
+        $scripts->add( 'jquery', false, array( 'jquery-core' ), '1.12.4' );
+    }
+}
+
+
 // Load unitystation conditional scripts
 function unitystation_conditional_scripts()
 {
@@ -167,16 +170,7 @@ function unitystation_conditional_scripts()
 // Load unitystation styles
 function unitystation_styles()
 {
-    wp_register_style('bootstrap', "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css", array(), false, 'all');
-    wp_enqueue_style('bootstrap'); // Enqueue it!
-
-    wp_register_style('fontawesome', "https://use.fontawesome.com/releases/v5.0.2/css/all.css", array('bootstrap'), false, 'all');
-    wp_enqueue_style('fontawesome'); // Enqueue it!
-
-    wp_register_style('normalize', get_template_directory_uri() . '/normalize.css', array(), '1.0', 'all');
-    wp_enqueue_style('normalize'); // Enqueue it!
-
-    wp_register_style('unitystation', get_template_directory_uri() . '/style.css', array('fontawesome'), '1.0', 'all');
+    wp_register_style('unitystation', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
     wp_enqueue_style('unitystation'); // Enqueue it!
 }
 
@@ -398,6 +392,8 @@ function unitystationcomments($comment, $args, $depth)
 \*------------------------------------*/
 
 // Add Actions
+add_filter('http2_render_resource_hints', '__return_true');
+add_filter( 'wp_default_scripts', 'isa_remove_jquery_migrate' );
 add_action( 'wp_enqueue_scripts', 'replace_core_jquery_version' );
 add_action('init', 'unitystation_header_scripts'); // Add Custom Scripts to wp_head
 add_action('wp_print_scripts', 'unitystation_conditional_scripts'); // Add Conditional Page Scripts
