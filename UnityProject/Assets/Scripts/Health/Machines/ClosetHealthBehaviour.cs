@@ -28,11 +28,11 @@ namespace Objects
 			}
 		}
 
-		public override void OnMouseDown()
+		public override void Interact(GameObject originator, Vector3 position, string hand)
 		{
 			if (closetControl.IsClosed)
 			{
-				base.OnMouseDown();
+				base.Interact(originator, position, hand);
 			}
 		}
 
