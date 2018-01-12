@@ -42,11 +42,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	}
 
 	[Command]
-	public void CmdLoadMagazine(GameObject weapon, GameObject magazine)
+	public void CmdLoadMagazine(GameObject weapon, GameObject magazine, string hand)
 	{
 		Weapon w = weapon.GetComponent<Weapon>();
 		NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
 		w.MagNetID = networkID;
+		GetComponent<PlayerNetworkActions>().ClearInventorySlot(hand);
 	}
 
 	[Command]
