@@ -54,10 +54,8 @@ namespace Equipment
 				Instance.equipPools.Add(ownerId, newPool.GetComponent<ObjectPool>());
 				Instance.equipPools[ownerId].AddGameObject(gObj);
 			}
-
-			//			Debug.LogFormat("Added {1}({2}) to {0}'s pool.size={3}",
-			//			playerName, gObj.name, gObj.GetComponent<ItemAttributes>().itemName, 
-			//			Instance.equipPools[playerName].currentObjects.Count);
+//			Debug.LogFormat($"Added {gObj.name}({gObj.GetComponent<ItemAttributes>().itemName}) " +
+//			                $"to {playerName}'s pool.size={Instance.equipPools[ownerId].currentObjects.Count}");
 		}
 
 		/// Disposing of objects that aren't supposed to be dropped on the ground

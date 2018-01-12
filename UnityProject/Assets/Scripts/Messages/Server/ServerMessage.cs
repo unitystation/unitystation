@@ -17,14 +17,13 @@ public abstract class ServerMessage : GameMessageBase
 	{
 		NetworkIdentity netIdentity = recipient.GetComponent<NetworkIdentity>();
 
-		//Only send to the client of the currently owned player as some
-		//netID's being used in this method could be dead players, exclude them:
+//			only send to players that are currently controlled by a client
 		if (PlayerList.Instance.connectedPlayers.ContainsValue(recipient)) {
 			netIdentity.connectionToClient.Send(GetMessageType(), this);
-		} else {
-			//only send to players that are currently controlled by a client
-			return;
-		}
+		} 
+//		else {
+//			Debug.Log($"Not sending message {ToString()} to {recipient}");
+//		}
 
 		//Obsolete version:
 		//NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
