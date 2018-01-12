@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using Equipment;
 
 namespace Weapons
 {
@@ -393,7 +394,7 @@ namespace Weapons
 		{
 			if (CurrentMagazine != null)
 			{
-				NetworkServer.FindLocalObject(ControlledByPlayer).GetComponent<PlayerNetworkActions>().RemoveFromEquipmentPool(CurrentMagazine.gameObject, true);
+				EquipmentPool.DisposeOfObject(NetworkServer.FindLocalObject(ControlledByPlayer).gameObject, CurrentMagazine.gameObject);
 			}
 			ControlledByPlayer = NetworkInstanceId.Invalid;
 		}
