@@ -78,7 +78,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		isPushing = false;
 
 		serverTransformState.Speed = 0;
-		if (transform.localPosition.Equals(Vector3.zero))
+		if (transform.localPosition.Equals(Vector3.zero) || Vector3Int.RoundToInt(transform.position).Equals(InvalidPos) || Vector3Int.RoundToInt(transform.localPosition).Equals(InvalidPos))
 		{
 			//For stuff hidden on spawn, like player equipment
 			serverTransformState.Active = false;
@@ -249,8 +249,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	public void UpdateClientState(TransformState newState)
 	{
-		//Don't lerp (instantly change pos) if active state was changed or speed is zero
-		if (transformState.Active != newState.Active || newState.Speed == 0)
+		//Don't lerp (instantly change pos) if active state was changed
+		if (transformState.Active != newState.Active /*|| newState.Speed == 0*/)
 		{
 			transform.localPosition = newState.localPos;
 		}
@@ -367,6 +367,11 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	private void Lerp()
 	{
+		if ( transformState.Speed.Equals(0) )
+		{
+			transform.localPosition = transformState.localPos;
+			return;
+		}
 		transform.localPosition =
 			Vector3.MoveTowards(transform.localPosition, transformState.localPos, transformState.Speed * SpeedMultiplier * Time.deltaTime);
 	}
