@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using Light2D;
 using PlayGroup;
+using Tilemaps;
+using Tilemaps.Behaviours.Objects;
 using Tilemaps.Scripts.Behaviours.Layers;
 using Tilemaps.Scripts.Tiles;
 using UnityEngine;
@@ -39,17 +44,14 @@ public class UITileList : MonoBehaviour
 	/// <param name="position">Position where to look for items</param>
 	public static List<GameObject> GetItemsAtPosition(Vector3 position)
 	{
-		LayerMask layerMaskWithFloors = LayerMask.GetMask("Default", "Furniture", "Walls", "Windows", "Machines", "Items", "Door Open", "Door Closed",
-			"WallMounts", "HiddenWalls");
-		RaycastHit2D[] hits = Physics2D.RaycastAll(position, Vector2.zero, 2f, layerMaskWithFloors);
-		List<GameObject> tiles = new List<GameObject>();
+		Matrix matrix = PlayerManager.LocalPlayerScript.gameObject.GetComponentInParent<Matrix>();
+		
+		position = matrix.transform.InverseTransformPoint(position);
+		Vector3Int tilePosition = Vector3Int.FloorToInt(position);
 
-		foreach (RaycastHit2D hit in hits)
-		{
-			tiles.Add(hit.collider.gameObject);
-		}
+		IEnumerable<RegisterTile> registerTiles = matrix.Get<RegisterTile>(tilePosition);
 
-		return tiles;
+		return registerTiles.Select(x => x.gameObject).ToList();
 	}
 
 	/// <summary>
@@ -59,18 +61,11 @@ public class UITileList : MonoBehaviour
 	public static LayerTile GetTileAtPosition(Vector3 position)
 	{
 		MetaTileMap metaTileMap = PlayerManager.LocalPlayerScript.gameObject.GetComponentInParent<MetaTileMap>();
-		Vector3Int tilePosition = new Vector3Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y), Mathf.FloorToInt(position.z));
+		
+		position = metaTileMap.transform.InverseTransformPoint(position);
+		Vector3Int tilePosition = Vector3Int.FloorToInt(position);
 
-		foreach (LayerType layer in Enum.GetValues(typeof(LayerType)))
-		{
-			LayerTile tile = metaTileMap.GetTile(tilePosition, layer);
-			if (tile != null)
-			{
-				return tile;
-			}
-		}
-
-		return null;
+		return metaTileMap.GetTile(tilePosition);
 	}
 
 	/// <summary>
@@ -141,7 +136,9 @@ public class UITileList : MonoBehaviour
 			return;
 		}
 
-		List<GameObject> newList = GetItemsAtPosition(position);
+		IEnumerable<GameObject> newList = GetItemsAtPosition(position);
+		LayerTile newTile = GetTileAtPosition(position);
+		
 		List<GameObject> oldList = new List<GameObject>();
 
 		foreach (GameObject gameObject in Instance.listedObjects)
@@ -154,17 +151,25 @@ public class UITileList : MonoBehaviour
 			}
 		}
 
-		LayerTile newTile = GetTileAtPosition(position);
-
 		//If item stack has changed, redo the itemList tab
-		if (!newList.AreEquivalent(oldList) || newTile.name != Instance.listedTile.name)
+		if (!newList.AreEquivalent(oldList) || newTile != Instance.listedTile)
 		{
-			ClearItemPanel();
-			AddTileToItemPanel(newTile, position);
-			foreach (GameObject gameObject in newList)
-			{
-				AddObjectToItemPanel(gameObject);
-			}
+			UpdateTileList(newList, newTile, position);
+		}
+	}
+
+	public static void UpdateTileList(IEnumerable<GameObject> objects, LayerTile tile, Vector3 position)
+	{
+		ClearItemPanel();
+
+		if (tile != null)
+		{
+			AddTileToItemPanel(tile, position);
+		}
+			
+		foreach (GameObject itemObject in objects)
+		{
+			AddObjectToItemPanel(itemObject);
 		}
 	}
 
@@ -181,6 +186,11 @@ public class UITileList : MonoBehaviour
 		Instance.listedTile = null;
 		Instance.listedTilePosition = new Vector3(0f, 0f, -100f);
 		UpdateItemPanelSize();
+	}
+
+	public static bool IsEmpty()
+	{
+		return Instance.listedObjects.Count == 0 && Instance.listedTile == null;
 	}
 
 	/// <summary>

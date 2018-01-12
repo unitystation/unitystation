@@ -5,6 +5,8 @@ using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
+using Equipment;
 
 namespace Weapons
 {
@@ -157,7 +159,7 @@ namespace Weapons
 						//RELOAD
 						MagazineBehaviour magazine = currentHandItem.GetComponent<MagazineBehaviour>();
 
-						if (magazine != null && otherHandItem.GetComponent<Weapon>() != null)
+						if (magazine != null && otherHandItem.GetComponent<Weapon>() != null && AmmoType == magazine.ammoType)
 						{
 							hand = UIManager.Hands.CurrentSlot.eventName;
 							Reload(currentHandItem, hand);
@@ -209,7 +211,7 @@ namespace Weapons
 		{
 			GameObject ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType)  as GameObject;
 			
-			GameObject m =  ItemFactory.SpawnItem(ammoPrefab, transform.parent);
+			GameObject m = ItemFactory.SpawnItem(ammoPrefab, transform.parent);
 			
 			StartCoroutine(SetMagazineOnStart(m));
 
@@ -307,9 +309,8 @@ namespace Weapons
 		private void Reload(GameObject m, string hand)
 		{
 			Debug.Log("Reloading");
-			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m);
+			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m, hand);
 			UIManager.Hands.CurrentSlot.Clear();
-			PlayerManager.LocalPlayerScript.playerNetworkActions.ClearInventorySlot(hand);
 		}
 
 		//atm unload with shortcut 'e'
@@ -382,15 +383,19 @@ namespace Weapons
 		public void OnAddToPool(NetworkInstanceId ownerId)
 		{
 			ControlledByPlayer = ownerId;
-			if (CurrentMagazine != null && PlayerManager.LocalPlayer == ClientScene.FindLocalObject(ownerId))
+			if (CurrentMagazine != null)
 			{
 				//As the magazine loaded is part of the weapon, then we do not need to add to server cache, we only need to add the item to the equipment pool
-				PlayerManager.LocalPlayerScript.playerNetworkActions.AddToEquipmentPool(CurrentMagazine.gameObject);
+				NetworkServer.FindLocalObject(ownerId).GetComponent<PlayerNetworkActions>().AddToEquipmentPool(CurrentMagazine.gameObject);
 			}
 		}
 
 		public void OnRemoveFromPool()
 		{
+			if (CurrentMagazine != null)
+			{
+				EquipmentPool.DisposeOfObject(NetworkServer.FindLocalObject(ControlledByPlayer).gameObject, CurrentMagazine.gameObject);
+			}
 			ControlledByPlayer = NetworkInstanceId.Invalid;
 		}
 

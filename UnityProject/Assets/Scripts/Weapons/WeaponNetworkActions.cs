@@ -42,11 +42,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	}
 
 	[Command]
-	public void CmdLoadMagazine(GameObject weapon, GameObject magazine)
+	public void CmdLoadMagazine(GameObject weapon, GameObject magazine, string hand)
 	{
 		Weapon w = weapon.GetComponent<Weapon>();
 		NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
 		w.MagNetID = networkID;
+		GetComponent<PlayerNetworkActions>().ClearInventorySlot(hand);
 	}
 
 	[Command]
@@ -146,9 +147,11 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	[Command] //TODO fixme ghetto proof-of-concept
 	public void CmdKnifeAttackMob(GameObject npcObj, GameObject weapon, Vector2 stabDirection, BodyPartType damageZone)
 	{
-		HealthBehaviour healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
-		if (healthBehaviour.IsDead == false)
+		// checks object and component existence before defining healthBehaviour variable.
+		if (npcObj && npcObj.GetComponent<HealthBehaviour>().IsDead == false)
 		{
+			HealthBehaviour healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
+
 			if (!playerMove.allowInput || !allowAttack || playerMove.isGhost)
 			{
 				return;
@@ -166,6 +169,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
 			soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 			StartCoroutine(AttackCoolDown());
+
 		}
 		else
 		{

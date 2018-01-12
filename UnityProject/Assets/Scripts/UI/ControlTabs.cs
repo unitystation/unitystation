@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using PlayGroup;
 using Tilemaps.Scripts.Tiles;
 using UnityEngine;
@@ -127,7 +128,7 @@ namespace UI
 		/// <param name="objects">List of GameObjects to include in the Item List Tab</param>
 		/// <param name="tile">Tile to include in the Item List Tab</param>
 		/// <param name="position">Position of objects</param>
-		public static void ShowItemListTab(List<GameObject> objects, LayerTile tile, Vector3 position)
+		public static void ShowItemListTab(IEnumerable<GameObject> objects, LayerTile tile, Vector3 position)
 		{
 			//If window exists, player is perhaps alt-clicking at another tile. Only slide tabs if Item List Tab doesn't already exist.
 			if (Instance.itemListTabExists)
@@ -139,16 +140,15 @@ namespace UI
 				SlideOptionsAndMoreTabs(Vector3.right);
 			}
 
-			UITileList.AddTileToItemPanel(tile, position);
-			foreach (GameObject itemObject in objects)
-			{
-				UITileList.AddObjectToItemPanel(itemObject);
-			}
+			UITileList.UpdateTileList(objects, tile, position);
 
-			Instance.ItemListTab.GetComponentInChildren<Text>().text = tile.name;
-			Instance.ItemListTab.gameObject.SetActive(true);
-			Instance.Button_Item_List();
-			Instance.itemListTabExists = true;
+			if (!UITileList.IsEmpty())
+			{
+				Instance.ItemListTab.GetComponentInChildren<Text>().text = tile ? tile.name : "Objects";
+				Instance.ItemListTab.gameObject.SetActive(true);
+				Instance.Button_Item_List();
+				Instance.itemListTabExists = true;
+			}
 		}
 
 		/// <summary>
