@@ -95,12 +95,12 @@
 									<div class="modal-body">
 
                                         <?php echo do_shortcode('[wppb-login]') ?>
+                                        <?php echo do_shortcode('[TheChamp-Login]') ?>
                                         <?php // echo do_shortcode('[wppb-recover-password]') ?>
 
                                     </div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-										<button type="button" class="btn btn-primary">Save changes</button>
 									</div>
 								</div>
 							</div>
@@ -118,10 +118,10 @@
 									</div>
 									<div class="modal-body">
                                         <?php echo do_shortcode('[wppb-register]') ?>
+                                        <?php echo do_shortcode('[TheChamp-Login]') ?>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-										<button type="button" class="btn btn-primary">Save changes</button>
 									</div>
 								</div>
 							</div>
@@ -140,11 +140,11 @@
                         <div class="modal-body">
 
                             <?php echo do_shortcode('[wppb-edit-profile]') ?>
+                            <?php echo do_shortcode('[TheChamp-Login]') ?>
 
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
@@ -168,7 +168,6 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
@@ -189,7 +188,6 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>

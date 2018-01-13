@@ -95,7 +95,7 @@ function unitystation_pageMenu()
             'menu'            => '1',
             'container'       => 'div',
             'container_class' => 'mr-auto',
-            'menu_class'      => 'navbar-nav',
+            'menu_class'      => 'navbar-nav pageNav',
             'menu_id'         => '',
             'echo'            => true,
             'fallback_cb'     => 'wp_page_menu',
