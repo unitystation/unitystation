@@ -36,6 +36,9 @@ public class VisibleBehaviour : NetworkBehaviour
 		closetHandler
 	};
 
+	public GameObject[] ignoreSpriteUpdates;
+	private SpriteRenderer[] ignoredSpriteRenderers;
+
 	public RegisterTile registerTile;
 
 	/// <summary>
@@ -56,6 +59,16 @@ public class VisibleBehaviour : NetworkBehaviour
 		if (pS != null)
 		{
 			isPlayer = true;
+		}
+
+		ignoredSpriteRenderers = new SpriteRenderer[ignoreSpriteUpdates.Length];
+		for (int i = 0; i < ignoreSpriteUpdates.Length; i++)
+		{
+			SpriteRenderer sr = ignoreSpriteUpdates[i].GetComponent<SpriteRenderer>();
+			if (sr != null)
+			{
+				ignoredSpriteRenderers[i] = sr;
+			}
 		}
 	}
 
@@ -80,7 +93,7 @@ public class VisibleBehaviour : NetworkBehaviour
 		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 		for (int i = 0; i < scripts.Length; i++)
 		{
-			if (canBeDisabled(scripts[i]))
+			if (CanBeDisabled(scripts[i]))
 			{
 				scripts[i].enabled = _aliveState;
 			}
@@ -93,7 +106,19 @@ public class VisibleBehaviour : NetworkBehaviour
 
 		for (int i = 0; i < renderers.Length; i++)
 		{
-			renderers[i].enabled = _aliveState;
+			// Cast and check cast
+			SpriteRenderer sr = renderers[i] as SpriteRenderer;
+			if (sr != null)
+			{
+				if (CanBeDisabled(sr))
+				{
+					sr.enabled = _aliveState;
+				}
+			}
+			else
+			{
+				renderers[i].enabled = _aliveState;
+			}
 		}
 
 		if (registerTile != null)
@@ -109,7 +134,12 @@ public class VisibleBehaviour : NetworkBehaviour
 		}
 	}
 
-	private bool canBeDisabled(MonoBehaviour script)
+	private bool CanBeDisabled(SpriteRenderer script)
+	{
+		return !ignoredSpriteRenderers.Contains(script);
+	}
+
+	private bool CanBeDisabled(MonoBehaviour script)
 	{
 		return !neverDisabled.Contains(script.GetType().Name);
 	}

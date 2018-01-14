@@ -1,4 +1,5 @@
-﻿using Tilemaps.Scripts;
+﻿using PlayGroup;
+using Tilemaps.Scripts;
 using UnityEngine;
 
 namespace Cupboards
@@ -38,6 +39,17 @@ namespace Cupboards
 
 		private void Update()
 		{
+			if (PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost)
+			{
+				Camera2DFollow.followControl.damping = 0.0f;
+				return;
+			}
+			else
+			{
+				// In case we re-enter corpse
+				Camera2DFollow.followControl.damping = 0.2f;
+			}
+			
 			if (monitor)
 			{
 				if (CheckForDirectionalKeyPress())

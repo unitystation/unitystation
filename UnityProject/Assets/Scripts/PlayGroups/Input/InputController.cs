@@ -54,6 +54,7 @@ namespace PlayGroups.Input
 			CheckHandSwitch();
 			CheckClick();
 			CheckAltClick();
+			CheckSuicide();
 		}
 
 		private void CheckHandSwitch()
@@ -94,6 +95,14 @@ namespace PlayGroups.Input
 				}
 				
 				UIManager.SetToolTip = $"clicked position: {Vector3Int.RoundToInt(position)}";
+			}
+		}
+
+		private void CheckSuicide()
+		{
+			if (UnityEngine.Input.GetKeyDown(KeyCode.Backspace))
+			{
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdCommitSuicide();
 			}
 		}
 
