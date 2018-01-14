@@ -15,6 +15,12 @@
 		<?php wp_head(); ?>
 
 	</head>
+<?
+
+
+    ?>
+
+
 	<body <?php body_class(); ?>>
 
 		<!-- wrapper -->
@@ -94,8 +100,9 @@
 									</div>
 									<div class="modal-body">
 
-                                        <?php echo do_shortcode('[wppb-login]') ?>
-                                        <?php echo do_shortcode('[TheChamp-Login]') ?>
+                                        <?php echo do_shortcode('[user_registration_login]') ?>
+                                        <?php// echo do_shortcode('[TheChamp-Login]') ?>
+                                        <?php  do_action( 'wordpress_social_login' ); ?>
                                         <?php // echo do_shortcode('[wppb-recover-password]') ?>
 
                                     </div>
@@ -117,8 +124,9 @@
 										</button>
 									</div>
 									<div class="modal-body">
-                                        <?php echo do_shortcode('[wppb-register]') ?>
-                                        <?php echo do_shortcode('[TheChamp-Login]') ?>
+                                        <?php echo do_shortcode('[user_registration_form id="154"]') ?>
+                                        <?php// echo do_shortcode('[TheChamp-Login]') ?>
+                                        <?php  do_action( 'wordpress_social_login' ); ?>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -126,29 +134,7 @@
 								</div>
 							</div>
 						</div>
- <!-- profile modal -->
 
-            <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="profileModalLabel"><i class="far fa-user"></i> Profile</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-
-                            <?php echo do_shortcode('[wppb-edit-profile]') ?>
-                            <?php echo do_shortcode('[TheChamp-Login]') ?>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- logout modal -->
 
@@ -163,7 +149,7 @@
                         </div>
                         <div class="modal-body">
 
-                            <?php echo do_shortcode('[wppb-login]') ?>
+                        <?php echo do_shortcode('[logout_to_home text="Logout" class="]') ?>
 
                         </div>
                         <div class="modal-footer">
@@ -184,7 +170,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <?php echo do_shortcode('[wppb-register]') ?>
+                            <?php echo do_shortcode('[user_registration_form id="154"]') ?>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

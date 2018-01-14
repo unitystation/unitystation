@@ -158,6 +158,11 @@ function isa_remove_jquery_migrate( &$scripts) {
 }
 
 
+function exclude_jquery_script( $do_not_defer ) {
+    $do_not_defer[] = 'jquery-core';
+    return $do_not_defer;
+}
+
 // Load unitystation conditional scripts
 function unitystation_conditional_scripts()
 {
@@ -505,4 +510,5 @@ function unitystation_shortcode_demo_2($atts, $content = null) // Demo Heading H
     return '<h2>' . $content . '</h2>';
 }
 
-?>
+// Custom Scripting to Move JavaScript from the Head to the Footer
+
