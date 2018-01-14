@@ -161,12 +161,9 @@ MonoBehaviour:
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
-  moveSpeed: 7
   pulledBy: {fileID: 0}
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
-  serverLittleLag: 0
-  timeInPush: 0
   closetHandlerCache: {fileID: 0}
 --- !u!114 &114567485071167784
 MonoBehaviour:
@@ -184,11 +181,11 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 88
   inHandReferenceRight: 96
-  itemDescription: 
+  itemDescription: A heavy fire extinguisher
   itemName: Extinguisher
-  size: 1
+  size: 2
   spriteType: 0
-  type: 0
+  type: 15
 --- !u!114 &114690376875817604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -213,6 +210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212125191403727516
 SpriteRenderer:
   m_ObjectHideFlags: 1
