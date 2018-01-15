@@ -97,14 +97,6 @@ namespace PlayGroups.Input
 			}
 		}
 
-		private void CheckSuicide()
-		{
-			if (UnityEngine.Input.GetKeyDown(KeyCode.Backspace))
-			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdCommitSuicide();
-			}
-		}
-
 		private void ChangeDirection()
 		{
 			Vector2 dir = (Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition) - transform.position).normalized;
