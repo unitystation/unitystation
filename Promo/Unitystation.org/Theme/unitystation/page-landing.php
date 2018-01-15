@@ -102,7 +102,7 @@ else if ($_POST['submitted']) generate_response("error", $missing_content);
                                 <p><label for="name">Name: <span>*</span> <br><input type="text" name="message_name" class="form-control orange-form-box" value="<?php echo $_POST['message_name']; ?>"></label></p>
                                 <p><label for="message_email">Email: <span>*</span> <br><input type="text" name="message_email" class="form-control orange-form-box" value="<?php echo $_POST['message_email']; ?>"></label></p>
                                 <p><label for="message_text">Message: <span>*</span> <br><textarea type="text" name="message_text" class="form-control orange-form-box"><?php echo $_POST['message_text']; ?></textarea></label></p>
-                                <p><label for="message_human">Human Verification: <span>*</span> <br><input type="text" style="width: 60px;" name="message_human"> + 3 = 5</label></p>
+                                <p><label for="message_human">? + 3 = 5 <span>*</span> <br><input type="text" style="width: 60px;" name="message_human" class="form-control orange-form-box"> </label></p>
                                 <input type="hidden" name="submitted" value="1">
                                 <p><input type="submit" value="Send email" class="btn btn-lg btn-download"></p>
                             </form>
