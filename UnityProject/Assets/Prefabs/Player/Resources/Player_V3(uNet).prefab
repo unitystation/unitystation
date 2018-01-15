@@ -1575,7 +1575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
-  ignoreSpriteUpdates: []
+  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
   allowedToMove: 1
@@ -1761,9 +1761,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
-  ignoreSpriteUpdates:
-  - {fileID: 1962188613804782}
-  - {fileID: 1290638470838670}
+  ignoredSpriteRenderers:
+  - {fileID: 212308868696160634}
+  - {fileID: 212974081283444976}
   registerTile: {fileID: 0}
   visibleState: 1
   allowedToMove: 1

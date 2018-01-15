@@ -448,6 +448,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			SoundManager.Stop("Critstate");
 			UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
 			Camera2DFollow.followControl.target = playerScript.ghost.transform;
+			Camera2DFollow.followControl.damping = 0.0f;
 			FieldOfView fovScript = GetComponent<FieldOfView>();
 			if (fovScript != null)
 			{
