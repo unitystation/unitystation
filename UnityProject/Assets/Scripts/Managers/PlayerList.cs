@@ -5,11 +5,126 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
+public struct ConnectedPlayers
+{
+	public List<ConnectedPlayer> Values;
+
+	public bool ContainsConnection(NetworkConnection connection)
+	{
+		if ( !GetByConnection(connection).Equals(InvalidConnectedPlayer) )
+		{
+			return true;
+		}
+		return false;
+	}
+	public bool ContainsName(string name)
+	{
+		if ( !GetByName(name).Equals(InvalidConnectedPlayer) )
+		{
+			return true;
+		}
+		return false;
+	}
+	public bool ContainsGameObject(GameObject gameObject)
+	{
+		if ( !GetByGameObject(gameObject).Equals(InvalidConnectedPlayer) )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public ConnectedPlayer GetByConnection(NetworkConnection connection)
+	{
+		for ( var i = 0; i < Values.Count; i++ )
+		{
+			if ( Values[i].Connection == connection )
+			{
+				return Values[i];
+			}
+		}
+		return InvalidConnectedPlayer;
+	}
+	public ConnectedPlayer GetByName(string name)
+	{
+		for ( var i = 0; i < Values.Count; i++ )
+		{
+			if ( Values[i].Name == name )
+			{
+				return Values[i];
+			}
+		}
+		return InvalidConnectedPlayer;
+	}
+	public ConnectedPlayer GetByGameObject(GameObject gameObject)
+	{
+		for ( var i = 0; i < Values.Count; i++ )
+		{
+			if ( Values[i].GameObject == gameObject )
+			{
+				return Values[i];
+			}
+		}
+		return InvalidConnectedPlayer;
+	}
+
+	public void RemoveByConnection(NetworkConnection connection)
+	{
+		ConnectedPlayer connectedPlayer = GetByConnection(connection);
+		if ( connectedPlayer.Equals(InvalidConnectedPlayer) )
+		{
+			Debug.LogError($"Cannot remove by {connection}, not found");
+		}
+		else
+		{
+			Values.Remove(connectedPlayer);
+		}
+	}
+	public void RemoveByName(string name)
+	{
+		ConnectedPlayer connectedPlayer = GetByName(name);
+		if ( connectedPlayer.Equals(InvalidConnectedPlayer) )
+		{
+			Debug.LogError($"Cannot remove by {name}, not found");
+		}
+		else
+		{
+			Values.Remove(connectedPlayer);
+		}
+	}
+	public void RemoveByGameObject(GameObject gameObject)
+	{
+		ConnectedPlayer connectedPlayer = GetByGameObject(gameObject);
+		if ( connectedPlayer.Equals(InvalidConnectedPlayer) )
+		{
+			Debug.LogError($"Cannot remove by {gameObject}, not found");
+		}
+		else
+		{
+			Values.Remove(connectedPlayer);
+		}
+	}
+	
+	public static ConnectedPlayer InvalidConnectedPlayer = new ConnectedPlayer
+	{
+		Connection = new NetworkConnection(),
+		GameObject = new GameObject(),
+		Name = "kek"
+	};
+}
+
+public struct ConnectedPlayer
+{
+	public NetworkConnection Connection;
+	public GameObject GameObject;
+	public string Name;
+}
+
 public class PlayerList : NetworkBehaviour
 {
 	public static PlayerList Instance;
 
-	public Dictionary<string, GameObject> connectedPlayers = new Dictionary<string, GameObject>();
+	public ConnectedPlayers connectedPlayers;
 
 	//For TDM demo
 	public Dictionary<JobDepartment, int> departmentScores = new Dictionary<JobDepartment, int>();
@@ -50,7 +165,7 @@ public class PlayerList : NetworkBehaviour
 	{
 		string checkName = name;
 
-		while (connectedPlayers.ContainsKey(checkName))
+		while (connectedPlayers.ContainsName(checkName))
 		{
 			Debug.Log("NAME ALREADY EXISTS: " + checkName);
 			numSameNames++;
@@ -137,9 +252,9 @@ public class PlayerList : NetworkBehaviour
 
 	public void RemovePlayer(string playerName)
 	{
-		if (connectedPlayers.ContainsKey(playerName))
+		if (connectedPlayers.ContainsName(playerName))
 		{
-			connectedPlayers.Remove(playerName);
+			connectedPlayers.RemoveByName(playerName);
 			nameList.Remove(playerName);
 		}
 	}
