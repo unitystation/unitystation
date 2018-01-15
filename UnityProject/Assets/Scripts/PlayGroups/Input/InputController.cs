@@ -54,11 +54,6 @@ namespace PlayGroups.Input
 			CheckHandSwitch();
 			CheckClick();
 			CheckAltClick();
-			// Useful for debugging death and ghost related issues
-			//if(Debug.isDebugBuild)
-			//{
-			//    CheckSuicide();
-			//}
 		}
 
 		private void CheckHandSwitch()

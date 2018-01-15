@@ -98,12 +98,8 @@ public class VisibleBehaviour : NetworkBehaviour
 			SpriteRenderer sr = renderers[i] as SpriteRenderer;
 			// Cast and check cast.
 			// This is necessary because some renderers fail the cast.
-			if (sr != null)
+			if (sr != null && !CanBeDisabled(sr))
 			{
-				if (CanBeDisabled(sr))
-				{
-					renderers[i].enabled = _aliveState;
-				}
 			}
 			else
 			{
