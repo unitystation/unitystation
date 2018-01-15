@@ -1,5 +1,5 @@
 
-<?php /* Template Name: Homepage Template */ ?>
+<?php /* Template Name: Landingpage Template */ ?>
 
 <?php
 
