@@ -1,6 +1,7 @@
 ﻿using PlayGroup;
 using Tilemaps.Scripts;
 using UnityEngine;
+using UI;
 
 namespace Cupboards
 {
@@ -43,7 +44,8 @@ namespace Cupboards
 
 		private void Update()
 		{
-			if (PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost)
+			if (PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost ||
+			    UIManager.Instance.chatControl.isChatFocus)
 			{
 				return;
 			}			
