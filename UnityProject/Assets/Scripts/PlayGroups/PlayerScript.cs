@@ -108,15 +108,13 @@ namespace PlayGroup
 
 				if (!PlayerManager.HasSpawned)
 				{
-					//First
+//					First
 					CmdTrySetName(PlayerManager.PlayerNameCache);
-					Debug.Log($"TrySetName {PlayerManager.PlayerNameCache}");
 				}
 				else
 				{
 //					Manual after respawn
 					CmdSetNameManual(PlayerManager.PlayerNameCache);
-					Debug.Log($"SetNameManual {PlayerManager.PlayerNameCache}");
 				}
 
 				PlayerManager.SetPlayerForControl(gameObject);
@@ -140,7 +138,7 @@ namespace PlayGroup
 				{
 					Connection = connectionToClient,
 					GameObject = gameObject,
-					Name = PlayerManager.PlayerNameCache,
+//					Name = PlayerManager.PlayerNameCache,
 					Job = JobType
 				});
 //				playerName = PlayerList.Instance.Get(connectionToClient).Name;
@@ -167,16 +165,19 @@ namespace PlayGroup
 		[Command]
 		private void CmdTrySetName(string name)
 		{
+			Debug.Log($"TrySetName {name}");
 			if (PlayerList.Instance != null)
 			{
-				PlayerList.Instance.Get(connectionToClient).Name = name;
-				playerName = PlayerList.Instance.Get(connectionToClient).Name;
+				var player = PlayerList.Instance.Get(connectionToClient);
+				player.Name = name;
+				playerName = player.Name;
 			}
 		}
 
 		[Command]
 		private void CmdSetNameManual(string name)
 		{
+			Debug.Log($"SetNameManual {name}");
 			playerName = name;
 		}
 

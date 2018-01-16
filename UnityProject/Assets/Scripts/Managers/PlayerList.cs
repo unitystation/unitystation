@@ -152,10 +152,15 @@ public class PlayerList : NetworkBehaviour
 	public void RefreshPlayerListText()
 	{
 		UIManager.Instance.playerListUIControl.nameList.text = "";
-		foreach ( string name in nameList )
+//		foreach ( string name in nameList )
+//		{
+//			string curList = UIManager.Instance.playerListUIControl.nameList.text;
+//			UIManager.Instance.playerListUIControl.nameList.text = curList + name + "\r\n";
+//		}
+		foreach (var player in values)
 		{
 			string curList = UIManager.Instance.playerListUIControl.nameList.text;
-			UIManager.Instance.playerListUIControl.nameList.text = curList + name + "\r\n";
+			UIManager.Instance.playerListUIControl.nameList.text = $"{curList}{player.Name} ({player.Job})\r\n";
 		}
 	}
 
@@ -173,6 +178,25 @@ public class PlayerList : NetworkBehaviour
 		connectedPlayer.GameObject = newGameObject;
 	}
 
+	public int ConnectionCount => values.Count;
+	public int PlayerCount => values.FindAll(player => player.GameObject != null).Count;
+
+	//filling a struct without connections and gameobjects for clients
+	public List<ClientConnectedPlayer> DiscreetPlayerList =>
+		values.Aggregate(new List<ClientConnectedPlayer>(), (list, player) =>
+		{
+			list.Add(new ClientConnectedPlayer {Name = player.Name, Job = player.Job});
+			return list;
+		});
+
+	public static readonly ConnectedPlayer InvalidConnectedPlayer = new ConnectedPlayer
+	{
+		Connection = new NetworkConnection(),
+		GameObject = null,
+		Name = "kek",
+		Job = JobType.NULL
+	};
+
 	private void TryAdd(ConnectedPlayer player)
 	{
 		if ( player.Equals(InvalidConnectedPlayer) )
@@ -180,21 +204,19 @@ public class PlayerList : NetworkBehaviour
 			Debug.Log("Refused to add invalid connected player");
 			return;
 		}
-
-		Debug.Log($"Added {player}. \nTotal: {values.Aggregate("",(s, connectedPlayer) => s + connectedPlayer + "; ")}");
-
+//FIXME: don't overwrite names to nulls; fix client text representation
 		if ( ContainsConnection(player.Connection) )
 		{
-			values.Remove(Get(player.Connection));
+			Debug.Log($"Replacing {Get(player.Connection)} with {player}");
+			TryRemove(Get(player.Connection));
 		}
 
 		values.Add(player);
-
-//		//workaround I don't like, but placing TryAddName to ConnectedPlayer setter gives NRE on build
-//		if ( player.Name != null )
-//		{
-//			TryAddName(player.Connection, player.Name);
-//		}
+		if (isServer)
+		{
+			UpdateConnectedPlayersMessage.Send();
+		}
+		Debug.Log($"Added {player}. Total:{values.Count}; {string.Join("; ",values)}");
 	}
 
 
@@ -329,25 +351,6 @@ public class PlayerList : NetworkBehaviour
 			TryRemove(connectedPlayer);
 		}
 	}
-
-	public int ConnectionCount => values.Count;
-	public int PlayerCount => values.FindAll(player => player.GameObject != null).Count;
-
-	//filling a struct without connections and gameobjects for clients
-	public List<ClientConnectedPlayer> DiscreetPlayerList =>
-		values.Aggregate(new List<ClientConnectedPlayer>(), (list, player) =>
-		{
-			list.Add(new ClientConnectedPlayer {Name = player.Name, Job = player.Job});
-			return list;
-		});
-
-	public static readonly ConnectedPlayer InvalidConnectedPlayer = new ConnectedPlayer
-	{
-		Connection = new NetworkConnection(),
-		GameObject = null,
-		Name = "kek",
-		Job = JobType.NULL
-	};
 }
 
 public class ConnectedPlayer
@@ -383,6 +386,10 @@ public class ConnectedPlayer
 
 	private void TryAddName(string playerName)
 	{
+		if (name == playerName)
+		{
+			return;
+		}
 		int numSameNames = 0;
 
 		var playerList = PlayerList.Instance;
@@ -402,6 +409,7 @@ public class ConnectedPlayer
 			Debug.Log("TRYING: " + playerName);
 		}
 
+		PlayerList.Instance.nameList.Remove(name);
 		PlayerList.Instance.nameList.Add(playerName);
 		if ( !PlayerList.Instance.playerScores.ContainsKey(playerName) )
 		{
@@ -413,7 +421,7 @@ public class ConnectedPlayer
 
 	public override string ToString()
 	{
-		return $"{nameof( Connection )}: {Connection}, {nameof( GameObject )}: {GameObject}, {nameof( Name )}: {Name}, {nameof( Job )}: {Job}";
+		return $"[conn={Connection.connectionId}|go={GameObject}|name='{Name}'|job={Job}]";
 	}
 }
 

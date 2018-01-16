@@ -19,7 +19,7 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 		if ( CustomNetworkManager.Instance._isServer )
 		{
 			Debug.Log("Server shouldn't process UpdateConnectedPlayersMessage");
-			yield return null;
+			yield break;
 		}
 		Debug.Log("Processed " + ToString());
 		yield return WaitFor(Subject);
@@ -29,6 +29,8 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 		{
 			PlayerList.Instance.Add(Players[i]);
 		}
+		PlayerList.Instance.RefreshPlayerListText();
+
 //		//Add missing players
 //		for ( var i = 0; i < Players.Length; i++ )
 //		{
