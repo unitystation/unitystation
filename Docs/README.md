@@ -5,7 +5,7 @@
 [![forthebadge](http://forthebadge.com/images/badges/built-with-resentment.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/contains-technical-debt.svg)](http://forthebadge.com)
 ![alt text](https://camo.githubusercontent.com/33e89a24d66a1f94b45f652c1fd0ed391b86595a/687474703a2f2f646f6f626c792e697a7a2e6d6f652f756e69747973746174696f6e2f77696b692f756e69747973746174696f6e4c4f474f2e706e67)<br>
 
-_Made for shameless cloning [/tg/station](http://www.tgstation13.org/) into Unity 2017.2+_
+_Made for shameless cloning [/tg/station](http://www.tgstation13.org/) into Unity 2017.3+_
 
 ## Play the Demo
 Currently we have released a playtest Deathmatch mode, we gladly invite you to try it out and report any bugs found. Please remember it does not represent the current state of development, as we are months further into the project now.
