@@ -14,13 +14,13 @@ echo "Attempting build of UnityStation for OSX"
 	-batchmode \
 	-nographics \
 	-silent-crashes \
-	-logFile $script_dir/Logs/OSXBuild.log \
+	-logFile $script_dir/Logs/OSXDebugBuild.log \
 	-projectPath $project_dir \
-	-executeMethod BuildScript.PerformOSXBuild \
+	-executeMethod BuildScript.PerformOSXDebugBuild \
 	-quit
 rc1=$?
 echo "Build logs (OSX)"
-cat $script_dir/Logs/OSXBuild.log
+cat $script_dir/Logs/OSXDebugBuild.log
 
 cp ../Builds/OSX/Unitystation.app ../Builds/OSX/Unitystation-Server.app
 echo "Building finished successfully"
