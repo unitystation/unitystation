@@ -39,4 +39,28 @@ public class BuildScript
 		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
+	private static void PerformOSXDebugBuild()
+	{
+		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostDeathmatch.unity"};
+		buildPlayerOptions.locationPathName = "../Builds/OSX/Unitystation.app";
+		buildPlayerOptions.target = BuildTarget.StandaloneOSX;
+		BuildPipeline.BuildPlayer(buildPlayerOptions);
+	}
+	private static void PerformLinuxDebugBuild()
+	{
+		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostDeathmatch.unity"};
+		buildPlayerOptions.locationPathName = "../Builds/Linux/Unitystation";
+		buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
+		BuildPipeline.BuildPlayer(buildPlayerOptions);
+	}
+	private static void PerformWindowsDebugBuild()
+	{
+		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostDeathmatch.unity"};
+		buildPlayerOptions.locationPathName = "../Builds/Windows/Unitystation.exe";
+		buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
+		BuildPipeline.BuildPlayer(buildPlayerOptions);
+	}
 }

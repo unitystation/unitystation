@@ -1,6 +1,6 @@
-[Package Manager] Server::Start -- Port 58734 was selected
+[Package Manager] Server::Start -- Port 63619 was selected
 
-LICENSE SYSTEM [2018116 14:29:26] Next license update check is after 2018-01-16T20:31:04
+LICENSE SYSTEM [2018116 14:33:34] Next license update check is after 2018-01-16T20:31:04
 
 
  COMMAND LINE ARGUMENTS:
@@ -9,19 +9,19 @@ LICENSE SYSTEM [2018116 14:29:26] Next license update check is after 2018-01-16T
 -nographics
 -silent-crashes
 -logFile
-/Users/Kjeld/GIT/unitystation/Tools/Logs/WindowsBuild.log
+/Users/Kjeld/GIT/unitystation/Tools/Logs/OSXBuild.log
 -projectPath
 /Users/Kjeld/GIT/unitystation/Unityproject
 -executeMethod
-BuildScript.PerformWindowsBuild
+BuildScript.PerformOSXBuild
 -quit
 Successfully changed project path to: /Users/Kjeld/GIT/unitystation/Unityproject
 /Users/Kjeld/GIT/unitystation/UnityProject
-Loading GUID <-> Path mappings...0.000544 seconds
-Loading Asset Database...0.128925 seconds
+Loading GUID <-> Path mappings...0.000090 seconds
+Loading Asset Database...0.113150 seconds
 Audio: FMOD Profiler initialized on port 54900
-AssetDatabase consistency checks...0.245731 seconds
-Refreshing native plugins compatible for Editor in 15.37 ms, found 1 plugins.
+AssetDatabase consistency checks...0.237881 seconds
+Refreshing native plugins compatible for Editor in 9.73 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 DisplayProgressbar: Unity Package Manager
 [Package Manager] Resolving 4 packages:
@@ -45,9 +45,9 @@ Initialize mono
 Mono path[0] = '/Applications/Unity/Unity.app/Contents/Managed'
 Mono path[1] = '/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5'
 Mono config path = '/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=0.0.0.0:56928
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=0.0.0.0:56968
 Begin MonoManager ReloadAssembly
-Refreshing native plugins compatible for Editor in 1.07 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 0.82 ms, found 4 plugins.
 Initializing Unity.PackageManager (PackageManager) v2017.3.0 for Unity v2017.3.0p1
 Registering precompiled unity dll's ...
 Register platform support module: /Applications/Unity/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
@@ -58,16 +58,16 @@ Register platform support module: /Applications/Unity/PlaybackEngines/LinuxStand
 Register platform support module: /Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
 Register platform support module: /Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
 Register platform support module: /Applications/Unity/PlaybackEngines/Facebook/UnityEditor.Facebook.Extensions.dll
-Registered in 0.001658 seconds.
-Refreshing native plugins compatible for Editor in 0.99 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 7.56 ms.
+Registered in 0.001130 seconds.
+Refreshing native plugins compatible for Editor in 1.06 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 5.15 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  3.014 seconds
+- Completed reload, in  2.534 seconds
 Registering platform support modules:
-Registered platform support modules in: 0.2196358s.
+Registered platform support modules in: 0.2094374s.
 Native extension for Android target not found
 Native extension for iOS target not found
-[XcodeApplications] RefreshListOfAvailableXcodeApplications in: 0.0335185s.
+[XcodeApplications] RefreshListOfAvailableXcodeApplications in: 0.0264936s.
 Native extension for tvOS target not found
 Native extension for WebGL target not found
 Native extension for LinuxStandalone target not found
@@ -89,10 +89,10 @@ stderr:
 
 Begin MonoManager ReloadAssembly
 Registering precompiled user dll's ...
-Registered in 0.276956 seconds.
-Refreshing native plugins compatible for Editor in 0.93 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.54 ms.
-[Rider] 14:29:34:39 [Info] Rider plugin initialized. You may change the amount of Rider Debug output via Edit -> Preferences -> Rider -> Logging Level
+Registered in 0.250339 seconds.
+Refreshing native plugins compatible for Editor in 1.25 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.53 ms.
+[Rider] 14:33:41:06 [Info] Rider plugin initialized. You may change the amount of Rider Debug output via Edit -> Preferences -> Rider -> Logging Level
 UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
 UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
 UnityEngine.Logger:Log(LogType, Object)
@@ -108,177 +108,128 @@ UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes() (at /Users/buil
 (Filename: Assets/Plugins/Editor/JetBrains/Unity3DRider.cs Line: 488)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  1.650 seconds
+- Completed reload, in  1.525 seconds
 Initializing Unity.PackageManager (PackageManager) v2017.3.0 for Unity v2017.3.0p1
 Registering platform support modules:
-Registered platform support modules in: 0.1271837s.
+Registered platform support modules in: 0.1377964s.
 Native extension for Android target not found
 Native extension for iOS target not found
-[XcodeApplications] RefreshListOfAvailableXcodeApplications in: 0.0041156s.
+[XcodeApplications] RefreshListOfAvailableXcodeApplications in: 0.0039221s.
 Native extension for tvOS target not found
 Native extension for WebGL target not found
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
 Native extension for OSXStandalone target not found
 Native extension for Facebook target not found
-Validating Project structure ... 0.121559 seconds.
-Refresh: detecting if any assets need to be imported or removed ... 
-Hashing assets ... 0.002 seconds
-  file open: 0.000 seconds (2 files)
-  file read: 0.001 seconds (0.002 MB)
-  hash: 0.000 seconds
------ Compute hash(es) for 1 asset(s).
-
-Refresh: elapses 0.406983 seconds
-Updating Assets/Scripts/Editor/BuildServer.cs - GUID: 16a807f132d709f40a8f151c7a758380...
- done. [Time: 282.534436 ms] 
-Unloading 443 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 302.9 MB.
-System memory in use after: 302.9 MB.
-
-Unloading 150 unused Assets to reduce memory usage. Loaded Objects now: 1143.
-Total: 9.489786 ms (FindLiveObjects: 0.807599 ms CreateObjectMapping: 0.064031 ms MarkObjects: 8.071748 ms  DeleteObjects: 0.544571 ms)
-
-- Starting compile Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-- Finished compile Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
-Reloading assemblies after script compilation.
-Begin MonoManager ReloadAssembly
-Refreshing native plugins compatible for Editor in 45.80 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.52 ms.
-[Rider] 14:29:39:56 [Info] Rider plugin initialized. You may change the amount of Rider Debug output via Edit -> Preferences -> Rider -> Logging Level
-UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
-UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
-UnityEngine.Logger:Log(LogType, Object)
-UnityEngine.Debug:Log(Object)
-Plugins.Editor.JetBrains.RiderPlugin:Log(LoggingLevel, String) (at Assets/Plugins/Editor/JetBrains/Unity3DRider.cs:488)
-Plugins.Editor.JetBrains.RiderPlugin:InitRiderPlugin() (at Assets/Plugins/Editor/JetBrains/Unity3DRider.cs:682)
-Plugins.Editor.JetBrains.RiderPlugin:.cctor() (at Assets/Plugins/Editor/JetBrains/Unity3DRider.cs:667)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor(IntPtr)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor(RuntimeTypeHandle) (at /Users/builduser/buildslave/mono/build/mcs/class/corlib/System.Runtime.CompilerServices/RuntimeHelpers.cs:89)
-UnityEditor.EditorAssemblies:ProcessEditorInitializeOnLoad(Type) (at /Users/builduser/buildslave/unity/build/Editor/Mono/EditorAssemblies.cs:136)
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes() (at /Users/builduser/buildslave/unity/build/Editor/Mono/EditorAssemblies.cs:162)
- 
-(Filename: Assets/Plugins/Editor/JetBrains/Unity3DRider.cs Line: 488)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  1.924 seconds
-Initializing Unity.PackageManager (PackageManager) v2017.3.0 for Unity v2017.3.0p1
-Registering platform support modules:
-Registered platform support modules in: 0.1144537s.
-Native extension for Android target not found
-Native extension for iOS target not found
-[XcodeApplications] RefreshListOfAvailableXcodeApplications in: 0.0090837s.
-Native extension for tvOS target not found
-Native extension for WebGL target not found
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Native extension for OSXStandalone target not found
-Native extension for Facebook target not found
-Refreshing native plugins compatible for Editor in 0.94 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.59 ms.
-
------ Total AssetImport time: 5.164927s, AssetImport time: 4.946975s, Asset hashing: 0.001982s [2.3 KB, 1.131917 mb/s]
-
-Warming cache for 4570 main assets: 0.534870 seconds elapsed
+Validating Project structure ... 0.126599 seconds.
+Refresh: detecting if any assets need to be imported or removed ... Refresh: elapses 0.202452 seconds (Nothing changed)
+Warming cache for 4570 main assets: 0.398783 seconds elapsed
 Initializing Unity extensions:
 Updating Library/FacebookSDK/Facebook.Unity.Arcade.dll - GUID: bb6b4101ad2c42ec99f064a70c354e3c...
 Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
-Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517097822701950  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.Arcade.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
+Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517100232935730  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.Arcade.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
 index: -1
 
- done. [Time: 952.039533 ms] 
-Refreshing native plugins compatible for Editor in 1.31 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.67 ms.
+ done. [Time: 951.325537 ms] 
+Unloading 444 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 319.6 MB.
+System memory in use after: 319.7 MB.
 
------ Total AssetImport time: 1.292910s, AssetImport time: 1.139344s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
+Unloading 149 unused Assets to reduce memory usage. Loaded Objects now: 1143.
+Total: 4.115230 ms (FindLiveObjects: 0.765208 ms CreateObjectMapping: 0.075426 ms MarkObjects: 2.962390 ms  DeleteObjects: 0.310049 ms)
+
+Refreshing native plugins compatible for Editor in 19.56 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.60 ms.
+
+----- Total AssetImport time: 1.262179s, AssetImport time: 1.142843s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
 
 Updating Library/FacebookSDK/Facebook.Unity.dll - GUID: 2403d1f95ea54028853403e595bc9274...
 Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
-Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517097834236810  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
+Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517100244939100  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
 index: -1
 
- done. [Time: 2538.987843 ms] 
-Refreshing native plugins compatible for Editor in 1.39 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.59 ms.
-
------ Total AssetImport time: 2.785694s, AssetImport time: 2.680750s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
-
-Updating Library/FacebookSDK/Facebook.Unity.dll - GUID: 2403d1f95ea54028853403e595bc9274...
-Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
-Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517097862044850  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
-index: -1
-
- done. [Time: 2545.223722 ms] 
-Refreshing native plugins compatible for Editor in 2.10 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.82 ms.
-
------ Total AssetImport time: 2.806415s, AssetImport time: 2.698936s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
-
-Updating Library/FacebookSDK/Facebook.Unity.Arcade.dll - GUID: bb6b4101ad2c42ec99f064a70c354e3c...
-Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
-Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517097890837570  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.Arcade.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
-index: -1
-
- done. [Time: 748.781604 ms] 
-Refreshing native plugins compatible for Editor in 1.39 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.62 ms.
-
------ Total AssetImport time: 1.067773s, AssetImport time: 0.929646s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
-
-Updating Library/FacebookSDK/Facebook.Unity.Arcade.dll - GUID: bb6b4101ad2c42ec99f064a70c354e3c...
-Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
-Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517097900882080  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.Arcade.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
-index: -1
-
- done. [Time: 699.821175 ms] 
-Refreshing native plugins compatible for Editor in 1.68 ms, found 4 plugins.
+ done. [Time: 2354.111424 ms] 
+Refreshing native plugins compatible for Editor in 1.57 ms, found 4 plugins.
 Preloading 1 native plugins for Editor in 0.80 ms.
 
------ Total AssetImport time: 0.954944s, AssetImport time: 0.847460s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
+----- Total AssetImport time: 2.596215s, AssetImport time: 2.493178s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
+
+Updating Library/FacebookSDK/Facebook.Unity.dll - GUID: 2403d1f95ea54028853403e595bc9274...
+Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
+Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517100270893420  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
+index: -1
+
+ done. [Time: 2409.851513 ms] 
+Refreshing native plugins compatible for Editor in 1.32 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.57 ms.
+
+----- Total AssetImport time: 2.660252s, AssetImport time: 2.555119s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
+
+Updating Library/FacebookSDK/Facebook.Unity.Arcade.dll - GUID: bb6b4101ad2c42ec99f064a70c354e3c...
+Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
+Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517100297474500  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.Arcade.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
+index: -1
+
+ done. [Time: 704.040185 ms] 
+Refreshing native plugins compatible for Editor in 1.37 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.57 ms.
+
+----- Total AssetImport time: 0.951634s, AssetImport time: 0.854271s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
+
+Updating Library/FacebookSDK/Facebook.Unity.Arcade.dll - GUID: bb6b4101ad2c42ec99f064a70c354e3c...
+Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
+Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517100307017370  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.Arcade.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
+index: -1
+
+ done. [Time: 688.843114 ms] 
+Refreshing native plugins compatible for Editor in 1.55 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.78 ms.
+
+----- Total AssetImport time: 0.937316s, AssetImport time: 0.830795s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
 
 Updating Library/FacebookSDK/Facebook.Unity.Settings.dll - GUID: 18b4dbf8a0b54ea4adf46fb7f4d71dd0...
 Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
-Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517097910335890  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.Settings.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
+Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517100316249370  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.Settings.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
 index: -1
 
- done. [Time: 1245.630540 ms] 
-Refreshing native plugins compatible for Editor in 1.67 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.94 ms.
+ done. [Time: 1172.586097 ms] 
+Refreshing native plugins compatible for Editor in 1.47 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.78 ms.
 
------ Total AssetImport time: 1.498200s, AssetImport time: 1.392339s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
+----- Total AssetImport time: 1.401652s, AssetImport time: 1.308244s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
 
 Updating Library/FacebookSDK/Facebook.Unity.Settings.dll - GUID: 18b4dbf8a0b54ea4adf46fb7f4d71dd0...
 Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
-Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517097925603270  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.Settings.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
+Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517100330333150  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/Facebook.Unity.Settings.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
 index: -1
 
- done. [Time: 1285.024005 ms] 
+ done. [Time: 1159.598455 ms] 
 Refreshing native plugins compatible for Editor in 1.35 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.59 ms.
+Preloading 1 native plugins for Editor in 0.65 ms.
 
------ Total AssetImport time: 1.563925s, AssetImport time: 1.440421s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
-
-Updating Library/FacebookSDK/FacebookNamedPipeClient.dll - GUID: 51288a4fc4384861a5b1f9dd49b3da26...
-Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
-Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517097941392250  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/FacebookNamedPipeClient.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
-index: -1
-
- done. [Time: 844.607132 ms] 
-Refreshing native plugins compatible for Editor in 3.01 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.88 ms.
-
------ Total AssetImport time: 1.143302s, AssetImport time: 1.000891s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
+----- Total AssetImport time: 1.397099s, AssetImport time: 1.294617s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
 
 Updating Library/FacebookSDK/FacebookNamedPipeClient.dll - GUID: 51288a4fc4384861a5b1f9dd49b3da26...
 Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
-Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517097953084190  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/FacebookNamedPipeClient.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
+Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517100344307050  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/FacebookNamedPipeClient.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
 index: -1
 
- done. [Time: 977.388456 ms] 
-Refreshing native plugins compatible for Editor in 1.82 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.82 ms.
+ done. [Time: 697.823777 ms] 
+Refreshing native plugins compatible for Editor in 1.34 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.57 ms.
 
------ Total AssetImport time: 1.292882s, AssetImport time: 1.152633s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
+----- Total AssetImport time: 0.933509s, AssetImport time: 0.836081s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
+
+Updating Library/FacebookSDK/FacebookNamedPipeClient.dll - GUID: 51288a4fc4384861a5b1f9dd49b3da26...
+Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
+Arguments: '/Applications/Unity/Unity.app/Contents/Tools/ScriptUpdater/AssemblyUpdater.exe'  --timestamp 636517100353681830  --api-version 2017.3.0p1 --check-update-required -a '/Users/Kjeld/GIT/unitystation/UnityProject/Library/FacebookSDK/FacebookNamedPipeClient.dll' -s "/Applications/Unity/Unity.app/Contents/Managed,+/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity,+/Users/Kjeld/GIT/unitystation/UnityProject/Assets" '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/portable/nunit.framework.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Runtime/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Runtime/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll' '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll' '/Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll' '/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll'
+index: -1
+
+ done. [Time: 695.403406 ms] 
+Refreshing native plugins compatible for Editor in 1.38 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.71 ms.
+
+----- Total AssetImport time: 0.937538s, AssetImport time: 0.836901s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
 
  '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll'  GUID: 12fd8a0055b84bb59e84c9835a37e333
  '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll'  GUID: 6a10b2909283487f913b00d94cd3faf5
@@ -310,21 +261,21 @@ Preloading 1 native plugins for Editor in 0.82 ms.
  '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/Editor/UnityEditor.UIAutomation.dll'  GUID: b8a0574e92bd43a59e19d6c3c6ae54c7
  '/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll'  GUID: 7668179ede524d6396c8b7d84461ea29
  'Library/FacebookSDK/FacebookNamedPipeClient.dll'  GUID: 51288a4fc4384861a5b1f9dd49b3da26
-Unloading 236 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 322.9 MB.
-System memory in use after: 323.0 MB.
+Unloading 235 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 317.4 MB.
+System memory in use after: 317.5 MB.
 
 Unloading 178 unused Assets to reduce memory usage. Loaded Objects now: 1200.
-Total: 5.118443 ms (FindLiveObjects: 1.604012 ms CreateObjectMapping: 0.114926 ms MarkObjects: 3.323013 ms  DeleteObjects: 0.072290 ms)
+Total: 4.078261 ms (FindLiveObjects: 0.825452 ms CreateObjectMapping: 0.116565 ms MarkObjects: 3.068830 ms  DeleteObjects: 0.065800 ms)
 
-BuildPlayer: start building target 19
+BuildPlayer: start building target 2
 - Starting compile Library/ScriptAssemblies/Assembly-CSharp.dll
 
 -----Compiler Commandline Arguments:
 Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
-Arguments: '/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/mcs.exe'  @Temp/UnityTempFile-6f11499d96dc14b32aafc8f4401dd94d
+Arguments: '/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/mcs.exe'  @Temp/UnityTempFile-6a2d441f2b4c9418988da51d7da58c49
 index: 81
-Responsefile: Temp/UnityTempFile-6f11499d96dc14b32aafc8f4401dd94d Contents: 
+Responsefile: Temp/UnityTempFile-6a2d441f2b4c9418988da51d7da58c49 Contents: 
 -debug
 -target:library
 -nowarn:0169
@@ -332,53 +283,53 @@ Responsefile: Temp/UnityTempFile-6f11499d96dc14b32aafc8f4401dd94d Contents:
 -out:'Temp/Assembly-CSharp.dll'
 -unsafe
 -optimize
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.CoreModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.AccessibilityModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.ParticleSystemModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.PhysicsModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.VehiclesModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.ClothModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.AIModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.AnimationModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.TextRenderingModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.UIModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.TerrainPhysicsModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.IMGUIModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.ClusterInputModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.ClusterRendererModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.UNETModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.DirectorModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.UnityAnalyticsModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.PerformanceReportingModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.UnityConnectModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.WebModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.ARModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.VRModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.UIElementsModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.StyleSheetsModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.AssetBundleModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.AudioModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.CrashReportingModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.GameCenterModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.GridModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.ImageConversionModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.InputModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.JSONSerializeModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.ParticlesLegacyModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.Physics2DModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.ScreenCaptureModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.SharedInternalsModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.SpriteMaskModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.SpriteShapeModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.TerrainModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.TilemapModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.UnityWebRequestModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.UnityWebRequestAudioModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.UnityWebRequestTextureModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.UnityWebRequestWWWModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.VideoModule.dll'
--r:'/Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/Managed/UnityEngine.WindModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.CoreModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.AccessibilityModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.ParticleSystemModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.PhysicsModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.VehiclesModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.ClothModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.AIModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.AnimationModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.TextRenderingModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.UIModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.TerrainPhysicsModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.IMGUIModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.ClusterInputModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.ClusterRendererModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.UNETModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.DirectorModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.UnityAnalyticsModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.PerformanceReportingModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.UnityConnectModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.WebModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.ARModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.VRModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.UIElementsModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.StyleSheetsModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.AssetBundleModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.AudioModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.CrashReportingModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.GameCenterModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.GridModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.ImageConversionModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.InputModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.JSONSerializeModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.ParticlesLegacyModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.Physics2DModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.ScreenCaptureModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.SharedInternalsModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.SpriteMaskModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.SpriteShapeModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.TerrainModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.TilemapModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.UnityWebRequestModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.UnityWebRequestAudioModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.UnityWebRequestTextureModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.UnityWebRequestWWWModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.VideoModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/Managed/UnityEngine.WindModule.dll'
 -r:'/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll'
 -r:'/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll'
 -r:'/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll'
@@ -451,11 +402,12 @@ Responsefile: Temp/UnityTempFile-6f11499d96dc14b32aafc8f4401dd94d Contents:
 -define:ENABLE_CUSTOM_RENDER_TEXTURE
 -define:ENABLE_STYLE_SHEETS
 -define:ENABLE_LOCALIZATION
--define:PLATFORM_STANDALONE_WIN
+-define:PLATFORM_STANDALONE_OSX
 -define:PLATFORM_STANDALONE
--define:UNITY_STANDALONE_WIN
+-define:UNITY_STANDALONE_OSX
 -define:UNITY_STANDALONE
 -define:ENABLE_SUBSTANCE
+-define:ENABLE_GAMECENTER
 -define:ENABLE_RUNTIME_GI
 -define:ENABLE_MOVIES
 -define:ENABLE_NETWORK
@@ -465,10 +417,11 @@ Responsefile: Temp/UnityTempFile-6f11499d96dc14b32aafc8f4401dd94d Contents:
 -define:ENABLE_CLOUD_SERVICES_ANALYTICS
 -define:ENABLE_CLOUD_SERVICES_PURCHASING
 -define:ENABLE_CLOUD_SERVICES_CRASH_REPORTING
--define:ENABLE_EVENT_QUEUE
+-define:ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING
 -define:ENABLE_CLUSTERINPUT
 -define:ENABLE_VR
 -define:ENABLE_AR
+-define:ENABLE_SPATIALTRACKING
 -define:ENABLE_WEBSOCKET_HOST
 -define:ENABLE_MONO
 -define:NET_4_6
@@ -799,7 +752,7 @@ Assets/Scripts/UI/RightPanelResize.cs(20,17): warning CS0414: The private field 
 - Finished compile Library/ScriptAssemblies/Assembly-CSharp.dll
 Symbols will be read from Temp/Assembly-CSharp.dll.mdb
 Script Module: Assembly-CSharp.dll
-Pass: 0 took 73 milliseconds
+Pass: 0 took 50 milliseconds
 [BloodSplat] Found NetworkBehaviour BloodSplat
 [BloodSplat] NetworkBehaviourProcessor
 [BloodSplat] Process Start
@@ -1387,8 +1340,8 @@ Pass: 0 took 73 milliseconds
 [WeaponNetworkActions]   GenerateSerialization
 [WeaponNetworkActions]   GenerateDeSerialization
 [WeaponNetworkActions] Process Done
-Pass: 1 took 543 milliseconds
-  ProcessSitesModule Assembly-CSharp.dll elapsed time:00:00:00.3545040
+Pass: 1 took 495 milliseconds
+  ProcessSitesModule Assembly-CSharp.dll elapsed time:00:00:00.2899390
 Assets/Scripts/Camera/FieldOfViewTiled.cs(165,3): warning CS0162: Unreachable code detected
  
 (Filename: Assets/Scripts/Camera/FieldOfViewTiled.cs Line: 165)
@@ -1465,39 +1418,77 @@ Assets/Scripts/UI/RightPanelResize.cs(20,17): warning CS0414: The private field 
  
 (Filename: Assets/Scripts/UI/RightPanelResize.cs Line: 20)
 
-Refreshing native plugins compatible for Editor in 0.82 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 0.73 ms, found 4 plugins.
 DisplayProgressbar: Building Player
+Refresh: detecting if any assets need to be imported or removed ... Refresh: elapses 0.209113 seconds (Nothing changed)
+Determining assets that need to be reimported for target platform ... DisplayProgressbar: Hold on
+3.449048 seconds.
+
+Hashing assets ... 1.492 seconds
+  file open: 0.056 seconds (3038 files)
+  file read: 1.361 seconds (104.923 MB)
+  hash: 0.155 seconds
+
+Hashing assets ... 0.002 seconds
+  file open: 0.000 seconds (2 files)
+  file read: 0.002 seconds (0.180 MB)
+  hash: 0.000 seconds
+Updating Assets/Light2D/Resources/DefaultLight.psd - GUID: 0846a06dcf035814d9cee71f4ba273f9...
+Could not create asset from Assets/Light2D/Resources/DefaultLight.psd: File could not be read
+UnityEditor.BuildPipeline:BuildPlayerInternalNoCheck(String[], String, String, BuildTargetGroup, BuildTarget, BuildOptions, Boolean)
+UnityEditor.BuildPipeline:BuildPlayerInternal(String[], String, String, BuildTargetGroup, BuildTarget, BuildOptions) (at /Users/builduser/buildslave/unity/build/artifacts/generated/common/editor/BuildPipelineBindings.gen.cs:335)
+UnityEditor.BuildPipeline:BuildPlayer(String[], String, String, BuildTargetGroup, BuildTarget, BuildOptions) (at /Users/builduser/buildslave/unity/build/artifacts/generated/common/editor/BuildPipelineBindings.gen.cs:232)
+UnityEditor.BuildPipeline:BuildPlayer(BuildPlayerOptions) (at /Users/builduser/buildslave/unity/build/artifacts/generated/common/editor/BuildPipelineBindings.gen.cs:210)
+BuildScript:PerformOSXBuild() (at Assets/Scripts/Editor/BuildServer.cs:31)
+
+[/Users/builduser/buildslave/unity/build/Editor/Src/AssetPipeline/TextureImporting/TextureImporter.cpp line 475] 
+(Filename: /Users/builduser/buildslave/unity/build/artifacts/generated/common/editor/BuildPipelineBindings.gen.cs Line: 335)
+
+ done. [Time: 17.242808 ms] 
+Unloading 2918 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 391.3 MB.
+System memory in use after: 391.7 MB.
+
+Unloading 2915 unused Assets to reduce memory usage. Loaded Objects now: 3193.
+Total: 73.610845 ms (FindLiveObjects: 1.249196 ms CreateObjectMapping: 0.385287 ms MarkObjects: 71.359532 ms  DeleteObjects: 0.615148 ms)
+
+Refreshing native plugins compatible for Editor in 11.85 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.52 ms.
+
+----- Total AssetImport time: 5.231808s, AssetImport time: 0.247243s, Asset hashing: 0.002067s [184.4 KB, 87.086708 mb/s]
+
 
 Packing sprites:
-[     58 MB ]- Collect Sprites to Pack : (SequentialAtlasing : 0) 
-[     58 MB ]- Grouping sprites using the selected SpritePackerPolicy.
+[     59 MB ]- Collect Sprites to Pack : (SequentialAtlasing : 0) 
+[     59 MB ]- Grouping sprites using the selected SpritePackerPolicy.
 [    101 MB ][    101 MB ]- Completed grouping sprites to Atlas.
 [    101 MB ]- Build Sprite Atlas. 
 [    101 MB ]- Packing 0 atlases.
 [    101 MB ]- Packing completed.
 [    101 MB ]- Update Sprites and Cleanup. 
-[    101 MB ]Opening scene 'Assets/scenes/Lobby.unity'
-Load scene 'Assets/scenes/Lobby.unity' time: 0.709031 ms 
+[    101 MB ]DisplayProgressbar: Building Player
+Opening scene 'Assets/scenes/Lobby.unity'
+Load scene 'Assets/scenes/Lobby.unity' time: 0.037358 ms 
+Unloading 1452 Unused Serialized files (Serialized files now loaded: 0)
 Setting up 4 worker threads for Enlighten.
-  Thread -> id: 700007c42000 -> priority: 1 
-  Thread -> id: 7000095d0000 -> priority: 1 
-  Thread -> id: 700009653000 -> priority: 1 
-  Thread -> id: 7000096d6000 -> priority: 1 
-Unloading 1469 Unused Serialized files (Serialized files now loaded: 0)
+  Thread -> id: 7000015c8000 -> priority: 1 
+  Thread -> id: 7000018da000 -> priority: 1 
+  Thread -> id: 700003665000 -> priority: 1 
+  Thread -> id: 7000036e8000 -> priority: 1 
 System memory in use before: 1.04 GB.
 System memory in use after: 1.04 GB.
 
 Unloading 608 unused Assets to reduce memory usage. Loaded Objects now: 95853.
-Total: 220.272268 ms (FindLiveObjects: 43.952148 ms CreateObjectMapping: 15.513221 ms MarkObjects: 130.567223 ms  DeleteObjects: 30.237987 ms)
+Total: 238.630297 ms (FindLiveObjects: 29.316087 ms CreateObjectMapping: 20.020807 ms MarkObjects: 147.244734 ms  DeleteObjects: 42.046443 ms)
 
 Opening scene 'Assets/scenes/OutpostDeathmatch.unity'
-Load scene 'Assets/scenes/OutpostDeathmatch.unity' time: 0.034126 ms 
+Load scene 'Assets/scenes/OutpostDeathmatch.unity' time: 0.034644 ms 
 Unloading 1381 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 1.14 GB.
 System memory in use after: 1.15 GB.
 
 Unloading 8344 unused Assets to reduce memory usage. Loaded Objects now: 111429.
-Total: 256.115981 ms (FindLiveObjects: 9.409044 ms CreateObjectMapping: 16.278082 ms MarkObjects: 140.058914 ms  DeleteObjects: 90.368261 ms)
+Total: 251.469941 ms (FindLiveObjects: 9.924448 ms CreateObjectMapping: 15.112892 ms MarkObjects: 142.421250 ms  DeleteObjects: 84.009389 ms)
 
 
 
@@ -1524,23 +1515,23 @@ System memory in use before: 1.10 GB.
 System memory in use after: 1.04 GB.
 
 Unloading 4504 unused Assets to reduce memory usage. Loaded Objects now: 93458.
-Total: 191.593868 ms (FindLiveObjects: 6.964704 ms CreateObjectMapping: 12.569333 ms MarkObjects: 123.133409 ms  DeleteObjects: 48.924324 ms)
+Total: 187.151495 ms (FindLiveObjects: 6.768834 ms CreateObjectMapping: 13.538937 ms MarkObjects: 120.396862 ms  DeleteObjects: 46.445059 ms)
 
 Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 0.87 GB.
 System memory in use after: 0.88 GB.
 
 Unloading 64 unused Assets to reduce memory usage. Loaded Objects now: 93403.
-Total: 136.532630 ms (FindLiveObjects: 6.687990 ms CreateObjectMapping: 11.640731 ms MarkObjects: 117.953860 ms  DeleteObjects: 0.248468 ms)
+Total: 151.124957 ms (FindLiveObjects: 8.208026 ms CreateObjectMapping: 12.927598 ms MarkObjects: 129.698275 ms  DeleteObjects: 0.289224 ms)
 
 Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 0.92 GB.
 System memory in use after: 0.88 GB.
 
 Unloading 144 unused Assets to reduce memory usage. Loaded Objects now: 93394.
-Total: 461.308229 ms (FindLiveObjects: 6.772054 ms CreateObjectMapping: 11.887951 ms MarkObjects: 116.072653 ms  DeleteObjects: 326.574033 ms)
+Total: 457.689429 ms (FindLiveObjects: 6.450180 ms CreateObjectMapping: 11.525996 ms MarkObjects: 122.111194 ms  DeleteObjects: 317.600263 ms)
 
-Launched and connected shader compiler UnityShaderCompiler after 0.17 seconds
+Launched and connected shader compiler UnityShaderCompiler after 0.20 seconds
 Launched and connected shader compiler UnityShaderCompiler after 0.03 seconds
 Launched and connected shader compiler UnityShaderCompiler after 0.03 seconds
 Launched and connected shader compiler UnityShaderCompiler after 0.03 seconds
@@ -1553,40 +1544,40 @@ System memory in use before: 1.04 GB.
 System memory in use after: 1.04 GB.
 
 Unloading 11023 unused Assets to reduce memory usage. Loaded Objects now: 93403.
-Total: 269.912568 ms (FindLiveObjects: 9.689312 ms CreateObjectMapping: 13.592848 ms MarkObjects: 140.255866 ms  DeleteObjects: 106.373219 ms)
+Total: 243.821302 ms (FindLiveObjects: 8.903900 ms CreateObjectMapping: 13.568370 ms MarkObjects: 120.829023 ms  DeleteObjects: 100.518401 ms)
 
-Refreshing native plugins compatible for Editor in 10.63 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.77 ms.
+Refreshing native plugins compatible for Editor in 9.58 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.66 ms.
 
 ***Player size statistics***
-Level 0 'Assets/scenes/Lobby.unity' uses 4.5 MB compressed / 34.4 MB uncompressed.
-Level 1 'Assets/scenes/OutpostDeathmatch.unity' uses 49.9 MB compressed / 0.54 GB uncompressed.
+Level 0 'Assets/scenes/Lobby.unity' uses 4.4 MB compressed / 34.2 MB uncompressed.
+Level 1 'Assets/scenes/OutpostDeathmatch.unity' uses 50.0 MB compressed / 0.54 GB uncompressed.
 Total compressed size 54.4 MB. Total uncompressed size 0.58 GB.
 
 -------------------------------------------------------------------------------
 Build Report
 Uncompressed usage by category:
-Textures      504.8 mb	 73.6% 
+Textures      504.8 mb	 72.4% 
 Meshes        0.0 kb	 0.0% 
 Animations    23.5 kb	 0.0% 
 Sounds        4.2 mb	 0.6% 
-Shaders       118.1 kb	 0.0% 
-Other Assets  72.9 mb	 10.6% 
+Shaders       91.3 kb	 0.0% 
+Other Assets  72.9 mb	 10.5% 
 Levels        2.1 mb	 0.3% 
 Scripts       1.6 mb	 0.2% 
 Included DLLs 10.9 mb	 1.6% 
 File headers  2.1 mb	 0.3% 
-Complete size 685.6 mb	 100.0% 
+Complete size 697.3 mb	 100.0% 
 
 Used Assets and files from the Resources folder, sorted by uncompressed size:
- 17.7 mb	 2.6% Assets/Resources/Icons/Minimaps/Delta Station_2.png
- 17.7 mb	 2.6% Assets/Resources/Icons/Minimaps/OmegaStation_2.png
- 17.7 mb	 2.6% Assets/Resources/Icons/Minimaps/MetaStation_2.png
- 17.7 mb	 2.6% Assets/Resources/Icons/Minimaps/CereStation_2.png
- 17.7 mb	 2.6% Assets/Resources/Icons/Minimaps/Box Station_2.png
- 17.7 mb	 2.6% Assets/Resources/Icons/Mob/screen_full.png
+ 17.7 mb	 2.5% Assets/Resources/Icons/Minimaps/Delta Station_2.png
+ 17.7 mb	 2.5% Assets/Resources/Icons/Minimaps/OmegaStation_2.png
+ 17.7 mb	 2.5% Assets/Resources/Icons/Minimaps/MetaStation_2.png
+ 17.7 mb	 2.5% Assets/Resources/Icons/Minimaps/CereStation_2.png
+ 17.7 mb	 2.5% Assets/Resources/Icons/Minimaps/Box Station_2.png
+ 17.7 mb	 2.5% Assets/Resources/Icons/Mob/screen_full.png
  16.0 mb	 2.3% Assets/Resources/Icons/Effects/512x512.png
- 14.8 mb	 2.2% Assets/Resources/Icons/Effects/station_explosion.png
+ 14.8 mb	 2.1% Assets/Resources/Icons/Effects/station_explosion.png
  12.3 mb	 1.8% Assets/Resources/Icons/Obj/narsie_spawn_anim.png
  11.6 mb	 1.7% Assets/Resources/Icons/Effects/ore_visuals.png
  9.8 mb	 1.4% Assets/Resources/Icons/Effects/400x400.png
@@ -1596,9 +1587,9 @@ Used Assets and files from the Resources folder, sorted by uncompressed size:
  7.6 mb	 1.1% Assets/Resources/Icons/Effects/352x352.png
  6.7 mb	 1.0% Assets/Resources/Metadata/Outpost2.json
  6.7 mb	 1.0% Assets/Resources/Metadata/Outpost.json
- 5.9 mb	 0.9% Assets/Resources/Icons/Mob/head.png
- 5.8 mb	 0.9% Assets/Resources/Icons/Effects/parallax.png
- 5.1 mb	 0.8% Assets/Resources/Icons/Mob/AI.png
+ 5.9 mb	 0.8% Assets/Resources/Icons/Mob/head.png
+ 5.8 mb	 0.8% Assets/Resources/Icons/Effects/parallax.png
+ 5.1 mb	 0.7% Assets/Resources/Icons/Mob/AI.png
  4.8 mb	 0.7% Assets/Resources/Icons/Effects/effects.png
  4.8 mb	 0.7% Assets/Resources/Icons/Mob/suit.png
  4.8 mb	 0.7% Assets/Resources/Icons/Effects/224x224.png
@@ -1644,7 +1635,7 @@ Used Assets and files from the Resources folder, sorted by uncompressed size:
  1.9 mb	 0.3% Assets/Resources/Icons/Obj/monitors.png
  1.9 mb	 0.3% Assets/Textures/Resources/monitors.png
  1.8 mb	 0.3% Assets/Resources/Icons/Mob/eyes.png
- 1.7 mb	 0.3% Assets/Resources/Metadata/legacydmi.json
+ 1.7 mb	 0.2% Assets/Resources/Metadata/legacydmi.json
  1.7 mb	 0.2% Assets/Textures/Resources/blood.png
  1.7 mb	 0.2% Assets/Resources/Icons/Effects/blood.png
  1.6 mb	 0.2% Assets/Resources/Icons/Mob/actions.png
@@ -1831,7 +1822,7 @@ Used Assets and files from the Resources folder, sorted by uncompressed size:
  363.8 kb	 0.1% Assets/Resources/Icons/Obj/decals.png
  358.3 kb	 0.1% Assets/Resources/Icons/Effects/254x361.png
  357.4 kb	 0.1% Assets/Resources/Icons/Obj/Machines/dna_vault.png
- 355.9 kb	 0.1% Assets/UI/Fonts/Ubuntu_Font_Family_0.83 2/Ubuntu-BI.ttf
+ 355.9 kb	 0.0% Assets/UI/Fonts/Ubuntu_Font_Family_0.83 2/Ubuntu-BI.ttf
  350.1 kb	 0.0% Assets/UI/Fonts/Ubuntu_Font_Family_0.83 2/Ubuntu-R.ttf
  337.7 kb	 0.0% Assets/UI/Fonts/Ubuntu_Font_Family_0.83 2/Ubuntu-M.ttf
  337.0 kb	 0.0% Assets/Resources/Icons/Obj/Hydroponics/growing_vegetables.png
@@ -2148,7 +2139,7 @@ Used Assets and files from the Resources folder, sorted by uncompressed size:
  100.7 kb	 0.0% Assets/Textures/Obj/Doors/Doorfire.png
  98.5 kb	 0.0% Assets/Resources/Icons/Testing/turf_analysis.png
  96.1 kb	 0.0% Assets/Resources/Icons/Mob/32x64.png
- 93.4 kb	 0.0% Resources/unity_builtin_extra
+ 93.0 kb	 0.0% Resources/unity_builtin_extra
  91.5 kb	 0.0% Assets/Resources/Icons/Obj/Doors/Airlocks/Highsec/highsec.png
  91.1 kb	 0.0% Assets/Resources/Icons/Obj/Tesla_Engine/tesla_coil.png
  91.0 kb	 0.0% Assets/Resources/Icons/Obj/chempuff.png
@@ -2344,22 +2335,18 @@ Used Assets and files from the Resources folder, sorted by uncompressed size:
  9.1 kb	 0.0% Assets/Resources/Icons/Obj/Guns/flashlights.png
  9.0 kb	 0.0% Assets/Resources/Icons/Obj/tomb.png
  8.2 kb	 0.0% Assets/Sounds/UI_Sounds/Clicks/click01.wav
- 7.1 kb	 0.0% Assets/Light2D/Resources/Shaders/Light60.shader
- 7.1 kb	 0.0% Assets/Light2D/Resources/Shaders/Light90.shader
- 7.1 kb	 0.0% Assets/Light2D/Resources/Shaders/Light50.shader
- 7.0 kb	 0.0% Assets/Light2D/Resources/Shaders/Light80.shader
- 7.0 kb	 0.0% Assets/Light2D/Resources/Shaders/Light40.shader
- 7.0 kb	 0.0% Assets/Light2D/Resources/Shaders/Light70.shader
- 7.0 kb	 0.0% Assets/Light2D/Resources/Shaders/Light30.shader
- 7.0 kb	 0.0% Assets/Light2D/Resources/Shaders/Light20.shader
  6.8 kb	 0.0% Assets/Resources/Effects/FireRing.prefab
- 6.2 kb	 0.0% Assets/Light2D/Resources/Shaders/LightOverlaySingleCamera.shader
- 6.2 kb	 0.0% Assets/Light2D/Resources/Shaders/LightOverlay.shader
- 5.6 kb	 0.0% Assets/Light2D/Resources/Shaders/Light1.shader
  5.3 kb	 0.0% Assets/Sounds/Weapons/GunShots/Gunshot_tazer.ogg
  5.3 kb	 0.0% Assets/Sounds/Clown/bikehorn.ogg
  5.3 kb	 0.0% Assets/Prefabs/Doors/Resources/PublicDoor.prefab
- 5.0 kb	 0.0% Assets/Light2D/Resources/Shaders/LightIgnoreObstacles.shader
+ 5.1 kb	 0.0% Assets/Light2D/Resources/Shaders/Light70.shader
+ 5.0 kb	 0.0% Assets/Light2D/Resources/Shaders/Light60.shader
+ 5.0 kb	 0.0% Assets/Light2D/Resources/Shaders/Light50.shader
+ 5.0 kb	 0.0% Assets/Light2D/Resources/Shaders/Light90.shader
+ 5.0 kb	 0.0% Assets/Light2D/Resources/Shaders/Light80.shader
+ 5.0 kb	 0.0% Assets/Light2D/Resources/Shaders/Light30.shader
+ 5.0 kb	 0.0% Assets/Light2D/Resources/Shaders/Light40.shader
+ 5.0 kb	 0.0% Assets/Light2D/Resources/Shaders/Light20.shader
  4.9 kb	 0.0% Assets/Prefabs/Doors/Resources/WhiteServiceDoor.prefab
  4.9 kb	 0.0% Assets/Prefabs/Doors/Resources/AirLock.prefab
  4.8 kb	 0.0% Assets/UI/UI_Sprites/Jobclown.png
@@ -2394,20 +2381,19 @@ Used Assets and files from the Resources folder, sorted by uncompressed size:
  4.5 kb	 0.0% Assets/Prefabs/Doors/Resources/Virology.prefab
  4.5 kb	 0.0% Assets/Prefabs/Doors/Resources/SecDoor.prefab
  4.4 kb	 0.0% Assets/Prefabs/Doors/Resources/SpaceshipDoor.prefab
+ 4.4 kb	 0.0% Assets/Light2D/Resources/Shaders/LightOverlaySingleCamera.shader
+ 4.4 kb	 0.0% Assets/Light2D/Resources/Shaders/LightOverlay.shader
  4.3 kb	 0.0% /Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/iOS/Vuforia.UnityExtensions.dll
  4.3 kb	 0.0% /Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/WindowsStoreApps/Vuforia.UnityExtensions.dll
  4.3 kb	 0.0% /Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll
  4.3 kb	 0.0% /Applications/Unity/PlaybackEngines/VuforiaSupport/Managed/Android/Vuforia.UnityExtensions.dll
- 4.3 kb	 0.0% Assets/Light2D/Resources/Shaders/AmbientLightComputer.shader
  4.1 kb	 0.0% /Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll
  4.1 kb	 0.0% /Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll
- 3.9 kb	 0.0% Assets/Light2D/Resources/Shaders/NormalMap.shader
- 3.7 kb	 0.0% Assets/Light2D/Resources/Shaders/FastBlur.shader
- 3.7 kb	 0.0% Assets/Shaders/OverlayHole.shader
+ 4.1 kb	 0.0% Assets/Light2D/Resources/Shaders/Light1.shader
+ 3.8 kb	 0.0% Assets/Light2D/Resources/Shaders/LightIgnoreObstacles.shader
+ 3.7 kb	 0.0% Assets/Light2D/Resources/Shaders/AmbientLightComputer.shader
  3.6 kb	 0.0% Assets/Animations/Status_Display/StatusDisplayNews.anim
  3.6 kb	 0.0% Assets/Resources/Icons/member_content.png
- 3.6 kb	 0.0% Assets/Light2D/Resources/Shaders/NormalMappedLight.shader
- 3.5 kb	 0.0% Assets/Light2D/Resources/Shaders/TransparentDualColorNormalMapped.shader
  3.5 kb	 0.0% Assets/Resources/Icons/Program_Icons/sig_none.gif
  3.5 kb	 0.0% Assets/Resources/Icons/Program_Icons/sig_low.gif
  3.5 kb	 0.0% Assets/Resources/Icons/Program_Icons/sig_lan.gif
@@ -2419,14 +2405,19 @@ Used Assets and files from the Resources folder, sorted by uncompressed size:
  3.5 kb	 0.0% Assets/Resources/Icons/Program_Icons/batt_40.gif
  3.5 kb	 0.0% Assets/Resources/Icons/Program_Icons/batt_20.gif
  3.5 kb	 0.0% Assets/Resources/Icons/Program_Icons/batt_100.gif
- 3.5 kb	 0.0% Assets/Light2D/Resources/Shaders/TransparentNormalMapped.shader
- 3.1 kb	 0.0% Assets/Light2D/Resources/Shaders/LightBlender.shader
- 3.1 kb	 0.0% Assets/Light2D/Resources/Shaders/AlphaReplace.shader
+ 3.4 kb	 0.0% Assets/Light2D/Resources/Shaders/NormalMap.shader
+ 3.2 kb	 0.0% Assets/Light2D/Resources/Shaders/FastBlur.shader
+ 3.2 kb	 0.0% Assets/Light2D/Resources/Shaders/TransparentDualColorNormalMapped.shader
+ 3.2 kb	 0.0% Assets/Light2D/Resources/Shaders/NormalMappedLight.shader
+ 3.1 kb	 0.0% Assets/Shaders/OverlayHole.shader
+ 3.0 kb	 0.0% Assets/Light2D/Resources/Shaders/TransparentNormalMapped.shader
  3.0 kb	 0.0% Assets/Animations/Doors/Shutters/ShutterController.controller
+ 2.8 kb	 0.0% Assets/Light2D/Resources/Shaders/LightBlender.shader
+ 2.8 kb	 0.0% Assets/Light2D/Resources/Shaders/AlphaReplace.shader
  2.7 kb	 0.0% Assets/Animations/Stationobjs/Switches_ShuttersUP.controller
  2.6 kb	 0.0% Assets/Animations/UI/Lobby/Clown_Lobby.anim
- 2.6 kb	 0.0% Assets/Animations/UI/Lobby/Background_Loop.anim
  2.6 kb	 0.0% Assets/Light2D/Resources/Shaders/ObstacleTexturePostProcessor.shader
+ 2.6 kb	 0.0% Assets/Animations/UI/Lobby/Background_Loop.anim
  2.5 kb	 0.0% Assets/Animations/Doors/Shutters/04_shuttersOpen.anim
  2.5 kb	 0.0% Assets/Animations/Doors/Shutters/04_shuttersClose.anim
  2.5 kb	 0.0% Assets/Animations/UI/Lobby/BG_Image.controller
@@ -3358,18 +3349,18 @@ System memory in use before: 0.94 GB.
 System memory in use after: 0.95 GB.
 
 Unloading 487 unused Assets to reduce memory usage. Loaded Objects now: 93406.
-Total: 244.267330 ms (FindLiveObjects: 8.363118 ms CreateObjectMapping: 21.869260 ms MarkObjects: 177.537967 ms  DeleteObjects: 36.494192 ms)
+Total: 198.257688 ms (FindLiveObjects: 7.254479 ms CreateObjectMapping: 21.128282 ms MarkObjects: 139.388467 ms  DeleteObjects: 30.484872 ms)
 
-Load scene 'Temp/__Backupscenes/0.backup' time: 0.508626 ms 
+Load scene 'Temp/__Backupscenes/0.backup' time: 0.335839 ms 
 Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 0.92 GB.
 System memory in use after: 0.93 GB.
 
 Unloading 0 unused Assets to reduce memory usage. Loaded Objects now: 93401.
-Total: 144.568271 ms (FindLiveObjects: 7.309072 ms CreateObjectMapping: 12.019273 ms MarkObjects: 125.073212 ms  DeleteObjects: 0.165138 ms)
+Total: 142.493024 ms (FindLiveObjects: 7.455474 ms CreateObjectMapping: 12.096796 ms MarkObjects: 122.361848 ms  DeleteObjects: 0.577211 ms)
 
 
-*** Completed 'Build.Player.WindowsStandaloneSupport' in 206 seconds (205668 ms)
+*** Completed 'Build.Player.MacStandaloneSupport' in 210 seconds (209921 ms)
 
 - Starting compile Library/ScriptAssemblies/Assembly-CSharp.dll
 - Starting compile Library/ScriptAssemblies/Assembly-CSharp-Editor-firstpass.dll
@@ -3377,9 +3368,9 @@ Total: 144.568271 ms (FindLiveObjects: 7.309072 ms CreateObjectMapping: 12.01927
 
 -----Compiler Commandline Arguments:
 Filename: /Applications/Unity/Unity.app/Contents/MonoBleedingEdge/bin/mono
-Arguments: '/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/mcs.exe'  @Temp/UnityTempFile-bd187c89a2e30402aae007dde6d6a0fd
+Arguments: '/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5/mcs.exe'  @Temp/UnityTempFile-3759bb64baefb4f33a16f2d6e7553fc7
 index: 81
-Responsefile: Temp/UnityTempFile-bd187c89a2e30402aae007dde6d6a0fd Contents: 
+Responsefile: Temp/UnityTempFile-3759bb64baefb4f33a16f2d6e7553fc7 Contents: 
 -debug
 -target:library
 -nowarn:0169
@@ -3540,11 +3531,12 @@ Responsefile: Temp/UnityTempFile-bd187c89a2e30402aae007dde6d6a0fd Contents:
 -define:ENABLE_CUSTOM_RENDER_TEXTURE
 -define:ENABLE_STYLE_SHEETS
 -define:ENABLE_LOCALIZATION
--define:PLATFORM_STANDALONE_WIN
+-define:PLATFORM_STANDALONE_OSX
 -define:PLATFORM_STANDALONE
--define:UNITY_STANDALONE_WIN
+-define:UNITY_STANDALONE_OSX
 -define:UNITY_STANDALONE
 -define:ENABLE_SUBSTANCE
+-define:ENABLE_GAMECENTER
 -define:ENABLE_RUNTIME_GI
 -define:ENABLE_MOVIES
 -define:ENABLE_NETWORK
@@ -3554,10 +3546,11 @@ Responsefile: Temp/UnityTempFile-bd187c89a2e30402aae007dde6d6a0fd Contents:
 -define:ENABLE_CLOUD_SERVICES_ANALYTICS
 -define:ENABLE_CLOUD_SERVICES_PURCHASING
 -define:ENABLE_CLOUD_SERVICES_CRASH_REPORTING
--define:ENABLE_EVENT_QUEUE
+-define:ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING
 -define:ENABLE_CLUSTERINPUT
 -define:ENABLE_VR
 -define:ENABLE_AR
+-define:ENABLE_SPATIALTRACKING
 -define:ENABLE_WEBSOCKET_HOST
 -define:ENABLE_MONO
 -define:NET_4_6
@@ -3899,7 +3892,7 @@ Assets/Scripts/UI/RightPanelResize.cs(20,17): warning CS0414: The private field 
 - Finished compile Library/ScriptAssemblies/Assembly-CSharp.dll
 Symbols will be read from Temp/Assembly-CSharp.dll.mdb
 Script Module: Assembly-CSharp.dll
-Pass: 0 took 62 milliseconds
+Pass: 0 took 67 milliseconds
 [BloodSplat] Found NetworkBehaviour BloodSplat
 [BloodSplat] NetworkBehaviourProcessor
 [BloodSplat] Process Start
@@ -4487,8 +4480,8 @@ Pass: 0 took 62 milliseconds
 [WeaponNetworkActions]   GenerateSerialization
 [WeaponNetworkActions]   GenerateDeSerialization
 [WeaponNetworkActions] Process Done
-Pass: 1 took 383 milliseconds
-  ProcessSitesModule Assembly-CSharp.dll elapsed time:00:00:00.3460180
+Pass: 1 took 363 milliseconds
+  ProcessSitesModule Assembly-CSharp.dll elapsed time:00:00:00.4010730
 - Starting compile Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
 - Finished compile Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
 Assets/Scripts/Effects/ShroudTile.cs(5,18): warning CS0108: `ShroudTile.renderer' hides inherited member `UnityEngine.Component.renderer'. Use the new keyword if hiding was intended
@@ -4573,9 +4566,9 @@ Assets/Scripts/UI/RightPanelResize.cs(20,17): warning CS0414: The private field 
 
 Reloading assemblies after script compilation.
 Begin MonoManager ReloadAssembly
-Refreshing native plugins compatible for Editor in 4.00 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.67 ms.
-[Rider] 14:33:29:57 [Info] Rider plugin initialized. You may change the amount of Rider Debug output via Edit -> Preferences -> Rider -> Logging Level
+Refreshing native plugins compatible for Editor in 4.29 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.76 ms.
+[Rider] 14:37:33:73 [Info] Rider plugin initialized. You may change the amount of Rider Debug output via Edit -> Preferences -> Rider -> Logging Level
 UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
 UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
 UnityEngine.Logger:Log(LogType, Object)
@@ -4591,18 +4584,18 @@ UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes() (at /Users/buil
 (Filename: Assets/Plugins/Editor/JetBrains/Unity3DRider.cs Line: 488)
 
 Mono: successfully reloaded assembly
-Refreshing native plugins compatible for Editor in 0.93 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.51 ms.
+Refreshing native plugins compatible for Editor in 1.05 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.73 ms.
 
------ Total AssetImport time: 0.326471s, AssetImport time: 0.000000s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
+----- Total AssetImport time: 0.354028s, AssetImport time: 0.000000s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
 
-- Completed reload, in  2.129 seconds
+- Completed reload, in  2.204 seconds
 Initializing Unity.PackageManager (PackageManager) v2017.3.0 for Unity v2017.3.0p1
 Registering platform support modules:
-Registered platform support modules in: 0.1060242s.
+Registered platform support modules in: 0.1190084s.
 Native extension for Android target not found
 Native extension for iOS target not found
-[XcodeApplications] RefreshListOfAvailableXcodeApplications in: 0.0103948s.
+[XcodeApplications] RefreshListOfAvailableXcodeApplications in: 0.0137864s.
 Native extension for tvOS target not found
 Native extension for WebGL target not found
 Native extension for LinuxStandalone target not found
@@ -4610,15 +4603,15 @@ Native extension for WindowsStandalone target not found
 Native extension for OSXStandalone target not found
 Native extension for Facebook target not found
 Batchmode quit successfully invoked - shutting down!
-Refresh: detecting if any assets need to be imported or removed ... Refresh: elapses 0.383183 seconds (Nothing changed)
+Refresh: detecting if any assets need to be imported or removed ... Refresh: elapses 0.281733 seconds (Nothing changed)
 Updating ProjectSettings/ProjectSettings.asset - GUID: 00000000000000004000000000000000...
- done. [Time: 89.225782 ms] 
-Refreshing native plugins compatible for Editor in 1.01 ms, found 4 plugins.
-Preloading 1 native plugins for Editor in 0.52 ms.
+ done. [Time: 83.263252 ms] 
+Refreshing native plugins compatible for Editor in 0.95 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.51 ms.
 
------ Total AssetImport time: 0.417709s, AssetImport time: 0.205879s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
+----- Total AssetImport time: 0.421520s, AssetImport time: 0.199895s, Asset hashing: 0.000000s [0 B, 0.000000 mb/s]
 
-Refresh: detecting if any assets need to be imported or removed ... Refresh: elapses 0.193117 seconds (Nothing changed)
+Refresh: detecting if any assets need to be imported or removed ... Refresh: elapses 0.214013 seconds (Nothing changed)
 [Package Manager] Server::Kill -- Server was shutdown
 Cleanup mono
 Exiting batchmode successfully now!
