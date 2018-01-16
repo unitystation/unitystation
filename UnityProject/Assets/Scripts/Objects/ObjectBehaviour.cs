@@ -57,7 +57,10 @@ public class ObjectBehaviour : PushPull
 					if (closetHandlerCache)
 					{
 						//Set the camera to follow the player again
-						Camera2DFollow.followControl.target = transform;
+						if (!PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost)
+						{
+							Camera2DFollow.followControl.target = transform;
+						}
 						Camera2DFollow.followControl.damping = 0f;
 						Destroy(closetHandlerCache);
 					}

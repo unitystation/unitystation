@@ -1,4 +1,5 @@
-﻿using Tilemaps.Scripts;
+﻿using PlayGroup;
+using Tilemaps.Scripts;
 using UnityEngine;
 
 namespace Cupboards
@@ -20,9 +21,13 @@ namespace Cupboards
 		public void Init(ClosetControl closetCtrl)
 		{
 			closetControl = closetCtrl;
-			
-			Camera2DFollow.followControl.target = closetControl.transform;
-			Camera2DFollow.followControl.damping = 0.2f;
+
+			if (!PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost)
+			{
+				// TODO: Change this stuff to the proper settings once re-entering corpse becomes a feature.
+				Camera2DFollow.followControl.target = closetControl.transform;
+				Camera2DFollow.followControl.damping = 0.2f;
+			}
 
 			if (!closetControl)
 			{
@@ -38,6 +43,10 @@ namespace Cupboards
 
 		private void Update()
 		{
+			if (PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost)
+			{
+				return;
+			}			
 			if (monitor)
 			{
 				if (CheckForDirectionalKeyPress())
