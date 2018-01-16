@@ -390,6 +390,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdToggleChatIcon(bool turnOn)
 	{
+		if(!GetComponent<VisibleBehaviour>().visibleState){
+			//Don't do anything with chat icon if player is invisible
+			return;
+		}
 		RpcToggleChatIcon(turnOn);
 	}
 
