@@ -1,0 +1,111 @@
+[Package Manager] Server::Start -- Port 60953 was selected
+
+LICENSE SYSTEM [2018116 14:19:58] Next license update check is after 2018-01-16T20:31:04
+
+
+ COMMAND LINE ARGUMENTS:
+/Applications/Unity/Unity.app/Contents/MacOS/Unity
+-batchmode
+-nographics
+-silent-crashes
+-logFile
+Logs/OSXBuild.log
+-projectPath
+/Users/Kjeld/GIT/unitystation/Unityproject
+-executeMethod
+BuildScript.PerformOSXBuild
+-quit
+Successfully changed project path to: /Users/Kjeld/GIT/unitystation/Unityproject
+/Users/Kjeld/GIT/unitystation/UnityProject
+Loading GUID <-> Path mappings...0.000084 seconds
+Loading Asset Database...0.112095 seconds
+Audio: FMOD Profiler initialized on port 54900
+AssetDatabase consistency checks...0.232877 seconds
+Refreshing native plugins compatible for Editor in 11.78 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+DisplayProgressbar: Unity Package Manager
+[Package Manager] Resolving 4 packages:
+[Package Manager]  * Package :  com.unity.ads@2.0.3
+    (location: /Users/Kjeld/Library/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3)
+[Package Manager]  * Package :  com.unity.analytics@2.0.13
+    (location: /Users/Kjeld/Library/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.13)
+[Package Manager]  * Package :  com.unity.purchasing@0.0.19
+    (location: /Users/Kjeld/Library/Unity/cache/packages/packages.unity.com/com.unity.purchasing@0.0.19)
+[Package Manager]  * Package :  com.unity.standardevents@1.0.10
+    (location: /Users/Kjeld/Library/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10)
+[Package Manager] Resolve completed
+Initialize engine version: 2017.3.0p1 (4596dd67072f)
+Forcing GfxDevice: Null
+GfxDevice: creating device client; threaded=0
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Initialize mono
+Mono path[0] = '/Applications/Unity/Unity.app/Contents/Managed'
+Mono path[1] = '/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.5'
+Mono config path = '/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=0.0.0.0:56522
+Begin MonoManager ReloadAssembly
+Refreshing native plugins compatible for Editor in 0.88 ms, found 4 plugins.
+Initializing Unity.PackageManager (PackageManager) v2017.3.0 for Unity v2017.3.0p1
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+Register platform support module: /Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
+Register platform support module: /Applications/Unity/PlaybackEngines/AppleTVSupport/UnityEditor.AppleTV.Extensions.dll
+Register platform support module: /Applications/Unity/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: /Applications/Unity/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/PlaybackEngines/Facebook/UnityEditor.Facebook.Extensions.dll
+Registered in 0.001122 seconds.
+Refreshing native plugins compatible for Editor in 0.97 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 5.31 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.549 seconds
+Registering platform support modules:
+Registered platform support modules in: 0.1922275s.
+Native extension for Android target not found
+Native extension for iOS target not found
+[XcodeApplications] RefreshListOfAvailableXcodeApplications in: 0.0251609s.
+Native extension for tvOS target not found
+Native extension for WebGL target not found
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for Facebook target not found
+Waiting for facebook SDK update, since required SDK version 7.9.1 is not available.
+SDKUpdater success: stdout:
+[UpdateSupportedSDKList] Download <https://www.facebook.com/unitysdk/available_versions?unity_version=2017.3.0p1>
+[UpdateSupportedSDKList] Received <{
+   "versions": [
+      "7.9.4",
+      "7.10.1"
+   ]
+}> to </Users/Kjeld/Library/Unity/Facebook/SupportedSDKVersions/2017.3.0p1>
+WARNING: The runtime version supported by this application is unavailable.
+Using default runtime: v4.0.30319
+stderr:
+
+Begin MonoManager ReloadAssembly
+Registering precompiled user dll's ...
+Registered in 0.257030 seconds.
+Refreshing native plugins compatible for Editor in 0.95 ms, found 4 plugins.
+Preloading 1 native plugins for Editor in 0.51 ms.
+[Rider] 14:20:05:16 [Info] Rider plugin initialized. You may change the amount of Rider Debug output via Edit -> Preferences -> Rider -> Logging Level
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+Plugins.Editor.JetBrains.RiderPlugin:Log(LoggingLevel, String) (at Assets/Plugins/Editor/JetBrains/Unity3DRider.cs:488)
+Plugins.Editor.JetBrains.RiderPlugin:InitRiderPlugin() (at Assets/Plugins/Editor/JetBrains/Unity3DRider.cs:682)
+Plugins.Editor.JetBrains.RiderPlugin:.cctor() (at Assets/Plugins/Editor/JetBrains/Unity3DRider.cs:667)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor(IntPtr)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor(RuntimeTypeHandle) (at /Users/builduser/buildslave/mono/build/mcs/class/corlib/System.Runtime.CompilerServices/RuntimeHelpers.cs:89)
+UnityEditor.EditorAssemblies:ProcessEditorInitializeOnLoad(Type) (at /Users/builduser/buildslave/unity/build/Editor/Mono/EditorAssemblies.cs:136)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes() (at /Users/builduser/buildslave/unity/build/Editor/Mono/EditorAssemblies.cs:162)
+ 
+(Filename: Assets/Plugins/Editor/JetBrains/Unity3DRider.cs Line: 488)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.530 seconds

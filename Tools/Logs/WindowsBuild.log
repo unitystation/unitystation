@@ -1,0 +1,25 @@
+[Package Manager] Server::Start -- Port 52197 was selected
+
+LICENSE SYSTEM [2018116 14:3:23] Next license update check is after 2018-01-16T20:31:04
+
+
+ COMMAND LINE ARGUMENTS:
+/Applications/Unity/Unity.app/Contents/MacOS/Unity
+-batchmode
+-nographics
+-silent-crashes
+-logFile
+Logs/WindowsBuild.log
+-projectPath
+..//Users/Kjeld/GIT/unitystation/Tools
+-executeMethod
+BuildScript.PerformWindowsBuild
+-quit
+Couldn't set project path to: ..//Users/Kjeld/GIT/unitystation/Tools
+ 
+(Filename: /Users/builduser/buildslave/unity/build/Runtime/Utilities/Argv.cpp Line: 226)
+
+
+Aborting batchmode due to failure:
+Couldn't set project path to: ..//Users/Kjeld/GIT/unitystation/Tools
+
