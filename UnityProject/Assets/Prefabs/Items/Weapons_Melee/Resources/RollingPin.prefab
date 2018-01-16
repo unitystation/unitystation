@@ -115,13 +115,13 @@ MonoBehaviour:
   cloth: 0
   clothingReference: -1
   hierarchy: 
-  inHandReferenceLeft: 532
-  inHandReferenceRight: 538
-  itemDescription: 
-  itemName: 
-  size: 1
+  inHandReferenceLeft: 536
+  inHandReferenceRight: 548
+  itemDescription: A RollingPin to roll dough
+  itemName: Rolling_Pin
+  size: 2
   spriteType: 0
-  type: 0
+  type: 15
 --- !u!114 &114065043758903462
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -146,17 +146,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
-  moveSpeed: 7
   pulledBy: {fileID: 0}
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
-  serverLittleLag: 0
-  timeInPush: 0
   closetHandlerCache: {fileID: 0}
 --- !u!114 &114716961639846354
 MonoBehaviour:
@@ -170,6 +168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114935930822245516
 MonoBehaviour:
   m_ObjectHideFlags: 1
