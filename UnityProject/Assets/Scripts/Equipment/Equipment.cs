@@ -85,7 +85,7 @@ namespace Equipment
 		private IEnumerator WaitUntilInControl(int maxTries = 50)
 		{
 			int tries = 0;
-			while (!PlayerList.Instance.connectedPlayers.ContainsValue(gameObject))
+			while (!PlayerList.Instance.ContainsGameObject(gameObject))
 			{
 				if (tries++ > maxTries)
 				{

@@ -170,6 +170,10 @@ public class CustomNetworkManager : NetworkManager
 		if (_isServer)
 		{
 			//do special server wizardry here
+			PlayerList.Instance.Add(new ConnectedPlayer
+			{
+				Connection = conn,
+			});
 		}
 
 		if (GameData.IsInGame && PoolManager.Instance == null)
@@ -204,19 +208,13 @@ public class CustomNetworkManager : NetworkManager
 		base.OnClientConnect(conn);
 	}
 
+	/// server actions when client disconnects 
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
 		if (conn != null && conn.playerControllers.Count > 0)
 		{
-			GameObject player = conn.playerControllers[0].gameObject;
-			PlayerList.Instance.RemovePlayer(player.name);
-
-			//Notify clients that the connected players list should be updated
-			GameObject[] players = new GameObject[PlayerList.Instance.connectedPlayers.Count];
-			PlayerList.Instance.connectedPlayers.Values.CopyTo(players, 0);
-			UpdateConnectedPlayersMessage.Send(players);
-
-			//TODO DROP ALL HIS OBJECTS
+			PlayerList.Instance.Get(conn).GameObject.GetComponent<PlayerNetworkActions>().DropAllItems();
+			PlayerList.Instance.Remove(conn);
 			Debug.Log("PlayerDisconnected: " + conn.playerControllers[0].gameObject.name);
 			NetworkServer.Destroy(conn.playerControllers[0].gameObject);
 		}

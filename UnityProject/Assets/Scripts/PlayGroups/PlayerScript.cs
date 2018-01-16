@@ -110,11 +110,13 @@ namespace PlayGroup
 				{
 					//First
 					CmdTrySetName(PlayerManager.PlayerNameCache);
+					Debug.Log($"TrySetName {PlayerManager.PlayerNameCache}");
 				}
 				else
 				{
-					//Manual after respawn
+//					Manual after respawn
 					CmdSetNameManual(PlayerManager.PlayerNameCache);
+					Debug.Log($"SetNameManual {PlayerManager.PlayerNameCache}");
 				}
 
 				PlayerManager.SetPlayerForControl(gameObject);
@@ -132,6 +134,16 @@ namespace PlayGroup
 			else if (isServer)
 			{
 				playerMove = GetComponent<PlayerMove>();
+								
+				//Add player to player list
+				PlayerList.Instance.Add(new ConnectedPlayer
+				{
+					Connection = connectionToClient,
+					GameObject = gameObject,
+					Name = PlayerManager.PlayerNameCache,
+					Job = JobType
+				});
+//				playerName = PlayerList.Instance.Get(connectionToClient).Name;
 			}
 		}
 
@@ -157,7 +169,8 @@ namespace PlayGroup
 		{
 			if (PlayerList.Instance != null)
 			{
-				playerName = PlayerList.Instance.CheckName(name);
+				PlayerList.Instance.Get(connectionToClient).Name = name;
+				playerName = PlayerList.Instance.Get(connectionToClient).Name;
 			}
 		}
 
@@ -178,11 +191,8 @@ namespace PlayGroup
 				Debug.LogError("NO NAME PROVIDED!");
 				return;
 			}
-			if (!PlayerList.Instance.connectedPlayers.ContainsKey(newName))
-			{
-				PlayerList.Instance.connectedPlayers.Add(newName, gameObject);
-			}
 			PlayerList.Instance.RefreshPlayerListText();
+			Debug.Log($"OnNameChange: '{newName}'");
 		}
 
 		public float DistanceTo(Vector3 position)

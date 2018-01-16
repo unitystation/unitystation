@@ -120,23 +120,17 @@ public class GameManager : MonoBehaviour
 	{
 		int count = 0;
 
-		if (PlayerList.Instance == null || PlayerList.Instance.connectedPlayers.Count == 0)
+		if (PlayerList.Instance == null || PlayerList.Instance.PlayerCount == 0)
 		{
 			return 0;
 		}
 
-		foreach (KeyValuePair<string, GameObject> player in PlayerList.Instance.connectedPlayers)
+		for ( var i = 0; i < PlayerList.Instance.Values.Count; i++ )
 		{
-			if (player.Value != null)
+			var player = PlayerList.Instance.Values[i];
+			if ( player.Job == jobType )
 			{
-				PlayerScript mob = player.Value.GetComponent<PlayerScript>();
-				if (mob != null)
-				{
-					if (mob.JobType == jobType)
-					{
-						count++;
-					}
-				}
+				count++;
 			}
 		}
 

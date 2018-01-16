@@ -231,6 +231,21 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		equipment.ClearItemSprite(slot);
 		UpdateSlotMessage.Send(gameObject, slot, null, forceClientInform);
 	}
+	/// <summary>
+	///     Drop from all the slots
+	/// </summary>
+	[Server]
+	public void DropAllItems()
+	{
+		foreach ( var slot in Inventory )
+		{
+			EquipmentPool.DropGameObjectAtPos(gameObject, slot.Value, gameObject.transform.localPosition);
+			Inventory[slot.Key] = null;
+//			these are probably pointless ATM (as shit gets dropped only when person disconnects) >>	
+//			equipment.ClearItemSprite(slot.Key);
+//			UpdateSlotMessage.Send(gameObject, slot.Key);
+		}
+	}
 
 	//Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)
 	[Command]
@@ -467,10 +482,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		EquipmentPool.ClearPool(gameObject);
 
-		//Remove player objects
-		PlayerList.Instance.RemovePlayer(gameObject.name);
-		//Re-add player to name list because a respawning player didn't disconnect
-		PlayerList.Instance.CheckName(gameObject.name);
+//		Remove player objects
+//		PlayerList.Instance.RemovePlayer(gameObject);
+//		Re-add player to name list because a respawning player didn't disconnect
+//		PlayerList.Instance.CheckName(gameObject.name);
 
 		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType);
 	}

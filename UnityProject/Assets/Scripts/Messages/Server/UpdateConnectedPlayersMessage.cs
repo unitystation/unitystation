@@ -11,45 +11,57 @@ using UnityEngine.Networking;
 public class UpdateConnectedPlayersMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateConnectedPlayersMessage;
-	public GameObject[] Players;
+	public ClientConnectedPlayer[] Players;
 	public NetworkInstanceId Subject;
 
 	public override IEnumerator Process()
 	{
+		if ( CustomNetworkManager.Instance._isServer )
+		{
+			Debug.Log("Server shouldn't process UpdateConnectedPlayersMessage");
+			yield return null;
+		}
+		Debug.Log("Processed " + ToString());
 		yield return WaitFor(Subject);
 
-		Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
-		//Add missing players
-		foreach (GameObject player in Players)
+		PlayerList.Instance.Clear();
+		for ( var i = 0; i < Players.Length; i++ )
 		{
-			if (!connectedPlayers.ContainsKey(player.name))
-			{
-				string name = player.GetComponent<PlayerScript>().playerName;
-				connectedPlayers.Add(name, player);
-			}
+			PlayerList.Instance.Add(Players[i]);
 		}
-
-		//Remove players that are stored locally, but not on server. Unless its us.
-		//foreach does not allow mutations on the dictionary collection while it is iterating over it
-		//Store names to be removed and do it after
-		List<string> playersToRemove = new List<string>();
-		foreach (KeyValuePair<string, GameObject> entry in connectedPlayers)
-		{
-			if (!Players.Contains(entry.Value) && entry.Key != PlayerManager.LocalPlayerScript.playerName)
-			{
-				playersToRemove.Add(entry.Key);
-			}
-		}
-		for (int i = 0; i < playersToRemove.Count; i++)
-		{
-			connectedPlayers.Remove(playersToRemove[i]);
-		}
+//		//Add missing players
+//		for ( var i = 0; i < Players.Length; i++ )
+//		{
+//			var player = Players[i];
+//			if ( !connectedPlayers.ContainsName(player.Name) )
+//			{
+//				connectedPlayers.Add(player);
+//			}
+//		}
+//
+//		//Remove players that are stored locally, but not on server. Unless its us.
+//		//foreach does not allow mutations on the dictionary collection while it is iterating over it
+//		//Store names to be removed and do it after
+//		var playersToRemove = new List<ConnectedPlayer>();
+//		for ( var i = 0; i < connectedPlayers.Values.Count; i++ )
+//		{
+//			ConnectedPlayer existingPlayer = connectedPlayers.Values[i];
+//			if ( !Players.Contains(existingPlayer) && existingPlayer.Name != PlayerManager.LocalPlayerScript.playerName )
+//			{
+//				playersToRemove.Add(existingPlayer);
+//			}
+//		}
+//
+//		for (int i = 0; i < playersToRemove.Count; i++)
+//		{
+//			connectedPlayers.Values.Remove(playersToRemove[i]);
+//		}
 	}
 
-	public static UpdateConnectedPlayersMessage Send(GameObject[] players)
+	public static UpdateConnectedPlayersMessage Send()
 	{
 		UpdateConnectedPlayersMessage msg = new UpdateConnectedPlayersMessage();
-		msg.Players = players;
+		msg.Players = PlayerList.Instance.DiscreetPlayerList.ToArray();
 
 		msg.SendToAll();
 		return msg;
@@ -57,6 +69,6 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 
 	public override string ToString()
 	{
-		return string.Format("[UpdateConnectedPlayersMessage Subject={0} Type={1} Players={2}]", Subject, MessageType, string.Join(", ", Players.Select(p => p.name)));
+		return $"[UpdateConnectedPlayersMessage Subject={Subject} Type={MessageType} Players={string.Join(", ", Players)}]";
 	}
 }
