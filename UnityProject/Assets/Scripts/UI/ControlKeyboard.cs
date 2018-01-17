@@ -4,36 +4,41 @@ using PlayGroup;
 
 namespace UI
 {
-    public class ControlKeyboard : MonoBehaviour
-    {
-        private Button button;
+	/// <summary>
+	///		This button is used to let a player switch keyboard input method
+	///		from QWERTY to AZERTY, and viceversa. The button text will say
+	///		what mode it is currently in.
+	/// </summary>
+	public class ControlKeyboard : MonoBehaviour
+	{
+		private Button button;
 
-        private void OnEnable()
-        {
-            if (button == null)
-            {
-                button = GetComponent<Button>();
-            }
-            button.GetComponentInChildren<Text>().text = "QWERTY";
-        }
+		private void OnEnable()
+		{
+			if (button == null)
+			{
+				button = GetComponent<Button>();
+			}
+			button.GetComponentInChildren<Text>().text = "QWERTY";
+		}
 
 
-        public void ChangeKeyboardInput()
-        {
-            if (PlayerManager.LocalPlayerScript != null)
-            {
-                PlayerMove plm = PlayerManager.LocalPlayerScript.playerMove;
-                if (button.GetComponentInChildren<Text>().text == "QWERTY")
-                {
-                    plm.keyCodes = new KeyCode[] { KeyCode.Z, KeyCode.Q, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
-                    button.GetComponentInChildren<Text>().text = "AZERTY";
-                }
-                else if (button.GetComponentInChildren<Text>().text == "AZERTY")
-                {
-                    plm.keyCodes = new KeyCode[] { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
-                    button.GetComponentInChildren<Text>().text = "QWERTY";
-                }
-            }
-        }
-    }
+		public void ChangeKeyboardInput()
+		{
+			if (PlayerManager.LocalPlayerScript != null)
+			{
+				PlayerMove plm = PlayerManager.LocalPlayerScript.playerMove;
+				if(button.GetComponentInChildren<Text>().text == "QWERTY")
+				{
+					plm.ChangeKeyboardInput(true);
+					button.GetComponentInChildren<Text>().text = "AZERTY";
+				}
+				else
+				{
+					plm.ChangeKeyboardInput(false);
+					button.GetComponentInChildren<Text>().text = "QWERTY";
+				}
+			}
+		}
+	}
 }
