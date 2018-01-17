@@ -16,18 +16,13 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 
 	public override IEnumerator Process()
 	{
-		if ( CustomNetworkManager.Instance._isServer )
-		{
-			Debug.Log("Server shouldn't process UpdateConnectedPlayersMessage");
-			yield break;
-		}
 		Debug.Log("Processed " + ToString());
 		yield return WaitFor(Subject);
 
-		PlayerList.Instance.Clear();
+		PlayerList.Instance.ClientConnectedPlayers.Clear();
 		for ( var i = 0; i < Players.Length; i++ )
 		{
-			PlayerList.Instance.Add(Players[i]);
+			PlayerList.Instance.ClientConnectedPlayers.Add(Players[i]);
 		}
 		PlayerList.Instance.RefreshPlayerListText();
 
@@ -63,7 +58,7 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 	public static UpdateConnectedPlayersMessage Send()
 	{
 		UpdateConnectedPlayersMessage msg = new UpdateConnectedPlayersMessage();
-		msg.Players = PlayerList.Instance.DiscreetPlayerList.ToArray();
+		msg.Players = PlayerList.Instance.ClientConnectedPlayerList.ToArray();
 
 		msg.SendToAll();
 		return msg;

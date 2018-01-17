@@ -167,14 +167,14 @@ public class CustomNetworkManager : NetworkManager
 
 	public override void OnClientConnect(NetworkConnection conn)
 	{
-		if (_isServer)
-		{
-			//do special server wizardry here
-			PlayerList.Instance.Add(new ConnectedPlayer
-			{
-				Connection = conn,
-			});
-		}
+//		if (_isServer)
+//		{
+//			//do special server wizardry here
+//			PlayerList.Instance.Add(new ConnectedPlayer
+//			{
+//				Connection = conn,
+//			});
+//		}
 
 		if (GameData.IsInGame && PoolManager.Instance == null)
 		{

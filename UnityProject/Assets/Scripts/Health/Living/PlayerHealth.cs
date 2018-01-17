@@ -219,22 +219,24 @@ namespace PlayGroup
 			{
 				PlayerNetworkActions pna = gameObject.GetComponent<PlayerNetworkActions>();
 				PlayerMove pm = gameObject.GetComponent<PlayerMove>();
+
+				ConnectedPlayer player = PlayerList.Instance.Get(gameObject);
 				
 				string killerName = "stressfull work";
 				if (LastDamagedBy != null)
 				{
-					killerName = LastDamagedBy.name;
+					killerName = PlayerList.Instance.Get(LastDamagedBy).Name;
 				}
 
-				if (killerName == gameObject.name)
+				if (killerName == player.Name)
 				{
-					PostToChatMessage.Send(gameObject.name + " commited suicide", ChatChannel.System); //Killfeed
+					PostToChatMessage.Send(player.Name + " commited suicide", ChatChannel.System); //Killfeed
 				}
-				else if (killerName.EndsWith(gameObject.name))
+				else if (killerName.EndsWith(player.Name))
 				{
 					// chain reactions
 					PostToChatMessage.Send(
-						gameObject.name + " screwed himself up with some help (" + killerName + ")",
+						player.Name + " screwed himself up with some help (" + killerName + ")",
 						ChatChannel.System); //Killfeed
 				}
 				else
@@ -261,7 +263,7 @@ namespace PlayGroup
 					}
 
 					//TDM demo killfeed
-					PostToChatMessage.Send(killerName + " has killed " + gameObject.name + departmentKillText,
+					PostToChatMessage.Send(killerName + " has killed " + player.Name + departmentKillText,
 						ChatChannel.System);
 
 					//Combat demo killfeed

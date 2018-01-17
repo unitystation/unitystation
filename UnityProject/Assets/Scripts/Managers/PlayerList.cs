@@ -5,23 +5,28 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// Has limited scope for clients, sweet things are mostly for server
 public class PlayerList : NetworkBehaviour
 {
-	//ConnectedPlayer list
+	//FIXME: nameList weirdness upon restart; recheck ClientConnectedPlayers contents and killing name integrity
+	//ConnectedPlayer list, server only
 	private static List<ConnectedPlayer> values = new List<ConnectedPlayer>();
+	//For server needs, useless for client
 	public List<ConnectedPlayer> Values => values;
+	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
+	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
+	//For client needs: synced via uNet magic. Why need both? -idk
+	public SyncListString nameList = new SyncListString();
 
 	public static PlayerList Instance;
-
+	public int ConnectionCount => values.Count;
+	public int PlayerCount => values.FindAll(player => player.GameObject != null).Count;
 
 	//For TDM demo
 	public Dictionary<JobDepartment, int> departmentScores = new Dictionary<JobDepartment, int>();
 
-	public SyncListString nameList = new SyncListString();
-
 	//For combat demo
-	public Dictionary<string, int> playerScores = new Dictionary<string, int>();
-
+	public Dictionary<NetworkConnection, int> playerScores = new Dictionary<NetworkConnection, int>();
 
 	private void Awake()
 	{
@@ -47,30 +52,8 @@ public class PlayerList : NetworkBehaviour
 		RefreshPlayerListText();
 	}
 
-//	//Check name on server
-//	public string CheckName(string name)
-//	{
-//		string checkName = name;
-//
-//		while ( ContainsName(checkName) )
-//		{
-//			Debug.Log("NAME ALREADY EXISTS: " + checkName);
-//			numSameNames++;
-//			checkName = name + numSameNames;
-//			Debug.Log("TRYING: " + checkName);
-//		}
-//
-//		nameList.Add(checkName);
-//		if ( !playerScores.ContainsKey(checkName) )
-//		{
-//			playerScores.Add(checkName, 0);
-//		}
-//
-//		return checkName;
-//	}
 
 	//Called on the server when a kill is confirmed
-
 	[Server]
 	public void UpdateKillScore(GameObject perpetrator, GameObject victim)
 	{
@@ -79,9 +62,10 @@ public class PlayerList : NetworkBehaviour
 			return;
 		}
 
-		if ( playerScores.ContainsKey(perpetrator.name) )
+		NetworkConnection playerConnection = Get(perpetrator).Connection;
+		if ( playerScores.ContainsKey(playerConnection) )
 		{
-			playerScores[perpetrator.name]++;
+			playerScores[playerConnection]++;
 		}
 
 		JobType perpetratorJob = perpetrator.GetComponent<PlayerScript>().JobType;
@@ -140,6 +124,7 @@ public class PlayerList : NetworkBehaviour
 		PostToChatMessage.Send("Game Restarting in 10 seconds...", ChatChannel.System);
 	}
 
+	[Server]
 	public void RemovePlayer(NetworkConnection conn)
 	{
 		if ( ContainsConnection(conn) )
@@ -151,41 +136,43 @@ public class PlayerList : NetworkBehaviour
 
 	public void RefreshPlayerListText()
 	{
-		UIManager.Instance.playerListUIControl.nameList.text = "";
-//		foreach ( string name in nameList )
-//		{
-//			string curList = UIManager.Instance.playerListUIControl.nameList.text;
-//			UIManager.Instance.playerListUIControl.nameList.text = curList + name + "\r\n";
-//		}
-		foreach (var player in values)
+		UIManager.Instance.playerListUIControl.nameList.text = "nameList:\r\n";
+		foreach ( string name in nameList )
+		{
+			UIManager.Instance.playerListUIControl.nameList.text += name + "\r\n";
+		}
+		UIManager.Instance.playerListUIControl.nameList.text += "ccpList:\r\n";
+		foreach (var player in ClientConnectedPlayers)
 		{
 			string curList = UIManager.Instance.playerListUIControl.nameList.text;
 			UIManager.Instance.playerListUIControl.nameList.text = $"{curList}{player.Name} ({player.Job})\r\n";
 		}
 	}
 
-	/// <summary>
-	/// Don't do this on server unless you realize the consequences
-	/// </summary>
+	/// Don't do this unless you realize the consequences
+	[Server]
 	public void Clear()
 	{
 		values.Clear();
 	}
-
+	
+	[Server]
 	public void UpdatePlayer(NetworkConnection conn, GameObject newGameObject)
 	{
 		ConnectedPlayer connectedPlayer = Get(conn);
 		connectedPlayer.GameObject = newGameObject;
 	}
 
-	public int ConnectionCount => values.Count;
-	public int PlayerCount => values.FindAll(player => player.GameObject != null).Count;
 
-	//filling a struct without connections and gameobjects for clients
-	public List<ClientConnectedPlayer> DiscreetPlayerList =>
+	//filling a struct without connections and gameobjects for client's ClientConnectedPlayers list
+	public List<ClientConnectedPlayer> ClientConnectedPlayerList =>
 		values.Aggregate(new List<ClientConnectedPlayer>(), (list, player) =>
 		{
-			list.Add(new ClientConnectedPlayer {Name = player.Name, Job = player.Job});
+			//not including headless server player
+			if ( !GameData.IsHeadlessServer || player.Connection != InvalidConnectedPlayer.Connection )
+			{
+				list.Add(new ClientConnectedPlayer {Name = player.Name, Job = player.Job});
+			}
 			return list;
 		});
 
@@ -196,7 +183,7 @@ public class PlayerList : NetworkBehaviour
 		Name = "kek",
 		Job = JobType.NULL
 	};
-
+	[Server]
 	private void TryAdd(ConnectedPlayer player)
 	{
 		if ( player.Equals(InvalidConnectedPlayer) )
@@ -204,22 +191,27 @@ public class PlayerList : NetworkBehaviour
 			Debug.Log("Refused to add invalid connected player");
 			return;
 		}
-//FIXME: don't overwrite names to nulls; fix client text representation
 		if ( ContainsConnection(player.Connection) )
 		{
-			Debug.Log($"Replacing {Get(player.Connection)} with {player}");
-			TryRemove(Get(player.Connection));
+			Debug.Log($"Updating {Get(player.Connection)} with {player}");
+			var existingPlayer = Get(player.Connection);
+			existingPlayer.GameObject = player.GameObject;
+			existingPlayer.Name = player.Name; //Note that name won't be changed to empties/nulls
+			existingPlayer.Job = player.Job;
 		}
-
-		values.Add(player);
-		if (isServer)
+		else
 		{
-			UpdateConnectedPlayersMessage.Send();
+			values.Add(player);
+			if ( !playerScores.ContainsKey(player.Connection) )
+			{
+				playerScores.Add(player.Connection, 0);
+			}
+			Debug.Log($"Added {player}. Total:{values.Count}; {string.Join("; ",values)}");
 		}
-		Debug.Log($"Added {player}. Total:{values.Count}; {string.Join("; ",values)}");
+		
 	}
 
-
+	[Server]
 	private void TryRemove(ConnectedPlayer player)
 	{
 		Debug.Log($"Removed {player}");
@@ -228,21 +220,8 @@ public class PlayerList : NetworkBehaviour
 		nameList.Remove(player.Name);
 	}
 
-	/// Server-only!
+	[Server]
 	public void Add(ConnectedPlayer player) => TryAdd(player);
-
-	//todo: rewrite CCP storage as a separate thing?
-	///Client-only!
-	public void Add(ClientConnectedPlayer player)
-	{
-		TryAdd(new ConnectedPlayer
-		{
-			Connection = InvalidConnectedPlayer.Connection,
-			GameObject = InvalidConnectedPlayer.GameObject,
-			Job = player.Job,
-			Name = player.Name
-		});
-	}
 
 	public bool ContainsConnection(NetworkConnection connection)
 	{
@@ -253,7 +232,7 @@ public class PlayerList : NetworkBehaviour
 
 		return false;
 	}
-
+	[Server]
 	public bool ContainsName(string name)
 	{
 		if ( !Get(name).Equals(InvalidConnectedPlayer) )
@@ -263,7 +242,7 @@ public class PlayerList : NetworkBehaviour
 
 		return false;
 	}
-
+	[Server]
 	public bool ContainsGameObject(GameObject gameObject)
 	{
 		if ( !Get(gameObject).Equals(InvalidConnectedPlayer) )
@@ -273,7 +252,7 @@ public class PlayerList : NetworkBehaviour
 
 		return false;
 	}
-
+	[Server]
 	public ConnectedPlayer Get(NetworkConnection connection)
 	{
 		for ( var i = 0; i < values.Count; i++ )
@@ -286,7 +265,7 @@ public class PlayerList : NetworkBehaviour
 
 		return InvalidConnectedPlayer;
 	}
-
+	[Server]
 	public ConnectedPlayer Get(string name)
 	{
 		for ( var i = 0; i < values.Count; i++ )
@@ -299,7 +278,7 @@ public class PlayerList : NetworkBehaviour
 
 		return InvalidConnectedPlayer;
 	}
-
+	[Server]
 	public ConnectedPlayer Get(GameObject gameObject)
 	{
 		for ( var i = 0; i < values.Count; i++ )
@@ -312,7 +291,7 @@ public class PlayerList : NetworkBehaviour
 
 		return InvalidConnectedPlayer;
 	}
-
+	[Server]
 	public void Remove(NetworkConnection connection)
 	{
 		ConnectedPlayer connectedPlayer = Get(connection);
@@ -325,7 +304,7 @@ public class PlayerList : NetworkBehaviour
 			TryRemove(connectedPlayer);
 		}
 	}
-
+	[Server]
 	public void Remove(string name)
 	{
 		ConnectedPlayer connectedPlayer = Get(name);
@@ -338,7 +317,7 @@ public class PlayerList : NetworkBehaviour
 			TryRemove(connectedPlayer);
 		}
 	}
-
+	[Server]
 	public void Remove(GameObject gameObject)
 	{
 		ConnectedPlayer connectedPlayer = Get(gameObject);
@@ -375,7 +354,7 @@ public class ConnectedPlayer
 	public string Name
 	{
 		get { return name; }
-		set { TryAddName(value); }
+		set { TryChangeName(value); }
 	}
 
 	public JobType Job
@@ -384,39 +363,38 @@ public class ConnectedPlayer
 		set { job = value; }
 	}
 
-	private void TryAddName(string playerName)
+	private void TryChangeName(string playerName)
 	{
-		if (name == playerName)
+		if ( playerName == null || playerName.Equals("") || name == playerName )
 		{
 			return;
 		}
-		int numSameNames = 0;
-
 		var playerList = PlayerList.Instance;
-
 		if ( playerList == null )
 		{
 			Debug.LogWarning("PlayerList not instantiated, setting name blindly");
 			name = playerName;
 			return;
 		}
-		
+
+		int numSameNames = 0;
 		while ( PlayerList.Instance.ContainsName(playerName) )
 		{
-			Debug.Log("NAME ALREADY EXISTS: " + playerName);
+			Debug.Log($"NAME ALREADY EXISTS: {playerName}");
 			numSameNames++;
 			playerName = playerName + numSameNames;
-			Debug.Log("TRYING: " + playerName);
+			Debug.Log($"TRYING: {playerName}");
 		}
 
 		PlayerList.Instance.nameList.Remove(name);
 		PlayerList.Instance.nameList.Add(playerName);
-		if ( !PlayerList.Instance.playerScores.ContainsKey(playerName) )
-		{
-			PlayerList.Instance.playerScores.Add(playerName, 0);
-		}
+
 
 		name = playerName;
+		if ( CustomNetworkManager.Instance != null && CustomNetworkManager.Instance._isServer )
+		{
+			UpdateConnectedPlayersMessage.Send();
+		}
 	}
 
 	public override string ToString()
