@@ -36,5 +36,13 @@ namespace UI
 
 			thisImg.sprite = sprites[intent];
 		}
+
+        //Hotkey method
+        public void IntentHotkey(int intent)
+        {
+            UIManager.CurrentIntent = (Intent) intent;
+
+            thisImg.sprite = sprites[intent];
+        }
 	}
 }

@@ -39,7 +39,27 @@ namespace UI
 			{
 				UIManager.Hands.Use();
 			}
-		}
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                UIManager.Intent.IntentHotkey(0);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                UIManager.Intent.IntentHotkey(1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                UIManager.Intent.IntentHotkey(2);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                UIManager.Intent.IntentHotkey(3);
+            }
+        }
 
 		public void Resist()
 		{
