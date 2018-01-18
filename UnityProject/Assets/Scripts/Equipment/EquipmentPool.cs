@@ -88,7 +88,13 @@ namespace Equipment
 		//When placing items at a position etc also removes them from the player equipment pool and places it in scene
 		public static void DropGameObject(GameObject player, GameObject gObj, Vector3 pos)
 		{
-			NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
+			NetworkIdentity networkIdentity = player.GetComponent<NetworkIdentity>();
+			if ( !networkIdentity )
+			{
+				Debug.LogWarning("Unable to drop as NetIdentity is gone");
+				return;
+			}
+			NetworkInstanceId ownerId = networkIdentity.netId;
 			if (!Instance.equipPools.ContainsKey(ownerId))
 			{
 				return;

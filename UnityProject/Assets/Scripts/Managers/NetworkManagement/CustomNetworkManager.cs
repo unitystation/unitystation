@@ -211,13 +211,13 @@ public class CustomNetworkManager : NetworkManager
 	/// server actions when client disconnects 
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
-		if (conn != null && conn.playerControllers.Count > 0)
+		var player = PlayerList.Instance.Get(conn);
+		if ( player.GameObject )
 		{
-			PlayerList.Instance.Get(conn).GameObject.GetComponent<PlayerNetworkActions>().DropAllItems();
-			PlayerList.Instance.Remove(conn);
-			Debug.Log("PlayerDisconnected: " + conn.playerControllers[0].gameObject.name);
-			NetworkServer.Destroy(conn.playerControllers[0].gameObject);
+			player.GameObject.GetComponent<PlayerNetworkActions>().DropAllOnQuit();
 		}
+		Debug.Log($"Player Disconnected: {player.Name}");
+		PlayerList.Instance.Remove(conn);
 	}
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)

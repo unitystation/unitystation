@@ -220,9 +220,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return false;
 	}
 
-	/// <summary>
 	///     Imperative drop
-	/// </summary>
 	[Server]
 	public void DropItem(string slot,Vector3 dropWorldPos, bool forceClientInform = true)
 	{
@@ -231,19 +229,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		equipment.ClearItemSprite(slot);
 		UpdateSlotMessage.Send(gameObject, slot, null, forceClientInform);
 	}
-	/// <summary>
-	///     Drop from all the slots
-	/// </summary>
+
+	/// Just drop all shit from player's inventory when he's leaving, ignoring pools
 	[Server]
-	public void DropAllItems()
+	public void DropAllOnQuit()
 	{
-		foreach ( var slot in Inventory )
+		foreach ( var item in Inventory.Values )
 		{
-			EquipmentPool.DropGameObjectAtPos(gameObject, slot.Value, gameObject.transform.localPosition);
-			Inventory[slot.Key] = null;
-//			these are probably pointless ATM (as shit gets dropped only when person disconnects) >>	
-//			equipment.ClearItemSprite(slot.Key);
-//			UpdateSlotMessage.Send(gameObject, slot.Key);
+			if ( !item )
+			{
+				continue;
+			}
+			var objTransform = item.GetComponent<CustomNetTransform>();
+			if ( objTransform )
+			{
+				objTransform.ForceDrop(gameObject.transform.position);
+			}
 		}
 	}
 
@@ -481,11 +482,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		RpcAdjustForRespawn();
 
 		EquipmentPool.ClearPool(gameObject);
-
-//		Remove player objects
-//		PlayerList.Instance.RemovePlayer(gameObject);
-//		Re-add player to name list because a respawning player didn't disconnect
-//		PlayerList.Instance.CheckName(gameObject.name);
 
 		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType);
 	}

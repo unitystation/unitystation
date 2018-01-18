@@ -106,16 +106,7 @@ namespace PlayGroup
 					UIManager.Instance.playerListUIControl.window.SetActive(true);
 				}
 
-				if (!PlayerManager.HasSpawned)
-				{
-//					First
-					CmdTrySetName(PlayerManager.PlayerNameCache);
-				}
-				else
-				{
-//					Manual after respawn
-					CmdSetNameManual(PlayerManager.PlayerNameCache);
-				}
+				CmdTrySetInitialName(PlayerManager.PlayerNameCache);
 
 				PlayerManager.SetPlayerForControl(gameObject);
 
@@ -138,10 +129,8 @@ namespace PlayGroup
 				{
 					Connection = connectionToClient,
 					GameObject = gameObject,
-//					Name = PlayerManager.PlayerNameCache,
 					Job = JobType
 				});
-//				playerName = PlayerList.Instance.Get(connectionToClient).Name;
 			}
 		}
 
@@ -162,38 +151,36 @@ namespace PlayGroup
 			}
 		}
 
+		/// <summary>
+		/// Trying to set initial name, if player has none 
+		/// </summary>
 		[Command]
-		private void CmdTrySetName(string name)
+		private void CmdTrySetInitialName(string name)
 		{
-			Debug.Log($"TrySetName {name}");
+//			Debug.Log($"TrySetName {name}");
 			if (PlayerList.Instance != null)
 			{
 				var player = PlayerList.Instance.Get(connectionToClient);
-				player.Name = name;
+				if ( player.HasNoName() )
+				{
+					player.Name = name;
+				}
 				playerName = player.Name;
 			}
-		}
-
-		[Command]
-		private void CmdSetNameManual(string name)
-		{
-			Debug.Log($"SetNameManual {name}");
-			playerName = name;
 		}
 
 		// On playerName variable change across all clients, make sure obj is named correctly
 		// and set in Playerlist for that client
 		public void OnNameChange(string newName)
 		{
-			playerName = newName;
-			gameObject.name = newName;
 			if (string.IsNullOrEmpty(newName))
 			{
 				Debug.LogError("NO NAME PROVIDED!");
 				return;
 			}
-			PlayerList.Instance.RefreshPlayerListText();
-			Debug.Log($"OnNameChange: '{newName}'");
+//			Debug.Log($"OnNameChange: GOName '{gameObject.name}'->'{newName}'; playerName '{playerName}'->'{newName}'");
+			playerName = newName;
+			gameObject.name = newName;
 		}
 
 		public float DistanceTo(Vector3 position)
