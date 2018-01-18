@@ -5,18 +5,17 @@ using UnityEngine.Networking;
 public class GibMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.GibMessage;
-	public NetworkInstanceId Subject;
 
 	public override IEnumerator Process()
 	{
 		Debug.Log(ToString());
 
-		yield return WaitFor(Subject);
-
 		foreach (HealthBehaviour living in Object.FindObjectsOfType<HealthBehaviour>())
 		{
 			living.Death();
 		}
+		
+		yield return null;
 	}
 
 	public static GibMessage Send()
@@ -28,6 +27,6 @@ public class GibMessage : ServerMessage
 
 	public override string ToString()
 	{
-		return string.Format("[GibMessage Subject={0} Type={1}]", Subject, MessageType);
+		return $"[GibMessage Type={MessageType}]";
 	}
 }
