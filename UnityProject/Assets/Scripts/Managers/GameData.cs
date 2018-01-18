@@ -183,7 +183,7 @@ public class GameData : MonoBehaviour
 
 		if (PlayerPrefs.HasKey("AZERTY"))
 		{
-			if (PlayerManager.LocalPlayerScript != null)
+			if (PlayerManager.LocalPlayerScript)
 			{
 				PlayerMove plm = PlayerManager.LocalPlayerScript.playerMove;
 				if (PlayerPrefs.GetInt("AZERTY") == 1)

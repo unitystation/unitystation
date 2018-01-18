@@ -15,7 +15,7 @@ namespace UI
 
 		private void OnEnable()
 		{
-			if (button == null)
+			if (!button)
 			{
 				button = GetComponent<Button>();
 			}
@@ -25,7 +25,7 @@ namespace UI
 
 		public void ChangeKeyboardInput()
 		{
-			if (PlayerManager.LocalPlayerScript != null)
+			if (PlayerManager.LocalPlayerScript)
 			{
 				PlayerMove plm = PlayerManager.LocalPlayerScript.playerMove;
 				if(button.GetComponentInChildren<Text>().text == "QWERTY")
