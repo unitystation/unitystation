@@ -113,33 +113,30 @@ public class GameManager : MonoBehaviour
 				}
 			}
 		}
-
 	}
 
 	public int GetOccupationsCount(JobType jobType)
 	{
 		int count = 0;
 
-		if (PlayerList.Instance == null || PlayerList.Instance.connectedPlayers.Count == 0)
+		if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers.Count == 0)
 		{
 			return 0;
 		}
 
-		foreach (KeyValuePair<string, GameObject> player in PlayerList.Instance.connectedPlayers)
+		for ( var i = 0; i < PlayerList.Instance.ClientConnectedPlayers.Count; i++ )
 		{
-			if (player.Value != null)
+			var player = PlayerList.Instance.ClientConnectedPlayers[i];
+			if ( player.Job == jobType )
 			{
-				PlayerScript mob = player.Value.GetComponent<PlayerScript>();
-				if (mob != null)
-				{
-					if (mob.JobType == jobType)
-					{
-						count++;
-					}
-				}
+				count++;
 			}
 		}
 
+		if ( count != 0 )
+		{
+			Debug.Log($"{jobType} count: {count}");
+		}
 		return count;
 	}
 

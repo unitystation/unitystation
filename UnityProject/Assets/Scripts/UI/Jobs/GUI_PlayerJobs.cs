@@ -74,12 +74,12 @@ public class GUI_PlayerJobs : MonoBehaviour
 			return false;
 		}
 
-		//nameList is a syncvar with instant sync on join, while connectedPlayers only happens after player has been spawned
-		//We should not show job selection if we haven't received all the connectedPlayers GOs
-		if (PlayerList.Instance.nameList.Count != PlayerList.Instance.connectedPlayers.Count)
-		{
-			return false;
-		}
+//		//nameList is a syncvar with instant sync on join, while connectedPlayers only happens after player has been spawned
+//		//We should not show job selection if we haven't received all the connectedPlayers GOs
+//		if (PlayerList.Instance.nameList.Count != PlayerList.Instance.PlayerCount)
+//		{
+//			return false;
+//		}
 
 		return true;
 	}
