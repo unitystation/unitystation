@@ -1,6 +1,8 @@
 ﻿using PlayGroup;
 using UnityEngine;
 using UnityEngine.UI;
+using Steamworks;
+
 
 namespace UI
 {
@@ -28,7 +30,20 @@ namespace UI
 			networkManager = CustomNetworkManager.Instance;
 			screen_PlayerName.SetActive(true);
 			screen_ConnectTo.SetActive(false);
-			string prefsName = PlayerPrefs.GetString(UserNamePlayerPref);
+			string steamName = "";
+			string prefsName;
+			if(SteamManager.Initialized) {
+				steamName = SteamFriends.GetPersonaName();
+			}
+			if (steamName != "" || steamName == null)
+			{
+				prefsName = steamName;
+			}
+			else
+			{
+				prefsName = PlayerPrefs.GetString(UserNamePlayerPref);
+			}
+
 			if (!string.IsNullOrEmpty(prefsName))
 			{
 				playerNameInput.text = prefsName;

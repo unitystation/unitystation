@@ -38,7 +38,6 @@ GameObject:
   - component: {fileID: 61829173786110420}
   - component: {fileID: 114958751264410972}
   - component: {fileID: 114154339735646076}
-  - component: {fileID: 114750175755456528}
   - component: {fileID: 114374851331526312}
   - component: {fileID: 114260592088361284}
   - component: {fileID: 114758040345321802}
@@ -173,27 +172,6 @@ MonoBehaviour:
   size: 0
   spriteType: 2
   type: 16
---- !u!114 &114750175755456528
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1392830670498528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isPlayer: 0
-  registerTile: {fileID: 0}
-  visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
-  closetHandlerCache: {fileID: 0}
 --- !u!114 &114758040345321802
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -206,11 +184,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 1
+  isPushable: 0
   pulledBy: {fileID: 0}
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}

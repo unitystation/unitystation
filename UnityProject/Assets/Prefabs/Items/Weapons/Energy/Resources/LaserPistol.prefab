@@ -38,7 +38,6 @@ GameObject:
   - component: {fileID: 61069992133562766}
   - component: {fileID: 114107019470061730}
   - component: {fileID: 114064348143944282}
-  - component: {fileID: 114260906568923760}
   - component: {fileID: 114452692074497964}
   - component: {fileID: 114149588504688960}
   - component: {fileID: 114222453711107380}
@@ -184,11 +183,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 1
+  isPushable: 0
   pulledBy: {fileID: 0}
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
@@ -205,27 +205,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 0
---- !u!114 &114260906568923760
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1245908573886190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isPlayer: 0
-  registerTile: {fileID: 0}
-  visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
-  closetHandlerCache: {fileID: 0}
 --- !u!114 &114452692074497964
 MonoBehaviour:
   m_ObjectHideFlags: 1

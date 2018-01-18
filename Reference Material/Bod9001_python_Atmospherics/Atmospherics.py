@@ -1,25 +1,29 @@
-#V0.9
+#V1
 #needs BoxStation.json From unitystation\UnityProject\Assets\Resources\Metadata BoxStation.7z
+#from numba import jit
 import json
 import time
 import math
 import sys
 import cProfile
 import pyglet
-
+# Importing stuff 
 
 
 
 
 sys.setrecursionlimit(9000)
 
+# Stopping stuff from breaking From recurring too much
 
 
-Look_UP =  {'Oxygen': 0.659, 'Nitrogen': 0.743, 'Plasma': 0.8,'Carbon Dioxide':0.655}
+Heat_capacity_of_gases =  {'Oxygen': 0.659, 'Nitrogen': 0.743, 'Plasma': 0.8,'Carbon Dioxide':0.655}
 Molar_Masses = {'Oxygen':31.9988,'Nitrogen': 28.0134 ,'Plasma': 40,  'Carbon Dioxide':44.01} 
 
-edge_tiles = []
+# The the variables for the gases Heat_capacity_of_gases and Molar_Masses
 
+edge_tiles = []
+edge_tiles_set = set(edge_tiles) 
 
 Plasma_fuel_list = []
 Plasma_fuel_set = set(Plasma_fuel_list)
@@ -28,9 +32,19 @@ update_set = set(update_list)
 Space_list = []
 Space_set = set(Space_list)
 
+odd_list = []
+odd_set = set(odd_list)
+
+Even_list = []
+Even_set = set(odd_list)
+
+
 Has_done = {}
 check_Reaction_Dictionary = {}
 Air = {}
+is_space_Mix = {}
+Space_pressure = {}
+Mixes = {}
 is_space = {}
 Dictionary_of_adjacents = {}
 Check_count_Dictionary = {}
@@ -40,13 +54,19 @@ Temporary = {}
 Temporary2 = {}
 is_space_2 = {}
 
-R = 8.3144598
+#Making all the lists Dictionaries and sets n stuff 
+
+R = 8.3144598 #The gas constant 
 
 
 
 
 
-Tile_range = [360,210]
+Tile_range = [360,210] #The size of the map
+
+
+
+####seting all Tiles to Whatever you want \/
 
 r = range(0,Tile_range[0]+1)
 r2 = range(0,Tile_range[1]+1)
@@ -61,35 +81,45 @@ for z in r:
         tuple_z_p = tuple((z,p))
         Temporary['Temperature'] = 293.15
         Temporary['Pressure'] = 101.325
+        #Temporary['Temperature'] = 3000
 
         
         Temporary2['Oxygen'] = 16.628484400890768491815384755837
         Temporary2['Nitrogen']= 66.513937603563073967261539023347
-        Temporary['Mix'] = Temporary2.copy()
+        
+        
         Temporary['Moles'] = 83.142422004453842459076923779184
         Temporary['Fire'] = 0         
         Temporary['Obstructed'] = False
         Temporary['Space'] = True 
         Air[tuple_z_p] = Temporary.copy()
+        Mixes[tuple_z_p] = Temporary2.copy()
         
+
+#######
+#\/ Defining space tiles
 
 is_space['Temperature'] = 2.7
 is_space['Pressure'] = 0.000000316
 
-is_space_2['Oxygen'] = 0.000000000000281
+is_space_Mix['Oxygen'] = 0.000000000000281
 
-is_space['Mix'] = is_space_2.copy() 
 is_space['Moles'] = 0.000000000000281
 is_space['Fire'] = 0 
 is_space['Obstructed'] = False
 is_space['Space'] = True
 
 
+#Importing the map \/
+
 with open('BoxStation.json') as json_data:
     the_json = json.load(json_data)
     #print(the_json["Walls1"]["tilePositions"])
     insex = 0
     insey = 0
+
+    #seting all the walls and floors to the map in the Simulation
+
 
     for hr in the_json["Walls1"]["tilePositions"]:
         inse = []
@@ -153,11 +183,37 @@ with open('BoxStation.json') as json_data:
         insey = hr['y']
         Air[(insex,insey)]['Space'] = False
 
-    #for hr in the_json["UnderFloor0"]["tilePositions"]:
+    for hr in the_json["UnderFloor0"]["tilePositions"]:
+        inse = []
+        insex = hr['x']
+        insey = hr['y']
+        Air[(insex,insey)]['Space'] = False
+
+    #for hr in the_json["Doors Closed11"]["tilePositions"]:
     #    inse = []
     #    insex = hr['x']
     #    insey = hr['y']
-    #    Air[(insex,insey)]['Space'] = False
+    #    Air[(insex,insey)]['Obstructed'] = True
+        
+    #for hr in the_json["Doors Closed10"]["tilePositions"]:
+    #    inse = []
+    #    insex = hr['x']
+    #    insey = hr['y']
+    #    Air[(insex,insey)]['Obstructed'] = True
+        
+    #for hr in the_json["Doors Closed9"]["tilePositions"]:
+    #    inse = []
+    #    insex = hr['x']
+    #    insey = hr['y']
+    #    Air[(insex,insey)]['Obstructed'] = True
+        
+    #for hr in the_json["Doors Open0"]["tilePositions"]:
+    #    inse = []
+    #    insex = hr['x']
+    #    insey = hr['y']
+    #    Air[(insex,insey)]['Obstructed'] = True
+
+
 
 
         
@@ -183,16 +239,124 @@ with open('BoxStation.json') as json_data:
 #Air[60+2,13+7+4+12]['Obstructed'] = True
 #Air[60-24,13+7+4+12+30+6]['Obstructed'] = True
 
-
+#/\That's for map outpost.json to Close off all the external doors
+#this is where You can set custom  walls or Tiles 
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~        
-#print(Air[(50,50)]['Obstructed'],'hey?')
 
 
 
-def Orientation(tile):
+#####Stuff for the preview 
+def create_quad_vertex_list(x, y, width, height):
+    return x, y, x + width, y, x + width, y + height, x, y + height
+
+
+def Drawing_boxes():
+    edge_tiles_set = set(edge_tiles)
+
+    global Air
+    global Mixes
+    batch = pyglet.graphics.Batch()
+    r = range(0,Tile_range[0] + 1)
+    r2 = range(0,Tile_range[1] + 1)
+    e = 0
+    a = 100
+    for z in r:
+        #print (z,'in 1')
+        t = 100
+        x = 0
+        for p in r2:
+
+            #if Air[(z,p)]['Space'] == False:
+            if 1 == 1:
+
+                
+                if Air[tuple((z,p))]['Obstructed'] == True:
+                    #print('wall!')
+                    int_wall = 255
+                else:
+                    int_wall = 0
+                if (z,p) in edge_tiles_set:
+                    int_edge_tiles = 255
+                else:
+                    int_edge_tiles = 0
+                    
+                if (z,p) in update_set:
+                    #print('hey?')
+                    int_update_set = 255
+                else:
+                    int_update_set = 0
+                #int_wall = 0
+                #print(odd_set )
+                #print(Even_set)
+                #if (z,p) in Even_set:
+                #    int_Moles = 255
+                #else:
+                #    int_Moles = 0
+
+                #if (z,p) in odd_set:
+                #    int_Temperature = 255
+                #else:
+                #    int_Temperature = 0
+                    
+
+
+                
+
+
+                #int_Moles = 255 
+                #int_Temperature = 255
+                int_Temperature = (int(round((Air[tuple((z,p))]['Temperature'] / 8), 0))) 
+                int_Moles = (int(round(Air[tuple((z,p))]['Moles'], 0)))
+                #int_Moles = (int(round(4 * Mixes[tuple((z,p))]['Oxygen'], 0))) 
+                int_Pressure = (int(round(2 * Air[tuple((z,p))]['Pressure'], 0))) #Visual marker 
+                if (z,p) == (20,121):
+                    
+                    int_update_set = 255
+                    int_edge_tiles = 255
+                    int_wall = 255
+                    int_wall = 255
+                    int_Temperature = 255
+                    int_Moles = 255
+                RED = int_edge_tiles    ####set what Colours you want to be what it's to do with RGB so 0 ro 255 (It can stack overflow It will just go back to 0 As long as the numbers not too high ) 
+                GREEN = int_update_set
+                BLUE = int_wall
+                    
+                vertex_list = batch.add(4, pyglet.gl.GL_QUADS, None,
+                                                                                                   ('v2i', (create_quad_vertex_list(e+a,x+t,5,5))),
+                                                                                                   ('c3B', (
+                                                                                                   RED, GREEN, BLUE,
+                                                                                                   RED, GREEN, BLUE, 
+                                                                                                   RED, GREEN, BLUE,
+                                                                                                   RED, GREEN, BLUE)))   #pyglet  Magic
+
+            x += 5
+            t += 0
+        e += 5
+        a += 0
+    batch.draw()
+
+#pyglet  Magic
+def do_wins():      
+
+    window = pyglet.window.Window(1920, 1080)
+    @window.event
+    def on_draw():
+        window.clear()
+        Drawing_boxes()
+
+    if __name__ == "__main__":
+        pyglet.app.run()
+        return() 
+
+
+#####
+
+
+
+def Orientation(tile): ### Making the adjacent tile to the tile
     T = []
-    p = [[0,0],[1,0],[0,1],[-1,0],[0,-1]]
+    p = [[0,0],[1,0],[0,1],[-1,0],[0,-1]]  # set what they are here
     for Z in p:
         a = list(tile)
         b = a[0]+Z[0]
@@ -200,13 +364,13 @@ def Orientation(tile):
         c.append(b)
         s = a[1]+Z[1]
         c.append(s)
-        if (not (c[0] > Tile_range[0] or c[0] < 0 or  c[1] > Tile_range[1] or c[1] < 0)):
+        if (not (c[0] > Tile_range[0] or c[0] < 0 or  c[1] > Tile_range[1] or c[1] < 0)): #Making sure they're not out of bounds
             T.append(tuple(c))
 
     return(T)
 
 
-def Making_Dictionary_of_adjacents():
+def Making_Dictionary_of_adjacents():  # just puts adjacent tiles into a dictionary for quick reference
     
     r = range(0,Tile_range[0] + 1)
     r2 = range(0,Tile_range[1] + 1)
@@ -223,7 +387,9 @@ Making_Dictionary_of_adjacents()
 
 #print(Dictionary_of_adjacents[(50,50)],'Dictionary_of_adjacents')
 
-def Worse_case_update_set():
+
+
+def Worse_case_update_set(): #Makes every tile active so they can be updated (They will remove themselves if they are not needed)
     r = range(0,Tile_range[0] + 1)
     r2 = range(0,Tile_range[1] + 1)
     a = []
@@ -237,7 +403,8 @@ def Worse_case_update_set():
 
 Worse_case_update_set()
 
-def Worse_case_edge_tiles():
+
+def Worse_case_edge_tiles(): #this  Has frozen all the times I've done it so don't do it
     r = range(0,Tile_range[0] + 1)
     r2 = range(0,Tile_range[1] + 1)
     a = []
@@ -249,10 +416,74 @@ def Worse_case_edge_tiles():
                 edge_tiles.append((z,p))
     print('Worse_case_edge_tiles done!', len(r),len(r2))
 
-#Worse_case_edge_tiles()
-#print(len(edge_tiles))
+#Worse_case_edge_tiles() #this  Has frozen all the times I've done it so don't do it
 
-def Making_check_count_Dictionary_and_Check_count_Dictionary_Moving():
+
+def Pitch_Patch(bo = 'good'): # Making my lag system patchwork
+    r = range(0,Tile_range[0] + 1)
+    r2 = range(0,Tile_range[1] + 1)
+    for z in r:
+        #print (z,'in 1')
+        x = []
+        E = 0
+        for p in r2:
+            if bo == 'bad': # Ignores this this is a test
+                if p % 5 == 0:
+                    if z % 5 == 0:
+                        odd_set.add((z,p))
+                else:
+                    if (p+4) % 5 == 0:
+                        #odd_set.add((z,p))
+                        if (z+2) % 5 == 0:
+                            odd_set.add((z,p))
+                    else:
+                        if (p+3) % 5 == 0:
+                            if (z+4) % 5 == 0:
+                                odd_set.add((z,p))
+                        else:
+                            if (p+2) % 5 == 0:
+                                if (z+1) % 5 == 0:
+                                    odd_set.add((z,p))
+                            else:
+                                if (p+1) % 5 == 0:
+                                    if (z+3) % 5 == 0:
+                                        odd_set.add((z,p))
+                                
+                            
+           
+
+
+                
+                 
+          
+
+            else: # yeah, it only does half  At a time that's how it saves time
+                
+                if z % 2 == 0:
+                    if p % 2 == 0:
+                        odd_set.add((z,p))
+                    else:
+                        Even_set.add((z,p))
+                else:
+                    if p % 2 == 0:
+                        Even_set.add((z,p))
+
+                    else:
+                        
+                        odd_set.add((z,p))
+
+
+Pitch_Patch()
+#print(odd_set )
+#print(Even_set)
+
+
+
+
+            
+            
+
+def Making_check_count_Dictionary_and_Check_count_Dictionary_Moving(): #Just stuff for remembering decay 
     
     r = range(0,Tile_range[0] + 1)
     r2 = range(0,Tile_range[1] + 1)
@@ -268,7 +499,7 @@ Making_check_count_Dictionary_and_Check_count_Dictionary_Moving()
 
 
 
-def Making_space_set():
+def Making_space_set():  #Setting all tiles to space that have ['Space'] == True and Are not obstructed
     r = range(0,Tile_range[0] + 1)
     r2 = range(0,Tile_range[1] + 1)
     a = []
@@ -288,90 +519,183 @@ Making_space_set()
 
 
 
-def old_Visual_check():
+def old_Visual_check():  # if You want to print out the entire map  with Currently Pressure and Mixes of gases  But you can add more
+    global Air
     r = range(0,Tile_range[0] + 1)
     r2 = range(0,Tile_range[1] + 1)
     a = []
     for z in r:
         x = []
         for p in r2:
-            print((z,p),Air[(z,p)]['Pressure'])
-            print((z,p),Air[(z,p)]['Moles'])
+            if Air[(z,p)]['Space'] == False:
+                if Air[(z,p)]['Obstructed'] == False:
+                    print((z,p),Air[(z,p)]['Pressure'])
+                    print((z,p),Mixes[(z,p)])
 
 
 
 
-def Setting_space():
+def Setting_space(): #idk why this is split over 2 functions but Sets them to space, (I was intending to run this while the atmospherics But I found a better way) 
     for Space_tile in Space_set:
             Air[Space_tile] = is_space.copy()
+            Mixes[Space_tile] = is_space_Mix.copy()
             
 Setting_space()
 
-#@numba.jit
+
+#yay Actual atmospherics
 
 #@profile
-def new_pressure():
-    update_list = []
-    for Origin_tile in update_set:
-        are_different_pressure = Dictionary_of_adjacents[Origin_tile]
-        mix_calculation_dictionary = {}
-        JM_calculation_dictionary = {}
-        Tile_working_on = []
-        c = False
-        nall = 0
-        count = 0
-        T = 0
-        for tile in are_different_pressure:
-            if Air[tile]['Obstructed'] == False:
-                for key, value in Air[tile]['Mix'].items():
-                    mix_calculation_dictionary[key] = (value + mix_calculation_dictionary.get(key, 0))
-                    JM_calculation_dictionary[key] = ((Air[tile]['Temperature'] * value) * Look_UP[key]) + JM_calculation_dictionary.get(key, 0)
-                if not math.isclose(Air[tile]['Pressure'], Air[Origin_tile]['Pressure'], rel_tol=1e-5, abs_tol=0.0):
-                    c = True
-                count += 1
-                Tile_working_on.append(tile)
+def The_calculations(Origin_tile):
 
-        for key in mix_calculation_dictionary:
-            key_mix_worked_out = (mix_calculation_dictionary[key] / count)
-            nall += key_mix_worked_out
-            
-            JM_calculation_dictionary[key] = (((JM_calculation_dictionary[key] /  Look_UP[key]) / key_mix_worked_out) / len(JM_calculation_dictionary)) 
-            T += (JM_calculation_dictionary[key] / count)
-            Air[Origin_tile]['Mix'][key] = key_mix_worked_out
-              
-        P = ((nall*R*T)/(2)/1000)   
-        for tile in Tile_working_on:
-            if Air[tile]['Space'] == False:
-                for key in mix_calculation_dictionary:
+
+    
+    global Check_count_Dictionary_Moving
+    are_different_pressure = Dictionary_of_adjacents[Origin_tile] #Gets the adjacents
+    mix_calculation_dictionary = {}
+    JM_calculation_dictionary = {}
+    update_list = False
+    Tile_working_on = []
+    key_to_del = []
+    c = False
+    is_space = False
+    nall = 0
+    count = 0
+    T = 0
+    #Makes some variables
+    
+    for tile in are_different_pressure:
+        if Air[tile]['Space']: 
+                is_space = True # you don't need to process space Tiles do you?
+                break
         
-                    if key == 'Plasma':
-                        if Air[Origin_tile]['Mix']['Plasma'] > 1:
-                            Plasma_fuel_set.add(tile)
-                            
-                    Air[tile]['Mix'][key] = Air[Origin_tile]['Mix'][key]
-                Air[tile]['Temperature'] = T
-                Air[tile]['Moles'] = nall
-                Air[tile]['Pressure'] = P
-            
-        if c == False:
-            if Check_count_Dictionary_Moving[Origin_tile] == 1:
-                update_list.append(Origin_tile)
-                global edge_tiles
-                edge_tiles.append(Origin_tile)
-                Check_count_Dictionary_Moving[Origin_tile] = 0
-            else:
-                Check_count_Dictionary_Moving[Origin_tile] += 1
+        if not Air[tile]['Obstructed']:  # you don't need to process wall Tiles do you?
+            for key, value in Mixes[tile].items(): # Gets the name of the gas and the quantity of gas in moles 
+                mix_calculation_dictionary[key] = (value + mix_calculation_dictionary.get(key, 0)) #adds up all the Gas of a certain type in Adjacent tiles and itself 
+                JM_calculation_dictionary[key] = ((Air[tile]['Temperature'] * value) * Heat_capacity_of_gases[key]) + JM_calculation_dictionary.get(key, 0) # Works out how much energy  (not in J You have to Times by the Molar_Masses to get the J)
+                if value < 0.000000000000001: # Something to stop it turning into 0 and causing a crash because of dividing by 0
+                    key_to_del.append(key)
+            if not math.isclose(Air[tile]['Pressure'], Air[Origin_tile]['Pressure'], rel_tol=1e-2, abs_tol=0.0): # Checks if it needs to decay By pressure difference
+                c = True
+            count += 1 #How many tiles it is getting from
+            Tile_working_on.append(tile) # what tiles it is getting from
 
-    #hkjbn
-    for Tile_remove in update_list:
-        update_set.remove(Tile_remove)
+    if not is_space: # you don't need to process space Tiles do you?
+        for key in mix_calculation_dictionary:
+            key_mix_worked_out = (mix_calculation_dictionary[key] / count) #Dividing by the tiles used
+            nall += key_mix_worked_out # How many moles of gas altogether 
+                
+            JM_calculation_dictionary[key] = (((JM_calculation_dictionary[key] /  Heat_capacity_of_gases[key]) / key_mix_worked_out) / len(JM_calculation_dictionary)) #Turning it back into K
+            Mixes[Origin_tile][key] = key_mix_worked_out # for set the Tiles
+            T += (JM_calculation_dictionary[key] / count) #setign the Temperature in k
+
+
+            if key == 'Plasma': #Taking of the Checking if The current gases plasma
+                #if key_mix_worked_out['Plasma'] > 0: # Checking how much there is
+                global Plasma_fuel_set
+                Plasma_fuel_set.add(tile) # adding to the Tiles that need to be checked for reactions
+
+        P = ((nall*R*T)/(2)/1000) # Working out the pressure in kpa
+
+        for key in key_to_del: # Something to stop it turning into 0 and causing a crash because of dividing by 0
+            try:
+                del Mixes[Origin_tile][key]
+            except(KeyError):
+                pass
+
+        for tile in Tile_working_on: # Setting tiles time
+            if not Air[tile]['Space']: # the other way I found of doing it 
+
+                Mixes[tile]= Mixes[Origin_tile].copy()    #   Applying gas mixture to it
+                Air[tile]['Temperature'] = T #   Applying Temperature in K to it
+                Air[tile]['Moles'] = nall #   Applying Number of molesto it 
+                Air[tile]['Pressure'] = P #   Applying Pressure to it 
+    else: # If space Tile   Making it like space 
+        for tile in are_different_pressure:
+            if not Air[tile]['Obstructed']:
+                Mixes[tile] = is_space_Mix.copy()
+                Air[tile]['Temperature'] = 2.7
+                Air[tile]['Moles'] = 0.000000000000281
+                Air[tile]['Pressure'] = 0.000000316
+
+    if not c: #Checking if decay is true 
+        if Check_count_Dictionary_Moving[Origin_tile] >= 3: #A bit of leniency
+            update_list = True # and Needs to be removed
+            Check_count_Dictionary_Moving[Origin_tile] = 0
+        else:
+            Check_count_Dictionary_Moving[Origin_tile] += 1 #A bit of leniency
+    return(update_list)
+
+    
+
+
+def new_pressure(lag,odd_even):
+    global edge_tiles
+    global update_set
+    #mixe = {'Oxygen': 16.628484400890768491815384755837, 'Plasma': 66.513937603563073967261539023347}
+    #Mixes[(20,121)] = mixe.copy()
+    #Air[(20,121)]['Temperature'] = 3000.00
+    # this is a good Place to place constants for >>>Testing!!! <<<<<<< 
+    update_liste = []
+
+    for Origin_tile in update_set:
+        update_list = False
+        if lag:
+            if odd_even: #if lag alternate between the tiles that you're doing and not doung  
+                if Origin_tile in Even_set:
+                    update_list = The_calculations(Origin_tile)
+                    if update_list:
+                        update_liste.append(Origin_tile) # Adding it to the list of tiles that need to be removed
+                
+            else: #If you're doing half you have to do the other half
+                if Origin_tile in odd_set:
+                    update_list = The_calculations(Origin_tile)
+                    if update_list:
+                        update_liste.append(Origin_tile) # Adding it to the list of tiles that need to be removed
+        else:
+            update_list = The_calculations(Origin_tile)
+            if update_list:
+                update_liste.append(Origin_tile) # Adding it to the list of tiles that need to be removed
+
+    
+        
+    if odd_even: #If you're doing half you have to do the other half
+        odd_even = False
+    else:
+        odd_even = True
+
+    #print(len(update_liste))
+    #print(Check_count_Dictionary_Moving[20,121])
+    
+
+    
+
+    for Tile_remove in update_liste: #The removing process
+    
+        edge_tiles.append(Tile_remove) # adds it to the edge tiles  
+        #print(Tile_remove)
+
+        update_set.remove(Tile_remove) #  removings it 
+        
+        #except KeyError:
+            #pass
+        
+    return(odd_even) # What to do next odd or even
+
+    
+        
+
 
 #new_pressure()
 #new_pressure.inspect_types()
 
 
-def Air_Reactions():
-    #print(Plasma_fuel_set,'Plasma_fuel_set')
+def Air_Reactions(): #All the reactions yay
+    global Air
+    global Mixes
+    global Plasma_fuel_set
+    #print('Plasma o3o/')
+    #print(len(Plasma_fuel_set))
     Plasma_fuel_set_copy = Plasma_fuel_set.copy()
     for Tile in Plasma_fuel_set_copy:
         if Air[Tile]['Temperature'] > 200:
@@ -397,40 +721,50 @@ def Air_Reactions():
 #@numba.jit
                 
 #@profile
-def Do_the_edge():
+def Do_the_edge(): #my edge tile system
+    #print('hey?')
     global edge_tiles
     #print(edge_tiles)
-    if not edge_tiles:
+    if not edge_tiles: #Checking if empty
         return
     
     List_to_go_into_update_set = []
     new_edge_tiles = []
-    edge_tiles_set = set(edge_tiles)
-    try:
-        for tile in edge_tiles_set:
+    edge_tiles_set = set(edge_tiles) #sets are Faster in python
+
+    for tile in edge_tiles_set: 
+        if Air[tile]['Space'] == False: #You don't need to scan space if it's always the same
             the_orientation = Dictionary_of_adjacents[tile].copy()
-            del the_orientation[0]
+            del the_orientation[0] #It doesn't need itself does it
             C = 0
             Count_for_update_set = 0
             for Tile_orientated in the_orientation:
-                Tile_orientated_tuple = tuple(Tile_orientated)
-                if Air[Tile_orientated]['Obstructed'] == False:
-                    if not math.isclose(Air[Tile_orientated_tuple]['Pressure'], Air[tile]['Pressure'], rel_tol=1e-5, abs_tol=0.0):
-                        C += 1
+                
 
-                        if not Tile_orientated_tuple in update_set:
+                if Air[Tile_orientated]['Obstructed'] == False: # You don't need to check in walls
+                    
+                    if not math.isclose(Air[Tile_orientated]['Pressure'], Air[tile]['Pressure'], rel_tol=1e-5, abs_tol=0.0): #Checking if the pressures different
+                        C += 1
+                        #new_edge_tiles.append(Tile_orientated)
+
+                        if not Tile_orientated in update_set: #Don't need to scan over something that's already working on
                             
-                            if not Tile_orientated in new_edge_tiles:
-                                
+                            if not Tile_orientated in new_edge_tiles: # No need to add self multiple times
+
                                 update_set.add(tile)
-                                new_edge_tiles.append(Tile_orientated_tuple)
+                                new_edge_tiles.append(Tile_orientated)
+                            else:
+                                update_set.add(tile)
                         else:
-                            Count_for_update_set += 1                
+                            
+                            Count_for_update_set += 1
+
+                    
             if C == 0:
-                if Check_count_Dictionary[tile] == 0:
+                if Check_count_Dictionary[tile] >= 0: # yeah it's 0
                     Decay = True
-                    for Tile_orientated in the_orientation:
-                        if Tile_orientated in update_set:
+                    for Tile_orientated in the_orientation:  
+                        if Tile_orientated in update_set:# If it's next to an update Tile It doesn't need to decay
                             Decay = False
 
                     if Decay == False:
@@ -441,148 +775,60 @@ def Do_the_edge():
                     Check_count_Dictionary[tile] += 1
                     new_edge_tiles.append(tile)
             else:
-                if Count_for_update_set > 1:
-                    update_set.add(tile)
+                if Count_for_update_set > 1: # for some Strange edge case scenarios with walls and being surrounded by update tiles as well 
+                    update_set.add(tile) 
+                    
+    edge_tiles = new_edge_tiles.copy()
 
                     
-    except(TypeError):
-        the_orientation = Dictionary_of_adjacents[edge_tiles].copy()
-        C = 0
-        Count_for_update_set = 0
-        for Tile_orientated in the_orientation:
-            Tile_orientated_tuple = tuple(Tile_orientated)
-            if Air[Tile_orientated_tuple]['Obstructed'] == False:
-                #if not Air[tuple(Tile_orientated)]['Pressure'] == Air[tuple(tuple_edge_tiles)]['Pressure']:
-                if not math.isclose(Air[Tile_orientated_tuple]['Pressure'], Air[edge_tiles]['Pressure'], rel_tol=1e-5, abs_tol=0.0):
-                    C += 1 
-                    if not Tile_orientated in new_edge_tiles:
-                        
-                        if not Tile_orientated_tuple in update_set:
-                             
-                            new_edge_tiles.append(Tile_orientated)
-                            update_set.add(edge_tiles)
-
-                        else:
-                            Count_for_update_set += 1
-
-        if C == 0:
-            if Check_count_Dictionary[edge_tiles] == 0:
-                Decay = True
-                for Tile_orientated in the_orientation:
-                    if Tile_orientated in update_set:
-                        Decay = False
-
-                if Decay == False:
-                    if Air[tile]['Obstructed'] == False:
-                        new_edge_tiles.append(edge_tiles)
-                Check_count_Dictionary[edge_tiles] = 0
-            else:
-                Check_count_Dictionary[edge_tiles] += 1
-                new_edge_tiles.append(edge_tiles)
-        else:
-            if Count_for_update_set > 1:
-                update_set.add(edge_tiles)
-
-
-    edge_tiles = new_edge_tiles.copy()
+    
 
             
 
 #@profile
-def Atmospherics():
-    
+def Atmospherics(): # the Thing that runs
+    global Air
     
     global edge_tiles
     count =  0
-    #edge_tiles = []
     start_time = time.time()
-    #Air[(48,48)]['Temperature'] = 240000
-    #Air[(48,48)]['Pressure'] = 500
-    
-    #Air[(180,105)]['Temperature'] = 5000000
-    #Air[(180,105)]['Pressure'] = 500
-    
-    #Air[(50,50)]['Temperature'] = 300
-    #Air[(50,50)]['Moles'] = 80
-    #Air[(50,50)]['Pressure'] = 1
-    #print(Air[(50,50)]['Pressure'])
-    #Air[(50,50)]['Temperature'] = 1000
-    #mixe = {'Oxygen': 16.628484400890, 'Nitrogen': 33, 'Plasma': 33}
-    #Air[(50,50)]['Mix'] = mixe
-    
-    #edge_tiles1 = Do_the_edge((100,100))
-    
+
     edge_tiles = Dictionary_of_adjacents[(180,105)]
     
-    #edge_tiles = edge_tiles1 + edge_tiles2
+
+    lag_tik = 0
+    odd_even = False
+    lag = False
+    #do_wins()
     while count < 100:
-        start_Tick_time = time.time()
-        #if count == 120:
-            
-            #Air[(50,50)]['Pressure'] = 1.322*(10**-14)
-            #Air[(50,50)]['Moles'] = 1
-            #mixe = {'Oxygen': 1, 'Nitrogen': 1, 'Plasma': 1}
-            #Air[(50,50)]['Mix'] = mixe   
-            #Air[(50,50)]['Moles'] = 80
-            
-            #Air[(100,100)]['Pressure'] = 0.1
-            
-            #Air[(48,48)]['Pressure'] = 0.1
-            
-            #Air[(50,50)]['Temperature'] = 3.15
-            
-            #Air[(51,50)]['Temperature'] = 0
-            #Air[(51,50)]['Moles'] = 0.1
-            #Air[(51,50)]['Pressure'] = 0.1
-            
-            #Air[(50,51)]['Temperature'] = 0
-            #Air[(50,51)]['Moles'] = 0.1
-            #Air[(50,51)]['Pressure'] = 0.1
-            
-            #Air[(49,50)]['Temperature'] = 0
-            #Air[(49,50)]['Moles'] = 0.1
-            #Air[(49,50)]['Pressure'] = 0.1
+        start_Tick_time = time.time() #Starts the tick time
 
-            #Air[(50,49)]['Temperature'] = 0
-            #Air[(50,49)]['Moles'] = 0.1
-            #Air[(50,49)]['Pressure'] = 0.1
-
-        new_pressure()
+        odd_even = new_pressure(lag,odd_even) # Does the calculations 
         
+        Air_Reactions() # air reactions
+        #odd_even = False
 
-
-        Air_Reactions()
-
-        
-
-
-
-        
         Do_the_edge()
-     
-        #if not edge_tiles:
-        #    edge_tiles = Dictionary_of_adjacents[(50,50)]
-            
-            #edge_tiles = Dictionary_of_adjacents[(100,100)]  
-        count += 1        
+       
+                
         print(count)
-        Tick_time = (time.time() - start_Tick_time)
-        #print(Tick_time)
-        if not Tick_time > 0.2:
-            time.sleep(0.2 - Tick_time)
-        #else:
-        #    print('Atmospheric system - fuck!!!')
+        Tick_time = (time.time() - start_Tick_time) # Work out how long it took
+        print(Tick_time)
+        count += 1
+        if not Tick_time > 0.2: #if not Longer than target  
+            #time.sleep(0.2 - Tick_time) # for the Pause
+            if Tick_time < 0.1: # if It's half the time of what would it take for the lagy version to do it in Target
+                lag = False #Then it's good to go to that
+                
+        
+            
+        else: # if Longer than target 
 
-    print("--- %s seconds ---" % (time.time() - start_time))
-    #print(update_list,'update_list ')
-    #print(edge_tiles,'edge_tiles')
+            lag = True #Pretty self explanatory
+            
+        #do_wins()
 
-#print (Air[(60,60)]['Temperature'],'Temperature')
-
-#print (Air[(50,50)]['Pressure'],Air[(51,50)]['Pressure'],Air[(50,49)]['Pressure'],'Just looking')
-print (Air[(50,50)]['Mix'],Air[(51,50)]['Mix'],Air[(50,49)]['Mix'],'Just Mixing')
-#print (Air[(50,50)]['Temperature'],Air[(51,50)]['Temperature'],Air[(50,49)]['Temperature'],'Just tempting')
-print (Air[(50,50)]['Moles'],Air[(51,50)]['Moles'],Air[(50,49)]['Moles'],'Just Counting')
+    print("--- %s seconds ---" % (time.time() - start_time)) #Total time
 
 
 
@@ -598,96 +844,18 @@ Atmospherics()
 
 
 
-#Pressure_checke((5,5))
-#print (Air[(50,50)]['Pressure'],Air[(51,50)]['Pressure'],Air[(50,49)]['Pressure'],'Just looking')
-print (Air[(50,50)]['Mix'],Air[(51,50)]['Mix'],Air[(50,49)]['Mix'],'Just Mixing')
-#print (Air[(50,50)]['Temperature'],Air[(51,50)]['Temperature'],Air[(50,49)]['Temperature'],'Just tempting')
-print (Air[(50,50)]['Moles'],Air[(51,50)]['Moles'],Air[(50,49)]['Moles'],'Just Counting')
+
+print(len(update_set),'the length of update set') #How many tiles
+
+print(len(edge_tiles),'the length of edge tiles')#How many tiles
+
+#old_Visual_check()  
+print(Air[(20,121)]['Pressure']) #Checking individual tiles
+print(Air[(20,121)]['Temperature']) #Checking individual tiles
+print(Mixes[(20,121)]) #Checking individual tiles 
 
 
-#print (Air[(60,60)]['Temperature'],'Temperature')
-print (Air[(60,60)]['Mix'],'Mix')
-#print (Air[(60,60)]['Pressure'],'Pressure')
-print (Air[(60,60)]['Moles'],'Just Counting')
-
-
-def create_quad_vertex_list(x, y, width, height):
-    return x, y, x + width, y, x + width, y + height, x, y + height
-
-
-def Drawing_boxes():
-    global edge_tiles
-    batch = pyglet.graphics.Batch()
-    r = range(0,Tile_range[0] + 1)
-    r2 = range(0,Tile_range[1] + 1)
-    e = 0
-    a = 100
-    for z in r:
-        #print (z,'in 1')
-        t = 100
-        x = 0
-        for p in r2:
-            #print(Air[tuple((z,p))]['Obstructed'])
-            if Air[(z,p)]['Space'] == False:
-
-                
-                if Air[tuple((z,p))]['Obstructed'] == True:
-                    #print('wall!')
-                    int_wall = 255
-                else:
-                    int_wall = 0
-                if (z,p) in edge_tiles:
-                    int_edge_tiles = 255
-                else:
-                    int_edge_tiles = 0
-                    
-                if (z,p) in update_set:
-                    #print('hey?')
-                    int_update_set = 255
-                else:
-                    int_update_set = 0
-                #int_wall = 0
-
-
-                    
-                int_Temperature = 0
-                #int_Temperature = (int(round((Air[tuple((z,p))]['Temperature'] / 2), 0))) 
-                int_Moles = (int(round(2 * Air[tuple((z,p))]['Moles'], 0)))
-                int_Pressure = (int(round(2 * Air[tuple((z,p))]['Pressure'], 0)))
-                vertex_list = batch.add(4, pyglet.gl.GL_QUADS, None,
-                                                                                                   ('v2i', (create_quad_vertex_list(e+a,x+t,4,4))),
-                                                                                                   ('c3B', (
-                                                                                                   int_Pressure, int_Temperature, int_wall,
-                                                                                                   int_Pressure, int_Temperature, int_wall,
-                                                                                                   int_Pressure, int_Temperature, int_wall,
-                                                                                                   int_Pressure, int_Temperature, int_wall)))
-
-            x += 4
-            t += 0
-        e += 4
-        a += 0
-    batch.draw()
-
-
-print(len(update_set),'the length of update set')
-
-print(len(edge_tiles),'the length of edge tiles')
-
-#old_Visual_check()
-
-def do_wins():      
-
-    window = pyglet.window.Window(1920, 1080)
-    @window.event
-    def on_draw():
-        window.clear()
-        Drawing_boxes()
-
-    if __name__ == "__main__":
-        pyglet.app.run()
-
-do_wins()
-
+do_wins() #The graphics display thing
 
 
 

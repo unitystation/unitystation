@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using Cupboards;
 using Doors;
@@ -36,6 +37,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private SoundNetworkActions soundNetworkActions;
 
 	public Dictionary<string, GameObject> Inventory { get; } = new Dictionary<string, GameObject>();
+
+	public bool isGhost;
 
 	private void Start()
 	{
@@ -403,6 +406,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdToggleChatIcon(bool turnOn)
 	{
+		if(!GetComponent<VisibleBehaviour>().visibleState){
+			//Don't do anything with chat icon if player is invisible
+			return;
+		}
 		RpcToggleChatIcon(turnOn);
 	}
 
@@ -442,9 +449,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
+	[Command]
+	public void CmdCommitSuicide()
+	{
+		GetComponent<HealthBehaviour>().ApplyDamage(gameObject, 1000, DamageType.BRUTE, BodyPartType.CHEST);
+	}
+
 	[ClientRpc]
 	public void RpcSpawnGhost()
 	{
+		isGhost = true;
 		playerScript.ghost.SetActive(true);
 		playerScript.ghost.transform.parent = null;
 		chatIcon.gameObject.transform.parent = playerScript.ghost.transform;
@@ -454,6 +468,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			SoundManager.Stop("Critstate");
 			UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
 			Camera2DFollow.followControl.target = playerScript.ghost.transform;
+			Camera2DFollow.followControl.damping = 0.0f;
 			FieldOfView fovScript = GetComponent<FieldOfView>();
 			if (fovScript != null)
 			{
@@ -464,8 +479,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("FieldOfView"));
 		}
 	}
-
-
+	
 	//Respawn action for Deathmatch v 0.1.3
 
 	[Server]
@@ -489,7 +503,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[ClientRpc]
 	private void RpcAdjustForRespawn()
 	{
+		ClosetPlayerHandler cph = GetComponent<ClosetPlayerHandler>();
+		if (cph != null)
+		{
+			Destroy(cph);
+		}
+		Camera2DFollow.followControl.damping = 0.0f;
 		playerScript.ghost.SetActive(false);
+		isGhost = false;
 		//Hide ghosts and show FieldOfView
 		Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 		Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("FieldOfView");

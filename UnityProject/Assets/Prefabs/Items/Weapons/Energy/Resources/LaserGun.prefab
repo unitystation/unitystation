@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 61610373818276998}
   - component: {fileID: 114492326431636074}
   - component: {fileID: 114645566785121330}
-  - component: {fileID: 114484104425687870}
   - component: {fileID: 114006053933687790}
   - component: {fileID: 114449825066554946}
   - component: {fileID: 114209077955755610}
@@ -120,7 +119,7 @@ MonoBehaviour:
   inHandReferenceRight: 32
   itemDescription: 
   itemName: LaserGun
-  size: 0
+  size: 1
   spriteType: 2
   type: 16
 --- !u!114 &114209077955755610
@@ -135,11 +134,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 1
+  isPushable: 0
   pulledBy: {fileID: 0}
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
@@ -168,27 +168,6 @@ MonoBehaviour:
   ProjectilesFired: 1
   ProjectileVelocity: 27
   WeaponType: 1
---- !u!114 &114484104425687870
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1907860461332556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isPlayer: 0
-  registerTile: {fileID: 0}
-  visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
-  closetHandlerCache: {fileID: 0}
 --- !u!114 &114492326431636074
 MonoBehaviour:
   m_ObjectHideFlags: 1
