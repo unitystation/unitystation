@@ -157,7 +157,13 @@ public class PoolManager : NetworkBehaviour
 
 	private void AddToPool(GameObject target)
 	{
-		GameObject prefab = target.GetComponent<PoolPrefabTracker>().myPrefab;
+		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
+		if ( !poolPrefabTracker )
+		{
+			Debug.LogWarning($"PoolPrefabTracker not found on {target}");
+			return;
+		}
+		GameObject prefab = poolPrefabTracker.myPrefab;
 		prefab.transform.position = Vector2.zero;
 
 		if (!pools.ContainsKey(prefab))

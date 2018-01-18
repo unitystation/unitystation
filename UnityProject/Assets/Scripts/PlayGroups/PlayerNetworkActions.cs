@@ -225,7 +225,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	///     Imperative drop
 	[Server]
-	public void DropItem(string slot,Vector3 dropWorldPos, bool forceClientInform = true)
+	public void DropItem(string slot, Vector3 dropWorldPos, bool forceClientInform = true)
 	{
 		EquipmentPool.DropGameObjectAtPos(gameObject, Inventory[slot], dropWorldPos);
 		Inventory[slot] = null;

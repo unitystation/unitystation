@@ -14,7 +14,6 @@ public class PostToChatMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-		yield return WaitFor(SentBy);
 		if (NetworkObject)
 		{
 			GameObject player = NetworkObject;
@@ -30,6 +29,7 @@ public class PostToChatMessage : ClientMessage
 			ChatEvent chatEvent = new ChatEvent(ChatMessageText, Channels);
 			ChatRelay.Instance.AddToChatLogServer(chatEvent);
 		}
+		yield return null;
 	}
 
 	//We want ChatEvent to be created on the server, so we're only passing the individual variables
@@ -59,8 +59,7 @@ public class PostToChatMessage : ClientMessage
 
 	public override string ToString()
 	{
-		return string.Format("[PostToChatMessage SentBy={0} ChatMessageText={1} Channels={2} MessageType={3}]",
-			SentBy, ChatMessageText, Channels, MessageType);
+		return $"[PostToChatMessage ChatMessageText={ChatMessageText} Channels={Channels} MessageType={MessageType}]";
 	}
 
 	public override void Deserialize(NetworkReader reader)
