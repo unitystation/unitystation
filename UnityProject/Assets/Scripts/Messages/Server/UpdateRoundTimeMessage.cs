@@ -7,14 +7,12 @@ using UnityEngine.Networking;
 public class UpdateRoundTimeMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateRoundTimeMessage;
-	public NetworkInstanceId Subject;
 	public float Time;
 
 	public override IEnumerator Process()
 	{
-		yield return WaitFor(Subject);
-
 		GameManager.Instance.SyncTime(Time);
+		yield return null;
 	}
 
 	public static UpdateRoundTimeMessage Send(float time)
@@ -29,6 +27,6 @@ public class UpdateRoundTimeMessage : ServerMessage
 
 	public override string ToString()
 	{
-		return string.Format("[UpdateRoundTimeMessage Subject={0} Type={1} Time={2}]", Subject, MessageType, Time);
+		return $"[UpdateRoundTimeMessage Type={MessageType} Time={Time}]";
 	}
 }

@@ -11,45 +11,25 @@ using UnityEngine.Networking;
 public class UpdateConnectedPlayersMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateConnectedPlayersMessage;
-	public GameObject[] Players;
-	public NetworkInstanceId Subject;
+	public ClientConnectedPlayer[] Players;
 
 	public override IEnumerator Process()
 	{
-		yield return WaitFor(Subject);
+//		Debug.Log("Processed " + ToString());
 
-		Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
-		//Add missing players
-		foreach (GameObject player in Players)
+		PlayerList.Instance.ClientConnectedPlayers.Clear();
+		for ( var i = 0; i < Players.Length; i++ )
 		{
-			if (!connectedPlayers.ContainsKey(player.name))
-			{
-				string name = player.GetComponent<PlayerScript>().playerName;
-				connectedPlayers.Add(name, player);
-			}
+			PlayerList.Instance.ClientConnectedPlayers.Add(Players[i]);
 		}
-
-		//Remove players that are stored locally, but not on server. Unless its us.
-		//foreach does not allow mutations on the dictionary collection while it is iterating over it
-		//Store names to be removed and do it after
-		List<string> playersToRemove = new List<string>();
-		foreach (KeyValuePair<string, GameObject> entry in connectedPlayers)
-		{
-			if (!Players.Contains(entry.Value) && entry.Key != PlayerManager.LocalPlayerScript.playerName)
-			{
-				playersToRemove.Add(entry.Key);
-			}
-		}
-		for (int i = 0; i < playersToRemove.Count; i++)
-		{
-			connectedPlayers.Remove(playersToRemove[i]);
-		}
+		PlayerList.Instance.RefreshPlayerListText();
+		yield return null;
 	}
 
-	public static UpdateConnectedPlayersMessage Send(GameObject[] players)
+	public static UpdateConnectedPlayersMessage Send()
 	{
 		UpdateConnectedPlayersMessage msg = new UpdateConnectedPlayersMessage();
-		msg.Players = players;
+		msg.Players = PlayerList.Instance.ClientConnectedPlayerList.ToArray();
 
 		msg.SendToAll();
 		return msg;
@@ -57,6 +37,6 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 
 	public override string ToString()
 	{
-		return string.Format("[UpdateConnectedPlayersMessage Subject={0} Type={1} Players={2}]", Subject, MessageType, string.Join(", ", Players.Select(p => p.name)));
+		return $"[UpdateConnectedPlayersMessage Type={MessageType} Players={string.Join(", ", Players)}]";
 	}
 }

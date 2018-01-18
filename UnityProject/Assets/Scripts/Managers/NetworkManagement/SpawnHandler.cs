@@ -14,27 +14,15 @@ public static class SpawnHandler
 	public static void SpawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType = JobType.NULL)
 	{
 		GameObject player = CreatePlayer(jobType);
+		PlayerList.Instance.UpdatePlayer(conn, player);
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
-		
-		UpdatePlayerList();
 	}
 
 	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
 	{
 		GameObject player = CreatePlayer(jobType);
+		PlayerList.Instance.UpdatePlayer(conn, player);
 		NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
-
-		UpdatePlayerList();
-	}
-
-	private static void UpdatePlayerList()
-	{
-		Dictionary<string, GameObject> connectedPlayers = PlayerList.Instance.connectedPlayers;
-
-		//Notify all clients that connected players list should be updated
-		GameObject[] players = new GameObject[connectedPlayers.Count];
-		connectedPlayers.Values.CopyTo(players, 0);
-		UpdateConnectedPlayersMessage.Send(players);
 	}
 
 	private static GameObject CreatePlayer(JobType jobType)

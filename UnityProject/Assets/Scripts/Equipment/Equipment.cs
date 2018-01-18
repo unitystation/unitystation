@@ -80,10 +80,28 @@ namespace Equipment
 			clothingSlots[index].Reference = syncEquipSprites[index];
 		}
 
+		/// Wait until client gains control of this player before proceeding further
+		/// (Could be moved into some more generic place in the future)
+		private IEnumerator WaitUntilInControl(int maxTries = 50)
+		{
+			int tries = 0;
+			while (!PlayerList.Instance.ContainsGameObject(gameObject))
+			{
+				if (tries++ > maxTries)
+				{
+					Debug.LogError($"{this} not in control after {maxTries} tries");
+					yield break;
+				}
+
+				yield return YieldHelper.DeciSecond;
+			}
+		}
+
+
 		public IEnumerator SetPlayerLoadOuts()
 		{
 			//Waiting for player name resolve
-			yield return new WaitForSeconds(0.2f);
+			yield return WaitUntilInControl();
 
 			// Null Job players dont get a loadout
 			if (playerScript.JobType == JobType.NULL)
