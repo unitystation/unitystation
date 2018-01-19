@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 61000014015711244}
   - component: {fileID: 114393202521717000}
   - component: {fileID: 114861804437894934}
+  - component: {fileID: 114170392893823056}
   m_Layer: 0
   m_Name: Radio
   m_TagString: Untagged
@@ -98,6 +99,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114170392893823056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012293339564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089f048cb86e24220b2ec1ef93050490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114393202521717000
 MonoBehaviour:
   m_ObjectHideFlags: 1

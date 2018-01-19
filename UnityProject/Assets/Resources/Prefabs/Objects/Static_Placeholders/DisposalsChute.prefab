@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 61000010615699320}
   - component: {fileID: 114654115629251212}
   - component: {fileID: 114394597018269012}
+  - component: {fileID: 114248316678275064}
   m_Layer: 11
   m_Name: DisposalsChute
   m_TagString: Untagged
@@ -97,6 +98,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114248316678275064
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010167295674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc75f356755ac4b4da14835828a2bc65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114394597018269012
 MonoBehaviour:
   m_ObjectHideFlags: 1

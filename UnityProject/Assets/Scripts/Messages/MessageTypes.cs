@@ -18,5 +18,6 @@ internal enum MessageTypes : short
 	PostToChatMessage = 2003,
 	RemoveEncryptionKeyMessage = 2004,
 	SimpleInteractMessage = 2005,
-	RequestSyncMessage = 2006
+	RequestSyncMessage = 2006,
+	VendorMessage = 2006
 }

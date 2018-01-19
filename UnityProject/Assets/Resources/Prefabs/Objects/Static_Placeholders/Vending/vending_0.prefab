@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 61362889932895036}
   - component: {fileID: 114832858870760818}
   - component: {fileID: 114744021291581812}
+  - component: {fileID: 114445863860112362}
   m_Layer: 0
   m_Name: vending_0
   m_TagString: Untagged
@@ -64,8 +65,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1093139424532032}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
+  m_LocalPosition: {x: 49, y: 33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4755961107440558}
@@ -97,6 +98,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114445863860112362
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vendorcontent:
+  - {fileID: 1000011622113908, guid: fc5783dcb3f74ab1b2187da95b6c932d, type: 2}
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 1
