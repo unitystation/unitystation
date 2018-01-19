@@ -100,7 +100,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (pushed != null)
 		{
 			var netTransform = obj.GetComponent<CustomNetTransform>();
-			netTransform.SetPosition(targetPos, true, speed, true);
+			netTransform.PushTo(targetPos,playerSprites.currentDirection,true, speed, true);
 		}
 	}
 }

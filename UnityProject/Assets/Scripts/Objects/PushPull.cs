@@ -121,7 +121,8 @@ public class PushPull : VisibleBehaviour
 			if (pusher == PlayerManager.LocalPlayer) {
 				//pushing for local player is set to true from CNT, to make sure prediction isn't overwhelmed
 				customNetTransform.PushToPosition(pushTarget, PlayerManager.LocalPlayerScript.playerMove.speed, this);
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, transform.localPosition, pushTarget, PlayerManager.LocalPlayerScript.playerMove.speed);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, transform.localPosition, pushTarget, 
+				                                                                PlayerManager.LocalPlayerScript.playerMove.speed);
 			}
 		}
 	}
