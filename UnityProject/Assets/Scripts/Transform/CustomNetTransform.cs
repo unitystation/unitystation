@@ -132,6 +132,14 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		}
 	}
 
+	/// Apply impulse while setting position
+	[Server]
+	public void PushTo(Vector3 pos, Vector2 impulseDir, bool notify = true, float speed = 4f, bool _isPushing = false)
+	{
+		serverTransformState.Impulse = impulseDir;
+		SetPosition(pos, notify, speed, _isPushing);
+	}
+
 	[Server]
 	private void UpdateServerTransformState(Vector3 pos, bool notify = true, float speed = 4f){
 		serverTransformState.Speed = speed;
@@ -255,7 +263,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			transform.localPosition = newState.localPos;
 		}
 		transformState = newState;
-
 		updateActiveStatus();
 	}
 
@@ -385,7 +392,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		if (IsFloating() && matrix != null)
 		{
 			Vector3 newGoal = serverTransformState.localPos +
-			                  (Vector3) serverTransformState.Impulse * (serverTransformState.Speed * SpeedMultiplier) * Time.deltaTime;
+			                                      (Vector3) serverTransformState.Impulse * (serverTransformState.Speed * SpeedMultiplier) * Time.deltaTime;
 			Vector3Int intGoal = RoundWithContext(newGoal, serverTransformState.Impulse);
 			if (CanDriftTo(intGoal))
 			{

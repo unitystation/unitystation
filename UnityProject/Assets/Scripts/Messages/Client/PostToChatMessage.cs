@@ -14,13 +14,13 @@ public class PostToChatMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
+		yield return WaitFor(SentBy);
 		if (NetworkObject)
 		{
-			GameObject player = NetworkObject;
-			if (ValidRequest(player))
-			{
-				ChatModifier modifiers = player.GetComponent<PlayerScript>().GetCurrentChatModifiers();
-				ChatEvent chatEvent = new ChatEvent(ChatMessageText, player.name, Channels, modifiers);
+			var player = PlayerList.Instance.Get(NetworkObject);
+			if (ValidRequest(player.GameObject)) {
+				ChatModifier modifiers = player.GameObject.GetComponent<PlayerScript>().GetCurrentChatModifiers();
+				ChatEvent chatEvent = new ChatEvent(ChatMessageText, player.Name, Channels, modifiers);
 				ChatRelay.Instance.AddToChatLogServer(chatEvent);
 			}
 		}
@@ -29,7 +29,6 @@ public class PostToChatMessage : ClientMessage
 			ChatEvent chatEvent = new ChatEvent(ChatMessageText, Channels);
 			ChatRelay.Instance.AddToChatLogServer(chatEvent);
 		}
-		yield return null;
 	}
 
 	//We want ChatEvent to be created on the server, so we're only passing the individual variables

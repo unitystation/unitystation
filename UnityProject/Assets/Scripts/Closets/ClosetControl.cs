@@ -231,6 +231,7 @@ namespace Cupboards
 				if (on)
 				{
 					player.transform.position = transform.position;
+					player.GetComponent<PlayerSync>().SetPosition(transform.localPosition);
 				}
 				player.visibleState = on;
 
@@ -238,7 +239,9 @@ namespace Cupboards
 				{
 					//Make sure a ClosetPlayerHandler is created on the client to monitor 
 					//the players input inside the storage. The handler also controls the camera follow targets:
-					ClosetHandlerMessage.Send(player.gameObject, gameObject);
+					if (!player.GetComponent<PlayerMove>().isGhost) {
+						ClosetHandlerMessage.Send(player.gameObject, gameObject);
+					}
 				}
 			}
 		}

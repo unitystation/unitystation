@@ -218,6 +218,19 @@ namespace PlayGroup
 			//Is the current tile restrictive?
 			Vector3Int newPos = currentPosition + direction;
 
+			if (playerSync.pullingObject != null) {
+				if (matrix.ContainsAt(newPos, playerSync.pullingObject)) {
+					Vector2 directionToPullObj =
+						playerSync.pullingObject.transform.localPosition - transform.localPosition;
+					if (directionToPullObj.normalized != playerSprites.currentDirection) {
+						// Ran into pullObject but was not facing it, saved direction
+						return direction;
+					}
+					//Hit Pull obj
+					pna.CmdStopPulling(playerSync.pullingObject);
+				}
+			}
+
 			if (!matrix.IsPassableAt(currentPosition, newPos))
 			{
 				return Vector3Int.zero;
@@ -226,22 +239,6 @@ namespace PlayGroup
 			if (matrix.IsPassableAt(newPos) || matrix.ContainsAt(newPos, gameObject))
 			{
 				return direction;
-			}
-
-			if (playerSync.pullingObject != null)
-			{
-				if (matrix.ContainsAt(newPos, playerSync.pullingObject))
-				{
-					Vector2 directionToPullObj =
-						playerSync.pullingObject.transform.localPosition - transform.localPosition;
-					if (directionToPullObj.normalized != playerSprites.currentDirection)
-					{
-						// Ran into pullObject but was not facing it, saved direction
-						return direction;
-					}
-					//Hit Pull obj
-					pna.CmdStopPulling(playerSync.pullingObject);
-				}
 			}
 
 			//could not pass
