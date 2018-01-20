@@ -161,13 +161,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b163118f438130042a75da887a8c1026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteClosed: {fileID: 21300004, guid: 59b1c11cc6b3442f92314b9d5193a323, type: 3}
-  spriteOpenedOccupied: {fileID: 21300000, guid: 59b1c11cc6b3442f92314b9d5193a323,
-    type: 3}
-  spriteOpenedEmpty: {fileID: 21300006, guid: 59b1c11cc6b3442f92314b9d5193a323, type: 3}
-  itemPrefab: {fileID: 1907679543779350, guid: 7920a824df456044381e381e90277a5d, type: 2}
   IsClosed: 1
   isFull: 1
+  itemPrefab: {fileID: 1907679543779350, guid: 7920a824df456044381e381e90277a5d, type: 2}
+  spriteClosed: {fileID: 21300004, guid: 59b1c11cc6b3442f92314b9d5193a323, type: 3}
+  spriteOpenedEmpty: {fileID: 21300006, guid: 59b1c11cc6b3442f92314b9d5193a323, type: 3}
+  spriteOpenedOccupied: {fileID: 21300000, guid: 59b1c11cc6b3442f92314b9d5193a323,
+    type: 3}
   storedObject: {fileID: 0}
 --- !u!114 &114838689195169320
 MonoBehaviour:
@@ -181,9 +181,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
 --- !u!212 &212000010741384228
 SpriteRenderer:
   m_ObjectHideFlags: 1
