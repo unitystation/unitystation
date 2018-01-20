@@ -68873,7 +68873,7 @@ TilemapCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.5, y: -0.5}
+  m_Offset: {x: 0, y: 0}
 --- !u!1001 &970444958
 Prefab:
   m_ObjectHideFlags: 0
@@ -70058,12 +70058,12 @@ Prefab:
     - target: {fileID: 224082241428792102, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.000000059604645
       objectReference: {fileID: 0}
     - target: {fileID: 224652079256797148, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000045776367
+      value: -0.000045776367
       objectReference: {fileID: 0}
     - target: {fileID: 224347802705061360, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
