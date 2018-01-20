@@ -25,7 +25,7 @@ public class VendorTrigger : InputTrigger
 
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
-		if (!allowSell && deniedMessage != null)
+		if (!allowSell && deniedMessage != null && !GameData.Instance.testServer && !GameData.IsHeadlessServer)
 		{
 			UIManager.Chat.AddChatEvent(new ChatEvent(deniedMessage, ChatChannel.Examine));
 		}
@@ -42,7 +42,11 @@ public class VendorTrigger : InputTrigger
 		else if(allowSell)
 		{
 			allowSell = false;
-			UIManager.Chat.AddChatEvent(new ChatEvent(interactionMessage, ChatChannel.Examine));
+			if (!GameData.Instance.testServer && !GameData.IsHeadlessServer)
+			{
+				UIManager.Chat.AddChatEvent(new ChatEvent(interactionMessage, ChatChannel.Examine));
+			}
+
 			ServerVendorInteraction(originator, position, hand);
 			StartCoroutine(VendorInputCoolDown());
 		}
