@@ -137,8 +137,11 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	[Server]
 	public void PushTo(Vector3 pos, Vector2 impulseDir, bool notify = true, float speed = 4f, bool _isPushing = false)
 	{
-		serverTransformState.Impulse = impulseDir;
-		SetPosition(pos, notify, speed, _isPushing);
+		if (IsInSpace()) {
+			serverTransformState.Impulse = impulseDir;
+		} else {
+			SetPosition(pos, notify, speed, _isPushing);
+		}
 	}
 
 	[Server]
@@ -397,7 +400,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			Vector3Int intGoal = RoundWithContext(newGoal, serverTransformState.Impulse);
 			if (CanDriftTo(intGoal))
 			{
-				if (registerTile.Position != Vector3Int.FloorToInt(transform.localPosition)){
+				if (registerTile.Position != Vector3Int.RoundToInt(transform.localPosition)){
 					registerTile.UpdatePosition();
 					RpcForceRegisterUpdate();
 				}
@@ -433,7 +436,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	public bool IsInSpace(){
-		return matrix.IsSpaceAt(Vector3Int.FloorToInt(transform.localPosition));
+		return matrix.IsSpaceAt(Vector3Int.RoundToInt(transform.localPosition));
 	}
 
 	public bool IsFloating()
