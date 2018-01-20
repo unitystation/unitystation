@@ -79,7 +79,7 @@ namespace UI
 
 		public static void ResetAllUI()
 		{
-			UI_ItemSlot[] slots = Instance.GetComponentsInChildren<UI_ItemSlot>();
+			UI_ItemSlot[] slots = Instance.GetComponentsInChildren<UI_ItemSlot>(true);
 			foreach (UI_ItemSlot slot in slots)
 			{
 				slot.Reset();
