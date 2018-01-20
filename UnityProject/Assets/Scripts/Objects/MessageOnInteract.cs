@@ -1,11 +1,12 @@
-﻿using PlayGroups.Input;
+﻿using JetBrains.Annotations;
+using PlayGroups.Input;
 using UI;
 using UnityEngine;
 
 
-public class FireAlarmTrigger : InputTrigger
+public class MessageOnInteract : InputTrigger
 {
-
+	public string Message;
 	// Use this for initialization
 	void Start () {
 	}
@@ -16,7 +17,7 @@ public class FireAlarmTrigger : InputTrigger
 	}
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
-		UIManager.Chat.AddChatEvent(new ChatEvent("You check the automated fire alarm", ChatChannel.Examine));
+		UIManager.Chat.AddChatEvent(new ChatEvent(Message, ChatChannel.Examine));
 	}
 
 }
