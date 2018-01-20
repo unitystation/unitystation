@@ -8,12 +8,18 @@ using PlayGroups.Input;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Collections;
+using PlayGroup;
+using PlayGroups.Input;
+using UnityEngine;
 
 
 public class VendorTrigger : InputTrigger
 {
-	[Header("Vendor content")] public GameObject[] vendorcontent;
-	
+	public GameObject[] vendorcontent;
+
+	public bool allowSell = true;
+
 	// Use this for initialization
 	void Start () {
 	}
@@ -24,24 +30,48 @@ public class VendorTrigger : InputTrigger
 	}
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
-		Debug.Log("spewing out: ");
+		// Client pre-approval
 		if (!isServer)
 		{
-			foreach (GameObject item in vendorcontent)
-			{
-				Debug.Log("Server client: " + item);
-				VendorMessage.Send(item, gameObject);
-			}
+			UI_ItemSlot slot = UIManager.Hands.CurrentSlot;
+			UIManager.Chat.AddChatEvent(new ChatEvent("bzzzz... ", ChatChannel.Examine));
+			//Client informs server of interaction attempt
+			InteractMessage.Send(gameObject, position, slot.eventName);
+
 		}
 		else
 		{
 
-			foreach (GameObject item in vendorcontent)
-			{
-				Debug.Log("Server item: " + item);
-				ItemFactory.SpawnItem(item, transform.position, transform.parent);
-			}
+			UIManager.Chat.AddChatEvent(new ChatEvent("bzzzz... ", ChatChannel.Examine));
+			ValidateVendorInteraction(originator, position, hand);
+			
+
 		}
+		
+	}
+	
+	[Server]
+	private bool ValidateVendorInteraction(GameObject originator, Vector3 position, string hand)
+	{
+		PlayerScript ps = originator.GetComponent<PlayerScript>();
+		if (ps.canNotInteract() || !ps.IsInReach(position) || !allowSell)
+		{
+			return false;
+		}
+		allowSell = false;
+		foreach (GameObject item in vendorcontent)
+		{
+
+			ItemFactory.SpawnItem(item, transform.position, transform.parent);
+		}
+		StartCoroutine(VendorInputCoolDown());
+		allowSell = true;
+		return true;
+	}
+	
+	private IEnumerator VendorInputCoolDown()
+	{
+		yield return new WaitForSeconds(2f);
 		
 	}
 	
