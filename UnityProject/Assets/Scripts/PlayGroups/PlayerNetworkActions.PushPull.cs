@@ -100,7 +100,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (pushed != null)
 		{
 			var netTransform = obj.GetComponent<CustomNetTransform>();
-			netTransform.PushTo(targetPos,playerSprites.currentDirection,true, speed, true);
+			if (netTransform.IsInSpace()) {
+				netTransform.PushTo(targetPos, playerSprites.currentDirection, true, speed, true);
+			} else {
+				netTransform.SetPosition(targetPos, true, speed, true);
+			}
 		}
 	}
 }

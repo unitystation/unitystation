@@ -62,6 +62,11 @@ public class PushPull : VisibleBehaviour
 		// isn't being pulled. If he is then he is not allowed to pull anything else as this can cause problems
 		if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform.position) &&
 			transform != PlayerManager.LocalPlayerScript.transform && PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null) {
+			if(PlayerManager.LocalPlayerScript.playerSync.pullingObject != null && 
+			   PlayerManager.LocalPlayerScript.playerSync.pullingObject != gameObject){
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(PlayerManager.LocalPlayerScript.playerSync.pullingObject);
+			}
+
 			if (pulledBy == PlayerManager.LocalPlayer) {
 				CancelPullBehaviour();
 			} else {
@@ -160,15 +165,22 @@ public class PushPull : VisibleBehaviour
 		if (pushing) {
 			if (customNetTransform.predictivePushing) {
 				//Wait for the server to catch up to the pushtarget if predictivePushing is true
-				if (currentPos == pushTarget) {
+				if (Vector3.Distance(currentPos, pushTarget) < 0.1f) {
 					//if it is then set it to false, this ensures that the player cannot keep pushing if
 					//he is experiencing high lag by waiting for the server position to match up
 					customNetTransform.predictivePushing = false;
 				}
+				return;
 			}
 
-			if (transform.localPosition == pushTarget && !customNetTransform.isPushing && !customNetTransform.predictivePushing) {
+			if (Vector3.Distance(transform.localPosition, pushTarget) < 0.1f && !customNetTransform.isPushing) {
 				pushing = false;
+				customNetTransform.predictivePushing = false;
+				registerTile.UpdatePosition();
+			}
+			if(pushing && customNetTransform.IsFloating() && customNetTransform.IsInSpace()){
+				pushing = false;
+				customNetTransform.predictivePushing = false;
 			}
 		}
 	}

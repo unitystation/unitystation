@@ -76,6 +76,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		}
 
 		isPushing = false;
+		predictivePushing = false;
 
 		serverTransformState.Speed = 0;
 		if (transform.localPosition.Equals(Vector3.zero) || Vector3Int.RoundToInt(transform.position).Equals(InvalidPos) || Vector3Int.RoundToInt(transform.localPosition).Equals(InvalidPos))
@@ -396,6 +397,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			Vector3Int intGoal = RoundWithContext(newGoal, serverTransformState.Impulse);
 			if (CanDriftTo(intGoal))
 			{
+				if (registerTile.Position != Vector3Int.FloorToInt(transform.localPosition)){
+					registerTile.UpdatePosition();
+					RpcForceRegisterUpdate();
+				}
 				//Spess drifting
 				serverTransformState.localPos = newGoal;
 			}
@@ -403,8 +408,16 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			{
 				serverTransformState.Impulse = Vector2.zero; //killing impulse, be aware when implementing throw!
 				NotifyPlayers();
+				registerTile.UpdatePosition();
+				RpcForceRegisterUpdate();
 			}
 		}
+	}
+
+	//For space drift, the server will confirm an update is required and inform the clients
+	[ClientRpc]
+	private void RpcForceRegisterUpdate(){
+		registerTile.UpdatePosition();
 	}
 
 	///Special rounding for collision detection
@@ -417,6 +430,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			x < 0 ? (int) Math.Floor(roundable.x) : (int) Math.Ceiling(roundable.x),
 			y < 0 ? (int) Math.Floor(roundable.y) : (int) Math.Ceiling(roundable.y),
 			0);
+	}
+
+	public bool IsInSpace(){
+		return matrix.IsSpaceAt(Vector3Int.FloorToInt(transform.localPosition));
 	}
 
 	public bool IsFloating()
