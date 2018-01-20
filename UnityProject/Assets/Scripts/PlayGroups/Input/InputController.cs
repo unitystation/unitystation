@@ -128,7 +128,7 @@ namespace PlayGroups.Input
 					renderers.Add(_renderer);
 				}
 			}
-
+			bool isInteracting = false;
 			//check which of the sprite renderers we hit and pixel checked is the highest
 			if (renderers.Count > 0)
 			{
@@ -136,9 +136,17 @@ namespace PlayGroups.Input
 				{
 					if (Interact(_renderer.transform, position))
 					{
+						isInteracting = true;
 						break;
 					}
 				}
+			}
+
+			//Do interacts below: (This is because if a ray returns true but there is no interaction, check click
+			//will not continue with the Interact call so we have to make sure it does below):
+			if (!isInteracting) {
+				//returning false then calls InteractHands from check click:
+				return false;
 			}
 
 			//check if we found nothing at all
