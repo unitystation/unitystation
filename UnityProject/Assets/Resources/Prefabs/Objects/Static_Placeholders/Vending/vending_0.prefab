@@ -137,7 +137,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vendorcontent:
   - {fileID: 1000011622113908, guid: fc5783dcb3f74ab1b2187da95b6c932d, type: 2}
-  allowInput: 1
+  allowSell: 1
+  cooldownTimer: 2
+  interactionMessage: 'Bzzzz..... '
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -19,60 +19,58 @@ public class VendorTrigger : InputTrigger
 	public GameObject[] vendorcontent;
 
 	public bool allowSell = true;
+	public float cooldownTimer = 2f;
+	public string interactionMessage;
+	public string deniedMessage;
 
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
-		// Client pre-approval
-		if (!isServer)
+		if (!allowSell && deniedMessage != null)
 		{
+			UIManager.Chat.AddChatEvent(new ChatEvent(deniedMessage, ChatChannel.Examine));
+		}
+		// Client pre-approval
+		else if (!isServer && allowSell)
+		{
+			allowSell = false;
 			UI_ItemSlot slot = UIManager.Hands.CurrentSlot;
-			UIManager.Chat.AddChatEvent(new ChatEvent("bzzzz... ", ChatChannel.Examine));
+			UIManager.Chat.AddChatEvent(new ChatEvent(interactionMessage, ChatChannel.Examine));
 			//Client informs server of interaction attempt
 			InteractMessage.Send(gameObject, position, slot.eventName);
-
+			StartCoroutine(VendorInputCoolDown());
 		}
-		else
+		else if(allowSell)
 		{
-
-			UIManager.Chat.AddChatEvent(new ChatEvent("bzzzz... ", ChatChannel.Examine));
-			ValidateVendorInteraction(originator, position, hand);
-			
-
+			allowSell = false;
+			UIManager.Chat.AddChatEvent(new ChatEvent(interactionMessage, ChatChannel.Examine));
+			ServerVendorInteraction(originator, position, hand);
+			StartCoroutine(VendorInputCoolDown());
 		}
-		
+
 	}
-	
+
 	[Server]
-	private bool ValidateVendorInteraction(GameObject originator, Vector3 position, string hand)
+	private bool ServerVendorInteraction(GameObject originator, Vector3 position, string hand)
 	{
+		Debug.Log("status" + allowSell);
 		PlayerScript ps = originator.GetComponent<PlayerScript>();
-		if (ps.canNotInteract() || !ps.IsInReach(position) || !allowSell)
+		if (ps.canNotInteract() || !ps.IsInReach(position))
 		{
 			return false;
 		}
-		allowSell = false;
+
 		foreach (GameObject item in vendorcontent)
 		{
-
 			ItemFactory.SpawnItem(item, transform.position, transform.parent);
 		}
-		StartCoroutine(VendorInputCoolDown());
-		allowSell = true;
+
 		return true;
 	}
-	
+
 	private IEnumerator VendorInputCoolDown()
 	{
-		yield return new WaitForSeconds(2f);
-		
+		yield return new WaitForSeconds(cooldownTimer);
+		allowSell = true;
 	}
 	
 }
