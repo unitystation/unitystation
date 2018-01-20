@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4601284643095036}
   - component: {fileID: 61167198093582328}
   - component: {fileID: 114528844433578200}
+  - component: {fileID: 114959499686943088}
   - component: {fileID: 114183482789793122}
   m_Layer: 0
   m_Name: research_122
@@ -144,6 +145,18 @@ MonoBehaviour:
     i15: 16
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114959499686943088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1796020255753286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: Strange radioactive decay detected to the east...
 --- !u!212 &212619004810833500
 SpriteRenderer:
   m_ObjectHideFlags: 1

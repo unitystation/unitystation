@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4252031003047014}
   - component: {fileID: 61688604584933318}
   - component: {fileID: 114495740999491334}
+  - component: {fileID: 114100013883783142}
   - component: {fileID: 114893426467972218}
   m_Layer: 0
   m_Name: teleporter_45
@@ -97,6 +98,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114100013883783142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1321861167569466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: The controlls seem to be locked...
 --- !u!114 &114495740999491334
 MonoBehaviour:
   m_ObjectHideFlags: 1

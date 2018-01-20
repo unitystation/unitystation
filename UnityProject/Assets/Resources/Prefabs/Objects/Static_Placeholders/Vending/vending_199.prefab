@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4537489602306896}
   - component: {fileID: 61827062856925538}
   - component: {fileID: 114967193659379770}
+  - component: {fileID: 114114203693278056}
   - component: {fileID: 114886149982349940}
   m_Layer: 0
   m_Name: vending_199
@@ -97,6 +98,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114114203693278056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1606703489037488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vendorcontent:
+  - {fileID: 1863058284462694, guid: d3a2dbd5e0f5c49e7a462e9ed90887fe, type: 2}
+  allowSell: 1
+  cooldownTimer: 2
+  interactionMessage: bzzzz...
+  deniedMessage: Vendor is refreshing stocking, please wait...
 --- !u!114 &114886149982349940
 MonoBehaviour:
   m_ObjectHideFlags: 1

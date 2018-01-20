@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4144421296827670}
   - component: {fileID: 61749927792347462}
   - component: {fileID: 114473337097908352}
+  - component: {fileID: 114762731618527884}
   - component: {fileID: 114392787270580666}
   m_Layer: 0
   m_Name: kitchen_2
@@ -144,6 +145,23 @@ MonoBehaviour:
     i15: 115
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114762731618527884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1751984553619856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vendorcontent:
+  - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
+  allowSell: 1
+  cooldownTimer: 180
+  interactionMessage: You cut some meat of the hanging creature...
+  deniedMessage: There's not enough meat left on this creatures bones...
 --- !u!212 &212587786093506506
 SpriteRenderer:
   m_ObjectHideFlags: 1
