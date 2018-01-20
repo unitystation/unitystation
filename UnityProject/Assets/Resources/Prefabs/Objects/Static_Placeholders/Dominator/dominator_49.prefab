@@ -36,9 +36,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4702423650088284}
   - component: {fileID: 61006945452659796}
+  - component: {fileID: 61296320180554934}
   - component: {fileID: 114983383099618592}
+  - component: {fileID: 114874741059201416}
   - component: {fileID: 114737813589923302}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: dominator_49
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,6 +83,31 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &61296320180554934
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1756443612342880}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -112,6 +139,18 @@ MonoBehaviour:
   AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
+--- !u!114 &114874741059201416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1756443612342880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: It almost seems like someone tried to send an sos, but it failed...
 --- !u!114 &114983383099618592
 MonoBehaviour:
   m_ObjectHideFlags: 1

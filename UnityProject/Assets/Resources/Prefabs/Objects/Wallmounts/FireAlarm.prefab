@@ -38,8 +38,9 @@ GameObject:
   - component: {fileID: 4000011119182976}
   - component: {fileID: 61000010130597256}
   - component: {fileID: 114701528617073348}
+  - component: {fileID: 114874730882314834}
   - component: {fileID: 114450786801091896}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: FireAlarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,6 +277,18 @@ MonoBehaviour:
   - {x: -0.75, y: 0}
   colliderOffset: {x: 0, y: 0, z: 0}
   rotateIndex: 0
+--- !u!114 &114874730882314834
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012425957516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: The automatic firealarm is locked
 --- !u!212 &212000010569588554
 SpriteRenderer:
   m_ObjectHideFlags: 1
