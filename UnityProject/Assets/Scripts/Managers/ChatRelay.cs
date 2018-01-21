@@ -26,9 +26,8 @@ public class ChatRelay : NetworkBehaviour
 
 	public List<ChatEvent> ChatLog { get; } = new List<ChatEvent>();
 
-	public override void OnStartClient()
+	public void Start()
 	{
-		RefreshLog();
 		chatColors = new Dictionary<ChatChannel, string>
 		{
 			{ChatChannel.Binary, "#ff00ff"},
@@ -50,7 +49,8 @@ public class ChatRelay : NetworkBehaviour
 			{ChatChannel.Ghost, "#386aff"}
 		};
 		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System;
-		base.OnStartClient();
+		
+		RefreshLog();
 	}
 
 	[Server]
