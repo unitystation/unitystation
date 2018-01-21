@@ -14,7 +14,7 @@ public abstract class ClientMessage : GameMessageBase
 		}
 
 		CustomNetworkManager.Instance.client.connection.Send(GetMessageType(), this);
-		Debug.LogFormat("Sent {0}", this);
+//		Debug.Log($"Sent {this}");
 	}
 
 	public void SendUnreliable()

@@ -17,7 +17,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		PushPull pulled = obj.GetComponent<PushPull>();
-
+		//Stop CNT as the transform of the pulled obj is now handled by PlayerSync
+		pulled.RpcToggleCnt(false);
+		//Cache value for new players
+		pulled.custNetActiveState = false;
 		//check if the object you want to pull is another player
 		if (pulled.isPlayer)
 		{
@@ -38,7 +41,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 
-
 		if (pulled != null)
 		{
 			PlayerSync pS = GetComponent<PlayerSync>();
@@ -52,12 +54,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdStopOtherPulling(GameObject obj)
 	{
 		PushPull objA = obj.GetComponent<PushPull>();
+		objA.custNetActiveState = true;
 		if (objA.pulledBy != null)
 		{
 			objA.pulledBy.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
 		}
 		var netTransform = obj.GetComponent<CustomNetTransform>();
-		netTransform.SetPosition(obj.transform.localPosition);
+		if (netTransform != null) {
+			netTransform.SetPosition(obj.transform.localPosition);
+		}
 	}
 
 	[Command]
@@ -70,6 +75,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		isPulling = false;
 		PushPull pulled = obj.GetComponent<PushPull>();
+		pulled.RpcToggleCnt(true);
+		//Cache value for new players
+		pulled.custNetActiveState = true;
 		if (pulled != null)
 		{
 			//			//this triggers currentPos syncvar hook to make sure registertile is been completed on all clients
@@ -80,7 +88,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			pulled.pulledBy = null;
 		}
 		var netTransform = obj.GetComponent<CustomNetTransform>();
-		netTransform.SetPosition(obj.transform.localPosition);
+		if (netTransform != null) {
+			netTransform.SetPosition(obj.transform.localPosition);
+		}
 	}
 
 	[Command]
@@ -90,7 +100,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (pushed != null)
 		{
 			var netTransform = obj.GetComponent<CustomNetTransform>();
-			netTransform.SetPosition(targetPos, true, speed, true);
+			netTransform.PushTo(targetPos, playerSprites.currentDirection, true, speed, true);
 		}
 	}
 }

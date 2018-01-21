@@ -25,6 +25,7 @@ namespace PlayGroup
 		[SyncVar] public bool allowInput = true;
 
 		public bool diagonalMovement;
+		public bool azerty;
 		[SyncVar] public bool isGhost;
 
 		public KeyCode[] keyCodes =
@@ -89,6 +90,25 @@ namespace PlayGroup
 			return currentPosition + adjustedDirection;
 		}
 
+		public string ChangeKeyboardInput(bool setAzerty)
+		{
+			ControlAction controlAction = UIManager.Action;
+			if (setAzerty)
+			{
+				keyCodes = new KeyCode[] { KeyCode.Z, KeyCode.Q, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
+				azerty = true;
+				controlAction.azerty = true;
+				PlayerPrefs.SetInt("AZERTY", 1);
+				PlayerPrefs.Save();
+				return "AZERTY";
+			}
+			keyCodes = new KeyCode[] { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
+			azerty = false;
+			controlAction.azerty = false;
+			PlayerPrefs.SetInt("AZERTY", 0);
+			return "QWERTY";
+		}
+
 		private Vector3Int GetDirection(PlayerAction action)
 		{
 			ProcessAction(action);
@@ -145,23 +165,43 @@ namespace PlayGroup
 			{
 				return Vector3Int.zero;
 			}
-
-			switch (action)
+			//TODO This needs a refactor, but this way AZERTY will work without weird conflicts.
+			if (azerty)
 			{
-				case KeyCode.W:
-				case KeyCode.UpArrow:
-					return Vector3Int.up;
-				case KeyCode.A:
-				case KeyCode.LeftArrow:
-					return Vector3Int.left;
-				case KeyCode.S:
-				case KeyCode.DownArrow:
-					return Vector3Int.down;
-				case KeyCode.D:
-				case KeyCode.RightArrow:
-					return Vector3Int.right;
+				switch (action)
+				{
+					case KeyCode.Z:
+					case KeyCode.UpArrow:
+						return Vector3Int.up;
+					case KeyCode.Q:
+					case KeyCode.LeftArrow:
+						return Vector3Int.left;
+					case KeyCode.S:
+					case KeyCode.DownArrow:
+						return Vector3Int.down;
+					case KeyCode.D:
+					case KeyCode.RightArrow:
+						return Vector3Int.right;
+				}
 			}
-
+			else
+			{
+				switch (action)
+				{
+					case KeyCode.W:
+					case KeyCode.UpArrow:
+						return Vector3Int.up;
+					case KeyCode.A:
+					case KeyCode.LeftArrow:
+						return Vector3Int.left;
+					case KeyCode.S:
+					case KeyCode.DownArrow:
+						return Vector3Int.down;
+					case KeyCode.D:
+					case KeyCode.RightArrow:
+						return Vector3Int.right;
+				}
+			}
 			return Vector3Int.zero;
 		}
 
@@ -178,6 +218,19 @@ namespace PlayGroup
 			//Is the current tile restrictive?
 			Vector3Int newPos = currentPosition + direction;
 
+			if (playerSync.pullingObject != null) {
+				if (matrix.ContainsAt(newPos, playerSync.pullingObject)) {
+					Vector2 directionToPullObj =
+						playerSync.pullingObject.transform.localPosition - transform.localPosition;
+					if (directionToPullObj.normalized != playerSprites.currentDirection) {
+						// Ran into pullObject but was not facing it, saved direction
+						return direction;
+					}
+					//Hit Pull obj
+					pna.CmdStopPulling(playerSync.pullingObject);
+				}
+			}
+
 			if (!matrix.IsPassableAt(currentPosition, newPos))
 			{
 				return Vector3Int.zero;
@@ -186,22 +239,6 @@ namespace PlayGroup
 			if (matrix.IsPassableAt(newPos) || matrix.ContainsAt(newPos, gameObject))
 			{
 				return direction;
-			}
-
-			if (playerSync.pullingObject != null)
-			{
-				if (matrix.ContainsAt(newPos, playerSync.pullingObject))
-				{
-					Vector2 directionToPullObj =
-						playerSync.pullingObject.transform.localPosition - transform.localPosition;
-					if (directionToPullObj.normalized != playerSprites.currentDirection)
-					{
-						// Ran into pullObject but was not facing it, saved direction
-						return direction;
-					}
-					//Hit Pull obj
-					pna.CmdStopPulling(playerSync.pullingObject);
-				}
 			}
 
 			//could not pass

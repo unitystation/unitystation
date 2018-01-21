@@ -106,16 +106,7 @@ namespace PlayGroup
 					UIManager.Instance.playerListUIControl.window.SetActive(true);
 				}
 
-				if (!PlayerManager.HasSpawned)
-				{
-					//First
-					CmdTrySetName(PlayerManager.PlayerNameCache);
-				}
-				else
-				{
-					//Manual after respawn
-					CmdSetNameManual(PlayerManager.PlayerNameCache);
-				}
+				CmdTrySetInitialName(PlayerManager.PlayerNameCache);
 
 				PlayerManager.SetPlayerForControl(gameObject);
 
@@ -132,6 +123,14 @@ namespace PlayGroup
 			else if (isServer)
 			{
 				playerMove = GetComponent<PlayerMove>();
+								
+				//Add player to player list
+				PlayerList.Instance.Add(new ConnectedPlayer
+				{
+					Connection = connectionToClient,
+					GameObject = gameObject,
+					Job = JobType
+				});
 			}
 		}
 
@@ -152,37 +151,36 @@ namespace PlayGroup
 			}
 		}
 
+		/// <summary>
+		/// Trying to set initial name, if player has none 
+		/// </summary>
 		[Command]
-		private void CmdTrySetName(string name)
+		private void CmdTrySetInitialName(string name)
 		{
+//			Debug.Log($"TrySetName {name}");
 			if (PlayerList.Instance != null)
 			{
-				playerName = PlayerList.Instance.CheckName(name);
+				var player = PlayerList.Instance.Get(connectionToClient);
+				if ( player.HasNoName() )
+				{
+					player.Name = name;
+				}
+				playerName = player.Name;
 			}
-		}
-
-		[Command]
-		private void CmdSetNameManual(string name)
-		{
-			playerName = name;
 		}
 
 		// On playerName variable change across all clients, make sure obj is named correctly
 		// and set in Playerlist for that client
 		public void OnNameChange(string newName)
 		{
-			playerName = newName;
-			gameObject.name = newName;
 			if (string.IsNullOrEmpty(newName))
 			{
 				Debug.LogError("NO NAME PROVIDED!");
 				return;
 			}
-			if (!PlayerList.Instance.connectedPlayers.ContainsKey(newName))
-			{
-				PlayerList.Instance.connectedPlayers.Add(newName, gameObject);
-			}
-			PlayerList.Instance.RefreshPlayerListText();
+//			Debug.Log($"OnNameChange: GOName '{gameObject.name}'->'{newName}'; playerName '{playerName}'->'{newName}'");
+			playerName = newName;
+			gameObject.name = newName;
 		}
 
 		public float DistanceTo(Vector3 position)

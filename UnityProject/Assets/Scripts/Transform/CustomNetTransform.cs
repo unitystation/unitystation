@@ -76,9 +76,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		}
 
 		isPushing = false;
+		predictivePushing = false;
 
-		serverTransformState.Speed = SpeedMultiplier;
-		if (transform.localPosition.Equals(Vector3.zero))
+		serverTransformState.Speed = 0;
+		if (transform.localPosition.Equals(Vector3.zero) || Vector3Int.RoundToInt(transform.position).Equals(InvalidPos) || Vector3Int.RoundToInt(transform.localPosition).Equals(InvalidPos))
 		{
 			//For stuff hidden on spawn, like player equipment
 			serverTransformState.Active = false;
@@ -91,6 +92,22 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 				Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
 		}
 	}
+
+	/// Intended for runtime spawning, so that CNT could initialize accordingly
+	[Server]
+	public void ReInitServerState()
+	{
+		InitServerState();
+		NotifyPlayers();
+	}
+
+//	/// Overwrite server state with a completely new one
+//    [Server]
+//    public void SetState(TransformState state)
+//    {
+//        serverTransformState = state;
+//        NotifyPlayers();
+//    }
 
 	/// Manually set an item to a specific position. Use localPosition!
 	[Server]
@@ -113,6 +130,17 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		if(_isPushing){
 			//This is synced via syncvar with all players
 			isPushing = true;
+		}
+	}
+
+	/// Apply impulse while setting position
+	[Server]
+	public void PushTo(Vector3 pos, Vector2 impulseDir, bool notify = true, float speed = 4f, bool _isPushing = false)
+	{
+		if (IsInSpace()) {
+			serverTransformState.Impulse = impulseDir;
+		} else {
+			SetPosition(pos, notify, speed, _isPushing);
 		}
 	}
 
@@ -233,13 +261,12 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	public void UpdateClientState(TransformState newState)
 	{
-		//Don't lerp (instantly change pos) if active state was changed or speed is zero
-		if (transformState.Active != newState.Active || newState.Speed == 0)
+		//Don't lerp (instantly change pos) if active state was changed
+		if (transformState.Active != newState.Active /*|| newState.Speed == 0*/)
 		{
 			transform.localPosition = newState.localPos;
 		}
 		transformState = newState;
-
 		updateActiveStatus();
 	}
 
@@ -351,6 +378,11 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	private void Lerp()
 	{
+		if ( transformState.Speed.Equals(0) )
+		{
+			transform.localPosition = transformState.localPos;
+			return;
+		}
 		transform.localPosition =
 			Vector3.MoveTowards(transform.localPosition, transformState.localPos, transformState.Speed * SpeedMultiplier * Time.deltaTime);
 	}
@@ -364,10 +396,14 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		if (IsFloating() && matrix != null)
 		{
 			Vector3 newGoal = serverTransformState.localPos +
-			                  (Vector3) serverTransformState.Impulse * (serverTransformState.Speed * SpeedMultiplier) * Time.deltaTime;
+			                                      (Vector3) serverTransformState.Impulse * (serverTransformState.Speed * SpeedMultiplier) * Time.deltaTime;
 			Vector3Int intGoal = RoundWithContext(newGoal, serverTransformState.Impulse);
 			if (CanDriftTo(intGoal))
 			{
+				if (registerTile.Position != Vector3Int.RoundToInt(transform.localPosition)){
+					registerTile.UpdatePosition();
+					RpcForceRegisterUpdate();
+				}
 				//Spess drifting
 				serverTransformState.localPos = newGoal;
 			}
@@ -375,8 +411,16 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			{
 				serverTransformState.Impulse = Vector2.zero; //killing impulse, be aware when implementing throw!
 				NotifyPlayers();
+				registerTile.UpdatePosition();
+				RpcForceRegisterUpdate();
 			}
 		}
+	}
+
+	//For space drift, the server will confirm an update is required and inform the clients
+	[ClientRpc]
+	private void RpcForceRegisterUpdate(){
+		registerTile.UpdatePosition();
 	}
 
 	///Special rounding for collision detection
@@ -389,6 +433,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			x < 0 ? (int) Math.Floor(roundable.x) : (int) Math.Ceiling(roundable.x),
 			y < 0 ? (int) Math.Floor(roundable.y) : (int) Math.Ceiling(roundable.y),
 			0);
+	}
+
+	public bool IsInSpace(){
+		return matrix.IsSpaceAt(Vector3Int.RoundToInt(transform.localPosition));
 	}
 
 	public bool IsFloating()
