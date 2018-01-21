@@ -27,6 +27,8 @@ namespace UI
 
 		public bool ShowState = true;
 		public InputField usernameInput;
+		
+		private bool enableNext = false;
 
 		public void AddChatEvent(ChatEvent chatEvent)
 		{
@@ -64,10 +66,17 @@ namespace UI
 					CloseChatWindow();
 				}
 			}
+			
+			if (enableNext)
+			{
+				Toggle_ChannelPannel(true);
+				enableNext = false;
+			}
 
 			if (channelPanel.gameObject.activeInHierarchy && !isChannelListUpToDate())
 			{
-				//TODO figure out how to update the channel list without it spazzing out
+				Toggle_ChannelPannel(false);
+				enableNext = true;
 			}
 		}
 
