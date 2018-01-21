@@ -76,6 +76,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		}
 
 		isPushing = false;
+		predictivePushing = false;
 
 		serverTransformState.Speed = 0;
 		if (transform.localPosition.Equals(Vector3.zero) || Vector3Int.RoundToInt(transform.position).Equals(InvalidPos) || Vector3Int.RoundToInt(transform.localPosition).Equals(InvalidPos))
@@ -136,8 +137,11 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	[Server]
 	public void PushTo(Vector3 pos, Vector2 impulseDir, bool notify = true, float speed = 4f, bool _isPushing = false)
 	{
-		serverTransformState.Impulse = impulseDir;
-		SetPosition(pos, notify, speed, _isPushing);
+		if (IsInSpace()) {
+			serverTransformState.Impulse = impulseDir;
+		} else {
+			SetPosition(pos, notify, speed, _isPushing);
+		}
 	}
 
 	[Server]
@@ -396,6 +400,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			Vector3Int intGoal = RoundWithContext(newGoal, serverTransformState.Impulse);
 			if (CanDriftTo(intGoal))
 			{
+				if (registerTile.Position != Vector3Int.RoundToInt(transform.localPosition)){
+					registerTile.UpdatePosition();
+					RpcForceRegisterUpdate();
+				}
 				//Spess drifting
 				serverTransformState.localPos = newGoal;
 			}
@@ -403,8 +411,16 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			{
 				serverTransformState.Impulse = Vector2.zero; //killing impulse, be aware when implementing throw!
 				NotifyPlayers();
+				registerTile.UpdatePosition();
+				RpcForceRegisterUpdate();
 			}
 		}
+	}
+
+	//For space drift, the server will confirm an update is required and inform the clients
+	[ClientRpc]
+	private void RpcForceRegisterUpdate(){
+		registerTile.UpdatePosition();
 	}
 
 	///Special rounding for collision detection
@@ -417,6 +433,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			x < 0 ? (int) Math.Floor(roundable.x) : (int) Math.Ceiling(roundable.x),
 			y < 0 ? (int) Math.Floor(roundable.y) : (int) Math.Ceiling(roundable.y),
 			0);
+	}
+
+	public bool IsInSpace(){
+		return matrix.IsSpaceAt(Vector3Int.RoundToInt(transform.localPosition));
 	}
 
 	public bool IsFloating()
