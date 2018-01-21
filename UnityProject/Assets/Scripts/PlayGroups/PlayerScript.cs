@@ -52,6 +52,7 @@ namespace PlayGroup
 		{
 			//Local player is set a frame or two after OnStartClient
 			StartCoroutine(WaitForLoad());
+			Init();
 			base.OnStartClient();
 		}
 
