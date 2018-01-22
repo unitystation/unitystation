@@ -39,9 +39,6 @@ public class ExplodeWhenShot : NetworkBehaviour
 		registerTile = GetComponent<RegisterTile>();
 	}
 
-	//#if !ENABLE_PLAYMODE_TESTS_RUNNER
-	//	[Server]
-	//	#endif
 	public void ExplodeOnDamage(string damagedBy)
 	{
 		if (hasExploded)
@@ -57,9 +54,8 @@ public class ExplodeWhenShot : NetworkBehaviour
 		GoBoom();
 	}
 
-#if !ENABLE_PLAYMODE_TESTS_RUNNER
+
 	[Server]
-#endif
 	public void Explode(string thanksTo)
 	{
 		Vector2 explosionPos = transform.position;
@@ -89,6 +85,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 				.ApplyDamage(pair.Key, pair.Value, DamageType.BURN);
 		}
 		RpcClientExplode();
+		gameObject.GetComponent<ObjectBehaviour>().visibleState = false;
 		StartCoroutine(WaitToDestroy());
 	}
 
