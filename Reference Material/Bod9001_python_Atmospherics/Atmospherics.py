@@ -1,4 +1,4 @@
-#V1
+#V1.1
 #needs BoxStation.json From unitystation\UnityProject\Assets\Resources\Metadata BoxStation.7z
 #from numba import jit
 import json
@@ -8,7 +8,6 @@ import sys
 import cProfile
 import pyglet
 # Importing stuff 
-
 
 
 
@@ -79,6 +78,7 @@ for z in r:
     x = []
     for p in r2:
         tuple_z_p = tuple((z,p))
+        
         Temporary['Temperature'] = 293.15
         Temporary['Pressure'] = 101.325
         #Temporary['Temperature'] = 3000
@@ -94,7 +94,6 @@ for z in r:
         Temporary['Space'] = True 
         Air[tuple_z_p] = Temporary.copy()
         Mixes[tuple_z_p] = Temporary2.copy()
-        
 
 #######
 #\/ Defining space tiles
@@ -125,69 +124,105 @@ with open('BoxStation.json') as json_data:
         inse = []
         insex = hr['x']
         insey = hr['y']
-        Air[(insex,insey)]['Obstructed'] = True
+        try:
+            Air[(insex,insey)]['Obstructed'] = True
+        except(KeyError):
+            pass
+
+        
 
     for hr in the_json["Walls0"]["tilePositions"]:
         inse = []
         insex = hr['x']
         insey = hr['y']
-        Air[(insex,insey)]['Obstructed'] = True
+        try:
+            Air[(insex,insey)]['Obstructed'] = True
+        except(KeyError):
+            pass
         
         
     for hr in the_json["Walls-1"]["tilePositions"]:
         inse = []
         insex = hr['x']
         insey = hr['y']
-        Air[(insex,insey)]['Obstructed'] = True
+        try:
+            Air[(insex,insey)]['Obstructed'] = True
+        except(KeyError):
+            pass
+        
         #print((insex,insey), Air[(insex,insey)]['Obstructed'])
     for hr in the_json["Floors150"]["tilePositions"]:
         inse = []
         insex = hr['x']
         insey = hr['y']
-        Air[(insex,insey)]['Space'] = False
+        try:
+            Air[(insex,insey)]['Space'] = False
+        except(KeyError):
+            pass
+        
 
     for hr in the_json["Floors100"]["tilePositions"]:
         inse = []
         insex = hr['x']
         insey = hr['y']
-        Air[(insex,insey)]['Space'] = False
+        try:
+            Air[(insex,insey)]['Space'] = False
+        except(KeyError):
+            pass
     
     for hr in the_json["Floors50"]["tilePositions"]:
         inse = []
         insex = hr['x']
         insey = hr['y']
-        Air[(insex,insey)]['Space'] = False 
-
+        try:
+            Air[(insex,insey)]['Space'] = False
+        except(KeyError):
+            pass
     for hr in the_json["Floors20"]["tilePositions"]:
         inse = []
         insex = hr['x']
         insey = hr['y']
-        Air[(insex,insey)]['Space'] = False
+        try:
+            Air[(insex,insey)]['Space'] = False
+        except(KeyError):
+            pass
         
     for hr in the_json["Floors1"]["tilePositions"]:
         inse = []
         insex = hr['x']
         insey = hr['y']
-        Air[(insex,insey)]['Space'] = False
+        try:
+            Air[(insex,insey)]['Space'] = False
+        except(KeyError):
+            pass
         
 
     for hr in the_json["Floors0"]["tilePositions"]:
         inse = []
         insex = hr['x']
         insey = hr['y']
-        Air[(insex,insey)]['Space'] = False
+        try:
+            Air[(insex,insey)]['Space'] = False
+        except(KeyError):
+            pass
 
     for hr in the_json["UnderFloor1"]["tilePositions"]:
         inse = []
         insex = hr['x']
         insey = hr['y']
-        Air[(insex,insey)]['Space'] = False
+        try:
+            Air[(insex,insey)]['Space'] = False
+        except(KeyError):
+            pass
 
     for hr in the_json["UnderFloor0"]["tilePositions"]:
         inse = []
         insex = hr['x']
         insey = hr['y']
-        Air[(insex,insey)]['Space'] = False
+        try:
+            Air[(insex,insey)]['Space'] = False
+        except(KeyError):
+            pass
 
     #for hr in the_json["Doors Closed11"]["tilePositions"]:
     #    inse = []
@@ -290,14 +325,14 @@ def Drawing_boxes():
                 #print(odd_set )
                 #print(Even_set)
                 #if (z,p) in Even_set:
-                #    int_Moles = 255
+                #    Even_int = 255
                 #else:
                 #    int_Moles = 0
 
                 #if (z,p) in odd_set:
-                #    int_Temperature = 255
+                #    odd_int = 255
                 #else:
-                #    int_Temperature = 0
+                #    odd_int = 0
                     
 
 
@@ -318,8 +353,9 @@ def Drawing_boxes():
                     int_wall = 255
                     int_Temperature = 255
                     int_Moles = 255
-                RED = int_edge_tiles    ####set what Colours you want to be what it's to do with RGB so 0 ro 255 (It can stack overflow It will just go back to 0 As long as the numbers not too high ) 
-                GREEN = int_update_set
+                    Even_int = 255
+                RED = int_Moles    ####set what Colours you want to be what it's to do with RGB so 0 ro 255 (It can stack overflow It will just go back to 0 As long as the numbers not too high ) 
+                GREEN = int_Temperature
                 BLUE = int_wall
                     
                 vertex_list = batch.add(4, pyglet.gl.GL_QUADS, None,
@@ -366,7 +402,6 @@ def Orientation(tile): ### Making the adjacent tile to the tile
         c.append(s)
         if (not (c[0] > Tile_range[0] or c[0] < 0 or  c[1] > Tile_range[1] or c[1] < 0)): #Making sure they're not out of bounds
             T.append(tuple(c))
-
     return(T)
 
 
@@ -635,6 +670,7 @@ def new_pressure(lag,odd_even):
     #mixe = {'Oxygen': 16.628484400890768491815384755837, 'Plasma': 66.513937603563073967261539023347}
     #Mixes[(20,121)] = mixe.copy()
     #Air[(20,121)]['Temperature'] = 3000.00
+    #update_set.add((20,121))
     # this is a good Place to place constants for >>>Testing!!! <<<<<<< 
     update_liste = []
 
@@ -697,24 +733,52 @@ def Air_Reactions(): #All the reactions yay
     #print('Plasma o3o/')
     #print(len(Plasma_fuel_set))
     Plasma_fuel_set_copy = Plasma_fuel_set.copy()
-    for Tile in Plasma_fuel_set_copy:
-        if Air[Tile]['Temperature'] > 200:
-            #print('Temperature')
-            if Air[Tile]['Mix']['Oxygen'] > 1:
-                #print('Oxygen')
-                #print(Air[Tile]['Mix'],Tile )
-                old_tem = Air[Tile]['Temperature']
-                Carbon_Dioxide_Amount = Air[Tile]['Mix']['Oxygen'] + Air[Tile]['Mix']['Plasma']
-                JM = ((Air[Tile]['Temperature'] * Carbon_Dioxide_Amount) * Look_UP['Carbon Dioxide'])
-                J = Molar_Masses['Carbon Dioxide'] * JM
-                J =+ -1000
-                JM = J / Molar_Masses['Carbon Dioxide']
-                Air[Tile]['Temperature'] = ((JM /  Look_UP['Carbon Dioxide']) / Carbon_Dioxide_Amount)
-                #print(old_tem,'old',Air[Tile]['Temperature'] ,'new')
-                del Air[Tile]['Mix']['Oxygen']
-                del Air[Tile]['Mix']['Plasma']
-                Air[Tile]['Mix']['Carbon Dioxide'] = Carbon_Dioxide_Amount
-                Plasma_fuel_set.remove(Tile)
+    for Tile in Plasma_fuel_set_copy: #All the reactions yay  Just add a another for loop here For checking for other reactions On tiles that have the certain Parameter looking for
+        #print(Tile)
+        if Mixes[Tile].get('Plasma', 0) > 0: #Checking if got enough plasma
+            if Air[Tile]['Temperature'] > 1643.15: #Temperatures check
+                ##The reaction rate I don't understand that much got fome here https://github.com/NTStation/NTstation13/blob/master/code/datums/gas_mixture.dm#L171
+                #print('Plasma o3o/ 2' )
+                the_Oxygen_Moles = Mixes[Tile].get('Oxygen', 0)
+                
+                the_carbon_dioxide_Moles = Mixes[Tile].get('Carbon Dioxide', 0)
+                
+                if the_Oxygen_Moles > 1:
+                    temperature_scale = 1
+                else:
+                    temperature_scale = (Air[Tile]['Temperature']-373)/(1643.15-373)
+                
+                if temperature_scale > 0:                
+                    the_Plasma_Moles = Mixes[Tile]['Plasma']                
+                    oxygen_burn_rate = (1.4 - temperature_scale)
+                    
+                    if the_Oxygen_Moles > the_Plasma_Moles * 10:                    
+                        plasma_burn_rate = ((the_Plasma_Moles * temperature_scale)/4)
+                    else:
+                        plasma_burn_rate = (temperature_scale*(the_Oxygen_Moles/10))/4
+                        
+                        
+                    if(plasma_burn_rate > 0.03):
+                        
+                        the_Plasma_Moles -= plasma_burn_rate                    
+                        the_Oxygen_Moles -= plasma_burn_rate*oxygen_burn_rate
+                        the_carbon_dioxide_Moles  += plasma_burn_rate
+
+
+                        
+                        energy_released = (3000000 * plasma_burn_rate)
+                        fuel_burnt = (plasma_burn_rate)*(1+oxygen_burn_rate)
+                        Mixes[Tile]['Oxygen'] = the_Oxygen_Moles
+                        Mixes[Tile]['Plasma'] = the_Plasma_Moles
+                        Mixes[Tile]['Carbon Dioxide'] = the_carbon_dioxide_Moles
+
+                        JM = ((Air[Tile]['Temperature'] * Mixes[Tile]['Carbon Dioxide']) * Heat_capacity_of_gases['Carbon Dioxide'])
+                        J = Molar_Masses['Carbon Dioxide'] * JM
+                        J =+ energy_released
+                        JM = J / Molar_Masses['Carbon Dioxide']
+                        Air[Tile]['Temperature'] = ((JM /  Heat_capacity_of_gases['Carbon Dioxide']) / the_carbon_dioxide_Moles)
+
+
 
 
 
@@ -756,12 +820,12 @@ def Do_the_edge(): #my edge tile system
                             else:
                                 update_set.add(tile)
                         else:
-                            
+
                             Count_for_update_set += 1
 
                     
             if C == 0:
-                if Check_count_Dictionary[tile] >= 0: # yeah it's 0
+                if Check_count_Dictionary[tile] >= 2: # yeah it's 0
                     Decay = True
                     for Tile_orientated in the_orientation:  
                         if Tile_orientated in update_set:# If it's next to an update Tile It doesn't need to decay
@@ -793,7 +857,7 @@ def Atmospherics(): # the Thing that runs
     count =  0
     start_time = time.time()
 
-    edge_tiles = Dictionary_of_adjacents[(180,105)]
+    #edge_tiles = Dictionary_of_adjacents[(180,105)]
     
 
     lag_tik = 0
@@ -802,6 +866,8 @@ def Atmospherics(): # the Thing that runs
     #do_wins()
     while count < 100:
         start_Tick_time = time.time() #Starts the tick time
+
+        #lag = False
 
         odd_even = new_pressure(lag,odd_even) # Does the calculations 
         
@@ -850,9 +916,9 @@ print(len(update_set),'the length of update set') #How many tiles
 print(len(edge_tiles),'the length of edge tiles')#How many tiles
 
 #old_Visual_check()  
-print(Air[(20,121)]['Pressure']) #Checking individual tiles
-print(Air[(20,121)]['Temperature']) #Checking individual tiles
-print(Mixes[(20,121)]) #Checking individual tiles 
+#print(Air[(20,121)]['Pressure']) #Checking individual tiles
+#print(Air[(20,121)]['Temperature']) #Checking individual tiles
+#print(Mixes[(20,121)]) #Checking individual tiles 
 
 
 do_wins() #The graphics display thing
