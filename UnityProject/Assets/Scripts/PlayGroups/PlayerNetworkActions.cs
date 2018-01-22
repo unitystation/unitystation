@@ -69,7 +69,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		string eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
 		if (Inventory[eventName] != null && Inventory[eventName] != itemObject && !replaceIfOccupied)
 		{
-			Debug.LogFormat("{0}: Didn't replace existing {1} item {2} with {3}", gameObject.name, eventName, Inventory[eventName].name, itemObject.name);
+			Debug.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}");
 			return false;
 		}
 		EquipmentPool.AddGameObject(gameObject, itemObject);
@@ -89,14 +89,36 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		UIManager.Hands.CurrentSlot.SetItem(item);
 	}
 
-	//This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
-	//TODO make these private(make some public child-aware high level methods instead):
+	/// <summary>
+	/// Tries to find item in player's equipment
+	/// If it is found, removes it from player's pool
+	/// </summary>
+	/// <param name="item"></param>
+	/// <returns></returns>
 	[Server]
-	public void RemoveFromEquipmentPool(GameObject obj)
+	public bool TryConsume(GameObject item)
+	{
+		foreach ( var slot in Inventory )
+		{
+			if ( item == slot.Value )
+			{
+				ClearInventorySlot(slot.Key);
+				RemoveFromEquipmentPool(item);
+				return true;
+			}
+		}
+		Debug.LogWarning($"TryConsume failed: {PlayerList.Instance.Get(gameObject).Name} wasn't found in {item.name}'s inventory");
+		return false;
+	}
+
+	[Server]
+	private void RemoveFromEquipmentPool(GameObject obj)
 	{
 		EquipmentPool.DropGameObject(gameObject, obj);
 	}
 
+	//This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
+	//TODO make these private(make some public child-aware high level methods instead):
 	[Server]
 	public void AddToEquipmentPool(GameObject obj)
 	{
