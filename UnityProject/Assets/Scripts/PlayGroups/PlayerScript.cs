@@ -44,7 +44,7 @@ namespace PlayGroup
 
 		public ChatChannel SelectedChannels
 		{
-			get { return selectedChannels & GetAvailableChannels(); }
+			get { return selectedChannels & GetAvailableChannelsMask(); }
 			set { selectedChannels = value; }
 		}
 
@@ -201,8 +201,8 @@ namespace PlayGroup
 		public bool IsInReach(Vector3 position, float interactDist = interactionDistance)
 		{
 			//If click is in diagonal direction, extend reach slightly
-			float distanceX = Mathf.FloorToInt(Mathf.Abs(transform.position.x - position.x));
-			float distanceY = Mathf.FloorToInt(Mathf.Abs(transform.position.y - position.y));
+			int distanceX = Mathf.FloorToInt(Mathf.Abs(transform.position.x - position.x));
+			int distanceY = Mathf.FloorToInt(Mathf.Abs(transform.position.y - position.y));
 			if (distanceX == 1 && distanceY == 1)
 			{
 				return DistanceTo(position) <= interactDist + 0.4f;
@@ -212,7 +212,7 @@ namespace PlayGroup
 			return DistanceTo(position) <= interactDist;
 		}
 
-		public ChatChannel GetAvailableChannels(bool transmitOnly = true)
+		public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 		{
 			PlayerMove pm = gameObject.GetComponent<PlayerMove>();
 			if (pm.isGhost)
@@ -231,19 +231,27 @@ namespace PlayGroup
 			if (CustomNetworkManager.Instance._isServer)
 			{
 				PlayerNetworkActions pna = gameObject.GetComponent<PlayerNetworkActions>();
-				if (pna)
+				if ( pna && pna.SlotNotEmpty("ear") )
 				{
-					EncryptionKeyType key = pna.Inventory["ear"].GetComponent<Headset>().GetComponent<Headset>().EncryptionKey;
-					transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+					Headset headset = pna.Inventory["ear"].GetComponent<Headset>();
+					if ( headset )
+					{
+						EncryptionKeyType key = headset.EncryptionKey;
+						transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+					}
 				}
 			}
 			else
 			{
-				GameObject headset = UIManager.InventorySlots.EarSlot.Item;
-				if (headset)
+				GameObject earSlotItem = UIManager.InventorySlots.EarSlot.Item;
+				if ( earSlotItem )
 				{
-					EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
-					transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+					Headset headset = earSlotItem.GetComponent<Headset>();
+					if ( headset )
+					{
+						EncryptionKeyType key = headset.EncryptionKey;
+						transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+					}
 				}
 			}
 

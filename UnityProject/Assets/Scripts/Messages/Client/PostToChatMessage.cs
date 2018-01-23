@@ -48,7 +48,7 @@ public class PostToChatMessage : ClientMessage
 	{
 		PlayerScript playerScript = player.GetComponent<PlayerScript>();
 		//Need to add system channel here so player can transmit system level events but not select it in the UI
-		ChatChannel availableChannels = playerScript.GetAvailableChannels() | ChatChannel.System;
+		ChatChannel availableChannels = playerScript.GetAvailableChannelsMask() | ChatChannel.System;
 		if ((availableChannels & Channels) == Channels)
 		{
 			return true;
