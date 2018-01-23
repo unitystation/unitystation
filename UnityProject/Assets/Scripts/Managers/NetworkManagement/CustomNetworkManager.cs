@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using JetBrains.Annotations;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
+using Facepunch.Steamworks;
 
 public class CustomNetworkManager : NetworkManager
 {
 	public static CustomNetworkManager Instance;
 	[HideInInspector] public bool _isServer;
 	[HideInInspector] public bool spawnableListReady;
+	public bool SteamServer = true;
+	
+
 
 	private void Awake()
 	{
@@ -99,6 +105,39 @@ public class CustomNetworkManager : NetworkManager
 		_isServer = true;
 		base.OnStartServer();
 		this.RegisterServerHandlers();
+#if UNITY_EDITOR
+		SteamServer = false;
+		Debug.Log("SteamServer disabled in Editor");
+#endif 
+		
+		if (SteamServer && !GameData.IsHeadlessServer)
+		{
+			SteamServerStart();
+		}
+	}
+	
+	public void SteamServerStart()
+	{
+		//
+		// 
+		// Register the Server
+		//		
+		string path = Path.GetFullPath(".");
+		string folderName = Path.GetFileName(Path.GetDirectoryName( path ) );
+		ServerInit options = new Facepunch.Steamworks.ServerInit(folderName, "Unitystation");
+		var server = new Facepunch.Steamworks.Server(787180, options);
+
+		if (server.IsValid)
+		{
+			server.ServerName = "Unitystation Official";
+			server.LogOnAnonymous();
+			Debug.Log("Server registered");
+		}
+		else
+		{
+			Debug.Log("Server NOT registered");
+		}
+
 	}
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
@@ -125,7 +164,6 @@ public class CustomNetworkManager : NetworkManager
 			UpdateRoundTimeMessage.Send(GameManager.Instance.GetRoundTime);
 		}
 	}
-
 	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId)
 	{
 		yield return new WaitForSeconds(1f);
@@ -256,6 +294,7 @@ public class CustomNetworkManager : NetworkManager
 			_isServer = true;
 		}
 	}
+
 
 	//Editor item transform dance experiments
 #if UNITY_EDITOR
