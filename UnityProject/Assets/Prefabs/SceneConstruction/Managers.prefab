@@ -2348,7 +2348,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4637464727519376}
-  - component: {fileID: 114002713327330276}
+  - component: {fileID: 114915550608523902}
   m_Layer: 0
   m_Name: SteamManager
   m_TagString: Untagged
@@ -7797,17 +7797,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114002713327330276
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1589304729704580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114004940808973780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8245,7 +8234,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224082241428792102}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14732,6 +14721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bdd149a73a974c77bd23df0cb28c844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RoundTime: 480
   counting: 0
   Occupations:
   - {fileID: 1907548023066798, guid: 21b1766adb51e3349890b2d2f9db3227, type: 2}
@@ -16605,6 +16595,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: r/unitystation
+--- !u!114 &114915550608523902
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1589304729704580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54160c440d6c8f841aca8fa22cfda122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AppId: 787180
 --- !u!114 &114915804031747138
 MonoBehaviour:
   m_ObjectHideFlags: 1

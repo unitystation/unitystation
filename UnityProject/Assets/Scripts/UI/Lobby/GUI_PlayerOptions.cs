@@ -1,7 +1,6 @@
 ﻿using PlayGroup;
 using UnityEngine;
 using UnityEngine.UI;
-using Steamworks;
 
 
 namespace UI
@@ -32,17 +31,17 @@ namespace UI
 			screen_ConnectTo.SetActive(false);
 			string steamName = "";
 			string prefsName;
-			if(SteamManager.Initialized) {
-				steamName = SteamFriends.GetPersonaName();
-			}
-			if (steamName != "" || steamName == null)
-			{
-				prefsName = steamName;
-			}
-			else
-			{
+//			if(SteamManager.Initialized) {
+//				steamName = SteamFriends.GetPersonaName();
+//			}
+//			if (steamName != "" || steamName == null)
+//			{
+//				prefsName = steamName;
+//			}
+//			else
+//			{
 				prefsName = PlayerPrefs.GetString(UserNamePlayerPref);
-			}
+//			}
 
 			if (!string.IsNullOrEmpty(prefsName))
 			{
