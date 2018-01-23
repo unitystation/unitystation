@@ -2348,7 +2348,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4637464727519376}
-  - component: {fileID: 114915550608523902}
+  - component: {fileID: 114888388884380866}
   m_Layer: 0
   m_Name: SteamManager
   m_TagString: Untagged
@@ -8233,7 +8233,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114830941221878796}
   m_HandleRect: {fileID: 224082241428792102}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -13050,6 +13050,7 @@ MonoBehaviour:
   matchMaker: {fileID: 0}
   _isServer: 0
   spawnableListReady: 0
+  SteamServer: 1
 --- !u!114 &114548789704233220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -16296,6 +16297,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114888388884380866
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1589304729704580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54160c440d6c8f841aca8fa22cfda122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AppId: 787180
 --- !u!114 &114891955418119186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -16595,19 +16608,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: r/unitystation
---- !u!114 &114915550608523902
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1589304729704580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54160c440d6c8f841aca8fa22cfda122, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AppId: 787180
-  TestServer: 0
 --- !u!114 &114915804031747138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -20021,7 +20021,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 641, y: NaN}
+  m_AnchoredPosition: {x: 252.12979, y: NaN}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224455303117903328
@@ -20781,7 +20781,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224653293278829958

@@ -3,6 +3,8 @@ using PlayGroups.Input;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+using Facepunch.Steamworks;
+using UnityEngine.Experimental.UIElements;
 
 namespace PlayGroup
 {
@@ -47,6 +49,9 @@ namespace PlayGroup
 			get { return selectedChannels & GetAvailableChannels(); }
 			set { selectedChannels = value; }
 		}
+
+		private static bool verified;
+		private static ulong SteamID;
 
 		public override void OnStartClient()
 		{
@@ -120,6 +125,7 @@ namespace PlayGroup
 				//Request sync to get all the latest transform data
 				new RequestSyncMessage().Send();
 				SelectedChannels = ChatChannel.Local;
+
 			}
 			else if (isServer)
 			{
@@ -134,6 +140,7 @@ namespace PlayGroup
 				});
 			}
 		}
+		
 
 		public bool canNotInteract()
 		{

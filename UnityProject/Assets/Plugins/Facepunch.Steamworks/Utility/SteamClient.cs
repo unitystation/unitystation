@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Facepunch.Steamworks;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 //
 // This class takes care of a lot of stuff for you.
@@ -14,14 +14,11 @@ using UnityEngine.Rendering;
 // To access the client use Facepunch.Steamworks.Client.Instance, see SteamAvatar
 // for an example of doing this in a nice way.
 //
-public class SteamManager : MonoBehaviour
+public class SteamClient : MonoBehaviour
 {
     public uint AppId;
-    public bool TestServer;
 
     private Facepunch.Steamworks.Client client;
-    private Facepunch.Steamworks.ServerInit serverInit;
-    private Facepunch.Steamworks.Server server;
 
 	void Start ()
     {
@@ -59,32 +56,8 @@ public class SteamManager : MonoBehaviour
             return;
         }
 
-        Debug.Log( "Steam Initialized: " + client.Username + " / " + client.SteamId );
-        if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || TestServer )
-        {
-            SteamServerStart();
-        }
-
+        Debug.Log( "Steam Initialized: " + client.Username + " / " + client.SteamId ); 
 	}
-
-    void SteamServerStart()
-    {
-            //
-            // 
-            // Register the Server
-            //
-            serverInit = new Facepunch.Steamworks.ServerInit("Unitystation", "Unitystation");
-            server = new Facepunch.Steamworks.Server(787180, serverInit);
-            server.ServerName = "Unitystation Official";
-            server.LogOnAnonymous();
-
-            if (server.IsValid)
-            {
-                Debug.Log("Server registered");
-            }
-
-    }
-    
 	
 	void Update()
     {
@@ -109,5 +82,7 @@ public class SteamManager : MonoBehaviour
             client.Dispose();
             client = null;
         }
+
     }
+
 }
