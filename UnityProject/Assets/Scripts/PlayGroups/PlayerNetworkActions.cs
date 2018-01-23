@@ -438,6 +438,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[ClientRpc]
 	private void RpcToggleChatIcon(bool turnOn)
 	{
+		if (!chatIcon)
+		{
+			chatIcon = GetComponentInChildren<ChatIcon>();
+		}
+
 		if (turnOn)
 		{
 			chatIcon.TurnOnTalkIcon();

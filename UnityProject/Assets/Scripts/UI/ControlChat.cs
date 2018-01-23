@@ -105,7 +105,6 @@ namespace UI
 
 		public void RefreshChannelPanel()
 		{
-			//idk
 			Toggle_ChannelPannel(false);
 			Toggle_ChannelPannel(true);
 		}
@@ -133,11 +132,14 @@ namespace UI
 		private void TrySelectDefaultChannel()
 		{
 			//Try Local, then ghost, then OOC, 
+			var availChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
+			var selectedChannels = PlayerManager.LocalPlayerScript.SelectedChannels;
 		}
 
 		private void PruneUnavailableChannels()
 		{
 			PlayerManager.LocalPlayerScript.SelectedChannels &= PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
+			UpdateChannelToggleText();
 		}
 
 		/// Visualize that channel mask mess
@@ -169,8 +171,8 @@ namespace UI
 				ChannelToggles.Add(currentChannel, toggle);
 			}
 
-			float width = channelPanel.GetChild(0).GetComponent<RectTransform>().rect.width;
-			int count = channelPanel.transform.childCount;
+			float width = 64f;
+			int count = ChannelToggles.Count;
 			LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
 			HorizontalLayoutGroup horizontalLayoutGroup = channelPanel.GetComponent<HorizontalLayoutGroup>();
 			layoutElement.minWidth = width * count + horizontalLayoutGroup.spacing * count;
