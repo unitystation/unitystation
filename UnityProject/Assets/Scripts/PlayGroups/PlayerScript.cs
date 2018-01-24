@@ -122,15 +122,17 @@ namespace PlayGroup
 					UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 				}
 				UIManager.SetDeathVisibility(true);
-				//Request sync to get all the latest transform data
+				// Send request to be authenticated by the server
 				if (Client.Instance != null)
 				{                
 					Debug.Log("Client Requesting Auth");
+					// Generate authentication Ticket
 					var ticket = Client.Instance.Auth.GetAuthSessionTicket();
 					var ticketBinary = ticket.Data;
+					// Send Clientmessage to authenticate
 					RequestAuthMessage.Send(Client.Instance.SteamId, ticketBinary);
 				}
-
+				//Request sync to get all the latest transform data
 				new RequestSyncMessage().Send();
 				SelectedChannels = ChatChannel.Local;
 

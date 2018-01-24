@@ -117,7 +117,7 @@ public class CustomNetworkManager : NetworkManager
 	
 	public void SteamServerStart()
 	{
-		// Register the Server
+		// init the SteamServer needed for authentication of players
 		//		
 		Facepunch.Steamworks.Config.ForUnity( Application.platform.ToString() );
 		string path = Path.GetFullPath(".");
@@ -129,15 +129,16 @@ public class CustomNetworkManager : NetworkManager
 		{
 			server.ServerName = "Unitystation Official";
 			server.LogOnAnonymous();
-			if (GameData.IsHeadlessServer || GameData.Instance.testServer)
+			// Set required settings for dedicated server
+			if (GameData.IsHeadlessServer || GameData.Instance.testServer || SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
 			{
 				server.DedicatedServer = true;
 			}
 			Debug.Log("Setting up Auth hook");
-			//Process authchange
+			//Process callback data for authentication
 			server.Auth.OnAuthChange = AuthChange;
 		}
-
+		// confirm in log if server is actually registered or not
 		if (server.IsValid)
 		{
 			Debug.Log("Server registered");
@@ -150,9 +151,10 @@ public class CustomNetworkManager : NetworkManager
 	}
 	
 
-
+// This method processes the callback data when authentication statuses change
 public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
 {
+	//TODO Add function to authentication and set persistent authentication flag on player.
 	bool Authed;
 	Authed = status == ServerAuth.Status.OK;
 
@@ -194,6 +196,7 @@ public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
 
 	void Update()
 	{
+		// This code makes sure the steam server is updated
 		if (server == null)
 			return;
 		try
@@ -209,6 +212,7 @@ public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
 
 	private void OnDestroy()
 	{
+		// This code makes sure the steam server is disposed when the CNM is destroyed
 		if (server != null)
 		{
 			server.Dispose();

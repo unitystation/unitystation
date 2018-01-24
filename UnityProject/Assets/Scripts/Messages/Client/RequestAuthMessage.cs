@@ -18,11 +18,21 @@ public class RequestAuthMessage : ClientMessage
 		yield return WaitFor(SentBy);
 		Debug.Log("Server Starting Auth for User:" + SteamID);
 
-		if (Server.Instance != null)
+		if (Server.Instance != null && SteamID != null && TicketBinary != null)
 		{
+			//FIXME Prevent run twice for already verified player
+			
+			//This results in a callback in CustomNetworkManager
 			if (!Server.Instance.Auth.StartSession(TicketBinary, SteamID))
 			{
+				// This can trigger for a lot of reasons
+				// More info: http://projectzomboid.com/modding//net/puppygames/steam/BeginAuthSessionResult.html
+				// if triggered does prevent the authchange callback.
 				Debug.Log("Start Session returned false");
+			}
+			else
+			{
+				//TODO Link player/client with Auth in a persistent way
 			}
 		}
 
