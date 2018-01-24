@@ -109,12 +109,7 @@ public class CustomNetworkManager : NetworkManager
 		_isServer = true;
 		base.OnStartServer();
 		this.RegisterServerHandlers();
-#if UNITY_EDITOR
-		SteamServer = false;
-		Debug.Log("SteamServer disabled in Editor");
-#endif 
-		
-		if (SteamServer && !GameData.IsHeadlessServer)
+		if (SteamServer)
 		{
 			SteamServerStart();
 		}
@@ -122,20 +117,31 @@ public class CustomNetworkManager : NetworkManager
 	
 	public void SteamServerStart()
 	{
-		// Register the Server
+		// init the SteamServer needed for authentication of players
 		//		
+		Facepunch.Steamworks.Config.ForUnity( Application.platform.ToString() );
 		string path = Path.GetFullPath(".");
 		string folderName = Path.GetFileName(Path.GetDirectoryName( path ) );
 		ServerInit options = new Facepunch.Steamworks.ServerInit(folderName, "Unitystation");
 		server = new Facepunch.Steamworks.Server(787180, options);
 
-		if (server.IsValid)
+		if (server != null)
 		{
 			server.ServerName = "Unitystation Official";
 			server.LogOnAnonymous();
-			Debug.Log("Server registered Starting auth handler");
-			//Process authchange
-			server.Auth.OnAuthChange += AuthChange;
+			// Set required settings for dedicated server
+			if (GameData.IsHeadlessServer || GameData.Instance.testServer || SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
+			{
+				server.DedicatedServer = true;
+			}
+			Debug.Log("Setting up Auth hook");
+			//Process callback data for authentication
+			server.Auth.OnAuthChange = AuthChange;
+		}
+		// confirm in log if server is actually registered or not
+		if (server.IsValid)
+		{
+			Debug.Log("Server registered");
 		}
 		else
 		{
@@ -145,9 +151,10 @@ public class CustomNetworkManager : NetworkManager
 	}
 	
 
-
+// This method processes the callback data when authentication statuses change
 public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
 {
+	//TODO Add function to authentication and set persistent authentication flag on player.
 	bool Authed;
 	Authed = status == ServerAuth.Status.OK;
 
@@ -185,6 +192,32 @@ public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
 	{
 		yield return new WaitForSeconds(1f);
 		OnServerAddPlayerInternal(conn, playerControllerId);
+	}
+
+	void Update()
+	{
+		// This code makes sure the steam server is updated
+		if (server == null)
+			return;
+		try
+		{
+			UnityEngine.Profiling.Profiler.BeginSample("Steam Server Update");
+			server.Update();
+		}
+		finally
+		{
+			UnityEngine.Profiling.Profiler.EndSample();
+		}
+	}
+
+	private void OnDestroy()
+	{
+		// This code makes sure the steam server is disposed when the CNM is destroyed
+		if (server != null)
+		{
+			server.Dispose();
+			server = null;
+		}
 	}
 
 	private void OnServerAddPlayerInternal(NetworkConnection conn, short playerControllerId)
