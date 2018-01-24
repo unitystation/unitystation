@@ -2,49 +2,51 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using PlayGroup;
+using Facepunch.Steamworks;
 
 
 public class RequestAuthMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.RequestAuthMessage;
-	public NetworkInstanceId Subject;
 	public ulong SteamID;
 	public byte[] TicketBinary;
 
 	public override IEnumerator Process()
 	{
-		//		Debug.Log("Processed " + ToString());
+		//	Debug.Log("Processed " + ToString());
 
-		yield return WaitFor(Subject, SentBy);
+		yield return WaitFor(SentBy);
 
-		Debug.Log("SimpleInteractMessage: doing nothing");
-		//TODO Point at auth, or add auth to this message
-//		NetworkObjects[0].GetComponent<PlayerScript>().ExecuteAuth(TicketBinary, SteamID);
+		Debug.Log("Server Starting Auth for User:" + SteamID);
+		
+		if ( !Server.Instance.Auth.StartSession( TicketBinary, SteamID ) )
+		{
+			Debug.Log( "Start Session returned false" );
+		}
+
 	}
-
-	public static RequestAuthMessage Send(GameObject subject, ulong steamid, byte[] ticketBinary)
+	
+	public static RequestAuthMessage Send(ulong steamid, byte[] ticketBinary)
 	{
 		RequestAuthMessage msg = new RequestAuthMessage
 		{
-			Subject = subject.GetComponent<NetworkIdentity>().netId,
 			SteamID = steamid,
-			TicketBinary = ticketBinary
-				
+			TicketBinary = ticketBinary			
 		};
 		
 		msg.Send();
 		return msg;
 	}
 
+
 	public override string ToString()
 	{
-		return string.Format("[SimpleInteractMessage Subject={0} Type={1} SentBy={2}]", Subject, MessageType, SentBy);
+		return string.Format("[RequestAuthMessage SteamID={0} TicketBinary={1} Type={2} SentBy={3}]", SteamID, TicketBinary, MessageType, SentBy);
 	}
 
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Subject = reader.ReadNetworkId();
 		SteamID = reader.ReadUInt64();
 		int length = reader.ReadInt32();
 		TicketBinary = reader.ReadBytes(length);
@@ -53,7 +55,6 @@ public class RequestAuthMessage : ClientMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(Subject);
 		writer.Write(SteamID);
 		writer.Write(TicketBinary.Length);
 		writer.Write(TicketBinary, TicketBinary.Length);

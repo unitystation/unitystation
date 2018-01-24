@@ -123,6 +123,14 @@ namespace PlayGroup
 				}
 				UIManager.SetDeathVisibility(true);
 				//Request sync to get all the latest transform data
+				if (Client.Instance != null)
+				{                
+					Debug.Log("Client Requesting Auth");
+					var ticket = Client.Instance.Auth.GetAuthSessionTicket();
+					var ticketBinary = ticket.Data;
+					RequestAuthMessage.Send(Client.Instance.SteamId, ticketBinary);
+				}
+
 				new RequestSyncMessage().Send();
 				SelectedChannels = ChatChannel.Local;
 
@@ -140,7 +148,6 @@ namespace PlayGroup
 				});
 			}
 		}
-		
 
 		public bool canNotInteract()
 		{
