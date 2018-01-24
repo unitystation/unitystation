@@ -74,8 +74,9 @@ public class ItemAttributes : NetworkBehaviour
 
 	private IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(2f);
+//		yield return new WaitForSeconds(2f);
 		ConstructItem(hierarchy);
+		yield return null;
 	}
 
 
@@ -92,8 +93,8 @@ public class ItemAttributes : NetworkBehaviour
 
 	public void ConstructItem(string hierString)
 	{
-		//randomize clothing! uncomment only if you spawn without any clothes on!
-		//        randomizeClothHierIfEmpty();
+		//randomize clothing!
+		randomizeClothHierIfEmpty();
 
 		//don't do anything if hierarchy string is empty
 		hier = hierString.Trim();
