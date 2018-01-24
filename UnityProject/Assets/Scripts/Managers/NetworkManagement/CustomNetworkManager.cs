@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
-using JetBrains.Annotations;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -15,7 +14,8 @@ public class CustomNetworkManager : NetworkManager
 	[HideInInspector] public bool _isServer;
 	[HideInInspector] public bool spawnableListReady;
 	public bool SteamServer = true;
-	
+	private Server server;
+
 
 
 	private void Awake()
@@ -97,6 +97,10 @@ public class CustomNetworkManager : NetworkManager
 
 	private void OnDisable()
 	{
+		if (_isServer && server.IsValid)
+		{
+			server.Auth.OnAuthChange += AuthChange;
+		}
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
@@ -118,20 +122,20 @@ public class CustomNetworkManager : NetworkManager
 	
 	public void SteamServerStart()
 	{
-		//
-		// 
 		// Register the Server
 		//		
 		string path = Path.GetFullPath(".");
 		string folderName = Path.GetFileName(Path.GetDirectoryName( path ) );
 		ServerInit options = new Facepunch.Steamworks.ServerInit(folderName, "Unitystation");
-		var server = new Facepunch.Steamworks.Server(787180, options);
+		server = new Facepunch.Steamworks.Server(787180, options);
 
 		if (server.IsValid)
 		{
 			server.ServerName = "Unitystation Official";
 			server.LogOnAnonymous();
-			Debug.Log("Server registered");
+			Debug.Log("Server registered Starting auth handler");
+			//Process authchange
+			server.Auth.OnAuthChange += AuthChange;
 		}
 		else
 		{
@@ -139,6 +143,19 @@ public class CustomNetworkManager : NetworkManager
 		}
 
 	}
+	
+
+
+public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
+{
+	bool Authed;
+	Authed = status == ServerAuth.Status.OK;
+
+	Debug.Log( "steamid: {0}" + steamid );
+	Debug.Log( "ownerid: {0}" + ownerid );
+	Debug.Log( "status: {0}" + status );
+}
+
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
 	{

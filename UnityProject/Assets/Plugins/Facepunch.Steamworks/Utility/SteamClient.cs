@@ -56,8 +56,8 @@ public class SteamClient : MonoBehaviour
             return;
         }
 
-        Debug.Log( "Steam Initialized: " + client.Username + " / " + client.SteamId ); 
-	}
+        Debug.Log( "Steam Initialized: " + client.Username + " / " + client.SteamId );
+    }
 	
 	void Update()
     {
