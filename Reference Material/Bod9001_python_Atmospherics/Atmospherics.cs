@@ -61,9 +61,7 @@ namespace Atmospherics {
 			};
 			AdjacentTilesRelativeCoordinatesList.Add(temporaryList3);
 
-			List < int > temporaryList4 = new List < int > () {
-				0,
-				-1
+			List < int > temporaryList4 = new List < int > () {0,-1
 			};
 			AdjacentTilesRelativeCoordinatesList.Add(temporaryList4);
 
