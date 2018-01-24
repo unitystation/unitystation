@@ -109,12 +109,7 @@ public class CustomNetworkManager : NetworkManager
 		_isServer = true;
 		base.OnStartServer();
 		this.RegisterServerHandlers();
-#if UNITY_EDITOR
-		SteamServer = false;
-		Debug.Log("SteamServer disabled in Editor");
-#endif 
-		
-		if (SteamServer && !GameData.IsHeadlessServer)
+		if (SteamServer)
 		{
 			SteamServerStart();
 		}
@@ -124,18 +119,28 @@ public class CustomNetworkManager : NetworkManager
 	{
 		// Register the Server
 		//		
+		Facepunch.Steamworks.Config.ForUnity( Application.platform.ToString() );
 		string path = Path.GetFullPath(".");
 		string folderName = Path.GetFileName(Path.GetDirectoryName( path ) );
 		ServerInit options = new Facepunch.Steamworks.ServerInit(folderName, "Unitystation");
 		server = new Facepunch.Steamworks.Server(787180, options);
 
-		if (server.IsValid)
+		if (server != null)
 		{
 			server.ServerName = "Unitystation Official";
 			server.LogOnAnonymous();
-			Debug.Log("Server registered Starting auth handler");
+			if (GameData.IsHeadlessServer || GameData.Instance.testServer)
+			{
+				server.DedicatedServer = true;
+			}
+			Debug.Log("Setting up Auth hook");
 			//Process authchange
-			server.Auth.OnAuthChange += AuthChange;
+			server.Auth.OnAuthChange = AuthChange;
+		}
+
+		if (server.IsValid)
+		{
+			Debug.Log("Server registered");
 		}
 		else
 		{
@@ -185,6 +190,30 @@ public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
 	{
 		yield return new WaitForSeconds(1f);
 		OnServerAddPlayerInternal(conn, playerControllerId);
+	}
+
+	void Update()
+	{
+		if (server == null)
+			return;
+		try
+		{
+			UnityEngine.Profiling.Profiler.BeginSample("Steam Server Update");
+			server.Update();
+		}
+		finally
+		{
+			UnityEngine.Profiling.Profiler.EndSample();
+		}
+	}
+
+	private void OnDestroy()
+	{
+		if (server != null)
+		{
+			server.Dispose();
+			server = null;
+		}
 	}
 
 	private void OnServerAddPlayerInternal(NetworkConnection conn, short playerControllerId)

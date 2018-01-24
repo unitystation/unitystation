@@ -16,12 +16,14 @@ public class RequestAuthMessage : ClientMessage
 		//	Debug.Log("Processed " + ToString());
 
 		yield return WaitFor(SentBy);
-
 		Debug.Log("Server Starting Auth for User:" + SteamID);
-		
-		if ( !Server.Instance.Auth.StartSession( TicketBinary, SteamID ) )
+
+		if (Server.Instance != null)
 		{
-			Debug.Log( "Start Session returned false" );
+			if (!Server.Instance.Auth.StartSession(TicketBinary, SteamID))
+			{
+				Debug.Log("Start Session returned false");
+			}
 		}
 
 	}

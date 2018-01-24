@@ -19,5 +19,5 @@ internal enum MessageTypes : short
 	RemoveEncryptionKeyMessage = 2004,
 	SimpleInteractMessage = 2005,
 	RequestSyncMessage = 2006,
-	RequestAuthMessage = 2006
+	RequestAuthMessage = 2007
 }
