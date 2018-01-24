@@ -28,6 +28,7 @@ public class TransformStateMessage : ServerMessage
 			{
 				//update NetworkObject transform state
 				var transform = NetworkObject.GetComponent<CustomNetTransform>();
+//				Debug.Log($"{transform.ClientState} ->\n{State}");
 				transform.UpdateClientState(State);
 			}
 		}

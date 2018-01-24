@@ -57,7 +57,7 @@ public class VendorTrigger : InputTrigger
 
 		foreach (GameObject item in vendorcontent)
 		{
-			ItemFactory.SpawnItem(item, transform.position);
+			ItemFactory.SpawnItem(item, transform.position, transform.parent);
 		}
 
 		stock--;
