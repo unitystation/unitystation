@@ -71,5 +71,6 @@ read -sp 'Password: ' passvar
 
 $script_dir/ContentBuilder/builder_osx/steamcmd +login $uservar $passvar <<EOF
 run_app_build $script_dir/ContentBuilder/scripts/app_build_787180.vdf
+run_app_build $script_dir/ContentBuilder/scripts/app_build_792890.vdf
 quit
 EOF
