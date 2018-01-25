@@ -1,8 +1,9 @@
 #!/usr/bin/python
-import pyshark
 import subprocess
 import sqlite3
 from sqlite3 import Error
+import sys
+import getopt
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database
@@ -32,23 +33,14 @@ def read_bans(conn):
     for row in rows:
         lst2.append(row)
 	
-capture = pyshark.LiveCapture(interface='eth0')
-capture.sniff(timeout=50)
 #print len(capture)
 lst1=[]
 #IP bans
 lst2=[]
 
-def blockip(ip):
-	cmd="/sbin/iptables -A INPUT -s "+ip+" -j DROP"
-	print cmd
-	subprocess.call(cmd,shell=True)
- 
 def blockIP1(ip):
 	cmd="/sbin/iptables -A INPUT -s "+ip+" -j DROP"
 	subprocess.call(cmd, shell=True)
-	subprocess.call("kill -9 $(/usr/bin/pgrep dumpcap)", shell=True)
-	subprocess.call("/usr/bin/kill -9 $(/usr/bin/pgrep tshark)", shell=True)
 	for i in range(len(capture)):
 		pack=capture[i]
 		print pack
@@ -62,8 +54,12 @@ def blockIP1(ip):
 		if ip in lst2:
 			blockIP1(ip)
 
-database = "ipbans.db"
 #Change to loc of ip bnas
-conn = create_connection(database)
-subprocess.call("kill -9 $(/usr/bin/pgrep dumpcap)", shell=True)
-subprocess.call("/usr/bin/kill -9 $(/usr/bin/pgrep tshark)", shell=True)    
+def main():
+	database = "ipbans.db"
+	conn = create_connection(database)
+	read_bans(conn)
+	blockIP1(ip)
+
+if (__name__== "__main__"):
+	main()
