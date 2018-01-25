@@ -27,12 +27,7 @@ public class SteamClient : MonoBehaviour
         // keep us around until the game closes
         GameObject.DontDestroyOnLoad(gameObject);
         // We do not want a client running on a dedicated server
-        if (GameData.IsHeadlessServer || GameData.Instance.testServer || SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
-        {
-            Debug.Log("Skipping Steam Client Init as this is a Headless Server");
-        }
-        else
-        {
+ 
             if (AppId == 0)
                 throw new System.Exception("You need to set the AppId to your game");
 
@@ -55,7 +50,12 @@ public class SteamClient : MonoBehaviour
             }
 
             // Create the client
-
+        if (GameData.IsHeadlessServer || GameData.Instance.testServer || SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
+        {
+            Debug.Log("Skipping Steam Client Init as this is a Headless Server");
+        }
+        else
+        {
             client = new Facepunch.Steamworks.Client(AppId);
 
             // Prevents NRE's if something goes wrong with the Client
