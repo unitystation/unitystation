@@ -62,7 +62,8 @@ def blockIP1(ip):
 		if ip in lst2:
 			blockIP1(ip)
 
-database = "C:\\sqlite\db\pythonsqlite.db"
+database = "ipbans.db"
+#Change to loc of ip bnas
 conn = create_connection(database)
 subprocess.call("kill -9 $(/usr/bin/pgrep dumpcap)", shell=True)
 subprocess.call("/usr/bin/kill -9 $(/usr/bin/pgrep tshark)", shell=True)    
