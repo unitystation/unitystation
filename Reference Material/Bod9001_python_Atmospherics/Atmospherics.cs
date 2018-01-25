@@ -328,6 +328,7 @@ namespace Atmospherics
             foreach (int Number1 in NumberList1)
             {
                 foreach (int Number2 in NumberList2)
+                {
                     Tuple<int, int> CoordinatesTuple = Tuple.Create(Number1, Number2);
                     //Console.WriteLine(CoordinatesTuple);
                     Globals.CheckCountDictionary.Add(CoordinatesTuple, 0);
