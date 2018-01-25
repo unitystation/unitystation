@@ -1,4 +1,4 @@
-CREATE TABLE contacts (
+CREATE TABLE users (
  steam_id text PRIMARY KEY,
  username text NOT NULL,
  ip text NOT NULL,
