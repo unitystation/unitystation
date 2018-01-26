@@ -50,15 +50,13 @@ public class VendorTrigger : InputTrigger
 	{
 //		Debug.Log("status" + allowSell);
 		PlayerScript ps = originator.GetComponent<PlayerScript>();
-		if (ps.canNotInteract() || !ps.IsInReach(position))
+		if (ps.canNotInteract() || !ps.IsInReach(position) || vendorcontent.Length == 0)
 		{
 			return false;
 		}
 
-		foreach (GameObject item in vendorcontent)
-		{
-			ItemFactory.SpawnItem(item, transform.position, transform.parent);
-		}
+		int randIndex = Random.Range(0, vendorcontent.Length);
+		ItemFactory.SpawnItem(vendorcontent[randIndex], transform.position, transform.parent);
 
 		stock--;
 
