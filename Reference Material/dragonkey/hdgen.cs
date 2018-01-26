@@ -17,15 +17,11 @@ namespace HWID
 		PlatformID     pid = os.Platform;
 		case PlatformID.WinCE:
 			return Value();
-			break;
 		case PlatformID.Unix:
-			break;
 			return GetUID();
 		case PlatformID.MacOSX:
-			break;
 			return MacUUID();
 		default:
-			break;
 			return 0
 
         }
