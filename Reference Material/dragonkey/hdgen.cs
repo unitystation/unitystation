@@ -12,13 +12,14 @@ namespace HWID
 {
     class Program
     {
-        static void Main()
+        public string HD()
         {
-            System.IO.File.WriteAllText(@"C:\Users\Public\TestFolder\hard.dk", Value());
+			return Value();
 
         }
 
         private static string _fingerPrint = string.Empty;
+		
         private static string Value()
         {
                 _fingerPrint = GetHash("CPU >> " + CpuId() + "\nBIOS >> " + BiosId() + "\nBASE >> " + BaseId() + "\nDISK >> " + DiskId() + "\nVIDEO >> " + VideoId() + "\nMAC >> " + MacId());
