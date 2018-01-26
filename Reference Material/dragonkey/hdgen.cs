@@ -195,7 +195,21 @@ namespace HWID
 			if (i % 16 == 0 && i != 0) 
 				outStr = outStr.Insert(i, "-");
 		} 
-		return (outStr);
+		string str = outStr;
+		// Get the integral value of the character.
+		int value = Convert.ToInt32(str);
+		// Convert the decimal value to a hexadecimal value in string form.
+		string hexOutput = String.Format(value);
+		string input = hexOutput;
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < input.Length; i++)
+		{
+			if (i % 3 == 0)
+				sb.Append('-');
+			sb.Append(input[i]);
+		}
+		string formatted = sb.ToString();
+		return (formatted);
 	}
 	[DllImport("hid.dll")]
 	private static extern void HidD_GetHidGuid(ref Guid GUID);
