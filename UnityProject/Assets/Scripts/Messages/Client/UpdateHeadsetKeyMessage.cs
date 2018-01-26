@@ -48,12 +48,12 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 	private static void setKey(GameObject player, GameObject headsetGO, GameObject keyGO)
 	{
 		var pna = player.GetComponent<PlayerNetworkActions>();
-		if ( pna.TryConsume(keyGO) )
+		if ( pna.HasItem(keyGO) )
 		{
 			Headset headset = headsetGO.GetComponent<Headset>();
 			EncryptionKey encryptionkey = keyGO.GetComponent<EncryptionKey>();
 			headset.EncryptionKey = encryptionkey.Type;
-			NetworkServer.Destroy(keyGO);
+			pna.Consume(keyGO);
 		}
 	}
 
@@ -61,7 +61,10 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 	{
 		Headset headset = headsetGO.GetComponent<Headset>();
 		GameObject encryptionKey =
-			Object.Instantiate(Resources.Load("EncryptionKey", typeof( GameObject )), headsetGO.transform.parent) as GameObject;
+		Object.Instantiate(Resources.Load("EncryptionKey", typeof( GameObject )), 
+			headsetGO.transform.position, 
+			headsetGO.transform.rotation, 
+			headsetGO.transform.parent) as GameObject;
 		if ( encryptionKey == null )
 		{
 			Debug.LogError($"Headset key instantiation for {PlayerList.Instance.Get(player).Name} failed, spawn aborted");
@@ -69,11 +72,11 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		}
 
 		encryptionKey.GetComponent<EncryptionKey>().Type = headset.EncryptionKey;
-		Debug.Log($"Spawning headset key {encryptionKey} with type {headset.EncryptionKey}");
-
+//		Debug.Log($"Spawning headset key {encryptionKey} with type {headset.EncryptionKey}");
+		
 		//TODO when added interact with dropped headset, add encryption key to empty hand
 		headset.EncryptionKey = EncryptionKeyType.None;
-		//TODO: update available channel list
+		
 		ItemFactory.SpawnItem(encryptionKey, player.transform.position, player.transform.parent);
 	}
 
@@ -95,7 +98,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		EncryptionKeyType encryptionKeyTypeOfKey = encryptionkey.GetComponent<EncryptionKey>().Type;
 		if ( encryptionKeyTypeOfHeadset != EncryptionKeyType.None || encryptionKeyTypeOfKey == EncryptionKeyType.None )
 		{
-			Debug.LogWarning($"Failed to validate update of {headset.name} {encryptionkey.name} ({ToString()})");
+//			Debug.LogWarning($"Failed to validate update of {headset.name} {encryptionkey.name} ({ToString()})");
 			return false;
 		}
 
@@ -108,7 +111,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		EncryptionKeyType encryptionKeyType = headset.GetComponent<Headset>().EncryptionKey;
 		if ( encryptionKeyType == EncryptionKeyType.None )
 		{
-			Debug.LogWarning($"Failed to validate removal of encryption key from {headset.name} ({ToString()})");
+//			Debug.LogWarning($"Failed to validate removal of encryption key from {headset.name} ({ToString()})");
 			return false;
 		}
 

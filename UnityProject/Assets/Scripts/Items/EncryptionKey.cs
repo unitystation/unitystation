@@ -160,6 +160,23 @@ public class EncryptionKey : NetworkBehaviour
 	{
 		UpdateSprite();
 	}
+	
+/// Look ma, no syncvars!
+/// This allows clients to initialize attributes
+/// without having to resort to SyncVars and ItemFactory (see IDCard example)
+/// Downside – all players will get that info (same with syncvars)
+	public override bool OnSerialize(NetworkWriter writer, bool initialState)
+	{
+		writer.Write(type.ToString());
+		return base.OnSerialize(writer, initialState);
+	}
+	public override void OnDeserialize(NetworkReader reader, bool initialState)
+	{
+		EncryptionKeyType keyType;
+		Enum.TryParse(reader.ReadString(),true, out keyType);
+		type = keyType;
+		base.OnDeserialize(reader, initialState);
+	}
 
 	#region Set the sprite based on key type
 

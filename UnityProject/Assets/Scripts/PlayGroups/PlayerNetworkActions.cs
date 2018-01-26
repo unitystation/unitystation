@@ -89,25 +89,33 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		UIManager.Hands.CurrentSlot.SetItem(item);
 	}
 
-	/// <summary>
-	/// Tries to find item in player's equipment
-	/// If it is found, removes it from player's pool
-	/// </summary>
-	/// <param name="item"></param>
-	/// <returns></returns>
+	/// Destroys item if it's in player's pool.
+	/// It's not recommended to destroy shit in general due to the specifics of our game
 	[Server]
-	public bool TryConsume(GameObject item)
+	public void Consume(GameObject item)
 	{
 		foreach ( var slot in Inventory )
 		{
 			if ( item == slot.Value )
 			{
 				ClearInventorySlot(slot.Key);
-				RemoveFromEquipmentPool(item);
+				break;
+			}
+		}
+		EquipmentPool.DisposeOfObject(gameObject, item);
+	}
+
+	/// Checks if player has this item in any of his slots
+	[Server]
+	public bool HasItem(GameObject item)
+	{
+		foreach ( var slot in Inventory )
+		{
+			if ( item == slot.Value )
+			{
 				return true;
 			}
 		}
-		Debug.LogWarning($"TryConsume failed: {PlayerList.Instance.Get(gameObject).Name} wasn't found in {item.name}'s inventory");
 		return false;
 	}
 
