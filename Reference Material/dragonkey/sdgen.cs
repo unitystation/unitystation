@@ -8,13 +8,13 @@ using System.IO;
 //Dragon Key
 //Soft Dragon 
 //Note: Never changed var names
-namespace HWID
+namespace SWID
 {
     class Program
     {
-        static void Main()
+        public string SD()
         {
-            System.IO.File.WriteAllText(@"C:\Users\Public\TestFolder\soft.dk", Value());
+            return Value();
 
         }
 
