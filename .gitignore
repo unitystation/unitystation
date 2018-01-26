@@ -68,8 +68,14 @@ UnityProject/ProjectSettings/ProjectVersion.txt
 /UnityProject/ProjectSettings/ProjectVersion.txt
 /UnityProject/Assets/Plugins/Editor/Jetbrains*
 
-/Tools/Logs/content/Linux/*
-/Tools/Logs/content/OSX/*
-/Tools/Logs/content/Windows/*
-/Tools/Logs/content/Server/*
+/Tools/Logs/*
+/Tools/ContentBuilder/content/Linux/Unitystation_Data
+/Tools/ContentBuilder/content/Linux/Unitystation
+/Tools/ContentBuilder/content/OSX/Unitystation.app
+/Tools/ContentBuilder/content/Windows/Unitystation_Data
+/Tools/ContentBuilder/content/Windows/Unitystation.exe
+/Tools/ContentBuilder/content/Server/Unitystation-Server
+/Tools/ContentBuilder/content/Server/Unitystation-Server_Data/*
+!/Tools/ContentBuilder/content/Server/Unitystation-Server_Data/Mono
+!/Tools/ContentBuilder/content/Server/Unitystation-Server_Data/Plugins
 /Tools/ContentBuilder/output/*

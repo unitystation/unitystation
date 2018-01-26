@@ -127,13 +127,14 @@ public class CustomNetworkManager : NetworkManager
 
 		if (server != null)
 		{
-			server.ServerName = "Unitystation Official";
-			server.LogOnAnonymous();
-			// Set required settings for dedicated server
 			if (GameData.IsHeadlessServer || GameData.Instance.testServer || SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
 			{
 				server.DedicatedServer = true;
 			}
+			server.LogOnAnonymous();
+			server.ServerName = "Unitystation Official";
+			// Set required settings for dedicated server
+
 			Debug.Log("Setting up Auth hook");
 			//Process callback data for authentication
 			server.Auth.OnAuthChange = AuthChange;
