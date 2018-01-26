@@ -7,14 +7,14 @@ using System.IO;
 
 //Dragon Key
 //Hard Dragon
-OperatingSystem os = Environment.OSVersion;
-PlatformID     pid = os.Platform;
 namespace HWID
 {
     class Program
     {
-        public string HD(pid)
+        public string HD()
         {
+		OperatingSystem os = Environment.OSVersion;
+		PlatformID     pid = os.Platform;
 		case PlatformID.WinCE:
 			return Value();
 			break;
