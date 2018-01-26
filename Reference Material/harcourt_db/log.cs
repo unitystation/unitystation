@@ -10,12 +10,12 @@ namespace SQLLiteDemo
 	public class Form1 : Form
 	{
 
-		public Form1()
+		public AddToLog(player_name, SteamID, IP, HD, SD, ND)
 		{
 			m_dbConnection =
 			new SQLiteConnection("Data Source=logs.db;Version=3;");
 			m_dbConnection.Open();
-			string sql = "insert into logs (player_name, SteamID, IP, HD, SD, ND) values ( foobar )";
+			string sql = "insert into logs (player_name, SteamID, IP, HD, SD, ND) values (player_name, SteamID, IP, HD, SD, ND)";
 			command = new SQLiteCommand(sql, m_dbConnection);
 			command.ExecuteNonQuery();
 			
