@@ -7,14 +7,22 @@ using System.IO;
 
 //Dragon Key
 //Hard Dragon
-
 namespace HWID
 {
     class Program
     {
         public string HD()
         {
+		OperatingSystem os = Environment.OSVersion;
+		PlatformID     pid = os.Platform;
+		case PlatformID.WinCE:
 			return Value();
+		case PlatformID.Unix:
+			return GetUID();
+		case PlatformID.MacOSX:
+			return MacUUID();
+		default:
+			return 0
 
         }
 
@@ -143,4 +151,74 @@ namespace HWID
             return Identifier("Win32_NetworkAdapterConfiguration", "MACAddress", "IPEnabled");
         }
     }
+	private static string MacUUID ()
+	{
+		var startInfo = new ProcessStartInfo () {
+			FileName = "sh",
+			Arguments = "-c \"ioreg -rd1 -c IOPlatformExpertDevice | awk '/IOPlatformUUID/'\"",
+			UseShellExecute = false,
+			CreateNoWindow = true,
+			RedirectStandardOutput = true,
+			RedirectStandardError = true,
+			RedirectStandardInput = true,
+			UserName = Environment.UserName
+		};
+		var builder = new StringBuilder ();
+		using (Process process = Process.Start (startInfo)) {
+			process.WaitForExit ();
+			builder.Append (process.StandardOutput.ReadToEnd ());
+		}
+		string str = builder.ToString;
+		// Get the integral value of the character.
+		int value = Convert.ToInt32(str);
+		// Convert the decimal value to a hexadecimal value in string form.
+		string hexOutput = String.Format(value);
+		string input = hexOutput;
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < input.Length; i++)
+		{
+			if (i % 3 == 0)
+				sb.Append('-');
+			sb.Append(input[i]);
+		}
+		string formatted = sb.ToString();
+		return(formatted);
+	}
+	private string GetUID()
+	{
+		StringBuilder strB = new StringBuilder();
+		Guid G = new Guid(); HidD_GetHidGuid(ref G);
+		strB.Append(Convert.ToString(G));
+		IntPtr lHWInfoPtr = Marshal.AllocHGlobal(123); HWProfile lProfile = new HWProfile();
+		Marshal.StructureToPtr(lProfile, lHWInfoPtr, false);
+		if (GetCurrentHwProfile(lHWInfoPtr))
+		{
+			Marshal.PtrToStructure(lHWInfoPtr, lProfile);
+			strB.Append(lProfile.szHwProfileGuid.Trim(new char[] { '{', '}' }));
+		}
+		Marshal.FreeHGlobal(lHWInfoPtr);
+		SHA256CryptoServiceProvider SHA256 = new SHA256CryptoServiceProvider();
+		byte[] B = Encoding.Default.GetBytes(strB.ToString());
+		string outStr = BitConverter.ToString(SHA256.ComputeHash(B)).Repla ce("-", null);
+		for(int i = 0;i < 64; i++)
+		{
+			if (i % 16 == 0 && i != 0) 
+				outStr = outStr.Insert(i, "-");
+		} 
+
+		return (outStr);
+	}
+	[DllImport("hid.dll")]
+	private static extern void HidD_GetHidGuid(ref Guid GUID);
+	[DllImport("advapi32.dll", SetLastError = true)]
+	static extern bool GetCurrentHwProfile(IntPtr fProfile);
+	[StructLayout(LayoutKind.Sequential)]
+	class HWProfile
+	{
+		public Int32 dwDockInfo;
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 39)]
+		public string szHwProfileGuid;
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
+		public string szHwProfileName;
+	}
 }
