@@ -1,18 +1,9 @@
-﻿using PlayGroups.Input;
-using UI;
-using UnityEngine;
-using System.Collections.Generic;
-using Crafting;
+﻿using System.Collections;
 using PlayGroup;
 using PlayGroups.Input;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Collections;
-using PlayGroup;
-using PlayGroups.Input;
-using UnityEngine;
-
 
 public class VendorTrigger : InputTrigger
 {
@@ -20,6 +11,7 @@ public class VendorTrigger : InputTrigger
 
 	public bool allowSell = true;
 	public float cooldownTimer = 2f;
+	public int stock = 5;
 	public string interactionMessage;
 	public string deniedMessage;
 
@@ -56,17 +48,17 @@ public class VendorTrigger : InputTrigger
 	[Server]
 	private bool ServerVendorInteraction(GameObject originator, Vector3 position, string hand)
 	{
-		Debug.Log("status" + allowSell);
+//		Debug.Log("status" + allowSell);
 		PlayerScript ps = originator.GetComponent<PlayerScript>();
-		if (ps.canNotInteract() || !ps.IsInReach(position))
+		if (ps.canNotInteract() || !ps.IsInReach(position) || vendorcontent.Length == 0)
 		{
 			return false;
 		}
 
-		foreach (GameObject item in vendorcontent)
-		{
-			ItemFactory.SpawnItem(item, transform.position, transform.parent);
-		}
+		int randIndex = Random.Range(0, vendorcontent.Length);
+		ItemFactory.SpawnItem(vendorcontent[randIndex], transform.position, transform.parent);
+
+		stock--;
 
 		return true;
 	}
@@ -74,7 +66,10 @@ public class VendorTrigger : InputTrigger
 	private IEnumerator VendorInputCoolDown()
 	{
 		yield return new WaitForSeconds(cooldownTimer);
-		allowSell = true;
+		if ( stock > 0 )
+		{
+			allowSell = true;
+		}
 	}
 	
 }

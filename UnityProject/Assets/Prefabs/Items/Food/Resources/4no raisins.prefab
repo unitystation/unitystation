@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 114298061437451200}
   - component: {fileID: 114208883059431984}
   m_Layer: 10
-  m_Name: Cappuccino
+  m_Name: 4no raisins
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,8 +126,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedMultiplier: 1
-  pushPull: {fileID: 0}
   isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114298061437451200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,8 +139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51c0c3fdf2ebd41beb789f2d99f818ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healAmount: 5
-  healHungerAmount: 5
+  healAmount: 8
+  healHungerAmount: 8
 --- !u!114 &114608524725813366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -168,8 +168,8 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: -1
   inHandReferenceRight: -1
-  itemDescription: 
-  itemName: A Cappuccino in an edible mug
+  itemDescription: Best raisins in the universe. Not sure why.
+  itemName: 4no raisins
   size: 0
   spriteType: 0
   type: 14
@@ -187,22 +187,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 212
-    i1: 184
-    i2: 3
-    i3: 89
-    i4: 228
-    i5: 244
-    i6: 180
-    i7: 8
-    i8: 104
-    i9: 207
-    i10: 192
-    i11: 189
-    i12: 16
-    i13: 185
-    i14: 74
-    i15: 225
+    i0: 55
+    i1: 82
+    i2: 91
+    i3: 98
+    i4: 78
+    i5: 43
+    i6: 17
+    i7: 52
+    i8: 251
+    i9: 61
+    i10: 46
+    i11: 253
+    i12: 194
+    i13: 47
+    i14: 47
+    i15: 10
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &114931546224579044
@@ -220,8 +220,13 @@ MonoBehaviour:
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
+  allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
+  isPushable: 1
   pulledBy: {fileID: 0}
-  pullSync: {fileID: 0}
+  custNetActiveState: 0
+  pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
   closetHandlerCache: {fileID: 0}
 --- !u!212 &212850123619449406
 SpriteRenderer:
@@ -257,7 +262,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 10
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300292, guid: 3547c548ae071487c84212e8ee25d554, type: 3}
+  m_Sprite: {fileID: 21300068, guid: 7604d4a595ad0420bbb16ef2e5e6675d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

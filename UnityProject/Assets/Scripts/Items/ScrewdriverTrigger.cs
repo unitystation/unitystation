@@ -18,7 +18,8 @@ public class ScrewdriverTrigger : PickUpTrigger
 
 		if (otherHandsItem && otherHandsItem.GetComponent<Headset>())
 		{
-			RemoveEncryptionKeyMessage.Send(otherHandsItem);
+			//Remove encryption key
+			UpdateHeadsetKeyMessage.Send(otherHandsItem);
 		}
 
 		base.Interact(originator, position, hand);
