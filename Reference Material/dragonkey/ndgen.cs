@@ -14,9 +14,9 @@ namespace NDID
 {
     class Program
     {
-        static void Main(string[] args)
+        public string ND()
         {
-            System.IO.File.WriteAllText(@"C:\Users\Public\TestFolder\net.dk", Value());
+            return Value();
         }
 
         private static IPAddress GetDnsAdress()
