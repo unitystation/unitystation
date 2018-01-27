@@ -7,24 +7,25 @@ using Newtonsoft.Json;
 
 namespace Atmospherics
 {
-	public class Gas {
-		public readonly string Name;
-		public readonly float HeatCapacity;
-		public readonly float MolarMass;
-
-		Gas(string name, float heatCapacity, float molarMass) {
-			this.Name = name;
-			this.HeatCapacity = heatCapacity;
-			this.MolarMass = molarMass;
-		}
-			
+	public class Gas
+	{
 		public static Gas Oxygen = new Gas("Oxygen", 0.659f, 31.9988f);
 		public static Gas Nitrogen = new Gas("Nitrogen", 0.743f, 28.0134f);
 		public static Gas Plasma = new Gas("Plasma", 0.8f, 40f);
-		public static Gas CarbonDioxide = new Gas("Carbon Dioxide", 0.655f, 44.01f);  
+		public static Gas CarbonDioxide = new Gas("Carbon Dioxide", 0.655f, 44.01f);
+		public readonly float HeatCapacity;
+		public readonly float MolarMass;
+		public readonly string Name;
+
+		private Gas(string name, float heatCapacity, float molarMass)
+		{
+			Name = name;
+			HeatCapacity = heatCapacity;
+			MolarMass = molarMass;
+		}
 	}
-	
-	class MainClass
+
+	internal class MainClass
 	{
 		public static void Main(string[] args)
 		{
@@ -33,39 +34,47 @@ namespace Atmospherics
 			Console.ReadKey();
 			Initialization.AtmosphericsInitialization();
 			AtmosphericsTime.Atmospherics();
-//			Initialization.AVisualCheck();
+			//			Initialization.AVisualCheck();
 			Console.WriteLine("Press any key to continue . . . ");
 			Console.ReadKey();
 		}
 	}
 
-
-	public enum Air
+	public struct AirTile
 	{
-		Temperature,
-		Pressure,
-		Moles
+		public const float GasConstant = 8.3144598f;
+		public float Temperature;
+		public float Moles;
+		public bool Obstructed;
+		public bool Space;
+
+		public AirTile(float temperature, float moles, bool obstructed, bool space)
+		{
+			Temperature = temperature;
+			Moles = moles;
+			Obstructed = obstructed;
+			Space = space;
+		}
+
+		public float Pressure => Moles * GasConstant * Temperature / 2 / 1000;
+
+		//public static readonly AirTile Obstructed = new AirTile(293.15f, 83.142422004453842459076923779184f);
+		public static readonly AirTile SpaceTile = new AirTile(2.7f, 0.000000316f, false, true);
 	}
 
-	public enum Matrix
-	{
-		Obstructed,
-		Space
-	}
 
 	public static class Globals
 	{
-		public static List<int> TileRange = new List<int>();
-		public static Dictionary<Tuple<int, int>, Dictionary<Air, float>> Air = new Dictionary<Tuple<int, int>, Dictionary<Air, float>>();
+		public const int MaxWidthX = 361;
+		public const int MaxWidthY = 211;
 		public static Dictionary<Tuple<int, int>, Dictionary<Gas, float>> AirMixes = new Dictionary<Tuple<int, int>, Dictionary<Gas, float>>();
-		public static Dictionary<Tuple<int, int>, Dictionary<Matrix, bool>> Airbools = new Dictionary<Tuple<int, int>, Dictionary<Matrix, bool>>();
 
-		public static Dictionary<Air, float> SpaceAir = new Dictionary<Air, float>();
+		public static AirTile[,] TileData = new AirTile[MaxWidthX, MaxWidthY];
 		public static Dictionary<Gas, float> SpaceMix = new Dictionary<Gas, float>();
 
 		public static float GasConstant = 8.3144598f;
 
-		public static Dictionary<Tuple<int, int>, List<Tuple<int, int>>> DictionaryOfAdjacents = new Dictionary<Tuple<int, int>, List<Tuple<int, int>>>();
+		public static Dictionary<Tuple<int, int>, List<List<int>>> DictionaryOfAdjacents = new Dictionary<Tuple<int, int>, List<List<int>>>();
 
 		public static HashSet<Tuple<int, int>> OddSet = new HashSet<Tuple<int, int>>();
 		public static HashSet<Tuple<int, int>> EvenSet = new HashSet<Tuple<int, int>>();
@@ -86,7 +95,6 @@ namespace Atmospherics
 	{
 		public static void AtmosphericsInitialization()
 		{
-			HeatCapacityInitialization();
 			AirInitialization();
 			JsonImportInitialization();
 			WorseCaseUpdateSet();
@@ -96,180 +104,134 @@ namespace Atmospherics
 			SpaceInitialization();
 		}
 
-		static void HeatCapacityInitialization()
+
+		private static void AirInitialization()
 		{
-			Globals.TileRange.Add(361);
-			Globals.TileRange.Add(211);
-
-			Globals.OddEven = false;
-			Globals.Lag = false;
-		}
-
-
-		static void AirInitialization()
-		{
-			IEnumerable<int> NumberList1 = Enumerable.Range(0, ( Globals.TileRange[0] ));
-			IEnumerable<int> NumberList2 = Enumerable.Range(0, ( Globals.TileRange[1] ));
-			IEnumerable<int> numberList2 = NumberList2 as int[] ?? NumberList2.ToArray();
-			foreach ( int Number1 in NumberList1 )
+			var tiles = new AirTile[Globals.MaxWidthX, Globals.MaxWidthY];
+			Tuple<int, int> CoordinatesTuple = Tuple.Create(Globals.MaxWidthX, Globals.MaxWidthY);
+			for (var i = 0; i < tiles.GetLength(0); i++)
 			{
-				foreach ( int Number2 in numberList2 )
+				for (var j = 0; j < tiles.GetLength(1); j++)
 				{
-					Tuple<int, int> CoordinatesTuple = Tuple.Create(Number1, Number2);
-					var ToApplyAir = new Dictionary<Air, float>
-					{
-						{Air.Temperature, 293.15f}, {Air.Pressure, 101.325f}, {Air.Moles, 83.142422004453842459076923779184f}
-					};
-					Globals.Air.Add(CoordinatesTuple, ToApplyAir);
-
-
+					tiles[i, j] = new AirTile(293.15f, 83.142422004453842459076923779184f, false, true);
+					Tuple<int, int> CoordinatesNowTuple = Tuple.Create(i, j);
 					var ToApplyToMixes = new Dictionary<Gas, float>
 					{
-						{Gas.Oxygen, 16.628484400890768491815384755837f}, {Gas.Nitrogen, 66.513937603563073967261539023347f}
+						{Gas.Oxygen, 16.628484400890768491815384755837f},
+						{Gas.Nitrogen, 66.513937603563073967261539023347f}
 					};
-					Globals.AirMixes.Add(CoordinatesTuple, ToApplyToMixes);
-
-					var ToApplyToStructuralbools = new Dictionary<Matrix, bool>();
-					ToApplyToStructuralbools[Matrix.Obstructed] = false;
-					ToApplyToStructuralbools[Matrix.Space] = true;
-					var copy = new Dictionary<Matrix, bool>(ToApplyToStructuralbools);
-					Globals.Airbools[CoordinatesTuple] = copy;
-
-					//Console.WriteLine(Number1 + "yes" + Number2);
-					//Console.WriteLine(Globals.Airbools[]);
+					Globals.AirMixes.Add(CoordinatesNowTuple, ToApplyToMixes);
 				}
 			}
 
-			Globals.SpaceAir.Add(Air.Temperature, 2.7f);
-			Globals.SpaceAir.Add(Air.Pressure, 0.000000316f);
-			Globals.SpaceAir.Add(Air.Moles, 0.000000000000281f);
+			Globals.TileData = tiles;
 			Globals.SpaceMix.Add(Gas.Oxygen, 0.000000000000281f);
 			Console.WriteLine("AirInitialization done!");
 		}
 
-		static void JsonImportInitialization()
+		private static void JsonImportInitialization()
 		{
-			var json = File.ReadAllText(@"BoxStationStripped.json");
+			string json = File.ReadAllText(@"BoxStationStripped.json");
 			var wallsFloors = JsonConvert.DeserializeObject<Dictionary<string, List<List<int>>>>(json);
-			foreach ( var walls in wallsFloors["Walls"] )
+			foreach (List<int> walls in wallsFloors["Walls"])
 			{
-				Tuple<int, int> wallsT = Tuple.Create(walls[0], walls[1]);
-				//Console.WriteLine(wallsT);
-				Globals.Airbools[wallsT][Matrix.Obstructed] = true;
+				Globals.TileData[walls[0], walls[1]].Obstructed = true;
 			}
 
-			foreach ( var Floor in wallsFloors["Floor"] )
+			foreach (List<int> Floor in wallsFloors["Floor"])
 			{
-				Tuple<int, int> FloorT = Tuple.Create(Floor[0], Floor[1]);
-				Globals.Airbools[FloorT][Matrix.Space] = false;
+				Globals.TileData[Floor[0], Floor[1]].Space = false;
 			}
 
 			Console.WriteLine("JsonImportInitialization done!");
 		}
 
-		static List<Tuple<int, int>> GenerateAdjacentTiles(List<int> Tile)
+		private static List<List<int>> GenerateAdjacentTiles(List<int> Tile)
 		{
-			List<List<int>> AdjacentTilesRelativeCoordinatesList = new List<List<int>>();
+			var AdjacentTilesRelativeCoordinatesList = new List<List<int>>();
 
-			List<int> temporaryList = new List<int> {0, 0};
+			var temporaryList = new List<int> {0, 0};
 			AdjacentTilesRelativeCoordinatesList.Add(temporaryList);
 
-			List<int> temporaryList1 = new List<int> {1, 0};
+			var temporaryList1 = new List<int> {1, 0};
 			AdjacentTilesRelativeCoordinatesList.Add(temporaryList1);
 
-			List<int> temporaryList2 = new List<int> {0, 1};
+			var temporaryList2 = new List<int> {0, 1};
 			AdjacentTilesRelativeCoordinatesList.Add(temporaryList2);
 
-			List<int> temporaryList3 = new List<int> {-1, 0};
+			var temporaryList3 = new List<int> {-1, 0};
 			AdjacentTilesRelativeCoordinatesList.Add(temporaryList3);
 
-			List<int> temporaryList4 = new List<int> {0, -1};
+			var temporaryList4 = new List<int> {0, -1};
 			AdjacentTilesRelativeCoordinatesList.Add(temporaryList4);
 
-			List<Tuple<int, int>> WorkedOutList = new List<Tuple<int, int>>();
-			for ( var i = 0; i < AdjacentTilesRelativeCoordinatesList.Count; i++ )
+			var WorkedOutList = new List<List<int>>();
+			for (var i = 0; i < AdjacentTilesRelativeCoordinatesList.Count; i++)
 			{
 				List<int> TileOffset = AdjacentTilesRelativeCoordinatesList[i];
 				int WorkedOutOffset1 = TileOffset[0] + Tile[0];
 				int WorkedOutOffset2 = TileOffset[1] + Tile[1];
 
 
-				if ( !( ( WorkedOutOffset1 >= Globals.TileRange[0] || WorkedOutOffset1 < 0 ) ||
-				        ( WorkedOutOffset2 >= Globals.TileRange[1] || WorkedOutOffset2 < 0 ) ) )
+				if (!(WorkedOutOffset1 >= Globals.MaxWidthX || WorkedOutOffset1 < 0 || WorkedOutOffset2 >= Globals.MaxWidthY || WorkedOutOffset2 < 0))
 				{
-					Tuple<int, int> subList = Tuple.Create(WorkedOutOffset1, WorkedOutOffset2);
+					var subList = new List<int> {WorkedOutOffset1, WorkedOutOffset2};
 					WorkedOutList.Add(subList);
 				}
 			}
 
-			//foreach (var sublist in WorkedOutList)
-			//{
-			//	foreach (var obj in sublist)
-			//	{
-			//		Console.WriteLine(obj);
-			//	}
-			//}
 			return WorkedOutList;
 		}
 
 		public static void AVisualCheck()
 		{
-			IEnumerable<int> NumberList1 = Enumerable.Range(0, ( Globals.TileRange[0] ));
-			IEnumerable<int> NumberList2 = Enumerable.Range(0, ( Globals.TileRange[1] ));
-			foreach ( int Number1 in NumberList1 )
+			var tiles = new AirTile[Globals.MaxWidthX, Globals.MaxWidthY];
+			Tuple<int, int> CoordinatesTuple = Tuple.Create(Globals.MaxWidthX, Globals.MaxWidthY);
+			for (var i = 0; i < tiles.GetLength(0); i++)
 			{
-				//Console.WriteLine(Number1);
-				foreach ( int Number2 in NumberList2 )
+				for (var j = 0; j < tiles.GetLength(1); j++)
 				{
-					Tuple<int, int> CoordinatesTuple = Tuple.Create(Number1, Number2);
-					//Console.WriteLine(Number2);
-					if ( Globals.Airbools[CoordinatesTuple][Matrix.Space] == false )
+					if (Globals.TileData[i, j].Space == false)
 					{
-						if ( Globals.Airbools[CoordinatesTuple][Matrix.Obstructed] == false )
+						if (Globals.TileData[i, j].Obstructed == false)
 						{
 							Console.Write(CoordinatesTuple);
-							Console.Write(Globals.Air[CoordinatesTuple][Air.Pressure]);
+							Console.Write(Globals.TileData[i, j].Moles);
+							Console.Write(Globals.TileData[i, j].Pressure);
 						}
 					}
 				}
 			}
 		}
 
-		static void MakingDictionaryOfAdjacents()
+		private static void MakingDictionaryOfAdjacents()
 		{
-			IEnumerable<int> NumberList1 = Enumerable.Range(0, ( Globals.TileRange[0] ));
-			IEnumerable<int> NumberList2 = Enumerable.Range(0, ( Globals.TileRange[1] ));
-			IEnumerable<int> numberList2 = NumberList2 as int[] ?? NumberList2.ToArray();
-			foreach ( int Number1 in NumberList1 )
+			var tiles = new AirTile[Globals.MaxWidthX, Globals.MaxWidthY];
+			for (var i = 0; i < tiles.GetLength(0); i++)
 			{
-				foreach ( int Number2 in numberList2 )
+				for (var j = 0; j < tiles.GetLength(1); j++)
 				{
-					List<int> CoordinatesList = new List<int> {Number1, Number2};
-					Tuple<int, int> CoordinatesTuple = Tuple.Create(Number1, Number2);
-					List<Tuple<int, int>> Adjacents = GenerateAdjacentTiles(CoordinatesList);
+					var CoordinatesList = new List<int> {i, j};
+					Tuple<int, int> CoordinatesTuple = Tuple.Create(i, j);
+					List<List<int>> Adjacents = GenerateAdjacentTiles(CoordinatesList);
 					Globals.DictionaryOfAdjacents.Add(CoordinatesTuple, Adjacents);
 				}
 			}
-
 
 			Console.WriteLine("MakingDictionaryOfAdjacents Done!");
 		}
 
 
-		static void WorseCaseUpdateSet()
+		private static void WorseCaseUpdateSet()
 		{
-			IEnumerable<int> NumberList1 = Enumerable.Range(0, ( Globals.TileRange[0] ));
-			IEnumerable<int> NumberList2 = Enumerable.Range(0, ( Globals.TileRange[1] ));
-			IEnumerable<int> numberList2 = NumberList2 as int[] ?? NumberList2.ToArray();
-			foreach ( int Number1 in NumberList1 )
+			var tiles = new AirTile[Globals.MaxWidthX, Globals.MaxWidthY];
+			for (var i = 0; i < tiles.GetLength(0); i++)
 			{
-				//Console.WriteLine(Number1);
-				foreach ( int Number2 in numberList2 )
+				for (var j = 0; j < tiles.GetLength(1); j++)
 				{
-					//Console.WriteLine(Number2);
-					Tuple<int, int> CoordinatesTuple = Tuple.Create(Number1, Number2);
+					Tuple<int, int> CoordinatesTuple = Tuple.Create(i, j);
 					//Console.WriteLine(CoordinatesTuple);
-					if ( Globals.Airbools[CoordinatesTuple][Matrix.Obstructed] == false )
+					if (Globals.TileData[i, j].Obstructed == false)
 					{
 						Globals.UpdateTileSet.Add(CoordinatesTuple);
 					}
@@ -280,19 +242,17 @@ namespace Atmospherics
 		}
 
 
-		static void PitchPatch()
+		private static void PitchPatch()
 		{
-			IEnumerable<int> NumberList1 = Enumerable.Range(0, ( Globals.TileRange[0] ));
-			IEnumerable<int> NumberList2 = Enumerable.Range(0, ( Globals.TileRange[1] ));
-			IEnumerable<int> numberList2 = NumberList2 as int[] ?? NumberList2.ToArray();
-			foreach ( int Number1 in NumberList1 )
+			var tiles = new AirTile[Globals.MaxWidthX, Globals.MaxWidthY];
+			for (var i = 0; i < tiles.GetLength(0); i++)
 			{
-				foreach ( int Number2 in numberList2 )
+				for (var j = 0; j < tiles.GetLength(1); j++)
 				{
-					Tuple<int, int> CoordinatesTuple = Tuple.Create(Number1, Number2);
-					if ( Number1 % 2 == 0 )
+					Tuple<int, int> CoordinatesTuple = Tuple.Create(i, j);
+					if (i % 2 == 0)
 					{
-						if ( Number2 % 2 == 0 )
+						if (j % 2 == 0)
 						{
 							Globals.OddSet.Add(CoordinatesTuple);
 						}
@@ -303,7 +263,7 @@ namespace Atmospherics
 					}
 					else
 					{
-						if ( Number2 % 2 == 0 )
+						if (j % 2 == 0)
 						{
 							Globals.EvenSet.Add(CoordinatesTuple);
 						}
@@ -319,17 +279,14 @@ namespace Atmospherics
 		}
 
 
-		static void MakingCheckCountDictionarys()
+		private static void MakingCheckCountDictionarys()
 		{
-			IEnumerable<int> NumberList1 = Enumerable.Range(0, ( Globals.TileRange[0] ));
-			IEnumerable<int> NumberList2 = Enumerable.Range(0, ( Globals.TileRange[1] ));
-			IEnumerable<int> numberList2 = NumberList2 as int[] ?? NumberList2.ToArray();
-			foreach ( int Number1 in NumberList1 )
+			var tiles = new AirTile[Globals.MaxWidthX, Globals.MaxWidthY];
+			for (var i = 0; i < tiles.GetLength(0); i++)
 			{
-				foreach ( int Number2 in numberList2 )
+				for (var j = 0; j < tiles.GetLength(1); j++)
 				{
-					Tuple<int, int> CoordinatesTuple = Tuple.Create(Number1, Number2);
-					//Console.WriteLine(CoordinatesTuple);
+					Tuple<int, int> CoordinatesTuple = Tuple.Create(i, j);
 					Globals.CheckCountDictionary.Add(CoordinatesTuple, 0);
 					Globals.CheckCountDictionaryMoving.Add(CoordinatesTuple, 0);
 				}
@@ -339,26 +296,24 @@ namespace Atmospherics
 		}
 
 
-		static void SpaceInitialization()
+		private static void SpaceInitialization()
 		{
-			IEnumerable<int> NumberList1 = Enumerable.Range(0, ( Globals.TileRange[0] ));
-			IEnumerable<int> NumberList2 = Enumerable.Range(0, ( Globals.TileRange[1] ));
-			IEnumerable<int> numberList2 = NumberList2 as int[] ?? NumberList2.ToArray();
-			foreach ( int Number1 in NumberList1 )
+			var tiles = new AirTile[Globals.MaxWidthX, Globals.MaxWidthY];
+			for (var i = 0; i < tiles.GetLength(0); i++)
 			{
-				foreach ( int Number2 in numberList2 )
+				for (var j = 0; j < tiles.GetLength(1); j++)
 				{
-					Tuple<int, int> CoordinatesTuple = Tuple.Create(Number1, Number2);
-					if ( Globals.Airbools[CoordinatesTuple][Matrix.Space] )
+					Tuple<int, int> CoordinatesTuple = Tuple.Create(i, j);
+					if (Globals.TileData[i, j].Space)
 					{
-						if ( Globals.Airbools[CoordinatesTuple][Matrix.Obstructed] == false )
+						if (Globals.TileData[i, j].Obstructed == false)
 						{
-							Globals.Air[CoordinatesTuple] = new Dictionary<Air, float>(Globals.SpaceAir);
+							Globals.TileData[i, j] = AirTile.SpaceTile;
 							Globals.AirMixes[CoordinatesTuple] = new Dictionary<Gas, float>(Globals.SpaceMix);
 						}
 						else
 						{
-							Globals.Airbools[CoordinatesTuple][Matrix.Space] = false;
+							Globals.TileData[i, j].Space = false;
 						}
 					}
 				}
@@ -368,36 +323,37 @@ namespace Atmospherics
 
 	public static class AtmosphericsTime
 	{
-		static bool GasMoving(Tuple<int, int> Tile)
+		private static bool GasMoving(Tuple<int, int> Tile)
 		{
-			List<Tuple<int, int>> AdjacentTilesAndItself = Globals.DictionaryOfAdjacents[Tile];
+			List<List<int>> AdjacentTilesAndItself = Globals.DictionaryOfAdjacents[Tile];
+			var TileList = new List<int> {Tile.Item1, Tile.Item2};
 			var MixCalculationDictionary = new Dictionary<Gas, float>();
 			var JMCalculationDictionary = new Dictionary<Gas, float>();
-			bool RemoveTile = false;
-			var TileWorkingOn = new HashSet<Tuple<int, int>>();
+			var RemoveTile = false;
+			var TileWorkingOn = new List<List<int>>();
 			var keyToDelete = new List<Gas>();
-			bool Decay = true;
-			bool IsSpace = false;
-			float MolesAll = 0f;
-			float Temperature = 0f;
-			int Count = 0;
-			float Pressure;
+			var Decay = true;
+			var IsSpace = false;
+			var MolesAll = 0f;
+			var Temperature = 0f;
+			var Count = 0;
+			//float Pressure;
 
 
-			foreach ( Tuple<int, int> TileInWorkList in AdjacentTilesAndItself )
+			foreach (List<int> TileInWorkList in AdjacentTilesAndItself)
 			{
-				if ( Globals.Airbools[TileInWorkList][Matrix.Space] )
+				if (Globals.TileData[TileInWorkList[0], TileInWorkList[1]].Space)
 				{
 					IsSpace = true;
 					break;
 				}
 
-				if ( Globals.Airbools[TileInWorkList][Matrix.Obstructed] == false )
+				if (Globals.TileData[TileInWorkList[0], TileInWorkList[1]].Obstructed == false)
 				{
-					foreach ( KeyValuePair<Gas, float> KeyValue in Globals.AirMixes[TileInWorkList] )
+					Tuple<int, int> TileInWorkTuple = Tuple.Create(TileInWorkList[0], TileInWorkList[1]);
+					foreach (KeyValuePair<Gas, float> KeyValue in Globals.AirMixes[TileInWorkTuple])
 					{
-						float MixCalculationDictionarykey;
-						if ( MixCalculationDictionary.TryGetValue(KeyValue.Key, out MixCalculationDictionarykey) )
+						if (MixCalculationDictionary.TryGetValue(KeyValue.Key, out float MixCalculationDictionarykey))
 						{
 						}
 						else
@@ -405,8 +361,7 @@ namespace Atmospherics
 							MixCalculationDictionarykey = 0;
 						}
 
-						float JMCalculationDictionarykey;
-						if ( JMCalculationDictionary.TryGetValue(KeyValue.Key, out JMCalculationDictionarykey) )
+						if (JMCalculationDictionary.TryGetValue(KeyValue.Key, out float JMCalculationDictionarykey))
 						{
 						}
 						else
@@ -414,17 +369,17 @@ namespace Atmospherics
 							JMCalculationDictionarykey = 0;
 						}
 
-						MixCalculationDictionary[KeyValue.Key] = ( KeyValue.Value + MixCalculationDictionarykey ); //*************** 
+						MixCalculationDictionary[KeyValue.Key] = KeyValue.Value + MixCalculationDictionarykey; //*************** 
 						JMCalculationDictionary[KeyValue.Key] =
-							( ( Globals.Air[TileInWorkList][Air.Temperature] * KeyValue.Value ) * KeyValue.Key.HeatCapacity ) +
+							Globals.TileData[TileInWorkList[0], TileInWorkList[1]].Temperature * KeyValue.Value * KeyValue.Key.HeatCapacity +
 							JMCalculationDictionarykey; //***************
-						if ( KeyValue.Value < 0.000000000000001 )
+						if (KeyValue.Value < 0.000000000000001)
 						{
 							keyToDelete.Add(KeyValue.Key);
 						}
 					}
 
-					if ( 0.01f < ( Math.Abs(Globals.Air[Tile][Air.Pressure] - Globals.Air[TileInWorkList][Air.Pressure]) ) )
+					if (0.01f < Math.Abs(Globals.TileData[TileList[0], TileList[1]].Pressure - Globals.TileData[TileInWorkList[0], TileInWorkList[1]].Pressure))
 					{
 						Decay = false;
 					}
@@ -434,21 +389,21 @@ namespace Atmospherics
 				}
 			}
 
-			if ( IsSpace == false )
+			if (IsSpace == false)
 			{
-				foreach ( KeyValuePair<Gas, float> KeyValue in MixCalculationDictionary )
+				foreach (KeyValuePair<Gas, float> KeyValue in MixCalculationDictionary)
 				{
-					float KeyMixWorkedOut = ( MixCalculationDictionary[KeyValue.Key] / Count );
+					float KeyMixWorkedOut = MixCalculationDictionary[KeyValue.Key] / Count;
 					MolesAll += KeyMixWorkedOut;
 
 					JMCalculationDictionary[KeyValue.Key] =
-						( ( ( JMCalculationDictionary[KeyValue.Key] / KeyValue.Key.HeatCapacity ) / KeyMixWorkedOut ) / JMCalculationDictionary.Count );
+						JMCalculationDictionary[KeyValue.Key] / KeyValue.Key.HeatCapacity / KeyMixWorkedOut / JMCalculationDictionary.Count;
 					Globals.AirMixes[Tile][KeyValue.Key] = KeyMixWorkedOut;
-					Temperature += ( JMCalculationDictionary[KeyValue.Key] / Count );
+					Temperature += JMCalculationDictionary[KeyValue.Key] / Count;
 
-					if ( KeyValue.Key == Gas.Plasma )
+					if (KeyValue.Key == Gas.Plasma)
 					{
-						if ( KeyValue.Value > 0.0f ) // This needs tweaking to find what the minimum amount of plasma is needed For a reaction is
+						if (KeyValue.Value > 0.0f) // This needs tweaking to find what the minimum amount of plasma is needed For a reaction is
 						{
 							Globals.TilesWithPlasmaSet.Add(Tile);
 						}
@@ -457,47 +412,49 @@ namespace Atmospherics
 					}
 				}
 
-				Pressure = ( ( ( MolesAll * Globals.GasConstant * Temperature ) / 2 ) / 1000 );
+				//Pressure = (((MolesAll * Globals.GasConstant * Temperature) / 2) / 1000);
 
-				for ( var i = 0; i < keyToDelete.Count; i++ )
+				for (var i = 0; i < keyToDelete.Count; i++)
 				{
 					Gas Key = keyToDelete[i];
 					try
 					{
 						Globals.AirMixes[Tile].Remove(Key);
 					}
-					catch ( KeyNotFoundException )
+					catch (KeyNotFoundException)
 					{
 					}
 				}
 
-				foreach ( Tuple<int, int> TileApplyingList in TileWorkingOn )
+				foreach (List<int> TileApplyingList in TileWorkingOn)
 				{
-					if ( Globals.Airbools[TileApplyingList][Matrix.Space] == false )
+					if (Globals.TileData[TileApplyingList[0], TileApplyingList[1]].Space == false)
 					{
-						Globals.AirMixes[TileApplyingList] = new Dictionary<Gas, float>(Globals.AirMixes[Tile]);
-						Globals.Air[TileApplyingList][Air.Temperature] = Temperature;
-						Globals.Air[TileApplyingList][Air.Moles] = MolesAll;
-						Globals.Air[TileApplyingList][Air.Pressure] = Pressure;
+						Tuple<int, int> TileApplyingTuple = Tuple.Create(TileApplyingList[0], TileApplyingList[1]);
+						Globals.AirMixes[TileApplyingTuple] = new Dictionary<Gas, float>(Globals.AirMixes[Tile]);
+						Globals.TileData[TileApplyingList[0], TileApplyingList[1]].Temperature = Temperature;
+						Globals.TileData[TileApplyingList[0], TileApplyingList[1]].Moles = MolesAll;
+						//Globals.TileData[TileApplyingList[0],TileApplyingList[1]].Pressure = Pressure;
 					}
 				}
 			}
 			else
 			{
-				foreach ( Tuple<int, int> TileApplyingList in TileWorkingOn )
+				foreach (List<int> TileApplyingList in TileWorkingOn)
 				{
-					Globals.AirMixes[TileApplyingList] = new Dictionary<Gas, float>(Globals.SpaceMix);
+					Tuple<int, int> TileApplyingTuple = Tuple.Create(TileApplyingList[0], TileApplyingList[1]);
+					Globals.AirMixes[TileApplyingTuple] = new Dictionary<Gas, float>(Globals.SpaceMix);
 
-					Globals.Air[TileApplyingList][Air.Temperature] = 2.7f;
-					Globals.Air[TileApplyingList][Air.Moles] = 0.000000000000281f;
-					Globals.Air[TileApplyingList][Air.Pressure] = 0.000000316f;
+					Globals.TileData[TileApplyingList[0], TileApplyingList[1]].Temperature = 2.7f;
+					Globals.TileData[TileApplyingList[0], TileApplyingList[1]].Moles = 0.000000000000281f;
+					//Globals.TileData[TileApplyingList[0], TileApplyingList[1]].Pressure = 0.000000316f;
 				}
 			}
 
-			if ( Decay )
+			if (Decay)
 			{
 				//Console.WriteLine(Tile);
-				if ( Globals.CheckCountDictionaryMoving[Tile] >= 3 )
+				if (Globals.CheckCountDictionaryMoving[Tile] >= 3)
 				{
 					RemoveTile = true;
 					Globals.CheckCountDictionaryMoving[Tile] = 0;
@@ -512,20 +469,20 @@ namespace Atmospherics
 		}
 
 
-		static bool LagOvereLay(bool OddEven)
+		private static bool LagOvereLay(bool OddEven)
 		{
-			HashSet<Tuple<int, int>> TilesRemoveFromUpdate = new HashSet<Tuple<int, int>>();
-			foreach ( Tuple<int, int> TileCalculating in Globals.UpdateTileSet )
+			var TilesRemoveFromUpdate = new HashSet<Tuple<int, int>>();
+			foreach (Tuple<int, int> TileCalculating in Globals.UpdateTileSet)
 			{
-				if ( Globals.Lag )
+				if (Globals.Lag)
 				{
 					bool RemoveTile;
-					if ( OddEven )
+					if (OddEven)
 					{
-						if ( Globals.OddSet.Contains(TileCalculating) )
+						if (Globals.OddSet.Contains(TileCalculating))
 						{
 							RemoveTile = GasMoving(TileCalculating);
-							if ( RemoveTile )
+							if (RemoveTile)
 							{
 								TilesRemoveFromUpdate.Add(TileCalculating);
 							}
@@ -533,29 +490,30 @@ namespace Atmospherics
 					}
 					else
 					{
-						if ( Globals.EvenSet.Contains(TileCalculating) )
+						if (Globals.EvenSet.Contains(TileCalculating))
 						{
 							RemoveTile = GasMoving(TileCalculating);
-							if ( RemoveTile )
+							if (RemoveTile)
 							{
 								TilesRemoveFromUpdate.Add(TileCalculating);
 							}
 						}
 					}
 				}
-//				else
-//				{
-//					RemoveTile = GasMoving(TileCalculating);
-//					if ( RemoveTile )
-//					{
-//						TilesRemoveFromUpdate.Add(TileCalculating);
-//					}
-//				}
+
+				//				else
+				//				{
+				//					RemoveTile = GasMoving(TileCalculating);
+				//					if ( RemoveTile )
+				//					{
+				//						TilesRemoveFromUpdate.Add(TileCalculating);
+				//					}
+				//				}
 			}
 
-			foreach ( Tuple<int, int> TileRemoveing in TilesRemoveFromUpdate )
+			foreach (Tuple<int, int> TileRemoveing in TilesRemoveFromUpdate)
 			{
-				List<int> TileRemoveingList = new List<int> {TileRemoveing.Item1, TileRemoveing.Item2};
+				var TileRemoveingList = new List<int> {TileRemoveing.Item1, TileRemoveing.Item2};
 				Globals.EdgeTiles.Add(TileRemoveingList);
 				Globals.UpdateTileSet.Remove(TileRemoveing);
 			}
@@ -566,22 +524,22 @@ namespace Atmospherics
 		}
 
 
-		static void DoTheEdge()
+		private static void DoTheEdge()
 		{
-			if ( !Globals.EdgeTiles.Any() )
+			if (!Globals.EdgeTiles.Any())
 			{
 				return;
 			}
 
-			List<List<int>> NewEdgeTiles = new List<List<int>>();
-			int CountForUpdateSet = new int();
-			for ( var i = 0; i < Globals.EdgeTiles.Count; i++ )
+			var NewEdgeTiles = new List<List<int>>();
+			var CountForUpdateSet = new int();
+			for (var i = 0; i < Globals.EdgeTiles.Count; i++)
 			{
 				List<int> TileCheckingList = Globals.EdgeTiles[i];
 				Tuple<int, int> TileChecking = Tuple.Create(TileCheckingList[0], TileCheckingList[1]);
 				//Console.WriteLine(TileChecking);
-				List<Tuple<int, int>> AdjacentTilesAndItself = new List<Tuple<int, int>>(Globals.DictionaryOfAdjacents[TileChecking]);
-				if ( !AdjacentTilesAndItself.Any() )
+				var AdjacentTilesAndItself = new List<List<int>>(Globals.DictionaryOfAdjacents[TileChecking]);
+				if (!AdjacentTilesAndItself.Any())
 				{
 					continue;
 				}
@@ -589,19 +547,21 @@ namespace Atmospherics
 				AdjacentTilesAndItself.RemoveAt(0);
 				var Decay = true;
 				CountForUpdateSet = 0;
-				for ( var j = 0; j < AdjacentTilesAndItself.Count; j++ )
+				for (var j = 0; j < AdjacentTilesAndItself.Count; j++)
 				{
-					Tuple<int, int> AdjacentTileTuple = AdjacentTilesAndItself[j];
-//Console.Write(AdjacentTileTuple);
-					if ( Globals.Airbools[AdjacentTileTuple][Matrix.Obstructed] == false )
+					List<int> AdjacentTileList = AdjacentTilesAndItself[j];
+
+					//Console.Write(AdjacentTileTuple);
+					if (Globals.TileData[AdjacentTileList[0], AdjacentTileList[1]].Obstructed == false)
 					{
-						if ( 0.00001f < ( Math.Abs(Globals.Air[AdjacentTileTuple][Air.Pressure] - Globals.Air[TileChecking][Air.Pressure]) ) )
+						if (0.00001f < Math.Abs(Globals.TileData[AdjacentTileList[0], AdjacentTileList[1]].Pressure -
+						                        Math.Abs(Globals.TileData[TileCheckingList[0], TileCheckingList[1]].Pressure)))
 						{
 							Decay = false;
-							if ( !Globals.UpdateTileSet.Contains(AdjacentTileTuple) )
+							Tuple<int, int> AdjacentTileTuple = Tuple.Create(AdjacentTileList[0], AdjacentTileList[1]);
+							if (!Globals.UpdateTileSet.Contains(AdjacentTileTuple))
 							{
-								List<int> AdjacentTileList = new List<int> {AdjacentTileTuple.Item1, AdjacentTileTuple.Item2};
-								if ( !NewEdgeTiles.Contains(AdjacentTileList) )
+								if (!NewEdgeTiles.Contains(AdjacentTileList))
 								{
 									Globals.UpdateTileSet.Add(AdjacentTileTuple);
 									NewEdgeTiles.Add(AdjacentTileList);
@@ -619,26 +579,27 @@ namespace Atmospherics
 					}
 				}
 
-				if ( !Decay )
+				if (!Decay)
 				{
 					continue;
 				}
 
-				if ( Globals.CheckCountDictionary[TileChecking] >= 0 )
+				if (Globals.CheckCountDictionary[TileChecking] >= 0)
 				{
-					bool Decayfnleall = new bool();
+					var Decayfnleall = new bool();
 					Decayfnleall = true;
-					foreach ( Tuple<int, int> AdjacentTileTuple in AdjacentTilesAndItself )
+					foreach (List<int> AdjacentTileList in AdjacentTilesAndItself)
 					{
-						if ( Globals.UpdateTileSet.Contains(AdjacentTileTuple) )
+						Tuple<int, int> AdjacentTileTuple = Tuple.Create(AdjacentTileList[0], AdjacentTileList[1]);
+						if (Globals.UpdateTileSet.Contains(AdjacentTileTuple))
 						{
 							Decayfnleall = false;
 						}
 					}
 
-					if ( Decayfnleall == false )
+					if (Decayfnleall == false)
 					{
-						if ( Globals.Airbools[TileChecking][Matrix.Obstructed] == false )
+						if (Globals.TileData[TileCheckingList[0], TileCheckingList[1]].Obstructed == false)
 						{
 							NewEdgeTiles.Add(TileCheckingList);
 						}
@@ -664,14 +625,14 @@ namespace Atmospherics
 			Globals.EdgeTiles = new List<List<int>>(NewEdgeTiles);
 		}
 
-		static void AirReactions()
+		private static void AirReactions()
 		{
 			var TilesWithPlasmaSetCopy = new HashSet<Tuple<int, int>>(Globals.TilesWithPlasmaSet);
 
-			foreach ( Tuple<int, int> TilePlasma in Globals.TilesWithPlasmaSet )
+			foreach (Tuple<int, int> TilePlasma in Globals.TilesWithPlasmaSet)
 			{
-				float AirMixesyPlasmakey = new float();
-				if ( Globals.AirMixes[TilePlasma].TryGetValue(Gas.Plasma, out AirMixesyPlasmakey) )
+				var AirMixesyPlasmakey = new float();
+				if (Globals.AirMixes[TilePlasma].TryGetValue(Gas.Plasma, out AirMixesyPlasmakey))
 				{
 				}
 				else
@@ -679,12 +640,13 @@ namespace Atmospherics
 					AirMixesyPlasmakey = 0;
 				}
 
-				if ( AirMixesyPlasmakey > 0 )
+				if (AirMixesyPlasmakey > 0)
 				{
-					if ( Globals.Air[TilePlasma][Air.Temperature] > 1643.15 )
+					var TilePlasmaList = new List<int> {TilePlasma.Item1, TilePlasma.Item2};
+					if (Globals.TileData[TilePlasmaList[0], TilePlasmaList[1]].Temperature > 1643.15)
 					{
-						float AirMixesyOxygenkey = new float();
-						if ( Globals.AirMixes[TilePlasma].TryGetValue(Gas.Oxygen, out AirMixesyOxygenkey) )
+						var AirMixesyOxygenkey = new float();
+						if (Globals.AirMixes[TilePlasma].TryGetValue(Gas.Oxygen, out AirMixesyOxygenkey))
 						{
 						}
 						else
@@ -692,8 +654,8 @@ namespace Atmospherics
 							AirMixesyOxygenkey = 0;
 						}
 
-						float AirMixesyCarbonDioxidekey = new float();
-						if ( Globals.AirMixes[TilePlasma].TryGetValue(Gas.CarbonDioxide, out AirMixesyCarbonDioxidekey) )
+						var AirMixesyCarbonDioxidekey = new float();
+						if (Globals.AirMixes[TilePlasma].TryGetValue(Gas.CarbonDioxide, out AirMixesyCarbonDioxidekey))
 						{
 						}
 						else
@@ -701,56 +663,56 @@ namespace Atmospherics
 							AirMixesyCarbonDioxidekey = 0;
 						}
 
-						float TemperatureScale = new float();
+						var TemperatureScale = new float();
 						float TheOxygenMoles = AirMixesyOxygenkey;
-						float TheCarbonDioxideMoles = new float();
+						var TheCarbonDioxideMoles = new float();
 						TheCarbonDioxideMoles = AirMixesyCarbonDioxidekey;
-						if ( TheOxygenMoles > 1 )
+						if (TheOxygenMoles > 1)
 						{
 							TemperatureScale = 1;
 						}
 						else
 						{
-							TemperatureScale = ( Globals.Air[TilePlasma][Air.Temperature] - 373 ) / ( 1643.15f - 373 );
+							TemperatureScale = (Globals.TileData[TilePlasmaList[0], TilePlasmaList[1]].Temperature - 373) / (1643.15f - 373);
 						}
 
-						if ( TemperatureScale > 0 )
+						if (TemperatureScale > 0)
 						{
-							float PlasmaBurnRate = new float();
+							var PlasmaBurnRate = new float();
 							float ThePlasmaMoles = Globals.AirMixes[TilePlasma][Gas.Plasma];
-							float OxygenBurnRate = ( 1.4f - TemperatureScale );
-							if ( TheOxygenMoles > ThePlasmaMoles * 10 )
+							float OxygenBurnRate = 1.4f - TemperatureScale;
+							if (TheOxygenMoles > ThePlasmaMoles * 10)
 							{
-								PlasmaBurnRate = ( ( ThePlasmaMoles * TemperatureScale ) / 4 );
+								PlasmaBurnRate = ThePlasmaMoles * TemperatureScale / 4;
 							}
 							else
 							{
-								PlasmaBurnRate = ( TemperatureScale * ( TheOxygenMoles / 10 ) ) / 4;
+								PlasmaBurnRate = TemperatureScale * (TheOxygenMoles / 10) / 4;
 							}
 
-							if ( PlasmaBurnRate > 0.03f )
+							if (PlasmaBurnRate > 0.03f)
 							{
-								float EnergyReleased = new float();
-								float FuelBurnt = new float();
-								float JM = new float();
-								float J = new float();
+								var EnergyReleased = new float();
+								var FuelBurnt = new float();
+								var JM = new float();
+								var J = new float();
 
 								ThePlasmaMoles -= PlasmaBurnRate;
-								TheOxygenMoles -= ( PlasmaBurnRate * OxygenBurnRate );
+								TheOxygenMoles -= PlasmaBurnRate * OxygenBurnRate;
 								TheCarbonDioxideMoles += PlasmaBurnRate;
 
-								EnergyReleased = ( 3000000 * PlasmaBurnRate );
-								FuelBurnt = ( PlasmaBurnRate ) * ( 1 + OxygenBurnRate );
+								EnergyReleased = 3000000 * PlasmaBurnRate;
+								FuelBurnt = PlasmaBurnRate * (1 + OxygenBurnRate);
 
 								Globals.AirMixes[TilePlasma][Gas.Oxygen] = TheOxygenMoles;
 								Globals.AirMixes[TilePlasma][Gas.Plasma] = ThePlasmaMoles;
 								Globals.AirMixes[TilePlasma][Gas.CarbonDioxide] = TheCarbonDioxideMoles;
 
-								JM = ( ( Globals.Air[TilePlasma][Air.Temperature] * TheCarbonDioxideMoles ) * Gas.CarbonDioxide.HeatCapacity );
-								J = ( Gas.CarbonDioxide.MolarMass * JM );
+								JM = Globals.TileData[TilePlasmaList[0], TilePlasmaList[1]].Temperature * TheCarbonDioxideMoles * Gas.CarbonDioxide.HeatCapacity;
+								J = Gas.CarbonDioxide.MolarMass * JM;
 								J += EnergyReleased;
-								JM = ( J / Gas.CarbonDioxide.MolarMass );
-								Globals.Air[TilePlasma][Air.Temperature] = ( ( JM / Gas.CarbonDioxide.HeatCapacity ) / TheCarbonDioxideMoles );
+								JM = J / Gas.CarbonDioxide.MolarMass;
+								Globals.TileData[TilePlasmaList[0], TilePlasmaList[1]].Temperature = JM / Gas.CarbonDioxide.HeatCapacity / TheCarbonDioxideMoles;
 							}
 						}
 					}
@@ -761,11 +723,11 @@ namespace Atmospherics
 
 		public static void Atmospherics()
 		{
-			int count = 1;
+			var count = 1;
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 			var OddEven = true;
-			while ( count++ < 100 )
+			while (count++ < 100)
 			{
 				Stopwatch swTick = new Stopwatch();
 				swTick.Start();
@@ -775,9 +737,9 @@ namespace Atmospherics
 				DoTheEdge();
 				swTick.Stop();
 				float timeTaken = 0.001f * swTick.ElapsedMilliseconds;
-				if ( timeTaken > 0.2f )
+				if (timeTaken > 0.2f)
 				{
-					if ( timeTaken < 0.1f )
+					if (timeTaken < 0.1f)
 					{
 						Globals.Lag = false;
 					}
@@ -792,8 +754,9 @@ namespace Atmospherics
 
 			sw.Stop();
 			Console.WriteLine(sw.Elapsed);
-			Console.WriteLine("Count:{0} ", Globals.UpdateTileSet.Count);
-			Console.WriteLine("Count:{0} ", Globals.EdgeTiles.Count);
+			Console.WriteLine("Count:{0} Number of passers", count);
+			Console.WriteLine("Count:{0} UpdateTileSet", Globals.UpdateTileSet.Count);
+			Console.WriteLine("Count:{0} EdgeTiles", Globals.EdgeTiles.Count);
 		}
 	}
 }
