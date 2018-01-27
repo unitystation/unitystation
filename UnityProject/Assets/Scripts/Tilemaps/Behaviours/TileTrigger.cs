@@ -1,10 +1,10 @@
 ﻿using PlayGroups.Input;
-using Tilemaps.Scripts.Behaviours.Interaction;
-using Tilemaps.Scripts.Behaviours.Layers;
-using Tilemaps.Scripts.Tiles;
+using Tilemaps.Behaviours.Interaction;
+using Tilemaps.Behaviours.Layers;
+using Tilemaps.Tiles;
 using UnityEngine;
 
-namespace Tilemaps.Scripts.Behaviours
+namespace Tilemaps.Behaviours
 {
 	public class TileTrigger : InputTrigger
 	{

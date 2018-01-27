@@ -1,8 +1,8 @@
-﻿using Tilemaps.Scripts.Tiles;
+﻿using Tilemaps.Tiles;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Tilemaps.Scripts.Behaviours.Layers
+namespace Tilemaps.Behaviours.Layers
 {
 	[ExecuteInEditMode]
 	public class Layer : MonoBehaviour

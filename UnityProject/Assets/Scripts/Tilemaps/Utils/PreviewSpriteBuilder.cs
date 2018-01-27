@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Tilemaps.Scripts.Tiles;
-using Tilemaps.Utils;
+using Tilemaps.Tiles;
 using UnityEditor;
 using UnityEngine;
 
-namespace Tilemaps.Scripts.Utils
+namespace Tilemaps.Utils
 {
 	public static class PreviewSpriteBuilder
 	{

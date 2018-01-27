@@ -1,8 +1,8 @@
-﻿using Tilemaps.Scripts.Behaviours.Layers;
-using Tilemaps.Scripts.Tiles;
+﻿using Tilemaps.Behaviours.Layers;
+using Tilemaps.Tiles;
 using UnityEngine;
 
-namespace Tilemaps.Scripts.Utils
+namespace Tilemaps.Utils
 {
 	public class TileMapBuilder
 	{

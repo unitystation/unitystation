@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Tilemaps.Scripts.Tiles;
+using Tilemaps.Tiles;
 using UnityEngine;
 
-namespace Tilemaps.Scripts.Behaviours.Layers
+namespace Tilemaps.Behaviours.Layers
 {
 	[ExecuteInEditMode]
 	public class MetaTileMap : MonoBehaviour

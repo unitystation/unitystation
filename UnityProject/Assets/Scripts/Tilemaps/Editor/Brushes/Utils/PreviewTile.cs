@@ -1,4 +1,4 @@
-﻿using Tilemaps.Scripts.Tiles;
+﻿using Tilemaps.Tiles;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

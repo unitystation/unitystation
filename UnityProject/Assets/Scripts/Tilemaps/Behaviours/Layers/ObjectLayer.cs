@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Tilemaps.Behaviours.Objects;
-using Tilemaps.Scripts.Tiles;
-using Tilemaps.Scripts.Utils;
+using Tilemaps.Tiles;
+using Tilemaps.Utils;
 using UnityEngine;
 
-namespace Tilemaps.Scripts.Behaviours.Layers
+namespace Tilemaps.Behaviours.Layers
 {
 	[ExecuteInEditMode]
 	public class ObjectLayer : Layer

@@ -1,4 +1,4 @@
-﻿using Tilemaps.Scripts.Behaviours.Layers;
+﻿using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.Networking;
 
