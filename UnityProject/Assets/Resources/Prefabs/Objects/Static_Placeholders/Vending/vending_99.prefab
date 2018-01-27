@@ -182,9 +182,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vendorcontent: []
+  vendorcontent:
+  - {fileID: 1110193000772614, guid: b42d2d26201dd1c4287e24202bdf3aa4, type: 2}
   allowSell: 1
   cooldownTimer: 2
+  stock: 5
   interactionMessage: bzzzz...
   deniedMessage: Vendor is refreshing stocking, please wait...
 --- !u!212 &212474252750086624

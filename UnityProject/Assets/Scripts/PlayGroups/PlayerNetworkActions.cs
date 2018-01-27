@@ -69,7 +69,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		string eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
 		if (Inventory[eventName] != null && Inventory[eventName] != itemObject && !replaceIfOccupied)
 		{
-			Debug.LogFormat("{0}: Didn't replace existing {1} item {2} with {3}", gameObject.name, eventName, Inventory[eventName].name, itemObject.name);
+			Debug.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}");
 			return false;
 		}
 		EquipmentPool.AddGameObject(gameObject, itemObject);
@@ -89,14 +89,44 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		UIManager.Hands.CurrentSlot.SetItem(item);
 	}
 
-	//This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
-	//TODO make these private(make some public child-aware high level methods instead):
+	/// Destroys item if it's in player's pool.
+	/// It's not recommended to destroy shit in general due to the specifics of our game
 	[Server]
-	public void RemoveFromEquipmentPool(GameObject obj)
+	public void Consume(GameObject item)
+	{
+		foreach ( var slot in Inventory )
+		{
+			if ( item == slot.Value )
+			{
+				ClearInventorySlot(slot.Key);
+				break;
+			}
+		}
+		EquipmentPool.DisposeOfObject(gameObject, item);
+	}
+
+	/// Checks if player has this item in any of his slots
+	[Server]
+	public bool HasItem(GameObject item)
+	{
+		foreach ( var slot in Inventory )
+		{
+			if ( item == slot.Value )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	[Server]
+	private void RemoveFromEquipmentPool(GameObject obj)
 	{
 		EquipmentPool.DropGameObject(gameObject, obj);
 	}
 
+	//This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
+	//TODO make these private(make some public child-aware high level methods instead):
 	[Server]
 	public void AddToEquipmentPool(GameObject obj)
 	{
@@ -416,6 +446,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[ClientRpc]
 	private void RpcToggleChatIcon(bool turnOn)
 	{
+		if (!chatIcon)
+		{
+			chatIcon = GetComponentInChildren<ChatIcon>();
+		}
+
 		if (turnOn)
 		{
 			chatIcon.TurnOnTalkIcon();

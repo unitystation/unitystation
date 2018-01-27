@@ -12,11 +12,12 @@ internal enum MessageTypes : short
 	TransformStateMessage = 1009,
 	PlayerDeathMessage = 1010,
 
-	AddEncryptionKeyMessage = 2000,
+	UpdateHeadsetKeyMessage = 2000,
 	InteractMessage = 2001,
 	InventoryInteractMessage = 2002,
 	PostToChatMessage = 2003,
-	RemoveEncryptionKeyMessage = 2004,
+//	RemoveEncryptionKeyMessage = 2004, -was redundant, this id is free now
 	SimpleInteractMessage = 2005,
-	RequestSyncMessage = 2006
+	RequestSyncMessage = 2006,
+	RequestAuthMessage = 2007
 }

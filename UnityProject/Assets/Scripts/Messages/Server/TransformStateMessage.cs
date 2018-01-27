@@ -24,10 +24,11 @@ public class TransformStateMessage : ServerMessage
 		else
 		{
 			yield return WaitFor(TransformedObject);
-			if (CustomNetworkManager.Instance._isServer || ForceRefresh)
+			if (NetworkObject && (CustomNetworkManager.Instance._isServer || ForceRefresh))
 			{
 				//update NetworkObject transform state
 				var transform = NetworkObject.GetComponent<CustomNetTransform>();
+//				Debug.Log($"{transform.ClientState} ->\n{State}");
 				transform.UpdateClientState(State);
 			}
 		}

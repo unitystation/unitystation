@@ -114,12 +114,12 @@ namespace UI
 			{
 				return;
 			}
-
-			UITileList.UpdateItemPanelList();
-			if (!PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation()))
+			if (!PlayerManager.LocalPlayerScript || !PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation()))
 			{
 				HideItemListTab();
+				return;
 			}
+			UITileList.UpdateItemPanelList();
 		}
 
 		/// <summary>

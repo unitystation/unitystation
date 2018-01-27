@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114930344040478920}
   - component: {fileID: 114278101468313644}
   - component: {fileID: 114149446815694932}
+  - component: {fileID: 114415491443398522}
   - component: {fileID: 114672592214754418}
   m_Layer: 0
   m_Name: atmos_5
@@ -154,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allowKnifeHarvest: 0
-  initialHealth: 100
+  initialHealth: 45
   isNPC: 0
   maxHealth: 100
 --- !u!114 &114369194254655814
@@ -169,14 +170,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 1
   pulledBy: {fileID: 0}
+  custNetActiveState: 0
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
+--- !u!114 &114415491443398522
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1498044554059982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayer: 0
+  ignoredSpriteRenderers: []
+  registerTile: {fileID: 0}
+  visibleState: 1
+  allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
+  isPushable: 1
+  pulledBy: {fileID: 0}
+  custNetActiveState: 0
+  pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
+  closetHandlerCache: {fileID: 0}
 --- !u!114 &114672592214754418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -234,8 +260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab49f7209d2b4a9d94184d4ea24e312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 150
-  radius: 3
+  damage: 200
+  radius: 4
   spriteRend: {fileID: 212479390356346330}
 --- !u!212 &212479390356346330
 SpriteRenderer:
