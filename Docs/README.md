@@ -39,5 +39,6 @@ See [LICENCE](https://github.com/unitystation/unitystation/blob/develop/LICENSE)
 [![forthebadge](http://forthebadge.com/images/badges/cc-by-nd.svg)](http://forthebadge.com) <br>
 All assets including icons and sound are under a [Creative Commons 3.0 BY-SA license](https://creativecommons.org/licenses/by-sa/3.0/) unless otherwise indicated.
 
+Grafical assets that are meant to represent Unitystation, such as Wordmarks and Logo's, are prohibited to be used outside that capacity and are also prohibited to be used in a defamatory capacity towards the Unitystation project.
 
 * All distribution takes place under my name, (HoP, see contact details), And thus falls under dutch/european jurisdiction. 
