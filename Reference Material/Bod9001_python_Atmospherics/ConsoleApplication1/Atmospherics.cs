@@ -3,10 +3,28 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
 
 namespace Atmospherics
 {
+	public class Gas {
+		public readonly string Name;
+		public readonly float HeatCapacity;
+		public readonly float MolarMass;
+
+		Gas(string name, float heatCapacity, float molarMass) {
+			this.Name = name;
+			this.HeatCapacity = heatCapacity;
+			this.MolarMass = molarMass;
+		}
+			
+		public static Gas Oxygen = new Gas("Oxygen", 0.659f, 31.9988f);
+		public static Gas Nitrogen = new Gas("Nitrogen", 0.743f, 28.0134f);
+		public static Gas Plasma = new Gas("Plasma", 0.8f, 40f);
+		public static Gas CarbonDioxide = new Gas("Carbon Dioxide", 0.655f, 44.01f);  
+	}
+	
 	class MainClass
 	{
 		public static void Main(string[] args)
@@ -22,13 +40,7 @@ namespace Atmospherics
 		}
 	}
 
-	public enum Gas
-	{
-		Oxygen,
-		Nitrogen,
-		Plasma,
-		CarbonDioxide
-	}
+
 	public enum Air
 	{
 		Temperature,
@@ -52,7 +64,7 @@ namespace Atmospherics
 		public static Dictionary<Air, float> SpaceAir = new Dictionary<Air, float>();
 		public static Dictionary<Gas, float> SpaceMix = new Dictionary<Gas, float>();
 
-		public static float GasConstant;
+		public static float GasConstant = 8.3144598f;
 
 		public static Dictionary<Tuple<int, int>, List<Tuple<int, int>>> DictionaryOfAdjacents = new Dictionary<Tuple<int, int>, List<Tuple<int, int>>>();
 
@@ -66,8 +78,6 @@ namespace Atmospherics
 		public static Dictionary<Tuple<int, int>, int> CheckCountDictionary = new Dictionary<Tuple<int, int>, int>();
 		public static Dictionary<Tuple<int, int>, int> CheckCountDictionaryMoving = new Dictionary<Tuple<int, int>, int>();
 
-		public static Dictionary<Gas, float> HeatCapacityOfGases = new Dictionary<Gas, float>();
-		public static Dictionary<Gas, float> MolarMassesOfGases = new Dictionary<Gas, float>();
 
 		public static bool Lag;
 		public static bool OddEven;
@@ -94,18 +104,6 @@ namespace Atmospherics
 
 			Globals.OddEven = false;
 			Globals.Lag = false;
-			Globals.HeatCapacityOfGases.Add(Gas.Oxygen, 0.659f);
-			Globals.HeatCapacityOfGases.Add(Gas.Nitrogen, 0.743f);
-			Globals.HeatCapacityOfGases.Add(Gas.Plasma, 0.8f);
-			Globals.HeatCapacityOfGases.Add(Gas.CarbonDioxide, 0.655f);
-
-			Globals.MolarMassesOfGases.Add(Gas.Oxygen, 31.9988f);
-			Globals.MolarMassesOfGases.Add(Gas.Nitrogen, 28.0134f);
-			Globals.MolarMassesOfGases.Add(Gas.Plasma, 40f);
-			Globals.MolarMassesOfGases.Add(Gas.CarbonDioxide, 44.01f);
-
-
-			Globals.GasConstant = 8.3144598f;
 		}
 
 
@@ -419,7 +417,7 @@ namespace Atmospherics
 
 						MixCalculationDictionary[KeyValue.Key] = ( KeyValue.Value + MixCalculationDictionarykey ); //*************** 
 						JMCalculationDictionary[KeyValue.Key] =
-							( ( Globals.Air[TileInWorkList][Air.Temperature] * KeyValue.Value ) * Globals.HeatCapacityOfGases[KeyValue.Key] ) +
+							( ( Globals.Air[TileInWorkList][Air.Temperature] * KeyValue.Value ) * KeyValue.Key.HeatCapacity ) +
 							JMCalculationDictionarykey; //***************
 						if ( KeyValue.Value < 0.000000000000001 )
 						{
@@ -445,7 +443,7 @@ namespace Atmospherics
 					MolesAll += KeyMixWorkedOut;
 
 					JMCalculationDictionary[KeyValue.Key] =
-						( ( ( JMCalculationDictionary[KeyValue.Key] / Globals.HeatCapacityOfGases[KeyValue.Key] ) / KeyMixWorkedOut ) / JMCalculationDictionary.Count );
+						( ( ( JMCalculationDictionary[KeyValue.Key] / KeyValue.Key.HeatCapacity ) / KeyMixWorkedOut ) / JMCalculationDictionary.Count );
 					Globals.AirMixes[Tile][KeyValue.Key] = KeyMixWorkedOut;
 					Temperature += ( JMCalculationDictionary[KeyValue.Key] / Count );
 
@@ -749,11 +747,11 @@ namespace Atmospherics
 								Globals.AirMixes[TilePlasma][Gas.Plasma] = ThePlasmaMoles;
 								Globals.AirMixes[TilePlasma][Gas.CarbonDioxide] = TheCarbonDioxideMoles;
 
-								JM = ( ( Globals.Air[TilePlasma][Air.Temperature] * TheCarbonDioxideMoles ) * Globals.HeatCapacityOfGases[Gas.CarbonDioxide] );
-								J = ( Globals.MolarMassesOfGases[Gas.CarbonDioxide] * JM );
+								JM = ( ( Globals.Air[TilePlasma][Air.Temperature] * TheCarbonDioxideMoles ) * Gas.CarbonDioxide.HeatCapacity );
+								J = ( Gas.CarbonDioxide.MolarMass * JM );
 								J += EnergyReleased;
-								JM = ( J / Globals.MolarMassesOfGases[Gas.CarbonDioxide] );
-								Globals.Air[TilePlasma][Air.Temperature] = ( ( JM / Globals.HeatCapacityOfGases[Gas.CarbonDioxide] ) / TheCarbonDioxideMoles );
+								JM = ( J / Gas.CarbonDioxide.MolarMass );
+								Globals.Air[TilePlasma][Air.Temperature] = ( ( JM / Gas.CarbonDioxide.HeatCapacity ) / TheCarbonDioxideMoles );
 							}
 						}
 					}
