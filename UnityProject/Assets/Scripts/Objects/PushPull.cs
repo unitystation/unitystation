@@ -60,23 +60,25 @@ public class PushPull : VisibleBehaviour
 	{
 		// PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null condition makes sure that the player itself
 		// isn't being pulled. If he is then he is not allowed to pull anything else as this can cause problems
-		if (Input.GetKey(KeyCode.LeftControl) && PlayerManager.LocalPlayerScript.IsInReach(transform.position) &&
-			transform != PlayerManager.LocalPlayerScript.transform && PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null) {
-			if(PlayerManager.LocalPlayerScript.playerSync.pullingObject != null && 
-			   PlayerManager.LocalPlayerScript.playerSync.pullingObject != gameObject){
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(PlayerManager.LocalPlayerScript.playerSync.pullingObject);
-			}
-
-			if (pulledBy == PlayerManager.LocalPlayer) {
-				CancelPullBehaviour();
-			} else {
-				CancelPullBehaviour();
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPullObject(gameObject);
-				//Predictive pull:
-				if (customNetTransform != null) {
-					customNetTransform.enabled = false;
+		if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)){
+			if (PlayerManager.LocalPlayerScript.IsInReach(transform.position) &&
+				transform != PlayerManager.LocalPlayerScript.transform && PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null) {
+				if (PlayerManager.LocalPlayerScript.playerSync.pullingObject != null &&
+				   PlayerManager.LocalPlayerScript.playerSync.pullingObject != gameObject) {
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(PlayerManager.LocalPlayerScript.playerSync.pullingObject);
 				}
-				PlayerManager.LocalPlayerScript.playerSync.pullingObject = gameObject;
+
+				if (pulledBy == PlayerManager.LocalPlayer) {
+					CancelPullBehaviour();
+				} else {
+					CancelPullBehaviour();
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPullObject(gameObject);
+					//Predictive pull:
+					if (customNetTransform != null) {
+						customNetTransform.enabled = false;
+					}
+					PlayerManager.LocalPlayerScript.playerSync.pullingObject = gameObject;
+				}
 			}
 		}
 	}

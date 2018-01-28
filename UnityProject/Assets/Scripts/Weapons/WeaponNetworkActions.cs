@@ -60,7 +60,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
 	[Command]
 	public void CmdShootBullet(GameObject weapon, GameObject magazine, Vector2 direction, string bulletName,
-		BodyPartType damageZone)
+		BodyPartType damageZone, bool isSuicideShot)
 	{
 		if (!playerMove.allowInput || playerMove.isGhost)
 		{
@@ -86,6 +86,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
+		b.isSuicide = isSuicideShot;
 		b.Shoot(direction, angle, gameObject, damageZone);
 
 		//add additional recoil after shooting for the next round
