@@ -154,7 +154,25 @@ public class CustomNetworkManager : NetworkManager
 	/// Processes the callback data when authentication statuses change
 	public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
 	{
-		Debug.Log( $"steamid: {steamid}, ownerid: {ownerid}, status: {status}" );
+		var player = PlayerList.Instance.Get(steamid);
+		if ( player == ConnectedPlayer.Invalid )
+		{
+			Debug.LogWarning( $"Steam gave us a {status} ticket response for unconnected id {steamid}" );
+			return;
+		}
+
+		if ( status == ServerAuth.Status.OK )
+		{
+			Debug.LogWarning( $"Steam gave us a 'ok' ticket response for already connected id {steamid}" );
+			return;
+		}
+
+		if ( status == ServerAuth.Status.VACCheckTimedOut )
+		{
+			return;
+		}
+
+		Kick( player, $"Steam: {status}" );
 	}
 	
 	public static void Kick( ConnectedPlayer player, string raisins="4 no raisins" )

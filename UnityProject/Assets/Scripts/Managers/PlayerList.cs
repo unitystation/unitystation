@@ -221,8 +221,6 @@ public class PlayerList : NetworkBehaviour
 	{
 		return player.Connection == null || 
 		       player.Connection == ConnectedPlayer.Invalid.Connection ||
-//		       player.Connection.connectionId.Equals( -1 ) ||
-//		       player.Connection.connectionId.Equals( 0 ) || //Serverplayer connection
 		       !player.Connection.isConnected;
 	}
 
@@ -272,6 +270,12 @@ public class PlayerList : NetworkBehaviour
 	public ConnectedPlayer Get(GameObject byGameObject, bool lookupOld = false)
 	{
 		return getInternal(player => player.GameObject == byGameObject, lookupOld);
+	}	
+	
+	[Server]
+	public ConnectedPlayer Get(ulong bySteamId, bool lookupOld = false)
+	{
+		return getInternal(player => player.SteamId == bySteamId, lookupOld);
 	}
 
 	private ConnectedPlayer getInternal(Func<ConnectedPlayer,bool> condition, bool lookupOld = false)
