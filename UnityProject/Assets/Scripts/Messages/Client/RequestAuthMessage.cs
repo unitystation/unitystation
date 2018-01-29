@@ -15,6 +15,12 @@ public class RequestAuthMessage : ClientMessage
 	{
 		//	Debug.Log("Processed " + ToString());
 		yield return WaitFor(SentBy);
+
+//		if ( !Managers.instance.isForRelease )
+//		{
+//			Debug.Log($"Ignoring {this}, not for release");
+//			yield break;
+//		}
 		
 		var connectedPlayer = PlayerList.Instance.Get( NetworkObject );
 
@@ -39,9 +45,8 @@ public class RequestAuthMessage : ClientMessage
 				// This can trigger for a lot of reasons
 				// More info: http://projectzomboid.com/modding//net/puppygames/steam/BeginAuthSessionResult.html
 				// if triggered does prevent the authchange callback.
-				Debug.Log("Start Session returned false, kicking");
-				//Kick
-				CustomNetworkManager.Kick( connectedPlayer );
+//				Debug.Log("Start Session returned false, kicking");
+				CustomNetworkManager.Kick( connectedPlayer, "Steam auth failed" );
 			}
 			else
 			{
@@ -66,7 +71,7 @@ public class RequestAuthMessage : ClientMessage
 
 	public override string ToString()
 	{
-		return string.Format("[RequestAuthMessage SteamID={0} TicketBinary={1} Type={2} SentBy={3}]", SteamID, TicketBinary, MessageType, SentBy);
+		return $"[RequestAuthMessage SteamID={SteamID} TicketBinary={TicketBinary} Type={MessageType} SentBy={SentBy}]";
 	}
 
 	public override void Deserialize(NetworkReader reader)

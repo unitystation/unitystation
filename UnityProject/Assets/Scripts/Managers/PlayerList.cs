@@ -192,15 +192,15 @@ public class PlayerList : NetworkBehaviour
 		else
 		{
 			values.Add(player);
-
 			Debug.Log($"Added {player}. Total:{values.Count}; {string.Join("; ",values)}");
+			//Adding kick timer for new players only
+			StartCoroutine(KickTimer(player));
 		}
-		StartCoroutine(KickTimer(player));
 	}
 
 	private IEnumerator KickTimer(ConnectedPlayer player)
 	{
-		if ( IsConnWhitelisted( player ))
+		if ( IsConnWhitelisted( player ) || !Managers.instance.isForRelease )
 		{
 //			Debug.Log( "Ignoring kick timer for invalid connection" );
 			yield break;
@@ -208,10 +208,9 @@ public class PlayerList : NetworkBehaviour
 		int tries = 5;
 		while ( !player.IsAuthenticated )
 		{			
-			if ( tries-- < 1 )
+			if ( tries-- < 0 )
 			{
-				Debug.LogWarning( $"KickTimer: Failed to auth, kicking {player}" );
-				CustomNetworkManager.Kick( player );
+				CustomNetworkManager.Kick( player, "Auth timed out" );
 				yield break;
 			}
 			yield return YieldHelper.Second;
@@ -222,7 +221,7 @@ public class PlayerList : NetworkBehaviour
 	{
 		return player.Connection == null || 
 		       player.Connection == ConnectedPlayer.Invalid.Connection ||
-		       player.Connection.connectionId.Equals( -1 ) ||
+//		       player.Connection.connectionId.Equals( -1 ) ||
 //		       player.Connection.connectionId.Equals( 0 ) || //Serverplayer connection
 		       !player.Connection.isConnected;
 	}

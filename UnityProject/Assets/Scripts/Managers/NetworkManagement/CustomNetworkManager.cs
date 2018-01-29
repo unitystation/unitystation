@@ -97,7 +97,7 @@ public class CustomNetworkManager : NetworkManager
 
 	private void OnDisable()
 	{
-		if (_isServer && server.IsValid)
+		if (_isServer && server != null && server.IsValid)
 		{
 			server.Auth.OnAuthChange += AuthChange;
 		}
@@ -151,17 +151,23 @@ public class CustomNetworkManager : NetworkManager
 
 	}
 	
-
-// This method processes the callback data when authentication statuses change
-public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
-{
-	Debug.Log( $"steamid: {steamid}, ownerid: {ownerid}, status: {status}" );
-}
+	/// Processes the callback data when authentication statuses change
+	public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
+	{
+		Debug.Log( $"steamid: {steamid}, ownerid: {ownerid}, status: {status}" );
+	}
+	
 	public static void Kick( ConnectedPlayer player, string raisins="4 no raisins" )
 	{
-		Debug.Log( $"Kicking {player}" );
-		PostToChatMessage.Send($"{player.Name} got kicked: {raisins}", ChatChannel.System);
-//		player.Connection.Disconnect();
+		if ( !player.Connection.isConnected )
+		{
+			Debug.Log($"Not kicking, already disconnected: {player}");
+			return;
+		}
+		Debug.Log( $"Kicking {player} : {raisins}" );
+		PostToChatMessage.Send($"Player '{player.Name}' got kicked: {raisins}", ChatChannel.System);
+		player.Connection.Disconnect();
+		player.Connection.Dispose();
 	}
 
 
