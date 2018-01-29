@@ -6,6 +6,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 	public int damage = 25;
 	public GameObject shooter;
 	public DamageType damageType;
+	public bool isSuicide = false;
 
 	private Rigidbody2D thisRigi;
 	//	public BodyPartType BodyPartAim { get; private set; };
@@ -39,7 +40,12 @@ public abstract class BulletBehaviour : MonoBehaviour
 	private void OnTriggerEnter2D(Collider2D coll)
 	{
 		HealthBehaviour damageable = coll.GetComponent<HealthBehaviour>();
-		if (damageable == null || damageable.IsDead || coll.gameObject == shooter)
+
+		if(coll.gameObject == shooter && !isSuicide){
+			return;
+		}
+
+		if (damageable == null || damageable.IsDead)
 		{
 			return;
 		}

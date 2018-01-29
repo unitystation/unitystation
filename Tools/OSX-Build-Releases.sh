@@ -63,6 +63,14 @@ rc3=$?
 echo "Build logs (Server)"
 cat $script_dir/Logs/ServerBuild.log
 echo "Building finished successfully"
+
+echo "Post processing builds"
+cp $script_dir/ContentBuilder/content/Server/Unitystation-Server_Data/Plugins/libsteam_api64.so $script_dir/ContentBuilder/content/Server/Unitystation-Server_Data/Plugins/x86_64/libsteam_api64.so
+cp $script_dir/ContentBuilder/content/Server/Unitystation-Server_Data/Plugins/libsteam_api.so $script_dir/ContentBuilder/content/Server/Unitystation-Server_Data/Plugins/x86_64/libsteam_api.so
+cp $script_dir/steam1007/linux64/steamclient.so $script_dir/ContentBuilder/content/Server/Unitystation-Server_Data/Plugins/x86_64/steamclient.so
+cp -Rf $script_dir/ContentBuilder/content/Server/Unitystation-Server_Data/Plugins $script_dir/ContentBuilder/content/Server/Unitystation-Server_Data/Mono
+
+echo "Post-Processing done"
 echo "Starting upload to steam"
 
 echo "Please enter your steam developer-upload credentials"
@@ -71,5 +79,6 @@ read -sp 'Password: ' passvar
 
 $script_dir/ContentBuilder/builder_osx/steamcmd +login $uservar $passvar <<EOF
 run_app_build $script_dir/ContentBuilder/scripts/app_build_787180.vdf
+run_app_build $script_dir/ContentBuilder/scripts/app_build_792890.vdf
 quit
 EOF

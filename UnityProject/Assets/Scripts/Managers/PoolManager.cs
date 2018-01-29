@@ -40,11 +40,7 @@ public class PoolManager : NetworkBehaviour
 		{
 			NetworkServer.Spawn(tempObject);
 		}
-		var cnt = tempObject.GetComponent<CustomNetTransform>();
-		if (cnt)
-		{
-			cnt.ReInitServerState();
-		}
+
 		return tempObject;
 	}
 
@@ -79,18 +75,32 @@ public class PoolManager : NetworkBehaviour
 			tempObject.transform.rotation = rotation;
 			tempObject.transform.localScale = prefab.transform.localScale;
 			tempObject.transform.parent = parent;
+			tryInitTransform(tempObject);
 
 			pooledInstance = true;
 			
 			return tempObject;
 		}
+		else
+		{
+			tempObject = Instantiate(prefab, position, rotation, parent);
+			tryInitTransform(tempObject);
+			tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
+	
+			pooledInstance = false;
+			
+			return tempObject;
+		}
 
-		tempObject = Instantiate(prefab, position, rotation, parent);
-		tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
+	}
 
-		pooledInstance = false;
-		
-		return tempObject;
+	private static void tryInitTransform(GameObject tempObject)
+	{
+		var cnt = tempObject.GetComponent<CustomNetTransform>();
+		if ( cnt )
+		{
+			cnt.ReInitServerState();
+		}
 	}
 
 	private bool CanLoadFromPool(GameObject prefab)

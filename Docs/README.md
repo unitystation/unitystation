@@ -1,21 +1,24 @@
 # unitystation
 [![Build Status](https://travis-ci.org/unitystation/unitystation.svg?branch=develop)](https://travis-ci.org/unitystation/unitystation)
-[![GitHub last commit](https://img.shields.io/github/last-commit/unitystation/unitystation.svg)](https://github.com/unitystation/unitystation/commits/develop) [![Krihelimeter](http://www.krihelinator.xyz/badge/unitystation/unitystation)](http://www.krihelinator.xyz/repositories/unitystation/unitystation) [![Github All Releases](https://img.shields.io/github/downloads/unitystation/unitystation/total.svg)](https://github.com/unitystation/unitystation/releases) [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![GitHub last commit](https://img.shields.io/github/last-commit/unitystation/unitystation.svg)](https://github.com/unitystation/unitystation/commits/develop) [![Krihelimeter](http://www.krihelinator.xyz/badge/unitystation/unitystation)](http://www.krihelinator.xyz/repositories/unitystation/unitystation)[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 <br>
 [![forthebadge](http://forthebadge.com/images/badges/built-with-resentment.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/contains-technical-debt.svg)](http://forthebadge.com)
-![alt text](https://camo.githubusercontent.com/33e89a24d66a1f94b45f652c1fd0ed391b86595a/687474703a2f2f646f6f626c792e697a7a2e6d6f652f756e69747973746174696f6e2f77696b692f756e69747973746174696f6e4c4f474f2e706e67)<br>
+![Header](https://camo.githubusercontent.com/33e89a24d66a1f94b45f652c1fd0ed391b86595a/687474703a2f2f646f6f626c792e697a7a2e6d6f652f756e69747973746174696f6e2f77696b692f756e69747973746174696f6e4c4f474f2e706e67)<br>
 
-_Made for shameless cloning [/tg/station](http://www.tgstation13.org/) into Unity 2017.3+_
+_Moving Space Station 13 into Unity since 2016_
 
 ## Play the Demo
-Currently we have released a playtest Deathmatch mode, we gladly invite you to try it out and report any bugs found. Please remember it does not represent the current state of development, as we are months further into the project now.
+Currently we are awaiting release of our second playtest Deathmatch mode, we gladly invite you to try it out and report any bugs found once released.
 
-You can download our demo releases here: [Unitystation Standalones](https://github.com/unitystation/unitystation/releases)
+To find out more about the current release, visit us on Steam:<br> <br>
+[<img src="https://user-images.githubusercontent.com/7613738/35184899-b6a0aa8e-fdfb-11e7-91a8-bad8f19937b4.jpg" width="300">](https://store.steampowered.com/app/787180/Unitystation/)
+
 
 ## Talk to us
 We are always open to feedback and ready to have a talk. No matter if it is development related or just a picture of your cat/husky.
 
-Please join us on Discord: [https://discord.gg/tFcTpBp](https://discord.gg/tFcTpBp) <br>
+Please join us on Discord:<br>
+[<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/vx27pA2)
 
 ## Feel like getting involved?
 1. Fork the repo
@@ -36,5 +39,6 @@ See [LICENCE](https://github.com/unitystation/unitystation/blob/develop/LICENSE)
 [![forthebadge](http://forthebadge.com/images/badges/cc-by-nd.svg)](http://forthebadge.com) <br>
 All assets including icons and sound are under a [Creative Commons 3.0 BY-SA license](https://creativecommons.org/licenses/by-sa/3.0/) unless otherwise indicated.
 
+Grafical assets that are meant to represent Unitystation, such as Wordmarks and Logo's, are prohibited to be used outside that capacity and are also prohibited to be used in a defamatory capacity towards the Unitystation project.
 
 * All distribution takes place under my name, (HoP, see contact details), And thus falls under dutch/european jurisdiction. 

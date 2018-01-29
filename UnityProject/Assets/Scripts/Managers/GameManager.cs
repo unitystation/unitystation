@@ -9,7 +9,7 @@ using UnityEngine.Rendering;
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
-	private readonly float cacheTime = 480f;
+	public float RoundTime = 480f;
 	public bool counting;
 	public List<GameObject> Occupations = new List<GameObject>();
 	public float restartTime = 10f;
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
-		GetRoundTime = cacheTime;
+		GetRoundTime = RoundTime;
 	}
 
 	public void SyncTime(float currentTime)
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
 
 	public void ResetRoundTime()
 	{
-		GetRoundTime = cacheTime;
+		GetRoundTime = RoundTime;
 		waitForRestart = false;
 		counting = true;
 		restartTime = 10f;

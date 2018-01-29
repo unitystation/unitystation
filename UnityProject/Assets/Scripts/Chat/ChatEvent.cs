@@ -1,27 +1,28 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 using Random = UnityEngine.Random;
 
 [Flags]
 public enum ChatChannel
 {
-	None = 0,
-	Examine = 1,
-	Local = 2,
-	OOC = 4,
-	Common = 8,
-	Binary = 16,
-	Supply = 32,
-	CentComm = 64,
-	Command = 128,
-	Engineering = 256,
-	Medical = 512,
-	Science = 1024,
-	Security = 2048,
-	Service = 4096,
-	Syndicate = 8192,
-	System = 16384,
-	Ghost = 32768
+	[Description("")] 	None = 0,
+	[Description("")] 	Examine = 1,
+	[Description("")] 	Local = 2,
+	[Description("")] 	OOC = 4,
+	[Description("")] 	Common = 8,
+	[Description(":b")] Binary = 16,
+	[Description(":u")] Supply = 32,
+	[Description(":y")] CentComm = 64,
+	[Description(":c")] Command = 128,
+	[Description(":e")] Engineering = 256,
+	[Description(":m")] Medical = 512,
+	[Description(":n")] Science = 1024,
+	[Description(":s")] Security = 2048,
+	[Description(":v")] Service = 4096,
+	[Description(":t")] Syndicate = 8192,
+	[Description("")] 	System = 16384,
+	[Description(":g")] Ghost = 32768
 }
 
 [Flags]
