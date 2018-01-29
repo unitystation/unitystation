@@ -14,13 +14,24 @@ public class RequestAuthMessage : ClientMessage
 	public override IEnumerator Process()
 	{
 		//	Debug.Log("Processed " + ToString());
-
 		yield return WaitFor(SentBy);
-		Debug.Log("Server Starting Auth for User:" + SteamID);
+		
+		var connectedPlayer = PlayerList.Instance.Get( NetworkObject );
 
-		if (Server.Instance != null && SteamID != null && TicketBinary != null)
+		if ( PlayerList.IsConnWhitelisted(connectedPlayer) )
 		{
-			//FIXME Prevent run twice for already verified player
+			Debug.Log( $"Player whitelisted: {connectedPlayer}" );
+			yield break;
+		}
+		if ( connectedPlayer.SteamId != 0 )
+		{
+			Debug.Log( $"Player already authenticated: {connectedPlayer}" );
+			yield break;
+		}
+		
+//		Debug.Log("Server Starting Auth for User:" + SteamID);
+		if (Server.Instance != null && SteamID != 0 && TicketBinary != null)
+		{
 			
 			//This results in a callback in CustomNetworkManager
 			if (!Server.Instance.Auth.StartSession(TicketBinary, SteamID))
@@ -28,11 +39,13 @@ public class RequestAuthMessage : ClientMessage
 				// This can trigger for a lot of reasons
 				// More info: http://projectzomboid.com/modding//net/puppygames/steam/BeginAuthSessionResult.html
 				// if triggered does prevent the authchange callback.
-				Debug.Log("Start Session returned false");
+				Debug.Log("Start Session returned false, kicking");
+				//Kick
+				CustomNetworkManager.Kick( connectedPlayer );
 			}
 			else
 			{
-				//TODO Link player/client with Auth in a persistent way
+				connectedPlayer.SteamId = SteamID;
 			}
 		}
 

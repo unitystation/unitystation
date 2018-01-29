@@ -222,7 +222,7 @@ namespace PlayGroup
 
 				ConnectedPlayer player = PlayerList.Instance.Get(gameObject);
 				
-				string killerName = "stressfull work";
+				string killerName = "Stressful work";
 				if (LastDamagedBy != null)
 				{
 					killerName = PlayerList.Instance.Get(LastDamagedBy).Name;

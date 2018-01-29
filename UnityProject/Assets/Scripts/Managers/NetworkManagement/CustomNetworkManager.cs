@@ -155,14 +155,14 @@ public class CustomNetworkManager : NetworkManager
 // This method processes the callback data when authentication statuses change
 public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
 {
-	//TODO Add function to authentication and set persistent authentication flag on player.
-	bool Authed;
-	Authed = status == ServerAuth.Status.OK;
-
-	Debug.Log( "steamid: {0}" + steamid );
-	Debug.Log( "ownerid: {0}" + ownerid );
-	Debug.Log( "status: {0}" + status );
+	Debug.Log( $"steamid: {steamid}, ownerid: {ownerid}, status: {status}" );
 }
+	public static void Kick( ConnectedPlayer player, string raisins="4 no raisins" )
+	{
+		Debug.Log( $"Kicking {player}" );
+		PostToChatMessage.Send($"{player.Name} got kicked: {raisins}", ChatChannel.System);
+//		player.Connection.Disconnect();
+	}
 
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)

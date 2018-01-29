@@ -214,7 +214,7 @@ namespace Equipment
 				}
 				else if (!string.IsNullOrEmpty(gearItem.Value))
 				{
-					Debug.Log(gearItem.Value + " creation not implemented yet.");
+//					Debug.Log(gearItem.Value + " creation not implemented yet.");
 				}
 			}
 			SpawnID(jobOutfit);
