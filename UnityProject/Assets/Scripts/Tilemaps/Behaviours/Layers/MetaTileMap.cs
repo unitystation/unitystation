@@ -31,7 +31,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 			}
 			return true;
 		}
-
+		//TODO:  Remove this
 		public bool IsPassableAt(Vector3Int position)
 		{
 			foreach (Layer layer in Layers.Values)
@@ -43,7 +43,7 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 			}
 			return true;
 		}
-
+		//TODO:  Refactor to take origin and destination
 		public bool IsAtmosPassableAt(Vector3Int position)
 		{
 			foreach (Layer layer in Layers.Values)
