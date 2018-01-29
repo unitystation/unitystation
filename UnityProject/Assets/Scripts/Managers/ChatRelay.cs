@@ -26,9 +26,8 @@ public class ChatRelay : NetworkBehaviour
 
 	public List<ChatEvent> ChatLog { get; } = new List<ChatEvent>();
 
-	public override void OnStartClient()
+	public void Start()
 	{
-		RefreshLog();
 		chatColors = new Dictionary<ChatChannel, string>
 		{
 			{ChatChannel.Binary, "#ff00ff"},
@@ -50,7 +49,8 @@ public class ChatRelay : NetworkBehaviour
 			{ChatChannel.Ghost, "#386aff"}
 		};
 		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System;
-		base.OnStartClient();
+		
+		RefreshLog();
 	}
 
 	[Server]
@@ -77,7 +77,7 @@ public class ChatRelay : NetworkBehaviour
 			//Make sure we're not sending to inactive players
 			if (players[i].playerMove.allowInput)
 			{
-				ChatChannel channels = players[i].GetAvailableChannels(false) & chatEvent.channels;
+				ChatChannel channels = players[i].GetAvailableChannelsMask(false) & chatEvent.channels;
 				UpdateChatMessage.Send(players[i].gameObject, channels, chatEvent.message);
 			}
 		}
@@ -115,7 +115,7 @@ public class ChatRelay : NetworkBehaviour
 					name = "<b>[" + channel + "]</b> ";
 				}
 
-				if ((PlayerManager.LocalPlayerScript.GetAvailableChannels(false) & channel) == channel && (chatline.channels & channel) == channel)
+				if ((PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false) & channel) == channel && (chatline.channels & channel) == channel)
 				{
 					string colorMessage = "<color=" + chatColors[channel] + ">" + name + message + "</color>";
 					UIManager.Chat.CurrentChannelText.text = curList + colorMessage + "\r\n";

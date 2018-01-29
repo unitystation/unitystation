@@ -274,7 +274,7 @@ namespace Weapons
 		public override void Interact(GameObject originator, Vector3 position, string hand)
 		{
 			//todo: validate fire attempts on server
-			if (Input.GetKey(KeyCode.LeftControl))
+			if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand))
 			{
 				return;
 			}
@@ -290,7 +290,16 @@ namespace Weapons
 			}
 		}
 
-		private void AttemptToFireWeapon()
+		public void AttemptSuicideShot(){
+			//Hand slot checks are already done before calling this method (i.e. is weapon in current hand)
+			if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)) {
+				return;
+			}
+
+			AttemptToFireWeapon(true);
+		}
+
+		private void AttemptToFireWeapon(bool suicideShot = false)
 		{
 			//ignore if we are hovering over UI
 			if (EventSystem.current.IsPointerOverGameObject())
@@ -324,7 +333,7 @@ namespace Weapons
 						Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
 						PlayerScript lps = PlayerManager.LocalPlayerScript;
 						lps.weaponNetworkActions.CmdShootBullet(gameObject, CurrentMagazine.gameObject, dir, Projectile.name,
-							UIManager.DamageZone /*PlayerScript.SelectedDamageZone*/);
+						                                        UIManager.DamageZone /*PlayerScript.SelectedDamageZone*/, suicideShot);
 						if (WeaponType == WeaponType.FullyAutomatic)
 						{
 							lps.inputController.OnMouseDownDir(dir);

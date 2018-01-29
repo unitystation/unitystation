@@ -36,11 +36,17 @@ public struct TransformState
 			}
 		}
 	}
+
+	public override string ToString()
+	{
+		return $"[{nameof( Active )}: {Active}, {nameof( localPos )}: {localPos}, {nameof( position )}: {position}, {nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}]";
+	}
 }
 
 public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
 	public static readonly Vector3Int InvalidPos = new Vector3Int(0, 0, -100), deOffset = new Vector3Int(-1, -1, 0);
+	public static readonly TransformState InvalidState = new TransformState{Active = false, localPos = InvalidPos};
 
 	private RegisterTile registerTile;
 
@@ -52,6 +58,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	private Matrix matrix => registerTile.Matrix;
 	
 	public TransformState State => serverTransformState;
+	public TransformState ClientState => transformState;
 
 	[SyncVar]
 	public bool isPushing;
@@ -59,6 +66,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	private void Start()
 	{
+		transformState = InvalidState;
 		registerTile = GetComponent<RegisterTile>();
 	}
 
@@ -82,8 +90,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		if (transform.localPosition.Equals(Vector3.zero) || Vector3Int.RoundToInt(transform.position).Equals(InvalidPos) || Vector3Int.RoundToInt(transform.localPosition).Equals(InvalidPos))
 		{
 			//For stuff hidden on spawn, like player equipment
-			serverTransformState.Active = false;
-			serverTransformState.localPos = InvalidPos;
+			serverTransformState = InvalidState;
 		}
 		else
 		{
@@ -97,8 +104,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	[Server]
 	public void ReInitServerState()
 	{
+//		Debug.Log($"ReInit start: {serverTransformState}");
 		InitServerState();
-		NotifyPlayers();
+//		NotifyPlayers();
+//		Debug.Log($"ReInit end: {serverTransformState}");
 	}
 
 //	/// Overwrite server state with a completely new one

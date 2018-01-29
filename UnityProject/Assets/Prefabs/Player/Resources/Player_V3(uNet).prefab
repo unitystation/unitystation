@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 114600992077934460}
   - component: {fileID: 114285504268110804}
   - component: {fileID: 114803877374308862}
+  - component: {fileID: 114449635359748350}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -1388,6 +1389,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventName: leftHand
+--- !u!114 &114449635359748350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7694dd331aa6a4114bb8f0f996d2e71a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114457795912083674
 MonoBehaviour:
   m_ObjectHideFlags: 1
