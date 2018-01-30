@@ -132,6 +132,10 @@ namespace PlayGroup
 					// Send Clientmessage to authenticate
 					RequestAuthMessage.Send(Client.Instance.SteamId, ticketBinary);
 				}
+				else
+				{
+					Debug.Log("Client NOT requesting auth");
+				}
 				//Request sync to get all the latest transform data
 				new RequestSyncMessage().Send();
 				SelectedChannels = ChatChannel.Local;
@@ -183,6 +187,7 @@ namespace PlayGroup
 					player.Name = name;
 				}
 				playerName = player.Name;
+				PlayerList.Instance.TryAddScores( player.Name );
 			}
 		}
 

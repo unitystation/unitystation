@@ -225,6 +225,16 @@ namespace PlayGroups.Input
 					if (objectBehaviour.visibleState)
 					{
 						inputTrigger.Trigger(position);
+
+						//FIXME currently input controller only uses the first InputTrigger found on an object
+						/////// some objects have more then 1 input trigger, like players for example
+						/////// below is a solution that should be removed when InputController is refactored
+						/////// to support multiple InputTriggers on the target object
+						if (inputTrigger.gameObject.layer == 8) {
+							//This is a player. Attempt to use the player based inputTrigger
+							P2PInteractions playerInteractions = inputTrigger.gameObject.GetComponent<P2PInteractions>();
+							playerInteractions.Trigger(position);
+						}
 						return true;
 					}
 					//Allow interact with cupboards we are inside of!

@@ -39,5 +39,3 @@ See [LICENCE](https://github.com/unitystation/unitystation/blob/develop/LICENSE)
 [![forthebadge](http://forthebadge.com/images/badges/cc-by-nd.svg)](http://forthebadge.com) <br>
 All assets including icons and sound are under a [Creative Commons 3.0 BY-SA license](https://creativecommons.org/licenses/by-sa/3.0/) unless otherwise indicated.
 
-
-* All distribution takes place under my name, (HoP, see contact details), And thus falls under dutch/european jurisdiction. 
