@@ -11,7 +11,12 @@ namespace Tilemaps.Behaviours.Objects
 		[HideInInspector] public Vector3Int Offset = Vector3Int.zero;
 
 		public bool Passable = true;
-
+	
+		public override bool IsPassable(Vector3Int from)
+		{
+			return Passable;
+		}
+		
 		public override bool IsPassable()
 		{
 			return Passable;

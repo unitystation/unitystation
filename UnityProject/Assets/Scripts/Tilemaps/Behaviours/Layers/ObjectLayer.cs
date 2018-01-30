@@ -51,7 +51,7 @@ namespace Tilemaps.Behaviours.Layers
 		{
 			RegisterObject objTo = Objects.GetFirst<RegisterObject>(to);
 
-			if (objTo && (!objTo.IsPassable() || !objTo.IsPassable(origin)))
+			if (objTo && !objTo.IsPassable(origin))
 			{
 				return false;
 			}

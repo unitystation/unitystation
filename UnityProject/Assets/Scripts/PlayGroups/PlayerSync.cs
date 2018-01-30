@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Tilemaps;
 using Tilemaps.Behaviours.Objects;
-using Tilemaps.Scripts;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;

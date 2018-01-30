@@ -2,7 +2,6 @@
 using Sprites;
 using Tilemaps;
 using Tilemaps.Behaviours.Objects;
-using Tilemaps.Scripts;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -30,9 +29,6 @@ namespace Doors
 		[Tooltip("first frame of the light animation")] public int DoorLightSpriteOffset;
 		[Tooltip("first frame of the door animation")] public int DoorSpriteOffset;
 		public DoorType doorType;
-
-		//TODO: useful tooltip
-		public bool FullDoor = true;
 
 		public bool IsOpened;
 		[HideInInspector] public bool isPerformingAction;
@@ -134,12 +130,6 @@ namespace Doors
 		[Command]
 		public void CmdTryClose()
 		{
-			if (!FullDoor && IsOpened)
-			{
-				RpcClose();
-				return;
-			}
-
 			if (IsOpened && !isPerformingAction && matrix.IsPassableAt(registerTile.Position))
 			{
 				RpcClose();

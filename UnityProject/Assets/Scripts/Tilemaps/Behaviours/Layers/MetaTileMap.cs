@@ -19,8 +19,16 @@ namespace Tilemaps.Behaviours.Layers
 			}
 		}
 
-
 		public bool IsPassableAt(Vector3Int origin, Vector3Int to)
+		{
+			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
+			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
+			
+			return _IsPassableAt(origin, toX) && _IsPassableAt(toX, to) || 
+			        _IsPassableAt(origin, toY) && _IsPassableAt(toY, to);
+		}
+
+		private bool _IsPassableAt(Vector3Int origin, Vector3Int to)
 		{
 			foreach (Layer layer in Layers.Values)
 			{
@@ -29,6 +37,7 @@ namespace Tilemaps.Behaviours.Layers
 					return false;
 				}
 			}
+
 			return true;
 		}
 

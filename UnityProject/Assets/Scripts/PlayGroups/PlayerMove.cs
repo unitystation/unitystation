@@ -4,7 +4,6 @@ using System.Linq;
 using Doors;
 using Tilemaps;
 using Tilemaps.Behaviours.Objects;
-using Tilemaps.Scripts;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -231,12 +230,12 @@ namespace PlayGroup
 				}
 			}
 
-			if (!matrix.IsPassableAt(currentPosition, newPos))
-			{
-				return Vector3Int.zero;
-			}
+//			if (!matrix.IsPassableAt(currentPosition, newPos))
+//			{
+//				return Vector3Int.zero;
+//			}
 
-			if (matrix.IsPassableAt(newPos) || matrix.ContainsAt(newPos, gameObject))
+			if (matrix.IsPassableAt(currentPosition, newPos) || matrix.ContainsAt(newPos, gameObject))
 			{
 				return direction;
 			}
