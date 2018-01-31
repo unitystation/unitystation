@@ -8,7 +8,7 @@ _Unitystation has been active since late 2016_
 
 ## Talk to us
 Please join us on Discord:<br>
-[<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/vx27pA2)
+[<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/YupsQ9y)
 
 ## Feel like getting involved?
 1. Fork the repo
