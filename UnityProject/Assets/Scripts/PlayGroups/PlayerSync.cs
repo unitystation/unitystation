@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Tilemaps;
+using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Objects;
 using UI;
 using UnityEngine;
@@ -370,7 +371,7 @@ namespace PlayGroup
 				serverState.Position = newGoal;
 				predictedState.Position = newGoal;
 			}
-			if (matrix.IsEmptyAt(pos) && !healthBehaviorScript.IsDead && CustomNetworkManager.Instance._isServer
+			if (matrix.IsSpaceAt(pos) && !healthBehaviorScript.IsDead && CustomNetworkManager.Instance._isServer
 			    && !isApplyingSpaceDmg)
 			{
 				//Hurting people in space even if they are next to the wall

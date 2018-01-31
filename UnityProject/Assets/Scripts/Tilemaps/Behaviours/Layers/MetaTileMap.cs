@@ -40,6 +40,7 @@ namespace Tilemaps.Behaviours.Layers
 
 			return true;
 		}
+		
 		//TODO:  Remove this
 		public bool IsPassableAt(Vector3Int position)
 		{
@@ -52,6 +53,7 @@ namespace Tilemaps.Behaviours.Layers
 			}
 			return true;
 		}
+		
 		//TODO:  Refactor to take origin and destination
 		public bool IsAtmosPassableAt(Vector3Int position)
 		{
@@ -86,11 +88,7 @@ namespace Tilemaps.Behaviours.Layers
 		{
 			Layer layer = null;
 			Layers.TryGetValue(layerType, out layer);
-			if (layer)
-			{
-				return Layers[layerType].GetTile(position);
-			}
-			return null;
+			return layer ? Layers[layerType].GetTile(position) : null;
 		}
 
 		public LayerTile GetTile(Vector3Int position)
@@ -142,6 +140,22 @@ namespace Tilemaps.Behaviours.Layers
 			{
 				layer.ClearAllTiles();
 			}
+		}
+
+		public BoundsInt GetBounds()
+		{
+			Vector3Int minPosition = Vector3Int.one * int.MaxValue;
+			Vector3Int maxPosition = Vector3Int.one * int.MinValue;
+
+			foreach (Layer layer in Layers.Values)
+			{
+				BoundsInt layerBounds = layer.Bounds;
+
+				minPosition = Vector3Int.Min(layerBounds.min, minPosition);
+				maxPosition = Vector3Int.Max(layerBounds.max, maxPosition);
+			}
+			
+			return new BoundsInt(minPosition, maxPosition-minPosition);
 		}
 		
 

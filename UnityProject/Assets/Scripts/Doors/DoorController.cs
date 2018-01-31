@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Sprites;
 using Tilemaps;
+using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Objects;
 using UI;
 using UnityEngine;

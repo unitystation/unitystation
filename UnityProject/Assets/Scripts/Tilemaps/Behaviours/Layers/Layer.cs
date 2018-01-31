@@ -11,6 +11,8 @@ namespace Tilemaps.Behaviours.Layers
 		public LayerType LayerType;
 		protected Tilemap tilemap;
 
+		public BoundsInt Bounds => tilemap.cellBounds;
+
 		public void Awake()
 		{
 			tilemap = GetComponent<Tilemap>();

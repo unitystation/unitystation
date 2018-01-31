@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Doors;
 using Tilemaps;
+using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Objects;
 using UI;
 using UnityEngine;

@@ -1,11 +1,10 @@
 ﻿using System;
 using Tilemaps.Behaviours.Objects;
 using Tilemaps.Utils;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 #if UNITY_EDITOR
-
+using UnityEditor;
 #endif
 
 namespace Tilemaps.Tiles

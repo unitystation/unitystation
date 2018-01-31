@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using InputControl;
 using Tilemaps;
+using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;

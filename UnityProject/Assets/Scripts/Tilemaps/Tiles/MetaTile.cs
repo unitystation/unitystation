@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Tilemaps.Utils;
-using UnityEditor;
 #if UNITY_EDITOR
-
+using UnityEditor;
 #endif
 
 namespace Tilemaps.Tiles
