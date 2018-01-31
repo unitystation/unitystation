@@ -14,13 +14,30 @@ public class RequestAuthMessage : ClientMessage
 	public override IEnumerator Process()
 	{
 		//	Debug.Log("Processed " + ToString());
-
 		yield return WaitFor(SentBy);
-		Debug.Log("Server Starting Auth for User:" + SteamID);
 
-		if (Server.Instance != null && SteamID != null && TicketBinary != null)
+//		if ( !Managers.instance.isForRelease )
+//		{
+//			Debug.Log($"Ignoring {this}, not for release");
+//			yield break;
+//		}
+		
+		var connectedPlayer = PlayerList.Instance.Get( NetworkObject );
+
+		if ( PlayerList.IsConnWhitelisted(connectedPlayer) )
 		{
-			//FIXME Prevent run twice for already verified player
+			Debug.Log( $"Player whitelisted: {connectedPlayer}" );
+			yield break;
+		}
+		if ( connectedPlayer.SteamId != 0 )
+		{
+			Debug.Log( $"Player already authenticated: {connectedPlayer}" );
+			yield break;
+		}
+		
+//		Debug.Log("Server Starting Auth for User:" + SteamID);
+		if (Server.Instance != null && SteamID != 0 && TicketBinary != null)
+		{
 			
 			//This results in a callback in CustomNetworkManager
 			if (!Server.Instance.Auth.StartSession(TicketBinary, SteamID))
@@ -28,11 +45,12 @@ public class RequestAuthMessage : ClientMessage
 				// This can trigger for a lot of reasons
 				// More info: http://projectzomboid.com/modding//net/puppygames/steam/BeginAuthSessionResult.html
 				// if triggered does prevent the authchange callback.
-				Debug.Log("Start Session returned false");
+//				Debug.Log("Start Session returned false, kicking");
+				CustomNetworkManager.Kick( connectedPlayer, "Steam auth failed" );
 			}
 			else
 			{
-				//TODO Link player/client with Auth in a persistent way
+				connectedPlayer.SteamId = SteamID;
 			}
 		}
 
@@ -53,7 +71,7 @@ public class RequestAuthMessage : ClientMessage
 
 	public override string ToString()
 	{
-		return string.Format("[RequestAuthMessage SteamID={0} TicketBinary={1} Type={2} SentBy={3}]", SteamID, TicketBinary, MessageType, SentBy);
+		return $"[RequestAuthMessage SteamID={SteamID} TicketBinary={TicketBinary} Type={MessageType} SentBy={SentBy}]";
 	}
 
 	public override void Deserialize(NetworkReader reader)
