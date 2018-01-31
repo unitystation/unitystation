@@ -97,7 +97,7 @@ public class CustomNetworkManager : NetworkManager
 
 	private void OnDisable()
 	{
-		if (_isServer && server.IsValid)
+		if (_isServer && server != null && server.IsValid)
 		{
 			server.Auth.OnAuthChange += AuthChange;
 		}
@@ -151,18 +151,42 @@ public class CustomNetworkManager : NetworkManager
 
 	}
 	
+	/// Processes the callback data when authentication statuses change
+	public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
+	{
+		var player = PlayerList.Instance.Get(steamid);
+		if ( player == ConnectedPlayer.Invalid )
+		{
+			Debug.LogWarning( $"Steam gave us a {status} ticket response for unconnected id {steamid}" );
+			return;
+		}
 
-// This method processes the callback data when authentication statuses change
-public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
-{
-	//TODO Add function to authentication and set persistent authentication flag on player.
-	bool Authed;
-	Authed = status == ServerAuth.Status.OK;
+		if ( status == ServerAuth.Status.OK )
+		{
+			Debug.LogWarning( $"Steam gave us a 'ok' ticket response for already connected id {steamid}" );
+			return;
+		}
 
-	Debug.Log( "steamid: {0}" + steamid );
-	Debug.Log( "ownerid: {0}" + ownerid );
-	Debug.Log( "status: {0}" + status );
-}
+		if ( status == ServerAuth.Status.VACCheckTimedOut )
+		{
+			return;
+		}
+
+		Kick( player, $"Steam: {status}" );
+	}
+	
+	public static void Kick( ConnectedPlayer player, string raisins="4 no raisins" )
+	{
+		if ( !player.Connection.isConnected )
+		{
+			Debug.Log($"Not kicking, already disconnected: {player}");
+			return;
+		}
+		Debug.Log( $"Kicking {player} : {raisins}" );
+		PostToChatMessage.Send($"Player '{player.Name}' got kicked: {raisins}", ChatChannel.System);
+		player.Connection.Disconnect();
+		player.Connection.Dispose();
+	}
 
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)

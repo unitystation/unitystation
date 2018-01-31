@@ -70,16 +70,12 @@ public class ChatRelay : NetworkBehaviour
 	[Server]
 	private void PropagateChatToClients(ChatEvent chatEvent)
 	{
-		PlayerScript[] players = FindObjectsOfType<PlayerScript>();
-
-		for (int i = 0; i < players.Length; i++)
+		var players = PlayerList.Instance.InGamePlayers;
+		for ( var i = 0; i < players.Count; i++ )
 		{
-			//Make sure we're not sending to inactive players
-			if (players[i].playerMove.allowInput)
-			{
-				ChatChannel channels = players[i].GetAvailableChannelsMask(false) & chatEvent.channels;
-				UpdateChatMessage.Send(players[i].gameObject, channels, chatEvent.message);
-			}
+			var playerScript = players[i].GameObject.GetComponent<PlayerScript>();
+			ChatChannel channels = playerScript.GetAvailableChannelsMask( false ) & chatEvent.channels;
+			UpdateChatMessage.Send( players[i].GameObject, channels, chatEvent.message );
 		}
 	}
 
