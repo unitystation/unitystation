@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Tilemaps;
-using Tilemaps.Scripts;
 using UnityEngine;
 using UnityEngine.Networking;
 

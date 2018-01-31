@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 using Light2D;
 using PlayGroup;
 using Tilemaps;
+using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Objects;
-using Tilemaps.Scripts.Behaviours.Layers;
-using Tilemaps.Scripts.Tiles;
+using Tilemaps.Tiles;
 using UnityEngine;
 using UnityEngine.UI;
 

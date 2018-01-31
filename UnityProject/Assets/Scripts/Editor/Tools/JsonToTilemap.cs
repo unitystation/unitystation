@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using FullSerializer;
-using Tilemaps.Scripts.Behaviours.Layers;
-using Tilemaps.Scripts.Tiles;
-using Tilemaps.Scripts.Utils;
+using Tilemaps.Behaviours.Layers;
+using Tilemaps.Tiles;
+using Tilemaps.Utils;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;

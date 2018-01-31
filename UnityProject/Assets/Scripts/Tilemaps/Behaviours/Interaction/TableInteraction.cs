@@ -2,7 +2,7 @@
 using UI;
 using UnityEngine;
 
-namespace Tilemaps.Scripts.Behaviours.Interaction
+namespace Tilemaps.Behaviours.Interaction
 {
 	public class TableInteraction : TileInteraction
 	{

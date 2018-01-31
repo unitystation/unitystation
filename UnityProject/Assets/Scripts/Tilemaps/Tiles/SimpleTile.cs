@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Tilemaps.Scripts.Tiles
+namespace Tilemaps.Tiles
 {
 	public class SimpleTile : BasicTile
 	{

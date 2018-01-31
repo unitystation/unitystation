@@ -9,10 +9,12 @@ using Equipment;
 using Lighting;
 using PlayGroup;
 using PlayGroups.Input;
+using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Objects;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+using Util;
 using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
@@ -33,6 +35,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private PlayerSprites playerSprites;
+	private RegisterTile registerTile;
 
 	private SoundNetworkActions soundNetworkActions;
 
@@ -48,6 +51,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerScript = GetComponent<PlayerScript>();
 		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
+		registerTile = GetComponentInParent<RegisterTile>();
+
 	}
 
 	public override void OnStartServer()
@@ -72,6 +77,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			Debug.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}");
 			return false;
 		}
+
 		EquipmentPool.AddGameObject(gameObject, itemObject);
 		SetInventorySlot(slotName, itemObject);
 		UpdateSlotMessage.Send(gameObject, eventName, itemObject, forceInform);
@@ -149,10 +155,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			//Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
 			return true;
 		}
+
 		if (!gObj)
 		{
 			return ValidateDropItem(slot, forceClientInform, dropWorldPos);
 		}
+
 		Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
 		return false;
 	}
@@ -172,11 +180,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				continue;
 			}
+
 			if (Inventory[key].Equals(gObj))
 			{
 				toBeCleared.Add(key);
 			}
 		}
+
 		ClearInventorySlot(forceClientInform, toBeCleared.ToArray());
 	}
 
@@ -200,8 +210,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				equipment.ClearItemSprite(slotNames[i]);
 			}
+
 			UpdateSlotMessage.Send(gameObject, slotNames[i], null, forceClientInform);
 		}
+
 		//        Debug.LogFormat("Cleared {0}", slotNames);
 	}
 
@@ -249,6 +261,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			DropItem(slot, dropWorldPos, forceClientInform);
 			return true;
 		}
+
 		Debug.Log("Object not found in Inventory");
 		return false;
 	}
@@ -267,14 +280,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void DropAllOnQuit()
 	{
-		foreach ( var item in Inventory.Values )
+		foreach (var item in Inventory.Values)
 		{
-			if ( !item )
+			if (!item)
 			{
 				continue;
 			}
+
 			var objTransform = item.GetComponent<CustomNetTransform>();
-			if ( objTransform )
+			if (objTransform)
 			{
 				objTransform.ForceDrop(gameObject.transform.position);
 			}
@@ -308,10 +322,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (item != null && newParent != null)
 		{
 			item.transform.parent = newParent.transform;
-			// TODO reorder items
-			//			World.ReorderGameobjectsOnTile(pos);
+			// TODO
+//			ReorderGameobjectsOnTile(pos);
 		}
 	}
+
+//	private void ReorderGameobjectsOnTile(Vector2 position)
+//	{
+//		List<RegisterItem> items = registerTile.Matrix.Get<RegisterItem>(position.RoundToInt()).ToList();
+//
+//		for (int i = 0; i < items.Count; i++)
+//		{
+//			SpriteRenderer sRenderer = items[i].gameObject.GetComponentInChildren<SpriteRenderer>();
+//			if (sRenderer != null)
+//			{
+//				sRenderer.sortingOrder = (i + 1);
+//			}
+//		}
+//	}
 
 	public bool SlotNotEmpty(string eventName)
 	{
@@ -436,10 +464,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdToggleChatIcon(bool turnOn)
 	{
-		if(!GetComponent<VisibleBehaviour>().visibleState){
+		if (!GetComponent<VisibleBehaviour>().visibleState)
+		{
 			//Don't do anything with chat icon if player is invisible
 			return;
 		}
+
 		RpcToggleChatIcon(turnOn);
 	}
 
@@ -472,6 +502,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			sR.sortingLayerName = "Blood";
 		}
+
 		gameObject.GetComponent<RegisterPlayer>().IsBlocking = false;
 		Vector3 rotationVector = transform.rotation.eulerAngles;
 		rotationVector.z = rot;
@@ -509,12 +540,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				fovScript.enabled = false;
 			}
+
 			//Show ghosts and hide FieldOfView
 			Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("Ghosts");
 			Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("FieldOfView"));
 		}
 	}
-	
+
 	//Respawn action for Deathmatch v 0.1.3
 
 	[Server]
@@ -543,6 +575,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			Destroy(cph);
 		}
+
 		Camera2DFollow.followControl.damping = 0.0f;
 		playerScript.ghost.SetActive(false);
 		isGhost = false;

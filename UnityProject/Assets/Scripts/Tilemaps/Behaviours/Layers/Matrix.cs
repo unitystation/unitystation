@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Objects;
-using Tilemaps.Scripts.Behaviours.Layers;
-using Tilemaps.Scripts.Tiles;
-using Tilemaps.Scripts.Utils;
+using Tilemaps.Tiles;
+using Tilemaps.Utils;
 using UnityEngine;
 using System;
 
@@ -14,8 +14,11 @@ namespace Tilemaps
 		private MetaTileMap metaTileMap;
 		private TileList objects;
 
+		private MetaDataLayer metaDataLayer;
+		
 		private void Start()
 		{
+			metaDataLayer = GetComponentInChildren<MetaDataLayer>(true);
 			metaTileMap = GetComponent<MetaTileMap>();
 			try
 			{
@@ -29,43 +32,15 @@ namespace Tilemaps
 
 		public bool IsPassableAt(Vector3Int origin, Vector3Int position)
 		{
-			if(origin.z != position.z)
-			{
-				//Uhhhhhh, error handling goes here?
-				return false;
-			}
-			//Check if it's a diagonal move
-			Vector3Int diff = position - origin;
-			int diffSum = diff.x + diff.y;
-			//Somewhat hacky way to get if it's diagonal, but it works
-			if(Math.Abs(diffSum) != 1)
-			{
-				//This is a DIAGONAL MOVEMENT!  Now we have to do four checks.
-				//This is confusing, basically there are two ways to travel diagonally so we have to check both of them
-				bool passable = true;
-				passable &= metaTileMap.IsPassableAt(origin, new Vector3Int(origin.x + diff.x, origin.y, origin.z));
-				passable &= metaTileMap.IsPassableAt(new Vector3Int(origin.x + diff.x, origin.y, origin.z), 
-					new Vector3Int(origin.x + diff.x, origin.y + diff.y, origin.z));
-				if(passable)
-				{
-					return passable;
-				}
-				passable = true;
-				passable &= metaTileMap.IsPassableAt(origin, new Vector3Int(origin.x, origin.y + diff.y, origin.z));
-				passable &= metaTileMap.IsPassableAt(new Vector3Int(origin.x, origin.y + diff.y, origin.z),
-					new Vector3Int(origin.x + diff.x, origin.y + diff.y, origin.z));
-				return passable;
-			}
-			else
-			{
-				return metaTileMap.IsPassableAt(origin, position);
-			}
+			return metaTileMap.IsPassableAt(origin, position);
 		}
+		
 		//TODO:  This should be removed, due to windows mucking things up, and replaced with origin and position
 		public bool IsPassableAt(Vector3Int position)
 		{
 			return metaTileMap.IsPassableAt(position);
 		}
+		
 		//TODO:  This should also be removed, due to windows mucking things up, and replaced with origin and position
 		public bool IsAtmosPassableAt(Vector3Int position)
 		{
@@ -74,7 +49,7 @@ namespace Tilemaps
 
 		public bool IsSpaceAt(Vector3Int position)
 		{
-			return metaTileMap.IsSpaceAt(position);
+			return metaDataLayer.Get(position).IsSpace();
 		}
 
 		public bool IsEmptyAt(Vector3Int position)

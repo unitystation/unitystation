@@ -1,4 +1,4 @@
-﻿using Tilemaps.Scripts.Behaviours.Layers;
+﻿using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -34,9 +34,9 @@ namespace Tilemaps.Behaviours.Objects
 		{
 			GameObject parent = ClientScene.FindLocalObject(netId);
 			Unregister();
-			layer = parent.GetComponent<ObjectLayer>();
-			Matrix = parent.GetComponentInParent<Matrix>();
-			transform.parent = parent.transform; 
+			layer = parent.GetComponentInChildren<ObjectLayer>();
+			Matrix = parent.GetComponent<Matrix>();
+			transform.parent = layer.transform; 
 			Register();
 		}
 
@@ -56,6 +56,16 @@ namespace Tilemaps.Behaviours.Objects
 			if (!parentNetId.IsEmpty())
 			{
 				SetParent(parentNetId);
+			}
+		}
+
+		private void Awake()
+		{
+			if(transform.parent != null)
+			{
+				layer = transform.parent.GetComponentInParent<ObjectLayer>();
+				Matrix = transform.parent.GetComponentInParent<Matrix>();
+				Register();
 			}
 		}
 

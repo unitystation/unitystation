@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using Tilemaps.Scripts.Tiles;
+using Tilemaps.Tiles;
 using UnityEditor;
 using UnityEngine;
 

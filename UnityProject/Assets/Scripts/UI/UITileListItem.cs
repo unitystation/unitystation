@@ -1,5 +1,5 @@
 ﻿using PlayGroup;
-using Tilemaps.Scripts.Tiles;
+using Tilemaps.Tiles;
 using UnityEngine;
 using UnityEngine.UI;
 

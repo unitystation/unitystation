@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Tilemaps.Editor.Utils;
-using Tilemaps.Scripts.Tiles;
-using Tilemaps.Scripts.Utils;
+using Tilemaps.Tiles;
+using Tilemaps.Utils;
 using UnityEditor;
 using UnityEngine;
 

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Tilemaps.Scripts.Tiles
+namespace Tilemaps.Tiles
 {
 	public enum ConnectCategory
 	{
