@@ -29,4 +29,4 @@ See [LICENCE](https://github.com/unitystation/unitystation/blob/develop/LICENSE)
 [![forthebadge](http://forthebadge.com/images/badges/cc-by-nd.svg)](http://forthebadge.com) <br>
 All assets including icons and sound are under a [Creative Commons 3.0 BY-SA license](https://creativecommons.org/licenses/by-sa/3.0/) unless otherwise indicated.
 
-Copyright 2018 [Unitystation Org] This item is not authorized for posting on Steam, except under the Steam account named Doobly
+Copyright 2018 [Unitystation Org] This item is not authorized for posting on Steam, except under the Steam account named Doobly with Steam ID: STEAM_0:1:5287990
