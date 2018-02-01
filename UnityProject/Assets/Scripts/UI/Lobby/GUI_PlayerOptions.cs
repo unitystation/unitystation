@@ -36,7 +36,7 @@ namespace UI
 			{
 				steamName = Client.Instance.Username;
 			}
-			if (steamName != "" || steamName == null)
+			if (!string.IsNullOrEmpty(steamName))
 			{
 				prefsName = steamName;
 			}

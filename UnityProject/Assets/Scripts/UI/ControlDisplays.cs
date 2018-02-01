@@ -10,6 +10,7 @@ namespace UI
 		public RectTransform hudRight;
 		public GameObject jobSelectWindow;
 		public GameObject logInWindow;
+		public GameObject infoWindow;
 
 		public RectTransform panelRight;
 		public UIManager parentScript;
@@ -34,6 +35,7 @@ namespace UI
 			hudBottom.gameObject.SetActive(false);
 			backGround.SetActive(true);
 			logInWindow.SetActive(true);
+			infoWindow.SetActive(true);
 		}
 
 		public void SetScreenForGame()

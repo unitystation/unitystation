@@ -344,6 +344,7 @@ public class CustomNetworkManager : NetworkManager
 		{
 			//make sure login window does not show on scene changes if connected
 			UIManager.Display.logInWindow.SetActive(false);
+			UIManager.Display.infoWindow.SetActive(false);
 			StartCoroutine(DoHeadlessCheck());
 		}
 		else
@@ -360,6 +361,7 @@ public class CustomNetworkManager : NetworkManager
 			if (!IsClientConnected())
 			{
 				UIManager.Display.logInWindow.SetActive(true);
+				UIManager.Display.jobSelectWindow.SetActive(false);
 			}
 		}
 		else
