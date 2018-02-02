@@ -17,17 +17,17 @@ namespace Tilemaps.Behaviours.Objects
 				return !(to - Position).Equals(v);
 			}
 
-			return true;
+			return !IsClosed;
 		}
 
 		public override bool IsPassable()
 		{
-			return OneDirectionRestricted || !IsClosed;
+			return !IsClosed;
 		}
 
 		public override bool IsAtmosPassable()
 		{
-			return OneDirectionRestricted || !IsClosed;
+			return !IsClosed;
 		}
 	}
 }

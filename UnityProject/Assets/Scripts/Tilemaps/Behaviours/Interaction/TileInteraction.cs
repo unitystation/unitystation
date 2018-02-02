@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Tilemaps.Scripts.Behaviours.Interaction
+namespace Tilemaps.Behaviours.Interaction
 {
 	public abstract class TileInteraction
 	{

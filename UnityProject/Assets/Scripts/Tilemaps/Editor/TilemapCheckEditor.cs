@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
-using Tilemaps.Scripts.Behaviours.Layers;
-using Tilemaps.Scripts.Tiles;
+using Tilemaps.Behaviours;
+using Tilemaps.Behaviours.Layers;
+using Tilemaps.Behaviours.Meta;
+using Tilemaps.Tiles;
 using UnityEditor;
 using UnityEngine;
 
@@ -63,6 +65,57 @@ namespace Tilemaps.Editor
 			{
 				currentSceneView.Repaint();
 			}
+		}
+
+		[DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]
+		private static void DrawGizmo2(MetaDataLayer scr, GizmoType gizmoType)
+		{
+			if (!DrawGizmos)
+			{
+				return;
+			}
+			
+			Vector3Int start = Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(Vector3.one * -32) - scr.transform.position); // bottom left
+			Vector3Int end =
+				Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth + 32, Camera.current.pixelHeight + 32)) -
+				                      scr.transform.position);
+			start.z = 0;
+			end.z = 1;
+			
+			if (end.y - start.y > 100)
+			{
+				// avoid being zoomed out too much (creates too many objects)
+				return;
+			}
+			
+			Gizmos.matrix = scr.transform.localToWorldMatrix;
+			
+			Color blue = Color.blue;
+			blue.a = 0.5f;
+
+			Color red = Color.red;
+			red.a = 0.5f;
+			
+			foreach (Vector3Int position in new BoundsInt(start, end - start).allPositionsWithin)
+			{
+				MetaDataNode node = scr.Get(position, false);
+				if (node != null)
+				{
+					if(node.Room > 0)
+					{
+						Gizmos.color = blue;
+					}
+
+					if (node.Room < 0)
+					{
+						Gizmos.color = red;
+					}
+					
+					Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+				}
+				
+			}
+
 		}
 
 		[DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]

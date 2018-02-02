@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using Tilemaps.Scripts.Utils;
+using Tilemaps.Utils;
 #if UNITY_EDITOR
 using UnityEditor;
-
 #endif
 
-namespace Tilemaps.Scripts.Tiles
+namespace Tilemaps.Tiles
 {
 	public class MetaTile : GenericTile
 	{

@@ -3,7 +3,7 @@ using System.Linq;
 using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 
-namespace Tilemaps.Scripts.Utils
+namespace Tilemaps.Utils
 {
 	public class TileList
 	{

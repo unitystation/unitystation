@@ -1,14 +1,17 @@
-﻿using Tilemaps.Scripts.Tiles;
+﻿using Tilemaps.Tiles;
+using Tilemaps.Utils;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Tilemaps.Scripts.Behaviours.Layers
+namespace Tilemaps.Behaviours.Layers
 {
 	[ExecuteInEditMode]
 	public class Layer : MonoBehaviour
 	{
 		public LayerType LayerType;
 		protected Tilemap tilemap;
+
+		public BoundsInt Bounds => tilemap.cellBounds;
 
 		public void Awake()
 		{
@@ -17,26 +20,32 @@ namespace Tilemaps.Scripts.Behaviours.Layers
 
 		public virtual bool IsPassableAt(Vector3Int from, Vector3Int to)
 		{
+			if (from == to)
+			{
+				return true;
+			}
+			
 			BasicTile tileTo = tilemap.GetTile<BasicTile>(to);
-			return !tileTo || tileTo.IsPassable();
+			
+			return TileUtils.IsPassable(tileTo);
 		}
 
 		public virtual bool IsPassableAt(Vector3Int position)
 		{
 			BasicTile tile = tilemap.GetTile<BasicTile>(position);
-			return !tile || tile.IsPassable();
+			return TileUtils.IsPassable(tile);
 		}
 
 		public virtual bool IsAtmosPassableAt(Vector3Int position)
 		{
 			BasicTile tile = tilemap.GetTile<BasicTile>(position);
-			return !tile || tile.IsAtmosPassable();
+			return  TileUtils.IsAtmosPassable(tile);
 		}
 
 		public virtual bool IsSpaceAt(Vector3Int position)
 		{
 			BasicTile tile = tilemap.GetTile<BasicTile>(position);
-			return !tile || tile.IsSpace();
+			return TileUtils.IsSpace(tile);
 		}
 
 		public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)
