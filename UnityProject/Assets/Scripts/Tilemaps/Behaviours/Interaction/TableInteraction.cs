@@ -1,4 +1,5 @@
 ﻿using PlayGroup;
+using Tilemaps.Behaviours.Layers;
 using UI;
 using UnityEngine;
 
@@ -33,7 +34,7 @@ namespace Tilemaps.Behaviours.Interaction
 
 			Vector3 targetPosition = position;
 			targetPosition.z = -0.2f;
-			ps.playerNetworkActions.CmdPlaceItem(hand, targetPosition, gameObject);
+			ps.playerNetworkActions.CmdPlaceItem(hand, targetPosition, gameObject.GetComponentInChildren<ObjectLayer>().gameObject);
 
 			item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 		}
