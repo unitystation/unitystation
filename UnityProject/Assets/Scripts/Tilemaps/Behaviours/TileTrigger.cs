@@ -27,7 +27,7 @@ namespace Tilemaps.Behaviours
 
 			if (tile?.TileType == TileType.Table)
 			{
-				TableInteraction interaction = new TableInteraction(objectLayer.gameObject, originator, position, hand);
+				TableInteraction interaction = new TableInteraction(gameObject, originator, position, hand);
 
 				interaction.Interact(isServer);
 			}
