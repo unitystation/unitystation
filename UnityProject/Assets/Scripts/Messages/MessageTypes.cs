@@ -1,5 +1,6 @@
 internal enum MessageTypes : short
 {
+	//Server messages - 1xxx
 	GibMessage = 1000,
 	RunMethodMessage = 1001,
 	UpdateChatMessage = 1002,
@@ -11,7 +12,9 @@ internal enum MessageTypes : short
 	ForceJobListUpdateMessage = 1008,
 	TransformStateMessage = 1009,
 	PlayerDeathMessage = 1010,
+	InfoWindowMessage = 1011,
 
+	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
 	InteractMessage = 2001,
 	InventoryInteractMessage = 2002,

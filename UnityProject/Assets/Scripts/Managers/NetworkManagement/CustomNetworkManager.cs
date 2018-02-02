@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using Facepunch.Steamworks;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
+using UnityEngine.Profiling;
 using UnityEngine.Rendering;
-using Facepunch.Steamworks;
+using UnityEngine.SceneManagement;
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -119,11 +120,11 @@ public class CustomNetworkManager : NetworkManager
 	{
 		// init the SteamServer needed for authentication of players
 		//		
-		Facepunch.Steamworks.Config.ForUnity( Application.platform.ToString() );
+		Config.ForUnity( Application.platform.ToString() );
 		string path = Path.GetFullPath(".");
 		string folderName = Path.GetFileName(Path.GetDirectoryName( path ) );
-		ServerInit options = new Facepunch.Steamworks.ServerInit(folderName, "Unitystation");
-		server = new Facepunch.Steamworks.Server(787180, options);
+		ServerInit options = new ServerInit(folderName, "Unitystation");
+		server = new Server(787180, options);
 
 		if (server != null)
 		{
@@ -183,6 +184,7 @@ public class CustomNetworkManager : NetworkManager
 			return;
 		}
 		Debug.Log( $"Kicking {player} : {raisins}" );
+		InfoWindowMessage.Send(player.GameObject, $"Kicked: {raisins}", "Kicked", GUI_Info.banColor);
 		PostToChatMessage.Send($"Player '{player.Name}' got kicked: {raisins}", ChatChannel.System);
 		player.Connection.Disconnect();
 		player.Connection.Dispose();
@@ -226,12 +228,12 @@ public class CustomNetworkManager : NetworkManager
 			return;
 		try
 		{
-			UnityEngine.Profiling.Profiler.BeginSample("Steam Server Update");
+			Profiler.BeginSample("Steam Server Update");
 			server.Update();
 		}
 		finally
 		{
-			UnityEngine.Profiling.Profiler.EndSample();
+			Profiler.EndSample();
 		}
 	}
 
