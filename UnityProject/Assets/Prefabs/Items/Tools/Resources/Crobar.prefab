@@ -40,11 +40,11 @@ GameObject:
   - component: {fileID: 114287030664492144}
   - component: {fileID: 50080775290529754}
   - component: {fileID: 114909773131868738}
-  - component: {fileID: 114072330335640904}
+  - component: {fileID: 114025950358683784}
   - component: {fileID: 114998062039538404}
   - component: {fileID: 114484434474911270}
   m_Layer: 10
-  m_Name: Screwdriver
+  m_Name: Crobar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -136,25 +136,25 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 218
-    i1: 169
-    i2: 37
-    i3: 174
-    i4: 51
-    i5: 234
-    i6: 181
-    i7: 212
-    i8: 152
-    i9: 143
-    i10: 129
-    i11: 130
-    i12: 161
-    i13: 206
-    i14: 51
-    i15: 172
+    i0: 172
+    i1: 19
+    i2: 71
+    i3: 76
+    i4: 157
+    i5: 129
+    i6: 8
+    i7: 148
+    i8: 11
+    i9: 117
+    i10: 195
+    i11: 11
+    i12: 43
+    i13: 255
+    i14: 138
+    i15: 56
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114072330335640904
+--- !u!114 &114025950358683784
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1519710982558066}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9511e80319bea6e47946f97051ff2b00, type: 3}
+  m_Script: {fileID: 11500000, guid: d5750d33eea9b88429b645179398462d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114287030664492144
@@ -177,6 +177,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114484434474911270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -203,11 +205,11 @@ MonoBehaviour:
   cloth: 0
   clothingReference: -1
   hierarchy: 
-  inHandReferenceLeft: 1024
-  inHandReferenceRight: 1036
-  itemDescription: A screwdriver
-  itemName: yellow screwdriver
-  size: 0
+  inHandReferenceLeft: 984
+  inHandReferenceRight: 996
+  itemDescription: A Crobar
+  itemName: crobar
+  size: 2
   spriteType: 0
   type: 15
 --- !u!114 &114998062039538404
@@ -222,17 +224,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
-  moveSpeed: 7
   pulledBy: {fileID: 0}
+  custNetActiveState: 0
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
-  serverLittleLag: 0
-  timeInPush: 0
   closetHandlerCache: {fileID: 0}
 --- !u!212 &212351652085156724
 SpriteRenderer:
@@ -268,7 +269,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 10
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300074, guid: c0bb74055d01b49d59a9f293572b346e, type: 3}
+  m_Sprite: {fileID: 21300092, guid: c0bb74055d01b49d59a9f293572b346e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
