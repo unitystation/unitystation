@@ -2,7 +2,7 @@
 using UI;
 using UnityEngine;
 
-public class CrowbarTrigger : PickUpTrigger
+public class WrenchTrigger : PickUpTrigger
 {
     public override void Interact(GameObject originator, Vector3 position, string hand)
     {
