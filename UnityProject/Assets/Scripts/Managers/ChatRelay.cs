@@ -4,6 +4,7 @@ using System.Linq;
 using PlayGroup;
 using UI;
 using UnityEngine.Networking;
+using UnityEngine;
 
 public class ChatRelay : NetworkBehaviour
 {
@@ -71,6 +72,28 @@ public class ChatRelay : NetworkBehaviour
 	private void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		var players = PlayerList.Instance.InGamePlayers;
+
+		//Local chat range checks:
+		if (chatEvent.channels == ChatChannel.Local) {
+			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
+			RaycastHit2D hit;
+			LayerMask layerMask = 1 << 9; //Walls layer
+			for (int i = 0; i < players.Count(); i++){
+				if(Vector2.Distance(speaker.GameObject.transform.position,
+				                    players[i].GameObject.transform.position) > 14f){
+					//Player in the list is too far away for local chat, remove them:
+					players.Remove(players[i]);
+				} else {
+					//within range, but check if they are in another room or hiding behind a wall
+					if(Physics2D.Linecast(speaker.GameObject.transform.position, 
+					                      players[i].GameObject.transform.position, layerMask)){
+						//if it hit a wall remove that player
+						players.Remove(players[i]);
+					}
+				}
+			}
+		}
+
 		for ( var i = 0; i < players.Count; i++ )
 		{
 			var playerScript = players[i].GameObject.GetComponent<PlayerScript>();
