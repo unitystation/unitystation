@@ -5,5 +5,6 @@
 	Engineering,
 	Security,
 	Research,
-	Personnel
+	Personnel,
+	Syndicate
 }

@@ -13,7 +13,9 @@ public class SpawnPoint : NetworkStartPosition
             { JobDepartment.Research, new [] {JobType.RD, JobType.SCIENTIST} },
             { JobDepartment.Security, new [] {JobType.DETECTIVE, JobType.HOS, JobType.LAWYER, JobType.SECURITY_OFFICER, JobType.WARDEN} },
             { JobDepartment.Engineering, new [] {JobType.ROBOTICIST, JobType.AI, JobType.ATMOSTECH, JobType.CHIEF_ENGINEER, JobType.ENGINEER, JobType.ENGSEC} },
-        };
+		    { JobDepartment.Syndicate, new [] {JobType.SYNDICATE} }
+   
+	};
 
     public IEnumerable<JobType> JobRestrictions => DepartmentJobs[Department]; 
 
