@@ -5,11 +5,13 @@ namespace Tilemaps.Behaviours.Objects
 	[ExecuteInEditMode]
 	public class RegisterCloset : RegisterObject
 	{
-		public bool IsClosed = true;
-
-		public override bool IsPassable()
-		{
-			return !IsClosed;
+		private bool isClosed = true;
+		public bool IsClosed {
+			set {
+				isClosed = value;
+				Passable = !isClosed;
+			}
+			get { return isClosed; }
 		}
 	}
 }
