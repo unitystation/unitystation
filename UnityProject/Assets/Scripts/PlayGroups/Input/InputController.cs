@@ -233,7 +233,9 @@ namespace PlayGroups.Input
 						if (inputTrigger.gameObject.layer == 8) {
 							//This is a player. Attempt to use the player based inputTrigger
 							P2PInteractions playerInteractions = inputTrigger.gameObject.GetComponent<P2PInteractions>();
-							playerInteractions.Trigger(position);
+							if (playerInteractions != null) {
+								playerInteractions.Trigger(position);
+							}
 						}
 						return true;
 					}
