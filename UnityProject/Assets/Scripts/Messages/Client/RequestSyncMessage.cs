@@ -16,7 +16,7 @@ public class RequestSyncMessage : ClientMessage
 		yield return WaitFor(SentBy);
 		//verify that the message isn't being abused here!
 //		Debug.Log("Requested sync");
-		CustomNetworkManager.Instance.SyncPlayerData(NetworkObject);
+//		CustomNetworkManager.Instance.SyncPlayerData(NetworkObject);
 	}
 
 
