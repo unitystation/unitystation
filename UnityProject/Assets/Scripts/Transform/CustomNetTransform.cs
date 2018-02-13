@@ -76,18 +76,15 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		base.OnStartServer();
 	}
 
+	[Server]
 	private void InitServerState()
 	{
-		if (!isServer)
-		{
-			return;
-		}
-
 		isPushing = false;
 		predictivePushing = false;
 
 		serverTransformState.Speed = 0;
-		if (transform.localPosition.Equals(Vector3.zero) || Vector3Int.RoundToInt(transform.position).Equals(InvalidPos) || Vector3Int.RoundToInt(transform.localPosition).Equals(InvalidPos))
+		if (   Vector3Int.RoundToInt(transform.position).Equals(InvalidPos) 
+		    || Vector3Int.RoundToInt(transform.localPosition).Equals(InvalidPos))
 		{
 			//For stuff hidden on spawn, like player equipment
 			serverTransformState = InvalidState;
@@ -104,10 +101,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	[Server]
 	public void ReInitServerState()
 	{
-//		Debug.Log($"ReInit start: {serverTransformState}");
 		InitServerState();
-//		NotifyPlayers();
-//		Debug.Log($"ReInit end: {serverTransformState}");
+	//	Debug.Log($"{name} reInit: {serverTransformState}");
 	}
 
 //	/// Overwrite server state with a completely new one

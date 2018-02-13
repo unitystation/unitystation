@@ -96,7 +96,7 @@ public class ItemFactory : MonoBehaviour
 	
 	public static GameObject SpawnItem(GameObject itemPrefab, Transform parent=null)
 	{
-		return SpawnItem(itemPrefab, Vector3.zero, Quaternion.identity, parent);
+		return SpawnItem(itemPrefab, CustomNetTransform.InvalidPos, Quaternion.identity, parent);
 	}
 	
 	public static GameObject SpawnItem(GameObject itemPrefab, Vector3 position, Transform parent=null)
