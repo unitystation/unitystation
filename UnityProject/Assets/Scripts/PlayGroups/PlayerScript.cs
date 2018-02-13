@@ -136,8 +136,8 @@ namespace PlayGroup
 				{
 					Debug.Log("Client NOT requesting auth");
 				}
-				//Request sync to get all the latest transform data
-				new RequestSyncMessage().Send();
+//				Request sync to get all the latest transform data
+//				new RequestSyncMessage().Send();
 				SelectedChannels = ChatChannel.Local;
 
 			}

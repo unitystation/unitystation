@@ -30,7 +30,7 @@ public class PoolManager : NetworkBehaviour
 	///     For items that are network synced only!
 	/// </summary>
 	[Server]
-	public GameObject PoolNetworkInstantiate(GameObject prefab, Vector2 position, Quaternion rotation, Transform parent=null)
+	public GameObject PoolNetworkInstantiate(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent=null)
 	{
 		bool isPooled;
 
@@ -47,16 +47,20 @@ public class PoolManager : NetworkBehaviour
 	/// <summary>
 	///     For non network stuff only! (e.g. bullets)
 	/// </summary>
-	public GameObject PoolClientInstantiate(GameObject prefab, Vector2 position, Quaternion rotation, 
+	public GameObject PoolClientInstantiate(GameObject prefab, Vector3 position, Quaternion rotation, 
 		Transform parent=null)
 	{
 		bool isPooled; // not used for Client-only instantiation
 		return PoolInstantiate(prefab, position, rotation, parent, out isPooled);
 	}
 
-	private GameObject PoolInstantiate(GameObject prefab, Vector2 position, Quaternion rotation, Transform parent, out bool pooledInstance)
+	private GameObject PoolInstantiate(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent, out bool pooledInstance)
 	{
 		GameObject tempObject = null;
+		bool hide = position == CustomNetTransform.InvalidPos;
+		//Cut off Z-axis
+		Vector3 cleanPos = ( Vector2 ) position;
+		Vector3 pos = hide ? CustomNetTransform.InvalidPos : cleanPos;
 		if (CanLoadFromPool(prefab))
 		{
 			//pool exists and has unused instances
@@ -68,29 +72,26 @@ public class PoolManager : NetworkBehaviour
 			ObjectBehaviour objBehaviour = tempObject.GetComponent<ObjectBehaviour>();
 			if (objBehaviour)
 			{
-				objBehaviour.visibleState = true;
+				objBehaviour.visibleState = !hide;
 			}
 
-			tempObject.transform.position = position;
+			tempObject.transform.position = pos;
 			tempObject.transform.rotation = rotation;
 			tempObject.transform.localScale = prefab.transform.localScale;
 			tempObject.transform.parent = parent;
 			tryInitTransform(tempObject);
 
 			pooledInstance = true;
-			
-			return tempObject;
 		}
 		else
 		{
-			tempObject = Instantiate(prefab, position, rotation, parent);
+			tempObject = Instantiate(prefab, pos, rotation, parent);
 			tryInitTransform(tempObject);
 			tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
 	
 			pooledInstance = false;
-			
-			return tempObject;
 		}
+		return tempObject;
 
 	}
 
