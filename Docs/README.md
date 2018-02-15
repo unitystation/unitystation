@@ -6,6 +6,9 @@
 
 _Unitystation has been active since late 2016_
 
+Visit us on Steam:<br> <br>
+[<img src="https://user-images.githubusercontent.com/7613738/35184899-b6a0aa8e-fdfb-11e7-91a8-bad8f19937b4.jpg" width="300">](http://store.steampowered.com/app/801140/Unitystation/)
+
 ## Talk to us
 Please join us on Discord:<br>
 [<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/YupsQ9y)
@@ -29,4 +32,3 @@ See [LICENCE](https://github.com/unitystation/unitystation/blob/develop/LICENSE)
 [![forthebadge](http://forthebadge.com/images/badges/cc-by-nd.svg)](http://forthebadge.com) <br>
 All assets including icons and sound are under a [Creative Commons 3.0 BY-SA license](https://creativecommons.org/licenses/by-sa/3.0/) unless otherwise indicated.
 
-Copyright 2018 [Unitystation Org] This item is not authorized for posting on Steam, except under the Steam account named Doobly with Steam ID: STEAM_0:1:5287990
