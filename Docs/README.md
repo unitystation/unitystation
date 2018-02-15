@@ -6,12 +6,12 @@
 
 _Unitystation has been active since late 2016_
 
-Visit us on Steam:<br> <br>
+Visit us on Steam:<br>
 [<img src="https://user-images.githubusercontent.com/7613738/35184899-b6a0aa8e-fdfb-11e7-91a8-bad8f19937b4.jpg" width="300">](http://store.steampowered.com/app/801140/Unitystation/)
 
 ## Talk to us
 Please join us on Discord:<br>
-[<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/YupsQ9y)
+[<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/fhhQcV9)
 
 ## Feel like getting involved?
 1. Fork the repo
