@@ -38,6 +38,7 @@ public class EffectsFactory : NetworkBehaviour
 		shroudParent = new GameObject();
 		shroudParent.transform.position += new Vector3(0.5f, 0.5f, 0);
 		shroudParent.name = "FieldOfView(Shrouds)";
+		shroudParent.tag = "FogOfWar";
 	}
 
 	//FileTiles are client side effects only, no need for network sync (triggered by same event on all clients/server)

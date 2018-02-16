@@ -1,4 +1,5 @@
-﻿using Tilemaps.Behaviours.Layers;
+﻿using PlayGroup;
+using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -38,6 +39,20 @@ namespace Tilemaps.Behaviours.Objects
 			Matrix = parent.GetComponent<Matrix>();
 			transform.parent = layer.transform; 
 			Register();
+			//Make sure any player related stuff is handled
+			DoPlayerChecks(parent.transform);
+		}
+
+		private void DoPlayerChecks(Transform parent){
+			//Player layer
+			if(gameObject.layer == 8){
+				if(PlayerManager.LocalPlayer == gameObject){
+					//Move the shrouds so they are on the right matrix:
+					GameObject shrouds = GameObject.FindWithTag("FogOfWar");
+					shrouds.transform.parent = parent;
+					shrouds.transform.localPosition = Vector2.zero;
+				}
+			}
 		}
 
 		public Vector3Int Position

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Tilemaps;
 
+/// <summary>
+/// Matrix manager handles the netcomms of the position and movement of the matricies
+/// </summary>
 public class MatrixManager : MonoBehaviour {
 
 	//Declare in awake as MatrixManager needs to be destroyed on each scene change

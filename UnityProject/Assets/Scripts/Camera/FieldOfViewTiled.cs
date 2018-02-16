@@ -154,7 +154,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
 			{
 				transform.hasChanged = false;
 
-				if (transform.position == lastPosition && GetSightSourceDirection() == lastDirection)
+				if (transform.localPosition == lastPosition && GetSightSourceDirection() == lastDirection)
 				{
 					continue;
 				}
@@ -264,7 +264,7 @@ public class FieldOfViewTiled : ThreadedBehaviour
 			return;
 		}
 
-		RaycastHit2D hit = Physics2D.Linecast(Camera2DFollow.followControl.target.position, endPos, _layerMask);
+		RaycastHit2D hit = Physics2D.Linecast(Camera2DFollow.followControl.target.localPosition, endPos, _layerMask);
 		// If it hits a wall we should enable the shroud
 		//		Debug.DrawLine(GetPlayerSource().transform.position, endPos,Color.red);
 		if (hit)
@@ -344,10 +344,10 @@ public class FieldOfViewTiled : ThreadedBehaviour
 
 	private void RecalculateFov()
 	{
-		sourcePosCache = Camera2DFollow.followControl.target.position;
+		sourcePosCache = Camera2DFollow.followControl.target.localPosition;
 		nextShrouds = GetNearbyShroudTiles();
 		updateFov = true;
-		lastPosition = transform.position;
+		lastPosition = transform.localPosition;
 		lastDirection = GetSightSourceDirection();
 	}
 }
