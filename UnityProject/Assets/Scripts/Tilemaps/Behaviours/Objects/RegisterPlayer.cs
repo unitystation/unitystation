@@ -11,5 +11,12 @@ namespace Tilemaps.Behaviours.Objects
 		{
 			return !IsBlocking;
 		}
+
+		void OnTriggerEnter2D(Collider2D coll)
+		{
+			if (coll.gameObject.layer == 24) {
+				Debug.Log("PlayerEntered Matrix: " + coll.gameObject.transform.parent.name);
+			}
+		}
 	}
 }
