@@ -51,6 +51,9 @@ namespace Tilemaps.Behaviours.Objects
 					GameObject shrouds = GameObject.FindWithTag("FogOfWar");
 					shrouds.transform.parent = parent;
 					shrouds.transform.localPosition = Vector2.zero;
+					//Redraw Fov
+					FieldOfViewTiled fov = FindObjectOfType<FieldOfViewTiled>();
+					fov.RedrawFov();
 				}
 			}
 		}
