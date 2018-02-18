@@ -73,7 +73,7 @@ namespace Tilemaps.Editor.Brushes
 
 		public override void Rotate(RotationDirection direction, GridLayout.CellLayout layout)
 		{
-			if (Event.current.character == '<')
+			if (Event.current.character == '<' || Event.current.character == ',')
 			{
 				LayerTile tile = cells[0].tile as LayerTile;
 

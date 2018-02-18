@@ -342,6 +342,14 @@ public class FieldOfViewTiled : ThreadedBehaviour
 		return nearbyShroudTiles.AsReadOnly();
 	}
 
+	public void RedrawFov(){
+		foreach(KeyValuePair<Vector2, GameObject> shroud in shroudTiles){
+			shroud.Value.SendMessage("SetShroudStatus", enabled, SendMessageOptions.DontRequireReceiver);
+			PoolManager.Instance.PoolClientDestroy(shroud.Value);
+		}
+		shroudTiles.Clear();
+	}
+
 	private void RecalculateFov()
 	{
 		sourcePosCache = Camera2DFollow.followControl.target.position;

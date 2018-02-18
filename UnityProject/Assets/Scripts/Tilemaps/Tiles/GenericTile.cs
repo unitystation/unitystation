@@ -11,7 +11,7 @@ namespace Tilemaps.Tiles
 		{
 			tileData.sprite = PreviewSprite;
 			tileData.flags = TileFlags.None;
-			tileData.colliderType = Tile.ColliderType.None;
+			tileData.colliderType = Tile.ColliderType.Grid;
 		}
 	}
 }
