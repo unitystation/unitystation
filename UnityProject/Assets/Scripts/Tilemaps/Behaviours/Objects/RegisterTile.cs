@@ -39,23 +39,15 @@ namespace Tilemaps.Behaviours.Objects
 			Matrix = parent.GetComponent<Matrix>();
 			transform.parent = layer.transform; 
 			Register();
-			//Make sure any player related stuff is handled
-			DoPlayerChecks(parent.transform);
 		}
 
-		private void DoPlayerChecks(Transform parent){
-			//Player layer
-			if(gameObject.layer == 8){
-				if(PlayerManager.LocalPlayer == gameObject){
-					//Move the shrouds so they are on the right matrix:
-					GameObject shrouds = GameObject.FindWithTag("FogOfWar");
-					shrouds.transform.parent = parent;
-					shrouds.transform.localPosition = Vector2.zero;
-					//Redraw Fov
-					FieldOfViewTiled fov = FindObjectOfType<FieldOfViewTiled>();
-					fov.RedrawFov();
-				}
-			}
+		//Is not network synced, is used for prediction on local client when walking between matricies
+		public void SetParentOnLocal(Transform newParent){
+			Unregister();
+			layer = newParent.GetComponentInChildren<ObjectLayer>();
+			Matrix = newParent.GetComponent<Matrix>();
+			transform.parent = layer.transform;
+			Register();
 		}
 
 		public Vector3Int Position

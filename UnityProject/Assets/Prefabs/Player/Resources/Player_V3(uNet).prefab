@@ -1211,6 +1211,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 2
+  playerSprites: {fileID: 114285118255153820}
+  checkMatrixHit:
+    serializedVersion: 2
+    m_Bits: 16777216
 --- !u!114 &114292210339441364
 MonoBehaviour:
   m_ObjectHideFlags: 1
