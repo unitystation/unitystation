@@ -309,7 +309,7 @@ namespace PlayGroup
 			allowInput = true;
 		}
 
-		private void ChangeMatricies(Transform newParent)
+		public void ChangeMatricies(Transform newParent)
 		{
 			if (isServer) {
 				NetworkIdentity netIdent = newParent.GetComponent<NetworkIdentity>();
