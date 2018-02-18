@@ -499,6 +499,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -534,6 +535,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -562,13 +564,14 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4280287231
+    m_Bits: 2132803583
   m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -604,6 +607,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -645,12 +649,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e3142adc76418db1fe76b4e22c2035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listenerObj: {fileID: 1187200688554218}
-  target: {fileID: 0}
   damping: 0
-  xOffset: 1.7
-  pixelAdjustment: 64
+  listenerObj: {fileID: 1187200688554218}
   parallaxStars: {fileID: 114250123869584244}
+  pixelAdjustment: 64
+  target: {fileID: 0}
+  xOffset: 1.7
 --- !u!114 &114598608611931166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -669,7 +673,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1365047106309440}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 354c9994283644f49ba26665f82b4c3f, type: 3}
   m_Name: 
@@ -677,11 +681,10 @@ MonoBehaviour:
   IsRunning: 0
   Ticker: 0
   TickSpeed: 1
-  MonitorRadius: 12
   FieldOfVision: 90
   InnatePreyVision: 9
+  MonitorRadius: 12
   State: 0
-  nearbyShrouds: []
 --- !u!114 &114742085210312504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -742,8 +745,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828a9dac8cd0245989ff4fd7e0af030c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCam: {fileID: 20680082919460720}
   interactCam: {fileID: 20893246273762820}
+  mainCam: {fileID: 20680082919460720}
 --- !u!124 &124367701722432646
 Behaviour:
   m_ObjectHideFlags: 1
