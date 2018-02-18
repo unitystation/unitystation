@@ -320,7 +320,7 @@ namespace PlayGroup
 			} else {
 				registerTile.SetParentOnLocal(newParent);
 			}
-
+			Camera.main.transform.parent = newParent;
 		}
 	}
 }
