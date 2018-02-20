@@ -48,7 +48,7 @@ public class ShuttleController : MonoBehaviour {
 	bool doFlyingThing;
 	public Vector2 flyingDirection;
 	public float speed;
-	private readonly float rotSpeed = 10;
+	private readonly float rotSpeed = 6;
 	public KeyCode startKey = KeyCode.G;
 	public KeyCode leftKey = KeyCode.Keypad4;
 	public KeyCode rightKey = KeyCode.Keypad6;
@@ -56,39 +56,37 @@ public class ShuttleController : MonoBehaviour {
 	private MatrixOrientation orientation = MatrixOrientation.Up;
 	
 	void Update(){
-		if(Input.GetKeyDown(startKey)){
+		if ( Input.GetKeyDown(startKey) ){
 			doFlyingThing = !doFlyingThing;
 		}
-		if(Input.GetKeyDown(KeyCode.KeypadPlus)){
+		if ( Input.GetKeyDown(KeyCode.KeypadPlus) ){
 			speed++;
 		}
-		if(Input.GetKeyDown(KeyCode.KeypadMinus)){
+		if ( Input.GetKeyDown(KeyCode.KeypadMinus) ){
 			speed--;
 		}
 
-		if(Input.GetKeyDown(leftKey)){
-			Rotate(false);
-		}
-		if(Input.GetKeyDown(rightKey)){
-			Rotate(true);
-		}
 
-		if (NeedsRotation() )
-		{
+		if ( NeedsRotation() ){
 			transform.rotation = 
-				Quaternion.Slerp(transform.rotation, Quaternion.Euler(0,0,orientation.degree), Time.deltaTime*rotSpeed);//transform.Rotate(Vector3.forward * rotSpeed * Time.deltaTime);
-		}
-		else if (NeedsFixing())
-		{
-//			Debug.Log("Fixing!");
+				Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0,0,orientation.degree), Time.deltaTime*90);//transform.Rotate(Vector3.forward * rotSpeed * Time.deltaTime);
+		} else if ( NeedsFixing() ){
 			// Finishes the job of Lerp and straightens the ship with exact angle value
 			transform.rotation = Quaternion.Euler(0, 0, orientation.degree);
-		}
-		
-		if(doFlyingThing){
-			transform.Translate(flyingDirection * speed * Time.deltaTime);
-		}
-	}
+		} else {
+			//Only fly or change orientation if rotation is finished
+			if ( Input.GetKeyDown(leftKey) ){
+				Rotate(false);
+			}
+			if ( Input.GetKeyDown(rightKey) ){
+				Rotate(true);
+			}
+			if ( doFlyingThing ){
+				transform.Translate(flyingDirection * speed * Time.deltaTime);
+			}
+		}	
+	}	
+	
 	private bool NeedsFixing()
 	{
 		// ReSharper disable once CompareOfFloatsByEqualityOperator
