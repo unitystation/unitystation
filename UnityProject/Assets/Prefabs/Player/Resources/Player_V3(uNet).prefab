@@ -1572,6 +1572,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMove: {fileID: 114792299177679754}
+  matrixLayerMask:
+    serializedVersion: 2
+    m_Bits: 17170944
   pullingObject: {fileID: 0}
 --- !u!114 &114626459693876662
 MonoBehaviour:
@@ -1777,6 +1780,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ce4d8a508787441857fade34082bd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitCheckLayers:
+    serializedVersion: 2
+    m_Bits: 17039872
   allowInput: 1
   diagonalMovement: 1
   azerty: 0

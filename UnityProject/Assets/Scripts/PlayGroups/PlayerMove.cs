@@ -21,7 +21,10 @@ namespace PlayGroup
 	public class PlayerMove : NetworkBehaviour
 	{
 		private readonly List<KeyCode> pressedKeys = new List<KeyCode>();
-		private Matrix _matrix;
+		private RaycastHit2D[] rayHit;
+		private Collider2D curMatrixCol;
+		public LayerMask hitCheckLayers;
+
 		[SyncVar] public bool allowInput = true;
 
 		public bool diagonalMovement;
@@ -62,20 +65,17 @@ namespace PlayGroup
 		{
 			List<int> actionKeys = new List<int>();
 
-			for (int i = 0; i < keyCodes.Length; i++)
-			{
-				if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
-				{
-					return new PlayerAction {keyCodes = actionKeys.ToArray()};
+			for (int i = 0; i < keyCodes.Length; i++) {
+				if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus) {
+					return new PlayerAction { keyCodes = actionKeys.ToArray() };
 				}
 
-				if (Input.GetKey(keyCodes[i]) && allowInput && !IsPushing)
-				{
-					actionKeys.Add((int) keyCodes[i]);
+				if (Input.GetKey(keyCodes[i]) && allowInput && !IsPushing) {
+					actionKeys.Add((int)keyCodes[i]);
 				}
 			}
 
-			return new PlayerAction {keyCodes = actionKeys.ToArray()};
+			return new PlayerAction { keyCodes = actionKeys.ToArray() };
 		}
 
 		public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action)
@@ -83,8 +83,7 @@ namespace PlayGroup
 			Vector3Int direction = GetDirection(action);
 			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction);
 
-			if (adjustedDirection == Vector3.zero)
-			{
+			if (adjustedDirection == Vector3.zero) {
 				Interact(currentPosition, direction);
 			}
 			return currentPosition + adjustedDirection;
@@ -93,8 +92,7 @@ namespace PlayGroup
 		public string ChangeKeyboardInput(bool setAzerty)
 		{
 			ControlAction controlAction = UIManager.Action;
-			if (setAzerty)
-			{
+			if (setAzerty) {
 				keyCodes = new KeyCode[] { KeyCode.Z, KeyCode.Q, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
 				azerty = true;
 				controlAction.azerty = true;
@@ -113,12 +111,10 @@ namespace PlayGroup
 		{
 			ProcessAction(action);
 
-			if (diagonalMovement)
-			{
+			if (diagonalMovement) {
 				return GetMoveDirection(pressedKeys);
 			}
-			if (pressedKeys.Count > 0)
-			{
+			if (pressedKeys.Count > 0) {
 				return GetMoveDirection(pressedKeys[pressedKeys.Count - 1]);
 			}
 			return Vector3Int.zero;
@@ -127,14 +123,10 @@ namespace PlayGroup
 		private void ProcessAction(PlayerAction action)
 		{
 			List<int> actionKeys = new List<int>(action.keyCodes);
-			for (int i = 0; i < keyCodes.Length; i++)
-			{
-				if (actionKeys.Contains((int) keyCodes[i]) && !pressedKeys.Contains(keyCodes[i]))
-				{
+			for (int i = 0; i < keyCodes.Length; i++) {
+				if (actionKeys.Contains((int)keyCodes[i]) && !pressedKeys.Contains(keyCodes[i])) {
 					pressedKeys.Add(keyCodes[i]);
-				}
-				else if (!actionKeys.Contains((int) keyCodes[i]) && pressedKeys.Contains(keyCodes[i]))
-				{
+				} else if (!actionKeys.Contains((int)keyCodes[i]) && pressedKeys.Contains(keyCodes[i])) {
 					pressedKeys.Remove(keyCodes[i]);
 				}
 			}
@@ -143,8 +135,7 @@ namespace PlayGroup
 		private Vector3Int GetMoveDirection(List<KeyCode> actions)
 		{
 			Vector3Int direction = Vector3Int.zero;
-			for (int i = 0; i < pressedKeys.Count; i++)
-			{
+			for (int i = 0; i < pressedKeys.Count; i++) {
 				direction += GetMoveDirection(pressedKeys[i]);
 			}
 			direction.x = Mathf.Clamp(direction.x, -1, 1);
@@ -161,15 +152,12 @@ namespace PlayGroup
 
 		private Vector3Int GetMoveDirection(KeyCode action)
 		{
-			if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
-			{
+			if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus) {
 				return Vector3Int.zero;
 			}
 			//TODO This needs a refactor, but this way AZERTY will work without weird conflicts.
-			if (azerty)
-			{
-				switch (action)
-				{
+			if (azerty) {
+				switch (action) {
 					case KeyCode.Z:
 					case KeyCode.UpArrow:
 						return Vector3Int.up;
@@ -183,11 +171,8 @@ namespace PlayGroup
 					case KeyCode.RightArrow:
 						return Vector3Int.right;
 				}
-			}
-			else
-			{
-				switch (action)
-				{
+			} else {
+				switch (action) {
 					case KeyCode.W:
 					case KeyCode.UpArrow:
 						return Vector3Int.up;
@@ -210,13 +195,44 @@ namespace PlayGroup
 		/// </summary>
 		private Vector3Int AdjustDirection(Vector3Int currentPosition, Vector3Int direction)
 		{
-			if (isGhost)
-			{
+			if (isGhost) {
 				return direction;
 			}
 
 			//Is the current tile restrictive?
 			Vector3Int newPos = currentPosition + direction;
+			Vector3 newRayPos = transform.position + direction;
+			rayHit = Physics2D.RaycastAll(newRayPos, (Vector3)direction, 0.2f, hitCheckLayers);
+			Debug.DrawLine(newRayPos, newRayPos + ((Vector3)direction * 0.2f), Color.red, 1f);
+			for (int i = 0; i < rayHit.Length; i++) {
+				//checks to see if the matrix has changed
+				if (rayHit[i].collider.gameObject.layer == 24
+				   && rayHit[i].collider != curMatrixCol) {
+					curMatrixCol = rayHit[i].collider;
+					ChangeMatricies(rayHit[i].collider.gameObject.transform.parent);
+					Debug.Log("Change Matricies");
+				}
+
+				//Detected windows or walls (global will detect on other matricies also)
+				if (rayHit[i].collider.gameObject.layer == 9
+				   || rayHit[i].collider.gameObject.layer == 18) {
+					return Vector3Int.zero;
+				}
+
+				//Door closed layer
+				if (rayHit[i].collider.gameObject.layer == 17) {
+					DoorController doorController = rayHit[i].collider.gameObject.GetComponent<DoorController>();
+
+					// Attempt to open door that could be on another layer
+					if (doorController != null && allowInput) {
+						pna.CmdCheckDoorPermissions(doorController.gameObject, gameObject);
+						allowInput = false;
+						StartCoroutine(DoorInputCoolDown());
+					}
+					return Vector3Int.zero;
+				}
+			}
+
 
 			if (playerSync.pullingObject != null) {
 				if (matrix.ContainsAt(newPos, playerSync.pullingObject)) {
@@ -231,13 +247,12 @@ namespace PlayGroup
 				}
 			}
 
-//			if (!matrix.IsPassableAt(currentPosition, newPos))
-//			{
-//				return Vector3Int.zero;
-//			}
+			//			if (!matrix.IsPassableAt(currentPosition, newPos))
+			//			{
+			//				return Vector3Int.zero;
+			//			}
 
-			if (matrix.IsPassableAt(currentPosition, newPos) || matrix.ContainsAt(newPos, gameObject))
-			{
+			if (matrix.IsPassableAt(currentPosition, newPos) || matrix.ContainsAt(newPos, gameObject)) {
 				return direction;
 			}
 
@@ -253,10 +268,8 @@ namespace PlayGroup
 
 			//Is the object pushable (iterate through all of the objects at the position):
 			PushPull[] pushPulls = matrix.Get<PushPull>(position).ToArray();
-			for (int i = 0; i < pushPulls.Length; i++)
-			{
-				if (pushPulls[i] && pushPulls[i].gameObject != gameObject)
-				{
+			for (int i = 0; i < pushPulls.Length; i++) {
+				if (pushPulls[i] && pushPulls[i].gameObject != gameObject) {
 					pushPulls[i].TryPush(gameObject, direction);
 				}
 			}
@@ -269,23 +282,19 @@ namespace PlayGroup
 
 			DoorController doorController = matrix.GetFirst<DoorController>(position);
 
-			if (!doorController)
-			{
+			if (!doorController) {
 				doorController = matrix.GetFirst<DoorController>(Vector3Int.RoundToInt(currentPosition));
 
-				if (doorController)
-				{
+				if (doorController) {
 					RegisterDoor registerDoor = doorController.GetComponent<RegisterDoor>();
-					if (registerDoor.IsPassable(position))
-					{
+					if (registerDoor.IsPassable(position)) {
 						doorController = null;
 					}
 				}
 			}
 
 			// Attempt to open door
-			if (doorController != null && allowInput)
-			{
+			if (doorController != null && allowInput) {
 				pna.CmdCheckDoorPermissions(doorController.gameObject, gameObject);
 
 				allowInput = false;
@@ -298,6 +307,20 @@ namespace PlayGroup
 		{
 			yield return new WaitForSeconds(0.3f);
 			allowInput = true;
+		}
+
+		public void ChangeMatricies(Transform newParent)
+		{
+			if (isServer) {
+				NetworkIdentity netIdent = newParent.GetComponent<NetworkIdentity>();
+				if (registerTile.ParentNetId != netIdent.netId) {
+					registerTile.ParentNetId = netIdent.netId;
+					playerSync.SetPosition(transform.localPosition);
+				}
+			} else {
+				registerTile.SetParentOnLocal(newParent);
+			}
+			Camera.main.transform.parent = newParent;
 		}
 	}
 }
