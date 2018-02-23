@@ -88,6 +88,7 @@ namespace UI
 			{
 				listener.Reset();
 			}
+			Camera2DFollow.followControl.ZeroStars();
 		}
 
 		/// <summary>
