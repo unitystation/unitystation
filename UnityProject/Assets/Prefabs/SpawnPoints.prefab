@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4088573769341418}
-  - component: {fileID: 114374387204270490}
   - component: {fileID: 114059273678405852}
   m_Layer: 0
   m_Name: SpawnPoint06
@@ -36,7 +35,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4811238963165292}
-  - component: {fileID: 114135417275386382}
   - component: {fileID: 114564003215995082}
   m_Layer: 0
   m_Name: SpawnPoint03
@@ -53,7 +51,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4913963894797502}
-  - component: {fileID: 114935207627416412}
   - component: {fileID: 114224401426427016}
   m_Layer: 0
   m_Name: SpawnPoint01
@@ -70,7 +67,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4283551398044964}
-  - component: {fileID: 114082655972294038}
   - component: {fileID: 114299100174803064}
   m_Layer: 0
   m_Name: SpawnPoint05
@@ -87,7 +83,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4300633502817532}
-  - component: {fileID: 114803618711459054}
   - component: {fileID: 114848333388392952}
   m_Layer: 0
   m_Name: SpawnPoint04
@@ -104,7 +99,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4579866980362802}
-  - component: {fileID: 114885587494906834}
   - component: {fileID: 114429889094731804}
   m_Layer: 0
   m_Name: SpawnPoint02
@@ -236,35 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JobRestrictions: 0a0000001400000003000000
---- !u!114 &114082655972294038
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1524583566483134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
---- !u!114 &114135417275386382
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1337724893257794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
+  Department: 2
 --- !u!114 &114224401426427016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -276,7 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JobRestrictions: 060000000c0000000200000018000000040000000e00000005000000080000000f000000
+  Department: 0
 --- !u!114 &114299100174803064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -288,21 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JobRestrictions: 17000000210000002300000011000000
---- !u!114 &114374387204270490
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1134215619726616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
+  Department: 3
 --- !u!114 &114429889094731804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -314,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JobRestrictions: 16000000070000001c0000001b0000001d00000019000000
+  Department: 5
 --- !u!114 &114564003215995082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -326,21 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JobRestrictions: 0d00000012000000090000001500000022000000
---- !u!114 &114803618711459054
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1733879023992326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
+  Department: 1
 --- !u!114 &114848333388392952
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -352,32 +290,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JobRestrictions: 1e0000001f00000020000000
---- !u!114 &114885587494906834
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1793580594220078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
---- !u!114 &114935207627416412
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1412730967364958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ffc8536f4a44a28710a1149b48b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
-  useInGame: 0
+  Department: 4

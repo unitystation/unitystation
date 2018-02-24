@@ -1,0 +1,1952 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Facepunch.Steamworks</name>
+    </assembly>
+    <members>
+        <member name="T:Facepunch.Steamworks.BaseSteamworks">
+            <summary>
+            Implements shared functionality between Steamworks.Client and Steamworks.Server
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.BaseSteamworks.AppId">
+            <summary>
+            Current running program's AppId
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.BaseSteamworks.IsValid">
+            <summary>
+            Returns true if this instance has initialized properly.
+            If this returns false you should Dispose and throw an error.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.BaseSteamworks.RunUpdateCallbacks">
+            <summary>
+            This gets called automatically in Update. Only call it manually if you know why you're doing it.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.BaseSteamworks.UpdateWhile(System.Func{System.Boolean})">
+            <summary>
+            Run Update until func returns false.
+            This will cause your program to lock up until it finishes.
+            This is useful for things like tests or command line utilities etc.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Client.Instance">
+            <summary>
+            A singleton accessor to get the current client instance.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Client.Username">
+            <summary>
+            Current user's Username
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Client.SteamId">
+            <summary>
+            Current user's SteamId
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Client.OwnerSteamId">
+            <summary>
+            If we're sharing this game, this is the owner of it.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Client.BetaName">
+            <summary>
+            Current Beta name, if we're using a beta branch.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Client.BuildId">
+            <summary>
+            The BuildId of the current build 
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Client.InstallFolder">
+            <summary>
+            The folder in which this app is installed
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Client.CurrentLanguage">
+            <summary>
+            The currently selected language
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Client.AvailableLanguages">
+            <summary>
+            List of languages available to the game
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Client.Update">
+            <summary>
+            Should be called at least once every frame
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Client.RunCallbacks">
+            <summary>
+            This is called in Update() - there's no need to call it manually unless you're running your own Update
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Client.Dispose">
+            <summary>
+            Call when finished to shut down the Steam client.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Client.IsSubscribed">
+            <summary>
+            True if we're subscribed/authorised to be running this app
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Client.IsCybercafe">
+            <summary>
+            True if we're a cybercafe account
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Client.IsSubscribedFromFreeWeekend">
+            <summary>
+            True if we're subscribed/authorised to be running this app, but only temporarily
+            due to a free weekend etc.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Client.IsLowViolence">
+            <summary>
+            True if we're in low violence mode (germans are only allowed to see the insides of bodies in porn)
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Client.RestartIfNecessary(System.UInt32)">
+            <summary>
+            Checks if your executable was launched through Steam and relaunches it through Steam if it wasn't.
+            If this returns true then it starts the Steam client if required and launches your game again through it, 
+            and you should quit your process as soon as possible. This effectively runs steam://run/AppId so it may 
+            not relaunch the exact executable that called it, as it will always relaunch from the version installed 
+            in your Steam library folder.
+            If it returns false, then your game was launched by the Steam client and no action needs to be taken.
+            One exception is if a steam_appid.txt file is present then this will return false regardless. This allows
+            you to develop and test without launching your game through the Steam client. Make sure to remove the 
+            steam_appid.txt file when uploading the game to your Steam depot!
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Achievements.Find(System.String)">
+            <summary>
+            Find an achievement by name. Will be null if not found, or not ready.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Achievements.Trigger(System.String,System.Boolean)">
+            <summary>
+            Unlock an achievement by identifier. If apply is true this will happen as expected
+            and the achievement overlay will popup etc. If it's false then you'll have to manually
+            call Stats.StoreStats() to actually trigger it.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Achievements.Reset(System.String)">
+            <summary>
+            Reset an achievement by identifier
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Achievement.State">
+            <summary>
+            True if unlocked
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Achievement.UnlockTime">
+            <summary>
+            Should hold the unlock time if State is true
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Achievement.GlobalUnlockedPercentage">
+            <summary>
+            Returns the percentage of users who have unlocked the specified achievement, or -1 if no data available.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Achievement.Trigger(System.Boolean)">
+            <summary>
+            Make this achievement earned
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Achievement.Reset">
+            <summary>
+            Reset this achievement to not achieved
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Achievement.Refresh">
+            <summary>
+            Refresh the unlock state. You shouldn't need to call this manually
+            but it's here if you have to for some reason. Retuns true if state changed (meaning, probably unlocked)
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.App.MarkContentCorrupt(System.Boolean)">
+            <summary>
+            Mark the content as corrupt, so it will validate the downloaded files
+            once the app is closed. This is good to call when you detect a crash happening
+            or a file is missing that is meant to be there.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.App.InstallDlc(System.UInt32)">
+            <summary>
+            Tell steam to install the Dlc specified by the AppId
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.App.UninstallDlc(System.UInt32)">
+            <summary>
+            Tell steam to uninstall the Dlc specified by the AppId
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.App.PurchaseTime(System.UInt32)">
+            <summary>
+            Get the purchase time for this appid. Will return DateTime.MinValue if none.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.App.IsSubscribed(System.UInt32)">
+            <summary>
+            Checks if the active user is subscribed to a specified AppId.
+            Only use this if you need to check ownership of another game related to yours, a demo for example.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.App.IsInstalled(System.UInt32)">
+            <summary>
+            Returns true if specified app is installed.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Auth.Ticket.Cancel">
+            <summary>
+            Cancels a ticket. 
+            You should cancel your ticket when you close the game or leave a server.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Auth.GetAuthSessionTicket">
+            <summary>
+            Creates an auth ticket. 
+            Which you can send to a server to authenticate that you are who you say you are.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.SteamFriend.Id">
+            <summary>
+            Steam Id
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.SteamFriend.IsBlocked">
+            <summary>
+             Return true if blocked
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.SteamFriend.IsFriend">
+            <summary>
+             Return true if is a friend. Returns false if blocked, request etc.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.SteamFriend.Name">
+            <summary>
+            Their current display name
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.SteamFriend.IsOnline">
+            <summary>
+            Returns true if this friend is online
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.SteamFriend.IsAway">
+            <summary>
+            Returns true if this friend is marked as away
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.SteamFriend.IsBusy">
+            <summary>
+            Returns true if this friend is marked as busy
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.SteamFriend.IsSnoozing">
+            <summary>
+            Returns true if this friend is marked as snoozing
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.SteamFriend.IsPlayingThisGame">
+            <summary>
+            Returns true if this friend is online and playing this game
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.SteamFriend.IsPlaying">
+            <summary>
+            Returns true if this friend is online and playing this game
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.SteamFriend.CurrentAppId">
+            <summary>
+            The AppId this guy is playing
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.SteamFriend.GetRichPresence(System.String)">
+            <summary>
+            Returns null if the value doesn't exist
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.SteamFriend.Refresh">
+            <summary>
+            Update this friend, request the latest data from Steam's servers
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.SteamFriend.GetAvatar(Facepunch.Steamworks.Friends.AvatarSize)">
+            <summary>
+            This will return null if you don't have the target user's avatar in your cache.
+            Which usually happens for people not on your friends list.
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Friends">
+            <summary>
+            Handles most interactions with people in Steam, not just friends as the name would suggest.
+            </summary>
+            <example>
+            foreach ( var friend in client.Friends.AllFriends )
+            {
+                Console.WriteLine( $"{friend.Id}: {friend.Name}" );
+            }
+            </example>
+        </member>
+        <member name="M:Facepunch.Steamworks.Friends.UpdateInformation(System.UInt64)">
+            <summary>
+            Try to get information about this user - which as name and avatar.
+            If returns true, we already have this user's information.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Friends.GetName(System.UInt64)">
+            <summary>
+            Get this user's name
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Friends.All">
+            <summary>
+            Returns all friends, even blocked, ignored, friend requests etc
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Friends.AllFriends">
+            <summary>
+            Returns only friends
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Friends.AllBlocked">
+            <summary>
+            Returns all blocked users
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Friends.AvatarSize.Small">
+            <summary>
+            Should be 32x32 - but make sure to check!
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Friends.AvatarSize.Medium">
+            <summary>
+            Should be 64x64 - but make sure to check!
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Friends.AvatarSize.Large">
+            <summary>
+            Should be 184x184 - but make sure to check!
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Friends.GetCachedAvatar(Facepunch.Steamworks.Friends.AvatarSize,System.UInt64)">
+            <summary>
+            Try to get the avatar immediately. This should work for people on your friends list.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Friends.GetAvatar(Facepunch.Steamworks.Friends.AvatarSize,System.UInt64,System.Action{Facepunch.Steamworks.Image})">
+            <summary>
+            Callback will be called when the avatar is ready. If we fail to get an
+            avatar, it'll be called with a null Image.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Image.IsError">
+            <summary>
+            Return true if this image couldn't be loaded for some reason
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Leaderboard.RequestType">
+            <summary>
+                Type of leaderboard request
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Leaderboard.RequestType.Global">
+            <summary>
+                Query everyone and everything
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Leaderboard.RequestType.GlobalAroundUser">
+            <summary>
+                Query entries near to this user's rank
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Leaderboard.RequestType.Friends">
+            <summary>
+                Only show friends of this user
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Leaderboard.Results">
+            <summary>
+                The results from the last query. Can be null.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Leaderboard.Name">
+            <summary>
+                The name of this board, as retrieved from Steam
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Leaderboard.TotalEntries">
+            <summary>
+                The total number of entries on this board
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Leaderboard.IsValid">
+            <summary>
+                Returns true if this board is valid, ie, we've received
+                a positive response from Steam about it.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Leaderboard.IsError">
+            <summary>
+                Returns true if we asked steam about this board but it returned
+                an error.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Leaderboard.IsQuerying">
+            <summary>
+                Returns true if we're querying scores
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Leaderboard.OnBoardInformation">
+            <summary>
+            Called when the leaderboard information is successfully recieved from Steam
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Leaderboard.AddScore(System.Boolean,System.Int32,System.Int32[])">
+            <summary>
+            Add a score to this leaderboard.
+            Subscores are totally optional, and can be used for other game defined data such as laps etc.. although
+            they have no bearing on sorting at all
+            If onlyIfBeatsOldScore is true, the score will only be updated if it beats the existing score, else it will always
+            be updated. Beating the existing score is subjective - and depends on how your leaderboard was set up as to whether
+            that means higher or lower.
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Leaderboard.AddScoreCallback">
+            <summary>
+            Callback invoked by <see cref="M:Facepunch.Steamworks.Leaderboard.AddScore(System.Boolean,System.Int32,System.Int32[],Facepunch.Steamworks.Leaderboard.AddScoreCallback,Facepunch.Steamworks.Callbacks.FailureCallback)"/> when score submission
+            is complete.
+            </summary>
+            <param name="result">If successful, information about the new entry</param>
+        </member>
+        <member name="T:Facepunch.Steamworks.Leaderboard.AddScoreResult">
+            <summary>
+            Information about a newly submitted score.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Leaderboard.AddScore(System.Boolean,System.Int32,System.Int32[],Facepunch.Steamworks.Leaderboard.AddScoreCallback,Facepunch.Steamworks.Callbacks.FailureCallback)">
+            <summary>
+            Add a score to this leaderboard.
+            Subscores are totally optional, and can be used for other game defined data such as laps etc.. although
+            they have no bearing on sorting at all
+            If onlyIfBeatsOldScore is true, the score will only be updated if it beats the existing score, else it will always
+            be updated.
+            Information about the newly submitted score is passed to the optional <paramref name="onSuccess"/>.
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Leaderboard.AttachRemoteFileCallback">
+            <summary>
+            Callback invoked by <see cref="M:Facepunch.Steamworks.Leaderboard.AttachRemoteFile(Facepunch.Steamworks.RemoteFile,Facepunch.Steamworks.Leaderboard.AttachRemoteFileCallback,Facepunch.Steamworks.Callbacks.FailureCallback)"/> when file attachment is complete.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Leaderboard.AttachRemoteFile(Facepunch.Steamworks.RemoteFile,Facepunch.Steamworks.Leaderboard.AttachRemoteFileCallback,Facepunch.Steamworks.Callbacks.FailureCallback)">
+            <summary>
+            Attempt to attach a <see cref="T:Facepunch.Steamworks.RemoteStorage"/> file to the current user's leaderboard entry.
+            Can be useful for storing replays along with scores.
+            </summary>
+            <returns>True if the file attachment process has started</returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.Leaderboard.FetchScores(Facepunch.Steamworks.Leaderboard.RequestType,System.Int32,System.Int32)">
+            <summary>
+                Fetch a subset of scores. The scores end up in Results.
+            </summary>
+            <returns>Returns true if we have started the query</returns>
+        </member>
+        <member name="T:Facepunch.Steamworks.Leaderboard.FetchScoresCallback">
+            <summary>
+            Callback invoked by <see cref="M:Facepunch.Steamworks.Leaderboard.FetchScores(Facepunch.Steamworks.Leaderboard.RequestType,System.Int32,System.Int32,Facepunch.Steamworks.Leaderboard.FetchScoresCallback,Facepunch.Steamworks.Callbacks.FailureCallback)"/> when
+            a query is complete.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Leaderboard.FetchScores(Facepunch.Steamworks.Leaderboard.RequestType,System.Int32,System.Int32,Facepunch.Steamworks.Leaderboard.FetchScoresCallback,Facepunch.Steamworks.Callbacks.FailureCallback)">
+            <summary>
+                Fetch a subset of scores. The scores are passed to <paramref name="onSuccess"/>.
+            </summary>
+            <returns>Returns true if we have started the query</returns>
+        </member>
+        <member name="T:Facepunch.Steamworks.Leaderboard.Entry">
+            <summary>
+                A single entry in a leaderboard
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Leaderboard.Entry.Name">
+            <summary>
+                Note that the player's name might not be immediately available.
+                If that's the case you'll have to use Friends.GetName to find the name
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Lobby.CurrentLobby">
+            <summary>
+            The CSteamID of the lobby we're currently in.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Lobby.CurrentLobbyData">
+            <summary>
+            The LobbyData of the CurrentLobby. Note this is the global data for the lobby. Use SetMemberData to set specific member data.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Lobby.IsValid">
+            <summary>
+            Returns true if this lobby is valid, ie, we've succesffuly created and/or joined a lobby.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.Join(System.UInt64)">
+            <summary>
+            Join a Lobby through its LobbyID. OnLobbyJoined is called with the result of the Join attempt.
+            </summary>
+            <param name="lobbyID">CSteamID of lobby to join</param>
+        </member>
+        <member name="F:Facepunch.Steamworks.Lobby.OnLobbyJoined">
+            <summary>
+            Called when a lobby has been attempted joined. Returns true if lobby was successfuly joined, false if not.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.Create(Facepunch.Steamworks.Lobby.Type,System.Int32)">
+            <summary>
+            Creates a lobby and returns the created lobby. You auto join the created lobby. The lobby is stored in Client.CurrentLobby if successful.
+            </summary>
+            <param name="lobbyType">The Lobby.Type of Lobby to be created</param>
+            <param name="maxMembers">The maximum amount of people you want to be able to be in this lobby, including yourself</param>
+        </member>
+        <member name="F:Facepunch.Steamworks.Lobby.OnLobbyCreated">
+            <summary>
+            Callback for when lobby is created. Parameter resolves true when the Lobby was successfully created
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Lobby.LobbyData">
+            <summary>
+            Class to hold global lobby data. This is stuff like maps/modes/etc. Data set here can be filtered by LobbyList.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.LobbyData.GetData(System.String)">
+            <summary>
+            Get the lobby value for the specific key
+            </summary>
+            <param name="k">The key to find</param>
+            <returns>The value at key</returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.LobbyData.GetAllData">
+            <summary>
+            Get a list of all the data in the Lobby
+            </summary>
+            <returns>Dictionary of all the key/value pairs in the data</returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.LobbyData.SetData(System.String,System.String)">
+            <summary>
+            Set the value for specified Key. Note that the keys "joinable", "appid", "name", and "lobbytype" are reserved for internal library use.
+            </summary>
+            <param name="k">The key to set the value for</param>
+            <param name="v">The value of the Key</param>
+            <returns>True if data successfully set</returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.LobbyData.RemoveData(System.String)">
+            <summary>
+            Remove the key from the LobbyData. Note that the keys "joinable", "appid", "name", and "lobbytype" are reserved for internal library use.
+            </summary>
+            <param name="k">The key to remove</param>
+            <returns>True if Key successfully removed</returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.SetMemberData(System.String,System.String)">
+            <summary>
+            Sets user data for the Lobby. Things like Character, Skin, Ready, etc. Can only set your own member data
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.GetMemberData(System.UInt64,System.String)">
+            <summary>
+            Get the per-user metadata from this lobby. Can get data from any user
+            </summary>
+            <param name="steamID">ulong SteamID of the user you want to get data from</param>
+            <param name="key">String key of the type of data you want to get</param>
+            <returns></returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.UpdateLobbyData">
+            <summary>
+            Updates the LobbyData property to have the data for the current lobby, if any
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Lobby.OnLobbyDataUpdated">
+            <summary>
+            Called when the lobby data itself has been updated. Called when someone has joined/left, Owner has updated data, etc.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Lobby.OnLobbyMemberDataUpdated">
+            <summary>
+            Called when a member of the lobby has updated either their personal Lobby metadata or someone's global steam state has changed (like a display name). Parameter is the user who changed.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Lobby.OnChatMessageRecieved">
+            <summary>
+            Callback to get chat messages. Use Encoding.UTF8.GetString to retrive the message.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Lobby.OnChatStringRecieved">
+            <summary>
+            Like OnChatMessageRecieved but the data is converted to a string
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.SendChatMessage(System.String)">
+            <summary>
+            Broadcasts a chat message to the all the users in the lobby users in the lobby (including the local user) will receive a LobbyChatMsg_t callback.
+            </summary>
+            <returns>True if message successfully sent</returns>
+        </member>
+        <member name="T:Facepunch.Steamworks.Lobby.MemberStateChange">
+            <summary>
+            Enums to catch the state of a user when their state has changed
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Lobby.OnLobbyStateChanged">
+            <summary>
+            Called when the state of the Lobby is somehow shifted. Usually when someone joins or leaves the lobby.
+            The first ulong is the SteamID of the user that initiated the change.
+            The second ulong is the person that was affected
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Lobby.Name">
+            <summary>
+            The name of the lobby as a property for easy getting/setting. Note that this is setting LobbyData, which you cannot do unless you are the Owner of the lobby
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Lobby.Owner">
+            <summary>
+            The Owner of the current lobby. Returns 0 if you are not in a valid lobby.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Lobby.Joinable">
+            <summary>
+            Is the Lobby joinable by other people? Defaults to true;
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Lobby.MaxMembers">
+            <summary>
+            How many people can be in the Lobby
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Lobby.NumMembers">
+            <summary>
+            How many people are currently in the Lobby
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.Leave">
+            <summary>
+            Leave the CurrentLobby.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.GetMemberIDs">
+            <summary>
+            Get an array of all the CSteamIDs in the CurrentLobby.
+            Note that you must be in the Lobby you are trying to request the MemberIDs from.
+            Returns an empty array if you aren't in a lobby.
+            </summary>
+            <returns>Array of member SteamIDs</returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.UserIsInCurrentLobby(System.UInt64)">
+            <summary>
+            Check to see if a user is in your CurrentLobby
+            </summary>
+            <param name="steamID">SteamID of the user to check for</param>
+            <returns></returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.InviteUserToLobby(System.UInt64)">
+            <summary>
+            Invites the specified user to the CurrentLobby the user is in.
+            </summary>
+            <param name="friendID">ulong ID of person to invite</param>
+        </member>
+        <member name="F:Facepunch.Steamworks.Lobby.OnUserInvitedToLobby">
+            <summary>
+            Called when a user invites the current user to a lobby. The first parameter is the lobby the user was invited to, the second is the CSteamID of the person who invited this user
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.OnLobbyJoinRequestedAPI(SteamNative.GameLobbyJoinRequested_t,System.Boolean)">
+            <summary>
+            Joins a lobby if a request was made to join the lobby through the friends list or an invite
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Lobby.OnLobbyMemberPersonaChangeAPI(SteamNative.PersonaStateChange_t,System.Boolean)">
+            <summary>
+            Makes sure we send an update callback if a Lobby user updates their information
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.LobbyList.Refresh(Facepunch.Steamworks.LobbyList.Filter)">
+            <summary>
+            Refresh the List of Lobbies. If no filter is passed in, a default one is created that filters based on AppId ("appid").
+            </summary>
+            <param name="filter"></param>
+        </member>
+        <member name="E:Facepunch.Steamworks.MicroTransactions.OnAuthorizationResponse">
+            <summary>
+            Called on the MicroTxnAuthorizationResponse_t event
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.RemoteStorage">
+            <summary>
+            Handles Steam Cloud related actions.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.RemoteStorage.IsCloudEnabledForAccount">
+            <summary>
+            True if Steam Cloud is currently enabled by the current user.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.RemoteStorage.IsCloudEnabledForApp">
+            <summary>
+            True if Steam Cloud is currently enabled for this app by the current user.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.RemoteStorage.FileCount">
+            <summary>
+            Gets the total number of files in the current user's remote storage for the current game.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.RemoteStorage.Files">
+            <summary>
+            Gets all files in the current user's remote storage for the current game.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteStorage.CreateFile(System.String)">
+            <summary>
+            Creates a new <see cref="T:Facepunch.Steamworks.RemoteFile"/> with the given <paramref name="path"/>.
+            If a file exists at that path it will be overwritten.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteStorage.OpenFile(System.String)">
+            <summary>
+            Opens the file if it exists, else returns null;
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteStorage.OpenSharedFile(System.UInt64)">
+            <summary>
+            Opens a previously shared <see cref="T:Facepunch.Steamworks.RemoteFile"/>
+            with the given <paramref name="sharingId"/>.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteStorage.WriteString(System.String,System.String,System.Text.Encoding)">
+            <summary>
+            Write all text to the file at the specified path. This
+            overwrites the contents - it does not append.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteStorage.WriteBytes(System.String,System.Byte[])">
+            <summary>
+            Write all data to the file at the specified path. This
+            overwrites the contents - it does not append.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteStorage.ReadString(System.String,System.Text.Encoding)">
+            <summary>
+            Read the entire contents of the file as a string.
+            Returns null if the file isn't found.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteStorage.ReadBytes(System.String)">
+            <summary>
+            Read the entire contents of the file as raw data.
+            Returns null if the file isn't found.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteStorage.FileExists(System.String)">
+            <summary>
+            Gets whether a file exists in remote storage at the given <paramref name="path"/>.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.RemoteStorage.QuotaUsed">
+            <summary>
+            Number of bytes used out of the user's total quota
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.RemoteStorage.QuotaTotal">
+            <summary>
+            Total quota size in bytes
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.RemoteStorage.QuotaRemaining">
+            <summary>
+            Number of bytes remaining out of the user's total quota
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.RemoteFile">
+            <summary>
+            Represents a file stored in a user's Steam Cloud.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.RemoteFile.Exists">
+            <summary>
+            Check if the file exists.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.RemoteFile.IsShared">
+            <summary>
+            If true, the file is available for other users to download.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.RemoteFile.FileName">
+            <summary>
+            Name and path of the file.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.RemoteFile.OwnerId">
+            <summary>
+            Steam ID of the file's owner.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.RemoteFile.SizeInBytes">
+            <summary>
+            Total size of the file in bytes.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteFile.OpenWrite">
+            <summary>
+            Creates a <see cref="T:Facepunch.Steamworks.RemoteFileWriteStream"/> used to write to this file.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteFile.WriteAllBytes(System.Byte[])">
+            <summary>
+            Write a byte array to this file, replacing any existing contents.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteFile.WriteAllText(System.String,System.Text.Encoding)">
+            <summary>
+            Write a string to this file, replacing any existing contents.
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.RemoteFile.DownloadCallback">
+            <summary>
+            Callback invoked by <see cref="M:Facepunch.Steamworks.RemoteFile.Download(Facepunch.Steamworks.RemoteFile.DownloadCallback,Facepunch.Steamworks.Callbacks.FailureCallback)"/> when a file download is complete.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteFile.GetDownloadProgress(System.Int32@,System.Int32@)">
+            <summary>
+            Gets the number of bytes downloaded and the total number of bytes expected while
+            this file is downloading.
+            </summary>
+            <returns>True if the file is downloading</returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteFile.Download(Facepunch.Steamworks.RemoteFile.DownloadCallback,Facepunch.Steamworks.Callbacks.FailureCallback)">
+            <summary>
+            Attempts to start downloading a shared file.
+            </summary>
+            <returns>True if the download has successfully started</returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteFile.OpenRead">
+            <summary>
+            Opens a stream used to read from this file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteFile.ReadAllBytes">
+            <summary>
+            Reads the entire contents of the file as a byte array.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteFile.ReadAllText(System.Text.Encoding)">
+            <summary>
+            Reads the entire contents of the file as a string.
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.RemoteFile.ShareCallback">
+            <summary>
+            Callback invoked by <see cref="M:Facepunch.Steamworks.RemoteFile.Share(Facepunch.Steamworks.RemoteFile.ShareCallback,Facepunch.Steamworks.Callbacks.FailureCallback)"/> when file sharing is complete.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteFile.Share(Facepunch.Steamworks.RemoteFile.ShareCallback,Facepunch.Steamworks.Callbacks.FailureCallback)">
+            <summary>
+            Attempt to publish this file for other users to download.
+            </summary>
+            <returns>True if we have started attempting to share</returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteFile.Delete">
+            <summary>
+            Delete this file from remote storage.
+            </summary>
+            <returns>True if the file could be deleted</returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteFile.Forget">
+            <summary>
+            Remove this file from remote storage, while keeping a local copy.
+            Writing to this file again will re-add it to the cloud.
+            </summary>
+            <returns>True if the file was forgotten</returns>
+        </member>
+        <member name="T:Facepunch.Steamworks.RemoteFileWriteStream">
+            <summary>
+            Stream used to write to a <see cref="T:Facepunch.Steamworks.RemoteFile"/>.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.RemoteFileWriteStream.Cancel">
+            <summary>
+            Close the stream without saving the file to remote storage.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerList.Custom(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Query a list of addresses. No filters applied.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerList.History(Facepunch.Steamworks.ServerList.Filter)">
+            <summary>
+            Request a list of servers we've been on. History isn't applied automatically
+            You need to call server.AddtoHistoryList() when you join a server etc.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerList.Favourites(Facepunch.Steamworks.ServerList.Filter)">
+            <summary>
+            Request a list of servers we've favourited
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerList.Friends(Facepunch.Steamworks.ServerList.Filter)">
+            <summary>
+            Request a list of servers that our friends are on
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerList.Local(Facepunch.Steamworks.ServerList.Filter)">
+            <summary>
+            Request a list of servers that are running on our LAN
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.ServerList.Request.Responded">
+            <summary>
+            A list of servers that responded. If you're only interested in servers that responded since you
+            last updated, then simply clear this list.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.ServerList.Request.Unresponsive">
+            <summary>
+            A list of servers that were in the master list but didn't respond. 
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.ServerList.Request.Finished">
+            <summary>
+            True when we have finished
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerList.Request.Dispose">
+            <summary>
+            Disposing will end the query
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.ServerList.Server.Favourite">
+            <summary>
+            Returns true if this server is in the favourites list
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.ServerList.Server.OnReceivedRules">
+            <summary>
+            Callback when rules are receieved.
+            The bool is true if server responded properly.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.ServerList.Server.Rules">
+            <summary>
+            List of server rules. Use HasRules to see if this is safe to access.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.ServerList.Server.HasRules">
+            <summary>
+            Returns true if this server has rules
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerList.Server.FetchRules">
+            <summary>
+            Populates Rules for this server
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerList.Server.AddToHistory">
+            <summary>
+            Add this server to our history list
+            If we're already in the history list, weill set the last played time to now
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerList.Server.RemoveFromHistory">
+            <summary>
+            Remove this server from our history list
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerList.Server.AddToFavourites">
+            <summary>
+            Add this server to our favourite list
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerList.Server.RemoveFromFavourites">
+            <summary>
+            Remove this server from our favourite list
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Stats.Set(System.String,System.Int32,System.Boolean)">
+            <summary>
+            Set a stat value. This will automatically call StoreStats() after a successful call
+            unless you pass false as the last argument.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Stats.Set(System.String,System.Single,System.Boolean)">
+            <summary>
+            Set a stat value. This will automatically call StoreStats() after a successful call
+            unless you pass false as the last argument.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Stats.Add(System.String,System.Int32,System.Boolean)">
+            <summary>
+            Adds this amount to the named stat. Internally this calls Get() and adds 
+            to that value. Steam doesn't provide a mechanism for atomically increasing
+            stats like this, this functionality is added here as a convenience.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Stats.ResetAll(System.Boolean)">
+            <summary>
+            Practically wipes the slate clean for this user. If includeAchievements is true, will wipe
+            any achievements too.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Facepunch.Steamworks.Voice.OptimalSampleRate">
+            <summary>
+            Returns the optimal sample rate for voice - according to Steam
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Voice.WantsRecording">
+            <summary>
+            If set to true we are listening to the mic. 
+            You should usually toggle this with the press of a key for push to talk.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Voice.LastVoiceRecordTime">
+            <summary>
+            The last time voice was detected, recorded
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Voice.DesiredSampleRate">
+            <summary>
+            If set we will capture the audio at this rate. If unset (set to 0) will capture at OptimalSampleRate
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Voice.Update">
+            <summary>
+            This gets called inside Update - so there's no need to call this manually if you're calling update
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Config.ForUnity(System.String)">
+            <summary>
+            Should be called before creating any interfaces, to configure Steam for Unity.
+            </summary>
+            <param name="platform">Please pass in Application.platform.ToString()</param>
+        </member>
+        <member name="P:Facepunch.Steamworks.Config.UseThisCall">
+            <summary>
+            Some platforms allow/need CallingConvention.ThisCall. If you're crashing with argument null
+            errors on certain platforms, try flipping this to true.
+            
+            I owe this logic to Riley Labrecque's hard work on Steamworks.net - I don't have the knowledge
+            or patience to find this shit on my own, so massive thanks to him. And also massive thanks to him
+            for releasing his shit open source under the MIT license so we can all learn and iterate.
+            
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Config.ForcePlatform(Facepunch.Steamworks.OperatingSystem,Facepunch.Steamworks.Architecture)">
+            <summary>
+            You can force the platform to a particular one here.
+            This is useful if you're on OSX because some versions of mono don't have a way
+            to tell which platform we're running
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Inventory.OnUpdate">
+            <summary>
+            Called when the local client's items are first retrieved, and when they change.
+            Obviously not called on the server.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Inventory.Items">
+            <summary>
+            A list of items owned by this user. You should call Refresh() before trying to access this, 
+            and then wait until it's non null or listen to OnUpdate to find out immediately when it's populated.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Inventory.SerializedItems">
+            <summary>
+            You can send this data to a server, or another player who can then deserialize it
+            and get a verified list of items.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Inventory.SerializedExpireTime">
+            <summary>
+            Serialized data exprires after an hour. This is the time the value in SerializedItems will expire.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.onFullUpdate(SteamNative.SteamInventoryFullUpdate_t,System.Boolean)">
+            <summary>
+            We've received a FULL update
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.onResultReady(SteamNative.SteamInventoryResultReady_t,System.Boolean)">
+            <summary>
+            A generic result has returned.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.ApplyResult(Facepunch.Steamworks.Inventory.Result)">
+            <summary>
+            Apply this result to our current stack of Items
+            Here we're trying to keep our stack up to date with whatever happens
+            with the crafting, stacking etc
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.PlaytimeHeartbeat">
+            <summary>
+            Call this at least every two minutes, every frame doesn't hurt.
+            You should call it when you consider it active play time.
+            IE - your player is alive, and playing.
+            Don't stress on it too much tho cuz it's super hijackable anyway.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.Refresh">
+            <summary>
+            Call this to retrieve the items.
+            Note that if this has already been called it won't
+            trigger a call to OnUpdate unless the items have changed
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.CreateDefinition(System.Int32)">
+            <summary>
+            Some definitions aren't sent to the client, and all aren't available on the server.
+            Manually getting a Definition here lets you call functions on those definitions.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.Update">
+            <summary>
+            No need to call this manually if you're calling Update
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Inventory.Definitions">
+            <summary>
+            A list of items defined for this app. 
+            This should be immediately populated and available.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.PriceCategoryToFloat(System.String)">
+            <summary>
+            Utility, given a "1;VLV250" string, convert it to a 2.5
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.FindDefinition(System.Int32)">
+            <summary>
+            You really need me to explain what this does?
+            Use your brains.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.CraftItem(Facepunch.Steamworks.Inventory.Item[],Facepunch.Steamworks.Inventory.Definition)">
+            <summary>
+            Crafting! Uses the passed items to buy the target item.
+            You need to have set up the appropriate exchange rules in your item
+            definitions. This assumes all the items passed in aren't stacked.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.CraftItem(Facepunch.Steamworks.Inventory.Item.Amount[],Facepunch.Steamworks.Inventory.Definition)">
+            <summary>
+            Crafting! Uses the passed items to buy the target item.
+            You need to have set up the appropriate exchange rules in your item
+            definitions.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.SplitStack(Facepunch.Steamworks.Inventory.Item,System.Int32)">
+            <summary>
+            Split stack into two items
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.Stack(Facepunch.Steamworks.Inventory.Item,Facepunch.Steamworks.Inventory.Item,System.Int32)">
+            <summary>
+            Stack source item onto dest item
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.GenerateItem(Facepunch.Steamworks.Inventory.Definition,System.Int32)">
+            <summary>
+            This is used to grant a specific item to the user. This should 
+            only be used for development prototyping, from a trusted server, 
+            or if you don't care about hacked clients granting arbitrary items. 
+            This call can be disabled by a setting on Steamworks.
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Inventory.Definition">
+            <summary>
+            An item definition. This describes an item in your Steam inventory, but is
+            not unique to that item. For example, this might be a tshirt, but you might be able to own
+            multiple tshirts.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Inventory.Definition.IconUrl">
+            <summary>
+            URL to an image specified by the schema, else empty
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Inventory.Definition.IconLargeUrl">
+            <summary>
+            URL to an image specified by the schema, else empty
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Inventory.Definition.Type">
+            <summary>
+            Type can be whatever the schema defines. 
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Inventory.Definition.ExchangeSchema">
+            <summary>
+            If this item can be created using other items this string will contain a comma seperated 
+            list of definition ids that can be used, ie "100,101;102x5;103x3,104x3"
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Inventory.Definition.Recipes">
+            <summary>
+            A list of recepies for creating this item. Can be null if none.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Inventory.Definition.IngredientFor">
+            <summary>
+            A list of recepies we're included in
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Inventory.Definition.PriceRaw">
+            <summary>
+            The raw contets of price_category from the schema
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Inventory.Definition.PriceDollars">
+            <summary>
+            The dollar price from PriceRaw
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Inventory.Definition.Marketable">
+            <summary>
+            Returns true if this item can be sold on the marketplace
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.Definition.SetProperty(System.String,System.String)">
+            <summary>
+            If you're manually occupying the Definition (because maybe you're on a server
+            and want to hack around the fact that definitions aren't presented to you), 
+            you can use this to set propertis.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.Definition.GetProperty``1(System.String)">
+            <summary>
+            Read a raw property from the definition schema
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.Definition.GetStringProperty(System.String)">
+            <summary>
+            Read a raw property from the definition schema
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.Definition.GetBoolProperty(System.String)">
+            <summary>
+            Read a raw property from the definition schema
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Inventory.Definition.TriggerItemDrop">
+            <summary>
+            Trigger an item drop. Call this when it's a good time to award
+            an item drop to a player. This won't automatically result in giving
+            an item to a player. Just call it every minute or so, or on launch.
+            ItemDefinition is usually a generator
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Inventory.Recipe">
+            <summary>
+            Represents a crafting recepie which was defined using the exchange
+            section in the item schema.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Inventory.Recipe.Ingredient.DefinitionId">
+            <summary>
+            The definition ID of the ingredient.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Inventory.Recipe.Ingredient.Definition">
+            <summary>
+            If we don't know about this item definition this might be null.
+            In which case, DefinitionId should still hold the correct id.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Inventory.Recipe.Ingredient.Count">
+            <summary>
+            The amount of this item needed. Generally this will be 1.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Inventory.Recipe.Result">
+            <summary>
+            The item that this will create.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Inventory.Recipe.Ingredients">
+            <summary>
+            The items, with quantity required to create this item.
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Inventory.Item">
+            <summary>
+            An item in your inventory.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Inventory.Item.Definition">
+            <summary>
+            Careful, this might not be available. Especially on a game server.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Inventory.Result.OnResult">
+            <summary>
+            Called when result is successfully returned
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Inventory.Result.Items">
+            <summary>
+            Items that exist, or that have been created, or changed
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Inventory.Result.Removed">
+            <summary>
+            Items that have been removed or somehow destroyed
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Inventory.Result.Consumed">
+            <summary>
+            Items that have been consumed, like in a craft or something
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Inventory.Result.IsPending">
+            <summary>
+            Returns true if this result is still pending
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Networking.Update">
+            <summary>
+            No need to call this manually if you're calling Update()
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Networking.SetListenChannel(System.Int32,System.Boolean)">
+            <summary>
+            Enable or disable listening on a specific channel.
+            If you donp't enable the channel we won't listen to it,
+            so you won't be able to receive messages on it.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Networking.SendType.Unreliable">
+            <summary>
+            Basic UDP send. Packets can't be bigger than 1200 bytes (your typical MTU size). Can be lost, or arrive out of order (rare).
+            The sending API does have some knowledge of the underlying connection, so if there is no NAT-traversal accomplished or
+            there is a recognized adjustment happening on the connection, the packet will be batched until the connection is open again.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Networking.SendType.UnreliableNoDelay">
+            <summary>
+            As above, but if the underlying p2p connection isn't yet established the packet will just be thrown away. Using this on the first
+            packet sent to a remote host almost guarantees the packet will be dropped.
+            This is only really useful for kinds of data that should never buffer up, i.e. voice payload packets
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Networking.SendType.Reliable">
+            <summary>
+            Reliable message send. Can send up to 1MB of data in a single message.
+            Does fragmentation/re-assembly of messages under the hood, as well as a sliding window for efficient sends of large chunks of data.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Networking.SendType.ReliableWithBuffering">
+            <summary>
+            As above, but applies the Nagle algorithm to the send - sends will accumulate
+            until the current MTU size (typically ~1200 bytes, but can change) or ~200ms has passed (Nagle algorithm).
+            Useful if you want to send a set of smaller messages but have the coalesced into a single packet
+            Since the reliable stream is all ordered, you can do several small message sends with k_EP2PSendReliableWithBuffering and then
+            do a normal k_EP2PSendReliable to force all the buffered data to be sent.
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Workshop">
+            <summary>
+            Allows you to interact with Steam's UGC stuff (User Generated Content).
+            To put simply, this allows you to upload a folder of files to Steam.
+            
+            To upload a new file use CreateItem. This returns an Editor object.
+            This object is also used to edit existing items.
+            
+            To get a list of items you can call CreateQuery. From there you can download
+            an item and retrieve the folder that it's downloaded to. 
+            
+            Generally there's no need to compress and decompress your uploads, so you should
+            usually be able to use the content straight from the destination folder.
+            
+            </summary>
+        </member>
+        <member name="E:Facepunch.Steamworks.Workshop.OnFileDownloaded">
+            <summary>
+            Called when an item has been downloaded. This could have been
+            because of a call to Download.
+            </summary>
+        </member>
+        <member name="E:Facepunch.Steamworks.Workshop.OnItemInstalled">
+            <summary>
+            Called when an item has been installed. This could have been
+            because of a call to Download or because of a subscription triggered
+            via the browser/app.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Workshop.Dispose">
+            <summary>
+            You should never have to call this manually
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Workshop.CreateQuery">
+            <summary>
+            Creates a query object, which is used to get a list of items.
+            
+            This could be a list of the most popular items, or a search, 
+            or just getting a list of the items you've uploaded.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Workshop.CreateItem(Facepunch.Steamworks.Workshop.ItemType)">
+            <summary>
+            Create a new Editor object with the intention of creating a new item.
+            Your item won't actually be created until you call Publish() on the object.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Workshop.CreateItem(System.UInt32,Facepunch.Steamworks.Workshop.ItemType)">
+            <summary>
+            Create a new Editor object with the intention of creating a new item.
+            Your item won't actually be created until you call Publish() on the object.
+            Your item will be published to the provided appId.
+            </summary>
+            <remarks>You need to add app publish permissions for cross app uploading to work.</remarks> 
+        </member>
+        <member name="M:Facepunch.Steamworks.Workshop.EditItem(System.UInt64)">
+            <summary>
+            Returns a class representing this ItemId. We don't query
+            item name, description etc. We don't verify that item exists.
+            We don't verify that this item belongs to your app.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Workshop.GetItem(System.UInt64)">
+            <summary>
+            Gets an Item object for a specific item. This doesn't currently
+            query the item's name and description. It's only really useful
+            if you know an item's ID and want to download it, or check its
+            current download status.
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Workshop.Order">
+            <summary>
+            How a query should be ordered.
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Workshop.QueryType">
+            <summary>
+            The type of item you are querying for
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Workshop.QueryType.Items">
+            <summary>
+            Both MicrotransactionItems and subscriptionItems
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Workshop.QueryType.MicrotransactionItems">
+            <summary>
+            Workshop item that is meant to be voted on for the purpose of selling in-game
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Workshop.QueryType.SubscriptionItems">
+            <summary>
+            normal Workshop item that can be subscribed to
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Workshop.ItemType">
+            <summary>
+            Used to define the item type when creating
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Workshop.UserQueryType">
+            <summary>
+            When querying a specific user's items this defines what
+            type of items you're looking for.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Workshop.Item.Url">
+            <summary>
+            Return a URL to view this item online
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Workshop.Query.AppId">
+            <summary>
+            The AppId you're querying. This defaults to this appid.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Workshop.Query.UploaderAppId">
+            <summary>
+            The AppId of the app used to upload the item. This defaults to 0
+            which means all/any. 
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Workshop.Query.RankedByTrendDays">
+            <summary>
+            If order is RankedByTrend, this value represents how many days to take
+            into account.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.Workshop.Query.OnResult">
+            <summary>
+            Called when the query finishes
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Workshop.Query.Page">
+            <summary>
+            Page starts at 1 !!
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Workshop.Query.RequireTags">
+            <summary>
+            Only return items with these tags
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Workshop.Query.RequireAllTags">
+            <summary>
+            If true, return items that have all RequireTags
+            If false, return items that have any tags in RequireTags
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Workshop.Query.ExcludeTags">
+            <summary>
+            Don't return any items with this tag
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Workshop.Query.FileId">
+            <summary>
+            If you're querying for a particular file or files, add them to this.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Workshop.Query.Block">
+            <summary>
+            Don't call this in production!
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.Server">
+            <summary>
+            Initialize this class for Game Servers.
+            
+            Game servers offer a limited amount of Steam functionality - and don't require the Steam client.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.Instance">
+            <summary>
+            A singleton accessor to get the current client instance.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Server.#ctor(System.UInt32,Facepunch.Steamworks.ServerInit)">
+            <summary>
+            Initialize a Steam Server instance
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Server.Update">
+            <summary>
+            Should be called at least once every frame
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.DedicatedServer">
+            <summary>
+            Sets whether this should be marked as a dedicated server.
+            If not, it is assumed to be a listen server.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.MaxPlayers">
+            <summary>
+            Gets or sets the current MaxPlayers. 
+            This doesn't enforce any kind of limit, it just updates the master server.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.BotCount">
+            <summary>
+            Gets or sets the current BotCount. 
+            This doesn't enforce any kind of limit, it just updates the master server.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.MapName">
+            <summary>
+            Gets or sets the current Map Name. 
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.ModDir">
+            <summary>
+            Gets or sets the current ModDir
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.Product">
+            <summary>
+            Gets the current product
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.GameDescription">
+            <summary>
+            Gets or sets the current Product
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.ServerName">
+            <summary>
+            Gets or sets the current ServerName
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.Passworded">
+            <summary>
+            Set whether the server should report itself as passworded
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.GameTags">
+            <summary>
+            Gets or sets the current GameTags. This is a comma seperated list of tags for this server.
+            When querying the server list you can filter by these tags.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Server.LogOnAnonymous">
+            <summary>
+            Log onto Steam anonymously.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.LoggedOn">
+            <summary>
+            Returns true if the server is connected and registered with the Steam master server
+            You should have called LogOnAnonymous etc on startup.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Server.SetKey(System.String,System.String)">
+            <summary>
+            Sets a Key Value. These can be anything you like, and are accessible
+            when querying servers from the server list.
+            
+            Information describing gamemodes are common here.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Server.UpdatePlayer(System.UInt64,System.String,System.Int32)">
+            <summary>
+            Update this connected player's information. You should really call this
+            any time a player's name or score changes. This keeps the information shown
+            to server queries up to date.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Server.Dispose">
+            <summary>
+            Shutdown interface, disconnect from Steam
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.PublicIp">
+            <summary>
+            To the best of its ability this tries to get the server's
+            current public ip address. Be aware that this is likely to return
+            null for the first few seconds after initialization.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.AutomaticHeartbeats">
+            <summary>
+            Enable or disable heartbeats, which are sent regularly to the master server.
+            Enabled by default.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Server.AutomaticHeartbeatRate">
+            <summary>
+            Set heartbeat interval, if automatic heartbeats are enabled.
+            You can leave this at the default.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Server.ForceHeartbeat">
+            <summary>
+            Force send a heartbeat to the master server instead of waiting
+            for the next automatic update (if you've left them enabled)
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.ServerAuth.OnAuthChange">
+            <summary>
+            Steamid, Ownerid, Status
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.ServerAuth.Status">
+            <summary>
+            Steam authetication statuses
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerAuth.StartSession(System.Byte[],System.UInt64)">
+            <summary>
+            Start authorizing a ticket. This user isn't authorized yet. Wait for a call to OnAuthChange.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerAuth.EndSession(System.UInt64)">
+            <summary>
+            Forget this guy. They're no longer in the game.
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.ServerQuery">
+            <summary>
+            If you're manually processing the server queries, you should use this class.
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.ServerQuery.Packet">
+            <summary>
+            A server query packet.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.ServerQuery.Packet.Address">
+            <summary>
+            Target IP address
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.ServerQuery.Packet.Port">
+            <summary>
+            Target port
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.ServerQuery.Packet.Data">
+            <summary>
+            This data is pooled. Make a copy if you don't use it immediately.
+            This buffer is also quite large - so pay attention to Size.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.ServerQuery.Packet.Size">
+            <summary>
+            Size of the data
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerQuery.GetOutgoingPacket(Facepunch.Steamworks.ServerQuery.Packet@)">
+            <summary>
+            If true, Steam wants to send a packet. You should respond by sending
+            this packet in an unconnected way to the returned Address and Port.
+            </summary>
+            <param name="packet">Packet to send. The Data passed is pooled - so use it immediately.</param>
+            <returns>True if we want to send a packet</returns>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerQuery.Handle(System.Byte[],System.Int32,System.UInt32,System.UInt16)">
+            <summary>
+            We have received a server query on our game port. Pass it to Steam to handle.
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.ServerInit">
+            <summary>
+            Used to set up the server. 
+            The variables in here are all required to be set, and can't be changed once the server is created.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.ServerInit.VersionString">
+            <summary>
+            The version string is usually in the form x.x.x.x, and is used by the master server to detect when the server is out of date.
+            If you go into the dedicated server tab on steamworks you'll be able to server the latest version. If this version number is
+            less than that latest version then your server won't show.
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.ServerInit.ModDir">
+            <summary>
+            This should be the same directory game where gets installed into. Just the folder name, not the whole path. I.e. "Rust", "Garrysmod".
+            </summary>
+        </member>
+        <member name="F:Facepunch.Steamworks.ServerInit.GameDescription">
+            <summary>
+            The game description. Setting this to the full name of your game is recommended.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerInit.RandomSteamPort">
+            <summary>
+            Set the Steam quert port 
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerInit.QueryShareGamePort">
+            <summary>
+            If you pass MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE into usQueryPort, then it causes the game server API to use 
+            "GameSocketShare" mode, which means that the game is responsible for sending and receiving UDP packets for the master
+            server updater.
+            
+            More info about this here: https://partner.steamgames.com/doc/api/ISteamGameServer#HandleIncomingPacket
+            </summary>
+        </member>
+        <member name="T:Facepunch.Steamworks.ServerStats">
+            <summary>
+            Allows getting and setting stats on users from the gameserver. These stats
+            should have been set up on the Steamworks website for your app.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerStats.Refresh(System.UInt64,System.Action{System.UInt64,System.Boolean})">
+            <summary>
+            Retrieve the stats for this user. If you pass a callback function in
+            this will be called when the stats are recieved, the bool will signify whether
+            it was successful or not.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerStats.Commit(System.UInt64,System.Action{System.UInt64,System.Boolean})">
+            <summary>
+            Once you've set a stat change on a user you need to commit your changes.
+            You can do that using this function. The callback will let you know if
+            your action succeeded, but most of the time you can fire and forget.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerStats.SetInt(System.UInt64,System.String,System.Int32)">
+            <summary>
+            Set the named stat for this user. Setting stats should follow the rules
+            you defined in Steamworks.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerStats.SetFloat(System.UInt64,System.String,System.Single)">
+            <summary>
+            Set the named stat for this user. Setting stats should follow the rules
+            you defined in Steamworks.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerStats.GetInt(System.UInt64,System.String,System.Int32)">
+            <summary>
+            Get the named stat for this user. If getting the stat failed, will return
+            defaultValue. You should have called Refresh for this userid - which downloads
+            the stats from the backend. If you didn't call it this will always return defaultValue.
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.ServerStats.GetFloat(System.UInt64,System.String,System.Single)">
+            <summary>
+            Get the named stat for this user. If getting the stat failed, will return
+            defaultValue. You should have called Refresh for this userid - which downloads
+            the stats from the backend. If you didn't call it this will always return defaultValue.
+            </summary>
+        </member>
+        <member name="P:Facepunch.Steamworks.Utility.Epoch.Current">
+            <summary>
+            Returns the current Unix Epoch
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Utility.Epoch.ToDateTime(System.Decimal)">
+            <summary>
+            Convert an epoch to a datetime
+            </summary>
+        </member>
+        <member name="M:Facepunch.Steamworks.Utility.Epoch.FromDateTime(System.DateTime)">
+            <summary>
+            Convert a DateTime to a unix time
+            </summary>
+        </member>
+        <member name="M:SourceServerQuery.GetPlayerList">
+            <summary>
+            Get a list of currently in-game clients on the specified gameserver.
+            <b>Please note:</b> the playtime is stored as a float in <i>seconds</i>, you might want to convert it.
+            
+            See https://developer.valvesoftware.com/wiki/Server_queries#A2S_PLAYER for more Information
+            </summary>
+            <returns>A PLayersResponse Object containing the name, score and playtime of each player</returns>
+        </member>
+        <member name="M:SourceServerQuery.GetRules">
+            <summary>
+            Get a list of all publically available CVars ("rules") from the server.
+            <b>Note:</b> Due to a bug in the Source Engine, it might happen that some CVars/values are cut off.
+            
+            Example: mp_idlemaxtime = [nothing]
+            Only Valve can fix that.
+            </summary>
+            <returns>A RulesResponse Object containing a Name-Value pair of each CVar</returns>
+        </member>
+        <member name="M:SourceServerQuery.Dispose">
+            <summary>
+            Close all currently open socket/UdpClient connections
+            </summary>
+        </member>
+        <member name="M:SourceServerQuery.GetSocket">
+            <summary>
+            Open up a new Socket-based connection to a server, if not already open.
+            </summary>
+        </member>
+        <member name="M:SourceServerQuery.GetClient">
+            <summary>
+            Create a new UdpClient connection to a server (mostly used for multi-packet answers)
+            </summary>
+        </member>
+        <member name="M:SourceServerQuery.ReassemblePacket(System.Collections.Generic.List{System.Byte[]},System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Reassmble a multi-packet response.
+            </summary>
+            <param name="splitPackets">The packets to assemble</param>
+            <param name="isCompressed">true: packets are compressed; false: not</param>
+            <param name="uncompressedSize">The size of the message after decompression (for comparison)</param>
+            <param name="packetChecksum">Validation of the result</param>
+            <returns>A byte-array containing all packets assembled together/decompressed.</returns>
+        </member>
+        <member name="M:SourceServerQuery.ReverseBytes(System.Int32)">
+            <summary>
+            Invert the Byte-order Mark of an value, used for compatibility between Little Large BOM
+            </summary>
+            <param name="value">The value to invert</param>
+            <returns>BOM-inversed value (if needed), otherwise the original value</returns>
+        </member>
+        <member name="M:SourceServerQuery.PacketIsCompressed(System.Int32)">
+            <summary>
+            Determine whetever or not a message is compressed.
+            Simply detects if the most significant bit is 1.
+            </summary>
+            <param name="value">The value to check</param>
+            <returns>true, if message is compressed, false otherwise</returns>
+        </member>
+        <member name="M:SourceServerQuery.PacketIsSplit(System.Int32)">
+            <summary>
+            Determine whetever or not a message is split up.
+            </summary>
+            <param name="paket">The value to check</param>
+            <returns>true, if message is split up, false otherwise</returns>
+        </member>
+        <member name="M:SourceServerQuery.GetChallenge(System.Byte,System.Boolean)">
+            <summary>
+            Request the 4-byte challenge id from the server, required for A2S_RULES and A2S_PLAYER.
+            </summary>
+            <param name="type">The type of message to request the challenge for (see constants)</param>
+            <param name="socket">Request method to use (performance reasons)</param>
+            <returns>A Byte Array (4-bytes) containing the challenge</returns>
+        </member>
+        <member name="M:SourceServerQuery.ReadByte">
+            <summary>
+            Read a single byte value from our raw data.
+            </summary>
+            <returns>A single Byte at the next Offset Address</returns>
+        </member>
+        <member name="M:SourceServerQuery.ReadBytes">
+            <summary>
+            Read all remaining Bytes from our raw data.
+            Used for multi-packet responses.
+            </summary>
+            <returns>All remaining data</returns>
+        </member>
+        <member name="M:SourceServerQuery.ReadInt32">
+            <summary>
+            Read a 32-Bit Integer value from the next offset address.
+            </summary>
+            <returns>The Int32 Value found at the offset address</returns>
+        </member>
+        <member name="M:SourceServerQuery.ReadInt16">
+            <summary>
+            Read a 16-Bit Integer (also called "short") value from the next offset address.
+            </summary>
+            <returns>The Int16 Value found at the offset address</returns>
+        </member>
+        <member name="M:SourceServerQuery.ReadFloat">
+            <summary>
+            Read a Float value from the next offset address.
+            </summary>
+            <returns>The Float Value found at the offset address</returns>
+        </member>
+        <member name="M:SourceServerQuery.ReadString">
+            <summary>
+            Read a String until its end starting from the next offset address.
+            Reading stops once the method detects a 0x00 Character at the next position (\0 terminator)
+            </summary>
+            <returns>The String read</returns>
+        </member>
+        <member name="M:SteamNative.Helpers.TakeStringBuilder">
+            <summary>
+            Returns a StringBuilder. This will get returned and reused later on.
+            </summary>
+        </member>
+        <member name="P:SteamNative.Platform.PackSmall">
+            <summary>
+            We're only Pack = 8 on Windows
+            </summary>
+        </member>
+    </members>
+</doc>

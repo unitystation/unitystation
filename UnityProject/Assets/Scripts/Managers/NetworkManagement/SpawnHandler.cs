@@ -1,58 +1,65 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using PlayGroup;
-using Tilemaps.Scripts.Behaviours.Layers;
+using Tilemaps.Behaviours.Layers;
+using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public static class SpawnHandler
 {
-    private static CustomNetworkManager networkManager = CustomNetworkManager.Instance;
+	private static readonly CustomNetworkManager networkManager = CustomNetworkManager.Instance;
 
-    public static void SpawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType = JobType.NULL)
-    {
-        NetworkServer.AddPlayerForConnection(conn, CreatePlayer(jobType), playerControllerId);
-    }
+	public static void SpawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType = JobType.NULL)
+	{
+		GameObject player = CreatePlayer(jobType);
+		PlayerList.Instance.UpdatePlayer(conn, player);
+		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+	}
 
-    public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
-    {
-        NetworkServer.ReplacePlayerForConnection(conn, CreatePlayer(jobType), playerControllerId);
-    }
+	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
+	{
+		GameObject player = CreatePlayer(jobType);
+		PlayerList.Instance.UpdatePlayer(conn, player);
+		NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
+	}
 
-    private static GameObject CreatePlayer(JobType jobType)
-    {
-        var playerPrefab = networkManager.playerPrefab;
+	private static GameObject CreatePlayer(JobType jobType)
+	{
+		GameObject playerPrefab = networkManager.playerPrefab;
 
-        var spawnPosition = GetSpawnForJob(jobType);
+		Transform spawnPosition = GetSpawnForJob(jobType);
 
-        GameObject player;
+		GameObject player; 
 
-        if (spawnPosition != null)
-        {
-            var position = spawnPosition.position;
-            var rotation = spawnPosition.rotation;
-            var parent = spawnPosition.GetComponentInParent<ObjectLayer>().transform;
-            player = Object.Instantiate(playerPrefab, position, rotation, parent);
-        }
-        else
-        {
-            player = Object.Instantiate(playerPrefab);
-        }
+		if (spawnPosition != null)
+		{
+			Vector3 position = spawnPosition.position;
+			Quaternion rotation = spawnPosition.rotation;
+			Transform parent = spawnPosition.GetComponentInParent<ObjectLayer>().transform;
+			player = Object.Instantiate(playerPrefab, position, rotation, parent);
+			player.GetComponent<RegisterPlayer>().ParentNetId = spawnPosition.GetComponentInParent<NetworkIdentity>().netId;
+		}
+		else
+		{
+			player = Object.Instantiate(playerPrefab);
+		}
+		
+		player.GetComponent<PlayerScript>().JobType = jobType;
 
-        player.GetComponent<PlayerScript>().JobType = jobType;
+		return player;
+	}
 
-        return player;
-    }
+	private static Transform GetSpawnForJob(JobType jobType)
+	{
+		if (jobType == JobType.NULL)
+		{
+			return null;
+		}
 
-    private static Transform GetSpawnForJob(JobType jobType)
-    {
-        if (jobType == JobType.NULL)
-        {
-            return null;
-        }
+		List<SpawnPoint> spawnPoints = networkManager.startPositions.Select(x => x.GetComponent<SpawnPoint>())
+			.Where(x => x.JobRestrictions.Contains(jobType)).ToList();
 
-        var spawnPoints = networkManager.startPositions.Select(x => x.GetComponent<SpawnPoint>()).Where(x => x.JobRestrictions.Contains(jobType)).ToList();
-        
-        return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
-    }
+		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
+	}
 }

@@ -20,8 +20,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4391279419752480}
   - component: {fileID: 61268502126401446}
+  - component: {fileID: 61585898098324350}
+  - component: {fileID: 114040610263988540}
+  - component: {fileID: 114966561899050702}
   - component: {fileID: 114900132083158686}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: telecomms_74
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,6 +83,31 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &61585898098324350
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1209943893372444}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -96,6 +124,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114040610263988540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1209943893372444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 229
+    i1: 55
+    i2: 81
+    i3: 99
+    i4: 46
+    i5: 45
+    i6: 212
+    i7: 137
+    i8: 251
+    i9: 160
+    i10: 251
+    i11: 20
+    i12: 121
+    i13: 148
+    i14: 118
+    i15: 54
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114900132083158686
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,9 +168,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
+--- !u!114 &114966561899050702
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1209943893372444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: You see some lights blinking in strange patterns, either its broken or
+    you're a complete retard.
 --- !u!212 &212099076719429082
 SpriteRenderer:
   m_ObjectHideFlags: 1

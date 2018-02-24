@@ -1,85 +1,85 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using PlayGroup;
+﻿using Light2D;
 using UI;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class DisplayManager : MonoBehaviour
 {
-    public static DisplayManager Instance;
+	public static DisplayManager Instance;
 
-    public Dropdown resoDropDown;
-    public Light2D.LightingSystem lightingSystem;
-    public Camera mainCamera;
-    public FieldOfViewTiled fieldOfView;
-    [Header("All canvas elements need to be added here")]
-    public Canvas[] uiCanvases;
-    private int width;
-    private int height;
+	private CanvasScaler canvasScaler;
+	public FieldOfViewTiled fieldOfView;
+	private int height;
+	public LightingSystem lightingSystem;
+	public Camera mainCamera;
 
-    private CanvasScaler canvasScaler;
-    public Vector2 ScreenScale
-    {
-        get
-        {
-            if (canvasScaler == null)
-            {
-                canvasScaler = GetComponentInParent<CanvasScaler>();
-            }
+	public Dropdown resoDropDown;
+	[Header("All canvas elements need to be added here")] public Canvas[] uiCanvases;
+	private int width;
 
-            if (canvasScaler)
-            {
-                return new Vector2(canvasScaler.referenceResolution.x / Screen.width,
-                                   canvasScaler.referenceResolution.y / Screen.height);
-            }
-            else
-            {
-                return Vector2.one;
-            }
-        }
-    }
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-    }
-    private void Start()
-    {
-        SetCameraFollowPos();
-    }
+	public Vector2 ScreenScale
+	{
+		get
+		{
+			if (canvasScaler == null)
+			{
+				canvasScaler = GetComponentInParent<CanvasScaler>();
+			}
 
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += SetUpScene;
-    }
+			if (canvasScaler)
+			{
+				return new Vector2(canvasScaler.referenceResolution.x / Screen.width, canvasScaler.referenceResolution.y / Screen.height);
+			}
+			return Vector2.one;
+		}
+	}
 
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= SetUpScene;
-    }
+	private void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+	}
 
-    void SetUpScene(Scene scene, LoadSceneMode mode)
-    {
-        if (GameData.IsInGame)
-        {
-            fieldOfView = FindObjectOfType<FieldOfViewTiled>();
-        }
-    }
+	private void Start()
+	{
+		SetCameraFollowPos();
+	}
 
-    public void SetCameraFollowPos(bool isPanelHidden = false)
-    {
-        float xOffSet = Mathf.Abs(Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x - Camera2DFollow.followControl.transform.position.x)
-            + -0.06f;
+	private void OnEnable()
+	{
+		SceneManager.sceneLoaded += SetUpScene;
+	}
 
-        if (isPanelHidden)
-        {
-            xOffSet = -xOffSet;
-        }
-        Camera2DFollow.followControl.listenerObj.transform.localPosition = new Vector3(-xOffSet, 1f); //set listenerObj's position to player's pos
-        Camera2DFollow.followControl.xOffset = xOffSet;
-    }
+	private void OnDisable()
+	{
+		SceneManager.sceneLoaded -= SetUpScene;
+	}
+
+	private void SetUpScene(Scene scene, LoadSceneMode mode)
+	{
+		if (GameData.IsInGame)
+		{
+			fieldOfView = FindObjectOfType<FieldOfViewTiled>();
+		}
+	}
+
+	public void SetCameraFollowPos(bool isPanelHidden = false)
+	{
+		if(Camera2DFollow.followControl == null){
+			return;
+		}
+
+		float xOffSet =
+			Mathf.Abs(Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x - Camera2DFollow.followControl.transform.position.x) + -0.06f;
+
+		if (isPanelHidden)
+		{
+			xOffSet = -xOffSet;
+		}
+		Camera2DFollow.followControl.listenerObj.transform.localPosition = new Vector3(-xOffSet, 1f); //set listenerObj's position to player's pos
+		Camera2DFollow.followControl.xOffset = xOffSet;
+	}
 }

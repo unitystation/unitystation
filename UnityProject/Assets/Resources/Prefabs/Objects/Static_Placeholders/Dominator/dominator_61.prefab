@@ -36,8 +36,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4596455642134366}
   - component: {fileID: 61664461323741932}
+  - component: {fileID: 61554336583187938}
+  - component: {fileID: 114061374711539842}
+  - component: {fileID: 114226295962762560}
   - component: {fileID: 114274140949368814}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: dominator_61
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +74,7 @@ Transform:
   m_Father: {fileID: 4596455642134366}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61664461323741932
+--- !u!61 &61554336583187938
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -96,6 +99,75 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!61 &61664461323741932
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1213107042395578}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &114061374711539842
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1213107042395578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 25
+    i1: 108
+    i2: 210
+    i3: 14
+    i4: 182
+    i5: 15
+    i6: 36
+    i7: 53
+    i8: 107
+    i9: 137
+    i10: 250
+    i11: 101
+    i12: 113
+    i13: 148
+    i14: 125
+    i15: 160
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114226295962762560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1213107042395578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: All external communitation disabled... please override with y..... *ERROR*
 --- !u!114 &114274140949368814
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,9 +180,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
 --- !u!212 &212780731348764680
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -143,7 +215,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300122, guid: 2f4f95f4407b141f38b0948c163cde4f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

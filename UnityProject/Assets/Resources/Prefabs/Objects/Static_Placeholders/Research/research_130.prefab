@@ -36,8 +36,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4653331247421494}
   - component: {fileID: 61593562679374758}
+  - component: {fileID: 61715000858370988}
+  - component: {fileID: 114951534697698002}
   - component: {fileID: 114509846286317600}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: research_130
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,6 +82,31 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &61715000858370988
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1962186926715424}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -108,9 +135,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
+--- !u!114 &114951534697698002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1962186926715424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 243
+    i1: 17
+    i2: 205
+    i3: 20
+    i4: 128
+    i5: 194
+    i6: 84
+    i7: 211
+    i8: 75
+    i9: 166
+    i10: 151
+    i11: 207
+    i12: 43
+    i13: 95
+    i14: 173
+    i15: 53
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212330105237563182
 SpriteRenderer:
   m_ObjectHideFlags: 1

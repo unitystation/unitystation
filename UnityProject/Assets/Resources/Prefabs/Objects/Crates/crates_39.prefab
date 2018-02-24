@@ -38,8 +38,8 @@ GameObject:
   - component: {fileID: 61850832509916282}
   - component: {fileID: 61138204033551586}
   - component: {fileID: 114757676526798440}
+  - component: {fileID: 114297742929761050}
   - component: {fileID: 114071782524652884}
-  - component: {fileID: 114248124126117508}
   - component: {fileID: 114215584145867606}
   - component: {fileID: 114228922600464636}
   m_Layer: 11
@@ -198,11 +198,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300080, guid: a3e59ff9ae7064d5984b0a1769fca29e, type: 3}
-  spriteRenderer: {fileID: 212781489339828658}
-  IsLocked: 0
-  lockLight: {fileID: 0}
-  items: {fileID: 1014407281654786}
   IsClosed: 0
+  IsLocked: 0
+  items: {fileID: 1014407281654786}
+  lockLight: {fileID: 0}
+  spriteRenderer: {fileID: 212781489339828658}
 --- !u!114 &114215584145867606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -214,19 +214,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
   isPushable: 1
   pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
   pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
-  timeInPush: 0
+  pushTarget: {x: 0, y: 0, z: 0}
 --- !u!114 &114228922600464636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -239,11 +235,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
   IsClosed: 1
---- !u!114 &114248124126117508
+--- !u!114 &114297742929761050
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -251,14 +247,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1171324585748574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53718f00af634879afe9838de3e391ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialHealth: 100
-  maxHealth: 100
-  isNPC: 0
-  allowKnifeHarvest: 0
-  ConsciousState: 0
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114757676526798440
 MonoBehaviour:
   m_ObjectHideFlags: 1

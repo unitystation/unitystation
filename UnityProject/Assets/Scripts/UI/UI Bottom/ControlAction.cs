@@ -1,106 +1,144 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 using PlayGroup;
-
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
-    public class ControlAction : MonoBehaviour
-    {
+	public class ControlAction : MonoBehaviour
+	{
+		public Image throwImage;
+		public Sprite[] throwSprites;
+		public bool azerty; //Hacky fix due to AZERTY keyboard users using Q to go left.
 
-        public Sprite[] throwSprites;
-        public Image throwImage;
+		private void Start()
+		{
+			UIManager.IsThrow = false;
+		}
 
-        void Start()
-        {
-            UIManager.IsThrow = false;
-        }
+		/* 
+		   * Button OnClick methods
+		   */
 
-        /* 
-		 * Button OnClick methods
-		 */
+		private void Update()
+		{
+			CheckKeyboardInput();
+		}
 
-        void Update()
-        {
-            CheckKeyboardInput();
-        }
+		private void CheckKeyboardInput()
+		{
+			if (azerty)
+			{
+				if (Input.GetKeyDown(KeyCode.A))
+				{
+					Drop();
+				}
+			} else {
+				if (Input.GetKeyDown(KeyCode.Q))
+				{
+					Drop();
+				}
+			}
 
-        void CheckKeyboardInput()
-        {
-            if (Input.GetKeyDown(KeyCode.Q))
+			if (Input.GetKeyDown(KeyCode.X))
+			{
+				UIManager.Hands.Swap();
+			}
+
+			if (Input.GetKeyDown(KeyCode.E))
+			{
+				UIManager.Hands.Use();
+			}
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                Drop();
+                UIManager.Intent.IntentHotkey(0);
             }
 
-            if (Input.GetKeyDown(KeyCode.X))
+            if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                UIManager.Hands.Swap();
+                UIManager.Intent.IntentHotkey(1);
             }
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                UIManager.Hands.Use();
+                UIManager.Intent.IntentHotkey(2);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                UIManager.Intent.IntentHotkey(3);
             }
         }
 
-        public void Resist()
-        {
-            SoundManager.Play("Click01");
-            Debug.Log("Resist Button");
-        }
+		public void Resist()
+		{
+			SoundManager.Play("Click01");
+			Debug.Log("Resist Button");
+		}
 
-        public void Drop()
-        {
-            var lps = PlayerManager.LocalPlayerScript;
-            if (!lps || lps.canNotInteract()) return;
-            var currentSlot = UIManager.Hands.CurrentSlot;
-            var dropPos = lps.gameObject.transform.position;
-            if (!currentSlot.CanPlaceItem()) return;
-            //            if ( isNotMovingClient(lps) )
-            //            {
-            //               // Full client simulation(standing still)
-            //                var placedOk = currentSlot.PlaceItem(dropPos);
-            //                if ( !placedOk )
-            //                {
-            //                    Debug.Log("Client dropping error");
-            //                }
-            //            }
-            //            else
-            //            {
-            //Only clear slot(while moving, as prediction is shit in this situation)
-            currentSlot.Clear();
-            //            }
-            //Message
-            lps.playerNetworkActions.DropItem(currentSlot.eventName);
-            SoundManager.Play("Click01");
-            Debug.Log("Drop Button");
-        }
+		public void Drop()
+		{
+			PlayerScript lps = PlayerManager.LocalPlayerScript;
+			if (!lps || lps.canNotInteract())
+			{
+				return;
+			}
+			UI_ItemSlot currentSlot = UIManager.Hands.CurrentSlot;
+			Vector3 dropPos = lps.gameObject.transform.position;
+			if (!currentSlot.CanPlaceItem())
+			{
+				return;
+			}
+			//            if ( isNotMovingClient(lps) )
+			//            {
+			//               // Full client simulation(standing still)
+			//                var placedOk = currentSlot.PlaceItem(dropPos);
+			//                if ( !placedOk )
+			//                {
+			//                    Debug.Log("Client dropping error");
+			//                }
+			//            }
+			//            else
+			//            {
+			//Only clear slot(while moving, as prediction is shit in this situation)
+			GameObject dropObj = currentSlot.Item;
+			CustomNetTransform cnt = dropObj.GetComponent<CustomNetTransform>();
+			//It is converted to LocalPos in transformstate struct
+			cnt.AppearAtPosition(PlayerManager.LocalPlayer.transform.position);
+			currentSlot.Clear();
+			//            }
+			//Message
+			lps.playerNetworkActions.RequestDropItem(currentSlot.eventName, PlayerManager.LocalPlayer.transform.position ,false);
+			SoundManager.Play("Click01");
+			Debug.Log("Drop Button");
+		}
 
-        private static bool isNotMovingClient(PlayerScript lps)
-        {
-            return !lps.isServer && !lps.playerMove.isMoving;
-        }
+		private static bool isNotMovingClient(PlayerScript lps)
+		{
+			return !lps.isServer && !lps.playerMove.isMoving;
+		}
 
-        public void Throw()
-        {
-            var lps = PlayerManager.LocalPlayerScript;
-            if (!lps || lps.canNotInteract()) return;
+		public void Throw()
+		{
+			PlayerScript lps = PlayerManager.LocalPlayerScript;
+			if (!lps || lps.canNotInteract())
+			{
+				return;
+			}
 
-            SoundManager.Play("Click01");
-            Debug.Log("Throw Button");
+			SoundManager.Play("Click01");
+			Debug.Log("Throw Button");
 
-            if (!UIManager.IsThrow)
-            {
-                UIManager.IsThrow = true;
-                throwImage.sprite = throwSprites[1];
-
-            }
-            else
-            {
-                UIManager.IsThrow = false;
-                throwImage.sprite = throwSprites[0];
-            }
-        }
-    }
+			if (!UIManager.IsThrow)
+			{
+				UIManager.IsThrow = true;
+				throwImage.sprite = throwSprites[1];
+			}
+			else
+			{
+				UIManager.IsThrow = false;
+				throwImage.sprite = throwSprites[0];
+			}
+		}
+	}
 }

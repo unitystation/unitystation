@@ -36,8 +36,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4526164702059322}
   - component: {fileID: 61877866146655838}
+  - component: {fileID: 61607435629107004}
+  - component: {fileID: 114631922424448392}
+  - component: {fileID: 114953193946122312}
   - component: {fileID: 114826091611418058}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: vending_110
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +74,7 @@ Transform:
   m_Father: {fileID: 4526164702059322}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61877866146655838
+--- !u!61 &61607435629107004
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -96,6 +99,63 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!61 &61877866146655838
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1641417262004324}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &114631922424448392
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1641417262004324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 102
+    i1: 52
+    i2: 190
+    i3: 63
+    i4: 152
+    i5: 248
+    i6: 180
+    i7: 85
+    i8: 168
+    i9: 223
+    i10: 151
+    i11: 250
+    i12: 176
+    i13: 61
+    i14: 179
+    i15: 28
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114826091611418058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,9 +168,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
+--- !u!114 &114953193946122312
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1641417262004324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vendorcontent:
+  - {fileID: 1000011622113908, guid: 70e9a72b546334103b60c8b557fc6a8d, type: 2}
+  allowSell: 1
+  cooldownTimer: 2
+  interactionMessage: bzzzz...
+  deniedMessage: Vendor is refreshing stocking, please wait...
 --- !u!212 &212653665075570876
 SpriteRenderer:
   m_ObjectHideFlags: 1

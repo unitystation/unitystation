@@ -51,25 +51,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef832313bc8da84b8fa31c209efe06e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uniform: /obj/item/clothing/under/rank/geneticist
-  jobType: 21
-  allowedAccess: 1a00000025000000330000003100000022000000
-  ears: /obj/item/device/radio/headset/headset_medsci
-  belt: /obj/item/device/pda/geneticist
+  accessory: 
+  allowedAccess: 1a00000025000000330000003100000022000000420000003f00000050000000
   back: 
-  shoes: /obj/item/clothing/shoes/sneakers/white
+  backpack: /obj/item/weapon/storage/backpack/genetics
+  backpack_contents: []
+  belt: /obj/item/device/pda/geneticist
+  box: 
+  duffelbag: /obj/item/weapon/storage/backpack/duffelbag/med
+  ears: /obj/item/device/radio/headset/headset_medsci
   glasses: 
   gloves: 
-  suit: /obj/item/clothing/suit/toggle/labcoat/genetics
   head: 
-  accessory: 
-  mask: 
-  backpack: /obj/item/weapon/storage/backpack/genetics
-  satchel: /obj/item/weapon/storage/backpack/satchel/gen
-  duffelbag: /obj/item/weapon/storage/backpack/duffelbag/med
-  box: 
+  jobType: 21
   l_hand: 
   l_pocket: 
+  mask: 
   r_pocket: 
+  satchel: /obj/item/weapon/storage/backpack/satchel/gen
+  shoes: /obj/item/clothing/shoes/sneakers/white
+  suit: /obj/item/clothing/suit/toggle/labcoat/genetics
   suit_store: /obj/item/device/flashlight/pen
-  backpack_contents: []
+  uniform: /obj/item/clothing/under/rank/geneticist

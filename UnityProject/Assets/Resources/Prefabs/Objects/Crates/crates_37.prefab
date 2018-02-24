@@ -38,8 +38,8 @@ GameObject:
   - component: {fileID: 61504171790029006}
   - component: {fileID: 61720396500020216}
   - component: {fileID: 114330726669758060}
+  - component: {fileID: 114033159393086184}
   - component: {fileID: 114095274155442226}
-  - component: {fileID: 114528670149905996}
   - component: {fileID: 114826408582836528}
   - component: {fileID: 114789974186404946}
   m_Layer: 11
@@ -186,6 +186,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.85, y: 0.85}
   m_EdgeRadius: 0
+--- !u!114 &114033159393086184
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1623680258428568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114095274155442226
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,11 +212,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300076, guid: a3e59ff9ae7064d5984b0a1769fca29e, type: 3}
-  spriteRenderer: {fileID: 212190977598804058}
-  IsLocked: 0
-  lockLight: {fileID: 0}
-  items: {fileID: 1975070028300420}
   IsClosed: 0
+  IsLocked: 0
+  items: {fileID: 1975070028300420}
+  lockLight: {fileID: 0}
+  spriteRenderer: {fileID: 212190977598804058}
 --- !u!114 &114330726669758060
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -235,22 +249,6 @@ MonoBehaviour:
     i15: 162
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114528670149905996
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1623680258428568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53718f00af634879afe9838de3e391ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialHealth: 100
-  maxHealth: 100
-  isNPC: 0
-  allowKnifeHarvest: 0
-  ConsciousState: 0
 --- !u!114 &114789974186404946
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -263,9 +261,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
   IsClosed: 1
 --- !u!114 &114826408582836528
 MonoBehaviour:
@@ -278,19 +276,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
   isPushable: 1
   pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
   pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
-  timeInPush: 0
+  pushTarget: {x: 0, y: 0, z: 0}
 --- !u!212 &212190977598804058
 SpriteRenderer:
   m_ObjectHideFlags: 1

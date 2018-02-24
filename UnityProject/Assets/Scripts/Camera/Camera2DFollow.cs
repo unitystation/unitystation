@@ -1,143 +1,142 @@
-using UnityEngine;
 using System.Collections;
-using PlayGroup;
-
+using UnityEngine;
 
 public class Camera2DFollow : MonoBehaviour
 {
-
-    //Static to make sure its the only cam in scene & for later access to camshake
-    public static Camera2DFollow followControl;
-
-    public GameObject listenerObj;
-    public Transform target;
-
-    public float damping = 0f;
-
-    private float lookAheadFactor = 0f;
-    private float lookAheadSave;
-    private float lookAheadReturnSpeed = 0.5f;
-    private float lookAheadMoveThreshold = 0.1f;
-    private float yOffSet = -0.5f;
-    public float xOffset = 4f;
-    private float offsetZ = -1f;
-
-    Vector3 lastTargetPosition;
-    Vector3 currentVelocity;
-    Vector3 lookAheadPos;
-
-    private bool isShaking = false;
+	//Static to make sure its the only cam in scene & for later access to camshake
+	public static Camera2DFollow followControl;
 
 
-    private bool adjustPixel = false;
-    public float pixelAdjustment = 64f;
+	private readonly bool adjustPixel = false;
+	private readonly float lookAheadMoveThreshold = 0.1f;
+	private readonly float lookAheadReturnSpeed = 0.5f;
+	private readonly float yOffSet = -0.5f;
 
-    public ParallaxStars parallaxStars;
+	private Vector3 cachePos;
+	private Vector3 currentVelocity;
 
-    void Awake()
-    {
-        if (followControl == null)
-        {
-            followControl = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
+	public float damping;
 
-    void Start()
-    {
-        lookAheadSave = lookAheadFactor;
-        if (target != null)
-        {
-            lastTargetPosition = target.position;
-            offsetZ = (transform.position - target.position).z;
-        }
-        transform.parent = null;
-    }
+	private bool isShaking;
 
-    void LateUpdate()
-    {
-        if (target != null && !isShaking)
-        {
-            // only update lookahead pos if accelerating or changed direction
-            float xMoveDelta = (target.position - lastTargetPosition).x;
+	private Vector3 lastTargetPosition;
 
-            bool updateLookAheadTarget = Mathf.Abs(xMoveDelta) > lookAheadMoveThreshold;
+	public GameObject listenerObj;
 
-            if (updateLookAheadTarget)
-            {
-                lookAheadPos = lookAheadFactor * Vector3.right * Mathf.Sign(xMoveDelta);
-            }
-            else
-            {
-                lookAheadPos = Vector3.MoveTowards(lookAheadPos, Vector3.zero, Time.deltaTime * lookAheadReturnSpeed);
-            }
+	private float lookAheadFactor;
+	private Vector3 lookAheadPos;
+	private float lookAheadSave;
+	private float offsetZ = -1f;
 
-            Vector3 aheadTargetPos = target.position + lookAheadPos + Vector3.forward * offsetZ;
-            aheadTargetPos.y += yOffSet;
-            aheadTargetPos.x += xOffset;
-            Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref currentVelocity, damping);
+	public ParallaxStars parallaxStars;
+	public float pixelAdjustment = 64f;
 
-            if (adjustPixel)
-            {
-                newPos.x = Mathf.RoundToInt(newPos.x * pixelAdjustment) / pixelAdjustment;
-                newPos.y = Mathf.RoundToInt(newPos.y * pixelAdjustment) / pixelAdjustment;
-            }
-            if (parallaxStars != null)
-            {
-                parallaxStars.MoveInDirection((newPos - transform.position).normalized);
-            }
-            transform.position = newPos;
+	//Shake Cam
+	private float shakeAmount;
 
-            lastTargetPosition = target.position;
-        }
-    }
+	public Transform target;
+	public float xOffset = 4f;
+
+	private void Awake()
+	{
+		if (followControl == null)
+		{
+			followControl = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
+
+	private void Start()
+	{
+		lookAheadSave = lookAheadFactor;
+		if (target != null)
+		{
+			lastTargetPosition = target.position;
+			offsetZ = (transform.position - target.position).z;
+		}
+		transform.parent = null;
+	}
+
+	private void LateUpdate()
+	{
+		if (target != null && !isShaking)
+		{
+			// only update lookahead pos if accelerating or changed direction
+			float xMoveDelta = (target.position - lastTargetPosition).x;
+
+			bool updateLookAheadTarget = Mathf.Abs(xMoveDelta) > lookAheadMoveThreshold;
+
+			if (updateLookAheadTarget)
+			{
+				lookAheadPos = lookAheadFactor * Vector3.right * Mathf.Sign(xMoveDelta);
+			}
+			else
+			{
+				lookAheadPos = Vector3.MoveTowards(lookAheadPos, Vector3.zero, Time.deltaTime * lookAheadReturnSpeed);
+			}
+
+			Vector3 aheadTargetPos = target.position + lookAheadPos + Vector3.forward * offsetZ;
+			aheadTargetPos.y += yOffSet;
+			aheadTargetPos.x += xOffset;
+			Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref currentVelocity, damping);
+
+			if (adjustPixel)
+			{
+				newPos.x = Mathf.RoundToInt(newPos.x * pixelAdjustment) / pixelAdjustment;
+				newPos.y = Mathf.RoundToInt(newPos.y * pixelAdjustment) / pixelAdjustment;
+			}
+			if (parallaxStars != null)
+			{
+				parallaxStars.MoveInDirection((newPos - transform.position).normalized);
+			}
+			transform.position = newPos;
+
+			lastTargetPosition = target.position;
+		}
+	}
 
 
-    public void LookAheadTemp(float newLookAhead)
-    {
+	public void LookAheadTemp(float newLookAhead)
+	{
+		lookAheadFactor = newLookAhead;
+		StartCoroutine(LookAheadSwitch());
+	}
 
-        lookAheadFactor = newLookAhead;
-        StartCoroutine(LookAheadSwitch());
-    }
+	private IEnumerator LookAheadSwitch()
+	{
+		yield return new WaitForSeconds(2f);
+		lookAheadFactor = lookAheadSave;
+	}
 
-    IEnumerator LookAheadSwitch()
-    {
-        yield return new WaitForSeconds(2f);
-        lookAheadFactor = lookAheadSave;
-    }
+	public void Shake(float amt, float length)
+	{
+		isShaking = true;
+		cachePos = transform.position;
+		shakeAmount = amt;
+		InvokeRepeating("DoShake", 0, 0.01f);
+		Invoke("StopShake", length);
+	}
 
-    //Shake Cam
-    float shakeAmount = 0;
-    private Vector3 cachePos;
+	private void DoShake()
+	{
+		if (shakeAmount > 0)
+		{
+			Vector3 camPos = transform.position;
+			float offsetX = Random.value * shakeAmount * 2 - shakeAmount;
+			float offsetY = Random.value * shakeAmount * 2 - shakeAmount;
+			camPos.x += offsetX;
+			camPos.y += offsetY;
+			transform.position = camPos;
+		}
+	}
 
-    public void Shake(float amt, float length)
-    {
-        isShaking = true;
-        cachePos = transform.position;
-        shakeAmount = amt;
-        InvokeRepeating("DoShake", 0, 0.01f);
-        Invoke("StopShake", length);
-    }
-
-    void DoShake()
-    {
-        if (shakeAmount > 0)
-        {
-            Vector3 camPos = transform.position;
-            float offsetX = Random.value * shakeAmount * 2 - shakeAmount;
-            float offsetY = Random.value * shakeAmount * 2 - shakeAmount;
-            camPos.x += offsetX;
-            camPos.y += offsetY;
-            transform.position = camPos;
-        }
-    }
-    void StopShake()
-    {
-        isShaking = false;
-        CancelInvoke("DoShake");
-        transform.position = cachePos;
-    }
+	private void StopShake()
+	{
+		isShaking = false;
+		CancelInvoke("DoShake");
+		transform.position = cachePos;
+	}
 }

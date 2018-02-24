@@ -51,25 +51,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef832313bc8da84b8fa31c209efe06e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uniform: /obj/item/clothing/under/rank/roboticist
-  jobType: 31
-  allowedAccess: 1a0000002200000031000000320000003f00000040000000420000004d000000
-  ears: /obj/item/device/radio/headset/headset_sci
-  belt: /obj/item/weapon/storage/belt/utility/full
+  accessory: 
+  allowedAccess: 1a0000002200000031000000320000003f00000040000000420000004d0000002000000032000000
   back: 
-  shoes: 
+  backpack: /obj/item/weapon/storage/backpack/science
+  backpack_contents: []
+  belt: /obj/item/weapon/storage/belt/utility/full
+  box: 
+  duffelbag: 
+  ears: /obj/item/device/radio/headset/headset_sci
   glasses: 
   gloves: 
-  suit: /obj/item/clothing/suit/toggle/labcoat
   head: 
-  accessory: 
-  mask: 
-  backpack: /obj/item/weapon/storage/backpack/science
-  satchel: /obj/item/weapon/storage/backpack/satchel/tox
-  duffelbag: 
-  box: 
+  jobType: 31
   l_hand: 
   l_pocket: /obj/item/device/pda/roboticist
+  mask: 
   r_pocket: 
+  satchel: /obj/item/weapon/storage/backpack/satchel/tox
+  shoes: 
+  suit: /obj/item/clothing/suit/toggle/labcoat
   suit_store: 
-  backpack_contents: []
+  uniform: /obj/item/clothing/under/rank/roboticist

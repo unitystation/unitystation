@@ -1,54 +1,49 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(SpriteRenderer))]
 public class SpriteRotate : MonoBehaviour
 {
 #if UNITY_EDITOR
-    public Sprite[] sprites = new Sprite[0];
-    public Vector2[] positions = new Vector2[0];
-    public Vector3 colliderOffset;
-    private SpriteRenderer spriteRenderer;
+	public Sprite[] sprites = new Sprite[0];
+	public Vector2[] positions = new Vector2[0];
+	public Vector3 colliderOffset;
+	private SpriteRenderer spriteRenderer;
 
-    [HideInInspector]
-    [SerializeField]
-    private int rotateIndex = 0;
-    public int RotateIndex
-    {
-        get { return rotateIndex; }
-        set
-        {
-            if (spriteRenderer && sprites.Length > 1)
-            {
-                rotateIndex = (value + sprites.Length) % sprites.Length;
-                spriteRenderer.sprite = sprites[rotateIndex];
-            }
+	[HideInInspector] [SerializeField] private int rotateIndex;
 
-            if (positions.Length > 1)
-            {
-                rotateIndex = (value + positions.Length) % positions.Length;
-                transform.localPosition = positions[rotateIndex];
-            }
-        }
-    }
+	public int RotateIndex
+	{
+		get { return rotateIndex; }
+		set
+		{
+			if (spriteRenderer && sprites.Length > 1)
+			{
+				rotateIndex = (value + sprites.Length) % sprites.Length;
+				spriteRenderer.sprite = sprites[rotateIndex];
+			}
 
-    void Awake()
-    {
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-    }
+			if (positions.Length > 1)
+			{
+				rotateIndex = (value + positions.Length) % positions.Length;
+				transform.localPosition = positions[rotateIndex];
+			}
+		}
+	}
 
-    public void RotateForwards()
-    {
-        RotateIndex++;
-    }
+	private void Awake()
+	{
+		spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+	}
 
-    public void RotateBackwards()
-    {
-        RotateIndex--;
-    }
+	public void RotateForwards()
+	{
+		RotateIndex++;
+	}
+
+	public void RotateBackwards()
+	{
+		RotateIndex--;
+	}
 #endif
 }
-

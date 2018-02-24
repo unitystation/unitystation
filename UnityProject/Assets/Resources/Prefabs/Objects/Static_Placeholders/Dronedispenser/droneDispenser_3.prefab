@@ -20,8 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4188324647463396}
   - component: {fileID: 61489226918534956}
+  - component: {fileID: 61932665835585744}
+  - component: {fileID: 114737072943441032}
   - component: {fileID: 114564549231357516}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: droneDispenser_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,6 +82,31 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &61932665835585744
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1185737350065742}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -108,9 +135,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
+--- !u!114 &114737072943441032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1185737350065742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 152
+    i1: 106
+    i2: 228
+    i3: 240
+    i4: 247
+    i5: 66
+    i6: 180
+    i7: 40
+    i8: 122
+    i9: 25
+    i10: 189
+    i11: 170
+    i12: 232
+    i13: 96
+    i14: 165
+    i15: 194
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212001968017839964
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -143,7 +202,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300006, guid: 711449f007ad34ea48d0a4b0d4e92b55, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

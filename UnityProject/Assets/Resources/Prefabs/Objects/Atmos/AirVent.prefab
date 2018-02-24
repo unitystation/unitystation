@@ -21,8 +21,9 @@ GameObject:
   - component: {fileID: 4000012824533570}
   - component: {fileID: 61000013103678858}
   - component: {fileID: 95590063989012254}
+  - component: {fileID: 114671962178843966}
   - component: {fileID: 114539998459752066}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: AirVent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,9 +127,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
+--- !u!114 &114671962178843966
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010733523080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 97
+    i1: 35
+    i2: 4
+    i3: 77
+    i4: 62
+    i5: 24
+    i6: 71
+    i7: 86
+    i8: 157
+    i9: 204
+    i10: 35
+    i11: 227
+    i12: 77
+    i13: 211
+    i14: 211
+    i15: 245
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212000013776271908
 SpriteRenderer:
   m_ObjectHideFlags: 1

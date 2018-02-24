@@ -1,32 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InteractCamera : MonoBehaviour
 {
+	public static InteractCamera Instance;
+	public Camera interactCam;
+	public Camera mainCam;
 
-    public static InteractCamera Instance;
-    public Camera mainCam;
-    public Camera interactCam;
+	private void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+	}
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-    }
-    void Start()
-    {
-        interactCam.orthographicSize = mainCam.orthographicSize;
+	private void Start()
+	{
+		interactCam.orthographicSize = mainCam.orthographicSize;
+	}
 
-    }
-
-    void Update()
-    {
-        if (interactCam.orthographicSize != mainCam.orthographicSize)
-        {
-            interactCam.orthographicSize = mainCam.orthographicSize;
-        }
-    }
+	private void Update()
+	{
+		if (interactCam.orthographicSize != mainCam.orthographicSize)
+		{
+			interactCam.orthographicSize = mainCam.orthographicSize;
+		}
+	}
 }

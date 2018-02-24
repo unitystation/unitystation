@@ -20,8 +20,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4976179866772564}
   - component: {fileID: 61081513808194406}
+  - component: {fileID: 61780570566590428}
+  - component: {fileID: 114818121528837518}
+  - component: {fileID: 114356655867832706}
   - component: {fileID: 114950327901669162}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: telecomms_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,6 +83,31 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &61780570566590428
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1090834208327486}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -96,6 +124,51 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114356655867832706
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1090834208327486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: You see some lights blinking in strange patterns, either its broken or
+    you're a complete retard.
+--- !u!114 &114818121528837518
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1090834208327486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 188
+    i1: 226
+    i2: 24
+    i3: 69
+    i4: 8
+    i5: 235
+    i6: 116
+    i7: 11
+    i8: 203
+    i9: 66
+    i10: 62
+    i11: 188
+    i12: 214
+    i13: 113
+    i14: 165
+    i15: 3
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114950327901669162
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,9 +181,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
 --- !u!212 &212937290158708182
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -53,8 +53,8 @@ GameObject:
   - component: {fileID: 61809843329405100}
   - component: {fileID: 61355010685805950}
   - component: {fileID: 114107365703837954}
+  - component: {fileID: 114881239354733470}
   - component: {fileID: 114859863419137498}
-  - component: {fileID: 114064175606115938}
   - component: {fileID: 114092793192366008}
   - component: {fileID: 114407287186085312}
   m_Layer: 11
@@ -185,22 +185,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.83569336, y: 0.9217529}
   m_EdgeRadius: 0
---- !u!114 &114064175606115938
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1180280463732794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53718f00af634879afe9838de3e391ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialHealth: 400
-  maxHealth: 100
-  isNPC: 0
-  allowKnifeHarvest: 0
-  ConsciousState: 0
 --- !u!114 &114092793192366008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -212,19 +196,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
   isPushable: 1
   pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
   pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
-  timeInPush: 0
+  pushTarget: {x: 0, y: 0, z: 0}
 --- !u!114 &114107365703837954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -269,9 +249,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
+  IsClosed: 1
 --- !u!114 &114859863419137498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -284,11 +265,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
-  spriteRenderer: {fileID: 212172245744083514}
-  IsLocked: 0
-  lockLight: {fileID: 0}
-  items: {fileID: 1033963928988362}
   IsClosed: 0
+  IsLocked: 0
+  items: {fileID: 1033963928988362}
+  lockLight: {fileID: 0}
+  spriteRenderer: {fileID: 212172245744083514}
+--- !u!114 &114881239354733470
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1180280463732794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212172245744083514
 SpriteRenderer:
   m_ObjectHideFlags: 1

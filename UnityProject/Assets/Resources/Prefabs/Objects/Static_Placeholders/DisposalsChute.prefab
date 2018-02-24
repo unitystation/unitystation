@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013482940758}
   - component: {fileID: 61000010615699320}
+  - component: {fileID: 114654115629251212}
+  - component: {fileID: 114469661336575222}
   - component: {fileID: 114394597018269012}
   m_Layer: 11
   m_Name: DisposalsChute
@@ -108,9 +110,58 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
+--- !u!114 &114469661336575222
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010167295674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vendorcontent:
+  - {fileID: 1645856876941636, guid: 29d17c6e33a25434ca93edfb29f82cb7, type: 2}
+  allowSell: 1
+  cooldownTimer: 180
+  interactionMessage: The disposal gives out a loud screech and throws out its content...
+  deniedMessage: The handle is stuck...
+--- !u!114 &114654115629251212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010167295674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 246
+    i1: 251
+    i2: 200
+    i3: 234
+    i4: 215
+    i5: 170
+    i6: 77
+    i7: 130
+    i8: 129
+    i9: 66
+    i10: 198
+    i11: 127
+    i12: 32
+    i13: 229
+    i14: 235
+    i15: 87
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212000011113480170
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -143,7 +194,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300002, guid: 9320d98908694948b6e0d82824a5989a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

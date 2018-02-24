@@ -20,6 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4699640297835872}
   - component: {fileID: 61988555908928504}
+  - component: {fileID: 61740141861229380}
+  - component: {fileID: 114660158993463546}
+  - component: {fileID: 114006670304239386}
   - component: {fileID: 114394273069994774}
   m_Layer: 11
   m_Name: Shuttle_engine_center
@@ -71,7 +74,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61988555908928504
+--- !u!61 &61740141861229380
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -96,6 +99,43 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!61 &61988555908928504
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1418031129727510}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &114006670304239386
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1418031129727510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: Touching hidrogen engines with your bare hands, really?
 --- !u!114 &114394273069994774
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,9 +148,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 0
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 0
+--- !u!114 &114660158993463546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1418031129727510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 250
+    i1: 38
+    i2: 220
+    i3: 138
+    i4: 126
+    i5: 118
+    i6: 151
+    i7: 52
+    i8: 137
+    i9: 190
+    i10: 237
+    i11: 24
+    i12: 188
+    i13: 89
+    i14: 215
+    i15: 146
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212463543190777694
 SpriteRenderer:
   m_ObjectHideFlags: 1

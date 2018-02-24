@@ -1,114 +1,119 @@
 ﻿using System.Collections;
-using UnityEngine;
+using System.Collections.Generic;
 using InputControl;
-using Tilemaps.Scripts.Behaviours.Objects;
+using Tilemaps;
+using Tilemaps.Behaviours.Layers;
+using Tilemaps.Behaviours.Objects;
+using UnityEngine;
 using UnityEngine.Networking;
-using Matrix = Tilemaps.Scripts.Matrix;
 
 public class ShutterController : ObjectTrigger
 {
-    private Animator animator;
-    private RegisterDoor _registerTile;
-    private Matrix _matrix;
+	private RegisterDoor registerTile;
+	private Matrix matrix => registerTile.Matrix;
+	private Animator animator;
 
-    public bool IsClosed { get; private set; }
+	private int closedLayer;
+	private int closedSortingLayer;
+	private int openLayer;
+	private int openSortingLayer;
 
-    private int closedLayer;
-    private int openLayer;
-    private int closedSortingLayer;
-    private int openSortingLayer;
+	private bool tempStateCache;
 
-    //For network sync reliability
-    private bool waitToCheckState = false;
-    private bool tempStateCache;
+	//For network sync reliability
+	private bool waitToCheckState;
 
-    void Awake()
-    {
-        animator = gameObject.GetComponent<Animator>();
-        _registerTile = gameObject.GetComponent<RegisterDoor>();
-        _matrix = Matrix.GetMatrix(this);
+	public bool IsClosed { get; private set; }
 
-        closedLayer = LayerMask.NameToLayer("Door Closed");
-        closedSortingLayer = SortingLayer.NameToID("Doors Open");
-        openLayer = LayerMask.NameToLayer("Door Open");
-        openSortingLayer = SortingLayer.NameToID("Doors Closed");
-        SetLayer(closedLayer, closedSortingLayer);
-    }
+	private void Awake()
+	{
+		animator = gameObject.GetComponent<Animator>();
+		registerTile = gameObject.GetComponent<RegisterDoor>();
 
-    public override void Trigger(bool state)
-    {
-        tempStateCache = state;
-        if (waitToCheckState)
-            return;
+		closedLayer = LayerMask.NameToLayer("Door Closed");
+		closedSortingLayer = SortingLayer.NameToID("Doors Open");
+		openLayer = LayerMask.NameToLayer("Door Open");
+		openSortingLayer = SortingLayer.NameToID("Doors Closed");
+		SetLayer(closedLayer, closedSortingLayer);
+	}
 
-        if (animator == null)
-        {
-            waitToCheckState = true;
-            return;
-        }
+	public override void Trigger(bool state)
+	{
+		tempStateCache = state;
+		if (waitToCheckState)
+		{
+			return;
+		}
 
-        SetState(state);
-    }
+		if (animator == null)
+		{
+			waitToCheckState = true;
+			return;
+		}
 
-    private void SetState(bool state)
-    {
-        IsClosed = state;
-        _registerTile.IsClosed = state;
-        if (state)
-        {
-            SetLayer(closedLayer, closedSortingLayer);
-            if (isServer)
-            {
-                DamageOnClose();
-            }
-        }
-        else
-        {
-            SetLayer(openLayer, openSortingLayer);
-        }
+		SetState(state);
+	}
 
-        animator.SetBool("close", state);
-    }
+	private void SetState(bool state)
+	{
+		IsClosed = state;
+		registerTile.IsClosed = state;
+		if (state)
+		{
+			SetLayer(closedLayer, closedSortingLayer);
+			if (isServer)
+			{
+				DamageOnClose();
+			}
+		}
+		else
+		{
+			SetLayer(openLayer, openSortingLayer);
+		}
 
-    public void SetLayer(int layer, int sortingLayer)
-    {
-        //		GetComponentInChildren<SpriteRenderer>().sortingLayerID = sortingLayer;
-        gameObject.layer = layer;
-        foreach (Transform child in transform)
-        {
-            child.gameObject.layer = layer;
-        }
-    }
+		animator.SetBool("close", state);
+	}
+
+	public void SetLayer(int layer, int sortingLayer)
+	{
+		//		GetComponentInChildren<SpriteRenderer>().sortingLayerID = sortingLayer;
+		gameObject.layer = layer;
+		foreach (Transform child in transform)
+		{
+			child.gameObject.layer = layer;
+		}
+	}
+
     [Server]
     private void DamageOnClose()
     {
-        var healthBehaviours = _matrix.Get<HealthBehaviour>(_registerTile.Position);
-        foreach (var healthBehaviour in healthBehaviours)
+        IEnumerable<HealthBehaviour> healthBehaviours = matrix.Get<HealthBehaviour>(registerTile.Position);
+        foreach (HealthBehaviour healthBehaviour in healthBehaviours)
         {
-            healthBehaviour.ApplyDamage(gameObject.name, 500, DamageType.BRUTE);
+            healthBehaviour.ApplyDamage(gameObject, 500, DamageType.BRUTE);
         }
     }
 
-    //Handle network spawn sync failure
-    IEnumerator WaitToTryAgain()
-    {
-        yield return new WaitForSeconds(0.2f);
-        if (animator == null)
-        {
-            animator = GetComponentInChildren<Animator>();
-            if (animator != null)
-            {
-                SetState(tempStateCache);
-            }
-            else
-            {
-                Debug.LogWarning("ShutterController still failing Animator sync");
-            }
-        }
-        else
-        {
-            SetState(tempStateCache);
-        }
-        waitToCheckState = false;
-    }
+	//Handle network spawn sync failure
+	private IEnumerator WaitToTryAgain()
+	{
+		yield return new WaitForSeconds(0.2f);
+		if (animator == null)
+		{
+			animator = GetComponentInChildren<Animator>();
+			if (animator != null)
+			{
+				SetState(tempStateCache);
+			}
+			else
+			{
+				Debug.LogWarning("ShutterController still failing Animator sync");
+			}
+		}
+		else
+		{
+			SetState(tempStateCache);
+		}
+		waitToCheckState = false;
+	}
 }

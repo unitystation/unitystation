@@ -20,11 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011140861540}
   - component: {fileID: 61000014178328654}
-  - component: {fileID: 114226724488088840}
-  - component: {fileID: 82554502596860898}
-  - component: {fileID: 114643057465573826}
   - component: {fileID: 114017720843365374}
-  - component: {fileID: 114645866740277954}
+  - component: {fileID: 82554502596860898}
+  - component: {fileID: 114226724488088840}
+  - component: {fileID: 114643057465573826}
   - component: {fileID: 114977697586778270}
   m_Layer: 11
   m_Name: Microwave
@@ -55,8 +54,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010765165894}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1845, y: 1144, z: -0.4}
+  m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
+  m_LocalPosition: {x: 52, y: 20, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000012062877234}
@@ -112,7 +111,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e088d8b027bb386419efb6fd214f592f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -121,7 +120,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 40
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -224,8 +223,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7e4e3178cbc144096bda59feec2ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onSprite: {fileID: 21300020, guid: 3f95a9fe53a3442ca95ab4434d2478e7, type: 3}
   cookTime: 10
+  onSprite: {fileID: 21300020, guid: 3f95a9fe53a3442ca95ab4434d2478e7, type: 3}
 --- !u!114 &114643057465573826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -237,27 +236,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc41097d7716d74696096737b0aa40f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114645866740277954
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010765165894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114977697586778270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -270,9 +248,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
 --- !u!212 &212000012631577124
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -306,7 +284,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
   m_SortingLayer: 9
-  m_SortingOrder: 30
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300016, guid: 3f95a9fe53a3442ca95ab4434d2478e7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4203027626724152}
   - component: {fileID: 82801123418606930}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: closeSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4315317885973854}
   - component: {fileID: 82779476563424656}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: openSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +52,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4297137456908486}
   - component: {fileID: 212760610372601884}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: doorbase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,8 @@ GameObject:
   - component: {fileID: 114029210237443714}
   - component: {fileID: 114719229024385200}
   - component: {fileID: 114476203546729768}
-  m_Layer: 0
+  - component: {fileID: 114531569165117964}
+  m_Layer: 18
   m_Name: WinDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +89,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4222531525585324}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: soundfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +174,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -420,22 +421,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorType: 15
-  restriction: 0
-  isWindowedDoor: 1
-  doorAnimationSize: 6
-  DoorSpriteOffset: 2
-  DoorLightSpriteOffset: 0
-  DoorCoverSpriteOffset: 17
-  isPerformingAction: 0
-  spriteRenderer: {fileID: 0}
-  maxTimeOpen: 2
-  doorAnimator: {fileID: 114719229024385200}
-  openSFX: {fileID: 82779476563424656}
   closeSFX: {fileID: 82801123418606930}
-  IsOpened: 0
+  doorAnimationSize: 6
+  doorAnimator: {fileID: 114719229024385200}
+  DoorCoverSpriteOffset: 17
+  DoorLightSpriteOffset: 0
+  DoorSpriteOffset: 2
+  doorType: 15
   FullDoor: 0
+  IsOpened: 0
+  isPerformingAction: 0
+  isWindowedDoor: 1
+  maxTimeOpen: 2
+  openSFX: {fileID: 82779476563424656}
   oppeningDirection: 0
+  spriteRenderer: {fileID: 0}
 --- !u!114 &114412479674324666
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -492,11 +492,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 0
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 0
-  OneDirectionRestricted: 1
   IsClosed: 1
+  OneDirectionRestricted: 1
+--- !u!114 &114531569165117964
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1797280918088156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 0
 --- !u!114 &114719229024385200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -510,7 +522,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorController: {fileID: 114029210237443714}
   direction: 0
-  registerDoor: {fileID: 114476203546729768}
 --- !u!212 &212760610372601884
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -542,8 +553,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1825689229
-  m_SortingLayer: 13
+  m_SortingLayerID: -2102490269
+  m_SortingLayer: 5
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300152, guid: f0f465f2e2128495683d9e4cb833c45a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

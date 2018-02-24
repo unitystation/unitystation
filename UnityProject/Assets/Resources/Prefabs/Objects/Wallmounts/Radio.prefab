@@ -20,8 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012623101898}
   - component: {fileID: 61000014015711244}
+  - component: {fileID: 114393202521717000}
   - component: {fileID: 114861804437894934}
-  m_Layer: 0
+  - component: {fileID: 114593833383210806}
+  m_Layer: 19
   m_Name: Radio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,6 +99,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114393202521717000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012293339564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 206
+    i1: 208
+    i2: 113
+    i3: 27
+    i4: 135
+    i5: 13
+    i6: 70
+    i7: 214
+    i8: 177
+    i9: 27
+    i10: 40
+    i11: 169
+    i12: 126
+    i13: 72
+    i14: 182
+    i15: 226
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114527497740321932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,6 +150,18 @@ MonoBehaviour:
   - {x: -0.8, y: -0.06}
   colliderOffset: {x: 0, y: 0, z: 0}
   rotateIndex: 0
+--- !u!114 &114593833383210806
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012293339564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: You turn down the radio
 --- !u!114 &114861804437894934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -128,9 +174,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
 --- !u!212 &212000013201095502
 SpriteRenderer:
   m_ObjectHideFlags: 1

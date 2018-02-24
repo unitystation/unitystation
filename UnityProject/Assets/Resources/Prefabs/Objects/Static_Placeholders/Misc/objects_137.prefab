@@ -20,8 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4017512266226028}
   - component: {fileID: 61865276691293846}
+  - component: {fileID: 61068462976148158}
+  - component: {fileID: 114045140156005150}
   - component: {fileID: 114199843711091152}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: objects_137
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +73,7 @@ Transform:
   m_Father: {fileID: 4017512266226028}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61865276691293846
+--- !u!61 &61068462976148158
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -96,6 +98,63 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!61 &61865276691293846
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1128342583134156}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &114045140156005150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1128342583134156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 189
+    i1: 57
+    i2: 32
+    i3: 236
+    i4: 202
+    i5: 135
+    i6: 52
+    i7: 73
+    i8: 185
+    i9: 211
+    i10: 133
+    i11: 81
+    i12: 124
+    i13: 203
+    i14: 240
+    i15: 218
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114199843711091152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,9 +167,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
 --- !u!212 &212855618530093468
 SpriteRenderer:
   m_ObjectHideFlags: 1

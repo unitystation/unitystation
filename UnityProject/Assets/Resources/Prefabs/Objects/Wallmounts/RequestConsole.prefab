@@ -21,8 +21,10 @@ GameObject:
   - component: {fileID: 4000010232269142}
   - component: {fileID: 61000013231193044}
   - component: {fileID: 95687423394818094}
+  - component: {fileID: 114569754741770560}
   - component: {fileID: 114630669365637708}
-  m_Layer: 0
+  - component: {fileID: 114961671854977668}
+  m_Layer: 19
   m_Name: RequestConsole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,6 +117,38 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114569754741770560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010652479536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 228
+    i1: 15
+    i2: 142
+    i3: 234
+    i4: 25
+    i5: 18
+    i6: 73
+    i7: 228
+    i8: 152
+    i9: 53
+    i10: 5
+    i11: 225
+    i12: 131
+    i13: 65
+    i14: 204
+    i15: 225
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114606543753090286
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -146,9 +180,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
+--- !u!114 &114961671854977668
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010652479536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: No requests available
 --- !u!212 &212000013671142270
 SpriteRenderer:
   m_ObjectHideFlags: 1

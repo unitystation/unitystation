@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -26,89 +28,127 @@ public enum EncryptionKeyType
 }
 
 /// <summary>
-/// Encryption Key properties
+///     Encryption Key properties
 /// </summary>
 public class EncryptionKey : NetworkBehaviour
 {
-    //So that we don't have to create a different item for each type
-    public SpriteRenderer spriteRenderer;
-    public Sprite commonSprite;
-	public Sprite medicalSprite;
-	public Sprite scienceSprite;
-	public Sprite serviceSprite;
-	public Sprite securitySprite;
-	public Sprite supplySprite;
-	public Sprite quarterMasterSprite;
-	public Sprite engineeringSprite;
-	public Sprite headOfPersonnelSprite;
+	public static readonly Dictionary<EncryptionKeyType, ChatChannel> Permissions = new Dictionary<EncryptionKeyType, ChatChannel>
+	{
+		{EncryptionKeyType.None, ChatChannel.None},
+		{EncryptionKeyType.Common, ChatChannel.Common},
+		{EncryptionKeyType.Binary, ChatChannel.Common | ChatChannel.Binary},
+		{EncryptionKeyType.Captain, ChatChannel.Common | ChatChannel.Command | ChatChannel.Security | ChatChannel.Engineering | 
+									ChatChannel.Supply | ChatChannel.Service | ChatChannel.Medical | ChatChannel.Science},
+		{EncryptionKeyType.ChiefEngineer, ChatChannel.Common | ChatChannel.Engineering | ChatChannel.Command},
+		{EncryptionKeyType.ChiefMedicalOfficer, ChatChannel.Common | ChatChannel.Medical | ChatChannel.Command},
+		{EncryptionKeyType.HeadOfPersonnel, ChatChannel.Common | ChatChannel.Supply | ChatChannel.Service | ChatChannel.Command},
+		{EncryptionKeyType.HeadOfSecurity, ChatChannel.Common | ChatChannel.Security | ChatChannel.Command},
+		{EncryptionKeyType.ResearchDirector, ChatChannel.Common | ChatChannel.Science | ChatChannel.Command},
+		{EncryptionKeyType.Supply, ChatChannel.Common | ChatChannel.Supply},
+		{EncryptionKeyType.QuarterMaster, ChatChannel.Common | ChatChannel.Supply | ChatChannel.Command},
+		{EncryptionKeyType.CentComm, ChatChannel.Common | ChatChannel.CentComm},
+		{EncryptionKeyType.Engineering, ChatChannel.Common | ChatChannel.Engineering},
+		{EncryptionKeyType.Medical, ChatChannel.Common | ChatChannel.Medical},
+		{EncryptionKeyType.Science, ChatChannel.Common | ChatChannel.Science},
+		{EncryptionKeyType.Security, ChatChannel.Common | ChatChannel.Security},
+		{EncryptionKeyType.Service, ChatChannel.Common | ChatChannel.Service},
+		{EncryptionKeyType.Syndicate, ChatChannel.Common | ChatChannel.Syndicate | ChatChannel.Command | ChatChannel.Security | 
+		                              ChatChannel.Engineering | ChatChannel.Supply | ChatChannel.Service | ChatChannel.Medical | ChatChannel.Science}
+	};
+
+	private static readonly string genericDescription = "An encryption key for a radio headset. \n";
+	
+	private static readonly Dictionary<EncryptionKeyType, string> ExamineTexts = new Dictionary<EncryptionKeyType, string>
+	{
+		{EncryptionKeyType.Common, 				$"{genericDescription}Has no special codes in it.  WHY DOES IT EXIST?  ASK NANOTRASEN."},
+		{EncryptionKeyType.Binary, 				$"{hotkeyDescription(EncryptionKeyType.Binary)}"},
+		{EncryptionKeyType.Captain, 			$"{hotkeyDescription(EncryptionKeyType.Captain)}"},
+		{EncryptionKeyType.ChiefEngineer, 		$"{hotkeyDescription(EncryptionKeyType.ChiefEngineer)}"},
+		{EncryptionKeyType.ChiefMedicalOfficer, $"{hotkeyDescription(EncryptionKeyType.ChiefMedicalOfficer)}"},
+		{EncryptionKeyType.HeadOfPersonnel, 	$"{hotkeyDescription(EncryptionKeyType.HeadOfPersonnel)}"},
+		{EncryptionKeyType.HeadOfSecurity, 		$"{hotkeyDescription(EncryptionKeyType.HeadOfSecurity)}"},
+		{EncryptionKeyType.ResearchDirector, 	$"{hotkeyDescription(EncryptionKeyType.ResearchDirector)}"},
+		{EncryptionKeyType.Supply, 				$"{hotkeyDescription(EncryptionKeyType.Supply)}"},
+		{EncryptionKeyType.QuarterMaster, 		$"{hotkeyDescription(EncryptionKeyType.QuarterMaster)}"},
+		{EncryptionKeyType.CentComm, 			$"{hotkeyDescription(EncryptionKeyType.CentComm)}"},
+		{EncryptionKeyType.Engineering, 		$"{hotkeyDescription(EncryptionKeyType.Engineering)}"},
+		{EncryptionKeyType.Medical, 			$"{hotkeyDescription(EncryptionKeyType.Medical)}"},
+		{EncryptionKeyType.Science, 			$"{hotkeyDescription(EncryptionKeyType.Science)}"},
+		{EncryptionKeyType.Security, 			$"{hotkeyDescription(EncryptionKeyType.Security)}"},
+		{EncryptionKeyType.Service, 			$"{hotkeyDescription(EncryptionKeyType.Service)}"},
+		{EncryptionKeyType.Syndicate, 			$"{hotkeyDescription(EncryptionKeyType.Syndicate)}"}
+	};
+
+	/// Generates a description for headset encryption key type
+	private static string hotkeyDescription(EncryptionKeyType keyType)
+	{
+		List<ChatChannel> chatChannels = getChannelList(keyType);
+		return $"{genericDescription}{string.Join(",\n",getChannelDescriptions(chatChannels))}";
+	}
+
+	/// string representation of channels and theor hotkeys
+	private static List<string> getChannelDescriptions(List<ChatChannel> channels)
+	{
+		List<string> descriptions = new List<string>();
+		for ( var i = 0; i < channels.Count; i++ )
+		{
+			descriptions.Add($"{channels[i].ToString()} — {channels[i].GetDescription()}");
+		}
+		return descriptions;
+	}
+
+	/// For dumb people like me who can't do bitwise. Better cache these
+	private static List<ChatChannel> getChannelList(EncryptionKeyType keyType)
+	{
+		ChatChannel channelMask = Permissions[keyType];
+		return getChannelsByMask(channelMask);
+	}
+
+	public static List<ChatChannel> getChannelsByMask(ChatChannel channelMask)
+	{
+		List<ChatChannel> channelsByMask = Enum.GetValues(typeof( ChatChannel ))
+			.Cast<ChatChannel>()
+			.Where(value => channelMask.HasFlag(value))
+			.ToList();
+		channelsByMask.Remove(ChatChannel.None);
+		return channelsByMask;
+	}
+
+	public Sprite binarySprite;
 	public Sprite captainSprite;
-	public Sprite researchDirectorSprite;
-	public Sprite headOfSecuritySprite;
+	public Sprite centCommSprite;
 	public Sprite chiefEngineerSprite;
 	public Sprite chiefMedicalOfficerSprite;
-	public Sprite binarySprite;
+
+	public Sprite commonSprite;
+	public Sprite engineeringSprite;
+	public Sprite headOfPersonnelSprite;
+	public Sprite headOfSecuritySprite;
+	public Sprite medicalSprite;
+	public Sprite quarterMasterSprite;
+	public Sprite researchDirectorSprite;
+	public Sprite scienceSprite;
+	public Sprite securitySprite;
+
+	public Sprite serviceSprite;
+
+	//So that we don't have to create a different item for each type
+	public SpriteRenderer spriteRenderer;
+
+	public Sprite supplySprite;
 	public Sprite syndicateSprite;
-	public Sprite centCommSprite;
 
-	public static readonly Dictionary<EncryptionKeyType, ChatChannel> Permissions
-		= new Dictionary<EncryptionKeyType, ChatChannel>
-	{
-		{ EncryptionKeyType.None, ChatChannel.None },
-		{ EncryptionKeyType.Common, ChatChannel.Common },
-		{ EncryptionKeyType.Binary, ChatChannel.Common | ChatChannel.Binary },
-		{ EncryptionKeyType.Captain, ChatChannel.Common | ChatChannel.Command | ChatChannel.Security | ChatChannel.Engineering | ChatChannel.Supply | ChatChannel.Service | ChatChannel.Medical | ChatChannel.Science },
-		{ EncryptionKeyType.ChiefEngineer, ChatChannel.Common | ChatChannel.Engineering | ChatChannel.Command },
-		{ EncryptionKeyType.ChiefMedicalOfficer, ChatChannel.Common | ChatChannel.Medical | ChatChannel.Command },
-		{ EncryptionKeyType.HeadOfPersonnel, ChatChannel.Common | ChatChannel.Supply | ChatChannel.Service | ChatChannel.Command },
-		{ EncryptionKeyType.HeadOfSecurity, ChatChannel.Common | ChatChannel.Security | ChatChannel.Command },
-		{ EncryptionKeyType.ResearchDirector, ChatChannel.Common | ChatChannel.Science | ChatChannel.Command },
-		{ EncryptionKeyType.Supply, ChatChannel.Common | ChatChannel.Supply },
-		{ EncryptionKeyType.QuarterMaster, ChatChannel.Common | ChatChannel.Supply | ChatChannel.Command },
-		{ EncryptionKeyType.CentComm, ChatChannel.Common | ChatChannel.CentComm },
-		{ EncryptionKeyType.Engineering, ChatChannel.Common | ChatChannel.Engineering },
-		{ EncryptionKeyType.Medical, ChatChannel.Common | ChatChannel.Medical },
-		{ EncryptionKeyType.Science, ChatChannel.Common | ChatChannel.Science },
-		{ EncryptionKeyType.Security, ChatChannel.Common | ChatChannel.Security },
-		{ EncryptionKeyType.Service, ChatChannel.Common | ChatChannel.Service },
-		{ EncryptionKeyType.Syndicate, ChatChannel.Common | ChatChannel.Syndicate },
-	};
-
-	[SerializeField]//to show in inspector
+	[SerializeField] //to show in inspector
 	private EncryptionKeyType type;
-
-	private static readonly Dictionary<EncryptionKeyType, string> ExamineTexts
-	= new Dictionary<EncryptionKeyType, string>
-	{
-		{ EncryptionKeyType.Common, "An encryption key for a radio headset. \nHas no special codes in it.  WHY DOES IT EXIST?  ASK NANOTRASEN." },
-		{ EncryptionKeyType.Binary, "An encryption key for a radio headset. \nTo access the binary channel, use :b." },
-		{ EncryptionKeyType.Captain, "An encryption key for a radio headset. \nChannels are as follows: :c - command, :s - security, :e - engineering, :u - supply, :v - service, :m - medical, :n - science." },
-		{ EncryptionKeyType.ChiefEngineer, "An encryption key for a radio headset. \nTo access the engineering channel, use :e. For command, use :c." },
-		{ EncryptionKeyType.ChiefMedicalOfficer, "An encryption key for a radio headset. \nTo access the medical channel, use :m. For command, use :c." },
-		{ EncryptionKeyType.HeadOfPersonnel, "An encryption key for a radio headset. \nChannels are as follows: :u - supply, :v - service, :c - command." },
-		{ EncryptionKeyType.HeadOfSecurity, "An encryption key for a radio headset. \nTo access the security channel, use :s. For command, use :c." },
-		{ EncryptionKeyType.ResearchDirector, "An encryption key for a radio headset. \nTo access the science channel, use :n. For command, use :c." },
-		{ EncryptionKeyType.Supply, "An encryption key for a radio headset. \nTo access the supply channel, use :u." },
-		{ EncryptionKeyType.QuarterMaster, "An encryption key for a radio headset. \nTo access the supply channel, use :u. For command, use :c." },
-		{ EncryptionKeyType.CentComm, "An encryption key for a radio headset. \nTo access the centcom channel, use :y." },
-		{ EncryptionKeyType.Engineering, "An encryption key for a radio headset.  \nTo access the engineering channel, use :e." },
-		{ EncryptionKeyType.Medical, "An encryption key for a radio headset. \nTo access the medical channel, use :m." },
-		{ EncryptionKeyType.Science, "An encryption key for a radio headset. \nTo access the science channel, use :n." },
-		{ EncryptionKeyType.Security, "An encryption key for a radio headset. \nTo access the security channel, use :s." },
-		{ EncryptionKeyType.Service, "An encryption key for a radio headset.  \nTo access the service channel, use :v." },
-		{ EncryptionKeyType.Syndicate, "An encryption key for a radio headset.\nTo access the syndicate channel, use :t." },
-	};
-
-	private void Start()
-	{
-		UpdateSprite();
-	}
 
 	public EncryptionKeyType Type
 	{
 		get { return type; }
-		set {
+		set
+		{
 			type = value;
-			if(type == EncryptionKeyType.None) {
+			if (type == EncryptionKeyType.None)
+			{
 				Debug.LogError("Encryption keys cannot be None type!");
 				type = EncryptionKeyType.Common;
 			}
@@ -116,10 +156,34 @@ public class EncryptionKey : NetworkBehaviour
 		}
 	}
 
+	private void Start()
+	{
+		UpdateSprite();
+	}
+	
+/// Look ma, no syncvars!
+/// This allows clients to initialize attributes
+/// without having to resort to SyncVars and ItemFactory (see IDCard example)
+/// Downside – all players will get that info (same with syncvars)
+	public override bool OnSerialize(NetworkWriter writer, bool initialState)
+	{
+		writer.Write(type.ToString());
+		return base.OnSerialize(writer, initialState);
+	}
+	public override void OnDeserialize(NetworkReader reader, bool initialState)
+	{
+		EncryptionKeyType keyType;
+		Enum.TryParse(reader.ReadString(),true, out keyType);
+		type = keyType;
+		base.OnDeserialize(reader, initialState);
+	}
+
 	#region Set the sprite based on key type
+
 	private void UpdateSprite()
-    {
-		switch(type) {
+	{
+		switch (type)
+		{
 			case EncryptionKeyType.Binary:
 				spriteRenderer.sprite = binarySprite;
 				break;
@@ -175,11 +239,12 @@ public class EncryptionKey : NetworkBehaviour
 				spriteRenderer.sprite = commonSprite;
 				break;
 		}
-    }
-#endregion
+	}
+
+	#endregion
 
 	public void OnExamine()
 	{
-		UI.UIManager.Chat.AddChatEvent(new ChatEvent(ExamineTexts[Type], ChatChannel.Examine));
+		UIManager.Chat.AddChatEvent(new ChatEvent(ExamineTexts[Type], ChatChannel.Examine));
 	}
 }

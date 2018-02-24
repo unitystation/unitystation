@@ -1,259 +1,321 @@
-using InputControl;
 using System.Collections;
 using PlayGroups.Input;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+using Facepunch.Steamworks;
+using UnityEngine.Experimental.UIElements;
 
 namespace PlayGroup
 {
-    public class PlayerScript : ManagedNetworkBehaviour
-    {
-        // the maximum distance the player needs to be to an object to interact with it
+	public class PlayerScript : ManagedNetworkBehaviour
+	{
+		// the maximum distance the player needs to be to an object to interact with it
 		//1.75 is the optimal distance to now have any direction click too far
 		//NOTE FOR ANYONE EDITING THIS IN THE FUTURE: Character's head is slightly below the top of the tile
-		//hence top reach is slightly lowered than bottom reach, where the legs go exactly to the bottom of the tile.
-        public const float interactionDistance = 1.75f;
+		//hence top reach is slightly lower than bottom reach, where the legs go exactly to the bottom of the tile.
+		public const float interactionDistance = 1.75f;
 
-        public PlayerNetworkActions playerNetworkActions { get; set; }
+		public GameObject ghost;
 
-        public WeaponNetworkActions weaponNetworkActions { get; set; }
+		[SyncVar] public JobType JobType = JobType.NULL;
 
-        public SoundNetworkActions soundNetworkActions { get; set; }
+		private float pingUpdate;
 
-        public PlayerHealth playerHealth { get; set; }
+		[SyncVar(hook = "OnNameChange")] public string playerName = " ";
 
-        public PlayerMove playerMove { get; set; }
+		private ChatChannel selectedChannels;
 
-        public PlayerSprites playerSprites { get; set; }
+		public PlayerNetworkActions playerNetworkActions { get; set; }
 
-        public PlayerSync playerSync { get; set; }
+		public WeaponNetworkActions weaponNetworkActions { get; set; }
 
-        public InputController inputController { get; set; }
+		public SoundNetworkActions soundNetworkActions { get; set; }
 
-        public HitIcon hitIcon { get; set; }
+		public PlayerHealth playerHealth { get; set; }
 
-        public JobType JobType = JobType.NULL;
+		public PlayerMove playerMove { get; set; }
 
-        public GameObject ghost;
+		public PlayerSprites playerSprites { get; set; }
 
-        private float pingUpdate = 0f;
+		public PlayerSync playerSync { get; set; }
 
-        private ChatChannel selectedChannels;
+		public InputController inputController { get; set; }
 
-        [SyncVar(hook = "OnNameChange")] public string playerName = " ";
+		public HitIcon hitIcon { get; set; }
 
-        public ChatChannel SelectedChannels
-        {
-            get { return selectedChannels & GetAvailableChannels(); }
-            set { this.selectedChannels = value; }
-        }
+		public ChatChannel SelectedChannels
+		{
+			get { return selectedChannels & GetAvailableChannelsMask(); }
+			set { selectedChannels = value; }
+		}
 
-        public override void OnStartClient()
-        {
-            //Local player is set a frame or two after OnStartClient
-            StartCoroutine(WaitForLoad());
-            base.OnStartClient();
-        }
+		private static bool verified;
+		private static ulong SteamID;
 
-        IEnumerator WaitForLoad()
-        {
-            yield return new WaitForSeconds(2f);
-            OnNameChange(playerName);
-        }
+		public override void OnStartClient()
+		{
+			//Local player is set a frame or two after OnStartClient
+			StartCoroutine(WaitForLoad());
+			Init();
+			base.OnStartClient();
+		}
 
-        //isLocalPlayer is always called after OnStartClient
-        public override void OnStartLocalPlayer()
-        {
-            Init();
+		private IEnumerator WaitForLoad()
+		{
+			//fixme: name isn't resolved at the moment of pool creation 
+			//(player pools now use netIDs, but it would be nice to have names for readability)
+			yield return new WaitForSeconds(2f);
+			OnNameChange(playerName);
+		}
 
-            base.OnStartLocalPlayer();
-        }
+		//isLocalPlayer is always called after OnStartClient
+		public override void OnStartLocalPlayer()
+		{
+			Init();
 
-        //You know the drill
-        public override void OnStartServer()
-        {
-            Init();
-            base.OnStartServer();
-        }
+			base.OnStartLocalPlayer();
+		}
 
-        void Start()
-        {
-            playerNetworkActions = GetComponent<PlayerNetworkActions>();
-            playerSync = GetComponent<PlayerSync>();
-            playerHealth = GetComponent<PlayerHealth>();
-            weaponNetworkActions = GetComponent<WeaponNetworkActions>();
-            soundNetworkActions = GetComponent<SoundNetworkActions>();
-            inputController = GetComponent<InputController>();
-            hitIcon = GetComponentInChildren<HitIcon>();
-        }
+		//You know the drill
+		public override void OnStartServer()
+		{
+			Init();
+			base.OnStartServer();
+		}
 
-        void Init()
-        {
-            if (isLocalPlayer)
-            {
-                UIManager.ResetAllUI();
-                UIManager.DisplayManager.SetCameraFollowPos();
-                int rA = UnityEngine.Random.Range(0, 3);
-                SoundManager.PlayVarAmbient(rA);
-                playerMove = GetComponent<PlayerMove>();
-                playerSprites = GetComponent<PlayerSprites>();
-                GetComponent<InputController>().enabled = true;
+		private void Start()
+		{
+			playerNetworkActions = GetComponent<PlayerNetworkActions>();
+			playerSync = GetComponent<PlayerSync>();
+			playerHealth = GetComponent<PlayerHealth>();
+			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
+			soundNetworkActions = GetComponent<SoundNetworkActions>();
+			inputController = GetComponent<InputController>();
+			hitIcon = GetComponentInChildren<HitIcon>();
+		}
 
-                if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)
-                {
-                    UIManager.Instance.playerListUIControl.window.SetActive(true);
-                }
+		private void Init()
+		{
+			if (isLocalPlayer)
+			{
+				UIManager.ResetAllUI();
+				UIManager.DisplayManager.SetCameraFollowPos();
+				int rA = Random.Range(0, 3);
+				SoundManager.PlayVarAmbient(rA);
+				playerMove = GetComponent<PlayerMove>();
+				playerSprites = GetComponent<PlayerSprites>();
+				GetComponent<InputController>().enabled = true;
 
-                if (!PlayerManager.HasSpawned)
-                {
-                    //First
-                    CmdTrySetName(PlayerManager.PlayerNameCache);
-                }
-                else
-                {
-                    //Manual after respawn
-                    CmdSetNameManual(PlayerManager.PlayerNameCache);
-                }
+				if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)
+				{
+					UIManager.Instance.playerListUIControl.window.SetActive(true);
+				}
 
-                PlayerManager.SetPlayerForControl(gameObject);
+				CmdTrySetInitialName(PlayerManager.PlayerNameCache);
 
-                if (PlayerManager.LocalPlayerScript.JobType == JobType.NULL)
-                {
-                    // I (client) have connected to the server, ask what my job preference is
-                    UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
-                }
+				PlayerManager.SetPlayerForControl(gameObject);
 
-                SelectedChannels = ChatChannel.OOC;
-            }
-            else if (isServer)
-            {
-                playerMove = GetComponent<PlayerMove>();
-            }
-        }
+				if (PlayerManager.LocalPlayerScript.JobType == JobType.NULL)
+				{
+					// I (client) have connected to the server, ask what my job preference is
+					UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
+				}
+				UIManager.SetDeathVisibility(true);
+				// Send request to be authenticated by the server
+				if (Client.Instance != null)
+				{                
+					Debug.Log("Client Requesting Auth");
+					// Generate authentication Ticket
+					var ticket = Client.Instance.Auth.GetAuthSessionTicket();
+					var ticketBinary = ticket.Data;
+					// Send Clientmessage to authenticate
+					RequestAuthMessage.Send(Client.Instance.SteamId, ticketBinary);
+				}
+				else
+				{
+					Debug.Log("Client NOT requesting auth");
+				}
+//				Request sync to get all the latest transform data
+//				new RequestSyncMessage().Send();
+				SelectedChannels = ChatChannel.Local;
 
-        public bool canNotInteract()
-        {
-            return playerMove == null || !playerMove.allowInput || playerMove.isGhost;
-        }
+			}
+			else if (isServer)
+			{
+				playerMove = GetComponent<PlayerMove>();
+								
+				//Add player to player list
+				PlayerList.Instance.Add(new ConnectedPlayer
+				{
+					Connection = connectionToClient,
+					GameObject = gameObject,
+					Job = JobType
+				});
+			}
+		}
 
-        public override void UpdateMe()
-        {
-            //Read out of ping in toolTip
-            pingUpdate += Time.deltaTime;
-            if (pingUpdate >= 5f)
-            {
-                pingUpdate = 0f;
-                int ping = CustomNetworkManager.Instance.client.GetRTT();
-                UIManager.SetToolTip = "ping: " + ping.ToString();
-            }
-        }
+		public bool canNotInteract()
+		{
+			return playerMove == null || !playerMove.allowInput || playerMove.isGhost;
+		}
 
-        [Command]
-        void CmdTrySetName(string name)
-        {
-            if (PlayerList.Instance != null)
-                playerName = PlayerList.Instance.CheckName(name);
-        }
+		public override void UpdateMe()
+		{
+			//Read out of ping in toolTip
+			pingUpdate += Time.deltaTime;
+			if (pingUpdate >= 5f)
+			{
+				pingUpdate = 0f;
+				int ping = CustomNetworkManager.Instance.client.GetRTT();
+				UIManager.SetToolTip = "ping: " + ping;
+			}
+		}
 
-        [Command]
-        void CmdSetNameManual(string name)
-        {
-            playerName = name;
-        }
+		/// <summary>
+		/// Trying to set initial name, if player has none 
+		/// </summary>
+		[Command]
+		private void CmdTrySetInitialName(string name)
+		{
+//			Debug.Log($"TrySetName {name}");
+			if (PlayerList.Instance != null)
+			{
+				var player = PlayerList.Instance.Get(connectionToClient);
+				if ( player.HasNoName() )
+				{
+					player.Name = name;
+				}
+				playerName = player.Name;
+				PlayerList.Instance.TryAddScores( player.Name );
+			}
+		}
 
-        // On playerName variable change across all clients, make sure obj is named correctly
-        // and set in Playerlist for that client
-        public void OnNameChange(string newName)
-        {
-            playerName = newName;
-            gameObject.name = newName;
-            if (string.IsNullOrEmpty(newName))
-            {
-                Debug.LogError("NO NAME PROVIDED!");
-                return;
-            }
-            if (!PlayerList.Instance.connectedPlayers.ContainsKey(newName))
-            {
-                PlayerList.Instance.connectedPlayers.Add(newName, gameObject);
-            }
-            PlayerList.Instance.RefreshPlayerListText();
-        }
+		// On playerName variable change across all clients, make sure obj is named correctly
+		// and set in Playerlist for that client
+		public void OnNameChange(string newName)
+		{
+			if (string.IsNullOrEmpty(newName))
+			{
+				Debug.LogError("NO NAME PROVIDED!");
+				return;
+			}
+//			Debug.Log($"OnNameChange: GOName '{gameObject.name}'->'{newName}'; playerName '{playerName}'->'{newName}'");
+			playerName = newName;
+			gameObject.name = newName;
+		}
 
-        public float DistanceTo(Vector3 position)
-        {
+		public float DistanceTo(Vector3 position)
+		{
 			//Because characters are taller than they are wider, their reach upwards/downards was greater
 			//Flooring that shit fixes it
-			Vector3Int pos = new Vector3Int(
-				Mathf.FloorToInt(transform.position.x),
-				Mathf.FloorToInt(transform.position.y),
-				Mathf.FloorToInt(transform.position.z)
-			);
-            return (pos - position).magnitude;
-        }
+			Vector3Int pos = new Vector3Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y),
+				Mathf.FloorToInt(transform.position.z));
+			return (pos - position).magnitude;
+		}
 
-        /// <summary>
-        /// Checks if the player is within reach of something
-        /// </summary>
-        /// <param name="position">The position of whatever we are trying to reach</param>
-        /// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
-        public bool IsInReach(Vector3 position, float interactDist = interactionDistance)
-        {
+		/// <summary>
+		///     Checks if the player is within reach of something
+		/// </summary>
+		/// <param name="position">The position of whatever we are trying to reach</param>
+		/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
+		public bool IsInReach(Vector3 position, float interactDist = interactionDistance)
+		{
 			//If click is in diagonal direction, extend reach slightly
-			float distanceX = Mathf.FloorToInt(Mathf.Abs(transform.position.x - position.x));
-			float distanceY = Mathf.FloorToInt(Mathf.Abs(transform.position.y - position.y));
-			if(distanceX == 1 && distanceY == 1) {
+			int distanceX = Mathf.FloorToInt(Mathf.Abs(transform.position.x - position.x));
+			int distanceY = Mathf.FloorToInt(Mathf.Abs(transform.position.y - position.y));
+			if (distanceX == 1 && distanceY == 1)
+			{
 				return DistanceTo(position) <= interactDist + 0.4f;
 			}
 
 			//if cardinal direction, use regular reach
 			return DistanceTo(position) <= interactDist;
-        }
+		}
 
-        public ChatChannel GetAvailableChannels(bool transmitOnly = true)
-        {
-            //TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
-            ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
+		public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
+		{
+			PlayerMove pm = gameObject.GetComponent<PlayerMove>();
+			if (pm.isGhost)
+			{
+				ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
+				ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System;
+				if (transmitOnly)
+				{
+					return ghostTransmitChannels;
+				}
+				return ghostTransmitChannels | ghostReceiveChannels;
+			}
 
-            /*GameObject headset = UIManager.InventorySlots.EarSlot.Item;
-            if(headset) {
-                EncryptionKeyType key = headset.GetComponent<Headset>().EncryptionKey;
-                transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
-            }*/
-            ChatChannel receiveChannels = (ChatChannel.Examine | ChatChannel.System);
+			//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
+			ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				PlayerNetworkActions pna = gameObject.GetComponent<PlayerNetworkActions>();
+				if ( pna && pna.SlotNotEmpty("ear") )
+				{
+					Headset headset = pna.Inventory["ear"].GetComponent<Headset>();
+					if ( headset )
+					{
+						EncryptionKeyType key = headset.EncryptionKey;
+						transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+					}
+				}
+			}
+			else
+			{
+				GameObject earSlotItem = UIManager.InventorySlots.EarSlot.Item;
+				if ( earSlotItem )
+				{
+					Headset headset = earSlotItem.GetComponent<Headset>();
+					if ( headset )
+					{
+						EncryptionKeyType key = headset.EncryptionKey;
+						transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+					}
+				}
+			}
 
-            if (transmitOnly)
-            {
-                return transmitChannels;
-            }
-            else
-            {
-                return transmitChannels | receiveChannels;
-            }
-        }
 
-        public ChatModifier GetCurrentChatModifiers()
-        {
-            //TODO add missing modifiers
-            ChatModifier modifiers = ChatModifier.Drunk;
+			ChatChannel receiveChannels = ChatChannel.Examine | ChatChannel.System;
 
-            if (JobType == JobType.CLOWN)
-            {
-                modifiers |= ChatModifier.Clown;
-            }
+			if (transmitOnly)
+			{
+				return transmitChannels;
+			}
+			return transmitChannels | receiveChannels;
+		}
 
-            return modifiers;
-        }
+		public ChatModifier GetCurrentChatModifiers()
+		{
+			ChatModifier modifiers = ChatModifier.None;
+			if (playerMove.isGhost)
+			{
+				return ChatModifier.None;
+			}
 
-        //Tooltips inspector bar
-        public void OnMouseEnter()
-        {
-            UI.UIManager.SetToolTip = this.name;
-        }
+			//TODO add missing modifiers
+			//TODO add if for being drunk
+			//ChatModifier modifiers = ChatModifier.Drunk;
 
-        public void OnMouseExit()
-        {
-            UI.UIManager.SetToolTip = "";
-        }
-    }
+			if (JobType == JobType.CLOWN)
+			{
+				modifiers |= ChatModifier.Clown;
+				
+			}
+
+			return modifiers;
+		}
+
+		//Tooltips inspector bar
+		public void OnMouseEnter()
+		{
+			UIManager.SetToolTip = name;
+		}
+
+		public void OnMouseExit()
+		{
+			UIManager.SetToolTip = "";
+		}
+	}
 }

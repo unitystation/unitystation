@@ -1,33 +1,32 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class GibMessage : ServerMessage<GibMessage>
+public class GibMessage : ServerMessage
 {
-    public NetworkInstanceId Subject;
+	public static short MessageType = (short) MessageTypes.GibMessage;
 
-    public override IEnumerator Process()
-    {
-        Debug.Log(ToString());
+	public override IEnumerator Process()
+	{
+		Debug.Log(ToString());
 
-        yield return WaitFor(Subject);
+		foreach (HealthBehaviour living in Object.FindObjectsOfType<HealthBehaviour>())
+		{
+			living.Death();
+		}
+		
+		yield return null;
+	}
 
-        foreach (var living in Object.FindObjectsOfType<HealthBehaviour>())
-        {
-            living.Death();
-        }
-    }
+	public static GibMessage Send()
+	{
+		GibMessage msg = new GibMessage();
+		msg.SendToAll();
+		return msg;
+	}
 
-    public static GibMessage Send()
-    {
-        var msg = new GibMessage();
-        msg.SendToAll();
-        return msg;
-    }
-
-    public override string ToString()
-    {
-        return string.Format("[GibMessage Subject={0} Type={1}]", Subject, MessageType);
-    }
+	public override string ToString()
+	{
+		return $"[GibMessage Type={MessageType}]";
+	}
 }

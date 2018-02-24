@@ -1,27 +1,26 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Crafting
 {
+	[Serializable]
+	public class Recipe
+	{
+		public Ingredient[] ingredients;
+		public string name;
+		public GameObject output;
 
-    [System.Serializable]
-    public class Recipe
-    {
-        public string name;
-        public Ingredient[] ingredients;
-        public GameObject output;
-
-        public bool Check(List<Ingredient> other)
-        {
-            foreach (var ingredient in ingredients)
-            {
-                if (!other.Contains(ingredient))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
+		public bool Check(List<Ingredient> other)
+		{
+			foreach (Ingredient ingredient in ingredients)
+			{
+				if (!other.Contains(ingredient))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+	}
 }

@@ -20,8 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4682090453554700}
   - component: {fileID: 61451157459494364}
+  - component: {fileID: 61454065272634424}
+  - component: {fileID: 114023686686940850}
   - component: {fileID: 114485594190251190}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: dominator_25
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,6 +82,31 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &61454065272634424
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1138636349567764}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -96,6 +123,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114023686686940850
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1138636349567764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 187
+    i1: 34
+    i2: 247
+    i3: 41
+    i4: 159
+    i5: 237
+    i6: 100
+    i7: 79
+    i8: 75
+    i9: 100
+    i10: 239
+    i11: 17
+    i12: 244
+    i13: 138
+    i14: 59
+    i15: 156
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114485594190251190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,9 +167,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
 --- !u!212 &212868515890629528
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -143,7 +202,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300050, guid: 2f4f95f4407b141f38b0948c163cde4f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

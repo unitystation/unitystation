@@ -38,9 +38,13 @@ notifications:
 jobs:
   include:
     - stage: Testing
-      script: travis_wait 45 sudo -E sh ./Travis/build.sh
+      script: travis_wait 45 sudo -E sh ./Travis/Test.sh
     - # stage name not required, will continue to use `test`
-      script: travis_wait 45 sudo -E sh ./Travis/buildOther.sh
+      script: travis_wait 45 sudo -E sh ./Travis/buildOSX.sh
+    - # stage name not required, will continue to use `test`
+      script: travis_wait 45 sudo -E sh ./Travis/buildLinux.sh
+    - # stage name not required, will continue to use `test`
+#      script: travis_wait 45 sudo -E sh ./Travis/buildWindows.sh
 #    - stage: deploy
 #      script: sudo -E sh ./Travis/post_build.sh
 

@@ -38,8 +38,9 @@ GameObject:
   - component: {fileID: 4000014280643290}
   - component: {fileID: 114067869038012234}
   - component: {fileID: 61655055042275860}
+  - component: {fileID: 114980732835007016}
   - component: {fileID: 114072681450652006}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,9 +123,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
 --- !u!114 &114530357707350240
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -148,6 +149,38 @@ MonoBehaviour:
   positions: []
   colliderOffset: {x: 0, y: 0, z: 0}
   rotateIndex: 0
+--- !u!114 &114980732835007016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000014018295980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 120
+    i1: 197
+    i2: 193
+    i3: 104
+    i4: 40
+    i5: 105
+    i6: 64
+    i7: 15
+    i8: 136
+    i9: 9
+    i10: 74
+    i11: 9
+    i12: 62
+    i13: 160
+    i14: 151
+    i15: 184
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212000013919365814
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -1,71 +1,65 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Crafting;
 using UnityEngine;
 using UnityEngine.Networking;
-using UI;
-using Events;
-using Crafting;
 
 public class Microwave : NetworkBehaviour
 {
+	private AudioSource audioSource;
 
-    public Sprite onSprite;
-    public float cookTime = 10;
+	private float cookingTime;
+	public float cookTime = 10;
+	private string meal;
+	private Sprite offSprite;
+	public Sprite onSprite;
 
-    private SpriteRenderer spriteRenderer;
-    private Sprite offSprite;
-    private AudioSource audioSource;
+	private SpriteRenderer spriteRenderer;
 
-    public bool Cooking { get; private set; }
-
-    private float cookingTime = 0;
-    private string meal;
+	public bool Cooking { get; private set; }
 
 
-    void Start()
-    {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        audioSource = GetComponent<AudioSource>();
-        offSprite = spriteRenderer.sprite;
-    }
+	private void Start()
+	{
+		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		audioSource = GetComponent<AudioSource>();
+		offSprite = spriteRenderer.sprite;
+	}
 
-    void Update()
-    {
-        if (Cooking)
-        {
-            cookingTime += Time.deltaTime;
+	private void Update()
+	{
+		if (Cooking)
+		{
+			cookingTime += Time.deltaTime;
 
-            if (cookingTime >= cookTime)
-            {
-                StopCooking();
-            }
-        }
-    }
+			if (cookingTime >= cookTime)
+			{
+				StopCooking();
+			}
+		}
+	}
 
-    public void ServerSetOutputMeal(string mealName)
-    {
-        meal = mealName;
-    }
+	public void ServerSetOutputMeal(string mealName)
+	{
+		meal = mealName;
+	}
 
-    [ClientRpc]
-    public void RpcStartCooking()
-    {
-        Cooking = true;
-        cookingTime = 0;
-        spriteRenderer.sprite = onSprite;
-    }
+	[ClientRpc]
+	public void RpcStartCooking()
+	{
+		Cooking = true;
+		cookingTime = 0;
+		spriteRenderer.sprite = onSprite;
+	}
 
-    private void StopCooking()
-    {
-        Cooking = false;
-        spriteRenderer.sprite = offSprite;
-        audioSource.Play();
-        if (isServer)
-        {
-            GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal(meal);
-            GameObject newMeal = Instantiate(mealPrefab, transform.position, Quaternion.identity) as GameObject;
-            NetworkServer.Spawn(newMeal);
-        }
-        meal = null;
-    }
+	private void StopCooking()
+	{
+		Cooking = false;
+		spriteRenderer.sprite = offSprite;
+		audioSource.Play();
+		if (isServer)
+		{
+			GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal(meal);
+			ItemFactory.Instance.SpawnMeal(mealPrefab, transform.position, transform.parent);
+		}
+		meal = null;
+	}
 }

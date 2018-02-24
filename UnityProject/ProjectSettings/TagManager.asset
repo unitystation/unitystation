@@ -12,7 +12,6 @@ TagManager:
   - MapEditor
   - NetworkManager
   - FogOfWar
-  - SpawnParent
   layers:
   - Default
   - TransparentFX
@@ -38,7 +37,7 @@ TagManager:
   - LightingSource
   - LightingObstacles
   - LightingAmbience
-  - 
+  - Matrix
   - 
   - 
   - 
@@ -83,7 +82,10 @@ TagManager:
   - name: Doors Open
     uniqueID: 2411169673
     locked: 0
-  - name: PlayersNpcs
+  - name: NPCs
+    uniqueID: 4065465139
+    locked: 0
+  - name: Players
     uniqueID: 3392514689
     locked: 0
   - name: Doors Closed

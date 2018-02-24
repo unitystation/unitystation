@@ -1,171 +1,206 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using System;
 using System.Collections;
-using System;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-using UI;
+using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
+using PlayGroup;
 
 public class GameData : MonoBehaviour
 {
-    /// <summary>
-    /// Check to see if you are in the game or in the lobby
-    /// </summary>
-    public static bool IsInGame { get; private set; }
+	private static GameData gameData;
 
-    public static bool IsHeadlessServer { get; private set; }
+	public bool testServer;
 
-    public bool testServer = false;
-    private static GameData gameData;
+	/// <summary>
+	///     Check to see if you are in the game or in the lobby
+	/// </summary>
+	public static bool IsInGame { get; private set; }
 
-    public static GameData Instance
-    {
-        get
-        {
-            if (!gameData)
-            {
-                gameData = FindObjectOfType<GameData>();
-                gameData.Init();
-            }
+	public static bool IsHeadlessServer { get; private set; }
 
-            return gameData;
-        }
-    }
+	public static GameData Instance
+	{
+		get
+		{
+			if (!gameData)
+			{
+				gameData = FindObjectOfType<GameData>();
+				gameData.Init();
+			}
 
-    public bool IsTestMode
-    {
-        get
-        {
-            return UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.StartsWith("InitTestScene");
-        }
-    }
+			return gameData;
+		}
+	}
 
-    void Init()
-    {
-        if (IsTestMode)
-            return;
+	public bool IsTestMode => SceneManager.GetActiveScene().name.StartsWith("InitTestScene");
 
-        Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
-        LoadData();
-    }
+	private void Init()
+	{
+		if (IsTestMode)
+		{
+			return;
+		}
 
-    void ApplicationWillResignActive()
-    {
-        if (IsTestMode)
-            return;
+		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
 
-        SaveData();
-    }
+		string testServerEnv = Environment.GetEnvironmentVariable("TEST_SERVER");
+		if (!string.IsNullOrEmpty(testServerEnv))
+		{
+			testServer = Convert.ToBoolean(testServerEnv);
+		}
 
-    void OnEnable()
-    {
-        if (IsTestMode)
-            return;
+		LoadData();
+	}
 
-        SceneManager.sceneLoaded += OnLevelFinishedLoading;
-    }
+	private void ApplicationWillResignActive()
+	{
+		if (IsTestMode)
+		{
+			return;
+		}
 
-    void OnDisable()
-    {
-        if (IsTestMode)
-            return;
+		SaveData();
+	}
 
-        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-        SaveData();
-    }
+	private void OnEnable()
+	{
+		if (IsTestMode)
+		{
+			return;
+		}
 
-    void OnApplicationQuit()
-    {
-        if (IsTestMode)
-            return;
+		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+	}
 
-        SaveData();
-    }
+	private void OnDisable()
+	{
+		if (IsTestMode)
+		{
+			return;
+		}
 
-    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "Lobby")
-        {
-            IsInGame = false;
-            Managers.instance.SetScreenForLobby();
-        }
-        else
-        {
-            IsInGame = true;
-            Managers.instance.SetScreenForGame();
-            SetPlayerPreferences();
-        }
+		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		SaveData();
+	}
 
-        if (CustomNetworkManager.Instance.isNetworkActive)
-        {
-            //Reset stuff
-            if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer)
-            {
-                IsHeadlessServer = true;
-            }
-            if (IsInGame && GameManager.Instance != null)
-            {
-                GameManager.Instance.ResetRoundTime();
-            }
-            return;
-        }
-        //Check if running in batchmode (headless server)
-        if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null || Instance.testServer)
-        {
-            Debug.Log("START SERVER HEADLESS MODE");
-            IsHeadlessServer = true;
-            StartCoroutine(WaitToStartServer());
-            return;
-        }
-    }
+	private void OnApplicationQuit()
+	{
+		if (IsTestMode)
+		{
+			return;
+		}
 
-    IEnumerator WaitToStartServer()
-    {
-        yield return new WaitForSeconds(0.1f);
-        CustomNetworkManager.Instance.StartHost();
-    }
+		SaveData();
+	}
 
-    void LoadData()
-    {
-        Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
-        if (File.Exists(Application.persistentDataPath + "/genData01.dat"))
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/genData01.dat", FileMode.Open);
-            UserData data = (UserData)bf.Deserialize(file);
-            //DO SOMETHNG WITH THE VALUES HERE, I.E STORE THEM IN A CACHE IN THIS CLASS
-            //TODO: LOAD SOME STUFF
+	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	{
+		if (scene.name == "Lobby")
+		{
+			IsInGame = false;
+			Managers.instance.SetScreenForLobby();
+		}
+		else
+		{
+			IsInGame = true;
+			Managers.instance.SetScreenForGame();
+			SetPlayerPreferences();
+		}
 
-            file.Close();
-        }
-    }
+		if (CustomNetworkManager.Instance.isNetworkActive)
+		{
+			//Reset stuff
+			if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
+			{
+				IsHeadlessServer = true;
+			}
+			if (IsInGame && GameManager.Instance != null && CustomNetworkManager.Instance._isServer)
+			{
+				GameManager.Instance.ResetRoundTime();
+			}
+			return;
+		}
+		//force vsync when not-headless
+		if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !Instance.testServer && !IsHeadlessServer)
+		{
+			Application.targetFrameRate = 60;
+			QualitySettings.vSyncCount = 1;
+		}
+		//Check if running in batchmode (headless server)
+		if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
+		{
+			float calcFrameRate =  1f / Time.fixedDeltaTime;
+			Application.targetFrameRate = (int) calcFrameRate;
+			Debug.Log("START SERVER HEADLESS MODE");
+			IsHeadlessServer = true;
+			StartCoroutine(WaitToStartServer());
+		}
+	}
 
-    void SaveData()
-    {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/genData01.dat");
-        UserData data = new UserData();
-        /// PUT YOUR MEMBER VALUES HERE, ADD THE PROPERTY TO USERDATA CLASS AND THIS WILL SAVE IT
+	private IEnumerator WaitToStartServer()
+	{
+		yield return new WaitForSeconds(0.1f);
+		CustomNetworkManager.Instance.StartHost();
+	}
 
-        //TODO: SAVE SOME STUFF
-        bf.Serialize(file, data);
-        file.Close();
-    }
+	private void LoadData()
+	{
+		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
+		if (File.Exists(Application.persistentDataPath + "/genData01.dat"))
+		{
+			BinaryFormatter bf = new BinaryFormatter();
+			FileStream file = File.Open(Application.persistentDataPath + "/genData01.dat", FileMode.Open);
+			UserData data = (UserData) bf.Deserialize(file);
+			//DO SOMETHNG WITH THE VALUES HERE, I.E STORE THEM IN A CACHE IN THIS CLASS
+			//TODO: LOAD SOME STUFF
 
-    void SetPlayerPreferences()
-    {
-        //Ambient Volume
-        if (PlayerPrefs.HasKey("AmbientVol"))
-        {
-            SoundManager.Instance.ambientTracks[SoundManager.Instance.ambientPlaying].volume = PlayerPrefs.GetFloat("AmbientVol");
-        }
+			file.Close();
+		}
+	}
 
-    }
+	private void SaveData()
+	{
+		BinaryFormatter bf = new BinaryFormatter();
+		FileStream file = File.Create(Application.persistentDataPath + "/genData01.dat");
+		UserData data = new UserData();
+		/// PUT YOUR MEMBER VALUES HERE, ADD THE PROPERTY TO USERDATA CLASS AND THIS WILL SAVE IT
+
+		//TODO: SAVE SOME STUFF
+		bf.Serialize(file, data);
+		file.Close();
+	}
+
+	private void SetPlayerPreferences()
+	{
+		//Ambient Volume
+		if (PlayerPrefs.HasKey("AmbientVol"))
+		{
+			SoundManager.Instance.ambientTracks[SoundManager.Instance.ambientPlaying].volume =
+				PlayerPrefs.GetFloat("AmbientVol");
+		}
+
+		if (PlayerPrefs.HasKey("AZERTY"))
+		{
+			if (PlayerManager.LocalPlayerScript)
+			{
+				PlayerMove plm = PlayerManager.LocalPlayerScript.playerMove;
+				if (PlayerPrefs.GetInt("AZERTY") == 1)
+				{
+					plm.ChangeKeyboardInput(true);
+				}
+				else
+				{
+					plm.ChangeKeyboardInput(false);
+				}
+			}
+		}
+	}
 }
 
 [Serializable]
-class UserData
+internal class UserData
 {
-    //TODO: add your members here
-
+	//TODO: add your members here
 }

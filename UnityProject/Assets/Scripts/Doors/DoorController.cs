@@ -1,298 +1,255 @@
-﻿using AccessType;
+﻿using System.Collections;
 using Sprites;
-using System.Collections;
-using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours.Objects;
+using Tilemaps;
+using Tilemaps.Behaviours.Layers;
+using Tilemaps.Behaviours.Objects;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Doors
 {
-    public class DoorController : ManagedNetworkBehaviour
-    {
-        public DoorType doorType;
-        private RegisterDoor registerTile;
-        private Matrix matrix;
-
-        public Access restriction;
-        [Tooltip("Does it have a glass window you can see trough?")]
-        public bool isWindowedDoor = false;
-        [Tooltip("how many sprites in the main door animation")]
-        public int doorAnimationSize;
-        [Tooltip("first frame of the door animation")]
-        public int DoorSpriteOffset = 0;
-        [Tooltip("first frame of the light animation")]
-        public int DoorLightSpriteOffset = 0;
-        [Tooltip("first frame of the door Cover/window animation")]
-        public int DoorCoverSpriteOffset = 0;
-        [HideInInspector]
-        public bool isPerformingAction = false;
-        [HideInInspector]
-        public SpriteRenderer spriteRenderer;
-        public float maxTimeOpen = 5;
-        public DoorAnimator doorAnimator;
-        private bool openTrigger = false;
-        private GameObject playerOpeningIt;
-        private IEnumerator coWaitOpened;
-        public AudioSource openSFX;
-        public AudioSource closeSFX;
+	public class DoorController : ManagedNetworkBehaviour
+	{
+		//public bool isWindowed = false;
+		public enum OppeningDirection
+		{
+			Horizontal,
+			Vertical
+		}
 
 
-        private int closedLayer;
-        private int openLayer;
-        private int closedSortingLayer;
-        private int openSortingLayer;
-        private int doorDirection;
+		private int closedLayer;
+		private int closedSortingLayer;
+		public AudioSource closeSFX;
+		private IEnumerator coWaitOpened;
+		[Tooltip("how many sprites in the main door animation")] public int doorAnimationSize;
+		public DoorAnimator doorAnimator;
+		[Tooltip("first frame of the door Cover/window animation")] public int DoorCoverSpriteOffset;
+		private int doorDirection;
+		[Tooltip("first frame of the light animation")] public int DoorLightSpriteOffset;
+		[Tooltip("first frame of the door animation")] public int DoorSpriteOffset;
+		public DoorType doorType;
 
-        public bool IsOpened;
+		public bool IsOpened;
+		[HideInInspector] public bool isPerformingAction;
+		[Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor;
+		public float maxTimeOpen = 5;
+		private int openLayer;
+		public AudioSource openSFX;
+		private int openSortingLayer;
+		private bool openTrigger;
 
-        //TODO: useful tooltip
-        public bool FullDoor = true;
+		public OppeningDirection oppeningDirection;
+		private GameObject playerOpeningIt;
+		private RegisterDoor registerTile;
+		private Matrix matrix => registerTile.Matrix;
 
-        //public bool isWindowed = false;
-        public enum OppeningDirection : int
-        {
-            Horizontal,
-            Vertical
-        };
+		[HideInInspector] public SpriteRenderer spriteRenderer;
 
-        public OppeningDirection oppeningDirection;
-
-        public override void OnStartClient()
-        {
-            base.OnStartClient();
-            if (!isWindowedDoor)
-            {
-                closedLayer = LayerMask.NameToLayer("Door Closed");
-            }
-            else
-            {
-                closedLayer = LayerMask.NameToLayer("Windows");
-            }
-            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            closedSortingLayer = SortingLayer.NameToID("Doors Closed");
-            openSortingLayer = SortingLayer.NameToID("Doors Open");
-            openLayer = LayerMask.NameToLayer("Door Open");
+		public override void OnStartClient()
+		{
+			base.OnStartClient();
+			if (!isWindowedDoor)
+			{
+				closedLayer = LayerMask.NameToLayer("Door Closed");
+			}
+			else
+			{
+				closedLayer = LayerMask.NameToLayer("Windows");
+			}
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+			closedSortingLayer = SortingLayer.NameToID("Doors Closed");
+			openSortingLayer = SortingLayer.NameToID("Doors Open");
+			openLayer = LayerMask.NameToLayer("Door Open");
 
 
-            registerTile = gameObject.GetComponent<RegisterDoor>();
-            matrix = Matrix.GetMatrix(this);
+			registerTile = gameObject.GetComponent<RegisterDoor>();
+		}
 
-            //            var rmt = GetComponent<RestrictiveMoveTile>();
-            //            if (rmt != null)
-            //            {
-            //                var dooranim = (WinDoorAnimator)GetComponent<DoorAnimator>();
-            //                if (dooranim != null)
-            //                {
-            //                    rmt.setAll(false);
-            //                    switch ((int)dooranim.direction)
-            //                    {
-            //                        case 0:
-            //                            rmt.setSouth(true);
-            //                            break;
-            //                        case 1:
-            //                            rmt.setNorth(true);
-            //                            break;
-            //                        case 2:
-            //                            rmt.setEast(true);
-            //                            break;
-            //                        case 3:
-            //                            rmt.setWest(true);
-            //                            break;
-            //                    }
-            //                }
-            //            }
+		public void BoxCollToggleOn()
+		{
+			registerTile.IsClosed = true;
+			gameObject.layer = closedLayer;
+			spriteRenderer.sortingLayerID = closedSortingLayer;
+		}
 
-            Awake();
-        }
+		public void BoxCollToggleOff()
+		{
+			registerTile.IsClosed = false;
+			gameObject.layer = openLayer;
+			spriteRenderer.sortingLayerID = openSortingLayer;
+		}
 
-        public void BoxCollToggleOn()
-        {
-            if (!FullDoor)
-            {
-                //                var rmt = GetComponent<RestrictiveMoveTile>();
-                //                if (rmt != null)
-                //                {
-                //                    var anim = (WinDoorAnimator)GetComponent<DoorAnimator>();
-                //                    if (anim != null)
-                //                    {
-                //                        switch ((int)anim.direction)
-                //                        {
-                //                            case 0:
-                //                                rmt.setSouth(true);
-                //                                break;
-                //                            case 1:
-                //                                rmt.setNorth(true);
-                //                                break;
-                //                            case 2:
-                //                                rmt.setEast(true);
-                //                                break;
-                //                            case 3:
-                //                                rmt.setWest(true);
-                //                                break;
-                //                        }
-                //                    }
-                //                }
-            }
-            registerTile.IsClosed = true;
-            gameObject.layer = closedLayer;
-            spriteRenderer.sortingLayerID = closedSortingLayer;
-        }
+		private IEnumerator WaitUntilClose()
+		{
+			// After the door opens, wait until it's supposed to close.
+			yield return new WaitForSeconds(maxTimeOpen);
+			if (isServer)
+			{
+				CmdTryClose();
+			}
+		}
 
-        public void BoxCollToggleOff()
-        {
-            //            var rmt = GetComponent<RestrictiveMoveTile>();
-            //            if (rmt != null)
-            //            {
-            //                rmt.setAll(false);
-            //            }
-            registerTile.IsClosed = false;
-            gameObject.layer = openLayer;
-            spriteRenderer.sortingLayerID = openSortingLayer;
-        }
+		//3d sounds
+		public void PlayOpenSound()
+		{
+			if (openSFX != null)
+			{
+				openSFX.Play();
+			}
+		}
 
-        private IEnumerator WaitUntilClose()
-        {
-            // After the door opens, wait until it's supposed to close.
-            yield return new WaitForSeconds(maxTimeOpen);
-            if (isServer)
-                CmdTryClose();
-        }
+		public void PlayCloseSound()
+		{
+			if (closeSFX != null)
+			{
+				closeSFX.Play();
+			}
+		}
 
-        //3d sounds
-        public void PlayOpenSound()
-        {
-            if (openSFX != null)
-                openSFX.Play();
-        }
+		public void PlayCloseSFXshort()
+		{
+			if (closeSFX != null)
+			{
+				closeSFX.time = 0.6f;
+				closeSFX.Play();
+			}
+		}
 
-        public void PlayCloseSound()
-        {
-            if (closeSFX != null)
-                closeSFX.Play();
-        }
+		[Command]
+		public void CmdTryOpen(GameObject playerObj)
+		{
+			if (!IsOpened && !isPerformingAction)
+			{
+				RpcOpen(playerObj);
 
-        public void PlayCloseSFXshort()
-        {
-            if (closeSFX != null)
-            {
-                closeSFX.time = 0.6f;
-                closeSFX.Play();
-            }
-        }
+				ResetWaiting();
+			}
+		}
 
-        [Command]
-        public void CmdTryOpen(GameObject playerObj)
-        {
-            if (!IsOpened && !isPerformingAction)
-            {
-                RpcOpen(playerObj);
+		[Command]
+		public void CmdTryClose()
+		{
+			if (IsOpened && !isPerformingAction && matrix.IsPassableAt(registerTile.Position))
+			{
+				RpcClose();
+			}
+			else
+			{
+				ResetWaiting();
+			}
+		}
 
-                ResetWaiting();
-            }
-        }
+		[Command]
+		public void CmdTryDenied()
+		{
+			if (!IsOpened && !isPerformingAction)
+			{
+				RpcAccessDenied();
+			}
+		}
 
-        [Command]
-        public void CmdTryClose()
-        {
-            if (!FullDoor && IsOpened)
-            {
-                RpcClose();
-                return;
-            }
+		// How the client attempts to open the door. If there is no AccessRestrictions component, it returns an error and everything goes about its business.
+		[Command]
+		public void CmdCheckDoorPermissions(GameObject Door, GameObject Originator)
+		{
+			if (Door.GetComponent<AccessRestrictions>() != null)
+			{
+				if (Door.GetComponent<AccessRestrictions>().CheckAccess(Originator, Door))
+				{
+					CmdTryOpen(Originator);
+				}
+				else
+				{
+					CmdTryDenied();
+				}
+			}
+			else
+			{
+				Debug.LogError("Door lacks access restriction component!");
+			}
+		}
 
-            if (IsOpened && !isPerformingAction && matrix.IsPassableAt(registerTile.Position))
-            {
-                RpcClose();
-            }
-            else
-            {
-                ResetWaiting();
-            }
-        }
+		private void ResetWaiting()
+		{
+			if (coWaitOpened != null)
+			{
+				StopCoroutine(coWaitOpened);
+				coWaitOpened = null;
+			}
 
-        [Command]
-        public void CmdTryDenied()
-        {
-            if (!IsOpened && !isPerformingAction)
-            {
-                RpcAccessDenied();
-            }
-        }
+			coWaitOpened = WaitUntilClose();
+			StartCoroutine(coWaitOpened);
+		}
 
-        private void ResetWaiting()
-        {
-            if (coWaitOpened != null)
-            {
-                StopCoroutine(coWaitOpened);
-                coWaitOpened = null;
-            }
+		public override void UpdateMe()
+		{
+			if (openTrigger && playerOpeningIt)
+			{
+				float distToTriggerPlayer = Vector3.Distance(playerOpeningIt.transform.position, transform.position);
+				if (distToTriggerPlayer < 1.5f)
+				{
+					openTrigger = false;
+					OpenAction();
+				}
+			}
+		}
 
-            coWaitOpened = WaitUntilClose();
-            StartCoroutine(coWaitOpened);
-        }
+		[ClientRpc]
+		public void RpcAccessDenied()
+		{
+			if (!isPerformingAction)
+			{
+				doorAnimator.AccessDenied();
+			}
+		}
 
-        public override void UpdateMe()
-        {
-            if (openTrigger && playerOpeningIt)
-            {
-                float distToTriggerPlayer = Vector3.Distance(playerOpeningIt.transform.position, transform.position);
-                if (distToTriggerPlayer < 1.5f)
-                {
-                    openTrigger = false;
-                    OpenAction();
-                }
-            }
-        }
+		[ClientRpc]
+		public void RpcOpen(GameObject _playerOpeningIt)
+		{
+			if (_playerOpeningIt == null)
+			{
+				return;
+			}
 
-        [ClientRpc]
-        public void RpcAccessDenied()
-        {
-            if (!isPerformingAction)
-            {
-                doorAnimator.AccessDenied();
-            }
-        }
+			openTrigger = true;
+			playerOpeningIt = _playerOpeningIt;
+		}
 
-        [ClientRpc]
-        public void RpcOpen(GameObject _playerOpeningIt)
-        {
-            if (_playerOpeningIt == null)
-                return;
+		public virtual void OpenAction()
+		{
+			IsOpened = true;
 
-            openTrigger = true;
-            playerOpeningIt = _playerOpeningIt;
-        }
+			if (!isPerformingAction)
+			{
+				doorAnimator.OpenDoor();
+			}
+		}
 
-        public virtual void OpenAction()
-        {
-            IsOpened = true;
+		[ClientRpc]
+		public void RpcClose()
+		{
+			IsOpened = false;
+			playerOpeningIt = null;
+			if (!isPerformingAction)
+			{
+				doorAnimator.CloseDoor();
+			}
+		}
 
-            if (!isPerformingAction)
-            {
-                doorAnimator.OpenDoor();
-            }
-        }
+		#region UI Mouse Actions
 
-        [ClientRpc]
-        public void RpcClose()
-        {
-            IsOpened = false;
-            playerOpeningIt = null;
-            if (!isPerformingAction)
-            {
-                doorAnimator.CloseDoor();
-            }
-        }
-        #region UI Mouse Actions
-        public void OnMouseEnter()
-        {
-            UI.UIManager.SetToolTip = doorType + " Door";
-        }
-        public void OnMouseExit()
-        {
-            UI.UIManager.SetToolTip = "";
-        }
-        #endregion
-    }
+		public void OnMouseEnter()
+		{
+			UIManager.SetToolTip = doorType + " Door";
+		}
+
+		public void OnMouseExit()
+		{
+			UIManager.SetToolTip = "";
+		}
+
+		#endregion
+	}
 }

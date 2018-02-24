@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4905743905385754}
   - component: {fileID: 61595398863923038}
+  - component: {fileID: 114606998315475382}
   - component: {fileID: 114601193997943186}
   m_Layer: 11
   m_Name: metal_chair
@@ -128,9 +129,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
+--- !u!114 &114606998315475382
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169897606440870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 40
+    i1: 26
+    i2: 150
+    i3: 39
+    i4: 120
+    i5: 43
+    i6: 123
+    i7: 212
+    i8: 169
+    i9: 173
+    i10: 114
+    i11: 131
+    i12: 175
+    i13: 3
+    i14: 0
+    i15: 206
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212222381246785194
 SpriteRenderer:
   m_ObjectHideFlags: 1

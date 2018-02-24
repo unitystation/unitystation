@@ -1,35 +1,35 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using AccessType;
+using UnityEngine;
 
 public class JobOutfit : MonoBehaviour
 {
-    public string uniform;
-    public JobType jobType;
-    public List<Access> allowedAccess;
-    public string ears;
-    public string belt;
-    public string back;
-    public string shoes;
+	public string accessory;
+	public List<Access> allowedAccess;
+	public string back;
 
-    public string glasses;
-    public string gloves;
-    public string suit;
-    public string head;
-    public string accessory;
-    public string mask;
+	public string backpack;
 
-    public string backpack;
-    public string satchel;
-    public string duffelbag;
-    public string box;
+	public List<string> backpack_contents = new List<string>();
+	public string belt;
+	public string box;
+	public string duffelbag;
+	public string ears;
 
-    public string l_hand;
+	public string glasses;
+	public string gloves;
+	public string head;
+	public JobType jobType;
 
-    public string l_pocket;
-    public string r_pocket;
+	public string l_hand;
 
-    public string suit_store;
+	public string l_pocket;
+	public string mask;
+	public string r_pocket;
+	public string satchel;
+	public string shoes;
+	public string suit;
 
-    public List<string> backpack_contents = new List<string>();
+	public string suit_store;
+	public string uniform;
 }

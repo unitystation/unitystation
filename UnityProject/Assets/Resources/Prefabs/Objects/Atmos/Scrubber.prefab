@@ -20,8 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013194526306}
   - component: {fileID: 61000011546092986}
+  - component: {fileID: 114725016678724052}
   - component: {fileID: 114092131181364264}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Scrubber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,9 +109,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
+--- !u!114 &114725016678724052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011763452766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 240
+    i1: 39
+    i2: 12
+    i3: 246
+    i4: 229
+    i5: 112
+    i6: 71
+    i7: 90
+    i8: 131
+    i9: 23
+    i10: 248
+    i11: 208
+    i12: 65
+    i13: 57
+    i14: 229
+    i15: 79
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212000014000328296
 SpriteRenderer:
   m_ObjectHideFlags: 1

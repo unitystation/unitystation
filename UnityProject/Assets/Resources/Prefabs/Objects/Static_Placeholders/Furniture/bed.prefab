@@ -36,6 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4759473417489106}
   - component: {fileID: 61542989738847636}
+  - component: {fileID: 114358136200213458}
   - component: {fileID: 114728226944580436}
   m_Layer: 11
   m_Name: bed
@@ -96,6 +97,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114358136200213458
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1609215198608670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 71
+    i1: 18
+    i2: 61
+    i3: 15
+    i4: 66
+    i5: 88
+    i6: 76
+    i7: 68
+    i8: 75
+    i9: 222
+    i10: 222
+    i11: 159
+    i12: 41
+    i13: 218
+    i14: 36
+    i15: 56
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114728226944580436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,9 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
 --- !u!212 &212260201524696720
 SpriteRenderer:
   m_ObjectHideFlags: 1

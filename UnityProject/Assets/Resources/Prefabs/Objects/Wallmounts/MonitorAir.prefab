@@ -20,7 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4000010739918412}
   - component: {fileID: 61000010182535082}
+  - component: {fileID: 114718564615363412}
   - component: {fileID: 114563030221050354}
+  - component: {fileID: 114616085156888826}
   m_Layer: 19
   m_Name: MonitorAir
   m_TagString: Untagged
@@ -132,9 +134,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
+--- !u!114 &114616085156888826
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010568484738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: Atmospheric status Nominal
+--- !u!114 &114718564615363412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010568484738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 86
+    i1: 198
+    i2: 22
+    i3: 30
+    i4: 158
+    i5: 10
+    i6: 74
+    i7: 192
+    i8: 143
+    i9: 242
+    i10: 104
+    i11: 72
+    i12: 231
+    i13: 198
+    i14: 80
+    i15: 25
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212000010875379642
 SpriteRenderer:
   m_ObjectHideFlags: 1

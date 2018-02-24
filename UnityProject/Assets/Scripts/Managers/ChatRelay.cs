@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
-using UI;
-using PlayGroup;
 using System.Linq;
+using PlayGroup;
+using UI;
+using UnityEngine.Networking;
+using UnityEngine;
 
 public class ChatRelay : NetworkBehaviour
 {
-
 	public static ChatRelay chatRelay;
-	private List<ChatEvent> chatlog = new List<ChatEvent>();
 
 	private Dictionary<ChatChannel, string> chatColors;
 	private ChatChannel namelessChannels;
@@ -28,10 +25,12 @@ public class ChatRelay : NetworkBehaviour
 		}
 	}
 
-	public override void OnStartClient()
+	public List<ChatEvent> ChatLog { get; } = new List<ChatEvent>();
+
+	public void Start()
 	{
-		RefreshLog();
-		chatColors = new Dictionary<ChatChannel, string>() {
+		chatColors = new Dictionary<ChatChannel, string>
+		{
 			{ChatChannel.Binary, "#ff00ff"},
 			{ChatChannel.Supply, "#a8732b"},
 			{ChatChannel.CentComm, "#686868"},
@@ -39,7 +38,7 @@ public class ChatRelay : NetworkBehaviour
 			{ChatChannel.Common, "#008000"},
 			{ChatChannel.Engineering, "#fb5613"},
 			{ChatChannel.Examine, "black"},
-			{ChatChannel.Local, "#999999"},
+			{ChatChannel.Local, "black"},
 			{ChatChannel.Medical, "#337296"},
 			{ChatChannel.None, ""},
 			{ChatChannel.OOC, "#386aff"},
@@ -47,15 +46,12 @@ public class ChatRelay : NetworkBehaviour
 			{ChatChannel.Security, "#a30000"},
 			{ChatChannel.Service, "#6eaa2c"},
 			{ChatChannel.Syndicate, "#6d3f40"},
-			{ChatChannel.System, "#dd5555"}
+			{ChatChannel.System, "#dd5555"},
+			{ChatChannel.Ghost, "#386aff"}
 		};
-		namelessChannels = (ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System);
-		base.OnStartClient();
-	}
-
-	public List<ChatEvent> ChatLog
-	{
-		get { return chatlog; }
+		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System;
+		
+		RefreshLog();
 	}
 
 	[Server]
@@ -75,11 +71,34 @@ public class ChatRelay : NetworkBehaviour
 	[Server]
 	private void PropagateChatToClients(ChatEvent chatEvent)
 	{
-		PlayerScript[] players = FindObjectsOfType<PlayerScript>();
+		var players = PlayerList.Instance.InGamePlayers;
 
-		foreach(PlayerScript player in players) {
-			ChatChannel channels = player.GetAvailableChannels(false) & chatEvent.channels;
-			UpdateChatMessage.Send(player.gameObject, channels, chatEvent.message);
+		//Local chat range checks:
+		if (chatEvent.channels == ChatChannel.Local) {
+			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
+			RaycastHit2D hit;
+			LayerMask layerMask = 1 << 9; //Walls layer
+			for (int i = 0; i < players.Count(); i++){
+				if(Vector2.Distance(speaker.GameObject.transform.position,
+				                    players[i].GameObject.transform.position) > 14f){
+					//Player in the list is too far away for local chat, remove them:
+					players.Remove(players[i]);
+				} else {
+					//within range, but check if they are in another room or hiding behind a wall
+					if(Physics2D.Linecast(speaker.GameObject.transform.position, 
+					                      players[i].GameObject.transform.position, layerMask)){
+						//if it hit a wall remove that player
+						players.Remove(players[i]);
+					}
+				}
+			}
+		}
+
+		for ( var i = 0; i < players.Count; i++ )
+		{
+			var playerScript = players[i].GameObject.GetComponent<PlayerScript>();
+			ChatChannel channels = playerScript.GetAvailableChannelsMask( false ) & chatEvent.channels;
+			UpdateChatMessage.Send( players[i].GameObject, channels, chatEvent.message );
 		}
 	}
 
@@ -87,36 +106,41 @@ public class ChatRelay : NetworkBehaviour
 	private void UpdateClientChat(string message, ChatChannel channels)
 	{
 		ChatEvent chatEvent = new ChatEvent(message, channels, true);
-		chatlog.Add(chatEvent);
+		ChatLog.Add(chatEvent);
 	}
 
-    public void RefreshLog()
-    {
-        UIManager.Chat.CurrentChannelText.text = "";
-        List<ChatEvent> chatEvents = new List<ChatEvent>();
-        chatEvents.AddRange(chatlog);
-        chatEvents.AddRange(UIManager.Chat.GetChatEvents());
+	public void RefreshLog()
+	{
+		UIManager.Chat.CurrentChannelText.text = "";
+		List<ChatEvent> chatEvents = new List<ChatEvent>();
+		chatEvents.AddRange(ChatLog);
+		chatEvents.AddRange(UIManager.Chat.GetChatEvents());
 
 		string curList = UIManager.Chat.CurrentChannelText.text;
 
-		foreach (ChatEvent chatline in chatEvents.OrderBy(c => c.timestamp)) {
+		foreach (ChatEvent chatline in chatEvents.OrderBy(c => c.timestamp))
+		{
 			string message = chatline.message;
-			foreach (ChatChannel channel in Enum.GetValues(typeof(ChatChannel))) {
-				if (channel == ChatChannel.None) {
+			foreach (ChatChannel channel in Enum.GetValues(typeof(ChatChannel)))
+			{
+				if (channel == ChatChannel.None)
+				{
 					continue;
 				}
 
 				string name = "";
-				if((namelessChannels & channel) != channel) {
-					name = "<b>[" + channel.ToString() + "]</b> ";
+				if ((namelessChannels & channel) != channel)
+				{
+					name = "<b>[" + channel + "]</b> ";
 				}
 
-				if ((PlayerManager.LocalPlayerScript.GetAvailableChannels(false) & channel) == channel && (chatline.channels & channel) == channel) {
+				if ((PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false) & channel) == channel && (chatline.channels & channel) == channel)
+				{
 					string colorMessage = "<color=" + chatColors[channel] + ">" + name + message + "</color>";
 					UIManager.Chat.CurrentChannelText.text = curList + colorMessage + "\r\n";
 					curList = UIManager.Chat.CurrentChannelText.text;
 				}
 			}
 		}
-    }
+	}
 }

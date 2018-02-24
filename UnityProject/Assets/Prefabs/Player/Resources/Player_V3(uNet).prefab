@@ -151,6 +151,8 @@ GameObject:
   - component: {fileID: 114600992077934460}
   - component: {fileID: 114285504268110804}
   - component: {fileID: 114803877374308862}
+  - component: {fileID: 114449635359748350}
+  - component: {fileID: 50851566022184656}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -516,6 +518,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4643036614374916}
   - component: {fileID: 212308868696160634}
+  - component: {fileID: 114767796530715798}
+  - component: {fileID: 114632267302504116}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -969,6 +973,26 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1894933337466704}
   m_Mesh: {fileID: 0}
+--- !u!50 &50851566022184656
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1133514949248654}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &61260641920390224
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -1041,9 +1065,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d845653319a64ba5a7817f7abd873f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  talkSprite: {fileID: 21300028, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
-  questionSprite: {fileID: 21300032, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
   exlaimSprite: {fileID: 21300036, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
+  questionSprite: {fileID: 21300032, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
+  talkSprite: {fileID: 21300028, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
 --- !u!114 &114068656812549090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1067,11 +1091,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: mask
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212068773527747804}
+  spriteSheetName: mask
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114150458415481364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1083,11 +1107,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: uniform
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212437748770145178}
+  spriteSheetName: uniform
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114173340621344012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1099,10 +1123,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ec24547a834ed59569affa30e7249b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowKnifeHarvest: 1
   initialHealth: 100
-  maxHealth: 100
   isNPC: 0
-  allowKnifeHarvest: 0
+  maxHealth: 100
+  BloodLevel: 560
   BodyParts:
   - {fileID: 114457795912083674}
   - {fileID: 114316649585772562}
@@ -1110,7 +1135,9 @@ MonoBehaviour:
   - {fileID: 114859648697239420}
   - {fileID: 114645575864574208}
   - {fileID: 114626459693876662}
-  BloodLevel: 560
+  butcherResults:
+  - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
+  - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
 --- !u!114 &114176283518884694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1122,11 +1149,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: back
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212940191652905820}
+  spriteSheetName: back
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114186826461219604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1138,11 +1165,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: eyes
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212847469326298166}
+  spriteSheetName: eyes
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114280887415014694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1154,11 +1181,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: ears
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212458270926585534}
+  spriteSheetName: ears
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114285118255153820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1195,11 +1222,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: head
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212144883045729364}
+  spriteSheetName: head
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114316649585772562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1211,18 +1238,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286e2ff4e04b48b0b91e6ebfc4b212f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  GrayDamageMonitorIcon: {fileID: 21300824, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
   GreenDamageMonitorIcon: {fileID: 21300752, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300764, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
+  MaxDamage: 100
   OrangeDamageMonitorIcon: {fileID: 21300776, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   RedDamageMonitorIcon: {fileID: 21300788, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300824, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  Type: 0
+  YellowDamageMonitorIcon: {fileID: 21300764, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  MaxDamage: 100
 --- !u!114 &114317598722413354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1246,11 +1273,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: feet
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212344525557824326}
+  spriteSheetName: feet
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114354390467757956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1262,11 +1289,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: human
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212492286651421720}
+  spriteSheetName: human
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114361174706508060
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1278,11 +1305,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: human_face
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212039247469239700}
+  spriteSheetName: human_face
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114390575568471296
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1294,6 +1321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9451929b6fd9342dab7a272b50ef5aa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGhost: 0
   isPulling: 0
 --- !u!114 &114393970884408578
 MonoBehaviour:
@@ -1382,6 +1410,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventName: leftHand
+--- !u!114 &114449635359748350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7694dd331aa6a4114bb8f0f996d2e71a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114457795912083674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1393,18 +1432,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b6bad0196f4cca947cdfe73fcf7ca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 1
+  GrayDamageMonitorIcon: {fileID: 21300830, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
   GreenDamageMonitorIcon: {fileID: 21300754, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300766, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
+  MaxDamage: 200
   OrangeDamageMonitorIcon: {fileID: 21300778, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   RedDamageMonitorIcon: {fileID: 21300790, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300830, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  Type: 1
+  YellowDamageMonitorIcon: {fileID: 21300766, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  MaxDamage: 200
 --- !u!114 &114505375981646366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1440,11 +1479,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: belt
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212924062595901212}
+  spriteSheetName: belt
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114593625294156532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1456,18 +1495,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 2
+  GrayDamageMonitorIcon: {fileID: 21300836, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
   GreenDamageMonitorIcon: {fileID: 21300758, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300770, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
+  MaxDamage: 50
   OrangeDamageMonitorIcon: {fileID: 21300782, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   RedDamageMonitorIcon: {fileID: 21300794, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300836, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  Type: 2
+  YellowDamageMonitorIcon: {fileID: 21300770, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  MaxDamage: 50
 --- !u!114 &114600225155881128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1479,11 +1518,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 1
-  spriteSheetName: items_righthand
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212695445263472394}
+  spriteSheetName: items_righthand
+  spriteType: 1
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114600992077934460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1518,8 +1557,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f99bb0ad07434da089f740997e6916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JobType: 0
   ghost: {fileID: 1962188613804782}
+  JobType: 0
   playerName: ' '
 --- !u!114 &114617980452984522
 MonoBehaviour:
@@ -1533,6 +1572,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMove: {fileID: 114792299177679754}
+  matrixLayerMask:
+    serializedVersion: 2
+    m_Bits: 17170944
   pullingObject: {fileID: 0}
 --- !u!114 &114626459693876662
 MonoBehaviour:
@@ -1545,18 +1587,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 5
+  GrayDamageMonitorIcon: {fileID: 21300840, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
   GreenDamageMonitorIcon: {fileID: 21300760, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300772, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
+  MaxDamage: 50
   OrangeDamageMonitorIcon: {fileID: 21300784, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   RedDamageMonitorIcon: {fileID: 21300816, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300840, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  Type: 5
+  YellowDamageMonitorIcon: {fileID: 21300772, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  MaxDamage: 50
+--- !u!114 &114632267302504116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1962188613804782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayer: 0
+  ignoredSpriteRenderers: []
+  registerTile: {fileID: 0}
+  visibleState: 1
+  allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
+  isPushable: 1
+  pulledBy: {fileID: 0}
+  custNetActiveState: 0
+  pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
+  closetHandlerCache: {fileID: 0}
 --- !u!114 &114636370206516294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1592,18 +1657,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 4
+  GrayDamageMonitorIcon: {fileID: 21300844, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
   GreenDamageMonitorIcon: {fileID: 21300762, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300774, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
+  MaxDamage: 50
   OrangeDamageMonitorIcon: {fileID: 21300786, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   RedDamageMonitorIcon: {fileID: 21300798, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300844, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  Type: 4
+  YellowDamageMonitorIcon: {fileID: 21300774, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  MaxDamage: 50
 --- !u!114 &114655767677116310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1627,11 +1692,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: suit
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212005797941245090}
+  spriteSheetName: suit
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114686590975304092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1643,11 +1708,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: hands
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212272552631623328}
+  spriteSheetName: hands
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114705432356065350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1672,6 +1737,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventName: uniform
+--- !u!114 &114767796530715798
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1962188613804782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 68
+    i1: 168
+    i2: 163
+    i3: 190
+    i4: 145
+    i5: 39
+    i6: 244
+    i7: 70
+    i8: 90
+    i9: 80
+    i10: 183
+    i11: 129
+    i12: 29
+    i13: 5
+    i14: 155
+    i15: 179
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114792299177679754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1683,12 +1780,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ce4d8a508787441857fade34082bd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushPull: {fileID: 0}
-  keyCodes: 7700000061000000730000006400000011010000140100001201000013010000
-  diagonalMovement: 1
-  speed: 6
+  hitCheckLayers:
+    serializedVersion: 2
+    m_Bits: 17039872
   allowInput: 1
+  diagonalMovement: 1
+  azerty: 0
   isGhost: 0
+  keyCodes: 7700000061000000730000006400000011010000140100001201000013010000
+  pushPull: {fileID: 0}
+  speed: 6
 --- !u!114 &114803877374308862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1700,19 +1801,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
+  ignoredSpriteRenderers:
+  - {fileID: 212974081283444976}
+  - {fileID: 212308868696160634}
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
   pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
+  custNetActiveState: 0
   pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
-  timeInPush: 0
+  pushTarget: {x: 0, y: 0, z: 0}
+  closetHandlerCache: {fileID: 0}
 --- !u!114 &114804659299628030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1737,9 +1839,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Color: {r: 1, g: 0.9754564, b: 0.83823526, a: 0.359}
-  Sprite: {fileID: 21300000, guid: 1a2fa03369d897e439ef81a5d10d7241, type: 3}
-  SortingOrder: 0
   Material: {fileID: 2100000, guid: 5d8645bc2e5501a4ebd138db5aa609bd, type: 2}
+  SortingOrder: 0
+  Sprite: {fileID: 21300000, guid: 1a2fa03369d897e439ef81a5d10d7241, type: 3}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
 --- !u!114 &114844944412084042
@@ -1753,11 +1855,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: underwear
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212853338683630810}
+  spriteSheetName: underwear
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114857622421506280
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1769,11 +1871,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 2
-  spriteSheetName: items_lefthand
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212990490947787952}
+  spriteSheetName: items_lefthand
+  spriteType: 2
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!114 &114859648697239420
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1785,18 +1887,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 3
+  GrayDamageMonitorIcon: {fileID: 21300832, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
   GreenDamageMonitorIcon: {fileID: 21300756, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300768, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
+  MaxDamage: 50
   OrangeDamageMonitorIcon: {fileID: 21300780, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   RedDamageMonitorIcon: {fileID: 21300810, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300832, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  Type: 3
+  YellowDamageMonitorIcon: {fileID: 21300768, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  MaxDamage: 50
 --- !u!114 &114868184203081376
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1808,10 +1910,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0184ff86886f974d95dfead14754f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MultiplicativeColor: {r: 0, g: 0, b: 0, a: 0}
   AdditiveColor: {r: 0.9117647, g: 0.9117647, b: 0.9117647, a: 0}
-  Material: {fileID: 2100000, guid: 0a8c132f813f5514b9f5b48ff3956482, type: 2}
   LightObstacleScale: 1
+  Material: {fileID: 2100000, guid: 0a8c132f813f5514b9f5b48ff3956482, type: 2}
+  MultiplicativeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114873879993554562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1867,11 +1969,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteType: 0
-  spriteSheetName: neck
   reference: -1
-  thisPlayerScript: {fileID: 114617133355526680}
   spriteRenderer: {fileID: 212073504853382616}
+  spriteSheetName: neck
+  spriteType: 0
+  thisPlayerScript: {fileID: 114617133355526680}
 --- !u!212 &212005797941245090
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -1886,7 +1988,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1904,7 +2006,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300472, guid: cbeb82cd94f5419fb70ed6a97d9f2c0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1930,7 +2032,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1948,7 +2050,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 7
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1974,7 +2076,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1992,7 +2094,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 9
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2018,7 +2120,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2036,7 +2138,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 5
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2062,7 +2164,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2080,7 +2182,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 8
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2106,7 +2208,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2124,7 +2226,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 5
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2168,7 +2270,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1066465801
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300536, guid: 8d4d1232c46147038b59099d78c772c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2194,7 +2296,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2212,7 +2314,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300072, guid: ddcc6eb0c41c448dbf9dbc0e495ebe51, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2238,7 +2340,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2256,7 +2358,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300384, guid: 81ec7ea9108d4e7cae05acd176cf43ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2282,7 +2384,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2300,7 +2402,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 5
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2326,7 +2428,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2344,7 +2446,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300066, guid: 5b1bf0b84c03440c89c5acd6dbd65024, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2370,7 +2472,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2388,7 +2490,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 30
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2414,7 +2516,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2432,7 +2534,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300472, guid: cbeb82cd94f5419fb70ed6a97d9f2c0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2458,7 +2560,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2476,7 +2578,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300104, guid: fd3f3905eab5416c91b8df3b18a1e1e0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2502,7 +2604,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2520,7 +2622,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 5
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2546,7 +2648,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2564,7 +2666,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300472, guid: cbeb82cd94f5419fb70ed6a97d9f2c0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2608,7 +2710,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 20
   m_Sprite: {fileID: 21300012, guid: 3f95a9fe53a3442ca95ab4434d2478e7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -2652,7 +2754,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 20
   m_Sprite: {fileID: 21300002, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2678,7 +2780,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2696,7 +2798,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 30
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

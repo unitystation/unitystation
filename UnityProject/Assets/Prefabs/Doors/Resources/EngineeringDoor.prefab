@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 114566587194028974}
   - component: {fileID: 114030775671006844}
   - component: {fileID: 114602670746664174}
+  - component: {fileID: 114216704812953892}
   m_Layer: 17
   m_Name: EngineeringDoor
   m_TagString: Untagged
@@ -481,8 +482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorController: {fileID: 114059249025983974}
-  overlay_Lights: {fileID: 212050190612633776}
-  overlay_Glass: {fileID: 212541320661430270}
+  animSize: 6
   doorbase: {fileID: 212665150722991628}
   doorBaseSprites:
   - {fileID: 21300000, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
@@ -515,37 +515,8 @@ MonoBehaviour:
   - {fileID: 21300054, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
   - {fileID: 21300056, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
   - {fileID: 21300058, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  overlaySprites:
-  - {fileID: 21300000, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300002, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300004, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300006, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300008, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300010, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300012, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300014, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300016, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300018, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300020, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300022, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300024, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300026, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300028, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300030, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300032, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300034, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300036, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300038, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300040, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300042, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300044, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300046, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300048, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300050, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300052, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300054, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300056, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
-  - {fileID: 21300058, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  overlay_Glass: {fileID: 212541320661430270}
+  overlay_Lights: {fileID: 212050190612633776}
   overlayLights:
   - {fileID: 21300000, guid: 5186da76a90ba4cfa9ca3f8229798e76, type: 3}
   - {fileID: 21300002, guid: 5186da76a90ba4cfa9ca3f8229798e76, type: 3}
@@ -647,7 +618,37 @@ MonoBehaviour:
   - {fileID: 21300194, guid: 5186da76a90ba4cfa9ca3f8229798e76, type: 3}
   - {fileID: 21300196, guid: 5186da76a90ba4cfa9ca3f8229798e76, type: 3}
   - {fileID: 21300198, guid: 5186da76a90ba4cfa9ca3f8229798e76, type: 3}
-  animSize: 6
+  overlaySprites:
+  - {fileID: 21300000, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300002, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300004, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300006, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300008, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300010, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300012, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300014, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300016, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300018, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300020, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300022, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300024, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300026, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300028, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300030, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300032, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300034, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300036, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300038, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300040, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300042, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300044, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300046, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300048, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300050, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300052, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300054, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300056, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
+  - {fileID: 21300058, guid: 0a5217928a1af4657803729ce32a1649, type: 3}
 --- !u!114 &114059249025983974
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -659,22 +660,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorType: 2
-  restriction: 32
-  isWindowedDoor: 0
-  doorAnimationSize: 6
-  DoorSpriteOffset: 2
-  DoorLightSpriteOffset: 0
-  DoorCoverSpriteOffset: 17
-  isPerformingAction: 0
-  spriteRenderer: {fileID: 0}
-  maxTimeOpen: 5
-  doorAnimator: {fileID: 114030775671006844}
-  openSFX: {fileID: 82119343689486036}
   closeSFX: {fileID: 82465022889846938}
-  IsOpened: 0
+  doorAnimationSize: 6
+  doorAnimator: {fileID: 114030775671006844}
+  DoorCoverSpriteOffset: 17
+  DoorLightSpriteOffset: 0
+  DoorSpriteOffset: 2
+  doorType: 2
   FullDoor: 1
+  IsOpened: 0
+  isPerformingAction: 0
+  isWindowedDoor: 0
+  maxTimeOpen: 5
+  openSFX: {fileID: 82119343689486036}
   oppeningDirection: 0
+  spriteRenderer: {fileID: 0}
+--- !u!114 &114216704812953892
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636844411894304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 32
 --- !u!114 &114390321638166826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -731,11 +743,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 0
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 0
-  OneDirectionRestricted: 0
   IsClosed: 1
+  OneDirectionRestricted: 0
 --- !u!212 &212050190612633776
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -750,7 +762,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -794,7 +806,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -838,7 +850,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -1,146 +1,148 @@
 ﻿using Sprites;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UI;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace PlayGroup
 {
-    public enum SpriteType
-    {
-        Other, RightHand, LeftHand
-    }
+	public enum SpriteType
+	{
+		Other,
+		RightHand,
+		LeftHand
+	}
 
-    [RequireComponent(typeof(SpriteRenderer))]
-    public class ClothingItem : MonoBehaviour
-    {
-        //choice between left or right or other(clothing)
-        public SpriteType spriteType;
+	[RequireComponent(typeof(SpriteRenderer))]
+	public class ClothingItem : MonoBehaviour
+	{
+		private Vector2 currentDirection = Vector2.down;
+		public int reference = -1;
+		private int referenceOffset;
 
-        public string spriteSheetName;
-        public int reference = -1;
-        public PlayerScript thisPlayerScript;
+		public SpriteRenderer spriteRenderer;
+		private Sprite[] sprites;
 
-        public int Reference
-        {
-            set
-            {
-                reference = value;
-                SetSprite();
-            }
-            get
-            {
-                return reference;
-            }
-        }
+		public string spriteSheetName;
 
-        public Vector2 Direction
-        {
-            set
-            {
-                currentDirection = value;
-                UpdateReferenceOffset();
-            }
-            get
-            {
-                return currentDirection;
-            }
-        }
+		//choice between left or right or other(clothing)
+		public SpriteType spriteType;
 
-        public SpriteRenderer spriteRenderer;
-        private Sprite[] sprites;
-        private int referenceOffset = 0;
-        private Vector2 currentDirection = Vector2.down;
+		public PlayerScript thisPlayerScript;
 
-        void Start()
-        {
-            sprites = SpriteManager.PlayerSprites[spriteSheetName];
-            UpdateSprite();
-        }
+		public int Reference
+		{
+			set
+			{
+				reference = value;
+				SetSprite();
+			}
+			get { return reference; }
+		}
 
-        public void Clear()
-        {
-            Reference = -1;
-        }
+		public Vector2 Direction
+		{
+			set
+			{
+				currentDirection = value;
+				UpdateReferenceOffset();
+			}
+			get { return currentDirection; }
+		}
 
-        void SetSprite()
-        {
+		private void Start()
+		{
+			sprites = SpriteManager.PlayerSprites[spriteSheetName];
+			UpdateSprite();
+		}
 
-            if (reference == -1)
-            {
-                UpdateSprite();
-                return;
-            }
+		public void Clear()
+		{
+			Reference = -1;
+		}
 
-            if (spriteType == SpriteType.Other)
-            {
-                reference = Reference;
-            }
-            else
-            {
-                string networkRef = Reference.ToString();
-                int code = (int)Char.GetNumericValue(networkRef[0]);
-                networkRef = networkRef.Remove(0, 1);
-                int _reference = int.Parse(networkRef);
-                switch (code)
-                {
-                    case 1:
-                        spriteSheetName = "items_";
-                        break;
-                    case 2:
-                        spriteSheetName = "clothing_";
-                        break;
-                    case 3:
-                        spriteSheetName = "guns_";
-                        break;
-                }
-                if (spriteType == SpriteType.RightHand)
-                {
-                    spriteSheetName = spriteSheetName + "righthand";
-                    reference = _reference;
-                }
-                else
-                {
-                    spriteSheetName = spriteSheetName + "lefthand";
-                    reference = _reference;
-                }
-            }
+		private void SetSprite()
+		{
+			if (reference == -1)
+			{
+				UpdateSprite();
+				return;
+			}
 
-            sprites = SpriteManager.PlayerSprites[spriteSheetName];
-            UpdateSprite();
-        }
+			if (spriteType == SpriteType.Other)
+			{
+				reference = Reference;
+			}
+			else
+			{
+				string networkRef = Reference.ToString();
+				int code = (int) char.GetNumericValue(networkRef[0]);
+				networkRef = networkRef.Remove(0, 1);
+				int _reference = int.Parse(networkRef);
+				switch (code)
+				{
+					case 1:
+						spriteSheetName = "items_";
+						break;
+					case 2:
+						spriteSheetName = "clothing_";
+						break;
+					case 3:
+						spriteSheetName = "guns_";
+						break;
+				}
+				if (spriteType == SpriteType.RightHand)
+				{
+					spriteSheetName = spriteSheetName + "righthand";
+					reference = _reference;
+				}
+				else
+				{
+					spriteSheetName = spriteSheetName + "lefthand";
+					reference = _reference;
+				}
+			}
 
-        private void UpdateReferenceOffset()
-        {
+			sprites = SpriteManager.PlayerSprites[spriteSheetName];
+			UpdateSprite();
+		}
 
-            if (currentDirection == Vector2.down)
-                referenceOffset = 0;
-            if (currentDirection == Vector2.up)
-                referenceOffset = 1;
-            if (currentDirection == Vector2.right)
-                referenceOffset = 2;
-            if (currentDirection == Vector2.left)
-                referenceOffset = 3;
+		private void UpdateReferenceOffset()
+		{
+			if (currentDirection == Vector2.down)
+			{
+				referenceOffset = 0;
+			}
+			if (currentDirection == Vector2.up)
+			{
+				referenceOffset = 1;
+			}
+			if (currentDirection == Vector2.right)
+			{
+				referenceOffset = 2;
+			}
+			if (currentDirection == Vector2.left)
+			{
+				referenceOffset = 3;
+			}
 
-            UpdateSprite();
-        }
+			UpdateSprite();
+		}
 
-        private void UpdateSprite()
-        {
-            if (spriteRenderer != null)
-            {
-                if (reference >= 0)
-                { //If reference -1 then clear the sprite
-                    if (sprites != null)
-                        spriteRenderer.sprite = sprites[reference + referenceOffset];
-                }
-                else
-                {
-                    spriteRenderer.sprite = null;
-                }
-            }
-        }
-    }
+		private void UpdateSprite()
+		{
+			if (spriteRenderer != null)
+			{
+				if (reference >= 0)
+				{
+					//If reference -1 then clear the sprite
+					if (sprites != null)
+					{
+						spriteRenderer.sprite = sprites[reference + referenceOffset];
+					}
+				}
+				else
+				{
+					spriteRenderer.sprite = null;
+				}
+			}
+		}
+	}
 }

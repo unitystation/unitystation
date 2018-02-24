@@ -21,8 +21,9 @@ GameObject:
   - component: {fileID: 4000010754108532}
   - component: {fileID: 61000011867125660}
   - component: {fileID: 95597919217018486}
+  - component: {fileID: 114515786074767254}
   - component: {fileID: 114424065294691656}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: StatusDisplay_News
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,9 +128,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
+--- !u!114 &114515786074767254
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011522901538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 180
+    i1: 83
+    i2: 126
+    i3: 65
+    i4: 117
+    i5: 52
+    i6: 78
+    i7: 141
+    i8: 169
+    i9: 197
+    i10: 42
+    i11: 177
+    i12: 190
+    i13: 209
+    i14: 191
+    i15: 193
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114633928437044242
 MonoBehaviour:
   m_ObjectHideFlags: 1

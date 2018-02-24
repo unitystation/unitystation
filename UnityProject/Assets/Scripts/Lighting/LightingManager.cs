@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Lighting
 {
-    public class LightingManager : MonoBehaviour
-    {
-
-    }
+	public class LightingManager : MonoBehaviour
+	{
+	}
 }

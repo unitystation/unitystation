@@ -1,20 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ShroudTile : MonoBehaviour
 {
+	public Renderer renderer;
 
-    public Renderer renderer;
+	private void OnEnable()
+	{
+		renderer.enabled = true;
+	}
 
-    void OnEnable()
-    {
-        renderer.enabled = true;
-    }
-
-    public void SetShroudStatus(bool enabled)
-    {
-        renderer.enabled = enabled;
-    }
-
+	public void SetShroudStatus(bool enabled)
+	{
+		renderer.enabled = enabled;
+	}
 }

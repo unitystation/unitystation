@@ -1,88 +1,110 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Doors;
+using Tilemaps;
+using Tilemaps.Behaviours.Layers;
+using Tilemaps.Behaviours.Objects;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using UI;
-using Doors;
-using Tilemaps.Scripts;
-using Tilemaps.Scripts.Behaviours.Objects;
 
 namespace PlayGroup
 {
 	/// <summary>
-	/// Player move queues the directional move keys 
-	/// to be processed along with the server.
-	/// It also changes the sprite direction and 
-	/// handles interaction with objects that can 
-	/// be walked into it. 
+	///     Player move queues the directional move keys
+	///     to be processed along with the server.
+	///     It also changes the sprite direction and
+	///     handles interaction with objects that can
+	///     be walked into it.
 	/// </summary>
 	public class PlayerMove : NetworkBehaviour
 	{
-		private PlayerSprites playerSprites;
-		private PlayerSync playerSync;
-		[HideInInspector] public PushPull pushPull; //The push pull component attached to this player
+		private readonly List<KeyCode> pressedKeys = new List<KeyCode>();
+		private RaycastHit2D[] rayHit;
+		private Collider2D curMatrixCol;
+		public LayerMask hitCheckLayers;
 
-		public KeyCode[] keyCodes = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
+		[SyncVar] public bool allowInput = true;
 
 		public bool diagonalMovement;
+		public bool azerty;
+		[SyncVar] public bool isGhost;
+
+		public KeyCode[] keyCodes =
+		{
+			KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow,
+			KeyCode.RightArrow
+		};
+
+		private PlayerSprites playerSprites;
+		private PlayerSync playerSync;
+
+		private PlayerNetworkActions pna;
+		[HideInInspector] public PushPull pushPull; //The push pull component attached to this player
 		public float speed = 10;
-		[SyncVar] public bool allowInput = true;
-		[SyncVar] public bool isGhost = false;
-		private bool _isPush;
 
-		public bool IsPushing {
-			get { return _isPush; }
-			set { _isPush = value; }
-		}
+		public bool IsPushing { get; set; }
 
-		private Matrix _matrix;
-		private Matrix matrix => _matrix ?? (_matrix = Matrix.GetMatrix(this));
+		private RegisterTile registerTile;
+		private Matrix matrix => registerTile.Matrix;
 
-		private List<KeyCode> pressedKeys = new List<KeyCode>();
-		private bool _isMoving = false;
+		/// temp solution for use with the UI network prediction
+		public bool isMoving { get; } = false;
 
-		void Start()
+		private void Start()
 		{
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
 			playerSync = GetComponent<PlayerSync>();
 			pushPull = GetComponent<PushPull>();
-		}
-
-		/// temp solution for use with the UI network prediction
-		public bool isMoving {
-			get { return _isMoving; }
+			registerTile = GetComponent<RegisterTile>();
+			pna = gameObject.GetComponent<PlayerNetworkActions>();
 		}
 
 		public PlayerAction SendAction()
 		{
-			var actionKeys = new List<int>();
+			List<int> actionKeys = new List<int>();
 
 			for (int i = 0; i < keyCodes.Length; i++) {
-				if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
-					return new PlayerAction() { keyCodes = actionKeys.ToArray() };
+				if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus) {
+					return new PlayerAction { keyCodes = actionKeys.ToArray() };
+				}
 
 				if (Input.GetKey(keyCodes[i]) && allowInput && !IsPushing) {
 					actionKeys.Add((int)keyCodes[i]);
 				}
 			}
 
-			return new PlayerAction() { keyCodes = actionKeys.ToArray() };
+			return new PlayerAction { keyCodes = actionKeys.ToArray() };
 		}
 
 		public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action)
 		{
-			var direction = GetDirection(action);
-			if (!isGhost)
-				playerSprites.FaceDirection(new Vector2(direction.x, direction.y));
-
-			var adjustedDirection = AdjustDirection(currentPosition, direction);
+			Vector3Int direction = GetDirection(action);
+			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction);
 
 			if (adjustedDirection == Vector3.zero) {
 				Interact(currentPosition, direction);
 			}
-
 			return currentPosition + adjustedDirection;
+		}
+
+		public string ChangeKeyboardInput(bool setAzerty)
+		{
+			ControlAction controlAction = UIManager.Action;
+			if (setAzerty) {
+				keyCodes = new KeyCode[] { KeyCode.Z, KeyCode.Q, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
+				azerty = true;
+				controlAction.azerty = true;
+				PlayerPrefs.SetInt("AZERTY", 1);
+				PlayerPrefs.Save();
+				return "AZERTY";
+			}
+			keyCodes = new KeyCode[] { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
+			azerty = false;
+			controlAction.azerty = false;
+			PlayerPrefs.SetInt("AZERTY", 0);
+			return "QWERTY";
 		}
 
 		private Vector3Int GetDirection(PlayerAction action)
@@ -100,7 +122,7 @@ namespace PlayGroup
 
 		private void ProcessAction(PlayerAction action)
 		{
-			var actionKeys = new List<int>(action.keyCodes);
+			List<int> actionKeys = new List<int>(action.keyCodes);
 			for (int i = 0; i < keyCodes.Length; i++) {
 				if (actionKeys.Contains((int)keyCodes[i]) && !pressedKeys.Contains(keyCodes[i])) {
 					pressedKeys.Add(keyCodes[i]);
@@ -112,41 +134,64 @@ namespace PlayGroup
 
 		private Vector3Int GetMoveDirection(List<KeyCode> actions)
 		{
-			var direction = Vector3Int.zero;
+			Vector3Int direction = Vector3Int.zero;
 			for (int i = 0; i < pressedKeys.Count; i++) {
 				direction += GetMoveDirection(pressedKeys[i]);
 			}
 			direction.x = Mathf.Clamp(direction.x, -1, 1);
 			direction.y = Mathf.Clamp(direction.y, -1, 1);
 
+			if (!isGhost && PlayerManager.LocalPlayer == gameObject) {
+				playerSprites.CmdChangeDirection(new Vector2(direction.x, direction.y));
+				//Prediction:
+				playerSprites.FaceDirection(new Vector2(direction.x, direction.y));
+			}
+
 			return direction;
 		}
 
 		private Vector3Int GetMoveDirection(KeyCode action)
 		{
-			if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
+			if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus) {
 				return Vector3Int.zero;
-
-			switch (action) {
-				case KeyCode.W:
-				case KeyCode.UpArrow:
-					return Vector3Int.up;
-				case KeyCode.A:
-				case KeyCode.LeftArrow:
-					return Vector3Int.left;
-				case KeyCode.S:
-				case KeyCode.DownArrow:
-					return Vector3Int.down;
-				case KeyCode.D:
-				case KeyCode.RightArrow:
-					return Vector3Int.right;
 			}
-
+			//TODO This needs a refactor, but this way AZERTY will work without weird conflicts.
+			if (azerty) {
+				switch (action) {
+					case KeyCode.Z:
+					case KeyCode.UpArrow:
+						return Vector3Int.up;
+					case KeyCode.Q:
+					case KeyCode.LeftArrow:
+						return Vector3Int.left;
+					case KeyCode.S:
+					case KeyCode.DownArrow:
+						return Vector3Int.down;
+					case KeyCode.D:
+					case KeyCode.RightArrow:
+						return Vector3Int.right;
+				}
+			} else {
+				switch (action) {
+					case KeyCode.W:
+					case KeyCode.UpArrow:
+						return Vector3Int.up;
+					case KeyCode.A:
+					case KeyCode.LeftArrow:
+						return Vector3Int.left;
+					case KeyCode.S:
+					case KeyCode.DownArrow:
+						return Vector3Int.down;
+					case KeyCode.D:
+					case KeyCode.RightArrow:
+						return Vector3Int.right;
+				}
+			}
 			return Vector3Int.zero;
 		}
 
 		/// <summary>
-		/// Check current and next tiles to determine their status and if movement is allowed
+		///     Check current and next tiles to determine their status and if movement is allowed
 		/// </summary>
 		private Vector3Int AdjustDirection(Vector3Int currentPosition, Vector3Int direction)
 		{
@@ -155,27 +200,60 @@ namespace PlayGroup
 			}
 
 			//Is the current tile restrictive?
-			var newPos = currentPosition + direction;
+			Vector3Int newPos = currentPosition + direction;
+			Vector3 newRayPos = transform.position + direction;
+			rayHit = Physics2D.RaycastAll(newRayPos, (Vector3)direction, 0.2f, hitCheckLayers);
+			Debug.DrawLine(newRayPos, newRayPos + ((Vector3)direction * 0.2f), Color.red, 1f);
+			for (int i = 0; i < rayHit.Length; i++) {
+				//checks to see if the matrix has changed
+				if (rayHit[i].collider.gameObject.layer == 24
+				   && rayHit[i].collider != curMatrixCol) {
+					curMatrixCol = rayHit[i].collider;
+					ChangeMatricies(rayHit[i].collider.gameObject.transform.parent);
+					Debug.Log("Change Matricies");
+				}
 
-			if (!matrix.IsPassableAt(currentPosition, newPos)) {
-				return Vector3Int.zero;
+				//Detected windows or walls (global will detect on other matricies also)
+				if (rayHit[i].collider.gameObject.layer == 9
+				   || rayHit[i].collider.gameObject.layer == 18) {
+					return Vector3Int.zero;
+				}
+
+				//Door closed layer
+				if (rayHit[i].collider.gameObject.layer == 17) {
+					DoorController doorController = rayHit[i].collider.gameObject.GetComponent<DoorController>();
+
+					// Attempt to open door that could be on another layer
+					if (doorController != null && allowInput) {
+						pna.CmdCheckDoorPermissions(doorController.gameObject, gameObject);
+						allowInput = false;
+						StartCoroutine(DoorInputCoolDown());
+					}
+					return Vector3Int.zero;
+				}
 			}
 
-			if (matrix.IsPassableAt(newPos) || matrix.ContainsAt(newPos, gameObject)) {
-				return direction;
-			}
 
 			if (playerSync.pullingObject != null) {
 				if (matrix.ContainsAt(newPos, playerSync.pullingObject)) {
-					Vector2 directionToPullObj = playerSync.pullingObject.transform.localPosition - transform.localPosition;
+					Vector2 directionToPullObj =
+						playerSync.pullingObject.transform.localPosition - transform.localPosition;
 					if (directionToPullObj.normalized != playerSprites.currentDirection) {
 						// Ran into pullObject but was not facing it, saved direction
 						return direction;
-					} else {
-						//Hit Pull obj
-						PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(playerSync.pullingObject);
 					}
+					//Hit Pull obj
+					pna.CmdStopPulling(playerSync.pullingObject);
 				}
+			}
+
+			//			if (!matrix.IsPassableAt(currentPosition, newPos))
+			//			{
+			//				return Vector3Int.zero;
+			//			}
+
+			if (matrix.IsPassableAt(currentPosition, newPos) || matrix.ContainsAt(newPos, gameObject)) {
+				return direction;
 			}
 
 			//could not pass
@@ -184,71 +262,65 @@ namespace PlayGroup
 
 		private void Interact(Vector3 currentPosition, Vector3 direction)
 		{
-			var position = Vector3Int.RoundToInt(currentPosition + direction);
-			var doorController = matrix.GetFirst<DoorController>(position);
+			Vector3Int position = Vector3Int.RoundToInt(currentPosition + direction);
 
-			if (doorController != null && allowInput) {
-				//checking if the door actually has a restriction (only need one because that's how ss13 works!
-				if (doorController.restriction > 0) {
-					//checking if the ID slot on player contains an ID with an itemIdentity component
-					if (UIManager.InventorySlots.IDSlot.IsFull && UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>() != null) {
-						//checking if the ID has access to bypass the restriction
-						CheckDoorAccess(UIManager.InventorySlots.IDSlot.Item.GetComponent<IDCard>(), doorController);
-						//Check the current hand for an ID
-					} else if (UIManager.Hands.CurrentSlot.IsFull && UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>() != null) {
-						CheckDoorAccess(UIManager.Hands.CurrentSlot.Item.GetComponent<IDCard>(), doorController);
-					} else {
-						//does not have an ID
-						allowInput = false;
-						StartCoroutine(DoorInputCoolDown());
-						if (CustomNetworkManager.Instance._isServer)
-							doorController.CmdTryDenied();
-					}
-				} else {
-					//door does not have restriction
-					allowInput = false;
-					//Server only here but it is a cmd for the input trigger (opening with mouse click from client)
-					if (CustomNetworkManager.Instance._isServer)
-						doorController.CmdTryOpen(gameObject);
-
-					StartCoroutine(DoorInputCoolDown());
-				}
-			}
+			InteractDoor(currentPosition, direction);
 
 			//Is the object pushable (iterate through all of the objects at the position):
-			IEnumerable<PushPull> pushPulls = matrix.Get<PushPull>(position);
-			for (int i = 0; i < pushPulls.Count(); i++) {
-				if (pushPulls.ElementAt(i) && pushPulls.ElementAt(i).gameObject != gameObject) {
-					pushPulls.ElementAt(i).TryPush(gameObject, speed, direction);
+			PushPull[] pushPulls = matrix.Get<PushPull>(position).ToArray();
+			for (int i = 0; i < pushPulls.Length; i++) {
+				if (pushPulls[i] && pushPulls[i].gameObject != gameObject) {
+					pushPulls[i].TryPush(gameObject, direction);
 				}
 			}
 		}
 
-		void CheckDoorAccess(IDCard cardID, DoorController doorController)
+		private void InteractDoor(Vector3 currentPosition, Vector3 direction)
 		{
-			if (cardID.accessSyncList.Contains((int)doorController.restriction)) {
-				// has access
-				allowInput = false;
-				//Server only here but it is a cmd for the input trigger (opening with mouse click from client)
-				if (CustomNetworkManager.Instance._isServer)
-					doorController.CmdTryOpen(gameObject);
+			// Make sure there is a door controller
+			Vector3Int position = Vector3Int.RoundToInt(currentPosition + direction);
 
-				StartCoroutine(DoorInputCoolDown());
-			} else {
-				// does not have access
+			DoorController doorController = matrix.GetFirst<DoorController>(position);
+
+			if (!doorController) {
+				doorController = matrix.GetFirst<DoorController>(Vector3Int.RoundToInt(currentPosition));
+
+				if (doorController) {
+					RegisterDoor registerDoor = doorController.GetComponent<RegisterDoor>();
+					if (registerDoor.IsPassable(position)) {
+						doorController = null;
+					}
+				}
+			}
+
+			// Attempt to open door
+			if (doorController != null && allowInput) {
+				pna.CmdCheckDoorPermissions(doorController.gameObject, gameObject);
+
 				allowInput = false;
 				StartCoroutine(DoorInputCoolDown());
-				//Server only here but it is a cmd for the input trigger (opening with mouse click from client)
-				if (CustomNetworkManager.Instance._isServer)
-					doorController.CmdTryDenied();
 			}
 		}
 
 		//FIXME an ugly temp fix for an ugly problem. Will implement callbacks after 0.1.3
-		IEnumerator DoorInputCoolDown()
+		private IEnumerator DoorInputCoolDown()
 		{
 			yield return new WaitForSeconds(0.3f);
 			allowInput = true;
+		}
+
+		public void ChangeMatricies(Transform newParent)
+		{
+			if (isServer) {
+				NetworkIdentity netIdent = newParent.GetComponent<NetworkIdentity>();
+				if (registerTile.ParentNetId != netIdent.netId) {
+					registerTile.ParentNetId = netIdent.netId;
+					playerSync.SetPosition(transform.localPosition);
+				}
+			} else {
+				registerTile.SetParentOnLocal(newParent);
+			}
+			Camera.main.transform.parent = newParent;
 		}
 	}
 }

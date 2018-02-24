@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4150443878958108}
   - component: {fileID: 61942715368939280}
+  - component: {fileID: 114192805376337040}
   - component: {fileID: 114507309834031362}
   m_Layer: 11
   m_Name: comfy_chair
@@ -96,6 +97,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114192805376337040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1126314898183668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 153
+    i1: 64
+    i2: 198
+    i3: 252
+    i4: 98
+    i5: 210
+    i6: 47
+    i7: 244
+    i8: 218
+    i9: 209
+    i10: 114
+    i11: 63
+    i12: 55
+    i13: 174
+    i14: 39
+    i15: 215
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114507309834031362
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,9 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
-  AtmosPassable: 1
 --- !u!212 &212659373323891224
 SpriteRenderer:
   m_ObjectHideFlags: 1

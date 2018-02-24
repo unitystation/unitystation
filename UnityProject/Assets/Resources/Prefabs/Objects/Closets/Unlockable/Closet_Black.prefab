@@ -22,8 +22,8 @@ GameObject:
   - component: {fileID: 61530228178202146}
   - component: {fileID: 61039049282667628}
   - component: {fileID: 114563119404815312}
+  - component: {fileID: 114334495745331238}
   - component: {fileID: 114310759356319872}
-  - component: {fileID: 114291343940822994}
   - component: {fileID: 114097153114912920}
   - component: {fileID: 114590671685477684}
   m_Layer: 11
@@ -196,35 +196,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visibleState: 1
   isPlayer: 0
   registerTile: {fileID: 0}
-  moveSpeed: 7
+  visibleState: 1
   allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
   isPushable: 1
   pulledBy: {fileID: 0}
-  pushTarget: {x: 0, y: 0, z: 0}
   pushing: 0
-  serverLittleLag: 0
-  serverPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
-  timeInPush: 0
---- !u!114 &114291343940822994
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000522475151462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53718f00af634879afe9838de3e391ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialHealth: 400
-  maxHealth: 100
-  isNPC: 0
-  allowKnifeHarvest: 0
-  ConsciousState: 0
+  pushTarget: {x: 0, y: 0, z: 0}
 --- !u!114 &114310759356319872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -237,11 +217,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
-  spriteRenderer: {fileID: 212288130219440224}
-  IsLocked: 0
-  lockLight: {fileID: 0}
-  items: {fileID: 1135189861715420}
   IsClosed: 0
+  IsLocked: 0
+  items: {fileID: 1135189861715420}
+  lockLight: {fileID: 0}
+  spriteRenderer: {fileID: 212288130219440224}
+--- !u!114 &114334495745331238
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000522475151462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114563119404815312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -286,9 +280,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 1
+  IsClosed: 1
 --- !u!212 &212288130219440224
 SpriteRenderer:
   m_ObjectHideFlags: 1
