@@ -58,6 +58,7 @@ public class Camera2DFollow : MonoBehaviour
 			offsetZ = (transform.position - target.position).z;
 		}
 		transform.parent = null;
+		starsBackground.parent = null;
 	}
 
 	private void LateUpdate()
@@ -103,7 +104,7 @@ public class Camera2DFollow : MonoBehaviour
 	}
 
 	public void ZeroStars(){
-		starsBackground.transform.localPosition = Vector3.zero;
+		starsBackground.transform.position = transform.position;
 	}
 
 	private IEnumerator LookAheadSwitch()
