@@ -2,54 +2,30 @@
 
 public class ParallaxStars : MonoBehaviour
 {
-	private Transform[,] backgrounds;
-
-	private Vector3 currentPosition = Vector2.zero;
-	private int offsetX, offsetY;
-	public float speed = 1f;
-
-	private void Start()
+	private void Update()
 	{
-		backgrounds = new Transform[3, 3];
-		foreach (Transform child in transform)
-		{
-			Vector3 localPos = child.localPosition;
-			int x = (int) (localPos.x == 0 ? 0 : Mathf.Sign(localPos.x)) + 1;
-			int y = (int) (localPos.y == 0 ? 0 : Mathf.Sign(localPos.y)) + 1;
-			backgrounds[x, y] = child;
+		if ((Camera.main.transform.position.x - transform.position.x) > 30f) {
+			Vector2 pos = transform.localPosition;
+			pos.x += 60f;
+			transform.localPosition = pos;
 		}
-		currentPosition = transform.localPosition;
-	}
 
-	public void MoveInDirection(Vector2 dir)
-	{
-		transform.position -= new Vector3(dir.x, dir.y) * speed * Time.deltaTime;
-
-		if (backgrounds != null)
-		{
-			Vector3 diff = transform.localPosition - currentPosition;
-
-			currentPosition.x = calculate(currentPosition.x, diff.x, true, ref offsetX);
-			currentPosition.y = calculate(currentPosition.y, diff.y, false, ref offsetY);
+		if ((Camera.main.transform.position.x - transform.position.x) < -30f) {
+			Vector2 pos = transform.localPosition;
+			pos.x -= 60f;
+			transform.localPosition = pos;
 		}
-	}
 
-	private float calculate(float oldValue, float diffValue, bool atX, ref int offset)
-	{
-		if (Mathf.Abs(diffValue) > 5)
-		{
-			int index = (1 + (int) Mathf.Sign(diffValue) + offset) % 3;
-
-			for (int i = 0; i < 3; i++)
-			{
-				Transform position = atX ? backgrounds[index, i] : backgrounds[i, index];
-				position.position -= Mathf.Sign(diffValue) * (atX ? Vector3.right : Vector3.up) * 3 * 10;
-			}
-
-			offset = (3 + offset - (int) Mathf.Sign(diffValue)) % 3;
-			Vector3 localPos = transform.localPosition;
-			return (atX ? localPos.x : localPos.y) + Mathf.Sign(diffValue) * 5;
+		if ((Camera.main.transform.position.y - transform.position.y) > 30f) {
+			Vector2 pos = transform.localPosition;
+			pos.y += 60f;
+			transform.localPosition = pos;
 		}
-		return oldValue;
+
+		if ((Camera.main.transform.position.y - transform.position.y) < -30f) {
+			Vector2 pos = transform.localPosition;
+			pos.y -= 60f;
+			transform.localPosition = pos;
+		}
 	}
 }
