@@ -281,6 +281,11 @@ namespace PlayGroup
 		[Command(channel = 0)]
 		private void CmdAction(PlayerAction action)
 		{
+			//Not ready for a new action yet!
+			if(serverState.Position != transform.localPosition){
+				return;
+			}
+
 			serverState = NextState(serverState, action);
 			//Do not cache the position if the player is a ghost
 			//or else new players will sync the deadbody with the last pos
@@ -294,6 +299,10 @@ namespace PlayGroup
 
 		private void UpdatePredictedState()
 		{
+			//Wait for the server to catch up or else the movement states will go out of order
+			if(serverState.MoveNumber <= predictedState.MoveNumber){
+				return;
+			}
 			predictedState = serverState;
 
 			foreach (PlayerAction action in pendingActions)
