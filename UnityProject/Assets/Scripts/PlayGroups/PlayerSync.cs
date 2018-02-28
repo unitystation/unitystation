@@ -13,6 +13,11 @@ namespace PlayGroup
 	{
 		public int MoveNumber;
 		public Vector3 Position;
+
+		public override string ToString()
+		{
+			return $"{nameof( MoveNumber )}: {MoveNumber}, {nameof( Position )}: {Position}";
+		}
 	}
 
 	public struct PlayerAction
@@ -20,7 +25,7 @@ namespace PlayGroup
 		public int[] keyCodes;
 	}
 
-	public class PlayerSync : NetworkBehaviour
+	public class PlayerSync : NetworkBehaviour, IPlayerSync
 	{
 		private bool canRegister = false;
 		private HealthBehaviour healthBehaviorScript;
@@ -40,10 +45,15 @@ namespace PlayGroup
 		public LayerMask matrixLayerMask;
 		private RaycastHit2D[] rayHit;
 
-		public GameObject pullingObject;
-
+		public GameObject PullingObject { get; set; }
+		
+		public NetworkInstanceId PullObjectID
+		{
+			get { return pullObjectID; }
+			set { pullObjectID = value; }
+		}
 		//pull objects
-		[SyncVar(hook = nameof(PullReset))] public NetworkInstanceId pullObjectID;
+		[SyncVar(hook = nameof(PullReset))] private NetworkInstanceId pullObjectID;
 
 		private Vector3 pullPos;
 		private RegisterTile pullRegister;
@@ -55,7 +65,7 @@ namespace PlayGroup
 
 		public override void OnStartServer()
 		{
-			pullObjectID = NetworkInstanceId.Invalid;
+			PullObjectID = NetworkInstanceId.Invalid;
 			InitState();
 			base.OnStartServer();
 		}
@@ -76,12 +86,13 @@ namespace PlayGroup
 			}
 			else
 			{
-				serverState = new PlayerState {MoveNumber = 0, Position = transform.localPosition};
-				predictedState = new PlayerState {MoveNumber = 0, Position = transform.localPosition};
+				PlayerState state = new PlayerState {MoveNumber = 0, Position = transform.localPosition};
+				serverState = state;
+				predictedState = state;
 			}
 			yield return new WaitForSeconds(2f);
 
-			PullReset(pullObjectID);
+			PullReset(PullObjectID);
 		}
 
 		private void InitState()
@@ -89,8 +100,9 @@ namespace PlayGroup
 			if (isServer)
 			{
 				Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
-				serverState = new PlayerState {MoveNumber = 0, Position = position};
-				serverStateCache = new PlayerState {MoveNumber = 0, Position = position};
+				PlayerState state = new PlayerState {MoveNumber = 0, Position = position};
+				serverState = state;
+				serverStateCache = state;
 			}
 		}
 
@@ -98,12 +110,12 @@ namespace PlayGroup
 		[Command]
 		public void CmdSetPositionFromReset(GameObject fromObj, GameObject otherPlayer, Vector3 setPos)
 		{
-			if (fromObj.GetComponent<PlayerSync>() == null) //Validation
+			if (fromObj.GetComponent<IPlayerSync>() == null) //Validation
 			{
 				return;
 			}
 
-			PlayerSync otherPlayerSync = otherPlayer.GetComponent<PlayerSync>();
+			IPlayerSync otherPlayerSync = otherPlayer.GetComponent<IPlayerSync>();
 			otherPlayerSync.SetPosition(setPos);
 		}
 
@@ -206,6 +218,7 @@ namespace PlayGroup
 				return;
 			}
 
+			PlayerState state = DetermineState();
 			if (!playerMove.isGhost)
 			{
 				CheckSpaceWalk();
@@ -215,8 +228,10 @@ namespace PlayGroup
 					return;
 				}
 
-				PlayerState state = isLocalPlayer ? predictedState : serverState;
-				transform.localPosition = Vector3.MoveTowards(transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
+				if ( state.Position != transform.localPosition )
+				{
+					PlayerLerp(state);
+				}
 
 				//Check if we should still be displaying an ItemListTab and update it, if so.
 				ControlTabs.CheckItemListTab();
@@ -226,16 +241,16 @@ namespace PlayGroup
 					lastDirection = (state.Position - transform.localPosition).normalized;
 				}
 
-				if (pullingObject != null)
+				if (PullingObject != null)
 				{
 					if (transform.hasChanged)
 					{
 						transform.hasChanged = false;
 						PullObject();
 					}
-					else if (pullingObject.transform.localPosition != pullPos)
+					else if (PullingObject.transform.localPosition != pullPos)
 					{
-						pullingObject.transform.localPosition = pullPos;
+						PullingObject.transform.localPosition = pullPos;
 					}
 				}
 
@@ -247,34 +262,69 @@ namespace PlayGroup
 			}
 			else
 			{
-				PlayerState state = isLocalPlayer ? predictedState : serverState;
+				if ( state.Position != playerScript.ghost.transform.localPosition )
+				{
+					GhostLerp(state);
+				}
+			}
+		}
+
+		private PlayerState DetermineState()
+		{
+			return isLocalPlayer ? predictedState : serverState;
+		}
+
+		private void SetServerState(PlayerState newState)
+		{
+			serverState = newState;
+			//Do not cache the position if the player is a ghost
+			//or else new players will sync the deadbody with the last pos
+			//of the gost:
+			if ( !playerMove.isGhost )
+			{
+				serverStateCache = serverState;
+			}
+			RpcOnServerStateChange(serverState);
+		}
+
+		[Server]
+		private bool isLerping()
+		{
+			return serverState.Position != transform.localPosition;
+		}
+
+		private void GhostLerp(PlayerState state)
+		{
 					playerScript.ghost.transform.localPosition =
 						Vector3.MoveTowards(playerScript.ghost.transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
+		}
 				
-			}
+		private void PlayerLerp(PlayerState state)
+		{
+			transform.localPosition = Vector3.MoveTowards(transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
 		}
 
 		private void PullObject()
 		{
 			pullPos = transform.localPosition - (Vector3) lastDirection;
-			pullPos.z = pullingObject.transform.localPosition.z;
+			pullPos.z = PullingObject.transform.localPosition.z;
 
 			Vector3Int pos = Vector3Int.RoundToInt(pullPos);
-			if (matrix.IsPassableAt(pos) || matrix.ContainsAt(pos, gameObject) || matrix.ContainsAt(pos, pullingObject))
+			if (matrix.IsPassableAt(pos) || matrix.ContainsAt(pos, gameObject) || matrix.ContainsAt(pos, PullingObject))
 			{
-				float journeyLength = Vector3.Distance(pullingObject.transform.localPosition, pullPos);
+				float journeyLength = Vector3.Distance(PullingObject.transform.localPosition, pullPos);
 				if (journeyLength <= 2f)
 				{
-					pullingObject.transform.localPosition =
-						Vector3.MoveTowards(pullingObject.transform.localPosition, pullPos, playerMove.speed * Time.deltaTime / journeyLength);
+					PullingObject.transform.localPosition =
+						Vector3.MoveTowards(PullingObject.transform.localPosition, pullPos, playerMove.speed * Time.deltaTime / journeyLength);
 				}
 				else
 				{
 					//If object gets too far away activate warp speed
-					pullingObject.transform.localPosition =
-						Vector3.MoveTowards(pullingObject.transform.localPosition, pullPos, playerMove.speed * Time.deltaTime * 30f);
+					PullingObject.transform.localPosition =
+						Vector3.MoveTowards(PullingObject.transform.localPosition, pullPos, playerMove.speed * Time.deltaTime * 30f);
 				}
-				pullingObject.BroadcastMessage("FaceDirection", playerSprites.currentDirection, SendMessageOptions.DontRequireReceiver);
+				PullingObject.BroadcastMessage("FaceDirection", playerSprites.currentDirection, SendMessageOptions.DontRequireReceiver);
 			}
 		}
 
@@ -318,36 +368,36 @@ namespace PlayGroup
 
 		public void PullReset(NetworkInstanceId netID)
 		{
-			pullObjectID = netID;
+			PullObjectID = netID;
 
 			transform.hasChanged = false;
 			if (netID == NetworkInstanceId.Invalid)
 			{
-				if (pullingObject != null)
+				if (PullingObject != null)
 				{
 					pullRegister.UpdatePosition();
 
 
 					//Could be a another player
-					PlayerSync otherPlayerSync = pullingObject.GetComponent<PlayerSync>();
+					PlayerSync otherPlayerSync = PullingObject.GetComponent<PlayerSync>();
 					if (otherPlayerSync != null)
 					{
-						CmdSetPositionFromReset(gameObject, otherPlayerSync.gameObject, pullingObject.transform.localPosition);
+						CmdSetPositionFromReset(gameObject, otherPlayerSync.gameObject, PullingObject.transform.localPosition);
 					}
 				}
 				pullRegister = null;
-				pullingObject = null;
+				PullingObject = null;
 			}
 			else
 			{
-				pullingObject = ClientScene.FindLocalObject(netID);
-				PushPull oA = pullingObject.GetComponent<PushPull>();
-				pullPos = pullingObject.transform.localPosition;
+				PullingObject = ClientScene.FindLocalObject(netID);
+				PushPull oA = PullingObject.GetComponent<PushPull>();
+				pullPos = PullingObject.transform.localPosition;
 				if (oA != null)
 				{
 					oA.pulledBy = gameObject;
 				}
-				pullRegister = pullingObject.GetComponent<RegisterTile>();
+				pullRegister = PullingObject.GetComponent<RegisterTile>();
 			}
 		}
 
@@ -361,6 +411,7 @@ namespace PlayGroup
 				{
 					pendingActions.Dequeue();
 				}
+				Debug.Log($"Client state change {newState} ({pendingActions.Count} queued) ");
 				UpdatePredictedState();
 			}
 		}

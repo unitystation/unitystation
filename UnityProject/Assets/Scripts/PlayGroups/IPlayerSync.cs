@@ -1,0 +1,24 @@
+﻿using UnityEngine;
+using UnityEngine.Networking;
+
+namespace PlayGroup
+{
+	public interface IPlayerSync
+	{
+		GameObject PullingObject { get; set; }
+		NetworkInstanceId PullObjectID { get; set; }
+		void CmdSetPositionFromReset(GameObject fromObj, GameObject otherPlayer, Vector3 setPos);
+
+		/// <summary>
+		///     Manually set a player to a specific position
+		/// </summary>
+		/// <param name="pos">The new position to "teleport" player</param>
+		void SetPosition(Vector3 pos);
+
+		void PullReset(NetworkInstanceId netID);
+		bool InvokeCommand(int cmdHash, NetworkReader reader);
+		bool InvokeRPC(int cmdHash, NetworkReader reader);
+		bool InvokeSyncEvent(int cmdHash, NetworkReader reader);
+		bool InvokeSyncList(int cmdHash, NetworkReader reader);
+	}
+}

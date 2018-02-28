@@ -38,7 +38,7 @@ namespace PlayGroup
 		};
 
 		private PlayerSprites playerSprites;
-		private PlayerSync playerSync;
+		private IPlayerSync playerSync;
 
 		private PlayerNetworkActions pna;
 		[HideInInspector] public PushPull pushPull; //The push pull component attached to this player
@@ -55,7 +55,7 @@ namespace PlayGroup
 		private void Start()
 		{
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
-			playerSync = GetComponent<PlayerSync>();
+			playerSync = GetComponent<IPlayerSync>();
 			pushPull = GetComponent<PushPull>();
 			registerTile = GetComponent<RegisterTile>();
 			pna = gameObject.GetComponent<PlayerNetworkActions>();
@@ -234,16 +234,16 @@ namespace PlayGroup
 			}
 
 
-			if (playerSync.pullingObject != null) {
-				if (matrix.ContainsAt(newPos, playerSync.pullingObject)) {
+			if (playerSync.PullingObject != null) {
+				if (matrix.ContainsAt(newPos, playerSync.PullingObject)) {
 					Vector2 directionToPullObj =
-						playerSync.pullingObject.transform.localPosition - transform.localPosition;
+						playerSync.PullingObject.transform.localPosition - transform.localPosition;
 					if (directionToPullObj.normalized != playerSprites.currentDirection) {
 						// Ran into pullObject but was not facing it, saved direction
 						return direction;
 					}
 					//Hit Pull obj
-					pna.CmdStopPulling(playerSync.pullingObject);
+					pna.CmdStopPulling(playerSync.PullingObject);
 				}
 			}
 
