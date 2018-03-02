@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using Tilemaps;
 using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Objects;
@@ -16,7 +17,7 @@ namespace PlayGroup
 
 		public override string ToString()
 		{
-			return $"{nameof( MoveNumber )}: {MoveNumber}, {nameof( Position )}: {Position}";
+			return $"[Move: {MoveNumber}, Pos: {Position}]";
 		}
 	}
 
@@ -37,6 +38,7 @@ namespace PlayGroup
 
 		private Matrix matrix => registerTile.Matrix;
 		private Queue<PlayerAction> pendingActions;
+		private Queue<PlayerAction> serverPendingActions;
 		public PlayerMove playerMove;
 		private PlayerScript playerScript;
 		private PlayerSprites playerSprites;
@@ -59,6 +61,7 @@ namespace PlayGroup
 		private RegisterTile pullRegister;
 		private PushPull pushPull; //The pushpull component on this player
 		private RegisterTile registerTile;
+		private PlayerState serverTargetState;
 		private PlayerState serverState;
 
 		[SyncVar] private PlayerState serverStateCache; //used to sync with new players
@@ -103,6 +106,7 @@ namespace PlayGroup
 				PlayerState state = new PlayerState {MoveNumber = 0, Position = position};
 				serverState = state;
 				serverStateCache = state;
+				serverTargetState = state;
 			}
 		}
 
@@ -150,6 +154,10 @@ namespace PlayGroup
 				pendingActions = new Queue<PlayerAction>();
 				UpdatePredictedState();
 			}
+			if ( isServer )
+			{
+				serverPendingActions = new Queue<PlayerAction>();
+			}
 			playerScript = GetComponent<PlayerScript>();
 			playerSprites = GetComponent<PlayerSprites>();
 			healthBehaviorScript = GetComponent<HealthBehaviour>();
@@ -176,7 +184,7 @@ namespace PlayGroup
 					}
 					return;
 				}
-				if (predictedState.Position == transform.localPosition && !playerMove.isGhost)
+				if (predictedState.Position == transform.localPosition && !playerMove.isGhost) //FIXME: causes spam when running into a wall
 				{
 					DoAction();
 				}
@@ -205,10 +213,23 @@ namespace PlayGroup
 			PlayerAction action = playerMove.SendAction();
 			if (action.keyCodes.Length != 0)
 			{
+				if ( predictedState.Position.Equals(NextState(predictedState, action).Position) )
+				{
+//					Debug.LogWarning("Client ignoring shitty action and cleaning up queue");
+					pendingActions.Clear();
+					ResetPredictedState();
+					return;
+				}
 				pendingActions.Enqueue(action);
+//				Debug.Log($"Client requesting {action} ({pendingActions.Count} in queue)");
 				UpdatePredictedState();
 				CmdAction(action);
 			}
+		}
+
+		private void ResetPredictedState()
+		{
+			predictedState = serverState;
 		}
 
 		private void Synchronize()
@@ -216,6 +237,10 @@ namespace PlayGroup
 			if (isLocalPlayer && GameData.IsHeadlessServer)
 			{
 				return;
+			}
+			if ( isServer )
+			{
+				CheckStateUpdate();
 			}
 
 			PlayerState state = DetermineState();
@@ -271,7 +296,44 @@ namespace PlayGroup
 
 		private PlayerState DetermineState()
 		{
+			if ( isServer )
+			{
+				return isLocalPlayer ? predictedState : serverTargetState;
+			}
 			return isLocalPlayer ? predictedState : serverState;
+		}
+
+		[Server]
+		private void CheckStateUpdate()
+		{
+			//checking only player movement for now
+			Vector2Int localPos = Vector2Int.RoundToInt(transform.localPosition);			
+			if ( localPos == Vector2Int.RoundToInt(serverState.Position) )
+			{
+				return;
+			}
+			if ( localPos == Vector2Int.RoundToInt(serverTargetState.Position) )
+			{
+//				Debug.Log($"Applying {serverTargetState}");
+				SetServerState(serverTargetState);
+				TryUpdateServerTarget();
+			}
+		}
+
+		/// Tries to assign next target from queue to serverTargetState if there are any
+		/// (In order to start lerping towards it)
+		[Server]
+		private void TryUpdateServerTarget()
+		{
+			if ( serverPendingActions.Count != 0 )
+			{
+			int count = serverPendingActions.Count;
+//			for ( int i = 0; i < count; i++ )
+//				{
+					serverTargetState = NextState(serverTargetState, serverPendingActions.Dequeue());
+//				}
+//				Debug.Log($"Server: Updated target {serverTargetState}");/*, advanced by {count}*//*, {serverPendingActions.Count} pending*/
+			}
 		}
 
 		private void SetServerState(PlayerState newState)
@@ -332,11 +394,33 @@ namespace PlayGroup
 		private void CmdAction(PlayerAction action)
 		{
 			//Not ready for a new action yet!
-			if(serverState.Position != transform.localPosition){
-				return;
+//			if(serverState.Position != transform.localPosition){
+//				return;
+//			}
+
+			bool pointlessTargetState = serverTargetState.Position == NextState(serverTargetState, action).Position;
+//			bool pointlessServerState = serverState.Position == NextState(serverState, action).Position;
+//			if ( pointlessTargetState || pointlessServerState )
+//			{
+//				Debug.LogWarning($"Ignoring pointless action: Target={pointlessTargetState}/Server={pointlessServerState}");
+//				return;
+//			}
+			
+//			serverTargetState = NextState(serverTargetState, action);
+//			Debug.Log($"Server: Updated target {serverTargetState}");/*, {serverPendingActions.Count} pending*/
+
+			if ( !pointlessTargetState )
+			{
+				//add action to server simulation queue
+				serverPendingActions.Enqueue(action);
+				TryUpdateServerTarget();
+			}
+			else
+			{//Clear server queue at the first sign of trouble
+//				Debug.LogWarning($"Ignoring pointless action: Target={pointlessTargetState}");
+				serverPendingActions.Clear();
 			}
 
-			serverState = NextState(serverState, action);
 			//Do not cache the position if the player is a ghost
 			//or else new players will sync the deadbody with the last pos
 			//of the gost:
@@ -344,21 +428,20 @@ namespace PlayGroup
 			{
 				serverStateCache = serverState;
 			}
-			RpcOnServerStateChange(serverState);
+//			RpcOnServerStateChange(serverState);
 		}
 
 		private void UpdatePredictedState()
 		{
-			//Wait for the server to catch up or else the movement states will go out of order
-			if(serverState.MoveNumber <= predictedState.MoveNumber){
-				return;
-			}
+			//redraw prediction point from received serverState using pending actions
 			predictedState = serverState;
 
-			foreach (PlayerAction action in pendingActions)
+			foreach ( PlayerAction pendingAction in pendingActions )
 			{
-				predictedState = NextState(predictedState, action);
+				predictedState = NextState(predictedState, pendingAction);
 			}
+			PostToChatMessage.Send($"Redraw prediction: {serverState}->{predictedState}({pendingActions.Count} steps) ", ChatChannel.System);
+//			Debug.Log($"Client updated: {serverState}->{predictedState}(after {pendingActions.Count} actions) ");
 		}
 
 		private PlayerState NextState(PlayerState state, PlayerAction action)
@@ -405,13 +488,27 @@ namespace PlayGroup
 		private void RpcOnServerStateChange(PlayerState newState)
 		{
 			serverState = newState;
+			PostToChatMessage.Send($"Got server update {serverState}", ChatChannel.System);
 			if (pendingActions != null)
 			{
-				while (pendingActions.Count > 0 && pendingActions.Count > predictedState.MoveNumber - serverState.MoveNumber)
+				//invalidate queue if serverstate was never predicted
+				bool serverAhead = serverState.MoveNumber > predictedState.MoveNumber;
+				bool posMismatch = serverState.MoveNumber == predictedState.MoveNumber && serverState.Position != predictedState.Position;
+				if ( serverAhead || posMismatch )
 				{
-					pendingActions.Dequeue();
+					Debug.LogWarning($"Clearing queue: serverAhead={serverAhead}, posMismatch={posMismatch}");
+					pendingActions.Clear();
 				}
-				Debug.Log($"Client state change {newState} ({pendingActions.Count} queued) ");
+				else
+				{
+					//removing actions already acknowledged by server from pending queue
+//					Debug.Log($"{pendingActions.Count} > {predictedState.MoveNumber} - {serverState.MoveNumber}");
+					while (pendingActions.Count > 0 && pendingActions.Count > predictedState.MoveNumber - serverState.MoveNumber)
+					{
+						pendingActions.Dequeue();
+//						Debug.Log($"{pendingActions.Count} > {predictedState.MoveNumber} - {serverState.MoveNumber}");
+					}
+				}
 				UpdatePredictedState();
 			}
 		}
