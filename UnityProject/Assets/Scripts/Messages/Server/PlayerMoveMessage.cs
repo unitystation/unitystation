@@ -15,7 +15,7 @@ public class PlayerMoveMessage : ServerMessage
 	///To be run on client
 	public override IEnumerator Process()
 	{
-		Debug.Log("Processed " + ToString());
+//		Debug.Log("Processed " + ToString());
 		yield return WaitFor(Recipient);
 		NetworkObject.GetComponent<PlayerSync>().UpdateClientState(State);
 	}

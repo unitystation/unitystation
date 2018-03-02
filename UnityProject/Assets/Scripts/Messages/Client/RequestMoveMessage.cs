@@ -14,7 +14,7 @@ public class RequestMoveMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-		Debug.Log("Processed " + ToString());
+//		Debug.Log("Processed " + ToString());
 
 		yield return WaitFor(SentBy);
 

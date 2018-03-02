@@ -216,8 +216,8 @@ namespace PlayGroup
 				if ( predictedState.Position.Equals(NextState(predictedState, action).Position) )
 				{
 //					Debug.LogWarning("Client ignoring shitty action and cleaning up queue");
-					pendingActions.Clear();
-					ResetPredictedState();
+//					ClearPending();
+//					ResetPredictedState();
 					return;
 				}
 				pendingActions.Enqueue(action);
@@ -417,9 +417,14 @@ namespace PlayGroup
 				TryUpdateServerTarget();
 			}
 			else
-			{//Clear server queue at the first sign of trouble
-//				Debug.LogWarning($"Ignoring pointless action: Target={pointlessTargetState}");
-				serverPendingActions.Clear();
+			{
+				//Clear server queue at the first sign of trouble
+//				for (int i = 0; i < serverPendingActions.Count; i++)
+//				{
+//					serverTargetState = NextState(serverTargetState, serverPendingActions.Dequeue());
+//				}
+//				Debug.LogError($"BWOINK! final destination is {serverTargetState} queue wiped");
+//				ClearPendingServer();
 			}
 
 			//Do not cache the position if the player is a ghost
@@ -498,6 +503,7 @@ namespace PlayGroup
 		}
 
 //		[ClientRpc(channel = 0)]
+
 		private void RpcOnServerStateChange(PlayerState newState)
 		{
 			serverState = newState;
@@ -512,7 +518,7 @@ namespace PlayGroup
 				if ( serverAhead || posMismatch )
 				{
 					Debug.LogWarning($"Clearing queue: serverAhead={serverAhead}, posMismatch={posMismatch}");
-					pendingActions.Clear();
+//					ClearPending();
 				}
 				else
 				{
@@ -526,6 +532,18 @@ namespace PlayGroup
 				}
 				UpdatePredictedState();
 			}
+		}
+
+		private void ClearPending()
+		{
+			Debug.LogError("BLAM! Client queue wiped!");
+			pendingActions.Clear();
+		}
+
+		private void ClearPendingServer()
+		{
+			Debug.LogError("BLAM! Server queue wiped!");
+			serverPendingActions.Clear();
 		}
 
 		private Vector3 RoundedPos(Vector3 pos)
