@@ -28,7 +28,7 @@ public class Camera2DFollow : MonoBehaviour
 	private float lookAheadSave;
 	private float offsetZ = -1f;
 
-	public ParallaxStars parallaxStars;
+	public Transform starsBackground;
 	public float pixelAdjustment = 64f;
 
 	//Shake Cam
@@ -58,6 +58,7 @@ public class Camera2DFollow : MonoBehaviour
 			offsetZ = (transform.position - target.position).z;
 		}
 		transform.parent = null;
+		starsBackground.parent = null;
 	}
 
 	private void LateUpdate()
@@ -82,17 +83,14 @@ public class Camera2DFollow : MonoBehaviour
 			aheadTargetPos.y += yOffSet;
 			aheadTargetPos.x += xOffset;
 			Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref currentVelocity, damping);
-
+	
 			if (adjustPixel)
 			{
 				newPos.x = Mathf.RoundToInt(newPos.x * pixelAdjustment) / pixelAdjustment;
 				newPos.y = Mathf.RoundToInt(newPos.y * pixelAdjustment) / pixelAdjustment;
 			}
-			if (parallaxStars != null)
-			{
-				parallaxStars.MoveInDirection((newPos - transform.position).normalized);
-			}
 			transform.position = newPos;
+			starsBackground.position = -newPos * 0.1f;
 
 			lastTargetPosition = target.position;
 		}
@@ -103,6 +101,10 @@ public class Camera2DFollow : MonoBehaviour
 	{
 		lookAheadFactor = newLookAhead;
 		StartCoroutine(LookAheadSwitch());
+	}
+
+	public void ZeroStars(){
+		starsBackground.transform.position = transform.position;
 	}
 
 	private IEnumerator LookAheadSwitch()
