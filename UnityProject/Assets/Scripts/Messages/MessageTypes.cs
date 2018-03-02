@@ -13,6 +13,7 @@ internal enum MessageTypes : short
 	TransformStateMessage = 1009,
 	PlayerDeathMessage = 1010,
 	InfoWindowMessage = 1011,
+	PlayerMoveMessage = 1012,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
@@ -22,5 +23,6 @@ internal enum MessageTypes : short
 //	RemoveEncryptionKeyMessage = 2004, -was redundant, this id is free now
 	SimpleInteractMessage = 2005,
 	RequestSyncMessage = 2006,
-	RequestAuthMessage = 2007
+	RequestAuthMessage = 2007,
+	RequestMoveMessage = 2008
 }

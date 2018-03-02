@@ -223,7 +223,7 @@ namespace PlayGroup
 				pendingActions.Enqueue(action);
 //				Debug.Log($"Client requesting {action} ({pendingActions.Count} in queue)");
 				UpdatePredictedState();
-				CmdAction(action);
+				RequestMoveMessage.Send(action); //CmdAction(action);
 			}
 		}
 
@@ -346,7 +346,8 @@ namespace PlayGroup
 			{
 				serverStateCache = serverState;
 			}
-			RpcOnServerStateChange(serverState);
+			PlayerMoveMessage.SendToAll(gameObject, serverState);
+//			RpcOnServerStateChange(serverState);
 		}
 
 		[Server]
@@ -390,7 +391,7 @@ namespace PlayGroup
 			}
 		}
 
-		[Command(channel = 0)]
+//		[Command(channel = 0)]
 		private void CmdAction(PlayerAction action)
 		{
 			//Not ready for a new action yet!
@@ -440,7 +441,9 @@ namespace PlayGroup
 			{
 				predictedState = NextState(predictedState, pendingAction);
 			}
-			PostToChatMessage.Send($"Redraw prediction: {serverState}->{predictedState}({pendingActions.Count} steps) ", ChatChannel.System);
+//			PostToChatMessage.Send
+			Debug.Log($"Redraw prediction: {serverState}->{predictedState}({pendingActions.Count} steps) ");
+			//, ChatChannel.System);
 //			Debug.Log($"Client updated: {serverState}->{predictedState}(after {pendingActions.Count} actions) ");
 		}
 
@@ -484,11 +487,23 @@ namespace PlayGroup
 			}
 		}
 
-		[ClientRpc(channel = 0)]
+		public void ProcessAction(PlayerAction action)
+		{
+			CmdAction(action);
+		}
+
+		public void UpdateClientState(PlayerState state)
+		{
+			RpcOnServerStateChange(state);
+		}
+
+//		[ClientRpc(channel = 0)]
 		private void RpcOnServerStateChange(PlayerState newState)
 		{
 			serverState = newState;
-			PostToChatMessage.Send($"Got server update {serverState}", ChatChannel.System);
+			/*PostToChatMessage.Send*/
+			Debug.Log($"Got server update {serverState}");
+			//, ChatChannel.System);
 			if (pendingActions != null)
 			{
 				//invalidate queue if serverstate was never predicted

@@ -20,5 +20,7 @@ namespace PlayGroup
 		bool InvokeRPC(int cmdHash, NetworkReader reader);
 		bool InvokeSyncEvent(int cmdHash, NetworkReader reader);
 		bool InvokeSyncList(int cmdHash, NetworkReader reader);
+		void ProcessAction(PlayerAction action);
+		void UpdateClientState(PlayerState state);
 	}
 }
