@@ -22,5 +22,6 @@ namespace PlayGroup
 		bool InvokeSyncList(int cmdHash, NetworkReader reader);
 		void ProcessAction(PlayerAction action);
 		void UpdateClientState(PlayerState state);
+		void ResetClientQueue();
 	}
 }

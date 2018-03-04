@@ -210,7 +210,6 @@ namespace PlayGroup
 				   && rayHit[i].collider != curMatrixCol) {
 					curMatrixCol = rayHit[i].collider;
 					ChangeMatricies(rayHit[i].collider.gameObject.transform.parent);
-					Debug.Log("Change Matricies");
 				}
 
 				//Detected windows or walls (global will detect on other matricies also)
@@ -311,6 +310,8 @@ namespace PlayGroup
 
 		public void ChangeMatricies(Transform newParent)
 		{
+			Debug.Log("Not changing matrices as it fucks up move");
+			return;
 			if (isServer) {
 				NetworkIdentity netIdent = newParent.GetComponent<NetworkIdentity>();
 				if (registerTile.ParentNetId != netIdent.netId) {
@@ -321,6 +322,7 @@ namespace PlayGroup
 				registerTile.SetParentOnLocal(newParent);
 			}
 			Camera.main.transform.parent = newParent;
+			Debug.Log("Change Matricies");
 		}
 	}
 }

@@ -211,15 +211,8 @@ namespace PlayGroup
 		private void DoAction()
 		{
 			PlayerAction action = playerMove.SendAction();
-			if (action.keyCodes.Length != 0)
+			if (action.keyCodes.Length != 0 && !PointlessMove(predictedState,action))
 			{
-				if ( predictedState.Position.Equals(NextState(predictedState, action).Position) )
-				{
-//					Debug.LogWarning("Client ignoring shitty action and cleaning up queue");
-//					ClearPending();
-//					ResetPredictedState();
-					return;
-				}
 				pendingActions.Enqueue(action);
 //				Debug.Log($"Client requesting {action} ({pendingActions.Count} in queue)");
 				UpdatePredictedState();
@@ -227,9 +220,9 @@ namespace PlayGroup
 			}
 		}
 
-		private void ResetPredictedState()
+		private bool PointlessMove(PlayerState state, PlayerAction action)
 		{
-			predictedState = serverState;
+			return state.Position.Equals(NextState(state, action).Position);
 		}
 
 		private void Synchronize()
@@ -332,7 +325,7 @@ namespace PlayGroup
 //				{
 					serverTargetState = NextState(serverTargetState, serverPendingActions.Dequeue());
 //				}
-//				Debug.Log($"Server: Updated target {serverTargetState}");/*, advanced by {count}*//*, {serverPendingActions.Count} pending*/
+				Debug.Log($"Server: Updated target {serverTargetState}");/*, advanced by {count}*//*, {serverPendingActions.Count} pending*/
 			}
 		}
 
@@ -391,40 +384,15 @@ namespace PlayGroup
 			}
 		}
 
-//		[Command(channel = 0)]
 		private void CmdAction(PlayerAction action)
 		{
-			//Not ready for a new action yet!
-//			if(serverState.Position != transform.localPosition){
-//				return;
-//			}
-
-			bool pointlessTargetState = serverTargetState.Position == NextState(serverTargetState, action).Position;
 //			bool pointlessServerState = serverState.Position == NextState(serverState, action).Position;
-//			if ( pointlessTargetState || pointlessServerState )
-//			{
-//				Debug.LogWarning($"Ignoring pointless action: Target={pointlessTargetState}/Server={pointlessServerState}");
-//				return;
-//			}
-			
-//			serverTargetState = NextState(serverTargetState, action);
-//			Debug.Log($"Server: Updated target {serverTargetState}");/*, {serverPendingActions.Count} pending*/
 
-			if ( !pointlessTargetState )
+			if ( !PointlessMove(serverTargetState,action) )
 			{
 				//add action to server simulation queue
 				serverPendingActions.Enqueue(action);
 				TryUpdateServerTarget();
-			}
-			else
-			{
-				//Clear server queue at the first sign of trouble
-//				for (int i = 0; i < serverPendingActions.Count; i++)
-//				{
-//					serverTargetState = NextState(serverTargetState, serverPendingActions.Dequeue());
-//				}
-//				Debug.LogError($"BWOINK! final destination is {serverTargetState} queue wiped");
-//				ClearPendingServer();
 			}
 
 			//Do not cache the position if the player is a ghost
@@ -434,22 +402,20 @@ namespace PlayGroup
 			{
 				serverStateCache = serverState;
 			}
-//			RpcOnServerStateChange(serverState);
 		}
 
 		private void UpdatePredictedState()
 		{
 			//redraw prediction point from received serverState using pending actions
-			predictedState = serverState;
+			var tempState = serverState;
 
 			foreach ( PlayerAction pendingAction in pendingActions )
 			{
-				predictedState = NextState(predictedState, pendingAction);
+				tempState = NextState(tempState, pendingAction);
 			}
-//			PostToChatMessage.Send
+
+			predictedState = tempState;
 			Debug.Log($"Redraw prediction: {serverState}->{predictedState}({pendingActions.Count} steps) ");
-			//, ChatChannel.System);
-//			Debug.Log($"Client updated: {serverState}->{predictedState}(after {pendingActions.Count} actions) ");
 		}
 
 		private PlayerState NextState(PlayerState state, PlayerAction action)
@@ -502,14 +468,16 @@ namespace PlayGroup
 			RpcOnServerStateChange(state);
 		}
 
-//		[ClientRpc(channel = 0)]
+		public void ResetClientQueue()
+		{
+			Debug.LogError("Resetting queue as requested by server!");
+			pendingActions.Clear();
+		}
 
 		private void RpcOnServerStateChange(PlayerState newState)
 		{
 			serverState = newState;
-			/*PostToChatMessage.Send*/
 			Debug.Log($"Got server update {serverState}");
-			//, ChatChannel.System);
 			if (pendingActions != null)
 			{
 				//invalidate queue if serverstate was never predicted
@@ -517,8 +485,7 @@ namespace PlayGroup
 				bool posMismatch = serverState.MoveNumber == predictedState.MoveNumber && serverState.Position != predictedState.Position;
 				if ( serverAhead || posMismatch )
 				{
-					Debug.LogWarning($"Clearing queue: serverAhead={serverAhead}, posMismatch={posMismatch}");
-//					ClearPending();
+					Debug.LogWarning($"serverAhead={serverAhead}, posMismatch={posMismatch}");
 				}
 				else
 				{
