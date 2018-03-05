@@ -131,19 +131,22 @@ namespace PlayGroup
 			//TODO ^ check for an allowable type and other conditions to stop abuse of SetPosition
 			Vector3Int roundedPos = Vector3Int.RoundToInt(pos);
 			transform.localPosition = roundedPos;
-			serverState = new PlayerState {MoveNumber = 0, Position = roundedPos};
-			serverStateCache = new PlayerState {MoveNumber = 0, Position = roundedPos};
-			predictedState = new PlayerState {MoveNumber = 0, Position = roundedPos};
-			RpcSetPosition(roundedPos);
+			var newState = new PlayerState {MoveNumber = 0, Position = roundedPos};
+			serverState = newState;
+			serverStateCache = newState;
+			predictedState = newState;
+			ClearPendingServer();
+			PlayerMoveMessage.SendToAll(gameObject, newState, true);
+//RpcSetPosition(roundedPos);
 		}
 
-		[ClientRpc]
-		private void RpcSetPosition(Vector3 pos)
-		{
-			predictedState = new PlayerState {MoveNumber = 0, Position = pos};
-			serverState = new PlayerState {MoveNumber = 0, Position = pos};
-			transform.localPosition = pos;
-		}
+//		[ClientRpc]
+//		private void RpcSetPosition(Vector3 pos)
+//		{
+//			predictedState = new PlayerState {MoveNumber = 0, Position = pos};
+//			serverState = new PlayerState {MoveNumber = 0, Position = pos};
+//			transform.localPosition = pos;
+//		}
 
 		private void Start()
 		{
@@ -318,7 +321,7 @@ namespace PlayGroup
 		{
 			if ( serverPendingActions.Count != 0 )
 			{
-			int count = serverPendingActions.Count;
+//			int count = serverPendingActions.Count;
 //			for ( int i = 0; i < count; i++ )
 //				{
 					serverTargetState = NextState(serverTargetState, serverPendingActions.Dequeue());
@@ -391,6 +394,11 @@ namespace PlayGroup
 				//add action to server simulation queue
 				serverPendingActions.Enqueue(action);
 				TryUpdateServerTarget();
+			}
+			else
+			{
+				Debug.LogError($"Pointless move {serverTargetState}+{action.keyCodes[0]} Rolling back to {serverState}");
+				SetPosition(serverState.Position);
 			}
 
 			//Do not cache the position if the player is a ghost
@@ -502,11 +510,6 @@ namespace PlayGroup
 			}
 		}
 
-		private void ClearPending()
-		{
-			Debug.LogError("BLAM! Client queue wiped!");
-			pendingActions.Clear();
-		}
 
 		private void ClearPendingServer()
 		{
