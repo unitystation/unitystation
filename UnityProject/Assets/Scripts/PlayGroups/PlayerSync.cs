@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework.Constraints;
 using Tilemaps;
-using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Objects;
 using UI;
 using UnityEngine;
@@ -408,19 +406,22 @@ namespace PlayGroup
 		{
 			//redraw prediction point from received serverState using pending actions
 			var tempState = serverState;
+			int curPredictedMove = predictedState.MoveNumber;
 
-			foreach ( PlayerAction pendingAction in pendingActions )
+			foreach ( PlayerAction action in pendingActions )
 			{
-				tempState = NextState(tempState, pendingAction);
+				//isReplay determines if this action is a replayed action for use in the prediction system
+				bool isReplay = predictedState.MoveNumber <= curPredictedMove;
+				tempState = NextState(tempState, action, isReplay);
 			}
 
 			predictedState = tempState;
 			Debug.Log($"Redraw prediction: {serverState}->{predictedState}({pendingActions.Count} steps) ");
 		}
 
-		private PlayerState NextState(PlayerState state, PlayerAction action)
+		private PlayerState NextState(PlayerState state, PlayerAction action, bool isReplay = false)
 		{
-			return new PlayerState {MoveNumber = state.MoveNumber + 1, Position = playerMove.GetNextPosition(Vector3Int.RoundToInt(state.Position), action)};
+			return new PlayerState {MoveNumber = state.MoveNumber + 1, Position = playerMove.GetNextPosition(Vector3Int.RoundToInt(state.Position), action, isReplay)};
 		}
 
 		public void PullReset(NetworkInstanceId netID)
