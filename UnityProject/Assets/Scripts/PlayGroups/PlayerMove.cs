@@ -78,10 +78,10 @@ namespace PlayGroup
 			return new PlayerAction { keyCodes = actionKeys.ToArray() };
 		}
 
-		public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action)
+		public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action, bool isReplay)
 		{
 			Vector3Int direction = GetDirection(action);
-			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction);
+			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay);
 
 			if (adjustedDirection == Vector3.zero) {
 				Interact(currentPosition, direction);
@@ -193,67 +193,77 @@ namespace PlayGroup
 		/// <summary>
 		///     Check current and next tiles to determine their status and if movement is allowed
 		/// </summary>
-		private Vector3Int AdjustDirection(Vector3Int currentPosition, Vector3Int direction)
+		private Vector3Int AdjustDirection(Vector3Int currentPosition, Vector3Int direction, bool isReplay)
 		{
 			if (isGhost) {
 				return direction;
 			}
 
-			//Is the current tile restrictive?
 			Vector3Int newPos = currentPosition + direction;
-			Vector3 newRayPos = transform.position + direction;
-			rayHit = Physics2D.RaycastAll(newRayPos, (Vector3)direction, 0.2f, hitCheckLayers);
-			Debug.DrawLine(newRayPos, newRayPos + ((Vector3)direction * 0.2f), Color.red, 1f);
-			for (int i = 0; i < rayHit.Length; i++) {
-				//checks to see if the matrix has changed
-				if (rayHit[i].collider.gameObject.layer == 24
-				   && rayHit[i].collider != curMatrixCol) {
-					curMatrixCol = rayHit[i].collider;
-					ChangeMatricies(rayHit[i].collider.gameObject.transform.parent);
-					Debug.Log("Change Matricies");
-				}
 
-				//Detected windows or walls (global will detect on other matricies also)
-				if (rayHit[i].collider.gameObject.layer == 9
-				   || rayHit[i].collider.gameObject.layer == 18) {
-					return Vector3Int.zero;
-				}
+			//isReplay tells AdjustDirection if the move being carried out is a replay move for prediction or not
+			//a replay move is a move that has already been carried out on the LocalPlayer's client
+			if (!isReplay) {
+				
+				Vector3 newRayPos = transform.position + direction;
+				rayHit = Physics2D.RaycastAll(newRayPos, (Vector3)direction, 0.2f, hitCheckLayers);
+			//	Debug.DrawLine(newRayPos, newRayPos + ((Vector3)direction * 0.2f), Color.red, 1f);
 
-				//Door closed layer
-				if (rayHit[i].collider.gameObject.layer == 17) {
-					DoorController doorController = rayHit[i].collider.gameObject.GetComponent<DoorController>();
-
-					// Attempt to open door that could be on another layer
-					if (doorController != null && allowInput) {
-						pna.CmdCheckDoorPermissions(doorController.gameObject, gameObject);
-						allowInput = false;
-						StartCoroutine(DoorInputCoolDown());
+				//Detect new matrices
+				for (int i = 0; i < rayHit.Length; i++) {
+					//checks to see if the matrix has changed
+					if (rayHit[i].collider.gameObject.layer == 24
+						&& rayHit[i].collider != curMatrixCol) {
+						curMatrixCol = rayHit[i].collider;
+						ChangeMatricies(rayHit[i].collider.gameObject.transform.parent);
+						Debug.Log("Change Matricies");
 					}
-					return Vector3Int.zero;
+
+					//Detected windows or walls across matrices or from space:
+					if (rayHit[i].collider.gameObject.layer == 9
+					   || rayHit[i].collider.gameObject.layer == 18) {
+						return Vector3Int.zero;
+					}
+
+					//Door closed layer (matrix independent)
+					if (rayHit[i].collider.gameObject.layer == 17) {
+						DoorController doorController = rayHit[i].collider.gameObject.GetComponent<DoorController>();
+
+						// Attempt to open door that could be on another layer
+						if (doorController != null && allowInput) {
+							pna.CmdCheckDoorPermissions(doorController.gameObject, gameObject);
+							allowInput = false;
+							StartCoroutine(DoorInputCoolDown());
+						}
+						return Vector3Int.zero;
+					}
+				}
+
+				//Not to be checked while performing a replay:
+				if (playerSync.pullingObject != null) {
+					if (matrix.ContainsAt(newPos, playerSync.pullingObject)) {
+						//Vector2 directionToPullObj =
+						//	playerSync.pullingObject.transform.localPosition - transform.localPosition;
+						//if (directionToPullObj.normalized != playerSprites.currentDirection) {
+						//	// Ran into pullObject but was not facing it, saved direction
+						//	return direction;
+						//}
+						//Hit Pull obj
+						pna.CmdStopPulling(playerSync.pullingObject);
+						return Vector3Int.zero;
+					}
 				}
 			}
-
-
-			if (playerSync.pullingObject != null) {
-				if (matrix.ContainsAt(newPos, playerSync.pullingObject)) {
-					Vector2 directionToPullObj =
-						playerSync.pullingObject.transform.localPosition - transform.localPosition;
-					if (directionToPullObj.normalized != playerSprites.currentDirection) {
-						// Ran into pullObject but was not facing it, saved direction
-						return direction;
-					}
-					//Hit Pull obj
-					pna.CmdStopPulling(playerSync.pullingObject);
-				}
-			}
-
-			//			if (!matrix.IsPassableAt(currentPosition, newPos))
-			//			{
-			//				return Vector3Int.zero;
-			//			}
 
 			if (matrix.IsPassableAt(currentPosition, newPos) || matrix.ContainsAt(newPos, gameObject)) {
 				return direction;
+			}
+
+			//This is only for replay (to ignore any interactions with the pulled obj):
+			if (playerSync.pullingObject != null) {
+				if (matrix.ContainsAt(newPos, playerSync.pullingObject)) {
+					return direction;
+				}
 			}
 
 			//could not pass
