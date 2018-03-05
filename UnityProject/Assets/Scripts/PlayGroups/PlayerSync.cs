@@ -294,17 +294,20 @@ namespace PlayGroup
 
 		private void UpdatePredictedState()
 		{
+			int curPredictedMove = predictedState.MoveNumber;
 			predictedState = serverState;
 
 			foreach (PlayerAction action in pendingActions)
 			{
-				predictedState = NextState(predictedState, action);
+				//isReplay determines if this action is a replayed action for use in the prediction system
+				bool isReplay = predictedState.MoveNumber <= curPredictedMove;
+				predictedState = NextState(predictedState, action, isReplay);
 			}
 		}
 
-		private PlayerState NextState(PlayerState state, PlayerAction action)
+		private PlayerState NextState(PlayerState state, PlayerAction action, bool isReplay = false)
 		{
-			return new PlayerState {MoveNumber = state.MoveNumber + 1, Position = playerMove.GetNextPosition(Vector3Int.RoundToInt(state.Position), action)};
+			return new PlayerState {MoveNumber = state.MoveNumber + 1, Position = playerMove.GetNextPosition(Vector3Int.RoundToInt(state.Position), action, isReplay)};
 		}
 
 		public void PullReset(NetworkInstanceId netID)
