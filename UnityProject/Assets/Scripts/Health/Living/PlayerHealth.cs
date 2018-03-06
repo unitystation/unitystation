@@ -103,7 +103,7 @@ namespace PlayGroup
 			return BodyParts.PickRandom();
 		}
 
-		private void AddBloodLoss(int amount)
+		public void AddBloodLoss(int amount)
 		{
 			if (amount <= 0)
 			{

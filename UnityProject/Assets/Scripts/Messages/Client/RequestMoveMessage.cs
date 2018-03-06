@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-///     Informs server of 
+///     Informs server of predicted movement action
 /// </summary>
 public class RequestMoveMessage : ClientMessage
 {
@@ -39,7 +39,6 @@ public class RequestMoveMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		//???
 		Action.keyCodes = new int[reader.ReadInt32()];
 		for ( var i = 0; i < Action.keyCodes.Length; i++ )
 		{
@@ -50,7 +49,6 @@ public class RequestMoveMessage : ClientMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		//???
 		writer.Write(Action.keyCodes.Length);
 		for ( var i = 0; i < Action.keyCodes.Length; i++ )
 		{

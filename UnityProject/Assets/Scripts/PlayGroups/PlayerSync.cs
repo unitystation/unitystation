@@ -116,7 +116,6 @@ namespace PlayGroup
 			{
 				return;
 			}
-
 			IPlayerSync otherPlayerSync = otherPlayer.GetComponent<IPlayerSync>();
 			otherPlayerSync.SetPosition(setPos);
 		}
@@ -133,20 +132,11 @@ namespace PlayGroup
 			transform.localPosition = roundedPos;
 			var newState = new PlayerState {MoveNumber = 0, Position = roundedPos};
 			serverState = newState;
+			serverTargetState = newState;
 			serverStateCache = newState;
-			predictedState = newState;
 			ClearPendingServer();
 			PlayerMoveMessage.SendToAll(gameObject, newState, true);
-//RpcSetPosition(roundedPos);
 		}
-
-//		[ClientRpc]
-//		private void RpcSetPosition(Vector3 pos)
-//		{
-//			predictedState = new PlayerState {MoveNumber = 0, Position = pos};
-//			serverState = new PlayerState {MoveNumber = 0, Position = pos};
-//			transform.localPosition = pos;
-//		}
 
 		private void Start()
 		{
@@ -185,7 +175,7 @@ namespace PlayGroup
 					}
 					return;
 				}
-				if (predictedState.Position == transform.localPosition && !playerMove.isGhost) //FIXME: causes spam when running into a wall
+				if (predictedState.Position == transform.localPosition && !playerMove.isGhost)
 				{
 					DoAction();
 				}
@@ -217,7 +207,8 @@ namespace PlayGroup
 				pendingActions.Enqueue(action);
 //				Debug.Log($"Client requesting {action} ({pendingActions.Count} in queue)");
 				UpdatePredictedState();
-				RequestMoveMessage.Send(action); //CmdAction(action);
+				RequestMoveMessage.Send(action); 
+//				CmdProcessAction(action);
 			}
 		}
 
@@ -321,12 +312,8 @@ namespace PlayGroup
 		{
 			if ( serverPendingActions.Count != 0 )
 			{
-//			int count = serverPendingActions.Count;
-//			for ( int i = 0; i < count; i++ )
-//				{
-					serverTargetState = NextState(serverTargetState, serverPendingActions.Dequeue());
-//				}
-				Debug.Log($"Server: Updated target {serverTargetState}");/*, advanced by {count}*//*, {serverPendingActions.Count} pending*/
+				serverTargetState = NextState(serverTargetState, serverPendingActions.Dequeue());
+				Debug.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
 			}
 		}
 
@@ -341,7 +328,6 @@ namespace PlayGroup
 				serverStateCache = serverState;
 			}
 			PlayerMoveMessage.SendToAll(gameObject, serverState);
-//			RpcOnServerStateChange(serverState);
 		}
 
 		[Server]
@@ -385,20 +371,41 @@ namespace PlayGroup
 			}
 		}
 
-		private void CmdAction(PlayerAction action)
-		{
-//			bool pointlessServerState = serverState.Position == NextState(serverState, action).Position;
+		private int warnings;
+		private readonly int maxWarnings = 3;
 
+//		[Command(channel = 0)]
+		private void CmdProcessAction(PlayerAction action)
+		{
 			if ( !PointlessMove(serverTargetState,action) )
 			{
 				//add action to server simulation queue
 				serverPendingActions.Enqueue(action);
-				TryUpdateServerTarget();
+				if ( serverPendingActions.Count == 1 )
+				{
+					//Kickstart queue
+					TryUpdateServerTarget();
+				}
+				if ( serverPendingActions.Count > 10 )
+				{
+					RollbackPosition();
+					if ( ++warnings < maxWarnings )
+					{
+						InfoWindowMessage.Send(gameObject, $"This is warning {warnings} of {maxWarnings}.", "Warning");
+						playerScript.playerHealth.AddBloodLoss(2);
+					}
+					else
+					{
+						InfoWindowMessage.Send(gameObject, "MWAHAHAH", "No more warnings");
+						playerScript.playerNetworkActions.DropAllOnQuit();			
+					}
+					return;
+				}
 			}
 			else
 			{
 				Debug.LogError($"Pointless move {serverTargetState}+{action.keyCodes[0]} Rolling back to {serverState}");
-				SetPosition(serverState.Position);
+				RollbackPosition();
 			}
 
 			//Do not cache the position if the player is a ghost
@@ -410,21 +417,34 @@ namespace PlayGroup
 			}
 		}
 
+		private void RollbackPosition()
+		{
+			SetPosition(serverState.Position);
+		}
+
 		private void UpdatePredictedState()
 		{
-			//redraw prediction point from received serverState using pending actions
-			var tempState = serverState;
-			int curPredictedMove = predictedState.MoveNumber;
-
-			foreach ( PlayerAction action in pendingActions )
+			if ( pendingActions.Count == 0 )
 			{
-				//isReplay determines if this action is a replayed action for use in the prediction system
-				bool isReplay = predictedState.MoveNumber <= curPredictedMove;
-				tempState = NextState(tempState, action, isReplay);
+				//plain assignment if there's nothing to predict
+				predictedState = serverState;
 			}
-
-			predictedState = tempState;
-			Debug.Log($"Redraw prediction: {serverState}->{predictedState}({pendingActions.Count} steps) ");
+			else
+			{
+				//redraw prediction point from received serverState using pending actions
+				var tempState = serverState;
+				int curPredictedMove = predictedState.MoveNumber;
+	
+				foreach ( PlayerAction action in pendingActions )
+				{
+					//isReplay determines if this action is a replayed action for use in the prediction system
+					bool isReplay = predictedState.MoveNumber <= curPredictedMove;
+					tempState = NextState(tempState, action, isReplay);
+				}
+	
+				predictedState = tempState;
+				Debug.Log($"Redraw prediction: {serverState}->{predictedState}({pendingActions.Count} steps) ");
+			}
 		}
 
 		private PlayerState NextState(PlayerState state, PlayerAction action, bool isReplay = false)
@@ -469,23 +489,12 @@ namespace PlayGroup
 
 		public void ProcessAction(PlayerAction action)
 		{
-			CmdAction(action);
+			CmdProcessAction(action);
 		}
 
 		public void UpdateClientState(PlayerState state)
 		{
-			RpcOnServerStateChange(state);
-		}
-
-		public void ResetClientQueue()
-		{
-			Debug.LogError("Resetting queue as requested by server!");
-			pendingActions.Clear();
-		}
-
-		private void RpcOnServerStateChange(PlayerState newState)
-		{
-			serverState = newState;
+			serverState = state;
 			Debug.Log($"Got server update {serverState}");
 			if (pendingActions != null)
 			{
@@ -499,25 +508,33 @@ namespace PlayGroup
 				else
 				{
 					//removing actions already acknowledged by server from pending queue
-//					Debug.Log($"{pendingActions.Count} > {predictedState.MoveNumber} - {serverState.MoveNumber}");
 					while (pendingActions.Count > 0 && pendingActions.Count > predictedState.MoveNumber - serverState.MoveNumber)
 					{
 						pendingActions.Dequeue();
-//						Debug.Log($"{pendingActions.Count} > {predictedState.MoveNumber} - {serverState.MoveNumber}");
 					}
 				}
 				UpdatePredictedState();
+			}		}
+
+		public void ResetClientQueue()
+		{
+			Debug.LogError("Resetting queue as requested by server!");
+			if ( pendingActions != null && pendingActions.Count > 0 )
+			{
+				pendingActions.Clear();
 			}
 		}
 
-
 		private void ClearPendingServer()
 		{
-			Debug.LogError("BLAM! Server queue wiped!");
-			serverPendingActions.Clear();
+			Debug.LogWarning("Server queue wiped!");
+			if ( serverPendingActions != null && serverPendingActions.Count > 0 )
+			{
+				serverPendingActions.Clear();
+			}
 		}
 
-		private Vector3 RoundedPos(Vector3 pos)
+		private static Vector3 RoundedPos(Vector3 pos)
 		{
 			return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);
 		}
