@@ -128,13 +128,13 @@ namespace PlayGroup
 		public void SetPosition(Vector3 pos)
 		{
 			//TODO ^ check for an allowable type and other conditions to stop abuse of SetPosition
+			ClearPendingServer();
 			Vector3Int roundedPos = Vector3Int.RoundToInt(pos);
 			transform.localPosition = roundedPos;
 			var newState = new PlayerState {MoveNumber = 0, Position = roundedPos};
 			serverState = newState;
 			serverTargetState = newState;
 			serverStateCache = newState;
-			ClearPendingServer();
 			PlayerMoveMessage.SendToAll(gameObject, newState, true);
 		}
 
@@ -207,8 +207,9 @@ namespace PlayGroup
 				pendingActions.Enqueue(action);
 //				Debug.Log($"Client requesting {action} ({pendingActions.Count} in queue)");
 				UpdatePredictedState();
-				RequestMoveMessage.Send(action); 
-//				CmdProcessAction(action);
+				//Seems like Cmds are reliable enough in this case
+//				RequestMoveMessage.Send(action); 
+				CmdProcessAction(action);
 			}
 		}
 
@@ -291,17 +292,24 @@ namespace PlayGroup
 		[Server]
 		private void CheckStateUpdate()
 		{
+			Vector2Int realPos = Vector2Int.RoundToInt(serverState.Position);
+			Vector2Int targetPos = Vector2Int.RoundToInt(serverTargetState.Position);
+			// try getting moves from server queue if server and target states match
+			if ( realPos == targetPos )
+			{
+				TryUpdateServerTarget();
+				return;
+			}
 			//checking only player movement for now
 			Vector2Int localPos = Vector2Int.RoundToInt(transform.localPosition);			
-			if ( localPos == Vector2Int.RoundToInt(serverState.Position) )
+			if ( localPos == realPos )
 			{
 				return;
 			}
-			if ( localPos == Vector2Int.RoundToInt(serverTargetState.Position) )
+			//Apply serverState when passing by 
+			if ( localPos == targetPos )
 			{
-//				Debug.Log($"Applying {serverTargetState}");
 				SetServerState(serverTargetState);
-				TryUpdateServerTarget();
 			}
 		}
 
@@ -374,30 +382,25 @@ namespace PlayGroup
 		private int warnings;
 		private readonly int maxWarnings = 3;
 
-//		[Command(channel = 0)]
+		[Command(channel = 0)]
 		private void CmdProcessAction(PlayerAction action)
 		{
 			if ( !PointlessMove(serverTargetState,action) )
 			{
 				//add action to server simulation queue
 				serverPendingActions.Enqueue(action);
-				if ( serverPendingActions.Count == 1 )
-				{
-					//Kickstart queue
-					TryUpdateServerTarget();
-				}
 				if ( serverPendingActions.Count > 10 )
 				{
 					RollbackPosition();
 					if ( ++warnings < maxWarnings )
 					{
-						InfoWindowMessage.Send(gameObject, $"This is warning {warnings} of {maxWarnings}.", "Warning");
-						playerScript.playerHealth.AddBloodLoss(2);
+//						InfoWindowMessage.Send(gameObject, $"This is warning {warnings} of {maxWarnings}.", "Warning");
+						TortureChamber.Torture(playerScript, TortureSeverity.S);
 					}
 					else
 					{
-						InfoWindowMessage.Send(gameObject, "MWAHAHAH", "No more warnings");
-						playerScript.playerNetworkActions.DropAllOnQuit();			
+//						InfoWindowMessage.Send(gameObject, "MWAHAHAH", "No more warnings");
+						TortureChamber.Torture(playerScript, TortureSeverity.L);
 					}
 					return;
 				}
