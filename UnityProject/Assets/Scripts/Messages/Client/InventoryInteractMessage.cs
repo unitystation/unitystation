@@ -10,7 +10,6 @@ public class InventoryInteractMessage : ClientMessage
 	public static short MessageType = (short) MessageTypes.InventoryInteractMessage;
 	public bool ForceSlotUpdate;
 	public byte Slot;
-	public Vector3 DropPosition;
 	public NetworkInstanceId Subject;
 
 	//Serverside
@@ -35,7 +34,7 @@ public class InventoryInteractMessage : ClientMessage
 		GameObject clientPlayer = player;
 		PlayerNetworkActions pna = clientPlayer.GetComponent<PlayerNetworkActions>();
 		string slot = decodeSlot(Slot);
-		if (!pna.ValidateInvInteraction(slot, DropPosition, item, ForceSlotUpdate))
+		if (!pna.ValidateInvInteraction(slot, item, ForceSlotUpdate))
 		{
 			pna.RollbackPrediction(slot);
 		}
@@ -52,13 +51,12 @@ public class InventoryInteractMessage : ClientMessage
 	/// or else use Vector3.zero when not placing or dropping to ignore it.
 	/// (The world pos is converted to local position automatically)
 	/// </summary>
-	public static InventoryInteractMessage Send(string hand, GameObject subject /* = null*/, bool forceSlotUpdate /* = false*/, Vector3 dropWorldPos)
+	public static InventoryInteractMessage Send(string hand, GameObject subject /* = null*/, bool forceSlotUpdate /* = false*/)
 	{
 		InventoryInteractMessage msg = new InventoryInteractMessage {
 			Subject = subject ? subject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
 			Slot = encodeSlot(hand),
-			ForceSlotUpdate = forceSlotUpdate,
-			DropPosition = dropWorldPos
+			ForceSlotUpdate = forceSlotUpdate
 		};
 		msg.Send();
 		return msg;
@@ -160,7 +158,6 @@ public class InventoryInteractMessage : ClientMessage
 		base.Deserialize(reader);
 		Slot = reader.ReadByte();
 		Subject = reader.ReadNetworkId();
-		DropPosition = reader.ReadVector3();
 	}
 
 	public override void Serialize(NetworkWriter writer)
@@ -168,6 +165,5 @@ public class InventoryInteractMessage : ClientMessage
 		base.Serialize(writer);
 		writer.Write(Slot);
 		writer.Write(Subject);
-		writer.Write(DropPosition);
 	}
 }
