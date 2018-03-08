@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Tilemaps;
 using Tilemaps.Behaviours.Objects;
@@ -28,6 +29,9 @@ namespace PlayGroup
 	{
 		private bool canRegister = false;
 		private HealthBehaviour healthBehaviorScript;
+		public PlayerMove playerMove;
+		private PlayerScript playerScript;
+		private PlayerSprites playerSprites;
 
 		//TODO: Remove the space damage coroutine when atmos is implemented
 		private bool isApplyingSpaceDmg;
@@ -35,12 +39,6 @@ namespace PlayGroup
 		private Vector2 lastDirection;
 
 		private Matrix matrix => registerTile.Matrix;
-		private Queue<PlayerAction> pendingActions;
-		private Queue<PlayerAction> serverPendingActions;
-		public PlayerMove playerMove;
-		private PlayerScript playerScript;
-		private PlayerSprites playerSprites;
-		private PlayerState predictedState;
 
 		public LayerMask matrixLayerMask;
 		private RaycastHit2D[] rayHit;
@@ -59,11 +57,21 @@ namespace PlayGroup
 		private RegisterTile pullRegister;
 		private PushPull pushPull; //The pushpull component on this player
 		private RegisterTile registerTile;
+
+		//Client-only states, don't concern server
+		private PlayerState playerState;
+		private PlayerState predictedState;
+		private Queue<PlayerAction> pendingActions;
+		
+		//Server-only states, don't concern player in any way
 		private PlayerState serverTargetState;
 		private PlayerState serverState;
-
-		[SyncVar] private PlayerState serverStateCache; //used to sync with new players
-
+		private Queue<PlayerAction> serverPendingActions;
+		[SyncVar][Obsolete] private PlayerState serverStateCache; 	//todo: get rid of it
+		private readonly int maxServerQueue = 10;
+		private readonly int maxWarnings = 3;
+		private int playerWarnings;
+		
 		public override void OnStartServer()
 		{
 			PullObjectID = NetworkInstanceId.Invalid;
@@ -82,13 +90,13 @@ namespace PlayGroup
 			yield return new WaitForEndOfFrame();
 			if (serverStateCache.Position != Vector3.zero && !isLocalPlayer)
 			{
-				serverState = serverStateCache;
-				transform.localPosition = RoundedPos(serverState.Position);
+				playerState = serverStateCache;
+				transform.localPosition = RoundedPos(playerState.Position);
 			}
 			else
 			{
 				PlayerState state = new PlayerState {MoveNumber = 0, Position = transform.localPosition};
-				serverState = state;
+				playerState = state;
 				predictedState = state;
 			}
 			yield return new WaitForSeconds(2f);
@@ -96,16 +104,14 @@ namespace PlayGroup
 			PullReset(PullObjectID);
 		}
 
+		[Server]
 		private void InitState()
 		{
-			if (isServer)
-			{
-				Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
-				PlayerState state = new PlayerState {MoveNumber = 0, Position = position};
-				serverState = state;
-				serverStateCache = state;
-				serverTargetState = state;
-			}
+			Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
+			PlayerState state = new PlayerState {MoveNumber = 0, Position = position};
+			serverState = state;
+			serverStateCache = state;
+			serverTargetState = state;
 		}
 
 		//Currently used to set the pos of a player that has just been dragged by another player
@@ -121,7 +127,8 @@ namespace PlayGroup
 		}
 
 		/// <summary>
-		///     Manually set a player to a specific position
+		///     Manually set a player to a specific position.
+		/// 	Also clears prediction queues.
 		/// </summary>
 		/// <param name="pos">The new position to "teleport" player</param>
 		[Server]
@@ -130,12 +137,11 @@ namespace PlayGroup
 			//TODO ^ check for an allowable type and other conditions to stop abuse of SetPosition
 			ClearPendingServer();
 			Vector3Int roundedPos = Vector3Int.RoundToInt(pos);
-			transform.localPosition = roundedPos;
 			var newState = new PlayerState {MoveNumber = 0, Position = roundedPos};
 			serverState = newState;
 			serverTargetState = newState;
 			serverStateCache = newState;
-			PlayerMoveMessage.SendToAll(gameObject, newState, true);
+			NotifyPlayers(true);
 		}
 
 		private void Start()
@@ -208,8 +214,8 @@ namespace PlayGroup
 //				Debug.Log($"Client requesting {action} ({pendingActions.Count} in queue)");
 				UpdatePredictedState();
 				//Seems like Cmds are reliable enough in this case
-//				RequestMoveMessage.Send(action); 
-				CmdProcessAction(action);
+				RequestMoveMessage.Send(action); 
+//				CmdProcessAction(action);
 			}
 		}
 
@@ -226,10 +232,10 @@ namespace PlayGroup
 			}
 			if ( isServer )
 			{
-				CheckStateUpdate();
+				CheckTargetUpdate();
 			}
 
-			PlayerState state = DetermineState();
+			PlayerState state = isLocalPlayer ? predictedState : playerState;
 			if (!playerMove.isGhost)
 			{
 				CheckSpaceWalk();
@@ -242,6 +248,16 @@ namespace PlayGroup
 				if ( state.Position != transform.localPosition )
 				{
 					PlayerLerp(state);
+				}
+
+				if (isServer)
+				{
+					if (serverTargetState.Position != serverState.Position) {
+						ServerLerp();
+						TryNotifyPlayers();
+					} else if (serverState.MoveNumber != serverTargetState.MoveNumber) {
+						NotifyPlayers();
+					}
 				}
 
 				//Check if we should still be displaying an ItemListTab and update it, if so.
@@ -280,36 +296,27 @@ namespace PlayGroup
 			}
 		}
 
-		private PlayerState DetermineState()
-		{
-			if ( isServer )
-			{
-				return isLocalPlayer ? predictedState : serverTargetState;
-			}
-			return isLocalPlayer ? predictedState : serverState;
-		}
-
+		/// try getting moves from server queue if server and target states match
 		[Server]
-		private void CheckStateUpdate()
+		private void CheckTargetUpdate()
 		{
-			Vector2Int realPos = Vector2Int.RoundToInt(serverState.Position);
+			Vector2Int serverPos = Vector2Int.RoundToInt(serverState.Position);
 			Vector2Int targetPos = Vector2Int.RoundToInt(serverTargetState.Position);
-			// try getting moves from server queue if server and target states match
-			if ( realPos == targetPos )
+			//checking only player movement for now
+			if ( serverPos == targetPos )
 			{
 				TryUpdateServerTarget();
-				return;
 			}
-			//checking only player movement for now
-			Vector2Int localPos = Vector2Int.RoundToInt(transform.localPosition);			
-			if ( localPos == realPos )
+		}
+		///	Inform players of new state when lerp is finished 
+		[Server]
+		private void TryNotifyPlayers()
+		{
+			Vector2Int serverPos = Vector2Int.RoundToInt(serverState.Position);
+			Vector2Int targetPos = Vector2Int.RoundToInt(serverTargetState.Position);
+			if ( serverPos == targetPos )
 			{
-				return;
-			}
-			//Apply serverState when passing by 
-			if ( localPos == targetPos )
-			{
-				SetServerState(serverTargetState);
+				NotifyPlayers();
 			}
 		}
 
@@ -325,9 +332,10 @@ namespace PlayGroup
 			}
 		}
 
-		private void SetServerState(PlayerState newState)
+		[Server]
+		private void NotifyPlayers(bool resetClientQueue = false)
 		{
-			serverState = newState;
+			serverState = serverTargetState; //copying move number etc
 			//Do not cache the position if the player is a ghost
 			//or else new players will sync the deadbody with the last pos
 			//of the gost:
@@ -335,24 +343,25 @@ namespace PlayGroup
 			{
 				serverStateCache = serverState;
 			}
-			PlayerMoveMessage.SendToAll(gameObject, serverState);
-		}
-
-		[Server]
-		private bool isLerping()
-		{
-			return serverState.Position != transform.localPosition;
+			PlayerMoveMessage.SendToAll(gameObject, serverState, resetClientQueue);
 		}
 
 		private void GhostLerp(PlayerState state)
 		{
-					playerScript.ghost.transform.localPosition =
-						Vector3.MoveTowards(playerScript.ghost.transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
+			playerScript.ghost.transform.localPosition =
+				Vector3.MoveTowards(playerScript.ghost.transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
 		}
 				
 		private void PlayerLerp(PlayerState state)
 		{
 			transform.localPosition = Vector3.MoveTowards(transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
+		}
+
+		[Server]
+		private void ServerLerp()
+		{
+			serverState.Position =
+				Vector3.MoveTowards(serverState.Position, serverTargetState.Position, playerMove.speed * Time.deltaTime);
 		}
 
 		private void PullObject()
@@ -379,8 +388,7 @@ namespace PlayGroup
 			}
 		}
 
-		private int warnings;
-		private readonly int maxWarnings = 3;
+
 
 		[Command(channel = 0)]
 		private void CmdProcessAction(PlayerAction action)
@@ -389,17 +397,17 @@ namespace PlayGroup
 			{
 				//add action to server simulation queue
 				serverPendingActions.Enqueue(action);
-				if ( serverPendingActions.Count > 10 )
+				if ( serverPendingActions.Count > maxServerQueue )
 				{
 					RollbackPosition();
-					if ( ++warnings < maxWarnings )
+					if ( ++playerWarnings < maxWarnings )
 					{
-//						InfoWindowMessage.Send(gameObject, $"This is warning {warnings} of {maxWarnings}.", "Warning");
+//						InfoWindowMessage.Send(gameObject, $"This is warning {playerWarnings} of {maxWarnings}.", "Warning");
 						TortureChamber.Torture(playerScript, TortureSeverity.S);
 					}
 					else
 					{
-//						InfoWindowMessage.Send(gameObject, "MWAHAHAH", "No more warnings");
+//						InfoWindowMessage.Send(gameObject, "MWAHAHAH", "No more playerWarnings");
 						TortureChamber.Torture(playerScript, TortureSeverity.L);
 					}
 					return;
@@ -407,7 +415,7 @@ namespace PlayGroup
 			}
 			else
 			{
-				Debug.LogError($"Pointless move {serverTargetState}+{action.keyCodes[0]} Rolling back to {serverState}");
+				Debug.LogWarning($"Pointless move {serverTargetState}+{action.keyCodes[0]} Rolling back to {serverState}");
 				RollbackPosition();
 			}
 
@@ -430,12 +438,12 @@ namespace PlayGroup
 			if ( pendingActions.Count == 0 )
 			{
 				//plain assignment if there's nothing to predict
-				predictedState = serverState;
+				predictedState = playerState;
 			}
 			else
 			{
 				//redraw prediction point from received serverState using pending actions
-				var tempState = serverState;
+				var tempState = playerState;
 				int curPredictedMove = predictedState.MoveNumber;
 	
 				foreach ( PlayerAction action in pendingActions )
@@ -446,7 +454,7 @@ namespace PlayGroup
 				}
 	
 				predictedState = tempState;
-				Debug.Log($"Redraw prediction: {serverState}->{predictedState}({pendingActions.Count} steps) ");
+//				Debug.Log($"Redraw prediction: {playerState}->{predictedState}({pendingActions.Count} steps) ");
 			}
 		}
 
@@ -497,31 +505,29 @@ namespace PlayGroup
 
 		public void UpdateClientState(PlayerState state)
 		{
-			serverState = state;
-			Debug.Log($"Got server update {serverState}");
+			playerState = state;
+//			Debug.Log($"Got server update {playerState}");
 			if (pendingActions != null)
 			{
 				//invalidate queue if serverstate was never predicted
-				bool serverAhead = serverState.MoveNumber > predictedState.MoveNumber;
-				bool posMismatch = serverState.MoveNumber == predictedState.MoveNumber && serverState.Position != predictedState.Position;
-				if ( serverAhead || posMismatch )
-				{
+				bool serverAhead = playerState.MoveNumber > predictedState.MoveNumber;
+				bool posMismatch = playerState.MoveNumber == predictedState.MoveNumber && playerState.Position != predictedState.Position;
+				if ( serverAhead || posMismatch ){
 					Debug.LogWarning($"serverAhead={serverAhead}, posMismatch={posMismatch}");
-				}
-				else
-				{
+				} else {
 					//removing actions already acknowledged by server from pending queue
-					while (pendingActions.Count > 0 && pendingActions.Count > predictedState.MoveNumber - serverState.MoveNumber)
+					while (pendingActions.Count > 0 && pendingActions.Count > predictedState.MoveNumber - playerState.MoveNumber)
 					{
 						pendingActions.Dequeue();
 					}
 				}
 				UpdatePredictedState();
-			}		}
+			}		
+		}
 
 		public void ResetClientQueue()
 		{
-			Debug.LogError("Resetting queue as requested by server!");
+//			Debug.Log("Resetting queue as requested by server!");
 			if ( pendingActions != null && pendingActions.Count > 0 )
 			{
 				pendingActions.Clear();
@@ -530,7 +536,7 @@ namespace PlayGroup
 
 		private void ClearPendingServer()
 		{
-			Debug.LogWarning("Server queue wiped!");
+//			Debug.Log("Server queue wiped!");
 			if ( serverPendingActions != null && serverPendingActions.Count > 0 )
 			{
 				serverPendingActions.Clear();
@@ -542,6 +548,7 @@ namespace PlayGroup
 			return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);
 		}
 
+		//FIXME: should be serverside
 		private void CheckSpaceWalk()
 		{
 			if (matrix == null)
@@ -564,7 +571,7 @@ namespace PlayGroup
 				}
 
 				Vector3Int newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
-				serverState.Position = newGoal;
+				playerState.Position = newGoal;
 				predictedState.Position = newGoal;
 			}
 			if (matrix.IsSpaceAt(pos) && !healthBehaviorScript.IsDead && CustomNetworkManager.Instance._isServer
