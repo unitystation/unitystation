@@ -11,6 +11,7 @@ public class NukeInteract : InputTrigger
     public float cooldownTimer = 2f;
     public string interactionMessage;
     public string deniedMessage;
+    [SyncVar]
     private int nukeCode;
     private GameObject Player;
     void Start()
@@ -58,6 +59,11 @@ public class NukeInteract : InputTrigger
 
         return true;
     }
+    IEnumerator WaitForDeath()
+    {
+        yield return new WaitForSeconds(5f);
+        GibMessage.Send();
+    }
     [Server]
     //Server validating the code sent back by the GUI
     public bool validate(string code)
@@ -80,7 +86,7 @@ public class NukeInteract : InputTrigger
     void RpcDetonate()
     {
         //getting health and stopping the sound
-        PlayerHealth health = (PlayerHealth)Player.GetComponent<PlayerHealth>();
+        
         SoundManager.StopAmbient();
         //turning off all the UI except for the right panel
         UIManager.Display.hudRight.gameObject.SetActive(false);
@@ -96,7 +102,7 @@ public class NukeInteract : InputTrigger
         AudioSource audio = GetComponent<AudioSource>();
         audio.Play();
         //KILLING EVERYONE!!!!!1!
-        health.Death();
+        StartCoroutine(WaitForDeath());
     }
     [Server]
     //Generating the code for the nuke
