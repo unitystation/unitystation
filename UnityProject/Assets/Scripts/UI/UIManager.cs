@@ -18,6 +18,7 @@ namespace UI
 		public PlayerListUI playerListUIControl;
 		public Text toolTip;
 		public ControlWalkRun walkRunControl;
+        
 
 		public static UIManager Instance
 		{
