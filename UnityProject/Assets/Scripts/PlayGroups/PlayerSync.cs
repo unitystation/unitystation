@@ -79,6 +79,14 @@ namespace PlayGroup
 			base.OnStartServer();
 		}
 
+		private void OnDrawGizmos()
+		{
+			Gizmos.color = Color.green;
+			Gizmos.DrawWireCube(serverState.Position - CustomNetTransform.deOffset, Vector3.one);
+			Gizmos.color = Color.red;
+			Gizmos.DrawWireCube(serverTargetState.Position - CustomNetTransform.deOffset, Vector3.one);
+		}
+
 		public override void OnStartClient()
 		{
 			StartCoroutine(WaitForLoad());
@@ -214,8 +222,8 @@ namespace PlayGroup
 //				Debug.Log($"Client requesting {action} ({pendingActions.Count} in queue)");
 				UpdatePredictedState();
 				//Seems like Cmds are reliable enough in this case
-				RequestMoveMessage.Send(action); 
-//				CmdProcessAction(action);
+//				RequestMoveMessage.Send(action); 
+				CmdProcessAction(action);
 			}
 		}
 
@@ -325,10 +333,19 @@ namespace PlayGroup
 		[Server]
 		private void TryUpdateServerTarget()
 		{
-			if ( serverPendingActions.Count != 0 )
+			if (serverPendingActions.Count == 0)
+			{
+				return;
+			}
+
+			var nextAction = serverPendingActions.Peek();
+			if ( !PointlessMove(serverTargetState, nextAction) )
 			{
 				serverTargetState = NextState(serverTargetState, serverPendingActions.Dequeue());
 				Debug.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
+			} else {
+				Debug.LogWarning($"Pointless move {serverTargetState}+{nextAction.keyCodes[0]} Rolling back to {serverState}");
+				RollbackPosition();
 			}
 		}
 
@@ -393,30 +410,22 @@ namespace PlayGroup
 		[Command(channel = 0)]
 		private void CmdProcessAction(PlayerAction action)
 		{
-			if ( !PointlessMove(serverTargetState,action) )
+			//add action to server simulation queue
+			serverPendingActions.Enqueue(action);
+			if ( serverPendingActions.Count > maxServerQueue )
 			{
-				//add action to server simulation queue
-				serverPendingActions.Enqueue(action);
-				if ( serverPendingActions.Count > maxServerQueue )
-				{
-					RollbackPosition();
-					if ( ++playerWarnings < maxWarnings )
-					{
-//						InfoWindowMessage.Send(gameObject, $"This is warning {playerWarnings} of {maxWarnings}.", "Warning");
-						TortureChamber.Torture(playerScript, TortureSeverity.S);
-					}
-					else
-					{
-//						InfoWindowMessage.Send(gameObject, "MWAHAHAH", "No more playerWarnings");
-						TortureChamber.Torture(playerScript, TortureSeverity.L);
-					}
-					return;
-				}
-			}
-			else
-			{
-				Debug.LogWarning($"Pointless move {serverTargetState}+{action.keyCodes[0]} Rolling back to {serverState}");
 				RollbackPosition();
+				if ( ++playerWarnings < maxWarnings )
+				{
+//						InfoWindowMessage.Send(gameObject, $"This is warning {playerWarnings} of {maxWarnings}.", "Warning");
+					TortureChamber.Torture(playerScript, TortureSeverity.S);
+				}
+				else
+				{
+//						InfoWindowMessage.Send(gameObject, "MWAHAHAH", "No more playerWarnings");
+					TortureChamber.Torture(playerScript, TortureSeverity.L);
+				}
+				return;
 			}
 
 			//Do not cache the position if the player is a ghost
