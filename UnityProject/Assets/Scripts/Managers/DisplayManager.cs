@@ -80,6 +80,6 @@ public class DisplayManager : MonoBehaviour
 			xOffSet = -xOffSet;
 		}
 		Camera2DFollow.followControl.listenerObj.transform.localPosition = new Vector3(-xOffSet, 1f); //set listenerObj's position to player's pos
-		Camera2DFollow.followControl.xOffset = xOffSet;
+		Camera2DFollow.followControl.SetXOffset(xOffSet);
 	}
 }
