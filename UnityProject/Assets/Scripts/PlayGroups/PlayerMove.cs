@@ -321,8 +321,8 @@ namespace PlayGroup
 
 		public void ChangeMatricies(Transform newParent)
 		{
-			Debug.Log("Not changing matrices as it fucks up move");
-			return;
+//			Debug.Log("Not changing matrices as it fucks up move");
+//			return;
 			if (isServer) {
 				NetworkIdentity netIdent = newParent.GetComponent<NetworkIdentity>();
 				if (registerTile.ParentNetId != netIdent.netId) {

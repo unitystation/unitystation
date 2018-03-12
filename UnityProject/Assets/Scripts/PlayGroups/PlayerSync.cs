@@ -36,7 +36,7 @@ namespace PlayGroup
 		//TODO: Remove the space damage coroutine when atmos is implemented
 		private bool isApplyingSpaceDmg;
 
-		private Vector2 lastDirection;
+		private Vector2 lastDirection;//fixme: lastDirection is questionable, make a field for server?
 
 		private Matrix matrix => registerTile.Matrix;
 
@@ -523,6 +523,7 @@ namespace PlayGroup
 				bool posMismatch = playerState.MoveNumber == predictedState.MoveNumber && playerState.Position != predictedState.Position;
 				if ( serverAhead || posMismatch ){
 					Debug.LogWarning($"serverAhead={serverAhead}, posMismatch={posMismatch}");
+					ResetClientQueue();
 				} else {
 					//removing actions already acknowledged by server from pending queue
 					while (pendingActions.Count > 0 && pendingActions.Count > predictedState.MoveNumber - playerState.MoveNumber)
@@ -565,19 +566,26 @@ namespace PlayGroup
 				return;
 			}
 
-
+			if (isServer)
+			{
+				if (matrix.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.Position)))
+				{
+					serverTargetState.Position = Vector3Int.RoundToInt(serverTargetState.Position + (Vector3) lastDirection);
+					ClearPendingServer();
+				}
+			}
 			Vector3Int pos = Vector3Int.RoundToInt(transform.localPosition);
 			if (matrix.IsFloatingAt(pos))
 			{
-				rayHit = Physics2D.RaycastAll(transform.position, lastDirection, 1.1f, matrixLayerMask);
-				for (int i = 0; i < rayHit.Length; i++){
-					if(rayHit[i].collider.gameObject.layer == 24){
-						playerMove.ChangeMatricies(rayHit[i].collider.gameObject.transform.parent);
-					}
-				}
-				if (rayHit.Length > 0){
-					return;
-				}
+//				rayHit = Physics2D.RaycastAll(transform.position, lastDirection, 1.1f, matrixLayerMask);
+//				for (int i = 0; i < rayHit.Length; i++){
+//					if(rayHit[i].collider.gameObject.layer == 24){
+//						playerMove.ChangeMatricies(rayHit[i].collider.gameObject.transform.parent);
+//					}
+//				}
+//				if (rayHit.Length > 0){
+//					return;
+//				}
 
 				Vector3Int newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
 				playerState.Position = newGoal;
@@ -597,9 +605,9 @@ namespace PlayGroup
 		private IEnumerator ApplyTempSpaceDamage()
 		{
 			yield return new WaitForSeconds(1f);
-			healthBehaviorScript.RpcApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
+//			healthBehaviorScript.RpcApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
 			//No idea why there is an isServer catch on RpcApplyDamage, but will apply on server as well in mean time:
-			healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
+//			healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
 			isApplyingSpaceDmg = false;
 		}
 	}
