@@ -13,10 +13,12 @@ namespace PlayGroup
 	{
 		public int MoveNumber;
 		public Vector3 Position;
+		//todo add speed
+		public Vector2 Impulse; //Direction of flying
 
 		public override string ToString()
 		{
-			return $"[Move: {MoveNumber}, Pos: {Position}]";
+			return $"{nameof( MoveNumber )}: {MoveNumber}, {nameof( Position )}: {Position}, {nameof( Impulse )}: {Impulse}";
 		}
 	}
 
@@ -36,7 +38,6 @@ namespace PlayGroup
 		//TODO: Remove the space damage coroutine when atmos is implemented
 		private bool isApplyingSpaceDmg;
 
-		private Vector2 lastDirection;//fixme: lastDirection is questionable, make a field for server?
 
 		private Matrix matrix => registerTile.Matrix;
 
@@ -58,19 +59,21 @@ namespace PlayGroup
 		private PushPull pushPull; //The pushpull component on this player
 		private RegisterTile registerTile;
 
-		//Client-only states, don't concern server
+		//Client-only fields, don't concern server
 		private PlayerState playerState;
 		private PlayerState predictedState;
 		private Queue<PlayerAction> pendingActions;
+		private Vector2 lastDirection;
 		
-		//Server-only states, don't concern player in any way
+		//Server-only fields, don't concern clients in any way
 		private PlayerState serverTargetState;
 		private PlayerState serverState;
 		private Queue<PlayerAction> serverPendingActions;
-		[SyncVar][Obsolete] private PlayerState serverStateCache; 	//todo: get rid of it
+		[SyncVar][Obsolete] private PlayerState serverStateCache; 	//todo: get rid of it, it actually concerns clients
 		private readonly int maxServerQueue = 10;
 		private readonly int maxWarnings = 3;
 		private int playerWarnings;
+		private Vector2 serverLastDirection;
 		
 		public override void OnStartServer()
 		{
@@ -79,12 +82,47 @@ namespace PlayGroup
 			base.OnStartServer();
 		}
 
+			Vector3 size1 = Vector3.one;
+			Vector3 size2 = new Vector3(0.9f,0.9f,0.9f);
+			Vector3 size3 = new Vector3(0.8f,0.8f,0.8f);
+			Vector3 size4 = new Vector3(0.7f,0.7f,0.7f);
+			Color color1 = Color.red;
+			Color color2 = hexToColor("fd7c6e");
+			Color color3 = hexToColor("4d9900");
+			Color color4 = hexToColor("a9ff3e");
+		
+		public static Color hexToColor(string hex)
+		{
+			hex = hex.Replace ("0x", "");//in case the string is formatted 0xFFFFFF
+			hex = hex.Replace ("#", "");//in case the string is formatted #FFFFFF
+			byte a = 255;//assume fully visible unless specified in hex
+			byte r = byte.Parse(hex.Substring(0,2), System.Globalization.NumberStyles.HexNumber);
+			byte g = byte.Parse(hex.Substring(2,2), System.Globalization.NumberStyles.HexNumber);
+			byte b = byte.Parse(hex.Substring(4,2), System.Globalization.NumberStyles.HexNumber);
+			//Only use alpha if the string has enough characters
+			if(hex.Length == 8){
+				a = byte.Parse(hex.Substring(6,2), System.Globalization.NumberStyles.HexNumber);
+			}
+			return new Color32(r,g,b,a);
+		}
 		private void OnDrawGizmos()
 		{
-			Gizmos.color = Color.green;
-			Gizmos.DrawWireCube(serverState.Position - CustomNetTransform.deOffset, Vector3.one);
-			Gizmos.color = Color.red;
-			Gizmos.DrawWireCube(serverTargetState.Position - CustomNetTransform.deOffset, Vector3.one);
+			//server target state
+			Gizmos.color = color1;
+			Gizmos.DrawWireCube(serverTargetState.Position - CustomNetTransform.deOffset, size1);
+			
+			//actual server state
+			Gizmos.color = color2;
+			Gizmos.DrawWireCube(serverState.Position - CustomNetTransform.deOffset, size2);
+			
+			//client predicted state
+			Gizmos.color = color3;
+			Gizmos.DrawWireCube(predictedState.Position - CustomNetTransform.deOffset, size3);
+			
+			//client actual state
+			Gizmos.color = color4;
+			Gizmos.DrawWireCube(playerState.Position - CustomNetTransform.deOffset, size4);
+			
 		}
 
 		public override void OnStartClient()
@@ -271,10 +309,10 @@ namespace PlayGroup
 				//Check if we should still be displaying an ItemListTab and update it, if so.
 				ControlTabs.CheckItemListTab();
 
-				if (state.Position != transform.localPosition)
-				{
-					lastDirection = (state.Position - transform.localPosition).normalized;
-				}
+//				if (state.Position != transform.localPosition)
+//				{
+//					lastDirection = (state.Position - transform.localPosition).normalized;
+//				}
 
 				if (PullingObject != null)
 				{
@@ -341,8 +379,10 @@ namespace PlayGroup
 			var nextAction = serverPendingActions.Peek();
 			if ( !PointlessMove(serverTargetState, nextAction) )
 			{
-				serverTargetState = NextState(serverTargetState, serverPendingActions.Dequeue());
-				Debug.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
+				PlayerState nextState = NextState(serverTargetState, serverPendingActions.Dequeue());
+				serverLastDirection = Vector2Int.RoundToInt(nextState.Position - serverTargetState.Position); 
+				serverTargetState = nextState;
+//				Debug.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
 			} else {
 				Debug.LogWarning($"Pointless move {serverTargetState}+{nextAction.keyCodes[0]} Rolling back to {serverState}");
 				RollbackPosition();
@@ -461,6 +501,8 @@ namespace PlayGroup
 					bool isReplay = predictedState.MoveNumber <= curPredictedMove;
 					tempState = NextState(tempState, action, isReplay);
 				}
+
+				lastDirection = Vector2Int.RoundToInt(tempState.Position - predictedState.Position);
 	
 				predictedState = tempState;
 //				Debug.Log($"Redraw prediction: {playerState}->{predictedState}({pendingActions.Count} steps) ");
@@ -515,7 +557,7 @@ namespace PlayGroup
 		public void UpdateClientState(PlayerState state)
 		{
 			playerState = state;
-//			Debug.Log($"Got server update {playerState}");
+			Debug.Log($"Got server update {playerState}");
 			if (pendingActions != null)
 			{
 				//invalidate queue if serverstate was never predicted
@@ -524,6 +566,7 @@ namespace PlayGroup
 				if ( serverAhead || posMismatch ){
 					Debug.LogWarning($"serverAhead={serverAhead}, posMismatch={posMismatch}");
 					ResetClientQueue();
+					predictedState = playerState;
 				} else {
 					//removing actions already acknowledged by server from pending queue
 					while (pendingActions.Count > 0 && pendingActions.Count > predictedState.MoveNumber - playerState.MoveNumber)
@@ -558,7 +601,6 @@ namespace PlayGroup
 			return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);
 		}
 
-		//FIXME: should be serverside
 		private void CheckSpaceWalk()
 		{
 			if (matrix == null)
@@ -568,10 +610,24 @@ namespace PlayGroup
 
 			if (isServer)
 			{
+				//moving server target further and letting serverState lerp to it
 				if (matrix.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.Position)))
 				{
-					serverTargetState.Position = Vector3Int.RoundToInt(serverTargetState.Position + (Vector3) lastDirection);
+					if ( !IsFloating() )
+					{
+						//initiate floating
+						serverTargetState.Impulse = serverLastDirection;
+						//notify players that we started floating
+						NotifyPlayers();
+					}
+					//continue floating
+					serverTargetState.Position = Vector3Int.RoundToInt(serverTargetState.Position + (Vector3) serverTargetState.Impulse);
 					ClearPendingServer();
+				}
+				else if ( IsFloating() )
+				{
+					//finish floating. players will be notified as soon as serverState catches up
+					serverTargetState.Impulse = Vector2.zero;	
 				}
 			}
 			Vector3Int pos = Vector3Int.RoundToInt(transform.localPosition);
@@ -588,16 +644,23 @@ namespace PlayGroup
 //				}
 
 				Vector3Int newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
-				playerState.Position = newGoal;
+//				playerState.Position = newGoal;
 				predictedState.Position = newGoal;
 			}
-			if (matrix.IsSpaceAt(pos) && !healthBehaviorScript.IsDead && CustomNetworkManager.Instance._isServer
-			    && !isApplyingSpaceDmg)
+			if (matrix.IsSpaceAt(pos) && !healthBehaviorScript.IsDead && isServer && !isApplyingSpaceDmg)
 			{
 				//Hurting people in space even if they are next to the wall
 				StartCoroutine(ApplyTempSpaceDamage());
 				isApplyingSpaceDmg = true;
 			}
+		}
+		public bool IsFloating()
+		{
+			if (isServer)
+			{
+				return serverState.Impulse != Vector2.zero;
+			}
+			return playerState.Impulse != Vector2.zero;
 		}
 
 		//TODO: Remove this when atmos is implemented 
