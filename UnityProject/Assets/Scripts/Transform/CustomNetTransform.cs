@@ -352,6 +352,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		if (IsFloating())
 		{
 			SimulateFloating();
+			//fixme: don't simulate moving through solid stuff on client
 		}
 
 		if (transformState.localPos != transform.localPosition)

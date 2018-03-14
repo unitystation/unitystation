@@ -25,6 +25,40 @@ namespace PlayGroup
 	public struct PlayerAction
 	{
 		public int[] keyCodes;
+
+		public Vector2Int Direction()
+		{
+			Vector2Int direction = Vector2Int.zero;
+			for ( var i = 0; i < keyCodes.Length; i++ )
+			{
+				direction += GetMoveDirection(( KeyCode ) keyCodes[i]);
+			}
+			direction.x = Mathf.Clamp(direction.x, -1, 1);
+			direction.y = Mathf.Clamp(direction.y, -1, 1);
+
+			return direction;
+		}
+		//fixme: temp shit, clone of PlayerMove GetMoveDirection stuff
+		private static Vector2Int GetMoveDirection(KeyCode action)
+		{
+			switch (action) {
+				case KeyCode.Z:
+				case KeyCode.W:
+				case KeyCode.UpArrow:
+					return Vector2Int.up;
+				case KeyCode.A:
+				case KeyCode.Q:
+				case KeyCode.LeftArrow:
+					return Vector2Int.left;
+				case KeyCode.S:
+				case KeyCode.DownArrow:
+					return Vector2Int.down;
+				case KeyCode.D:
+				case KeyCode.RightArrow:
+					return Vector2Int.right;
+			}
+			return Vector2Int.zero;
+		}
 	}
 
 	public class PlayerSync : NetworkBehaviour, IPlayerSync
@@ -51,6 +85,17 @@ namespace PlayGroup
 			get { return pullObjectID; }
 			set { pullObjectID = value; }
 		}
+
+		private Vector2 LastDirection
+		{
+			get { return lastDirection; }
+			set
+			{
+				Debug.Log($"Client updated lastDirection to {value}");
+				lastDirection = value;
+			}
+		}
+
 		//pull objects
 		[SyncVar(hook = nameof(PullReset))] private NetworkInstanceId pullObjectID;
 
@@ -258,6 +303,7 @@ namespace PlayGroup
 			{
 				pendingActions.Enqueue(action);
 //				Debug.Log($"Client requesting {action} ({pendingActions.Count} in queue)");
+				LastDirection = action.Direction();
 				UpdatePredictedState();
 				//Seems like Cmds are reliable enough in this case
 //				RequestMoveMessage.Send(action); 
@@ -279,6 +325,7 @@ namespace PlayGroup
 			if ( isServer )
 			{
 				CheckTargetUpdate();
+//				CheckPush();
 			}
 
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
@@ -308,11 +355,6 @@ namespace PlayGroup
 
 				//Check if we should still be displaying an ItemListTab and update it, if so.
 				ControlTabs.CheckItemListTab();
-
-//				if (state.Position != transform.localPosition)
-//				{
-//					lastDirection = (state.Position - transform.localPosition).normalized;
-//				}
 
 				if (PullingObject != null)
 				{
@@ -346,10 +388,8 @@ namespace PlayGroup
 		[Server]
 		private void CheckTargetUpdate()
 		{
-			Vector2Int serverPos = Vector2Int.RoundToInt(serverState.Position);
-			Vector2Int targetPos = Vector2Int.RoundToInt(serverTargetState.Position);
 			//checking only player movement for now
-			if ( serverPos == targetPos )
+			if ( ServerPositionsMatch() )
 			{
 				TryUpdateServerTarget();
 			}
@@ -358,12 +398,18 @@ namespace PlayGroup
 		[Server]
 		private void TryNotifyPlayers()
 		{
-			Vector2Int serverPos = Vector2Int.RoundToInt(serverState.Position);
-			Vector2Int targetPos = Vector2Int.RoundToInt(serverTargetState.Position);
-			if ( serverPos == targetPos )
+			if ( ServerPositionsMatch() )
 			{
 				NotifyPlayers();
 			}
+		}
+
+		[Server]
+		private bool ServerPositionsMatch()
+		{
+//			Vector3Int serverPos = CustomNetTransform.RoundWithContext(serverState.Position, serverState.Impulse);
+//			Vector3Int targetPos = CustomNetTransform.RoundWithContext(serverTargetState.Position, serverTargetState.Impulse);
+			return serverTargetState.Position == serverState.Position; //serverPos == targetPos;
 		}
 
 		/// Tries to assign next target from queue to serverTargetState if there are any
@@ -379,6 +425,12 @@ namespace PlayGroup
 			var nextAction = serverPendingActions.Peek();
 			if ( !PointlessMove(serverTargetState, nextAction) )
 			{
+				if ( FloatingServer() )
+				{
+					Debug.Log("Server ignored move while player is floating");
+					serverPendingActions.Dequeue();
+					return;
+				}
 				PlayerState nextState = NextState(serverTargetState, serverPendingActions.Dequeue());
 				serverLastDirection = Vector2Int.RoundToInt(nextState.Position - serverTargetState.Position); 
 				serverTargetState = nextState;
@@ -390,7 +442,7 @@ namespace PlayGroup
 		}
 
 		[Server]
-		private void NotifyPlayers(bool resetClientQueue = false)
+		private void NotifyPlayers(bool resetClientQueue = false, bool notifyFloating = false)
 		{
 			serverState = serverTargetState; //copying move number etc
 			//Do not cache the position if the player is a ghost
@@ -400,7 +452,15 @@ namespace PlayGroup
 			{
 				serverStateCache = serverState;
 			}
-			PlayerMoveMessage.SendToAll(gameObject, serverState, resetClientQueue);
+			//Generally not sending mid-flight updates
+			if ( notifyFloating || !FloatingServer() )
+			{
+				if ( notifyFloating )
+				{
+					Debug.Log("Now simulate that flight, boy!");
+				}
+				PlayerMoveMessage.SendToAll(gameObject, serverState, resetClientQueue);
+			}
 		}
 
 		private void GhostLerp(PlayerState state)
@@ -423,7 +483,7 @@ namespace PlayGroup
 
 		private void PullObject()
 		{
-			pullPos = transform.localPosition - (Vector3) lastDirection;
+			pullPos = transform.localPosition - (Vector3) LastDirection;
 			pullPos.z = PullingObject.transform.localPosition.z;
 
 			Vector3Int pos = Vector3Int.RoundToInt(pullPos);
@@ -502,7 +562,12 @@ namespace PlayGroup
 					tempState = NextState(tempState, action, isReplay);
 				}
 
-				lastDirection = Vector2Int.RoundToInt(tempState.Position - predictedState.Position);
+//				//updating LastDirection if it's non-zero
+//				Vector2Int lastDir = Vector2Int.RoundToInt(tempState.Position - predictedState.Position);
+//				if ( lastDir != Vector2.zero )
+//				{
+//					LastDirection = lastDir;
+//				}
 	
 				predictedState = tempState;
 //				Debug.Log($"Redraw prediction: {playerState}->{predictedState}({pendingActions.Count} steps) ");
@@ -558,6 +623,14 @@ namespace PlayGroup
 		{
 			playerState = state;
 			Debug.Log($"Got server update {playerState}");
+			if ( FloatingClient() )
+			{
+//				Don't let prediction interfere while player is floating
+				ResetClientQueue();
+				LastDirection = playerState.Impulse;
+				predictedState = playerState;
+				return;
+			}
 			if (pendingActions != null)
 			{
 				//invalidate queue if serverstate was never predicted
@@ -575,7 +648,7 @@ namespace PlayGroup
 					}
 				}
 				UpdatePredictedState();
-			}		
+			}
 		}
 
 		public void ResetClientQueue()
@@ -601,6 +674,27 @@ namespace PlayGroup
 			return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);
 		}
 
+		/// <summary>
+		/// Push check, incl. ground push
+		/// </summary>
+		[Server]
+		private void CheckPush()
+		{
+			//fixme: breaks shit
+			if ( matrix == null || !FloatingServer() )
+			{
+				return;
+			}
+			Vector3Int pushGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3) serverTargetState.Impulse);
+			if ( !matrix.IsPassableAt(pushGoal) )
+			{
+				serverTargetState.Impulse = Vector2.zero;
+				return;
+			}
+			Debug.Log($"Server push to {pushGoal}");
+			serverTargetState.Position = pushGoal;
+		}
+
 		private void CheckSpaceWalk()
 		{
 			if (matrix == null)
@@ -610,27 +704,36 @@ namespace PlayGroup
 
 			if (isServer)
 			{
-				//moving server target further and letting serverState lerp to it
 				if (matrix.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.Position)))
 				{
-					if ( !IsFloating() )
+					if ( !FloatingServer() )
 					{
 						//initiate floating
-						serverTargetState.Impulse = serverLastDirection;
 						//notify players that we started floating
-						NotifyPlayers();
+						Push(Vector2Int.RoundToInt(serverLastDirection));
 					}
-					//continue floating
-					serverTargetState.Position = Vector3Int.RoundToInt(serverTargetState.Position + (Vector3) serverTargetState.Impulse);
-					ClearPendingServer();
+					if ( ServerPositionsMatch() )
+					{
+						//continue floating
+						serverTargetState.Position = Vector3Int.RoundToInt(serverState.Position + (Vector3) serverTargetState.Impulse);
+						ClearPendingServer();
+					}
 				}
-				else if ( IsFloating() )
+				else if ( FloatingServer() )
 				{
 					//finish floating. players will be notified as soon as serverState catches up
 					serverTargetState.Impulse = Vector2.zero;	
 				}
 			}
+			//Client zone
 			Vector3Int pos = Vector3Int.RoundToInt(transform.localPosition);
+			if ( FloatingClient() && !matrix.IsFloatingAt(pos) )
+			{
+//				Debug.Log("stop floating to avoid that dumb rubberband");
+				//stop floating to avoid that dumb rubberband
+				playerState.Impulse = Vector2.zero;
+				predictedState.Impulse = Vector2.zero;
+			}
 			if (matrix.IsFloatingAt(pos))
 			{
 //				rayHit = Physics2D.RaycastAll(transform.position, lastDirection, 1.1f, matrixLayerMask);
@@ -642,25 +745,43 @@ namespace PlayGroup
 //				if (rayHit.Length > 0){
 //					return;
 //				}
-
-				Vector3Int newGoal = Vector3Int.RoundToInt(transform.localPosition + (Vector3) lastDirection);
+				if ( !FloatingClient() && LastDirection != Vector2.zero )
+				{
+					Debug.Log($"Wasn't floating on client, now floating with impulse {LastDirection}");
+				//client initiated space dive. 						
+					playerState.Impulse = LastDirection;
+					predictedState.Impulse = LastDirection;
+				}
+				Vector3Int newGoal = Vector3Int.RoundToInt(pos + (Vector3) predictedState.Impulse);
 //				playerState.Position = newGoal;
 				predictedState.Position = newGoal;
+//				}
 			}
-			if (matrix.IsSpaceAt(pos) && !healthBehaviorScript.IsDead && isServer && !isApplyingSpaceDmg)
-			{
-				//Hurting people in space even if they are next to the wall
-				StartCoroutine(ApplyTempSpaceDamage());
-				isApplyingSpaceDmg = true;
-			}
+//			if (matrix.IsSpaceAt(pos) && !healthBehaviorScript.IsDead && isServer && !isApplyingSpaceDmg)
+//			{
+//				//Hurting people in space even if they are next to the wall
+//				StartCoroutine(ApplyTempSpaceDamage());
+//				isApplyingSpaceDmg = true;
+//			}
 		}
-		public bool IsFloating()
+
+		private bool FloatingClient()
 		{
-			if (isServer)
-			{
-				return serverState.Impulse != Vector2.zero;
-			}
 			return playerState.Impulse != Vector2.zero;
+		}
+		[Server]
+		private bool FloatingServer()
+		{
+			return serverState.Impulse != Vector2.zero;
+		}
+
+		/// Push player in direction
+		[Server]
+		public void Push(Vector2Int direction)
+		{
+			serverState.Impulse = direction;
+			serverTargetState.Impulse = direction;
+			NotifyPlayers(true, true);
 		}
 
 		//TODO: Remove this when atmos is implemented 
