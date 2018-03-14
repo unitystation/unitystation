@@ -722,11 +722,13 @@ namespace PlayGroup
 				else if ( FloatingServer() )
 				{
 					//finish floating. players will be notified as soon as serverState catches up
-					serverTargetState.Impulse = Vector2.zero;	
+					serverTargetState.Impulse = Vector2.zero;
+					NotifyPlayers(true);
 				}
 			}
 			//Client zone
-			Vector3Int pos = Vector3Int.RoundToInt(transform.localPosition);
+			//fixme: other clients not simulated properly; jerky resimulation on update from server
+			Vector3Int pos = Vector3Int.RoundToInt( isLocalPlayer ? predictedState.Position : playerState.Position); 
 			if ( FloatingClient() && !matrix.IsFloatingAt(pos) )
 			{
 //				Debug.Log("stop floating to avoid that dumb rubberband");
