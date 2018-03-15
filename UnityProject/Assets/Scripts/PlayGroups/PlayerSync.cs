@@ -26,6 +26,8 @@ namespace PlayGroup
 	{
 		public int[] keyCodes;
 
+		//clone of PlayerMove GetMoveDirection stuff
+		//but there should be a way to see the direction of these keycodes ffs
 		public Vector2Int Direction()
 		{
 			Vector2Int direction = Vector2Int.zero;
@@ -38,7 +40,6 @@ namespace PlayGroup
 
 			return direction;
 		}
-		//fixme: temp shit, clone of PlayerMove GetMoveDirection stuff
 		private static Vector2Int GetMoveDirection(KeyCode action)
 		{
 			switch (action) {
@@ -127,16 +128,17 @@ namespace PlayGroup
 			base.OnStartServer();
 		}
 
-			Vector3 size1 = Vector3.one;
-			Vector3 size2 = new Vector3(0.9f,0.9f,0.9f);
-			Vector3 size3 = new Vector3(0.8f,0.8f,0.8f);
-			Vector3 size4 = new Vector3(0.7f,0.7f,0.7f);
-			Color color1 = Color.red;
-			Color color2 = hexToColor("fd7c6e");
-			Color color3 = hexToColor("4d9900");
-			Color color4 = hexToColor("a9ff3e");
-		
-		public static Color hexToColor(string hex)
+		private Vector3 size1 = Vector3.one;
+		private Vector3 size2 = new Vector3(0.9f,0.9f,0.9f);
+		private Vector3 size3 = new Vector3(0.8f,0.8f,0.8f);
+		private Vector3 size4 = new Vector3(0.7f,0.7f,0.7f);
+		private Color color1 = Color.red;
+		private Color color2 = hexToColor("fd7c6e");
+		private Color color3 = hexToColor("4d9900");
+		private Color color4 = hexToColor("a9ff3e");
+
+		/// Utility from stackoverflow
+		private static Color hexToColor(string hex)
 		{
 			hex = hex.Replace ("0x", "");//in case the string is formatted 0xFFFFFF
 			hex = hex.Replace ("#", "");//in case the string is formatted #FFFFFF
@@ -306,8 +308,8 @@ namespace PlayGroup
 				LastDirection = action.Direction();
 				UpdatePredictedState();
 				//Seems like Cmds are reliable enough in this case
-//				RequestMoveMessage.Send(action); 
 				CmdProcessAction(action);
+//				RequestMoveMessage.Send(action); 
 			}
 		}
 
@@ -404,12 +406,11 @@ namespace PlayGroup
 			}
 		}
 
+		/// idk if it's robust enough, but it seems to work
 		[Server]
 		private bool ServerPositionsMatch()
 		{
-//			Vector3Int serverPos = CustomNetTransform.RoundWithContext(serverState.Position, serverState.Impulse);
-//			Vector3Int targetPos = CustomNetTransform.RoundWithContext(serverTargetState.Position, serverTargetState.Impulse);
-			return serverTargetState.Position == serverState.Position; //serverPos == targetPos;
+			return serverTargetState.Position == serverState.Position; 
 		}
 
 		/// Tries to assign next target from queue to serverTargetState if there are any
@@ -517,12 +518,10 @@ namespace PlayGroup
 				RollbackPosition();
 				if ( ++playerWarnings < maxWarnings )
 				{
-//						InfoWindowMessage.Send(gameObject, $"This is warning {playerWarnings} of {maxWarnings}.", "Warning");
 					TortureChamber.Torture(playerScript, TortureSeverity.S);
 				}
 				else
 				{
-//						InfoWindowMessage.Send(gameObject, "MWAHAHAH", "No more playerWarnings");
 					TortureChamber.Torture(playerScript, TortureSeverity.L);
 				}
 				return;
@@ -561,13 +560,6 @@ namespace PlayGroup
 					bool isReplay = predictedState.MoveNumber <= curPredictedMove;
 					tempState = NextState(tempState, action, isReplay);
 				}
-
-//				//updating LastDirection if it's non-zero
-//				Vector2Int lastDir = Vector2Int.RoundToInt(tempState.Position - predictedState.Position);
-//				if ( lastDir != Vector2.zero )
-//				{
-//					LastDirection = lastDir;
-//				}
 	
 				predictedState = tempState;
 //				Debug.Log($"Redraw prediction: {playerState}->{predictedState}({pendingActions.Count} steps) ");
@@ -727,14 +719,15 @@ namespace PlayGroup
 				}
 			}
 			//Client zone
-			//fixme: other clients not simulated properly; jerky resimulation on update from server
-			Vector3Int pos = Vector3Int.RoundToInt( isLocalPlayer ? predictedState.Position : playerState.Position); 
+			//fixme: jerky resimulation on update from server
+			//Simulating using predictedState for your own player and playerState for others
+			var state = isLocalPlayer ? predictedState : playerState;
+			Vector3Int pos = Vector3Int.RoundToInt( state.Position ); 
 			if ( FloatingClient() && !matrix.IsFloatingAt(pos) )
 			{
 //				Debug.Log("stop floating to avoid that dumb rubberband");
-				//stop floating to avoid that dumb rubberband
-				playerState.Impulse = Vector2.zero;
-				predictedState.Impulse = Vector2.zero;
+				//stop floating on client (if server isn't responding in time) to avoid players going through walls
+				state.Impulse = Vector2.zero;
 			}
 			if (matrix.IsFloatingAt(pos))
 			{
@@ -751,11 +744,10 @@ namespace PlayGroup
 				{
 					Debug.Log($"Wasn't floating on client, now floating with impulse {LastDirection}");
 				//client initiated space dive. 						
-					playerState.Impulse = LastDirection;
-					predictedState.Impulse = LastDirection;
+					state.Impulse = LastDirection;
 				}
-				Vector3Int newGoal = Vector3Int.RoundToInt(pos + (Vector3) predictedState.Impulse);
-//				playerState.Position = newGoal;
+				Vector3Int newGoal = Vector3Int.RoundToInt(pos + (Vector3) state.Impulse);
+				playerState.Position = newGoal;
 				predictedState.Position = newGoal;
 //				}
 			}
