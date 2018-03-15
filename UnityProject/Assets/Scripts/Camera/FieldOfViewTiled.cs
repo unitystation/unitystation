@@ -122,9 +122,13 @@ public class FieldOfViewTiled : MonoBehaviour
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, ViewRadius, ObstacleMask);
+
         if (hit && hit.collider != null)
         {
-            return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+			float hypotenuse = Vector2.Distance(hit.collider.bounds.center, hit.point) * 2f;
+			float adjacent = Mathf.Sqrt(Mathf.Pow(hypotenuse, 2f) - Mathf.Pow(1f, 2f));
+			Vector2 newPoint = new Vector2(1f, adjacent);
+			return new ViewCastInfo(true, hit.point + (Vector2.Scale(newPoint, dir.normalized)), hit.distance, globalAngle);
         }
         else
         {
