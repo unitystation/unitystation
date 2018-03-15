@@ -543,6 +543,12 @@ namespace PlayGroup
 
 		private void UpdatePredictedState()
 		{
+			//Experimental: ignore prediction while flying
+			if (FloatingClient() || PseudoFloatingClient())
+			{
+				ResetClientQueue();
+				return;
+			}
 			if ( pendingActions.Count == 0 )
 			{
 				//plain assignment if there's nothing to predict
@@ -613,14 +619,22 @@ namespace PlayGroup
 
 		public void UpdateClientState(PlayerState state)
 		{
-			playerState = state;
+			//Experiment: not updating client state if player is already floating in the same direction
+//			if (!PseudoFloatingClient() || predictedState.Impulse != state.Impulse)
+//			{
+				playerState = state;
+//			}
+
 			Debug.Log($"Got server update {playerState}");
-			if ( FloatingClient() )
+			if ( FloatingClient() || PseudoFloatingClient() )
 			{
 //				Don't let prediction interfere while player is floating
 				ResetClientQueue();
 				LastDirection = playerState.Impulse;
-				predictedState = playerState;
+				if (!PseudoFloatingClient() || predictedState.Impulse != state.Impulse)
+				{
+					predictedState = playerState;
+				}
 				return;
 			}
 			if (pendingActions != null)
@@ -703,9 +717,7 @@ namespace PlayGroup
 						//initiate floating
 						//notify players that we started floating
 						Push(Vector2Int.RoundToInt(serverLastDirection));
-					}
-					if ( ServerPositionsMatch() )
-					{
+					} else if ( ServerPositionsMatch() ) {
 						//continue floating
 						serverTargetState.Position = Vector3Int.RoundToInt(serverState.Position + (Vector3) serverTargetState.Impulse);
 						ClearPendingServer();
@@ -723,7 +735,7 @@ namespace PlayGroup
 			//Simulating using predictedState for your own player and playerState for others
 			var state = isLocalPlayer ? predictedState : playerState;
 			Vector3Int pos = Vector3Int.RoundToInt( state.Position ); 
-			if ( FloatingClient() && !matrix.IsFloatingAt(pos) )
+			if ( ( FloatingClient() || PseudoFloatingClient() ) && !matrix.IsFloatingAt(pos) )
 			{
 //				Debug.Log("stop floating to avoid that dumb rubberband");
 				//stop floating on client (if server isn't responding in time) to avoid players going through walls
@@ -740,15 +752,19 @@ namespace PlayGroup
 //				if (rayHit.Length > 0){
 //					return;
 //				}
-				if ( !FloatingClient() && LastDirection != Vector2.zero )
+				if ( state.Impulse == Vector2.zero && LastDirection != Vector2.zero )
 				{
 					Debug.Log($"Wasn't floating on client, now floating with impulse {LastDirection}");
 				//client initiated space dive. 						
 					state.Impulse = LastDirection;
 				}
-				Vector3Int newGoal = Vector3Int.RoundToInt(pos + (Vector3) state.Impulse);
-				playerState.Position = newGoal;
-				predictedState.Position = newGoal;
+
+				if (transform.localPosition == state.Position)
+				{
+					Vector3Int newGoal = Vector3Int.RoundToInt(pos + (Vector3) state.Impulse);
+					playerState.Position = newGoal;
+					predictedState.Position = newGoal;
+				}
 //				}
 			}
 //			if (matrix.IsSpaceAt(pos) && !healthBehaviorScript.IsDead && isServer && !isApplyingSpaceDmg)
@@ -762,6 +778,10 @@ namespace PlayGroup
 		private bool FloatingClient()
 		{
 			return playerState.Impulse != Vector2.zero;
+		}
+		private bool PseudoFloatingClient()
+		{
+			return predictedState.Impulse != Vector2.zero;
 		}
 		[Server]
 		private bool FloatingServer()
