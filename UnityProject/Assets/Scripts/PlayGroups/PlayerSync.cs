@@ -134,8 +134,8 @@ namespace PlayGroup
 		private Vector3 size4 = new Vector3(0.7f,0.7f,0.7f);
 		private Color color1 = Color.red;
 		private Color color2 = hexToColor("fd7c6e");
-		private Color color3 = hexToColor("4d9900");
-		private Color color4 = hexToColor("a9ff3e");
+		private Color color3 = hexToColor("22e600");
+		private Color color4 = hexToColor("ebfceb");
 
 		/// Utility from stackoverflow
 		private static Color hexToColor(string hex)
@@ -164,11 +164,15 @@ namespace PlayGroup
 			
 			//client predicted state
 			Gizmos.color = color3;
-			Gizmos.DrawWireCube(predictedState.Position - CustomNetTransform.deOffset, size3);
+			Vector3 clientPrediction = predictedState.Position - CustomNetTransform.deOffset;
+			Gizmos.DrawWireCube(clientPrediction, size3);
+			DrawArrow.ForGizmo(clientPrediction + Vector3.left / 5, predictedState.Impulse);
 			
 			//client actual state
 			Gizmos.color = color4;
-			Gizmos.DrawWireCube(playerState.Position - CustomNetTransform.deOffset, size4);
+			Vector3 clientState = playerState.Position - CustomNetTransform.deOffset;
+			Gizmos.DrawWireCube(clientState, size4);
+			DrawArrow.ForGizmo(clientState + Vector3.right / 5, playerState.Impulse);
 			
 		}
 
@@ -619,11 +623,7 @@ namespace PlayGroup
 
 		public void UpdateClientState(PlayerState state)
 		{
-			//Experiment: not updating client state if player is already floating in the same direction
-//			if (!PseudoFloatingClient() || predictedState.Impulse != state.Impulse)
-//			{
 				playerState = state;
-//			}
 
 			Debug.Log($"Got server update {playerState}");
 			if ( FloatingClient() || PseudoFloatingClient() )
@@ -707,41 +707,35 @@ namespace PlayGroup
 			{
 				return;
 			}
-
+			//Server zone
 			if (isServer)
 			{
-				if (matrix.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.Position)))
-				{
-					if ( !FloatingServer() )
-					{
-						//initiate floating
-						//notify players that we started floating
-						Push(Vector2Int.RoundToInt(serverLastDirection));
-					} else if ( ServerPositionsMatch() ) {
-						//continue floating
-						serverTargetState.Position = Vector3Int.RoundToInt(serverState.Position + (Vector3) serverTargetState.Impulse);
-						ClearPendingServer();
-					}
-				}
-				else if ( FloatingServer() )
-				{
-					//finish floating. players will be notified as soon as serverState catches up
-					serverTargetState.Impulse = Vector2.zero;
-					NotifyPlayers(true);
-				}
+				CheckSpaceWalkServer();
 			}
 			//Client zone
-			//fixme: jerky resimulation on update from server
-			//Simulating using predictedState for your own player and playerState for others
-			var state = isLocalPlayer ? predictedState : playerState;
-			Vector3Int pos = Vector3Int.RoundToInt( state.Position ); 
+			CheckSpaceWalkClient();
+//			if (matrix.IsSpaceAt(pos) && !healthBehaviorScript.IsDead && isServer && !isApplyingSpaceDmg)
+//			{
+//				//Hurting people in space even if they are next to the wall
+//				StartCoroutine(ApplyTempSpaceDamage());
+//				isApplyingSpaceDmg = true;
+//			}
+		}
+		///fixme: jerky resimulation on update from server
+		//Simulating using predictedState for your own player and playerState for others
+		/// <param name="state"></param>
+		private void CheckSpaceWalkClient()
+		{
+			PlayerState state = isLocalPlayer ? predictedState : playerState;
+			Vector3Int pos = Vector3Int.RoundToInt(state.Position);
 			if ( ( FloatingClient() || PseudoFloatingClient() ) && !matrix.IsFloatingAt(pos) )
 			{
-//				Debug.Log("stop floating to avoid that dumb rubberband");
+				Debug.Log("stop floating to avoid that dumb rubberband");
 				//stop floating on client (if server isn't responding in time) to avoid players going through walls
-				state.Impulse = Vector2.zero;
+				predictedState.Impulse = Vector2.zero;
+				playerState.Impulse = Vector2.zero;
 			}
-			if (matrix.IsFloatingAt(pos))
+			if ( matrix.IsFloatingAt(pos) )
 			{
 //				rayHit = Physics2D.RaycastAll(transform.position, lastDirection, 1.1f, matrixLayerMask);
 //				for (int i = 0; i < rayHit.Length; i++){
@@ -754,25 +748,45 @@ namespace PlayGroup
 //				}
 				if ( state.Impulse == Vector2.zero && LastDirection != Vector2.zero )
 				{
-					Debug.Log($"Wasn't floating on client, now floating with impulse {LastDirection}");
-				//client initiated space dive. 						
+					//client initiated space dive. 						
 					state.Impulse = LastDirection;
+					predictedState.Impulse = LastDirection;
+					playerState.Impulse = LastDirection;
+					Debug.Log($"Wasn't floating on client, now floating with impulse {LastDirection}. FC={FloatingClient()},PFC={PseudoFloatingClient()}");
 				}
 
-				if (transform.localPosition == state.Position)
+				if ( transform.localPosition == state.Position )
 				{
-					Vector3Int newGoal = Vector3Int.RoundToInt(pos + (Vector3) state.Impulse);
+					Vector3Int newGoal = Vector3Int.RoundToInt(state.Position + ( Vector3 ) state.Impulse);
 					playerState.Position = newGoal;
 					predictedState.Position = newGoal;
 				}
-//				}
 			}
-//			if (matrix.IsSpaceAt(pos) && !healthBehaviorScript.IsDead && isServer && !isApplyingSpaceDmg)
-//			{
-//				//Hurting people in space even if they are next to the wall
-//				StartCoroutine(ApplyTempSpaceDamage());
-//				isApplyingSpaceDmg = true;
-//			}
+		}
+		[Server]
+		private void CheckSpaceWalkServer()
+		{
+			if ( matrix.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.Position)) )
+			{
+				if ( !FloatingServer() )
+				{
+					//initiate floating
+					//notify players that we started floating
+					Push(Vector2Int.RoundToInt(serverLastDirection));
+				}
+				else if ( ServerPositionsMatch() )
+				{
+					//continue floating
+					serverTargetState.Position = Vector3Int.RoundToInt(serverState.Position + ( Vector3 ) serverTargetState.Impulse);
+					ClearPendingServer();
+				}
+			}
+			else if ( FloatingServer() )
+			{
+				//finish floating. players will be notified as soon as serverState catches up
+				serverTargetState.Impulse = Vector2.zero;
+				NotifyPlayers(true);
+			}
 		}
 
 		private bool FloatingClient()
@@ -810,3 +824,26 @@ namespace PlayGroup
 		}
 	}
 }
+public static class DrawArrow
+{
+    public static void ForGizmo(Vector3 pos, Vector3 direction, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
+    {
+	    if ( direction == Vector3.zero )
+	    {
+		    return;
+	    }
+        Gizmos.DrawRay(pos, direction);
+
+	    Quaternion lookRotation = Quaternion.LookRotation (direction);
+	    Vector3 right = lookRotation * Quaternion.Euler (arrowHeadAngle, 0, 0) * Vector3.back;
+	    Vector3 left = lookRotation * Quaternion.Euler (-arrowHeadAngle, 0, 0) * Vector3.back;
+	    Vector3 up = lookRotation * Quaternion.Euler (0, arrowHeadAngle, 0) * Vector3.back;
+	    Vector3 down = lookRotation * Quaternion.Euler (0, -arrowHeadAngle, 0) * Vector3.back;
+	    Gizmos.color = Gizmos.color;
+	    Gizmos.DrawRay (pos + direction, right * arrowHeadLength);
+	    Gizmos.DrawRay (pos + direction, left * arrowHeadLength);
+	    Gizmos.DrawRay (pos + direction, up * arrowHeadLength);
+	    Gizmos.DrawRay (pos + direction, down * arrowHeadLength);
+    }
+}
+ 

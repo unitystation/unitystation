@@ -297,6 +297,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//Dropping whatever player has got
 		if ( !onQuit )
 		{
+			//fixme: modified collectionz
 			foreach ( var key in Inventory.Keys )
 			{
 				if ( Inventory[key] )
