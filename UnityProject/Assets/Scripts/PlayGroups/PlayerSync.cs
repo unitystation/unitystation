@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Tilemaps;
@@ -92,8 +92,14 @@ namespace PlayGroup
 			get { return lastDirection; }
 			set
 			{
-				Debug.Log($"Client updated lastDirection to {value}");
-				lastDirection = value;
+				if (value != Vector2.zero)
+				{
+					lastDirection = value;
+				}
+				else
+				{
+					Debug.LogWarning("Attempt to set lastDirection to zero!");
+				}
 			}
 		}
 
@@ -309,8 +315,15 @@ namespace PlayGroup
 			{
 				pendingActions.Enqueue(action);
 //				Debug.Log($"Client requesting {action} ({pendingActions.Count} in queue)");
-				LastDirection = action.Direction();
-				UpdatePredictedState();
+				if (!IsPseudoFloatingClient() && !IsFloatingClient())
+				{
+					LastDirection = action.Direction();
+					UpdatePredictedState();
+				}
+//				else
+//				{
+//					Debug.Log($"Client not updating PredictedState for {action}");
+//				}
 				//Seems like Cmds are reliable enough in this case
 				CmdProcessAction(action);
 //				RequestMoveMessage.Send(action); 
@@ -547,12 +560,6 @@ namespace PlayGroup
 
 		private void UpdatePredictedState()
 		{
-			//Experimental: ignore prediction while flying
-			if (FloatingClient() || PseudoFloatingClient())
-			{
-				ResetClientQueue();
-				return;
-			}
 			if ( pendingActions.Count == 0 )
 			{
 				//plain assignment if there's nothing to predict
@@ -623,15 +630,20 @@ namespace PlayGroup
 
 		public void UpdateClientState(PlayerState state)
 		{
-				playerState = state;
-
+			playerState = state;
 			Debug.Log($"Got server update {playerState}");
-			if ( FloatingClient() || PseudoFloatingClient() )
+
+			//todo simplify
+			if ( IsFloatingClient() || IsPseudoFloatingClient() )
 			{
-//				Don't let prediction interfere while player is floating
-				ResetClientQueue();
-				LastDirection = playerState.Impulse;
-				if (!PseudoFloatingClient() || predictedState.Impulse != state.Impulse)
+				if (IsFloatingClient())
+				{
+					LastDirection = playerState.Impulse;
+				}
+				//reset predictedState spacewalk simulation
+				//if impulses don't match while true playerState has same or greater movenumber
+				bool shouldReset = predictedState.Impulse != playerState.Impulse && predictedState.MoveNumber <= playerState.MoveNumber;
+				if ( !IsPseudoFloatingClient() || shouldReset )
 				{
 					predictedState = playerState;
 				}
@@ -728,7 +740,7 @@ namespace PlayGroup
 		{
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
 			Vector3Int pos = Vector3Int.RoundToInt(state.Position);
-			if ( ( FloatingClient() || PseudoFloatingClient() ) && !matrix.IsFloatingAt(pos) )
+			if ( ( IsFloatingClient() || IsPseudoFloatingClient() ) && !matrix.IsFloatingAt(pos) )
 			{
 				Debug.Log("stop floating to avoid that dumb rubberband");
 				//stop floating on client (if server isn't responding in time) to avoid players going through walls
@@ -750,15 +762,24 @@ namespace PlayGroup
 				{
 					//client initiated space dive. 						
 					state.Impulse = LastDirection;
-					predictedState.Impulse = LastDirection;
-					playerState.Impulse = LastDirection;
-					Debug.Log($"Wasn't floating on client, now floating with impulse {LastDirection}. FC={FloatingClient()},PFC={PseudoFloatingClient()}");
+					if (isLocalPlayer)
+					{
+						predictedState.Impulse = LastDirection;
+					}
+					else
+					{
+						playerState.Impulse = LastDirection;
+					}
+					Debug.Log($"Wasn't floating on client, now floating with impulse {LastDirection}. FC={IsFloatingClient()},PFC={IsPseudoFloatingClient()}");
 				}
 
 				if ( transform.localPosition == state.Position )
 				{
 					Vector3Int newGoal = Vector3Int.RoundToInt(state.Position + ( Vector3 ) state.Impulse);
-					playerState.Position = newGoal;
+					if (!isLocalPlayer)
+					{
+						playerState.Position = newGoal;
+					}
 					predictedState.Position = newGoal;
 				}
 			}
@@ -789,11 +810,11 @@ namespace PlayGroup
 			}
 		}
 
-		private bool FloatingClient()
+		private bool IsFloatingClient()
 		{
 			return playerState.Impulse != Vector2.zero;
 		}
-		private bool PseudoFloatingClient()
+		private bool IsPseudoFloatingClient()
 		{
 			return predictedState.Impulse != Vector2.zero;
 		}
