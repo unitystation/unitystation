@@ -58,6 +58,10 @@ public class NukeInteract : InputTrigger
 	{
 		yield return new WaitForSeconds(5f);
 		GibMessage.Send();
+		GameManager.Instance.RespawnAllowed = false;
+		yield return new WaitForSeconds(2f);
+		//Restart Round:
+		GameManager.Instance.RoundTime = 0f;
 	}
 
 	//Server validating the code sent back by the GUI
@@ -65,9 +69,12 @@ public class NukeInteract : InputTrigger
 	public bool validate(string code)
 	{
 		Debug.Log("try " + code + " on " + nukeCode);
-		if (code == "" + nukeCode) {
+		if (code == nukeCode.ToString()) {
 			//if yes, blow up the nuke
 			RpcDetonate();
+			//Kill Everyone in the universe
+			//FIXME kill only people on the station matrix that the nuke was detonated on
+			StartCoroutine(WaitForDeath());
 			return true;
 		} else {
 			//if no, tell the GUI that it was an incorrect code
@@ -80,7 +87,6 @@ public class NukeInteract : InputTrigger
 	void RpcDetonate()
 	{
 		//getting health and stopping the sound
-
 		SoundManager.StopAmbient();
 		//turning off all the UI except for the right panel
 		UIManager.Display.hudRight.gameObject.SetActive(false);
@@ -90,12 +96,9 @@ public class NukeInteract : InputTrigger
 		UIManager.Display.infoWindow.SetActive(false);
 
 		//Playing the video
-		VideoPlayer Video = UIManager.Display.video;
-		Video.Play();
+		UIManager.Display.selfDestructVideo.SetActive(true);
 		//Playing the sound
 		SoundManager.Play("SelfDestruct");
-		//KILLING EVERYONE!!!!!1!
-		StartCoroutine(WaitForDeath());
 	}
 
 	[Server]
