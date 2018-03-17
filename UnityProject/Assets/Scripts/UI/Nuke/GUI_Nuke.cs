@@ -5,11 +5,6 @@ using PlayGroup;
 
 public class GUI_Nuke : MonoBehaviour
 {
-    //setting up the window
-    public GameObject buttonPrefab;
-    private static readonly Color banColor = new Color(255f / 255f, 103f / 255f, 103f / 255f);
-    private static readonly Color infoColor = new Color(200f / 255f, 200f / 255f, 200f / 255f);
-    public Text title;
     public InputField code;
 	private GameObject nuke;
 

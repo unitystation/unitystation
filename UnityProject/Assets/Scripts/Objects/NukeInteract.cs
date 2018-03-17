@@ -4,14 +4,13 @@ using PlayGroups.Input;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.Video;
 
 public class NukeInteract : InputTrigger
 {
 	public float cooldownTimer = 2f;
 	public string interactionMessage;
 	public string deniedMessage;
-
+	private bool detonated = false;
 	//Nuke code is only populated on the server
 	public int nukeCode;
 	private GameObject Player;
@@ -26,10 +25,12 @@ public class NukeInteract : InputTrigger
 	//Method for when a player clicks on the nuke
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
-		PlayerScript ps = originator.GetComponent<PlayerScript>();
-		Player = originator;
+		if(UIManager.Display.nukeWindow.activeSelf){
+			return;
+		}
+
 		//Determining whether or not the player is syndicate
-		if (ps.JobType == JobType.SYNDICATE) {
+		if (PlayerManager.PlayerScript.JobType == JobType.SYNDICATE) {
 			//if yes, show GUI
 			UIManager.Chat.AddChatEvent(new ChatEvent(interactionMessage, ChatChannel.Examine));
 			UIManager.Display.nukeWindow.SetActive(true);
@@ -49,17 +50,6 @@ public class NukeInteract : InputTrigger
 		}
 	}
 
-	//The serverside of the interaction code
-	[Server]
-	private bool ServernIteraction(GameObject originator, Vector3 position, string hand)
-	{
-		PlayerScript ps = originator.GetComponent<PlayerScript>();
-		if (ps.canNotInteract() || !ps.IsInReach(position)) {
-			return false;
-		}
-
-		return true;
-	}
 	IEnumerator WaitForDeath()
 	{
 		yield return new WaitForSeconds(5f);
@@ -74,7 +64,6 @@ public class NukeInteract : InputTrigger
 	[Server]
 	public bool Validate(string code)
 	{
-		Debug.Log("try " + code + " on " + nukeCode);
 		if (code == nukeCode.ToString()) {
 			//if yes, blow up the nuke
 			RpcDetonate();
@@ -92,7 +81,11 @@ public class NukeInteract : InputTrigger
 	[ClientRpc]
 	void RpcDetonate()
 	{
-		//getting health and stopping the sound
+		if(detonated){
+			return;
+		}
+		detonated = true;
+
 		SoundManager.StopAmbient();
 		//turning off all the UI except for the right panel
 		UIManager.Display.hudRight.gameObject.SetActive(false);
