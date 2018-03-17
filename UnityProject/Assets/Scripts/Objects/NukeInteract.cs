@@ -32,15 +32,21 @@ public class NukeInteract : InputTrigger
 		if (ps.JobType == JobType.SYNDICATE) {
 			//if yes, show GUI
 			UIManager.Chat.AddChatEvent(new ChatEvent(interactionMessage, ChatChannel.Examine));
-			GUI_Nuke window = (GUI_Nuke)UIManager.Display.nukeWindow.GetComponent("GUI_Nuke");
-			window.Show();
-
+			UIManager.Display.nukeWindow.SetActive(true);
+			GUI_Nuke nukeWindow = UIManager.Display.nukeWindow.GetComponent<GUI_Nuke>();
+			nukeWindow.SetNukeInteracting(gameObject);
 		} else {
 			//if no, say bad message
 			UIManager.Chat.AddChatEvent(new ChatEvent(deniedMessage, ChatChannel.Examine));
 		}
-		//posts nuke code for testing
-		//Debug.Log(nukeCode);
+	}
+
+	void Update(){
+		if(UIManager.Display.nukeWindow.activeSelf){
+			if(Vector2.Distance(PlayerManager.LocalPlayer.transform.position, transform.position) > 2f){
+				UIManager.Display.nukeWindow.SetActive(false);
+			}
+		}
 	}
 
 	//The serverside of the interaction code
@@ -66,7 +72,7 @@ public class NukeInteract : InputTrigger
 
 	//Server validating the code sent back by the GUI
 	[Server]
-	public bool validate(string code)
+	public bool Validate(string code)
 	{
 		Debug.Log("try " + code + " on " + nukeCode);
 		if (code == nukeCode.ToString()) {

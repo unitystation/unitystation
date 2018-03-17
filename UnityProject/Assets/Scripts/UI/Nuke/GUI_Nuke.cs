@@ -1,6 +1,7 @@
 ﻿using UI;
 using UnityEngine;
 using UnityEngine.UI;
+using PlayGroup;
 
 public class GUI_Nuke : MonoBehaviour
 {
@@ -10,28 +11,25 @@ public class GUI_Nuke : MonoBehaviour
     private static readonly Color infoColor = new Color(200f / 255f, 200f / 255f, 200f / 255f);
     public Text title;
     public InputField code;
+	private GameObject nuke;
+
+	public void SetNukeInteracting(GameObject theNuke){
+		nuke = theNuke;
+	}
     //what needs to happen when the button is clicked
     public void BtnOk()
     {
         SoundManager.Play("Click01");
-        UIManager.Display.nukeWindow.SetActive(false);
-        GameObject nuke = GameObject.Find("nuke");
-        NukeInteract ni = (NukeInteract)nuke.GetComponent("NukeInteract");
-        string codestring = code.text;
-        //send the code to NukeInteract
-        ni.validate(codestring);
+		//send the code to NukeInteract
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdInputNukeCode(nuke, code.text);
+		UIManager.Display.nukeWindow.SetActive(false);
     }
 
-    public void EndEditOnEnter()
+    public void Update()
     {
         if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
         {
             BtnOk();
         }
     }
-    public void Show()
-    {
-        UIManager.Display.nukeWindow.SetActive(true);
-    }
-
 }
