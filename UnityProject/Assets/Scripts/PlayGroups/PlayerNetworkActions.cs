@@ -552,7 +552,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void RespawnPlayer(int timeout = 0)
 	{
-		StartCoroutine(InitiateRespawn(timeout));
+		if (GameManager.Instance.RespawnAllowed) {
+			StartCoroutine(InitiateRespawn(timeout));
+		}
 	}
 
 	[Server]
@@ -643,5 +645,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdSetActiveHand(string hand)
 	{
 		activeHand = hand;
+	}
+
+	[Command]
+	public void CmdInputNukeCode(GameObject nuke, string code){
+		NukeInteract nukeScript = nuke.GetComponent<NukeInteract>();
+		if(nukeScript != null){
+			nukeScript.Validate(code);
+		}
 	}
 }
