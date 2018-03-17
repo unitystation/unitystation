@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
-
+using UnityEngine.Video;
 namespace UI
 {
 	public class ControlDisplays : MonoBehaviour
 	{
 		public GameObject backGround;
 		public RectTransform hudBottom;
-
+        public GameObject nukeWindow;
 		public RectTransform hudRight;
 		public GameObject jobSelectWindow;
 		public GameObject logInWindow;
 		public GameObject infoWindow;
-
-		public RectTransform panelRight;
+		public GameObject selfDestructVideo;
+        public RectTransform panelRight;
 		public UIManager parentScript;
 
 		/// <summary>

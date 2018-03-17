@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
 	public bool counting;
 	public List<GameObject> Occupations = new List<GameObject>();
 	public float restartTime = 10f;
+	/// <summary>
+	/// Set on server if Respawn is Allowed
+	/// </summary>
+	public bool RespawnAllowed = true;
 
 	public Text roundTimer;
 

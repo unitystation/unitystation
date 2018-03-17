@@ -67,6 +67,9 @@ namespace PlayGroup
 			//(player pools now use netIDs, but it would be nice to have names for readability)
 			yield return new WaitForSeconds(2f);
 			OnNameChange(playerName);
+			yield return new WaitForSeconds(1f);
+			//Refresh chat log:
+			ChatRelay.Instance.RefreshLog();
 		}
 
 		//isLocalPlayer is always called after OnStartClient
