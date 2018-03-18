@@ -125,10 +125,18 @@ public class FieldOfViewTiled : MonoBehaviour
 
         if (hit && hit.collider != null)
         {
-			float hypotenuse = Vector2.Distance(hit.collider.bounds.center, hit.point) * 2f;
-			float adjacent = Mathf.Sqrt(Mathf.Pow(hypotenuse, 2f) - Mathf.Pow(1f, 2f));
-			Vector2 newPoint = new Vector2(1f, adjacent);
-			return new ViewCastInfo(true, hit.point + (Vector2.Scale(newPoint, dir.normalized)), hit.distance, globalAngle);
+			Vector3 tileCenter = Vector3Int.RoundToInt(hit.point + ((Vector2)dir) * 0.01f);
+			List<Vector3> corner = new List<Vector3>() {tileCenter + new Vector3(-0.5f, 0.5f,0f),
+				tileCenter + new Vector3(0.5f, 0.5f,0f), tileCenter + new Vector3(-0.5f, -0.5f,0f),
+				tileCenter + new Vector3(0.5f, -0.5f,0f)}; //NE, NW, SE, SW
+			
+			corner.Sort(delegate (Vector3 a, Vector3 b)
+			{
+				return Vector3.Distance(hit.point, a)
+				.CompareTo(Vector3.Distance(hit.point, b));
+			});
+
+			return new ViewCastInfo(true, corner[3], hit.distance, globalAngle);
         }
         else
         {
