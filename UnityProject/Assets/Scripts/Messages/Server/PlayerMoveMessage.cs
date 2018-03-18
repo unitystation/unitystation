@@ -23,7 +23,7 @@ public class PlayerMoveMessage : ServerMessage
 		playerSync.UpdateClientState(State);
 		if (ResetQueue)
 		{
-			playerSync.ResetClientQueue();
+			playerSync.ClearQueueClient();
 		}
 		
 	}

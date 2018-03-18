@@ -117,69 +117,33 @@ namespace PlayGroup
 		private Queue<PlayerAction> pendingActions;
 		private Vector2 lastDirection;
 		
+		///Does server claim this client is floating rn?
+		private bool IsFloatingClient => playerState.Impulse != Vector2.zero;
+		/// Does your client think you should be floating rn? (Regardless of what server thinks)
+		private bool IsPseudoFloatingClient => predictedState.Impulse != Vector2.zero;
+		
 		//Server-only fields, don't concern clients in any way
 		private PlayerState serverTargetState;
 		private PlayerState serverState;
 		private Queue<PlayerAction> serverPendingActions;
-		[SyncVar][Obsolete] private PlayerState serverStateCache; 	//todo: get rid of it, it actually concerns clients
+		[SyncVar][Obsolete] private PlayerState serverStateCache; 	//todo: phase it out, it actually concerns clients
+		/// Max size of serverside queue, client will be rolled back and punished if it overflows
 		private readonly int maxServerQueue = 10;
+		/// Amount of soft punishments before the hard one kicks in
 		private readonly int maxWarnings = 3;
 		private int playerWarnings;
 		private Vector2 serverLastDirection;
+
+		private bool IsFloatingServer => serverState.Impulse != Vector2.zero;
 		
+		/// idk if it's robust enough, but it seems to work
+		private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
+
 		public override void OnStartServer()
 		{
 			PullObjectID = NetworkInstanceId.Invalid;
 			InitState();
 			base.OnStartServer();
-		}
-
-		private Vector3 size1 = Vector3.one;
-		private Vector3 size2 = new Vector3(0.9f,0.9f,0.9f);
-		private Vector3 size3 = new Vector3(0.8f,0.8f,0.8f);
-		private Vector3 size4 = new Vector3(0.7f,0.7f,0.7f);
-		private Color color1 = Color.red;
-		private Color color2 = hexToColor("fd7c6e");
-		private Color color3 = hexToColor("22e600");
-		private Color color4 = hexToColor("ebfceb");
-
-		/// Utility from stackoverflow
-		private static Color hexToColor(string hex)
-		{
-			hex = hex.Replace ("0x", "");//in case the string is formatted 0xFFFFFF
-			hex = hex.Replace ("#", "");//in case the string is formatted #FFFFFF
-			byte a = 255;//assume fully visible unless specified in hex
-			byte r = byte.Parse(hex.Substring(0,2), System.Globalization.NumberStyles.HexNumber);
-			byte g = byte.Parse(hex.Substring(2,2), System.Globalization.NumberStyles.HexNumber);
-			byte b = byte.Parse(hex.Substring(4,2), System.Globalization.NumberStyles.HexNumber);
-			//Only use alpha if the string has enough characters
-			if(hex.Length == 8){
-				a = byte.Parse(hex.Substring(6,2), System.Globalization.NumberStyles.HexNumber);
-			}
-			return new Color32(r,g,b,a);
-		}
-		private void OnDrawGizmos()
-		{
-			//server target state
-			Gizmos.color = color1;
-			Gizmos.DrawWireCube(serverTargetState.Position - CustomNetTransform.deOffset, size1);
-			
-			//actual server state
-			Gizmos.color = color2;
-			Gizmos.DrawWireCube(serverState.Position - CustomNetTransform.deOffset, size2);
-			
-			//client predicted state
-			Gizmos.color = color3;
-			Vector3 clientPrediction = predictedState.Position - CustomNetTransform.deOffset;
-			Gizmos.DrawWireCube(clientPrediction, size3);
-			DrawArrow.ForGizmo(clientPrediction + Vector3.left / 5, predictedState.Impulse);
-			
-			//client actual state
-			Gizmos.color = color4;
-			Vector3 clientState = playerState.Position - CustomNetTransform.deOffset;
-			Gizmos.DrawWireCube(clientState, size4);
-			DrawArrow.ForGizmo(clientState + Vector3.right / 5, playerState.Impulse);
-			
 		}
 
 		public override void OnStartClient()
@@ -194,7 +158,7 @@ namespace PlayGroup
 			if (serverStateCache.Position != Vector3.zero && !isLocalPlayer)
 			{
 				playerState = serverStateCache;
-				transform.localPosition = RoundedPos(playerState.Position);
+				transform.localPosition = Vector3Int.RoundToInt(playerState.Position);
 			}
 			else
 			{
@@ -217,7 +181,9 @@ namespace PlayGroup
 			serverTargetState = state;
 		}
 
+
 		//Currently used to set the pos of a player that has just been dragged by another player
+		//Fixme: prone to exploits
 		[Command]
 		public void CmdSetPositionFromReset(GameObject fromObj, GameObject otherPlayer, Vector3 setPos)
 		{
@@ -237,8 +203,7 @@ namespace PlayGroup
 		[Server]
 		public void SetPosition(Vector3 pos)
 		{
-			//TODO ^ check for an allowable type and other conditions to stop abuse of SetPosition
-			ClearPendingServer();
+			ClearQueueServer();
 			Vector3Int roundedPos = Vector3Int.RoundToInt(pos);
 			var newState = new PlayerState {MoveNumber = 0, Position = roundedPos};
 			serverState = newState;
@@ -249,11 +214,13 @@ namespace PlayGroup
 
 		private void Start()
 		{
-			if (isLocalPlayer)
+			//Init pending actions queue for your local player
+			if ( isLocalPlayer )
 			{
 				pendingActions = new Queue<PlayerAction>();
 				UpdatePredictedState();
 			}
+			//Init pending actions queue for server 
 			if ( isServer )
 			{
 				serverPendingActions = new Queue<PlayerAction>();
@@ -313,20 +280,27 @@ namespace PlayGroup
 			PlayerAction action = playerMove.SendAction();
 			if (action.keyCodes.Length != 0 && !PointlessMove(predictedState,action))
 			{
-				pendingActions.Enqueue(action);
 //				Debug.Log($"Client requesting {action} ({pendingActions.Count} in queue)");
-				if (!IsPseudoFloatingClient() && !IsFloatingClient())
+		
+				//experiment: not enqueueing or processing action if floating.
+				//arguably it shouldn't really be like that in the future, 
+				//but it's a workaround for serverstate being slightly ahead when floating
+				if (!IsPseudoFloatingClient && !IsFloatingClient)
 				{
+					pendingActions.Enqueue(action);
+					
 					LastDirection = action.Direction();
 					UpdatePredictedState();
+					
+					//Seems like Cmds are reliable enough in this case
+                    CmdProcessAction(action);
+                    //				RequestMoveMessage.Send(action); 
 				}
 //				else
 //				{
 //					Debug.Log($"Client not updating PredictedState for {action}");
 //				}
-				//Seems like Cmds are reliable enough in this case
-				CmdProcessAction(action);
-//				RequestMoveMessage.Send(action); 
+
 			}
 		}
 
@@ -365,6 +339,8 @@ namespace PlayGroup
 				if (isServer)
 				{
 					if (serverTargetState.Position != serverState.Position) {
+						//Lerp on server if it's worth lerping 
+						//and inform players if serverState reached targetState afterwards 
 						ServerLerp();
 						TryNotifyPlayers();
 					} else if (serverState.MoveNumber != serverTargetState.MoveNumber) {
@@ -408,27 +384,23 @@ namespace PlayGroup
 		private void CheckTargetUpdate()
 		{
 			//checking only player movement for now
-			if ( ServerPositionsMatch() )
+			if ( ServerPositionsMatch )
 			{
 				TryUpdateServerTarget();
 			}
 		}
+
 		///	Inform players of new state when lerp is finished 
 		[Server]
 		private void TryNotifyPlayers()
 		{
-			if ( ServerPositionsMatch() )
+			if ( ServerPositionsMatch )
 			{
 				NotifyPlayers();
 			}
 		}
 
-		/// idk if it's robust enough, but it seems to work
-		[Server]
-		private bool ServerPositionsMatch()
-		{
-			return serverTargetState.Position == serverState.Position; 
-		}
+
 
 		/// Tries to assign next target from queue to serverTargetState if there are any
 		/// (In order to start lerping towards it)
@@ -443,7 +415,7 @@ namespace PlayGroup
 			var nextAction = serverPendingActions.Peek();
 			if ( !PointlessMove(serverTargetState, nextAction) )
 			{
-				if ( FloatingServer() )
+				if ( IsFloatingServer )
 				{
 					Debug.Log("Server ignored move while player is floating");
 					serverPendingActions.Dequeue();
@@ -471,7 +443,7 @@ namespace PlayGroup
 				serverStateCache = serverState;
 			}
 			//Generally not sending mid-flight updates
-			if ( notifyFloating || !FloatingServer() )
+			if ( notifyFloating || !IsFloatingServer )
 			{
 				if ( notifyFloating )
 				{
@@ -486,7 +458,7 @@ namespace PlayGroup
 			playerScript.ghost.transform.localPosition =
 				Vector3.MoveTowards(playerScript.ghost.transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
 		}
-				
+
 		private void PlayerLerp(PlayerState state)
 		{
 			transform.localPosition = Vector3.MoveTowards(transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
@@ -524,12 +496,12 @@ namespace PlayGroup
 		}
 
 
-
 		[Command(channel = 0)]
 		private void CmdProcessAction(PlayerAction action)
 		{
 			//add action to server simulation queue
 			serverPendingActions.Enqueue(action);
+			//Rollback pos and punish player if server queue size is more than max size
 			if ( serverPendingActions.Count > maxServerQueue )
 			{
 				RollbackPosition();
@@ -552,7 +524,9 @@ namespace PlayGroup
 				serverStateCache = serverState;
 			}
 		}
-
+		/// Clear all queues and
+		/// inform players of true serverState
+		[Server]
 		private void RollbackPosition()
 		{
 			SetPosition(serverState.Position);
@@ -568,7 +542,7 @@ namespace PlayGroup
 			else
 			{
 				//redraw prediction point from received serverState using pending actions
-				var tempState = playerState;
+				PlayerState tempState = playerState;
 				int curPredictedMove = predictedState.MoveNumber;
 	
 				foreach ( PlayerAction action in pendingActions )
@@ -627,24 +601,29 @@ namespace PlayGroup
 		{
 			CmdProcessAction(action);
 		}
-
+		
+		/// Called when PlayerMoveMessage is received
 		public void UpdateClientState(PlayerState state)
 		{
 			playerState = state;
 			Debug.Log($"Got server update {playerState}");
 
-			//todo simplify
-			if ( IsFloatingClient() || IsPseudoFloatingClient() )
+			//todo simplify?
+			//ok, this one is hard to read.
+			//point is, don't reset predicted state if it guessed impulse correctly 
+			//or server is just approving old moves when you weren't flying yet
+			if ( IsFloatingClient || IsPseudoFloatingClient )
 			{
-				if (IsFloatingClient())
+				if (IsFloatingClient)
 				{
 					LastDirection = playerState.Impulse;
 				}
-				//reset predictedState spacewalk simulation
-				//if impulses don't match while true playerState has same or greater movenumber
+				//Move number check is there for the situations 
+				//when server still confirms your old moves on the station while you're already in space for some time
 				bool shouldReset = predictedState.Impulse != playerState.Impulse && predictedState.MoveNumber <= playerState.MoveNumber;
-				if ( !IsPseudoFloatingClient() || shouldReset )
+				if ( !IsPseudoFloatingClient || shouldReset )
 				{
+//					Debug.Log($"Reset predictedState {predictedState} with {playerState}");
 					predictedState = playerState;
 				}
 				return;
@@ -653,10 +632,11 @@ namespace PlayGroup
 			{
 				//invalidate queue if serverstate was never predicted
 				bool serverAhead = playerState.MoveNumber > predictedState.MoveNumber;
-				bool posMismatch = playerState.MoveNumber == predictedState.MoveNumber && playerState.Position != predictedState.Position;
+				bool posMismatch = playerState.MoveNumber == predictedState.MoveNumber 
+				                   && playerState.Position != predictedState.Position;
 				if ( serverAhead || posMismatch ){
 					Debug.LogWarning($"serverAhead={serverAhead}, posMismatch={posMismatch}");
-					ResetClientQueue();
+					ClearQueueClient();
 					predictedState = playerState;
 				} else {
 					//removing actions already acknowledged by server from pending queue
@@ -669,7 +649,8 @@ namespace PlayGroup
 			}
 		}
 
-		public void ResetClientQueue()
+		/// Clears client pending actions queue
+		private void ClearQueueClient()
 		{
 //			Debug.Log("Resetting queue as requested by server!");
 			if ( pendingActions != null && pendingActions.Count > 0 )
@@ -678,7 +659,8 @@ namespace PlayGroup
 			}
 		}
 
-		private void ClearPendingServer()
+		/// Clears server pending actions queue
+		private void ClearQueueServer()
 		{
 //			Debug.Log("Server queue wiped!");
 			if ( serverPendingActions != null && serverPendingActions.Count > 0 )
@@ -687,32 +669,28 @@ namespace PlayGroup
 			}
 		}
 
-		private static Vector3 RoundedPos(Vector3 pos)
-		{
-			return new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y), pos.z);
-		}
+//		/// Push check, incl. ground push
+//		//fixme: broken
+//		[Server]
+//		private void CheckPush()
+//		{
+//			if ( matrix == null || !IsFloatingServer )
+//			{
+//				return;
+//			}
+//			Vector3Int pushGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3) serverTargetState.Impulse);
+//			if ( !matrix.IsPassableAt(pushGoal) )
+//			{
+//				serverTargetState.Impulse = Vector2.zero;
+//				return;
+//			}
+//			Debug.Log($"Server push to {pushGoal}");
+//			serverTargetState.Position = pushGoal;
+//		}
 
 		/// <summary>
-		/// Push check, incl. ground push
+		/// Space walk, Push checks for client and server. Grown so large I had to separate C/S methods
 		/// </summary>
-		[Server]
-		private void CheckPush()
-		{
-			//fixme: breaks shit
-			if ( matrix == null || !FloatingServer() )
-			{
-				return;
-			}
-			Vector3Int pushGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3) serverTargetState.Impulse);
-			if ( !matrix.IsPassableAt(pushGoal) )
-			{
-				serverTargetState.Impulse = Vector2.zero;
-				return;
-			}
-			Debug.Log($"Server push to {pushGoal}");
-			serverTargetState.Position = pushGoal;
-		}
-
 		private void CheckSpaceWalk()
 		{
 			if (matrix == null)
@@ -728,21 +706,21 @@ namespace PlayGroup
 			CheckSpaceWalkClient();
 //			if (matrix.IsSpaceAt(pos) && !healthBehaviorScript.IsDead && isServer && !isApplyingSpaceDmg)
 //			{
-//				//Hurting people in space even if they are next to the wall
+//				Hurting people in space even if they are next to the wall
 //				StartCoroutine(ApplyTempSpaceDamage());
 //				isApplyingSpaceDmg = true;
 //			}
 		}
-		///fixme: jerky resimulation on update from server
-		//Simulating using predictedState for your own player and playerState for others
-		/// <param name="state"></param>
+
+		///Simulate space walk by server's orders or initiate/stop them on client
+		///Using predictedState for your own player and playerState for others
 		private void CheckSpaceWalkClient()
 		{
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
 			Vector3Int pos = Vector3Int.RoundToInt(state.Position);
-			if ( ( IsFloatingClient() || IsPseudoFloatingClient() ) && !matrix.IsFloatingAt(pos) )
+			if ( ( IsFloatingClient || IsPseudoFloatingClient ) && !matrix.IsFloatingAt(pos) )
 			{
-				Debug.Log("stop floating to avoid that dumb rubberband");
+//				Debug.Log("stopped player floating to avoid going through walls");
 				//stop floating on client (if server isn't responding in time) to avoid players going through walls
 				predictedState.Impulse = Vector2.zero;
 				playerState.Impulse = Vector2.zero;
@@ -770,11 +748,13 @@ namespace PlayGroup
 					{
 						playerState.Impulse = LastDirection;
 					}
-					Debug.Log($"Wasn't floating on client, now floating with impulse {LastDirection}. FC={IsFloatingClient()},PFC={IsPseudoFloatingClient()}");
+//					Debug.Log($"Wasn't floating on client, now floating with impulse {LastDirection}. FC={IsFloatingClient},PFC={IsPseudoFloatingClient}");
 				}
 
+				//Perpetual floating sim
 				if ( transform.localPosition == state.Position )
 				{
+					//Extending prediction by one tile if player's transform reaches previously set goal
 					Vector3Int newGoal = Vector3Int.RoundToInt(state.Position + ( Vector3 ) state.Impulse);
 					if (!isLocalPlayer)
 					{
@@ -784,25 +764,27 @@ namespace PlayGroup
 				}
 			}
 		}
+
+		/// Ensuring server authority for space walk
 		[Server]
 		private void CheckSpaceWalkServer()
 		{
 			if ( matrix.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.Position)) )
 			{
-				if ( !FloatingServer() )
+				if ( !IsFloatingServer )
 				{
 					//initiate floating
 					//notify players that we started floating
 					Push(Vector2Int.RoundToInt(serverLastDirection));
 				}
-				else if ( ServerPositionsMatch() )
+				else if ( ServerPositionsMatch )
 				{
 					//continue floating
 					serverTargetState.Position = Vector3Int.RoundToInt(serverState.Position + ( Vector3 ) serverTargetState.Impulse);
-					ClearPendingServer();
+					ClearQueueServer();
 				}
 			}
-			else if ( FloatingServer() )
+			else if ( IsFloatingServer )
 			{
 				//finish floating. players will be notified as soon as serverState catches up
 				serverTargetState.Impulse = Vector2.zero;
@@ -810,21 +792,9 @@ namespace PlayGroup
 			}
 		}
 
-		private bool IsFloatingClient()
-		{
-			return playerState.Impulse != Vector2.zero;
-		}
-		private bool IsPseudoFloatingClient()
-		{
-			return predictedState.Impulse != Vector2.zero;
-		}
-		[Server]
-		private bool FloatingServer()
-		{
-			return serverState.Impulse != Vector2.zero;
-		}
-
-		/// Push player in direction
+		/// Push player in direction.
+		/// Impulse should be consumed after one tile if indoors (todo wip), 
+		/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space 
 		[Server]
 		public void Push(Vector2Int direction)
 		{
@@ -834,7 +804,7 @@ namespace PlayGroup
 		}
 
 		//TODO: Remove this when atmos is implemented 
-		//This prevents players drifting into space indefinitely 
+		///This prevents players drifting into space indefinitely 
 		private IEnumerator ApplyTempSpaceDamage()
 		{
 			yield return new WaitForSeconds(1f);
@@ -843,28 +813,40 @@ namespace PlayGroup
 //			healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
 			isApplyingSpaceDmg = false;
 		}
+		
+		//Visual debug
+		private Vector3 size1 = Vector3.one;
+		private Vector3 size2 = new Vector3(0.9f,0.9f,0.9f);
+		private Vector3 size3 = new Vector3(0.8f,0.8f,0.8f);
+		private Vector3 size4 = new Vector3(0.7f,0.7f,0.7f);
+		private Color color1 = Color.red;
+		private Color color2 = DebugTools.HexToColor("fd7c6e");
+		private Color color3 = DebugTools.HexToColor("22e600");
+		private Color color4 = DebugTools.HexToColor("ebfceb");
+
+		private void OnDrawGizmos()
+		{
+			//server target state
+			Gizmos.color = color1;
+			Gizmos.DrawWireCube(serverTargetState.Position - CustomNetTransform.deOffset, size1);
+			
+			//actual server state
+			Gizmos.color = color2;
+			Gizmos.DrawWireCube(serverState.Position - CustomNetTransform.deOffset, size2);
+			
+			//client predicted state
+			Gizmos.color = color3;
+			Vector3 clientPrediction = predictedState.Position - CustomNetTransform.deOffset;
+			Gizmos.DrawWireCube(clientPrediction, size3);
+			DrawArrow.ForGizmo(clientPrediction + Vector3.left / 5, predictedState.Impulse);
+			
+			//client actual state
+			Gizmos.color = color4;
+			Vector3 clientState = playerState.Position - CustomNetTransform.deOffset;
+			Gizmos.DrawWireCube(clientState, size4);
+			DrawArrow.ForGizmo(clientState + Vector3.right / 5, playerState.Impulse);
+		}
 	}
 }
-public static class DrawArrow
-{
-    public static void ForGizmo(Vector3 pos, Vector3 direction, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
-    {
-	    if ( direction == Vector3.zero )
-	    {
-		    return;
-	    }
-        Gizmos.DrawRay(pos, direction);
 
-	    Quaternion lookRotation = Quaternion.LookRotation (direction);
-	    Vector3 right = lookRotation * Quaternion.Euler (arrowHeadAngle, 0, 0) * Vector3.back;
-	    Vector3 left = lookRotation * Quaternion.Euler (-arrowHeadAngle, 0, 0) * Vector3.back;
-	    Vector3 up = lookRotation * Quaternion.Euler (0, arrowHeadAngle, 0) * Vector3.back;
-	    Vector3 down = lookRotation * Quaternion.Euler (0, -arrowHeadAngle, 0) * Vector3.back;
-	    Gizmos.color = Gizmos.color;
-	    Gizmos.DrawRay (pos + direction, right * arrowHeadLength);
-	    Gizmos.DrawRay (pos + direction, left * arrowHeadLength);
-	    Gizmos.DrawRay (pos + direction, up * arrowHeadLength);
-	    Gizmos.DrawRay (pos + direction, down * arrowHeadLength);
-    }
-}
  
