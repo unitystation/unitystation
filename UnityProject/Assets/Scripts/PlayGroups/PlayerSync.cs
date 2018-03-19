@@ -13,12 +13,18 @@ namespace PlayGroup
 	{
 		public int MoveNumber;
 		public Vector3 Position;
-		//todo add speed
-		public Vector2 Impulse; //Direction of flying
+		///Direction of flying
+		public Vector2 Impulse; 
+		///Flag for clients to reset their queue when received 
+		public bool ResetClientQueue;
+		/// Flag for server to ensure that clients receive that flight update: 
+		/// Only important flight updates are being sent out by server (usually start-stop only)
+		[NonSerialized] public bool ImportantFlightUpdate;
 
 		public override string ToString()
 		{
-			return $"{nameof( MoveNumber )}: {MoveNumber}, {nameof( Position )}: {Position}, {nameof( Impulse )}: {Impulse}";
+			return $"{nameof(MoveNumber)}: {MoveNumber}, {nameof(Position)}: {Position}, {nameof(Impulse)}: {Impulse}, " +
+			       $"{nameof(ResetClientQueue)}: {ResetClientQueue}, {nameof(ImportantFlightUpdate)}: {ImportantFlightUpdate}";
 		}
 	}
 
@@ -205,11 +211,17 @@ namespace PlayGroup
 		{
 			ClearQueueServer();
 			Vector3Int roundedPos = Vector3Int.RoundToInt(pos);
-			var newState = new PlayerState {MoveNumber = 0, Position = roundedPos};
+			//Note the client queue reset
+			var newState = new PlayerState
+			{
+				MoveNumber = 0, 
+				Position = roundedPos, 
+				ResetClientQueue = true
+			};
 			serverState = newState;
 			serverTargetState = newState;
 			serverStateCache = newState;
-			NotifyPlayers(true);
+			NotifyPlayers();
 		}
 
 		private void Start()
@@ -318,7 +330,6 @@ namespace PlayGroup
 			if ( isServer )
 			{
 				CheckTargetUpdate();
-//				CheckPush();
 			}
 
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
@@ -338,12 +349,13 @@ namespace PlayGroup
 
 				if (isServer)
 				{
-					if (serverTargetState.Position != serverState.Position) {
+					if (!ServerPositionsMatch) {
 						//Lerp on server if it's worth lerping 
 						//and inform players if serverState reached targetState afterwards 
 						ServerLerp();
 						TryNotifyPlayers();
 					} else if (serverState.MoveNumber != serverTargetState.MoveNumber) {
+						//if positions match, but move numbers don't, just use target state as reference and send it
 						NotifyPlayers();
 					}
 				}
@@ -432,25 +444,26 @@ namespace PlayGroup
 		}
 
 		[Server]
-		private void NotifyPlayers(bool resetClientQueue = false, bool notifyFloating = false)
+		private void NotifyPlayers(/*bool resetClientQueue = false, bool notifyFloating = false*/)
 		{
 			serverState = serverTargetState; //copying move number etc
 			//Do not cache the position if the player is a ghost
 			//or else new players will sync the deadbody with the last pos
-			//of the gost:
+			//of the ghost:
 			if ( !playerMove.isGhost )
 			{
 				serverStateCache = serverState;
 			}
-			//Generally not sending mid-flight updates
-			if ( notifyFloating || !IsFloatingServer )
+			//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
+			if (!serverState.ImportantFlightUpdate && IsFloatingServer)
 			{
-				if ( notifyFloating )
-				{
-					Debug.Log("Now simulate that flight, boy!");
-				}
-				PlayerMoveMessage.SendToAll(gameObject, serverState, resetClientQueue);
+				return;
 			}
+//				if ( serverState.ImportantFlightUpdate )
+//				{
+//					Debug.Log("Now simulate that flight, boy!");
+//				}
+			PlayerMoveMessage.SendToAll(gameObject, serverState);
 		}
 
 		private void GhostLerp(PlayerState state)
@@ -669,25 +682,6 @@ namespace PlayGroup
 			}
 		}
 
-//		/// Push check, incl. ground push
-//		//fixme: broken
-//		[Server]
-//		private void CheckPush()
-//		{
-//			if ( matrix == null || !IsFloatingServer )
-//			{
-//				return;
-//			}
-//			Vector3Int pushGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3) serverTargetState.Impulse);
-//			if ( !matrix.IsPassableAt(pushGoal) )
-//			{
-//				serverTargetState.Impulse = Vector2.zero;
-//				return;
-//			}
-//			Debug.Log($"Server push to {pushGoal}");
-//			serverTargetState.Position = pushGoal;
-//		}
-
 		/// <summary>
 		/// Space walk, Push checks for client and server. Grown so large I had to separate C/S methods
 		/// </summary>
@@ -704,12 +698,7 @@ namespace PlayGroup
 			}
 			//Client zone
 			CheckSpaceWalkClient();
-//			if (matrix.IsSpaceAt(pos) && !healthBehaviorScript.IsDead && isServer && !isApplyingSpaceDmg)
-//			{
-//				Hurting people in space even if they are next to the wall
-//				StartCoroutine(ApplyTempSpaceDamage());
-//				isApplyingSpaceDmg = true;
-//			}
+
 		}
 
 		///Simulate space walk by server's orders or initiate/stop them on client
@@ -727,15 +716,6 @@ namespace PlayGroup
 			}
 			if ( matrix.IsFloatingAt(pos) )
 			{
-//				rayHit = Physics2D.RaycastAll(transform.position, lastDirection, 1.1f, matrixLayerMask);
-//				for (int i = 0; i < rayHit.Length; i++){
-//					if(rayHit[i].collider.gameObject.layer == 24){
-//						playerMove.ChangeMatricies(rayHit[i].collider.gameObject.transform.parent);
-//					}
-//				}
-//				if (rayHit.Length > 0){
-//					return;
-//				}
 				if ( state.Impulse == Vector2.zero && LastDirection != Vector2.zero )
 				{
 					//client initiated space dive. 						
@@ -788,8 +768,11 @@ namespace PlayGroup
 			{
 				//finish floating. players will be notified as soon as serverState catches up
 				serverTargetState.Impulse = Vector2.zero;
-				NotifyPlayers(true);
+				serverTargetState.ResetClientQueue = true;
+				serverTargetState.ImportantFlightUpdate = true;//not sure if required
 			}
+			
+			CheckSpaceDamage();
 		}
 
 		/// Push player in direction.
@@ -800,7 +783,36 @@ namespace PlayGroup
 		{
 			serverState.Impulse = direction;
 			serverTargetState.Impulse = direction;
-			NotifyPlayers(true, true);
+			if (matrix != null && IsFloatingServer)
+			{
+				Vector3Int pushGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3) serverTargetState.Impulse);
+				if (matrix.IsPassableAt(pushGoal))
+				{
+					Debug.Log($"Server push to {pushGoal}");
+					serverTargetState.Position = pushGoal;
+				}
+				else
+				{
+					serverState.Impulse = Vector2.zero;
+					serverTargetState.Impulse = Vector2.zero;
+				}
+			}
+			serverTargetState.ResetClientQueue = true;
+			serverTargetState.ImportantFlightUpdate = true;
+//			NotifyPlayers(true, true);
+		}
+
+		/// Checking whether player should suffocate
+		[Server]
+		private void CheckSpaceDamage()
+		{
+			if (matrix.IsSpaceAt(Vector3Int.RoundToInt(serverState.Position))
+			    && !healthBehaviorScript.IsDead && !isApplyingSpaceDmg)
+			{
+//				Hurting people in space even if they are next to the wall
+				StartCoroutine(ApplyTempSpaceDamage());
+				isApplyingSpaceDmg = true;
+			}
 		}
 
 		//TODO: Remove this when atmos is implemented 
@@ -808,9 +820,9 @@ namespace PlayGroup
 		private IEnumerator ApplyTempSpaceDamage()
 		{
 			yield return new WaitForSeconds(1f);
-//			healthBehaviorScript.RpcApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
-			//No idea why there is an isServer catch on RpcApplyDamage, but will apply on server as well in mean time:
-//			healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
+			healthBehaviorScript.RpcApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
+//			No idea why there is an isServer catch on RpcApplyDamage, but will apply on server as well in mean time:
+			healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
 			isApplyingSpaceDmg = false;
 		}
 		

@@ -23,5 +23,6 @@ namespace PlayGroup
 		void ProcessAction(PlayerAction action);
 		void UpdateClientState(PlayerState state);
 		void ClearQueueClient();
+		void Push(Vector2Int direction);
 	}
 }
