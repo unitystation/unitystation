@@ -650,7 +650,7 @@ namespace PlayGroup
 		}
 
 		/// Clears client pending actions queue
-		private void ClearQueueClient()
+		public void ClearQueueClient()
 		{
 //			Debug.Log("Resetting queue as requested by server!");
 			if ( pendingActions != null && pendingActions.Count > 0 )
