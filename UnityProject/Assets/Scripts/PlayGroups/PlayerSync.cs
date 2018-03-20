@@ -464,6 +464,15 @@ namespace PlayGroup
 //					Debug.Log("Now simulate that flight, boy!");
 //				}
 			PlayerMoveMessage.SendToAll(gameObject, serverState);
+			ClearStateFlags();
+		}
+		
+		private void ClearStateFlags()
+		{
+			serverTargetState.ImportantFlightUpdate = false;
+			serverTargetState.ResetClientQueue = false;
+			serverState.ImportantFlightUpdate = false;
+			serverState.ImportantFlightUpdate = false;
 		}
 
 		private void GhostLerp(PlayerState state)
@@ -705,6 +714,7 @@ namespace PlayGroup
 		///Using predictedState for your own player and playerState for others
 		private void CheckSpaceWalkClient()
 		{
+			//todo: fix lerpbacks in high ping
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
 			Vector3Int pos = Vector3Int.RoundToInt(state.Position);
 			if ( ( IsFloatingClient || IsPseudoFloatingClient ) && !matrix.IsFloatingAt(pos) )
@@ -757,7 +767,7 @@ namespace PlayGroup
 					//notify players that we started floating
 					Push(Vector2Int.RoundToInt(serverLastDirection));
 				}
-				else if ( ServerPositionsMatch )
+				else if ( ServerPositionsMatch && !serverTargetState.ImportantFlightUpdate )
 				{
 					//continue floating
 					serverTargetState.Position = Vector3Int.RoundToInt(serverState.Position + ( Vector3 ) serverTargetState.Impulse);
@@ -769,27 +779,29 @@ namespace PlayGroup
 				//finish floating. players will be notified as soon as serverState catches up
 				serverTargetState.Impulse = Vector2.zero;
 				serverTargetState.ResetClientQueue = true;
-				serverTargetState.ImportantFlightUpdate = true;//not sure if required
+//				serverTargetState.ImportantFlightUpdate = true;//not sure if required
 			}
 			
 			CheckSpaceDamage();
 		}
 
 		/// Push player in direction.
-		/// Impulse should be consumed after one tile if indoors (todo wip), 
+		/// Impulse should be consumed after one tile if indoors,
 		/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space 
 		[Server]
 		public void Push(Vector2Int direction)
 		{
 			serverState.Impulse = direction;
 			serverTargetState.Impulse = direction;
-			if (matrix != null && IsFloatingServer)
+			if (matrix != null)
 			{
 				Vector3Int pushGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3) serverTargetState.Impulse);
 				if (matrix.IsPassableAt(pushGoal))
 				{
 					Debug.Log($"Server push to {pushGoal}");
 					serverTargetState.Position = pushGoal;
+					serverTargetState.ImportantFlightUpdate = true;
+					serverTargetState.ResetClientQueue = true;
 				}
 				else
 				{
@@ -797,9 +809,6 @@ namespace PlayGroup
 					serverTargetState.Impulse = Vector2.zero;
 				}
 			}
-			serverTargetState.ResetClientQueue = true;
-			serverTargetState.ImportantFlightUpdate = true;
-//			NotifyPlayers(true, true);
 		}
 
 		/// Checking whether player should suffocate
@@ -820,9 +829,9 @@ namespace PlayGroup
 		private IEnumerator ApplyTempSpaceDamage()
 		{
 			yield return new WaitForSeconds(1f);
-			healthBehaviorScript.RpcApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
-//			No idea why there is an isServer catch on RpcApplyDamage, but will apply on server as well in mean time:
-			healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
+//			healthBehaviorScript.RpcApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
+////			No idea why there is an isServer catch on RpcApplyDamage, but will apply on server as well in mean time:
+//			healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
 			isApplyingSpaceDmg = false;
 		}
 		
