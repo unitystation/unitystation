@@ -24,7 +24,7 @@ namespace PlayGroup
 		public override string ToString()
 		{
 			return $"{nameof(MoveNumber)}: {MoveNumber}, {nameof(Position)}: {Position}, {nameof(Impulse)}: {Impulse}, " +
-			       $"{nameof(ResetClientQueue)}: {ResetClientQueue}, {nameof(ImportantFlightUpdate)}: {ImportantFlightUpdate}";
+			       $"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}";
 		}
 	}
 
@@ -347,17 +347,12 @@ namespace PlayGroup
 					PlayerLerp(state);
 				}
 
-				if (isServer)
+				if (isServer && !ServerPositionsMatch)
 				{
-					if (!ServerPositionsMatch) {
-						//Lerp on server if it's worth lerping 
-						//and inform players if serverState reached targetState afterwards 
-						ServerLerp();
-						TryNotifyPlayers();
-					} else if (serverState.MoveNumber != serverTargetState.MoveNumber) {
-						//if positions match, but move numbers don't, just use target state as reference and send it
-						NotifyPlayers();
-					}
+					//Lerp on server if it's worth lerping 
+					//and inform players if serverState reached targetState afterwards 
+					ServerLerp();
+					TryNotifyPlayers();
 				}
 
 				//Check if we should still be displaying an ItemListTab and update it, if so.
@@ -408,6 +403,9 @@ namespace PlayGroup
 		{
 			if ( ServerPositionsMatch )
 			{
+//				When serverState reaches its planned destination,
+//				embrace all other updates like updated moveNumber and flags
+				serverState = serverTargetState;
 				NotifyPlayers();
 			}
 		}
@@ -444,9 +442,9 @@ namespace PlayGroup
 		}
 
 		[Server]
-		private void NotifyPlayers(/*bool resetClientQueue = false, bool notifyFloating = false*/)
+		private void NotifyPlayers()
 		{
-			serverState = serverTargetState; //copying move number etc
+//			Debug.Log($"Sending an update {serverTargetState}(real: {serverState})");
 			//Do not cache the position if the player is a ghost
 			//or else new players will sync the deadbody with the last pos
 			//of the ghost:
