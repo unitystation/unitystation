@@ -16,6 +16,9 @@ public class FieldOfViewTiled : MonoBehaviour
 
     public float MaskCutawayDst;
 
+	List<Vector3> gizmos = new List<Vector3>();
+	float timeG = 0f;
+
     public MeshFilter ViewMeshFilter;
     Mesh ViewMesh;
 
@@ -117,23 +120,44 @@ public class FieldOfViewTiled : MonoBehaviour
         return new EdgeInfo(minPoint, maxPoint);
 
     }
+	private void OnDrawGizmos()
+	{
+		for (int i = 0; i < gizmos.Count; i++){
+			Gizmos.DrawSphere(gizmos[i],0.2f);
+		}
 
-    ViewCastInfo ViewCast(float globalAngle)
+		timeG += Time.deltaTime;
+		if(timeG > 5f){
+			timeG = 0f;
+			gizmos.Clear();
+		}
+	}
+	ViewCastInfo ViewCast(float globalAngle)
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, ViewRadius, ObstacleMask);
-
+	//	Debug.DrawRay(transform.position, dir * 40f, Color.red, 0.1f);
         if (hit && hit.collider != null)
         {
-			Vector3 tileCenter = Vector3Int.RoundToInt(hit.point + ((Vector2)dir) * 0.01f);
+			
+			Vector3 tileCenter = Vector3Int.RoundToInt(hit.point + ((Vector2)dir) * 0.5f);
+			Collider2D circleHit = Physics2D.OverlapCircle(tileCenter, 0.2f, ObstacleMask);
+			//Not on a wall or door tile, return
+			if(circleHit == null){
+				return new ViewCastInfo(false, transform.position + dir * ViewRadius, ViewRadius, globalAngle);
+		    }
+			//Enable to see where the tile centers are:
+		//	gizmos.Add(tileCenter);
+			Vector3Int localPos = Vector3Int.RoundToInt(hit.transform.InverseTransformPoint(tileCenter));
+
 			List<Vector3> corner = new List<Vector3>() {tileCenter + new Vector3(-0.5f, 0.5f,0f),
 				tileCenter + new Vector3(0.5f, 0.5f,0f), tileCenter + new Vector3(-0.5f, -0.5f,0f),
 				tileCenter + new Vector3(0.5f, -0.5f,0f)}; //NE, NW, SE, SW
 			
 			corner.Sort(delegate (Vector3 a, Vector3 b)
 			{
-				return Vector3.Distance(hit.point, a)
-				.CompareTo(Vector3.Distance(hit.point, b));
+				return Vector3.Distance(transform.position, a)
+				.CompareTo(Vector3.Distance(transform.position, b));
 			});
 
 			return new ViewCastInfo(true, corner[3], hit.distance, globalAngle);
