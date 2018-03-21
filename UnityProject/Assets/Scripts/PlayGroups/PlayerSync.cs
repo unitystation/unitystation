@@ -640,10 +640,10 @@ namespace PlayGroup
 				}
 				//Move number check is there for the situations 
 				//when server still confirms your old moves on the station while you're already in space for some time
-				bool shouldReset = predictedState.Impulse != playerState.Impulse && predictedState.MoveNumber <= playerState.MoveNumber;
-				if ( !IsPseudoFloatingClient || shouldReset )
+				bool shouldReset = predictedState.Impulse != playerState.Impulse && predictedState.MoveNumber == playerState.MoveNumber;
+				if ( /*!IsPseudoFloatingClient ||*/ shouldReset )
 				{
-//					Debug.Log($"Reset predictedState {predictedState} with {playerState}");
+					Debug.Log($"Reset predictedState {predictedState} with {playerState}");
 					predictedState = playerState;
 				}
 				return;
@@ -857,13 +857,15 @@ namespace PlayGroup
 			Gizmos.color = color3;
 			Vector3 clientPrediction = predictedState.Position - CustomNetTransform.deOffset;
 			Gizmos.DrawWireCube(clientPrediction, size3);
-			DrawArrow.ForGizmo(clientPrediction + Vector3.left / 5, predictedState.Impulse);
+			GizmoUtils.DrawArrow(clientPrediction + Vector3.left / 5, predictedState.Impulse);
+			GizmoUtils.DrawText(predictedState.MoveNumber.ToString(), clientPrediction + Vector3.left, 15);
 			
 			//client actual state
 			Gizmos.color = color4;
 			Vector3 clientState = playerState.Position - CustomNetTransform.deOffset;
 			Gizmos.DrawWireCube(clientState, size4);
-			DrawArrow.ForGizmo(clientState + Vector3.right / 5, playerState.Impulse);
+			GizmoUtils.DrawArrow(clientState + Vector3.right / 5, playerState.Impulse);
+			GizmoUtils.DrawText(playerState.MoveNumber.ToString(), clientState + Vector3.right, 15);
 		}
 	}
 }
