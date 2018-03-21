@@ -19,6 +19,9 @@ public class FieldOfViewTiled : MonoBehaviour
 	List<Vector3> gizmos = new List<Vector3>();
 	float timeG = 0f;
 
+	public float extend = 1f;
+	public Vector3 extendDir;
+
     public MeshFilter ViewMeshFilter;
     Mesh ViewMesh;
 
@@ -87,9 +90,11 @@ public class FieldOfViewTiled : MonoBehaviour
         }
 
         ViewMesh.Clear();
+
         ViewMesh.vertices = verticies;
         ViewMesh.triangles = triangles;
         ViewMesh.RecalculateNormals();
+
     }
 
     EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
@@ -120,18 +125,7 @@ public class FieldOfViewTiled : MonoBehaviour
         return new EdgeInfo(minPoint, maxPoint);
 
     }
-	private void OnDrawGizmos()
-	{
-		for (int i = 0; i < gizmos.Count; i++){
-			Gizmos.DrawSphere(gizmos[i],0.2f);
-		}
 
-		timeG += Time.deltaTime;
-		if(timeG > 5f){
-			timeG = 0f;
-			gizmos.Clear();
-		}
-	}
 	ViewCastInfo ViewCast(float globalAngle)
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
@@ -139,28 +133,17 @@ public class FieldOfViewTiled : MonoBehaviour
 	//	Debug.DrawRay(transform.position, dir * 40f, Color.red, 0.1f);
         if (hit && hit.collider != null)
         {
-			
-			Vector3 tileCenter = Vector3Int.RoundToInt(hit.point + ((Vector2)dir) * 0.5f);
-			Collider2D circleHit = Physics2D.OverlapCircle(tileCenter, 0.2f, ObstacleMask);
-			//Not on a wall or door tile, return
-			if(circleHit == null){
-				return new ViewCastInfo(false, transform.position + dir * ViewRadius, ViewRadius, globalAngle);
-		    }
-			//Enable to see where the tile centers are:
-		//	gizmos.Add(tileCenter);
-			Vector3Int localPos = Vector3Int.RoundToInt(hit.transform.InverseTransformPoint(tileCenter));
+			Vector3 hitPosition = Vector3.zero;
+			hitPosition = hit.point + ((Vector2)dir * 0.5f);
+			UnityEngine.Tilemaps.Tilemap tileMap = hit.collider.GetComponent<UnityEngine.Tilemaps.Tilemap>();
 
-			List<Vector3> corner = new List<Vector3>() {tileCenter + new Vector3(-0.5f, 0.5f,0f),
-				tileCenter + new Vector3(0.5f, 0.5f,0f), tileCenter + new Vector3(-0.5f, -0.5f,0f),
-				tileCenter + new Vector3(0.5f, -0.5f,0f)}; //NE, NW, SE, SW
-			
-			corner.Sort(delegate (Vector3 a, Vector3 b)
-			{
-				return Vector3.Distance(transform.position, a)
-				.CompareTo(Vector3.Distance(transform.position, b));
-			});
+			if(tileMap != null){
+				tileMap.SetTileFlags(tileMap.WorldToCell(hitPosition), UnityEngine.Tilemaps.TileFlags.None);
+				tileMap.SetColor(tileMap.WorldToCell(hitPosition),Color.white);
 
-			return new ViewCastInfo(true, corner[3], hit.distance, globalAngle);
+			}
+
+			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
         }
         else
         {
