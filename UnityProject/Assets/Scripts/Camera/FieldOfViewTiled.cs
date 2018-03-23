@@ -18,6 +18,7 @@ public class FieldOfViewTiled : MonoBehaviour
 
 	public float MaskCutawayDst;
 	private Dictionary<Vector3, Tilemap> hitWalls = new Dictionary<Vector3, Tilemap>();
+	private List<Vector3> curWalls = new List<Vector3>();
 	float waitToCheckWalls = 0f;
 
 	public MeshFilter ViewMeshFilter;
@@ -32,30 +33,21 @@ public class FieldOfViewTiled : MonoBehaviour
 
 	void LateUpdate()
 	{
-		DrawFieldOfView();
-	}
-
-	void Update(){
 		waitToCheckWalls += Time.deltaTime;
-		//4 updates a second:
-		if(waitToCheckWalls > 0.25f){
+		if (waitToCheckWalls > 0.1f) {
 			waitToCheckWalls = 0f;
 			CheckHitWallsCache();
 		}
+		DrawFieldOfView();
 	}
 
 	void CheckHitWallsCache(){
-		var curWalls = hitWalls.Keys.ToList();
-		for (int i = curWalls.Count - 1; i >= 0; i--){
-			RaycastHit2D hit = Physics2D.Linecast(transform.position, curWalls[i], ObstacleMask);
-			if(hit){
-				//Turn off any walls thats aren't being hit by FoV ray
-				if(Vector2.Distance(curWalls[i], hit.point) > 1.5f){
-					hitWalls[curWalls[i]].SetColor(hitWalls[curWalls[i]].WorldToCell(curWalls[i]), Color.black);
-				}
-				hitWalls.Remove(curWalls[i]);
-			}
+		var missingWalls = hitWalls.Keys.Except(curWalls).ToList();
+		for (int i = 0; i < missingWalls.Count() ;i++){
+			hitWalls[missingWalls[i]].SetColor(hitWalls[missingWalls[i]].WorldToCell(missingWalls[i]), Color.black);
+			hitWalls.Remove(missingWalls[i]);
 		}
+		curWalls.Clear();
 	}
 
 	void DrawFieldOfView()
@@ -129,7 +121,6 @@ public class FieldOfViewTiled : MonoBehaviour
 				maxPoint = newViewCast.point;
 			}
 		}
-
 		return new EdgeInfo(minPoint, maxPoint);
 	}
 
@@ -143,12 +134,15 @@ public class FieldOfViewTiled : MonoBehaviour
 			//Hit a wall (layer 9):
 			if (hit.collider.gameObject.layer == 9) {
 				//Turn the tilemap color of the wall to white so it is visible
-				hitPosition = hit.point + ((Vector2)dir * 0.5f);
+				hitPosition = Vector3Int.RoundToInt(hit.point + ((Vector2)dir * 0.5f));
 				if (!hitWalls.ContainsKey(hitPosition)) {
 					Tilemap tileMap = MatrixManager.Instance.wallTileMaps[hit.collider];
 					tileMap.SetTileFlags(tileMap.WorldToCell(hitPosition), TileFlags.None);
 					tileMap.SetColor(tileMap.WorldToCell(hitPosition), Color.white);
 					hitWalls.Add(hitPosition, tileMap);
+					if (!curWalls.Contains(hitPosition)) {
+						curWalls.Add(hitPosition);
+					}
 				}
 			}
 			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
