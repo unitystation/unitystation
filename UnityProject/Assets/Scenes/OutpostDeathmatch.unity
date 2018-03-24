@@ -1029,6 +1029,50 @@ Transform:
   m_PrefabParentObject: {fileID: 4000014280643290, guid: 78c5c1682869400f88094a093ea097b8,
     type: 2}
   m_PrefabInternal: {fileID: 43700865}
+--- !u!1 &44267309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 1134215619726616, guid: 74b0c48298b6e4d1489fa0aaadd8187b,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 44267310}
+  - component: {fileID: 44267311}
+  m_Layer: 0
+  m_Name: SpawnPoint08 - Captain
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &44267310
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 4088573769341418, guid: 74b0c48298b6e4d1489fa0aaadd8187b,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 44267309}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 77.5, y: 52, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 16282239}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &44267311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114059273678405852, guid: 74b0c48298b6e4d1489fa0aaadd8187b,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 44267309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Department: 7
 --- !u!1001 &45248013
 Prefab:
   m_ObjectHideFlags: 0
@@ -10770,7 +10814,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 293058354}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1587762690}
@@ -45795,7 +45839,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 460993093}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1309157832}
@@ -46539,6 +46583,35 @@ Transform:
   m_PrefabParentObject: {fileID: 4409860773913266, guid: 08b1b62f71d104f16bae72f04014662d,
     type: 2}
   m_PrefabInternal: {fileID: 511638687}
+--- !u!1 &515577130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 515577131}
+  m_Layer: 0
+  m_Name: SyndicateShuttlePivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &515577131
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 515577130}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10, y: -19, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 562853482}
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &520179358
 Prefab:
   m_ObjectHideFlags: 0
@@ -48297,8 +48370,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 562853474}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -10.5, y: 19.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 797656924}
@@ -48306,8 +48379,8 @@ Transform:
   - {fileID: 552279807}
   - {fileID: 1174741989}
   - {fileID: 1175550007}
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_Father: {fileID: 515577131}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &563289181
 Prefab:
@@ -50496,6 +50569,50 @@ Transform:
   m_PrefabParentObject: {fileID: 4354794864428666, guid: f8348e86f47d84bb4935ad29269cc0b6,
     type: 2}
   m_PrefabInternal: {fileID: 629742028}
+--- !u!1 &631191363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 1134215619726616, guid: 74b0c48298b6e4d1489fa0aaadd8187b,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 631191364}
+  - component: {fileID: 631191365}
+  m_Layer: 0
+  m_Name: SpawnPoint09 - Cargo
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &631191364
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 4088573769341418, guid: 74b0c48298b6e4d1489fa0aaadd8187b,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 631191363}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 14, y: 63, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 16282239}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &631191365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114059273678405852, guid: 74b0c48298b6e4d1489fa0aaadd8187b,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 631191363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Department: 9
 --- !u!1001 &634011469
 Prefab:
   m_ObjectHideFlags: 0
@@ -52047,7 +52164,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 684530370}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.5, y: 73.5, z: 0}
+  m_LocalPosition: {x: 9, y: 73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 293058355}
@@ -54813,251 +54930,9 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 797656928}
-    m_ColliderPaths:
-    - - X: 130000000
-        Y: -160000000
-      - X: 140000000
-        Y: -160000000
-      - X: 140000000
-        Y: -150000000
-      - X: 130000000
-        Y: -150000000
-      - X: 130000000
-        Y: -120000000
-      - X: 150000000
-        Y: -120000000
-      - X: 150000000
-        Y: -70000000
-      - X: 130000000
-        Y: -70000000
-      - X: 130000000
-        Y: -80000000
-      - X: 140000000
-        Y: -80000000
-      - X: 140000000
-        Y: -110000000
-      - X: 120000000
-        Y: -110000000
-      - X: 120000000
-        Y: -170000000
-      - X: 130000000
-        Y: -170000000
-    - - X: 30000000
-        Y: -200000000
-      - X: 80000000
-        Y: -200000000
-      - X: 80000000
-        Y: -210000000
-      - X: 90000000
-        Y: -210000000
-      - X: 90000000
-        Y: -190000000
-      - X: 40000000
-        Y: -190000000
-      - X: 40000000
-        Y: -130000000
-      - X: 80000000
-        Y: -130000000
-      - X: 80000000
-        Y: -170000000
-      - X: 90000000
-        Y: -170000000
-      - X: 90000000
-        Y: -130000000
-      - X: 100000000
-        Y: -130000000
-      - X: 100000000
-        Y: -110000000
-      - X: 90000000
-        Y: -110000000
-      - X: 90000000
-        Y: -120000000
-      - X: 70000000
-        Y: -120000000
-      - X: 70000000
-        Y: -80000000
-      - X: 80000000
-        Y: -80000000
-      - X: 80000000
-        Y: -70000000
-      - X: 60000000
-        Y: -70000000
-      - X: 60000000
-        Y: -120000000
-      - X: 30000000
-        Y: -120000000
-      - X: 30000000
-        Y: -190000000
-      - X: 20000000
-        Y: -190000000
-      - X: 20000000
-        Y: -290000000
-      - X: 30000000
-        Y: -290000000
-    - - X: 190000000
-        Y: -190000000
-      - X: 170000000
-        Y: -190000000
-      - X: 170000000
-        Y: -150000000
-      - X: 150000000
-        Y: -150000000
-      - X: 150000000
-        Y: -160000000
-      - X: 160000000
-        Y: -160000000
-      - X: 160000000
-        Y: -190000000
-      - X: 130000000
-        Y: -190000000
-      - X: 130000000
-        Y: -180000000
-      - X: 120000000
-        Y: -180000000
-      - X: 120000000
-        Y: -210000000
-      - X: 130000000
-        Y: -210000000
-      - X: 130000000
-        Y: -200000000
-      - X: 180000000
-        Y: -200000000
-      - X: 180000000
-        Y: -230000000
-      - X: 170000000
-        Y: -230000000
-      - X: 170000000
-        Y: -240000000
-      - X: 180000000
-        Y: -240000000
-      - X: 180000000
-        Y: -290000000
-      - X: 190000000
-        Y: -290000000
-    - - X: 70000000
-        Y: -250000000
-      - X: 80000000
-        Y: -250000000
-      - X: 80000000
-        Y: -280000000
-      - X: 90000000
-        Y: -280000000
-      - X: 90000000
-        Y: -230000000
-      - X: 80000000
-        Y: -230000000
-      - X: 80000000
-        Y: -240000000
-      - X: 60000000
-        Y: -240000000
-      - X: 60000000
-        Y: -290000000
-      - X: 70000000
-        Y: -290000000
-    - - X: 150000000
-        Y: -240000000
-      - X: 130000000
-        Y: -240000000
-      - X: 130000000
-        Y: -230000000
-      - X: 120000000
-        Y: -230000000
-      - X: 120000000
-        Y: -280000000
-      - X: 130000000
-        Y: -280000000
-      - X: 130000000
-        Y: -250000000
-      - X: 140000000
-        Y: -250000000
-      - X: 140000000
-        Y: -290000000
-      - X: 150000000
-        Y: -290000000
+  m_ColliderPaths: []
   m_CompositePaths:
-    m_Paths:
-    - - {x: 13, y: -16}
-      - {x: 14, y: -16}
-      - {x: 14, y: -15}
-      - {x: 13, y: -15}
-      - {x: 13, y: -12}
-      - {x: 15, y: -12}
-      - {x: 15, y: -7}
-      - {x: 13, y: -7}
-      - {x: 13, y: -8}
-      - {x: 14, y: -8}
-      - {x: 14, y: -11}
-      - {x: 12, y: -11}
-      - {x: 12, y: -17}
-      - {x: 13, y: -17}
-    - - {x: 3, y: -20}
-      - {x: 8, y: -20}
-      - {x: 8, y: -21}
-      - {x: 9, y: -21}
-      - {x: 9, y: -19}
-      - {x: 4, y: -19}
-      - {x: 4, y: -13}
-      - {x: 8, y: -13}
-      - {x: 8, y: -17}
-      - {x: 9, y: -17}
-      - {x: 9, y: -13}
-      - {x: 10, y: -13}
-      - {x: 10, y: -11}
-      - {x: 9, y: -11}
-      - {x: 9, y: -12}
-      - {x: 7, y: -12}
-      - {x: 7, y: -8}
-      - {x: 8, y: -8}
-      - {x: 8, y: -7}
-      - {x: 6, y: -7}
-      - {x: 6, y: -12}
-      - {x: 3, y: -12}
-      - {x: 3, y: -19}
-      - {x: 2, y: -19}
-      - {x: 2, y: -29}
-      - {x: 3, y: -29}
-    - - {x: 19, y: -19}
-      - {x: 17, y: -19}
-      - {x: 17, y: -15}
-      - {x: 15, y: -15}
-      - {x: 15, y: -16}
-      - {x: 16, y: -16}
-      - {x: 16, y: -19}
-      - {x: 13, y: -19}
-      - {x: 13, y: -18}
-      - {x: 12, y: -18}
-      - {x: 12, y: -21}
-      - {x: 13, y: -21}
-      - {x: 13, y: -20}
-      - {x: 18, y: -20}
-      - {x: 18, y: -23}
-      - {x: 17, y: -23}
-      - {x: 17, y: -24}
-      - {x: 18, y: -24}
-      - {x: 18, y: -29}
-      - {x: 19, y: -29}
-    - - {x: 7, y: -25}
-      - {x: 8, y: -25}
-      - {x: 8, y: -28}
-      - {x: 9, y: -28}
-      - {x: 9, y: -23}
-      - {x: 8, y: -23}
-      - {x: 8, y: -24}
-      - {x: 6, y: -24}
-      - {x: 6, y: -29}
-      - {x: 7, y: -29}
-    - - {x: 15, y: -24}
-      - {x: 13, y: -24}
-      - {x: 13, y: -23}
-      - {x: 12, y: -23}
-      - {x: 12, y: -28}
-      - {x: 13, y: -28}
-      - {x: 13, y: -25}
-      - {x: 14, y: -25}
-      - {x: 14, y: -29}
-      - {x: 15, y: -29}
+    m_Paths: []
   m_VertexDistance: 0.0005
 --- !u!50 &797656927
 Rigidbody2D:
@@ -55090,7 +54965,7 @@ TilemapCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 1
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
 --- !u!483693784 &797656929
 TilemapRenderer:
@@ -73193,6 +73068,50 @@ Transform:
   m_PrefabParentObject: {fileID: 4980519331127220, guid: f2cd419b41c964ba0a7a26218ec7a38c,
     type: 2}
   m_PrefabInternal: {fileID: 1082207534}
+--- !u!1 &1087264643
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 1134215619726616, guid: 74b0c48298b6e4d1489fa0aaadd8187b,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1087264644}
+  - component: {fileID: 1087264645}
+  m_Layer: 0
+  m_Name: SpawnPoint09 - HOP
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1087264644
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 4088573769341418, guid: 74b0c48298b6e4d1489fa0aaadd8187b,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1087264643}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 77, y: 50.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 16282239}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1087264645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114059273678405852, guid: 74b0c48298b6e4d1489fa0aaadd8187b,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1087264643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Department: 8
 --- !u!1001 &1087734826
 Prefab:
   m_ObjectHideFlags: 0
@@ -88251,7 +88170,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1527067303}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 14.5, z: 0}
+  m_LocalPosition: {x: 0, y: 14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 460993101}

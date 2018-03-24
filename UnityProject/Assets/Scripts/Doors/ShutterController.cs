@@ -34,7 +34,11 @@ public class ShutterController : ObjectTrigger
 		closedSortingLayer = SortingLayer.NameToID("Doors Open");
 		openLayer = LayerMask.NameToLayer("Door Open");
 		openSortingLayer = SortingLayer.NameToID("Doors Closed");
-		SetLayer(closedLayer, closedSortingLayer);
+		SetLayer(openLayer,openSortingLayer);
+	}
+
+	public void Start(){
+		gameObject.SendMessage("TurnOffDoorFov", null, SendMessageOptions.DontRequireReceiver);
 	}
 
 	public override void Trigger(bool state)
@@ -60,7 +64,9 @@ public class ShutterController : ObjectTrigger
 		registerTile.IsClosed = state;
 		if (state)
 		{
+			gameObject.SendMessage("TurnOnDoorFov", null, SendMessageOptions.DontRequireReceiver);
 			SetLayer(closedLayer, closedSortingLayer);
+		//	gameObject.SendMessage("TurnOnDoorFov");
 			if (isServer)
 			{
 				DamageOnClose();
@@ -69,6 +75,8 @@ public class ShutterController : ObjectTrigger
 		else
 		{
 			SetLayer(openLayer, openSortingLayer);
+			gameObject.SendMessage("TurnOffDoorFov", null, SendMessageOptions.DontRequireReceiver);
+			//gameObject.SendMessage("TurnOffDoorFov");
 		}
 
 		animator.SetBool("close", state);

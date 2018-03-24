@@ -10,7 +10,7 @@ namespace Doors
 		public GameObject fovTileSprite;
 		private SpriteRenderer tileSpriteRenderer;
 
-		void Start()
+		void Awake()
 		{
 			GameObject fTile = Instantiate(fovTileSprite, transform.position, Quaternion.identity);
 			fTile.transform.parent = transform;

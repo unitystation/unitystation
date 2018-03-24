@@ -6,5 +6,8 @@
 	Security,
 	Research,
 	Personnel,
-	Syndicate
+	Syndicate,
+	Captain,
+	HoP,
+	Cargo
 }

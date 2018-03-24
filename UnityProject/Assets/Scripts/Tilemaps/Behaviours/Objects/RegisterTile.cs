@@ -69,26 +69,23 @@ namespace Tilemaps.Behaviours.Objects
 			}
 		}
 
-		private void Awake()
+		public override void OnStartServer()
 		{
-			if(transform.parent != null)
-			{
-				layer = transform.parent.GetComponentInParent<ObjectLayer>();
-				Matrix = transform.parent.GetComponentInParent<Matrix>();
-				Register();
-			}
-		}
-
-		public void Start()
-		{
-			if (isServer && transform.parent != null)
+			if (transform.parent != null)
 			{
 				ParentNetId = transform.parent.GetComponentInParent<NetworkIdentity>().netId;
 			}
+
+			base.OnStartServer();
 		}
 
 		private void OnEnable()
 		{
+			if (transform.parent != null) {
+				layer = transform.parent.GetComponentInParent<ObjectLayer>();
+				Matrix = transform.parent.GetComponentInParent<Matrix>();
+				Register();
+			}
 			// In case of recompilation and Start doesn't get called
 			layer?.Objects.Add(Position, this);
 		}

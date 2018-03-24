@@ -7,8 +7,11 @@ public class SpawnPoint : NetworkStartPosition
     private static readonly Dictionary<JobDepartment, JobType[]> DepartmentJobs
         = new Dictionary<JobDepartment, JobType[]>
         {
-            { JobDepartment.TheGrayTide, new [] { JobType.ASSISTANT, JobType.CAPTAIN, JobType.CLOWN} },
-            { JobDepartment.Personnel, new [] {JobType.CURATOR, JobType.COOK, JobType.CHAPLAIN, JobType.BOTANIST, JobType.BARTENDER, JobType.CARGOTECH, JobType.HOP, JobType.MIME, JobType.MINER, JobType.QUARTERMASTER, JobType.JANITOR} },
+		{ JobDepartment.TheGrayTide, new [] { JobType.ASSISTANT, JobType.CLOWN, JobType.MIME} },
+		    { JobDepartment.Captain, new [] { JobType.CAPTAIN} },
+			{ JobDepartment.HoP, new [] { JobType.HOP} },
+		{ JobDepartment.Cargo, new [] { JobType.HOP, JobType.CARGOTECH, JobType.QUARTERMASTER} },
+            { JobDepartment.Personnel, new [] {JobType.CURATOR, JobType.COOK, JobType.CHAPLAIN, JobType.BOTANIST, JobType.BARTENDER, JobType.MINER, JobType.JANITOR} },
             { JobDepartment.Medical, new [] {JobType.GENETICIST, JobType.CHEMIST, JobType.CMO, JobType.DOCTOR, JobType.MEDSCI, JobType.VIROLOGIST} },
             { JobDepartment.Research, new [] {JobType.RD, JobType.SCIENTIST} },
             { JobDepartment.Security, new [] {JobType.DETECTIVE, JobType.HOS, JobType.LAWYER, JobType.SECURITY_OFFICER, JobType.WARDEN} },
