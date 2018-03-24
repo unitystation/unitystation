@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 95341735492961758}
   - component: {fileID: 114640096819736908}
   - component: {fileID: 114056072402202090}
+  - component: {fileID: 114820902694638386}
   m_Layer: 16
   m_Name: Shutters
   m_TagString: Untagged
@@ -128,11 +129,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
+  AtmosPassable: 0
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
-  AtmosPassable: 0
-  OneDirectionRestricted: 0
   IsClosed: 0
+  OneDirectionRestricted: 0
 --- !u!114 &114640096819736908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -176,6 +177,20 @@ MonoBehaviour:
     i15: 199
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114820902694638386
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010316053548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b651f691d994be2a711f3504b85ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fovTileSprite: {fileID: 1988361524031004, guid: 4232d90630e5c4ae1b6e7a3370b1d2a5,
+    type: 2}
+  tileSpriteRenderer: {fileID: 0}
 --- !u!212 &212000011093762314
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -190,7 +205,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -208,7 +223,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300030, guid: 3126d5359b7d4eb0944012e91bd4be16, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

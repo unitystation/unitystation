@@ -55,7 +55,7 @@ Shader "Stencil/Stencil Sprite"
 			#endif
 			
 			UNITY_INITIALIZE_OUTPUT(Input, o);
-			o.color = v.color * _Color * _RendererColor;
+			o.color = v.color * _Color;
 		}
 
 		void surf (Input IN, inout SurfaceOutput o)

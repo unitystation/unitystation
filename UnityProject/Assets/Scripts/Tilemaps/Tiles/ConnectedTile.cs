@@ -49,6 +49,16 @@ namespace Tilemaps.Tiles
 			}
 		}
 
+		public override bool StartUp(Vector3Int location, ITilemap tilemap, GameObject go){
+			if (Application.isPlaying) {
+				tilemap.GetComponent<Tilemap>().SetColor(location, Color.black);
+			} else {
+				tilemap.GetComponent<Tilemap>().SetColor(location, Color.white);
+
+			}
+				return true;
+		}
+
 		public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
 		{
 			if (tilemap.GetComponent<Tilemap>().name == "Layer1")
@@ -83,7 +93,7 @@ namespace Tilemaps.Tiles
 			if (i >= 0)
 			{
 				tileData.sprite = sprites[i];
-				tileData.flags = TileFlags.LockAll;
+				tileData.flags = TileFlags.None;
 				// create collider for tiles, None, Sprite or Grid
 				tileData.colliderType = Tile.ColliderType.Grid;
 			}

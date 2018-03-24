@@ -18,6 +18,19 @@ namespace Tilemaps.Behaviours.Layers
 			tilemap = GetComponent<Tilemap>();
 		}
 
+		public void Start(){
+			if(!Application.isPlaying){
+				return;
+			}
+			if(MatrixManager.Instance == null){
+				Debug.LogError("Matrix Manager is missing from the scene");
+			} else {
+				if (LayerType == LayerType.Walls){
+					MatrixManager.Instance.wallTileMaps.Add(GetComponent<TilemapCollider2D>(), tilemap);
+				}
+			}
+		}
+
 		public virtual bool IsPassableAt(Vector3Int from, Vector3Int to)
 		{
 			if (from == to)

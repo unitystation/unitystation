@@ -9,7 +9,7 @@ public class DisplayManager : MonoBehaviour
 	public static DisplayManager Instance;
 
 	private CanvasScaler canvasScaler;
-	public FieldOfViewTiled fieldOfView;
+	public FieldOfViewStencil fieldOfView;
 	private int height;
 	public LightingSystem lightingSystem;
 	public Camera mainCamera;
@@ -62,7 +62,7 @@ public class DisplayManager : MonoBehaviour
 	{
 		if (GameData.IsInGame)
 		{
-			fieldOfView = FindObjectOfType<FieldOfViewTiled>();
+			fieldOfView = FindObjectOfType<FieldOfViewStencil>();
 		}
 	}
 
@@ -80,6 +80,6 @@ public class DisplayManager : MonoBehaviour
 			xOffSet = -xOffSet;
 		}
 		Camera2DFollow.followControl.listenerObj.transform.localPosition = new Vector3(-xOffSet, 1f); //set listenerObj's position to player's pos
-		Camera2DFollow.followControl.xOffset = xOffSet;
+		Camera2DFollow.followControl.SetXOffset(xOffSet);
 	}
 }

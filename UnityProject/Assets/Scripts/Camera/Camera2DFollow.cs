@@ -6,7 +6,6 @@ public class Camera2DFollow : MonoBehaviour
 	//Static to make sure its the only cam in scene & for later access to camshake
 	public static Camera2DFollow followControl;
 
-
 	private readonly bool adjustPixel = false;
 	private readonly float lookAheadMoveThreshold = 0.1f;
 	private readonly float lookAheadReturnSpeed = 0.5f;
@@ -37,6 +36,8 @@ public class Camera2DFollow : MonoBehaviour
 	public Transform target;
 	public float xOffset = 4f;
 
+    public GameObject stencilMask;
+
 	private void Awake()
 	{
 		if (followControl == null)
@@ -56,7 +57,7 @@ public class Camera2DFollow : MonoBehaviour
 		{
 			lastTargetPosition = target.position;
 			offsetZ = (transform.position - target.position).z;
-		}
+        }
 		transform.parent = null;
 		starsBackground.parent = null;
 	}
@@ -93,11 +94,19 @@ public class Camera2DFollow : MonoBehaviour
 			starsBackground.position = -newPos * 0.1f;
 
 			lastTargetPosition = target.position;
-		}
+			if (stencilMask.transform.parent != target) {
+				stencilMask.transform.parent = target;
+				stencilMask.transform.localPosition = Vector3.zero;
+			}
+        }
 	}
 
+    public void SetXOffset(float offset)
+    {
+        xOffset = offset;
+    }
 
-	public void LookAheadTemp(float newLookAhead)
+    public void LookAheadTemp(float newLookAhead)
 	{
 		lookAheadFactor = newLookAhead;
 		StartCoroutine(LookAheadSwitch());
