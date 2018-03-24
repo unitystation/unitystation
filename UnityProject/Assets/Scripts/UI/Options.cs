@@ -17,8 +17,9 @@ namespace UI
 		private void Start()
 		{
 			if(PlayerPrefs.HasKey("UI_Appearence")){
-				appearenceDropDown.value = PlayerPrefs.GetInt("UI_Appearence");
-				OnAppearenceChange(0);
+				int val = PlayerPrefs.GetInt("UI_Appearence");
+				appearenceDropDown.value = val;
+				OnAppearenceChange(val);
 			}
 		}
 

@@ -17,7 +17,6 @@ namespace UI
 		private CanvasScaler canvasScaler;
 		private GraphicRaycaster graphicRaycaster;
 		public RectTransform hudBottom;
-		private bool isFullScreen;
 
 		private bool monitorWindow;
 		private Canvas parentCanvas;
@@ -58,7 +57,7 @@ namespace UI
 				StartCoroutine(WaitForDisplay());
 			}
 		}
-
+	
 		private IEnumerator WaitForDisplay()
 		{
 			checkingDisplayOnLoad = true;
@@ -67,7 +66,9 @@ namespace UI
 			screenHeightCache = Screen.height;
 			AdjustHudBottom(rightPanelResize.panelRectTransform.sizeDelta);
 			monitorWindow = true;
-			StartCoroutine(ForceGameWindowAspect());
+			if (!Screen.fullScreen) {
+				StartCoroutine(ForceGameWindowAspect());
+			}
 		}
 
 		private void Update()
@@ -78,15 +79,13 @@ namespace UI
 				if (screenWidthCache != Screen.width ||
 				    screenHeightCache != Screen.height)
 				{
-					Invoke("AdjustHudBottomDelay", 0.1f);
+					Invoke("AdjustHudBottomDelay", 1f);
 					monitorWindow = false;
 				}
+			}
 
-				if (isFullScreen != Screen.fullScreen)
-				{
-					isFullScreen = Screen.fullScreen;
-					Invoke("AdjustHudBottomDelay", 0.1f);
-				}
+			if(Input.GetKey(KeyCode.Escape)){
+				Screen.fullScreen = false;
 			}
 		}
 

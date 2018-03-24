@@ -34,6 +34,10 @@ namespace Tilemaps.Behaviours.Objects
 		private void SetParent(NetworkInstanceId netId)
 		{
 			GameObject parent = ClientScene.FindLocalObject(netId);
+			if(parent == null){
+				//nothing found
+				return;
+			}
 			Unregister();
 			layer = parent.GetComponentInChildren<ObjectLayer>();
 			Matrix = parent.GetComponent<Matrix>();

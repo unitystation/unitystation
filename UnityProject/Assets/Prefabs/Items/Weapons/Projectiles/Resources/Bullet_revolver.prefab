@@ -131,6 +131,7 @@ MonoBehaviour:
   damage: 40
   shooter: {fileID: 0}
   damageType: 0
+  isSuicide: 0
 --- !u!212 &212426495759714984
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -174,4 +175,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
