@@ -100,6 +100,7 @@ namespace PlayGroup
 			{
 				if (value != Vector2.zero)
 				{
+//					Debug.Log($"Setting lastDirection to {value}");
 					lastDirection = value;
 				}
 				else
@@ -127,6 +128,10 @@ namespace PlayGroup
 		private bool IsFloatingClient => playerState.Impulse != Vector2.zero;
 		/// Does your client think you should be floating rn? (Regardless of what server thinks)
 		private bool IsPseudoFloatingClient => predictedState.Impulse != Vector2.zero;
+		/// Measure to avoid lerping back and forth in a lagspike 
+		/// where player simulated entire spacewalk (start and stop) without getting server's answer yet
+		private bool IsUnapprovedFloatClient = false;
+
 		
 		//Server-only fields, don't concern clients in any way
 		private PlayerState serverTargetState;
@@ -297,10 +302,10 @@ namespace PlayGroup
 				//experiment: not enqueueing or processing action if floating.
 				//arguably it shouldn't really be like that in the future, 
 				//but it's a workaround for serverstate being slightly ahead when floating
-				if (!IsPseudoFloatingClient && !IsFloatingClient)
+				if (!IsPseudoFloatingClient && !IsFloatingClient && !IsUnapprovedFloatClient)
 				{
 					pendingActions.Enqueue(action);
-					
+
 					LastDirection = action.Direction();
 					UpdatePredictedState();
 					
@@ -427,7 +432,7 @@ namespace PlayGroup
 			{
 				if ( IsFloatingServer )
 				{
-					Debug.Log("Server ignored move while player is floating");
+					Debug.LogWarning("Server ignored move while player is floating");
 					serverPendingActions.Dequeue();
 					return;
 				}
@@ -628,6 +633,20 @@ namespace PlayGroup
 			playerState = state;
 			Debug.Log($"Got server update {playerState}");
 
+			if (IsUnapprovedFloatClient)
+			{
+				if (IsFloatingClient)
+				{
+					Debug.Log("Your last trip got approved, yay!");
+					ClearQueueClient();
+					IsUnapprovedFloatClient = false;
+				}
+				else
+				{
+					Debug.LogWarning("Waiting for a sign of approval for experienced flight");
+					return;
+				}
+			}
 			//todo simplify?
 			//ok, this one is hard to read.
 			//point is, don't reset predicted state if it guessed impulse correctly 
@@ -712,15 +731,24 @@ namespace PlayGroup
 		///Using predictedState for your own player and playerState for others
 		private void CheckSpaceWalkClient()
 		{
-			//todo: fix lerpbacks in high ping
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
 			Vector3Int pos = Vector3Int.RoundToInt(state.Position);
-			if ( ( IsFloatingClient || IsPseudoFloatingClient ) && !matrix.IsFloatingAt(pos) )
+			if ( IsPseudoFloatingClient && !matrix.IsFloatingAt(pos) )
 			{
-//				Debug.Log("stopped player floating to avoid going through walls");
+				Debug.Log("Stopped clientside floating to avoid going through walls");
 				//stop floating on client (if server isn't responding in time) to avoid players going through walls
 				predictedState.Impulse = Vector2.zero;
-				playerState.Impulse = Vector2.zero;
+				//Stopping spacewalk increases move number
+				predictedState.MoveNumber++;
+				if ( !IsFloatingClient && playerState.MoveNumber < predictedState.MoveNumber )
+				{
+					Debug.Log("Got an unapproved flight here!");
+				//Client figured out that he just finished spacewalking 
+				//and server is yet to approve the fact that it even started.
+				//Marking as UnapprovedFloatClient 
+				//to ignore further predictive movement until flight approval message is received
+					IsUnapprovedFloatClient = true;
+				}
 			}
 			if ( matrix.IsFloatingAt(pos) )
 			{
@@ -730,11 +758,11 @@ namespace PlayGroup
 					state.Impulse = LastDirection;
 					if (isLocalPlayer)
 					{
-						predictedState.Impulse = LastDirection;
+						predictedState.Impulse = state.Impulse;
 					}
 					else
 					{
-						playerState.Impulse = LastDirection;
+						playerState.Impulse = state.Impulse;
 					}
 //					Debug.Log($"Wasn't floating on client, now floating with impulse {LastDirection}. FC={IsFloatingClient},PFC={IsPseudoFloatingClient}");
 				}
@@ -775,9 +803,11 @@ namespace PlayGroup
 			else if ( IsFloatingServer )
 			{
 				//finish floating. players will be notified as soon as serverState catches up
+				serverState.Impulse = Vector2.zero;
 				serverTargetState.Impulse = Vector2.zero;
 				serverTargetState.ResetClientQueue = true;
-//				serverTargetState.ImportantFlightUpdate = true;//not sure if required
+				//Stopping spacewalk increases move number
+				serverTargetState.MoveNumber++;
 			}
 			
 			CheckSpaceDamage();
