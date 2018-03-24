@@ -94,7 +94,10 @@ public class Camera2DFollow : MonoBehaviour
 			starsBackground.position = -newPos * 0.1f;
 
 			lastTargetPosition = target.position;
-            stencilMask.transform.SetParent(target.transform, false);
+			if (stencilMask.transform.parent != target) {
+				stencilMask.transform.parent = target;
+				stencilMask.transform.localPosition = Vector3.zero;
+			}
         }
 	}
 

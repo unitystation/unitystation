@@ -21,6 +21,7 @@ public class VisibleBehaviour : NetworkBehaviour
 	private const string inputController = "InputController";
 	private const string playerSync = "PlayerSync";
 	private const string closetHandler = "ClosetPlayerHandler";
+	private const string fov = "FieldOfViewStencil";
 
 	public bool isPlayer;
 
@@ -33,7 +34,8 @@ public class VisibleBehaviour : NetworkBehaviour
 		regTile,
 		inputController,
 		playerSync,
-		closetHandler
+		closetHandler,
+		fov
 	};
 
 	public SpriteRenderer[] ignoredSpriteRenderers;
@@ -79,7 +81,11 @@ public class VisibleBehaviour : NetworkBehaviour
 
 		MonoBehaviour[] scripts = GetComponentsInChildren<MonoBehaviour>(true);
 		Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
-		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
+		Renderer[] getRenderers = GetComponentsInChildren<Renderer>(true);
+		MeshRenderer[] meshRend = GetComponentsInChildren<MeshRenderer>(true);
+		//Ignore all MeshRenderers
+		Renderer[] renderers = getRenderers.Except(meshRend).ToArray();
+
 		for (int i = 0; i < scripts.Length; i++)
 		{
 			if (CanBeDisabled(scripts[i]))

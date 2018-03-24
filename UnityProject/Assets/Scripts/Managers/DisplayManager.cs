@@ -9,7 +9,7 @@ public class DisplayManager : MonoBehaviour
 	public static DisplayManager Instance;
 
 	private CanvasScaler canvasScaler;
-	public FieldOfViewTiled fieldOfView;
+	public FieldOfViewStencil fieldOfView;
 	private int height;
 	public LightingSystem lightingSystem;
 	public Camera mainCamera;
@@ -62,7 +62,7 @@ public class DisplayManager : MonoBehaviour
 	{
 		if (GameData.IsInGame)
 		{
-			fieldOfView = FindObjectOfType<FieldOfViewTiled>();
+			fieldOfView = FindObjectOfType<FieldOfViewStencil>();
 		}
 	}
 

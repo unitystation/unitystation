@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class FieldOfViewTiled : MonoBehaviour
+public class FieldOfViewStencil : MonoBehaviour
 {
 	public float ViewRadius;
 	[Range(0, 360)]
