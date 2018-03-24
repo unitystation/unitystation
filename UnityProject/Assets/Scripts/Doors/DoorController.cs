@@ -18,7 +18,6 @@ namespace Doors
 			Vertical
 		}
 
-
 		private int closedLayer;
 		private int closedSortingLayer;
 		public AudioSource closeSFX;
@@ -39,6 +38,7 @@ namespace Doors
 		public AudioSource openSFX;
 		private int openSortingLayer;
 		private bool openTrigger;
+	
 
 		public OppeningDirection oppeningDirection;
 		private GameObject playerOpeningIt;

@@ -19,7 +19,12 @@ public class FieldOfViewStencil : MonoBehaviour
 	public float MaskCutawayDst;
 	private Dictionary<Vector3, Tilemap> hitWalls = new Dictionary<Vector3, Tilemap>();
 	private List<Vector3> curWalls = new List<Vector3>();
+
+	private List<GameObject> hitDoors = new List<GameObject>();
+	private List<GameObject> curDoors = new List<GameObject>();
+
 	float waitToCheckWalls = 0f;
+	RaycastHit2D hit;
 
 	public MeshFilter ViewMeshFilter;
 	Mesh ViewMesh;
@@ -48,6 +53,13 @@ public class FieldOfViewStencil : MonoBehaviour
 			hitWalls.Remove(missingWalls[i]);
 		}
 		curWalls.Clear();
+
+		var missingDoors = hitDoors.Except(curDoors).ToList();
+		for (int i = 0; i < missingDoors.Count(); i++){
+			missingDoors[i].SendMessage("TurnOnDoorFov", null, SendMessageOptions.DontRequireReceiver);
+			hitDoors.Remove(missingDoors[i]);
+		}
+		curDoors.Clear();
 	}
 
 	void DrawFieldOfView()
@@ -127,10 +139,23 @@ public class FieldOfViewStencil : MonoBehaviour
 	ViewCastInfo ViewCast(float globalAngle)
 	{
 		Vector3 dir = DirFromAngle(globalAngle, true);
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, ViewRadius, ObstacleMask);
+		hit = Physics2D.Raycast(transform.position, dir, ViewRadius, ObstacleMask);
 		//	Debug.DrawRay(transform.position, dir * 40f, Color.red, 0.1f);
 		if (hit && hit.collider != null) {
 			Vector3 hitPosition = Vector3.zero;
+
+			//Hit a closed door (Layer 17)
+			if(hit.collider.gameObject.layer == 17){
+				if(!hitDoors.Contains(hit.collider.gameObject)){
+					hit.collider.gameObject.SendMessage("TurnOffDoorFov", null, SendMessageOptions.DontRequireReceiver);
+
+					hitDoors.Add(hit.collider.gameObject);
+				}
+				if (!curDoors.Contains(hit.collider.gameObject)) {
+					curDoors.Add(hit.collider.gameObject);
+				}
+			}
+
 			//Hit a wall (layer 9):
 			if (hit.collider.gameObject.layer == 9) {
 				//Turn the tilemap color of the wall to white so it is visible
@@ -140,9 +165,9 @@ public class FieldOfViewStencil : MonoBehaviour
 					tileMap.SetTileFlags(tileMap.WorldToCell(hitPosition), TileFlags.None);
 					tileMap.SetColor(tileMap.WorldToCell(hitPosition), Color.white);
 					hitWalls.Add(hitPosition, tileMap);
-					if (!curWalls.Contains(hitPosition)) {
-						curWalls.Add(hitPosition);
-					}
+				}
+				if (!curWalls.Contains(hitPosition)) {
+					curWalls.Add(hitPosition);
 				}
 			}
 			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);

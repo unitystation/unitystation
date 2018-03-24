@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 114072467774251574}
   - component: {fileID: 114823388259431498}
   - component: {fileID: 114249863671345724}
+  - component: {fileID: 114198649978379182}
   m_Layer: 17
   m_Name: Virology
   m_TagString: Untagged
@@ -649,6 +650,20 @@ MonoBehaviour:
   - {fileID: 21300054, guid: dcc76c55f951944c083fe6080f9b6a8e, type: 3}
   - {fileID: 21300056, guid: dcc76c55f951944c083fe6080f9b6a8e, type: 3}
   - {fileID: 21300058, guid: dcc76c55f951944c083fe6080f9b6a8e, type: 3}
+--- !u!114 &114198649978379182
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1807313548142900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b651f691d994be2a711f3504b85ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fovTileSprite: {fileID: 1988361524031004, guid: 4232d90630e5c4ae1b6e7a3370b1d2a5,
+    type: 2}
+  tileSpriteRenderer: {fileID: 0}
 --- !u!114 &114235526540606744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -723,7 +738,6 @@ MonoBehaviour:
   DoorLightSpriteOffset: 0
   DoorSpriteOffset: 2
   doorType: 11
-  FullDoor: 1
   IsOpened: 0
   isPerformingAction: 0
   isWindowedDoor: 0
@@ -762,7 +776,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -806,7 +820,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -850,7 +864,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

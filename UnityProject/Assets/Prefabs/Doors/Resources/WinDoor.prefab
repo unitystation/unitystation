@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 114719229024385200}
   - component: {fileID: 114476203546729768}
   - component: {fileID: 114531569165117964}
+  - component: {fileID: 114132872333290976}
   m_Layer: 18
   m_Name: WinDoor
   m_TagString: Untagged
@@ -428,7 +429,6 @@ MonoBehaviour:
   DoorLightSpriteOffset: 0
   DoorSpriteOffset: 2
   doorType: 15
-  FullDoor: 0
   IsOpened: 0
   isPerformingAction: 0
   isWindowedDoor: 1
@@ -436,6 +436,20 @@ MonoBehaviour:
   openSFX: {fileID: 82779476563424656}
   oppeningDirection: 0
   spriteRenderer: {fileID: 0}
+--- !u!114 &114132872333290976
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1797280918088156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b651f691d994be2a711f3504b85ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fovTileSprite: {fileID: 1988361524031004, guid: 4232d90630e5c4ae1b6e7a3370b1d2a5,
+    type: 2}
+  tileSpriteRenderer: {fileID: 0}
 --- !u!114 &114412479674324666
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -536,7 +550,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
