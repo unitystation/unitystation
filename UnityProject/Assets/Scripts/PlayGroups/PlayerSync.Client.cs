@@ -82,7 +82,7 @@ namespace PlayGroup
         /// Called when PlayerMoveMessage is received
         public void UpdateClientState( PlayerState state ) {
             playerState = state;
-            Debug.Log( $"Got server update {playerState}" );
+//            Debug.Log( $"Got server update {playerState}" );
 
             if ( blockClientMovement ) {
                 if ( isFloatingClient ) {
@@ -90,7 +90,7 @@ namespace PlayGroup
                     ClearQueueClient();
                     blockClientMovement = false;
                 } else {
-                    Debug.LogWarning( "Waiting for a sign of approval for experienced flight" );
+                    Debug.LogWarning( "Movement blocked. Waiting for a sign of approval for experienced flight" );
                     return;
                 }
             }
@@ -104,7 +104,7 @@ namespace PlayGroup
                 bool shouldReset = predictedState.Impulse != playerState.Impulse &&
                                    predictedState.MoveNumber == playerState.MoveNumber;
                 if ( shouldReset ) {
-                    Debug.Log( $"Reset predictedState {predictedState} with {playerState}" );
+//                    Debug.Log( $"Reset predictedState {predictedState} with {playerState}" );
                     predictedState = playerState;
                 }
                 return;
@@ -143,7 +143,7 @@ namespace PlayGroup
             PlayerState state = isLocalPlayer ? predictedState : playerState;
             Vector3Int pos = Vector3Int.RoundToInt( state.Position );
             if ( isPseudoFloatingClient && !matrix.IsFloatingAt( pos ) ) {
-                Debug.Log( "Stopped clientside floating to avoid going through walls" );
+//                Debug.Log( "Stopped clientside floating to avoid going through walls" );
                 //stop floating on client (if server isn't responding in time) to avoid players going through walls
                 predictedState.Impulse = Vector2.zero;
                 //Stopping spacewalk increases move number

@@ -21,7 +21,7 @@ namespace PlayGroup
         public bool ResetClientQueue;
 
         /// Flag for server to ensure that clients receive that flight update: 
-        /// Only important flight updates are being sent out by server (usually start-stop only)
+        /// Only important flight updates (ones with impulse) are being sent out by server (usually start only)
         [NonSerialized] public bool ImportantFlightUpdate;
 
         public override string ToString() {
@@ -267,13 +267,6 @@ namespace PlayGroup
             }
         }
 
-        private PlayerState NextState( PlayerState state, PlayerAction action, bool isReplay = false ) {
-            return new PlayerState {
-                MoveNumber = state.MoveNumber + 1,
-                Position = playerMove.GetNextPosition( Vector3Int.RoundToInt( state.Position ), action, isReplay )
-            };
-        }
-
         public void PullReset( NetworkInstanceId netID ) {
             PullObjectID = netID;
 
@@ -302,13 +295,18 @@ namespace PlayGroup
             }
         }
 
+        private PlayerState NextState( PlayerState state, PlayerAction action, bool isReplay = false ) {
+            return new PlayerState {
+                MoveNumber = state.MoveNumber + 1,
+                Position = playerMove.GetNextPosition( Vector3Int.RoundToInt( state.Position ), action, isReplay )
+            };
+        }
+
         public void ProcessAction( PlayerAction action ) {
             CmdProcessAction( action );
         }
 
-        /// <summary>
-        /// Space walk, Push checks for client and server. Grown so large I had to separate C/S methods
-        /// </summary>
+        /// Space walk checks for client and server
         private void CheckSpaceWalk() {
             if ( matrix == null ) {
                 return;
