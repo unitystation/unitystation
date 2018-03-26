@@ -252,7 +252,7 @@ namespace PlayGroup
         ///This prevents players drifting into space indefinitely 
         private IEnumerator ApplyTempSpaceDamage() {
             yield return new WaitForSeconds( 1f );
-//			healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
+			healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
             isApplyingSpaceDmg = false;
         }
     }
