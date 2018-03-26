@@ -103,7 +103,7 @@ namespace PlayGroup
 			return BodyParts.PickRandom();
 		}
 
-		private void AddBloodLoss(int amount)
+		public void AddBloodLoss(int amount)
 		{
 			if (amount <= 0)
 			{
@@ -269,8 +269,8 @@ namespace PlayGroup
 					//Combat demo killfeed
 					//PostToChatMessage.Send(killerName + " has killed " + gameObject.name, ChatChannel.System);
 				}
-				pna.ValidateDropItem("rightHand", true, transform.position);
-				pna.ValidateDropItem("leftHand", true, transform.position);
+				pna.DropItem("rightHand");
+				pna.DropItem("leftHand");
 
 				if (isServer)
 				{

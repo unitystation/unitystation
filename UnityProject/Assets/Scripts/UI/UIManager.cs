@@ -101,7 +101,7 @@ namespace UI
 			{
 				return false;
 			}
-			InventoryInteractMessage.Send(slotInfo.Slot, slotInfo.SlotContents, true, Vector3.zero);
+			InventoryInteractMessage.Send(slotInfo.Slot, slotInfo.SlotContents, true);
 			UpdateSlot(slotInfo);
 			return true;
 		}

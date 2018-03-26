@@ -89,6 +89,11 @@ namespace Equipment
 		//When placing items at a position etc also removes them from the player equipment pool and places it in scene
 		public static void DropGameObject(GameObject player, GameObject gObj, Vector3 pos)
 		{
+			if (!gObj)
+			{
+				Debug.LogWarning("Trying to drop null object");
+				return;
+			}
 			NetworkIdentity networkIdentity = player.GetComponent<NetworkIdentity>();
 			if ( !networkIdentity )
 			{

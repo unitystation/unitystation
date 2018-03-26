@@ -1,4 +1,5 @@
 ﻿using Items;
+using PlayGroup;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,6 +25,15 @@ public class Networking : Editor
 			GameObject gameObject = items[Random.Range(1, items.Length)].gameObject;
 			players[i].AddItem(gameObject, "leftHand", true);
 		}
+	}
+	[MenuItem("Networking/Push everyone up")]
+	private static void PushEveryoneUp()
+	{
+		foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+		{
+			player.GameObject.GetComponent<PlayerScript>().playerSync.Push(Vector2Int.up);
+		}
+
 	}
 
 	[MenuItem("Networking/Transform Waltz (Server)")]

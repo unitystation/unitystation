@@ -108,7 +108,7 @@ namespace UI
 			currentSlot.Clear();
 			//            }
 			//Message
-			lps.playerNetworkActions.RequestDropItem(currentSlot.eventName, PlayerManager.LocalPlayer.transform.position ,false);
+			lps.playerNetworkActions.RequestDropItem(currentSlot.eventName, false);
 			SoundManager.Play("Click01");
 			Debug.Log("Drop Button");
 		}

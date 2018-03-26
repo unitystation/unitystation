@@ -11,9 +11,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (isPulling)
 		{
-			GameObject cObj = gameObject.GetComponent<PlayerSync>().pullingObject;
+			GameObject cObj = gameObject.GetComponent<IPlayerSync>().PullingObject;
 			cObj.GetComponent<PushPull>().pulledBy = null;
-			gameObject.GetComponent<PlayerSync>().pullObjectID = NetworkInstanceId.Invalid;
+			gameObject.GetComponent<IPlayerSync>().PullObjectID = NetworkInstanceId.Invalid;
 		}
 
 		PushPull pulled = obj.GetComponent<PushPull>();
@@ -24,12 +24,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//check if the object you want to pull is another player
 		if (pulled.isPlayer)
 		{
-			PlayerSync playerS = obj.GetComponent<PlayerSync>();
+			IPlayerSync playerS = obj.GetComponent<IPlayerSync>();
 			//Anything that the other player is pulling should be stopped
-			if (playerS.pullingObject != null)
+			if (playerS.PullingObject != null)
 			{
 				PlayerNetworkActions otherPNA = obj.GetComponent<PlayerNetworkActions>();
-				otherPNA.CmdStopOtherPulling(playerS.pullingObject);
+				otherPNA.CmdStopOtherPulling(playerS.PullingObject);
 			}
 		}
 		//Other player is pulling object, send stop on that player
@@ -43,8 +43,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		if (pulled != null)
 		{
-			PlayerSync pS = GetComponent<PlayerSync>();
-			pS.pullObjectID = pulled.netId;
+			IPlayerSync pS = GetComponent<IPlayerSync>();
+			pS.PullObjectID = pulled.netId;
 			isPulling = true;
 		}
 	}
@@ -83,8 +83,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			//			//this triggers currentPos syncvar hook to make sure registertile is been completed on all clients
 			//			pulled.currentPos = pulled.transform.position;
 
-			PlayerSync pS = gameObject.GetComponent<PlayerSync>();
-			pS.pullObjectID = NetworkInstanceId.Invalid;
+			IPlayerSync pS = gameObject.GetComponent<IPlayerSync>();
+			pS.PullObjectID = NetworkInstanceId.Invalid;
 			pulled.pulledBy = null;
 		}
 		var netTransform = obj.GetComponent<CustomNetTransform>();

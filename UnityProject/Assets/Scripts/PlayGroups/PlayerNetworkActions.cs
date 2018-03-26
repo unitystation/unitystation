@@ -144,7 +144,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// If you are not validating a drop action then pass Vector3.zero to dropWorldPos
 	/// </summary>
 	[Server]
-	public bool ValidateInvInteraction(string slot, Vector3 dropWorldPos, GameObject gObj = null, bool forceClientInform = true)
+	public bool ValidateInvInteraction(string slot, GameObject gObj = null, bool forceClientInform = true)
 	{
 		if (!Inventory[slot] && gObj && Inventory.ContainsValue(gObj))
 		{
@@ -158,7 +158,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		if (!gObj)
 		{
-			return ValidateDropItem(slot, forceClientInform, dropWorldPos);
+			return ValidateDropItem(slot, forceClientInform);
 		}
 
 		Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
@@ -246,19 +246,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction, 
 	/// otherwise client will forcefully receive update slot messages
-	public void RequestDropItem(string hand, Vector3 dropWorldPos, bool forceClientInform = true)
+	public void RequestDropItem(string hand, bool forceClientInform = true)
 	{
-		InventoryInteractMessage.Send(hand, null, forceClientInform, dropWorldPos);
+		InventoryInteractMessage.Send(hand, null, forceClientInform);
 	}
 
 	//Dropping from a slot on the UI
 	[Server]
-	public bool ValidateDropItem(string slot, bool forceClientInform /* = false*/, Vector3 dropWorldPos)
+	public bool ValidateDropItem(string slot, bool forceClientInform /* = false*/)
 	{
 		//decline if not dropped from hands?
 		if (Inventory.ContainsKey(slot) && Inventory[slot])
 		{
-			DropItem(slot, dropWorldPos, forceClientInform);
+			DropItem(slot, forceClientInform);
 			return true;
 		}
 
@@ -266,31 +266,61 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return false;
 	}
 
-	///     Imperative drop
+	///     Imperative drop.
+	/// Pass empty slot to drop a random one
 	[Server]
-	public void DropItem(string slot, Vector3 dropWorldPos, bool forceClientInform = true)
+	public void DropItem(string slot = "", bool forceClientInform = true)
 	{
-		EquipmentPool.DropGameObjectAtPos(gameObject, Inventory[slot], dropWorldPos);
+		//Drop random item
+		if ( slot == "" )
+		{
+			slot = "uniform";
+			foreach ( var key in Inventory.Keys )
+			{
+				if ( Inventory[key] )
+				{
+					slot = key;
+					break;
+				}
+			}
+		}
+		EquipmentPool.DropGameObject(gameObject, Inventory[slot]);
 		Inventory[slot] = null;
 		equipment.ClearItemSprite(slot);
 		UpdateSlotMessage.Send(gameObject, slot, null, forceClientInform);
 	}
 
-	/// Just drop all shit from player's inventory when he's leaving, ignoring pools
+	//Drop all items. Use onQuit only if player has left server
 	[Server]
-	public void DropAllOnQuit()
+	public void DropAll(bool onQuit = false)
 	{
-		foreach (var item in Inventory.Values)
+		//Dropping whatever player has got
+		if ( !onQuit )
 		{
-			if (!item)
+			//fixme: modified collectionz
+			foreach ( var key in Inventory.Keys )
 			{
-				continue;
+				if ( Inventory[key] )
+				{
+					DropItem(key);
+				}
 			}
-
-			var objTransform = item.GetComponent<CustomNetTransform>();
-			if (objTransform)
+		}
+		else
+		// Drop all shit from player's inventory when he's leaving, ignoring pools
+		{
+			foreach ( var item in Inventory.Values )
 			{
-				objTransform.ForceDrop(gameObject.transform.position);
+				if ( !item )
+				{
+					continue;
+				}
+
+				var objTransform = item.GetComponent<CustomNetTransform>();
+				if ( objTransform )
+				{
+					objTransform.ForceDrop(gameObject.transform.position);
+				}
 			}
 		}
 	}

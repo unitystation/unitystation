@@ -329,7 +329,7 @@ public class CustomNetworkManager : NetworkManager
 		var player = PlayerList.Instance.Get(conn);
 		if ( player.GameObject )
 		{
-			player.GameObject.GetComponent<PlayerNetworkActions>().DropAllOnQuit();
+			player.GameObject.GetComponent<PlayerNetworkActions>().DropAll(true);
 		}
 		Debug.Log($"Player Disconnected: {player.Name}");
 		PlayerList.Instance.Remove(conn);

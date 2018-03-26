@@ -38,7 +38,7 @@ namespace PlayGroup
 		};
 
 		private PlayerSprites playerSprites;
-		private PlayerSync playerSync;
+		private IPlayerSync playerSync;
 
 		private PlayerNetworkActions pna;
 		[HideInInspector] public PushPull pushPull; //The push pull component attached to this player
@@ -55,7 +55,7 @@ namespace PlayGroup
 		private void Start()
 		{
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
-			playerSync = GetComponent<PlayerSync>();
+			playerSync = GetComponent<IPlayerSync>();
 			pushPull = GetComponent<PushPull>();
 			registerTile = GetComponent<RegisterTile>();
 			pna = gameObject.GetComponent<PlayerNetworkActions>();
@@ -240,8 +240,8 @@ namespace PlayGroup
 				}
 
 				//Not to be checked while performing a replay:
-				if (playerSync.pullingObject != null) {
-					if (matrix.ContainsAt(newPos, playerSync.pullingObject)) {
+				if (playerSync.PullingObject != null) {
+					if (matrix.ContainsAt(newPos, playerSync.PullingObject)) {
 						//Vector2 directionToPullObj =
 						//	playerSync.pullingObject.transform.localPosition - transform.localPosition;
 						//if (directionToPullObj.normalized != playerSprites.currentDirection) {
@@ -249,7 +249,7 @@ namespace PlayGroup
 						//	return direction;
 						//}
 						//Hit Pull obj
-						pna.CmdStopPulling(playerSync.pullingObject);
+						pna.CmdStopPulling(playerSync.PullingObject);
 						return Vector3Int.zero;
 					}
 				}
@@ -260,8 +260,8 @@ namespace PlayGroup
 			}
 
 			//This is only for replay (to ignore any interactions with the pulled obj):
-			if (playerSync.pullingObject != null) {
-				if (matrix.ContainsAt(newPos, playerSync.pullingObject)) {
+			if (playerSync.PullingObject != null) {
+				if (matrix.ContainsAt(newPos, playerSync.PullingObject)) {
 					return direction;
 				}
 			}
@@ -321,6 +321,8 @@ namespace PlayGroup
 
 		public void ChangeMatricies(Transform newParent)
 		{
+//			Debug.Log("Not changing matrices as it fucks up move");
+//			return;
 			if (isServer) {
 				NetworkIdentity netIdent = newParent.GetComponent<NetworkIdentity>();
 				if (registerTile.ParentNetId != netIdent.netId) {
@@ -331,6 +333,7 @@ namespace PlayGroup
 				registerTile.SetParentOnLocal(newParent);
 			}
 			Camera.main.transform.parent = newParent;
+			Debug.Log("Change Matricies");
 		}
 	}
 }
