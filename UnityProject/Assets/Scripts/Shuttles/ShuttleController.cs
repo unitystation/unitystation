@@ -61,15 +61,15 @@ public struct MatrixState
 
 public class ShuttleController : ManagedNetworkBehaviour {
 	//server-only values
-	public MatrixState State => serverTransformState;
+	public MatrixState State => serverState;
 	///used for syncing with players, matters only for server
-	private MatrixState serverTransformState; 
+	private MatrixState serverState; 
 	private bool SafetyProtocolsOn { get; set; }
 	
 	//client-only values
-	public MatrixState ClientState => transformState;
+	public MatrixState ClientState => clientState;
 	///client's transform, can get dirty/predictive
-	private MatrixState transformState; 
+	private MatrixState clientState; 
 	
 	//editor (global) values
 	/// Initial flying direction from editor
@@ -92,14 +92,14 @@ public class ShuttleController : ManagedNetworkBehaviour {
 	{
 		if ( flyingDirection == Vector2.zero ) {
 			Debug.LogWarning($"{gameObject.name} move direction unclear");
-			serverTransformState.Direction = Vector2.up;
+			serverState.Direction = Vector2.up;
 		} else {
-			serverTransformState.Direction = Vector2Int.RoundToInt(flyingDirection);
+			serverState.Direction = Vector2Int.RoundToInt(flyingDirection);
 		}
-		serverTransformState.Speed = 1f;
-		serverTransformState.Position =
+		serverState.Speed = 1f;
+		serverState.Position =
 			Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
-		serverTransformState.Orientation = MatrixOrientation.Up;
+		serverState.Orientation = MatrixOrientation.Up;
 	}
 
 	///managed by UpdateManager
@@ -123,171 +123,184 @@ public class ShuttleController : ManagedNetworkBehaviour {
 			{
 				TryRotate(true);
 			}
-		//			CheckSafetyProtocols();
+			CheckMovementServer();
 		} 
 
-			CheckMovement();	
+		CheckMovement();	
 	}
 
 	[Server]
 	private void ToggleMovement() {
-		serverTransformState.IsMoving = !serverTransformState.IsMoving;
-		if ( serverTransformState.IsMoving ) {
-			Debug.Log($"Started moving with speed {serverTransformState.Speed}");
+		if ( IsMoving() ) {
+			StopMovement();
 		} else {
-			Debug.Log("Stopped movement");
+			StartMovement();
 		}
+	}
+
+	[Server]
+	private void StartMovement() {
+		//Setting speed if there is none
+		if ( serverState.Speed <= 0 ) {
+			SetSpeed( 1, false );
+		}
+		Debug.Log($"Started moving with speed {serverState.Speed}");
+		serverState.IsMoving = true;
+		NotifyPlayers();
+	}
+	[Server]
+	private void StopMovement() {
+		Debug.Log("Stopped movement");
+		serverState.IsMoving = false;
 		NotifyPlayers();
 	}
 
 	[Server]
-	private void AdjustSpeed(int relativeValue) {
-		float absSpeed = serverTransformState.Speed += relativeValue;
-		TrySetSpeed(absSpeed);
+	private void AdjustSpeed( int relativeValue, bool notify = true ) {
+		float absSpeed = serverState.Speed += relativeValue;
+		SetSpeed( absSpeed, notify );
 	}
 
 	[Server]
-	private void SetSpeed(float absoluteValue) {
-		TrySetSpeed(absoluteValue);
-	}
-
-	[Server]
-	private void TrySetSpeed(float proposedSpeed) {
-		if ( serverTransformState.Speed <= 0 ) {
+	private void SetSpeed( float absoluteValue, bool notify = true ) {
+		if ( serverState.Speed <= 0 ) {
 			//Stop movement if speed is zero or below
-			serverTransformState.Speed = 1;
-			ToggleMovement();
+			serverState.Speed = 0;
+			if ( serverState.IsMoving ) {
+				StopMovement();
+			}
 			return;
 		}
-		if ( proposedSpeed > maxSpeed ) {
+		if ( absoluteValue > maxSpeed ) {
 			Debug.LogWarning($"MaxSpeed {maxSpeed} reached, not going further");
-			serverTransformState.Speed = maxSpeed;
+			serverState.Speed = maxSpeed;
 		} else {
-			serverTransformState.Speed = proposedSpeed;
+			serverState.Speed = absoluteValue;
 		}
-		NotifyPlayers();
+		if ( notify ) {
+			NotifyPlayers();
+		}
 	}
 
 	private void CheckMovement()
 	{
 		if ( NeedsRotation() ) {
 			transform.rotation =
-				Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, transformState.Orientation.degree),
+				Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, clientState.Orientation.degree),
 					Time.deltaTime * 90); 
 		} else if ( NeedsFixing() ) {
 			// Finishes the job of Lerp and straightens the ship with exact angle value
-			transform.rotation = Quaternion.Euler(0, 0, transformState.Orientation.degree);
+			transform.rotation = Quaternion.Euler(0, 0, clientState.Orientation.degree);
 		}
 		//todo: Only fly or change orientation if rotation is finished
+		//Move target
 		if ( IsMoving() ) {
 			SimulateStateMovement();
 		}
-		if ( transformState.Position != transform.position ) {
-			transform.Translate(transformState.Direction * transformState.Speed * Time.deltaTime);
+		//Lerp
+		if ( clientState.Position != transform.position ) {
+			transform.position =
+				Vector3.MoveTowards(transform.position, clientState.Position, clientState.Speed * Time.deltaTime);		
 		}
 	}
 
-//	///     Try to avoid collisions (automatically stop) when safety protocols are on
-//	[Server]
-//	private void CheckSafetyProtocols()
-//	{
-//		if (IsMoving() && SafetyProtocolsOn)
-//		{
-//			Vector3 newGoal = serverTransformState.Position +
-//			                  (Vector3) serverTransformState.Direction * serverTransformState.Speed * Time.deltaTime;
-//			Vector3Int intGoal = CustomNetTransform.RoundWithContext(newGoal, serverTransformState.Direction);
-//			if (CanMoveTo(intGoal))
-//			{
-//				//Spess drifting
-//				serverTransformState.Position = newGoal;
-//			}
-//			else //Stopping drift
-//			{
-//				serverTransformState.Direction = Vector2.zero; 
-//				NotifyPlayers();
-//			}
-//		}
-//	}
-//	
-//	private bool CanMoveTo(Vector3Int goal)
-//	{
-//		//todo: safety protocols
-//		return true;
-//	}
+	[Server]
+	private void CheckMovementServer()
+	{
+		if ( IsMoving() ) {
+			Vector3 newGoal = serverState.Position +
+			                  ( Vector3 ) serverState.Direction * serverState.Speed * Time.deltaTime;
+			Vector3Int intGoal = CustomNetTransform.RoundWithContext( newGoal, serverState.Direction );
+			//    todo: Try to avoid collisions (automatically stop) when safety protocols are on
+			if ( !SafetyProtocolsOn || CanMoveTo( intGoal ) ) {
+				serverState.Position = newGoal;
+			} else {
+				StopMovement();
+			}
+		}
+	}
+	
+	private bool CanMoveTo(Vector3Int goal)
+	{
+		//todo: safety protocols
+		return true;
+	}
 	
 	/// Manually set matrix to a specific position.
 	[Server]
-	public void SetPosition(Vector3 pos, bool notify = true)
+	public void SetPosition( Vector3 pos, bool notify = true )
 	{
-		serverTransformState.Position = pos;
+		serverState.Position = pos;
 		if (notify) {
 			NotifyPlayers();
 		}
 	}
 	
 	/// Called when MatrixMoveMessage is received
-	public void UpdateClientState(MatrixState newState)
+	public void UpdateClientState( MatrixState newState )
 	{
-		transformState = newState;
+		clientState = newState;
 	}
 
 	///  Currently sending to everybody, but should be sent to nearby players only
 	[Server]
 	private void NotifyPlayers()
 	{
-		//todo: move message
-		MatrixMoveMessage.SendToAll(gameObject, serverTransformState);
+		MatrixMoveMessage.SendToAll(gameObject, serverState);
 	}
 	
 	///     Sync with new player joining
 	/// <param name="playerGameObject"></param>
 	[Server]
-	public void NotifyPlayer(GameObject playerGameObject)
+	public void NotifyPlayer( GameObject playerGameObject )
 	{
-		//todo: move message
-		MatrixMoveMessage.Send(playerGameObject, gameObject, serverTransformState);
+		MatrixMoveMessage.Send(playerGameObject, gameObject, serverState);
 	}
 
 	private bool IsMoving()
 	{
 		if (isServer)
 		{
-			return transformState.IsMoving && serverTransformState.Speed > 0f;
+			return serverState.IsMoving && serverState.Speed > 0f;
 		}
-		return transformState.IsMoving && transformState.Speed > 0f;
+		return clientState.IsMoving && clientState.Speed > 0f;
 	}
+	
+	//todo: IsRotating()
 	
 	///predictive perpetual flying
 	private void SimulateStateMovement()
 	{
-		transformState.Position +=
-			(Vector3) transformState.Direction * transformState.Speed * Time.deltaTime;
+		clientState.Position +=
+			(Vector3) clientState.Direction * clientState.Speed * Time.deltaTime;
 	}
 	
 	private bool NeedsFixing()
 	{
 		// ReSharper disable once CompareOfFloatsByEqualityOperator
-		return transform.rotation.eulerAngles.z != transformState.Orientation.degree;
+		return transform.rotation.eulerAngles.z != clientState.Orientation.degree;
 	}
-
 	private bool NeedsRotation()
 	{
-		return !Mathf.Approximately(transform.rotation.eulerAngles.z, transformState.Orientation.degree);
+		return !Mathf.Approximately(transform.rotation.eulerAngles.z, clientState.Orientation.degree);
 	}
 
 	///Only fly or change orientation if rotation is finished
 	[Server]
-	private void TryRotate(bool clockwise) {
+	private void TryRotate( bool clockwise ) {
 		//todo: Only fly or change orientation if rotation is finished
 		Rotate(clockwise);
 	}
 
 	[Server]
-	private void Rotate(bool clockwise)
+	private void Rotate( bool clockwise )
 	{
-		serverTransformState.Orientation = clockwise ? serverTransformState.Orientation.Next() 
-													 : serverTransformState.Orientation.Previous();
-		Debug.Log($"Orientation is now {serverTransformState.Orientation}");
+		serverState.Orientation = clockwise ? serverState.Orientation.Next() 
+											: serverState.Orientation.Previous();
+		//Correcting direction
+		Vector3 newDirection = Quaternion.Euler( 0, 0, clockwise ? -90 : 90 ) * serverState.Direction;
+		Debug.Log($"Orientation is now {serverState.Orientation}, Corrected direction from {serverState.Direction} to {newDirection}");
+		serverState.Direction = newDirection;
 		NotifyPlayers();
 	}
 	
@@ -300,19 +313,19 @@ public class ShuttleController : ManagedNetworkBehaviour {
 	private void OnDrawGizmos() {
 		//serverState
 		Gizmos.color = color1;
-		Vector3 serverPos = serverTransformState.Position;
-		Gizmos.DrawWireCube( serverPos - CustomNetTransform.deOffset, size1 );
-		if ( serverTransformState.IsMoving ) {
-			GizmoUtils.DrawArrow( serverPos + Vector3.right / 5, serverTransformState.Direction * serverTransformState.Speed );
-			GizmoUtils.DrawText( serverTransformState.Speed.ToString(), serverPos + Vector3.right, 15 );
+		Vector3 serverPos = serverState.Position;
+		Gizmos.DrawWireCube( serverPos, size1 );
+		if ( serverState.IsMoving ) {
+			GizmoUtils.DrawArrow( serverPos + Vector3.right / 5, serverState.Direction * serverState.Speed );
+			GizmoUtils.DrawText( serverState.Speed.ToString(), serverPos + Vector3.right, 15 );
 		}
 		//clientState
 		Gizmos.color = color2;
-		Vector3 pos = transformState.Position;
+		Vector3 pos = clientState.Position;
 		Gizmos.DrawWireCube( pos, size2 );
-		if ( transformState.IsMoving ) {
-			GizmoUtils.DrawArrow( pos + Vector3.left / 5, transformState.Direction * transformState.Speed );
-			GizmoUtils.DrawText( transformState.Speed.ToString(), pos + Vector3.left, 15 );
+		if ( clientState.IsMoving ) {
+			GizmoUtils.DrawArrow( pos + Vector3.left / 5, clientState.Direction * clientState.Speed );
+			GizmoUtils.DrawText( clientState.Speed.ToString(), pos + Vector3.left, 15 );
 		}
 	}
 }
