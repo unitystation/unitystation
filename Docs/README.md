@@ -14,10 +14,11 @@ Please join us on Discord:<br>
 [<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/fhhQcV9)
 
 ## Feel like getting involved?
-1. Fork the repo
-2. Add your changes
-3. Read the contribution guidelines
-4. Submit a pull request
+1. Get Unity 2017.3.1**p1** or newer
+2. Fork the repo
+3. Add your changes
+4. Read the contribution guidelines
+5. Submit a pull request
 
 ## LICENSE
 
