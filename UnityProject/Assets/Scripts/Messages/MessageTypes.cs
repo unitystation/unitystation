@@ -14,6 +14,7 @@ internal enum MessageTypes : short
 	PlayerDeathMessage = 1010,
 	InfoWindowMessage = 1011,
 	PlayerMoveMessage = 1012,
+	MatrixMoveMessage = 1013,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
