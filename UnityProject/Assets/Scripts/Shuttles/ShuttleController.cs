@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -184,30 +185,46 @@ public class ShuttleController : ManagedNetworkBehaviour {
 
 	private void CheckMovement()
 	{
-		if ( NeedsRotation() ) {
-			transform.rotation =
-				Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, clientState.Orientation.degree),
-					Time.deltaTime * 90); 
-		} else if ( NeedsFixing() ) {
-			// Finishes the job of Lerp and straightens the ship with exact angle value
-			transform.rotation = Quaternion.Euler(0, 0, clientState.Orientation.degree);
-		}
-		//todo: Only fly or change orientation if rotation is finished
-		//Move target
-		if ( IsMoving() ) {
+		if ( IsRotating() ) {
+			bool needsRotation = !Mathf.Approximately( transform.rotation.eulerAngles.z, clientState.Orientation.degree );
+			if ( needsRotation ) {
+				transform.rotation =
+					Quaternion.RotateTowards( transform.rotation, Quaternion.Euler( 0, 0, clientState.Orientation.degree ),
+						Time.deltaTime * 90 );
+			} else {
+				// Finishes the job of Lerp and straightens the ship with exact angle value
+				transform.rotation = Quaternion.Euler( 0, 0, clientState.Orientation.degree );
+			}
+		} else if ( IsMoving() ) {
+			//Only fly or change orientation if rotation is finished
+			//Move target
 			SimulateStateMovement();
 		}
+		
 		//Lerp
 		if ( clientState.Position != transform.position ) {
+			float distance = Vector3.Distance( clientState.Position, transform.position );
+			//Activate warp speed if object gets too far away or have to rotate
+			bool shouldWarp = distance > 2 || IsRotating();
 			transform.position =
-				Vector3.MoveTowards(transform.position, clientState.Position, clientState.Speed * Time.deltaTime);		
+				Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? 30 : 1 ) );		
 		}
+	}
+
+	private bool IsRotating()
+	{
+//		if (isServer)
+//		{
+//			//todo: server rotation should take time as well!
+//			return false;
+//		}
+		return transform.rotation.eulerAngles.z != clientState.Orientation.degree;
 	}
 
 	[Server]
 	private void CheckMovementServer()
 	{
-		if ( IsMoving() ) {
+		if ( IsMoving() && !IsRotating() ) {
 			Vector3 newGoal = serverState.Position +
 			                  ( Vector3 ) serverState.Direction * serverState.Speed * Time.deltaTime;
 			Vector3Int intGoal = CustomNetTransform.RoundWithContext( newGoal, serverState.Direction );
@@ -219,13 +236,13 @@ public class ShuttleController : ManagedNetworkBehaviour {
 			}
 		}
 	}
-	
+
 	private bool CanMoveTo(Vector3Int goal)
 	{
 		//todo: safety protocols
 		return true;
 	}
-	
+
 	/// Manually set matrix to a specific position.
 	[Server]
 	public void SetPosition( Vector3 pos, bool notify = true )
@@ -235,7 +252,7 @@ public class ShuttleController : ManagedNetworkBehaviour {
 			NotifyPlayers();
 		}
 	}
-	
+
 	/// Called when MatrixMoveMessage is received
 	public void UpdateClientState( MatrixState newState )
 	{
@@ -248,7 +265,7 @@ public class ShuttleController : ManagedNetworkBehaviour {
 	{
 		MatrixMoveMessage.SendToAll(gameObject, serverState);
 	}
-	
+
 	///     Sync with new player joining
 	/// <param name="playerGameObject"></param>
 	[Server]
@@ -265,31 +282,20 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		}
 		return clientState.IsMoving && clientState.Speed > 0f;
 	}
-	
-	//todo: IsRotating()
-	
+
 	///predictive perpetual flying
 	private void SimulateStateMovement()
 	{
 		clientState.Position +=
 			(Vector3) clientState.Direction * clientState.Speed * Time.deltaTime;
 	}
-	
-	private bool NeedsFixing()
-	{
-		// ReSharper disable once CompareOfFloatsByEqualityOperator
-		return transform.rotation.eulerAngles.z != clientState.Orientation.degree;
-	}
-	private bool NeedsRotation()
-	{
-		return !Mathf.Approximately(transform.rotation.eulerAngles.z, clientState.Orientation.degree);
-	}
 
 	///Only fly or change orientation if rotation is finished
 	[Server]
 	private void TryRotate( bool clockwise ) {
-		//todo: Only fly or change orientation if rotation is finished
-		Rotate(clockwise);
+		if ( !IsRotating() ) {
+			Rotate(clockwise);
+		}
 	}
 
 	[Server]
