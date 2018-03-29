@@ -46,6 +46,8 @@ public struct MatrixOrientation
 
 public struct MatrixState
 {
+	[NonSerialized]
+	public bool Inform;
 	public bool IsMoving;
 	public float Speed;
 	public Vector2 Direction; //Direction of movement
@@ -53,10 +55,9 @@ public struct MatrixState
 	/// Matrix rotation. Default is upright (MatrixOrientation.Up)
 	public MatrixOrientation Orientation;
 
-	public override string ToString()
-	{
-		return $"{nameof( IsMoving )}: {IsMoving}, {nameof( Speed )}: {Speed}, {nameof( Direction )}: {Direction}, " +
-		       $"{nameof( Position )}: {Position}, {nameof( Orientation )}: {Orientation}";
+	public override string ToString() {
+		return $"{nameof( Inform )}: {Inform}, {nameof( IsMoving )}: {IsMoving}, {nameof( Speed )}: {Speed}, " +
+		       $"{nameof( Direction )}: {Direction}, {nameof( Position )}: {Position}, {nameof( Orientation )}: {Orientation}";
 	}
 }
 
@@ -64,13 +65,20 @@ public class ShuttleController : ManagedNetworkBehaviour {
 	//server-only values
 	public MatrixState State => serverState;
 	///used for syncing with players, matters only for server
-	private MatrixState serverState; 
+	private MatrixState serverState;
+	/// future state that collects all changes
+	private MatrixState serverTargetState; 
 	private bool SafetyProtocolsOn { get; set; }
+	private bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
+	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
+	private bool isRotatingServer => isRotatingClient; //fixme
 	
 	//client-only values
 	public MatrixState ClientState => clientState;
 	///client's transform, can get dirty/predictive
 	private MatrixState clientState; 
+	private bool isMovingClient => clientState.IsMoving && clientState.Speed > 0f;
+	private bool isRotatingClient => transform.rotation.eulerAngles.z != clientState.Orientation.degree;
 	
 	//editor (global) values
 	/// Initial flying direction from editor
@@ -101,38 +109,35 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		serverState.Position =
 			Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
 		serverState.Orientation = MatrixOrientation.Up;
+		serverTargetState = serverState;
 	}
 
 	///managed by UpdateManager
 	public override void UpdateMe(){
-		if (isServer) {
-			if ( Input.GetKeyDown(startKey) ){
+		if ( isServer ) {
+			if ( Input.GetKeyDown( startKey ) ) {
 				ToggleMovement();
 			}
-			if ( Input.GetKeyDown(KeyCode.KeypadPlus) )
-			{
+			if ( Input.GetKeyDown( KeyCode.KeypadPlus ) ) {
 				AdjustSpeed( 1 );
 			}
-			if ( Input.GetKeyDown(KeyCode.KeypadMinus) ){
+			if ( Input.GetKeyDown( KeyCode.KeypadMinus ) ) {
 				AdjustSpeed( -1 );
 			}
-			if ( Input.GetKeyDown(leftKey) )
-			{
-				TryRotate(false);
+			if ( Input.GetKeyDown( leftKey ) ) {
+				TryRotate( false );
 			}
-			if ( Input.GetKeyDown(rightKey) )
-			{
-				TryRotate(true);
+			if ( Input.GetKeyDown( rightKey ) ) {
+				TryRotate( true );
 			}
 			CheckMovementServer();
 		} 
-
 		CheckMovement();	
 	}
 
 	[Server]
 	private void ToggleMovement() {
-		if ( IsMoving() ) {
+		if ( isMovingServer ) {
 			StopMovement();
 		} else {
 			StartMovement();
@@ -142,50 +147,51 @@ public class ShuttleController : ManagedNetworkBehaviour {
 	[Server]
 	private void StartMovement() {
 		//Setting speed if there is none
-		if ( serverState.Speed <= 0 ) {
-			SetSpeed( 1, false );
+		if ( serverTargetState.Speed <= 0 ) {
+			SetSpeed( 1/*, false*/ );
 		}
-		Debug.Log($"Started moving with speed {serverState.Speed}");
-		serverState.IsMoving = true;
-		NotifyPlayers();
+		Debug.Log($"Started moving with speed {serverTargetState.Speed}");
+		serverTargetState.IsMoving = true;
+		RequestNotify();
 	}
 	[Server]
 	private void StopMovement() {
 		Debug.Log("Stopped movement");
-		serverState.IsMoving = false;
-		NotifyPlayers();
+		serverTargetState.IsMoving = false;
+		RequestNotify();
 	}
 
 	[Server]
-	private void AdjustSpeed( int relativeValue, bool notify = true ) {
-		float absSpeed = serverState.Speed += relativeValue;
-		SetSpeed( absSpeed, notify );
+	private void AdjustSpeed( int relativeValue/*, bool notify = true*/ ) {
+		float absSpeed = serverTargetState.Speed += relativeValue;
+		SetSpeed( absSpeed/*, notify*/ );
 	}
 
 	[Server]
-	private void SetSpeed( float absoluteValue, bool notify = true ) {
-		if ( serverState.Speed <= 0 ) {
+	private void SetSpeed( float absoluteValue/*, bool notify = true*/ ) {
+		if ( serverTargetState.Speed <= 0 ) {
 			//Stop movement if speed is zero or below
-			serverState.Speed = 0;
-			if ( serverState.IsMoving ) {
+			serverTargetState.Speed = 0;
+			if ( serverTargetState.IsMoving ) {
 				StopMovement();
 			}
 			return;
 		}
 		if ( absoluteValue > maxSpeed ) {
 			Debug.LogWarning($"MaxSpeed {maxSpeed} reached, not going further");
-			serverState.Speed = maxSpeed;
+			serverTargetState.Speed = maxSpeed;
 		} else {
-			serverState.Speed = absoluteValue;
+			serverTargetState.Speed = absoluteValue;
 		}
-		if ( notify ) {
-			NotifyPlayers();
+		//todo: to send or not to send speed updates when not moving? I think not
+		if ( isMovingServer ) { 
+			RequestNotify();
 		}
 	}
 
 	private void CheckMovement()
 	{
-		if ( IsRotating() ) {
+		if ( isRotatingClient ) {
 			bool needsRotation = !Mathf.Approximately( transform.rotation.eulerAngles.z, clientState.Orientation.degree );
 			if ( needsRotation ) {
 				transform.rotation =
@@ -195,9 +201,8 @@ public class ShuttleController : ManagedNetworkBehaviour {
 				// Finishes the job of Lerp and straightens the ship with exact angle value
 				transform.rotation = Quaternion.Euler( 0, 0, clientState.Orientation.degree );
 			}
-		} else if ( IsMoving() ) {
-			//Only fly or change orientation if rotation is finished
-			//Move target
+		} else if ( isMovingClient ) {
+			//Only move target if rotation is finished
 			SimulateStateMovement();
 		}
 		
@@ -205,32 +210,32 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		if ( clientState.Position != transform.position ) {
 			float distance = Vector3.Distance( clientState.Position, transform.position );
 			//Activate warp speed if object gets too far away or have to rotate
-			bool shouldWarp = distance > 2 || IsRotating();
+			bool shouldWarp = distance > 2 || isRotatingClient;
 			transform.position =
 				Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? 30 : 1 ) );		
 		}
 	}
 
-	private bool IsRotating()
-	{
-//		if (isServer)
-//		{
-//			//todo: server rotation should take time as well!
-//			return false;
-//		}
-		return transform.rotation.eulerAngles.z != clientState.Orientation.degree;
-	}
-
+//FIXME: server speed issues!
 	[Server]
 	private void CheckMovementServer()
 	{
-		if ( IsMoving() && !IsRotating() ) {
-			Vector3 newGoal = serverState.Position +
-			                  ( Vector3 ) serverState.Direction * serverState.Speed * Time.deltaTime;
-			Vector3Int intGoal = CustomNetTransform.RoundWithContext( newGoal, serverState.Direction );
+		//ServerState lerping to its target tile
+		if ( !ServerPositionsMatch ) {
+			serverState.Position =
+				Vector3.MoveTowards( serverState.Position,
+					serverTargetState.Position,
+					serverState.Speed * Time.deltaTime );
+			TryNotifyPlayers();
+		}
+		if ( isMovingServer && !isRotatingServer ) {
+			Vector3Int goal = Vector3Int.RoundToInt( serverState.Position + ( Vector3 ) serverTargetState.Direction );
 			//    todo: Try to avoid collisions (automatically stop) when safety protocols are on
-			if ( !SafetyProtocolsOn || CanMoveTo( intGoal ) ) {
-				serverState.Position = newGoal;
+			if ( !SafetyProtocolsOn || CanMoveTo( goal ) ) {
+				//keep moving
+				if ( ServerPositionsMatch ) {
+					serverTargetState.Position = goal;
+				}
 			} else {
 				StopMovement();
 			}
@@ -245,9 +250,10 @@ public class ShuttleController : ManagedNetworkBehaviour {
 
 	/// Manually set matrix to a specific position.
 	[Server]
-	public void SetPosition( Vector3 pos, bool notify = true )
-	{
-		serverState.Position = pos;
+	public void SetPosition( Vector3 pos, bool notify = true ) {
+		Vector3Int intPos = Vector3Int.RoundToInt( pos );
+		serverState.Position = intPos;
+		serverTargetState.Position = intPos;
 		if (notify) {
 			NotifyPlayers();
 		}
@@ -259,30 +265,6 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		clientState = newState;
 	}
 
-	///  Currently sending to everybody, but should be sent to nearby players only
-	[Server]
-	private void NotifyPlayers()
-	{
-		MatrixMoveMessage.SendToAll(gameObject, serverState);
-	}
-
-	///     Sync with new player joining
-	/// <param name="playerGameObject"></param>
-	[Server]
-	public void NotifyPlayer( GameObject playerGameObject )
-	{
-		MatrixMoveMessage.Send(playerGameObject, gameObject, serverState);
-	}
-
-	private bool IsMoving()
-	{
-		if (isServer)
-		{
-			return serverState.IsMoving && serverState.Speed > 0f;
-		}
-		return clientState.IsMoving && clientState.Speed > 0f;
-	}
-
 	///predictive perpetual flying
 	private void SimulateStateMovement()
 	{
@@ -290,10 +272,49 @@ public class ShuttleController : ManagedNetworkBehaviour {
 			(Vector3) clientState.Direction * clientState.Speed * Time.deltaTime;
 	}
 
+	/// Schedule notification for the next ServerPositionsMatch
+	/// And check if it's able to send right now
+	[Server]
+	private void RequestNotify() {
+		serverTargetState.Inform = true;
+		TryNotifyPlayers();
+	}
+
+	///	Inform players when on integer position 
+	[Server]
+	private void TryNotifyPlayers() {
+		if ( ServerPositionsMatch ) {
+//				When serverState reaches its planned destination,
+//				embrace all other updates like changed speed and rotation
+			serverState = serverTargetState;
+			NotifyPlayers();
+		}
+	}
+
+	///  Currently sending to everybody, but should be sent to nearby players only
+	[Server]
+	private void NotifyPlayers() {
+		//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
+		if ( !isMovingServer || serverState.Inform ) {
+			MatrixMoveMessage.SendToAll(gameObject, serverState);
+			//ClearStateFlags
+			serverTargetState.Inform = false;
+			serverState.Inform = false;
+		}
+	}
+
+	///     Sync with new player joining
+	/// <param name="playerGameObject">player to send to</param>
+	[Server]
+	public void NotifyPlayer( GameObject playerGameObject )
+	{
+		MatrixMoveMessage.Send(playerGameObject, gameObject, serverState);
+	}
+
 	///Only fly or change orientation if rotation is finished
 	[Server]
 	private void TryRotate( bool clockwise ) {
-		if ( !IsRotating() ) {
+		if ( !isRotatingServer ) {
 			Rotate(clockwise);
 		}
 	}
@@ -301,20 +322,22 @@ public class ShuttleController : ManagedNetworkBehaviour {
 	[Server]
 	private void Rotate( bool clockwise )
 	{
-		serverState.Orientation = clockwise ? serverState.Orientation.Next() 
-											: serverState.Orientation.Previous();
+		serverTargetState.Orientation = clockwise ? serverTargetState.Orientation.Next() 
+											: serverTargetState.Orientation.Previous();
 		//Correcting direction
-		Vector3 newDirection = Quaternion.Euler( 0, 0, clockwise ? -90 : 90 ) * serverState.Direction;
-		Debug.Log($"Orientation is now {serverState.Orientation}, Corrected direction from {serverState.Direction} to {newDirection}");
-		serverState.Direction = newDirection;
-		NotifyPlayers();
+		Vector3 newDirection = Quaternion.Euler( 0, 0, clockwise ? -90 : 90 ) * serverTargetState.Direction;
+		Debug.Log($"Orientation is now {serverTargetState.Orientation}, Corrected direction from {serverTargetState.Direction} to {newDirection}");
+		serverTargetState.Direction = newDirection;
+		RequestNotify();
 	}
 	
 	//Visual debug
 	private Vector3 size1 = Vector3.one;
 	private Vector3 size2 = new Vector3( 0.9f, 0.9f, 0.9f );
+	private Vector3 size3 = new Vector3( 0.8f, 0.8f, 0.8f );
 	private Color color1 = Color.red;
-	private Color color2 = Color.white;
+	private Color color2 = DebugTools.HexToColor( "81a2c7" );
+	private Color color3 = Color.white;
 
 	private void OnDrawGizmos() {
 		//serverState
@@ -322,15 +345,24 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		Vector3 serverPos = serverState.Position;
 		Gizmos.DrawWireCube( serverPos, size1 );
 		if ( serverState.IsMoving ) {
-			GizmoUtils.DrawArrow( serverPos + Vector3.right / 5, serverState.Direction * serverState.Speed );
+			GizmoUtils.DrawArrow( serverPos + Vector3.right / 3, serverState.Direction * serverState.Speed );
 			GizmoUtils.DrawText( serverState.Speed.ToString(), serverPos + Vector3.right, 15 );
 		}
-		//clientState
+		//serverTargetState
 		Gizmos.color = color2;
+		Vector3 serverTargetPos = serverTargetState.Position;
+		Gizmos.DrawWireCube( serverTargetPos, size2 );
+		if ( serverTargetState.IsMoving ) {
+			GizmoUtils.DrawArrow( serverTargetPos, serverTargetState.Direction * serverTargetState.Speed );
+			GizmoUtils.DrawText( serverTargetState.Speed.ToString(), serverTargetPos + Vector3.down, 15 );
+		}
+		
+		//clientState
+		Gizmos.color = color3;
 		Vector3 pos = clientState.Position;
-		Gizmos.DrawWireCube( pos, size2 );
+		Gizmos.DrawWireCube( pos, size3 );
 		if ( clientState.IsMoving ) {
-			GizmoUtils.DrawArrow( pos + Vector3.left / 5, clientState.Direction * clientState.Speed );
+			GizmoUtils.DrawArrow( pos + Vector3.left / 3, clientState.Direction * clientState.Speed );
 			GizmoUtils.DrawText( clientState.Speed.ToString(), pos + Vector3.left, 15 );
 		}
 	}
