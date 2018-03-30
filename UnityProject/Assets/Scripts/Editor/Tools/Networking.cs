@@ -35,6 +35,24 @@ public class Networking : Editor
 		}
 
 	}
+	[MenuItem("Networking/Print player positions")]
+	private static void PrintPlayerPositions()
+	{
+		//For every player in the connected player list (this list is serverside-only)
+		foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
+			
+			//Get PlayerScript component that holds references for the other important player-related scripts
+			var playerScript = player.GameObject.GetComponent<PlayerScript>();
+			
+			//Digging into PlayerSync component, grabbing ServerState and taking out current position
+			Vector3 position = playerScript.playerSync.ServerState.Position;
+			
+			//Printing this the pretty way, example:
+			//Bob (CAPTAIN) is located at (77,0, 52,0, 0,0)
+			Debug.Log( $"{player.Name} ({player.Job}) is located at {position}" );
+		}
+
+	}
 
 	[MenuItem("Networking/Transform Waltz (Server)")]
 	private static void MoveAll()
