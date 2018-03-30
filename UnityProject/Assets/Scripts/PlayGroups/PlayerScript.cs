@@ -38,7 +38,7 @@ namespace PlayGroup
 
 		public PlayerSprites playerSprites { get; set; }
 
-		public IPlayerSync playerSync { get; set; }
+		public PlayerSync playerSync { get; set; }
 
 		public InputController inputController { get; set; }
 
@@ -90,7 +90,7 @@ namespace PlayGroup
 		private void Start()
 		{
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
-			playerSync = GetComponent<IPlayerSync>();
+			playerSync = GetComponent<PlayerSync>();
 			playerHealth = GetComponent<PlayerHealth>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 			soundNetworkActions = GetComponent<SoundNetworkActions>();

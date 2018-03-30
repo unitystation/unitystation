@@ -16,13 +16,17 @@ namespace PlayGroup
 		void SetPosition(Vector3 pos);
 
 		void PullReset(NetworkInstanceId netID);
-		bool InvokeCommand(int cmdHash, NetworkReader reader);
-		bool InvokeRPC(int cmdHash, NetworkReader reader);
-		bool InvokeSyncEvent(int cmdHash, NetworkReader reader);
-		bool InvokeSyncList(int cmdHash, NetworkReader reader);
+//		bool InvokeCommand(int cmdHash, NetworkReader reader);
+//		bool InvokeRPC(int cmdHash, NetworkReader reader);
+//		bool InvokeSyncEvent(int cmdHash, NetworkReader reader);
+//		bool InvokeSyncList(int cmdHash, NetworkReader reader);
 		void ProcessAction(PlayerAction action);
 		void UpdateClientState(PlayerState state);
 		void ClearQueueClient();
 		void Push(Vector2Int direction);
+		///For server code. Contains position
+		PlayerState ServerState { get; }
+		/// For client code
+		PlayerState ClientState { get; }
 	}
 }
