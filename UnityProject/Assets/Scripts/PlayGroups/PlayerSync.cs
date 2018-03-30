@@ -9,6 +9,8 @@ using UnityEngine.Networking;
 
 namespace PlayGroup
 {
+    /// Container with player position, flight direction etc. 
+    /// Gives client enough information for smooth simulation
     public struct PlayerState
     {
         public int MoveNumber;
@@ -71,6 +73,12 @@ namespace PlayGroup
 
     public partial class PlayerSync : NetworkBehaviour, IPlayerSync
     {
+        ///For server code. Contains position
+        public PlayerState ServerState => serverState;
+        
+        /// For client code
+        public PlayerState ClientState => playerState;
+
 //		private bool canRegister = false;
         private HealthBehaviour healthBehaviorScript;
 
