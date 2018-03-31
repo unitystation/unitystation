@@ -21,9 +21,6 @@ namespace PlayGroup
 	public class PlayerMove : NetworkBehaviour
 	{
 		private readonly List<KeyCode> pressedKeys = new List<KeyCode>();
-		private RaycastHit2D[] rayHit;
-		private Collider2D curMatrixCol;
-		public LayerMask hitCheckLayers;
 
 		[SyncVar] public bool allowInput = true;
 
@@ -37,10 +34,11 @@ namespace PlayGroup
 			KeyCode.RightArrow
 		};
 
+		public PlayerMatrixDetector playerMatrixDetector;
 		private PlayerSprites playerSprites;
 		private IPlayerSync playerSync;
 
-		private PlayerNetworkActions pna;
+		[HideInInspector] public PlayerNetworkActions pna;
 		[HideInInspector] public PushPull pushPull; //The push pull component attached to this player
 		public float speed = 10;
 
@@ -204,41 +202,10 @@ namespace PlayGroup
 			//isReplay tells AdjustDirection if the move being carried out is a replay move for prediction or not
 			//a replay move is a move that has already been carried out on the LocalPlayer's client
 			if (!isReplay) {
-				
-				Vector3 newRayPos = transform.position + direction;
-				rayHit = Physics2D.RaycastAll(newRayPos, (Vector3)direction, 0.2f, hitCheckLayers);
-			//	Debug.DrawLine(newRayPos, newRayPos + ((Vector3)direction * 0.2f), Color.red, 1f);
-
-				//Detect new matrices
-				for (int i = 0; i < rayHit.Length; i++) {
-					//checks to see if the matrix has changed
-					if (rayHit[i].collider.gameObject.layer == 24
-						&& rayHit[i].collider != curMatrixCol) {
-						curMatrixCol = rayHit[i].collider;
-						ChangeMatricies(rayHit[i].collider.gameObject.transform.parent);
-						Debug.Log("Change Matricies");
-					}
-
-					//Detected windows or walls across matrices or from space:
-					if (rayHit[i].collider.gameObject.layer == 9
-					   || rayHit[i].collider.gameObject.layer == 18) {
-						return Vector3Int.zero;
-					}
-
-					//Door closed layer (matrix independent)
-					if (rayHit[i].collider.gameObject.layer == 17) {
-						DoorController doorController = rayHit[i].collider.gameObject.GetComponent<DoorController>();
-
-						// Attempt to open door that could be on another layer
-						if (doorController != null && allowInput) {
-							pna.CmdCheckDoorPermissions(doorController.gameObject, gameObject);
-							allowInput = false;
-							StartCoroutine(DoorInputCoolDown());
-						}
-						return Vector3Int.zero;
-					}
+				//Check the high level matrix detector
+				if (!playerMatrixDetector.CanPass(direction)) {
+					return Vector3Int.zero;
 				}
-
 				//Not to be checked while performing a replay:
 				if (playerSync.PullingObject != null) {
 					if (matrix.ContainsAt(newPos, playerSync.PullingObject)) {
@@ -313,7 +280,7 @@ namespace PlayGroup
 		}
 
 		//FIXME an ugly temp fix for an ugly problem. Will implement callbacks after 0.1.3
-		private IEnumerator DoorInputCoolDown()
+		public IEnumerator DoorInputCoolDown()
 		{
 			yield return new WaitForSeconds(0.3f);
 			allowInput = true;
