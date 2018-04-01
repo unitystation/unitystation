@@ -77,8 +77,11 @@ public class ShuttleController : ManagedNetworkBehaviour {
 	public MatrixState ClientState => clientState;
 	///client's transform, can get dirty/predictive
 	private MatrixState clientState; 
+	/// Is only present to match server's flight routines 
+	private MatrixState clientTargetState; 
 	private bool isMovingClient => clientState.IsMoving && clientState.Speed > 0f;
 	private bool isRotatingClient => transform.rotation.eulerAngles.z != clientState.Orientation.degree;
+	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
 	
 	//editor (global) values
 	/// Initial flying direction from editor
@@ -183,7 +186,7 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		} else {
 			serverTargetState.Speed = absoluteValue;
 		}
-		//todo: to send or not to send speed updates when not moving? I think not
+		//do not send speed updates when not moving
 		if ( isMovingServer ) { 
 			RequestNotify();
 		}
@@ -208,6 +211,7 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		
 		//Lerp
 		if ( clientState.Position != transform.position ) {
+			//todo: is that extra lerp really needed?
 			float distance = Vector3.Distance( clientState.Position, transform.position );
 			//Activate warp speed if object gets too far away or have to rotate
 			bool shouldWarp = distance > 2 || isRotatingClient;
@@ -216,7 +220,6 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		}
 	}
 
-//FIXME: server speed issues!
 	[Server]
 	private void CheckMovementServer()
 	{
@@ -263,13 +266,30 @@ public class ShuttleController : ManagedNetworkBehaviour {
 	public void UpdateClientState( MatrixState newState )
 	{
 		clientState = newState;
+		clientTargetState = newState;
 	}
 
 	///predictive perpetual flying
 	private void SimulateStateMovement()
 	{
-		clientState.Position +=
-			(Vector3) clientState.Direction * clientState.Speed * Time.deltaTime;
+//		clientState.Position +=
+//			(Vector3) clientState.Direction * clientState.Speed * Time.deltaTime;
+		//<<too easy, ends up being faster than server
+		//ClientState lerping to its target tile
+		if ( !ClientPositionsMatch ) {
+			clientState.Position =
+				Vector3.MoveTowards( clientState.Position,
+					clientTargetState.Position,
+					clientState.Speed * Time.deltaTime );
+			TryNotifyPlayers();
+		}
+		if ( isMovingClient && !isRotatingClient ) {
+			Vector3Int goal = Vector3Int.RoundToInt( clientState.Position + ( Vector3 ) clientTargetState.Direction );
+				//keep moving
+				if ( ClientPositionsMatch ) {
+					clientTargetState.Position = goal;
+				}
+		}
 	}
 
 	/// Schedule notification for the next ServerPositionsMatch
