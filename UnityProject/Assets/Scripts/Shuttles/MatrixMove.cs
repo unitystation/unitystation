@@ -167,7 +167,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	/// Adjust current ship's speed with a relative value
 	[Server]
 	public void AdjustSpeed( float relativeValue ) {
-		float absSpeed = serverTargetState.Speed += relativeValue;
+		float absSpeed = serverTargetState.Speed + relativeValue;
 		SetSpeed( absSpeed );
 	}
 
@@ -215,11 +215,12 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			SimulateStateMovement();
 		}
 		
+//			transform.position = clientState.Position;
 		//Lerp
 		if ( clientState.Position != transform.position ) {
-			//todo: make descyncs look smoother?
+//			todo: make descyncs look smoother?
 			float distance = Vector3.Distance( clientState.Position, transform.position );
-			//Activate warp speed if object gets too far away or have to rotate
+//			Activate warp speed if object gets too far away or have to rotate
 			bool shouldWarp = distance > 2 || isRotatingClient;
 			transform.position =
 				Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? 30 : 1 ) );		
@@ -230,6 +231,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	[Server]
 	private void CheckMovementServer()
 	{
+		//Not doing any serverside movement while rotating
+		if ( isRotatingServer ) {
+			return;
+		}
 		//ServerState lerping to its target tile
 		if ( !ServerPositionsMatch ) {
 			serverState.Position =
@@ -238,7 +243,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 					serverState.Speed * Time.deltaTime );
 			TryNotifyPlayers();
 		}
-		if ( isMovingServer && !isRotatingServer ) {
+		if ( isMovingServer ) {
 			Vector3Int goal = Vector3Int.RoundToInt( serverState.Position + ( Vector3 ) serverTargetState.Direction );
 			if ( !SafetyProtocolsOn || CanMoveTo( goal ) ) {
 				//keep moving
@@ -331,6 +336,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	[Server]
 	public void NotifyPlayer( GameObject playerGameObject )
 	{
+		//todo: notify new players; figure out what to do with mid-flight deserializetion
 		MatrixMoveMessage.Send(playerGameObject, gameObject, serverState);
 	}
 
@@ -349,7 +355,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 											: serverTargetState.Orientation.Previous();
 		//Correcting direction
 		Vector3 newDirection = Quaternion.Euler( 0, 0, clockwise ? -90 : 90 ) * serverTargetState.Direction;
-		Debug.Log($"Orientation is now {serverTargetState.Orientation}, Corrected direction from {serverTargetState.Direction} to {newDirection}");
+//		Debug.Log($"Orientation is now {serverTargetState.Orientation}, Corrected direction from {serverTargetState.Direction} to {newDirection}");
 		serverTargetState.Direction = newDirection;
 		RequestNotify();
 	}
