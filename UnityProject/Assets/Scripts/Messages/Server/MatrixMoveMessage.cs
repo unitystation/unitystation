@@ -15,9 +15,9 @@ public class MatrixMoveMessage : ServerMessage
 	///To be run on client
 	public override IEnumerator Process()
 	{
-		Debug.Log("Processed " + ToString());
+//		Debug.Log("Processed " + ToString());
 		yield return WaitFor(Matrix);
-		var matrixMove = NetworkObject.GetComponent<ShuttleController>();
+		var matrixMove = NetworkObject.GetComponent<MatrixMove>();
 		matrixMove.UpdateClientState(State);
 	}
 

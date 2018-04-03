@@ -61,7 +61,7 @@ public struct MatrixState
 	}
 }
 
-public class ShuttleController : ManagedNetworkBehaviour {
+public class MatrixMove : ManagedNetworkBehaviour {
 	//server-only values
 	public MatrixState State => serverState;
 	///used for syncing with players, matters only for server
@@ -71,7 +71,7 @@ public class ShuttleController : ManagedNetworkBehaviour {
 	private bool SafetyProtocolsOn { get; set; }
 	private bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
-	private bool isRotatingServer => isRotatingClient; //fixme
+	private bool isRotatingServer => isRotatingClient; //todo: calculate rotation time on server instead
 	
 	//client-only values
 	public MatrixState ClientState => clientState;
@@ -139,7 +139,7 @@ public class ShuttleController : ManagedNetworkBehaviour {
 	}
 
 	[Server]
-	private void ToggleMovement() {
+	public void ToggleMovement() {
 		if ( isMovingServer ) {
 			StopMovement();
 		} else {
@@ -147,32 +147,34 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		}
 	}
 
+	/// Start moving. If speed was zero, it'll be set to 1
 	[Server]
-	private void StartMovement() {
+	public void StartMovement() {
 		//Setting speed if there is none
 		if ( serverTargetState.Speed <= 0 ) {
-			SetSpeed( 1/*, false*/ );
+			SetSpeed( 1 );
 		}
 		Debug.Log($"Started moving with speed {serverTargetState.Speed}");
 		serverTargetState.IsMoving = true;
 		RequestNotify();
 	}
+	/// Stop movement
 	[Server]
-	private void StopMovement() {
+	public void StopMovement() {
 		Debug.Log("Stopped movement");
 		serverTargetState.IsMoving = false;
-		RequestNotify();
 	}
-
+	/// Adjust current ship's speed with a relative value
 	[Server]
-	private void AdjustSpeed( int relativeValue/*, bool notify = true*/ ) {
+	public void AdjustSpeed( float relativeValue ) {
 		float absSpeed = serverTargetState.Speed += relativeValue;
-		SetSpeed( absSpeed/*, notify*/ );
+		SetSpeed( absSpeed );
 	}
 
+	/// Set ship's speed using absolute value. it will be truncated if it's out of bounds
 	[Server]
-	private void SetSpeed( float absoluteValue/*, bool notify = true*/ ) {
-		if ( serverTargetState.Speed <= 0 ) {
+	public void SetSpeed( float absoluteValue ) {
+		if ( absoluteValue <= 0 ) {
 			//Stop movement if speed is zero or below
 			serverTargetState.Speed = 0;
 			if ( serverTargetState.IsMoving ) {
@@ -182,16 +184,20 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		}
 		if ( absoluteValue > maxSpeed ) {
 			Debug.LogWarning($"MaxSpeed {maxSpeed} reached, not going further");
+			if ( serverTargetState.Speed >= maxSpeed ) {
+				//Not notifying people if some dick is spamming "increase speed" button at max speed
+				return;
+			}
 			serverTargetState.Speed = maxSpeed;
 		} else {
 			serverTargetState.Speed = absoluteValue;
 		}
 		//do not send speed updates when not moving
-		if ( isMovingServer ) { 
+		if ( serverTargetState.IsMoving ) { 
 			RequestNotify();
 		}
 	}
-
+	/// Clientside movement routine
 	private void CheckMovement()
 	{
 		if ( isRotatingClient ) {
@@ -211,7 +217,7 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		
 		//Lerp
 		if ( clientState.Position != transform.position ) {
-			//todo: is that extra lerp really needed?
+			//todo: make descyncs look smoother?
 			float distance = Vector3.Distance( clientState.Position, transform.position );
 			//Activate warp speed if object gets too far away or have to rotate
 			bool shouldWarp = distance > 2 || isRotatingClient;
@@ -219,7 +225,8 @@ public class ShuttleController : ManagedNetworkBehaviour {
 				Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? 30 : 1 ) );		
 		}
 	}
-
+	
+	/// Serverside movement routine
 	[Server]
 	private void CheckMovementServer()
 	{
@@ -233,13 +240,13 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		}
 		if ( isMovingServer && !isRotatingServer ) {
 			Vector3Int goal = Vector3Int.RoundToInt( serverState.Position + ( Vector3 ) serverTargetState.Direction );
-			//    todo: Try to avoid collisions (automatically stop) when safety protocols are on
 			if ( !SafetyProtocolsOn || CanMoveTo( goal ) ) {
 				//keep moving
 				if ( ServerPositionsMatch ) {
 					serverTargetState.Position = goal;
 				}
 			} else {
+				Debug.Log( "Stopping due to safety protocols!" );
 				StopMovement();
 			}
 		}
@@ -272,16 +279,12 @@ public class ShuttleController : ManagedNetworkBehaviour {
 	///predictive perpetual flying
 	private void SimulateStateMovement()
 	{
-//		clientState.Position +=
-//			(Vector3) clientState.Direction * clientState.Speed * Time.deltaTime;
-		//<<too easy, ends up being faster than server
 		//ClientState lerping to its target tile
 		if ( !ClientPositionsMatch ) {
 			clientState.Position =
 				Vector3.MoveTowards( clientState.Position,
 					clientTargetState.Position,
 					clientState.Speed * Time.deltaTime );
-			TryNotifyPlayers();
 		}
 		if ( isMovingClient && !isRotatingClient ) {
 			Vector3Int goal = Vector3Int.RoundToInt( clientState.Position + ( Vector3 ) clientTargetState.Direction );
@@ -317,7 +320,7 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
 		if ( !isMovingServer || serverState.Inform ) {
 			MatrixMoveMessage.SendToAll(gameObject, serverState);
-			//ClearStateFlags
+			//Clear inform flags
 			serverTargetState.Inform = false;
 			serverState.Inform = false;
 		}
@@ -331,16 +334,16 @@ public class ShuttleController : ManagedNetworkBehaviour {
 		MatrixMoveMessage.Send(playerGameObject, gameObject, serverState);
 	}
 
-	///Only fly or change orientation if rotation is finished
+	///Only change orientation if rotation is finished
 	[Server]
-	private void TryRotate( bool clockwise ) {
+	public void TryRotate( bool clockwise ) {
 		if ( !isRotatingServer ) {
 			Rotate(clockwise);
 		}
 	}
-
+	/// Imperative rotate
 	[Server]
-	private void Rotate( bool clockwise )
+	public void Rotate( bool clockwise )
 	{
 		serverTargetState.Orientation = clockwise ? serverTargetState.Orientation.Next() 
 											: serverTargetState.Orientation.Previous();
