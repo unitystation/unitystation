@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements.StyleEnums;
 using UnityEngine.Networking;
 
 public struct MatrixOrientation
@@ -62,6 +63,8 @@ public struct MatrixState
 }
 
 public class MatrixMove : ManagedNetworkBehaviour {
+	public bool IsMoving => isMovingServer;
+	
 	//server-only values
 	public MatrixState State => serverState;
 	///used for syncing with players, matters only for server
@@ -215,15 +218,20 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			SimulateStateMovement();
 		}
 		
-//			transform.position = clientState.Position;
 		//Lerp
 		if ( clientState.Position != transform.position ) {
-//			todo: make descyncs look smoother?
 			float distance = Vector3.Distance( clientState.Position, transform.position );
+			
+//			Just set pos without any lerping if distance is too long (serverside teleportation assumed)
+			bool shouldTeleport = distance > 30;
+			if ( shouldTeleport ) {
+				transform.position = clientState.Position;
+				return;
+			}
 //			Activate warp speed if object gets too far away or have to rotate
 			bool shouldWarp = distance > 2 || isRotatingClient;
 			transform.position =
-				Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? 30 : 1 ) );		
+				Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );		
 		}
 	}
 	
@@ -336,7 +344,6 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	[Server]
 	public void NotifyPlayer( GameObject playerGameObject )
 	{
-		//todo: notify new players; figure out what to do with mid-flight deserializetion
 		MatrixMoveMessage.Send(playerGameObject, gameObject, serverState);
 	}
 

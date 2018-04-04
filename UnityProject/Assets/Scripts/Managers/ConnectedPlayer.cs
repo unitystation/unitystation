@@ -9,6 +9,8 @@ public class ConnectedPlayer
     private ulong steamId;
     private GameObject gameObject;
     private NetworkConnection connection;
+    /// Flags if player received a bunch of sync messages upon joining
+    private bool synced;
 
     public bool IsAuthenticated => steamId != 0;
 
@@ -18,7 +20,8 @@ public class ConnectedPlayer
         gameObject = null,
         name = "kek",
         job = JobType.NULL,
-        steamId = 0
+        steamId = 0,
+        synced = true
     };
 
     public static ConnectedPlayer ArchivedPlayer( ConnectedPlayer player )
@@ -29,7 +32,8 @@ public class ConnectedPlayer
             gameObject = player.GameObject,
             name = player.Name,
             job = player.Job,
-            steamId = player.SteamId
+            steamId = player.SteamId,
+            synced = player.synced
         };
     }
 
@@ -84,6 +88,11 @@ public class ConnectedPlayer
             job = value;
             TrySendUpdate();
         }
+    }
+
+    public bool Synced {
+        get { return synced; }
+        set { synced = value; }
     }
 
     public bool HasNoName()
@@ -143,6 +152,6 @@ public class ConnectedPlayer
 
     public override string ToString()
     {
-        return $"[conn={Connection.connectionId}|go={gameObject}|name='{name}'|job={job}|steamId={steamId}]";
+        return $"[conn={Connection.connectionId}|go={gameObject}|name='{name}'|job={job}|steamId={steamId}|synced={synced}]";
     }
 }
