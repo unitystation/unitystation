@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 114823388259431498}
   - component: {fileID: 114249863671345724}
   - component: {fileID: 114198649978379182}
+  - component: {fileID: 114730684442348350}
   m_Layer: 17
   m_Name: Virology
   m_TagString: Untagged
@@ -663,7 +664,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fovTileSprite: {fileID: 1988361524031004, guid: 4232d90630e5c4ae1b6e7a3370b1d2a5,
     type: 2}
-  tileSpriteRenderer: {fileID: 0}
 --- !u!114 &114235526540606744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -720,6 +720,20 @@ MonoBehaviour:
     i15: 154
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114730684442348350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1807313548142900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114767970609396208
 MonoBehaviour:
   m_ObjectHideFlags: 1

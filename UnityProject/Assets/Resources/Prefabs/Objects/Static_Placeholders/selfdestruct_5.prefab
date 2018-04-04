@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114810327585269436}
   - component: {fileID: 114301386677564174}
   - component: {fileID: 114736138536944210}
+  - component: {fileID: 114934421346591756}
   m_Layer: 11
   m_Name: selfdestruct_5
   m_TagString: Untagged
@@ -186,6 +187,20 @@ MonoBehaviour:
     i15: 84
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114934421346591756
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1439898276103874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212780146183184902
 SpriteRenderer:
   m_ObjectHideFlags: 1

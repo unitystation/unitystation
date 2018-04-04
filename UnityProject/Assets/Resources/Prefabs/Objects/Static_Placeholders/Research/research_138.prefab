@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 61160881881346490}
   - component: {fileID: 114233585954397344}
   - component: {fileID: 114179468509866964}
+  - component: {fileID: 114724808481415240}
   m_Layer: 11
   m_Name: research_138
   m_TagString: Untagged
@@ -170,6 +171,20 @@ MonoBehaviour:
     i15: 17
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114724808481415240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1890365775662918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212492668631630676
 SpriteRenderer:
   m_ObjectHideFlags: 1

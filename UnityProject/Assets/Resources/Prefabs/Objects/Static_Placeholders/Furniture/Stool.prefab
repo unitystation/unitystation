@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 61684024831501246}
   - component: {fileID: 114353650617434994}
   - component: {fileID: 114583254953915212}
+  - component: {fileID: 114377328424748032}
   m_Layer: 11
   m_Name: Stool
   m_TagString: Untagged
@@ -129,6 +130,20 @@ MonoBehaviour:
     i15: 34
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114377328424748032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1733406564780334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114583254953915212
 MonoBehaviour:
   m_ObjectHideFlags: 1

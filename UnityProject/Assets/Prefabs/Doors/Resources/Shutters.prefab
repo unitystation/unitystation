@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114640096819736908}
   - component: {fileID: 114056072402202090}
   - component: {fileID: 114820902694638386}
+  - component: {fileID: 114639175160094770}
   m_Layer: 16
   m_Name: Shutters
   m_TagString: Untagged
@@ -134,6 +135,20 @@ MonoBehaviour:
   Passable: 0
   IsClosed: 0
   OneDirectionRestricted: 0
+--- !u!114 &114639175160094770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010316053548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114640096819736908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -190,7 +205,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fovTileSprite: {fileID: 1988361524031004, guid: 4232d90630e5c4ae1b6e7a3370b1d2a5,
     type: 2}
-  tileSpriteRenderer: {fileID: 0}
 --- !u!212 &212000011093762314
 SpriteRenderer:
   m_ObjectHideFlags: 1

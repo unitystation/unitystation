@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114003180995664730}
   - component: {fileID: 114459644202765480}
   - component: {fileID: 114667200560179452}
+  - component: {fileID: 114491891953060458}
   m_Layer: 11
   m_Name: telecomms_65
   m_TagString: Untagged
@@ -169,6 +170,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Message: You see some lights blinking in strange patterns, either its broken or
     you're a complete retard.
+--- !u!114 &114491891953060458
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1729264324595844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114667200560179452
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114441630715662962}
   - component: {fileID: 114179702189733858}
   - component: {fileID: 114847283536098970}
+  - component: {fileID: 114291218838927596}
   m_Layer: 11
   m_Name: washing_machine_0
   m_TagString: Untagged
@@ -136,6 +137,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Message: Round and round, round and round...
+--- !u!114 &114291218838927596
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1710115528436200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114441630715662962
 MonoBehaviour:
   m_ObjectHideFlags: 1

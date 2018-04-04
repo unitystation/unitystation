@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114247317714255294}
   - component: {fileID: 114879560220423808}
   - component: {fileID: 114675147371602500}
+  - component: {fileID: 114504245968802258}
   m_Layer: 11
   m_Name: telecomms_130
   m_TagString: Untagged
@@ -156,6 +157,20 @@ MonoBehaviour:
     i15: 235
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114504245968802258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1117558706870870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114675147371602500
 MonoBehaviour:
   m_ObjectHideFlags: 1

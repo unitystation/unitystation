@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114162376994609824}
   - component: {fileID: 114585462459452276}
   - component: {fileID: 114969507595526308}
+  - component: {fileID: 114101716766838300}
   m_Layer: 11
   m_Name: FoodCart
   m_TagString: Untagged
@@ -124,6 +125,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114101716766838300
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011358831344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114162376994609824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -171,6 +186,7 @@ MonoBehaviour:
   - {fileID: 1110193000772614, guid: d4b80359e4f4b40868cfc0bd10b94ae1, type: 2}
   allowSell: 1
   cooldownTimer: 180
+  stock: 5
   interactionMessage: Nothing better than a nice warm cappuccino in the summer!
   deniedMessage: Damn, you ate EVERYTHING!
 --- !u!114 &114969507595526308

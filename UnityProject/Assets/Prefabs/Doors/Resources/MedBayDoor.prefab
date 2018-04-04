@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114244929954303746}
   - component: {fileID: 114745468428679086}
   - component: {fileID: 114052302235371846}
+  - component: {fileID: 114937836975816266}
   m_Layer: 17
   m_Name: MedBayDoor
   m_TagString: Untagged
@@ -484,7 +485,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fovTileSprite: {fileID: 1988361524031004, guid: 4232d90630e5c4ae1b6e7a3370b1d2a5,
     type: 2}
-  tileSpriteRenderer: {fileID: 0}
 --- !u!114 &114203827934596338
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -762,6 +762,20 @@ MonoBehaviour:
   openSFX: {fileID: 82424364662987246}
   oppeningDirection: 0
   spriteRenderer: {fileID: 0}
+--- !u!114 &114937836975816266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1033492078376264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212682667343390072
 SpriteRenderer:
   m_ObjectHideFlags: 1

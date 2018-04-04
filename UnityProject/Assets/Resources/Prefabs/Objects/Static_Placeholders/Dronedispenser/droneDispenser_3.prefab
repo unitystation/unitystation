@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 61932665835585744}
   - component: {fileID: 114737072943441032}
   - component: {fileID: 114564549231357516}
+  - component: {fileID: 114058109572842118}
   m_Layer: 11
   m_Name: droneDispenser_3
   m_TagString: Untagged
@@ -123,6 +124,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114058109572842118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1185737350065742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114564549231357516
 MonoBehaviour:
   m_ObjectHideFlags: 1

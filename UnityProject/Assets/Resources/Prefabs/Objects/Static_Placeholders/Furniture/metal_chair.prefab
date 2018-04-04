@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 61595398863923038}
   - component: {fileID: 114606998315475382}
   - component: {fileID: 114601193997943186}
+  - component: {fileID: 114055517453558958}
   m_Layer: 11
   m_Name: metal_chair
   m_TagString: Untagged
@@ -98,6 +99,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114055517453558958
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169897606440870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114158883335783458
 MonoBehaviour:
   m_ObjectHideFlags: 1

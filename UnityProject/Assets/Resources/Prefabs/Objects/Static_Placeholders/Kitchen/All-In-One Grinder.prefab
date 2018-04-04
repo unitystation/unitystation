@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 61062956634469460}
   - component: {fileID: 114317265693813864}
   - component: {fileID: 114642639155130402}
+  - component: {fileID: 114290125830698474}
   m_Layer: 11
   m_Name: All-In-One Grinder
   m_TagString: Untagged
@@ -123,6 +124,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114290125830698474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012542722638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114317265693813864
 MonoBehaviour:
   m_ObjectHideFlags: 1

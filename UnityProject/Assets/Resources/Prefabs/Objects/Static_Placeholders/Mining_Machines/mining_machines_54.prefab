@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114064664725107284}
   - component: {fileID: 114770512620025736}
   - component: {fileID: 114030207048474028}
+  - component: {fileID: 114404534068749718}
   m_Layer: 11
   m_Name: mining_machines_54
   m_TagString: Untagged
@@ -171,6 +172,20 @@ MonoBehaviour:
     i15: 60
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114404534068749718
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1148151089360074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114770512620025736
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,6 +201,7 @@ MonoBehaviour:
   - {fileID: 1519710982558066, guid: daa925ae33eab5d4988f8182a1ce33ac, type: 2}
   allowSell: 1
   cooldownTimer: 2
+  stock: 5
   interactionMessage: bzzz...
   deniedMessage: Vendor is refreshing stocking, please wait...
 --- !u!212 &212750662645316826

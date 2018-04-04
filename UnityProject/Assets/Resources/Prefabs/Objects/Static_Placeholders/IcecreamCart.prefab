@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114455447579526226}
   - component: {fileID: 114277492151038934}
   - component: {fileID: 114094763687515256}
+  - component: {fileID: 114898645669774346}
   m_Layer: 11
   m_Name: IcecreamCart
   m_TagString: Untagged
@@ -183,6 +184,20 @@ MonoBehaviour:
     i15: 45
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114898645669774346
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1147578870404542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212218011802944220
 SpriteRenderer:
   m_ObjectHideFlags: 1

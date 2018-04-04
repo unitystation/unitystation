@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 61284814597815766}
   - component: {fileID: 114106357486316048}
   - component: {fileID: 114323454101395386}
+  - component: {fileID: 114460981524661966}
   m_Layer: 11
   m_Name: kitchen_66
   m_TagString: Untagged
@@ -170,6 +171,20 @@ MonoBehaviour:
   AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
+--- !u!114 &114460981524661966
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1089778434730722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212420174128685970
 SpriteRenderer:
   m_ObjectHideFlags: 1

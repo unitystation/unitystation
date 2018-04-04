@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114361556451485950}
   - component: {fileID: 114274318554986728}
   - component: {fileID: 114652242124060220}
+  - component: {fileID: 114807368382752792}
   m_Layer: 11
   m_Name: atmos_35
   m_TagString: Untagged
@@ -184,6 +185,20 @@ MonoBehaviour:
   AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 1
+--- !u!114 &114807368382752792
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1355711231306972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212263973142526242
 SpriteRenderer:
   m_ObjectHideFlags: 1

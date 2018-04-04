@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114388339663867782}
   - component: {fileID: 114660013788037466}
   - component: {fileID: 114297752066753362}
+  - component: {fileID: 114542493565802846}
   m_Layer: 11
   m_Name: Shuttle_engine_W
   m_TagString: Untagged
@@ -171,6 +172,20 @@ MonoBehaviour:
     i15: 70
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114542493565802846
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1846819303320804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114660013788037466
 MonoBehaviour:
   m_ObjectHideFlags: 1

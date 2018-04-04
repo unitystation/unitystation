@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114160558175690770}
   - component: {fileID: 114598344239668270}
   - component: {fileID: 114021965903796278}
+  - component: {fileID: 114947599300197550}
   m_Layer: 16
   m_Name: FireDoor
   m_TagString: Untagged
@@ -173,6 +174,20 @@ MonoBehaviour:
   Passable: 0
   IsClosed: 0
   OneDirectionRestricted: 0
+--- !u!114 &114947599300197550
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011470677956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212000014053969070
 SpriteRenderer:
   m_ObjectHideFlags: 1

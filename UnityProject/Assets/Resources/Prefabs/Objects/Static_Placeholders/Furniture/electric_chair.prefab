@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 61719680097134856}
   - component: {fileID: 114720231764689980}
   - component: {fileID: 114643077223507322}
+  - component: {fileID: 114572836541477582}
   m_Layer: 11
   m_Name: electric_chair
   m_TagString: Untagged
@@ -97,6 +98,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114572836541477582
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1530970050131386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114643077223507322
 MonoBehaviour:
   m_ObjectHideFlags: 1
