@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114180727939927124}
   - component: {fileID: 114320204715381500}
   - component: {fileID: 61959303962396766}
+  - component: {fileID: 114027247402343528}
   m_Layer: 11
   m_Name: Gibber
   m_TagString: Untagged
@@ -180,6 +181,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114027247402343528
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1058895993067106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114120947542989176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -227,6 +242,7 @@ MonoBehaviour:
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
   allowSell: 1
   cooldownTimer: 2
+  stock: 5
   interactionMessage: You manage to scrape a small slap of stale meat out of the Gibber...
   deniedMessage: You don't dare to put your hand any deeper in search of some meat...
 --- !u!114 &114320204715381500

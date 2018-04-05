@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 61454608339109840}
   - component: {fileID: 114196986508391984}
   - component: {fileID: 114857300491839226}
+  - component: {fileID: 114743106610261684}
   m_Layer: 11
   m_Name: equipment_19
   m_TagString: Untagged
@@ -155,6 +156,20 @@ MonoBehaviour:
     i15: 90
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114743106610261684
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1333852769310376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114857300491839226
 MonoBehaviour:
   m_ObjectHideFlags: 1

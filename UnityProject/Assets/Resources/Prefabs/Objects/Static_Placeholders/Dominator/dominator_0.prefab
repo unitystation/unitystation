@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 61991778482682368}
   - component: {fileID: 114659570417048708}
   - component: {fileID: 114040044694266186}
+  - component: {fileID: 114676528659910156}
   m_Layer: 11
   m_Name: dominator_0
   m_TagString: Untagged
@@ -170,6 +171,20 @@ MonoBehaviour:
     i15: 101
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114676528659910156
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1601282918251164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212860289942918962
 SpriteRenderer:
   m_ObjectHideFlags: 1

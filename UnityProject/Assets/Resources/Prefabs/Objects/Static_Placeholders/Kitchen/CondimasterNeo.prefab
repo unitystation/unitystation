@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 114055981540645266}
   - component: {fileID: 114982984622957134}
   - component: {fileID: 114166492686899678}
+  - component: {fileID: 114952131528648350}
   m_Layer: 11
   m_Name: CondimasterNeo
   m_TagString: Untagged
@@ -201,6 +202,20 @@ MonoBehaviour:
   AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
+--- !u!114 &114952131528648350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1828492656539854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114982984622957134
 MonoBehaviour:
   m_ObjectHideFlags: 1

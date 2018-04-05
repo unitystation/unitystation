@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 114129184533949936}
   - component: {fileID: 114506160011368158}
   - component: {fileID: 114837052012237978}
+  - component: {fileID: 114925179271084826}
   m_Layer: 18
   m_Name: PublicDoor
   m_TagString: Untagged
@@ -831,7 +832,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fovTileSprite: {fileID: 1988361524031004, guid: 4232d90630e5c4ae1b6e7a3370b1d2a5,
     type: 2}
-  tileSpriteRenderer: {fileID: 0}
+--- !u!114 &114925179271084826
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013208201100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212000011125170888
 SpriteRenderer:
   m_ObjectHideFlags: 1

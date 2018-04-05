@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114503216769949634}
   - component: {fileID: 114078059574995632}
   - component: {fileID: 114497646148759208}
+  - component: {fileID: 114705795285631348}
   m_Layer: 11
   m_Name: vending_140
   m_TagString: Untagged
@@ -139,6 +140,7 @@ MonoBehaviour:
   - {fileID: 1519710982558066, guid: daa925ae33eab5d4988f8182a1ce33ac, type: 2}
   allowSell: 1
   cooldownTimer: 2
+  stock: 5
   interactionMessage: bzzzz...
   deniedMessage: Vendor is refreshing stocking, please wait...
 --- !u!114 &114497646148759208
@@ -188,6 +190,20 @@ MonoBehaviour:
     i15: 13
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114705795285631348
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1199227125693490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212173224588357930
 SpriteRenderer:
   m_ObjectHideFlags: 1

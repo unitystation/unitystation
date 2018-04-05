@@ -301,16 +301,19 @@ public class CustomNetworkManager : NetworkManager
 		this.RegisterClientHandlers(conn);
 	}
 
-	///A crude proof-of-concept representation of how player is going to receive sync data
+	///Sync some position data explicitly, if it is required
+	/// Warning: sending a lot of data, make sure client receives it only once
 	public void SyncPlayerData(GameObject playerGameObject)
 	{
-		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
-		for (var i = 0; i < scripts.Length; i++)
-		{
-			var script = scripts[i];
-			script.NotifyPlayer(playerGameObject);
+		MatrixMove[] matrices = FindObjectsOfType<MatrixMove>();
+		for (var i = 0; i < matrices.Length; i++) {
+			matrices[i].NotifyPlayer(playerGameObject);
 		}
-		Debug.LogFormat($"Sent sync data ({scripts.Length} scripts) to {playerGameObject.name}");
+		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
+		for (var i = 0; i < scripts.Length; i++) {
+			scripts[i].NotifyPlayer(playerGameObject);
+		}
+		Debug.LogFormat($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms) to {playerGameObject.name}");
 	}
 
 	private IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)

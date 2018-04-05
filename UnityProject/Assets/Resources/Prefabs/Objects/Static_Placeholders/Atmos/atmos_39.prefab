@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114165970960220048}
   - component: {fileID: 114171682254468042}
   - component: {fileID: 114942966740997010}
+  - component: {fileID: 114852003255489722}
   m_Layer: 11
   m_Name: atmos_39
   m_TagString: Untagged
@@ -168,6 +169,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Message: 
+--- !u!114 &114852003255489722
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1773320741659664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114942966740997010
 MonoBehaviour:
   m_ObjectHideFlags: 1

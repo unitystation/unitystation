@@ -430,7 +430,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	///Special rounding for collision detection
 	///returns V3Int of next tile
-	private static Vector3Int RoundWithContext(Vector3 roundable, Vector2 impulseContext)
+	public static Vector3Int RoundWithContext(Vector3 roundable, Vector2 impulseContext)
 	{
 		float x = impulseContext.x;
 		float y = impulseContext.y;

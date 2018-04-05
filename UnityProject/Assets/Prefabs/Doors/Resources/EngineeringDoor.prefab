@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 114602670746664174}
   - component: {fileID: 114216704812953892}
   - component: {fileID: 114150526163596710}
+  - component: {fileID: 114403590302997272}
   m_Layer: 17
   m_Name: EngineeringDoor
   m_TagString: Untagged
@@ -688,7 +689,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fovTileSprite: {fileID: 1988361524031004, guid: 4232d90630e5c4ae1b6e7a3370b1d2a5,
     type: 2}
-  tileSpriteRenderer: {fileID: 0}
 --- !u!114 &114216704812953892
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -733,6 +733,20 @@ MonoBehaviour:
     i15: 100
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114403590302997272
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636844411894304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114566587194028974
 MonoBehaviour:
   m_ObjectHideFlags: 1

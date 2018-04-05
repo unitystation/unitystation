@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114528844433578200}
   - component: {fileID: 114959499686943088}
   - component: {fileID: 114183482789793122}
+  - component: {fileID: 114039797110835184}
   m_Layer: 11
   m_Name: research_122
   m_TagString: Untagged
@@ -124,6 +125,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114039797110835184
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1796020255753286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114183482789793122
 MonoBehaviour:
   m_ObjectHideFlags: 1

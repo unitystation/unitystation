@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 61013594573378244}
   - component: {fileID: 114245697352024810}
   - component: {fileID: 114169706804700508}
+  - component: {fileID: 114752721862174498}
   m_Layer: 11
   m_Name: Cryogenic2_2
   m_TagString: Untagged
@@ -170,6 +171,20 @@ MonoBehaviour:
     i15: 12
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114752721862174498
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1785530665611332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212575650591826116
 SpriteRenderer:
   m_ObjectHideFlags: 1

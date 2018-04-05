@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114122618821075794}
   - component: {fileID: 114070071243011382}
   - component: {fileID: 114215058432068150}
+  - component: {fileID: 114886888794821258}
   m_Layer: 11
   m_Name: vending_20
   m_TagString: Untagged
@@ -190,6 +191,20 @@ MonoBehaviour:
   AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
+--- !u!114 &114886888794821258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1261023645397598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212864885689128014
 SpriteRenderer:
   m_ObjectHideFlags: 1

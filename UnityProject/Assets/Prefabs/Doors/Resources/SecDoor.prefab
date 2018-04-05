@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 114224470283974914}
   - component: {fileID: 114124758183691526}
   - component: {fileID: 114533986054935752}
+  - component: {fileID: 114294399663088630}
   m_Layer: 17
   m_Name: SecDoor
   m_TagString: Untagged
@@ -679,6 +680,20 @@ MonoBehaviour:
   Passable: 0
   IsClosed: 1
   OneDirectionRestricted: 0
+--- !u!114 &114294399663088630
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1488470923909840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114533986054935752
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -692,7 +707,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fovTileSprite: {fileID: 1988361524031004, guid: 4232d90630e5c4ae1b6e7a3370b1d2a5,
     type: 2}
-  tileSpriteRenderer: {fileID: 0}
 --- !u!114 &114716872036012102
 MonoBehaviour:
   m_ObjectHideFlags: 1

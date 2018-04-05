@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 61941837278931450}
   - component: {fileID: 114741272495738844}
   - component: {fileID: 114532404728071552}
+  - component: {fileID: 114083128491867546}
   m_Layer: 11
   m_Name: KitchenSink
   m_TagString: Untagged
@@ -124,6 +125,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114083128491867546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012867342320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114375274460805498
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 114476203546729768}
   - component: {fileID: 114531569165117964}
   - component: {fileID: 114132872333290976}
+  - component: {fileID: 114743819203466024}
   m_Layer: 18
   m_Name: WinDoor
   m_TagString: Untagged
@@ -449,7 +450,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fovTileSprite: {fileID: 1988361524031004, guid: 4232d90630e5c4ae1b6e7a3370b1d2a5,
     type: 2}
-  tileSpriteRenderer: {fileID: 0}
 --- !u!114 &114412479674324666
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -536,6 +536,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorController: {fileID: 114029210237443714}
   direction: 0
+--- !u!114 &114743819203466024
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1797280918088156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212760610372601884
 SpriteRenderer:
   m_ObjectHideFlags: 1

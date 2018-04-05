@@ -125,22 +125,21 @@ namespace PlayGroup
 					UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 				}
 				UIManager.SetDeathVisibility(true);
-				// Send request to be authenticated by the server
-				if (Client.Instance != null)
-				{                
-					Debug.Log("Client Requesting Auth");
-					// Generate authentication Ticket
-					var ticket = Client.Instance.Auth.GetAuthSessionTicket();
-					var ticketBinary = ticket.Data;
-					// Send Clientmessage to authenticate
-					RequestAuthMessage.Send(Client.Instance.SteamId, ticketBinary);
-				}
-				else
-				{
-					Debug.Log("Client NOT requesting auth");
+				if ( CustomNetworkManager.Instance.SteamServer ) {
+					// Send request to be authenticated by the server
+					if ( Client.Instance != null ) {
+						Debug.Log( "Client Requesting Auth" );
+						// Generate authentication Ticket
+						var ticket = Client.Instance.Auth.GetAuthSessionTicket();
+						var ticketBinary = ticket.Data;
+						// Send Clientmessage to authenticate
+						RequestAuthMessage.Send( Client.Instance.SteamId, ticketBinary );
+					} else {
+						Debug.Log( "Client NOT requesting auth" );
+					}
 				}
 //				Request sync to get all the latest transform data
-//				new RequestSyncMessage().Send();
+				new RequestSyncMessage().Send();
 				SelectedChannels = ChatChannel.Local;
 
 			}

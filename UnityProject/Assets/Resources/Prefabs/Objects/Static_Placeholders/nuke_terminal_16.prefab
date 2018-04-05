@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 61891156460225966}
   - component: {fileID: 114838975523410016}
   - component: {fileID: 114323703050743688}
+  - component: {fileID: 114895103380537154}
   m_Layer: 11
   m_Name: nuke_terminal_16
   m_TagString: Untagged
@@ -170,6 +171,20 @@ MonoBehaviour:
     i15: 242
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114895103380537154
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1654230539544386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212672298599192538
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 61558665613702934}
   - component: {fileID: 114859975810234060}
   - component: {fileID: 114041661120427558}
+  - component: {fileID: 114813867870001400}
   m_Layer: 11
   m_Name: nuke_19
   m_TagString: Untagged
@@ -138,6 +139,20 @@ MonoBehaviour:
   AtmosPassable: 1
   Offset: {x: 0, y: 0, z: 0}
   Passable: 0
+--- !u!114 &114813867870001400
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1961731177532642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114859975810234060
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114897681876509866}
   - component: {fileID: 114997946200806902}
   - component: {fileID: 114179192191593204}
+  - component: {fileID: 114811207805226602}
   m_Layer: 18
   m_Name: AirLock
   m_TagString: Untagged
@@ -486,7 +487,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fovTileSprite: {fileID: 1988361524031004, guid: 4232d90630e5c4ae1b6e7a3370b1d2a5,
     type: 2}
-  tileSpriteRenderer: {fileID: 0}
 --- !u!114 &114232321497863980
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -723,6 +723,20 @@ MonoBehaviour:
   - {fileID: 21300156, guid: 2e0e4fceb7237430a8aa55fb53d0944a, type: 3}
   - {fileID: 21300158, guid: 2e0e4fceb7237430a8aa55fb53d0944a, type: 3}
   - {fileID: 21300160, guid: 2e0e4fceb7237430a8aa55fb53d0944a, type: 3}
+--- !u!114 &114811207805226602
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011462531918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114897681876509866
 MonoBehaviour:
   m_ObjectHideFlags: 1

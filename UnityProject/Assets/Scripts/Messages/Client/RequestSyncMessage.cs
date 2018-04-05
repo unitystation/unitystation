@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
@@ -14,11 +15,18 @@ public class RequestSyncMessage : ClientMessage
 //		Debug.Log("Processed " + ToString());
 
 		yield return WaitFor(SentBy);
-		//verify that the message isn't being abused here!
-//		Debug.Log("Requested sync");
-//		CustomNetworkManager.Instance.SyncPlayerData(NetworkObject);
-	}
 
+		ConnectedPlayer connectedPlayer = PlayerList.Instance.Get( NetworkObject );
+		Debug.Log($"{connectedPlayer} requested sync");
+		
+		//not sending out sync data for players not ingame 
+		if ( connectedPlayer.Job != JobType.NULL && !connectedPlayer.Synced ) {
+			CustomNetworkManager.Instance.SyncPlayerData(NetworkObject);
+			
+			//marking player as synced to avoid sending that data pile again
+			connectedPlayer.Synced = true;
+		}
+	}
 
 	public override string ToString()
 	{

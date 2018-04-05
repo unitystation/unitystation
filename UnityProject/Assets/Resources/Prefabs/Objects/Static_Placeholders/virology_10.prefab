@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114888389461835982}
   - component: {fileID: 114466637629456492}
   - component: {fileID: 114156069719369178}
+  - component: {fileID: 114650667704552480}
   m_Layer: 11
   m_Name: virology_10
   m_TagString: Untagged
@@ -151,6 +152,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Message: Someone seems to have spilled liquid over the controls...
+--- !u!114 &114650667704552480
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709509557121994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114888389461835982
 MonoBehaviour:
   m_ObjectHideFlags: 1

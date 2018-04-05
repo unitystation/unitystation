@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114478968497771540}
   - component: {fileID: 114743727474145656}
   - component: {fileID: 114932710023623188}
+  - component: {fileID: 114589214678579180}
   m_Layer: 11
   m_Name: vending_16
   m_TagString: Untagged
@@ -156,6 +157,20 @@ MonoBehaviour:
     i15: 195
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114589214678579180
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1098428341378092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114743727474145656
 MonoBehaviour:
   m_ObjectHideFlags: 1

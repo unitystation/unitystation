@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114061374711539842}
   - component: {fileID: 114226295962762560}
   - component: {fileID: 114274140949368814}
+  - component: {fileID: 114240786495768482}
   m_Layer: 11
   m_Name: dominator_61
   m_TagString: Untagged
@@ -168,6 +169,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Message: All external communitation disabled... please override with y..... *ERROR*
+--- !u!114 &114240786495768482
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1213107042395578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114274140949368814
 MonoBehaviour:
   m_ObjectHideFlags: 1

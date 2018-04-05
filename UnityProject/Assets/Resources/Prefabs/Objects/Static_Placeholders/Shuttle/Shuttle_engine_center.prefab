@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114660158993463546}
   - component: {fileID: 114006670304239386}
   - component: {fileID: 114394273069994774}
+  - component: {fileID: 114179810639766388}
   m_Layer: 11
   m_Name: Shuttle_engine_center
   m_TagString: Untagged
@@ -136,6 +137,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Message: Touching hidrogen engines with your bare hands, really?
+--- !u!114 &114179810639766388
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1418031129727510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!114 &114394273069994774
 MonoBehaviour:
   m_ObjectHideFlags: 1
