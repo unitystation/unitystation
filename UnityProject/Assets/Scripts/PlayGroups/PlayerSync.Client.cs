@@ -81,6 +81,9 @@ namespace PlayGroup
 
         /// Called when PlayerMoveMessage is received
         public void UpdateClientState( PlayerState state ) {
+            if ( playerState.MatrixId != state.MatrixId ) {
+                Debug.LogWarning( $"PlayerSync: Changing matrix from {MatrixManager.Instance.Get(playerState.MatrixId)} to {MatrixManager.Instance.Get(state.MatrixId)}" );
+            }
             playerState = state;
 //            Debug.Log( $"Got server update {playerState}" );
 

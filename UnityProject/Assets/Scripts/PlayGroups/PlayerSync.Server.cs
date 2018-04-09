@@ -41,7 +41,7 @@ namespace PlayGroup
         [Server]
         private void InitServerState() {
             Vector3Int position = Vector3Int.RoundToInt( transform.localPosition );
-            PlayerState state = new PlayerState {MoveNumber = 0, Position = position};
+            PlayerState state = new PlayerState {MoveNumber = 0, Position = position, MatrixId = MatrixInfo.Invalid.Id};
             serverState = state;
             serverStateCache = state;
             serverTargetState = state;
@@ -136,6 +136,7 @@ namespace PlayGroup
             if ( !serverState.ImportantFlightUpdate && isFloatingServer ) {
                 return;
             }
+            serverState.MatrixId = MatrixManager.Instance.Get( matrix ).Id;
 
             PlayerMoveMessage.SendToAll( gameObject, serverState );
             ClearStateFlags();
@@ -203,11 +204,21 @@ namespace PlayGroup
                 PlayerState nextState = NextState( serverTargetState, serverPendingActions.Dequeue() );
                 serverLastDirection = Vector2Int.RoundToInt( nextState.Position - serverTargetState.Position );
                 serverTargetState = nextState;
+                CheckMatrixChange(nextState.WorldPosition);
 //				Debug.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
             } else {
                 Debug.LogWarning(
                     $"Pointless move {serverTargetState}+{nextAction.keyCodes[0]} Rolling back to {serverState}" );
                 RollbackPosition();
+            }
+        }
+        
+        [Server]
+        private void CheckMatrixChange(Vector3Int worldPos) {
+            MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint( worldPos );
+            if ( !Equals( matrixAtPoint, MatrixInfo.Invalid ) && matrixAtPoint.Matrix != registerTile.Matrix ) {
+                registerTile.ParentNetId = matrixAtPoint.GameObject.GetComponent<NetworkIdentity>().netId;
+                Debug.Log($"Matrix change to {matrixAtPoint}");
             }
         }
 

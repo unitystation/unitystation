@@ -15,6 +15,16 @@ namespace PlayGroup
     {
         public int MoveNumber;
         public Vector3 Position;
+        public Vector3Int WorldPosition {
+            get {
+                MatrixManager matrixManager = MatrixManager.Instance;
+                if ( !matrixManager ) {
+                    Debug.LogWarning( "MatrixManager not initialized" );
+                    return Vector3Int.RoundToInt( Position );
+                }
+                return Vector3Int.RoundToInt( Position ) + matrixManager.Get( MatrixId ).Offset;
+            }
+        }
 
         ///Direction of flying
         public Vector2 Impulse;
@@ -26,10 +36,12 @@ namespace PlayGroup
         /// Only important flight updates (ones with impulse) are being sent out by server (usually start only)
         [NonSerialized] public bool ImportantFlightUpdate;
 
+        public int MatrixId;
+
         public override string ToString() {
             return
                 $"{nameof( MoveNumber )}: {MoveNumber}, {nameof( Position )}: {Position}, {nameof( Impulse )}: {Impulse}, " +
-                $"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}";
+                $"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, matrix #{MatrixId}";
         }
     }
 
@@ -340,22 +352,22 @@ namespace PlayGroup
         private void OnDrawGizmos() {
             //serverTargetState
             Gizmos.color = color1;
-            Gizmos.DrawWireCube( serverTargetState.Position - CustomNetTransform.deOffset, size1 );
+            Gizmos.DrawWireCube( serverTargetState.WorldPosition, size1 );
 
             //serverState
             Gizmos.color = color2;
-            Gizmos.DrawWireCube( serverState.Position - CustomNetTransform.deOffset, size2 );
+            Gizmos.DrawWireCube( serverState.WorldPosition, size2 );
 
             //client predictedState
             Gizmos.color = color3;
-            Vector3 clientPrediction = predictedState.Position - CustomNetTransform.deOffset;
+            Vector3 clientPrediction = predictedState.WorldPosition;
             Gizmos.DrawWireCube( clientPrediction, size3 );
             GizmoUtils.DrawArrow( clientPrediction + Vector3.left / 5, predictedState.Impulse );
             GizmoUtils.DrawText( predictedState.MoveNumber.ToString(), clientPrediction + Vector3.left, 15 );
 
             //client playerState
             Gizmos.color = color4;
-            Vector3 clientState = playerState.Position - CustomNetTransform.deOffset;
+            Vector3 clientState = playerState.WorldPosition;
             Gizmos.DrawWireCube( clientState, size4 );
             GizmoUtils.DrawArrow( clientState + Vector3.right / 5, playerState.Impulse );
             GizmoUtils.DrawText( playerState.MoveNumber.ToString(), clientState + Vector3.right, 15 );

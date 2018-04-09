@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Doors;
 using Tilemaps;
-using System.Linq;
 using Tilemaps.Behaviours.Objects;
+using UnityEngine;
 using UnityEngine.Networking;
-using Doors;
 
 namespace PlayGroup
 {
@@ -33,8 +30,8 @@ namespace PlayGroup
 		public bool CanPass(Vector3 direction)
 		{
 			Vector3 newRayPos = transform.position + direction;
-			rayHit = Physics2D.RaycastAll(newRayPos, (Vector3)direction, 0.2f, hitCheckLayers);
-			Debug.DrawLine(newRayPos, newRayPos + ((Vector3)direction * 0.2f), Color.red, 1f);
+			rayHit = Physics2D.RaycastAll(newRayPos, direction, 0.2f, hitCheckLayers);
+			Debug.DrawLine(newRayPos, newRayPos + (direction * 0.2f), Color.red, 1f);
 
 			//Detect new matrices
 			for (int i = 0; i < rayHit.Length; i++) {
@@ -61,18 +58,18 @@ namespace PlayGroup
 			return true;
 		}
 
-		public void ChangeMatricies(Transform newParent)
+		public void ChangeMatrices(Transform newParent)
 		{
-			if (isServer) {
-				NetworkIdentity netIdent = newParent.GetComponent<NetworkIdentity>();
-				if (registerTile.ParentNetId != netIdent.netId) {
-					registerTile.ParentNetId = netIdent.netId;
-				//	playerSync.SetPosition(transform.localPosition);
-				}
-			} else {
+//			if (isServer) {
+//				NetworkIdentity netIdent = newParent.GetComponent<NetworkIdentity>();
+//				if (registerTile.ParentNetId != netIdent.netId) {
+//					registerTile.ParentNetId = netIdent.netId;
+////						playerSync.SetPosition(transform.localPosition);
+//				}
+//			} else {
 				registerTile.SetParentOnLocal(newParent);
-			}
-			Camera.main.transform.parent = newParent;
+				Camera.main.transform.parent = newParent;
+//			}
 		}
 
 		private void OnTriggerEnter2D(Collider2D collision)
@@ -82,11 +79,11 @@ namespace PlayGroup
 			//	Debug.Log($"OnTriggerEntered {collision.name}");
 			//	return;
 			//}
-			if (collision.gameObject.layer == 24 && collision != curMatrixCol) {
-				curMatrixCol = collision;
-				ChangeMatricies(collision.gameObject.transform.parent);
-				Debug.Log($"Change Matricies {collision.gameObject.transform.parent.name}");
-			}
+//			if (collision.gameObject.layer == 24 && collision != curMatrixCol) {
+//				curMatrixCol = collision;
+//				ChangeMatrices(collision.gameObject.transform.parent);
+//				Debug.Log($"Change Matrices {collision.gameObject.transform.parent.name}");
+//			}
 		}
 	}
 }
