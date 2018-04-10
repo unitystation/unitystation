@@ -24,6 +24,14 @@ namespace PlayGroup
                 }
                 return Vector3Int.RoundToInt( Position ) + matrixManager.Get( MatrixId ).Offset;
             }
+            set {
+                MatrixManager matrixManager = MatrixManager.Instance;
+                if ( !matrixManager ) {
+                    Debug.LogWarning( "MatrixManager not initialized" );
+                    return;
+                }
+                Position = value - matrixManager.Get( MatrixId ).Offset;
+            }
         }
 
         ///Direction of flying
@@ -40,7 +48,7 @@ namespace PlayGroup
 
         public override string ToString() {
             return
-                $"{nameof( MoveNumber )}: {MoveNumber}, {nameof( Position )}: {Position}, {nameof( Impulse )}: {Impulse}, " +
+                $"Move #{MoveNumber}, localPos:{Position}, worldPos:{WorldPosition} {nameof( Impulse )}:{Impulse}, " +
                 $"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, matrix #{MatrixId}";
         }
     }
@@ -316,11 +324,16 @@ namespace PlayGroup
         }
 
         private PlayerState NextState( PlayerState state, PlayerAction action, bool isReplay = false ) {
-            return new PlayerState {
-                MoveNumber = state.MoveNumber + 1,
-                Position = playerMove.GetNextPosition( Vector3Int.RoundToInt( state.Position ), action, isReplay )
-            };
+            var newState = state;
+            newState.MoveNumber++;
+            newState.Position = playerMove.GetNextPosition( Vector3Int.RoundToInt( state.Position ), action, isReplay );
+            return newState;
+//            return new PlayerState {
+//                MoveNumber = state.MoveNumber + 1,
+//                Position = playerMove.GetNextPosition( Vector3Int.RoundToInt( state.Position ), action, isReplay )
+//            };
         }
+
 
         public void ProcessAction( PlayerAction action ) {
             CmdProcessAction( action );
@@ -352,11 +365,17 @@ namespace PlayGroup
         private void OnDrawGizmos() {
             //serverTargetState
             Gizmos.color = color1;
-            Gizmos.DrawWireCube( serverTargetState.WorldPosition, size1 );
+            Vector3Int stsPos = serverTargetState.WorldPosition;
+            Gizmos.DrawWireCube( stsPos, size1 );
+            GizmoUtils.DrawArrow( stsPos + Vector3.left / 2, serverTargetState.Impulse );
+            GizmoUtils.DrawText( serverTargetState.MoveNumber.ToString(), stsPos + Vector3.left/2, 15 );
 
             //serverState
             Gizmos.color = color2;
-            Gizmos.DrawWireCube( serverState.WorldPosition, size2 );
+            Vector3Int ssPos = serverState.WorldPosition;
+            Gizmos.DrawWireCube( ssPos, size2 );
+            GizmoUtils.DrawArrow( ssPos + Vector3.right / 2, serverState.Impulse );
+            GizmoUtils.DrawText( serverState.MoveNumber.ToString(), ssPos + Vector3.right/2, 15 );
 
             //client predictedState
             Gizmos.color = color3;

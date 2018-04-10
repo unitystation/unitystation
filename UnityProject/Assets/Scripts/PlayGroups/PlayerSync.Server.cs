@@ -30,18 +30,23 @@ namespace PlayGroup
         private bool isFloatingServer => serverState.Impulse != Vector2.zero;
 
         /// idk if it's robust enough, but it seems to work
-        private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
+        private bool ServerPositionsMatch => serverTargetState.WorldPosition == serverState.WorldPosition;
+        private bool MatrixSwitchAhead => serverTargetState.MatrixId != serverState.MatrixId;
 
         public override void OnStartServer() {
             PullObjectID = NetworkInstanceId.Invalid;
-            InitServerState();
             base.OnStartServer();
+            InitServerState();
         }
 
         [Server]
         private void InitServerState() {
             Vector3Int position = Vector3Int.RoundToInt( transform.localPosition );
-            PlayerState state = new PlayerState {MoveNumber = 0, Position = position, MatrixId = MatrixInfo.Invalid.Id};
+            PlayerState state = new PlayerState {
+                MoveNumber = 0, 
+                Position = position, 
+                MatrixId = 0//MatrixManager.Instance.Get( matrix ).Id//MatrixInfo.Invalid.Id
+            };
             serverState = state;
             serverStateCache = state;
             serverTargetState = state;
@@ -105,6 +110,7 @@ namespace PlayGroup
             var newState = new PlayerState {
                 MoveNumber = 0,
                 Position = roundedPos,
+                MatrixId = serverTargetState.MatrixId,
                 ResetClientQueue = true
             };
             serverState = newState;
@@ -120,8 +126,14 @@ namespace PlayGroup
 //				When serverState reaches its planned destination,
 //				embrace all other updates like updated moveNumber and flags
                 serverState = serverTargetState;
+                SyncMatrix();
                 NotifyPlayers();
             }
+        }
+        [Server]
+        private void SyncMatrix() {
+            //fixme: don't do it every move
+            registerTile.ParentNetId = MatrixManager.Instance.Get( serverState.MatrixId ).GameObject.GetComponent<NetworkIdentity>().netId;
         }
 
         [Server]
@@ -136,7 +148,6 @@ namespace PlayGroup
             if ( !serverState.ImportantFlightUpdate && isFloatingServer ) {
                 return;
             }
-            serverState.MatrixId = MatrixManager.Instance.Get( matrix ).Id;
 
             PlayerMoveMessage.SendToAll( gameObject, serverState );
             ClearStateFlags();
@@ -154,7 +165,7 @@ namespace PlayGroup
         private void ServerLerp() {
             serverState.Position =
                 Vector3.MoveTowards( serverState.Position,
-                    serverTargetState.Position,
+                    serverTargetState.WorldPosition - matrix.Offset,
                     playerMove.speed * Time.deltaTime );
         }
 
@@ -201,31 +212,37 @@ namespace PlayGroup
                     serverPendingActions.Dequeue();
                     return;
                 }
-                PlayerState nextState = NextState( serverTargetState, serverPendingActions.Dequeue() );
-                serverLastDirection = Vector2Int.RoundToInt( nextState.Position - serverTargetState.Position );
+                PlayerState nextState = NextStateServer( serverTargetState, serverPendingActions.Dequeue() );
+                serverLastDirection = Vector2Int.RoundToInt( (Vector3) nextState.WorldPosition - serverTargetState.WorldPosition ); //<--V2I <-> V3I </3 :'(
                 serverTargetState = nextState;
-                CheckMatrixChange(nextState.WorldPosition);
-//				Debug.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
+				Debug.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
             } else {
                 Debug.LogWarning(
                     $"Pointless move {serverTargetState}+{nextAction.keyCodes[0]} Rolling back to {serverState}" );
                 RollbackPosition();
             }
         }
-        
         [Server]
-        private void CheckMatrixChange(Vector3Int worldPos) {
-            MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint( worldPos );
-            if ( !Equals( matrixAtPoint, MatrixInfo.Invalid ) && matrixAtPoint.Matrix != registerTile.Matrix ) {
-                registerTile.ParentNetId = matrixAtPoint.GameObject.GetComponent<NetworkIdentity>().netId;
-                Debug.Log($"Matrix change to {matrixAtPoint}");
+        private PlayerState NextStateServer( PlayerState state, PlayerAction action ) {
+            PlayerState nextState = NextState( state, action );
+            
+            MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint( nextState.WorldPosition );
+            bool matrixChangeDetected = !Equals( matrixAtPoint, MatrixInfo.Invalid ) && matrixAtPoint.Matrix != registerTile.Matrix;
+            if ( !matrixChangeDetected ) {
+                return nextState;
             }
+            Debug.Log($"Matrix will change to {matrixAtPoint}");
+            //calculate next state using world positions?
+            PlayerState matrixModState = nextState;
+            matrixModState.MatrixId = matrixAtPoint.Id;
+            matrixModState.WorldPosition = nextState.WorldPosition;
+            return matrixModState;
         }
 
         /// Ensuring server authority for space walk
         [Server]
         private void CheckSpaceWalkServer() {
-            if ( matrix.IsFloatingAt( Vector3Int.RoundToInt( serverTargetState.Position ) ) ) {
+            if ( matrix.IsFloatingAt( Vector3Int.RoundToInt( serverTargetState.Position ) ) && !MatrixSwitchAhead ) {
                 if ( !isFloatingServer ) {
                     //initiate floating
                     //notify players that we started floating

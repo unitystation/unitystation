@@ -41,7 +41,7 @@ public class MatrixManager : MonoBehaviour {
 				Id = i,
 				Matrix = findMatrices[i],
 				GameObject = findMatrices[i].gameObject,
-				Offset = Vector3Int.CeilToInt( findMatrices[i].gameObject.transform.position )
+				Offset = findMatrices[i].Offset//Vector3Int.CeilToInt( findMatrices[i].gameObject.transform.position )
 			} );
 		}
 		Debug.Log( $"Init matrices: {string.Join( ",\n", activeMatrices )}" );
