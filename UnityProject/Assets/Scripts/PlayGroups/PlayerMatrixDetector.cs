@@ -58,32 +58,11 @@ namespace PlayGroup
 			return true;
 		}
 
-		public void ChangeMatrices(Transform newParent)
+		public void ChangeMatrices(Matrix toMatrix)
 		{
-//			if (isServer) {
-//				NetworkIdentity netIdent = newParent.GetComponent<NetworkIdentity>();
-//				if (registerTile.ParentNetId != netIdent.netId) {
-//					registerTile.ParentNetId = netIdent.netId;
-////						playerSync.SetPosition(transform.localPosition);
-//				}
-//			} else {
-				registerTile.SetParentOnLocal(newParent);
-				Camera.main.transform.parent = newParent;
-//			}
-		}
-
-		private void OnTriggerEnter2D(Collider2D collision)
-		{
-			//Debug.Log($"OnTriggerEntered {collision.name}");
-			//if(collision.transform.parent.name == "OutpostStation"){
-			//	Debug.Log($"OnTriggerEntered {collision.name}");
-			//	return;
-			//}
-//			if (collision.gameObject.layer == 24 && collision != curMatrixCol) {
-//				curMatrixCol = collision;
-//				ChangeMatrices(collision.gameObject.transform.parent);
-//				Debug.Log($"Change Matrices {collision.gameObject.transform.parent.name}");
-//			}
+			Transform newParent = toMatrix.gameObject.transform;
+//			registerTile.SetParentOnLocal(newParent);
+			Camera.main.transform.parent = newParent;
 		}
 	}
 }

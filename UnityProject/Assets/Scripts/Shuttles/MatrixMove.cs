@@ -14,6 +14,18 @@ public struct MatrixOrientation
 	private static readonly List<MatrixOrientation> sequence = new List<MatrixOrientation> {Up, Left, Down, Right};
 	public readonly int degree;
 
+	public static int DegreeBetween(MatrixOrientation before, MatrixOrientation after) {
+		int beforeDegree = before.degree;
+		int afterDegree = after.degree;
+		if ( before.degree == 0 && after.degree == 270 ) {
+			beforeDegree = 360;
+		}
+		if ( before.degree == 270 && after.degree == 0 ) {
+			afterDegree = 360;
+		}
+		return afterDegree - beforeDegree;
+	}
+
 	private MatrixOrientation(int degree)
 	{
 		this.degree = degree;
@@ -95,6 +107,12 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	public KeyCode startKey = KeyCode.G;
 	public KeyCode leftKey = KeyCode.Keypad4;
 	public KeyCode rightKey = KeyCode.Keypad6;
+	///initial pos for offset calculation
+	public Vector3Int InitialPos => initialPosition;
+	private Vector3Int initialPosition;
+//	/// local pivot point
+//	public Vector3Int Pivot => pivot;
+//	private Vector3Int pivot;
 
 	public override void OnStartServer()
 	{
@@ -111,9 +129,15 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		} else {
 			serverState.Direction = Vector2Int.RoundToInt(flyingDirection);
 		}
+		initialPosition = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
+//		var localPosition = Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
+//		var child = transform.GetChild( 0 );
+//		var childPosition = Vector3Int.RoundToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
+//		pivot =  localPosition - childPosition;
+//		Debug.Log( $"Calculated pivot {pivot} for {gameObject.name}" );
+		
 		serverState.Speed = 1f;
-		serverState.Position =
-			Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
+		serverState.Position = initialPosition;
 		serverState.Orientation = MatrixOrientation.Up;
 		serverTargetState = serverState;
 	}

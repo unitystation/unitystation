@@ -133,7 +133,7 @@ namespace PlayGroup
         [Server]
         private void SyncMatrix() {
             //fixme: don't do it every move
-            registerTile.ParentNetId = MatrixManager.Instance.Get( serverState.MatrixId ).GameObject.GetComponent<NetworkIdentity>().netId;
+            registerTile.ParentNetId = MatrixManager.Instance.Get( serverState.MatrixId ).NetId;
         }
 
         [Server]
@@ -164,9 +164,9 @@ namespace PlayGroup
         [Server]
         private void ServerLerp() {
             serverState.Position =
-                Vector3.MoveTowards( serverState.Position,
-                    serverTargetState.WorldPosition - matrix.Offset,
-                    playerMove.speed * Time.deltaTime );
+                Vector3.MoveTowards( serverState.Position
+                    , serverTargetState.WorldPosition - MatrixManager.Instance.Get( matrix ).Offset//matrix.Offset
+                    , playerMove.speed * Time.deltaTime );
         }
 
         /// Clear all queues and
@@ -215,7 +215,7 @@ namespace PlayGroup
                 PlayerState nextState = NextStateServer( serverTargetState, serverPendingActions.Dequeue() );
                 serverLastDirection = Vector2Int.RoundToInt( (Vector3) nextState.WorldPosition - serverTargetState.WorldPosition ); //<--V2I <-> V3I </3 :'(
                 serverTargetState = nextState;
-				Debug.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
+//				Debug.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
             } else {
                 Debug.LogWarning(
                     $"Pointless move {serverTargetState}+{nextAction.keyCodes[0]} Rolling back to {serverState}" );
@@ -242,7 +242,7 @@ namespace PlayGroup
         /// Ensuring server authority for space walk
         [Server]
         private void CheckSpaceWalkServer() {
-            if ( matrix.IsFloatingAt( Vector3Int.RoundToInt( serverTargetState.Position ) ) && !MatrixSwitchAhead ) {
+            if ( MatrixManager.Instance.IsFloatingAt( serverTargetState.WorldPosition ) && !MatrixSwitchAhead ) {
                 if ( !isFloatingServer ) {
                     //initiate floating
                     //notify players that we started floating

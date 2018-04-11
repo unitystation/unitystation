@@ -13,8 +13,8 @@ namespace Tilemaps
 	{
 		private MetaTileMap metaTileMap;
 		private TileList objects;
-		private Vector3Int worldOffset;
-		public Vector3Int Offset => worldOffset;
+		private Vector3Int initialOffset;
+		public Vector3Int InitialOffset => initialOffset;
 
 		private MetaDataLayer metaDataLayer;
 		
@@ -33,7 +33,7 @@ namespace Tilemaps
 		}
 
 		private void Awake() {
-			worldOffset = Vector3Int.CeilToInt( gameObject.transform.position );
+			initialOffset = Vector3Int.CeilToInt( gameObject.transform.position );
 		}
 
 		public bool IsPassableAt(Vector3Int origin, Vector3Int position)

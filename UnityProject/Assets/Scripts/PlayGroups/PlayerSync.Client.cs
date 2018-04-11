@@ -75,7 +75,7 @@ namespace PlayGroup
                     tempState = NextState( tempState, action, isReplay );
                 }
                 predictedState = tempState;
-//				Debug.Log($"Redraw prediction: {playerState}->{predictedState}({pendingActions.Count} steps) ");
+				Debug.Log($"Client moving to {predictedState}");
             }
         }
 
@@ -83,11 +83,21 @@ namespace PlayGroup
         public void UpdateClientState( PlayerState state ) {
             playerState = state;
             Debug.Log( $"Got server update {playerState}" );
+            
             if ( playerState.MatrixId != predictedState.MatrixId ) {
-                Debug.LogWarning( $"PlayerSync: Changing matrix from {MatrixManager.Instance.Get(predictedState.MatrixId)} to {MatrixManager.Instance.Get(playerState.MatrixId)}" );
-                ClearQueueClient();
-                predictedState = playerState;
-                return;
+                MatrixInfo oldMatrix = MatrixManager.Instance.Get(predictedState.MatrixId);
+                MatrixInfo newMatrix = MatrixManager.Instance.Get(playerState.MatrixId);
+                Debug.Log( $"Client changing matrix from {oldMatrix} to {newMatrix}" );
+//                ClearQueueClient();
+//                predictedState = playerState;
+                var newState = predictedState;
+                newState.MatrixId = playerState.MatrixId;
+                newState.WorldPosition = predictedState.WorldPosition;
+                newState.Impulse = playerState.Impulse;
+                predictedState = newState;
+                
+                playerMove.playerMatrixDetector.ChangeMatrices( newMatrix.Matrix );
+//                return;
             }
 
             if ( blockClientMovement ) {
@@ -147,13 +157,16 @@ namespace PlayGroup
         ///Using predictedState for your own player and playerState for others
         private void CheckSpaceWalkClient() {
             PlayerState state = isLocalPlayer ? predictedState : playerState;
-            Vector3Int pos = Vector3Int.RoundToInt( state.Position );
-            if ( isPseudoFloatingClient && !matrix.IsFloatingAt( pos ) ) {
+            bool isFloating = MatrixManager.Instance.IsFloatingAt( state.WorldPosition );
+            
+            if ( isPseudoFloatingClient && !isFloating ) {
 //                Debug.Log( "Stopped clientside floating to avoid going through walls" );
+                
                 //stop floating on client (if server isn't responding in time) to avoid players going through walls
                 predictedState.Impulse = Vector2.zero;
                 //Stopping spacewalk increases move number
                 predictedState.MoveNumber++;
+                
                 if ( !isFloatingClient && playerState.MoveNumber < predictedState.MoveNumber ) {
                     Debug.Log( "Got an unapproved flight here!" );
                     //Client figured out that he just finished spacewalking 
@@ -163,7 +176,7 @@ namespace PlayGroup
                     blockClientMovement = true;
                 }
             }
-            if ( matrix.IsFloatingAt( pos ) ) {
+            if ( isFloating ) {
                 if ( state.Impulse == Vector2.zero && LastDirection != Vector2.zero ) {
                     //client initiated space dive. 						
                     state.Impulse = LastDirection;
