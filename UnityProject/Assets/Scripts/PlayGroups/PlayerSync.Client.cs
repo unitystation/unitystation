@@ -75,7 +75,7 @@ namespace PlayGroup
                     tempState = NextState( tempState, action, isReplay );
                 }
                 predictedState = tempState;
-				Debug.Log($"Client moving to {predictedState}");
+//				Debug.Log($"Client moving to {predictedState}");
             }
         }
 
@@ -88,16 +88,12 @@ namespace PlayGroup
                 MatrixInfo oldMatrix = MatrixManager.Instance.Get(predictedState.MatrixId);
                 MatrixInfo newMatrix = MatrixManager.Instance.Get(playerState.MatrixId);
                 Debug.Log( $"Client changing matrix from {oldMatrix} to {newMatrix}" );
-//                ClearQueueClient();
-//                predictedState = playerState;
-                var newState = predictedState;
-                newState.MatrixId = playerState.MatrixId;
-                newState.WorldPosition = predictedState.WorldPosition;
-                newState.Impulse = playerState.Impulse;
-                predictedState = newState;
-                
-                playerMove.playerMatrixDetector.ChangeMatrices( newMatrix.Matrix );
-//                return;
+
+                PlayerState crossMatrixState = predictedState;
+                crossMatrixState.MatrixId = playerState.MatrixId;
+                crossMatrixState.WorldPosition = predictedState.WorldPosition;
+                crossMatrixState.Impulse = playerState.Impulse;
+                predictedState = crossMatrixState;
             }
 
             if ( blockClientMovement ) {

@@ -12,15 +12,17 @@ public struct MatrixOrientation
 	 	Down = new MatrixOrientation(180),
 		Left = new MatrixOrientation(270);
 	private static readonly List<MatrixOrientation> sequence = new List<MatrixOrientation> {Up, Left, Down, Right};
-	public readonly int degree;
+	public readonly int Degree;
+	public Quaternion Euler => Quaternion.Euler( 0, 0, DegreeBetween( Up, this ) );
+	public Quaternion EulerInverted => Quaternion.Euler( 0, 0, DegreeBetween( this, Up ) );
 
 	public static int DegreeBetween(MatrixOrientation before, MatrixOrientation after) {
-		int beforeDegree = before.degree;
-		int afterDegree = after.degree;
-		if ( before.degree == 0 && after.degree == 270 ) {
+		int beforeDegree = before.Degree;
+		int afterDegree = after.Degree;
+		if ( before.Degree == 0 && after.Degree == 270 ) {
 			beforeDegree = 360;
 		}
-		if ( before.degree == 270 && after.degree == 0 ) {
+		if ( before.Degree == 270 && after.Degree == 0 ) {
 			afterDegree = 360;
 		}
 		return afterDegree - beforeDegree;
@@ -28,7 +30,7 @@ public struct MatrixOrientation
 
 	private MatrixOrientation(int degree)
 	{
-		this.degree = degree;
+		this.Degree = degree;
 	}
 
 	public MatrixOrientation Next()
@@ -53,7 +55,7 @@ public struct MatrixOrientation
 
 	public override string ToString()
 	{
-		return $"{degree}";
+		return $"{Degree}";
 	}
 }
 
@@ -95,7 +97,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	/// Is only present to match server's flight routines 
 	private MatrixState clientTargetState; 
 	private bool isMovingClient => clientState.IsMoving && clientState.Speed > 0f;
-	private bool isRotatingClient => transform.rotation.eulerAngles.z != clientState.Orientation.degree;
+	private bool isRotatingClient => transform.rotation.eulerAngles.z != clientState.Orientation.Degree;
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
 	
 	//editor (global) values
@@ -110,9 +112,9 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	///initial pos for offset calculation
 	public Vector3Int InitialPos => initialPosition;
 	private Vector3Int initialPosition;
-//	/// local pivot point
-//	public Vector3Int Pivot => pivot;
-//	private Vector3Int pivot;
+	/// local pivot point
+	public Vector3Int Pivot => pivot; //fixme: currently server-only
+	private Vector3Int pivot;
 
 	public override void OnStartServer()
 	{
@@ -130,11 +132,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			serverState.Direction = Vector2Int.RoundToInt(flyingDirection);
 		}
 		initialPosition = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
-//		var localPosition = Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
-//		var child = transform.GetChild( 0 );
-//		var childPosition = Vector3Int.RoundToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
-//		pivot =  localPosition - childPosition;
-//		Debug.Log( $"Calculated pivot {pivot} for {gameObject.name}" );
+		var child = transform.GetChild( 0 );
+		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
+		pivot =  initialPosition - childPosition;
+		Debug.Log( $"Calculated pivot {pivot} for {gameObject.name}" );
 		
 		serverState.Speed = 1f;
 		serverState.Position = initialPosition;
@@ -228,14 +229,14 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	private void CheckMovement()
 	{
 		if ( isRotatingClient ) {
-			bool needsRotation = !Mathf.Approximately( transform.rotation.eulerAngles.z, clientState.Orientation.degree );
+			bool needsRotation = !Mathf.Approximately( transform.rotation.eulerAngles.z, clientState.Orientation.Degree );
 			if ( needsRotation ) {
 				transform.rotation =
-					Quaternion.RotateTowards( transform.rotation, Quaternion.Euler( 0, 0, clientState.Orientation.degree ),
+					Quaternion.RotateTowards( transform.rotation, Quaternion.Euler( 0, 0, clientState.Orientation.Degree ),
 						Time.deltaTime * 90 );
 			} else {
 				// Finishes the job of Lerp and straightens the ship with exact angle value
-				transform.rotation = Quaternion.Euler( 0, 0, clientState.Orientation.degree );
+				transform.rotation = Quaternion.Euler( 0, 0, clientState.Orientation.Degree );
 			}
 		} else if ( isMovingClient ) {
 			//Only move target if rotation is finished

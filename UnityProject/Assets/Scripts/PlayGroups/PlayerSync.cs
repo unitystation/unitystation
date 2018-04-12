@@ -15,6 +15,7 @@ namespace PlayGroup
     {
         public int MoveNumber;
         public Vector3 Position;
+
         public Vector3Int WorldPosition {
             get {
                 MatrixManager matrixManager = MatrixManager.Instance;
@@ -22,7 +23,15 @@ namespace PlayGroup
                     Debug.LogWarning( "MatrixManager not initialized" );
                     return Vector3Int.RoundToInt( Position );
                 }
-                return Vector3Int.RoundToInt( Position ) + matrixManager.Get( MatrixId ).Offset;
+                MatrixInfo matrix = matrixManager.Get( MatrixId );
+                Vector3Int worldPosition = Vector3Int.RoundToInt( Position ) + matrix.Offset; //localPos + localToWorldOffset
+                if ( !matrix.MatrixMove ) {
+                    return worldPosition;
+                }
+                Vector3Int unpivotedPos = Vector3Int.RoundToInt( Position ) - matrix.MatrixMove.Pivot; //localPos - localPivot
+                Vector3Int rotatedPos = Vector3Int.RoundToInt(matrix.MatrixMove.ClientState.Orientation.Euler * unpivotedPos);  //unpivotedPos rotated by N degrees
+                Vector3Int rotatedPivoted = rotatedPos + matrix.MatrixMove.Pivot + matrix.Offset; //adding back localPivot and applying localToWorldOffset
+                return rotatedPivoted;
             }
             set {
                 MatrixManager matrixManager = MatrixManager.Instance;
@@ -30,7 +39,8 @@ namespace PlayGroup
                     Debug.LogWarning( "MatrixManager not initialized" );
                     return;
                 }
-                Position = value - matrixManager.Get( MatrixId ).Offset;
+                MatrixInfo matrix = matrixManager.Get( MatrixId );
+                Position = MatrixManager.WorldToLocal( value, matrix );
             }
         }
 

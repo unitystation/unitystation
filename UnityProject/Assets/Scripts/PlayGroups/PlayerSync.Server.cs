@@ -165,7 +165,7 @@ namespace PlayGroup
         private void ServerLerp() {
             serverState.Position =
                 Vector3.MoveTowards( serverState.Position
-                    , serverTargetState.WorldPosition - MatrixManager.Instance.Get( matrix ).Offset//matrix.Offset
+                    , MatrixManager.WorldToLocal( serverTargetState.WorldPosition, MatrixManager.Instance.Get( matrix ) )
                     , playerMove.speed * Time.deltaTime );
         }
 
@@ -236,6 +236,7 @@ namespace PlayGroup
             PlayerState matrixModState = nextState;
             matrixModState.MatrixId = matrixAtPoint.Id;
             matrixModState.WorldPosition = nextState.WorldPosition;
+            //            matrixModState.Position = playerMove.GetNextPosition( Vector3Int.RoundToInt( state.Position ), action, false, matrixAtPoint.Matrix );
             return matrixModState;
         }
 

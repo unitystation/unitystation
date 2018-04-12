@@ -76,10 +76,13 @@ namespace PlayGroup
 			return new PlayerAction { keyCodes = actionKeys.ToArray() };
 		}
 
-		public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action, bool isReplay)
+		public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action, bool isReplay, Matrix curMatrix = null)
 		{
+			if ( !curMatrix ) {
+				curMatrix = matrix;
+			}
 			Vector3Int direction = GetDirection(action);
-			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay);
+			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay, curMatrix );
 
 			if (adjustedDirection == Vector3.zero) {
 				Interact(currentPosition, direction);
@@ -144,7 +147,12 @@ namespace PlayGroup
 				//Prediction:
 				playerSprites.FaceDirection(new Vector2(direction.x, direction.y));
 			}
-
+			
+			MatrixInfo matrixInfo = MatrixManager.Instance.Get( matrix );
+			if ( matrixInfo.MatrixMove ) {
+				//Converting world direction to local direction
+				direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.Orientation.EulerInverted * direction);
+			}
 			return direction;
 		}
 
@@ -191,7 +199,7 @@ namespace PlayGroup
 		/// <summary>
 		///     Check current and next tiles to determine their status and if movement is allowed
 		/// </summary>
-		private Vector3Int AdjustDirection(Vector3Int currentPosition, Vector3Int direction, bool isReplay)
+		private Vector3Int AdjustDirection( Vector3Int currentPosition, Vector3Int direction, bool isReplay, Matrix curMatrix )
 		{
 			if (isGhost) {
 				return direction;
@@ -203,12 +211,12 @@ namespace PlayGroup
 			//a replay move is a move that has already been carried out on the LocalPlayer's client
 			if (!isReplay) {
 				//Check the high level matrix detector
-				if (!playerMatrixDetector.CanPass(direction)) {
+				if ( !playerMatrixDetector.CanPass( currentPosition, direction, curMatrix ) ) {
 					return Vector3Int.zero;
 				}
 				//Not to be checked while performing a replay:
 				if (playerSync.PullingObject != null) {
-					if (matrix.ContainsAt(newPos, playerSync.PullingObject)) {
+					if (curMatrix.ContainsAt(newPos, playerSync.PullingObject)) {
 						//Vector2 directionToPullObj =
 						//	playerSync.pullingObject.transform.localPosition - transform.localPosition;
 						//if (directionToPullObj.normalized != playerSprites.currentDirection) {
@@ -222,13 +230,13 @@ namespace PlayGroup
 				}
 			}
 
-			if (matrix.IsPassableAt(currentPosition, newPos) || matrix.ContainsAt(newPos, gameObject)) {
+			if (curMatrix.IsPassableAt(currentPosition, newPos) || curMatrix.ContainsAt(newPos, gameObject)) {
 				return direction;
 			}
 
 			//This is only for replay (to ignore any interactions with the pulled obj):
 			if (playerSync.PullingObject != null) {
-				if (matrix.ContainsAt(newPos, playerSync.PullingObject)) {
+				if (curMatrix.ContainsAt(newPos, playerSync.PullingObject)) {
 					return direction;
 				}
 			}
@@ -239,32 +247,34 @@ namespace PlayGroup
 
 		private void Interact(Vector3 currentPosition, Vector3 direction)
 		{
-			Vector3Int position = Vector3Int.RoundToInt(currentPosition + direction);
+			Vector3Int targetPos = Vector3Int.RoundToInt(currentPosition + direction);
+			var worldPos = MatrixManager.Instance.LocalToWorld( currentPosition, matrix );
+			var worldTarget = MatrixManager.Instance.LocalToWorld( targetPos, matrix );
 
-			InteractDoor(currentPosition, direction);
-
+			InteractDoor(worldPos, worldTarget);
+			//TODO: adapt for cross-matrix
 			//Is the object pushable (iterate through all of the objects at the position):
-			PushPull[] pushPulls = matrix.Get<PushPull>(position).ToArray();
+			PushPull[] pushPulls = matrix.Get<PushPull>(targetPos).ToArray();
 			for (int i = 0; i < pushPulls.Length; i++) {
 				if (pushPulls[i] && pushPulls[i].gameObject != gameObject) {
 					pushPulls[i].TryPush(gameObject, direction);
 				}
 			}
 		}
-
-		private void InteractDoor(Vector3 currentPosition, Vector3 direction)
+		/// Cross-matrix now! uses world positions
+		private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
 		{
 			// Make sure there is a door controller
-			Vector3Int position = Vector3Int.RoundToInt(currentPosition + direction);
-
-			DoorController doorController = matrix.GetFirst<DoorController>(position);
+			DoorController doorController = MatrixManager.Instance.GetFirst<DoorController>(targetPos);
 
 			if (!doorController) {
-				doorController = matrix.GetFirst<DoorController>(Vector3Int.RoundToInt(currentPosition));
+				doorController = MatrixManager.Instance.GetFirst<DoorController>(Vector3Int.RoundToInt(currentPos));
 
 				if (doorController) {
 					RegisterDoor registerDoor = doorController.GetComponent<RegisterDoor>();
-					if (registerDoor.IsPassable(position)) {
+					
+					Vector3Int localPos = MatrixManager.Instance.WorldToLocal(targetPos, matrix);
+					if (registerDoor.IsPassable(localPos)) {
 						doorController = null;
 					}
 				}
