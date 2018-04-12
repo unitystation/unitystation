@@ -141,7 +141,7 @@ public class MatrixManager : MonoBehaviour {
 		return unrotatedPos + matrix.MatrixMove.Pivot;
 	}
 }
-/// Tiny struct that helps identify matrices
+/// Struct that helps identify matrices
 public struct MatrixInfo {
 	public int Id;
 	public Matrix Matrix;
@@ -153,10 +153,6 @@ public struct MatrixInfo {
 			if ( !MatrixMove ) {
 				return InitialOffset;
 			}
-//			int degree = MatrixOrientation.DegreeBetween( MatrixOrientation.Up, MatrixMove.ClientState.Orientation );
-//			Vector3Int point =  InitialOffset + Vector3Int.RoundToInt(  MatrixMove.ClientState.Position) - MatrixMove.InitialPos;
-//			return Vector3Int.RoundToInt(Quaternion.Euler( 0, 0, degree ) * point);
-			//TODO: figure out rotations
 			return InitialOffset + (Vector3Int.RoundToInt(MatrixMove.ClientState.Position) - MatrixMove.InitialPos);
 		}
 	}
@@ -178,7 +174,8 @@ public struct MatrixInfo {
 	public static readonly MatrixInfo Invalid = new MatrixInfo {Id = -1};
 
 	public override string ToString() {
-		return Equals(Invalid) ? "[Invalid matrix]" : $"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.State},netId={NetId}]";
+		return Equals(Invalid) ? "[Invalid matrix]" 
+		: $"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.State},netId={NetId}]";
 	}
 	///Figuring out netId. NetworkIdentity is located on the pivot (parent) gameObject for MatrixMove-equipped matrices 
 	private static NetworkInstanceId getNetId( Matrix matrix ) {

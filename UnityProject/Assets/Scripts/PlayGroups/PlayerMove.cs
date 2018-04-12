@@ -295,22 +295,5 @@ namespace PlayGroup
 			yield return new WaitForSeconds(0.3f);
 			allowInput = true;
 		}
-
-//		public void ChangeMatrices(Transform newParent)
-//		{
-////			Debug.Log("Not changing matrices as it fucks up move");
-////			return;
-//			if (isServer) {
-//				NetworkIdentity netIdent = newParent.GetComponent<NetworkIdentity>();
-//				if (registerTile.ParentNetId != netIdent.netId) {
-//					registerTile.ParentNetId = netIdent.netId;
-//					playerSync.SetPosition(transform.localPosition);
-//				}
-//			} else {
-//				registerTile.SetParentOnLocal(newParent);
-//			}
-//			Camera.main.transform.parent = newParent;
-//			Debug.Log("Change Matrices");
-//		}
 	}
 }
