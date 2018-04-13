@@ -6,25 +6,9 @@ using UnityEngine.Networking;
 
 namespace PlayGroup
 {
-	/// <summary>
 	/// Provides the higher level multi matrix detection system to the
-	/// playermove component using Unitys physics2D matrix.
-	/// </summary>
+	/// playermove component using cross-matrix methods
 	public class PlayerMatrixDetector : NetworkBehaviour {
-		public LayerMask hitCheckLayers;
-		[HideInInspector] public Collider2D curMatrixCol;
-		private RaycastHit2D[] rayHit;
-
-		public PlayerMove playerMove;
-		public PlayerSync playerSync;
-
-		private RegisterTile registerTile;
-		private Matrix matrix => registerTile.Matrix;
-
-		void Start() {
-			registerTile = GetComponent<RegisterTile>();
-		}
-
 		public bool CanPass( Vector3Int localPos, Vector3Int direction, Matrix currentMatrix ) {
 			MatrixInfo matrixInfo = MatrixManager.Instance.Get( currentMatrix );
 			if ( matrixInfo.MatrixMove ) {

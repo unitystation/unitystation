@@ -238,12 +238,28 @@ namespace PlayGroup
 				return nextState;
 			}
 			Debug.Log( $"Matrix will change to {matrixAtPoint}" );
-			//calculate next state using world positions?
+			if ( matrixAtPoint.MatrixMove ) {
+				//Subbing to new matrix rotations
+				matrixAtPoint.MatrixMove.onRotation += OnRotation;
+				Debug.Log( $"Registered rotation listener to {matrixAtPoint.MatrixMove}" );
+			}
+			//Unsubbing from old matrix rotations
+			MatrixMove oldMatrixMove = MatrixManager.Instance.Get( matrix ).MatrixMove;
+			if ( oldMatrixMove ) {
+				Debug.Log( $"Unregistered rotation listener from {oldMatrixMove}" );
+				oldMatrixMove.onRotation -= OnRotation;
+			}
+				
+			//calculate next state using world positions
 			PlayerState matrixModState = nextState;
 			matrixModState.MatrixId = matrixAtPoint.Id;
 			matrixModState.WorldPosition = nextState.WorldPosition;
-			//            matrixModState.Position = playerMove.GetNextPosition( Vector3Int.RoundToInt( state.Position ), action, false, matrixAtPoint.Matrix );
 			return matrixModState;
+		}
+		
+		[Server]
+		private void OnRotation(MatrixOrientation from, MatrixOrientation to) {
+			playerSprites.ChangePlayerDirectionRelative(MatrixOrientation.DegreeBetween( from, to )); 
 		}
 
 		/// Ensuring server authority for space walk

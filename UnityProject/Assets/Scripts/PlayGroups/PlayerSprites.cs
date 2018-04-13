@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 namespace PlayGroup
 {
-	public class PlayerSprites : NetworkBehaviour
+	public class PlayerSprites : ManagedNetworkBehaviour
 	{
 		private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 		[SyncVar(hook = "FaceDirectionSync")] public Vector2 currentDirection;
@@ -49,10 +49,20 @@ namespace PlayGroup
 			}
 		}
 
+		public override void UpdateMe() {
+			if ( transform.rotation != Rotation ) {
+				RefreshRotation();
+			}
+		}
+
 		[Command]
 		public void CmdChangeDirection(Vector2 direction)
 		{
 			FaceDirection(direction);
+		}
+
+		public void TurnDirection( bool clockwise ) {
+			currentDirection = Vector2Int.RoundToInt(Quaternion.Euler( 0, 0, clockwise ? -90 : 90 ) * currentDirection);
 		}
 
 		//turning character input and sprite update for local only! (prediction)
@@ -98,15 +108,47 @@ namespace PlayGroup
 			}
 			gameObject.GetComponent<RegisterPlayer>().IsBlocking = false;
 			Rotation.eulerAngles = new Vector3(0,0,rot);
-			RefreshRotation();
+//			RefreshRotation();
 			if ( Math.Abs( rot ) > 0 ) {
 				//So other players can walk over the Unconscious
 				AdjustSpriteOrders(-30);
 			}
 		}
 
-		public void RefreshRotation() {
+		private void RefreshRotation() {
 			transform.rotation = Rotation;
+		}
+
+		public void ChangePlayerDirectionRelative( float relAngle ) {
+			ChangePlayerDirection( Vector2.Angle(Vector2.zero, currentDirection) + relAngle );
+		}
+
+		public void ChangePlayerDirection( float absAngle )
+		{
+			if (absAngle >= 315f && absAngle <= 360f || absAngle >= 0f && absAngle <= 45f)
+			{
+				CmdChangeDirection(Vector2.up);
+				//Prediction
+				FaceDirection(Vector2.up);
+			}
+			if (absAngle > 45f && absAngle <= 135f)
+			{
+				CmdChangeDirection(Vector2.right);
+				//Prediction
+				FaceDirection(Vector2.right);
+			}
+			if (absAngle > 135f && absAngle <= 225f)
+			{
+				CmdChangeDirection(Vector2.down);
+				//Prediction
+				FaceDirection(Vector2.down);
+			}
+			if (absAngle > 225f && absAngle < 315f)
+			{
+				CmdChangeDirection(Vector2.left);
+				//Prediction
+				FaceDirection(Vector2.left);
+			}
 		}
 	}
 }

@@ -201,14 +201,6 @@ namespace PlayGroup
 				}
 			}
 
-			if ( matrix && MatrixManager.Instance ) {
-				MatrixMove matrixMove = MatrixManager.Instance.Get( matrix ).MatrixMove;
-				if ( matrixMove && matrixMove.IsRotatingClient ) {
-//					Camera2DFollow.followControl.Shake(0.2f, 1f); //lol
-					playerSprites.RefreshRotation();
-				}
-			}
-
 			Synchronize();
 		}
 

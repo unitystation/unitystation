@@ -103,7 +103,7 @@ namespace PlayGroups.Input
 			float angle = Angle(dir);
 			if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
 			{
-				CheckPlayerDirection(angle);
+				playerSprites.ChangePlayerDirection(angle);
 			}
 		}
 
@@ -271,7 +271,7 @@ namespace PlayGroups.Input
 		public void OnMouseDownDir(Vector2 dir)
 		{
 			float angle = Angle(dir);
-			CheckPlayerDirection(angle);
+			playerSprites.ChangePlayerDirection(angle);
 		}
 
 		//Calculate the mouse click angle in relation to player(for facingDirection on PlayerSprites)
@@ -285,34 +285,6 @@ namespace PlayGroups.Input
 			}
 
 			return angle;
-		}
-
-		private void CheckPlayerDirection(float angle)
-		{
-			if (angle >= 315f && angle <= 360f || angle >= 0f && angle <= 45f)
-			{
-				playerSprites.CmdChangeDirection(Vector2.up);
-				//Prediction
-				playerSprites.FaceDirection(Vector2.up);
-			}
-			if (angle > 45f && angle <= 135f)
-			{
-				playerSprites.CmdChangeDirection(Vector2.right);
-				//Prediction
-				playerSprites.FaceDirection(Vector2.right);
-			}
-			if (angle > 135f && angle <= 225f)
-			{
-				playerSprites.CmdChangeDirection(Vector2.down);
-				//Prediction
-				playerSprites.FaceDirection(Vector2.down);
-			}
-			if (angle > 225f && angle < 315f)
-			{
-				playerSprites.CmdChangeDirection(Vector2.left);
-				//Prediction
-				playerSprites.FaceDirection(Vector2.left);
-			}
 		}
 	}
 }

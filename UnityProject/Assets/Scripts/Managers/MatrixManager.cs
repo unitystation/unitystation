@@ -14,7 +14,6 @@ public class MatrixManager : MonoBehaviour {
 	//Declare in awake as MatrixManager needs to be destroyed on each scene change
 	public static MatrixManager Instance;
 	public List<MatrixInfo> activeMatrices = new List<MatrixInfo>();
-	//Dictionary<GameObject, Matrix> activeMatrices = new Dictionary<GameObject, Matrix>();
 
 	//At the moment this used for FoV ray hits and turning walls on and off:
 	public Dictionary<Collider2D, Tilemap> wallTileMaps = new Dictionary<Collider2D, Tilemap>();
@@ -41,11 +40,11 @@ public class MatrixManager : MonoBehaviour {
 		}
 		return true;
 	}
-	/// Cross-matrix passable check by world pos
-	public bool IsPassableAt( Vector3Int worldOrigin, Vector3Int worldPos ) {
+	/// Cross-matrix passable check by world pos //FIXME: not truly cross-matrix. can walk diagonally between matrices
+	public bool IsPassableAt( Vector3Int worldOrigin, Vector3Int worldTarget ) {
 		for ( var i = 0; i < activeMatrices.Count; i++ ) {
 			if ( !activeMatrices[i].Matrix.IsPassableAt( WorldToLocal( worldOrigin, activeMatrices[i] ), 
-														 WorldToLocal( worldPos, activeMatrices[i] ) ) ) {
+														 WorldToLocal( worldTarget, activeMatrices[i] ) ) ) {
 				return false;
 			}
 		}

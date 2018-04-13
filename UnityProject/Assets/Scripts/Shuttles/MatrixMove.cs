@@ -57,6 +57,20 @@ public struct MatrixOrientation
 	{
 		return $"{Degree}";
 	}
+
+	public bool Equals( MatrixOrientation other ) {
+		return Degree == other.Degree;
+	}
+
+	public override bool Equals( object obj ) {
+		if ( ReferenceEquals( null, obj ) )
+			return false;
+		return obj is MatrixOrientation && Equals( ( MatrixOrientation ) obj );
+	}
+
+	public override int GetHashCode() {
+		return Degree;
+	}
 }
 
 public struct MatrixState
@@ -310,9 +324,15 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	/// Called when MatrixMoveMessage is received
 	public void UpdateClientState( MatrixState newState )
 	{
+		if ( !Equals(clientState.Orientation, newState.Orientation) ) {
+			onRotation?.Invoke(clientState.Orientation, newState.Orientation);
+		}
 		clientState = newState;
 		clientTargetState = newState;
 	}
+
+	public delegate void OnRotation(MatrixOrientation from, MatrixOrientation to);
+	public event OnRotation onRotation;
 
 	///predictive perpetual flying
 	private void SimulateStateMovement()
