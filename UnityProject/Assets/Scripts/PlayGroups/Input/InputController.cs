@@ -100,10 +100,9 @@ namespace PlayGroups.Input
 		private void ChangeDirection()
 		{
 			Vector2 dir = (Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition) - transform.position).normalized;
-			float angle = Angle(dir);
 			if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
 			{
-				playerSprites.ChangePlayerDirection(angle);
+				playerSprites.ChangePlayerDirection(Orientation.From( dir ));
 			}
 		}
 
@@ -270,21 +269,7 @@ namespace PlayGroups.Input
 
 		public void OnMouseDownDir(Vector2 dir)
 		{
-			float angle = Angle(dir);
-			playerSprites.ChangePlayerDirection(angle);
-		}
-
-		//Calculate the mouse click angle in relation to player(for facingDirection on PlayerSprites)
-		private float Angle(Vector2 dir)
-		{
-			float angle = Vector2.Angle(Vector2.up, dir);
-
-			if (dir.x < 0)
-			{
-				angle = 360 - angle;
-			}
-
-			return angle;
+			playerSprites.ChangePlayerDirection(Orientation.From( dir ));
 		}
 	}
 }

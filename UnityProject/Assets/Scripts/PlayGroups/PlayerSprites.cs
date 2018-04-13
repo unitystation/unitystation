@@ -10,7 +10,7 @@ namespace PlayGroup
 	public class PlayerSprites : ManagedNetworkBehaviour
 	{
 		private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
-		[SyncVar(hook = "FaceDirectionSync")] public Vector2 currentDirection;
+		[SyncVar(hook = "FaceDirectionSync")] public Orientation currentDirection;
 		public Quaternion Rotation;
 		public PlayerMove playerMove;
 
@@ -24,7 +24,7 @@ namespace PlayGroup
 
 		public override void OnStartServer()
 		{
-			FaceDirection(Vector2.down);
+			FaceDirection(Orientation.Down);
 			base.OnStartServer();
 		}
 
@@ -56,23 +56,20 @@ namespace PlayGroup
 		}
 
 		[Command]
-		public void CmdChangeDirection(Vector2 direction)
+		public void CmdChangeDirection(Orientation direction)
 		{
 			FaceDirection(direction);
 		}
 
-		public void TurnDirection( bool clockwise ) {
-			currentDirection = Vector2Int.RoundToInt(Quaternion.Euler( 0, 0, clockwise ? -90 : 90 ) * currentDirection);
-		}
 
 		//turning character input and sprite update for local only! (prediction)
-		public void FaceDirection(Vector2 direction)
+		public void FaceDirection( Orientation direction )
 		{
 			SetDir(direction);
 		}
 
 		//For syncing all other players (not locally owned)
-		private void FaceDirectionSync(Vector2 dir)
+		private void FaceDirectionSync(Orientation dir)
 		{
 			if (PlayerManager.LocalPlayer != gameObject) {
 				currentDirection = dir;
@@ -81,14 +78,14 @@ namespace PlayGroup
 		}
 
 
-		public void SetDir(Vector2 direction)
+		public void SetDir(Orientation direction)
 		{
 			if (playerMove.isGhost) {
 				return;
 			}
-			if (direction.x != 0f && direction.y != 0f) {
-				direction.y = 0f;
-			}
+//			if (direction.x != 0f && direction.y != 0f) {
+//				direction.y = 0f;
+//			}
 
 			foreach (ClothingItem c in clothes.Values) {
 				c.Direction = direction;
@@ -119,36 +116,11 @@ namespace PlayGroup
 			transform.rotation = Rotation;
 		}
 
-		public void ChangePlayerDirectionRelative( float relAngle ) {
-			ChangePlayerDirection( Vector2.Angle(Vector2.zero, currentDirection) + relAngle );
-		}
-
-		public void ChangePlayerDirection( float absAngle )
-		{
-			if (absAngle >= 315f && absAngle <= 360f || absAngle >= 0f && absAngle <= 45f)
-			{
-				CmdChangeDirection(Vector2.up);
-				//Prediction
-				FaceDirection(Vector2.up);
-			}
-			if (absAngle > 45f && absAngle <= 135f)
-			{
-				CmdChangeDirection(Vector2.right);
-				//Prediction
-				FaceDirection(Vector2.right);
-			}
-			if (absAngle > 135f && absAngle <= 225f)
-			{
-				CmdChangeDirection(Vector2.down);
-				//Prediction
-				FaceDirection(Vector2.down);
-			}
-			if (absAngle > 225f && absAngle < 315f)
-			{
-				CmdChangeDirection(Vector2.left);
-				//Prediction
-				FaceDirection(Vector2.left);
-			}
+		public void ChangePlayerDirection( Orientation orientation ) {
+			CmdChangeDirection(orientation);
+			//Prediction
+			FaceDirection(orientation);
+			
 		}
 	}
 }

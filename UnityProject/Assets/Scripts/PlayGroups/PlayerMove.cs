@@ -113,7 +113,7 @@ namespace PlayGroup
 			ProcessAction(action);
 
 			if (diagonalMovement) {
-				return GetMoveDirection(pressedKeys);
+				return GetMoveDirection();
 			}
 			if (pressedKeys.Count > 0) {
 				return GetMoveDirection(pressedKeys[pressedKeys.Count - 1]);
@@ -133,7 +133,7 @@ namespace PlayGroup
 			}
 		}
 
-		private Vector3Int GetMoveDirection(List<KeyCode> actions)
+		private Vector3Int GetMoveDirection()
 		{
 			Vector3Int direction = Vector3Int.zero;
 			for (int i = 0; i < pressedKeys.Count; i++) {
@@ -143,9 +143,9 @@ namespace PlayGroup
 			direction.y = Mathf.Clamp(direction.y, -1, 1);
 
 			if (!isGhost && PlayerManager.LocalPlayer == gameObject) {
-				playerSprites.CmdChangeDirection(new Vector2(direction.x, direction.y));
+				playerSprites.CmdChangeDirection(Orientation.From(direction));
 				//Prediction:
-				playerSprites.FaceDirection(new Vector2(direction.x, direction.y));
+				playerSprites.FaceDirection(Orientation.From(direction));
 			}
 			
 			MatrixInfo matrixInfo = MatrixManager.Instance.Get( matrix );

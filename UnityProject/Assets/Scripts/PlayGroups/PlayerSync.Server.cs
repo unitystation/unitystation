@@ -258,8 +258,15 @@ namespace PlayGroup
 		}
 		
 		[Server]
-		private void OnRotation(MatrixOrientation from, MatrixOrientation to) {
-			playerSprites.ChangePlayerDirectionRelative(MatrixOrientation.DegreeBetween( from, to )); 
+		private void OnRotation(Orientation from, Orientation to) {
+			var degreeBetween = Orientation.DegreeBetween( from, to );
+			for ( int i = 0; i < Math.Abs(degreeBetween/90); i++ ) {
+				if ( degreeBetween < 0 ) {
+					playerSprites.ChangePlayerDirection(playerSprites.currentDirection.Previous());
+				} else {
+					playerSprites.ChangePlayerDirection(playerSprites.currentDirection.Next());
+				}
+			}
 		}
 
 		/// Ensuring server authority for space walk

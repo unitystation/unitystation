@@ -1,77 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements.StyleEnums;
 using UnityEngine.Networking;
-
-public struct MatrixOrientation
-{
-	public static readonly MatrixOrientation 
-		Up = new MatrixOrientation(0),
-		Right = new MatrixOrientation(90),
-	 	Down = new MatrixOrientation(180),
-		Left = new MatrixOrientation(270);
-	private static readonly List<MatrixOrientation> sequence = new List<MatrixOrientation> {Up, Left, Down, Right};
-	public readonly int Degree;
-	public Quaternion Euler => Quaternion.Euler( 0, 0, DegreeBetween( Up, this ) );
-	public Quaternion EulerInverted => Quaternion.Euler( 0, 0, DegreeBetween( this, Up ) );
-
-	public static int DegreeBetween(MatrixOrientation before, MatrixOrientation after) {
-		int beforeDegree = before.Degree;
-		int afterDegree = after.Degree;
-		if ( before.Degree == 0 && after.Degree == 270 ) {
-			beforeDegree = 360;
-		}
-		if ( before.Degree == 270 && after.Degree == 0 ) {
-			afterDegree = 360;
-		}
-		return afterDegree - beforeDegree;
-	}
-
-	private MatrixOrientation(int degree)
-	{
-		this.Degree = degree;
-	}
-
-	public MatrixOrientation Next()
-	{
-		int index = sequence.IndexOf(this);
-		if (index + 1 >= sequence.Count || index == -1)
-		{
-			return sequence[0];
-		}
-		return sequence[index + 1];
-	}
-
-	public MatrixOrientation Previous()
-	{
-		int index = sequence.IndexOf(this);
-		if (index <= 0)
-		{
-			return sequence[sequence.Count-1];
-		}
-		return sequence[index - 1];
-	}
-
-	public override string ToString()
-	{
-		return $"{Degree}";
-	}
-
-	public bool Equals( MatrixOrientation other ) {
-		return Degree == other.Degree;
-	}
-
-	public override bool Equals( object obj ) {
-		if ( ReferenceEquals( null, obj ) )
-			return false;
-		return obj is MatrixOrientation && Equals( ( MatrixOrientation ) obj );
-	}
-
-	public override int GetHashCode() {
-		return Degree;
-	}
-}
 
 public struct MatrixState
 {
@@ -81,8 +11,8 @@ public struct MatrixState
 	public float Speed;
 	public Vector2 Direction; //Direction of movement
 	public Vector3 Position;
-	/// Matrix rotation. Default is upright (MatrixOrientation.Up)
-	public MatrixOrientation Orientation;
+	/// Matrix rotation. Default is upright (Orientation.Up)
+	public Orientation Orientation;
 
 	public override string ToString() {
 		return $"{nameof( Inform )}: {Inform}, {nameof( IsMoving )}: {IsMoving}, {nameof( Speed )}: {Speed}, " +
@@ -153,7 +83,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		
 		serverState.Speed = 1f;
 		serverState.Position = initialPosition;
-		serverState.Orientation = MatrixOrientation.Up;
+		serverState.Orientation = Orientation.Up;
 		serverTargetState = serverState;
 	}
 
@@ -331,7 +261,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		clientTargetState = newState;
 	}
 
-	public delegate void OnRotation(MatrixOrientation from, MatrixOrientation to);
+	public delegate void OnRotation(Orientation from, Orientation to);
 	public event OnRotation onRotation;
 
 	///predictive perpetual flying

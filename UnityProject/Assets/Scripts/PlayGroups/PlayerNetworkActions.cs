@@ -486,7 +486,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
 			if (Random.value > 0.5f)
 			{
-				playerSprites.currentDirection = Vector2.up;
+				playerSprites.currentDirection = Orientation.Up;
 			}
 		}
 	}
