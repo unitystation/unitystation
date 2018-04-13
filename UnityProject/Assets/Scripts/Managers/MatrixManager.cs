@@ -51,7 +51,7 @@ public class MatrixManager : MonoBehaviour {
 		}
 		return true;
 	}
-	/// poorly ported cross-matrix edition of GetFirst
+	/// Cross-matrix edition of GetFirst
 	public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
 	{
 		for ( var i = 0; i < activeMatrices.Count; i++ ) {

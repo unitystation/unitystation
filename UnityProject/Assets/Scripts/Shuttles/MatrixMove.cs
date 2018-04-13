@@ -88,7 +88,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	private bool SafetyProtocolsOn { get; set; }
 	private bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
-	private bool isRotatingServer => isRotatingClient; //todo: calculate rotation time on server instead
+	private bool isRotatingServer => IsRotatingClient; //todo: calculate rotation time on server instead
 	
 	//client-only values
 	public MatrixState ClientState => clientState;
@@ -97,7 +97,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	/// Is only present to match server's flight routines 
 	private MatrixState clientTargetState; 
 	private bool isMovingClient => clientState.IsMoving && clientState.Speed > 0f;
-	private bool isRotatingClient => transform.rotation.eulerAngles.z != clientState.Orientation.Degree;
+	public bool IsRotatingClient => transform.rotation.eulerAngles.z != clientState.Orientation.Degree;
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
 	
 	//editor (global) values
@@ -228,7 +228,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	/// Clientside movement routine
 	private void CheckMovement()
 	{
-		if ( isRotatingClient ) {
+		if ( IsRotatingClient ) {
 			bool needsRotation = !Mathf.Approximately( transform.rotation.eulerAngles.z, clientState.Orientation.Degree );
 			if ( needsRotation ) {
 				transform.rotation =
@@ -254,7 +254,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 				return;
 			}
 //			Activate warp speed if object gets too far away or have to rotate
-			bool shouldWarp = distance > 2 || isRotatingClient;
+			bool shouldWarp = distance > 2 || IsRotatingClient;
 			transform.position =
 				Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );		
 		}
@@ -324,7 +324,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 					clientTargetState.Position,
 					clientState.Speed * Time.deltaTime );
 		}
-		if ( isMovingClient && !isRotatingClient ) {
+		if ( isMovingClient && !IsRotatingClient ) {
 			Vector3Int goal = Vector3Int.RoundToInt( clientState.Position + ( Vector3 ) clientTargetState.Direction );
 				//keep moving
 				if ( ClientPositionsMatch ) {
