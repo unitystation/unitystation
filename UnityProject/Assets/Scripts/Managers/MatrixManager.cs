@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Tilemaps;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
-using UnityEngine.XR.WSA.Persistence;
 
 /// <summary>
 /// Matrix manager handles the netcomms of the position and movement of the matrices
@@ -69,11 +69,24 @@ public class MatrixManager : MonoBehaviour {
 		} else {
 			Destroy(gameObject);
 		}
+		Debug.Log( "MM calling matrix init" );
+		StartCoroutine(WaitForLoad());
+	}
+	
+	private IEnumerator WaitForLoad()
+	{
+		yield return new WaitForSeconds(0.5f);
 		InitMatrices();
 	}
+	
 	///Find all matrices
 	private void InitMatrices() {
 		Matrix[] findMatrices = FindObjectsOfType<Matrix>();
+		if ( findMatrices.Length == 0 ) {
+			Debug.Log( "Matrix init failure, will try in 0.5" );
+			StartCoroutine(WaitForLoad());
+			return;
+		}
 		for ( int i = 0; i < findMatrices.Length; i++ ) {	
 			activeMatrices.Add( new MatrixInfo {
 				Id = i,
@@ -85,7 +98,7 @@ public class MatrixManager : MonoBehaviour {
 			} );
 		}
 		//These aren't fully initialized at that moment; init is truly finished when server is up and NetIDs are resolved
-//		Debug.Log( $"Init matrices: {string.Join( ",\n", activeMatrices )}" );
+		Debug.Log( $"Semi-init {this}" );
 	}
 
 	public override string ToString() {
@@ -178,9 +191,12 @@ public struct MatrixInfo {
 	}
 	///Figuring out netId. NetworkIdentity is located on the pivot (parent) gameObject for MatrixMove-equipped matrices 
 	private static NetworkInstanceId getNetId( Matrix matrix ) {
+		var netId = NetworkInstanceId.Invalid;
+		if ( !matrix ) {
+			return netId;
+		}
 		NetworkIdentity component = matrix.gameObject.GetComponentInParent<NetworkIdentity>();
 		NetworkIdentity componentInParent = matrix.gameObject.GetComponentInParent<NetworkIdentity>();
-		var netId = NetworkInstanceId.Invalid;
 		if ( component && component.netId != NetworkInstanceId.Invalid && !component.netId.IsEmpty() ) {
 			netId = component.netId;
 		}

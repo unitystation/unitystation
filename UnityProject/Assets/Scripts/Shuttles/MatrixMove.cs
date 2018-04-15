@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements.StyleEnums;
 using UnityEngine.Networking;
 
 public struct MatrixState
@@ -57,8 +56,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	public Vector3Int InitialPos => initialPosition;
 	private Vector3Int initialPosition;
 	/// local pivot point
-	public Vector3Int Pivot => pivot; //fixme: currently server-only
-	private Vector3Int pivot;
+	public Vector3Int Pivot => Vector3Int.RoundToInt(pivot);
+	[SyncVar] private Vector3 pivot;
 
 	public override void OnStartServer()
 	{
