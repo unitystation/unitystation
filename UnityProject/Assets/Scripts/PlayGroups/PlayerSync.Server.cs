@@ -57,6 +57,13 @@ namespace PlayGroup
 		private void CmdProcessAction( PlayerAction action ) {
 			//add action to server simulation queue
 			serverPendingActions.Enqueue( action );
+
+			//Do not cache the position if the player is a ghost
+			//or else new players will sync the deadbody with the last pos
+			//of the gost:
+			if ( playerMove.isGhost ) {
+				return;
+			}
 			//Rollback pos and punish player if server queue size is more than max size
 			if ( serverPendingActions.Count > maxServerQueue ) {
 				RollbackPosition();
@@ -67,13 +74,8 @@ namespace PlayGroup
 				}
 				return;
 			}
-
-			//Do not cache the position if the player is a ghost
-			//or else new players will sync the deadbody with the last pos
-			//of the gost:
-			if ( !playerMove.isGhost ) {
-				serverStateCache = serverState;
-			}
+				
+			serverStateCache = serverState;
 		}
 
 		/// Push player in direction.
