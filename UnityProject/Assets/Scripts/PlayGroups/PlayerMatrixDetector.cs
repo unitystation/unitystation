@@ -1,11 +1,8 @@
-﻿using Doors;
-using Tilemaps;
-using Tilemaps.Behaviours.Objects;
+﻿using Tilemaps;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroup
-{
+namespace PlayGroup {
 	/// Provides the higher level multi matrix detection system to the
 	/// playermove component using cross-matrix methods
 	public class PlayerMatrixDetector : NetworkBehaviour {
@@ -13,16 +10,15 @@ namespace PlayGroup
 			MatrixInfo matrixInfo = MatrixManager.Instance.Get( currentMatrix );
 			if ( matrixInfo.MatrixMove ) {
 				//Converting local direction to world direction
-				direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.Orientation.Euler * direction);
+				direction = Vector3Int.RoundToInt( matrixInfo.MatrixMove.ClientState.Orientation.Euler * direction );
 			}
-			Vector3Int position = MatrixManager.LocalToWorld( localPos, MatrixManager.Instance.Get(currentMatrix) );
+			Vector3Int position = MatrixManager.LocalToWorld( localPos, MatrixManager.Instance.Get( currentMatrix ) );
 
 			if ( !MatrixManager.Instance.IsPassableAt( position, position + direction ) ) {
 				return false;
 			}
-			
+
 			return true;
 		}
 	}
 }
-

@@ -8,6 +8,7 @@ namespace PlayGroup
 {
 	public partial class PlayerSync
 	{
+		//TODO: fix server lerp speed, it's fucking wrong
 		//Server-only fields, don't concern clients in any way
 		private PlayerState serverTargetState;
 
@@ -82,7 +83,11 @@ namespace PlayGroup
 		/// Impulse should be consumed after one tile if indoors,
 		/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space 
 		[Server]
-		public void Push( Vector2Int direction ) {//FIXME: clients getting stuck when dragged along outside of the ship (impulse=0, reset=true, flight=true)
+		public void Push( Vector2Int direction ) {
+			if ( direction == Vector2Int.zero ) {
+				Debug.Log( "Push with zero impulse??" );
+				return;
+			}
 			serverState.Impulse = direction;
 			serverTargetState.Impulse = direction;
 			if ( matrix != null ) {
@@ -165,13 +170,6 @@ namespace PlayGroup
 			}
 		}
 
-		[Server]
-		private void ServerLerp() {
-			serverState.Position =
-				Vector3.MoveTowards( serverState.Position,
-					MatrixManager.WorldToLocal( serverTargetState.WorldPosition, MatrixManager.Instance.Get( matrix ) ),
-					playerMove.speed * Time.deltaTime );
-		}
 
 		/// Clear all queues and
 		/// inform players of true serverState
@@ -264,19 +262,31 @@ namespace PlayGroup
 				}
 			}
 		}
+		
+		[Server]
+		private void ServerLerp() {
+			serverState.Position =
+				Vector3.MoveTowards( serverState.Position,
+					MatrixManager.WorldToLocal( serverTargetState.WorldPosition, MatrixManager.Instance.Get( matrix ) ),
+					playerMove.speed * Time.deltaTime );
+		}
 
 		/// Ensuring server authority for space walk
 		[Server]
 		private void CheckSpaceWalkServer() { 
 			if ( MatrixManager.Instance.IsFloatingAt( serverTargetState.WorldPosition ) && !MatrixSwitchAhead ) {
+				if ( serverLastDirection == Vector2.zero ) {
+					//don't push if we just hit an obstacle in space 
+					return;
+				}
 				if ( !isFloatingServer ) {
 					//initiate floating
 					//notify players that we started floating
 					Push( Vector2Int.RoundToInt( serverLastDirection ) );
 				} else if ( ServerPositionsMatch && !serverTargetState.ImportantFlightUpdate ) {
 					//continue floating
-					serverTargetState.Position =
-						Vector3Int.RoundToInt( serverState.Position + (Vector3) serverTargetState.Impulse );
+					serverTargetState.WorldPosition =
+						Vector3Int.RoundToInt( serverState.WorldPosition + (Vector3) serverTargetState.Impulse );
 					ClearQueueServer();
 				}
 			} else if ( isFloatingServer ) {
@@ -286,6 +296,8 @@ namespace PlayGroup
 				serverTargetState.ResetClientQueue = true;
 				//Stopping spacewalk increases move number
 				serverTargetState.MoveNumber++;
+				//removing lastDirection when we hit an obstacle in space
+				serverLastDirection = Vector2.zero;
 			}
 
 			CheckSpaceDamage();

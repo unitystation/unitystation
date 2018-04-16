@@ -19,12 +19,10 @@ namespace PlayGroup
 		private Vector2 LastDirection {
 			get { return lastDirection; }
 			set {
-				if ( value != Vector2.zero ) {
-//					Debug.Log($"Setting lastDirection to {value}");
-					lastDirection = value;
-				} else {
-					Debug.LogWarning( "Attempt to set lastDirection to zero!" );
-				}
+				if ( value == Vector2.zero ) {
+					Debug.LogWarning( "Setting LastDirection to zero!" );
+				} 
+				lastDirection = value;
 			}
 		}
 
@@ -169,6 +167,8 @@ namespace PlayGroup
 				predictedState.Impulse = Vector2.zero;
 				//Stopping spacewalk increases move number
 				predictedState.MoveNumber++;
+				//Zeroing lastDirection after hitting an obstacle
+				LastDirection = Vector2.zero;
 
 				if ( !isFloatingClient && playerState.MoveNumber < predictedState.MoveNumber ) {
 					Debug.Log( "Got an unapproved flight here!" );
