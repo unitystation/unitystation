@@ -20,6 +20,7 @@ public struct MatrixState
 }
 
 public class MatrixMove : ManagedNetworkBehaviour {
+	//FIXME: ships disappearing for everyone on round restart (until first update is sent)
 	public bool IsMoving => isMovingServer;
 	
 	//server-only values
@@ -53,8 +54,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	public KeyCode leftKey = KeyCode.Keypad4;
 	public KeyCode rightKey = KeyCode.Keypad6;
 	///initial pos for offset calculation
-	public Vector3Int InitialPos => initialPosition;
-	private Vector3Int initialPosition;
+	public Vector3Int InitialPos => Vector3Int.RoundToInt(initialPosition);
+	[SyncVar] private Vector3 initialPosition;
 	/// local pivot point
 	public Vector3Int Pivot => Vector3Int.RoundToInt(pivot);
 	[SyncVar] private Vector3 pivot;
@@ -261,7 +262,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	}
 
 	public delegate void OnRotation(Orientation from, Orientation to);
-	public event OnRotation onRotation;
+	public event OnRotation onRotation; //fixme: doesn't work for clients
 
 	///predictive perpetual flying
 	private void SimulateStateMovement()

@@ -75,7 +75,11 @@ namespace PlayGroup
 				foreach ( PlayerAction action in pendingActions ) {
 					//isReplay determines if this action is a replayed action for use in the prediction system
 					bool isReplay = predictedState.MoveNumber <= curPredictedMove;
-					tempState = NextState( tempState, action, isReplay );
+					bool matrixChanged;
+					tempState = NextState( tempState, action, out matrixChanged, isReplay );
+					if ( matrixChanged ) {
+						Debug.Log( $"Predictive matrix change {tempState}, {pendingActions.Count} pending" );
+					}
 				}
 				predictedState = tempState;
 //				Debug.Log($"Client moving to {predictedState}");
@@ -90,7 +94,7 @@ namespace PlayGroup
 			if ( playerState.MatrixId != predictedState.MatrixId ) {
 				MatrixInfo oldMatrix = MatrixManager.Instance.Get( predictedState.MatrixId );
 				MatrixInfo newMatrix = MatrixManager.Instance.Get( playerState.MatrixId );
-				Debug.Log( $"Client changing matrix from {oldMatrix} to {newMatrix}" );
+				Debug.LogWarning( $"Client didn't expect matrix change from {oldMatrix} to {newMatrix}" );
 
 				PlayerState crossMatrixState = predictedState;
 				crossMatrixState.MatrixId = playerState.MatrixId;

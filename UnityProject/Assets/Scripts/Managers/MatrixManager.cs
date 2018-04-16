@@ -82,7 +82,7 @@ public class MatrixManager : MonoBehaviour {
 	///Find all matrices
 	private void InitMatrices() {
 		Matrix[] findMatrices = FindObjectsOfType<Matrix>();
-		if ( findMatrices.Length == 0 ) {
+		if ( findMatrices.Length < 2 ) { //fixme: sometimes builds don't find all matrices when level has not finished loading 
 			Debug.Log( "Matrix init failure, will try in 0.5" );
 			StartCoroutine(WaitForLoad());
 			return;

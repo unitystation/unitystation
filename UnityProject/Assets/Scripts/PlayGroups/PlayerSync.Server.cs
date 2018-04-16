@@ -82,7 +82,7 @@ namespace PlayGroup
 		/// Impulse should be consumed after one tile if indoors,
 		/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space 
 		[Server]
-		public void Push( Vector2Int direction ) {
+		public void Push( Vector2Int direction ) {//FIXME: clients getting stuck when dragged along outside of the ship (impulse=0, reset=true, flight=true)
 			serverState.Impulse = direction;
 			serverTargetState.Impulse = direction;
 			if ( matrix != null ) {
@@ -231,19 +231,18 @@ namespace PlayGroup
 
 		[Server]
 		private PlayerState NextStateServer( PlayerState state, PlayerAction action ) {
-			PlayerState nextState = NextState( state, action );
+			bool matrixChangeDetected;
+			PlayerState nextState = NextState( state, action, out matrixChangeDetected );
 
-			MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint( nextState.WorldPosition );
-			bool matrixChangeDetected =
-				!Equals( matrixAtPoint, MatrixInfo.Invalid ) && matrixAtPoint.Matrix != registerTile.Matrix;
 			if ( !matrixChangeDetected ) {
 				return nextState;
 			}
-			Debug.Log( $"Matrix will change to {matrixAtPoint}" );
-			if ( matrixAtPoint.MatrixMove ) {
+			var newMatrix = MatrixManager.Instance.Get( nextState.MatrixId );
+			Debug.Log( $"Matrix will change to {newMatrix}" );
+			if ( newMatrix.MatrixMove ) {
 				//Subbing to new matrix rotations
-				matrixAtPoint.MatrixMove.onRotation += OnRotation;
-				Debug.Log( $"Registered rotation listener to {matrixAtPoint.MatrixMove}" );
+				newMatrix.MatrixMove.onRotation += OnRotation;
+				Debug.Log( $"Registered rotation listener to {newMatrix.MatrixMove}" );
 			}
 			//Unsubbing from old matrix rotations
 			MatrixMove oldMatrixMove = MatrixManager.Instance.Get( matrix ).MatrixMove;
@@ -251,12 +250,7 @@ namespace PlayGroup
 				Debug.Log( $"Unregistered rotation listener from {oldMatrixMove}" );
 				oldMatrixMove.onRotation -= OnRotation;
 			}
-				
-			//calculate next state using world positions
-			PlayerState matrixModState = nextState;
-			matrixModState.MatrixId = matrixAtPoint.Id;
-			matrixModState.WorldPosition = nextState.WorldPosition;
-			return matrixModState;
+			return nextState;
 		}
 		
 		[Server]
@@ -273,7 +267,7 @@ namespace PlayGroup
 
 		/// Ensuring server authority for space walk
 		[Server]
-		private void CheckSpaceWalkServer() {
+		private void CheckSpaceWalkServer() { 
 			if ( MatrixManager.Instance.IsFloatingAt( serverTargetState.WorldPosition ) && !MatrixSwitchAhead ) {
 				if ( !isFloatingServer ) {
 					//initiate floating

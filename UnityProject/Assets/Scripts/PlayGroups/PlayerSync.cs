@@ -24,18 +24,7 @@ namespace PlayGroup
 					return Vector3Int.RoundToInt( Position );
 				}
 				MatrixInfo matrix = matrixManager.Get( MatrixId );
-				Vector3Int worldPosition = Vector3Int.RoundToInt( Position ) + matrix.Offset; //localPos + localToWorldOffset
-				if ( !matrix.MatrixMove ) {
-					return worldPosition;
-				}
-				Vector3Int unpivotedPos = Vector3Int.RoundToInt( Position ) - matrix.MatrixMove.Pivot; //localPos - localPivot
-				Vector3Int rotatedPos =
-					Vector3Int.RoundToInt( matrix.MatrixMove.ClientState.Orientation.Euler *
-					                       unpivotedPos ); //unpivotedPos rotated by N degrees
-				Vector3Int
-					rotatedPivoted =
-						rotatedPos + matrix.MatrixMove.Pivot + matrix.Offset; //adding back localPivot and applying localToWorldOffset
-				return rotatedPivoted;
+				return MatrixManager.LocalToWorld( Position, matrix );
 			}
 			set {
 				MatrixManager matrixManager = MatrixManager.Instance;
@@ -145,7 +134,8 @@ namespace PlayGroup
 		private RegisterTile registerTile;
 
 		private bool IsPointlessMove( PlayerState state, PlayerAction action ) {
-			return state.Position.Equals( NextState( state, action ).Position );
+			bool change;
+			return state.WorldPosition.Equals( NextState( state, action, out change ).WorldPosition );
 		}
 
 		private IEnumerator WaitForLoad() {
@@ -229,7 +219,7 @@ namespace PlayGroup
 					return;
 				}
 
-				if ( state.Position != transform.localPosition ) {
+				if ( state.WorldPosition != transform.position ) {
 					PlayerLerp( state );
 				}
 
@@ -271,15 +261,15 @@ namespace PlayGroup
 		}
 
 		private void GhostLerp( PlayerState state ) {
-			playerScript.ghost.transform.localPosition =
-				Vector3.MoveTowards( playerScript.ghost.transform.localPosition,
-					state.Position,
+			playerScript.ghost.transform.position =
+				Vector3.MoveTowards( playerScript.ghost.transform.position,
+					state.WorldPosition,
 					playerMove.speed * Time.deltaTime );
 		}
 
 		private void PlayerLerp( PlayerState state ) {
 			transform.localPosition = Vector3.MoveTowards( transform.localPosition,
-				state.Position,
+				MatrixManager.WorldToLocal(state.WorldPosition, MatrixManager.Instance.Get( matrix ) ),
 				playerMove.speed * Time.deltaTime );
 		}
 
@@ -337,10 +327,25 @@ namespace PlayGroup
 			}
 		}
 
-		private PlayerState NextState( PlayerState state, PlayerAction action, bool isReplay = false ) {
+		private PlayerState NextState( PlayerState state, PlayerAction action, out bool matrixChanged, bool isReplay = false ) {
 			var newState = state;
 			newState.MoveNumber++;
 			newState.Position = playerMove.GetNextPosition( Vector3Int.RoundToInt( state.Position ), action, isReplay );
+
+			var proposedWorldPos = newState.WorldPosition;
+			MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint( proposedWorldPos );
+			bool matrixChangeDetected =
+				!Equals( matrixAtPoint, MatrixInfo.Invalid ) && matrixAtPoint.Matrix != registerTile.Matrix;
+			if ( !matrixChangeDetected ) {
+				matrixChanged = false;
+				return newState;
+			}
+			
+			//Switching matrix while keeping world pos
+			newState.MatrixId = matrixAtPoint.Id;
+			newState.WorldPosition = proposedWorldPos;
+			
+			matrixChanged = true;
 			return newState;
 		}
 
