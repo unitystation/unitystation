@@ -248,8 +248,8 @@ namespace PlayGroup
 		private void Interact(Vector3 currentPosition, Vector3 direction)
 		{
 			Vector3Int targetPos = Vector3Int.RoundToInt(currentPosition + direction);
-			var worldPos = MatrixManager.Instance.LocalToWorld( currentPosition, matrix );
-			var worldTarget = MatrixManager.Instance.LocalToWorld( targetPos, matrix );
+			var worldPos = MatrixManager.Instance.LocalToWorldInt( currentPosition, matrix );
+			var worldTarget = MatrixManager.Instance.LocalToWorldInt( targetPos, matrix );
 
 			InteractDoor(worldPos, worldTarget);
 			//TODO: adapt for cross-matrix
@@ -273,7 +273,7 @@ namespace PlayGroup
 				if (doorController) {
 					RegisterDoor registerDoor = doorController.GetComponent<RegisterDoor>();
 					
-					Vector3Int localPos = MatrixManager.Instance.WorldToLocal(targetPos, matrix);
+					Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(targetPos, matrix);
 					if (registerDoor.IsPassable(localPos)) {
 						doorController = null;
 					}

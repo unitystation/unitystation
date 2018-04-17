@@ -16,12 +16,12 @@ namespace PlayGroup
 		public int MoveNumber;
 		public Vector3 Position;
 
-		public Vector3Int WorldPosition {
+		public Vector3 WorldPosition {
 			get {
 				MatrixManager matrixManager = MatrixManager.Instance;
 				if ( !matrixManager ) {
 					Debug.LogWarning( "MatrixManager not initialized" );
-					return Vector3Int.RoundToInt( Position );
+					return Position;
 				}
 				MatrixInfo matrix = matrixManager.Get( MatrixId );
 				return MatrixManager.LocalToWorld( Position, matrix );
@@ -213,22 +213,29 @@ namespace PlayGroup
 
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
 			if ( !playerMove.isGhost ) {
-				CheckSpaceWalk();
+				if ( matrix != null ) {
+					//Client zone
+					CheckMovementClient();
+					//Server zone
+					if ( isServer ) {
+						CheckMovementServer();
+					}
+				}
 
 				if ( isLocalPlayer && playerMove.IsPushing || pushPull.pulledBy != null ) {
 					return;
 				}
 
-				if ( state.WorldPosition != transform.position ) {
-					PlayerLerp( state );
-				}
+//				if ( state.WorldPosition != transform.position ) {
+//					PlayerLerp( state );
+//				}
 
-				if ( isServer && !ServerPositionsMatch ) {
-					//Lerp on server if it's worth lerping 
-					//and inform players if serverState reached targetState afterwards 
-					ServerLerp();
-					TryNotifyPlayers();
-				}
+//				if ( isServer && !ServerPositionsMatch ) {
+//					//Lerp on server if it's worth lerping 
+//					//and inform players if serverState reached targetState afterwards 
+//					ServerLerp();
+//					TryNotifyPlayers();
+//				}
 
 				//Check if we should still be displaying an ItemListTab and update it, if so.
 				ControlTabs.CheckItemListTab();
@@ -265,12 +272,6 @@ namespace PlayGroup
 				Vector3.MoveTowards( playerScript.ghost.transform.position,
 					state.WorldPosition,
 					playerMove.speed * Time.deltaTime );
-		}
-
-		private void PlayerLerp( PlayerState state ) {
-			transform.localPosition = Vector3.MoveTowards( transform.localPosition,
-				MatrixManager.WorldToLocal(state.WorldPosition, MatrixManager.Instance.Get( matrix ) ),
-				playerMove.speed * Time.deltaTime );
 		}
 
 		private void PullObject() {
@@ -333,7 +334,7 @@ namespace PlayGroup
 			newState.Position = playerMove.GetNextPosition( Vector3Int.RoundToInt( state.Position ), action, isReplay );
 
 			var proposedWorldPos = newState.WorldPosition;
-			MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint( proposedWorldPos );
+			MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint( Vector3Int.RoundToInt(proposedWorldPos) );
 			bool matrixChangeDetected =
 				!Equals( matrixAtPoint, MatrixInfo.Invalid ) && matrixAtPoint.Matrix != registerTile.Matrix;
 			if ( !matrixChangeDetected ) {
@@ -354,19 +355,6 @@ namespace PlayGroup
 			CmdProcessAction( action );
 		}
 
-		/// Space walk checks for client and server
-		private void CheckSpaceWalk() {
-			if ( matrix == null ) {
-				return;
-			}
-			//Server zone
-			if ( isServer ) {
-				CheckSpaceWalkServer();
-			}
-			//Client zone
-			CheckSpaceWalkClient();
-		}
-
 		//Visual debug
 		private Vector3 size1 = Vector3.one;
 
@@ -381,14 +369,14 @@ namespace PlayGroup
 		private void OnDrawGizmos() {
 			//serverTargetState
 			Gizmos.color = color1;
-			Vector3Int stsPos = serverTargetState.WorldPosition;
+			Vector3 stsPos = serverTargetState.WorldPosition;
 			Gizmos.DrawWireCube( stsPos, size1 );
 //            GizmoUtils.DrawArrow( stsPos + Vector3.left / 2, serverTargetState.Impulse );
 //            GizmoUtils.DrawText( serverTargetState.MoveNumber.ToString(), stsPos + Vector3.left/2, 15 );
 
 			//serverState
 			Gizmos.color = color2;
-			Vector3Int ssPos = serverState.WorldPosition;
+			Vector3 ssPos = serverState.WorldPosition;
 			Gizmos.DrawWireCube( ssPos, size2 );
 //            GizmoUtils.DrawArrow( ssPos + Vector3.right / 2, serverState.Impulse );
 //            GizmoUtils.DrawText( serverState.MoveNumber.ToString(), ssPos + Vector3.right/2, 15 );

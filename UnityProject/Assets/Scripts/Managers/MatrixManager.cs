@@ -21,7 +21,7 @@ public class MatrixManager : MonoBehaviour {
 	/// Finds first matrix that is not empty at given world pos
 	public MatrixInfo AtPoint( Vector3Int worldPos ) {
 		for ( var i = 0; i < activeMatrices.Count; i++ ) {
-			if ( !activeMatrices[i].Matrix.IsEmptyAt( WorldToLocal(worldPos, activeMatrices[i]) ) ) {
+			if ( !activeMatrices[i].Matrix.IsEmptyAt( WorldToLocalInt(worldPos, activeMatrices[i]) ) ) {
 				return activeMatrices[i];
 			}
 		}
@@ -34,7 +34,7 @@ public class MatrixManager : MonoBehaviour {
 	/// Cross-matrix floating check by world pos
 	public bool IsFloatingAt( Vector3Int worldPos ) {
 		for ( var i = 0; i < activeMatrices.Count; i++ ) {
-			if ( !activeMatrices[i].Matrix.IsFloatingAt( WorldToLocal(worldPos, activeMatrices[i]) ) ) {
+			if ( !activeMatrices[i].Matrix.IsFloatingAt( WorldToLocalInt(worldPos, activeMatrices[i]) ) ) {
 				return false;
 			}
 		}
@@ -43,8 +43,8 @@ public class MatrixManager : MonoBehaviour {
 	/// Cross-matrix passable check by world pos //FIXME: not truly cross-matrix. can walk diagonally between matrices
 	public bool IsPassableAt( Vector3Int worldOrigin, Vector3Int worldTarget ) {
 		for ( var i = 0; i < activeMatrices.Count; i++ ) {
-			if ( !activeMatrices[i].Matrix.IsPassableAt( WorldToLocal( worldOrigin, activeMatrices[i] ), 
-														 WorldToLocal( worldTarget, activeMatrices[i] ) ) ) {
+			if ( !activeMatrices[i].Matrix.IsPassableAt( WorldToLocalInt( worldOrigin, activeMatrices[i] ), 
+														 WorldToLocalInt( worldTarget, activeMatrices[i] ) ) ) {
 				return false;
 			}
 		}
@@ -54,7 +54,7 @@ public class MatrixManager : MonoBehaviour {
 	public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
 	{
 		for ( var i = 0; i < activeMatrices.Count; i++ ) {
-			T first = activeMatrices[i].Matrix.GetFirst<T>( WorldToLocal( position, activeMatrices[i] ) );
+			T first = activeMatrices[i].Matrix.GetFirst<T>( WorldToLocalInt( position, activeMatrices[i] ) );
 			if ( first ) {
 				return first;
 			}
@@ -128,28 +128,44 @@ public class MatrixManager : MonoBehaviour {
 		return MatrixInfo.Invalid;
 	}
 
-	public Vector3Int LocalToWorld( Vector3 localPos, Matrix matrix ) {
+	public Vector3Int LocalToWorldInt( Vector3 localPos, Matrix matrix ) {
+		return LocalToWorldInt( localPos, Get( matrix ) );
+	}
+	public static Vector3Int LocalToWorldInt( Vector3 localPos, MatrixInfo matrix ) {
+		return Vector3Int.RoundToInt( LocalToWorld( localPos, matrix ) );
+	}
+
+	public Vector3 LocalToWorld( Vector3 localPos, Matrix matrix ) {
 		return LocalToWorld( localPos, Get( matrix ) );
-	} 
-	public static Vector3Int LocalToWorld( Vector3 localPos, MatrixInfo matrix ) {
+	}
+
+	public static Vector3 LocalToWorld( Vector3 localPos, MatrixInfo matrix ) {
 		if ( !matrix.MatrixMove ) {
-			return Vector3Int.RoundToInt( localPos ) + matrix.Offset;
+			return localPos + matrix.Offset;
 		}
-		Vector3Int unpivotedPos = Vector3Int.RoundToInt( localPos ) - matrix.MatrixMove.Pivot; //localPos - localPivot
-		Vector3Int rotatedPos = Vector3Int.RoundToInt(matrix.MatrixMove.ClientState.Orientation.Euler * unpivotedPos);  //unpivotedPos rotated by N degrees
-		Vector3Int rotatedPivoted = rotatedPos + matrix.MatrixMove.Pivot + matrix.Offset; //adding back localPivot and applying localToWorldOffset
+		Vector3 unpivotedPos = localPos - matrix.MatrixMove.Pivot; //localPos - localPivot
+		Vector3 rotatedPos = matrix.MatrixMove.ClientState.Orientation.Euler * unpivotedPos;  //unpivotedPos rotated by N degrees
+		Vector3 rotatedPivoted = rotatedPos + matrix.MatrixMove.Pivot + matrix.Offset; //adding back localPivot and applying localToWorldOffset
 		return rotatedPivoted;
 	}
 
-	public Vector3Int WorldToLocal( Vector3Int worldPos, Matrix matrix ) {
+	public Vector3Int WorldToLocalInt( Vector3 worldPos, Matrix matrix ) {
+		return WorldToLocalInt( worldPos, Get( matrix ) );
+	}
+	public static Vector3Int WorldToLocalInt( Vector3 worldPos, MatrixInfo matrix ) {
+		return Vector3Int.RoundToInt( WorldToLocal( worldPos, matrix ) );
+	}
+
+	public Vector3 WorldToLocal( Vector3 worldPos, Matrix matrix ) {
 		return WorldToLocal( worldPos, Get( matrix ) );
-	} 
-	public static Vector3Int WorldToLocal( Vector3Int worldPos, MatrixInfo matrix ) {
+	}
+
+	public static Vector3 WorldToLocal( Vector3 worldPos, MatrixInfo matrix ) {
 		if ( !matrix.MatrixMove ) {
 			return worldPos - matrix.Offset;
 		}
-		Vector3Int rotatedClean = worldPos - matrix.Offset - matrix.MatrixMove.Pivot;
-		Vector3Int unrotatedPos = Vector3Int.RoundToInt(matrix.MatrixMove.ClientState.Orientation.EulerInverted * rotatedClean);
+		Vector3 rotatedClean = worldPos - matrix.Offset - matrix.MatrixMove.Pivot;
+		Vector3 unrotatedPos = matrix.MatrixMove.ClientState.Orientation.EulerInverted * rotatedClean;
 		return unrotatedPos + matrix.MatrixMove.Pivot;
 	}
 }

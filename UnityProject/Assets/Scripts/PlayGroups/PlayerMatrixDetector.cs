@@ -12,7 +12,7 @@ namespace PlayGroup {
 				//Converting local direction to world direction
 				direction = Vector3Int.RoundToInt( matrixInfo.MatrixMove.ClientState.Orientation.Euler * direction );
 			}
-			Vector3Int position = MatrixManager.LocalToWorld( localPos, MatrixManager.Instance.Get( currentMatrix ) );
+			Vector3Int position = MatrixManager.LocalToWorldInt( localPos, MatrixManager.Instance.Get( currentMatrix ) );
 
 			if ( !MatrixManager.Instance.IsPassableAt( position, position + direction ) ) {
 				return false;

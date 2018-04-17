@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PlayGroup
@@ -19,9 +20,9 @@ namespace PlayGroup
 		private Vector2 LastDirection {
 			get { return lastDirection; }
 			set {
-				if ( value == Vector2.zero ) {
-					Debug.LogWarning( "Setting LastDirection to zero!" );
-				} 
+//				if ( value == Vector2.zero ) {
+//				} 
+					Debug.Log( $"Setting client LastDirection to {value}!" );
 				lastDirection = value;
 			}
 		}
@@ -153,13 +154,25 @@ namespace PlayGroup
 				pendingActions.Clear();
 			}
 		}
+		
+		private IEnumerator BlockMovement() {
+			blockClientMovement = true;
+			yield return new WaitForSeconds(1f);
+			blockClientMovement = false;
+		}
 
 		///Simulate space walk by server's orders or initiate/stop them on client
 		///Using predictedState for your own player and playerState for others
-		private void CheckSpaceWalkClient() {
+		private void CheckMovementClient() {
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
-			bool isFloating = MatrixManager.Instance.IsFloatingAt( state.WorldPosition );
-
+			if ( state.WorldPosition != transform.position ) {
+				//PlayerLerp
+				transform.localPosition = Vector3.MoveTowards( transform.localPosition,
+					MatrixManager.WorldToLocal(state.WorldPosition, MatrixManager.Instance.Get( matrix ) ),
+					playerMove.speed * Time.deltaTime );
+			}
+			bool isFloating = MatrixManager.Instance.IsFloatingAt( Vector3Int.RoundToInt(state.WorldPosition) );
+			//Space walk checks
 			if ( isPseudoFloatingClient && !isFloating ) {
 //                Debug.Log( "Stopped clientside floating to avoid going through walls" );
 
@@ -176,7 +189,7 @@ namespace PlayGroup
 					//and server is yet to approve the fact that it even started.
 					//Marking as UnapprovedFloatClient 
 					//to ignore further predictive movement until flight approval message is received
-					blockClientMovement = true; //fixme: make it time-based?
+					StartCoroutine( BlockMovement() );
 				}
 			}
 			if ( isFloating ) {
@@ -188,7 +201,7 @@ namespace PlayGroup
 					} else {
 						playerState.Impulse = state.Impulse;
 					}
-//					Debug.Log($"Wasn't floating on client, now floating with impulse {LastDirection}. FC={isFloatingClient},PFC={isPseudoFloatingClient}");
+					Debug.Log($"Client init floating with impulse {LastDirection}. FC={isFloatingClient},PFC={isPseudoFloatingClient}");
 				}
 
 				//Perpetual floating sim

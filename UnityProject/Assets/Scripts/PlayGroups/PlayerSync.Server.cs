@@ -8,7 +8,6 @@ namespace PlayGroup
 {
 	public partial class PlayerSync
 	{
-		//TODO: fix server lerp speed, it's fucking wrong
 		//Server-only fields, don't concern clients in any way
 		private PlayerState serverTargetState;
 
@@ -28,7 +27,7 @@ namespace PlayGroup
 		//TODO: Remove the space damage coroutine when atmos is implemented
 		private bool isApplyingSpaceDmg;
 
-		private bool isFloatingServer => serverState.Impulse != Vector2.zero;
+		private bool consideredFloatingServer => serverState.Impulse != Vector2.zero;
 
 		/// idk if it's robust enough, but it seems to work
 		private bool ServerPositionsMatch => serverTargetState.WorldPosition == serverState.WorldPosition;
@@ -131,17 +130,20 @@ namespace PlayGroup
 		[Server]
 		private void TryNotifyPlayers() {
 			if ( ServerPositionsMatch ) {
+				bool worthSyncingMatrix = MatrixSwitchAhead;
 //				When serverState reaches its planned destination,
 //				embrace all other updates like updated moveNumber and flags
 				serverState = serverTargetState;
-				SyncMatrix();
+				if ( worthSyncingMatrix ) {
+					Debug.Log( "Hey, it's worth syncing matrix!" );
+					SyncMatrix();
+				}
 				NotifyPlayers();
 			}
 		}
 
 		[Server]
 		private void SyncMatrix() {
-			//fixme: don't do it every move
 			registerTile.ParentNetId = MatrixManager.Instance.Get( serverState.MatrixId ).NetId;
 		}
 
@@ -154,7 +156,7 @@ namespace PlayGroup
 				serverStateCache = serverState;
 			}
 			//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
-			if ( !serverState.ImportantFlightUpdate && isFloatingServer ) {
+			if ( !serverState.ImportantFlightUpdate && consideredFloatingServer ) {
 				return;
 			}
 
@@ -209,15 +211,13 @@ namespace PlayGroup
 
 			var nextAction = serverPendingActions.Peek();
 			if ( !IsPointlessMove( serverTargetState, nextAction ) ) {
-				if ( isFloatingServer ) {
+				if ( consideredFloatingServer ) {
 					Debug.LogWarning( "Server ignored move while player is floating" );
 					serverPendingActions.Dequeue();
 					return;
 				}
 				PlayerState nextState = NextStateServer( serverTargetState, serverPendingActions.Dequeue() );
-				serverLastDirection =
-					Vector2Int.RoundToInt( (Vector3) nextState.WorldPosition -
-					                       serverTargetState.WorldPosition ); //<--V2I <-> V3I </3 :'(
+				serverLastDirection = Vector2Int.RoundToInt( nextState.WorldPosition - serverTargetState.WorldPosition );
 				serverTargetState = nextState;
 //				Debug.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
 			} else {
@@ -262,34 +262,37 @@ namespace PlayGroup
 				}
 			}
 		}
-		
-		[Server]
-		private void ServerLerp() {
-			serverState.Position =
-				Vector3.MoveTowards( serverState.Position,
-					MatrixManager.WorldToLocal( serverTargetState.WorldPosition, MatrixManager.Instance.Get( matrix ) ),
-					playerMove.speed * Time.deltaTime );
-		}
 
 		/// Ensuring server authority for space walk
 		[Server]
-		private void CheckSpaceWalkServer() { 
-			if ( MatrixManager.Instance.IsFloatingAt( serverTargetState.WorldPosition ) && !MatrixSwitchAhead ) {
-				if ( serverLastDirection == Vector2.zero ) {
-					//don't push if we just hit an obstacle in space 
-					return;
+		private void CheckMovementServer() { 
+			if ( !ServerPositionsMatch ) {
+				//Lerp on server if it's worth lerping 
+				//and inform players if serverState reached targetState afterwards 
+				serverState.Position =
+					Vector3.MoveTowards( serverState.Position,
+						MatrixManager.WorldToLocal( serverTargetState.WorldPosition, MatrixManager.Instance.Get( matrix ) ),
+						playerMove.speed * Time.deltaTime );
+				TryNotifyPlayers();
+			}
+			bool isFloating = MatrixManager.Instance.IsFloatingAt( Vector3Int.RoundToInt(serverTargetState.WorldPosition) );
+
+			if ( isFloating ) {
+				if ( serverTargetState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero ) {
+					//server initiated space dive. 						
+					serverTargetState.Impulse = serverLastDirection;
+					serverTargetState.ImportantFlightUpdate = true;
+					serverTargetState.ResetClientQueue = true;
 				}
-				if ( !isFloatingServer ) {
-					//initiate floating
-					//notify players that we started floating
-					Push( Vector2Int.RoundToInt( serverLastDirection ) );
-				} else if ( ServerPositionsMatch && !serverTargetState.ImportantFlightUpdate ) {
-					//continue floating
-					serverTargetState.WorldPosition =
-						Vector3Int.RoundToInt( serverState.WorldPosition + (Vector3) serverTargetState.Impulse );
+				//Perpetual floating sim
+				if ( ServerPositionsMatch && !serverTargetState.ImportantFlightUpdate ) {
+					//Extending prediction by one tile if player's transform reaches previously set goal
+					Vector3Int newGoal = Vector3Int.RoundToInt( serverTargetState.Position + (Vector3) serverTargetState.Impulse );
+					serverTargetState.Position = newGoal;
 					ClearQueueServer();
 				}
-			} else if ( isFloatingServer ) {
+			}
+			if ( consideredFloatingServer && !isFloating ) {
 				//finish floating. players will be notified as soon as serverState catches up
 				serverState.Impulse = Vector2.zero;
 				serverTargetState.Impulse = Vector2.zero;
@@ -299,8 +302,7 @@ namespace PlayGroup
 				//removing lastDirection when we hit an obstacle in space
 				serverLastDirection = Vector2.zero;
 			}
-
-			CheckSpaceDamage();
+//			CheckSpaceDamage();
 		}
 
 		/// Checking whether player should suffocate
