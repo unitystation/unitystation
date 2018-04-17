@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 namespace PlayGroup
-{
+{//fixme: unable to move when spawning on foreign matrix
 	/// Container with player position, flight direction etc. 
 	/// Gives client enough information for smooth simulation
 	public struct PlayerState

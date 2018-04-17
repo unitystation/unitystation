@@ -6,9 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
 
-/// <summary>
 /// Matrix manager handles the netcomms of the position and movement of the matrices
-/// </summary>
 public class MatrixManager : MonoBehaviour {
 
 	//Declare in awake as MatrixManager needs to be destroyed on each scene change
@@ -83,6 +81,7 @@ public class MatrixManager : MonoBehaviour {
 	private void InitMatrices() {
 		Matrix[] findMatrices = FindObjectsOfType<Matrix>();
 		if ( findMatrices.Length < 2 ) { //fixme: sometimes builds don't find all matrices when level has not finished loading 
+			//todo: fix nagging in lobby
 			Debug.Log( "Matrix init failure, will try in 0.5" );
 			StartCoroutine(WaitForLoad());
 			return;

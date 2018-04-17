@@ -65,7 +65,7 @@ namespace PlayGroup
 		private void UpdatePredictedState() {
 			if ( pendingActions.Count == 0 ) {
 				//plain assignment if there's nothing to predict
-				predictedState = playerState;
+				RollbackPrediction();
 			} else {
 				//redraw prediction point from received serverState using pending actions
 				PlayerState tempState = playerState;
@@ -123,7 +123,7 @@ namespace PlayGroup
 				                   predictedState.MoveNumber == playerState.MoveNumber;
 				if ( shouldReset ) {
 //                    Debug.Log( $"Reset predictedState {predictedState} with {playerState}" );
-					predictedState = playerState;
+					RollbackPrediction();
 				}
 				return;
 			}
@@ -135,7 +135,7 @@ namespace PlayGroup
 				if ( serverAhead || posMismatch ) {
 					Debug.LogWarning( $"serverAhead={serverAhead}, posMismatch={posMismatch}" );
 					ClearQueueClient();
-					predictedState = playerState;
+					RollbackPrediction();
 				} else {
 					//removing actions already acknowledged by server from pending queue
 					while ( pendingActions.Count > 0 &&
@@ -147,6 +147,10 @@ namespace PlayGroup
 			}
 		}
 
+		private void RollbackPrediction() {
+			predictedState = playerState;
+		}
+
 		/// Clears client pending actions queue
 		public void ClearQueueClient() {
 //			Debug.Log("Resetting queue as requested by server!");
@@ -155,9 +159,15 @@ namespace PlayGroup
 			}
 		}
 		
+		/// Ignore further predictive movement until approval message is received
+		/// (Or wait time is up, then prediction is rolled back)
 		private IEnumerator BlockMovement() {
 			blockClientMovement = true;
-			yield return new WaitForSeconds(1f);
+			yield return new WaitForSeconds(2f);
+			if ( blockClientMovement ) {
+				Debug.LogWarning( "Looks like you got stuck" );
+				RollbackPrediction();
+			}
 			blockClientMovement = false;
 		}
 
@@ -187,8 +197,6 @@ namespace PlayGroup
 					Debug.Log( "Got an unapproved flight here!" );
 					//Client figured out that he just finished spacewalking 
 					//and server is yet to approve the fact that it even started.
-					//Marking as UnapprovedFloatClient 
-					//to ignore further predictive movement until flight approval message is received
 					StartCoroutine( BlockMovement() );
 				}
 			}
