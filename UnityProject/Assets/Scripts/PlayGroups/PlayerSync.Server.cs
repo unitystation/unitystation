@@ -270,7 +270,7 @@ namespace PlayGroup
 			}
 		}
 
-		/// Ensuring server authority for space walk
+		/// Lerping and ensuring server authority for space walk
 		[Server]
 		private void CheckMovementServer() { 
 			if ( !ServerPositionsMatch ) {
@@ -280,6 +280,7 @@ namespace PlayGroup
 					Vector3.MoveTowards( serverState.WorldPosition, serverTargetState.WorldPosition, playerMove.speed * Time.deltaTime );
 				TryNotifyPlayers();
 			}
+			//Space walk checks
 			bool isFloating = MatrixManager.Instance.IsFloatingAt( Vector3Int.RoundToInt(serverTargetState.WorldPosition) );
 
 			if ( isFloating ) {
@@ -307,7 +308,7 @@ namespace PlayGroup
 				//removing lastDirection when we hit an obstacle in space
 				serverLastDirection = Vector2.zero;
 			}
-//			CheckSpaceDamage();
+			CheckSpaceDamage();
 		}
 
 		/// Checking whether player should suffocate

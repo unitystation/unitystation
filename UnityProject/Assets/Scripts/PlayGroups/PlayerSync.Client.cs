@@ -102,7 +102,7 @@ namespace PlayGroup
 		/// Called when PlayerMoveMessage is received
 		public void UpdateClientState( PlayerState state ) {
 			playerState = state;
-			Debug.Log( $"Got server update {playerState}" );
+//			Debug.Log( $"Got server update {playerState}" );
 
 			if ( playerState.MatrixId != predictedState.MatrixId && isLocalPlayer ) {
 				MatrixInfo oldMatrix = MatrixManager.Instance.Get( predictedState.MatrixId );
@@ -185,7 +185,7 @@ namespace PlayGroup
 			blockClientMovement = false;
 		}
 
-		///Simulate space walk by server's orders or initiate/stop them on client
+		///Lerping; simulating space walk by server's orders or initiate/stop them on client
 		///Using predictedState for your own player and playerState for others
 		private void CheckMovementClient() {
 			PlayerState state = isLocalPlayer ? predictedState : playerState;

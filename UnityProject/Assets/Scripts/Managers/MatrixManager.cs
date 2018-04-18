@@ -6,14 +6,19 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
 
-/// Matrix manager handles the netcomms of the position and movement of the matrices
+/// Matrix manager keeps a list of matrices that you can access from both client and server.
+/// Contains world/local position conversion methods, as well as several cross-matrix adaptations of Matrix methods.
+/// Also very common use scenario is Get()'ting matrix info using matrixId from PlayerState
 public class MatrixManager : MonoBehaviour {
 
 	//Declare in awake as MatrixManager needs to be destroyed on each scene change
 	public static MatrixManager Instance;
-	public List<MatrixInfo> activeMatrices = new List<MatrixInfo>();
+	private List<MatrixInfo> activeMatrices = new List<MatrixInfo>();
 
-	//At the moment this used for FoV ray hits and turning walls on and off:
+	/// List of active matrices
+	public List<MatrixInfo> Matrices => activeMatrices;
+
+	///Used for FoV ray hits and turning walls on and off:
 	public Dictionary<Collider2D, Tilemap> wallTileMaps = new Dictionary<Collider2D, Tilemap>();
 
 	/// Finds first matrix that is not empty at given world pos
@@ -60,24 +65,23 @@ public class MatrixManager : MonoBehaviour {
 		return null;
 	}
 	
-
 	void Awake() {
 		if(Instance == null){
 			Instance = this;
 		} else {
 			Destroy(gameObject);
 		}
-		Debug.Log( "MM calling matrix init" );
 		StartCoroutine(WaitForLoad());
 	}
-	
+
+	/// Waiting for scene to load before finding matrices
 	private IEnumerator WaitForLoad()
 	{
 		yield return new WaitForSeconds(0.5f);
 		InitMatrices();
 	}
 	
-	///Find all matrices
+	///Finding all matrices
 	private void InitMatrices() {
 		Matrix[] findMatrices = FindObjectsOfType<Matrix>();
 		if ( findMatrices.Length < 2 ) { 
@@ -103,13 +107,15 @@ public class MatrixManager : MonoBehaviour {
 		return $"MatrixManager: {String.Join( ",\n", activeMatrices )}";
 	}
 
-
+	/// Get MatrixInfo by matrix id
 	public MatrixInfo Get( int id ) {
 		return getInternal(mat => mat.Id == id);
 	}
+	/// Get MatrixInfo by gameObject containing Matrix component
 	public MatrixInfo Get( GameObject go ) {
 		return getInternal(mat => mat.GameObject == go);
 	}
+	/// Get MatrixInfo by Matrix component
 	public MatrixInfo Get( Matrix matrix ) {
 		return getInternal(mat => mat.Matrix == matrix);
 	}
@@ -126,17 +132,19 @@ public class MatrixManager : MonoBehaviour {
 		return MatrixInfo.Invalid;
 	}
 
+	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public Vector3Int LocalToWorldInt( Vector3 localPos, Matrix matrix ) {
 		return LocalToWorldInt( localPos, Get( matrix ) );
 	}
+	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public static Vector3Int LocalToWorldInt( Vector3 localPos, MatrixInfo matrix ) {
 		return Vector3Int.RoundToInt( LocalToWorld( localPos, matrix ) );
 	}
-
+	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public Vector3 LocalToWorld( Vector3 localPos, Matrix matrix ) {
 		return LocalToWorld( localPos, Get( matrix ) );
 	}
-
+	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public static Vector3 LocalToWorld( Vector3 localPos, MatrixInfo matrix ) {
 		if ( !matrix.MatrixMove ) {
 			return localPos + matrix.Offset;
@@ -147,17 +155,19 @@ public class MatrixManager : MonoBehaviour {
 		return rotatedPivoted;
 	}
 
+	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public Vector3Int WorldToLocalInt( Vector3 worldPos, Matrix matrix ) {
 		return WorldToLocalInt( worldPos, Get( matrix ) );
 	}
+	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public static Vector3Int WorldToLocalInt( Vector3 worldPos, MatrixInfo matrix ) {
 		return Vector3Int.RoundToInt( WorldToLocal( worldPos, matrix ) );
 	}
-
+	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public Vector3 WorldToLocal( Vector3 worldPos, Matrix matrix ) {
 		return WorldToLocal( worldPos, Get( matrix ) );
 	}
-
+	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public static Vector3 WorldToLocal( Vector3 worldPos, MatrixInfo matrix ) {
 		if ( !matrix.MatrixMove ) {
 			return worldPos - matrix.Offset;
@@ -188,7 +198,7 @@ public struct MatrixInfo {
 	private NetworkInstanceId netId;
 
 	public NetworkInstanceId NetId {
-		get {
+		get { //late init, because server is not yet up during InitMatrices()
 			if ( netId.IsEmpty() || netId == NetworkInstanceId.Invalid ) {
 				netId = getNetId( Matrix );
 			}
