@@ -201,7 +201,7 @@ public class GameManager : MonoBehaviour
 		return JobType.ASSISTANT;
 	}
 
-	private void RestartRound()
+	public void RestartRound()
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{

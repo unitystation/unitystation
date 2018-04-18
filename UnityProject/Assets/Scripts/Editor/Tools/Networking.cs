@@ -65,4 +65,14 @@ public class Networking : Editor
 	{
 		GibMessage.Send();
 	}
+	[MenuItem("Networking/Restart round")]
+	private static void AdminPlzRestart()
+	{
+		GameManager.Instance.RestartRound();
+	}
+	[MenuItem("Networking/Extend round time")]
+	private static void ExtendRoundTime()
+	{
+		GameManager.Instance.ResetRoundTime();
+	}
 }

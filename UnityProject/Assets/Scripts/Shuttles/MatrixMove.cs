@@ -20,7 +20,6 @@ public struct MatrixState
 }
 
 public class MatrixMove : ManagedNetworkBehaviour {
-	//FIXME: ships disappearing for everyone on round restart (until first update is sent)
 	public bool IsMoving => isMovingServer;
 	
 	//server-only values
@@ -62,8 +61,9 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 	public override void OnStartServer()
 	{
-		InitServerState();
 		base.OnStartServer();
+		InitServerState();
+		NotifyPlayers();
 	}
 
 	[Server]

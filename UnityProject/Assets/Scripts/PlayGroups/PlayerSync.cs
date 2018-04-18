@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 namespace PlayGroup
-{//fixme: unable to move when spawning on foreign matrix
+{
 	/// Container with player position, flight direction etc. 
 	/// Gives client enough information for smooth simulation
 	public struct PlayerState
@@ -144,7 +144,15 @@ namespace PlayGroup
 				playerState = serverStateCache;
 				transform.localPosition = Vector3Int.RoundToInt( playerState.Position );
 			} else {
-				PlayerState state = new PlayerState {MoveNumber = 0, Position = transform.localPosition};
+				//tries to be smart, but no guarantees. correct state is received later (during CustomNetworkManager initial sync) anyway
+				Vector3Int worldPos = Vector3Int.RoundToInt( (Vector2) transform.position ); //cutting off Z-axis & rounding
+				MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint( worldPos );
+				PlayerState state = new PlayerState {
+					MoveNumber = 0,
+					MatrixId = matrixAtPoint.Id,
+					WorldPosition = worldPos
+				};
+//				Debug.Log( $"{gameObject.name}: InitClientState for {worldPos} found matrix {matrixAtPoint} resulting in\n{state}" );
 				playerState = state;
 				predictedState = state;
 			}
@@ -183,10 +191,8 @@ namespace PlayGroup
 					}
 					return;
 				}
-				if ( predictedState.Position == transform.localPosition && !playerMove.isGhost ) {
-					DoAction();
-				} else if ( predictedState.Position == playerScript.ghost.transform.localPosition &&
-				            playerMove.isGhost ) {
+				if ( ClientPositionReady && !playerMove.isGhost
+				   || GhostPositionReady && playerMove.isGhost ) {
 					DoAction();
 				}
 			}
@@ -226,17 +232,6 @@ namespace PlayGroup
 					return;
 				}
 
-//				if ( state.WorldPosition != transform.position ) {
-//					PlayerLerp( state );
-//				}
-
-//				if ( isServer && !ServerPositionsMatch ) {
-//					//Lerp on server if it's worth lerping 
-//					//and inform players if serverState reached targetState afterwards 
-//					ServerLerp();
-//					TryNotifyPlayers();
-//				}
-
 				//Check if we should still be displaying an ItemListTab and update it, if so.
 				ControlTabs.CheckItemListTab();
 
@@ -254,7 +249,7 @@ namespace PlayGroup
 					RegisterObjects();
 				}
 			} else {
-				if ( state.Position != playerScript.ghost.transform.localPosition ) {
+				if ( !GhostPositionReady ) {
 					GhostLerp( state );
 				}
 			}

@@ -42,12 +42,14 @@ namespace PlayGroup
 
 		[Server]
 		private void InitServerState() {
-			Vector3Int position = Vector3Int.RoundToInt( transform.localPosition );
+			Vector3Int worldPos = Vector3Int.RoundToInt( (Vector2) transform.position ); //cutting off Z-axis & rounding
+			MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint( worldPos );
 			PlayerState state = new PlayerState {
 				MoveNumber = 0,
-				Position = position,
-				MatrixId = 0 //MatrixManager.Instance.Get( matrix ).Id//MatrixInfo.Invalid.Id
+				MatrixId = matrixAtPoint.Id,
+				WorldPosition = worldPos
 			};
+			Debug.Log( $"{PlayerList.Instance.Get( gameObject ).Name}: InitServerState for {worldPos} found matrix {matrixAtPoint} resulting in\n{state}" );
 			serverState = state;
 			serverStateCache = state;
 			serverTargetState = state;
@@ -104,25 +106,25 @@ namespace PlayGroup
 			}
 		}
 
-		/// <summary>
-		///     Manually set a player to a specific position.
-		/// 	Also clears prediction queues.
-		/// </summary>
-		/// <param name="pos">The new position to "teleport" player</param>
+		/// Manually set player to a specific world position.
+		/// Also clears prediction queues.
+		/// <param name="worldPos">The new position to "teleport" player</param>
 		[Server]
-		public void SetPosition( Vector3 pos ) {
+		public void SetPosition( Vector3 worldPos ) {
 			ClearQueueServer();
-			Vector3Int roundedPos = Vector3Int.RoundToInt( pos );
+			Vector3Int roundedPos = Vector3Int.RoundToInt( worldPos );
+			MatrixInfo newMatrix = MatrixManager.Instance.AtPoint( roundedPos );
 			//Note the client queue reset
 			var newState = new PlayerState {
 				MoveNumber = 0,
-				Position = roundedPos,
-				MatrixId = serverTargetState.MatrixId,
+				MatrixId = newMatrix.Id,
+				WorldPosition = roundedPos,
 				ResetClientQueue = true
 			};
 			serverState = newState;
 			serverTargetState = newState;
 			serverStateCache = newState;
+			SyncMatrix();
 			NotifyPlayers();
 		}
 
@@ -148,7 +150,12 @@ namespace PlayGroup
 		}
 
 		[Server]
-		private void NotifyPlayers() {
+		public void NotifyPlayer( GameObject recipient ) {
+			PlayerMoveMessage.Send( recipient, gameObject, serverState );
+		}
+
+		[Server]
+		public void NotifyPlayers() {
 			//Do not cache the position if the player is a ghost
 			//or else new players will sync the deadbody with the last pos
 			//of the ghost:
@@ -269,10 +276,8 @@ namespace PlayGroup
 			if ( !ServerPositionsMatch ) {
 				//Lerp on server if it's worth lerping 
 				//and inform players if serverState reached targetState afterwards 
-				serverState.Position =
-					Vector3.MoveTowards( serverState.Position,
-						MatrixManager.WorldToLocal( serverTargetState.WorldPosition, MatrixManager.Instance.Get( matrix ) ),
-						playerMove.speed * Time.deltaTime );
+				serverState.WorldPosition =
+					Vector3.MoveTowards( serverState.WorldPosition, serverTargetState.WorldPosition, playerMove.speed * Time.deltaTime );
 				TryNotifyPlayers();
 			}
 			bool isFloating = MatrixManager.Instance.IsFloatingAt( Vector3Int.RoundToInt(serverTargetState.WorldPosition) );

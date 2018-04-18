@@ -21,9 +21,23 @@ namespace PlayGroup
 			get { return lastDirection; }
 			set {
 //				if ( value == Vector2.zero ) {
+//					Debug.Log( $"Setting client LastDirection to {value}!" );
 //				} 
-					Debug.Log( $"Setting client LastDirection to {value}!" );
 				lastDirection = value;
+			}
+		}
+		/// Does client's transform pos match state pos? Ignores Z-axis.
+		private bool ClientPositionReady {
+			get {
+				var state = isLocalPlayer ? predictedState : playerState;
+				return ( Vector2 ) state.WorldPosition == ( Vector2 ) transform.position;
+			}
+		}
+		/// Does ghosts's transform pos match state pos? Ignores Z-axis.
+		private bool GhostPositionReady {
+			get {
+				var state = isLocalPlayer ? predictedState : playerState;
+				return ( Vector2 ) state.WorldPosition == ( Vector2 ) playerScript.ghost.transform.position;
 			}
 		}
 
@@ -90,10 +104,10 @@ namespace PlayGroup
 			playerState = state;
 			Debug.Log( $"Got server update {playerState}" );
 
-			if ( playerState.MatrixId != predictedState.MatrixId ) {
+			if ( playerState.MatrixId != predictedState.MatrixId && isLocalPlayer ) {
 				MatrixInfo oldMatrix = MatrixManager.Instance.Get( predictedState.MatrixId );
 				MatrixInfo newMatrix = MatrixManager.Instance.Get( playerState.MatrixId );
-				Debug.LogWarning( $"Client didn't expect matrix change from {oldMatrix} to {newMatrix}" );
+				Debug.Log( $"Client didn't expect matrix change from {oldMatrix} to {newMatrix}" );
 
 				PlayerState crossMatrixState = predictedState;
 				crossMatrixState.MatrixId = playerState.MatrixId;
@@ -175,11 +189,15 @@ namespace PlayGroup
 		///Using predictedState for your own player and playerState for others
 		private void CheckMovementClient() {
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
-			if ( state.WorldPosition != transform.position ) {
+			if ( !ClientPositionReady ) {
 				//PlayerLerp
+				Vector3 targetPos = MatrixManager.WorldToLocal(state.WorldPosition, MatrixManager.Instance.Get( matrix ) );
 				transform.localPosition = Vector3.MoveTowards( transform.localPosition,
-					MatrixManager.WorldToLocal(state.WorldPosition, MatrixManager.Instance.Get( matrix ) ),
+					targetPos,
 					playerMove.speed * Time.deltaTime );
+				if ( Vector3.Distance( transform.localPosition, targetPos ) > 30 ) {
+					transform.localPosition = targetPos;
+				}
 			}
 			bool isFloating = MatrixManager.Instance.IsFloatingAt( Vector3Int.RoundToInt(state.WorldPosition) );
 			//Space walk checks
@@ -213,7 +231,7 @@ namespace PlayGroup
 				}
 
 				//Perpetual floating sim
-				if ( transform.localPosition == state.Position ) {
+				if ( ClientPositionReady ) {
 					//Extending prediction by one tile if player's transform reaches previously set goal
 					Vector3Int newGoal = Vector3Int.RoundToInt( state.Position + (Vector3) state.Impulse );
 					if ( !isLocalPlayer ) {

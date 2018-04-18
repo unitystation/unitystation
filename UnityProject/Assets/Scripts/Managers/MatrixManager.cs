@@ -80,9 +80,8 @@ public class MatrixManager : MonoBehaviour {
 	///Find all matrices
 	private void InitMatrices() {
 		Matrix[] findMatrices = FindObjectsOfType<Matrix>();
-		if ( findMatrices.Length < 2 ) { //fixme: sometimes builds don't find all matrices when level has not finished loading 
-			//todo: fix nagging in lobby
-			Debug.Log( "Matrix init failure, will try in 0.5" );
+		if ( findMatrices.Length < 2 ) { 
+//			Debug.Log( "Matrix init failure, will try in 0.5" );
 			StartCoroutine(WaitForLoad());
 			return;
 		}
@@ -92,8 +91,8 @@ public class MatrixManager : MonoBehaviour {
 				Matrix = findMatrices[i],
 				GameObject = findMatrices[i].gameObject,
 				MatrixMove = findMatrices[i].gameObject.GetComponentInParent<MatrixMove>(),
-//				NetId =  getNetId(findMatrices[i]),
-				InitialOffset = findMatrices[i].InitialOffset //Vector3Int.CeilToInt( findMatrices[i].gameObject.transform.position )
+//				NetId is initialized later
+				InitialOffset = findMatrices[i].InitialOffset
 			} );
 		}
 		//These aren't fully initialized at that moment; init is truly finished when server is up and NetIDs are resolved
