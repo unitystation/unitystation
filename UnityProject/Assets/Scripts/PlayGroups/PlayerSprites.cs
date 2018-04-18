@@ -10,7 +10,7 @@ namespace PlayGroup
 	public class PlayerSprites : ManagedNetworkBehaviour
 	{
 		private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
-		[SyncVar(hook = "FaceDirectionSync")] public Orientation currentDirection;
+		[SyncVar(hook = nameof( FaceDirectionSync ))] public Orientation currentDirection;
 		public Quaternion Rotation;
 		public PlayerMove playerMove;
 
@@ -61,7 +61,6 @@ namespace PlayGroup
 			FaceDirection(direction);
 		}
 
-
 		//turning character input and sprite update for local only! (prediction)
 		public void FaceDirection( Orientation direction )
 		{
@@ -83,9 +82,6 @@ namespace PlayGroup
 			if (playerMove.isGhost) {
 				return;
 			}
-//			if (direction.x != 0f && direction.y != 0f) {
-//				direction.y = 0f;
-//			}
 
 			foreach (ClothingItem c in clothes.Values) {
 				c.Direction = direction;
@@ -105,22 +101,31 @@ namespace PlayGroup
 			}
 			gameObject.GetComponent<RegisterPlayer>().IsBlocking = false;
 			Rotation.eulerAngles = new Vector3(0,0,rot);
-//			RefreshRotation();
 			if ( Math.Abs( rot ) > 0 ) {
 				//So other players can walk over the Unconscious
 				AdjustSpriteOrders(-30);
 			}
 		}
-
+		/// Not letting transform.rotation deviate from intended value
+		/// (For keeping players upright on rotating matrices)
 		private void RefreshRotation() {
 			transform.rotation = Rotation;
+		}
+		/// Changes direction by degrees; positive = CW, negative = CCW
+		public void ChangePlayerDirection( int degrees ) {
+			for ( int i = 0; i < Math.Abs(degrees/90); i++ ) {
+				if ( degrees < 0 ) {
+					ChangePlayerDirection(currentDirection.Previous());
+				} else {
+					ChangePlayerDirection(currentDirection.Next());
+				}
+			}
 		}
 
 		public void ChangePlayerDirection( Orientation orientation ) {
 			CmdChangeDirection(orientation);
 			//Prediction
 			FaceDirection(orientation);
-			
 		}
 	}
 }

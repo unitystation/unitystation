@@ -32,7 +32,7 @@ namespace PlayGroup
 		/// idk if it's robust enough, but it seems to work
 		private bool ServerPositionsMatch => serverTargetState.WorldPosition == serverState.WorldPosition;
 
-		private bool MatrixSwitchAhead => serverTargetState.MatrixId != serverState.MatrixId;
+		private bool MatrixSwitchAhead => serverTargetState.MatrixId != serverState.MatrixId; //fixme: wonky
 
 		public override void OnStartServer() {
 			PullObjectID = NetworkInstanceId.Invalid;
@@ -132,14 +132,13 @@ namespace PlayGroup
 		[Server]
 		private void TryNotifyPlayers() {
 			if ( ServerPositionsMatch ) {
-				bool worthSyncingMatrix = MatrixSwitchAhead;
 //				When serverState reaches its planned destination,
 //				embrace all other updates like updated moveNumber and flags
 				serverState = serverTargetState;
-				if ( worthSyncingMatrix ) {
-					Debug.Log( "Hey, it's worth syncing matrix!" );
+//				if ( MatrixSwitchAhead ) {
+//					Debug.Log( "Hey, it's worth syncing matrix!" );
 					SyncMatrix();
-				}
+//				}
 				NotifyPlayers();
 			}
 		}
@@ -233,7 +232,7 @@ namespace PlayGroup
 				RollbackPosition();
 			}
 		}
-
+		/// NextState that also subscribes player to matrix rotations 
 		[Server]
 		private PlayerState NextStateServer( PlayerState state, PlayerAction action ) {
 			bool matrixChangeDetected;
@@ -260,14 +259,7 @@ namespace PlayGroup
 		
 		[Server]
 		private void OnRotation(Orientation from, Orientation to) {
-			var degreeBetween = Orientation.DegreeBetween( from, to );
-			for ( int i = 0; i < Math.Abs(degreeBetween/90); i++ ) {
-				if ( degreeBetween < 0 ) {
-					playerSprites.ChangePlayerDirection(playerSprites.currentDirection.Previous());
-				} else {
-					playerSprites.ChangePlayerDirection(playerSprites.currentDirection.Next());
-				}
-			}
+			playerSprites.ChangePlayerDirection( Orientation.DegreeBetween( from, to ) );
 		}
 
 		/// Lerping and ensuring server authority for space walk

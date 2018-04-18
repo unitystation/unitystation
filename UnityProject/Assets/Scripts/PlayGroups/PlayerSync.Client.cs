@@ -30,7 +30,8 @@ namespace PlayGroup
 		private bool ClientPositionReady {
 			get {
 				var state = isLocalPlayer ? predictedState : playerState;
-				return ( Vector2 ) state.WorldPosition == ( Vector2 ) transform.position;
+//				return ( Vector2 ) state.WorldPosition == ( Vector2 ) transform.position; //fixme: world pos causes being unable to move in moving ships, kek
+				return ( Vector2 ) state.Position == ( Vector2 ) transform.localPosition;
 			}
 		}
 		/// Does ghosts's transform pos match state pos? Ignores Z-axis.
@@ -118,7 +119,7 @@ namespace PlayGroup
 
 			if ( blockClientMovement ) {
 				if ( isFloatingClient ) {
-					Debug.Log( "Your last trip got approved, yay!" );
+					Debug.Log( $"Spacewalk approved. Got {playerState}\nPredicting {predictedState}" );
 					ClearQueueClient();
 					blockClientMovement = false;
 				} else {
@@ -133,10 +134,12 @@ namespace PlayGroup
 			//don't reset predicted state if it guessed impulse correctly 
 			//or server is just approving old moves when you weren't flying yet
 			if ( isFloatingClient || isPseudoFloatingClient ) {
-				bool shouldReset = predictedState.Impulse != playerState.Impulse &&
-				                   predictedState.MoveNumber == playerState.MoveNumber;
+				//rollback prediction if either wrong impulse on given step OR both impulses are non-zero and point in different directions 
+				bool shouldReset = predictedState.Impulse != playerState.Impulse 
+				                   && ( predictedState.MoveNumber == playerState.MoveNumber
+				                        || playerState.Impulse != Vector2.zero && predictedState.Impulse != Vector2.zero );
 				if ( shouldReset ) {
-//                    Debug.Log( $"Reset predictedState {predictedState} with {playerState}" );
+					Debug.Log( $"Reset predictedState {predictedState} with {playerState}" );
 					RollbackPrediction();
 				}
 				return;
@@ -212,7 +215,7 @@ namespace PlayGroup
 				LastDirection = Vector2.zero;
 
 				if ( !isFloatingClient && playerState.MoveNumber < predictedState.MoveNumber ) {
-					Debug.Log( "Got an unapproved flight here!" );
+					Debug.Log( $"Finished unapproved flight, blocking. predictedState:\n{predictedState}" );
 					//Client figured out that he just finished spacewalking 
 					//and server is yet to approve the fact that it even started.
 					StartCoroutine( BlockMovement() );
