@@ -350,6 +350,7 @@ namespace PlayGroup
 			CmdProcessAction( action );
 		}
 
+#if UNITY_EDITOR
 		//Visual debug
 		private Vector3 size1 = Vector3.one;
 
@@ -390,5 +391,6 @@ namespace PlayGroup
 			GizmoUtils.DrawArrow( clientState + Vector3.right / 5, playerState.Impulse );
 			GizmoUtils.DrawText( playerState.MoveNumber.ToString(), clientState + Vector3.right, 15 );
 		}
+#endif
 	}
 }

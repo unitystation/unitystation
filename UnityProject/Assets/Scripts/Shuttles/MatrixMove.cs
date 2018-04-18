@@ -341,7 +341,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		serverTargetState.Direction = newDirection;
 		RequestNotify();
 	}
-	
+#if UNITY_EDITOR
 	//Visual debug
 	private Vector3 size1 = Vector3.one;
 	private Vector3 size2 = new Vector3( 0.9f, 0.9f, 0.9f );
@@ -377,4 +377,5 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			GizmoUtils.DrawText( clientState.Speed.ToString(), pos + Vector3.left, 15 );
 		}
 	}
+#endif
 }
