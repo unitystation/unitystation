@@ -307,7 +307,7 @@ namespace PlayGroup
 					if ( otherPlayerSync != null ) {
 						CmdSetPositionFromReset( gameObject,
 							otherPlayerSync.gameObject,
-							PullingObject.transform.localPosition );
+							PullingObject.transform.position );
 					}
 				}
 				pullRegister = null;
@@ -367,15 +367,15 @@ namespace PlayGroup
 			Gizmos.color = color1;
 			Vector3 stsPos = serverTargetState.WorldPosition;
 			Gizmos.DrawWireCube( stsPos, size1 );
-//            GizmoUtils.DrawArrow( stsPos + Vector3.left / 2, serverTargetState.Impulse );
-//            GizmoUtils.DrawText( serverTargetState.MoveNumber.ToString(), stsPos + Vector3.left/2, 15 );
+            GizmoUtils.DrawArrow( stsPos + Vector3.left/2, serverTargetState.Impulse );
+            GizmoUtils.DrawText( serverTargetState.MoveNumber.ToString(), stsPos + Vector3.left/4, 15 );
 
 			//serverState
 			Gizmos.color = color2;
 			Vector3 ssPos = serverState.WorldPosition;
 			Gizmos.DrawWireCube( ssPos, size2 );
-//            GizmoUtils.DrawArrow( ssPos + Vector3.right / 2, serverState.Impulse );
-//            GizmoUtils.DrawText( serverState.MoveNumber.ToString(), ssPos + Vector3.right/2, 15 );
+            GizmoUtils.DrawArrow( ssPos + Vector3.right/2, serverState.Impulse );
+            GizmoUtils.DrawText( serverState.MoveNumber.ToString(), ssPos + Vector3.right/4, 15 );
 
 			//client predictedState
 			Gizmos.color = color3;

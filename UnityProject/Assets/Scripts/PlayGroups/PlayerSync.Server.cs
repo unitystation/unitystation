@@ -9,9 +9,16 @@ namespace PlayGroup
 	public partial class PlayerSync
 	{
 		//Server-only fields, don't concern clients in any way
-		private PlayerState serverTargetState;
 
+		/// Current server state. Lerps towards target state, so its position can be non-integer in the process.
+		/// Updates to players, however, are only sent when it approaches target state's position, 
+		/// therefore position is always sent as integer (at least in SendToAll()).
 		private PlayerState serverState;
+		
+		/// Future/target server state. All future changes go here 
+		/// and are applied to serverState when their positions match up 
+		private PlayerState serverTargetState;
+		
 		private Queue<PlayerAction> serverPendingActions;
 		[SyncVar] [Obsolete] private PlayerState serverStateCache; //todo: phase it out, it actually concerns clients
 
@@ -20,19 +27,19 @@ namespace PlayGroup
 
 		/// Amount of soft punishments before the hard one kicks in
 		private readonly int maxWarnings = 3;
-
 		private int playerWarnings;
+
+		/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
 		private Vector2 serverLastDirection;
 
 		//TODO: Remove the space damage coroutine when atmos is implemented
 		private bool isApplyingSpaceDmg;
 
+		/// Whether player is considered to be floating on server
 		private bool consideredFloatingServer => serverState.Impulse != Vector2.zero;
 
-		/// idk if it's robust enough, but it seems to work
+		/// Do current and target server positions match?
 		private bool ServerPositionsMatch => serverTargetState.WorldPosition == serverState.WorldPosition;
-
-		private bool MatrixSwitchAhead => serverTargetState.MatrixId != serverState.MatrixId; //fixme: wonky
 
 		public override void OnStartServer() {
 			PullObjectID = NetworkInstanceId.Invalid;
@@ -40,6 +47,7 @@ namespace PlayGroup
 			InitServerState();
 		}
 
+		/// 
 		[Server]
 		private void InitServerState() {
 			Vector3Int worldPos = Vector3Int.RoundToInt( (Vector2) transform.position ); //cutting off Z-axis & rounding
@@ -49,7 +57,7 @@ namespace PlayGroup
 				MatrixId = matrixAtPoint.Id,
 				WorldPosition = worldPos
 			};
-			Debug.Log( $"{PlayerList.Instance.Get( gameObject ).Name}: InitServerState for {worldPos} found matrix {matrixAtPoint} resulting in\n{state}" );
+//			Debug.Log( $"{PlayerList.Instance.Get( gameObject ).Name}: InitServerState for {worldPos} found matrix {matrixAtPoint} resulting in\n{state}" );
 			serverState = state;
 			serverStateCache = state;
 			serverTargetState = state;
@@ -112,7 +120,7 @@ namespace PlayGroup
 		[Server]
 		public void SetPosition( Vector3 worldPos ) {
 			ClearQueueServer();
-			Vector3Int roundedPos = Vector3Int.RoundToInt( worldPos );
+			Vector3Int roundedPos = Vector3Int.RoundToInt( (Vector2) worldPos ); //cutting off z-axis
 			MatrixInfo newMatrix = MatrixManager.Instance.AtPoint( roundedPos );
 			//Note the client queue reset
 			var newState = new PlayerState {
@@ -135,24 +143,22 @@ namespace PlayGroup
 //				When serverState reaches its planned destination,
 //				embrace all other updates like updated moveNumber and flags
 				serverState = serverTargetState;
-//				if ( MatrixSwitchAhead ) {
-//					Debug.Log( "Hey, it's worth syncing matrix!" );
-					SyncMatrix();
-//				}
+				SyncMatrix();
 				NotifyPlayers();
 			}
 		}
-
+		/// Register player to matrix from serverState (ParentNetId is a SyncVar) 
 		[Server]
 		private void SyncMatrix() {
 			registerTile.ParentNetId = MatrixManager.Instance.Get( serverState.MatrixId ).NetId;
 		}
-
+		/// Send current serverState to just one player
 		[Server]
 		public void NotifyPlayer( GameObject recipient ) {
 			PlayerMoveMessage.Send( recipient, gameObject, serverState );
 		}
 
+		/// Send current serverState to all players
 		[Server]
 		public void NotifyPlayers() {
 			//Do not cache the position if the player is a ghost
@@ -178,12 +184,11 @@ namespace PlayGroup
 			}
 		}
 
-
 		/// Clear all queues and
 		/// inform players of true serverState
 		[Server]
 		private void RollbackPosition() {
-			SetPosition( serverState.Position );
+			SetPosition( serverState.WorldPosition );
 		}
 
 		/// try getting moves from server queue if server and target states match
@@ -195,8 +200,8 @@ namespace PlayGroup
 			}
 		}
 
-		//Currently used to set the pos of a player that has just been dragged by another player
-		//Fixme: prone to exploits
+		///Currently used to set the pos of a player that has just been dragged by another player
+		//Fixme: prone to exploits, very hacky
 		[Command]
 		public void CmdSetPositionFromReset( GameObject fromObj, GameObject otherPlayer, Vector3 setPos ) {
 			if ( fromObj.GetComponent<IPlayerSync>() == null ) //Validation
@@ -241,6 +246,7 @@ namespace PlayGroup
 			if ( !matrixChangeDetected ) {
 				return nextState;
 			}
+			//todo: subscribe to current matrix rotations on spawn
 			var newMatrix = MatrixManager.Instance.Get( nextState.MatrixId );
 			Debug.Log( $"Matrix will change to {newMatrix}" );
 			if ( newMatrix.MatrixMove ) {
@@ -259,6 +265,7 @@ namespace PlayGroup
 		
 		[Server]
 		private void OnRotation(Orientation from, Orientation to) {
+			//fixme: doesn't seem to change orientation for clients from their point of view
 			playerSprites.ChangePlayerDirection( Orientation.DegreeBetween( from, to ) );
 		}
 
@@ -270,6 +277,13 @@ namespace PlayGroup
 				//and inform players if serverState reached targetState afterwards 
 				serverState.WorldPosition =
 					Vector3.MoveTowards( serverState.WorldPosition, serverTargetState.WorldPosition, playerMove.speed * Time.deltaTime );
+				//failsafe
+				var distance = Vector3.Distance( serverState.WorldPosition, serverTargetState.WorldPosition );
+				if ( distance > 1.5 ) {
+					Debug.LogWarning( $"Dist {distance} > 1:{serverState}\n" +
+					                  $"Target    :{serverTargetState}" );
+					serverState.WorldPosition = serverTargetState.WorldPosition;
+				}
 				TryNotifyPlayers();
 			}
 			//Space walk checks
@@ -290,15 +304,21 @@ namespace PlayGroup
 					ClearQueueServer();
 				}
 			}
-			if ( consideredFloatingServer && !isFloating ) {
+			if ( consideredFloatingServer && !isFloating ) 
+			{
 				//finish floating. players will be notified as soon as serverState catches up
 				serverState.Impulse = Vector2.zero;
 				serverTargetState.Impulse = Vector2.zero;
 				serverTargetState.ResetClientQueue = true;
+			
 				//Stopping spacewalk increases move number
 				serverTargetState.MoveNumber++;
+				
 				//removing lastDirection when we hit an obstacle in space
 				serverLastDirection = Vector2.zero;
+				
+				//Notify if position stayed the same
+				TryNotifyPlayers();
 			}
 			CheckSpaceDamage();
 		}

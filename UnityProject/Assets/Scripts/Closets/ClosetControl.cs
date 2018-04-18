@@ -231,7 +231,7 @@ namespace Cupboards
 				if (on)
 				{
 					player.transform.position = transform.position;
-					player.GetComponent<IPlayerSync>().SetPosition(transform.localPosition);
+					player.GetComponent<IPlayerSync>().SetPosition(transform.position);
 				}
 				player.visibleState = on;
 

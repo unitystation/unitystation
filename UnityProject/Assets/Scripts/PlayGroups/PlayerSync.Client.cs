@@ -30,7 +30,6 @@ namespace PlayGroup
 		private bool ClientPositionReady {
 			get {
 				var state = isLocalPlayer ? predictedState : playerState;
-//				return ( Vector2 ) state.WorldPosition == ( Vector2 ) transform.position; //fixme: world pos causes being unable to move in moving ships, kek
 				return ( Vector2 ) state.Position == ( Vector2 ) transform.localPosition;
 			}
 		}
@@ -163,7 +162,7 @@ namespace PlayGroup
 				UpdatePredictedState();
 			}
 		}
-
+		/// Reset client predictedState to last received server state (a.k.a. playerState)
 		private void RollbackPrediction() {
 			predictedState = playerState;
 		}
@@ -182,7 +181,7 @@ namespace PlayGroup
 			blockClientMovement = true;
 			yield return new WaitForSeconds(2f);
 			if ( blockClientMovement ) {
-				Debug.LogWarning( "Looks like you got stuck" );
+				Debug.LogWarning( "Looks like you got stuck. Rolling back predictive moves" );
 				RollbackPrediction();
 			}
 			blockClientMovement = false;
@@ -198,6 +197,7 @@ namespace PlayGroup
 				transform.localPosition = Vector3.MoveTowards( transform.localPosition,
 					targetPos,
 					playerMove.speed * Time.deltaTime );
+				//failsafe
 				if ( Vector3.Distance( transform.localPosition, targetPos ) > 30 ) {
 					transform.localPosition = targetPos;
 				}
@@ -230,7 +230,7 @@ namespace PlayGroup
 					} else {
 						playerState.Impulse = state.Impulse;
 					}
-					Debug.Log($"Client init floating with impulse {LastDirection}. FC={isFloatingClient},PFC={isPseudoFloatingClient}");
+//					Debug.Log($"Client init floating with impulse {LastDirection}. FC={isFloatingClient},PFC={isPseudoFloatingClient}");
 				}
 
 				//Perpetual floating sim
