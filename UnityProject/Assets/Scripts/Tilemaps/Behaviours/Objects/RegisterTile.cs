@@ -40,16 +40,16 @@ namespace Tilemaps.Behaviours.Objects
 			}
 			Unregister();
 			layer = parent.GetComponentInChildren<ObjectLayer>();
-			Matrix = parent.GetComponent<Matrix>();
+			Matrix = parent.GetComponent<Matrix>() ?? parent.GetComponentInChildren<Matrix>();
 			transform.parent = layer.transform; 
 			Register();
 		}
 
-		//Is not network synced, is used for prediction on local client when walking between matricies
+		//Is not network synced, is used for prediction on local client when walking between matrices
 		public void SetParentOnLocal(Transform newParent){
 			Unregister();
 			layer = newParent.GetComponentInChildren<ObjectLayer>();
-			Matrix = newParent.GetComponent<Matrix>();
+			Matrix = newParent.GetComponent<Matrix>() ?? newParent.GetComponentInChildren<Matrix>();
 			transform.parent = layer.transform;
 			Register();
 		}

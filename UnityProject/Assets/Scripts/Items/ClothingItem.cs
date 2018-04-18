@@ -13,7 +13,7 @@ namespace PlayGroup
 	[RequireComponent(typeof(SpriteRenderer))]
 	public class ClothingItem : MonoBehaviour
 	{
-		private Vector2 currentDirection = Vector2.down;
+		private Orientation currentDirection = Orientation.Down;
 		public int reference = -1;
 		private int referenceOffset;
 
@@ -37,7 +37,7 @@ namespace PlayGroup
 			get { return reference; }
 		}
 
-		public Vector2 Direction
+		public Orientation Direction
 		{
 			set
 			{
@@ -106,19 +106,19 @@ namespace PlayGroup
 
 		private void UpdateReferenceOffset()
 		{
-			if (currentDirection == Vector2.down)
+			if (currentDirection == Orientation.Down)
 			{
 				referenceOffset = 0;
 			}
-			if (currentDirection == Vector2.up)
+			if (currentDirection == Orientation.Up)
 			{
 				referenceOffset = 1;
 			}
-			if (currentDirection == Vector2.right)
+			if (currentDirection == Orientation.Right)
 			{
 				referenceOffset = 2;
 			}
-			if (currentDirection == Vector2.left)
+			if (currentDirection == Orientation.Left)
 			{
 				referenceOffset = 3;
 			}

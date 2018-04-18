@@ -2,6 +2,7 @@
 using System.Collections;
 using System.IO;
 using Facepunch.Steamworks;
+using PlayGroup;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -313,6 +314,8 @@ public class CustomNetworkManager : NetworkManager
 		for (var i = 0; i < scripts.Length; i++) {
 			scripts[i].NotifyPlayer(playerGameObject);
 		}
+		//tell player his position (required for spawning in moving ship)
+		playerGameObject.GetComponent<PlayerSync>().NotifyPlayer( playerGameObject );
 		Debug.LogFormat($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms) to {playerGameObject.name}");
 	}
 

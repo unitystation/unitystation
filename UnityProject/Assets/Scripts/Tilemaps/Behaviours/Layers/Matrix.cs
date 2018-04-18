@@ -13,6 +13,8 @@ namespace Tilemaps
 	{
 		private MetaTileMap metaTileMap;
 		private TileList objects;
+		private Vector3Int initialOffset;
+		public Vector3Int InitialOffset => initialOffset;
 
 		private MetaDataLayer metaDataLayer;
 		
@@ -28,6 +30,10 @@ namespace Tilemaps
 			{
 				Debug.LogError("CAST ERROR: Make sure everything is in its proper layer type.");
 			}
+		}
+
+		private void Awake() {
+			initialOffset = Vector3Int.CeilToInt( gameObject.transform.position );
 		}
 
 		public bool IsPassableAt(Vector3Int origin, Vector3Int position)

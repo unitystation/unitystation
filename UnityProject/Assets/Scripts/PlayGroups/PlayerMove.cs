@@ -21,9 +21,6 @@ namespace PlayGroup
 	public class PlayerMove : NetworkBehaviour
 	{
 		private readonly List<KeyCode> pressedKeys = new List<KeyCode>();
-		private RaycastHit2D[] rayHit;
-		private Collider2D curMatrixCol;
-		public LayerMask hitCheckLayers;
 
 		[SyncVar] public bool allowInput = true;
 
@@ -37,10 +34,11 @@ namespace PlayGroup
 			KeyCode.RightArrow
 		};
 
+		public PlayerMatrixDetector playerMatrixDetector;
 		private PlayerSprites playerSprites;
 		private IPlayerSync playerSync;
 
-		private PlayerNetworkActions pna;
+		[HideInInspector] public PlayerNetworkActions pna;
 		[HideInInspector] public PushPull pushPull; //The push pull component attached to this player
 		public float speed = 10;
 
@@ -78,10 +76,13 @@ namespace PlayGroup
 			return new PlayerAction { keyCodes = actionKeys.ToArray() };
 		}
 
-		public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action, bool isReplay)
+		public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action, bool isReplay, Matrix curMatrix = null)
 		{
+			if ( !curMatrix ) {
+				curMatrix = matrix;
+			}
 			Vector3Int direction = GetDirection(action);
-			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay);
+			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay, curMatrix );
 
 			if (adjustedDirection == Vector3.zero) {
 				Interact(currentPosition, direction);
@@ -112,7 +113,7 @@ namespace PlayGroup
 			ProcessAction(action);
 
 			if (diagonalMovement) {
-				return GetMoveDirection(pressedKeys);
+				return GetMoveDirection();
 			}
 			if (pressedKeys.Count > 0) {
 				return GetMoveDirection(pressedKeys[pressedKeys.Count - 1]);
@@ -132,7 +133,7 @@ namespace PlayGroup
 			}
 		}
 
-		private Vector3Int GetMoveDirection(List<KeyCode> actions)
+		private Vector3Int GetMoveDirection()
 		{
 			Vector3Int direction = Vector3Int.zero;
 			for (int i = 0; i < pressedKeys.Count; i++) {
@@ -142,11 +143,16 @@ namespace PlayGroup
 			direction.y = Mathf.Clamp(direction.y, -1, 1);
 
 			if (!isGhost && PlayerManager.LocalPlayer == gameObject) {
-				playerSprites.CmdChangeDirection(new Vector2(direction.x, direction.y));
+				playerSprites.CmdChangeDirection(Orientation.From(direction));
 				//Prediction:
-				playerSprites.FaceDirection(new Vector2(direction.x, direction.y));
+				playerSprites.FaceDirection(Orientation.From(direction));
 			}
-
+			
+			MatrixInfo matrixInfo = MatrixManager.Instance.Get( matrix );
+			if ( matrixInfo.MatrixMove ) {
+				//Converting world direction to local direction
+				direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.Orientation.EulerInverted * direction);
+			}
 			return direction;
 		}
 
@@ -193,7 +199,7 @@ namespace PlayGroup
 		/// <summary>
 		///     Check current and next tiles to determine their status and if movement is allowed
 		/// </summary>
-		private Vector3Int AdjustDirection(Vector3Int currentPosition, Vector3Int direction, bool isReplay)
+		private Vector3Int AdjustDirection( Vector3Int currentPosition, Vector3Int direction, bool isReplay, Matrix curMatrix )
 		{
 			if (isGhost) {
 				return direction;
@@ -204,44 +210,13 @@ namespace PlayGroup
 			//isReplay tells AdjustDirection if the move being carried out is a replay move for prediction or not
 			//a replay move is a move that has already been carried out on the LocalPlayer's client
 			if (!isReplay) {
-				
-				Vector3 newRayPos = transform.position + direction;
-				rayHit = Physics2D.RaycastAll(newRayPos, (Vector3)direction, 0.2f, hitCheckLayers);
-			//	Debug.DrawLine(newRayPos, newRayPos + ((Vector3)direction * 0.2f), Color.red, 1f);
-
-				//Detect new matrices
-				for (int i = 0; i < rayHit.Length; i++) {
-					//checks to see if the matrix has changed
-					if (rayHit[i].collider.gameObject.layer == 24
-						&& rayHit[i].collider != curMatrixCol) {
-						curMatrixCol = rayHit[i].collider;
-						ChangeMatricies(rayHit[i].collider.gameObject.transform.parent);
-						Debug.Log("Change Matricies");
-					}
-
-					//Detected windows or walls across matrices or from space:
-					if (rayHit[i].collider.gameObject.layer == 9
-					   || rayHit[i].collider.gameObject.layer == 18) {
-						return Vector3Int.zero;
-					}
-
-					//Door closed layer (matrix independent)
-					if (rayHit[i].collider.gameObject.layer == 17) {
-						DoorController doorController = rayHit[i].collider.gameObject.GetComponent<DoorController>();
-
-						// Attempt to open door that could be on another layer
-						if (doorController != null && allowInput) {
-							pna.CmdCheckDoorPermissions(doorController.gameObject, gameObject);
-							allowInput = false;
-							StartCoroutine(DoorInputCoolDown());
-						}
-						return Vector3Int.zero;
-					}
+				//Check the high level matrix detector
+				if ( !playerMatrixDetector.CanPass( currentPosition, direction, curMatrix ) ) {
+					return Vector3Int.zero;
 				}
-
 				//Not to be checked while performing a replay:
 				if (playerSync.PullingObject != null) {
-					if (matrix.ContainsAt(newPos, playerSync.PullingObject)) {
+					if (curMatrix.ContainsAt(newPos, playerSync.PullingObject)) {
 						//Vector2 directionToPullObj =
 						//	playerSync.pullingObject.transform.localPosition - transform.localPosition;
 						//if (directionToPullObj.normalized != playerSprites.currentDirection) {
@@ -255,13 +230,13 @@ namespace PlayGroup
 				}
 			}
 
-			if (matrix.IsPassableAt(currentPosition, newPos) || matrix.ContainsAt(newPos, gameObject)) {
+			if (curMatrix.IsPassableAt(currentPosition, newPos) || curMatrix.ContainsAt(newPos, gameObject)) {
 				return direction;
 			}
 
 			//This is only for replay (to ignore any interactions with the pulled obj):
 			if (playerSync.PullingObject != null) {
-				if (matrix.ContainsAt(newPos, playerSync.PullingObject)) {
+				if (curMatrix.ContainsAt(newPos, playerSync.PullingObject)) {
 					return direction;
 				}
 			}
@@ -272,32 +247,34 @@ namespace PlayGroup
 
 		private void Interact(Vector3 currentPosition, Vector3 direction)
 		{
-			Vector3Int position = Vector3Int.RoundToInt(currentPosition + direction);
+			Vector3Int targetPos = Vector3Int.RoundToInt(currentPosition + direction);
+			var worldPos = MatrixManager.Instance.LocalToWorldInt( currentPosition, matrix );
+			var worldTarget = MatrixManager.Instance.LocalToWorldInt( targetPos, matrix );
 
-			InteractDoor(currentPosition, direction);
-
+			InteractDoor(worldPos, worldTarget);
+			//TODO: adapt for cross-matrix
 			//Is the object pushable (iterate through all of the objects at the position):
-			PushPull[] pushPulls = matrix.Get<PushPull>(position).ToArray();
+			PushPull[] pushPulls = matrix.Get<PushPull>(targetPos).ToArray();
 			for (int i = 0; i < pushPulls.Length; i++) {
 				if (pushPulls[i] && pushPulls[i].gameObject != gameObject) {
 					pushPulls[i].TryPush(gameObject, direction);
 				}
 			}
 		}
-
-		private void InteractDoor(Vector3 currentPosition, Vector3 direction)
+		/// Cross-matrix now! uses world positions
+		private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
 		{
 			// Make sure there is a door controller
-			Vector3Int position = Vector3Int.RoundToInt(currentPosition + direction);
-
-			DoorController doorController = matrix.GetFirst<DoorController>(position);
+			DoorController doorController = MatrixManager.Instance.GetFirst<DoorController>(targetPos);
 
 			if (!doorController) {
-				doorController = matrix.GetFirst<DoorController>(Vector3Int.RoundToInt(currentPosition));
+				doorController = MatrixManager.Instance.GetFirst<DoorController>(Vector3Int.RoundToInt(currentPos));
 
 				if (doorController) {
 					RegisterDoor registerDoor = doorController.GetComponent<RegisterDoor>();
-					if (registerDoor.IsPassable(position)) {
+					
+					Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(targetPos, matrix);
+					if (registerDoor.IsPassable(localPos)) {
 						doorController = null;
 					}
 				}
@@ -313,27 +290,10 @@ namespace PlayGroup
 		}
 
 		//FIXME an ugly temp fix for an ugly problem. Will implement callbacks after 0.1.3
-		private IEnumerator DoorInputCoolDown()
+		public IEnumerator DoorInputCoolDown()
 		{
 			yield return new WaitForSeconds(0.3f);
 			allowInput = true;
-		}
-
-		public void ChangeMatricies(Transform newParent)
-		{
-//			Debug.Log("Not changing matrices as it fucks up move");
-//			return;
-			if (isServer) {
-				NetworkIdentity netIdent = newParent.GetComponent<NetworkIdentity>();
-				if (registerTile.ParentNetId != netIdent.netId) {
-					registerTile.ParentNetId = netIdent.netId;
-					playerSync.SetPosition(transform.localPosition);
-				}
-			} else {
-				registerTile.SetParentOnLocal(newParent);
-			}
-			Camera.main.transform.parent = newParent;
-			Debug.Log("Change Matricies");
 		}
 	}
 }

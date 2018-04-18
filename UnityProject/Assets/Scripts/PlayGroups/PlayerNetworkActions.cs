@@ -477,16 +477,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (conscious)
 		{
 			playerMove.allowInput = true;
-			RpcSetPlayerRot(false, 0f);
+			playerSprites.RpcSetPlayerRot( 0f);
 		}
 		else
 		{
 			playerMove.allowInput = false;
-			RpcSetPlayerRot(false, -90f);
+			playerSprites.RpcSetPlayerRot( -90f);
 			soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
 			if (Random.value > 0.5f)
 			{
-				playerSprites.currentDirection = Vector2.up;
+				playerSprites.currentDirection = Orientation.Up;
 			}
 		}
 	}
@@ -521,29 +521,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	//For falling over and getting back up again over network
-
-	[ClientRpc]
-	public void RpcSetPlayerRot(bool temporary, float rot)
-	{
-		//		Debug.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
-		SpriteRenderer[] spriteRends = GetComponentsInChildren<SpriteRenderer>();
-		foreach (SpriteRenderer sR in spriteRends)
-		{
-			sR.sortingLayerName = "Blood";
-		}
-
-		gameObject.GetComponent<RegisterPlayer>().IsBlocking = false;
-		Vector3 rotationVector = transform.rotation.eulerAngles;
-		rotationVector.z = rot;
-		transform.rotation = Quaternion.Euler(rotationVector);
-		//So other players can walk over the Unconscious
-		playerSprites.AdjustSpriteOrders(-30);
-		if (temporary)
-		{
-			//TODO Coroutine with timer to get back up again
-		}
-	}
 
 	[Command]
 	public void CmdCommitSuicide()
