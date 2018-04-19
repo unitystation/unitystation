@@ -8,7 +8,7 @@ namespace Tilemaps.Behaviours.Layers
 	[ExecuteInEditMode]
 	public class Layer : MonoBehaviour
 	{
-		public LayerType LayerType;
+		public LayerType LayerType; 
 		protected Tilemap tilemap;
 
 		public BoundsInt Bounds => tilemap.cellBounds;
@@ -18,14 +18,21 @@ namespace Tilemaps.Behaviours.Layers
 			tilemap = GetComponent<Tilemap>();
 		}
 
-		public void Start(){
-			if(!Application.isPlaying){
+		public void Start()
+		{
+			if (!Application.isPlaying)
+			{
 				return;
 			}
-			if(MatrixManager.Instance == null){
+
+			if (MatrixManager.Instance == null)
+			{
 				Debug.LogError("Matrix Manager is missing from the scene");
-			} else {
-				if (LayerType == LayerType.Walls){
+			}
+			else
+			{
+				if (LayerType == LayerType.Walls)
+				{
 					MatrixManager.Instance.wallTileMaps.Add(GetComponent<TilemapCollider2D>(), tilemap);
 				}
 			}
@@ -37,9 +44,9 @@ namespace Tilemaps.Behaviours.Layers
 			{
 				return true;
 			}
-			
+
 			BasicTile tileTo = tilemap.GetTile<BasicTile>(to);
-			
+
 			return TileUtils.IsPassable(tileTo);
 		}
 
@@ -52,7 +59,7 @@ namespace Tilemaps.Behaviours.Layers
 		public virtual bool IsAtmosPassableAt(Vector3Int position)
 		{
 			BasicTile tile = tilemap.GetTile<BasicTile>(position);
-			return  TileUtils.IsAtmosPassable(tile);
+			return TileUtils.IsAtmosPassable(tile);
 		}
 
 		public virtual bool IsSpaceAt(Vector3Int position)

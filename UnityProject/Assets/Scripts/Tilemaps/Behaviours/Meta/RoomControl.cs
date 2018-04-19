@@ -19,6 +19,11 @@ namespace Tilemaps.Behaviours.Meta
 			InitializeRooms();
 		}
 
+		public void UpdatePosition(Vector3Int position)
+		{
+			
+		}
+
 		private void InitializeRooms()
 		{
 			BoundsInt bounds = metaTileMap.GetBounds();
