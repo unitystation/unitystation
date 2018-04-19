@@ -51,8 +51,8 @@ namespace PlayGroup
 
 		public override string ToString() {
 			return
-				$"Move #{MoveNumber}, localPos:{Position}, worldPos:{WorldPosition} {nameof( Impulse )}:{Impulse}, " +
-				$"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, matrix #{MatrixId}";
+				$"[Move #{MoveNumber}, localPos:{(Vector2)Position}, worldPos:{(Vector2)WorldPosition} {nameof( Impulse )}:{Impulse}, " +
+				$"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, matrix #{MatrixId}]";
 		}
 	}
 
@@ -326,20 +326,23 @@ namespace PlayGroup
 		private PlayerState NextState( PlayerState state, PlayerAction action, out bool matrixChanged, bool isReplay = false ) {
 			var newState = state;
 			newState.MoveNumber++;
-			newState.Position = playerMove.GetNextPosition( Vector3Int.RoundToInt( state.Position ), action, isReplay );
+			newState.Position = playerMove.GetNextPosition( Vector3Int.RoundToInt( state.Position ), action, isReplay, MatrixManager.Instance.Get( newState.MatrixId ).Matrix );
 
 			var proposedWorldPos = newState.WorldPosition;
 			MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint( Vector3Int.RoundToInt(proposedWorldPos) );
-			bool matrixChangeDetected =
-				!Equals( matrixAtPoint, MatrixInfo.Invalid ) && matrixAtPoint.Matrix != registerTile.Matrix;
+			bool matrixChangeDetected = !Equals( matrixAtPoint, MatrixInfo.Invalid ) && matrixAtPoint.Id != state.MatrixId;
+
+			//Switching matrix while keeping world pos
+			newState.MatrixId = matrixAtPoint.Id;
+			newState.WorldPosition = proposedWorldPos;
+
+//			Debug.Log( $"NextState: src={state} proposedPos={newState.WorldPosition}\n" +
+//			           $"mAtPoint={matrixAtPoint.Id} change={matrixChangeDetected} newState={newState}" );
+			
 			if ( !matrixChangeDetected ) {
 				matrixChanged = false;
 				return newState;
 			}
-			
-			//Switching matrix while keeping world pos
-			newState.MatrixId = matrixAtPoint.Id;
-			newState.WorldPosition = proposedWorldPos;
 			
 			matrixChanged = true;
 			return newState;

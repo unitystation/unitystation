@@ -59,11 +59,11 @@ namespace PlayGroup
 		private void DoAction() {
 			PlayerAction action = playerMove.SendAction();
 			if ( action.keyCodes.Length != 0 && !IsPointlessMove( predictedState, action ) ) {
-//				Debug.Log($"Client requesting {action} ({pendingActions.Count} in queue)");
 
 				//experiment: not enqueueing or processing action if floating.
 				//arguably it shouldn't really be like that in the future 
 				if ( !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement ) {
+//				Debug.Log($"{gameObject.name} requesting {action.Direction()} ({pendingActions.Count} in queue)");
 					pendingActions.Enqueue( action );
 
 					LastDirection = action.Direction();
@@ -90,25 +90,23 @@ namespace PlayGroup
 					bool isReplay = predictedState.MoveNumber <= curPredictedMove;
 					bool matrixChanged;
 					tempState = NextState( tempState, action, out matrixChanged, isReplay );
-					if ( matrixChanged ) {
-						Debug.Log( $"Predictive matrix change {tempState}, {pendingActions.Count} pending" );
-					}
+//					if ( matrixChanged ) {
+//						Debug.Log( $"{gameObject.name}: Predictive matrix change to {tempState}, {pendingActions.Count} pending" );
+//					}
+//					Debug.Log($"Generated {tempState}");
 				}
 				predictedState = tempState;
-//				Debug.Log($"Client moving to {predictedState}");
 			}
 		}
 
 		/// Called when PlayerMoveMessage is received
 		public void UpdateClientState( PlayerState state ) {
 			playerState = state;
-//			Debug.Log( $"Got server update {playerState}" );
+//			if ( !isServer ) {
+//				Debug.Log( $"Got server update {playerState}" );
+//			}
 
 			if ( playerState.MatrixId != predictedState.MatrixId && isLocalPlayer ) {
-				MatrixInfo oldMatrix = MatrixManager.Instance.Get( predictedState.MatrixId );
-				MatrixInfo newMatrix = MatrixManager.Instance.Get( playerState.MatrixId );
-				Debug.Log( $"Client didn't expect matrix change from {oldMatrix} to {newMatrix}" );
-
 				PlayerState crossMatrixState = predictedState;
 				crossMatrixState.MatrixId = playerState.MatrixId;
 				crossMatrixState.WorldPosition = predictedState.WorldPosition;
@@ -134,11 +132,15 @@ namespace PlayGroup
 			//or server is just approving old moves when you weren't flying yet
 			if ( isFloatingClient || isPseudoFloatingClient ) {
 				//rollback prediction if either wrong impulse on given step OR both impulses are non-zero and point in different directions 
-				bool shouldReset = predictedState.Impulse != playerState.Impulse 
-				                   && ( predictedState.MoveNumber == playerState.MoveNumber
-				                        || playerState.Impulse != Vector2.zero && predictedState.Impulse != Vector2.zero );
-				if ( shouldReset ) {
-					Debug.Log( $"Reset predictedState {predictedState} with {playerState}" );
+				bool spacewalkReset = predictedState.Impulse != playerState.Impulse
+				                 && ( predictedState.MoveNumber == playerState.MoveNumber
+				                      || playerState.Impulse != Vector2.zero && predictedState.Impulse != Vector2.zero );
+				bool wrongFloatDir = playerState.MoveNumber < predictedState.MoveNumber &&
+				                playerState.Impulse != Vector2.zero &&
+				                playerState.Impulse.normalized != (Vector2)(predictedState.Position  - playerState.Position).normalized;
+				if ( spacewalkReset || wrongFloatDir ) {
+					Debug.LogWarning( $"{nameof(spacewalkReset)}={spacewalkReset}, {nameof(wrongFloatDir)}={wrongFloatDir}" );
+					ClearQueueClient();
 					RollbackPrediction();
 				}
 				return;
@@ -148,8 +150,9 @@ namespace PlayGroup
 				bool serverAhead = playerState.MoveNumber > predictedState.MoveNumber;
 				bool posMismatch = playerState.MoveNumber == predictedState.MoveNumber
 				                   && playerState.Position != predictedState.Position;
-				if ( serverAhead || posMismatch ) {
-					Debug.LogWarning( $"serverAhead={serverAhead}, posMismatch={posMismatch}" );
+				bool wrongMatrix = playerState.MatrixId != predictedState.MatrixId && playerState.MoveNumber == predictedState.MoveNumber;
+				if ( serverAhead || posMismatch || wrongMatrix ) {
+					Debug.LogWarning( $"{nameof(serverAhead)}={serverAhead}, {nameof(posMismatch)}={posMismatch}, {nameof(wrongMatrix)}={wrongMatrix}" );
 					ClearQueueClient();
 					RollbackPrediction();
 				} else {
@@ -163,7 +166,9 @@ namespace PlayGroup
 			}
 		}
 		/// Reset client predictedState to last received server state (a.k.a. playerState)
-		private void RollbackPrediction() {
+		public void RollbackPrediction() {
+//			Debug.Log( $"Rollback {predictedState}\n" +
+//			           $"To       {playerState}" );
 			predictedState = playerState;
 		}
 
@@ -223,6 +228,11 @@ namespace PlayGroup
 			}
 			if ( isFloating ) {
 				if ( state.Impulse == Vector2.zero && LastDirection != Vector2.zero ) {
+					if ( pendingActions == null || pendingActions.Count == 0 ) {
+//						Debug.LogWarning( "Just saved your ass; not initiating predictive spacewalk without queued actions" );
+						LastDirection = Vector2.zero;
+						return;
+					}
 					//client initiated space dive. 						
 					state.Impulse = LastDirection;
 					if ( isLocalPlayer ) {
@@ -230,7 +240,7 @@ namespace PlayGroup
 					} else {
 						playerState.Impulse = state.Impulse;
 					}
-//					Debug.Log($"Client init floating with impulse {LastDirection}. FC={isFloatingClient},PFC={isPseudoFloatingClient}");
+					Debug.Log($"Client init floating with impulse {LastDirection}. FC={isFloatingClient},PFC={isPseudoFloatingClient}");
 				}
 
 				//Perpetual floating sim
