@@ -43,6 +43,15 @@ public class MatrixManager : MonoBehaviour {
 		}
 		return true;
 	}
+	/// Cross-matrix space check by world pos
+	public bool IsSpaceAt( Vector3Int worldPos ) {
+		for ( var i = 0; i < activeMatrices.Count; i++ ) {
+			if ( !activeMatrices[i].Matrix.IsSpaceAt( WorldToLocalInt(worldPos, activeMatrices[i]) ) ) {
+				return false;
+			}
+		}
+		return true;
+	}
 	/// Cross-matrix passable check by world pos //FIXME: not truly cross-matrix. can walk diagonally between matrices
 	public bool IsPassableAt( Vector3Int worldOrigin, Vector3Int worldTarget ) {
 		for ( var i = 0; i < activeMatrices.Count; i++ ) {
@@ -84,7 +93,7 @@ public class MatrixManager : MonoBehaviour {
 	///Finding all matrices
 	private void InitMatrices() {
 		Matrix[] findMatrices = FindObjectsOfType<Matrix>();
-		if ( findMatrices.Length < 2 ) { 
+		if ( findMatrices.Length < 4 ) { 
 //			Debug.Log( "Matrix init failure, will try in 0.5" );
 			StartCoroutine(WaitForLoad());
 			return;
