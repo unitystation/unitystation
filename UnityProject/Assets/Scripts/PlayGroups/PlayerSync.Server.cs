@@ -230,6 +230,8 @@ namespace PlayGroup
 				PlayerState nextState = NextStateServer( serverTargetState, serverPendingActions.Dequeue() );
 				serverLastDirection = Vector2Int.RoundToInt( nextState.WorldPosition - serverTargetState.WorldPosition );
 				serverTargetState = nextState;
+				//In case positions already match
+				TryNotifyPlayers();
 //				Debug.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
 			} else {
 				Debug.LogWarning(
@@ -252,12 +254,12 @@ namespace PlayGroup
 			if ( newMatrix.MatrixMove ) {
 				//Subbing to new matrix rotations
 				newMatrix.MatrixMove.onRotation += OnRotation;
-				Debug.Log( $"Registered rotation listener to {newMatrix.MatrixMove}" );
+//				Debug.Log( $"Registered rotation listener to {newMatrix.MatrixMove}" );
 			}
 			//Unsubbing from old matrix rotations
 			MatrixMove oldMatrixMove = MatrixManager.Instance.Get( matrix ).MatrixMove;
 			if ( oldMatrixMove ) {
-				Debug.Log( $"Unregistered rotation listener from {oldMatrixMove}" );
+//				Debug.Log( $"Unregistered rotation listener from {oldMatrixMove}" );
 				oldMatrixMove.onRotation -= OnRotation;
 			}
 			return nextState;
@@ -326,7 +328,7 @@ namespace PlayGroup
 		/// Checking whether player should suffocate
 		[Server]
 		private void CheckSpaceDamage() {
-			if ( matrix.IsSpaceAt( Vector3Int.RoundToInt( serverState.Position ) )
+			if ( MatrixManager.Instance.IsSpaceAt( Vector3Int.RoundToInt( serverState.WorldPosition ) )
 			     && !healthBehaviorScript.IsDead && !isApplyingSpaceDmg ) {
 //				Hurting people in space even if they are next to the wall
 				StartCoroutine( ApplyTempSpaceDamage() );

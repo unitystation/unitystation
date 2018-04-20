@@ -81,7 +81,7 @@ namespace PlayGroup
 			if ( !curMatrix ) {
 				curMatrix = matrix;
 			}
-			Vector3Int direction = GetDirection(action);
+			Vector3Int direction = GetDirection(action, MatrixManager.Instance.Get( curMatrix ));
 			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay, curMatrix );
 
 			if (adjustedDirection == Vector3.zero) {
@@ -108,12 +108,12 @@ namespace PlayGroup
 			return "QWERTY";
 		}
 
-		private Vector3Int GetDirection(PlayerAction action)
+		private Vector3Int GetDirection(PlayerAction action, MatrixInfo matrixInfo)
 		{
 			ProcessAction(action);
 
 			if (diagonalMovement) {
-				return GetMoveDirection();
+				return GetMoveDirection(matrixInfo);
 			}
 			if (pressedKeys.Count > 0) {
 				return GetMoveDirection(pressedKeys[pressedKeys.Count - 1]);
@@ -133,7 +133,7 @@ namespace PlayGroup
 			}
 		}
 
-		private Vector3Int GetMoveDirection()
+		private Vector3Int GetMoveDirection(MatrixInfo matrixInfo)
 		{
 			Vector3Int direction = Vector3Int.zero;
 			for (int i = 0; i < pressedKeys.Count; i++) {
@@ -148,7 +148,6 @@ namespace PlayGroup
 				playerSprites.FaceDirection(Orientation.From(direction));
 			}
 			
-			MatrixInfo matrixInfo = MatrixManager.Instance.Get( matrix );
 			if ( matrixInfo.MatrixMove ) {
 				//Converting world direction to local direction
 				direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.Orientation.EulerInverted * direction);

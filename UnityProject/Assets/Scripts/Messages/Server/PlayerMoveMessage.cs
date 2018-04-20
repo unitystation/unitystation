@@ -16,11 +16,16 @@ public class PlayerMoveMessage : ServerMessage
 	{
 //		Debug.Log("Processed " + ToString());
 		yield return WaitFor(SubjectPlayer);
-		var playerSync = NetworkObject.GetComponent<IPlayerSync>();
+		var playerSync = NetworkObject.GetComponent<PlayerSync>();
 		playerSync.UpdateClientState(State);
 		if (State.ResetClientQueue)
 		{
 			playerSync.ClearQueueClient();
+		}
+		if ( State.MoveNumber == 0 ) {
+			Debug.Log( "Zero step rollback" );
+			playerSync.ClearQueueClient();
+			playerSync.RollbackPrediction();
 		}
 		
 	}
