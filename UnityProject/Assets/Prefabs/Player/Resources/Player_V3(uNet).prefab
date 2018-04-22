@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 114803877374308862}
   - component: {fileID: 114449635359748350}
   - component: {fileID: 50851566022184656}
+  - component: {fileID: 114908475728415800}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -1575,7 +1576,6 @@ MonoBehaviour:
   matrixLayerMask:
     serializedVersion: 2
     m_Bits: 17170944
-  pullingObject: {fileID: 0}
 --- !u!114 &114626459693876662
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1780,14 +1780,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ce4d8a508787441857fade34082bd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitCheckLayers:
-    serializedVersion: 2
-    m_Bits: 17039872
   allowInput: 1
   diagonalMovement: 1
   azerty: 0
   isGhost: 0
   keyCodes: 7700000061000000730000006400000011010000140100001201000013010000
+  playerMatrixDetector: {fileID: 114908475728415800}
+  pna: {fileID: 0}
   pushPull: {fileID: 0}
   speed: 6
 --- !u!114 &114803877374308862
@@ -1946,6 +1945,22 @@ MonoBehaviour:
     i15: 179
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114908475728415800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dff9c33e40744335a3e753ccb0e2ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitCheckLayers:
+    serializedVersion: 2
+    m_Bits: 17170944
+  playerMove: {fileID: 114792299177679754}
+  playerSync: {fileID: 114617980452984522}
 --- !u!114 &114966985701112248
 MonoBehaviour:
   m_ObjectHideFlags: 1

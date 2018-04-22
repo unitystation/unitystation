@@ -32,9 +32,7 @@ namespace Tilemaps.Utils
 
 			IReadOnlyList<Sprite> sprites = GetObjectSprites(gameObject);
 
-			Sprite sprite = MergeSprites(sprites);
-
-			return SaveSpriteToEditorPath(sprite, gameObject);
+			return SaveSpriteToEditorPath(sprites, gameObject);
 		}
 
 		public static Sprite Create(MetaTile metaTile)
@@ -51,9 +49,7 @@ namespace Tilemaps.Utils
 				sprites.Add(tile.PreviewSprite);
 			}
 
-			Sprite sprite = MergeSprites(sprites);
-
-			return SaveSpriteToEditorPath(sprite, metaTile);
+			return SaveSpriteToEditorPath(sprites, metaTile);
 		}
 
 		private static IReadOnlyList<Sprite> GetObjectSprites(GameObject gameObject)
@@ -80,7 +76,7 @@ namespace Tilemaps.Utils
 
 		private static Sprite MergeSprites(IReadOnlyList<Sprite> sprites)
 		{
-			Color[] colors = new Color[1024];
+			Color[] colors = new Color[(int) (sprites[0].rect.width * sprites[0].rect.height)];
 			foreach (Sprite s in sprites)
 			{
 				Rect rect = s.rect;
@@ -107,8 +103,10 @@ namespace Tilemaps.Utils
 				old.pixelsPerUnit);
 		}
 
-		private static Sprite SaveSpriteToEditorPath(Sprite sprite, Object obj)
+		private static Sprite SaveSpriteToEditorPath(IReadOnlyList<Sprite> sprites, Object obj)
 		{
+			Sprite sprite = MergeSprites(sprites);
+			
 			string path = GetSpritePath(obj);
 
 			string dir = Path.GetDirectoryName(path);

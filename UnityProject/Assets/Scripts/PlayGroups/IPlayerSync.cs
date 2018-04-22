@@ -12,8 +12,8 @@ namespace PlayGroup
 		/// <summary>
 		///     Manually set a player to a specific position
 		/// </summary>
-		/// <param name="pos">The new position to "teleport" player</param>
-		void SetPosition(Vector3 pos);
+		/// <param name="worldPos">The new position to "teleport" player</param>
+		void SetPosition(Vector3 worldPos);
 
 		void PullReset(NetworkInstanceId netID);
 //		bool InvokeCommand(int cmdHash, NetworkReader reader);

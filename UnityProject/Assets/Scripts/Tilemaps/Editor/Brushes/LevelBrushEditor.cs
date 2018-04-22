@@ -72,9 +72,12 @@ namespace Tilemaps.Editor.Brushes
 				_currentPreviewTile = tile;
 			}
 
-			for (int i = 0; i < previewTiles.Length; i++)
+			if (previewTiles != null)
 			{
-				SetPreviewTile(metaTilemap, position, previewTiles[i]);
+				for (int i = 0; i < previewTiles.Length; i++)
+				{
+					SetPreviewTile(metaTilemap, position, previewTiles[i]);
+				}
 			}
 
 			_currentPreviewTilemap = metaTilemap;

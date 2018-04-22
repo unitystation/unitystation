@@ -1,49 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements.StyleEnums;
 using UnityEngine.Networking;
-
-public struct MatrixOrientation
-{
-	public static readonly MatrixOrientation 
-		Up = new MatrixOrientation(0),
-		Right = new MatrixOrientation(90),
-	 	Down = new MatrixOrientation(180),
-		Left = new MatrixOrientation(270);
-	private static readonly List<MatrixOrientation> sequence = new List<MatrixOrientation> {Up, Left, Down, Right};
-	public readonly int degree;
-
-	private MatrixOrientation(int degree)
-	{
-		this.degree = degree;
-	}
-
-	public MatrixOrientation Next()
-	{
-		int index = sequence.IndexOf(this);
-		if (index + 1 >= sequence.Count || index == -1)
-		{
-			return sequence[0];
-		}
-		return sequence[index + 1];
-	}
-
-	public MatrixOrientation Previous()
-	{
-		int index = sequence.IndexOf(this);
-		if (index <= 0)
-		{
-			return sequence[sequence.Count-1];
-		}
-		return sequence[index - 1];
-	}
-
-	public override string ToString()
-	{
-		return $"{degree}";
-	}
-}
 
 public struct MatrixState
 {
@@ -53,8 +10,8 @@ public struct MatrixState
 	public float Speed;
 	public Vector2 Direction; //Direction of movement
 	public Vector3 Position;
-	/// Matrix rotation. Default is upright (MatrixOrientation.Up)
-	public MatrixOrientation Orientation;
+	/// Matrix rotation. Default is upright (Orientation.Up)
+	public Orientation Orientation;
 
 	public override string ToString() {
 		return $"{nameof( Inform )}: {Inform}, {nameof( IsMoving )}: {IsMoving}, {nameof( Speed )}: {Speed}, " +
@@ -74,7 +31,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	private bool SafetyProtocolsOn { get; set; }
 	private bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
-	private bool isRotatingServer => isRotatingClient; //todo: calculate rotation time on server instead
+	private bool isRotatingServer => IsRotatingClient; //todo: calculate rotation time on server instead
 	
 	//client-only values
 	public MatrixState ClientState => clientState;
@@ -83,7 +40,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	/// Is only present to match server's flight routines 
 	private MatrixState clientTargetState; 
 	private bool isMovingClient => clientState.IsMoving && clientState.Speed > 0f;
-	private bool isRotatingClient => transform.rotation.eulerAngles.z != clientState.Orientation.degree;
+	public bool IsRotatingClient => transform.rotation.eulerAngles.z != clientState.Orientation.Degree;
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
 	
 	//editor (global) values
@@ -95,11 +52,18 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	public KeyCode startKey = KeyCode.G;
 	public KeyCode leftKey = KeyCode.Keypad4;
 	public KeyCode rightKey = KeyCode.Keypad6;
+	///initial pos for offset calculation
+	public Vector3Int InitialPos => Vector3Int.RoundToInt(initialPosition);
+	[SyncVar] private Vector3 initialPosition;
+	/// local pivot point
+	public Vector3Int Pivot => Vector3Int.RoundToInt(pivot);
+	[SyncVar] private Vector3 pivot;
 
 	public override void OnStartServer()
 	{
-		InitServerState();
 		base.OnStartServer();
+		InitServerState();
+		NotifyPlayers();
 	}
 
 	[Server]
@@ -111,10 +75,15 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		} else {
 			serverState.Direction = Vector2Int.RoundToInt(flyingDirection);
 		}
+		initialPosition = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
+		var child = transform.GetChild( 0 );
+		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
+		pivot =  initialPosition - childPosition;
+		Debug.Log( $"Calculated pivot {pivot} for {gameObject.name}" );
+		
 		serverState.Speed = 1f;
-		serverState.Position =
-			Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
-		serverState.Orientation = MatrixOrientation.Up;
+		serverState.Position = initialPosition;
+		serverState.Orientation = Orientation.Up;
 		serverTargetState = serverState;
 	}
 
@@ -203,15 +172,15 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	/// Clientside movement routine
 	private void CheckMovement()
 	{
-		if ( isRotatingClient ) {
-			bool needsRotation = !Mathf.Approximately( transform.rotation.eulerAngles.z, clientState.Orientation.degree );
+		if ( IsRotatingClient ) {
+			bool needsRotation = !Mathf.Approximately( transform.rotation.eulerAngles.z, clientState.Orientation.Degree );
 			if ( needsRotation ) {
 				transform.rotation =
-					Quaternion.RotateTowards( transform.rotation, Quaternion.Euler( 0, 0, clientState.Orientation.degree ),
+					Quaternion.RotateTowards( transform.rotation, Quaternion.Euler( 0, 0, clientState.Orientation.Degree ),
 						Time.deltaTime * 90 );
 			} else {
 				// Finishes the job of Lerp and straightens the ship with exact angle value
-				transform.rotation = Quaternion.Euler( 0, 0, clientState.Orientation.degree );
+				transform.rotation = Quaternion.Euler( 0, 0, clientState.Orientation.Degree );
 			}
 		} else if ( isMovingClient ) {
 			//Only move target if rotation is finished
@@ -229,7 +198,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 				return;
 			}
 //			Activate warp speed if object gets too far away or have to rotate
-			bool shouldWarp = distance > 2 || isRotatingClient;
+			bool shouldWarp = distance > 2 || IsRotatingClient;
 			transform.position =
 				Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );		
 		}
@@ -285,9 +254,15 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	/// Called when MatrixMoveMessage is received
 	public void UpdateClientState( MatrixState newState )
 	{
+		if ( !Equals(clientState.Orientation, newState.Orientation) ) {
+			onRotation?.Invoke(clientState.Orientation, newState.Orientation);
+		}
 		clientState = newState;
 		clientTargetState = newState;
 	}
+
+	public delegate void OnRotation(Orientation from, Orientation to);
+	public event OnRotation onRotation; //fixme: doesn't work for clients
 
 	///predictive perpetual flying
 	private void SimulateStateMovement()
@@ -299,7 +274,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 					clientTargetState.Position,
 					clientState.Speed * Time.deltaTime );
 		}
-		if ( isMovingClient && !isRotatingClient ) {
+		if ( isMovingClient && !IsRotatingClient ) {
 			Vector3Int goal = Vector3Int.RoundToInt( clientState.Position + ( Vector3 ) clientTargetState.Direction );
 				//keep moving
 				if ( ClientPositionsMatch ) {
@@ -366,7 +341,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		serverTargetState.Direction = newDirection;
 		RequestNotify();
 	}
-	
+#if UNITY_EDITOR
 	//Visual debug
 	private Vector3 size1 = Vector3.one;
 	private Vector3 size2 = new Vector3( 0.9f, 0.9f, 0.9f );
@@ -402,4 +377,5 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			GizmoUtils.DrawText( clientState.Speed.ToString(), pos + Vector3.left, 15 );
 		}
 	}
+#endif
 }
