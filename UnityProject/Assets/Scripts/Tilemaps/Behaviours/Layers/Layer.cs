@@ -1,4 +1,5 @@
-﻿using Tilemaps.Tiles;
+﻿using Tilemaps.Behaviours.Meta;
+using Tilemaps.Tiles;
 using Tilemaps.Utils;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -8,6 +9,8 @@ namespace Tilemaps.Behaviours.Layers
 	[ExecuteInEditMode]
 	public class Layer : MonoBehaviour
 	{
+		private SystemManager systemManager;
+		
 		public LayerType LayerType; 
 		protected Tilemap tilemap;
 
@@ -16,6 +19,7 @@ namespace Tilemaps.Behaviours.Layers
 		public void Awake()
 		{
 			tilemap = GetComponent<Tilemap>();
+			systemManager = GetComponentInParent<SystemManager>();
 		}
 
 		public void Start()
@@ -72,6 +76,7 @@ namespace Tilemaps.Behaviours.Layers
 		{
 			tilemap.SetTile(position, tile);
 			tilemap.SetTransformMatrix(position, transformMatrix);
+			systemManager.UpdateAt(position);
 		}
 
 		public virtual LayerTile GetTile(Vector3Int position)
@@ -87,6 +92,7 @@ namespace Tilemaps.Behaviours.Layers
 		public virtual void RemoveTile(Vector3Int position)
 		{
 			tilemap.SetTile(position, null);
+			systemManager.UpdateAt(position);
 		}
 
 		public virtual void ClearAllTiles()

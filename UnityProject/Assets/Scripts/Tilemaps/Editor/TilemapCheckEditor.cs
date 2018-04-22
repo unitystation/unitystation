@@ -20,11 +20,7 @@ namespace Tilemaps.Editor
 		private static bool space;
 
 		private static bool corners;
-
-
-		private static readonly List<HashSet<Vector3Int>> rooms = new List<HashSet<Vector3Int>>();
-
-		private static HashSet<Vector3Int> currentRoom;
+		private static bool rooms;
 
 		private SceneView currentSceneView;
 
@@ -58,6 +54,7 @@ namespace Tilemaps.Editor
 			south = GUILayout.Toggle(south, "From South");
 			space = GUILayout.Toggle(space, "Is Space");
 			corners = GUILayout.Toggle(corners, "Show Corners");
+			rooms = GUILayout.Toggle(rooms, "Show Rooms");
 
 			if (currentSceneView)
 			{
@@ -68,7 +65,7 @@ namespace Tilemaps.Editor
 		[DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]
 		private static void DrawGizmo2(MetaDataLayer scr, GizmoType gizmoType)
 		{
-			if (!DrawGizmos)
+			if (!DrawGizmos || !rooms)
 			{
 				return;
 			}
@@ -99,6 +96,11 @@ namespace Tilemaps.Editor
 				MetaDataNode node = scr.Get(position, false);
 				if (node != null)
 				{
+					if (node.Room == 0)
+					{
+						continue;
+					}
+					
 					if(node.Room > 0)
 					{
 						Gizmos.color = blue;
