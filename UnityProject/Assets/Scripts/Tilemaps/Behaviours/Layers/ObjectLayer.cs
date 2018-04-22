@@ -49,14 +49,14 @@ namespace Tilemaps.Behaviours.Layers
 
 		public override bool IsPassableAt(Vector3Int origin, Vector3Int to)
 		{
-			RegisterObject objTo = Objects.GetFirst<RegisterObject>(to);
+			RegisterTile objTo = Objects.GetFirst<RegisterTile>(to);
 
 			if (objTo && !objTo.IsPassable(origin))
 			{
 				return false;
 			}
 
-			RegisterObject objOrigin = Objects.GetFirst<RegisterObject>(origin);
+			RegisterTile objOrigin = Objects.GetFirst<RegisterTile>(origin);
 			if (objOrigin && !objOrigin.IsPassable(to))
 			{
 				return false;
@@ -74,7 +74,7 @@ namespace Tilemaps.Behaviours.Layers
 
 		public override bool IsAtmosPassableAt(Vector3Int position)
 		{
-			RegisterObject obj = Objects.GetFirst<RegisterObject>(position);
+			RegisterTile obj = Objects.GetFirst<RegisterTile>(position);
 
 			return obj ? obj.IsAtmosPassable() : base.IsAtmosPassableAt(position);
 		}

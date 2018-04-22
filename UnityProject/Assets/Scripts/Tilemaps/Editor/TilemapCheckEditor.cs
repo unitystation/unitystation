@@ -212,7 +212,7 @@ namespace Tilemaps.Editor
 									Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
 								}
 							}
-							else
+							else if(atmosPassable)
 							{
 								if (!scr.IsAtmosPassableAt(position))
 								{

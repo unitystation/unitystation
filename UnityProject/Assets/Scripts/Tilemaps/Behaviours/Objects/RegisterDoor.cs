@@ -3,7 +3,7 @@
 namespace Tilemaps.Behaviours.Objects
 {
 	[ExecuteInEditMode]
-	public class RegisterDoor : RegisterObject
+	public class RegisterDoor : RegisterTile
 	{
 		public bool IsClosed = true;
 		public bool OneDirectionRestricted;

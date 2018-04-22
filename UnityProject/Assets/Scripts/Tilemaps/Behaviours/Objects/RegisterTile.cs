@@ -2,6 +2,7 @@
 using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.Networking;
+using Debug = System.Diagnostics.Debug;
 
 namespace Tilemaps.Behaviours.Objects
 {
