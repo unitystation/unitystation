@@ -91,6 +91,9 @@ namespace Tilemaps.Editor
 			Color red = Color.red;
 			red.a = 0.5f;
 			
+			Color green = Color.green;
+			green.a = 0.5f;
+			
 			foreach (Vector3Int position in new BoundsInt(start, end - start).allPositionsWithin)
 			{
 				MetaDataNode node = scr.Get(position, false);
@@ -98,7 +101,7 @@ namespace Tilemaps.Editor
 				{
 					if (node.Room == 0)
 					{
-						continue;
+						Gizmos.color = green;
 					}
 					
 					if(node.Room > 0)
