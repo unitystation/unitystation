@@ -55,7 +55,7 @@ namespace Tilemaps
 
 		public bool IsSpaceAt(Vector3Int position)
 		{
-			return metaDataLayer.Get(position).IsSpace();
+			return metaDataLayer.IsSpaceAt(position);
 		}
 
 		public bool IsEmptyAt(Vector3Int position)
