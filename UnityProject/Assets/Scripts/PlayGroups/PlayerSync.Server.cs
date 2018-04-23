@@ -397,14 +397,14 @@ namespace PlayGroup
 			if (MatrixManager.Instance.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition))
 			    && !healthBehaviorScript.IsDead && !isApplyingSpaceDmg)
 			{
-//				Hurting people in space even if they are next to the wall
+				// Hurting people in space even if they are next to the wall
 				StartCoroutine(ApplyTempSpaceDamage());
 				isApplyingSpaceDmg = true;
 			}
 		}
 
-		//TODO: Remove this when atmos is implemented 
-		///This prevents players drifting into space indefinitely 
+		// TODO: Remove this when atmos is implemented 
+		// This prevents players drifting into space indefinitely 
 		private IEnumerator ApplyTempSpaceDamage()
 		{
 			yield return new WaitForSeconds(1f);
