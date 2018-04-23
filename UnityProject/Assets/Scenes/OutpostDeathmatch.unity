@@ -46455,6 +46455,7 @@ GameObject:
   - component: {fileID: 515577132}
   - component: {fileID: 515577134}
   - component: {fileID: 515577135}
+  - component: {fileID: 515577136}
   m_Layer: 0
   m_Name: SyndicateShuttle
   m_TagString: Untagged
@@ -46544,6 +46545,17 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1629061c87b84efca254e0716499651e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &515577136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 515577130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf585bb4ff8944df896c3974105a1d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &520179358
