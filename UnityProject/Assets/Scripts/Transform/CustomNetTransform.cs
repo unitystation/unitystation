@@ -60,7 +60,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	public TransformState State => serverTransformState;
 	public TransformState ClientState => transformState;
 
-	[SyncVar]
+//	[SyncVar]
 	public bool isPushing;
 	public bool predictivePushing = false;
 
@@ -79,8 +79,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	[Server]
 	private void InitServerState()
 	{
-		isPushing = false;
-		predictivePushing = false;
+//		isPushing = false;
+//		predictivePushing = false;
 
 		serverTransformState.Speed = 0;
 		if (   Vector3Int.RoundToInt(transform.position).Equals(InvalidPos) 
@@ -117,44 +117,39 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	[Server]
 	public void SetPosition(Vector3 pos, bool notify = true, float speed = 4f, bool _isPushing = false)
 	{
-		//Only allow one movement at a time if it is currently being pushed
-		if(isPushing || predictivePushing){
-			if(predictivePushing && _isPushing){
-				//This is if the server player is pushing because the predictive flag
-				//will be set early we still need to notify the players so call it here:
-				UpdateServerTransformState(pos, notify, speed);
-				//And then set the isPushing flag:
-				isPushing = true;
-			}
-			return;
+//		//Only allow one movement at a time if it is currently being pushed
+//		if(isPushing || predictivePushing){
+//			if(predictivePushing && _isPushing){
+//				//This is if the server player is pushing because the predictive flag
+//				//will be set early we still need to notify the players so call it here:
+//				UpdateServerTransformState(pos, notify, speed);
+//				//And then set the isPushing flag:
+//				isPushing = true;
+//			}
+//			return;
+//		}
+		serverTransformState.Speed = speed;
+		serverTransformState.localPos = pos;
+		if (notify) {
+			NotifyPlayers();
 		}
-		UpdateServerTransformState(pos, notify, speed);
 
-		//Set it to being pushed if it is a push net action
-		if(_isPushing){
-			//This is synced via syncvar with all players
-			isPushing = true;
-		}
+//		//Set it to being pushed if it is a push net action
+//		if(_isPushing){
+//			//This is synced via syncvar with all players
+//			isPushing = true;
+//		}
 	}
 
 	/// Apply impulse while setting position
 	[Server]
 	public void PushTo(Vector3 pos, Vector2 impulseDir, bool notify = true, float speed = 4f, bool _isPushing = false)
 	{
-		if (IsInSpace()) {
-			serverTransformState.Impulse = impulseDir;
-		} else {
-			SetPosition(pos, notify, speed, _isPushing);
-		}
-	}
-
-	[Server]
-	private void UpdateServerTransformState(Vector3 pos, bool notify = true, float speed = 4f){
-		serverTransformState.Speed = speed;
-		serverTransformState.localPos = pos;
-		if (notify) {
-			NotifyPlayers();
-		}
+//		if (IsInSpace()) {
+//			serverTransformState.Impulse = impulseDir;
+//		} else {
+//			SetPosition(pos, notify, speed, _isPushing);
+//		}
 	}
 
 	//FIXME: deOffset is a temp solution to this weird matrix offset
@@ -251,16 +246,16 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	/// </summary>
 	public void PushToPosition(Vector3 pos, float speed, PushPull pushComponent)
 	{
-		if(pushComponent.pushing || predictivePushing){
-			return;
-		}
-		TransformState newState = new TransformState();
-		newState.Active = true;
-		newState.Speed = speed;
-		newState.localPos = pos;
-		UpdateClientState(newState);
-		predictivePushing = true;
-		pushComponent.pushing = true;
+//		if(pushComponent.pushing || predictivePushing){
+//			return;
+//		}
+//		TransformState newState = new TransformState();
+//		newState.Active = true;
+//		newState.Speed = speed;
+//		newState.localPos = pos;
+//		UpdateClientState(newState);
+//		predictivePushing = true;
+//		pushComponent.pushing = true;
 	}
 
 	public void UpdateClientState(TransformState newState)
@@ -338,15 +333,15 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		if (isServer)
 		{
 			CheckSpaceDrift();
-			//Sync the pushing state to all players
-			//this makes sure that players with high pings cannot get too
-			//far with prediction
-			if(isPushing){
-				if(transformState.localPos == transform.localPosition){
-					isPushing = false;
-					predictivePushing = false;
-				}
-			}
+//			//Sync the pushing state to all players
+//			//this makes sure that players with high pings cannot get too
+//			//far with prediction
+//			if(isPushing){
+//				if(transformState.localPos == transform.localPosition){
+//					isPushing = false;
+//					predictivePushing = false;
+//				}
+//			}
 		} 
 
 		if (IsFloating())
@@ -361,7 +356,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		}
 
 		//Registering
-		if (registerTilePos() != Vector3Int.RoundToInt(transformState.localPos) && !isPushing && !predictivePushing)
+		if (registerTilePos() != Vector3Int.RoundToInt(transformState.localPos) )//&& !isPushing && !predictivePushing)
 		{
 //			Debug.LogFormat($"registerTile updating {localToWorld(registerTilePos())}->{localToWorld(Vector3Int.RoundToInt(transform.localPosition))}, " +
 //			                $"ts={localToWorld(Vector3Int.RoundToInt(transformState.localPos))}");
@@ -407,7 +402,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			{
 				if (registerTile.Position != Vector3Int.RoundToInt(transform.localPosition)){
 					registerTile.UpdatePosition();
-					RpcForceRegisterUpdate();
+//					RpcForceRegisterUpdate();
 				}
 				//Spess drifting
 				serverTransformState.localPos = newGoal;
@@ -417,16 +412,16 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 				serverTransformState.Impulse = Vector2.zero; //killing impulse, be aware when implementing throw!
 				NotifyPlayers();
 				registerTile.UpdatePosition();
-				RpcForceRegisterUpdate();
+//				RpcForceRegisterUpdate();
 			}
 		}
 	}
 
-	//For space drift, the server will confirm an update is required and inform the clients
-	[ClientRpc]
-	private void RpcForceRegisterUpdate(){
-		registerTile.UpdatePosition();
-	}
+//	//For space drift, the server will confirm an update is required and inform the clients
+//	[ClientRpc]
+//	private void RpcForceRegisterUpdate(){
+//		registerTile.UpdatePosition();
+//	}
 
 	///Special rounding for collision detection
 	///returns V3Int of next tile
