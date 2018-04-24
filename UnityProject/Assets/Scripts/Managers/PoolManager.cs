@@ -57,10 +57,10 @@ public class PoolManager : NetworkBehaviour
 	private GameObject PoolInstantiate(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent, out bool pooledInstance)
 	{
 		GameObject tempObject = null;
-		bool hide = position == CustomNetTransform.InvalidPos;
+		bool hide = position == TransformState.HiddenPos;
 		//Cut off Z-axis
 		Vector3 cleanPos = ( Vector2 ) position;
-		Vector3 pos = hide ? CustomNetTransform.InvalidPos : cleanPos;
+		Vector3 pos = hide ? TransformState.HiddenPos : cleanPos;
 		if (CanLoadFromPool(prefab))
 		{
 			//pool exists and has unused instances

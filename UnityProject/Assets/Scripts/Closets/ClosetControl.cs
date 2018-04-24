@@ -207,7 +207,7 @@ namespace Cupboards
 				CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
 				if (on)
 				{
-					netTransform.AppearAtPositionServer(transform.localPosition);
+					netTransform.AppearAtPositionServer(transform.position);
 //					item.transform.position = transform.position;
 				}
 				else

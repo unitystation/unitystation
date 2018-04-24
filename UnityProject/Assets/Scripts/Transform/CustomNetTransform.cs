@@ -11,54 +11,71 @@ public struct TransformState
 {
 	public bool Active;
 	public float Speed;
-	public Vector2 Impulse; //Direction of throw
-	public Vector3 localPos;
+	///Direction of throw
+	public Vector2 Impulse;
 
-	public Vector3 position
+	public int MatrixId;
+	public Vector3 Position;
+
+	/// Means that this object is hidden
+	public static readonly Vector3Int HiddenPos = new Vector3Int(0, 0, -100);
+	/// Means that this object is hidden
+	public static readonly TransformState HiddenState = new TransformState{Active = false, Position = HiddenPos, MatrixId = 0};
+
+	public Vector3 WorldPosition
 	{
 		get
 		{
-			if (localPos == CustomNetTransform.InvalidPos)
+			if (Position == HiddenPos || Active == false)
 			{
-				return localPos;
+				return Position;
 			}
-			return CustomNetTransform.localToWorld(localPos);
+			MatrixManager matrixManager = MatrixManager.Instance;
+			if ( !matrixManager ) {
+				Debug.LogWarning( "MatrixManager not initialized" );
+				return Position;
+			}
+			MatrixInfo matrix = matrixManager.Get( MatrixId );
+			return MatrixManager.LocalToWorld( Position, matrix );
 		}
 		set
 		{
-			if (value == CustomNetTransform.InvalidPos)
-			{
-				localPos = value;
+			if (value == HiddenPos) {
+				this = HiddenState;
 			}
 			else
 			{
-				localPos = CustomNetTransform.worldToLocal(value);
+				MatrixManager matrixManager = MatrixManager.Instance;
+				if ( !matrixManager ) {
+					Debug.LogWarning( "MatrixManager not initialized" );
+					return;
+				}
+				MatrixInfo matrix = matrixManager.Get( MatrixId );
+				Position = MatrixManager.WorldToLocal( value, matrix );
 			}
 		}
 	}
 
 	public override string ToString()
 	{
-		return $"[{nameof( Active )}: {Active}, {nameof( localPos )}: {localPos}, {nameof( position )}: {position}, {nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}]";
+		return Equals( HiddenState ) ? "[Hidden]" : $"[{nameof( Active )}: {Active}, {nameof( Position )}: {(Vector2)Position}, {nameof( WorldPosition )}: {(Vector2)WorldPosition}, " +
+		       $"{nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( MatrixId )}: {MatrixId}]";
 	}
 }
 
 public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
-	public static readonly Vector3Int InvalidPos = new Vector3Int(0, 0, -100), deOffset = new Vector3Int(-1, -1, 0);
-	public static readonly TransformState InvalidState = new TransformState{Active = false, localPos = InvalidPos};
-
 	private RegisterTile registerTile;
 
-	private TransformState serverTransformState; //used for syncing with players, matters only for server
+	private TransformState serverState = TransformState.HiddenState; //used for syncing with players, matters only for server
 
 	public float SpeedMultiplier = 1; //Multiplier for flying/lerping speed, could corelate with weight, for example
-	private TransformState transformState; //client's transform, can get dirty/predictive
+	private TransformState clientState = TransformState.HiddenState; //client's transform, can get dirty/predictive
 
 	private Matrix matrix => registerTile.Matrix;
 	
-	public TransformState State => serverTransformState;
-	public TransformState ClientState => transformState;
+	public TransformState ServerState => serverState;
+	public TransformState ClientState => clientState;
 
 //	[SyncVar]
 	public bool isPushing;
@@ -66,7 +83,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	private void Start()
 	{
-		transformState = InvalidState;
+		clientState = TransformState.HiddenState;
 		registerTile = GetComponent<RegisterTile>();
 	}
 
@@ -82,19 +99,20 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //		isPushing = false;
 //		predictivePushing = false;
 
-		serverTransformState.Speed = 0;
-		if (   Vector3Int.RoundToInt(transform.position).Equals(InvalidPos) 
-		    || Vector3Int.RoundToInt(transform.localPosition).Equals(InvalidPos))
+		serverState.Speed = 0;
+		if ( !Vector3Int.RoundToInt( (Vector2)transform.position ).Equals( TransformState.HiddenPos )
+		  && !Vector3Int.RoundToInt( (Vector2)transform.localPosition ).Equals( TransformState.HiddenPos ) )
 		{
-			//For stuff hidden on spawn, like player equipment
-			serverTransformState = InvalidState;
-		}
-		else
-		{
-			serverTransformState.Active = true;
-			serverTransformState.localPos =
+			serverState.Active = true;
+			serverState.Position =
 				Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
 		}
+//		registerTile = GetComponent<RegisterTile>();
+//		if ( registerTile && registerTile.Matrix && MatrixManager.Instance ) {
+//			serverState.MatrixId = MatrixManager.Instance.Get( matrix ).Id;
+//		} else {
+//			Debug.LogWarning( "Matrix id init failure" );
+//		}
 	}
 
 	/// Intended for runtime spawning, so that CNT could initialize accordingly
@@ -113,30 +131,31 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //        NotifyPlayers();
 //    }
 
-	/// Manually set an item to a specific position. Use localPosition!
+	/// Manually set an item to a specific position. Use WorldPosition!
 	[Server]
-	public void SetPosition(Vector3 pos, bool notify = true, float speed = 4f, bool _isPushing = false)
-	{
-//		//Only allow one movement at a time if it is currently being pushed
+	public void SetPosition(Vector3 worldPos, bool notify = true, float speed = 4f, bool _isPushing = false) {
+//		Only allow one movement at a time if it is currently being pushed
 //		if(isPushing || predictivePushing){
 //			if(predictivePushing && _isPushing){
-//				//This is if the server player is pushing because the predictive flag
-//				//will be set early we still need to notify the players so call it here:
+//				This is if the server player is pushing because the predictive flag
+				//will be set early we still need to notify the players so call it here:
 //				UpdateServerTransformState(pos, notify, speed);
-//				//And then set the isPushing flag:
+				//And then set the isPushing flag:
 //				isPushing = true;
 //			}
 //			return;
 //		}
-		serverTransformState.Speed = speed;
-		serverTransformState.localPos = pos;
+		var pos = (Vector2) worldPos; //Cut z-axis
+		serverState.MatrixId = MatrixManager.Instance.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
+		serverState.Speed = speed;
+		serverState.WorldPosition = pos;
 		if (notify) {
 			NotifyPlayers();
 		}
 
-//		//Set it to being pushed if it is a push net action
+		//Set it to being pushed if it is a push net action
 //		if(_isPushing){
-//			//This is synced via syncvar with all players
+			//This is synced via syncvar with all players
 //			isPushing = true;
 //		}
 	}
@@ -152,15 +171,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //		}
 	}
 
-	//FIXME: deOffset is a temp solution to this weird matrix offset
-	public static Vector3 localToWorld(Vector3 localVector3)
-	{
-		return localVector3 - deOffset;
-	}
-
-	public static Vector3 worldToLocal(Vector3 worldVector3)
-	{
-		return worldVector3 + deOffset;
+	[Server]
+	private void SyncMatrix() {
+		registerTile.ParentNetId = MatrixManager.Instance.Get( serverState.MatrixId ).NetId;
 	}
 
 	/// <summary>
@@ -170,16 +183,16 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	public void ForceDrop(Vector3 pos)
 	{
 //		GetComponentInChildren<SpriteRenderer>().color = Color.white;
-		serverTransformState.Active = true;
-		serverTransformState.position = pos;
+		serverState.Active = true;
+		serverState.WorldPosition = pos;
 		Vector2 impulse = Random.insideUnitCircle.normalized;
 		//don't apply impulses if item isn't going to float in that direction
-		Vector3Int newGoal = RoundWithContext(serverTransformState.localPos + (Vector3) impulse, impulse);
+		Vector3Int newGoal = RoundWithContext(serverState.WorldPosition + (Vector3) impulse, impulse);
 		if (CanDriftTo(newGoal))
 		{
 //			Debug.LogFormat($"ForceDrop success: from {pos} to {localToWorld(newGoal)}");
-			serverTransformState.Impulse = impulse;
-			serverTransformState.Speed = Random.Range(0.5f, 3f);
+			serverState.Impulse = impulse;
+			serverState.Speed = Random.Range(0.5f, 3f);
 		}
 //		else
 //		{
@@ -191,16 +204,15 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	[Server]
 	public void DisappearFromWorldServer()
 	{
-		serverTransformState.Active = false;
-		serverTransformState.localPos = InvalidPos;
+		serverState = TransformState.HiddenState;
 		NotifyPlayers();
 	}
 
 	[Server]
-	public void AppearAtPositionServer(Vector3 pos)
+	public void AppearAtPositionServer(Vector3 worldPos)
 	{
-		serverTransformState.Active = true;
-		SetPosition(pos);
+		serverState.Active = true;
+		SetPosition(worldPos);
 	}
 
 	/// <summary>
@@ -221,8 +233,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	/// </summary>
 	public void DisappearFromWorld()
 	{
-		transformState.Active = false;
-		transformState.position = InvalidPos;
+		clientState.Active = false;
+		clientState.Position = TransformState.HiddenPos;
+//		clientState = TransformState.HiddenState;
 		updateActiveStatus();
 	}
 
@@ -232,9 +245,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	/// </summary>
 	public void AppearAtPosition(Vector3 pos)
 	{
-		transformState.Active = true;
-		transformState.position = pos;
-		transform.localPosition = pos + deOffset;
+		clientState.Active = true;
+		clientState.WorldPosition = pos;
+		transform.position = pos;
 		updateActiveStatus();
 	}
 
@@ -249,10 +262,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //		if(pushComponent.pushing || predictivePushing){
 //			return;
 //		}
-//		TransformState newState = new TransformState();
+//		TransformState newState = clientState;
 //		newState.Active = true;
 //		newState.Speed = speed;
-//		newState.localPos = pos;
+//		newState.Position = pos;
 //		UpdateClientState(newState);
 //		predictivePushing = true;
 //		pushComponent.pushing = true;
@@ -261,17 +274,17 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	public void UpdateClientState(TransformState newState)
 	{
 		//Don't lerp (instantly change pos) if active state was changed
-		if (transformState.Active != newState.Active /*|| newState.Speed == 0*/)
+		if (clientState.Active != newState.Active /*|| newState.Speed == 0*/)
 		{
-			transform.localPosition = newState.localPos;
+			transform.localPosition = newState.Position;
 		}
-		transformState = newState;
+		clientState = newState;
 		updateActiveStatus();
 	}
 
 	private void updateActiveStatus()
 	{
-		if (transformState.Active)
+		if (clientState.Active)
 		{
 			RegisterObjects();
 		}
@@ -283,7 +296,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 		for (int i = 0; i < renderers.Length; i++)
 		{
-			renderers[i].enabled = transformState.Active;
+			renderers[i].enabled = clientState.Active;
 		}
 	}
 
@@ -293,7 +306,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	[Server]
 	private void NotifyPlayers()
 	{
-		TransformStateMessage.SendToAll(gameObject, serverTransformState);
+		SyncMatrix();
+		TransformStateMessage.SendToAll(gameObject, serverState);
 	}
 
 	/// <summary>
@@ -303,7 +317,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	[Server]
 	public void NotifyPlayer(GameObject playerGameObject)
 	{
-		TransformStateMessage.Send(playerGameObject, gameObject, serverTransformState);
+		TransformStateMessage.Send(playerGameObject, gameObject, serverState);
 	}
 
 
@@ -325,7 +339,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	private void Synchronize()
 	{
-		if (!transformState.Active)
+		if (!clientState.Active)
 		{
 			return;
 		}
@@ -337,7 +351,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //			//this makes sure that players with high pings cannot get too
 //			//far with prediction
 //			if(isPushing){
-//				if(transformState.localPos == transform.localPosition){
+//				if(clientState.Position == transform.localPosition){
 //					isPushing = false;
 //					predictivePushing = false;
 //				}
@@ -350,13 +364,13 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			//fixme: don't simulate moving through solid stuff on client
 		}
 
-		if (transformState.localPos != transform.localPosition)
+		if (clientState.Position != transform.localPosition)
 		{
 			Lerp();
 		}
 
 		//Registering
-		if (registerTilePos() != Vector3Int.RoundToInt(transformState.localPos) )//&& !isPushing && !predictivePushing)
+		if (registerTilePos() != Vector3Int.RoundToInt(clientState.Position) )//&& !isPushing && !predictivePushing)
 		{
 //			Debug.LogFormat($"registerTile updating {localToWorld(registerTilePos())}->{localToWorld(Vector3Int.RoundToInt(transform.localPosition))}, " +
 //			                $"ts={localToWorld(Vector3Int.RoundToInt(transformState.localPos))}");
@@ -367,8 +381,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	///predictive perpetual flying
 	private void SimulateFloating()
 	{
-		transformState.localPos +=
-			(Vector3) transformState.Impulse * (transformState.Speed * SpeedMultiplier) * Time.deltaTime;
+		clientState.Position +=
+			(Vector3) clientState.Impulse * (clientState.Speed * SpeedMultiplier) * Time.deltaTime;
 	}
 
 	private Vector3Int registerTilePos()
@@ -378,13 +392,13 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	private void Lerp()
 	{
-		if ( transformState.Speed.Equals(0) )
+		if ( clientState.Speed.Equals(0) )
 		{
-			transform.localPosition = transformState.localPos;
+			transform.localPosition = clientState.Position;
 			return;
 		}
 		transform.localPosition =
-			Vector3.MoveTowards(transform.localPosition, transformState.localPos, transformState.Speed * SpeedMultiplier * Time.deltaTime);
+			Vector3.MoveTowards(transform.localPosition, clientState.Position, clientState.Speed * SpeedMultiplier * Time.deltaTime);
 	}
 
 	/// <summary>
@@ -395,9 +409,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	{
 		if (IsFloating() && matrix != null)
 		{
-			Vector3 newGoal = serverTransformState.localPos +
-			                                      (Vector3) serverTransformState.Impulse * (serverTransformState.Speed * SpeedMultiplier) * Time.deltaTime;
-			Vector3Int intGoal = RoundWithContext(newGoal, serverTransformState.Impulse);
+			Vector3 newGoal = serverState.Position +
+			                                      (Vector3) serverState.Impulse * (serverState.Speed * SpeedMultiplier) * Time.deltaTime;
+			Vector3Int intGoal = RoundWithContext(newGoal, serverState.Impulse);
 			if (CanDriftTo(intGoal))
 			{
 				if (registerTile.Position != Vector3Int.RoundToInt(transform.localPosition)){
@@ -405,11 +419,11 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //					RpcForceRegisterUpdate();
 				}
 				//Spess drifting
-				serverTransformState.localPos = newGoal;
+				serverState.Position = newGoal;
 			}
 			else //Stopping drift
 			{
-				serverTransformState.Impulse = Vector2.zero; //killing impulse, be aware when implementing throw!
+				serverState.Impulse = Vector2.zero; //killing impulse, be aware when implementing throw!
 				NotifyPlayers();
 				registerTile.UpdatePosition();
 //				RpcForceRegisterUpdate();
@@ -436,16 +450,16 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	public bool IsInSpace(){
-		return matrix.IsSpaceAt(Vector3Int.RoundToInt(transform.localPosition));
+		return MatrixManager.Instance.IsSpaceAt( Vector3Int.RoundToInt( transform.position ) );
 	}
 
 	public bool IsFloating()
 	{
 		if (isServer)
 		{
-			return serverTransformState.Impulse != Vector2.zero && serverTransformState.Speed != 0f;
+			return serverState.Impulse != Vector2.zero && serverState.Speed != 0f;
 		}
-		return transformState.Impulse != Vector2.zero && transformState.Speed != 0f;
+		return clientState.Impulse != Vector2.zero && clientState.Speed != 0f;
 	}
 
 	/// Make sure to use localPos when asking

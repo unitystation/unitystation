@@ -22,17 +22,17 @@ public class TransformGizmoDrawer : MonoBehaviour {
 		}
 		//serverState
 		Gizmos.color = color2;
-//		Vector3 ssPos = cnt.ServerState.WorldPosition;
-//		Gizmos.DrawWireCube( ssPos, size2 );
-//		GizmoUtils.DrawArrow( ssPos + Vector3.right / 2, cnt.ServerState.Impulse );
-//		GizmoUtils.DrawText( cnt.ServerState.MatrixId.ToString(), ssPos + Vector3.right / 2 + Vector3.up / 3, 15 );
+		Vector3 ssPos = cnt.ServerState.WorldPosition;
+		Gizmos.DrawWireCube( ssPos, size2 );
+		GizmoUtils.DrawArrow( ssPos + Vector3.right / 2, cnt.ServerState.Impulse );
+		GizmoUtils.DrawText( cnt.ServerState.MatrixId.ToString(), ssPos + Vector3.right / 2 + Vector3.up / 3, 15 );
 
 		//client playerState
 		Gizmos.color = color4;
-//		Vector3 clientState = cnt.ClientState.WorldPosition;
-//		Gizmos.DrawWireCube( clientState, size4 );
-//		GizmoUtils.DrawArrow( clientState + Vector3.right / 5, cnt.ClientState.Impulse );
-//		GizmoUtils.DrawText( cnt.ClientState.MatrixId.ToString(), clientState + Vector3.right / 2 + Vector3.up / 6, 15 );
+		Vector3 clientState = cnt.ClientState.WorldPosition;
+		Gizmos.DrawWireCube( clientState, size4 );
+		GizmoUtils.DrawArrow( clientState + Vector3.right / 5, cnt.ClientState.Impulse );
+		GizmoUtils.DrawText( cnt.ClientState.MatrixId.ToString(), clientState + Vector3.right / 2 + Vector3.up / 6, 15 );
 	}
 #endif
 }
