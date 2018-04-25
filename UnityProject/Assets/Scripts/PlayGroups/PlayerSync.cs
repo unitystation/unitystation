@@ -18,21 +18,11 @@ namespace PlayGroup
 
 		public Vector3 WorldPosition {
 			get {
-				MatrixManager matrixManager = MatrixManager.Instance;
-				if ( !matrixManager ) {
-					Debug.LogWarning( "MatrixManager not initialized" );
-					return Position;
-				}
-				MatrixInfo matrix = matrixManager.Get( MatrixId );
+				MatrixInfo matrix = MatrixManager.Get( MatrixId );
 				return MatrixManager.LocalToWorld( Position, matrix );
 			}
 			set {
-				MatrixManager matrixManager = MatrixManager.Instance;
-				if ( !matrixManager ) {
-					Debug.LogWarning( "MatrixManager not initialized" );
-					return;
-				}
-				MatrixInfo matrix = matrixManager.Get( MatrixId );
+				MatrixInfo matrix = MatrixManager.Get( MatrixId );
 				Position = MatrixManager.WorldToLocal( value, matrix );
 			}
 		}
@@ -146,7 +136,7 @@ namespace PlayGroup
 			} else {
 				//tries to be smart, but no guarantees. correct state is received later (during CustomNetworkManager initial sync) anyway
 				Vector3Int worldPos = Vector3Int.RoundToInt( (Vector2) transform.position ); //cutting off Z-axis & rounding
-				MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint( worldPos );
+				MatrixInfo matrixAtPoint = MatrixManager.AtPoint( worldPos );
 				PlayerState state = new PlayerState {
 					MoveNumber = 0,
 					MatrixId = matrixAtPoint.Id,
@@ -326,10 +316,10 @@ namespace PlayGroup
 		private PlayerState NextState( PlayerState state, PlayerAction action, out bool matrixChanged, bool isReplay = false ) {
 			var newState = state;
 			newState.MoveNumber++;
-			newState.Position = playerMove.GetNextPosition( Vector3Int.RoundToInt( state.Position ), action, isReplay, MatrixManager.Instance.Get( newState.MatrixId ).Matrix );
+			newState.Position = playerMove.GetNextPosition( Vector3Int.RoundToInt( state.Position ), action, isReplay, MatrixManager.Get( newState.MatrixId ).Matrix );
 
 			var proposedWorldPos = newState.WorldPosition;
-			MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint( Vector3Int.RoundToInt(proposedWorldPos) );
+			MatrixInfo matrixAtPoint = MatrixManager.AtPoint( Vector3Int.RoundToInt(proposedWorldPos) );
 			bool matrixChangeDetected = !Equals( matrixAtPoint, MatrixInfo.Invalid ) && matrixAtPoint.Id != state.MatrixId;
 
 			//Switching matrix while keeping world pos

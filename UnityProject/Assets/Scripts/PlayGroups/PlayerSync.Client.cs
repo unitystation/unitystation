@@ -198,7 +198,7 @@ namespace PlayGroup
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
 			if ( !ClientPositionReady ) {
 				//PlayerLerp
-				Vector3 targetPos = MatrixManager.WorldToLocal(state.WorldPosition, MatrixManager.Instance.Get( matrix ) );
+				Vector3 targetPos = MatrixManager.WorldToLocal(state.WorldPosition, MatrixManager.Get( matrix ) );
 				transform.localPosition = Vector3.MoveTowards( transform.localPosition,
 					targetPos,
 					playerMove.speed * Time.deltaTime );
@@ -207,7 +207,7 @@ namespace PlayGroup
 					transform.localPosition = targetPos;
 				}
 			}
-			bool isFloating = MatrixManager.Instance.IsFloatingAt( Vector3Int.RoundToInt(state.WorldPosition) );
+			bool isFloating = MatrixManager.IsFloatingAt( Vector3Int.RoundToInt(state.WorldPosition) );
 			//Space walk checks
 			if ( isPseudoFloatingClient && !isFloating ) {
 //                Debug.Log( "Stopped clientside floating to avoid going through walls" );

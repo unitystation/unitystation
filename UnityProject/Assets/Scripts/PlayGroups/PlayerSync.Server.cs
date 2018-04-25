@@ -54,7 +54,7 @@ namespace PlayGroup
 		private void InitServerState()
 		{
 			Vector3Int worldPos = Vector3Int.RoundToInt((Vector2) transform.position); //cutting off Z-axis & rounding
-			MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint(worldPos);
+			MatrixInfo matrixAtPoint = MatrixManager.AtPoint(worldPos);
 			PlayerState state = new PlayerState
 			{
 				MoveNumber = 0,
@@ -141,7 +141,7 @@ namespace PlayGroup
 		{
 			ClearQueueServer();
 			Vector3Int roundedPos = Vector3Int.RoundToInt((Vector2) worldPos); //cutting off z-axis
-			MatrixInfo newMatrix = MatrixManager.Instance.AtPoint(roundedPos);
+			MatrixInfo newMatrix = MatrixManager.AtPoint(roundedPos);
 			//Note the client queue reset
 			var newState = new PlayerState
 			{
@@ -175,7 +175,7 @@ namespace PlayGroup
 		[Server]
 		private void SyncMatrix()
 		{
-			registerTile.ParentNetId = MatrixManager.Instance.Get(serverState.MatrixId).NetId;
+			registerTile.ParentNetId = MatrixManager.Get(serverState.MatrixId).NetId;
 		}
 
 		/// Send current serverState to just one player
@@ -298,7 +298,7 @@ namespace PlayGroup
 			}
 
 			//todo: subscribe to current matrix rotations on spawn
-			var newMatrix = MatrixManager.Instance.Get(nextState.MatrixId);
+			var newMatrix = MatrixManager.Get(nextState.MatrixId);
 			Debug.Log($"Matrix will change to {newMatrix}");
 			if (newMatrix.MatrixMove)
 			{
@@ -308,7 +308,7 @@ namespace PlayGroup
 			}
 
 			//Unsubbing from old matrix rotations
-			MatrixMove oldMatrixMove = MatrixManager.Instance.Get(matrix).MatrixMove;
+			MatrixMove oldMatrixMove = MatrixManager.Get(matrix).MatrixMove;
 			if (oldMatrixMove)
 			{
 //				Debug.Log( $"Unregistered rotation listener from {oldMatrixMove}" );
@@ -348,7 +348,7 @@ namespace PlayGroup
 			}
 
 			//Space walk checks
-			bool isFloating = MatrixManager.Instance.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.WorldPosition));
+			bool isFloating = MatrixManager.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.WorldPosition));
 
 			if (isFloating)
 			{
@@ -394,7 +394,7 @@ namespace PlayGroup
 		[Server]
 		private void CheckSpaceDamage()
 		{
-			if (MatrixManager.Instance.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition))
+			if (MatrixManager.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition))
 			    && !healthBehaviorScript.IsDead && !isApplyingSpaceDmg)
 			{
 				// Hurting people in space even if they are next to the wall

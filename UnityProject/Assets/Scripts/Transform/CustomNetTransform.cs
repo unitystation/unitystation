@@ -30,12 +30,7 @@ public struct TransformState
 			{
 				return Position;
 			}
-			MatrixManager matrixManager = MatrixManager.Instance;
-			if ( !matrixManager ) {
-				Debug.LogWarning( "MatrixManager not initialized" );
-				return Position;
-			}
-			MatrixInfo matrix = matrixManager.Get( MatrixId );
+			MatrixInfo matrix = MatrixManager.Get( MatrixId );
 			return MatrixManager.LocalToWorld( Position, matrix );
 		}
 		set
@@ -45,12 +40,7 @@ public struct TransformState
 			}
 			else
 			{
-				MatrixManager matrixManager = MatrixManager.Instance;
-				if ( !matrixManager ) {
-					Debug.LogWarning( "MatrixManager not initialized" );
-					return;
-				}
-				MatrixInfo matrix = matrixManager.Get( MatrixId );
+				MatrixInfo matrix = MatrixManager.Get( MatrixId );
 				Position = MatrixManager.WorldToLocal( value, matrix );
 			}
 		}
@@ -133,7 +123,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	/// Manually set an item to a specific position. Use WorldPosition!
 	[Server]
-	public void SetPosition(Vector3 worldPos, bool notify = true, float speed = 4f, bool _isPushing = false) {
+	public void SetPosition(Vector3 worldPos, bool notify = true/*, float speed = 4f, bool _isPushing = false*/) {
 //		Only allow one movement at a time if it is currently being pushed
 //		if(isPushing || predictivePushing){
 //			if(predictivePushing && _isPushing){
@@ -146,8 +136,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //			return;
 //		}
 		var pos = (Vector2) worldPos; //Cut z-axis
-		serverState.MatrixId = MatrixManager.Instance.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
-		serverState.Speed = speed;
+		serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
+//		serverState.Speed = speed;
 		serverState.WorldPosition = pos;
 		if (notify) {
 			NotifyPlayers();
@@ -173,7 +163,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	[Server]
 	private void SyncMatrix() {
-		registerTile.ParentNetId = MatrixManager.Instance.Get( serverState.MatrixId ).NetId;
+		registerTile.ParentNetId = MatrixManager.Get( serverState.MatrixId ).NetId;
 	}
 
 	/// <summary>
@@ -450,7 +440,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	public bool IsInSpace(){
-		return MatrixManager.Instance.IsSpaceAt( Vector3Int.RoundToInt( transform.position ) );
+		return MatrixManager.IsSpaceAt( Vector3Int.RoundToInt( transform.position ) );
 	}
 
 	public bool IsFloating()
