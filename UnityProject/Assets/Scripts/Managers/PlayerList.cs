@@ -135,7 +135,7 @@ public class PlayerList : NetworkBehaviour
 
 	private static string PrepareJobString(JobType job)
 	{
-		return job.ToString().Equals("NULL") ? "Just joined" : textInfo.ToTitleCase(job.ToString().ToLower());
+		return job.ToString().Equals("NULL") ? "*just joined" : textInfo.ToTitleCase(job.ToString().ToLower());
 	}
 
 	/// Don't do this unless you realize the consequences
