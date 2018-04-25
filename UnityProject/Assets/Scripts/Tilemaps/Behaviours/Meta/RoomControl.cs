@@ -6,20 +6,9 @@ using UnityEngine.Networking;
 namespace Tilemaps.Behaviours.Meta
 {
 	[ExecuteInEditMode]
-	public class RoomControl : NetworkBehaviour
+	public class RoomControl : SystemBehaviour
 	{
-		private MetaDataLayer metaDataLayer;
-		private MetaTileMap metaTileMap;
-
-		public override void OnStartServer()
-		{
-			metaDataLayer = GetComponent<MetaDataLayer>();
-			metaTileMap = GetComponentInParent<MetaTileMap>();
-
-			InitializeRooms();
-		}
-
-		private void InitializeRooms()
+		public override void Initialize()
 		{
 			BoundsInt bounds = metaTileMap.GetBounds();
 
@@ -44,6 +33,19 @@ namespace Tilemaps.Behaviours.Meta
 			sw.Stop();
 
 			Debug.Log("Room init: " + sw.ElapsedMilliseconds + " ms");
+		}
+		
+		public override void UpdateAt(Vector3Int position)
+		{
+			MetaDataNode node = metaDataLayer.Get(position);
+			if (metaTileMap.IsAtmosPassableAt(position))
+			{
+				node.Room = 10000000;
+			}
+			else
+			{
+				node.Room = 0;
+			}
 		}
 
 		private bool FindRoom(Vector3Int position, int roomNumber)

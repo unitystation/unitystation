@@ -51,6 +51,7 @@ namespace Tilemaps.Behaviours.Layers
 					return false;
 				}
 			}
+			
 			return true;
 		}
 		

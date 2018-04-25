@@ -8,7 +8,6 @@ namespace Tilemaps.Behaviours.Objects
 	public class RegisterObject : RegisterTile
 	{
 		public bool AtmosPassable = true;
-		[HideInInspector] public Vector3Int Offset = Vector3Int.zero;
 
 		public bool Passable = true;
 	
@@ -31,11 +30,6 @@ namespace Tilemaps.Behaviours.Objects
 
 		public void OnMouseEnter()
 		{
-			if (name.Contains("Door"))
-			{
-				//door names are bade, so we bail out because we do that in door controller
-				return;
-			}
 			//thanks stack overflow!
 			Regex r = new Regex(@"
                 (?<=[A-Z])(?=[A-Z][a-z]) |

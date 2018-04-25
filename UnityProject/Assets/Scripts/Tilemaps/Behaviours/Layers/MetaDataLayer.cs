@@ -1,4 +1,5 @@
-﻿using Tilemaps.Behaviours.Meta;
+﻿using System.Security.Permissions;
+using Tilemaps.Behaviours.Meta;
 using Tilemaps.Utils;
 using UnityEngine;
 
@@ -31,6 +32,13 @@ namespace Tilemaps.Behaviours.Layers
 			}
 
 			return nodes[position];
+		}
+
+		public bool IsSpaceAt(Vector3Int position)
+		{
+			var node = Get(position, false);
+
+			return node == null || node.IsSpace();
 		}
 	}
 }

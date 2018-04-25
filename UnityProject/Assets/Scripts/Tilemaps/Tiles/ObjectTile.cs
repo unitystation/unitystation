@@ -65,7 +65,7 @@ namespace Tilemaps.Tiles
 #if UNITY_EDITOR
 			GameObject go = (GameObject) PrefabUtility.InstantiatePrefab(Object);
 #else
-            var go = Instantiate(Object);
+            GameObject go = Instantiate(Object);
 #endif
 
 			go.SetActive(false);
@@ -82,16 +82,6 @@ namespace Tilemaps.Tiles
 			}
 
 			go.name = Object.name;
-
-			if (IsItem)
-			{
-			}
-			else
-			{
-				RegisterObject registerObject = go.GetComponent<RegisterObject>() ?? go.AddComponent<RegisterObject>();
-				registerObject.Offset = Vector3Int.RoundToInt(-objectOffset);
-			}
-
 
 			go.SetActive(true);
 		}

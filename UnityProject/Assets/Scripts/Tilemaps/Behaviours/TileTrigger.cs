@@ -12,14 +12,11 @@ namespace Tilemaps.Behaviours
 		private MetaTileMap metaTileMap;
 		private ObjectLayer objectLayer;
 
-		private void Start()
-		{
-			metaTileMap = GetComponent<MetaTileMap>();
-			objectLayer = GetComponentInChildren<ObjectLayer>();
-		}
-
 		public override void Interact(GameObject originator, Vector3 position, string hand)
 		{
+			metaTileMap = originator.GetComponentInParent<MetaTileMap>();
+			objectLayer = originator.GetComponentInParent<ObjectLayer>();
+			
 			Vector3Int pos = objectLayer.transform.InverseTransformPoint(position).RoundToInt();
 			pos.z = 0;
 

@@ -13,6 +13,8 @@ public struct MatrixState
 	/// Matrix rotation. Default is upright (Orientation.Up)
 	public Orientation Orientation;
 
+	public static readonly MatrixState Invalid = new MatrixState{Position = CustomNetTransform.InvalidPos};
+
 	public override string ToString() {
 		return $"{nameof( Inform )}: {Inform}, {nameof( IsMoving )}: {IsMoving}, {nameof( Speed )}: {Speed}, " +
 		       $"{nameof( Direction )}: {Direction}, {nameof( Position )}: {Position}, {nameof( Orientation )}: {Orientation}";
@@ -25,9 +27,9 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	//server-only values
 	public MatrixState State => serverState;
 	///used for syncing with players, matters only for server
-	private MatrixState serverState;
+	private MatrixState serverState = MatrixState.Invalid;
 	/// future state that collects all changes
-	private MatrixState serverTargetState; 
+	private MatrixState serverTargetState = MatrixState.Invalid; 
 	private bool SafetyProtocolsOn { get; set; }
 	private bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
@@ -36,9 +38,9 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	//client-only values
 	public MatrixState ClientState => clientState;
 	///client's transform, can get dirty/predictive
-	private MatrixState clientState; 
+	private MatrixState clientState = MatrixState.Invalid; 
 	/// Is only present to match server's flight routines 
-	private MatrixState clientTargetState; 
+	private MatrixState clientTargetState = MatrixState.Invalid; 
 	private bool isMovingClient => clientState.IsMoving && clientState.Speed > 0f;
 	public bool IsRotatingClient => transform.rotation.eulerAngles.z != clientState.Orientation.Degree;
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
@@ -61,8 +63,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 	public override void OnStartServer()
 	{
-		base.OnStartServer();
 		InitServerState();
+		base.OnStartServer();
 		NotifyPlayers();
 	}
 
@@ -85,6 +87,9 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		serverState.Position = initialPosition;
 		serverState.Orientation = Orientation.Up;
 		serverTargetState = serverState;
+
+		clientState = serverState;
+		clientTargetState = serverState;
 	}
 
 	///managed by UpdateManager
@@ -172,6 +177,9 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	/// Clientside movement routine
 	private void CheckMovement()
 	{
+		if ( Equals( clientState, MatrixState.Invalid ) ) {
+			return;
+		}
 		if ( IsRotatingClient ) {
 			bool needsRotation = !Mathf.Approximately( transform.rotation.eulerAngles.z, clientState.Orientation.Degree );
 			if ( needsRotation ) {

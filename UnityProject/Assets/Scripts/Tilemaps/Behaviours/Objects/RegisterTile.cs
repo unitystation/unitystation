@@ -1,7 +1,10 @@
-﻿using PlayGroup;
+﻿using System.Net.Configuration;
+using PlayGroup;
 using Tilemaps.Behaviours.Layers;
+using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 using UnityEngine.Networking;
+using Debug = System.Diagnostics.Debug;
 
 namespace Tilemaps.Behaviours.Objects
 {
@@ -34,24 +37,17 @@ namespace Tilemaps.Behaviours.Objects
 		private void SetParent(NetworkInstanceId netId)
 		{
 			GameObject parent = ClientScene.FindLocalObject(netId);
-			if(parent == null){
+			if (parent == null)
+			{
 				//nothing found
 				return;
 			}
+
 			Unregister();
 			layer = parent.GetComponentInChildren<ObjectLayer>();
-			Matrix = parent.GetComponent<Matrix>() ?? parent.GetComponentInChildren<Matrix>();
-			transform.parent = layer.transform; 
-			Register();
-		}
-
-		//Is not network synced, is used for prediction on local client when walking between matrices
-		public void SetParentOnLocal(Transform newParent){
-			Unregister();
-			layer = newParent.GetComponentInChildren<ObjectLayer>();
-			Matrix = newParent.GetComponent<Matrix>() ?? newParent.GetComponentInChildren<Matrix>();
+			Matrix = parent.GetComponentInChildren<Matrix>();
 			transform.parent = layer.transform;
-			Register();
+			UpdatePosition();
 		}
 
 		public Vector3Int Position
@@ -64,7 +60,7 @@ namespace Tilemaps.Behaviours.Objects
 				position = value;
 			}
 		}
-		
+
 		public override void OnStartClient()
 		{
 			if (!parentNetId.IsEmpty())
@@ -85,11 +81,13 @@ namespace Tilemaps.Behaviours.Objects
 
 		private void OnEnable()
 		{
-			if (transform.parent != null) {
+			if (transform.parent != null)
+			{
 				layer = transform.parent.GetComponentInParent<ObjectLayer>();
 				Matrix = transform.parent.GetComponentInParent<Matrix>();
-				Register();
+				UpdatePosition();
 			}
+
 			// In case of recompilation and Start doesn't get called
 			layer?.Objects.Add(Position, this);
 		}
@@ -109,11 +107,6 @@ namespace Tilemaps.Behaviours.Objects
 			Position = Vector3Int.RoundToInt(transform.localPosition);
 		}
 
-		public void Register()
-		{
-			UpdatePosition();
-		}
-
 		public void Unregister()
 		{
 			layer?.Objects.Remove(Position, this);
@@ -124,7 +117,7 @@ namespace Tilemaps.Behaviours.Objects
 			return true;
 		}
 
-		public virtual bool IsPassable(Vector3Int to)
+		public virtual bool IsPassable(Vector3Int from)
 		{
 			return true;
 		}
