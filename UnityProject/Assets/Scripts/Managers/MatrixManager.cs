@@ -108,9 +108,8 @@ public class MatrixManager : MonoBehaviour
 			return;
 		}
 
-		for (int i = 0; i < findMatrices.Length; i++)
-		{
-			activeMatrices.Add(new MatrixInfo
+		for (int i = 0; i < findMatrices.Length; i++) {
+			MatrixInfo matrixInfo = new MatrixInfo
 			{
 				Id = i,
 				Matrix = findMatrices[i],
@@ -118,7 +117,10 @@ public class MatrixManager : MonoBehaviour
 				MatrixMove = findMatrices[i].gameObject.GetComponentInParent<MatrixMove>(),
 //				NetId is initialized later
 				InitialOffset = findMatrices[i].InitialOffset
-			});
+			};
+			if ( !activeMatrices.Contains( matrixInfo ) ) {
+				activeMatrices.Add( matrixInfo );
+			}
 		}
 
 		//These aren't fully initialized at that moment; init is truly finished when server is up and NetIDs are resolved

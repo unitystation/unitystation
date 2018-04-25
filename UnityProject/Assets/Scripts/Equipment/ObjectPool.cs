@@ -33,7 +33,7 @@ namespace Equipment
 
 		public void DestroyGameObject(GameObject gObj)
 		{
-			DropGameObject(gObj, Vector3.zero);
+			DropGameObject(gObj, TransformState.HiddenPos);
 		}
 
 		//When dropping items etc, remove them from the player equipment pool and place in scene
@@ -46,7 +46,7 @@ namespace Equipment
 			}
 			else
 			{
-				if (!dropPos.Equals(Vector3.zero))
+				if (dropPos != TransformState.HiddenPos)
 				{
 					GameObject o = currentObjects[id].gameObject;
 					DropNow(o, dropPos);

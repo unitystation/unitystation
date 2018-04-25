@@ -1,6 +1,5 @@
 using System;
 using Tilemaps;
-using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -9,26 +8,27 @@ using Random = UnityEngine.Random;
 // ReSharper disable CompareOfFloatsByEqualityOperator
 public struct TransformState
 {
-	public bool Active;
+	public bool Active => !Equals( HiddenState );
 	public float Speed;
 	///Direction of throw
 	public Vector2 Impulse;
 
 	public int MatrixId;
 	public Vector3 Position;
+	//TODO: Rotation
 
 	/// Means that this object is hidden
 	public static readonly Vector3Int HiddenPos = new Vector3Int(0, 0, -100);
 	/// Means that this object is hidden
-	public static readonly TransformState HiddenState = new TransformState{Active = false, Position = HiddenPos, MatrixId = 0};
+	public static readonly TransformState HiddenState = new TransformState{/*Active = false,*/ Position = HiddenPos, MatrixId = 0};
 
 	public Vector3 WorldPosition
 	{
 		get
 		{
-			if (Position == HiddenPos || Active == false)
+			if ( !Active )
 			{
-				return Position;
+				return HiddenPos;
 			}
 			MatrixInfo matrix = MatrixManager.Get( MatrixId );
 			return MatrixManager.LocalToWorld( Position, matrix );
@@ -48,7 +48,7 @@ public struct TransformState
 
 	public override string ToString()
 	{
-		return Equals( HiddenState ) ? "[Hidden]" : $"[{nameof( Active )}: {Active}, {nameof( Position )}: {(Vector2)Position}, {nameof( WorldPosition )}: {(Vector2)WorldPosition}, " +
+		return Equals( HiddenState ) ? "[Hidden]" : $"[{nameof( Position )}: {(Vector2)Position}, {nameof( WorldPosition )}: {(Vector2)WorldPosition}, " +
 		       $"{nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( MatrixId )}: {MatrixId}]";
 	}
 }
@@ -79,8 +79,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	public override void OnStartServer()
 	{
-		InitServerState();
 		base.OnStartServer();
+		InitServerState();
 	}
 
 	[Server]
@@ -90,19 +90,30 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //		predictivePushing = false;
 
 		serverState.Speed = 0;
-		if ( !Vector3Int.RoundToInt( (Vector2)transform.position ).Equals( TransformState.HiddenPos )
-		  && !Vector3Int.RoundToInt( (Vector2)transform.localPosition ).Equals( TransformState.HiddenPos ) )
-		{
-			serverState.Active = true;
-			serverState.Position =
-				Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
+		//If object is supposed to be hidden, keep it that way
+		if ( IsHiddenOnInit ) {
+			return;
 		}
-//		registerTile = GetComponent<RegisterTile>();
-//		if ( registerTile && registerTile.Matrix && MatrixManager.Instance ) {
-//			serverState.MatrixId = MatrixManager.Instance.Get( matrix ).Id;
-//		} else {
-//			Debug.LogWarning( "Matrix id init failure" );
-//		}
+
+		serverState.Position =
+			Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
+		registerTile = GetComponent<RegisterTile>();
+		if ( registerTile && registerTile.Matrix && MatrixManager.Instance ) {
+			serverState.MatrixId = MatrixManager.Get( matrix ).Id;
+		} else {
+			Debug.LogWarning( "Matrix id init failure" );
+		}
+	}
+	/// Is it supposed to be hidden? (For init purposes)
+	private bool IsHiddenOnInit {
+		get {
+			if ( Vector3Int.RoundToInt( transform.position ).Equals( TransformState.HiddenPos ) ||
+			     Vector3Int.RoundToInt( transform.localPosition ).Equals( TransformState.HiddenPos ) ) {
+				return true;
+			}
+			VisibleBehaviour visibleBehaviour = GetComponent<VisibleBehaviour>();
+			return visibleBehaviour && !visibleBehaviour.visibleState;
+		}
 	}
 
 	/// Intended for runtime spawning, so that CNT could initialize accordingly
@@ -166,15 +177,12 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		registerTile.ParentNetId = MatrixManager.Get( serverState.MatrixId ).NetId;
 	}
 
-	/// <summary>
 	///     Dropping with some force, in random direction. For space floating demo purposes.
-	/// </summary>
 	[Server]
 	public void ForceDrop(Vector3 pos)
 	{
 //		GetComponentInChildren<SpriteRenderer>().color = Color.white;
-		serverState.Active = true;
-		serverState.WorldPosition = pos;
+		SetPosition( pos, false );
 		Vector2 impulse = Random.insideUnitCircle.normalized;
 		//don't apply impulses if item isn't going to float in that direction
 		Vector3Int newGoal = RoundWithContext(serverState.WorldPosition + (Vector3) impulse, impulse);
@@ -201,52 +209,42 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	[Server]
 	public void AppearAtPositionServer(Vector3 worldPos)
 	{
-		serverState.Active = true;
 		SetPosition(worldPos);
 	}
 
-	/// <summary>
 	///     Method to substitute transform.parent = x stuff.
 	///     You shouldn't really use it anymore,
 	///     as there are high level methods that should suit your needs better.
 	///     Server-only, client is not being notified
-	/// </summary>
 	[Server]
 	public void SetParent(Transform pos)
 	{
 		transform.parent = pos;
 	}
 
-	/// <summary>
 	///     Convenience method to make stuff disappear at position.
 	///     For CLIENT prediction purposes.
-	/// </summary>
 	public void DisappearFromWorld()
 	{
-		clientState.Active = false;
-		clientState.Position = TransformState.HiddenPos;
-//		clientState = TransformState.HiddenState;
+		clientState = TransformState.HiddenState;
 		updateActiveStatus();
 	}
 
-	/// <summary>
 	///     Convenience method to make stuff appear at position
 	///     For CLIENT prediction purposes.
-	/// </summary>
-	public void AppearAtPosition(Vector3 pos)
+	public void AppearAtPosition(Vector3 worldPos)
 	{
-		clientState.Active = true;
+		var pos = (Vector2) worldPos; //Cut z-axis
+		clientState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
 		clientState.WorldPosition = pos;
 		transform.position = pos;
 		updateActiveStatus();
 	}
 
-	/// <summary>
 	/// Client side prediction for pushing
 	/// This allows instant pushing reaction to a pushing event
 	/// on the client who instigated it. The server then validates
 	/// the transform position and returns it if it is illegal
-	/// </summary>
 	public void PushToPosition(Vector3 pos, float speed, PushPull pushComponent)
 	{
 //		if(pushComponent.pushing || predictivePushing){
@@ -263,6 +261,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	public void UpdateClientState(TransformState newState)
 	{
+		//FIXME: invesigate wrong clientState for microwaved food
 		//Don't lerp (instantly change pos) if active state was changed
 		if (clientState.Active != newState.Active /*|| newState.Speed == 0*/)
 		{
@@ -290,9 +289,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		}
 	}
 
-	/// <summary>
 	///     Currently sending to everybody, but should be sent to nearby players only
-	/// </summary>
 	[Server]
 	private void NotifyPlayers()
 	{
@@ -300,9 +297,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		TransformStateMessage.SendToAll(gameObject, serverState);
 	}
 
-	/// <summary>
 	///     Sync with new player joining
-	/// </summary>
 	/// <param name="playerGameObject"></param>
 	[Server]
 	public void NotifyPlayer(GameObject playerGameObject)
@@ -360,7 +355,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		}
 
 		//Registering
-		if (registerTilePos() != Vector3Int.RoundToInt(clientState.Position) )//&& !isPushing && !predictivePushing)
+		if (registerTile.Position != Vector3Int.RoundToInt(clientState.Position) )//&& !isPushing && !predictivePushing)
 		{
 //			Debug.LogFormat($"registerTile updating {localToWorld(registerTilePos())}->{localToWorld(Vector3Int.RoundToInt(transform.localPosition))}, " +
 //			                $"ts={localToWorld(Vector3Int.RoundToInt(transformState.localPos))}");
@@ -375,25 +370,19 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			(Vector3) clientState.Impulse * (clientState.Speed * SpeedMultiplier) * Time.deltaTime;
 	}
 
-	private Vector3Int registerTilePos()
-	{
-		return registerTile.Position;
-	}
-
 	private void Lerp()
 	{
+		Vector3 targetPos = MatrixManager.WorldToLocal(clientState.WorldPosition, MatrixManager.Get( matrix ));
 		if ( clientState.Speed.Equals(0) )
 		{
-			transform.localPosition = clientState.Position;
+			transform.localPosition = targetPos;
 			return;
 		}
 		transform.localPosition =
-			Vector3.MoveTowards(transform.localPosition, clientState.Position, clientState.Speed * SpeedMultiplier * Time.deltaTime);
+			Vector3.MoveTowards(transform.localPosition, targetPos, clientState.Speed * SpeedMultiplier * Time.deltaTime);
 	}
 
-	/// <summary>
 	///     Space drift detection is serverside only
-	/// </summary>
 	[Server]
 	private void CheckSpaceDrift()
 	{
@@ -452,9 +441,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		return clientState.Impulse != Vector2.zero && clientState.Speed != 0f;
 	}
 
-	/// Make sure to use localPos when asking
-	private bool CanDriftTo(Vector3Int goal)
+	/// Can it drift to given pos?
+	private bool CanDriftTo(Vector3Int worldPos)
 	{
-		return matrix != null && matrix.IsEmptyAt(goal);
+		//TODO: look into poor collision detection (items can sometimes end up on solid tiles)
+		return MatrixManager.IsEmptyAt(worldPos);
 	}
 }
