@@ -153,10 +153,10 @@ namespace Weapons
 				GameObject otherHandItem = UIManager.Hands.OtherSlot.Item;
 				string hand;
 
-				if (currentHandItem != null)
+				if ((currentHandItem != null) && (otherHandItem != null))
 				{
 					if (CurrentMagazine == null)
-					{
+					{  
 						//RELOAD
 						if (currentHandItem.GetComponent<MagazineBehaviour>() && otherHandItem.GetComponent<Weapon>())
 						{
