@@ -23,7 +23,8 @@ namespace UI
 		private void Awake()
 		{
 			image = GetComponent<Image>();
-			image.enabled = false;
+            image.alphaHitTestMinimumThreshold = 0.5f;
+            image.enabled = false;
 			if (eventName.Length > 0)
 			{
 				//                Debug.LogErrorFormat("Triggered SetItem for {0}",slotName);
