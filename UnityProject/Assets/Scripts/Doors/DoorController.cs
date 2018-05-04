@@ -131,7 +131,11 @@ namespace Doors
 		[Command]
 		public void CmdTryClose()
 		{
-			if (IsOpened && !isPerformingAction && matrix.IsPassableAt(registerTile.Position))
+            if(isWindowedDoor && IsOpened && !isPerformingAction)
+            {
+                RpcClose();
+            }
+            else if (IsOpened && !isPerformingAction && matrix.IsPassableAt(registerTile.Position))
 			{
 				RpcClose();
 			}

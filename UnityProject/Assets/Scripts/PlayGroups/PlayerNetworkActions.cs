@@ -494,9 +494,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdToggleChatIcon(bool turnOn)
 	{
-		if (!GetComponent<VisibleBehaviour>().visibleState)
+		if (!GetComponent<VisibleBehaviour>().visibleState || (playerScript.JobType == JobType.NULL))
 		{
-			//Don't do anything with chat icon if player is invisible
+			//Don't do anything with chat icon if player is invisible or not spawned in
 			return;
 		}
 
