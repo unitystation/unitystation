@@ -109,22 +109,6 @@ namespace UI
 			yield return new WaitForSeconds(0.2f);
 			if (!Screen.fullScreen)
 			{
-				float screenWidth = Screen.height * targetAspect;
-
-				//The following conditions check if the screen width or height
-				//is an odd number. If it is, then it adjusted to be an even number
-				//This fixes the sprite bleeding between tiles:
-				if ((int) screenWidth % 2 != 0)
-				{
-					screenWidth += 1f;
-				}
-				int screenHeight = Screen.height;
-				if (screenHeight % 2 != 0)
-				{
-					screenHeight++;
-				}
-
-				Screen.SetResolution((int) screenWidth, screenHeight, false);
 				if (camResizer != null) {
 					camResizer.AdjustCam();
 				}
