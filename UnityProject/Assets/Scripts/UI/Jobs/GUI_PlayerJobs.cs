@@ -1,6 +1,7 @@
 ﻿using PlayGroup;
 using UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GUI_PlayerJobs : MonoBehaviour
@@ -30,6 +31,25 @@ public class GUI_PlayerJobs : MonoBehaviour
 		UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(false);
 		hasPickedAJob = true;
 	}
+
+    // This will send us back to the lobby
+    public void BackToLobby()
+    {
+        SoundManager.Play("Click01");
+
+        // Remove the job selection window
+        UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(false);
+
+        // Load the lobby scene back up
+        CustomNetworkManager.Instance.ServerChangeScene("Lobby");
+
+        // Make sure we kill the server connection, in case the user wants to start a different server
+        // We're only going to do this, if the user is the host
+        if (CustomNetworkManager.Instance._isServer)
+        {
+            CustomNetworkManager.Instance.StopHost();
+        }
+    }
 
 	private void UpdateJobsList()
 	{
@@ -63,6 +83,15 @@ public class GUI_PlayerJobs : MonoBehaviour
 
 			occupation.SetActive(true);
 		}
+
+        // Create a button to go back to the lobby. Tack it on to the end of the job list.
+        GameObject backButton = Instantiate(buttonPrefab);
+        backButton.GetComponentInChildren<Text>().text = "Back";
+        backButton.transform.SetParent(screen_Jobs.transform);
+        backButton.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        backButton.GetComponent<Button>().onClick.AddListener(() => { BackToLobby(); });
+        backButton.SetActive(true);
+
 		screen_Jobs.SetActive(true);
 		isUpToDate = true;
 	}

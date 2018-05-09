@@ -521,7 +521,15 @@ public class ItemAttributes : NetworkBehaviour
 
 	public void OnMouseEnter()
 	{
-		UIManager.SetToolTip = itemName + " (" + itemDescription + ")";
+		// Removes the parentheses from the item tooltip if it isn't necessary
+		if (itemDescription.Length > 0)
+		{
+			UIManager.SetToolTip = itemName + " (" + itemDescription + ")";
+		}
+		else
+		{
+			UIManager.SetToolTip = itemName;
+		}
 	}
 
 	public void OnMouseExit()
