@@ -50,6 +50,8 @@ namespace Tilemaps.Behaviours.Objects
 			UpdatePosition();
 		}
 
+		public Vector3Int WorldPosition => MatrixManager.Instance.LocalToWorldInt(position, Matrix);
+
 		public Vector3Int Position
 		{
 			get { return position; }

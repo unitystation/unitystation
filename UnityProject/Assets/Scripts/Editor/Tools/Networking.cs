@@ -41,10 +41,10 @@ public class Networking : Editor
 	{
 		foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
 			Vector3 playerPos = player.GameObject.GetComponent<PlayerScript>().playerSync.ServerState.WorldPosition;
-			Vector3 spawnPos = playerPos + new Vector3( 0, 15, 0 );
+			Vector3 spawnPos = playerPos + new Vector3( 0, 5, 0 );
 			GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal("Meat Steak");
 			var slabs = new List<CustomNetTransform>();
-			for ( int i = 0; i < 100; i++ ) {
+			for ( int i = 0; i < 5; i++ ) {
 				slabs.Add( ItemFactory.Instance.SpawnMeal(mealPrefab, spawnPos, null).GetComponent<CustomNetTransform>() );
 			}
 			for ( var i = 0; i < slabs.Count; i++ ) {
