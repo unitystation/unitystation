@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -66,6 +67,13 @@ public class ItemAttributes : NetworkBehaviour
 	public SpriteType spriteType;
 	public ItemType type;
 
+	/// throw-related fields
+	public int throwForce = 0,
+			throwSpeed = 2, //"How many tiles to move per ds when being thrown"
+			throwRange = 7,
+			force = 0;
+	public string hitSound = "";
+
 	public override void OnStartClient()
 	{
 		StartCoroutine(WaitForLoad());
@@ -130,6 +138,12 @@ public class ItemAttributes : NetworkBehaviour
 		item_color = tryGetAttr("item_color"); //also a state
 		item_state = tryGetAttr("item_state");
 		string[] states = {icon_state, item_color, item_state};
+
+		throwForce = int.Parse( tryGetAttr( "throwforce" ) );
+		throwSpeed = int.Parse( tryGetAttr( "throw_speed" ) );
+		throwRange = int.Parse( tryGetAttr( "throw_range" ) );
+		force = int.Parse( tryGetAttr( "force" ) );
+		hitSound = tryGetAttr( "hitsound" );
 
 		masterType = getMasterType(hier); // aka SpriteType
 		itemType = getItemType(hier, getInvIconPrefix(masterType));

@@ -77,6 +77,7 @@ public struct TransformState
 public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
 	private RegisterTile registerTile;
+	private ItemAttributes itemAttributes;
 
 	private TransformState serverState = TransformState.HiddenState; //used for syncing with players, matters only for server
 
@@ -96,6 +97,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	{
 		clientState = TransformState.HiddenState;
 		registerTile = GetComponent<RegisterTile>();
+		itemAttributes = GetComponent<ItemAttributes>();
 	}
 
 	public override void OnStartServer()
@@ -201,8 +203,12 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	[Server]
-	public void Throw( Vector3 pos, float speed, Vector2 impulse, SpinMode spin = SpinMode.Clockwise ) {
-		SetPosition( pos, false );
+	public void Throw( Vector3 initialPos, float speed, Vector2 impulse, SpinMode spin = SpinMode.Clockwise ) {
+		SetPosition( initialPos, false );
+		int? throwSpeed = itemAttributes?.throwSpeed;
+		int? force = itemAttributes?.force;
+		int? throwForce = itemAttributes?.throwForce;
+		int? throwRange = itemAttributes?.throwRange;
 		serverState.Impulse = impulse;
 		serverState.Speed = Random.Range(-0.2f, 0.2f) + speed;
 		if ( spin != SpinMode.None ) {
