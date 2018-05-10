@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using PlayGroup;
 using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,6 +12,9 @@ namespace Equipment
 	{
 		public Dictionary<NetworkIdentity, ItemAttributes> currentObjects =
 			new Dictionary<NetworkIdentity, ItemAttributes>();
+
+		/// Owner player
+		public PlayerScript Owner { get; set; }
 
 		public void AddGameObject(GameObject obj)
 		{
@@ -56,11 +60,14 @@ namespace Equipment
 			}
 		}
 
-		private static void DropNow(GameObject gObj, Vector3 dropPos)
+		private void DropNow(GameObject gObj, Vector3 dropPos)
 		{
 			var objTransform = gObj.GetComponent<CustomNetTransform>();
-			objTransform.ForceDrop(dropPos); //For demo purposes
-			//Normally you would do objTransform.AppearAtPositionServer(dropPos); 
+			if ( Owner ) {
+				objTransform.Throw( dropPos, Owner.playerMove.speed, Owner.playerSync.ServerState.Impulse, SpinMode.None ); //For demo purposes
+			} else {
+				objTransform.AppearAtPositionServer(dropPos); 
+			}
 		}
 	}
 }

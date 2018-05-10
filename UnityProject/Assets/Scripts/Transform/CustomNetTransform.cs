@@ -5,18 +5,37 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
+public enum SpinMode {
+	None,
+	Clockwise,
+	CounterClockwise
+}
+
 // ReSharper disable CompareOfFloatsByEqualityOperator
 public struct TransformState
 {
 	public bool Active => !Equals( HiddenState );
-	public float Speed;
+	public float speed;
+	public float Speed {
+		get { return speed; }
+		set {
+			if ( value < 0 ) {
+				speed = 0;
+			} else {
+				speed = value;
+			}
+		}
+	}
+	
 	///Direction of throw
 	public Vector2 Impulse;
 
 	public int MatrixId;
 	public Vector3 Position;
-	//TODO: Rotation
 
+	public float Rotation;
+	public sbyte SpinFactor; 
+	
 	/// Means that this object is hidden
 	public static readonly Vector3Int HiddenPos = new Vector3Int(0, 0, -100);
 	/// Means that this object is hidden
@@ -46,10 +65,12 @@ public struct TransformState
 		}
 	}
 
+
 	public override string ToString()
 	{
 		return Equals( HiddenState ) ? "[Hidden]" : $"[{nameof( Position )}: {(Vector2)Position}, {nameof( WorldPosition )}: {(Vector2)WorldPosition}, " +
-		       $"{nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( MatrixId )}: {MatrixId}]";
+		       $"{nameof( speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( Rotation )}: {Rotation}, {nameof( SpinFactor )}: {SpinFactor}, " +
+		                                            $" {nameof( MatrixId )}: {MatrixId}]";
 	}
 }
 
@@ -97,6 +118,8 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 		serverState.Position =
 			Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
+		serverState.Rotation = 0f;
+		serverState.SpinFactor = 0;
 		registerTile = GetComponent<RegisterTile>();
 		if ( registerTile && registerTile.Matrix && MatrixManager.Instance ) {
 			serverState.MatrixId = MatrixManager.Get( matrix ).Id;
@@ -177,7 +200,19 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		registerTile.ParentNetId = MatrixManager.Get( serverState.MatrixId ).NetId;
 	}
 
-	///     Dropping with some force, in random direction. For space floating demo purposes.
+	[Server]
+	public void Throw( Vector3 pos, float speed, Vector2 impulse, SpinMode spin = SpinMode.Clockwise ) {
+		SetPosition( pos, false );
+		serverState.Impulse = impulse;
+		serverState.Speed = Random.Range(-0.2f, 0.2f) + speed;
+		if ( spin != SpinMode.None ) {
+			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( speed * 3, sbyte.MinValue, sbyte.MaxValue ) * ( spin == SpinMode.Clockwise ? 1 : -1 ) );
+		}
+		Debug.Log( $"Throw: {serverState}" );
+		NotifyPlayers();
+	}
+
+	/// Dropping with some force, in random direction. For space floating demo purposes.
 	[Server]
 	public void ForceDrop(Vector3 pos)
 	{
@@ -188,14 +223,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		Vector3Int newGoal = RoundWithContext(serverState.WorldPosition + (Vector3) impulse, impulse);
 		if (CanDriftTo(newGoal))
 		{
-//			Debug.LogFormat($"ForceDrop success: from {pos} to {localToWorld(newGoal)}");
 			serverState.Impulse = impulse;
-			serverState.Speed = Random.Range(0.5f, 3f);
+			serverState.Speed = Random.Range(0.2f, 2f);
 		}
-//		else
-//		{
-//			Debug.LogWarningFormat($"ForceDrop fail: from {pos} to {localToWorld(newGoal)}");			
-//		}
 		NotifyPlayers();
 	}
 
@@ -269,6 +299,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		}
 		clientState = newState;
 		updateActiveStatus();
+//		transform.rotation = Quaternion.Euler( 0, 0, clientState.Rotation ); //?
 	}
 
 	private void updateActiveStatus()
@@ -331,7 +362,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 		if (isServer)
 		{
-			CheckSpaceDrift();
+			CheckFloating();
 //			//Sync the pushing state to all players
 //			//this makes sure that players with high pings cannot get too
 //			//far with prediction
@@ -352,6 +383,10 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		if (clientState.Position != transform.localPosition)
 		{
 			Lerp();
+		}
+
+		if ( clientState.SpinFactor != 0 ) {
+			transform.Rotate( Vector3.forward, Time.deltaTime * clientState.Speed * clientState.SpinFactor );
 		}
 
 		//Registering
@@ -384,30 +419,48 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	///     Space drift detection is serverside only
 	[Server]
-	private void CheckSpaceDrift()
+	private void CheckFloating()
 	{
 		if (IsFloating() && matrix != null)
 		{
-			Vector3 newGoal = serverState.Position +
+			Vector3 newGoal = serverState.WorldPosition +
 			                                      (Vector3) serverState.Impulse * (serverState.Speed * SpeedMultiplier) * Time.deltaTime;
 			Vector3Int intGoal = RoundWithContext(newGoal, serverState.Impulse);
 			if (CanDriftTo(intGoal))
 			{
-				if (registerTile.Position != Vector3Int.RoundToInt(transform.localPosition)){
-					registerTile.UpdatePosition();
-//					RpcForceRegisterUpdate();
+//				if (registerTile.Position != Vector3Int.RoundToInt(transform.localPosition)){
+//					RegisterObjects();
+////					RpcForceRegisterUpdate();
+//				}
+				serverState.WorldPosition = newGoal;
+				//Spess drifting is perpetual, but speed decreases each tile if object is flying on non-empty (floor assumed) tiles
+				if ( isServer && !MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(serverState.WorldPosition) ) ) {
+					//todo: meta layer checks for resistance (lubed floor - curling anyone?, etc), item weight
+					serverState.Speed -= 0.1f;
+					if ( serverState.Speed <= 0f ) {
+						StopFloating();
+					} else {
+					//todo: optimize network traffic!
+						NotifyPlayers();
+					}
 				}
-				//Spess drifting
-				serverState.Position = newGoal;
 			}
-			else //Stopping drift
+			else 
 			{
-				serverState.Impulse = Vector2.zero; //killing impulse, be aware when implementing throw!
-				NotifyPlayers();
-				registerTile.UpdatePosition();
+				StopFloating();
 //				RpcForceRegisterUpdate();
 			}
 		}
+	}
+	///Stopping drift, killing impulse
+	[Server]
+	private void StopFloating() {
+		Debug.Log( $"{gameObject.name} stopped floating" );
+		serverState.Impulse = Vector2.zero;
+		serverState.Rotation = transform.rotation.eulerAngles.z;
+		serverState.SpinFactor = 0;
+		NotifyPlayers();
+		RegisterObjects();
 	}
 
 //	//For space drift, the server will confirm an update is required and inform the clients
@@ -436,15 +489,14 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	{
 		if (isServer)
 		{
-			return serverState.Impulse != Vector2.zero && serverState.Speed != 0f;
+			return serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
 		}
-		return clientState.Impulse != Vector2.zero && clientState.Speed != 0f;
+		return clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
 	}
 
 	/// Can it drift to given pos?
-	private bool CanDriftTo(Vector3Int worldPos)
+	private bool CanDriftTo(Vector3Int targetPos)
 	{
-		//TODO: look into poor collision detection (items can sometimes end up on solid tiles)
-		return MatrixManager.IsEmptyAt(worldPos);
+		return MatrixManager.IsPassableAt( Vector3Int.RoundToInt( serverState.WorldPosition ), targetPos );
 	}
 }

@@ -324,6 +324,26 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 	}
+	
+	/// Client requesting throw to clicked position
+	[Command]
+	public void CmdRequestThrow(string slot, Vector3 worldTargetPos) {
+		if ( slot != "leftHand" && slot != "rightHand" || !SlotNotEmpty( slot ) ) {
+			RollbackPrediction( slot );
+			return;
+		}
+		GameObject throwable = Inventory[slot];
+		
+		Vector3 playerPos = playerScript.playerSync.ServerState.WorldPosition;
+		float speed = Mathf.Clamp( Vector3.Distance( playerPos, worldTargetPos ) * 2, 0f, 20f );
+
+		EquipmentPool.DisposeOfObject(gameObject, throwable); 
+		ClearInventorySlot(slot);
+		//Calculate impulse
+		Vector2 impulse = (worldTargetPos - playerPos).normalized;
+		//Clockwise spin from left hand and Counterclockwise from the right hand
+		throwable.GetComponent<CustomNetTransform>().Throw( playerPos, speed, impulse, slot == "leftHand" ? SpinMode.Clockwise : SpinMode.CounterClockwise );
+	}
 
 	//Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)
 	[Command]

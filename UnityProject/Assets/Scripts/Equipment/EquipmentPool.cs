@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -51,7 +52,9 @@ namespace Equipment
 					Instantiate(Instance.objectPoolPrefab, Vector2.zero, Quaternion.identity);
 				newPool.transform.parent = Instance.transform;
 				newPool.name = $"{playerName} ({ownerId})";
-				Instance.equipPools.Add(ownerId, newPool.GetComponent<ObjectPool>());
+				ObjectPool pool = newPool.GetComponent<ObjectPool>();
+				pool.Owner = player.GetComponent<PlayerScript>();
+				Instance.equipPools.Add(ownerId, pool);
 				Instance.equipPools[ownerId].AddGameObject(gObj);
 			}
 //			Debug.LogFormat($"Added {gObj.name}({gObj.GetComponent<ItemAttributes>().itemName}) " +
