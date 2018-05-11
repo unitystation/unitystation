@@ -133,10 +133,14 @@ namespace PlayGroups.Input
 			{
 				foreach (Renderer _renderer in renderers.OrderByDescending(sr => sr.sortingOrder)) 
 				{
-					if (Interact(_renderer.transform, position))
+					// If the ray hits a FOVTile, we can continue down (don't count it as an interaction)
+					if (!_renderer.sortingLayerName.Equals("FieldOfView"))
 					{
-						isInteracting = true;
-						break;
+						if (Interact(_renderer.transform, position))
+						{
+							isInteracting = true;
+							break;
+						}
 					}
 				}
 			}
