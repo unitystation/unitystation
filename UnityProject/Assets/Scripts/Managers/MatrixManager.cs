@@ -31,6 +31,9 @@ public class MatrixManager : MonoBehaviour
 	/// </summary>
 	public Dictionary<Collider2D, Tilemap> wallsTileMaps = new Dictionary<Collider2D, Tilemap>();
 
+	[Header("Set the amount of matricies in the scene here")]
+	public int matrixCount;
+
 	/// Finds first matrix that is not empty at given world pos
 	public MatrixInfo AtPoint(Vector3Int worldPos)
 	{
@@ -131,7 +134,7 @@ public class MatrixManager : MonoBehaviour
 	private void InitMatrices()
 	{
 		Matrix[] findMatrices = FindObjectsOfType<Matrix>();
-		if (findMatrices.Length < 4)
+		if (findMatrices.Length < matrixCount)
 		{
 //			Debug.Log( "Matrix init failure, will try in 0.5" );
 			StartCoroutine(WaitForLoad());
