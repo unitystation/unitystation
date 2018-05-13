@@ -204,6 +204,8 @@ namespace PlayGroup
 				return direction;
 			}
 
+			Debug.Log("CURRENT MATRIX: " + curMatrix.gameObject.name);
+
 			Vector3Int newPos = currentPosition + direction;
 
 			//isReplay tells AdjustDirection if the move being carried out is a replay move for prediction or not

@@ -9,7 +9,8 @@ namespace Tilemaps.Tiles
 		Objects,
 		Floors,
 		Base,
-		None
+		None,
+		TopLayerEffects
 	}
 
 	public enum TileType
@@ -18,7 +19,8 @@ namespace Tilemaps.Tiles
 		Wall,
 		Window,
 		Floor,
-		Table
+		Table,
+		TopLayerEffects
 	}
 
 	public class LayerTile : GenericTile
