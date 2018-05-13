@@ -15,6 +15,7 @@ namespace Tilemaps.Behaviours.Layers
 		protected Tilemap tilemap;
 
 		public BoundsInt Bounds => tilemap.cellBounds;
+		public Tilemap topLayerFX;
 
 		public void Awake()
 		{
@@ -37,7 +38,10 @@ namespace Tilemaps.Behaviours.Layers
 			{
 				if (LayerType == LayerType.Walls)
 				{
-					MatrixManager.Instance.wallTileMaps.Add(GetComponent<TilemapCollider2D>(), tilemap);
+					if (topLayerFX != null) {
+						MatrixManager.Instance.wallsToTopLayerFX.Add(GetComponent<TilemapCollider2D>(), topLayerFX);
+					}
+					MatrixManager.Instance.wallsTileMaps.Add(GetComponent<TilemapCollider2D>(), tilemap);
 				}
 			}
 		}
