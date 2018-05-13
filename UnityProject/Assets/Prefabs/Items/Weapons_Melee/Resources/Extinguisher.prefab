@@ -192,7 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cloth: 0
   clothingReference: -1
-  hierarchy: /obj/item/weapon/extinguisher
+  hierarchy: 
   inHandReferenceLeft: 88
   inHandReferenceRight: 96
   itemDescription: A heavy fire extinguisher
@@ -200,6 +200,11 @@ MonoBehaviour:
   size: 2
   spriteType: 0
   type: 15
+  throwForce: 10
+  throwSpeed: 2
+  throwRange: 7
+  force: 10
+  hitSound: sound/weapons/smash.ogg
 --- !u!114 &114690376875817604
 MonoBehaviour:
   m_ObjectHideFlags: 1

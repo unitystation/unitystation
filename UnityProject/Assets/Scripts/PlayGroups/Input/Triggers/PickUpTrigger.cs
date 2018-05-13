@@ -57,13 +57,13 @@ namespace Items
 			{
 				return false;
 			}
-			if (cnt.IsFloating() ? !CanReachFloating(ps, state) : !ps.IsInReach(state.WorldPosition))
+			if (cnt.IsFloatingServer ? !CanReachFloating(ps, state) : !ps.IsInReach(state.WorldPosition))
 			{
-				Debug.LogWarningFormat($"Not in reach! server pos:{state.WorldPosition} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
+				Debug.LogWarningFormat($"Not in reach! server pos:{state.WorldPosition} player pos:{originator.transform.position} (floating={cnt.IsFloatingServer})");
 				return false;
 			}
 
-//			Debug.LogFormat($"Pickup success! server pos:{state.position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
+//			Debug.LogFormat($"Pickup success! server pos:{state.position} player pos:{originator.transform.position} (floating={cnt.IsFloatingServer()})");
 
 
 			//set ForceInform to false for simulation

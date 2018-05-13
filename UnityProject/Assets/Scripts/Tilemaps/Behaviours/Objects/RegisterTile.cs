@@ -109,8 +109,8 @@ namespace Tilemaps.Behaviours.Objects
 			Position = Vector3Int.RoundToInt(transform.localPosition);
 		}
 
-		public void Unregister()
-		{
+		public void Unregister() {
+			Position = TransformState.HiddenPos;
 			layer?.Objects.Remove(Position, this);
 		}
 

@@ -138,7 +138,7 @@ namespace UI
 			}
 
 			SoundManager.Play("Click01");
-			Debug.Log("Throw Button");
+//			Debug.Log("Throw Button");
 
 			if (!UIManager.IsThrow)
 			{

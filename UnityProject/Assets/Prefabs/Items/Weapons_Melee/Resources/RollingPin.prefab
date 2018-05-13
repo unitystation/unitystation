@@ -122,6 +122,11 @@ MonoBehaviour:
   size: 2
   spriteType: 0
   type: 15
+  throwForce: 20
+  throwSpeed: 1
+  throwRange: 10
+  force: 0
+  hitSound: 
 --- !u!114 &114065043758903462
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -153,6 +158,7 @@ MonoBehaviour:
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
   pulledBy: {fileID: 0}
+  custNetActiveState: 0
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
   closetHandlerCache: {fileID: 0}

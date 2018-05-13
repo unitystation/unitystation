@@ -111,7 +111,8 @@ namespace PlayGroups.Input
 				position.z = 0f;
 				currentSlot.Clear();
 				Debug.Log( $"Requesting throw from {currentSlot.eventName} to {position}" );
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestThrow( currentSlot.eventName, position );
+				PlayerManager.LocalPlayerScript.playerNetworkActions
+					.CmdRequestThrow( currentSlot.eventName, position, (int) UIManager.DamageZone );
 				//Disabling throw button
 				UIManager.Action.Throw();
 			}

@@ -64,7 +64,8 @@ namespace Equipment
 		{
 			var objTransform = gObj.GetComponent<CustomNetTransform>();
 			if ( Owner ) {
-				objTransform.Throw( dropPos, Owner.playerMove.speed, Owner.playerSync.ServerState.Impulse, SpinMode.None ); //For demo purposes
+				//Inertia drop works only if player has external impulse (space floating etc.)
+				objTransform.InertiaDrop( dropPos, Owner.playerMove.speed, Owner.playerSync.ServerState.Impulse );
 			} else {
 				objTransform.AppearAtPositionServer(dropPos); 
 			}

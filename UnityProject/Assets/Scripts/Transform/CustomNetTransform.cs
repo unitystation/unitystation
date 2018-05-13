@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using PlayGroup;
 using Tilemaps;
 using Tilemaps.Behaviours.Objects;
 using UnityEngine;
@@ -9,6 +11,26 @@ public enum SpinMode {
 	None,
 	Clockwise,
 	CounterClockwise
+}
+
+public struct ThrowInfo
+{
+	/// Null object, means that there's no throw in progress
+	public static readonly ThrowInfo NoThrow = 
+		new ThrowInfo{ OriginPos = TransformState.HiddenPos, TargetPos = TransformState.HiddenPos };
+	public Vector3 OriginPos;
+	public Vector3 TargetPos;
+	public GameObject ThrownBy;
+	public BodyPartType Aim;
+	public float InitialSpeed;
+	public SpinMode SpinMode;
+	public Vector3 Trajectory => TargetPos - OriginPos;
+
+	public override string ToString() {
+		return Equals(NoThrow) ? "[No throw]" : 
+			$"[{nameof( OriginPos )}: {OriginPos}, {nameof( TargetPos )}: {TargetPos}, {nameof( ThrownBy )}: {ThrownBy}, " +
+		    $"{nameof( Aim )}: {Aim}, {nameof( InitialSpeed )}: {InitialSpeed}, {nameof( SpinMode )}: {SpinMode}]";
+	}
 }
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
@@ -30,6 +52,10 @@ public struct TransformState
 	///Direction of throw
 	public Vector2 Impulse;
 
+	/// Server-only active throw information
+	[NonSerialized]
+	public ThrowInfo ActiveThrow;
+
 	public int MatrixId;
 	public Vector3 Position;
 
@@ -39,7 +65,8 @@ public struct TransformState
 	/// Means that this object is hidden
 	public static readonly Vector3Int HiddenPos = new Vector3Int(0, 0, -100);
 	/// Means that this object is hidden
-	public static readonly TransformState HiddenState = new TransformState{/*Active = false,*/ Position = HiddenPos, MatrixId = 0};
+	public static readonly TransformState HiddenState = 
+		new TransformState{ Position = HiddenPos, ActiveThrow = ThrowInfo.NoThrow, MatrixId = 0};
 
 	public Vector3 WorldPosition
 	{
@@ -64,7 +91,6 @@ public struct TransformState
 			}
 		}
 	}
-
 
 	public override string ToString()
 	{
@@ -93,6 +119,28 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	public bool isPushing;
 	public bool predictivePushing = false;
 
+	public bool IsInSpace => MatrixManager.IsSpaceAt( Vector3Int.RoundToInt( transform.position ) );
+
+	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
+	public bool IsFloatingClient => clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
+	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
+	private bool ShouldStopThrow {
+		get {
+			if ( !IsBeingThrown ) {
+				return true;
+			}
+
+			var trajectory = serverState.ActiveThrow.Trajectory;
+			var shouldStop = 
+				Vector3.Distance( serverState.ActiveThrow.OriginPos, serverState.WorldPosition ) >= trajectory.magnitude;
+//			if ( shouldStop ) {
+//				Debug.Log( $"Should stop throw: {Vector3.Distance( serverState.ActiveThrow.OriginPos, serverState.WorldPosition )}" +
+//				           $" >= {trajectory.magnitude}" );
+//			}
+			return shouldStop; 
+		}
+	}
+
 	private void Start()
 	{
 		clientState = TransformState.HiddenState;
@@ -108,7 +156,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	[Server]
 	private void InitServerState()
-	{
+	{ //todo: fix runtime spawn matrixid init nagging
 //		isPushing = false;
 //		predictivePushing = false;
 
@@ -129,6 +177,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			Debug.LogWarning( "Matrix id init failure" );
 		}
 	}
+
 	/// Is it supposed to be hidden? (For init purposes)
 	private bool IsHiddenOnInit {
 		get {
@@ -149,13 +198,54 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	//	Debug.Log($"{name} reInit: {serverTransformState}");
 	}
 
-//	/// Overwrite server state with a completely new one
-//    [Server]
-//    public void SetState(TransformState state)
-//    {
-//        serverTransformState = state;
-//        NotifyPlayers();
-//    }
+	private void Synchronize()
+	{
+		if (!clientState.Active)
+		{
+			return;
+		}
+
+		if (isServer)
+		{
+			CheckFloating();
+//			//Sync the pushing state to all players
+//			//this makes sure that players with high pings cannot get too
+//			//far with prediction
+//			if(isPushing){
+//				if(clientState.Position == transform.localPosition){
+//					isPushing = false;
+//					predictivePushing = false;
+//				}
+//			}
+		} 
+
+		if (IsFloatingClient)
+		{
+			SimulateFloating();
+			//fixme: don't simulate moving through solid stuff on client
+		}
+
+		if (clientState.Position != transform.localPosition)
+		{
+			Lerp();
+		}
+
+		if ( clientState.SpinFactor != 0 ) {
+			transform.Rotate( Vector3.forward, Time.deltaTime * clientState.Speed * clientState.SpinFactor );
+		}
+
+		//Checking if we should change matrix once per tile
+		if (isServer && registerTile.WorldPosition != Vector3Int.RoundToInt(serverState.WorldPosition) ) {
+			//Todo: optimize usage, checking every tile is kind of expensive, and all things flying into abyss are going to do that
+			CheckMatrixSwitch();
+		}
+		//Registering
+		if (registerTile.WorldPosition != Vector3Int.RoundToInt(clientState.WorldPosition) )//&& !isPushing && !predictivePushing)
+		{
+//			Debug.LogFormat($"registerTile updating {registerTile.WorldPosition}->{Vector3Int.RoundToInt(clientState.WorldPosition)} ");
+			RegisterObjects();
+		}
+	}
 
 	/// Manually set an item to a specific position. Use WorldPosition!
 	[Server]
@@ -178,7 +268,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		if (notify) {
 			NotifyPlayers();
 		}
-
 		//Set it to being pushed if it is a push net action
 //		if(_isPushing){
 			//This is synced via syncvar with all players
@@ -203,18 +292,63 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	[Server]
-	public void Throw( Vector3 initialPos, float speed, Vector2 impulse, SpinMode spin = SpinMode.Clockwise ) {
-		SetPosition( initialPos, false );
-		int? throwSpeed = itemAttributes?.throwSpeed;
-		int? force = itemAttributes?.force;
-		int? throwForce = itemAttributes?.throwForce;
-		int? throwRange = itemAttributes?.throwRange;
-		serverState.Impulse = impulse;
-		serverState.Speed = Random.Range(-0.2f, 0.2f) + speed;
-		if ( spin != SpinMode.None ) {
-			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( speed * 3, sbyte.MinValue, sbyte.MaxValue ) * ( spin == SpinMode.Clockwise ? 1 : -1 ) );
+	private void CheckMatrixSwitch( bool notify = true ) {
+		int newMatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( serverState.WorldPosition ) ).Id;
+		if ( serverState.MatrixId != newMatrixId ) {
+			Debug.Log( $"{gameObject} matrix {serverState.MatrixId}->{newMatrixId}" );
+
+			//It's very important to save World Pos before matrix switch and restore it back afterwards
+			var worldPosToPreserve = serverState.WorldPosition;
+			serverState.MatrixId = newMatrixId;
+			serverState.WorldPosition = worldPosToPreserve;
+			if ( notify ) {
+				NotifyPlayers();
+			}
 		}
-		Debug.Log( $"Throw: {serverState}" );
+	}
+
+	[Server]
+	public void InertiaDrop( Vector3 initialPos, float speed, Vector2 impulse ) {
+		SetPosition( initialPos, false );
+		serverState.Impulse = impulse;
+		serverState.Speed = Random.Range(-0.3f, 0f) + speed;
+		NotifyPlayers();
+	}
+
+	[Server]
+	public void Throw( ThrowInfo info ) {
+		SetPosition( info.OriginPos, false );
+		
+		var throwSpeed = itemAttributes.throwSpeed * 10; //tiles per second
+		var throwRange = itemAttributes.throwRange;
+		
+		//Calculate impulse
+		Vector2 impulse = (info.TargetPos - info.OriginPos).normalized;
+		
+		var correctedInfo = info;
+		//limit throw range here
+		if ( Vector2.Distance( info.OriginPos, info.TargetPos ) > throwRange ) {
+			correctedInfo.TargetPos = info.OriginPos + ( (Vector3)impulse * throwRange );
+//			Debug.Log( $"Throw distance clamped to {correctedInfo.Trajectory.magnitude}, " +
+//			           $"target changed {info.TargetPos}->{correctedInfo.TargetPos}" );
+		}
+		
+		//add player momentum
+		float playerMomentum = 0f;
+		//If throwing nearby, do so at 1/2 speed (looks clunky otherwise)
+		float speedMultiplier = Mathf.Clamp(correctedInfo.Trajectory.magnitude / throwRange, 0.3f, 1f);
+		serverState.Speed = (Random.Range(-0.2f, 0.2f) + throwSpeed + playerMomentum) * speedMultiplier;
+		correctedInfo.InitialSpeed = serverState.Speed;
+		
+		serverState.Impulse = impulse;
+		if ( info.SpinMode != SpinMode.None ) {
+			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( throwSpeed * 3, sbyte.MinValue, sbyte.MaxValue ) 
+			                                     * ( info.SpinMode == SpinMode.Clockwise ? 1 : -1 ) );
+		}
+
+		serverState.ActiveThrow = correctedInfo;
+		Debug.Log( $"Throw:{correctedInfo} {serverState}" );
+		//todo: add counter-impulse to player if he's in space
 		NotifyPlayers();
 	}
 
@@ -248,15 +382,15 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		SetPosition(worldPos);
 	}
 
-	///     Method to substitute transform.parent = x stuff.
-	///     You shouldn't really use it anymore,
-	///     as there are high level methods that should suit your needs better.
-	///     Server-only, client is not being notified
-	[Server]
-	public void SetParent(Transform pos)
-	{
-		transform.parent = pos;
-	}
+//	///     Method to substitute transform.parent = x stuff.
+//	///     You shouldn't really use it anymore,
+//	///     as there are high level methods that should suit your needs better.
+//	///     Server-only, client is not being notified
+//	[Server]
+//	public void SetParent(Transform pos)
+//	{
+//		transform.parent = pos;
+//	}
 
 	///     Convenience method to make stuff disappear at position.
 	///     For CLIENT prediction purposes.
@@ -298,6 +432,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	public void UpdateClientState(TransformState newState)
 	{
 		//FIXME: invesigate wrong clientState for microwaved food
+		//todo: address rotation pickup issues + items should be upright when dropping
 		//Don't lerp (instantly change pos) if active state was changed
 		if (clientState.Active != newState.Active /*|| newState.Speed == 0*/)
 		{
@@ -318,7 +453,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		{
 			registerTile.Unregister();
 		}
-		//todo: Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example. 
+		//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example. 
 		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 		for (int i = 0; i < renderers.Length; i++)
 		{
@@ -342,7 +477,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		TransformStateMessage.Send(playerGameObject, gameObject, serverState);
 	}
 
-
 	//managed by UpdateManager
 	public override void UpdateMe()
 	{
@@ -353,55 +487,9 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		Synchronize();
 	}
 
-	private void RegisterObjects()
-	{
+	private void RegisterObjects() {
 		//Register item pos in matrix
 		registerTile.UpdatePosition();
-	}
-
-	private void Synchronize()
-	{
-		if (!clientState.Active)
-		{
-			return;
-		}
-
-		if (isServer)
-		{
-			CheckFloating();
-//			//Sync the pushing state to all players
-//			//this makes sure that players with high pings cannot get too
-//			//far with prediction
-//			if(isPushing){
-//				if(clientState.Position == transform.localPosition){
-//					isPushing = false;
-//					predictivePushing = false;
-//				}
-//			}
-		} 
-
-		if (IsFloating())
-		{
-			SimulateFloating();
-			//fixme: don't simulate moving through solid stuff on client
-		}
-
-		if (clientState.Position != transform.localPosition)
-		{
-			Lerp();
-		}
-
-		if ( clientState.SpinFactor != 0 ) {
-			transform.Rotate( Vector3.forward, Time.deltaTime * clientState.Speed * clientState.SpinFactor );
-		}
-
-		//Registering
-		if (registerTile.Position != Vector3Int.RoundToInt(clientState.Position) )//&& !isPushing && !predictivePushing)
-		{
-//			Debug.LogFormat($"registerTile updating {localToWorld(registerTilePos())}->{localToWorld(Vector3Int.RoundToInt(transform.localPosition))}, " +
-//			                $"ts={localToWorld(Vector3Int.RoundToInt(transformState.localPos))}");
-			RegisterObjects();
-		}
 	}
 
 	///predictive perpetual flying
@@ -426,33 +514,49 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	///     Space drift detection is serverside only
 	[Server]
 	private void CheckFloating()
-	{
-		if (IsFloating() && matrix != null)
+	{ //todo: investigate inability to throw in tight corridors
+		if (IsFloatingServer && matrix != null)
 		{
 			Vector3 newGoal = serverState.WorldPosition +
 			                                      (Vector3) serverState.Impulse * (serverState.Speed * SpeedMultiplier) * Time.deltaTime;
 			Vector3Int intGoal = RoundWithContext(newGoal, serverState.Impulse);
-			if (CanDriftTo(intGoal))
+			//Natural throw ending
+			if ( IsBeingThrown && ShouldStopThrow ) {
+				serverState.ActiveThrow = ThrowInfo.NoThrow;
+				//Change spin when we hit the ground. Zero was kinda dull
+				serverState.SpinFactor = (sbyte) ( -serverState.SpinFactor * 0.2f );
+				//todo: hit sound
+			}
+			List<HealthBehaviour> hitDamageables = null;
+			if (CanDriftTo( intGoal ) & !HittingSomething( intGoal, out hitDamageables ))
 			{
-//				if (registerTile.Position != Vector3Int.RoundToInt(transform.localPosition)){
-//					RegisterObjects();
-////					RpcForceRegisterUpdate();
-//				}
 				serverState.WorldPosition = newGoal;
 				//Spess drifting is perpetual, but speed decreases each tile if object is flying on non-empty (floor assumed) tiles
-				if ( isServer && !MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(serverState.WorldPosition) ) ) {
-					//todo: meta layer checks for resistance (lubed floor - curling anyone?, etc), item weight
-					serverState.Speed -= 0.1f;
-					if ( serverState.Speed <= 0f ) {
+				if ( isServer && !IsBeingThrown && !MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(serverState.WorldPosition) ) ) {
+					//on-ground resistance
+					//serverState.Speed -= 0.5f;
+					serverState.Speed = serverState.Speed - (serverState.Speed * 0.10f) - 0.5f;
+					if ( serverState.Speed <= 0.05f ) {
 						StopFloating();
 					} else {
-					//todo: optimize network traffic!
 						NotifyPlayers();
 					}
 				}
-			}
-			else 
-			{
+			} else {
+				var info = serverState.ActiveThrow;
+				//Hurting what we can
+				if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) ) {
+					for ( var i = 0; i < hitDamageables.Count; i++ ) {
+//						if ( hitDamageables[i].gameObject == info.ThrownBy ) {
+//							Debug.Log( "Not hitting ourselves" );
+//							continue;
+//						}
+						//Remove cast to int when moving health values to float
+						hitDamageables[i].ApplyDamage( info.ThrownBy, (int) ( itemAttributes.throwForce*2 ), DamageType.BRUTE, info.Aim );
+					}
+					//todo:hit sound
+				}
+
 				StopFloating();
 //				RpcForceRegisterUpdate();
 			}
@@ -461,10 +565,12 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	///Stopping drift, killing impulse
 	[Server]
 	private void StopFloating() {
-		Debug.Log( $"{gameObject.name} stopped floating" );
+//		Debug.Log( $"{gameObject.name} stopped floating" );
 		serverState.Impulse = Vector2.zero;
+		serverState.Speed = 0;
 		serverState.Rotation = transform.rotation.eulerAngles.z;
 		serverState.SpinFactor = 0;
+		serverState.ActiveThrow = ThrowInfo.NoThrow; 
 		NotifyPlayers();
 		RegisterObjects();
 	}
@@ -487,22 +593,36 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			0);
 	}
 
-	public bool IsInSpace(){
-		return MatrixManager.IsSpaceAt( Vector3Int.RoundToInt( transform.position ) );
-	}
-
-	public bool IsFloating()
-	{
-		if (isServer)
-		{
-			return serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
-		}
-		return clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
-	}
-
 	/// Can it drift to given pos?
 	private bool CanDriftTo(Vector3Int targetPos)
 	{
 		return MatrixManager.IsPassableAt( Vector3Int.RoundToInt( serverState.WorldPosition ), targetPos );
+	}
+
+	private bool HittingSomething( Vector3Int targetPos, out List<HealthBehaviour> victims ) {
+		//fixme: sometimes missing npc animals at certain angle??
+		//Not damaging anything at launch tile
+		if ( Vector3Int.RoundToInt(serverState.ActiveThrow.OriginPos) == targetPos ) {
+			victims = null;
+			return false;
+		}
+		//todo: cross-matrix check, perhaps? + only perform this check once per tile
+		var objectsOnTile = matrix.Get<HealthBehaviour>(MatrixManager.Instance.WorldToLocalInt( targetPos, matrix ));
+		if ( objectsOnTile != null ) {
+			var damageables = new List<HealthBehaviour>();
+			foreach ( HealthBehaviour obj in objectsOnTile ) {
+				//We don't want to hit dead bodies
+				if ( !obj.IsDead ) {
+					damageables.Add( obj );
+				}
+			}
+			if ( damageables.Count > 0 ) {
+				victims = damageables;
+				return true;
+			}
+		}
+
+		victims = null;
+		return false;
 	}
 }

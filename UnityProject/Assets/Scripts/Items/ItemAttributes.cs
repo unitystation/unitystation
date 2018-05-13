@@ -68,11 +68,13 @@ public class ItemAttributes : NetworkBehaviour
 	public ItemType type;
 
 	/// throw-related fields
-	public int throwForce = 0,
-			throwSpeed = 2, //"How many tiles to move per ds when being thrown"
-			throwRange = 7,
-			force = 0;
-	public string hitSound = "";
+	/// ? how painful it is ?
+	public float throwForce = 0;
+	///"How many tiles to move per 0.1s when being thrown"
+	public float throwSpeed = 2;
+	/// Max distance?
+	public float throwRange = 7;
+//	public string hitSound = "";
 
 	public override void OnStartClient()
 	{
@@ -98,6 +100,11 @@ public class ItemAttributes : NetworkBehaviour
 	//        }
 	//        ConstructItem(hierarchy);
 	//    }
+
+	public float? TryParseFloat(string attr) {
+		float i;
+		return float.TryParse( tryGetAttr(attr), out i ) ? (float?) i : null;
+	}
 
 	public void ConstructItem(string hierString)
 	{
@@ -139,11 +146,11 @@ public class ItemAttributes : NetworkBehaviour
 		item_state = tryGetAttr("item_state");
 		string[] states = {icon_state, item_color, item_state};
 
-		throwForce = int.Parse( tryGetAttr( "throwforce" ) );
-		throwSpeed = int.Parse( tryGetAttr( "throw_speed" ) );
-		throwRange = int.Parse( tryGetAttr( "throw_range" ) );
-		force = int.Parse( tryGetAttr( "force" ) );
-		hitSound = tryGetAttr( "hitsound" );
+		throwForce = TryParseFloat( "throwforce" ) ?? throwForce;
+		throwSpeed = TryParseFloat( "throw_speed" ) ?? throwSpeed;
+		throwRange = TryParseFloat( "throw_range" ) ?? throwRange;
+//		force = int.Parse( tryGetAttr( "force" ) );
+//		hitSound = tryGetAttr( "hitsound" );
 
 		masterType = getMasterType(hier); // aka SpriteType
 		itemType = getItemType(hier, getInvIconPrefix(masterType));
