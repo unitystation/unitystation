@@ -21,7 +21,7 @@ namespace UI
 
 		public float cacheHudAnchor { get; set; }
 
-		private void Start()
+		private void OnEnable()
 		{
 			leftRange = maxSize.x - responsiveControl.cacheWidth;
 			rightRange = responsiveControl.cacheWidth - minSize.x;
