@@ -34,8 +34,10 @@ namespace UI
 			hudRight.gameObject.SetActive(false);
 			hudBottom.gameObject.SetActive(false);
 			backGround.SetActive(true);
-			logInWindow.SetActive(true);
-			infoWindow.SetActive(true);
+			//Open lobby login window instead of logInWindow
+			logInWindow.SetActive(false);
+			infoWindow.SetActive(false);
+			panelRight.gameObject.SetActive(false);
 		}
 
 		public void SetScreenForGame()
@@ -43,6 +45,7 @@ namespace UI
 			hudRight.gameObject.SetActive(true);
 			hudBottom.gameObject.SetActive(true);
 			backGround.SetActive(false);
+			panelRight.gameObject.SetActive(true);
 
 
 			SoundManager.StopMusic();
