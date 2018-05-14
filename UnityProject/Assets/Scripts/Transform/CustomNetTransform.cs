@@ -34,10 +34,9 @@ public struct ThrowInfo
 }
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
-public struct TransformState
-{
-	public bool Active => !Equals( HiddenState );
-	public float speed;
+public struct TransformState {
+	public bool Active => Position != HiddenPos;
+	public float speed; //public in order to serialize :\
 	public float Speed {
 		get { return speed; }
 		set {
@@ -95,7 +94,7 @@ public struct TransformState
 	public override string ToString()
 	{
 		return Equals( HiddenState ) ? "[Hidden]" : $"[{nameof( Position )}: {(Vector2)Position}, {nameof( WorldPosition )}: {(Vector2)WorldPosition}, " +
-		       $"{nameof( speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( Rotation )}: {Rotation}, {nameof( SpinFactor )}: {SpinFactor}, " +
+		       $"{nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( Rotation )}: {Rotation}, {nameof( SpinFactor )}: {SpinFactor}, " +
 		                                            $" {nameof( MatrixId )}: {MatrixId}]";
 	}
 }
@@ -235,12 +234,12 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		}
 
 		//Checking if we should change matrix once per tile
-		if (isServer && registerTile.WorldPosition != Vector3Int.RoundToInt(serverState.WorldPosition) ) {
+		if (isServer && registerTile.Position != Vector3Int.RoundToInt(serverState.Position) ) {
 			//Todo: optimize usage, checking every tile is kind of expensive, and all things flying into abyss are going to do that
 			CheckMatrixSwitch();
 		}
 		//Registering
-		if (registerTile.WorldPosition != Vector3Int.RoundToInt(clientState.WorldPosition) )//&& !isPushing && !predictivePushing)
+		if (registerTile.Position != Vector3Int.RoundToInt(clientState.Position) )//&& !isPushing && !predictivePushing)
 		{
 //			Debug.LogFormat($"registerTile updating {registerTile.WorldPosition}->{Vector3Int.RoundToInt(clientState.WorldPosition)} ");
 			RegisterObjects();
@@ -342,7 +341,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 		
 		serverState.Impulse = impulse;
 		if ( info.SpinMode != SpinMode.None ) {
-			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( throwSpeed * 3, sbyte.MinValue, sbyte.MaxValue ) 
+			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( throwSpeed * 2, sbyte.MinValue, sbyte.MaxValue ) 
 			                                     * ( info.SpinMode == SpinMode.Clockwise ? 1 : -1 ) );
 		}
 
@@ -525,7 +524,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 				serverState.ActiveThrow = ThrowInfo.NoThrow;
 				//Change spin when we hit the ground. Zero was kinda dull
 				serverState.SpinFactor = (sbyte) ( -serverState.SpinFactor * 0.2f );
-				//todo: hit sound
+				//todo: ground hit sound
 			}
 			List<HealthBehaviour> hitDamageables = null;
 			if (CanDriftTo( intGoal ) & !HittingSomething( intGoal, out hitDamageables ))
@@ -552,7 +551,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 //							continue;
 //						}
 						//Remove cast to int when moving health values to float
-						hitDamageables[i].ApplyDamage( info.ThrownBy, (int) ( itemAttributes.throwForce*2 ), DamageType.BRUTE, info.Aim );
+						hitDamageables[i].ApplyDamage( info.ThrownBy, ( int ) ( itemAttributes.throwForce * 2 ), DamageType.BRUTE, info.Aim );
 					}
 					//todo:hit sound
 				}
