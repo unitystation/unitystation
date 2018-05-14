@@ -20,10 +20,10 @@ public class FieldOfViewStencil : MonoBehaviour
 
 	public float MaskCutawayDst;
 	private Dictionary<Vector3, Tilemap> hitWalls = new Dictionary<Vector3, Tilemap>();
-	private List<Vector3> curWalls = new List<Vector3>();
+	private HashSet<Vector3> curWalls = new HashSet<Vector3>();
 
-	private List<GameObject> hitDoors = new List<GameObject>();
-	private List<GameObject> curDoors = new List<GameObject>();
+	private HashSet<GameObject> hitDoors = new HashSet<GameObject>();
+	private HashSet<GameObject> curDoors = new HashSet<GameObject>();
 
 	float waitToCheckWalls = 0f;
 	RaycastHit2D hit;
@@ -82,7 +82,7 @@ public class FieldOfViewStencil : MonoBehaviour
 
 			if (i > 0) {
 				bool edgeDstThreshholdExceeded = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > EdgeDistanceThreshhold;
-				if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeDstThreshholdExceeded)) {
+				if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && edgeDstThreshholdExceeded)) {
 					EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
 					if (edge.pointA != Vector3.zero) {
 						viewPoints.Add(edge.pointA);
