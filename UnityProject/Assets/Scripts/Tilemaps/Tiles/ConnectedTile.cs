@@ -62,7 +62,7 @@ namespace Tilemaps.Tiles
 					/// Add the black fov above all wall tiles
 					Tilemap topLayer = layer.topLayerFX;
 					if (topLayer != null) {
-						Tile newTile = new Tile();
+						Tile newTile = CreateInstance<Tile>();
 						newTile.sprite = SpriteManager.Instance.shroudSprite;
 						topLayer.SetTile(location, newTile);
 					}
