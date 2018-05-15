@@ -106,7 +106,6 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 
 	private TransformState serverState = TransformState.HiddenState; //used for syncing with players, matters only for server
 
-	public float SpeedMultiplier = 1; //Multiplier for flying/lerping speed, could corelate with weight, for example
 	private TransformState clientState = TransformState.HiddenState; //client's transform, can get dirty/predictive
 
 	private Matrix matrix => registerTile.Matrix;
@@ -495,7 +494,7 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	private void SimulateFloating()
 	{
 		clientState.Position +=
-			(Vector3) clientState.Impulse * (clientState.Speed * SpeedMultiplier) * Time.deltaTime;
+			(Vector3) clientState.Impulse * clientState.Speed * Time.deltaTime;
 	}
 
 	private void Lerp()
@@ -507,18 +506,21 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 			return;
 		}
 		transform.localPosition =
-			Vector3.MoveTowards(transform.localPosition, targetPos, clientState.Speed * SpeedMultiplier * Time.deltaTime);
+			Vector3.MoveTowards(transform.localPosition, targetPos, clientState.Speed * Time.deltaTime);
 	}
 
 	///     Space drift detection is serverside only
 	[Server]
 	private void CheckFloating()
-	{ //todo: investigate inability to throw in tight corridors
+	{ 
 		if (IsFloatingServer && matrix != null)
 		{
 			Vector3 newGoal = serverState.WorldPosition +
-			                                      (Vector3) serverState.Impulse * (serverState.Speed * SpeedMultiplier) * Time.deltaTime;
-			Vector3Int intGoal = RoundWithContext(newGoal, serverState.Impulse);
+			                                      (Vector3) serverState.Impulse * serverState.Speed * Time.deltaTime;
+			Vector3Int intOrigin = Vector3Int.RoundToInt( serverState.WorldPosition );
+			Vector3Int intGoal = Vector3Int.RoundToInt( newGoal );
+			//RoundWithContext(newGoal, serverState.Impulse);
+			
 			//Natural throw ending
 			if ( IsBeingThrown && ShouldStopThrow ) {
 				serverState.ActiveThrow = ThrowInfo.NoThrow;
@@ -526,41 +528,63 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 				serverState.SpinFactor = (sbyte) ( -serverState.SpinFactor * 0.2f );
 				//todo: ground hit sound
 			}
-			List<HealthBehaviour> hitDamageables = null;
-			if (CanDriftTo( intGoal ) & !HittingSomething( intGoal, out hitDamageables ))
-			{
+			
+			if ( intOrigin == intGoal ) {
+				//same tile, don't check
 				serverState.WorldPosition = newGoal;
-				//Spess drifting is perpetual, but speed decreases each tile if object is flying on non-empty (floor assumed) tiles
-				if ( isServer && !IsBeingThrown && !MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(serverState.WorldPosition) ) ) {
-					//on-ground resistance
-					//serverState.Speed -= 0.5f;
-					serverState.Speed = serverState.Speed - (serverState.Speed * 0.10f) - 0.5f;
-					if ( serverState.Speed <= 0.05f ) {
-						StopFloating();
-					} else {
-						NotifyPlayers();
+				Debug.Log( $"Same tile throw {newGoal}, not doing checks(?)" );
+				return;
+			}
+
+			int distance = (int) Vector3Int.Distance( intOrigin, intGoal );
+			//for every tile between origin and target
+			for ( int i = 0; i < distance; i++ ) {
+				Vector3 tempOrigin = serverState.WorldPosition;
+				Vector3 tempGoal = 	 tempOrigin + (Vector3) serverState.Impulse * (i + 1);
+				if ( CheckFloating( tempOrigin, tempGoal ) ) {
+					serverState.WorldPosition = tempGoal;
+					//Spess drifting is perpetual, but speed decreases each tile if object is flying on non-empty (floor assumed) tiles
+					if ( !IsBeingThrown && !MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( tempOrigin ) ) ) {
+						//on-ground resistance
+						//serverState.Speed -= 0.5f;
+						serverState.Speed = serverState.Speed - ( serverState.Speed * 0.10f ) - 0.5f;
+						if ( serverState.Speed <= 0.05f ) {
+							StopFloating();
+						} else {
+							NotifyPlayers(); //?
+						}
 					}
-				}
-			} else {
-				var info = serverState.ActiveThrow;
-				//Hurting what we can
-				if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) ) {
-					for ( var i = 0; i < hitDamageables.Count; i++ ) {
-//						if ( hitDamageables[i].gameObject == info.ThrownBy ) {
-//							Debug.Log( "Not hitting ourselves" );
-//							continue;
-//						}
-						//Remove cast to int when moving health values to float
-						hitDamageables[i].ApplyDamage( info.ThrownBy, ( int ) ( itemAttributes.throwForce * 2 ), DamageType.BRUTE, info.Aim );
-					}
-					//todo:hit sound
+				} else {
+					StopFloating();
 				}
 
-				StopFloating();
-//				RpcForceRegisterUpdate();
 			}
 		}
 	}
+
+	private bool CheckFloating( Vector3 origin, Vector3 goal ) {
+		Debug.Log( $"Check {origin}->{goal}" );
+		Vector3Int intOrigin = Vector3Int.RoundToInt( origin );
+		Vector3Int intGoal = Vector3Int.RoundToInt( goal );
+		List<HealthBehaviour> hitDamageables;
+		if ( CanDriftTo( intOrigin, intGoal ) & !HittingSomething( intOrigin, out hitDamageables ) ) {
+			return true;
+		} else {
+			var info = serverState.ActiveThrow;
+			//Hurting what we can
+			if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) ) {
+				for ( var i = 0; i < hitDamageables.Count; i++ ) {
+					//Remove cast to int when moving health values to float
+					hitDamageables[i].ApplyDamage( info.ThrownBy, (int) ( itemAttributes.throwForce * 2 ), DamageType.BRUTE, info.Aim );
+				}
+
+				//todo:hit sound
+			}
+			return false;
+//				RpcForceRegisterUpdate();
+		}
+	}
+
 	///Stopping drift, killing impulse
 	[Server]
 	private void StopFloating() {
@@ -593,20 +617,24 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	}
 
 	/// Can it drift to given pos?
-	private bool CanDriftTo(Vector3Int targetPos)
-	{
-		return MatrixManager.IsPassableAt( Vector3Int.RoundToInt( serverState.WorldPosition ), targetPos );
+	private bool CanDriftTo( Vector3Int targetPos ) {
+		return CanDriftTo( Vector3Int.RoundToInt( serverState.WorldPosition ), targetPos );
 	}
 
-	private bool HittingSomething( Vector3Int targetPos, out List<HealthBehaviour> victims ) {
-		//fixme: sometimes missing npc animals at certain angle??
+	private bool CanDriftTo(Vector3Int originPos, Vector3Int targetPos)
+	{
+		return MatrixManager.IsPassableAt( originPos, targetPos );
+	}
+
+	private bool HittingSomething( Vector3Int atPos, out List<HealthBehaviour> victims ) {
 		//Not damaging anything at launch tile
-		if ( Vector3Int.RoundToInt(serverState.ActiveThrow.OriginPos) == targetPos ) {
+		if ( Vector3Int.RoundToInt(serverState.ActiveThrow.OriginPos) == atPos ) {
 			victims = null;
 			return false;
 		}
-		//todo: cross-matrix check, perhaps? + only perform this check once per tile
-		var objectsOnTile = matrix.Get<HealthBehaviour>(MatrixManager.Instance.WorldToLocalInt( targetPos, matrix ));
+		//todo: cross-matrix check, perhaps?
+		var objectsOnTile = //matrix.Get<HealthBehaviour>( Vector3Int.RoundToInt(serverState.Position) );
+		matrix.Get<HealthBehaviour>(MatrixManager.Instance.WorldToLocalInt( atPos, matrix ));
 		if ( objectsOnTile != null ) {
 			var damageables = new List<HealthBehaviour>();
 			foreach ( HealthBehaviour obj in objectsOnTile ) {
