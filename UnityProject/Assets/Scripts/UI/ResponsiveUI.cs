@@ -134,9 +134,6 @@ namespace UI
 				screenHeightCache = Screen.height;
 			}
 			
-			Debug.Log( $"Current resolution is {Screen.width},{Screen.height}" );
-			AdjustZoom();
-			
 			//Refresh UI (helps avoid event system problems)
 			parentCanvas.enabled = false;
 			canvasScaler.enabled = false;
@@ -147,13 +144,6 @@ namespace UI
 			graphicRaycaster.enabled = true;
 			monitorWindow = true;
 			checkingDisplayOnLoad = false;
-		}
-
-		/// Adjusts zoom using some cryptic magic number
-		public void AdjustZoom() {
-			double ratio = Screen.height / ( double ) Screen.width;
-			double scaleFactor = Math.Sqrt( Screen.height * Screen.width / ( 409600 * ratio ) );
-			Camera.main.orthographicSize = Convert.ToSingle( ratio * 10 * scaleFactor / zoom );
 		}
 
 		public void AdjustHudBottom(Vector2 panelRightSizeDelta)
