@@ -10,7 +10,7 @@ namespace UI
 	{
 		private const string UserNamePlayerPref = "PlayerName";
 
-		private const string DefaultServer = "LocalHost";
+		public string DefaultServer = "LocalHost";
 		private const string DefaultPort = "7777";
 		public GameObject button;
 

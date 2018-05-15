@@ -131,7 +131,8 @@ namespace Doors
 		[Command]
 		public void CmdTryClose()
 		{
-            if(isWindowedDoor && IsOpened && !isPerformingAction)
+			// If we're dealing with a sliding door and there are no issues, we can close the sliding door (WinDoor)
+            if(doorType == DoorType.sliding && IsOpened && !isPerformingAction)
             {
                 RpcClose();
             }

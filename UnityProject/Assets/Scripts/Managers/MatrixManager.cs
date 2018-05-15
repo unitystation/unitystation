@@ -5,6 +5,8 @@ using Tilemaps;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
+using Tilemaps.Behaviours.Layers;
+using Tilemaps.Tiles;
 
 /// Matrix manager keeps a list of matrices that you can access from both client and server.
 /// Contains world/local position conversion methods, as well as several cross-matrix adaptations of Matrix methods.
@@ -18,8 +20,19 @@ public class MatrixManager : MonoBehaviour
 	/// List of active matrices
 	public List<MatrixInfo> Matrices => activeMatrices;
 
-	///Used for FoV ray hits and turning walls on and off:
-	public Dictionary<Collider2D, Tilemap> wallTileMaps = new Dictionary<Collider2D, Tilemap>();
+	/// <summary>
+	/// using the Collider2D of a wall tile you can find the tilemap of the topLayerFX in that matrix.
+	/// Used for FOV and any effects that can be shown over the top of walls
+	/// </summary>
+	public Dictionary<Collider2D, Tilemap> wallsToTopLayerFX = new Dictionary<Collider2D, Tilemap>();
+
+	/// <summary>
+	/// Find a wall tilemap via its Tilemap collider
+	/// </summary>
+	public Dictionary<Collider2D, Tilemap> wallsTileMaps = new Dictionary<Collider2D, Tilemap>();
+
+	[Header("Set the amount of matricies in the scene here")]
+	public int matrixCount;
 
 	/// Finds first matrix that is not empty at given world pos
 	public MatrixInfo AtPoint(Vector3Int worldPos)
@@ -121,7 +134,7 @@ public class MatrixManager : MonoBehaviour
 	private void InitMatrices()
 	{
 		Matrix[] findMatrices = FindObjectsOfType<Matrix>();
-		if (findMatrices.Length < 4)
+		if (findMatrices.Length < matrixCount)
 		{
 //			Debug.Log( "Matrix init failure, will try in 0.5" );
 			StartCoroutine(WaitForLoad());

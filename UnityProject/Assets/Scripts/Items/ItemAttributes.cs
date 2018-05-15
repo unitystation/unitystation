@@ -521,7 +521,15 @@ public class ItemAttributes : NetworkBehaviour
 
 	public void OnMouseEnter()
 	{
-		UIManager.SetToolTip = itemName + " (" + itemDescription + ")";
+		// Show the parenthesis for an item's description only if the item has a description
+		if (itemDescription.Length > 0)
+		{
+			UIManager.SetToolTip = itemName + " (" + itemDescription + ")";
+		}
+		else
+		{
+			UIManager.SetToolTip = itemName;
+		}
 	}
 
 	public void OnMouseExit()

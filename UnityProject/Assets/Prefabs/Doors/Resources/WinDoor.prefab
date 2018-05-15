@@ -158,8 +158,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1797280918088156}
-  m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
-  m_LocalPosition: {x: 47, y: 30, z: 0}
+  m_LocalRotation: {x: -0.00000020116548, y: 0.00000086426724, z: 1, w: 0.00000012644065}
+  m_LocalPosition: {x: 62, y: 46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4297137456908486}
@@ -201,7 +201,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 13792128ab4b4a9bbe78491650423df1, type: 3}
+  m_audioClip: {fileID: 8300000, guid: e7bdcdf163c0343f9a2f856c21bf43dc, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.37
   m_Pitch: 1
@@ -311,7 +311,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 98b5308a2adb43d49b3471da7a9057dd, type: 3}
+  m_audioClip: {fileID: 8300000, guid: e7bdcdf163c0343f9a2f856c21bf43dc, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.344
   m_Pitch: 1
@@ -506,11 +506,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
-  AtmosPassable: 0
-  Offset: {x: 0, y: 0, z: 0}
-  Passable: 0
-  IsClosed: 1
   OneDirectionRestricted: 1
+  isClosed: 1
 --- !u!114 &114531569165117964
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -37,7 +37,8 @@ public class CustomNetworkManager : NetworkManager
 		customConfig = true;
 
 		SetSpawnableList();
-		if (!IsClientConnected() && !GameData.IsHeadlessServer)
+		if (!IsClientConnected() && !GameData.IsHeadlessServer &&
+		    GameData.IsInGame)
 		{
 			UIManager.Display.logInWindow.SetActive(true);
 		}
@@ -348,7 +349,7 @@ public class CustomNetworkManager : NetworkManager
 			ObjectManager.StartPoolManager();
 		}
 
-		if (IsClientConnected())
+		if (IsClientConnected() && GameData.IsInGame)
 		{
 			//make sure login window does not show on scene changes if connected
 			UIManager.Display.logInWindow.SetActive(false);
@@ -368,7 +369,9 @@ public class CustomNetworkManager : NetworkManager
 		{
 			if (!IsClientConnected())
 			{
-				UIManager.Display.logInWindow.SetActive(true);
+				if (GameData.IsInGame) {
+					UIManager.Display.logInWindow.SetActive(true);
+				}
 				UIManager.Display.jobSelectWindow.SetActive(false);
 			}
 		}

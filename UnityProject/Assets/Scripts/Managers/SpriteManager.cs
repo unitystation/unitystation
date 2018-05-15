@@ -51,6 +51,11 @@ namespace Sprites
 			}
 		}
 
+		/// <summary>
+		/// The shroud sprite. Used on the topLayer TileMap to hide things, like walls
+		/// </summary>
+		public Sprite shroudSprite;
+
 		public static Sprites PlayerSprites => Instance.playerSprites;
 
 		public static Sprites ConnectSprites => Instance.wallSprites;
