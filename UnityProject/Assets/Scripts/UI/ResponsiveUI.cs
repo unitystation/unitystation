@@ -18,7 +18,6 @@ namespace UI
 		private CanvasScaler canvasScaler;
 		private GraphicRaycaster graphicRaycaster;
 		public RectTransform hudBottom;
-		public int zoom = 2;
 
 		private bool monitorWindow;
 		private Canvas parentCanvas;
