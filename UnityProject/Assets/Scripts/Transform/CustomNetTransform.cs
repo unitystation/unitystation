@@ -512,83 +512,88 @@ public class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 	///     Space drift detection is serverside only
 	[Server]
 	private void CheckFloating()
-	{ 
-		if (IsFloatingServer && matrix != null)
-		{
-			Vector3 newGoal = serverState.WorldPosition +
-			                                      (Vector3) serverState.Impulse * serverState.Speed * Time.deltaTime;
-			Vector3Int intOrigin = Vector3Int.RoundToInt( serverState.WorldPosition );
-			Vector3Int intGoal = Vector3Int.RoundToInt( newGoal );
-			//RoundWithContext(newGoal, serverState.Impulse);
-			
-			//Natural throw ending
-			if ( IsBeingThrown && ShouldStopThrow ) {
-				serverState.ActiveThrow = ThrowInfo.NoThrow;
-				//Change spin when we hit the ground. Zero was kinda dull
-				serverState.SpinFactor = (sbyte) ( -serverState.SpinFactor * 0.2f );
-				//todo: ground hit sound
-			}
-			
-			if ( intOrigin == intGoal ) {
-				//same tile, don't check
-				serverState.WorldPosition = newGoal;
-				Debug.Log( $"Same tile throw {newGoal}, not doing checks(?)" );
-				return;
-			}
+	{
+		if ( !IsFloatingServer || matrix == null ) {
+			return;
+		}
+		
+		Vector3 newGoal = serverState.WorldPosition +
+		                  (Vector3) serverState.Impulse * serverState.Speed * Time.deltaTime;
+		Vector3Int intOrigin = Vector3Int.RoundToInt( serverState.WorldPosition );
+		Vector3Int intGoal = //Vector3Int.RoundToInt( newGoal );
+			RoundWithContext(newGoal, serverState.Impulse); //?
 
-			int distance = (int) Vector3Int.Distance( intOrigin, intGoal );
-			//for every tile between origin and target
-			for ( int i = 0; i < distance; i++ ) {
-				Vector3 tempOrigin = serverState.WorldPosition;
-				Vector3 tempGoal = 	 tempOrigin + (Vector3) serverState.Impulse * (i + 1);
-				if ( CheckFloating( tempOrigin, tempGoal ) ) {
-					serverState.WorldPosition = tempGoal;
-					//Spess drifting is perpetual, but speed decreases each tile if object is flying on non-empty (floor assumed) tiles
-					if ( !IsBeingThrown && !MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( tempOrigin ) ) ) {
-						//on-ground resistance
-						//serverState.Speed -= 0.5f;
-						serverState.Speed = serverState.Speed - ( serverState.Speed * 0.10f ) - 0.5f;
-						if ( serverState.Speed <= 0.05f ) {
-							StopFloating();
-						} else {
-							NotifyPlayers(); //?
-						}
-					}
-				} else {
-					StopFloating();
-				}
+		int distance = (int) Vector3Int.Distance( intOrigin, intGoal );
+		if ( distance > 1 ) { 
+			//limit goal to just one tile away and run this method recursively afterwards
+			newGoal = serverState.WorldPosition + (Vector3) serverState.Impulse;
+		}
+		
+		if ( ValidateFloating( serverState.WorldPosition, newGoal ) ) {
+			AdvanceMovement( serverState.WorldPosition, newGoal );
+		} else {
+			StopFloating();
+		}
 
+		if ( distance > 1 ) {
+			CheckFloating();
+		}
+	}
+
+	private void AdvanceMovement( Vector3 tempOrigin, Vector3 tempGoal ) {
+		if ( !IsFloatingServer ) {
+			Debug.LogWarning( $"Not advancing {tempOrigin}->{tempGoal}" );
+			return;
+		}
+		//Natural throw ending
+		if ( IsBeingThrown && ShouldStopThrow ) {
+			Debug.Log( $"{gameObject.name}: Throw ended at {serverState.WorldPosition}" );
+			serverState.ActiveThrow = ThrowInfo.NoThrow;
+			//Change spin when we hit the ground. Zero was kinda dull
+			serverState.SpinFactor = (sbyte) ( -serverState.SpinFactor * 0.2f );
+			//todo: ground hit sound
+		}
+		
+		serverState.WorldPosition = tempGoal;
+		//Spess drifting is perpetual, but speed decreases each tile if object is flying on non-empty (floor assumed) tiles
+		if ( !IsBeingThrown && !MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( tempOrigin ) ) ) {
+			//on-ground resistance
+			//serverState.Speed -= 0.5f;
+			serverState.Speed = serverState.Speed - ( serverState.Speed * 0.10f ) - 0.5f;
+			if ( serverState.Speed <= 0.05f ) {
+				StopFloating();
+			} else {
+				NotifyPlayers();
 			}
 		}
 	}
 
-	private bool CheckFloating( Vector3 origin, Vector3 goal ) {
-		Debug.Log( $"Check {origin}->{goal}" );
+	private bool ValidateFloating( Vector3 origin, Vector3 goal ) {
+		Debug.Log( $"Check {origin}->{goal}. Speed={serverState.Speed}" );
 		Vector3Int intOrigin = Vector3Int.RoundToInt( origin );
 		Vector3Int intGoal = Vector3Int.RoundToInt( goal );
 		List<HealthBehaviour> hitDamageables;
 		if ( CanDriftTo( intOrigin, intGoal ) & !HittingSomething( intOrigin, out hitDamageables ) ) {
 			return true;
-		} else {
-			var info = serverState.ActiveThrow;
-			//Hurting what we can
-			if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) ) {
-				for ( var i = 0; i < hitDamageables.Count; i++ ) {
-					//Remove cast to int when moving health values to float
-					hitDamageables[i].ApplyDamage( info.ThrownBy, (int) ( itemAttributes.throwForce * 2 ), DamageType.BRUTE, info.Aim );
-				}
-
-				//todo:hit sound
-			}
-			return false;
-//				RpcForceRegisterUpdate();
 		}
+		var info = serverState.ActiveThrow;
+		//Hurting what we can
+		if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) ) {
+			for ( var i = 0; i < hitDamageables.Count; i++ ) {
+				//Remove cast to int when moving health values to float
+				hitDamageables[i].ApplyDamage( info.ThrownBy, (int) ( itemAttributes.throwForce * 2 ), DamageType.BRUTE, info.Aim );
+			}
+
+			//todo:hit sound
+		}
+		return false;
+//				RpcForceRegisterUpdate();
 	}
 
 	///Stopping drift, killing impulse
 	[Server]
 	private void StopFloating() {
-//		Debug.Log( $"{gameObject.name} stopped floating" );
+		Debug.Log( $"{gameObject.name} stopped floating" );
 		serverState.Impulse = Vector2.zero;
 		serverState.Speed = 0;
 		serverState.Rotation = transform.rotation.eulerAngles.z;
