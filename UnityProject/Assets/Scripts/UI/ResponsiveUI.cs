@@ -18,6 +18,7 @@ namespace UI
 		private CanvasScaler canvasScaler;
 		private GraphicRaycaster graphicRaycaster;
 		public RectTransform hudBottom;
+		private CameraZoomHandler cameraZoomHandler;
 
 		private bool monitorWindow;
 		private Canvas parentCanvas;
@@ -36,6 +37,7 @@ namespace UI
 			camResizer = FindObjectOfType<CameraResizer>();
 			parentCanvas = GetComponent<Canvas>();
 			canvasScaler = GetComponent<CanvasScaler>();
+			cameraZoomHandler = GetComponent<CameraZoomHandler>();
 			graphicRaycaster = GetComponent<GraphicRaycaster>();
 			if (!checkingDisplayOnLoad) {
 				StartCoroutine(WaitForDisplay());
@@ -143,6 +145,7 @@ namespace UI
 			graphicRaycaster.enabled = true;
 			monitorWindow = true;
 			checkingDisplayOnLoad = false;
+			cameraZoomHandler.Refresh();
 		}
 
 		public void AdjustHudBottom(Vector2 panelRightSizeDelta)
