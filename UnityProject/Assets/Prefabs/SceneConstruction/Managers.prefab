@@ -16106,10 +16106,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 224963789470805622}
   m_HandleRect: {fileID: 224529798827776512}
   m_Direction: 0
-  m_MinValue: 1
+  m_MinValue: 0
   m_MaxValue: 10
   m_WholeNumbers: 1
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -17501,7 +17501,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Zoom:'
+  m_Text: 'Zoom: '
 --- !u!114 &114774943876536850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -17909,7 +17909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155d09378df06ae489ea68abfc666cb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectable: {fileID: 114648675845146660}
+  zoomText: {fileID: 114767197194937688}
 --- !u!114 &114821118564603754
 MonoBehaviour:
   m_ObjectHideFlags: 1
