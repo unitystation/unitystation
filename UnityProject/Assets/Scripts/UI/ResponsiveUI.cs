@@ -110,33 +110,35 @@ namespace UI
 		private IEnumerator ForceGameWindowAspect()
 		{
 			yield return new WaitForSeconds(0.2f);
-			if (!Screen.fullScreen) {
-
-				//The following conditions check if the screen width or height
-				//is an odd number. If it is, then it adjusted to be an even number
-				//This fixes the sprite bleeding between tiles:
-				int width = Screen.width;
-				if (width % 2 != 0)
-				{
-					Debug.Log( $"Odd width {width}->{width-1}" );
-					width--;
-				}
-				int height = Screen.height;
-				if (height % 2 != 0)
-				{
-					Debug.Log( $"Odd height {height}->{height-1}" );
-					height--;
-				}
-				
-				// Enforce aspect by resizing the camera rectangle to nearest (lower) even number.
-				Camera.main.rect = new Rect(0, 0, width / (float)Screen.width, height / (float)Screen.height);
-				
-				if (camResizer != null) {
-					camResizer.AdjustCam();
-				}
-				screenWidthCache = Screen.width;
-				screenHeightCache = Screen.height;
+			//The following conditions check if the screen width or height
+			//is an odd number. If it is, then it adjusted to be an even number
+			//This fixes the sprite bleeding between tiles:
+			int width = Screen.width;
+			if (width % 2 != 0)
+			{
+				Debug.Log( $"Odd width {width}->{width-1}" );
+				width--;
 			}
+			int height = Screen.height;
+			if (height % 2 != 0)
+			{
+				Debug.Log( $"Odd height {height}->{height-1}" );
+				height--;
+			}
+			
+			Debug.Log("Screen height before resizing: " + Camera.main.pixelHeight + " Aspect Y: " + height/(float)Screen.height);
+			Debug.Log("Screen height before resizing: " + Camera.main.pixelWidth + " Aspect X: " + width/(float)Screen.width);
+			
+			// Enforce aspect by resizing the camera rectangle to nearest (lower) even number.
+			Camera.main.rect = new Rect(0, 0, width / (float)Screen.width, height / (float)Screen.height);
+			
+			Debug.Log("Screen height after resizing: " + Camera.main.pixelHeight);
+			
+			if (camResizer != null) {
+				camResizer.AdjustCam();
+			}
+			screenWidthCache = Screen.width;
+			screenHeightCache = Screen.height;
 			
 			//Refresh UI (helps avoid event system problems)
 			parentCanvas.enabled = false;
