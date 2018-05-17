@@ -16,10 +16,10 @@ namespace UI
         public void Refresh()
         {          
             // Calculate ratio.
-            double ratio = Screen.height / (double) Screen.width;
+            double ratio = Camera.main.pixelHeight / (double) Camera.main.pixelWidth;
             
             // Calculate scaling factor. 409600 is a magic number.
-            double scaleFactor = Math.Sqrt(Screen.height * Screen.width / (409600 * ratio));
+            double scaleFactor = Math.Sqrt(Camera.main.pixelHeight * Camera.main.pixelWidth / (409600 * ratio));
             
             // Automatically set zoom level if it's less than zero.
             if (zoomLevel < 1)
