@@ -127,7 +127,10 @@ namespace UI
 					Debug.Log( $"Odd height {height}->{height-1}" );
 					height--;
 				}
-				Screen.SetResolution(width, height, false);
+				
+				// Enforce aspect by resizing the camera rectangle to nearest (lower) even number.
+				Camera.main.rect = new Rect(0, 0, width / (float)Screen.width, height / (float)Screen.height);
+				
 				if (camResizer != null) {
 					camResizer.AdjustCam();
 				}
