@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Tilemaps.Behaviours.Layers;
+using Sprites;
 
 namespace Tilemaps.Tiles
 {
@@ -49,12 +51,22 @@ namespace Tilemaps.Tiles
 			}
 		}
 
-		public override bool StartUp(Vector3Int location, ITilemap tilemap, GameObject go){
+		public override bool StartUp(Vector3Int location, ITilemap tilemap, GameObject go)
+		{
 			if (Application.isPlaying) {
-				tilemap.GetComponent<Tilemap>().SetColor(location, Color.black);
-			} else {
-				tilemap.GetComponent<Tilemap>().SetColor(location, Color.white);
+				Layer layer = tilemap.GetComponent<Layer>();
 
+				/// Walls Only:
+				if (layer.LayerType == LayerType.Walls) {
+					
+					/// Add the black fov above all wall tiles
+					Tilemap topLayer = layer.topLayerFX;
+					if (topLayer != null) {
+						Tile newTile = CreateInstance<Tile>();
+						newTile.sprite = SpriteManager.Instance.shroudSprite;
+						topLayer.SetTile(location, newTile);
+					}
+				}
 			}
 				return true;
 		}

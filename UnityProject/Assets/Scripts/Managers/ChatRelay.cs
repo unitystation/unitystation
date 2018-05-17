@@ -137,7 +137,7 @@ public class ChatRelay : NetworkBehaviour
 				if ((PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false) & channel) == channel && (chatline.channels & channel) == channel)
 				{
 					string colorMessage = "<color=" + chatColors[channel] + ">" + name + message + "</color>";
-					UIManager.Chat.CurrentChannelText.text = curList + colorMessage + "\r\n";
+					UIManager.Chat.CurrentChannelText.text = curList + "\r\n" + colorMessage;
 					curList = UIManager.Chat.CurrentChannelText.text;
 				}
 			}

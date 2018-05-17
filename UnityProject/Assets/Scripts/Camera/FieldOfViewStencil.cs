@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Tilemaps.Tiles;
+using Sprites;
 
 public class FieldOfViewStencil : MonoBehaviour
 {
@@ -18,10 +20,10 @@ public class FieldOfViewStencil : MonoBehaviour
 
 	public float MaskCutawayDst;
 	private Dictionary<Vector3, Tilemap> hitWalls = new Dictionary<Vector3, Tilemap>();
-	private List<Vector3> curWalls = new List<Vector3>();
+	private HashSet<Vector3> curWalls = new HashSet<Vector3>();
 
-	private List<GameObject> hitDoors = new List<GameObject>();
-	private List<GameObject> curDoors = new List<GameObject>();
+	private HashSet<GameObject> hitDoors = new HashSet<GameObject>();
+	private HashSet<GameObject> curDoors = new HashSet<GameObject>();
 
 	float waitToCheckWalls = 0f;
 	RaycastHit2D hit;
@@ -38,18 +40,22 @@ public class FieldOfViewStencil : MonoBehaviour
 
 	void LateUpdate()
 	{
-		waitToCheckWalls += Time.deltaTime;
-		if (waitToCheckWalls > 0.1f) {
-			waitToCheckWalls = 0f;
+		//FIXME Wait is turned off, consider removing in the future if GC isn't too bad
+
+		//waitToCheckWalls += Time.deltaTime;
+		//if (waitToCheckWalls > 0.1f) {
+			//waitToCheckWalls = 0f;
 			CheckHitWallsCache();
-		}
+		//}
 		DrawFieldOfView();
 	}
 
 	void CheckHitWallsCache(){
 		var missingWalls = hitWalls.Keys.Except(curWalls).ToList();
 		for (int i = 0; i < missingWalls.Count() ;i++){
-			hitWalls[missingWalls[i]].SetColor(hitWalls[missingWalls[i]].WorldToCell(missingWalls[i]), Color.black);
+			Tile newTile = new Tile();
+			newTile.sprite = SpriteManager.Instance.shroudSprite;
+			hitWalls[missingWalls[i]].SetTile(hitWalls[missingWalls[i]].WorldToCell(missingWalls[i]), newTile);
 			hitWalls.Remove(missingWalls[i]);
 		}
 		curWalls.Clear();
@@ -76,7 +82,7 @@ public class FieldOfViewStencil : MonoBehaviour
 
 			if (i > 0) {
 				bool edgeDstThreshholdExceeded = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > EdgeDistanceThreshhold;
-				if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeDstThreshholdExceeded)) {
+				if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && edgeDstThreshholdExceeded)) {
 					EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
 					if (edge.pointA != Vector3.zero) {
 						viewPoints.Add(edge.pointA);
@@ -161,10 +167,14 @@ public class FieldOfViewStencil : MonoBehaviour
 				//Turn the tilemap color of the wall to white so it is visible
 				hitPosition = Vector3Int.RoundToInt(hit.point + ((Vector2)dir * 0.5f));
 				if (!hitWalls.ContainsKey(hitPosition)) {
-					Tilemap tileMap = MatrixManager.Instance.wallTileMaps[hit.collider];
-					tileMap.SetTileFlags(tileMap.WorldToCell(hitPosition), TileFlags.None);
-					tileMap.SetColor(tileMap.WorldToCell(hitPosition), Color.white);
-					hitWalls.Add(hitPosition, tileMap);
+					Tilemap fxTileMap = MatrixManager.Instance.wallsToTopLayerFX[hit.collider];
+					Tilemap wallTilemap = MatrixManager.Instance.wallsTileMaps[hit.collider];
+					/// Check that there actually is a tile on the wall Tilemap as the hitPosition isn't accurate
+					TileBase getTile = wallTilemap.GetTile(wallTilemap.WorldToCell(hitPosition));
+					if (getTile != null) {
+						fxTileMap.SetTile(fxTileMap.WorldToCell(hitPosition), null);
+						hitWalls.Add(hitPosition, fxTileMap);
+					}
 				}
 				if (!curWalls.Contains(hitPosition)) {
 					curWalls.Add(hitPosition);
