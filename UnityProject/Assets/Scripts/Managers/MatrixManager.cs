@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Tilemaps;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -48,7 +49,20 @@ public class MatrixManager : MonoBehaviour
 		return isAtInternal( mat => mat.Matrix.IsPassableAt( WorldToLocalInt( worldOrigin, mat ),
 															 WorldToLocalInt( worldTarget, mat ) ) );
 	}
-	
+
+	public static IEnumerable<T> GetAt<T>( Vector3Int worldPos ) where T : MonoBehaviour {
+		return getAtInternal( mat => mat.Matrix.Get<T>( WorldToLocalInt( worldPos, mat ) ));
+	}
+
+	private static IEnumerable<T> getAtInternal<T>( Func<MatrixInfo, IEnumerable<T>> condition ) where T : MonoBehaviour {
+		IEnumerable<T> t = new List<T>();
+		for (var i = 0; i < Instance.activeMatrices.Count; i++) {
+			t = t.Concat( condition( Instance.activeMatrices[i] ) );
+		}
+
+		return t;
+	}
+
 	private static bool isAtInternal(Func<MatrixInfo, bool> condition)
 	{
 		for (var i = 0; i < Instance.activeMatrices.Count; i++)
