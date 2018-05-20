@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Sprites;
 using UnityEngine;
 
-namespace Wiring
+namespace Electricity
 {
 	[ExecuteInEditMode]
 	public class StructurePowerWire : MonoBehaviour
