@@ -347,6 +347,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		};
 		//Clockwise spin from left hand and Counterclockwise from the right hand
 		throwable.GetComponent<CustomNetTransform>().Throw( throwInfo );
+		
+		//Simplified counter-impulse for players in space
+		if ( playerScript.playerSync.IsInSpace ) {
+			playerScript.playerSync.Push( Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized) );
+		}
 	}
 
 	//Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)

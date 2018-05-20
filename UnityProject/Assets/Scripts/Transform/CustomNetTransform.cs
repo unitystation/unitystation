@@ -153,6 +153,10 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 			return;
 		}
 
+		if ( isServer && !serverState.Active ) {
+			return;
+		}
+
 		if (isServer)
 		{
 			CheckFloating();
@@ -184,11 +188,12 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 
 		//Checking if we should change matrix once per tile
 		if (isServer && registerTile.Position != Vector3Int.RoundToInt(serverState.Position) ) {
-			//Todo: optimize usage, checking every tile is kind of expensive, and all things flying into abyss are going to do that
 			CheckMatrixSwitch();
+			RegisterObjects();
 		}
 		//Registering
-		if (registerTile.Position != Vector3Int.RoundToInt(clientState.Position) )//&& !isPushing && !predictivePushing)
+		if (!isServer && registerTile.Position != Vector3Int.RoundToInt(clientState.Position) )
+			//&& !isPushing && !predictivePushing)
 		{
 //			Debug.LogFormat($"registerTile updating {registerTile.WorldPosition}->{Vector3Int.RoundToInt(clientState.WorldPosition)} ");
 			RegisterObjects();
@@ -230,7 +235,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 
 	[Server]
 	private void CheckMatrixSwitch( bool notify = true ) {
-		int newMatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( serverState.WorldPosition ) ).Id;
+		var pos = Vector3Int.RoundToInt( serverState.WorldPosition );
+		Debug.Log( $"{gameObject.name} doing matrix switch check for {pos}" );
+		int newMatrixId = MatrixManager.AtPoint( pos ).Id;
 		if ( serverState.MatrixId != newMatrixId ) {
 			Debug.Log( $"{gameObject} matrix {serverState.MatrixId}->{newMatrixId}" );
 

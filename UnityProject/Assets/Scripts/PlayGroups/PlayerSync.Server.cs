@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +36,9 @@ namespace PlayGroup
 		//TODO: Remove the space damage coroutine when atmos is implemented
 		private bool isApplyingSpaceDmg;
 
+		/// 
+		public bool IsInSpace => MatrixManager.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.WorldPosition));
+		
 		/// Whether player is considered to be floating on server
 		private bool consideredFloatingServer => serverState.Impulse != Vector2.zero;
 
@@ -348,9 +351,7 @@ namespace PlayGroup
 			}
 
 			//Space walk checks
-			bool isFloating = MatrixManager.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.WorldPosition));
-
-			if (isFloating)
+			if (IsInSpace)
 			{
 				if (serverTargetState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
 				{
@@ -370,7 +371,7 @@ namespace PlayGroup
 				}
 			}
 
-			if (consideredFloatingServer && !isFloating)
+			if (consideredFloatingServer && !IsInSpace)
 			{
 				//finish floating. players will be notified as soon as serverState catches up
 				serverState.Impulse = Vector2.zero;

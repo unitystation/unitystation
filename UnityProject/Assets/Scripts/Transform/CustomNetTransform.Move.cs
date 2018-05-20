@@ -37,7 +37,7 @@ public partial class CustomNetTransform {
 	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
 	public bool IsFloatingClient => clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
-
+//todo: optimizations
 	private bool ShouldStopThrow {
 		get {
 			if ( !IsBeingThrown ) {
@@ -139,7 +139,6 @@ public partial class CustomNetTransform {
 
 		serverState.ActiveThrow = correctedInfo;
 		Debug.Log( $"Throw:{correctedInfo} {serverState}" );
-		//todo: add counter-impulse to player if he's in space
 		NotifyPlayers();
 	}
 
@@ -150,7 +149,7 @@ public partial class CustomNetTransform {
 		SetPosition( pos, false );
 		Vector2 impulse = Random.insideUnitCircle.normalized;
 		//don't apply impulses if item isn't going to float in that direction
-		Vector3Int newGoal = RoundWithContext( serverState.WorldPosition + ( Vector3 ) impulse, impulse );
+		Vector3Int newGoal = CeilWithContext( serverState.WorldPosition + ( Vector3 ) impulse, impulse );
 		if ( CanDriftTo( newGoal ) ) {
 			serverState.Impulse = impulse;
 			serverState.Speed = Random.Range( 0.2f, 2f );
@@ -162,31 +161,43 @@ public partial class CustomNetTransform {
 	///     Space drift detection is serverside only
 	[Server]
 	private void CheckFloating() {
+		CheckFloating(TransformState.HiddenPos);
+	}
+
+	[Server]
+	private void CheckFloating(Vector3 goal) {
 		if ( !IsFloatingServer || matrix == null ) {
 			return;
 		}
+		bool isRecursive = goal != TransformState.HiddenPos;
 
-		Vector3 newGoal = serverState.WorldPosition +
-		                  ( Vector3 ) serverState.Impulse * serverState.Speed * Time.deltaTime;
-		Vector3Int intOrigin = Vector3Int.RoundToInt( serverState.WorldPosition );
-		Vector3Int intGoal = //Vector3Int.RoundToInt( newGoal );
-			RoundWithContext( newGoal, serverState.Impulse ); //?
-
-		int distance = ( int ) Vector3Int.Distance( intOrigin, intGoal );
-		if ( distance > 1 ) {
-			//limit goal to just one tile away and run this method recursively afterwards
-			newGoal = serverState.WorldPosition + ( Vector3 ) serverState.Impulse;
+		Vector3 moveDelta;
+		if ( !isRecursive ) {
+			moveDelta = ( Vector3 ) serverState.Impulse * serverState.Speed * Time.deltaTime;
+		} else {
+			moveDelta = goal - serverState.WorldPosition;
 		}
 
+		Vector3Int intOrigin = Vector3Int.RoundToInt( serverState.WorldPosition );
+		Vector3 newGoal;
+		float distance = moveDelta.magnitude;
+			//limit goal to just one tile away and run this method recursively afterwards
+		if ( distance > 1 ) {
+			newGoal = serverState.WorldPosition + ( Vector3 ) serverState.Impulse;
+		} else {
+			newGoal = serverState.WorldPosition + moveDelta;
+		}
+		Vector3Int intGoal = Vector3Int.RoundToInt( newGoal );
+
 		bool isWithinTile = intOrigin == intGoal; //same tile, no need to validate stuff
-		if ( ValidateFloating( serverState.WorldPosition, newGoal ) || isWithinTile ) {
+		if ( isWithinTile || ValidateFloating( serverState.WorldPosition, newGoal ) ) {
 			AdvanceMovement( serverState.WorldPosition, newGoal );
 		} else {
 			StopFloating();
 		}
 
 		if ( distance > 1 ) {
-			CheckFloating();
+			CheckFloating(isRecursive ? goal : newGoal);
 		}
 	}
 
@@ -222,22 +233,21 @@ public partial class CustomNetTransform {
 
 	[Server]
 	private bool ValidateFloating( Vector3 origin, Vector3 goal ) {
-		Debug.Log( $"Check {origin}->{goal}. Speed={serverState.Speed}" );
+		Debug.Log( $"{gameObject.name} check {origin}->{goal}. Speed={serverState.Speed}" );
 		Vector3Int intOrigin = Vector3Int.RoundToInt( origin );
 		Vector3Int intGoal = Vector3Int.RoundToInt( goal );
+		var info = serverState.ActiveThrow;
 		List<HealthBehaviour> hitDamageables;
-		if ( CanDriftTo( intOrigin, intGoal ) & !HittingSomething( intGoal, out hitDamageables ) ) {
+		if ( CanDriftTo( intOrigin, intGoal ) & !HittingSomething( intGoal, info.ThrownBy, out hitDamageables ) ) {
 			return true;
 		}
 
-		var info = serverState.ActiveThrow;
 		//Hurting what we can
 		if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) ) {
 			for ( var i = 0; i < hitDamageables.Count; i++ ) {
 				//Remove cast to int when moving health values to float
 				hitDamageables[i].ApplyDamage( info.ThrownBy, ( int ) ( itemAttributes.throwForce * 2 ), DamageType.BRUTE, info.Aim );
 			}
-
 			//todo:hit sound
 		}
 
@@ -260,7 +270,7 @@ public partial class CustomNetTransform {
 
 	///Special rounding for collision detection
 	///returns V3Int of next tile
-	public static Vector3Int RoundWithContext( Vector3 roundable, Vector2 impulseContext ) {
+	private static Vector3Int CeilWithContext( Vector3 roundable, Vector2 impulseContext ) {
 		float x = impulseContext.x;
 		float y = impulseContext.y;
 		return new Vector3Int(
@@ -278,7 +288,7 @@ public partial class CustomNetTransform {
 		return MatrixManager.IsPassableAt( originPos, targetPos );
 	}
 
-	private bool HittingSomething( Vector3Int atPos, out List<HealthBehaviour> victims ) {
+	private bool HittingSomething( Vector3Int atPos, GameObject thrownBy, out List<HealthBehaviour> victims ) {
 		//Not damaging anything at launch tile
 		if ( Vector3Int.RoundToInt( serverState.ActiveThrow.OriginPos ) == atPos ) {
 			victims = null;
@@ -288,8 +298,8 @@ public partial class CustomNetTransform {
 		if ( objectsOnTile != null ) {
 			var damageables = new List<HealthBehaviour>();
 			foreach ( HealthBehaviour obj in objectsOnTile ) {
-				//We don't want to hit dead bodies
-				if ( !obj.IsDead ) {
+				//We don't want to hit dead bodies ... and thrower for now
+				if ( !obj.IsDead && !obj.gameObject == thrownBy ) {
 					damageables.Add( obj );
 				}
 			}
