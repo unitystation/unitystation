@@ -43,7 +43,9 @@ namespace Wiring
 		// Use this for initialization
 		private void Start()
 		{
-			SetDirection(DirectionStart, DirectionEnd);
+			//FIXME this breaks wires that were placed via unity editor:
+			// need to address when we allow users to add wires at runtime
+		//	SetDirection(DirectionStart, DirectionEnd);
 		}
 
 		public void SetDirection(int DirectionStart)
