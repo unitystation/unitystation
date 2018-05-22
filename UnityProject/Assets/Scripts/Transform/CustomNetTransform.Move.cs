@@ -49,6 +49,7 @@ public partial class CustomNetTransform {
 	//
 	//
 	
+	/// Server check
 	private bool ShouldStopThrow {
 		get {
 			if ( !IsBeingThrown ) {
@@ -93,10 +94,55 @@ public partial class CustomNetTransform {
 //		pushComponent.pushing = true;
 	}
 
-	///predictive perpetual flying
+	/// Predictive client movement
+	/// Mimics server collision checks for obviously unpassable things.
+	/// That prevents objects going through walls if server doen't respond in time
 	private void SimulateFloating() {
-		clientState.Position +=
-			( Vector3 ) clientState.Impulse * clientState.Speed * Time.deltaTime;
+		SimulateFloating(TransformState.HiddenPos);
+	}
+	private void SimulateFloating(Vector3 goal) {
+		if ( !IsFloatingClient ) {
+			return;
+		}
+
+		Vector3Int intOrigin = Vector3Int.RoundToInt( clientState.WorldPosition );
+		
+		bool isRecursive = goal != TransformState.HiddenPos;
+
+		Vector3 moveDelta;
+		
+		if ( !isRecursive ) {
+			moveDelta = ( Vector3 ) clientState.Impulse * clientState.Speed * Time.deltaTime;
+		} else {
+			moveDelta = goal - clientState.WorldPosition;
+		}
+
+		Vector3 newGoal;
+		float distance = moveDelta.magnitude;
+		//limit goal to just one tile away and run this method recursively afterwards
+		if ( distance > 1 ) {
+			newGoal = clientState.WorldPosition + ( Vector3 ) clientState.Impulse;
+		} else {
+			newGoal = clientState.WorldPosition + moveDelta;
+		}
+		Vector3Int intGoal = Vector3Int.RoundToInt( newGoal );
+
+		bool isWithinTile = intOrigin == intGoal; //same tile, no need to validate stuff
+		if ( isWithinTile || MatrixManager.IsPassableAt( intOrigin, intGoal ) ) {
+			//advance
+			clientState.Position += moveDelta;
+		} else {
+			//stop
+			Debug.Log( $"{gameObject.name}: predictive stop @ {clientState.WorldPosition} to {intGoal}" );
+			clientState.Speed = 0f;
+			clientState.Impulse = Vector2.zero;
+			clientState.SpinFactor = 0;
+		}
+
+		if ( distance > 1 ) {
+			SimulateFloating(isRecursive ? goal : newGoal);
+		}
+		
 	}
 
 	private void Lerp() {

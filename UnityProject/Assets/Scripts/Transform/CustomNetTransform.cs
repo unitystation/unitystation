@@ -183,7 +183,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		if (IsFloatingClient)
 		{
 			SimulateFloating();
-			//fixme: don't simulate moving through solid stuff on client
 		}
 
 		if (clientState.Position != transform.localPosition)
@@ -314,7 +313,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		updateActiveStatus();
 		//sync rotation if not spinning
 		if ( clientState.SpinFactor == 0 ) {
-			transform.rotation = Quaternion.Euler( 0, 0, clientState.Rotation ); //?
+			transform.rotation = Quaternion.Euler( 0, 0, clientState.Rotation );
 		}
 	}
 
