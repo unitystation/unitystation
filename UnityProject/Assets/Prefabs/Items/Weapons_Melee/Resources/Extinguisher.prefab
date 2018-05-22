@@ -203,8 +203,6 @@ MonoBehaviour:
   throwForce: 10
   throwSpeed: 2
   throwRange: 7
-  force: 10
-  hitSound: sound/weapons/smash.ogg
 --- !u!114 &114690376875817604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -228,7 +226,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
 --- !u!212 &212125191403727516

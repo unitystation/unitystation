@@ -146,6 +146,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public bool ValidateInvInteraction(string slot, GameObject gObj = null, bool forceClientInform = true)
 	{
+		//security todo: serverside check for item size UI_ItemSlot.CheckItemFit()
 		if (!Inventory[slot] && gObj && Inventory.ContainsValue(gObj))
 		{
 			UpdateSlotMessage.Send(gameObject, slot, gObj, forceClientInform);

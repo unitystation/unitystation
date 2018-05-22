@@ -104,7 +104,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 
 	[Server]
 	private void InitServerState()
-	{ //todo: fix runtime spawn matrixid init nagging
+	{ 
 //		isPushing = false;
 //		predictivePushing = false;
 
@@ -119,10 +119,19 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		serverState.Rotation = 0f;
 		serverState.SpinFactor = 0;
 		registerTile = GetComponent<RegisterTile>();
-		if ( registerTile && registerTile.Matrix && MatrixManager.Instance ) {
+		
+		//Matrix id init. Set to 0 if something's wrong
+		if ( !MatrixManager.Instance || !registerTile ) {
+			serverState.MatrixId = 0;
+			Debug.LogWarning( $"{gameObject.name}: Matrix id init failure" );
+			return;
+		}
+		if ( registerTile.Matrix ) {
+			//pre-placed
 			serverState.MatrixId = MatrixManager.Get( matrix ).Id;
 		} else {
-			Debug.LogWarning( "Matrix id init failure" );
+			//runtime-placed
+			serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt(transform.position) ).Id;
 		}
 	}
 
@@ -295,7 +304,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 
 	public void UpdateClientState(TransformState newState)
 	{
-		//FIXME: invesigate wrong clientState for microwaved food
 		//todo: address rotation pickup issues + items should be upright when dropping
 		//Don't lerp (instantly change pos) if active state was changed
 		if (clientState.Active != newState.Active /*|| newState.Speed == 0*/)
@@ -304,7 +312,10 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		}
 		clientState = newState;
 		updateActiveStatus();
-//		transform.rotation = Quaternion.Euler( 0, 0, clientState.Rotation ); //?
+		//sync rotation if not spinning
+		if ( clientState.SpinFactor == 0 ) {
+			transform.rotation = Quaternion.Euler( 0, 0, clientState.Rotation ); //?
+		}
 	}
 
 	private void updateActiveStatus()

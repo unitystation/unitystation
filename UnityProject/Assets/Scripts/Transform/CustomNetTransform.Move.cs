@@ -37,7 +37,18 @@ public partial class CustomNetTransform {
 	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
 	public bool IsFloatingClient => clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
-//todo: optimizations
+	
+	//todo: optimizations
+	//if (not in limbo && space flying for 30 tiles in a row):
+	//do a 50 tile raycast?
+	//if (raycast results == null)
+	//enter limbo.
+	//
+	//limbo mode: no matrix sync checks, one collision check per 20 tiles/no collision checks at all
+	//quit limbo if: player within 20 tiles
+	//
+	//
+	
 	private bool ShouldStopThrow {
 		get {
 			if ( !IsBeingThrown ) {
@@ -127,13 +138,13 @@ public partial class CustomNetTransform {
 		//add player momentum
 		float playerMomentum = 0f;
 		//If throwing nearby, do so at 1/2 speed (looks clunky otherwise)
-		float speedMultiplier = Mathf.Clamp( correctedInfo.Trajectory.magnitude / throwRange, 0.3f, 1f );
+		float speedMultiplier = Mathf.Clamp( correctedInfo.Trajectory.magnitude / throwRange, 0.6f, 1f );
 		serverState.Speed = ( Random.Range( -0.2f, 0.2f ) + throwSpeed + playerMomentum ) * speedMultiplier;
 		correctedInfo.InitialSpeed = serverState.Speed;
 
 		serverState.Impulse = impulse;
 		if ( info.SpinMode != SpinMode.None ) {
-			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( throwSpeed * 2, sbyte.MinValue, sbyte.MaxValue )
+			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( throwSpeed * (2f / (int)itemAttributes.size + 1), sbyte.MinValue, sbyte.MaxValue )
 			                                     * ( info.SpinMode == SpinMode.Clockwise ? 1 : -1 ) );
 		}
 
@@ -298,8 +309,13 @@ public partial class CustomNetTransform {
 		if ( objectsOnTile != null ) {
 			var damageables = new List<HealthBehaviour>();
 			foreach ( HealthBehaviour obj in objectsOnTile ) {
-				//We don't want to hit dead bodies ... and thrower for now
-				if ( !obj.IsDead && !obj.gameObject == thrownBy ) {
+				//Skip thrower for now
+				if ( obj.gameObject == thrownBy ) {
+					Debug.Log( $"{thrownBy.name} not hurting himself" );
+					continue;
+				}
+				//Skip dead bodies
+				if ( !obj.IsDead ) {
 					damageables.Add( obj );
 				}
 			}
