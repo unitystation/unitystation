@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Wiring
+namespace Electricity
 {
 	/// <summary>
 	///     This StructurePowerWire editor script helps set the correct

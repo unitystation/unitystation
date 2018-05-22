@@ -12,7 +12,8 @@ namespace Tilemaps.Behaviours.Objects
 	{
 		Item,
 		Object,
-		Player
+		Player,
+		Wire
 	}
 
 	[ExecuteInEditMode]
