@@ -210,7 +210,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 
 	/// Manually set an item to a specific position. Use WorldPosition!
 	[Server]
-	public void SetPosition(Vector3 worldPos, bool notify = true/*, float speed = 4f, bool _isPushing = false*/) {
+	public void SetPosition(Vector3 worldPos, bool notify = true, bool keepRotation = false/*, float speed = 4f, bool _isPushing = false*/) {
 //		Only allow one movement at a time if it is currently being pushed
 //		if(isPushing || predictivePushing){
 //			if(predictivePushing && _isPushing){
@@ -226,6 +226,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
 //		serverState.Speed = speed;
 		serverState.WorldPosition = pos;
+		if ( !keepRotation ) {
+			serverState.Rotation = 0;
+		}
 		if (notify) {
 			NotifyPlayers();
 		}
