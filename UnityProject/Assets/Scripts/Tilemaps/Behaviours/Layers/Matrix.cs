@@ -90,6 +90,16 @@ namespace Tilemaps
 		{
 			return objects.Get(position, type).Select(x => x.GetComponent<T>()).Where(x => x != null);
 		}
+		
+		public IEnumerable<T> GetInterface<T>(Vector3Int position) where T : MonoBehaviour
+		{
+			return objects.Get(position).Select(x => x.GetComponent(typeof(T)) as T).Where(x => x != null);
+		}
+
+		public IEnumerable<IElectricityIO> GetElectrictyConnections(Vector3Int position)
+		{
+			return objects.Get(position).Select(x => x.GetComponent<IElectricityIO>()).Where(x => x != null);
+		}
 
 		public bool ContainsAt(Vector3Int position, GameObject gameObject)
 		{
