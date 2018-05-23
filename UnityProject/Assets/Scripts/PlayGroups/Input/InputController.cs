@@ -47,27 +47,27 @@ namespace PlayGroups.Input
 				"HiddenWalls", "Objects");
 		}
 
-		private void Update()
-		{
-			//Needs to be rewritted to be server authoritative
-			//Clients can currently ignore most intaract limitations (other than reach)
-			CheckHandSwitch();
-			CheckClick();
-			CheckAltClick();
-			CheckThrow();
-		}
-
-		private void CheckHandSwitch()
-		{
-			if (UnityEngine.Input.GetMouseButtonDown(2))
-			{
-				UIManager.Hands.Swap();
+		private void OnGUI() {
+			if ( Event.current.type == EventType.MouseDown ) {
+				CheckHandSwitch();
+				CheckAltClick();
+				CheckThrow();
+				CheckClick();
 			}
 		}
 
-		private void CheckClick()
-		{
-			if (UnityEngine.Input.GetMouseButtonDown(0) && !UnityEngine.Input.GetKey(KeyCode.LeftControl) && !UnityEngine.Input.GetKey(KeyCode.LeftAlt))
+		private void CheckHandSwitch() {
+			Event e = Event.current;
+			if ( e.type != EventType.Used && e.button == 2 )
+			{
+				UIManager.Hands.Swap();
+				e.Use();
+			}
+		}
+
+		private void CheckClick() {
+			Event e = Event.current;
+			if ( e.type != EventType.Used && e.button == 0 && !UnityEngine.Input.GetKey(KeyCode.LeftControl) && !UnityEngine.Input.GetKey(KeyCode.LeftAlt) )
 			{
 				//change the facingDirection of player on click
 				ChangeDirection();
@@ -77,12 +77,13 @@ namespace PlayGroups.Input
 				{
 					InteractHands();
 				}
+				e.Use();
 			}
 		}
 
-		private void CheckAltClick()
-		{
-			if (UnityEngine.Input.GetMouseButtonDown(0) && (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt)))
+		private void CheckAltClick() {
+			Event e = Event.current;
+			if (e.type != EventType.Used && e.button == 0 && (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt)))
 			{
 				//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
 				Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
@@ -95,11 +96,12 @@ namespace PlayGroups.Input
 //				}
 				
 				UIManager.SetToolTip = $"clicked position: {Vector3Int.RoundToInt(position)}";
+				e.Use();
 			}
 		}
-		private void CheckThrow()
-		{
-			if (UnityEngine.Input.GetMouseButtonDown(0) && UIManager.IsThrow)
+		private void CheckThrow() {
+			Event e = Event.current;
+			if (e.type != EventType.Used && e.button == 0 && UIManager.IsThrow)
 			{
 				var currentSlot = UIManager.Hands.CurrentSlot;
 				if (!currentSlot.CanPlaceItem())
@@ -115,6 +117,7 @@ namespace PlayGroups.Input
 					.CmdRequestThrow( currentSlot.eventName, position, (int) UIManager.DamageZone );
 				//Disabling throw button
 				UIManager.Action.Throw();
+				e.Use();
 			}
 		}
 
