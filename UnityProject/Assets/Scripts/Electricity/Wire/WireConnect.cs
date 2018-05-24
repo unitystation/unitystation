@@ -16,6 +16,7 @@ namespace Electricity
 
 		private RegisterItem registerTile;
 		private Matrix matrix => registerTile.Matrix;
+		private bool connected = false;
 
 		void Start(){
 			FindPossibleConnections();
@@ -40,11 +41,20 @@ namespace Electricity
 					foreach(IElectricityIO io in conns){
 						Debug.Log("Found Electrical connection: " + pos);
 						possibleConns.Add(io);
+						//Test connection:
+						io.ElectricityInput();
 						//TODO Check if InputPosition and OutputPosition connect with this wire
 					}
 
 				}
 			}	
+		}
+
+		void OnDrawGizmos(){
+			if (connected) {
+				Gizmos.color = Color.yellow;
+				Gizmos.DrawSphere(transform.position, 0.1f);
+			}
 		}
 
 		public int InputPosition(){
@@ -57,7 +67,9 @@ namespace Electricity
 
 		//Feed electricity into this wire:
 		public void ElectricityInput(){
-			
+
+			//For testing:
+			connected = true;
 		}
 
 		//Output electricity to this next wire/object
