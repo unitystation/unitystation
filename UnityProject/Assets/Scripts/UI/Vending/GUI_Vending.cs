@@ -56,6 +56,7 @@ public class GUI_Vending : MonoBehaviour
             GameObject vendingItem = Instantiate(stockItemPrefab);
             vendingItem.transform.SetParent(content.transform);
             vendingItem.transform.localScale = Vector3.one;
+            vendingItem.transform.localPosition = Vector3.zero;
 
             // Let's get the StockItem component from our items and cache the vendor trigger component
             StockItem stockItem = vendingItem.GetComponent<StockItem>();
