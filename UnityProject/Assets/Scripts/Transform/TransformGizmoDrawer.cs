@@ -1,6 +1,7 @@
 using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 
+/// Put this on items with CustomNetTransform and you'll have gizmos for these
 public class TransformGizmoDrawer : MonoBehaviour {
 	private CustomNetTransform cnt;
 	private RegisterTile rt;

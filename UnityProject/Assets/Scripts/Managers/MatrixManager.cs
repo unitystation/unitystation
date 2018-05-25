@@ -63,6 +63,7 @@ public class MatrixManager : MonoBehaviour
 															 WorldToLocalInt( worldTarget, mat ) ) );
 	}
 
+	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int)"/>
 	public static IEnumerable<T> GetAt<T>( Vector3Int worldPos ) where T : MonoBehaviour {
 		return getAtInternal( mat => mat.Matrix.Get<T>( WorldToLocalInt( worldPos, mat ) ));
 	}

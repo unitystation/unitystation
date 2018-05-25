@@ -8,18 +8,16 @@ using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
+/// Current state of transform, server modifies these and sends to clients.
+/// Clients can modify these as well for prediction
 public struct TransformState {
 	public bool Active => Position != HiddenPos;
-	public float speed; //public in order to serialize :\
+	///Don't set directly, use Speed instead.
+	///public in order to be serialized :\
+	public float speed; 
 	public float Speed {
 		get { return speed; }
-		set {
-			if ( value < 0 ) {
-				speed = 0;
-			} else {
-				speed = value;
-			}
-		}
+		set { speed = value < 0 ? 0 : value; }
 	}
 	
 	///Direction of throw
@@ -30,17 +28,10 @@ public struct TransformState {
 	public ThrowInfo ActiveThrow;
 
 	public int MatrixId;
+
+	/// Local position on current matrix
 	public Vector3 Position;
-
-	public float Rotation;
-	public sbyte SpinFactor; 
-	
-	/// Means that this object is hidden
-	public static readonly Vector3Int HiddenPos = new Vector3Int(0, 0, -100);
-	/// Means that this object is hidden
-	public static readonly TransformState HiddenState = 
-		new TransformState{ Position = HiddenPos, ActiveThrow = ThrowInfo.NoThrow, MatrixId = 0};
-
+	/// World position, more expensive to use
 	public Vector3 WorldPosition
 	{
 		get
@@ -64,6 +55,15 @@ public struct TransformState {
 			}
 		}
 	}
+	public float Rotation;
+	/// Spin direction and speed, if it should spin
+	public sbyte SpinFactor; 
+	
+	/// Means that this object is hidden
+	public static readonly Vector3Int HiddenPos = new Vector3Int(0, 0, -100);
+	/// Means that this object is hidden
+	public static readonly TransformState HiddenState = 
+		new TransformState{ Position = HiddenPos, ActiveThrow = ThrowInfo.NoThrow, MatrixId = 0};
 
 	public override string ToString()
 	{
@@ -86,8 +86,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	
 	public TransformState ServerState => serverState;
 	public TransformState ClientState => clientState;
-
-//	[SyncVar]
 
 	private void Start()
 	{
@@ -155,6 +153,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	//	Debug.Log($"{name} reInit: {serverTransformState}");
 	}
 
+	/// Essentially the Update loop
 	private void Synchronize()
 	{
 		if (!clientState.Active)
@@ -168,7 +167,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 
 		if (isServer)
 		{
-			CheckFloating();
+			CheckFloatingServer();
 //			//Sync the pushing state to all players
 //			//this makes sure that players with high pings cannot get too
 //			//far with prediction
@@ -182,7 +181,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 
 		if (IsFloatingClient)
 		{
-			SimulateFloating();
+			CheckFloatingClient();
 		}
 
 		if (clientState.Position != transform.localPosition)
@@ -222,7 +221,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 //			}
 //			return;
 //		}
-		var pos = (Vector2) worldPos; //Cut z-axis
+		Vector2 pos = worldPos; //Cut z-axis
 		serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
 //		serverState.Speed = speed;
 		serverState.WorldPosition = pos;
@@ -275,22 +274,12 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		SetPosition(worldPos);
 	}
 
-//	///     Method to substitute transform.parent = x stuff.
-//	///     You shouldn't really use it anymore,
-//	///     as there are high level methods that should suit your needs better.
-//	///     Server-only, client is not being notified
-//	[Server]
-//	public void SetParent(Transform pos)
-//	{
-//		transform.parent = pos;
-//	}
-
 	///     Convenience method to make stuff disappear at position.
 	///     For CLIENT prediction purposes.
 	public void DisappearFromWorld()
 	{
 		clientState = TransformState.HiddenState;
-		updateActiveStatus();
+		UpdateActiveStatus();
 	}
 
 	///     Convenience method to make stuff appear at position
@@ -301,26 +290,27 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		clientState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
 		clientState.WorldPosition = pos;
 		transform.position = pos;
-		updateActiveStatus();
+		UpdateActiveStatus();
 	}
 
+	/// Called from TransformStateMessage, applies state received from server to client
 	public void UpdateClientState(TransformState newState)
 	{
-		//todo: address rotation pickup issues + items should be upright when dropping
 		//Don't lerp (instantly change pos) if active state was changed
 		if (clientState.Active != newState.Active /*|| newState.Speed == 0*/)
 		{
 			transform.localPosition = newState.Position;
 		}
 		clientState = newState;
-		updateActiveStatus();
+		UpdateActiveStatus();
 		//sync rotation if not spinning
 		if ( clientState.SpinFactor == 0 ) {
 			transform.rotation = Quaternion.Euler( 0, 0, clientState.Rotation );
 		}
 	}
 
-	private void updateActiveStatus()
+	/// Registers if unhidden, unregisters if hidden
+	private void UpdateActiveStatus()
 	{
 		if (clientState.Active)
 		{
@@ -348,7 +338,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	}
 
 	///     Sync with new player joining
-	/// <param name="playerGameObject"></param>
+	/// <param name="playerGameObject">Whom to notify</param>
 	[Server]
 	public void NotifyPlayer(GameObject playerGameObject)
 	{
@@ -365,8 +355,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		Synchronize();
 	}
 
+	/// Register item pos in matrix
 	private void RegisterObjects() {
-		//Register item pos in matrix
 		registerTile.UpdatePosition();
 	}
 

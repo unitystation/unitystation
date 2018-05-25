@@ -31,6 +31,7 @@ public struct ThrowInfo
 }
 
 public partial class CustomNetTransform {
+	//	[SyncVar]
 	public bool isPushing;
 	public bool predictivePushing = false;
 	public bool IsInSpace => MatrixManager.IsSpaceAt( Vector3Int.RoundToInt( transform.position ) );
@@ -38,7 +39,7 @@ public partial class CustomNetTransform {
 	public bool IsFloatingClient => clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
 	
-	//todo: optimizations
+	//future optimization thoughts:
 	//if (not in limbo && space flying for 30 tiles in a row):
 	//do a 50 tile raycast?
 	//if (raycast results == null)
@@ -49,16 +50,15 @@ public partial class CustomNetTransform {
 	//
 	//
 	
-	/// Server check
+	/// (Server) Did the flying item reach the planned landing point?
 	private bool ShouldStopThrow {
 		get {
 			if ( !IsBeingThrown ) {
 				return true;
 			}
 
-			var trajectory = serverState.ActiveThrow.Trajectory;
-			var shouldStop =
-				Vector3.Distance( serverState.ActiveThrow.OriginPos, serverState.WorldPosition ) >= trajectory.magnitude;
+			bool shouldStop =
+				Vector3.Distance( serverState.ActiveThrow.OriginPos, serverState.WorldPosition ) >= serverState.ActiveThrow.Trajectory.magnitude;
 //			if ( shouldStop ) {
 //				Debug.Log( $"Should stop throw: {Vector3.Distance( serverState.ActiveThrow.OriginPos, serverState.WorldPosition )}" +
 //				           $" >= {trajectory.magnitude}" );
@@ -97,30 +97,28 @@ public partial class CustomNetTransform {
 	/// Predictive client movement
 	/// Mimics server collision checks for obviously unpassable things.
 	/// That prevents objects going through walls if server doen't respond in time
-	private void SimulateFloating() {
-		SimulateFloating(TransformState.HiddenPos);
+	private void CheckFloatingClient() {
+		CheckFloatingClient(TransformState.HiddenPos);
 	}
-	private void SimulateFloating(Vector3 goal) {
+	private void CheckFloatingClient(Vector3 goal) {
 		if ( !IsFloatingClient ) {
 			return;
 		}
-
-		Vector3Int intOrigin = Vector3Int.RoundToInt( clientState.WorldPosition );
-		
 		bool isRecursive = goal != TransformState.HiddenPos;
+		Vector3Int intOrigin = Vector3Int.RoundToInt( clientState.WorldPosition );
 
 		Vector3 moveDelta;
-		
-		if ( !isRecursive ) {
+		if ( !isRecursive ) { //Normal delta if not recursive
 			moveDelta = ( Vector3 ) clientState.Impulse * clientState.Speed * Time.deltaTime;
-		} else {
+		} else { //Artificial delta if recursive
 			moveDelta = goal - clientState.WorldPosition;
 		}
 
-		Vector3 newGoal;
 		float distance = moveDelta.magnitude;
-		//limit goal to just one tile away and run this method recursively afterwards
+		Vector3 newGoal;
+
 		if ( distance > 1 ) {
+			//limit goal to just one tile away and run this method recursively afterwards
 			newGoal = clientState.WorldPosition + ( Vector3 ) clientState.Impulse;
 		} else {
 			newGoal = clientState.WorldPosition + moveDelta;
@@ -133,20 +131,21 @@ public partial class CustomNetTransform {
 			clientState.Position += moveDelta;
 		} else {
 			//stop
-			Debug.Log( $"{gameObject.name}: predictive stop @ {clientState.WorldPosition} to {intGoal}" );
+//			Debug.Log( $"{gameObject.name}: predictive stop @ {clientState.WorldPosition} to {intGoal}" );
 			clientState.Speed = 0f;
 			clientState.Impulse = Vector2.zero;
 			clientState.SpinFactor = 0;
 		}
 
 		if ( distance > 1 ) {
-			SimulateFloating(isRecursive ? goal : newGoal);
+			CheckFloatingClient(isRecursive ? goal : newGoal);
 		}
-		
 	}
 
+	/// Clientside lerping (transform to clientState position)
 	private void Lerp() {
 		Vector3 targetPos = MatrixManager.WorldToLocal( clientState.WorldPosition, MatrixManager.Get( matrix ) );
+		//Set position immediately if not moving
 		if ( clientState.Speed.Equals( 0 ) ) {
 			transform.localPosition = targetPos;
 			return;
@@ -155,6 +154,8 @@ public partial class CustomNetTransform {
 			Vector3.MoveTowards( transform.localPosition, targetPos, clientState.Speed * Time.deltaTime );
 	}
 
+	/// Drop with some inertia.
+	/// Currently used by players dropping something while space floating
 	[Server]
 	public void InertiaDrop( Vector3 initialPos, float speed, Vector2 impulse ) {
 		SetPosition( initialPos, false );
@@ -163,15 +164,16 @@ public partial class CustomNetTransform {
 		NotifyPlayers();
 	}
 
+	/// Throw object using data provided in ThrowInfo.
+	/// Range will be limited by itemAttributes
 	[Server]
 	public void Throw( ThrowInfo info ) {
 		SetPosition( info.OriginPos, false );
 
-		var throwSpeed = itemAttributes.throwSpeed * 10; //tiles per second
-		var throwRange = itemAttributes.throwRange;
+		float throwSpeed = itemAttributes.throwSpeed * 10; //tiles per second
+		float throwRange = itemAttributes.throwRange;
 
-		//Calculate impulse
-		Vector2 impulse = ( info.TargetPos - info.OriginPos ).normalized;
+		Vector2 impulse = info.Trajectory.normalized;
 
 		var correctedInfo = info;
 		//limit throw range here
@@ -193,9 +195,8 @@ public partial class CustomNetTransform {
 			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( throwSpeed * (2f / (int)itemAttributes.size + 1), sbyte.MinValue, sbyte.MaxValue )
 			                                     * ( info.SpinMode == SpinMode.Clockwise ? 1 : -1 ) );
 		}
-
 		serverState.ActiveThrow = correctedInfo;
-		Debug.Log( $"Throw:{correctedInfo} {serverState}" );
+//		Debug.Log( $"Throw:{correctedInfo} {serverState}" );
 		NotifyPlayers();
 	}
 
@@ -215,31 +216,31 @@ public partial class CustomNetTransform {
 		NotifyPlayers();
 	}
 
-	///     Space drift detection is serverside only
+	/// Server movement checks
 	[Server]
-	private void CheckFloating() {
-		CheckFloating(TransformState.HiddenPos);
+	private void CheckFloatingServer() {
+		CheckFloatingServer(TransformState.HiddenPos);
 	}
-
 	[Server]
-	private void CheckFloating(Vector3 goal) {
+	private void CheckFloatingServer(Vector3 goal) {
 		if ( !IsFloatingServer || matrix == null ) {
 			return;
 		}
 		bool isRecursive = goal != TransformState.HiddenPos;
 
 		Vector3 moveDelta;
-		if ( !isRecursive ) {
+		if ( !isRecursive ) {//Normal delta if not recursive
 			moveDelta = ( Vector3 ) serverState.Impulse * serverState.Speed * Time.deltaTime;
-		} else {
+		} else {//Artificial delta if recursive
 			moveDelta = goal - serverState.WorldPosition;
 		}
 
 		Vector3Int intOrigin = Vector3Int.RoundToInt( serverState.WorldPosition );
-		Vector3 newGoal;
 		float distance = moveDelta.magnitude;
-			//limit goal to just one tile away and run this method recursively afterwards
+		Vector3 newGoal;
+
 		if ( distance > 1 ) {
+			//limit goal to just one tile away and run this method recursively afterwards
 			newGoal = serverState.WorldPosition + ( Vector3 ) serverState.Impulse;
 		} else {
 			newGoal = serverState.WorldPosition + moveDelta;
@@ -254,20 +255,15 @@ public partial class CustomNetTransform {
 		}
 
 		if ( distance > 1 ) {
-			CheckFloating(isRecursive ? goal : newGoal);
+			CheckFloatingServer(isRecursive ? goal : newGoal);
 		}
 	}
 
 	[Server]
 	private void AdvanceMovement( Vector3 tempOrigin, Vector3 tempGoal ) {
-		if ( !IsFloatingServer ) {
-			Debug.LogWarning( $"Not advancing {tempOrigin}->{tempGoal}" );
-			return;
-		}
-
 		//Natural throw ending
 		if ( IsBeingThrown && ShouldStopThrow ) {
-			Debug.Log( $"{gameObject.name}: Throw ended at {serverState.WorldPosition}" );
+//			Debug.Log( $"{gameObject.name}: Throw ended at {serverState.WorldPosition}" );
 			serverState.ActiveThrow = ThrowInfo.NoThrow;
 			//Change spin when we hit the ground. Zero was kinda dull
 			serverState.SpinFactor = ( sbyte ) ( -serverState.SpinFactor * 0.2f );
@@ -275,10 +271,9 @@ public partial class CustomNetTransform {
 		}
 
 		serverState.WorldPosition = tempGoal;
-		//Spess drifting is perpetual, but speed decreases each tile if object is flying on non-empty (floor assumed) tiles
+		//Spess drifting is perpetual, but speed decreases each tile if object has landed (no throw) on the floor
 		if ( !IsBeingThrown && !MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( tempOrigin ) ) ) {
 			//on-ground resistance
-			//serverState.Speed -= 0.5f;
 			serverState.Speed = serverState.Speed - ( serverState.Speed * 0.10f ) - 0.5f;
 			if ( serverState.Speed <= 0.05f ) {
 				StopFloating();
@@ -288,9 +283,11 @@ public partial class CustomNetTransform {
 		}
 	}
 
+	/// Verifies if we can proceed to the next tile and hurts objects if we can not
+	/// This check works only for 2 adjacent tiles, that's why floating check is recursive
 	[Server]
 	private bool ValidateFloating( Vector3 origin, Vector3 goal ) {
-		Debug.Log( $"{gameObject.name} check {origin}->{goal}. Speed={serverState.Speed}" );
+//		Debug.Log( $"{gameObject.name} check {origin}->{goal}. Speed={serverState.Speed}" );
 		Vector3Int intOrigin = Vector3Int.RoundToInt( origin );
 		Vector3Int intGoal = Vector3Int.RoundToInt( goal );
 		var info = serverState.ActiveThrow;
@@ -345,6 +342,7 @@ public partial class CustomNetTransform {
 		return MatrixManager.IsPassableAt( originPos, targetPos );
 	}
 
+	/// Lists objects to be damaged on given tile. Prob should be moved elsewhere
 	private bool HittingSomething( Vector3Int atPos, GameObject thrownBy, out List<HealthBehaviour> victims ) {
 		//Not damaging anything at launch tile
 		if ( Vector3Int.RoundToInt( serverState.ActiveThrow.OriginPos ) == atPos ) {

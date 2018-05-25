@@ -51,7 +51,7 @@ namespace PlayGroup
 			base.OnStartServer();
 			InitServerState();
 		}
-
+//TODO: don't allow walking when stopped in vacuum
 		/// 
 		[Server]
 		private void InitServerState()

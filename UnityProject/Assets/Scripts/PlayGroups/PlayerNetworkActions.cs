@@ -329,7 +329,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Client requesting throw to clicked position
 	[Command]
 	public void CmdRequestThrow(string slot, Vector3 worldTargetPos, int aim) {
-		if ( slot != "leftHand" && slot != "rightHand" || !SlotNotEmpty( slot ) ) {
+		if ( playerScript.canNotInteract() || slot != "leftHand" && slot != "rightHand" || !SlotNotEmpty( slot ) ) {
 			RollbackPrediction( slot );
 			return;
 		}
@@ -344,9 +344,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			Aim = (BodyPartType) aim,
 			OriginPos	= playerPos,
 			TargetPos = worldTargetPos,
+			//Clockwise spin from left hand and Counterclockwise from the right hand
 			SpinMode = slot == "leftHand" ? SpinMode.Clockwise : SpinMode.CounterClockwise,
 		};
-		//Clockwise spin from left hand and Counterclockwise from the right hand
 		throwable.GetComponent<CustomNetTransform>().Throw( throwInfo );
 		
 		//Simplified counter-impulse for players in space
