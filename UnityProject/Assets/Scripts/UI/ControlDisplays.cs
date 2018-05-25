@@ -12,6 +12,7 @@ namespace UI
 		public GameObject logInWindow;
 		public GameObject infoWindow;
 		public GameObject selfDestructVideo;
+        public GameObject vendingWindow;
         public RectTransform panelRight;
 		public UIManager parentScript;
 
