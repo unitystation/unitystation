@@ -1,4 +1,4 @@
-#v0.9 [WIP] Still hasn't been cleaned up so still quite messy 20/05/2018 12:21 GMT
+#v0.9.8 [WIP] Still hasn't been cleaned up so still quite messy 26/05/2018 21:48 GMT
 import json
 import time
 import math
@@ -192,15 +192,16 @@ def do_wins():
         global Initial_offset_y
         global Box_size
         old_Box_size = Box_size
-        if not scroll_x == 0:
-            Box_size += int(scroll_x)
+
         if not scroll_y == 0:
             Box_size += int(scroll_y)
+
             if Box_size <= 0:
                 Box_size = 1
-        
+                
+
         Initial_offset_x = int(Initial_offset_x*(Box_size/old_Box_size))
-        Initial_offset_y = int(Initial_offset_y*(Box_size/old_Box_size))
+        Initial_offset_y = int(Initial_offset_y*(Box_size/old_Box_size)) 
         #print(scroll_x,'scroll_x')
         #print(scroll_y,'scroll_y')
 
@@ -210,6 +211,7 @@ def do_wins():
     def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
         global Initial_offset_x
         global Initial_offset_y
+
         Initial_offset_x += dx
         Initial_offset_y += dy
 
@@ -384,6 +386,8 @@ Links_to_delete = []
 Pass_on_to_next = []
 Direction_jump_Next_wate = []
 Up_Flow_Voltage_Remind_chek = []
+Working_on_list_of_Travel_back = []
+is_Currently_working_on_Jumping_backwards = []
 Junctions_to_work_on_set = set([])
 Cable_Worked_on_set = set([])
 Junction_check_set = set([])
@@ -397,6 +401,7 @@ Battery_Power_supply_appliances_types = ['Engineering_batteries','Department_bat
 
 Power_draw_appliances_types = ['APC']
 
+Electrical_changes_Travel_back_to = {}
 Electrical_changes_Update = {}
 Electrical_changes_up_flow = {}
 Electrical_changes = {}
@@ -444,11 +449,11 @@ Colour_dictionary = {
     Link_cable_Low_voltage_Colour:['Link_cable_Low_voltage'],
     Medium_and_Low_voltage_Cable_Colour:['Low_voltage_cable','Medium_voltage_cable'],
 }
-#im = Image.open("Power tes.png")
+#im = Image.open("UltimatePower.png")
 
 #
-im = Image.open("Ultimate power V3.png")
-#im = Image.open("power.png")
+#im = Image.open("Ultimate power V3_5.png")
+im = Image.open("power.png")
 px = im.load()
 print(im.size)
 Tile_range_x = im.size[0]
@@ -569,8 +574,8 @@ def Circuit_search():
     Looping_Function()
 
     if Electrical_appliances_locations:
-        print('it fucked itself',Electrical_appliances_locations[0]) 
-        Cross_hair = Electrical_appliances_locations[0][0]
+        #print('it fucked itself',Electrical_appliances_locations[0]) 
+        #Cross_hair = Electrical_appliances_locations[0][0]
         do_wins()
         
         Circuit_search()
@@ -582,7 +587,7 @@ def Looping_Function(Show = False):
     Junctions_to_work_on_sub_list[:] = []
     if Show:
         print(Working_List)
-        o_wins()
+        do_wins()
     for Junction in Working_List:
 
         #do_wins()
@@ -613,7 +618,7 @@ def Cable_search(Starting_tile, is_first = False):
     Adjacent_tiles = Dictionary_of_adjacents[tuple(Starting_tile_coordinates)].copy()
     Starting_tile_Data = Starting_tile[1]
     Adjacent_count = 0
-
+    
     for Adjacent_tile in Adjacent_tiles:
         Adjacent_tile_Data = Matrix[Adjacent_tile[0]][Adjacent_tile[1]]
         if Adjacent_tile_Data:
@@ -772,7 +777,7 @@ def Cable_search(Starting_tile, is_first = False):
                                    
                     if Adjacent_sub_count > 2:
                         if not Starting_tile in Parallel_List:  ##########
-                            Parallel_List.append(Starting_tile)
+                            Parallel_List.append(Starting_tile.copy())
                             is_to_Parallel =  True
                         
                         if not Adjacent_Tile_with_Connected in End_Junctions:
@@ -831,9 +836,10 @@ def Parallel_cables_Starting(Parallel_List):
     if Overlapping:
         The_return = True
         if do_next_parallel:
-
+            #print(do_next_parallel)
             Parallel_cables(do_next_parallel)
             Formatting_for_Parallel_cables(Parallel_List)
+            Junctions_to_work_on_sub_list.extend(Parallel_List)
     else:
         #print('hapings?')
         Parallel_done[:] = []
@@ -860,99 +866,103 @@ def Parallel_cables(Parallel_List,First = False):
     
     
     for Parallel in Parallel_List:
-        #Cross_hair = Parallel[0]
-        #do_wins()
-        Parallel_Adjacent_count = 0
-        Parallel_Tiles_For_next_list = []
-        #print(Parallel)
-        Adjacent_Parallel_tiles = Dictionary_of_adjacents[tuple(Parallel[0])].copy()
-        Parallel_tile_Data = Parallel[1]
-        if Parallel_tile_Data in Stationery_equipment:
-            if not Parallel in Parallel_cables_ends:
-                Parallel_cables_ends.append(Parallel)
-                
-        for Adjacent_tile in Adjacent_Parallel_tiles:
-            Adjacent_tile_Data = Matrix[Adjacent_tile[0]][Adjacent_tile[1]]
-            if Adjacent_tile_Data:
-                for Adjacent_tile_Data_sub in Adjacent_tile_Data:
-                    Compound = tuple([tuple(Adjacent_tile),Adjacent_tile_Data_sub])
+        if Parallel:
+            #Cross_hair = Parallel[0]
+            #do_wins()
+            Parallel_Adjacent_count = 0
+            Parallel_Tiles_For_next_list = []
+            #print(Parallel)
+            Adjacent_Parallel_tiles = Dictionary_of_adjacents[tuple(Parallel[0])].copy()
+            Parallel_tile_Data = Parallel[1]
+            if Parallel_tile_Data in Stationery_equipment:
+                if not Parallel in Parallel_cables_ends:
+                    Parallel_cables_ends.append(Parallel)
                     
-                    if Adjacent_tile_Data_sub in Connections.Connectable_dictionary:
-                        Connections.pass_to_link = []
-                        if Connections.Connectable_dictionary[Parallel_tile_Data](Adjacent_tile_Data_sub):
-                            Compound_non_tuple = [Adjacent_tile,Adjacent_tile_Data_sub]
-                                
-                                #print('Connections.pass_to_link in Parallel_cables',Connections.pass_to_link)
-                            if Connections.pass_to_link:
-                                    #print(Connections.pass_to_link,'Connections.pass_to_link')
-                                if Connections.pass_to_link[1]:
-                                        #print(Adjacent_tile_Data)
-                                    The_to_link_tile = [Adjacent_tile,Adjacent_tile_Data_sub] ###########################
-                                else:
-                                        #print(Parallel_tile_Data) 
-                                    The_to_link_tile = Parallel ###########################
+            for Adjacent_tile in Adjacent_Parallel_tiles:
+                Adjacent_tile_Data = Matrix[Adjacent_tile[0]][Adjacent_tile[1]]
+                if Adjacent_tile_Data:
+                    for Adjacent_tile_Data_sub in Adjacent_tile_Data:
+                        Compound = tuple([tuple(Adjacent_tile),Adjacent_tile_Data_sub])
+                        
+                        if Adjacent_tile_Data_sub in Connections.Connectable_dictionary:
+                            Connections.pass_to_link = []
+                            if Connections.Connectable_dictionary[Parallel_tile_Data](Adjacent_tile_Data_sub):
+                                Compound_non_tuple = [Adjacent_tile,Adjacent_tile_Data_sub]
+                                    
+                                    #print('Connections.pass_to_link in Parallel_cables',Connections.pass_to_link)
+                                if Connections.pass_to_link:
+                                        #print(Connections.pass_to_link,'Connections.pass_to_link')
+                                    if Connections.pass_to_link[1]:
+                                            #print(Adjacent_tile_Data)
+                                        The_to_link_tile = [Adjacent_tile,Adjacent_tile_Data_sub] ###########################
+                                    else:
+                                            #print(Parallel_tile_Data) 
+                                        The_to_link_tile = Parallel ###########################
 
+                                            
+                                    add_yes = True
+                                    for to_t in To_link:
+                                        if The_to_link_tile == to_t[0]:
+                                            add_yes = False
+                                    if add_yes:    
+                                        To_link.append([The_to_link_tile,Connections.pass_to_link[0]])
+                                            
+                                Parallel_Adjacent_count += 1
+                                if not tuple(Adjacent_tile) in Cable_Worked_on_set: 
+                                    if not Compound_non_tuple in Parallel_conere:
+                                        if not Compound_non_tuple in Parallel_done: 
+                                            if not Adjacent_tile_Data_sub in Stationery_equipment:
+                                                if not Compound_non_tuple in Parallel_Tiles_For_next_list: 
+                                                    Parallel_Tiles_That_are_connectable.append(Compound_non_tuple)
+                                                    Parallel_Tiles_For_next_list.append(Compound_non_tuple)
+                                                    Overlapping = True
+                                            else:
+                                                if not Compound in Junctions_to_work_on_set:
+                                                    Parallel_cables_ends.append(Compound_non_tuple) 
+                                    else:
                                         
-                                add_yes = True
-                                for to_t in To_link:
-                                    if The_to_link_tile == to_t[0]:
-                                        add_yes = False
-                                if add_yes:    
-                                    To_link.append([The_to_link_tile,Connections.pass_to_link[0]])
-                                        
-                            Parallel_Adjacent_count += 1
-                            if not tuple(Adjacent_tile) in Cable_Worked_on_set: 
-                                if not Compound_non_tuple in Parallel_conere:
-                                    if not Compound_non_tuple in Parallel_done: 
+                                        Parallel_conere.remove(Compound_non_tuple) 
+                                        Parallel_done.append(Compound_non_tuple) 
+                                        Parallel_Tiles_For_next_list.append(Compound_non_tuple) 
                                         if not Adjacent_tile_Data_sub in Stationery_equipment:
                                             if not Compound_non_tuple in Parallel_Tiles_For_next_list: 
-                                                Parallel_Tiles_That_are_connectable.append(Compound_non_tuple)
-                                                Parallel_Tiles_For_next_list.append(Compound_non_tuple)
-                                                Overlapping = True
+                                                Parallel_Tiles_That_are_connectable.append(Compound_non_tuple) ######### 
+                                                Parallel_Tiles_For_next_list.append(Compound_non_tuple) #########
                                         else:
-                                            if not Compound in Junctions_to_work_on_set:
-                                                Parallel_cables_ends.append(Compound_non_tuple) 
-                                else:
-                                    
-                                    Parallel_conere.remove(Compound_non_tuple) 
-                                    Parallel_done.append(Compound_non_tuple) 
-                                    Parallel_Tiles_For_next_list.append(Compound_non_tuple) 
-                                    if not Adjacent_tile_Data_sub in Stationery_equipment:
-                                        if not Compound_non_tuple in Parallel_Tiles_For_next_list: 
-                                            Parallel_Tiles_That_are_connectable.append(Compound_non_tuple) ######### 
-                                            Parallel_Tiles_For_next_list.append(Compound_non_tuple) #########
-                                    else:
-                                        Parallel_cables_ends.append(Compound_non_tuple) #########
-                                    
-        #print(Parallel_Adjacent_count)
-        
-        if Parallel_Adjacent_count > 2:
-            Parallel_done.append(Parallel)
-            #print('Success')
-            #print('hey1',do_next_parallel)
-            #do_next_parallel = do_next_parallel + Parallel_Tiles_For_next_list
-            #print('hey2',do_next_parallel)
-            for Tiles_For in Parallel_Tiles_For_next_list:
-                if not Tiles_For in do_next_parallel:
-                    if Quick_look(Tiles_For):
-                        do_next_parallel.append(Tiles_For)
-                    else:
-                        if not Parallel in Parallel_conere_Calling_from:
-                            #print('hey')
-                            Parallel_conere_Calling_from.append(Parallel)
-                        tuple_adding = tuple([tuple(Tiles_For[0]),Tiles_For[1]])
-                        #if not tuple_adding in Cable_Worked_on_set:
-                            #if not Tiles_For in Parallel_conere:
-                        Parallel_conere.append(Tiles_For) 
-                        #do_next_parallel.append(Tiles_For)
-                
-        
-        else: 
-            if not Parallel in Parallel_conere:
-                Parallel_conere.append(Parallel)
+                                            Parallel_cables_ends.append(Compound_non_tuple) #########
+                                        
+            #print(Parallel_Adjacent_count)
+            
+            if Parallel_Adjacent_count > 2:
+                Parallel_done.append(Parallel)
+                #print('Success')
+                #print('hey1',do_next_parallel)
+                #do_next_parallel = do_next_parallel + Parallel_Tiles_For_next_list
+                #print('hey2',do_next_parallel)
+                for Tiles_For in Parallel_Tiles_For_next_list:
+                    if not Tiles_For in do_next_parallel:
+                        if Quick_look(Tiles_For):
+                            if Tiles_For:
+                                #print(Tiles_For)
+                                do_next_parallel.append(Tiles_For)
+                        else:
+                            if not Parallel in Parallel_conere_Calling_from:
+                                #print('hey')
+                                Parallel_conere_Calling_from.append(Parallel)
+                            tuple_adding = tuple([tuple(Tiles_For[0]),Tiles_For[1]])
+                            #if not tuple_adding in Cable_Worked_on_set:
+                                #if not Tiles_For in Parallel_conere:
+                            Parallel_conere.append(Tiles_For) 
+                            #do_next_parallel.append(Tiles_For)
+                    
+            
+            else: 
+                if not Parallel in Parallel_conere:
+                    if Parallel:
+                        Parallel_conere.append(Parallel)
 
-        
-  
+            
+      
     if First:      
         return(do_next_parallel)
     else:
@@ -1014,6 +1024,8 @@ def Formatting_for_Parallel_cables(Parallel_List):
     for adding in Add_list:
         Adjacent_Parallel_tiles = Dictionary_of_adjacents[tuple(adding[0])].copy()
         Parallel_tile_Data = adding[1]
+        adding_tuple = tuple([tuple(adding[0]),adding[1]])
+        
         for Adjacent_tile in Adjacent_Parallel_tiles:
             Adjacent_tile_Data = Matrix[Adjacent_tile[0]][Adjacent_tile[1]]
             if Adjacent_tile_Data:
@@ -1021,9 +1033,10 @@ def Formatting_for_Parallel_cables(Parallel_List):
                     if not adding in Parallel_List:
                         if [Adjacent_tile,Adjacent_tile_Data_sub] in Parallel_conere_Calling_from:
                             Add_list_2.append([Adjacent_tile,Adjacent_tile_Data_sub])
+                            
                             if adding in Parallel_done:
                                 Parallel_done.remove(adding)
-                         
+    #print(Add_list_2,'<-Add_list_2',Parallel_List,'<-Parallel_List',Parallel_cables_ends,'<-Parallel_cables_ends')                     
     Parallel_cables_ends_all = Add_list_2 + Parallel_List + Parallel_cables_ends
     #print(Parallel_List,'<-Parallel_List',Parallel_cables_ends_all,'<-Parallel_cables_ends_all')
         
@@ -1037,6 +1050,9 @@ def Formatting_for_Parallel_cables(Parallel_List):
                 pass
                 #print('oh fuck')
             else:
+
+                Dictionary1 = {'The other end':ends}
+                Dictionary2 = {'The other end':Starting}
                 
                 if To_link:
                     for To_l in To_link:
@@ -1047,7 +1063,7 @@ def Formatting_for_Parallel_cables(Parallel_List):
                             for to_link_String in To_l[1]:
                                 Dictionary2[to_link_String] = True
                            
-                Dictionary1 = {'The other end':ends}
+                
                 Dictionary1['Cable locations'] = Parallel_done.copy()
                 Dictionary1['Number of cables'] = len(Parallel_done)
 
@@ -1064,7 +1080,7 @@ def Formatting_for_Parallel_cables(Parallel_List):
                     links[Compound] = []
                     links[Compound].append(Dictionary1.copy())
                     
-                Dictionary2 = {'The other end':Starting}
+                
                 Dictionary2['Cable locations'] = Parallel_done.copy()
                 Dictionary2['Number of cables'] = len(Parallel_done)
                                  
@@ -1176,12 +1192,22 @@ def Junction_search(Starting_Junction):
                                     On_junction = False
                                     
                                 if Parallel_List:
+                                    #print(Parallel_List)
+                                    Parallel_List_bc = Parallel_List[0].copy()
                                     if Parallel_List[0]:
-                                        Parallel_cables_Starting(Parallel_List)
-                                        is_to_Parallel = False 
+                                        if Parallel_List[0] == [Adjacent_tile,Adjacent_tile_sub]:
+                                            #print('dfjijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijijiji')
+                                            #print(Starting_Junction, 'cahong')
+                                            Parallel_cables_Starting([Starting_Junction])
+                                            is_to_Parallel = False
+                                        else:
+                                            Parallel_cables_Starting(Parallel_List)
+                                            is_to_Parallel = False
+                                            #Junction_search(Starting_Junction)
+                                            #Cable_search(Parallel_List_bc,True)
 
-
-                        
+                                                
+                                                                                        
 
 #@profile            
 def to_format():
@@ -1193,6 +1219,7 @@ def to_format():
     is_two = False
     Dictionary1 = {}
     Dictionary2 = {}
+    #print('formating')
 
     if Junction_origin:
         for Junction_1 in End_Junctions:
@@ -1225,6 +1252,8 @@ def to_format():
                 else:
                     links[Compound2] = []
                     links[Compound2].append(Dictionary2.copy())
+            else:
+                print('what? ', Junction_1, Junction_origin)
         
     else:
         if len(End_Junctions) == 2:
@@ -1611,6 +1640,38 @@ def Circuit_jump_landing_Split_cable(Working_on,quck_do):
                     else:
                    
                         Power_dictionary[The_other_end_tuple]['Parallel Resistance from cabeis'] = {Working_on_tuple:[Resistance_split,Working_on]}
+            else:
+                Resistance_split = Power_Functions.Working_out_resistance_Modified(Working_on,Power_dictionary)
+                if 'Parallel Resistance from cabeis' in Power_dictionary[The_other_end_tuple]:
+                    if 'Parallel Resistance from cabeis modified' in Power_dictionary[Working_on_tuple]:
+                        Power_dictionary[The_other_end_tuple]['Parallel Resistance from cabeis'].update(Power_dictionary[Working_on_tuple]['Parallel Resistance from cabeis modified'].copy())
+                   
+                    Power_dictionary[The_other_end_tuple]['Parallel Resistance from cabeis'][Working_on_tuple] = [Resistance_split,Working_on]
+                else:
+                    if 'Parallel Resistance from cabeis modified' in Power_dictionary[Working_on_tuple]:
+                        Power_dictionary[The_other_end_tuple]['Parallel Resistance from cabeis'] = Power_dictionary[Working_on_tuple]['Parallel Resistance from cabeis modified'].copy()
+                       
+                        Power_dictionary[The_other_end_tuple]['Parallel Resistance from cabeis'][Working_on_tuple] = [Resistance_split,Working_on]
+                    else:
+                   
+                        Power_dictionary[The_other_end_tuple]['Parallel Resistance from cabeis'] = {Working_on_tuple:[Resistance_split,Working_on]}
+
+                        
+ 
+                        
+            if 'Parallel cabeis' in Power_dictionary[The_other_end_tuple]:
+                if 'Parallel cabeis' in Power_dictionary[Working_on_tuple]:
+                    Power_dictionary[The_other_end_tuple]['Parallel cabeis'].update(Power_dictionary[Working_on_tuple]['Parallel cabeis'].copy())
+                   
+                Power_dictionary[The_other_end_tuple]['Parallel cabeis'].add(Working_on_tuple)
+            else:
+                if 'Parallel cabeis' in Power_dictionary[Working_on_tuple]:
+                    Power_dictionary[The_other_end_tuple]['Parallel cabeis'] = Power_dictionary[Working_on_tuple]['Parallel cabeis'].copy() 
+                    Power_dictionary[The_other_end_tuple]['Parallel cabeis'].add(Working_on_tuple)
+                else:
+                   
+                    Power_dictionary[The_other_end_tuple]['Parallel cabeis'] = {Working_on_tuple}
+                                            
             #print('doing it here',Working_on)
             if 'Resistance from cabeis' in Power_dictionary[The_other_end_tuple]:
                 Power_dictionary[The_other_end_tuple]['Resistance from cabeis'][Working_on_tuple] = [0,Working_on]
@@ -1654,9 +1715,21 @@ def Circuit_jump_landing(Working_on,The_other_end):
         if not 'Use Resistance from modified' in Power_dictionary[Working_on_tuple]:
             if 'Parallel Resistance from cabeis' in Power_dictionary[Working_on_tuple]:  
                 if 'Parallel Resistance from cabeis' in Power_dictionary[The_other_end_tuple]:
-                    Power_dictionary[The_other_end_tuple]['Parallel Resistance from cabeis'].update(Power_dictionary[Working_on_tuple]['Parallel Resistance from cabeis'])
+                    Power_dictionary[The_other_end_tuple]['Parallel Resistance from cabeis'].update(Power_dictionary[Working_on_tuple]['Parallel Resistance from cabeis'].copy())
                 else:
-                    Power_dictionary[The_other_end_tuple]['Parallel Resistance from cabeis'] = Power_dictionary[Working_on_tuple]['Parallel Resistance from cabeis']
+                    Power_dictionary[The_other_end_tuple]['Parallel Resistance from cabeis'] = Power_dictionary[Working_on_tuple]['Parallel Resistance from cabeis'].copy()
+        else:
+            if 'Parallel Resistance from cabeis modified' in Power_dictionary[Working_on_tuple]:  
+                if 'Parallel Resistance from cabeis' in Power_dictionary[The_other_end_tuple]:
+                    Power_dictionary[The_other_end_tuple]['Parallel Resistance from cabeis'].update(Power_dictionary[Working_on_tuple]['Parallel Resistance from cabeis modified'].copy())
+                else:
+                    Power_dictionary[The_other_end_tuple]['Parallel Resistance from cabeis'] = Power_dictionary[Working_on_tuple]['Parallel Resistance from cabeis modified'].copy()
+                    
+        if 'Parallel cabeis' in Power_dictionary[Working_on_tuple]:  
+            if 'Parallel cabeis' in Power_dictionary[The_other_end_tuple]:
+                Power_dictionary[The_other_end_tuple]['Parallel cabeis'].update(Power_dictionary[Working_on_tuple]['Parallel cabeis'].copy())
+            else:
+                Power_dictionary[The_other_end_tuple]['Parallel cabeis'] = Power_dictionary[Working_on_tuple]['Parallel cabeis'].copy()
         
     if not The_other_end in  The_current_working_line: 
         The_current_working_line.append(The_other_end)
@@ -1733,9 +1806,13 @@ def Jumping_backwards(Working_on_list, First = False,jutes_do = False):
     global Electrical_changes
     global Pass_on_to_next
     global Up_Flow_Voltage_Remind_chek
+    global Working_on_list_of_Travel_back
+    global is_Currently_working_on_Jumping_backwards
     #print('Working_on_list',Working_on_list)
     Pass_on_to_next[:] = []
     Pass_on_to_next_Checked = []
+    For_format_After_all_done = []
+    is_Currently_working_on_Jumping_backwards = Working_on_list.copy()
     for Working_on in Working_on_list:
         For_format = []
         do_next = []
@@ -1754,53 +1831,73 @@ def Jumping_backwards(Working_on_list, First = False,jutes_do = False):
                         #if not 'Receiving voltage' in Power_dictionary[the_othere_end_tuple]:
                         The_other_end = the_othere_end_all[1]
                         do_next.append(The_other_end)
+        Have_same_parallel = {}
                         
-        if len(do_next) > 1:
+        if len(do_next) > 1: #1
             #print(do_next,'Splitting' )
-            Have_same_parallel_Resistance = []
-            if 'Parallel Resistance from cabeis' in Power_dictionary[Working_on_tuple]:
-                for next_done in do_next:
-                    next_done_tuple = tuple([tuple(next_done[0]),next_done[1]])
-                    if 'Parallel Resistance from cabeis' in Power_dictionary[next_done_tuple]:
-                        if Power_dictionary[Working_on_tuple]['Parallel Resistance from cabeis'] == Power_dictionary[next_done_tuple]['Parallel Resistance from cabeis']:
-                            #print('hey 1',Power_dictionary[Working_on_tuple]['Parallel Resistance from cabeis'])
-                            #print('''
+            
+            for next_done in do_next:
+                next_done_tuple = tuple([tuple(next_done[0]),next_done[1]])
+                if 'Parallel cabeis' in Power_dictionary[next_done_tuple]:
+                    
+                    for next_done_sub in do_next:
+                        if not next_done_sub == next_done:
+                            next_done_sub_tuple = tuple([tuple(next_done_sub[0]),next_done_sub[1]])
+                            if 'Parallel cabeis' in Power_dictionary[next_done_sub_tuple]:
+                                A = Power_dictionary[next_done_sub_tuple]['Parallel cabeis'] 
+                                Have_same = Power_dictionary[next_done_tuple]['Parallel cabeis'].intersection(A)
 
-                            #print('hey 2',Power_dictionary[next_done_tuple]['Parallel Resistance from cabeis'])
-                            Have_same_parallel_Resistance.append(next_done)
-                    else:
-                        Pass_on_to_next.append(next_done)
-                        For_format.append(next_done)
-                        
-            #print(Have_same_parallel_Resistance,'Have_same_parallel_Resistance')
-            #print(do_next,'do_next')
-            if Have_same_parallel_Resistance:
-                if len(Have_same_parallel_Resistance) > 1:
-                    #print('hjeyyyyyyyyyyyyy',Have_same_parallel_Resistance)
-                    Top_resistance = [0,'Error']
-                    for same_parallel_Resistance in Have_same_parallel_Resistance:
-                        Resistance = Power_Functions.Working_out_all_resistance(same_parallel_Resistance,Power_dictionary)
-                        if Resistance > Top_resistance[0]:
-                            Top_resistance = [Resistance,same_parallel_Resistance]
-                    if Top_resistance[0]:
-                        #print('Chosen one ', Top_resistance[1])
-                        Pass_on_to_next.append(Top_resistance[1])
-                        For_format.append(Top_resistance[1])
-                    else:
-                        print('help!!!')
+                                if Have_same:
+                                    
+                                    if next_done_sub_tuple in Have_same_parallel:
+                                        Have_same_parallel[next_done_sub_tuple].add(next_done_tuple)
+                                    else:
+                                        do_ne = True 
+                                        for key, value in Have_same_parallel.items():
+                                            if next_done_tuple in value:
+
+                                                do_ne = False  
+                                                Have_same_parallel[key].add(next_done_sub_tuple)#
+                                        if do_ne:
+                                            if not next_done_tuple in Have_same_parallel:
+                                                Have_same_parallel[next_done_tuple] = set([])
+                                            Have_same_parallel[next_done_tuple].add(next_done_sub_tuple)
+                                    
+                                
+
                 else:
-                   Pass_on_to_next.extend(do_next)
-                   For_format.extend(do_next)
+                    Pass_on_to_next.append(next_done)
+                    For_format.append(next_done)
+            #print(Have_same_parallel)
+            if Have_same_parallel:
+                #print(Have_same_parallel)
+                for key, value in Have_same_parallel.items():
+                    if value:
+                        #print('hjeyyyyyyyyyyyyy',Have_same_parallel_Resistance)
+                        Top_resistance = [999999999999999999999999,'Error']
+                        for same_parallel_tuple in value:
+                            
+                            First_same_parallel_tuple = list(same_parallel_tuple)
+                            same_parallel = [list(First_same_parallel_tuple[0]),First_same_parallel_tuple[1]]
+                            
+                            Resistance = Power_Functions.Working_out_all_resistance(same_parallel,Power_dictionary)
+                            
+                            if Resistance < Top_resistance[0]:
+                                Top_resistance = [Resistance,same_parallel]
+                        if Top_resistance[0]:
+                            #print('Chosen one ', Top_resistance[1])
+                            Pass_on_to_next.append(Top_resistance[1])
+                            For_format.append(Top_resistance[1])
+                        else:
+                            print('help!!! Jumping_backwards,Have_same_parallel ',Have_same_parallel)
+ 
             else:
                 #print('aaddng do_next ',do_next)
                 Pass_on_to_next.extend(do_next)
                 For_format.extend(do_next)
 
                 #print('Whats added', Pass_on_to_next)
-
-                    
-                    
-
+    
         else: 
             if do_next:
                 if do_next[0]:
@@ -1857,8 +1954,17 @@ def Jumping_backwards(Working_on_list, First = False,jutes_do = False):
         
         if For_format:
             #print('For_format', For_format, '1')
-            Landing_backward(Working_on,For_format)
+            For_format_After_all_done.append([Working_on,For_format])
+            #Landing_backward(Working_on,For_format)
     #print(Pass_on_to_next_Checked,'nic')
+    if Working_on_list_of_Travel_back:
+        Travel_back_to_Jumping_backwards(Working_on_list_of_Travel_back)
+        Working_on_list_of_Travel_back[:] = []
+
+    if For_format_After_all_done:
+        for For_format_After in For_format_After_all_done:
+            Landing_backward(For_format_After[0],For_format_After[1])
+            
     if Pass_on_to_next_Checked:
         
         on_to_next = Pass_on_to_next_Checked.copy()
@@ -1869,11 +1975,18 @@ def Jumping_backwards(Working_on_list, First = False,jutes_do = False):
             is_Working_backwards = True
             is_setting_as_top = True
             for key, the_list in Electrical_changes.items():
+                #print(key)
+                #do_wins()
                 Power_sys_module.module_dictionary[the_list[0]](the_list[1],Power_dictionary,Persistent_power_system_data,is_Working_backwards,is_setting_as_top)
                 work_on_nexd.append(the_list[1])
             Electrical_changes = {}
             First = True
             Jumping_backwards(work_on_nexd,First)
+
+
+
+
+            
 
 def Update_Upstream_travel_to_end(up_voltage, First = False):
     global Working_on_backward_list
@@ -1914,15 +2027,6 @@ def Update_Upstream_travel_to_end(up_voltage, First = False):
             is_Working_backwards = True
             for key, the_list in Electrical_changes_up_flow.items():
                 
-                Power_sys_module.module_dictionary[the_list[0]](the_list[1],Power_dictionary,Persistent_power_system_data,is_Working_backwards)
-                work_on_nexd.append(the_list[1])
-                if 'Supply current Support' in Power_dictionary[key]:
-                    Support_current_detected.append(the_list[1])
-            Electrical_changes_up_flow = {}
-            is_Working_backwards = True
-            for key, the_list in Electrical_changes_up_flow.items():
-                print('hey')
-                #do_wins()
                 Power_sys_module.module_dictionary[the_list[0]](the_list[1],Power_dictionary,Persistent_power_system_data,is_Working_backwards)
                 work_on_nexd.append(the_list[1])
                 if 'Supply current Support' in Power_dictionary[key]:
@@ -2015,7 +2119,7 @@ def Update_downstream_travel_to_end(up_voltage, First = False):
             work_on_nexd = []
             is_Working_backwards = True
             for key, the_list in Electrical_changes_up_flow.items():
-                print('hey')
+                #print('hey')
                 #do_wins()
                 Power_sys_module.module_dictionary[the_list[0]](the_list[1],Power_dictionary,Persistent_power_system_data,is_Working_backwards)
                 work_on_nexd.append(the_list[1])
@@ -2087,7 +2191,10 @@ def Formatting_support_landing(Jumping_from,Landing_ons):
     for the_othere_end in Landing_ons:
         if the_othere_end:
             the_othere_end_tuple = tuple([tuple(the_othere_end[0]),the_othere_end[1]])
-            
+            #print(Jumping_from_tuple)
+            #if Jumping_from_tuple == ((409, 450), 'Low_voltage_cable'):
+                
+                #do_wins()
             Destination = Power_dictionary[Jumping_from_tuple]['sub syston TOP'][0]
             Supply_current = Power_Functions.Working_out_Support_current(Jumping_from,Destination,Power_dictionary)      
             if 'current coming from Support' in Power_dictionary[the_othere_end_tuple]:
@@ -2099,7 +2206,7 @@ def Formatting_support_landing(Jumping_from,Landing_ons):
                 Power_dictionary[the_othere_end_tuple]['Supply current Support'] = Power_dictionary[the_othere_end_tuple]['current coming from Support'][Jumping_from_tuple][0]
 
 def Travel_to_source_and_update(Working_on):
-    global Pass_on_to_next
+    global Working_on_list_of_Travel_back
     #print('Travel_to_source_and_update',Working_on)
     Working_on_tuple = tuple([tuple(Working_on[0]),Working_on[1]])
     if 'current coming from' in Power_dictionary[Working_on_tuple]:
@@ -2111,11 +2218,153 @@ def Travel_to_source_and_update(Working_on):
                 Formatting_support_landing(Working_on,[The_other_end_and_current[1]])
                 if Power_dictionary[The_other_end_tuple]['sub syston TOP'][0] ==  The_other_end_and_current[1]:
                     Supply_back_into_line(The_other_end_and_current[1])
-                    Pass_on_to_next.append(The_other_end_and_current[1])
+                    Working_on_list_of_Travel_back.append(The_other_end_and_current[1])
                 else:
                     Travel_to_source_and_update(The_other_end_and_current[1])
     else:
         print('help!,Travel_to_source_and_update ',Working_on)
+
+        
+def Travel_back_to_Jumping_backwards(Working_on_list, First = False,jutes_do = False):
+    global Electrical_changes_Travel_back_to
+    global Pass_on_to_next
+    global Up_Flow_Voltage_Remind_chek
+    global is_Currently_working_on_Jumping_backwards
+    #print('Working_on_list',Working_on_list)
+    Pass_on_to_next_Travel_back_to = []
+    Pass_on_to_next[:] = []
+    Pass_on_to_next_Checked = []
+    For_format_After_all_done = []
+    for Working_on in Working_on_list:
+        if not Working_on in is_Currently_working_on_Jumping_backwards:
+            For_format = []
+            do_next = []
+            Have_same_parallel_Resistance = []
+            
+            Working_on_tuple = tuple([tuple(Working_on[0]),Working_on[1]])
+            Working_on_Data = Working_on[1]
+            if not First:
+                #print(Working_on_Data)
+                if Working_on_Data in Power_sys_module.module_dictionary:
+                    Electrical_changes_Travel_back_to[Working_on_tuple] = [Working_on_Data,Working_on]
+            if not Working_on_tuple in Electrical_changes_Travel_back_to:
+                if 'Resistance from cabeis' in Power_dictionary[Working_on_tuple]:
+                    for the_othere_end_tuple, the_othere_end_all in Power_dictionary[Working_on_tuple]['Resistance from cabeis'].items():
+                        if not do_next == Working_on:
+                            #if not 'Receiving voltage' in Power_dictionary[the_othere_end_tuple]:
+                            The_other_end = the_othere_end_all[1]
+                            do_next.append(The_other_end)
+            Have_same_parallel = {}
+                            
+            if len(do_next) > 1: #1
+                #print(do_next,'Splitting' )
+                
+                for next_done in do_next:
+                    next_done_tuple = tuple([tuple(next_done[0]),next_done[1]])
+                    if 'Parallel cabeis' in Power_dictionary[next_done_tuple]:
+                        
+                        for next_done_sub in do_next:
+                            if not next_done_sub == next_done:
+                                next_done_sub_tuple = tuple([tuple(next_done_sub[0]),next_done_sub[1]])
+                                if 'Parallel cabeis' in Power_dictionary[next_done_sub_tuple]:
+                                    A = Power_dictionary[next_done_sub_tuple]['Parallel cabeis'] 
+                                    Have_same = Power_dictionary[next_done_tuple]['Parallel cabeis'].intersection(A)
+
+                                    if Have_same:
+                                        
+                                        if next_done_sub_tuple in Have_same_parallel:
+                                            Have_same_parallel[next_done_sub_tuple].add(next_done_tuple)
+                                        else:
+                                            do_ne = True 
+                                            for key, value in Have_same_parallel.items():
+                                                if next_done_tuple in value:
+
+                                                    do_ne = False  
+                                                    Have_same_parallel[key].add(next_done_sub_tuple)#
+                                            if do_ne:
+                                                if not next_done_tuple in Have_same_parallel:
+                                                    Have_same_parallel[next_done_tuple] = set([])
+                                                Have_same_parallel[next_done_tuple].add(next_done_sub_tuple)
+                                        
+                                    
+
+                    else:
+                        Pass_on_to_next_Travel_back_to.append(next_done)
+                        For_format.append(next_done)
+                #print(Have_same_parallel)
+                if Have_same_parallel:
+                    #print(Have_same_parallel)
+                    for key, value in Have_same_parallel.items():
+                        if value:
+                            #print('hjeyyyyyyyyyyyyy',Have_same_parallel_Resistance)
+                            Top_resistance = [999999999999999999999999,'Error']
+                            for same_parallel_tuple in value:
+                                
+                                First_same_parallel_tuple = list(same_parallel_tuple)
+                                same_parallel = [list(First_same_parallel_tuple[0]),First_same_parallel_tuple[1]]
+                                
+                                Resistance = Power_Functions.Working_out_all_resistance(same_parallel,Power_dictionary)
+                                
+                                if Resistance < Top_resistance[0]:
+                                    Top_resistance = [Resistance,same_parallel]
+                            if Top_resistance[0]:
+                                #print('Chosen one ', Top_resistance[1])
+                                Pass_on_to_next_Travel_back_to.append(Top_resistance[1])
+                                For_format.append(Top_resistance[1])
+                            else:
+                                print('help!!! Jumping_backwards,Have_same_parallel ',Have_same_parallel)
+     
+                else:
+                    #print('aaddng do_next ',do_next)
+                    Pass_on_to_next_Travel_back_to.extend(do_next)
+                    For_format.extend(do_next)
+
+                    #print('Whats added', Pass_on_to_next)
+        
+            else: 
+                if do_next:
+                    if do_next[0]:
+                        Pass_on_to_next_Travel_back_to.append(do_next[0])
+                        For_format.append(do_next[0])
+                        
+                
+            if Pass_on_to_next_Travel_back_to:
+                
+                for Pass_on_Check in Pass_on_to_next_Travel_back_to:
+                    if not Pass_on_Check in Pass_on_to_next_Checked:
+                        Pass_on_to_next_Checked.append(Pass_on_Check)
+            
+            
+            if For_format:
+                #print('For_format', For_format, '1')
+                For_format_After_all_done.append([Working_on,For_format])
+        else:
+            Pass_on_to_next.append(Working_on)
+            
+            #Landing_backward(Working_on,For_format)
+    #print(Pass_on_to_next_Checked,'nic')
+
+    if For_format_After_all_done:
+        for For_format_After in For_format_After_all_done:
+            Landing_backward(For_format_After[0],For_format_After[1])
+            
+    if Pass_on_to_next_Checked:
+        
+        on_to_next = Pass_on_to_next_Checked.copy()
+        Travel_back_to_Jumping_backwards(on_to_next)
+    else:
+        if Electrical_changes_Travel_back_to:
+            work_on_nexd = []
+            is_Working_backwards = True
+            is_setting_as_top = True
+            for key, the_list in Electrical_changes_Travel_back_to.items():
+                #print(key)
+                #do_wins()
+                Power_sys_module.module_dictionary[the_list[0]](the_list[1],Power_dictionary,Persistent_power_system_data,is_Working_backwards,is_setting_as_top)
+                work_on_nexd.append(the_list[1])
+            Electrical_changes_Travel_back_to = {}
+            First = True
+            Travel_back_to_Jumping_backwards(work_on_nexd,First)
 
 def Supply_back_into_line(Working_on):
     global Power_dictionary
@@ -2124,7 +2373,7 @@ def Supply_back_into_line(Working_on):
     Current = Power_Functions.Working_out_Support_current(Working_on,Working_on,Power_dictionary)
 
     if 'current coming from' in Power_dictionary[Working_on_tuple]:
-        print('hey??')
+        #print('hey??')
         #print(Working_on_tuple)
         Power_dictionary[Working_on_tuple]['current coming from']['From support'] = [Current,0]
         #print(Power_dictionary[Working_on_tuple]['current coming from']['From support'])
@@ -2156,7 +2405,8 @@ def Landing_backward(Jumping_from,Landing_ons):
             the_othere_end_tuple = tuple([tuple(the_othere_end[0]),the_othere_end[1]])
             if Simply_Times_by:
                 if 'Use Resistance from modified' in Power_dictionary[the_othere_end_tuple]:
-                    Simply_Times_by_resistance = Power_Functions.Working_out_resistance_Modified(the_othere_end,Power_dictionary)
+                    Simply_Times_by_resistance = Power_Functions.Working_out_all_resistance_Modified(the_othere_end,Power_dictionary)
+                    #Simply_Times_by_resistance = Power_Functions.Working_out_all_resistance(the_othere_end,Power_dictionary)
                 else:
                     Simply_Times_by_resistance = Power_Functions.Working_out_all_resistance(the_othere_end,Power_dictionary)
                 #print(Simply_Times_by_resistance)   
@@ -2178,10 +2428,16 @@ def Landing_backward(Jumping_from,Landing_ons):
             Supply_current = Power_Functions.Working_out_current(the_othere_end,Power_dictionary)
             
             if 'Use Resistance from modified' in Power_dictionary[the_othere_end_tuple]:
-                Resistance = Power_Functions.Working_out_resistance_Modified(the_othere_end,Power_dictionary)
+                Resistance = Power_Functions.Working_out_all_resistance_Modified(the_othere_end,Power_dictionary)#############
+                if the_othere_end[1] == 'Transformer':
+                    print('swa',Resistance , the_othere_end)
                 
+                #Resistance = Power_Functions.Working_out_all_resistance(the_othere_end,Power_dictionary)
             else:
                 Resistance = Power_Functions.Working_out_all_resistance(the_othere_end,Power_dictionary)
+                if the_othere_end == [[85, 107], 'High_voltage_cable']:
+                
+                    print('ur ',Resistance , the_othere_end)
                 
             
             Power_dictionary[the_othere_end_tuple]['Receiving voltage'] = Supply_current * Resistance
@@ -2740,15 +2996,15 @@ start_time = time.time()
 Circuit_search()
 print("--- %s seconds Circuit_search time ---" % (time.time() - start_time))
  
-do_wins()
+#do_wins()
 start_time = time.time()
 Direction_calculation()
 print("--- %s seconds Direction_calculation time  ---" % (time.time() - start_time))
-do_wins()
+#do_wins()
 start_time = time.time()
 Circuit_initialization()
 print("--- %s seconds Circuit_initialization time  ---" % (time.time() - start_time))
-do_wins()
+#do_wins()
 start_time = time.time()
 work_backwords()
 print("--- %s seconds work_backwords time ---" % (time.time() - start_time))

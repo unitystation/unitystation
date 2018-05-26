@@ -47,7 +47,54 @@ def Working_out_resistance(Junction,Power_dictionary):
                 Resistance = value[0]
     return(Resistance)
 
+def Working_out_all_resistance(Junction,Power_dictionary):
+    ResistanceX_all = 0
+    Resistance = 0
+    tuple_Junction = tuple([tuple(Junction[0]),Junction[1]])
+    if tuple_Junction in Power_dictionary:
+        if len(Power_dictionary[tuple_Junction]['Resistance from cabeis']) > 1:
+            #print('more then one', Power_dictionary[tuple(Junction)]['being redsed from'] )
+            for Resistance_pop in Power_dictionary[tuple_Junction]['Resistance from cabeis'].values():
+                if Resistance_pop[0]:
+                    ResistanceX_all += 1/Resistance_pop[0]     
+            if ResistanceX_all:
+                Resistance = ResistanceX_all
+            else:
+                Resistance = 0
 
+        else:
+            for value in Power_dictionary[tuple_Junction]['Resistance from cabeis'].values():
+                if value[0]:
+                    Resistance = 1/value[0]
+    #print('hr 1')
+    if 'Parallel Resistance from cabeis' in Power_dictionary[tuple_Junction]:
+        #print('hr 2')
+        if len(Power_dictionary[tuple_Junction]['Parallel Resistance from cabeis']) > 1:
+            #print('hr 3.0')
+            ResistanceX_all = 0
+            for Resistance_pop in Power_dictionary[tuple_Junction]['Parallel Resistance from cabeis'].values():
+                if Resistance_pop[0]:
+                    ResistanceX_all += 1/Resistance_pop[0]
+                    
+            if ResistanceX_all:
+                Resistance_sub = ResistanceX_all
+            else:
+                Resistance_sub = 0
+            Resistance += Resistance_sub
+                        
+        else:
+            #print('hr 3.1')
+            for value in Power_dictionary[tuple_Junction]['Parallel Resistance from cabeis'].values():
+                if value[0]:
+                    Resistance += 1/value[0]
+                #print(value[0])
+    if Resistance:
+        True_resistance = 1/Resistance
+                    
+    return(True_resistance)
+
+
+ 
 def Working_out_resistance_Modified(Junction,Power_dictionary):
     ResistanceX_all = 0
     Resistance = 0
@@ -68,50 +115,54 @@ def Working_out_resistance_Modified(Junction,Power_dictionary):
                 Resistance = value[0]
     return(Resistance)
 
-def Working_out_all_resistance(Junction,Power_dictionary):
+
+
+def Working_out_all_resistance_Modified(Junction,Power_dictionary):
     ResistanceX_all = 0
     Resistance = 0
     tuple_Junction = tuple([tuple(Junction[0]),Junction[1]])
     if tuple_Junction in Power_dictionary:
-        if len(Power_dictionary[tuple_Junction]['Resistance from cabeis']) > 1:
+        if len(Power_dictionary[tuple_Junction]['Resistance from modified']) > 1:
             #print('more then one', Power_dictionary[tuple(Junction)]['being redsed from'] )
-            for Resistance_pop in Power_dictionary[tuple_Junction]['Resistance from cabeis'].values():
+            for Resistance_pop in Power_dictionary[tuple_Junction]['Resistance from modified'].values():
                 if Resistance_pop[0]:
                     ResistanceX_all += 1/Resistance_pop[0]     
             if ResistanceX_all:
-                Resistance = 1/ResistanceX_all
+                Resistance = ResistanceX_all
             else:
                 Resistance = 0
 
         else:
-            for value in Power_dictionary[tuple_Junction]['Resistance from cabeis'].values():
-                Resistance = value[0]
+            for value in Power_dictionary[tuple_Junction]['Resistance from modified'].values():
+                if value[0]:
+                    Resistance = 1/value[0]
     #print('hr 1')
-    if 'Parallel Resistance from cabeis' in Power_dictionary[tuple_Junction]:
+    if 'Parallel Resistance from cabeis modified' in Power_dictionary[tuple_Junction]:
         #print('hr 2')
-        if len(Power_dictionary[tuple_Junction]['Parallel Resistance from cabeis']) > 1:
+        if len(Power_dictionary[tuple_Junction]['Parallel Resistance from cabeis modified']) > 1:
             #print('hr 3.0')
             ResistanceX_all = 0
-            for Resistance_pop in Power_dictionary[tuple_Junction]['Parallel Resistance from cabeis'].values():
+            for Resistance_pop in Power_dictionary[tuple_Junction]['Parallel Resistance from cabeis modified'].values():
                 if Resistance_pop[0]:
                     ResistanceX_all += 1/Resistance_pop[0]
                     
             if ResistanceX_all:
-                Resistance_sub = 1/ResistanceX_all
+                Resistance_sub = ResistanceX_all
             else:
                 Resistance_sub = 0
             Resistance += Resistance_sub
                         
         else:
             #print('hr 3.1')
-            for value in Power_dictionary[tuple_Junction]['Parallel Resistance from cabeis'].values():
-                Resistance += value[0]
+            for value in Power_dictionary[tuple_Junction]['Parallel Resistance from cabeis modified'].values():
+                if value[0]:
+                    Resistance += 1/value[0]#
                 #print(value[0])
+    if Resistance:
+        True_resistance = 1/Resistance
+    
                     
-    return(Resistance)
-
-
-
+    return(True_resistance)
              
 
                     
@@ -170,12 +221,12 @@ def Charge_calculations(Battery,PD,PPSD,IWB):
                 PPSD[Tuple_Battery]['If_voltage_charge'] = Capacity_max
             else:
                 PPSD[Tuple_Battery]['If_voltage_charge'] = New_current_capacity           
-            if 'Resistance from modified' in PD[Tuple_Battery]:
-                PD[Tuple_Battery]['Resistance from modified']['Battery'] = [(PPSD[Tuple_Battery]['Supply_voltage']/Charging_current),0]
-            else:    
-                PD[Tuple_Battery]['Resistance from modified'] = {0:[PPSD[Tuple_Battery]['Supply_voltage']/Charging_current,0]}
+            #if 'Resistance from modified' in PD[Tuple_Battery]:
+                #PD[Tuple_Battery]['Resistance from modified']['Battery'] = [(PPSD[Tuple_Battery]['Supply_voltage']/Charging_current),0]
+            #else:    
+                #PD[Tuple_Battery]['Resistance from modified'] = {0:[PPSD[Tuple_Battery]['Supply_voltage']/Charging_current,0]}
                 
-            PD[Tuple_Battery]['Resistance'] = Working_out_resistance_Modified(Battery,PD) 
+            #PD[Tuple_Battery]['Resistance'] = Working_out_resistance_Modified(Battery,PD) 
             
     else:
         PPSD[Tuple_Battery]['Charging'] = False
