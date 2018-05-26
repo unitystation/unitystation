@@ -3,7 +3,15 @@ guid: 23eb45cc9b70ae5459064a5b8f9e24ae
 timeCreated: 1526917321
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: ThrottleTrack_0
+    21300002: ThrottleTrack_1
+    21300004: ThrottleTrack_2
+    21300006: ThrottleTrack_3
+    21300008: ThrottleTrack_4
+    21300010: ThrottleTrack_5
+    21300012: ThrottleTrack_6
+    21300014: ThrottleTrack_7
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -109,7 +117,105 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: ThrottleTrack_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 21.333334
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ThrottleTrack_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 31
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ThrottleTrack_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 21.333334
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ThrottleTrack_4
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 32
+        width: 21.333334
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ThrottleTrack_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 21
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ThrottleTrack_6
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 0
+        width: 21.333334
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ThrottleTrack_7
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 0
+        width: 21.333334
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
     outline: []
     physicsShape: []
   spritePackingTag: 
