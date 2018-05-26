@@ -6,7 +6,7 @@ def Department_batteries_Module(Department_batterie,Power_dictionary,Persistent_
     Power_dictionary[Department_batterie_tuple]['Use Resistance from modified'] = True 
     Resistance = Power_Functions.Working_out_all_resistance(Department_batterie,Power_dictionary)
     PPSD = Persistent_power_system_data
-    #print('Department_batteries',Power_dictionary[Department_batterie_tuple])
+    #print('Department_batteries', Support_supply_formatting)
     R2 = Resistance
     I2 = 240/Resistance
     V2 = 240
@@ -16,13 +16,43 @@ def Department_batteries_Module(Department_batterie,Power_dictionary,Persistent_
     V1 = (240 * Turn_ratio)
     I1 = (V2/V1)*I2
     R1 = 3000/I1
-    #print(R1,'R1 1')
-    #R1 = Turn_ratio * R2
-    #print(R1,'R1 2')
-    if 'Resistance from modified' in Power_dictionary[Department_batterie_tuple]:
-        Power_dictionary[Department_batterie_tuple]['Resistance from modified'][0] = [R1,0]
+
+    Resistance_sub = Power_Functions.Working_out_resistance(Department_batterie,Power_dictionary)
+    if Resistance_sub:
+        R2_SUB = Resistance_sub
+        I2_SUB = 240/Resistance_sub
+        V2_SUB = 240
+        
+         
+        V1_SUB = (240 * Turn_ratio)
+        I1_SUB = (V2_SUB/V1_SUB)*I2_SUB
+        R1_SUB = 3000/I1_SUB
     else:
-        Power_dictionary[Department_batterie_tuple]['Resistance from modified'] = {0:[R1,0]}
+        R1_SUB = 0
+    
+    if 'Resistance from modified' in Power_dictionary[Department_batterie_tuple]:
+        Power_dictionary[Department_batterie_tuple]['Resistance from modified'][0] = [R1_SUB,0]
+    else:
+        Power_dictionary[Department_batterie_tuple]['Resistance from modified'] = {0:[R1_SUB,0]}
+
+    if 'Parallel Resistance from cabeis' in Power_dictionary[Department_batterie_tuple]:
+        Power_dictionary[Department_batterie_tuple]['Parallel Resistance from cabeis modified'] = {}
+        for key, value in Power_dictionary[Department_batterie_tuple]['Parallel Resistance from cabeis'].items():
+            R2_SUB = value[0]
+            if R2_SUB:
+                I2_SUB = 240/R2_SUB 
+                V2_SUB = 240
+
+                
+                V1_SUB = (V2_SUB*Turn_ratio)
+                I1_SUB = (V2_SUB/V1_SUB)*I2_SUB
+                R1_SUB = 3000/I1_SUB
+            else:
+                R1_SUB = 0
+            
+            Power_dictionary[Department_batterie_tuple]['Parallel Resistance from cabeis modified'][key] = [R1_SUB,value[1]]
+
+            
     Power_dictionary[Department_batterie_tuple]['Resistance'] = Power_Functions.Working_out_resistance_Modified(Department_batterie,Power_dictionary)
     Power_dictionary[Department_batterie_tuple]['Type'] = 'Department_batterie'
     
@@ -50,9 +80,9 @@ def Department_batteries_Module(Department_batterie,Power_dictionary,Persistent_
         Dictionary['Maximum_current'] = 6
         Dictionary['Supply_voltage'] = 240
         Dictionary['Capacity_max'] = 432000
-        Dictionary['Current_capacity'] = 432000
+        #Dictionary['Current_capacity'] = 432000
         #Dictionary['Current_capacity'] = 6000
-        #Dictionary['Current_capacity'] = 0
+        Dictionary['Current_capacity'] = 0
         Dictionary['Pulling'] = True
         Dictionary['Charging'] = False
         Dictionary['Charging_multiplier'] = 1.0
@@ -96,6 +126,8 @@ def Department_batteries_Module(Department_batterie,Power_dictionary,Persistent_
                 Receiving_voltage = 0
                 
             if Receiving_voltage < 216:
+                #print('v is low')
+                #print(Receiving_voltage)
                 #if is_working_backwards:
                 #PPSD[tuple(Department_batterie)]['Pulling'] = True
                 Pulling_Voltage = 240 - Receiving_voltage
@@ -114,7 +146,7 @@ def Department_batteries_Module(Department_batterie,Power_dictionary,Persistent_
                         PPSD[Department_batterie_tuple]['Current_capacity'] = 0
                         
                     if 'Format_for_sub_syston' in Power_dictionary[Department_batterie_tuple]:
-                        if 'current coming from Support' in Power_dictionary[Engineering_batteries_tuple]:
+                        if 'current coming from Support' in Power_dictionary[Department_batterie_tuple]:
                             Power_dictionary[Department_batterie_tuple]['current coming from Support'][0] = [adding_current,sub_syston_TOP]
                             Power_dictionary[Department_batterie_tuple]['Supply current Support'] = Power_Functions.Working_out_Support_current(Department_batterie,sub_syston_TOP,Power_dictionary)
                         else:
@@ -342,7 +374,7 @@ def Transformer_Module(Transformer,Power_dictionary,Persistent_power_system_data
     Transformer_tuple = tuple([tuple(Transformer[0]),Transformer[1]])
     Power_dictionary[Transformer_tuple]['Type'] = 'Transformer'
     Power_dictionary[Transformer_tuple]['Use Resistance from modified'] = True 
-    print('Transformer')
+    print('Transformer', Support_supply_formatting)
     Resistance = Power_Functions.Working_out_all_resistance(Transformer,Power_dictionary)
            
     R2 = Resistance
@@ -363,11 +395,43 @@ def Transformer_Module(Transformer,Power_dictionary,Persistent_power_system_data
     #270000
     R1 = 270000/I1
     #print('R1',R1)
+
+    
+    Resistance_sub = Power_Functions.Working_out_resistance(Transformer,Power_dictionary)
+    if Resistance_sub:
+        R2_SUB = Resistance_sub
+        I2_SUB = 240/Resistance_sub
+        V2_SUB = 240
+        
+         
+        V1_SUB = (240 * Turn_ratio)
+        I1_SUB = (V2_SUB/V1_SUB)*I2_SUB
+        R1_SUB = 3000/I1_SUB
+    else:
+        R1_SUB = 0
     
     if 'Resistance from modified' in Power_dictionary[Transformer_tuple]:
-        Power_dictionary[Transformer_tuple]['Resistance from modified'][0] = [R1,0]
+        Power_dictionary[Transformer_tuple]['Resistance from modified'][0] = [R1_SUB,0]
     else:
-        Power_dictionary[Transformer_tuple]['Resistance from modified'] = {0:[R1,0]}
+        Power_dictionary[Transformer_tuple]['Resistance from modified'] = {0:[R1_SUB,0]}
+
+    if 'Parallel Resistance from cabeis' in Power_dictionary[Transformer_tuple]:
+        Power_dictionary[Transformer_tuple]['Parallel Resistance from cabeis modified'] = {}
+        for key, value in Power_dictionary[Transformer_tuple]['Parallel Resistance from cabeis'].items():
+            R2_SUB = value[0]
+            if R2_SUB:
+                I2_SUB = 3000/Resistance 
+                V2_SUB = 3000
+
+                
+                V1_SUB = (V2_SUB*Turn_ratio)
+                I1_SUB = (V2_SUB/V1_SUB)*I2_SUB
+                R1_SUB = 270000/I1_SUB
+            else:
+                R1_SUB = 0
+            
+            Power_dictionary[Transformer_tuple]['Parallel Resistance from cabeis modified'][key] = [R1_SUB,value[1]]
+            
 
     Power_dictionary[Transformer_tuple]['Resistance'] = Power_Functions.Working_out_resistance_Modified(Transformer,Power_dictionary)
     
@@ -377,16 +441,18 @@ def Transformer_Module(Transformer,Power_dictionary,Persistent_power_system_data
         V1 = Power_dictionary[Transformer_tuple]['Receiving voltage']
         #print('V1 op',V1 )
         I1 = current_supplying_at_Receiving_voltage
-        #print('I1 op',I1 )
+        print('I1 op',I1 )
         R1 = V1/current_supplying_at_Receiving_voltage
         #print('R1 op',R1 )
         
-        'Use Resistance from modified'
+
         R2 = Resistance
         #print('R2 op',R2 )
         V2 = V1/Turn_ratio
         if V2 > 3300:
             V2 = 3300
+        #if V2 > 3000:
+        #    V2 = 3000
         #print('V2 op',V2 )
 
         I2 = (V2/V1)*I1
