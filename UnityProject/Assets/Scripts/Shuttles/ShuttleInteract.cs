@@ -1,7 +1,6 @@
 ﻿using PlayGroups.Input;
 using UI;
 using UnityEngine;
-using Vuforia;
 
 public class ShuttleInteract : InputTrigger 
 {
