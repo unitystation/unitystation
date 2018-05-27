@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 114832858870760818}
   - component: {fileID: 114445863860112362}
   - component: {fileID: 114744021291581812}
-  - component: {fileID: 114945634134657644}
   - component: {fileID: 61869229900283464}
   - component: {fileID: 114947365864617716}
   m_Layer: 11
@@ -170,6 +169,9 @@ MonoBehaviour:
   stock: 5
   interactionMessage: bzzzz...
   deniedMessage: Vendor is refreshing stocking, please wait...
+  originator: {fileID: 0}
+  position: {x: 0, y: 0, z: 0}
+  hand: 
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -183,7 +185,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectType: 1
   AtmosPassable: 1
-  Offset: {x: 0, y: 0, z: 0}
   Passable: 0
 --- !u!114 &114832858870760818
 MonoBehaviour:
@@ -217,23 +218,6 @@ MonoBehaviour:
     i15: 61
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114945634134657644
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1093139424532032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vendorcontent: []
-  allowSell: 1
-  cooldownTimer: 2
-  stock: 5
-  interactionMessage: 
-  deniedMessage: 
 --- !u!114 &114947365864617716
 MonoBehaviour:
   m_ObjectHideFlags: 1
