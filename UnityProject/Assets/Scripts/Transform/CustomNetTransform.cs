@@ -46,7 +46,7 @@ public struct TransformState {
 		set
 		{
 			if (value == HiddenPos) {
-				this = HiddenState;
+				Position = HiddenPos;
 			}
 			else
 			{
@@ -89,7 +89,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 
 	private void Start()
 	{
-		clientState = TransformState.HiddenState;
 		registerTile = GetComponent<RegisterTile>();
 		itemAttributes = GetComponent<ItemAttributes>();
 	}
@@ -105,16 +104,14 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	{ 
 //		isPushing = false;
 //		predictivePushing = false;
-
-		serverState.Speed = 0;
-		//If object is supposed to be hidden, keep it that way
 		if ( IsHiddenOnInit ) {
 			return;
 		}
 
-		serverState.Position =
-			Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
-		serverState.Rotation = 0f;
+		//If object is supposed to be hidden, keep it that way
+//		var worldPos = serverState.WorldPosition;//
+		serverState.Speed = 0;
+		serverState.Rotation = transform.rotation.eulerAngles.z;
 		serverState.SpinFactor = 0;
 		registerTile = GetComponent<RegisterTile>();
 		
@@ -122,15 +119,17 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		if ( !MatrixManager.Instance || !registerTile ) {
 			serverState.MatrixId = 0;
 			Debug.LogWarning( $"{gameObject.name}: Matrix id init failure" );
-			return;
-		}
-		if ( registerTile.Matrix ) {
+		} else if ( registerTile.Matrix ) {
 			//pre-placed
 			serverState.MatrixId = MatrixManager.Get( matrix ).Id;
 		} else {
 			//runtime-placed
 			serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt(transform.position) ).Id;
 		}
+		serverState.Position =
+			Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
+//		serverState.WorldPosition = Vector3Int.RoundToInt((Vector2)transform.position); //fixme
+
 	}
 
 	/// Is it supposed to be hidden? (For init purposes)
@@ -240,16 +239,18 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 
 	[Server]
 	private void SyncMatrix() {
-		registerTile.ParentNetId = MatrixManager.Get( serverState.MatrixId ).NetId;
+		if ( registerTile ) {
+			registerTile.ParentNetId = MatrixManager.Get( serverState.MatrixId ).NetId;
+		}
 	}
 
 	[Server]
 	private void CheckMatrixSwitch( bool notify = true ) {
 		var pos = Vector3Int.RoundToInt( serverState.WorldPosition );
-		Debug.Log( $"{gameObject.name} doing matrix switch check for {pos}" );
+//		Debug.Log( $"{gameObject.name} doing matrix switch check for {pos}" );
 		int newMatrixId = MatrixManager.AtPoint( pos ).Id;
 		if ( serverState.MatrixId != newMatrixId ) {
-			Debug.Log( $"{gameObject} matrix {serverState.MatrixId}->{newMatrixId}" );
+//			Debug.Log( $"{gameObject} matrix {serverState.MatrixId}->{newMatrixId}" );
 
 			//It's very important to save World Pos before matrix switch and restore it back afterwards
 			var worldPosToPreserve = serverState.WorldPosition;
@@ -330,9 +331,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 
 	///     Currently sending to everybody, but should be sent to nearby players only
 	[Server]
-	private void NotifyPlayers()
+	public void NotifyPlayers()
 	{
-		Debug.Log( $"{gameObject.name} Notified" );
+//		Debug.Log( $"{gameObject.name} Notified" );
 		SyncMatrix();
 		TransformStateMessage.SendToAll(gameObject, serverState);
 	}

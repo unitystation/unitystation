@@ -312,7 +312,7 @@ public partial class CustomNetTransform {
 	///Stopping drift, killing impulse
 	[Server]
 	private void StopFloating() {
-		Debug.Log( $"{gameObject.name} stopped floating" );
+//		Debug.Log( $"{gameObject.name} stopped floating" );
 		serverState.Impulse = Vector2.zero;
 		serverState.Speed = 0;
 		serverState.Rotation = transform.rotation.eulerAngles.z;

@@ -77,7 +77,6 @@ namespace PlayGroups.Input
 				{
 					InteractHands();
 				}
-				e.Use();
 			}
 		}
 
