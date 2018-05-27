@@ -501,8 +501,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		item.transform.position = newPos;
 	}
 
-	[Command]
-	public void CmdConsciousState(bool conscious)
+	[Server]
+	public void SetConsciousState(bool conscious)
 	{
 		if (conscious)
 		{

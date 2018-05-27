@@ -11,7 +11,7 @@ public abstract class HealthBehaviour : InputTrigger
 
 	public int initialHealth = 100;
 
-	public bool isNPC;
+	public bool isNotPlayer;
 
 	public int maxHealth = 100;
 
@@ -62,7 +62,7 @@ public abstract class HealthBehaviour : InputTrigger
 	public void RpcApplyDamage(GameObject damagedBy, int damage,
 		DamageType damageType, BodyPartType bodyPartAim)
 	{
-		if (isServer || !isNPC || IsDead)
+		if (isServer || !isNotPlayer || IsDead)
 		{
 			return;
 		}
@@ -151,24 +151,8 @@ public abstract class HealthBehaviour : InputTrigger
 		Health = initialHealth;
 	}
 
-	/// <summary>
-	///     make player unconscious upon crit
-	/// </summary>
 	protected virtual void OnCritActions()
 	{
-		if (!isNPC)
-		{
-			PlayerNetworkActions pna = GetComponent<PlayerNetworkActions>();
-			if (pna == null)
-			{
-				Debug.LogError("This is not a player, please set isNPC flag correctly");
-				return;
-			}
-			if (isServer)
-			{
-				pna?.CmdConsciousState(false);
-			}
-		}
 	}
 
 	protected abstract void OnDeathActions();
