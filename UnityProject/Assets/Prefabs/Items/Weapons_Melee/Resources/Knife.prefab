@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011622113908}
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
-  m_LocalPosition: {x: 40, y: 29, z: 0}
+  m_LocalPosition: {x: 52, y: 26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011569130768}
@@ -123,6 +123,11 @@ MonoBehaviour:
   size: 0
   spriteType: 0
   type: 15
+  throwForce: 10
+  throwSpeed: 3
+  throwRange: 6
+  force: 10
+  hitSound: sound/weapons/bladeslice.ogg
 --- !u!114 &114112083421409656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -190,17 +195,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
-  moveSpeed: 7
   pulledBy: {fileID: 0}
+  custNetActiveState: 0
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
-  serverLittleLag: 0
-  timeInPush: 0
   closetHandlerCache: {fileID: 0}
 --- !u!114 &114904595007707188
 MonoBehaviour:
@@ -214,6 +218,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212000011121867930
 SpriteRenderer:
   m_ObjectHideFlags: 1

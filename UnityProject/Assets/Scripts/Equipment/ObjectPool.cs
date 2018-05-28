@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using PlayGroup;
 using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,6 +12,9 @@ namespace Equipment
 	{
 		public Dictionary<NetworkIdentity, ItemAttributes> currentObjects =
 			new Dictionary<NetworkIdentity, ItemAttributes>();
+
+		/// Owner player
+		public PlayerScript Owner { get; set; }
 
 		public void AddGameObject(GameObject obj)
 		{
@@ -33,7 +37,7 @@ namespace Equipment
 
 		public void DestroyGameObject(GameObject gObj)
 		{
-			DropGameObject(gObj, Vector3.zero);
+			DropGameObject(gObj, TransformState.HiddenPos);
 		}
 
 		//When dropping items etc, remove them from the player equipment pool and place in scene
@@ -46,7 +50,7 @@ namespace Equipment
 			}
 			else
 			{
-				if (!dropPos.Equals(Vector3.zero))
+				if (dropPos != TransformState.HiddenPos)
 				{
 					GameObject o = currentObjects[id].gameObject;
 					DropNow(o, dropPos);
@@ -56,11 +60,15 @@ namespace Equipment
 			}
 		}
 
-		private static void DropNow(GameObject gObj, Vector3 dropPos)
+		private void DropNow(GameObject gObj, Vector3 dropPos)
 		{
 			var objTransform = gObj.GetComponent<CustomNetTransform>();
-			objTransform.ForceDrop(dropPos); //For demo purposes
-			//Normally you would do objTransform.AppearAtPositionServer(dropPos); 
+			if ( Owner ) {
+				//Inertia drop works only if player has external impulse (space floating etc.)
+				objTransform.InertiaDrop( dropPos, Owner.playerMove.speed, Owner.playerSync.ServerState.Impulse );
+			} else {
+				objTransform.AppearAtPositionServer(dropPos); 
+			}
 		}
 	}
 }

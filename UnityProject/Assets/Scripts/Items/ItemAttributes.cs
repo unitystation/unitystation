@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -66,6 +67,15 @@ public class ItemAttributes : NetworkBehaviour
 	public SpriteType spriteType;
 	public ItemType type;
 
+	/// throw-related fields
+	/// ? how painful it is ?
+	public float throwForce = 0;
+	///"How many tiles to move per 0.1s when being thrown"
+	public float throwSpeed = 2;
+	/// Max distance?
+	public float throwRange = 7;
+//	public string hitSound = "";
+
 	public override void OnStartClient()
 	{
 		StartCoroutine(WaitForLoad());
@@ -90,6 +100,11 @@ public class ItemAttributes : NetworkBehaviour
 	//        }
 	//        ConstructItem(hierarchy);
 	//    }
+
+	public float? TryParseFloat(string attr) {
+		float i;
+		return float.TryParse( tryGetAttr(attr), out i ) ? (float?) i : null;
+	}
 
 	public void ConstructItem(string hierString)
 	{
@@ -130,6 +145,12 @@ public class ItemAttributes : NetworkBehaviour
 		item_color = tryGetAttr("item_color"); //also a state
 		item_state = tryGetAttr("item_state");
 		string[] states = {icon_state, item_color, item_state};
+
+		throwForce = TryParseFloat( "throwforce" ) ?? throwForce;
+		throwSpeed = TryParseFloat( "throw_speed" ) ?? throwSpeed;
+		throwRange = TryParseFloat( "throw_range" ) ?? throwRange;
+//		force = int.Parse( tryGetAttr( "force" ) );
+//		hitSound = tryGetAttr( "hitsound" );
 
 		masterType = getMasterType(hier); // aka SpriteType
 		itemType = getItemType(hier, getInvIconPrefix(masterType));

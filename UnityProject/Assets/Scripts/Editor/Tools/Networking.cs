@@ -1,4 +1,6 @@
-﻿using Items;
+﻿using System.Collections.Generic;
+using Crafting;
+using Items;
 using PlayGroup;
 using UnityEditor;
 using UnityEngine;
@@ -33,7 +35,23 @@ public class Networking : Editor
 		{
 			player.GameObject.GetComponent<PlayerScript>().playerSync.Push(Vector2Int.up);
 		}
-
+	}
+	[MenuItem("Networking/Spawn some meat")]
+	private static void SpawnMeat()
+	{
+		foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
+			Vector3 playerPos = player.GameObject.GetComponent<PlayerScript>().playerSync.ServerState.WorldPosition;
+			Vector3 spawnPos = playerPos + new Vector3( 0, 2, 0 );
+			GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal("Meat Steak");
+			var slabs = new List<CustomNetTransform>();
+			for ( int i = 0; i < 5; i++ ) {
+				slabs.Add( ItemFactory.Instance.SpawnMeal(mealPrefab, spawnPos, null).GetComponent<CustomNetTransform>() );
+			}
+			for ( var i = 0; i < slabs.Count; i++ ) {
+				Vector3 vector3 = i%2 == 0 ? new Vector3(i,-i,0) : new Vector3(-i,i,0);
+				slabs[i].ForceDrop( spawnPos + vector3/10 );
+			}
+		}
 	}
 	[MenuItem("Networking/Print player positions")]
 	private static void PrintPlayerPositions()

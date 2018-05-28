@@ -411,7 +411,7 @@ public class CustomNetworkManager : NetworkManager
 
 	private static void NudgeTransform(CustomNetTransform netTransform, Vector3 where)
 	{
-		netTransform.SetPosition(netTransform.transform.localPosition + where);
+		netTransform.SetPosition(netTransform.ServerState.Position + where);
 	}
 #endif
 }

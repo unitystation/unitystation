@@ -180,7 +180,7 @@ public class PushPull : VisibleBehaviour
 				customNetTransform.predictivePushing = false;
 				registerTile.UpdatePosition();
 			}
-			if(pushing && customNetTransform.IsFloating() && customNetTransform.IsInSpace()){
+			if(pushing && customNetTransform.IsFloatingClient && customNetTransform.IsInSpace){
 				pushing = false;
 				customNetTransform.predictivePushing = false;
 			}

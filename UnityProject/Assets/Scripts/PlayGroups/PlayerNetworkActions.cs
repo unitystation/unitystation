@@ -146,6 +146,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public bool ValidateInvInteraction(string slot, GameObject gObj = null, bool forceClientInform = true)
 	{
+		//security todo: serverside check for item size UI_ItemSlot.CheckItemFit()
 		if (!Inventory[slot] && gObj && Inventory.ContainsValue(gObj))
 		{
 			UpdateSlotMessage.Send(gameObject, slot, gObj, forceClientInform);
@@ -324,6 +325,35 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 	}
+	
+	/// Client requesting throw to clicked position
+	[Command]
+	public void CmdRequestThrow(string slot, Vector3 worldTargetPos, int aim) {
+		if ( playerScript.canNotInteract() || slot != "leftHand" && slot != "rightHand" || !SlotNotEmpty( slot ) ) {
+			RollbackPrediction( slot );
+			return;
+		}
+		GameObject throwable = Inventory[slot];
+		
+		Vector3 playerPos = playerScript.playerSync.ServerState.WorldPosition;
+
+		EquipmentPool.DisposeOfObject(gameObject, throwable); 
+		ClearInventorySlot(slot);
+		var throwInfo = new ThrowInfo {
+			ThrownBy = gameObject,
+			Aim = (BodyPartType) aim,
+			OriginPos	= playerPos,
+			TargetPos = worldTargetPos,
+			//Clockwise spin from left hand and Counterclockwise from the right hand
+			SpinMode = slot == "leftHand" ? SpinMode.Clockwise : SpinMode.CounterClockwise,
+		};
+		throwable.GetComponent<CustomNetTransform>().Throw( throwInfo );
+		
+		//Simplified counter-impulse for players in space
+		if ( playerScript.playerSync.IsInSpace ) {
+			playerScript.playerSync.Push( Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized) );
+		}
+	}
 
 	//Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)
 	[Command]
@@ -471,8 +501,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		item.transform.position = newPos;
 	}
 
-	[Command]
-	public void CmdConsciousState(bool conscious)
+	[Server]
+	public void SetConsciousState(bool conscious)
 	{
 		if (conscious)
 		{

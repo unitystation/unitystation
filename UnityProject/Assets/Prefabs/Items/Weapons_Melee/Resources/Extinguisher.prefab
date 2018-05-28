@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114229897149472310}
   - component: {fileID: 114335573703485954}
   - component: {fileID: 114690376875817604}
+  - component: {fileID: 114503468551468690}
   m_Layer: 10
   m_Name: Extinguisher
   m_TagString: Untagged
@@ -163,9 +164,21 @@ MonoBehaviour:
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
   pulledBy: {fileID: 0}
+  custNetActiveState: 0
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
   closetHandlerCache: {fileID: 0}
+--- !u!114 &114503468551468690
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114567485071167784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -187,6 +200,9 @@ MonoBehaviour:
   size: 2
   spriteType: 0
   type: 15
+  throwForce: 10
+  throwSpeed: 2
+  throwRange: 7
 --- !u!114 &114690376875817604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -210,7 +226,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
 --- !u!212 &212125191403727516

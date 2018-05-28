@@ -81,7 +81,7 @@ namespace PlayGroup
 			if ( !curMatrix ) {
 				curMatrix = matrix;
 			}
-			Vector3Int direction = GetDirection(action, MatrixManager.Instance.Get( curMatrix ));
+			Vector3Int direction = GetDirection(action, MatrixManager.Get( curMatrix ));
 			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay, curMatrix );
 
 			if (adjustedDirection == Vector3.zero) {

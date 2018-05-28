@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +36,9 @@ namespace PlayGroup
 		//TODO: Remove the space damage coroutine when atmos is implemented
 		private bool isApplyingSpaceDmg;
 
+		/// 
+		public bool IsInSpace => MatrixManager.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.WorldPosition));
+		
 		/// Whether player is considered to be floating on server
 		private bool consideredFloatingServer => serverState.Impulse != Vector2.zero;
 
@@ -48,13 +51,13 @@ namespace PlayGroup
 			base.OnStartServer();
 			InitServerState();
 		}
-
+//TODO: don't allow walking when stopped in vacuum
 		/// 
 		[Server]
 		private void InitServerState()
 		{
 			Vector3Int worldPos = Vector3Int.RoundToInt((Vector2) transform.position); //cutting off Z-axis & rounding
-			MatrixInfo matrixAtPoint = MatrixManager.Instance.AtPoint(worldPos);
+			MatrixInfo matrixAtPoint = MatrixManager.AtPoint(worldPos);
 			PlayerState state = new PlayerState
 			{
 				MoveNumber = 0,
@@ -141,7 +144,7 @@ namespace PlayGroup
 		{
 			ClearQueueServer();
 			Vector3Int roundedPos = Vector3Int.RoundToInt((Vector2) worldPos); //cutting off z-axis
-			MatrixInfo newMatrix = MatrixManager.Instance.AtPoint(roundedPos);
+			MatrixInfo newMatrix = MatrixManager.AtPoint(roundedPos);
 			//Note the client queue reset
 			var newState = new PlayerState
 			{
@@ -175,7 +178,7 @@ namespace PlayGroup
 		[Server]
 		private void SyncMatrix()
 		{
-			registerTile.ParentNetId = MatrixManager.Instance.Get(serverState.MatrixId).NetId;
+			registerTile.ParentNetId = MatrixManager.Get(serverState.MatrixId).NetId;
 		}
 
 		/// Send current serverState to just one player
@@ -298,7 +301,7 @@ namespace PlayGroup
 			}
 
 			//todo: subscribe to current matrix rotations on spawn
-			var newMatrix = MatrixManager.Instance.Get(nextState.MatrixId);
+			var newMatrix = MatrixManager.Get(nextState.MatrixId);
 			Debug.Log($"Matrix will change to {newMatrix}");
 			if (newMatrix.MatrixMove)
 			{
@@ -308,7 +311,7 @@ namespace PlayGroup
 			}
 
 			//Unsubbing from old matrix rotations
-			MatrixMove oldMatrixMove = MatrixManager.Instance.Get(matrix).MatrixMove;
+			MatrixMove oldMatrixMove = MatrixManager.Get(matrix).MatrixMove;
 			if (oldMatrixMove)
 			{
 //				Debug.Log( $"Unregistered rotation listener from {oldMatrixMove}" );
@@ -348,9 +351,7 @@ namespace PlayGroup
 			}
 
 			//Space walk checks
-			bool isFloating = MatrixManager.Instance.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.WorldPosition));
-
-			if (isFloating)
+			if (IsInSpace)
 			{
 				if (serverTargetState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
 				{
@@ -370,7 +371,7 @@ namespace PlayGroup
 				}
 			}
 
-			if (consideredFloatingServer && !isFloating)
+			if (consideredFloatingServer && !IsInSpace)
 			{
 				//finish floating. players will be notified as soon as serverState catches up
 				serverState.Impulse = Vector2.zero;
@@ -394,7 +395,7 @@ namespace PlayGroup
 		[Server]
 		private void CheckSpaceDamage()
 		{
-			if (MatrixManager.Instance.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition))
+			if (MatrixManager.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition))
 			    && !healthBehaviorScript.IsDead && !isApplyingSpaceDmg)
 			{
 				// Hurting people in space even if they are next to the wall

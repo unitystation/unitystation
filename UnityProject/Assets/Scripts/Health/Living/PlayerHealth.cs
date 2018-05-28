@@ -299,6 +299,11 @@ namespace PlayGroup
 				}
 			}
 		}
+		
+		///     make player unconscious upon crit
+		protected override void OnCritActions() {
+			playerNetworkActions.SetConsciousState( false );
+		}
 
 		[Server]
 		public virtual void Harvest()

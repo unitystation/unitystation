@@ -119,9 +119,12 @@ MonoBehaviour:
   inHandReferenceRight: 628
   itemDescription: A security baton to keep order...
   itemName: Baton
-  size: 0
+  size: 1
   spriteType: 0
   type: 15
+  throwForce: 0
+  throwSpeed: 2
+  throwRange: 7
 --- !u!114 &114112083421409656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -211,7 +214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
 --- !u!212 &212000011121867930

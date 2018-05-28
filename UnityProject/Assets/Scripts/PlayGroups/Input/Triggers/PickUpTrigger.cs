@@ -52,18 +52,18 @@ namespace Items
 			var ps = originator.GetComponent<PlayerScript>();
 			var slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
 			var cnt = GetComponent<CustomNetTransform>();
-			var state = cnt.State;
+			var state = cnt.ServerState;
 			if (SlotUnavailable(ps, slotName))
 			{
 				return false;
 			}
-			if (cnt.IsFloating() ? !CanReachFloating(ps, state) : !ps.IsInReach(state.position))
+			if (cnt.IsFloatingServer ? !CanReachFloating(ps, state) : !ps.IsInReach(state.WorldPosition))
 			{
-				Debug.LogWarningFormat($"Not in reach! server pos:{state.position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
+				Debug.LogWarningFormat($"Not in reach! server pos:{state.WorldPosition} player pos:{originator.transform.position} (floating={cnt.IsFloatingServer})");
 				return false;
 			}
 
-//			Debug.LogFormat($"Pickup success! server pos:{state.position} player pos:{originator.transform.position} (floating={cnt.IsFloating()})");
+//			Debug.LogFormat($"Pickup success! server pos:{state.position} player pos:{originator.transform.position} (floating={cnt.IsFloatingServer()})");
 
 
 			//set ForceInform to false for simulation
@@ -75,7 +75,7 @@ namespace Items
 		/// </summary>
 		private static bool CanReachFloating(PlayerScript ps, TransformState state)
 		{
-			return ps.IsInReach(state.position) || ps.IsInReach(state.position - (Vector3) state.Impulse, 2f);
+			return ps.IsInReach(state.WorldPosition) || ps.IsInReach(state.WorldPosition - (Vector3) state.Impulse, 2f);
 		}
 
 		private static bool SlotUnavailable(PlayerScript ps, string slotName)

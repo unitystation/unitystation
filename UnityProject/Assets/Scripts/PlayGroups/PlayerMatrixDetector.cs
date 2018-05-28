@@ -7,14 +7,14 @@ namespace PlayGroup {
 	/// playermove component using cross-matrix methods
 	public class PlayerMatrixDetector : NetworkBehaviour {
 		public bool CanPass( Vector3Int localPos, Vector3Int direction, Matrix currentMatrix ) {
-			MatrixInfo matrixInfo = MatrixManager.Instance.Get( currentMatrix );
+			MatrixInfo matrixInfo = MatrixManager.Get( currentMatrix );
 			if ( matrixInfo.MatrixMove ) {
 				//Converting local direction to world direction
 				direction = Vector3Int.RoundToInt( matrixInfo.MatrixMove.ClientState.Orientation.Euler * direction );
 			}
-			Vector3Int position = MatrixManager.LocalToWorldInt( localPos, MatrixManager.Instance.Get( currentMatrix ) );
+			Vector3Int position = MatrixManager.LocalToWorldInt( localPos, MatrixManager.Get( currentMatrix ) );
 
-			if ( !MatrixManager.Instance.IsPassableAt( position, position + direction ) ) {
+			if ( !MatrixManager.IsPassableAt( position, position + direction ) ) {
 				return false;
 			}
 

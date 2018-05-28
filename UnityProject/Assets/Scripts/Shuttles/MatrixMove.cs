@@ -13,7 +13,7 @@ public struct MatrixState
 	/// Matrix rotation. Default is upright (Orientation.Up)
 	public Orientation Orientation;
 
-	public static readonly MatrixState Invalid = new MatrixState{Position = CustomNetTransform.InvalidPos};
+	public static readonly MatrixState Invalid = new MatrixState{Position = TransformState.HiddenPos};
 
 	public override string ToString() {
 		return $"{nameof( Inform )}: {Inform}, {nameof( IsMoving )}: {IsMoving}, {nameof( Speed )}: {Speed}, " +
