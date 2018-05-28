@@ -115,20 +115,23 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		serverState.SpinFactor = 0;
 		registerTile = GetComponent<RegisterTile>();
 		
-		//Matrix id init. Set to 0 if something's wrong
-		if ( !MatrixManager.Instance || !registerTile ) {
-			serverState.MatrixId = 0;
-			Debug.LogWarning( $"{gameObject.name}: Matrix id init failure" );
-		} else if ( registerTile.Matrix ) {
+		//Matrix id init
+		if ( registerTile && registerTile.Matrix ) {
 			//pre-placed
 			serverState.MatrixId = MatrixManager.Get( matrix ).Id;
+			serverState.Position =
+				Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
 		} else {
 			//runtime-placed
-			serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt(transform.position) ).Id;
+			bool initError = !MatrixManager.Instance || !registerTile;
+			if ( initError ) {
+				serverState.MatrixId = 0;
+				Debug.LogWarning( $"{gameObject.name}: unable to detect MatrixId!" );
+			} else {
+				serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt(transform.position) ).Id;
+			}
+			serverState.WorldPosition = Vector3Int.RoundToInt((Vector2)transform.position);
 		}
-		serverState.Position =
-			Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
-//		serverState.WorldPosition = Vector3Int.RoundToInt((Vector2)transform.position); //fixme
 
 	}
 
@@ -300,7 +303,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		//Don't lerp (instantly change pos) if active state was changed
 		if (clientState.Active != newState.Active /*|| newState.Speed == 0*/)
 		{
-			transform.localPosition = newState.Position;
+			transform.position = newState.WorldPosition;
 		}
 		clientState = newState;
 		UpdateActiveStatus();
