@@ -112,7 +112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cloth: 0
   clothingReference: -1
   hierarchy: 
   inHandReferenceLeft: 564
@@ -120,14 +119,22 @@ MonoBehaviour:
   itemDescription: A general purpose Chef's Knife made by SpaceCook Incorporated.
     Guaranteed to stay sharp for years to come.
   itemName: kitchen knife
-  size: 0
+  size: 1
   spriteType: 0
   type: 15
-  throwForce: 10
+  throwDamage: 10
   throwSpeed: 3
   throwRange: 6
-  force: 10
-  hitSound: sound/weapons/bladeslice.ogg
+  hitDamage: 20
+  hitSound: BladeSlice
+  attackVerb:
+  - slashed
+  - stabbed
+  - sliced
+  - torn
+  - ripped
+  - diced
+  - cut
 --- !u!114 &114112083421409656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,7 +224,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
 --- !u!212 &212000011121867930

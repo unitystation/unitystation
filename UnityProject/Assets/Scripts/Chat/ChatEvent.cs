@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
+using UnityEngine;
+using Util;
 using Random = UnityEngine.Random;
 
 [Flags]
@@ -22,7 +24,8 @@ public enum ChatChannel
 	[Description(":v")] Service = 4096,
 	[Description(":t")] Syndicate = 8192,
 	[Description("")] 	System = 16384,
-	[Description(":g")] Ghost = 32768
+	[Description(":g")] Ghost = 32768,
+	[Description("")] 	Combat = 65536
 }
 
 [Flags]
@@ -39,24 +42,30 @@ public class ChatEvent
 {
 	public ChatChannel channels;
 	public string message;
-	public ChatModifier modifiers;
+	public ChatModifier modifiers = ChatModifier.None;
 	public string speaker;
 	public double timestamp;
+	public Vector2 position;
+	public float radius;
+	public float sizeMod = 1f;
 
-	public ChatEvent(string message, string speaker, ChatChannel channels, ChatModifier modifiers)
-	{
+	public ChatEvent() {
 		timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+	}
+
+	public ChatEvent(string message, GameObject speaker, ChatChannel channels)
+	{
+		var player = speaker.Player();
 		this.channels = channels;
-		this.modifiers = modifiers;
-		this.speaker = speaker;
-		this.message = ProcessMessage(message, speaker, this.channels, this.modifiers);
+		this.modifiers = player.Script.GetCurrentChatModifiers();
+		this.speaker = player?.Name;
+		this.position = ( Vector2 ) player?.GameObject.transform.position;
+		this.message = ProcessMessage(message, this.speaker, this.channels, modifiers);
 	}
 
 	public ChatEvent(string message, ChatChannel channels, bool skipProcessing = false)
 	{
-		timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
 		this.channels = channels;
-		modifiers = ChatModifier.None;
 		speaker = "";
 		if (skipProcessing)
 		{
@@ -82,7 +91,15 @@ public class ChatEvent
 		{
 			this.channels = ChatChannel.System;
 			this.modifiers = ChatModifier.None;
-			return message = "<b><i>" + message + "</i></b>";
+			return $"<b><i>{message}</i></b>";
+		}
+
+		//Skip everything in case of combat channel
+		if ((channels & ChatChannel.Combat) == ChatChannel.Combat)
+		{
+			this.channels = ChatChannel.Combat;
+			this.modifiers = ChatModifier.None;
+			return $"<b>{message}</b>"; //POC
 		}
 
 		//Skip everything if examining something
@@ -90,7 +107,7 @@ public class ChatEvent
 		{
 			this.channels = ChatChannel.Examine;
 			this.modifiers = ChatModifier.None;
-			return message = "<b><i>" + message + "</i></b>";
+			return $"<b><i>{message}</i></b>";
 		}
 
 		//Check for emote. If found skip chat modifiers, make sure emote is only in Local channel
@@ -100,7 +117,7 @@ public class ChatEvent
 			// /me message
 			this.channels = ChatChannel.Local;
 			message = rx.Replace(message, " ");
-			message = "<i><b>" + speaker + "</b> " + message + "</i>";
+			message = $"<i><b>{speaker}</b> {message}</i>";
 			return message;
 		}
 
@@ -110,7 +127,7 @@ public class ChatEvent
 			this.channels = ChatChannel.OOC;
 			this.modifiers = ChatModifier.None;
 
-			message = "<b>" + speaker + ": " + message + "</b>";
+			message = $"<b>{speaker}: {message}</b>";
 			return message;
 		}
 
@@ -119,7 +136,7 @@ public class ChatEvent
 		{
 			this.channels = ChatChannel.Ghost;
 			this.modifiers = ChatModifier.None;
-			return message = "<b>" + speaker + ": " + message + "</b>";
+			return $"<b>{speaker}: {message}</b>";
 		}
 
 		message = ApplyModifiers(message, modifiers);

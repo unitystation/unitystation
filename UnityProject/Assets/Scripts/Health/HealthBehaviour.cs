@@ -157,19 +157,20 @@ public abstract class HealthBehaviour : InputTrigger
 
 	protected abstract void OnDeathActions();
 	
-	public override void Interact(GameObject originator, Vector3 position, string hand)
-	{
-		if (UIManager.Hands.CurrentSlot.Item != null && PlayerManager.PlayerInReach(transform))
-		{
-			if (UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife)
-			{
-				Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-	
-				PlayerScript lps = PlayerManager.LocalPlayerScript;
-				lps.weaponNetworkActions.CmdKnifeAttackMob(gameObject, UIManager.Hands.CurrentSlot.Item, dir,
-					UIManager.DamageZone);
-			}
+	//TODO move to p2pinteractions?
+	public override void Interact(GameObject originator, Vector3 position, string hand) {
+		if ( UIManager.Hands.CurrentSlot.Item == null 
+		     || !PlayerManager.PlayerInReach( transform ) 
+		     || UIManager.CurrentIntent != Intent.Attack
+//		     || UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type != ItemType.Knife
+		     ) {
+			return;
 		}
+			Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
+	
+			PlayerScript lps = PlayerManager.LocalPlayerScript;
+			lps.weaponNetworkActions.CmdRequestMeleeAttack(gameObject, UIManager.Hands.CurrentSlot.eventName, dir,
+				UIManager.DamageZone);
 	}
 }
 

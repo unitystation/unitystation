@@ -9,39 +9,17 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1651733465195328}
+  m_RootGameObject: {fileID: 1907679543779350}
   m_IsPrefabParent: 1
---- !u!1 &1651733465195328
+--- !u!1 &1859554064641892
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4579856977360442}
-  - component: {fileID: 61541833423010570}
-  - component: {fileID: 114207956578442862}
-  - component: {fileID: 114785202808129786}
-  - component: {fileID: 114671199612239122}
-  - component: {fileID: 114550632238722826}
-  - component: {fileID: 114967777731387712}
-  - component: {fileID: 114591536286367976}
-  m_Layer: 10
-  m_Name: Pepper Shaker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1972471344932026
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4117772871168058}
-  - component: {fileID: 212804965856308220}
+  - component: {fileID: 4264625479318156}
+  - component: {fileID: 212125191403727516}
   m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
@@ -49,39 +27,63 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4117772871168058
+--- !u!1 &1907679543779350
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4827893193398430}
+  - component: {fileID: 61818042941755762}
+  - component: {fileID: 114022233371835864}
+  - component: {fileID: 114875290499615288}
+  - component: {fileID: 114567485071167784}
+  - component: {fileID: 114229897149472310}
+  - component: {fileID: 114335573703485954}
+  - component: {fileID: 114690376875817604}
+  - component: {fileID: 114503468551468690}
+  - component: {fileID: 114385515256601920}
+  m_Layer: 10
+  m_Name: Banana peel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4264625479318156
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1972471344932026}
+  m_GameObject: {fileID: 1859554064641892}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.01, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
-  m_Father: {fileID: 4579856977360442}
+  m_Father: {fileID: 4827893193398430}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4579856977360442
+--- !u!4 &4827893193398430
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651733465195328}
+  m_GameObject: {fileID: 1907679543779350}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4117772871168058}
+  - {fileID: 4264625479318156}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61541833423010570
+--- !u!61 &61818042941755762
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651733465195328}
+  m_GameObject: {fileID: 1907679543779350}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -101,12 +103,12 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114207956578442862
+--- !u!114 &114022233371835864
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651733465195328}
+  m_GameObject: {fileID: 1907679543779350}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
@@ -115,30 +117,41 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 93
-    i1: 1
-    i2: 117
+    i0: 245
+    i1: 94
+    i2: 162
     i3: 20
-    i4: 236
-    i5: 219
-    i6: 28
-    i7: 180
-    i8: 185
-    i9: 29
-    i10: 5
-    i11: 72
-    i12: 56
-    i13: 194
-    i14: 71
-    i15: 179
+    i4: 127
+    i5: 126
+    i6: 73
+    i7: 68
+    i8: 154
+    i9: 17
+    i10: 198
+    i11: 208
+    i12: 6
+    i13: 56
+    i14: 34
+    i15: 246
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114550632238722826
+--- !u!114 &114229897149472310
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651733465195328}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114335573703485954
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1907679543779350}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
@@ -152,40 +165,40 @@ MonoBehaviour:
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
   pulledBy: {fileID: 0}
+  custNetActiveState: 0
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
   closetHandlerCache: {fileID: 0}
---- !u!114 &114591536286367976
+--- !u!114 &114385515256601920
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651733465195328}
+  m_GameObject: {fileID: 1907679543779350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 45e06ddb12acf47158b8cccf9289fd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
-  isPushing: 0
-  predictivePushing: 0
---- !u!114 &114671199612239122
+  healAmount: 2
+  healHungerAmount: 5
+--- !u!114 &114503468551468690
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651733465195328}
+  m_GameObject: {fileID: 1907679543779350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114785202808129786
+--- !u!114 &114567485071167784
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651733465195328}
+  m_GameObject: {fileID: 1907679543779350}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
@@ -193,32 +206,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cloth: 0
   clothingReference: -1
-  hierarchy: 
+  hierarchy: /obj/item/weapon/grown/bananapeel
   inHandReferenceLeft: -1
   inHandReferenceRight: -1
-  itemDescription: Shakes Pepper, or pepper someone with it.
-  itemName: Pepper Shaker
+  itemDescription: A peel from a banana.
+  itemName: Banana peel
   size: 0
   spriteType: 0
-  type: 15
---- !u!114 &114967777731387712
+  type: 14
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitDamage: 0
+  hitSound: Slip
+--- !u!114 &114690376875817604
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651733465195328}
+  m_GameObject: {fileID: 1907679543779350}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 0
---- !u!212 &212804965856308220
+--- !u!114 &114875290499615288
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPushing: 0
+  predictivePushing: 0
+--- !u!212 &212125191403727516
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1972471344932026}
+  m_GameObject: {fileID: 1859554064641892}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -247,7 +278,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 10
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300106, guid: c03626bdc4d64c639b0641916a01692b, type: 3}
+  m_Sprite: {fileID: 21300208, guid: d368ced88ba73403a941fe7fe6e3ac4f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

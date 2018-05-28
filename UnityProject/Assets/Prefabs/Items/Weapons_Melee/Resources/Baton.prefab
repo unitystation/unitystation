@@ -114,17 +114,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cloth: 0
   clothingReference: -1
-  hierarchy: 
+  hierarchy: /obj/item/weapon/melee/classic_baton
   inHandReferenceLeft: 616
   inHandReferenceRight: 628
-  itemDescription: A security baton to keep order...
+  itemDescription: A wooden truncheon for beating criminal scum.
   itemName: Baton
-  size: 1
+  size: 2
   spriteType: 0
-  type: 15
-  throwForce: 0
+  type: 0
+  throwDamage: 3
   throwSpeed: 2
   throwRange: 7
+  hitDamage: 12
+  hitSound: GenericHit
 --- !u!114 &114112083421409656
 MonoBehaviour:
   m_ObjectHideFlags: 1

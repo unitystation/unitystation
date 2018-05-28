@@ -123,6 +123,11 @@ MonoBehaviour:
   size: 0
   spriteType: 0
   type: 0
+  throwDamage: 1
+  throwSpeed: 2
+  throwRange: 7
+  hitDamage: 1
+  hitSound: GenericHit
 --- !u!114 &114321033702020154
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -142,6 +147,7 @@ MonoBehaviour:
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
   pulledBy: {fileID: 0}
+  custNetActiveState: 0
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
   closetHandlerCache: {fileID: 0}
@@ -226,7 +232,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
 --- !u!212 &212606129785357192

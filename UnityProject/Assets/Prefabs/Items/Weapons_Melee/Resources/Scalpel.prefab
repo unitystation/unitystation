@@ -114,7 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cloth: 0
   clothingReference: -1
-  hierarchy: 
+  hierarchy: /obj/item/weapon/scalpel
   inHandReferenceLeft: 528
   inHandReferenceRight: 540
   itemDescription: A specialist Surgery knife, hellish sharp
@@ -122,6 +122,11 @@ MonoBehaviour:
   size: 0
   spriteType: 0
   type: 15
+  throwDamage: 5
+  throwSpeed: 3
+  throwRange: 5
+  hitDamage: 10
+  hitSound: BladeSlice
 --- !u!114 &114112083421409656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -211,7 +216,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
 --- !u!212 &212000011121867930
