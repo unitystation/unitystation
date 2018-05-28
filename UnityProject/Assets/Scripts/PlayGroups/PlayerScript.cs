@@ -242,7 +242,7 @@ namespace PlayGroup
 			if (pm.isGhost)
 			{
 				ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
-				ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System;
+				ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
 				if (transmitOnly)
 				{
 					return ghostTransmitChannels;
@@ -280,7 +280,7 @@ namespace PlayGroup
 			}
 
 
-			ChatChannel receiveChannels = ChatChannel.Examine | ChatChannel.System;
+			ChatChannel receiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
 
 			if (transmitOnly)
 			{

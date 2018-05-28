@@ -67,7 +67,7 @@ namespace Objects
 
 		private void playDeathSound()
 		{
-			Instantiate(SoundManager.Instance["smash"], transform.position, Quaternion.identity).Play();
+			Instantiate(SoundManager.Instance["Smash"], transform.position, Quaternion.identity).Play();
 		}
 
 		private void openCloset()

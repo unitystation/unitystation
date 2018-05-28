@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PlayGroup;
+using UnityEngine;
 using UnityEngine.Networking;
 
 /// Server-only full player information class
@@ -8,6 +9,7 @@ public class ConnectedPlayer
     private JobType job;
     private ulong steamId;
     private GameObject gameObject;
+    private PlayerScript playerScript;
     private NetworkConnection connection;
     /// Flags if player received a bunch of sync messages upon joining
     private bool synced;
@@ -37,6 +39,8 @@ public class ConnectedPlayer
         };
     }
 
+    public PlayerScript Script => playerScript;
+
     public NetworkConnection Connection
     {
         get { return connection; }
@@ -54,6 +58,7 @@ public class ConnectedPlayer
                 PlayerList.Instance.AddPrevious( this );
             }
             gameObject = value;
+            playerScript = value.GetComponent<PlayerScript>();
         }
     }
 

@@ -2,6 +2,7 @@
 using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
+using Util;
 
 /// <summary>
 ///     Attempts to send a chat message to the server
@@ -17,10 +18,8 @@ public class PostToChatMessage : ClientMessage
 		yield return WaitFor(SentBy);
 		if (NetworkObject)
 		{
-			var player = PlayerList.Instance.Get(NetworkObject);
-			if (ValidRequest(player.GameObject)) {
-				ChatModifier modifiers = player.GameObject.GetComponent<PlayerScript>().GetCurrentChatModifiers();
-				ChatEvent chatEvent = new ChatEvent(ChatMessageText, player.Name, Channels, modifiers);
+			if (ValidRequest(NetworkObject)) {
+				ChatEvent chatEvent = new ChatEvent(ChatMessageText, NetworkObject, Channels);
 				ChatRelay.Instance.AddToChatLogServer(chatEvent);
 			}
 		}
@@ -29,6 +28,56 @@ public class PostToChatMessage : ClientMessage
 			ChatEvent chatEvent = new ChatEvent(ChatMessageText, Channels);
 			ChatRelay.Instance.AddToChatLogServer(chatEvent);
 		}
+	}
+
+	public static void SendThrowHitMessage( GameObject item, GameObject victim, int damage, BodyPartType hitZone = BodyPartType.NONE ) 
+	{
+		var player = victim.Player();
+		if ( player == null ) {
+			hitZone = BodyPartType.NONE;
+		}
+
+		var message = $"{victim.ExpensiveName()} has been hit by {item.Item()?.itemName ?? item.name}{InTheZone( hitZone )}";
+		ChatRelay.Instance.AddToChatLogServer( new ChatEvent {
+			channels = ChatChannel.Combat,
+			message = message,
+			position = victim.transform.position,
+			radius = 9f,
+			sizeMod = Mathf.Clamp( damage/15, 1, 3 )
+		} );
+	}
+
+	public static void SendItemAttackMessage( GameObject item, GameObject attacker, GameObject victim, int damage, BodyPartType hitZone = BodyPartType.NONE ) 
+	{
+		var itemAttributes = item.GetComponent<ItemAttributes>();
+
+		var player = victim.Player();
+		if ( player == null ) {
+			hitZone = BodyPartType.NONE;
+		}
+		
+		string victimName;
+		if ( attacker == victim ) {
+			victimName = "self";
+		} else {
+			victimName = victim.ExpensiveName();
+		}
+		
+		var attackVerb = itemAttributes.attackVerb.GetRandom() ?? "attacked";
+
+		var message = $"{attacker.Player()?.Name} has {attackVerb} {victimName}{InTheZone( hitZone )} with {itemAttributes.itemName}!";
+//		var message = $"{victim.Name} has been {attackVerb}{zone} with {itemAttributes.itemName}!";
+		ChatRelay.Instance.AddToChatLogServer( new ChatEvent {
+			channels = ChatChannel.Combat,
+			message = message,
+			position = victim.transform.position,
+			radius = 9f,
+			sizeMod = Mathf.Clamp( damage/15, 1, 3 )
+		} );
+	}
+
+	private static string InTheZone( BodyPartType hitZone ) {
+		return hitZone == BodyPartType.NONE ? "" : $" in the {hitZone.ToString().ToLower().Replace( "_", " " )}";
 	}
 
 	//We want ChatEvent to be created on the server, so we're only passing the individual variables

@@ -300,7 +300,9 @@ public partial class CustomNetTransform {
 		if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) ) {
 			for ( var i = 0; i < hitDamageables.Count; i++ ) {
 				//Remove cast to int when moving health values to float
-				hitDamageables[i].ApplyDamage( info.ThrownBy, ( int ) ( itemAttributes.throwForce * 2 ), DamageType.BRUTE, info.Aim );
+				var damage = ( int ) ( itemAttributes.throwDamage * 2 );
+				hitDamageables[i].ApplyDamage( info.ThrownBy, damage, DamageType.BRUTE, info.Aim );
+				PostToChatMessage.SendThrowHitMessage( gameObject, hitDamageables[i].gameObject, damage, info.Aim );
 			}
 			//todo:hit sound
 		}
