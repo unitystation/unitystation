@@ -152,7 +152,7 @@ public class MatrixManager : MonoBehaviour
 		}
 
 		//These aren't fully initialized at that moment; init is truly finished when server is up and NetIDs are resolved
-		Debug.Log($"Semi-init {this}");
+//		Debug.Log($"Semi-init {this}");
 	}
 
 	public override string ToString()
