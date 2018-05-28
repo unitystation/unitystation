@@ -176,7 +176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
 --- !u!114 &114484434474911270
@@ -211,7 +210,12 @@ MonoBehaviour:
   itemName: crowbar
   size: 2
   spriteType: 0
-  type: 15
+  type: 0
+  throwDamage: 7
+  throwSpeed: 2
+  throwRange: 7
+  hitDamage: 5
+  hitSound: GenericHit
 --- !u!114 &114998062039538404
 MonoBehaviour:
   m_ObjectHideFlags: 1
