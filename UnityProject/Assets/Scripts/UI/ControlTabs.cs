@@ -13,13 +13,19 @@ namespace UI
 		public Button ItemListTab;
 
 		private bool itemListTabExists;
+		private bool shuttleTabExists;
 		public Button moreTab;
 		public Button optionsTab;
+		public Button ShuttleControlTab;
 		public GameObject PanelItemList;
+		
 		public GameObject panelMore;
 		public GameObject panelOptions;
-
 		public GameObject panelStats;
+		public GameObject panelShuttle;
+
+		public ShuttleUIControl ShuttleControl;
+		
 		public Color selectedColor;
 		public Button statsTab;
 
@@ -42,6 +48,7 @@ namespace UI
 		{
 			SelectWindow(WindowSelect.stats);
 			itemListTabExists = false;
+			shuttleTabExists = false;
 		}
 
 		private void SelectWindow(WindowSelect winSelect)
@@ -67,6 +74,11 @@ namespace UI
 					moreTab.image.color = selectedColor;
 					panelMore.SetActive(true);
 					break;
+				case WindowSelect.shuttleControl:
+					UnselectAll();
+					moreTab.image.color = selectedColor;
+					panelShuttle.SetActive(true);
+					break;
 			}
 		}
 
@@ -79,6 +91,7 @@ namespace UI
 			panelStats.SetActive(false);
 			panelOptions.SetActive(false);
 			panelMore.SetActive(false);
+			panelShuttle.SetActive(false);
 		}
 
 		public void Button_Stats()
@@ -90,6 +103,12 @@ namespace UI
 		public void Button_Item_List()
 		{
 			SelectWindow(WindowSelect.itemList);
+			SoundManager.Play("Click01");
+		}
+
+		public void Button_Shuttle_Control()
+		{
+			SelectWindow(WindowSelect.shuttleControl);
 			SoundManager.Play("Click01");
 		}
 
@@ -170,6 +189,41 @@ namespace UI
 			UITileList.ClearItemPanel();
 		}
 
+		/// <summary>
+		/// Shows shuttle control tab and gives the shuttle UI component a reference to the matrix move that is going to be controlled.
+		/// </summary>
+		/// <param name="shuttleMatrixMove">A reference to a matrix move component</param>
+		public static void ShowShuttleTab(MatrixMove shuttleMatrixMove)
+		{
+			if (!Instance.shuttleTabExists)
+			{
+				Instance.ShuttleControl.matrixMove = shuttleMatrixMove;
+				SlideOptionsAndMoreTabs(Vector3.right);
+				Instance.ShuttleControlTab.gameObject.SetActive(true);
+				Instance.Button_Shuttle_Control();
+				Instance.shuttleTabExists = true;
+			}
+			
+			
+		}
+
+		/// <summary>
+		/// Hides the shuttle control tab.
+		/// </summary>
+		public static void HideShuttleTab()
+		{
+			if (!Instance.shuttleTabExists)
+			{
+				return;
+			}
+			
+			Instance.ShuttleControl.matrixMove = null;
+			SlideOptionsAndMoreTabs(Vector3.left);
+			Instance.ShuttleControlTab.gameObject.SetActive(false);
+			Instance.Button_Stats();
+			Instance.shuttleTabExists = false;
+		}
+
 		//TODO: Perhaps implement a more robust solution that can arbitrarily insert tabs in any position? Would require refactor for tabs to be indexed.
 		private static void SlideOptionsAndMoreTabs(Vector3 direction)
 		{
@@ -186,7 +240,8 @@ namespace UI
 			stats,
 			itemList,
 			options,
-			more
+			more,
+			shuttleControl
 		}
 	}
 }
