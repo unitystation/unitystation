@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using Tilemaps.Behaviours;
 using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Meta;
@@ -10,8 +12,6 @@ namespace Tilemaps.Editor
 {
 	public class TilemapCheckEditor : EditorWindow
 	{
-		private static bool DrawGizmos;
-
 		private static bool passable, atmosPassable;
 
 		private static bool north;
@@ -21,6 +21,8 @@ namespace Tilemaps.Editor
 
 		private static bool corners;
 		private static bool rooms;
+		private static bool atmos;
+		private static bool positions;
 
 		private SceneView currentSceneView;
 
@@ -47,7 +49,6 @@ namespace Tilemaps.Editor
 
 		private void OnGUI()
 		{
-			DrawGizmos = GUILayout.Toggle(DrawGizmos, "Draw Gizmos");
 			passable = GUILayout.Toggle(passable, "Passable");
 			atmosPassable = GUILayout.Toggle(atmosPassable, "Atmos Passable");
 			north = GUILayout.Toggle(north, "From North");
@@ -55,6 +56,8 @@ namespace Tilemaps.Editor
 			space = GUILayout.Toggle(space, "Is Space");
 			corners = GUILayout.Toggle(corners, "Show Corners");
 			rooms = GUILayout.Toggle(rooms, "Show Rooms");
+			atmos = GUILayout.Toggle(atmos, "Show Atmos");
+			positions = GUILayout.Toggle(positions, "Show Positions");
 
 			if (currentSceneView)
 			{
@@ -65,70 +68,88 @@ namespace Tilemaps.Editor
 		[DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]
 		private static void DrawGizmo2(MetaDataLayer scr, GizmoType gizmoType)
 		{
-			if (!DrawGizmos || !rooms)
-			{
-				return;
-			}
-			
 			Vector3Int start = Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(Vector3.one * -32) - scr.transform.position); // bottom left
 			Vector3Int end =
 				Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth + 32, Camera.current.pixelHeight + 32)) -
 				                      scr.transform.position);
 			start.z = 0;
 			end.z = 1;
-			
-			if (end.y - start.y > 100)
+
+			float camDistance = end.y - start.y;
+
+			if (camDistance > 100)
 			{
 				// avoid being zoomed out too much (creates too many objects)
 				return;
 			}
-			
+
 			Gizmos.matrix = scr.transform.localToWorldMatrix;
-			
+
 			Color blue = Color.blue;
 			blue.a = 0.5f;
 
 			Color red = Color.red;
 			red.a = 0.5f;
-			
+
 			Color green = Color.green;
 			green.a = 0.5f;
-			
+
 			foreach (Vector3Int position in new BoundsInt(start, end - start).allPositionsWithin)
 			{
 				MetaDataNode node = scr.Get(position, false);
-				if (node != null)
+
+
+				Vector3 centerPosition = position + new Vector3(0.5f, 0.5f, 0);
+
+				if (rooms)
 				{
-					if (node.Room == 0)
-					{
-						Gizmos.color = green;
-					}
-					
-					if(node.Room > 0)
+					if (node.IsRoom)
 					{
 						Gizmos.color = blue;
+						Gizmos.DrawCube(centerPosition, Vector3.one);
 					}
 
-					if (node.Room < 0)
+					if (node.IsSpace)
 					{
 						Gizmos.color = red;
+						Gizmos.DrawCube(centerPosition, Vector3.one);
 					}
-					
-					Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
 				}
-				
-			}
 
+				if (atmos)
+				{
+					if (node.Exists)
+					{
+
+						if (node.atmosEdge)
+						{
+							Gizmos.color = red;
+							Gizmos.DrawCube(centerPosition, Vector3.one);
+						}
+
+						if (node.updating)
+						{
+							Gizmos.color = green;
+							Gizmos.DrawCube(centerPosition, Vector3.one);
+						}
+						
+						if (camDistance < 10f)
+						{
+							Handles.Label(position + Vector3.one, $"{node.Pressure:0.###}");
+						}
+					}
+				}
+
+				if (positions && camDistance < 10f)
+				{
+					Handles.Label(centerPosition + new Vector3(0, 1f, 0), position.x + "," + position.y);
+				}
+			}
 		}
 
 		[DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]
 		private static void DrawGizmo(MetaTileMap scr, GizmoType gizmoType)
 		{
-			if (!DrawGizmos)
-			{
-				return;
-			}
-
 			Vector3Int start = Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(Vector3.one * -32) - scr.transform.position); // bottom left
 			Vector3Int end =
 				Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth + 32, Camera.current.pixelHeight + 32)) -
@@ -155,78 +176,78 @@ namespace Tilemaps.Editor
 			Color green = Color.green;
 			red.a = 0.5f;
 
-				foreach (Vector3Int position in new BoundsInt(start, end - start).allPositionsWithin)
+			foreach (Vector3Int position in new BoundsInt(start, end - start).allPositionsWithin)
+			{
+				if (space)
 				{
-					if (space)
+					if (scr.IsSpaceAt(position))
 					{
-						if (scr.IsSpaceAt(position))
+						Gizmos.color = red;
+						Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+					}
+				}
+				else
+				{
+					if (corners)
+					{
+						if (scr.HasTile(position, LayerType.Walls))
 						{
-							Gizmos.color = red;
-							Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+							Gizmos.color = green;
+
+							int corner_count = 0;
+							foreach (Vector3Int pos in new[] {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right, Vector3Int.up})
+							{
+								if (!scr.HasTile(position + pos, LayerType.Walls))
+								{
+									corner_count++;
+								}
+								else
+								{
+									corner_count = 0;
+								}
+
+								if (corner_count > 1)
+								{
+									Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+									break;
+								}
+							}
 						}
 					}
 					else
 					{
-						if (corners)
+						Gizmos.color = blue;
+						if (passable)
 						{
-							if (scr.HasTile(position, LayerType.Walls))
+							if (north)
 							{
-								Gizmos.color = green;
-
-								int corner_count = 0;
-								foreach (Vector3Int pos in new[] {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right, Vector3Int.up})
+								if (!scr.IsPassableAt(position + Vector3Int.up, position))
 								{
-									if (!scr.HasTile(position + pos, LayerType.Walls))
-									{
-										corner_count++;
-									}
-									else
-									{
-										corner_count = 0;
-									}
-
-									if (corner_count > 1)
-									{
-										Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
-										break;
-									}
+									Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
 								}
+							}
+							else if (south)
+							{
+								if (!scr.IsPassableAt(position + Vector3Int.down, position))
+								{
+									Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+								}
+							}
+							else if (!scr.IsPassableAt(position))
+							{
+								Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
 							}
 						}
-						else
+						else if (atmosPassable)
 						{
-							Gizmos.color = blue;
-							if (passable)
+							if (!scr.IsAtmosPassableAt(position))
 							{
-								if (north)
-								{
-									if (!scr.IsPassableAt(position + Vector3Int.up, position))
-									{
-										Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
-									}
-								}
-								else if (south)
-								{
-									if (!scr.IsPassableAt(position + Vector3Int.down, position))
-									{
-										Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
-									}
-								}
-								else if (!scr.IsPassableAt(position))
-								{
-									Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
-								}
-							}
-							else if(atmosPassable)
-							{
-								if (!scr.IsAtmosPassableAt(position))
-								{
-									Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
-								}
+								Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
 							}
 						}
 					}
 				}
+			}
 		}
 	}
 }

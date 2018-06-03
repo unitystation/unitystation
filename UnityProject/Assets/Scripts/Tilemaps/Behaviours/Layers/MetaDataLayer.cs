@@ -9,14 +9,6 @@ namespace Tilemaps.Behaviours.Layers
 	{
 		private MetaDataDictionary nodes = new MetaDataDictionary();
 
-		private void Awake()
-		{
-			foreach (MetaDataNode metaDataNode in nodes.Values)
-			{
-				metaDataNode.Reset();
-			}
-		}
-
 		public MetaDataNode Get(Vector3Int position, bool createIfNotExists=true)
 		{
 			if (!nodes.ContainsKey(position))
@@ -27,7 +19,7 @@ namespace Tilemaps.Behaviours.Layers
 				}
 				else
 				{
-					return null;
+					return MetaDataNode.None;
 				}
 			}
 
@@ -36,9 +28,16 @@ namespace Tilemaps.Behaviours.Layers
 
 		public bool IsSpaceAt(Vector3Int position)
 		{
-			var node = Get(position, false);
+			MetaDataNode node = Get(position, false);
 
-			return node == null || node.IsSpace();
+			return node.Room < 0;
+		}
+
+		public bool IsRoomAt(Vector3Int position)
+		{
+			MetaDataNode node = Get(position, false);
+
+			return node.Room > 0;
 		}
 	}
 }

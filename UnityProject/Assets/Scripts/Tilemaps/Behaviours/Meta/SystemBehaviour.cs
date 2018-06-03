@@ -9,6 +9,8 @@ namespace Tilemaps.Behaviours.Meta
 		protected MetaDataLayer metaDataLayer;
 		protected MetaTileMap metaTileMap;
 
+		public virtual int Priority => 0;
+
 		public void Awake()
 		{
 			metaDataLayer = GetComponentInChildren<MetaDataLayer>();

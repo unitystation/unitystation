@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using Tilemaps.Behaviours.Layers;
+using Tilemaps.Behaviours.Meta.Data;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -8,6 +10,9 @@ namespace Tilemaps.Behaviours.Meta
 	[ExecuteInEditMode]
 	public class RoomControl : SystemBehaviour
 	{
+		// Set higher priority to ensure that it is executed before other systems
+		public override int Priority => 100;
+
 		public override void Initialize()
 		{
 			BoundsInt bounds = metaTileMap.GetBounds();
@@ -21,7 +26,7 @@ namespace Tilemaps.Behaviours.Meta
 			{
 				MetaDataNode node = metaDataLayer.Get(position, false);
 
-				if ((node == null || node.Room == 0) && !metaTileMap.IsSpaceAt(position) && metaTileMap.IsAtmosPassableAt(position))
+				if (node.Room == 0 && !metaTileMap.IsSpaceAt(position) && metaTileMap.IsAtmosPassableAt(position))
 				{
 					if (FindRoom(position, roomCounter))
 					{
@@ -38,6 +43,7 @@ namespace Tilemaps.Behaviours.Meta
 		public override void UpdateAt(Vector3Int position)
 		{
 			MetaDataNode node = metaDataLayer.Get(position);
+			
 			if (metaTileMap.IsAtmosPassableAt(position))
 			{
 				node.Room = 10000000;
@@ -51,7 +57,7 @@ namespace Tilemaps.Behaviours.Meta
 		private bool FindRoom(Vector3Int position, int roomNumber)
 		{
 			Queue<Vector3Int> posToCheck = new Queue<Vector3Int>();
-			HashSet<Vector3Int> roomPosition = new HashSet<Vector3Int>();
+			HashSet<Vector3Int> roomPositions = new HashSet<Vector3Int>();
 
 			posToCheck.Enqueue(position);
 
@@ -60,13 +66,13 @@ namespace Tilemaps.Behaviours.Meta
 			while (posToCheck.Count > 0)
 			{
 				Vector3Int pos = posToCheck.Dequeue();
-				roomPosition.Add(pos);
+				roomPositions.Add(pos);
 
 				foreach (Vector3Int dir in new[] {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right})
 				{
 					Vector3Int neighbor = pos + dir;
 
-					if (!posToCheck.Contains(neighbor) && !roomPosition.Contains(neighbor))
+					if (!posToCheck.Contains(neighbor) && !roomPositions.Contains(neighbor))
 					{
 						if (metaTileMap.IsSpaceAt(neighbor))
 						{
@@ -80,10 +86,24 @@ namespace Tilemaps.Behaviours.Meta
 				}
 			}
 
-			foreach (Vector3Int p in roomPosition)
+			foreach (Vector3Int p in roomPositions)
 			{
 				MetaDataNode node = metaDataLayer.Get(p);
-				node.Room = isSpace ? -1 : roomNumber;
+
+				if (isSpace)
+				{
+					node.Room = -1;
+					node.Temperature = 2.7f;
+					node.Moles = 0.000000316f;
+				}
+				else
+				{
+					node.Room = roomNumber;
+					node.AirMix[Gas.Oxygen.Index] = 16.628484400890768491815384755837f;
+					node.AirMix[Gas.Nitrogen.Index] = 66.513937603563073967261539023347f;
+					node.Temperature = 293.15f;
+					node.Moles = 83.142422004453842459076923779184f;
+				}
 			}
 
 			return !isSpace;
