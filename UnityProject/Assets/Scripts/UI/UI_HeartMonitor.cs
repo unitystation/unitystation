@@ -16,7 +16,9 @@ namespace UI
 		private int currentSprite;
 		public int deathStart;
 
-		[Header("Start of sprite positions for anim")] public int fullHealthStart;
+		[Header("Start of sprite positions for anim")]
+		public int fullHealthStart;
+
 		public int medDmgStart;
 		public int minorDmgStart;
 		public int mjrDmgStart;
@@ -83,6 +85,7 @@ namespace UI
 				{
 					yield return new WaitForSeconds(1f);
 				}
+
 				pulseImg.sprite = sprites[spriteStart + currentSprite++];
 				while (currentSprite == 28)
 				{
@@ -107,6 +110,7 @@ namespace UI
 			{
 				return;
 			}
+
 			if (curHealth <= -1 && spriteStart == deathStart)
 			{
 				return; //Ensure that messages are not spammed when there is no more health to go
@@ -127,6 +131,7 @@ namespace UI
 				pulseImg.sprite = sprites[spriteStart];
 				overlayCrits.SetState(OverlayState.normal);
 			}
+
 			if (cHealth < 90
 			    && cHealth > 80
 			    && spriteStart != minorDmgStart)
@@ -136,6 +141,7 @@ namespace UI
 				pulseImg.sprite = sprites[spriteStart];
 				overlayCrits.SetState(OverlayState.injured);
 			}
+
 			if (cHealth < 80
 			    && cHealth > 50
 			    && spriteStart != medDmgStart)
@@ -145,6 +151,7 @@ namespace UI
 				pulseImg.sprite = sprites[spriteStart];
 				overlayCrits.SetState(OverlayState.injured);
 			}
+
 			if (cHealth < 50
 			    && cHealth > 30
 			    && spriteStart != mjrDmgStart)
@@ -154,6 +161,7 @@ namespace UI
 				pulseImg.sprite = sprites[spriteStart];
 				overlayCrits.SetState(OverlayState.injured);
 			}
+
 			if (cHealth < 30
 			    && cHealth > 0
 			    && spriteStart != critStart)
