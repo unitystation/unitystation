@@ -11,7 +11,7 @@ public abstract class HealthBehaviour : InputTrigger
 
 	public int initialHealth = 100;
 
-	public bool isNPC;
+	public bool isNotPlayer;
 
 	public int maxHealth = 100;
 
@@ -62,7 +62,7 @@ public abstract class HealthBehaviour : InputTrigger
 	public void RpcApplyDamage(GameObject damagedBy, int damage,
 		DamageType damageType, BodyPartType bodyPartAim)
 	{
-		if (isServer || !isNPC || IsDead)
+		if (isServer || !isNotPlayer || IsDead)
 		{
 			return;
 		}
@@ -151,41 +151,26 @@ public abstract class HealthBehaviour : InputTrigger
 		Health = initialHealth;
 	}
 
-	/// <summary>
-	///     make player unconscious upon crit
-	/// </summary>
 	protected virtual void OnCritActions()
 	{
-		if (!isNPC)
-		{
-			PlayerNetworkActions pna = GetComponent<PlayerNetworkActions>();
-			if (pna == null)
-			{
-				Debug.LogError("This is not a player, please set isNPC flag correctly");
-				return;
-			}
-			if (isServer)
-			{
-				pna?.CmdConsciousState(false);
-			}
-		}
 	}
 
 	protected abstract void OnDeathActions();
 	
-	public override void Interact(GameObject originator, Vector3 position, string hand)
-	{
-		if (UIManager.Hands.CurrentSlot.Item != null && PlayerManager.PlayerInReach(transform))
-		{
-			if (UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type == ItemType.Knife)
-			{
-				Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-	
-				PlayerScript lps = PlayerManager.LocalPlayerScript;
-				lps.weaponNetworkActions.CmdKnifeAttackMob(gameObject, UIManager.Hands.CurrentSlot.Item, dir,
-					UIManager.DamageZone);
-			}
+	//TODO move to p2pinteractions?
+	public override void Interact(GameObject originator, Vector3 position, string hand) {
+		if ( UIManager.Hands.CurrentSlot.Item == null 
+		     || !PlayerManager.PlayerInReach( transform ) 
+		     || UIManager.CurrentIntent != Intent.Attack
+//		     || UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type != ItemType.Knife
+		     ) {
+			return;
 		}
+			Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
+	
+			PlayerScript lps = PlayerManager.LocalPlayerScript;
+			lps.weaponNetworkActions.CmdRequestMeleeAttack(gameObject, UIManager.Hands.CurrentSlot.eventName, dir,
+				UIManager.DamageZone);
 	}
 }
 

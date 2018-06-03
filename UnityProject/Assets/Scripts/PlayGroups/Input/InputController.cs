@@ -47,26 +47,27 @@ namespace PlayGroups.Input
 				"HiddenWalls", "Objects");
 		}
 
-		private void Update()
-		{
-			//Needs to be rewritted to be server authoritative
-			//Clients can currently ignore most intaract limitations (other than reach)
-			CheckHandSwitch();
-			CheckClick();
-			CheckAltClick();
-		}
-
-		private void CheckHandSwitch()
-		{
-			if (UnityEngine.Input.GetMouseButtonDown(2))
-			{
-				UIManager.Hands.Swap();
+		private void OnGUI() {
+			if ( Event.current.type == EventType.MouseDown ) {
+				CheckHandSwitch();
+				CheckAltClick();
+				CheckThrow();
+				CheckClick();
 			}
 		}
 
-		private void CheckClick()
-		{
-			if (UnityEngine.Input.GetMouseButtonDown(0) && !UnityEngine.Input.GetKey(KeyCode.LeftControl) && !UnityEngine.Input.GetKey(KeyCode.LeftAlt))
+		private void CheckHandSwitch() {
+			Event e = Event.current;
+			if ( e.type != EventType.Used && e.button == 2 )
+			{
+				UIManager.Hands.Swap();
+				e.Use();
+			}
+		}
+
+		private void CheckClick() {
+			Event e = Event.current;
+			if ( e.type != EventType.Used && e.button == 0 && !UnityEngine.Input.GetKey(KeyCode.LeftControl) && !UnityEngine.Input.GetKey(KeyCode.LeftAlt) )
 			{
 				//change the facingDirection of player on click
 				ChangeDirection();
@@ -79,21 +80,43 @@ namespace PlayGroups.Input
 			}
 		}
 
-		private void CheckAltClick()
-		{
-			if (UnityEngine.Input.GetMouseButtonDown(0) && (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt)))
+		private void CheckAltClick() {
+			Event e = Event.current;
+			if (e.type != EventType.Used && e.button == 0 && (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt)))
 			{
 				//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
 				Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 				position.z = 0f;
-				if (PlayerManager.LocalPlayerScript.IsInReach(position))
-				{
-					List<GameObject> objects = UITileList.GetItemsAtPosition(position);
-					LayerTile tile = UITileList.GetTileAtPosition(position);
-					ControlTabs.ShowItemListTab(objects, tile, position);
-				}
+//				if (PlayerManager.LocalPlayerScript.IsInReach(position))
+//				{
+//					List<GameObject> objects = UITileList.GetItemsAtPosition(position);
+//					LayerTile tile = UITileList.GetTileAtPosition(position);
+//					ControlTabs.ShowItemListTab(objects, tile, position);
+//				}
 				
 				UIManager.SetToolTip = $"clicked position: {Vector3Int.RoundToInt(position)}";
+				e.Use();
+			}
+		}
+		private void CheckThrow() {
+			Event e = Event.current;
+			if (e.type != EventType.Used && e.button == 0 && UIManager.IsThrow)
+			{
+				var currentSlot = UIManager.Hands.CurrentSlot;
+				if (!currentSlot.CanPlaceItem())
+				{
+					return;
+				}
+				//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
+				Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+				position.z = 0f;
+				currentSlot.Clear();
+				Debug.Log( $"Requesting throw from {currentSlot.eventName} to {position}" );
+				PlayerManager.LocalPlayerScript.playerNetworkActions
+					.CmdRequestThrow( currentSlot.eventName, position, (int) UIManager.DamageZone );
+				//Disabling throw button
+				UIManager.Action.Throw();
+				e.Use();
 			}
 		}
 
@@ -176,24 +199,25 @@ namespace PlayGroups.Input
 			//each item ontop of a table should have a higher order in layer
 			SpriteRenderer[] bySortingOrder = spriteRenderers.OrderByDescending(sRenderer => sRenderer.sortingOrder).ToArray();
 
-			foreach (SpriteRenderer spriteRenderer in bySortingOrder)
-			{
+			for ( var i = 0; i < bySortingOrder.Length; i++ ) {
+				SpriteRenderer spriteRenderer = bySortingOrder[i];
 				Sprite sprite = spriteRenderer.sprite;
 
-				if (spriteRenderer.enabled && sprite)
-				{
+				if ( spriteRenderer.enabled && sprite ) {
 					Vector3 scale = spriteRenderer.gameObject.transform.localScale;
 					Vector3 offset = spriteRenderer.gameObject.transform.localPosition;
 
 					float pixelsPerUnit = sprite.pixelsPerUnit;
 
-					float angle = spriteRenderer.gameObject.transform.parent.localEulerAngles.z * Mathf.Deg2Rad;
+					float angle = -spriteRenderer.gameObject.transform.parent.localEulerAngles.z * Mathf.Deg2Rad;
 
-					float x = hitPosition.y * Mathf.Sin(angle) - hitPosition.x * Mathf.Cos(angle);
-					float y = hitPosition.y * Mathf.Cos(angle) - hitPosition.x * Mathf.Sin(angle);
-
-					int texPosX = Mathf.RoundToInt(sprite.rect.x + sprite.rect.width * 0.5f - (x / scale.x - offset.x % 1) * pixelsPerUnit);
-					int texPosY = Mathf.RoundToInt(sprite.rect.y + (y / scale.y - offset.y % 1) * pixelsPerUnit + sprite.rect.height * 0.5f);
+					float sin = Mathf.Sin( angle );
+					float cos = Mathf.Cos( angle );
+					float x = hitPosition.y * sin - hitPosition.x * cos;
+					float y = hitPosition.x * sin + hitPosition.y * cos;
+					
+					int texPosX = Mathf.RoundToInt( sprite.rect.x + sprite.rect.width * 0.5f - ( x / scale.x - offset.x % 1 ) * pixelsPerUnit );
+					int texPosY = Mathf.RoundToInt( sprite.rect.y + ( y / scale.y - offset.y % 1 ) * pixelsPerUnit + sprite.rect.height * 0.5f );
 
 					Color pixelColor = sprite.texture.GetPixel(texPosX, texPosY);
 					if (pixelColor.a > 0)

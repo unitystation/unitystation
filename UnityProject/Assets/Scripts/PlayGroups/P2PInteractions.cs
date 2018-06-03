@@ -34,7 +34,7 @@ namespace PlayGroup
 		private bool CheckEdible(GameObject itemInHand)
 		{
 			FoodBehaviour baseFood = itemInHand.GetComponent<FoodBehaviour>();
-			if (baseFood == null){
+			if (baseFood == null || UIManager.CurrentIntent == Intent.Attack){
 				return false;
 			} 
 

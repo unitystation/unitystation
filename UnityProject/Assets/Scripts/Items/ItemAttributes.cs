@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -22,7 +23,7 @@ public class ItemAttributes : NetworkBehaviour
 		"mob/mask", "mob/neck", "mob/suit"
 	};
 
-	public ClothEnum cloth;
+//	public ClothEnum cloth;
 	private int clothingOffset = -1;
 	public int clothingReference = -1;
 	private string desc;
@@ -66,6 +67,21 @@ public class ItemAttributes : NetworkBehaviour
 	public SpriteType spriteType;
 	public ItemType type;
 
+	/// throw-related fields
+	[TooltipAttribute("How painful it is when someone throws it at you")]
+	public float throwDamage = 2;
+	[TooltipAttribute("How many tiles to move per 0.1s when being thrown")]
+	public float throwSpeed = 2;
+	[TooltipAttribute("Max throw distance")]
+	public float throwRange = 7;
+	[TooltipAttribute("Damage when we click someone with harm intent")]
+	public float hitDamage = 2;
+	[TooltipAttribute("Sound to be played when we click someone with harm intent")]
+	public string hitSound = "GenericHit";
+
+	public List<string> attackVerb = new List<string>();
+	private static readonly char[] ListSplitters = new[]{',', ' '};
+
 	public override void OnStartClient()
 	{
 		StartCoroutine(WaitForLoad());
@@ -90,6 +106,16 @@ public class ItemAttributes : NetworkBehaviour
 	//        }
 	//        ConstructItem(hierarchy);
 	//    }
+
+	public float? TryParseFloat(string attr) {
+		float i;
+		return float.TryParse( tryGetAttr(attr), out i ) ? (float?) i : null;
+	}
+	public List<string> TryParseList(string attr) {
+		var list = new List<string>();
+		list.AddRange(tryGetAttr(attr).Trim().Replace( "list(", "" ).Replace( ")", "" ).Split( ListSplitters, StringSplitOptions.RemoveEmptyEntries ));
+		return list;
+	}
 
 	public void ConstructItem(string hierString)
 	{
@@ -130,6 +156,12 @@ public class ItemAttributes : NetworkBehaviour
 		item_color = tryGetAttr("item_color"); //also a state
 		item_state = tryGetAttr("item_state");
 		string[] states = {icon_state, item_color, item_state};
+
+		throwDamage = TryParseFloat( "throwforce" ) ?? throwDamage;
+		throwSpeed = TryParseFloat( "throw_speed" )  ?? throwSpeed;
+		throwRange = TryParseFloat( "throw_range" ) ?? throwRange;
+		hitDamage = TryParseFloat( "force" ) ?? hitDamage;
+		attackVerb = TryParseList( "attack_verb" ) ?? attackVerb;
 
 		masterType = getMasterType(hier); // aka SpriteType
 		itemType = getItemType(hier, getInvIconPrefix(masterType));

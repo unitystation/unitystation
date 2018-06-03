@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011622113908}
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
-  m_LocalPosition: {x: 40, y: 29, z: 0}
+  m_LocalPosition: {x: 52, y: 26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011569130768}
@@ -112,7 +112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cloth: 0
   clothingReference: -1
   hierarchy: 
   inHandReferenceLeft: 564
@@ -120,9 +119,22 @@ MonoBehaviour:
   itemDescription: A general purpose Chef's Knife made by SpaceCook Incorporated.
     Guaranteed to stay sharp for years to come.
   itemName: kitchen knife
-  size: 0
+  size: 1
   spriteType: 0
   type: 15
+  throwDamage: 10
+  throwSpeed: 3
+  throwRange: 6
+  hitDamage: 20
+  hitSound: BladeSlice
+  attackVerb:
+  - slashed
+  - stabbed
+  - sliced
+  - torn
+  - ripped
+  - diced
+  - cut
 --- !u!114 &114112083421409656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -190,17 +202,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
+  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
   allowedToMove: 1
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
-  moveSpeed: 7
   pulledBy: {fileID: 0}
+  custNetActiveState: 0
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
-  serverLittleLag: 0
-  timeInPush: 0
   closetHandlerCache: {fileID: 0}
 --- !u!114 &114904595007707188
 MonoBehaviour:
@@ -213,7 +224,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212000011121867930
 SpriteRenderer:
   m_ObjectHideFlags: 1

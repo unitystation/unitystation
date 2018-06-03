@@ -23,7 +23,7 @@ public class PlayerMoveMessage : ServerMessage
 			playerSync.ClearQueueClient();
 		}
 		if ( State.MoveNumber == 0 ) {
-			Debug.Log( "Zero step rollback" );
+//			Debug.Log( "Zero step rollback" );
 			playerSync.ClearQueueClient();
 			playerSync.RollbackPrediction();
 		}

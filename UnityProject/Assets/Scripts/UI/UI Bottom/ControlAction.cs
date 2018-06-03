@@ -1,4 +1,5 @@
 using PlayGroup;
+using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,6 +40,11 @@ namespace UI
 				}
 			}
 
+			if (Input.GetKeyDown(KeyCode.R))
+			{
+				Throw();
+			}
+			
 			if (Input.GetKeyDown(KeyCode.X))
 			{
 				UIManager.Hands.Swap();
@@ -84,7 +90,7 @@ namespace UI
 				return;
 			}
 			UI_ItemSlot currentSlot = UIManager.Hands.CurrentSlot;
-			Vector3 dropPos = lps.gameObject.transform.position;
+//			Vector3 dropPos = lps.gameObject.transform.position;
 			if (!currentSlot.CanPlaceItem())
 			{
 				return;
@@ -101,10 +107,10 @@ namespace UI
 			//            else
 			//            {
 			//Only clear slot(while moving, as prediction is shit in this situation)
-			GameObject dropObj = currentSlot.Item;
-			CustomNetTransform cnt = dropObj.GetComponent<CustomNetTransform>();
-			//It is converted to LocalPos in transformstate struct
-			cnt.AppearAtPosition(PlayerManager.LocalPlayer.transform.position);
+//			GameObject dropObj = currentSlot.Item;
+//			CustomNetTransform cnt = dropObj.GetComponent<CustomNetTransform>();
+//			It is converted to LocalPos in transformstate struct
+//			cnt.AppearAtPosition(PlayerManager.LocalPlayer.transform.position);
 			currentSlot.Clear();
 			//            }
 			//Message
@@ -118,16 +124,21 @@ namespace UI
 			return !lps.isServer && !lps.playerMove.isMoving;
 		}
 
+		/// Throw mode toggle. Actual throw is in
+		/// <see cref="InputController.CheckThrow()"/>
 		public void Throw()
 		{
 			PlayerScript lps = PlayerManager.LocalPlayerScript;
-			if (!lps || lps.canNotInteract())
+			UI_ItemSlot currentSlot = UIManager.Hands.CurrentSlot;
+			if (!lps || lps.canNotInteract() || !currentSlot.CanPlaceItem())
 			{
+				UIManager.IsThrow = false;
+				throwImage.sprite = throwSprites[0];
 				return;
 			}
 
 			SoundManager.Play("Click01");
-			Debug.Log("Throw Button");
+//			Debug.Log("Throw Button");
 
 			if (!UIManager.IsThrow)
 			{

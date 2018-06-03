@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114121219251840654}
   - component: {fileID: 114298061437451200}
   - component: {fileID: 114208883059431984}
+  - component: {fileID: 114464710893759880}
   m_Layer: 10
   m_Name: Meat Steak
   m_TagString: Untagged
@@ -70,7 +71,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1110193000772614}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8, y: 7, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4207712374710558}
@@ -125,7 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
 --- !u!114 &114298061437451200
@@ -141,6 +141,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healAmount: 30
   healHungerAmount: 10
+--- !u!114 &114464710893759880
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114608524725813366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,9 +181,12 @@ MonoBehaviour:
   inHandReferenceRight: -1
   itemDescription: 
   itemName: Meat Steak
-  size: 0
+  size: 1
   spriteType: 0
   type: 14
+  throwForce: 0
+  throwSpeed: 2
+  throwRange: 7
 --- !u!114 &114842434566603030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -224,6 +238,7 @@ MonoBehaviour:
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
   pulledBy: {fileID: 0}
+  custNetActiveState: 0
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
   closetHandlerCache: {fileID: 0}

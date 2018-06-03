@@ -47,9 +47,10 @@ public class ChatRelay : NetworkBehaviour
 			{ChatChannel.Service, "#6eaa2c"},
 			{ChatChannel.Syndicate, "#6d3f40"},
 			{ChatChannel.System, "#dd5555"},
-			{ChatChannel.Ghost, "#386aff"}
+			{ChatChannel.Ghost, "#386aff"},
+			{ChatChannel.Combat, "#dd0000"}
 		};
-		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System;
+		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System | ChatChannel.Combat;
 		
 		RefreshLog();
 	}
@@ -74,18 +75,18 @@ public class ChatRelay : NetworkBehaviour
 		var players = PlayerList.Instance.InGamePlayers;
 
 		//Local chat range checks:
-		if (chatEvent.channels == ChatChannel.Local) {
-			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
+		if (chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat) {
+//			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
 			RaycastHit2D hit;
 			LayerMask layerMask = 1 << 9; //Walls layer
 			for (int i = 0; i < players.Count(); i++){
-				if(Vector2.Distance(speaker.GameObject.transform.position,
+				if(Vector2.Distance(chatEvent.position,//speaker.GameObject.transform.position,
 				                    players[i].GameObject.transform.position) > 14f){
 					//Player in the list is too far away for local chat, remove them:
 					players.Remove(players[i]);
 				} else {
 					//within range, but check if they are in another room or hiding behind a wall
-					if(Physics2D.Linecast(speaker.GameObject.transform.position, 
+					if(Physics2D.Linecast(chatEvent.position,//speaker.GameObject.transform.position, 
 					                      players[i].GameObject.transform.position, layerMask)){
 						//if it hit a wall remove that player
 						players.Remove(players[i]);

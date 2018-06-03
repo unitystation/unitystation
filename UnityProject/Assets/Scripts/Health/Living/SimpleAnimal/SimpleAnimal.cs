@@ -17,7 +17,7 @@ public class SimpleAnimal : HealthBehaviour
 	private void Start()
 	{
 		//Set it automatically because we are using the SimpleAnimalBehaviour
-		isNPC = true;
+		isNotPlayer = true;
 	}
 
 	public override void OnStartClient()

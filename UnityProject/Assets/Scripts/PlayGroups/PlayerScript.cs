@@ -214,6 +214,7 @@ namespace PlayGroup
 			Vector3Int pos = new Vector3Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y),
 				Mathf.FloorToInt(transform.position.z));
 			return (pos - position).magnitude;
+//			return (Vector3Int.RoundToInt(transform.position) - position).magnitude;
 		}
 
 		/// <summary>
@@ -241,7 +242,7 @@ namespace PlayGroup
 			if (pm.isGhost)
 			{
 				ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
-				ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System;
+				ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
 				if (transmitOnly)
 				{
 					return ghostTransmitChannels;
@@ -279,7 +280,7 @@ namespace PlayGroup
 			}
 
 
-			ChatChannel receiveChannels = ChatChannel.Examine | ChatChannel.System;
+			ChatChannel receiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
 
 			if (transmitOnly)
 			{

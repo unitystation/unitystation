@@ -112,7 +112,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectType: 1
   AtmosPassable: 1
-  Offset: {x: 0, y: 0, z: 0}
   Passable: 1
 --- !u!114 &114469661336575222
 MonoBehaviour:
@@ -127,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vendorcontent:
   - {fileID: 1645856876941636, guid: 29d17c6e33a25434ca93edfb29f82cb7, type: 2}
+  - {fileID: 1907679543779350, guid: f55ea2147f7e49449a11c6d0063822f6, type: 2}
   allowSell: 1
   cooldownTimer: 180
   stock: 5

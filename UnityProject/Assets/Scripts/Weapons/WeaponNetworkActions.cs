@@ -143,52 +143,61 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 	}
 
-	//TODO move to network messages
-	//TODO make it detect the type of weapon used, change code accordingly
-	[Command] //TODO fixme ghetto proof-of-concept
-	public void CmdKnifeAttackMob(GameObject npcObj, GameObject weapon, Vector2 stabDirection, BodyPartType damageZone)
+	[Command] 
+	public void CmdRequestMeleeAttack(GameObject victim, string slot, Vector2 stabDirection, BodyPartType damageZone)
 	{
-		// checks object and component existence before defining healthBehaviour variable.
-		if (npcObj && npcObj.GetComponent<HealthBehaviour>().IsDead == false)
-		{
-			HealthBehaviour healthBehaviour = npcObj.GetComponent<HealthBehaviour>();
+		if (!playerMove.allowInput 
+		    || playerMove.isGhost
+		    || !victim
+		    || !playerScript.playerNetworkActions.SlotNotEmpty( slot ) 
+		    || !PlayerManager.PlayerInReach( victim.transform )
+		    ) {
+			return;
+		}
+		var weapon = playerScript.playerNetworkActions.Inventory[slot];
+		ItemAttributes weaponAttr = weapon.GetComponent<ItemAttributes>();
+		HealthBehaviour victimHealth = victim.GetComponent<HealthBehaviour>();
 
-			if (!playerMove.allowInput || !allowAttack || playerMove.isGhost)
+
+		// checks object and component existence before defining healthBehaviour variable.
+		if (victimHealth.IsDead == false)
+		{
+			if (!allowAttack)
 			{
 				return;
 			}
 
-			if (npcObj != gameObject)
+			if (victim != gameObject)
 			{
-				RpcMeleAttackLerp(stabDirection, weapon);
+				RpcMeleeAttackLerp(stabDirection, weapon);
 			}
 
-			healthBehaviour.ApplyDamage(gameObject, 20, DamageType.BRUTE, damageZone);
+			victimHealth.ApplyDamage(gameObject, ( int ) weaponAttr.hitDamage, DamageType.BRUTE, damageZone);
+			if ( weaponAttr.hitDamage > 0 ) {
+				PostToChatMessage.SendItemAttackMessage( weapon, gameObject, victim, (int)weaponAttr.hitDamage, damageZone );
+			}
 
-			//this crap will remain here until moved to netmessages
-			healthBehaviour.RpcApplyDamage(gameObject, 20, DamageType.BRUTE, damageZone);
-
-			soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
+			soundNetworkActions.RpcPlayNetworkSound(weaponAttr.hitSound, transform.position);
 			StartCoroutine(AttackCoolDown());
 
 		}
 		else
 		{
-			if (!playerMove.allowInput || playerMove.isGhost)
-			{
+			//Butchering if we can
+			if ( weaponAttr.type != ItemType.Knife ) {
 				return;
 			}
-			if (npcObj.GetComponent<SimpleAnimal>())
+			if (victim.GetComponent<SimpleAnimal>())
 			{
-				SimpleAnimal attackTarget = npcObj.GetComponent<SimpleAnimal>();
-				RpcMeleAttackLerp(stabDirection, weapon);
+				SimpleAnimal attackTarget = victim.GetComponent<SimpleAnimal>();
+				RpcMeleeAttackLerp(stabDirection, weapon);
 				attackTarget.Harvest();
 				soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 			}
 			else
 			{
-				PlayerHealth attackTarget = npcObj.GetComponent<PlayerHealth>();
-				RpcMeleAttackLerp(stabDirection, weapon);
+				PlayerHealth attackTarget = victim.GetComponent<PlayerHealth>();
+				RpcMeleeAttackLerp(stabDirection, weapon);
 				attackTarget.Harvest();
 				soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 			}
@@ -206,7 +215,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
 
 	[ClientRpc]
-	private void RpcMeleAttackLerp(Vector2 stabDir, GameObject weapon)
+	private void RpcMeleeAttackLerp(Vector2 stabDir, GameObject weapon)
 	{
 		if (lerping)
 		{

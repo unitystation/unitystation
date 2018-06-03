@@ -1,6 +1,7 @@
 ﻿public enum BodyPartType
 {
 	//these weird ints are for the UI
+	NONE = -1,
 	HEAD = 0,
 
 	//    EYES,

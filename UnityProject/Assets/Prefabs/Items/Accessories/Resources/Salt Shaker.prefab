@@ -9,17 +9,39 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1907679543779350}
+  m_RootGameObject: {fileID: 1036141445992816}
   m_IsPrefabParent: 1
---- !u!1 &1859554064641892
+--- !u!1 &1036141445992816
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4264625479318156}
-  - component: {fileID: 212125191403727516}
+  - component: {fileID: 4153443880121968}
+  - component: {fileID: 61874701466316104}
+  - component: {fileID: 114468507207016222}
+  - component: {fileID: 114983458888184870}
+  - component: {fileID: 114217803941579194}
+  - component: {fileID: 114811898791686074}
+  - component: {fileID: 114200006776994880}
+  - component: {fileID: 114960262104882700}
+  m_Layer: 10
+  m_Name: Salt Shaker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1894594285269404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4950178486404574}
+  - component: {fileID: 212084795858203154}
   m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
@@ -27,61 +49,39 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1907679543779350
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4827893193398430}
-  - component: {fileID: 61818042941755762}
-  - component: {fileID: 114022233371835864}
-  - component: {fileID: 114875290499615288}
-  - component: {fileID: 114567485071167784}
-  - component: {fileID: 114229897149472310}
-  - component: {fileID: 114335573703485954}
-  - component: {fileID: 114690376875817604}
-  m_Layer: 10
-  m_Name: Extinguisher
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4264625479318156
+--- !u!4 &4153443880121968
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1859554064641892}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4827893193398430}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4827893193398430
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1907679543779350}
+  m_GameObject: {fileID: 1036141445992816}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4264625479318156}
+  - {fileID: 4950178486404574}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61818042941755762
+--- !u!4 &4950178486404574
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1894594285269404}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.01, y: 0, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4153443880121968}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &61874701466316104
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1907679543779350}
+  m_GameObject: {fileID: 1036141445992816}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -101,55 +101,12 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114022233371835864
+--- !u!114 &114200006776994880
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1907679543779350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 121
-    i1: 32
-    i2: 168
-    i3: 36
-    i4: 223
-    i5: 69
-    i6: 96
-    i7: 68
-    i8: 56
-    i9: 30
-    i10: 56
-    i11: 30
-    i12: 144
-    i13: 39
-    i14: 122
-    i15: 93
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &114229897149472310
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1907679543779350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114335573703485954
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1907679543779350}
+  m_GameObject: {fileID: 1036141445992816}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
@@ -163,62 +120,109 @@ MonoBehaviour:
   currentPos: {x: 0, y: 0, z: 0}
   isPushable: 0
   pulledBy: {fileID: 0}
+  custNetActiveState: 0
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
   closetHandlerCache: {fileID: 0}
---- !u!114 &114567485071167784
+--- !u!114 &114217803941579194
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1907679543779350}
+  m_GameObject: {fileID: 1036141445992816}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cloth: 0
   clothingReference: -1
   hierarchy: 
-  inHandReferenceLeft: 88
-  inHandReferenceRight: 96
-  itemDescription: A heavy fire extinguisher
-  itemName: Extinguisher
-  size: 2
+  inHandReferenceLeft: -1
+  inHandReferenceRight: -1
+  itemDescription: Shakes salt, or become salty and hit someone.
+  itemName: Salt Shaker
+  size: 0
   spriteType: 0
-  type: 15
---- !u!114 &114690376875817604
+  type: 0
+  throwDamage: 2
+  throwSpeed: 2
+  throwRange: 7
+  hitDamage: 2
+  hitSound: GenericHit
+--- !u!114 &114468507207016222
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1907679543779350}
+  m_GameObject: {fileID: 1036141445992816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 221
+    i1: 49
+    i2: 164
+    i3: 78
+    i4: 0
+    i5: 97
+    i6: 89
+    i7: 148
+    i8: 25
+    i9: 219
+    i10: 163
+    i11: 77
+    i12: 217
+    i13: 231
+    i14: 255
+    i15: 247
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114811898791686074
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1036141445992816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114960262104882700
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1036141445992816}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 0
---- !u!114 &114875290499615288
+--- !u!114 &114983458888184870
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1907679543779350}
+  m_GameObject: {fileID: 1036141445992816}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
---- !u!212 &212125191403727516
+--- !u!212 &212084795858203154
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1859554064641892}
+  m_GameObject: {fileID: 1894594285269404}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -247,7 +251,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 10
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300182, guid: fa8cb4bb662a44e3ae784801d8bad0a4, type: 3}
+  m_Sprite: {fileID: 21300104, guid: c03626bdc4d64c639b0641916a01692b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

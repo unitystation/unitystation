@@ -51,6 +51,8 @@ namespace Tilemaps.Behaviours.Objects
 			UpdatePosition();
 		}
 
+		public Vector3Int WorldPosition => MatrixManager.Instance.LocalToWorldInt(position, Matrix);
+
 		public Vector3Int Position
 		{
 			get { return position; }
@@ -108,8 +110,8 @@ namespace Tilemaps.Behaviours.Objects
 			Position = Vector3Int.RoundToInt(transform.localPosition);
 		}
 
-		public void Unregister()
-		{
+		public void Unregister() {
+			Position = TransformState.HiddenPos;
 			layer?.Objects.Remove(Position, this);
 		}
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Tilemaps;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -35,62 +36,56 @@ public class MatrixManager : MonoBehaviour
 	public int matrixCount;
 
 	/// Finds first matrix that is not empty at given world pos
-	public MatrixInfo AtPoint(Vector3Int worldPos)
-	{
-		for (var i = 0; i < activeMatrices.Count; i++)
-		{
-			if (!activeMatrices[i].Matrix.IsEmptyAt(WorldToLocalInt(worldPos, activeMatrices[i])))
-			{
-				return activeMatrices[i];
-			}
-		}
-
-//		Debug.LogWarning( $"Did not find matrix at point {worldPos}!" );
-//		return MatrixInfo.Invalid;
-		//returning station's matrix for now
-		return activeMatrices.Count == 0 ? MatrixInfo.Invalid : activeMatrices[0];
+	public static MatrixInfo AtPoint(Vector3Int worldPos) {
+		MatrixInfo matrixInfo = getInternal( mat => !mat.Matrix.IsEmptyAt( WorldToLocalInt( worldPos, mat ) ) );
+		return Equals( matrixInfo, MatrixInfo.Invalid ) ? Instance.activeMatrices[0] : matrixInfo;
 	}
 
-	/// Cross-matrix floating check by world pos
-	public bool IsFloatingAt(Vector3Int worldPos)
+	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt"/>
+	public static bool IsFloatingAt(Vector3Int worldPos){
+		return isAtInternal( mat => mat.Matrix.IsFloatingAt( WorldToLocalInt( worldPos, mat ) ) );
+	}
+
+	///Cross-matrix edition of <see cref="Matrix.IsSpaceAt"/>
+	public static bool IsSpaceAt(Vector3Int worldPos){
+		return isAtInternal( mat => mat.Matrix.IsSpaceAt( WorldToLocalInt( worldPos, mat ) ) );
+	}
+	
+	///Cross-matrix edition of <see cref="Matrix.IsEmptyAt"/>
+	public static bool IsEmptyAt(Vector3Int worldPos) {
+		return isAtInternal( mat => mat.Matrix.IsEmptyAt( WorldToLocalInt( worldPos, mat ) ) );
+	}
+
+	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int)"/>
+	/// FIXME: not truly cross-matrix. can walk diagonally between matrices
+	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget) {
+		return isAtInternal( mat => mat.Matrix.IsPassableAt( WorldToLocalInt( worldOrigin, mat ),
+															 WorldToLocalInt( worldTarget, mat ) ) );
+	}
+
+	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int)"/>
+	public static IEnumerable<T> GetAt<T>( Vector3Int worldPos ) where T : MonoBehaviour {
+		return getAtInternal( mat => mat.Matrix.Get<T>( WorldToLocalInt( worldPos, mat ) ));
+	}
+
+	private static IEnumerable<T> getAtInternal<T>( Func<MatrixInfo, IEnumerable<T>> condition ) where T : MonoBehaviour {
+		IEnumerable<T> t = new List<T>();
+		for (var i = 0; i < Instance.activeMatrices.Count; i++) {
+			t = t.Concat( condition( Instance.activeMatrices[i] ) );
+		}
+
+		return t;
+	}
+
+	private static bool isAtInternal(Func<MatrixInfo, bool> condition)
 	{
-		for (var i = 0; i < activeMatrices.Count; i++)
+		for (var i = 0; i < Instance.activeMatrices.Count; i++)
 		{
-			if (!activeMatrices[i].Matrix.IsFloatingAt(WorldToLocalInt(worldPos, activeMatrices[i])))
+			if (!condition(Instance.activeMatrices[i]))
 			{
 				return false;
 			}
 		}
-
-		return true;
-	}
-
-	/// Cross-matrix space check by world pos
-	public bool IsSpaceAt(Vector3Int worldPos)
-	{
-		for (var i = 0; i < activeMatrices.Count; i++)
-		{
-			if (!activeMatrices[i].Matrix.IsSpaceAt(WorldToLocalInt(worldPos, activeMatrices[i])))
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/// Cross-matrix passable check by world pos //FIXME: not truly cross-matrix. can walk diagonally between matrices
-	public bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget)
-	{
-		for (var i = 0; i < activeMatrices.Count; i++)
-		{
-			if (!activeMatrices[i].Matrix.IsPassableAt(WorldToLocalInt(worldOrigin, activeMatrices[i]),
-				WorldToLocalInt(worldTarget, activeMatrices[i])))
-			{
-				return false;
-			}
-		}
-
 		return true;
 	}
 
@@ -141,9 +136,8 @@ public class MatrixManager : MonoBehaviour
 			return;
 		}
 
-		for (int i = 0; i < findMatrices.Length; i++)
-		{
-			activeMatrices.Add(new MatrixInfo
+		for (int i = 0; i < findMatrices.Length; i++) {
+			MatrixInfo matrixInfo = new MatrixInfo
 			{
 				Id = i,
 				Matrix = findMatrices[i],
@@ -151,11 +145,14 @@ public class MatrixManager : MonoBehaviour
 				MatrixMove = findMatrices[i].gameObject.GetComponentInParent<MatrixMove>(),
 //				NetId is initialized later
 				InitialOffset = findMatrices[i].InitialOffset
-			});
+			};
+			if ( !activeMatrices.Contains( matrixInfo ) ) {
+				activeMatrices.Add( matrixInfo );
+			}
 		}
 
 		//These aren't fully initialized at that moment; init is truly finished when server is up and NetIDs are resolved
-		Debug.Log($"Semi-init {this}");
+//		Debug.Log($"Semi-init {this}");
 	}
 
 	public override string ToString()
@@ -164,30 +161,34 @@ public class MatrixManager : MonoBehaviour
 	}
 
 	/// Get MatrixInfo by matrix id
-	public MatrixInfo Get(int id)
+	public static MatrixInfo Get(int id)
 	{
 		return getInternal(mat => mat.Id == id);
 	}
 
 	/// Get MatrixInfo by gameObject containing Matrix component
-	public MatrixInfo Get(GameObject go)
+	public static MatrixInfo Get(GameObject go)
 	{
 		return getInternal(mat => mat.GameObject == go);
 	}
 
 	/// Get MatrixInfo by Matrix component
-	public MatrixInfo Get(Matrix matrix)
+	public static MatrixInfo Get(Matrix matrix)
 	{
 		return getInternal(mat => mat.Matrix == matrix);
 	}
 
-	private MatrixInfo getInternal(Func<MatrixInfo, bool> condition)
+	private static MatrixInfo getInternal(Func<MatrixInfo, bool> condition)
 	{
-		for (var i = 0; i < activeMatrices.Count; i++)
+		if ( Instance.activeMatrices.Count == 0 ) {
+			Debug.Log( "MatrixManager list not ready yet, trying to init" );
+			Instance.InitMatrices();
+		}
+		for (var i = 0; i < Instance.activeMatrices.Count; i++)
 		{
-			if (condition(activeMatrices[i]))
+			if (condition(Instance.activeMatrices[i]))
 			{
-				return activeMatrices[i];
+				return Instance.activeMatrices[i];
 			}
 		}
 
