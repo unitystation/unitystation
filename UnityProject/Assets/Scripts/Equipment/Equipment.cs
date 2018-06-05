@@ -114,7 +114,7 @@ namespace Equipment
 				NukeInteract nuke = FindObjectOfType<NukeInteract>();
 				if(nuke != null){
 					UpdateChatMessage.Send(gameObject, ChatChannel.Syndicate, 
-					                       "We have intercepted the code for the nuclear weapon: " + nuke.nukeCode);
+					                       "We have intercepted the code for the nuclear weapon: " + nuke.NukeCode);
 				}
 			}
 

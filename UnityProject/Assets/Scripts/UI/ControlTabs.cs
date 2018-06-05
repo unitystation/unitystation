@@ -1,12 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using PlayGroup;
 using Tilemaps.Tiles;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace UI
 {
+	public class OpenedTab
+	{
+		public GameObject Provider;
+		public TabType Type;
+		public GameObject Reference;
+	}
+
 	public class ControlTabs : MonoBehaviour
 	{
 		private static ControlTabs controlTabs;
@@ -25,6 +35,9 @@ namespace UI
 
 		public Color unselectColor;
 
+		public Dictionary<NetworkTab, NetworkTabInfo> openedTabs = new Dictionary<NetworkTab, NetworkTabInfo>();
+		private static GameObject FingerPrefab;
+
 		public static ControlTabs Instance
 		{
 			get
@@ -38,8 +51,8 @@ namespace UI
 			}
 		}
 
-		private void Start()
-		{
+		private void Start() {
+			FingerPrefab = Resources.Load<GameObject>( "PokeFinger" );
 			SelectWindow(WindowSelect.stats);
 			itemListTabExists = false;
 		}
@@ -179,6 +192,81 @@ namespace UI
 
 			optionsRect.localPosition += direction * (width / 2f);
 			moreRect.localPosition += direction * (width / 2f);
+		}
+	public static void ShowTab( TabType type, GameObject tabProvider, ElementValue[] elementValues ) {
+			var openedTab = new NetworkTab( tabProvider, type );
+			if ( !Instance.openedTabs.ContainsKey( openedTab ) ) {
+				NetworkTabInfo tabInfo = openedTab.Spawn();
+				GameObject tabObject = tabInfo.Reference;
+
+				//putting into the right place
+				var rightPanelParent = UIManager.Instance.GetComponentInChildren<ControlTabs>().transform.GetChild( 1 );
+				tabObject.transform.SetParent(rightPanelParent);
+				tabObject.transform.localScale = Vector3.one;
+				var rect = tabObject.GetComponent<RectTransform>();
+				rect.offsetMin = new Vector2(15, 15);
+				rect.offsetMax = -new Vector2(15, 50);
+				
+				tabObject.SetActive( true );
+				
+				Instance.UnselectAll();
+				
+				tabInfo.ImportValues( elementValues );
+				
+				Instance.openedTabs.Add( openedTab, tabInfo );
+			}
+		}
+
+		public static void HideTab( TabType type, GameObject tabProvider ) {
+			var tabDesc = new NetworkTab( tabProvider, type );
+			if ( Instance.openedTabs.ContainsKey( tabDesc ) ) {
+			// consider deactivating?
+				GameObject openedTab = Instance.openedTabs[tabDesc].Reference;
+				Destroy(openedTab);
+				Instance.openedTabs.Remove( tabDesc );
+				Instance.SelectWindow( WindowSelect.stats );
+			}
+			
+			
+		}
+
+		public static void UpdateTab( TabType type, GameObject tabProvider, ElementValue[] values, bool touched = false ) {
+			var lookupTab = new NetworkTab(tabProvider, type);
+			if ( Instance.openedTabs.ContainsKey( lookupTab ) ) {
+				var tabInfo = Instance.openedTabs[lookupTab];
+				
+				for ( var i = 0; i < values.Length; i++ ) {
+					string elementId = values[i].Id;
+					string value = values[i].Value;
+					var netElement = tabInfo[elementId];
+					netElement.Value = value;
+					if ( touched ) {
+						Instance.ShowFinger( tabInfo.Reference, netElement.gameObject );
+					}
+				}
+			}
+		}
+
+		public static void UpdateTab( TabType type, GameObject tabProvider, string elementId, string value, bool touched = false ) {
+			UpdateTab( type, tabProvider, new[] {new ElementValue {Id = elementId, Value = value}}, touched );
+		}
+		
+		private void ShowFinger( GameObject tab, GameObject element ) {
+			GameObject fingerObject = Instantiate( FingerPrefab, tab.transform );
+			fingerObject.transform.position =
+				element.transform.position + new Vector3( Random.Range( -5f, 5f ), Random.Range( -5f, 5f ), 0 );
+			Instance.StartCoroutine(FingerDecay(fingerObject.GetComponent<Image>()));
+		}
+
+		private IEnumerator FingerDecay( Image finger ) {
+			yield return new WaitForSeconds( 0.05f );
+			var c = finger.color;
+			finger.color = new Color( c.r, c.g, c.b, Mathf.Clamp( c.a - 0.03f, 0, 1 ) );
+			if ( finger.color.a <= 0 ) {
+				Destroy( finger );
+			} else {
+				Instance.StartCoroutine( FingerDecay( finger ) );
+			}
 		}
 
 		private enum WindowSelect

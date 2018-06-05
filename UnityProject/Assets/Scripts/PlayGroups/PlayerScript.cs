@@ -4,7 +4,9 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using Facepunch.Steamworks;
+using Tilemaps.Behaviours.Objects;
 using UnityEngine.Experimental.UIElements;
+using Util;
 
 namespace PlayGroup
 {
@@ -39,6 +41,8 @@ namespace PlayGroup
 		public PlayerSprites playerSprites { get; set; }
 
 		public PlayerSync playerSync { get; set; }
+		
+		public RegisterTile registerTile { get; set; }
 
 		public InputController inputController { get; set; }
 
@@ -91,6 +95,7 @@ namespace PlayGroup
 		{
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
 			playerSync = GetComponent<PlayerSync>();
+			registerTile = GetComponent<RegisterTile>();
 			playerHealth = GetComponent<PlayerHealth>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 			soundNetworkActions = GetComponent<SoundNetworkActions>();
@@ -211,9 +216,14 @@ namespace PlayGroup
 		{
 			//Because characters are taller than they are wider, their reach upwards/downards was greater
 			//Flooring that shit fixes it
-			Vector3Int pos = new Vector3Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y),
-				Mathf.FloorToInt(transform.position.z));
-			return (pos - position).magnitude;
+//			Vector3Int pos = new Vector3Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y),
+//				Mathf.FloorToInt(transform.position.z));
+//			return (pos - position).magnitude;
+			return (registerTile.WorldPosition - position).magnitude;
+		}
+
+		public bool IsInReach( GameObject go, float interactDist = interactionDistance ) {
+			return IsInReach( go.WorldPos(), interactDist );
 //			return (Vector3Int.RoundToInt(transform.position) - position).magnitude;
 		}
 
@@ -225,8 +235,10 @@ namespace PlayGroup
 		public bool IsInReach(Vector3 position, float interactDist = interactionDistance)
 		{
 			//If click is in diagonal direction, extend reach slightly
-			int distanceX = Mathf.FloorToInt(Mathf.Abs(transform.position.x - position.x));
-			int distanceY = Mathf.FloorToInt(Mathf.Abs(transform.position.y - position.y));
+			int distanceX = Mathf.FloorToInt(Mathf.Abs(registerTile.WorldPosition.x - position.x));
+			int distanceY = Mathf.FloorToInt(Mathf.Abs(registerTile.WorldPosition.y - position.y));
+//			int distanceX = Mathf.FloorToInt(Mathf.Abs(transform.position.x - position.x));
+//			int distanceY = Mathf.FloorToInt(Mathf.Abs(transform.position.y - position.y));
 			if (distanceX == 1 && distanceY == 1)
 			{
 				return DistanceTo(position) <= interactDist + 0.4f;
