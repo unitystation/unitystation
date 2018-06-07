@@ -33,6 +33,11 @@ public class NetworkTabManager : MonoBehaviour {
 		}
 	}
 
+	/// Used when a new dynamic element is added/removed
+	public void ReInit( NetworkTab tab ) {
+		Get( tab ).ReInitElements();
+	}
+
 
 	///Create new NetworkTabInfo if it doesn't exist, otherwise add player to it
 	public void Add( NetworkTab tab, GameObject player ) {
@@ -114,6 +119,11 @@ public class NetworkTabInfo
 	}	
 	public void RemovePlayer( GameObject player ) {
 		Peepers.Remove( PlayerList.Instance.Get( player ) );
+	}
+
+	public void ReInitElements() {
+		Elements.Clear();
+		InitElements();
 	}
 
 	private void InitElements() {

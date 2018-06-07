@@ -7,7 +7,7 @@ using UnityEngine.UI;
 [Serializable]
 public class NetKeyButton : NetUIElement
 {
-	public override string Value => name.Length == 1 ? name : "-1";
+	public override string Value => name.ToCharArray()[0].ToString();
 
 	public CharEvent ServerMethod;
 
