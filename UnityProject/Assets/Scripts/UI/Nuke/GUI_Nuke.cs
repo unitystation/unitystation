@@ -25,7 +25,7 @@ public class GUI_Nuke : NetUITab
 		if ( CustomNetworkManager.Instance._isServer ) {
 			Debug.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
 			InitialInfoText = $"Enter {NukeInteract.NukeCode.ToString().Length}-digit code:";
-			InfoDisplay.NewValue = InitialInfoText;
+			InfoDisplay.SetValue = InitialInfoText;
 		}
 	}
 
@@ -37,7 +37,7 @@ public class GUI_Nuke : NetUITab
 			int length = NukeInteract.CurrentCode.Length;
 			//replace older digits with asterisks
 			string newDigit = NukeInteract.CurrentCode.Substring( length <= 0 ? 0 : length - 1 );
-			CodeDisplay.NewValue = newDigit.PadLeft( length, '*' );
+			CodeDisplay.SetValue = newDigit.PadLeft( length, '*' );
 			StartCoroutine( HideCode() );
 		}
 	}
@@ -69,7 +69,7 @@ public class GUI_Nuke : NetUITab
 
 	private IEnumerator HideCode() {
 		yield return new WaitForSeconds( 1 );
-		CodeDisplay.NewValue = "".PadLeft( CodeDisplay.Value.Length, '*' );
+		CodeDisplay.SetValue = "".PadLeft( CodeDisplay.Value.Length, '*' );
 	}
 
 	public void Clear() {
@@ -77,7 +77,7 @@ public class GUI_Nuke : NetUITab
 			return;
 		}
 		NukeInteract.Clear();
-		CodeDisplay.NewValue = "";
+		CodeDisplay.SetValue = "";
 	}
 	public void TryArm() {
 		if ( cooldown ) {
@@ -85,7 +85,7 @@ public class GUI_Nuke : NetUITab
 		}
 		
 		if (NukeInteract.Validate()) {
-			InfoDisplay.NewValue = "PREPARE TO DIE";
+			InfoDisplay.SetValue = "PREPARE TO DIE";
 		} else {
 			StartCoroutine( ErrorCooldown() );
 		}
@@ -94,17 +94,17 @@ public class GUI_Nuke : NetUITab
 
 	public IEnumerator ErrorCooldown() {
 		cooldown = true;
-		InfoDisplay.NewValue = "Incorrect code!";
+		InfoDisplay.SetValue = "Incorrect code!";
 		yield return new WaitForSeconds( 1 );
-		InfoDisplay.NewValue = "";
+		InfoDisplay.SetValue = "";
 		yield return new WaitForSeconds( 1 );
-		InfoDisplay.NewValue = "Incorrect code!";
+		InfoDisplay.SetValue = "Incorrect code!";
 		yield return new WaitForSeconds( 1 );
-		InfoDisplay.NewValue = "";
+		InfoDisplay.SetValue = "";
 		yield return new WaitForSeconds( 1 );
 		
 		cooldown = false;
 		Clear();
-		InfoDisplay.NewValue = InitialInfoText;
+		InfoDisplay.SetValue = InitialInfoText;
 	}
 }

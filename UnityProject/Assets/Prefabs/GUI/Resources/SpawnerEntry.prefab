@@ -19,8 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224759091854899068}
+  - component: {fileID: 114916464502247040}
   m_Layer: 5
-  m_Name: Entry
+  m_Name: SpawnerEntry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -351,6 +352,17 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114916464502247040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1062197159711728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f68104f3ca745b4a6c130b193c5a0f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222093526724668430
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -21,7 +21,7 @@ public abstract class NetUIElement : MonoBehaviour
 	public virtual bool IsNonInteractable => false;
 
 	/// Server-only method for updating element (i.e. changing label text) from server GUI code
-	public string NewValue {
+	public virtual string SetValue {
 		set {
 			Value = value;
 			UpdatePeepers();
