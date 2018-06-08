@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Tilemaps.Tiles;
 using Sprites;
 
 public class FieldOfViewStencil : MonoBehaviour
@@ -53,7 +51,7 @@ public class FieldOfViewStencil : MonoBehaviour
 	void CheckHitWallsCache(){
 		var missingWalls = hitWalls.Keys.Except(curWalls).ToList();
 		for (int i = 0; i < missingWalls.Count() ;i++){
-			Tile newTile = new Tile();
+			Tile newTile = (Tile)ScriptableObject.CreateInstance("Tile");
 			newTile.sprite = SpriteManager.Instance.shroudSprite;
 			hitWalls[missingWalls[i]].SetTile(hitWalls[missingWalls[i]].WorldToCell(missingWalls[i]), newTile);
 			hitWalls.Remove(missingWalls[i]);
