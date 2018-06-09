@@ -4,4 +4,6 @@ using UnityEngine;
 
 public class DynamicEntry : MonoBehaviour {
 	public List<NetUIElement> Elements => GetComponentsInChildren<NetUIElement>(true).ToList();
+
+	public virtual void Init() {}
 }

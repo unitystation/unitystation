@@ -17,8 +17,7 @@ public abstract class NetUIElement : MonoBehaviour
 
 	public ElementValue ElementValue => new ElementValue{Id = name, Value = Value};
 
-	/// Should client attempts to change this be ignored?
-	public virtual bool IsNonInteractable => false;
+	public virtual ElementMode InteractionMode => ElementMode.Normal;
 
 	/// Server-only method for updating element (i.e. changing label text) from server GUI code
 	public virtual string SetValue {
@@ -27,6 +26,9 @@ public abstract class NetUIElement : MonoBehaviour
 			UpdatePeepers();
 		}
 	}
+
+	/// Initialize method before element list is collected
+	public virtual void Init() {}
 
 	public virtual string Value {
 		get {
@@ -50,4 +52,13 @@ public abstract class NetUIElement : MonoBehaviour
 	public override string ToString() {
 		return ElementValue.ToString();
 	}
+}
+
+public enum ElementMode {
+	/// Changeable by both client and server
+	Normal, 
+	/// Only server can change value
+	ServerWrite, 
+	/// Only client can change value, server doesn't store it
+	ClientWrite
 }

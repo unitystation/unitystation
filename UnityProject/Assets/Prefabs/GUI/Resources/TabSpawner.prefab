@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224111193334192758}
-  - component: {fileID: 114000928700828794}
+  - component: {fileID: 114497734563672658}
   m_Layer: 5
   m_Name: SpawnerEntry
   m_TagString: Untagged
@@ -50,7 +50,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224523674495584830}
-  - component: {fileID: 114153091460363444}
+  - component: {fileID: 114746492962022768}
   m_Layer: 5
   m_Name: EntryList
   m_TagString: Untagged
@@ -70,7 +70,7 @@ GameObject:
   - component: {fileID: 114638982531768230}
   - component: {fileID: 114895211059526480}
   m_Layer: 5
-  m_Name: InfoDisplay
+  m_Name: ItemName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 222486309099682398}
   - component: {fileID: 114221381775039984}
   - component: {fileID: 114901271167927676}
-  - component: {fileID: 114824566185928260}
+  - component: {fileID: 114952990055989880}
   m_Layer: 5
   m_Name: Del
   m_TagString: Untagged
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 222700782082066780}
   - component: {fileID: 114947623119546886}
   - component: {fileID: 114685391310737652}
-  - component: {fileID: 114538811656747160}
+  - component: {fileID: 114030404294797402}
   m_Layer: 5
   m_Name: Add
   m_TagString: Untagged
@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 222689765570003456}
   - component: {fileID: 114260377259530566}
   m_Layer: 5
-  m_Name: Input
+  m_Name: SpawnerInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 222395909222819032}
   - component: {fileID: 114146879397370196}
   m_Layer: 5
-  m_Name: Icon
+  m_Name: ItemIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -271,17 +271,33 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114000928700828794
+--- !u!114 &114030404294797402
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1012884781087672}
+  m_GameObject: {fileID: 1488888750466592}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f68104f3ca745b4a6c130b193c5a0f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 6face2694cc3485db44d405b2016ed07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114153163653926564}
+        m_MethodName: AddItem
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: StringEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  SourceInputField: {fileID: 114864633641504868}
 --- !u!114 &114146879397370196
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -309,19 +325,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114153091460363444
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1106626356597268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e24c105b208426db8330b6bf294523f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entries:
-  - {fileID: 114000928700828794}
 --- !u!114 &114153163653926564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -473,7 +476,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Banana peel
+  m_Text: 
 --- !u!114 &114426795988323484
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -534,33 +537,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Spawn
---- !u!114 &114538811656747160
+--- !u!114 &114497734563672658
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1488888750466592}
+  m_GameObject: {fileID: 1012884781087672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Script: {fileID: 11500000, guid: ca117d75d2aa438ab378d37095bfe41e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerMethod:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Clear
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  Prefab: {fileID: 1519710982558066, guid: ac13474c9d8108940b75c30b2bff8a38, type: 2}
 --- !u!114 &114620516638384710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -666,7 +654,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114538811656747160}
+      - m_Target: {fileID: 114030404294797402}
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -679,33 +667,19 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114824566185928260
+--- !u!114 &114746492962022768
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1273123023817948}
+  m_GameObject: {fileID: 1106626356597268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Script: {fileID: 11500000, guid: ef169c21767f413fab245778e4e549d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerMethod:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: TryArm
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  entries:
+  - {fileID: 114497734563672658}
 --- !u!114 &114843012948015456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -776,7 +750,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: Banana peel
+  m_Text: 
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -830,7 +804,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114824566185928260}
+      - m_Target: {fileID: 114952990055989880}
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -930,6 +904,33 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114952990055989880
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1273123023817948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6face2694cc3485db44d405b2016ed07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114153163653926564}
+        m_MethodName: RemoveItem
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: StringEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  SourceInputField: {fileID: 114864633641504868}
 --- !u!114 &114987101928104066
 MonoBehaviour:
   m_ObjectHideFlags: 1

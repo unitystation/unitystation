@@ -6,16 +6,16 @@ using UnityEngine;
 
 /// These methods are supposed to be run on server
 public class NetUIDynamicList : NetUIElement {
-	public override bool IsNonInteractable => true;
+	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
 	[Tooltip("Doesn't support adding/removing in runtime from Inspector")]
 	public List<DynamicEntry> entries = new List<DynamicEntry>();
-	public Dictionary<string,DynamicEntry> Entries = new Dictionary<string,DynamicEntry>();
+	public Dictionary<string,DynamicEntry> Entries = new Dictionary<string,DynamicEntry>(); 
+//	TODO consider => GetComponentsInChildren<DynamicEntry>(true).foreach collect (x) => new Pair<>(x.gameObject.name, x)
 	
 //	public List<DynamicEntry> entries = new List<DynamicEntry>();
 	//on serverside update/add/remove: notify players and reinit
 
-	
 //	public void AddEntry(DynamicEntry entry) {
 //		if ( !Entries.ContainsValue( entry ) ) {
 //			Entries.Add( Entries.Count.ToString(), entry );
@@ -32,23 +32,26 @@ public class NetUIDynamicList : NetUIElement {
 //			NetworkTabManager.Instance.ReInit(MasterTab.NetworkTab);
 //		}
 //	}
-
-	private void MakeElementsUnique(Dictionary<string,DynamicEntry> entries) {
+//todo: new method to init newly added entry
+	private void InitEntries(Dictionary<string,DynamicEntry> entries) {
 		foreach ( var pair in entries ) {
 			var entry = pair.Value;
 			if ( !entry ) {
 				continue;
 			}
+			//Making inner elements' names unique by adding "index" to the end
 			for ( var i = 0; i < entry.Elements.Count; i++ ) {
 				//postfix and not prefix because of how NetKeyButton works
-				entry.Elements[i].name = entry.Elements[i].name + "_" + pair.Key;
+				entry.Elements[i].name = entry.Elements[i].name + "_" + pair.Key; //fixme: wring index if adding in runtime
 			}
+			//Initializing entry
+			entry.Init();
 			
 		}
 	}
 
-	private void Start() {
-		for ( var i = 0; i < entries.Count; i++ ) {//todo GetComponentInChildren?
+	public override void Init() {
+		for ( var i = 0; i < entries.Count; i++ ) {
 			if ( !entries[i] ) { //skippping nulls
 				continue;
 			}
@@ -59,11 +62,7 @@ public class NetUIDynamicList : NetUIElement {
 
 			Entries.Add( i.ToString(), entries[i] );
 		}
-
-		//Not doing this for clients
-		if ( CustomNetworkManager.Instance._isServer ) {
-			MakeElementsUnique(Entries);
-		}
+		InitEntries(Entries);
 	}
 
 	public override string ToString() {
@@ -92,7 +91,7 @@ public class NetUIDynamicList : NetUIElement {
 				//todo: support more than one kind per tab
 				var entryObject = Instantiate( Resources.Load( $"{MasterTab.Type}Entry" ) as GameObject, transform, true );
 				entryObject.transform.position = Vector3.down * 70 * Entries.Count;
-				Entries.Add( toBeAdded, entryObject.GetComponent<DynamicEntry>() );//TODO: sort out client and server adding/removing, incl. actual destroy/spawn
+				Entries.Add( toBeAdded, entryObject.GetComponent<DynamicEntry>() );
 				Debug.Log( $"Spawning entry #[{toBeAdded}]: [{Entries[toBeAdded]}]" );
 			}
 			//Client only:

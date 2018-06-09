@@ -128,6 +128,7 @@ public class NetworkTabInfo
 
 	private void InitElements() {
 		foreach ( NetUIElement element in reference.GetComponentsInChildren<NetUIElement>(true) ) {
+			element.Init();
 			Elements.Add( element.name, element );
 		}
 	}

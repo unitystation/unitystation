@@ -7,7 +7,7 @@ using UnityEngine.UI;
 [Serializable]
 public class NetLabel : NetUIElement
 {
-	public override bool IsNonInteractable => true;
+	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
 	public override string Value {
 		get { return Element.text; }

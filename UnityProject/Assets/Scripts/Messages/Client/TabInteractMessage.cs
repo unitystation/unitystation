@@ -42,13 +42,20 @@ public class TabInteractMessage : ClientMessage
 			FailValidation( player, tabProvider, $"No such element: {tabInfo}[{ElementId}]" );
 			return;
 		}
-		if ( updatedElement.IsNonInteractable ) {
+		if ( updatedElement.InteractionMode == ElementMode.ServerWrite ) {
 			//Don't change labels and other non-interactable elements. If this is triggered, someone's tampering with client
 			FailValidation( player, tabProvider, $"Non-interactable {updatedElement}" );
 			return;
 		}
+
+		var valueBeforeUpdate = updatedElement.Value;
 		updatedElement.Value = ElementValue;
 		updatedElement.ExecuteServer();
+
+		if ( updatedElement.InteractionMode == ElementMode.ClientWrite ) {
+			//Don't rememeber value provided by client and restore to the initial one
+			updatedElement.Value = valueBeforeUpdate;
+		}
 		
 		//Notify all peeping players of the change
 		foreach ( var connectedPlayer in NetworkTabManager.Instance.GetPeepers( tabProvider, TabType ) ) {
