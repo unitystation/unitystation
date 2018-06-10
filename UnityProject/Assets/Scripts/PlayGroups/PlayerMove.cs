@@ -229,7 +229,7 @@ namespace PlayGroup
 				}
 			}
 
-			if (curMatrix.IsPassableAt(currentPosition, newPos) || curMatrix.ContainsAt(newPos, gameObject)) {
+			if (!curMatrix.ContainsAt(newPos, gameObject) && curMatrix.IsPassableAt(currentPosition, newPos)) {
 				return direction;
 			}
 

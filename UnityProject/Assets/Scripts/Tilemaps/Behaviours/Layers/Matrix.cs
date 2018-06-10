@@ -13,7 +13,8 @@ namespace Tilemaps
 	{
 		private MetaTileMap metaTileMap;
 		private TileList objects;
-		private Vector3Int initialOffset;
+        private TileList players;
+        private Vector3Int initialOffset;
 		public Vector3Int InitialOffset => initialOffset;
 
 		private MetaDataLayer metaDataLayer;
@@ -25,7 +26,7 @@ namespace Tilemaps
 			try
 			{
 				objects = ((ObjectLayer) metaTileMap.Layers[LayerType.Objects]).Objects;
-			}
+            }
 			catch
 			{
 				Debug.LogError("CAST ERROR: Make sure everything is in its proper layer type.");
@@ -93,9 +94,8 @@ namespace Tilemaps
 
 		public bool ContainsAt(Vector3Int position, GameObject gameObject)
 		{
-			RegisterTile registerTile = gameObject.GetComponent<RegisterTile>();
-
-			return registerTile && objects.Get(position).Contains(registerTile);
+            RegisterTile registerTile = gameObject.GetComponent<RegisterTile>();
+			return (registerTile && objects.Get(position).Contains(registerTile)) || (registerTile && Get<RegisterTile>(position, ObjectType.Player).Any());
 		}
 	}
 }
