@@ -40,6 +40,8 @@ GameObject:
   - component: {fileID: 114943457949527232}
   - component: {fileID: 114038174743996046}
   - component: {fileID: 114703946515217786}
+  - component: {fileID: 114439335530333992}
+  - component: {fileID: 114705152130084640}
   m_Layer: 11
   m_Name: SMES
   m_TagString: Untagged
@@ -54,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1575520830166772}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -40.474224, y: 46.257504, z: -0.1}
+  m_LocalPosition: {x: 4, y: -34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4749551802443964}
@@ -138,6 +140,21 @@ MonoBehaviour:
   ObjectType: 1
   AtmosPassable: 1
   Passable: 0
+--- !u!114 &114439335530333992
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb40989ecd870421286c2e1fb00915b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connPointA: 0
+  connPointB: -1
+  registerTile: {fileID: 114038174743996046}
+  connected: 0
 --- !u!114 &114703946515217786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -152,6 +169,18 @@ MonoBehaviour:
   SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
+--- !u!114 &114705152130084640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660444470280440158965f29ae7f389a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerSupply: {fileID: 114439335530333992}
 --- !u!114 &114943457949527232
 MonoBehaviour:
   m_ObjectHideFlags: 1

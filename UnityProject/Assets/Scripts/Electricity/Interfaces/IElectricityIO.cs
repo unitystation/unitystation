@@ -1,5 +1,6 @@
-﻿using Electricity;
-using UnityEngine;
+﻿using UnityEngine;
+using Electricity;
+
 /// <summary>
 /// For any object that can conduct electricity
 /// Handles the input/output path
@@ -9,12 +10,12 @@ public interface IElectricityIO
 	/// <summary>
 	/// The input path to the object/wire
 	/// </summary>
-	void ElectricityInput(int currentTick);
+	void ElectricityInput(int currentTick, Electricity.Electricity electricity);
 
 	/// <summary>
 	/// The output path of the object/wire that is passing electricity through it
 	/// </summary>
-	void ElectricityOutput(int currentTick);
+	void ElectricityOutput(int currentTick, Electricity.Electricity electricity);
 
 	/// <summary>
 	///     Returns a struct with both connection points as members
@@ -28,4 +29,3 @@ public interface IElectricityIO
 	//Return the GameObject that this interface is on
 	GameObject GameObject();
 }
-

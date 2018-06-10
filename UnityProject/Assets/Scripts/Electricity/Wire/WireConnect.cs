@@ -88,22 +88,22 @@ namespace Electricity
 		}
 
 		//Feed electricity into this wire:
-		public void ElectricityInput(int tick){ //TODO A struct that can be passed between connections for Voltage, current etc
+		public void ElectricityInput(int tick, Electricity electricity){ //TODO A struct that can be passed between connections for Voltage, current etc
 			
 			//For testing (shows the yellow sphere gizmo that shows it is connected)
 			connected = true;
-			ElectricityOutput(tick);
+			ElectricityOutput(tick, electricity);
 		}
 
 		//Output electricity to this next wire/object
-		public void ElectricityOutput(int tick){
+		public void ElectricityOutput(int tick, Electricity electricity){
 			if(currentTick == tick){
 				//No need to process a tick twice
 				return;
 			}
 			currentTick = tick;
 			for (int i = 0; i < connections.Count; i++){
-				connections[i].ElectricityInput(tick);
+				connections[i].ElectricityInput(tick, electricity);
 			}
 		}
 
@@ -123,7 +123,8 @@ namespace Electricity
 		[ContextMenu("GenerateTestCurrent")]
 		public void GenerateTestElectricity(){
 			connected = true;
-			ElectricityOutput(currentTick + 1);
+			Electricity newElec = new Electricity();
+			ElectricityOutput(currentTick + 1, newElec);
 		}
 	}
 }
