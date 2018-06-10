@@ -9,6 +9,15 @@ namespace Electricity
 {
 	public class PowerSupply : NetworkBehaviour, IElectricityIO
 	{
+		//A list of all devices connected to the circuit:
+		public List<PoweredDevice> connectedDevices = new List<PoweredDevice>();
+
+		//A list of all power generators connect to the circuit:
+		public List<PowerGenerator> powerGenerators = new List<PowerGenerator>();
+
+		//Other power suppliers on the circuit:
+		public List<PowerSupply> otherSuppliers = new List<PowerSupply>();
+
 		[Header("0 = conn to wire on same tile")]
 		public int connPointA = 0;
 		public int connPointB = -1;

@@ -4,6 +4,6 @@
 	{
 		public float voltage;
 		public float current;
-		public PowerSupply supplier; //Where did this electricity come from
+		public PowerSupply[] suppliers; //Where did this electricity come from
 	}
 }
