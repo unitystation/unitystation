@@ -42,6 +42,9 @@ namespace Electricity
 		//Update the current State of the SMES (sprites and statistics) 
 		void UpdateState(){
 			if(isOn){
+				//Start the supply of electricity to the circuit:
+				powerSupply.TurnOnSupply(3000f, 20f); //Test supply of 3000volts and 20amps
+
 				OnOffIndicator.sprite = onlineSprite;
 				chargeIndicator.gameObject.SetActive(true);
 				statusIndicator.gameObject.SetActive(true);
@@ -54,6 +57,8 @@ namespace Electricity
 					statusIndicator.sprite = statusSupplySprite;
 				}
 			} else {
+				powerSupply.TurnOffSupply(); // Turn off supply to the circuit
+
 				OnOffIndicator.sprite = offlineSprite;
 				chargeIndicator.gameObject.SetActive(false);
 				statusIndicator.gameObject.SetActive(false);

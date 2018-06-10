@@ -9,6 +9,8 @@ public interface IElectricityIO
 {
 	/// <summary>
 	/// The input path to the object/wire
+	/// 
+	/// currentTick = the current tick rate count
 	/// </summary>
 	void ElectricityInput(int currentTick, Electricity.Electricity electricity);
 
