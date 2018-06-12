@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
 
 	public float GetRoundTime { get; private set; } = 480f;
 
+	public int MapRotationCount = 1;
+
+	public Scene["Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"] scene;
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -205,7 +209,19 @@ public class GameManager : MonoBehaviour
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			CustomNetworkManager.Instance.ServerChangeScene(SceneManager.GetActiveScene().name);
+			if (MapRotationCount < 10) {
+				CustomNetworkManager.Instance.ServerChangeScene (Scene[1]);
+				MapRotationCount++;
+			} 
+			else if (MapRotationCount >= 10) 
+			{
+				CustomNetworkManager.Instance.ServerChangeScene (Scene[2]);
+				MapRotationCount++;
+				if (MapRotationCount == 20) 
+				{
+					MapRotationCount = 0;
+				}
+			}
 		}
 	}
 }
