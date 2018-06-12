@@ -27,7 +27,8 @@ public class GameManager : MonoBehaviour
 
 	public int MapRotationCount = 1;
 
-	public Scene["Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"] scene;
+	//Put the scenes in the unity 3d editor.
+	public Scene[] scene;
 
 	private void Awake()
 	{
@@ -210,12 +211,12 @@ public class GameManager : MonoBehaviour
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			if (MapRotationCount < 10) {
-				CustomNetworkManager.Instance.ServerChangeScene (Scene[1]);
+				CustomNetworkManager.Instance.ServerChangeScene (Scene[0]);
 				MapRotationCount++;
 			} 
 			else if (MapRotationCount >= 10) 
 			{
-				CustomNetworkManager.Instance.ServerChangeScene (Scene[2]);
+				CustomNetworkManager.Instance.ServerChangeScene (Scene[1]);
 				MapRotationCount++;
 				if (MapRotationCount == 20) 
 				{
