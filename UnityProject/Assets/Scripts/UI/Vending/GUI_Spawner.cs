@@ -1,6 +1,5 @@
 public class GUI_Spawner : NetUITab 
 {
-	//todo: add / delete
 	public void AddItem( string item ) {
 		EntryList?.AddItem( item );
 	}

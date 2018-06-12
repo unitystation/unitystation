@@ -16,7 +16,8 @@ public class ItemEntry : DynamicEntry {
 						break;
 					case "ItemIcon":
 						//todo: figure out how to pass sprite via string && NetUIImage component
-						element.Value = itemAttributes.GetComponentInChildren<SpriteRenderer>()?.sprite.name; 
+						element.Value = itemAttributes.gameObject.name; 
+//						element.Value = itemAttributes.GetComponentInChildren<SpriteRenderer>()?.sprite.name; 
 						break;
 				}
 		}

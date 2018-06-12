@@ -1,17 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Util;
-
+/// prefab-based for now
 public class ItemList : NetUIDynamicList {
-	//todo: hier / prefab name / both?
+
 	public bool AddItem( string prefabName ) {
 		foreach ( DynamicEntry item in Entries.Values ) {
-			if ( ((ItemEntry) item)?.Prefab.ExpensiveName() == prefabName ) {
+			if ( String.Equals( ( (ItemEntry) item )?.Prefab.ExpensiveName(), prefabName,
+				StringComparison.CurrentCultureIgnoreCase ) ) 
+			{
 				Debug.Log( $"Item {prefabName} already exists in ItemList" );
 				return false;
 			}
 		}
 		//load prefab, pull IA and sprite info
-		
+		//TODO
 		//add new entry
 		
 		//set its elements??
