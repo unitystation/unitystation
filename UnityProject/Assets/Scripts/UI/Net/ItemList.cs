@@ -2,6 +2,7 @@
 using UnityEngine;
 using Util;
 /// prefab-based for now
+/// all server only
 public class ItemList : NetUIDynamicList {
 
 	public bool AddItem( string prefabName ) {
@@ -13,16 +14,32 @@ public class ItemList : NetUIDynamicList {
 				return false;
 			}
 		}
-		//load prefab, pull IA and sprite info
-		//TODO
+		//load prefab
+		GameObject prefab = Resources.Load( prefabName ) as GameObject;
+		if ( !prefab ) {
+			Debug.LogWarning( $"No valid prefab found: {prefabName}" );
+			return false;
+		}
+		
 		//add new entry
+		ItemEntry newEntry = Add() as ItemEntry;
+		if ( !newEntry ) {
+			Debug.LogWarning( $"Added {newEntry} is not an ItemEntry!" );
+			return false;
+		}
+		//set its elements
+		newEntry.Prefab = prefab;
 		
-		//set its elements??
-		
+		newEntry.Init();
+		Debug.Log( $"ItemList: Item add success! newEntry={newEntry}" );
+
+		//notify, reinit
+		NetworkTabManager.Instance.ReInit( MasterTab.NetworkTab );
+
 		return true;
 	}
 
-	public bool RemoveItem( string name ) {
+	public bool RemoveItem( string name ) { //todo
 //		if ( Entries.ContainsValue( entry ) ) {
 //			//yep, removing this way is expensive
 //			var item = Entries.First( kvp => kvp.Value == entry );

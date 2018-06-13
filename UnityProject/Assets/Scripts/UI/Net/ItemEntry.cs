@@ -1,9 +1,15 @@
 ﻿using UnityEngine;
-
+/// <summary>
+/// all server only
+/// </summary>
 public class ItemEntry : DynamicEntry {
 	public GameObject Prefab;
 	public override void Init() {
-		var itemAttributes = Prefab?.GetComponent<ItemAttributes>();
+		if ( !Prefab ) {
+			Debug.Log( "ItemEntry: no prefab found, not doing init" );
+			return;
+		}
+		var itemAttributes = Prefab.GetComponent<ItemAttributes>();
 		if ( !itemAttributes ) {
 			Debug.LogWarning( $"No attributes found for prefab {Prefab}" );
 			return;
@@ -21,6 +27,7 @@ public class ItemEntry : DynamicEntry {
 						break;
 				}
 		}
+		Debug.Log( $"ItemEntry: Init success! Prefab={Prefab}, ItemName={itemAttributes.name}, ItemIcon={itemAttributes.gameObject.name}" );
 	}
 	//todo: setPrefab?
 }

@@ -27,7 +27,7 @@ public abstract class NetUIElement : MonoBehaviour
 		}
 	}
 
-	/// Initialize method before element list is collected
+	/// Initialize method before element list is collected. For editor-set values
 	public virtual void Init() {}
 
 	public virtual string Value {

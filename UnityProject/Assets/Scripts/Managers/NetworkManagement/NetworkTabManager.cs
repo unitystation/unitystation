@@ -35,7 +35,7 @@ public class NetworkTabManager : MonoBehaviour {
 
 	/// Used when a new dynamic element is added/removed
 	public void ReInit( NetworkTab tab ) {
-		Get( tab ).ReInitElements();
+		Get( tab ).RescanElements();
 	}
 
 
@@ -96,23 +96,25 @@ public class NetworkTabInfo
 {
 	public static readonly NetworkTabInfo Invalid = new NetworkTabInfo(null);
 	private readonly GameObject reference;
-	public Dictionary<string, NetUIElement> Elements { get; }
+	private List<NetUIElement> Elements => reference.GetComponentsInChildren<NetUIElement>(true).ToList();
+
+	public Dictionary<string, NetUIElement> CachedElements { get; }
 	public HashSet<ConnectedPlayer> Peepers { get; }
 	/// Actual tab gameobject
 	public GameObject Reference => reference;
 	public bool IsUnobserved => Peepers.Count == 0;
-	public ElementValue[] ElementValues => Elements.Values.Select( element => element.ElementValue ).ToArray(); //likely expensive
+	public ElementValue[] ElementValues => CachedElements.Values.Select( element => element.ElementValue ).ToArray(); //likely expensive
 
 	public NetworkTabInfo( GameObject reference ) {
 		this.reference = reference;
 		Peepers = new HashSet<ConnectedPlayer>();
-		Elements = new Dictionary<string, NetUIElement>();
+		CachedElements = new Dictionary<string, NetUIElement>();
 		if ( reference != null ) {			
 			InitElements();
 		}
 	}
 	
-	public NetUIElement this[ string elementId ] => Elements.ContainsKey(elementId) ? Elements[elementId] : null;
+	public NetUIElement this[ string elementId ] => CachedElements.ContainsKey(elementId) ? CachedElements[elementId] : null;
 	
 	public void AddPlayer( GameObject player ) {
 		Peepers.Add( PlayerList.Instance.Get( player ) );
@@ -121,23 +123,32 @@ public class NetworkTabInfo
 		Peepers.Remove( PlayerList.Instance.Get( player ) );
 	}
 
-	public void ReInitElements() {
-		Elements.Clear();
+	public void RescanElements() {
+//		CachedElements.Clear();
 		InitElements();
 	}
 
 	private void InitElements() {
-		foreach ( NetUIElement element in reference.GetComponentsInChildren<NetUIElement>(true) ) {
-			element.Init();
-			Elements.Add( element.name, element );
+		var elements = Elements;
+		for ( var i = 0; i < elements.Count; i++ ) {
+			NetUIElement element = elements[i];
+			if ( !CachedElements.ContainsValue( element ) ) {
+				element.Init();
+				CachedElements.Add( element.name, element );
+			}
+		}
+		foreach ( var pair in CachedElements ) {
+			if ( !elements.Contains(pair.Value) ) {
+				CachedElements.Remove( pair.Key );
+			}
 		}
 	}
 	//import values
 	public void ImportValues( ElementValue[] values ) {
 		for ( var i = 0; i < values.Length; i++ ) {
 			var elementId = values[i].Id;
-			if ( Elements.ContainsKey( elementId ) ) {
-				this[elementId].Value = values[i].Value;
+			if ( CachedElements.ContainsKey( elementId ) ) {
+				this[elementId].Value = values[i].Value;//FIXME: create entries first, then set values!
 			} else {
 				Debug.LogWarning( $"'{reference.name}' wonky value import: can't find '{elementId}'" );
 			}
