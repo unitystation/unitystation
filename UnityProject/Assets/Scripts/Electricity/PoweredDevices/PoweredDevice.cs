@@ -4,6 +4,7 @@ using Tilemaps;
 using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Events;
 
 namespace Electricity
 {
@@ -22,6 +23,19 @@ namespace Electricity
 		public int currentTick;
 		public float tickRate = 1f; //currently set to update every second
 		private float tickCount = 0f;
+
+		public Electricity suppliedElectricity;
+
+		//If the supply changes send an event to any action that has subscribed
+		public UnityEvent OnSupplyChange;
+
+
+		private void OnEnable()
+		{
+			if (OnSupplyChange == null) {
+				OnSupplyChange = new UnityEvent();
+			}
+		}
 
 		public override void OnStartClient()
 		{
@@ -55,6 +69,9 @@ namespace Electricity
 		{
 			if (tick > currentTick) {
 				currentTick = tick;
+				suppliedElectricity = electricity;
+				//Send event that the supply has updated
+				OnSupplyChange.Invoke();
 			}
 			//Do not pass on electricty
 		}

@@ -89,7 +89,12 @@ namespace Electricity
 
 		public void TurnOffSupply(){
 			supplyElectricity = false;
-
+			Electricity supply = new Electricity();
+			supply.voltage = 0f;
+			supply.current = 0f;
+			supply.suppliers = allSuppliers.ToArray();
+			currentTick++;
+			ElectricityOutput(currentTick, supply);
 			OnCircuitChange.Invoke();
 		}
 
@@ -107,7 +112,7 @@ namespace Electricity
 					//If there are multiple suppliers on the network then they join together and act as one
 					//with the supplier with the most charge and latest tick rate taking charge
 					supply.suppliers = allSuppliers.ToArray();
-					ElectricityOutput(currentTick, supply);;
+					ElectricityOutput(currentTick, supply);
 				}
 			}
 		}
@@ -130,7 +135,9 @@ namespace Electricity
 		public void ElectricityOutput(int tick, Electricity electricity)
 		{
 			//Feed electrcity supply into the connected wire
-			connectedWire.ElectricityInput(tick, electricity);
+			if (connectedWire != null) {
+				connectedWire.ElectricityInput(tick, electricity);
+			}
 		}
 
 		public GameObject GameObject()
