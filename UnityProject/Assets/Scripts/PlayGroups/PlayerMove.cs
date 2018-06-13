@@ -73,7 +73,7 @@ namespace PlayGroup
 				}
 			}
 
-			return new PlayerAction { keyCodes = actionKeys.ToArray() };
+            return new PlayerAction { keyCodes = actionKeys.ToArray() };
 		}
 
 		public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action, bool isReplay, Matrix curMatrix = null)
@@ -200,49 +200,62 @@ namespace PlayGroup
 		/// </summary>
 		private Vector3Int AdjustDirection( Vector3Int currentPosition, Vector3Int direction, bool isReplay, Matrix curMatrix )
 		{
-			if (isGhost) {
-				return direction;
-			}
+                if (isGhost)
+                {
+                    return direction;
+                }
 
-			Vector3Int newPos = currentPosition + direction;
+                Vector3Int newPos = currentPosition + direction;
 
-			//isReplay tells AdjustDirection if the move being carried out is a replay move for prediction or not
-			//a replay move is a move that has already been carried out on the LocalPlayer's client
-			if (!isReplay) {
-				//Check the high level matrix detector
-				if ( !playerMatrixDetector.CanPass( currentPosition, direction, curMatrix ) ) {
-					return Vector3Int.zero;
-				}
-				//Not to be checked while performing a replay:
-				if (playerSync.PullingObject != null) {
-					if (curMatrix.ContainsAt(newPos, playerSync.PullingObject)) {
-						//Vector2 directionToPullObj =
-						//	playerSync.pullingObject.transform.localPosition - transform.localPosition;
-						//if (directionToPullObj.normalized != playerSprites.currentDirection) {
-						//	// Ran into pullObject but was not facing it, saved direction
-						//	return direction;
-						//}
-						//Hit Pull obj
-						pna.CmdStopPulling(playerSync.PullingObject);
-						return Vector3Int.zero;
-					}
-				}
-			}
+                //isReplay tells AdjustDirection if the move being carried out is a replay move for prediction or not
+                //a replay move is a move that has already been carried out on the LocalPlayer's client
+                if (!isReplay)
+                {
+                    //Check the high level matrix detector
+                    if (!playerMatrixDetector.CanPass(currentPosition, direction, curMatrix))
+                    {
+                        return Vector3Int.zero;
+                    }
+                    //Not to be checked while performing a replay:
+                    if (playerSync.PullingObject != null)
+                    {
+                        if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
+                        {
+                            //Vector2 directionToPullObj =
+                            //	playerSync.pullingObject.transform.localPosition - transform.localPosition;
+                            //if (directionToPullObj.normalized != playerSprites.currentDirection) {
+                            //	// Ran into pullObject but was not facing it, saved direction
+                            //	return direction;
+                            //}
+                            //Hit Pull obj
+                            pna.CmdStopPulling(playerSync.PullingObject);
 
-			if (!curMatrix.ContainsAt(newPos, gameObject) && curMatrix.IsPassableAt(currentPosition, newPos)) {
-				return direction;
-			}
+                            return Vector3Int.zero;
+                        }
+                    }
+                }
+                if (!curMatrix.ContainsAt(newPos, gameObject) && curMatrix.IsPassableAt(currentPosition, newPos) && !isReplay)
+                {
+                    return direction;
+                }
+                //This is only for replay (to ignore any interactions with the pulled obj):
+                if (playerSync.PullingObject != null)
+                {
+                    if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
+                    {
+                        return direction;
+                    }
+                }
 
-			//This is only for replay (to ignore any interactions with the pulled obj):
-			if (playerSync.PullingObject != null) {
-				if (curMatrix.ContainsAt(newPos, playerSync.PullingObject)) {
-					return direction;
-				}
-			}
-
-			//could not pass
-			return Vector3Int.zero;
-		}
+                if(isReplay)
+                {
+                    return direction;
+                }
+            //could not pass
+            //Debug.Log("Couldn't pass");
+            return Vector3Int.zero;
+            
+        }
 
 		private void Interact(Vector3 currentPosition, Vector3 direction)
 		{
