@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114329968317097578}
   - component: {fileID: 114840369580293110}
   - component: {fileID: 114979438861042922}
+  - component: {fileID: 114443595102844496}
   m_Layer: 19
   m_Name: APC
   m_TagString: Untagged
@@ -185,6 +186,23 @@ MonoBehaviour:
     i15: 11
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114443595102844496
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1638130848907210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abab4a0c666224f6f9c70acdb74436c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connPointA: 0
+  connPointB: -1
+  registerTile: {fileID: 114840369580293110}
+  connected: 0
+  currentTick: 0
+  tickRate: 1
 --- !u!114 &114840369580293110
 MonoBehaviour:
   m_ObjectHideFlags: 1
