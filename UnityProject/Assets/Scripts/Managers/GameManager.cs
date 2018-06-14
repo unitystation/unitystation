@@ -226,6 +226,7 @@ public class GameManager : MonoBehaviour
 			else if (MapRotationCount >= 10 * MapRotationMaps)
 			{
 				MapRotationCount = 0;
+				MapRotationCounter = 0;
 				CustomNetworkManager.Instance.ServerChangeScene (Scene[0]);
 			}
 		}
