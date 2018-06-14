@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
 
 	public int MapRotationCount = 1;
 	public int MapRotationMaps = 2;
-	public int MapRotationMapsCounter = 1;
+	public int MapRotationMapsCounter = 0;
 
 	public string[] Scene = new string[] {"Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
 
