@@ -124,12 +124,12 @@ public class NetworkTabInfo
 	}
 
 	public void RescanElements() {
-//		CachedElements.Clear();
 		InitElements();
 	}
 
 	private void InitElements() {
 		var elements = Elements;
+		//Init and add new elements to cache
 		for ( var i = 0; i < elements.Count; i++ ) {
 			NetUIElement element = elements[i];
 			if ( !CachedElements.ContainsValue( element ) ) {
@@ -137,6 +137,7 @@ public class NetworkTabInfo
 				CachedElements.Add( element.name, element );
 			}
 		}
+		//Remove obsolete elements from cache 
 		foreach ( var pair in CachedElements ) {
 			if ( !elements.Contains(pair.Value) ) {
 				CachedElements.Remove( pair.Key );
@@ -145,10 +146,35 @@ public class NetworkTabInfo
 	}
 	//import values
 	public void ImportValues( ElementValue[] values ) {
+		var nonLists = new List<ElementValue>();
+		bool shouldRescan = false;
+		
+		//set DynamicList values first (so that entries would get created)
 		for ( var i = 0; i < values.Length; i++ ) {
 			var elementId = values[i].Id;
+			if ( CachedElements.ContainsKey( elementId ) && this[elementId] is NetUIDynamicList ) {
+				bool listContentsChanged = this[elementId].Value != values[i].Value;
+				if ( listContentsChanged ) {
+					this[elementId].Value = values[i].Value;
+					shouldRescan = true;
+				}
+			} 
+			else 
+			{
+				nonLists.Add( values[i] );
+			}
+		}
+
+		//rescan elements in case of dynamic list changes
+		if ( shouldRescan ) {
+			RescanElements();
+		}
+		
+		//set the rest of the values 
+		for ( var i = 0; i < nonLists.Count; i++ ) {
+			var elementId = nonLists[i].Id;
 			if ( CachedElements.ContainsKey( elementId ) ) {
-				this[elementId].Value = values[i].Value;//FIXME: create entries first, then set values!
+				this[elementId].Value = nonLists[i].Value;
 			} else {
 				Debug.LogWarning( $"'{reference.name}' wonky value import: can't find '{elementId}'" );
 			}

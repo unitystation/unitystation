@@ -44,7 +44,7 @@ public abstract class NetUIElement : MonoBehaviour
 			TabInteractMessage.Send(MasterTab.Provider, MasterTab.Type, name, Value);
 		}
 	}
-	protected void UpdatePeepers() {
+	protected virtual void UpdatePeepers() {
 		TabUpdateMessage.SendToPeepers( MasterTab.Provider, MasterTab.Type, TabAction.Update, new[] {ElementValue} );
 	}
 	public abstract void ExecuteServer();

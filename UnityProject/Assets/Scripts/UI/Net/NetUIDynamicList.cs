@@ -8,10 +8,8 @@ using UnityEngine;
 public class NetUIDynamicList : NetUIElement {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	private int entryCount = 0;
+	
 
-//	[TooltipAttribute("Ones to be initialized from editor, non-runtime")]
-//	public List<DynamicEntry> entries = new List<DynamicEntry>();
-//	public Dictionary<string,DynamicEntry> Entries = new Dictionary<string,DynamicEntry>(); 
 	public Dictionary<string,DynamicEntry> Entries {
 		get {
 			var dynamicEntries = new Dictionary<string,DynamicEntry>();
@@ -29,42 +27,6 @@ public class NetUIDynamicList : NetUIElement {
 			return dynamicEntries;
 		}
 	}
-	
-//	public List<DynamicEntry> entries = new List<DynamicEntry>();
-	//on serverside update/add/remove: notify players and reinit
-
-//	public void AddEntry(DynamicEntry entry) {
-//		if ( !Entries.ContainsValue( entry ) ) {
-//			Entries.Add( Entries.Count.ToString(), entry );
-//			MakeElementsUnique( entry );
-//			//notify, reinit
-//		}
-//	}
-//	public void RemoveEntry(DynamicEntry entry) {
-//		if ( Entries.ContainsValue( entry ) ) {
-//			//yep, removing this way is expensive
-//			var item = Entries.First(kvp => kvp.Value == entry);
-//			Entries.Remove(item.Key);
-//			//notify, reinit
-//			NetworkTabManager.Instance.ReInit(MasterTab.NetworkTab);
-//		}
-//	}
-//	private void InitEntries(Dictionary<string,DynamicEntry> entries) {
-//		foreach ( var pair in entries ) {
-//			var entry = pair.Value;
-//			if ( !entry ) {
-//				continue;
-//			}
-//			//Making inner elements' names unique by adding "index" to the end
-//			for ( var i = 0; i < entry.Elements.Count; i++ ) {
-//				//postfix and not prefix because of how NetKeyButton works
-//				entry.Elements[i].name = entry.Elements[i].name + "_" + pair.Key;
-//			}
-//			//Initializing entry
-//			entry.Init();
-//			
-//		}
-//	}
 
 	/// Non-runtime static init
 	public override void Init() {
@@ -73,38 +35,29 @@ public class NetUIDynamicList : NetUIElement {
 		}
 	}
 
-	//		for ( var i = 0; i < Entries.; i++ ) {
-//			if ( Entries.ContainsKey( i.ToString() ) ) {
-//				Debug.Log( $"{transform.parent.parent.name} not adding existing entry" );
-//				continue;
-//			}
-//			InitEntry( Entries[i] );
-//		}
-
 	public override string ToString() {
 		return Value;
 	}
 
-	//"0,1,2,3,4,5,6,7,8,9"
-
-	private void Remove( string toBeRemoved ) {
+	protected void Remove( string toBeRemoved ) {
 		Debug.Log( $"Destroying entry #{toBeRemoved}({Entries[toBeRemoved]})" );
 		Destroy( Entries[toBeRemoved] );
-//		Entries.Remove( toBeRemoved );
+		NetworkTabManager.Instance.ReInit( MasterTab.NetworkTab );
+		UpdatePeepers();
 	}
 
-
-	//fixme: sorting's gonna be bad
 //todo: support more than one kind per tab
 
 	/// Server adds without providing name
-	public DynamicEntry Add( string indexName = "" ) 
+	protected DynamicEntry Add( string indexName = "" ) 
 	{
 		string elementType = $"{MasterTab.Type}Entry";
 		
-		GameObject entryObject = Instantiate( Resources.Load<GameObject>( elementType ), transform, true );
-		entryObject.transform.position = Vector3.down * 70 * Entries.Count;
-
+		GameObject entryObject = Instantiate( Resources.Load<GameObject>( elementType ), transform, false );
+		var rect = entryObject.GetComponent<RectTransform>();
+//		rect.localPosition = Vector3.down * 70 * ( Entries.Count - 1 );
+		rect.anchoredPosition = Vector3.down * 70 * ( Entries.Count - 1 );
+		
 		DynamicEntry dynamicEntry = entryObject.GetComponent<DynamicEntry>();
 		string result = InitEntry( dynamicEntry, indexName );
 //		Entries.Add( toBeAdded, entryObject.GetComponent<DynamicEntry>() );
@@ -116,6 +69,20 @@ public class NetUIDynamicList : NetUIElement {
 
 		return dynamicEntry;
 	}
+	
+	///Not just own value, include inner elements' values as well
+	protected override void UpdatePeepers() {
+		List<ElementValue> valuesToSend = new List<ElementValue> {ElementValue};
+		
+		foreach ( var entry in Entries.Values ) {
+			for ( var i = 0; i < entry.Elements.Count; i++ ) {
+				var element = entry.Elements[i];
+				valuesToSend.Add(element.ElementValue);
+			}
+		}
+
+		TabUpdateMessage.SendToPeepers( MasterTab.Provider, MasterTab.Type, TabAction.Update, valuesToSend.ToArray() );
+	}
 
 	protected virtual string InitEntry( DynamicEntry entry, string desiredName = "" ) {
 		if ( !entry ) {
@@ -125,8 +92,8 @@ public class NetUIDynamicList : NetUIElement {
 		string index = desiredName;
 		if ( desiredName == "" ) {
 			index = entryCount++.ToString();
-			entry.name = index;
 		}
+		entry.name = index;
 
 		//Making inner elements' names unique by adding "index" to the end
 		for ( var i = 0; i < entry.Elements.Count; i++ ) {
@@ -157,12 +124,10 @@ public class NetUIDynamicList : NetUIElement {
 			foreach ( string toBeAdded in toAdd ) {
 				Add( toBeAdded );
 			}
-			//Client only:
-			if ( ControlTabs.Instance.openedTabs.ContainsKey( MasterTab.NetworkTab ) ) {
-				ControlTabs.Instance.openedTabs[MasterTab.NetworkTab]?.RescanElements();
-			}
-			//Server only:
-//			NetworkTabManager.Instance.ReInit(MasterTab.NetworkTab);
+//			//Client only:
+//			if ( ControlTabs.Instance.openedTabs.ContainsKey( MasterTab.NetworkTab ) ) {
+//				ControlTabs.Instance.openedTabs[MasterTab.NetworkTab]?.RescanElements();
+//			}
 			externalChange = false;
 		}
 	}

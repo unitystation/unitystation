@@ -226,14 +226,14 @@ namespace UI
 				Instance.openedTabs.Remove( tabDesc );
 				Instance.SelectWindow( WindowSelect.stats );
 			}
-			
-			
 		}
 
 		public static void UpdateTab( TabType type, GameObject tabProvider, ElementValue[] values, bool touched = false ) {
 			var lookupTab = new NetworkTab(tabProvider, type);
 			if ( Instance.openedTabs.ContainsKey( lookupTab ) ) {
 				var tabInfo = Instance.openedTabs[lookupTab];
+				
+				tabInfo.ImportValues( values );
 				
 				for ( var i = 0; i < values.Length; i++ ) {
 					string elementId = values[i].Id;

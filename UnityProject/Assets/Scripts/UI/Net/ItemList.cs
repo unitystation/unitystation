@@ -16,7 +16,7 @@ public class ItemList : NetUIDynamicList {
 		}
 		//load prefab
 		GameObject prefab = Resources.Load( prefabName ) as GameObject;
-		if ( !prefab ) {
+		if ( !prefab || !prefab.GetComponent<ItemAttributes>() ) {
 			Debug.LogWarning( $"No valid prefab found: {prefabName}" );
 			return false;
 		}
@@ -33,20 +33,25 @@ public class ItemList : NetUIDynamicList {
 		newEntry.Init();
 		Debug.Log( $"ItemList: Item add success! newEntry={newEntry}" );
 
-		//notify, reinit
+		//reinit and notify
 		NetworkTabManager.Instance.ReInit( MasterTab.NetworkTab );
-
+		
+		UpdatePeepers(); //todo: should probably move this to parent
+		
 		return true;
 	}
 
-	public bool RemoveItem( string name ) { //todo
-//		if ( Entries.ContainsValue( entry ) ) {
-//			//yep, removing this way is expensive
-//			var item = Entries.First( kvp => kvp.Value == entry );
-//			Entries.Remove( item.Key );
-//			//notify, reinit
-//			NetworkTabManager.Instance.ReInit( MasterTab.NetworkTab );
-//		}
+
+	public bool RemoveItem( string prefabName ) { //todo
+		foreach ( var pair in Entries ) {
+			if ( String.Equals( ( (ItemEntry) pair.Value )?.Prefab.name, prefabName,
+				StringComparison.CurrentCultureIgnoreCase ) ) 
+			{
+				Remove( pair.Key );
+				return true;
+			}
+		}
+		Debug.LogWarning( $"Didn't find any prefabs called '{prefabName}' in the list" );
 		return false;
 	}
 }
