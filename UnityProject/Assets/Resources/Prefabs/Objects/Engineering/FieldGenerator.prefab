@@ -19,6 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4647312529661892}
+  - component: {fileID: 114590706900826186}
+  - component: {fileID: 114351192079221646}
   - component: {fileID: 61697181358093446}
   - component: {fileID: 61444365541677466}
   - component: {fileID: 114870889522965122}
@@ -66,8 +68,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305738920282892}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 9, y: -33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4301764206996866}
@@ -124,6 +126,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114351192079221646
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1305738920282892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abab4a0c666224f6f9c70acdb74436c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connPointA: 0
+  connPointB: -1
+  registerTile: {fileID: 114469741977146778}
+  connected: 0
+  currentTick: 0
+  tickRate: 1
+  OnSupplyChange:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114460259331596316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -152,6 +176,39 @@ MonoBehaviour:
   ObjectType: 1
   AtmosPassable: 1
   Passable: 0
+--- !u!114 &114590706900826186
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1305738920282892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d5abc7c87dbf4367935e3e1dbce8d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poweredDevice: {fileID: 114351192079221646}
+  isOn: 0
+  connectedToOther: 0
+  offSprite: {fileID: 21300114, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  onSprite: {fileID: 21300104, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  searchingSprites:
+  - {fileID: 21300112, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  - {fileID: 21300110, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  - {fileID: 21300108, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  - {fileID: 21300106, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  - {fileID: 21300104, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  - {fileID: 21300102, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  - {fileID: 21300100, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  - {fileID: 21300098, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  - {fileID: 21300096, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  - {fileID: 21300104, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  connectedSprites:
+  - {fileID: 21300086, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  - {fileID: 21300088, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  - {fileID: 21300090, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  - {fileID: 21300092, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  spriteRend: {fileID: 212285348860713558}
 --- !u!114 &114870889522965122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -218,7 +275,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 9
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300086, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  m_Sprite: {fileID: 21300094, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
