@@ -62,7 +62,7 @@ namespace Electricity
 				for (int y = 0; y < 3; y++){
 					Vector3Int pos = new Vector3Int((int)searchVec.x + x,
 											  (int)searchVec.y + y, 0);
-					var conns = matrix.GetElectrictyConnections(pos);
+					var conns = matrix.GetElectricalConnections(pos);
 
 					foreach(IElectricityIO io in conns){
 						possibleConns.Add(io);

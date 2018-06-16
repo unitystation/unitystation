@@ -51,7 +51,7 @@ namespace Electricity
 
 		void FindPossibleConnections()
 		{
-			var conns = matrix.GetElectrictyConnections(Vector3Int.RoundToInt(transform.localPosition));
+			var conns = matrix.GetElectricalConnections(Vector3Int.RoundToInt(transform.localPosition));
 
 			foreach (IElectricityIO io in conns) {
 
