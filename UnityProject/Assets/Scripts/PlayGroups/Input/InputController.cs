@@ -87,14 +87,14 @@ namespace PlayGroups.Input
 				//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
 				Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 				position.z = 0f;
-//				if (PlayerManager.LocalPlayerScript.IsInReach(position))
-//				{
-//					List<GameObject> objects = UITileList.GetItemsAtPosition(position);
-//					LayerTile tile = UITileList.GetTileAtPosition(position);
-//					ControlTabs.ShowItemListTab(objects, tile, position);
-//				}
-				
-				UIManager.SetToolTip = $"clicked position: {Vector3Int.RoundToInt(position)}";
+                if (PlayerManager.LocalPlayerScript.IsInReach(position))
+                {
+                    List<GameObject> objects = UITileList.GetItemsAtPosition(position);
+                    LayerTile tile = UITileList.GetTileAtPosition(position);
+                    ControlTabs.ShowItemListTab(objects, tile, position);
+                }
+
+                UIManager.SetToolTip = $"clicked position: {Vector3Int.RoundToInt(position)}";
 				e.Use();
 			}
 		}

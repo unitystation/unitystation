@@ -15,7 +15,7 @@ namespace UI
 		private bool itemListTabExists;
 		public Button moreTab;
 		public Button optionsTab;
-		public GameObject PanelItemList;
+		//public GameObject panelItemList;
 		public GameObject panelMore;
 		public GameObject panelOptions;
 
@@ -177,8 +177,8 @@ namespace UI
 			RectTransform optionsRect = Instance.optionsTab.GetComponent<RectTransform>();
 			RectTransform moreRect = Instance.moreTab.GetComponent<RectTransform>();
 
-			optionsRect.localPosition += direction * (width / 2f);
-			moreRect.localPosition += direction * (width / 2f);
+			optionsRect.localPosition += direction * (width/* / 2f*/);
+			moreRect.localPosition += direction * (width/* / 2f*/);
 		}
 
 		private enum WindowSelect
