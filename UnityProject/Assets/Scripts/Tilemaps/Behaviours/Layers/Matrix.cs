@@ -109,10 +109,5 @@ namespace Tilemaps
             }
             return false;
         }
-
-        public IEnumerable<IElectricityIO> GetElectrictyConnections(Vector3Int position)
-        {
-            return objects.Get(position).Select(x => x.GetComponent<IElectricityIO>()).Where(x => x != null);
-        }
     }
 }
