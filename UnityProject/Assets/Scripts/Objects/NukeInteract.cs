@@ -58,8 +58,6 @@ public class NukeInteract : InputTrigger
 		GibMessage.Send();
 		GameManager.Instance.RespawnAllowed = false;
 		yield return new WaitForSeconds(2f);
-		//Restart Round:
-		GameManager.Instance.RoundTime = 0f;
 	}
 
 	//Server validating the code sent back by the GUI
@@ -97,12 +95,16 @@ public class NukeInteract : InputTrigger
 		UIManager.Display.backGround.SetActive(false);
 		UIManager.Display.logInWindow.SetActive(false);
 		UIManager.Display.infoWindow.SetActive(false);
-
-		//Playing the video
-		UIManager.Display.selfDestructVideo.SetActive(true);
+        //Reporting Scores
+        PostToChatMessage.Send("The nuke ops have detonated the nuke and won.", ChatChannel.OOC);
+        //Playing the video
+        UIManager.Display.selfDestructVideo.SetActive(true);
 		//Playing the sound
 		SoundManager.Play("SelfDestruct");
-	}
+        //Restarting
+        GetComponent <GameManager>().NukeDetonateRoundEnd();
+
+    }
 
 	[Server]
 	public void CodeGenerator()

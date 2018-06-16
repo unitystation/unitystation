@@ -105,39 +105,30 @@ public class GameManager : MonoBehaviour
 
     public void ReportScores()
     {
-        if (NukeInteract.detonatedreport == true)
+        foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
         {
-            PostToChatMessage.Send("The nuke ops have detonated the bomb and won.", ChatChannel.OOC);
-        }
-        else
-        {
-            foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+            if (GetComponent<HealthBehaviour>().IsDead == false)
             {
-                if (GetComponent<HealthBehaviour>().IsDead == false)
-                {
-                    LifeCount++;
-                    PostToChatMessage.Send(player.Name + " has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
-                }
-
-                if (LifeCount == 0)
-                {
-                    PostToChatMessage.Send("No one has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
-                    PostToChatMessage.Send("The nuke ops have killed everyone and won.", ChatChannel.OOC);
-                }
-
-                if (LifeCount == 1)
-                {
-                    PostToChatMessage.Send(LifeCount + " person survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
-                    PostToChatMessage.Send("The nuke ops have failed to detonated the bomb.", ChatChannel.OOC);
-                }
-
-                if (LifeCount > 1)
-                {
-                    PostToChatMessage.Send(LifeCount + " people survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
-                    PostToChatMessage.Send("The nuke ops have failed to detonated the bomb.", ChatChannel.OOC);
-                }
+                LifeCount++;
+                PostToChatMessage.Send(player.Name + " has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+            }
+            if (LifeCount == 0)
+            {
+                PostToChatMessage.Send("No one has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+                PostToChatMessage.Send("The nuke ops have killed everyone and won.", ChatChannel.OOC);
+            }
+            if (LifeCount == 1)
+            {
+                PostToChatMessage.Send(LifeCount + " person survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+                PostToChatMessage.Send("The nuke ops have failed to detonated the bomb.", ChatChannel.OOC);
+            }
+            if (LifeCount > 1)
+            {
+                PostToChatMessage.Send(LifeCount + " people survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+                PostToChatMessage.Send("The nuke ops have failed to detonated the bomb.", ChatChannel.OOC);
             }
         }
+
     }
 
     private void Update()
@@ -275,4 +266,11 @@ public class GameManager : MonoBehaviour
 			CustomNetworkManager.Instance.ServerChangeScene (Maps[MapRotationMapsCounter]);
 		}
 	}
+
+    public void NukeDetonateRoundEnd()
+    {
+        counting = false;
+        ShuttleCounting = false;
+        RestartRound();
+    }
 }
