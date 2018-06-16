@@ -32,7 +32,7 @@ namespace Electricity
 		///     Corners can also be used i.e.: 5 = NE (1 + 4) = 0101
 		///     This is the edge of the location where the wire enters the turf
 		/// </summary>
-		public int DirectionStart = 2;
+		public int DirectionStart;
 
 		/// <summary>
 		///     If you have some tray goggles on then set this bool to true to get the right sprite.
@@ -68,6 +68,7 @@ namespace Electricity
 			//Casting here is to solve nullable somehow not noticing my nullcheck earlier
 			this.DirectionStart = Math.Min(DirectionStart, DirectionEnd);
 			this.DirectionEnd = Math.Max(DirectionStart, DirectionEnd);
+			Debug.Log($"DIR START: {DirectionStart} DIR END: {DirectionEnd}");
 			SetSprite();
 		}
 
