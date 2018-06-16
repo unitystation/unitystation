@@ -27,44 +27,58 @@ public class NukeInteract : InputTrigger
 	//Method for when a player clicks on the nuke
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
-		if(UIManager.Display.nukeWindow.activeSelf){
+		if(UIManager.Display.nukeWindow.activeSelf)
+        {
 			return;
 		}
 
 		//Determining whether or not the player is syndicate
-		if (PlayerManager.PlayerScript.JobType == JobType.SYNDICATE) {
+		if (PlayerManager.PlayerScript.JobType == JobType.SYNDICATE)
+        {
 			//if yes, show GUI
 			UIManager.Chat.AddChatEvent(new ChatEvent(interactionMessage, ChatChannel.Examine));
 			UIManager.Display.nukeWindow.SetActive(true);
 			GUI_Nuke nukeWindow = UIManager.Display.nukeWindow.GetComponent<GUI_Nuke>();
 			nukeWindow.SetNukeInteracting(gameObject);
-		} else {
+		}
+        else
+        {
 			//if no, say bad message
 			UIManager.Chat.AddChatEvent(new ChatEvent(deniedMessage, ChatChannel.Examine));
 		}
 	}
 
-	void Update(){
-		if(UIManager.Display.nukeWindow.activeSelf){
-			if(Vector2.Distance(PlayerManager.LocalPlayer.transform.position, transform.position) > 2f){
+	void Update()
+    {
+		if(UIManager.Display.nukeWindow.activeSelf)
+        {
+			if(Vector2.Distance(PlayerManager.LocalPlayer.transform.position, transform.position) > 2f)
+            {
 				UIManager.Display.nukeWindow.SetActive(false);
 			}
 		}
 	}
 
-	IEnumerator WaitForDeath()
-	{
-		yield return new WaitForSeconds(5f);
-		GibMessage.Send();
-		GameManager.Instance.RespawnAllowed = false;
-		yield return new WaitForSeconds(2f);
+    IEnumerator WaitForDeath()
+    {
+        yield return new WaitForSeconds(15f);
+        if (detonatedreport)
+        {
+            GibMessage.Send();
+            GameManager.Instance.RespawnAllowed = false;
+            GameManager.Instance.NukeDetonateRoundEnd();
+
+            detonatedreport = false;
+        }
+        yield return new WaitForSeconds(2f);
 	}
 
 	//Server validating the code sent back by the GUI
 	[Server]
 	public bool Validate(string code)
 	{
-		if (code == nukeCode.ToString()) {
+		if (code == nukeCode.ToString())
+        {
             //Setting the nukeops to win in endround report.
             detonatedreport = true;
             //Blow up the nuke
@@ -73,17 +87,33 @@ public class NukeInteract : InputTrigger
 			//FIXME kill only people on the station matrix that the nuke was detonated on
 			StartCoroutine(WaitForDeath());
             return true;
-		} else {
+		}
+        else
+        {
 			//if no, tell the GUI that it was an incorrect code
 			return false;
 		}
 	}
 
-	//Server telling the nukes to explode
-	[ClientRpc]
+    IEnumerator WaitforVideo()
+    {
+        if (detonated)
+        {
+            yield return new WaitForSeconds(10f);
+
+            UIManager.Display.selfDestructVideo.SetActive(false);
+            UIManager.Display.backGround.SetActive(true);
+
+            detonated = false;
+        }
+    }
+
+    //Server telling the nukes to explode
+    [ClientRpc]
 	void RpcDetonate()
 	{
-		if(detonated){
+		if(detonated)
+        {
 			return;
 		}
 		detonated = true;
@@ -102,11 +132,11 @@ public class NukeInteract : InputTrigger
 		//Playing the sound
 		SoundManager.Play("SelfDestruct");
         //Restarting
-        GetComponent <GameManager>().NukeDetonateRoundEnd();
-
+        //GetComponent <GameManager>().NukeDetonateRoundEnd();
+        StartCoroutine(WaitforVideo());
     }
 
-	[Server]
+    [Server]
 	public void CodeGenerator()
 	{
 		nukeCode = Random.Range(1000, 9999);

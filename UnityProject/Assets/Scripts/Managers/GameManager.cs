@@ -9,43 +9,56 @@ using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
-	public static GameManager Instance;
-	public float RoundTime = 600f;
-    public float ShuttleTime = 60f;
-    public bool counting;
-    public bool ShuttleCounting;
+    private static float       ROUNDTIME_CONSTANT   = 30f;
+    private static float       SHUTTLETIME_CONSTANT = 11f;
+	public  static GameManager Instance;
+
+	public float RoundTime   = ROUNDTIME_CONSTANT;
+    public float ShuttleTime = SHUTTLETIME_CONSTANT;
+
+    public bool             counting;
+    public bool             ShuttleCounting;
 	public List<GameObject> Occupations = new List<GameObject>();
+
 	/// <summary>
 	/// Set on server if Respawn is Allowed
 	/// </summary>
-	public bool RespawnAllowed = true;
-
-	public Text roundTimer;
-
+    /// 
+	public bool       RespawnAllowed = true;
+	public Text       roundTimer;
 	public GameObject StandardOutfit;
-	public bool waitForRestart;
 
-	public float GetRoundTime { get; private set; }   = 600f;
-    public float GetShuttleTime { get; private set; } = 60f;
+	public float GetRoundTime   { get; private set; } = ROUNDTIME_CONSTANT;
+    public float GetShuttleTime { get; private set; } = SHUTTLETIME_CONSTANT;
 
-	public int RoundsPerMap = 10;
-	
-	public string[] Maps = {"Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
-	
-	private int MapRotationCount = 0;
-	private int MapRotationMapsCounter = 0;
 
-    public int LifeCount = 0;
+    public  string[] Maps                   = { "Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity" };
+    public  int      RoundsPerMap           = 10;
+	private int      MapRotationCount       = 0;
+	private int      MapRotationMapsCounter = 0;
+
+    public bool RoundScoreShow;
 
 
     //Put the scenes in the unity 3d editor.
-
-
     private void Awake()
 	{
 		if (Instance == null)
 		{
-			Instance = this;
+            // Initialize RoundTime and ShuttleTime here.
+            //
+            // The reason these are here is because of:
+            //            
+            // For C# use Awake instead of the constructor for initialization, 
+            // as the serialized state of the component is undefined at 
+            // construction time. Awake is called once, just like the constructor.
+            //
+            // This is from: https://docs.unity3d.com/ScriptReference/MonoBehaviour.Awake.html
+            //
+            this.RoundTime   = ROUNDTIME_CONSTANT;
+            this.ShuttleTime = SHUTTLETIME_CONSTANT;
+
+            Instance = this;
 		}
 		else
 		{
@@ -73,62 +86,64 @@ public class GameManager : MonoBehaviour
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
-        GetRoundTime = RoundTime;
+        GetRoundTime   = RoundTime;
         GetShuttleTime = ShuttleTime;
 	}
 
     public void SyncTime(float currentTime)
     {
-        Debug.Log("TRACE: SyncTime " + currentTime);
-
-        PostToChatMessage.Send("TRACE: SyncTime " + currentTime, ChatChannel.OOC);
-
         if (!CustomNetworkManager.Instance._isServer)
         {
             GetRoundTime = currentTime;
             if (currentTime > 0f)
             {
-                counting = true;
+                counting        = true;
                 ShuttleCounting = false;
+                RoundScoreShow  = false;
             }
         }
     }
 
     public void ResetRoundTime()
 	{
-		GetRoundTime = RoundTime;
-        GetShuttleTime = ShuttleTime;
-		counting = true;
+		GetRoundTime    = RoundTime;
+        GetShuttleTime  = ShuttleTime;
+		counting        = true;
         ShuttleCounting = false;
-		UpdateRoundTimeMessage.Send(GetRoundTime);
+        RoundScoreShow  = false;
+        UpdateRoundTimeMessage.Send(GetRoundTime);
 	}
 
     public void ReportScores()
     {
+        int LifeCount = 0;
+
         foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
         {
-            if (GetComponent<HealthBehaviour>().IsDead == false)
+            if (!player.GameObject.GetComponent<HealthBehaviour>().IsDead)
             {
                 LifeCount++;
                 PostToChatMessage.Send(player.Name + " has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
             }
-            if (LifeCount == 0)
-            {
-                PostToChatMessage.Send("No one has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
-                PostToChatMessage.Send("The nuke ops have killed everyone and won.", ChatChannel.OOC);
-            }
-            if (LifeCount == 1)
-            {
-                PostToChatMessage.Send(LifeCount + " person survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
-                PostToChatMessage.Send("The nuke ops have failed to detonated the bomb.", ChatChannel.OOC);
-            }
-            if (LifeCount > 1)
-            {
-                PostToChatMessage.Send(LifeCount + " people survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
-                PostToChatMessage.Send("The nuke ops have failed to detonated the bomb.", ChatChannel.OOC);
-            }
         }
 
+        if (LifeCount == 0)
+        {
+            PostToChatMessage.Send("No one has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+            PostToChatMessage.Send("The nuke ops have killed everyone and won.", ChatChannel.OOC);
+        }
+        if (LifeCount == 1)
+        {
+            PostToChatMessage.Send(LifeCount + " person survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+        }
+        if (LifeCount > 1)
+        {
+            PostToChatMessage.Send(LifeCount + " people survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+        }
+        if (LifeCount >= 1)
+        {
+            PostToChatMessage.Send("The nuke ops have failed to detonated the bomb.", ChatChannel.OOC);
+        }
     }
 
     private void Update()
@@ -155,8 +170,10 @@ public class GameManager : MonoBehaviour
                 ShuttleCounting = false;
                 RestartRound();
             }
-            else if (GetShuttleTime <= 10f)
+            else if (GetShuttleTime <= 10f && !RoundScoreShow)
             {
+                RoundScoreShow = true;
+                PostToChatMessage.Send("Restarting in ten seconds.", ChatChannel.OOC);
                 ReportScores();
             }
 
@@ -259,7 +276,7 @@ public class GameManager : MonoBehaviour
 			}
 			else
 			{
-				MapRotationCount = 0;
+				MapRotationCount       = 0;
 				MapRotationMapsCounter = 0;
 			}
 			
