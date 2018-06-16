@@ -241,7 +241,6 @@ namespace PlayGroup
 				}
 				else
 				{
-					PlayerList.Instance.UpdateKillScore(LastDamagedBy, gameObject);
 
 					string departmentKillText = "";
 					if (LastDamagedBy != null)
@@ -261,13 +260,6 @@ namespace PlayGroup
 							departmentKillText = ", 1 point to " + killerDepartment.GetDescription() + "!";
 						}
 					}
-
-					//TDM demo killfeed
-					PostToChatMessage.Send(killerName + " has killed " + player.Name + departmentKillText,
-						ChatChannel.System);
-
-					//Combat demo killfeed
-					//PostToChatMessage.Send(killerName + " has killed " + gameObject.name, ChatChannel.System);
 				}
 				pna.DropItem("rightHand");
 				pna.DropItem("leftHand");
@@ -282,9 +274,6 @@ namespace PlayGroup
 				pm.allowInput = true;
 				RpcPassBullets(gameObject);
 				PlayerDeathMessage.Send(gameObject);
-
-				//FIXME Remove for next demo
-				pna.RespawnPlayer(10);
 			}
 		}
 

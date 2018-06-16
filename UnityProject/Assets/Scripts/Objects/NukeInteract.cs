@@ -11,11 +11,13 @@ public class NukeInteract : InputTrigger
 	public string interactionMessage;
 	public string deniedMessage;
 	private bool detonated = false;
-	//Nuke code is only populated on the server
-	public int nukeCode;
+    public static bool detonatedreport = false;
+    //Nuke code is only populated on the server
+    public int nukeCode;
 	private GameObject Player;
+    
 
-	public override void OnStartServer()
+    public override void OnStartServer()
 	{
 		//calling the code generator and setting up a 10 second timer to post the code in syndicate chat
 		CodeGenerator();
@@ -65,12 +67,14 @@ public class NukeInteract : InputTrigger
 	public bool Validate(string code)
 	{
 		if (code == nukeCode.ToString()) {
-			//if yes, blow up the nuke
-			RpcDetonate();
+            //Setting the nukeops to win in endround report.
+            detonatedreport = true;
+            //Blow up the nuke
+            RpcDetonate();
 			//Kill Everyone in the universe
 			//FIXME kill only people on the station matrix that the nuke was detonated on
 			StartCoroutine(WaitForDeath());
-			return true;
+            return true;
 		} else {
 			//if no, tell the GUI that it was an incorrect code
 			return false;

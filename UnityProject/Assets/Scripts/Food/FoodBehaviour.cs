@@ -9,9 +9,6 @@ using UnityEngine.Networking;
 /// </summary>
 public class FoodBehaviour : NetworkBehaviour
 {
-	//TODO remove after deathmatches
-	[Header("Being used for TDM")] public int healAmount;
-
 	public int healHungerAmount;
 
 	public override void OnStartServer()

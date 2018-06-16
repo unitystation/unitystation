@@ -5,14 +5,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
-	public float RoundTime = 480f;
-	public bool counting;
+	public float RoundTime = 600f;
+    public float ShuttleTime = 60f;
+    public bool counting;
+    public bool ShuttleCounting;
 	public List<GameObject> Occupations = new List<GameObject>();
-	public float restartTime = 10f;
 	/// <summary>
 	/// Set on server if Respawn is Allowed
 	/// </summary>
@@ -23,7 +25,8 @@ public class GameManager : MonoBehaviour
 	public GameObject StandardOutfit;
 	public bool waitForRestart;
 
-	public float GetRoundTime { get; private set; } = 480f;
+	public float GetRoundTime { get; private set; }   = 600f;
+    public float GetShuttleTime { get; private set; } = 60f;
 
 	public int RoundsPerMap = 10;
 	
@@ -32,11 +35,13 @@ public class GameManager : MonoBehaviour
 	private int MapRotationCount = 0;
 	private int MapRotationMapsCounter = 0;
 
+    public int LifeCount = 0;
 
-	//Put the scenes in the unity 3d editor.
+
+    //Put the scenes in the unity 3d editor.
 
 
-	private void Awake()
+    private void Awake()
 	{
 		if (Instance == null)
 		{
@@ -68,67 +73,104 @@ public class GameManager : MonoBehaviour
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
-		GetRoundTime = RoundTime;
+        GetRoundTime = RoundTime;
+        GetShuttleTime = ShuttleTime;
 	}
 
-	public void SyncTime(float currentTime)
-	{
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			GetRoundTime = currentTime;
-			if (currentTime > 0f)
-			{
-				counting = true;
-			}
-		}
-	}
+    public void SyncTime(float currentTime)
+    {
+        Debug.Log("TRACE: SyncTime " + currentTime);
 
-	public void ResetRoundTime()
+        PostToChatMessage.Send("TRACE: SyncTime " + currentTime, ChatChannel.OOC);
+
+        if (!CustomNetworkManager.Instance._isServer)
+        {
+            GetRoundTime = currentTime;
+            if (currentTime > 0f)
+            {
+                counting = true;
+                ShuttleCounting = false;
+            }
+        }
+    }
+
+    public void ResetRoundTime()
 	{
 		GetRoundTime = RoundTime;
-		waitForRestart = false;
+        GetShuttleTime = ShuttleTime;
 		counting = true;
-		restartTime = 10f;
+        ShuttleCounting = false;
 		UpdateRoundTimeMessage.Send(GetRoundTime);
 	}
 
-	private void Update()
+    public void ReportScores()
+    {
+        if (NukeInteract.detonatedreport == true)
+        {
+            PostToChatMessage.Send("The nuke ops have detonated the bomb and won.", ChatChannel.OOC);
+        }
+        else
+        {
+            foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+            {
+                if (GetComponent<HealthBehaviour>().IsDead == false)
+                {
+                    LifeCount++;
+                    PostToChatMessage.Send(player.Name + " has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+                }
+
+                if (LifeCount == 0)
+                {
+                    PostToChatMessage.Send("No one has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+                    PostToChatMessage.Send("The nuke ops have killed everyone and won.", ChatChannel.OOC);
+                }
+
+                if (LifeCount == 1)
+                {
+                    PostToChatMessage.Send(LifeCount + " person survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+                    PostToChatMessage.Send("The nuke ops have failed to detonated the bomb.", ChatChannel.OOC);
+                }
+
+                if (LifeCount > 1)
+                {
+                    PostToChatMessage.Send(LifeCount + " people survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+                    PostToChatMessage.Send("The nuke ops have failed to detonated the bomb.", ChatChannel.OOC);
+                }
+            }
+        }
+    }
+
+    private void Update()
 	{
-		if (waitForRestart)
-		{
-
-			restartTime -= Time.deltaTime;
-			if (restartTime <= 0f)
-			{
-				waitForRestart = false;
-				RestartRound();
-			}
-		}
-
-		else if (counting)
+		if (counting)
 		{
 			GetRoundTime -= Time.deltaTime;
 			roundTimer.text = Mathf.Floor(GetRoundTime / 60).ToString("00") + ":" +
-			                  (GetRoundTime % 60).ToString("00");
+			                  (GetRoundTime % 60).ToString("00") + " ETA";
 			if (GetRoundTime <= 0f)
 			{
 				counting = false;
-				roundTimer.text = "GameOver";
-				
-				// Prevents annoying sound duplicate when testing
-				if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
-				{
-					SoundManager.Play("ApcDestroyed", 0.3f, 1f, 0f);
-				}
-
-				if (CustomNetworkManager.Instance._isServer)
-				{
-					waitForRestart = true;
-					PlayerList.Instance.ReportScores();
-				}
+                ShuttleCounting = true;
 			}
 		}
-	}
+        else if (ShuttleCounting)
+        {
+            GetShuttleTime -= Time.deltaTime;
+            roundTimer.text = Mathf.Floor(GetShuttleTime / 60).ToString("00") + ":" +
+                              (GetShuttleTime % 60).ToString("00") + " ETD";
+
+            if (GetShuttleTime <= 0f)
+            {
+                ShuttleCounting = false;
+                RestartRound();
+            }
+            else if (GetShuttleTime <= 10f)
+            {
+                ReportScores();
+            }
+
+        }
+    }
 
 	public int GetOccupationsCount(JobType jobType)
 	{
@@ -214,7 +256,7 @@ public class GameManager : MonoBehaviour
 
 	public void RestartRound()
 	{
-		if (CustomNetworkManager.Instance._isServer)
+        if (CustomNetworkManager.Instance._isServer)
 		{
 			MapRotationCount++;
 			if (MapRotationCount < RoundsPerMap * Maps.Length) 
