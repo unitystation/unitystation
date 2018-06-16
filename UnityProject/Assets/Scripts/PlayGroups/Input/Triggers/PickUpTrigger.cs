@@ -53,18 +53,24 @@ namespace Items
 			var slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
 			var cnt = GetComponent<CustomNetTransform>();
 			var state = cnt.ServerState;
+			var pushPull = GetComponent<PushPull>();
+			
 			if (SlotUnavailable(ps, slotName))
 			{
 				return false;
 			}
-			if (cnt.IsFloatingServer ? !CanReachFloating(ps, state) : !ps.IsInReach(state.WorldPosition))
+		
+			if (pushPull.pulledBy == PlayerManager.LocalPlayer) 
+			{ // If this object is being pulled, it should be in reach. Stop pulling it before we pick it up
+				pushPull.CancelPullBehaviour();
+			} 
+			else if (cnt.IsFloatingServer ? !CanReachFloating(ps, state) : !ps.IsInReach(state.WorldPosition))
 			{
 				Debug.LogWarningFormat($"Not in reach! server pos:{state.WorldPosition} player pos:{originator.transform.position} (floating={cnt.IsFloatingServer})");
 				return false;
 			}
 
 //			Debug.LogFormat($"Pickup success! server pos:{state.position} player pos:{originator.transform.position} (floating={cnt.IsFloatingServer()})");
-
 
 			//set ForceInform to false for simulation
 			return ps.playerNetworkActions.AddItem(gameObject, slotName, false /*, false*/);

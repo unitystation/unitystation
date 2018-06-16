@@ -56,7 +56,7 @@ public class PushPull : VisibleBehaviour
 		}
 	}
 
-	public virtual void OnMouseDown()
+	public void InteractWithPulling()
 	{
 		// PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null condition makes sure that the player itself
 		// isn't being pulled. If he is then he is not allowed to pull anything else as this can cause problems

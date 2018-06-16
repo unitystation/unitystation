@@ -74,6 +74,15 @@ namespace UI
             {
                 UIManager.Intent.IntentHotkey(3);
             }
+
+			if (Input.GetKeyDown(KeyCode.Delete))
+			{
+				var pulling = PlayerManager.LocalPlayerScript.playerSync.PullingObject;
+				if (pulling)
+				{
+					pulling.GetComponent<PushPull>().CancelPullBehaviour();
+				}
+			}
         }
 
 		public void Resist()
