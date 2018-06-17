@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -13,7 +14,7 @@ public struct MatrixState
 	/// Matrix rotation. Default is upright (Orientation.Up)
 	public Orientation Orientation;
 
-	public static readonly MatrixState Invalid = new MatrixState{Position = TransformState.HiddenPos};
+    public static readonly MatrixState Invalid = new MatrixState{Position = TransformState.HiddenPos};
 
 	public override string ToString() {
 		return $"{nameof( Inform )}: {Inform}, {nameof( IsMoving )}: {IsMoving}, {nameof( Speed )}: {Speed}, " +
@@ -29,7 +30,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	///used for syncing with players, matters only for server
 	private MatrixState serverState = MatrixState.Invalid;
 	/// future state that collects all changes
-	private MatrixState serverTargetState = MatrixState.Invalid; 
+	public MatrixState serverTargetState = MatrixState.Invalid; 
 	private bool SafetyProtocolsOn { get; set; }
 	private bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
@@ -44,10 +45,12 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	private bool isMovingClient => clientState.IsMoving && clientState.Speed > 0f;
 	public bool IsRotatingClient => transform.rotation.eulerAngles.z != clientState.Orientation.Degree;
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
-	
-	//editor (global) values
-	/// Initial flying direction from editor
-	public Vector2 flyingDirection = Vector2.up;
+
+    public List<ShipThruster> thrusters = new List<ShipThruster>(); // ship engines list
+
+    //editor (global) values
+    /// Initial flying direction from editor
+    public Vector2 flyingDirection = Vector2.up;
 	/// max flying speed from editor
 	public float maxSpeed = 20f;
 	private readonly float rotSpeed = 6;
@@ -66,12 +69,13 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		InitServerState();
 		base.OnStartServer();
 		NotifyPlayers();
+        GetEngines();
 	}
 
 	[Server]
 	private void InitServerState()
 	{
-		if ( flyingDirection == Vector2.zero ) {
+        if ( flyingDirection == Vector2.zero ) {
 			Debug.LogWarning($"{gameObject.name} move direction unclear");
 			serverState.Direction = Vector2.up;
 		} else {
@@ -122,7 +126,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		} else {
 			StartMovement();
 		}
-	}
+        UpdateEngines();
+    }
 
 	/// Start moving. If speed was zero, it'll be set to 1
 	[Server]
@@ -349,9 +354,27 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		serverTargetState.Direction = newDirection;
 		RequestNotify();
 	}
+
+    public void GetEngines()
+    {
+        //thrusters = GetComponentsInChildren<ShipThruster>();
+        foreach(ShipThruster st in GetComponentsInChildren<ShipThruster>())
+        {
+            thrusters.Add(st);
+        }
+    }
+
+    public void UpdateEngines()
+    {
+        foreach (ShipThruster st in thrusters)
+        {
+            st.UpdateEngineState();
+        }
+    }
+
 #if UNITY_EDITOR
-	//Visual debug
-	private Vector3 size1 = Vector3.one;
+    //Visual debug
+    private Vector3 size1 = Vector3.one;
 	private Vector3 size2 = new Vector3( 0.9f, 0.9f, 0.9f );
 	private Vector3 size3 = new Vector3( 0.8f, 0.8f, 0.8f );
 	private Color color1 = Color.red;

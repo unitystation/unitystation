@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4943344095080954}
   - component: {fileID: 198121006592827338}
   - component: {fileID: 199651937173636076}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ShuttleParticleFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114006670304239386}
   - component: {fileID: 114394273069994774}
   - component: {fileID: 114179810639766388}
+  - component: {fileID: 114773098424763084}
   m_Layer: 11
   m_Name: Shuttle_engine_center
   m_TagString: Untagged
@@ -85,7 +86,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1418031129727510}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: -28, z: 0}
+  m_LocalPosition: {x: 4, y: -29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4505234390707186}
@@ -100,7 +101,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1002252376394062}
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
-  m_LocalPosition: {x: -5, y: 2, z: -0.5}
+  m_LocalPosition: {x: 0, y: 2, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4699640297835872}
@@ -227,6 +228,17 @@ MonoBehaviour:
     i15: 146
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114773098424763084
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1418031129727510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5817f7ff22892a44b886ff9db63642e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198121006592827338
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -287,7 +299,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1616187448
+  randomSeed: 2092090438
   InitialModule:
     serializedVersion: 3
     enabled: 1
