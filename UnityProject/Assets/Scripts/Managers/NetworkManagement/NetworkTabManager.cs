@@ -96,7 +96,7 @@ public class NetworkTabInfo
 {
 	public static readonly NetworkTabInfo Invalid = new NetworkTabInfo(null);
 	private readonly GameObject reference;
-	private List<NetUIElement> Elements => reference.GetComponentsInChildren<NetUIElement>(true).ToList();
+	private List<NetUIElement> Elements => reference.GetComponentsInChildren<NetUIElement>(false).ToList();
 
 	public Dictionary<string, NetUIElement> CachedElements { get; }
 	public HashSet<ConnectedPlayer> Peepers { get; }
@@ -137,11 +137,17 @@ public class NetworkTabInfo
 				CachedElements.Add( element.name, element );
 			}
 		}
-		//Remove obsolete elements from cache 
+
+		var toRemove = new List<string>();
+		//Mark non-existent elements for removal
 		foreach ( var pair in CachedElements ) {
 			if ( !elements.Contains(pair.Value) ) {
-				CachedElements.Remove( pair.Key );
+				toRemove.Add( pair.Key );
 			}
+		}
+		//Remove obsolete elements from cache 
+		for ( var i = 0; i < toRemove.Count; i++ ) {
+			CachedElements.Remove( toRemove[i] );
 		}
 	}
 	//import values

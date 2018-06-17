@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 public class DynamicEntry : MonoBehaviour {
-	public List<NetUIElement> Elements => GetComponentsInChildren<NetUIElement>(true).ToList();
+	public List<NetUIElement> Elements => GetComponentsInChildren<NetUIElement>(false).ToList();
 
 	public virtual void Init() {}
 }

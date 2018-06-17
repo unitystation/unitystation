@@ -13,7 +13,7 @@ public class NetUIDynamicList : NetUIElement {
 	public Dictionary<string,DynamicEntry> Entries {
 		get {
 			var dynamicEntries = new Dictionary<string,DynamicEntry>();
-			DynamicEntry[] entries = GetComponentsInChildren<DynamicEntry>(true);
+			DynamicEntry[] entries = GetComponentsInChildren<DynamicEntry>(false);
 			for ( var i = 0; i < entries.Length; i++ ) {
 				DynamicEntry entry = entries[i];
 				string entryName = entry.name;
@@ -41,7 +41,8 @@ public class NetUIDynamicList : NetUIElement {
 
 	protected void Remove( string toBeRemoved ) {
 		Debug.Log( $"Destroying entry #{toBeRemoved}({Entries[toBeRemoved]})" );
-		Destroy( Entries[toBeRemoved] );
+//		Destroy( Entries[toBeRemoved].gameObject ); //?
+		Entries[toBeRemoved].gameObject.SetActive( false );
 		NetworkTabManager.Instance.ReInit( MasterTab.NetworkTab );
 		UpdatePeepers();
 	}
