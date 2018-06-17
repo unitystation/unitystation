@@ -22,7 +22,7 @@ namespace UI
 
 		public InputField InputFieldChat;
 
-		public bool isChatFocus;
+//		public bool isChatFocus;
 		public Scrollbar scrollBar;
 
 		public bool ShowState = true;
@@ -50,16 +50,16 @@ namespace UI
 			{
 				RefreshChannelPanel();
 			}
-			if (!chatInputWindow.activeInHierarchy && Input.GetKey(KeyCode.T) && GameData.IsInGame
+			if (!chatInputWindow.activeInHierarchy && !UIManager.IsInputFocus && Input.GetKey(KeyCode.T) && GameData.IsInGame
 			    && CustomNetworkManager.Instance.IsClientConnected())
 			{
 				chatInputWindow.SetActive(true);
-				isChatFocus = true;
+				UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
 				EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
 				InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
 				UpdateChannelToggleText();
 			}
-			if (isChatFocus)
+			if (UIManager.IsInputFocus)
 			{
 				if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()) &&
 				    (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)))
@@ -99,7 +99,7 @@ namespace UI
 
 		private void CloseChatWindow()
 		{
-			isChatFocus = false;
+			UIManager.IsInputFocus = false;
 			chatInputWindow.SetActive(false);
 		}
 

@@ -18,7 +18,23 @@ namespace UI
 		public PlayerListUI playerListUIControl;
 		public Text toolTip;
 		public ControlWalkRun walkRunControl;
-        
+
+		///Global flag for focused input field. Movement keystrokes are ignored if true.
+		/// <see cref="InputFieldFocus"/> handles this flag automatically
+		public static bool IsInputFocus {
+			get {
+				return Instance && Instance.isInputFocus;
+			}
+			set {
+				if ( !Instance ) {
+					return;
+				}
+				Instance.isInputFocus = value;
+			}
+		}
+
+		public bool isInputFocus;
+
 
 		public static UIManager Instance
 		{
