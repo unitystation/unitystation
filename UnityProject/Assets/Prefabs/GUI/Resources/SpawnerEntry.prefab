@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca117d75d2aa438ab378d37095bfe41e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 0}
+  Prefab: {fileID: 1519710982558066, guid: ac13474c9d8108940b75c30b2bff8a38, type: 2}
 --- !u!114 &114646643977915800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -246,9 +246,10 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Clear
-        m_Mode: 1
+      - m_Target: {fileID: 114153163653926564, guid: b7f20152cb1593a4a8d7b756a6abba1e,
+          type: 2}
+        m_MethodName: SpawnItem
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

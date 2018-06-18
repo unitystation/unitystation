@@ -170,8 +170,8 @@ public partial class CustomNetTransform {
 	public void Throw( ThrowInfo info ) {
 		SetPosition( info.OriginPos, false );
 
-		float throwSpeed = itemAttributes.throwSpeed * 10; //tiles per second
-		float throwRange = itemAttributes.throwRange;
+		float throwSpeed = ItemAttributes.throwSpeed * 10; //tiles per second
+		float throwRange = ItemAttributes.throwRange;
 
 		Vector2 impulse = info.Trajectory.normalized;
 
@@ -192,7 +192,7 @@ public partial class CustomNetTransform {
 
 		serverState.Impulse = impulse;
 		if ( info.SpinMode != SpinMode.None ) {
-			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( throwSpeed * (2f / (int)itemAttributes.size + 1), sbyte.MinValue, sbyte.MaxValue )
+			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( throwSpeed * (2f / (int)ItemAttributes.size + 1), sbyte.MinValue, sbyte.MaxValue )
 			                                     * ( info.SpinMode == SpinMode.Clockwise ? 1 : -1 ) );
 		}
 		serverState.ActiveThrow = correctedInfo;
@@ -300,7 +300,7 @@ public partial class CustomNetTransform {
 		if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) ) {
 			for ( var i = 0; i < hitDamageables.Count; i++ ) {
 				//Remove cast to int when moving health values to float
-				var damage = ( int ) ( itemAttributes.throwDamage * 2 );
+				var damage = ( int ) ( ItemAttributes.throwDamage * 2 );
 				hitDamageables[i].ApplyDamage( info.ThrownBy, damage, DamageType.BRUTE, info.Aim );
 				PostToChatMessage.SendThrowHitMessage( gameObject, hitDamageables[i].gameObject, damage, info.Aim );
 			}

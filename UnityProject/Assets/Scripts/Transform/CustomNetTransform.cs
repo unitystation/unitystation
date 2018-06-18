@@ -76,6 +76,14 @@ public struct TransformState {
 public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
 	private RegisterTile registerTile;
+	private ItemAttributes ItemAttributes {
+		get {
+			if ( itemAttributes == null ) {
+				itemAttributes = GetComponent<ItemAttributes>();
+			}
+			return itemAttributes;
+		}
+	}
 	private ItemAttributes itemAttributes;
 
 	private TransformState serverState = TransformState.HiddenState; //used for syncing with players, matters only for server
