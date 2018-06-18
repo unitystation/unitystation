@@ -84164,7 +84164,7 @@ Prefab:
     - target: {fileID: 224652079256797148, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000045776367
+      value: -0.000091552734
       objectReference: {fileID: 0}
     - target: {fileID: 224591598267180996, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
@@ -96353,6 +96353,21 @@ Prefab:
     - target: {fileID: 4982547716752472, guid: 34122ff119ea4c841941a1b74e444146, type: 2}
       propertyPath: m_RootOrder
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 198142892469061366, guid: 34122ff119ea4c841941a1b74e444146,
+        type: 2}
+      propertyPath: InitialModule.startRotation.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198142892469061366, guid: 34122ff119ea4c841941a1b74e444146,
+        type: 2}
+      propertyPath: randomSeed
+      value: 651918965
+      objectReference: {fileID: 0}
+    - target: {fileID: 198142892469061366, guid: 34122ff119ea4c841941a1b74e444146,
+        type: 2}
+      propertyPath: ShapeModule.alignToDirection
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 34122ff119ea4c841941a1b74e444146, type: 2}

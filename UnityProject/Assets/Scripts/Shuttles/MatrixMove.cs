@@ -352,12 +352,12 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		Vector3 newDirection = Quaternion.Euler( 0, 0, clockwise ? -90 : 90 ) * serverTargetState.Direction;
 //		Debug.Log($"Orientation is now {serverTargetState.Orientation}, Corrected direction from {serverTargetState.Direction} to {newDirection}");
 		serverTargetState.Direction = newDirection;
+        RotFX();
 		RequestNotify();
 	}
 
     public void GetEngines()
     {
-        //thrusters = GetComponentsInChildren<ShipThruster>();
         foreach(ShipThruster st in GetComponentsInChildren<ShipThruster>())
         {
             thrusters.Add(st);
@@ -369,6 +369,15 @@ public class MatrixMove : ManagedNetworkBehaviour {
         foreach (ShipThruster st in thrusters)
         {
             st.UpdateEngineState();
+        }
+    }
+
+    public void RotFX()
+    {
+        Debug.Log("Called");
+        foreach (ShipThruster t in thrusters)
+        {
+            t.RotateFX();
         }
     }
 
