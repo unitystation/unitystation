@@ -34,7 +34,7 @@ public class NetworkTabManager : MonoBehaviour {
 	}
 
 	/// Used when a new dynamic element is added/removed
-	public void ReInit( NetworkTab tab ) {
+	public void Rescan( NetworkTab tab ) {
 		Get( tab ).RescanElements();
 	}
 

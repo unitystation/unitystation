@@ -4,7 +4,6 @@ using System.Linq;
 using UI;
 using UnityEngine;
 
-/// These methods are supposed to be run on server
 public class NetUIDynamicList : NetUIElement {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	private int entryCount = 0;
@@ -40,11 +39,17 @@ public class NetUIDynamicList : NetUIElement {
 	}
 
 	protected void Remove( string toBeRemoved ) {
-		Debug.Log( $"Destroying entry #{toBeRemoved}({Entries[toBeRemoved]})" );
-//		Destroy( Entries[toBeRemoved].gameObject ); //?
-		Entries[toBeRemoved].gameObject.SetActive( false );
-		NetworkTabManager.Instance.ReInit( MasterTab.NetworkTab );
-		UpdatePeepers();
+		var entryToRemove = Entries[toBeRemoved];
+		Debug.Log( $"Destroying entry #{toBeRemoved}({entryToRemove})" );
+//		Destroy( Entries[toBeRemoved].gameObject ); 
+		entryToRemove.gameObject.SetActive( false );
+		NetworkTabManager.Instance.Rescan( MasterTab.NetworkTab );
+		
+		RefreshPositions();
+
+		if ( CustomNetworkManager.Instance._isServer ) {
+			UpdatePeepers();
+		}
 	}
 
 //todo: support more than one kind per tab
@@ -55,13 +60,13 @@ public class NetUIDynamicList : NetUIElement {
 		string elementType = $"{MasterTab.Type}Entry";
 		
 		GameObject entryObject = Instantiate( Resources.Load<GameObject>( elementType ), transform, false );
-		var rect = entryObject.GetComponent<RectTransform>();
-//		rect.localPosition = Vector3.down * 70 * ( Entries.Count - 1 );
-		rect.anchoredPosition = Vector3.down * 70 * ( Entries.Count - 1 );
 		
 		DynamicEntry dynamicEntry = entryObject.GetComponent<DynamicEntry>();
+
 		string result = InitEntry( dynamicEntry, indexName );
-//		Entries.Add( toBeAdded, entryObject.GetComponent<DynamicEntry>() );
+
+		RefreshPositions();
+		
 		if ( result != "" ) {
 			Debug.Log( $"Spawning entry #[{result}]: proposed: [{indexName}], entry: {dynamicEntry}" );
 		} else {
@@ -70,7 +75,21 @@ public class NetUIDynamicList : NetUIElement {
 
 		return dynamicEntry;
 	}
-	
+
+	/// Need to run this on list change to ensure no gaps are present
+	public void RefreshPositions() {
+		var entries = Entries.Values.ToList();
+		for ( var i = 0; i < entries.Count; i++ ) {
+			SetProperPosition( entries[i], i );
+		}
+	}
+
+	/// Defines the way list items are positioned
+	protected virtual void SetProperPosition( DynamicEntry entry, int index = 0 ) {
+		RectTransform rect = entry.gameObject.GetComponent<RectTransform>();
+		rect.anchoredPosition = Vector3.down * 70 * index; //todo: get height somehow?
+	}
+
 	///Not just own value, include inner elements' values as well
 	protected override void UpdatePeepers() {
 		List<ElementValue> valuesToSend = new List<ElementValue> {ElementValue};

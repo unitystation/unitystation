@@ -34,7 +34,7 @@ public class ItemList : NetUIDynamicList {
 		Debug.Log( $"ItemList: Item add success! newEntry={newEntry}" );
 
 		//reinit and notify
-		NetworkTabManager.Instance.ReInit( MasterTab.NetworkTab );
+		NetworkTabManager.Instance.Rescan( MasterTab.NetworkTab );
 		
 		UpdatePeepers(); //todo: should probably move this to parent
 		
@@ -42,7 +42,7 @@ public class ItemList : NetUIDynamicList {
 	}
 
 
-	public bool RemoveItem( string prefabName ) { //todo
+	public bool RemoveItem( string prefabName ) {
 		foreach ( var pair in Entries ) {
 			if ( String.Equals( ( (ItemEntry) pair.Value )?.Prefab.name, prefabName,
 				StringComparison.CurrentCultureIgnoreCase ) ) 
