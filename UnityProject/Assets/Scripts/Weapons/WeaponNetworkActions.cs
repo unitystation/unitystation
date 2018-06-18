@@ -82,7 +82,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		//if we have recoil variance add it, and get the new attack angle
 		if (wepBehavior != null && wepBehavior.CurrentRecoilVariance > 0)
 		{
-			direction = GetRecoilOffset(wepBehavior, angle);
+			//direction = GetRecoilOffset(wepBehavior, angle);
 		}
 
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
@@ -90,7 +90,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		b.Shoot(direction, angle, gameObject, damageZone);
 
 		//add additional recoil after shooting for the next round
-		AppendRecoil(wepBehavior, angle);
+		//AppendRecoil(wepBehavior, angle);
 
 		//This is used to determine where bullet shot should head towards on client
 		Ray2D ray = new Ray2D(transform.position, direction);
@@ -118,14 +118,16 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
+		ShootBullet(weapon, endPos, bulletName, damageZone);
+	}
+
+	public void ShootBullet(GameObject weapon, Vector2 endPos, string bulletName, BodyPartType damageZone){
 		Weapon wepBehavior = weapon.GetComponent<Weapon>();
-		if (wepBehavior != null)
-		{
+		if (wepBehavior != null) {
 			SoundManager.PlayAtPosition(wepBehavior.FireingSound, transform.position);
 		}
 
-		if (CustomNetworkManager.Instance._isServer)
-		{
+		if (CustomNetworkManager.Instance._isServer) {
 			return;
 		}
 
@@ -136,8 +138,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
 		b.Shoot(dir, angle, gameObject, damageZone);
-		if (!isFlashing)
-		{
+		if (!isFlashing) {
 			isFlashing = true;
 			StartCoroutine(ShowMuzzleFlash());
 		}
@@ -290,31 +291,4 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		muzzleFlash.gameObject.SetActive(false);
 		isFlashing = false;
 	}
-
-	#region Weapon Network Supporting Methods
-
-	private static Vector2 GetRecoilOffset(Weapon weapon, float angle)
-	{
-		float angleVariance = Random.Range(-weapon.CurrentRecoilVariance, weapon.CurrentRecoilVariance);
-		float newAngle = angle * Mathf.Deg2Rad + angleVariance;
-		Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;
-		return vec2;
-	}
-
-	private static void AppendRecoil(Weapon weapon, float angle)
-	{
-		if (weapon != null && weapon.CurrentRecoilVariance < weapon.MaxRecoilVariance)
-		{
-			//get a random recoil
-			float randRecoil = Random.Range(weapon.CurrentRecoilVariance, weapon.MaxRecoilVariance);
-			weapon.CurrentRecoilVariance += randRecoil;
-			//make sure the recoil is not too high
-			if (weapon.CurrentRecoilVariance > weapon.MaxRecoilVariance)
-			{
-				weapon.CurrentRecoilVariance = weapon.MaxRecoilVariance;
-			}
-		}
-	}
-
-	#endregion
 }
