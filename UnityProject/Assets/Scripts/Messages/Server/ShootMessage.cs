@@ -30,8 +30,7 @@ public class ShootMessage : ServerMessage {
 	}
 
 	private void Shoot(GameObject weaponGO, GameObject shotByGO){
-		
-		if(shotByGO == PlayerManager.LocalPlayer){
+		if(shotByGO == PlayerManager.LocalPlayer || CustomNetworkManager.Instance._isServer){
 			return;
 		}
 

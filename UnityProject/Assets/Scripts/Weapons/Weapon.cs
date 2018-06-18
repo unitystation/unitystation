@@ -336,8 +336,10 @@ namespace Weapons
 
 						RequestShootMessage.Send(gameObject, dir, Projectile.name, UIManager.DamageZone, suicideShot, PlayerManager.LocalPlayer);
 
-						//Prediction (client bullets don't do any damage)
-						Shoot(PlayerManager.LocalPlayer, dir, Projectile.name, UIManager.DamageZone, suicideShot);
+						if (!isServer) {
+							//Prediction (client bullets don't do any damage)
+							Shoot(PlayerManager.LocalPlayer, dir, Projectile.name, UIManager.DamageZone, suicideShot);
+						}
 
 						if (WeaponType == WeaponType.FullyAutomatic)
 						{
@@ -357,14 +359,14 @@ namespace Weapons
 		public void ServerShoot(GameObject shotBy, Vector2 direction, string bulletName,
 		                        BodyPartType damageZone, bool isSuicideShot){
 			PlayerMove shooter = shotBy.GetComponent<PlayerMove>();
-			if(!shooter.allowInput || !shooter.isGhost){
+			if(!shooter.allowInput || shooter.isGhost){
 				return;
 			}
 
 			Shoot(shotBy, direction, bulletName, damageZone, isSuicideShot);
 
 			//This is used to determine where bullet shot should head towards on client
-			Ray2D ray = new Ray2D(transform.position, direction);
+			Ray2D ray = new Ray2D(shotBy.transform.position, direction);
 			ShootMessage.SendToAll(gameObject, ray.GetPoint(30f), bulletName, damageZone, shotBy);
 
 			if (SpawnsCaseing) {
