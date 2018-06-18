@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 
 public class SimpleInteractMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.SimpleInteractMessage;
+	public static short MessageType = (short)MessageTypes.SimpleInteractMessage;
 	public NetworkInstanceId Subject;
 
 	public override IEnumerator Process()
@@ -13,13 +13,13 @@ public class SimpleInteractMessage : ClientMessage
 
 		yield return WaitFor(Subject, SentBy);
 
-		Debug.Log("SimpleInteractMessage: doing nothing");
-		//		NetworkObjects[0].GetComponent<InputControl.InputTrigger>().From(NetworkObjects[1]).Interact();
+		//Debug.Log("SimpleInteractMessage: doing nothing");
+		NetworkObjects[0].GetComponent<PlayGroups.Input.InputTrigger>().Interact(NetworkObjects[1], null);
 	}
 
 	public static SimpleInteractMessage Send(GameObject subject)
 	{
-		SimpleInteractMessage msg = new SimpleInteractMessage {Subject = subject.GetComponent<NetworkIdentity>().netId};
+		SimpleInteractMessage msg = new SimpleInteractMessage { Subject = subject.GetComponent<NetworkIdentity>().netId };
 		msg.Send();
 		return msg;
 	}
