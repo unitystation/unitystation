@@ -84,10 +84,11 @@ public class NetUIDynamicList : NetUIElement {
 		}
 	}
 
-	/// Defines the way list items are positioned
+	/// Defines the way list items are positioned.
+	/// Adds next entries directly below (using height) by default
 	protected virtual void SetProperPosition( DynamicEntry entry, int index = 0 ) {
 		RectTransform rect = entry.gameObject.GetComponent<RectTransform>();
-		rect.anchoredPosition = Vector3.down * 70 * index; //todo: get height somehow?
+		rect.anchoredPosition = Vector3.down * rect.rect.height * index;
 	}
 
 	///Not just own value, include inner elements' values as well
@@ -152,7 +153,5 @@ public class NetUIDynamicList : NetUIElement {
 		}
 	}
 
-	public override void ExecuteServer() {
-		throw new System.NotImplementedException();
-	}
+	public override void ExecuteServer() {}
 }
