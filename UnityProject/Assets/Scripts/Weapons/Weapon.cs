@@ -393,7 +393,7 @@ namespace Weapons
 
 			BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
 			b.isSuicide = isSuicideShot;
-			b.Shoot(direction, angle, gameObject, damageZone);
+			b.Shoot(direction, angle, shooter, damageZone);
 
 			//add additional recoil after shooting for the next round
 			AppendRecoil(angle);
