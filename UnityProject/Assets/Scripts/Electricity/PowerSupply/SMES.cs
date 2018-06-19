@@ -66,9 +66,7 @@ namespace Electricity
 		{
 			//Interact stuff with the SMES here
 			if (!isServer) {
-				SimpleInteractMessage newMsg = new SimpleInteractMessage();
-				newMsg.Subject = GetComponent<NetworkIdentity>().netId;
-				newMsg.Send();
+				InteractMessage.Send(gameObject, hand);
 			} else {
 				isOn = !isOn;
 			}

@@ -22,6 +22,9 @@ public class InteractMessage : ClientMessage
 		NetworkObjects[0].GetComponent<InputTrigger>().Interact(NetworkObjects[1], Position, decodeHand(Hand));
 	}
 
+	/// <summary>
+	/// Send the object being interacted with and the hand variable
+	/// </summary>
 	public static InteractMessage Send(GameObject subject, string hand)
 	{
 		return Send(subject, subject.transform.position, hand);
