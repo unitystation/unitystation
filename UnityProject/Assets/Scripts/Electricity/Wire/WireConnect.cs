@@ -4,6 +4,7 @@ using Tilemaps;
 using Tilemaps.Behaviours.Objects;
 using UnityEngine.Networking;
 using UnityEngine;
+using Events;
 
 namespace Electricity
 {
@@ -27,6 +28,7 @@ namespace Electricity
 
 		private void OnEnable()
 		{
+			EventManager.AddHandler(EVENT.PowerNetSelfCheck, FindPossibleConnections);
 			if(supplySource != null){
 				supplySource.OnCircuitChange.AddListener(OnCircuitChanged);
 			}
@@ -34,6 +36,7 @@ namespace Electricity
 
 		private void OnDisable()
 		{
+			EventManager.RemoveHandler(EVENT.PowerNetSelfCheck, FindPossibleConnections);
 			if (supplySource != null) {
 				supplySource.OnCircuitChange.RemoveListener(OnCircuitChanged);
 			}

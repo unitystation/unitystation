@@ -11,6 +11,7 @@ namespace Electricity
 		public PowerSupply powerSupply;
 
 		//Is the SMES turned on
+		[SyncVar(hook="UpdateState")]
 		public bool isOn = false;
 		public int currentCharge; // 0 - 100
 
@@ -26,21 +27,17 @@ namespace Electricity
 		public SpriteRenderer OnOffIndicator;
 		public SpriteRenderer chargeIndicator;
 
-		private void OnEnable()
-		{
-			UpdateState();
-		}
-
 		public override void OnStartClient(){
 			base.OnStartClient();
-			UpdateState();
+			UpdateState(isOn);
 
 			//Test
 			currentCharge = 100;
 		}
 
 		//Update the current State of the SMES (sprites and statistics) 
-		void UpdateState(){
+		void UpdateState(bool _isOn){
+			isOn = _isOn;
 			if(isOn){
 				//Start the supply of electricity to the circuit:
 				powerSupply.TurnOnSupply(3000f, 20f); //Test supply of 3000volts and 20amps
@@ -68,11 +65,11 @@ namespace Electricity
 		public override void Interact(GameObject originator, Vector3 position, string hand)
 		{
 			//Interact stuff with the SMES here
-			//TODO Network everythng (currently WIP test mode)
-
-			//Testing:
-			isOn = !isOn;
-			UpdateState();
+			if (!isServer) {
+				InteractMessage.Send(gameObject, hand);
+			} else {
+				isOn = !isOn;
+			}
 		}
 
 	}
