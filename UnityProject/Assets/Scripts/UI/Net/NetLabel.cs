@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-///In-only text label, not modifiable by clients directly
+///Text label, not modifiable by clients directly
 [RequireComponent(typeof(Text))]
 [Serializable]
 public class NetLabel : NetUIElement

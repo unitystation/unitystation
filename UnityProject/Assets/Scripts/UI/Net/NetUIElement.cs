@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
+/// Base class for networked UI element
 [Serializable]
 public abstract class NetUIElement : MonoBehaviour
 {
-	private NetUITab masterTab;
 	protected bool externalChange;
 
+	/// Unique tab that contains this element
 	public NetUITab MasterTab {
 		get {
 			if ( !masterTab ) {
@@ -14,6 +15,7 @@ public abstract class NetUIElement : MonoBehaviour
 			return masterTab;
 		}
 	}
+	private NetUITab masterTab;
 
 	public ElementValue ElementValue => new ElementValue{Id = name, Value = Value};
 
@@ -37,13 +39,18 @@ public abstract class NetUIElement : MonoBehaviour
 		set {
 		}
 	}
-
-	public virtual void ExecuteClient() {
+	
+	/// Always point to this method in OnValueChanged
+	/// <a href="https://camo.githubusercontent.com/e3bbac26b36a01c9df8fbb6a6858bb4a82ba3036/68747470733a2f2f63646e2e646973636f72646170702e636f6d2f6174746163686d656e74732f3339333738373838303431353239373534332f3435333632313031363433343833353435362f7467745f636c69656e742e676966">See GIF</a>
+	public void ExecuteClient() {
 		//Don't send if triggered by external change
 		if ( !externalChange ) {
 			TabInteractMessage.Send(MasterTab.Provider, MasterTab.Type, name, Value);
 		}
 	}
+	
+	/// Send update to observers.
+	/// Override if you want to include more values than just the current one
 	protected virtual void UpdatePeepers() {
 		TabUpdateMessage.SendToPeepers( MasterTab.Provider, MasterTab.Type, TabAction.Update, new[] {ElementValue} );
 	}
@@ -59,6 +66,6 @@ public enum ElementMode {
 	Normal, 
 	/// Only server can change value
 	ServerWrite, 
-	/// Only client can change value, server doesn't store it
+	/// Only client can change value, and server doesn't store it
 	ClientWrite
 }

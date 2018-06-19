@@ -239,7 +239,7 @@ namespace UI
 					string elementId = values[i].Id;
 					string value = values[i].Value;
 					var netElement = tabInfo[elementId];
-					netElement.Value = value;
+					netElement.Value = value; //FIXME: NRE when another player touches self delete button 
 					if ( touched ) {
 						Instance.ShowFinger( tabInfo.Reference, netElement.gameObject );
 					}

@@ -4,11 +4,12 @@ using System.Linq;
 using UI;
 using UnityEngine;
 
+/// Base class for List of dynamic entries, which can be added/removed at runtime.
+/// Setting Value actually creates/removes entries for client
 public class NetUIDynamicList : NetUIElement {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	private int entryCount = 0;
 	
-
 	public Dictionary<string,DynamicEntry> Entries {
 		get {
 			var dynamicEntries = new Dictionary<string,DynamicEntry>();
@@ -30,7 +31,7 @@ public class NetUIDynamicList : NetUIElement {
 	/// Non-runtime static init
 	public override void Init() {
 		foreach ( var value in Entries.Values ) {
-			InitEntry( value );
+			InitDynamicEntry( value );
 		}
 	}
 
@@ -41,36 +42,39 @@ public class NetUIDynamicList : NetUIElement {
 	protected void Remove( string toBeRemoved ) {
 		var entryToRemove = Entries[toBeRemoved];
 		Debug.Log( $"Destroying entry #{toBeRemoved}({entryToRemove})" );
-//		Destroy( Entries[toBeRemoved].gameObject ); 
 		entryToRemove.gameObject.SetActive( false );
-		NetworkTabManager.Instance.Rescan( MasterTab.NetworkTab );
 		
-		RefreshPositions();
-
 		if ( CustomNetworkManager.Instance._isServer ) {
+			NetworkTabManager.Instance.Rescan( MasterTab.NetworkTab );
 			UpdatePeepers();
 		}
+		RefreshPositions();
 	}
 
-//todo: support more than one kind per tab
-
-	/// Server adds without providing name
-	protected DynamicEntry Add( string indexName = "" ) 
+	/// Adds new entry at given index (or generates index if none is provided)
+	/// Does NOT notify players implicitly
+	protected DynamicEntry Add( /*bool notify = true,*/ string proposedIndex = "" ) 
 	{
+	//todo: support more than one kind of entries per tab (introduce EntryType field or something)
 		string elementType = $"{MasterTab.Type}Entry";
 		
 		GameObject entryObject = Instantiate( Resources.Load<GameObject>( elementType ), transform, false );
 		
 		DynamicEntry dynamicEntry = entryObject.GetComponent<DynamicEntry>();
 
-		string result = InitEntry( dynamicEntry, indexName );
+		string resultIndex = InitDynamicEntry( dynamicEntry, proposedIndex );
 
 		RefreshPositions();
 		
-		if ( result != "" ) {
-			Debug.Log( $"Spawning entry #[{result}]: proposed: [{indexName}], entry: {dynamicEntry}" );
+		if ( resultIndex != "" ) {
+			Debug.Log( $"Spawning entry #[{resultIndex}]: proposed: [{proposedIndex}], entry: {dynamicEntry}" );
 		} else {
-			Debug.LogWarning( $"Entry \"{indexName}\" spawn failure, no such entryObject {elementType}" );
+			Debug.LogWarning( $"Entry \"{proposedIndex}\" spawn failure, no such entryObject {elementType}" );
+		}
+
+		if ( CustomNetworkManager.Instance._isServer /*&& notify*/ ) {
+			NetworkTabManager.Instance.Rescan( MasterTab.NetworkTab );
+//			UpdatePeepers();
 		}
 
 		return dynamicEntry;
@@ -105,7 +109,8 @@ public class NetUIDynamicList : NetUIElement {
 		TabUpdateMessage.SendToPeepers( MasterTab.Provider, MasterTab.Type, TabAction.Update, valuesToSend.ToArray() );
 	}
 
-	protected virtual string InitEntry( DynamicEntry entry, string desiredName = "" ) {
+	/// Sets entry name to index, also makes its elements unique by appending index as postfix
+	private string InitDynamicEntry( DynamicEntry entry, string desiredName = "" ) {
 		if ( !entry ) {
 			return "";
 		}
@@ -121,8 +126,6 @@ public class NetUIDynamicList : NetUIElement {
 			//postfix and not prefix because of how NetKeyButton works
 			entry.Elements[i].name = entry.Elements[i].name + "_" + index; 
 		}
-		//Initializing entry
-		entry.Init();
 
 		return index;
 	}
@@ -145,10 +148,6 @@ public class NetUIDynamicList : NetUIElement {
 			foreach ( string toBeAdded in toAdd ) {
 				Add( toBeAdded );
 			}
-//			//Client only:
-//			if ( ControlTabs.Instance.openedTabs.ContainsKey( MasterTab.NetworkTab ) ) {
-//				ControlTabs.Instance.openedTabs[MasterTab.NetworkTab]?.RescanElements();
-//			}
 			externalChange = false;
 		}
 	}

@@ -16,17 +16,21 @@ public class NetDynamicButton : NetUIElement
 
 	public override void Init() {
 		//some reflection is required here.
-		//grabbing tab prefab w/ method name and looking it up in parents
+		
+		//reading prefab-based listener information:
 		var tabToLookup = ServerMethod.GetPersistentTarget( 0 );
-		MethodInfo methodInfo = UnityEventBase.GetValidMethodInfo( tabToLookup,
-			ServerMethod.GetPersistentMethodName( 0 ),
-			new[]{typeof(string)} );
-		UnityEditor.Events.UnityEventTools.RemovePersistentListener( ServerMethod, 0 );
+		MethodInfo methodInfo = UnityEventBase.GetValidMethodInfo( tabToLookup, ServerMethod.GetPersistentMethodName( 0 ), new[]{ typeof(string) } );
+		
+		//disabling rigid listener
+		ServerMethod.SetPersistentListenerState( 0, UnityEventCallState.Off );
 		 
+		//looking up a live instance of that tab we initially mapped listener to (in editor)
 		var foundComponent = GetComponentInParent(tabToLookup.GetType());
+		
+		//making a dynamic copy of initial prefab-based listener
 		UnityAction<string> execute = str => methodInfo.Invoke(foundComponent, new object[] {str});
 		
-//		UnityEditor.Events.UnityEventTools.AddPersistentListener( ServerMethod, execute ); //todo investigate 
+		//applying a dynamic copy of initial prefab-based listener
 		ServerMethod.AddListener (execute);
 	}
 

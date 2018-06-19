@@ -79,7 +79,7 @@ public struct NetworkTab {
 	private readonly TabType type;
 
 	public NetworkTab( GameObject provider, TabType type ) {
-		this.provider = provider.GetComponent<NetworkTabTrigger>();
+		this.provider = provider?.GetComponent<NetworkTabTrigger>();
 		this.type = type;
 
 	}
@@ -155,7 +155,7 @@ public class NetworkTabInfo
 		var nonLists = new List<ElementValue>();
 		bool shouldRescan = false;
 		
-		//set DynamicList values first (so that entries would get created)
+		//set DynamicList values first (so that corresponding elements would get created)
 		for ( var i = 0; i < values.Length; i++ ) {
 			var elementId = values[i].Id;
 			if ( CachedElements.ContainsKey( elementId ) && this[elementId] is NetUIDynamicList ) {
@@ -186,9 +186,4 @@ public class NetworkTabInfo
 			}
 		}
 	}
-}
-
-public struct TabElement {
-	public string Id;
-	public int Value;
 }

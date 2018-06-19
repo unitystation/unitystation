@@ -1,10 +1,17 @@
 ﻿using UnityEngine;
-/// <summary>
 /// all server only
-/// </summary>
 public class ItemEntry : DynamicEntry {
-	public GameObject Prefab;
-	public override void Init() {
+	private GameObject prefab;
+
+	public GameObject Prefab {
+		get { return prefab; }
+		set {
+			prefab = value;
+			ReInit();
+		}
+	}
+
+	public void ReInit() {
 		if ( !Prefab ) {
 			Debug.Log( "ItemEntry: no prefab found, not doing init" );
 			return;
@@ -21,7 +28,6 @@ public class ItemEntry : DynamicEntry {
 						element.Value = itemAttributes.name;
 						break;
 					case "ItemIcon":
-						//todo: figure out how to pass sprite via string && NetUIImage component
 						element.Value = itemAttributes.gameObject.name; 
 //						element.Value = itemAttributes.GetComponentInChildren<SpriteRenderer>()?.sprite.name; 
 						break;
@@ -29,5 +35,4 @@ public class ItemEntry : DynamicEntry {
 		}
 		Debug.Log( $"ItemEntry: Init success! Prefab={Prefab}, ItemName={itemAttributes.name}, ItemIcon={itemAttributes.gameObject.name}" );
 	}
-	//todo: setPrefab?
 }

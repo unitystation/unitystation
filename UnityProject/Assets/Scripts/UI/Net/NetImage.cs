@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-///prefab-based for now
+/// Holds value of prefab containing sprite we're looking for.
+/// prefab-based for now
 public class NetImage : NetUIElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;

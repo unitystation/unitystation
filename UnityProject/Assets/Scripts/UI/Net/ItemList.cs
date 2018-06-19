@@ -29,14 +29,11 @@ public class ItemList : NetUIDynamicList {
 		}
 		//set its elements
 		newEntry.Prefab = prefab;
-		
-		newEntry.Init();
 		Debug.Log( $"ItemList: Item add success! newEntry={newEntry}" );
 
-		//reinit and notify
+		//rescan elements  and notify
 		NetworkTabManager.Instance.Rescan( MasterTab.NetworkTab );
-		
-		UpdatePeepers(); //todo: should probably move this to parent
+		UpdatePeepers(); 
 		
 		return true;
 	}

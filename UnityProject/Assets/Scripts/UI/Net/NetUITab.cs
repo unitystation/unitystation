@@ -1,4 +1,5 @@
 using UnityEngine;
+/// Descriptor for unique Net UI Tab
 public class NetUITab : MonoBehaviour {
 	public GameObject Provider;
 	public TabType Type;

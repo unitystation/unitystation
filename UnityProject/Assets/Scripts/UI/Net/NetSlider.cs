@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+
+/// Slider, used to call methods with float as arg
 [RequireComponent(typeof(Slider))]
 [Serializable]
 public class NetSlider : NetUIElement
@@ -35,6 +37,4 @@ public class NetSlider : NetUIElement
 /// <inheritdoc />
 /// "If you wish to use a generic UnityEvent type you must override the class type."
 [Serializable]
-public class FloatEvent : UnityEvent<float>
-{
-}
+public class FloatEvent : UnityEvent<float>{}

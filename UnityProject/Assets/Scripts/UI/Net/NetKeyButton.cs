@@ -2,7 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-
+/// Used to call Char methods.
+/// Uses forst char of its own name as value.
+/// Useful for virtual keypads.
 [RequireComponent(typeof( Button ))]
 [Serializable]
 public class NetKeyButton : NetUIElement
@@ -19,6 +21,4 @@ public class NetKeyButton : NetUIElement
 /// <inheritdoc />
 /// "If you wish to use a generic UnityEvent type you must override the class type."
 [Serializable]
-public class CharEvent : UnityEvent<char>
-{
-}
+public class CharEvent : UnityEvent<char> {}
