@@ -10,6 +10,8 @@ using UnityEngine.UI;
 [Serializable]
 public class NetSubmitButton : NetUIElement
 {
+	public override ElementMode InteractionMode => ElementMode.ClientWrite;
+	
 	public override string Value {
 		get { return SourceInputField?.text ?? "-1"; }
 		set {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UI;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -150,12 +151,14 @@ public class NetworkTabInfo
 			CachedElements.Remove( toRemove[i] );
 		}
 	}
-	//import values
-	public void ImportValues( ElementValue[] values ) {
+	/// Import values.
+	///
+	[CanBeNull]
+	public NetUIElement ImportValues( ElementValue[] values ) {
 		var nonLists = new List<ElementValue>();
 		bool shouldRescan = false;
 		
-		//set DynamicList values first (so that corresponding elements would get created)
+		//set DynamicList values first (so that corresponding subelements would get created)
 		for ( var i = 0; i < values.Length; i++ ) {
 			var elementId = values[i].Id;
 			if ( CachedElements.ContainsKey( elementId ) && this[elementId] is NetUIDynamicList ) {
@@ -175,15 +178,24 @@ public class NetworkTabInfo
 		if ( shouldRescan ) {
 			RescanElements();
 		}
+
+		NetUIElement firstTouchedElement = null;
 		
 		//set the rest of the values 
 		for ( var i = 0; i < nonLists.Count; i++ ) {
 			var elementId = nonLists[i].Id;
-			if ( CachedElements.ContainsKey( elementId ) ) {
-				this[elementId].Value = nonLists[i].Value;
+			if ( CachedElements.ContainsKey( elementId ) ) 
+			{
+				var element = this[elementId];
+				element.Value = nonLists[i].Value;
+				
+				if ( firstTouchedElement == null ) {
+					firstTouchedElement = element;
+				}
 			} else {
 				Debug.LogWarning( $"'{reference.name}' wonky value import: can't find '{elementId}'" );
 			}
 		}
+		return firstTouchedElement;
 	}
 }

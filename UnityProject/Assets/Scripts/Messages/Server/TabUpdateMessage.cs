@@ -24,7 +24,7 @@ public class TabUpdateMessage : ServerMessage {
 				ControlTabs.ShowTab( Type, NetworkObject, ElementValues );
 				break;
 			case TabAction.Close:
-				ControlTabs.HideTab( Type, NetworkObject );
+				ControlTabs.CloseTab( Type, NetworkObject );
 				break;
 			case TabAction.Update:
 				ControlTabs.UpdateTab( Type, NetworkObject, ElementValues, Touched );
@@ -64,7 +64,7 @@ public class TabUpdateMessage : ServerMessage {
 		switch ( tabAction ) { 
 			case TabAction.Open:
 				NetworkTabManager.Instance.Add(provider, type, recipient);
-				//!! resetting EV 
+				//!! resetting ElementValues 
 				msg.ElementValues = NetworkTabManager.Instance.Get( provider, type ).ElementValues;
 				//!!
 				break;

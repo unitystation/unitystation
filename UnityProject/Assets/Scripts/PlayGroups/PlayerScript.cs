@@ -48,6 +48,8 @@ namespace PlayGroup
 
 		public HitIcon hitIcon { get; set; }
 
+		public Vector3Int WorldPos => registerTile.WorldPosition;
+
 		public ChatChannel SelectedChannels
 		{
 			get { return selectedChannels & GetAvailableChannelsMask(); }
