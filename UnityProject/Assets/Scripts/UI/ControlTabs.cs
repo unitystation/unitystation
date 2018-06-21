@@ -43,6 +43,19 @@ namespace UI
 				}
 				return list;
 			}
+		} //^^^vvv can be generified to something with a Func, but I'm feeling lazy
+		private List<Tab> HiddenTabs {
+			get {
+				var list = new List<Tab>();
+				var tabs = TabStorage.GetComponentsInChildren<Tab>( true );
+				for ( var i = 0; i < tabs.Length; i++ ) {
+					Tab tab = tabs[i];
+					if ( tab.Hidden ) {
+						list.Add( tab );
+					}
+				}
+				return list;
+			}
 		}
 
 		///Includes hidden (inactive) ones
@@ -54,6 +67,19 @@ namespace UI
 					toReturn.Add(foundTabs[i].Type, foundTabs[i]);
 				}
 				return toReturn;
+			}
+		}
+
+		public Dictionary<NetTabDescriptor, NetTab> HiddenNetTabs {
+			get {
+				var netTabs = new Dictionary<NetTabDescriptor, NetTab>();
+				for ( var i = 0; i < HiddenTabs.Count; i++ ) {
+					NetTab tab = HiddenTabs[i] as NetTab;
+					if ( tab != null ) {
+						netTabs.Add( tab.NetTabDescriptor, tab );
+					}
+				}
+				return netTabs;
 			}
 		}
 
@@ -173,33 +199,17 @@ namespace UI
 			}
 		}
 
-		///     Check if the Item List Tab needs to be updated or closed
-		public static void CheckItemListTab()
-		{
-			if (!Instance.itemListTabExists)
-			{
-				return;
-			}
-			if (!PlayerManager.LocalPlayerScript || !PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation()))
-			{
-				Instance.HideTab(ClientTabType.ItemList);
-				return;
-			}
-			UITileList.UpdateItemPanelList();
+		private void UnhideTab( Tab tab ) {
+			tab.Hidden = false;
+			RefreshTabHeaders();
+			SelectTab( tab.gameObject );
 		}
 
-//		private void UnhideTab( Tab tab ) {
-//			tab.Hidden = false;
-//			tab.gameObject.SetActive( true );
-//			RefreshTabHeaders();
-////			SelectTab( type );
-//		}
-//
-//		private void UnhideTab( ClientTabType type ) {
-//			if ( ClientTabs.ContainsKey( type ) ) {
-//				UnhideTab(ClientTabs[type]);
-//			}
-//		}
+		private void UnhideTab( ClientTabType type ) {
+			if ( ClientTabs.ContainsKey( type ) ) {
+				UnhideTab(ClientTabs[type]);
+			}
+		}
 
 		private void HideTab( Tab tab ) {
 			tab.Hidden = true;
@@ -212,7 +222,6 @@ namespace UI
 			if ( ClientTabs.ContainsKey( type ) ) {
 				HideTab( ClientTabs[type] );
 			}
-//			UITileList.ClearItemPanel();
 		}
 
 		/// <summary>
@@ -222,43 +231,48 @@ namespace UI
 		/// <param name="tile">Tile to include in the Item List Tab</param>
 		/// <param name="position">Position of objects</param>
 		public static void ShowItemListTab(IEnumerable<GameObject> objects, LayerTile tile, Vector3 position)
-		{ //fixme: does weird things
-//			var tab = Instance.ClientTabs[ClientTabType.itemList];
-//			
-//			if ( !UITileList.Instance ) {
-//				UITileList.Instance = tab.GetComponentsInChildren<UITileList>( true )[0];
-//			}
-//			
-//			//If window exists, player is perhaps alt-clicking at another tile. Only slide tabs if Item List Tab doesn't already exist.
-//			if (Instance.itemListTabExists){
-//				UITileList.ClearItemPanel();
-//			} else {
-//				Instance.UnhideTab( ClientTabType.itemList );
-////				SlideOptionsAndMoreTabs(Vector3.right);
-//			}
-//
-//			UITileList.UpdateTileList(objects, tile, position);
-//
-//			if (!UITileList.IsEmpty()) {
-//				tab.GetComponentInChildren<Text>().text = tile ? tile.name : "Objects";
-//				Instance.SelectTab( ClientTabType.itemList );
-//			}
+		{
+			var tab = Instance.ClientTabs[ClientTabType.ItemList];
+			
+			if ( !UITileList.Instance ) {
+				UITileList.Instance = tab.GetComponentsInChildren<UITileList>( true )[0];
+			}
+			
+			//If window exists, player is perhaps alt-clicking at another tile. Only slide tabs if Item List Tab doesn't already exist.
+			if ( !Instance.itemListTabExists ) {
+				Instance.UnhideTab( ClientTabType.ItemList );
+			}
+
+			UITileList.ClearItemPanel();
+			UITileList.UpdateTileList(objects, tile, position);
+
+			if (!UITileList.IsEmpty()) {
+				tab.GetComponentInChildren<Text>().text = tile ? tile.name : "Objects";
+				Instance.SelectTab( ClientTabType.ItemList );
+			}
 		}
-
-//		private static void SlideOptionsAndMoreTabs(Vector3 direction)
-//		{
-//			float width = Instance.ItemListTab.GetComponent<RectTransform>().rect.width;
-//			RectTransform optionsRect = Instance.optionsTab.GetComponent<RectTransform>();
-//			RectTransform moreRect = Instance.moreTab.GetComponent<RectTransform>();
-
-//			optionsRect.localPosition += direction * (width/* / 2f*/);
-//			moreRect.localPosition += direction * (width/* / 2f*/);
-//		}
+		
+		///     Check if the Item List Tab needs to be updated or closed
+		public static void CheckItemListTab()
+		{
+			if (!Instance.itemListTabExists){
+				return;
+			}
+			if (!PlayerManager.LocalPlayerScript || !PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation())){
+				Instance.HideTab(ClientTabType.ItemList);
+				return;
+			}
+			UITileList.UpdateItemPanelList();
+		}
 
 		public static void ShowTab( NetTabType type, GameObject tabProvider, ElementValue[] elementValues ) {
 			var openedTab = new NetTabDescriptor( tabProvider, type );
+			//try to dig out a hidden tab with matching parameters and enable it:
+			if ( Instance.HiddenNetTabs.ContainsKey( openedTab ) ) {
+//				Debug.Log( $"Yay, found an old hidden {openedTab} tab. Unhiding it" );
+				Instance.UnhideTab( Instance.HiddenNetTabs[openedTab] );
+			}
 			if ( !Instance.OpenedNetTabs.ContainsKey( openedTab ) ) {
-				//todo: reuse hidden (closed) tabs
 				NetTab tabInfo = openedTab.Spawn();
 				GameObject tabObject = tabInfo.gameObject;
 
@@ -321,7 +335,7 @@ namespace UI
 		private void ShowFinger( GameObject tab, GameObject element ) {
 			GameObject fingerObject = Instantiate( FingerPrefab, tab.transform );
 			fingerObject.transform.position =
-				element.transform.position + new Vector3( Random.Range( -5f, 5f ), Random.Range( -5f, 5f ), 0 ); //todo randomize V3 extension method
+				element.transform.position + new Vector3( Random.Range( -5f, 5f ), Random.Range( -5f, 5f ), 0 );
 			Instance.StartCoroutine(FingerDecay(fingerObject.GetComponent<Image>()));
 		}
 
