@@ -1,6 +1,6 @@
 using UnityEngine;
 /// Server only stuff
-public class ShuttleUIControl : NetUITab {
+public class GUI_ShuttleControl : NetTab {
 	private MatrixMove matrixMove;
 	private MatrixMove MatrixMove {
 		get {

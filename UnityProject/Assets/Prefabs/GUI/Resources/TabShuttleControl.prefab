@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 224979633078539924}
   - component: {fileID: 222245468049156976}
   - component: {fileID: 114843012948015456}
-  - component: {fileID: 114358009618329902}
+  - component: {fileID: 114343398355056170}
   m_Layer: 5
   m_Name: TabShuttleControl
   m_TagString: Untagged
@@ -607,7 +607,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114358009618329902}
+      - m_Target: {fileID: 114343398355056170}
         m_MethodName: TurnOnOff
         m_Mode: 0
         m_Arguments:
@@ -633,7 +633,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114358009618329902}
+      - m_Target: {fileID: 114343398355056170}
         m_MethodName: SetSpeed
         m_Mode: 0
         m_Arguments:
@@ -770,7 +770,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114358009618329902}
+      - m_Target: {fileID: 114343398355056170}
         m_MethodName: TurnRight
         m_Mode: 1
         m_Arguments:
@@ -953,7 +953,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: L
---- !u!114 &114358009618329902
+--- !u!114 &114343398355056170
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -961,12 +961,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1576420294694384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05eae46fa6b845b4e9bfa4e3ffed5073, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f742d0fc4fea9f44b58e62b6042bd4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Hidden: 0
   Provider: {fileID: 0}
   Type: 1
-  matrixMove: {fileID: 0}
 --- !u!114 &114421611290471058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1498,7 +1498,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114358009618329902}
+      - m_Target: {fileID: 114343398355056170}
         m_MethodName: TurnLeft
         m_Mode: 1
         m_Arguments:

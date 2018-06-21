@@ -1,5 +1,6 @@
 using System.Collections;
 using PlayGroup;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -26,6 +27,10 @@ public class PlayerMoveMessage : ServerMessage
 //			Debug.Log( "Zero step rollback" );
 			playerSync.ClearQueueClient();
 			playerSync.RollbackPrediction();
+		}
+
+		if ( NetworkObject == PlayerManager.LocalPlayer ) {
+			ControlTabs.CheckTabClose();
 		}
 		
 	}

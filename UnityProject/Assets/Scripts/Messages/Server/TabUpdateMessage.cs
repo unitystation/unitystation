@@ -9,7 +9,7 @@ public class TabUpdateMessage : ServerMessage {
 	public static short MessageType = (short) MessageTypes.TabUpdateMessage;
  
 	public NetworkInstanceId Provider;
-	public TabType Type;
+	public NetTabType Type;
 	public TabAction Action;
 
 	public ElementValue[] ElementValues;
@@ -38,7 +38,7 @@ public class TabUpdateMessage : ServerMessage {
 		       $"{nameof( ElementValue )}: {string.Join("; ",ElementValues)}]";
 	}
 
-	public static void SendToPeepers( GameObject provider, TabType type, TabAction tabAction, /*GameObject changedBy = null,*/
+	public static void SendToPeepers( GameObject provider, NetTabType type, TabAction tabAction, /*GameObject changedBy = null,*/
 		ElementValue[] values = null ) {
 //		ElementValue[] values = null ) {
 		//Notify all peeping players of the change
@@ -49,7 +49,7 @@ public class TabUpdateMessage : ServerMessage {
 		}
 	}
 
-	public static TabUpdateMessage Send( GameObject recipient, GameObject provider, TabType type, TabAction tabAction, GameObject changedBy = null,
+	public static TabUpdateMessage Send( GameObject recipient, GameObject provider, NetTabType type, TabAction tabAction, GameObject changedBy = null,
 		ElementValue[] values = null ) {
 //		if ( changedBy ) {
 //			//body = human_33, hands, uniform, suit

@@ -95,21 +95,21 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	///managed by UpdateManager
 	public override void UpdateMe(){
 		if ( isServer ) {
-			if ( Input.GetKeyDown( startKey ) ) {
-				ToggleMovement();
-			}
-			if ( Input.GetKeyDown( KeyCode.KeypadPlus ) ) {
-				AdjustSpeed( 1 );
-			}
-			if ( Input.GetKeyDown( KeyCode.KeypadMinus ) ) {
-				AdjustSpeed( -1 );
-			}
-			if ( Input.GetKeyDown( leftKey ) ) {
-				TryRotate( false );
-			}
-			if ( Input.GetKeyDown( rightKey ) ) {
-				TryRotate( true );
-			}
+//			if ( Input.GetKeyDown( startKey ) ) {
+//				ToggleMovement();
+//			}
+//			if ( Input.GetKeyDown( KeyCode.KeypadPlus ) ) {
+//				AdjustSpeed( 1 );
+//			}
+//			if ( Input.GetKeyDown( KeyCode.KeypadMinus ) ) {
+//				AdjustSpeed( -1 );
+//			}
+//			if ( Input.GetKeyDown( leftKey ) ) {
+//				TryRotate( false );
+//			}
+//			if ( Input.GetKeyDown( rightKey ) ) {
+//				TryRotate( true );
+//			}
 			CheckMovementServer();
 		} 
 		CheckMovement();	

@@ -2,9 +2,9 @@ using System.Collections;
 using UnityEngine;
 using Util;
 
-public class GUI_Spawner : NetUITab 
+public class GUI_Spawner : NetTab 
 {
-	private ItemList EntryList => Info["EntryList"] as ItemList;
+	private ItemList EntryList => this["EntryList"] as ItemList;
 
 	public void AddItem( string prefabName ) {
 		EntryList?.AddItem( prefabName );

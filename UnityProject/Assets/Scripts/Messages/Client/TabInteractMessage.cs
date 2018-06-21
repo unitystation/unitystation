@@ -11,7 +11,7 @@ public class TabInteractMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.TabInteractMessage;
 	public NetworkInstanceId TabProvider;
-	public TabType TabType;
+	public NetTabType NetTabType;
 	public string ElementId;
 	public string ElementValue;
 	//Serverside
@@ -30,10 +30,10 @@ public class TabInteractMessage : ClientMessage
 			FailValidation( player, tabProvider, "Can't interact/reach" );
 			return;
 		}
-		var tabInfo = NetworkTabManager.Instance.Get( tabProvider, TabType );
-		if ( tabInfo == NetworkTabInfo.Invalid ) {
+		var tabInfo = NetworkTabManager.Instance.Get( tabProvider, NetTabType );
+		if ( !tabInfo /* == NetworkTabInfo.Invalid*/ ) {
 			//No such tab exists on server!
-			FailValidation( player, tabProvider, $"No such tab: {tabProvider}/{TabType}" );
+			FailValidation( player, tabProvider, $"No such tab: {tabProvider}/{NetTabType}" );
 			return;
 		}
 		var updatedElement = tabInfo[ElementId];
@@ -58,10 +58,10 @@ public class TabInteractMessage : ClientMessage
 		}
 		
 		//Notify all peeping players of the change
-		foreach ( var connectedPlayer in NetworkTabManager.Instance.GetPeepers( tabProvider, TabType ) ) {
+		foreach ( var connectedPlayer in NetworkTabManager.Instance.GetPeepers( tabProvider, NetTabType ) ) {
 			//Not sending that update to the same player
 			if ( connectedPlayer.GameObject != player ) {
-				TabUpdateMessage.Send( connectedPlayer.GameObject, tabProvider, TabType, TabAction.Update, player,
+				TabUpdateMessage.Send( connectedPlayer.GameObject, tabProvider, NetTabType, TabAction.Update, player,
 					new[]{new ElementValue{ Id = ElementId, Value = updatedElement.Value}}  );
 			}
 		}
@@ -69,14 +69,14 @@ public class TabInteractMessage : ClientMessage
 
 	private TabUpdateMessage FailValidation( GameObject player, GameObject tabProvider, string reason="" ) {
 		Debug.LogWarning( $"{player}: Tab interaction w/{tabProvider} denied: {reason}" );
-		return TabUpdateMessage.Send( player, tabProvider, TabType, TabAction.Close );
+		return TabUpdateMessage.Send( player, tabProvider, NetTabType, TabAction.Close );
 	}
 
-	public static TabInteractMessage Send( GameObject tabProvider, TabType tabType, string elementId, string elementValue = "-1" )
+	public static TabInteractMessage Send( GameObject tabProvider, NetTabType netTabType, string elementId, string elementValue = "-1" )
 	{
 		TabInteractMessage msg = new TabInteractMessage {
 			TabProvider = tabProvider.NetId(),
-			TabType = tabType,
+			NetTabType = netTabType,
 			ElementId = elementId,
 			ElementValue = elementValue
 		};
@@ -85,7 +85,7 @@ public class TabInteractMessage : ClientMessage
 	}
 
 	public override string ToString() {
-		return $"[TabInteractMessage {nameof( TabProvider )}: {TabProvider}, {nameof( TabType )}: {TabType}, " +
+		return $"[TabInteractMessage {nameof( TabProvider )}: {TabProvider}, {nameof( NetTabType )}: {NetTabType}, " +
 									$"{nameof( ElementId )}: {ElementId}, {nameof( ElementValue )}: {ElementValue}, " +
 									$"MsgType={MessageType} SentBy={SentBy}]";
 	}
@@ -94,7 +94,7 @@ public class TabInteractMessage : ClientMessage
 	{
 		base.Deserialize(reader);
 		TabProvider = reader.ReadNetworkId();
-		TabType = (TabType) reader.ReadInt32();
+		NetTabType = (NetTabType) reader.ReadInt32();
 		ElementId = reader.ReadString();
 		ElementValue = reader.ReadString();
 //		ElementValue = reader.ReadInt32();
@@ -104,7 +104,7 @@ public class TabInteractMessage : ClientMessage
 	{
 		base.Serialize(writer);
 		writer.Write(TabProvider);
-		writer.Write( (int)TabType );
+		writer.Write( (int)NetTabType );
 		writer.Write( ElementId );
 		writer.Write( ElementValue );
 	}

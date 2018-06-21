@@ -32,7 +32,7 @@ public class ItemList : NetUIDynamicList {
 		Debug.Log( $"ItemList: Item add success! newEntry={newEntry}" );
 
 		//rescan elements  and notify
-		NetworkTabManager.Instance.Rescan( MasterTab.NetworkTab );
+		NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
 		UpdatePeepers(); 
 		
 		return true;

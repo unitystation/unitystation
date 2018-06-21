@@ -5,7 +5,7 @@ using UnityEngine;
 using Util;
 
 public abstract class NetworkTabTrigger : InputTrigger {
-    public TabType TabType;
+    public NetTabType NetTabType;
     public override void Interact(GameObject originator, Vector3 position, string hand)
     {
         var playerScript = originator.GetComponent<PlayerScript>();
@@ -21,7 +21,7 @@ public abstract class NetworkTabTrigger : InputTrigger {
         else
         {
             //Server actions
-            TabUpdateMessage.Send( originator, gameObject, TabType, TabAction.Open );
+            TabUpdateMessage.Send( originator, gameObject, NetTabType, TabAction.Open );
             
         }
     }

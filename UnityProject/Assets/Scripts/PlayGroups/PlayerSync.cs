@@ -222,9 +222,6 @@ namespace PlayGroup
 					return;
 				}
 
-				//Check if we should still be displaying an ItemListTab and update it, if so.
-				//ControlTabs.CheckItemListTab();//fixme: it's shit
-
 				if ( PullingObject != null ) {
 					if ( transform.hasChanged ) {
 						transform.hasChanged = false;

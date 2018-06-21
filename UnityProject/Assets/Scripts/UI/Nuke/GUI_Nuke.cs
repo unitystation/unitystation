@@ -2,7 +2,7 @@
 using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 
-public class GUI_Nuke : NetUITab
+public class GUI_Nuke : NetTab
 {
 	private NukeInteract nukeInteract;
 	private NukeInteract NukeInteract {
@@ -16,8 +16,8 @@ public class GUI_Nuke : NetUITab
 	}
 	private bool cooldown;
 	//define elements you want to visually update here
-	private NetUIElement InfoDisplay => Info["InfoDisplay"];//todo cache them?
-	private NetUIElement CodeDisplay => Info["CodeDisplay"];
+	private NetUIElement InfoDisplay => this["InfoDisplay"];//todo cache them?
+	private NetUIElement CodeDisplay => this["CodeDisplay"];
 	private string InitialInfoText;
 
 	private void Start() {

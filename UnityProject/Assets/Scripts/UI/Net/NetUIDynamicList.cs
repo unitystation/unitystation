@@ -45,7 +45,7 @@ public class NetUIDynamicList : NetUIElement {
 		entryToRemove.gameObject.SetActive( false );
 		
 		if ( CustomNetworkManager.Instance._isServer ) {
-			NetworkTabManager.Instance.Rescan( MasterTab.NetworkTab );
+			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
 			UpdatePeepers();
 		}
 		RefreshPositions();
@@ -73,7 +73,7 @@ public class NetUIDynamicList : NetUIElement {
 		}
 
 		if ( CustomNetworkManager.Instance._isServer /*&& notify*/ ) {
-			NetworkTabManager.Instance.Rescan( MasterTab.NetworkTab );
+			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
 //			UpdatePeepers();
 		}
 

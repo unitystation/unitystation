@@ -12,9 +12,9 @@ using Object = UnityEngine.Object;
 public class NetworkTabManager : MonoBehaviour {
 	//Declare in awake as NetTabManager needs to be destroyed on each scene change
 	public static NetworkTabManager Instance;
-	private readonly Dictionary<NetworkTab, NetworkTabInfo> openTabs = 
-		new Dictionary<NetworkTab, NetworkTabInfo>();
-	public List<ConnectedPlayer> GetPeepers(GameObject provider, TabType type) {
+	private readonly Dictionary<NetTabDescriptor, NetTab> openTabs = 
+		new Dictionary<NetTabDescriptor, NetTab>();
+	public List<ConnectedPlayer> GetPeepers(GameObject provider, NetTabType type) {
 		var info = openTabs[Tab( provider, type )]; //unsafe
 		if ( info.IsUnobserved ) {
 			return new List<ConnectedPlayer>();
@@ -35,167 +35,63 @@ public class NetworkTabManager : MonoBehaviour {
 	}
 
 	/// Used when a new dynamic element is added/removed
-	public void Rescan( NetworkTab tab ) {
-		Get( tab ).RescanElements();
+	public void Rescan( NetTabDescriptor tabDescriptor ) {
+		Get( tabDescriptor ).RescanElements();
 	}
 
 
 	///Create new NetworkTabInfo if it doesn't exist, otherwise add player to it
-	public void Add( NetworkTab tab, GameObject player ) {
-		if ( !openTabs.ContainsKey( tab ) ) {
+	public void Add( NetTabDescriptor tabDescriptor, GameObject player ) {
+		if ( !openTabs.ContainsKey( tabDescriptor ) ) {
 			//Spawning new one
-			openTabs.Add( tab, tab.Spawn() );
+			openTabs.Add( tabDescriptor, tabDescriptor.Spawn() );
 		} 
-		openTabs[tab].AddPlayer( player );
+		openTabs[tabDescriptor].AddPlayer( player );
 	}
-	public void Add( GameObject provider, TabType type, GameObject player ) {
+	public void Add( GameObject provider, NetTabType type, GameObject player ) {
 		Add( Tab(provider, type), player );
 	}
 
-	public void Remove( GameObject provider, TabType type, GameObject player ) {
+	public void Remove( GameObject provider, NetTabType type, GameObject player ) {
 		Remove( Tab( provider, type ), player );
 	}
 
 	/// remove player from NetworkTabInfo, keeping the tab
-	public void Remove( NetworkTab tab, GameObject player ) {
-		NetworkTabInfo t = openTabs[tab];
+	public void Remove( NetTabDescriptor tabDescriptor, GameObject player ) {
+		NetTab t = openTabs[tabDescriptor];
 		t.RemovePlayer( player );
 	}
 
-	public NetworkTabInfo Get( GameObject provider, TabType type ) {
+	public NetTab Get( GameObject provider, NetTabType type ) {
 		return Get( Tab(provider, type) );
 	}
 
-	public NetworkTabInfo Get( NetworkTab tab ) {
-		return openTabs.ContainsKey(tab) ? openTabs[tab] : NetworkTabInfo.Invalid;
+	public NetTab Get( NetTabDescriptor tabDescriptor ) {
+		return openTabs.ContainsKey( tabDescriptor ) ? openTabs[tabDescriptor] : null; //NetworkTabInfo.Invalid;
 	}
 
-	private static NetworkTab Tab( GameObject provider, TabType type ) {
-		return new NetworkTab( provider, type );
+	private static NetTabDescriptor Tab( GameObject provider, NetTabType type ) {
+		return new NetTabDescriptor( provider, type );
 	}
 }
 
-public struct NetworkTab {
+public struct NetTabDescriptor {
 	private readonly NetworkTabTrigger provider;
-	private readonly TabType type;
+	private readonly NetTabType type;
 
-	public NetworkTab( GameObject provider, TabType type ) {
+	public NetTabDescriptor( GameObject provider, NetTabType type ) {
 		this.provider = provider?.GetComponent<NetworkTabTrigger>();
 		this.type = type;
-
+		if ( type == NetTabType.None ) {
+			Debug.LogError( "You forgot to set a proper NetTabType in your new tab!\n" +
+			                "Go to Prefabs/GUI/Resources and see if any prefabs starting with Tab has Type=None" );
+		}
 	}
 
-	public NetworkTabInfo Spawn() {
+	public NetTab Spawn() {
 		var tabObject = Object.Instantiate( Resources.Load( $"Tab{type}" ) as GameObject );
-		tabObject.GetComponent<NetUITab>().Provider = provider.gameObject;
-		var tab = tabObject;
-		return new NetworkTabInfo(tab);
-	}
-}
-
-public class NetworkTabInfo
-{
-	public static readonly NetworkTabInfo Invalid = new NetworkTabInfo(null);
-	private readonly GameObject reference;
-	private List<NetUIElement> Elements => reference.GetComponentsInChildren<NetUIElement>(false).ToList();
-
-	public Dictionary<string, NetUIElement> CachedElements { get; }
-	public HashSet<ConnectedPlayer> Peepers { get; }
-	/// Actual tab gameobject
-	public GameObject Reference => reference;
-	public bool IsUnobserved => Peepers.Count == 0;
-	public ElementValue[] ElementValues => CachedElements.Values.Select( element => element.ElementValue ).ToArray(); //likely expensive
-
-	public NetworkTabInfo( GameObject reference ) {
-		this.reference = reference;
-		Peepers = new HashSet<ConnectedPlayer>();
-		CachedElements = new Dictionary<string, NetUIElement>();
-		if ( reference != null ) {			
-			InitElements();
-		}
-	}
-	
-	public NetUIElement this[ string elementId ] => CachedElements.ContainsKey(elementId) ? CachedElements[elementId] : null;
-	
-	public void AddPlayer( GameObject player ) {
-		Peepers.Add( PlayerList.Instance.Get( player ) );
-	}	
-	public void RemovePlayer( GameObject player ) {
-		Peepers.Remove( PlayerList.Instance.Get( player ) );
-	}
-
-	public void RescanElements() {
-		InitElements();
-	}
-
-	private void InitElements() {
-		var elements = Elements;
-		//Init and add new elements to cache
-		for ( var i = 0; i < elements.Count; i++ ) {
-			NetUIElement element = elements[i];
-			if ( !CachedElements.ContainsValue( element ) ) {
-				element.Init();
-				CachedElements.Add( element.name, element );
-			}
-		}
-
-		var toRemove = new List<string>();
-		//Mark non-existent elements for removal
-		foreach ( var pair in CachedElements ) {
-			if ( !elements.Contains(pair.Value) ) {
-				toRemove.Add( pair.Key );
-			}
-		}
-		//Remove obsolete elements from cache 
-		for ( var i = 0; i < toRemove.Count; i++ ) {
-			CachedElements.Remove( toRemove[i] );
-		}
-	}
-	/// Import values.
-	///
-	[CanBeNull]
-	public NetUIElement ImportValues( ElementValue[] values ) {
-		var nonLists = new List<ElementValue>();
-		bool shouldRescan = false;
-		
-		//set DynamicList values first (so that corresponding subelements would get created)
-		for ( var i = 0; i < values.Length; i++ ) {
-			var elementId = values[i].Id;
-			if ( CachedElements.ContainsKey( elementId ) && this[elementId] is NetUIDynamicList ) {
-				bool listContentsChanged = this[elementId].Value != values[i].Value;
-				if ( listContentsChanged ) {
-					this[elementId].Value = values[i].Value;
-					shouldRescan = true;
-				}
-			} 
-			else 
-			{
-				nonLists.Add( values[i] );
-			}
-		}
-
-		//rescan elements in case of dynamic list changes
-		if ( shouldRescan ) {
-			RescanElements();
-		}
-
-		NetUIElement firstTouchedElement = null;
-		
-		//set the rest of the values 
-		for ( var i = 0; i < nonLists.Count; i++ ) {
-			var elementId = nonLists[i].Id;
-			if ( CachedElements.ContainsKey( elementId ) ) 
-			{
-				var element = this[elementId];
-				element.Value = nonLists[i].Value;
-				
-				if ( firstTouchedElement == null ) {
-					firstTouchedElement = element;
-				}
-			} else {
-				Debug.LogWarning( $"'{reference.name}' wonky value import: can't find '{elementId}'" );
-			}
-		}
-		return firstTouchedElement;
+		NetTab netTab = tabObject.GetComponent<NetTab>();
+		netTab.Provider = provider.gameObject;
+		return netTab;
 	}
 }

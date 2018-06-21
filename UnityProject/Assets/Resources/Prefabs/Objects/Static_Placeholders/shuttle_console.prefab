@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114841477709409904}
   - component: {fileID: 114959292841992252}
   - component: {fileID: 114489178862107254}
-  - component: {fileID: 114535950056527104}
+  - component: {fileID: 114660502884524074}
   m_Layer: 11
   m_Name: shuttle_console
   m_TagString: Untagged
@@ -136,10 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
---- !u!114 &114535950056527104
+--- !u!114 &114660502884524074
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -147,11 +146,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1413862099450234}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aa59d70b7ee44340995a8cde946c051, type: 3}
+  m_Script: {fileID: 11500000, guid: 15547858c4462dc4fb5dcad7eb78f118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TabType: 1
-  interactionMessage: You activate the shuttle console
+  NetTabType: 1
+  interactionMessage: 
   ShuttleMatrixMove: {fileID: 0}
 --- !u!114 &114841477709409904
 MonoBehaviour:
@@ -167,22 +166,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 195
-    i1: 156
-    i2: 225
-    i3: 55
-    i4: 10
-    i5: 235
-    i6: 100
-    i7: 228
-    i8: 25
-    i9: 160
-    i10: 173
-    i11: 143
-    i12: 185
-    i13: 29
-    i14: 82
-    i15: 87
+    i0: 53
+    i1: 69
+    i2: 166
+    i3: 2
+    i4: 136
+    i5: 160
+    i6: 104
+    i7: 100
+    i8: 152
+    i9: 11
+    i10: 112
+    i11: 173
+    i12: 165
+    i13: 208
+    i14: 129
+    i15: 238
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &114959292841992252

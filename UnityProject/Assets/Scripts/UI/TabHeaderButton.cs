@@ -7,7 +7,28 @@ using UnityEngine.UI;
 [RequireComponent(typeof( Button ))]
 [Serializable]
 public class TabHeaderButton : MonoBehaviour {
-	public int Value => transform.GetSiblingIndex();
+	public int Value { get; set; }
+
+	private Button Button {
+		get {
+			if ( !button ) {
+				button = GetComponent<Button>();
+			}
+			return button;
+		}
+	}
+	private Button button;
+	
+	public Color selectedColor;
+	public Color unselectColor;
+
+	public void Select() {
+		Button.image.color = selectedColor;
+	}
+	public void Unselect() {
+		Button.image.color = unselectColor;
+	}
+
 	[HideInInspector]
 	public IntEvent Method; //don't touch this
 

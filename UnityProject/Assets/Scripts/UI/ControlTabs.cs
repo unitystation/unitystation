@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using PlayGroup;
 using Tilemaps.Tiles;
 using UnityEngine;
@@ -11,66 +12,10 @@ namespace UI
 	{
 		private static ControlTabs controlTabs;
 
-		private bool itemListTabExists => ClientTabs.ContainsKey( ClientTabType.itemList ) && ClientTabs[ClientTabType.itemList].activeInHierarchy;
-
-		public Color selectedColor;
-		public Color unselectColor;
-		
-		public List<GameObject> TabHeaders {
-			get {
-				var headers = new List<GameObject>();
-				for ( int i = 0; i < HeaderStorage.childCount; i++ ) {
-					headers.Add(HeaderStorage.GetChild( i ).gameObject);
-				}
-				return headers;
-			}
-		}
-		///Includes hidden (inactive) ones
-		private Dictionary<ClientTabType, GameObject> ClientTabs {
-			get {
-				var toReturn = new Dictionary<ClientTabType, GameObject>();
-				var foundTabs = TabStorage.GetComponentsInChildren<ClientTab>(true);
-				for ( int i = 0; i < foundTabs.Length; i++ ) {
-					toReturn.Add(foundTabs[i].Type, foundTabs[i].gameObject);
-				}
-				return toReturn;
-			}
-		}
-
-		private List<KeyValuePair<Button, GameObject>> AllTabs {
-			get {
-				var list = new List<KeyValuePair<Button, GameObject>>();
-				int headerCount = HeaderStorage.childCount;
-				int tabCount = TabStorage.childCount;
-				if ( headerCount != tabCount ) {
-					Debug.LogError( $"There are {tabCount} tabs and {headerCount} tab headers, ouch" );
-					return list;
-				}
-				for ( int i = 0; i < headerCount; i++ ) {
-					list.Add( new KeyValuePair<Button, GameObject>(
-						HeaderStorage.GetChild( i )?.gameObject.GetComponent<Button>(),
-						TabStorage.GetChild( i )?.gameObject
-					) );
-				}
-				return list;
-			}
-		}
-
-		private KeyValuePair<Button, GameObject> HeaderTabPair(int index) {
-			return new KeyValuePair<Button, GameObject>( 
-				HeaderStorage.GetChild( index )?.GetComponent<Button>(),
-				TabStorage.GetChild( index )?.gameObject
-			);
-		}
-
-		public Dictionary<NetworkTab, NetworkTabInfo> OpenedNetTabs = new Dictionary<NetworkTab, NetworkTabInfo>();
-
 		private static GameObject FingerPrefab;
-
-		public static GameObject TabHeaderPrefab;
+		private static GameObject TabHeaderPrefab;
 
 		private Transform HeaderStorage;
-
 		private Transform TabStorage;
 
 		public static ControlTabs Instance {
@@ -82,42 +27,106 @@ namespace UI
 			}
 		}
 
+		private bool itemListTabExists => ClientTabs.ContainsKey( ClientTabType.ItemList ) && !ClientTabs[ClientTabType.ItemList].Hidden;
+
+		private TabHeaderButton[] Headers => HeaderStorage.GetComponentsInChildren<TabHeaderButton>();
+
+		private List<Tab> ActiveTabs {
+			get {
+				var list = new List<Tab>();
+				var tabs = TabStorage.GetComponentsInChildren<Tab>( true );
+				for ( var i = 0; i < tabs.Length; i++ ) {
+					Tab tab = tabs[i];
+					if ( !tab.Hidden ) {
+						list.Add( tab );
+					}
+				}
+				return list;
+			}
+		}
+
+		///Includes hidden (inactive) ones
+		private Dictionary<ClientTabType, ClientTab> ClientTabs {
+			get {
+				var toReturn = new Dictionary<ClientTabType, ClientTab>();
+				var foundTabs = TabStorage.GetComponentsInChildren<ClientTab>(true);
+				for ( int i = 0; i < foundTabs.Length; i++ ) {
+					toReturn.Add(foundTabs[i].Type, foundTabs[i]);
+				}
+				return toReturn;
+			}
+		}
+
+		public Dictionary<NetTabDescriptor, NetTab> OpenedNetTabs {
+			get {
+				var netTabs = new Dictionary<NetTabDescriptor, NetTab>();
+				for ( var i = 0; i < ActiveTabs.Count; i++ ) {
+					NetTab tab = ActiveTabs[i] as NetTab;
+					if ( tab != null ) {
+						netTabs.Add( tab.NetTabDescriptor, tab );
+					}
+				}
+				return netTabs;
+			}
+		}
+
 		private void Start() {
 			HeaderStorage = transform.GetChild( 0 );
 			TabStorage = transform.GetChild( 1 );
 			FingerPrefab = Resources.Load<GameObject>( "PokeFinger" );
 			TabHeaderPrefab = Resources.Load<GameObject>( "TabHeader" );
 			RefreshTabHeaders();
-			Instance.HideClientTab(ClientTabType.itemList);
+			Instance.HideTab(ClientTabType.ItemList);
 
-			SelectTab(ClientTabType.stats);
+			SelectTab(ClientTabType.Stats);
 		}
 
+		//for every non-hidden tab: create new header and set its index value according to the tab index.
+		//select header if tab is active
 		private void RefreshTabHeaders() {
-			ClearTabHeaders();
-			for ( int i = 0; i < TabStorage.childCount; i++ ) {
-				var foundTab = TabStorage.GetChild( i ).gameObject;
-				var newTabHeader = Instantiate( TabHeaderPrefab, HeaderStorage, false );
-				string tabName = foundTab.name.Replace( "PANEL_", "" );
-				newTabHeader.name = tabName;
-				newTabHeader.GetComponentInChildren<Text>().text = tabName;
-				SetHeaderPosition( newTabHeader, i );
+			var approvedHeaders = new HashSet<TabHeaderButton>();
+
+			for ( var i = 0; i < ActiveTabs.Count; i++ ) {
+				Tab tab = ActiveTabs[i];
+
+				var headerButton = HeaderForTab( tab );
+				if ( !headerButton ) {
+					headerButton = Instantiate( TabHeaderPrefab, HeaderStorage, false ).GetComponent<TabHeaderButton>();
+				}
+
+				headerButton.Value = tab.transform.GetSiblingIndex();
+				string tabName = tab.name.Replace( "Tab", "" ).Replace( "_", " " ).Trim();
+				headerButton.gameObject.name = tabName;
+				headerButton.GetComponentInChildren<Text>().text = tabName;
+
+				SetHeaderPosition( headerButton.gameObject, i );
+				
+				approvedHeaders.Add( headerButton );
+			}
+			
+			//Killing extra headers
+			for ( var i = 0; i < Headers.Length; i++ ) {
+				var header = Headers[i];
+				if ( !approvedHeaders.Contains( header ) ) {
+					Destroy( header.gameObject );
+				}
 			}
 		}
 
-		private void ClearTabHeaders() { //fixme: headers stay undestroyed and things go crazy
-			for ( var i = 0; i < TabHeaders.Count; i++ ) {
-				var tabHeader = TabHeaders[i];
-				Destroy( tabHeader ); //.SetActive( false );
+		private TabHeaderButton HeaderForTab( Tab tab ) {
+			if ( tab.Hidden ) {
+//				Debug.LogWarning( $"Tab {tab} is hidden, no header will be provided" );
+				return null;
 			}
+			for ( var i = 0; i < Headers.Length; i++ ) {
+				var header = Headers[i];
+				if ( header.Value == tab.transform.GetSiblingIndex() ) {
+					return header;
+				}
+			}
+//			Debug.LogError( $"No headers found for {tab}, wtf?" );
+			return null;
 		}
-
-//		/// Need to run this on tab count change to ensure no gaps are present
-//		public void RefreshHeaderPositions() {
-//			for ( var i = 0; i < TabHeaders.Count; i++ ) {
-//				SetHeaderPosition( TabHeaders[i], i );
-//			}
-//		}
 
 		private void SetHeaderPosition( GameObject header, int index = 0 ) {
 			RectTransform rect = header.GetComponent<RectTransform>();
@@ -143,10 +152,13 @@ namespace UI
 			Debug.Log( $"Selecting tab #{index}" );
 			
 			UnselectAll();
-			var tab = HeaderTabPair( index );
-
-			tab.Key.image.color = selectedColor;
-			tab.Value.SetActive( true );
+			Tab tab = TabStorage.GetChild( index )?.GetComponent<Tab>();
+			if ( !tab ) {
+				Debug.LogWarning( $"No tab found with index {index}!" );
+				return;
+			}
+			tab.gameObject.SetActive( true );
+			HeaderForTab(tab).Select();
 
 			if ( click ) {
 				SoundManager.Play("Click01");		
@@ -154,10 +166,10 @@ namespace UI
 		}
 
 		private void UnselectAll() {
-			for ( var i = 0; i < AllTabs.Count; i++ ) {
-				var tabPair = AllTabs[i];
-				tabPair.Key.image.color = unselectColor;
-				tabPair.Value.SetActive( false );
+			for ( var i = 0; i < ActiveTabs.Count; i++ ) {
+				var tab = ActiveTabs[i];
+				HeaderForTab( tab ).Unselect();
+				tab.gameObject.SetActive( false );
 			}
 		}
 
@@ -170,26 +182,36 @@ namespace UI
 			}
 			if (!PlayerManager.LocalPlayerScript || !PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation()))
 			{
-				Instance.HideClientTab(ClientTabType.itemList);
+				Instance.HideTab(ClientTabType.ItemList);
 				return;
 			}
 			UITileList.UpdateItemPanelList();
 		}
 
-		private void UnhideClientTab( ClientTabType type ) {
-			if ( ClientTabs.ContainsKey( type ) ) {
-				ClientTabs[type].gameObject.SetActive( true );
-			}
+//		private void UnhideTab( Tab tab ) {
+//			tab.Hidden = false;
+//			tab.gameObject.SetActive( true );
+//			RefreshTabHeaders();
+////			SelectTab( type );
+//		}
+//
+//		private void UnhideTab( ClientTabType type ) {
+//			if ( ClientTabs.ContainsKey( type ) ) {
+//				UnhideTab(ClientTabs[type]);
+//			}
+//		}
+
+		private void HideTab( Tab tab ) {
+			tab.Hidden = true;
+			tab.gameObject.SetActive( false );
 			RefreshTabHeaders();
-			SelectTab( type );
+			SelectTab( ClientTabType.Stats, false );
 		}
 
-		private void HideClientTab( ClientTabType type ) {
+		private void HideTab( ClientTabType type ) {
 			if ( ClientTabs.ContainsKey( type ) ) {
-				ClientTabs[type].gameObject.SetActive( false );
+				HideTab( ClientTabs[type] );
 			}
-			RefreshTabHeaders();
-			SelectTab( 0, false );
 //			UITileList.ClearItemPanel();
 		}
 
@@ -211,7 +233,7 @@ namespace UI
 //			if (Instance.itemListTabExists){
 //				UITileList.ClearItemPanel();
 //			} else {
-//				Instance.UnhideClientTab( ClientTabType.itemList );
+//				Instance.UnhideTab( ClientTabType.itemList );
 ////				SlideOptionsAndMoreTabs(Vector3.right);
 //			}
 //
@@ -233,12 +255,12 @@ namespace UI
 //			moreRect.localPosition += direction * (width/* / 2f*/);
 //		}
 
-
-		public static void ShowTab( TabType type, GameObject tabProvider, ElementValue[] elementValues ) {
-			var openedTab = new NetworkTab( tabProvider, type );
+		public static void ShowTab( NetTabType type, GameObject tabProvider, ElementValue[] elementValues ) {
+			var openedTab = new NetTabDescriptor( tabProvider, type );
 			if ( !Instance.OpenedNetTabs.ContainsKey( openedTab ) ) {
-				NetworkTabInfo tabInfo = openedTab.Spawn();
-				GameObject tabObject = tabInfo.Reference;
+				//todo: reuse hidden (closed) tabs
+				NetTab tabInfo = openedTab.Spawn();
+				GameObject tabObject = tabInfo.gameObject;
 
 				//putting into the right place
 				var rightPanelParent = UIManager.Instance.GetComponentInChildren<ControlTabs>().transform.GetChild( 1 );
@@ -248,39 +270,52 @@ namespace UI
 				rect.offsetMin = new Vector2(15, 15);
 				rect.offsetMax = -new Vector2(15, 50);
 				
-				tabObject.SetActive( true );
 				Instance.RefreshTabHeaders();
-				Instance.SelectTab( tabObject, false );
-				
-				tabInfo.ImportValues( elementValues );
-				
-				Instance.OpenedNetTabs.Add( openedTab, tabInfo );
 			}
+
+			NetTab tab = Instance.OpenedNetTabs[openedTab];
+			tab.ImportValues( elementValues );
+			Instance.SelectTab( tab.gameObject, false );
 		}
 
-		public static void CloseTab( TabType type, GameObject tabProvider ) {
-			var tabDesc = new NetworkTab( tabProvider, type );
+		public static void CloseTab( NetTabType type, GameObject tabProvider ) {
+			var tabDesc = new NetTabDescriptor( tabProvider, type );
 			if ( Instance.OpenedNetTabs.ContainsKey( tabDesc ) ) {
-			// consider deactivating?
-				GameObject openedTab = Instance.OpenedNetTabs[tabDesc].Reference;
-				Destroy(openedTab);
-				Instance.OpenedNetTabs.Remove( tabDesc );
-				Instance.RefreshTabHeaders();
-				Instance.SelectTab( 0 );
+				var openedTab = Instance.OpenedNetTabs[tabDesc];
+				Instance.HideTab( openedTab );
 			}
 		}
 
-		public static void UpdateTab( TabType type, GameObject tabProvider, ElementValue[] values, bool touched = false ) {
-			var lookupTab = new NetworkTab(tabProvider, type);
+		public static void UpdateTab( NetTabType type, GameObject tabProvider, ElementValue[] values, bool touched = false ) {
+			var lookupTab = new NetTabDescriptor(tabProvider, type);
 			if ( Instance.OpenedNetTabs.ContainsKey( lookupTab ) ) {
 				var tabInfo = Instance.OpenedNetTabs[lookupTab];
 
 				var touchedElement = tabInfo.ImportValues( values );
 
 				if ( touched && touchedElement != null ) {
-					Instance.ShowFinger( tabInfo.Reference, touchedElement.gameObject );
+					Instance.ShowFinger( tabInfo.gameObject, touchedElement.gameObject );
 				}
 			}
+		}
+		
+		///for client.
+		///Close tabs if you're out of interaction radius
+		public static void CheckTabClose() {
+			var toClose = new List<NetTab>();
+			var playerScript = PlayerManager.LocalPlayerScript;
+			
+			foreach ( NetTab tab in Instance.OpenedNetTabs.Values ) {
+				if (playerScript.canNotInteract() || !playerScript.IsInReach( tab.Provider ))
+				{
+					toClose.Add( tab );
+				}
+			}
+			foreach ( NetTab tab in toClose ) {
+				Instance.HideTab( tab );
+			}
+
+			CheckItemListTab();
 		}
 
 		private void ShowFinger( GameObject tab, GameObject element ) {

@@ -7,15 +7,15 @@ public abstract class NetUIElement : MonoBehaviour
 	protected bool externalChange;
 
 	/// Unique tab that contains this element
-	public NetUITab MasterTab {
+	public NetTab MasterTab {
 		get {
 			if ( !masterTab ) {
-				masterTab = GetComponentsInParent<NetUITab>(true)[0];
+				masterTab = GetComponentsInParent<NetTab>(true)[0];
 			}
 			return masterTab;
 		}
 	}
-	private NetUITab masterTab;
+	private NetTab masterTab;
 
 	public ElementValue ElementValue => new ElementValue{Id = name, Value = Value};
 
