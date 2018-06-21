@@ -8,6 +8,7 @@ using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Meta.Data;
 using Tilemaps.Utils;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Tilemaps.Behaviours.Meta
 {
@@ -35,11 +36,60 @@ namespace Tilemaps.Behaviours.Meta
 		public void run()
 		{
 			MoveGas();
-			// TODO AirReactions(), currently only for Plasma ?
 			CalculateEdge();
 		}
 
-		public void MoveGas()
+		private List<List<Vector3Int>> areasToUpdate = new List<List<Vector3Int>>();
+
+		public class Area
+		{
+			private HashSet<Vector3Int> area = new HashSet<Vector3Int>();
+			private HashSet<Vector3Int> border = new HashSet<Vector3Int>();
+
+			public Area(Vector3Int start)
+			{
+				area.Add(start);
+				border.Add(start);
+			}
+			
+			public void Expand()
+			{
+				
+			}
+
+			public void Equalize()
+			{
+				
+			}
+
+			public void Remove(Vector3Int position)
+			{
+				area.Remove(position);
+				border.Remove(position);
+			}
+		}
+
+		private void MoveGas2()
+		{
+			foreach (List<Vector3Int> area in areasToUpdate)
+			{
+				// expand
+				// 	 if it couldn't be expanded
+				// equalize
+			}
+		}
+
+		private void Expand(List<Vector3Int> area)
+		{
+			// Find border TODO save border
+		}
+
+		private void Equalize(List<Vector3Int> area)
+		{
+			
+		}
+
+		private void MoveGas()
 		{
 			int count = updateList.Count;
 			for (int i = 0; i < count; i++)

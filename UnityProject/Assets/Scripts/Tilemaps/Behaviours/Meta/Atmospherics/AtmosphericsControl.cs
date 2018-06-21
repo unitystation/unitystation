@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 
 namespace Tilemaps.Behaviours.Meta
 {
-	[ExecuteInEditMode]
 	public class AtmosphericsControl : SystemBehaviour
 	{
 		private ThreadTest thread;
@@ -19,7 +18,8 @@ namespace Tilemaps.Behaviours.Meta
 		
 		public override void UpdateAt(Vector3Int position)
 		{
-			thread.Enqueue(position);
+			thread?.Enqueue(position);
+
 		}
 
 		private void OnDestroy()
