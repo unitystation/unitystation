@@ -8238,10 +8238,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb40989ecd870421286c2e1fb00915b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectedDevices: []
+  powerGenerators: []
+  allSuppliers: []
   connPointA: 0
   connPointB: -1
   registerTile: {fileID: 1226484118}
   connected: 0
+  supplyElectricity: 0
+  currentTick: 0
+  tickRate: 1
+  OnCircuitChange:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  Voltage: 0
+  Current: 0
 --- !u!114 &1226484118 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114038174743996046, guid: 35eed4273d90143b0926de4715bbc06e,
@@ -8365,6 +8378,41 @@ Prefab:
     - target: {fileID: 224264904714827184, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_AnchoredPosition.y
+      value: 0.000061035156
+      objectReference: {fileID: 0}
+    - target: {fileID: 224082241428792102, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224082241428792102, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224082241428792102, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224652079256797148, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000061035156
+      objectReference: {fileID: 0}
+    - target: {fileID: 224253814974175500, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224253814974175500, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224253814974175500, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -10120,20 +10168,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 212024194644658190, guid: e76e1e2174fe48d41bf086955b459b61,
-        type: 2}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 4f85e53cd32a45a4e8e6c6437a668c2e,
-        type: 3}
     - target: {fileID: 1042895037894172, guid: e76e1e2174fe48d41bf086955b459b61, type: 2}
       propertyPath: m_Name
       value: StructureWire (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114759812017920740, guid: e76e1e2174fe48d41bf086955b459b61,
-        type: 2}
-      propertyPath: DirectionStart
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e76e1e2174fe48d41bf086955b459b61, type: 2}

@@ -10,6 +10,7 @@ namespace Electricity
 	{
 		public PoweredDevice poweredDevice;
 
+		[SyncVar(hook = "CheckState")]
 		public bool isOn = false;
 		public bool connectedToOther = false;
 		private bool spriteAnimRunning = false;
@@ -28,6 +29,7 @@ namespace Electricity
 		{
 			base.OnStartClient();
 			poweredDevice.OnSupplyChange.AddListener(SupplyUpdate);
+			CheckState(isOn);
 		}
 
 		private void OnDisable()
@@ -37,20 +39,21 @@ namespace Electricity
 
 		public override void Interact(GameObject originator, Vector3 position, string hand)
 		{
-			//TODO Network everythng (currently WIP test mode)
-
-			//Testing:
-			isOn = !isOn;
-			CheckState();
+			if (!isServer) {
+				InteractMessage.Send(gameObject, hand);
+			} else {
+				isOn = !isOn;
+				CheckState(isOn);
+			}
 		}
 
 		//Power supply updates
 		void SupplyUpdate(){
-			CheckState();
+			CheckState(isOn);
 		}
 
 		//Check the operational state
-		void CheckState(){
+		void CheckState(bool _isOn){
 			if(isOn){
 				if(poweredDevice.suppliedElectricity.current == 0){
 					StopCoroutine(SpriteAnimator());
