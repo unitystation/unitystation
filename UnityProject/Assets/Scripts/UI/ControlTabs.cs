@@ -70,11 +70,12 @@ namespace UI
 			}
 		}
 
-		public Dictionary<NetTabDescriptor, NetTab> HiddenNetTabs {
+		private Dictionary<NetTabDescriptor, NetTab> HiddenNetTabs {
 			get {
 				var netTabs = new Dictionary<NetTabDescriptor, NetTab>();
-				for ( var i = 0; i < HiddenTabs.Count; i++ ) {
-					NetTab tab = HiddenTabs[i] as NetTab;
+				var hiddenTabs = HiddenTabs;
+				for ( var i = 0; i < hiddenTabs.Count; i++ ) {
+					NetTab tab = hiddenTabs[i] as NetTab;
 					if ( tab != null ) {
 						netTabs.Add( tab.NetTabDescriptor, tab );
 					}
@@ -83,11 +84,12 @@ namespace UI
 			}
 		}
 
-		public Dictionary<NetTabDescriptor, NetTab> OpenedNetTabs {
+		private Dictionary<NetTabDescriptor, NetTab> OpenedNetTabs {
 			get {
 				var netTabs = new Dictionary<NetTabDescriptor, NetTab>();
-				for ( var i = 0; i < ActiveTabs.Count; i++ ) {
-					NetTab tab = ActiveTabs[i] as NetTab;
+				var activeTabs = ActiveTabs;
+				for ( var i = 0; i < activeTabs.Count; i++ ) {
+					NetTab tab = activeTabs[i] as NetTab;
 					if ( tab != null ) {
 						netTabs.Add( tab.NetTabDescriptor, tab );
 					}
@@ -100,7 +102,7 @@ namespace UI
 			HeaderStorage = transform.GetChild( 0 );
 			TabStorage = transform.GetChild( 1 );
 			FingerPrefab = Resources.Load<GameObject>( "PokeFinger" );
-			TabHeaderPrefab = Resources.Load<GameObject>( "TabHeader" );
+			TabHeaderPrefab = Resources.Load<GameObject>( "HeaderTab" );
 			RefreshTabHeaders();
 			Instance.HideTab(ClientTabType.ItemList);
 
@@ -112,8 +114,9 @@ namespace UI
 		private void RefreshTabHeaders() {
 			var approvedHeaders = new HashSet<TabHeaderButton>();
 
-			for ( var i = 0; i < ActiveTabs.Count; i++ ) {
-				Tab tab = ActiveTabs[i];
+			var activeTabs = ActiveTabs;
+			for ( var i = 0; i < activeTabs.Count; i++ ) {
+				Tab tab = activeTabs[i];
 
 				var headerButton = HeaderForTab( tab );
 				if ( !headerButton ) {
@@ -121,18 +124,21 @@ namespace UI
 				}
 
 				headerButton.Value = tab.transform.GetSiblingIndex();
-				string tabName = tab.name.Replace( "Tab", "" ).Replace( "_", " " ).Trim();
+				string tabName = tab.name.Replace( "Tab", "" ).Replace( "_", " " ).Replace( "(Clone)", "" ).Trim();
 				headerButton.gameObject.name = tabName;
 				headerButton.GetComponentInChildren<Text>().text = tabName;
 
-				SetHeaderPosition( headerButton.gameObject, i );
+				( ( RectTransform ) headerButton.transform ).anchoredPosition = Vector2.right * ( i * 40 );
+				//need to wait till the next frame to set proper position
+				StartCoroutine( SetHeaderPosition( headerButton.gameObject, i ) );
 				
 				approvedHeaders.Add( headerButton );
 			}
 			
 			//Killing extra headers
-			for ( var i = 0; i < Headers.Length; i++ ) {
-				var header = Headers[i];
+			var headers = Headers;
+			for ( var i = 0; i < headers.Length; i++ ) {
+				var header = headers[i];
 				if ( !approvedHeaders.Contains( header ) ) {
 					Destroy( header.gameObject );
 				}
@@ -144,8 +150,10 @@ namespace UI
 //				Debug.LogWarning( $"Tab {tab} is hidden, no header will be provided" );
 				return null;
 			}
-			for ( var i = 0; i < Headers.Length; i++ ) {
-				var header = Headers[i];
+
+			var headers = Headers;
+			for ( var i = 0; i < headers.Length; i++ ) {
+				var header = headers[i];
 				if ( header.Value == tab.transform.GetSiblingIndex() ) {
 					return header;
 				}
@@ -154,9 +162,22 @@ namespace UI
 			return null;
 		}
 
-		private void SetHeaderPosition( GameObject header, int index = 0 ) {
-			RectTransform rect = header.GetComponent<RectTransform>();
-			rect.anchoredPosition = Vector3.right * rect.rect.width * index;
+		private IEnumerator SetHeaderPosition( GameObject header, int index = 0 ) {
+			yield return YieldHelper.EndOfFrame;
+
+			if ( header != null ) {
+				( ( RectTransform ) header.transform ).anchoredPosition = Vector3.right * GetHeaderOffset( index );
+			}
+		}
+
+		private int GetHeaderOffset( int tabIndex ) {
+			int width = 0;
+			var activeTabs = ActiveTabs;
+			for ( var i = 0; i < tabIndex; i++ ) {
+				var header = HeaderForTab(activeTabs[i]);
+				width += (int)( ( RectTransform ) header.gameObject.transform ).rect.width;
+			}
+			return width;
 		}
 
 		///Find client tab of given type and get its index
@@ -247,7 +268,7 @@ namespace UI
 			UITileList.UpdateTileList(objects, tile, position);
 
 			if (!UITileList.IsEmpty()) {
-				tab.GetComponentInChildren<Text>().text = tile ? tile.name : "Objects";
+//				tab.GetComponentInChildren<Text>().text = tile ? tile.name : "Objects";
 				Instance.SelectTab( ClientTabType.ItemList );
 			}
 		}
