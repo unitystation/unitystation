@@ -167,7 +167,7 @@ public partial class CustomNetTransform {
 	/// Throw object using data provided in ThrowInfo.
 	/// Range will be limited by itemAttributes
 	[Server]
-	public void Throw( ThrowInfo info ) {
+	public void Throw( ThrowInfo info ) { //FIXME: crappy throwing on rotated ship
 		SetPosition( info.OriginPos, false );
 
 		float throwSpeed = ItemAttributes.throwSpeed * 10; //tiles per second

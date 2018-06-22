@@ -62,8 +62,8 @@ namespace UI
 		private Dictionary<ClientTabType, ClientTab> ClientTabs {
 			get {
 				var toReturn = new Dictionary<ClientTabType, ClientTab>();
-				var foundTabs = TabStorage.GetComponentsInChildren<ClientTab>(true);
-				for ( int i = 0; i < foundTabs.Length; i++ ) {
+				var foundTabs = TabStorage?.GetComponentsInChildren<ClientTab>(true);
+				for ( int i = 0; i < foundTabs?.Length; i++ ) {
 					toReturn.Add(foundTabs[i].Type, foundTabs[i]);
 				}
 				return toReturn;

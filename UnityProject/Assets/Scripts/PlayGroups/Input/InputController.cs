@@ -203,7 +203,7 @@ namespace PlayGroups.Input
 				SpriteRenderer spriteRenderer = bySortingOrder[i];
 				Sprite sprite = spriteRenderer.sprite;
 
-				if ( spriteRenderer.enabled && sprite ) {
+				if ( spriteRenderer.enabled && sprite ) { //FIXME: crappy pixel interaction on rotated ship
 					Vector3 scale = spriteRenderer.gameObject.transform.localScale;
 					Vector3 offset = spriteRenderer.gameObject.transform.localPosition;
 

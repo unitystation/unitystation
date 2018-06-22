@@ -55,7 +55,7 @@ public struct TransformState {
 			}
 		}
 	}
-	public float Rotation;
+	public float Rotation; //FIXME: crappy init on rotated ship
 	/// Spin direction and speed, if it should spin
 	public sbyte SpinFactor; 
 	

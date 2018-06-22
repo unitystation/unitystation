@@ -38,9 +38,8 @@ public class TabUpdateMessage : ServerMessage {
 		       $"{nameof( ElementValue )}: {string.Join("; ",ElementValues)}]";
 	}
 
-	public static void SendToPeepers( GameObject provider, NetTabType type, TabAction tabAction, /*GameObject changedBy = null,*/
+	public static void SendToPeepers( GameObject provider, NetTabType type, TabAction tabAction,
 		ElementValue[] values = null ) {
-//		ElementValue[] values = null ) {
 		//Notify all peeping players of the change
 		List<ConnectedPlayer> list = NetworkTabManager.Instance.GetPeepers( provider, type );
 		for ( var i = 0; i < list.Count; i++ ) {
@@ -68,13 +67,13 @@ public class TabUpdateMessage : ServerMessage {
 				msg.ElementValues = NetworkTabManager.Instance.Get( provider, type ).ElementValues;
 				//!!
 				break;
-			case TabAction.Close: //todo: clientside auto close when out of range
+			case TabAction.Close:
 				NetworkTabManager.Instance.Remove(provider, type, recipient);
 				break;
 			case TabAction.Update: 
-				var playerScript = recipient.Player().Script;
+				var playerScript = recipient.Player()?.Script;
 				//Not sending updates and closing tab for players that don't pass the validation anymore
-				bool validate = !playerScript.canNotInteract() && playerScript.IsInReach( provider );
+				bool validate = playerScript && !playerScript.canNotInteract() && playerScript.IsInReach( provider );
 				if ( !validate ) {
 					Send( recipient, provider, type, TabAction.Close );
 					return msg;
