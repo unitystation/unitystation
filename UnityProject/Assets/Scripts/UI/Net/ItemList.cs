@@ -6,19 +6,25 @@ using Util;
 public class ItemList : NetUIDynamicList {
 
 	public bool AddItem( string prefabName ) {
-		foreach ( DynamicEntry item in Entries.Values ) {
-			if ( String.Equals( ( (ItemEntry) item )?.Prefab.ExpensiveName(), prefabName,
-				StringComparison.CurrentCultureIgnoreCase ) ) 
+		GameObject prefab = Resources.Load( prefabName ) as GameObject;
+		return AddItem( prefab );
+		
+	}
+
+	public bool AddItem( GameObject prefab ) 
+	{
+		if ( !prefab || !prefab.GetComponent<ItemAttributes>() ) {
+			Debug.LogWarning( $"No valid prefab found: {prefab}" );
+			return false;
+		}
+		
+		foreach ( DynamicEntry entry in Entries.Values ) {
+			var item = entry as ItemEntry;
+			if ( !item || !item.Prefab || item.Prefab.Equals( prefab )  ) 
 			{
-				Debug.Log( $"Item {prefabName} already exists in ItemList" );
+				Debug.Log( $"Item {prefab} already exists in ItemList" );
 				return false;
 			}
-		}
-		//load prefab
-		GameObject prefab = Resources.Load( prefabName ) as GameObject;
-		if ( !prefab || !prefab.GetComponent<ItemAttributes>() ) {
-			Debug.LogWarning( $"No valid prefab found: {prefabName}" );
-			return false;
 		}
 		
 		//add new entry
@@ -38,7 +44,9 @@ public class ItemList : NetUIDynamicList {
 		return true;
 	}
 
-
+	public bool RemoveItem( GameObject prefab ) {
+		return RemoveItem( prefab.name );
+	}
 	public bool RemoveItem( string prefabName ) {
 		foreach ( var pair in Entries ) {
 			if ( String.Equals( ( (ItemEntry) pair.Value )?.Prefab.name, prefabName,

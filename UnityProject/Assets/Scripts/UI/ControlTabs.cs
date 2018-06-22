@@ -196,7 +196,7 @@ namespace UI
 		/// This one is called when tab header is clicked on
 		public void SelectTab( int index, bool click = true ) 
 		{
-			Debug.Log( $"Selecting tab #{index}" );
+//			Debug.Log( $"Selecting tab #{index}" );
 			
 			UnselectAll();
 			Tab tab = TabStorage.GetChild( index )?.GetComponent<Tab>();
@@ -259,7 +259,6 @@ namespace UI
 				UITileList.Instance = tab.GetComponentsInChildren<UITileList>( true )[0];
 			}
 			
-			//If window exists, player is perhaps alt-clicking at another tile. Only slide tabs if Item List Tab doesn't already exist.
 			if ( !Instance.itemListTabExists ) {
 				Instance.UnhideTab( ClientTabType.ItemList );
 			}
@@ -268,7 +267,6 @@ namespace UI
 			UITileList.UpdateTileList(objects, tile, position);
 
 			if (!UITileList.IsEmpty()) {
-//				tab.GetComponentInChildren<Text>().text = tile ? tile.name : "Objects";
 				Instance.SelectTab( ClientTabType.ItemList );
 			}
 		}
@@ -365,7 +363,7 @@ namespace UI
 			var c = finger.color;
 			finger.color = new Color( c.r, c.g, c.b, Mathf.Clamp( c.a - 0.03f, 0, 1 ) );
 			if ( finger.color.a <= 0 ) {
-				Destroy( finger ); //could probably pool and deactivate and whatever instead
+				Destroy( finger );
 			} else {
 				Instance.StartCoroutine( FingerDecay( finger ) );
 			}

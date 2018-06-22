@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
+using Util;
 
 public class GUI_Nuke : NetTab
 {
@@ -15,15 +16,28 @@ public class GUI_Nuke : NetTab
 		}
 	}
 	private bool cooldown;
+	
 	//define elements you want to visually update here
-	private NetUIElement InfoDisplay => this["InfoDisplay"];//todo cache them?
+	
+	//Example: with caching (uglier, but cheaper)
+	private NetUIElement infoDisplay;
+	private NetUIElement InfoDisplay {
+		get {
+			if ( !infoDisplay ) {
+				infoDisplay = this["InfoDisplay"];
+			}
+			return infoDisplay;
+		} 
+	}
+	//Example: without caching (prettier, more expensive)
 	private NetUIElement CodeDisplay => this["CodeDisplay"];
+	
 	private string InitialInfoText;
 
 	private void Start() {
 		//Not doing this for clients
 		if ( CustomNetworkManager.Instance._isServer ) {
-			Debug.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
+//			Debug.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
 			InitialInfoText = $"Enter {NukeInteract.NukeCode.ToString().Length}-digit code:";
 			InfoDisplay.SetValue = InitialInfoText;
 		}
@@ -54,12 +68,12 @@ public class GUI_Nuke : NetTab
 //			StartCoroutine( ToggleStory(0) );
 //		} else {
 //			tgtMode = false;
-//			InfoDisplay.NewValue = InitialInfoText;
+//			InfoDisplay.SetValue = InitialInfoText;
 //		}
 //	}
 //	private IEnumerator ToggleStory(int word) {
 //		var strings = tgt.Split( ' ' );
-//		InfoDisplay.NewValue = strings[((word % strings.Length) + strings.Length) % strings.Length];//strings[Mathf.Clamp(word, 0, strings.Length)];
+//		InfoDisplay.SetValue = strings.Wrap(word);
 //		yield return new WaitForSeconds( 0.15f );
 //		if ( tgtMode ) {
 //			StartCoroutine( ToggleStory(++word) );

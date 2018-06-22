@@ -53,9 +53,9 @@ public class NetUIDynamicList : NetUIElement {
 
 	/// Adds new entry at given index (or generates index if none is provided)
 	/// Does NOT notify players implicitly
-	protected DynamicEntry Add( /*bool notify = true,*/ string proposedIndex = "" ) 
+	protected DynamicEntry Add( string proposedIndex = "" ) 
 	{
-	//todo: support more than one kind of entries per tab (introduce EntryType field or something)
+		//future suggestion: support more than one kind of entries per tab (introduce EntryType field or something)
 		string elementType = $"{MasterTab.Type}Entry";
 		
 		GameObject entryObject = Instantiate( Resources.Load<GameObject>( elementType ), transform, false );
@@ -74,7 +74,6 @@ public class NetUIDynamicList : NetUIElement {
 
 		if ( CustomNetworkManager.Instance._isServer /*&& notify*/ ) {
 			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
-//			UpdatePeepers();
 		}
 
 		return dynamicEntry;
