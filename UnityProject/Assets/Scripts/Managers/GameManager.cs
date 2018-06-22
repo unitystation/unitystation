@@ -5,42 +5,60 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
-	public static GameManager Instance;
-	public float RoundTime = 480f;
-	public bool counting;
+    private static float       ROUNDTIME_CONSTANT   = 30f;
+    private static float       SHUTTLETIME_CONSTANT = 11f;
+	public  static GameManager Instance;
+
+	public float RoundTime   = ROUNDTIME_CONSTANT;
+    public float ShuttleTime = SHUTTLETIME_CONSTANT;
+
+    public bool             counting;
+    public bool             ShuttleCounting;
 	public List<GameObject> Occupations = new List<GameObject>();
-	public float restartTime = 10f;
+
 	/// <summary>
 	/// Set on server if Respawn is Allowed
 	/// </summary>
-	public bool RespawnAllowed = true;
-
-	public Text roundTimer;
-
+    /// 
+	public bool       RespawnAllowed = true;
+	public Text       roundTimer;
 	public GameObject StandardOutfit;
-	public bool waitForRestart;
 
-	public float GetRoundTime { get; private set; } = 480f;
-
-	public int RoundsPerMap = 10;
-	
-	public string[] Maps = {"Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
-	
-	private int MapRotationCount = 0;
-	private int MapRotationMapsCounter = 0;
+	public float GetRoundTime   { get; private set; } = ROUNDTIME_CONSTANT;
+    public float GetShuttleTime { get; private set; } = SHUTTLETIME_CONSTANT;
 
 
-	//Put the scenes in the unity 3d editor.
+    public  string[] Maps                   = { "Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity" };
+    public  int      RoundsPerMap           = 10;
+	private int      MapRotationCount       = 0;
+	private int      MapRotationMapsCounter = 0;
+
+    public bool RoundScoreShow;
 
 
-	private void Awake()
+    //Put the scenes in the unity 3d editor.
+    private void Awake()
 	{
 		if (Instance == null)
 		{
-			Instance = this;
+            // Initialize RoundTime and ShuttleTime here.
+            //
+            // The reason these are here is because of:
+            //            
+            // For C# use Awake instead of the constructor for initialization, 
+            // as the serialized state of the component is undefined at 
+            // construction time. Awake is called once, just like the constructor.
+            //
+            // This is from: https://docs.unity3d.com/ScriptReference/MonoBehaviour.Awake.html
+            //
+            this.RoundTime   = ROUNDTIME_CONSTANT;
+            this.ShuttleTime = SHUTTLETIME_CONSTANT;
+
+            Instance = this;
 		}
 		else
 		{
@@ -68,67 +86,99 @@ public class GameManager : MonoBehaviour
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
-		GetRoundTime = RoundTime;
+        GetRoundTime   = RoundTime;
+        GetShuttleTime = ShuttleTime;
 	}
 
-	public void SyncTime(float currentTime)
+    public void SyncTime(float currentTime)
+    {
+        if (!CustomNetworkManager.Instance._isServer)
+        {
+            GetRoundTime = currentTime;
+            if (currentTime > 0f)
+            {
+                counting        = true;
+                ShuttleCounting = false;
+                RoundScoreShow  = false;
+            }
+        }
+    }
+
+    public void ResetRoundTime()
 	{
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			GetRoundTime = currentTime;
-			if (currentTime > 0f)
-			{
-				counting = true;
-			}
-		}
+		GetRoundTime    = RoundTime;
+        GetShuttleTime  = ShuttleTime;
+		counting        = true;
+        ShuttleCounting = false;
+        RoundScoreShow  = false;
+        UpdateRoundTimeMessage.Send(GetRoundTime);
 	}
 
-	public void ResetRoundTime()
+    public void ReportScores()
+    {
+        int LifeCount = 0;
+
+        foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+        {
+            if (!player.GameObject.GetComponent<HealthBehaviour>().IsDead)
+            {
+                LifeCount++;
+                PostToChatMessage.Send(player.Name + " has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+            }
+        }
+
+        if (LifeCount == 0)
+        {
+            PostToChatMessage.Send("No one has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+            PostToChatMessage.Send("The nuke ops have killed everyone and won.", ChatChannel.OOC);
+        }
+        if (LifeCount == 1)
+        {
+            PostToChatMessage.Send(LifeCount + " person survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+        }
+        if (LifeCount > 1)
+        {
+            PostToChatMessage.Send(LifeCount + " people survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+        }
+        if (LifeCount >= 1)
+        {
+            PostToChatMessage.Send("The nuke ops have failed to detonated the bomb.", ChatChannel.OOC);
+        }
+    }
+
+    private void Update()
 	{
-		GetRoundTime = RoundTime;
-		waitForRestart = false;
-		counting = true;
-		restartTime = 10f;
-		UpdateRoundTimeMessage.Send(GetRoundTime);
-	}
-
-	private void Update()
-	{
-		if (waitForRestart)
-		{
-
-			restartTime -= Time.deltaTime;
-			if (restartTime <= 0f)
-			{
-				waitForRestart = false;
-				RestartRound();
-			}
-		}
-
-		else if (counting)
+		if (counting)
 		{
 			GetRoundTime -= Time.deltaTime;
 			roundTimer.text = Mathf.Floor(GetRoundTime / 60).ToString("00") + ":" +
-			                  (GetRoundTime % 60).ToString("00");
+			                  (GetRoundTime % 60).ToString("00") + " ETA";
 			if (GetRoundTime <= 0f)
 			{
 				counting = false;
-				roundTimer.text = "GameOver";
-				
-				// Prevents annoying sound duplicate when testing
-				if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
-				{
-					SoundManager.Play("ApcDestroyed", 0.3f, 1f, 0f);
-				}
-
-				if (CustomNetworkManager.Instance._isServer)
-				{
-					waitForRestart = true;
-					PlayerList.Instance.ReportScores();
-				}
+                ShuttleCounting = true;
 			}
 		}
-	}
+        else if (ShuttleCounting)
+        {
+            GetShuttleTime -= Time.deltaTime;
+            roundTimer.text = Mathf.Floor(GetShuttleTime / 60).ToString("00") + ":" +
+                              (GetShuttleTime % 60).ToString("00") + " ETD";
+
+            if (GetShuttleTime <= 0f)
+            {
+                ShuttleCounting = false;
+                RestartRound();
+            }
+            else if (GetShuttleTime <= 10f && !RoundScoreShow)
+            {
+                RoundScoreShow = true;
+                PostToChatMessage.Send("Restarting in ten seconds.", ChatChannel.OOC);
+                ReportScores();
+            }
+
+        }
+    }
 
 	public int GetOccupationsCount(JobType jobType)
 	{
@@ -214,7 +264,7 @@ public class GameManager : MonoBehaviour
 
 	public void RestartRound()
 	{
-		if (CustomNetworkManager.Instance._isServer)
+        if (CustomNetworkManager.Instance._isServer)
 		{
 			MapRotationCount++;
 			if (MapRotationCount < RoundsPerMap * Maps.Length) 
@@ -226,11 +276,18 @@ public class GameManager : MonoBehaviour
 			}
 			else
 			{
-				MapRotationCount = 0;
+				MapRotationCount       = 0;
 				MapRotationMapsCounter = 0;
 			}
 			
 			CustomNetworkManager.Instance.ServerChangeScene (Maps[MapRotationMapsCounter]);
 		}
 	}
+
+    public void NukeDetonateRoundEnd()
+    {
+        counting = false;
+        ShuttleCounting = false;
+        RestartRound();
+    }
 }

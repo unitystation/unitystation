@@ -665,13 +665,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
-		//FIXME: remove health and blood changes after TDM
-		//and use this Cmd for healing hunger and applying 
-		//food related attributes instead:
-		playerHealth.AddHealth(baseFood.healAmount);
-		playerHealth.BloodLevel += baseFood.healAmount;
-		playerHealth.StopBleeding();
-
 		PoolManager.Instance.PoolNetworkDestroy(food);
 		UpdateSlotMessage.Send(gameObject, fromSlot, null, true);
 		Inventory[fromSlot] = null;

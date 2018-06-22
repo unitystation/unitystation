@@ -208,7 +208,7 @@ public class CustomNetworkManager : NetworkManager
 		{
 			//This is a host server (keep the server player as it is for the host player)
 			StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
-		}
+		} 
 
 
 		if (_isServer)

@@ -11,6 +11,7 @@ public class ConnectedPlayer
     private GameObject gameObject;
     private PlayerScript playerScript;
     private NetworkConnection connection;
+
     /// Flags if player received a bunch of sync messages upon joining
     private bool synced;
 
