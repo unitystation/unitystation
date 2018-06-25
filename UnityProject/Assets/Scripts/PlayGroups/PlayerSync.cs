@@ -27,6 +27,8 @@ namespace PlayGroup
 			}
 		}
 
+		public bool NoLerp;
+
 		///Direction of flying
 		public Vector2 Impulse;
 
@@ -41,7 +43,7 @@ namespace PlayGroup
 
 		public override string ToString() {
 			return
-				$"[Move #{MoveNumber}, localPos:{(Vector2)Position}, worldPos:{(Vector2)WorldPosition} {nameof( Impulse )}:{Impulse}, " +
+				$"[Move #{MoveNumber}, localPos:{(Vector2)Position}, worldPos:{(Vector2)WorldPosition} {nameof( NoLerp )}:{NoLerp}, {nameof( Impulse )}:{Impulse}, " +
 				$"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, matrix #{MatrixId}]";
 		}
 	}

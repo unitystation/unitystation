@@ -477,7 +477,7 @@ public class ItemAttributes : NetworkBehaviour
 				return ItemType.Suit;
 			default:
 				//GetItemType will be called several times on failure, with different string parameters
-				Debug.Log("Could not find item type for " + sCut + ". Will attempt fallbacks if any exist.");
+//				Debug.Log("Could not find item type for " + sCut + ". Will attempt fallbacks if any exist.");
 				return ItemType.None;
 		}
 	}
