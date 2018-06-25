@@ -182,9 +182,11 @@ namespace PlayGroup
 		}
 
 		/// Send current serverState to just one player
+		/// <param name="recipient">whom to inform</param>
+		/// <param name="noLerp">(for init) tells client to do no lerping when changing pos this time</param>
 		[Server]
-		public void NotifyPlayer(GameObject recipient)
-		{
+		public void NotifyPlayer(GameObject recipient, bool noLerp = false) {
+			serverState.NoLerp = noLerp;
 			PlayerMoveMessage.Send(recipient, gameObject, serverState);
 		}
 
@@ -205,7 +207,7 @@ namespace PlayGroup
 			{
 				return;
 			}
-
+			serverState.NoLerp = false;
 			PlayerMoveMessage.SendToAll(gameObject, serverState);
 			ClearStateFlags();
 		}

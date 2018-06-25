@@ -43,8 +43,7 @@ namespace Cupboards
 
 		private void Update()
 		{
-			if (PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost ||
-			    UIManager.Instance.chatControl.isChatFocus)
+			if (PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost || UIManager.IsInputFocus)
 			{
 				return;
 			}			

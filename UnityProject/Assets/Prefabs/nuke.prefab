@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114600667269772822}
   - component: {fileID: 114558280790144458}
   - component: {fileID: 114958218028397826}
+  - component: {fileID: 114970301685184636}
   m_Layer: 11
   m_Name: nuke
   m_TagString: Untagged
@@ -137,7 +138,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectType: 1
   AtmosPassable: 1
-  Offset: {x: 0, y: 0, z: 0}
   Passable: 0
 --- !u!114 &114600667269772822
 MonoBehaviour:
@@ -182,10 +182,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4594a796472cbd4439f4b75a6c889fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetTabType: 2
   cooldownTimer: 2
   interactionMessage: You activate the terminal on the nuclear weapon
   deniedMessage: The nuclear weapon rejects your Identification
-  nukeCode: 0
+--- !u!114 &114970301685184636
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1754288526301548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPushing: 0
+  predictivePushing: 0
 --- !u!212 &212440471459260278
 SpriteRenderer:
   m_ObjectHideFlags: 1

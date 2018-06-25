@@ -16,6 +16,7 @@ internal enum MessageTypes : short
 	PlayerMoveMessage = 1012,
 	MatrixMoveMessage = 1013,
 	ShootMessage = 1014,
+	TabUpdateMessage = 1015,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
@@ -27,5 +28,7 @@ internal enum MessageTypes : short
 	RequestSyncMessage = 2006,
 	RequestAuthMessage = 2007,
 	RequestMoveMessage = 2008,
-	RequestShootMessage = 2009
+	RequestShootMessage = 2009,
+	TabInteractMessage = 2010,
+	
 }

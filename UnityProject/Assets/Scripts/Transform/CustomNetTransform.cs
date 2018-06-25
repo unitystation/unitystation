@@ -56,6 +56,7 @@ public struct TransformState {
 		}
 	}
 	public float Rotation;
+	public bool IsLocalRotation;
 	/// Spin direction and speed, if it should spin
 	public sbyte SpinFactor; 
 	
@@ -68,14 +69,22 @@ public struct TransformState {
 	public override string ToString()
 	{
 		return Equals( HiddenState ) ? "[Hidden]" : $"[{nameof( Position )}: {(Vector2)Position}, {nameof( WorldPosition )}: {(Vector2)WorldPosition}, " +
-		       $"{nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( Rotation )}: {Rotation}, {nameof( SpinFactor )}: {SpinFactor}, " +
-		                                            $" {nameof( MatrixId )}: {MatrixId}]";
+		       $"{nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( Rotation )}: {Rotation}, {nameof( IsLocalRotation )}: {IsLocalRotation}, " +
+		       $"{nameof( SpinFactor )}: {SpinFactor}, {nameof( MatrixId )}: {MatrixId}]";
 	}
 }
 
 public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
 {
 	private RegisterTile registerTile;
+	private ItemAttributes ItemAttributes {
+		get {
+			if ( itemAttributes == null ) {
+				itemAttributes = GetComponent<ItemAttributes>();
+			}
+			return itemAttributes;
+		}
+	}
 	private ItemAttributes itemAttributes;
 
 	private TransformState serverState = TransformState.HiddenState; //used for syncing with players, matters only for server
@@ -308,8 +317,15 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		clientState = newState;
 		UpdateActiveStatus();
 		//sync rotation if not spinning
-		if ( clientState.SpinFactor == 0 ) {
-			transform.rotation = Quaternion.Euler( 0, 0, clientState.Rotation );
+		if ( clientState.SpinFactor != 0 ) {
+			return;
+		}
+
+		var rotation = Quaternion.Euler( 0, 0, clientState.Rotation );
+		if ( clientState.IsLocalRotation ) {
+			transform.localRotation = rotation;
+		} else {
+			transform.rotation = rotation;
 		}
 	}
 
@@ -338,14 +354,16 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	{
 //		Debug.Log( $"{gameObject.name} Notified" );
 		SyncMatrix();
+		serverState.IsLocalRotation = false;
 		TransformStateMessage.SendToAll(gameObject, serverState);
 	}
 
 	///     Sync with new player joining
 	/// <param name="playerGameObject">Whom to notify</param>
+	/// <param name="isLocalRotation">(for init) tells client to assign transform.localRotation instead of transform.rotation if true</param>
 	[Server]
-	public void NotifyPlayer(GameObject playerGameObject)
-	{
+	public void NotifyPlayer(GameObject playerGameObject, bool isLocalRotation = false) {
+		serverState.IsLocalRotation = isLocalRotation;
 		TransformStateMessage.Send(playerGameObject, gameObject, serverState);
 	}
 
