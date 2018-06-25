@@ -45,7 +45,7 @@ public class InputFieldFocus : InputField
 
 	private void OnGUI() {
 		if ( Event.current.keyCode == KeyCode.Escape ) {
-			OnDeselect(new BaseEventData( EventSystem.current ));//?
+			OnDeselect(new BaseEventData( EventSystem.current ));
 		}
 	}
 }

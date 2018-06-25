@@ -78,7 +78,6 @@ public class TabUpdateMessage : ServerMessage {
 					Send( recipient, provider, type, TabAction.Close );
 					return msg;
 				}
-//				NetworkTabManager.Instance.UpdateElement(provider, type, elementId, value);
 				break;
 		}
 		msg.SendTo( recipient );

@@ -26,34 +26,6 @@ public class NukeInteract : NetworkTabTrigger
 		CodeGenerator();
 		base.OnStartServer();
 	}
-
-//	//Method for when a player clicks on the nuke
-//	public override void Interact(GameObject originator, Vector3 position, string hand)
-//	{
-//		if(UIManager.Display.nukeWindow.activeSelf){
-//			return;
-//		}
-//
-//		//Determining whether or not the player is syndicate
-//		if (PlayerManager.PlayerScript.JobType == JobType.SYNDICATE) {
-//			//if yes, show GUI
-//			UIManager.Chat.AddChatEvent(new ChatEvent(interactionMessage, ChatChannel.Examine));
-//			UIManager.Display.nukeWindow.SetActive(true);
-//			GUI_Nuke nukeWindow = UIManager.Display.nukeWindow.GetComponent<GUI_Nuke>();
-//			nukeWindow.SetNukeInteracting(gameObject);
-//		} else {
-//			//if no, say bad message
-//			UIManager.Chat.AddChatEvent(new ChatEvent(deniedMessage, ChatChannel.Examine));
-//		}
-//	}
-//
-//	void Update(){
-//		if(UIManager.Display.nukeWindow.activeSelf){
-//			if(Vector2.Distance(PlayerManager.LocalPlayer.transform.position, transform.position) > 2f){
-//				UIManager.Display.nukeWindow.SetActive(false);
-//			}
-//		}
-//	}
 	/// <summary>
 	/// Tries to add new digit to code input
 	/// </summary>

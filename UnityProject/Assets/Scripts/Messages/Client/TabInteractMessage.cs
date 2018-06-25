@@ -97,7 +97,6 @@ public class TabInteractMessage : ClientMessage
 		NetTabType = (NetTabType) reader.ReadInt32();
 		ElementId = reader.ReadString();
 		ElementValue = reader.ReadString();
-//		ElementValue = reader.ReadInt32();
 	}
 
 	public override void Serialize(NetworkWriter writer)
