@@ -128,7 +128,7 @@ public partial class CustomNetTransform {
 		bool isWithinTile = intOrigin == intGoal; //same tile, no need to validate stuff
 		if ( isWithinTile || MatrixManager.IsPassableAt( intOrigin, intGoal ) ) {
 			//advance
-			clientState.Position += moveDelta;
+			clientState.WorldPosition += moveDelta;
 		} else {
 			//stop
 //			Debug.Log( $"{gameObject.name}: predictive stop @ {clientState.WorldPosition} to {intGoal}" );
@@ -167,7 +167,7 @@ public partial class CustomNetTransform {
 	/// Throw object using data provided in ThrowInfo.
 	/// Range will be limited by itemAttributes
 	[Server]
-	public void Throw( ThrowInfo info ) { //FIXME: crappy throwing on rotated ship
+	public void Throw( ThrowInfo info ) {
 		SetPosition( info.OriginPos, false );
 
 		float throwSpeed = ItemAttributes.throwSpeed * 10; //tiles per second
