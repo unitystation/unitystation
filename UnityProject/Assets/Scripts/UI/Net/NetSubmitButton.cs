@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 /// Submit button for client text input field.
 /// Sends client's InputField value to server method
-/// fixme: shares your input with everybody, lol
 [RequireComponent(typeof( Button ))]
 [Serializable]
 public class NetSubmitButton : NetUIElement
