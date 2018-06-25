@@ -203,13 +203,13 @@ namespace PlayGroups.Input
 				SpriteRenderer spriteRenderer = bySortingOrder[i];
 				Sprite sprite = spriteRenderer.sprite;
 
-				if ( spriteRenderer.enabled && sprite ) { //FIXME: crappy pixel interaction on rotated ship
+				if ( spriteRenderer.enabled && sprite ) {
 					Vector3 scale = spriteRenderer.gameObject.transform.localScale;
 					Vector3 offset = spriteRenderer.gameObject.transform.localPosition;
 
 					float pixelsPerUnit = sprite.pixelsPerUnit;
 
-					float angle = -spriteRenderer.gameObject.transform.parent.localEulerAngles.z * Mathf.Deg2Rad;
+					float angle = -spriteRenderer.gameObject.transform.parent.eulerAngles.z * Mathf.Deg2Rad;
 
 					float sin = Mathf.Sin( angle );
 					float cos = Mathf.Cos( angle );
