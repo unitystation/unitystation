@@ -61,7 +61,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		var netTransform = obj.GetComponent<CustomNetTransform>();
 		if (netTransform != null) {
-			netTransform.SetPosition(obj.transform.localPosition);
+			netTransform.SetPosition(obj.transform.position);
 		}
 	}
 
@@ -89,7 +89,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		var netTransform = obj.GetComponent<CustomNetTransform>();
 		if (netTransform != null) {
-			netTransform.SetPosition(obj.transform.localPosition);
+			netTransform.SetPosition(obj.transform.position);
 		}
 	}
 

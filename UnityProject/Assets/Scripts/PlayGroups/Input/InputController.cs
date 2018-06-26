@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Cupboards;
 using PlayGroup;
-using Tilemaps.Behaviours.Objects;
 using Tilemaps.Tiles;
 using UI;
 using UnityEngine;
@@ -11,19 +10,12 @@ using UnityEngine.Tilemaps;
 
 namespace PlayGroups.Input
 {
-	public class InputController : MonoBehaviour
-	{
-		/// <summary>
-		///     The cooldown before another action can be performed
-		/// </summary>
-		private float CurrentCooldownTime;
+	public class InputController : MonoBehaviour {
 
-		/// <summary>
-		///     The minimum time limit between each action
-		/// </summary>
-		private float InputCooldownTimer = 0.01f;
+		private const string FieldOfViewName = "FieldOfView";
+		private const float InputCooldownTimer = 0.01f; // Minimum time limit between each action. Currently unused?
 
-		private Vector2 LastTouchedTile;
+		private Vector2 lastTouchedTile;
 		private LayerMask layerMask;
 		private ObjectBehaviour objectBehaviour;
 		private PlayerMove playerMove;
@@ -32,7 +24,7 @@ namespace PlayGroups.Input
 		private void OnDrawGizmos()
 		{
 			Gizmos.color = new Color(1, 0, 0, 0.5F);
-			Gizmos.DrawCube(LastTouchedTile, new Vector3(1, 1, 1));
+			Gizmos.DrawCube(lastTouchedTile, new Vector3(1, 1, 1));
 		}
 
 		private void Start()
@@ -43,14 +35,16 @@ namespace PlayGroups.Input
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 
 			//Do not include the Default layer! Assign your object to one of the layers below:
-			layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
-				"HiddenWalls", "Objects");
+			layerMask = LayerMask.GetMask(
+				"Furniture", "Walls", "Windows", "Machines", "Players", "Items", 
+				"Door Open", "Door Closed", "WallMounts","HiddenWalls", "Objects");
 		}
 
 		private void OnGUI() {
 			if ( Event.current.type == EventType.MouseDown ) {
 				CheckHandSwitch();
 				CheckAltClick();
+				CheckControlClick();
 				CheckThrow();
 				CheckClick();
 			}
@@ -66,8 +60,9 @@ namespace PlayGroups.Input
 		}
 
 		private void CheckClick() {
-			Event e = Event.current;
-			if ( e.type != EventType.Used && e.button == 0 && !UnityEngine.Input.GetKey(KeyCode.LeftControl) && !UnityEngine.Input.GetKey(KeyCode.LeftAlt) )
+			if (isLeftClick() 
+			    && !UnityEngine.Input.GetKey(KeyCode.LeftControl) 
+			    && !UnityEngine.Input.GetKey(KeyCode.LeftAlt))
 			{
 				//change the facingDirection of player on click
 				ChangeDirection();
@@ -82,7 +77,8 @@ namespace PlayGroups.Input
 
 		private void CheckAltClick() {
 			Event e = Event.current;
-			if (e.type != EventType.Used && e.button == 0 && (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt)))
+			if (isLeftClick() 
+			    && (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt)))
 			{
 				//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
 				Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
@@ -98,15 +94,18 @@ namespace PlayGroups.Input
 				e.Use();
 			}
 		}
+		
 		private void CheckThrow() {
 			Event e = Event.current;
-			if (e.type != EventType.Used && e.button == 0 && UIManager.IsThrow)
+			if (isLeftClick() && UIManager.IsThrow)
 			{
 				var currentSlot = UIManager.Hands.CurrentSlot;
+				
 				if (!currentSlot.CanPlaceItem())
 				{
 					return;
 				}
+				
 				//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
 				Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 				position.z = 0f;
@@ -114,10 +113,32 @@ namespace PlayGroups.Input
 //				Debug.Log( $"Requesting throw from {currentSlot.eventName} to {position}" );
 				PlayerManager.LocalPlayerScript.playerNetworkActions
 					.CmdRequestThrow( currentSlot.eventName, position, (int) UIManager.DamageZone );
-				//Disabling throw button
-				UIManager.Action.Throw();
+				UIManager.Action.Throw(); //Disabling throw button
 				e.Use();
 			}
+		}
+
+		private void CheckControlClick()
+		{
+			if (isLeftClick()
+			    && UnityEngine.Input.GetKey(KeyCode.LeftControl) 
+			    && !UnityEngine.Input.GetKey(KeyCode.LeftAlt))
+			{
+				var objectRender = GetInteractableObject();
+				if (objectRender != null)
+				{
+					objectRender.transform
+						.GetComponentInParent<InputTrigger>()
+						.GetComponentInParent<PushPull>()
+						.InteractWithPulling();
+				}
+			}
+		}
+
+		private bool isLeftClick()
+		{
+			var e = Event.current;
+			return e.type != EventType.Used && e.button == 0;
 		}
 
 		private void ChangeDirection()
@@ -129,27 +150,45 @@ namespace PlayGroups.Input
 			}
 		}
 
+		// Return the top-most object that we are allowed to interact with, or null
+		private Renderer GetInteractableObject()
+		{
+			var clickPosition = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+			var renderers = GetRenderersFromHits(clickPosition,
+				Physics2D.RaycastAll(clickPosition, Vector2.zero, 10f, layerMask));
+
+			if (renderers.Count == 0 
+			    || playerMove.isGhost 
+				|| !PlayerManager.LocalPlayerScript.IsInReach(clickPosition))
+			{
+				return null;
+			}
+
+			foreach (var objectRenderer in renderers.OrderByDescending(sr => sr.sortingOrder))
+			{
+				if (FieldOfViewName.Equals(objectRenderer.sortingLayerName))
+				{
+					continue;
+				}
+
+				return objectRenderer;
+			}
+
+			return null;
+		}
+
 		private bool RayHit()
 		{
 			Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 
 			//for debug purpose, mark the most recently touched tile location
-			LastTouchedTile = new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
+			lastTouchedTile = new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
 
 			RaycastHit2D[] hits = Physics2D.RaycastAll(position, Vector2.zero, 10f, layerMask);
 
 			//collect all the sprite renderers
-			List<Renderer> renderers = new List<Renderer>();
-
-			foreach (RaycastHit2D hit in hits)
-			{
-				Transform objectTransform = hit.collider.gameObject.transform;
-				Renderer _renderer = IsHit(objectTransform, position - objectTransform.position);
-				if (_renderer != null)
-				{
-					renderers.Add(_renderer);
-				}
-			}
+			List<Renderer> renderers = GetRenderersFromHits(position, hits);
+			
 			bool isInteracting = false;
 			//check which of the sprite renderers we hit and pixel checked is the highest
 			if (renderers.Count > 0)
@@ -157,7 +196,7 @@ namespace PlayGroups.Input
 				foreach (Renderer _renderer in renderers.OrderByDescending(sr => sr.sortingOrder)) 
 				{
 					// If the ray hits a FOVTile, we can continue down (don't count it as an interaction)
-					if (!_renderer.sortingLayerName.Equals("FieldOfView"))
+					if (!FieldOfViewName.Equals(_renderer.sortingLayerName))
 					{
 						if (Interact(_renderer.transform, position))
 						{
@@ -179,6 +218,23 @@ namespace PlayGroups.Input
 			return hits.Any();
 		}
 
+		private List<Renderer> GetRenderersFromHits(Vector3 mouseClickPosition, IEnumerable<RaycastHit2D> hits)
+		{
+			var renderers = new List<Renderer>();
+
+			foreach (var hit in hits)
+			{
+				var objectTransform = hit.collider.gameObject.transform;
+				var objectRenderer = IsHit(objectTransform, mouseClickPosition - objectTransform.position);
+				if (objectRenderer != null)
+				{
+					renderers.Add(objectRenderer);
+				}
+			}
+
+			return renderers;
+		}
+		
 		private Renderer IsHit(Transform _transform, Vector3 hitPosition)
 		{
 			TilemapRenderer tilemapRenderer = _transform.GetComponent<TilemapRenderer>();
