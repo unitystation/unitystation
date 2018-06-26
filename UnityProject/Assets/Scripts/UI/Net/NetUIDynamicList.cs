@@ -80,7 +80,7 @@ public class NetUIDynamicList : NetUIElement {
 	}
 
 	/// Need to run this on list change to ensure no gaps are present
-	public void RefreshPositions() {
+	protected virtual void RefreshPositions() {
 		var entries = Entries.Values.ToList();
 		for ( var i = 0; i < entries.Count; i++ ) {
 			SetProperPosition( entries[i], i );
@@ -122,6 +122,10 @@ public class NetUIDynamicList : NetUIElement {
 
 		//Making inner elements' names unique by adding "index" to the end
 		for ( var i = 0; i < entry.Elements.Count; i++ ) {
+			if ( entry.Elements[i] == entry ) {
+				//not including self!
+				continue;
+			}
 			//postfix and not prefix because of how NetKeyButton works
 			entry.Elements[i].name = entry.Elements[i].name + "_" + index; 
 		}
