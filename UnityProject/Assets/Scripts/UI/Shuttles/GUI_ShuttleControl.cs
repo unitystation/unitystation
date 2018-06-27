@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using Doors;
 using Tilemaps;
 using UnityEngine;
+using UnityEngine.Networking;
 using Util;
 
 /// Server only stuff
@@ -26,22 +28,43 @@ public class GUI_ShuttleControl : NetTab {
 		}
 	}
 	
+	//todo lists for static and dynamic objects; pause coroutine when no one's peeping?
+	
 	private void Start() {
 		//Not doing this for clients, but serverplayer does this too, so be aware
 		if ( CustomNetworkManager.Instance._isServer ) {
 			//testing
-//			EntryList.AddItem(MapIconType.Ship, Vector2.zero);
-			var airlocks = GetPositionsOf<AirLockAnimator>( MatrixMove.State.Position, null, "AirLock" );
-			EntryList.AddItems( MapIconType.Airlock, airlocks.ToArray() );
-			
-			var ships = GetMatrixPositions( MatrixMove.State.Position, new HashSet<MatrixInfo>(new []{MatrixManager.Get( MatrixMove.gameObject )}) );
-			EntryList.AddItems( MapIconType.Ship, ships.ToArray() );
-			
+			refreshing = true;
+			StartCoroutine( Refresh() );
+
+		}
+	}
+
+	private bool refreshing = false;
+
+	private IEnumerator Refresh() {
+		RefreshRadar();
+		yield return new WaitForSeconds( 1.5f );
+
+		if ( refreshing ) {
+			StartCoroutine( Refresh() );
+		}
+	}
+	
+	private void RefreshRadar() {
+		EntryList.ClearItems();
+
+		var airlocks = GetPositionsOf<AirLockAnimator>( MatrixMove.State.Position, null, "AirLock" );
+		EntryList.AddItems( MapIconType.Airlock, airlocks.ToArray() );
+
+		var ships = GetMatrixPositions( MatrixMove.State.Position,
+			new HashSet<MatrixInfo>( new[] {MatrixManager.Get( MatrixMove.gameObject )} ) );
+		EntryList.AddItems( MapIconType.Ship, ships.ToArray() );
+
 //			var stations = GetMatrixPositions( MatrixMove.State.Position, null, false );
 //			EntryList.AddItems( MapIconType.Station, stations.ToArray() );
 
 //			EntryList.AddItem(MapIconType., Vector2.zero);
-		}
 	}
 //	private Dictionary<MapIconType, List<Vector2>> GetRadarData(  /**/ ) {
 //		var radarData = new Dictionary<MapIconType, List<Vector2>>();
@@ -66,7 +89,8 @@ public class GUI_ShuttleControl : NetTab {
 	}
 
 	/// Get a list of positions for objects of given type within certain range from provided origin
-	private List<Vector2> GetPositionsOf<T>( Vector3 originPos, HashSet<T> except = null, string nameFilter="", int maxRange = 200 ) where T : Behaviour {
+	private List<Vector2> GetPositionsOf<T>( Vector3 originPos, HashSet<T> except = null, string nameFilter="", 
+		int maxRange = 200 ) where T : Behaviour {
 		T[] foundObjects = FindObjectsOfType<T>();
 		var foundPositions = new List<Vector2>();
 		
