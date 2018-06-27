@@ -25,7 +25,7 @@ public class GUI_ShuttleControl : NetTab {
 			return matrixMove;
 		}
 	}
-	
+
 	private void Start() {
 		//Not doing this for clients, but serverplayer does this too, so be aware
 		if ( CustomNetworkManager.Instance._isServer ) {
@@ -33,24 +33,60 @@ public class GUI_ShuttleControl : NetTab {
 			if ( EntryList.Entries.Count > 0 ) {
 				return;
 			}
-			EntryList.AddItems( MapIconType.Airlock, MatrixMove.gameObject, GetObjectsOf<AirLockAnimator>( MatrixMove.State.Position, null, "AirLock" ) );
-			EntryList.AddItems( MapIconType.Ship, MatrixMove.gameObject, GetObjectsOf( MatrixMove.State.Position, new HashSet<MatrixMove>( new[] {MatrixMove})) );
+
+			EntryList.AddItems( MapIconType.Airlock, MatrixMove.gameObject,
+				GetObjectsOf<AirLockAnimator>( MatrixMove.State.Position, null, "AirLock" ) );
+			EntryList.AddItems( MapIconType.Ship, MatrixMove.gameObject,
+				GetObjectsOf( MatrixMove.State.Position, new HashSet<MatrixMove>( new[] {MatrixMove} ) ) );
 			EntryList.AddItems( MapIconType.Station, MatrixMove.gameObject, new List<GameObject> {MatrixManager.Get( 0 ).GameObject} );
-			refreshing = true;
-			StartCoroutine( Refresh() );
+			StartRefresh();
 		}
 	}
 
-	private bool refreshing = false;
+	private bool RefreshRadar = false;
+
+	private void StartRefresh() {
+		RefreshRadar = true;
+		Debug.Log( "Starting radar refresh" );
+		StartCoroutine( Refresh() );
+	}
+
+	private void StopRefresh() {
+		Debug.Log( "Stopping radar refresh" );
+		RefreshRadar = false;
+	}
 
 	private IEnumerator Refresh() {
 		EntryList.RefreshTrackedPos();
-		yield return new WaitForSeconds( 1.5f );
+		yield return new WaitForSeconds( 2f );
 
-		if ( refreshing ) {
+		if ( RefreshRadar ) {
 			StartCoroutine( Refresh() );
 		}
 	}
+
+//	private void Start() {
+//		OnEnable();
+//	}
+//
+//	public override void OnEnable() {
+//		base.OnEnable();
+//		//Not doing this for clients, but serverplayer does this too, so be aware
+//		if ( CustomNetworkManager.Instance._isServer ) {
+//			//protection against serverplayer doing the same
+//			if ( !EntryList || EntryList.Entries.Count > 0 ) {
+//				return;
+//			}
+//			EntryList.AddItems( MapIconType.Airlock, MatrixMove.gameObject, GetObjectsOf<AirLockAnimator>( MatrixMove.State.Position, null, "AirLock" ) );
+//			EntryList.AddItems( MapIconType.Ship, MatrixMove.gameObject, GetObjectsOf( MatrixMove.State.Position, new HashSet<MatrixMove>( new[] {MatrixMove})) );
+//			EntryList.AddItems( MapIconType.Station, MatrixMove.gameObject, new List<GameObject> {MatrixManager.Get( 0 ).GameObject} );
+//			StartRefresh();
+//		}
+//	}
+//
+//	private void OnDisable() {
+//		StopRefresh();
+//	}
 
 	/// Get a list of positions for objects of given type within certain range from provided origin
 	private List<GameObject> GetObjectsOf<T>( Vector3 originPos, HashSet<T> except = null, string nameFilter="", int maxRange = 200 ) 

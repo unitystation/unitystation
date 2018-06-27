@@ -5,12 +5,12 @@ using UnityEngine;
 /// Dynamic list entry
 /// </summary>
 public class DynamicEntry : NetUIElement {
-	public List<NetUIElement> Elements => GetComponentsInChildren<NetUIElement>(false).ToList();
+	public NetUIElement[] Elements => GetComponentsInChildren<NetUIElement>(false);
 	
 	public override string Value {
 		get {
 			Vector3 localPos = transform.localPosition;
-			return $"{( int ) localPos.x}x{( int ) localPos.y}";
+			return ( int ) localPos.x+"x"+( int ) localPos.y;
 		}
 		set {
 			externalChange = true;

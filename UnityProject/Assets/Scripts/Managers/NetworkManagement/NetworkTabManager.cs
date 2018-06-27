@@ -45,8 +45,10 @@ public class NetworkTabManager : MonoBehaviour {
 		if ( !openTabs.ContainsKey( tabDescriptor ) ) {
 			//Spawning new one
 			openTabs.Add( tabDescriptor, tabDescriptor.Spawn() );
-		} 
-		openTabs[tabDescriptor].AddPlayer( player );
+		}
+		NetTab tab = openTabs[tabDescriptor];
+//		tab.gameObject.SetActive( true );
+		tab.AddPlayer( player );
 	}
 	public void Add( GameObject provider, NetTabType type, GameObject player ) {
 		Add( Tab(provider, type), player );
@@ -60,6 +62,9 @@ public class NetworkTabManager : MonoBehaviour {
 	public void Remove( NetTabDescriptor tabDescriptor, GameObject player ) {
 		NetTab t = openTabs[tabDescriptor];
 		t.RemovePlayer( player );
+//		if ( t.Peepers.Count == 0 ) {
+//			t.gameObject.SetActive( false );
+//		}
 	}
 
 	public NetTab Get( GameObject provider, NetTabType type ) {

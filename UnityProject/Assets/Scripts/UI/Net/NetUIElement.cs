@@ -18,7 +18,17 @@ public abstract class NetUIElement : MonoBehaviour
 	private NetTab masterTab;
 
 	public ElementValue ElementValue => new ElementValue{Id = name, Value = Value};
-
+//	private ElementValue elementValue;
+//	public ElementValue ElementValue {
+//		get {
+//			if ( elementValue.Value == null ) {
+//				elementValue = new ElementValue {Id = name, Value = Value};
+//			}
+//			elementValue.Value = Value;
+//			return elementValue;
+//		}
+//	}
+	
 	public virtual ElementMode InteractionMode => ElementMode.Normal;
 
 	/// Server-only method for updating element (i.e. changing label text) from server GUI code

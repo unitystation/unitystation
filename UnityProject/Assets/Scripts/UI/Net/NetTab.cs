@@ -31,7 +31,7 @@ public class NetTab : Tab {
 	
 	public ElementValue[] ElementValues => CachedElements.Values.Select( element => element.ElementValue ).ToArray(); //likely expensive
 
-	public void OnEnable() {
+	public virtual void OnEnable() {
 		InitElements();
 	}
 

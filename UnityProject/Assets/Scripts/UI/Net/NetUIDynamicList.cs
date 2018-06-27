@@ -9,11 +9,13 @@ using UnityEngine;
 public class NetUIDynamicList : NetUIElement {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	private int entryCount = 0;
-	
+
+	public DynamicEntry[] EntryArray => GetComponentsInChildren<DynamicEntry>( false );
+
 	public Dictionary<string,DynamicEntry> Entries {
 		get {
 			var dynamicEntries = new Dictionary<string,DynamicEntry>();
-			DynamicEntry[] entries = GetComponentsInChildren<DynamicEntry>(false);
+			DynamicEntry[] entries = EntryArray;
 			for ( var i = 0; i < entries.Length; i++ ) {
 				DynamicEntry entry = entries[i];
 				string entryName = entry.name;
@@ -108,12 +110,17 @@ public class NetUIDynamicList : NetUIElement {
 
 	///Not just own value, include inner elements' values as well
 	protected override void UpdatePeepers() {
-		List<ElementValue> valuesToSend = new List<ElementValue> {ElementValue};
-		
-		foreach ( var entry in Entries.Values ) {
-			for ( var i = 0; i < entry.Elements.Count; i++ ) {
-				var element = entry.Elements[i];
-				valuesToSend.Add(element.ElementValue);
+		List<ElementValue> valuesToSend = new List<ElementValue>(100) {ElementValue};
+		var dynamicEntries = EntryArray;
+		for ( var i = 0; i < dynamicEntries.Length; i++ ) 
+		{
+			var entry = dynamicEntries[i];
+			var entryElements = entry.Elements;
+			
+			for ( var j = 0; j < entryElements.Length; j++ ) 
+			{
+				var element = entryElements[j];
+				valuesToSend.Add( element.ElementValue );
 			}
 		}
 
@@ -133,7 +140,7 @@ public class NetUIDynamicList : NetUIElement {
 		entry.name = index;
 
 		//Making inner elements' names unique by adding "index" to the end
-		for ( var i = 0; i < entry.Elements.Count; i++ ) {
+		for ( var i = 0; i < entry.Elements.Length; i++ ) {
 			if ( entry.Elements[i] == entry ) {
 				//not including self!
 				continue;

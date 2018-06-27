@@ -17,7 +17,7 @@ public class TabInteractMessage : ClientMessage
 	//Serverside
 	public override IEnumerator Process()
 	{
-		Debug.Log("Processed " + ToString());
+//		Debug.Log("Processed " + ToString());
 		yield return WaitFor(SentBy, TabProvider);
 		ProcessFurther(NetworkObjects[0], NetworkObjects[1]);
 	}
