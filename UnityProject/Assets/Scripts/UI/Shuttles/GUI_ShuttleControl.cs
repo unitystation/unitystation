@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Doors;
-using Tilemaps;
 using UnityEngine;
-using UnityEngine.Networking;
 using Util;
 
 /// Server only stuff
@@ -28,86 +26,57 @@ public class GUI_ShuttleControl : NetTab {
 		}
 	}
 	
-	//todo lists for static and dynamic objects; pause coroutine when no one's peeping?
-	
 	private void Start() {
 		//Not doing this for clients, but serverplayer does this too, so be aware
 		if ( CustomNetworkManager.Instance._isServer ) {
-			//testing
+			//protection against serverplayer doing the same
+			if ( EntryList.Entries.Count > 0 ) {
+				return;
+			}
+			EntryList.AddItems( MapIconType.Airlock, MatrixMove.gameObject, GetObjectsOf<AirLockAnimator>( MatrixMove.State.Position, null, "AirLock" ) );
+			EntryList.AddItems( MapIconType.Ship, MatrixMove.gameObject, GetObjectsOf( MatrixMove.State.Position, new HashSet<MatrixMove>( new[] {MatrixMove})) );
+			EntryList.AddItems( MapIconType.Station, MatrixMove.gameObject, new List<GameObject> {MatrixManager.Get( 0 ).GameObject} );
 			refreshing = true;
 			StartCoroutine( Refresh() );
-
 		}
 	}
 
 	private bool refreshing = false;
 
 	private IEnumerator Refresh() {
-		RefreshRadar();
+		EntryList.RefreshTrackedPos();
 		yield return new WaitForSeconds( 1.5f );
 
 		if ( refreshing ) {
 			StartCoroutine( Refresh() );
 		}
 	}
-	
-	private void RefreshRadar() {
-		EntryList.ClearItems();
-
-		var airlocks = GetPositionsOf<AirLockAnimator>( MatrixMove.State.Position, null, "AirLock" );
-		EntryList.AddItems( MapIconType.Airlock, airlocks.ToArray() );
-
-		var ships = GetMatrixPositions( MatrixMove.State.Position,
-			new HashSet<MatrixInfo>( new[] {MatrixManager.Get( MatrixMove.gameObject )} ) );
-		EntryList.AddItems( MapIconType.Ship, ships.ToArray() );
-
-//			var stations = GetMatrixPositions( MatrixMove.State.Position, null, false );
-//			EntryList.AddItems( MapIconType.Station, stations.ToArray() );
-
-//			EntryList.AddItem(MapIconType., Vector2.zero);
-	}
-//	private Dictionary<MapIconType, List<Vector2>> GetRadarData(  /**/ ) {
-//		var radarData = new Dictionary<MapIconType, List<Vector2>>();
-//		return radarData;
-//	}
-
-	private List<Vector2> GetMatrixPositions( Vector3 originPos, ICollection<MatrixInfo> except = null, bool movable = true, int maxRange = 200 ){
-		var foundPositions = new List<Vector2>();
-		foreach ( var matrixInfo in MatrixManager.Instance.Matrices ) 
-		{
-			Vector3 matrixPos = matrixInfo.GameObject.WorldPos();
-			if ( Vector2.Distance( originPos, matrixPos ) <= maxRange 
-			     && movable == (matrixInfo.MatrixMove != null)
-			     && (except == null || except.Contains( matrixInfo )) 
-			     ) 
-			{
-				foundPositions.Add( matrixPos - originPos );
-			}
-		}
-		return foundPositions;
-
-	}
 
 	/// Get a list of positions for objects of given type within certain range from provided origin
-	private List<Vector2> GetPositionsOf<T>( Vector3 originPos, HashSet<T> except = null, string nameFilter="", 
-		int maxRange = 200 ) where T : Behaviour {
-		T[] foundObjects = FindObjectsOfType<T>();
-		var foundPositions = new List<Vector2>();
+	private List<GameObject> GetObjectsOf<T>( Vector3 originPos, HashSet<T> except = null, string nameFilter="", int maxRange = 200 ) 
+		where T : Behaviour 
+	{
 		
-		for ( var i = 0; i < foundObjects.Length; i++ ) 
+		T[] foundBehaviours = FindObjectsOfType<T>();
+		var objectsInRange = new List<GameObject>();
+		
+		for ( var i = 0; i < foundBehaviours.Length; i++ ) 
 		{
-			var foundObject = foundObjects[i].gameObject;
+			if ( except != null && except.Contains(foundBehaviours[i]) ) {
+				continue;
+			}
+			var foundObject = foundBehaviours[i].gameObject;
 			if ( nameFilter != "" && !foundObject.name.Contains( nameFilter ) ) {
 				continue;
 			}
 
 			Vector3 pos = foundObject.WorldPos();
 			if ( Vector2.Distance( originPos, pos ) <= maxRange ) {
-				foundPositions.Add( pos - originPos );
+				objectsInRange.Add( foundObject );
 			}
 		}
 
-		return foundPositions;
+		return objectsInRange;
 	}
 
 	/// <summary>

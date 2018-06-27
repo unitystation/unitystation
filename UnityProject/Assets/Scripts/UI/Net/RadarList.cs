@@ -1,33 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using Util;
+
 /// all server only
 public class RadarList : NetUIDynamicList {
-	public bool AddItem( MapIconType type, Vector2 position ) {
-		return AddItems( type, new[] {position} );
-	}
-
-	public bool AddItems( MapIconType type, Vector2[] positions ) 
-	{
-		var positionSet = new HashSet<Vector2>(positions);
-		var duplicates = new HashSet<Vector2>();
+	public void RefreshTrackedPos() { //todo: optimize
 		foreach ( DynamicEntry entry in Entries.Values ) {
 			var item = entry as RadarEntry;
 			if ( !item ) {
 				continue;
 			}
-			if ( /*item.Type == type &&*/ positionSet.Contains(item.Position)  ) 
+			item.RefreshTrackedPos();
+		}
+		UpdatePeepers(); 
+	}
+
+	public bool AddItems( MapIconType type, GameObject origin, List<GameObject> objects ) 
+	{
+		var objectSet = new HashSet<GameObject>(objects);
+		var duplicates = new HashSet<GameObject>();
+		foreach ( DynamicEntry entry in Entries.Values ) {
+			var item = entry as RadarEntry;
+			if ( !item ) {
+				continue;
+			}
+			if ( objectSet.Contains(item.TrackedObject)  ) 
 			{
-//				Debug.Log( $"Item {item} already exists in RadarList" );
-				duplicates.Add( item.Position );
+				duplicates.Add( item.TrackedObject );
 			}
 		}
-		for ( var i = 0; i < positions.Length; i++ ) {
-			var position = positions[i];
-			//skipping already found positions 
-			if ( duplicates.Contains( position ) ) {
+		for ( var i = 0; i < objects.Count; i++ ) {
+			var obj = objects[i];
+			//skipping already found objects 
+			if ( duplicates.Contains( obj ) ) {
 				continue;
 			}
 
@@ -40,31 +44,20 @@ public class RadarList : NetUIDynamicList {
 
 			//set its elements
 			newEntry.Type = type;
-			newEntry.Position = position;
+			newEntry.OriginObject = origin;
+			newEntry.TrackedObject = obj;
 		}
-		Debug.Log( $"RadarList: Item add success! added {positions.Length} items" );
-
+//		Debug.Log( $"RadarList: Item add success! added {objects.Count} items" );
+		
 		//rescan elements and notify
 		NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
-		UpdatePeepers(); 
+		RefreshTrackedPos();
 		
 		return true;
 	}
 
-	public void ClearItems() { //todo
-//		foreach ( var pair in Entries ) {
-//			if ( String.Equals( ( (ItemEntry) pair.Value )?.Prefab.name, prefabName,
-//				StringComparison.CurrentCultureIgnoreCase ) ) 
-//			{
-//				Remove( pair.Key );
-//				return true;
-//			}
-//		}
-//		Debug.LogWarning( $"Didn't find any prefabs called '{prefabName}' in the list" );
-	}
-
 	protected override void RefreshPositions() {}
 
-		//not doing anything, see how DynamicEntry works
+	//not doing anything, see how DynamicEntry works
 	protected override void SetProperPosition( DynamicEntry entry, int index = 0 ) {}
 }

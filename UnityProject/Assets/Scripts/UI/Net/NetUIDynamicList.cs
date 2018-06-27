@@ -39,6 +39,18 @@ public class NetUIDynamicList : NetUIElement {
 		return Value;
 	}
 
+	public void Clear() {
+		foreach ( var pair in Entries ) {
+			pair.Value.gameObject.SetActive( false );
+		}
+		
+		if ( CustomNetworkManager.Instance._isServer ) {
+			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
+			UpdatePeepers();
+		}
+		RefreshPositions();
+	}
+
 	protected void Remove( string toBeRemoved ) {
 		var entryToRemove = Entries[toBeRemoved];
 		Debug.Log( $"Destroying entry #{toBeRemoved}({entryToRemove})" );
@@ -138,18 +150,22 @@ public class NetUIDynamicList : NetUIElement {
 		set {
 			externalChange = true;
 			var proposed = value.Split( new[]{','} , StringSplitOptions.RemoveEmptyEntries).ToList();
-			
-			//add ones existing in proposed only, remove ones not existing in proposed
-			//could probably be cheaper
-			var toRemove = Entries.Keys.Except( proposed );
-			var toAdd = proposed.Except( Entries.Keys );
-			
-			foreach ( string toBeRemoved in toRemove ) {
-				Remove( toBeRemoved );
-			}
-			
-			foreach ( string toBeAdded in toAdd ) {
-				Add( toBeAdded );
+
+			if ( proposed.Count == 0 ) {
+				Clear();
+			} else {
+				//add ones existing in proposed only, remove ones not existing in proposed
+				//could probably be cheaper
+				var toRemove = Entries.Keys.Except( proposed );
+				var toAdd = proposed.Except( Entries.Keys );
+				
+				foreach ( string toBeRemoved in toRemove ) {
+					Remove( toBeRemoved );
+				}
+				
+				foreach ( string toBeAdded in toAdd ) {
+					Add( toBeAdded );
+				}
 			}
 			externalChange = false;
 		}

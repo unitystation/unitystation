@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 using UnityEngine;
+using Util;
+
 /// all server only
 public class RadarEntry : DynamicEntry {
 	public MapIconType type = MapIconType.None;
@@ -8,6 +10,20 @@ public class RadarEntry : DynamicEntry {
 		set {
 			type = value;
 			ReInit();
+		}
+	}
+
+	public GameObject TrackedObject;
+	public GameObject OriginObject;
+
+	public void RefreshTrackedPos() {
+		if ( TrackedObject ) {
+			var origin = Vector2.zero;
+			if ( OriginObject ) {
+				origin = OriginObject.WorldPos();
+			}
+			Vector2 objectPos = (Vector2)TrackedObject.WorldPos() - origin;
+			Value = $"{(int)objectPos.x}x{(int)objectPos.y}";
 		}
 	}
 
