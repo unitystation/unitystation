@@ -17,16 +17,17 @@ public class ItemList : NetUIDynamicList {
 			Debug.LogWarning( $"No valid prefab found: {prefab}" );
 			return false;
 		}
-		
-		foreach ( DynamicEntry entry in Entries.Values ) {
+
+		var entryArray = EntryArray;
+		for ( var i = 0; i < entryArray.Length; i++ ) {
+			DynamicEntry entry = entryArray[i];
 			var item = entry as ItemEntry;
-			if ( !item || !item.Prefab || item.Prefab.Equals( prefab )  ) 
-			{
+			if ( !item || !item.Prefab || item.Prefab.Equals( prefab ) ) {
 				Debug.Log( $"Item {prefab} already exists in ItemList" );
 				return false;
 			}
 		}
-		
+
 		//add new entry
 		ItemEntry newEntry = Add() as ItemEntry;
 		if ( !newEntry ) {

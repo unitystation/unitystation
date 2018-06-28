@@ -44,7 +44,7 @@ public class NetworkTabManager : MonoBehaviour {
 	public void Add( NetTabDescriptor tabDescriptor, GameObject player ) {
 		if ( !openTabs.ContainsKey( tabDescriptor ) ) {
 			//Spawning new one
-			openTabs.Add( tabDescriptor, tabDescriptor.Spawn() );
+			openTabs.Add( tabDescriptor, tabDescriptor.Spawn(transform) );
 		}
 		NetTab tab = openTabs[tabDescriptor];
 //		tab.gameObject.SetActive( true );
@@ -93,8 +93,8 @@ public struct NetTabDescriptor {
 		}
 	}
 
-	public NetTab Spawn() {
-		var tabObject = Object.Instantiate( Resources.Load( $"Tab{type}" ) as GameObject );
+	public NetTab Spawn(Transform parent) {
+		var tabObject = Object.Instantiate( Resources.Load( $"Tab{type}" ) as GameObject, parent );
 		NetTab netTab = tabObject.GetComponent<NetTab>();
 		netTab.Provider = provider.gameObject;
 		return netTab;

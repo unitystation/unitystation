@@ -13,8 +13,9 @@ public class RadarList : NetUIDynamicList {
 		Vector2 originPos = Origin.State.Position;
 		
 		//Refreshing positions of every item
-		for ( var i = 0; i < EntryArray.Length; i++ ) {
-			var item = EntryArray[i] as RadarEntry;
+		var entryArray = EntryArray;
+		for ( var i = 0; i < entryArray.Length; i++ ) {
+			var item = entryArray[i] as RadarEntry;
 			if ( !item ) {
 				continue;
 			}

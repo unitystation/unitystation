@@ -19,7 +19,7 @@ public class GUI_Spawner : NetTab
 	
 	private void Start() {
 		//Not doing this for clients
-		if ( CustomNetworkManager.Instance._isServer ) {
+		if ( IsServer ) {
 			// Add items from InitialContents list
 			List<GameObject> initList = Provider.GetComponent<SpawnerInteract>().InitialContents;
 			for ( var i = 0; i < initList.Count; i++ ) {

@@ -132,14 +132,14 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		if ( serverTargetState.Speed <= 0 ) {
 			SetSpeed( 1 );
 		}
-		Debug.Log($"Started moving with speed {serverTargetState.Speed}");
+//		Debug.Log($"Started moving with speed {serverTargetState.Speed}");
 		serverTargetState.IsMoving = true;
 		RequestNotify();
 	}
 	/// Stop movement
 	[Server]
 	public void StopMovement() {
-		Debug.Log("Stopped movement");
+//		Debug.Log("Stopped movement");
 		serverTargetState.IsMoving = false;
 	}
 	/// Adjust current ship's speed with a relative value

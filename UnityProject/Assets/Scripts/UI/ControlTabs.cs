@@ -291,13 +291,13 @@ namespace UI
 //				Debug.Log( $"Yay, found an old hidden {openedTab} tab. Unhiding it" );
 				Instance.UnhideTab( Instance.HiddenNetTabs[openedTab] );
 			}
-			if ( !Instance.OpenedNetTabs.ContainsKey( openedTab ) ) {
-				NetTab tabInfo = openedTab.Spawn();
+			if ( !Instance.OpenedNetTabs.ContainsKey( openedTab ) ) 
+			{
+				var rightPanelParent = Instance.transform.GetChild( 1 );
+				NetTab tabInfo = openedTab.Spawn(rightPanelParent);
 				GameObject tabObject = tabInfo.gameObject;
 
 				//putting into the right place
-				var rightPanelParent = UIManager.Instance.GetComponentInChildren<ControlTabs>().transform.GetChild( 1 );
-				tabObject.transform.SetParent(rightPanelParent);
 				tabObject.transform.localScale = Vector3.one;
 				var rect = tabObject.GetComponent<RectTransform>();
 				rect.offsetMin = new Vector2(15, 15);

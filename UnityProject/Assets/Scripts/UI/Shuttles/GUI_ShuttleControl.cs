@@ -28,11 +28,7 @@ public class GUI_ShuttleControl : NetTab {
 
 	private void Start() {
 		//Not doing this for clients, but serverplayer does this too, so be aware
-		if ( CustomNetworkManager.Instance._isServer ) {
-			//protection against serverplayer doing the same
-			if ( EntryList.Entries.Count > 0 ) {
-				return;
-			}
+		if ( IsServer ) {
 
 			EntryList.Origin = MatrixMove;
 
@@ -48,6 +44,11 @@ public class GUI_ShuttleControl : NetTab {
 	private void StartRefresh() {
 		RefreshRadar = true;
 		Debug.Log( "Starting radar refresh" );
+		StartCoroutine( Refresh() );
+	}
+
+	public void RefreshOnce() {
+		RefreshRadar = false;
 		StartCoroutine( Refresh() );
 	}
 
@@ -72,7 +73,7 @@ public class GUI_ShuttleControl : NetTab {
 //	public override void OnEnable() {
 //		base.OnEnable();
 //		//Not doing this for clients, but serverplayer does this too, so be aware
-//		if ( CustomNetworkManager.Instance._isServer ) {
+//		if ( IsServer ) {
 //			//protection against serverplayer doing the same
 //			if ( !EntryList || EntryList.Entries.Count > 0 ) {
 //				return;
@@ -143,7 +144,7 @@ public class GUI_ShuttleControl : NetTab {
 	/// <param name="speedMultiplier"></param>
 	public void SetSpeed( float speedMultiplier ) {
 		float speed = speedMultiplier * ( MatrixMove.maxSpeed - 1 ) + 1;
-		Debug.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
+//		Debug.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
 		MatrixMove.SetSpeed( speed );
 	}
 }

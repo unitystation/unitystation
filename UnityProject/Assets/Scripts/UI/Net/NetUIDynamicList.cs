@@ -32,7 +32,9 @@ public class NetUIDynamicList : NetUIElement {
 
 	/// Non-runtime static init
 	public override void Init() {
-		foreach ( var value in Entries.Values ) {
+		var entryArray = EntryArray;
+		for ( var i = 0; i < entryArray.Length; i++ ) {
+			var value = entryArray[i];
 			InitDynamicEntry( value );
 		}
 	}
@@ -42,33 +44,90 @@ public class NetUIDynamicList : NetUIElement {
 	}
 
 	public void Clear() {
-		foreach ( var pair in Entries ) {
-			pair.Value.gameObject.SetActive( false );
+		var entryArray = EntryArray;
+		for ( var i = 0; i < entryArray.Length; i++ ) {
+			var entry = entryArray[i];
+			entry.gameObject.SetActive( false );
 		}
-		
-		if ( CustomNetworkManager.Instance._isServer ) {
+
+		if ( MasterTab.IsServer ) {
 			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
 			UpdatePeepers();
 		}
 		RefreshPositions();
 	}
 
-	protected void Remove( string toBeRemoved ) { //todo: remove array
+	protected void Remove( string toBeRemoved ) {
+		//		Remove(new[]{toBeRemoved});
+
 		var entryToRemove = Entries[toBeRemoved];
 		Debug.Log( $"Destroying entry #{toBeRemoved}({entryToRemove})" );
 		entryToRemove.gameObject.SetActive( false );
 		
-		if ( CustomNetworkManager.Instance._isServer ) {
+		if ( MasterTab.IsServer ) {
 			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
 			UpdatePeepers();
 		}
 		RefreshPositions();
 	}
+//	protected void Remove( string[] toBeRemoved )
+//	{ 
+//		var mode = toBeRemoved.Length > 1 ? "Bulk" : "Single";
+//		var entries = Entries;
+//		
+//		for ( var i = 0; i < toBeRemoved.Length; i++ ) {
+//			var item = toBeRemoved[i];
+//			var entryToRemove = entries[item];
+//			Debug.Log( $"{mode} destroying entry #{item}({entryToRemove})" );
+//			entryToRemove.gameObject.SetActive( false );
+//		}
+//
+//		if ( IsServer ) {
+//			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
+//			UpdatePeepers();
+//		}
+//		RefreshPositions();
+//	}
+
+//	protected DynamicEntry[] AddBulk( string[] proposedIndices ) 
+//	{
+//		var dynamicEntries = new DynamicEntry[proposedIndices.Length];
+//		var mode = proposedIndices.Length > 1 ? "Bulk" : "Single";
+//		
+//		string elementType = $"{MasterTab.Type}Entry";
+//		GameObject prefab = Resources.Load<GameObject>( elementType );
+//
+//		for ( var i = 0; i < proposedIndices.Length; i++ ) {
+//			var proposedIndex = proposedIndices[i];
+//			//future suggestion: support more than one kind of entries per tab (introduce EntryType field or something)
+//
+//			GameObject entryObject = Instantiate( prefab, transform, false );
+//
+//			DynamicEntry dynamicEntry = entryObject.GetComponent<DynamicEntry>();
+//
+//			string resultIndex = InitDynamicEntry( dynamicEntry, proposedIndex );
+//
+//			RefreshPositions();
+//
+//			if ( resultIndex != "" ) {
+//				Debug.Log( $"{mode} spawning entry #[{resultIndex}]: proposed: [{proposedIndex}], entry: {dynamicEntry}" );
+//			} else {
+//				Debug.LogWarning( $"Entry \"{proposedIndex}\" {mode} spawn failure, no such entryObject {elementType}" );
+//			}
+//		}
+//
+//		if ( IsServer ) {
+//			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
+//		}
+//		return dynamicEntries;
+//	}
 
 	/// Adds new entry at given index (or generates index if none is provided)
 	/// Does NOT notify players implicitly
-	protected DynamicEntry Add( string proposedIndex = "" ) //todo: add array
+	protected DynamicEntry Add( string proposedIndex = "" ) 
 	{
+		//		return AddBulk(new []{proposedIndex})[0];
+
 		//future suggestion: support more than one kind of entries per tab (introduce EntryType field or something)
 		string elementType = $"{MasterTab.Type}Entry";
 		
@@ -86,7 +145,7 @@ public class NetUIDynamicList : NetUIElement {
 			Debug.LogWarning( $"Entry \"{proposedIndex}\" spawn failure, no such entryObject {elementType}" );
 		}
 
-		if ( CustomNetworkManager.Instance._isServer /*&& notify*/ ) {
+		if ( MasterTab.IsServer ) {
 			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
 		}
 
@@ -95,8 +154,8 @@ public class NetUIDynamicList : NetUIElement {
 
 	/// Need to run this on list change to ensure no gaps are present
 	protected virtual void RefreshPositions() {
-		var entries = Entries.Values.ToList();
-		for ( var i = 0; i < entries.Count; i++ ) {
+		var entries = EntryArray;
+		for ( var i = 0; i < entries.Length; i++ ) {
 			SetProperPosition( entries[i], i );
 		}
 	}
@@ -156,21 +215,26 @@ public class NetUIDynamicList : NetUIElement {
 		get { return string.Join( ",", Entries.Keys ); }
 		set {
 			externalChange = true;
-			var proposed = value.Split( new[]{','} , StringSplitOptions.RemoveEmptyEntries).ToList();
+			var proposed = value.Split( new[]{','} , StringSplitOptions.RemoveEmptyEntries);
 
-			if ( proposed.Count == 0 ) {
+			if ( proposed.Length == 0 ) {
 				Clear();
 			} else {
 				//add ones existing in proposed only, remove ones not existing in proposed
 				//could probably be cheaper
-				var toRemove = Entries.Keys.Except( proposed );
-				var toAdd = proposed.Except( Entries.Keys );
+				var existing = Entries.Keys;
+				var toRemove = existing.Except( proposed ).ToArray();
+				var toAdd = proposed.Except( existing ).ToArray();
 				
-				foreach ( string toBeRemoved in toRemove ) {
+//				Remove( toRemove );
+				for ( var i = 0; i < toRemove.Length; i++ ) {
+					string toBeRemoved = toRemove[i];
 					Remove( toBeRemoved );
 				}
-				
-				foreach ( string toBeAdded in toAdd ) {
+
+//				AddBulk( toAdd );
+				for ( var i = 0; i < toAdd.Length; i++ ) {
+					string toBeAdded = toAdd[i];
 					Add( toBeAdded );
 				}
 			}

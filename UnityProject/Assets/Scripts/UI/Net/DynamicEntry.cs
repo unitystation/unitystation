@@ -6,7 +6,8 @@ using UnityEngine;
 /// </summary>
 public class DynamicEntry : NetUIElement {
 	public NetUIElement[] Elements => GetComponentsInChildren<NetUIElement>(false);
-	
+	public override ElementMode InteractionMode => ElementMode.ServerWrite;
+
 	public override string Value {
 		get {
 			Vector3 localPos = transform.localPosition;
