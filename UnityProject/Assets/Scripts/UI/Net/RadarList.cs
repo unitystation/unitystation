@@ -3,7 +3,7 @@ using UnityEngine;
 
 /// all server only
 public class RadarList : NetUIDynamicList {
-	public int Range = 200;
+	public int Range = 160;
 	public MatrixMove Origin;
 
 	private List<RadarEntry> OutOfRangeEntries = new List<RadarEntry>();
@@ -22,7 +22,7 @@ public class RadarList : NetUIDynamicList {
 
 			item.RefreshTrackedPos(originPos);
 			//If item is out of range, stop showing it and place into "out of range" list
-			if ( item.Position.magnitude > Range ) //? 
+			if ( ProjectionMagnitude( item ) > Range )
 			{
 				Debug.Log( $"Hiding {item} as it's out of range" );
 				OutOfRangeEntries.Add( item );
@@ -33,7 +33,7 @@ public class RadarList : NetUIDynamicList {
 		for ( var i = 0; i < OutOfRangeEntries.Count; i++ ) {
 			var item = OutOfRangeEntries[i];
 			item.RefreshTrackedPos( originPos );
-			if ( item.Position.magnitude <= Range ) //? 
+			if ( ProjectionMagnitude( item ) <= Range )
 			{
 				Debug.Log( $"Unhiding {item} as it's in range again" );
 				ToRestore.Add( item );
@@ -49,6 +49,14 @@ public class RadarList : NetUIDynamicList {
 		ToRestore.Clear();
 
 		UpdatePeepers();
+	}
+
+	/// For square radar. For round radar item.Position.magnitude check should suffice.
+	private static float ProjectionMagnitude( RadarEntry item ) {
+		var pos = item.Position;
+		var projX = Vector3.Project( pos, Vector3.right ).magnitude;
+		var projY = Vector3.Project( pos, Vector3.up ).magnitude;
+		return projX >= projY ? projX : projY;
 	}
 
 //	public bool AddItems( MapIconType type, List<Vector2> staticPositions ) { //todo
