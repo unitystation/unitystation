@@ -14,15 +14,9 @@ public class RadarEntry : DynamicEntry {
 	}
 
 	public GameObject TrackedObject;
-	public GameObject OriginObject;
 
-	public void RefreshTrackedPos() {
+	public void RefreshTrackedPos(Vector2 origin) {
 		if ( TrackedObject ) {
-			var origin = Vector2.zero;
-			if ( OriginObject ) {
-//				origin = OriginObject.WorldPos(); 
-				origin = OriginObject.transform.position; 
-			}
 //			Vector2 objectPos = (Vector2)TrackedObject.WorldPos() - origin; // WorldPos generates garbage :(
 			Vector2 objectPos = (Vector2)TrackedObject.transform.position - origin;
 			Value = (int)objectPos.x+"x"+(int)objectPos.y;

@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 224143707009374918}
   - component: {fileID: 222065890858654508}
   - component: {fileID: 114875459138325862}
-  - component: {fileID: 114059510460850692}
   m_Layer: 5
   m_Name: TargetButton
   m_TagString: Untagged
@@ -63,21 +62,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114059510460850692
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1530944482290410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da4622f4d46b449aade2aed2f4b7c9ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ServerMethod:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: StringEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114093481544423086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -155,7 +139,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114059510460850692}
+      - m_Target: {fileID: 0}
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -179,7 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4270a90140b446218da81f0ff022e3cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: -1
+  type: -1
+  TrackedObject: {fileID: 0}
 --- !u!222 &222065890858654508
 CanvasRenderer:
   m_ObjectHideFlags: 1

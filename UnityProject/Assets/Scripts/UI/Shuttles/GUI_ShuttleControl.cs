@@ -34,11 +34,11 @@ public class GUI_ShuttleControl : NetTab {
 				return;
 			}
 
-			EntryList.AddItems( MapIconType.Airlock, MatrixMove.gameObject,
-				GetObjectsOf<AirLockAnimator>( MatrixMove.State.Position, null, "AirLock" ) );
-			EntryList.AddItems( MapIconType.Ship, MatrixMove.gameObject,
-				GetObjectsOf( MatrixMove.State.Position, new HashSet<MatrixMove>( new[] {MatrixMove} ) ) );
-			EntryList.AddItems( MapIconType.Station, MatrixMove.gameObject, new List<GameObject> {MatrixManager.Get( 0 ).GameObject} );
+			EntryList.Origin = MatrixMove;
+
+			EntryList.AddItems( MapIconType.Airlock, GetObjectsOf<AirLockAnimator>( null, "AirLock" ) );
+			EntryList.AddItems( MapIconType.Ship, GetObjectsOf( new HashSet<MatrixMove>( new[] {MatrixMove} ) ) );
+			EntryList.AddItems( MapIconType.Station, new List<GameObject> {MatrixManager.Get( 0 ).GameObject} ); //fixme: wonky station position
 			StartRefresh();
 		}
 	}
@@ -89,12 +89,11 @@ public class GUI_ShuttleControl : NetTab {
 //	}
 
 	/// Get a list of positions for objects of given type within certain range from provided origin
-	private List<GameObject> GetObjectsOf<T>( Vector3 originPos, HashSet<T> except = null, string nameFilter="", int maxRange = 200 ) 
+	private List<GameObject> GetObjectsOf<T>( HashSet<T> except = null, string nameFilter="" ) 
 		where T : Behaviour 
 	{
-		
 		T[] foundBehaviours = FindObjectsOfType<T>();
-		var objectsInRange = new List<GameObject>();
+		var foundObjects = new List<GameObject>();
 		
 		for ( var i = 0; i < foundBehaviours.Length; i++ ) 
 		{
@@ -106,13 +105,10 @@ public class GUI_ShuttleControl : NetTab {
 				continue;
 			}
 
-			Vector3 pos = foundObject.WorldPos();
-			if ( Vector2.Distance( originPos, pos ) <= maxRange ) {
-				objectsInRange.Add( foundObject );
-			}
+			foundObjects.Add( foundObject );
 		}
 
-		return objectsInRange;
+		return foundObjects;
 	}
 
 	/// <summary>

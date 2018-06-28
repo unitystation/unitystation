@@ -3,31 +3,71 @@ using UnityEngine;
 
 /// all server only
 public class RadarList : NetUIDynamicList {
-	public void RefreshTrackedPos() { //todo: optimize
-		foreach ( DynamicEntry entry in Entries.Values ) {
-			var item = entry as RadarEntry;
+	public int Range = 200;
+	public MatrixMove Origin;
+
+	private List<RadarEntry> OutOfRangeEntries = new List<RadarEntry>();
+	private List<RadarEntry> ToRestore = new List<RadarEntry>();
+
+	public void RefreshTrackedPos() {
+		Vector2 originPos = Origin.State.Position;
+		
+		//Refreshing positions of every item
+		for ( var i = 0; i < EntryArray.Length; i++ ) {
+			var item = EntryArray[i] as RadarEntry;
 			if ( !item ) {
 				continue;
 			}
-			item.RefreshTrackedPos();
+
+			item.RefreshTrackedPos(originPos);
+			//If item is out of range, stop showing it and place into "out of range" list
+			if ( item.Position.magnitude > Range ) //? 
+			{
+				Debug.Log( $"Hiding {item} as it's out of range" );
+				OutOfRangeEntries.Add( item );
+				item.gameObject.SetActive( false );
+			}
 		}
-		UpdatePeepers(); 
+		//Check if any item in "out of range" list should be shown again
+		for ( var i = 0; i < OutOfRangeEntries.Count; i++ ) {
+			var item = OutOfRangeEntries[i];
+			item.RefreshTrackedPos( originPos );
+			if ( item.Position.magnitude <= Range ) //? 
+			{
+				Debug.Log( $"Unhiding {item} as it's in range again" );
+				ToRestore.Add( item );
+				item.gameObject.SetActive( true );
+			}
+		}
+		
+		for ( var i = 0; i < ToRestore.Count; i++ ) {
+			var item = ToRestore[i];
+			OutOfRangeEntries.Remove( item );
+		}
+
+		ToRestore.Clear();
+
+		UpdatePeepers();
 	}
 
-	public bool AddItems( MapIconType type, GameObject origin, List<GameObject> objects ) 
+//	public bool AddItems( MapIconType type, List<Vector2> staticPositions ) { //todo
+//	}
+
+	public bool AddItems( MapIconType type, List<GameObject> objects ) 
 	{
 		var objectSet = new HashSet<GameObject>(objects);
 		var duplicates = new HashSet<GameObject>();
-		foreach ( DynamicEntry entry in Entries.Values ) {
-			var item = entry as RadarEntry;
+		for ( var i = 0; i < EntryArray.Length; i++ ) {
+			var item = EntryArray[i] as RadarEntry;
 			if ( !item ) {
 				continue;
 			}
-			if ( objectSet.Contains(item.TrackedObject)  ) 
-			{
+
+			if ( objectSet.Contains( item.TrackedObject ) ) {
 				duplicates.Add( item.TrackedObject );
 			}
 		}
+
 		for ( var i = 0; i < objects.Count; i++ ) {
 			var obj = objects[i];
 			//skipping already found objects 
@@ -44,7 +84,6 @@ public class RadarList : NetUIDynamicList {
 
 			//set its elements
 			newEntry.Type = type;
-			newEntry.OriginObject = origin;
 			newEntry.TrackedObject = obj;
 		}
 //		Debug.Log( $"RadarList: Item add success! added {objects.Count} items" );
@@ -55,6 +94,7 @@ public class RadarList : NetUIDynamicList {
 		
 		return true;
 	}
+	//todo RemoveTrackedObject(s)
 
 	protected override void RefreshPositions() {}
 

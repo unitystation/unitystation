@@ -53,7 +53,7 @@ public class NetUIDynamicList : NetUIElement {
 		RefreshPositions();
 	}
 
-	protected void Remove( string toBeRemoved ) {
+	protected void Remove( string toBeRemoved ) { //todo: remove array
 		var entryToRemove = Entries[toBeRemoved];
 		Debug.Log( $"Destroying entry #{toBeRemoved}({entryToRemove})" );
 		entryToRemove.gameObject.SetActive( false );
@@ -67,7 +67,7 @@ public class NetUIDynamicList : NetUIElement {
 
 	/// Adds new entry at given index (or generates index if none is provided)
 	/// Does NOT notify players implicitly
-	protected DynamicEntry Add( string proposedIndex = "" ) 
+	protected DynamicEntry Add( string proposedIndex = "" ) //todo: add array
 	{
 		//future suggestion: support more than one kind of entries per tab (introduce EntryType field or something)
 		string elementType = $"{MasterTab.Type}Entry";
