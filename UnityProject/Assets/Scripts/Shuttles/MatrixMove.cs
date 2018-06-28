@@ -61,6 +61,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	public Vector3Int Pivot => Vector3Int.RoundToInt(pivot);
 	[SyncVar] private Vector3 pivot;
 
+    public static bool ison = false;
+
 	public override void OnStartServer()
 	{
 		InitServerState();
@@ -95,20 +97,9 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	///managed by UpdateManager
 	public override void UpdateMe(){
 		if ( isServer ) {
-			if ( Input.GetKeyDown( startKey ) ) {
+			if (ison) {
 				ToggleMovement();
-			}
-			if ( Input.GetKeyDown( KeyCode.KeypadPlus ) ) {
-				AdjustSpeed( 1 );
-			}
-			if ( Input.GetKeyDown( KeyCode.KeypadMinus ) ) {
-				AdjustSpeed( -1 );
-			}
-			if ( Input.GetKeyDown( leftKey ) ) {
-				TryRotate( false );
-			}
-			if ( Input.GetKeyDown( rightKey ) ) {
-				TryRotate( true );
+                ison = false;
 			}
 			CheckMovementServer();
 		} 

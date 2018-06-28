@@ -9,8 +9,8 @@ using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
-    private static float       ROUNDTIME_CONSTANT   = 30f;
-    private static float       SHUTTLETIME_CONSTANT = 11f;
+    private static float       ROUNDTIME_CONSTANT   = 600f;
+    private static float       SHUTTLETIME_CONSTANT = 60f;
 	public  static GameManager Instance;
 
 	public float RoundTime   = ROUNDTIME_CONSTANT;
@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
 	{
         GetRoundTime   = RoundTime;
         GetShuttleTime = ShuttleTime;
+        MatrixMove.ison = true;
 	}
 
     public void SyncTime(float currentTime)
@@ -157,7 +158,9 @@ public class GameManager : MonoBehaviour
 			{
 				counting = false;
                 ShuttleCounting = true;
-			}
+                MatrixMove.ison = true;
+
+            }
 		}
         else if (ShuttleCounting)
         {
@@ -169,6 +172,7 @@ public class GameManager : MonoBehaviour
             {
                 ShuttleCounting = false;
                 RestartRound();
+                MatrixMove.ison = true;
             }
             else if (GetShuttleTime <= 10f && !RoundScoreShow)
             {

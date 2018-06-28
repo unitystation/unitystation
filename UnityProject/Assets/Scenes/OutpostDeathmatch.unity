@@ -84147,7 +84147,7 @@ Prefab:
     - target: {fileID: 224652079256797148, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00015442944
+      value: -0.00008971119
       objectReference: {fileID: 0}
     - target: {fileID: 224253814974175500, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
@@ -90854,7 +90854,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flyingDirection: {x: 1, y: 0}
-  maxSpeed: 20
+  maxSpeed: 5
   startKey: 268
   leftKey: 257
   rightKey: 259
@@ -90865,7 +90865,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1527067303}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 49, y: 6, z: 0}
+  m_LocalPosition: {x: -2951, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 460993101}
