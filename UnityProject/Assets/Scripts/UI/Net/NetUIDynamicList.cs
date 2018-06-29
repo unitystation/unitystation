@@ -59,16 +59,6 @@ public class NetUIDynamicList : NetUIElement {
 
 	protected void Remove( string toBeRemoved ) {
 		Remove(new[]{toBeRemoved});
-
-//		var entryToRemove = Entries[toBeRemoved];
-//		Debug.Log( $"Destroying entry #{toBeRemoved}({entryToRemove})" );
-//		entryToRemove.gameObject.SetActive( false );
-//		
-//		if ( MasterTab.IsServer ) {
-//			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
-//			UpdatePeepers();
-//		}
-//		RefreshPositions();
 	}
 	protected void Remove( string[] toBeRemoved )
 	{ 
@@ -129,29 +119,6 @@ public class NetUIDynamicList : NetUIElement {
 	protected DynamicEntry Add( string proposedIndex = "" ) 
 	{
 		return AddBulk(new []{proposedIndex})[0];
-
-//		//future suggestion: support more than one kind of entries per tab (introduce EntryType field or something)
-//		string elementType = $"{MasterTab.Type}Entry";
-//		
-//		GameObject entryObject = Instantiate( Resources.Load<GameObject>( elementType ), transform, false );
-//		
-//		DynamicEntry dynamicEntry = entryObject.GetComponent<DynamicEntry>();
-//
-//		string resultIndex = InitDynamicEntry( dynamicEntry, proposedIndex );
-//
-//		RefreshPositions();
-//		
-//		if ( resultIndex != "" ) {
-//			Debug.Log( $"Spawning entry #[{resultIndex}]: proposed: [{proposedIndex}], entry: {dynamicEntry}" );
-//		} else {
-//			Debug.LogWarning( $"Entry \"{proposedIndex}\" spawn failure, no such entryObject {elementType}" );
-//		}
-//
-//		if ( MasterTab.IsServer ) {
-//			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
-//		}
-//
-//		return dynamicEntry;
 	}
 
 	/// Need to run this on list change to ensure no gaps are present
@@ -229,16 +196,8 @@ public class NetUIDynamicList : NetUIElement {
 				var toAdd = proposed.Except( existing ).ToArray();
 				
 				Remove( toRemove );
-//				for ( var i = 0; i < toRemove.Length; i++ ) {
-//					string toBeRemoved = toRemove[i];
-//					Remove( toBeRemoved );
-//				}
 
 				AddBulk( toAdd );
-//				for ( var i = 0; i < toAdd.Length; i++ ) {
-//					string toBeAdded = toAdd[i];
-//					Add( toBeAdded );
-//				}
 			}
 			externalChange = false;
 		}

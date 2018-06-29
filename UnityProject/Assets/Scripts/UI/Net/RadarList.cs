@@ -59,8 +59,50 @@ public class RadarList : NetUIDynamicList {
 		return projX >= projY ? projX : projY;
 	}
 
-//	public bool AddItems( MapIconType type, List<Vector2> staticPositions ) { //todo
-//	}
+	//do we need to bulk add static positions? don't think so
+	public bool AddStaticItem( MapIconType type, Vector2 staticPosition, int radius = -1 ) { 
+//		var posSet = new HashSet<Vector2>(staticPositions);
+//		var duplicates = new HashSet<Vector2>();
+		for ( var i = 0; i < EntryArray.Length; i++ ) {
+			var item = EntryArray[i] as RadarEntry;
+			if ( !item ) {
+				continue;
+			}
+
+//			if ( posSet.Contains( item.StaticPosition ) ) {
+			if ( staticPosition == (Vector2) item.StaticPosition ) {
+				return false;
+//				duplicates.Add( item.StaticPosition );
+			}
+		}
+
+//		for ( var i = 0; i < staticPositions.Count; i++ ) {
+//			var staticPosition = staticPositions[i];
+			//skipping already found objects 
+//			if ( duplicates.Contains( staticPosition ) ) {
+//				continue;
+//			}
+
+			//add new entry
+			RadarEntry newEntry = Add() as RadarEntry;
+			if ( !newEntry ) {
+				Debug.LogWarning( $"Added {newEntry} is not an RadarEntry!" );
+				return false;
+			}
+
+			//set its elements
+			newEntry.Radius = radius;
+			newEntry.Type = type;
+			newEntry.StaticPosition = staticPosition;
+//		}
+//		Debug.Log( $"RadarList: Item add success! added {objects.Count} items" );
+		
+		//rescan elements and notify
+		NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
+		RefreshTrackedPos();
+		
+		return true;
+	}
 
 	public bool AddItems( MapIconType type, List<GameObject> objects ) 
 	{
@@ -105,8 +147,7 @@ public class RadarList : NetUIDynamicList {
 	}
 	//todo RemoveTrackedObject(s)
 
+	//Don't apply any clientside ordering and just rely on whatever server provided
 	protected override void RefreshPositions() {}
-
-	//not doing anything, see how DynamicEntry works
 	protected override void SetProperPosition( DynamicEntry entry, int index = 0 ) {}
 }

@@ -27,14 +27,16 @@ public class GUI_ShuttleControl : NetTab {
 	}
 
 	private void Start() {
-		//Not doing this for clients, but serverplayer does this too, so be aware
+		//Not doing this for clients
 		if ( IsServer ) {
-
+			//todo: get current ship bounds 
 			EntryList.Origin = MatrixMove;
 
 			EntryList.AddItems( MapIconType.Airlock, GetObjectsOf<AirLockAnimator>( null, "AirLock" ) );
 			EntryList.AddItems( MapIconType.Ship, GetObjectsOf( new HashSet<MatrixMove>( new[] {MatrixMove} ) ) );
-			EntryList.AddItems( MapIconType.Station, new List<GameObject> {MatrixManager.Get( 0 ).GameObject} ); //fixme: wonky station position
+			var stationBounds = MatrixManager.Get( 0 ).MetaTileMap.GetBounds();
+			int stationRadius = (int)Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
+			EntryList.AddStaticItem( MapIconType.Station, stationBounds.center, stationRadius );
 			StartRefresh();
 		}
 	}

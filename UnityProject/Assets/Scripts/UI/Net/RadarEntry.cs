@@ -14,13 +14,21 @@ public class RadarEntry : DynamicEntry {
 	}
 
 	public GameObject TrackedObject;
+	public Vector3 StaticPosition = TransformState.HiddenPos;
+	public int Radius = -1;
 
 	public void RefreshTrackedPos(Vector2 origin) {
 		if ( TrackedObject ) {
 //			Vector2 objectPos = (Vector2)TrackedObject.WorldPos() - origin; // WorldPos generates garbage :(
 			Vector2 objectPos = (Vector2)TrackedObject.transform.position - origin;
 			Value = (int)objectPos.x+"x"+(int)objectPos.y;
+		} 
+		else if ( StaticPosition != TransformState.HiddenPos ) 
+		{
+			Vector2 objectPos = (Vector2)StaticPosition - origin;
+			Value = (int)objectPos.x+"x"+(int)objectPos.y;
 		}
+
 	}
 
 	public void ReInit() {
@@ -30,6 +38,9 @@ public class RadarEntry : DynamicEntry {
 					case "MapIcon":
 						string spriteValue = Type.GetDescription();
 						element.Value = spriteValue; 
+						break;
+					case "MapRadius":
+						element.Value = Radius.ToString(); 
 						break;
 				}
 		}
