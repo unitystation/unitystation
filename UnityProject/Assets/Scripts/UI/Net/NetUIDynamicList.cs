@@ -68,7 +68,7 @@ public class NetUIDynamicList : NetUIElement {
 		for ( var i = 0; i < toBeRemoved.Length; i++ ) {
 			var item = toBeRemoved[i];
 			var entryToRemove = entries[item];
-			Debug.Log( $"{mode} destroying entry #{item}({entryToRemove})" );
+//			Debug.Log( $"{mode} destroying entry #{item}({entryToRemove})" );
 			entryToRemove.gameObject.SetActive( false );
 		}
 
@@ -100,7 +100,7 @@ public class NetUIDynamicList : NetUIElement {
 			RefreshPositions();
 
 			if ( resultIndex != "" ) {
-				Debug.Log( $"{mode} spawning entry #[{resultIndex}]: proposed: [{proposedIndex}], entry: {dynamicEntry}" );
+//				Debug.Log( $"{mode} spawning entry #[{resultIndex}]: proposed: [{proposedIndex}], entry: {dynamicEntry}" );
 			} else {
 				Debug.LogWarning( $"Entry \"{proposedIndex}\" {mode} spawn failure, no such entryObject {elementType}" );
 			}

@@ -41,6 +41,11 @@ public class GUI_ShuttleControl : NetTab {
 		}
 	}
 
+	public void SetWaypoint( string position ) {
+		var pos = position.Vectorized();
+		EntryList.AddStaticItem( MapIconType.Waypoint, pos ); //todo fix imba refresh and modify existing one
+	}
+
 	private bool RefreshRadar = false;
 
 	private void StartRefresh() {

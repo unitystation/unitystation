@@ -30,11 +30,22 @@ namespace Util {
 			return go.GetComponent<RegisterTile>()?.WorldPosition ?? go.transform.position;
 //			return go.GetComponent<CustomNetTransform>()?.State.position ?? go.Player()?.Script.playerSync.ServerState.WorldPosition ??  go.transform.position;
 		}
-		
+
 		/// Wraps provided index value if it's more that array length  
 		public static T Wrap<T>(this T[] array, int index)
 		{
 			return array[((index % array.Length) + array.Length) % array.Length];
+		}
+
+		public static string Stringified( this Vector2 pos ) {
+			return ( int ) pos.x+"x"+( int ) pos.y;
+		}
+
+		public static Vector2 Vectorized( this string stringifiedVector ) {
+			var posData = stringifiedVector.Split( 'x' );
+			int x = int.Parse(posData[0]); //or TryParse?
+			int y = int.Parse(posData[1]);
+			return new Vector2(x, y);
 		}
 	}
 }

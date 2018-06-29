@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Util;
+
 /// <summary>
 /// Dynamic list entry
 /// </summary>
@@ -10,16 +12,11 @@ public class DynamicEntry : NetUIElement {
 
 	public override string Value {
 		get {
-			Vector3 localPos = transform.localPosition;
-			return ( int ) localPos.x+"x"+( int ) localPos.y;
+			return ((Vector2)transform.localPosition).Stringified();
 		}
 		set {
 			externalChange = true;
-			var posData = value.Split( 'x' );
-			int x = int.Parse(posData[0]); //or TryParse?
-			int y = int.Parse(posData[1]);
-			Vector2 pos = new Vector2(x, y);
-			transform.localPosition = pos;
+			transform.localPosition = value.Vectorized();
 			externalChange = false;
 		}
 	}
