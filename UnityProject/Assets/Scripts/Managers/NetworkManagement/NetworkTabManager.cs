@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
-using UI;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 /// <summary>
 /// For server.
@@ -12,10 +8,15 @@ using Object = UnityEngine.Object;
 public class NetworkTabManager : MonoBehaviour {
 	//Declare in awake as NetTabManager needs to be destroyed on each scene change
 	public static NetworkTabManager Instance;
-	private readonly Dictionary<NetTabDescriptor, NetTab> openTabs = 
-		new Dictionary<NetTabDescriptor, NetTab>();
-	public List<ConnectedPlayer> GetPeepers(GameObject provider, NetTabType type) {
-		var info = openTabs[Tab( provider, type )]; //unsafe
+	private readonly Dictionary<NetTabDescriptor, NetTab> openTabs = new Dictionary<NetTabDescriptor, NetTab>();
+	
+	public List<ConnectedPlayer> GetPeepers(GameObject provider, NetTabType type) 
+	{
+		var descriptor = Tab( provider, type );
+		if ( !openTabs.ContainsKey( descriptor ) ) {
+			return new List<ConnectedPlayer>();
+		}
+		var info = openTabs[descriptor];
 		if ( info.IsUnobserved ) {
 			return new List<ConnectedPlayer>();
 		}
@@ -31,6 +32,12 @@ public class NetworkTabManager : MonoBehaviour {
 		else
 		{
 			Destroy(gameObject);
+			// Clearing net tabs on round restart
+//			Debug.LogError( "NTM cleanup!" );
+			foreach ( var tab in Instance.openTabs ) {
+				Destroy(tab.Value.gameObject);
+			}
+			Instance.openTabs.Clear();
 		}
 	}
 
@@ -39,9 +46,13 @@ public class NetworkTabManager : MonoBehaviour {
 		Get( tabDescriptor ).RescanElements();
 	}
 
-
 	///Create new NetworkTabInfo if it doesn't exist, otherwise add player to it
-	public void Add( NetTabDescriptor tabDescriptor, GameObject player ) {
+	public void Add( NetTabDescriptor tabDescriptor, GameObject player ) 
+	{
+		if ( tabDescriptor.Equals( NetTabDescriptor.Invalid ) ) {
+			return;
+		}
+		
 		if ( !openTabs.ContainsKey( tabDescriptor ) ) {
 			//Spawning new one
 			openTabs.Add( tabDescriptor, tabDescriptor.Spawn(transform) );
@@ -76,24 +87,28 @@ public class NetworkTabManager : MonoBehaviour {
 	}
 
 	private static NetTabDescriptor Tab( GameObject provider, NetTabType type ) {
-		return new NetTabDescriptor( provider, type );
+		return provider == null ? NetTabDescriptor.Invalid : new NetTabDescriptor( provider, type );
 	}
 }
 
 public struct NetTabDescriptor {
+	public static readonly NetTabDescriptor Invalid = new NetTabDescriptor(null, NetTabType.None);
 	private readonly NetworkTabTrigger provider;
 	private readonly NetTabType type;
 
 	public NetTabDescriptor( GameObject provider, NetTabType type ) {
-		this.provider = provider?.GetComponent<NetworkTabTrigger>();
+		this.provider = provider != null ? provider.GetComponent<NetworkTabTrigger>() : null;
 		this.type = type;
-		if ( type == NetTabType.None ) {
+		if ( type == NetTabType.None && this.provider != null ) {
 			Debug.LogError( "You forgot to set a proper NetTabType in your new tab!\n" +
 			                "Go to Prefabs/GUI/Resources and see if any prefabs starting with Tab has Type=None" );
 		}
 	}
 
 	public NetTab Spawn(Transform parent) {
+		if ( provider == null ) {
+			return null;
+		}
 		var tabObject = Object.Instantiate( Resources.Load( $"Tab{type}" ) as GameObject, parent );
 		NetTab netTab = tabObject.GetComponent<NetTab>();
 		netTab.Provider = provider.gameObject;
