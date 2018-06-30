@@ -9,8 +9,29 @@ namespace UI
     {
         //Reference to zoom text.
         public Text zoomText;
-        private int zoomLevel = 0;
-        private string zoomString = "You should not see this string!";
+        private int zoomLevel = 2;
+        private string zoomString = "2";
+        public Slider zoomSlider;
+
+		void Start(){
+			if (PlayerPrefs.HasKey("CamZoomSetting")){
+				zoomLevel = PlayerPrefs.GetInt("CamZoomSetting");
+                zoomSlider.value = zoomLevel;
+			} else {
+                int setting = 1;
+                if (Screen.width > 1280)
+                {
+                    setting = 2;
+                }
+                zoomLevel = setting;
+                zoomSlider.value = setting;
+				PlayerPrefs.SetInt("CamZoomSetting", setting);
+				PlayerPrefs.Save();
+			}
+
+            zoomString = zoomLevel.ToString();
+            Refresh();
+        }
 
         // Refreshes after setting zoom level.
         public void Refresh()
@@ -44,6 +65,8 @@ namespace UI
             zoomString = zoomLevel.ToString();
             this.zoomLevel = (int)zoomLevel;
             Refresh();
+			PlayerPrefs.SetInt("CamZoom", this.zoomLevel);
+			PlayerPrefs.Save();
         }
 
     }
