@@ -15,6 +15,9 @@ public class NetDynamicButton : NetUIElement
 	public StringEvent ServerMethod;
 
 	public override void Init() {
+		if ( ServerMethod.GetPersistentEventCount() == 0 ) {
+			return;
+		}
 		//some reflection is required here.
 		
 		//reading prefab-based listener information:

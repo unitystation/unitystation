@@ -1,11 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Util;
+
 /// <summary>
 /// Dynamic list entry
 /// </summary>
-public class DynamicEntry : MonoBehaviour {
-	public List<NetUIElement> Elements => GetComponentsInChildren<NetUIElement>(false).ToList();
+public class DynamicEntry : NetUIElement {
+	public NetUIElement[] Elements => GetComponentsInChildren<NetUIElement>(false);
+	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
-//	public virtual void InitSpecial() {}
+	public override string Value {
+		get {
+			return ((Vector2)transform.localPosition).Stringified();
+		}
+		set {
+			externalChange = true;
+			transform.localPosition = value.Vectorized();
+			externalChange = false;
+		}
+	}
+
+	public Vector2 Position {
+		get { return transform.localPosition; }
+		set { transform.localPosition = value; }
+	}
+
+	public override void ExecuteServer() {}
 }
