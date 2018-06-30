@@ -179,7 +179,7 @@ public class FieldOfViewStencil : MonoBehaviour
 					curWalls.Add(wallCellPos);
 				}
 			}
-			return new ViewCastInfo(true, hit.point + ((Vector2)dir * 0.1f), hit.distance, globalAngle);
+			return new ViewCastInfo(true, hit.point + ((Vector2)dir * 0.05f), hit.distance, globalAngle);
 		} else {
 			return new ViewCastInfo(false, transform.position + dir * ViewRadius, ViewRadius,
 									globalAngle);

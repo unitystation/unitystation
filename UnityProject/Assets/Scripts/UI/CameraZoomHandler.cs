@@ -9,8 +9,8 @@ namespace UI
     {
         //Reference to zoom text.
         public Text zoomText;
-        private int zoomLevel = 0;
-        private string zoomString = "You should not see this string!";
+        private int zoomLevel = 1;
+        private string zoomString = "1";
 
         // Refreshes after setting zoom level.
         public void Refresh()
