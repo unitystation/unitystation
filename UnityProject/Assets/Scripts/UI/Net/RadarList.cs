@@ -61,28 +61,16 @@ public class RadarList : NetUIDynamicList {
 
 	//do we need to bulk add static positions? don't think so
 	public bool AddStaticItem( MapIconType type, Vector2 staticPosition, int radius = -1 ) { 
-//		var posSet = new HashSet<Vector2>(staticPositions);
-//		var duplicates = new HashSet<Vector2>();
 		for ( var i = 0; i < EntryArray.Length; i++ ) {
 			var item = EntryArray[i] as RadarEntry;
 			if ( !item ) {
 				continue;
 			}
 
-//			if ( posSet.Contains( item.StaticPosition ) ) {
 			if ( staticPosition == (Vector2) item.StaticPosition ) {
 				return false;
-//				duplicates.Add( item.StaticPosition );
 			}
 		}
-
-//		for ( var i = 0; i < staticPositions.Count; i++ ) {
-//			var staticPosition = staticPositions[i];
-			//skipping already found objects 
-//			if ( duplicates.Contains( staticPosition ) ) {
-//				continue;
-//			}
-
 			//add new entry
 			RadarEntry newEntry = Add() as RadarEntry;
 			if ( !newEntry ) {
@@ -94,8 +82,6 @@ public class RadarList : NetUIDynamicList {
 			newEntry.Radius = radius;
 			newEntry.Type = type;
 			newEntry.StaticPosition = staticPosition;
-//		}
-//		Debug.Log( $"RadarList: Item add success! added {objects.Count} items" );
 		
 		//rescan elements and notify
 		NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );

@@ -29,10 +29,9 @@ public class GUI_ShuttleControl : NetTab {
 	private void Start() {
 		//Not doing this for clients
 		if ( IsServer ) {
-			//todo: get current ship bounds 
 			EntryList.Origin = MatrixMove;
 
-			EntryList.AddItems( MapIconType.Airlock, GetObjectsOf<AirLockAnimator>( null, "AirLock" ) );
+//			EntryList.AddItems( MapIconType.Airlock, GetObjectsOf<AirLockAnimator>( null, "AirLock" ) );
 			EntryList.AddItems( MapIconType.Ship, GetObjectsOf( new HashSet<MatrixMove>( new[] {MatrixMove} ) ) );
 			var stationBounds = MatrixManager.Get( 0 ).MetaTileMap.GetBounds();
 			int stationRadius = (int)Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
@@ -43,7 +42,8 @@ public class GUI_ShuttleControl : NetTab {
 
 	public void SetWaypoint( string position ) {
 		var pos = position.Vectorized();
-		EntryList.AddStaticItem( MapIconType.Waypoint, pos ); //todo fix imba refresh and modify existing one
+		//todo modify existing one instead of creating new ones
+		EntryList.AddStaticItem( MapIconType.Waypoint, pos ); 
 	}
 
 	private bool RefreshRadar = false;
@@ -72,29 +72,6 @@ public class GUI_ShuttleControl : NetTab {
 			StartCoroutine( Refresh() );
 		}
 	}
-
-//	private void Start() {
-//		OnEnable();
-//	}
-//
-//	public override void OnEnable() {
-//		base.OnEnable();
-//		//Not doing this for clients, but serverplayer does this too, so be aware
-//		if ( IsServer ) {
-//			//protection against serverplayer doing the same
-//			if ( !EntryList || EntryList.Entries.Count > 0 ) {
-//				return;
-//			}
-//			EntryList.AddItems( MapIconType.Airlock, MatrixMove.gameObject, GetObjectsOf<AirLockAnimator>( MatrixMove.State.Position, null, "AirLock" ) );
-//			EntryList.AddItems( MapIconType.Ship, MatrixMove.gameObject, GetObjectsOf( MatrixMove.State.Position, new HashSet<MatrixMove>( new[] {MatrixMove})) );
-//			EntryList.AddItems( MapIconType.Station, MatrixMove.gameObject, new List<GameObject> {MatrixManager.Get( 0 ).GameObject} );
-//			StartRefresh();
-//		}
-//	}
-//
-//	private void OnDisable() {
-//		StopRefresh();
-//	}
 
 	/// Get a list of positions for objects of given type within certain range from provided origin
 	private List<GameObject> GetObjectsOf<T>( HashSet<T> except = null, string nameFilter="" ) 
