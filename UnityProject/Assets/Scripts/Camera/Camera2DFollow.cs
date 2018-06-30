@@ -91,7 +91,7 @@ public class Camera2DFollow : MonoBehaviour
 				newPos.y = Mathf.RoundToInt(newPos.y * pixelAdjustment) / pixelAdjustment;
 			}
 			transform.position = newPos;
-			starsBackground.position = -newPos * 0.1f;
+			starsBackground.position = -newPos * 0.06f;
 
 			lastTargetPosition = target.position;
 			if (stencilMask.transform.parent != target) {

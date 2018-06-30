@@ -28,7 +28,7 @@ public class FieldOfViewStencil : MonoBehaviour
 	public MeshFilter ViewMeshFilter;
 	Mesh ViewMesh;
 
-    int waitCheck = 0;
+    int waitToCheck = 0;
 
 	void Start()
 	{
@@ -39,16 +39,16 @@ public class FieldOfViewStencil : MonoBehaviour
 
 	void Update()
 	{
-        waitCheck++;
-        if (waitCheck > 20)
+        waitToCheck++;
+        if (waitToCheck > 5)
         {
-            waitCheck = 0;
+            waitToCheck = 0;
             CheckHitWallsCache();
         }
         DrawFieldOfView();
-	}
+    }
 
-	void CheckHitWallsCache(){
+    void CheckHitWallsCache(){
 		var missingWalls = hitWalls.Keys.Except(curWalls).ToList();
 		for (int i = 0; i < missingWalls.Count() ;i++){
 			Tile newTile = (Tile)ScriptableObject.CreateInstance("Tile");
@@ -179,7 +179,7 @@ public class FieldOfViewStencil : MonoBehaviour
 					curWalls.Add(wallCellPos);
 				}
 			}
-			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+			return new ViewCastInfo(true, hit.point + ((Vector2)dir * 0.1f), hit.distance, globalAngle);
 		} else {
 			return new ViewCastInfo(false, transform.position + dir * ViewRadius, ViewRadius,
 									globalAngle);
