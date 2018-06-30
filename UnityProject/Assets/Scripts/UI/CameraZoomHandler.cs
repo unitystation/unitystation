@@ -18,14 +18,9 @@ namespace UI
 				zoomLevel = PlayerPrefs.GetInt("CamZoomSetting");
                 zoomSlider.value = zoomLevel;
 			} else {
-                int setting = 1;
-                if (Screen.width > 1280)
-                {
-                    setting = 2;
-                }
-                zoomLevel = setting;
-                zoomSlider.value = setting;
-				PlayerPrefs.SetInt("CamZoomSetting", setting);
+                zoomLevel = 2;
+                zoomSlider.value = 2;
+				PlayerPrefs.SetInt("CamZoomSetting", 2);
 				PlayerPrefs.Save();
 			}
 
@@ -65,7 +60,7 @@ namespace UI
             zoomString = zoomLevel.ToString();
             this.zoomLevel = (int)zoomLevel;
             Refresh();
-			PlayerPrefs.SetInt("CamZoom", this.zoomLevel);
+			PlayerPrefs.SetInt("CamZoomSetting", this.zoomLevel);
 			PlayerPrefs.Save();
         }
 
