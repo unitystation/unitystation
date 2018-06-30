@@ -17,6 +17,8 @@ public class NetTab : Tab {
 	public GameObject Provider;
 	public NetTabType Type = NetTabType.None;
 	public NetTabDescriptor NetTabDescriptor => new NetTabDescriptor( Provider, Type );
+	/// Is current tab a server tab?
+	public bool IsServer => transform.parent.name == nameof(NetworkTabManager);
 	
 //	public static readonly NetTab Invalid = new NetworkTabInfo(null);
 	private List<NetUIElement> Elements => GetComponentsInChildren<NetUIElement>(false).ToList();
@@ -31,7 +33,7 @@ public class NetTab : Tab {
 	
 	public ElementValue[] ElementValues => CachedElements.Values.Select( element => element.ElementValue ).ToArray(); //likely expensive
 
-	public void OnEnable() {
+	public virtual void OnEnable() {
 		InitElements();
 	}
 

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -17,7 +18,7 @@ public class TabInteractMessage : ClientMessage
 	//Serverside
 	public override IEnumerator Process()
 	{
-		Debug.Log("Processed " + ToString());
+//		Debug.Log("Processed " + ToString());
 		yield return WaitFor(SentBy, TabProvider);
 		ProcessFurther(NetworkObjects[0], NetworkObjects[1]);
 	}
@@ -58,11 +59,13 @@ public class TabInteractMessage : ClientMessage
 		}
 		
 		//Notify all peeping players of the change
-		foreach ( var connectedPlayer in NetworkTabManager.Instance.GetPeepers( tabProvider, NetTabType ) ) {
-			//Not sending that update to the same player
+		List<ConnectedPlayer> list = NetworkTabManager.Instance.GetPeepers( tabProvider, NetTabType );
+		for ( var i = 0; i < list.Count; i++ ) {
+			var connectedPlayer = list[i];
+//Not sending that update to the same player
 			if ( connectedPlayer.GameObject != player ) {
 				TabUpdateMessage.Send( connectedPlayer.GameObject, tabProvider, NetTabType, TabAction.Update, player,
-					new[]{new ElementValue{ Id = ElementId, Value = updatedElement.Value}}  );
+					new[] {new ElementValue {Id = ElementId, Value = updatedElement.Value}} );
 			}
 		}
 	}

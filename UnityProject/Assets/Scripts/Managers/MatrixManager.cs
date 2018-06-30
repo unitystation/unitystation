@@ -143,6 +143,7 @@ public class MatrixManager : MonoBehaviour
 				Matrix = findMatrices[i],
 				GameObject = findMatrices[i].gameObject,
 				MatrixMove = findMatrices[i].gameObject.GetComponentInParent<MatrixMove>(),
+				MetaTileMap = findMatrices[i].gameObject.GetComponent<MetaTileMap>(),
 //				NetId is initialized later
 				InitialOffset = findMatrices[i].InitialOffset
 			};
@@ -264,6 +265,7 @@ public struct MatrixInfo
 {
 	public int Id;
 	public Matrix Matrix;
+	public MetaTileMap MetaTileMap;
 	public GameObject GameObject;
 
 	public Vector3Int InitialOffset;

@@ -10065,7 +10065,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114986867525342648}
   m_HandleRect: {fileID: 224599716051025124}
   m_Direction: 2
-  m_Value: 0.0000001695421
+  m_Value: 1
   m_Size: 0.4857143
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -16366,10 +16366,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 224963789470805622}
   m_HandleRect: {fileID: 224529798827776512}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 1
   m_MaxValue: 10
   m_WholeNumbers: 1
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -18296,6 +18296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoomText: {fileID: 114767197194937688}
+  zoomSlider: {fileID: 114648675845146660}
 --- !u!114 &114821118564603754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19599,8 +19600,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114293831474295014}
   m_HandleRect: {fileID: 224591598267180996}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.5120401
+  m_Value: 0.00000006254117
+  m_Size: 0.51204014
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -23200,7 +23201,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 359.99994}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224265194266767286
@@ -25081,7 +25082,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000015258789}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224653293278829958
@@ -26330,7 +26331,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 0, y: 1000}
   m_Pivot: {x: 0, y: 0}
 --- !u!224 &224950303576452178

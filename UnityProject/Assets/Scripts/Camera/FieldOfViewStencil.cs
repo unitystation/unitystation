@@ -23,11 +23,12 @@ public class FieldOfViewStencil : MonoBehaviour
 	private HashSet<GameObject> hitDoors = new HashSet<GameObject>();
 	private HashSet<GameObject> curDoors = new HashSet<GameObject>();
 
-	float waitToCheckWalls = 0f;
 	RaycastHit2D hit;
 
 	public MeshFilter ViewMeshFilter;
 	Mesh ViewMesh;
+
+    int waitToCheck = 0;
 
 	void Start()
 	{
@@ -36,19 +37,18 @@ public class FieldOfViewStencil : MonoBehaviour
 		ViewMeshFilter.mesh = ViewMesh;
 	}
 
-	void LateUpdate()
+	void Update()
 	{
-		//FIXME Wait is turned off, consider removing in the future if GC isn't too bad
+        waitToCheck++;
+        if (waitToCheck > 5)
+        {
+            waitToCheck = 0;
+            CheckHitWallsCache();
+        }
+        DrawFieldOfView();
+    }
 
-		//waitToCheckWalls += Time.deltaTime;
-		//if (waitToCheckWalls > 0.1f) {
-			//waitToCheckWalls = 0f;
-			CheckHitWallsCache();
-		//}
-		DrawFieldOfView();
-	}
-
-	void CheckHitWallsCache(){
+    void CheckHitWallsCache(){
 		var missingWalls = hitWalls.Keys.Except(curWalls).ToList();
 		for (int i = 0; i < missingWalls.Count() ;i++){
 			Tile newTile = (Tile)ScriptableObject.CreateInstance("Tile");
@@ -179,7 +179,7 @@ public class FieldOfViewStencil : MonoBehaviour
 					curWalls.Add(wallCellPos);
 				}
 			}
-			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+			return new ViewCastInfo(true, hit.point + ((Vector2)dir * 0.05f), hit.distance, globalAngle);
 		} else {
 			return new ViewCastInfo(false, transform.position + dir * ViewRadius, ViewRadius,
 									globalAngle);
