@@ -77,7 +77,7 @@ echo "Please enter your steam developer-upload credentials"
 read -p 'Username: ' uservar
 read -sp 'Password: ' passvar
 
-$script_dir/ContentBuilder/builder_linux/steamcmd +login $uservar $passvar <<EOF
+bash $script_dir/ContentBuilder/builder_linux/steamcmd.sh +login $uservar $passvar <<EOF
 run_app_build $script_dir/ContentBuilder/scripts/app_build_801140.vdf
 quit
 EOF
