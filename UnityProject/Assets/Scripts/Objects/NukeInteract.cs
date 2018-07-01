@@ -44,10 +44,11 @@ public class NukeInteract : NetworkTabTrigger
 	{
 		yield return new WaitForSeconds(5f);
 		GibMessage.Send();
-		GameManager.Instance.RespawnAllowed = false;
+//		GameManager.Instance.RespawnAllowed = false;
 		yield return new WaitForSeconds(2f);
 		//Restart Round:
-		GameManager.Instance.RoundTime = 0f;
+		GameManager.Instance.RestartRound();
+//		GameManager.Instance.RespawnAllowed = true;
 	}
 
 	//Server validating the code sent back by the GUI
