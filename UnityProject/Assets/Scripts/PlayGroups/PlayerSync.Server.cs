@@ -20,7 +20,6 @@ namespace PlayGroup
 		private PlayerState serverTargetState;
 
 		private Queue<PlayerAction> serverPendingActions;
-		[SyncVar] [Obsolete] private PlayerState serverStateCache; //todo: phase it out, it actually concerns clients
 
 		/// Max size of serverside queue, client will be rolled back and punished if it overflows
 		private readonly int maxServerQueue = 10;
@@ -66,7 +65,6 @@ namespace PlayGroup
 			};
 //			Debug.Log( $"{PlayerList.Instance.Get( gameObject ).Name}: InitServerState for {worldPos} found matrix {matrixAtPoint} resulting in\n{state}" );
 			serverState = state;
-			serverStateCache = state;
 			serverTargetState = state;
 		}
 
@@ -96,11 +94,7 @@ namespace PlayGroup
 				{
 					TortureChamber.Torture(playerScript, TortureSeverity.L);
 				}
-
-				return;
 			}
-
-			serverStateCache = serverState;
 		}
 
 		/// Push player in direction.
@@ -155,7 +149,6 @@ namespace PlayGroup
 			};
 			serverState = newState;
 			serverTargetState = newState;
-			serverStateCache = newState;
 			SyncMatrix();
 			NotifyPlayers();
 		}
@@ -194,14 +187,6 @@ namespace PlayGroup
 		[Server]
 		public void NotifyPlayers()
 		{
-			//Do not cache the position if the player is a ghost
-			//or else new players will sync the deadbody with the last pos
-			//of the ghost:
-			if (!playerMove.isGhost)
-			{
-				serverStateCache = serverState;
-			}
-
 			//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
 			if (!serverState.ImportantFlightUpdate && consideredFloatingServer)
 			{
