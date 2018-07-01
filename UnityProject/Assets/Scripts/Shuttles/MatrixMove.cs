@@ -374,7 +374,6 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
     public void RotFX()
     {
-        Debug.Log("Called");
         foreach (ShipThruster t in thrusters)
         {
             t.RotateFX();

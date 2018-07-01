@@ -7,6 +7,8 @@ public class ShipThruster : MonoBehaviour {
     public MatrixMove shipMM; // ship matrix move
     public ParticleSystem particleFX;
 
+    public bool flipped = false; //Was particle startrotation flipped already horizontally?
+
     void Start() {
         //Gets ship matrix move by getting root (top parent) of current gameobject
         shipMM = transform.root.gameObject.GetComponent<MatrixMove>();
@@ -31,14 +33,19 @@ public class ShipThruster : MonoBehaviour {
     //Rotates FX as ship rotates
     public void RotateFX(/*bool clockwise*/)
     {
-        //Debug.Log("RotateFX" + particleFX.transform.parent.name);
-        //var mainFXrot = particleFX.main.startRotation;
-        var mainFXrot = particleFX.main.startRotationZ;
+        var mainFXrot = particleFX.main;
         var mainFX = particleFX.main;
-        mainFX.startRotation3D = true;
-        //mainFX.startRotationZ.constant += 90f;
-        mainFXrot.constant += 90f;
-        Debug.Log(particleFX.main.startRotationZ.constant);
+
+        if (!flipped)
+        {
+            mainFX.startRotation = 90 * Mathf.Deg2Rad;
+            flipped = true;
+        }
+        else
+        {
+            mainFX.startRotation = 0;
+            flipped = false;
+        }
     }
 
 
