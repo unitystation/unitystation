@@ -31,7 +31,7 @@ public class ShipThruster : MonoBehaviour {
     }
 
     //Rotates FX as ship rotates
-    public void RotateFX(/*bool clockwise*/)
+    public void RotateFX()
     {
         var mainFXrot = particleFX.main;
         var mainFX = particleFX.main;
@@ -48,12 +48,10 @@ public class ShipThruster : MonoBehaviour {
         }
     }
 
-
     bool EngineStatus() // Returns if engines are "on" (if ship is moving)
     {
         if (shipMM != null)
         {
-            //Debug.Log(shipMM.serverTargetState.IsMoving);
             return shipMM.serverTargetState.IsMoving;
         }
 
