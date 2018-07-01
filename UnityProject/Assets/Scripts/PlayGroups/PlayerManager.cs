@@ -47,6 +47,7 @@ namespace PlayGroup
 		private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 		{
 			Reset();
+			PlayerList.Instance.ResetSyncedState();
 		}
 
 		public static void Reset()

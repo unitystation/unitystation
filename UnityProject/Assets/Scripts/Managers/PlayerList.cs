@@ -42,6 +42,15 @@ public class PlayerList : NetworkBehaviour
 		else
 		{
 			Destroy(gameObject);
+			Instance.ResetSyncedState();
+		}
+	}
+
+	/// Allowing players to sync after round restart
+	public void ResetSyncedState() {
+		for ( var i = 0; i < values.Count; i++ ) {
+			var player = values[i];
+			player.Synced = false;
 		}
 	}
 
