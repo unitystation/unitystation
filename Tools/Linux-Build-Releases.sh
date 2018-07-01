@@ -1,16 +1,16 @@
 #!/bin/bash
 set -e
-script_dir=`dirname -- "$0"`
+script_dir=`pwd`
 echo "Starting Unitystation buildscript from:"
 echo $script_dir
-cd $script_dir
-cd ../Unityproject
+cd ..
+cd UnityProject
 project_dir=$(pwd)
 echo "Starting to build from Unityproject directory:"
 echo $project_dir
 
 echo "Attempting build of UnityStation for Windows"
-/Applications/Unity/Unity.app/Contents/MacOS/Unity \
+/opt/Unity-2017.4.0f1/Editor/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
@@ -24,7 +24,7 @@ cat $script_dir/Logs/WindowsBuild.log
 
 
 echo "Attempting build of UnityStation for OSX"
-/Applications/Unity/Unity.app/Contents/MacOS/Unity \
+/opt/Unity-2017.4.0f1/Editor/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
@@ -38,7 +38,7 @@ cat $script_dir/Logs/OSXBuild.log
 
 
 echo "Attempting build of UnityStation for Linux"
-/Applications/Unity/Unity.app/Contents/MacOS/Unity \
+/opt/Unity-2017.4.0f1/Editor/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
@@ -51,7 +51,7 @@ echo "Build logs (Linux)"
 cat $script_dir/Logs/LinuxBuild.log
 
 echo "Attempting build of UnityStation Server"
-/Applications/Unity/Unity.app/Contents/MacOS/Unity \
+/opt/Unity-2017.4.0f1/Editor/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
