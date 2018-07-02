@@ -182,7 +182,7 @@ public class MatrixManager : MonoBehaviour
 	private static MatrixInfo getInternal(Func<MatrixInfo, bool> condition)
 	{
 		if ( Instance.activeMatrices.Count == 0 ) {
-			Debug.Log( "MatrixManager list not ready yet, trying to init" );
+//			Debug.Log( "MatrixManager list not ready yet, trying to init" );
 			Instance.InitMatrices();
 		}
 		for (var i = 0; i < Instance.activeMatrices.Count; i++)

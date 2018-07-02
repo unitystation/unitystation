@@ -22,7 +22,7 @@ public class RadarList : NetUIDynamicList {
 
 			item.RefreshTrackedPos(originPos);
 			//If item is out of range, stop showing it and place into "out of range" list
-			if ( ProjectionMagnitude( item ) > Range )
+			if ( item.Position == TransformState.HiddenPos || ProjectionMagnitude( item.Position ) > Range )
 			{
 				Debug.Log( $"Hiding {item} as it's out of range" );
 				OutOfRangeEntries.Add( item );
@@ -33,7 +33,7 @@ public class RadarList : NetUIDynamicList {
 		for ( var i = 0; i < OutOfRangeEntries.Count; i++ ) {
 			var item = OutOfRangeEntries[i];
 			item.RefreshTrackedPos( originPos );
-			if ( ProjectionMagnitude( item ) <= Range )
+			if ( item.Position != TransformState.HiddenPos && ProjectionMagnitude( item.Position ) <= Range )
 			{
 				Debug.Log( $"Unhiding {item} as it's in range again" );
 				ToRestore.Add( item );
@@ -52,8 +52,7 @@ public class RadarList : NetUIDynamicList {
 	}
 
 	/// For square radar. For round radar item.Position.magnitude check should suffice.
-	private static float ProjectionMagnitude( RadarEntry item ) {
-		var pos = item.Position;
+	public static float ProjectionMagnitude( Vector3 pos ) {
 		var projX = Vector3.Project( pos, Vector3.right ).magnitude;
 		var projY = Vector3.Project( pos, Vector3.up ).magnitude;
 		return projX >= projY ? projX : projY;
@@ -132,6 +131,27 @@ public class RadarList : NetUIDynamicList {
 		return true;
 	}
 	//todo RemoveTrackedObject(s)
+	
+	
+	public void UpdateExclusive(GameObject trackedObject) {
+		var dynamicEntries = EntryArray;
+		for ( var i = 0; i < dynamicEntries.Length; i++ ) 
+		{
+			var entry = dynamicEntries[i] as RadarEntry;
+			if ( !entry || entry.TrackedObject != trackedObject ) {
+				continue;
+			}
+			entry.RefreshTrackedPos( Origin.State.Position );
+			List<ElementValue> valuesToSend = new List<ElementValue>(10) {ElementValue};
+			var entryElements = entry.Elements;
+			for ( var j = 0; j < entryElements.Length; j++ ) 
+			{
+				var element = entryElements[j];
+				valuesToSend.Add( element.ElementValue );
+			}
+			TabUpdateMessage.SendToPeepers( MasterTab.Provider, MasterTab.Type, TabAction.Update, valuesToSend.ToArray() );
+		}
+	}
 
 	//Don't apply any clientside ordering and just rely on whatever server provided
 	protected override void RefreshPositions() {}

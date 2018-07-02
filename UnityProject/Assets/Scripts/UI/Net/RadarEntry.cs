@@ -18,7 +18,7 @@ public class RadarEntry : DynamicEntry {
 	public int Radius = -1;
 
 	public void RefreshTrackedPos(Vector2 origin) {
-		if ( TrackedObject ) {
+		if ( TrackedObject && TrackedObject.transform.position != TransformState.HiddenPos ) {
 //			Vector2 objectPos = (Vector2)TrackedObject.WorldPos() - origin; // WorldPos generates garbage :(
 			Vector2 objectPos = (Vector2)TrackedObject.transform.position - origin;
 			Value = (int)objectPos.x+"x"+(int)objectPos.y;
@@ -27,23 +27,28 @@ public class RadarEntry : DynamicEntry {
 		{
 			Vector2 objectPos = (Vector2)StaticPosition - origin;
 			Value = (int)objectPos.x+"x"+(int)objectPos.y;
+		} else {
+			Position = TransformState.HiddenPos;
 		}
-
+		
 	}
 
 	public void ReInit() {
-		foreach ( var element in Elements ) {
+		for ( var i = 0; i < Elements.Length; i++ ) {
+			var element = Elements[i];
 			string nameBeforeIndex = element.name.Split( '_' )[0];
-			switch ( nameBeforeIndex ) {//can be expanded in the future
-					case "MapIcon":
-						string spriteValue = Type.GetDescription();
-						element.Value = spriteValue; 
-						break;
-					case "MapRadius":
-						element.Value = Radius.ToString(); 
-						break;
-				}
+			switch ( nameBeforeIndex ) {
+				//can be expanded in the future
+				case "MapIcon":
+					string spriteValue = Type.GetDescription();
+					element.Value = spriteValue;
+					break;
+				case "MapRadius":
+					element.Value = Radius.ToString();
+					break;
+			}
 		}
+
 //		Debug.Log( $"ItemEntry: Init success! Prefab={Prefab}, ItemName={itemAttributes.name}, ItemIcon={itemAttributes.gameObject.name}" );
 	}
 }
