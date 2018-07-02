@@ -38,11 +38,11 @@ public class PlayerList : NetworkBehaviour
 		if ( Instance == null )
 		{
 			Instance = this;
-		}
+            Instance.ResetSyncedState();
+        }
 		else
 		{
 			Destroy(gameObject);
-			Instance.ResetSyncedState();
 		}
 	}
 
