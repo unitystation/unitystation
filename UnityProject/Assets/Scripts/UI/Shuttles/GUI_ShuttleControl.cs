@@ -26,31 +26,52 @@ public class GUI_ShuttleControl : NetTab {
 		}
 	}
 
+	private GameObject Waypoint;
+
 	private void Start() {
 		//Not doing this for clients
 		if ( IsServer ) {
 			EntryList.Origin = MatrixMove;
-
+			
+			Waypoint = Instantiate( new GameObject( $"{MatrixMove.gameObject.name}Waypoint" ) );
+			HideWaypoint();
+			
 //			EntryList.AddItems( MapIconType.Airlock, GetObjectsOf<AirLockAnimator>( null, "AirLock" ) );
 			EntryList.AddItems( MapIconType.Ship, GetObjectsOf( new HashSet<MatrixMove>( new[] {MatrixMove} ) ) );
 			var stationBounds = MatrixManager.Get( 0 ).MetaTileMap.GetBounds();
 			int stationRadius = (int)Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
 			EntryList.AddStaticItem( MapIconType.Station, stationBounds.center, stationRadius );
+			
+			EntryList.AddItems( MapIconType.Waypoint, new List<GameObject>(new[]{Waypoint}) );
+
 			StartRefresh();
 		}
 	}
 
-	public void SetWaypoint( string position ) {
-		var pos = position.Vectorized();
-		//todo modify existing one instead of creating new ones
-		EntryList.AddStaticItem( MapIconType.Waypoint, pos ); 
+	public void SetWaypoint( string position ) 
+	{
+		Vector2 proposedPos = position.Vectorized();
+		
+		//Ignoring requests to set waypoint outside intended radar window
+		if ( RadarList.ProjectionMagnitude( proposedPos ) > EntryList.Range ) {
+			Debug.Log( "" );			
+			return;
+		}
+		//Mind the ship's actual position
+		Waypoint.transform.position = proposedPos + (Vector2)MatrixMove.State.Position;
+		
+		EntryList.UpdateExclusive( Waypoint );
+	}
+
+	public void HideWaypoint() { //todo hide when point is reached / autopilot is off / movement is stopped
+		Waypoint.transform.position = TransformState.HiddenPos;
 	}
 
 	private bool RefreshRadar = false;
 
 	private void StartRefresh() {
 		RefreshRadar = true;
-		Debug.Log( "Starting radar refresh" );
+//		Debug.Log( "Starting radar refresh" );
 		StartCoroutine( Refresh() );
 	}
 
@@ -60,7 +81,7 @@ public class GUI_ShuttleControl : NetTab {
 	}
 
 	private void StopRefresh() {
-		Debug.Log( "Stopping radar refresh" );
+//		Debug.Log( "Stopping radar refresh" );
 		RefreshRadar = false;
 	}
 

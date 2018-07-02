@@ -82,7 +82,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		var child = transform.GetChild( 0 );
 		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
 		pivot =  initialPosition - childPosition;
-		Debug.Log( $"Calculated pivot {pivot} for {gameObject.name}" );
+//		Debug.Log( $"Calculated pivot {pivot} for {gameObject.name}" );
 		
 		serverState.Speed = 1f;
 		serverState.Position = initialPosition;
