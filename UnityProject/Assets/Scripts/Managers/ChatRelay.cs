@@ -12,6 +12,24 @@ public class ChatRelay : NetworkBehaviour
 
 	private Dictionary<ChatChannel, string> chatColors;
 	private ChatChannel namelessChannels;
+    public Color binaryCol; // "#ff00ff";
+    public Color supplyCol; // "#a8732b"
+	public Color centCommCol; // "#686868"
+    public Color commandCol; // "#204090"
+    public Color commonCol; // "#008000"
+    public Color engineeringCol; //"#fb5613"
+	public Color examineCol; //"black"
+    public Color localCol; // "black"
+    public Color medicalCol; // "#337296"
+    public Color noneCol; // ""
+    public Color OOCcol; // "#386aff"
+    public Color scienceCol; // "#993399"
+    public Color securityCol; // "#a30000"
+    public Color serviceCol; // "#6eaa2c"
+    public Color syndicateCol; // "#6d3f40"
+    public Color systemCol; // "#dd5555"
+    public Color ghostCol; // "#386aff"
+    public Color combatCol; // "#dd0000"
 
 	public static ChatRelay Instance
 	{
@@ -31,24 +49,24 @@ public class ChatRelay : NetworkBehaviour
 	{
 		chatColors = new Dictionary<ChatChannel, string>
 		{
-			{ChatChannel.Binary, "#ff00ff"},
-			{ChatChannel.Supply, "#a8732b"},
-			{ChatChannel.CentComm, "#686868"},
-			{ChatChannel.Command, "#204090"},
-			{ChatChannel.Common, "#008000"},
-			{ChatChannel.Engineering, "#fb5613"},
-			{ChatChannel.Examine, "black"},
-			{ChatChannel.Local, "black"},
-			{ChatChannel.Medical, "#337296"},
-			{ChatChannel.None, ""},
-			{ChatChannel.OOC, "#386aff"},
-			{ChatChannel.Science, "#993399"},
-			{ChatChannel.Security, "#a30000"},
-			{ChatChannel.Service, "#6eaa2c"},
-			{ChatChannel.Syndicate, "#6d3f40"},
-			{ChatChannel.System, "#dd5555"},
-			{ChatChannel.Ghost, "#386aff"},
-			{ChatChannel.Combat, "#dd0000"}
+			{ChatChannel.Binary, ColorUtility.ToHtmlStringRGB(binaryCol) },
+			{ChatChannel.Supply, ColorUtility.ToHtmlStringRGB(supplyCol)},
+			{ChatChannel.CentComm, ColorUtility.ToHtmlStringRGB(centCommCol)},
+			{ChatChannel.Command, ColorUtility.ToHtmlStringRGB(commandCol)},
+			{ChatChannel.Common, ColorUtility.ToHtmlStringRGB(commonCol)},
+			{ChatChannel.Engineering, ColorUtility.ToHtmlStringRGB(engineeringCol)},
+			{ChatChannel.Examine, ColorUtility.ToHtmlStringRGB(examineCol)},
+			{ChatChannel.Local, ColorUtility.ToHtmlStringRGB(localCol)},
+			{ChatChannel.Medical, ColorUtility.ToHtmlStringRGB(medicalCol)},
+			{ChatChannel.None, ColorUtility.ToHtmlStringRGB(noneCol)},
+			{ChatChannel.OOC, ColorUtility.ToHtmlStringRGB(OOCcol)},
+			{ChatChannel.Science, ColorUtility.ToHtmlStringRGB(scienceCol)},
+			{ChatChannel.Security, ColorUtility.ToHtmlStringRGB(securityCol)},
+			{ChatChannel.Service, ColorUtility.ToHtmlStringRGB(serviceCol)},
+			{ChatChannel.Syndicate, ColorUtility.ToHtmlStringRGB(syndicateCol)},
+			{ChatChannel.System, ColorUtility.ToHtmlStringRGB(systemCol)},
+			{ChatChannel.Ghost, ColorUtility.ToHtmlStringRGB(ghostCol)},
+			{ChatChannel.Combat, ColorUtility.ToHtmlStringRGB(combatCol)}
 		};
 		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System | ChatChannel.Combat;
 		

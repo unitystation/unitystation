@@ -78,7 +78,6 @@ namespace UI
 			}
 
 			AdjustHudRight();
-			responsiveControl.AdjustHudBottom(sizeDelta);
 		}
 
 		private void AdjustHudRight()
@@ -99,7 +98,6 @@ namespace UI
 			sizeDelta.x = responsiveControl.cacheWidth;
 			panelRectTransform.sizeDelta = sizeDelta;
 			AdjustHudRight();
-			responsiveControl.AdjustHudBottom(sizeDelta);
 		}
 	}
 }

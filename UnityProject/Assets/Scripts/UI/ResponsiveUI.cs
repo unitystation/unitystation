@@ -22,7 +22,6 @@ namespace UI
 
 		private bool monitorWindow;
 		private Canvas parentCanvas;
-		public RightPanelResize rightPanelResize;
 		private bool checkingDisplayOnLoad = false;
 
 		//Caches
@@ -33,7 +32,7 @@ namespace UI
 
 		private void Start()
 		{
-			cacheWidth = rightPanelResize.panelRectTransform.sizeDelta.x;
+			//cacheWidth = rightPanelResize.panelRectTransform.sizeDelta.x;
 			camResizer = FindObjectOfType<CameraResizer>();
 			parentCanvas = GetComponent<Canvas>();
 			canvasScaler = GetComponent<CanvasScaler>();
@@ -67,7 +66,7 @@ namespace UI
 			yield return new WaitForSeconds(0.2f);
 			screenWidthCache = Screen.width;
 			screenHeightCache = Screen.height;
-			AdjustHudBottom(rightPanelResize.panelRectTransform.sizeDelta);
+			//AdjustHudBottom(rightPanelResize.panelRectTransform.sizeDelta);
 			monitorWindow = true;
 			if (!Screen.fullScreen) {
 				StartCoroutine(ForceGameWindowAspect());
@@ -89,21 +88,6 @@ namespace UI
 
 			if(Input.GetKey(KeyCode.Escape)){
 				Screen.fullScreen = false;
-			}
-		}
-
-		//It takes some time for the screen to redraw, wait for 0.1f
-		private void AdjustHudBottomDelay()
-		{
-			AdjustHudBottom(rightPanelResize.panelRectTransform.sizeDelta);
-			if (!Screen.fullScreen)
-			{
-				StopCoroutine(ForceGameWindowAspect());
-				StartCoroutine(ForceGameWindowAspect());
-			}
-			else
-			{
-				monitorWindow = true;
 			}
 		}
 
@@ -151,38 +135,6 @@ namespace UI
 			monitorWindow = true;
 			checkingDisplayOnLoad = false;
 			cameraZoomHandler.Refresh();
-		}
-
-		public void AdjustHudBottom(Vector2 panelRightSizeDelta)
-		{
-			Vector2 hudBottomSizeDelta = hudBottom.sizeDelta;
-			//This is when pulling the rightpanel to the right of the screen from default position
-			if (rightPanelResize.panelRectTransform.sizeDelta.x < cacheWidth)
-			{
-				//Calculate the new anchor point for hudBottom in the right direction of scale
-				float panelRightProgress = (cacheWidth - rightPanelResize.panelRight.rect.width) / cacheWidth;
-				float newAnchorPos = Mathf.Lerp(rightPanelResize.cacheHudAnchor, 0f, panelRightProgress);
-				Vector2 anchoredPos = hudBottom.anchoredPosition;
-				anchoredPos.x = -newAnchorPos;
-				hudBottom.anchoredPosition = anchoredPos;
-			}
-			else
-			{
-				// this is for the left direction from the default position
-				float panelRightProgress = (cacheWidth - rightPanelResize.panelRight.rect.width) / cacheWidth;
-				float newAnchorPos = Mathf.Lerp(rightPanelResize.cacheHudAnchor, 562f, Mathf.Abs(panelRightProgress));
-				Vector2 anchoredPos = hudBottom.anchoredPosition;
-				anchoredPos.x = -newAnchorPos;
-				hudBottom.anchoredPosition = anchoredPos;
-				hudBottomSizeDelta.x = -panelRightSizeDelta.x;
-				hudBottom.sizeDelta = hudBottomSizeDelta;
-			}
-			//KEEP ASPECT RATIO:
-			hudBottomSizeDelta.y = hudBottom.rect.width * rightPanelResize.originalHudSize.y /
-			                       rightPanelResize.originalHudSize.x;
-			hudBottom.sizeDelta = hudBottomSizeDelta;
-			UIManager.DisplayManager.SetCameraFollowPos(rightPanelResize.returnPanelButton.activeSelf);
-			UIManager.PlayerHealthUI.overlayCrits.AdjustOverlayPos();
 		}
 	}
 }
