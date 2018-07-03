@@ -5,6 +5,12 @@ echo "Starting Unitystation buildscript from:"
 echo $script_dir
 cd ..
 
+echo "Shutting down active servers"
+if pgrep -x screen >/dev/null 2>&1
+  then
+     killall screen
+fi
+
 echo "Getting latest changes from develop"
 git checkout develop
 git pull
@@ -35,8 +41,6 @@ cp $script_dir/steam1007/linux64/steamclient.so $script_dir/ContentBuilder/conte
 cp -Rf $script_dir/ContentBuilder/content/Server/Unitystation-Server_Data/Plugins $script_dir/ContentBuilder/content/Server/Unitystation-Server_Data/Mono
 
 echo "Post-Processing done"
-echo "Checking for active screens"
-killall screen
-echo "Start server on new screen"
+echo "Start server"
 screen -d -m $script_dir/ContentBuilder/content/Server/Unitystation-Server -batchmode -nographics -logfile log2.txt
 echo "Rebuild success. Server has restarted"
