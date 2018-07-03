@@ -32,8 +32,10 @@ public class GUI_ShuttleControl : NetTab {
 		//Not doing this for clients
 		if ( IsServer ) {
 			EntryList.Origin = MatrixMove;
-			
-			Waypoint = Instantiate( new GameObject( $"{MatrixMove.gameObject.name}Waypoint" ) );
+
+			if ( !Waypoint ) {
+				Waypoint = new GameObject( $"{MatrixMove.gameObject.name}Waypoint" );
+			}
 			HideWaypoint();
 			
 //			EntryList.AddItems( MapIconType.Airlock, GetObjectsOf<AirLockAnimator>( null, "AirLock" ) );
@@ -54,7 +56,6 @@ public class GUI_ShuttleControl : NetTab {
 		
 		//Ignoring requests to set waypoint outside intended radar window
 		if ( RadarList.ProjectionMagnitude( proposedPos ) > EntryList.Range ) {
-			Debug.Log( "" );			
 			return;
 		}
 		//Mind the ship's actual position

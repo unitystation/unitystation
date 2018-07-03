@@ -132,7 +132,8 @@ public class RadarList : NetUIDynamicList {
 	}
 	//todo RemoveTrackedObject(s)
 	
-	
+	/// Send updates about just one tracked object (intended for waypoint pin)
+	/// <param name="trackedObject"></param>
 	public void UpdateExclusive(GameObject trackedObject) {
 		var dynamicEntries = EntryArray;
 		for ( var i = 0; i < dynamicEntries.Length; i++ ) 

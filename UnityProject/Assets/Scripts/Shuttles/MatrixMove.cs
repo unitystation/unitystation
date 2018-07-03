@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -141,6 +142,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	public void StopMovement() {
 //		Debug.Log("Stopped movement");
 		serverTargetState.IsMoving = false;
+		//To stop autopilot
+		Target = TransformState.HiddenPos;
 	}
 	/// Adjust current ship's speed with a relative value
 	[Server]
@@ -354,6 +357,55 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		serverTargetState.Direction = newDirection;
 		RequestNotify();
 	}
+
+	private Vector3 Target = TransformState.HiddenPos;
+		
+	/// Makes matrix start moving towards given world pos
+	[Server]
+	public void AutopilotTo( Vector2 position ) {
+		Target = position;
+		StartCoroutine( TravelToTarget() );
+	}
+
+	private IEnumerator TravelToTarget() {
+		if ( Target != TransformState.HiddenPos ) {
+			var pos = serverState.Position;
+			if ( pos == Target ) {
+				StopMovement();
+				yield return null;
+			}
+
+			if ( !serverState.IsMoving ) {
+				StartMovement();
+			}
+
+			Vector3 xProjection = Vector3.Project( pos, Vector3.right );
+			int xProjectionX = (int) xProjection.x;
+			int targetX = (int) Target.x;
+			
+			Vector3 yProjection = Vector3.Project( pos, Vector3.up );
+			int yProjectionY = (int) yProjection.y;
+			int targetY = (int) Target.y;
+			
+			if ( xProjectionX != targetX ) {
+				Orientation desiredOrientation = ( targetX - xProjectionX ) < 0 ? Orientation.Left : Orientation.Right;
+				if ( serverState.Orientation != desiredOrientation ) {
+					//todo RotateTo(Orientation targetOrientatioin)
+					//wait till it rotates
+				} 
+			} else if ( yProjectionY != targetY ) {
+				Orientation desiredOrientation = ( targetY - yProjectionY ) < 0 ? Orientation.Down : Orientation.Up;
+				if ( serverState.Orientation != desiredOrientation ) {
+					//todo RotateTo(Orientation targetOrientatioin)
+					//wait till it rotates
+				}
+			}
+
+			StartCoroutine( TravelToTarget() );
+		}
+		yield return null;
+	}
+
 #if UNITY_EDITOR
 	//Visual debug
 	private Vector3 size1 = Vector3.one;
