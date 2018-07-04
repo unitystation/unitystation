@@ -17,7 +17,6 @@ namespace UI
 		private CameraResizer camResizer;
 		private CanvasScaler canvasScaler;
 		private GraphicRaycaster graphicRaycaster;
-		public RectTransform hudBottom;
 		private CameraZoomHandler cameraZoomHandler;
 
 		private bool monitorWindow;

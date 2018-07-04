@@ -9,6 +9,8 @@ namespace UI
 {
 	public class ControlChat : MonoBehaviour
 	{
+        public static ControlChat Instance;
+
 		private readonly List<ChatEvent> _localEvents = new List<ChatEvent>();
 		public Toggle channelListToggle;
 
@@ -16,8 +18,9 @@ namespace UI
 		public GameObject channelToggle;
 		public GameObject chatInputWindow;
 		public RectTransform ChatPanel;
+        public Transform content;
+        public GameObject chatEntryPrefab;
 
-		public Text CurrentChannelText;
 		// set in inspector (to enable/disable panel)
 
 		public InputField InputFieldChat;
@@ -28,10 +31,22 @@ namespace UI
 		public bool ShowState = true;
 		public InputField usernameInput;
 
-		public void AddChatEvent(ChatEvent chatEvent)
+        private void Awake()
+        {
+            if(Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            } else
+            {
+                Destroy(gameObject); //Kill the whole tree
+            }
+        }
+
+        public void AddChatEvent(ChatEvent chatEvent)
 		{
 			_localEvents.Add(chatEvent);
-			ChatRelay.Instance.RefreshLog();
+			//ChatRelay.Instance.RefreshLog();
 		}
 
 		public List<ChatEvent> GetChatEvents()
@@ -53,6 +68,7 @@ namespace UI
 			if (!chatInputWindow.activeInHierarchy && !UIManager.IsInputFocus && Input.GetKey(KeyCode.T) && GameData.IsInGame
 			    && CustomNetworkManager.Instance.IsClientConnected())
 			{
+                Events.EventManager.Broadcast(Events.EVENT.ChatFocused);
 				chatInputWindow.SetActive(true);
 				UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
 				EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
@@ -101,7 +117,8 @@ namespace UI
 		{
 			UIManager.IsInputFocus = false;
 			chatInputWindow.SetActive(false);
-		}
+            Events.EventManager.Broadcast(Events.EVENT.ChatUnfocused);
+        }
 
 		public void RefreshChannelPanel()
 		{

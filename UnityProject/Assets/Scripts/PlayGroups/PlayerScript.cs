@@ -75,7 +75,7 @@ namespace PlayGroup
 			OnNameChange(playerName);
 			yield return new WaitForSeconds(1f);
 			//Refresh chat log:
-			ChatRelay.Instance.RefreshLog();
+	//s		ChatRelay.Instance.RefreshLog();
 		}
 
 		//isLocalPlayer is always called after OnStartClient

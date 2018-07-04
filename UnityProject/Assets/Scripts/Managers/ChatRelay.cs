@@ -5,12 +5,12 @@ using PlayGroup;
 using UI;
 using UnityEngine.Networking;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChatRelay : NetworkBehaviour
 {
 	public static ChatRelay chatRelay;
 
-	private Dictionary<ChatChannel, string> chatColors;
 	private ChatChannel namelessChannels;
     public Color binaryCol; // "#ff00ff";
     public Color supplyCol; // "#a8732b"
@@ -47,44 +47,51 @@ public class ChatRelay : NetworkBehaviour
 
 	public void Start()
 	{
-		chatColors = new Dictionary<ChatChannel, string>
-		{
-			{ChatChannel.Binary, ColorUtility.ToHtmlStringRGB(binaryCol) },
-			{ChatChannel.Supply, ColorUtility.ToHtmlStringRGB(supplyCol)},
-			{ChatChannel.CentComm, ColorUtility.ToHtmlStringRGB(centCommCol)},
-			{ChatChannel.Command, ColorUtility.ToHtmlStringRGB(commandCol)},
-			{ChatChannel.Common, ColorUtility.ToHtmlStringRGB(commonCol)},
-			{ChatChannel.Engineering, ColorUtility.ToHtmlStringRGB(engineeringCol)},
-			{ChatChannel.Examine, ColorUtility.ToHtmlStringRGB(examineCol)},
-			{ChatChannel.Local, ColorUtility.ToHtmlStringRGB(localCol)},
-			{ChatChannel.Medical, ColorUtility.ToHtmlStringRGB(medicalCol)},
-			{ChatChannel.None, ColorUtility.ToHtmlStringRGB(noneCol)},
-			{ChatChannel.OOC, ColorUtility.ToHtmlStringRGB(OOCcol)},
-			{ChatChannel.Science, ColorUtility.ToHtmlStringRGB(scienceCol)},
-			{ChatChannel.Security, ColorUtility.ToHtmlStringRGB(securityCol)},
-			{ChatChannel.Service, ColorUtility.ToHtmlStringRGB(serviceCol)},
-			{ChatChannel.Syndicate, ColorUtility.ToHtmlStringRGB(syndicateCol)},
-			{ChatChannel.System, ColorUtility.ToHtmlStringRGB(systemCol)},
-			{ChatChannel.Ghost, ColorUtility.ToHtmlStringRGB(ghostCol)},
-			{ChatChannel.Combat, ColorUtility.ToHtmlStringRGB(combatCol)}
-		};
 		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System | ChatChannel.Combat;
 		
-		RefreshLog();
+		//RefreshLog();
 	}
+
+    //Get it every time so that colors can be adjusted from inspector (to tweak asthetics)
+    public string GetCannelColor(ChatChannel channel)
+    {
+       var chatColors = new Dictionary<ChatChannel, Color>
+        {
+            {ChatChannel.Binary, binaryCol},
+            {ChatChannel.Supply, supplyCol},
+            {ChatChannel.CentComm, centCommCol},
+            {ChatChannel.Command, commandCol},
+            {ChatChannel.Common, commonCol},
+            {ChatChannel.Engineering, engineeringCol},
+            {ChatChannel.Examine, examineCol},
+            {ChatChannel.Local, localCol},
+            {ChatChannel.Medical, medicalCol},
+            {ChatChannel.None, noneCol},
+            {ChatChannel.OOC, OOCcol},
+            {ChatChannel.Science, scienceCol},
+            {ChatChannel.Security, securityCol},
+            {ChatChannel.Service, serviceCol},
+            {ChatChannel.Syndicate, syndicateCol},
+            {ChatChannel.System, systemCol},
+            {ChatChannel.Ghost, ghostCol},
+            {ChatChannel.Combat, combatCol}
+        };
+
+        return ColorUtility.ToHtmlStringRGB(chatColors[channel]);
+    }
 
 	[Server]
 	public void AddToChatLogServer(ChatEvent chatEvent)
 	{
 		PropagateChatToClients(chatEvent);
-		RefreshLog();
+	//	RefreshLog();
 	}
 
 	[Client]
 	public void AddToChatLogClient(string message, ChatChannel channels)
 	{
 		UpdateClientChat(message, channels);
-		RefreshLog();
+	//	RefreshLog();
 	}
 
 	[Server]
@@ -124,42 +131,64 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	private void UpdateClientChat(string message, ChatChannel channels)
 	{
-		ChatEvent chatEvent = new ChatEvent(message, channels, true);
-		ChatLog.Add(chatEvent);
-	}
+        ChatEvent chatEvent = new ChatEvent(message, channels, true);
+        //ChatLog.Add(chatEvent);
 
-	public void RefreshLog()
-	{
-		UIManager.Chat.CurrentChannelText.text = "";
-		List<ChatEvent> chatEvents = new List<ChatEvent>();
-		chatEvents.AddRange(ChatLog);
-		chatEvents.AddRange(UIManager.Chat.GetChatEvents());
+        if (channels == ChatChannel.None)
+        {
+            return;
+        }
 
-		string curList = UIManager.Chat.CurrentChannelText.text;
+        string name = "";
+        if ((namelessChannels & channels) != channels)
+        {
+            name = "<b>[" + channels + "]</b> ";
+        }
 
-		foreach (ChatEvent chatline in chatEvents.OrderBy(c => c.timestamp))
-		{
-			string message = chatline.message;
-			foreach (ChatChannel channel in Enum.GetValues(typeof(ChatChannel)))
-			{
-				if (channel == ChatChannel.None)
-				{
-					continue;
-				}
+        if ((PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false) & channels) == channels && (chatEvent.channels & channels) == channels)
+        {
+            string colorMessage = "<color=#" + GetCannelColor(channels) + ">" + name + message + "</color>";
+            GameObject chatEntry = Instantiate(ControlChat.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
+            Text text = chatEntry.GetComponent<Text>();
+            text.text = colorMessage;
+            chatEntry.transform.parent = ControlChat.Instance.content;
+            chatEntry.transform.localScale = Vector3.one;
+            //   curList = UIManager.Chat.CurrentChannelText.text;
+        }
+    }
 
-				string name = "";
-				if ((namelessChannels & channel) != channel)
-				{
-					name = "<b>[" + channel + "]</b> ";
-				}
+	//public void RefreshLog()
+	//{
+	//	UIManager.Chat.CurrentChannelText.text = "";
+	//	List<ChatEvent> chatEvents = new List<ChatEvent>();
+	//	chatEvents.AddRange(ChatLog);
+	//	chatEvents.AddRange(UIManager.Chat.GetChatEvents());
 
-				if ((PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false) & channel) == channel && (chatline.channels & channel) == channel)
-				{
-					string colorMessage = "<color=" + chatColors[channel] + ">" + name + message + "</color>";
-					UIManager.Chat.CurrentChannelText.text = curList + "\r\n" + colorMessage;
-					curList = UIManager.Chat.CurrentChannelText.text;
-				}
-			}
-		}
-	}
+	//	string curList = UIManager.Chat.CurrentChannelText.text;
+
+	//	foreach (ChatEvent chatline in chatEvents.OrderBy(c => c.timestamp))
+	//	{
+	//		string message = chatline.message;
+	//		foreach (ChatChannel channel in Enum.GetValues(typeof(ChatChannel)))
+	//		{
+	//			if (channel == ChatChannel.None)
+	//			{
+	//				continue;
+	//			}
+
+	//			string name = "";
+	//			if ((namelessChannels & channel) != channel)
+	//			{
+	//				name = "<b>[" + channel + "]</b> ";
+	//			}
+
+	//			if ((PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false) & channel) == channel && (chatline.channels & channel) == channel)
+	//			{
+	//				string colorMessage = "<color=" + chatColors[channel] + ">" + name + message + "</color>";
+	//				UIManager.Chat.CurrentChannelText.text = curList + "\r\n" + colorMessage;
+	//				curList = UIManager.Chat.CurrentChannelText.text;
+	//			}
+	//		}
+	//	}
+	//}
 }
