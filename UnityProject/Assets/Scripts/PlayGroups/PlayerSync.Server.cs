@@ -66,6 +66,11 @@ namespace PlayGroup
 //			Debug.Log( $"{PlayerList.Instance.Get( gameObject ).Name}: InitServerState for {worldPos} found matrix {matrixAtPoint} resulting in\n{state}" );
 			serverState = state;
 			serverTargetState = state;
+			
+			//Subbing to new matrix rotations
+			if ( matrixAtPoint.MatrixMove != null ) {
+				matrixAtPoint.MatrixMove.OnRotate.AddListener( OnRotation );
+			}
 		}
 
 		[Command(channel = 0)]
@@ -293,7 +298,7 @@ namespace PlayGroup
 			if (newMatrix.MatrixMove)
 			{
 				//Subbing to new matrix rotations
-				newMatrix.MatrixMove.onRotation += OnRotation;
+				newMatrix.MatrixMove.OnRotate.AddListener( OnRotation );
 //				Debug.Log( $"Registered rotation listener to {newMatrix.MatrixMove}" );
 			}
 
@@ -302,7 +307,7 @@ namespace PlayGroup
 			if (oldMatrixMove)
 			{
 //				Debug.Log( $"Unregistered rotation listener from {oldMatrixMove}" );
-				oldMatrixMove.onRotation -= OnRotation;
+				oldMatrixMove.OnRotate.RemoveListener( OnRotation );
 			}
 
 			return nextState;

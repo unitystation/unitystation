@@ -32,6 +32,9 @@ public class GUI_ShuttleControl : NetTab {
 		//Not doing this for clients
 		if ( IsServer ) {
 			EntryList.Origin = MatrixMove;
+			//Init listeners
+			MatrixMove.OnStart.AddListener( () => this["StartButton"].SetValue = "1" );
+			MatrixMove.OnStop.AddListener( () => this["StartButton"].SetValue = "0" );
 
 			if ( !Waypoint ) {
 				Waypoint = new GameObject( $"{MatrixMove.gameObject.name}Waypoint" );
