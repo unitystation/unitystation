@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 public struct MatrixState
@@ -49,6 +50,11 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
 	
 	//editor (global) values
+	public UnityEvent OnStart;
+	public UnityEvent OnStop;
+	public OrientationEvent OnRotate;
+	public DualFloatEvent OnSpeedChange;
+	
 	/// Initial flying direction from editor
 	public Vector2 flyingDirection = Vector2.up;
 	/// max flying speed from editor
@@ -274,14 +280,20 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	public void UpdateClientState( MatrixState newState )
 	{
 		if ( !Equals(clientState.Orientation, newState.Orientation) ) {
-			onRotation?.Invoke(clientState.Orientation, newState.Orientation);
+			OnRotate.Invoke(clientState.Orientation, newState.Orientation);
+		}
+		if ( !clientState.IsMoving && newState.IsMoving ) {
+			OnStart.Invoke();
+		}
+		if ( clientState.IsMoving && !newState.IsMoving ) {
+			OnStop.Invoke();
+		}
+		if ( (int)clientState.Speed != (int)newState.Speed ) {
+			OnSpeedChange.Invoke(clientState.Speed, newState.Speed);
 		}
 		clientState = newState;
 		clientTargetState = newState;
 	}
-
-	public delegate void OnRotation(Orientation from, Orientation to);
-	public event OnRotation onRotation; //fixme: doesn't work for clients
 
 	///predictive perpetual flying
 	private void SimulateStateMovement()
@@ -472,3 +484,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	}
 #endif
 }
+[Serializable]
+public class OrientationEvent : UnityEvent<Orientation,Orientation> {}
+[Serializable]
+public class DualFloatEvent : UnityEvent<float,float> {}
