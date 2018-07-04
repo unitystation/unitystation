@@ -34,7 +34,11 @@ public class GUI_ShuttleControl : NetTab {
 			EntryList.Origin = MatrixMove;
 			//Init listeners
 			MatrixMove.OnStart.AddListener( () => this["StartButton"].SetValue = "1" );
-			MatrixMove.OnStop.AddListener( () => this["StartButton"].SetValue = "0" );
+			MatrixMove.OnStop.AddListener( () =>
+			{
+				this["StartButton"].SetValue = "0";
+				HideWaypoint();
+			} );
 
 			if ( !Waypoint ) {
 				Waypoint = new GameObject( $"{MatrixMove.gameObject.name}Waypoint" );
