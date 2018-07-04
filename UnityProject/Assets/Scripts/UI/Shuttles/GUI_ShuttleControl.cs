@@ -50,6 +50,21 @@ public class GUI_ShuttleControl : NetTab {
 		}
 	}
 
+	private bool Autopilot;
+	public void SetAutopilot( bool on ) {
+		Autopilot = on;
+		if ( on ) {
+			//touchscreen on
+		} else {
+			//touchscreen off, hide waypoint, invalidate MM target
+			HideWaypoint();
+		}
+	}
+	
+	public void SetSafetyProtocols( bool on ) {
+		MatrixMove.SafetyProtocolsOn = on;
+	}
+
 	public void SetWaypoint( string position ) 
 	{
 		Vector2 proposedPos = position.Vectorized();
@@ -59,9 +74,12 @@ public class GUI_ShuttleControl : NetTab {
 			return;
 		}
 		//Mind the ship's actual position
-		Waypoint.transform.position = proposedPos + (Vector2)MatrixMove.State.Position;
+		Waypoint.transform.position = proposedPos + Vector2Int.RoundToInt(MatrixMove.State.Position);
 		
 		EntryList.UpdateExclusive( Waypoint );
+		
+//		Debug.Log( $"Ordering travel to {Waypoint.transform.position}" );
+		MatrixMove.AutopilotTo( Waypoint.transform.position );
 	}
 
 	public void HideWaypoint() { //todo hide when point is reached / autopilot is off / movement is stopped

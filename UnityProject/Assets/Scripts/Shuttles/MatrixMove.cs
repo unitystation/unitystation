@@ -32,10 +32,11 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	private MatrixState serverState = MatrixState.Invalid;
 	/// future state that collects all changes
 	private MatrixState serverTargetState = MatrixState.Invalid; 
-	private bool SafetyProtocolsOn { get; set; }
+	public bool SafetyProtocolsOn { get; set; }
 	private bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
 	private bool isRotatingServer => IsRotatingClient; //todo: calculate rotation time on server instead
+	private bool isAutopilotEngaged => Target != TransformState.HiddenPos;
 	
 	//client-only values
 	public MatrixState ClientState => clientState;
@@ -236,8 +237,13 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			Vector3Int goal = Vector3Int.RoundToInt( serverState.Position + ( Vector3 ) serverTargetState.Direction );
 			if ( !SafetyProtocolsOn || CanMoveTo( goal ) ) {
 				//keep moving
-				if ( ServerPositionsMatch ) {
+				if ( ServerPositionsMatch ) 
+				{
 					serverTargetState.Position = goal;
+					if ( isAutopilotEngaged && ( (int)serverState.Position.x == (int)Target.x 
+											  || (int)serverState.Position.y == (int)Target.y ) ) {
+						StartCoroutine( TravelToTarget() );
+					}
 				}
 			} else {
 				Debug.Log( "Stopping due to safety protocols!" );
@@ -245,6 +251,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			}
 		}
 	}
+
 
 	private bool CanMoveTo(Vector3Int goal)
 	{
@@ -345,14 +352,23 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			Rotate(clockwise);
 		}
 	}
-	/// Imperative rotate
+	/// Imperative rotate left or right
 	[Server]
 	public void Rotate( bool clockwise )
 	{
-		serverTargetState.Orientation = clockwise ? serverTargetState.Orientation.Next() 
-											: serverTargetState.Orientation.Previous();
+		RotateTo( clockwise ? serverTargetState.Orientation.Next() : serverTargetState.Orientation.Previous() );
+	}
+	
+	/// Imperative rotate to desired orientation
+	[Server]
+	public void RotateTo( Orientation desiredOrientation ) 
+	{
+		var angleBetween = Orientation.DegreeBetween( serverTargetState.Orientation, desiredOrientation );
+	
+		serverTargetState.Orientation = desiredOrientation;
+		
 		//Correcting direction
-		Vector3 newDirection = Quaternion.Euler( 0, 0, clockwise ? -90 : 90 ) * serverTargetState.Direction;
+		Vector3 newDirection = Quaternion.Euler( 0, 0, angleBetween ) * serverTargetState.Direction;
 //		Debug.Log($"Orientation is now {serverTargetState.Orientation}, Corrected direction from {serverTargetState.Direction} to {newDirection}");
 		serverTargetState.Direction = newDirection;
 		RequestNotify();
@@ -367,18 +383,19 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		StartCoroutine( TravelToTarget() );
 	}
 
+	///Zero means 100% accurate, but will lead to peculiar behaviour (autopilot not reacting fast enough on high speed -> going back/in circles etc)
+	private static readonly int AccuracyThreshold = 1; 
+
 	private IEnumerator TravelToTarget() {
-		if ( Target != TransformState.HiddenPos ) {
+		if ( isAutopilotEngaged ) 
+		{
 			var pos = serverState.Position;
-			if ( pos == Target ) {
+			if ( Vector3.Distance(pos, Target) <= AccuracyThreshold ) {
 				StopMovement();
-				yield return null;
+				yield break;
 			}
-
-			if ( !serverState.IsMoving ) {
-				StartMovement();
-			}
-
+			Orientation currentDir = serverState.Orientation;
+			
 			Vector3 xProjection = Vector3.Project( pos, Vector3.right );
 			int xProjectionX = (int) xProjection.x;
 			int targetX = (int) Target.x;
@@ -386,21 +403,32 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			Vector3 yProjection = Vector3.Project( pos, Vector3.up );
 			int yProjectionY = (int) yProjection.y;
 			int targetY = (int) Target.y;
-			
-			if ( xProjectionX != targetX ) {
-				Orientation desiredOrientation = ( targetX - xProjectionX ) < 0 ? Orientation.Left : Orientation.Right;
-				if ( serverState.Orientation != desiredOrientation ) {
-					//todo RotateTo(Orientation targetOrientatioin)
-					//wait till it rotates
-				} 
-			} else if ( yProjectionY != targetY ) {
-				Orientation desiredOrientation = ( targetY - yProjectionY ) < 0 ? Orientation.Down : Orientation.Up;
-				if ( serverState.Orientation != desiredOrientation ) {
-					//todo RotateTo(Orientation targetOrientatioin)
-					//wait till it rotates
-				}
-			}
 
+			bool xNeedsChange = Mathf.Abs(xProjectionX - targetX) > AccuracyThreshold;
+			bool yNeedsChange = Mathf.Abs(yProjectionY - targetY) > AccuracyThreshold;
+
+			Orientation xDesiredDir = ( targetX - xProjectionX ) > 0 ? Orientation.Left : Orientation.Right;
+			Orientation yDesiredDir = ( targetY - yProjectionY ) > 0 ? Orientation.Up : Orientation.Down;
+
+			if ( xNeedsChange || yNeedsChange ) 
+			{
+				int xDegreeTo = xNeedsChange ? Mathf.Abs( Orientation.DegreeBetween( currentDir, xDesiredDir ) ) : int.MaxValue;
+				int yDegreeTo = yNeedsChange ? Mathf.Abs( Orientation.DegreeBetween( currentDir, yDesiredDir ) ) : int.MaxValue;
+				
+				//don't rotate if it's not needed
+				if ( xDegreeTo != 0 && yDegreeTo != 0 ) {
+					//if both need change determine faster rotation first
+					RotateTo( xDegreeTo < yDegreeTo ? xDesiredDir : yDesiredDir );
+					//wait till it rotates
+					yield return YieldHelper.Second;
+				}
+			} 
+
+			if ( !serverState.IsMoving ) {
+				StartMovement();
+			}
+			//Relaunching self once in a while as CheckMovementServer check can fail in rare occasions 
+			yield return YieldHelper.Second;
 			StartCoroutine( TravelToTarget() );
 		}
 		yield return null;
