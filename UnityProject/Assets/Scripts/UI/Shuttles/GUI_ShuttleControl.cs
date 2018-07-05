@@ -43,7 +43,7 @@ public class GUI_ShuttleControl : NetTab {
 			if ( !Waypoint ) {
 				Waypoint = new GameObject( $"{MatrixMove.gameObject.name}Waypoint" );
 			}
-			HideWaypoint();
+			HideWaypoint(false);
 			
 //			EntryList.AddItems( MapIconType.Airlock, GetObjectsOf<AirLockAnimator>( null, "AirLock" ) );
 			EntryList.AddItems( MapIconType.Ship, GetObjectsOf( new HashSet<MatrixMove>( new[] {MatrixMove} ) ) );
@@ -57,7 +57,7 @@ public class GUI_ShuttleControl : NetTab {
 		}
 	}
 
-	private bool Autopilot;
+	private bool Autopilot = false;
 	public void SetAutopilot( bool on ) {
 		Autopilot = on;
 		if ( on ) {
@@ -65,6 +65,7 @@ public class GUI_ShuttleControl : NetTab {
 		} else {
 			//touchscreen off, hide waypoint, invalidate MM target
 			HideWaypoint();
+			MatrixMove.DisableAutopilotTarget();
 		}
 	}
 	
@@ -74,6 +75,9 @@ public class GUI_ShuttleControl : NetTab {
 
 	public void SetWaypoint( string position ) 
 	{
+		if ( !Autopilot ) {
+			return;
+		}
 		Vector2 proposedPos = position.Vectorized();
 		
 		//Ignoring requests to set waypoint outside intended radar window
@@ -89,8 +93,11 @@ public class GUI_ShuttleControl : NetTab {
 		MatrixMove.AutopilotTo( Waypoint.transform.position );
 	}
 
-	public void HideWaypoint() { //todo hide when point is reached / autopilot is off / movement is stopped
+	public void HideWaypoint( bool updateImmediately = true ) { 
 		Waypoint.transform.position = TransformState.HiddenPos;
+		if ( updateImmediately ) {
+			EntryList.UpdateExclusive( Waypoint );
+		}
 	}
 
 	private bool RefreshRadar = false;

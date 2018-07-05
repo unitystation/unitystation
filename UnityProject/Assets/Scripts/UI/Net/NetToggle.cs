@@ -37,6 +37,4 @@ public class NetToggle : NetUIElement
 /// <inheritdoc />
 /// "If you wish to use a generic UnityEvent type you must override the class type."
 [Serializable]
-public class BoolEvent : UnityEvent<bool>
-{
-}
+public class BoolEvent : UnityEvent<bool>{}

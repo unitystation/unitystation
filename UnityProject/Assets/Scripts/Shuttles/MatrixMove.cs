@@ -150,8 +150,15 @@ public class MatrixMove : ManagedNetworkBehaviour {
 //		Debug.Log("Stopped movement");
 		serverTargetState.IsMoving = false;
 		//To stop autopilot
+		DisableAutopilotTarget();
+	}
+
+	/// Call to stop chasing target
+	[Server]
+	public void DisableAutopilotTarget() {
 		Target = TransformState.HiddenPos;
 	}
+
 	/// Adjust current ship's speed with a relative value
 	[Server]
 	public void AdjustSpeed( float relativeValue ) {
