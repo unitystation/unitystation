@@ -2,8 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+
 /// Toggle for bool-based methods
-/// fixme could be some issues with initially inverted state
 [RequireComponent(typeof(Toggle))]
 [Serializable]
 public class NetToggle : NetUIElement

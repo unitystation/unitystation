@@ -52,12 +52,14 @@ public class GUI_ShuttleControl : NetTab {
 			EntryList.AddStaticItem( MapIconType.Station, stationBounds.center, stationRadius );
 			
 			EntryList.AddItems( MapIconType.Waypoint, new List<GameObject>(new[]{Waypoint}) );
+			
+			RescanElements();
 
 			StartRefresh();
 		}
 	}
 
-	private bool Autopilot = false;
+	private bool Autopilot = true;
 	public void SetAutopilot( bool on ) {
 		Autopilot = on;
 		if ( on ) {
@@ -78,14 +80,17 @@ public class GUI_ShuttleControl : NetTab {
 		if ( !Autopilot ) {
 			return;
 		}
-		Vector2 proposedPos = position.Vectorized();
+		Vector3 proposedPos = position.Vectorized();
+		if ( proposedPos == TransformState.HiddenPos ) {
+			return;
+		}
 		
 		//Ignoring requests to set waypoint outside intended radar window
 		if ( RadarList.ProjectionMagnitude( proposedPos ) > EntryList.Range ) {
 			return;
 		}
 		//Mind the ship's actual position
-		Waypoint.transform.position = proposedPos + Vector2Int.RoundToInt(MatrixMove.State.Position);
+		Waypoint.transform.position = (Vector2) proposedPos + Vector2Int.RoundToInt(MatrixMove.State.Position);
 		
 		EntryList.UpdateExclusive( Waypoint );
 		

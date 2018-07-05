@@ -1,9 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 using Util;
 
+/// Sends client's touch coordinates (within element) over network
 [RequireComponent(typeof( TouchScreen ))]
 [Serializable]
 public class NetTouchScreen : NetUIElement
