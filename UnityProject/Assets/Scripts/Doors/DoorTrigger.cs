@@ -12,32 +12,49 @@ namespace Doors
 	public class DoorTrigger : InputTrigger
 	{
 		public bool allowInput = true;
-		private DoorController doorController;
 
-		public void Start()
-		{
-			doorController = GetComponent<DoorController>();
+		private DoorController controller;
+		public DoorController Controller {
+			get {
+				if ( !controller ) {
+					controller = GetComponent<DoorController>();
+				}
+				return controller;
+			}
 		}
 
 		public override void Interact(GameObject originator, Vector3 position, string hand)
 		{
-			PlayerNetworkActions pna = PlayerManager.LocalPlayer.GetComponent<PlayerNetworkActions>();
-			// Close the door if it's open
-			if (doorController.IsOpened && allowInput)
-			{
-				pna.CmdTryCloseDoor(gameObject);
-
-				allowInput = false;
-				StartCoroutine(DoorInputCoolDown());
+			var playerScript = originator.GetComponent<PlayerScript>();
+			if (playerScript.canNotInteract() || !playerScript.IsInReach( gameObject ))
+			{ //check for both client and server
+				return;
 			}
-
-			// Attempt to open if it's closed
-			if (doorController != null && allowInput)
+			if (!isServer)
+			{ 
+				//Client wants this code to be run on server
+				InteractMessage.Send(gameObject, hand);
+			}
+			else
 			{
-				pna.CmdCheckDoorPermissions(gameObject, PlayerManager.LocalPlayerScript.gameObject);
+				//Server actions
+				// Close the door if it's open
+				if (Controller.IsOpened && allowInput && !hand.Equals( "bodyBump" ))
+				{
+					Controller.TryClose();
 
-				allowInput = false;
-				StartCoroutine(DoorInputCoolDown());
+					allowInput = false;
+					StartCoroutine(DoorInputCoolDown());
+				}
+	
+				// Attempt to open if it's closed
+				if (Controller != null && allowInput)
+				{
+					Controller.CheckDoorPermissions(originator, hand);
+	
+					allowInput = false;
+					StartCoroutine(DoorInputCoolDown());
+				}
 			}
 		}
 
