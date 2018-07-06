@@ -309,14 +309,14 @@ public class CustomNetworkManager : NetworkManager
 	{
 		MatrixMove[] matrices = FindObjectsOfType<MatrixMove>();
 		for (var i = 0; i < matrices.Length; i++) {
-			matrices[i].NotifyPlayer(playerGameObject);
+			matrices[i].NotifyPlayer(playerGameObject, true);
 		}
 		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
 		for (var i = 0; i < scripts.Length; i++) {
-			scripts[i].NotifyPlayer(playerGameObject);
+			scripts[i].NotifyPlayer(playerGameObject, true);
 		}
 		//tell player his position (required for spawning in moving ship)
-		playerGameObject.GetComponent<PlayerSync>().NotifyPlayer( playerGameObject );
+		playerGameObject.GetComponent<PlayerSync>().NotifyPlayer( playerGameObject, true );
 		Debug.LogFormat($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms) to {playerGameObject.name}");
 	}
 

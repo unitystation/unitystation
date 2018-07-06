@@ -26,11 +26,12 @@ public class UITileList : MonoBehaviour
 		{
 			if (!uiTileList)
 			{
-				uiTileList = FindObjectOfType<UITileList>();
+				uiTileList = FindObjectOfType<UITileList>(); //bad practice
 			}
 
 			return uiTileList;
 		}
+		set { uiTileList = value; }
 	}
 
 	private void Awake()
@@ -184,7 +185,7 @@ public class UITileList : MonoBehaviour
 		}
 		Instance.listedObjects.Clear();
 		Instance.listedTile = null;
-		Instance.listedTilePosition = new Vector3(0f, 0f, -100f);
+		Instance.listedTilePosition = TransformState.HiddenPos;
 		UpdateItemPanelSize();
 	}
 

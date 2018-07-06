@@ -683,12 +683,4 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		activeHand = hand;
 	}
-
-	[Command]
-	public void CmdInputNukeCode(GameObject nuke, string code){
-		NukeInteract nukeScript = nuke.GetComponent<NukeInteract>();
-		if(nukeScript != null){
-			nukeScript.Validate(code);
-		}
-	}
 }

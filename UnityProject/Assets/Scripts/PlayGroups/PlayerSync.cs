@@ -27,6 +27,8 @@ namespace PlayGroup
 			}
 		}
 
+		public bool NoLerp;
+
 		///Direction of flying
 		public Vector2 Impulse;
 
@@ -41,7 +43,7 @@ namespace PlayGroup
 
 		public override string ToString() {
 			return
-				$"[Move #{MoveNumber}, localPos:{(Vector2)Position}, worldPos:{(Vector2)WorldPosition} {nameof( Impulse )}:{Impulse}, " +
+				$"[Move #{MoveNumber}, localPos:{(Vector2)Position}, worldPos:{(Vector2)WorldPosition} {nameof( NoLerp )}:{NoLerp}, {nameof( Impulse )}:{Impulse}, " +
 				$"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, matrix #{MatrixId}]";
 		}
 	}
@@ -129,23 +131,6 @@ namespace PlayGroup
 		}
 
 		private IEnumerator WaitForLoad() {
-			yield return new WaitForEndOfFrame();
-			if ( serverStateCache.Position != Vector3.zero && !isLocalPlayer ) {
-				playerState = serverStateCache;
-				transform.localPosition = Vector3Int.RoundToInt( playerState.Position );
-			} else {
-				//tries to be smart, but no guarantees. correct state is received later (during CustomNetworkManager initial sync) anyway
-				Vector3Int worldPos = Vector3Int.RoundToInt( (Vector2) transform.position ); //cutting off Z-axis & rounding
-				MatrixInfo matrixAtPoint = MatrixManager.AtPoint( worldPos );
-				PlayerState state = new PlayerState {
-					MoveNumber = 0,
-					MatrixId = matrixAtPoint.Id,
-					WorldPosition = worldPos
-				};
-//				Debug.Log( $"{gameObject.name}: InitClientState for {worldPos} found matrix {matrixAtPoint} resulting in\n{state}" );
-				playerState = state;
-				predictedState = state;
-			}
 			yield return new WaitForSeconds( 2f );
 
 			PullReset( PullObjectID );
@@ -221,9 +206,6 @@ namespace PlayGroup
 				if ( isLocalPlayer && playerMove.IsPushing || pushPull.pulledBy != null ) {
 					return;
 				}
-
-				//Check if we should still be displaying an ItemListTab and update it, if so.
-				ControlTabs.CheckItemListTab();
 
 				if ( PullingObject != null ) {
 					if ( transform.hasChanged ) {

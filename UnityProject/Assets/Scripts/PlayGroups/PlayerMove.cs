@@ -65,7 +65,7 @@ namespace PlayGroup
 
             for (int i = 0; i < keyCodes.Length; i++)
             {
-                if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
+                if (PlayerManager.LocalPlayer == gameObject && UIManager.IsInputFocus)
                 {
                     return new PlayerAction { keyCodes = actionKeys.ToArray() };
                 }
@@ -172,7 +172,7 @@ namespace PlayGroup
 
         private Vector3Int GetMoveDirection(KeyCode action)
         {
-            if (PlayerManager.LocalPlayer == gameObject && UIManager.Chat.isChatFocus)
+            if (PlayerManager.LocalPlayer == gameObject && UIManager.IsInputFocus)
             {
                 return Vector3Int.zero;
             }

@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4205639279356858}
   - component: {fileID: 61247865679427770}
   - component: {fileID: 114329968317097578}
+  - component: {fileID: 114538119136657758}
+  - component: {fileID: 114443595102844496}
   - component: {fileID: 114840369580293110}
   - component: {fileID: 114979438861042922}
   m_Layer: 19
@@ -185,6 +187,59 @@ MonoBehaviour:
     i15: 11
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114443595102844496
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1638130848907210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abab4a0c666224f6f9c70acdb74436c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connPointA: 0
+  connPointB: -1
+  registerTile: {fileID: 114840369580293110}
+  connected: 0
+  currentTick: 0
+  tickRate: 1
+  OnSupplyChange:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &114538119136657758
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1638130848907210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b795fd3e621e742b0aafdb501b9d36cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poweredDevice: {fileID: 114443595102844496}
+  redSprites:
+  - {fileID: 21300276, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  - {fileID: 21300278, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  - {fileID: 21300280, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  - {fileID: 21300282, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  - {fileID: 21300284, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  blueSprites:
+  - {fileID: 21300286, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  - {fileID: 21300288, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  - {fileID: 21300290, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  - {fileID: 21300292, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  - {fileID: 21300294, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  - {fileID: 21300296, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  - {fileID: 21300298, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  greenSprites:
+  - {fileID: 21300300, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  - {fileID: 21300302, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  deadSprite: {fileID: 21300304, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  screenDisplay: {fileID: 212786810316391690}
 --- !u!114 &114840369580293110
 MonoBehaviour:
   m_ObjectHideFlags: 1

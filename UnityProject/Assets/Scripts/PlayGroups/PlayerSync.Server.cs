@@ -20,7 +20,6 @@ namespace PlayGroup
 		private PlayerState serverTargetState;
 
 		private Queue<PlayerAction> serverPendingActions;
-		[SyncVar] [Obsolete] private PlayerState serverStateCache; //todo: phase it out, it actually concerns clients
 
 		/// Max size of serverside queue, client will be rolled back and punished if it overflows
 		private readonly int maxServerQueue = 10;
@@ -66,8 +65,12 @@ namespace PlayGroup
 			};
 //			Debug.Log( $"{PlayerList.Instance.Get( gameObject ).Name}: InitServerState for {worldPos} found matrix {matrixAtPoint} resulting in\n{state}" );
 			serverState = state;
-			serverStateCache = state;
 			serverTargetState = state;
+			
+			//Subbing to new matrix rotations
+			if ( matrixAtPoint.MatrixMove != null ) {
+				matrixAtPoint.MatrixMove.OnRotate.AddListener( OnRotation );
+			}
 		}
 
 		[Command(channel = 0)]
@@ -96,11 +99,7 @@ namespace PlayGroup
 				{
 					TortureChamber.Torture(playerScript, TortureSeverity.L);
 				}
-
-				return;
 			}
-
-			serverStateCache = serverState;
 		}
 
 		/// Push player in direction.
@@ -155,7 +154,6 @@ namespace PlayGroup
 			};
 			serverState = newState;
 			serverTargetState = newState;
-			serverStateCache = newState;
 			SyncMatrix();
 			NotifyPlayers();
 		}
@@ -182,9 +180,11 @@ namespace PlayGroup
 		}
 
 		/// Send current serverState to just one player
+		/// <param name="recipient">whom to inform</param>
+		/// <param name="noLerp">(for init) tells client to do no lerping when changing pos this time</param>
 		[Server]
-		public void NotifyPlayer(GameObject recipient)
-		{
+		public void NotifyPlayer(GameObject recipient, bool noLerp = false) {
+			serverState.NoLerp = noLerp;
 			PlayerMoveMessage.Send(recipient, gameObject, serverState);
 		}
 
@@ -192,20 +192,12 @@ namespace PlayGroup
 		[Server]
 		public void NotifyPlayers()
 		{
-			//Do not cache the position if the player is a ghost
-			//or else new players will sync the deadbody with the last pos
-			//of the ghost:
-			if (!playerMove.isGhost)
-			{
-				serverStateCache = serverState;
-			}
-
 			//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
 			if (!serverState.ImportantFlightUpdate && consideredFloatingServer)
 			{
 				return;
 			}
-
+			serverState.NoLerp = false;
 			PlayerMoveMessage.SendToAll(gameObject, serverState);
 			ClearStateFlags();
 		}
@@ -306,7 +298,7 @@ namespace PlayGroup
 			if (newMatrix.MatrixMove)
 			{
 				//Subbing to new matrix rotations
-				newMatrix.MatrixMove.onRotation += OnRotation;
+				newMatrix.MatrixMove.OnRotate.AddListener( OnRotation );
 //				Debug.Log( $"Registered rotation listener to {newMatrix.MatrixMove}" );
 			}
 
@@ -315,7 +307,7 @@ namespace PlayGroup
 			if (oldMatrixMove)
 			{
 //				Debug.Log( $"Unregistered rotation listener from {oldMatrixMove}" );
-				oldMatrixMove.onRotation -= OnRotation;
+				oldMatrixMove.OnRotate.RemoveListener( OnRotation );
 			}
 
 			return nextState;

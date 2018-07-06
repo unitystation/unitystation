@@ -20,6 +20,11 @@ namespace UI
 				int val = PlayerPrefs.GetInt("UI_Appearence");
 				appearenceDropDown.value = val;
 				OnAppearenceChange(val);
+			} else {
+				PlayerPrefs.SetInt("UI_Appearence", 1); //Dark is default theme
+				appearenceDropDown.value = 1;
+				OnAppearenceChange(1);
+				PlayerPrefs.Save();
 			}
 		}
 
