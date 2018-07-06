@@ -33,7 +33,6 @@ public class ShipThruster : MonoBehaviour {
     //Rotates FX as ship rotates
     public void RotateFX()
     {
-        var mainFXrot = particleFX.main;
         var mainFX = particleFX.main;
 
         if (!flipped)
