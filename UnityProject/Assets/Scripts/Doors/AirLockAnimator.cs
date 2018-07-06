@@ -28,7 +28,7 @@ namespace Doors
 		{
 			doorController.isPerformingAction = true;
 			SoundManager.PlayAtPosition("AccessDenied", transform.position);
-			if (doorController.oppeningDirection == DoorController.OppeningDirection.Vertical)
+			if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
 			{
 				StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + 2, 1));
 			}
@@ -40,7 +40,7 @@ namespace Doors
 			doorController.isPerformingAction = true;
 			doorController.PlayOpenSound();
 			StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset, animSize, false, true, true));
-			if (doorController.oppeningDirection == DoorController.OppeningDirection.Vertical)
+			if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
 			{
 				StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1));
 			}
@@ -58,7 +58,7 @@ namespace Doors
 			doorController.isPerformingAction = true;
 			doorController.PlayCloseSound();
 			StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset + animSize, animSize, false, true, true));
-			if (doorController.oppeningDirection == DoorController.OppeningDirection.Vertical)
+			if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
 			{
 				StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, true));
 			}
