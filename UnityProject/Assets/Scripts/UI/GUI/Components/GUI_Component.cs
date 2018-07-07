@@ -2,8 +2,8 @@
 
 namespace UI
 {
-    abstract public class GUI_Component : MonoBehaviour
-    {
+	abstract public class GUI_Component : MonoBehaviour
+	{
 
-    }
+	}
 }
