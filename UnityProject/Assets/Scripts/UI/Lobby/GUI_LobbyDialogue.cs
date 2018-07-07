@@ -30,15 +30,18 @@ namespace UI
         {
             networkManager = CustomNetworkManager.Instance;
 
+            // OnChange handler for toggle to 
+            // disable server address and port
+            // input fields
+            hostServerToggle.onValueChanged.AddListener(isOn =>
+                {
+                    serverAddressInput.interactable = !isOn;
+                    serverPortInput.interactable = !isOn;
+                }
+            );
+
             InitPlayerName();
-
             ShowStartGamePanel();
-        }
-
-        void Update()
-        {
-            serverAddressInput.interactable = !hostServerToggle.isOn;
-            serverPortInput.interactable = !hostServerToggle.isOn;
         }
 
         // Button handlers
