@@ -10,7 +10,7 @@ namespace UI
     {
 
         private const string DefaultServer = "localhost";
-        private const string DefaultPort = "7777";
+        private const int DefaultPort = 7777;
         private const string UserNamePlayerPref = "PlayerName";
 
         public GameObject startGamePanel;
@@ -26,18 +26,16 @@ namespace UI
         private CustomNetworkManager networkManager;
 
         // Lifecycle
-        void Start ()
+        void Start()
         {
-	        networkManager = CustomNetworkManager.Instance;
-            serverAddressInput.text = DefaultServer;
-            serverPortInput.text = DefaultPort;
+            networkManager = CustomNetworkManager.Instance;
 
             InitPlayerName();
 
             ShowStartGamePanel();
         }
 
-        void Update ()
+        void Update()
         {
             serverAddressInput.interactable = !hostServerToggle.isOn;
             serverPortInput.interactable = !hostServerToggle.isOn;
@@ -54,6 +52,12 @@ namespace UI
                 return;
             }
             if (!startGamePanel.activeInHierarchy)
+            {
+                return;
+            }
+
+            // Return if no network address is specified
+            if (string.IsNullOrEmpty(serverAddressInput.text))
             {
                 return;
             }
@@ -97,22 +101,20 @@ namespace UI
         }
 
         // Game handlers
-        void StartSelfHostedGame()
-        {
-            gameObject.SetActive(false);
-        }
-
         void ConnectToServer()
         {
             if (Managers.instance.isForRelease)
             {
                 networkManager.networkAddress = Managers.instance.serverIP;
-                networkManager.networkPort = int.Parse(DefaultPort);
+                networkManager.networkPort = DefaultPort;
                 networkManager.StartClient();
                 return;
             }
 
+            // Set network address
             networkManager.networkAddress = serverAddressInput.text;
+
+            // Set network port
             int port = 0;
             if (serverPortInput.text.Length >= 4)
             {
@@ -120,16 +122,17 @@ namespace UI
             }
             if (port == 0)
             {
-                networkManager.networkPort = int.Parse(DefaultPort);
+                networkManager.networkPort = DefaultPort;
             }
             else
             {
                 networkManager.networkPort = port;
             }
+
+            // Start network client
             networkManager.StartClient();
         }
 
-        // Player name helpers
         void InitPlayerName()
         {
             string steamName = "";
