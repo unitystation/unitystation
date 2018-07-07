@@ -2,14 +2,14 @@
 
 namespace UI
 {
-    abstract public class GUI_ButtonInstance : GUI_ComponentInstance
-    {
+	abstract public class GUI_ButtonInstance : GUI_ComponentInstance
+	{
 
-        [MenuItem("GameObject/UI/GUI/Button")]
-        [MenuItem("UI/GUI/Button")]
-        public static void AddComponent()
-        {
-            Create("UI/GUI/Button", "Button");
-        }
-    }
+		[MenuItem("GameObject/UI/GUI/Button")]
+		[MenuItem("UI/GUI/Button")]
+		public static void AddComponent()
+		{
+			Create("UI/GUI/Button", "Button");
+		}
+	}
 }
