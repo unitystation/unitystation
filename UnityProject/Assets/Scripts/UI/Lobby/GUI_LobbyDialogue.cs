@@ -9,8 +9,7 @@ namespace UI
     public class GUI_LobbyDialogue : MonoBehaviour
     {
 
-        private const string DefaultServer = "localhost";
-        private const int DefaultPort = 7777;
+        private const int DefaultServerPort = 7777;
         private const string UserNamePlayerPref = "PlayerName";
 
         public GameObject startGamePanel;
@@ -109,7 +108,7 @@ namespace UI
             if (Managers.instance.isForRelease)
             {
                 networkManager.networkAddress = Managers.instance.serverIP;
-                networkManager.networkPort = DefaultPort;
+                networkManager.networkPort = DefaultServerPort;
                 networkManager.StartClient();
                 return;
             }
@@ -125,7 +124,7 @@ namespace UI
             }
             if (port == 0)
             {
-                networkManager.networkPort = DefaultPort;
+                networkManager.networkPort = DefaultServerPort;
             }
             else
             {
