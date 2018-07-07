@@ -64,12 +64,10 @@ namespace UI
             dialogueTitle.text = "Starting Game...";
             if (Managers.instance.isForRelease || !hostServerToggle.isOn)
             {
-                Debug.Log("Connecting to server");
                 ConnectToServer();
             }
             else
             {
-                Debug.Log("Starting local host");
                 networkManager.StartHost();
             }
 
