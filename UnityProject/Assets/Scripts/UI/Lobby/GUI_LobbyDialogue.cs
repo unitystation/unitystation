@@ -26,7 +26,8 @@ namespace UI
         private CustomNetworkManager networkManager;
 
         // Lifecycle
-        void Start () {
+        void Start ()
+        {
 	        networkManager = CustomNetworkManager.Instance;
             serverAddressInput.text = DefaultServer;
             serverPortInput.text = DefaultPort;
@@ -36,7 +37,8 @@ namespace UI
             ShowStartGamePanel();
         }
 
-        void Update () {
+        void Update ()
+        {
             serverAddressInput.interactable = !hostServerToggle.isOn;
             serverPortInput.interactable = !hostServerToggle.isOn;
         }
