@@ -6,6 +6,7 @@ using UI;
 using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.UI;
+using SpeechLib;
 
 public class ChatRelay : NetworkBehaviour
 {
@@ -31,13 +32,29 @@ public class ChatRelay : NetworkBehaviour
     public Color ghostCol; // "#386aff"
     public Color combatCol; // "#dd0000"
 
-	public static ChatRelay Instance
+    private SpVoice ttsWin;
+
+    //Example on how to get all of the available voices: (to remind me for next part)
+  //  SpObjectTokenCategory tokenCat = new SpObjectTokenCategory();
+  //  tokenCat.SetId(SpeechLib.SpeechStringConstants.SpeechCategoryVoices, false);
+		//ISpeechObjectTokens tokens = tokenCat.EnumerateTokens(null, null);
+
+  //  int n = 0;
+		//foreach (SpObjectToken item in tokens)
+		//{
+		//		GUILayout.Label( "Voice"+ n +" ---> "+ item.GetDescription(0));
+		//	    n ++;
+		//}
+
+public static ChatRelay Instance
 	{
 		get
 		{
 			if (!chatRelay)
 			{
 				chatRelay = FindObjectOfType<ChatRelay>();
+                chatRelay.ttsWin = new SpVoice();
+                chatRelay.LoadTTSprefs();
 			}
 			return chatRelay;
 		}
@@ -78,6 +95,26 @@ public class ChatRelay : NetworkBehaviour
         };
 
         return ColorUtility.ToHtmlStringRGB(chatColors[channel]);
+    }
+
+    //Load the preferred settings for TTS;
+    void LoadTTSprefs()
+    {
+        //TODO macOS and linux TTS functionality
+
+        //Win:
+        if (!PlayerPrefs.HasKey("ttsVolume"))
+        {
+            ttsWin.Volume = 100;
+            ttsWin.Rate = 0;
+            PlayerPrefs.SetInt("ttsVolume", 100);
+            PlayerPrefs.SetInt("ttsRate", 0);
+        } else
+        {
+            ttsWin.Volume = PlayerPrefs.GetInt("ttsVolume");
+            ttsWin.Rate = PlayerPrefs.GetInt("ttsRate");
+        }
+        PlayerPrefs.Save();
     }
 
 	[Server]
@@ -147,6 +184,10 @@ public class ChatRelay : NetworkBehaviour
 
         if ((PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false) & channels) == channels && (chatEvent.channels & channels) == channels)
         {
+            //TTS:
+            ttsWin.Speak(message);
+
+            //Chatevent UI entry:
             string colorMessage = "<color=#" + GetCannelColor(channels) + ">" + name + message + "</color>";
             GameObject chatEntry = Instantiate(ControlChat.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
             Text text = chatEntry.GetComponent<Text>();
