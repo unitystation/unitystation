@@ -6,6 +6,7 @@ using UnityEngine;
 public class GoogleCloudTTS : MonoBehaviour {
 
 	public static GoogleCloudTTS Instance;
+	private const string apiKey = "AIzaSyBqb3wPpfnlCWyARnRVSClBkLBSYXr05_Q";
 
 	private void Awake()
 	{
