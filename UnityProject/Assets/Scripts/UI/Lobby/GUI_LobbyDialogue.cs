@@ -9,6 +9,7 @@ namespace UI
     public class GUI_LobbyDialogue : MonoBehaviour
     {
 
+        private const string DefaultServerAddress = "localhost";
         private const int DefaultServerPort = 7777;
         private const string UserNamePlayerPref = "PlayerName";
 
@@ -29,6 +30,17 @@ namespace UI
         {
             networkManager = CustomNetworkManager.Instance;
 
+            // Init server address and port defaults
+            if (Managers.instance.isForRelease)
+            {
+                serverAddressInput.text = Managers.instance.serverIP;
+            }
+            else
+            {
+                serverAddressInput.text = DefaultServerAddress;
+            }
+            serverPortInput.text = DefaultServerPort.ToString();
+
             // OnChange handler for toggle to 
             // disable server address and port
             // input fields
@@ -39,6 +51,7 @@ namespace UI
                 }
             );
 
+            // Init Lobby UI
             InitPlayerName();
             ShowStartGamePanel();
         }
@@ -105,33 +118,34 @@ namespace UI
         // Game handlers
         void ConnectToServer()
         {
-            if (Managers.instance.isForRelease)
-            {
-                networkManager.networkAddress = Managers.instance.serverIP;
-                networkManager.networkPort = DefaultServerPort;
-                networkManager.StartClient();
-                return;
-            }
-
             // Set network address
-            networkManager.networkAddress = serverAddressInput.text;
+            string serverAddress = serverAddressInput.text;
+            if (string.IsNullOrEmpty(serverAddress))
+            {
+                if (Managers.instance.isForRelease)
+                {
+                    serverAddress = Managers.instance.serverIP;
+                }
+                if (string.IsNullOrEmpty(serverAddress))
+                {
+                    serverAddress = DefaultServerAddress;
+                }
+            }
 
             // Set network port
-            int port = 0;
+            int serverPort = 0;
             if (serverPortInput.text.Length >= 4)
             {
-                int.TryParse(serverPortInput.text, out port);
+                int.TryParse(serverPortInput.text, out serverPort);
             }
-            if (port == 0)
+            if (serverPort == 0)
             {
-                networkManager.networkPort = DefaultServerPort;
-            }
-            else
-            {
-                networkManager.networkPort = port;
+                serverPort = DefaultServerPort;
             }
 
-            // Start network client
+            // Init network client
+            networkManager.networkAddress = serverAddress;
+            networkManager.networkPort = serverPort;
             networkManager.StartClient();
         }
 
