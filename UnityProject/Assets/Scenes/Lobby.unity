@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 8
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -39,7 +39,6 @@ RenderSettings:
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
-  m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -55,10 +54,11 @@ LightmapSettings:
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 10
+    serializedVersion: 9
     m_Resolution: 2
     m_BakeResolution: 40
-    m_AtlasSize: 1024
+    m_TextureWidth: 1024
+    m_TextureHeight: 1024
     m_AO: 0
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
@@ -1380,7 +1380,7 @@ Prefab:
     - target: {fileID: 224652079256797148, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000061035156
+      value: -0.00010681152
       objectReference: {fileID: 0}
     - target: {fileID: 224816160242944980, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
@@ -1466,6 +1466,11 @@ Prefab:
         type: 2}
       propertyPath: m_AnchoredPosition.x
       value: -1.5996094
+      objectReference: {fileID: 0}
+    - target: {fileID: 224165921709610828, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.29882812
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
@@ -2071,11 +2076,6 @@ Prefab:
     m_Modifications:
     - target: {fileID: 224890039821179386, guid: 43e346b2606c3384b9b2c52f5a1ee2d8,
         type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 224890039821179386, guid: 43e346b2606c3384b9b2c52f5a1ee2d8,
-        type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -2167,27 +2167,12 @@ Prefab:
     - target: {fileID: 224637790212107830, guid: 43e346b2606c3384b9b2c52f5a1ee2d8,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000022888184
+      value: 0.000015258789
       objectReference: {fileID: 0}
-    - target: {fileID: 224879916169806936, guid: 43e346b2606c3384b9b2c52f5a1ee2d8,
+    - target: {fileID: 114843169535153404, guid: 43e346b2606c3384b9b2c52f5a1ee2d8,
         type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 2.869995
-      objectReference: {fileID: 0}
-    - target: {fileID: 224879916169806936, guid: 43e346b2606c3384b9b2c52f5a1ee2d8,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.65999985
-      objectReference: {fileID: 0}
-    - target: {fileID: 224310445342121930, guid: 43e346b2606c3384b9b2c52f5a1ee2d8,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: -3.100006
-      objectReference: {fileID: 0}
-    - target: {fileID: 224310445342121930, guid: 43e346b2606c3384b9b2c52f5a1ee2d8,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -1.9000864
+      propertyPath: apiKey
+      value: AIzaSyBqb3wPpfnlCWyARnRVSClBkLBSYXr05_Q
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 43e346b2606c3384b9b2c52f5a1ee2d8, type: 2}

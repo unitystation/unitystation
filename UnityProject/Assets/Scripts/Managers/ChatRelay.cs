@@ -6,9 +6,7 @@ using UI;
 using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.UI;
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-using SpeechLib;
-#endif
+using System.Text.RegularExpressions;
 
 public class ChatRelay : NetworkBehaviour
 {
@@ -34,11 +32,6 @@ public class ChatRelay : NetworkBehaviour
 	public Color ghostCol; // "#386aff"
 	public Color combatCol; // "#dd0000"
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-    private SpVoice ttsWin;
-#endif
-
-
 	//Example on how to get all of the available voices: (to remind me for next part)
 	//  SpObjectTokenCategory tokenCat = new SpObjectTokenCategory();
 	//  tokenCat.SetId(SpeechLib.SpeechStringConstants.SpeechCategoryVoices, false);
@@ -55,10 +48,6 @@ public class ChatRelay : NetworkBehaviour
 		get {
 			if (!chatRelay) {
 				chatRelay = FindObjectOfType<ChatRelay>();
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-                chatRelay.ttsWin = new SpVoice();
-                chatRelay.LoadTTSprefs();
-#endif
 			}
 			return chatRelay;
 		}
@@ -97,27 +86,6 @@ public class ChatRelay : NetworkBehaviour
 		};
 
 		return ColorUtility.ToHtmlStringRGB(chatColors[channel]);
-	}
-
-	//Load the preferred settings for TTS;
-	void LoadTTSprefs()
-	{
-		//TODO macOS and linux TTS functionality
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        //Win:
-        if (!PlayerPrefs.HasKey("ttsVolume"))
-        {
-            ttsWin.Volume = 100;
-            ttsWin.Rate = 0;
-            PlayerPrefs.SetInt("ttsVolume", 100);
-            PlayerPrefs.SetInt("ttsRate", 0);
-        } else
-        {
-            ttsWin.Volume = PlayerPrefs.GetInt("ttsVolume");
-            ttsWin.Rate = PlayerPrefs.GetInt("ttsRate");
-        }
-#endif
-		PlayerPrefs.Save();
 	}
 
 	[Server]
@@ -166,9 +134,18 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	private async void UpdateClientChat(string message, ChatChannel channels)
+	private void UpdateClientChat(string message, ChatChannel channels)
 	{
-		ChatEvent chatEvent = new ChatEvent(message, channels, true);
+        //Text to Speech:
+        var ttsString = Regex.Replace(message, @"<[^>]*>", String.Empty);
+        //message only atm
+        if (ttsString.Contains("says:")){
+            string saysString = "says:";
+            var messageString = ttsString.Substring(ttsString.IndexOf(saysString) + saysString.Length);
+            GoogleCloudTTS.Instance.Synthesize(messageString);
+        }
+
+        ChatEvent chatEvent = new ChatEvent(message, channels, true);
 
 		if (channels == ChatChannel.None) {
 			return;
@@ -180,10 +157,6 @@ public class ChatRelay : NetworkBehaviour
 		}
 
 		if ((PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false) & channels) == channels && (chatEvent.channels & channels) == channels) {
-			//TTS:
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-           await ttsWin.Speak(message);
-#endif
             //Chatevent UI entry:
             string colorMessage = "<color=#" + GetCannelColor(channels) + ">" + name + message + "</color>";
             GameObject chatEntry = Instantiate(ControlChat.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
