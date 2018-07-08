@@ -190,16 +190,20 @@ namespace PlayGroup
 
 		/// Send current serverState to all players
 		[Server]
-		public void NotifyPlayers()
+		public void NotifyPlayers(bool noLerp = false)
 		{
 			//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
 			if (!serverState.ImportantFlightUpdate && consideredFloatingServer)
 			{
 				return;
 			}
-			serverState.NoLerp = false;
+			serverState.NoLerp = noLerp;
 			PlayerMoveMessage.SendToAll(gameObject, serverState);
-			ClearStateFlags();
+			//Clearing state flags
+			serverTargetState.ImportantFlightUpdate = false;
+			serverTargetState.ResetClientQueue = false;
+			serverState.ImportantFlightUpdate = false;
+			serverState.ImportantFlightUpdate = false;
 		}
 
 		/// Clears server pending actions queue

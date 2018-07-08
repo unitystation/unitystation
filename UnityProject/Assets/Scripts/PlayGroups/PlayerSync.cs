@@ -227,13 +227,6 @@ namespace PlayGroup
 			}
 		}
 
-		private void ClearStateFlags() {
-			serverTargetState.ImportantFlightUpdate = false;
-			serverTargetState.ResetClientQueue = false;
-			serverState.ImportantFlightUpdate = false;
-			serverState.ImportantFlightUpdate = false;
-		}
-
 		private void GhostLerp( PlayerState state ) {
 			playerScript.ghost.transform.position =
 				Vector3.MoveTowards( playerScript.ghost.transform.position,

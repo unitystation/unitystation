@@ -154,10 +154,11 @@ public class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public void UpdatePlayer(NetworkConnection conn, GameObject newGameObject)
+	public ConnectedPlayer UpdatePlayer(NetworkConnection conn, GameObject newGameObject)
 	{
 		ConnectedPlayer connectedPlayer = Get(conn);
 		connectedPlayer.GameObject = newGameObject;
+		return connectedPlayer;
 	}
 
 	/// Add previous ConnectedPlayer state to the old values list
