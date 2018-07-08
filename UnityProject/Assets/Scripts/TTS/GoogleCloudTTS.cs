@@ -31,6 +31,7 @@ public class GoogleCloudTTS : MonoBehaviour {
         var synthOutput = JsonConvert.DeserializeObject<SynthOutput>(audioData);
         AudioClip loadClip = GetClipFromBase64(synthOutput.audioContent);
         audioSource.clip = loadClip;
+		audioSource.time = 0.1f;
         audioSource.Play();
 	}
 
@@ -40,7 +41,7 @@ public class GoogleCloudTTS : MonoBehaviour {
         AudioClip newClip = AudioClip.Create("TTS_Clip", floatData.Length,
             BitConverter.ToUInt16(data, 22),
             BitConverter.ToInt32(data, 24), false);
-        newClip.SetData(floatData, 0);
+        newClip.SetData(floatData, 44);
         return newClip;
 	}
 
