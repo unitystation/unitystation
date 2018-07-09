@@ -321,7 +321,7 @@ namespace PlayGroup
             // Attempt to open door
             if (door != null && allowInput)
             {
-                door.Interact( gameObject, TransformState.HiddenPos, "bodyBump" );
+                door.Interact( gameObject, TransformState.HiddenPos );
             }
         }
     }
