@@ -300,8 +300,7 @@ namespace PlayGroup
 			{
 				if (pushPulls[i] && pushPulls[i].gameObject != gameObject)
 				{
-					if(pushPulls[i].TryPush(gameObject, direction))
-					result = true;
+					pushPulls [i].TryPush (gameObject, direction);
 				}
 			}
 			return result;
