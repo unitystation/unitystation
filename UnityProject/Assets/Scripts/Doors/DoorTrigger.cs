@@ -23,8 +23,11 @@ namespace Doors
 			}
 		}
 
-		public override void Interact(GameObject originator, Vector3 position, string hand)
+		public override void Interact(GameObject originator, Vector3 position, string interactSlot = null)
 		{
+			if ( Controller == null || !allowInput ) {
+				return;
+			}
 			var playerScript = originator.GetComponent<PlayerScript>();
 			if (playerScript.canNotInteract() || !playerScript.IsInReach( gameObject ))
 			{ //check for both client and server
@@ -33,31 +36,28 @@ namespace Doors
 			if (!isServer)
 			{ 
 				//Client wants this code to be run on server
-				InteractMessage.Send(gameObject, hand);
+				InteractMessage.Send(gameObject, interactSlot);
 			}
 			else
 			{
 				//Server actions
 				// Close the door if it's open
-				if (Controller.IsOpened && allowInput && !hand.Equals( "bodyBump" ))
+				if ( Controller.IsOpened )
 				{
+					//Not even trying to close when bumping into door
+					if ( interactSlot == null ) {
+						return;
+					}
 					Controller.TryClose();
-
-					allowInput = false;
-					StartCoroutine(DoorInputCoolDown());
-				}
-	
+				} else {
 				// Attempt to open if it's closed
-				if (Controller != null && allowInput)
-				{
-					Controller.CheckDoorPermissions(originator, hand);
-	
-					allowInput = false;
-					StartCoroutine(DoorInputCoolDown());
+					Controller.TryOpen(originator, interactSlot);
 				}
 			}
+			allowInput = false;
+			StartCoroutine(DoorInputCoolDown());
 		}
-
+		/// Disables any interactions with door for a while
 		private IEnumerator DoorInputCoolDown()
 		{
 			yield return new WaitForSeconds(0.3f);

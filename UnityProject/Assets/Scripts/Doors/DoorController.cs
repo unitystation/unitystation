@@ -129,7 +129,6 @@ namespace Doors
 		{
 			// Sliding door is not passable according to matrix
             if( IsOpened && !isPerformingAction && ( matrix.IsPassableAt( registerTile.Position ) || doorType == DoorType.sliding ) ) {
-//                RpcClose();
 	            Close();
             }
 			else
@@ -142,25 +141,22 @@ namespace Doors
 		private void Close() {
 			IsOpened = false;
 			if ( !isPerformingAction ) {
-				doorAnimator.CloseDoor();
+				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close );
 			}
-			//todo inform players
 		}
 
 		[Server]
-		public void CheckDoorPermissions(GameObject Originator, string hand)
+		public void TryOpen(GameObject Originator, string hand)
 		{
 			if (AccessRestrictions != null)
 			{
 				if (AccessRestrictions.CheckAccess(Originator, hand)) {
 					if (!IsOpened && !isPerformingAction) {
-//						RpcOpen(Originator);
 						Open();
 					}
 				}
 				else {
 					if (!IsOpened && !isPerformingAction) {
-//						RpcAccessDenied();
 						AccessDenied();
 					}
 				}
@@ -173,9 +169,8 @@ namespace Doors
 		[Server]
 		private void AccessDenied() {
 			if ( !isPerformingAction ) {
-				doorAnimator.AccessDenied();
+				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.AccessDenied );
 			}
-			//todo notify players
 		}
 
 		[Server]
@@ -185,9 +180,8 @@ namespace Doors
 
 			if (!isPerformingAction)
 			{
-				doorAnimator.OpenDoor();
+				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Open );
 			}
-			//todo inform players
 		}
 
 		private void ResetWaiting()
