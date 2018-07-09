@@ -47,8 +47,6 @@ namespace PlayGroup
 		private RegisterTile registerTile;
 		private Matrix matrix => registerTile.Matrix;
 
-		private Vector3Int lastMove = Vector3Int.zero;
-
 		/// temp solution for use with the UI network prediction
 		public bool isMoving { get; } = false;
 
@@ -89,10 +87,6 @@ namespace PlayGroup
 			}
 			Vector3Int direction = GetDirection(action, MatrixManager.Get(curMatrix));
 			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay, curMatrix);
-
-			Debug.Log (adjustedDirection.ToString());
-
-			lastMove = adjustedDirection;
 
 			return currentPosition + adjustedDirection;
 		}
@@ -230,32 +224,11 @@ namespace PlayGroup
 
 			//isReplay tells AdjustDirection if the move being carried out is a replay move for prediction or not
 			//a replay move is a move that has already been carried out on the LocalPlayer's client
-			if (!isReplay)
-			{
-				//Check the high level matrix detector
-				if (!playerMatrixDetector.CanPass(currentPosition, direction, curMatrix))
-				{
-					Interact(currentPosition, direction);
-
-					//Checks if it's possible to move horizontally
-					if ( direction.x != 0 && playerMatrixDetector.CanPass (currentPosition, new Vector3Int (direction.x, 0, 0), curMatrix)) {
-
-						return new Vector3Int (direction.x, 0, 0);
-					}
-
-					//Checks if it's possible to move vertically
-					if ( direction.y != 0 && playerMatrixDetector.CanPass (currentPosition, new Vector3Int (0, direction.y, 0), curMatrix)) {
-
-						return new Vector3Int (0, direction.y, 0);
-					}
-
-					return Vector3Int.zero;
-				}
+			if (!isReplay) {
+				
 				//Not to be checked while performing a replay:
-				if (playerSync.PullingObject != null)
-				{
-					if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
-					{
+				if (playerSync.PullingObject != null) {
+					if (curMatrix.ContainsAt (newPos, playerSync.PullingObject)) {
 						//Vector2 directionToPullObj =
 						//	playerSync.pullingObject.transform.localPosition - transform.localPosition;
 						//if (directionToPullObj.normalized != playerSprites.currentDirection) {
@@ -263,39 +236,63 @@ namespace PlayGroup
 						//	return direction;
 						//}
 						//Hit Pull obj
-						pna.CmdStopPulling(playerSync.PullingObject);
+						pna.CmdStopPulling (playerSync.PullingObject);
 
 						return Vector3Int.zero;
 					}
 				}
-				return direction;
+			} else {
+
+					//This is only for replay (to ignore any interactions with the pulled obj):
+					if (playerSync.PullingObject != null)
+					{
+						if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
+						{
+							return direction;
+						}
+					}
 			}
 
-			//This is only for replay (to ignore any interactions with the pulled obj):
-			if (playerSync.PullingObject != null)
-			{
-				if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
-				{
-					return direction;
+			//Check the high level matrix detector
+			if (!playerMatrixDetector.CanPass(currentPosition, direction, curMatrix)){
+
+				//Interacts with tiles nearby to where the player is heading (Not the diagonal tile though)
+				if(direction.x != 0)
+				Interact (currentPosition, new Vector3Int (direction.x, 0, 0));
+
+				if(direction.y != 0)
+				Interact (currentPosition, new Vector3Int (0, direction.y, 0));
+
+				//Checks if it's possible to move horizontally
+				if (direction.x != 0 && playerMatrixDetector.CanPass (currentPosition, new Vector3Int (direction.x, 0, 0), curMatrix)) {
+
+					return new Vector3Int (direction.x, 0, 0);
 				}
-			}
 
-			if (isReplay){
-				return lastMove;
+				//Checks if it's possible to move vertically
+				if (direction.y != 0 && playerMatrixDetector.CanPass (currentPosition, new Vector3Int (0, direction.y, 0), curMatrix)) {
+
+					return new Vector3Int (0, direction.y, 0);
+				}
+				
+				return Vector3Int.zero;
+
 			}
-			//could not pass
-			//Debug.Log("Couldn't pass");
-			return Vector3Int.zero;
+			return direction;
 
 		}
 
-		private void Interact(Vector3 currentPosition, Vector3 direction)
+		private bool Interact(Vector3 currentPosition, Vector3 direction)
 		{
+			bool result = false;
+
 			Vector3Int targetPos = Vector3Int.RoundToInt(currentPosition + direction);
 			var worldPos = MatrixManager.Instance.LocalToWorldInt(currentPosition, matrix);
 			var worldTarget = MatrixManager.Instance.LocalToWorldInt(targetPos, matrix);
 
-			InteractDoor(worldPos, worldTarget);
+			//Checks if it was possible to open the door
+			InteractDoor (worldPos, worldTarget);
+			
 			//TODO: adapt for cross-matrix
 			//Is the object pushable (iterate through all of the objects at the position):
 			PushPull[] pushPulls = matrix.Get<PushPull>(targetPos).ToArray();
@@ -303,9 +300,11 @@ namespace PlayGroup
 			{
 				if (pushPulls[i] && pushPulls[i].gameObject != gameObject)
 				{
-					pushPulls[i].TryPush(gameObject, direction);
+					if(pushPulls[i].TryPush(gameObject, direction))
+					result = true;
 				}
 			}
+			return result;
 		}
 		/// Cross-matrix now! uses world positions
 		private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
