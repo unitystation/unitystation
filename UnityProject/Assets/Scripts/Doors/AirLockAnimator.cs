@@ -28,28 +28,33 @@ namespace Doors
 		{
 			doorController.isPerformingAction = true;
 			SoundManager.PlayAtPosition("AccessDenied", transform.position);
-			if (doorController.oppeningDirection == DoorController.OppeningDirection.Vertical)
+			if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
 			{
-				StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + 2, 1));
+				StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + 2, 1));
 			}
-			StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, 12, 6, true, false, true));
+			StartCoroutine(PlayAnim(overlay_Lights, overlayLights, 12, 6, true, false, true));
 		}
 
 		public override void OpenDoor()
 		{
 			doorController.isPerformingAction = true;
 			doorController.PlayOpenSound();
-			StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset, animSize, false, true, true));
-			if (doorController.oppeningDirection == DoorController.OppeningDirection.Vertical)
+			StartCoroutine(PlayAnim(doorbase, doorBaseSprites, doorController.DoorSpriteOffset, animSize, false, true, true));
+			if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
 			{
-				StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1));
+				StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1));
 			}
 			else
 			{
-				StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset));
+				StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset));
 			}
-			StartCoroutine(SpritesPlayer(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset));
+			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset));
 			//mabe the boxColliderStuff should be on the DoorController. 
+			StartCoroutine(MakePassable());
+		}
+
+		private IEnumerator MakePassable() {
+			yield return new WaitForSeconds( 0.15f );
 			doorController.BoxCollToggleOff();
 		}
 
@@ -57,16 +62,21 @@ namespace Doors
 		{
 			doorController.isPerformingAction = true;
 			doorController.PlayCloseSound();
-			StartCoroutine(SpritesPlayer(doorbase, doorBaseSprites, doorController.DoorSpriteOffset + animSize, animSize, false, true, true));
-			if (doorController.oppeningDirection == DoorController.OppeningDirection.Vertical)
+			StartCoroutine(PlayAnim(doorbase, doorBaseSprites, doorController.DoorSpriteOffset + animSize, animSize, false, true, true));
+			if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
 			{
-				StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, true));
+				StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, true));
 			}
 			else
 			{
-				StartCoroutine(SpritesPlayer(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + animSize, animSize, true));
+				StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + animSize, animSize, true));
 			}
-			StartCoroutine(SpritesPlayer(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset + 6));
+			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset + 6));
+			StartCoroutine(MakeSolid());
+		}
+		
+		private IEnumerator MakeSolid() {
+			yield return new WaitForSeconds( 0.15f );
 			doorController.BoxCollToggleOn();
 		}
 
@@ -79,7 +89,7 @@ namespace Doors
 		///     updateFov is optinal and deafult = false.
 		///     updateAction is a flag that is now coupled with the doorcontroller.
 		/// </summary>
-		private IEnumerator SpritesPlayer(SpriteRenderer renderer, Sprite[] list, int offset = 0, int numberOfSpritesToPlay = 6, bool nullfySprite = false,
+		private IEnumerator PlayAnim(SpriteRenderer renderer, Sprite[] list, int offset = 0, int numberOfSpritesToPlay = 6, bool nullfySprite = false,
 			bool updateFOV = false, bool updateAction = false)
 		{
 			if (offset > -1 && numberOfSpritesToPlay > 0)
