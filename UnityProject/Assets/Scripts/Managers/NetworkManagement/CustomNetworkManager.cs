@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using Facepunch.Steamworks;
 using PlayGroup;
@@ -307,17 +308,23 @@ public class CustomNetworkManager : NetworkManager
 	/// Warning: sending a lot of data, make sure client receives it only once
 	public void SyncPlayerData(GameObject playerGameObject)
 	{
+		//All matrices
 		MatrixMove[] matrices = FindObjectsOfType<MatrixMove>();
 		for (var i = 0; i < matrices.Length; i++) {
 			matrices[i].NotifyPlayer(playerGameObject, true);
 		}
+		//All transforms
 		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
 		for (var i = 0; i < scripts.Length; i++) {
 			scripts[i].NotifyPlayer(playerGameObject, true);
 		}
-		//tell player his position (required for spawning in moving ship)
-		playerGameObject.GetComponent<PlayerSync>().NotifyPlayer( playerGameObject, true );
-		Debug.LogFormat($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms) to {playerGameObject.name}");
+		//All players
+		List<ConnectedPlayer> players = PlayerList.Instance.InGamePlayers;
+		for ( var i = 0; i < players.Count; i++ ) {
+			players[i].Script.playerSync.NotifyPlayer( playerGameObject, true );
+		}
+
+		Debug.LogFormat($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {players.Count} players) to {playerGameObject.name}");
 	}
 
 	private IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)

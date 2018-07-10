@@ -18,7 +18,7 @@ public class ItemList : NetUIDynamicList {
 			return false;
 		}
 
-		var entryArray = EntryArray;
+		var entryArray = Entries;
 		for ( var i = 0; i < entryArray.Length; i++ ) {
 			DynamicEntry entry = entryArray[i];
 			var item = entry as ItemEntry;
@@ -49,7 +49,7 @@ public class ItemList : NetUIDynamicList {
 		return RemoveItem( prefab.name );
 	}
 	public bool RemoveItem( string prefabName ) {
-		foreach ( var pair in Entries ) {
+		foreach ( var pair in EntryIndex ) {
 			if ( String.Equals( ( (ItemEntry) pair.Value )?.Prefab.name, prefabName,
 				StringComparison.CurrentCultureIgnoreCase ) ) 
 			{

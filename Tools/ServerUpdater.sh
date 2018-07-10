@@ -19,7 +19,7 @@ STEAM_DIR=bin
 #Ids of the servers you want to install, leave empty to skip
 #First item is the directory, second item is the AppID. Directory is relative to script directory
 DL_DIR0=Release
-DL_SV0=792890
+DL_SV0=801140
  
 DL_DIR1=
 DL_SV1=

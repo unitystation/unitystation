@@ -21,7 +21,7 @@ public class NetSpriteImage : NetUIElement
 						//don't load anything
 						break;
 					case 1:
-						//load entire sprite//todo
+						//load entire sprite - not implemented
 						break;
 					default:
 						//load sub-sprite from sheet

@@ -21,7 +21,7 @@ public class DynamicEntry : NetUIElement {
 		}
 	}
 
-	public Vector2 Position {
+	public Vector3 Position {
 		get { return transform.localPosition; }
 		set { transform.localPosition = value; }
 	}

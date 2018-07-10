@@ -9,11 +9,11 @@ public class RadarList : NetUIDynamicList {
 	private List<RadarEntry> OutOfRangeEntries = new List<RadarEntry>();
 	private List<RadarEntry> ToRestore = new List<RadarEntry>();
 
-	public void RefreshTrackedPos() {
+	public void RefreshTrackedPos(bool update = true) {
 		Vector2 originPos = Origin.State.Position;
 		
 		//Refreshing positions of every item
-		var entryArray = EntryArray;
+		var entryArray = Entries;
 		for ( var i = 0; i < entryArray.Length; i++ ) {
 			var item = entryArray[i] as RadarEntry;
 			if ( !item ) {
@@ -22,9 +22,9 @@ public class RadarList : NetUIDynamicList {
 
 			item.RefreshTrackedPos(originPos);
 			//If item is out of range, stop showing it and place into "out of range" list
-			if ( ProjectionMagnitude( item ) > Range )
+			if ( item.Position == TransformState.HiddenPos || ProjectionMagnitude( item.Position ) > Range )
 			{
-				Debug.Log( $"Hiding {item} as it's out of range" );
+//				Debug.Log( $"Hiding {item} as it's out of range" );
 				OutOfRangeEntries.Add( item );
 				item.gameObject.SetActive( false );
 			}
@@ -33,9 +33,9 @@ public class RadarList : NetUIDynamicList {
 		for ( var i = 0; i < OutOfRangeEntries.Count; i++ ) {
 			var item = OutOfRangeEntries[i];
 			item.RefreshTrackedPos( originPos );
-			if ( ProjectionMagnitude( item ) <= Range )
+			if ( item.Position != TransformState.HiddenPos && ProjectionMagnitude( item.Position ) <= Range )
 			{
-				Debug.Log( $"Unhiding {item} as it's in range again" );
+//				Debug.Log( $"Unhiding {item} as it's in range again" );
 				ToRestore.Add( item );
 				item.gameObject.SetActive( true );
 			}
@@ -47,13 +47,14 @@ public class RadarList : NetUIDynamicList {
 		}
 
 		ToRestore.Clear();
-
-		UpdatePeepers();
+		
+		if ( update ) {
+			UpdatePeepers();
+		}
 	}
 
 	/// For square radar. For round radar item.Position.magnitude check should suffice.
-	private static float ProjectionMagnitude( RadarEntry item ) {
-		var pos = item.Position;
+	public static float ProjectionMagnitude( Vector3 pos ) {
 		var projX = Vector3.Project( pos, Vector3.right ).magnitude;
 		var projY = Vector3.Project( pos, Vector3.up ).magnitude;
 		return projX >= projY ? projX : projY;
@@ -61,8 +62,8 @@ public class RadarList : NetUIDynamicList {
 
 	//do we need to bulk add static positions? don't think so
 	public bool AddStaticItem( MapIconType type, Vector2 staticPosition, int radius = -1 ) { 
-		for ( var i = 0; i < EntryArray.Length; i++ ) {
-			var item = EntryArray[i] as RadarEntry;
+		for ( var i = 0; i < Entries.Length; i++ ) {
+			var item = Entries[i] as RadarEntry;
 			if ( !item ) {
 				continue;
 			}
@@ -94,8 +95,8 @@ public class RadarList : NetUIDynamicList {
 	{
 		var objectSet = new HashSet<GameObject>(objects);
 		var duplicates = new HashSet<GameObject>();
-		for ( var i = 0; i < EntryArray.Length; i++ ) {
-			var item = EntryArray[i] as RadarEntry;
+		for ( var i = 0; i < Entries.Length; i++ ) {
+			var item = Entries[i] as RadarEntry;
 			if ( !item ) {
 				continue;
 			}
@@ -132,6 +133,38 @@ public class RadarList : NetUIDynamicList {
 		return true;
 	}
 	//todo RemoveTrackedObject(s)
+	
+	/// Send updates about just one tracked object (intended for waypoint pin)
+	/// <param name="trackedObject"></param>
+	public void UpdateExclusive(GameObject trackedObject) {
+		RefreshTrackedPos( false );
+
+		bool notFound = true;
+		
+		var entries = Entries;
+		for ( var i = 0; i < entries.Length; i++ ) 
+		{
+			var entry = entries[i] as RadarEntry;
+			if ( !entry || entry.TrackedObject != trackedObject ) {
+				continue;
+			}
+
+			notFound = false;
+			
+			List<ElementValue> valuesToSend = new List<ElementValue>(10) {ElementValue};
+			var entryElements = entry.Elements;
+			for ( var j = 0; j < entryElements.Length; j++ ) 
+			{
+				var element = entryElements[j];
+				valuesToSend.Add( element.ElementValue );
+			}
+			TabUpdateMessage.SendToPeepers( MasterTab.Provider, MasterTab.Type, TabAction.Update, valuesToSend.ToArray() );
+		}
+		//if not found (being hidden etc), send just the list entry count so it would disappear for peepers, too 
+		if ( notFound ) {
+			TabUpdateMessage.SendToPeepers( MasterTab.Provider, MasterTab.Type, TabAction.Update, new []{ElementValue} );
+		}
+	}
 
 	//Don't apply any clientside ordering and just rely on whatever server provided
 	protected override void RefreshPositions() {}

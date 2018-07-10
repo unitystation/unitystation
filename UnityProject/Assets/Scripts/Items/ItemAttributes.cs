@@ -203,7 +203,7 @@ public class ItemAttributes : NetworkBehaviour
 	{
 		if (dmiIcon == null || dmiIcon.getName().Equals(""))
 		{
-			Debug.LogErrorFormat("DmiIcon '{0}' is null, unable to get state '{1}'", dmiIcon, icon_state);
+			Debug.Log($"DmiIcon '{dmiIcon}' is null, unable to get state '{icon_state}'");
 			return new Sprite();
 		}
 
@@ -212,16 +212,16 @@ public class ItemAttributes : NetworkBehaviour
 		{
 			return dmiIcon.spriteSheet[iState.offset];
 		}
-		Debug.LogErrorFormat("Failed to find inventory sprite '{1}' in icon '{0}'", dmiIcon.icon, icon_state);
+		Debug.Log($"Failed to find inventory sprite '{icon_state}' in icon '{dmiIcon.icon}'");
 		return new Sprite();
 	}
 
 	private string getItemDebugInfo()
 	{
 		return string.Format(
-			"name={0}, type={1}, spriteType={2} ({3}) : {4} / {5} / C: {6}, L: {7}, R: {8}, I: {9}" + '\n' +
-			dmDic.Keys.Aggregate("", (current, key) => current + key + ": " + dmDic[key] + "\n"), name, itemType, spriteType, desc, icon_state, item_state,
-			clothingReference, inHandLeft, inHandRight, inventoryIcon.icon);
+			$"name={name}, type={itemType}, spriteType={spriteType} ({desc}) : {icon_state} / {item_state} / " +
+			$"C: {clothingReference}, L: {inHandLeft}, R: {inHandRight}, I: {inventoryIcon.icon}{'\n'}" +
+			$"{dmDic.Keys.Aggregate("", (current, key) => current + key + ": " + dmDic[key] + "\n")}" );
 	}
 
 	private static SpriteType getMasterType(string hs)
@@ -287,7 +287,7 @@ public class ItemAttributes : NetworkBehaviour
 		DmiIcon invIcon = dmi.getIconByState(icon_state);
 		if (invIcon != null)
 		{
-			Debug.LogWarningFormat("{0} is doing bad dmi.getIconByState({1}) = {2}", name, icon_state, invIcon.icon);
+			Debug.Log($"{name} is doing bad dmi.getIconByState({icon_state}) = {invIcon.icon}");
 			return invIcon;
 		}
 		//			Debug.LogError();

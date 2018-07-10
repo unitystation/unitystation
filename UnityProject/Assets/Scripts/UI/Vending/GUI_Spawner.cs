@@ -111,6 +111,6 @@ public class GUI_Spawner : NetTab
 	}
 
 	private ItemEntry GetItemFromIndex(string index) {
-		return EntryList.Entries[index] as ItemEntry;
+		return EntryList.EntryIndex[index] as ItemEntry;
 	}
 }

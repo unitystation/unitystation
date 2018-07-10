@@ -12,35 +12,52 @@ namespace Doors
 	public class DoorTrigger : InputTrigger
 	{
 		public bool allowInput = true;
-		private DoorController doorController;
 
-		public void Start()
-		{
-			doorController = GetComponent<DoorController>();
-		}
-
-		public override void Interact(GameObject originator, Vector3 position, string hand)
-		{
-			PlayerNetworkActions pna = PlayerManager.LocalPlayer.GetComponent<PlayerNetworkActions>();
-			// Close the door if it's open
-			if (doorController.IsOpened && allowInput)
-			{
-				pna.CmdTryCloseDoor(gameObject);
-
-				allowInput = false;
-				StartCoroutine(DoorInputCoolDown());
-			}
-
-			// Attempt to open if it's closed
-			if (doorController != null && allowInput)
-			{
-				pna.CmdCheckDoorPermissions(gameObject, PlayerManager.LocalPlayerScript.gameObject);
-
-				allowInput = false;
-				StartCoroutine(DoorInputCoolDown());
+		private DoorController controller;
+		public DoorController Controller {
+			get {
+				if ( !controller ) {
+					controller = GetComponent<DoorController>();
+				}
+				return controller;
 			}
 		}
 
+		public override void Interact(GameObject originator, Vector3 position, string interactSlot = null)
+		{
+			if ( Controller == null || !allowInput ) {
+				return;
+			}
+			var playerScript = originator.GetComponent<PlayerScript>();
+			if (playerScript.canNotInteract() || !playerScript.IsInReach( gameObject ))
+			{ //check for both client and server
+				return;
+			}
+			if (!isServer)
+			{ 
+				//Client wants this code to be run on server
+				InteractMessage.Send(gameObject, interactSlot);
+			}
+			else
+			{
+				//Server actions
+				// Close the door if it's open
+				if ( Controller.IsOpened )
+				{
+					//Not even trying to close when bumping into door
+					if ( interactSlot == null ) {
+						return;
+					}
+					Controller.TryClose();
+				} else {
+				// Attempt to open if it's closed
+					Controller.TryOpen(originator, interactSlot);
+				}
+			}
+			allowInput = false;
+			StartCoroutine(DoorInputCoolDown());
+		}
+		/// Disables any interactions with door for a while
 		private IEnumerator DoorInputCoolDown()
 		{
 			yield return new WaitForSeconds(0.3f);

@@ -1,0 +1,17 @@
+"appbuild"
+{
+	"appid"	"801140"
+	"desc" "Your build description here" // description for this build
+	"buildoutput" "..\output\" // build output folder for .log, .csm & .csd files, relative to location of this file
+	"contentroot" "..\content\" // root content folder, relative to location of this file
+	"setlive"	"" // branch to set live after successful build, non if empty
+	"preview" "0" // to enable preview builds
+	"local"	""	// set to flie path of local content server 
+	
+	"depots"
+	{
+		"801141" "depot_build_801141.vdf"
+		"801142" "depot_build_801142.vdf"
+		"801143" "depot_build_801143.vdf"
+	}
+}

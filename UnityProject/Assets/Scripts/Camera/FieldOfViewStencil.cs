@@ -45,6 +45,10 @@ public class FieldOfViewStencil : MonoBehaviour
             waitToCheck = 0;
             CheckHitWallsCache();
         }
+    }
+
+    private void LateUpdate()
+    {
         DrawFieldOfView();
     }
 
@@ -179,7 +183,7 @@ public class FieldOfViewStencil : MonoBehaviour
 					curWalls.Add(wallCellPos);
 				}
 			}
-			return new ViewCastInfo(true, hit.point + ((Vector2)dir * 0.05f), hit.distance, globalAngle);
+			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
 		} else {
 			return new ViewCastInfo(false, transform.position + dir * ViewRadius, ViewRadius,
 									globalAngle);

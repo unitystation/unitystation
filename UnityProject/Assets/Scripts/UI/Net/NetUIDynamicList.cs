@@ -10,12 +10,13 @@ public class NetUIDynamicList : NetUIElement {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	private int entryCount = 0;
 
-	public DynamicEntry[] EntryArray => GetComponentsInChildren<DynamicEntry>( false );
+	public DynamicEntry[] Entries => GetComponentsInChildren<DynamicEntry>( false );
+//	public DynamicEntry[] EntriesIncludeInactive => GetComponentsInChildren<DynamicEntry>( true );
 
-	public Dictionary<string,DynamicEntry> Entries {
+	public Dictionary<string,DynamicEntry> EntryIndex {
 		get {
 			var dynamicEntries = new Dictionary<string,DynamicEntry>();
-			DynamicEntry[] entries = EntryArray;
+			DynamicEntry[] entries = Entries;
 			for ( var i = 0; i < entries.Length; i++ ) {
 				DynamicEntry entry = entries[i];
 				string entryName = entry.name;
@@ -32,7 +33,7 @@ public class NetUIDynamicList : NetUIElement {
 
 	/// Non-runtime static init
 	public override void Init() {
-		var entryArray = EntryArray;
+		var entryArray = Entries;
 		for ( var i = 0; i < entryArray.Length; i++ ) {
 			var value = entryArray[i];
 			InitDynamicEntry( value );
@@ -44,7 +45,7 @@ public class NetUIDynamicList : NetUIElement {
 	}
 
 	public void Clear() {
-		var entryArray = EntryArray;
+		var entryArray = Entries;
 		for ( var i = 0; i < entryArray.Length; i++ ) {
 			var entry = entryArray[i];
 			entry.gameObject.SetActive( false );
@@ -63,7 +64,7 @@ public class NetUIDynamicList : NetUIElement {
 	protected void Remove( string[] toBeRemoved )
 	{ 
 		var mode = toBeRemoved.Length > 1 ? "Bulk" : "Single";
-		var entries = Entries;
+		var entries = EntryIndex;
 		
 		for ( var i = 0; i < toBeRemoved.Length; i++ ) {
 			var item = toBeRemoved[i];
@@ -123,7 +124,7 @@ public class NetUIDynamicList : NetUIElement {
 
 	/// Need to run this on list change to ensure no gaps are present
 	protected virtual void RefreshPositions() {
-		var entries = EntryArray;
+		var entries = Entries;
 		for ( var i = 0; i < entries.Length; i++ ) {
 			SetProperPosition( entries[i], i );
 		}
@@ -139,7 +140,7 @@ public class NetUIDynamicList : NetUIElement {
 	///Not just own value, include inner elements' values as well
 	protected override void UpdatePeepers() {
 		List<ElementValue> valuesToSend = new List<ElementValue>(100) {ElementValue};
-		var dynamicEntries = EntryArray;
+		var dynamicEntries = Entries;
 		for ( var i = 0; i < dynamicEntries.Length; i++ ) 
 		{
 			var entry = dynamicEntries[i];
@@ -181,7 +182,7 @@ public class NetUIDynamicList : NetUIElement {
 	}
 
 	public override string Value {
-		get { return string.Join( ",", Entries.Keys ); }
+		get { return string.Join( ",", EntryIndex.Keys ); }
 		set {
 			externalChange = true;
 			var proposed = value.Split( new[]{','} , StringSplitOptions.RemoveEmptyEntries);
@@ -191,7 +192,7 @@ public class NetUIDynamicList : NetUIElement {
 			} else {
 				//add ones existing in proposed only, remove ones not existing in proposed
 				//could probably be cheaper
-				var existing = Entries.Keys;
+				var existing = EntryIndex.Keys;
 				var toRemove = existing.Except( proposed ).ToArray();
 				var toAdd = proposed.Except( existing ).ToArray();
 				

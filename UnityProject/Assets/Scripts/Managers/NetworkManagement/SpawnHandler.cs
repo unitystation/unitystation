@@ -13,15 +13,17 @@ public static class SpawnHandler
 	public static void SpawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType = JobType.NULL)
 	{
 		GameObject player = CreatePlayer(jobType);
-		PlayerList.Instance.UpdatePlayer(conn, player);
+		var connectedPlayer = PlayerList.Instance.UpdatePlayer(conn, player);
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+		connectedPlayer.Script.playerSync.NotifyPlayers( true );
 	}
 
 	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
 	{
 		GameObject player = CreatePlayer(jobType);
-		PlayerList.Instance.UpdatePlayer(conn, player);
+		var connectedPlayer = PlayerList.Instance.UpdatePlayer(conn, player);
 		NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
+		connectedPlayer.Script.playerSync.NotifyPlayers( true );
 	}
 
 	private static GameObject CreatePlayer(JobType jobType)

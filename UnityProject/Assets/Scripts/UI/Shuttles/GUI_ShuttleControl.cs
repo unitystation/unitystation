@@ -26,31 +26,90 @@ public class GUI_ShuttleControl : NetTab {
 		}
 	}
 
+	private GameObject Waypoint;
+
 	private void Start() {
 		//Not doing this for clients
 		if ( IsServer ) {
 			EntryList.Origin = MatrixMove;
+			//Init listeners
+			MatrixMove.OnStart.AddListener( () => this["StartButton"].SetValue = "1" );
+			MatrixMove.OnStop.AddListener( () =>
+			{
+				this["StartButton"].SetValue = "0";
+				HideWaypoint();
+			} );
 
+			if ( !Waypoint ) {
+				Waypoint = new GameObject( $"{MatrixMove.gameObject.name}Waypoint" );
+			}
+			HideWaypoint(false);
+			
 //			EntryList.AddItems( MapIconType.Airlock, GetObjectsOf<AirLockAnimator>( null, "AirLock" ) );
 			EntryList.AddItems( MapIconType.Ship, GetObjectsOf( new HashSet<MatrixMove>( new[] {MatrixMove} ) ) );
 			var stationBounds = MatrixManager.Get( 0 ).MetaTileMap.GetBounds();
 			int stationRadius = (int)Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
 			EntryList.AddStaticItem( MapIconType.Station, stationBounds.center, stationRadius );
+			
+			EntryList.AddItems( MapIconType.Waypoint, new List<GameObject>(new[]{Waypoint}) );
+			
+			RescanElements();
+
 			StartRefresh();
 		}
 	}
 
-	public void SetWaypoint( string position ) {
-		var pos = position.Vectorized();
-		//todo modify existing one instead of creating new ones
-		EntryList.AddStaticItem( MapIconType.Waypoint, pos ); 
+	private bool Autopilot = true;
+	public void SetAutopilot( bool on ) {
+		Autopilot = on;
+		if ( on ) {
+			//touchscreen on
+		} else {
+			//touchscreen off, hide waypoint, invalidate MM target
+			HideWaypoint();
+			MatrixMove.DisableAutopilotTarget();
+		}
+	}
+	
+	public void SetSafetyProtocols( bool on ) {
+		MatrixMove.SafetyProtocolsOn = on;
+	}
+
+	public void SetWaypoint( string position ) 
+	{
+		if ( !Autopilot ) {
+			return;
+		}
+		Vector3 proposedPos = position.Vectorized();
+		if ( proposedPos == TransformState.HiddenPos ) {
+			return;
+		}
+		
+		//Ignoring requests to set waypoint outside intended radar window
+		if ( RadarList.ProjectionMagnitude( proposedPos ) > EntryList.Range ) {
+			return;
+		}
+		//Mind the ship's actual position
+		Waypoint.transform.position = (Vector2) proposedPos + Vector2Int.RoundToInt(MatrixMove.State.Position);
+		
+		EntryList.UpdateExclusive( Waypoint );
+		
+//		Debug.Log( $"Ordering travel to {Waypoint.transform.position}" );
+		MatrixMove.AutopilotTo( Waypoint.transform.position );
+	}
+
+	public void HideWaypoint( bool updateImmediately = true ) { 
+		Waypoint.transform.position = TransformState.HiddenPos;
+		if ( updateImmediately ) {
+			EntryList.UpdateExclusive( Waypoint );
+		}
 	}
 
 	private bool RefreshRadar = false;
 
 	private void StartRefresh() {
 		RefreshRadar = true;
-		Debug.Log( "Starting radar refresh" );
+//		Debug.Log( "Starting radar refresh" );
 		StartCoroutine( Refresh() );
 	}
 
@@ -60,7 +119,7 @@ public class GUI_ShuttleControl : NetTab {
 	}
 
 	private void StopRefresh() {
-		Debug.Log( "Stopping radar refresh" );
+//		Debug.Log( "Stopping radar refresh" );
 		RefreshRadar = false;
 	}
 
