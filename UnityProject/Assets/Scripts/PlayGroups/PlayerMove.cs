@@ -85,12 +85,16 @@ namespace PlayGroup
             {
                 curMatrix = matrix;
             }
-            Vector3Int direction = GetDirection(action, MatrixManager.Get(curMatrix));
-            Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay, curMatrix);
-
-            if (adjustedDirection == Vector3.zero)
+            Vector3Int adjustedDirection = GetMoveDirection(action, MatrixManager.Get(curMatrix),currentPosition, isReplay, curMatrix);
+            //so If they try running into a wall They point towards the wall
+            if (!(Vector3Int.zero == adjustedDirection))
             {
-                Interact(currentPosition, direction);
+                if (!isGhost && PlayerManager.LocalPlayer == gameObject)
+                {
+                    playerSprites.CmdChangeDirection(Orientation.From(adjustedDirection));
+                    //Prediction:
+                    playerSprites.FaceDirection(Orientation.From(adjustedDirection));
+                }
             }
             return currentPosition + adjustedDirection;
         }
@@ -114,21 +118,6 @@ namespace PlayGroup
             return "QWERTY";
         }
 
-        private Vector3Int GetDirection(PlayerAction action, MatrixInfo matrixInfo)
-        {
-            ProcessAction(action);
-
-            if (diagonalMovement)
-            {
-                return GetMoveDirection(matrixInfo);
-            }
-            if (pressedKeys.Count > 0)
-            {
-                return GetMoveDirection(pressedKeys[pressedKeys.Count - 1]);
-            }
-            return Vector3Int.zero;
-        }
-
         private void ProcessAction(PlayerAction action)
         {
             List<int> actionKeys = new List<int>(action.keyCodes);
@@ -144,16 +133,36 @@ namespace PlayGroup
                 }
             }
         }
-
-        private Vector3Int GetMoveDirection(MatrixInfo matrixInfo)
+        
+        private Vector3Int GetMoveDirection(PlayerAction action, MatrixInfo matrixInfo, Vector3Int currentPosition, bool isReplay, Matrix curMatrix)
         {
+            ProcessAction(action);
+            //Keeps a record of Direction
+            List<Vector3Int> Direction_buffer = new List<Vector3Int>();
             Vector3Int direction = Vector3Int.zero;
-            for (int i = 0; i < pressedKeys.Count; i++)
+            if (diagonalMovement)
             {
-                direction += GetMoveDirection(pressedKeys[i]);
+                for (int i = 0; i < pressedKeys.Count; i++)
+                {
+                    direction += GetKeyDirection(pressedKeys[i]);
+                    Direction_buffer.Add(GetKeyDirection(pressedKeys[i]));
+                }
             }
+            else
+            {
+                direction = GetKeyDirection(pressedKeys[0]);
+                Direction_buffer.Add(GetKeyDirection(pressedKeys[0]));
+            }
+            //Debug.Log(direction.ToString());
+
             direction.x = Mathf.Clamp(direction.x, -1, 1);
             direction.y = Mathf.Clamp(direction.y, -1, 1);
+
+            if (matrixInfo.MatrixMove)
+            {
+                //Converting world direction to local direction
+                direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.Orientation.EulerInverted * direction);
+            }
 
             if (!isGhost && PlayerManager.LocalPlayer == gameObject)
             {
@@ -162,15 +171,96 @@ namespace PlayGroup
                 playerSprites.FaceDirection(Orientation.From(direction));
             }
 
-            if (matrixInfo.MatrixMove)
+            if (CanDirection(currentPosition, direction, isReplay, curMatrix))
             {
-                //Converting world direction to local direction
-                direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.Orientation.EulerInverted * direction);
+                return direction;
             }
-            return direction;
-        }
+            else
+            {
+                for (int i = 0; i < Direction_buffer.Count; i++)
+                {
+                    var Directions_store = Direction_buffer[i];
+                    Directions_store.x = Mathf.Clamp(Directions_store.x, -1, 1);
+                    Directions_store.y = Mathf.Clamp(Directions_store.y, -1, 1);
+                    if (matrixInfo.MatrixMove)
+                    {
+                        //Converting world direction to local direction
+                        Directions_store = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.Orientation.EulerInverted * Directions_store);
+                    }
 
-        private Vector3Int GetMoveDirection(KeyCode action)
+                    if (CanDirection(currentPosition, Directions_store, isReplay, curMatrix))
+                    {
+                        return Directions_store;
+                    }
+                }
+            }
+            return Vector3Int.zero;
+        }
+        /// <summary>
+        ///     Check current and next tiles to determine their status and if movement is allowed
+        /// </summary>
+        private bool CanDirection(Vector3Int currentPosition, Vector3Int direction, bool isReplay, Matrix curMatrix)
+        {
+            if (isGhost)
+            {
+                return true;
+            }
+            Vector3Int newPos = currentPosition + direction;
+            //isReplay tells AdjustDirection if the move being carried out is a replay move for prediction or not
+            //a replay move is a move that has already been carried out on the LocalPlayer's client
+            if (!isReplay)
+            {
+                //Check the high level matrix detector
+                if (!playerMatrixDetector.CanPass(currentPosition, direction, curMatrix))
+                {
+                    Interact(currentPosition, direction);
+                    return false;
+                }
+                //Not to be checked while performing a replay:
+                if (playerSync.PullingObject != null)
+                {
+                    if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
+                    {
+                        //Vector2 directionToPullObj =
+                        //	playerSync.pullingObject.transform.localPosition - transform.localPosition;
+                        //if (directionToPullObj.normalized != playerSprites.currentDirection) {
+                        //	// Ran into pullObject but was not facing it, saved direction
+                        //	return direction;
+                        //}
+                        //Hit Pull obj
+                        pna.CmdStopPulling(playerSync.PullingObject);
+                        Interact(currentPosition, direction);
+                        return false;
+                    }
+                }
+            }
+            if (!curMatrix.ContainsAt(newPos, gameObject) && curMatrix.IsPassableAt(currentPosition, newPos) && !isReplay)
+            {
+                return true;
+            }
+            //This is only for replay (to ignore any interactions with the pulled obj):
+            if (playerSync.PullingObject != null)
+            {
+                if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
+                {
+                    return true;
+                }
+            }
+
+            if (isReplay)
+            {
+                bool is_not_replay = false;
+                if (CanDirection(currentPosition, direction, is_not_replay, curMatrix))
+                {
+                    return true;
+                }
+            }
+            //could not pass
+            //Debug.Log("Couldn't pass");
+            Interact(currentPosition, direction);
+            return false;
+        }
+        private Vector3Int GetKeyDirection(KeyCode action)
         {
             if (PlayerManager.LocalPlayer == gameObject && UIManager.IsInputFocus)
             {
@@ -214,68 +304,6 @@ namespace PlayGroup
                 }
             }
             return Vector3Int.zero;
-        }
-
-        /// <summary>
-        ///     Check current and next tiles to determine their status and if movement is allowed
-        /// </summary>
-        private Vector3Int AdjustDirection(Vector3Int currentPosition, Vector3Int direction, bool isReplay, Matrix curMatrix)
-        {
-            if (isGhost)
-            {
-                return direction;
-            }
-
-            Vector3Int newPos = currentPosition + direction;
-
-            //isReplay tells AdjustDirection if the move being carried out is a replay move for prediction or not
-            //a replay move is a move that has already been carried out on the LocalPlayer's client
-            if (!isReplay)
-            {
-                //Check the high level matrix detector
-                if (!playerMatrixDetector.CanPass(currentPosition, direction, curMatrix))
-                {
-                    return Vector3Int.zero;
-                }
-                //Not to be checked while performing a replay:
-                if (playerSync.PullingObject != null)
-                {
-                    if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
-                    {
-                        //Vector2 directionToPullObj =
-                        //	playerSync.pullingObject.transform.localPosition - transform.localPosition;
-                        //if (directionToPullObj.normalized != playerSprites.currentDirection) {
-                        //	// Ran into pullObject but was not facing it, saved direction
-                        //	return direction;
-                        //}
-                        //Hit Pull obj
-                        pna.CmdStopPulling(playerSync.PullingObject);
-
-                        return Vector3Int.zero;
-                    }
-                }
-            }
-            if (!curMatrix.ContainsAt(newPos, gameObject) && curMatrix.IsPassableAt(currentPosition, newPos) && !isReplay)
-            {
-                return direction;
-            }
-            //This is only for replay (to ignore any interactions with the pulled obj):
-            if (playerSync.PullingObject != null)
-            {
-                if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
-                {
-                    return direction;
-                }
-            }
-
-            if (isReplay)
-            {
-                return direction;
-            }
-            //could not pass
-            //Debug.Log("Couldn't pass");
-            return Vector3Int.zero;
-
         }
 
         private void Interact(Vector3 currentPosition, Vector3 direction)
