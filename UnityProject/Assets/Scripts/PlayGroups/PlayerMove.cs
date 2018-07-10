@@ -300,39 +300,29 @@ namespace PlayGroup
         private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
         {
             // Make sure there is a door controller
-            DoorController doorController = MatrixManager.Instance.GetFirst<DoorController>(targetPos);
+            DoorTrigger door = MatrixManager.Instance.GetFirst<DoorTrigger>(targetPos);
 
-            if (!doorController)
+            if (!door)
             {
-                doorController = MatrixManager.Instance.GetFirst<DoorController>(Vector3Int.RoundToInt(currentPos));
+                door = MatrixManager.Instance.GetFirst<DoorTrigger>(Vector3Int.RoundToInt(currentPos));
 
-                if (doorController)
+                if (door)
                 {
-                    RegisterDoor registerDoor = doorController.GetComponent<RegisterDoor>();
+                    RegisterDoor registerDoor = door.GetComponent<RegisterDoor>();
 
                     Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(targetPos, matrix);
                     if (registerDoor.IsPassable(localPos))
                     {
-                        doorController = null;
+                        door = null;
                     }
                 }
             }
 
             // Attempt to open door
-            if (doorController != null && allowInput)
+            if (door != null && allowInput)
             {
-                pna.CmdCheckDoorPermissions(doorController.gameObject, gameObject);
-
-                allowInput = false;
-                StartCoroutine(DoorInputCoolDown());
+                door.Interact( gameObject, TransformState.HiddenPos );
             }
-        }
-
-        //FIXME an ugly temp fix for an ugly problem. Will implement callbacks after 0.1.3
-        public IEnumerator DoorInputCoolDown()
-        {
-            yield return new WaitForSeconds(0.3f);
-            allowInput = true;
         }
     }
 }

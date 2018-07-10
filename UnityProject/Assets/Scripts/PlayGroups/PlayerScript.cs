@@ -40,7 +40,16 @@ namespace PlayGroup
 
 		public PlayerSprites playerSprites { get; set; }
 
-		public PlayerSync playerSync { get; set; }
+		private PlayerSync _playerSync;
+		public PlayerSync playerSync {
+			get {
+				if ( !_playerSync ) {
+					_playerSync = GetComponent<PlayerSync>();
+				}
+
+				return _playerSync;
+			}
+		}
 		
 		public RegisterTile registerTile { get; set; }
 
@@ -96,7 +105,7 @@ namespace PlayGroup
 		private void Start()
 		{
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
-			playerSync = GetComponent<PlayerSync>();
+//			playerSync = GetComponent<PlayerSync>();
 			registerTile = GetComponent<RegisterTile>();
 			playerHealth = GetComponent<PlayerHealth>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();

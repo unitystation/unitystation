@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Doors
 {
@@ -10,5 +11,19 @@ namespace Doors
 		public abstract void OpenDoor();
 		public abstract void CloseDoor();
 		public abstract void AccessDenied();
+
+		public void PlayAnimation( DoorUpdateType type ) {
+			switch ( type ) {
+				case DoorUpdateType.Open:
+					OpenDoor();
+					break;
+				case DoorUpdateType.Close:
+					CloseDoor();
+					break;
+				case DoorUpdateType.AccessDenied:
+					AccessDenied();
+					break;
+			}
+		}
 	}
 }

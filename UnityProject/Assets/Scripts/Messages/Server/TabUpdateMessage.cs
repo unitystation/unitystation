@@ -17,7 +17,7 @@ public class TabUpdateMessage : ServerMessage {
 	public bool Touched;
 	
 	public override IEnumerator Process() {
-		Debug.Log("Processed " + ToString());
+//		Debug.Log("Processed " + ToString());
 		yield return WaitFor( Provider );
 		switch ( Action ) {
 			case TabAction.Open:
@@ -42,10 +42,15 @@ public class TabUpdateMessage : ServerMessage {
 		ElementValue[] values = null ) {
 		//Notify all peeping players of the change
 		List<ConnectedPlayer> list = NetworkTabManager.Instance.GetPeepers( provider, type );
+//		TabUpdateMessage logMessage = null;
 		for ( var i = 0; i < list.Count; i++ ) {
 			var connectedPlayer = list[i];
-			Send( connectedPlayer.GameObject, provider, type, tabAction, null, values );
+//			logMessage = 
+				Send( connectedPlayer.GameObject, provider, type, tabAction, null, values );
 		}
+//		if ( logMessage != null ) {
+//			Debug.Log( $"Sending {logMessage}" );
+//		}
 	}
 
 	public static TabUpdateMessage Send( GameObject recipient, GameObject provider, NetTabType type, TabAction tabAction, GameObject changedBy = null,

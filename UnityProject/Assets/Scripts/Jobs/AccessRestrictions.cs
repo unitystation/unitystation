@@ -7,26 +7,21 @@ public class AccessRestrictions : MonoBehaviour
 {
 	public Access restriction;
 
-	public bool CheckAccess(GameObject Player)
-	{
-		return CheckAccess(Player, gameObject);
-	}
-
-	public bool CheckAccess(GameObject Player, GameObject Object)
+	public bool CheckAccess(GameObject Player, string hand)
 	{
 		IDCard card;
 		PlayerNetworkActions PNA = Player.GetComponent<PlayerNetworkActions>();
 
 		// Check for an ID card
-		if (PNA.Inventory["id"] != null &&
-		    PNA.Inventory["id"].GetComponent<IDCard>() != null)
+		if (PNA.Inventory.ContainsKey("id") &&
+		    PNA.Inventory["id"]?.GetComponent<IDCard>() != null)
 		{
 			card = PNA.Inventory["id"].GetComponent<IDCard>();
 		}
-		else if (PNA.Inventory[PNA.activeHand + "Hand"] != null &&
-		         PNA.Inventory[PNA.activeHand + "Hand"].GetComponent<IDCard>() != null)
+		else if (PNA.Inventory.ContainsKey(hand) &&
+		         PNA.Inventory[hand]?.GetComponent<IDCard>() != null)
 		{
-			card = PNA.Inventory[PNA.activeHand + "Hand"].GetComponent<IDCard>();
+			card = PNA.Inventory[hand].GetComponent<IDCard>();
 		}
 		else
 		{

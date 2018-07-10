@@ -6,24 +6,52 @@ using Tilemaps.Tiles;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
-	public class ControlTabs : MonoBehaviour
-	{
-		private static ControlTabs controlTabs;
-
+namespace UI {
+	public class ControlTabs : MonoBehaviour {
 		private static GameObject FingerPrefab;
 		private static GameObject TabHeaderPrefab;
 
-		private Transform HeaderStorage;
-		private Transform TabStorage;
-
-		public static ControlTabs Instance {
-			get {
-				if ( !controlTabs ) {
-					controlTabs = FindObjectOfType<ControlTabs>();
+		public static ControlTabs Instance;
+		
+		void Awake()
+		{
+			if (Instance == null)
+			{
+				Instance = this;
+			}
+			else
+			{
+				Destroy(gameObject);
+				//Killing net tabs on round restart
+//				Debug.LogError( "ControlTabs cleanup!" );
+				foreach ( var tab in Instance.HiddenNetTabs ) {
+					Destroy( Instance.HeaderForTab( tab.Value )?.gameObject );
+					Destroy(tab.Value.gameObject);
 				}
-				return controlTabs;
+				foreach ( var tab in Instance.OpenedNetTabs ) {
+					Destroy( Instance.HeaderForTab( tab.Value )?.gameObject );
+					Destroy(tab.Value.gameObject);
+				}
+				Instance.SelectTab( ClientTabType.Stats, false );
+			}
+		}
+
+		private Transform tabStorage;
+		private Transform TabStorage {
+			get {
+				if ( tabStorage == null ) {
+					tabStorage = transform.GetChild( 1 );
+				}
+				return tabStorage;
+			}
+		}
+		private Transform headerStorage;
+		private Transform HeaderStorage {
+			get {
+				if ( headerStorage == null ) {
+					headerStorage = transform.GetChild( 0 );
+				}
+				return headerStorage;
 			}
 		}
 
@@ -35,7 +63,7 @@ namespace UI
 			get {
 				var list = new List<Tab>();
 				var tabs = TabStorage.GetComponentsInChildren<Tab>( true );
-				for ( var i = 0; i < tabs.Length; i++ ) {
+				for ( var i = 0; i < tabs?.Length; i++ ) {
 					Tab tab = tabs[i];
 					if ( !tab.Hidden ) {
 						list.Add( tab );
@@ -48,7 +76,7 @@ namespace UI
 			get {
 				var list = new List<Tab>();
 				var tabs = TabStorage.GetComponentsInChildren<Tab>( true );
-				for ( var i = 0; i < tabs.Length; i++ ) {
+				for ( var i = 0; i < tabs?.Length; i++ ) {
 					Tab tab = tabs[i];
 					if ( tab.Hidden ) {
 						list.Add( tab );
@@ -62,7 +90,7 @@ namespace UI
 		private Dictionary<ClientTabType, ClientTab> ClientTabs {
 			get {
 				var toReturn = new Dictionary<ClientTabType, ClientTab>();
-				var foundTabs = TabStorage?.GetComponentsInChildren<ClientTab>(true);
+				var foundTabs = TabStorage.GetComponentsInChildren<ClientTab>(true);
 				for ( int i = 0; i < foundTabs?.Length; i++ ) {
 					toReturn.Add(foundTabs[i].Type, foundTabs[i]);
 				}
@@ -99,8 +127,6 @@ namespace UI
 		}
 
 		private void Start() {
-			HeaderStorage = transform.GetChild( 0 );
-			TabStorage = transform.GetChild( 1 );
 			FingerPrefab = Resources.Load<GameObject>( "PokeFinger" );
 			TabHeaderPrefab = Resources.Load<GameObject>( "HeaderTab" );
 			RefreshTabHeaders();
@@ -205,7 +231,7 @@ namespace UI
 				return;
 			}
 			tab.gameObject.SetActive( true );
-			HeaderForTab(tab).Select();
+			HeaderForTab(tab)?.Select();
 
 			if ( click ) {
 				SoundManager.Play("Click01");		
@@ -215,7 +241,7 @@ namespace UI
 		private void UnselectAll() {
 			for ( var i = 0; i < ActiveTabs.Count; i++ ) {
 				var tab = ActiveTabs[i];
-				HeaderForTab( tab ).Unselect();
+				HeaderForTab( tab )?.Unselect();
 				tab.gameObject.SetActive( false );
 			}
 		}
@@ -285,19 +311,23 @@ namespace UI
 		}
 
 		public static void ShowTab( NetTabType type, GameObject tabProvider, ElementValue[] elementValues ) {
+			if ( tabProvider == null ) {
+				return;
+			}
+			
 			var openedTab = new NetTabDescriptor( tabProvider, type );
 			//try to dig out a hidden tab with matching parameters and enable it:
 			if ( Instance.HiddenNetTabs.ContainsKey( openedTab ) ) {
 //				Debug.Log( $"Yay, found an old hidden {openedTab} tab. Unhiding it" );
 				Instance.UnhideTab( Instance.HiddenNetTabs[openedTab] );
 			}
-			if ( !Instance.OpenedNetTabs.ContainsKey( openedTab ) ) {
-				NetTab tabInfo = openedTab.Spawn();
+			if ( !Instance.OpenedNetTabs.ContainsKey( openedTab ) ) 
+			{
+				var rightPanelParent = Instance.transform.GetChild( 1 );
+				NetTab tabInfo = openedTab.Spawn(rightPanelParent);
 				GameObject tabObject = tabInfo.gameObject;
 
 				//putting into the right place
-				var rightPanelParent = UIManager.Instance.GetComponentInChildren<ControlTabs>().transform.GetChild( 1 );
-				tabObject.transform.SetParent(rightPanelParent);
 				tabObject.transform.localScale = Vector3.one;
 				var rect = tabObject.GetComponent<RectTransform>();
 				rect.offsetMin = new Vector2(15, 15);
