@@ -6,20 +6,19 @@ using UnityEngine.Networking;
 
 namespace Tilemaps.Behaviours.Meta
 {
-	[ExecuteInEditMode]
-	public class AtmosphericsControl : SystemBehaviour
+	public class AtmosControl : SystemBehaviour
 	{
-		private ThreadTest thread;
+		private AtmosThread thread;
 		
 		public override void Initialize()
 		{
-			thread = new ThreadTest(metaDataLayer);
+			thread = new AtmosThread(metaDataLayer);
 			new Thread(thread.Run).Start();
 		}
 		
 		public override void UpdateAt(Vector3Int position)
 		{
-			thread.Enqueue(position);
+			thread?.Enqueue(position);
 		}
 
 		private void OnDestroy()

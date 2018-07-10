@@ -30,14 +30,14 @@ namespace Tilemaps.Behaviours.Layers
 		{
 			MetaDataNode node = Get(position, false);
 
-			return node.Room < 0;
+			return node.IsSpace;
 		}
 
 		public bool IsRoomAt(Vector3Int position)
 		{
 			MetaDataNode node = Get(position, false);
 
-			return node.Room > 0;
+			return node.IsRoom;
 		}
 	}
 }

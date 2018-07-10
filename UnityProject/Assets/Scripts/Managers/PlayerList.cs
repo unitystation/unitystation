@@ -7,6 +7,7 @@ using PlayGroup;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+using Util;
 
 /// Comfy place to get players and their info (preferably via their connection)
 /// Has limited scope for clients (ClientConnectedPlayers only), sweet things are mostly for server
@@ -52,28 +53,26 @@ public class PlayerList : NetworkBehaviour
 		{
 			return;
 		}
+		var perPlayer = perpetrator.Player();
+		var victimPlayer = victim.Player();
+		if ( perPlayer == null || victimPlayer == null ) {
+			return;
+		}
 
-		var playerName = Get(perpetrator, true).Name;
+		var playerName = perPlayer.Name;
 		if ( playerScores.ContainsKey(playerName) )
 		{
 			playerScores[playerName]++;
 		}
 
-		JobType perpetratorJob = perpetrator.GetComponent<PlayerScript>().JobType;
-		JobDepartment perpetratorDept = SpawnPoint.GetJobDepartment(perpetratorJob);
+		JobDepartment perpetratorDept = SpawnPoint.GetJobDepartment(perPlayer.Job);
 
 		if ( !departmentScores.ContainsKey(perpetratorDept) )
 		{
 			departmentScores.Add(perpetratorDept, 0);
 		}
 
-		if ( victim == null )
-		{
-			return;
-		}
-
-		JobType victimJob = victim.GetComponent<PlayerScript>().JobType;
-		JobDepartment victimDept = SpawnPoint.GetJobDepartment(victimJob);
+		JobDepartment victimDept = SpawnPoint.GetJobDepartment(victimPlayer.Job);
 
 		if ( perpetratorDept == victimDept )
 		{

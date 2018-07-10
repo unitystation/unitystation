@@ -5,15 +5,20 @@ using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class NukeInteract : InputTrigger
+public class NukeInteract : NetworkTabTrigger
 {
 	public float cooldownTimer = 2f;
 	public string interactionMessage;
 	public string deniedMessage;
 	private bool detonated = false;
 	//Nuke code is only populated on the server
-	public int nukeCode;
-	private GameObject Player;
+	private int nukeCode;
+	public int NukeCode => nukeCode;
+
+	private string currentCode = "";
+	public string CurrentCode => currentCode;
+
+//	private GameObject Player;
 
 	public override void OnStartServer()
 	{
@@ -21,33 +26,18 @@ public class NukeInteract : InputTrigger
 		CodeGenerator();
 		base.OnStartServer();
 	}
-
-	//Method for when a player clicks on the nuke
-	public override void Interact(GameObject originator, Vector3 position, string hand)
-	{
-		if(UIManager.Display.nukeWindow.activeSelf){
-			return;
+	/// <summary>
+	/// Tries to add new digit to code input
+	/// </summary>
+	/// <param name="c"></param>
+	/// <returns>true if digit is appended ok</returns>
+	public bool AppendKey( char c ) {
+		int digit;
+		if ( int.TryParse( c.ToString(), out digit ) && currentCode.Length < nukeCode.ToString().Length ) {
+			currentCode = CurrentCode + digit;
+			return true;
 		}
-
-		//Determining whether or not the player is syndicate
-		if (PlayerManager.PlayerScript.JobType == JobType.SYNDICATE) {
-			//if yes, show GUI
-			UIManager.Chat.AddChatEvent(new ChatEvent(interactionMessage, ChatChannel.Examine));
-			UIManager.Display.nukeWindow.SetActive(true);
-			GUI_Nuke nukeWindow = UIManager.Display.nukeWindow.GetComponent<GUI_Nuke>();
-			nukeWindow.SetNukeInteracting(gameObject);
-		} else {
-			//if no, say bad message
-			UIManager.Chat.AddChatEvent(new ChatEvent(deniedMessage, ChatChannel.Examine));
-		}
-	}
-
-	void Update(){
-		if(UIManager.Display.nukeWindow.activeSelf){
-			if(Vector2.Distance(PlayerManager.LocalPlayer.transform.position, transform.position) > 2f){
-				UIManager.Display.nukeWindow.SetActive(false);
-			}
-		}
+		return false;
 	}
 
 	IEnumerator WaitForDeath()
@@ -62,9 +52,9 @@ public class NukeInteract : InputTrigger
 
 	//Server validating the code sent back by the GUI
 	[Server]
-	public bool Validate(string code)
+	public bool Validate()
 	{
-		if (code == nukeCode.ToString()) {
+		if (CurrentCode == NukeCode.ToString()) {
 			//if yes, blow up the nuke
 			RpcDetonate();
 			//Kill Everyone in the universe
@@ -104,5 +94,9 @@ public class NukeInteract : InputTrigger
 	public void CodeGenerator()
 	{
 		nukeCode = Random.Range(1000, 9999);
+	}
+
+	public void Clear() {
+		currentCode = "";
 	}
 }

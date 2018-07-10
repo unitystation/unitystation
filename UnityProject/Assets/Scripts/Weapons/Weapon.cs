@@ -102,6 +102,8 @@ namespace Weapons
 		/// </summary>
 		public WeaponType WeaponType;
 
+		private GameObject casingPrefab;
+
 		private void Start()
 		{
 			InAutomaticAction = false;
@@ -331,12 +333,17 @@ namespace Weapons
 					if (WeaponType == WeaponType.SemiAutomatic || WeaponType == WeaponType.FullyAutomatic)
 					{
 						Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-						PlayerScript lps = PlayerManager.LocalPlayerScript;
-						lps.weaponNetworkActions.CmdShootBullet(gameObject, CurrentMagazine.gameObject, dir, Projectile.name,
-						                                        UIManager.DamageZone /*PlayerScript.SelectedDamageZone*/, suicideShot);
+
+						RequestShootMessage.Send(gameObject, dir, Projectile.name, UIManager.DamageZone, suicideShot, PlayerManager.LocalPlayer);
+
+						if (!isServer) {
+							//Prediction (client bullets don't do any damage)
+							Shoot(PlayerManager.LocalPlayer, dir, Projectile.name, UIManager.DamageZone, suicideShot);
+						}
+
 						if (WeaponType == WeaponType.FullyAutomatic)
 						{
-							lps.inputController.OnMouseDownDir(dir);
+							PlayerManager.LocalPlayerScript.inputController.OnMouseDownDir(dir);
 						}
 					}
 
@@ -346,6 +353,52 @@ namespace Weapons
 					}
 				}
 			}
+		}
+
+		[Server]
+		public void ServerShoot(GameObject shotBy, Vector2 direction, string bulletName,
+		                        BodyPartType damageZone, bool isSuicideShot){
+			PlayerMove shooter = shotBy.GetComponent<PlayerMove>();
+			if(!shooter.allowInput || shooter.isGhost){
+				return;
+			}
+
+			Shoot(shotBy, direction, bulletName, damageZone, isSuicideShot);
+
+			//This is used to determine where bullet shot should head towards on client
+			Ray2D ray = new Ray2D(shotBy.transform.position, direction);
+			ShootMessage.SendToAll(gameObject, ray.GetPoint(30f), bulletName, damageZone, shotBy);
+
+			if (SpawnsCaseing) {
+				if(casingPrefab == null){
+					casingPrefab = Resources.Load("BulletCasing") as GameObject;
+				}
+				ItemFactory.SpawnItem(casingPrefab, shotBy.transform.position, shotBy.transform.parent);
+			}
+		}
+
+		//This is only for the shooters client and the server. Rest is done via msg
+		private void Shoot(GameObject shooter, Vector2 direction, string bulletName,
+								BodyPartType damageZone, bool isSuicideShot){
+			CurrentMagazine.ammoRemains--;
+			//get the bullet prefab being shot
+			GameObject bullet = PoolManager.Instance.PoolClientInstantiate(Resources.Load(bulletName) as GameObject,
+				shooter.transform.position, Quaternion.identity);
+			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+			//if we have recoil variance add it, and get the new attack angle
+			if (CurrentRecoilVariance > 0) {
+				direction = GetRecoilOffset(angle);
+			}
+
+			BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
+			b.isSuicide = isSuicideShot;
+			b.Shoot(direction, angle, shooter, damageZone);
+
+			//add additional recoil after shooting for the next round
+			AppendRecoil(angle);
+
+			SoundManager.PlayAtPosition(FireingSound, shooter.transform.position);
 		}
 
 		#endregion
@@ -465,6 +518,31 @@ namespace Weapons
 		private void PlayEmptySFX()
 		{
 			PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("EmptyGunClick");
+		}
+
+		#endregion
+
+		#region Weapon Network Supporting Methods
+
+		private Vector2 GetRecoilOffset(float angle)
+		{
+			float angleVariance = Random.Range(-CurrentRecoilVariance, CurrentRecoilVariance);
+			float newAngle = angle * Mathf.Deg2Rad + angleVariance;
+			Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;
+			return vec2;
+		}
+
+		private void AppendRecoil(float angle)
+		{
+			if (CurrentRecoilVariance < MaxRecoilVariance) {
+				//get a random recoil
+				float randRecoil = Random.Range(CurrentRecoilVariance, MaxRecoilVariance);
+				CurrentRecoilVariance += randRecoil;
+				//make sure the recoil is not too high
+				if (CurrentRecoilVariance > MaxRecoilVariance) {
+					CurrentRecoilVariance = MaxRecoilVariance;
+				}
+			}
 		}
 
 		#endregion

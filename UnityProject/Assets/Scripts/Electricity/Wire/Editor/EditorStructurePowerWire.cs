@@ -43,13 +43,15 @@ namespace Electricity
 				{
 					sTarget.SetDirection(sTarget.DirectionStart, sTarget.DirectionEnd);
 					showError = false;
+					PrefabUtility.RecordPrefabInstancePropertyModifications(sTarget);
+
 				}
 				catch
 				{
 					msgTime = 0f;
 					showError = true;
-					sTarget.DirectionStart = startCache;
-					sTarget.DirectionEnd = endCache;
+					//sTarget.DirectionStart = startCache;
+					//sTarget.DirectionEnd = endCache;
 				}
 			}
 

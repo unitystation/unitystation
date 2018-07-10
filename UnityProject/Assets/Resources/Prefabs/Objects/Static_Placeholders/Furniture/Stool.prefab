@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4797159704342222}
   - component: {fileID: 212471955829947596}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 114353650617434994}
   - component: {fileID: 114583254953915212}
   - component: {fileID: 114377328424748032}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Stool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
 --- !u!114 &114583254953915212
@@ -157,7 +156,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectType: 1
   AtmosPassable: 1
-  Offset: {x: 0, y: 0, z: 0}
   Passable: 1
 --- !u!212 &212471955829947596
 SpriteRenderer:
