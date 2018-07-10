@@ -142,7 +142,8 @@ public class ChatRelay : NetworkBehaviour
         if (ttsString.Contains("says:")){
             string saysString = "says:";
             var messageString = ttsString.Substring(ttsString.IndexOf(saysString) + saysString.Length);
-            GoogleCloudTTS.Instance.Synthesize(messageString);
+            MaryTTS.Instance.Synthesize(messageString);
+           // GoogleCloudTTS.Instance.Synthesize(messageString);
         }
 
         ChatEvent chatEvent = new ChatEvent(message, channels, true);
