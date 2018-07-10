@@ -11,7 +11,7 @@ namespace Tilemaps.Behaviours.Meta
 		
 		public override void OnStartServer()
 		{
-			systems = systems.OrderBy(s => s.Priority).ToList();
+			systems = systems.OrderByDescending(s => s.Priority).ToList();
 			Initialize();
 		}
 

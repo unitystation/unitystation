@@ -14,11 +14,14 @@ namespace Tilemaps.Behaviours.Meta
 {
 	public class Atmospherics
 	{
+		private const float MinimumPressure = 0.0001f;
+
 		private static Vector3Int[] offsets = {Vector3Int.zero, Vector3Int.up, Vector3Int.right, Vector3Int.down, Vector3Int.left};
 
-		private MetaDataLayer metaDataLayer;
-		private ConcurrentQueue<Vector3Int> updateList = new ConcurrentQueue<Vector3Int>();
-		private HashSet<Vector3Int> edgeList = new HashSet<Vector3Int>();
+		private readonly MetaDataLayer metaDataLayer;
+
+		private UniqueQueue<Vector3Int> updateList = new UniqueQueue<Vector3Int>();
+		private UniqueQueue<Vector3Int> edgeList = new UniqueQueue<Vector3Int>();
 
 		public bool IsIdle => updateList.IsEmpty && edgeList.Count == 0;
 
@@ -30,66 +33,15 @@ namespace Tilemaps.Behaviours.Meta
 		public void AddToUpdateList(Vector3Int position)
 		{
 			updateList.Enqueue(position);
-			metaDataLayer.Get(position).updating = true;
 		}
 
 		public void run()
 		{
-			MoveGas();
+			Equalize();
 			CalculateEdge();
 		}
 
-		private List<List<Vector3Int>> areasToUpdate = new List<List<Vector3Int>>();
-
-		public class Area
-		{
-			private HashSet<Vector3Int> area = new HashSet<Vector3Int>();
-			private HashSet<Vector3Int> border = new HashSet<Vector3Int>();
-
-			public Area(Vector3Int start)
-			{
-				area.Add(start);
-				border.Add(start);
-			}
-			
-			public void Expand()
-			{
-				
-			}
-
-			public void Equalize()
-			{
-				
-			}
-
-			public void Remove(Vector3Int position)
-			{
-				area.Remove(position);
-				border.Remove(position);
-			}
-		}
-
-		private void MoveGas2()
-		{
-			foreach (List<Vector3Int> area in areasToUpdate)
-			{
-				// expand
-				// 	 if it couldn't be expanded
-				// equalize
-			}
-		}
-
-		private void Expand(List<Vector3Int> area)
-		{
-			// Find border TODO save border
-		}
-
-		private void Equalize(List<Vector3Int> area)
-		{
-			
-		}
-
-		private void MoveGas()
+		private void Equalize()
 		{
 			int count = updateList.Count;
 			for (int i = 0; i < count; i++)
@@ -98,42 +50,33 @@ namespace Tilemaps.Behaviours.Meta
 				if (!updateList.TryDequeue(out position))
 					break;
 
-				if (MoveGas(position))
+				if (Equalize(position))
 				{
-					edgeList.Add(position);
-					metaDataLayer.Get(position).updating = false;
-					metaDataLayer.Get(position).atmosEdge = true;
+					updateList.Enqueue(position);
 				}
 				else
 				{
-					updateList.Enqueue(position);
-					metaDataLayer.Get(position).updating = true;
-					metaDataLayer.Get(position).atmosEdge = false;
+					edgeList.Enqueue(position);
 				}
 			}
 		}
 
-		private bool MoveGas(Vector3Int position)
+		private bool Equalize(Vector3Int position)
 		{
 			var mix = new float[Gas.Count];
 			var jm = new float[Gas.Count];
-			var nodes = new List<MetaDataNode>();
+			var nodes = new List<MetaDataNode>(5);
 
-			bool decay = true;
+			bool active = false;
 			bool isSpace = false;
 
 			MetaDataNode mainNode = metaDataLayer.Get(position);
 
-			if (!mainNode.IsRoom)
-			{
-				return true;
-			}
-
 			foreach (Vector3Int offset in offsets)
 			{
-				MetaDataNode node = metaDataLayer.Get(offset + position, false);
+				Vector3Int newPosition = offset + position;
 
-				// TODO might add an IsPassable-Check with direction
+				MetaDataNode node = metaDataLayer.Get(newPosition, false);
 
 				if (node.IsSpace)
 				{
@@ -143,28 +86,27 @@ namespace Tilemaps.Behaviours.Meta
 
 				for (int i = 0; i < Gas.Count; i++)
 				{
-					mix[i] += node.AirMix[i];
-					jm[i] += node.AirMix[i] * Gas.Get(i).HeatCapacity * node.Temperature;
+					mix[i] += node.Atmos.AirMix[i];
+					jm[i] += node.Atmos.AirMix[i] * Gas.Get(i).HeatCapacity * node.Atmos.Temperature;
 				}
 
 				if (node.IsRoom)
 				{
-					if (Mathf.Abs(mainNode.Pressure - node.Pressure) > 0.01f)
+					if (Mathf.Abs(mainNode.Atmos.Pressure - node.Atmos.Pressure) > MinimumPressure)
 					{
-						decay = false;
+						active = true;
 					}
 
 					nodes.Add(node);
 
-					if (mainNode != node && !updateList.Contains(offset + position))
+					if (mainNode != node && !updateList.Contains(newPosition))
 					{
-						edgeList.Add(offset + position);
-						metaDataLayer.Get(offset + position).atmosEdge = true;
+						AddToEdgeList(newPosition, node);
 					}
 				}
 				else
-				{ // Actually not space....
-					SetSpace(node);
+				{
+					AtmosUtils.SetEmpty(node);
 				}
 			}
 
@@ -172,67 +114,42 @@ namespace Tilemaps.Behaviours.Meta
 			{
 				foreach (Vector3Int offset in offsets)
 				{
-					MetaDataNode node = metaDataLayer.Get(offset + position, false);
-					SetSpace(node);
+					Vector3Int newPosition = offset + position;
+
+					MetaDataNode node = metaDataLayer.Get(newPosition, false);
+
+					if (node.IsRoom)
+					{
+						AtmosUtils.SetEmpty(node);
+
+						if (mainNode != node && !updateList.Contains(newPosition))
+						{
+							AddToEdgeList(newPosition, node);
+						}
+					}
 				}
 			}
 			else
 			{
-				SetAirMixes(mix, jm, nodes);
-			}
-			
-			
-
-			return decay;
-		}
-
-		private static void SetSpace(MetaDataNode node)
-		{
-			node.AirMix = new float[Gas.Count];
-			node.Temperature = 2.7f;
-			node.Moles = 0.000000000000281f;
-		}
-
-		private static void SetAirMixes(float[] mix, float[] jm, List<MetaDataNode> nodes)
-		{
-			var moles = 0.0f;
-			var temperature = 0.0f;
-
-			var count = 0;
-
-			// Calculate new values for first node
-			for (int i = 0; i < Gas.Count; i++)
-			{
-				if (mix[i] > 0)
-				{
-					temperature += jm[i] / (Gas.Get(i).HeatCapacity * mix[i]);
-					mix[i] /= nodes.Count;
-					moles += mix[i];
-					count++;
-				}
+				AtmosUtils.SetAirMixes(mix, jm, nodes);
 			}
 
-			temperature /= count;
+			mainNode.Atmos.State = active ? AtmosState.Updating : AtmosState.Edge;
 
-			// Copy to other nodes
-			for (int i = 0; i < nodes.Count; i++)
-			{
-				// TODO own airMix array which is just referenced and not copied ?
-				Array.Copy(mix, nodes[i].AirMix, Gas.Count);
-				nodes[i].Temperature = temperature;
-				nodes[i].Moles = moles;
-			}
+			return mainNode.IsRoom && active;
 		}
 
-		public void CalculateEdge()
+		private void CalculateEdge()
 		{
-			var newEdges = new HashSet<Vector3Int>();
-
-			foreach (Vector3Int position in edgeList)
+			int count = edgeList.Count;
+			for (int i = 0; i < count; i++)
 			{
-				metaDataLayer.Get(position).atmosEdge = false;
-				bool decay = true;
+				Vector3Int position;
+				if (!edgeList.TryDequeue(out position))
+					break;
+
 				MetaDataNode node = metaDataLayer.Get(position);
+				node.Atmos.State = AtmosState.None;
 
 				if (!node.IsRoom)
 				{
@@ -241,26 +158,35 @@ namespace Tilemaps.Behaviours.Meta
 
 				foreach (Vector3Int offset in offsets)
 				{
-					Vector3Int pos = position + offset;
-					MetaDataNode neighbor = metaDataLayer.Get(pos);
+					Vector3Int newPosition = position + offset;
+					MetaDataNode neighborNode = metaDataLayer.Get(newPosition);
 
-					if (neighbor.IsRoom)
+					if (neighborNode.IsRoom)
 					{
-						if (Mathf.Abs(neighbor.Pressure - node.Pressure) > 0.01f)
+						if (Mathf.Abs(neighborNode.Atmos.Pressure - node.Atmos.Pressure) > MinimumPressure)
 						{
-							decay = false;
-							newEdges.Add(pos);
-							metaDataLayer.Get(pos).atmosEdge = true;
-							metaDataLayer.Get(position).updating = true;
-							
-							if(!updateList.Contains(position))
-								updateList.Enqueue(position);
+							AddToEdgeList(newPosition, neighborNode);
+
+							if (!updateList.Contains(position))
+							{
+								AddToUpdateList(position, node);
+							}
 						}
 					}
 				}
 			}
+		}
 
-			edgeList = newEdges;
+		private void AddToEdgeList(Vector3Int newPosition, MetaDataNode neighborNode)
+		{
+			edgeList.Enqueue(newPosition);
+			neighborNode.Atmos.State = AtmosState.Edge;
+		}
+
+		private void AddToUpdateList(Vector3Int position, MetaDataNode node)
+		{
+			updateList.Enqueue(position);
+			node.Atmos.State = AtmosState.Updating;
 		}
 	}
 }

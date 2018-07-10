@@ -9,20 +9,12 @@ namespace Tilemaps.Behaviours.Meta
 	{
 		public static readonly MetaDataNode None = new MetaDataNode() {Room = 0};
 
-		public bool atmosEdge;
-		public bool updating;
+		public AtmosValues Atmos { get; } = new AtmosValues();
 
 		public int Room;
 
 		public bool IsSpace => Room < 0;
 		public bool IsRoom => Room > 0;
 		public bool Exists => this != None;
-		
-		public float[] AirMix = new float[Gas.Count]; 
-		
-		public float Temperature;
-		public float Moles;
-		
-		public float Pressure => Moles * Gas.R * Temperature / 2 / 1000;
 	}
 }

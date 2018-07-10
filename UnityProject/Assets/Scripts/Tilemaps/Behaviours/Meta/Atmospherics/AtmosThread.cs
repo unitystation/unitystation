@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Tilemaps.Behaviours.Meta
 {
-	public class ThreadTest
+	public class AtmosThread
 	{
 		private bool running = true;
 
@@ -13,7 +13,7 @@ namespace Tilemaps.Behaviours.Meta
 
 		private Atmospherics atmos;
 		
-		public ThreadTest(MetaDataLayer metaDataLayer)
+		public AtmosThread(MetaDataLayer metaDataLayer)
 		{
 			atmos = new Atmospherics(metaDataLayer);
 		}

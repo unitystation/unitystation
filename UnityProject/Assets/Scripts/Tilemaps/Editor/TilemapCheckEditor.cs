@@ -4,6 +4,7 @@ using System.Globalization;
 using Tilemaps.Behaviours;
 using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Meta;
+using Tilemaps.Behaviours.Meta.Data;
 using Tilemaps.Tiles;
 using UnityEditor;
 using UnityEngine;
@@ -18,11 +19,15 @@ namespace Tilemaps.Editor
 		private static bool south;
 
 		private static bool space;
+		private static bool spaceMatrix;
 
 		private static bool corners;
 		private static bool rooms;
 		private static bool atmos;
+		private static bool pressure;
 		private static bool positions;
+		
+		private static bool nodes;
 
 		private SceneView currentSceneView;
 
@@ -54,10 +59,13 @@ namespace Tilemaps.Editor
 			north = GUILayout.Toggle(north, "From North");
 			south = GUILayout.Toggle(south, "From South");
 			space = GUILayout.Toggle(space, "Is Space");
+			spaceMatrix = GUILayout.Toggle(spaceMatrix, "Is Space (Matrix)");
 			corners = GUILayout.Toggle(corners, "Show Corners");
 			rooms = GUILayout.Toggle(rooms, "Show Rooms");
 			atmos = GUILayout.Toggle(atmos, "Show Atmos");
+			pressure = GUILayout.Toggle(pressure, "Show Pressure");
 			positions = GUILayout.Toggle(positions, "Show Positions");
+			nodes = GUILayout.Toggle(nodes, "Show Nodes");
 
 			if (currentSceneView)
 			{
@@ -70,8 +78,9 @@ namespace Tilemaps.Editor
 		{
 			Vector3Int start = Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(Vector3.one * -32) - scr.transform.position); // bottom left
 			Vector3Int end =
-				Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth + 32, Camera.current.pixelHeight + 32)) -
-				                      scr.transform.position);
+				Vector3Int.RoundToInt(
+					Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth + 32, Camera.current.pixelHeight + 32)) -
+					scr.transform.position);
 			start.z = 0;
 			end.z = 1;
 
@@ -120,29 +129,49 @@ namespace Tilemaps.Editor
 				{
 					if (node.Exists)
 					{
-
-						if (node.atmosEdge)
+						if (node.Atmos.State != AtmosState.None)
 						{
-							Gizmos.color = red;
+							Gizmos.color = node.Atmos.State == AtmosState.Updating ? green : red;
+
 							Gizmos.DrawCube(centerPosition, Vector3.one);
 						}
 
-						if (node.updating)
-						{
-							Gizmos.color = green;
-							Gizmos.DrawCube(centerPosition, Vector3.one);
-						}
-						
 						if (camDistance < 10f)
 						{
-							Handles.Label(position + Vector3.one, $"{node.Pressure:0.###}");
+							Handles.Label(position + Vector3.one, $"{node.Atmos.Pressure:0.###}");
 						}
+					}
+				}
+
+				if (pressure)
+				{
+					if (node.Exists)
+					{
+						Color blue1 = Color.blue;
+						blue1.a = node.Atmos.Pressure / 100;
+						Gizmos.color = blue1;
+
+						if (camDistance < 10f)
+						{
+							Handles.Label(position + Vector3.one, $"{node.Atmos.Pressure:0.###}");
+						}
+
+						Gizmos.DrawCube(centerPosition, Vector3.one);
 					}
 				}
 
 				if (positions && camDistance < 10f)
 				{
 					Handles.Label(centerPosition + new Vector3(0, 1f, 0), position.x + "," + position.y);
+				}
+
+				if (nodes)
+				{
+					if (node.Exists)
+					{
+						Gizmos.color = green;
+						Gizmos.DrawCube(centerPosition, Vector3.one);
+					}
 				}
 			}
 		}
@@ -152,8 +181,9 @@ namespace Tilemaps.Editor
 		{
 			Vector3Int start = Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(Vector3.one * -32) - scr.transform.position); // bottom left
 			Vector3Int end =
-				Vector3Int.RoundToInt(Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth + 32, Camera.current.pixelHeight + 32)) -
-				                      scr.transform.position);
+				Vector3Int.RoundToInt(
+					Camera.current.ScreenToWorldPoint(new Vector3(Camera.current.pixelWidth + 32, Camera.current.pixelHeight + 32)) -
+					scr.transform.position);
 			start.z = 0;
 			end.z = 1;
 
@@ -178,6 +208,9 @@ namespace Tilemaps.Editor
 
 			foreach (Vector3Int position in new BoundsInt(start, end - start).allPositionsWithin)
 			{
+				if(!scr.GetBounds().Contains(position))
+					continue;
+				
 				if (space)
 				{
 					if (scr.IsSpaceAt(position))
@@ -221,27 +254,35 @@ namespace Tilemaps.Editor
 						{
 							if (north)
 							{
-								if (!scr.IsPassableAt(position + Vector3Int.up, position))
+								if (scr.IsPassableAt(position + Vector3Int.up, position))
 								{
 									Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
 								}
 							}
 							else if (south)
 							{
-								if (!scr.IsPassableAt(position + Vector3Int.down, position))
+								if (scr.IsPassableAt(position + Vector3Int.down, position))
 								{
 									Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
 								}
 							}
-							else if (!scr.IsPassableAt(position))
+							else if (scr.IsPassableAt(position))
 							{
 								Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
 							}
 						}
 						else if (atmosPassable)
 						{
-							if (!scr.IsAtmosPassableAt(position))
+							if (scr.IsAtmosPassableAt(position))
 							{
+								Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+							}
+						}
+						else if (spaceMatrix)
+						{
+							if (scr.IsSpaceAt(position))
+							{
+								Gizmos.color = red;
 								Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
 							}
 						}

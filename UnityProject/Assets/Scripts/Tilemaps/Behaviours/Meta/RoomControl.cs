@@ -77,6 +77,8 @@ namespace Tilemaps.Behaviours.Meta
 						if (metaTileMap.IsSpaceAt(neighbor))
 						{
 							isSpace = true;
+							MetaDataNode node = metaDataLayer.Get(neighbor);
+							node.Room = -1;
 						}
 						else if (metaTileMap.IsAtmosPassableAt(neighbor))
 						{
@@ -92,17 +94,13 @@ namespace Tilemaps.Behaviours.Meta
 
 				if (isSpace)
 				{
-					node.Room = -1;
-					node.Temperature = 2.7f;
-					node.Moles = 0.000000316f;
+					AtmosUtils.SetEmpty(node);
+					node.Room = 10000;
 				}
 				else
 				{
+					AtmosUtils.SetAir(node);
 					node.Room = roomNumber;
-					node.AirMix[Gas.Oxygen.Index] = 16.628484400890768491815384755837f;
-					node.AirMix[Gas.Nitrogen.Index] = 66.513937603563073967261539023347f;
-					node.Temperature = 293.15f;
-					node.Moles = 83.142422004453842459076923779184f;
 				}
 			}
 
