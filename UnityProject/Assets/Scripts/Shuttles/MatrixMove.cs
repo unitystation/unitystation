@@ -9,6 +9,7 @@ public struct MatrixState
 	public bool IsMoving;
 	public float Speed;
 	public Vector2 Direction; //Direction of movement
+	public int RotationTime; //in frames?
 	public Vector3 Position;
 	/// Matrix rotation. Default is upright (Orientation.Up)
 	public Orientation Orientation;
@@ -17,7 +18,7 @@ public struct MatrixState
 
 	public override string ToString() {
 		return $"{nameof( Inform )}: {Inform}, {nameof( IsMoving )}: {IsMoving}, {nameof( Speed )}: {Speed}, " +
-		       $"{nameof( Direction )}: {Direction}, {nameof( Position )}: {Position}, {nameof( Orientation )}: {Orientation}";
+		       $"{nameof( Direction )}: {Direction}, {nameof( Position )}: {Position}, {nameof( Orientation )}: {Orientation}, {nameof( RotationTime )}: {RotationTime}";
 	}
 }
 
@@ -50,7 +51,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	public Vector2 flyingDirection = Vector2.up;
 	/// max flying speed from editor
 	public float maxSpeed = 20f;
-	private readonly float rotSpeed = 6;
+	private readonly int rotTime = 90;
 	public KeyCode startKey = KeyCode.G;
 	public KeyCode leftKey = KeyCode.Keypad4;
 	public KeyCode rightKey = KeyCode.Keypad6;
@@ -95,21 +96,21 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	///managed by UpdateManager
 	public override void UpdateMe(){
 		if ( isServer ) {
-			if ( Input.GetKeyDown( startKey ) ) {
-				ToggleMovement();
-			}
-			if ( Input.GetKeyDown( KeyCode.KeypadPlus ) ) {
-				AdjustSpeed( 1 );
-			}
-			if ( Input.GetKeyDown( KeyCode.KeypadMinus ) ) {
-				AdjustSpeed( -1 );
-			}
-			if ( Input.GetKeyDown( leftKey ) ) {
-				TryRotate( false );
-			}
-			if ( Input.GetKeyDown( rightKey ) ) {
-				TryRotate( true );
-			}
+//			if ( Input.GetKeyDown( startKey ) ) {
+//				ToggleMovement();
+//			}
+//			if ( Input.GetKeyDown( KeyCode.KeypadPlus ) ) {
+//				AdjustSpeed( 1 );
+//			}
+//			if ( Input.GetKeyDown( KeyCode.KeypadMinus ) ) {
+//				AdjustSpeed( -1 );
+//			}
+//			if ( Input.GetKeyDown( leftKey ) ) {
+//				TryRotate( false );
+//			}
+//			if ( Input.GetKeyDown( rightKey ) ) {
+//				TryRotate( true );
+//			}
 			CheckMovementServer();
 		} 
 		CheckMovement();	
@@ -181,11 +182,11 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			return;
 		}
 		if ( IsRotatingClient ) {
-			bool needsRotation = !Mathf.Approximately( transform.rotation.eulerAngles.z, clientState.Orientation.Degree );
+			bool needsRotation = clientState.RotationTime != 0 && !Mathf.Approximately( transform.rotation.eulerAngles.z, clientState.Orientation.Degree );
 			if ( needsRotation ) {
 				transform.rotation =
 					Quaternion.RotateTowards( transform.rotation, Quaternion.Euler( 0, 0, clientState.Orientation.Degree ),
-						Time.deltaTime * 90 );
+						Time.deltaTime * clientState.RotationTime );
 			} else {
 				// Finishes the job of Lerp and straightens the ship with exact angle value
 				transform.rotation = Quaternion.Euler( 0, 0, clientState.Orientation.Degree );
@@ -314,7 +315,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	[Server]
 	private void NotifyPlayers() {
 		//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
-		if ( !isMovingServer || serverState.Inform ) {
+		if ( !isMovingServer || serverState.Inform ) 
+		{
+			serverState.RotationTime = rotTime;
+			
 			MatrixMoveMessage.SendToAll(gameObject, serverState);
 			//Clear inform flags
 			serverTargetState.Inform = false;
@@ -324,9 +328,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 	///     Sync with new player joining
 	/// <param name="playerGameObject">player to send to</param>
+	/// <param name="rotateImmediate">(for init) rotation should be applied immediately if true</param>
 	[Server]
-	public void NotifyPlayer( GameObject playerGameObject )
-	{
+	public void NotifyPlayer( GameObject playerGameObject, bool rotateImmediate = false ) {
+		serverState.RotationTime = rotateImmediate ? 0 : rotTime;
 		MatrixMoveMessage.Send(playerGameObject, gameObject, serverState);
 	}
 

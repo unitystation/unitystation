@@ -5,6 +5,7 @@ using Tilemaps.Behaviours.Objects;
 using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.Events;
+using Events;
 
 namespace Electricity
 {
@@ -43,9 +44,15 @@ namespace Electricity
 
 		private void OnEnable()
 		{
+			EventManager.AddHandler(EVENT.PowerNetSelfCheck, FindPossibleConnections);
 			if (OnCircuitChange == null) {
 				OnCircuitChange = new UnityEvent();
 			}
+		}
+
+		private void OnDisable()
+		{
+			EventManager.RemoveHandler(EVENT.PowerNetSelfCheck, FindPossibleConnections);
 		}
 		public override void OnStartClient()
 		{
@@ -79,6 +86,9 @@ namespace Electricity
 		}
 
 		public void TurnOnSupply(float voltage, float current){
+			
+			//Tell the electrical network to check all of their connections:
+			EventManager.Broadcast(EVENT.PowerNetSelfCheck);
 
 			//Test //TODO calculate these values and implement a charge variable
 			Voltage = voltage;

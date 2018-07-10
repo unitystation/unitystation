@@ -17,8 +17,8 @@ public class FieldOfViewStencil : MonoBehaviour
 	public float EdgeDistanceThreshhold;
 
 	public float MaskCutawayDst;
-	private Dictionary<Vector3, Tilemap> hitWalls = new Dictionary<Vector3, Tilemap>();
-	private HashSet<Vector3> curWalls = new HashSet<Vector3>();
+	private Dictionary<Vector3Int, Tilemap> hitWalls = new Dictionary<Vector3Int, Tilemap>();
+	private HashSet<Vector3Int> curWalls = new HashSet<Vector3Int>();
 
 	private HashSet<GameObject> hitDoors = new HashSet<GameObject>();
 	private HashSet<GameObject> curDoors = new HashSet<GameObject>();
@@ -53,7 +53,7 @@ public class FieldOfViewStencil : MonoBehaviour
 		for (int i = 0; i < missingWalls.Count() ;i++){
 			Tile newTile = (Tile)ScriptableObject.CreateInstance("Tile");
 			newTile.sprite = SpriteManager.Instance.shroudSprite;
-			hitWalls[missingWalls[i]].SetTile(hitWalls[missingWalls[i]].WorldToCell(missingWalls[i]), newTile);
+			hitWalls[missingWalls[i]].SetTile(missingWalls[i], newTile);
 			hitWalls.Remove(missingWalls[i]);
 		}
 		curWalls.Clear();
@@ -164,18 +164,19 @@ public class FieldOfViewStencil : MonoBehaviour
 			if (hit.collider.gameObject.layer == 9) {
 				//Turn the tilemap color of the wall to white so it is visible
 				hitPosition = Vector3Int.RoundToInt(hit.point + ((Vector2)dir * 0.5f));
-				if (!hitWalls.ContainsKey(hitPosition)) {
+				Tilemap wallTilemap = MatrixManager.Instance.wallsTileMaps[hit.collider];
+				Vector3Int wallCellPos = wallTilemap.WorldToCell(hitPosition);
+				if (!hitWalls.ContainsKey(wallCellPos)) {
 					Tilemap fxTileMap = MatrixManager.Instance.wallsToTopLayerFX[hit.collider];
-					Tilemap wallTilemap = MatrixManager.Instance.wallsTileMaps[hit.collider];
 					/// Check that there actually is a tile on the wall Tilemap as the hitPosition isn't accurate
-					TileBase getTile = wallTilemap.GetTile(wallTilemap.WorldToCell(hitPosition));
+					TileBase getTile = wallTilemap.GetTile(wallCellPos);
 					if (getTile != null) {
 						fxTileMap.SetTile(fxTileMap.WorldToCell(hitPosition), null);
-						hitWalls.Add(hitPosition, fxTileMap);
+						hitWalls.Add(wallCellPos, fxTileMap);
 					}
 				}
-				if (!curWalls.Contains(hitPosition)) {
-					curWalls.Add(hitPosition);
+				if (!curWalls.Contains(wallCellPos)) {
+					curWalls.Add(wallCellPos);
 				}
 			}
 			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);

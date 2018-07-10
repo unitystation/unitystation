@@ -12,7 +12,7 @@ namespace Events
 	//For simple broadcasts:
 	public enum EVENT
 	{
-		UpdateFov
+		UpdateFov, PowerNetSelfCheck
 	} // + other events. Add them as you need them
 
 	[ExecuteInEditMode]

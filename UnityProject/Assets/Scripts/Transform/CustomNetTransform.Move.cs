@@ -128,7 +128,7 @@ public partial class CustomNetTransform {
 		bool isWithinTile = intOrigin == intGoal; //same tile, no need to validate stuff
 		if ( isWithinTile || MatrixManager.IsPassableAt( intOrigin, intGoal ) ) {
 			//advance
-			clientState.Position += moveDelta;
+			clientState.WorldPosition += moveDelta;
 		} else {
 			//stop
 //			Debug.Log( $"{gameObject.name}: predictive stop @ {clientState.WorldPosition} to {intGoal}" );
@@ -170,8 +170,8 @@ public partial class CustomNetTransform {
 	public void Throw( ThrowInfo info ) {
 		SetPosition( info.OriginPos, false );
 
-		float throwSpeed = itemAttributes.throwSpeed * 10; //tiles per second
-		float throwRange = itemAttributes.throwRange;
+		float throwSpeed = ItemAttributes.throwSpeed * 10; //tiles per second
+		float throwRange = ItemAttributes.throwRange;
 
 		Vector2 impulse = info.Trajectory.normalized;
 
@@ -186,13 +186,13 @@ public partial class CustomNetTransform {
 		//add player momentum
 		float playerMomentum = 0f;
 		//If throwing nearby, do so at 1/2 speed (looks clunky otherwise)
-		float speedMultiplier = Mathf.Clamp( correctedInfo.Trajectory.magnitude / throwRange, 0.6f, 1f );
+		float speedMultiplier = Mathf.Clamp( correctedInfo.Trajectory.magnitude / (throwRange <= 0 ? 1 : throwRange), 0.6f, 1f );
 		serverState.Speed = ( Random.Range( -0.2f, 0.2f ) + throwSpeed + playerMomentum ) * speedMultiplier;
 		correctedInfo.InitialSpeed = serverState.Speed;
 
 		serverState.Impulse = impulse;
 		if ( info.SpinMode != SpinMode.None ) {
-			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( throwSpeed * (2f / (int)itemAttributes.size + 1), sbyte.MinValue, sbyte.MaxValue )
+			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( throwSpeed * (2f / (int)ItemAttributes.size + 1), sbyte.MinValue, sbyte.MaxValue )
 			                                     * ( info.SpinMode == SpinMode.Clockwise ? 1 : -1 ) );
 		}
 		serverState.ActiveThrow = correctedInfo;
@@ -300,7 +300,7 @@ public partial class CustomNetTransform {
 		if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) ) {
 			for ( var i = 0; i < hitDamageables.Count; i++ ) {
 				//Remove cast to int when moving health values to float
-				var damage = ( int ) ( itemAttributes.throwDamage * 2 );
+				var damage = ( int ) ( ItemAttributes.throwDamage * 2 );
 				hitDamageables[i].ApplyDamage( info.ThrownBy, damage, DamageType.BRUTE, info.Aim );
 				PostToChatMessage.SendThrowHitMessage( gameObject, hitDamageables[i].gameObject, damage, info.Aim );
 			}

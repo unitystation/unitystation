@@ -194,8 +194,10 @@ namespace PlayGroup
 
 		///Lerping; simulating space walk by server's orders or initiate/stop them on client
 		///Using predictedState for your own player and playerState for others
-		private void CheckMovementClient() {
+		private void CheckMovementClient() 
+		{
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
+			
 			if ( !ClientPositionReady ) {
 				//PlayerLerp
 				Vector3 targetPos = MatrixManager.WorldToLocal(state.WorldPosition, MatrixManager.Get( matrix ) );
@@ -203,10 +205,13 @@ namespace PlayGroup
 					targetPos,
 					playerMove.speed * Time.deltaTime );
 				//failsafe
-				if ( Vector3.Distance( transform.localPosition, targetPos ) > 30 ) {
+				if ( playerState.NoLerp || Vector3.Distance( transform.localPosition, targetPos ) > 30 ) {
 					transform.localPosition = targetPos;
 				}
 			}
+			
+			playerState.NoLerp = false;
+
 			bool isFloating = MatrixManager.IsFloatingAt( Vector3Int.RoundToInt(state.WorldPosition) );
 			//Space walk checks
 			if ( isPseudoFloatingClient && !isFloating ) {
