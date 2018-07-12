@@ -76,7 +76,7 @@ namespace Tilemaps.Behaviours.Meta
 			{
 				Vector3Int newPosition = offset + position;
 
-				MetaDataNode node = metaDataLayer.Get(newPosition, false);
+				MetaDataNode node = metaDataLayer.Get(newPosition);
 
 				if (node.IsSpace)
 				{
@@ -95,14 +95,14 @@ namespace Tilemaps.Behaviours.Meta
 					if (Mathf.Abs(mainNode.Atmos.Pressure - node.Atmos.Pressure) > MinimumPressure)
 					{
 						active = true;
+
+						if (mainNode != node && !updateList.Contains(newPosition))
+						{
+							AddToUpdateList(newPosition, node);
+						}
 					}
 
 					nodes.Add(node);
-
-					if (mainNode != node && !updateList.Contains(newPosition))
-					{
-						AddToEdgeList(newPosition, node);
-					}
 				}
 				else
 				{
@@ -116,7 +116,7 @@ namespace Tilemaps.Behaviours.Meta
 				{
 					Vector3Int newPosition = offset + position;
 
-					MetaDataNode node = metaDataLayer.Get(newPosition, false);
+					MetaDataNode node = metaDataLayer.Get(newPosition);
 
 					if (node.IsRoom)
 					{

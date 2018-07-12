@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework.Constraints;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Meta.Data;
+using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.Networking;
+using Debug = UnityEngine.Debug;
 
 namespace Tilemaps.Behaviours.Meta
 {
 	[ExecuteInEditMode]
 	public class RoomControl : SystemBehaviour
 	{
+		private static Vector3Int[] directions = {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right};
+
 		// Set higher priority to ensure that it is executed before other systems
 		public override int Priority => 100;
 
@@ -17,20 +17,28 @@ namespace Tilemaps.Behaviours.Meta
 		{
 			BoundsInt bounds = metaTileMap.GetBounds();
 
-			int roomCounter = 1;
+			int roomCounter = 0;
 
-			System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+			Stopwatch sw = new Stopwatch();
 			sw.Start();
 
 			foreach (Vector3Int position in bounds.allPositionsWithin)
 			{
 				MetaDataNode node = metaDataLayer.Get(position, false);
 
-				if (node.Room == 0 && !metaTileMap.IsSpaceAt(position) && metaTileMap.IsAtmosPassableAt(position))
+				if (node.Room < 0 && !metaTileMap.IsSpaceAt(position))
 				{
-					if (FindRoom(position, roomCounter))
+					if (metaTileMap.IsAtmosPassableAt(position))
 					{
-						roomCounter++;
+						if (FindRoom(position, roomCounter))
+						{
+							roomCounter++;
+						}
+					}
+					else
+					{
+						node = metaDataLayer.Get(position);
+						node.Type = NodeType.Wall;
 					}
 				}
 			}
@@ -39,19 +47,54 @@ namespace Tilemaps.Behaviours.Meta
 
 			Debug.Log("Room init: " + sw.ElapsedMilliseconds + " ms");
 		}
-		
+
 		public override void UpdateAt(Vector3Int position)
 		{
 			MetaDataNode node = metaDataLayer.Get(position);
-			
-			if (metaTileMap.IsAtmosPassableAt(position))
+
+			if (metaTileMap.IsSpaceAt(position))
+			{
+				node.Type = NodeType.Space;
+			}
+			else if (metaTileMap.IsAtmosPassableAt(position))
 			{
 				node.Room = 10000000;
+				node.Type = NodeType.Room;
 			}
 			else
 			{
-				node.Room = 0;
+				node.Type = NodeType.Wall;
 			}
+		}
+
+		private MetaDataNode GetNodeAt(Vector3Int position)
+		{
+			MetaDataNode node = metaDataLayer.Get(position, false);
+			
+			if (metaTileMap.IsSpaceAt(position))
+			{
+				node.Type = NodeType.Space;
+			}
+			else if (metaTileMap.IsAtmosPassableAt(position))
+			{
+				foreach (Vector3Int dir in directions)
+				{
+					Vector3Int neighbor = position + dir;
+					MetaDataNode neighborNode = GetNodeAt(neighbor);
+
+					if (neighborNode.IsSpace)
+					{
+						node.Type = NodeType.Space;
+						break;
+					}
+				}
+			}
+			else
+			{
+				node.Type = NodeType.Wall;
+			}
+
+			return node;
 		}
 
 		private bool FindRoom(Vector3Int position, int roomNumber)
@@ -68,7 +111,7 @@ namespace Tilemaps.Behaviours.Meta
 				Vector3Int pos = posToCheck.Dequeue();
 				roomPositions.Add(pos);
 
-				foreach (Vector3Int dir in new[] {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right})
+				foreach (Vector3Int dir in directions)
 				{
 					Vector3Int neighbor = pos + dir;
 
@@ -78,11 +121,16 @@ namespace Tilemaps.Behaviours.Meta
 						{
 							isSpace = true;
 							MetaDataNode node = metaDataLayer.Get(neighbor);
-							node.Room = -1;
+							node.Type = NodeType.Space;
 						}
 						else if (metaTileMap.IsAtmosPassableAt(neighbor))
 						{
 							posToCheck.Enqueue(neighbor);
+						}
+						else
+						{
+							MetaDataNode node = metaDataLayer.Get(neighbor);
+							node.Type = NodeType.Wall;
 						}
 					}
 				}
@@ -95,11 +143,13 @@ namespace Tilemaps.Behaviours.Meta
 				if (isSpace)
 				{
 					AtmosUtils.SetEmpty(node);
-					node.Room = 10000;
+					node.Type = NodeType.Space;
 				}
 				else
 				{
 					AtmosUtils.SetAir(node);
+
+					node.Type = NodeType.Room;
 					node.Room = roomNumber;
 				}
 			}
