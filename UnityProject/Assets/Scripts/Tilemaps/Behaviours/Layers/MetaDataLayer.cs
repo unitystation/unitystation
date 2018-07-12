@@ -9,7 +9,14 @@ namespace Tilemaps.Behaviours.Layers
 	{
 		private MetaDataDictionary nodes = new MetaDataDictionary();
 
-		public MetaDataNode Get(Vector3Int position, bool createIfNotExists=true)
+		private MetaTileMap metaTileMap;
+
+		private void Awake()
+		{
+			metaTileMap = GetComponent<MetaTileMap>();
+		}
+
+		public MetaDataNode Get(Vector3Int position, bool createIfNotExists = true)
 		{
 			if (!nodes.ContainsKey(position))
 			{
