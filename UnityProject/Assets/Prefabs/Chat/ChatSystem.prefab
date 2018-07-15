@@ -118,7 +118,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1191275451100118
 GameObject:
   m_ObjectHideFlags: 0
@@ -1245,12 +1245,12 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.InputField+OnChangeEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_CaretColor: {r: 0.1102941, g: 0.1102941, b: 0.1102941, a: 1}
+  m_CaretColor: {r: 1, g: 1, b: 1, a: 1}
   m_CustomCaretColor: 1
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
   m_Text: 
   m_CaretBlinkRate: 0.85
-  m_CaretWidth: 2
+  m_CaretWidth: 5
   m_ReadOnly: 0
 --- !u!114 &114848683637351762
 MonoBehaviour:
@@ -1386,14 +1386,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 114020112387011828}
         m_MethodName: Toggle_ChannelPannel
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
@@ -1404,7 +1404,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1263038500525914}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -1604,15 +1604,15 @@ RectTransform:
   m_GameObject: {fileID: 1190951697483692}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8111836, y: 0.81118363, z: 0.81118363}
   m_Children: []
   m_Father: {fileID: 224193499047686760}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -96.000015}
-  m_SizeDelta: {x: 64, y: -48.00003}
+  m_AnchoredPosition: {x: 2, y: -68}
+  m_SizeDelta: {x: 0, y: -48.00003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224136907637903636
 RectTransform:
@@ -1765,8 +1765,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 148.63, y: -10.5}
-  m_SizeDelta: {x: 174.12, y: 39.4}
+  m_AnchoredPosition: {x: 109.5, y: -11.46}
+  m_SizeDelta: {x: 174.12, y: 33.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224632956936722964
 RectTransform:
@@ -1845,8 +1845,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0010242, y: 0.000012398}
-  m_SizeDelta: {x: 174.12, y: 39.4}
+  m_AnchoredPosition: {x: -0.0010242, y: -0.000016451}
+  m_SizeDelta: {x: 174.12, y: 33.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224759607104819202
 RectTransform:
@@ -1863,7 +1863,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -245, y: 0.000015258789}
+  m_AnchoredPosition: {x: -245, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!224 &224816004304439406
@@ -1919,7 +1919,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -174.4, y: -84.40003}
+  m_AnchoredPosition: {x: -182.2, y: -84.40003}
   m_SizeDelta: {x: 76, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224872101210997566
@@ -1992,6 +1992,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -28.2, y: -84.4}
+  m_AnchoredPosition: {x: -51.7, y: -84.4}
   m_SizeDelta: {x: 76, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}

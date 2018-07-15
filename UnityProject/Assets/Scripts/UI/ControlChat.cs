@@ -122,12 +122,13 @@ namespace UI
 
 		public void RefreshChannelPanel()
 		{
-			Toggle_ChannelPannel(false);
-			Toggle_ChannelPannel(true);
-		}
+            channelPanel.gameObject.SetActive(false);
+            channelPanel.gameObject.SetActive(true);
+        }
 
-		public void Toggle_ChannelPannel(bool isOn)
+		public void Toggle_ChannelPannel()
 		{
+            bool isOn = channelListToggle.isOn;
 //			SoundManager.Play("Click01");
 			if (isOn)
 			{
@@ -185,7 +186,9 @@ namespace UI
 				toggle.onValueChanged.AddListener(Toggle_Channel);
 
 				toggle.isOn = (channelsSelected & currentChannel) == currentChannel;
+                if(!ChannelToggles.ContainsKey(currentChannel)) { 
 				ChannelToggles.Add(currentChannel, toggle);
+                    }
 			}
 
 			float width = 64f;
