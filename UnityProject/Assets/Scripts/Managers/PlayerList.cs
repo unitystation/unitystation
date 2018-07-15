@@ -40,7 +40,7 @@ public class PlayerList : NetworkBehaviour
 			Instance = this;
             Instance.ResetSyncedState();
         }
-		else
+        else
 		{
 			Destroy(gameObject);
 		}
