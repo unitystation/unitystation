@@ -24,14 +24,10 @@ public class PlayerList : NetworkBehaviour
 	public int ConnectionCount => values.Count;
 	public List<ConnectedPlayer> InGamePlayers => values.FindAll( player => player.GameObject != null );
 
-	//For TDM demo
-	public Dictionary<JobDepartment, int> departmentScores = new Dictionary<JobDepartment, int>();
-
-	//For combat demo
-	public Dictionary<string, int> playerScores = new Dictionary<string, int>();
-
 	//For job formatting purposes
 	private static readonly TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+
+    private static int LifeCount;
 
 	private void Awake()
 	{
@@ -54,96 +50,13 @@ public class PlayerList : NetworkBehaviour
 		}
 	}
 
-	//Called on the server when a kill is confirmed
-	[Server]
-	public void UpdateKillScore(GameObject perpetrator, GameObject victim)
-	{
-		if ( perpetrator == null )
-		{
-			return;
-		}
-		var perPlayer = perpetrator.Player();
-		var victimPlayer = victim.Player();
-		if ( perPlayer == null || victimPlayer == null ) {
-			return;
-		}
-
-		var playerName = perPlayer.Name;
-		if ( playerScores.ContainsKey(playerName) )
-		{
-			playerScores[playerName]++;
-		}
-
-		JobDepartment perpetratorDept = SpawnPoint.GetJobDepartment(perPlayer.Job);
-
-		if ( !departmentScores.ContainsKey(perpetratorDept) )
-		{
-			departmentScores.Add(perpetratorDept, 0);
-		}
-
-		JobDepartment victimDept = SpawnPoint.GetJobDepartment(victimPlayer.Job);
-
-		if ( perpetratorDept == victimDept )
-		{
-			departmentScores[perpetratorDept]--;
-		}
-		else
-		{
-			departmentScores[perpetratorDept]++;
-		}
-	}
-
-	[Server]
-	public void TryAddScores(string uniqueName)
-	{
-		if ( !playerScores.ContainsKey(uniqueName) )
-		{
-			playerScores.Add(uniqueName, 0);
-		}
-	}
-
-	[Server]
-	public void ReportScores()
-	{
-		/*
-		var scoreSort = playerScores.OrderByDescending(pair => pair.Value)
-		    .ToDictionary(pair => pair.Key, pair => pair.Value);
-
-		foreach (KeyValuePair<string, int> ps in scoreSort)
-		{
-		    UIManager.Chat.ReportToChannel("<b>" + ps.Key + "</b>  total kills:  <b>" + ps.Value + "</b>");
-		}
-		*/
-
-		if ( departmentScores.Count == 0 )
-		{
-			PostToChatMessage.Send("Nobody killed anybody. Fucking hippies.", ChatChannel.System);
-		}
-
-		var scoreSort = departmentScores.OrderByDescending(pair => pair.Value)
-			.ToDictionary(pair => pair.Key, pair => pair.Value);
-
-		foreach ( KeyValuePair<JobDepartment, int> ds in scoreSort )
-		{
-			PostToChatMessage.Send("<b>" + ds.Key + "</b>  total kills:  <b>" + ds.Value + "</b>", ChatChannel.System);
-		}
-
-		PostToChatMessage.Send("Game Restarting in 10 seconds...", ChatChannel.System);
-	}
-
 	public void RefreshPlayerListText()
 	{
 		UIManager.Instance.playerListUIControl.nameList.text = "";
 		foreach (var player in ClientConnectedPlayers)
 		{
 			string curList = UIManager.Instance.playerListUIControl.nameList.text;
-			UIManager.Instance.playerListUIControl.nameList.text = $"{curList}{player.Name} ({PrepareJobString(player.Job)})\r\n";
-		}
-	}
-
-	private static string PrepareJobString(JobType job)
-	{
-		return job.ToString().Equals("NULL") ? "*just joined" : textInfo.ToTitleCase(job.ToString().ToLower());
+        }
 	}
 
 	/// Don't do this unless you realize the consequences
@@ -324,6 +237,48 @@ public class PlayerList : NetworkBehaviour
 			TryRemove(connectedPlayer);
 		}
 	}
+
+    public void ReportScores()
+    {
+        foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+        {
+             if (!player.GameObject.GetComponent<HealthBehaviour>().IsDead)
+             {
+                LifeCount++;
+                PostToChatMessage.Send(player.Name + " has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+             }
+        }
+
+        if (LifeCount == 0)
+        {
+            PostToChatMessage.Send("No one has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+
+            if (GetComponent<NukeInteract>().detonated)
+            {
+                PostToChatMessage.Send("The syndicate terrorists have detonated the on-board self-destruct.", ChatChannel.OOC);
+            }
+            else
+            {
+                PostToChatMessage.Send("The syndicate terrorists have instead of detonating the on board self destruct, chosen to slaughter everyone on board, this sends a terrifing chill down", ChatChannel.OOC);
+            }
+        }
+
+        if (LifeCount == 1)
+        {
+            PostToChatMessage.Send(LifeCount + " person survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+        }
+
+        if (LifeCount > 1)
+        {
+            PostToChatMessage.Send(LifeCount + " people survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+        }
+
+        if (LifeCount >= 1)
+        {
+             PostToChatMessage.Send("The nuke ops have failed to detonated the bomb.", ChatChannel.OOC);
+        }
+        PostToChatMessage.Send("Restarting in 10 seconds.", ChatChannel.OOC);
+    }
 }
 
 /// Minimalistic connected player information that all clients can posess

@@ -205,7 +205,6 @@ namespace PlayGroup
 					player.Name = name;
 				}
 				playerName = player.Name;
-				PlayerList.Instance.TryAddScores( player.Name );
 			}
 		}
 

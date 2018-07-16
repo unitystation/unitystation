@@ -60,9 +60,6 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	/// max flying speed from editor
 	public float maxSpeed = 20f;
 	private readonly int rotTime = 90;
-	public KeyCode startKey = KeyCode.G;
-	public KeyCode leftKey = KeyCode.Keypad4;
-	public KeyCode rightKey = KeyCode.Keypad6;
 	///initial pos for offset calculation
 	public Vector3Int InitialPos => Vector3Int.RoundToInt(initialPosition);
 	[SyncVar] private Vector3 initialPosition;
@@ -70,12 +67,15 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	public Vector3Int Pivot => Vector3Int.RoundToInt(pivot);
 	[SyncVar] private Vector3 pivot;
 
+    public bool ismoving = true;
+
 	public override void OnStartServer()
 	{
 		InitServerState();
 		base.OnStartServer();
 		NotifyPlayers();
-	}
+        StartMovement();
+    }
 
 	[Server]
 	private void InitServerState()
@@ -119,6 +119,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 //			if ( Input.GetKeyDown( rightKey ) ) {
 //				TryRotate( true );
 //			}
+
+
 			CheckMovementServer();
 		} 
 		CheckMovement();	

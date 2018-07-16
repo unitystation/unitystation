@@ -9,34 +9,38 @@ using UnityEngine.Rendering;
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
-	public float RoundTime = 480f;
-	public bool counting;
+	public float RoundTime = 600f;
+    public float ShuttleTime = 60f;
+    public bool counting;
+    public bool shuttlecounting;
 	public List<GameObject> Occupations = new List<GameObject>();
 	public float restartTime = 10f;
 	/// <summary>
 	/// Set on server if Respawn is Allowed
 	/// </summary>
-	public bool RespawnAllowed = true;
+	public bool RespawnAllowed = false;
 
 	public Text roundTimer;
 
 	public GameObject StandardOutfit;
 	public bool waitForRestart;
 
-	public float GetRoundTime { get; private set; } = 480f;
+	public float GetRoundTime { get; private set; } = 600f;
+    public float GetShuttleTime { get; private set; } = 60f;
 
-	public int RoundsPerMap = 10;
+    public int RoundsPerMap = 10;
 	
 	public string[] Maps = {"Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
 	
 	private int MapRotationCount = 0;
 	private int MapRotationMapsCounter = 0;
 
+    private bool isreported = false;
 
-	//Put the scenes in the unity 3d editor.
+    //Put the scenes in the unity 3d editor.
 
 
-	private void Awake()
+    private void Awake()
 	{
 		if (Instance == null)
 		{
@@ -47,6 +51,27 @@ public class GameManager : MonoBehaviour
 			Destroy(this);
 		}
 	}
+
+    public void SyncTime(float currentTime, float currentshuttleTime)
+    {
+        if (!CustomNetworkManager.Instance._isServer)
+        {
+            GetRoundTime = currentTime;
+            if (currentTime > 0f)
+            {
+                counting = true;
+                shuttlecounting = false;
+                isreported = false;
+            }
+
+            else if (currentshuttleTime > 0f)
+            {
+                counting = false;
+                shuttlecounting = true;
+                isreported = true;
+            }
+        }
+    }
 
 	private void OnEnable()
 	{
@@ -69,27 +94,7 @@ public class GameManager : MonoBehaviour
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
 		GetRoundTime = RoundTime;
-	}
-
-	public void SyncTime(float currentTime)
-	{
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			GetRoundTime = currentTime;
-			if (currentTime > 0f)
-			{
-				counting = true;
-			}
-		}
-	}
-
-	public void ResetRoundTime()
-	{
-		GetRoundTime = RoundTime;
-		waitForRestart = false;
-		counting = true;
-		restartTime = 10f;
-		UpdateRoundTimeMessage.Send(GetRoundTime);
+        GetShuttleTime = ShuttleTime;
 	}
 
 	private void Update()
@@ -109,25 +114,33 @@ public class GameManager : MonoBehaviour
 		{
 			GetRoundTime -= Time.deltaTime;
 			roundTimer.text = Mathf.Floor(GetRoundTime / 60).ToString("00") + ":" +
-			                  (GetRoundTime % 60).ToString("00");
+			                  (GetRoundTime % 60).ToString("00") + "ETA";
 			if (GetRoundTime <= 0f)
 			{
 				counting = false;
-				roundTimer.text = "GameOver";
-				
-				// Prevents annoying sound duplicate when testing
-				if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
-				{
-					SoundManager.Play("ApcDestroyed", 0.3f, 1f, 0f);
-				}
-
-				if (CustomNetworkManager.Instance._isServer)
-				{
-					waitForRestart = true;
-					PlayerList.Instance.ReportScores();
-				}
-			}
+                shuttlecounting = true;
+                GetComponent<MatrixMove>().StopMovement();
+            }
 		}
+
+        else if (shuttlecounting)
+        {
+            GetShuttleTime -= Time.deltaTime;
+            roundTimer.text = Mathf.Floor(GetShuttleTime / 60).ToString("00") + ":" + (GetShuttleTime % 60).ToString("00") + "ETD";
+            
+            if (GetShuttleTime <= 10 && isreported)
+            {
+                shuttlecounting = false;
+                waitForRestart = true;
+                GetComponent<MatrixMove>().StartMovement();
+                PlayerList.Instance.ReportScores();
+                isreported = false;
+            }
+            else if (GetShuttleTime <= 0)
+            {
+                RestartRound();
+            }
+        }
 	}
 
 	public int GetOccupationsCount(JobType jobType)
@@ -231,6 +244,9 @@ public class GameManager : MonoBehaviour
 			}
 			
 			CustomNetworkManager.Instance.ServerChangeScene (Maps[MapRotationMapsCounter]);
-		}
+
+            GetRoundTime = RoundTime;
+            GetShuttleTime = ShuttleTime;
+        }
 	}
 }
