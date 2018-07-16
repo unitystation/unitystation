@@ -37,6 +37,10 @@ public class TADB_Debug
 		Lighting,
 		Electrical, 
 	};
+	//-1 will not show anything
+	// 0 Only will show errors 
+	// 1 will show errors and warnings
+	// 2 will show errors, warnings and logs
 	private static Dictionary<string, int> NameDictionary = new Dictionary<string, int>{
 		["Atmospherics"] = 0,
 		["Movement"] = 0,
@@ -68,7 +72,7 @@ public class TADB_Debug
 		["Lighting"] = 0,
 		["Electrical"] = 0,
 	};
-
+	//Example of how to call TADB_Debug.Log("Message",TADB_Debug.Category.#Something#.ToString());
 	private static Dictionary<int, string> LevelMessage = new Dictionary<int, string>{
 		[0]= "Error ",
 		[1]= "Warning ",
