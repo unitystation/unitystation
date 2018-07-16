@@ -8,7 +8,7 @@ public class GibMessage : ServerMessage
 
 	public override IEnumerator Process()
 	{
-		Debug.Log(ToString());
+		TADB_Debug.Log("Tostring()");
 
 		foreach (HealthBehaviour living in Object.FindObjectsOfType<HealthBehaviour>())
 		{

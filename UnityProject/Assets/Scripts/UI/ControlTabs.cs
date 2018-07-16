@@ -23,7 +23,7 @@ namespace UI {
 			{
 				Destroy(gameObject);
 				//Killing net tabs on round restart
-//				Debug.LogError( "ControlTabs cleanup!" );
+//				TADB_Debug.LogError( "ControlTabs cleanup!" );
 				foreach ( var tab in Instance.HiddenNetTabs ) {
 					Destroy( Instance.HeaderForTab( tab.Value )?.gameObject );
 					Destroy(tab.Value.gameObject);
@@ -173,7 +173,7 @@ namespace UI {
 
 		private TabHeaderButton HeaderForTab( Tab tab ) {
 			if ( tab.Hidden ) {
-//				Debug.LogWarning( $"Tab {tab} is hidden, no header will be provided" );
+//				TADB_Debug.LogWarning( $"Tab {tab} is hidden, no header will be provided" );
 				return null;
 			}
 
@@ -184,7 +184,7 @@ namespace UI {
 					return header;
 				}
 			}
-//			Debug.LogError( $"No headers found for {tab}, wtf?" );
+//			TADB_Debug.LogError( $"No headers found for {tab}, wtf?" );
 			return null;
 		}
 
@@ -222,12 +222,13 @@ namespace UI {
 		/// This one is called when tab header is clicked on
 		public void SelectTab( int index, bool click = true ) 
 		{
-//			Debug.Log( $"Selecting tab #{index}" );
+//			TADB_Debug.Log( $"Selecting tab #{index}" );
 			
 			UnselectAll();
 			Tab tab = TabStorage.GetChild( index )?.GetComponent<Tab>();
 			if ( !tab ) {
-				Debug.LogWarning( $"No tab found with index {index}!" );
+				
+				TADB_Debug.LogWarning( $"No tab found with index {index}!",TADB_Debug.Category.TabUISystem.ToString() );
 				return;
 			}
 			tab.gameObject.SetActive( true );
@@ -318,7 +319,7 @@ namespace UI {
 			var openedTab = new NetTabDescriptor( tabProvider, type );
 			//try to dig out a hidden tab with matching parameters and enable it:
 			if ( Instance.HiddenNetTabs.ContainsKey( openedTab ) ) {
-//				Debug.Log( $"Yay, found an old hidden {openedTab} tab. Unhiding it" );
+//				TADB_Debug.Log( $"Yay, found an old hidden {openedTab} tab. Unhiding it" );
 				Instance.UnhideTab( Instance.HiddenNetTabs[openedTab] );
 			}
 			if ( !Instance.OpenedNetTabs.ContainsKey( openedTab ) ) 

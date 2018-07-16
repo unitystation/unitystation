@@ -155,6 +155,8 @@ namespace PlayGroup
             direction.x = Mathf.Clamp(direction.x, -1, 1);
             direction.y = Mathf.Clamp(direction.y, -1, 1);
 
+			//TADB_Debug.Log(direction.ToString(),TADB_Debug.Category.Movement.ToString());
+
             if (!isGhost && PlayerManager.LocalPlayer == gameObject)
             {
                 playerSprites.CmdChangeDirection(Orientation.From(direction));
@@ -273,7 +275,7 @@ namespace PlayGroup
                 return direction;
             }
             //could not pass
-            //Debug.Log("Couldn't pass");
+            //TADB_Debug.Log("Couldn't pass");
             return Vector3Int.zero;
 
         }

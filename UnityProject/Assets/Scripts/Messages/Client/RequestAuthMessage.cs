@@ -13,29 +13,29 @@ public class RequestAuthMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-		//	Debug.Log("Processed " + ToString());
+		//	TADB_Debug.Log("Processed " + ToString());
 		yield return WaitFor(SentBy);
 
 //		if ( !Managers.instance.isForRelease )
 //		{
-//			Debug.Log($"Ignoring {this}, not for release");
+//			TADB_Debug.Log($"Ignoring {this}, not for release");
 //			yield break;
 //		}
 		
 		var connectedPlayer = PlayerList.Instance.Get( NetworkObject );
 
 		if ( PlayerList.IsConnWhitelisted(connectedPlayer) )
-		{
-			Debug.Log( $"Player whitelisted: {connectedPlayer}" );
+		{ 
+			TADB_Debug.Log( $"Player whitelisted: {connectedPlayer}", TADB_Debug.Category.SteamIntegration.ToString());
 			yield break;
 		}
 		if ( connectedPlayer.SteamId != 0 )
 		{
-			Debug.Log( $"Player already authenticated: {connectedPlayer}" );
+			TADB_Debug.Log( $"Player already authenticated: {connectedPlayer}", TADB_Debug.Category.SteamIntegration.ToString() );
 			yield break;
 		}
 		
-//		Debug.Log("Server Starting Auth for User:" + SteamID);
+//		TADB_Debug.Log("Server Starting Auth for User:" + SteamID);
 		if (Server.Instance != null && SteamID != 0 && TicketBinary != null)
 		{
 			
@@ -45,7 +45,7 @@ public class RequestAuthMessage : ClientMessage
 				// This can trigger for a lot of reasons
 				// More info: http://projectzomboid.com/modding//net/puppygames/steam/BeginAuthSessionResult.html
 				// if triggered does prevent the authchange callback.
-//				Debug.Log("Start Session returned false, kicking");
+//				TADB_Debug.Log("Start Session returned false, kicking");
 				CustomNetworkManager.Kick( connectedPlayer, "Steam auth failed" );
 			}
 			else

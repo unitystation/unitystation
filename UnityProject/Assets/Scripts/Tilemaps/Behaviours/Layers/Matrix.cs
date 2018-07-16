@@ -29,7 +29,7 @@ namespace Tilemaps
             }
             catch
             {
-                Debug.LogError("CAST ERROR: Make sure everything is in its proper layer type.");
+				TADB_Debug.LogError("CAST ERROR: Make sure everything is in its proper layer type.", TADB_Debug.Category.MatrixManager.ToString());
             }
         }
 

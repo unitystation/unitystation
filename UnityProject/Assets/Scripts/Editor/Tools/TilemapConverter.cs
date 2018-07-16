@@ -37,7 +37,7 @@ namespace UnityStation.Tools
 
 			if (!mapping.ContainsKey(name))
 			{
-				Debug.LogError("Missing tile for key: " + name);
+				TADB_Debug.LogError("Missing tile for key: " + name);
 				return null;
 			}
 
@@ -52,7 +52,7 @@ namespace UnityStation.Tools
 				}
 				else
 				{
-					Debug.LogError("Missing tile at path: " + assetPath + " (key: " + name + " )");
+					TADB_Debug.LogError("Missing tile at path: " + assetPath + " (key: " + name + " )");
 					return null;
 				}
 			}

@@ -21,7 +21,7 @@ public class TableTrigger : InputTrigger
 				//				var placedOk = slot.PlaceItem(gameObject.transform.position);
 				//				if ( !placedOk )
 				//				{
-				//					Debug.Log("Client placing error");
+				//					TADB_Debug.Log("Client placing error");
 				//				}
 			}
 		}

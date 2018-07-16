@@ -25,7 +25,7 @@ public class Prefab2Tile : EditorWindow
 		//Moving old tiles
 		string basePath = Application.dataPath + "/Resources/Prefabs/";
 		string basePath2 = basePath + subject + "/";
-		//			Debug.Log (basePath2);
+		//			TADB_Debug.Log (basePath2);
 		int counter = 0;
 		int created = 0;
 		string[] scan = Directory.GetFiles(basePath2, "*.prefab", SearchOption.AllDirectories);
@@ -35,27 +35,27 @@ public class Prefab2Tile : EditorWindow
 			int t = scan.Length;
 			EditorUtility.DisplayProgressBar(counter + "/" + scan.Length + " Generating Tiles for " + subject, "Tile: " + counter,
 				counter / (float) scan.Length);
-			//			Debug.Log ("Longpath data: " + file);
+			//			TADB_Debug.Log ("Longpath data: " + file);
 
 			//Get the filename without extention and path
 			string name = Path.GetFileNameWithoutExtension(file);
-			//			Debug.Log ("Creating tile for prefab: " + name);
+			//			TADB_Debug.Log ("Creating tile for prefab: " + name);
 
 			//Generating the path needed to hook onto for selecting the game object
 			string smallPath = file.Substring(file.IndexOf("Assets") + 0);
-			//			Debug.Log ("smallpath data: " + smallPath);
+			//			TADB_Debug.Log ("smallpath data: " + smallPath);
 
 
 			//Generating the path needed to chose the right tile output sub-folder
 			string subPath = smallPath.Substring(smallPath.IndexOf(subject) + 7);
-			//			Debug.Log ("subPath data: " + subPath);
+			//			TADB_Debug.Log ("subPath data: " + subPath);
 			string barePath = subPath.Substring(0, subPath.LastIndexOf(Path.DirectorySeparatorChar));
-			//			Debug.Log ("barePath data: " + barePath);
+			//			TADB_Debug.Log ("barePath data: " + barePath);
 
 			//Check if tile already exists
 			if (File.Exists(Application.dataPath + "/Tilemaps/Tiles/" + subject + "/" + barePath + "/" + name + ".asset"))
 			{
-				//		Debug.Log ("A tile for " + name + " already exists... Skipping...");
+				//		TADB_Debug.Log ("A tile for " + name + " already exists... Skipping...");
 			}
 			else
 			{
@@ -82,7 +82,7 @@ public class Prefab2Tile : EditorWindow
 			}
 		}
 		EditorUtility.ClearProgressBar();
-		Debug.Log(created + " / " + counter + " Tiles created for prefabs");
+		TADB_Debug.Log(created + " / " + counter + " Tiles created for prefabs");
 	}
 
 
@@ -100,34 +100,34 @@ public class Prefab2Tile : EditorWindow
 			int t = scan.Length;
 			EditorUtility.DisplayProgressBar(counter + "/" + scan.Length + " Removing abundant preview sprites for " + subject, "Sprite: " + counter,
 				counter / (float) scan.Length);
-			//			Debug.Log ("Longpath data: " + file);
+			//			TADB_Debug.Log ("Longpath data: " + file);
 
 			//Get the filename without extention and path
 			string name = Path.GetFileNameWithoutExtension(file);
-			//			Debug.Log ("Creating tile for prefab: " + name);
+			//			TADB_Debug.Log ("Creating tile for prefab: " + name);
 
 			//Generating the path needed to chose the right tile output sub-folder
 			string subPath = file.Substring(file.IndexOf(subject) + 7);
-			//			Debug.Log ("subPath data: " + subPath);
+			//			TADB_Debug.Log ("subPath data: " + subPath);
 			string barePath = subPath.Substring(0, subPath.LastIndexOf(Path.DirectorySeparatorChar));
-			//			Debug.Log ("barePath data: " + barePath);
+			//			TADB_Debug.Log ("barePath data: " + barePath);
 
 			//Check if tile already exists
 			if (File.Exists(Application.dataPath + "/Resources/Prefabs/" + subject + barePath + "/" + name + ".prefab"))
 			{
-				//				Debug.Log ("A prefab for " + name + " exists... Skipping...");
+				//				TADB_Debug.Log ("A prefab for " + name + " exists... Skipping...");
 			}
 			else
 			{
 				FileUtil.DeleteFileOrDirectory(file);
 				FileUtil.DeleteFileOrDirectory(file + ".meta");
-				//				Debug.Log("DESTROY");
+				//				TADB_Debug.Log("DESTROY");
 				cleaned++;
 				AssetDatabase.Refresh();
 			}
 		}
 		EditorUtility.ClearProgressBar();
-		Debug.Log(cleaned + " / " + counter + " Preview sprites deleted for missing tiles");
+		TADB_Debug.Log(cleaned + " / " + counter + " Preview sprites deleted for missing tiles");
 	}
 
 	public static void CheckTiles(string subject)
@@ -144,33 +144,33 @@ public class Prefab2Tile : EditorWindow
 			int t = scan.Length;
 			EditorUtility.DisplayProgressBar(counter + "/" + scan.Length + " Removing abundant tiles for " + subject, "Tile: " + counter,
 				counter / (float) scan.Length);
-			//			Debug.Log ("Longpath data: " + file);
+			//			TADB_Debug.Log ("Longpath data: " + file);
 
 			//Get the filename without extention and path
 			string name = Path.GetFileNameWithoutExtension(file);
-			//			Debug.Log ("Creating tile for prefab: " + name);
+			//			TADB_Debug.Log ("Creating tile for prefab: " + name);
 
 			//Generating the path needed to chose the right tile output sub-folder
 			string subPath = file.Substring(file.IndexOf(subject) + 7);
-			//			Debug.Log ("subPath data: " + subPath);
+			//			TADB_Debug.Log ("subPath data: " + subPath);
 			string barePath = subPath.Substring(0, subPath.LastIndexOf(Path.DirectorySeparatorChar));
-			//			Debug.Log ("barePath data: " + barePath);
+			//			TADB_Debug.Log ("barePath data: " + barePath);
 
 			//Check if tile already exists
 			if (File.Exists(Application.dataPath + "/Resources/Prefabs/" + subject + "/" + barePath + "/" + name + ".prefab"))
 			{
-				//				Debug.Log ("A prefab for " + name + " exists... Skipping...");
+				//				TADB_Debug.Log ("A prefab for " + name + " exists... Skipping...");
 			}
 			else
 			{
 				FileUtil.DeleteFileOrDirectory(file);
 				FileUtil.DeleteFileOrDirectory(file + ".meta");
-				//				Debug.Log("DESTROY");
+				//				TADB_Debug.Log("DESTROY");
 				cleaned++;
 				AssetDatabase.Refresh();
 			}
 		}
 		EditorUtility.ClearProgressBar();
-		Debug.Log(cleaned + " / " + counter + " Tiles deleted for Prefabs");
+		TADB_Debug.Log(cleaned + " / " + counter + " Tiles deleted for Prefabs");
 	}
 }

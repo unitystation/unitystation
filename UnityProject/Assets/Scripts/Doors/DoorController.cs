@@ -163,7 +163,7 @@ namespace Doors
 			}
 			else
 			{
-				Debug.LogError("Door lacks access restriction component!");
+				TADB_Debug.LogError("Door lacks access restriction component!");
 			}
 		}
 		[Server]

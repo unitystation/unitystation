@@ -25,7 +25,7 @@ public class DmiIconData : ScriptableObject
 				return sprites;
 			}
 		}
-		Debug.LogError("Could not find sprites for key " + path);
+		TADB_Debug.LogError("Could not find sprites for key " + path,TADB_Debug.Category.DmiIconData.ToString());
 		return new Sprite[0];
 	}
 
@@ -46,7 +46,7 @@ public class DmiIconData : ScriptableObject
 				{
 					//					if (legacyUnityName.Contains("shuttle_wall"))
 					//					{
-					//						Debug.Log("found ya!");
+					//						TADB_Debug.Log("found ya!");
 					//					}
 					return getSprite(spriteSheet, newState.offset + relativeOffset);
 				}
@@ -104,7 +104,7 @@ public class DmiIconData : ScriptableObject
 				return icon;
 			}
 		}
-		Debug.LogError("Could not find Icon for sheet " + iPath);
+		TADB_Debug.LogError("Could not find Icon for sheet " + iPath,TADB_Debug.Category.DmiIconData.ToString());
 		return new DmiIcon();
 	}
 
@@ -116,11 +116,11 @@ public class DmiIconData : ScriptableObject
 			DmiState foundState = dmiIcon.states.Find(x => x.state == state);
 			if (foundState != null)
 			{
-				//				Debug.Log("foundState: "+ foundState);
+				//				TADB_Debug.Log("foundState: "+ foundState);
 				return dmiIcon;
 			}
 		}
-		//		Debug.Log("Couldn't find dmiIcon by state " + state + " in " + scanPath + ", deepScanning!");
+		//		TADB_Debug.Log("Couldn't find dmiIcon by state " + state + " in " + scanPath + ", deepScanning!");
 		return getIconByState(state);
 	}
 
@@ -131,11 +131,11 @@ public class DmiIconData : ScriptableObject
 			DmiState foundState = dmiIcon.states.Find(x => x.state.Equals(state));
 			if (foundState != null)
 			{
-				//				Debug.Log("foundState: "+ foundState);
+				//				TADB_Debug.Log("foundState: "+ foundState);
 				return dmiIcon;
 			}
 		}
-		Debug.LogWarning("Couldn't find dmiIcon by state " + state);
+		TADB_Debug.LogWarning("Couldn't find dmiIcon by state " + state,TADB_Debug.Category.DmiIconData.ToString());
 		return null;
 	}
 
@@ -153,12 +153,12 @@ public class DmiIconData : ScriptableObject
 				DmiState foundState = dmiIcon.states.Find(x => x.state.Equals(state) && (dirs == -1 || x.dirs == dirs));
 				if (foundState != null)
 				{
-					//				Debug.Log("foundState: "+ foundState);
+					//				TADB_Debug.Log("foundState: "+ foundState);
 					return foundState;
 				}
 			}
 		}
-		Debug.LogWarning("Couldn't find state " + state + " in the entire datafile!");
+		TADB_Debug.LogWarning("Couldn't find state " + state + " in the entire datafile!",TADB_Debug.Category.DmiIconData.ToString());
 		return null;
 	}
 
@@ -203,7 +203,7 @@ public class DmiIconData : ScriptableObject
 					DmiState foundState = icon.states.Find(x => x.state == state && (dirs == -1 || x.dirs == dirs));
 					if (foundState != null)
 					{
-						//						Debug.Log("foundState: "+ foundState);
+						//						TADB_Debug.Log("foundState: "+ foundState);
 						return foundState;
 					}
 				}
@@ -211,10 +211,10 @@ public class DmiIconData : ScriptableObject
 		}
 		if (deepSearch)
 		{
-			//			Debug.Log("Could not find " + state + " in " + icons + ". Deepscanning!");
+			//			TADB_Debug.Log("Could not find " + state + " in " + icons + ". Deepscanning!");
 			return searchState(state, dirs);
 		}
-		//		Debug.Log("Couldn't find state " + state + " using shallowSearch");
+		//		TADB_Debug.Log("Couldn't find state " + state + " using shallowSearch");
 		return null;
 	}
 
@@ -269,7 +269,7 @@ public class DmiIconData : ScriptableObject
 		}
 		else
 		{
-			Debug.LogError("Make sure dmi.json is in Resources/metadata/ !");
+			TADB_Debug.LogError("Make sure dmi.json is in Resources/metadata/ !",TADB_Debug.Category.DmiIconData.ToString());
 		}
 
 		IconList<DmiIcon> icons = new IconList<DmiIcon>();

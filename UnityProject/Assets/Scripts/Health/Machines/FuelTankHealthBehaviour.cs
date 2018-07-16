@@ -31,7 +31,7 @@ public class FuelTankHealthBehaviour : HealthBehaviour
 		}
 		StartCoroutine(explodeWithDelay(delay, killer));
 
-		//            Debug.Log("FuelTank ded!");
+		//            TADB_Debug.Log("FuelTank ded!");
 	}
 
 	private IEnumerator explodeWithDelay(float delay, string damagedBy)

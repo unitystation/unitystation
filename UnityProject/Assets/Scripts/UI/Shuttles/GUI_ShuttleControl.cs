@@ -94,7 +94,7 @@ public class GUI_ShuttleControl : NetTab {
 		
 		EntryList.UpdateExclusive( Waypoint );
 		
-//		Debug.Log( $"Ordering travel to {Waypoint.transform.position}" );
+//		TADB_Debug.Log( $"Ordering travel to {Waypoint.transform.position}" );
 		MatrixMove.AutopilotTo( Waypoint.transform.position );
 	}
 
@@ -109,7 +109,7 @@ public class GUI_ShuttleControl : NetTab {
 
 	private void StartRefresh() {
 		RefreshRadar = true;
-//		Debug.Log( "Starting radar refresh" );
+//		TADB_Debug.Log( "Starting radar refresh" );
 		StartCoroutine( Refresh() );
 	}
 
@@ -119,7 +119,7 @@ public class GUI_ShuttleControl : NetTab {
 	}
 
 	private void StopRefresh() {
-//		Debug.Log( "Stopping radar refresh" );
+//		TADB_Debug.Log( "Stopping radar refresh" );
 		RefreshRadar = false;
 	}
 
@@ -187,7 +187,7 @@ public class GUI_ShuttleControl : NetTab {
 	/// <param name="speedMultiplier"></param>
 	public void SetSpeed( float speedMultiplier ) {
 		float speed = speedMultiplier * ( MatrixMove.maxSpeed - 1 ) + 1;
-//		Debug.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
+//		TADB_Debug.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
 		MatrixMove.SetSpeed( speed );
 	}
 }

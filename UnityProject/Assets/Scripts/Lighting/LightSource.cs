@@ -143,7 +143,7 @@ namespace Lighting
 				}
 				else
 				{
-					Debug.LogWarning("LightSource still failing Renderer sync");
+					TADB_Debug.LogWarning("LightSource still failing Renderer sync", TADB_Debug.Category.Lighting.ToString());
 				}
 			}
 			else

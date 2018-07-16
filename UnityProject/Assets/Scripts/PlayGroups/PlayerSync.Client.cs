@@ -21,7 +21,7 @@ namespace PlayGroup
 			get { return lastDirection; }
 			set {
 //				if ( value == Vector2.zero ) {
-//					Debug.Log( $"Setting client LastDirection to {value}!" );
+//					TADB_Debug.Log( $"Setting client LastDirection to {value}!" );
 //				} 
 				lastDirection = value;
 			}
@@ -63,7 +63,7 @@ namespace PlayGroup
 				//experiment: not enqueueing or processing action if floating.
 				//arguably it shouldn't really be like that in the future 
 				if ( !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement ) {
-//				Debug.Log($"{gameObject.name} requesting {action.Direction()} ({pendingActions.Count} in queue)");
+//				TADB_Debug.Log($"{gameObject.name} requesting {action.Direction()} ({pendingActions.Count} in queue)");
 					pendingActions.Enqueue( action );
 
 					LastDirection = action.Direction();
@@ -91,9 +91,9 @@ namespace PlayGroup
 					bool matrixChanged;
 					tempState = NextState( tempState, action, out matrixChanged, isReplay );
 //					if ( matrixChanged ) {
-//						Debug.Log( $"{gameObject.name}: Predictive matrix change to {tempState}, {pendingActions.Count} pending" );
+//						TADB_Debug.Log( $"{gameObject.name}: Predictive matrix change to {tempState}, {pendingActions.Count} pending" );
 //					}
-//					Debug.Log($"Generated {tempState}");
+//					TADB_Debug.Log($"Generated {tempState}");
 				}
 				predictedState = tempState;
 			}
@@ -103,7 +103,7 @@ namespace PlayGroup
 		public void UpdateClientState( PlayerState state ) {
 			playerState = state;
 //			if ( !isServer ) {
-//				Debug.Log( $"Got server update {playerState}" );
+//				TADB_Debug.Log( $"Got server update {playerState}" );
 //			}
 
 			if ( playerState.MatrixId != predictedState.MatrixId && isLocalPlayer ) {
@@ -116,11 +116,11 @@ namespace PlayGroup
 
 			if ( blockClientMovement ) {
 				if ( isFloatingClient ) {
-					Debug.Log( $"Spacewalk approved. Got {playerState}\nPredicting {predictedState}" );
+					TADB_Debug.Log( $"Spacewalk approved. Got {playerState}\nPredicting {predictedState}",TADB_Debug.Category.Movement.ToString() );
 					ClearQueueClient();
 					blockClientMovement = false;
 				} else {
-					Debug.LogWarning( "Movement blocked. Waiting for a sign of approval for experienced flight" );
+					TADB_Debug.LogWarning( "Movement blocked. Waiting for a sign of approval for experienced flight",TADB_Debug.Category.Movement.ToString() );
 					return;
 				}
 			}
@@ -139,7 +139,7 @@ namespace PlayGroup
 				                playerState.Impulse != Vector2.zero &&
 				                playerState.Impulse.normalized != (Vector2)(predictedState.Position  - playerState.Position).normalized;
 				if ( spacewalkReset || wrongFloatDir ) {
-					Debug.LogWarning( $"{nameof(spacewalkReset)}={spacewalkReset}, {nameof(wrongFloatDir)}={wrongFloatDir}" );
+					TADB_Debug.LogWarning( $"{nameof(spacewalkReset)}={spacewalkReset}, {nameof(wrongFloatDir)}={wrongFloatDir}",TADB_Debug.Category.Movement.ToString() );
 					ClearQueueClient();
 					RollbackPrediction();
 				}
@@ -152,7 +152,7 @@ namespace PlayGroup
 				                   && playerState.Position != predictedState.Position;
 				bool wrongMatrix = playerState.MatrixId != predictedState.MatrixId && playerState.MoveNumber == predictedState.MoveNumber;
 				if ( serverAhead || posMismatch || wrongMatrix ) {
-					Debug.LogWarning( $"{nameof(serverAhead)}={serverAhead}, {nameof(posMismatch)}={posMismatch}, {nameof(wrongMatrix)}={wrongMatrix}" );
+					TADB_Debug.LogWarning( $"{nameof(serverAhead)}={serverAhead}, {nameof(posMismatch)}={posMismatch}, {nameof(wrongMatrix)}={wrongMatrix}",TADB_Debug.Category.Movement.ToString());
 					ClearQueueClient();
 					RollbackPrediction();
 				} else {
@@ -167,14 +167,14 @@ namespace PlayGroup
 		}
 		/// Reset client predictedState to last received server state (a.k.a. playerState)
 		public void RollbackPrediction() {
-//			Debug.Log( $"Rollback {predictedState}\n" +
+//			TADB_Debug.Log( $"Rollback {predictedState}\n" +
 //			           $"To       {playerState}" );
 			predictedState = playerState;
 		}
 
 		/// Clears client pending actions queue
 		public void ClearQueueClient() {
-//			Debug.Log("Resetting queue as requested by server!");
+//			TADB_Debug.Log("Resetting queue as requested by server!");
 			if ( pendingActions != null && pendingActions.Count > 0 ) {
 				pendingActions.Clear();
 			}
@@ -186,7 +186,7 @@ namespace PlayGroup
 			blockClientMovement = true;
 			yield return new WaitForSeconds(2f);
 			if ( blockClientMovement ) {
-				Debug.LogWarning( "Looks like you got stuck. Rolling back predictive moves" );
+				TADB_Debug.LogWarning( "Looks like you got stuck. Rolling back predictive moves",TADB_Debug.Category.Movement.ToString());
 				RollbackPrediction();
 			}
 			blockClientMovement = false;
@@ -215,7 +215,7 @@ namespace PlayGroup
 			bool isFloating = MatrixManager.IsFloatingAt( Vector3Int.RoundToInt(state.WorldPosition) );
 			//Space walk checks
 			if ( isPseudoFloatingClient && !isFloating ) {
-//                Debug.Log( "Stopped clientside floating to avoid going through walls" );
+//                TADB_Debug.Log( "Stopped clientside floating to avoid going through walls" );
 
 				//stop floating on client (if server isn't responding in time) to avoid players going through walls
 				predictedState.Impulse = Vector2.zero;
@@ -225,7 +225,7 @@ namespace PlayGroup
 				LastDirection = Vector2.zero;
 
 				if ( !isFloatingClient && playerState.MoveNumber < predictedState.MoveNumber ) {
-					Debug.Log( $"Finished unapproved flight, blocking. predictedState:\n{predictedState}" );
+					TADB_Debug.Log( $"Finished unapproved flight, blocking. predictedState:\n{predictedState}",TADB_Debug.Category.Movement.ToString() );
 					//Client figured out that he just finished spacewalking 
 					//and server is yet to approve the fact that it even started.
 					StartCoroutine( BlockMovement() );
@@ -234,7 +234,7 @@ namespace PlayGroup
 			if ( isFloating ) {
 				if ( state.Impulse == Vector2.zero && LastDirection != Vector2.zero ) {
 					if ( pendingActions == null || pendingActions.Count == 0 ) {
-//						Debug.LogWarning( "Just saved your ass; not initiating predictive spacewalk without queued actions" );
+//						TADB_Debug.LogWarning( "Just saved your ass; not initiating predictive spacewalk without queued actions" );
 						LastDirection = Vector2.zero;
 						return;
 					}
@@ -245,7 +245,7 @@ namespace PlayGroup
 					} else {
 						playerState.Impulse = state.Impulse;
 					}
-					Debug.Log($"Client init floating with impulse {LastDirection}. FC={isFloatingClient},PFC={isPseudoFloatingClient}");
+					TADB_Debug.Log($"Client init floating with impulse {LastDirection}. FC={isFloatingClient},PFC={isPseudoFloatingClient}",TADB_Debug.Category.Movement.ToString());
 				}
 
 				//Perpetual floating sim

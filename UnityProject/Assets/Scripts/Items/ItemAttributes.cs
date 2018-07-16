@@ -132,12 +132,12 @@ public class ItemAttributes : NetworkBehaviour
 		//init datafiles
 		if (!dmi)
 		{
-			//				Debug.Log("Item DMI data loading...");
+			//				TADB_Debug.Log("Item DMI data loading...");
 			dmi = Resources.Load("DmiIconData") as DmiIconData;
 		}
 		if (!dm)
 		{
-			//				Debug.Log("Item DM data loading...");
+			//				TADB_Debug.Log("Item DM data loading...");
 			dm = Resources.Load("DmObjectData") as DmObjectData;
 		}
 
@@ -192,7 +192,7 @@ public class ItemAttributes : NetworkBehaviour
 		spriteType = masterType;
 		GetComponentInChildren<SpriteRenderer>().sprite = stateSprite;
 
-		//			Debug.Log(name + " size=" + size + " type=" + type + " spriteType=" 
+		//			TADB_Debug.Log(name + " size=" + size + " type=" + type + " spriteType=" 
 		//			          + spriteType + " (" + desc + ") : " 
 		//			          + icon_state + " / " + item_state + " / C: " + clothingReference 
 		//			          + ", L: " + inHandReferenceLeft + ", R: " + inHandReferenceRight + ", I: " + inventoryIcon.icon + '\n'
@@ -203,7 +203,8 @@ public class ItemAttributes : NetworkBehaviour
 	{
 		if (dmiIcon == null || dmiIcon.getName().Equals(""))
 		{
-			Debug.Log($"DmiIcon '{dmiIcon}' is null, unable to get state '{icon_state}'");
+			
+			TADB_Debug.Log($"DmiIcon '{dmiIcon}' is null, unable to get state '{icon_state}'");
 			return new Sprite();
 		}
 
@@ -212,7 +213,8 @@ public class ItemAttributes : NetworkBehaviour
 		{
 			return dmiIcon.spriteSheet[iState.offset];
 		}
-		Debug.Log($"Failed to find inventory sprite '{icon_state}' in icon '{dmiIcon.icon}'");
+
+		TADB_Debug.Log($"Failed to find inventory sprite '{icon_state}' in icon '{dmiIcon.icon}'", TADB_Debug.Category.DmiIconData.ToString());
 		return new Sprite();
 	}
 
@@ -256,7 +258,7 @@ public class ItemAttributes : NetworkBehaviour
 		{
 			return dmDic[key];
 		}
-		//			Debug.Log("tryGetAttr fail using key: " + key);
+		//			TADB_Debug.Log("tryGetAttr fail using key: " + key);
 		return "";
 	}
 
@@ -273,24 +275,25 @@ public class ItemAttributes : NetworkBehaviour
 			string iconPath = DmiIconData.getIconPath(invSheetPaths[i]); //add extension junk
 			if (!iconPath.Equals("") && DmiIconData.Data.ContainsKey(iconPath) && icon.Equals(""))
 			{
-				//					Debug.Log(name + ": iSheet = dmi.DataHier[" + iconPath +"] = " + dmi.Data[iconPath]);
+				//					TADB_Debug.Log(name + ": iSheet = dmi.DataHier[" + iconPath +"] = " + dmi.Data[iconPath]);
 				return DmiIconData.Data[iconPath];
 			}
 		}
 
 		if (!icon.Equals(""))
 		{
-			//				Debug.Log(name + ": iSheet = dmi.DataIcon["+icon+"] = "+iSheet);
+			//				TADB_Debug.Log(name + ": iSheet = dmi.DataIcon["+icon+"] = "+iSheet);
 			return DmiIconData.Data[icon];
 		}
 		//pretty bad choice, should use this only as last resort as it's usually pretty inaccurate
 		DmiIcon invIcon = dmi.getIconByState(icon_state);
 		if (invIcon != null)
 		{
-			Debug.Log($"{name} is doing bad dmi.getIconByState({icon_state}) = {invIcon.icon}");
+			
+			TADB_Debug.Log($"{name} is doing bad dmi.getIconByState({icon_state}) = {invIcon.icon}", TADB_Debug.Category.DmiIconData.ToString());
 			return invIcon;
 		}
-		//			Debug.LogError();
+		//			TADB_Debug.LogError();
 		return new DmiIcon();
 	}
 
@@ -310,7 +313,7 @@ public class ItemAttributes : NetworkBehaviour
 			}
 		}
 
-		//Debug.LogError("No clothing offset found!  ClothHier=" + onPlayerClothSheetHier[0] + ", " + getItemDebugInfo());
+		//TADB_Debug.LogError("No clothing offset found!  ClothHier=" + onPlayerClothSheetHier[0] + ", " + getItemDebugInfo());
 		return -1;
 	}
 
@@ -414,7 +417,7 @@ public class ItemAttributes : NetworkBehaviour
 				objects.RemoveAll(x => !x.Contains("cloth"));
 				hierList = objects.ToArray();
 			}
-			//        Debug.Log("HierList loaded. size=" + hierList.Length);
+			//        TADB_Debug.Log("HierList loaded. size=" + hierList.Length);
 		}
 		if (hierarchy.Length == 0 && spriteType == SpriteType.Clothing)
 		{
@@ -424,12 +427,12 @@ public class ItemAttributes : NetworkBehaviour
 
 	private static ItemType getItemType(string s, string cutOff = "")
 	{
-		//			Debug.Log("getItemType for "+ s);
+		//			TADB_Debug.Log("getItemType for "+ s);
 		string sCut;
 		if (!cutOff.Equals("") && s.StartsWith(cutOff))
 		{
 			sCut = s.Substring(cutOff.Length + 1).Split('/')[0];
-			//				Debug.Log("sCut = "+ sCut);
+			//				TADB_Debug.Log("sCut = "+ sCut);
 		}
 		else
 		{
@@ -477,7 +480,7 @@ public class ItemAttributes : NetworkBehaviour
 				return ItemType.Suit;
 			default:
 				//GetItemType will be called several times on failure, with different string parameters
-//				Debug.Log("Could not find item type for " + sCut + ". Will attempt fallbacks if any exist.");
+//				TADB_Debug.Log("Could not find item type for " + sCut + ". Will attempt fallbacks if any exist.");
 				return ItemType.None;
 		}
 	}

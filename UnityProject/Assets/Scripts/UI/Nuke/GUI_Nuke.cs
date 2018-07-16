@@ -37,7 +37,7 @@ public class GUI_Nuke : NetTab
 	private void Start() {
 		//Not doing this for clients
 		if ( IsServer ) {
-//			Debug.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
+//			TADB_Debug.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
 			InitialInfoText = $"Enter {NukeInteract.NukeCode.ToString().Length}-digit code:";
 			InfoDisplay.SetValue = InitialInfoText;
 		}

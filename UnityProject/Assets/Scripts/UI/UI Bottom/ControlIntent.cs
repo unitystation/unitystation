@@ -25,7 +25,7 @@ namespace UI
 		//OnClick method
 		public void IntentButton()
 		{
-			Debug.Log("Intent Button");
+			TADB_Debug.Log("Intent Button", TADB_Debug.Category.UI.ToString());
 
 			SoundManager.Play("Click01");
 
