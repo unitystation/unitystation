@@ -98,7 +98,7 @@ public class MapToPNG : Editor
 		//
 		//        File.WriteAllBytes(Application.dataPath + "/../" + SceneManager.GetActiveScene().name + ".png", bytes);
 		//
-		//        Debug.Log("Making Map Image Done");
+		//        TADB_Debug.Log("Making Map Image Done");
 	}
 
 

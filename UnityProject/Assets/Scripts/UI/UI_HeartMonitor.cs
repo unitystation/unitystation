@@ -118,7 +118,7 @@ namespace UI
 		private void CheckHealth(int cHealth)
 		{
 			//PlayGroup.PlayerManager.PlayerScript.playerNetworkActions.CmdSendAlertMessage("mHealth: " + cHealth, true);
-			//Debug.Log("PlayerHealth: " + PlayGroup.PlayerManager.PlayerScript.playerHealth.Health);
+			//TADB_Debug.Log("PlayerHealth: " + PlayGroup.PlayerManager.PlayerScript.playerHealth.Health);
 			if (cHealth >= 90
 			    && spriteStart != fullHealthStart)
 			{

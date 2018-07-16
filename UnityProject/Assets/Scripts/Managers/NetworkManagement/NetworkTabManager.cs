@@ -33,7 +33,7 @@ public class NetworkTabManager : MonoBehaviour {
 		{
 			Destroy(gameObject);
 			// Clearing net tabs on round restart
-//			Debug.LogError( "NTM cleanup!" );
+//			TADB_Debug.LogError( "NTM cleanup!" );
 			foreach ( var tab in Instance.openTabs ) {
 				Destroy(tab.Value.gameObject);
 			}
@@ -100,8 +100,8 @@ public struct NetTabDescriptor {
 		this.provider = provider != null ? provider.GetComponent<NetworkTabTrigger>() : null;
 		this.type = type;
 		if ( type == NetTabType.None && this.provider != null ) {
-			Debug.LogError( "You forgot to set a proper NetTabType in your new tab!\n" +
-			                "Go to Prefabs/GUI/Resources and see if any prefabs starting with Tab has Type=None" );
+			TADB_Debug.LogError( "You forgot to set a proper NetTabType in your new tab!\n" +
+				"Go to Prefabs/GUI/Resources and see if any prefabs starting with Tab has Type=None",TADB_Debug.Category.NetworkTabManager.ToString());
 		}
 	}
 

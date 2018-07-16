@@ -21,7 +21,7 @@ namespace UI
 
 		public void RunWalk()
 		{
-			Debug.Log("RunWalk Button");
+			TADB_Debug.Log("RunWalk Button",TADB_Debug.Category.UI.ToString());
 
 			SoundManager.Play("Click01");
 

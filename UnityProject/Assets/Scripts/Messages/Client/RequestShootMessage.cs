@@ -22,7 +22,7 @@ public class RequestShootMessage : ClientMessage {
 	{
 		if (ShotBy.Equals(NetworkInstanceId.Invalid) || Weapon.Equals(NetworkInstanceId.Invalid)) {
 			//Failfast
-			Debug.LogWarning($"Shoot request invalid, processing stopped: {ToString()}");
+			TADB_Debug.LogWarning($"Shoot request invalid, processing stopped: {ToString()}");
 			yield break;
 		}
 

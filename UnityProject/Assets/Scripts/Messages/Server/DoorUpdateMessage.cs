@@ -13,7 +13,7 @@ public class DoorUpdateMessage : ServerMessage {
 	public NetworkInstanceId Door;
 
 	public override IEnumerator Process() {
-//		Debug.Log("Processed " + ToString());
+//		TADB_Debug.Log("Processed " + ToString());
 		yield return WaitFor( Door );
 		
 		if ( NetworkObject != null ) {

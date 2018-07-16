@@ -81,7 +81,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	private void InitServerState()
 	{
 		if ( flyingDirection == Vector2.zero ) {
-			Debug.LogWarning($"{gameObject.name} move direction unclear");
+			TADB_Debug.LogWarning($"{gameObject.name} move direction unclear",TADB_Debug.Category.Movement.ToString());
 			serverState.Direction = Vector2.up;
 		} else {
 			serverState.Direction = Vector2Int.RoundToInt(flyingDirection);
@@ -90,7 +90,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		var child = transform.GetChild( 0 );
 		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
 		pivot =  initialPosition - childPosition;
-//		Debug.Log( $"Calculated pivot {pivot} for {gameObject.name}" );
+//		TADB_Debug.Log( $"Calculated pivot {pivot} for {gameObject.name}" );
 		
 		serverState.Speed = 1f;
 		serverState.Position = initialPosition;
@@ -140,14 +140,14 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		if ( serverTargetState.Speed <= 0 ) {
 			SetSpeed( 1 );
 		}
-//		Debug.Log($"Started moving with speed {serverTargetState.Speed}");
+//		TADB_Debug.Log($"Started moving with speed {serverTargetState.Speed}");
 		serverTargetState.IsMoving = true;
 		RequestNotify();
 	}
 	/// Stop movement
 	[Server]
 	public void StopMovement() {
-//		Debug.Log("Stopped movement");
+//		TADB_Debug.Log("Stopped movement");
 		serverTargetState.IsMoving = false;
 		//To stop autopilot
 		DisableAutopilotTarget();
@@ -178,7 +178,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			return;
 		}
 		if ( absoluteValue > maxSpeed ) {
-			Debug.LogWarning($"MaxSpeed {maxSpeed} reached, not going further");
+			TADB_Debug.LogWarning($"MaxSpeed {maxSpeed} reached, not going further",TADB_Debug.Category.Movement.ToString());
 			if ( serverTargetState.Speed >= maxSpeed ) {
 				//Not notifying people if some dick is spamming "increase speed" button at max speed
 				return;
@@ -259,7 +259,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 					}
 				}
 			} else {
-				Debug.Log( "Stopping due to safety protocols!" );
+				TADB_Debug.Log( "Stopping due to safety protocols!",TADB_Debug.Category.Movement.ToString() );
 				StopMovement();
 			}
 		}
@@ -388,7 +388,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		
 		//Correcting direction
 		Vector3 newDirection = Quaternion.Euler( 0, 0, angleBetween ) * serverTargetState.Direction;
-//		Debug.Log($"Orientation is now {serverTargetState.Orientation}, Corrected direction from {serverTargetState.Direction} to {newDirection}");
+//		TADB_Debug.Log($"Orientation is now {serverTargetState.Orientation}, Corrected direction from {serverTargetState.Direction} to {newDirection}");
 		serverTargetState.Direction = newDirection;
 		RequestNotify();
 	}

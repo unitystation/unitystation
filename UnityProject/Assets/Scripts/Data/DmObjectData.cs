@@ -36,7 +36,7 @@ public class DmObjectData : ScriptableObject
 			Dictionary<string, string> foundAttributes = lookupObject(ancHier);
 			if (foundAttributes.Count == 0 && !hierarchy.Equals(ancHier))
 			{
-				//                Debug.Log(digLog.AppendLine("Stopped digging further than " + ancHier).ToString());
+				//                TADB_Debug.Log(digLog.AppendLine("Stopped digging further than " + ancHier).ToString());
 				break;
 			}
 
@@ -47,7 +47,7 @@ public class DmObjectData : ScriptableObject
 		}
 		if (ancAttr.Count == 0)
 		{
-			Debug.LogError("Didn't find any attributes for hierarchy " + hierarchy);
+			TADB_Debug.LogError("Didn't find any attributes for hierarchy " + hierarchy, TADB_Debug.Category.DmiIconData.ToString());
 		}
 		return ancAttr;
 	}

@@ -49,7 +49,7 @@ public class RadarEntry : DynamicEntry {
 			}
 		}
 
-//		Debug.Log( $"ItemEntry: Init success! Prefab={Prefab}, ItemName={itemAttributes.name}, ItemIcon={itemAttributes.gameObject.name}" );
+//		TADB_Debug.Log( $"ItemEntry: Init success! Prefab={Prefab}, ItemName={itemAttributes.name}, ItemIcon={itemAttributes.gameObject.name}" );
 	}
 }
 

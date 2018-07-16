@@ -49,7 +49,7 @@ namespace Util {
 			if ( posData.Length > 1 && int.TryParse(posData[0], out x) && int.TryParse(posData[1], out y) ) {
 				return new Vector2(x, y);
 			}
-			Debug.LogWarning( $"Vector parse failed: what the hell is '{stringifiedVector}'?" );
+			TADB_Debug.LogWarning( $"Vector parse failed: what the hell is '{stringifiedVector}'?" );
 			return TransformState.HiddenPos;
 		}
 	}

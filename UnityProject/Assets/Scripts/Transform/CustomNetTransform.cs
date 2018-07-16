@@ -135,7 +135,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 			bool initError = !MatrixManager.Instance || !registerTile;
 			if ( initError ) {
 				serverState.MatrixId = 0;
-				Debug.LogWarning( $"{gameObject.name}: unable to detect MatrixId!" );
+				TADB_Debug.LogWarning( $"{gameObject.name}: unable to detect MatrixId!" );
 			} else {
 				serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt(transform.position) ).Id;
 			}
@@ -161,7 +161,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	public void ReInitServerState()
 	{
 		InitServerState();
-	//	Debug.Log($"{name} reInit: {serverTransformState}");
+	//	TADB_Debug.Log($"{name} reInit: {serverTransformState}");
 	}
 
 	/// Essentially the Update loop
@@ -259,10 +259,10 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	[Server]
 	private void CheckMatrixSwitch( bool notify = true ) {
 		var pos = Vector3Int.RoundToInt( serverState.WorldPosition );
-//		Debug.Log( $"{gameObject.name} doing matrix switch check for {pos}" );
+//		TADB_Debug.Log( $"{gameObject.name} doing matrix switch check for {pos}" );
 		int newMatrixId = MatrixManager.AtPoint( pos ).Id;
 		if ( serverState.MatrixId != newMatrixId ) {
-//			Debug.Log( $"{gameObject} matrix {serverState.MatrixId}->{newMatrixId}" );
+//			TADB_Debug.Log( $"{gameObject} matrix {serverState.MatrixId}->{newMatrixId}" );
 
 			//It's very important to save World Pos before matrix switch and restore it back afterwards
 			var worldPosToPreserve = serverState.WorldPosition;
@@ -352,7 +352,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	[Server]
 	public void NotifyPlayers()
 	{
-//		Debug.Log( $"{gameObject.name} Notified" );
+//		TADB_Debug.Log( $"{gameObject.name} Notified" );
 		SyncMatrix();
 		serverState.IsLocalRotation = false;
 		TransformStateMessage.SendToAll(gameObject, serverState);

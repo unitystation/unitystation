@@ -24,7 +24,7 @@ public class RadarList : NetUIDynamicList {
 			//If item is out of range, stop showing it and place into "out of range" list
 			if ( item.Position == TransformState.HiddenPos || ProjectionMagnitude( item.Position ) > Range )
 			{
-//				Debug.Log( $"Hiding {item} as it's out of range" );
+//				TADB_Debug.Log( $"Hiding {item} as it's out of range" );
 				OutOfRangeEntries.Add( item );
 				item.gameObject.SetActive( false );
 			}
@@ -35,7 +35,7 @@ public class RadarList : NetUIDynamicList {
 			item.RefreshTrackedPos( originPos );
 			if ( item.Position != TransformState.HiddenPos && ProjectionMagnitude( item.Position ) <= Range )
 			{
-//				Debug.Log( $"Unhiding {item} as it's in range again" );
+//				TADB_Debug.Log( $"Unhiding {item} as it's in range again" );
 				ToRestore.Add( item );
 				item.gameObject.SetActive( true );
 			}
@@ -75,7 +75,7 @@ public class RadarList : NetUIDynamicList {
 			//add new entry
 			RadarEntry newEntry = Add() as RadarEntry;
 			if ( !newEntry ) {
-				Debug.LogWarning( $"Added {newEntry} is not an RadarEntry!" );
+			TADB_Debug.LogWarning( $"Added {newEntry} is not an RadarEntry!",TADB_Debug.Category.ShipNavigation.ToString() );
 				return false;
 			}
 
@@ -116,7 +116,7 @@ public class RadarList : NetUIDynamicList {
 			//add new entry
 			RadarEntry newEntry = Add() as RadarEntry;
 			if ( !newEntry ) {
-				Debug.LogWarning( $"Added {newEntry} is not an RadarEntry!" );
+				TADB_Debug.LogWarning( $"Added {newEntry} is not an RadarEntry!" );
 				return false;
 			}
 
@@ -124,7 +124,7 @@ public class RadarList : NetUIDynamicList {
 			newEntry.Type = type;
 			newEntry.TrackedObject = obj;
 		}
-//		Debug.Log( $"RadarList: Item add success! added {objects.Count} items" );
+//		TADB_Debug.Log( $"RadarList: Item add success! added {objects.Count} items" );
 		
 		//rescan elements and notify
 		NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );

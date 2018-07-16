@@ -42,7 +42,7 @@ namespace UnityStationTools
 			}
 			else
 			{
-				Debug.Log("Cannot revert to prefab - nothing selected");
+				TADB_Debug.Log("Cannot revert to prefab - nothing selected");
 			}
 		}
 

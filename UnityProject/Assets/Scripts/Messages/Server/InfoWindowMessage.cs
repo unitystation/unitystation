@@ -18,7 +18,7 @@ public class InfoWindowMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		//To be run on client
-//		Debug.Log($"Processed {this}");
+//		TADB_Debug.Log($"Processed {this}");
 		yield return WaitFor(Recipient);
 		UIManager.Display.infoWindow.GetComponent<GUI_Info>().Show(Text, Bwoink, string.IsNullOrEmpty(Title) ? "" : Title);
 	}

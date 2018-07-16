@@ -100,7 +100,7 @@ public class SearchAndDestroy : EditorWindow
 						}
 						catch
 						{
-							Debug.Log("For some reason, prefab " + prefab + " won't cast to GameObject");
+							TADB_Debug.Log("For some reason, prefab " + prefab + " won't cast to GameObject");
 						}
 					}
 					EditorUtility.ClearProgressBar();
@@ -130,10 +130,10 @@ public class SearchAndDestroy : EditorWindow
 						{
 							if (dependedAsset == targetPath)
 							{
-								//			Debug.Log ("dependend: " + dependedAsset);
-								//			Debug.Log ("prefab: " + prefab);
-								//			Debug.Log ("target:" + componentName);
-								//			Debug.Log ("DETROYED");
+								//			TADB_Debug.Log ("dependend: " + dependedAsset);
+								//			TADB_Debug.Log ("prefab: " + prefab);
+								//			TADB_Debug.Log ("target:" + componentName);
+								//			TADB_Debug.Log ("DETROYED");
 								//			var castPrefab = AssetDatabase.LoadAssetAtPath(prefab, (typeof(GameObject))) as GameObject;
 								//			var cast = AssetDatabase.LoadAssetAtPath(prefab, (typeof(GameObject))) as GameObject;
 								GameObject cast = PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath(prefab, typeof(GameObject))) as GameObject;
@@ -141,16 +141,16 @@ public class SearchAndDestroy : EditorWindow
 								//			EditorUtility.SetDirty (castGO);
 								Component component = cast.GetComponent(componentName);
 								DestroyImmediate(component, true);
-								//Debug.Log
+								//TADB_Debug.Log
 								//			PrefabUtility.ReplacePrefab(castGO, castPrefab, ReplacePrefabOptions.Default);
 								PrefabUtility.ReplacePrefab(cast, PrefabUtility.GetPrefabParent(cast), ReplacePrefabOptions.ConnectToPrefab);
 								DestroyImmediate(cast, true);
-								Debug.Log("Removed " + componentName + " From " + prefab);
+								TADB_Debug.Log("Removed " + componentName + " From " + prefab);
 								i++;
 							}
 						}
 					}
-					Debug.Log("Removed components from" + i + " prefabs");
+					TADB_Debug.Log("Removed components from" + i + " prefabs");
 					EditorUtility.ClearProgressBar();
 				}
 				break;

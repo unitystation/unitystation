@@ -40,7 +40,7 @@ public class DmiIcon
 			int endIndex = icon.IndexOf(".dmi", StringComparison.Ordinal);
 			return icon.Substring(startIndex, endIndex - startIndex);
 		}
-		//        Debug.LogWarning("getName: something's wrong");
+		//        TADB_Debug.LogWarning("getName: something's wrong");
 		return "";
 	}
 
@@ -49,11 +49,11 @@ public class DmiIcon
 		DmiState foundState = states.Find(x => x.state == state);
 		if (foundState != null)
 		{
-			//                Debug.Log("foundState: "+ foundState);
+			//                TADB_Debug.Log("foundState: "+ foundState);
 			return foundState;
 		}
 
-		//        Debug.LogWarning("Couldn't find dmiIcon by state " + state);
+		//        TADB_Debug.LogWarning("Couldn't find dmiIcon by state " + state);
 		return new DmiState();
 	}
 

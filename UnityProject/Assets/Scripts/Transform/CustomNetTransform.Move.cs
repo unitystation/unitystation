@@ -60,7 +60,7 @@ public partial class CustomNetTransform {
 			bool shouldStop =
 				Vector3.Distance( serverState.ActiveThrow.OriginPos, serverState.WorldPosition ) >= serverState.ActiveThrow.Trajectory.magnitude;
 //			if ( shouldStop ) {
-//				Debug.Log( $"Should stop throw: {Vector3.Distance( serverState.ActiveThrow.OriginPos, serverState.WorldPosition )}" +
+//				TADB_Debug.Log( $"Should stop throw: {Vector3.Distance( serverState.ActiveThrow.OriginPos, serverState.WorldPosition )}" +
 //				           $" >= {trajectory.magnitude}" );
 //			}
 			return shouldStop;
@@ -131,7 +131,7 @@ public partial class CustomNetTransform {
 			clientState.WorldPosition += moveDelta;
 		} else {
 			//stop
-//			Debug.Log( $"{gameObject.name}: predictive stop @ {clientState.WorldPosition} to {intGoal}" );
+//			TADB_Debug.Log( $"{gameObject.name}: predictive stop @ {clientState.WorldPosition} to {intGoal}" );
 			clientState.Speed = 0f;
 			clientState.Impulse = Vector2.zero;
 			clientState.SpinFactor = 0;
@@ -179,7 +179,7 @@ public partial class CustomNetTransform {
 		//limit throw range here
 		if ( Vector2.Distance( info.OriginPos, info.TargetPos ) > throwRange ) {
 			correctedInfo.TargetPos = info.OriginPos + ( ( Vector3 ) impulse * throwRange );
-//			Debug.Log( $"Throw distance clamped to {correctedInfo.Trajectory.magnitude}, " +
+//			TADB_Debug.Log( $"Throw distance clamped to {correctedInfo.Trajectory.magnitude}, " +
 //			           $"target changed {info.TargetPos}->{correctedInfo.TargetPos}" );
 		}
 
@@ -196,7 +196,7 @@ public partial class CustomNetTransform {
 			                                     * ( info.SpinMode == SpinMode.Clockwise ? 1 : -1 ) );
 		}
 		serverState.ActiveThrow = correctedInfo;
-//		Debug.Log( $"Throw:{correctedInfo} {serverState}" );
+//		TADB_Debug.Log( $"Throw:{correctedInfo} {serverState}" );
 		NotifyPlayers();
 	}
 
@@ -263,7 +263,7 @@ public partial class CustomNetTransform {
 	private void AdvanceMovement( Vector3 tempOrigin, Vector3 tempGoal ) {
 		//Natural throw ending
 		if ( IsBeingThrown && ShouldStopThrow ) {
-//			Debug.Log( $"{gameObject.name}: Throw ended at {serverState.WorldPosition}" );
+//			TADB_Debug.Log( $"{gameObject.name}: Throw ended at {serverState.WorldPosition}" );
 			serverState.ActiveThrow = ThrowInfo.NoThrow;
 			//Change spin when we hit the ground. Zero was kinda dull
 			serverState.SpinFactor = ( sbyte ) ( -serverState.SpinFactor * 0.2f );
@@ -287,7 +287,7 @@ public partial class CustomNetTransform {
 	/// This check works only for 2 adjacent tiles, that's why floating check is recursive
 	[Server]
 	private bool ValidateFloating( Vector3 origin, Vector3 goal ) {
-//		Debug.Log( $"{gameObject.name} check {origin}->{goal}. Speed={serverState.Speed}" );
+//		TADB_Debug.Log( $"{gameObject.name} check {origin}->{goal}. Speed={serverState.Speed}" );
 		Vector3Int intOrigin = Vector3Int.RoundToInt( origin );
 		Vector3Int intGoal = Vector3Int.RoundToInt( goal );
 		var info = serverState.ActiveThrow;
@@ -314,7 +314,7 @@ public partial class CustomNetTransform {
 	///Stopping drift, killing impulse
 	[Server]
 	private void StopFloating() {
-//		Debug.Log( $"{gameObject.name} stopped floating" );
+//		TADB_Debug.Log( $"{gameObject.name} stopped floating" );
 		serverState.Impulse = Vector2.zero;
 		serverState.Speed = 0;
 		serverState.Rotation = transform.rotation.eulerAngles.z;
@@ -357,7 +357,7 @@ public partial class CustomNetTransform {
 			foreach ( HealthBehaviour obj in objectsOnTile ) {
 				//Skip thrower for now
 				if ( obj.gameObject == thrownBy ) {
-					Debug.Log( $"{thrownBy.name} not hurting himself" );
+					TADB_Debug.Log( $"{thrownBy.name} not hurting himself" );
 					continue;
 				}
 				//Skip dead bodies

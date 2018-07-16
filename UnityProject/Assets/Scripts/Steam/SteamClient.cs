@@ -46,13 +46,13 @@ public class SteamClient : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                Debug.LogWarning("Couldn't write steam_appid.txt: " + e.Message);
+			TADB_Debug.LogWarning("Couldn't write steam_appid.txt: " + e.Message, TADB_Debug.Category.SteamIntegration.ToString());
             }
 
             // Create the client
         if (GameData.IsHeadlessServer || GameData.Instance.testServer || SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
         {
-            Debug.Log("Skipping Steam Client Init as this is a Headless Server");
+			TADB_Debug.Log("Skipping Steam Client Init as this is a Headless Server",TADB_Debug.Category.SteamIntegration.ToString());
         }
         else
         {
@@ -64,11 +64,11 @@ public class SteamClient : MonoBehaviour
                 if (!client.IsValid)
                 {
                     client = null;
-                    Debug.LogWarning("Couldn't initialize Steam");
+					TADB_Debug.LogWarning("Couldn't initialize Steam", TADB_Debug.Category.SteamIntegration.ToString());
                     return;
                 }
 
-                Debug.Log("Steam Initialized: " + client.Username + " / " + client.SteamId);
+				TADB_Debug.Log("Steam Initialized: " + client.Username + " / " + client.SteamId, TADB_Debug.Category.SteamIntegration.ToString());
             }
         }
     }

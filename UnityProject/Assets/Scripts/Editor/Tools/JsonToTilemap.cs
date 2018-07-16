@@ -65,7 +65,7 @@ public class JsonToTilemap : Editor
 
 		// mark as dirty, otherwise the scene can't be saved.
 		EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-		Debug.Log("Import kinda finished");
+		TADB_Debug.Log("Import kinda finished");
 	}
 
 	private static Matrix4x4 FindObjectPosition(MetaTileMap metaTileMap, ref Vector3Int position, LayerTile tile)
