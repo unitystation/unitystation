@@ -93,7 +93,7 @@ namespace PlayGroup
 		[ClientRpc]
 		public void RpcSetPlayerRot( float rot )
 		{
-			//		TADB_Debug.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
+			//		Logger.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
 			SpriteRenderer[] spriteRends = GetComponentsInChildren<SpriteRenderer>();
 			foreach (SpriteRenderer sR in spriteRends)
 			{

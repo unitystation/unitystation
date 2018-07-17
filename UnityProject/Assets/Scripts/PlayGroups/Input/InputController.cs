@@ -111,7 +111,7 @@ namespace PlayGroups.Input
 				Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 				position.z = 0f;
 				currentSlot.Clear();
-//				TADB_Debug.Log( $"Requesting throw from {currentSlot.eventName} to {position}" );
+//				Logger.Log( $"Requesting throw from {currentSlot.eventName} to {position}" );
 				PlayerManager.LocalPlayerScript.playerNetworkActions
 					.CmdRequestThrow( currentSlot.eventName, position, (int) UIManager.DamageZone );
 				//Disabling throw button

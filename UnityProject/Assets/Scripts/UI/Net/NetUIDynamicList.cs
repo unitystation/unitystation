@@ -21,7 +21,7 @@ public class NetUIDynamicList : NetUIElement {
 				DynamicEntry entry = entries[i];
 				string entryName = entry.name;
 				if ( dynamicEntries.ContainsKey( entryName ) ) {
-					TADB_Debug.LogWarning( $"Duplicate entry name {entryName}, something's wrong" );
+					Logger.LogWarning( $"Duplicate entry name {entryName}, something's wrong" );
 					continue;
 				}
 				dynamicEntries.Add( entryName, entry );
@@ -69,7 +69,7 @@ public class NetUIDynamicList : NetUIElement {
 		for ( var i = 0; i < toBeRemoved.Length; i++ ) {
 			var item = toBeRemoved[i];
 			var entryToRemove = entries[item];
-//			TADB_Debug.Log( $"{mode} destroying entry #{item}({entryToRemove})" );
+//			Logger.Log( $"{mode} destroying entry #{item}({entryToRemove})" );
 			entryToRemove.gameObject.SetActive( false );
 		}
 
@@ -101,10 +101,10 @@ public class NetUIDynamicList : NetUIElement {
 			RefreshPositions();
 
 			if ( resultIndex != "" ) {
-//				TADB_Debug.Log( $"{mode} spawning entry #[{resultIndex}]: proposed: [{proposedIndex}], entry: {dynamicEntry}" );
+//				Logger.Log( $"{mode} spawning entry #[{resultIndex}]: proposed: [{proposedIndex}], entry: {dynamicEntry}" );
 			} else {
 				
-				TADB_Debug.LogWarning( $"Entry \"{proposedIndex}\" {mode} spawn failure, no such entryObject {elementType}", TADB_Debug.Category.TabUISystem.ToString() );
+				Logger.LogWarning( $"Entry \"{proposedIndex}\" {mode} spawn failure, no such entryObject {elementType}", Categories.TabUISystem );
 			}
 
 			dynamicEntries[i] = dynamicEntry;

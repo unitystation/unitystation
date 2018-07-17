@@ -144,14 +144,14 @@ namespace PlayGroup
 				if ( CustomNetworkManager.Instance.SteamServer ) {
 					// Send request to be authenticated by the server
 					if ( Client.Instance != null ) {
-						TADB_Debug.Log( "Client Requesting Auth", TADB_Debug.Category.SteamIntegration.ToString() );
+						Logger.Log( "Client Requesting Auth", Categories.SteamIntegration );
 						// Generate authentication Ticket
 						var ticket = Client.Instance.Auth.GetAuthSessionTicket();
 						var ticketBinary = ticket.Data;
 						// Send Clientmessage to authenticate
 						RequestAuthMessage.Send( Client.Instance.SteamId, ticketBinary );
 					} else {
-						TADB_Debug.Log( "Client NOT requesting auth", TADB_Debug.Category.SteamIntegration.ToString() );
+						Logger.Log( "Client NOT requesting auth", Categories.SteamIntegration );
 					}
 				}
 //				Request sync to get all the latest transform data
@@ -196,7 +196,7 @@ namespace PlayGroup
 		[Command]
 		private void CmdTrySetInitialName(string name)
 		{
-//			TADB_Debug.Log($"TrySetName {name}");
+//			Logger.Log($"TrySetName {name}");
 			if (PlayerList.Instance != null)
 			{
 				var player = PlayerList.Instance.Get(connectionToClient);
@@ -215,10 +215,10 @@ namespace PlayGroup
 		{
 			if (string.IsNullOrEmpty(newName))
 			{
-				TADB_Debug.LogError("NO NAME PROVIDED!");
+				Logger.LogError("NO NAME PROVIDED!");
 				return;
 			}
-//			TADB_Debug.Log($"OnNameChange: GOName '{gameObject.name}'->'{newName}'; playerName '{playerName}'->'{newName}'");
+//			Logger.Log($"OnNameChange: GOName '{gameObject.name}'->'{newName}'; playerName '{playerName}'->'{newName}'");
 			playerName = newName;
 			gameObject.name = newName;
 		}

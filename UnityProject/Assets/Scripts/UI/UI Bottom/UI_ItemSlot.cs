@@ -147,7 +147,7 @@ namespace UI
 			}
 			else if ( attributes.size > maxItemSize )
 			{
-				TADB_Debug.Log($"{attributes.size} {item} is too big for {maxItemSize} {eventName}!");
+				Logger.Log($"{attributes.size} {item} is too big for {maxItemSize} {eventName}!");
 				return false;
 			}
 			return allowAllItems || allowedItemTypes.Contains(attributes.type);

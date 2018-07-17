@@ -17,7 +17,7 @@ public class UpdateSlotMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		//To be run on client
-		//        TADB_Debug.Log("Processed " + ToString());
+		//        Logger.Log("Processed " + ToString());
 
 		if (ObjectForSlot == NetworkInstanceId.Invalid)
 		{

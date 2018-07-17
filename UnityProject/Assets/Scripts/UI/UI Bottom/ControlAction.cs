@@ -79,7 +79,7 @@ namespace UI
 		public void Resist()
 		{
 			SoundManager.Play("Click01");
-			TADB_Debug.Log("Resist Button",TADB_Debug.Category.UI.ToString());
+			Logger.Log("Resist Button",Categories.UI);
 		}
 
 		public void Drop()
@@ -101,7 +101,7 @@ namespace UI
 			//                var placedOk = currentSlot.PlaceItem(dropPos);
 			//                if ( !placedOk )
 			//                {
-			//                    TADB_Debug.Log("Client dropping error");
+			//                    Logger.Log("Client dropping error");
 			//                }
 			//            }
 			//            else
@@ -116,7 +116,7 @@ namespace UI
 			//Message
 			lps.playerNetworkActions.RequestDropItem(currentSlot.eventName, false);
 			SoundManager.Play("Click01");
-			TADB_Debug.Log("Drop Button", TADB_Debug.Category.UI.ToString());
+			Logger.Log("Drop Button", Categories.UI);
 
 		}
 
@@ -139,7 +139,7 @@ namespace UI
 			}
 
 			SoundManager.Play("Click01");
-//			TADB_Debug.Log("Throw Button");
+//			Logger.Log("Throw Button");
 
 			if (!UIManager.IsThrow)
 			{

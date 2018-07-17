@@ -117,7 +117,7 @@ public class NetTab : Tab {
 
 				}
 			} else {
-				TADB_Debug.LogWarning( $"'{name}' wonky value import: can't find '{elementId}'", TADB_Debug.Category.TabUISystem.ToString() );
+				Logger.LogWarning( $"'{name}' wonky value import: can't find '{elementId}'", Categories.TabUISystem );
 			}
 		}
 		return firstTouchedElement;

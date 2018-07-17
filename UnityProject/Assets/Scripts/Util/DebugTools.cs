@@ -27,7 +27,7 @@ public static class GizmoUtils
         var guiSkin = GUI.skin;
         if ( guiSkin == null )
         {
-            TADB_Debug.LogWarning("editor warning: guiSkin parameter is null");
+            Logger.LogWarning("editor warning: guiSkin parameter is null");
             return;
         }
 

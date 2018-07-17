@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (Occupations.All(o => o.GetComponent<OccupationRoster>().Type != JobType.ASSISTANT))
 		{
-			TADB_Debug.LogError("There is no ASSISTANT job role defined in the the GameManager Occupation rosters");
+			Logger.LogError("There is no ASSISTANT job role defined in the the GameManager Occupation rosters");
 		}
 	}
 
@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
 
 		if ( count != 0 )
 		{
-			TADB_Debug.Log($"{jobType} count: {count}");
+			Logger.Log($"{jobType} count: {count}");
 		}
 		return count;
 	}

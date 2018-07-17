@@ -37,7 +37,7 @@ public class NetSpriteImage : NetUIElement
 							spriteName = value;
 						} else {
 						
-						TADB_Debug.LogWarning( $"Unable to load sprite '{spriteFile}'",TADB_Debug.Category.NetSpriteImage.ToString() );
+						Logger.LogWarning( $"Unable to load sprite '{spriteFile}'",Categories.NetSpriteImage );
 						}
 						break;
 				}

@@ -171,14 +171,14 @@ namespace Electricity
 		public void DebugPrintLists(){
 			
 			foreach(IElectricityIO io in possibleConns){
-				TADB_Debug.Log($" Possilbe conn at {io.GameObject().transform.localPosition}",TADB_Debug.Category.Electrical.ToString());
+				Logger.Log($" Possilbe conn at {io.GameObject().transform.localPosition}",Categories.Electrical);
 			}
 
 			foreach (IElectricityIO io in connections) {
-				TADB_Debug.Log($" Connected to something at {io.GameObject().transform.localPosition}",TADB_Debug.Category.Electrical.ToString());
+				Logger.Log($" Connected to something at {io.GameObject().transform.localPosition}",Categories.Electrical);
 			}
 
-			TADB_Debug.Log($"The connection points are: {wire.DirectionStart} and {wire.DirectionEnd}",TADB_Debug.Category.Electrical.ToString());
+			Logger.Log($"The connection points are: {wire.DirectionStart} and {wire.DirectionEnd}",Categories.Electrical);
 		}
 
 		[ContextMenu("GenerateTestCurrent")]

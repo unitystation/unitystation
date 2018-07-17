@@ -35,7 +35,7 @@ public class ThreadedBehaviour : MonoBehaviour
 		WorkingThread = new Thread(ThreadedLoop);
 		WorkingThread.Start();
 		string str = string.Format("<b>{0}</b> Started", GetType().Name);
-		TADB_Debug.Log(str);
+		Logger.Log(str);
 		//        ConsoleDebug.AddText("<color=#00FFFF>" + str + "</color>");
 	}
 
@@ -54,7 +54,7 @@ public class ThreadedBehaviour : MonoBehaviour
 			WorkingThread = null;
 		}
 		string str = string.Format("<b>{0}</b> Stopped", GetType().Name);
-		TADB_Debug.Log(str);
+		Logger.Log(str);
 		//        ConsoleDebug.AddText("<color=#00FFFF>" + str + "</color>");
 		IsRunning = false;
 	}

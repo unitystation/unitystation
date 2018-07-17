@@ -12,12 +12,12 @@ public class RequestSyncMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-//		TADB_Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 
 		yield return WaitFor(SentBy);
 
 		ConnectedPlayer connectedPlayer = PlayerList.Instance.Get( NetworkObject );
-		TADB_Debug.Log($"{connectedPlayer} requested sync");
+		Logger.Log($"{connectedPlayer} requested sync");
 		
 		//not sending out sync data for players not ingame 
 		if ( connectedPlayer.Job != JobType.NULL && !connectedPlayer.Synced ) {

@@ -139,18 +139,18 @@ public class CustomNetworkManager : NetworkManager
 			server.ServerName = "Unitystation Official";
 			// Set required settings for dedicated server
 
-			TADB_Debug.Log("Setting up Auth hook", TADB_Debug.Category.NetworkManager.ToString());
+			Logger.Log("Setting up Auth hook", Categories.NetworkManager);
 			//Process callback data for authentication
 			server.Auth.OnAuthChange = AuthChange;
 		}
 		// confirm in log if server is actually registered or not
 		if (server.IsValid)
 		{
-			TADB_Debug.Log("Server registered", TADB_Debug.Category.NetworkManager.ToString());
+			Logger.Log("Server registered", Categories.NetworkManager);
 		}
 		else
 		{
-			TADB_Debug.Log("Server NOT registered", TADB_Debug.Category.NetworkManager.ToString());
+			Logger.Log("Server NOT registered", Categories.NetworkManager);
 		}
 
 	}
@@ -161,13 +161,13 @@ public class CustomNetworkManager : NetworkManager
 		var player = PlayerList.Instance.Get(steamid);
 		if ( player == ConnectedPlayer.Invalid )
 		{
-			TADB_Debug.LogWarning( $"Steam gave us a {status} ticket response for unconnected id {steamid}" , TADB_Debug.Category.NetworkManager.ToString());
+			Logger.LogWarning( $"Steam gave us a {status} ticket response for unconnected id {steamid}" , Categories.NetworkManager);
 			return;
 		}
 
 		if ( status == ServerAuth.Status.OK )
 		{
-			TADB_Debug.LogWarning( $"Steam gave us a 'ok' ticket response for already connected id {steamid}" , TADB_Debug.Category.NetworkManager.ToString());
+			Logger.LogWarning( $"Steam gave us a 'ok' ticket response for already connected id {steamid}" , Categories.NetworkManager);
 			return;
 		}
 
@@ -183,10 +183,10 @@ public class CustomNetworkManager : NetworkManager
 	{
 		if ( !player.Connection.isConnected )
 		{
-			TADB_Debug.Log($"Not kicking, already disconnected: {player}", TADB_Debug.Category.NetworkManager.ToString());
+			Logger.Log($"Not kicking, already disconnected: {player}", Categories.NetworkManager);
 			return;
 		}
-		TADB_Debug.Log( $"Kicking {player} : {raisins}" , TADB_Debug.Category.NetworkManager.ToString());
+		Logger.Log( $"Kicking {player} : {raisins}" , Categories.NetworkManager);
 		InfoWindowMessage.Send(player.GameObject, $"Kicked: {raisins}", "Kicked");
 		PostToChatMessage.Send($"Player '{player.Name}' got kicked: {raisins}", ChatChannel.System);
 		player.Connection.Disconnect();
@@ -258,7 +258,7 @@ public class CustomNetworkManager : NetworkManager
 			{
 				return;
 			}
-			TADB_Debug.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.", TADB_Debug.Category.NetworkManager.ToString());
+			Logger.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.", Categories.NetworkManager);
 		}
 		else if (playerPrefab.GetComponent<NetworkIdentity>() == null)
 		{
@@ -266,7 +266,7 @@ public class CustomNetworkManager : NetworkManager
 			{
 				return;
 			}
-			TADB_Debug.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.", TADB_Debug.Category.NetworkManager.ToString());
+			Logger.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.", Categories.NetworkManager);
 		}
 		else if (playerControllerId < conn.playerControllers.Count && conn.playerControllers[playerControllerId].IsValid &&
 		         conn.playerControllers[playerControllerId].gameObject != null)
@@ -275,7 +275,7 @@ public class CustomNetworkManager : NetworkManager
 			{
 				return;
 			}
-			TADB_Debug.LogError("There is already a player at that playerControllerId for this connections.", TADB_Debug.Category.NetworkManager.ToString());
+			Logger.LogError("There is already a player at that playerControllerId for this connections.", Categories.NetworkManager);
 		}
 		else
 		{
@@ -345,7 +345,7 @@ public class CustomNetworkManager : NetworkManager
 		{
 			player.GameObject.GetComponent<PlayerNetworkActions>().DropAll(true);
 		}
-		TADB_Debug.Log($"Player Disconnected: {player.Name}", TADB_Debug.Category.NetworkManager.ToString());
+		Logger.Log($"Player Disconnected: {player.Name}", Categories.NetworkManager);
 		PlayerList.Instance.Remove(conn);
 	}
 

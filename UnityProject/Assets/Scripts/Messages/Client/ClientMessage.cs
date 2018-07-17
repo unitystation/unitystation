@@ -14,7 +14,7 @@ public abstract class ClientMessage : GameMessageBase
 		}
 
 		CustomNetworkManager.Instance.client.connection.Send(GetMessageType(), this);
-//		TADB_Debug.Log($"Sent {this}");
+//		Logger.Log($"Sent {this}");
 	}
 
 	public void SendUnreliable()

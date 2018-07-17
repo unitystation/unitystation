@@ -48,7 +48,7 @@ public class ShutterSwitchTrigger : InputTrigger
 		}
 		else
 		{
-			TADB_Debug.Log("DOOR NOT FINISHED CLOSING YET!"); 
+			Logger.Log("DOOR NOT FINISHED CLOSING YET!"); 
 		}
 	}
 

@@ -13,10 +13,10 @@ namespace Sprites
 			{
 				if (sprites.ContainsKey(key))
 				{
-					//					TADB_Debug.Log("Sprite found with key: " + key);
+					//					Logger.Log("Sprite found with key: " + key);
 					return sprites[key];
 				}
-				TADB_Debug.Log("SPRITE MANAGER ERROR, KEY " + key + "NOT FOUND IN SPRITES", TADB_Debug.Category.SpriteManager.ToString());
+				Logger.Log("SPRITE MANAGER ERROR, KEY " + key + "NOT FOUND IN SPRITES", Categories.SpriteManager);
 				return null;
 			}
 			set { sprites[key] = value; }

@@ -47,7 +47,7 @@ namespace Lighting
 
 		private void PrintBounds()
 		{
-			TADB_Debug.Log("LIGHTING: Bounds calc for " + gameObject.name + ": " + bounds, TADB_Debug.Category.Lighting.ToString());
+			Logger.Log("LIGHTING: Bounds calc for " + gameObject.name + ": " + bounds, Categories.Lighting);
 		}
 
 		public void LightSwitchOff()

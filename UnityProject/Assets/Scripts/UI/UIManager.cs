@@ -207,7 +207,7 @@ namespace UI
 
 		public static void SetDeathVisibility(bool vis)
 		{
-//			TADB_Debug.Log("I was activated!");
+//			Logger.Log("I was activated!");
 			foreach (Transform child in Display.hudRight.GetComponentsInChildren<Transform>(true))
 			{
 				if (child.gameObject.name != "OxygenSelector" && child.gameObject.name != "PlayerHealth_UI_Hud")
