@@ -10,6 +10,8 @@ namespace UI {
 	public class ControlTabs : MonoBehaviour {
 		private static GameObject FingerPrefab;
 		private static GameObject TabHeaderPrefab;
+        public Transform TabStorage;
+        public Transform HeaderStorage;
 
 		public static ControlTabs Instance;
 		
@@ -33,25 +35,6 @@ namespace UI {
 					Destroy(tab.Value.gameObject);
 				}
 				Instance.SelectTab( ClientTabType.Stats, false );
-			}
-		}
-
-		private Transform tabStorage;
-		private Transform TabStorage {
-			get {
-				if ( tabStorage == null ) {
-					tabStorage = transform.GetChild( 1 );
-				}
-				return tabStorage;
-			}
-		}
-		private Transform headerStorage;
-		private Transform HeaderStorage {
-			get {
-				if ( headerStorage == null ) {
-					headerStorage = transform.GetChild( 0 );
-				}
-				return headerStorage;
 			}
 		}
 
