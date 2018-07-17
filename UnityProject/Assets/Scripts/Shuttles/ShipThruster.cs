@@ -14,7 +14,7 @@ public class ShipThruster : MonoBehaviour {
         shipMM = transform.root.gameObject.GetComponent<MatrixMove>();
 
         particleFX = GetComponentInChildren<ParticleSystem>();
-        UpdateEngineState();
+        //UpdateEngineState();
     }
 
     public void UpdateEngineState()
@@ -31,27 +31,29 @@ public class ShipThruster : MonoBehaviour {
     }
 
     //Rotates FX as ship rotates
-    public void RotateFX()
+    public void RotateFX(Orientation newO)
     {
         var mainFX = particleFX.main;
 
-        if (!flipped)
-        {
-            mainFX.startRotation = 90 * Mathf.Deg2Rad;
-            flipped = true;
-        }
-        else
-        {
-            mainFX.startRotation = 0;
-            flipped = false;
-        }
+        mainFX.startRotation = newO.Degree * Mathf.Deg2Rad;
+
+        //if (!flipped)
+        //{
+        //    mainFX.startRotation = 90 * Mathf.Deg2Rad;
+        //    flipped = true;
+        //}
+        //else
+        //{
+        //    mainFX.startRotation = 0;
+        //    flipped = false;
+        //}
     }
 
     bool EngineStatus() // Returns if engines are "on" (if ship is moving)
     {
         if (shipMM != null)
         {
-            return shipMM.serverTargetState.IsMoving;
+            return shipMM.State.IsMoving;
         }
 
         return false;
