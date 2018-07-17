@@ -136,7 +136,7 @@ namespace Light2D
 		{
 			if (GameData.Instance.testServer || GameData.IsHeadlessServer)
 			{
-				TADB_Debug.Log("Turn off lightsystem as this is a server",TADB_Debug.Category.Light2D.ToString());
+				Logger.Log("Turn off lightsystem as this is a server",Categories.Light2D);
 				enabled = false;
 			}
 #if UNITY_EDITOR
@@ -149,19 +149,19 @@ namespace Light2D
 
 			if (LightCamera == null)
 			{
-				TADB_Debug.LogError("Lighting Camera in LightingSystem is null. Please, select Lighting Camera camera for lighting to work.",TADB_Debug.Category.Light2D.ToString());
+				Logger.LogError("Lighting Camera in LightingSystem is null. Please, select Lighting Camera camera for lighting to work.",Categories.Light2D);
 				enabled = false;
 				return;
 			}
 			if (LightOverlayMaterial == null)
 			{
-				TADB_Debug.LogError("LightOverlayMaterial in LightingSystem is null. Please, select LightOverlayMaterial camera for lighting to work.",TADB_Debug.Category.Light2D.ToString());
+				Logger.LogError("LightOverlayMaterial in LightingSystem is null. Please, select LightOverlayMaterial camera for lighting to work.",Categories.Light2D);
 				enabled = false;
 				return;
 			}
 			if (AffectOnlyThisCamera && _camera.targetTexture != null)
 			{
-				TADB_Debug.LogError("\"Affect Only This Camera\" will not work if camera.targetTexture is set.",TADB_Debug.Category.Light2D.ToString());
+				Logger.LogError("\"Affect Only This Camera\" will not work if camera.targetTexture is set.",Categories.Light2D);
 				AffectOnlyThisCamera = false;
 			}
 
@@ -169,7 +169,7 @@ namespace Light2D
 
 			if (EnableNormalMapping && !_camera.orthographic)
 			{
-				TADB_Debug.LogError("Normal mapping is not supported with perspective camera.",TADB_Debug.Category.Light2D.ToString());
+				Logger.LogError("Normal mapping is not supported with perspective camera.",Categories.Light2D);
 				EnableNormalMapping = false;
 			}
 
@@ -178,7 +178,7 @@ namespace Light2D
 			FlareLayer flare = GetComponent<FlareLayer>();
 			if (flare != null && flare.enabled)
 			{
-				TADB_Debug.Log("Disabling FlareLayer since AffectOnlyThisCamera setting is checked.",TADB_Debug.Category.Light2D.ToString());
+				Logger.Log("Disabling FlareLayer since AffectOnlyThisCamera setting is checked.",Categories.Light2D);
 				flare.enabled = false;
 			}
 
@@ -241,13 +241,13 @@ namespace Light2D
 
 			if (_extendedLightTextureSize.x > 1024 || _extendedLightTextureSize.y > 1024 || _smallLightTextureSize.x > 1024 || _smallLightTextureSize.y > 1024)
 			{
-				TADB_Debug.LogError("LightPixelSize is too small. That might have a performance impact.",TADB_Debug.Category.Light2D.ToString());
+				Logger.LogError("LightPixelSize is too small. That might have a performance impact.",Categories.Light2D);
 				return;
 			}
 
 			if (_extendedLightTextureSize.x < 4 || _extendedLightTextureSize.y < 4 || _smallLightTextureSize.x < 4 || _smallLightTextureSize.y < 4)
 			{
-				TADB_Debug.LogError("LightPixelSize is too big. Lighting may not work correctly.",TADB_Debug.Category.Light2D.ToString());
+				Logger.LogError("LightPixelSize is too big. Lighting may not work correctly.",Categories.Light2D);
 				return;
 			}
 

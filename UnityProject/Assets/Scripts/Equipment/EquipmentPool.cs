@@ -67,7 +67,7 @@ namespace Equipment
 			NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
 			if (!Instance.equipPools.ContainsKey(ownerId))
 			{
-				TADB_Debug.LogWarning($"{PlayerList.Instance.Get(player)} doesn't have item {gObj.name}, nothing to dispose of", TADB_Debug.Category.Equipment.ToString());
+				Logger.LogWarning($"{PlayerList.Instance.Get(player)} doesn't have item {gObj.name}, nothing to dispose of", Categories.Equipment);
 				return;
 			}
 			Instance.equipPools[ownerId].DestroyGameObject(gObj);
@@ -94,13 +94,13 @@ namespace Equipment
 		{
 			if (!gObj)
 			{
-				TADB_Debug.LogWarning("Trying to drop null object",TADB_Debug.Category.Equipment.ToString());
+				Logger.LogWarning("Trying to drop null object",Categories.Equipment);
 				return;
 			}
 			NetworkIdentity networkIdentity = player.GetComponent<NetworkIdentity>();
 			if ( !networkIdentity )
 			{
-				TADB_Debug.LogWarning("Unable to drop as NetIdentity is gone",TADB_Debug.Category.Equipment.ToString());
+				Logger.LogWarning("Unable to drop as NetIdentity is gone",Categories.Equipment);
 				return;
 			}
 			NetworkInstanceId ownerId = networkIdentity.netId;

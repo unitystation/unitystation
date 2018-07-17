@@ -18,7 +18,7 @@ public class TabInteractMessage : ClientMessage
 	//Serverside
 	public override IEnumerator Process()
 	{
-//		TADB_Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 		yield return WaitFor(SentBy, TabProvider);
 		ProcessFurther(NetworkObjects[0], NetworkObjects[1]);
 	}
@@ -72,7 +72,7 @@ public class TabInteractMessage : ClientMessage
 
 	private TabUpdateMessage FailValidation( GameObject player, GameObject tabProvider, string reason="" ) {
 		
-		TADB_Debug.LogWarning( $"{player}: Tab interaction w/{tabProvider} denied: {reason}",TADB_Debug.Category.TabUISystem.ToString() );
+		Logger.LogWarning( $"{player}: Tab interaction w/{tabProvider} denied: {reason}",Categories.TabUISystem );
 		return TabUpdateMessage.Send( player, tabProvider, NetTabType, TabAction.Close );
 	}
 

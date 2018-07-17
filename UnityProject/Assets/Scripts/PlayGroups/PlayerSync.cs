@@ -301,7 +301,7 @@ namespace PlayGroup
 			newState.MatrixId = matrixAtPoint.Id;
 			newState.WorldPosition = proposedWorldPos;
 
-//			TADB_Debug.Log( $"NextState: src={state} proposedPos={newState.WorldPosition}\n" +
+//			Logger.Log( $"NextState: src={state} proposedPos={newState.WorldPosition}\n" +
 //			           $"mAtPoint={matrixAtPoint.Id} change={matrixChangeDetected} newState={newState}" );
 			
 			if ( !matrixChangeDetected ) {

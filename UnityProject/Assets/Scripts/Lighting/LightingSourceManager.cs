@@ -29,7 +29,7 @@ namespace Lighting
 				}
 				else
 				{
-					TADB_Debug.LogError("No LightSource component found!",TADB_Debug.Category.Lighting.ToString());
+					Logger.LogError("No LightSource component found!",Categories.Lighting);
 				}
 			}
 		}

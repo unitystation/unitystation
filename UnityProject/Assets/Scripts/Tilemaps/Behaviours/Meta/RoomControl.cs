@@ -31,7 +31,7 @@ namespace Tilemaps.Behaviours.Meta
 			}
 
 			sw.Stop();
-			TADB_Debug.Log("Room init: " + sw.ElapsedMilliseconds + " ms",TADB_Debug.Category.RoomControl.ToString());
+			Logger.Log("Room init: " + sw.ElapsedMilliseconds + " ms",Categories.RoomControl);
 		}
 		
 		public override void UpdateAt(Vector3Int position)

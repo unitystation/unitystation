@@ -40,7 +40,7 @@ public class GUI_Spawner : NetTab
 	public void SpawnItemByIndex( string index ) {
 		ItemEntry item = GetItemFromIndex( index );
 		var prefab = item?.Prefab;
-//		TADB_Debug.Log( $"Spawning item '{prefab?.name}'!" );
+//		Logger.Log( $"Spawning item '{prefab?.name}'!" );
 		
 		Vector3 originPos = Provider.WorldPos();
 		Vector3 nearestPlayerPos = GetNearestPlayerPos(originPos);

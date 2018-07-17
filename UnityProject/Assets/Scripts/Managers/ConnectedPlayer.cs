@@ -81,7 +81,7 @@ public class ConnectedPlayer
             if ( value != 0 )
             {
                 steamId = value;
-				TADB_Debug.Log( $"Updated steamID! {this}" , TADB_Debug.Category.SteamIntegration.ToString());
+				Logger.Log( $"Updated steamID! {this}" , Categories.SteamIntegration);
             }
         }
     }
@@ -115,7 +115,7 @@ public class ConnectedPlayer
         var playerList = PlayerList.Instance;
         if ( playerList == null )
         {
-//			TADB_Debug.Log("PlayerList not instantiated, setting name blindly");
+//			Logger.Log("PlayerList not instantiated, setting name blindly");
             name = playerName;
             return;
         }
@@ -136,11 +136,11 @@ public class ConnectedPlayer
         if ( sameNames != 0 )
         {
             proposedName = $"{name}{sameNames + 1}";
-            TADB_Debug.Log($"TRYING: {proposedName}");
+            Logger.Log($"TRYING: {proposedName}");
         }
         if ( PlayerList.Instance.ContainsName(proposedName) )
         {
-            TADB_Debug.Log($"NAME ALREADY EXISTS: {proposedName}");
+            Logger.Log($"NAME ALREADY EXISTS: {proposedName}");
             sameNames++;
             return GetUniqueName(name, sameNames);
         }

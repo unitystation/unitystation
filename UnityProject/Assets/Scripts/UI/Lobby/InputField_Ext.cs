@@ -44,7 +44,7 @@ namespace UI
 			}
 			else
 			{
-				TADB_Debug.Log("Caret obj not found",TADB_Debug.Category.UI.ToString());
+				Logger.Log("Caret obj not found",Categories.UI);
 			}
 		}
 	}

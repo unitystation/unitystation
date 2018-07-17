@@ -31,7 +31,7 @@ namespace Lighting
 				}
 				else
 				{
-					TADB_Debug.LogError("No LightTile component found!",TADB_Debug.Category.Lighting.ToString());
+					Logger.LogError("No LightTile component found!",Categories.Lighting);
 				}
 			}
 

@@ -165,7 +165,7 @@ public class MapToJSON : Editor
 		//            DestroyImmediate(o);
 		//        }
 		//
-		//        TADB_Debug.Log("Export kinda finished");
+		//        Logger.Log("Export kinda finished");
 		//        AssetDatabase.Refresh();
 	}
 

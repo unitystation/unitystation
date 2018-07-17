@@ -202,7 +202,7 @@ public class UITileList : MonoBehaviour
 	{
 		if (!Instance.listedObjects.Contains(tileListItemObject))
 		{
-			TADB_Debug.LogError("Attempted to remove tileListItem not on list");
+			Logger.LogError("Attempted to remove tileListItem not on list");
 			return;
 		}
 

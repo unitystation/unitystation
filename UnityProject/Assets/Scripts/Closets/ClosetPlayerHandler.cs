@@ -32,7 +32,7 @@ namespace Cupboards
 			if (!closetControl)
 			{
 				//this is not a closet. Could be a coffin or disposals 
-				TADB_Debug.LogWarning("No closet found for ClosetPlayerHandler!" + " maybe it's time to update this component? (see the todo's)");
+				Logger.LogWarning("No closet found for ClosetPlayerHandler!" + " maybe it's time to update this component? (see the todo's)");
 				Destroy(this);
 			}
 			else

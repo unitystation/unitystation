@@ -115,7 +115,7 @@ public class ShutterController : ObjectTrigger
 			}
 			else
 			{
-				TADB_Debug.LogWarning("ShutterController still failing Animator sync", TADB_Debug.Category.ShutterController.ToString());
+				Logger.LogWarning("ShutterController still failing Animator sync", Categories.ShutterController);
 			}
 		}
 		else

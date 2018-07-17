@@ -131,7 +131,7 @@ public class MatrixManager : MonoBehaviour
 		Matrix[] findMatrices = FindObjectsOfType<Matrix>();
 		if (findMatrices.Length < matrixCount)
 		{
-//			TADB_Debug.Log( "Matrix init failure, will try in 0.5" );
+//			Logger.Log( "Matrix init failure, will try in 0.5" );
 			StartCoroutine(WaitForLoad());
 			return;
 		}
@@ -153,7 +153,7 @@ public class MatrixManager : MonoBehaviour
 		}
 
 		//These aren't fully initialized at that moment; init is truly finished when server is up and NetIDs are resolved
-//		TADB_Debug.Log($"Semi-init {this}");
+//		Logger.Log($"Semi-init {this}");
 	}
 
 	public override string ToString()
@@ -182,7 +182,7 @@ public class MatrixManager : MonoBehaviour
 	private static MatrixInfo getInternal(Func<MatrixInfo, bool> condition)
 	{
 		if ( Instance.activeMatrices.Count == 0 ) {
-//			TADB_Debug.Log( "MatrixManager list not ready yet, trying to init" );
+//			Logger.Log( "MatrixManager list not ready yet, trying to init" );
 			Instance.InitMatrices();
 		}
 		for (var i = 0; i < Instance.activeMatrices.Count; i++)
@@ -334,7 +334,7 @@ public struct MatrixInfo
 
 		if (netId == NetworkInstanceId.Invalid)
 		{
-			TADB_Debug.LogWarning($"Invalid NetID for matrix {matrix.gameObject.name}!", TADB_Debug.Category.MatrixManager.ToString());
+			Logger.LogWarning($"Invalid NetID for matrix {matrix.gameObject.name}!", Categories.MatrixManager);
 		}
 
 		return netId;

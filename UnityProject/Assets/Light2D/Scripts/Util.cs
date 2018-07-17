@@ -267,7 +267,7 @@ namespace Light2D
 				}
 				sb.Append(vals[i]);
 			}
-			TADB_Debug.Log(sb.ToString());
+			Logger.Log(sb.ToString());
 		}
 
 		public static void Log(Object context, params object[] vals)
@@ -281,7 +281,7 @@ namespace Light2D
 				}
 				sb.Append(vals[i]);
 			}
-			TADB_Debug.Log(sb.ToString()); //context
+			Logger.Log(sb.ToString()); //context
 		}
 
 		public static void LogArray<T>(IEnumerable<T> enumerable)
@@ -295,7 +295,7 @@ namespace Light2D
 				sb.Append(vals[i]);
 				sb.AppendLine(";");
 			}
-			TADB_Debug.Log(sb.ToString());
+			Logger.Log(sb.ToString());
 		}
 
 		public static Color Set(this Color color, int channel, float value)
@@ -387,7 +387,7 @@ namespace Light2D
 			}
 			catch
 			{
-				TADB_Debug.LogError("an error happened here");
+				Logger.LogError("an error happened here");
 				return default(T);
 			}
 		}

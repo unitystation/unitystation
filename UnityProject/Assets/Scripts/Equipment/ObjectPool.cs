@@ -46,7 +46,7 @@ namespace Equipment
 			NetworkIdentity id = gObj.GetComponent<NetworkIdentity>();
 			if (!currentObjects.ContainsKey(id))
 			{
-				TADB_Debug.Log("item: " + gObj.name + "was not found in Player Equipment pool", TADB_Debug.Category.Equipment.ToString());
+				Logger.Log("item: " + gObj.name + "was not found in Player Equipment pool", Categories.Equipment);
 			}
 			else
 			{

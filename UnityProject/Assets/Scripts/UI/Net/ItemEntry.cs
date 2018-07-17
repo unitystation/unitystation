@@ -13,12 +13,12 @@ public class ItemEntry : DynamicEntry {
 
 	public void ReInit() {
 		if ( !Prefab ) {
-			TADB_Debug.Log( "ItemEntry: no prefab found, not doing init",TADB_Debug.Category.ItemEntry.ToString() );
+			Logger.Log( "ItemEntry: no prefab found, not doing init",Categories.ItemEntry );
 			return;
 		}
 		var itemAttributes = Prefab.GetComponent<ItemAttributes>();
 		if ( !itemAttributes ) {
-			TADB_Debug.LogWarning( $"No attributes found for prefab {Prefab}",TADB_Debug.Category.ItemEntry.ToString() );
+			Logger.LogWarning( $"No attributes found for prefab {Prefab}",Categories.ItemEntry );
 			return;
 		}
 		foreach ( var element in Elements ) {
@@ -33,6 +33,6 @@ public class ItemEntry : DynamicEntry {
 						break;
 				}
 		}
-		TADB_Debug.Log( $"ItemEntry: Init success! Prefab={Prefab}, ItemName={itemAttributes.name}, ItemIcon={itemAttributes.gameObject.name}",TADB_Debug.Category.ItemEntry.ToString() );
+		Logger.Log( $"ItemEntry: Init success! Prefab={Prefab}, ItemName={itemAttributes.name}, ItemIcon={itemAttributes.gameObject.name}",Categories.ItemEntry );
 	}
 }
