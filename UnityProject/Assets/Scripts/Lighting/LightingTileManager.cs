@@ -31,7 +31,7 @@ namespace Lighting
 				}
 				else
 				{
-					Logger.LogError("No LightTile component found!",Categories.Lighting);
+					Logger.LogError("No LightTile component found!",Category.Lighting);
 				}
 			}
 

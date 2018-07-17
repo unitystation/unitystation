@@ -29,7 +29,7 @@ namespace Lighting
 				}
 				else
 				{
-					Logger.LogError("No LightSource component found!",Categories.Lighting);
+					Logger.LogError("No LightSource component found!",Category.Lighting);
 				}
 			}
 		}

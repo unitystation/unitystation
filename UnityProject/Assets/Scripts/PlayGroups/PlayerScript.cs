@@ -144,14 +144,14 @@ namespace PlayGroup
 				if ( CustomNetworkManager.Instance.SteamServer ) {
 					// Send request to be authenticated by the server
 					if ( Client.Instance != null ) {
-						Logger.Log( "Client Requesting Auth", Categories.SteamIntegration );
+						Logger.Log( "Client Requesting Auth", Category.SteamIntegration );
 						// Generate authentication Ticket
 						var ticket = Client.Instance.Auth.GetAuthSessionTicket();
 						var ticketBinary = ticket.Data;
 						// Send Clientmessage to authenticate
 						RequestAuthMessage.Send( Client.Instance.SteamId, ticketBinary );
 					} else {
-						Logger.Log( "Client NOT requesting auth", Categories.SteamIntegration );
+						Logger.Log( "Client NOT requesting auth", Category.SteamIntegration );
 					}
 				}
 //				Request sync to get all the latest transform data

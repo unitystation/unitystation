@@ -334,7 +334,7 @@ public struct MatrixInfo
 
 		if (netId == NetworkInstanceId.Invalid)
 		{
-			Logger.LogWarning($"Invalid NetID for matrix {matrix.gameObject.name}!", Categories.MatrixManager);
+			Logger.LogWarning($"Invalid NetID for matrix {matrix.gameObject.name}!", Category.MatrixManager);
 		}
 
 		return netId;

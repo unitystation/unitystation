@@ -169,7 +169,7 @@ public class PoolManager : NetworkBehaviour
 		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
 		if ( !poolPrefabTracker )
 		{
-			Logger.LogWarning($"PoolPrefabTracker not found on {target}",Categories.PoolManager);
+			Logger.LogWarning($"PoolPrefabTracker not found on {target}",Category.PoolManager);
 			return;
 		}
 		GameObject prefab = poolPrefabTracker.myPrefab;

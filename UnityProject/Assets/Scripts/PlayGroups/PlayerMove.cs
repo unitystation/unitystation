@@ -155,7 +155,7 @@ namespace PlayGroup
             direction.x = Mathf.Clamp(direction.x, -1, 1);
             direction.y = Mathf.Clamp(direction.y, -1, 1);
 
-			Logger.Log(direction.ToString(),Categories.Movement);
+			Logger.Log(direction.ToString(),Category.Movement);
 
             if (!isGhost && PlayerManager.LocalPlayer == gameObject)
             {

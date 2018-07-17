@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.CompilerServices;
 
-public enum Categories{
+public enum Category{
 	Atmospherics,
 	Movement,
 	MapLoad, 
@@ -43,80 +43,73 @@ public class Logger
 	// 0 Only will show errors 
 	// 1 will show errors and warnings
 	// 2 will show errors, warnings and logs
-	private static Dictionary<Categories, int> FilterDictionary = new Dictionary<Categories, int>{
-		[Categories.Atmospherics] = 0,
-		[Categories.Movement] = 0,
-		[Categories.MapLoad] = 0,
-		[Categories.RoomControl] = 0,
-		[Categories.ItemList] = 0,
-		[Categories.ItemEntry] = 0,
-		[Categories.DmiIconData] = 0,
-		[Categories.UI] = 0,
-		[Categories.MatrixManager] = 0,
-		[Categories.Equipment] = 0,
-		[Categories.NetworkManager] = 0,
-		[Categories.uniCloth] = 0,
-		[Categories.NetworkTabManager] = 0,
-		[Categories.ItemFactory] = 0,
-		[Categories.Light2D] = 0,
-		[Categories.PlayerList] = 0,
-		[Categories.PoolManager] = 0,
-		[Categories.SpriteManager] = 0,
-		[Categories.PlayerNetworkActions] = 0,
-		[Categories.SteamIntegration] = 0,
-		[Categories.TabUISystem] = 0,
-		[Categories.Telecommunications] = 0,
-		[Categories.PlayerJobManager] = 0,
-		[Categories.PushPull] = 0,
-		[Categories.NetSpriteImage] = 0,
-		[Categories.ShutterController] = 0,
-		[Categories.ShipNavigation] = 0,
-		[Categories.Lighting] = 0,
-		[Categories.Electrical] = 0,
-		[Categories.Unknown] = 0,
+	private static Dictionary<Category, int> FilterDictionary = new Dictionary<Category, int>{
+		[Category.Atmospherics] = 0,
+		[Category.Movement] = 3,
+		[Category.MapLoad] = 0,
+		[Category.RoomControl] = 0,
+		[Category.ItemList] = 0,
+		[Category.ItemEntry] = 0,
+		[Category.DmiIconData] = 0,
+		[Category.UI] = 0,
+		[Category.MatrixManager] = 0,
+		[Category.Equipment] = 0,
+		[Category.NetworkManager] = 0,
+		[Category.uniCloth] = 0,
+		[Category.NetworkTabManager] = 0,
+		[Category.ItemFactory] = 0,
+		[Category.Light2D] = 0,
+		[Category.PlayerList] = 0,
+		[Category.PoolManager] = 0,
+		[Category.SpriteManager] = 0,
+		[Category.PlayerNetworkActions] = 0,
+		[Category.SteamIntegration] = 0,
+		[Category.TabUISystem] = 0,
+		[Category.Telecommunications] = 0,
+		[Category.PlayerJobManager] = 0,
+		[Category.PushPull] = 0,
+		[Category.NetSpriteImage] = 0,
+		[Category.ShutterController] = 0,
+		[Category.ShipNavigation] = 0,
+		[Category.Lighting] = 0,
+		[Category.Electrical] = 0,
+		[Category.Unknown] = 0,
 	};
-	//Example of how to call Logger.Log("Message",Categories.#Something#);
-	private enum Levels{
+	//Example of how to call Logger.Log("Message",Category.#Something#);
+	private enum Level{
 		Error = 0,
 		Warning = 1,
 		Log = 2,
 		Trace = 3
 		};
 
-	private static List<string> PriorityMessage = new List<string>{
-		"Error ",
-		"Warning ",
-		"Log ",
-		"Trace ",
-	};
-
-	public static void Log(string Message, Categories Category = Categories.Unknown,[CallerMemberName]string memberName = "")
+	public static void Log(string Message, Category Category = Category.Unknown,[CallerMemberName]string memberName = "")
 		{
-		Process(Message,Levels.Log,Category,memberName);
+		Process(Message,Level.Log,Category,memberName);
 		}
-	public static void LogWarning(string Message, Categories Category = Categories.Unknown,[CallerMemberName]string memberName = "")
+	public static void LogWarning(string Message, Category Category = Category.Unknown,[CallerMemberName]string memberName = "")
 		{
-		Process(Message,Levels.Warning,Category,memberName);
+		Process(Message,Level.Warning,Category,memberName);
 		}
 
-	public static void LogError(string Message, Categories Category = Categories.Unknown,[CallerMemberName]string memberName = "")
+	public static void LogError(string Message, Category Category = Category.Unknown,[CallerMemberName]string memberName = "")
 		{
-		Process(Message,Levels.Error,Category,memberName);
+		Process(Message,Level.Error,Category,memberName);
 		}
 
-	private static void Process(string Message,Levels PriorityLevel, Categories Category = Categories.Unknown,string memberName = "")
+	private static void Process(string Message,Level PriorityLevel, Category Category = Category.Unknown,string memberName = "")
 		{
 		int PriorityLevelint = (int)PriorityLevel;
 		if (FilterDictionary.ContainsKey(Category)) 
 			{
 			if (!(FilterDictionary[Category] < PriorityLevelint)) 
 				{
-				Debug_Level_process((Category+" "+PriorityMessage[PriorityLevelint] +Message+"\n"+ memberName), PriorityLevelint);
+				Debug_Level_process((Category+" "+PriorityLevel.ToString()+" "+Message+"\n"+ memberName), PriorityLevelint);
 				}
 			}
 		else
 			{
-			Debug_Level_process((Category+" "+PriorityMessage[PriorityLevelint]+Message+"\n"+ memberName), PriorityLevelint);
+			Debug_Level_process((Category+" "+PriorityLevel.ToString()+" "+Message+"\n"+ memberName), PriorityLevelint);
 			}	
 		}
 	private static void Debug_Level_process(string Message,int PriorityLevel)

@@ -44,7 +44,7 @@ namespace UI
 			}
 			else
 			{
-				Logger.Log("Caret obj not found",Categories.UI);
+				Logger.Log("Caret obj not found",Category.UI);
 			}
 		}
 	}

@@ -110,7 +110,7 @@ namespace PlayGroup
 		{
 			if (direction == Vector2Int.zero)
 			{
-				Logger.Log("Push with zero impulse??", Categories.PushPull);
+				Logger.Log("Push with zero impulse??", Category.PushPull);
 				return;
 			}
 
@@ -122,7 +122,7 @@ namespace PlayGroup
 					Vector3Int.RoundToInt(serverState.Position + (Vector3) serverTargetState.Impulse);
 				if (matrix.IsPassableAt(pushGoal))
 				{
-					Logger.Log($"Server push to {pushGoal}", Categories.PushPull);
+					Logger.Log($"Server push to {pushGoal}", Category.PushPull);
 					serverTargetState.Position = pushGoal;
 					serverTargetState.ImportantFlightUpdate = true;
 					serverTargetState.ResetClientQueue = true;
@@ -264,7 +264,7 @@ namespace PlayGroup
 			{
 				if (consideredFloatingServer)
 				{
-					Logger.LogWarning("Server ignored move while player is floating", Categories.Movement);
+					Logger.LogWarning("Server ignored move while player is floating", Category.Movement);
 					serverPendingActions.Dequeue();
 					return;
 				}
@@ -279,7 +279,7 @@ namespace PlayGroup
 			else
 			{
 				Logger.LogWarning(
-					$"Pointless move {serverTargetState}+{nextAction.keyCodes[0]} Rolling back to {serverState}",Categories.Movement);
+					$"Pointless move {serverTargetState}+{nextAction.keyCodes[0]} Rolling back to {serverState}",Category.Movement);
 				RollbackPosition();
 			}
 		}
@@ -298,7 +298,7 @@ namespace PlayGroup
 
 			//todo: subscribe to current matrix rotations on spawn
 			var newMatrix = MatrixManager.Get(nextState.MatrixId);
-			Logger.Log($"Matrix will change to {newMatrix}",Categories.Movement);
+			Logger.Log($"Matrix will change to {newMatrix}",Category.Movement);
 			if (newMatrix.MatrixMove)
 			{
 				//Subbing to new matrix rotations
@@ -339,7 +339,7 @@ namespace PlayGroup
 				if (distance > 1.5)
 				{
 					Logger.LogWarning($"Dist {distance} > 1:{serverState}\n" +
-						$"Target    :{serverTargetState}",Categories.Movement);
+						$"Target    :{serverTargetState}",Category.Movement);
 					serverState.WorldPosition = serverTargetState.WorldPosition;
 				}
 

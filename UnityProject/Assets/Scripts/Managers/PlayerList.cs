@@ -186,7 +186,7 @@ public class PlayerList : NetworkBehaviour
 	{
 		if ( player.Equals(ConnectedPlayer.Invalid) )
 		{
-			Logger.Log("Refused to add invalid connected player",Categories.PlayerList);
+			Logger.Log("Refused to add invalid connected player",Category.PlayerList);
 			return;
 		}
 		if ( ContainsConnection(player.Connection) )
@@ -201,7 +201,7 @@ public class PlayerList : NetworkBehaviour
 		else
 		{
 			values.Add(player);
-			Logger.Log($"Added {player}. Total:{values.Count}; {string.Join("; ",values)}",Categories.PlayerList);
+			Logger.Log($"Added {player}. Total:{values.Count}; {string.Join("; ",values)}",Category.PlayerList);
 			//Adding kick timer for new players only
 			StartCoroutine(KickTimer(player));
 		}
@@ -236,7 +236,7 @@ public class PlayerList : NetworkBehaviour
 	[Server]
 	private void TryRemove(ConnectedPlayer player)
 	{
-		Logger.Log($"Removed {player}",Categories.PlayerList);
+		Logger.Log($"Removed {player}",Category.PlayerList);
 		values.Remove(player);
 		AddPrevious( player );
 		NetworkServer.Destroy(player.GameObject);
@@ -302,7 +302,7 @@ public class PlayerList : NetworkBehaviour
 			{
 				if ( condition(oldValues[i]) )
 				{
-					Logger.Log( $"Returning old player {oldValues[i]}", Categories.PlayerList);
+					Logger.Log( $"Returning old player {oldValues[i]}", Category.PlayerList);
 					return oldValues[i];
 				}
 			}
@@ -317,7 +317,7 @@ public class PlayerList : NetworkBehaviour
 		ConnectedPlayer connectedPlayer = Get(connection);
 		if ( connectedPlayer.Equals(ConnectedPlayer.Invalid) )
 		{
-			Logger.LogError($"Cannot remove by {connection}, not found", Categories.PlayerList);
+			Logger.LogError($"Cannot remove by {connection}, not found", Category.PlayerList);
 		}
 		else
 		{
