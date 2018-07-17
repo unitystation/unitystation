@@ -228,7 +228,7 @@ namespace UI {
 			Tab tab = TabStorage.GetChild( index )?.GetComponent<Tab>();
 			if ( !tab ) {
 				
-				Logger.LogWarning( $"No tab found with index {index}!",Categories.TabUISystem );
+				Logger.LogWarning( $"No tab found with index {index}!",Category.TabUISystem );
 				return;
 			}
 			tab.gameObject.SetActive( true );

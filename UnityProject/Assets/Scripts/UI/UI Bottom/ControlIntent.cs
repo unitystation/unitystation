@@ -25,7 +25,7 @@ namespace UI
 		//OnClick method
 		public void IntentButton()
 		{
-			Logger.Log("Intent Button", Categories.UI);
+			Logger.Log("Intent Button", Category.UI);
 
 			SoundManager.Play("Click01");
 

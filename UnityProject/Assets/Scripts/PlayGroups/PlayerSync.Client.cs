@@ -116,11 +116,11 @@ namespace PlayGroup
 
 			if ( blockClientMovement ) {
 				if ( isFloatingClient ) {
-					Logger.Log( $"Spacewalk approved. Got {playerState}\nPredicting {predictedState}",Categories.Movement );
+					Logger.Log( $"Spacewalk approved. Got {playerState}\nPredicting {predictedState}",Category.Movement );
 					ClearQueueClient();
 					blockClientMovement = false;
 				} else {
-					Logger.LogWarning( "Movement blocked. Waiting for a sign of approval for experienced flight",Categories.Movement );
+					Logger.LogWarning( "Movement blocked. Waiting for a sign of approval for experienced flight",Category.Movement );
 					return;
 				}
 			}
@@ -139,7 +139,7 @@ namespace PlayGroup
 				                playerState.Impulse != Vector2.zero &&
 				                playerState.Impulse.normalized != (Vector2)(predictedState.Position  - playerState.Position).normalized;
 				if ( spacewalkReset || wrongFloatDir ) {
-					Logger.LogWarning( $"{nameof(spacewalkReset)}={spacewalkReset}, {nameof(wrongFloatDir)}={wrongFloatDir}",Categories.Movement );
+					Logger.LogWarning( $"{nameof(spacewalkReset)}={spacewalkReset}, {nameof(wrongFloatDir)}={wrongFloatDir}",Category.Movement );
 					ClearQueueClient();
 					RollbackPrediction();
 				}
@@ -152,7 +152,7 @@ namespace PlayGroup
 				                   && playerState.Position != predictedState.Position;
 				bool wrongMatrix = playerState.MatrixId != predictedState.MatrixId && playerState.MoveNumber == predictedState.MoveNumber;
 				if ( serverAhead || posMismatch || wrongMatrix ) {
-					Logger.LogWarning( $"{nameof(serverAhead)}={serverAhead}, {nameof(posMismatch)}={posMismatch}, {nameof(wrongMatrix)}={wrongMatrix}",Categories.Movement);
+					Logger.LogWarning( $"{nameof(serverAhead)}={serverAhead}, {nameof(posMismatch)}={posMismatch}, {nameof(wrongMatrix)}={wrongMatrix}",Category.Movement);
 					ClearQueueClient();
 					RollbackPrediction();
 				} else {
@@ -186,7 +186,7 @@ namespace PlayGroup
 			blockClientMovement = true;
 			yield return new WaitForSeconds(2f);
 			if ( blockClientMovement ) {
-				Logger.LogWarning( "Looks like you got stuck. Rolling back predictive moves",Categories.Movement);
+				Logger.LogWarning( "Looks like you got stuck. Rolling back predictive moves",Category.Movement);
 				RollbackPrediction();
 			}
 			blockClientMovement = false;
@@ -225,7 +225,7 @@ namespace PlayGroup
 				LastDirection = Vector2.zero;
 
 				if ( !isFloatingClient && playerState.MoveNumber < predictedState.MoveNumber ) {
-					Logger.Log( $"Finished unapproved flight, blocking. predictedState:\n{predictedState}",Categories.Movement );
+					Logger.Log( $"Finished unapproved flight, blocking. predictedState:\n{predictedState}",Category.Movement );
 					//Client figured out that he just finished spacewalking 
 					//and server is yet to approve the fact that it even started.
 					StartCoroutine( BlockMovement() );
@@ -245,7 +245,7 @@ namespace PlayGroup
 					} else {
 						playerState.Impulse = state.Impulse;
 					}
-					Logger.Log($"Client init floating with impulse {LastDirection}. FC={isFloatingClient},PFC={isPseudoFloatingClient}",Categories.Movement);
+					Logger.Log($"Client init floating with impulse {LastDirection}. FC={isFloatingClient},PFC={isPseudoFloatingClient}",Category.Movement);
 				}
 
 				//Perpetual floating sim

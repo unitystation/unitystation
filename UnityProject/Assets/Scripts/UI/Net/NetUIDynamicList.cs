@@ -104,7 +104,7 @@ public class NetUIDynamicList : NetUIElement {
 //				Logger.Log( $"{mode} spawning entry #[{resultIndex}]: proposed: [{proposedIndex}], entry: {dynamicEntry}" );
 			} else {
 				
-				Logger.LogWarning( $"Entry \"{proposedIndex}\" {mode} spawn failure, no such entryObject {elementType}", Categories.TabUISystem );
+				Logger.LogWarning( $"Entry \"{proposedIndex}\" {mode} spawn failure, no such entryObject {elementType}", Category.TabUISystem );
 			}
 
 			dynamicEntries[i] = dynamicEntry;

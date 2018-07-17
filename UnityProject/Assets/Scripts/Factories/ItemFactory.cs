@@ -88,7 +88,7 @@ public class ItemFactory : MonoBehaviour
 		}
 		else
 		{
-			Logger.LogError("Food prefab not added to ItemFactory: " + mealPrefab.name,Categories.ItemFactory);
+			Logger.LogError("Food prefab not added to ItemFactory: " + mealPrefab.name,Category.ItemFactory);
 		}
 
 		return mealObj;

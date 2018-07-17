@@ -74,7 +74,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		string eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
 		if (Inventory[eventName] != null && Inventory[eventName] != itemObject && !replaceIfOccupied)
 		{
-			Logger.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}",Categories.PlayerNetworkActions);
+			Logger.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}",Category.PlayerNetworkActions);
 			return false;
 		}
 
@@ -263,7 +263,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return true;
 		}
 
-		Logger.Log("Object not found in Inventory",Categories.PlayerNetworkActions);
+		Logger.Log("Object not found in Inventory",Category.PlayerNetworkActions);
 		return false;
 	}
 

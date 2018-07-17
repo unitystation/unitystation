@@ -79,7 +79,7 @@ namespace UI
 		public void Resist()
 		{
 			SoundManager.Play("Click01");
-			Logger.Log("Resist Button",Categories.UI);
+			Logger.Log("Resist Button",Category.UI);
 		}
 
 		public void Drop()
@@ -116,7 +116,7 @@ namespace UI
 			//Message
 			lps.playerNetworkActions.RequestDropItem(currentSlot.eventName, false);
 			SoundManager.Play("Click01");
-			Logger.Log("Drop Button", Categories.UI);
+			Logger.Log("Drop Button", Category.UI);
 
 		}
 

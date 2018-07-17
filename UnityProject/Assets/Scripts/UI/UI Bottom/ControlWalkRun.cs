@@ -21,7 +21,7 @@ namespace UI
 
 		public void RunWalk()
 		{
-			Logger.Log("RunWalk Button",Categories.UI);
+			Logger.Log("RunWalk Button",Category.UI);
 
 			SoundManager.Play("Click01");
 

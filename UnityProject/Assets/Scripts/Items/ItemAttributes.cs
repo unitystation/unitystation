@@ -214,7 +214,7 @@ public class ItemAttributes : NetworkBehaviour
 			return dmiIcon.spriteSheet[iState.offset];
 		}
 
-		Logger.Log($"Failed to find inventory sprite '{icon_state}' in icon '{dmiIcon.icon}'", Categories.DmiIconData);
+		Logger.Log($"Failed to find inventory sprite '{icon_state}' in icon '{dmiIcon.icon}'", Category.DmiIconData);
 		return new Sprite();
 	}
 
@@ -290,7 +290,7 @@ public class ItemAttributes : NetworkBehaviour
 		if (invIcon != null)
 		{
 			
-			Logger.Log($"{name} is doing bad dmi.getIconByState({icon_state}) = {invIcon.icon}", Categories.DmiIconData);
+			Logger.Log($"{name} is doing bad dmi.getIconByState({icon_state}) = {invIcon.icon}", Category.DmiIconData);
 			return invIcon;
 		}
 		//			Logger.LogError();

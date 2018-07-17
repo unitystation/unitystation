@@ -25,7 +25,7 @@ public class DmiIconData : ScriptableObject
 				return sprites;
 			}
 		}
-		Logger.LogError("Could not find sprites for key " + path,Categories.DmiIconData);
+		Logger.LogError("Could not find sprites for key " + path,Category.DmiIconData);
 		return new Sprite[0];
 	}
 
@@ -104,7 +104,7 @@ public class DmiIconData : ScriptableObject
 				return icon;
 			}
 		}
-		Logger.LogError("Could not find Icon for sheet " + iPath,Categories.DmiIconData);
+		Logger.LogError("Could not find Icon for sheet " + iPath,Category.DmiIconData);
 		return new DmiIcon();
 	}
 
@@ -135,7 +135,7 @@ public class DmiIconData : ScriptableObject
 				return dmiIcon;
 			}
 		}
-		Logger.LogWarning("Couldn't find dmiIcon by state " + state,Categories.DmiIconData);
+		Logger.LogWarning("Couldn't find dmiIcon by state " + state,Category.DmiIconData);
 		return null;
 	}
 
@@ -158,7 +158,7 @@ public class DmiIconData : ScriptableObject
 				}
 			}
 		}
-		Logger.LogWarning("Couldn't find state " + state + " in the entire datafile!",Categories.DmiIconData);
+		Logger.LogWarning("Couldn't find state " + state + " in the entire datafile!",Category.DmiIconData);
 		return null;
 	}
 
@@ -269,7 +269,7 @@ public class DmiIconData : ScriptableObject
 		}
 		else
 		{
-			Logger.LogError("Make sure dmi.json is in Resources/metadata/ !",Categories.DmiIconData);
+			Logger.LogError("Make sure dmi.json is in Resources/metadata/ !",Category.DmiIconData);
 		}
 
 		IconList<DmiIcon> icons = new IconList<DmiIcon>();

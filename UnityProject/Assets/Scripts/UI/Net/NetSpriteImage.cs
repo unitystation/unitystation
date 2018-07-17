@@ -37,7 +37,7 @@ public class NetSpriteImage : NetUIElement
 							spriteName = value;
 						} else {
 						
-						Logger.LogWarning( $"Unable to load sprite '{spriteFile}'",Categories.NetSpriteImage );
+						Logger.LogWarning( $"Unable to load sprite '{spriteFile}'",Category.NetSpriteImage );
 						}
 						break;
 				}

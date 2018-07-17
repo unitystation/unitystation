@@ -26,12 +26,12 @@ public class RequestAuthMessage : ClientMessage
 
 		if ( PlayerList.IsConnWhitelisted(connectedPlayer) )
 		{ 
-			Logger.Log( $"Player whitelisted: {connectedPlayer}", Categories.SteamIntegration);
+			Logger.Log( $"Player whitelisted: {connectedPlayer}", Category.SteamIntegration);
 			yield break;
 		}
 		if ( connectedPlayer.SteamId != 0 )
 		{
-			Logger.Log( $"Player already authenticated: {connectedPlayer}", Categories.SteamIntegration );
+			Logger.Log( $"Player already authenticated: {connectedPlayer}", Category.SteamIntegration );
 			yield break;
 		}
 		
