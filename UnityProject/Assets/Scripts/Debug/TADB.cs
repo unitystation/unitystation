@@ -45,7 +45,7 @@ public class Logger
 	// 2 will show errors, warnings and logs
 	private static Dictionary<Category, int> FilterDictionary = new Dictionary<Category, int>{
 		[Category.Atmospherics] = 0,
-		[Category.Movement] = 3,
+		[Category.Movement] = 0,
 		[Category.MapLoad] = 0,
 		[Category.RoomControl] = 0,
 		[Category.ItemList] = 0,
