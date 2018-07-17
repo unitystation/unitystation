@@ -75,7 +75,7 @@ public class Logger
 		[Categories.Electrical] = 0,
 		[Categories.Unknown] = 0,
 	};
-	//Example of how to call TADB_Debug.Log("Message",Categories.#Something#.ToString());
+	//Example of how to call Logger.Log("Message",Categories.#Something#);
 	private enum Levels{
 		Error = 0,
 		Warning = 1,
