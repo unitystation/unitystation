@@ -248,7 +248,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		}
 		if ( isMovingServer ) {
 			Vector3Int goal = Vector3Int.RoundToInt( serverState.Position + ( Vector3 ) serverTargetState.Direction );
-			if ( !SafetyProtocolsOn || CanMoveTo( goal ) ) {
+			if ( !SafetyProtocolsOn || CanMoveTo( serverTargetState.Direction ) ) {
 				//keep moving
 				if ( ServerPositionsMatch ) 
 				{
@@ -265,10 +265,38 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		}
 	}
 
+//	private	BoundsInt Bounds => MatrixManager.Get( gameObject ).MetaTileMap.GetBounds();
+//	private List<LayerTile> SolidFrontTiles = new List<LayerTile>();
+	private Vector3Int sensorOffset = TransformState.HiddenPos;
 
-	private bool CanMoveTo(Vector3Int goal)
+	private bool CanMoveTo(Vector2 direction)
 	{
-		//todo: safety protocols
+		Vector3Int dir = Vector3Int.RoundToInt( direction );
+		Vector3Int originCenter = Vector3Int.RoundToInt( State.Position );
+		if ( sensorOffset == TransformState.HiddenPos ) {
+			//very ghetto
+			var metaTileMap = MatrixManager.Get( transform.GetChild(0).gameObject ).MetaTileMap;
+			var bounds = metaTileMap.GetBounds();
+
+			if ( State.Direction == Vector2.right ) {
+				sensorOffset = new Vector3Int((int)( bounds.center.x - bounds.xMax ), 0 ,0);
+			} else if ( State.Direction == Vector2.left ) {
+				sensorOffset = new Vector3Int((int)( bounds.center.x - bounds.xMin ), 0 ,0);
+			} else if ( State.Direction == Vector2.up ) {
+				sensorOffset = new Vector3Int(0,(int)( bounds.center.y - bounds.yMax ) ,0);
+			} else if ( State.Direction == Vector2.down ) {
+				sensorOffset = new Vector3Int(0,(int)( bounds.center.y - bounds.yMin ) ,0);
+			}
+			Logger.Log( $"Initialized sensor at pos {originCenter+sensorOffset}," +
+			            $" sensor offset is {sensorOffset}, direction is {State.Direction}, bounds are {bounds}", Category.Matrix );
+		}
+		Vector3Int sensorPos = originCenter+sensorOffset;
+		//		check if next tile is passable
+		if ( !MatrixManager.IsPassableAt( sensorPos, sensorPos + dir ) ) {
+			Logger.Log( $"Can't pass {sensorPos}->{sensorPos + dir}!", Category.Matrix );
+			return false;
+		}
+//		Logger.LogTraceFormat( "Matrix can move to {0}" );
 		return true;
 	}
 
