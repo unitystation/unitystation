@@ -45,7 +45,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		{
 			return;
 		}
-		//        Debug.Log("Exploding on damage!");
+		//        Logger.Log("Exploding on damage!");
 		if (isServer)
 		{
 			Explode(damagedBy); //fixme
@@ -149,7 +149,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		}
 		catch
 		{
-			Debug.LogWarning("Object may of already been removed");
+			Logger.LogWarning("Object may of already been removed");
 		}
 
 		foreach (Collider2D collider2d in gameObject.GetComponents<Collider2D>())

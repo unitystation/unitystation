@@ -14,7 +14,7 @@ public class ItemList : NetUIDynamicList {
 	public bool AddItem( GameObject prefab ) 
 	{
 		if ( !prefab || !prefab.GetComponent<ItemAttributes>() ) {
-			Debug.LogWarning( $"No valid prefab found: {prefab}" );
+			Logger.LogWarning( $"No valid prefab found: {prefab}",Category.ItemList );
 			return false;
 		}
 
@@ -23,7 +23,7 @@ public class ItemList : NetUIDynamicList {
 			DynamicEntry entry = entryArray[i];
 			var item = entry as ItemEntry;
 			if ( !item || !item.Prefab || item.Prefab.Equals( prefab ) ) {
-				Debug.Log( $"Item {prefab} already exists in ItemList" );
+				Logger.Log( $"Item {prefab} already exists in ItemList",Category.ItemList );
 				return false;
 			}
 		}
@@ -31,12 +31,12 @@ public class ItemList : NetUIDynamicList {
 		//add new entry
 		ItemEntry newEntry = Add() as ItemEntry;
 		if ( !newEntry ) {
-			Debug.LogWarning( $"Added {newEntry} is not an ItemEntry!" );
+			Logger.LogWarning( $"Added {newEntry} is not an ItemEntry!",Category.ItemList );
 			return false;
 		}
 		//set its elements
 		newEntry.Prefab = prefab;
-		Debug.Log( $"ItemList: Item add success! newEntry={newEntry}" );
+		Logger.Log( $"ItemList: Item add success! newEntry={newEntry}",Category.ItemList );
 
 		//rescan elements  and notify
 		NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
@@ -57,7 +57,7 @@ public class ItemList : NetUIDynamicList {
 				return true;
 			}
 		}
-		Debug.LogWarning( $"Didn't find any prefabs called '{prefabName}' in the list" );
+		Logger.LogWarning( $"Didn't find any prefabs called '{prefabName}' in the list",Category.ItemList);
 		return false;
 	}
 }

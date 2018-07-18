@@ -139,14 +139,14 @@ namespace UI
 				PruneUnavailableChannels();
 				PopulateChannelPanel(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(),
 					PlayerManager.LocalPlayerScript.SelectedChannels);
-//				Debug.Log($"Toggling channel panel ON. selected:{ListChannels(PlayerManager.LocalPlayerScript.SelectedChannels)}, " +
+//				Logger.Log($"Toggling channel panel ON. selected:{ListChannels(PlayerManager.LocalPlayerScript.SelectedChannels)}, " +
 //				          $"available:{ListChannels(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask())}");
 			}
 			else
 			{
 				channelPanel.gameObject.SetActive(false);
 				EmptyChannelPanel();
-//				Debug.Log("Toggling channel panel OFF.");
+//				Logger.Log("Toggling channel panel OFF.");
 			}
 		}
 
@@ -199,7 +199,7 @@ namespace UI
 			LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
 			HorizontalLayoutGroup horizontalLayoutGroup = channelPanel.GetComponent<HorizontalLayoutGroup>();
 			layoutElement.minWidth = width * count + horizontalLayoutGroup.spacing * count;
-//			Debug.Log($"Populating wid={width} cnt={count} minWid={layoutElement.minWidth}");
+//			Logger.Log($"Populating wid={width} cnt={count} minWid={layoutElement.minWidth}");
 		}
 
 		public void EmptyChannelPanel()

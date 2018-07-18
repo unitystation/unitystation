@@ -21,7 +21,7 @@ public class ForceJobListUpdateMessage : ServerMessage
 		{
 			//Reset required if player played in previous round
 			playerJobs.hasPickedAJob = false;
-			Debug.Log("has picked job reset");
+			Logger.Log("has picked job reset",Category.PlayerJobManager);
 		}
 
 		yield return null;

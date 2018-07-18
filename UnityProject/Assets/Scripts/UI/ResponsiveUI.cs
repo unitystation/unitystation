@@ -99,24 +99,24 @@ namespace UI
 			int width = Screen.width;
 			if (width % 2 != 0)
 			{
-				Debug.Log( $"Odd width {width}->{width-1}" );
+//			Logger.Log( $"Odd width {width}->{width-1}" );
 				width--;
 			}
 			int height = Screen.height;
 			if (height % 2 != 0)
 			{
-				Debug.Log( $"Odd height {height}->{height-1}" );
+//			Logger.Log( $"Odd height {height}->{height-1}" );
 				height--;
 			}
 			
-			Debug.Log("Screen height before resizing: " + Camera.main.pixelHeight + " Aspect Y: " + height/(float)Screen.height);
-			Debug.Log("Screen height before resizing: " + Camera.main.pixelWidth + " Aspect X: " + width/(float)Screen.width);
-			
+//			Logger.Log("Screen height before resizing: " + Camera.main.pixelHeight + " Aspect Y: " + height/(float)Screen.height);
+//			Logger.Log("Screen height before resizing: " + Camera.main.pixelWidth + " Aspect X: " + width/(float)Screen.width);
+
 			// Enforce aspect by resizing the camera rectangle to nearest (lower) even number.
 			Camera.main.rect = new Rect(0, 0, width / (float)Screen.width, height / (float)Screen.height);
 			
-			Debug.Log("Screen height after resizing: " + Camera.main.pixelHeight);
-			
+//		Logger.Log("Screen height after resizing: " + Camera.main.pixelHeight);
+
 			if (camResizer != null) {
 				camResizer.AdjustCam();
 			}

@@ -22,7 +22,7 @@ public abstract class ServerMessage : GameMessageBase
 			connection.Send(GetMessageType(), this);
 		} 
 //		else {
-//			Debug.Log($"Not sending message {ToString()} to {recipient}");
+//			Logger.Log($"Not sending message {ToString()} to {recipient}");
 //		}
 
 		//Obsolete version:

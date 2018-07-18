@@ -74,7 +74,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		string eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
 		if (Inventory[eventName] != null && Inventory[eventName] != itemObject && !replaceIfOccupied)
 		{
-			Debug.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}");
+			Logger.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}",Category.PlayerNetworkActions);
 			return false;
 		}
 
@@ -237,7 +237,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset"))
 				{
-					// Debug.Log("slotName = " + slotName);
+					// Logger.Log("slotName = " + slotName);
 					Epos enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
 					equipment.syncEquipSprites[(int) enumA] = att.clothingReference;
 				}
@@ -263,7 +263,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return true;
 		}
 
-		Debug.Log("Object not found in Inventory");
+		Logger.Log("Object not found in Inventory",Category.PlayerNetworkActions);
 		return false;
 	}
 

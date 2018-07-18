@@ -15,7 +15,7 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 
 	public override IEnumerator Process()
 	{
-//		Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 
 		PlayerList.Instance.ClientConnectedPlayers.Clear();
 		for ( var i = 0; i < Players.Length; i++ )

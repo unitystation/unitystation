@@ -132,12 +132,12 @@ public class ItemAttributes : NetworkBehaviour
 		//init datafiles
 		if (!dmi)
 		{
-			//				Debug.Log("Item DMI data loading...");
+			//				Logger.Log("Item DMI data loading...");
 			dmi = Resources.Load("DmiIconData") as DmiIconData;
 		}
 		if (!dm)
 		{
-			//				Debug.Log("Item DM data loading...");
+			//				Logger.Log("Item DM data loading...");
 			dm = Resources.Load("DmObjectData") as DmObjectData;
 		}
 
@@ -192,7 +192,7 @@ public class ItemAttributes : NetworkBehaviour
 		spriteType = masterType;
 		GetComponentInChildren<SpriteRenderer>().sprite = stateSprite;
 
-		//			Debug.Log(name + " size=" + size + " type=" + type + " spriteType=" 
+		//			Logger.Log(name + " size=" + size + " type=" + type + " spriteType=" 
 		//			          + spriteType + " (" + desc + ") : " 
 		//			          + icon_state + " / " + item_state + " / C: " + clothingReference 
 		//			          + ", L: " + inHandReferenceLeft + ", R: " + inHandReferenceRight + ", I: " + inventoryIcon.icon + '\n'
@@ -203,7 +203,8 @@ public class ItemAttributes : NetworkBehaviour
 	{
 		if (dmiIcon == null || dmiIcon.getName().Equals(""))
 		{
-			Debug.Log($"DmiIcon '{dmiIcon}' is null, unable to get state '{icon_state}'");
+			
+			Logger.Log($"DmiIcon '{dmiIcon}' is null, unable to get state '{icon_state}'");
 			return new Sprite();
 		}
 
@@ -212,7 +213,8 @@ public class ItemAttributes : NetworkBehaviour
 		{
 			return dmiIcon.spriteSheet[iState.offset];
 		}
-		Debug.Log($"Failed to find inventory sprite '{icon_state}' in icon '{dmiIcon.icon}'");
+
+		Logger.Log($"Failed to find inventory sprite '{icon_state}' in icon '{dmiIcon.icon}'", Category.DmiIconData);
 		return new Sprite();
 	}
 
@@ -256,7 +258,7 @@ public class ItemAttributes : NetworkBehaviour
 		{
 			return dmDic[key];
 		}
-		//			Debug.Log("tryGetAttr fail using key: " + key);
+		//			Logger.Log("tryGetAttr fail using key: " + key);
 		return "";
 	}
 
@@ -273,24 +275,25 @@ public class ItemAttributes : NetworkBehaviour
 			string iconPath = DmiIconData.getIconPath(invSheetPaths[i]); //add extension junk
 			if (!iconPath.Equals("") && DmiIconData.Data.ContainsKey(iconPath) && icon.Equals(""))
 			{
-				//					Debug.Log(name + ": iSheet = dmi.DataHier[" + iconPath +"] = " + dmi.Data[iconPath]);
+				//					Logger.Log(name + ": iSheet = dmi.DataHier[" + iconPath +"] = " + dmi.Data[iconPath]);
 				return DmiIconData.Data[iconPath];
 			}
 		}
 
 		if (!icon.Equals(""))
 		{
-			//				Debug.Log(name + ": iSheet = dmi.DataIcon["+icon+"] = "+iSheet);
+			//				Logger.Log(name + ": iSheet = dmi.DataIcon["+icon+"] = "+iSheet);
 			return DmiIconData.Data[icon];
 		}
 		//pretty bad choice, should use this only as last resort as it's usually pretty inaccurate
 		DmiIcon invIcon = dmi.getIconByState(icon_state);
 		if (invIcon != null)
 		{
-			Debug.Log($"{name} is doing bad dmi.getIconByState({icon_state}) = {invIcon.icon}");
+			
+			Logger.Log($"{name} is doing bad dmi.getIconByState({icon_state}) = {invIcon.icon}", Category.DmiIconData);
 			return invIcon;
 		}
-		//			Debug.LogError();
+		//			Logger.LogError();
 		return new DmiIcon();
 	}
 
@@ -310,7 +313,7 @@ public class ItemAttributes : NetworkBehaviour
 			}
 		}
 
-		//Debug.LogError("No clothing offset found!  ClothHier=" + onPlayerClothSheetHier[0] + ", " + getItemDebugInfo());
+		//Logger.LogError("No clothing offset found!  ClothHier=" + onPlayerClothSheetHier[0] + ", " + getItemDebugInfo());
 		return -1;
 	}
 
@@ -414,7 +417,7 @@ public class ItemAttributes : NetworkBehaviour
 				objects.RemoveAll(x => !x.Contains("cloth"));
 				hierList = objects.ToArray();
 			}
-			//        Debug.Log("HierList loaded. size=" + hierList.Length);
+			//        Logger.Log("HierList loaded. size=" + hierList.Length);
 		}
 		if (hierarchy.Length == 0 && spriteType == SpriteType.Clothing)
 		{
@@ -424,12 +427,12 @@ public class ItemAttributes : NetworkBehaviour
 
 	private static ItemType getItemType(string s, string cutOff = "")
 	{
-		//			Debug.Log("getItemType for "+ s);
+		//			Logger.Log("getItemType for "+ s);
 		string sCut;
 		if (!cutOff.Equals("") && s.StartsWith(cutOff))
 		{
 			sCut = s.Substring(cutOff.Length + 1).Split('/')[0];
-			//				Debug.Log("sCut = "+ sCut);
+			//				Logger.Log("sCut = "+ sCut);
 		}
 		else
 		{
@@ -477,7 +480,7 @@ public class ItemAttributes : NetworkBehaviour
 				return ItemType.Suit;
 			default:
 				//GetItemType will be called several times on failure, with different string parameters
-//				Debug.Log("Could not find item type for " + sCut + ". Will attempt fallbacks if any exist.");
+//				Logger.Log("Could not find item type for " + sCut + ". Will attempt fallbacks if any exist.");
 				return ItemType.None;
 		}
 	}

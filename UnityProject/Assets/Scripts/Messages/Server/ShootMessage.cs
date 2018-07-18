@@ -18,10 +18,10 @@ public class ShootMessage : ServerMessage {
 	///To be run on client
 	public override IEnumerator Process()
 	{
-		//		Debug.Log("Processed " + ToString());
+		//		Logger.Log("Processed " + ToString());
 		if (ShotBy.Equals(NetworkInstanceId.Invalid) || Weapon.Equals(NetworkInstanceId.Invalid)) {
 			//Failfast
-			Debug.LogWarning($"Shoot request invalid, processing stopped: {ToString()}");
+			Logger.LogWarning($"Shoot request invalid, processing stopped: {ToString()}");
 			yield break;
 		}
 

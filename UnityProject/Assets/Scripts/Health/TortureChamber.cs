@@ -14,7 +14,7 @@ public class TortureChamber
 		var ps = player.GetComponent<PlayerScript>();
 		if ( !ps )
 		{
-			Debug.LogWarning("Cannot torture :( not a player");
+			Logger.LogWarning("Cannot torture :( not a player");
 			return;
 		}
 		Torture(ps, severity);
@@ -22,7 +22,7 @@ public class TortureChamber
 
 	public static void Torture(PlayerScript ps, TortureSeverity severity = TortureSeverity.M)
 	{
-		Debug.Log($"Player {ps.gameObject} is now being tortured with '{severity}' severity. Enjoy");
+		Logger.Log($"Player {ps.gameObject} is now being tortured with '{severity}' severity. Enjoy");
 		//todo: torture sequences
 		Bleed(ps, severity);
 		DropShit(ps, severity);

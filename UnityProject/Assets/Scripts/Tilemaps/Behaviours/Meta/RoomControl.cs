@@ -31,8 +31,7 @@ namespace Tilemaps.Behaviours.Meta
 			}
 
 			sw.Stop();
-
-			Debug.Log("Room init: " + sw.ElapsedMilliseconds + " ms");
+			Logger.Log("Room init: " + sw.ElapsedMilliseconds + " ms",Category.RoomControl);
 		}
 		
 		public override void UpdateAt(Vector3Int position)

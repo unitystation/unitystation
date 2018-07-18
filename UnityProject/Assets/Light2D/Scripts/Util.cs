@@ -267,7 +267,7 @@ namespace Light2D
 				}
 				sb.Append(vals[i]);
 			}
-			Debug.Log(sb.ToString());
+			Logger.Log(sb.ToString());
 		}
 
 		public static void Log(Object context, params object[] vals)
@@ -281,7 +281,7 @@ namespace Light2D
 				}
 				sb.Append(vals[i]);
 			}
-			Debug.Log(sb.ToString(), context);
+			Logger.Log(sb.ToString()); //context
 		}
 
 		public static void LogArray<T>(IEnumerable<T> enumerable)
@@ -295,7 +295,7 @@ namespace Light2D
 				sb.Append(vals[i]);
 				sb.AppendLine(";");
 			}
-			Debug.Log(sb.ToString());
+			Logger.Log(sb.ToString());
 		}
 
 		public static Color Set(this Color color, int channel, float value)
@@ -385,9 +385,9 @@ namespace Light2D
 					return fromFile;
 				}
 			}
-			catch (Exception ex)
+			catch
 			{
-				Debug.LogError(ex);
+				Logger.LogError("an error happened here");
 				return default(T);
 			}
 		}

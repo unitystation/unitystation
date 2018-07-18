@@ -135,14 +135,14 @@ namespace PlayGroup
 				if ( CustomNetworkManager.Instance.SteamServer ) {
 					// Send request to be authenticated by the server
 					if ( Client.Instance != null ) {
-						Debug.Log( "Client Requesting Auth" );
+						Logger.Log( "Client Requesting Auth", Category.SteamIntegration );
 						// Generate authentication Ticket
 						var ticket = Client.Instance.Auth.GetAuthSessionTicket();
 						var ticketBinary = ticket.Data;
 						// Send Clientmessage to authenticate
 						RequestAuthMessage.Send( Client.Instance.SteamId, ticketBinary );
 					} else {
-						Debug.Log( "Client NOT requesting auth" );
+						Logger.Log( "Client NOT requesting auth", Category.SteamIntegration );
 					}
 				}
 //				Request sync to get all the latest transform data
@@ -187,7 +187,7 @@ namespace PlayGroup
 		[Command]
 		private void CmdTrySetInitialName(string name)
 		{
-//			Debug.Log($"TrySetName {name}");
+//			Logger.Log($"TrySetName {name}");
 			if (PlayerList.Instance != null)
 			{
 				var player = PlayerList.Instance.Get(connectionToClient);
@@ -206,10 +206,10 @@ namespace PlayGroup
 		{
 			if (string.IsNullOrEmpty(newName))
 			{
-				Debug.LogError("NO NAME PROVIDED!");
+				Logger.LogError("NO NAME PROVIDED!");
 				return;
 			}
-//			Debug.Log($"OnNameChange: GOName '{gameObject.name}'->'{newName}'; playerName '{playerName}'->'{newName}'");
+//			Logger.Log($"OnNameChange: GOName '{gameObject.name}'->'{newName}'; playerName '{playerName}'->'{newName}'");
 			playerName = newName;
 			gameObject.name = newName;
 		}

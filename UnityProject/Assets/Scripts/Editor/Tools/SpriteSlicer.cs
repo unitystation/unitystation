@@ -64,7 +64,7 @@ public class SpriteSlicer : MonoBehaviour
 			ignoredSB.Insert(0, "Following icons were ignored, help yourself and slice them manually:\n");
 		}
 		ignoredSB.Insert(0, "Done Slicing!\n");
-		Debug.Log(ignoredSB.ToString());
+		Logger.Log(ignoredSB.ToString());
 	}
 #endif
 }

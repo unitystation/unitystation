@@ -407,7 +407,7 @@ namespace Weapons
 
 		private void Reload(GameObject m, string hand, bool current)
 		{
-			Debug.Log("Reloading");
+			Logger.Log("Reloading");
 			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m, hand);
 			if (current)
 			{
@@ -424,7 +424,7 @@ namespace Weapons
 		//TODO dev right click unloading so it goes into the opposite hand if it is selected
 		private void ManualUnload(MagazineBehaviour m)
 		{
-			Debug.Log("Unloading");
+			Logger.Log("Unloading");
 			if (m != null)
 			{
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(m.gameObject);
@@ -459,7 +459,7 @@ namespace Weapons
 					PlayerManager.LocalPlayerScript.playerNetworkActions.DisposeOfChildItem(CurrentMagazine.gameObject);
 				}
 			}
-			Debug.Log("Dropped Weapon");
+			Logger.Log("Dropped Weapon");
 		}
 
 		public void LoadUnloadAmmo(NetworkInstanceId magazineID)

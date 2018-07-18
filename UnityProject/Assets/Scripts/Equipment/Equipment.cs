@@ -89,7 +89,7 @@ namespace Equipment
 			{
 				if (tries++ > maxTries)
 				{
-					Debug.LogError($"{this} not in control after {maxTries} tries");
+					Logger.LogError($"{this} not in control after {maxTries} tries");
 					yield break;
 				}
 
@@ -215,7 +215,7 @@ namespace Equipment
 					//if ClothFactory does not return an object then move on to the next clothing item
 					if (!obj)
 					{
-						Debug.LogWarning("Trying to instantiate clothing item " + gearItem.Value + " failed!");
+						Logger.LogWarning("Trying to instantiate clothing item " + gearItem.Value + " failed!");
 						continue;
 					}
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
@@ -223,7 +223,7 @@ namespace Equipment
 				}
 				else if (!string.IsNullOrEmpty(gearItem.Value))
 				{
-//					Debug.Log(gearItem.Value + " creation not implemented yet.");
+//					Logger.Log(gearItem.Value + " creation not implemented yet.");
 				}
 			}
 			SpawnID(jobOutfit);
@@ -302,7 +302,7 @@ namespace Equipment
 				case "r_hand":
 					return "rightHand";
 				default:
-					Debug.LogWarning("GetLoadOutEventName: Unknown uniformPosition:" + uniformPosition);
+					Logger.LogWarning("GetLoadOutEventName: Unknown uniformPosition:" + uniformPosition);
 					return null;
 			}
 		}
@@ -334,7 +334,7 @@ namespace Equipment
 
 			/*			if (String.IsNullOrEmpty(slotName) || itemAtts == null) {
 				return;
-				Debug.LogError("Error with item attribute for object: " + itemAtts.gameObject.name);
+				Logger.LogError("Error with item attribute for object: " + itemAtts.gameObject.name);
 			}
 
 			EquipmentPool.AddGameObject(gameObject, itemAtts.gameObject);

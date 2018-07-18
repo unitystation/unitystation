@@ -114,9 +114,10 @@ public class NetTab : Tab {
 				
 				if ( firstTouchedElement == null ) {
 					firstTouchedElement = element;
+
 				}
 			} else {
-				Debug.LogWarning( $"'{name}' wonky value import: can't find '{elementId}'" );
+				Logger.LogWarning( $"'{name}' wonky value import: can't find '{elementId}'", Category.TabUISystem );
 			}
 		}
 		return firstTouchedElement;

@@ -29,7 +29,7 @@ namespace Tilemaps
             }
             catch
             {
-                Debug.LogError("CAST ERROR: Make sure everything is in its proper layer type.");
+				Logger.LogError("CAST ERROR: Make sure everything is in its proper layer type.", Category.MatrixManager);
             }
         }
 

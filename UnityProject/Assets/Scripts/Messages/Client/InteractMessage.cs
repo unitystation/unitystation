@@ -15,7 +15,7 @@ public class InteractMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-//		Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 
 		yield return WaitFor(Subject, SentBy);
 
