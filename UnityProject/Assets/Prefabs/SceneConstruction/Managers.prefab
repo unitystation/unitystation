@@ -2199,6 +2199,7 @@ GameObject:
   - component: {fileID: 222229201869225808}
   - component: {fileID: 114046717823149574}
   - component: {fileID: 114078345441425188}
+  - component: {fileID: 114548623917543504}
   m_Layer: 5
   m_Name: RollOutButton
   m_TagString: Untagged
@@ -8799,7 +8800,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: hfhgfh
+  m_Text: 
 --- !u!114 &114016892604284842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13043,6 +13044,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TabStorage: {fileID: 224433938787789432}
   HeaderStorage: {fileID: 224548370573280338}
+  rolloutIcon: {fileID: 224188083122147970}
 --- !u!114 &114448599694438448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14549,6 +14551,36 @@ MonoBehaviour:
   _isServer: 0
   spawnableListReady: 1
   SteamServer: 0
+--- !u!114 &114548623917543504
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1486963281901990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114445223306499362}
+          m_MethodName: ToggleTabRollOut
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!114 &114548789704233220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -22807,8 +22839,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -247, y: -464.46997}
-  m_SizeDelta: {x: 480, y: 75.5}
+  m_AnchoredPosition: {x: -251, y: -464.46997}
+  m_SizeDelta: {x: 472, y: 75.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224553289753423986
 RectTransform:
@@ -23347,7 +23379,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -259.5, y: -198.92969}
+  m_AnchoredPosition: {x: -259.5, y: -198}
   m_SizeDelta: {x: 547, y: 397.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224672640363186188
@@ -23602,7 +23634,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 4.7, y: 187.5}
+  m_AnchoredPosition: {x: 4.700012, y: 187.5}
   m_SizeDelta: {x: -39.3, y: -385}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224746720645944560

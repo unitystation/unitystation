@@ -12,6 +12,10 @@ namespace UI {
 		private static GameObject TabHeaderPrefab;
         public Transform TabStorage;
         public Transform HeaderStorage;
+		public Transform rolloutIcon;
+
+		private bool rolledOut = true;
+		private bool preventRoll = false;
 
 		public static ControlTabs Instance;
 		
@@ -380,6 +384,41 @@ namespace UI {
 			} else {
 				Instance.StartCoroutine( FingerDecay( finger ) );
 			}
+		}
+
+		//For hiding or showing the tab window
+		public void ToggleTabRollOut(){
+			if(!preventRoll){
+				preventRoll = true;
+			} else {
+				return;
+			}
+			StartCoroutine(AnimTabRoll());
+		}
+
+		//Tab roll in and out animation
+		IEnumerator AnimTabRoll(){
+			Vector3 currentPos = transform.position;
+			Vector3 targetPos = currentPos;
+			if(rolledOut){
+				//go up
+				targetPos.y += 382f;
+			} else {
+				//go down
+				targetPos.y -= 382f;
+			}
+			float lerpTime = 0f;
+			while(transform.position != targetPos){
+				lerpTime += Time.deltaTime * 4f;
+				transform.position = Vector3.Lerp(currentPos, targetPos, lerpTime);
+				yield return new WaitForEndOfFrame();
+			}
+			yield return new WaitForEndOfFrame();
+			Vector3 newScale = rolloutIcon.localScale;
+			newScale.y = -newScale.y;
+			rolloutIcon.localScale = newScale;
+			rolledOut = !rolledOut;
+			preventRoll = false;
 		}
 
 	}
