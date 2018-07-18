@@ -114,6 +114,9 @@ namespace UI {
 		}
 
 		private void Start() {
+			//hide it at the start of the game:
+			StartCoroutine(AnimTabRoll());
+
 			FingerPrefab = Resources.Load<GameObject>( "PokeFinger" );
 			TabHeaderPrefab = Resources.Load<GameObject>( "HeaderTab" );
 			RefreshTabHeaders();

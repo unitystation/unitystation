@@ -8,6 +8,7 @@ public class ChatEntry : MonoBehaviour {
 
     public Text text;
     private bool isCoolingDown = true;
+	public RectTransform rect;
 
     void OnEnable()
     {
@@ -49,6 +50,9 @@ public class ChatEntry : MonoBehaviour {
 
     IEnumerator CoolDown()
     {
+		Vector2 sizeDelta = rect.sizeDelta;
+		sizeDelta.x = 472f;
+		rect.sizeDelta = sizeDelta;
         yield return new WaitForSeconds(12f);
         if (!ControlChat.Instance.chatInputWindow.gameObject.activeInHierarchy)
         {

@@ -18,6 +18,7 @@ namespace UI
 		public PlayerListUI playerListUIControl;
 		public Text toolTip;
 		public ControlWalkRun walkRunControl;
+		public Toggle ttsToggle;
 
 		///Global flag for focused input field. Movement keystrokes are ignored if true.
 		/// <see cref="InputFieldFocus"/> handles this flag automatically

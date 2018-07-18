@@ -20,6 +20,7 @@ namespace UI
 		public RectTransform ChatPanel;
         public Transform content;
         public GameObject chatEntryPrefab;
+		public GameObject background;
 
 		// set in inspector (to enable/disable panel)
 
@@ -70,6 +71,7 @@ namespace UI
 			{
                 Events.EventManager.Broadcast(Events.EVENT.ChatFocused);
 				chatInputWindow.SetActive(true);
+				background.SetActive(true);
 				UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
 				EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
 				InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
@@ -118,6 +120,7 @@ namespace UI
 			UIManager.IsInputFocus = false;
 			chatInputWindow.SetActive(false);
             Events.EventManager.Broadcast(Events.EVENT.ChatUnfocused);
+			background.SetActive(false);
         }
 
 		public void RefreshChannelPanel()

@@ -105,15 +105,17 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	private void UpdateClientChat(string message, ChatChannel channels)
 	{
-        //Text to Speech:
-        var ttsString = Regex.Replace(message, @"<[^>]*>", String.Empty);
-        //message only atm
-        if (ttsString.Contains("says:")){
-            string saysString = "says:";
-            var messageString = ttsString.Substring(ttsString.IndexOf(saysString) + saysString.Length);
-            MaryTTS.Instance.Synthesize(messageString);
-           // GoogleCloudTTS.Instance.Synthesize(messageString);
-        }
+		if (UIManager.Instance.ttsToggle.isOn) {
+			//Text to Speech:
+			var ttsString = Regex.Replace(message, @"<[^>]*>", String.Empty);
+			//message only atm
+			if (ttsString.Contains(":")) {
+				string saysString = ":";
+				var messageString = ttsString.Substring(ttsString.IndexOf(saysString) + saysString.Length);
+				MaryTTS.Instance.Synthesize(messageString);
+				// GoogleCloudTTS.Instance.Synthesize(messageString);
+			}
+		}
 
         ChatEvent chatEvent = new ChatEvent(message, channels, true);
 
@@ -128,7 +130,9 @@ public class ChatRelay : NetworkBehaviour
 
 		if ((PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false) & channels) == channels && (chatEvent.channels & channels) == channels) {
             //Chatevent UI entry:
-            string colorMessage = "<color=#" + GetCannelColor(channels) + ">" + name + message + "</color>";
+			//FIXME at the moment all chat entries are white because of the new system, its a WIP
+			//string colorMessage = "<color=#" + GetCannelColor(channels) + ">" + name + message + "</color>";
+            string colorMessage = "<color=white>" + name + message + "</color>";
             GameObject chatEntry = Instantiate(ControlChat.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
             Text text = chatEntry.GetComponent<Text>();
             text.text = colorMessage;
