@@ -40,16 +40,7 @@ namespace PlayGroup
 
 		public PlayerSprites playerSprites { get; set; }
 
-		private PlayerSync _playerSync;
-		public PlayerSync playerSync {
-			get {
-				if ( !_playerSync ) {
-					_playerSync = GetComponent<PlayerSync>();
-				}
-
-				return _playerSync;
-			}
-		}
+		public PlayerSync playerSync { get; set; }
 		
 		public RegisterTile registerTile { get; set; }
 
@@ -84,7 +75,7 @@ namespace PlayGroup
 			OnNameChange(playerName);
 			yield return new WaitForSeconds(1f);
 			//Refresh chat log:
-			ChatRelay.Instance.RefreshLog();
+	//s		ChatRelay.Instance.RefreshLog();
 		}
 
 		//isLocalPlayer is always called after OnStartClient
@@ -105,7 +96,7 @@ namespace PlayGroup
 		private void Start()
 		{
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
-//			playerSync = GetComponent<PlayerSync>();
+			playerSync = GetComponent<PlayerSync>();
 			registerTile = GetComponent<RegisterTile>();
 			playerHealth = GetComponent<PlayerHealth>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
