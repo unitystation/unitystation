@@ -21,7 +21,7 @@ namespace Light2D
 			if (baseObjects.Count == 0)
 			{
 				Logger.LogError(
-					"Can't create light obstacle from selected object. You need to select any object with renderer attached to it to create light obstacle.");
+					"Can't create light obstacle from selected object. You need to select any object with renderer attached to it to create light obstacle.", Category.Light2D);
 			}
 
 			foreach (Renderer gameObj in baseObjects)

@@ -75,7 +75,7 @@ public class RadarList : NetUIDynamicList {
 			//add new entry
 			RadarEntry newEntry = Add() as RadarEntry;
 			if ( !newEntry ) {
-			Logger.LogWarning( $"Added {newEntry} is not an RadarEntry!",Category.ShipNavigation );
+			Logger.LogWarning( $"Added {newEntry} is not an RadarEntry!",Category.NetUI );
 				return false;
 			}
 
@@ -116,7 +116,7 @@ public class RadarList : NetUIDynamicList {
 			//add new entry
 			RadarEntry newEntry = Add() as RadarEntry;
 			if ( !newEntry ) {
-				Logger.LogWarning( $"Added {newEntry} is not an RadarEntry!" );
+				Logger.LogWarning( $"Added {newEntry} is not an RadarEntry!", Category.NetUI );
 				return false;
 			}
 

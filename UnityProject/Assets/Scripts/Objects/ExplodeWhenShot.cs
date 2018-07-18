@@ -149,7 +149,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		}
 		catch
 		{
-			Logger.LogWarning("Object may of already been removed");
+			Logger.LogWarning("Object may of already been removed", Category.Health);
 		}
 
 		foreach (Collider2D collider2d in gameObject.GetComponents<Collider2D>())

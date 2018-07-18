@@ -32,7 +32,7 @@ namespace Cupboards
 			if (!closetControl)
 			{
 				//this is not a closet. Could be a coffin or disposals 
-				Logger.LogWarning("No closet found for ClosetPlayerHandler!" + " maybe it's time to update this component? (see the todo's)");
+				Logger.LogWarning("No closet found for ClosetPlayerHandler!" + " maybe it's time to update this component? (see the todo's)", Category.Containers);
 				Destroy(this);
 			}
 			else
@@ -64,7 +64,7 @@ namespace Cupboards
 			}
 		}
 
-		private bool CheckForDirectionalKeyPress()
+		private bool CheckForDirectionalKeyPress() //fixme: OW
 		{
 			if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A) ||
 			    Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.DownArrow) ||

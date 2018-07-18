@@ -204,7 +204,7 @@ public class ItemAttributes : NetworkBehaviour
 		if (dmiIcon == null || dmiIcon.getName().Equals(""))
 		{
 			
-			Logger.Log($"DmiIcon '{dmiIcon}' is null, unable to get state '{icon_state}'");
+			Logger.Log($"DmiIcon '{dmiIcon}' is null, unable to get state '{icon_state}'", Category.DmMetadata);
 			return new Sprite();
 		}
 
@@ -214,7 +214,7 @@ public class ItemAttributes : NetworkBehaviour
 			return dmiIcon.spriteSheet[iState.offset];
 		}
 
-		Logger.Log($"Failed to find inventory sprite '{icon_state}' in icon '{dmiIcon.icon}'", Category.DmiIconData);
+		Logger.Log($"Failed to find inventory sprite '{icon_state}' in icon '{dmiIcon.icon}'", Category.DmMetadata);
 		return new Sprite();
 	}
 
@@ -290,7 +290,7 @@ public class ItemAttributes : NetworkBehaviour
 		if (invIcon != null)
 		{
 			
-			Logger.Log($"{name} is doing bad dmi.getIconByState({icon_state}) = {invIcon.icon}", Category.DmiIconData);
+			Logger.Log($"{name} is doing bad dmi.getIconByState({icon_state}) = {invIcon.icon}", Category.DmMetadata);
 			return invIcon;
 		}
 		//			Logger.LogError();

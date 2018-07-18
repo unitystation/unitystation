@@ -32,7 +32,7 @@ namespace Tilemaps.Behaviours.Layers
 
 			if (MatrixManager.Instance == null)
 			{
-				Logger.LogError("Matrix Manager is missing from the scene", Category.MatrixManager);
+				Logger.LogError("Matrix Manager is missing from the scene", Category.Matrix);
 			}
 			else
 			{

@@ -47,7 +47,7 @@ public class DmObjectData : ScriptableObject
 		}
 		if (ancAttr.Count == 0)
 		{
-			Logger.LogError("Didn't find any attributes for hierarchy " + hierarchy, Category.DmiIconData);
+			Logger.LogError("Didn't find any attributes for hierarchy " + hierarchy, Category.DmMetadata);
 		}
 		return ancAttr;
 	}

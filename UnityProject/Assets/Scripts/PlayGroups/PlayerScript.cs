@@ -215,7 +215,7 @@ namespace PlayGroup
 		{
 			if (string.IsNullOrEmpty(newName))
 			{
-				Logger.LogError("NO NAME PROVIDED!");
+				Logger.LogError("NO NAME PROVIDED!", Category.Connections);
 				return;
 			}
 //			Logger.Log($"OnNameChange: GOName '{gameObject.name}'->'{newName}'; playerName '{playerName}'->'{newName}'");

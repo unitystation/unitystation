@@ -17,7 +17,7 @@ public class RequestSyncMessage : ClientMessage
 		yield return WaitFor(SentBy);
 
 		ConnectedPlayer connectedPlayer = PlayerList.Instance.Get( NetworkObject );
-		Logger.Log($"{connectedPlayer} requested sync");
+		Logger.Log($"{connectedPlayer} requested sync", Category.Connections);
 		
 		//not sending out sync data for players not ingame 
 		if ( connectedPlayer.Job != JobType.NULL && !connectedPlayer.Synced ) {
