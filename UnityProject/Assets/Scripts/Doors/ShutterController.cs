@@ -115,7 +115,7 @@ public class ShutterController : ObjectTrigger
 			}
 			else
 			{
-				Logger.LogWarning("ShutterController still failing Animator sync", Category.ShutterController);
+				Logger.LogWarning("ShutterController still failing Animator sync", Category.Shutters);
 			}
 		}
 		else

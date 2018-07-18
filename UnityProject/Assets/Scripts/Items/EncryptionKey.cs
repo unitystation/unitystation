@@ -149,7 +149,7 @@ public class EncryptionKey : NetworkBehaviour
 			type = value;
 			if (type == EncryptionKeyType.None)
 			{
-				Logger.LogError("Encryption keys cannot be None type!", Category.Telecommunications);
+				Logger.LogError("Encryption keys cannot be None type!", Category.Telecoms);
 				type = EncryptionKeyType.Common;
 			}
 			UpdateSprite();

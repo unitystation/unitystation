@@ -81,7 +81,7 @@ public class ConnectedPlayer
             if ( value != 0 )
             {
                 steamId = value;
-				Logger.Log( $"Updated steamID! {this}" , Category.SteamIntegration);
+				Logger.Log( $"Updated steamID! {this}" , Category.Steam);
             }
         }
     }
