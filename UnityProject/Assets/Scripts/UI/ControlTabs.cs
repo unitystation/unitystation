@@ -413,7 +413,7 @@ namespace UI {
 				targetPos.y -= (382f * canvas.scaleFactor);
 			}
 			float lerpTime = 0f;
-			while(transform.position != targetPos){
+			while(lerpTime < 0.96f){
 				lerpTime += Time.deltaTime * 4f;
 				transform.position = Vector3.Lerp(currentPos, targetPos, lerpTime);
 				yield return new WaitForEndOfFrame();
