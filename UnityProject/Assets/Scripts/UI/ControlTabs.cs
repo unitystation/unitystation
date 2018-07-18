@@ -301,6 +301,9 @@ namespace UI {
 			if ( tabProvider == null ) {
 				return;
 			}
+			if(!Instance.rolledOut){
+				Instance.StartCoroutine(Instance.AnimTabRoll());
+			}
 			
 			var openedTab = new NetTabDescriptor( tabProvider, type );
 			//try to dig out a hidden tab with matching parameters and enable it:
@@ -310,7 +313,7 @@ namespace UI {
 			}
 			if ( !Instance.OpenedNetTabs.ContainsKey( openedTab ) ) 
 			{
-				var rightPanelParent = Instance.transform.GetChild( 1 );
+				var rightPanelParent = Instance.TabStorage;
 				NetTab tabInfo = openedTab.Spawn(rightPanelParent);
 				GameObject tabObject = tabInfo.gameObject;
 
