@@ -105,7 +105,9 @@ namespace Tilemaps
         {
             if(Get<RegisterTile>(position, ObjectType.Player).Count() != 0)
             {
-                return Get<RegisterTile>(position, ObjectType.Player).First().gameObject.GetInstanceID() != gameObject.GetInstanceID();
+				GameObject otherPlayer = Get<RegisterTile>(position, ObjectType.Player).First().gameObject;
+
+				return !otherPlayer.GetComponent<PlayGroup.PlayerMove>().isGhost && otherPlayer.GetInstanceID() != gameObject.GetInstanceID();
             }
             return false;
         }
