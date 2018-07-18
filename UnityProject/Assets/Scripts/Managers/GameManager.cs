@@ -8,25 +8,25 @@ using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
-	public static GameManager Instance;
-	public float RoundTime = 600f;
-    public float ShuttleTime = 60f;
+    private static float ROUNDTIME_CONSTANT = 600f;
+    private static float SHUTTLETIME_CONSTANT = 60f;
+    public static GameManager Instance;
+	public float RoundTime = ROUNDTIME_CONSTANT;
+    public float ShuttleTime = SHUTTLETIME_CONSTANT;
     public bool counting;
     public bool shuttlecounting;
 	public List<GameObject> Occupations = new List<GameObject>();
-	public float restartTime = 10f;
-	/// <summary>
-	/// Set on server if Respawn is Allowed
-	/// </summary>
-	public bool RespawnAllowed = false;
+    /// <summary>
+    /// Set on server if Respawn is Allowed
+    /// </summary>
+    public bool RespawnAllowed = false;
 
 	public Text roundTimer;
 
 	public GameObject StandardOutfit;
-	public bool waitForRestart;
 
-	public float GetRoundTime { get; private set; } = 600f;
-    public float GetShuttleTime { get; private set; } = 60f;
+	public float GetRoundTime { get; private set; } = ROUNDTIME_CONSTANT;
+    public float GetShuttleTime { get; private set; } = SHUTTLETIME_CONSTANT;
 
     public int RoundsPerMap = 10;
 	
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 	private int MapRotationCount = 0;
 	private int MapRotationMapsCounter = 0;
 
-    private bool isreported = false;
+    private bool RoundScoreShow;
 
     //Put the scenes in the unity 3d editor.
 
@@ -45,7 +45,9 @@ public class GameManager : MonoBehaviour
 		if (Instance == null)
 		{
 			Instance = this;
-		}
+            this.RoundTime = ROUNDTIME_CONSTANT;
+            this.ShuttleTime = SHUTTLETIME_CONSTANT;
+        }
 		else
 		{
 			Destroy(this);
@@ -61,14 +63,7 @@ public class GameManager : MonoBehaviour
             {
                 counting = true;
                 shuttlecounting = false;
-                isreported = false;
-            }
-
-            else if (currentshuttleTime > 0f)
-            {
-                counting = false;
-                shuttlecounting = true;
-                isreported = true;
+                RoundScoreShow = false;
             }
         }
     }
@@ -97,20 +92,19 @@ public class GameManager : MonoBehaviour
         GetShuttleTime = ShuttleTime;
 	}
 
-	private void Update()
+    public void ResetRoundTime()
+    {
+        GetRoundTime = RoundTime;
+        GetShuttleTime = ShuttleTime;
+        counting = true;
+        shuttlecounting = false;
+        RoundScoreShow = false;
+        UpdateRoundTimeMessage.Send(GetRoundTime);
+    }
+
+    private void Update()
 	{
-		if (waitForRestart)
-		{
-
-			restartTime -= Time.deltaTime;
-			if (restartTime <= 0f)
-			{
-				waitForRestart = false;
-				RestartRound();
-			}
-		}
-
-		else if (counting)
+        if (counting)
 		{
 			GetRoundTime -= Time.deltaTime;
 			roundTimer.text = Mathf.Floor(GetRoundTime / 60).ToString("00") + ":" +
@@ -128,17 +122,18 @@ public class GameManager : MonoBehaviour
             GetShuttleTime -= Time.deltaTime;
             roundTimer.text = Mathf.Floor(GetShuttleTime / 60).ToString("00") + ":" + (GetShuttleTime % 60).ToString("00") + "ETD";
             
-            if (GetShuttleTime <= 10 && isreported)
+            if (GetShuttleTime <= 0)
             {
                 shuttlecounting = false;
-                waitForRestart = true;
+                RestartRound();
+            }
+
+            else if (GetShuttleTime <= 10 && RoundScoreShow)
+            {
+                shuttlecounting = false;
                 GetComponent<MatrixMove>().StartMovement();
                 PlayerList.Instance.ReportScores();
-                isreported = false;
-            }
-            else if (GetShuttleTime <= 0)
-            {
-                RestartRound();
+                RoundScoreShow = false;
             }
         }
 	}
