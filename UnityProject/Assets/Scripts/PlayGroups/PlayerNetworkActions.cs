@@ -74,7 +74,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		string eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
 		if (Inventory[eventName] != null && Inventory[eventName] != itemObject && !replaceIfOccupied)
 		{
-			Logger.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}",Category.PlayerNetworkActions);
+			Logger.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}",Category.Inventory);
 			return false;
 		}
 
@@ -153,7 +153,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			SetInventorySlot(slot, gObj);
 			//Clean up other slots
 			ClearObjectIfNotInSlot(gObj, slot, forceClientInform);
-			//Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
+			Logger.LogTraceFormat("Approved moving {0} to slot {1}", Category.Inventory, gObj, slot);
 			return true;
 		}
 
@@ -162,7 +162,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return ValidateDropItem(slot, forceClientInform);
 		}
 
-		Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
+		Logger.LogWarning($"Unable to validateInvInteraction {slot}:{gObj.name}", Category.Inventory);
 		return false;
 	}
 
@@ -215,7 +215,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			UpdateSlotMessage.Send(gameObject, slotNames[i], null, forceClientInform);
 		}
 
-		//        Debug.LogFormat("Cleared {0}", slotNames);
+		Logger.LogTraceFormat("Cleared {0}", Category.Inventory, slotNames);
 	}
 
 	[Server]
@@ -263,7 +263,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return true;
 		}
 
-		Logger.Log("Object not found in Inventory",Category.PlayerNetworkActions);
+		Logger.Log("Object not found in Inventory",Category.Inventory);
 		return false;
 	}
 

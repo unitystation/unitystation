@@ -40,7 +40,7 @@ public abstract class HealthBehaviour : InputTrigger
 	{
 		if (initialHealth <= 0)
 		{
-			Debug.LogWarningFormat("Initial health ({0}) set to zero/below zero!", initialHealth);
+			Logger.LogWarning($"Initial health ({initialHealth}) set to zero/below zero!", Category.Health);
 			initialHealth = 1;
 		}
 
@@ -78,8 +78,8 @@ public abstract class HealthBehaviour : InputTrigger
 		}
 		int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
 
-		//        Debug.LogFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}",
-		//            calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
+		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
+		calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
 		Health -= calculatedDamage;
 		CheckDeadCritStatus();
 	}

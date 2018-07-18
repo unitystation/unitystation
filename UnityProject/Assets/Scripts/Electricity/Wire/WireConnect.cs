@@ -171,14 +171,14 @@ namespace Electricity
 		public void DebugPrintLists(){
 			
 			foreach(IElectricityIO io in possibleConns){
-				Logger.Log($" Possilbe conn at {io.GameObject().transform.localPosition}",Category.Electrical);
+				Logger.Log($" Possilbe conn at {io.GameObject().transform.localPosition}",Category.Power);
 			}
 
 			foreach (IElectricityIO io in connections) {
-				Logger.Log($" Connected to something at {io.GameObject().transform.localPosition}",Category.Electrical);
+				Logger.Log($" Connected to something at {io.GameObject().transform.localPosition}",Category.Power);
 			}
 
-			Logger.Log($"The connection points are: {wire.DirectionStart} and {wire.DirectionEnd}",Category.Electrical);
+			Logger.Log($"The connection points are: {wire.DirectionStart} and {wire.DirectionEnd}",Category.Power);
 		}
 
 		[ContextMenu("GenerateTestCurrent")]

@@ -136,11 +136,11 @@ public class ConnectedPlayer
         if ( sameNames != 0 )
         {
             proposedName = $"{name}{sameNames + 1}";
-            Logger.Log($"TRYING: {proposedName}");
+            Logger.LogTrace($"TRYING: {proposedName}", Category.Connections);
         }
         if ( PlayerList.Instance.ContainsName(proposedName) )
         {
-            Logger.Log($"NAME ALREADY EXISTS: {proposedName}");
+            Logger.LogTrace($"NAME ALREADY EXISTS: {proposedName}", Category.Connections);
             sameNames++;
             return GetUniqueName(name, sameNames);
         }

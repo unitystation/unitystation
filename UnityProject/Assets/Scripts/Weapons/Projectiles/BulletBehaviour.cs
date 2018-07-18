@@ -50,7 +50,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 			return;
 		}
 		damageable.ApplyDamage(shooter, damage, damageType, bodyAim);
-		//		Debug.LogFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", damageable.gameObject.name, damage);
+		Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms, damageable.gameObject.name, damage);
 		PoolManager.Instance.PoolClientDestroy(gameObject);
 	}
 }

@@ -70,7 +70,7 @@ public class ClothFactory : NetworkBehaviour
 		{
 			return uniHeadSet;
 		}
-		Logger.LogError("Clot factory could not pick uni item. Falling back to uniCloth", Category.UniCloth);
+		Logger.LogError("Clot factory could not pick uni item. Falling back to uniCloth", Category.DmMetadata);
 		return uniCloth;
 	}
 }

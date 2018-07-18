@@ -101,7 +101,7 @@ public struct NetTabDescriptor {
 		this.type = type;
 		if ( type == NetTabType.None && this.provider != null ) {
 			Logger.LogError( "You forgot to set a proper NetTabType in your new tab!\n" +
-				"Go to Prefabs/GUI/Resources and see if any prefabs starting with Tab has Type=None",Category.NetworkTabManager);
+				"Go to Prefabs/GUI/Resources and see if any prefabs starting with Tab has Type=None",Category.NetUI);
 		}
 	}
 

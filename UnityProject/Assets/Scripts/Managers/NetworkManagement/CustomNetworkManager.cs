@@ -139,18 +139,18 @@ public class CustomNetworkManager : NetworkManager
 			server.ServerName = "Unitystation Official";
 			// Set required settings for dedicated server
 
-			Logger.Log("Setting up Auth hook", Category.NetworkManager);
+			Logger.Log("Setting up Auth hook", Category.Steam);
 			//Process callback data for authentication
 			server.Auth.OnAuthChange = AuthChange;
 		}
 		// confirm in log if server is actually registered or not
 		if (server.IsValid)
 		{
-			Logger.Log("Server registered", Category.NetworkManager);
+			Logger.Log("Server registered", Category.Steam);
 		}
 		else
 		{
-			Logger.Log("Server NOT registered", Category.NetworkManager);
+			Logger.Log("Server NOT registered", Category.Steam);
 		}
 
 	}
@@ -161,13 +161,13 @@ public class CustomNetworkManager : NetworkManager
 		var player = PlayerList.Instance.Get(steamid);
 		if ( player == ConnectedPlayer.Invalid )
 		{
-			Logger.LogWarning( $"Steam gave us a {status} ticket response for unconnected id {steamid}" , Category.NetworkManager);
+			Logger.LogWarning( $"Steam gave us a {status} ticket response for unconnected id {steamid}" , Category.Steam);
 			return;
 		}
 
 		if ( status == ServerAuth.Status.OK )
 		{
-			Logger.LogWarning( $"Steam gave us a 'ok' ticket response for already connected id {steamid}" , Category.NetworkManager);
+			Logger.LogWarning( $"Steam gave us a 'ok' ticket response for already connected id {steamid}" , Category.Steam);
 			return;
 		}
 
@@ -183,10 +183,10 @@ public class CustomNetworkManager : NetworkManager
 	{
 		if ( !player.Connection.isConnected )
 		{
-			Logger.Log($"Not kicking, already disconnected: {player}", Category.NetworkManager);
+			Logger.Log($"Not kicking, already disconnected: {player}", Category.Connections);
 			return;
 		}
-		Logger.Log( $"Kicking {player} : {raisins}" , Category.NetworkManager);
+		Logger.Log( $"Kicking {player} : {raisins}" , Category.Connections);
 		InfoWindowMessage.Send(player.GameObject, $"Kicked: {raisins}", "Kicked");
 		PostToChatMessage.Send($"Player '{player.Name}' got kicked: {raisins}", ChatChannel.System);
 		player.Connection.Disconnect();
@@ -258,7 +258,7 @@ public class CustomNetworkManager : NetworkManager
 			{
 				return;
 			}
-			Logger.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.", Category.NetworkManager);
+			Logger.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.", Category.Connections);
 		}
 		else if (playerPrefab.GetComponent<NetworkIdentity>() == null)
 		{
@@ -266,7 +266,7 @@ public class CustomNetworkManager : NetworkManager
 			{
 				return;
 			}
-			Logger.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.", Category.NetworkManager);
+			Logger.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.", Category.Connections);
 		}
 		else if (playerControllerId < conn.playerControllers.Count && conn.playerControllers[playerControllerId].IsValid &&
 		         conn.playerControllers[playerControllerId].gameObject != null)
@@ -275,7 +275,7 @@ public class CustomNetworkManager : NetworkManager
 			{
 				return;
 			}
-			Logger.LogError("There is already a player at that playerControllerId for this connections.", Category.NetworkManager);
+			Logger.LogError("There is already a player at that playerControllerId for this connections.", Category.Connections);
 		}
 		else
 		{
@@ -324,7 +324,7 @@ public class CustomNetworkManager : NetworkManager
 			players[i].Script.playerSync.NotifyPlayer( playerGameObject, true );
 		}
 
-		Debug.LogFormat($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {players.Count} players) to {playerGameObject.name}");
+		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {players.Count} players) to {playerGameObject.name}", Category.Connections);
 	}
 
 	private IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)
@@ -345,7 +345,7 @@ public class CustomNetworkManager : NetworkManager
 		{
 			player.GameObject.GetComponent<PlayerNetworkActions>().DropAll(true);
 		}
-		Logger.Log($"Player Disconnected: {player.Name}", Category.NetworkManager);
+		Logger.Log($"Player Disconnected: {player.Name}", Category.Connections);
 		PlayerList.Instance.Remove(conn);
 	}
 

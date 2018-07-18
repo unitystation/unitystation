@@ -21,7 +21,7 @@ public class NetUIDynamicList : NetUIElement {
 				DynamicEntry entry = entries[i];
 				string entryName = entry.name;
 				if ( dynamicEntries.ContainsKey( entryName ) ) {
-					Logger.LogWarning( $"Duplicate entry name {entryName}, something's wrong" );
+					Logger.LogWarning( $"Duplicate entry name {entryName}, something's wrong", Category.NetUI );
 					continue;
 				}
 				dynamicEntries.Add( entryName, entry );
@@ -104,7 +104,7 @@ public class NetUIDynamicList : NetUIElement {
 //				Logger.Log( $"{mode} spawning entry #[{resultIndex}]: proposed: [{proposedIndex}], entry: {dynamicEntry}" );
 			} else {
 				
-				Logger.LogWarning( $"Entry \"{proposedIndex}\" {mode} spawn failure, no such entryObject {elementType}", Category.TabUISystem );
+				Logger.LogWarning( $"Entry \"{proposedIndex}\" {mode} spawn failure, no such entryObject {elementType}", Category.NetUI );
 			}
 
 			dynamicEntries[i] = dynamicEntry;

@@ -89,7 +89,7 @@ namespace Equipment
 			{
 				if (tries++ > maxTries)
 				{
-					Logger.LogError($"{this} not in control after {maxTries} tries");
+					Logger.LogError($"{this} not in control after {maxTries} tries", Category.Equipment);
 					yield break;
 				}
 
@@ -215,7 +215,7 @@ namespace Equipment
 					//if ClothFactory does not return an object then move on to the next clothing item
 					if (!obj)
 					{
-						Logger.LogWarning("Trying to instantiate clothing item " + gearItem.Value + " failed!");
+						Logger.LogWarning("Trying to instantiate clothing item " + gearItem.Value + " failed!", Category.Equipment);
 						continue;
 					}
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
@@ -302,7 +302,7 @@ namespace Equipment
 				case "r_hand":
 					return "rightHand";
 				default:
-					Logger.LogWarning("GetLoadOutEventName: Unknown uniformPosition:" + uniformPosition);
+					Logger.LogWarning("GetLoadOutEventName: Unknown uniformPosition:" + uniformPosition, Category.Equipment);
 					return null;
 			}
 		}

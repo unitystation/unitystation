@@ -357,7 +357,7 @@ public partial class CustomNetTransform {
 			foreach ( HealthBehaviour obj in objectsOnTile ) {
 				//Skip thrower for now
 				if ( obj.gameObject == thrownBy ) {
-					Logger.Log( $"{thrownBy.name} not hurting himself" );
+					Logger.Log( $"{thrownBy.name} not hurting himself", Category.Throwing );
 					continue;
 				}
 				//Skip dead bodies
