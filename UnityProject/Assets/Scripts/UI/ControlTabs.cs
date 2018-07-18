@@ -13,8 +13,9 @@ namespace UI {
         public Transform TabStorage;
         public Transform HeaderStorage;
 		public Transform rolloutIcon;
+        public Canvas canvas;
 
-		private bool rolledOut = true;
+		private bool rolledOut = false;
 		private bool preventRoll = false;
 
 		public static ControlTabs Instance;
@@ -114,9 +115,6 @@ namespace UI {
 		}
 
 		private void Start() {
-			//hide it at the start of the game:
-			StartCoroutine(AnimTabRoll());
-
 			FingerPrefab = Resources.Load<GameObject>( "PokeFinger" );
 			TabHeaderPrefab = Resources.Load<GameObject>( "HeaderTab" );
 			RefreshTabHeaders();
@@ -409,10 +407,10 @@ namespace UI {
 			Vector3 targetPos = currentPos;
 			if(rolledOut){
 				//go up
-				targetPos.y += 382f;
+				targetPos.y += (382f * canvas.scaleFactor);
 			} else {
 				//go down
-				targetPos.y -= 382f;
+				targetPos.y -= (382f * canvas.scaleFactor);
 			}
 			float lerpTime = 0f;
 			while(transform.position != targetPos){
