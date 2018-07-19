@@ -10,6 +10,13 @@ namespace UI {
 	public class ControlTabs : MonoBehaviour {
 		private static GameObject FingerPrefab;
 		private static GameObject TabHeaderPrefab;
+        public Transform TabStorage;
+        public Transform HeaderStorage;
+		public Transform rolloutIcon;
+        public Canvas canvas;
+
+		private bool rolledOut = false;
+		private bool preventRoll = false;
 
 		public static ControlTabs Instance;
 		
@@ -33,25 +40,6 @@ namespace UI {
 					Destroy(tab.Value.gameObject);
 				}
 				Instance.SelectTab( ClientTabType.Stats, false );
-			}
-		}
-
-		private Transform tabStorage;
-		private Transform TabStorage {
-			get {
-				if ( tabStorage == null ) {
-					tabStorage = transform.GetChild( 1 );
-				}
-				return tabStorage;
-			}
-		}
-		private Transform headerStorage;
-		private Transform HeaderStorage {
-			get {
-				if ( headerStorage == null ) {
-					headerStorage = transform.GetChild( 0 );
-				}
-				return headerStorage;
 			}
 		}
 
@@ -228,7 +216,7 @@ namespace UI {
 			Tab tab = TabStorage.GetChild( index )?.GetComponent<Tab>();
 			if ( !tab ) {
 				
-				Logger.LogWarning( $"No tab found with index {index}!",Category.TabUISystem );
+				Logger.LogWarning( $"No tab found with index {index}!",Category.NetUI );
 				return;
 			}
 			tab.gameObject.SetActive( true );
@@ -315,6 +303,9 @@ namespace UI {
 			if ( tabProvider == null ) {
 				return;
 			}
+			if(!Instance.rolledOut){
+				Instance.StartCoroutine(Instance.AnimTabRoll());
+			}
 			
 			var openedTab = new NetTabDescriptor( tabProvider, type );
 			//try to dig out a hidden tab with matching parameters and enable it:
@@ -324,7 +315,7 @@ namespace UI {
 			}
 			if ( !Instance.OpenedNetTabs.ContainsKey( openedTab ) ) 
 			{
-				var rightPanelParent = Instance.transform.GetChild( 1 );
+				var rightPanelParent = Instance.TabStorage;
 				NetTab tabInfo = openedTab.Spawn(rightPanelParent);
 				GameObject tabObject = tabInfo.gameObject;
 
@@ -398,6 +389,41 @@ namespace UI {
 			} else {
 				Instance.StartCoroutine( FingerDecay( finger ) );
 			}
+		}
+
+		//For hiding or showing the tab window
+		public void ToggleTabRollOut(){
+			if(!preventRoll){
+				preventRoll = true;
+			} else {
+				return;
+			}
+			StartCoroutine(AnimTabRoll());
+		}
+
+		//Tab roll in and out animation
+		IEnumerator AnimTabRoll(){
+			Vector3 currentPos = transform.position;
+			Vector3 targetPos = currentPos;
+			if(rolledOut){
+				//go up
+				targetPos.y += (382f * canvas.scaleFactor);
+			} else {
+				//go down
+				targetPos.y -= (382f * canvas.scaleFactor);
+			}
+			float lerpTime = 0f;
+			while(lerpTime < 0.96f){
+				lerpTime += Time.deltaTime * 4f;
+				transform.position = Vector3.Lerp(currentPos, targetPos, lerpTime);
+				yield return new WaitForEndOfFrame();
+			}
+			yield return new WaitForEndOfFrame();
+			Vector3 newScale = rolloutIcon.localScale;
+			newScale.y = -newScale.y;
+			rolloutIcon.localScale = newScale;
+			rolledOut = !rolledOut;
+			preventRoll = false;
 		}
 
 	}

@@ -72,7 +72,7 @@ public class TabInteractMessage : ClientMessage
 
 	private TabUpdateMessage FailValidation( GameObject player, GameObject tabProvider, string reason="" ) {
 		
-		Logger.LogWarning( $"{player}: Tab interaction w/{tabProvider} denied: {reason}",Category.TabUISystem );
+		Logger.LogWarning( $"{player}: Tab interaction w/{tabProvider} denied: {reason}",Category.NetUI );
 		return TabUpdateMessage.Send( player, tabProvider, NetTabType, TabAction.Close );
 	}
 

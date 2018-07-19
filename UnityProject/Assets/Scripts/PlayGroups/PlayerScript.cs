@@ -40,16 +40,7 @@ namespace PlayGroup
 
 		public PlayerSprites playerSprites { get; set; }
 
-		private PlayerSync _playerSync;
-		public PlayerSync playerSync {
-			get {
-				if ( !_playerSync ) {
-					_playerSync = GetComponent<PlayerSync>();
-				}
-
-				return _playerSync;
-			}
-		}
+		public PlayerSync playerSync { get; set; }
 		
 		public RegisterTile registerTile { get; set; }
 
@@ -84,7 +75,7 @@ namespace PlayGroup
 			OnNameChange(playerName);
 			yield return new WaitForSeconds(1f);
 			//Refresh chat log:
-			ChatRelay.Instance.RefreshLog();
+	//s		ChatRelay.Instance.RefreshLog();
 		}
 
 		//isLocalPlayer is always called after OnStartClient
@@ -105,7 +96,7 @@ namespace PlayGroup
 		private void Start()
 		{
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
-//			playerSync = GetComponent<PlayerSync>();
+			playerSync = GetComponent<PlayerSync>();
 			registerTile = GetComponent<RegisterTile>();
 			playerHealth = GetComponent<PlayerHealth>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
@@ -144,14 +135,14 @@ namespace PlayGroup
 				if ( CustomNetworkManager.Instance.SteamServer ) {
 					// Send request to be authenticated by the server
 					if ( Client.Instance != null ) {
-						Logger.Log( "Client Requesting Auth", Category.SteamIntegration );
+						Logger.Log( "Client Requesting Auth", Category.Steam );
 						// Generate authentication Ticket
 						var ticket = Client.Instance.Auth.GetAuthSessionTicket();
 						var ticketBinary = ticket.Data;
 						// Send Clientmessage to authenticate
 						RequestAuthMessage.Send( Client.Instance.SteamId, ticketBinary );
 					} else {
-						Logger.Log( "Client NOT requesting auth", Category.SteamIntegration );
+						Logger.Log( "Client NOT requesting auth", Category.Steam );
 					}
 				}
 //				Request sync to get all the latest transform data
@@ -215,7 +206,7 @@ namespace PlayGroup
 		{
 			if (string.IsNullOrEmpty(newName))
 			{
-				Logger.LogError("NO NAME PROVIDED!");
+				Logger.LogError("NO NAME PROVIDED!", Category.Connections);
 				return;
 			}
 //			Logger.Log($"OnNameChange: GOName '{gameObject.name}'->'{newName}'; playerName '{playerName}'->'{newName}'");

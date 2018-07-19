@@ -17,12 +17,10 @@ namespace UI
 		private CameraResizer camResizer;
 		private CanvasScaler canvasScaler;
 		private GraphicRaycaster graphicRaycaster;
-		public RectTransform hudBottom;
 		private CameraZoomHandler cameraZoomHandler;
 
 		private bool monitorWindow;
 		private Canvas parentCanvas;
-		public RightPanelResize rightPanelResize;
 		private bool checkingDisplayOnLoad = false;
 
 		//Caches
@@ -33,7 +31,7 @@ namespace UI
 
 		private void Start()
 		{
-			cacheWidth = rightPanelResize.panelRectTransform.sizeDelta.x;
+			//cacheWidth = rightPanelResize.panelRectTransform.sizeDelta.x;
 			camResizer = FindObjectOfType<CameraResizer>();
 			parentCanvas = GetComponent<Canvas>();
 			canvasScaler = GetComponent<CanvasScaler>();
@@ -67,7 +65,7 @@ namespace UI
 			yield return new WaitForSeconds(0.2f);
 			screenWidthCache = Screen.width;
 			screenHeightCache = Screen.height;
-			AdjustHudBottom(rightPanelResize.panelRectTransform.sizeDelta);
+			//AdjustHudBottom(rightPanelResize.panelRectTransform.sizeDelta);
 			monitorWindow = true;
 			if (!Screen.fullScreen) {
 				StartCoroutine(ForceGameWindowAspect());
@@ -92,21 +90,6 @@ namespace UI
 			}
 		}
 
-		//It takes some time for the screen to redraw, wait for 0.1f
-		private void AdjustHudBottomDelay()
-		{
-			AdjustHudBottom(rightPanelResize.panelRectTransform.sizeDelta);
-			if (!Screen.fullScreen)
-			{
-				StopCoroutine(ForceGameWindowAspect());
-				StartCoroutine(ForceGameWindowAspect());
-			}
-			else
-			{
-				monitorWindow = true;
-			}
-		}
-
 		private IEnumerator ForceGameWindowAspect()
 		{
 			yield return new WaitForSeconds(0.2f);
@@ -116,24 +99,24 @@ namespace UI
 			int width = Screen.width;
 			if (width % 2 != 0)
 			{
-//				Logger.Log( $"Odd width {width}->{width-1}" );
+//			Logger.Log( $"Odd width {width}->{width-1}" );
 				width--;
 			}
 			int height = Screen.height;
 			if (height % 2 != 0)
 			{
-//				Logger.Log( $"Odd height {height}->{height-1}" );
+//			Logger.Log( $"Odd height {height}->{height-1}" );
 				height--;
 			}
 			
 //			Logger.Log("Screen height before resizing: " + Camera.main.pixelHeight + " Aspect Y: " + height/(float)Screen.height);
 //			Logger.Log("Screen height before resizing: " + Camera.main.pixelWidth + " Aspect X: " + width/(float)Screen.width);
-			
+
 			// Enforce aspect by resizing the camera rectangle to nearest (lower) even number.
 			Camera.main.rect = new Rect(0, 0, width / (float)Screen.width, height / (float)Screen.height);
 			
-//			Logger.Log("Screen height after resizing: " + Camera.main.pixelHeight);
-			
+//		Logger.Log("Screen height after resizing: " + Camera.main.pixelHeight);
+
 			if (camResizer != null) {
 				camResizer.AdjustCam();
 			}
@@ -151,38 +134,6 @@ namespace UI
 			monitorWindow = true;
 			checkingDisplayOnLoad = false;
 			cameraZoomHandler.Refresh();
-		}
-
-		public void AdjustHudBottom(Vector2 panelRightSizeDelta)
-		{
-			Vector2 hudBottomSizeDelta = hudBottom.sizeDelta;
-			//This is when pulling the rightpanel to the right of the screen from default position
-			if (rightPanelResize.panelRectTransform.sizeDelta.x < cacheWidth)
-			{
-				//Calculate the new anchor point for hudBottom in the right direction of scale
-				float panelRightProgress = (cacheWidth - rightPanelResize.panelRight.rect.width) / cacheWidth;
-				float newAnchorPos = Mathf.Lerp(rightPanelResize.cacheHudAnchor, 0f, panelRightProgress);
-				Vector2 anchoredPos = hudBottom.anchoredPosition;
-				anchoredPos.x = -newAnchorPos;
-				hudBottom.anchoredPosition = anchoredPos;
-			}
-			else
-			{
-				// this is for the left direction from the default position
-				float panelRightProgress = (cacheWidth - rightPanelResize.panelRight.rect.width) / cacheWidth;
-				float newAnchorPos = Mathf.Lerp(rightPanelResize.cacheHudAnchor, 562f, Mathf.Abs(panelRightProgress));
-				Vector2 anchoredPos = hudBottom.anchoredPosition;
-				anchoredPos.x = -newAnchorPos;
-				hudBottom.anchoredPosition = anchoredPos;
-				hudBottomSizeDelta.x = -panelRightSizeDelta.x;
-				hudBottom.sizeDelta = hudBottomSizeDelta;
-			}
-			//KEEP ASPECT RATIO:
-			hudBottomSizeDelta.y = hudBottom.rect.width * rightPanelResize.originalHudSize.y /
-			                       rightPanelResize.originalHudSize.x;
-			hudBottom.sizeDelta = hudBottomSizeDelta;
-			UIManager.DisplayManager.SetCameraFollowPos(rightPanelResize.returnPanelButton.activeSelf);
-			UIManager.PlayerHealthUI.overlayCrits.AdjustOverlayPos();
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Tilemaps.Behaviours.Layers;
 using Tilemaps.Behaviours.Objects;

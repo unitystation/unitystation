@@ -163,7 +163,7 @@ namespace Doors
 			}
 			else
 			{
-				Logger.LogError("Door lacks access restriction component!");
+				Logger.LogError("Door lacks access restriction component!", Category.Doors);
 			}
 		}
 		[Server]

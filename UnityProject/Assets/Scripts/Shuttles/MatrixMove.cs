@@ -81,7 +81,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	private void InitServerState()
 	{
 		if ( flyingDirection == Vector2.zero ) {
-			Logger.LogWarning($"{gameObject.name} move direction unclear",Category.Movement);
+			Logger.LogWarning($"{gameObject.name} move direction unclear",Category.Matrix);
 			serverState.Direction = Vector2.up;
 		} else {
 			serverState.Direction = Vector2Int.RoundToInt(flyingDirection);
@@ -178,7 +178,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			return;
 		}
 		if ( absoluteValue > maxSpeed ) {
-			Logger.LogWarning($"MaxSpeed {maxSpeed} reached, not going further",Category.Movement);
+			Logger.LogWarning($"MaxSpeed {maxSpeed} reached, not going further",Category.Matrix);
 			if ( serverTargetState.Speed >= maxSpeed ) {
 				//Not notifying people if some dick is spamming "increase speed" button at max speed
 				return;
@@ -259,7 +259,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 					}
 				}
 			} else {
-				Logger.Log( "Stopping due to safety protocols!",Category.Movement );
+				Logger.Log( "Stopping due to safety protocols!",Category.Matrix );
 				StopMovement();
 			}
 		}
