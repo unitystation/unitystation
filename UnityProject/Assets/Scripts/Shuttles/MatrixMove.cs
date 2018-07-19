@@ -32,8 +32,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	///used for syncing with players, matters only for server
 	private MatrixState serverState = MatrixState.Invalid;
 	/// future state that collects all changes
-	private MatrixState serverTargetState = MatrixState.Invalid; 
-	public bool SafetyProtocolsOn { get; set; }
+	private MatrixState serverTargetState = MatrixState.Invalid;
+	public bool SafetyProtocolsOn { get; set; } = true;
 	private bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
 	private bool isRotatingServer => IsRotatingClient; //todo: calculate rotation time on server instead
@@ -88,8 +88,28 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		}
 		initialPosition = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
 		var child = transform.GetChild( 0 );
+		var matrixInfo = MatrixManager.Get( child.gameObject );
+		var metaTileMap = matrixInfo.MetaTileMap;
 		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
 		pivot =  initialPosition - childPosition;
+		
+		if ( sensorOffset == TransformState.HiddenPos ) {
+			//very ghetto
+			var bounds = metaTileMap.GetBounds();
+			var piv = Pivot;
+
+			if ( State.Direction == Vector2.right ) {
+				sensorOffset = new Vector3Int((int)( bounds.center.x - bounds.xMax ), 0 ,0);
+			} else if ( State.Direction == Vector2.left ) {
+				sensorOffset = new Vector3Int((int)( bounds.center.x - bounds.xMin ), 0 ,0);
+			} else if ( State.Direction == Vector2.up ) {
+				sensorOffset = new Vector3Int(0,(int)( bounds.center.y - bounds.yMin ) ,0);
+			} else if ( State.Direction == Vector2.down ) {
+				sensorOffset = new Vector3Int(0,(int)( bounds.center.y - bounds.yMax ) ,0);
+			}
+			Logger.Log( $"Initialized sensor at pos {State.Position+sensorOffset}," +
+			            $" sensor offset is {sensorOffset}, direction is {State.Direction}, bounds are {bounds}", Category.Matrix );
+		}
 //		Logger.Log( $"Calculated pivot {pivot} for {gameObject.name}" );
 		
 		serverState.Speed = 1f;
@@ -273,23 +293,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	{
 		Vector3Int dir = Vector3Int.RoundToInt( direction );
 		Vector3Int originCenter = Vector3Int.RoundToInt( State.Position );
-		if ( sensorOffset == TransformState.HiddenPos ) {
-			//very ghetto
-			var metaTileMap = MatrixManager.Get( transform.GetChild(0).gameObject ).MetaTileMap;
-			var bounds = metaTileMap.GetBounds();
 
-			if ( State.Direction == Vector2.right ) {
-				sensorOffset = new Vector3Int((int)( bounds.center.x - bounds.xMax ), 0 ,0);
-			} else if ( State.Direction == Vector2.left ) {
-				sensorOffset = new Vector3Int((int)( bounds.center.x - bounds.xMin ), 0 ,0);
-			} else if ( State.Direction == Vector2.up ) {
-				sensorOffset = new Vector3Int(0,(int)( bounds.center.y - bounds.yMax ) ,0);
-			} else if ( State.Direction == Vector2.down ) {
-				sensorOffset = new Vector3Int(0,(int)( bounds.center.y - bounds.yMin ) ,0);
-			}
-			Logger.Log( $"Initialized sensor at pos {originCenter+sensorOffset}," +
-			            $" sensor offset is {sensorOffset}, direction is {State.Direction}, bounds are {bounds}", Category.Matrix );
-		}
 		Vector3Int sensorPos = originCenter+sensorOffset;
 		//		check if next tile is passable
 		if ( !MatrixManager.IsPassableAt( sensorPos, sensorPos + dir ) ) {
