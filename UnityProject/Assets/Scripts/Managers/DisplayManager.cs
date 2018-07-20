@@ -74,7 +74,7 @@ public class DisplayManager : MonoBehaviour
 		}
 
         float xOffSet =
-             (Camera2DFollow.followControl.transform.position.x - Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x) * 1.4f;
+             (Camera2DFollow.followControl.transform.position.x - Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x) * 1.38f;
 
 		Camera2DFollow.followControl.listenerObj.transform.localPosition = new Vector3(-xOffSet, 1f); //set listenerObj's position to player's pos
 		Camera2DFollow.followControl.SetXOffset(xOffSet);
