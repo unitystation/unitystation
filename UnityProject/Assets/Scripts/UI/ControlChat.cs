@@ -86,6 +86,10 @@ namespace UI
 					CloseChatWindow();
 				}
 			}
+            if(chatInputWindow.activeInHierarchy && Input.GetKey(KeyCode.Escape))
+            {
+                CloseChatWindow();
+            }
 		}
 
 		public void OnClickSend()
