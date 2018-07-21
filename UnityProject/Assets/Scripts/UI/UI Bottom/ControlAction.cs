@@ -50,7 +50,7 @@ namespace UI
 				UIManager.Hands.Swap();
 			}
 
-			if (Input.GetKeyDown(KeyCode.E))
+			if (Input.GetKeyDown(KeyCode.E) && !ControlChat.Instance.InputFieldChat.isFocused)
 			{
 				UIManager.Hands.Use();
 			}
