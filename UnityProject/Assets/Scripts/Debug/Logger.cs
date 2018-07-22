@@ -15,6 +15,7 @@ public static class Logger
 		[Category.Movement] = Level.Error,
 		[Category.DmMetadata] = Level.Off,
 		[Category.Light2D] = Level.Off,
+		[Category.Chemistry] = Level.Info,
 		[Category.Unknown]  = Level.Info
 	};
 
@@ -150,5 +151,6 @@ public enum Category {
 	Firearms,
 	Power,
 	Throwing,
-	Containers
+	Containers,
+	Chemistry
 }

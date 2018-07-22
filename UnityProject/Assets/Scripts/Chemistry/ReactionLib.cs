@@ -9,27 +9,18 @@ using Newtonsoft.Json;
 
 namespace Chemistry
 {
-
-    internal class MainClass
-    {
-        public static void Main(string[] args)
-        {
-            Initialization.run();
-            //Demonstration code//
-            var area = new Dictionary<String, float>();
-            area.Add("potassium", 59.0f);
-            area.Add("oxygen", 49.0f);
-            area.Add("sugar", 45.0f);
-            area.Add("iodine", 20.0f);
+            //Initialization.run();
+            //var area = new Dictionary<String, float>();
+            //area.Add("potassium", 59.0f);
+            //area.Add("oxygen", 49.0f);
+            //area.Add("sugar", 45.0f);
+            //area.Add("iodine", 20.0f);
 
             //area.Add("virusfood",59f);
             //area.Add("blood",49f);
-            float Temperature = 400f;
-            Dictionary<string, float> area_new = Calculations.Reactions(area,Temperature);
+            //float Temperature = 400f;
+            //Dictionary<string, float> area_new = Calculations.Reactions(area,Temperature);
 
-            Console.WriteLine("Press any key to continue . . . ");
-            Console.ReadKey();
-        }
         public class Reaction
         {
             public String Name { get; set; }
@@ -44,7 +35,7 @@ namespace Chemistry
             public static List<Reaction> List_of_reactions = new List<Reaction>();
         }
 
-        private static class Initialization
+		public static class Initialization
         {
             public static void run()
             {
@@ -53,7 +44,8 @@ namespace Chemistry
             }
             private static void JsonImportInitialization()
             {
-                string json = File.ReadAllText(@"Reactions.json");
+			var path = Path.Combine(Environment.CurrentDirectory, @"Assets\Resources\Metadata\Reactions.json");
+			string json = File.ReadAllText(path);
                 var Json_Reactions = JsonConvert.DeserializeObject<List<Dictionary<String,Object>>>(json);
                 for (var i = 0; i < Json_Reactions.Count() ; i++)
                 {
@@ -65,7 +57,7 @@ namespace Chemistry
                     Reaction_pass.Minimum_temperature = float.Parse(Json_Reactions[i]["Minimum_temperature"].ToString());
                     Globals.List_of_reactions.Add(Reaction_pass);
                 }
-                //Console.WriteLine("JsonImportInitialization done!");
+			Logger.Log("JsonImportInitialization done!",Category.Chemistry);
             }
             private static void CemInitialization()
             {
@@ -138,7 +130,7 @@ namespace Chemistry
                         {
                             if (!(Reaction.Catalysts.ContainsKey(Chemical)))
                             {
-                                Area[Chemical] = (Area[Chemical] - Area[Compatible_cem] * (Reaction.Reagents_and_ratio[Compatible_cem] / Reaction.Reagents_and_ratio[Chemical]));
+							Area[Chemical] = (Area[Chemical] - back_up * SwapFix(Reaction.Reagents_and_ratio[Compatible_cem],Reaction.Reagents_and_ratio[Chemical]));
                             }
                         }
                         foreach (string Chemical in Reaction.Reagents_and_ratio.Keys)
@@ -161,6 +153,13 @@ namespace Chemistry
                 }
                 return (Area);
             }
+		private static float SwapFix(float n1, float n2)
+			{
+			if (n1 > n2) 
+				{
+				return (n1/n2);	
+				}
+			return (n2/n1);	
+			}
         }
-    }
 }
