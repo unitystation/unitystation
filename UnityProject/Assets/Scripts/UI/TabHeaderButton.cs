@@ -18,13 +18,29 @@ public class TabHeaderButton : MonoBehaviour {
 		}
 	}
 	private Button button;
-	
+	private bool mouseOver = false;
+
 	public Color selectedColor;
 	public Color unselectColor;
 
 	public void Select() {
 		Button.image.color = selectedColor;
+		if(mouseOver){
+			//Tab roll out
+			if (!ControlTabs.Instance.rolledOut) {
+				ControlTabs.Instance.ToggleTabRollOut();
+			}
+		} 
 	}
+
+	public void PointerEnter(){
+		mouseOver = true;
+	}
+
+	public void PointerExit(){
+		mouseOver = false;
+	}
+
 	public void Unselect() {
 		Button.image.color = unselectColor;
 	}
