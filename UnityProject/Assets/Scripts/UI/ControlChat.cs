@@ -104,8 +104,8 @@ namespace UI
                         CloseChatWindow();
                     }
 
-                    if (Input.GetKey(KeyCode.Return))
-                    {
+					if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()) &&
+					(Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))) {
                         PlayerSendChat();
                         CloseChatWindow();
                     }
