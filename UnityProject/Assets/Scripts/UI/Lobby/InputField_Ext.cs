@@ -44,7 +44,7 @@ namespace UI
 			}
 			else
 			{
-				Debug.Log("Caret obj not found");
+				Logger.Log("Caret obj not found",Category.UI);
 			}
 		}
 	}

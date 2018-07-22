@@ -147,7 +147,7 @@ namespace PlayGroup
 			{
 				return;
 			}
-			//            Debug.LogFormat("Lost blood: {0}->{1}", BloodLevel, BloodLevel - amount);
+			Logger.LogTraceFormat("Lost blood: {0}->{1}", Category.Health, BloodLevel, BloodLevel - amount);
 			BloodLevel -= amount;
 			BloodSplatSize scaleOfTragedy;
 			if (amount > 0 && amount < 15)

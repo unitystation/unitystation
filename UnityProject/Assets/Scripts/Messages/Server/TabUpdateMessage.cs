@@ -17,7 +17,7 @@ public class TabUpdateMessage : ServerMessage {
 	public bool Touched;
 	
 	public override IEnumerator Process() {
-//		Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 		yield return WaitFor( Provider );
 		switch ( Action ) {
 			case TabAction.Open:
@@ -49,7 +49,7 @@ public class TabUpdateMessage : ServerMessage {
 				Send( connectedPlayer.GameObject, provider, type, tabAction, null, values );
 		}
 //		if ( logMessage != null ) {
-//			Debug.Log( $"Sending {logMessage}" );
+//			Logger.Log( $"Sending {logMessage}" );
 //		}
 	}
 

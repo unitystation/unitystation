@@ -10,6 +10,13 @@ namespace UI {
 	public class ControlTabs : MonoBehaviour {
 		private static GameObject FingerPrefab;
 		private static GameObject TabHeaderPrefab;
+        public Transform TabStorage;
+        public Transform HeaderStorage;
+		public Transform rolloutIcon;
+        public Canvas canvas;
+
+		public bool rolledOut { get; private set; }
+		private bool preventRoll = false;
 
 		public static ControlTabs Instance;
 		
@@ -23,7 +30,7 @@ namespace UI {
 			{
 				Destroy(gameObject);
 				//Killing net tabs on round restart
-//				Debug.LogError( "ControlTabs cleanup!" );
+//				Logger.LogError( "ControlTabs cleanup!" );
 				foreach ( var tab in Instance.HiddenNetTabs ) {
 					Destroy( Instance.HeaderForTab( tab.Value )?.gameObject );
 					Destroy(tab.Value.gameObject);
@@ -33,25 +40,6 @@ namespace UI {
 					Destroy(tab.Value.gameObject);
 				}
 				Instance.SelectTab( ClientTabType.Stats, false );
-			}
-		}
-
-		private Transform tabStorage;
-		private Transform TabStorage {
-			get {
-				if ( tabStorage == null ) {
-					tabStorage = transform.GetChild( 1 );
-				}
-				return tabStorage;
-			}
-		}
-		private Transform headerStorage;
-		private Transform HeaderStorage {
-			get {
-				if ( headerStorage == null ) {
-					headerStorage = transform.GetChild( 0 );
-				}
-				return headerStorage;
 			}
 		}
 
@@ -173,7 +161,7 @@ namespace UI {
 
 		private TabHeaderButton HeaderForTab( Tab tab ) {
 			if ( tab.Hidden ) {
-//				Debug.LogWarning( $"Tab {tab} is hidden, no header will be provided" );
+//				Logger.LogWarning( $"Tab {tab} is hidden, no header will be provided" );
 				return null;
 			}
 
@@ -184,7 +172,7 @@ namespace UI {
 					return header;
 				}
 			}
-//			Debug.LogError( $"No headers found for {tab}, wtf?" );
+//			Logger.LogError( $"No headers found for {tab}, wtf?" );
 			return null;
 		}
 
@@ -222,12 +210,12 @@ namespace UI {
 		/// This one is called when tab header is clicked on
 		public void SelectTab( int index, bool click = true ) 
 		{
-//			Debug.Log( $"Selecting tab #{index}" );
-			
+			//			Logger.Log( $"Selecting tab #{index}" );
 			UnselectAll();
 			Tab tab = TabStorage.GetChild( index )?.GetComponent<Tab>();
 			if ( !tab ) {
-				Debug.LogWarning( $"No tab found with index {index}!" );
+				
+				Logger.LogWarning( $"No tab found with index {index}!",Category.NetUI );
 				return;
 			}
 			tab.gameObject.SetActive( true );
@@ -314,16 +302,19 @@ namespace UI {
 			if ( tabProvider == null ) {
 				return;
 			}
+			if(!Instance.rolledOut){
+				Instance.StartCoroutine(Instance.AnimTabRoll());
+			}
 			
 			var openedTab = new NetTabDescriptor( tabProvider, type );
 			//try to dig out a hidden tab with matching parameters and enable it:
 			if ( Instance.HiddenNetTabs.ContainsKey( openedTab ) ) {
-//				Debug.Log( $"Yay, found an old hidden {openedTab} tab. Unhiding it" );
+//				Logger.Log( $"Yay, found an old hidden {openedTab} tab. Unhiding it" );
 				Instance.UnhideTab( Instance.HiddenNetTabs[openedTab] );
 			}
 			if ( !Instance.OpenedNetTabs.ContainsKey( openedTab ) ) 
 			{
-				var rightPanelParent = Instance.transform.GetChild( 1 );
+				var rightPanelParent = Instance.TabStorage;
 				NetTab tabInfo = openedTab.Spawn(rightPanelParent);
 				GameObject tabObject = tabInfo.gameObject;
 
@@ -397,6 +388,41 @@ namespace UI {
 			} else {
 				Instance.StartCoroutine( FingerDecay( finger ) );
 			}
+		}
+
+		//For hiding or showing the tab window
+		public void ToggleTabRollOut(){
+			StartCoroutine(AnimTabRoll());
+		}
+
+		//Tab roll in and out animation
+		IEnumerator AnimTabRoll(){
+			if (!preventRoll) {
+				preventRoll = true;
+			} else {
+				yield break;
+			}
+			Vector3 currentPos = transform.position;
+			Vector3 targetPos = currentPos;
+			if(rolledOut){
+				//go up
+				targetPos.y += (382f * canvas.scaleFactor);
+			} else {
+				//go down
+				targetPos.y -= (382f * canvas.scaleFactor);
+			}
+			float lerpTime = 0f;
+			while(lerpTime < 0.96f){
+				lerpTime += Time.deltaTime * 4f;
+				transform.position = Vector3.Lerp(currentPos, targetPos, lerpTime);
+				yield return new WaitForEndOfFrame();
+			}
+			yield return new WaitForEndOfFrame();
+			Vector3 newScale = rolloutIcon.localScale;
+			newScale.y = -newScale.y;
+			rolloutIcon.localScale = newScale;
+			rolledOut = !rolledOut;
+			preventRoll = false;
 		}
 
 	}

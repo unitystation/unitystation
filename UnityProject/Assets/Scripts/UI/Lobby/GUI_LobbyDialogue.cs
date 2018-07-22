@@ -94,7 +94,7 @@ namespace UI
 
 			// Hide dialogue and show status text
 			gameObject.SetActive(false);
-			UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
+		//	UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
 		}
 
 		public void OnShowInformationPanel()

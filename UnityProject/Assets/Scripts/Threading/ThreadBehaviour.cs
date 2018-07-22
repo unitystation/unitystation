@@ -34,8 +34,7 @@ public class ThreadedBehaviour : MonoBehaviour
 
 		WorkingThread = new Thread(ThreadedLoop);
 		WorkingThread.Start();
-		string str = string.Format("<b>{0}</b> Started", GetType().Name);
-		Debug.Log(str);
+		Logger.LogFormat("<b>{0}</b> Started", Category.Threading, GetType().Name);
 		//        ConsoleDebug.AddText("<color=#00FFFF>" + str + "</color>");
 	}
 
@@ -53,8 +52,8 @@ public class ThreadedBehaviour : MonoBehaviour
 			WorkingThread.Abort();
 			WorkingThread = null;
 		}
-		string str = string.Format("<b>{0}</b> Stopped", GetType().Name);
-		Debug.Log(str);
+
+		Logger.LogFormat("<b>{0}</b> Stopped", Category.Threading, GetType().Name);
 		//        ConsoleDebug.AddText("<color=#00FFFF>" + str + "</color>");
 		IsRunning = false;
 	}

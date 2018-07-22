@@ -61,7 +61,7 @@ public class Networking : Editor
 		foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
 			//Printing this the pretty way, example:
 			//Bob (CAPTAIN) is located at (77,0, 52,0, 0,0)
-			Debug.Log( $"{player.Name} ({player.Job}) is located at {player.Script.WorldPos}" );
+			Logger.Log( $"{player.Name} ({player.Job}) is located at {player.Script.WorldPos}" );
 		}
 
 	}

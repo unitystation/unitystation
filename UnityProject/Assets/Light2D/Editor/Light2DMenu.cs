@@ -20,8 +20,8 @@ namespace Light2D
 			List<Renderer> baseObjects = Selection.gameObjects.Select(o => o.GetComponent<Renderer>()).Where(r => r != null).ToList();
 			if (baseObjects.Count == 0)
 			{
-				Debug.LogError(
-					"Can't create light obstacle from selected object. You need to select any object with renderer attached to it to create light obstacle.");
+				Logger.LogError(
+					"Can't create light obstacle from selected object. You need to select any object with renderer attached to it to create light obstacle.", Category.Light2D);
 			}
 
 			foreach (Renderer gameObj in baseObjects)

@@ -15,7 +15,11 @@ public static class SpawnHandler
 		GameObject player = CreatePlayer(jobType);
 		var connectedPlayer = PlayerList.Instance.UpdatePlayer(conn, player);
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
-		connectedPlayer.Script.playerSync.NotifyPlayers( true );
+		if (connectedPlayer.Script.playerSync != null) {
+			connectedPlayer.Script.playerSync.NotifyPlayers(true);
+		} else {
+			Debug.LogWarning("why is playerSync missing here?");
+		}
 	}
 
 	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
@@ -23,7 +27,11 @@ public static class SpawnHandler
 		GameObject player = CreatePlayer(jobType);
 		var connectedPlayer = PlayerList.Instance.UpdatePlayer(conn, player);
 		NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
-		connectedPlayer.Script.playerSync.NotifyPlayers( true );
+		if (connectedPlayer.Script.playerSync != null) {
+			connectedPlayer.Script.playerSync.NotifyPlayers(true);
+		} else {
+			Debug.LogWarning("why is playerSync missing here?");
+		}
 	}
 
 	private static GameObject CreatePlayer(JobType jobType)

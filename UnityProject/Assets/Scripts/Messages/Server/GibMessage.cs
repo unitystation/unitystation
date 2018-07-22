@@ -8,8 +8,6 @@ public class GibMessage : ServerMessage
 
 	public override IEnumerator Process()
 	{
-		Debug.Log(ToString());
-
 		foreach (HealthBehaviour living in Object.FindObjectsOfType<HealthBehaviour>())
 		{
 			living.Death();

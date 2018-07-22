@@ -63,7 +63,7 @@ namespace PlayGroup
 				MatrixId = matrixAtPoint.Id,
 				WorldPosition = worldPos
 			};
-//			Debug.Log( $"{PlayerList.Instance.Get( gameObject ).Name}: InitServerState for {worldPos} found matrix {matrixAtPoint} resulting in\n{state}" );
+//			Logger.Log( $"{PlayerList.Instance.Get( gameObject ).Name}: InitServerState for {worldPos} found matrix {matrixAtPoint} resulting in\n{state}" );
 			serverState = state;
 			serverTargetState = state;
 			
@@ -110,7 +110,7 @@ namespace PlayGroup
 		{
 			if (direction == Vector2Int.zero)
 			{
-				Debug.Log("Push with zero impulse??");
+				Logger.Log("Push with zero impulse??", Category.PushPull);
 				return;
 			}
 
@@ -122,7 +122,7 @@ namespace PlayGroup
 					Vector3Int.RoundToInt(serverState.Position + (Vector3) serverTargetState.Impulse);
 				if (matrix.IsPassableAt(pushGoal))
 				{
-					Debug.Log($"Server push to {pushGoal}");
+					Logger.Log($"Server push to {pushGoal}", Category.PushPull);
 					serverTargetState.Position = pushGoal;
 					serverTargetState.ImportantFlightUpdate = true;
 					serverTargetState.ResetClientQueue = true;
@@ -209,7 +209,7 @@ namespace PlayGroup
 		/// Clears server pending actions queue
 		private void ClearQueueServer()
 		{
-//			Debug.Log("Server queue wiped!");
+//			Logger.Log("Server queue wiped!");
 			if (serverPendingActions != null && serverPendingActions.Count > 0)
 			{
 				serverPendingActions.Clear();
@@ -264,7 +264,7 @@ namespace PlayGroup
 			{
 				if (consideredFloatingServer)
 				{
-					Debug.LogWarning("Server ignored move while player is floating");
+					Logger.LogWarning("Server ignored move while player is floating", Category.Movement);
 					serverPendingActions.Dequeue();
 					return;
 				}
@@ -274,12 +274,12 @@ namespace PlayGroup
 				serverTargetState = nextState;
 				//In case positions already match
 				TryNotifyPlayers();
-//				Debug.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
+//				Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
 			}
 			else
 			{
-				Debug.LogWarning(
-					$"Pointless move {serverTargetState}+{nextAction.keyCodes[0]} Rolling back to {serverState}");
+				Logger.LogWarning(
+					$"Pointless move {serverTargetState}+{nextAction.keyCodes[0]} Rolling back to {serverState}",Category.Movement);
 				RollbackPosition();
 			}
 		}
@@ -298,19 +298,19 @@ namespace PlayGroup
 
 			//todo: subscribe to current matrix rotations on spawn
 			var newMatrix = MatrixManager.Get(nextState.MatrixId);
-			Debug.Log($"Matrix will change to {newMatrix}");
+			Logger.Log($"Matrix will change to {newMatrix}",Category.Movement);
 			if (newMatrix.MatrixMove)
 			{
 				//Subbing to new matrix rotations
 				newMatrix.MatrixMove.OnRotate.AddListener( OnRotation );
-//				Debug.Log( $"Registered rotation listener to {newMatrix.MatrixMove}" );
+//				Logger.Log( $"Registered rotation listener to {newMatrix.MatrixMove}" );
 			}
 
 			//Unsubbing from old matrix rotations
 			MatrixMove oldMatrixMove = MatrixManager.Get(matrix).MatrixMove;
 			if (oldMatrixMove)
 			{
-//				Debug.Log( $"Unregistered rotation listener from {oldMatrixMove}" );
+//				Logger.Log( $"Unregistered rotation listener from {oldMatrixMove}" );
 				oldMatrixMove.OnRotate.RemoveListener( OnRotation );
 			}
 
@@ -338,8 +338,8 @@ namespace PlayGroup
 				var distance = Vector3.Distance(serverState.WorldPosition, serverTargetState.WorldPosition);
 				if (distance > 1.5)
 				{
-					Debug.LogWarning($"Dist {distance} > 1:{serverState}\n" +
-					                 $"Target    :{serverTargetState}");
+					Logger.LogWarning($"Dist {distance} > 1:{serverState}\n" +
+						$"Target    :{serverTargetState}",Category.Movement);
 					serverState.WorldPosition = serverTargetState.WorldPosition;
 				}
 

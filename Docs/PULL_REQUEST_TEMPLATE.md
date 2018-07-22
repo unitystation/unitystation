@@ -6,6 +6,7 @@ _Don't forget to use "Fixes #issuenumber" to select issues and auto close them o
 
 - [ ]  This fix is tested on the same branch it is PR'ed to.
 - [ ]  I correctly commented my code
+- [ ]  My code is indented with tabs and not spaces
 - [ ]  This PR does not include any unnecessary .meta, .prefab or .unity (scene) changes
 - [ ]  This PR does not bring up any new compile errors
 - [ ]  This PR has been tested in editor

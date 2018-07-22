@@ -99,12 +99,12 @@ public class PlayerList : NetworkBehaviour
 	{
 		if ( player.Equals(ConnectedPlayer.Invalid) )
 		{
-			Debug.Log("Refused to add invalid connected player");
+			Logger.Log("Refused to add invalid connected player",Category.Connections);
 			return;
 		}
 		if ( ContainsConnection(player.Connection) )
 		{
-//			Debug.Log($"Updating {Get(player.Connection)} with {player}");
+//			Logger.Log($"Updating {Get(player.Connection)} with {player}");
 			ConnectedPlayer existingPlayer = Get(player.Connection);
 			existingPlayer.GameObject = player.GameObject;
 			existingPlayer.Name = player.Name; //Note that name won't be changed to empties/nulls
@@ -114,7 +114,7 @@ public class PlayerList : NetworkBehaviour
 		else
 		{
 			values.Add(player);
-			Debug.Log($"Added {player}. Total:{values.Count}; {string.Join("; ",values)}");
+			Logger.Log($"Added {player}. Total:{values.Count}; {string.Join("; ",values)}",Category.Connections);
 			//Adding kick timer for new players only
 			StartCoroutine(KickTimer(player));
 		}
@@ -124,7 +124,7 @@ public class PlayerList : NetworkBehaviour
 	{
 		if ( IsConnWhitelisted( player ) || !Managers.instance.isForRelease )
 		{
-//			Debug.Log( "Ignoring kick timer for invalid connection" );
+//			Logger.Log( "Ignoring kick timer for invalid connection" );
 			yield break;
 		}
 		int tries = 5;
@@ -149,7 +149,7 @@ public class PlayerList : NetworkBehaviour
 	[Server]
 	private void TryRemove(ConnectedPlayer player)
 	{
-		Debug.Log($"Removed {player}");
+		Logger.Log($"Removed {player}",Category.Connections);
 		values.Remove(player);
 		AddPrevious( player );
 		NetworkServer.Destroy(player.GameObject);
@@ -215,7 +215,7 @@ public class PlayerList : NetworkBehaviour
 			{
 				if ( condition(oldValues[i]) )
 				{
-					Debug.Log( $"Returning old player {oldValues[i]}" );
+					Logger.Log( $"Returning old player {oldValues[i]}", Category.Connections);
 					return oldValues[i];
 				}
 			}
@@ -230,7 +230,7 @@ public class PlayerList : NetworkBehaviour
 		ConnectedPlayer connectedPlayer = Get(connection);
 		if ( connectedPlayer.Equals(ConnectedPlayer.Invalid) )
 		{
-			Debug.LogError($"Cannot remove by {connection}, not found");
+			Logger.LogError($"Cannot remove by {connection}, not found", Category.Connections);
 		}
 		else
 		{

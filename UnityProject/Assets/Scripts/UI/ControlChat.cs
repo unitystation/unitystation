@@ -7,282 +7,331 @@ using UnityEngine.UI;
 
 namespace UI
 {
-	public class ControlChat : MonoBehaviour
-	{
-		private readonly List<ChatEvent> _localEvents = new List<ChatEvent>();
-		public Toggle channelListToggle;
+    public class ControlChat : MonoBehaviour
+    {
+        public static ControlChat Instance;
 
-		public RectTransform channelPanel;
-		public GameObject channelToggle;
-		public GameObject chatInputWindow;
-		public RectTransform ChatPanel;
+        private readonly List<ChatEvent> _localEvents = new List<ChatEvent>();
+        public Toggle channelListToggle;
 
-		public Text CurrentChannelText;
-		// set in inspector (to enable/disable panel)
+        public RectTransform channelPanel;
+        public GameObject channelToggle;
+        public GameObject chatInputWindow;
+        public RectTransform ChatPanel;
+        public Transform content;
+        public GameObject chatEntryPrefab;
+        public GameObject background;
 
-		public InputField InputFieldChat;
+        // set in inspector (to enable/disable panel)
 
-//		public bool isChatFocus;
-		public Scrollbar scrollBar;
+        public InputField InputFieldChat;
 
-		public bool ShowState = true;
-		public InputField usernameInput;
+        //		public bool isChatFocus;
+        public Scrollbar scrollBar;
 
-		public void AddChatEvent(ChatEvent chatEvent)
-		{
-			_localEvents.Add(chatEvent);
-			ChatRelay.Instance.RefreshLog();
-		}
+        public bool ShowState = true;
+        public InputField usernameInput;
 
-		public List<ChatEvent> GetChatEvents()
-		{
-			return _localEvents;
-		}
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject); //Kill the whole tree
+            }
+        }
 
-		public void Start()
-		{
-			chatInputWindow.SetActive(false);
-		}
+        public void AddChatEvent(ChatEvent chatEvent)
+        {
+            _localEvents.Add(chatEvent);
+            //ChatRelay.Instance.RefreshLog();
+        }
 
-		public void Update()
-		{
-			if (channelPanel.gameObject.activeInHierarchy && !isChannelListUpToDate())
-			{
-				RefreshChannelPanel();
-			}
-			if (!chatInputWindow.activeInHierarchy && !UIManager.IsInputFocus && Input.GetKey(KeyCode.T) && GameData.IsInGame
-			    && CustomNetworkManager.Instance.IsClientConnected())
-			{
-				chatInputWindow.SetActive(true);
-				UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
-				EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
-				InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
-				UpdateChannelToggleText();
-			}
-			if (UIManager.IsInputFocus)
-			{
-				if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()) &&
-				    (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)))
-				{
-					PlayerSendChat();
-					CloseChatWindow();
-				}
-			}
-		}
+        public List<ChatEvent> GetChatEvents()
+        {
+            return _localEvents;
+        }
 
-		public void OnClickSend()
-		{
-			if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
-			{
-				SoundManager.Play("Click01");
-				PlayerSendChat();
-			}
-			CloseChatWindow();
-		}
+        public void Start()
+        {
+            chatInputWindow.SetActive(false);
+        }
 
-		private void PlayerSendChat()
-		{
-			PostToChatMessage.Send(InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels);
-			if (InputFieldChat.text != "")
-			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
-			}
-			InputFieldChat.text = "";
-		}
+        public void Update()
+        {
+            if (channelPanel.gameObject.activeInHierarchy && !isChannelListUpToDate())
+            {
+                RefreshChannelPanel();
+            }
+            if (!chatInputWindow.activeInHierarchy && !UIManager.IsInputFocus && Input.GetKey(KeyCode.T) && GameData.IsInGame
+                && CustomNetworkManager.Instance.IsClientConnected())
+            {
+                Events.EventManager.Broadcast(Events.EVENT.ChatFocused);
+                chatInputWindow.SetActive(true);
+                background.SetActive(true);
+                UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
+                EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
+                InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
+                UpdateChannelToggleText();
+            }
+            if (UIManager.IsInputFocus)
+            {
+                if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()) &&
+                    (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)))
+                {
+                    PlayerSendChat();
+                    CloseChatWindow();
+                }
+            }
 
-		public void OnChatCancel()
-		{
-			SoundManager.Play("Click01");
-			InputFieldChat.text = "";
-			CloseChatWindow();
-		}
+            if (chatInputWindow.activeInHierarchy)
+            {
+                if (Input.GetKey(KeyCode.Escape))
+                {
+                    CloseChatWindow();
+                }
+           
+                if (!InputFieldChat.isFocused)
+                {
+                    if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D)
+                        || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A)
+                        || Input.GetKey(KeyCode.Escape))
+                    {
+                        CloseChatWindow();
+                    }
 
-		private void CloseChatWindow()
-		{
-			UIManager.IsInputFocus = false;
-			chatInputWindow.SetActive(false);
-		}
+					if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()) &&
+					(Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))) {
+                        PlayerSendChat();
+                        CloseChatWindow();
+                    }
+                }
+            }
+        }
 
-		public void RefreshChannelPanel()
-		{
-			Toggle_ChannelPannel(false);
-			Toggle_ChannelPannel(true);
-		}
+        public void OnClickSend()
+        {
+            if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
+            {
+                SoundManager.Play("Click01");
+                PlayerSendChat();
+            }
+            CloseChatWindow();
+        }
 
-		public void Toggle_ChannelPannel(bool isOn)
-		{
-//			SoundManager.Play("Click01");
-			if (isOn)
-			{
-				channelPanel.gameObject.SetActive(true);
-				PruneUnavailableChannels();
-				PopulateChannelPanel(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(),
-					PlayerManager.LocalPlayerScript.SelectedChannels);
-//				Debug.Log($"Toggling channel panel ON. selected:{ListChannels(PlayerManager.LocalPlayerScript.SelectedChannels)}, " +
-//				          $"available:{ListChannels(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask())}");
-			}
-			else
-			{
-				channelPanel.gameObject.SetActive(false);
-				EmptyChannelPanel();
-//				Debug.Log("Toggling channel panel OFF.");
-			}
-		}
+        private void PlayerSendChat()
+        {
+            PostToChatMessage.Send(InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels);
+            if (InputFieldChat.text != "")
+            {
+                PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
+            }
+            InputFieldChat.text = "";
+        }
 
-		private void TrySelectDefaultChannel()
-		{
-			//Try Local, then ghost, then OOC, 
-			var availChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
-			var selectedChannels = PlayerManager.LocalPlayerScript.SelectedChannels;
-		}
+        public void OnChatCancel()
+        {
+            SoundManager.Play("Click01");
+            InputFieldChat.text = "";
+            CloseChatWindow();
+        }
 
-		private void PruneUnavailableChannels()
-		{
-			PlayerManager.LocalPlayerScript.SelectedChannels &= PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
-			UpdateChannelToggleText();
-		}
+        private void CloseChatWindow()
+        {
+            UIManager.IsInputFocus = false;
+            chatInputWindow.SetActive(false);
+            Events.EventManager.Broadcast(Events.EVENT.ChatUnfocused);
+            background.SetActive(false);
+        }
 
-		/// Visualize that channel mask mess
-		public static string ListChannels(ChatChannel channels, string separator = ", ")
-		{
-			string listChannels = string.Join(separator,EncryptionKey.getChannelsByMask(channels));
-			return listChannels == "" ? "None" : listChannels;
-		}
-		
-		///Channel-Toggle map for UI things 
-		public Dictionary<ChatChannel, Toggle> ChannelToggles = new Dictionary<ChatChannel, Toggle>();
+        public void RefreshChannelPanel()
+        {
+            channelPanel.gameObject.SetActive(false);
+            channelPanel.gameObject.SetActive(true);
+        }
 
-		public void PopulateChannelPanel(ChatChannel channelsAvailable, ChatChannel channelsSelected)
-		{
-			foreach (ChatChannel currentChannel in Enum.GetValues(typeof(ChatChannel)))
-			{
-				if (currentChannel == ChatChannel.None || ( channelsAvailable & currentChannel ) != currentChannel)
-				{
-					continue;
-				}
+        public void Toggle_ChannelPannel()
+        {
+            bool isOn = channelListToggle.isOn;
+            //			SoundManager.Play("Click01");
+            if (isOn)
+            {
+                channelPanel.gameObject.SetActive(true);
+                PruneUnavailableChannels();
+                PopulateChannelPanel(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(),
+                    PlayerManager.LocalPlayerScript.SelectedChannels);
+                //				Logger.Log($"Toggling channel panel ON. selected:{ListChannels(PlayerManager.LocalPlayerScript.SelectedChannels)}, " +
+                //				          $"available:{ListChannels(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask())}");
+            }
+            else
+            {
+                channelPanel.gameObject.SetActive(false);
+                EmptyChannelPanel();
+                //				Logger.Log("Toggling channel panel OFF.");
+            }
+        }
 
-				GameObject channelToggleItem = Instantiate(channelToggle, channelPanel.transform);
-				Toggle toggle = channelToggleItem.GetComponent<Toggle>();
-				toggle.GetComponent<UIToggleChannel>().channel = currentChannel;
-				toggle.GetComponentInChildren<Text>().text = IconConstants.ChatPanelIcons[currentChannel];
-				toggle.onValueChanged.AddListener(Toggle_Channel);
+        private void TrySelectDefaultChannel()
+        {
+            //Try Local, then ghost, then OOC, 
+            var availChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
+            var selectedChannels = PlayerManager.LocalPlayerScript.SelectedChannels;
+        }
 
-				toggle.isOn = (channelsSelected & currentChannel) == currentChannel;
-				ChannelToggles.Add(currentChannel, toggle);
-			}
+        private void PruneUnavailableChannels()
+        {
+            PlayerManager.LocalPlayerScript.SelectedChannels &= PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
+            UpdateChannelToggleText();
+        }
 
-			float width = 64f;
-			int count = ChannelToggles.Count;
-			LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
-			HorizontalLayoutGroup horizontalLayoutGroup = channelPanel.GetComponent<HorizontalLayoutGroup>();
-			layoutElement.minWidth = width * count + horizontalLayoutGroup.spacing * count;
-//			Debug.Log($"Populating wid={width} cnt={count} minWid={layoutElement.minWidth}");
-		}
+        /// Visualize that channel mask mess
+        public static string ListChannels(ChatChannel channels, string separator = ", ")
+        {
+            string listChannels = string.Join(separator, EncryptionKey.getChannelsByMask(channels));
+            return listChannels == "" ? "None" : listChannels;
+        }
 
-		public void EmptyChannelPanel()
-		{
-			ChannelToggles.Clear();
-			LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
-			layoutElement.minWidth = 0;
+        ///Channel-Toggle map for UI things 
+        public Dictionary<ChatChannel, Toggle> ChannelToggles = new Dictionary<ChatChannel, Toggle>();
 
-			foreach (Transform child in channelPanel.transform)
-			{
-				Destroy(child.gameObject);
-			}
-		}
+        public void PopulateChannelPanel(ChatChannel channelsAvailable, ChatChannel channelsSelected)
+        {
+            foreach (ChatChannel currentChannel in Enum.GetValues(typeof(ChatChannel)))
+            {
+                if (currentChannel == ChatChannel.None || (channelsAvailable & currentChannel) != currentChannel)
+                {
+                    continue;
+                }
 
-		public void Toggle_Channel(bool isOn)
-		{
-			SoundManager.Play("Click01");
-			GameObject curObject = EventSystem.current.currentSelectedGameObject;
-			if ( !curObject )
-			{
-				return;
-			}
+                GameObject channelToggleItem = Instantiate(channelToggle, channelPanel.transform);
+                Toggle toggle = channelToggleItem.GetComponent<Toggle>();
+                toggle.GetComponent<UIToggleChannel>().channel = currentChannel;
+                toggle.GetComponentInChildren<Text>().text = IconConstants.ChatPanelIcons[currentChannel];
+                toggle.onValueChanged.AddListener(Toggle_Channel);
 
-			UIToggleChannel source = curObject.GetComponent<UIToggleChannel>();
-			if (!source)
-			{
-				return;
-			}
-			ChatChannel curChannel = source.channel;
+                toggle.isOn = (channelsSelected & currentChannel) == currentChannel;
+                if (!ChannelToggles.ContainsKey(currentChannel))
+                {
+                    ChannelToggles.Add(currentChannel, toggle);
+                }
+            }
 
-			if (isOn)
-			{
-				//Deselect all other channels in UI if OOC was selected
-				if ( curChannel == ChatChannel.OOC )
-				{
-					DisableAllButOOC(curChannel);
-					PlayerManager.LocalPlayerScript.SelectedChannels = curChannel;
-				}
-				else
-				{
-					TryDisableOOC();
-					PlayerManager.LocalPlayerScript.SelectedChannels |= curChannel;
-				}
-			}
-			else
-			{
-				PlayerManager.LocalPlayerScript.SelectedChannels &= ~curChannel;
-			}
+            float width = 64f;
+            int count = ChannelToggles.Count;
+            LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
+            HorizontalLayoutGroup horizontalLayoutGroup = channelPanel.GetComponent<HorizontalLayoutGroup>();
+            layoutElement.minWidth = width * count + horizontalLayoutGroup.spacing * count;
+            //			Logger.Log($"Populating wid={width} cnt={count} minWid={layoutElement.minWidth}");
+        }
 
-			UpdateChannelToggleText();
-		}
+        public void EmptyChannelPanel()
+        {
+            ChannelToggles.Clear();
+            LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
+            layoutElement.minWidth = 0;
 
-		private void TryDisableOOC()
-		{
-			foreach ( KeyValuePair<ChatChannel, Toggle> chanToggle in ChannelToggles )
-			{
-				if ( chanToggle.Key == ChatChannel.OOC )
-				{
-					PlayerManager.LocalPlayerScript.SelectedChannels &= ~ChatChannel.OOC;
-					chanToggle.Value.isOn = false;
-				}
-			}		
-		}
+            foreach (Transform child in channelPanel.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
 
-		private void DisableAllButOOC(ChatChannel channel)
-		{
-			foreach ( KeyValuePair<ChatChannel, Toggle> chanToggle in ChannelToggles )
-			{
-				if ( chanToggle.Key == channel )
-				{
-					continue;
-				}
+        public void Toggle_Channel(bool isOn)
+        {
+            SoundManager.Play("Click01");
+            GameObject curObject = EventSystem.current.currentSelectedGameObject;
+            if (!curObject)
+            {
+                return;
+            }
 
-				chanToggle.Value.isOn = false;
-			}
-		}
+            UIToggleChannel source = curObject.GetComponent<UIToggleChannel>();
+            if (!source)
+            {
+                return;
+            }
+            ChatChannel curChannel = source.channel;
 
-		private void UpdateChannelToggleText()
-		{
-			ChatChannel channelsSelected = PlayerManager.LocalPlayerScript.SelectedChannels;
-			string channelString = ListChannels(channelsSelected,"\n");
-			Text text = channelListToggle.GetComponentInChildren<Text>();
-			text.text = channelString;
-		}
+            if (isOn)
+            {
+                //Deselect all other channels in UI if OOC was selected
+                if (curChannel == ChatChannel.OOC)
+                {
+                    DisableAllButOOC(curChannel);
+                    PlayerManager.LocalPlayerScript.SelectedChannels = curChannel;
+                }
+                else
+                {
+                    TryDisableOOC();
+                    PlayerManager.LocalPlayerScript.SelectedChannels |= curChannel;
+                }
+            }
+            else
+            {
+                PlayerManager.LocalPlayerScript.SelectedChannels &= ~curChannel;
+            }
 
-		private bool isChannelListUpToDate()
-		{
-			ChatChannel availableChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
-			int availableCount = EnumUtils.GetSetBitCount((long) availableChannels);
-			UIToggleChannel[] displayedChannels = channelPanel.GetComponentsInChildren<UIToggleChannel>();
+            UpdateChannelToggleText();
+        }
 
-			if (availableCount != displayedChannels.Length)
-			{
-				return false;
-			}
+        private void TryDisableOOC()
+        {
+            foreach (KeyValuePair<ChatChannel, Toggle> chanToggle in ChannelToggles)
+            {
+                if (chanToggle.Key == ChatChannel.OOC)
+                {
+                    PlayerManager.LocalPlayerScript.SelectedChannels &= ~ChatChannel.OOC;
+                    chanToggle.Value.isOn = false;
+                }
+            }
+        }
 
-			for ( var i = 0; i < displayedChannels.Length; i++ )
-			{
-				UIToggleChannel toggleChannel = displayedChannels[i];
-				if ( ( availableChannels & toggleChannel.channel ) != toggleChannel.channel )
-				{
-					return false;
-				}
-			}
+        private void DisableAllButOOC(ChatChannel channel)
+        {
+            foreach (KeyValuePair<ChatChannel, Toggle> chanToggle in ChannelToggles)
+            {
+                if (chanToggle.Key == channel)
+                {
+                    continue;
+                }
 
-			return true;
-		}
-	}
+                chanToggle.Value.isOn = false;
+            }
+        }
+
+        private void UpdateChannelToggleText()
+        {
+            ChatChannel channelsSelected = PlayerManager.LocalPlayerScript.SelectedChannels;
+            string channelString = ListChannels(channelsSelected, "\n");
+            Text text = channelListToggle.GetComponentInChildren<Text>();
+            text.text = channelString;
+        }
+
+        private bool isChannelListUpToDate()
+        {
+            ChatChannel availableChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
+            int availableCount = EnumUtils.GetSetBitCount((long)availableChannels);
+            UIToggleChannel[] displayedChannels = channelPanel.GetComponentsInChildren<UIToggleChannel>();
+
+            if (availableCount != displayedChannels.Length)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < displayedChannels.Length; i++)
+            {
+                UIToggleChannel toggleChannel = displayedChannels[i];
+                if ((availableChannels & toggleChannel.channel) != toggleChannel.channel)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
 }

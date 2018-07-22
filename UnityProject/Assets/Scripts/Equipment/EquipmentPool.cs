@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -57,8 +58,8 @@ namespace Equipment
 				Instance.equipPools.Add(ownerId, pool);
 				Instance.equipPools[ownerId].AddGameObject(gObj);
 			}
-//			Debug.LogFormat($"Added {gObj.name}({gObj.GetComponent<ItemAttributes>().itemName}) " +
-//			                $"to {playerName}'s pool.size={Instance.equipPools[ownerId].currentObjects.Count}");
+			Logger.LogTraceFormat( "Added {0}({1}) to {2}'s pool.size={3}", Category.Equipment, gObj.name, gObj.GetComponent<ItemAttributes>().itemName,
+				playerName, Instance.equipPools[ownerId].currentObjects.Count );
 		}
 
 		/// Disposing of objects that aren't supposed to be dropped on the ground
@@ -67,14 +68,12 @@ namespace Equipment
 			NetworkInstanceId ownerId = player.GetComponent<NetworkIdentity>().netId;
 			if (!Instance.equipPools.ContainsKey(ownerId))
 			{
-				Debug.LogWarning($"{PlayerList.Instance.Get(player)} doesn't have item {gObj.name}, nothing to dispose of");
+				Logger.LogWarning($"{PlayerList.Instance.Get(player)} doesn't have item {gObj.name}, nothing to dispose of", Category.Equipment);
 				return;
 			}
 			Instance.equipPools[ownerId].DestroyGameObject(gObj);
 			gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
-			//			Debug.LogFormat("{0}: destroyed {1}({2}) from pool. size={3} ", 
-			//				playerName, gObj.name, gObj.GetComponent<ItemAttributes>().itemName, 
-			//				Instance.equipPools[playerName].currentObjects.Count);
+			Logger.LogTraceFormat("{0}: destroyed {1} from pool", Category.Equipment, player.name, gObj.name);
 		}
 
 		///When dropping items etc, remove them from the player equipment pool and place in scene
@@ -94,13 +93,13 @@ namespace Equipment
 		{
 			if (!gObj)
 			{
-				Debug.LogWarning("Trying to drop null object");
+				Logger.LogWarning("Trying to drop null object",Category.Equipment);
 				return;
 			}
 			NetworkIdentity networkIdentity = player.GetComponent<NetworkIdentity>();
 			if ( !networkIdentity )
 			{
-				Debug.LogWarning("Unable to drop as NetIdentity is gone");
+				Logger.LogWarning("Unable to drop as NetIdentity is gone",Category.Equipment);
 				return;
 			}
 			NetworkInstanceId ownerId = networkIdentity.netId;
@@ -110,9 +109,7 @@ namespace Equipment
 			}
 			Instance.equipPools[ownerId].DropGameObject(gObj, pos);
 			gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
-			//			Debug.LogFormat("{0}: removed {1}({2}) from pool. size={3} ", 
-			//				playerName, gObj.name, gObj.GetComponent<ItemAttributes>().itemName, 
-			//				Instance.equipPools[playerName].currentObjects.Count);
+			Logger.LogTraceFormat("{0}: destroyed {1} from pool", Category.Equipment, player.name, gObj.name);
 		}
 
 		public static void ClearPool(GameObject player)

@@ -42,7 +42,7 @@ public class VersionCheck : MonoBehaviour
 
 		if (get_curVersion.text == "1")
 		{
-			//			Debug.Log("Is up to date");
+			//			Logger.Log("Is up to date");
 			loginWindow.SetActive(true);
 		}
 		else if (get_curVersion.text == "")
@@ -51,7 +51,7 @@ public class VersionCheck : MonoBehaviour
 		}
 		else
 		{
-			//			Debug.Log("Update required to: Version " + get_curVersion.text);
+			//			Logger.Log("Update required to: Version " + get_curVersion.text);
 			updateWindow.SetActive(true);
 			yourVerText.text = VERSION_NUMBER;
 			newVerText.text = get_curVersion.text;
