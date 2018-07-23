@@ -14,7 +14,7 @@ namespace Rcon
         {
             get
             {
-                if(rconManager == null)
+                if (rconManager == null)
                 {
                     rconManager = FindObjectOfType<RconManager>();
                 }
@@ -23,6 +23,7 @@ namespace Rcon
         }
 
         private HttpServer httpServer;
+        private FPSMonitor fpsMonitor;
 
         private void OnEnable()
         {
@@ -32,6 +33,7 @@ namespace Rcon
         private void Init()
         {
             DontDestroyOnLoad(rconManager.gameObject);
+            fpsMonitor = GetComponent<FPSMonitor>();
             StartServer();
         }
 
@@ -45,7 +47,7 @@ namespace Rcon
             if (!GameData.IsHeadlessServer)
             {
                 // Destroy(gameObject);
-               // return;
+                // return;
             }
 
             httpServer = new HttpServer(3005);
@@ -59,14 +61,19 @@ namespace Rcon
                     Logger.Log("- " + path);
             }
         }
-    }
-}
 
-public class RconSocket : WebSocketBehavior
-{
-    protected override void OnMessage(MessageEventArgs e)
+        public string GetFPSReadOut()
+        {
+            return $"FPS Stats: Current: {fpsMonitor.Current} Average: {fpsMonitor.Average}" +
+                $" Min: {fpsMonitor.Min} Max: {fpsMonitor.Max}";
+        }
+    }
+
+    public class RconSocket : WebSocketBehavior
     {
-        var name = Context.QueryString["name"];
-        Send(!name.IsNullOrEmpty() ? String.Format("\"{0}\" to {1}", e.Data, name) : e.Data);
+        protected override void OnMessage(MessageEventArgs e)
+        {
+            Send(RconManager.Instance.GetFPSReadOut());
+        }
     }
 }
