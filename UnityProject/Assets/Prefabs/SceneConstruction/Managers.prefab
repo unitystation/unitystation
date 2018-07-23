@@ -3966,6 +3966,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4244501537706558}
   - component: {fileID: 114354710356312186}
+  - component: {fileID: 114519331748433584}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -9772,8 +9773,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114986867525342648}
   m_HandleRect: {fileID: 224599716051025124}
   m_Direction: 2
-  m_Value: 0.9999994
-  m_Size: 0.41528562
+  m_Value: 0.9999995
+  m_Size: 0.41528565
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14053,6 +14054,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114519331748433584
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1856013830592554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a319b263d0b91940ba50c0c230ea7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114526228185450836
 MonoBehaviour:
   m_ObjectHideFlags: 1
