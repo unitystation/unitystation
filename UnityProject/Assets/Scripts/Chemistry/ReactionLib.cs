@@ -51,6 +51,7 @@ namespace Chemistry
 
 	public static class Globals
 	{
+		public static bool IsInitialised = false;
 		public static Dictionary<String, HashSet<Reaction>> ReactionsStoreDictionary = new Dictionary<String, HashSet<Reaction>> ();
 		public static List<Reaction> reactions = new List<Reaction> ();
 	}
@@ -141,11 +142,7 @@ namespace Chemistry
 							Area [Chemical] = (Area [Chemical] - BackUp * SwapFix (Reaction.ReagentsAndRatio [CompatibleChem], Reaction.ReagentsAndRatio [Chemical])); // Does some mathematics to work out how much of each element to take away
 						}
 					}
-					foreach (string Chemical in Reaction.ReagentsAndRatio.Keys) {
-						if (!(Area [Chemical] > 0)) { //Cleans out Empty chemicals
-							Area.Remove (Chemical);
-						}
-					}
+
 					foreach (string Chemical in Reaction.Results.Keys) {
 						float ChemicalAmount = 0;
 						if (Area.ContainsKey (Chemical)) {
@@ -153,6 +150,11 @@ namespace Chemistry
 						}
 						Area [Chemical] = ChemicalAmount + Reaction.Results [Chemical] * BackUp / Reaction.ReagentsAndRatio [CompatibleChem]; //then adds the result
 					}
+				}
+			}
+			foreach (string Chemical in Area.Keys.ToList()) {
+				if (!(Area [Chemical] > 0)) { //Cleans out Empty chemicals
+					Area.Remove (Chemical);
 				}
 			}
 			return (Area);
