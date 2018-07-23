@@ -9,8 +9,11 @@ public class ChemistryInitializationTest : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
-		Chemistry.Initialization.run ();
-		ChemistryTest ();
+		if (!(Chemistry.Globals.IsInitialised)) {
+			Chemistry.Initialization.run ();
+			Chemistry.Globals.IsInitialised = true;
+			ChemistryTest ();
+		}
 	}
 
 
