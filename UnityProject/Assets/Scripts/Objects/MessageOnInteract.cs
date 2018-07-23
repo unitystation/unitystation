@@ -17,7 +17,7 @@ public class MessageOnInteract : InputTrigger
 	}
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
-		UIManager.Chat.AddChatEvent(new ChatEvent(Message, ChatChannel.Examine));
+		ChatRelay.Instance.AddToChatLogClient(Message, ChatChannel.Examine);
 	}
 
 }
