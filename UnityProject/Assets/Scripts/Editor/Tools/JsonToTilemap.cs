@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using FullSerializer;
+using Newtonsoft.Json;
 using Tilemaps.Behaviours.Layers;
 using Tilemaps.Tiles;
 using Tilemaps.Utils;
@@ -100,13 +100,10 @@ public class JsonToTilemap : Editor
 
 	private static Dictionary<string, TilemapLayer> DeserializeJson()
 	{
-		Dictionary<string, TilemapLayer> deserializedLayers = new Dictionary<string, TilemapLayer>();
+		Dictionary<string, TilemapLayer> deserializedLayers;
 		TextAsset asset = Resources.Load(Path.Combine("metadata", SceneManager.GetActiveScene().name)) as TextAsset;
-		if (asset != null)
-		{
-			fsData data = fsJsonParser.Parse(asset.text);
-			fsSerializer serializer = new fsSerializer();
-			serializer.TryDeserialize(data, ref deserializedLayers).AssertSuccessWithoutWarnings();
+		if (asset != null) {
+			deserializedLayers = JsonConvert.DeserializeObject<Dictionary<string, TilemapLayer>>( asset.text );
 		}
 		else
 		{
