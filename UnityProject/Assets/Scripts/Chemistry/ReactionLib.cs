@@ -1,4 +1,6 @@
 ﻿using System;
+using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,18 +23,31 @@ namespace Chemistry
             //float Temperature = 400f;
             //Dictionary<string, float> area_new = Calculations.Reactions(area,Temperature);
 
-        public class Reaction
+
+        public class Reaction 
         {
             public String Name { get; set; }
+			/// <summary>
+			/// Example "Chemical Name":2, "Chemical Name2":1, Will return the amount specified if all Chemicals are present for ReagentsAndRatio 
+			/// </summary>
             public Dictionary<String, float> Results { get; set; }
-            public Dictionary<String, float> Reagents_and_ratio { get; set; }
+			/// <summary>
+			/// Example "Chemical Name":2, "Chemical Name2":1, note if there is a catalyst it has to be specified in here as well
+			/// </summary>
+            public Dictionary<String, float> ReagentsAndRatio { get; set; } 
+			/// <summary>
+			/// Example "Chemical Name":0, "Chemical Name2":0, note catalysts Have to be specified in ReagentsAndRatio
+			/// </summary>
             public Dictionary<String, float> Catalysts { get; set; }
-            public float Minimum_temperature { get; set; }
+			/// <summary>
+			/// is the minimum temperature that the reaction will happen at
+			/// </summary>
+			public float MinimumTemperature{ get; set; }
         }
         public static class Globals
         {
-            public static Dictionary<String, HashSet<Reaction>> Reactions_store_Dictionary = new Dictionary<String, HashSet<Reaction>>();
-            public static List<Reaction> List_of_reactions = new List<Reaction>();
+            public static Dictionary<String, HashSet<Reaction>> ReactionsStoreDictionary = new Dictionary<String, HashSet<Reaction>>();
+            public static List<Reaction> reactions = new List<Reaction>();
         }
 
 		public static class Initialization
@@ -43,111 +58,114 @@ namespace Chemistry
                 Initialization.CemInitialization();
             }
             private static void JsonImportInitialization()
-            {
-			var path = Path.Combine(Environment.CurrentDirectory, @"Assets\Resources\Metadata\Reactions.json");
-			string json = File.ReadAllText(path);
-                var Json_Reactions = JsonConvert.DeserializeObject<List<Dictionary<String,Object>>>(json);
-                for (var i = 0; i < Json_Reactions.Count() ; i++)
-                {
-                    Reaction Reaction_pass = new Reaction();
-                    Reaction_pass.Name = Json_Reactions[i]["Name"].ToString();
-                    Reaction_pass.Results = JsonConvert.DeserializeObject<Dictionary<string, float>>(Json_Reactions[i]["Results"].ToString());
-                    Reaction_pass.Reagents_and_ratio = JsonConvert.DeserializeObject<Dictionary<string, float>>(Json_Reactions[i]["Reagents_and_ratio"].ToString());
-                    Reaction_pass.Catalysts = JsonConvert.DeserializeObject<Dictionary<string, float>>(Json_Reactions[i]["Catalysts"].ToString());
-                    Reaction_pass.Minimum_temperature = float.Parse(Json_Reactions[i]["Minimum_temperature"].ToString());
-                    Globals.List_of_reactions.Add(Reaction_pass);
-                }
+            	{
+				//ok, 	This is where loads note that Minimum temperature and  Catalysts MinimumTemperature Need to be in the.json File Even if there blank, Need to improve a bit 
+				string json = (Resources.Load (@"Metadata\Reactions") as TextAsset).ToString();
+                var JsonReactions = JsonConvert.DeserializeObject<List<Dictionary<String,System.Object>>>(json);
+                for (var i = 0; i < JsonReactions.Count() ; i++)
+                	{
+                    Reaction ReactionPass = new Reaction();
+                    ReactionPass.Name = JsonReactions[i]["Name"].ToString();
+                    ReactionPass.Results = JsonConvert.DeserializeObject<Dictionary<string, float>>(JsonReactions[i]["Results"].ToString());
+					ReactionPass.ReagentsAndRatio = JsonConvert.DeserializeObject<Dictionary<string, float>>(JsonReactions[i]["Reagents_and_ratio"].ToString());
+                    ReactionPass.Catalysts = JsonConvert.DeserializeObject<Dictionary<string, float>>(JsonReactions[i]["Catalysts"].ToString());
+					ReactionPass.MinimumTemperature = float.Parse(JsonReactions[i]["Minimum_temperature"].ToString());
+                    Globals.reactions.Add(ReactionPass);
+                	}
 			Logger.Log("JsonImportInitialization done!",Category.Chemistry);
             }
             private static void CemInitialization()
             {
-                for (var i = 0; i < Globals.List_of_reactions.Count(); i++)
+                for (var i = 0; i < Globals.reactions.Count(); i++)
                 {
                     
-                    foreach (string Chemical in Globals.List_of_reactions[i].Reagents_and_ratio.Keys)
+                    foreach (string Chemical in Globals.reactions[i].ReagentsAndRatio.Keys)
                     {
-                        if (!(Globals.Reactions_store_Dictionary.ContainsKey(Chemical)))
+                        if (!(Globals.ReactionsStoreDictionary.ContainsKey(Chemical)))
                         {
-                            Globals.Reactions_store_Dictionary[Chemical] = new HashSet<Reaction>();
+                            Globals.ReactionsStoreDictionary[Chemical] = new HashSet<Reaction>();
                         }
-                        Globals.Reactions_store_Dictionary[Chemical].Add(Globals.List_of_reactions[i]);
+                        Globals.ReactionsStoreDictionary[Chemical].Add(Globals.reactions[i]);
                     }
                 }
             }
         }
         public static class Calculations
-        {
+		{
+		//ok, so you're wondering how to call it Chemistry.Calculations.Reaction
+		//the Area  Would look something like this {"Chemical":5,"Another chemical":2}
+		//It will return The modified area  
             public static Dictionary<string, float> Reactions(Dictionary<string, float> Area, float Temperature)
             {
-                HashSet<Reaction> Reaction_buffer = new HashSet<Reaction>();
+                HashSet<Reaction> ReactionBuffer = new HashSet<Reaction>();
                 foreach (string Chemical in Area.Keys)
                 {
-                    foreach (var Reaction in Globals.Reactions_store_Dictionary[Chemical])
+					foreach (var Reaction in Globals.ReactionsStoreDictionary[Chemical]) //so A list of every reaction that that chemical can be in
                     {
-                        if (!(Reaction.Minimum_temperature > Temperature))
+                        if (!(Reaction.MinimumTemperature > Temperature))
                         {
-                            bool Valid_Reaction = new bool();
-                            Valid_Reaction = true;
-                            foreach (string Required_chemical in Reaction.Reagents_and_ratio.Keys)
+                            bool ValidReaction = new bool();
+                            ValidReaction = true;
+							foreach (string RequiredChemical in Reaction.ReagentsAndRatio.Keys) //Checks if all the other chemicals are in
                             {
-                            if (!(Area.ContainsKey(Required_chemical)))
+                            if (!(Area.ContainsKey(RequiredChemical)))
                                 {
-                                Valid_Reaction = false;
+                                ValidReaction = false;
                                 }
                                 
                             }
-                            if (Valid_Reaction)
+                            if (ValidReaction)
                             {
-                                Reaction_buffer.Add(Reaction);
+								ReactionBuffer.Add(Reaction); //then adds it
                             }
                         }
                     }
                 }
-                foreach (var Reaction in Reaction_buffer)
+                foreach (var Reaction in ReactionBuffer)
                 {
-                    List<string> Compatible_chemical = new List<string>();
-                    foreach (string Chemical in Reaction.Reagents_and_ratio.Keys)
+                    List<string> CompatibleChemicals = new List<string>();
+					foreach (string Chemical in Reaction.ReagentsAndRatio.Keys) //Finds the best chemical to do the reaction formula from, By going through each chemical and checking if the ratios work out
                     {
                         bool Compatible = new bool();
                         Compatible = true;
-                        foreach (string Sub_Chemical in Reaction.Reagents_and_ratio.Keys)
+                        foreach (string SubChemical in Reaction.ReagentsAndRatio.Keys)
                         {
-                            if (Area[Chemical] * (Reaction.Reagents_and_ratio[Sub_Chemical] / Reaction.Reagents_and_ratio[Chemical]) > Area[Sub_Chemical])
+                            if (Area[Chemical] * (Reaction.ReagentsAndRatio[SubChemical] / Reaction.ReagentsAndRatio[Chemical]) > Area[SubChemical]) 
                             {
                                 Compatible = false;
                             }
                         }
-                            if (Compatible)
+                        if (Compatible)
                             {
-                                Compatible_chemical.Add(Chemical);
+                                CompatibleChemicals.Add(Chemical);
                             }
                     }
-                    if (Compatible_chemical.Any())
+                    if (CompatibleChemicals.Any())
                     {
-                        var Compatible_cem = Compatible_chemical[0];
-                        var back_up = Area[Compatible_cem];
-                        foreach (string Chemical in Reaction.Reagents_and_ratio.Keys)
+                        var CompatibleChem = CompatibleChemicals[0];
+                        var BackUp = Area[CompatibleChem];
+                        foreach (string Chemical in Reaction.ReagentsAndRatio.Keys)
                         {
                             if (!(Reaction.Catalysts.ContainsKey(Chemical)))
                             {
-							Area[Chemical] = (Area[Chemical] - back_up * SwapFix(Reaction.Reagents_and_ratio[Compatible_cem],Reaction.Reagents_and_ratio[Chemical]));
+							Area[Chemical] = (Area[Chemical] - BackUp * SwapFix(Reaction.ReagentsAndRatio[CompatibleChem],Reaction.ReagentsAndRatio[Chemical])); // Does some mathematics to work out how much of each element to take away
                             }
                         }
-                        foreach (string Chemical in Reaction.Reagents_and_ratio.Keys)
+                        foreach (string Chemical in Reaction.ReagentsAndRatio.Keys)
                         {
-                            if (!(Area[Chemical] > 0))
+							if (!(Area[Chemical] > 0)) //Cleans out Empty chemicals
                             {
                                 Area.Remove(Chemical);
                             }
                         }
                         foreach (string Chemical in Reaction.Results.Keys)
                         {
-                            float Chemical_amount = 0;
+							float ChemicalAmount = 0;
                             if (Area.ContainsKey(Chemical))
                             {
-                                Chemical_amount = Area[Chemical];
+                                ChemicalAmount = Area[Chemical];
                             }
-                            Area[Chemical] = Chemical_amount + Reaction.Results[Chemical] * back_up / Reaction.Reagents_and_ratio[Compatible_cem];
+							Area[Chemical] = ChemicalAmount + Reaction.Results[Chemical] * BackUp / Reaction.ReagentsAndRatio[CompatibleChem]; //then adds the result
                         }
                     }
                 }
