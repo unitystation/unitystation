@@ -16,6 +16,7 @@ namespace UI
 		public GameObject startGamePanel;
 		public GameObject informationPanel;
 		public GameObject wrongVersionPanel;
+		public GameObject controlInformationPanel;
 
 		public InputField playerNameInput;
 		public InputField serverAddressInput;
@@ -103,6 +104,12 @@ namespace UI
 			ShowInformationPanel();
 		}
 
+		public void OnShowControlInformationPanel()
+		{
+			SoundManager.Play("Click01");
+			ShowControlInformationPanel();
+		}
+
 		public void OnTryAgain()
 		{
 			SoundManager.Play("Click01");
@@ -177,38 +184,34 @@ namespace UI
 		// Panel helpers
 		void ShowStartGamePanel()
 		{
+			HideAllPanels();
 			startGamePanel.SetActive(true);
-			HideInformationPanel();
-			HideWrongVersionPanel();
-		}
-
-		void HideStartGamePanel()
-		{
-			startGamePanel.SetActive(false);
 		}
 
 		void ShowInformationPanel()
 		{
+			HideAllPanels();
 			informationPanel.SetActive(true);
-			HideStartGamePanel();
-			HideWrongVersionPanel();
 		}
 
-		void HideInformationPanel()
+		void ShowControlInformationPanel()
 		{
-			informationPanel.SetActive(false);
+			HideAllPanels();
+			controlInformationPanel.SetActive(true);
 		}
 
 		void ShowWrongVersionPanel()
 		{
+			HideAllPanels();
 			wrongVersionPanel.SetActive(true);
-			HideStartGamePanel();
-			HideInformationPanel();
 		}
 
-		void HideWrongVersionPanel()
+		void HideAllPanels()
 		{
+			startGamePanel.SetActive(false);
+			informationPanel.SetActive(false);
 			wrongVersionPanel.SetActive(false);
+			controlInformationPanel.SetActive(false);
 		}
 	}
 }
