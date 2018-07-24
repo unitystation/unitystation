@@ -41,7 +41,7 @@ namespace PlayGroup
 		public PlayerSprites playerSprites { get; set; }
 
 		public PlayerSync playerSync { get; set; }
-		
+
 		public RegisterTile registerTile { get; set; }
 
 		public InputController inputController { get; set; }
@@ -69,7 +69,7 @@ namespace PlayGroup
 
 		private IEnumerator WaitForLoad()
 		{
-			//fixme: name isn't resolved at the moment of pool creation 
+			//fixme: name isn't resolved at the moment of pool creation
 			//(player pools now use netIDs, but it would be nice to have names for readability)
 			yield return new WaitForSeconds(2f);
 			OnNameChange(playerName);
@@ -153,7 +153,7 @@ namespace PlayGroup
 			else if (isServer)
 			{
 				playerMove = GetComponent<PlayerMove>();
-								
+
 				//Add player to player list
 				PlayerList.Instance.Add(new ConnectedPlayer
 				{
@@ -182,7 +182,7 @@ namespace PlayGroup
 		}
 
 		/// <summary>
-		/// Trying to set initial name, if player has none 
+		/// Trying to set initial name, if player has none
 		/// </summary>
 		[Command]
 		private void CmdTrySetInitialName(string name)
@@ -309,7 +309,7 @@ namespace PlayGroup
 			if (JobType == JobType.CLOWN)
 			{
 				modifiers |= ChatModifier.Clown;
-				
+
 			}
 
 			return modifiers;

@@ -62,15 +62,15 @@ public class VendorTrigger : InputTrigger
         this.hand = hand;
 
         // If the vending window is already open, don't open another
-        if (UIManager.Display.vendingWindow.activeSelf)
-        {
-            return;
-        }
-
+//        if (UIManager.Display.vendingWindow.activeSelf)
+//        {
+//            return;
+//        }
+		//fixme: broken
         // Set the vending window as active and show it
-        UIManager.Display.vendingWindow.SetActive(true);
-        GUI_Vending vendingWindow = UIManager.Display.vendingWindow.GetComponent<GUI_Vending>();
-        vendingWindow.OpenWindow(this);
+//        UIManager.Display.vendingWindow.SetActive(true);
+//        GUI_Vending vendingWindow = UIManager.Display.vendingWindow.GetComponent<GUI_Vending>();
+//        vendingWindow.OpenWindow(this);
     }
 
     public void Vend(GameObject itemToVend)
@@ -128,5 +128,5 @@ public class VendorTrigger : InputTrigger
 			allowSell = true;
 		}
 	}
-	
+
 }
