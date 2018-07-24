@@ -42,7 +42,7 @@ namespace UI
 			}
 			serverPortInput.text = DefaultServerPort.ToString();
 
-			// OnChange handler for toggle to 
+			// OnChange handler for toggle to
 			// disable server address and port
 			// input fields
 			hostServerToggle.onValueChanged.AddListener(isOn =>
@@ -51,6 +51,7 @@ namespace UI
 					serverPortInput.interactable = !isOn;
 				}
 			);
+			hostServerToggle.onValueChanged.Invoke( hostServerToggle.isOn );
 
 			// Init Lobby UI
 			InitPlayerName();
