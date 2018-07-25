@@ -16,6 +16,7 @@ namespace UI
 		public GameObject startGamePanel;
 		public GameObject informationPanel;
 		public GameObject wrongVersionPanel;
+		public GameObject controlInformationPanel;
 
 		public InputField playerNameInput;
 		public InputField serverAddressInput;
@@ -41,7 +42,7 @@ namespace UI
 			}
 			serverPortInput.text = DefaultServerPort.ToString();
 
-			// OnChange handler for toggle to 
+			// OnChange handler for toggle to
 			// disable server address and port
 			// input fields
 			hostServerToggle.onValueChanged.AddListener(isOn =>
@@ -50,6 +51,7 @@ namespace UI
 					serverPortInput.interactable = !isOn;
 				}
 			);
+			hostServerToggle.onValueChanged.Invoke( hostServerToggle.isOn );
 
 			// Init Lobby UI
 			InitPlayerName();
@@ -101,6 +103,12 @@ namespace UI
 		{
 			SoundManager.Play("Click01");
 			ShowInformationPanel();
+		}
+
+		public void OnShowControlInformationPanel()
+		{
+			SoundManager.Play("Click01");
+			ShowControlInformationPanel();
 		}
 
 		public void OnTryAgain()
@@ -177,38 +185,34 @@ namespace UI
 		// Panel helpers
 		void ShowStartGamePanel()
 		{
+			HideAllPanels();
 			startGamePanel.SetActive(true);
-			HideInformationPanel();
-			HideWrongVersionPanel();
-		}
-
-		void HideStartGamePanel()
-		{
-			startGamePanel.SetActive(false);
 		}
 
 		void ShowInformationPanel()
 		{
+			HideAllPanels();
 			informationPanel.SetActive(true);
-			HideStartGamePanel();
-			HideWrongVersionPanel();
 		}
 
-		void HideInformationPanel()
+		void ShowControlInformationPanel()
 		{
-			informationPanel.SetActive(false);
+			HideAllPanels();
+			controlInformationPanel.SetActive(true);
 		}
 
 		void ShowWrongVersionPanel()
 		{
+			HideAllPanels();
 			wrongVersionPanel.SetActive(true);
-			HideStartGamePanel();
-			HideInformationPanel();
 		}
 
-		void HideWrongVersionPanel()
+		void HideAllPanels()
 		{
+			startGamePanel.SetActive(false);
+			informationPanel.SetActive(false);
 			wrongVersionPanel.SetActive(false);
+			controlInformationPanel.SetActive(false);
 		}
 	}
 }

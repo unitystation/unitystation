@@ -15,7 +15,7 @@ namespace UI {
 		public Transform rolloutIcon;
         public Canvas canvas;
 
-		private bool rolledOut = false;
+		public bool rolledOut { get; private set; }
 		private bool preventRoll = false;
 
 		public static ControlTabs Instance;
@@ -210,8 +210,7 @@ namespace UI {
 		/// This one is called when tab header is clicked on
 		public void SelectTab( int index, bool click = true ) 
 		{
-//			Logger.Log( $"Selecting tab #{index}" );
-			
+			//			Logger.Log( $"Selecting tab #{index}" );
 			UnselectAll();
 			Tab tab = TabStorage.GetChild( index )?.GetComponent<Tab>();
 			if ( !tab ) {
@@ -393,16 +392,16 @@ namespace UI {
 
 		//For hiding or showing the tab window
 		public void ToggleTabRollOut(){
-			if(!preventRoll){
-				preventRoll = true;
-			} else {
-				return;
-			}
 			StartCoroutine(AnimTabRoll());
 		}
 
 		//Tab roll in and out animation
 		IEnumerator AnimTabRoll(){
+			if (!preventRoll) {
+				preventRoll = true;
+			} else {
+				yield break;
+			}
 			Vector3 currentPos = transform.position;
 			Vector3 targetPos = currentPos;
 			if(rolledOut){

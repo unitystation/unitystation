@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using FullSerializer;
+using Newtonsoft.Json;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DmObjectData")]
@@ -69,9 +69,7 @@ public class DmObjectData : ScriptableObject
 		TextAsset asset = Resources.Load(Path.Combine("metadata", "dm")) as TextAsset;
 		if (asset != null)
 		{
-			fsData data = fsJsonParser.Parse(asset.text);
-			fsSerializer serializer = new fsSerializer();
-			serializer.TryDeserialize(data, ref objectList).AssertSuccessWithoutWarnings();
+			objectList = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>( asset.text );
 		}
 		else
 		{

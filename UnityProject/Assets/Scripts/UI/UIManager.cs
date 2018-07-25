@@ -50,7 +50,7 @@ namespace UI
 			}
 		}
 
-		public static ControlChat Chat => Instance.chatControl;
+//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
 
 		public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
 

@@ -18,8 +18,7 @@ namespace PlayGroup
 
 		public static bool HasSpawned { get; private set; }
 
-		//To fix playername bug when running two instances on 1 machine
-		public static string PlayerNameCache { get; set; }
+		public static string PlayerNameCache { get; set; } = "Cuban Pete";
 
 		public static PlayerManager Instance
 		{

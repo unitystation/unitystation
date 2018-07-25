@@ -168,7 +168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
 --- !u!114 &114743727474145656
@@ -190,6 +189,7 @@ MonoBehaviour:
   stock: 5
   interactionMessage: bzzzz...
   deniedMessage: Vendor is refreshing stocking, please wait...
+  DispenseDirection: 2
 --- !u!114 &114932710023623188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -203,7 +203,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectType: 1
   AtmosPassable: 1
-  Offset: {x: 0, y: 0, z: 0}
   Passable: 0
 --- !u!212 &212231906178566622
 SpriteRenderer:
