@@ -169,9 +169,7 @@ MonoBehaviour:
   stock: 5
   interactionMessage: bzzzz...
   deniedMessage: Vendor is refreshing stocking, please wait...
-  originator: {fileID: 0}
-  position: {x: 0, y: 0, z: 0}
-  hand: 
+  DispenseDirection: 2
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -229,7 +227,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
 --- !u!212 &212376886712965914
