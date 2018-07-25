@@ -35,7 +35,7 @@ public class GUI_Info : MonoBehaviour
 		infoText.text = info;
 		infoText.color = bwoink ? banColor : infoColor;
 		title.text = string.IsNullOrEmpty(titleText) ? "Info" : titleText;
-		UIManager.Display.infoWindow.SetActive(true);
+//		UIManager.Display.infoWindow.SetActive(true);
 		SoundManager.Play("Bwoink", 1, 1);
 	}
 
