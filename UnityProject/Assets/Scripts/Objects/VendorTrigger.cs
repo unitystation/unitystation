@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using PlayGroup;
 using PlayGroups.Input;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
+using Random = UnityEngine.Random;
 
 public class VendorTrigger : InputTrigger
 {
@@ -14,19 +16,20 @@ public class VendorTrigger : InputTrigger
 	public int stock = 5;
 	public string interactionMessage;
 	public string deniedMessage;
+	public DispenseDirection DispenseDirection = DispenseDirection.None;
 
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
 		if (!allowSell && deniedMessage != null && !GameData.Instance.testServer && !GameData.IsHeadlessServer)
 		{
-			UIManager.Chat.AddChatEvent(new ChatEvent(deniedMessage, ChatChannel.Examine));
+			ChatRelay.Instance.AddToChatLogClient(deniedMessage, ChatChannel.Examine);
 		}
 		// Client pre-approval
 		else if (!isServer && allowSell)
 		{
 			allowSell = false;
 			UI_ItemSlot slot = UIManager.Hands.CurrentSlot;
-			UIManager.Chat.AddChatEvent(new ChatEvent(interactionMessage, ChatChannel.Examine));
+			ChatRelay.Instance.AddToChatLogClient(interactionMessage, ChatChannel.Examine);
 			//Client informs server of interaction attempt
 			InteractMessage.Send(gameObject, position, slot.eventName);
 			StartCoroutine(VendorInputCoolDown());
@@ -36,7 +39,7 @@ public class VendorTrigger : InputTrigger
 			allowSell = false;
 			if (!GameData.Instance.testServer && !GameData.IsHeadlessServer)
 			{
-				UIManager.Chat.AddChatEvent(new ChatEvent(interactionMessage, ChatChannel.Examine));
+				ChatRelay.Instance.AddToChatLogClient(interactionMessage, ChatChannel.Examine);
 			}
 
 			ServerVendorInteraction(originator, position, hand);
@@ -56,8 +59,31 @@ public class VendorTrigger : InputTrigger
 		}
 
 		int randIndex = Random.Range(0, vendorcontent.Length);
-		ItemFactory.SpawnItem(vendorcontent[randIndex], transform.position, transform.parent);
 
+		var spawnedItem = ItemFactory.SpawnItem(vendorcontent[randIndex], transform.position);
+
+		//Dispensing in direction
+		if ( DispenseDirection != DispenseDirection.None ) {
+			Vector3 offset = Vector3.zero;
+			switch ( DispenseDirection ) {
+				case DispenseDirection.Up:
+					offset = transform.rotation * Vector3.up / Random.Range(4,12);
+					break;
+				case DispenseDirection.Down:
+					offset = transform.rotation * Vector3.down / Random.Range(4,12);
+					break;
+				case DispenseDirection.Random:
+					offset = new Vector3( Random.Range( -0.15f, 0.15f ), Random.Range( -0.15f, 0.15f ), 0 );
+					break;
+			}
+			spawnedItem.GetComponent<CustomNetTransform>()?.Throw( new ThrowInfo {
+				ThrownBy = gameObject,
+				Aim = BodyPartType.CHEST,
+				OriginPos = transform.position,
+				TargetPos = transform.position + offset,
+				SpinMode = DispenseDirection == DispenseDirection.Random ? SpinMode.Clockwise : SpinMode.None
+			} );
+		}
 		stock--;
 
 		return true;
@@ -73,3 +99,5 @@ public class VendorTrigger : InputTrigger
 	}
 
 }
+
+public enum DispenseDirection { None, Up, Down, Random }
