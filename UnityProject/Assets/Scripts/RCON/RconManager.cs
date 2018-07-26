@@ -65,7 +65,7 @@ namespace Rcon
         public string GetFPSReadOut()
         {
             return $"FPS Stats: Current: {fpsMonitor.Current} Average: {fpsMonitor.Average}" +
-                $" Min: {fpsMonitor.Min} Max: {fpsMonitor.Max}";
+                $" GC MEM: {GC.GetTotalMemory(false) / 1024 / 1024} MB";
         }
     }
 

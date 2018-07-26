@@ -6,12 +6,18 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using PlayGroup;
+using Rcon;
 
 public class GameData : MonoBehaviour
 {
 	private static GameData gameData;
 
 	public bool testServer;
+    private RconManager rconManager;
+    public static RconManager RconManager
+    {
+        get { return Instance.rconManager; }
+    }
 
 	/// <summary>
 	///     Check to see if you are in the game or in the lobby
@@ -137,6 +143,14 @@ public class GameData : MonoBehaviour
 			IsHeadlessServer = true;
 			StartCoroutine(WaitToStartServer());
 		}
+
+        //FIXME Move to headless only spawn after development
+        if(rconManager == null)
+        {
+            Logger.Log("Remember to set RCON spawn to headless only");
+            GameObject rcon = Instantiate(Resources.Load("Rcon/RconManager") as GameObject, null) as GameObject;
+            rconManager = rcon.GetComponent<RconManager>();
+        }
 	}
 
 	private IEnumerator WaitToStartServer()
@@ -151,10 +165,13 @@ public class GameData : MonoBehaviour
 		if (File.Exists(Application.persistentDataPath + "/genData01.dat"))
 		{
 			BinaryFormatter bf = new BinaryFormatter();
+            //TODO: Change folder to a streaming path
 			FileStream file = File.Open(Application.persistentDataPath + "/genData01.dat", FileMode.Open);
 			UserData data = (UserData) bf.Deserialize(file);
 			//DO SOMETHNG WITH THE VALUES HERE, I.E STORE THEM IN A CACHE IN THIS CLASS
 			//TODO: LOAD SOME STUFF
+
+            //TODO: Load RCON config file for server
 
 			file.Close();
 		}
