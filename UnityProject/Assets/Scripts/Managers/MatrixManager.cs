@@ -50,7 +50,7 @@ public class MatrixManager : MonoBehaviour
 	public static bool IsSpaceAt(Vector3Int worldPos){
 		return isAtInternal( mat => mat.Matrix.IsSpaceAt( WorldToLocalInt( worldPos, mat ) ) );
 	}
-	
+
 	///Cross-matrix edition of <see cref="Matrix.IsEmptyAt"/>
 	public static bool IsEmptyAt(Vector3Int worldPos) {
 		return isAtInternal( mat => mat.Matrix.IsEmptyAt( WorldToLocalInt( worldPos, mat ) ) );
@@ -217,6 +217,10 @@ public class MatrixManager : MonoBehaviour
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix)
 	{
+		//Invalid matrix info provided
+		if ( matrix.Equals( MatrixInfo.Invalid) ) {
+			return TransformState.HiddenPos;
+		}
 		if (!matrix.MatrixMove)
 		{
 			return localPos + matrix.Offset;
@@ -249,6 +253,10 @@ public class MatrixManager : MonoBehaviour
 	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public static Vector3 WorldToLocal(Vector3 worldPos, MatrixInfo matrix)
 	{
+		//Invalid matrix info provided
+		if ( matrix.Equals( MatrixInfo.Invalid) ) {
+			return TransformState.HiddenPos;
+		}
 		if (!matrix.MatrixMove)
 		{
 			return worldPos - matrix.Offset;
@@ -311,7 +319,7 @@ public struct MatrixInfo
 			: $"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.State},netId={NetId}]";
 	}
 
-	///Figuring out netId. NetworkIdentity is located on the pivot (parent) gameObject for MatrixMove-equipped matrices 
+	///Figuring out netId. NetworkIdentity is located on the pivot (parent) gameObject for MatrixMove-equipped matrices
 	private static NetworkInstanceId getNetId(Matrix matrix)
 	{
 		var netId = NetworkInstanceId.Invalid;

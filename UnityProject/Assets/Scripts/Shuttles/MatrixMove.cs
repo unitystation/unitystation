@@ -26,7 +26,7 @@ public struct MatrixState
 
 public class MatrixMove : ManagedNetworkBehaviour {
 	public bool IsMoving => isMovingServer;
-	
+
 	//server-only values
 	public MatrixState State => serverState;
 	///used for syncing with players, matters only for server
@@ -38,23 +38,23 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
 	private bool isRotatingServer => IsRotatingClient; //todo: calculate rotation time on server instead
 	private bool isAutopilotEngaged => Target != TransformState.HiddenPos;
-	
+
 	//client-only values
 	public MatrixState ClientState => clientState;
 	///client's transform, can get dirty/predictive
-	private MatrixState clientState = MatrixState.Invalid; 
-	/// Is only present to match server's flight routines 
-	private MatrixState clientTargetState = MatrixState.Invalid; 
+	private MatrixState clientState = MatrixState.Invalid;
+	/// Is only present to match server's flight routines
+	private MatrixState clientTargetState = MatrixState.Invalid;
 	private bool isMovingClient => clientState.IsMoving && clientState.Speed > 0f;
 	public bool IsRotatingClient => transform.rotation.eulerAngles.z != clientState.Orientation.Degree;
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
-	
+
 	//editor (global) values
 	public UnityEvent OnStart;
 	public UnityEvent OnStop;
 	public OrientationEvent OnRotate;
 	public DualFloatEvent OnSpeedChange;
-	
+
 	/// Initial flying direction from editor
 	public Vector2 flyingDirection = Vector2.up;
 	/// max flying speed from editor
@@ -86,32 +86,16 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		} else {
 			serverState.Direction = Vector2Int.RoundToInt(flyingDirection);
 		}
-		initialPosition = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
+
+		Vector3Int initialPositionInt = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
+		initialPosition = initialPositionInt;
 		var child = transform.GetChild( 0 );
 		var matrixInfo = MatrixManager.Get( child.gameObject );
 		var metaTileMap = matrixInfo.MetaTileMap;
 		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
 		pivot =  initialPosition - childPosition;
-		
-		if ( sensorOffset == TransformState.HiddenPos ) {
-			//very ghetto
-			var bounds = metaTileMap.GetBounds();
-			var piv = Pivot;
 
-			if ( State.Direction == Vector2.right ) {
-				sensorOffset = new Vector3Int((int)( bounds.center.x - bounds.xMax ), 0 ,0);
-			} else if ( State.Direction == Vector2.left ) {
-				sensorOffset = new Vector3Int((int)( bounds.center.x - bounds.xMin ), 0 ,0);
-			} else if ( State.Direction == Vector2.up ) {
-				sensorOffset = new Vector3Int(0,(int)( bounds.center.y - bounds.yMin ) ,0);
-			} else if ( State.Direction == Vector2.down ) {
-				sensorOffset = new Vector3Int(0,(int)( bounds.center.y - bounds.yMax ) ,0);
-			}
-			Logger.Log( $"Initialized sensor at pos {State.Position+sensorOffset}," +
-			            $" sensor offset is {sensorOffset}, direction is {State.Direction}, bounds are {bounds}", Category.Matrix );
-		}
 //		Logger.Log( $"Calculated pivot {pivot} for {gameObject.name}" );
-		
 		serverState.Speed = 1f;
 		serverState.Position = initialPosition;
 		serverState.Orientation = Orientation.Up;
@@ -119,6 +103,27 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 		clientState = serverState;
 		clientTargetState = serverState;
+		if ( sensorOffset == TransformState.HiddenPos ) {
+			//very ghetto
+			var bounds = metaTileMap.GetBounds();
+			var sensorPos = Vector3Int.zero;
+
+			var localPivotPos = MatrixManager.WorldToLocalInt( initialPositionInt, matrixInfo );
+
+			if ( State.Direction == Vector2.right ) {
+				sensorPos = new Vector3Int( bounds.xMax, 0, 0 );
+			} else if ( State.Direction == Vector2.left ) {
+				sensorPos = new Vector3Int( bounds.xMin, 0, 0 );
+			} else if ( State.Direction == Vector2.up ) {
+				sensorPos = new Vector3Int( 0, bounds.yMin, 0 );
+			} else if ( State.Direction == Vector2.down ) {
+				sensorPos = new Vector3Int( 0, bounds.yMax, 0 );
+			}
+			var worldSensorPos = MatrixManager.LocalToWorldInt( sensorPos, matrixInfo );
+			sensorOffset = worldSensorPos - initialPositionInt;
+			Logger.Log( $"Initialized sensor at pos {State.Position+sensorOffset}," +
+			            $" sensor offset is {sensorOffset}, direction is {State.Direction}, bounds are {bounds}", Category.Matrix );
+		}
 	}
 
 	///managed by UpdateManager
@@ -140,8 +145,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 //				TryRotate( true );
 //			}
 			CheckMovementServer();
-		} 
-		CheckMovement();	
+		}
+		CheckMovement();
 	}
 
 	[Server]
@@ -208,7 +213,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			serverTargetState.Speed = absoluteValue;
 		}
 		//do not send speed updates when not moving
-		if ( serverTargetState.IsMoving ) { 
+		if ( serverTargetState.IsMoving ) {
 			RequestNotify();
 		}
 	}
@@ -232,11 +237,11 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			//Only move target if rotation is finished
 			SimulateStateMovement();
 		}
-		
+
 		//Lerp
 		if ( clientState.Position != transform.position ) {
 			float distance = Vector3.Distance( clientState.Position, transform.position );
-			
+
 //			Just set pos without any lerping if distance is too long (serverside teleportation assumed)
 			bool shouldTeleport = distance > 30;
 			if ( shouldTeleport ) {
@@ -246,10 +251,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 //			Activate warp speed if object gets too far away or have to rotate
 			bool shouldWarp = distance > 2 || IsRotatingClient;
 			transform.position =
-				Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );		
+				Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );
 		}
 	}
-	
+
 	/// Serverside movement routine
 	[Server]
 	private void CheckMovementServer()
@@ -270,10 +275,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			Vector3Int goal = Vector3Int.RoundToInt( serverState.Position + ( Vector3 ) serverTargetState.Direction );
 			if ( !SafetyProtocolsOn || CanMoveTo( serverTargetState.Direction ) ) {
 				//keep moving
-				if ( ServerPositionsMatch ) 
+				if ( ServerPositionsMatch )
 				{
 					serverTargetState.Position = goal;
-					if ( isAutopilotEngaged && ( (int)serverState.Position.x == (int)Target.x 
+					if ( isAutopilotEngaged && ( (int)serverState.Position.x == (int)Target.x
 											  || (int)serverState.Position.y == (int)Target.y ) ) {
 						StartCoroutine( TravelToTarget() );
 					}
@@ -361,7 +366,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		TryNotifyPlayers();
 	}
 
-	///	Inform players when on integer position 
+	///	Inform players when on integer position
 	[Server]
 	private void TryNotifyPlayers() {
 		if ( ServerPositionsMatch ) {
@@ -376,10 +381,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	[Server]
 	private void NotifyPlayers() {
 		//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
-		if ( !isMovingServer || serverState.Inform ) 
+		if ( !isMovingServer || serverState.Inform )
 		{
 			serverState.RotationTime = rotTime;
-			
+
 			MatrixMoveMessage.SendToAll(gameObject, serverState);
 			//Clear inform flags
 			serverTargetState.Inform = false;
@@ -409,15 +414,15 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	{
 		RotateTo( clockwise ? serverTargetState.Orientation.Next() : serverTargetState.Orientation.Previous() );
 	}
-	
+
 	/// Imperative rotate to desired orientation
 	[Server]
-	public void RotateTo( Orientation desiredOrientation ) 
+	public void RotateTo( Orientation desiredOrientation )
 	{
 		var angleBetween = Orientation.DegreeBetween( serverTargetState.Orientation, desiredOrientation );
-	
+
 		serverTargetState.Orientation = desiredOrientation;
-		
+
 		//Correcting direction
 		Vector3 newDirection = Quaternion.Euler( 0, 0, angleBetween ) * serverTargetState.Direction;
 //		Logger.Log($"Orientation is now {serverTargetState.Orientation}, Corrected direction from {serverTargetState.Direction} to {newDirection}");
@@ -426,7 +431,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	}
 
 	private Vector3 Target = TransformState.HiddenPos;
-		
+
 	/// Makes matrix start moving towards given world pos
 	[Server]
 	public void AutopilotTo( Vector2 position ) {
@@ -435,10 +440,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	}
 
 	///Zero means 100% accurate, but will lead to peculiar behaviour (autopilot not reacting fast enough on high speed -> going back/in circles etc)
-	private static readonly int AccuracyThreshold = 1; 
+	private static readonly int AccuracyThreshold = 1;
 
 	private IEnumerator TravelToTarget() {
-		if ( isAutopilotEngaged ) 
+		if ( isAutopilotEngaged )
 		{
 			var pos = serverState.Position;
 			if ( Vector3.Distance(pos, Target) <= AccuracyThreshold ) {
@@ -446,11 +451,11 @@ public class MatrixMove : ManagedNetworkBehaviour {
 				yield break;
 			}
 			Orientation currentDir = serverState.Orientation;
-			
+
 			Vector3 xProjection = Vector3.Project( pos, Vector3.right );
 			int xProjectionX = (int) xProjection.x;
 			int targetX = (int) Target.x;
-			
+
 			Vector3 yProjection = Vector3.Project( pos, Vector3.up );
 			int yProjectionY = (int) yProjection.y;
 			int targetY = (int) Target.y;
@@ -461,11 +466,11 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			Orientation xDesiredDir = ( targetX - xProjectionX ) > 0 ? Orientation.Left : Orientation.Right;
 			Orientation yDesiredDir = ( targetY - yProjectionY ) > 0 ? Orientation.Up : Orientation.Down;
 
-			if ( xNeedsChange || yNeedsChange ) 
+			if ( xNeedsChange || yNeedsChange )
 			{
 				int xDegreeTo = xNeedsChange ? Mathf.Abs( Orientation.DegreeBetween( currentDir, xDesiredDir ) ) : int.MaxValue;
 				int yDegreeTo = yNeedsChange ? Mathf.Abs( Orientation.DegreeBetween( currentDir, yDesiredDir ) ) : int.MaxValue;
-				
+
 				//don't rotate if it's not needed
 				if ( xDegreeTo != 0 && yDegreeTo != 0 ) {
 					//if both need change determine faster rotation first
@@ -473,12 +478,12 @@ public class MatrixMove : ManagedNetworkBehaviour {
 					//wait till it rotates
 					yield return YieldHelper.Second;
 				}
-			} 
+			}
 
 			if ( !serverState.IsMoving ) {
 				StartMovement();
 			}
-			//Relaunching self once in a while as CheckMovementServer check can fail in rare occasions 
+			//Relaunching self once in a while as CheckMovementServer check can fail in rare occasions
 			yield return YieldHelper.Second;
 			StartCoroutine( TravelToTarget() );
 		}
@@ -511,7 +516,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			GizmoUtils.DrawArrow( serverTargetPos, serverTargetState.Direction * serverTargetState.Speed );
 			GizmoUtils.DrawText( serverTargetState.Speed.ToString(), serverTargetPos + Vector3.down, 15 );
 		}
-		
+
 		//clientState
 		Gizmos.color = color3;
 		Vector3 pos = clientState.Position;
