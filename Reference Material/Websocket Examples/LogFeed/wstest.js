@@ -11,6 +11,11 @@
 var output;
 var t;
 var timer_is_on=0;
+var lastLog;
+
+function init () {
+ doTimer();
+}
 
 function timedCount()
 {
@@ -31,10 +36,6 @@ function stopCount()
 {
   clearTimeout(t);
   timer_is_on=0;
-}
-
-function init () {
- doTimer();
 }
 
 function doWebSocket () {
@@ -58,15 +59,15 @@ function doWebSocket () {
 }
 
 function onOpen (event) {
-  send ("test msg");
+  send ("log");
 }
 
 function onMessage (event) {
-  while (output.firstChild) {
-    output.removeChild(output.firstChild);
+  if(lastLog != event.data){
+    lastLog = event.data;
+    writeToScreen ('<span style="color: blue;">' + event.data + '</span>');
   }
-  writeToScreen ('<span style="color: blue;">RESPONSE: ' + event.data + '</span>');
-  t=setTimeout("timedCount()",1000);
+  t=setTimeout("timedCount()",4000);
 }
 
 function onError (event) {
@@ -86,6 +87,7 @@ function writeToScreen (message) {
   pre.style.wordWrap = "break-word";
   pre.innerHTML = message;
   output.appendChild (pre);
+  output.scrollTop = output.scrollHeight;
 }
 
 window.addEventListener ("load", init, false);

@@ -30,6 +30,11 @@ namespace Rcon
             Instance.Init();
         }
 
+        private void OnDisable()
+        {
+            httpServer.Stop();
+        }
+
         private void Init()
         {
             DontDestroyOnLoad(rconManager.gameObject);
@@ -75,12 +80,17 @@ namespace Rcon
 
     public class RconSocket : WebSocketBehavior
     {
+        private string lastLog;
         protected override void OnMessage(MessageEventArgs e)
         {
-
-			Debug.Log("eData: " + e.Data);
-           // Send(RconManager.Instance.GetFPSReadOut());
-			Send(RconManager.Instance.GetLastLog());
+            if (e.Data == "stats")
+            {
+                Send(RconManager.Instance.GetFPSReadOut());
+            }
+            if (e.Data == "log")
+            {
+                Send(RconManager.Instance.GetLastLog());
+            }
         }
     }
 }
