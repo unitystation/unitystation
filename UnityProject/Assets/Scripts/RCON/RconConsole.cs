@@ -5,11 +5,11 @@ namespace Rcon
 {
 	public class RconConsole : MonoBehaviour
 	{
-		private static string ServerLog;
+		protected static string ServerLog { get; private set; }
 		protected static string LastLog { get; private set; }
 
 		public static void AddLog(string msg){
-			msg = DateTime.UtcNow + ":    " + msg + "\n";
+			msg = DateTime.UtcNow + ":    " + msg + "<br>";
 			ServerLog += msg;
 			LastLog = msg;
 		}

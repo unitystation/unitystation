@@ -73,9 +73,14 @@ namespace Rcon
                 $" GC MEM: {GC.GetTotalMemory(false) / 1024 / 1024} MB";
         }
 
-		public string GetLastLog(){
+		public static string GetLastLog(){
 			return LastLog;
 		}
+
+        public static string GetFullLog()
+        {
+            return ServerLog;
+        }
     }
 
     public class RconSocket : WebSocketBehavior
@@ -89,7 +94,11 @@ namespace Rcon
             }
             if (e.Data == "log")
             {
-                Send(RconManager.Instance.GetLastLog());
+                Send(RconManager.GetLastLog());
+            }
+            if(e.Data == "logfull")
+            {
+                Send(RconManager.GetFullLog());
             }
         }
     }
