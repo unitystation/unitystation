@@ -7,7 +7,7 @@ using WebSocketSharp.Server;
 
 namespace Rcon
 {
-    public class RconManager : MonoBehaviour
+	public class RconManager : RconConsole
     {
         private static RconManager rconManager;
         public static RconManager Instance
@@ -67,13 +67,20 @@ namespace Rcon
             return $"FPS Stats: Current: {fpsMonitor.Current} Average: {fpsMonitor.Average}" +
                 $" GC MEM: {GC.GetTotalMemory(false) / 1024 / 1024} MB";
         }
+
+		public string GetLastLog(){
+			return LastLog;
+		}
     }
 
     public class RconSocket : WebSocketBehavior
     {
         protected override void OnMessage(MessageEventArgs e)
         {
-            Send(RconManager.Instance.GetFPSReadOut());
+
+			Debug.Log("eData: " + e.Data);
+           // Send(RconManager.Instance.GetFPSReadOut());
+			Send(RconManager.Instance.GetLastLog());
         }
     }
 }
