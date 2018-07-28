@@ -80,8 +80,8 @@ namespace Chemistry
 				} 
 				else 
 				{
-					Dictionary<string, float> EmptyCatalys = new Dictionary<string, float>();
-					ReactionPass.Catalysts = EmptyCatalys;
+					Dictionary<string, float> EmptyCatalyst = new Dictionary<string, float>();
+					ReactionPass.Catalysts = EmptyCatalyst;
 				}
 
 				if (JsonReactions [i].ContainsKey ("Minimum_temperature")) {
