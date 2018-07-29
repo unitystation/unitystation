@@ -21,5 +21,10 @@ namespace Rcon
 			ChatLog += msg;
 			ChatLastLog = msg;
 		}
+
+		protected static void ExecuteCommand(string command){
+			command = command.Substring(1, command.Length - 1);
+			Debug.Log("TODO remote command execution. command: " + command);
+		}
 	}
 }

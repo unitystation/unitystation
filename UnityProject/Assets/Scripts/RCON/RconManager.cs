@@ -116,6 +116,10 @@ namespace Rcon
                 ChatRelay.Instance.AddToChatLogServer(chatEvent);
             }
 
+			if(commandQueue.Count > 0){
+				ExecuteCommand(commandQueue.Dequeue());
+			}
+
             if(monitorHost != null)
             {
                 monitorUpdate += Time.deltaTime;
@@ -139,11 +143,21 @@ namespace Rcon
             AmendLog(msg);
             Instance.consoleHost.Sessions.Broadcast(msg);
         }
+
+		public static void UpdatePlayerListRcon(){
+			var json = JsonUtility.ToJson(new Players());
+			Instance.playerListHost.Sessions.Broadcast(json);
+		}
+
         //On worker thread from websocket:
         public void ReceiveRconChat(string data)
         {
             rconChatQueue.Enqueue(data);
         }
+
+		public void ReceiveRconCommand(string cmd){
+			commandQueue.Enqueue(cmd);
+		}
 
 		//Monitoring:
         public  static string GetMonitorReadOut()
@@ -182,9 +196,7 @@ namespace Rcon
 
             if (e.Data[0].Equals('1'))
             {
-                //todo console commands
-
-               // RconManager.Instance.ReceiveRconChat(e.Data);
+				RconManager.Instance.ReceiveRconCommand(e.Data);
             }
         }
     }
@@ -251,8 +263,7 @@ namespace Rcon
         public List<PlayerDetails> players = new List<PlayerDetails>();
 
         public Players()
-        {
-            players.Clear();
+		{
             for(int i = 0; i < PlayerList.Instance.InGamePlayers.Count; i++)
             {
                 var player = PlayerList.Instance.InGamePlayers[i];

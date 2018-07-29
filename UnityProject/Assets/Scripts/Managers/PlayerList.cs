@@ -158,6 +158,7 @@ public class PlayerList : NetworkBehaviour
 	{
 		ConnectedPlayer connectedPlayer = Get(conn);
 		connectedPlayer.GameObject = newGameObject;
+		CheckRcon();
 		return connectedPlayer;
 	}
 
@@ -205,6 +206,7 @@ public class PlayerList : NetworkBehaviour
 			//Adding kick timer for new players only
 			StartCoroutine(KickTimer(player));
 		}
+		CheckRcon();
 	}
 
 	private IEnumerator KickTimer(ConnectedPlayer player)
@@ -241,6 +243,7 @@ public class PlayerList : NetworkBehaviour
 		AddPrevious( player );
 		NetworkServer.Destroy(player.GameObject);
 		UpdateConnectedPlayersMessage.Send();
+		CheckRcon();
 	}
 
 	[Server]
@@ -322,6 +325,13 @@ public class PlayerList : NetworkBehaviour
 		else
 		{
 			TryRemove(connectedPlayer);
+		}
+	}
+
+	[Server]
+	private void CheckRcon(){
+		if(Rcon.RconManager.Instance != null){
+			Rcon.RconManager.UpdatePlayerListRcon();
 		}
 	}
 }
