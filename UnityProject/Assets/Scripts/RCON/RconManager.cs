@@ -29,7 +29,9 @@ namespace Rcon
         private WebSocketServiceHost consoleHost;
         private WebSocketServiceHost monitorHost;
         private WebSocketServiceHost chatHost;
+        private WebSocketServiceHost playerListHost;
         private Queue<string> rconChatQueue = new Queue<string>();
+        private Queue<string> commandQueue = new Queue<string>();
 
         private ServerConfig config;
 
@@ -78,6 +80,7 @@ namespace Rcon
             httpServer.AddWebSocketService<RconSocket>("/rconconsole");
             httpServer.AddWebSocketService<RconMonitor>("/rconmonitor");
             httpServer.AddWebSocketService<RconChat>("/rconchat");
+            httpServer.AddWebSocketService<RconPlayerList>("/rconplayerlist");
             httpServer.AuthenticationSchemes = AuthenticationSchemes.Digest;
             httpServer.Realm = "Admins";
             httpServer.UserCredentialsFinder = id =>
@@ -93,6 +96,7 @@ namespace Rcon
             Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconconsole", out consoleHost);
             Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconmonitor", out monitorHost);
             Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconchat", out chatHost);
+            Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconplayerlist", out playerListHost);
 
             if (httpServer.IsListening)
             {
@@ -223,9 +227,51 @@ namespace Rcon
         }
     }
 
+    public class RconPlayerList : WebSocketBehavior
+    {
+        protected override void OnMessage(MessageEventArgs e)
+        {
+            if (e.Data == "players")
+            {
+                var playerList = JsonUtility.ToJson(new Players());
+                Send(playerList);
+            }
+        }
+    }
+
     public class ServerConfig
     {
         public string RconPass;
         public int RconPort;
+    }
+
+    [Serializable]
+    public class Players
+    {
+        public List<PlayerDetails> players = new List<PlayerDetails>();
+
+        public Players()
+        {
+            players.Clear();
+            for(int i = 0; i < PlayerList.Instance.InGamePlayers.Count; i++)
+            {
+                var player = PlayerList.Instance.InGamePlayers[i];
+                var playerEntry = new PlayerDetails()
+                {
+                    playerName = player.Name,
+                    steamID = player.SteamId,
+                    job = player.Job.ToString()
+                };
+                players.Add(playerEntry);
+            }
+        }
+    }
+
+    [Serializable]
+    public class PlayerDetails
+    {
+        public string playerName;
+        public ulong steamID;
+        public string job;
     }
 }
