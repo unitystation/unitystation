@@ -142,15 +142,12 @@ public class GameData : MonoBehaviour
 			Logger.Log("START SERVER HEADLESS MODE");
 			IsHeadlessServer = true;
 			StartCoroutine(WaitToStartServer());
-		}
 
-        //FIXME Move to headless only spawn after development
-        if(rconManager == null)
-        {
-            Logger.Log("Remember to set RCON spawn to headless only");
-            GameObject rcon = Instantiate(Resources.Load("Rcon/RconManager") as GameObject, null) as GameObject;
-            rconManager = rcon.GetComponent<RconManager>();
-        }
+			if (rconManager == null) {
+				GameObject rcon = Instantiate(Resources.Load("Rcon/RconManager") as GameObject, null) as GameObject;
+				rconManager = rcon.GetComponent<RconManager>();
+			}
+		}
 	}
 
 	private IEnumerator WaitToStartServer()

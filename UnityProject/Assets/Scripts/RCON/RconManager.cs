@@ -72,8 +72,8 @@ namespace Rcon
             }
             if (!GameData.IsHeadlessServer)
             {
-                // Destroy(gameObject);
-                // return;
+                 Destroy(gameObject);
+                 return;
             }
 
             httpServer = new HttpServer(config.RconPort);
