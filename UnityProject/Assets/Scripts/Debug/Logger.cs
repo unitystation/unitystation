@@ -121,7 +121,7 @@ public static class Logger
 		}
 
 		if(Rcon.RconManager.Instance != null){
-			Rcon.RconConsole.AddLog(msg);
+			Rcon.RconManager.AddLog(msg);
 		}
 	}
 }

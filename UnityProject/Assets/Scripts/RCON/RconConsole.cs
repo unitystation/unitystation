@@ -11,8 +11,7 @@ namespace Rcon
 		protected static string ChatLog { get; private set; }
 		protected static string ChatLastLog { get; private set; }
 
-		public static void AddLog(string msg){
-			msg = DateTime.UtcNow + ":    " + msg + "<br>";
+		protected static void AmendLog(string msg){
 			ServerLog += msg;
 			LastLog = msg;
 		}

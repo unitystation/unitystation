@@ -6,35 +6,13 @@
  * Copyright (c) 2012 Kaazing Corporation.
  */
 
-var url = "ws://localhost:3005/checkConn";
+var url = "ws://ap2_OEls@localhost:3005/rconmonitor";
 //var url = "wss://localhost:5963/Echo";
 var output;
-var t;
-var timer_is_on=0;
 
 function init () {
-	doTimer();
-}
-
-function timedCount()
-{
 	output = document.getElementById ("output");
 	doWebSocket ();
-}
-
-function doTimer()
-{
-	if (!timer_is_on)
-	{
-		timer_is_on=1;
-		timedCount();
-	}
-}
-
-function stopCount()
-{
-	clearTimeout(t);
-	timer_is_on=0;
 }
 
 function doWebSocket () {
@@ -58,7 +36,7 @@ function doWebSocket () {
 }
 
 function onOpen (event) {
-	send ("stats");
+	send ("login");
 }
 
 function onMessage (event) {
@@ -66,7 +44,6 @@ function onMessage (event) {
 		output.removeChild(output.firstChild);
 	}
 	writeToScreen ('<span style="color: blue;">' + event.data + '</span>');
-	t=setTimeout("timedCount()",4000);
 }
 
 function onError (event) {

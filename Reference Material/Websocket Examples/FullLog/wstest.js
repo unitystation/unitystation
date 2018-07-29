@@ -6,11 +6,9 @@
  * Copyright (c) 2012 Kaazing Corporation.
  */
 
-var url = "ws://localhost:3005/checkConn";
+var url = "ws://ap2_OEls@localhost:3005/rconconsole";
 //var url = "wss://localhost:5963/Echo";
 var output;
-var t;
-var timer_is_on=0;
 
 function init () {
 	output = document.getElementById ("output");

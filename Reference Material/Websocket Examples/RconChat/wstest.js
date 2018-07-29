@@ -6,7 +6,7 @@
  * Copyright (c) 2012 Kaazing Corporation.
  */
 
- var url = "ws://localhost:3005/rconchat";
+ var url = "ws://ap2_OEls@localhost:3005/rconchat";
 //var url = "wss://localhost:5963/Echo";
 var output;
 var inputField;

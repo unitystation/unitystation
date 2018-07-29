@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WebSocketSharp;
+using WebSocketSharp.Net;
 using WebSocketSharp.Server;
-using WebSocketSharp.Net.WebSockets;
 
 namespace Rcon
 {
@@ -26,8 +26,14 @@ namespace Rcon
         private HttpServer httpServer;
         private FPSMonitor fpsMonitor;
 
-		private WebSocketServiceHost chatHost;
+        private WebSocketServiceHost consoleHost;
+        private WebSocketServiceHost monitorHost;
+        private WebSocketServiceHost chatHost;
         private Queue<string> rconChatQueue = new Queue<string>();
+
+        private ServerConfig config;
+
+        float monitorUpdate = 0f;
 
         private void OnEnable()
         {
@@ -45,6 +51,13 @@ namespace Rcon
         {
             DontDestroyOnLoad(rconManager.gameObject);
             fpsMonitor = GetComponent<FPSMonitor>();
+            var serverConfig = Resources.Load("TestConfigs/config") as TextAsset;
+            if(serverConfig == null)
+            {
+                Logger.Log("No server config found: rcon");
+                Destroy(gameObject);
+            }
+            config = JsonUtility.FromJson<ServerConfig>(serverConfig.text);
             StartServer();
         }
 
@@ -61,13 +74,25 @@ namespace Rcon
                 // return;
             }
 
-            httpServer = new HttpServer(3005);
-            httpServer.AddWebSocketService<RconSocket>("/checkConn");
-			httpServer.AddWebSocketService<RconChat>("/rconchat");
+            httpServer = new HttpServer(config.RconPort);
+            httpServer.AddWebSocketService<RconSocket>("/rconconsole");
+            httpServer.AddWebSocketService<RconMonitor>("/rconmonitor");
+            httpServer.AddWebSocketService<RconChat>("/rconchat");
+            httpServer.AuthenticationSchemes = AuthenticationSchemes.Digest;
+            httpServer.Realm = "Admins";
+            httpServer.UserCredentialsFinder = id =>
+            {
+                var name = id.Name;
+                return name == config.RconPass
+                ? new NetworkCredential("admin" , null, "admin")
+                : null;
+            };
             httpServer.Start();
 
 			//Get the service hosts:
-			Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconchat", out chatHost);
+            Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconconsole", out consoleHost);
+            Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconmonitor", out monitorHost);
+            Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconchat", out chatHost);
 
             if (httpServer.IsListening)
             {
@@ -86,6 +111,16 @@ namespace Rcon
                 ChatEvent chatEvent = new ChatEvent("[Server]: " + msg, ChatChannel.System);
                 ChatRelay.Instance.AddToChatLogServer(chatEvent);
             }
+
+            if(monitorHost != null)
+            {
+                monitorUpdate += Time.deltaTime;
+                if(monitorUpdate > 4f)
+                {
+                    monitorUpdate = 0f;
+                    monitorHost.Sessions.Broadcast(GetMonitorReadOut());
+                }
+            }
         }
 
         public static void AddChatLog(string msg){
@@ -93,7 +128,13 @@ namespace Rcon
 			AmendChatLog(msg);
 			Instance.chatHost.Sessions.Broadcast(msg);
 		}
-
+        
+        public static void AddLog(string msg)
+        {
+            msg = DateTime.UtcNow + ":    " + msg + "<br>";
+            AmendLog(msg);
+            Instance.consoleHost.Sessions.Broadcast(msg);
+        }
         //On worker thread from websocket:
         public void ReceiveRconChat(string data)
         {
@@ -101,10 +142,10 @@ namespace Rcon
         }
 
 		//Monitoring:
-        public  static string GetFPSReadOut()
+        public  static string GetMonitorReadOut()
         {
             return $"FPS Stats: Current: {Instance.fpsMonitor.Current} Average: {Instance.fpsMonitor.Average}" +
-                $" GC MEM: {GC.GetTotalMemory(false) / 1024 / 1024} MB";
+                $" GC MEM: {GC.GetTotalMemory(false) / 1024 / 1024} MB  Admins Online: " + Instance.monitorHost.Sessions.Count;
         }
 
 		public static string GetLastLog(){
@@ -126,11 +167,7 @@ namespace Rcon
     {
         protected override void OnMessage(MessageEventArgs e)
         {
-            if (e.Data == "stats")
-            {
-                Send(RconManager.GetFPSReadOut());
-            }
-            if (e.Data == "log")
+            if (e.Data == "lastlog")
             {
                 Send(RconManager.GetLastLog());
             }
@@ -138,32 +175,57 @@ namespace Rcon
             {
                 Send(RconManager.GetFullLog());
             }
+
+            if (e.Data[0].Equals('1'))
+            {
+                //todo console commands
+
+               // RconManager.Instance.ReceiveRconChat(e.Data);
+            }
         }
     }
 
-	public class RconChat : WebSocketBehavior{
-		
-		protected override void OnOpen()
-		{
-			Debug.Log("ID: " + ID);
-			Debug.Log("Protocol: " + Protocol);
-			Debug.Log("Context cookie count: " + Context.CookieCollection.Count);
-			Debug.Log("Context Origin: " + Context.Origin);
-			Debug.Log("Context Sec websocket key: " + Context.SecWebSocketKey);
-			Debug.Log("Context user id name: " + Context.User.Identity.Name);
+    public class RconMonitor : WebSocketBehavior
+    {
+        protected override void OnOpen()
+        {
+            if (Context.User.Identity.IsAuthenticated)
+            {
+                Logger.Log("admin logged in");
+            }
 
-			base.OnOpen();
-		}
+            base.OnOpen();
+        }
 
-		protected override void OnMessage(MessageEventArgs e)
-		{
-			if (e.Data == "chatfull") {
-				Send(RconManager.GetFullChatLog());
-			}
+        protected override void OnClose(CloseEventArgs e)
+        {
+            if (Context.User.Identity.IsAuthenticated)
+            {
+                Logger.Log("admin closed. reason: " + e.Reason);
+            }
 
-			if(e.Data[0].Equals('1')){
+            base.OnClose(e);
+        }
+    }
+
+    public class RconChat : WebSocketBehavior
+    {
+        protected override void OnMessage(MessageEventArgs e)
+        {
+            if (e.Data == "chatfull")
+            {
+                Send(RconManager.GetFullChatLog());
+            }
+            if (e.Data[0].Equals('1'))
+            {
                 RconManager.Instance.ReceiveRconChat(e.Data);
             }
-		}
-	}
+        }
+    }
+
+    public class ServerConfig
+    {
+        public string RconPass;
+        public int RconPort;
+    }
 }
