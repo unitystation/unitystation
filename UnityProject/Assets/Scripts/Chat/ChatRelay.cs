@@ -57,10 +57,6 @@ public class ChatRelay : NetworkBehaviour
 		return chatColors[channel];
 	}
 
-	public void AddToChatFromRcon(ChatEvent chatEvent){
-		AddToChatLogServer(chatEvent);
-	}
-
 	[Server]
 	public void AddToChatLogServer(ChatEvent chatEvent)
 	{

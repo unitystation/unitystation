@@ -27,6 +27,7 @@ namespace Rcon
         private FPSMonitor fpsMonitor;
 
 		private WebSocketServiceHost chatHost;
+        private Queue<string> rconChatQueue = new Queue<string>();
 
         private void OnEnable()
         {
@@ -76,12 +77,28 @@ namespace Rcon
             }
         }
 
-		public static void AddChatLog(string msg){
-			Debug.Log("Add CHAT LOG");
+        private void Update()
+        {
+            if(rconChatQueue.Count > 0)
+            {
+                var msg = rconChatQueue.Dequeue();
+                msg = msg.Substring(1, msg.Length - 1);
+                ChatEvent chatEvent = new ChatEvent("[Server]: " + msg, ChatChannel.System);
+                ChatRelay.Instance.AddToChatLogServer(chatEvent);
+            }
+        }
+
+        public static void AddChatLog(string msg){
 			msg = DateTime.UtcNow + ":    " + msg + "<br>";
 			AmendChatLog(msg);
 			Instance.chatHost.Sessions.Broadcast(msg);
 		}
+
+        //On worker thread from websocket:
+        public void ReceiveRconChat(string data)
+        {
+            rconChatQueue.Enqueue(data);
+        }
 
 		//Monitoring:
         public  static string GetFPSReadOut()
@@ -103,8 +120,6 @@ namespace Rcon
 		{
 			return ChatLog;
 		}
-
-
     }
 
     public class RconSocket : WebSocketBehavior
@@ -146,11 +161,9 @@ namespace Rcon
 				Send(RconManager.GetFullChatLog());
 			}
 
-			if(e.Data[0] == '1'){
-				var msg = e.Data.Substring(1, e.Data.Length);
-				ChatEvent chatEvent = new ChatEvent("[Centcomm] " + msg, ChatChannel.OOC);
-				ChatRelay.Instance.AddToChatFromRcon(chatEvent);
-			}
+			if(e.Data[0].Equals('1')){
+                RconManager.Instance.ReceiveRconChat(e.Data);
+            }
 		}
 	}
 }

@@ -9,36 +9,12 @@
  var url = "ws://localhost:3005/rconchat";
 //var url = "wss://localhost:5963/Echo";
 var output;
-var t;
-var timer_is_on=0;
-var lastLog;
 var inputField;
 
 function init () {
  output = document.getElementById ("output");
  inputField = document.getElementById("chatinput");
-doWebSocket ();
-}
-
-function timedCount()
-{
-  output = document.getElementById ("output");
-  doWebSocket ();
-}
-
-function doTimer()
-{
-  if (!timer_is_on)
-  {
-    timer_is_on=1;
-    timedCount();
-  }
-}
-
-function stopCount()
-{
-  clearTimeout(t);
-  timer_is_on=0;
+ doWebSocket ();
 }
 
 function doWebSocket () {
@@ -66,13 +42,7 @@ function onOpen (event) {
 }
 
 function onMessage (event) {
-  // if(lastLog != event.data){
-  //   lastLog = event.data;
-  //   writeToScreen ('<span style="color: blue;">' + event.data + '</span>');
-  // }
-
   writeToScreen ('<span style="color: blue; overflow-wrap: break-word;">' + event.data + '</span>');
-  // t=setTimeout("timedCount()",4000);
 }
 
 function onError (event) {
