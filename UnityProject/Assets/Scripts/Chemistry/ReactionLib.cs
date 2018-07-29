@@ -74,8 +74,24 @@ namespace Chemistry
 				ReactionPass.Name = JsonReactions [i] ["Name"].ToString ();
 				ReactionPass.Results = JsonConvert.DeserializeObject<Dictionary<string, float>> (JsonReactions [i] ["Results"].ToString ());
 				ReactionPass.ReagentsAndRatio = JsonConvert.DeserializeObject<Dictionary<string, float>> (JsonReactions [i] ["Reagents_and_ratio"].ToString ());
-				ReactionPass.Catalysts = JsonConvert.DeserializeObject<Dictionary<string, float>> (JsonReactions [i] ["Catalysts"].ToString ());
-				ReactionPass.MinimumTemperature = float.Parse (JsonReactions [i] ["Minimum_temperature"].ToString ());
+
+				if (JsonReactions [i].ContainsKey ("Catalysts")) {
+					ReactionPass.Catalysts = JsonConvert.DeserializeObject<Dictionary<string, float>> (JsonReactions [i] ["Catalysts"].ToString ());
+				} 
+				else 
+				{
+					Dictionary<string, float> EmptyCatalyst = new Dictionary<string, float>();
+					ReactionPass.Catalysts = EmptyCatalyst;
+				}
+
+				if (JsonReactions [i].ContainsKey ("Minimum_temperature")) {
+					ReactionPass.MinimumTemperature = float.Parse (JsonReactions [i] ["Minimum_temperature"].ToString ());
+				} 
+				else
+				{
+					ReactionPass.MinimumTemperature = 0.0f;
+				}
+
 				Globals.reactions.Add (ReactionPass);
 			}
 			Logger.Log ("JsonImportInitialization done!", Category.Chemistry);
