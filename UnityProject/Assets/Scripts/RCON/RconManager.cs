@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using WebSocketSharp;
 using WebSocketSharp.Server;
+using WebSocketSharp.Net.WebSockets;
 
 namespace Rcon
 {
@@ -25,6 +26,8 @@ namespace Rcon
         private HttpServer httpServer;
         private FPSMonitor fpsMonitor;
 
+		private WebSocketServiceHost chatHost;
+
         private void OnEnable()
         {
             Instance.Init();
@@ -32,7 +35,9 @@ namespace Rcon
 
         private void OnDisable()
         {
-            httpServer.Stop();
+			if (httpServer != null) {
+				httpServer.Stop();
+			}
         }
 
         private void Init()
@@ -57,7 +62,11 @@ namespace Rcon
 
             httpServer = new HttpServer(3005);
             httpServer.AddWebSocketService<RconSocket>("/checkConn");
+			httpServer.AddWebSocketService<RconChat>("/rconchat");
             httpServer.Start();
+
+			//Get the service hosts:
+			Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconchat", out chatHost);
 
             if (httpServer.IsListening)
             {
@@ -67,9 +76,17 @@ namespace Rcon
             }
         }
 
-        public string GetFPSReadOut()
+		public static void AddChatLog(string msg){
+			Debug.Log("Add CHAT LOG");
+			msg = DateTime.UtcNow + ":    " + msg + "<br>";
+			AmendChatLog(msg);
+			Instance.chatHost.Sessions.Broadcast(msg);
+		}
+
+		//Monitoring:
+        public  static string GetFPSReadOut()
         {
-            return $"FPS Stats: Current: {fpsMonitor.Current} Average: {fpsMonitor.Average}" +
+            return $"FPS Stats: Current: {Instance.fpsMonitor.Current} Average: {Instance.fpsMonitor.Average}" +
                 $" GC MEM: {GC.GetTotalMemory(false) / 1024 / 1024} MB";
         }
 
@@ -81,16 +98,22 @@ namespace Rcon
         {
             return ServerLog;
         }
+
+		public static string GetFullChatLog()
+		{
+			return ChatLog;
+		}
+
+
     }
 
     public class RconSocket : WebSocketBehavior
     {
-        private string lastLog;
         protected override void OnMessage(MessageEventArgs e)
         {
             if (e.Data == "stats")
             {
-                Send(RconManager.Instance.GetFPSReadOut());
+                Send(RconManager.GetFPSReadOut());
             }
             if (e.Data == "log")
             {
@@ -102,4 +125,32 @@ namespace Rcon
             }
         }
     }
+
+	public class RconChat : WebSocketBehavior{
+		
+		protected override void OnOpen()
+		{
+			Debug.Log("ID: " + ID);
+			Debug.Log("Protocol: " + Protocol);
+			Debug.Log("Context cookie count: " + Context.CookieCollection.Count);
+			Debug.Log("Context Origin: " + Context.Origin);
+			Debug.Log("Context Sec websocket key: " + Context.SecWebSocketKey);
+			Debug.Log("Context user id name: " + Context.User.Identity.Name);
+
+			base.OnOpen();
+		}
+
+		protected override void OnMessage(MessageEventArgs e)
+		{
+			if (e.Data == "chatfull") {
+				Send(RconManager.GetFullChatLog());
+			}
+
+			if(e.Data[0] == '1'){
+				var msg = e.Data.Substring(1, e.Data.Length);
+				ChatEvent chatEvent = new ChatEvent("[Centcomm] " + msg, ChatChannel.OOC);
+				ChatRelay.Instance.AddToChatFromRcon(chatEvent);
+			}
+		}
+	}
 }
