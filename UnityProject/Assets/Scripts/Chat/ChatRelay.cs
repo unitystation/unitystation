@@ -100,6 +100,14 @@ public class ChatRelay : NetworkBehaviour
 			ChatChannel channels = playerScript.GetAvailableChannelsMask(false) & chatEvent.channels;
 			UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.message);
 		}
+
+		if(Rcon.RconManager.Instance != null){
+			string name = "";
+			if ((namelessChannels & chatEvent.channels) != chatEvent.channels) {
+				name = "<b>[" + chatEvent.channels + "]</b> ";
+			}
+			Rcon.RconManager.AddChatLog(name + chatEvent.message);
+		}
 	}
 
 	[Client]

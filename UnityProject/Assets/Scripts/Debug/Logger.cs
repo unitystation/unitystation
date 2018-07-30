@@ -120,6 +120,10 @@ public static class Logger
 					break;
 			}
 		}
+
+		if(Rcon.RconManager.Instance != null){
+			Rcon.RconManager.AddLog(msg);
+		}
 	}
 }
 
