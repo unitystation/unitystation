@@ -18,7 +18,7 @@ function init () {
 
 function doWebSocket () {
   websocket = new WebSocket (url);
-
+  websocket.maxIdleTime = -1;
   websocket.onopen = function (e) {
     onOpen (e);
   };
