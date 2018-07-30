@@ -122,23 +122,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1191275451100118
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4795033221650604}
-  - component: {fileID: 114686207600899856}
-  - component: {fileID: 114146712487645606}
-  m_Layer: 0
-  m_Name: ChatRelay
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1243987940582858
 GameObject:
   m_ObjectHideFlags: 1
@@ -415,19 +398,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4795033221650604
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1191275451100118}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1929.8862, y: -30.429613, z: 0}
-  m_LocalScale: {x: 2.5233645, y: 2.5233645, z: 2.5233645}
-  m_Children: []
-  m_Father: {fileID: 224680985472193438}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &82635513362934640
 AudioSource:
   m_ObjectHideFlags: 1
@@ -722,38 +692,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114146712487645606
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1191275451100118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 56
-    i1: 236
-    i2: 214
-    i3: 128
-    i4: 213
-    i5: 121
-    i6: 116
-    i7: 255
-    i8: 232
-    i9: 123
-    i10: 75
-    i11: 221
-    i12: 140
-    i13: 213
-    i14: 37
-    i15: 137
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114174871363356546
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1260,17 +1198,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114686207600899856
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1191275451100118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e1b6dd9ce2a247a9846fb97a3bc3f05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114708837733787018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1737,7 +1664,7 @@ RectTransform:
   - {fileID: 224394273056502288}
   - {fileID: 224100766287436812}
   m_Father: {fileID: 224680985472193438}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -1960,7 +1887,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 224213817861856740}
-  - {fileID: 4795033221650604}
   - {fileID: 224193499047686760}
   - {fileID: 224826029011497368}
   m_Father: {fileID: 0}
@@ -2024,7 +1950,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -245, y: 0.000015258789}
+  m_AnchoredPosition: {x: -245, y: 0.000045776367}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!224 &224816004304439406
@@ -2057,7 +1983,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224680985472193438}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
