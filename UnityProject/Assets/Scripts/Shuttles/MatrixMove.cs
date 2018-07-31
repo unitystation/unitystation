@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -69,6 +71,9 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	/// local pivot point
 	public Vector3Int Pivot => Vector3Int.RoundToInt(pivot);
 	[SyncVar] private Vector3 pivot;
+	private Vector3Int[] SensorPositions;
+
+	private MatrixInfo MatrixInfo;
 
 	public override void OnStartServer()
 	{
@@ -90,8 +95,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		Vector3Int initialPositionInt = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
 		initialPosition = initialPositionInt;
 		var child = transform.GetChild( 0 );
-		var matrixInfo = MatrixManager.Get( child.gameObject );
-		var metaTileMap = matrixInfo.MetaTileMap;
+		MatrixInfo = MatrixManager.Get( child.gameObject );
 		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
 		pivot =  initialPosition - childPosition;
 
@@ -103,26 +107,16 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 		clientState = serverState;
 		clientTargetState = serverState;
-		if ( sensorOffset == TransformState.HiddenPos ) {
-			//very ghetto
-			var bounds = metaTileMap.GetBounds();
-			var sensorPos = Vector3Int.zero;
-
-			var localPivotPos = MatrixManager.WorldToLocalInt( initialPositionInt, matrixInfo );
-
-			if ( State.Direction == Vector2.right ) {
-				sensorPos = new Vector3Int( bounds.xMax, 0, 0 );
-			} else if ( State.Direction == Vector2.left ) {
-				sensorPos = new Vector3Int( bounds.xMin, 0, 0 );
-			} else if ( State.Direction == Vector2.up ) {
-				sensorPos = new Vector3Int( 0, bounds.yMin, 0 );
-			} else if ( State.Direction == Vector2.down ) {
-				sensorPos = new Vector3Int( 0, bounds.yMax, 0 );
+		if ( SensorPositions == null ) {
+			CollisionSensor[] sensors = GetComponentsInChildren<CollisionSensor>();
+			if ( sensors.Length == 0 ) {
+				SensorPositions = new Vector3Int[0];
+				return;
 			}
-			var worldSensorPos = MatrixManager.LocalToWorldInt( sensorPos, matrixInfo );
-			sensorOffset = worldSensorPos - initialPositionInt;
-			Logger.Log( $"Initialized sensor at pos {State.Position+sensorOffset}," +
-			            $" sensor offset is {sensorOffset}, direction is {State.Direction}, bounds are {bounds}", Category.Matrix );
+			SensorPositions = sensors.Select( sensor => Vector3Int.RoundToInt( sensor.transform.localPosition ) ).ToArray();
+
+			Logger.Log( $"Initialized sensors at {string.Join( ",", SensorPositions )}," +
+			            $" direction is {State.Direction}", Category.Matrix );
 		}
 	}
 
@@ -273,6 +267,11 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		}
 		if ( isMovingServer ) {
 			Vector3Int goal = Vector3Int.RoundToInt( serverState.Position + ( Vector3 ) serverTargetState.Direction );
+
+			bool isGonnaStop = !serverTargetState.IsMoving;
+			if ( isGonnaStop ) {
+				return;
+			}
 			if ( !SafetyProtocolsOn || CanMoveTo( serverTargetState.Direction ) ) {
 				//keep moving
 				if ( ServerPositionsMatch )
@@ -284,27 +283,28 @@ public class MatrixMove : ManagedNetworkBehaviour {
 					}
 				}
 			} else {
-				Logger.Log( "Stopping due to safety protocols!",Category.Matrix );
+				Logger.LogTrace( "Stopping due to safety protocols!",Category.Matrix );
+				serverTargetState.Position = serverState.Position;
 				StopMovement();
+				TryNotifyPlayers();
 			}
 		}
 	}
 
-//	private	BoundsInt Bounds => MatrixManager.Get( gameObject ).MetaTileMap.GetBounds();
-//	private List<LayerTile> SolidFrontTiles = new List<LayerTile>();
-	private Vector3Int sensorOffset = TransformState.HiddenPos;
-
 	private bool CanMoveTo(Vector2 direction)
 	{
 		Vector3Int dir = Vector3Int.RoundToInt( direction );
-		Vector3Int originCenter = Vector3Int.RoundToInt( State.Position );
 
-		Vector3Int sensorPos = originCenter+sensorOffset;
 		//		check if next tile is passable
-		if ( !MatrixManager.IsPassableAt( sensorPos, sensorPos + dir ) ) {
-			Logger.Log( $"Can't pass {sensorPos}->{sensorPos + dir}!", Category.Matrix );
-			return false;
+		for ( var i = 0; i < SensorPositions.Length; i++ ) {
+			var sensor = SensorPositions[i];
+			Vector3Int sensorPos = MatrixManager.LocalToWorldInt( sensor, MatrixInfo, serverTargetState );
+			if ( !MatrixManager.IsPassableAt( sensorPos, sensorPos + dir ) ) {
+				Logger.LogTrace( $"Can't pass {sensorPos}->{sensorPos + dir}!", Category.Matrix );
+				return false;
+			}
 		}
+
 //		Logger.LogTraceFormat( "Matrix can move to {0}" );
 		return true;
 	}
