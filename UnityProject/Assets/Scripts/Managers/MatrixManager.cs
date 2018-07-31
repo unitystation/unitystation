@@ -203,9 +203,9 @@ public class MatrixManager : MonoBehaviour
 	}
 
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public static Vector3Int LocalToWorldInt(Vector3 localPos, MatrixInfo matrix)
+	public static Vector3Int LocalToWorldInt(Vector3 localPos, MatrixInfo matrix , MatrixState state = default( MatrixState ))
 	{
-		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix));
+		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix, state));
 	}
 
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
@@ -215,7 +215,7 @@ public class MatrixManager : MonoBehaviour
 	}
 
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix)
+	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix, MatrixState state = default( MatrixState ))
 	{
 		//Invalid matrix info provided
 		if ( matrix.Equals( MatrixInfo.Invalid) ) {
@@ -226,8 +226,12 @@ public class MatrixManager : MonoBehaviour
 			return localPos + matrix.Offset;
 		}
 
+		if ( state.Equals( default(MatrixState) ) ) {
+			state = matrix.MatrixMove.ClientState;
+		}
+
 		Vector3 unpivotedPos = localPos - matrix.MatrixMove.Pivot; //localPos - localPivot
-		Vector3 rotatedPos = matrix.MatrixMove.ClientState.Orientation.Euler * unpivotedPos; //unpivotedPos rotated by N degrees
+		Vector3 rotatedPos = state.Orientation.Euler * unpivotedPos; //unpivotedPos rotated by N degrees
 		Vector3 rotatedPivoted = rotatedPos + matrix.MatrixMove.Pivot + matrix.Offset; //adding back localPivot and applying localToWorldOffset
 		return rotatedPivoted;
 	}
