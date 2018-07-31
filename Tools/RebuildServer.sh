@@ -21,7 +21,7 @@ echo "Starting to build from Unityproject directory:"
 echo $project_dir
 
 echo "Attempting build of UnityStation Server"
-/opt/Unity2018.2/Editor/Unity \
+/opt/Unity-2018.2.0f2/Editor/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
