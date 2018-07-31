@@ -18,6 +18,7 @@ public class BuildScript
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Windows/Unitystation.exe";
 		buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
+		buildPlayerOptions.options = BuildOptions.Development;
 		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
@@ -27,6 +28,7 @@ public class BuildScript
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/OSX/Unitystation.app";
 		buildPlayerOptions.target = BuildTarget.StandaloneOSX;
+		buildPlayerOptions.options = BuildOptions.Development;
 		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
@@ -36,6 +38,7 @@ public class BuildScript
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Linux/Unitystation";
 		buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
+		buildPlayerOptions.options = BuildOptions.Development;
 		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
@@ -44,6 +47,7 @@ public class BuildScript
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
 		buildPlayerOptions.locationPathName = "../Builds/OSX/Unitystation.app";
+		buildPlayerOptions.options = BuildOptions.Development;
 		buildPlayerOptions.target = BuildTarget.StandaloneOSX;
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
@@ -52,6 +56,7 @@ public class BuildScript
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
 		buildPlayerOptions.locationPathName = "../Builds/Linux/Unitystation";
+		buildPlayerOptions.options = BuildOptions.Development;
 		buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
@@ -60,6 +65,7 @@ public class BuildScript
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
 		buildPlayerOptions.locationPathName = "../Builds/Windows/Unitystation.exe";
+		buildPlayerOptions.options = BuildOptions.Development;
 		buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
