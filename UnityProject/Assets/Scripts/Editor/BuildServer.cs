@@ -20,6 +20,7 @@ public class BuildScript
 		buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
 		buildPlayerOptions.options = BuildOptions.Development;
 		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
+		BuildPreferences.SetRelease(true);
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
 	private static void PerformOSXBuild()
@@ -30,6 +31,7 @@ public class BuildScript
 		buildPlayerOptions.target = BuildTarget.StandaloneOSX;
 		buildPlayerOptions.options = BuildOptions.Development;
 		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
+		BuildPreferences.SetRelease(true);
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
 	private static void PerformLinuxBuild()
@@ -40,6 +42,7 @@ public class BuildScript
 		buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
 		buildPlayerOptions.options = BuildOptions.Development;
 		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
+		BuildPreferences.SetRelease(true);
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
 	private static void PerformOSXDebugBuild()

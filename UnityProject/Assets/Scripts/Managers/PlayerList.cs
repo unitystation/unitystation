@@ -211,7 +211,7 @@ public class PlayerList : NetworkBehaviour
 
 	private IEnumerator KickTimer(ConnectedPlayer player)
 	{
-		if ( IsConnWhitelisted( player ) || !Managers.instance.isForRelease )
+		if ( IsConnWhitelisted( player ) || !BuildPreferences.isForRelease )
 		{
 //			Logger.Log( "Ignoring kick timer for invalid connection" );
 			yield break;
