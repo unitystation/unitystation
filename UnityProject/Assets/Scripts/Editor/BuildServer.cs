@@ -10,7 +10,8 @@ public class BuildScript
 		buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
 		buildPlayerOptions.options = BuildOptions.EnableHeadlessMode;
 		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
-		BuildPipeline.BuildPlayer(buildPlayerOptions);
+        BuildPreferences.SetRelease(true);
+        BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
 	private static void PerformWindowsBuild()
 	{

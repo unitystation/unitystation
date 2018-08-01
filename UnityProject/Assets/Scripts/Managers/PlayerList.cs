@@ -216,19 +216,17 @@ public class PlayerList : NetworkBehaviour
 //			Logger.Log( "Ignoring kick timer for invalid connection" );
 			yield break;
 		}
-        Logger.Log("Steam ID checking is not working. Needs investigation");
-        yield break;
 		int tries = 5;
-		//while ( !player.IsAuthenticated )
-		//{			
-		//	if ( tries-- < 0 )
-		//	{
-		//		CustomNetworkManager.Kick( player, "Auth timed out" );
-		//		yield break;
-		//	}
-		//	yield return YieldHelper.Second;
-		//}
-	}
+        while (!player.IsAuthenticated)
+        {
+            if (tries-- < 0)
+            {
+                CustomNetworkManager.Kick(player, "Auth timed out");
+                yield break;
+            }
+            yield return YieldHelper.Second;
+        }
+    }
 
 	public static bool IsConnWhitelisted( ConnectedPlayer player )
 	{
