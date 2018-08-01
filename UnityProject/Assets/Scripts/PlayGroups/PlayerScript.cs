@@ -132,7 +132,7 @@ namespace PlayGroup
 					UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 				}
 				UIManager.SetDeathVisibility(true);
-				if ( CustomNetworkManager.Instance.SteamServer ) {
+				if ( BuildPreferences.isSteamServer ) {
 					// Send request to be authenticated by the server
 					if ( Client.Instance != null ) {
 						Logger.Log( "Client Requesting Auth", Category.Steam );
