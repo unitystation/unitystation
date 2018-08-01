@@ -1,29 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.IO;
 
 [ExecuteInEditMode]
-public class BuildPreferences : MonoBehaviour {
-
-	public static bool isForRelease { get{
-			CheckPlayerPrefs();
-			return PlayerPrefs.GetInt("ReleaseMode") == 1;
-		}}
-	
-	public static void SetRelease(bool isOn){
-		CheckPlayerPrefs();
-		if(isOn){
-			PlayerPrefs.SetInt("ReleaseMode", 1);
-		} else {
-			PlayerPrefs.SetInt("ReleaseMode", 0);
+public class BuildPreferences
+{
+	public static bool isForRelease {
+		get {
+			TextAsset json = Resources.Load("BuildPrefs") as TextAsset;
+			if (json == null) {
+				return false;
+			} else {
+				var buildPrefs = JsonUtility.FromJson<BuildPrefs>(json.ToString());
+				return buildPrefs.isForRelease;
+			}
 		}
-		PlayerPrefs.Save();
 	}
 
-	static void CheckPlayerPrefs(){
-		if (!PlayerPrefs.HasKey("ReleaseMode")) {
-			PlayerPrefs.SetInt("ReleaseMode", 0);
-			PlayerPrefs.Save();
-		}
+	/// <summary>
+	/// To be called by the BuildScript only!
+	/// </summary>
+	public static void SetRelease(bool isOn)
+	{
+		string filePath = Application.dataPath + "/Resources/";
+		var buildPrefs = new BuildPrefs();
+		buildPrefs.isForRelease = isOn;
+		var json = JsonUtility.ToJson(buildPrefs);
+		File.WriteAllText(filePath + "BuildPrefs.json", json);
 	}
 }
+[System.Serializable]
+public class BuildPrefs
+{
+	public bool isForRelease;
+}
+
+
+
+
