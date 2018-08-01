@@ -108,7 +108,7 @@ public class CustomNetworkManager : NetworkManager
 	{
 		if (_isServer && server != null && server.IsValid)
 		{
-			server.Auth.OnAuthChange += AuthChange;
+			server.Auth.OnAuthChange -= AuthChange;
 		}
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
@@ -146,7 +146,7 @@ public class CustomNetworkManager : NetworkManager
 
 			Logger.Log("Setting up Auth hook", Category.Steam);
 			//Process callback data for authentication
-			server.Auth.OnAuthChange = AuthChange;
+			server.Auth.OnAuthChange += AuthChange;
 		}
 		// confirm in log if server is actually registered or not
 		if (server.IsValid)
