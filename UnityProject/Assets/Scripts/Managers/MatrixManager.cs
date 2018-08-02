@@ -232,7 +232,7 @@ public class MatrixManager : MonoBehaviour
 
 		Vector3 unpivotedPos = localPos - matrix.MatrixMove.Pivot; //localPos - localPivot
 		Vector3 rotatedPos = state.Orientation.Euler * unpivotedPos; //unpivotedPos rotated by N degrees
-		Vector3 rotatedPivoted = rotatedPos + matrix.MatrixMove.Pivot + matrix.Offset; //adding back localPivot and applying localToWorldOffset
+		Vector3 rotatedPivoted = rotatedPos + matrix.MatrixMove.Pivot + matrix.GetOffset( state ); //adding back localPivot and applying localToWorldOffset
 		return rotatedPivoted;
 	}
 
@@ -282,17 +282,17 @@ public struct MatrixInfo
 
 	public Vector3Int InitialOffset;
 
-	public Vector3Int Offset
+	public Vector3Int Offset => GetOffset();
+	public Vector3Int GetOffset(MatrixState state = default(MatrixState))
 	{
-		get
+		if (!MatrixMove)
 		{
-			if (!MatrixMove)
-			{
-				return InitialOffset;
-			}
-
-			return InitialOffset + (Vector3Int.RoundToInt(MatrixMove.ClientState.Position) - MatrixMove.InitialPos);
+			return InitialOffset;
 		}
+		if ( state.Equals( default(MatrixState) ) ) {
+			state = MatrixMove.ClientState;
+		}
+		return InitialOffset + (Vector3Int.RoundToInt(state.Position) - MatrixMove.InitialPos);
 	}
 
 	public MatrixMove MatrixMove;
