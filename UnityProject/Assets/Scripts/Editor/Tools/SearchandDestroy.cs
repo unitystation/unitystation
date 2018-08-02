@@ -143,7 +143,7 @@ public class SearchAndDestroy : EditorWindow
 								DestroyImmediate(component, true);
 								//Logger.Log
 								//			PrefabUtility.ReplacePrefab(castGO, castPrefab, ReplacePrefabOptions.Default);
-								PrefabUtility.ReplacePrefab(cast, PrefabUtility.GetPrefabParent(cast), ReplacePrefabOptions.ConnectToPrefab);
+								PrefabUtility.ReplacePrefab(cast, PrefabUtility.GetCorrespondingObjectFromSource(cast), ReplacePrefabOptions.ConnectToPrefab);
 								DestroyImmediate(cast, true);
 								Logger.Log("Removed " + componentName + " From " + prefab);
 								i++;

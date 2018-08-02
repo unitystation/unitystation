@@ -10,7 +10,7 @@ echo "Starting to build from Unityproject directory:"
 echo $project_dir
 
 echo "Attempting build of UnityStation for Windows"
-/opt/Unity-2017.4.0f1/Editor/Unity \
+/opt/Unity-2018.2.0f2/Editor/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
@@ -24,7 +24,7 @@ cat $script_dir/Logs/WindowsBuild.log
 
 
 echo "Attempting build of UnityStation for OSX"
-/opt/Unity-2017.4.0f1/Editor/Unity \
+/opt/Unity-2018.2.0f2/Editor/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
@@ -38,7 +38,7 @@ cat $script_dir/Logs/OSXBuild.log
 
 
 echo "Attempting build of UnityStation for Linux"
-/opt/Unity-2017.4.0f1/Editor/Unity \
+/opt/Unity-2018.2.0f2/Editor/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
@@ -51,7 +51,7 @@ echo "Build logs (Linux)"
 cat $script_dir/Logs/LinuxBuild.log
 
 echo "Attempting build of UnityStation Server"
-/opt/Unity-2017.4.0f1/Editor/Unity \
+/opt/Unity-2018.2.0f2/Editor/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \

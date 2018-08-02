@@ -71,6 +71,7 @@ public class PlayerList : NetworkBehaviour
 	{
 		ConnectedPlayer connectedPlayer = Get(conn);
 		connectedPlayer.GameObject = newGameObject;
+		CheckRcon();
 		return connectedPlayer;
 	}
 
@@ -118,26 +119,27 @@ public class PlayerList : NetworkBehaviour
 			//Adding kick timer for new players only
 			StartCoroutine(KickTimer(player));
 		}
+		CheckRcon();
 	}
 
 	private IEnumerator KickTimer(ConnectedPlayer player)
 	{
-		if ( IsConnWhitelisted( player ) || !Managers.instance.isForRelease )
+		if ( IsConnWhitelisted( player ) || !BuildPreferences.isForRelease )
 		{
 //			Logger.Log( "Ignoring kick timer for invalid connection" );
 			yield break;
 		}
 		int tries = 5;
-		while ( !player.IsAuthenticated )
-		{			
-			if ( tries-- < 0 )
-			{
-				CustomNetworkManager.Kick( player, "Auth timed out" );
-				yield break;
-			}
-			yield return YieldHelper.Second;
-		}
-	}
+        while (!player.IsAuthenticated)
+        {
+            if (tries-- < 0)
+            {
+                CustomNetworkManager.Kick(player, "Auth timed out");
+                yield break;
+            }
+            yield return YieldHelper.Second;
+        }
+    }
 
 	public static bool IsConnWhitelisted( ConnectedPlayer player )
 	{
@@ -154,6 +156,7 @@ public class PlayerList : NetworkBehaviour
 		AddPrevious( player );
 		NetworkServer.Destroy(player.GameObject);
 		UpdateConnectedPlayersMessage.Send();
+		CheckRcon();
 	}
 
 	[Server]
@@ -237,7 +240,6 @@ public class PlayerList : NetworkBehaviour
 			TryRemove(connectedPlayer);
 		}
 	}
-
     public void ReportScores()
     {
         foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
@@ -279,6 +281,14 @@ public class PlayerList : NetworkBehaviour
         }
         PostToChatMessage.Send("Restarting in 10 seconds.", ChatChannel.OOC);
     }
+=======
+	[Server]
+	private void CheckRcon(){
+		if(Rcon.RconManager.Instance != null){
+			Rcon.RconManager.UpdatePlayerListRcon();
+		}
+	}
+
 }
 
 /// Minimalistic connected player information that all clients can posess

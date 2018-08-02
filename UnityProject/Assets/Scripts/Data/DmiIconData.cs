@@ -53,7 +53,7 @@ public class DmiIconData : ScriptableObject
 			}
 		}
 		Logger.LogErrorFormat("failed to getSpriteFromLegacyName: {0} {1}",Category.DmMetadata, spriteSheet, legacyUnityName);
-		return new Sprite();
+		return null;
 	}
 
 	public Sprite getSprite(string spriteSheet, int offset)
@@ -64,7 +64,7 @@ public class DmiIconData : ScriptableObject
 			return icon.spriteSheet[offset];
 		}
 		Logger.LogErrorFormat("Couldn't find sprite by offset: {0}({1}) in {2}",Category.DmMetadata, spriteSheet, offset, icon.icon);
-		return new Sprite();
+		return null;
 	}
 
 	public Sprite getSprite(string spriteSheet, string unityName)
@@ -90,7 +90,7 @@ public class DmiIconData : ScriptableObject
 			}
 			Logger.LogErrorFormat("Couldn't find sprite by UN: {0}({1}) in {2}",Category.DmMetadata , spriteSheet, unityName, icon.icon);
 		}
-		return new Sprite();
+		return null;
 	}
 
 	public DmiIcon getIconBySheet(string path)

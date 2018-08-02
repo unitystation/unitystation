@@ -8,7 +8,6 @@ public class Managers : MonoBehaviour
 
 	public GameObject hostToggle;
 
-	public bool isForRelease;
 	public string serverIP;
 	[Header("For turning UI on and off to free up the editor window")] public GameObject UIParent;
 
@@ -28,7 +27,7 @@ public class Managers : MonoBehaviour
 	{
 		Application.runInBackground = true;
 		DontDestroyOnLoad(gameObject);
-		if (isForRelease)
+		if (BuildPreferences.isForRelease)
 		{
 			hostToggle.SetActive(false);
 		}
