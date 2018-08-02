@@ -265,29 +265,25 @@ public class MatrixMove : ManagedNetworkBehaviour {
 					serverState.Speed * Time.deltaTime );
 			TryNotifyPlayers();
 		}
-		if ( isMovingServer ) {
-			Vector3Int goal = Vector3Int.RoundToInt( serverState.Position + ( Vector3 ) serverTargetState.Direction );
 
-			bool isGonnaStop = !serverTargetState.IsMoving;
-			if ( isGonnaStop ) {
-				return;
+		bool isGonnaStop = !serverTargetState.IsMoving;
+		if ( !isMovingServer || isGonnaStop || !ServerPositionsMatch ) {
+			return;
+		}
+
+		if ( !SafetyProtocolsOn || CanMoveTo( serverTargetState.Direction ) )
+		{
+			var goal = Vector3Int.RoundToInt( serverState.Position + ( Vector3 ) serverTargetState.Direction );
+			//keep moving
+			serverTargetState.Position = goal;
+			if ( isAutopilotEngaged && ( (int)serverState.Position.x == (int)Target.x
+			                             || (int)serverState.Position.y == (int)Target.y ) ) {
+				StartCoroutine( TravelToTarget() );
 			}
-			if ( !SafetyProtocolsOn || CanMoveTo( serverTargetState.Direction ) ) {
-				//keep moving
-				if ( ServerPositionsMatch )
-				{
-					serverTargetState.Position = goal;
-					if ( isAutopilotEngaged && ( (int)serverState.Position.x == (int)Target.x
-											  || (int)serverState.Position.y == (int)Target.y ) ) {
-						StartCoroutine( TravelToTarget() );
-					}
-				}
-			} else {
-				Logger.LogTrace( "Stopping due to safety protocols!",Category.Matrix );
-				serverTargetState.Position = serverState.Position;
-				StopMovement();
-				TryNotifyPlayers();
-			}
+		} else {
+//			Logger.LogTrace( "Stopping due to safety protocols!",Category.Matrix );
+			StopMovement();
+			TryNotifyPlayers();
 		}
 	}
 
@@ -300,12 +296,11 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			var sensor = SensorPositions[i];
 			Vector3Int sensorPos = MatrixManager.LocalToWorldInt( sensor, MatrixInfo, serverTargetState );
 			if ( !MatrixManager.IsPassableAt( sensorPos, sensorPos + dir ) ) {
-				Logger.LogTrace( $"Can't pass {sensorPos}->{sensorPos + dir}!", Category.Matrix );
+				Logger.LogTrace( $"Can't pass {serverTargetState.Position}->{serverTargetState.Position+dir} (because {sensorPos}->{sensorPos + dir})!", Category.Matrix );
 				return false;
 			}
 		}
-
-//		Logger.LogTraceFormat( "Matrix can move to {0}" );
+//		Logger.LogTrace( $"Passing {serverTargetState.Position}->{serverTargetState.Position+dir} ", Category.Matrix );
 		return true;
 	}
 
