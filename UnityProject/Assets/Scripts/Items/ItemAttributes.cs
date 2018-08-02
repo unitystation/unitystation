@@ -205,7 +205,7 @@ public class ItemAttributes : NetworkBehaviour
 		{
 
 			Logger.Log($"DmiIcon '{dmiIcon}' is null, unable to get state '{icon_state}'", Category.DmMetadata);
-			return new Sprite();
+			return null;
 		}
 
 		DmiState iState = dmiIcon.getState(icon_state);
@@ -215,7 +215,7 @@ public class ItemAttributes : NetworkBehaviour
 		}
 
 		Logger.Log($"Failed to find inventory sprite '{icon_state}' in icon '{dmiIcon.icon}'", Category.DmMetadata);
-		return new Sprite();
+		return null;
 	}
 
 	private string getItemDebugInfo()

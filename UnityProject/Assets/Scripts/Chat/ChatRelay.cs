@@ -10,19 +10,20 @@ using System.Text.RegularExpressions;
 
 public class ChatRelay : NetworkBehaviour
 {
-	public static ChatRelay chatRelay;
-	private ChatChannel namelessChannels;
+	public static ChatRelay Instance;
 
-	public static ChatRelay Instance {
-		get {
-			if (!chatRelay) {
-				chatRelay = FindObjectOfType<ChatRelay>();
-			}
-			return chatRelay;
+	private ChatChannel namelessChannels;
+	public List<ChatEvent> ChatLog { get; } = new List<ChatEvent>();
+
+	private void Awake()
+	{
+		//ensures the static instance is cleaned up after scene changes:
+		if(Instance == null){
+			Instance = this;
+		} else {
+			Destroy(gameObject);
 		}
 	}
-
-	public List<ChatEvent> ChatLog { get; } = new List<ChatEvent>();
 
 	public void Start()
 	{

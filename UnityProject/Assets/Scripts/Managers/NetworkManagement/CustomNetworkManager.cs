@@ -16,7 +16,6 @@ public class CustomNetworkManager : NetworkManager
 	public static CustomNetworkManager Instance;
 	[HideInInspector] public bool _isServer;
 	[HideInInspector] public bool spawnableListReady;
-	public bool SteamServer = true;
 	private Server server;
 
 
@@ -108,7 +107,7 @@ public class CustomNetworkManager : NetworkManager
 	{
 		if (_isServer && server != null && server.IsValid)
 		{
-			server.Auth.OnAuthChange += AuthChange;
+			server.Auth.OnAuthChange -= AuthChange;
 		}
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
@@ -118,7 +117,7 @@ public class CustomNetworkManager : NetworkManager
 		_isServer = true;
 		base.OnStartServer();
 		this.RegisterServerHandlers();
-		if (SteamServer)
+		if (BuildPreferences.isSteamServer)
 		{
 			SteamServerStart();
 		}
@@ -132,7 +131,7 @@ public class CustomNetworkManager : NetworkManager
 		string path = Path.GetFullPath(".");
 		string folderName = Path.GetFileName(Path.GetDirectoryName( path ) );
 		ServerInit options = new ServerInit(folderName, "Unitystation");
-		server = new Server(787180, options);
+		server = new Server(801140, options);
 
 		if (server != null)
 		{
