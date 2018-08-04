@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -26,35 +28,35 @@ public struct MatrixState
 
 public class MatrixMove : ManagedNetworkBehaviour {
 	public bool IsMoving => isMovingServer;
-	
+
 	//server-only values
 	public MatrixState State => serverState;
 	///used for syncing with players, matters only for server
 	private MatrixState serverState = MatrixState.Invalid;
 	/// future state that collects all changes
-	private MatrixState serverTargetState = MatrixState.Invalid; 
-	public bool SafetyProtocolsOn { get; set; }
+	private MatrixState serverTargetState = MatrixState.Invalid;
+	public bool SafetyProtocolsOn { get; set; } = true;
 	private bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
 	private bool isRotatingServer => IsRotatingClient; //todo: calculate rotation time on server instead
 	private bool isAutopilotEngaged => Target != TransformState.HiddenPos;
-	
+
 	//client-only values
 	public MatrixState ClientState => clientState;
 	///client's transform, can get dirty/predictive
-	private MatrixState clientState = MatrixState.Invalid; 
-	/// Is only present to match server's flight routines 
-	private MatrixState clientTargetState = MatrixState.Invalid; 
+	private MatrixState clientState = MatrixState.Invalid;
+	/// Is only present to match server's flight routines
+	private MatrixState clientTargetState = MatrixState.Invalid;
 	private bool isMovingClient => clientState.IsMoving && clientState.Speed > 0f;
 	public bool IsRotatingClient => transform.rotation.eulerAngles.z != clientState.Orientation.Degree;
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
-	
+
 	//editor (global) values
 	public UnityEvent OnStart;
 	public UnityEvent OnStop;
 	public OrientationEvent OnRotate;
 	public DualFloatEvent OnSpeedChange;
-	
+
 	/// Initial flying direction from editor
 	public Vector2 flyingDirection = Vector2.up;
 	/// max flying speed from editor
@@ -66,6 +68,9 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	/// local pivot point
 	public Vector3Int Pivot => Vector3Int.RoundToInt(pivot);
 	[SyncVar] private Vector3 pivot;
+	private Vector3Int[] SensorPositions;
+
+	private MatrixInfo MatrixInfo;
 
     public bool ismoving = true;
 
@@ -86,12 +91,15 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		} else {
 			serverState.Direction = Vector2Int.RoundToInt(flyingDirection);
 		}
-		initialPosition = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
+
+		Vector3Int initialPositionInt = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
+		initialPosition = initialPositionInt;
 		var child = transform.GetChild( 0 );
+		MatrixInfo = MatrixManager.Get( child.gameObject );
 		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
 		pivot =  initialPosition - childPosition;
+
 //		Logger.Log( $"Calculated pivot {pivot} for {gameObject.name}" );
-		
 		serverState.Speed = 1f;
 		serverState.Position = initialPosition;
 		serverState.Orientation = Orientation.Up;
@@ -99,6 +107,17 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 		clientState = serverState;
 		clientTargetState = serverState;
+		if ( SensorPositions == null ) {
+			CollisionSensor[] sensors = GetComponentsInChildren<CollisionSensor>();
+			if ( sensors.Length == 0 ) {
+				SensorPositions = new Vector3Int[0];
+				return;
+			}
+			SensorPositions = sensors.Select( sensor => Vector3Int.RoundToInt( sensor.transform.localPosition ) ).ToArray();
+
+			Logger.Log( $"Initialized sensors at {string.Join( ",", SensorPositions )}," +
+			            $" direction is {State.Direction}", Category.Matrix );
+		}
 	}
 
 	///managed by UpdateManager
@@ -122,8 +141,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 
 			CheckMovementServer();
-		} 
-		CheckMovement();	
+		}
+		CheckMovement();
 	}
 
 	[Server]
@@ -190,7 +209,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			serverTargetState.Speed = absoluteValue;
 		}
 		//do not send speed updates when not moving
-		if ( serverTargetState.IsMoving ) { 
+		if ( serverTargetState.IsMoving ) {
 			RequestNotify();
 		}
 	}
@@ -214,11 +233,11 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			//Only move target if rotation is finished
 			SimulateStateMovement();
 		}
-		
+
 		//Lerp
 		if ( clientState.Position != transform.position ) {
 			float distance = Vector3.Distance( clientState.Position, transform.position );
-			
+
 //			Just set pos without any lerping if distance is too long (serverside teleportation assumed)
 			bool shouldTeleport = distance > 30;
 			if ( shouldTeleport ) {
@@ -228,10 +247,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 //			Activate warp speed if object gets too far away or have to rotate
 			bool shouldWarp = distance > 2 || IsRotatingClient;
 			transform.position =
-				Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );		
+				Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );
 		}
 	}
-	
+
 	/// Serverside movement routine
 	[Server]
 	private void CheckMovementServer()
@@ -248,29 +267,42 @@ public class MatrixMove : ManagedNetworkBehaviour {
 					serverState.Speed * Time.deltaTime );
 			TryNotifyPlayers();
 		}
-		if ( isMovingServer ) {
-			Vector3Int goal = Vector3Int.RoundToInt( serverState.Position + ( Vector3 ) serverTargetState.Direction );
-			if ( !SafetyProtocolsOn || CanMoveTo( goal ) ) {
-				//keep moving
-				if ( ServerPositionsMatch ) 
-				{
-					serverTargetState.Position = goal;
-					if ( isAutopilotEngaged && ( (int)serverState.Position.x == (int)Target.x 
-											  || (int)serverState.Position.y == (int)Target.y ) ) {
-						StartCoroutine( TravelToTarget() );
-					}
-				}
-			} else {
-				Logger.Log( "Stopping due to safety protocols!",Category.Matrix );
-				StopMovement();
+
+		bool isGonnaStop = !serverTargetState.IsMoving;
+		if ( !isMovingServer || isGonnaStop || !ServerPositionsMatch ) {
+			return;
+		}
+
+		if ( !SafetyProtocolsOn || CanMoveTo( serverTargetState.Direction ) )
+		{
+			var goal = Vector3Int.RoundToInt( serverState.Position + ( Vector3 ) serverTargetState.Direction );
+			//keep moving
+			serverTargetState.Position = goal;
+			if ( isAutopilotEngaged && ( (int)serverState.Position.x == (int)Target.x
+			                             || (int)serverState.Position.y == (int)Target.y ) ) {
+				StartCoroutine( TravelToTarget() );
 			}
+		} else {
+//			Logger.LogTrace( "Stopping due to safety protocols!",Category.Matrix );
+			StopMovement();
+			TryNotifyPlayers();
 		}
 	}
 
-
-	private bool CanMoveTo(Vector3Int goal)
+	private bool CanMoveTo(Vector2 direction)
 	{
-		//todo: safety protocols
+		Vector3Int dir = Vector3Int.RoundToInt( direction );
+
+		//		check if next tile is passable
+		for ( var i = 0; i < SensorPositions.Length; i++ ) {
+			var sensor = SensorPositions[i];
+			Vector3Int sensorPos = MatrixManager.LocalToWorldInt( sensor, MatrixInfo, serverTargetState );
+			if ( !MatrixManager.IsPassableAt( sensorPos, sensorPos + dir ) ) {
+				Logger.LogTrace( $"Can't pass {serverTargetState.Position}->{serverTargetState.Position+dir} (because {sensorPos}->{sensorPos + dir})!", Category.Matrix );
+				return false;
+			}
+		}
+//		Logger.LogTrace( $"Passing {serverTargetState.Position}->{serverTargetState.Position+dir} ", Category.Matrix );
 		return true;
 	}
 
@@ -331,7 +363,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		TryNotifyPlayers();
 	}
 
-	///	Inform players when on integer position 
+	///	Inform players when on integer position
 	[Server]
 	private void TryNotifyPlayers() {
 		if ( ServerPositionsMatch ) {
@@ -346,10 +378,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	[Server]
 	private void NotifyPlayers() {
 		//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
-		if ( !isMovingServer || serverState.Inform ) 
+		if ( !isMovingServer || serverState.Inform )
 		{
 			serverState.RotationTime = rotTime;
-			
+
 			MatrixMoveMessage.SendToAll(gameObject, serverState);
 			//Clear inform flags
 			serverTargetState.Inform = false;
@@ -379,15 +411,15 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	{
 		RotateTo( clockwise ? serverTargetState.Orientation.Next() : serverTargetState.Orientation.Previous() );
 	}
-	
+
 	/// Imperative rotate to desired orientation
 	[Server]
-	public void RotateTo( Orientation desiredOrientation ) 
+	public void RotateTo( Orientation desiredOrientation )
 	{
 		var angleBetween = Orientation.DegreeBetween( serverTargetState.Orientation, desiredOrientation );
-	
+
 		serverTargetState.Orientation = desiredOrientation;
-		
+
 		//Correcting direction
 		Vector3 newDirection = Quaternion.Euler( 0, 0, angleBetween ) * serverTargetState.Direction;
 //		Logger.Log($"Orientation is now {serverTargetState.Orientation}, Corrected direction from {serverTargetState.Direction} to {newDirection}");
@@ -396,7 +428,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	}
 
 	private Vector3 Target = TransformState.HiddenPos;
-		
+
 	/// Makes matrix start moving towards given world pos
 	[Server]
 	public void AutopilotTo( Vector2 position ) {
@@ -405,10 +437,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	}
 
 	///Zero means 100% accurate, but will lead to peculiar behaviour (autopilot not reacting fast enough on high speed -> going back/in circles etc)
-	private static readonly int AccuracyThreshold = 1; 
+	private static readonly int AccuracyThreshold = 1;
 
 	private IEnumerator TravelToTarget() {
-		if ( isAutopilotEngaged ) 
+		if ( isAutopilotEngaged )
 		{
 			var pos = serverState.Position;
 			if ( Vector3.Distance(pos, Target) <= AccuracyThreshold ) {
@@ -416,11 +448,11 @@ public class MatrixMove : ManagedNetworkBehaviour {
 				yield break;
 			}
 			Orientation currentDir = serverState.Orientation;
-			
+
 			Vector3 xProjection = Vector3.Project( pos, Vector3.right );
 			int xProjectionX = (int) xProjection.x;
 			int targetX = (int) Target.x;
-			
+
 			Vector3 yProjection = Vector3.Project( pos, Vector3.up );
 			int yProjectionY = (int) yProjection.y;
 			int targetY = (int) Target.y;
@@ -431,11 +463,11 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			Orientation xDesiredDir = ( targetX - xProjectionX ) > 0 ? Orientation.Left : Orientation.Right;
 			Orientation yDesiredDir = ( targetY - yProjectionY ) > 0 ? Orientation.Up : Orientation.Down;
 
-			if ( xNeedsChange || yNeedsChange ) 
+			if ( xNeedsChange || yNeedsChange )
 			{
 				int xDegreeTo = xNeedsChange ? Mathf.Abs( Orientation.DegreeBetween( currentDir, xDesiredDir ) ) : int.MaxValue;
 				int yDegreeTo = yNeedsChange ? Mathf.Abs( Orientation.DegreeBetween( currentDir, yDesiredDir ) ) : int.MaxValue;
-				
+
 				//don't rotate if it's not needed
 				if ( xDegreeTo != 0 && yDegreeTo != 0 ) {
 					//if both need change determine faster rotation first
@@ -443,12 +475,12 @@ public class MatrixMove : ManagedNetworkBehaviour {
 					//wait till it rotates
 					yield return YieldHelper.Second;
 				}
-			} 
+			}
 
 			if ( !serverState.IsMoving ) {
 				StartMovement();
 			}
-			//Relaunching self once in a while as CheckMovementServer check can fail in rare occasions 
+			//Relaunching self once in a while as CheckMovementServer check can fail in rare occasions
 			yield return YieldHelper.Second;
 			StartCoroutine( TravelToTarget() );
 		}
@@ -481,7 +513,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			GizmoUtils.DrawArrow( serverTargetPos, serverTargetState.Direction * serverTargetState.Speed );
 			GizmoUtils.DrawText( serverTargetState.Speed.ToString(), serverTargetPos + Vector3.down, 15 );
 		}
-		
+
 		//clientState
 		Gizmos.color = color3;
 		Vector3 pos = clientState.Position;
