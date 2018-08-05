@@ -98,7 +98,13 @@ namespace Rcon
                 ? new NetworkCredential("admin" , null, "admin")
                 : null;
             };
-            httpServer.Start();
+
+			httpServer.SslConfiguration.ClientCertificateValidationCallback =
+			(sender, certificate, chain, sslPolicyErrors) => {
+			Debug.Log("Validate");
+			return true;
+			};
+			httpServer.Start();
 
 			//Get the service hosts:
             Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconconsole", out consoleHost);
