@@ -119,6 +119,8 @@ namespace PlayGroup
 
 		private Vector3 pullPos;
 
+		private float pullJourney;
+
 		private RegisterTile pullRegister;
 
 		private PushPull pushPull; //The pushpull component on this player
@@ -208,12 +210,19 @@ namespace PlayGroup
 				}
 
 				if ( PullingObject != null ) {
+					
 					if ( transform.hasChanged ) {
 						transform.hasChanged = false;
 						PullObject();
-					} else if ( PullingObject.transform.localPosition != pullPos ) {
-						PullingObject.transform.localPosition = pullPos;
 					}
+					if (PullingObject.transform.localPosition != pullPos)
+					{
+						PullingObject.transform.localPosition =
+						Vector3.MoveTowards(PullingObject.transform.localPosition,
+							pullPos,
+							playerMove.speed * Time.deltaTime * pullJourney);
+					}
+
 				}
 
 				//Registering
@@ -235,25 +244,20 @@ namespace PlayGroup
 		}
 
 		private void PullObject() {
-			pullPos = transform.localPosition - (Vector3) LastDirection;
-			pullPos.z = PullingObject.transform.localPosition.z;
-
-			Vector3Int pos = Vector3Int.RoundToInt( pullPos );
+			Vector3 proposedPos = transform.localPosition - (Vector3)LastDirection;
+			Debug.Log("Last Direction: " + LastDirection);
+			Vector3Int pos = Vector3Int.RoundToInt( proposedPos );
 			if ( matrix.IsPassableAt( pos ) || matrix.ContainsAt( pos, gameObject ) ||
 			     matrix.ContainsAt( pos, PullingObject ) ) {
-				float journeyLength = Vector3.Distance( PullingObject.transform.localPosition, pullPos );
-				if ( journeyLength <= 2f ) {
-					PullingObject.transform.localPosition =
-						Vector3.MoveTowards( PullingObject.transform.localPosition,
-							pullPos,
-							playerMove.speed * Time.deltaTime / journeyLength );
-				} else {
-					//If object gets too far away activate warp speed
-					PullingObject.transform.localPosition =
-						Vector3.MoveTowards( PullingObject.transform.localPosition,
-							pullPos,
-							playerMove.speed * Time.deltaTime * 30f );
+				if (isLocalPlayer)
+				{
+					pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition) - 0.5f;
+				} else
+				{
+					pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition);
 				}
+				pullPos = proposedPos;
+				pullPos.z = PullingObject.transform.localPosition.z;
 				PullingObject.BroadcastMessage( "FaceDirection",
 					playerSprites.currentDirection,
 					SendMessageOptions.DontRequireReceiver );
