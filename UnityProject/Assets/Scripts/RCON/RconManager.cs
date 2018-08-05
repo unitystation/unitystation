@@ -71,11 +71,12 @@ namespace Rcon
         {
             if (httpServer != null)
             {
-                Logger.LogWarning("Already Listening: WebSocket");
+                Debug.Log("Already Listening: WebSocket");
                 return;
             }
             if (!GameData.IsHeadlessServer)
             {
+				Debug.Log("Dercon");
                  Destroy(gameObject);
                  return;
             }
