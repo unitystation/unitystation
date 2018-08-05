@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -53,13 +54,16 @@ namespace Rcon
         {
             DontDestroyOnLoad(rconManager.gameObject);
             fpsMonitor = GetComponent<FPSMonitor>();
-            var serverConfig = Resources.Load("TestConfigs/config") as TextAsset;
-            if(serverConfig == null)
+			string path = Application.streamingAssetsPath + "/config/config.json";
+			WWW www = new WWW(path);
+			while (!www.isDone) { }
+			string json = www.text;
+            if(string.IsNullOrEmpty(json))
             {
-                Logger.Log("No server config found: rcon");
+                Debug.Log("No server config found: rcon");
                 Destroy(gameObject);
             }
-            config = JsonUtility.FromJson<ServerConfig>(serverConfig.text);
+            config = JsonUtility.FromJson<ServerConfig>(json);
             StartServer();
         }
 
@@ -76,8 +80,11 @@ namespace Rcon
                  return;
             }
 
-            httpServer = new HttpServer(config.RconPort);
-            httpServer.AddWebSocketService<RconSocket>("/rconconsole");
+            httpServer = new HttpServer(config.RconPort, true);
+			string certPath = Application.streamingAssetsPath + "/config/certificate.pfx";
+			httpServer.SslConfiguration.ServerCertificate =
+				new X509Certificate2(certPath, config.certKey);
+			httpServer.AddWebSocketService<RconSocket>("/rconconsole");
             httpServer.AddWebSocketService<RconMonitor>("/rconmonitor");
             httpServer.AddWebSocketService<RconChat>("/rconchat");
             httpServer.AddWebSocketService<RconPlayerList>("/rconplayerlist");
@@ -86,6 +93,7 @@ namespace Rcon
             httpServer.UserCredentialsFinder = id =>
             {
                 var name = id.Name;
+				Debug.Log("ATTEMPT AUTH!!");
                 return name == config.RconPass
                 ? new NetworkCredential("admin" , null, "admin")
                 : null;
@@ -255,6 +263,7 @@ namespace Rcon
     {
         public string RconPass;
         public int RconPort;
+		public string certKey;
     }
 
     [Serializable]
