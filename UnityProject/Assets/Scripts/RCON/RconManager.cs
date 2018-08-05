@@ -55,16 +55,15 @@ namespace Rcon
 			Debug.Log("Init RconManager");
             DontDestroyOnLoad(rconManager.gameObject);
             fpsMonitor = GetComponent<FPSMonitor>();
-			string path = Application.streamingAssetsPath + "/config/config.json";
-			WWW www = new WWW(path);
-			while (!www.isDone) { }
-			string json = www.text;
-            if(string.IsNullOrEmpty(json))
+			string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "/config/config.json");
+			string result = System.IO.File.ReadAllText(filePath);
+			if (string.IsNullOrEmpty(result))
             {
                 Debug.Log("No server config found: rcon");
                 Destroy(gameObject);
             }
-            config = JsonUtility.FromJson<ServerConfig>(json);
+			Debug.Log("config loaded");
+            config = JsonUtility.FromJson<ServerConfig>(result);
             StartServer();
         }
 
