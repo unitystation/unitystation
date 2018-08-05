@@ -55,7 +55,7 @@ namespace Rcon
 			Debug.Log("Init RconManager");
             DontDestroyOnLoad(rconManager.gameObject);
             fpsMonitor = GetComponent<FPSMonitor>();
-			string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "/config/config.json");
+			string filePath = Application.streamingAssetsPath + "/config/config.json";
 			string result = System.IO.File.ReadAllText(filePath);
 			if (string.IsNullOrEmpty(result))
             {
@@ -94,7 +94,7 @@ namespace Rcon
             httpServer.UserCredentialsFinder = id =>
             {
                 var name = id.Name;
-				Debug.Log("ATTEMPT AUTH!!");
+				Debug.Log("ATTEMPT AUTH: " + id.Name);
                 return name == config.RconPass
                 ? new NetworkCredential("admin" , null, "admin")
                 : null;
@@ -102,7 +102,8 @@ namespace Rcon
 
 			httpServer.SslConfiguration.ClientCertificateValidationCallback =
 			(sender, certificate, chain, sslPolicyErrors) => {
-			Debug.Log("Validate");
+				Debug.Log("Validate: issuer: " + certificate.Issuer);
+				Debug.Log("SSL errors: " + sslPolicyErrors.GetDescription().ToString());
 			return true;
 			};
 			httpServer.Start();
