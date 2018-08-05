@@ -116,9 +116,9 @@ namespace Rcon
 
             if (httpServer.IsListening)
             {
-                Logger.Log("Providing websocket services on port " + httpServer.Port);
+                Debug.Log("Providing websocket services on port " + httpServer.Port);
                 foreach (var path in httpServer.WebSocketServices.Paths)
-                    Logger.Log("- " + path);
+                    Debug.Log("- " + path);
             }
         }
 
