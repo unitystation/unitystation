@@ -52,6 +52,7 @@ namespace Rcon
 
         private void Init()
         {
+			Debug.Log("Init RconManager");
             DontDestroyOnLoad(rconManager.gameObject);
             fpsMonitor = GetComponent<FPSMonitor>();
 			string path = Application.streamingAssetsPath + "/config/config.json";
