@@ -88,6 +88,7 @@ namespace PlayGroup
 
 	public partial class PlayerSync : NetworkBehaviour, IPlayerSync
 	{
+		public float offsetTest = 1f;
 		///For server code. Contains position
 		public PlayerState ServerState => serverState;
 
@@ -220,7 +221,7 @@ namespace PlayGroup
 						PullingObject.transform.localPosition =
 						Vector3.MoveTowards(PullingObject.transform.localPosition,
 							pullPos,
-							playerMove.speed * Time.deltaTime * pullJourney);
+							(playerMove.speed * pullJourney) * Time.deltaTime );
 					}
 
 				}
@@ -244,18 +245,30 @@ namespace PlayGroup
 		}
 
 		private void PullObject() {
-			Vector3 proposedPos = transform.localPosition - (Vector3)LastDirection;
-			Debug.Log("Last Direction: " + LastDirection);
+			Vector3 proposedPos = Vector3.zero;
+			if (isLocalPlayer) {
+				proposedPos = transform.localPosition - (Vector3)LastDirection;
+			} else {
+				proposedPos = transform.localPosition - (Vector3)serverLastDirection;
+			}
+
 			Vector3Int pos = Vector3Int.RoundToInt( proposedPos );
 			if ( matrix.IsPassableAt( pos ) || matrix.ContainsAt( pos, gameObject ) ||
 			     matrix.ContainsAt( pos, PullingObject ) ) {
-				if (isLocalPlayer)
-				{
-					pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition) - 0.5f;
-				} else
-				{
-					pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition);
+				//if (isLocalPlayer)
+				//{
+				pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition) - offsetTest;
+				if(pullJourney < 1.2f){
+					pullJourney = 1f;
 				}
+
+				if(pullJourney > 1.5f){
+					pullJourney *= 1.2f;
+				}
+				//} else
+				//{
+				//	pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition);
+				//}
 				pullPos = proposedPos;
 				pullPos.z = PullingObject.transform.localPosition.z;
 				PullingObject.BroadcastMessage( "FaceDirection",
