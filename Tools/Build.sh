@@ -50,6 +50,8 @@ rc2=$?
 echo "Build logs (Linux)"
 cat $script_dir/Logs/LinuxBuild.log
 
+cp -r $script_dir/config $project_dir/Assets/StreamingAssets/config
+
 echo "Attempting build of UnityStation Server"
 /opt/Unity-2018.2.0f2/Editor/Unity \
 	-batchmode \
@@ -60,6 +62,9 @@ echo "Attempting build of UnityStation Server"
 	-executeMethod BuildScript.PerformServerBuild \
 	-quit
 rc3=$?
+
+rm -r $project_dir/Assets/StreamingAssets/config
+
 echo "Build logs (Server)"
 cat $script_dir/Logs/ServerBuild.log
 echo "Building finished successfully"
