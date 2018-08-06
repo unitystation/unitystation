@@ -94,7 +94,7 @@ namespace Rcon
             httpServer.UserCredentialsFinder = id =>
             {
                 var name = id.Name;
-				Debug.Log("ATTEMPT AUTH: " + id.Name);
+				Debug.Log("ATTEMPT AUTH");
                 return name == config.RconPass
                 ? new NetworkCredential("admin" , null, "admin")
                 : null;
@@ -102,8 +102,6 @@ namespace Rcon
 
 			httpServer.SslConfiguration.ClientCertificateValidationCallback =
 			(sender, certificate, chain, sslPolicyErrors) => {
-				Debug.Log("Validate: issuer: " + certificate.Issuer);
-				Debug.Log("SSL errors: " + sslPolicyErrors.GetDescription().ToString());
 			return true;
 			};
 			httpServer.Start();
@@ -193,6 +191,9 @@ namespace Rcon
 
 		public static string GetFullChatLog()
 		{
+			if(string.IsNullOrEmpty(ChatLog)){
+				return "No one has said anything yet..";
+			}
 			return ChatLog;
 		}
     }
