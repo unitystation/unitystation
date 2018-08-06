@@ -111,7 +111,7 @@ public class SoundManager : MonoBehaviour
 	public static void PlayRandomTrack()
 	{
 		StopMusic();
-		if ( Random.Range( 0, 2 ) == 0 ) {
+		if ( Random.Range( 0, 2 ).Equals( 0 ) ) {
 			//Traditional music
 			int randTrack = Random.Range(0, Instance.musicTracks.Length);
 			Instance.musicTracks[randTrack].Play();

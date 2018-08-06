@@ -34,7 +34,7 @@ public class Synth : MonoBehaviour {
 //		MaryTTS.Instance.Announce( "Attention all personnel, we're fucking screwed. " +
 //		                           "Syndicate ship is approaching. " +
 //		                           "Central Command doesn't give a damn, so I guess we're on our own." );
-		FxModule = LoadFxInstrument( "keys/fm1.sunsynth" );
+		FxModule = LoadFxInstrument( "Keys/fm1.sunsynth" );
 	}
 
 	public void Init() {
@@ -68,7 +68,7 @@ public class Synth : MonoBehaviour {
 //		var path = "Assets/StreamingAssets/announcement2.sunvox"; //This path is correct only for win (editor+build) and mac(editor only)
 		var path = GetDataPath("announcement2.sunvox");
 		if ( SunVox.sv_load( (int)Slot.Announce, path ) == 0 ) {
-			log( "Loaded." );
+//			log( "Loaded." );
 		} else {
 			log( "Load error." );
 			SunVox.sv_volume( (int)Slot.Announce, 256 );
@@ -88,7 +88,7 @@ public class Synth : MonoBehaviour {
 //		var path = $"Assets/StreamingAssets/{instrument}";
 		int moduleId = SunVox.sv_load_module( (int)Slot.FX, path, 0, 0, 0 );
 		if ( moduleId >= 0 ) {
-			log( "Module loaded: " + moduleId );
+//			log( "Module loaded: " + moduleId );
 			//Connect the new module to the Main Output:
 			SunVox.sv_lock_slot( (int)Slot.FX );
 			SunVox.sv_connect_module( (int)Slot.FX, moduleId, 0 );
@@ -115,7 +115,7 @@ public class Synth : MonoBehaviour {
 		log( $"Loading track {filename} from {path}..." );
 		int loadResult = SunVox.sv_load( (int)Slot.Music, path );
 		if ( loadResult == 0 ) {
-			log( "Loaded." );
+//			log( "Loaded." );
 			SunVox.sv_stop( (int)Slot.Music );
 			SunVox.sv_set_autostop( (int)Slot.Music, 1 );
 			SunVox.sv_play_from_beginning( (int)Slot.Music );
@@ -178,7 +178,7 @@ public class Synth : MonoBehaviour {
 #endif
 
 		var path = Path.Combine( streamingAssetsPath, fileName );
-		log( "getDataPath: " + path );
+//		log( "getDataPath: " + path );
 		return path;
 	}
 
