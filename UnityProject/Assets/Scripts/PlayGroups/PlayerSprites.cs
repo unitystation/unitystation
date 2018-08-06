@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroup
-{
+
 	public class PlayerSprites : ManagedNetworkBehaviour
 	{
 		private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
@@ -128,4 +126,3 @@ namespace PlayGroup
 			FaceDirection(orientation);
 		}
 	}
-}

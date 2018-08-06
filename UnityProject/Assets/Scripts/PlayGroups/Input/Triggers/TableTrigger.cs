@@ -1,7 +1,4 @@
-﻿using PlayGroup;
-using PlayGroups.Input;
-using UI;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class TableTrigger : InputTrigger

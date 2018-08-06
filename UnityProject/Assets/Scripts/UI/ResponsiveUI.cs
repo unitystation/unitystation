@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-namespace UI
-{
+
 	/// <summary>
 	///     Responds to any UI or game window size changes
 	///     and adjusts all the elements accordingly
@@ -136,4 +134,3 @@ namespace UI
 			cameraZoomHandler.Refresh();
 		}
 	}
-}

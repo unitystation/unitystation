@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Sprites;
 
 public class FieldOfViewStencil : MonoBehaviour
 {

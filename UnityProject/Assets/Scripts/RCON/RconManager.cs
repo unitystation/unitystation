@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WebSocketSharp;
 using WebSocketSharp.Net;
 using WebSocketSharp.Server;
 
-namespace Rcon
-{
+
 	public class RconManager : RconConsole
     {
         private static RconManager rconManager;
@@ -285,4 +283,4 @@ namespace Rcon
         public ulong steamID;
         public string job;
     }
-}
+

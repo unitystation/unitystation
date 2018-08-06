@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class InputField_Ext : InputField
 	{
 		private bool caretFound;
@@ -48,4 +47,3 @@ namespace UI
 			}
 		}
 	}
-}

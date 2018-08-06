@@ -1,8 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Light2D
-{
+
 	[CustomEditor(typeof(LightingSystem))]
 	public class LightingSystemEditor : Editor
 	{
@@ -204,4 +203,3 @@ namespace Light2D
 			serializedObject.ApplyModifiedProperties();
 		}
 	}
-}

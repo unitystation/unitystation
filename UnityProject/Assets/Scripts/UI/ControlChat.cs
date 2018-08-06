@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace UI
-{
+
     public class ControlChat : MonoBehaviour
     {
         public static ControlChat Instance;
@@ -70,7 +68,7 @@ namespace UI
             if (!chatInputWindow.activeInHierarchy && !UIManager.IsInputFocus && Input.GetKey(KeyCode.T) && GameData.IsInGame
                 && CustomNetworkManager.Instance.IsClientConnected())
             {
-                Events.EventManager.Broadcast(Events.EVENT.ChatFocused);
+                EventManager.Broadcast(EVENT.ChatFocused);
                 chatInputWindow.SetActive(true);
                 background.SetActive(true);
                 UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
@@ -144,7 +142,7 @@ namespace UI
         {
             UIManager.IsInputFocus = false;
             chatInputWindow.SetActive(false);
-            Events.EventManager.Broadcast(Events.EVENT.ChatUnfocused);
+            EventManager.Broadcast(EVENT.ChatUnfocused);
             background.SetActive(false);
         }
 
@@ -334,4 +332,3 @@ namespace UI
             return true;
         }
     }
-}

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Sprites
-{
+
 	public class Sprites
 	{
 		private readonly Dictionary<string, Sprite[]> sprites = new Dictionary<string, Sprite[]>();
@@ -195,4 +194,3 @@ namespace Sprites
 		white,
 		yellow
 	}
-}

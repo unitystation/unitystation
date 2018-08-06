@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using Tilemaps.Behaviours.Layers;
 using UnityEngine;
-using UnityEngine.Networking;
 
-namespace Tilemaps.Behaviours.Meta
-{
-	[ExecuteInEditMode]
+
+[ExecuteInEditMode]
 	public class RoomControl : SystemBehaviour
 	{
 		public override void Initialize()
@@ -88,4 +85,3 @@ namespace Tilemaps.Behaviours.Meta
 			return !isSpace;
 		}
 	}
-}

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using UI;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 

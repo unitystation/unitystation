@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -9,9 +8,9 @@ public class ChemistryInitializationTest : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
-		if (!(Chemistry.Globals.IsInitialised)) {
-			Chemistry.Initialization.run ();
-			Chemistry.Globals.IsInitialised = true;
+		if (!(Globals.IsInitialised)) {
+			Initialization.run ();
+			Globals.IsInitialised = true;
 			ChemistryTest ();
 		}
 	}
@@ -20,7 +19,7 @@ public class ChemistryInitializationTest : MonoBehaviour
 
 	public static void ChemistryTest ()
 	{
-		var reactions = Chemistry.Globals.reactions;
+		var reactions = Globals.reactions;
 		for (var i = 0; i < reactions.Count; i++) {
 			var OriginDictionary = reactions [i].ReagentsAndRatio;
 			Dictionary<string,float> RequiredChemicals = new Dictionary<string,float> ();
@@ -28,7 +27,7 @@ public class ChemistryInitializationTest : MonoBehaviour
 				RequiredChemicals.Add (pair.Key, pair.Value);
 			}
 			var Temperature = reactions [i].MinimumTemperature;
-			var ReturnedResults = Chemistry.Calculations.Reactions (RequiredChemicals, Temperature);
+			var ReturnedResults = Calculations.Reactions (RequiredChemicals, Temperature);
 
 			foreach (string Chemical in reactions[i].Results.Keys) {
 				if (ReturnedResults.ContainsKey (Chemical)) {

@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using System.Globalization;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Util {
 	public static class SweetExtensions {
 		public static ConnectedPlayer Player( this GameObject go ) {
 			var connectedPlayer = PlayerList.Instance?.Get( go );
@@ -62,4 +60,3 @@ namespace Util {
 		//For job formatting purposes
 		private static readonly TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 	}
-}

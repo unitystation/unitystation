@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using PlayGroup;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Equipment
-{
+
 	///Per-player equipment pool. Low-level item operations are here (though the lowest ones are in ObjectPool)
 	///For items that are the ownership of players, the items are kept in a pool serverside and sprites references
 	///sent to the client UI and playerobj.
@@ -121,4 +118,3 @@ namespace Equipment
 			}
 		}
 	}
-}

@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using Util;
 
 public class TabUpdateMessage : ServerMessage {
 	public static short MessageType = (short) MessageTypes.TabUpdateMessage;

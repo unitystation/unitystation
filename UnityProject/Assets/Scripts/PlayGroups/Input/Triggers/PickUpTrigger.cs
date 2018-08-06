@@ -1,11 +1,7 @@
-﻿using PlayGroup;
-using PlayGroups.Input;
-using UI;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Items
-{
+
 	public class PickUpTrigger : InputTrigger
 	{
 		private void Start()
@@ -102,4 +98,3 @@ namespace Items
 			}
 		}
 	}
-}

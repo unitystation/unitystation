@@ -1,9 +1,7 @@
 ﻿using System.Linq;
-using Tilemaps.Behaviours.Objects;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
-using Weapons;
 
 public class Sprite2PrefabChild_Gun_MenuItem
 {

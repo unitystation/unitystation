@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UI;
 using UnityEngine;
 
 /// Base class for List of dynamic entries, which can be added/removed at runtime.

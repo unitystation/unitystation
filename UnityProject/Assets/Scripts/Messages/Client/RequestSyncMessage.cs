@@ -1,7 +1,5 @@
 using System.Collections;
-using UnityEngine;
 using UnityEngine.Networking;
-using Util;
 
 /// <summary>
 ///     A message that is supposed to be sent from client when he's ready to accept sync data(transforms, etc.)

@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using Tilemaps.Utils;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace Tilemaps.Tiles
-{
+
 	public class MetaTile : GenericTile
 	{
 		private LayerTile _baseCurrent;
@@ -92,4 +90,3 @@ namespace Tilemaps.Tiles
 			return list.ToArray();
 		}
 	}
-}

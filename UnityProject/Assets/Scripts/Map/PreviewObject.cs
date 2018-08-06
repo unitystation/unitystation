@@ -5,8 +5,7 @@ using UnityEditor;
 
 #endif
 
-namespace MapEditor
-{
+
 	[ExecuteInEditMode]
 	public class PreviewObject : MonoBehaviour
 	{
@@ -226,4 +225,3 @@ namespace MapEditor
 		}
 #endif
 	}
-}

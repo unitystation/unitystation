@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace PlayGroup
-{
+
 	public class HitIcon : MonoBehaviour
 	{
 		private readonly Color transparent = new Color(1f, 1f, 1f, 0f);
@@ -65,4 +64,3 @@ namespace PlayGroup
 			isFading = false;
 		}
 	}
-}

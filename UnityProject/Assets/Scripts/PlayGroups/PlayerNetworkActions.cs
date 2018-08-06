@@ -1,20 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using Cupboards;
-using Doors;
-using Equipment;
-using Lighting;
-using PlayGroup;
-using PlayGroups.Input;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Objects;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using Util;
 using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
@@ -31,7 +20,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private ChatIcon chatIcon;
 
-	private Equipment.Equipment equipment;
+	private Equipment equipment;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private PlayerSprites playerSprites;
@@ -45,7 +34,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private void Start()
 	{
-		equipment = GetComponent<Equipment.Equipment>();
+		equipment = GetComponent<Equipment>();
 		playerMove = GetComponent<PlayerMove>();
 		playerSprites = GetComponent<PlayerSprites>();
 		playerScript = GetComponent<PlayerScript>();

@@ -1,16 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Doors;
-using Tilemaps;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Objects;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroup
-{
+
 	/// <summary>
 	///     Player move queues the directional move keys
 	///     to be processed along with the server.
@@ -344,4 +337,3 @@ namespace PlayGroup
 			}
 		}
 	}
-}

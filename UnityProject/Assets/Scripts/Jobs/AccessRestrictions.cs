@@ -1,5 +1,4 @@
-﻿using AccessType;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 // This manages access via ID cards. 

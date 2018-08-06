@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace NPC
-{
+
 	public class NPC_Clown : MonoBehaviour
 	{
 		public Sprite[] clownSprites;
@@ -98,4 +97,3 @@ namespace NPC
 			transform.localScale = newScale;
 		}
 	}
-}

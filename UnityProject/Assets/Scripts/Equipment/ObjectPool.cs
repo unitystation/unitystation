@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using PlayGroup;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Equipment
-{
+
 	//For items that are the ownership of players, the items are kept in a pool serverside and sprites references
 	//sent to the client UI and playerobj
 	public class ObjectPool : MonoBehaviour
@@ -71,4 +68,3 @@ namespace Equipment
 			}
 		}
 	}
-}

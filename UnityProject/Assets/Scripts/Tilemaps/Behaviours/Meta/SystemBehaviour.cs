@@ -1,10 +1,7 @@
-﻿using Tilemaps.Behaviours.Layers;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
-namespace Tilemaps.Behaviours.Meta
-{
-	public abstract class SystemBehaviour : MonoBehaviour
+
+public abstract class SystemBehaviour : MonoBehaviour
 	{
 		protected MetaDataLayer metaDataLayer;
 		protected MetaTileMap metaTileMap;
@@ -21,4 +18,3 @@ namespace Tilemaps.Behaviours.Meta
 
 		public abstract void UpdateAt(Vector3Int position);
 	}
-}

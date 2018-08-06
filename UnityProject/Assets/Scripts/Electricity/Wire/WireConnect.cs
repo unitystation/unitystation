@@ -1,14 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Tilemaps;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine.Networking;
 using UnityEngine;
-using Events;
 
-namespace Electricity
-{
-	public class WireConnect : NetworkBehaviour, IElectricityIO
+
+public class WireConnect : NetworkBehaviour, IElectricityIO
 	{
 		public StructurePowerWire wire;
 
@@ -188,4 +184,4 @@ namespace Electricity
 			ElectricityOutput(currentTick + 1, newElec);
 		}
 	}
-}
+

@@ -2,8 +2,7 @@
 using UnityEngine;
 using UnityEngine.Profiling;
 
-namespace Light2D
-{
+
 	/// <summary>
 	///     Main script for lights. Should be attached to camera.
 	///     Handles lighting operation like camera setup, shader setup, merging cameras output together, blurring and some
@@ -773,4 +772,3 @@ namespace Light2D
 			}
 		}
 	}
-}

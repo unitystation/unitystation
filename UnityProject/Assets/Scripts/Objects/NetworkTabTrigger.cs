@@ -1,8 +1,4 @@
-using PlayGroup;
-using PlayGroups.Input;
-using UI;
 using UnityEngine;
-using Util;
 
 public abstract class NetworkTabTrigger : InputTrigger {
     public NetTabType NetTabType;

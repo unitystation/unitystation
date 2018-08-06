@@ -1,10 +1,7 @@
 ﻿using System.Collections;
-using InputControl;
-using Sprites;
 using UnityEngine;
 
-namespace Lighting
-{
+
 	internal enum LightState
 	{
 		On,
@@ -157,4 +154,3 @@ namespace Lighting
 			waitToCheckState = false;
 		}
 	}
-}

@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using PlayGroup;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using Util;
 
 /// Comfy place to get players and their info (preferably via their connection)
 /// Has limited scope for clients (ClientConnectedPlayers only), sweet things are mostly for server
@@ -323,8 +319,8 @@ public class PlayerList : NetworkBehaviour
 
 	[Server]
 	private void CheckRcon(){
-		if(Rcon.RconManager.Instance != null){
-			Rcon.RconManager.UpdatePlayerListRcon();
+		if(RconManager.Instance != null){
+			RconManager.UpdatePlayerListRcon();
 		}
 	}
 }

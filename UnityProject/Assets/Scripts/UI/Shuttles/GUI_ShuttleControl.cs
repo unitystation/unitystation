@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Doors;
 using UnityEngine;
-using Util;
 
 /// Server only stuff
 public class GUI_ShuttleControl : NetTab {

@@ -1,5 +1,4 @@
-﻿namespace AccessType
-{
+﻿
 	/// <summary>
 	///     Used to set access restrictions on ID cards and doors
 	/// </summary>
@@ -102,4 +101,3 @@
 		command = 2,
 		captain = 3
 	}
-}

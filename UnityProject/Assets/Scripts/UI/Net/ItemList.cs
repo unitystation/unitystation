@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using Util;
+
 /// prefab-based for now
 /// all server only
 public class ItemList : NetUIDynamicList {

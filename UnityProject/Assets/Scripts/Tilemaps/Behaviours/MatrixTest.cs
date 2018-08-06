@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Tilemaps.Behaviours
-{
+
 	public class MatrixTest: MonoBehaviour
 	{
 		private Matrix matrix;
@@ -19,4 +18,3 @@ namespace Tilemaps.Behaviours
 			}
 		}
 	}
-}

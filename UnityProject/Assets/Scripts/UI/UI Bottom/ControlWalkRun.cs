@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class ControlWalkRun : MonoBehaviour
 	{
 		private Image image;
@@ -37,4 +36,3 @@ namespace UI
 			}
 		}
 	}
-}

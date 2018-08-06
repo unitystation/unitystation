@@ -1,10 +1,5 @@
-﻿using Tilemaps.Behaviours.Meta;
-
-namespace Tilemaps.Utils
-{
-	using System;
-	using System.Collections;
-	using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 	using UnityEngine;
 	using UnityEngine.Events;
 
@@ -110,4 +105,3 @@ namespace Tilemaps.Utils
 	public class MetaDataDictionary : SerializableDictionary<Vector3Int, MetaDataNode>
 	{
 	}
-}

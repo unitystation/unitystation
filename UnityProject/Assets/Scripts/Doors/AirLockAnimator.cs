@@ -1,13 +1,11 @@
 ﻿using System.Collections;
-using Events;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 
 #endif
 
-namespace Doors
-{
+
 	[ExecuteInEditMode]
 	public class AirLockAnimator : DoorAnimator
 	{
@@ -173,4 +171,3 @@ namespace Doors
 		}
 #endif
 	}
-}

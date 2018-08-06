@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Electricity
-{
+
 	public static class WireDirections
 	{
 		private static Dictionary<string, int> LogicToIndexMap;
@@ -52,4 +51,3 @@ namespace Electricity
 			return LogicToIndexMap[logic];
 		}
 	}
-}

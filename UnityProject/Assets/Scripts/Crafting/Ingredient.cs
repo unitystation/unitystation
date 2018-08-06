@@ -1,7 +1,6 @@
 ﻿using System;
 
-namespace Crafting
-{
+
 	[Serializable]
 	public class Ingredient
 	{
@@ -25,4 +24,3 @@ namespace Crafting
 			return base.GetHashCode();
 		}
 	}
-}

@@ -1,8 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Light2D
-{
+
 	public class LightingSystemCreationWindow : EditorWindow
 	{
 		private int _ambientLightLayer;
@@ -64,4 +63,3 @@ namespace Light2D
 			}
 		}
 	}
-}

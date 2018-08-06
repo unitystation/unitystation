@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Crafting
-{
+
 	[Serializable]
 	public class Recipe
 	{
@@ -23,4 +22,3 @@ namespace Crafting
 			return true;
 		}
 	}
-}

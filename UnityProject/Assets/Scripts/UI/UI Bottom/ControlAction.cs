@@ -1,10 +1,7 @@
-using PlayGroup;
-using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class ControlAction : MonoBehaviour
 	{
 		public Image throwImage;
@@ -153,4 +150,3 @@ namespace UI
 			}
 		}
 	}
-}

@@ -1,11 +1,9 @@
 ﻿using Facepunch.Steamworks;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace UI
-{
+
 	public class GUI_LobbyDialogue : MonoBehaviour
 	{
 
@@ -215,4 +213,4 @@ namespace UI
 			controlInformationPanel.SetActive(false);
 		}
 	}
-}
+

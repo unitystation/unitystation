@@ -1,13 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using PlayGroups.Input;
-using UI;
-using Weapons;
+﻿using UnityEngine;
 
-namespace PlayGroup
-{
-	/// <summary>
+
+/// <summary>
 	/// Player 2 Player interactions. Also used for clicking on yourself
 	/// </summary>
 	public class P2PInteractions : InputTrigger
@@ -66,4 +60,3 @@ namespace PlayGroup
 			return true;
 		}
 	}
-}

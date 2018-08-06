@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.Video;
-namespace UI
-{
-	public class ControlDisplays : MonoBehaviour
+
+public class ControlDisplays : MonoBehaviour
 	{
 		public GameObject backGround;
 		public RectTransform hudBottom;
@@ -49,4 +47,3 @@ namespace UI
 		{
 		}
 	}
-}

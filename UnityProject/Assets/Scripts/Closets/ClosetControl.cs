@@ -1,16 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using PlayGroup;
-using PlayGroups.Input;
-using Tilemaps;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Objects;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Cupboards
-{
+
 	public class ClosetControl : InputTrigger
 	{
 		private Sprite doorClosed;
@@ -246,4 +239,3 @@ namespace Cupboards
 			}
 		}
 	}
-}

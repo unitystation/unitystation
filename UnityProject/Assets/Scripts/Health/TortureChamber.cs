@@ -1,5 +1,4 @@
-﻿using PlayGroup;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum TortureSeverity
 {

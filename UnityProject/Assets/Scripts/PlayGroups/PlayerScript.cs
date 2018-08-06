@@ -1,16 +1,10 @@
 using System.Collections;
-using PlayGroups.Input;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using Facepunch.Steamworks;
-using Tilemaps.Behaviours.Objects;
-using UnityEngine.Experimental.UIElements;
-using Util;
 
-namespace PlayGroup
-{
-	public class PlayerScript : ManagedNetworkBehaviour
+
+public class PlayerScript : ManagedNetworkBehaviour
 	{
 		// the maximum distance the player needs to be to an object to interact with it
 		//1.75 is the optimal distance to now have any direction click too far
@@ -326,4 +320,3 @@ namespace PlayGroup
 			UIManager.SetToolTip = "";
 		}
 	}
-}

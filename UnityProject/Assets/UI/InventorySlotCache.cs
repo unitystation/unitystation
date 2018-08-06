@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UI
-{
+
 	/// <summary>
 	///     A pseudo-array/dictionary for retrieving inventory slots.
 	///     Supports multiple interactions to make it easier to access the slot you want to reference.
@@ -188,4 +187,3 @@ namespace UI
 			throw new InvalidOperationException("Unrecognized event name: " + eventName);
 		}
 	}
-}

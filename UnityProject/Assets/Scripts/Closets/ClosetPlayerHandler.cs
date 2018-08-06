@@ -1,10 +1,7 @@
-﻿using PlayGroup;
-using UnityEngine;
-using UI;
+﻿using UnityEngine;
 
-namespace Cupboards
-{
-	//TODO make into a more generic component to handle coffins, disposal bins etc. Will
+
+//TODO make into a more generic component to handle coffins, disposal bins etc. Will
 	//require a rename also
 	/// <summary>
 	///     A temporary component added to the players localplayer
@@ -75,4 +72,3 @@ namespace Cupboards
 			return false;
 		}
 	}
-}

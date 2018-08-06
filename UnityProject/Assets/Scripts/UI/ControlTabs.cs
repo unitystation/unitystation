@@ -1,12 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using PlayGroup;
-using Tilemaps.Tiles;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI {
 	public class ControlTabs : MonoBehaviour {
 		private static GameObject FingerPrefab;
 		private static GameObject TabHeaderPrefab;
@@ -426,4 +422,3 @@ namespace UI {
 		}
 
 	}
-}

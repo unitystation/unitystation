@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Util
-{
+
 	public static class ConverterExtensions
 	{
 		public static Vector3Int RoundToInt(this Vector3 other)
@@ -16,4 +15,3 @@ namespace Util
 			
 		}
 	}
-}

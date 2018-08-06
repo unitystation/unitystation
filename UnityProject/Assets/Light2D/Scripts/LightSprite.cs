@@ -4,8 +4,7 @@ using UnityEngine;
 #if UNITY_EDITOR
 #endif
 
-namespace Light2D
-{
+
 	/// <summary>
 	///     Used to draw lights. Puts LightOrigin world position to UV1.
 	///     Supports Point and Line light types.
@@ -206,4 +205,3 @@ namespace Light2D
 			GL.End();
 		}
 	}
-}

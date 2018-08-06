@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Tiles;
-using Tilemaps.Utils;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityStation.Tools;
 
 public class JsonToTilemap : Editor
 {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PlayGroup;
-using UI;
 using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.UI;
@@ -102,12 +100,12 @@ public class ChatRelay : NetworkBehaviour
 			UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.message);
 		}
 
-		if(Rcon.RconManager.Instance != null){
+		if(RconManager.Instance != null){
 			string name = "";
 			if ((namelessChannels & chatEvent.channels) != chatEvent.channels) {
 				name = "<b>[" + chatEvent.channels + "]</b> ";
 			}
-			Rcon.RconManager.AddChatLog(name + chatEvent.message);
+			RconManager.AddChatLog(name + chatEvent.message);
 		}
 	}
 

@@ -1,9 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using PlayGroup;
-using UnityEngine;
-using UnityEngine.Networking;
 
 /// <summary>
 ///     Message that tells clients what their ConnectedPlayers list should contain

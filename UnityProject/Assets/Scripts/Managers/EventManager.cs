@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Events
-{
+
 	public class UIEvent : UnityEvent<GameObject>
 	{
 	}
@@ -81,4 +80,3 @@ namespace Events
 			}
 		}
 	}
-}

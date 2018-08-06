@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroup
-{
+
 	public partial class PlayerSync
 	{
 		//Server-only fields, don't concern clients in any way
@@ -409,4 +407,3 @@ namespace PlayGroup
 			isApplyingSpaceDmg = false;
 		}
 	}
-}

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /// Logger with categories support.
@@ -120,8 +119,8 @@ public static class Logger
 			}
 		}
 
-		if(Rcon.RconManager.Instance != null){
-			Rcon.RconManager.AddLog(msg);
+		if(RconManager.Instance != null){
+			RconManager.AddLog(msg);
 		}
 	}
 }
