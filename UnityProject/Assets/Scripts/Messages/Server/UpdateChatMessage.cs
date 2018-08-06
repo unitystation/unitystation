@@ -10,7 +10,7 @@ public class UpdateChatMessage : ServerMessage
 	public static short MessageType = (short) MessageTypes.UpdateChatMessage;
 	public ChatChannel Channels;
 	public string ChatMessageText;
-	public NetworkInstanceId Recipient;
+	public NetworkInstanceId Recipient;//fixme: Recipient is redundant! Can be safely removed
 
 	public override IEnumerator Process()
 	{

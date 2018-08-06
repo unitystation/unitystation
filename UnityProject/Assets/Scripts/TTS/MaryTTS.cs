@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Networking;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class MaryTTS : MonoBehaviour
 {
@@ -21,31 +21,20 @@ public class MaryTTS : MonoBehaviour
 
     public void Synthesize(string textToSynth)
     {
-        StartCoroutine(RequestSynth(textToSynth));
+	    StartCoroutine( RequestSynth( textToSynth, bytes => audioSource.PlayOneShot( WavUtility.ToAudioClip( bytes, 0, "TTS_Clip" ) ) ) );
     }
+//
+//    public void Announce(string textToSynth)
+//    {
+//	    StartCoroutine( RequestSynth( textToSynth, bytes => Synth.Instance.PlayAnnouncement( bytes ) ) );
+//    }
 
-    public void Announce(string textToSynth)
-    {
-        StartCoroutine(PlayAnnouncement(textToSynth));
-    }
+	/// Do whatever you want with resulting bytes in callback (if/when you recieve them)
+	public void Synthesize( string textToSynth, Action<byte[]> callback ) {
+		StartCoroutine( RequestSynth( textToSynth, bytes => callback?.Invoke( bytes ) ) );
+	}
 
-    IEnumerator RequestSynth(string textToSynth)
-    {
-        UnityWebRequest request = UnityWebRequest.Get(GetURL(textToSynth));
-
-        yield return request.SendWebRequest();
-
-        if (request.error != null)
-        {
-            Debug.Log("Err: " + request.error);
-        } else
-        {
-            AudioClip ttsClip = WavUtility.ToAudioClip(request.downloadHandler.data, 0, "TTS_Clip");
-            audioSource.PlayOneShot(ttsClip);
-        }
-    }
-
-    IEnumerator PlayAnnouncement(string textToSynth)
+	IEnumerator RequestSynth(string textToSynth, Action<byte[]> callback)
     {
         UnityWebRequest request = UnityWebRequest.Get(GetURL(textToSynth));
 
@@ -56,7 +45,7 @@ public class MaryTTS : MonoBehaviour
             Debug.Log("Err: " + request.error);
         } else
         {
-            Synth.Instance.PlayAnnouncement( request.downloadHandler.data );
+            callback.Invoke( request.downloadHandler.data );
         }
     }
 

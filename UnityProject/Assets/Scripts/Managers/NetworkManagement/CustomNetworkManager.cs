@@ -44,9 +44,11 @@ public class CustomNetworkManager : NetworkManager
 //		}
 
 		channels.Add(QosType.ReliableSequenced);
+		channels.Add(QosType.UnreliableFragmented);
 
 		connectionConfig.AcksType = ConnectionAcksType.Acks64;
 		connectionConfig.FragmentSize = 512;
+		connectionConfig.PacketSize = 1440;
 
 		if(GameData.IsInGame && PoolManager.Instance == null){
 			ObjectManager.StartPoolManager();

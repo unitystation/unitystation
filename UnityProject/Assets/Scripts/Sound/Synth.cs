@@ -13,7 +13,7 @@ public enum Slot {
 
 public class Synth : MonoBehaviour {
 	public static Synth Instance;
-	public Text Text;
+//	public Text Text;
 	///sampler module id 5 is hardcoded
 	private static readonly int SamplerModule = 5;
 
@@ -39,7 +39,7 @@ public class Synth : MonoBehaviour {
 				int major = ( ver >> 16 ) & 255;
 				int minor1 = ( ver >> 8 ) & 255;
 				int minor2 = ( ver ) & 255;
-				log( String.Format( "SunVox lib version: {0}.{1}.{2}", major, minor1, minor2 ) );
+				log( $"SunVox lib version: {major}.{minor1}.{minor2}" );
 
 				InitAnnounce();
 				InitMusic();
@@ -173,8 +173,7 @@ public class Synth : MonoBehaviour {
 	}
 
 	private void log( string msg ) {
-		Debug.Log( msg );
-		Text.text = Text.text + "\n" + msg;
+		Logger.Log( msg, Category.SunVox );
 	}
 
 	private void OnDestroy() {
@@ -190,7 +189,7 @@ public class Synth : MonoBehaviour {
 
 	private void OnGUI() {
 		Event e = Event.current;
-		if ( e.type != EventType.Used && e.isMouse )
+		if ( e.type != EventType.Used && e.isMouse && e.button == 2 )
 		{
 			PlayFX( FxModule );
 			e.Use();

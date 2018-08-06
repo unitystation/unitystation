@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -30,7 +31,7 @@ namespace Util {
 //			return go.GetComponent<CustomNetTransform>()?.State.position ?? go.Player()?.Script.playerSync.ServerState.WorldPosition ??  go.transform.position;
 		}
 
-		/// Wraps provided index value if it's more that array length  
+		/// Wraps provided index value if it's more that array length
 		public static T Wrap<T>(this T[] array, int index)
 		{
 			return array[((index % array.Length) + array.Length) % array.Length];
@@ -52,5 +53,13 @@ namespace Util {
 			Logger.LogWarning( $"Vector parse failed: what the hell is '{stringifiedVector}'?" );
 			return TransformState.HiddenPos;
 		}
+
+		/// Good looking job name
+		public static string JobString(this JobType job)
+		{
+			return job.ToString().Equals("NULL") ? "*just joined" : textInfo.ToTitleCase(job.ToString().ToLower());
+		}
+		//For job formatting purposes
+		private static readonly TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 	}
 }
