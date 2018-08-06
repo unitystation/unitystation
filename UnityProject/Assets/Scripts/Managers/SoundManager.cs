@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Util;
 using Random = UnityEngine.Random;
 
 [Serializable]
@@ -63,6 +64,7 @@ public class SoundManager : MonoBehaviour
 		{
 			track.Stop();
 		}
+		Synth.Instance.StopMusic();
 	}
 
 	public static void StopAmbient()
@@ -109,8 +111,19 @@ public class SoundManager : MonoBehaviour
 	public static void PlayRandomTrack()
 	{
 		StopMusic();
-		int randTrack = Random.Range(0, Instance.musicTracks.Length);
-		Instance.musicTracks[randTrack].Play();
+		if ( Random.Range( 0, 2 ) == 0 ) {
+			//Traditional music
+			int randTrack = Random.Range(0, Instance.musicTracks.Length);
+			Instance.musicTracks[randTrack].Play();
+		} else {
+			//Tracker music
+			var trackerMusic = new[] {
+				"spaceman.xm",
+				"echo_sound.xm",
+				"tintin.xm"
+			};
+			Synth.Instance.PlayMusic( trackerMusic.Wrap( Random.Range( 1, 100 ) ) );
+		}
 	}
 
 	public static void PlayVarAmbient(int variant)

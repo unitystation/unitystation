@@ -17,11 +17,16 @@ public class Synth : MonoBehaviour {
 	///sampler module id 5 is hardcoded
 	private static readonly int SamplerModule = 5;
 
+	private static bool Initialized = false;
+
 	private int FxModule;
 
 	private void Awake() {
 		if ( Instance == null ) {
 			Instance = this;
+			if ( !Initialized ) {
+				Init();
+			}
 		} //else gets destroyed by parent
 	}
 	void Start() {
@@ -33,6 +38,9 @@ public class Synth : MonoBehaviour {
 	}
 
 	public void Init() {
+		if ( Initialized ) {
+			return;
+		}
 		try {
 			int ver = SunVox.sv_init( "0", 11025, 2, 0 );//lo-fi 4ever
 			if ( ver >= 0 ) {
@@ -44,6 +52,7 @@ public class Synth : MonoBehaviour {
 				InitAnnounce();
 				InitMusic();
 				InitFX();
+				Initialized = true;
 			} else {
 				log( "sv_init() error " + ver );
 			}
@@ -101,10 +110,11 @@ public class Synth : MonoBehaviour {
 	}
 
 	public void PlayMusic( string filename, byte volume = Byte.MaxValue ) {
-//		var path = $"Assets/StreamingAssets/{filename}";
-		var path = GetDataPath(filename);
+//		var path = $"Assets/StreamingAssets/Tracker/{filename}";
+		var path = GetDataPath("Tracker/"+filename);
 		log( $"Loading track {filename} from {path}..." );
-		if ( SunVox.sv_load( (int)Slot.Music, path ) == 0 ) {
+		int loadResult = SunVox.sv_load( (int)Slot.Music, path );
+		if ( loadResult == 0 ) {
 			log( "Loaded." );
 			SunVox.sv_stop( (int)Slot.Music );
 			SunVox.sv_set_autostop( (int)Slot.Music, 1 );
