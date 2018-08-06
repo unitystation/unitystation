@@ -24,6 +24,11 @@ public class MaryTTS : MonoBehaviour
         StartCoroutine(RequestSynth(textToSynth));
     }
 
+    public void Announce(string textToSynth)
+    {
+        StartCoroutine(PlayAnnouncement(textToSynth));
+    }
+
     IEnumerator RequestSynth(string textToSynth)
     {
         UnityWebRequest request = UnityWebRequest.Get(GetURL(textToSynth));
@@ -37,6 +42,21 @@ public class MaryTTS : MonoBehaviour
         {
             AudioClip ttsClip = WavUtility.ToAudioClip(request.downloadHandler.data, 0, "TTS_Clip");
             audioSource.PlayOneShot(ttsClip);
+        }
+    }
+
+    IEnumerator PlayAnnouncement(string textToSynth)
+    {
+        UnityWebRequest request = UnityWebRequest.Get(GetURL(textToSynth));
+
+        yield return request.SendWebRequest();
+
+        if (request.error != null)
+        {
+            Debug.Log("Err: " + request.error);
+        } else
+        {
+            Synth.Instance.PlayAnnouncement( request.downloadHandler.data );
         }
     }
 
