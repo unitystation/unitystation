@@ -144,6 +144,7 @@ public class GameData : MonoBehaviour
 			if (rconManager == null) {
 				GameObject rcon = Instantiate(Resources.Load("Rcon/RconManager") as GameObject, null) as GameObject;
 				rconManager = rcon.GetComponent<RconManager>();
+				Debug.Log("Start rcon server");
 			}
 		}
 	}

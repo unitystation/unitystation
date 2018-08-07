@@ -78,7 +78,7 @@ using UnityEngine.SceneManagement;
 				if (screenWidthCache != Screen.width ||
 				    screenHeightCache != Screen.height)
 				{
-					Invoke("AdjustHudBottomDelay", 1f);
+					StartCoroutine(ForceGameWindowAspect());
 					monitorWindow = false;
 				}
 			}
@@ -90,7 +90,7 @@ using UnityEngine.SceneManagement;
 
 		private IEnumerator ForceGameWindowAspect()
 		{
-			yield return new WaitForSeconds(0.2f);
+			yield return new WaitForSeconds(1.2f);
 			//The following conditions check if the screen width or height
 			//is an odd number. If it is, then it adjusted to be an even number
 			//This fixes the sprite bleeding between tiles:

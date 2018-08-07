@@ -28,6 +28,7 @@ using UnityEngine.Networking;
 		private int playerWarnings;
 
 		/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
+		[SyncVar]
 		private Vector2 serverLastDirection;
 
 		//TODO: Remove the space damage coroutine when atmos is implemented
