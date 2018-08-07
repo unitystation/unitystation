@@ -4,8 +4,7 @@ using UnityEditor;
 
 #endif
 
-namespace SectionEditor
-{
+
 	public class SectionDrawer : MonoBehaviour
 	{
 		private static SectionDrawer instance;
@@ -66,4 +65,3 @@ namespace SectionEditor
 		}
 	}
 #endif
-}

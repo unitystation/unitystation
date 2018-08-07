@@ -2,12 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Tilemaps;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Tiles;
 
 /// Matrix manager keeps a list of matrices that you can access from both client and server.
 /// Contains world/local position conversion methods, as well as several cross-matrix adaptations of Matrix methods.

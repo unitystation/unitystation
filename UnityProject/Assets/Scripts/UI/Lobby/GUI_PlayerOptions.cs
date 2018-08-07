@@ -1,11 +1,9 @@
-﻿using PlayGroup;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Facepunch.Steamworks;
 
 
-namespace UI
-{
+
 	public class GUI_PlayerOptions : MonoBehaviour
 	{
 		private const string UserNamePlayerPref = "PlayerName";
@@ -143,4 +141,3 @@ namespace UI
 			networkManager.StartClient();
 		}
 	}
-}

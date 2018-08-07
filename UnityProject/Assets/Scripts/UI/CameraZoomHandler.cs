@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{	
+	
     public class CameraZoomHandler : MonoBehaviour
     {
         //Reference to zoom text.
@@ -65,4 +63,3 @@ namespace UI
         }
 
     }
-}

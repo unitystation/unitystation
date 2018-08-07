@@ -1,15 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Tilemaps;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.Events;
-using Events;
 
-namespace Electricity
-{
-	public class PowerSupply : NetworkBehaviour, IElectricityIO
+
+public class PowerSupply : NetworkBehaviour, IElectricityIO
 	{
 		//A list of all devices connected to the circuit:
 		public List<PoweredDevice> connectedDevices = new List<PoweredDevice>();
@@ -163,4 +159,4 @@ namespace Electricity
 			return points;
 		}
 	}
-}
+

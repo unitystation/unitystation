@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Facepunch.Steamworks;
-using PlayGroup;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Profiling;
@@ -44,9 +42,11 @@ public class CustomNetworkManager : NetworkManager
 //		}
 
 		channels.Add(QosType.ReliableSequenced);
+		channels.Add(QosType.UnreliableFragmented);
 
 		connectionConfig.AcksType = ConnectionAcksType.Acks64;
 		connectionConfig.FragmentSize = 512;
+		connectionConfig.PacketSize = 1440;
 
 		if(GameData.IsInGame && PoolManager.Instance == null){
 			ObjectManager.StartPoolManager();

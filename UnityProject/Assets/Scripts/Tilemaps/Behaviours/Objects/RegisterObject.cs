@@ -1,9 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using UI;
 using UnityEngine;
 
-namespace Tilemaps.Behaviours.Objects
-{
+
 	[ExecuteInEditMode]
 	public class RegisterObject : RegisterTile
 	{
@@ -47,4 +45,3 @@ namespace Tilemaps.Behaviours.Objects
 
 		#endregion
 	}
-}

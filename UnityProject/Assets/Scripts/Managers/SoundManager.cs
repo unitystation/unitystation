@@ -63,6 +63,7 @@ public class SoundManager : MonoBehaviour
 		{
 			track.Stop();
 		}
+		Synth.Instance.StopMusic();
 	}
 
 	public static void StopAmbient()
@@ -109,8 +110,19 @@ public class SoundManager : MonoBehaviour
 	public static void PlayRandomTrack()
 	{
 		StopMusic();
-		int randTrack = Random.Range(0, Instance.musicTracks.Length);
-		Instance.musicTracks[randTrack].Play();
+		if ( Random.Range( 0, 2 ).Equals( 0 ) ) {
+			//Traditional music
+			int randTrack = Random.Range(0, Instance.musicTracks.Length);
+			Instance.musicTracks[randTrack].Play();
+		} else {
+			//Tracker music
+			var trackerMusic = new[] {
+				"spaceman.sunvox",
+				"echo_sound.sunvox",
+				"tintin.sunvox"
+			};
+			Synth.Instance.PlayMusic( trackerMusic.Wrap( Random.Range( 1, 100 ) ) );
+		}
 	}
 
 	public static void PlayVarAmbient(int variant)

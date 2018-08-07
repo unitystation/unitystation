@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Light2D
-{
+
 	/// <summary>
 	///     Class is almost same as Vector2, but using int data type instead of float.
 	/// </summary>
@@ -128,4 +127,3 @@ namespace Light2D
 			return "(" + x + ", " + y + ")";
 		}
 	}
-}

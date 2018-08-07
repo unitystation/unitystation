@@ -13,8 +13,7 @@ using UnityEditor;
 
 #endif
 
-namespace Light2D
-{
+
 	/// <summary>
 	///     Bunch of utility functions that could be userful sometimes.
 	/// </summary>
@@ -658,4 +657,3 @@ namespace Light2D
 	public class ReadOnlyAttribute : PropertyAttribute
 	{
 	}
-}

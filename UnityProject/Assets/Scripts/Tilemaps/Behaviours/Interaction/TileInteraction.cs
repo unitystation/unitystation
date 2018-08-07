@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Tilemaps.Behaviours.Interaction
-{
+
 	public abstract class TileInteraction
 	{
 		protected readonly GameObject gameObject;
@@ -35,4 +34,3 @@ namespace Tilemaps.Behaviours.Interaction
 		[Server]
 		public abstract void ServerAction();
 	}
-}

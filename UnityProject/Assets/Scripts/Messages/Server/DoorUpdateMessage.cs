@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using Doors;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using Util;
 
 public class DoorUpdateMessage : ServerMessage {
 	public static short MessageType = (short) MessageTypes.DoorUpdateMessage;

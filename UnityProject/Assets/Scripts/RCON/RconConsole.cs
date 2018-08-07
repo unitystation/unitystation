@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-using System;
 
-namespace Rcon
-{
-	public class RconConsole : MonoBehaviour
+
+public class RconConsole : MonoBehaviour
 	{
 		protected static string ServerLog { get; private set; }
 		protected static string LastLog { get; private set; }
@@ -27,4 +25,4 @@ namespace Rcon
 			Logger.Log("TODO remote command execution. command: " + command);
 		}
 	}
-}
+

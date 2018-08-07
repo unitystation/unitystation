@@ -1,17 +1,10 @@
 ﻿using System.Collections;
-using System.Runtime.Serialization.Formatters;
-using Items;
-using PlayGroup;
-using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
-using Equipment;
 
-namespace Weapons
-{
-	/// <summary>
+
+/// <summary>
 	///     Generic weapon types
 	/// </summary>
 	public enum WeaponType
@@ -547,4 +540,3 @@ namespace Weapons
 
 		#endregion
 	}
-}

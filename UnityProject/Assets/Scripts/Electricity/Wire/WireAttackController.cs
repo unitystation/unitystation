@@ -1,8 +1,6 @@
-﻿using PlayGroups.Input;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Electricity
-{
+
 	public class WireAttackController : InputTrigger
 	{
 		public override void Interact(GameObject originator, Vector3 position, string hand)
@@ -47,4 +45,3 @@ namespace Electricity
 			//return
 		}
 	}
-}

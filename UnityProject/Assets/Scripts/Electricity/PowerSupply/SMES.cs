@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
-using PlayGroups.Input;
 
-namespace Electricity
-{
-	public class SMES : InputTrigger
+
+public class SMES : InputTrigger
 	{
 		public PowerSupply powerSupply;
 
@@ -73,4 +69,4 @@ namespace Electricity
 		}
 
 	}
-}
+

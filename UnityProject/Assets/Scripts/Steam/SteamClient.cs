@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters;
-using Facepunch.Steamworks;
+﻿using Facepunch.Steamworks;
 using UnityEngine;
 using UnityEngine.Rendering;
 

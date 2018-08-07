@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Tilemaps.Editor.Utils;
-using Tilemaps.Tiles;
 using UnityEditor;
 using UnityEngine;
 
-namespace Tilemaps.Editor
-{
+
 	public class SpritesToTiles : MonoBehaviour
 	{
 		private const string tilesPath = "Assets/Tilemaps/Tiles";
@@ -58,4 +55,3 @@ namespace Tilemaps.Editor
 			}
 		}
 	}
-}

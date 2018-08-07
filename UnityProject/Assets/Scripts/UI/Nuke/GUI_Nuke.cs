@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
-using Util;
 
 public class GUI_Nuke : NetTab
 {

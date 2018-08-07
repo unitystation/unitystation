@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace UI
-{
+
 	public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler
 	{
 		private UI_ItemSlot itemSlot;
@@ -21,4 +20,3 @@ namespace UI
 			itemSlot = GetComponentInChildren<UI_ItemSlot>();
 		}
 	}
-}

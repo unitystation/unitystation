@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Lighting
-{
+
 	public class LightingTileManager : MonoBehaviour
 	{
 		public Vector4 bounds;
@@ -86,4 +85,3 @@ namespace Lighting
 			return curValue;
 		}
 	}
-}

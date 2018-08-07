@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Lighting
-{
+
 	public class LightingRoom : MonoBehaviour
 	{
 		public LightingTileManager tileManager { get; set; }
@@ -66,4 +65,3 @@ namespace Lighting
 			}
 		}
 	}
-}

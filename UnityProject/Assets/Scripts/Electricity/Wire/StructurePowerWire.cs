@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sprites;
 using UnityEngine;
 
-namespace Electricity
-{
+
 	[ExecuteInEditMode]
 	public class StructurePowerWire : MonoBehaviour
 	{
@@ -99,4 +97,3 @@ namespace Electricity
 			}
 		}
 	}
-}

@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace Rcon
-{
+
     public class FPSMonitor : MonoBehaviour
     {
         private List<float> avgSamples = new List<float>();
@@ -63,5 +62,5 @@ namespace Rcon
             }
         }
     }
-}
+
 

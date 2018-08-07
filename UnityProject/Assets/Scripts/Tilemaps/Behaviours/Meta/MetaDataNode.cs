@@ -1,7 +1,6 @@
 ﻿using System;
 
-namespace Tilemaps.Behaviours.Meta
-{
+
 	
 	[Serializable]
 	public class MetaDataNode
@@ -24,4 +23,3 @@ namespace Tilemaps.Behaviours.Meta
 			return Room < 0;
 		}
 	}
-}

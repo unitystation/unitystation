@@ -1,6 +1,4 @@
-﻿using PlayGroup;
-using UI;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BodyPartBehaviour : MonoBehaviour
 {

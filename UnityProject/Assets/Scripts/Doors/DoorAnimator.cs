@@ -1,8 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Doors
-{
+
 	public abstract class DoorAnimator : MonoBehaviour
 	{
 		public DoorController doorController;
@@ -26,4 +24,3 @@ namespace Doors
 			}
 		}
 	}
-}

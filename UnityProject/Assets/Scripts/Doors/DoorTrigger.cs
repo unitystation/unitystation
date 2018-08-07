@@ -1,10 +1,7 @@
 ﻿using System.Collections;
-using PlayGroup;
-using PlayGroups.Input;
 using UnityEngine;
 
-namespace Doors
-{
+
 	/// <summary>
 	///     Handles Interact messages from InputController.cs
 	///     It also checks for access restrictions on the players ID card
@@ -64,4 +61,3 @@ namespace Doors
 			allowInput = true;
 		}
 	}
-}

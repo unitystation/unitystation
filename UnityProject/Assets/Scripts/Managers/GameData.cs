@@ -5,8 +5,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using PlayGroup;
-using Rcon;
 
 public class GameData : MonoBehaviour
 {
@@ -146,7 +144,7 @@ public class GameData : MonoBehaviour
 			if (rconManager == null) {
 				GameObject rcon = Instantiate(Resources.Load("Rcon/RconManager") as GameObject, null) as GameObject;
 				rconManager = rcon.GetComponent<RconManager>();
-				Debug.Log("Start rcon server");
+				Logger.Log("Start rcon server", Category.Rcon);
 			}
 		}
 	}

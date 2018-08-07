@@ -1,11 +1,8 @@
-﻿using Tilemaps.Behaviours.Layers;
-using Tilemaps.Tiles;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Tilemaps.Editor.Brushes
-{
+
 	[CustomGridBrush(false, true, true, "Level Brush")]
 	public class LevelBrush : GridBrush
 	{
@@ -109,4 +106,3 @@ namespace Tilemaps.Editor.Brushes
 			metaTileMap.SetTile(position, tile, cells[0].matrix);
 		}
 	}
-}

@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Tilemaps;
-using Tilemaps.Behaviours.Objects;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroup
-{
+
 	/// Container with player position, flight direction etc. 
 	/// Gives client enough information for smooth simulation
 	public struct PlayerState
@@ -378,4 +374,3 @@ namespace PlayGroup
 		}
 #endif
 	}
-}

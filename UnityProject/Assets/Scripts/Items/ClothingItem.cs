@@ -1,9 +1,7 @@
-﻿using Sprites;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace PlayGroup
-{
-	public enum SpriteType
+
+	public enum SpriteHandType
 	{
 		Other,
 		RightHand,
@@ -23,7 +21,7 @@ namespace PlayGroup
 		public string spriteSheetName;
 
 		//choice between left or right or other(clothing)
-		public SpriteType spriteType;
+		public SpriteHandType spriteType;
 
 		public PlayerScript thisPlayerScript;
 
@@ -66,7 +64,7 @@ namespace PlayGroup
 				return;
 			}
 
-			if (spriteType == SpriteType.Other)
+			if (spriteType == SpriteHandType.Other)
 			{
 				reference = Reference;
 			}
@@ -88,7 +86,7 @@ namespace PlayGroup
 						spriteSheetName = "guns_";
 						break;
 				}
-				if (spriteType == SpriteType.RightHand)
+				if (spriteType == SpriteHandType.RightHand)
 				{
 					spriteSheetName = spriteSheetName + "righthand";
 					reference = _reference;
@@ -145,4 +143,3 @@ namespace PlayGroup
 			}
 		}
 	}
-}

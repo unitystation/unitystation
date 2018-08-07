@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Tilemaps.Tiles
-{
+
 	public abstract class BasicTile : LayerTile
 	{
 		public bool AtmosPassable;
@@ -32,4 +31,3 @@ namespace Tilemaps.Tiles
 			return IsAtmosPassable() && !IsSealed;
 		}
 	}
-}

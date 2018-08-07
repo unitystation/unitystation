@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using NUnit.Framework;
-using Sprites;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Object = UnityEngine.Object;

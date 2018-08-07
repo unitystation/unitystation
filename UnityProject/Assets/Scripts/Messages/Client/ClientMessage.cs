@@ -1,6 +1,4 @@
-﻿using PlayGroup;
-using UnityEngine.Networking;
-using UnityEngine;
+﻿using UnityEngine.Networking;
 
 public abstract class ClientMessage : GameMessageBase
 {

@@ -1,6 +1,4 @@
-﻿using Light2D;
-using UI;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 

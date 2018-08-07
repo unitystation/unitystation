@@ -1,11 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Sprites;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroup
-{
+
 	public class PlayerHealth : HealthBehaviour
 	{
 		private readonly float bleedRate = 2f;
@@ -318,4 +316,3 @@ namespace PlayGroup
 			objectBehaviour.visibleState = false;
 		}
 	}
-}

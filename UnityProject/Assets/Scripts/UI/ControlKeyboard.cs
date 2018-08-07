@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using PlayGroup;
 
-namespace UI
-{
-	/// <summary>
+
+/// <summary>
 	///		This button is used to let a player switch keyboard input method
 	///		from QWERTY to AZERTY, and viceversa. The button text will say
 	///		what mode it is currently in.
@@ -41,4 +39,4 @@ namespace UI
 			}
 		}
 	}
-}
+

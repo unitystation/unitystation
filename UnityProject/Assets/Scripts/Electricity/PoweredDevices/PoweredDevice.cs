@@ -1,13 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using Tilemaps;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Events;
 
-namespace Electricity
-{
+
 	public class PoweredDevice : NetworkBehaviour, IElectricityIO
 	{
 		[Header("0 = conn to wire on same tile")]
@@ -94,4 +90,4 @@ namespace Electricity
 			return points;
 		}
 	}
-}
+

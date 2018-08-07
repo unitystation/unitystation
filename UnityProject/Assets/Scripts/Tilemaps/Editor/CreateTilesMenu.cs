@@ -1,10 +1,7 @@
-﻿using Tilemaps.Editor.Utils;
-using Tilemaps.Tiles;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace Tilemaps.Editor
-{
+
 	public class CreateTilesMenu : MonoBehaviour
 	{
 		[MenuItem("Assets/Create/Tiles/General/Simple Tile", false, 0)]
@@ -81,4 +78,3 @@ namespace Tilemaps.Editor
 			TileBuilder.CreateAsset(tile, "WallMountTile");
 		}
 	}
-}

@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace UI
-{
+
 	/// <summary>
 	///     Custom ResizePanel for the PANEL_Right UI element
 	/// </summary>
@@ -24,4 +23,3 @@ namespace UI
 		{
 		}
 	}
-}

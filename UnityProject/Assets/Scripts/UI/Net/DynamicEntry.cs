@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using Util;
+﻿using UnityEngine;
 
 /// <summary>
 /// Dynamic list entry

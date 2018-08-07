@@ -1,12 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Tilemaps.Behaviours.Layers;
-using Sprites;
 
-namespace Tilemaps.Tiles
-{
-	public enum ConnectCategory
+
+public enum ConnectCategory
 	{
 		Walls,
 		Windows,
@@ -134,4 +131,3 @@ namespace Tilemaps.Tiles
 			}
 		}
 	}
-}

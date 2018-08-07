@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /// Logger with categories support.
@@ -8,7 +7,7 @@ using UnityEngine;
 public static class Logger
 {
 	/// Default Log level
-	private static readonly Level LogLevel = Level.Warning;
+	private static readonly Level LogLevel = Level.Info;
 
 	/// Log level overrides for categories. Default log level will be ignored for these:
 	private static readonly Dictionary<Category, Level> LogOverrides = new Dictionary<Category, Level>{
@@ -16,7 +15,6 @@ public static class Logger
 		[Category.Movement] = Level.Error,
 		[Category.DmMetadata] = Level.Off,
 		[Category.Light2D] = Level.Off,
-		[Category.Matrix] = Level.Trace,
 	};
 
 	private enum Level{
@@ -121,8 +119,8 @@ public static class Logger
 			}
 		}
 
-		if(Rcon.RconManager.Instance != null){
-			Rcon.RconManager.AddLog(msg);
+		if(RconManager.Instance != null){
+			RconManager.AddLog(msg);
 		}
 	}
 }
@@ -156,5 +154,8 @@ public enum Category {
 	Power,
 	Throwing,
 	Containers,
-	Chemistry
+	Chemistry,
+	SunVox,
+	Rcon,
+	Audio
 }

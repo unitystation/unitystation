@@ -1,11 +1,7 @@
-﻿using Tilemaps.Behaviours.Meta;
-using Tilemaps.Tiles;
-using Tilemaps.Utils;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Tilemaps.Behaviours.Layers
-{
+
 	[ExecuteInEditMode]
 	public class Layer : MonoBehaviour
 	{
@@ -117,4 +113,3 @@ namespace Tilemaps.Behaviours.Layers
 		}
 #endif
 	}
-}

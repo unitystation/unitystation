@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class GUI_TextInput : GUI_Component
 	{
 		public GameObject label;
@@ -42,4 +41,4 @@ namespace UI
 			}
 		}
 	}
-}
+

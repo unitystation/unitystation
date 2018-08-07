@@ -1,16 +1,11 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 
-namespace Chemistry
-{
+
 	//Initialization.run();
 	//var area = new Dictionary<String, float>();
 	//area.Add("potassium", 59.0f);
@@ -184,4 +179,3 @@ namespace Chemistry
 			return (n2 / n1);	
 		}
 	}
-}

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	/// <summary>
 	///     To control the critical overlays (unconscious, dying, oxygen loss etc)
 	/// </summary>
@@ -92,4 +90,3 @@ namespace UI
 		crit,
 		death
 	}
-}

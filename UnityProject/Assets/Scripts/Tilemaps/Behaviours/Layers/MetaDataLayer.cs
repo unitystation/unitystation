@@ -1,10 +1,6 @@
-﻿using System.Security.Permissions;
-using Tilemaps.Behaviours.Meta;
-using Tilemaps.Utils;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Tilemaps.Behaviours.Layers
-{
+
 	public class MetaDataLayer : MonoBehaviour
 	{
 		private MetaDataDictionary nodes = new MetaDataDictionary();
@@ -41,4 +37,3 @@ namespace Tilemaps.Behaviours.Layers
 			return node == null || node.IsSpace();
 		}
 	}
-}

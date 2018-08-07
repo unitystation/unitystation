@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using Events;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class UI_ItemSlot : MonoBehaviour
 	{
 		public bool allowAllItems;
@@ -152,4 +149,3 @@ namespace UI
 			return allowAllItems || allowedItemTypes.Contains(attributes.type);
 		}
 	}
-}

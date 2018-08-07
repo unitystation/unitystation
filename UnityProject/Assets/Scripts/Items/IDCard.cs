@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using AccessType;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 

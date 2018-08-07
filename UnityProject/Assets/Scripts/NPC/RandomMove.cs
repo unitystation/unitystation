@@ -1,10 +1,8 @@
 ﻿using System.Collections;
-using Tilemaps;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace NPC
-{
+
 	public class RandomMove : NetworkBehaviour
 	{
 		private HealthBehaviour _healthBehaviour;
@@ -153,4 +151,3 @@ namespace NPC
 			return false;
 		}
 	}
-}

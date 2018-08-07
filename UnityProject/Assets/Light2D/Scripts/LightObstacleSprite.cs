@@ -4,8 +4,7 @@ using UnityEditor;
 
 #endif
 
-namespace Light2D
-{
+
 	/// <summary>
 	///     Sprite with dual color support. Grabs sprite from GameSpriteRenderer field.
 	/// </summary>
@@ -98,4 +97,3 @@ namespace Light2D
 			base.UpdateMeshData(forceUpdate);
 		}
 	}
-}
