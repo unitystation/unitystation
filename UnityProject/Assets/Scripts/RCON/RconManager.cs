@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -51,15 +52,18 @@ namespace Rcon
 
         private void Init()
         {
+			Debug.Log("Init RconManager");
             DontDestroyOnLoad(rconManager.gameObject);
             fpsMonitor = GetComponent<FPSMonitor>();
-            var serverConfig = Resources.Load("TestConfigs/config") as TextAsset;
-            if(serverConfig == null)
+			string filePath = Application.streamingAssetsPath + "/config/config.json";
+			string result = System.IO.File.ReadAllText(filePath);
+			if (string.IsNullOrEmpty(result))
             {
-                Logger.Log("No server config found: rcon");
+                Debug.Log("No server config found: rcon");
                 Destroy(gameObject);
             }
-            config = JsonUtility.FromJson<ServerConfig>(serverConfig.text);
+			Debug.Log("config loaded");
+            config = JsonUtility.FromJson<ServerConfig>(result);
             StartServer();
         }
 
@@ -67,17 +71,21 @@ namespace Rcon
         {
             if (httpServer != null)
             {
-                Logger.LogWarning("Already Listening: WebSocket");
+                Debug.Log("Already Listening: WebSocket");
                 return;
             }
             if (!GameData.IsHeadlessServer)
             {
+				Debug.Log("Dercon");
                  Destroy(gameObject);
                  return;
             }
 
-            httpServer = new HttpServer(config.RconPort);
-            httpServer.AddWebSocketService<RconSocket>("/rconconsole");
+            httpServer = new HttpServer(config.RconPort, true);
+			string certPath = Application.streamingAssetsPath + "/config/certificate.pfx";
+			httpServer.SslConfiguration.ServerCertificate =
+				new X509Certificate2(certPath, config.certKey);
+			httpServer.AddWebSocketService<RconSocket>("/rconconsole");
             httpServer.AddWebSocketService<RconMonitor>("/rconmonitor");
             httpServer.AddWebSocketService<RconChat>("/rconchat");
             httpServer.AddWebSocketService<RconPlayerList>("/rconplayerlist");
@@ -86,11 +94,17 @@ namespace Rcon
             httpServer.UserCredentialsFinder = id =>
             {
                 var name = id.Name;
+				Debug.Log("ATTEMPT AUTH");
                 return name == config.RconPass
                 ? new NetworkCredential("admin" , null, "admin")
                 : null;
             };
-            httpServer.Start();
+
+			httpServer.SslConfiguration.ClientCertificateValidationCallback =
+			(sender, certificate, chain, sslPolicyErrors) => {
+			return true;
+			};
+			httpServer.Start();
 
 			//Get the service hosts:
             Instance.httpServer.WebSocketServices.TryGetServiceHost("/rconconsole", out consoleHost);
@@ -100,9 +114,9 @@ namespace Rcon
 
             if (httpServer.IsListening)
             {
-                Logger.Log("Providing websocket services on port " + httpServer.Port);
+                Debug.Log("Providing websocket services on port " + httpServer.Port);
                 foreach (var path in httpServer.WebSocketServices.Paths)
-                    Logger.Log("- " + path);
+                    Debug.Log("- " + path);
             }
         }
 
@@ -177,6 +191,9 @@ namespace Rcon
 
 		public static string GetFullChatLog()
 		{
+			if(string.IsNullOrEmpty(ChatLog)){
+				return "No one has said anything yet..";
+			}
 			return ChatLog;
 		}
     }
@@ -255,6 +272,7 @@ namespace Rcon
     {
         public string RconPass;
         public int RconPort;
+		public string certKey;
     }
 
     [Serializable]
