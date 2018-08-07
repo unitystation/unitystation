@@ -12,8 +12,8 @@ public static class SpawnHandler
 		GameObject player = CreatePlayer(jobType);
 		var connectedPlayer = PlayerList.Instance.UpdatePlayer(conn, player);
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
-		if (connectedPlayer.Script.playerSync != null) {
-			connectedPlayer.Script.playerSync.NotifyPlayers(true);
+		if (connectedPlayer.Script.PlayerSync != null) {
+			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
 		} else {
 			Debug.LogWarning("why is playerSync missing here?");
 		}
@@ -24,8 +24,8 @@ public static class SpawnHandler
 		GameObject player = CreatePlayer(jobType);
 		var connectedPlayer = PlayerList.Instance.UpdatePlayer(conn, player);
 		NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
-		if (connectedPlayer.Script.playerSync != null) {
-			connectedPlayer.Script.playerSync.NotifyPlayers(true);
+		if (connectedPlayer.Script.PlayerSync != null) {
+			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
 		} else {
 			Debug.LogWarning("why is playerSync missing here?");
 		}
@@ -37,7 +37,7 @@ public static class SpawnHandler
 
 		Transform spawnPosition = GetSpawnForJob(jobType);
 
-		GameObject player; 
+		GameObject player;
 
 		if (spawnPosition != null)
 		{
@@ -51,7 +51,7 @@ public static class SpawnHandler
 		{
 			player = Object.Instantiate(playerPrefab);
 		}
-		
+
 		player.GetComponent<PlayerScript>().JobType = jobType;
 
 		return player;

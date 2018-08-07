@@ -59,9 +59,9 @@ public class PushPull : VisibleBehaviour
 		if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)){
 			if (PlayerManager.LocalPlayerScript.IsInReach(transform.position) &&
 				transform != PlayerManager.LocalPlayerScript.transform && PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null) {
-				if (PlayerManager.LocalPlayerScript.playerSync.PullingObject != null &&
-				   PlayerManager.LocalPlayerScript.playerSync.PullingObject != gameObject) {
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(PlayerManager.LocalPlayerScript.playerSync.PullingObject);
+				if (PlayerManager.LocalPlayerScript.PlayerSync.PullingObject != null &&
+				   PlayerManager.LocalPlayerScript.PlayerSync.PullingObject != gameObject) {
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(PlayerManager.LocalPlayerScript.PlayerSync.PullingObject);
 				}
 
 				if (pulledBy == PlayerManager.LocalPlayer) {
@@ -73,7 +73,7 @@ public class PushPull : VisibleBehaviour
 					if (customNetTransform != null) {
 						customNetTransform.enabled = false;
 					}
-					PlayerManager.LocalPlayerScript.playerSync.PullingObject = gameObject;
+					PlayerManager.LocalPlayerScript.PlayerSync.PullingObject = gameObject;
 				}
 			}
 		}
@@ -88,7 +88,7 @@ public class PushPull : VisibleBehaviour
 		if (pulledBy != PlayerManager.LocalPlayer) {
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopOtherPulling(gameObject);
 		}
-		PlayerManager.LocalPlayerScript.playerSync.PullReset(gameObject.GetComponent<NetworkIdentity>().netId);
+		PlayerManager.LocalPlayerScript.PlayerSync.PullReset(gameObject.GetComponent<NetworkIdentity>().netId);
 	}
 
 	public void TryPush(GameObject pushedBy, Vector2 pushDir)
@@ -107,7 +107,7 @@ public class PushPull : VisibleBehaviour
 			} else {
 				pulledBy.GetComponent<PlayerNetworkActions>().CmdStopPulling(gameObject);
 				PlayerManager.LocalPlayerScript.playerNetworkActions.isPulling = false;
-				PlayerManager.LocalPlayerScript.playerSync.PullingObject = null;
+				PlayerManager.LocalPlayerScript.PlayerSync.PullingObject = null;
 			}
 
 			pulledBy = null;
@@ -124,7 +124,7 @@ public class PushPull : VisibleBehaviour
 			if (pusher == PlayerManager.LocalPlayer) {
 				//pushing for local player is set to true from CNT, to make sure prediction isn't overwhelmed
 				customNetTransform.PushToPosition(pushTarget, PlayerManager.LocalPlayerScript.playerMove.speed, this);
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, transform.localPosition, pushTarget, 
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, transform.localPosition, pushTarget,
 				                                                                PlayerManager.LocalPlayerScript.playerMove.speed);
 			}
 		}
@@ -134,17 +134,13 @@ public class PushPull : VisibleBehaviour
 	public void BreakPull()
 	{
 		PlayerScript player = PlayerManager.LocalPlayerScript;
-		if (player.playerSync == null) //FIXME: this doesn't exist on the client sometimes
-		{
-			return;
-		}
-		GameObject pullingObject = player.playerSync.PullingObject;
+		GameObject pullingObject = player.PlayerSync.PullingObject;
 		if (!pullingObject || !pullingObject.Equals(gameObject)) {
 			return;
 		}
-		player.playerSync.PullReset(NetworkInstanceId.Invalid);
-		player.playerSync.PullingObject = null;
-		player.playerSync.PullObjectID = NetworkInstanceId.Invalid;
+		player.PlayerSync.PullReset(NetworkInstanceId.Invalid);
+		player.PlayerSync.PullingObject = null;
+		player.PlayerSync.PullObjectID = NetworkInstanceId.Invalid;
 		player.playerNetworkActions.isPulling = false;
 		pulledBy = null;
 	}

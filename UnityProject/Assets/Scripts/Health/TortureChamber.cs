@@ -51,7 +51,7 @@ public class TortureChamber
 	{
 		int randX = (int)severity * 100 * Random.Range(-5, 5);
 		int randY = (int)severity * 100 * Random.Range(-5, 5);
-		ps.playerSync.SetPosition(new Vector2(randX,randY));
+		ps.PlayerSync.SetPosition(new Vector2(randX,randY));
 	}
 
 }

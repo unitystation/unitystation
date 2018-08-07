@@ -325,7 +325,7 @@ public class CustomNetworkManager : NetworkManager
 		//All players
 		List<ConnectedPlayer> players = PlayerList.Instance.InGamePlayers;
 		for ( var i = 0; i < players.Count; i++ ) {
-			players[i].Script.playerSync.NotifyPlayer( playerGameObject, true );
+			players[i].Script.PlayerSync.NotifyPlayer( playerGameObject, true );
 		}
 
 		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {players.Count} players) to {playerGameObject.name}", Category.Connections);
