@@ -12,7 +12,6 @@ public enum Slot {
 
 public class Synth : MonoBehaviour {
 	public static Synth Instance;
-//	public Text Text;
 	///sampler module id 5 is hardcoded
 	private static readonly int SamplerModule = 5;
 
@@ -30,9 +29,6 @@ public class Synth : MonoBehaviour {
 	}
 	void Start() {
 		Init();
-//		MaryTTS.Instance.Announce( "Attention all personnel, we're fucking screwed. " +
-//		                           "Syndicate ship is approaching. " +
-//		                           "Central Command doesn't give a damn, so I guess we're on our own." );
 		FxModule = LoadFxInstrument( "Keys/fm1.sunsynth" );
 	}
 
@@ -46,31 +42,31 @@ public class Synth : MonoBehaviour {
 				int major = ( ver >> 16 ) & 255;
 				int minor1 = ( ver >> 8 ) & 255;
 				int minor2 = ( ver ) & 255;
-				log( $"SunVox lib version: {major}.{minor1}.{minor2}" );
+				Logger.LogTrace( $"SunVox lib version: {major}.{minor1}.{minor2}", Category.SunVox );
 
 				InitAnnounce();
 				InitMusic();
 				InitFX();
 				Initialized = true;
 			} else {
-				log( "sv_init() error " + ver );
+				Logger.LogWarning( "sv_init() error " + ver, Category.SunVox );
 			}
 		} catch ( Exception e ) {
-			log( "Exception: " + e );
+			Logger.LogWarning( "Exception: " + e, Category.SunVox );
 		}
 	}
 
 	private void InitAnnounce() {
 		SunVox.sv_open_slot( (int)Slot.Announce );
 
-		log( "Loading Announce project from file..." );
-//		var path = "Assets/StreamingAssets/announcement2.sunvox"; //This path is correct only for win (editor+build) and mac(editor only)
+		Logger.LogTrace( "Loading Announce project from file", Category.SunVox );
+//		var path = "Assets/StreamingAssets/announcement2.sunvox";
 		var path = GetDataPath("announcement2.sunvox");
 		if ( SunVox.sv_load( (int)Slot.Announce, path ) == 0 ) {
 //			log( "Loaded." );
 		} else {
-			log( "Load error." );
-			SunVox.sv_volume( (int)Slot.Announce, 256 );
+			Logger.LogWarning( $"Announce project load error: {path}", Category.SunVox );
+//			SunVox.sv_volume( (int)Slot.Announce, 256 );
 		}
 	}
 
@@ -87,13 +83,13 @@ public class Synth : MonoBehaviour {
 //		var path = $"Assets/StreamingAssets/{instrument}";
 		int moduleId = SunVox.sv_load_module( (int)Slot.FX, path, 0, 0, 0 );
 		if ( moduleId >= 0 ) {
-//			log( "Module loaded: " + moduleId );
+			Logger.LogTraceFormat( "Instrument {0} loaded as module #{1}", Category.SunVox, instrument, moduleId );
 			//Connect the new module to the Main Output:
 			SunVox.sv_lock_slot( (int)Slot.FX );
 			SunVox.sv_connect_module( (int)Slot.FX, moduleId, 0 );
 			SunVox.sv_unlock_slot( (int)Slot.FX );
 		} else {
-			log( "Can't load the module" );
+			Logger.LogWarning( $"Can't load instrument {path}", Category.SunVox );
 		}
 		return moduleId;
 	}
@@ -108,19 +104,18 @@ public class Synth : MonoBehaviour {
 		SunVox.sv_send_event((int)Slot.FX, 0, 128, 128, module + 1, 0, 0);
 	}
 
-	public void PlayMusic( string filename, byte volume = Byte.MaxValue ) {
+	public void PlayMusic( string filename, bool repeat = false, byte volume = Byte.MaxValue ) {
 //		var path = $"Assets/StreamingAssets/Tracker/{filename}";
 		var path = GetDataPath("Tracker/"+filename);
-		log( $"Loading track {filename} from {path}..." );
+		Logger.Log( $"Loading track {filename} from {path}", Category.SunVox );
 		int loadResult = SunVox.sv_load( (int)Slot.Music, path );
 		if ( loadResult == 0 ) {
-//			log( "Loaded." );
 			SunVox.sv_stop( (int)Slot.Music );
-			SunVox.sv_set_autostop( (int)Slot.Music, 1 );
+			SunVox.sv_set_autostop( (int)Slot.Music, repeat ? 0 : 1 );
 			SunVox.sv_play_from_beginning( (int)Slot.Music );
 		} else {
-			log( "Load error." );
-			SunVox.sv_volume( (int)Slot.Music, volume );
+			Logger.LogWarning( $"Music load error: {path}", Category.SunVox );
+//			SunVox.sv_volume( (int)Slot.Music, volume );
 		}
 	}
 
@@ -129,10 +124,12 @@ public class Synth : MonoBehaviour {
 			SunVox.sv_stop( (int)Slot.Announce );
 			SunVox.sv_sampler_load_from_memory( (int)Slot.Announce, SamplerModule, sound, sound.Length, -1 );
 			SunVox.sv_set_autostop( (int)Slot.Announce, 1 );
-			SunVox.sv_play_from_beginning( (int)Slot.Announce ); //play announcement tune
+			//play announcement tune
+			SunVox.sv_play_from_beginning( (int)Slot.Announce );
+			//speak tts with effects
 			StartCoroutine( SpeakAnnouncement() );
 		} catch ( Exception e ) {
-			log( "Exception: " + e );
+			Logger.LogWarning( "Exception: " + e, Category.SunVox );
 		}
 	}
 	private IEnumerator SpeakAnnouncement() {
@@ -165,24 +162,19 @@ public class Synth : MonoBehaviour {
 	private string GetDataPath( string fileName ) {
 		var streamingAssetsPath = "";
 #if UNITY_IPHONE
-    streamingAssetsPath = Application.dataPath + "/Raw";
+		streamingAssetsPath = Application.dataPath + "/Raw";
 #endif
 
 #if UNITY_ANDROID
-    streamingAssetsPath = "jar:file://" + Application.dataPath + "!/assets";
+		streamingAssetsPath = "jar:file://" + Application.dataPath + "!/assets";
 #endif
 
 #if UNITY_STANDALONE || UNITY_EDITOR
-		streamingAssetsPath = Application.streamingAssetsPath; //fixme doesn't work for mac
+		streamingAssetsPath = Application.streamingAssetsPath;
 #endif
-
 		var path = Path.Combine( streamingAssetsPath, fileName );
-//		log( "getDataPath: " + path );
+		Logger.LogTrace( "getDataPath: " + path, Category.SunVox );
 		return path;
-	}
-
-	private void log( string msg ) {
-		Logger.Log( msg, Category.SunVox );
 	}
 
 	private void OnDestroy() {
