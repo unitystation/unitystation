@@ -11,8 +11,8 @@ public class UpdateRoundTimeMessage : ServerMessage
 
 	public override IEnumerator Process()
 	{
-		GameManager.Instance.SyncTime(Time);
-		yield return null;
+        GameManager.Instance.SyncTime(Time, Time);
+        yield return null;
 	}
 
 	public static UpdateRoundTimeMessage Send(float time)

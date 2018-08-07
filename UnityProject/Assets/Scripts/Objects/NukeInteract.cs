@@ -10,7 +10,7 @@ public class NukeInteract : NetworkTabTrigger
 	public float cooldownTimer = 2f;
 	public string interactionMessage;
 	public string deniedMessage;
-	private bool detonated = false;
+	public bool detonated = false;
 	//Nuke code is only populated on the server
 	private int nukeCode;
 	public int NukeCode => nukeCode;
@@ -46,8 +46,6 @@ public class NukeInteract : NetworkTabTrigger
 		GibMessage.Send();
 //		GameManager.Instance.RespawnAllowed = false;
 		yield return new WaitForSeconds(2f);
-		//Restart Round:
-		GameManager.Instance.RestartRound();
 //		GameManager.Instance.RespawnAllowed = true;
 	}
 

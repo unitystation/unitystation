@@ -82,9 +82,4 @@ public class Networking : Editor
 	{
 		GameManager.Instance.RestartRound();
 	}
-	[MenuItem("Networking/Extend round time")]
-	private static void ExtendRoundTime()
-	{
-		GameManager.Instance.ResetRoundTime();
-	}
 }

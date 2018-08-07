@@ -122,10 +122,6 @@ public class GameData : MonoBehaviour
 			{
 				IsHeadlessServer = true;
 			}
-			if (IsInGame && GameManager.Instance != null && CustomNetworkManager.Instance._isServer)
-			{
-				GameManager.Instance.ResetRoundTime();
-			}
 			return;
 		}
 		//force vsync when not-headless
