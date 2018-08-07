@@ -3,26 +3,22 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class MaryTTS : MonoBehaviour
-{
-    public static MaryTTS Instance;
+public class MaryTTS : MonoBehaviour {
+	public static MaryTTS Instance;
 
-    private const string requestURL = "http://play.unitystation.org:59125/process";
-    private MaryVoiceSettings defaultConfig = new MaryVoiceSettings();
-    public AudioSource audioSource;
+	private const string requestURL = "http://play.unitystation.org:59125/process";
+	private MaryVoiceSettings defaultConfig = new MaryVoiceSettings();
+	public AudioSource audioSource;
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        } //else gets destroyed by parent
-    }
+	private void Awake() {
+		if ( Instance == null ) {
+			Instance = this;
+		} //else gets destroyed by parent
+	}
 
-    public void Synthesize(string textToSynth)
-    {
-	    StartCoroutine( RequestSynth( textToSynth, bytes => audioSource.PlayOneShot( WavUtility.ToAudioClip( bytes, 0, "TTS_Clip" ) ) ) );
-    }
+	public void Synthesize( string textToSynth ) {
+		StartCoroutine( RequestSynth( textToSynth, bytes => audioSource.PlayOneShot( WavUtility.ToAudioClip( bytes, 0, "TTS_Clip" ) ) ) );
+	}
 //
 //    public void Announce(string textToSynth)
 //    {
@@ -34,39 +30,32 @@ public class MaryTTS : MonoBehaviour
 		StartCoroutine( RequestSynth( textToSynth, bytes => callback?.Invoke( bytes ) ) );
 	}
 
-	IEnumerator RequestSynth(string textToSynth, Action<byte[]> callback)
-    {
-        UnityWebRequest request = UnityWebRequest.Get(GetURL(textToSynth));
+	IEnumerator RequestSynth( string textToSynth, Action<byte[]> callback ) {
+		UnityWebRequest request = UnityWebRequest.Get( GetURL( textToSynth ) );
 
-        yield return request.SendWebRequest();
+		yield return request.SendWebRequest();
 
-        if (request.error != null)
-        {
-            Debug.Log("Err: " + request.error);
-        } else
-        {
-            callback.Invoke( request.downloadHandler.data );
-        }
-    }
+		if ( request.error != null ) {
+			Logger.Log( "Err: " + request.error, Category.Audio );
+		} else {
+			callback.Invoke( request.downloadHandler.data );
+		}
+	}
 
-    private string GetURL(string textInput)
-    {
-        return requestURL + defaultConfig.GetConfigString()
-            + textInput;
-    }
+	private string GetURL( string textInput ) {
+		return requestURL + defaultConfig.GetConfigString() + textInput;
+	}
 }
 
-public class MaryVoiceSettings
-{
-    public string InputType = "TEXT";
-    public string Audio = "WAVE_FILE";
-    public string OutputType = "AUDIO";
-    public string Locale = "en_US";
+public class MaryVoiceSettings {
+	public string InputType = "TEXT";
+	public string Audio = "WAVE_FILE";
+	public string OutputType = "AUDIO";
+	public string Locale = "en_US";
 
-    public string GetConfigString()
-    {
-        return "?INPUT_TYPE=" + InputType + "&AUDIO="
-            + Audio + "&OUTPUT_TYPE=" + OutputType + "&LOCALE="
-            + Locale + "&INPUT_TEXT=";
-    }
+	public string GetConfigString() {
+		return "?INPUT_TYPE=" + InputType + "&AUDIO="
+		       + Audio + "&OUTPUT_TYPE=" + OutputType + "&LOCALE="
+		       + Locale + "&INPUT_TEXT=";
+	}
 }

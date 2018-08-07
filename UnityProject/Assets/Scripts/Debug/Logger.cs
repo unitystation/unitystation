@@ -155,5 +155,7 @@ public enum Category {
 	Throwing,
 	Containers,
 	Chemistry,
-	SunVox
+	SunVox,
+	Rcon,
+	Audio
 }
