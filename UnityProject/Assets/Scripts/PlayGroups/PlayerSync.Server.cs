@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,12 +10,12 @@ using UnityEngine.Networking;
 		//Server-only fields, don't concern clients in any way
 
 		/// Current server state. Lerps towards target state, so its position can be non-integer in the process.
-		/// Updates to players, however, are only sent when it approaches target state's position, 
+		/// Updates to players, however, are only sent when it approaches target state's position,
 		/// therefore position is always sent as integer (at least in SendToAll()).
 		private PlayerState serverState;
 
-		/// Future/target server state. All future changes go here 
-		/// and are applied to serverState when their positions match up 
+		/// Future/target server state. All future changes go here
+		/// and are applied to serverState when their positions match up
 		private PlayerState serverTargetState;
 
 		private Queue<PlayerAction> serverPendingActions;
@@ -34,9 +35,9 @@ using UnityEngine.Networking;
 		//TODO: Remove the space damage coroutine when atmos is implemented
 		private bool isApplyingSpaceDmg;
 
-		/// 
+		///
 		public bool IsInSpace => MatrixManager.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.WorldPosition));
-		
+
 		/// Whether player is considered to be floating on server
 		private bool consideredFloatingServer => serverState.Impulse != Vector2.zero;
 
@@ -50,7 +51,7 @@ using UnityEngine.Networking;
 			InitServerState();
 		}
 //TODO: don't allow walking when stopped in vacuum
-		/// 
+		///
 		[Server]
 		private void InitServerState()
 		{
@@ -62,10 +63,11 @@ using UnityEngine.Networking;
 				MatrixId = matrixAtPoint.Id,
 				WorldPosition = worldPos
 			};
-//			Logger.Log( $"{PlayerList.Instance.Get( gameObject ).Name}: InitServerState for {worldPos} found matrix {matrixAtPoint} resulting in\n{state}" );
+			Logger.LogTraceFormat( "{0}: InitServerState for {1} found matrix {2} resulting in\n{3}", Category.Movement,
+				PlayerList.Instance.Get( gameObject ).Name, worldPos, matrixAtPoint, state, Category.Movement );
 			serverState = state;
 			serverTargetState = state;
-			
+
 			//Subbing to new matrix rotations
 			if ( matrixAtPoint.MatrixMove != null ) {
 				matrixAtPoint.MatrixMove.OnRotate.AddListener( OnRotation );
@@ -103,7 +105,7 @@ using UnityEngine.Networking;
 
 		/// Push player in direction.
 		/// Impulse should be consumed after one tile if indoors,
-		/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space 
+		/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space
 		[Server]
 		public void Push(Vector2Int direction)
 		{
@@ -157,7 +159,7 @@ using UnityEngine.Networking;
 			NotifyPlayers();
 		}
 
-		///	When lerp is finished, inform players of new state  
+		///	When lerp is finished, inform players of new state
 		[Server]
 		private void TryNotifyPlayers()
 		{
@@ -171,7 +173,7 @@ using UnityEngine.Networking;
 			}
 		}
 
-		/// Register player to matrix from serverState (ParentNetId is a SyncVar) 
+		/// Register player to matrix from serverState (ParentNetId is a SyncVar)
 		[Server]
 		private void SyncMatrix()
 		{
@@ -184,7 +186,8 @@ using UnityEngine.Networking;
 		[Server]
 		public void NotifyPlayer(GameObject recipient, bool noLerp = false) {
 			serverState.NoLerp = noLerp;
-			PlayerMoveMessage.Send(recipient, gameObject, serverState);
+			var msg = PlayerMoveMessage.Send(recipient, gameObject, serverState);
+			Logger.LogTraceFormat( "Sent {0}", Category.Movement, msg );
 		}
 
 		/// Send current serverState to all players
@@ -197,7 +200,8 @@ using UnityEngine.Networking;
 				return;
 			}
 			serverState.NoLerp = noLerp;
-			PlayerMoveMessage.SendToAll(gameObject, serverState);
+			var msg = PlayerMoveMessage.SendToAll(gameObject, serverState);
+			Logger.LogTraceFormat( "SentToAll {0}", Category.Movement, msg );
 			//Clearing state flags
 			serverTargetState.ImportantFlightUpdate = false;
 			serverTargetState.ResetClientQueue = false;
@@ -283,7 +287,7 @@ using UnityEngine.Networking;
 			}
 		}
 
-		/// NextState that also subscribes player to matrix rotations 
+		/// NextState that also subscribes player to matrix rotations
 		[Server]
 		private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 		{
@@ -329,8 +333,8 @@ using UnityEngine.Networking;
 		{
 			if (!ServerPositionsMatch)
 			{
-				//Lerp on server if it's worth lerping 
-				//and inform players if serverState reached targetState afterwards 
+				//Lerp on server if it's worth lerping
+				//and inform players if serverState reached targetState afterwards
 				serverState.WorldPosition =
 					Vector3.MoveTowards(serverState.WorldPosition, serverTargetState.WorldPosition, playerMove.speed * Time.deltaTime);
 				//failsafe
@@ -350,7 +354,7 @@ using UnityEngine.Networking;
 			{
 				if (serverTargetState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
 				{
-					//server initiated space dive. 						
+					//server initiated space dive.
 					serverTargetState.Impulse = serverLastDirection;
 					serverTargetState.ImportantFlightUpdate = true;
 					serverTargetState.ResetClientQueue = true;
@@ -399,8 +403,8 @@ using UnityEngine.Networking;
 			}
 		}
 
-		// TODO: Remove this when atmos is implemented 
-		// This prevents players drifting into space indefinitely 
+		// TODO: Remove this when atmos is implemented
+		// This prevents players drifting into space indefinitely
 		private IEnumerator ApplyTempSpaceDamage()
 		{
 			yield return new WaitForSeconds(1f);

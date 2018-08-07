@@ -324,7 +324,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		GameObject throwable = Inventory[slot];
 		
-		Vector3 playerPos = playerScript.playerSync.ServerState.WorldPosition;
+		Vector3 playerPos = playerScript.PlayerSync.ServerState.WorldPosition;
 
 		EquipmentPool.DisposeOfObject(gameObject, throwable); 
 		ClearInventorySlot(slot);
@@ -339,8 +339,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		throwable.GetComponent<CustomNetTransform>().Throw( throwInfo );
 		
 		//Simplified counter-impulse for players in space
-		if ( playerScript.playerSync.IsInSpace ) {
-			playerScript.playerSync.Push( Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized) );
+		if ( playerScript.PlayerSync.IsInSpace ) {
+			playerScript.PlayerSync.Push( Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized) );
 		}
 	}
 

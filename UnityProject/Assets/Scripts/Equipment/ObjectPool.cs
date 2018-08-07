@@ -62,7 +62,7 @@ using UnityEngine.Networking;
 			var objTransform = gObj.GetComponent<CustomNetTransform>();
 			if ( Owner ) {
 				//Inertia drop works only if player has external impulse (space floating etc.)
-				objTransform.InertiaDrop( dropPos, Owner.playerMove.speed, Owner.playerSync.ServerState.Impulse );
+				objTransform.InertiaDrop( dropPos, Owner.playerMove.speed, Owner.PlayerSync.ServerState.Impulse );
 			} else {
 				objTransform.AppearAtPositionServer(dropPos); 
 			}
