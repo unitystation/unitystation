@@ -7,7 +7,7 @@ public class NukeInteract : NetworkTabTrigger
 	public float cooldownTimer = 2f;
 	public string interactionMessage;
 	public string deniedMessage;
-	private bool detonated = false;
+	public bool detonated = false;
 	//Nuke code is only populated on the server
 	private int nukeCode;
 	public int NukeCode => nukeCode;

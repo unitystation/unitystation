@@ -219,54 +219,7 @@ using UnityEngine.Networking;
 				PlayerMove pm = gameObject.GetComponent<PlayerMove>();
 
 				ConnectedPlayer player = PlayerList.Instance.Get(gameObject);
-				
-				string killerName = "Stressful work";
-				if (LastDamagedBy != null)
-				{
-					killerName = PlayerList.Instance.Get(LastDamagedBy).Name;
-				}
 
-				if (killerName == player.Name)
-				{
-					PostToChatMessage.Send(player.Name + " commited suicide", ChatChannel.System); //Killfeed
-				}
-				else if (killerName.EndsWith(player.Name))
-				{
-					// chain reactions
-					PostToChatMessage.Send(
-						player.Name + " screwed himself up with some help (" + killerName + ")",
-						ChatChannel.System); //Killfeed
-				}
-				else
-				{
-					PlayerList.Instance.UpdateKillScore(LastDamagedBy, gameObject);
-
-					string departmentKillText = "";
-					if (LastDamagedBy != null)
-					{
-						JobDepartment killerDepartment =
-							SpawnPoint.GetJobDepartment(LastDamagedBy.GetComponent<PlayerScript>().JobType);
-						JobDepartment victimDepartment =
-							SpawnPoint.GetJobDepartment(gameObject.GetComponent<PlayerScript>().JobType);
-
-						if (killerDepartment == victimDepartment)
-						{
-							departmentKillText = ", losing " + killerDepartment.GetDescription() +
-							                     " 1 point for team killing!";
-						}
-						else
-						{
-							departmentKillText = ", 1 point to " + killerDepartment.GetDescription() + "!";
-						}
-					}
-
-					//TDM demo killfeed
-					PostToChatMessage.Send(killerName + " has killed " + player.Name + departmentKillText,
-						ChatChannel.System);
-
-					//Combat demo killfeed
-					//PostToChatMessage.Send(killerName + " has killed " + gameObject.name, ChatChannel.System);
-				}
 				pna.DropItem("rightHand");
 				pna.DropItem("leftHand");
 
@@ -280,9 +233,6 @@ using UnityEngine.Networking;
 				pm.allowInput = true;
 				RpcPassBullets(gameObject);
 				PlayerDeathMessage.Send(gameObject);
-
-				//FIXME Remove for next demo
-				pna.RespawnPlayer(10);
 			}
 		}
 

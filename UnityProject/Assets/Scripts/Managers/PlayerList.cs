@@ -20,14 +20,9 @@ public class PlayerList : NetworkBehaviour
 	public int ConnectionCount => values.Count;
 	public List<ConnectedPlayer> InGamePlayers => values.FindAll( player => player.GameObject != null );
 
-	//For TDM demo
-	public Dictionary<JobDepartment, int> departmentScores = new Dictionary<JobDepartment, int>();
+    private int LifeCount;
 
-	//For combat demo
-	public Dictionary<string, int> playerScores = new Dictionary<string, int>();
-
-
-	private void Awake()
+    private void Awake()
 	{
 		if ( Instance == null )
 		{
@@ -48,81 +43,48 @@ public class PlayerList : NetworkBehaviour
 		}
 	}
 
-	//Called on the server when a kill is confirmed
-	[Server]
-	public void UpdateKillScore(GameObject perpetrator, GameObject victim)
-	{
-		if ( perpetrator == null )
-		{
-			return;
-		}
-		var perPlayer = perpetrator.Player();
-		var victimPlayer = victim.Player();
-		if ( perPlayer == null || victimPlayer == null ) {
-			return;
-		}
-
-		var playerName = perPlayer.Name;
-		if ( playerScores.ContainsKey(playerName) )
-		{
-			playerScores[playerName]++;
-		}
-
-		JobDepartment perpetratorDept = SpawnPoint.GetJobDepartment(perPlayer.Job);
-
-		if ( !departmentScores.ContainsKey(perpetratorDept) )
-		{
-			departmentScores.Add(perpetratorDept, 0);
-		}
-
-		JobDepartment victimDept = SpawnPoint.GetJobDepartment(victimPlayer.Job);
-
-		if ( perpetratorDept == victimDept )
-		{
-			departmentScores[perpetratorDept]--;
-		}
-		else
-		{
-			departmentScores[perpetratorDept]++;
-		}
-	}
-
-	[Server]
-	public void TryAddScores(string uniqueName)
-	{
-		if ( !playerScores.ContainsKey(uniqueName) )
-		{
-			playerScores.Add(uniqueName, 0);
-		}
-	}
-
 	[Server]
 	public void ReportScores()
 	{
-		/*
-		var scoreSort = playerScores.OrderByDescending(pair => pair.Value)
-		    .ToDictionary(pair => pair.Key, pair => pair.Value);
+        foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+        {
+            if (!player.GameObject.GetComponent<HealthBehaviour>().IsDead)
+            {
+                LifeCount++;
+                PostToChatMessage.Send(player.Name + " has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+            }
+        }
 
-		foreach (KeyValuePair<string, int> ps in scoreSort)
-		{
-		    UIManager.Chat.ReportToChannel("<b>" + ps.Key + "</b>  total kills:  <b>" + ps.Value + "</b>");
-		}
-		*/
+        if (LifeCount == 0)
+        {
+            PostToChatMessage.Send("No one has survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
 
-		if ( departmentScores.Count == 0 )
-		{
-			PostToChatMessage.Send("Nobody killed anybody. Fucking hippies.", ChatChannel.System);
-		}
+            if (GetComponent<NukeInteract>().detonated)
+            {
+                PostToChatMessage.Send("The syndicate terrorists have detonated the on-board self-destruct.", ChatChannel.OOC);
+            }
+            else
+            {
+                PostToChatMessage.Send("The syndicate terrorists have instead of detonating the on board self destruct, chosen to slaughter everyone on board, this sends a terrifing chill down", ChatChannel.OOC);
+            }
+        }
 
-		var scoreSort = departmentScores.OrderByDescending(pair => pair.Value)
-			.ToDictionary(pair => pair.Key, pair => pair.Value);
+        if (LifeCount == 1)
+        {
+            PostToChatMessage.Send(LifeCount + " person survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+        }
 
-		foreach ( KeyValuePair<JobDepartment, int> ds in scoreSort )
-		{
-			PostToChatMessage.Send("<b>" + ds.Key + "</b>  total kills:  <b>" + ds.Value + "</b>", ChatChannel.System);
-		}
+        if (LifeCount > 1)
+        {
+            PostToChatMessage.Send(LifeCount + " people survived the Syndicate terrorist attack on the NSS Cyberiad.", ChatChannel.OOC);
+        }
 
-		PostToChatMessage.Send("Game Restarting in 10 seconds...", ChatChannel.System);
+        if (LifeCount >= 1)
+        {
+            PostToChatMessage.Send("The nuke ops have failed to detonated the bomb.", ChatChannel.OOC);
+        }
+
+        PostToChatMessage.Send("Game Restarting in 10 seconds...", ChatChannel.System);
 	}
 
 	public void RefreshPlayerListText()

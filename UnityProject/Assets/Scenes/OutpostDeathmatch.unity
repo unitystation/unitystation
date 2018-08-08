@@ -47212,6 +47212,7 @@ MonoBehaviour:
   startKey: 103
   leftKey: 260
   rightKey: 262
+  DoMove: 0
 --- !u!114 &515577133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53119,6 +53120,7 @@ MonoBehaviour:
   startKey: 104
   leftKey: 263
   rightKey: 265
+  DoMove: 0
 --- !u!4 &684530372
 Transform:
   m_ObjectHideFlags: 0
@@ -53502,7 +53504,7 @@ Prefab:
     - target: {fileID: 224759607104819202, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000037554735
+      value: 0.00004579959
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 38ecd680d57974ffe87b4bdd8cd52589, type: 2}
@@ -91196,10 +91198,11 @@ MonoBehaviour:
     m_TypeName: DualFloatEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   flyingDirection: {x: 1, y: 0}
-  maxSpeed: 20
+  maxSpeed: 1
   startKey: 268
   leftKey: 257
   rightKey: 259
+  DoMove: 1
 --- !u!4 &1527067305
 Transform:
   m_ObjectHideFlags: 0
@@ -91207,7 +91210,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1527067303}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 49, y: 6, z: 0}
+  m_LocalPosition: {x: -551, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 460993101}

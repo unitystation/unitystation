@@ -190,7 +190,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 					player.Name = name;
 				}
 				playerName = player.Name;
-				PlayerList.Instance.TryAddScores( player.Name );
 			}
 		}
 
