@@ -137,7 +137,10 @@ public class RconManager : RconConsole {
 	public static void AddLog( string msg ) {
 		msg = DateTime.UtcNow + ":    " + msg + "<br>";
 		AmendLog( msg );
-		Instance.consoleHost.Sessions.Broadcast( msg );
+		if (Instance.consoleHost != null)
+		{
+			Instance.consoleHost.Sessions.Broadcast(msg);
+		}
 	}
 
 	public static void UpdatePlayerListRcon() {
