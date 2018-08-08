@@ -72,10 +72,10 @@ public class RconManager : RconConsole {
 			return;
 		}
 
-		httpServer = new HttpServer( config.RconPort, true );
-		string certPath = Application.streamingAssetsPath + "/config/certificate.pfx";
-		httpServer.SslConfiguration.ServerCertificate =
-			new X509Certificate2( certPath, config.certKey );
+		httpServer = new HttpServer( config.RconPort, false );
+		//string certPath = Application.streamingAssetsPath + "/config/certificate.pfx";
+		//httpServer.SslConfiguration.ServerCertificate =
+		//	new X509Certificate2( certPath, config.certKey );
 		httpServer.AddWebSocketService<RconSocket>( "/rconconsole" );
 		httpServer.AddWebSocketService<RconMonitor>( "/rconmonitor" );
 		httpServer.AddWebSocketService<RconChat>( "/rconchat" );
@@ -90,8 +90,8 @@ public class RconManager : RconConsole {
 				: null;
 		};
 
-		httpServer.SslConfiguration.ClientCertificateValidationCallback =
-			( sender, certificate, chain, sslPolicyErrors ) => { return true; };
+		//httpServer.SslConfiguration.ClientCertificateValidationCallback =
+		//	( sender, certificate, chain, sslPolicyErrors ) => { return true; };
 		httpServer.Start();
 
 		//Get the service hosts:
@@ -137,7 +137,10 @@ public class RconManager : RconConsole {
 	public static void AddLog( string msg ) {
 		msg = DateTime.UtcNow + ":    " + msg + "<br>";
 		AmendLog( msg );
-		Instance.consoleHost.Sessions.Broadcast( msg );
+		if (Instance.consoleHost != null)
+		{
+			Instance.consoleHost.Sessions.Broadcast(msg);
+		}
 	}
 
 	public static void UpdatePlayerListRcon() {

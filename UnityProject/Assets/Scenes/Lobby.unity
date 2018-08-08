@@ -1263,6 +1263,11 @@ Prefab:
       propertyPath: hostToggle
       value: 
       objectReference: {fileID: 1150938571}
+    - target: {fileID: 114158622432940366, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: testServer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
   m_IsPrefabAsset: 0
@@ -2862,7 +2867,7 @@ Prefab:
     - target: {fileID: 224759607104819202, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00000010175842
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224709062734776106, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
