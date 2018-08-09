@@ -77,11 +77,21 @@ public class MatrixMove : ManagedNetworkBehaviour
 
     private MatrixInfo MatrixInfo;
 
+	//Ensure this stays the same as GameManager
+	private float ETAandETD = 660f;
+	private float ETD = 60f;
+	private bool didLaunch = false;
+
     public override void OnStartServer()
     {
         InitServerState();
         base.OnStartServer();
         NotifyPlayers();
+
+		if (DoMove)
+		{
+			StartMovement();
+		}
     }
 
     [Server]
@@ -125,6 +135,7 @@ public class MatrixMove : ManagedNetworkBehaviour
             Logger.Log($"Initialized sensors at {string.Join(",", SensorPositions)}," +
                         $" direction is {State.Direction}", Category.Matrix);
         }
+
     }
 
     ///managed by UpdateManager
@@ -150,7 +161,25 @@ public class MatrixMove : ManagedNetworkBehaviour
             CheckMovementServer();
         }
         CheckMovement();
-    }
+
+		ETAandETD -= Time.deltaTime;
+
+		if (ETAandETD <= 0 && didLaunch)
+		{
+			if (DoMove)
+			{
+				StartMovement();
+			}
+		}
+
+		if (ETAandETD <= ETD)
+		{
+			if (DoMove)
+			{
+				StopMovement();
+			}
+		}
+	}
 
     [Server]
     public void ToggleMovement()

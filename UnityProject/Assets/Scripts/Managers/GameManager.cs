@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
 	public float RoundTime = 660f;
     private bool ShuttleArrived = false;
     public float ShuttleArrive = 60f;
-	private bool ShuttleOnRoute = false;
 	public bool counting;
 	public List<GameObject> Occupations = new List<GameObject>();
 	public float restartTime = 10f;
@@ -33,7 +32,6 @@ public class GameManager : MonoBehaviour
 	
 	private int MapRotationCount = 0;
 	private int MapRotationMapsCounter = 0;
-
 
 	//Put the scenes in the unity 3d editor.
 
@@ -109,24 +107,14 @@ public class GameManager : MonoBehaviour
 
 		else if (counting)
 		{
-			if (!ShuttleOnRoute)
-            {
-				if (GetComponent<MatrixMove>().DoMove)
-                {
-                    GetComponent<MatrixMove>().StartMovement();
-                }
-                ShuttleOnRoute = true;
-            }
-
             GetRoundTime -= Time.deltaTime;
 
-			if (GetRoundTime <= ShuttleArrive && ShuttleArrived == false)
-            {
-                GetComponent<MatrixMove>().StopMovement();
-                ShuttleArrived = true;
-            }
+			if (GetRoundTime <= ShuttleArrive)
+			{
+				ShuttleArrived = true;
+			}
 
-            if (!ShuttleArrived)
+			if (!ShuttleArrived)
             {
                 roundTimer.text = Mathf.Floor((GetRoundTime - ShuttleArrive) / 60).ToString("00") + ":" + ((GetRoundTime - ShuttleArrive) % 60).ToString("00") + "ETA";
             }
