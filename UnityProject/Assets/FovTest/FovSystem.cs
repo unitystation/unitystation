@@ -15,6 +15,8 @@ public class FovSystem : MonoBehaviour
 	public Material maskBlurMaterial;
 	public Material maskPixelateMaterial;
 
+	public RenderTexture globalOcclusionMask;
+
 	public FovRenderSettings renderSettings;
 
 	private const string MaskLayerName = "FieldOfViewMask";
@@ -22,6 +24,8 @@ public class FovSystem : MonoBehaviour
 
 	private Camera mMainCamera;
 	private FovMaskRenderer mFovMaskRenderer;
+	private Vector2 mLastScreenSize;
+	private float mLastOrthografic;
 
 	private void Awake()
 	{
@@ -35,6 +39,14 @@ public class FovSystem : MonoBehaviour
 
 	private void OnRenderImage(RenderTexture iSource, RenderTexture iDestination)
 	{
+		if (mLastScreenSize != new Vector2(Screen.width, Screen.height) || globalOcclusionMask == null || mLastOrthografic != mMainCamera.orthographicSize)
+		{
+			mLastOrthografic = mMainCamera.orthographicSize;
+			mLastScreenSize = new Vector2(Screen.width, Screen.height);
+			globalOcclusionMask = new RenderTexture(Screen.width, Screen.height, 0);
+			Shader.SetGlobalTexture("_FovMask", globalOcclusionMask);
+		}
+
 		if (maskBlitMaterial == null)
 		{
 			Debug.Log($"FovSystemManager: Unable to blit Fov mask. {nameof(maskBlitMaterial)} not provided.");
@@ -43,27 +55,27 @@ public class FovSystem : MonoBehaviour
 
 		var _mask = mFovMaskRenderer.mask;
 
+
 		if (_mask == null)
 		{
 			Graphics.Blit(iSource, iDestination);
 			return;
 		}
 
-		var rt2 = RenderTexture.GetTemporary(_mask.width, _mask.height, 0, _mask.format);
+		globalOcclusionMask.DiscardContents();
 
 		maskIntensifyMaterial.SetFloat("_CorrectionOffset", renderSettings.maskCorrection);
-		Graphics.Blit(_mask, rt2, maskIntensifyMaterial);
+		Graphics.Blit(_mask, globalOcclusionMask, maskIntensifyMaterial);
 
-		Blur(rt2, _mask);
+		Blur(globalOcclusionMask, _mask);
 
-		rt2.DiscardContents();
-		Pixelate(_mask, rt2);
+		globalOcclusionMask.DiscardContents();
+		Pixelate(_mask, globalOcclusionMask);
 
-		maskBlitMaterial.SetTexture("_Mask", rt2);
+
+		maskBlitMaterial.SetTexture("_Mask", globalOcclusionMask);
 		maskBlitMaterial.SetFloat("_Alpha", renderSettings.maskAlpha);
 		Graphics.Blit(iSource, iDestination, maskBlitMaterial);
-
-		RenderTexture.ReleaseTemporary(rt2);
 	}
 
 	private void Blur(RenderTexture source, RenderTexture destination)
@@ -105,4 +117,7 @@ public class FovSystem : MonoBehaviour
 		maskPixelateMaterial.SetInt("_PixelateY", renderSettings.pixelateSize);
 		Graphics.Blit(source, destination, maskPixelateMaterial);
 	}
+
+
+
 }

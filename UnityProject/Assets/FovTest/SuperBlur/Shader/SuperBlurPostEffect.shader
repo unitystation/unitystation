@@ -128,7 +128,7 @@ Shader "Custom/SuperBlurPostEffect"
 		blurredSum += tex2D(_MainTex, IN.blurTexcoord.xy).xyz * 0.35294117;
 		blurredSum += tex2D(_MainTex, IN.blurTexcoord.zw).xyz * 0.35294117;
 
-		return lerp (mainSample, blurredSum, _blurMask).rgbb;
+		return blurredSum.rgbb;//lerp (mainSample, blurredSum, _blurMask).rgbb;
 	#endif
 	}
 
