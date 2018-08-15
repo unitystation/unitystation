@@ -422,7 +422,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		playerScript.JobType = GameManager.Instance.GetRandomFreeOccupation(jobType);
-		RespawnPlayer();
 		ForceJobListUpdateMessage.Send();
 	}
 
@@ -573,46 +572,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	//Respawn action for Deathmatch v 0.1.3
-
-	[Server]
-	public void RespawnPlayer(int timeout = 0)
-	{
-		if (GameManager.Instance.RespawnAllowed) {
-			StartCoroutine(InitiateRespawn(timeout));
-		}
-	}
-
-	[Server]
-	private IEnumerator InitiateRespawn(int timeout)
-	{
-		//Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
-		yield return new WaitForSeconds(timeout);
-		RpcAdjustForRespawn();
-
-		EquipmentPool.ClearPool(gameObject);
-
-		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType);
-	}
-
-	[ClientRpc]
-	private void RpcAdjustForRespawn()
-	{
-		ClosetPlayerHandler cph = GetComponent<ClosetPlayerHandler>();
-		if (cph != null)
-		{
-			Destroy(cph);
-		}
-
-		Camera2DFollow.followControl.damping = 0.0f;
-		playerScript.ghost.SetActive(false);
-		isGhost = false;
-		//Hide ghosts and show FieldOfView
-		Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-		Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("FieldOfView");
-		gameObject.GetComponent<InputController>().enabled = false;
-	}
-
 	//FOOD
 	[Command]
 	public void CmdEatFood(GameObject food, string fromSlot)
@@ -625,14 +584,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
 		soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
-		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
-
-		//FIXME: remove health and blood changes after TDM
-		//and use this Cmd for healing hunger and applying 
-		//food related attributes instead:
-		playerHealth.AddHealth(baseFood.healAmount);
-		playerHealth.BloodLevel += baseFood.healAmount;
-		playerHealth.StopBleeding();
 
 		PoolManager.Instance.PoolNetworkDestroy(food);
 		UpdateSlotMessage.Send(gameObject, fromSlot, null, true);

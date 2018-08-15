@@ -8,7 +8,9 @@ using UnityEngine.Rendering;
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
-	public float RoundTime = 480f;
+	public float RoundTime = 660f;
+    private bool ShuttleArrived = false;
+    public float ShuttleArrive = 60f;
 	public bool counting;
 	public List<GameObject> Occupations = new List<GameObject>();
 	public float restartTime = 10f;
@@ -22,15 +24,14 @@ public class GameManager : MonoBehaviour
 	public GameObject StandardOutfit;
 	public bool waitForRestart;
 
-	public float GetRoundTime { get; private set; } = 480f;
+	public float GetRoundTime { get; private set; } = 660f;
 
-	public int RoundsPerMap = 10;
+    public int RoundsPerMap = 10;
 	
 	public string[] Maps = {"Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
 	
 	private int MapRotationCount = 0;
 	private int MapRotationMapsCounter = 0;
-
 
 	//Put the scenes in the unity 3d editor.
 
@@ -95,8 +96,8 @@ public class GameManager : MonoBehaviour
 	{
 		if (waitForRestart)
 		{
-
-			restartTime -= Time.deltaTime;
+            PlayerList.Instance.ReportScores();
+            restartTime -= Time.deltaTime;
 			if (restartTime <= 0f)
 			{
 				waitForRestart = false;
@@ -106,9 +107,23 @@ public class GameManager : MonoBehaviour
 
 		else if (counting)
 		{
-			GetRoundTime -= Time.deltaTime;
-			roundTimer.text = Mathf.Floor(GetRoundTime / 60).ToString("00") + ":" +
-			                  (GetRoundTime % 60).ToString("00");
+            GetRoundTime -= Time.deltaTime;
+
+			if (GetRoundTime <= ShuttleArrive)
+			{
+				ShuttleArrived = true;
+			}
+
+			if (!ShuttleArrived)
+            {
+                roundTimer.text = Mathf.Floor((GetRoundTime - ShuttleArrive) / 60).ToString("00") + ":" + ((GetRoundTime - ShuttleArrive) % 60).ToString("00") + "ETA";
+            }
+
+            if (ShuttleArrived)
+            {
+                roundTimer.text = Mathf.Floor(GetRoundTime / 60).ToString("00") + ":" + (GetRoundTime % 60).ToString("00") + "ETD";
+            }
+
 			if (GetRoundTime <= 0f)
 			{
 				counting = false;
@@ -123,7 +138,6 @@ public class GameManager : MonoBehaviour
 				if (CustomNetworkManager.Instance._isServer)
 				{
 					waitForRestart = true;
-					PlayerList.Instance.ReportScores();
 				}
 			}
 		}
