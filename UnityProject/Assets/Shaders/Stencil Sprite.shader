@@ -24,10 +24,10 @@ Shader "Stencil/Stencil Sprite"
 			"CanUseSpriteAtlas"="True"
 		}
 
-		Stencil {
-			Ref 1
-			Comp equal
-		}
+		//Stencil {
+		//	Ref 1
+		//	Comp equal
+		//}
 
 		Cull Off
 		Lighting Off

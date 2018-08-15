@@ -27,6 +27,8 @@ public class FieldOfViewStencil : MonoBehaviour
 	public MeshFilter ViewMeshFilter;
 	Mesh ViewMesh;
 
+	public bool AffectWalls = false;
+
     int waitToCheck = 0;
 
 	void Start()
@@ -39,7 +41,7 @@ public class FieldOfViewStencil : MonoBehaviour
 	void Update()
 	{
         waitToCheck++;
-        if (waitToCheck > 5)
+        if (waitToCheck > 5 && AffectWalls)
         {
             waitToCheck = 0;
             CheckHitWallsCache();
@@ -127,19 +129,25 @@ public class FieldOfViewStencil : MonoBehaviour
 		Vector3 minPoint = Vector3.zero;
 		Vector3 maxPoint = Vector3.zero;
 
-		for (int i = 0; i < EdgeResolveIterations; i++) {
+		for (int i = 0; i < EdgeResolveIterations; i++)
+		{
 			float angle = (minAngle + maxAngle) / 2;
 			ViewCastInfo newViewCast = ViewCast(angle);
 
 			bool edgeDstThreshholdExceeded = Mathf.Abs(minViewCast.dst - newViewCast.dst) > EdgeDistanceThreshhold;
-			if (newViewCast.hit == minViewCast.hit && !edgeDstThreshholdExceeded) {
+
+			if (newViewCast.hit == minViewCast.hit && !edgeDstThreshholdExceeded)
+			{
 				minAngle = angle;
 				minPoint = newViewCast.point;
-			} else {
+			}
+			else
+			{
 				maxAngle = angle;
 				maxPoint = newViewCast.point;
 			}
 		}
+
 		return new EdgeInfo(minPoint, maxPoint);
 	}
 
@@ -148,44 +156,55 @@ public class FieldOfViewStencil : MonoBehaviour
 		Vector3 dir = DirFromAngle(globalAngle, true);
 		hit = Physics2D.Raycast(transform.position, dir, ViewRadius, ObstacleMask);
 		//	Debug.DrawRay(transform.position, dir * 40f, Color.red, 0.1f);
-		if (hit && hit.collider != null) {
+		if (hit && hit.collider != null)
+		{
 			Vector3 hitPosition = Vector3.zero;
 
 			//Hit a closed door (Layer 17)
-			if(hit.collider.gameObject.layer == 17){
-				if(!hitDoors.Contains(hit.collider.gameObject)){
+			if(hit.collider.gameObject.layer == 17 && AffectWalls)
+			{
+				if(!hitDoors.Contains(hit.collider.gameObject))
+				{
 					hit.collider.gameObject.SendMessage("TurnOffDoorFov", null, SendMessageOptions.DontRequireReceiver);
-
 					hitDoors.Add(hit.collider.gameObject);
 				}
-				if (!curDoors.Contains(hit.collider.gameObject)) {
+
+				if (!curDoors.Contains(hit.collider.gameObject))
+				{
 					curDoors.Add(hit.collider.gameObject);
 				}
 			}
 
 			//Hit a wall (layer 9):
-			if (hit.collider.gameObject.layer == 9) {
+			if (hit.collider.gameObject.layer == 9 && AffectWalls)
+			{
 				//Turn the tilemap color of the wall to white so it is visible
 				hitPosition = Vector3Int.RoundToInt(hit.point + ((Vector2)dir * 0.5f));
 				Tilemap wallTilemap = MatrixManager.Instance.wallsTileMaps[hit.collider];
 				Vector3Int wallCellPos = wallTilemap.WorldToCell(hitPosition);
-				if (!hitWalls.ContainsKey(wallCellPos)) {
+
+				if (!hitWalls.ContainsKey(wallCellPos))
+				{
 					Tilemap fxTileMap = MatrixManager.Instance.wallsToTopLayerFX[hit.collider];
 					/// Check that there actually is a tile on the wall Tilemap as the hitPosition isn't accurate
 					TileBase getTile = wallTilemap.GetTile(wallCellPos);
-					if (getTile != null) {
+					if (getTile != null)
+					{
 						fxTileMap.SetTile(fxTileMap.WorldToCell(hitPosition), null);
 						hitWalls.Add(wallCellPos, fxTileMap);
 					}
 				}
-				if (!curWalls.Contains(wallCellPos)) {
+				if (!curWalls.Contains(wallCellPos))
+				{
 					curWalls.Add(wallCellPos);
 				}
 			}
+
 			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
-		} else {
-			return new ViewCastInfo(false, transform.position + dir * ViewRadius, ViewRadius,
-									globalAngle);
+		}
+		else
+		{
+			return new ViewCastInfo(false, transform.position + dir * ViewRadius, ViewRadius, globalAngle);
 		}
 	}
 
@@ -207,8 +226,7 @@ public class FieldOfViewStencil : MonoBehaviour
 		public float dst;
 		public float angle;
 
-		public ViewCastInfo(bool _hit, Vector3 _point, float _dst,
-							float _angle)
+		public ViewCastInfo(bool _hit, Vector3 _point, float _dst, float _angle)
 		{
 			hit = _hit;
 			point = _point;
