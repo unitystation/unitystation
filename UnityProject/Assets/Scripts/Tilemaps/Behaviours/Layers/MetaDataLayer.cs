@@ -22,7 +22,7 @@ namespace Tilemaps.Behaviours.Layers
 			{
 				if (createIfNotExists)
 				{
-					nodes[position] = new MetaDataNode();
+					nodes[position] = new MetaDataNode(position);
 				}
 				else
 				{
@@ -35,16 +35,27 @@ namespace Tilemaps.Behaviours.Layers
 
 		public bool IsSpaceAt(Vector3Int position)
 		{
-			MetaDataNode node = Get(position, false);
-
-			return node.IsSpace;
+			return Get(position, false).IsSpace;
 		}
 
 		public bool IsRoomAt(Vector3Int position)
 		{
-			MetaDataNode node = Get(position, false);
+			return Get(position, false).IsRoom;
+		}
 
-			return node.IsRoom;
+		public bool IsEmptyAt(Vector3Int position)
+		{
+			return !Get(position, false).Exists;
+		}
+
+		public bool IsOccupiedAt(Vector3Int position)
+		{
+			return Get(position, false).IsOccupied;
+		}
+
+		public bool ExistsAt(Vector3Int position)
+		{
+			return Get(position, false).Exists;
 		}
 	}
 }

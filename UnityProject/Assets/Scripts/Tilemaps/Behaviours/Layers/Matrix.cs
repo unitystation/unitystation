@@ -14,15 +14,17 @@ namespace Tilemaps
         private MetaTileMap metaTileMap;
         private TileList objects;
         private TileList players;
-        private Vector3Int initialOffset;
-        public Vector3Int InitialOffset => initialOffset;
+        public Vector3Int InitialOffset { get; private set; }
 
-        private MetaDataLayer metaDataLayer;
+        private void Awake()
+        {
+            metaTileMap = GetComponent<MetaTileMap>();
+            
+            InitialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
+        }
 
         private void Start()
         {
-            metaDataLayer = GetComponentInChildren<MetaDataLayer>(true);
-            metaTileMap = GetComponent<MetaTileMap>();
             try
             {
                 objects = ((ObjectLayer)metaTileMap.Layers[LayerType.Objects]).Objects;
@@ -31,11 +33,6 @@ namespace Tilemaps
             {
                 Debug.LogError("CAST ERROR: Make sure everything is in its proper layer type.");
             }
-        }
-
-        private void Awake()
-        {
-            initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
         }
 
         public bool IsPassableAt(Vector3Int origin, Vector3Int position)

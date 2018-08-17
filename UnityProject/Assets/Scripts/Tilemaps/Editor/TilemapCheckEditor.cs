@@ -15,9 +15,6 @@ namespace Tilemaps.Editor
 	{
 		private static bool passable, atmosPassable;
 
-		private static bool north;
-		private static bool south;
-
 		private static bool space;
 		private static bool spaceMatrix;
 
@@ -26,8 +23,9 @@ namespace Tilemaps.Editor
 		private static bool atmos;
 		private static bool pressure;
 		private static bool positions;
-		
+
 		private static bool nodes;
+		private static bool neighbors;
 
 		private SceneView currentSceneView;
 
@@ -56,8 +54,6 @@ namespace Tilemaps.Editor
 		{
 			passable = GUILayout.Toggle(passable, "Passable");
 			atmosPassable = GUILayout.Toggle(atmosPassable, "Atmos Passable");
-			north = GUILayout.Toggle(north, "From North");
-			south = GUILayout.Toggle(south, "From South");
 			space = GUILayout.Toggle(space, "Is Space");
 			spaceMatrix = GUILayout.Toggle(spaceMatrix, "Is Space (Matrix)");
 			corners = GUILayout.Toggle(corners, "Show Corners");
@@ -66,6 +62,7 @@ namespace Tilemaps.Editor
 			pressure = GUILayout.Toggle(pressure, "Show Pressure");
 			positions = GUILayout.Toggle(positions, "Show Positions");
 			nodes = GUILayout.Toggle(nodes, "Show Nodes");
+			neighbors = GUILayout.Toggle(neighbors, "Neighbors Node");
 
 			if (currentSceneView)
 			{
@@ -94,34 +91,20 @@ namespace Tilemaps.Editor
 
 			Gizmos.matrix = scr.transform.localToWorldMatrix;
 
-			Color blue = Color.blue;
-			blue.a = 0.5f;
-
-			Color red = Color.red;
-			red.a = 0.5f;
-
-			Color green = Color.green;
-			green.a = 0.5f;
-
 			foreach (Vector3Int position in new BoundsInt(start, end - start).allPositionsWithin)
 			{
 				MetaDataNode node = scr.Get(position, false);
-
-
-				Vector3 centerPosition = position + new Vector3(0.5f, 0.5f, 0);
 
 				if (rooms)
 				{
 					if (node.IsRoom)
 					{
-						Gizmos.color = blue;
-						Gizmos.DrawCube(centerPosition, Vector3.one);
+						DrawCube(position, Color.blue);
 					}
 
 					if (node.IsSpace)
 					{
-						Gizmos.color = red;
-						Gizmos.DrawCube(centerPosition, Vector3.one);
+						DrawCube(position, Color.red);
 					}
 				}
 
@@ -131,9 +114,7 @@ namespace Tilemaps.Editor
 					{
 						if (node.Atmos.State != AtmosState.None)
 						{
-							Gizmos.color = node.Atmos.State == AtmosState.Updating ? green : red;
-
-							Gizmos.DrawCube(centerPosition, Vector3.one);
+							DrawCube(position, node.Atmos.State == AtmosState.Updating ? Color.green : Color.red);
 						}
 
 						if (camDistance < 10f)
@@ -147,30 +128,38 @@ namespace Tilemaps.Editor
 				{
 					if (node.Exists)
 					{
-						Color blue1 = Color.blue;
-						blue1.a = node.Atmos.Pressure / 100;
-						Gizmos.color = blue1;
+						DrawCube(position, Color.blue, node.Atmos.Pressure / 200);
 
 						if (camDistance < 10f)
 						{
 							Handles.Label(position + Vector3.one, $"{node.Atmos.Pressure:0.###}");
 						}
-
-						Gizmos.DrawCube(centerPosition, Vector3.one);
 					}
 				}
 
 				if (positions && camDistance < 10f)
 				{
-					Handles.Label(centerPosition + new Vector3(0, 1f, 0), position.x + "," + position.y);
+					Handles.Label(position + new Vector3(0.5f, 1.5f, 0), position.x + "," + position.y);
 				}
 
 				if (nodes)
 				{
 					if (node.Exists)
 					{
-						Gizmos.color = green;
-						Gizmos.DrawCube(centerPosition, Vector3.one);
+						DrawCube(position, Color.green);
+					}
+				}
+
+				if (neighbors)
+				{
+					if (node.Exists)
+					{
+						DrawCube(position, Color.blue, node.Neighbors.Count / 6f);
+
+						if (camDistance < 10f)
+						{
+							Handles.Label(position + Vector3.one, $"{node.Neighbors.Count}");
+						}
 					}
 				}
 			}
@@ -196,99 +185,50 @@ namespace Tilemaps.Editor
 
 			Gizmos.matrix = scr.transform.localToWorldMatrix;
 
-
-			Color blue = Color.blue;
-			blue.a = 0.5f;
-
-			Color red = Color.red;
-			red.a = 0.5f;
-
-			Color green = Color.green;
-			red.a = 0.5f;
-
 			foreach (Vector3Int position in new BoundsInt(start, end - start).allPositionsWithin)
 			{
-				if(!scr.GetBounds().Contains(position))
+				if (!scr.GetBounds().Contains(position))
 					continue;
-				
+
 				if (space)
 				{
 					if (scr.IsSpaceAt(position))
 					{
-						Gizmos.color = red;
-						Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+						DrawCube(position, Color.red);
 					}
 				}
 				else
 				{
-					if (corners)
+					if (passable)
 					{
-						if (scr.HasTile(position, LayerType.Walls))
+						if (!scr.IsPassableAt(position))
 						{
-							Gizmos.color = green;
-
-							int corner_count = 0;
-							foreach (Vector3Int pos in new[] {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right, Vector3Int.up})
-							{
-								if (!scr.HasTile(position + pos, LayerType.Walls))
-								{
-									corner_count++;
-								}
-								else
-								{
-									corner_count = 0;
-								}
-
-								if (corner_count > 1)
-								{
-									Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
-									break;
-								}
-							}
+							DrawCube(position, Color.blue);
 						}
 					}
-					else
+					else if (atmosPassable)
 					{
-						Gizmos.color = blue;
-						if (passable)
+						if (!scr.IsAtmosPassableAt(position))
 						{
-							if (north)
-							{
-								if (scr.IsPassableAt(position + Vector3Int.up, position))
-								{
-									Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
-								}
-							}
-							else if (south)
-							{
-								if (scr.IsPassableAt(position + Vector3Int.down, position))
-								{
-									Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
-								}
-							}
-							else if (scr.IsPassableAt(position))
-							{
-								Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
-							}
+							DrawCube(position, Color.blue);
 						}
-						else if (atmosPassable)
+					}
+					else if (spaceMatrix)
+					{
+						if (scr.IsSpaceAt(position))
 						{
-							if (scr.IsAtmosPassableAt(position))
-							{
-								Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
-							}
-						}
-						else if (spaceMatrix)
-						{
-							if (scr.IsSpaceAt(position))
-							{
-								Gizmos.color = red;
-								Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
-							}
+							DrawCube(position, Color.red);
 						}
 					}
 				}
 			}
+		}
+
+		private static void DrawCube(Vector3 position, Color color, float alpha = 0.5f)
+		{
+			color.a = alpha;
+			Gizmos.color = color;
+			Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
 		}
 	}
 }

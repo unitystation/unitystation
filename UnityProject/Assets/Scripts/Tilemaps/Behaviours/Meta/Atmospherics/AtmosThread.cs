@@ -11,11 +11,11 @@ namespace Tilemaps.Behaviours.Meta
 
 		private Object lockGetWork = new Object();
 
-		private Atmospherics atmos;
+		private Atmospherics2 atmos;
 		
 		public AtmosThread(MetaDataLayer metaDataLayer)
 		{
-			atmos = new Atmospherics(metaDataLayer);
+			atmos = new Atmospherics2(metaDataLayer);
 		}
 
 		public void Enqueue(Vector3Int position)
@@ -34,7 +34,7 @@ namespace Tilemaps.Behaviours.Meta
 			{
 				if (!atmos.IsIdle)
 				{
-					atmos.run();
+					atmos.Run();
 				}
 				else
 				{

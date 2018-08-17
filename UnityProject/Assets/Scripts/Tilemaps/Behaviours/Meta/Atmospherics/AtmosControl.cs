@@ -14,6 +14,8 @@ namespace Tilemaps.Behaviours.Meta
 		{
 			thread = new AtmosThread(metaDataLayer);
 			new Thread(thread.Run).Start();
+
+			InitializeAtmos();
 		}
 		
 		public override void UpdateAt(Vector3Int position)
@@ -24,6 +26,26 @@ namespace Tilemaps.Behaviours.Meta
 		private void OnDestroy()
 		{
 			thread?.Stop();
+		}
+
+		private void InitializeAtmos()
+		{
+			BoundsInt bounds = metaTileMap.GetBounds();
+			
+			foreach (Vector3Int position in bounds.allPositionsWithin)
+			{
+				MetaDataNode node = metaDataLayer.Get(position, false);
+
+				switch (node.Type)
+				{
+					case NodeType.Room:
+						AtmosUtils.SetAir(node);
+						break;
+					case NodeType.Space:
+						AtmosUtils.SetEmpty(node);
+						break;
+				}
+			}
 		}
 	}
 }

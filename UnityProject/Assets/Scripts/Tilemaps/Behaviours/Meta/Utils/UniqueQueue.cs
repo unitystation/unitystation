@@ -32,6 +32,14 @@ namespace Tilemaps.Behaviours.Meta
 			}
 		}
 
+		public void EnqueueAll(IEnumerable<T> elements)
+		{
+			foreach (T e in elements)
+			{
+				Enqueue(e);
+			}
+		}
+
 		public bool TryDequeue(out T item)
 		{
 			if (queue.TryDequeue(out item))
