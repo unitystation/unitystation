@@ -106,7 +106,7 @@ public class VendorTrigger : InputTrigger
     [Server]
 	private bool ServerVendorInteraction(GameObject originator, Vector3 position, string hand, GameObject itemToVend)
 	{
-//		Debug.Log("status" + allowSell);
+//		Logger.Log("status" + allowSell,);
 		PlayerScript ps = originator.GetComponent<PlayerScript>();
 		if (ps.canNotInteract() || !ps.IsInReach(position) || vendorcontent.Length == 0)
 		{

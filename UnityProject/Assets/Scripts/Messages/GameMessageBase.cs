@@ -14,7 +14,7 @@ public abstract class GameMessageBase : MessageBase
 	{
 		if (id.IsEmpty()) 
 		{
-			Debug.LogWarning($"{this} tried to wait on an empty (0) id");
+			Logger.LogWarning($"{this} tried to wait on an empty (0) id", Category.NetMessage);
 			yield break;
 		}
 
@@ -23,7 +23,7 @@ public abstract class GameMessageBase : MessageBase
 		{
 			if (tries++ > 10)
 			{
-				Debug.LogWarning($"{this} could not find object with id {id}");
+				Logger.LogWarning($"{this} could not find object with id {id}", Category.NetMessage);
 				yield break;
 			}
 

@@ -15,7 +15,7 @@ public class InventoryInteractMessage : ClientMessage
 	//Serverside
 	public override IEnumerator Process()
 	{
-		//		Debug.Log("Processed " + ToString());
+		//		Logger.Log("Processed " + ToString());
 		if (Subject.Equals(NetworkInstanceId.Invalid))
 		{
 			//Drop item message

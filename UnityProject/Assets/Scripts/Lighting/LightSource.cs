@@ -143,7 +143,7 @@ namespace Lighting
 				}
 				else
 				{
-					Debug.LogWarning("LightSource still failing Renderer sync");
+					Logger.LogWarning("LightSource still failing Renderer sync", Category.Lighting);
 				}
 			}
 			else

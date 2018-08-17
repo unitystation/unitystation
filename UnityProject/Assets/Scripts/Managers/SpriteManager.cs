@@ -13,10 +13,10 @@ namespace Sprites
 			{
 				if (sprites.ContainsKey(key))
 				{
-					//					Debug.Log("Sprite found with key: " + key);
+					//					Logger.Log("Sprite found with key: " + key);
 					return sprites[key];
 				}
-				Debug.Log("SPRITE MANAGER ERROR, KEY " + key + "NOT FOUND IN SPRITES");
+				Logger.Log("SPRITE MANAGER ERROR, KEY " + key + "NOT FOUND IN SPRITES");
 				return null;
 			}
 			set { sprites[key] = value; }

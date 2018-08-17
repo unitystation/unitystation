@@ -9,6 +9,8 @@ namespace UI
 {
 	public class ControlChat : MonoBehaviour
 	{
+        public static ControlChat Instance;
+
 		private readonly List<ChatEvent> _localEvents = new List<ChatEvent>();
 		public Toggle channelListToggle;
 
@@ -16,8 +18,10 @@ namespace UI
 		public GameObject channelToggle;
 		public GameObject chatInputWindow;
 		public RectTransform ChatPanel;
+        public Transform content;
+        public GameObject chatEntryPrefab;
+		public GameObject background;
 
-		public Text CurrentChannelText;
 		// set in inspector (to enable/disable panel)
 
 		public InputField InputFieldChat;
@@ -28,10 +32,22 @@ namespace UI
 		public bool ShowState = true;
 		public InputField usernameInput;
 
-		public void AddChatEvent(ChatEvent chatEvent)
+        private void Awake()
+        {
+            if(Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            } else
+            {
+                Destroy(gameObject); //Kill the whole tree
+            }
+        }
+
+        public void AddChatEvent(ChatEvent chatEvent)
 		{
 			_localEvents.Add(chatEvent);
-			ChatRelay.Instance.RefreshLog();
+			//ChatRelay.Instance.RefreshLog();
 		}
 
 		public List<ChatEvent> GetChatEvents()
@@ -53,7 +69,9 @@ namespace UI
 			if (!chatInputWindow.activeInHierarchy && !UIManager.IsInputFocus && Input.GetKey(KeyCode.T) && GameData.IsInGame
 			    && CustomNetworkManager.Instance.IsClientConnected())
 			{
+                Events.EventManager.Broadcast(Events.EVENT.ChatFocused);
 				chatInputWindow.SetActive(true);
+				background.SetActive(true);
 				UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
 				EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
 				InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
@@ -101,16 +119,19 @@ namespace UI
 		{
 			UIManager.IsInputFocus = false;
 			chatInputWindow.SetActive(false);
-		}
+            Events.EventManager.Broadcast(Events.EVENT.ChatUnfocused);
+			background.SetActive(false);
+        }
 
 		public void RefreshChannelPanel()
 		{
-			Toggle_ChannelPannel(false);
-			Toggle_ChannelPannel(true);
-		}
+            channelPanel.gameObject.SetActive(false);
+            channelPanel.gameObject.SetActive(true);
+        }
 
-		public void Toggle_ChannelPannel(bool isOn)
+		public void Toggle_ChannelPannel()
 		{
+            bool isOn = channelListToggle.isOn;
 //			SoundManager.Play("Click01");
 			if (isOn)
 			{
@@ -118,14 +139,14 @@ namespace UI
 				PruneUnavailableChannels();
 				PopulateChannelPanel(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(),
 					PlayerManager.LocalPlayerScript.SelectedChannels);
-//				Debug.Log($"Toggling channel panel ON. selected:{ListChannels(PlayerManager.LocalPlayerScript.SelectedChannels)}, " +
+//				Logger.Log($"Toggling channel panel ON. selected:{ListChannels(PlayerManager.LocalPlayerScript.SelectedChannels)}, " +
 //				          $"available:{ListChannels(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask())}");
 			}
 			else
 			{
 				channelPanel.gameObject.SetActive(false);
 				EmptyChannelPanel();
-//				Debug.Log("Toggling channel panel OFF.");
+//				Logger.Log("Toggling channel panel OFF.");
 			}
 		}
 
@@ -168,7 +189,9 @@ namespace UI
 				toggle.onValueChanged.AddListener(Toggle_Channel);
 
 				toggle.isOn = (channelsSelected & currentChannel) == currentChannel;
+                if(!ChannelToggles.ContainsKey(currentChannel)) { 
 				ChannelToggles.Add(currentChannel, toggle);
+                    }
 			}
 
 			float width = 64f;
@@ -176,7 +199,7 @@ namespace UI
 			LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
 			HorizontalLayoutGroup horizontalLayoutGroup = channelPanel.GetComponent<HorizontalLayoutGroup>();
 			layoutElement.minWidth = width * count + horizontalLayoutGroup.spacing * count;
-//			Debug.Log($"Populating wid={width} cnt={count} minWid={layoutElement.minWidth}");
+//			Logger.Log($"Populating wid={width} cnt={count} minWid={layoutElement.minWidth}");
 		}
 
 		public void EmptyChannelPanel()

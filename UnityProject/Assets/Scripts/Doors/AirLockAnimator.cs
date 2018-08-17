@@ -119,7 +119,7 @@ namespace Doors
 			}
 			else
 			{
-				Debug.Log("Offset and the range of sprites must be a positive or zero.");
+				Logger.Log("Offset and the range of sprites must be a positive or zero.", Category.Doors);
 			}
 		}
 

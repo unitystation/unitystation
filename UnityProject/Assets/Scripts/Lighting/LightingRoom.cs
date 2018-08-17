@@ -47,7 +47,7 @@ namespace Lighting
 
 		private void PrintBounds()
 		{
-			Debug.Log("LIGHTING: Bounds calc for " + gameObject.name + ": " + bounds);
+			Logger.Log("LIGHTING: Bounds calc for " + gameObject.name + ": " + bounds, Category.Lighting);
 		}
 
 		public void LightSwitchOff()

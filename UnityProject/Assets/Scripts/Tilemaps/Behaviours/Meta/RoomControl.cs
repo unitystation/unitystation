@@ -53,6 +53,7 @@ namespace Tilemaps.Behaviours.Meta
 			}
 		}
 
+<<<<<<< HEAD
 		private void LocateRooms()
 		{
 			BoundsInt bounds = metaTileMap.GetBounds();
@@ -61,6 +62,10 @@ namespace Tilemaps.Behaviours.Meta
 			{
 				FindRoomAt(position);
 			}
+=======
+			sw.Stop();
+			Logger.Log("Room init: " + sw.ElapsedMilliseconds + " ms",Category.Atmos);
+>>>>>>> upstream/develop
 		}
 
 		private void FindRoomAt(Vector3Int position)
