@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -21,11 +22,13 @@ public class FieldOfViewStencil : MonoBehaviour
 
 	private HashSet<GameObject> hitDoors = new HashSet<GameObject>();
 	private HashSet<GameObject> curDoors = new HashSet<GameObject>();
+	private MeshBuffer mMeshBuffer;
+
+	List<Vector3> viewPoints = new List<Vector3>(400);
 
 	RaycastHit2D hit;
 
 	public MeshFilter ViewMeshFilter;
-	Mesh ViewMesh;
 
 	public bool AffectWalls = false;
 
@@ -33,9 +36,10 @@ public class FieldOfViewStencil : MonoBehaviour
 
 	void Start()
 	{
-		ViewMesh = new Mesh();
-		ViewMesh.name = "View Mesh";
-		ViewMeshFilter.mesh = ViewMesh;
+		if (mMeshBuffer == null)
+			mMeshBuffer = new MeshBuffer();
+
+		ViewMeshFilter.mesh = mMeshBuffer.mesh;
 	}
 
 	void Update()
@@ -75,22 +79,28 @@ public class FieldOfViewStencil : MonoBehaviour
 	{
 		int stepCount = Mathf.RoundToInt(ViewAngle * MeshResolution);
 		float stepAngleSize = ViewAngle / stepCount;
-		List<Vector3> viewPoints = new List<Vector3>();
+
 
 		ViewCastInfo oldViewCast = new ViewCastInfo();
 
-		for (int i = 0; i <= stepCount; i++) {
+		for (int i = 0; i <= stepCount; i++)
+		{
 			float angle = transform.eulerAngles.z - ViewAngle / 2 + stepAngleSize * i;
 			ViewCastInfo newViewCast = ViewCast(angle);
 
-			if (i > 0) {
+			if (i > 0)
+			{
 				bool edgeDstThreshholdExceeded = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > EdgeDistanceThreshhold;
-				if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && edgeDstThreshholdExceeded)) {
+
+				if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && edgeDstThreshholdExceeded))
+				{
 					EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
-					if (edge.pointA != Vector3.zero) {
+					if (edge.pointA != Vector3.zero)
+					{
 						viewPoints.Add(edge.pointA);
 					}
-					if (edge.pointB != Vector3.zero) {
+					if (edge.pointB != Vector3.zero)
+					{
 						viewPoints.Add(edge.pointB);
 					}
 				}
@@ -100,26 +110,29 @@ public class FieldOfViewStencil : MonoBehaviour
 			oldViewCast = newViewCast;
 		}
 
-		int vertexCount = viewPoints.Count + 1;
-		Vector3[] verticies = new Vector3[vertexCount];
-		int[] triangles = new int[(vertexCount - 2) * 3];
+		int pointCount = viewPoints.Count + 1;
 
-		verticies[0] = Vector3.zero;
+		if (pointCount > mMeshBuffer.bufferSize)
+			mMeshBuffer.bufferSize = pointCount;
 
-		for (int i = 0; i < vertexCount - 1; i++) {
-			verticies[i + 1] = transform.InverseTransformPoint(viewPoints[i]);// + Vector3.up * maskCutawayDst;
+		// Fill.
+		mMeshBuffer.vertices[0] = Vector3.zero;
 
-			if (i < vertexCount - 2) {
-				triangles[i * 3] = 0;
-				triangles[i * 3 + 1] = i + 1;
-				triangles[i * 3 + 2] = i + 2;
+		for (int index = 0; index < mMeshBuffer.vertices.Length - 1; index++)
+		{
+			if (index < viewPoints.Count)
+			{
+				mMeshBuffer.vertices[index + 1] = transform.InverseTransformPoint(viewPoints[index]); // + Vector3.up * maskCutawayDst;
+			}
+			else
+			{
+				mMeshBuffer.vertices[index + 1] = Vector3.zero;
 			}
 		}
 
-		ViewMesh.Clear();
-		ViewMesh.vertices = verticies;
-		ViewMesh.triangles = triangles;
-		ViewMesh.RecalculateNormals();
+		mMeshBuffer.Update();
+
+		viewPoints.Clear();
 	}
 
 	EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
@@ -245,5 +258,95 @@ public class FieldOfViewStencil : MonoBehaviour
 			pointA = _pointA;
 			pointB = _pointB;
 		}
+	}
+
+	private class MeshBuffer
+	{
+		public Vector3[] vertices;
+		public int[] triangles;
+
+		private const int DefaultSize = 1500;
+
+		private int mBufferSize;
+
+		public MeshBuffer()
+		{
+			mesh = new Mesh { name = "Buffered View Mesh" };
+
+			bufferSize = DefaultSize;
+		}
+
+		public int bufferSize
+		{
+			get
+			{
+				return mBufferSize;
+			}
+
+			set
+			{
+				if (mBufferSize == value)
+					return;
+
+				mBufferSize = value;
+
+				RebuildVertices();
+
+				RebuildTriangles();
+			}
+		}
+
+		public void Update()
+		{
+			mesh.vertices = vertices;
+		}
+
+		private void RebuildVertices()
+		{
+			// Set array size.
+			int _vertsSize = bufferSize + 1;
+
+			if (vertices == null)
+			{
+				vertices = new Vector3[_vertsSize];
+			}
+			if (vertices.Length < _vertsSize)
+			{
+				Array.Resize(ref vertices, _vertsSize);
+			}
+
+			mesh.vertices = vertices;
+		}
+
+		private void RebuildTriangles()
+		{
+			int _triangleSize = (bufferSize - 2) * 3;
+
+			// Set array size.
+			if (triangles == null)
+			{
+				triangles = new int[_triangleSize];
+			}
+			if (triangles.Length < _triangleSize)
+			{
+				Array.Resize(ref triangles, _triangleSize);
+			}
+
+			// Fill data.
+			for (int index = 0; index < bufferSize - 2; index++)
+			{
+				//if (index < bufferSize - 2)
+				{
+					triangles[index * 3] = 0;
+					triangles[index * 3 + 1] = index + 1;
+					triangles[index * 3 + 2] = index + 2;
+				}
+			}
+
+			// Apply data.
+			mesh.triangles = triangles;
+		}
+
+		public Mesh mesh { get; private set; }
 	}
 }
