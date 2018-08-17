@@ -1,56 +1,50 @@
-﻿using UnityEngine;
+﻿using Tilemaps.Behaviours.Meta;
+using UnityEngine;
 
 
-	public class MetaDataLayer : MonoBehaviour
+public class MetaDataLayer : MonoBehaviour
+{
+	private MetaDataDictionary nodes = new MetaDataDictionary();
+
+	public MetaDataNode Get(Vector3Int position, bool createIfNotExists = true)
 	{
-		private MetaDataDictionary nodes = new MetaDataDictionary();
-
-		private MetaTileMap metaTileMap;
-
-		private void Awake()
+		if (!nodes.ContainsKey(position))
 		{
-			metaTileMap = GetComponent<MetaTileMap>();
-		}
-
-		public MetaDataNode Get(Vector3Int position, bool createIfNotExists = true)
-		{
-			if (!nodes.ContainsKey(position))
+			if (createIfNotExists)
 			{
-				if (createIfNotExists)
-				{
-					nodes[position] = new MetaDataNode(position);
-				}
-				else
-				{
-					return MetaDataNode.None;
-				}
+				nodes[position] = new MetaDataNode(position);
 			}
-
-			return nodes[position];
+			else
+			{
+				return MetaDataNode.None;
+			}
 		}
 
-		public bool IsSpaceAt(Vector3Int position)
-		{
-			return Get(position, false).IsSpace;
-		}
-
-		public bool IsRoomAt(Vector3Int position)
-		{
-			return Get(position, false).IsRoom;
-		}
-
-		public bool IsEmptyAt(Vector3Int position)
-		{
-			return !Get(position, false).Exists;
-		}
-
-		public bool IsOccupiedAt(Vector3Int position)
-		{
-			return Get(position, false).IsOccupied;
-		}
-
-		public bool ExistsAt(Vector3Int position)
-		{
-			return Get(position, false).Exists;
-		}
+		return nodes[position];
 	}
+
+	public bool IsSpaceAt(Vector3Int position)
+	{
+		return Get(position, false).IsSpace;
+	}
+
+	public bool IsRoomAt(Vector3Int position)
+	{
+		return Get(position, false).IsRoom;
+	}
+
+	public bool IsEmptyAt(Vector3Int position)
+	{
+		return !Get(position, false).Exists;
+	}
+
+	public bool IsOccupiedAt(Vector3Int position)
+	{
+		return Get(position, false).IsOccupied;
+	}
+
+	public bool ExistsAt(Vector3Int position)
+	{
+		return Get(position, false).Exists;
+	}
+}

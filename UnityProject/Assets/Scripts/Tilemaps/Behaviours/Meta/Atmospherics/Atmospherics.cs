@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Threading;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Meta.Data;
-using Tilemaps.Utils;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
-using UnityEngine.SceneManagement;
 
 namespace Tilemaps.Behaviours.Meta
 {

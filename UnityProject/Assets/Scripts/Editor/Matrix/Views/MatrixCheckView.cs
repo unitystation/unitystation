@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Tilemaps.Behaviours.Layers;
 using UnityEditor;
 using UnityEngine;
 
@@ -45,7 +44,7 @@ public class MatrixCheckView : BasicView
 	private class AtmosPassableCheck : Check<MetaTileMap>
 	{
 		public override string Label { get; } = "Not AtmosPassable";
-		
+
 		public override void DrawGizmo(MetaTileMap source, Vector3Int position)
 		{
 			if (!source.IsAtmosPassableAt(position))
@@ -58,7 +57,7 @@ public class MatrixCheckView : BasicView
 	private class PassableCheck : Check<MetaTileMap>
 	{
 		public override string Label { get; } = "Not Passable";
-		
+
 		public override void DrawGizmo(MetaTileMap source, Vector3Int position)
 		{
 			if (!source.IsPassableAt(position))
@@ -71,7 +70,7 @@ public class MatrixCheckView : BasicView
 	private class SpaceCheck : Check<MetaTileMap>
 	{
 		public override string Label { get; } = "Is Space";
-		
+
 		public override void DrawGizmo(MetaTileMap source, Vector3Int position)
 		{
 			if (source.IsSpaceAt(position))

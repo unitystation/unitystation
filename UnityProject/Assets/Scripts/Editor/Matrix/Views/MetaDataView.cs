@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Meta;
 using UnityEditor;
 using UnityEngine;
 
