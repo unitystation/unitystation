@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Objects;
-using Tilemaps.Tiles;
-using Tilemaps.Utils;
 using UnityEngine;
-using System;
 
+<<<<<<< HEAD
 namespace Tilemaps
 {
 <<<<<<< HEAD
@@ -115,6 +111,10 @@ namespace Tilemaps
     }
 =======
 	public class Matrix : MonoBehaviour
+=======
+
+public class Matrix : MonoBehaviour
+>>>>>>> upstream/develop
 	{
 		private MetaTileMap metaTileMap;
 		private TileList objects;
@@ -231,5 +231,8 @@ namespace Tilemaps
 			return objects.Get(position).Select(x => x.GetComponent<IElectricityIO>()).Where(x => x != null);
 		}
 	}
+<<<<<<< HEAD
 >>>>>>> upstream/develop
 }
+=======
+>>>>>>> upstream/develop

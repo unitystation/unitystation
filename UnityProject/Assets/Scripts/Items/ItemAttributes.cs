@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using Random = System.Random;
@@ -97,7 +96,7 @@ public class ItemAttributes : NetworkBehaviour
 
 
 	//    Enum test:
-	//    
+	//
 	//    private void OnEnable()
 	//    {
 	//        if (hierarchy == null || hierarchy.Equals(""))
@@ -192,9 +191,9 @@ public class ItemAttributes : NetworkBehaviour
 		spriteType = masterType;
 		GetComponentInChildren<SpriteRenderer>().sprite = stateSprite;
 
-		//			Logger.Log(name + " size=" + size + " type=" + type + " spriteType=" 
-		//			          + spriteType + " (" + desc + ") : " 
-		//			          + icon_state + " / " + item_state + " / C: " + clothingReference 
+		//			Logger.Log(name + " size=" + size + " type=" + type + " spriteType="
+		//			          + spriteType + " (" + desc + ") : "
+		//			          + icon_state + " / " + item_state + " / C: " + clothingReference
 		//			          + ", L: " + inHandReferenceLeft + ", R: " + inHandReferenceRight + ", I: " + inventoryIcon.icon + '\n'
 		//			          +	dmDic.Keys.Aggregate("", (current, key) => current + (key + ": ") + dmDic[key] + "\n"));
 	}
@@ -203,9 +202,9 @@ public class ItemAttributes : NetworkBehaviour
 	{
 		if (dmiIcon == null || dmiIcon.getName().Equals(""))
 		{
-			
+
 			Logger.Log($"DmiIcon '{dmiIcon}' is null, unable to get state '{icon_state}'", Category.DmMetadata);
-			return new Sprite();
+			return null;
 		}
 
 		DmiState iState = dmiIcon.getState(icon_state);
@@ -215,7 +214,7 @@ public class ItemAttributes : NetworkBehaviour
 		}
 
 		Logger.Log($"Failed to find inventory sprite '{icon_state}' in icon '{dmiIcon.icon}'", Category.DmMetadata);
-		return new Sprite();
+		return null;
 	}
 
 	private string getItemDebugInfo()
@@ -289,7 +288,7 @@ public class ItemAttributes : NetworkBehaviour
 		DmiIcon invIcon = dmi.getIconByState(icon_state);
 		if (invIcon != null)
 		{
-			
+
 			Logger.Log($"{name} is doing bad dmi.getIconByState({icon_state}) = {invIcon.icon}", Category.DmMetadata);
 			return invIcon;
 		}
@@ -591,7 +590,7 @@ public class ItemAttributes : NetworkBehaviour
 	{
 		if (!string.IsNullOrEmpty(itemDescription))
 		{
-			UIManager.Chat.AddChatEvent(new ChatEvent(itemDescription, ChatChannel.Examine));
+			ChatRelay.Instance.AddToChatLogClient(itemDescription, ChatChannel.Examine);
 		}
 	}
 }

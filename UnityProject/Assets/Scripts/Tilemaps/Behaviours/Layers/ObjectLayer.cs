@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Tilemaps.Behaviours.Objects;
-using Tilemaps.Tiles;
-using Tilemaps.Utils;
 using UnityEngine;
 
-namespace Tilemaps.Behaviours.Layers
-{
+
 	[ExecuteInEditMode]
 	public class ObjectLayer : Layer
 	{
@@ -97,4 +93,3 @@ namespace Tilemaps.Behaviours.Layers
 			base.ClearAllTiles();
 		}
 	}
-}

@@ -1,10 +1,6 @@
-﻿using PlayGroup;
-using Tilemaps.Behaviours.Layers;
-using UI;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Tilemaps.Behaviours.Interaction
-{
+
 	public class TableInteraction : TileInteraction
 	{
 		public TableInteraction(GameObject gameObject, GameObject originator, Vector3 position, string hand) : base(
@@ -39,4 +35,3 @@ namespace Tilemaps.Behaviours.Interaction
 			item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 		}
 	}
-}

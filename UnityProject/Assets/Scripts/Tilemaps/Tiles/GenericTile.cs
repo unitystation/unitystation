@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Tilemaps.Tiles
-{
+
 	public abstract class GenericTile : TileBase
 	{
 		public virtual Sprite PreviewSprite { get; protected set; }
@@ -14,4 +13,3 @@ namespace Tilemaps.Tiles
 			tileData.colliderType = Tile.ColliderType.Grid;
 		}
 	}
-}

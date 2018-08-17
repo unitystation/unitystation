@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Lighting
-{
+
 	public class LightingSourceManager : MonoBehaviour
 	{
 		private LightingRoom lightingRoomParent;
@@ -38,4 +37,3 @@ namespace Lighting
 		{
 		}
 	}
-}

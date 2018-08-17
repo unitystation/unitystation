@@ -1,12 +1,9 @@
 ﻿using System.Collections;
-using PlayGroup;
-using Sprites;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	/// <summary>
 	///     Controller for the heart monitor GUI
 	/// </summary>
@@ -189,4 +186,3 @@ namespace UI
 			}
 		}
 	}
-}

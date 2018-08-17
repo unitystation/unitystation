@@ -1,8 +1,6 @@
-﻿using PlayGroup;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace UI
-{
+
 	public class Hands : MonoBehaviour
 	{
 		public Transform selector;
@@ -152,4 +150,3 @@ namespace UI
 			UIManager.TryUpdateSlot(new UISlotObject(slot1.eventName, slot2.Item));
 		}
 	}
-}

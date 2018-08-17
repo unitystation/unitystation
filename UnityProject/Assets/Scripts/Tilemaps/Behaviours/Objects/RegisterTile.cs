@@ -1,14 +1,8 @@
-﻿using System.Net.Configuration;
-using PlayGroup;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Meta;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
-using Debug = System.Diagnostics.Debug;
 
-namespace Tilemaps.Behaviours.Objects
-{
-	public enum ObjectType
+
+public enum ObjectType
 	{
 		Item,
 		Object,
@@ -130,4 +124,3 @@ namespace Tilemaps.Behaviours.Objects
 			return true;
 		}
 	}
-}

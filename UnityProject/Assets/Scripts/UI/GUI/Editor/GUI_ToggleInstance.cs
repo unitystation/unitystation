@@ -1,7 +1,6 @@
 ﻿using UnityEditor;
 
-namespace UI
-{
+
 	abstract public class GUI_ToggleInstance : GUI_ComponentInstance
 	{
 
@@ -12,4 +11,4 @@ namespace UI
 			Create("UI/GUI/Toggle", "Toggle");
 		}
 	}
-}
+

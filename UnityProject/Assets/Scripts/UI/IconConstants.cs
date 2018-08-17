@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UI
-{
+
 	public static class IconConstants
 	{
 		public static readonly Dictionary<ChatChannel, string> ChatPanelIcons
@@ -23,4 +22,3 @@ namespace UI
 				{ChatChannel.Ghost, ""} //fa-snapchat-ghost
 			};
 	}
-}

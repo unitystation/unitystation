@@ -1,16 +1,10 @@
 using System.Collections;
-using PlayGroups.Input;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using Facepunch.Steamworks;
-using Tilemaps.Behaviours.Objects;
-using UnityEngine.Experimental.UIElements;
-using Util;
 
-namespace PlayGroup
-{
-	public class PlayerScript : ManagedNetworkBehaviour
+
+public class PlayerScript : ManagedNetworkBehaviour
 	{
 		// the maximum distance the player needs to be to an object to interact with it
 		//1.75 is the optimal distance to now have any direction click too far
@@ -40,8 +34,9 @@ namespace PlayGroup
 
 		public PlayerSprites playerSprites { get; set; }
 
-		public PlayerSync playerSync { get; set; }
-		
+		private PlayerSync playerSync; //Example of good on-demand reference init
+		public PlayerSync PlayerSync => playerSync ? playerSync : ( playerSync = GetComponent<PlayerSync>() );
+
 		public RegisterTile registerTile { get; set; }
 
 		public InputController inputController { get; set; }
@@ -69,7 +64,7 @@ namespace PlayGroup
 
 		private IEnumerator WaitForLoad()
 		{
-			//fixme: name isn't resolved at the moment of pool creation 
+			//fixme: name isn't resolved at the moment of pool creation
 			//(player pools now use netIDs, but it would be nice to have names for readability)
 			yield return new WaitForSeconds(2f);
 			OnNameChange(playerName);
@@ -96,7 +91,6 @@ namespace PlayGroup
 		private void Start()
 		{
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
-			playerSync = GetComponent<PlayerSync>();
 			registerTile = GetComponent<RegisterTile>();
 			playerHealth = GetComponent<PlayerHealth>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
@@ -132,7 +126,7 @@ namespace PlayGroup
 					UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
 				}
 				UIManager.SetDeathVisibility(true);
-				if ( CustomNetworkManager.Instance.SteamServer ) {
+				if ( BuildPreferences.isSteamServer ) {
 					// Send request to be authenticated by the server
 					if ( Client.Instance != null ) {
 						Logger.Log( "Client Requesting Auth", Category.Steam );
@@ -153,7 +147,7 @@ namespace PlayGroup
 			else if (isServer)
 			{
 				playerMove = GetComponent<PlayerMove>();
-								
+
 				//Add player to player list
 				PlayerList.Instance.Add(new ConnectedPlayer
 				{
@@ -182,7 +176,7 @@ namespace PlayGroup
 		}
 
 		/// <summary>
-		/// Trying to set initial name, if player has none 
+		/// Trying to set initial name, if player has none
 		/// </summary>
 		[Command]
 		private void CmdTrySetInitialName(string name)
@@ -309,7 +303,7 @@ namespace PlayGroup
 			if (JobType == JobType.CLOWN)
 			{
 				modifiers |= ChatModifier.Clown;
-				
+
 			}
 
 			return modifiers;
@@ -326,4 +320,3 @@ namespace PlayGroup
 			UIManager.SetToolTip = "";
 		}
 	}
-}

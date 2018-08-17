@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UI
-{
+
 	public class WindowDrag : MonoBehaviour
 	{
 		private float offsetX;
@@ -18,4 +17,3 @@ namespace UI
 			transform.position = new Vector3(offsetX + Input.mousePosition.x, offsetY + Input.mousePosition.y);
 		}
 	}
-}

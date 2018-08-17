@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 
 namespace Tilemaps.Behaviours.Meta
 {
-	public class Atmospherics2
+	public class Atmospherics
 	{
 		private const float MinimumPressure = 0.0001f;
 
@@ -23,7 +23,7 @@ namespace Tilemaps.Behaviours.Meta
 
 		public bool IsIdle => updateList.IsEmpty;
 
-		public Atmospherics2(MetaDataLayer metaDataLayer)
+		public Atmospherics(MetaDataLayer metaDataLayer)
 		{
 			this.metaDataLayer = metaDataLayer;
 		}
@@ -57,7 +57,7 @@ namespace Tilemaps.Behaviours.Meta
 			if (node.IsOccupied || IsPressureChanged(node))
 			{
 				AtmosUtils.Equalize(nodes);
-				
+
 				updateList.EnqueueAll(node.Neighbors);
 			}
 		}

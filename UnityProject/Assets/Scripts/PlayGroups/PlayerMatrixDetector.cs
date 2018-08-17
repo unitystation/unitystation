@@ -1,8 +1,6 @@
-﻿using Tilemaps;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroup {
 	/// Provides the higher level multi matrix detection system to the
 	/// playermove component using cross-matrix methods
 	public class PlayerMatrixDetector : NetworkBehaviour {
@@ -21,4 +19,3 @@ namespace PlayGroup {
 			return true;
 		}
 	}
-}

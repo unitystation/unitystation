@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using Util;
 
 /// Sends client's touch coordinates (within element) over network
 [RequireComponent(typeof( TouchScreen ))]

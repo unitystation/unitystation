@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using Tilemaps.Tiles;
 using UnityEngine;
 
-namespace Tilemaps.Behaviours.Layers
-{
+
 	[ExecuteInEditMode]
 	public class MetaTileMap : MonoBehaviour
 	{
@@ -183,4 +181,3 @@ namespace Tilemaps.Behaviours.Layers
 		}
 #endif
 	}
-}

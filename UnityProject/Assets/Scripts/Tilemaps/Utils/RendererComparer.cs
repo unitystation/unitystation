@@ -5,8 +5,7 @@ using System.Reflection;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace Tilemaps.Utils
-{
+
 	public static class RendererComparer
 	{
 		public static int Compare(Renderer x, Renderer y)
@@ -39,5 +38,5 @@ namespace Tilemaps.Utils
 			return sortingLayerNames != null ? new List<string>(sortingLayerNames) : null;
 		}
 	}
-}
+
 #endif

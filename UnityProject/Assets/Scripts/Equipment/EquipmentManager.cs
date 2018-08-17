@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Equipment
-{
+
 	public class EquipmentManager : MonoBehaviour
 	{
 		private static EquipmentManager equipmentManager;
@@ -60,4 +59,3 @@ namespace Equipment
 			storage02,
 			suitStorage;
 	}
-}

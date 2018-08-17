@@ -1,6 +1,4 @@
-﻿using Lighting;
-
-public class LightHealthBehaviour : HealthBehaviour
+﻿public class LightHealthBehaviour : HealthBehaviour
 {
 	protected override void OnDeathActions()
 	{

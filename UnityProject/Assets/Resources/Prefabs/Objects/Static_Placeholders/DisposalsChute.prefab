@@ -132,6 +132,7 @@ MonoBehaviour:
   stock: 5
   interactionMessage: The disposal gives out a loud screech and throws out its content...
   deniedMessage: The handle is stuck...
+  DispenseDirection: 3
 --- !u!114 &114654115629251212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -175,7 +176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
   isPushing: 0
   predictivePushing: 0
 --- !u!212 &212000011113480170

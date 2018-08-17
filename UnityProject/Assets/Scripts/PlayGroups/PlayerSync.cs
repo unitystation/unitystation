@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Tilemaps;
-using Tilemaps.Behaviours.Objects;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroup
-{
+
 	/// Container with player position, flight direction etc. 
 	/// Gives client enough information for smooth simulation
 	public struct PlayerState
@@ -88,6 +84,7 @@ namespace PlayGroup
 
 	public partial class PlayerSync : NetworkBehaviour, IPlayerSync
 	{
+		public float offsetTest = 1f;
 		///For server code. Contains position
 		public PlayerState ServerState => serverState;
 
@@ -118,6 +115,8 @@ namespace PlayGroup
 		[SyncVar( hook = nameof( PullReset ) )] private NetworkInstanceId pullObjectID;
 
 		private Vector3 pullPos;
+
+		private float pullJourney;
 
 		private RegisterTile pullRegister;
 
@@ -208,12 +207,19 @@ namespace PlayGroup
 				}
 
 				if ( PullingObject != null ) {
+					
 					if ( transform.hasChanged ) {
 						transform.hasChanged = false;
 						PullObject();
-					} else if ( PullingObject.transform.localPosition != pullPos ) {
-						PullingObject.transform.localPosition = pullPos;
 					}
+					if (PullingObject.transform.localPosition != pullPos)
+					{
+						PullingObject.transform.localPosition =
+						Vector3.MoveTowards(PullingObject.transform.localPosition,
+							pullPos,
+							(playerMove.speed * pullJourney) * Time.deltaTime );
+					}
+
 				}
 
 				//Registering
@@ -235,25 +241,32 @@ namespace PlayGroup
 		}
 
 		private void PullObject() {
-			pullPos = transform.localPosition - (Vector3) LastDirection;
-			pullPos.z = PullingObject.transform.localPosition.z;
+			Vector3 proposedPos = Vector3.zero;
+			if (isLocalPlayer) {
+				proposedPos = transform.localPosition - (Vector3)LastDirection;
+			} else {
+				proposedPos = transform.localPosition - (Vector3)serverLastDirection;
+			}
 
-			Vector3Int pos = Vector3Int.RoundToInt( pullPos );
+			Vector3Int pos = Vector3Int.RoundToInt( proposedPos );
 			if ( matrix.IsPassableAt( pos ) || matrix.ContainsAt( pos, gameObject ) ||
 			     matrix.ContainsAt( pos, PullingObject ) ) {
-				float journeyLength = Vector3.Distance( PullingObject.transform.localPosition, pullPos );
-				if ( journeyLength <= 2f ) {
-					PullingObject.transform.localPosition =
-						Vector3.MoveTowards( PullingObject.transform.localPosition,
-							pullPos,
-							playerMove.speed * Time.deltaTime / journeyLength );
-				} else {
-					//If object gets too far away activate warp speed
-					PullingObject.transform.localPosition =
-						Vector3.MoveTowards( PullingObject.transform.localPosition,
-							pullPos,
-							playerMove.speed * Time.deltaTime * 30f );
+				//if (isLocalPlayer)
+				//{
+				pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition) - offsetTest;
+				if(pullJourney < 1.2f){
+					pullJourney = 1f;
 				}
+
+				if(pullJourney > 1.5f){
+					pullJourney *= 1.2f;
+				}
+				//} else
+				//{
+				//	pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition);
+				//}
+				pullPos = proposedPos;
+				pullPos.z = PullingObject.transform.localPosition.z;
 				PullingObject.BroadcastMessage( "FaceDirection",
 					playerSprites.currentDirection,
 					SendMessageOptions.DontRequireReceiver );
@@ -361,4 +374,3 @@ namespace PlayGroup
 		}
 #endif
 	}
-}

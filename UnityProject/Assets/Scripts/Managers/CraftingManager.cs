@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Crafting
-{
+
 	public class CraftingManager : MonoBehaviour
 	{
 		private static CraftingManager craftingManager;
@@ -22,4 +21,3 @@ namespace Crafting
 			}
 		}
 	}
-}

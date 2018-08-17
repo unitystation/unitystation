@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Events;
-using UI;
 
 public class ChatEntry : MonoBehaviour {
 

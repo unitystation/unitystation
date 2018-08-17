@@ -1,8 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace UnityStationTools
-{
+
 	public class Tools : Editor
 	{
 		[MenuItem("Tools/Reconnect TileConnect")]
@@ -63,4 +62,3 @@ namespace UnityStationTools
 		//			}
 		//		}
 	}
-}

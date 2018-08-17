@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Events;
 
-namespace Events
-{
+
 	public class EventController<K, V>
 	{
 		private readonly Dictionary<int, Event> events = new Dictionary<int, Event>();
@@ -69,4 +68,3 @@ namespace Events
 		{
 		}
 	}
-}

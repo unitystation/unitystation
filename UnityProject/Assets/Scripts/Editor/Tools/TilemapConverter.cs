@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Tilemaps.Tiles;
 using UnityEditor;
-using UnityEngine;
 
-namespace UnityStation.Tools
-{
-	public class TilemapConverter
+
+public class TilemapConverter
 	{
 		private const string tilePath = "Assets/Tilemaps/Tiles/";
 		private Dictionary<string, string> mapping;
@@ -60,4 +57,3 @@ namespace UnityStation.Tools
 			return AssetDatabase.LoadAssetAtPath<GenericTile>(assetPath);
 		}
 	}
-}

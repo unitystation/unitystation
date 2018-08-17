@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class Options : MonoBehaviour
 	{
 		public Image[] panelImages;
@@ -23,6 +20,6 @@ namespace UI
 		public Color newPanelColor;
 		public Color newTipTextColor;
 	}
-}
+
 
 

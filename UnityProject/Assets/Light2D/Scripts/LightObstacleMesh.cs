@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Light2D
-{
+
 	/// <summary>
 	///     Automatically updating mesh, material and main texture of light obstacle.
 	///     Class is copying all data used for rendering from parent.
@@ -122,4 +121,3 @@ namespace Light2D
 			}
 		}
 	}
-}

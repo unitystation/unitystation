@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace UI
-{
+
 	/// <summary>
 	///     Resize a UI element, requires an Image to define draggable area
 	///     Add to a child gObj of the element you want to resize
@@ -79,4 +78,3 @@ namespace UI
 			thisRectTransform = transform.GetComponent<RectTransform>();
 		}
 	}
-}

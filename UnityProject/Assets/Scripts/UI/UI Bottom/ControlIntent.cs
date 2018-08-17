@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public enum Intent
 	{
 		Help,
@@ -45,4 +44,3 @@ namespace UI
             thisImg.sprite = sprites[intent];
         }
 	}
-}

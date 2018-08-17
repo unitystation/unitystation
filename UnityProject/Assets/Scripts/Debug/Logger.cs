@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /// Logger with categories support.
@@ -12,10 +11,10 @@ public static class Logger
 
 	/// Log level overrides for categories. Default log level will be ignored for these:
 	private static readonly Dictionary<Category, Level> LogOverrides = new Dictionary<Category, Level>{
+		[Category.Unknown]  = Level.Info,
 		[Category.Movement] = Level.Error,
 		[Category.DmMetadata] = Level.Off,
 		[Category.Light2D] = Level.Off,
-		[Category.Unknown]  = Level.Info
 	};
 
 	private enum Level{
@@ -25,33 +24,33 @@ public static class Logger
 		Info = 2,
 		Trace = 3
 	}
-	
+
 	/// <inheritdoc cref="LogTrace"/>
 	/// <inheritdoc cref="LogFormat"/>
 	public static void LogTraceFormat( string msg, Category category = Category.Unknown, params object[] args ) {
 		TryLog( msg, Level.Trace, category, args );
 	}
-	
+
 //	/// <inheritdoc cref="Log"/>
 	/// LogFormats won't format string if it's not getting printed, therefore perform better.
 	/// This is most useful for Trace level that is rarely enabled.
 	public static void LogFormat( string msg, Category category = Category.Unknown, params object[] args ) {
 		TryLog( msg, Level.Info, category, args );
 	}
-	
+
 	/// <inheritdoc cref="LogWarning"/>
 	/// <inheritdoc cref="LogFormat"/>
 	public static void LogWarningFormat( string msg, Category category = Category.Unknown, params object[] args ) {
 		TryLog( msg, Level.Warning, category, args );
 	}
-	
+
 	/// <inheritdoc cref="LogWarning"/>
 	/// <inheritdoc cref="LogFormat"/>
 	public static void LogErrorFormat( string msg, Category category = Category.Unknown, params object[] args ) {
 		TryLog( msg, Level.Error, category, args );
 	}
-	
-	/// Try printing Trace level entry. Most verbose logs that should only be enabled when debugging something that is broken. 
+
+	/// Try printing Trace level entry. Most verbose logs that should only be enabled when debugging something that is broken.
 	public static void LogTrace( string msg, Category category = Category.Unknown ){
 		TryLog( msg, Level.Trace, category );
 	}
@@ -119,6 +118,10 @@ public static class Logger
 					break;
 			}
 		}
+
+		if(RconManager.Instance != null){
+			RconManager.AddLog(msg);
+		}
 	}
 }
 
@@ -150,5 +153,9 @@ public enum Category {
 	Firearms,
 	Power,
 	Throwing,
-	Containers
+	Containers,
+	Chemistry,
+	SunVox,
+	Rcon,
+	Audio
 }

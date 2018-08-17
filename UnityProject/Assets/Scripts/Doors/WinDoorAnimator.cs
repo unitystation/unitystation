@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Doors
-{
+
 	/// <summary>
 	///     Window door animator. For controlling glass sliding door
 	///     animations.
@@ -122,4 +121,3 @@ namespace Doors
 			doorController.isPerformingAction = false;
 		}
 	}
-}

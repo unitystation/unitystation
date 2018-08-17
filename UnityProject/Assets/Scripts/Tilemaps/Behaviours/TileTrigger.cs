@@ -1,13 +1,7 @@
-﻿using PlayGroups.Input;
-using Tilemaps.Behaviours.Interaction;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Tiles;
-using UnityEngine;
-using Util;
+﻿using UnityEngine;
 
-namespace Tilemaps.Behaviours
-{
-	public class TileTrigger : InputTrigger
+
+public class TileTrigger : InputTrigger
 	{
 		private MetaTileMap metaTileMap;
 		private ObjectLayer objectLayer;
@@ -30,4 +24,3 @@ namespace Tilemaps.Behaviours
 			}
 		}
 	}
-}

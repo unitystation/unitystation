@@ -1,11 +1,6 @@
 using System;
-using System.Collections.Generic;
-using PlayGroup;
-using Tilemaps;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
-using Random = UnityEngine.Random;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 /// Current state of transform, server modifies these and sends to clients.

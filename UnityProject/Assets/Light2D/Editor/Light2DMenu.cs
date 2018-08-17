@@ -4,8 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Light2D
-{
+
 	public static class Light2DMenu
 	{
 		[MenuItem("GameObject/Light2D/Lighting System", false, 6)]
@@ -102,4 +101,3 @@ namespace Light2D
 			PlayerSettings.SetScriptingDefineSymbolsForGroup(target, defines);
 		}
 	}
-}

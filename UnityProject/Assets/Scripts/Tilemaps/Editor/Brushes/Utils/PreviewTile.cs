@@ -1,9 +1,7 @@
-﻿using Tilemaps.Tiles;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Tilemaps.Editor.Brushes.Utils
-{
+
 	public class PreviewTile : LayerTile
 	{
 		public GenericTile ReferenceTile;
@@ -15,4 +13,3 @@ namespace Tilemaps.Editor.Brushes.Utils
 			tileData.flags = TileFlags.None;
 		}
 	}
-}

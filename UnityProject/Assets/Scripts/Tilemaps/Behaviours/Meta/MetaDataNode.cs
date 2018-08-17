@@ -4,12 +4,16 @@ using Tilemaps.Behaviours.Meta.Data;
 using UI;
 using UnityEngine;
 
+<<<<<<< HEAD
 namespace Tilemaps.Behaviours.Meta
 {
 	public enum NodeType
 	{
 		Space, Room, Occupied
 	}
+=======
+
+>>>>>>> upstream/develop
 	
 	[Serializable]
 	public class MetaDataNode
@@ -60,4 +64,3 @@ namespace Tilemaps.Behaviours.Meta
 		}
 		
 	}
-}

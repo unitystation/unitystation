@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Tilemaps.Behaviours.Meta;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 
-namespace Tilemaps.Utils
-{
+
 	public class TileList
 	{
 		private readonly Dictionary<Vector3Int, List<RegisterTile>> _objects =
@@ -66,4 +63,3 @@ namespace Tilemaps.Utils
 			}
 		}
 	}
-}

@@ -1,10 +1,7 @@
-﻿using Cupboards;
-using Tilemaps.Behaviours.Objects;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Objects
-{
+
 	public class ClosetHealthBehaviour : HealthBehaviour
 	{
 		private ClosetControl closetControl;
@@ -83,4 +80,3 @@ namespace Objects
 			transform.Rotate(0, 0, 90);
 		}
 	}
-}

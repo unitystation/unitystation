@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Light2D
-{
+
 	/// <summary>
 	///     Custom sprite wich uses MeshFilter and MeshRenderer to render.
 	///     Main improvement from Unity SpriteRenderer is that you can access and modify mesh.
@@ -489,4 +488,3 @@ namespace Light2D
 			}
 		}
 	}
-}

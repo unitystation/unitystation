@@ -1,5 +1,4 @@
-﻿using Sprites;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class EffectsFactory : NetworkBehaviour

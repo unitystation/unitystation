@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PlayGroup
-{
+
 	public partial class PlayerSync
 	{
 		//Client-only fields, don't concern server
@@ -260,4 +259,3 @@ namespace PlayGroup
 			}
 		}
 	}
-}

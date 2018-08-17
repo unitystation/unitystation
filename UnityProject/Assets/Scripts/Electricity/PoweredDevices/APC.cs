@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Electricity
-{
+
 	public class APC : NetworkBehaviour
 	{
 		public PoweredDevice poweredDevice;
@@ -76,4 +75,3 @@ namespace Electricity
 			}
 		}
 	}
-}

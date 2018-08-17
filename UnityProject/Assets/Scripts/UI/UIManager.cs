@@ -1,9 +1,7 @@
-﻿using PlayGroup;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class UIManager : MonoBehaviour
 	{
 		private static UIManager uiManager;
@@ -50,7 +48,7 @@ namespace UI
 			}
 		}
 
-		public static ControlChat Chat => Instance.chatControl;
+//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
 
 		public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
 
@@ -227,4 +225,3 @@ namespace UI
 			}
 		}
 	}
-}

@@ -1,11 +1,8 @@
 ﻿using System.Collections;
-using PlayGroup;
-using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Lighting
-{
+
 	public class LightSwitchTrigger : InputTrigger
 	{
 		private const int MAX_TARGETS = 44;
@@ -119,4 +116,3 @@ namespace Lighting
 			soundAllowed = true;
 		}
 	}
-}

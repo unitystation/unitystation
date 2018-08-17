@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using PlayGroup;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using Util;
 
 /// Comfy place to get players and their info (preferably via their connection)
 /// Has limited scope for clients (ClientConnectedPlayers only), sweet things are mostly for server
@@ -30,8 +26,6 @@ public class PlayerList : NetworkBehaviour
 	//For combat demo
 	public Dictionary<string, int> playerScores = new Dictionary<string, int>();
 
-	//For job formatting purposes
-	private static readonly TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 
 	private void Awake()
 	{
@@ -137,13 +131,8 @@ public class PlayerList : NetworkBehaviour
 		foreach (var player in ClientConnectedPlayers)
 		{
 			string curList = UIManager.Instance.playerListUIControl.nameList.text;
-			UIManager.Instance.playerListUIControl.nameList.text = $"{curList}{player.Name} ({PrepareJobString(player.Job)})\r\n";
+			UIManager.Instance.playerListUIControl.nameList.text = $"{curList}{player.Name} ({player.Job.JobString()})\r\n";
 		}
-	}
-
-	private static string PrepareJobString(JobType job)
-	{
-		return job.ToString().Equals("NULL") ? "*just joined" : textInfo.ToTitleCase(job.ToString().ToLower());
 	}
 
 	/// Don't do this unless you realize the consequences
@@ -158,6 +147,7 @@ public class PlayerList : NetworkBehaviour
 	{
 		ConnectedPlayer connectedPlayer = Get(conn);
 		connectedPlayer.GameObject = newGameObject;
+		CheckRcon();
 		return connectedPlayer;
 	}
 
@@ -205,30 +195,31 @@ public class PlayerList : NetworkBehaviour
 			//Adding kick timer for new players only
 			StartCoroutine(KickTimer(player));
 		}
+		CheckRcon();
 	}
 
 	private IEnumerator KickTimer(ConnectedPlayer player)
 	{
-		if ( IsConnWhitelisted( player ) || !Managers.instance.isForRelease )
+		if ( IsConnWhitelisted( player ) || !BuildPreferences.isForRelease )
 		{
 //			Logger.Log( "Ignoring kick timer for invalid connection" );
 			yield break;
 		}
 		int tries = 5;
-		while ( !player.IsAuthenticated )
-		{			
-			if ( tries-- < 0 )
-			{
-				CustomNetworkManager.Kick( player, "Auth timed out" );
-				yield break;
-			}
-			yield return YieldHelper.Second;
-		}
-	}
+        while (!player.IsAuthenticated)
+        {
+            if (tries-- < 0)
+            {
+                CustomNetworkManager.Kick(player, "Auth timed out");
+                yield break;
+            }
+            yield return YieldHelper.Second;
+        }
+    }
 
 	public static bool IsConnWhitelisted( ConnectedPlayer player )
 	{
-		return player.Connection == null || 
+		return player.Connection == null ||
 		       player.Connection == ConnectedPlayer.Invalid.Connection ||
 		       !player.Connection.isConnected;
 	}
@@ -241,6 +232,7 @@ public class PlayerList : NetworkBehaviour
 		AddPrevious( player );
 		NetworkServer.Destroy(player.GameObject);
 		UpdateConnectedPlayersMessage.Send();
+		CheckRcon();
 	}
 
 	[Server]
@@ -250,37 +242,37 @@ public class PlayerList : NetworkBehaviour
 	{
 		return !Get(connection).Equals(ConnectedPlayer.Invalid);
 	}
-	
+
 	[Server]
 	public bool ContainsName(string name)
 	{
 		return !Get(name).Equals(ConnectedPlayer.Invalid);
 	}
-	
+
 	[Server]
 	public bool ContainsGameObject(GameObject gameObject)
 	{
 		return !Get(gameObject).Equals(ConnectedPlayer.Invalid);
 	}
-	
+
 	[Server]
 	public ConnectedPlayer Get(NetworkConnection byConnection, bool lookupOld = false)
 	{
 		return getInternal(player => player.Connection == byConnection, lookupOld);
 	}
-	
+
 	[Server]
 	public ConnectedPlayer Get(string byName, bool lookupOld = false)
 	{
 		return getInternal(player => player.Name == byName, lookupOld);
 	}
-	
+
 	[Server]
 	public ConnectedPlayer Get(GameObject byGameObject, bool lookupOld = false)
 	{
 		return getInternal(player => player.GameObject == byGameObject, lookupOld);
-	}	
-	
+	}
+
 	[Server]
 	public ConnectedPlayer Get(ulong bySteamId, bool lookupOld = false)
 	{
@@ -322,6 +314,13 @@ public class PlayerList : NetworkBehaviour
 		else
 		{
 			TryRemove(connectedPlayer);
+		}
+	}
+
+	[Server]
+	private void CheckRcon(){
+		if(RconManager.Instance != null){
+			RconManager.UpdatePlayerListRcon();
 		}
 	}
 }

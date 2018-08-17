@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
-using Weapons;
 
 public class WeaponNetworkActions : ManagedNetworkBehaviour
 {

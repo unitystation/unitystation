@@ -2,12 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Tilemaps;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Tiles;
 
 /// Matrix manager keeps a list of matrices that you can access from both client and server.
 /// Contains world/local position conversion methods, as well as several cross-matrix adaptations of Matrix methods.
@@ -50,7 +47,7 @@ public class MatrixManager : MonoBehaviour
 	public static bool IsSpaceAt(Vector3Int worldPos){
 		return isAtInternal( mat => mat.Matrix.IsSpaceAt( WorldToLocalInt( worldPos, mat ) ) );
 	}
-	
+
 	///Cross-matrix edition of <see cref="Matrix.IsEmptyAt"/>
 	public static bool IsEmptyAt(Vector3Int worldPos) {
 		return isAtInternal( mat => mat.Matrix.IsEmptyAt( WorldToLocalInt( worldPos, mat ) ) );
@@ -203,9 +200,9 @@ public class MatrixManager : MonoBehaviour
 	}
 
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public static Vector3Int LocalToWorldInt(Vector3 localPos, MatrixInfo matrix)
+	public static Vector3Int LocalToWorldInt(Vector3 localPos, MatrixInfo matrix , MatrixState state = default( MatrixState ))
 	{
-		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix));
+		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix, state));
 	}
 
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
@@ -215,16 +212,24 @@ public class MatrixManager : MonoBehaviour
 	}
 
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix)
+	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix, MatrixState state = default( MatrixState ))
 	{
+		//Invalid matrix info provided
+		if ( matrix.Equals( MatrixInfo.Invalid) ) {
+			return TransformState.HiddenPos;
+		}
 		if (!matrix.MatrixMove)
 		{
 			return localPos + matrix.Offset;
 		}
 
+		if ( state.Equals( default(MatrixState) ) ) {
+			state = matrix.MatrixMove.ClientState;
+		}
+
 		Vector3 unpivotedPos = localPos - matrix.MatrixMove.Pivot; //localPos - localPivot
-		Vector3 rotatedPos = matrix.MatrixMove.ClientState.Orientation.Euler * unpivotedPos; //unpivotedPos rotated by N degrees
-		Vector3 rotatedPivoted = rotatedPos + matrix.MatrixMove.Pivot + matrix.Offset; //adding back localPivot and applying localToWorldOffset
+		Vector3 rotatedPos = state.Orientation.Euler * unpivotedPos; //unpivotedPos rotated by N degrees
+		Vector3 rotatedPivoted = rotatedPos + matrix.MatrixMove.Pivot + matrix.GetOffset( state ); //adding back localPivot and applying localToWorldOffset
 		return rotatedPivoted;
 	}
 
@@ -249,6 +254,10 @@ public class MatrixManager : MonoBehaviour
 	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public static Vector3 WorldToLocal(Vector3 worldPos, MatrixInfo matrix)
 	{
+		//Invalid matrix info provided
+		if ( matrix.Equals( MatrixInfo.Invalid) ) {
+			return TransformState.HiddenPos;
+		}
 		if (!matrix.MatrixMove)
 		{
 			return worldPos - matrix.Offset;
@@ -270,17 +279,17 @@ public struct MatrixInfo
 
 	public Vector3Int InitialOffset;
 
-	public Vector3Int Offset
+	public Vector3Int Offset => GetOffset();
+	public Vector3Int GetOffset(MatrixState state = default(MatrixState))
 	{
-		get
+		if (!MatrixMove)
 		{
-			if (!MatrixMove)
-			{
-				return InitialOffset;
-			}
-
-			return InitialOffset + (Vector3Int.RoundToInt(MatrixMove.ClientState.Position) - MatrixMove.InitialPos);
+			return InitialOffset;
 		}
+		if ( state.Equals( default(MatrixState) ) ) {
+			state = MatrixMove.ClientState;
+		}
+		return InitialOffset + (Vector3Int.RoundToInt(state.Position) - MatrixMove.InitialPos);
 	}
 
 	public MatrixMove MatrixMove;
@@ -311,7 +320,7 @@ public struct MatrixInfo
 			: $"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.State},netId={NetId}]";
 	}
 
-	///Figuring out netId. NetworkIdentity is located on the pivot (parent) gameObject for MatrixMove-equipped matrices 
+	///Figuring out netId. NetworkIdentity is located on the pivot (parent) gameObject for MatrixMove-equipped matrices
 	private static NetworkInstanceId getNetId(Matrix matrix)
 	{
 		var netId = NetworkInstanceId.Invalid;

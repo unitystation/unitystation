@@ -1,9 +1,6 @@
-﻿using Tilemaps.Behaviours.Layers;
-using Tilemaps.Tiles;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Tilemaps.Utils
-{
+
 	public class TileMapBuilder
 	{
 		private readonly bool _importMode;
@@ -59,4 +56,3 @@ namespace Tilemaps.Utils
 			_metaTileMap.SetTile(position, tile, matrixTransform);
 		}
 	}
-}

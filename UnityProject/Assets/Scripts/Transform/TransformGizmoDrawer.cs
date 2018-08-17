@@ -1,4 +1,3 @@
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 
 /// Put this on items with CustomNetTransform and you'll have gizmos for these

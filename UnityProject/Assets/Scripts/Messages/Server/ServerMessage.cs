@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -16,8 +15,10 @@ public abstract class ServerMessage : GameMessageBase
 
 	public void SendTo(GameObject recipient)
 	{
+		if ( recipient == null ) {
+			return;
+		}
 		NetworkConnection connection = recipient.GetComponent<NetworkIdentity>().connectionToClient;
-
 //			only send to players that are currently controlled by a client
 		if (PlayerList.Instance.ContainsConnection(connection)) {
 			connection.Send(GetMessageType(), this);

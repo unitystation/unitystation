@@ -1,5 +1,4 @@
-﻿using Sprites;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FireTile : MonoBehaviour
 {

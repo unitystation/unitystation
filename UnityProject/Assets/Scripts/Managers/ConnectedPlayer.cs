@@ -1,5 +1,4 @@
-﻿using PlayGroup;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 /// Server-only full player information class

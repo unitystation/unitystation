@@ -2,8 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroup
-{
+
 	/// <summary>
 	///     Player health reporting.
 	///     This is the Server -> Client reporting for player health
@@ -114,4 +113,3 @@ namespace PlayGroup
 			UpdateUIMessage.Send(gameObject, newHealth);
 		}
 	}
-}

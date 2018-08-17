@@ -1,14 +1,11 @@
 ﻿using System;
-using Tilemaps.Behaviours.Objects;
-using Tilemaps.Utils;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace Tilemaps.Tiles
-{
+
 	[Serializable]
 	public class ObjectTile : LayerTile
 	{
@@ -114,4 +111,3 @@ namespace Tilemaps.Tiles
 			return Matrix4x4.TRS(newTranslation, newRotation, Vector3.one);
 		}
 	}
-}

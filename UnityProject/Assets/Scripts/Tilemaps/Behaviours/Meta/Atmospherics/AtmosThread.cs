@@ -11,17 +11,17 @@ namespace Tilemaps.Behaviours.Meta
 
 		private Object lockGetWork = new Object();
 
-		private Atmospherics2 atmos;
-		
+		private Atmospherics atmos;
+
 		public AtmosThread(MetaDataLayer metaDataLayer)
 		{
-			atmos = new Atmospherics2(metaDataLayer);
+			atmos = new Atmospherics(metaDataLayer);
 		}
 
 		public void Enqueue(Vector3Int position)
 		{
 			atmos.AddToUpdateList(position);
-			
+
 			lock (lockGetWork)
 			{
 				Monitor.PulseAll(lockGetWork);

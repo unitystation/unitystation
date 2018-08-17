@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using AccessType;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Equipment
-{
+
 	public class Equipment : NetworkBehaviour
 	{
 		public ClothingItem[] clothingSlots;
@@ -355,4 +352,3 @@ namespace Equipment
 			playerNetworkActions.AddItem(obj, slotName, true);
 		}
 	}
-}

@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
+<<<<<<< HEAD
 using System.Diagnostics;
 using System.Linq;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using Util;
 using Debug = UnityEngine.Debug;
+=======
+using UnityEngine;
+>>>>>>> upstream/develop
 
-namespace Tilemaps.Behaviours.Meta
-{
-	[ExecuteInEditMode]
+
+[ExecuteInEditMode]
 	public class RoomControl : SystemBehaviour
 	{
 		
@@ -163,4 +166,3 @@ namespace Tilemaps.Behaviours.Meta
 			}
 		}
 	}
-}

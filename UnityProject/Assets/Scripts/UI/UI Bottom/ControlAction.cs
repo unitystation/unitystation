@@ -1,10 +1,7 @@
-using PlayGroup;
-using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class ControlAction : MonoBehaviour
 	{
 		public Image throwImage;
@@ -50,7 +47,7 @@ namespace UI
 				UIManager.Hands.Swap();
 			}
 
-			if (Input.GetKeyDown(KeyCode.E))
+			if (Input.GetKeyDown(KeyCode.E) && !UIManager.IsInputFocus)
 			{
 				UIManager.Hands.Use();
 			}
@@ -153,4 +150,3 @@ namespace UI
 			}
 		}
 	}
-}

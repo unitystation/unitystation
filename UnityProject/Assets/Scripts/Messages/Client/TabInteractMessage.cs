@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
-using Util;
 
 /// <summary>
 ///     Informs server of interaction with some object's tab element

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Doors
-{
+
 	/// <summary>
 	/// Controls FoV visibility, at the moment it is using messages from FieldOfViewStencil to switch it
 	/// </summary>
@@ -27,4 +26,4 @@ namespace Doors
 			tileSpriteRenderer.enabled = false;
 		}
 	}
-}
+

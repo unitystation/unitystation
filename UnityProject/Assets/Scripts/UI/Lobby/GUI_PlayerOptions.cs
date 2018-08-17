@@ -1,11 +1,9 @@
-﻿using PlayGroup;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Facepunch.Steamworks;
 
 
-namespace UI
-{
+
 	public class GUI_PlayerOptions : MonoBehaviour
 	{
 		private const string UserNamePlayerPref = "PlayerName";
@@ -78,7 +76,7 @@ namespace UI
 			}
 
 			//Connecting as client
-			if (screen_ConnectTo.activeInHierarchy || Managers.instance.isForRelease)
+			if (screen_ConnectTo.activeInHierarchy || BuildPreferences.isForRelease)
 			{
 				PlayerPrefs.SetString(UserNamePlayerPref, playerNameInput.text);
 				PlayerManager.PlayerNameCache = playerNameInput.text;
@@ -118,7 +116,7 @@ namespace UI
 
 		private void ConnectToServer()
 		{
-			if (Managers.instance.isForRelease)
+			if (BuildPreferences.isForRelease)
 			{
 				networkManager.networkAddress = Managers.instance.serverIP;
 				networkManager.networkPort = 7777;
@@ -143,4 +141,3 @@ namespace UI
 			networkManager.StartClient();
 		}
 	}
-}

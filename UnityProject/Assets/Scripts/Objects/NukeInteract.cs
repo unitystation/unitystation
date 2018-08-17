@@ -1,7 +1,4 @@
 ﻿using System.Collections;
-using PlayGroup;
-using PlayGroups.Input;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -82,8 +79,8 @@ public class NukeInteract : NetworkTabTrigger
 		UIManager.Display.hudRight.gameObject.SetActive(false);
 		UIManager.Display.hudBottom.gameObject.SetActive(false);
 		UIManager.Display.backGround.SetActive(false);
-		UIManager.Display.logInWindow.SetActive(false);
-		UIManager.Display.infoWindow.SetActive(false);
+//		UIManager.Display.logInWindow.SetActive(false);
+//		UIManager.Display.infoWindow.SetActive(false);
 
 		//Playing the video
 		UIManager.Display.selfDestructVideo.SetActive(true);

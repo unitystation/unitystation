@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	//    public enum DamageZoneSelector {
 	//        torso,
 	//        head,
@@ -41,4 +40,3 @@ namespace UI
 			UIManager.DamageZone = (BodyPartType) curSelect;
 		}
 	}
-}
