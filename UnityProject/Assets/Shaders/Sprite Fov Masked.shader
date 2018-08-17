@@ -5,7 +5,7 @@
 // - no lightmap support
 // - no per-material color
 
-Shader "Stencil/Unlit background" {
+Shader "Stencil/Unlit background masked" {
 	Properties{
 		_MainTex("Base (RGB) Trans (A)", 2D) = "white" {}
 	}
@@ -39,10 +39,12 @@ Shader "Stencil/Unlit background" {
 	struct v2f {
 		float4 vertex : SV_POSITION;
 		half2 texcoord : TEXCOORD0;
+		half2 screencoord : TEXCOORD1;
 		UNITY_FOG_COORDS(1)
 	};
 
 	sampler2D _MainTex;
+	sampler2D _FovMask;
 	float4 _MainTex_ST;
 
 	v2f vert(appdata_t v)
@@ -50,15 +52,23 @@ Shader "Stencil/Unlit background" {
 		v2f o;
 		o.vertex = UnityObjectToClipPos(v.vertex);
 		o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
+		o.screencoord = ComputeScreenPos(o.vertex);
 		UNITY_TRANSFER_FOG(o,o.vertex);
 		return o;
 	}
 
 	fixed4 frag(v2f i) : SV_Target
 	{
+
 		fixed4 col = tex2D(_MainTex, i.texcoord);
-	UNITY_APPLY_FOG(i.fogCoord, col);
-	return col;
+		fixed4 mask = tex2D(_FovMask, i.screencoord);
+
+		UNITY_APPLY_FOG(i.fogCoord, col);
+
+		float maskChennel = mask.g + mask.r;
+		col.a = col.a * maskChennel;
+
+		return col;
 	}
 		ENDCG
 	}
