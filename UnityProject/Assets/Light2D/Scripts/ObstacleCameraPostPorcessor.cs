@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Light2D
-{
+
 	/// <summary>
 	///     This class apply post processing effect to light obstacles texture.
 	///     It is drawing one pixel wide white border on light obstacles texture.
@@ -91,4 +90,3 @@ namespace Light2D
 			}
 		}
 	}
-}

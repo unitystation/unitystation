@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Tilemaps.Behaviours.Objects
-{
+
 	[ExecuteInEditMode]
 	public class RegisterPlayer : RegisterTile
 	{
@@ -12,4 +11,3 @@ namespace Tilemaps.Behaviours.Objects
 			return !IsBlocking;
 		}
 	}
-}

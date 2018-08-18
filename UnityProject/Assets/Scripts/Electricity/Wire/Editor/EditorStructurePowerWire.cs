@@ -1,9 +1,7 @@
-﻿using Sprites;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace Electricity
-{
+
 	/// <summary>
 	///     This StructurePowerWire editor script helps set the correct
 	///     wires when building maps
@@ -73,4 +71,3 @@ namespace Electricity
 				"SpriteRotate.cs", MessageType.Warning);
 		}
 	}
-}

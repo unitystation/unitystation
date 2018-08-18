@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using Tilemaps.Behaviours.Layers;
 using UnityEngine;
-using UnityEngine.Networking;
 
-namespace Tilemaps.Behaviours.Meta
-{
-	[ExecuteInEditMode]
+
+[ExecuteInEditMode]
 	public class RoomControl : SystemBehaviour
 	{
 		public override void Initialize()
@@ -31,8 +28,7 @@ namespace Tilemaps.Behaviours.Meta
 			}
 
 			sw.Stop();
-
-			Debug.Log("Room init: " + sw.ElapsedMilliseconds + " ms");
+			Logger.Log("Room init: " + sw.ElapsedMilliseconds + " ms",Category.Atmos);
 		}
 		
 		public override void UpdateAt(Vector3Int position)
@@ -89,4 +85,3 @@ namespace Tilemaps.Behaviours.Meta
 			return !isSpace;
 		}
 	}
-}

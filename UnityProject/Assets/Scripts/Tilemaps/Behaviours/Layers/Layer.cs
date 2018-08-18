@@ -1,11 +1,7 @@
-﻿using Tilemaps.Behaviours.Meta;
-using Tilemaps.Tiles;
-using Tilemaps.Utils;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Tilemaps.Behaviours.Layers
-{
+
 	[ExecuteInEditMode]
 	public class Layer : MonoBehaviour
 	{
@@ -32,7 +28,7 @@ namespace Tilemaps.Behaviours.Layers
 
 			if (MatrixManager.Instance == null)
 			{
-				Debug.LogError("Matrix Manager is missing from the scene");
+				Logger.LogError("Matrix Manager is missing from the scene", Category.Matrix);
 			}
 			else
 			{
@@ -117,4 +113,3 @@ namespace Tilemaps.Behaviours.Layers
 		}
 #endif
 	}
-}

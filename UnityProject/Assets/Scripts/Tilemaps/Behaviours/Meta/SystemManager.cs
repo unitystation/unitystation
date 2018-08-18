@@ -2,8 +2,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Tilemaps.Behaviours.Meta
-{
+
 	public class SystemManager: NetworkBehaviour
 	{
 		private List<SystemBehaviour> systems = new List<SystemBehaviour>();
@@ -34,4 +33,3 @@ namespace Tilemaps.Behaviours.Meta
 			}
 		}
 	}
-}

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using FullSerializer;
+using Newtonsoft.Json;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DmObjectData")]
@@ -36,7 +36,7 @@ public class DmObjectData : ScriptableObject
 			Dictionary<string, string> foundAttributes = lookupObject(ancHier);
 			if (foundAttributes.Count == 0 && !hierarchy.Equals(ancHier))
 			{
-				//                Debug.Log(digLog.AppendLine("Stopped digging further than " + ancHier).ToString());
+				//                Logger.Log(digLog.AppendLine("Stopped digging further than " + ancHier).ToString());
 				break;
 			}
 
@@ -47,7 +47,7 @@ public class DmObjectData : ScriptableObject
 		}
 		if (ancAttr.Count == 0)
 		{
-			Debug.LogError("Didn't find any attributes for hierarchy " + hierarchy);
+			Logger.LogError("Didn't find any attributes for hierarchy " + hierarchy, Category.DmMetadata);
 		}
 		return ancAttr;
 	}
@@ -69,9 +69,7 @@ public class DmObjectData : ScriptableObject
 		TextAsset asset = Resources.Load(Path.Combine("metadata", "dm")) as TextAsset;
 		if (asset != null)
 		{
-			fsData data = fsJsonParser.Parse(asset.text);
-			fsSerializer serializer = new fsSerializer();
-			serializer.TryDeserialize(data, ref objectList).AssertSuccessWithoutWarnings();
+			objectList = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>( asset.text );
 		}
 		else
 		{

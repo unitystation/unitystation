@@ -27,7 +27,7 @@ public static class GizmoUtils
         var guiSkin = GUI.skin;
         if ( guiSkin == null )
         {
-            Debug.LogWarning("editor warning: guiSkin parameter is null");
+            Logger.LogWarning("editor warning: guiSkin parameter is null", Category.UI);
             return;
         }
 

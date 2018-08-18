@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UI;
 using UnityEngine;
 
 /// Base class for List of dynamic entries, which can be added/removed at runtime.
@@ -21,7 +20,7 @@ public class NetUIDynamicList : NetUIElement {
 				DynamicEntry entry = entries[i];
 				string entryName = entry.name;
 				if ( dynamicEntries.ContainsKey( entryName ) ) {
-					Debug.LogWarning( $"Duplicate entry name {entryName}, something's wrong" );
+					Logger.LogWarning( $"Duplicate entry name {entryName}, something's wrong", Category.NetUI );
 					continue;
 				}
 				dynamicEntries.Add( entryName, entry );
@@ -69,7 +68,7 @@ public class NetUIDynamicList : NetUIElement {
 		for ( var i = 0; i < toBeRemoved.Length; i++ ) {
 			var item = toBeRemoved[i];
 			var entryToRemove = entries[item];
-//			Debug.Log( $"{mode} destroying entry #{item}({entryToRemove})" );
+//			Logger.Log( $"{mode} destroying entry #{item}({entryToRemove})" );
 			entryToRemove.gameObject.SetActive( false );
 		}
 
@@ -101,9 +100,10 @@ public class NetUIDynamicList : NetUIElement {
 			RefreshPositions();
 
 			if ( resultIndex != "" ) {
-//				Debug.Log( $"{mode} spawning entry #[{resultIndex}]: proposed: [{proposedIndex}], entry: {dynamicEntry}" );
+//				Logger.Log( $"{mode} spawning entry #[{resultIndex}]: proposed: [{proposedIndex}], entry: {dynamicEntry}" );
 			} else {
-				Debug.LogWarning( $"Entry \"{proposedIndex}\" {mode} spawn failure, no such entryObject {elementType}" );
+				
+				Logger.LogWarning( $"Entry \"{proposedIndex}\" {mode} spawn failure, no such entryObject {elementType}", Category.NetUI );
 			}
 
 			dynamicEntries[i] = dynamicEntry;

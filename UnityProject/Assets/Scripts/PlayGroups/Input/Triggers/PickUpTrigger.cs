@@ -1,11 +1,7 @@
-﻿using PlayGroup;
-using PlayGroups.Input;
-using UI;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Items
-{
+
 	public class PickUpTrigger : InputTrigger
 	{
 		private void Start()
@@ -59,11 +55,11 @@ namespace Items
 			}
 			if (cnt.IsFloatingServer ? !CanReachFloating(ps, state) : !ps.IsInReach(state.WorldPosition))
 			{
-				Debug.LogWarningFormat($"Not in reach! server pos:{state.WorldPosition} player pos:{originator.transform.position} (floating={cnt.IsFloatingServer})");
+				Logger.LogWarning($"Not in reach! server pos:{state.WorldPosition} player pos:{originator.transform.position} (floating={cnt.IsFloatingServer})", Category.Security);
 				return false;
 			}
-
-//			Debug.LogFormat($"Pickup success! server pos:{state.position} player pos:{originator.transform.position} (floating={cnt.IsFloatingServer()})");
+			Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Security, 
+				state.WorldPosition, originator.transform.position, cnt.IsFloatingServer);
 
 
 			//set ForceInform to false for simulation
@@ -102,4 +98,3 @@ namespace Items
 			}
 		}
 	}
-}

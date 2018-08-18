@@ -1,7 +1,4 @@
 ﻿using System.Collections;
-using InputControl;
-using PlayGroup;
-using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -48,7 +45,7 @@ public class ShutterSwitchTrigger : InputTrigger
 		}
 		else
 		{
-			Debug.Log("DOOR NOT FINISHED CLOSING YET!");
+			Logger.Log("DOOR NOT FINISHED CLOSING YET!", Category.Shutters); 
 		}
 	}
 

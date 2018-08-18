@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class OxygenButton : MonoBehaviour
 	{
 		private Image image;
@@ -30,4 +29,3 @@ namespace UI
 			}
 		}
 	}
-}

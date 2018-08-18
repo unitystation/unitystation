@@ -1,5 +1,4 @@
-﻿using UI;
-using UnityEditor;
+﻿using UnityEditor;
 
 [CustomEditor(typeof(UI_ItemSlot))]
 public class UI_ItemSlotEditor : Editor

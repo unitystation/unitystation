@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Tilemaps.Tiles;
 using UnityEditor;
-using UnityEngine;
 
-namespace UnityStation.Tools
-{
-	public class TilemapConverter
+
+public class TilemapConverter
 	{
 		private const string tilePath = "Assets/Tilemaps/Tiles/";
 		private Dictionary<string, string> mapping;
@@ -37,7 +34,7 @@ namespace UnityStation.Tools
 
 			if (!mapping.ContainsKey(name))
 			{
-				Debug.LogError("Missing tile for key: " + name);
+				Logger.LogError("Missing tile for key: " + name);
 				return null;
 			}
 
@@ -52,7 +49,7 @@ namespace UnityStation.Tools
 				}
 				else
 				{
-					Debug.LogError("Missing tile at path: " + assetPath + " (key: " + name + " )");
+					Logger.LogError("Missing tile at path: " + assetPath + " (key: " + name + " )");
 					return null;
 				}
 			}
@@ -60,4 +57,3 @@ namespace UnityStation.Tools
 			return AssetDatabase.LoadAssetAtPath<GenericTile>(assetPath);
 		}
 	}
-}

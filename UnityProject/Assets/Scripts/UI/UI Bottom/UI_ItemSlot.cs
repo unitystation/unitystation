@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using Events;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class UI_ItemSlot : MonoBehaviour
 	{
 		public bool allowAllItems;
@@ -27,7 +24,7 @@ namespace UI
             image.enabled = false;
 			if (eventName.Length > 0)
 			{
-				//                Debug.LogErrorFormat("Triggered SetItem for {0}",slotName);
+//				Logger.LogTraceFormat("Triggered SetItem for {0}", Category.UI, eventName);
 				EventManager.UI.AddListener(eventName, SetItem);
 			}
 		}
@@ -59,8 +56,7 @@ namespace UI
 				Clear();
 				return;
 			}
-			//            var itemAttributes = item.GetComponent<ItemAttributes>();
-			//            Debug.LogFormat("Setting item {0}/{1} to {2}", item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName);
+			Logger.LogTraceFormat("Setting item {0} to {1}", Category.UI, item.name, eventName);
 			image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
 			image.enabled = true;
 			Item = item;
@@ -123,7 +119,7 @@ namespace UI
 			var itemTransform = item.GetComponent<CustomNetTransform>();
 			itemTransform.AppearAtPosition(pos);
 			var itemAttributes = item.GetComponent<ItemAttributes>();
-			Debug.LogFormat("Placing item {0}/{1} from {2} to {3}", item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
+			Logger.LogTraceFormat("Placing item {0}/{1} from {2} to {3}", Category.UI, item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
 			return true;
 		}
 
@@ -147,10 +143,9 @@ namespace UI
 			}
 			else if ( attributes.size > maxItemSize )
 			{
-				Debug.Log($"{attributes.size} {item} is too big for {maxItemSize} {eventName}!");
+				Logger.LogWarning($"{attributes.size} {item} is too big for {maxItemSize} {eventName}!", Category.UI);
 				return false;
 			}
 			return allowAllItems || allowedItemTypes.Contains(attributes.type);
 		}
 	}
-}

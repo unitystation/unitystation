@@ -14,6 +14,8 @@ public class Camera2DFollow : MonoBehaviour
 	private Vector3 cachePos;
 	private Vector3 currentVelocity;
 
+	public float starScroll = 0.03f;
+
 	public float damping;
 
 	private bool isShaking;
@@ -91,10 +93,10 @@ public class Camera2DFollow : MonoBehaviour
 				newPos.y = Mathf.RoundToInt(newPos.y * pixelAdjustment) / pixelAdjustment;
 			}
 			transform.position = newPos;
-			starsBackground.position = -newPos * 0.06f;
+			starsBackground.position = -newPos * starScroll;
 
 			lastTargetPosition = target.position;
-			if (stencilMask.transform.parent != target) {
+			if (stencilMask != null && stencilMask.transform.parent != target) {
 				stencilMask.transform.parent = target;
 				stencilMask.transform.localPosition = Vector3.zero;
 			}

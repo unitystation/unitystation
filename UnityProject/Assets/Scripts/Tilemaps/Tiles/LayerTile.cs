@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Tilemaps.Tiles
-{
+
 	public enum LayerType
 	{
 		Walls,
@@ -38,4 +37,3 @@ namespace Tilemaps.Tiles
 			return transformMatrix;
 		}
 	}
-}

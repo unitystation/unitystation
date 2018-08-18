@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Tilemaps.Behaviours.Objects
-{
+
 	[ExecuteInEditMode]
 	public class RegisterCloset : RegisterObject
 	{
@@ -14,4 +13,3 @@ namespace Tilemaps.Behaviours.Objects
 			get { return isClosed; }
 		}
 	}
-}

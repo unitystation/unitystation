@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Light2D
-{
+
 	/// <summary>
 	///     That class is generating obstacles for object it attached to.
 	///     Obect must have MeshRenderer, SpriteRenderer or CustomSprite script from which texture for obstacle will be
@@ -74,4 +73,3 @@ namespace Light2D
 			Destroy(this);
 		}
 	}
-}

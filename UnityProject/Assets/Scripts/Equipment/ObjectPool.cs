@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using PlayGroup;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Equipment
-{
+
 	//For items that are the ownership of players, the items are kept in a pool serverside and sprites references
 	//sent to the client UI and playerobj
 	public class ObjectPool : MonoBehaviour
@@ -46,7 +43,7 @@ namespace Equipment
 			NetworkIdentity id = gObj.GetComponent<NetworkIdentity>();
 			if (!currentObjects.ContainsKey(id))
 			{
-				Debug.Log("item: " + gObj.name + "was not found in Player Equipment pool");
+				Logger.Log("item: " + gObj.name + "was not found in Player Equipment pool", Category.Equipment);
 			}
 			else
 			{
@@ -65,10 +62,9 @@ namespace Equipment
 			var objTransform = gObj.GetComponent<CustomNetTransform>();
 			if ( Owner ) {
 				//Inertia drop works only if player has external impulse (space floating etc.)
-				objTransform.InertiaDrop( dropPos, Owner.playerMove.speed, Owner.playerSync.ServerState.Impulse );
+				objTransform.InertiaDrop( dropPos, Owner.playerMove.speed, Owner.PlayerSync.ServerState.Impulse );
 			} else {
 				objTransform.AppearAtPositionServer(dropPos); 
 			}
 		}
 	}
-}

@@ -1,11 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Sprites;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroup
-{
+
 	public class PlayerHealth : HealthBehaviour
 	{
 		private readonly float bleedRate = 2f;
@@ -147,7 +145,7 @@ namespace PlayGroup
 			{
 				return;
 			}
-			//            Debug.LogFormat("Lost blood: {0}->{1}", BloodLevel, BloodLevel - amount);
+			Logger.LogTraceFormat("Lost blood: {0}->{1}", Category.Health, BloodLevel, BloodLevel - amount);
 			BloodLevel -= amount;
 			BloodSplatSize scaleOfTragedy;
 			if (amount > 0 && amount < 15)
@@ -318,4 +316,3 @@ namespace PlayGroup
 			objectBehaviour.visibleState = false;
 		}
 	}
-}

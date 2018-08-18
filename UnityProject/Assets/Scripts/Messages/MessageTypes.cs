@@ -17,6 +17,8 @@ internal enum MessageTypes : short
 	MatrixMoveMessage = 1013,
 	ShootMessage = 1014,
 	TabUpdateMessage = 1015,
+	DoorUpdateMessage = 1016,
+	AnnouncementMessage = 1017,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
@@ -30,5 +32,5 @@ internal enum MessageTypes : short
 	RequestMoveMessage = 2008,
 	RequestShootMessage = 2009,
 	TabInteractMessage = 2010,
-	
+
 }

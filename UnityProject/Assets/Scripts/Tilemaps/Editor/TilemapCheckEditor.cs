@@ -1,13 +1,7 @@
-﻿using System.Collections.Generic;
-using Tilemaps.Behaviours;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Meta;
-using Tilemaps.Tiles;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace Tilemaps.Editor
-{
+
 	public class TilemapCheckEditor : EditorWindow
 	{
 		private static bool DrawGizmos;
@@ -229,4 +223,3 @@ namespace Tilemaps.Editor
 				}
 		}
 	}
-}

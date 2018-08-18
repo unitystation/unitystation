@@ -1,10 +1,7 @@
 ﻿using System.Collections;
-using InputControl;
-using Sprites;
 using UnityEngine;
 
-namespace Lighting
-{
+
 	internal enum LightState
 	{
 		On,
@@ -143,7 +140,7 @@ namespace Lighting
 				}
 				else
 				{
-					Debug.LogWarning("LightSource still failing Renderer sync");
+					Logger.LogWarning("LightSource still failing Renderer sync", Category.Lighting);
 				}
 			}
 			else
@@ -157,4 +154,3 @@ namespace Lighting
 			waitToCheckState = false;
 		}
 	}
-}

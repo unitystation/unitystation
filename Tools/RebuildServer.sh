@@ -11,17 +11,15 @@ if pgrep -x screen >/dev/null 2>&1
      killall screen
 fi
 
-echo "Getting latest changes from develop"
-git checkout develop
-git pull
-
 cd UnityProject
 project_dir=$(pwd)
 echo "Starting to build from Unityproject directory:"
 echo $project_dir
 
+cp -r $script_dir/config $project_dir/Assets/StreamingAssets/config
+
 echo "Attempting build of UnityStation Server"
-/opt/Unity-2017.4.0f1/Editor/Unity \
+/opt/Unity-2018.2.0f2/Editor/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \
@@ -30,6 +28,9 @@ echo "Attempting build of UnityStation Server"
 	-executeMethod BuildScript.PerformServerBuild \
 	-quit
 rc3=$?
+
+rm -r $project_dir/Assets/StreamingAssets/config
+
 echo "Build logs (Server)"
 cat $script_dir/Logs/ServerBuild.log
 echo "Building finished successfully"

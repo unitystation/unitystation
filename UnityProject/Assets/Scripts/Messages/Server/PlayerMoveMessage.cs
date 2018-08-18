@@ -1,6 +1,4 @@
 using System.Collections;
-using PlayGroup;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -15,7 +13,7 @@ public class PlayerMoveMessage : ServerMessage
 	///To be run on client
 	public override IEnumerator Process()
 	{
-//		Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 		yield return WaitFor(SubjectPlayer);
 		var playerSync = NetworkObject.GetComponent<PlayerSync>();
 		playerSync.UpdateClientState(State);
@@ -24,7 +22,7 @@ public class PlayerMoveMessage : ServerMessage
 			playerSync.ClearQueueClient();
 		}
 		if ( State.MoveNumber == 0 ) {
-//			Debug.Log( "Zero step rollback" );
+//			Logger.Log( "Zero step rollback" );
 			playerSync.ClearQueueClient();
 			playerSync.RollbackPrediction();
 		}

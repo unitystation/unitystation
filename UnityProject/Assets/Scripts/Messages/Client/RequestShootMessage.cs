@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using Weapons;
 
 /// <summary>
 /// Informs server of a shoot action
@@ -22,7 +20,7 @@ public class RequestShootMessage : ClientMessage {
 	{
 		if (ShotBy.Equals(NetworkInstanceId.Invalid) || Weapon.Equals(NetworkInstanceId.Invalid)) {
 			//Failfast
-			Debug.LogWarning($"Shoot request invalid, processing stopped: {ToString()}");
+			Logger.LogWarning($"Shoot request invalid, processing stopped: {ToString()}", Category.Firearms);
 			yield break;
 		}
 

@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using AccessType;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -155,6 +153,6 @@ public class IDCard : NetworkBehaviour
 			message = "This is " + RegisteredName + "'s ID card\nThey are the " + GetJobType + " of the station!";
 		}
 
-		UIManager.Chat.AddChatEvent(new ChatEvent(message, ChatChannel.Examine));
+		ChatRelay.Instance.AddToChatLogClient(message, ChatChannel.Examine);
 	}
 }

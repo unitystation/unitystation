@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -58,13 +57,13 @@ public class GameManager : MonoBehaviour
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
-	private void OnValidate()
-	{
-		if (Occupations.All(o => o.GetComponent<OccupationRoster>().Type != JobType.ASSISTANT))
-		{
-			Debug.LogError("There is no ASSISTANT job role defined in the the GameManager Occupation rosters");
-		}
-	}
+//	private void OnValidate() 
+//	{
+//		if (Occupations.All(o => o.GetComponent<OccupationRoster>().Type != JobType.ASSISTANT)) //wtf is that about
+//		{
+//			Logger.LogError("There is no ASSISTANT job role defined in the the GameManager Occupation rosters");
+//		}
+//	}
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
@@ -150,7 +149,7 @@ public class GameManager : MonoBehaviour
 
 		if ( count != 0 )
 		{
-			Debug.Log($"{jobType} count: {count}");
+			Logger.Log($"{jobType} count: {count}", Category.Jobs);
 		}
 		return count;
 	}

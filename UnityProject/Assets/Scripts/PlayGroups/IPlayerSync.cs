@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroup
-{
+
 	public interface IPlayerSync
 	{
 		GameObject PullingObject { get; set; }
@@ -29,4 +28,3 @@ namespace PlayGroup
 		/// For client code
 		PlayerState ClientState { get; }
 	}
-}

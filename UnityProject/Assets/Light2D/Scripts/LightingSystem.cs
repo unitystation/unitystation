@@ -2,8 +2,7 @@
 using UnityEngine;
 using UnityEngine.Profiling;
 
-namespace Light2D
-{
+
 	/// <summary>
 	///     Main script for lights. Should be attached to camera.
 	///     Handles lighting operation like camera setup, shader setup, merging cameras output together, blurring and some
@@ -136,7 +135,7 @@ namespace Light2D
 		{
 			if (GameData.Instance.testServer || GameData.IsHeadlessServer)
 			{
-				Debug.Log("Turn off lightsystem as this is a server");
+				Logger.Log("Turn off lightsystem as this is a server",Category.Light2D);
 				enabled = false;
 			}
 #if UNITY_EDITOR
@@ -149,19 +148,19 @@ namespace Light2D
 
 			if (LightCamera == null)
 			{
-				Debug.LogError("Lighting Camera in LightingSystem is null. Please, select Lighting Camera camera for lighting to work.");
+				Logger.LogError("Lighting Camera in LightingSystem is null. Please, select Lighting Camera camera for lighting to work.",Category.Light2D);
 				enabled = false;
 				return;
 			}
 			if (LightOverlayMaterial == null)
 			{
-				Debug.LogError("LightOverlayMaterial in LightingSystem is null. Please, select LightOverlayMaterial camera for lighting to work.");
+				Logger.LogError("LightOverlayMaterial in LightingSystem is null. Please, select LightOverlayMaterial camera for lighting to work.",Category.Light2D);
 				enabled = false;
 				return;
 			}
 			if (AffectOnlyThisCamera && _camera.targetTexture != null)
 			{
-				Debug.LogError("\"Affect Only This Camera\" will not work if camera.targetTexture is set.");
+				Logger.LogError("\"Affect Only This Camera\" will not work if camera.targetTexture is set.",Category.Light2D);
 				AffectOnlyThisCamera = false;
 			}
 
@@ -169,7 +168,7 @@ namespace Light2D
 
 			if (EnableNormalMapping && !_camera.orthographic)
 			{
-				Debug.LogError("Normal mapping is not supported with perspective camera.");
+				Logger.LogError("Normal mapping is not supported with perspective camera.",Category.Light2D);
 				EnableNormalMapping = false;
 			}
 
@@ -178,7 +177,7 @@ namespace Light2D
 			FlareLayer flare = GetComponent<FlareLayer>();
 			if (flare != null && flare.enabled)
 			{
-				Debug.Log("Disabling FlareLayer since AffectOnlyThisCamera setting is checked.");
+				Logger.Log("Disabling FlareLayer since AffectOnlyThisCamera setting is checked.",Category.Light2D);
 				flare.enabled = false;
 			}
 
@@ -241,13 +240,13 @@ namespace Light2D
 
 			if (_extendedLightTextureSize.x > 1024 || _extendedLightTextureSize.y > 1024 || _smallLightTextureSize.x > 1024 || _smallLightTextureSize.y > 1024)
 			{
-				Debug.LogError("LightPixelSize is too small. That might have a performance impact.");
+				Logger.LogError("LightPixelSize is too small. That might have a performance impact.",Category.Light2D);
 				return;
 			}
 
 			if (_extendedLightTextureSize.x < 4 || _extendedLightTextureSize.y < 4 || _smallLightTextureSize.x < 4 || _smallLightTextureSize.y < 4)
 			{
-				Debug.LogError("LightPixelSize is too big. Lighting may not work correctly.");
+				Logger.LogError("LightPixelSize is too big. Lighting may not work correctly.",Category.Light2D);
 				return;
 			}
 
@@ -773,4 +772,3 @@ namespace Light2D
 			}
 		}
 	}
-}

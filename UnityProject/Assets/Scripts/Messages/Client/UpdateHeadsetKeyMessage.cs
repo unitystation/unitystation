@@ -16,7 +16,8 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		if ( HeadsetItem.Equals(NetworkInstanceId.Invalid) )
 		{
 			//Failfast
-			Debug.LogWarning($"Headset invalid, processing stopped: {ToString()}");
+
+			Logger.LogWarning($"Headset invalid, processing stopped: {ToString()}",Category.Telecoms);
 			yield break;
 		}
 
@@ -67,12 +68,12 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 			headsetGO.transform.parent) as GameObject;
 		if ( encryptionKey == null )
 		{
-			Debug.LogError($"Headset key instantiation for {PlayerList.Instance.Get(player).Name} failed, spawn aborted");
+			Logger.LogError($"Headset key instantiation for {PlayerList.Instance.Get(player).Name} failed, spawn aborted",Category.Telecoms);
 			return;
 		}
 
 		encryptionKey.GetComponent<EncryptionKey>().Type = headset.EncryptionKey;
-//		Debug.Log($"Spawning headset key {encryptionKey} with type {headset.EncryptionKey}");
+//		Logger.Log($"Spawning headset key {encryptionKey} with type {headset.EncryptionKey}");
 		
 		//TODO when added interact with dropped headset, add encryption key to empty hand
 		headset.EncryptionKey = EncryptionKeyType.None;
@@ -98,7 +99,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		EncryptionKeyType encryptionKeyTypeOfKey = encryptionkey.GetComponent<EncryptionKey>().Type;
 		if ( encryptionKeyTypeOfHeadset != EncryptionKeyType.None || encryptionKeyTypeOfKey == EncryptionKeyType.None )
 		{
-//			Debug.LogWarning($"Failed to validate update of {headset.name} {encryptionkey.name} ({ToString()})");
+//			Logger.LogWarning($"Failed to validate update of {headset.name} {encryptionkey.name} ({ToString()})");
 			return false;
 		}
 
@@ -111,7 +112,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		EncryptionKeyType encryptionKeyType = headset.GetComponent<Headset>().EncryptionKey;
 		if ( encryptionKeyType == EncryptionKeyType.None )
 		{
-//			Debug.LogWarning($"Failed to validate removal of encryption key from {headset.name} ({ToString()})");
+//			Logger.LogWarning($"Failed to validate removal of encryption key from {headset.name} ({ToString()})");
 			return false;
 		}
 

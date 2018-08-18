@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -37,7 +36,7 @@ public class EncryptionKey : NetworkBehaviour
 		{EncryptionKeyType.None, ChatChannel.None},
 		{EncryptionKeyType.Common, ChatChannel.Common},
 		{EncryptionKeyType.Binary, ChatChannel.Common | ChatChannel.Binary},
-		{EncryptionKeyType.Captain, ChatChannel.Common | ChatChannel.Command | ChatChannel.Security | ChatChannel.Engineering | 
+		{EncryptionKeyType.Captain, ChatChannel.Common | ChatChannel.Command | ChatChannel.Security | ChatChannel.Engineering |
 									ChatChannel.Supply | ChatChannel.Service | ChatChannel.Medical | ChatChannel.Science},
 		{EncryptionKeyType.ChiefEngineer, ChatChannel.Common | ChatChannel.Engineering | ChatChannel.Command},
 		{EncryptionKeyType.ChiefMedicalOfficer, ChatChannel.Common | ChatChannel.Medical | ChatChannel.Command},
@@ -52,12 +51,12 @@ public class EncryptionKey : NetworkBehaviour
 		{EncryptionKeyType.Science, ChatChannel.Common | ChatChannel.Science},
 		{EncryptionKeyType.Security, ChatChannel.Common | ChatChannel.Security},
 		{EncryptionKeyType.Service, ChatChannel.Common | ChatChannel.Service},
-		{EncryptionKeyType.Syndicate, ChatChannel.Common | ChatChannel.Syndicate | ChatChannel.Command | ChatChannel.Security | 
+		{EncryptionKeyType.Syndicate, ChatChannel.Common | ChatChannel.Syndicate | ChatChannel.Command | ChatChannel.Security |
 		                              ChatChannel.Engineering | ChatChannel.Supply | ChatChannel.Service | ChatChannel.Medical | ChatChannel.Science}
 	};
 
 	private static readonly string genericDescription = "An encryption key for a radio headset. \n";
-	
+
 	private static readonly Dictionary<EncryptionKeyType, string> ExamineTexts = new Dictionary<EncryptionKeyType, string>
 	{
 		{EncryptionKeyType.Common, 				$"{genericDescription}Has no special codes in it.  WHY DOES IT EXIST?  ASK NANOTRASEN."},
@@ -149,7 +148,7 @@ public class EncryptionKey : NetworkBehaviour
 			type = value;
 			if (type == EncryptionKeyType.None)
 			{
-				Debug.LogError("Encryption keys cannot be None type!");
+				Logger.LogError("Encryption keys cannot be None type!", Category.Telecoms);
 				type = EncryptionKeyType.Common;
 			}
 			UpdateSprite();
@@ -160,7 +159,7 @@ public class EncryptionKey : NetworkBehaviour
 	{
 		UpdateSprite();
 	}
-	
+
 /// Look ma, no syncvars!
 /// This allows clients to initialize attributes
 /// without having to resort to SyncVars and ItemFactory (see IDCard example)
@@ -245,6 +244,6 @@ public class EncryptionKey : NetworkBehaviour
 
 	public void OnExamine()
 	{
-		UIManager.Chat.AddChatEvent(new ChatEvent(ExamineTexts[Type], ChatChannel.Examine));
+		ChatRelay.Instance.AddToChatLogClient(ExamineTexts[Type], ChatChannel.Examine);
 	}
 }

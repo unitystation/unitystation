@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using PlayGroup;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -13,15 +10,25 @@ public static class SpawnHandler
 	public static void SpawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType = JobType.NULL)
 	{
 		GameObject player = CreatePlayer(jobType);
-		PlayerList.Instance.UpdatePlayer(conn, player);
+		var connectedPlayer = PlayerList.Instance.UpdatePlayer(conn, player);
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+		if (connectedPlayer.Script.PlayerSync != null) {
+			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
+		} else {
+			Debug.LogWarning("why is playerSync missing here?");
+		}
 	}
 
 	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
 	{
 		GameObject player = CreatePlayer(jobType);
-		PlayerList.Instance.UpdatePlayer(conn, player);
+		var connectedPlayer = PlayerList.Instance.UpdatePlayer(conn, player);
 		NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
+		if (connectedPlayer.Script.PlayerSync != null) {
+			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
+		} else {
+			Debug.LogWarning("why is playerSync missing here?");
+		}
 	}
 
 	private static GameObject CreatePlayer(JobType jobType)
@@ -30,7 +37,7 @@ public static class SpawnHandler
 
 		Transform spawnPosition = GetSpawnForJob(jobType);
 
-		GameObject player; 
+		GameObject player;
 
 		if (spawnPosition != null)
 		{
@@ -44,7 +51,7 @@ public static class SpawnHandler
 		{
 			player = Object.Instantiate(playerPrefab);
 		}
-		
+
 		player.GetComponent<PlayerScript>().JobType = jobType;
 
 		return player;

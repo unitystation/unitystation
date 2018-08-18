@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
@@ -12,20 +11,32 @@ public class RequestSyncMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-//		Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 
 		yield return WaitFor(SentBy);
 
 		ConnectedPlayer connectedPlayer = PlayerList.Instance.Get( NetworkObject );
-		Debug.Log($"{connectedPlayer} requested sync");
-		
-		//not sending out sync data for players not ingame 
+		Logger.Log($"{connectedPlayer} requested sync", Category.Connections);
+
+		//not sending out sync data for players not ingame
 		if ( connectedPlayer.Job != JobType.NULL && !connectedPlayer.Synced ) {
 			CustomNetworkManager.Instance.SyncPlayerData(NetworkObject);
-			
+
 			//marking player as synced to avoid sending that data pile again
 			connectedPlayer.Synced = true;
+
+			AnnounceNewPlayer( connectedPlayer );
 		}
+	}
+
+	private static void AnnounceNewPlayer( ConnectedPlayer newPlayer ) {
+		if ( newPlayer.Job == JobType.SYNDICATE ) {
+			return;
+		}
+		var chatEvent = new ChatEvent( $"{newPlayer.Job.JobString()} {newPlayer.Name} has arrived at the station. " +
+		                               $"Have a pleasant day! Try not to die...", ChatChannel.System, true );
+		AnnouncementMessage.SendToAll( chatEvent.message );
+		ChatRelay.Instance.AddToChatLogServer( chatEvent );
 	}
 
 	public override string ToString()

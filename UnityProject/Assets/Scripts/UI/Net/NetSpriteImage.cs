@@ -36,7 +36,8 @@ public class NetSpriteImage : NetUIElement
 							Element.sprite = spriteSheet[index];
 							spriteName = value;
 						} else {
-							Debug.LogWarning( $"Unable to load sprite '{spriteFile}'" );
+						
+						Logger.LogWarning( $"Unable to load sprite '{spriteFile}'",Category.NetUI );
 						}
 						break;
 				}

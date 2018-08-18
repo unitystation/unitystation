@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroup
-{
+
 	public class PlayerSprites : ManagedNetworkBehaviour
 	{
 		private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
@@ -93,7 +91,7 @@ namespace PlayGroup
 		[ClientRpc]
 		public void RpcSetPlayerRot( float rot )
 		{
-			//		Debug.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
+			//		Logger.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
 			SpriteRenderer[] spriteRends = GetComponentsInChildren<SpriteRenderer>();
 			foreach (SpriteRenderer sR in spriteRends)
 			{
@@ -128,4 +126,3 @@ namespace PlayGroup
 			FaceDirection(orientation);
 		}
 	}
-}

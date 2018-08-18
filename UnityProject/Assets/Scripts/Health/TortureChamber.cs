@@ -1,5 +1,4 @@
-﻿using PlayGroup;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum TortureSeverity
 {
@@ -14,7 +13,7 @@ public class TortureChamber
 		var ps = player.GetComponent<PlayerScript>();
 		if ( !ps )
 		{
-			Debug.LogWarning("Cannot torture :( not a player");
+			Logger.LogWarning("Cannot torture :( not a player", Category.Security);
 			return;
 		}
 		Torture(ps, severity);
@@ -22,7 +21,7 @@ public class TortureChamber
 
 	public static void Torture(PlayerScript ps, TortureSeverity severity = TortureSeverity.M)
 	{
-		Debug.Log($"Player {ps.gameObject} is now being tortured with '{severity}' severity. Enjoy");
+		Logger.Log($"Player {ps.gameObject} is now being tortured with '{severity}' severity. Enjoy", Category.Security);
 		//todo: torture sequences
 		Bleed(ps, severity);
 		DropShit(ps, severity);
@@ -52,7 +51,7 @@ public class TortureChamber
 	{
 		int randX = (int)severity * 100 * Random.Range(-5, 5);
 		int randY = (int)severity * 100 * Random.Range(-5, 5);
-		ps.playerSync.SetPosition(new Vector2(randX,randY));
+		ps.PlayerSync.SetPosition(new Vector2(randX,randY));
 	}
 
 }

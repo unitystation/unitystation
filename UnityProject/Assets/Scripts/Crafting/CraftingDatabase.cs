@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Crafting
-{
+
 	[Serializable]
 	public class CraftingDatabase
 	{
@@ -33,4 +32,3 @@ namespace Crafting
 			return null;
 		}
 	}
-}

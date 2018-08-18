@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class PlayerHealthUI : MonoBehaviour
 	{
 		public UI_HeartMonitor heartMonitor;
@@ -60,4 +59,3 @@ namespace UI
 			}
 		}
 	}
-}

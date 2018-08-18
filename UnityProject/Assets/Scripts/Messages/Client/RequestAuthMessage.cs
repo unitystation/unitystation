@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using UnityEngine;
 using UnityEngine.Networking;
-using PlayGroup;
 using Facepunch.Steamworks;
 
 
@@ -13,29 +11,29 @@ public class RequestAuthMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-		//	Debug.Log("Processed " + ToString());
+		//	Logger.Log("Processed " + ToString());
 		yield return WaitFor(SentBy);
 
 //		if ( !Managers.instance.isForRelease )
 //		{
-//			Debug.Log($"Ignoring {this}, not for release");
+//			Logger.Log($"Ignoring {this}, not for release");
 //			yield break;
 //		}
 		
 		var connectedPlayer = PlayerList.Instance.Get( NetworkObject );
 
 		if ( PlayerList.IsConnWhitelisted(connectedPlayer) )
-		{
-			Debug.Log( $"Player whitelisted: {connectedPlayer}" );
+		{ 
+			Logger.Log( $"Player whitelisted: {connectedPlayer}", Category.Steam);
 			yield break;
 		}
 		if ( connectedPlayer.SteamId != 0 )
 		{
-			Debug.Log( $"Player already authenticated: {connectedPlayer}" );
+			Logger.Log( $"Player already authenticated: {connectedPlayer}", Category.Steam );
 			yield break;
 		}
 		
-//		Debug.Log("Server Starting Auth for User:" + SteamID);
+//		Logger.Log("Server Starting Auth for User:" + SteamID);
 		if (Server.Instance != null && SteamID != 0 && TicketBinary != null)
 		{
 			
@@ -45,7 +43,7 @@ public class RequestAuthMessage : ClientMessage
 				// This can trigger for a lot of reasons
 				// More info: http://projectzomboid.com/modding//net/puppygames/steam/BeginAuthSessionResult.html
 				// if triggered does prevent the authchange callback.
-//				Debug.Log("Start Session returned false, kicking");
+//				Logger.Log("Start Session returned false, kicking");
 				CustomNetworkManager.Kick( connectedPlayer, "Steam auth failed" );
 			}
 			else

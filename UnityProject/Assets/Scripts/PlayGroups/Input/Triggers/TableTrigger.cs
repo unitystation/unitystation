@@ -1,7 +1,4 @@
-﻿using PlayGroup;
-using PlayGroups.Input;
-using UI;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class TableTrigger : InputTrigger
@@ -21,7 +18,7 @@ public class TableTrigger : InputTrigger
 				//				var placedOk = slot.PlaceItem(gameObject.transform.position);
 				//				if ( !placedOk )
 				//				{
-				//					Debug.Log("Client placing error");
+				//					Logger.Log("Client placing error");
 				//				}
 			}
 		}

@@ -1,5 +1,4 @@
 using System.Collections;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -15,10 +14,14 @@ public class MatrixMoveMessage : ServerMessage
 	///To be run on client
 	public override IEnumerator Process()
 	{
-//		Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 		yield return WaitFor(Matrix);
-		var matrixMove = NetworkObject.GetComponent<MatrixMove>();
-		matrixMove.UpdateClientState(State);
+
+		//Sometimes NetworkObject is gone because of game ending or just before exit
+		if (NetworkObject != null) {
+			var matrixMove = NetworkObject.GetComponent<MatrixMove>();
+			matrixMove.UpdateClientState(State);
+		}
 	}
 
 	public static MatrixMoveMessage Send(GameObject recipient, GameObject matrix, MatrixState state)

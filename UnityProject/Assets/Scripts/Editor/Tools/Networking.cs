@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
-using Crafting;
-using Items;
-using PlayGroup;
 using UnityEditor;
 using UnityEngine;
-using Util;
 
 public class Networking : Editor
 {
@@ -34,14 +30,14 @@ public class Networking : Editor
 	{
 		foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
 		{
-			player.GameObject.GetComponent<PlayerScript>().playerSync.Push(Vector2Int.up);
+			player.GameObject.GetComponent<PlayerScript>().PlayerSync.Push(Vector2Int.up);
 		}
 	}
 	[MenuItem("Networking/Spawn some meat")]
 	private static void SpawnMeat()
 	{
 		foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
-			Vector3 playerPos = player.GameObject.GetComponent<PlayerScript>().playerSync.ServerState.WorldPosition;
+			Vector3 playerPos = player.GameObject.GetComponent<PlayerScript>().PlayerSync.ServerState.WorldPosition;
 			Vector3 spawnPos = playerPos + new Vector3( 0, 2, 0 );
 			GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal("Meat Steak");
 			var slabs = new List<CustomNetTransform>();
@@ -61,7 +57,7 @@ public class Networking : Editor
 		foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
 			//Printing this the pretty way, example:
 			//Bob (CAPTAIN) is located at (77,0, 52,0, 0,0)
-			Debug.Log( $"{player.Name} ({player.Job}) is located at {player.Script.WorldPos}" );
+			Logger.Log( $"{player.Name} ({player.Job}) is located at {player.Script.WorldPos}" );
 		}
 
 	}

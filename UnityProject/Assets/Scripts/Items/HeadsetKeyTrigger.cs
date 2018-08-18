@@ -1,6 +1,4 @@
-﻿using Items;
-using UI;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HeadsetKeyTrigger : PickUpTrigger
 {

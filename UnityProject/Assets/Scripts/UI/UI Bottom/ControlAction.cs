@@ -1,10 +1,7 @@
-using PlayGroup;
-using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class ControlAction : MonoBehaviour
 	{
 		public Image throwImage;
@@ -50,7 +47,7 @@ namespace UI
 				UIManager.Hands.Swap();
 			}
 
-			if (Input.GetKeyDown(KeyCode.E))
+			if (Input.GetKeyDown(KeyCode.E) && !UIManager.IsInputFocus)
 			{
 				UIManager.Hands.Use();
 			}
@@ -79,7 +76,7 @@ namespace UI
 		public void Resist()
 		{
 			SoundManager.Play("Click01");
-			Debug.Log("Resist Button");
+			Logger.Log("Resist Button",Category.UI);
 		}
 
 		public void Drop()
@@ -101,7 +98,7 @@ namespace UI
 			//                var placedOk = currentSlot.PlaceItem(dropPos);
 			//                if ( !placedOk )
 			//                {
-			//                    Debug.Log("Client dropping error");
+			//                    Logger.Log("Client dropping error");
 			//                }
 			//            }
 			//            else
@@ -116,7 +113,8 @@ namespace UI
 			//Message
 			lps.playerNetworkActions.RequestDropItem(currentSlot.eventName, false);
 			SoundManager.Play("Click01");
-			Debug.Log("Drop Button");
+			Logger.Log("Drop Button", Category.UI);
+
 		}
 
 		private static bool isNotMovingClient(PlayerScript lps)
@@ -138,7 +136,7 @@ namespace UI
 			}
 
 			SoundManager.Play("Click01");
-//			Debug.Log("Throw Button");
+//			Logger.Log("Throw Button");
 
 			if (!UIManager.IsThrow)
 			{
@@ -152,4 +150,3 @@ namespace UI
 			}
 		}
 	}
-}

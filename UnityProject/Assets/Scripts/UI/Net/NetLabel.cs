@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 ///Text label, not modifiable by clients directly
 [RequireComponent(typeof(Text))]

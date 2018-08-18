@@ -1,10 +1,7 @@
-using PlayGroup;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroups.Input
-{
+
 	public abstract class InputTrigger : NetworkBehaviour
 	{
 		public void Trigger()
@@ -30,4 +27,3 @@ namespace PlayGroups.Input
 
 		public abstract void Interact(GameObject originator, Vector3 position, string hand);
 	}
-}

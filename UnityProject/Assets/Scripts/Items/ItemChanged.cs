@@ -1,8 +1,6 @@
-﻿using Events;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace PlayGroup
-{
+
 	public class ItemChanged : MonoBehaviour
 	{
 		private ClothingItem clothingItem;
@@ -41,4 +39,3 @@ namespace PlayGroup
 			}
 		}
 	}
-}

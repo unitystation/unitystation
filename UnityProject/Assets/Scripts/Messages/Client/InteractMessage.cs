@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -15,7 +14,7 @@ public class InteractMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-		//		Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 
 		yield return WaitFor(Subject, SentBy);
 
@@ -72,8 +71,7 @@ public class InteractMessage : ClientMessage
 
 	public override string ToString()
 	{
-		return string.Format("[InteractMessage Subject={0} Hand={3} Type={1} SentBy={2}]",
-			Subject, MessageType, SentBy, decodeHand(Hand));
+		return $"[InteractMessage Subject={Subject} Hand={decodeHand( Hand )} Type={MessageType} SentBy={SentBy}]";
 	}
 
 	public override void Deserialize(NetworkReader reader)

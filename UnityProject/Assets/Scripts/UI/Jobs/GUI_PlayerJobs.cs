@@ -1,6 +1,4 @@
-﻿using PlayGroup;
-using UI;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class GUI_PlayerJobs : MonoBehaviour

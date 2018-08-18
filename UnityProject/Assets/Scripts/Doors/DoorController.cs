@@ -1,18 +1,12 @@
 ﻿using System.Collections;
-using Sprites;
-using Tilemaps;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Objects;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Doors
-{
+
 	public class DoorController : ManagedNetworkBehaviour
 	{
 		//public bool isWindowed = false;
-		public enum OppeningDirection
+		public enum OpeningDirection
 		{
 			Horizontal,
 			Vertical
@@ -37,13 +31,20 @@ namespace Doors
 		private int openLayer;
 		public AudioSource openSFX;
 		private int openSortingLayer;
-		private bool openTrigger;
-	
 
-		public OppeningDirection oppeningDirection;
-		private GameObject playerOpeningIt;
+		public OpeningDirection openingDirection;
 		private RegisterDoor registerTile;
 		private Matrix matrix => registerTile.Matrix;
+		
+		private AccessRestrictions accessRestrictions;
+		public AccessRestrictions AccessRestrictions {
+			get {
+				if ( !accessRestrictions ) {
+					accessRestrictions = GetComponent<AccessRestrictions>();
+				}
+				return accessRestrictions;
+			}
+		}
 
 		[HideInInspector] public SpriteRenderer spriteRenderer;
 
@@ -87,7 +88,7 @@ namespace Doors
 			yield return new WaitForSeconds(maxTimeOpen);
 			if (isServer)
 			{
-				CmdTryClose();
+				TryClose();
 			}
 		}
 
@@ -117,62 +118,63 @@ namespace Doors
 			}
 		}
 
-		[Command]
-		public void CmdTryOpen(GameObject playerObj)
+		[Server]
+		public void TryClose()
 		{
-			if (!IsOpened && !isPerformingAction)
-			{
-				RpcOpen(playerObj);
-
-				ResetWaiting();
-			}
-		}
-
-		[Command]
-		public void CmdTryClose()
-		{
-			// If we're dealing with a sliding door and there are no issues, we can close the sliding door (WinDoor)
-            if(doorType == DoorType.sliding && IsOpened && !isPerformingAction)
-            {
-                RpcClose();
+			// Sliding door is not passable according to matrix
+            if( IsOpened && !isPerformingAction && ( matrix.IsPassableAt( registerTile.Position ) || doorType == DoorType.sliding ) ) {
+	            Close();
             }
-            else if (IsOpened && !isPerformingAction && matrix.IsPassableAt(registerTile.Position))
-			{
-				RpcClose();
-			}
 			else
 			{
 				ResetWaiting();
 			}
 		}
-
-		[Command]
-		public void CmdTryDenied()
-		{
-			if (!IsOpened && !isPerformingAction)
-			{
-				RpcAccessDenied();
+		
+		[Server]
+		private void Close() {
+			IsOpened = false;
+			if ( !isPerformingAction ) {
+				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close );
 			}
 		}
 
-		// How the client attempts to open the door. If there is no AccessRestrictions component, it returns an error and everything goes about its business.
-		[Command]
-		public void CmdCheckDoorPermissions(GameObject Door, GameObject Originator)
+		[Server]
+		public void TryOpen(GameObject Originator, string hand)
 		{
-			if (Door.GetComponent<AccessRestrictions>() != null)
+			if (AccessRestrictions != null)
 			{
-				if (Door.GetComponent<AccessRestrictions>().CheckAccess(Originator, Door))
-				{
-					CmdTryOpen(Originator);
+				if (AccessRestrictions.CheckAccess(Originator, hand)) {
+					if (!IsOpened && !isPerformingAction) {
+						Open();
+					}
 				}
-				else
-				{
-					CmdTryDenied();
+				else {
+					if (!IsOpened && !isPerformingAction) {
+						AccessDenied();
+					}
 				}
 			}
 			else
 			{
-				Debug.LogError("Door lacks access restriction component!");
+				Logger.LogError("Door lacks access restriction component!", Category.Doors);
+			}
+		}
+		[Server]
+		private void AccessDenied() {
+			if ( !isPerformingAction ) {
+				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.AccessDenied );
+			}
+		}
+
+		[Server]
+		private void Open() {
+			ResetWaiting();
+			IsOpened = true;
+
+			if (!isPerformingAction)
+			{
+				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Open );
 			}
 		}
 
@@ -186,61 +188,6 @@ namespace Doors
 
 			coWaitOpened = WaitUntilClose();
 			StartCoroutine(coWaitOpened);
-		}
-
-		public override void UpdateMe()
-		{
-			if (openTrigger && playerOpeningIt)
-			{
-				float distToTriggerPlayer = Vector3.Distance(playerOpeningIt.transform.position, transform.position);
-				if (distToTriggerPlayer < 1.5f)
-				{
-					openTrigger = false;
-					OpenAction();
-				}
-			}
-		}
-
-		[ClientRpc]
-		public void RpcAccessDenied()
-		{
-			if (!isPerformingAction)
-			{
-				doorAnimator.AccessDenied();
-			}
-		}
-
-		[ClientRpc]
-		public void RpcOpen(GameObject _playerOpeningIt)
-		{
-			if (_playerOpeningIt == null)
-			{
-				return;
-			}
-
-			openTrigger = true;
-			playerOpeningIt = _playerOpeningIt;
-		}
-
-		public virtual void OpenAction()
-		{
-			IsOpened = true;
-
-			if (!isPerformingAction)
-			{
-				doorAnimator.OpenDoor();
-			}
-		}
-
-		[ClientRpc]
-		public void RpcClose()
-		{
-			IsOpened = false;
-			playerOpeningIt = null;
-			if (!isPerformingAction)
-			{
-				doorAnimator.CloseDoor();
-			}
 		}
 
 		#region UI Mouse Actions
@@ -257,4 +204,3 @@ namespace Doors
 
 		#endregion
 	}
-}

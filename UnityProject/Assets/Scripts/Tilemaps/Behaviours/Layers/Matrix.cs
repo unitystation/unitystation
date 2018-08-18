@@ -1,118 +1,122 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Objects;
-using Tilemaps.Tiles;
-using Tilemaps.Utils;
 using UnityEngine;
-using System;
 
-namespace Tilemaps
-{
-    public class Matrix : MonoBehaviour
-    {
-        private MetaTileMap metaTileMap;
-        private TileList objects;
-        private TileList players;
-        private Vector3Int initialOffset;
-        public Vector3Int InitialOffset => initialOffset;
 
-        private MetaDataLayer metaDataLayer;
+public class Matrix : MonoBehaviour
+	{
+		private MetaTileMap metaTileMap;
+		private TileList objects;
+		private TileList players;
+		private Vector3Int initialOffset;
+		public Vector3Int InitialOffset => initialOffset;
 
-        private void Start()
-        {
-            metaDataLayer = GetComponentInChildren<MetaDataLayer>(true);
-            metaTileMap = GetComponent<MetaTileMap>();
-            try
-            {
-                objects = ((ObjectLayer)metaTileMap.Layers[LayerType.Objects]).Objects;
-            }
-            catch
-            {
-                Debug.LogError("CAST ERROR: Make sure everything is in its proper layer type.");
-            }
-        }
+		private MetaDataLayer metaDataLayer;
 
-        private void Awake()
-        {
-            initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
-        }
+		private void Start()
+		{
+			metaDataLayer = GetComponentInChildren<MetaDataLayer>(true);
+			metaTileMap = GetComponent<MetaTileMap>();
 
-        public bool IsPassableAt(Vector3Int origin, Vector3Int position)
-        {
-            return metaTileMap.IsPassableAt(origin, position);
-        }
+			try
+			{
+				objects = ((ObjectLayer)metaTileMap.Layers[LayerType.Objects]).Objects;
+			}
+			catch
+			{
+				Logger.LogError("CAST ERROR: Make sure everything is in its proper layer type.", Category.Matrix);
+			}
+		}
 
-        //TODO:  This should be removed, due to windows mucking things up, and replaced with origin and position
-        public bool IsPassableAt(Vector3Int position)
-        {
-            return metaTileMap.IsPassableAt(position);
-        }
+		private void Awake()
+		{
+			initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
+		}
 
-        //TODO:  This should also be removed, due to windows mucking things up, and replaced with origin and position
-        public bool IsAtmosPassableAt(Vector3Int position)
-        {
-            return metaTileMap.IsAtmosPassableAt(position);
-        }
+		public bool IsPassableAt(Vector3Int origin, Vector3Int position)
+		{
+			return metaTileMap.IsPassableAt(origin, position);
+		}
 
-        public bool IsSpaceAt(Vector3Int position)
-        {
-            return metaDataLayer.IsSpaceAt(position);
-        }
+		//TODO:  This should be removed, due to windows mucking things up, and replaced with origin and position
+		public bool IsPassableAt(Vector3Int position)
+		{
+			return metaTileMap.IsPassableAt(position);
+		}
 
-        public bool IsEmptyAt(Vector3Int position)
-        {
-            return metaTileMap.IsEmptyAt(position);
-        }
+		//TODO:  This should also be removed, due to windows mucking things up, and replaced with origin and position
+		public bool IsAtmosPassableAt(Vector3Int position)
+		{
+			return metaTileMap.IsAtmosPassableAt(position);
+		}
 
-        public bool IsFloatingAt(Vector3Int position)
-        {
-            BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
-            foreach (Vector3Int pos in bounds.allPositionsWithin)
-            {
-                if (!metaTileMap.IsEmptyAt(pos))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+		public bool IsSpaceAt(Vector3Int position)
+		{
+			return metaDataLayer.IsSpaceAt(position);
+		}
 
-        public IEnumerable<T> Get<T>(Vector3Int position) where T : MonoBehaviour
-        {
-            return objects.Get(position).Select(x => x.GetComponent<T>()).Where(x => x != null);
-        }
+		public bool IsEmptyAt(Vector3Int position)
+		{
+			return metaTileMap.IsEmptyAt(position);
+		}
 
-        public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
-        {
-            return objects.GetFirst(position)?.GetComponent<T>();
-        }
+		public bool IsFloatingAt(Vector3Int position)
+		{
+			BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
+			foreach (Vector3Int pos in bounds.allPositionsWithin)
+			{
+				if (!metaTileMap.IsEmptyAt(pos))
+				{
+					return false;
+				}
+			}
 
-        public IEnumerable<T> Get<T>(Vector3Int position, ObjectType type) where T : MonoBehaviour
-        {
-            return objects.Get(position, type).Select(x => x.GetComponent<T>()).Where(x => x != null);
-        }
+			return true;
+		}
 
-        public bool ContainsAt(Vector3Int position, GameObject gameObject)
-        {
-            RegisterTile registerTile = gameObject.GetComponent<RegisterTile>();
-            return (registerTile && objects.Get(position, ObjectType.Object).Contains(registerTile)) ||
-                (registerTile && (Get<RegisterTile>(position, ObjectType.Player).Any()) && ContainsAtPlayer(position, gameObject));
-        }
+		public IEnumerable<T> Get<T>(Vector3Int position) where T : MonoBehaviour
+		{
+			return objects.Get(position).Select(x => x.GetComponent<T>()).Where(x => x != null);
+		}
 
-        //Checks if theres a player here and makes sure its not same player that called it. (avoids replay bugs)
-        public bool ContainsAtPlayer(Vector3Int position, GameObject gameObject) 
-        {
-            if(Get<RegisterTile>(position, ObjectType.Player).Count() != 0)
-            {
-                return Get<RegisterTile>(position, ObjectType.Player).First().gameObject.GetInstanceID() != gameObject.GetInstanceID();
-            }
-            return false;
-        }
+		public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
+		{
+			return objects.GetFirst(position)?.GetComponent<T>();
+		}
 
-        public IEnumerable<IElectricityIO> GetElectricalConnections(Vector3Int position)
-        {
-            return objects.Get(position).Select(x => x.GetComponent<IElectricityIO>()).Where(x => x != null);
-        }
-    }
-}
+		public IEnumerable<T> Get<T>(Vector3Int position, ObjectType type) where T : MonoBehaviour
+		{
+			return objects.Get(position, type).Select(x => x.GetComponent<T>()).Where(x => x != null);
+		}
+
+		public bool ContainsAt(Vector3Int position, GameObject gameObject)
+		{
+			RegisterTile registerTile = gameObject.GetComponent<RegisterTile>();
+			if (!registerTile)
+			{
+				return false;
+			}
+
+			// Check if tile contains a player
+			if (registerTile.ObjectType == ObjectType.Player)
+			{
+				var playersAtPosition = objects.Get<RegisterPlayer>(position);
+
+				if (playersAtPosition.Count == 0 || playersAtPosition.Contains(registerTile))
+				{
+					return false;
+				}
+
+				// Check if the player is passable (corpse)
+				return playersAtPosition.First().IsBlocking;
+			}
+
+			// Otherwise check for blocking objects
+			return objects.Get<RegisterTile>(position).Contains(registerTile);
+		}
+
+		public IEnumerable<IElectricityIO> GetElectricalConnections(Vector3Int position)
+		{
+			return objects.Get(position).Select(x => x.GetComponent<IElectricityIO>()).Where(x => x != null);
+		}
+	}

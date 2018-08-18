@@ -1,11 +1,6 @@
 using System;
-using System.Collections.Generic;
-using PlayGroup;
-using Tilemaps;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
-using Random = UnityEngine.Random;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 /// Current state of transform, server modifies these and sends to clients.
@@ -135,7 +130,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 			bool initError = !MatrixManager.Instance || !registerTile;
 			if ( initError ) {
 				serverState.MatrixId = 0;
-				Debug.LogWarning( $"{gameObject.name}: unable to detect MatrixId!" );
+				Logger.LogWarning( $"{gameObject.name}: unable to detect MatrixId!", Category.Transform );
 			} else {
 				serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt(transform.position) ).Id;
 			}
@@ -161,7 +156,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	public void ReInitServerState()
 	{
 		InitServerState();
-	//	Debug.Log($"{name} reInit: {serverTransformState}");
+	//	Logger.Log($"{name} reInit: {serverTransformState}");
 	}
 
 	/// Essentially the Update loop
@@ -213,7 +208,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		if (!isServer && registerTile.Position != Vector3Int.RoundToInt(clientState.Position) )
 			//&& !isPushing && !predictivePushing)
 		{
-//			Debug.LogFormat($"registerTile updating {registerTile.WorldPosition}->{Vector3Int.RoundToInt(clientState.WorldPosition)} ");
+			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPosition, Vector3Int.RoundToInt( clientState.WorldPosition ) );
 			RegisterObjects();
 		}
 	}
@@ -259,10 +254,10 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	[Server]
 	private void CheckMatrixSwitch( bool notify = true ) {
 		var pos = Vector3Int.RoundToInt( serverState.WorldPosition );
-//		Debug.Log( $"{gameObject.name} doing matrix switch check for {pos}" );
+		Logger.LogTraceFormat( "{0} doing matrix switch check for {1}", Category.Transform, gameObject.name, pos );
 		int newMatrixId = MatrixManager.AtPoint( pos ).Id;
 		if ( serverState.MatrixId != newMatrixId ) {
-//			Debug.Log( $"{gameObject} matrix {serverState.MatrixId}->{newMatrixId}" );
+			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, serverState.MatrixId, newMatrixId );
 
 			//It's very important to save World Pos before matrix switch and restore it back afterwards
 			var worldPosToPreserve = serverState.WorldPosition;
@@ -352,7 +347,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	[Server]
 	public void NotifyPlayers()
 	{
-//		Debug.Log( $"{gameObject.name} Notified" );
+		Logger.LogTraceFormat( "{0} Notified", Category.Transform, gameObject.name );
 		SyncMatrix();
 		serverState.IsLocalRotation = false;
 		TransformStateMessage.SendToAll(gameObject, serverState);

@@ -1,5 +1,4 @@
-﻿using InputControl;
-using UnityEngine;
+﻿using UnityEngine;
 
 [ExecuteInEditMode]
 public class AmbientTile : ObjectTrigger

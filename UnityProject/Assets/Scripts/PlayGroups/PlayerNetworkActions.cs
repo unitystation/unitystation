@@ -1,20 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using Cupboards;
-using Doors;
-using Equipment;
-using Lighting;
-using PlayGroup;
-using PlayGroups.Input;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Objects;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using Util;
 using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
@@ -31,7 +20,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private ChatIcon chatIcon;
 
-	private Equipment.Equipment equipment;
+	private Equipment equipment;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private PlayerSprites playerSprites;
@@ -45,7 +34,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private void Start()
 	{
-		equipment = GetComponent<Equipment.Equipment>();
+		equipment = GetComponent<Equipment>();
 		playerMove = GetComponent<PlayerMove>();
 		playerSprites = GetComponent<PlayerSprites>();
 		playerScript = GetComponent<PlayerScript>();
@@ -74,7 +63,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		string eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
 		if (Inventory[eventName] != null && Inventory[eventName] != itemObject && !replaceIfOccupied)
 		{
-			Debug.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}");
+			Logger.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}",Category.Inventory);
 			return false;
 		}
 
@@ -153,7 +142,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			SetInventorySlot(slot, gObj);
 			//Clean up other slots
 			ClearObjectIfNotInSlot(gObj, slot, forceClientInform);
-			//Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
+			Logger.LogTraceFormat("Approved moving {0} to slot {1}", Category.Inventory, gObj, slot);
 			return true;
 		}
 
@@ -162,7 +151,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return ValidateDropItem(slot, forceClientInform);
 		}
 
-		Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
+		Logger.LogWarning($"Unable to validateInvInteraction {slot}:{gObj.name}", Category.Inventory);
 		return false;
 	}
 
@@ -215,7 +204,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			UpdateSlotMessage.Send(gameObject, slotNames[i], null, forceClientInform);
 		}
 
-		//        Debug.LogFormat("Cleared {0}", slotNames);
+		Logger.LogTraceFormat("Cleared {0}", Category.Inventory, slotNames);
 	}
 
 	[Server]
@@ -237,7 +226,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset"))
 				{
-					// Debug.Log("slotName = " + slotName);
+					// Logger.Log("slotName = " + slotName);
 					Epos enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
 					equipment.syncEquipSprites[(int) enumA] = att.clothingReference;
 				}
@@ -263,7 +252,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return true;
 		}
 
-		Debug.Log("Object not found in Inventory");
+		Logger.Log("Object not found in Inventory",Category.Inventory);
 		return false;
 	}
 
@@ -335,7 +324,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		GameObject throwable = Inventory[slot];
 		
-		Vector3 playerPos = playerScript.playerSync.ServerState.WorldPosition;
+		Vector3 playerPos = playerScript.PlayerSync.ServerState.WorldPosition;
 
 		EquipmentPool.DisposeOfObject(gameObject, throwable); 
 		ClearInventorySlot(slot);
@@ -350,8 +339,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		throwable.GetComponent<CustomNetTransform>().Throw( throwInfo );
 		
 		//Simplified counter-impulse for players in space
-		if ( playerScript.playerSync.IsInSpace ) {
-			playerScript.playerSync.Push( Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized) );
+		if ( playerScript.PlayerSync.IsInSpace ) {
+			playerScript.PlayerSync.Push( Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized) );
 		}
 	}
 
@@ -622,33 +611,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 		Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("FieldOfView");
 		gameObject.GetComponent<InputController>().enabled = false;
-	}
-
-	[Command]
-	public void CmdTryOpenDoor(GameObject door)
-	{
-		door.GetComponent<DoorController>().CmdTryOpen(gameObject);
-	}
-
-	[Command]
-	public void CmdTryCloseDoor(GameObject door)
-	{
-		door.GetComponent<DoorController>().CmdTryClose();
-	}
-
-	[Command]
-	public void CmdRestrictDoorDenied(GameObject door)
-	{
-		door.GetComponent<DoorController>().CmdTryDenied();
-	}
-
-	[Command]
-	public void CmdCheckDoorPermissions(GameObject door, GameObject player)
-	{
-		if (door.GetComponent<DoorController>() != null)
-		{
-			door.GetComponent<DoorController>().CmdCheckDoorPermissions(door, player);
-		}
 	}
 
 	//FOOD

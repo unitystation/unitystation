@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Electricity;
 
 /// <summary>
 /// For any object that can conduct electricity
@@ -12,12 +11,12 @@ public interface IElectricityIO
 	/// 
 	/// currentTick = the current tick rate count
 	/// </summary>
-	void ElectricityInput(int currentTick, Electricity.Electricity electricity);
+	void ElectricityInput(int currentTick, Electricity electricity);
 
 	/// <summary>
 	/// The output path of the object/wire that is passing electricity through it
 	/// </summary>
-	void ElectricityOutput(int currentTick, Electricity.Electricity electricity);
+	void ElectricityOutput(int currentTick, Electricity electricity);
 
 	/// <summary>
 	///     Returns a struct with both connection points as members
