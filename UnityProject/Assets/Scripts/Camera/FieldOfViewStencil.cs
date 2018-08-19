@@ -32,6 +32,8 @@ public class FieldOfViewStencil : MonoBehaviour
 
 	public bool AffectWalls = false;
 
+	float waitTime = 0f;
+
 	void Start()
 	{
 		if (mMeshBuffer == null)
@@ -44,7 +46,12 @@ public class FieldOfViewStencil : MonoBehaviour
 	{
         if (AffectWalls)
         {
-            CheckHitWallsCache();
+			waitTime += Time.deltaTime;
+			if (waitTime > 0.2f)
+			{
+				waitTime = 0f;
+				CheckHitWallsCache();
+			}
         }
     }
 
@@ -170,7 +177,9 @@ public class FieldOfViewStencil : MonoBehaviour
 			Vector3 hitPosition = Vector3.zero;
 
 			//Hit a closed door (Layer 17)
-			if(hit.collider.gameObject.layer == 17 && AffectWalls)
+			if(hit.collider.gameObject.layer == 17 && AffectWalls || 
+			   hit.collider.gameObject.layer == 16 && AffectWalls || 
+			   hit.collider.gameObject.layer == 18 && AffectWalls)
 			{
 				if(!hitDoors.Contains(hit.collider.gameObject))
 				{
@@ -209,7 +218,15 @@ public class FieldOfViewStencil : MonoBehaviour
 				}
 			}
 
-			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+			//Open doors or win doors:
+			if (hit.collider.gameObject.layer == 16 || hit.collider.gameObject.layer == 18)
+			{
+				return new ViewCastInfo(false, transform.position + dir * ViewRadius, ViewRadius, globalAngle);
+			}
+			else
+			{
+				return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+			}
 		}
 		else
 		{
