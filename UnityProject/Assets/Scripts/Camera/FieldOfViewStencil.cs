@@ -32,8 +32,6 @@ public class FieldOfViewStencil : MonoBehaviour
 
 	public bool AffectWalls = false;
 
-    int waitToCheck = 0;
-
 	void Start()
 	{
 		if (mMeshBuffer == null)
@@ -44,10 +42,8 @@ public class FieldOfViewStencil : MonoBehaviour
 
 	void Update()
 	{
-        waitToCheck++;
-        if (waitToCheck > 5 && AffectWalls)
+        if (AffectWalls)
         {
-            waitToCheck = 0;
             CheckHitWallsCache();
         }
     }
