@@ -7,6 +7,7 @@ public class FovDoorController : MonoBehaviour
 {
 	public Material normalMat;
 	public Material greyScaleMat;
+	public Material fovMaskMat;
 
 	private SpriteRenderer tileSpriteRenderer;
 
@@ -15,7 +16,31 @@ public class FovDoorController : MonoBehaviour
 	void Awake()
 	{
 		cacheRends = GetComponentsInChildren<SpriteRenderer>(true);
-		TurnOnDoorFov();
+		CheckIfWindowed();
+	}
+
+	void CheckIfWindowed()
+	{
+		//windowed = 18, Door Opened = 16
+		if (gameObject.layer == 18
+		    || gameObject.layer == 16)
+		{
+			SetForWindowDoor();
+		}
+		else
+		{
+			TurnOnDoorFov();
+		}
+	}
+
+	void SetForWindowDoor()
+	{
+		//Apply mask mat and turn off this component
+		for (int i = 0; i < cacheRends.Length; i++)
+		{
+			cacheRends[i].material = fovMaskMat;
+		}
+		this.enabled = false;
 	}
 
 	//Broadcast msg from FieldOfViewStencil:
