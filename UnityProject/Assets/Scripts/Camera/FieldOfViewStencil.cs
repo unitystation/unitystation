@@ -32,7 +32,7 @@ public class FieldOfViewStencil : MonoBehaviour
 
 	public bool AffectWalls = false;
 
-    int waitToCheck = 0;
+	float waitTime = 0f;
 
 	void Start()
 	{
@@ -44,11 +44,14 @@ public class FieldOfViewStencil : MonoBehaviour
 
 	void Update()
 	{
-        waitToCheck++;
-        if (waitToCheck > 5 && AffectWalls)
+        if (AffectWalls)
         {
-            waitToCheck = 0;
-            CheckHitWallsCache();
+			waitTime += Time.deltaTime;
+			if (waitTime > 0.2f)
+			{
+				waitTime = 0f;
+				CheckHitWallsCache();
+			}
         }
     }
 
