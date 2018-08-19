@@ -102,7 +102,15 @@ public class RoomControl : SystemBehaviour
 					}
 					else if (metaTileMap.IsSpaceAt(neighbor))
 					{
-						isSpace = true;
+						Vector3 worldPosition = transform.TransformPoint(neighbor);
+						if (MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
+						{
+							isSpace = true;
+						}
+						else
+						{
+							Logger.Log("");
+						}
 					}
 				}
 			}
@@ -145,6 +153,15 @@ public class RoomControl : SystemBehaviour
 
 		foreach (Vector3Int neighbor in MetaUtils.GetNeighbors(position))
 		{
+			if (metaTileMap.IsSpaceAt(neighbor))
+			{
+				Vector3 worldPosition = transform.TransformPoint(neighbor);
+				if (!MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
+				{
+					Logger.Log("");
+				}
+			}
+
 			if (metaTileMap.IsAtmosPassableAt(neighbor))
 			{
 				node.AddNeighbor(metaDataLayer.Get(neighbor));

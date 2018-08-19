@@ -2,30 +2,43 @@
 using UnityEditor;
 using UnityEngine;
 
-public class MatrixCheckView : BasicView
+public class MetaTileMapView : BasicView
 {
-	private static List<Check<MetaTileMap>> checks = new List<Check<MetaTileMap>>();
+	private static List<Check<MetaTileMap>> localChecks = new List<Check<MetaTileMap>>();
+	private static List<Check<MatrixManager>> globalChecks = new List<Check<MatrixManager>>();
 
-	static MatrixCheckView()
+	static MetaTileMapView()
 	{
-		checks.Add(new NonEmptyCheck());
-		checks.Add(new PassableCheck());
-		checks.Add(new AtmosPassableCheck());
-		checks.Add(new SpaceCheck());
+		localChecks.Add(new NonEmptyCheck());
+		localChecks.Add(new PassableCheck());
+		localChecks.Add(new AtmosPassableCheck());
+
+		globalChecks.Add(new SpaceCheck());
 	}
 
 	public override void DrawContent()
 	{
-		foreach (Check<MetaTileMap> check in checks)
+		foreach (Check<MetaTileMap> check in localChecks)
+		{
+			check.Active = GUILayout.Toggle(check.Active, check.Label);
+		}
+
+		foreach (Check<MatrixManager> check in globalChecks)
 		{
 			check.Active = GUILayout.Toggle(check.Active, check.Label);
 		}
 	}
 
 	[DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]
-	private static void DrawGizmo(MetaTileMap source, GizmoType gizmoType)
+	private static void DrawGizmoLocal(MetaTileMap source, GizmoType gizmoType)
 	{
-		GizmoUtils.DrawGizmos(source, checks);
+		GizmoUtils.DrawGizmos(source, localChecks);
+	}
+
+	[DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]
+	private static void DrawGizmoGlobal(MatrixManager source, GizmoType gizmoType)
+	{
+		GizmoUtils.DrawGizmos(source, globalChecks, false);
 	}
 
 	private class NonEmptyCheck : Check<MetaTileMap>
@@ -67,15 +80,15 @@ public class MatrixCheckView : BasicView
 		}
 	}
 
-	private class SpaceCheck : Check<MetaTileMap>
+	private class SpaceCheck : Check<MatrixManager>
 	{
 		public override string Label { get; } = "Is Space";
 
-		public override void DrawGizmo(MetaTileMap source, Vector3Int position)
+		public override void DrawGizmo(MatrixManager source, Vector3Int position)
 		{
-			if (source.IsSpaceAt(position))
+			if (MatrixManager.IsSpaceAt(position))
 			{
-				GizmoUtils.DrawCube(position, Color.red);
+				GizmoUtils.DrawCube(position, Color.red, false);
 			}
 		}
 	}

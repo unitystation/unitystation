@@ -41,7 +41,7 @@ namespace Tilemaps.Behaviours.Meta
 
 		private void Update(MetaDataNode node)
 		{
-			var nodes = new List<MetaDataNode> {node};
+			var nodes = new List<MetaDataNode>(5) {node};
 			nodes.AddRange(node.Neighbors);
 
 			if (node.IsOccupied || IsPressureChanged(node))

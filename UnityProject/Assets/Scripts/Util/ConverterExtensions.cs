@@ -6,12 +6,11 @@
 		public static Vector3Int RoundToInt(this Vector3 other)
 		{
 			return Vector3Int.RoundToInt(other);
-			
+
 		}
-		
-		public static Vector3Int RoundToInt(this Vector2 other)
+
+		public static Vector2Int RoundToInt(this Vector2 other)
 		{
-			return Vector3Int.RoundToInt(other);
-			
+			return Vector2Int.RoundToInt(other);
 		}
 	}

@@ -4,30 +4,29 @@ using UnityEngine;
 
 public class MetaDataView : BasicView
 {
-	private static List<Check<MetaDataLayer>> checks = new List<Check<MetaDataLayer>>();
+	private static List<Check<MetaDataLayer>> localChecks = new List<Check<MetaDataLayer>>();
 
 	static MetaDataView()
 	{
-		checks.Add(new RoomCheck());
-		checks.Add(new PressureCheck());
-		checks.Add(new ExistCheck());
-		checks.Add(new SpaceCheck());;
-		checks.Add(new WallCheck());;
-		checks.Add(new NeighborCheck());
+		localChecks.Add(new RoomCheck());
+		localChecks.Add(new PressureCheck());
+		localChecks.Add(new ExistCheck());
+		localChecks.Add(new WallCheck());
+		localChecks.Add(new NeighborCheck());
 	}
 
 	public override void DrawContent()
 	{
-		foreach (Check<MetaDataLayer> check in checks)
+		foreach (Check<MetaDataLayer> check in localChecks)
 		{
 			check.Active = GUILayout.Toggle(check.Active, check.Label);
 		}
 	}
 
 	[DrawGizmo(GizmoType.Active | GizmoType.NonSelected)]
-	private static void DrawGizmo(MetaDataLayer source, GizmoType gizmoType)
+	private static void DrawGizmoLocal(MetaDataLayer source, GizmoType gizmoType)
 	{
-		GizmoUtils.DrawGizmos(source, checks);
+		GizmoUtils.DrawGizmos(source, localChecks);
 	}
 
 	private class RoomCheck : Check<MetaDataLayer>
@@ -52,19 +51,6 @@ public class MetaDataView : BasicView
 			if (!source.IsEmptyAt(position))
 			{
 				GizmoUtils.DrawCube(position,  Color.green);
-			}
-		}
-	}
-
-	private class SpaceCheck : Check<MetaDataLayer>
-	{
-		public override string Label { get; } = "Space";
-
-		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
-		{
-			if (source.IsSpaceAt(position))
-			{
-				GizmoUtils.DrawCube(position,  Color.red);
 			}
 		}
 	}

@@ -10,9 +10,9 @@ public class MatrixCheckEditor : EditorWindow
 	private int tab = 0;
 
 	private string[] tabHeaders = { "Matrix", "Meta Data" };
-	private BasicView[] tabs = { new MatrixCheckView(), new MetaDataView()};
-	
-		
+	private BasicView[] tabs = { new MetaTileMapView(), new MetaDataView()};
+
+
 
 	[MenuItem("Window/Matrix Check")]
 	public static void ShowWindow()
@@ -38,7 +38,7 @@ public class MatrixCheckEditor : EditorWindow
 	private void OnGUI()
 	{
 		tab = GUILayout.Toolbar(tab, tabHeaders);
-		
+
 		tabs[tab].OnGUI();
 
 		if (currentSceneView)

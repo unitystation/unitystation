@@ -15,9 +15,6 @@ public class Matrix : MonoBehaviour
 
 		private void Start()
 		{
-			metaDataLayer = GetComponentInChildren<MetaDataLayer>(true);
-			metaTileMap = GetComponent<MetaTileMap>();
-
 			try
 			{
 				objects = ((ObjectLayer)metaTileMap.Layers[LayerType.Objects]).Objects;
@@ -30,6 +27,9 @@ public class Matrix : MonoBehaviour
 
 		private void Awake()
 		{
+			metaDataLayer = GetComponentInChildren<MetaDataLayer>(true);
+			metaTileMap = GetComponent<MetaTileMap>();
+
 			initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
 		}
 

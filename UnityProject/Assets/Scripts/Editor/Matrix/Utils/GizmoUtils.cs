@@ -5,11 +5,13 @@ using UnityEngine;
 
 public static class GizmoUtils
 {
-	public static void DrawGizmos<S>(S source, List<Check<S>> checks) where S : MonoBehaviour
+	private static Vector3 localOffset = new Vector3(0.5f, 0.5f, 0);
+
+	public static void DrawGizmos<S>(S source, List<Check<S>> checks, bool local=true) where S : MonoBehaviour
 	{
 		float camDistance;
 		BoundsInt bounds;
-		InitDrawingArea(source, out camDistance, out bounds);
+		InitDrawingArea(source, out camDistance, out bounds, local);
 
 		if (camDistance <= 100f)
 		{
@@ -22,9 +24,12 @@ public static class GizmoUtils
 		}
 	}
 
-	private static void InitDrawingArea<S>(S source, out float camDistance, out BoundsInt bounds) where S : MonoBehaviour
+	private static void InitDrawingArea<S>(S source, out float camDistance, out BoundsInt bounds, bool local) where S : MonoBehaviour
 	{
-		Gizmos.matrix = source.transform.localToWorldMatrix;
+		if (local)
+		{
+			Gizmos.matrix = source.transform.localToWorldMatrix;
+		}
 
 		Vector3 screenBegin = Vector3.one * -32;
 		Vector3 screenEnd = new Vector3(Camera.current.pixelWidth + 32, Camera.current.pixelHeight + 32);
@@ -32,8 +37,19 @@ public static class GizmoUtils
 		Vector3 worldPointBegin = Camera.current.ScreenToWorldPoint(screenBegin);
 		Vector3 worldPointEnd = Camera.current.ScreenToWorldPoint(screenEnd);
 
-		Vector3Int localStart = (worldPointBegin - source.transform.position).RoundToInt();
-		Vector3Int localEnd = (worldPointEnd - source.transform.position).RoundToInt();
+		Vector3Int localStart;
+		Vector3Int localEnd;
+
+		if (local)
+		{
+			localStart = (worldPointBegin - source.transform.position).RoundToInt();
+			localEnd = (worldPointEnd - source.transform.position).RoundToInt();
+		}
+		else
+		{
+			localStart = worldPointBegin.RoundToInt();
+			localEnd = worldPointEnd.RoundToInt();
+		}
 
 		localStart.z = 0;
 		localEnd.z = 1;
@@ -71,16 +87,26 @@ public static class GizmoUtils
 		}
 	}
 
-	public static void DrawCube(Vector3 position, Color color, float alpha = 0.5f)
+	public static void DrawCube(Vector3 position, Color color, bool local, float alpha = 0.5f)
 	{
 		Gizmos.color = color.WithAlpha(alpha);
-		Gizmos.DrawCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+		Gizmos.DrawCube(position + (local ? localOffset: Vector3.zero), Vector3.one);
+	}
+
+	public static void DrawCube(Vector3 position, Color color, float alpha = 0.5f)
+	{
+		DrawCube(position, color, true, alpha);
+	}
+
+	public static void DrawWireCube(Vector3 position, Color color, bool local, float alpha = 0.5f)
+	{
+		Gizmos.color = color.WithAlpha(alpha);
+		Gizmos.DrawWireCube(position + (local ? localOffset: Vector3.zero), Vector3.one);
 	}
 
 	public static void DrawWireCube(Vector3 position, Color color, float alpha = 0.5f)
 	{
-		Gizmos.color = color.WithAlpha(alpha);
-		Gizmos.DrawWireCube(position + new Vector3(0.5f, 0.5f, 0), Vector3.one);
+		DrawWireCube(position, color, true, alpha);
 	}
 
 	public static void DrawText(string text, Vector3 position, int fontSize = 0, float yOffset = 0)
