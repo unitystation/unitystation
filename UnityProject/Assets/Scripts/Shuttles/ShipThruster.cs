@@ -4,26 +4,26 @@ using UnityEngine;
 
 public class ShipThruster : MonoBehaviour {
 
-    public MatrixMove shipMM; // ship matrix move
+    public MatrixMove shipMatrixMove; // ship matrix move
+	public ThrusterManager thrusterManager;
     public ParticleSystem particleFX;
 
-    public bool flipped = false; //Was particle startrotation flipped already horizontally?
-
-    void Start() {
+    void Awake() {
         //Gets ship matrix move by getting root (top parent) of current gameobject
-        shipMM = transform.root.gameObject.GetComponent<MatrixMove>();
+        shipMatrixMove = transform.root.gameObject.GetComponent<MatrixMove>();
+		thrusterManager = GetComponentInParent<ThrusterManager>();
 
         particleFX = GetComponentInChildren<ParticleSystem>();
-        //UpdateEngineState();
     }
 
     public void UpdateEngineState()
     {
-        var emissionFX = particleFX.emission;
+		var emissionFX = particleFX.emission;
         if (EngineStatus())
         {
             emissionFX.enabled = true;
-        }
+			SpeedChange(0, shipMatrixMove.State.Speed, thrusterManager.particleSpeedMultiplier); //Set particle speed on engine updates, used for setting speed at beginning of flight.
+		}
         else
         {
             emissionFX.enabled = false;
@@ -31,30 +31,26 @@ public class ShipThruster : MonoBehaviour {
     }
 
     //Rotates FX as ship rotates
-    public void RotateFX(Orientation newO)
+    public void RotateFX(Orientation newOrientation)
     {
         var mainFX = particleFX.main;
 
-        mainFX.startRotation = newO.Degree * Mathf.Deg2Rad;
-
-        //if (!flipped)
-        //{
-        //    mainFX.startRotation = 90 * Mathf.Deg2Rad;
-        //    flipped = true;
-        //}
-        //else
-        //{
-        //    mainFX.startRotation = 0;
-        //    flipped = false;
-        //}
+        mainFX.startRotation = newOrientation.Degree * Mathf.Deg2Rad;
     }
 
-    bool EngineStatus() // Returns if engines are "on" (if ship is moving)
+	public void SpeedChange(float oldSpeed, float newSpeed, float particleSpeedMultiplier)
+	{
+		var mainFX = particleFX.main;
+
+		mainFX.startSpeed = newSpeed * particleSpeedMultiplier;
+	}
+
+	bool EngineStatus() // Returns if engines are "on" (if ship is moving)
     {
-        if (shipMM != null)
+        if (shipMatrixMove != null)
         {
-            return shipMM.State.IsMoving;
-        }
+            return shipMatrixMove.State.IsMoving;
+		}
 
         return false;
     }
