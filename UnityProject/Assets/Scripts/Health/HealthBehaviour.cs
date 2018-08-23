@@ -153,21 +153,40 @@ public abstract class HealthBehaviour : InputTrigger
 	}
 
 	protected abstract void OnDeathActions();
-	
+
 	//TODO move to p2pinteractions?
-	public override void Interact(GameObject originator, Vector3 position, string hand) {
-		if ( UIManager.Hands.CurrentSlot.Item == null 
-		     || !PlayerManager.PlayerInReach( transform ) 
-		     || UIManager.CurrentIntent != Intent.Attack
-//		     || UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type != ItemType.Knife
-		     ) {
-			return;
+	public override void Interact(GameObject originator, Vector3 position, string hand)
+	{
+		if (UIManager.Hands.CurrentSlot.Item != null)
+		{
+			if (UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.ID
+			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Back
+			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Ear
+			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Food
+			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Glasses
+			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Gloves
+			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Hat
+			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Mask
+			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Neck
+			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Shoes
+			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Suit
+			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Uniform
+				&& PlayerManager.PlayerInReach(transform))
+			{
+				if (UIManager.CurrentIntent == Intent.Attack
+				   || UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Gun
+				   || UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Knife
+				   || UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Belt)
+				{
+
+					Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
+
+					PlayerScript lps = PlayerManager.LocalPlayerScript;
+					lps.weaponNetworkActions.CmdRequestMeleeAttack(gameObject, UIManager.Hands.CurrentSlot.eventName, dir,
+						UIManager.DamageZone);
+				}
+			}
 		}
-			Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-	
-			PlayerScript lps = PlayerManager.LocalPlayerScript;
-			lps.weaponNetworkActions.CmdRequestMeleeAttack(gameObject, UIManager.Hands.CurrentSlot.eventName, dir,
-				UIManager.DamageZone);
 	}
 }
 
