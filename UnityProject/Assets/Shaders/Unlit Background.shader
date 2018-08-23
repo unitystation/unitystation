@@ -14,10 +14,10 @@ Shader "Stencil/Unlit background" {
 		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
 		LOD 100
 
-		Stencil{
-			Ref 1
-			Comp equal
-		}
+		//Stencil{
+		//	Ref 1
+		//	Comp equal
+		//}
 
 
 		ZWrite Off
