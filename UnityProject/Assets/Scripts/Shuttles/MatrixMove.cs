@@ -51,10 +51,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
 
 	//editor (global) values
-	public UnityEvent OnStart;
-	public UnityEvent OnStop;
-	public OrientationEvent OnRotate;
-	public DualFloatEvent OnSpeedChange;
+	public UnityEvent OnStart = new UnityEvent();
+	public UnityEvent OnStop = new UnityEvent();
+	public OrientationEvent OnRotate = new OrientationEvent();
+	public DualFloatEvent OnSpeedChange = new DualFloatEvent();
 
 	/// Initial flying direction from editor
 	public Vector2 flyingDirection = Vector2.up;
@@ -329,6 +329,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		if ( (int)clientState.Speed != (int)newState.Speed ) {
 			OnSpeedChange.Invoke(clientState.Speed, newState.Speed);
 		}
+
 		clientState = newState;
 		clientTargetState = newState;
 	}
