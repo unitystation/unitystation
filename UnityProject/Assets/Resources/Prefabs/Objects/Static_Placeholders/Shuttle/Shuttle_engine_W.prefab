@@ -241,6 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipMatrixMove: {fileID: 0}
   particleFX: {fileID: 0}
+  particleSpeedMultiplier: 1.5
 --- !u!198 &198110104474691566
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1009,7 +1010,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     rateOverTime:
       serializedVersion: 2
