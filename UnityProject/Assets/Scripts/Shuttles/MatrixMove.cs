@@ -317,21 +317,27 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	/// Called when MatrixMoveMessage is received
 	public void UpdateClientState( MatrixState newState )
 	{
-		if ( !Equals(clientState.Orientation, newState.Orientation) ) {
-			OnRotate.Invoke(clientState.Orientation, newState.Orientation);
-		}
-		if ( !clientState.IsMoving && newState.IsMoving ) {
-			OnStart.Invoke();
-		}
-		if ( clientState.IsMoving && !newState.IsMoving ) {
-			OnStop.Invoke();
-		}
-		if ( (int)clientState.Speed != (int)newState.Speed ) {
-			OnSpeedChange.Invoke(clientState.Speed, newState.Speed);
-		}
+		var oldState = clientState;
 
 		clientState = newState;
 		clientTargetState = newState;
+
+		if (!Equals(oldState.Orientation, newState.Orientation))
+		{
+			OnRotate.Invoke(oldState.Orientation, newState.Orientation);
+		}
+		if (!oldState.IsMoving && newState.IsMoving)
+		{
+			OnStart.Invoke();
+		}
+		if (oldState.IsMoving && !newState.IsMoving)
+		{
+			OnStop.Invoke();
+		}
+		if ((int)oldState.Speed != (int)newState.Speed)
+		{
+			OnSpeedChange.Invoke(oldState.Speed, newState.Speed);
+		}
 	}
 
 	///predictive perpetual flying
