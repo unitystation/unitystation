@@ -159,26 +159,26 @@ public abstract class HealthBehaviour : InputTrigger
 	{
 		if (UIManager.Hands.CurrentSlot.Item != null)
 		{
-			if (UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.ID
-			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Back
-			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Ear
-			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Food
-			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Glasses
-			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Gloves
-			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Hat
-			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Mask
-			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Neck
-			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Shoes
-			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Suit
-			   && UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Uniform
+			var handItem = UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>();
+			if (handItem.itemType != ItemType.ID
+			    && handItem.itemType != ItemType.Back
+			    && handItem.itemType != ItemType.Ear
+			    && handItem.itemType != ItemType.Food
+			    && handItem.itemType != ItemType.Glasses
+			    && handItem.itemType != ItemType.Gloves
+			    && handItem.itemType != ItemType.Hat
+			    && handItem.itemType != ItemType.Mask
+			    && handItem.itemType != ItemType.Neck
+			    && handItem.itemType != ItemType.Shoes
+			    && handItem.itemType != ItemType.Suit
+			    && handItem.itemType != ItemType.Uniform
 				&& PlayerManager.PlayerInReach(transform))
 			{
 				if (UIManager.CurrentIntent == Intent.Attack
-				   || UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Gun
-				   || UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Knife
-				   || UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().itemType != ItemType.Belt)
+				    || handItem.itemType != ItemType.Gun
+				    || handItem.itemType != ItemType.Knife
+				    || handItem.itemType != ItemType.Belt)
 				{
-
 					Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
 
 					PlayerScript lps = PlayerManager.LocalPlayerScript;
