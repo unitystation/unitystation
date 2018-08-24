@@ -57,11 +57,6 @@ public class ShipThruster : MonoBehaviour
 
 	public void UpdateEngineState()
 	{
-		StartCoroutine(UpdateEngine());
-	}
-
-	IEnumerator UpdateEngine(){
-		yield return new WaitForEndOfFrame();
 		var emissionFX = particleFX.emission;
 		if (EngineStatus())
 		{
