@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
-	public float RoundTime = 480f;
+	public float RoundTime = 660f; //10 minutes nuke ops time + 1 minute shuttle escape, might have to adjust this in future with other modes.
 	public bool counting;
 	public List<GameObject> Occupations = new List<GameObject>();
 	public float restartTime = 10f;
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 	public GameObject StandardOutfit;
 	public bool waitForRestart;
 
-	public float GetRoundTime { get; private set; } = 480f;
+	public float GetRoundTime { get; private set; } = 660f;
 
 	public int RoundsPerMap = 10;
 	
