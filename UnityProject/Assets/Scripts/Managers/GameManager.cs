@@ -27,13 +27,16 @@ public class GameManager : MonoBehaviour
 	public int RoundsPerMap = 10;
 	
 	public string[] Maps = {"Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
-	
+	//Put the scenes in the unity 3d editor.
+
 	private int MapRotationCount = 0;
 	private int MapRotationMapsCounter = 0;
 
-
-	//Put the scenes in the unity 3d editor.
-
+	//Nuke ops:
+	//Escape shuttle that is supposed to arrive in 10 minutes.
+	public GameObject escapeShuttleObj;
+	public Vector3 shuttleArrivalTransform; //Spot at which shuttle is supposed to arrive
+	public bool shuttleArrived = false;
 
 	private void Awake()
 	{
@@ -125,6 +128,13 @@ public class GameManager : MonoBehaviour
 					waitForRestart = true;
 					PlayerList.Instance.ReportScores();
 				}
+			}
+			//Nuke ops shuttle arrival
+			if(GetRoundTime <= 60f && shuttleArrived == false)
+			{
+				shuttleArrived = true;
+				PostToChatMessage.Send("Escape shuttle has arrived! Crew has 1 minute to get on it.", ChatChannel.System);
+				//escapeShuttleObj.transform.position = shuttleArrivalTransform;
 			}
 		}
 	}

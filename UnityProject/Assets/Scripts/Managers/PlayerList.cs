@@ -21,10 +21,16 @@ public class PlayerList : NetworkBehaviour
 	public List<ConnectedPlayer> InGamePlayers => values.FindAll( player => player.GameObject != null );
 
 	//For TDM demo
-	public Dictionary<JobDepartment, int> departmentScores = new Dictionary<JobDepartment, int>();
+	//public Dictionary<JobDepartment, int> departmentScores = new Dictionary<JobDepartment, int>();
 
 	//For combat demo
 	public Dictionary<string, int> playerScores = new Dictionary<string, int>();
+
+	//Nuke Ops (TODO: throughoutly remove all unnecessary TDM variables)
+	public bool nukeSetOff = false;
+	//Kill counts for crew members and syndicate for display at end of round, similar to past TDM department scores
+	public int crewKills;
+	public int syndicateKills;
 
 
 	private void Awake()
@@ -68,22 +74,14 @@ public class PlayerList : NetworkBehaviour
 			playerScores[playerName]++;
 		}
 
-		JobDepartment perpetratorDept = SpawnPoint.GetJobDepartment(perPlayer.Job);
-
-		if ( !departmentScores.ContainsKey(perpetratorDept) )
+		//If killer is syndicate, add kills to syndicate score, if not - to crew.
+		if(perPlayer.Job == JobType.SYNDICATE)
 		{
-			departmentScores.Add(perpetratorDept, 0);
-		}
-
-		JobDepartment victimDept = SpawnPoint.GetJobDepartment(victimPlayer.Job);
-
-		if ( perpetratorDept == victimDept )
-		{
-			departmentScores[perpetratorDept]--;
+			syndicateKills++;
 		}
 		else
 		{
-			departmentScores[perpetratorDept]++;
+			crewKills++;
 		}
 	}
 
@@ -99,30 +97,46 @@ public class PlayerList : NetworkBehaviour
 	[Server]
 	public void ReportScores()
 	{
-		/*
-		var scoreSort = playerScores.OrderByDescending(pair => pair.Value)
-		    .ToDictionary(pair => pair.Key, pair => pair.Value);
 
-		foreach (KeyValuePair<string, int> ps in scoreSort)
-		{
-		    UIManager.Chat.ReportToChannel("<b>" + ps.Key + "</b>  total kills:  <b>" + ps.Value + "</b>");
-		}
-		*/
-
-		if ( departmentScores.Count == 0 )
+		if (!nukeSetOff && syndicateKills == 0 && crewKills == 0)
 		{
 			PostToChatMessage.Send("Nobody killed anybody. Fucking hippies.", ChatChannel.System);
 		}
 
-		var scoreSort = departmentScores.OrderByDescending(pair => pair.Value)
-			.ToDictionary(pair => pair.Key, pair => pair.Value);
-
-		foreach ( KeyValuePair<JobDepartment, int> ds in scoreSort )
+		if(nukeSetOff)
 		{
-			PostToChatMessage.Send("<b>" + ds.Key + "</b>  total kills:  <b>" + ds.Value + "</b>", ChatChannel.System);
+			PostToChatMessage.Send("Nuke has been detonated, <b>Syndicate wins.</b>", ChatChannel.System);
+		}
+		else if (GetCrewAliveCount() > 0) //TODO: Check if crew is on shuttle
+		{
+			PostToChatMessage.Send("Station crew failed to escape, <b>Syndicate wins.</b>", ChatChannel.System);
+		}
+		else if (GetCrewAliveCount() == 0)
+		{
+			PostToChatMessage.Send("All crew members are dead, <b>Syndicate wins.</b>", ChatChannel.System);
 		}
 
 		PostToChatMessage.Send("Game Restarting in 10 seconds...", ChatChannel.System);
+	}
+
+	public int GetCrewAliveCount()
+	{
+		int alive = 0;
+
+		PlayerScript[] alivePlayers = FindObjectsOfType<PlayerScript>();
+		foreach(PlayerScript ps in alivePlayers)
+		{
+			if(ps.JobType == JobType.SYNDICATE || ps.GetComponent<PlayerMove>().allowInput == false)
+			{
+				//Do nothing
+			}
+			else
+			{
+				alive++; //If player is alive and is not syndicate, add to alive count
+			}
+		}
+
+		return alive;
 	}
 
 	public void RefreshPlayerListText()
