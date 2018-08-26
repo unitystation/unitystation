@@ -10,17 +10,8 @@
             "basic_capacitor",
             "basic_micro_laser",
             "micro_mani",
-            "destructive_analyzer",
-            "circuit_imprinter",
-            "experimentor",
-            "rdconsole",
             "design_disk",
             "tech_disk",
-            "rdserver",
-            "rdservercontrol",
-            "mechfab",
-            "space_heater",
-            "xlarge_beaker",
             "sec_rshot",
             "sec_bshot",
             "sec_slug",
@@ -51,7 +42,6 @@
         "description": "Sapient robots with preloaded tool modules and programmable laws.",
         "display_name": "Cyborg Construction",
         "design_ids": [
-            "robocontrol",
             "sflash",
             "borg_suit",
             "borg_head",
@@ -60,8 +50,6 @@
             "borg_l_arm",
             "borg_r_leg",
             "borg_l_leg",
-            "borgupload",
-            "cyborgrecharger",
             "borg_upgrade_restart",
             "borg_upgrade_rename"
         ],
@@ -73,11 +61,6 @@
         "display_name": "Mechanical Exosuits",
         "design_ids": [
             "mecha_tracking",
-            "mechacontrol",
-            "mechapower",
-            "mech_recharger",
-            "ripley_chassis",
-            "firefighter_chassis",
             "ripley_torso",
             "ripley_left_arm",
             "ripley_right_arm",
@@ -106,16 +89,6 @@
         "description": "What makes us tick.",
         "display_name": "Biological Technology",
         "design_ids": [
-            "chem_heater",
-            "chem_master",
-            "chem_dispenser",
-            "sleeper",
-            "vr_sleeper",
-            "pandemic",
-            "defibmount",
-            "operating",
-            "soda_dispenser",
-            "beer_dispenser",
             "healthanalyzer"
         ],
         "prereq_ids": [
@@ -129,15 +102,8 @@
         "description": "Advanced Biotechnology",
         "display_name": "Advanced Biotechnology",
         "design_ids": [
-            "piercesyringe",
-            "crewpinpointer",
-            "smoke_machine",
             "plasmarefiller",
-            "limbgrower",
-            "defibrillator",
-            "meta_beaker",
-            "healthanalyzer_advanced",
-            "harvester"
+            "defibrillator"
         ],
         "prereq_ids": [
             "biotech"
@@ -149,17 +115,6 @@
         "ID": "bio_process",
         "description": "From slimes to kitchens.",
         "display_name": "Biological Processing",
-        "design_ids": [
-            "smartfridge",
-            "gibber",
-            "deepfryer",
-            "monkey_recycler",
-            "processor",
-            "gibber",
-            "microwave",
-            "reagentgrinder",
-            "dish_drive"
-        ],
         "prereq_ids": [
             "biotech"
         ],
@@ -228,8 +183,6 @@
         "description": "Better insight into programming and data.",
         "display_name": "Advanced Data Theory",
         "design_ids": [
-            "icprinter",
-            "icupgadv",
             "icupgclo"
         ],
         "prereq_ids": [
@@ -243,37 +196,17 @@
         "description": "A refresher course on modern engineering technology.",
         "display_name": "Industrial Engineering",
         "design_ids": [
-            "solarcontrol",
-            "recharger",
-            "powermonitor",
             "rped",
-            "pacman",
             "adv_capacitor",
             "adv_scanning",
-            "emitter",
             "high_cell",
             "adv_matter_bin",
-            "atmosalerts",
-            "atmos_control",
-            "recycler",
-            "autolathe",
             "high_micro_laser",
             "nano_mani",
             "mesons",
-            "thermomachine",
-            "rad_collector",
-            "tesla_coil",
-            "grounding_rod",
-            "apc_control",
-            "cell_charger",
             "power control",
-            "airlock_board",
             "firelock_board",
-            "airalarm_electronics",
-            "firealarm_electronics",
-            "cell_charger",
-            "stack_console",
-            "stack_machine"
+            "airalarm_electronics"
         ],
         "prereq_ids": [
             "base"
@@ -302,8 +235,7 @@
         "description": "Unlock the potential of the mysterious anomalies that appear on station.",
         "display_name": "Anomaly Research",
         "design_ids": [
-            "reactive_armour",
-            "anomaly_neutralizer"
+            "reactive_armour"
         ],
         "prereq_ids": [
             "adv_engi",
@@ -332,17 +264,10 @@
         "description": "How to get more zap.",
         "display_name": "Advanced Power Manipulation",
         "design_ids": [
-            "smes",
             "super_cell",
             "hyper_cell",
             "super_capacitor",
-            "superpacman",
-            "mrspacman",
-            "power_turbine",
-            "power_turbine_console",
-            "power_compressor",
-            "circulator",
-            "teg"
+            "mrspacman"
         ],
         "prereq_ids": [
             "engineering"
@@ -355,8 +280,6 @@
         "description": "Basic studies into the mysterious alternate dimension known as bluespace.",
         "display_name": "Basic Bluespace Theory",
         "design_ids": [
-            "beacon",
-            "xenobioconsole",
             "telesci_gps"
         ],
         "prereq_ids": [
@@ -373,16 +296,8 @@
             "bluespace_matter_bin",
             "femto_mani",
             "triphasic_scanning",
-            "tele_station",
-            "tele_hub",
-            "quantumpad",
-            "launchpad",
-            "launchpad_console",
-            "teleconsole",
             "bag_holding",
-            "bluespace_crystal",
-            "wormholeprojector",
-            "bluespace_pod"
+            "wormholeprojector"
         ],
         "prereq_ids": [
             "practical_bluespace",
@@ -399,10 +314,8 @@
             "bs_rped",
             "minerbag_holding",
             "bluespacebeaker",
-            "bluespacesyringe",
             "bluespacebodybag",
-            "phasic_scanning",
-            "roastingstick"
+            "phasic_scanning"
         ],
         "prereq_ids": [
             "bluespace_basic",
@@ -470,9 +383,7 @@
         "description": "It can even do the dishes!",
         "display_name": "Advanced Robotics Research",
         "design_ids": [
-            "borg_upgrade_diamonddrill",
-            "borg_upgrade_trashofholding",
-            "borg_upgrade_advancedmop"
+            "borg_upgrade_diamonddrill"
         ],
         "prereq_ids": [
             "robotics"
@@ -512,9 +423,7 @@
             "borg_upgrade_holding",
             "borg_upgrade_lavaproof",
             "borg_upgrade_thrusters",
-            "borg_upgrade_selfrepair",
-            "borg_upgrade_expand",
-            "borg_upgrade_rped"
+            "borg_upgrade_selfrepair"
         ],
         "prereq_ids": [
             "engineering"
@@ -528,10 +437,7 @@
         "display_name": "Cyborg Upgrades Medical",
         "design_ids": [
             "borg_upgrade_defibrillator",
-            "borg_upgrade_piercinghypospray",
-            "borg_upgrade_highstrengthsynthesiser",
-            "borg_upgrade_expandedsynthesiser",
-            "borg_upgrade_pinpointer"
+            "borg_upgrade_piercinghypospray"
         ],
         "prereq_ids": [
             "adv_biotech"
@@ -560,26 +466,8 @@
         "description": "AI unit research.",
         "display_name": "Artificial Intelligence",
         "design_ids": [
-            "aifixer",
-            "aicore",
-            "safeguard_module",
-            "onehuman_module",
-            "protectstation_module",
-            "quarantine_module",
-            "oxygen_module",
-            "freeform_module",
-            "reset_module",
-            "purge_module",
-            "remove_module",
-            "freeformcore_module",
-            "asimov_module",
-            "paladin_module",
-            "tyrant_module",
-            "corporate_module",
             "default_module",
             "borg_ai_control",
-            "mecha_tracking_ai_control",
-            "aiupload",
             "intellicard"
         ],
         "prereq_ids": [
@@ -597,10 +485,7 @@
             "holosign",
             "holosignsec",
             "holosignengi",
-            "holosignatmos",
-            "inducer",
-            "tray_goggles",
-            "holopad"
+            "tray_goggles"
         ],
         "prereq_ids": [
             "base"
@@ -643,7 +528,6 @@
             "honker_main",
             "honker_peri",
             "honker_targ",
-            "honk_chassis",
             "honk_head",
             "honk_torso",
             "honk_left_arm",
@@ -653,9 +537,7 @@
             "mech_banana_mortar",
             "mech_mousetrap_mortar",
             "mech_honker",
-            "mech_punching_face",
-            "implant_trombone",
-            "borg_transform_clown"
+            "mech_punching_face"
         ],
         "prereq_ids": [
             "base"
@@ -667,17 +549,6 @@
         "ID": "comptech",
         "description": "Computers and how they work.",
         "display_name": "Computer Consoles",
-        "design_ids": [
-            "cargo",
-            "cargorequest",
-            "libraryconsole",
-            "mining",
-            "crewconsole",
-            "rdcamera",
-            "comconsole",
-            "idcardconsole",
-            "seccamera"
-        ],
         "prereq_ids": [
             "datatheory"
         ],
@@ -726,11 +597,6 @@
         "ID": "computer_board_gaming",
         "description": "For the slackers on the station.",
         "display_name": "Arcade Games",
-        "design_ids": [
-            "arcade_battle",
-            "arcade_orion",
-            "slotmachine"
-        ],
         "prereq_ids": [
             "comptech"
         ],
@@ -741,13 +607,6 @@
         "ID": "comp_recordkeeping",
         "description": "Organized record databases and how they're used.",
         "display_name": "Computerized Recordkeeping",
-        "design_ids": [
-            "secdata",
-            "med_data",
-            "prisonmanage",
-            "vendor",
-            "automated_announcement"
-        ],
         "prereq_ids": [
             "comptech"
         ],
@@ -759,19 +618,10 @@
         "description": "Subspace transmission technology for near-instant communications devices.",
         "display_name": "Telecommunications Technology",
         "design_ids": [
-            "s-receiver",
-            "s-bus",
             "s-broadcaster",
-            "s-processor",
-            "s-hub",
-            "s-server",
-            "s-relay",
-            "comm_monitor",
-            "comm_server",
             "s-ansible",
             "s-filter",
             "s-amplifier",
-            "ntnet_relay",
             "s-treatment",
             "s-analyzer",
             "s-crystal",
@@ -825,10 +675,6 @@
         "description": "We have the technology to make him.",
         "display_name": "Genetic Engineering",
         "design_ids": [
-            "clonecontrol",
-            "clonepod",
-            "clonescanner",
-            "scan_console",
             "cloning_disk"
         ],
         "prereq_ids": [
@@ -843,8 +689,6 @@
         "display_name": "Cryostasis Technology",
         "design_ids": [
             "splitbeaker",
-            "noreactsyringe",
-            "cryotube",
             "cryo_Grenade"
         ],
         "prereq_ids": [
@@ -861,8 +705,6 @@
         "design_ids": [
             "implanter",
             "implantcase",
-            "implant_chem",
-            "implant_tracking",
             "locator"
         ],
         "prereq_ids": [
@@ -875,12 +717,6 @@
         "ID": "cyber_organs",
         "description": "We have the technology to rebuild him.",
         "display_name": "Cybernetic Organs",
-        "design_ids": [
-            "cybernetic_heart",
-            "cybernetic_liver",
-            "cybernetic_liver_u",
-            "cybernetic_lungs"
-        ],
         "prereq_ids": [
             "adv_biotech"
         ],
@@ -893,11 +729,7 @@
         "display_name": "Cybernetic Implants",
         "design_ids": [
             "ci-nutriment",
-            "ci-breather",
-            "ci-gloweyes",
-            "ci-welding",
-            "ci-medhud",
-            "ci-sechud"
+            "ci-breather"
         ],
         "prereq_ids": [
             "adv_biotech",
@@ -911,8 +743,6 @@
         "description": "Upgraded and more powerful cybernetic implants.",
         "display_name": "Advanced Cybernetic Implants",
         "design_ids": [
-            "ci-toolset",
-            "ci-surgery",
             "ci-reviver",
             "ci-nutrimentplus"
         ],
@@ -929,10 +759,6 @@
         "description": "Military grade combat implants to improve performance.",
         "display_name": "Combat Cybernetic Implants",
         "design_ids": [
-            "ci-xray",
-            "ci-thermals",
-            "ci-antidrop",
-            "ci-antistun",
             "ci-thrusters"
         ],
         "prereq_ids": [
@@ -951,13 +777,6 @@
         "design_ids": [
             "drill",
             "superresonator",
-            "triggermod",
-            "damagemod",
-            "cooldownmod",
-            "rangemod",
-            "ore_redemption",
-            "mining_equipment_vendor",
-            "cargoexpress",
             "plasmacutter"
         ],
         "prereq_ids": [
@@ -1009,11 +828,7 @@
         "design_ids": [
             "diskplantgene",
             "portaseeder",
-            "plantgenes",
-            "flora_gun",
-            "hydro_tray",
-            "biogenerator",
-            "seed_extractor"
+            "flora_gun"
         ],
         "prereq_ids": [
             "adv_engi",
@@ -1042,7 +857,6 @@
         "description": "Our researchers have found new to weaponize just about everything now.",
         "display_name": "Weapon Development Technology",
         "design_ids": [
-            "pin_testing",
             "tele_shield"
         ],
         "prereq_ids": [
@@ -1214,7 +1028,6 @@
         "description": "Odysseus exosuit designs",
         "display_name": "EXOSUIT Odysseus",
         "design_ids": [
-            "odysseus_chassis",
             "odysseus_torso",
             "odysseus_head",
             "odysseus_left_arm",
@@ -1235,7 +1048,6 @@
         "description": "Gygax exosuit designs",
         "display_name": "EXOSUIT Gygax",
         "design_ids": [
-            "gygax_chassis",
             "gygax_torso",
             "gygax_head",
             "gygax_left_arm",
@@ -1259,7 +1071,6 @@
         "description": "Durand exosuit designs",
         "display_name": "EXOSUIT Durand",
         "design_ids": [
-            "durand_chassis",
             "durand_torso",
             "durand_head",
             "durand_left_arm",
@@ -1283,14 +1094,12 @@
         "description": "Phazon exosuit designs",
         "display_name": "EXOSUIT Phazon",
         "design_ids": [
-            "phazon_chassis",
             "phazon_torso",
             "phazon_head",
             "phazon_left_arm",
             "phazon_right_arm",
             "phazon_left_leg",
             "phazon_right_leg",
-            "phazon_main",
             "phazon_peri",
             "phazon_targ",
             "phazon_armor"
@@ -1458,9 +1267,6 @@
         "ID": "clusterbang_launcher",
         "description": "An advanced piece of mech weaponry",
         "display_name": "Exosuit Module (SOB-3 Clusterbang Launcher)",
-        "design_ids": [
-            "clusterbang_launcher"
-        ],
         "prereq_ids": [
             "explosive_weapons"
         ],
@@ -1550,14 +1356,6 @@
         "ID": "alien_bio",
         "description": "Advanced biological tools.",
         "display_name": "Alien Biological Tools",
-        "design_ids": [
-            "alien_scalpel",
-            "alien_hemostat",
-            "alien_retractor",
-            "alien_saw",
-            "alien_drill",
-            "alien_cautery"
-        ],
         "prereq_ids": [
             "alientech",
             "adv_biotech"
