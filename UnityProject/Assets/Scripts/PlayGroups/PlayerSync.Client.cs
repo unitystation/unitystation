@@ -9,7 +9,7 @@ using UnityEngine;
 		/// Trusted state, received from server
 		private PlayerState playerState;
 
-		/// Client predicted state 
+		/// Client predicted state
 		private PlayerState predictedState;
 
 		private Queue<PlayerAction> pendingActions;
@@ -21,7 +21,7 @@ using UnityEngine;
 			set {
 //				if ( value == Vector2.zero ) {
 //					Logger.Log( $"Setting client LastDirection to {value}!" );
-//				} 
+//				}
 				lastDirection = value;
 			}
 		}
@@ -46,21 +46,21 @@ using UnityEngine;
 		/// Does your client think you should be floating rn? (Regardless of what server thinks)
 		private bool isPseudoFloatingClient => predictedState.Impulse != Vector2.zero;
 
-		/// Measure to avoid lerping back and forth in a lagspike 
+		/// Measure to avoid lerping back and forth in a lagspike
 		/// where player simulated entire spacewalk (start and stop) without getting server's answer yet
 		private bool blockClientMovement = false;
 
-		public override void OnStartClient() {
-			StartCoroutine( WaitForLoad() );
-			base.OnStartClient();
-		}
+//		public override void OnStartClient() {
+//			StartCoroutine( WaitForLoad() );
+//			base.OnStartClient();
+//		}
 
 		private void DoAction() {
 			PlayerAction action = playerMove.SendAction();
 			if ( action.keyCodes.Length != 0 && !IsPointlessMove( predictedState, action ) ) {
 
 				//experiment: not enqueueing or processing action if floating.
-				//arguably it shouldn't really be like that in the future 
+				//arguably it shouldn't really be like that in the future
 				if ( !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement ) {
 //				Logger.Log($"{gameObject.name} requesting {action.Direction()} ({pendingActions.Count} in queue)");
 					pendingActions.Enqueue( action );
@@ -70,7 +70,7 @@ using UnityEngine;
 
 					//Seems like Cmds are reliable enough in this case
 					CmdProcessAction( action );
-					//				RequestMoveMessage.Send(action); 
+					//				RequestMoveMessage.Send(action);
 				}
 			}
 		}
@@ -127,10 +127,10 @@ using UnityEngine;
 				LastDirection = playerState.Impulse;
 			}
 
-			//don't reset predicted state if it guessed impulse correctly 
+			//don't reset predicted state if it guessed impulse correctly
 			//or server is just approving old moves when you weren't flying yet
 			if ( isFloatingClient || isPseudoFloatingClient ) {
-				//rollback prediction if either wrong impulse on given step OR both impulses are non-zero and point in different directions 
+				//rollback prediction if either wrong impulse on given step OR both impulses are non-zero and point in different directions
 				bool spacewalkReset = predictedState.Impulse != playerState.Impulse
 				                 && ( predictedState.MoveNumber == playerState.MoveNumber
 				                      || playerState.Impulse != Vector2.zero && predictedState.Impulse != Vector2.zero );
@@ -178,7 +178,7 @@ using UnityEngine;
 				pendingActions.Clear();
 			}
 		}
-		
+
 		/// Ignore further predictive movement until approval message is received
 		/// (Or wait time is up, then prediction is rolled back)
 		private IEnumerator BlockMovement() {
@@ -193,10 +193,10 @@ using UnityEngine;
 
 		///Lerping; simulating space walk by server's orders or initiate/stop them on client
 		///Using predictedState for your own player and playerState for others
-		private void CheckMovementClient() 
+		private void CheckMovementClient()
 		{
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
-			
+
 			if ( !ClientPositionReady ) {
 				//PlayerLerp
 				Vector3 targetPos = MatrixManager.WorldToLocal(state.WorldPosition, MatrixManager.Get( matrix ) );
@@ -208,7 +208,7 @@ using UnityEngine;
 					transform.localPosition = targetPos;
 				}
 			}
-			
+
 			playerState.NoLerp = false;
 
 			bool isFloating = MatrixManager.IsFloatingAt( Vector3Int.RoundToInt(state.WorldPosition) );
@@ -225,7 +225,7 @@ using UnityEngine;
 
 				if ( !isFloatingClient && playerState.MoveNumber < predictedState.MoveNumber ) {
 					Logger.Log( $"Finished unapproved flight, blocking. predictedState:\n{predictedState}",Category.Movement );
-					//Client figured out that he just finished spacewalking 
+					//Client figured out that he just finished spacewalking
 					//and server is yet to approve the fact that it even started.
 					StartCoroutine( BlockMovement() );
 				}
@@ -237,7 +237,7 @@ using UnityEngine;
 						LastDirection = Vector2.zero;
 						return;
 					}
-					//client initiated space dive. 						
+					//client initiated space dive.
 					state.Impulse = LastDirection;
 					if ( isLocalPlayer ) {
 						predictedState.Impulse = state.Impulse;

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-	/// Container with player position, flight direction etc. 
+	/// Container with player position, flight direction etc.
 	/// Gives client enough information for smooth simulation
 	public struct PlayerState
 	{
@@ -28,10 +28,10 @@ using UnityEngine.Networking;
 		///Direction of flying
 		public Vector2 Impulse;
 
-		///Flag for clients to reset their queue when received 
+		///Flag for clients to reset their queue when received
 		public bool ResetClientQueue;
 
-		/// Flag for server to ensure that clients receive that flight update: 
+		/// Flag for server to ensure that clients receive that flight update:
 		/// Only important flight updates (ones with impulse) are being sent out by server (usually start only)
 		[NonSerialized] public bool ImportantFlightUpdate;
 
@@ -104,23 +104,23 @@ using UnityEngine.Networking;
 
 		private RaycastHit2D[] rayHit;
 
-		public GameObject PullingObject { get; set; }
+//		public GameObject PullingObject { get; set; }
 
-		public NetworkInstanceId PullObjectID {
-			get { return pullObjectID; }
-			set { pullObjectID = value; }
-		}
+//		public NetworkInstanceId PullObjectID {
+//			get { return pullObjectID; }
+//			set { pullObjectID = value; }
+//		}
 
 		//pull objects
-		[SyncVar( hook = nameof( PullReset ) )] private NetworkInstanceId pullObjectID;
+//		[SyncVar( hook = nameof( PullReset ) )] private NetworkInstanceId pullObjectID;
 
-		private Vector3 pullPos;
+//		private Vector3 pullPos;
 
 		private float pullJourney;
 
 		private RegisterTile pullRegister;
 
-		private PushPull pushPull; //The pushpull component on this player
+//		private PushPull pushPull; //The pushpull component on this player
 
 		private RegisterTile registerTile;
 
@@ -129,11 +129,11 @@ using UnityEngine.Networking;
 			return state.WorldPosition.Equals( NextState( state, action, out change ).WorldPosition );
 		}
 
-		private IEnumerator WaitForLoad() {
-			yield return new WaitForSeconds( 2f );
-
-			PullReset( PullObjectID );
-		}
+//		private IEnumerator WaitForLoad() {
+//			yield return new WaitForSeconds( 2f );
+//
+//			PullReset( PullObjectID );
+//		}
 
 		private void Start() {
 			//Init pending actions queue for your local player
@@ -141,7 +141,7 @@ using UnityEngine.Networking;
 				pendingActions = new Queue<PlayerAction>();
 				UpdatePredictedState();
 			}
-			//Init pending actions queue for server 
+			//Init pending actions queue for server
 			if ( isServer ) {
 				serverPendingActions = new Queue<PlayerAction>();
 			}
@@ -149,22 +149,22 @@ using UnityEngine.Networking;
 			playerSprites = GetComponent<PlayerSprites>();
 			healthBehaviorScript = GetComponent<HealthBehaviour>();
 			registerTile = GetComponent<RegisterTile>();
-			pushPull = GetComponent<PushPull>();
+//			pushPull = GetComponent<PushPull>();
 		}
 
 		private void Update() {
 			if ( isLocalPlayer && playerMove != null ) {
 				// If being pulled by another player and you try to break free
-				//TODO Condition to check for handcuffs / straight jacket 
+				//TODO Condition to check for handcuffs / straight jacket
 				// (probably better to adjust allowInput or something)
-				if ( pushPull.pulledBy != null && !playerMove.isGhost ) {
-					for ( int i = 0; i < playerMove.keyCodes.Length; i++ ) {
-						if ( Input.GetKey( playerMove.keyCodes[i] ) ) {
-							playerScript.playerNetworkActions.CmdStopOtherPulling( gameObject );
-						}
-					}
-					return;
-				}
+//				if ( pushPull.pulledBy != null && !playerMove.isGhost ) {
+//					for ( int i = 0; i < playerMove.keyCodes.Length; i++ ) {
+//						if ( Input.GetKey( playerMove.keyCodes[i] ) ) {
+//							playerScript.playerNetworkActions.CmdStopOtherPulling( gameObject );
+//						}
+//					}
+//					return;
+//				}
 				if ( ClientPositionReady && !playerMove.isGhost
 				   || GhostPositionReady && playerMove.isGhost ) {
 					DoAction();
@@ -202,25 +202,25 @@ using UnityEngine.Networking;
 					}
 				}
 
-				if ( isLocalPlayer && playerMove.IsPushing || pushPull.pulledBy != null ) {
-					return;
-				}
+//				if ( isLocalPlayer && playerMove.IsPushing || pushPull.pulledBy != null ) {
+//					return;
+//				}
 
-				if ( PullingObject != null ) {
-					
-					if ( transform.hasChanged ) {
-						transform.hasChanged = false;
-						PullObject();
-					}
-					if (PullingObject.transform.localPosition != pullPos)
-					{
-						PullingObject.transform.localPosition =
-						Vector3.MoveTowards(PullingObject.transform.localPosition,
-							pullPos,
-							(playerMove.speed * pullJourney) * Time.deltaTime );
-					}
-
-				}
+//				if ( PullingObject != null ) {
+//
+//					if ( transform.hasChanged ) {
+//						transform.hasChanged = false;
+//						PullObject();
+//					}
+//					if (PullingObject.transform.localPosition != pullPos)
+//					{
+//						PullingObject.transform.localPosition =
+//						Vector3.MoveTowards(PullingObject.transform.localPosition,
+//							pullPos,
+//							(playerMove.speed * pullJourney) * Time.deltaTime );
+//					}
+//
+//				}
 
 				//Registering
 				if ( registerTile.Position != Vector3Int.RoundToInt( state.Position ) ) {
@@ -240,66 +240,66 @@ using UnityEngine.Networking;
 					playerMove.speed * Time.deltaTime );
 		}
 
-		private void PullObject() {
-			Vector3 proposedPos = Vector3.zero;
-			if (isLocalPlayer) {
-				proposedPos = transform.localPosition - (Vector3)LastDirection;
-			} else {
-				proposedPos = transform.localPosition - (Vector3)serverLastDirection;
-			}
+//		private void PullObject() {
+//			Vector3 proposedPos = Vector3.zero;
+//			if (isLocalPlayer) {
+//				proposedPos = transform.localPosition - (Vector3)LastDirection;
+//			} else {
+//				proposedPos = transform.localPosition - (Vector3)serverLastDirection;
+//			}
+//
+//			Vector3Int pos = Vector3Int.RoundToInt( proposedPos );
+//			if ( matrix.IsPassableAt( pos ) || matrix.ContainsAt( pos, gameObject ) ||
+//			     matrix.ContainsAt( pos, PullingObject ) ) {
+//				//if (isLocalPlayer)
+//				//{
+//				pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition) - offsetTest;
+//				if(pullJourney < 1.2f){
+//					pullJourney = 1f;
+//				}
+//
+//				if(pullJourney > 1.5f){
+//					pullJourney *= 1.2f;
+//				}
+//				//} else
+//				//{
+//				//	pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition);
+//				//}
+//				pullPos = proposedPos;
+//				pullPos.z = PullingObject.transform.localPosition.z;
+//				PullingObject.BroadcastMessage( "FaceDirection",
+//					playerSprites.currentDirection,
+//					SendMessageOptions.DontRequireReceiver );
+//			}
+//		}
 
-			Vector3Int pos = Vector3Int.RoundToInt( proposedPos );
-			if ( matrix.IsPassableAt( pos ) || matrix.ContainsAt( pos, gameObject ) ||
-			     matrix.ContainsAt( pos, PullingObject ) ) {
-				//if (isLocalPlayer)
-				//{
-				pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition) - offsetTest;
-				if(pullJourney < 1.2f){
-					pullJourney = 1f;
-				}
-
-				if(pullJourney > 1.5f){
-					pullJourney *= 1.2f;
-				}
-				//} else
-				//{
-				//	pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition);
-				//}
-				pullPos = proposedPos;
-				pullPos.z = PullingObject.transform.localPosition.z;
-				PullingObject.BroadcastMessage( "FaceDirection",
-					playerSprites.currentDirection,
-					SendMessageOptions.DontRequireReceiver );
-			}
-		}
-
-		public void PullReset( NetworkInstanceId netID ) {
-			PullObjectID = netID;
-
-			transform.hasChanged = false;
-			if ( netID == NetworkInstanceId.Invalid ) {
-				if ( PullingObject != null ) {
-					pullRegister.UpdatePosition();
-					//Could be another player
-					PlayerSync otherPlayerSync = PullingObject.GetComponent<PlayerSync>();
-					if ( otherPlayerSync != null ) {
-						CmdSetPositionFromReset( gameObject,
-							otherPlayerSync.gameObject,
-							PullingObject.transform.position );
-					}
-				}
-				pullRegister = null;
-				PullingObject = null;
-			} else {
-				PullingObject = ClientScene.FindLocalObject( netID );
-				PushPull oA = PullingObject.GetComponent<PushPull>();
-				pullPos = PullingObject.transform.localPosition;
-				if ( oA != null ) {
-					oA.pulledBy = gameObject;
-				}
-				pullRegister = PullingObject.GetComponent<RegisterTile>();
-			}
-		}
+//		public void PullReset( NetworkInstanceId netID ) {
+//			PullObjectID = netID;
+//
+//			transform.hasChanged = false;
+//			if ( netID == NetworkInstanceId.Invalid ) {
+//				if ( PullingObject != null ) {
+//					pullRegister.UpdatePosition();
+//					//Could be another player
+//					PlayerSync otherPlayerSync = PullingObject.GetComponent<PlayerSync>();
+//					if ( otherPlayerSync != null ) {
+//						CmdSetPositionFromReset( gameObject,
+//							otherPlayerSync.gameObject,
+//							PullingObject.transform.position );
+//					}
+//				}
+//				pullRegister = null;
+//				PullingObject = null;
+//			} else {
+//				PullingObject = ClientScene.FindLocalObject( netID );
+//				PushPull oA = PullingObject.GetComponent<PushPull>();
+//				pullPos = PullingObject.transform.localPosition;
+//				if ( oA != null ) {
+//					oA.pulledBy = gameObject;
+//				}
+//				pullRegister = PullingObject.GetComponent<RegisterTile>();
+//			}
+//		}
 
 		private PlayerState NextState( PlayerState state, PlayerAction action, out bool matrixChanged, bool isReplay = false ) {
 			var newState = state;
@@ -316,12 +316,12 @@ using UnityEngine.Networking;
 
 //			Logger.Log( $"NextState: src={state} proposedPos={newState.WorldPosition}\n" +
 //			           $"mAtPoint={matrixAtPoint.Id} change={matrixChangeDetected} newState={newState}" );
-			
+
 			if ( !matrixChangeDetected ) {
 				matrixChanged = false;
 				return newState;
 			}
-			
+
 			matrixChanged = true;
 			return newState;
 		}

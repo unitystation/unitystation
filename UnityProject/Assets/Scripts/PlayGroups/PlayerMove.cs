@@ -32,10 +32,10 @@ using UnityEngine.Networking;
 		private IPlayerSync playerSync;
 
 		[HideInInspector] public PlayerNetworkActions pna;
-		[HideInInspector] public PushPull pushPull; //The push pull component attached to this player
+//		[HideInInspector] public PushPull pushPull; //The push pull component attached to this player
 		public float speed = 10;
 
-		public bool IsPushing { get; set; }
+//		public bool IsPushing { get; set; }
 
 		private RegisterTile registerTile;
 		private Matrix matrix => registerTile.Matrix;
@@ -47,7 +47,7 @@ using UnityEngine.Networking;
 		{
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
 			playerSync = GetComponent<IPlayerSync>();
-			pushPull = GetComponent<PushPull>();
+//			pushPull = GetComponent<PushPull>();
 			registerTile = GetComponent<RegisterTile>();
 			pna = gameObject.GetComponent<PlayerNetworkActions>();
 		}
@@ -63,7 +63,7 @@ using UnityEngine.Networking;
 					return new PlayerAction { keyCodes = actionKeys.ToArray() };
 				}
 
-				if (Input.GetKey(keyCodes[i]) && allowInput && !IsPushing)
+				if (Input.GetKey(keyCodes[i]) && allowInput /*&& !IsPushing*/)
 				{
 					actionKeys.Add((int)keyCodes[i]);
 				}
@@ -245,23 +245,23 @@ using UnityEngine.Networking;
 					return Vector3Int.zero;
 				}
 
-				// Not to be checked while performing a replay:
-				if (playerSync.PullingObject != null)
-				{
-					if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
-					{
-						//Vector2 directionToPullObj =
-						//	playerSync.pullingObject.transform.localPosition - transform.localPosition;
-						//if (directionToPullObj.normalized != playerSprites.currentDirection) {
-						//	// Ran into pullObject but was not facing it, saved direction
-						//	return direction;
-						//}
-						//Hit Pull obj
-						pna.CmdStopPulling(playerSync.PullingObject);
-
-						return Vector3Int.zero;
-					}
-				}
+//				// Not to be checked while performing a replay:
+//				if (playerSync.PullingObject != null)
+//				{
+//					if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
+//					{
+//						//Vector2 directionToPullObj =
+//						//	playerSync.pullingObject.transform.localPosition - transform.localPosition;
+//						//if (directionToPullObj.normalized != playerSprites.currentDirection) {
+//						//	// Ran into pullObject but was not facing it, saved direction
+//						//	return direction;
+//						//}
+//						//Hit Pull obj
+//						pna.CmdStopPulling(playerSync.PullingObject);
+//
+//						return Vector3Int.zero;
+//					}
+//				}
 			}
 
 			if (!curMatrix.ContainsAt(newPos, gameObject) && curMatrix.IsPassableAt(currentPosition, newPos) && !isReplay)
@@ -269,14 +269,14 @@ using UnityEngine.Networking;
 				return direction;
 			}
 
-			// This is only for replay (to ignore any interactions with the pulled obj):
-			if (playerSync.PullingObject != null)
-			{
-				if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
-				{
-					return direction;
-				}
-			}
+//			// This is only for replay (to ignore any interactions with the pulled obj):
+//			if (playerSync.PullingObject != null)
+//			{
+//				if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
+//				{
+//					return direction;
+//				}
+//			}
 
 			if (isReplay)
 			{
@@ -296,16 +296,16 @@ using UnityEngine.Networking;
 			var worldTarget = MatrixManager.Instance.LocalToWorldInt(targetPos, matrix);
 
 			InteractDoor(worldPos, worldTarget);
-			// @TODO: adapt for cross-matrix
-			// Is the object pushable (iterate through all of the objects at the position):
-			PushPull[] pushPulls = matrix.Get<PushPull>(targetPos).ToArray();
-			for (int i = 0; i < pushPulls.Length; i++)
-			{
-				if (pushPulls[i] && pushPulls[i].gameObject != gameObject)
-				{
-					pushPulls[i].TryPush(gameObject, direction);
-				}
-			}
+//			// @TODO: adapt for cross-matrix
+//			// Is the object pushable (iterate through all of the objects at the position):
+//			PushPull[] pushPulls = matrix.Get<PushPull>(targetPos).ToArray();
+//			for (int i = 0; i < pushPulls.Length; i++)
+//			{
+//				if (pushPulls[i] && pushPulls[i].gameObject != gameObject)
+//				{
+//					pushPulls[i].TryPush(gameObject, direction);
+//				}
+//			}
 		}
 
 		// Cross-matrix now! uses world positions

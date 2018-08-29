@@ -13,7 +13,7 @@ public enum SpinMode {
 public struct ThrowInfo
 {
 	/// Null object, means that there's no throw in progress
-	public static readonly ThrowInfo NoThrow = 
+	public static readonly ThrowInfo NoThrow =
 		new ThrowInfo{ OriginPos = TransformState.HiddenPos, TargetPos = TransformState.HiddenPos };
 	public Vector3 OriginPos;
 	public Vector3 TargetPos;
@@ -24,7 +24,7 @@ public struct ThrowInfo
 	public Vector3 Trajectory => TargetPos - OriginPos;
 
 	public override string ToString() {
-		return Equals(NoThrow) ? "[No throw]" : 
+		return Equals(NoThrow) ? "[No throw]" :
 			$"[{nameof( OriginPos )}: {OriginPos}, {nameof( TargetPos )}: {TargetPos}, {nameof( ThrownBy )}: {ThrownBy}, " +
 			$"{nameof( Aim )}: {Aim}, {nameof( InitialSpeed )}: {InitialSpeed}, {nameof( SpinMode )}: {SpinMode}]";
 	}
@@ -32,13 +32,13 @@ public struct ThrowInfo
 
 public partial class CustomNetTransform {
 	//	[SyncVar]
-	public bool isPushing;
-	public bool predictivePushing = false;
+//	public bool isPushing;
+//	public bool predictivePushing = false;
 	public bool IsInSpace => MatrixManager.IsSpaceAt( Vector3Int.RoundToInt( transform.position ) );
 	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
 	public bool IsFloatingClient => clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
-	
+
 	//future optimization thoughts:
 	//if (not in limbo && space flying for 30 tiles in a row):
 	//do a 50 tile raycast?
@@ -49,7 +49,7 @@ public partial class CustomNetTransform {
 	//quit limbo if: player within 20 tiles
 	//
 	//
-	
+
 	/// (Server) Did the flying item reach the planned landing point?
 	private bool ShouldStopThrow {
 		get {
@@ -77,11 +77,11 @@ public partial class CustomNetTransform {
 //		}
 	}
 
-	/// Client side prediction for pushing
-	/// This allows instant pushing reaction to a pushing event
-	/// on the client who instigated it. The server then validates
-	/// the transform position and returns it if it is illegal
-	public void PushToPosition( Vector3 pos, float speed, PushPull pushComponent ) {
+//	/// Client side prediction for pushing
+//	/// This allows instant pushing reaction to a pushing event
+//	/// on the client who instigated it. The server then validates
+//	/// the transform position and returns it if it is illegal
+//	public void PushToPosition( Vector3 pos, float speed, PushPull pushComponent ) {
 //		if(pushComponent.pushing || predictivePushing){
 //			return;
 //		}
@@ -92,7 +92,7 @@ public partial class CustomNetTransform {
 //		UpdateClientState(newState);
 //		predictivePushing = true;
 //		pushComponent.pushing = true;
-	}
+//	}
 
 	/// Predictive client movement
 	/// Mimics server collision checks for obviously unpassable things.

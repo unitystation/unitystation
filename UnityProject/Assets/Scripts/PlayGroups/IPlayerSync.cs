@@ -4,8 +4,8 @@ using UnityEngine.Networking;
 
 	public interface IPlayerSync
 	{
-		GameObject PullingObject { get; set; }
-		NetworkInstanceId PullObjectID { get; set; }
+//		GameObject PullingObject { get; set; }
+//		NetworkInstanceId PullObjectID { get; set; }
 		void CmdSetPositionFromReset(GameObject fromObj, GameObject otherPlayer, Vector3 setPos);
 
 		/// <summary>
@@ -14,7 +14,7 @@ using UnityEngine.Networking;
 		/// <param name="worldPos">The new position to "teleport" player</param>
 		void SetPosition(Vector3 worldPos);
 
-		void PullReset(NetworkInstanceId netID);
+//		void PullReset(NetworkInstanceId netID);
 //		bool InvokeCommand(int cmdHash, NetworkReader reader);
 //		bool InvokeRPC(int cmdHash, NetworkReader reader);
 //		bool InvokeSyncEvent(int cmdHash, NetworkReader reader);

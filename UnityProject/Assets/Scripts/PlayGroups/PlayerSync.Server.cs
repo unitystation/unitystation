@@ -46,7 +46,7 @@ using UnityEngine.Networking;
 
 		public override void OnStartServer()
 		{
-			PullObjectID = NetworkInstanceId.Invalid;
+//			PullObjectID = NetworkInstanceId.Invalid;
 			base.OnStartServer();
 			InitServerState();
 		}
