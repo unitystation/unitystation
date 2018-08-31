@@ -103,7 +103,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		pivot =  initialPosition - childPosition;
 
 		Logger.LogTraceFormat( "{0}: pivot={1} initialPos={2}, initialOrientation={3}", Category.Matrix, gameObject.name, pivot, initialPositionInt, initialOrientation );
-		serverState.Speed = 10f;
+		serverState.Speed = 1f;
 		serverState.Position = initialPosition;
 		serverState.Orientation = Orientation.Up;
 		serverTargetState = serverState;
@@ -173,6 +173,35 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		serverTargetState.IsMoving = false;
 		//To stop autopilot
 		DisableAutopilotTarget();
+	}
+
+	public int MoveCur = -1;
+	public int MoveLimit = -1;
+
+	/// Move for n tiles, regardless of direction, and stop
+	[Server]
+	public void MoveFor(int tiles) {
+		if ( tiles < 1 ) {
+			tiles = 1;
+		}
+		if ( !isMovingServer ) {
+			StartMovement();
+		}
+		MoveCur = 0;
+		MoveLimit = tiles;
+	}
+
+	/// Checks if it still can move according to MoveFor limits.
+	/// If true, increment move count
+	[Server]
+	public bool CanMoveFor() {
+		if ( MoveCur == MoveLimit && MoveCur != -1 ) {
+			MoveCur = -1;
+			MoveLimit = -1;
+			return false;
+		}
+		MoveCur++;
+		return true;
 	}
 
 	/// Call to stop chasing target
@@ -274,7 +303,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			return;
 		}
 
-		if ( !SafetyProtocolsOn || CanMoveTo( serverTargetState.Direction ) )
+		if ( CanMoveFor() && ( !SafetyProtocolsOn || CanMoveTo( serverTargetState.Direction ) ) )
 		{
 			var goal = Vector3Int.RoundToInt( serverState.Position + ( Vector3 ) serverTargetState.Direction );
 			//keep moving
