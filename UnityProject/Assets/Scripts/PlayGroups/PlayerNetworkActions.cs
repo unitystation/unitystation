@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
-public partial class PlayerNetworkActions : NetworkBehaviour
+public class PlayerNetworkActions : NetworkBehaviour
 {
 	private readonly string[] slotNames =
 	{
@@ -234,7 +234,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction, 
+	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction,
 	/// otherwise client will forcefully receive update slot messages
 	public void RequestDropItem(string hand, bool forceClientInform = true)
 	{
@@ -314,7 +314,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 	}
-	
+
 	/// Client requesting throw to clicked position
 	[Command]
 	public void CmdRequestThrow(string slot, Vector3 worldTargetPos, int aim) {
@@ -323,10 +323,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 		GameObject throwable = Inventory[slot];
-		
+
 		Vector3 playerPos = playerScript.PlayerSync.ServerState.WorldPosition;
 
-		EquipmentPool.DisposeOfObject(gameObject, throwable); 
+		EquipmentPool.DisposeOfObject(gameObject, throwable);
 		ClearInventorySlot(slot);
 		var throwInfo = new ThrowInfo {
 			ThrownBy = gameObject,
@@ -337,7 +337,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			SpinMode = slot == "leftHand" ? SpinMode.Clockwise : SpinMode.CounterClockwise,
 		};
 		throwable.GetComponent<CustomNetTransform>().Throw( throwInfo );
-		
+
 		//Simplified counter-impulse for players in space
 		if ( playerScript.PlayerSync.IsInSpace ) {
 			playerScript.PlayerSync.Push( Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized) );
@@ -628,7 +628,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
 		//FIXME: remove health and blood changes after TDM
-		//and use this Cmd for healing hunger and applying 
+		//and use this Cmd for healing hunger and applying
 		//food related attributes instead:
 		playerHealth.AddHealth(baseFood.healAmount);
 		playerHealth.BloodLevel += baseFood.healAmount;

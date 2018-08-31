@@ -296,16 +296,17 @@ using UnityEngine.Networking;
 			var worldTarget = MatrixManager.Instance.LocalToWorldInt(targetPos, matrix);
 
 			InteractDoor(worldPos, worldTarget);
-//			// @TODO: adapt for cross-matrix
-//			// Is the object pushable (iterate through all of the objects at the position):
-//			PushPull[] pushPulls = matrix.Get<PushPull>(targetPos).ToArray();
-//			for (int i = 0; i < pushPulls.Length; i++)
-//			{
-//				if (pushPulls[i] && pushPulls[i].gameObject != gameObject)
-//				{
-//					pushPulls[i].TryPush(gameObject, direction);
-//				}
-//			}
+
+			// Is the object pushable (iterate through all of the objects at the position):
+			PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTarget ).ToArray();
+			for (int i = 0; i < pushPulls.Length; i++)
+			{
+				if (pushPulls[i] && pushPulls[i].gameObject != gameObject)
+				{
+					Logger.LogTraceFormat( "Trying to push {0}", Category.PushPull, pushPulls[i].gameObject );
+					pushPulls[i].TryPush( Vector2Int.RoundToInt(direction) );
+				}
+			} //TODO fix lightbulbs getting in the way
 		}
 
 		// Cross-matrix now! uses world positions

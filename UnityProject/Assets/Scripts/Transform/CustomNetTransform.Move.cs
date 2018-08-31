@@ -67,15 +67,21 @@ public partial class CustomNetTransform {
 		}
 	}
 
-	/// Apply impulse while setting position
 	[Server]
-	public void PushTo( Vector3 pos, Vector2 impulseDir, bool notify = true, float speed = 4f, bool _isPushing = false ) {
+	public void Push( Vector2Int direction ) {
+		serverState.Impulse = direction;
+		SetPosition((Vector2)serverState.WorldPosition + direction);
+	}
+
+//	/// Apply impulse while setting position
+//	[Server]
+//	public void PushTo( Vector3 pos, Vector2 impulseDir, bool notify = true, float speed = 4f, bool _isPushing = false ) {
 //		if (IsInSpace()) {
 //			serverTransformState.Impulse = impulseDir;
 //		} else {
 //			SetPosition(pos, notify, speed, _isPushing);
 //		}
-	}
+//	}
 
 //	/// Client side prediction for pushing
 //	/// This allows instant pushing reaction to a pushing event
