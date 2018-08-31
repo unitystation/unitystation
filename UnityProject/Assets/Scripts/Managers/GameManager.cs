@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
 	private int MapRotationCount = 0;
 	private int MapRotationMapsCounter = 0;
 
+	private bool shuttleArrivalBroadcasted = false;
+
 	//Nuke ops:
 	//Escape shuttle that is supposed to arrive in 10 minutes.
 	public GameObject escapeShuttleObj;
@@ -130,11 +132,10 @@ public class GameManager : MonoBehaviour
 				}
 			}
 			//Nuke ops shuttle arrival
-			if(GetRoundTime <= 60f && shuttleArrived == false)
+			if(shuttleArrived == true && shuttleArrivalBroadcasted == false)
 			{
-				shuttleArrived = true;
 				PostToChatMessage.Send("Escape shuttle has arrived! Crew has 1 minute to get on it.", ChatChannel.System);
-				//escapeShuttleObj.transform.position = shuttleArrivalTransform;
+				shuttleArrivalBroadcasted = true;
 			}
 		}
 	}

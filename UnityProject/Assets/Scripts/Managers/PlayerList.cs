@@ -20,6 +20,8 @@ public class PlayerList : NetworkBehaviour
 	public int ConnectionCount => values.Count;
 	public List<ConnectedPlayer> InGamePlayers => values.FindAll( player => player.GameObject != null );
 
+	public bool reportDone = false;
+
 	//For TDM demo
 	//public Dictionary<JobDepartment, int> departmentScores = new Dictionary<JobDepartment, int>();
 
@@ -97,26 +99,33 @@ public class PlayerList : NetworkBehaviour
 	[Server]
 	public void ReportScores()
 	{
+		if (!reportDone)
+		{
+			//if (!nukeSetOff && syndicateKills == 0 && crewKills == 0)
+			//{
+			//	PostToChatMessage.Send("Nobody killed anybody. Fucking hippies.", ChatChannel.System);
+			//}
 
-		if (!nukeSetOff && syndicateKills == 0 && crewKills == 0)
-		{
-			PostToChatMessage.Send("Nobody killed anybody. Fucking hippies.", ChatChannel.System);
+			if (nukeSetOff)
+			{
+				PostToChatMessage.Send("Nuke has been detonated, <b>Syndicate wins.</b>", ChatChannel.System);
+			}
+			else if (GetCrewAliveCount() > 0 && EscapeShuttle.Instance.GetCrewCountOnboard() == 0)
+			{
+				PostToChatMessage.Send("Station crew failed to escape, <b>Syndicate wins.</b>", ChatChannel.System);
+			}
+			else if (GetCrewAliveCount() == 0)
+			{
+				PostToChatMessage.Send("All crew members are dead, <b>Syndicate wins.</b>", ChatChannel.System);
+			}
+			else if (GetCrewAliveCount() > 0 && EscapeShuttle.Instance.GetCrewCountOnboard() > 0)
+			{
+				PostToChatMessage.Send(EscapeShuttle.Instance.GetCrewCountOnboard() + " Crew member(s) have managed to escape the station. <b>Syndicate lost.</b>", ChatChannel.System);
+			}
+			
+			PostToChatMessage.Send("Game Restarting in 10 seconds...", ChatChannel.System);
+			reportDone = true;
 		}
-
-		if(nukeSetOff)
-		{
-			PostToChatMessage.Send("Nuke has been detonated, <b>Syndicate wins.</b>", ChatChannel.System);
-		}
-		else if (GetCrewAliveCount() > 0) //TODO: Check if crew is on shuttle
-		{
-			PostToChatMessage.Send("Station crew failed to escape, <b>Syndicate wins.</b>", ChatChannel.System);
-		}
-		else if (GetCrewAliveCount() == 0)
-		{
-			PostToChatMessage.Send("All crew members are dead, <b>Syndicate wins.</b>", ChatChannel.System);
-		}
-
-		PostToChatMessage.Send("Game Restarting in 10 seconds...", ChatChannel.System);
 	}
 
 	public int GetCrewAliveCount()
