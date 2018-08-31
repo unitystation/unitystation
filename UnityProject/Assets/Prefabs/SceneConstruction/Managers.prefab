@@ -9663,8 +9663,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114986867525342648}
   m_HandleRect: {fileID: 224599716051025124}
   m_Direction: 2
-  m_Value: 0.9999995
-  m_Size: 0.41528565
+  m_Value: 0.9999997
+  m_Size: 0.41528568
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14898,6 +14898,7 @@ MonoBehaviour:
   - Assets/scenes/Flashlight Deathmatch.unity
   escapeShuttleObj: {fileID: 0}
   shuttleArrivalTransform: {x: 49, y: 6, z: 0}
+  shuttleArrived: 0
 --- !u!114 &114729840479090150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -20893,8 +20894,8 @@ RectTransform:
   m_Father: {fileID: 224982044586477944}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.58471435}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0.5847141}
+  m_AnchorMax: {x: 1, y: 0.99999976}
   m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
