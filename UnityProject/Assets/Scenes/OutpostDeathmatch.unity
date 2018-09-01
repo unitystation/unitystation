@@ -4658,18 +4658,6 @@ CompositeCollider2D:
         Y: 740000000
       - X: 130000000
         Y: 740000000
-    - - X: 390000000
-        Y: 730000000
-      - X: 370000000
-        Y: 730000000
-      - X: 370000000
-        Y: 720000000
-      - X: 380000000
-        Y: 720000000
-      - X: 380000000
-        Y: 710000000
-      - X: 390000000
-        Y: 710000000
     - - X: 350000000
         Y: 720000000
       - X: 360000000
@@ -4681,6 +4669,18 @@ CompositeCollider2D:
       - X: 340000000
         Y: 710000000
       - X: 350000000
+        Y: 710000000
+    - - X: 390000000
+        Y: 730000000
+      - X: 370000000
+        Y: 730000000
+      - X: 370000000
+        Y: 720000000
+      - X: 380000000
+        Y: 720000000
+      - X: 380000000
+        Y: 710000000
+      - X: 390000000
         Y: 710000000
     - - X: 150000000
         Y: 720000000
@@ -5150,14 +5150,6 @@ CompositeCollider2D:
         Y: 210000000
       - X: 630000000
         Y: 210000000
-    - - X: 640000000
-        Y: 190000000
-      - X: 620000000
-        Y: 190000000
-      - X: 620000000
-        Y: 180000000
-      - X: 640000000
-        Y: 180000000
     - - X: 600000000
         Y: 190000000
       - X: 530000000
@@ -5165,6 +5157,14 @@ CompositeCollider2D:
       - X: 530000000
         Y: 180000000
       - X: 600000000
+        Y: 180000000
+    - - X: 640000000
+        Y: 190000000
+      - X: 620000000
+        Y: 190000000
+      - X: 620000000
+        Y: 180000000
+      - X: 640000000
         Y: 180000000
     - - X: 530000000
         Y: 150000000
@@ -5222,18 +5222,18 @@ CompositeCollider2D:
       - {x: 12, y: 76}
       - {x: 12, y: 74}
       - {x: 13, y: 74}
-    - - {x: 39, y: 73}
-      - {x: 37, y: 73}
-      - {x: 37, y: 72}
-      - {x: 38, y: 72}
-      - {x: 38, y: 71}
-      - {x: 39, y: 71}
     - - {x: 35, y: 72}
       - {x: 36, y: 72}
       - {x: 36, y: 73}
       - {x: 34, y: 73}
       - {x: 34, y: 71}
       - {x: 35, y: 71}
+    - - {x: 39, y: 73}
+      - {x: 37, y: 73}
+      - {x: 37, y: 72}
+      - {x: 38, y: 72}
+      - {x: 38, y: 71}
+      - {x: 39, y: 71}
     - - {x: 15, y: 72}
       - {x: 13, y: 72}
       - {x: 13, y: 73}
@@ -5468,14 +5468,14 @@ CompositeCollider2D:
       - {x: 52, y: 23}
       - {x: 52, y: 21}
       - {x: 63, y: 21}
-    - - {x: 64, y: 19}
-      - {x: 62, y: 19}
-      - {x: 62, y: 18}
-      - {x: 64, y: 18}
     - - {x: 60, y: 19}
       - {x: 53, y: 19}
       - {x: 53, y: 18}
       - {x: 60, y: 18}
+    - - {x: 64, y: 19}
+      - {x: 62, y: 19}
+      - {x: 62, y: 18}
+      - {x: 64, y: 18}
     - - {x: 53, y: 15}
       - {x: 52, y: 15}
       - {x: 52, y: 11}
@@ -47844,7 +47844,7 @@ GameObject:
   - component: {fileID: 513949763}
   - component: {fileID: 513949762}
   - component: {fileID: 513949761}
-  m_Layer: 30
+  m_Layer: 28
   m_Name: TopLayerEffects - (fov, fire, atmos gfx) (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47905,7 +47905,7 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fdfc2b44d9aa1d84180435fa40f599e5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -54719,7 +54719,7 @@ Prefab:
     - target: {fileID: 224759607104819202, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000030209727
+      value: -0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 224816004304439406, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
@@ -67893,6 +67893,159 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20006738728084132, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: orthographic size
+      value: 5.6666
+      objectReference: {fileID: 0}
+    - target: {fileID: 1322517745263302, guid: bdc8c5eacef3f4b2a90445083973323d, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742085210312504, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742085210312504, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: AffectOnlyThisCamera
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742085210312504, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: LightObstaclesLayer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742085210312504, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: LightCameraSizeAdd
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742085210312504, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: LightPixelSize
+      value: 0.09604407
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742085210312504, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: BlurLightSources
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742085210312504, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: EnableAmbientLight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742085210312504, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: BlurAmbientLight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742085210312504, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: LightObstaclesAntialiasing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114742085210312504, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: HDR
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: renderSettings.lightPixelSize
+      value: 0.09604407
+      objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: renderSettings.ambient
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: renderSettings.lightMultiplier
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: materialContainer.compressMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: db16e55fbbb2ca34881b69892acc2f93, type: 2}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: renderSettings.maskCameraSizeAdd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: materialContainer.fovBlurMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 42ccff1e88773c2408dd290281b8e2f5, type: 2}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: materialContainer.fovPixelateMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 0e3c1199f4fd7c840839afef7cd2cc77, type: 2}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: materialContainer.lightBlurMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 461dde64953d7574aac42e2aa8ee2c14, type: 2}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: renderSettings.fovBlurIterations
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: renderSettings.fovBlurInterpolation
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: renderSettings.lightBlurIterations
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: renderSettings.lightBlurInterpolation
+      value: 1.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: renderSettings.lightTextureRescale
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1994502242555832, guid: bdc8c5eacef3f4b2a90445083973323d, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: materialContainer.lightWallBlurMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 255585b251e9cff46a52f2772b300d6b, type: 2}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: renderSettings.wallBlurIterations
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: renderSettings.wallBlurInterpolation
+      value: 3.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: materialContainer.fovMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: f29510637789e8a4e9488d4e6b488f1f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdc8c5eacef3f4b2a90445083973323d, type: 2}
   m_IsPrefabAsset: 0
@@ -83450,7 +83603,7 @@ GameObject:
   - component: {fileID: 1197796695}
   - component: {fileID: 1197796694}
   - component: {fileID: 1197796693}
-  m_Layer: 30
+  m_Layer: 28
   m_Name: TopLayerEffects - (fov, fire, atmos gfx) (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83511,7 +83664,7 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fdfc2b44d9aa1d84180435fa40f599e5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86622,6 +86775,12 @@ Prefab:
       propertyPath: m_AnchoredPosition.x
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 114239957664027200, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: shroudSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 49ceb2fdcf07e9641aa720209ef44995,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
   m_IsPrefabAsset: 0
@@ -96260,6 +96419,25 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1521719749537320, guid: 0defa5e6005db42059d98be74b7d13a9, type: 2}
+      propertyPath: m_Layer
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 3664157344112019904, guid: 0defa5e6005db42059d98be74b7d13a9,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 8195094281969235012, guid: 0defa5e6005db42059d98be74b7d13a9,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3664157344112019904, guid: 0defa5e6005db42059d98be74b7d13a9,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0defa5e6005db42059d98be74b7d13a9, type: 2}
   m_IsPrefabAsset: 0
@@ -103415,7 +103593,7 @@ GameObject:
   - component: {fileID: 1847292134}
   - component: {fileID: 1847292133}
   - component: {fileID: 1847292132}
-  m_Layer: 30
+  m_Layer: 28
   m_Name: TopLayerEffects - (fov, fire, atmos gfx) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103476,7 +103654,7 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fdfc2b44d9aa1d84180435fa40f599e5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

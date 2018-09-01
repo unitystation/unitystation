@@ -37,9 +37,9 @@ public class ShutterController : ObjectTrigger
 		gameObject.SendMessage("TurnOffDoorFov", null, SendMessageOptions.DontRequireReceiver);
 	}
 
-	public override void Trigger(bool state)
+	public override void Trigger(bool iState)
 	{
-		tempStateCache = state;
+		tempStateCache = iState;
 		if (waitToCheckState)
 		{
 			return;
@@ -51,7 +51,7 @@ public class ShutterController : ObjectTrigger
 			return;
 		}
 
-		SetState(state);
+		SetState(iState);
 	}
 
 	private void SetState(bool state)

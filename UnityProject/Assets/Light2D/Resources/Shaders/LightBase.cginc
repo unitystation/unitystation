@@ -36,7 +36,7 @@ struct light2d_fixed_v2f {
 	half2 aspect : TEXCOORD3;
 };
 			
-uniform sampler2D _ObstacleTex;
+uniform sampler2D _FovExtendedMask;
 uniform sampler2D _MainTex;
 uniform half _ObstacleMul;
 uniform half _EmissionColorMul;
@@ -56,18 +56,23 @@ light2d_fixed_v2f light2d_fixed_vert (light2d_fixed_data_t v)
 	o.projVertex = o.vertex;
 	o.zDistance = mul(unity_ObjectToWorld, v.vertex).z;
 	#else
-	float4 vPos = ComputeScreenPos(o.vertex);
-	o.thisPos = (vPos.xy/vPos.w - 0.5)*_ExtendedToSmallTextureScale + 0.5;
+
+		float4 vPos = ComputeScreenPos(o.vertex);
+		o.thisPos = (vPos.xy/vPos.w - 0.5) * _ExtendedToSmallTextureScale + 0.5;
+
 	#if LIGHT2D_XY_PLANE
 	float4 cPos = ComputeScreenPos(mul(UNITY_MATRIX_VP, float4(v.texcoord1, 0, 1)));
 	#elif LIGHT2D_XZ_PLANE
 	float4 cPos = ComputeScreenPos(mul(UNITY_MATRIX_VP, float4(v.texcoord1.x, 0, v.texcoord1.y, 1)));
 	#endif
+
 	o.centerPos = (cPos.xy/cPos.w - 0.5)*_ExtendedToSmallTextureScale + 0.5;
-	#ifdef UNITY_HALF_TEXEL_OFFSET
-	o.thisPos += _PosOffset;
-	o.centerPos += _PosOffset;
-	#endif
+
+		#ifdef UNITY_HALF_TEXEL_OFFSET
+		o.thisPos += _PosOffset;
+		o.centerPos += _PosOffset;
+		#endif
+
 	#endif
 
 	o.color = v.color;
@@ -76,42 +81,38 @@ light2d_fixed_v2f light2d_fixed_vert (light2d_fixed_data_t v)
 	return o;
 }
 
+
 half4 light2_fixed_frag (light2d_fixed_v2f i) : COLOR
 {
     half4 tex = tex2D(_MainTex, i.texcoord);
 
-	#ifdef PERSPECTIVE_CAMERA
-	half4 vPos = ComputeScreenPos(i.projVertex);
-	half2 thisPos = (vPos.xy/vPos.w - 0.5)*_ExtendedToSmallTextureScale + 0.5;
-	half4 cPos = ComputeScreenPos(mul(UNITY_MATRIX_VP, float4(i.texcoord1, i.zDistance, 1)));
-	half2 centerPos = (cPos.xy/cPos.w - 0.5)*_ExtendedToSmallTextureScale + 0.5;
-	#ifdef UNITY_HALF_TEXEL_OFFSET
-	thisPos += _PosOffset;
-	centerPos += _PosOffset;
-	#endif
-	#else
+
 	half2 thisPos = i.thisPos;
 	half2 centerPos = i.centerPos;
-	#endif
+
 
 	half sub = 1.0/PATH_TRACKING_SAMPLES;
 	half len = length((thisPos - centerPos)*i.aspect);
 	half m = _ObstacleMul*sub*len;
-			
-	half4 col = i.color*tex*tex.a*i.color.a;
+		
+	half4 colorizedTex = i.color*tex*tex.a*i.color.a;
+	half4 col = colorizedTex;
 
 	half pos = 0;
 	
 	for(int i = 0; i < PATH_TRACKING_SAMPLES; i++)
 	{
 		pos += sub; 
-		half4 obstacle = tex2D(_ObstacleTex, lerp(centerPos, thisPos, pos));
-		col *= saturate(1 - (1 - obstacle)*obstacle.a*m);
+		half4 obstacle = tex2D(_FovExtendedMask, lerp(centerPos, thisPos, pos));
+		col *= 1-obstacle.r; //saturate(1 - (1 - obstacle)*obstacle.a*m); // was a
 	}
 
+	half4 fov = tex2D(_FovExtendedMask, thisPos);
+	//col.rgb += colorizedTex * fov.b;
+	col.rgb *= fov.g;
 	col.rgb *= _EmissionColorMul;
 
-	return col;//half4(half3((thisPos - centerPos).x*20), 1);//tex2D(_ObstacleTex, thisPos);
+	return col;
 }
 
 #endif

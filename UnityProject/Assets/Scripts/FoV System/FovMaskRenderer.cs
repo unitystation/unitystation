@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class FovMaskRenderer : MonoBehaviour
 {
-	private const string MaskCameraName = "Mask Camera";
+	private const string MaskCameraName = "Obstacle Mask Camera";
 
 	/// <summary>
 	/// Important: Shader to use to render Un Obscured layers.
@@ -62,19 +62,18 @@ public class FovMaskRenderer : MonoBehaviour
 
 	public void ResetRenderingTextures(MaskParameters iParameters)
 	{
-		// Prepare and assign RenderTexture.
-		int _textureWidth = iParameters.screenSize.x;
-		int _textureHeight = iParameters.screenSize.y;
+		int _textureWidth = iParameters.extendedTextureSize.x;
+		int _textureHeight = iParameters.extendedTextureSize.y;
 
 		var _newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
-		_newRenderTexture.name = "Raw Occlusion Mask";
+		_newRenderTexture.name = "Raw Scaled Occlusion Mask";
 		_newRenderTexture.autoGenerateMips = false;
 		_newRenderTexture.useMipMap = false;
 
 		// Note: Assignment will release previous texture if exist.
 		mask = _newRenderTexture;
 
-		mMaskCamera.orthographicSize = iParameters.cameraOrthographicSize;
+		mMaskCamera.orthographicSize = iParameters.extendedCameraSize;
 	}
 
 	private static FovMaskRenderer SetUpCameraObject(
@@ -100,6 +99,7 @@ public class FovMaskRenderer : MonoBehaviour
 		iSetupCamera.allowMSAA = false;
 		iSetupCamera.farClipPlane = 3f;
 		iSetupCamera.SetReplacementShader(Shader.Find(ReplacementShaderName), string.Empty);
+		
 
 		// Get or add processor component.
 		var _processor = iSetupCamera.gameObject.GetComponent<FovMaskRenderer>();

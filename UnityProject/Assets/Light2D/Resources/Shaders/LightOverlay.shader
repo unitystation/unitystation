@@ -14,8 +14,8 @@ Properties {
 	_LightSourcesTex ("Light Sources", 2D) = "black" {}
 	_LightSourcesMul ("Light Sources Multiplier", Float) = 1
 	_LightMul ("Resulting Light Multiplier", Float) = 2
-	_AdditiveLightPow ("Bloom Pow. Zero to turn off bloom.", Float) = 10
-	_AdditiveLightAdd ("Bloom Add", Float) = 0.2
+	_AdditiveLightPow ("Bloom Pow. Zero to turn off bloom.", Float) = 4
+	_AdditiveLightAdd ("Bloom Add", Float) = 0.15
 }
 
 SubShader {
@@ -77,6 +77,11 @@ SubShader {
 
 			half4 frag (v2f i) : COLOR
 			{
+				//float _lightSourcesMul = 1;
+				//float _lightMul = 2;
+				//float _additiveLightPow = 4;
+				//float _additiveLightAdd = 0.15;
+
 				half4 game = tex2D(_GameTex, i.texcoordGame);
 				half4 ambientLight = tex2D(_AmbientLightTex, i.texcoordAmbient);
 				half4 lightSources = tex2D(_LightSourcesTex, i.texcoordLight)*_LightSourcesMul;

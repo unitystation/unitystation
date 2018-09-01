@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Light2D;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -165,7 +166,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		GameObject lightFx = Resources.Load<GameObject>("lighting/BoomLight");
 		lightFxInstance = Instantiate(lightFx, transform.position, Quaternion.identity);
 		lightSprite = lightFxInstance.GetComponentInChildren<LightSprite>();
-		lightSprite.fadeFX(1f);
+		//lightSprite.fadeFX(1f); // TODO Removed animation (Should be in a separate component)
 		SetFire();
 	}
 

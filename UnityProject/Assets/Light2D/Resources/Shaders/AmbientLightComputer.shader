@@ -65,17 +65,18 @@ SubShader {
 				
 				half4 emission = tex2D(_LightSourcesTex, i.texcoord);
 				half4 obstacle = tex2D(_ObstacleTex, i.texcoord); 
-				obstacle = ((1 - obstacle)*obstacle.a*_ObstacleMul + _ObstacleAdd);
+				obstacle = saturate(((1 - obstacle)*obstacle.a*_ObstacleMul + _ObstacleAdd));
 
 				half2 uv = i.texcoord + _Shift;
 
-                half localSamplingDist = _SamplingDist * 0.001;
+				half4 oldLight = tex2D(_MainTex, uv);
+
 				// computing average value of near pixels
-				half4 maxLight =		 tex2D(_MainTex, uv + half2(localSamplingDist, 0));
-				maxLight = max(maxLight, tex2D(_MainTex, uv + half2(-localSamplingDist, 0)));
-				maxLight = max(maxLight, tex2D(_MainTex, uv + half2(0, -localSamplingDist)));
-				maxLight = max(maxLight, tex2D(_MainTex, uv + half2(0, localSamplingDist)));
-				half dist45 = localSamplingDist*0.707;
+				half4 maxLight =		 tex2D(_MainTex, uv + half2(_SamplingDist, 0));
+				maxLight = max(maxLight, tex2D(_MainTex, uv + half2(-_SamplingDist, 0)));
+				maxLight = max(maxLight, tex2D(_MainTex, uv + half2(0, -_SamplingDist)));
+				maxLight = max(maxLight, tex2D(_MainTex, uv + half2(0, _SamplingDist)));
+				half dist45 = _SamplingDist*0.707;
 				maxLight = max(maxLight, tex2D(_MainTex, uv + half2(dist45, dist45)));
 				maxLight = max(maxLight, tex2D(_MainTex, uv + half2(dist45, -dist45)));
 				maxLight = max(maxLight, tex2D(_MainTex, uv + half2(-dist45, dist45)));
@@ -85,7 +86,7 @@ SubShader {
 
 				half4 col = (maxLight + emission)*(half4(1,1,1,1) - obstacle);
 
-				return col;
+				return lerp(oldLight, col, 0.2);
 			}
 		ENDCG
 	}

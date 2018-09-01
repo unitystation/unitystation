@@ -19,12 +19,20 @@ public class FovSystem : MonoBehaviour
 	public FovMaterialContainer materialContainer;
 
 	private const string MaskLayerName = "FieldOfViewMask";
+	private const string LightLayerName = "LightingSource";
 
 	private Camera mMainCamera;
 	private FovMaskRenderer mFovMaskRenderer;
+	private LightMaskRenderer mLightMaskRenderer;
 	private PostProcessingStack mPostProcessingStack;
 	private MaskParameters mCurrentMaskParameters;
 	private RenderTexture mGlobalOcclusionMask;
+
+	// TODO Refactor. MUST RELEASE OLD MASKS.
+	private RenderTexture mGlobalLightMask;
+	private RenderTexture compressedMask;
+	private RenderTexture mGlobalOcclusionExtendedMask;
+	private RenderTexture compressedLightMask;
 
 	private RenderTexture globalOcclusionMask
 	{
@@ -49,23 +57,92 @@ public class FovSystem : MonoBehaviour
 		}
 	}
 
-	private void Awake()
+	private RenderTexture globalOcclusionExtendedMask
+	{
+		get
+		{
+			return mGlobalOcclusionExtendedMask;
+		}
+
+		set
+		{
+			if (mGlobalOcclusionExtendedMask == value)
+				return;
+
+			if (mGlobalOcclusionExtendedMask != null)
+			{
+				mGlobalOcclusionMask.Release();
+			}
+
+			mGlobalOcclusionExtendedMask = value;
+
+			Shader.SetGlobalTexture("_FovExtendedMask", value);
+		}
+	}
+
+	private RenderTexture globalLightMask
+	{
+		get
+		{
+			return mGlobalLightMask;
+		}
+
+		set
+		{
+			if (mGlobalLightMask == value)
+				return;
+
+			if (mGlobalLightMask != null)
+			{
+				mGlobalLightMask.Release();
+			}
+
+			mGlobalLightMask = value;
+
+			Shader.SetGlobalTexture("_LightMask", value);
+		}
+	}
+
+	private void OnEnable()
 	{
 		mMainCamera = gameObject.GetComponent<Camera>();
 
 		if (mMainCamera == null)
 			throw new Exception("FovSystemManager require Camera component to operate.");
 
-		mFovMaskRenderer = FovMaskRenderer.InitializeMaskRenderer(gameObject, MaskLayerName, renderSettings.unObscuredLayers);
-		mFovMaskRenderer.MaskRendered += OnMaskRendered;
+		if (mFovMaskRenderer == null)
+		{
+			mFovMaskRenderer = FovMaskRenderer.InitializeMaskRenderer(gameObject, MaskLayerName, renderSettings.unObscuredLayers);
+			mFovMaskRenderer.MaskRendered += OnMaskRendered;
+		}
 
-		mPostProcessingStack = new PostProcessingStack(materialContainer);
+		if (mLightMaskRenderer == null)
+		{
+			mLightMaskRenderer = LightMaskRenderer.InitializeMaskRenderer(gameObject, LightLayerName, () => renderSettings);
+			mLightMaskRenderer.MaskRendered += OnLightMaskRendered;
+		}
+
+		if (mPostProcessingStack == null)
+		{
+			mPostProcessingStack = new PostProcessingStack(materialContainer);
+		}
+	}
+
+	private void OnLightMaskRendered(RenderTexture iMask)
+	{
+		// Light mask is rendered witch extended camera scale and must be fitted back in to render camera scale.
+		// Note: Light mask is NOT rendered with extended texture size as obstacle mask.
+		//Vector2 _scale = new Vector2((float)iMask.width / globalOcclusionExtendedMask.width, (float)iMask.height / globalOcclusionExtendedMask.height);
+		//
+		//Graphics.Blit(iMask, compressedLightMask, _scale, (Vector2.one - _scale) * 0.5f);
+
+		mPostProcessingStack.PostProcessLightMask(iMask, globalLightMask, renderSettings);
 	}
 
 	private void Update()
 	{
 		// Monitor state to detect when we should re-create rendering textures.
-		var _newParameters = new MaskParameters(mMainCamera);
+		var _newParameters = new MaskParameters(mMainCamera, renderSettings);
 
 		bool _shouldUpdateTextureBuffers = _newParameters != mCurrentMaskParameters;
 
@@ -82,7 +159,19 @@ public class FovSystem : MonoBehaviour
 		globalOcclusionMask = new RenderTexture(Screen.width, Screen.height, 0);
 		globalOcclusionMask.name = "Processed Occlusion Mask";
 
+		compressedMask = new RenderTexture(Screen.width, Screen.height, 0);
+
+		globalLightMask = new RenderTexture(Screen.width, Screen.height, 0);
+		globalLightMask.name = "Processed Light Mask";
+
+		globalOcclusionExtendedMask = new RenderTexture(iParameters.extendedTextureSize.x, iParameters.extendedTextureSize.y, 0);
+
+		compressedLightMask = new RenderTexture(Screen.width, Screen.height, 0);
+
+
+
 		mFovMaskRenderer.ResetRenderingTextures(iParameters);
+		mLightMaskRenderer.ResetRenderingTextures(iParameters);
 		mPostProcessingStack.ResetRenderingTextures(iParameters);
 	}
 
@@ -93,7 +182,19 @@ public class FovSystem : MonoBehaviour
 	/// <param name="iMask">Occlusion mask with R and G channels.</param>
 	private void OnMaskRendered(RenderTexture iMask)
 	{
-		mPostProcessingStack.PostProcessMask(iMask, globalOcclusionMask, renderSettings);
+		if (enabled == false)
+			return;
+
+		globalOcclusionExtendedMask = iMask;
+		//Graphics.Blit(iMask, globalOcclusionExtendedMask, materialContainer.fovMaterial);
+
+		// Mask is rendered in up-scaled resolution and must be fitted in to screen resolution to be usable for the rest of the system.
+		// Fit upscale mask.
+		Vector2 _scale = new Vector2((float)compressedMask.width / iMask.width, (float)compressedMask.height / iMask.height);
+
+		Graphics.Blit(iMask, compressedMask, _scale, (Vector2.one - _scale) * 0.5f);
+
+		mPostProcessingStack.PostProcessMask(compressedMask, globalOcclusionMask, renderSettings);
 	}
 
 	/// <summary>
@@ -114,8 +215,10 @@ public class FovSystem : MonoBehaviour
 		}
 
 		// Blit already processed mask in to rendered scene.
+		materialContainer.blitMaterial.SetTexture("_LightMask", mGlobalLightMask);
 		materialContainer.blitMaterial.SetTexture("_Mask", mGlobalOcclusionMask);
-		materialContainer.blitMaterial.SetFloat("_Alpha", renderSettings.maskAlpha);
+		materialContainer.blitMaterial.SetFloat("_Ambient", renderSettings.ambient);
+		materialContainer.blitMaterial.SetFloat("_LightMultiplier", renderSettings.lightMultiplier);
 		Graphics.Blit(iSource, iDestination, materialContainer.blitMaterial);
 	}
 }

@@ -4,7 +4,9 @@
 	{
 		_MainTex ("Texture", 2D) = "white" {}
 		_Mask ("Texture", 2D) = "white" {}
-		_Alpha ("Alpha", Float) = 1
+		_LightMask ("Texture", 2D) = "white" {}
+		_Ambient ("Ambient", Float) = 1
+		_LightMultiplier ("LightMultiplier", Float) = 1
 	}
 	SubShader
 	{
@@ -44,16 +46,33 @@
 			
 			sampler2D _MainTex;
 			sampler2D _Mask;
-			float _Alpha;
+			sampler2D _LightMask;
+			float _Ambient;
+			float _LightMultiplier;
 
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed4 screen = tex2D(_MainTex, i.uv);
 				fixed4 maskSample = tex2D(_Mask, i.uv);
+				fixed4 lightSample = tex2D(_LightMask, i.uv);
+
+				fixed4 screenUnlit = (screen * _Ambient);
+
+				// light
+				// TODO add bloom
+				float _additiveLightPow = 8;
+				float _additiveLightAdd = 0.1;
+				//float4 _lightClamped = clamp(lightSample, 1-_Alpha, 1);
+
+				half3 bloom = (screenUnlit.rgb + _additiveLightAdd) * pow(lightSample.rgb, _additiveLightPow) * step(0.005, _additiveLightPow);
+				fixed4 screenLit = screenUnlit + fixed4(screenUnlit.rgb * lightSample.rgb * _LightMultiplier + bloom, screenUnlit.a) * 1;
+				//
+				
+				//* _Alpha;
+				//return screenUnlit;
 
 				float mask = 1 - clamp(maskSample.g + maskSample.r, 0, 1);
-
-				return lerp(screen, screen * (1 - _Alpha), mask);
+				return lerp(screenLit, screenUnlit, mask);
 			}
 			ENDCG
 		}

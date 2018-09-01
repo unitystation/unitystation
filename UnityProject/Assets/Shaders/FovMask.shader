@@ -7,6 +7,7 @@
 	Properties
     {
 		_FovBlurSwitch ("FovBlurSwitch", Float) = 0
+		_DemaskSwitch ("DemaskSwitch", Float) = 0
     }
 
 	SubShader {
@@ -37,6 +38,7 @@
 			};
 
 			float _FovBlurSwitch;
+			float _DemaskSwitch;
 
 			v2f vert(appdata_t v)
 			{ 
@@ -47,7 +49,7 @@
 
 			float4 frag(v2f i) : SV_Target
 			{
-				return float4(1 - _FovBlurSwitch, _FovBlurSwitch, 0, 0); 
+				return float4((1 - _FovBlurSwitch) * (1 - _DemaskSwitch), _FovBlurSwitch, _DemaskSwitch, 0); 
 			}
 			ENDCG
 		}
