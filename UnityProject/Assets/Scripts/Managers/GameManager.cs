@@ -35,9 +35,6 @@ public class GameManager : MonoBehaviour
 	private bool shuttleArrivalBroadcasted = false;
 
 	//Nuke ops:
-	//Escape shuttle that is supposed to arrive in 10 minutes.
-	public GameObject escapeShuttleObj;
-	public Vector3 shuttleArrivalTransform; //Spot at which shuttle is supposed to arrive
 	public bool shuttleArrived = false;
 
 	private void Awake()
