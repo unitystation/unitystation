@@ -70,7 +70,6 @@ public class EscapeShuttle : MonoBehaviour {
 				crewCount++;
 			}
 		}
-		Debug.Log(crewCount);
 		return crewCount;
 	}
 }
