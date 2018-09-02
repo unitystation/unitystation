@@ -4860,8 +4860,8 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: -0.25
-    y: 0.01
+    x: 0
+    y: 0
     width: 1
     height: 1
   near clip plane: 0.3
@@ -14896,8 +14896,6 @@ MonoBehaviour:
   Maps:
   - Assets/scenes/OutpostDeathmatch.unity
   - Assets/scenes/Flashlight Deathmatch.unity
-  escapeShuttleObj: {fileID: 0}
-  shuttleArrivalTransform: {x: 49, y: 6, z: 0}
   shuttleArrived: 0
 --- !u!114 &114729840479090150
 MonoBehaviour:
