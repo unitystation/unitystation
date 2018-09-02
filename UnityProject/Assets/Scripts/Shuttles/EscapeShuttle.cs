@@ -9,6 +9,8 @@ public class EscapeShuttle : MonoBehaviour {
 
 	public Vector2 destination; //Evac location
 
+	public int offSetReverse; //How many tiles to reverse into station.
+
 	public bool spawnedIn = false; //spawned in for first time
 	public bool setCourse = false; //Is shuttle heading for station?
 	public bool arrivedAtStation = false;
@@ -33,13 +35,25 @@ public class EscapeShuttle : MonoBehaviour {
 			setCourse = true;
 		}
 
-		if(spawnedIn && Vector2.Distance(transform.position, destination) < 1) //If shuttle arrived
+		if(spawnedIn && setCourse && Vector2.Distance(transform.position, destination) < 2) //If shuttle arrived
 		{
 			arrivedAtStation = true;
-			GetComponent<MatrixMove>().StopMovement();
-			GetComponent<MatrixMove>().RotateTo(Orientation.Up); //Rotate shuttle correctly so doors are facing correctly
 			GameManager.Instance.shuttleArrived = true;
+			setCourse = false;
+
+			MatrixMove mm = GetComponent<MatrixMove>();
+
+			mm.StopMovement();
+			mm.RotateTo(Orientation.Up); //Rotate shuttle correctly so doors are facing correctly
+			mm.ChangeDir(Vector2.left); //Reverse into station evac doors.
+			StartCoroutine(ReverseIntoStation(mm));
 		}
+	}
+
+	IEnumerator ReverseIntoStation(MatrixMove mm)
+	{
+		yield return new WaitForSeconds(3f);
+		mm.MoveFor(offSetReverse);
 	}
 
 	public void SpawnNearStation()

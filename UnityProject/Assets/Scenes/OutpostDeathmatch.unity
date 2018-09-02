@@ -48038,6 +48038,8 @@ MonoBehaviour:
   startKey: 103
   leftKey: 260
   rightKey: 262
+  MoveCur: -1
+  MoveLimit: -1
 --- !u!114 &515577133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54326,6 +54328,8 @@ MonoBehaviour:
   startKey: 104
   leftKey: 263
   rightKey: 265
+  MoveCur: -1
+  MoveLimit: -1
 --- !u!4 &684530372
 Transform:
   m_ObjectHideFlags: 0
@@ -54719,7 +54723,7 @@ Prefab:
     - target: {fileID: 224759607104819202, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000061326136
+      value: 0.000047006506
       objectReference: {fileID: 0}
     - target: {fileID: 224816004304439406, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
@@ -86512,6 +86516,11 @@ Prefab:
       propertyPath: chatControl
       value: 
       objectReference: {fileID: 316457439}
+    - target: {fileID: 114729471039765908, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: RoundTime
+      value: 120
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
   m_IsPrefabAsset: 0
@@ -93834,6 +93843,8 @@ MonoBehaviour:
   startKey: 268
   leftKey: 257
   rightKey: 259
+  MoveCur: -1
+  MoveLimit: -1
 --- !u!4 &1527067305
 Transform:
   m_ObjectHideFlags: 0
@@ -93924,7 +93935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85758d063dd552648b5969833f83da2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: 47, y: 5}
+  destination: {x: 65, y: 5}
   spawnedIn: 0
   setCourse: 0
   arrivedAtStation: 0

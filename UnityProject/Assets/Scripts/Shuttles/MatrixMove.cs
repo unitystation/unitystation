@@ -204,6 +204,13 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		return true;
 	}
 
+	/// Changes moving direction, for use in reversing in EscapeShuttle.cs
+	[Server]
+	public void ChangeDir(Vector2 newdir)
+	{
+		serverTargetState.Direction = newdir;
+	}
+
 	/// Call to stop chasing target
 	[Server]
 	public void DisableAutopilotTarget() {
