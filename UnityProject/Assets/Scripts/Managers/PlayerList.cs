@@ -109,22 +109,40 @@ public class PlayerList : NetworkBehaviour
 			if (nukeSetOff)
 			{
 				PostToChatMessage.Send("Nuke has been detonated, <b>Syndicate wins.</b>", ChatChannel.System);
+				ReportKills();
 			}
 			else if (GetCrewAliveCount() > 0 && EscapeShuttle.Instance.GetCrewCountOnboard() == 0)
 			{
 				PostToChatMessage.Send("Station crew failed to escape, <b>Syndicate wins.</b>", ChatChannel.System);
+				ReportKills();
 			}
 			else if (GetCrewAliveCount() == 0)
 			{
 				PostToChatMessage.Send("All crew members are dead, <b>Syndicate wins.</b>", ChatChannel.System);
+				ReportKills();
 			}
 			else if (GetCrewAliveCount() > 0 && EscapeShuttle.Instance.GetCrewCountOnboard() > 0)
 			{
 				PostToChatMessage.Send(EscapeShuttle.Instance.GetCrewCountOnboard() + " Crew member(s) have managed to escape the station. <b>Syndicate lost.</b>", ChatChannel.System);
+				ReportKills();
 			}
 			
 			PostToChatMessage.Send("Game Restarting in 10 seconds...", ChatChannel.System);
 			reportDone = true;
+		}
+	}
+
+	[Server]
+	public void ReportKills()
+	{
+		if (syndicateKills != 0)
+		{
+			PostToChatMessage.Send("Syndicate managed to kill " + syndicateKills + " crew members.", ChatChannel.System);
+		}
+
+		if (crewKills != 0)
+		{
+			PostToChatMessage.Send("Crew managed to kill " + syndicateKills + " Syndicate operators.", ChatChannel.System);
 		}
 	}
 
