@@ -56,7 +56,7 @@ Shader "PostProcess/Light Mixer"
 				
 
 
-				return lightSample + obstacleLightSample * occlusionSample.r;
+				return lightSample + obstacleLightSample * clamp(occlusionSample.r - 0.5f, 0, 1) * 2;
 			}
 			ENDCG
 		}
