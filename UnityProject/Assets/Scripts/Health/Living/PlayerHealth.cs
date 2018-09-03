@@ -249,22 +249,23 @@ using UnityEngine.Networking;
 						JobDepartment victimDepartment =
 							SpawnPoint.GetJobDepartment(gameObject.GetComponent<PlayerScript>().JobType);
 
-						if (killerDepartment == victimDepartment)
-						{
-							departmentKillText = ", losing " + killerDepartment.GetDescription() +
-							                     " 1 point for team killing!";
-						}
-						else
-						{
-							departmentKillText = ", 1 point to " + killerDepartment.GetDescription() + "!";
-						}
+						//departmentKillText = "";
+						//if (killerDepartment == victimDepartment)
+						//{
+						//	departmentKillText = ", losing " + killerDepartment.GetDescription() +
+						//	                     " 1 point for team killing!";
+						//}
+						//else
+						//{
+						//	departmentKillText = ", 1 point to " + killerDepartment.GetDescription() + "!";
+						//}
 					}
 
 					//TDM demo killfeed
-					PostToChatMessage.Send(killerName + " has killed " + player.Name + departmentKillText,
-						ChatChannel.System);
+					//PostToChatMessage.Send(killerName + " has killed " + player.Name + departmentKillText,
+						//ChatChannel.System);
 
-					//Combat demo killfeed
+					//Combat demo killfeed - Also can be used in nuke ops
 					//PostToChatMessage.Send(killerName + " has killed " + gameObject.name, ChatChannel.System);
 				}
 				pna.DropItem("rightHand");
