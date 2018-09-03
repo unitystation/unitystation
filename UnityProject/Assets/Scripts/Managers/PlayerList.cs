@@ -150,10 +150,10 @@ public class PlayerList : NetworkBehaviour
 	{
 		int alive = 0;
 
-		PlayerScript[] alivePlayers = FindObjectsOfType<PlayerScript>();
-		foreach(PlayerScript ps in alivePlayers)
+		List<ConnectedPlayer> alivePlayers = InGamePlayers;
+		foreach (ConnectedPlayer ps in alivePlayers)
 		{
-			if(ps.JobType == JobType.SYNDICATE || ps.GetComponent<PlayerMove>().allowInput == false)
+			if(ps.Job == JobType.SYNDICATE || ps.GameObject.GetComponent<PlayerMove>().allowInput == false)
 			{
 				//Do nothing
 			}
