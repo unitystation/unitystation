@@ -11,7 +11,6 @@ public class DisplayManager : MonoBehaviour
 
 	public FieldOfViewStencil fieldOfView;
 	private int height;
-	public LightingSystem lightingSystem;
 	public Camera mainCamera;
 
 	public Dropdown resoDropDown;

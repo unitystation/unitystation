@@ -3,6 +3,8 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
+		_PositionOffset ("Position", Vector) = (0,0,0,0)
+		_OcclusionSpread ("Occlusion Spread", float) = 0
 	}
 	SubShader
 	{
@@ -32,6 +34,8 @@
 			};
 
 			sampler2D _MainTex;
+			float4 _PositionOffset;
+			float _OcclusionSpread;
 			uniform float2 _ExtendedToSmallTextureScale;
 
 			v2f vert (appdata v)
@@ -51,29 +55,21 @@
 
 				return o;
 			}
-			
-			
-			inline float cubicOut(float iTime)
-			{
-				return (float)(1.0 - (float)--iTime * (float)iTime * (float)iTime * (float)iTime);
-				//return (float)(1.0 + (float)--iTime * (float)iTime * (float)iTime);
-			}
 
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed fov = 1;
 
-
 				float2 uv = i.uv;
 				float2 uvFrom = i.uvObstacle.xy;
-				float2 uvTo = i.uvObstacle.zw;
+				float2 uvTo = i.uvObstacle.zw + _PositionOffset;
+				float spread = 1 - _OcclusionSpread;
 
-				for(int i = 0; i < 120; i++)
+				for(int i = 0; i < 200; i++)
 				{
-					half time = i / 120.0f;
+					half time = i / 200.0f;
 					half4 obstacle = tex2D(_MainTex, lerp(uvFrom, uvTo, time));
-					fov *= 1-obstacle.r; //saturate(1 - (1 - obstacle)*obstacle.a*m); // was a
-
+					fov *= 1 - (obstacle.r * spread);
 				}
 
 				half4 mask = tex2D(_MainTex, uv);

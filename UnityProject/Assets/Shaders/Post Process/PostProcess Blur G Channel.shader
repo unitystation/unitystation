@@ -108,7 +108,6 @@ Shader "PostProcess/BlurGChannel"
 		blurredSum += tex2D(_MainTex, IN.blurTexcoord.zw).xyz * 0.35294117;
 
 		mainSample.g = blurredSum.g;
-
 		return mainSample.rgbb;
 	}
 

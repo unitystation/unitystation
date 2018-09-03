@@ -3,10 +3,8 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		_Mask ("Texture", 2D) = "white" {}
-		_LightMask ("Texture", 2D) = "white" {}
-		_Ambient ("Ambient", Float) = 1
-		_LightMultiplier ("LightMultiplier", Float) = 1
+		_BackgroundTex ("Background", 2D) = "black" {}
+		_LightTex ("LightTexture", 2D) = "white" {}
 	}
 	SubShader
 	{
@@ -44,36 +42,37 @@
 				return o;
 			}
 			
+			sampler2D _LightTex;
 			sampler2D _MainTex;
-			sampler2D _Mask;
-			sampler2D _LightMask;
-			float _Ambient;
-			float _LightMultiplier;
+			sampler2D _BackgroundTex;
+			float4 _AmbLightBloomSA;
+			float _BackgroundMultiplier;
+
 
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed4 screen = tex2D(_MainTex, i.uv);
-				fixed4 maskSample = tex2D(_Mask, i.uv);
-				fixed4 lightSample = tex2D(_LightMask, i.uv);
+				fixed4 lightSample = tex2D(_LightTex, i.uv);
 
-				fixed4 screenUnlit = (screen * _Ambient);
+				float ambient = _AmbLightBloomSA.r;
+				float lightMultyplier = _AmbLightBloomSA.g;
+				float bloomSensitivity = _AmbLightBloomSA.b;
+				float bloomAdd = _AmbLightBloomSA.a;
 
-				// light
-				// TODO add bloom
-				float _additiveLightPow = 8;
-				float _additiveLightAdd = 0.1;
-				//float4 _lightClamped = clamp(lightSample, 1-_Alpha, 1);
+				fixed4 screenUnlit = (screen * ambient);
 
-				half3 bloom = (screenUnlit.rgb + _additiveLightAdd) * pow(lightSample.rgb, _additiveLightPow) * step(0.005, _additiveLightPow);
-				fixed4 screenLit = screenUnlit + fixed4(screenUnlit.rgb * lightSample.rgb * _LightMultiplier + bloom, screenUnlit.a) * 1;
-				//
-				
-				//* _Alpha;
-				//return screenUnlit;
+				// Mix Light.
+				half3 bloom = (screenUnlit.rgb + bloomAdd) * pow(lightSample.rgb, bloomSensitivity) * step(0.005, bloomSensitivity);
+				fixed4 screenLit = screenUnlit + fixed4(screenUnlit.rgb * lightSample.rgb * lightMultyplier + bloom, screenUnlit.a) * 1;
 
-				float mask = 1 - clamp(maskSample.g + maskSample.r, 0, 1);
-				return lerp(screenLit, screenUnlit, mask);
+				// Mix Background.
+				fixed4 background = tex2D(_BackgroundTex, i.uv) * _BackgroundMultiplier;
+				float backgroundMask = 1 - screen.a;
+				fixed4 screenLitBackground = background * backgroundMask + screenLit;
+
+				return screenLitBackground;
 			}
+			
 			ENDCG
 		}
 	}
