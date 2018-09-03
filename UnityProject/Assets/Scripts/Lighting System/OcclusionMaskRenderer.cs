@@ -7,11 +7,6 @@ public class OcclusionMaskRenderer : MonoBehaviour
 {
 	private const string MaskCameraName = "Obstacle Mask Camera";
 
-	/// <summary>
-	/// Important: Shader to use to render Un Obscured layers.
-	/// </summary>
-	private const string ReplacementShaderName = "Custom/Fov Mask";
-
 	private Camera mMaskCamera;
 	private RenderTexture mMask;
 
@@ -38,7 +33,8 @@ public class OcclusionMaskRenderer : MonoBehaviour
 
 	public static OcclusionMaskRenderer InitializeMaskRenderer(
 		GameObject iRoot,
-		LayerMask iOcclusionLayers)
+		LayerMask iOcclusionLayers,
+		Shader iReplacementShader)
 	{
 		// Get or create base camera.
 		var _cameraTransform = iRoot.transform.Find(MaskCameraName);
@@ -52,7 +48,7 @@ public class OcclusionMaskRenderer : MonoBehaviour
 			throw new Exception("FovMaskProcessor Unable to properly initialize mask camera.");
 
 		// Setup camera based on main camera.
-		var _maskProcessor = SetUpCameraObject(_maskCamera, iOcclusionLayers);
+		var _maskProcessor = SetUpCameraObject(_maskCamera, iOcclusionLayers, iReplacementShader);
 
 		return _maskProcessor;
 	} 
@@ -91,7 +87,8 @@ public class OcclusionMaskRenderer : MonoBehaviour
 
 	private static OcclusionMaskRenderer SetUpCameraObject(
 		Camera iSetupCamera,
-		LayerMask iOcclusionLayers)
+		LayerMask iOcclusionLayers,
+		Shader iReplacementShader)
 	{
 		// Make sure camera is placed properly.
 		iSetupCamera.transform.localPosition = Vector3.zero;
@@ -107,7 +104,7 @@ public class OcclusionMaskRenderer : MonoBehaviour
 		iSetupCamera.allowMSAA = true; //?
 		
 		iSetupCamera.farClipPlane = 3f;
-		iSetupCamera.SetReplacementShader(Shader.Find(ReplacementShaderName), string.Empty);
+		iSetupCamera.SetReplacementShader(iReplacementShader, string.Empty);
 		
 
 		// Get or add processor component.

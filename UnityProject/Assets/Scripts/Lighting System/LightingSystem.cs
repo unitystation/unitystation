@@ -149,7 +149,7 @@ public class LightingSystem : MonoBehaviour
 
 		if (mOcclusionMaskRenderer == null)
 		{
-			mOcclusionMaskRenderer = OcclusionMaskRenderer.InitializeMaskRenderer(gameObject, renderSettings.occlusionLayers);
+			mOcclusionMaskRenderer = OcclusionMaskRenderer.InitializeMaskRenderer(gameObject, renderSettings.occlusionLayers, materialContainer.OcclusionMaskShader);
 		}
 
 		if (mLightMaskRenderer == null)

@@ -54767,7 +54767,7 @@ Prefab:
     - target: {fileID: 224759607104819202, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000027565067
+      value: 0.000021135096
       objectReference: {fileID: 0}
     - target: {fileID: 224816004304439406, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
@@ -54782,7 +54782,7 @@ Prefab:
     - target: {fileID: 224193499047686760, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 247.90234
+      value: 247.89844
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38ecd680d57974ffe87b4bdd8cd52589, type: 2}
@@ -68522,6 +68522,11 @@ Prefab:
       propertyPath: renderSettings.occlusionLightTextureRescale
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 114239165020214558, guid: bdc8c5eacef3f4b2a90445083973323d,
+        type: 2}
+      propertyPath: materialContainer.OcclusionMaskShader
+      value: 
+      objectReference: {fileID: 4800000, guid: 79a500d9ed87cbf4e9c9fe71c73b3d12, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdc8c5eacef3f4b2a90445083973323d, type: 2}
   m_IsPrefabAsset: 0

@@ -10,4 +10,6 @@ public class MaterialContainer
 	public Material lightWallBlurMaterial;
 	public Material fovMaterial;
 	public Material MaskMixerMaterial;
+
+	public Shader OcclusionMaskShader;
 }
