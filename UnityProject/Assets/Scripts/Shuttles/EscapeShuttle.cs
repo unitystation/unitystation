@@ -15,6 +15,8 @@ public class EscapeShuttle : MonoBehaviour {
 	public bool setCourse = false; //Is shuttle heading for station?
 	public bool arrivedAtStation = false;
 
+	private MatrixMove mm;
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -25,11 +27,13 @@ public class EscapeShuttle : MonoBehaviour {
 		{
 			Destroy(this);
 		}
+
+		mm = GetComponent<MatrixMove>();
 	}
 
 	void Update ()
 	{
-		if(GameManager.Instance.GetRoundTime <= 120f && spawnedIn == false && setCourse == false) // Warp close to station 2 min before round ends
+		if(GameManager.Instance.GetRoundTime <= 180f && spawnedIn == false && setCourse == false) // Warp close to station 3 mins before round ends
 		{
 			SpawnNearStation();
 			setCourse = true;
@@ -41,12 +45,16 @@ public class EscapeShuttle : MonoBehaviour {
 			GameManager.Instance.shuttleArrived = true;
 			setCourse = false;
 
-			MatrixMove mm = GetComponent<MatrixMove>();
-
 			mm.StopMovement();
 			mm.RotateTo(Orientation.Up); //Rotate shuttle correctly so doors are facing correctly
 			mm.ChangeDir(Vector2.left); //Reverse into station evac doors.
 			StartCoroutine(ReverseIntoStation(mm));
+		}
+
+		if (GameManager.Instance.GetRoundTime <= 60f && arrivedAtStation == true) // Depart the shuttle
+		{
+			mm.ChangeDir(Vector2.right);
+			mm.StartMovement();
 		}
 	}
 

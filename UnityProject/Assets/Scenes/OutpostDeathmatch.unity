@@ -12408,12 +12408,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000011478263398, guid: 37b07457c4df4dc29163cbf5f441b9ed,
     type: 2}
   m_PrefabInternal: {fileID: 315458465}
---- !u!114 &316457439 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114020112387011828, guid: 38ecd680d57974ffe87b4bdd8cd52589,
-    type: 2}
-  m_PrefabInternal: {fileID: 689099397}
-  m_Script: {fileID: 11500000, guid: ab77ead11ef54e028144b8d2bcfc775a, type: 3}
 --- !u!1001 &316492856
 Prefab:
   m_ObjectHideFlags: 0
@@ -54723,7 +54717,7 @@ Prefab:
     - target: {fileID: 224759607104819202, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000047006506
+      value: 0.00006118933
       objectReference: {fileID: 0}
     - target: {fileID: 224816004304439406, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
@@ -86511,15 +86505,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114897689305174086, guid: 829f4ca992b848d6bb4d007fb9c112e1,
-        type: 2}
-      propertyPath: chatControl
-      value: 
-      objectReference: {fileID: 316457439}
     - target: {fileID: 114729471039765908, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 2}
       propertyPath: RoundTime
-      value: 120
+      value: 130
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
@@ -93935,7 +93924,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85758d063dd552648b5969833f83da2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: 65, y: 5}
+  destination: {x: 65, y: 6}
+  offSetReverse: 17
   spawnedIn: 0
   setCourse: 0
   arrivedAtStation: 0
