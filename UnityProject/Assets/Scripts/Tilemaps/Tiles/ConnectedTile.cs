@@ -53,7 +53,9 @@ public enum ConnectCategory
 			if (Application.isPlaying) {
 				Layer layer = tilemap.GetComponent<Layer>();
 
+				// TODO Clean up
 				/// Walls Only:
+				/*
 				if (layer.LayerType == LayerType.Walls) {
 					
 					/// Add the black fov above all wall tiles
@@ -64,6 +66,7 @@ public enum ConnectCategory
 						topLayer.SetTile(location, newTile);
 					}
 				}
+				*/
 			}
 				return true;
 		}

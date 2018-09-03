@@ -110,7 +110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1365047106309440
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,7 +123,6 @@ GameObject:
   - component: {fileID: 20680082919460720}
   - component: {fileID: 124367701722432646}
   - component: {fileID: 114804737859769914}
-  - component: {fileID: 114742085210312504}
   - component: {fileID: 114239165020214558}
   m_Layer: 0
   m_Name: Camera
@@ -214,23 +213,6 @@ GameObject:
   - component: {fileID: 114112157583190370}
   m_Layer: 0
   m_Name: Editor Map Mask
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1744446237884360
-GameObject:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4185400226223916}
-  - component: {fileID: 33478366932684118}
-  - component: {fileID: 23340288912260266}
-  m_Layer: 28
-  m_Name: StencilMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -356,22 +338,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1994502242555832
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4572857742573680}
-  - component: {fileID: 114591216547914684}
-  m_Layer: 28
-  m_Name: FOV
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!4 &4000674500765372
 Transform:
   m_ObjectHideFlags: 1
@@ -398,19 +364,6 @@ Transform:
   m_Father: {fileID: 4848993904202032}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4185400226223916
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1744446237884360}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4572857742573680}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4227821997331168
 Transform:
   m_ObjectHideFlags: 1
@@ -435,7 +388,7 @@ Transform:
   m_LocalScale: {x: 50, y: 1, z: 50.00003}
   m_Children: []
   m_Father: {fileID: 4568765046733910}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &4345995010067198
 Transform:
@@ -557,26 +510,11 @@ Transform:
   - {fileID: 4401924019199516}
   - {fileID: 4000674500765372}
   - {fileID: 4227821997331168}
-  - {fileID: 4572857742573680}
   - {fileID: 4249331889089346}
-  - {fileID: 4422804088835706}
   - {fileID: 4742569332115770}
+  - {fileID: 4422804088835706}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4572857742573680
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1994502242555832}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4185400226223916}
-  m_Father: {fileID: 4568765046733910}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4680589564811644
 Transform:
@@ -628,7 +566,7 @@ Transform:
   m_LocalScale: {x: 290, y: 1, z: 200.00012}
   m_Children: []
   m_Father: {fileID: 4568765046733910}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &4746595125094486
 Transform:
@@ -689,7 +627,7 @@ Camera:
   far clip plane: 1000
   field of view: 90
   orthographic: 1
-  orthographic size: 7.5
+  orthographic size: 8.6666
   m_Depth: -2
   m_CullingMask:
     serializedVersion: 2
@@ -773,7 +711,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1629486903
+    m_Bits: 555745063
   m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -849,41 +787,6 @@ MeshRenderer:
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!23 &23340288912260266
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1744446237884360}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
-  m_Materials:
-  - {fileID: 2100000, guid: 5884129918dbd1249999d0e12278fb7c, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
@@ -972,13 +875,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1588444935751324}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!33 &33478366932684118
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1744446237884360}
-  m_Mesh: {fileID: 0}
 --- !u!33 &33623829315151750
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -1091,17 +987,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderSettings:
-    maskAlpha: 0.5
-    blurIterations: 2
-    blurInterpolation: 3
+    viewMode: 0
+    ambient: 0.4
+    lightMultiplier: 3
+    fovBlurIterations: 1
+    fovBlurInterpolation: 4
     pixelateSize: 3
-    unObscuredLayers:
-    - Walls
-    - Door Closed
+    occlusionLayers:
+      serializedVersion: 2
+      m_Bits: 131584
+    lightSourceLayers:
+      serializedVersion: 2
+      m_Bits: 2097152
+    backgroundLayers:
+      serializedVersion: 2
+      m_Bits: 16
+    lightBlurIterations: 2
+    lightBlurInterpolation: 0.3
+    wallBlurIterations: 3
+    wallBlurInterpolation: 5
+    maskCameraSizeAdd: 3
+    lightTextureRescale: 0.4
+    wallTextureRescale: 0.4
+    obstacleTextureRescale: 1
+    antiAliasing: 4
+    fovOcclusionSpread: 0.1
+    bloomSensitivity: 10
+    bloomAdd: 0.1
+    backgroundMultiplier: 0.5
+    occlusionMaskMultiplier: 1.25
+    occlusionMaskLimit: 0.7
   materialContainer:
-    blurMaterial: {fileID: 2100000, guid: 42ccff1e88773c2408dd290281b8e2f5, type: 2}
-    pixelateMaterial: {fileID: 2100000, guid: 0e3c1199f4fd7c840839afef7cd2cc77, type: 2}
+    fovBlurMaterial: {fileID: 2100000, guid: 42ccff1e88773c2408dd290281b8e2f5, type: 2}
+    fovPixelateMaterial: {fileID: 2100000, guid: 0e3c1199f4fd7c840839afef7cd2cc77,
+      type: 2}
     blitMaterial: {fileID: 2100000, guid: 340512e20a387c044a10a8b2805b7b98, type: 2}
+    lightBlurMaterial: {fileID: 2100000, guid: 461dde64953d7574aac42e2aa8ee2c14, type: 2}
+    lightWallBlurMaterial: {fileID: 2100000, guid: 255585b251e9cff46a52f2772b300d6b,
+      type: 2}
+    fovMaterial: {fileID: 2100000, guid: f29510637789e8a4e9488d4e6b488f1f, type: 2}
+    wallLightMixerMaterial: {fileID: 2100000, guid: dac694dc546d3db46810392e4ba9bc3c,
+      type: 2}
+    MaskMixerMaterial: {fileID: 2100000, guid: 56ac12cf5d6d78044b3066c9b527a237, type: 2}
+  fovCenterOffset: {x: 0, y: 0.5, z: 0}
 --- !u!114 &114279227859847976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1191,29 +1119,7 @@ MonoBehaviour:
   pixelAdjustment: 64
   target: {fileID: 0}
   xOffset: 0
-  stencilMask: {fileID: 1994502242555832}
---- !u!114 &114591216547914684
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1994502242555832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 354c9994283644f49ba26665f82b4c3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ViewRadius: 15
-  ViewAngle: 360
-  ObstacleMask:
-    serializedVersion: 2
-    m_Bits: 131584
-  MeshResolution: 1
-  EdgeResolveIterations: 9
-  EdgeDistanceThreshhold: 0.7
-  MaskCutawayDst: 0.3
-  ViewMeshFilter: {fileID: 33478366932684118}
-  AffectWalls: 1
+  stencilMask: {fileID: 0}
 --- !u!114 &114598608611931166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1249,43 +1155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ab66b87bc8207640826c46b6b2f4419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114742085210312504
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1365047106309440}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d9b6871d3cdbba478825c4b041a7f90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LightPixelSize: 0.6666667
-  LightCameraSizeAdd: 3
-  LightCameraFovAdd: 30
-  EnableAmbientLight: 1
-  BlurLightSources: 1
-  BlurAmbientLight: 1
-  HDR: 0
-  LightObstaclesAntialiasing: 1
-  LightObstaclesDistance: 10
-  LightTexturesFilterMode: 1
-  EnableNormalMapping: 0
-  AffectOnlyThisCamera: 1
-  AmbientLightComputeMaterial: {fileID: 2100000, guid: 0d2e0bb3755347a42ba8fe781dcfa6f1,
-    type: 2}
-  LightOverlayMaterial: {fileID: 2100000, guid: 357b085471a3b6b4aace8aa4cc99238a,
-    type: 2}
-  LightSourcesBlurMaterial: {fileID: 2100000, guid: a359593f98c7f7740b07a09ac6d11e43,
-    type: 2}
-  AmbientLightBlurMaterial: {fileID: 2100000, guid: a359593f98c7f7740b07a09ac6d11e43,
-    type: 2}
-  LightCamera: {fileID: 20006738728084132}
-  BgCamera: {fileID: 20448433246681042}
-  LightSourcesLayer: 21
-  AmbientLightLayer: 23
-  LightObstaclesLayer: 22
-  XZPlane: 0
 --- !u!114 &114763846801785268
 MonoBehaviour:
   m_ObjectHideFlags: 1

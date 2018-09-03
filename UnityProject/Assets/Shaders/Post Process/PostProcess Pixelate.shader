@@ -58,7 +58,7 @@ Shader "PostProcess/Pixelate"{
 				rescol+=tex2D(_MainTex,CurrentBlock+float2((BlockSize.x/4)*3,(BlockSize.y/4)*3));
 				rescol/=9;
 
-				return float4(main.r, rescol.g, main.b, main.a);
+				return rescol;
 			}
 
 			ENDCG
