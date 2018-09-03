@@ -2,7 +2,8 @@
 using UnityEngine;
 
 /// <summary>
-
+/// Lighting System manager. 
+/// Orchestrates Mask Renderers and Post Processor to apply lighting to the game scene.
 /// </summary>
 [RequireComponent(typeof(Camera))]
 public class LightingSystem : MonoBehaviour
