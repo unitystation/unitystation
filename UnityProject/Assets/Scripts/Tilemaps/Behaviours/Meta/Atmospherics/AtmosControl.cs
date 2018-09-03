@@ -1,5 +1,6 @@
 ﻿using System.Threading;
-using Tilemaps.Behaviours.Meta;
+using Atmospherics;
+using Tilemaps.Behaviours.Meta.Utils;
 using UnityEngine;
 
 public class AtmosControl : SystemBehaviour

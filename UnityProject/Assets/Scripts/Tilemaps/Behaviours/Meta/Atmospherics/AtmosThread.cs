@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
+using Atmospherics;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
@@ -8,16 +10,16 @@ public class AtmosThread
 
 	private Object lockGetWork = new Object();
 
-	private Atmospherics atmos;
+	private AtmosSimulation simulation;
 
 	public AtmosThread(MetaDataLayer metaDataLayer)
 	{
-		atmos = new Atmospherics(metaDataLayer);
+		simulation = new AtmosSimulation(metaDataLayer);
 	}
 
 	public void Enqueue(Vector3Int position)
 	{
-		atmos.AddToUpdateList(position);
+		simulation.AddToUpdateList(position);
 
 		lock (lockGetWork)
 		{
@@ -29,9 +31,9 @@ public class AtmosThread
 	{
 		while (running)
 		{
-			if (!atmos.IsIdle)
+			if (!simulation.IsIdle)
 			{
-				atmos.Run();
+				simulation.Run();
 			}
 			else
 			{

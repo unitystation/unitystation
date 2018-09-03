@@ -14,10 +14,7 @@ namespace Tilemaps.Behaviours.Meta
 			queue = new ConcurrentQueue<T>();
 		}
 
-		public int Count
-		{
-			get { return hashSet.Count; }
-		}
+		public int Count => hashSet.Count;
 
 		public bool Contains(T item)
 		{
@@ -26,9 +23,12 @@ namespace Tilemaps.Behaviours.Meta
 
 		public void Enqueue(T item)
 		{
-			if (hashSet.Add(item))
+			lock (hashSet)
 			{
-				queue.Enqueue(item);
+				if (hashSet.Add(item))
+				{
+					queue.Enqueue(item);
+				}
 			}
 		}
 
@@ -44,9 +44,14 @@ namespace Tilemaps.Behaviours.Meta
 		{
 			if (queue.TryDequeue(out item))
 			{
-				hashSet.Remove(item);
+				lock (hashSet)
+				{
+					hashSet.Remove(item);
+				}
+
 				return true;
 			}
+
 			return false;
 		}
 

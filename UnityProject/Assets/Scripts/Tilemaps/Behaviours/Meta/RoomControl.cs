@@ -14,7 +14,10 @@ public class RoomControl : SystemBehaviour
 		Stopwatch sw = new Stopwatch();
 		sw.Start();
 
-		LocateRooms();
+		if (MatrixManager.IsInitialized)
+		{
+			LocateRooms();
+		}
 
 		sw.Stop();
 
@@ -27,17 +30,20 @@ public class RoomControl : SystemBehaviour
 
 		if (metaTileMap.IsAtmosPassableAt(position))
 		{
-			node.ClearNeighbors();
-			SetupNeighbors(position);
-			MetaUtils.AddToNeighbors(node);
+			if (node.IsOccupied)
+			{
+				node.ClearNeighbors();
+				SetupNeighbors(position);
+				MetaUtils.AddToNeighbors(node);
 
-			if (metaTileMap.IsSpaceAt(position))
-			{
-				node.Type = NodeType.Space;
-			}
-			else
-			{
-				node.Type = NodeType.Room;
+				if (metaTileMap.IsSpaceAt(position))
+				{
+					node.Type = NodeType.Space;
+				}
+				else
+				{
+					node.Type = NodeType.Room;
+				}
 			}
 		}
 		else
@@ -107,10 +113,6 @@ public class RoomControl : SystemBehaviour
 						{
 							isSpace = true;
 						}
-						else
-						{
-							Logger.Log("");
-						}
 					}
 				}
 			}
@@ -155,10 +157,20 @@ public class RoomControl : SystemBehaviour
 		{
 			if (metaTileMap.IsSpaceAt(neighbor))
 			{
-				Vector3 worldPosition = transform.TransformPoint(neighbor);
+				Vector3 worldPosition = transform.TransformPoint(neighbor) + Vector3.one * 0.5f;
+				worldPosition.z = 0;
 				if (!MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
 				{
-					Logger.Log("");
+					MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPosition.RoundToInt());
+
+					Vector3Int localPosition = MatrixManager.WorldToLocalInt(worldPosition, matrixInfo);
+
+					if (matrixInfo.MetaTileMap.IsAtmosPassableAt(localPosition))
+					{
+						node.AddNeighbor(matrixInfo.MetaDataLayer.Get(localPosition));
+					}
+
+					continue;
 				}
 			}
 

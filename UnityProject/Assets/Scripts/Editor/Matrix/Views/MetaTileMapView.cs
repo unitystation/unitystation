@@ -12,8 +12,11 @@ public class MetaTileMapView : BasicView
 		localChecks.Add(new NonEmptyCheck());
 		localChecks.Add(new PassableCheck());
 		localChecks.Add(new AtmosPassableCheck());
+		localChecks.Add(new ShowLocalPositionsCheck());
 
 		globalChecks.Add(new SpaceCheck());
+		globalChecks.Add(new ShowGlobalPositionsCheck());
+		globalChecks.Add(new ShowPositionsCheck());
 	}
 
 	public override void DrawContent()
@@ -82,13 +85,57 @@ public class MetaTileMapView : BasicView
 
 	private class SpaceCheck : Check<MatrixManager>
 	{
-		public override string Label { get; } = "Is Space";
+		public override string Label { get; } = "Space";
 
 		public override void DrawGizmo(MatrixManager source, Vector3Int position)
 		{
 			if (MatrixManager.IsSpaceAt(position))
 			{
 				GizmoUtils.DrawCube(position, Color.red, false);
+			}
+		}
+	}
+
+	private class ShowLocalPositionsCheck : Check<MetaTileMap>
+	{
+		public override string Label { get; } = "Local Positions";
+
+		public override void DrawLabel(MetaTileMap source, Vector3Int position)
+		{
+			if (!source.IsEmptyAt(position))
+			{
+				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				GizmoUtils.DrawText($"{position.x}, {position.y}", p, false);
+			}
+		}
+	}
+
+	private class ShowGlobalPositionsCheck : Check<MatrixManager>
+	{
+		public override string Label { get; } = "Global Positions";
+
+		public override void DrawLabel(MatrixManager source, Vector3Int position)
+		{
+			GizmoUtils.DrawText($"{position.x}, {position.y}", position, false);
+		}
+	}
+
+	private class ShowPositionsCheck : Check<MatrixManager>
+	{
+		public override string Label { get; } = "Positions";
+
+		public override void DrawLabel(MatrixManager source, Vector3Int position)
+		{
+			if (!MatrixManager.IsSpaceAt(position))
+			{
+				MatrixInfo matrix = MatrixManager.AtPoint(position);
+				Vector3 localPosition = MatrixManager.WorldToLocal(position, matrix);
+
+				GizmoUtils.DrawText($"{localPosition.x}, {localPosition.y}", position, false);
+			}
+			else
+			{
+				GizmoUtils.DrawText($"{position.x}, {position.y}", position, Color.gray, false);
 			}
 		}
 	}

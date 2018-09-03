@@ -1,40 +1,40 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Atmospherics;
+using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
-namespace Tilemaps.Behaviours.Meta
+namespace Atmospherics
 {
-	public class Atmospherics
+	public class AtmosSimulation
 	{
-		private const float MinimumPressure = 0.0001f;
-
 		private readonly MetaDataLayer metaDataLayer;
 
 		private UniqueQueue<MetaDataNode> updateList = new UniqueQueue<MetaDataNode>();
 
 		public bool IsIdle => updateList.IsEmpty;
 
-		public Atmospherics(MetaDataLayer metaDataLayer)
+		public AtmosSimulation(MetaDataLayer metaDataLayer)
 		{
 			this.metaDataLayer = metaDataLayer;
 		}
 
 		public void AddToUpdateList(Vector3Int position)
 		{
-			updateList.Enqueue(metaDataLayer.Get(position));
+			AddToUpdateList(metaDataLayer.Get(position));
+		}
+
+		private void AddToUpdateList(MetaDataNode node)
+		{
+			updateList.Enqueue(node);
 		}
 
 		public void Run()
 		{
-			int count = updateList.Count;
-			for (int i = 0; i < count; i++)
+			MetaDataNode node;
+
+			while (updateList.TryDequeue(out node))
 			{
-				MetaDataNode node;
-
-				if (!updateList.TryDequeue(out node))
-				{
-					break;
-				}
-
 				Update(node);
 			}
 		}
@@ -42,13 +42,15 @@ namespace Tilemaps.Behaviours.Meta
 		private void Update(MetaDataNode node)
 		{
 			var nodes = new List<MetaDataNode>(5) {node};
-			nodes.AddRange(node.Neighbors);
+			MetaDataNode[] neighbors = node.Neighbors.ToArray();
+
+			nodes.AddRange(neighbors);
 
 			if (node.IsOccupied || IsPressureChanged(node))
 			{
 				AtmosUtils.Equalize(nodes);
 
-				updateList.EnqueueAll(node.Neighbors);
+				updateList.EnqueueAll(neighbors);
 			}
 		}
 
@@ -56,7 +58,7 @@ namespace Tilemaps.Behaviours.Meta
 		{
 			foreach (MetaDataNode neighbor in node.Neighbors)
 			{
-				if (Mathf.Abs(node.Atmos.Pressure - neighbor.Atmos.Pressure) > MinimumPressure)
+				if (Mathf.Abs(node.Atmos.Pressure - neighbor.Atmos.Pressure) > AtmosUtils.MinimumPressure)
 				{
 					return true;
 				}

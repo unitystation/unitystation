@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tilemaps.Behaviours.Meta.Data;
+using Atmospherics;
+using Tilemaps.Behaviours.Meta.Utils;
 using UnityEngine;
 
 
@@ -20,9 +21,9 @@ public class MetaDataNode
 
 	public readonly HashSet<MetaDataNode> Neighbors;
 
-	public readonly AtmosValues Atmos;
+	public GasMix Atmos;
 
-	public int Room;
+	public int Room; // TODO
 
 	public NodeType Type;
 
@@ -30,7 +31,7 @@ public class MetaDataNode
 	{
 		Position = position;
 		Neighbors = new HashSet<MetaDataNode>();
-		Atmos = new AtmosValues();
+		Atmos = GasMixUtils.Space;
 	}
 
 	public bool IsSpace => Type == NodeType.Space;
@@ -43,7 +44,7 @@ public class MetaDataNode
 	{
 		foreach (MetaDataNode neighbor in Neighbors)
 		{
-			neighbor.Neighbors.Remove(this);
+			neighbor.RemoveNeighbor(this);
 		}
 
 		Neighbors.Clear();

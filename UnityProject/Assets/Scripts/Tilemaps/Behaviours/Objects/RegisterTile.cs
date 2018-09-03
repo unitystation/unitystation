@@ -52,8 +52,12 @@ public enum ObjectType
 			get { return position; }
 			private set
 			{
-				layer?.Objects.Remove(position, this);
-				layer?.Objects.Add(value, this);
+				if (layer)
+				{
+					layer.Objects.Remove(position, this);
+					layer.Objects.Add(value, this);
+				}
+				
 				position = value;
 			}
 		}
@@ -86,7 +90,10 @@ public enum ObjectType
 			}
 
 			// In case of recompilation and Start doesn't get called
-			layer?.Objects.Add(Position, this);
+			if (layer)
+			{
+				layer.Objects.Add(Position, this);
+			}
 		}
 
 		private void OnDisable()
@@ -96,7 +103,10 @@ public enum ObjectType
 
 		public void OnDestroy()
 		{
-			layer?.Objects.Remove(Position, this);
+			if (layer)
+			{
+				layer.Objects.Remove(Position, this);
+			}
 		}
 
 		public void UpdatePosition()
@@ -106,7 +116,11 @@ public enum ObjectType
 
 		public void Unregister() {
 			Position = TransformState.HiddenPos;
-			layer?.Objects.Remove(Position, this);
+
+			if (layer)
+			{
+				layer.Objects.Remove(Position, this);
+			}
 		}
 
 		public virtual bool IsPassable()

@@ -10,6 +10,7 @@ public class MetaDataView : BasicView
 	{
 		localChecks.Add(new RoomCheck());
 		localChecks.Add(new PressureCheck());
+		localChecks.Add(new TemperatureCheck());
 		localChecks.Add(new ExistCheck());
 		localChecks.Add(new WallCheck());
 		localChecks.Add(new NeighborCheck());
@@ -78,7 +79,18 @@ public class MetaDataView : BasicView
 
 			if (node.Neighbors.Count > 0)
 			{
-				GizmoUtils.DrawCube(position,  Color.blue, 0.25f * node.Neighbors.Count);
+				GizmoUtils.DrawCube(position,  Color.blue, alpha:0.25f * node.Neighbors.Count);
+			}
+		}
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Neighbors.Count > 0)
+			{
+				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				GizmoUtils.DrawText($"{node.Neighbors.Count}", p, false);
 			}
 		}
 	}
@@ -93,7 +105,7 @@ public class MetaDataView : BasicView
 
 			if (node.Exists)
 			{
-				GizmoUtils.DrawCube(position, Color.blue, node.Atmos.Pressure / 200);
+				GizmoUtils.DrawCube(position, Color.blue, alpha:node.Atmos.Pressure / 1000 / 200);
 			}
 		}
 
@@ -103,7 +115,34 @@ public class MetaDataView : BasicView
 
 			if (node.Exists)
 			{
-				GizmoUtils.DrawText($"{node.Atmos.Pressure:0.###}", position);
+				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				GizmoUtils.DrawText($"{node.Atmos.Pressure / 1000:0.###}", p, false);
+			}
+		}
+	}
+
+	private class TemperatureCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Temperature";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+//				GizmoUtils.DrawCube(position, Color.blue, alpha:node.Atmos.Temperature / 200);
+			}
+		}
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				GizmoUtils.DrawText($"{node.Atmos.Temperature:0.###}", p, false);
 			}
 		}
 	}

@@ -35,6 +35,5 @@ namespace Tilemaps.Behaviours.Meta
 				neighbor.RemoveNeighbor(node);
 			}
 		}
-		
 	}
 }

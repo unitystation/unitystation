@@ -11,8 +11,6 @@ public class Matrix : MonoBehaviour
 		private Vector3Int initialOffset;
 		public Vector3Int InitialOffset => initialOffset;
 
-		private MetaDataLayer metaDataLayer;
-
 		private void Start()
 		{
 			try
@@ -27,7 +25,6 @@ public class Matrix : MonoBehaviour
 
 		private void Awake()
 		{
-			metaDataLayer = GetComponentInChildren<MetaDataLayer>(true);
 			metaTileMap = GetComponent<MetaTileMap>();
 
 			initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
@@ -52,7 +49,7 @@ public class Matrix : MonoBehaviour
 
 		public bool IsSpaceAt(Vector3Int position)
 		{
-			return metaDataLayer.IsSpaceAt(position);
+			return metaTileMap.IsSpaceAt(position);
 		}
 
 		public bool IsEmptyAt(Vector3Int position)

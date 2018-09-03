@@ -15,6 +15,8 @@ public class MatrixManager : MonoBehaviour
 	public static MatrixManager Instance;
 	private List<MatrixInfo> activeMatrices = new List<MatrixInfo>();
 
+	public static bool IsInitialized = false;
+
 	/// List of active matrices
 	public List<MatrixInfo> Matrices => activeMatrices;
 
@@ -47,11 +49,6 @@ public class MatrixManager : MonoBehaviour
 
 	///Cross-matrix edition of <see cref="Matrix.IsSpaceAt"/>
 	public static bool IsSpaceAt(Vector3Int worldPos)
-	{
-		return isAtInternal(mat => mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat)));
-	}
-
-	public static bool IsSpaceAt(Vector3 worldPos)
 	{
 		return isAtInternal(mat => mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat)));
 	}
@@ -101,11 +98,11 @@ public class MatrixManager : MonoBehaviour
 	}
 
 	/// Cross-matrix edition of GetFirst
-	public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
+	public static T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
 	{
-		for (var i = 0; i < activeMatrices.Count; i++)
+		for (var i = 0; i < Instance.activeMatrices.Count; i++)
 		{
-			T first = activeMatrices[i].Matrix.GetFirst<T>(WorldToLocalInt(position, activeMatrices[i]));
+			T first = Instance.activeMatrices[i].Matrix.GetFirst<T>(WorldToLocalInt(position, Instance.activeMatrices[i]));
 			if (first)
 			{
 				return first;
@@ -126,7 +123,8 @@ public class MatrixManager : MonoBehaviour
 			Destroy(gameObject);
 		}
 
-		StartCoroutine(WaitForLoad());
+//		StartCoroutine(WaitForLoad());
+		InitMatrices();
 	}
 
 	/// Waiting for scene to load before finding matrices
@@ -142,7 +140,6 @@ public class MatrixManager : MonoBehaviour
 		Matrix[] findMatrices = FindObjectsOfType<Matrix>();
 		if (findMatrices.Length < matrixCount)
 		{
-//			Logger.Log( "Matrix init failure, will try in 0.5" );
 			StartCoroutine(WaitForLoad());
 			return;
 		}
@@ -156,6 +153,7 @@ public class MatrixManager : MonoBehaviour
 				GameObject = findMatrices[i].gameObject,
 				MatrixMove = findMatrices[i].gameObject.GetComponentInParent<MatrixMove>(),
 				MetaTileMap = findMatrices[i].gameObject.GetComponent<MetaTileMap>(),
+				MetaDataLayer = findMatrices[i].gameObject.GetComponent<MetaDataLayer>(),
 //				NetId is initialized later
 				InitialOffset = findMatrices[i].InitialOffset
 			};
@@ -164,6 +162,8 @@ public class MatrixManager : MonoBehaviour
 				activeMatrices.Add(matrixInfo);
 			}
 		}
+
+		IsInitialized = true;
 
 		//These aren't fully initialized at that moment; init is truly finished when server is up and NetIDs are resolved
 //		Logger.Log($"Semi-init {this}");
@@ -297,9 +297,12 @@ public class MatrixManager : MonoBehaviour
 public struct MatrixInfo
 {
 	public int Id;
+	public GameObject GameObject;
+
 	public Matrix Matrix;
 	public MetaTileMap MetaTileMap;
-	public GameObject GameObject;
+	public MatrixMove MatrixMove;
+	public MetaDataLayer MetaDataLayer;
 
 	public Vector3Int InitialOffset;
 
@@ -319,8 +322,6 @@ public struct MatrixInfo
 
 		return InitialOffset + (Vector3Int.RoundToInt(state.Position) - MatrixMove.InitialPos);
 	}
-
-	public MatrixMove MatrixMove;
 
 	private NetworkInstanceId netId;
 
