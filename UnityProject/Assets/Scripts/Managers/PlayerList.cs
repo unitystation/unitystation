@@ -142,7 +142,7 @@ public class PlayerList : NetworkBehaviour
 
 		if (crewKills != 0)
 		{
-			PostToChatMessage.Send("Crew managed to kill " + syndicateKills + " Syndicate operators.", ChatChannel.System);
+			PostToChatMessage.Send("Crew managed to kill " + crewKills + " Syndicate operators.", ChatChannel.System);
 		}
 	}
 
