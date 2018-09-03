@@ -241,7 +241,7 @@ using UnityEngine.Networking;
 				{
 					PlayerList.Instance.UpdateKillScore(LastDamagedBy, gameObject);
 
-					string departmentKillText = "";
+					//string departmentKillText = "";
 					if (LastDamagedBy != null)
 					{
 						JobDepartment killerDepartment =

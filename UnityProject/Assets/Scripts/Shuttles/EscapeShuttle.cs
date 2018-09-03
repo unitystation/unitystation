@@ -70,7 +70,7 @@ public class EscapeShuttle : MonoBehaviour {
 	public void SpawnNearStation()
 	{
 		//Picks a slightly random position for shuttle to spawn in to try avoid interception from syndicate
-		GetComponent<MatrixMove>().SetPosition(Random.insideUnitCircle * 500 + new Vector2(500, -500));
+		mm.SetPosition(Random.insideUnitCircle * 500 + new Vector2(500, -500));
 		transform.position.Normalize();
 
 		spawnedIn = true;
@@ -79,8 +79,8 @@ public class EscapeShuttle : MonoBehaviour {
 
 	public void ApproachStation()
 	{
-		GetComponent<MatrixMove>().SetSpeed(25);
-		GetComponent<MatrixMove>().AutopilotTo(destination);
+		mm.SetSpeed(25);
+		mm.AutopilotTo(destination);
 	}
 
 	public int GetCrewCountOnboard() //Returns how many crew members (excluding syndicate) are on the shuttle
