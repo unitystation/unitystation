@@ -117,9 +117,9 @@ public class SoundManager : MonoBehaviour
 		} else {
 			//Tracker music
 			var trackerMusic = new[] {
-				"spaceman.sunvox",
-				"echo_sound.sunvox",
-				"tintin.sunvox"
+				"spaceman.xm",
+				"echo_sound.xm",
+				"tintin.xm"
 			};
 			Synth.Instance.PlayMusic( trackerMusic.Wrap( Random.Range( 1, 100 ) ) );
 		}

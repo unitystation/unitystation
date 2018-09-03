@@ -56,7 +56,7 @@ public class ItemAttributes : NetworkBehaviour
 	// item name and description.
 	public string itemName;
 
-	private ItemType itemType = ItemType.None;
+	public ItemType itemType = ItemType.None;
 	private SpriteType masterType;
 	private new string name;
 

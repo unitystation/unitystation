@@ -11,28 +11,32 @@ public class ParallaxStars : MonoBehaviour
 
 	private void Update()
 	{
-		if ((Camera.main.transform.position.x - transform.position.x) > 30f) {
+		if ((Camera.main.transform.position.x - transform.position.x) > 30f)
+		{
 			Vector2 pos = transform.localPosition;
 			pos.x += 61.44f;
 			transform.localPosition = pos;
 			CheckSpaceObjects();
 		}
 
-		if ((Camera.main.transform.position.x - transform.position.x) < -30f) {
+		if ((Camera.main.transform.position.x - transform.position.x) < -30f)
+		{
 			Vector2 pos = transform.localPosition;
 			pos.x -= 61.44f;
 			transform.localPosition = pos;
 			CheckSpaceObjects();
 		}
 
-		if ((Camera.main.transform.position.y - transform.position.y) > 30f) {
+		if ((Camera.main.transform.position.y - transform.position.y) > 30f)
+		{
 			Vector2 pos = transform.localPosition;
 			pos.y += 61.44f;
 			transform.localPosition = pos;
 			CheckSpaceObjects();
 		}
 
-		if ((Camera.main.transform.position.y - transform.position.y) < -30f) {
+		if ((Camera.main.transform.position.y - transform.position.y) < -30f)
+		{
 			Vector2 pos = transform.localPosition;
 			pos.y -= 61.44f;
 			transform.localPosition = pos;
@@ -40,12 +44,17 @@ public class ParallaxStars : MonoBehaviour
 		}
 	}
 
-	void CheckSpaceObjects(){
-		for (int i = 0; i < spaceBgObjects.Length; i++) {
+	void CheckSpaceObjects()
+	{
+		for (int i = 0; i < spaceBgObjects.Length; i++)
+		{
 			var dist = Vector3.Distance(spaceBgObjects[i].gameObject.transform.position, spaceBgObjects[i].targetPos);
-			if (dist < 140f && !spaceBgObjects[i].gameObject.activeInHierarchy) {
+			if (dist < 180f && !spaceBgObjects[i].gameObject.activeInHierarchy)
+			{
 				spaceBgObjects[i].gameObject.SetActive(true);
-			} else if (dist > 140f && spaceBgObjects[i].gameObject.activeInHierarchy ){
+			}
+			else if (dist > 180f && spaceBgObjects[i].gameObject.activeInHierarchy)
+			{
 				spaceBgObjects[i].gameObject.SetActive(false);
 			}
 		}
@@ -53,7 +62,8 @@ public class ParallaxStars : MonoBehaviour
 }
 
 [System.Serializable]
-public class SpaceBgObjects{
+public class SpaceBgObjects
+{
 	public Vector3 targetPos;
 	public GameObject gameObject;
 }

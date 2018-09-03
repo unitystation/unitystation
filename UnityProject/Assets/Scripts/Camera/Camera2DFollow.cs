@@ -96,7 +96,7 @@ public class Camera2DFollow : MonoBehaviour
 			starsBackground.position = -newPos * starScroll;
 
 			lastTargetPosition = target.position;
-			if (stencilMask.transform.parent != target) {
+			if (stencilMask != null && stencilMask.transform.parent != target) {
 				stencilMask.transform.parent = target;
 				stencilMask.transform.localPosition = Vector3.zero;
 			}
