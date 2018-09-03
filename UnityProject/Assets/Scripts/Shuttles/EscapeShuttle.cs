@@ -29,6 +29,7 @@ public class EscapeShuttle : MonoBehaviour {
 		}
 
 		mm = GetComponent<MatrixMove>();
+		mm.SetAccuracy(0);
 	}
 
 	void Update ()
@@ -44,6 +45,8 @@ public class EscapeShuttle : MonoBehaviour {
 			arrivedAtStation = true;
 			GameManager.Instance.shuttleArrived = true;
 			setCourse = false;
+
+			mm.SetPosition(destination);
 
 			mm.StopMovement();
 			mm.RotateTo(Orientation.Up); //Rotate shuttle correctly so doors are facing correctly
