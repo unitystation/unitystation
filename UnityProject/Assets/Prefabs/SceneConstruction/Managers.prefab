@@ -4860,8 +4860,8 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: -0.25
-    y: 0.01
+    x: 0
+    y: 0
     width: 1
     height: 1
   near clip plane: 0.3
@@ -9663,8 +9663,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114986867525342648}
   m_HandleRect: {fileID: 224599716051025124}
   m_Direction: 2
-  m_Value: 0.9999995
-  m_Size: 0.41528562
+  m_Value: 0.9999997
+  m_Size: 0.41528568
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14852,7 +14852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bdd149a73a974c77bd23df0cb28c844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoundTime: 480
+  RoundTime: 600
   counting: 0
   Occupations:
   - {fileID: 1907548023066798, guid: 21b1766adb51e3349890b2d2f9db3227, type: 2}
@@ -14896,6 +14896,7 @@ MonoBehaviour:
   Maps:
   - Assets/scenes/OutpostDeathmatch.unity
   - Assets/scenes/Flashlight Deathmatch.unity
+  shuttleArrived: 0
 --- !u!114 &114729840479090150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19636,7 +19637,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00021362305}
+  m_AnchoredPosition: {x: 0, y: 0.00015258789}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224265194266767286
@@ -20891,8 +20892,8 @@ RectTransform:
   m_Father: {fileID: 224982044586477944}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.58471406}
-  m_AnchorMax: {x: 1, y: 0.9999997}
+  m_AnchorMin: {x: 0, y: 0.5847141}
+  m_AnchorMax: {x: 1, y: 0.99999976}
   m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -22111,7 +22112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 6.998413, y: 10.023987}
+  m_AnchoredPosition: {x: 7, y: 10.0234375}
   m_SizeDelta: {x: 297.59, y: 152.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224961241877571984
