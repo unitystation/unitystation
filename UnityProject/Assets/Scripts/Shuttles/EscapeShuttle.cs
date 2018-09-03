@@ -71,7 +71,6 @@ public class EscapeShuttle : MonoBehaviour {
 	{
 		//Picks a slightly random position for shuttle to spawn in to try avoid interception from syndicate
 		mm.SetPosition(Random.insideUnitCircle * 500 + new Vector2(500, -500));
-		transform.position.Normalize();
 
 		spawnedIn = true;
 		ApproachStation();
