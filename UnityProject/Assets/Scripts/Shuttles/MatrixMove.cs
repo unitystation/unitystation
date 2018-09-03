@@ -74,7 +74,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	[SyncVar] private Vector3 pivot;
 	private Vector3Int[] SensorPositions;
 
-	private MatrixInfo MatrixInfo;
+	public MatrixInfo MatrixInfo;
 
 	public override void OnStartServer()
 	{

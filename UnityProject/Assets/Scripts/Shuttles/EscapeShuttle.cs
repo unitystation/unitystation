@@ -85,11 +85,11 @@ public class EscapeShuttle : MonoBehaviour {
 	public int GetCrewCountOnboard() //Returns how many crew members (excluding syndicate) are on the shuttle
 	{									// (Used to calculate if crew managed to escape at end of round)
 		int crewCount = 0;
-		PlayerScript[] crewMembers = FindObjectsOfType<PlayerScript>();
+		List<ConnectedPlayer> crewMembers = PlayerList.Instance.InGamePlayers;
 
-		foreach(PlayerScript ps in crewMembers)
+		foreach (ConnectedPlayer ps in crewMembers)
 		{
-			if (ps.JobType != JobType.SYNDICATE && ps.gameObject.GetComponent<PlayerHealth>().Health > 0 && ps.gameObject.transform.root == gameObject.transform.root)
+			if (ps.Job != JobType.SYNDICATE && ps.GameObject.GetComponent<PlayerHealth>().Health > 0 && ps.GameObject.GetComponent<PlayerSync>().ServerState.MatrixId == mm.MatrixInfo.Id)
 			{
 				crewCount++;
 			}
