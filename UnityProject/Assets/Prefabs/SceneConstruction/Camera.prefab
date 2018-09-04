@@ -986,13 +986,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eba83ad86d60dc1478d96b6283f32732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fovCenterOffset: {x: 0, y: 0.5, z: 0}
   renderSettings:
     viewMode: 0
     ambient: 0.4
     lightMultiplier: 3
-    fovBlurIterations: 1
-    fovBlurInterpolation: 4
-    pixelateSize: 3
+    bloomSensitivity: 10
+    bloomAdd: 0.1
+    backgroundMultiplier: 1.4
     occlusionLayers:
       serializedVersion: 2
       m_Bits: 131584
@@ -1002,34 +1003,29 @@ MonoBehaviour:
     backgroundLayers:
       serializedVersion: 2
       m_Bits: 16
+    fovBlurIterations: 1
+    fovBlurInterpolation: 4
+    fovOcclusionSpread: 0.2
     lightBlurIterations: 2
     lightBlurInterpolation: 0.3
-    wallBlurIterations: 3
-    wallBlurInterpolation: 5
-    maskCameraSizeAdd: 3
     lightTextureRescale: 0.4
-    wallTextureRescale: 0.4
-    obstacleTextureRescale: 1
-    antiAliasing: 4
-    fovOcclusionSpread: 0.1
-    bloomSensitivity: 10
-    bloomAdd: 0.1
-    backgroundMultiplier: 0.5
+    occlusionBlurIterations: 3
+    occlusionBlurInterpolation: 5
     occlusionMaskMultiplier: 1.25
     occlusionMaskLimit: 0.7
+    occlusionLightTextureRescale: 0.4
+    maskCameraSizeAdd: 3
+    antiAliasing: 4
   materialContainer:
     fovBlurMaterial: {fileID: 2100000, guid: 42ccff1e88773c2408dd290281b8e2f5, type: 2}
-    fovPixelateMaterial: {fileID: 2100000, guid: 0e3c1199f4fd7c840839afef7cd2cc77,
-      type: 2}
     blitMaterial: {fileID: 2100000, guid: 340512e20a387c044a10a8b2805b7b98, type: 2}
     lightBlurMaterial: {fileID: 2100000, guid: 461dde64953d7574aac42e2aa8ee2c14, type: 2}
     lightWallBlurMaterial: {fileID: 2100000, guid: 255585b251e9cff46a52f2772b300d6b,
       type: 2}
     fovMaterial: {fileID: 2100000, guid: f29510637789e8a4e9488d4e6b488f1f, type: 2}
-    wallLightMixerMaterial: {fileID: 2100000, guid: dac694dc546d3db46810392e4ba9bc3c,
-      type: 2}
     MaskMixerMaterial: {fileID: 2100000, guid: 56ac12cf5d6d78044b3066c9b527a237, type: 2}
-  fovCenterOffset: {x: 0, y: 0.5, z: 0}
+    OcclusionMaskShader: {fileID: 4800000, guid: 79a500d9ed87cbf4e9c9fe71c73b3d12,
+      type: 3}
 --- !u!114 &114279227859847976
 MonoBehaviour:
   m_ObjectHideFlags: 1
