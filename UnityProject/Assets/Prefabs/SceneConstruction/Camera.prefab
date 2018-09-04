@@ -244,7 +244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4371846724559028}
   - component: {fileID: 212961567767345070}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: nondescriptplanetoid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -989,11 +989,11 @@ MonoBehaviour:
   fovCenterOffset: {x: 0, y: 0.5, z: 0}
   renderSettings:
     viewMode: 0
-    ambient: 0.4
-    lightMultiplier: 3
-    bloomSensitivity: 10
-    bloomAdd: 0.1
-    backgroundMultiplier: 1.4
+    ambient: 0.32
+    lightMultiplier: 1.79
+    bloomSensitivity: 0.29
+    bloomAdd: 0.01
+    backgroundMultiplier: 1.35
     occlusionLayers:
       serializedVersion: 2
       m_Bits: 131584
@@ -1624,7 +1624,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1645,7 +1645,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 76e58816f7f0e4dc7a05f1905bc14be7, type: 3}
-  m_Color: {r: 0.9254902, g: 0.9254902, b: 0.9254902, a: 1}
+  m_Color: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1653,5 +1653,5 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
   m_SpriteSortPoint: 0
