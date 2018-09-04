@@ -13,8 +13,10 @@ using UnityEngine.Networking;
 			Vector3Int position = MatrixManager.LocalToWorldInt( localPos, MatrixManager.Get( currentMatrix ) );
 
 			if ( !MatrixManager.IsPassableAt( position, position + direction ) ) {
+				Logger.LogFormat( "Player CAN NOT pass {0}->{1}", Category.PushPull, position, position + direction );
 				return false;
 			}
+			Logger.LogFormat( "Player CAN pass {0}->{1}", Category.PushPull, position, position + direction );
 
 			return true;
 		}

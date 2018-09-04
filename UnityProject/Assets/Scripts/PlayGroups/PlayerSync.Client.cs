@@ -54,25 +54,34 @@ using UnityEngine;
 //			StartCoroutine( WaitForLoad() );
 //			base.OnStartClient();
 //		}
-
+		private bool MoveCooldown = false; //cooldown is here just for client performance
 		private void DoAction() {
 			PlayerAction action = playerMove.SendAction();
-			if ( action.keyCodes.Length != 0 && !IsPointlessMove( predictedState, action ) ) {
+			if ( action.keyCodes.Length != 0 && !MoveCooldown ) {
+				StartCoroutine( DoProcess( action ) );
+			}
+		}
 
-				//experiment: not enqueueing or processing action if floating.
-				//arguably it shouldn't really be like that in the future
-				if ( !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement ) {
+		private IEnumerator DoProcess( PlayerAction action ) {
+			MoveCooldown = true;
+			//experiment: not enqueueing or processing action if floating.
+			//arguably it shouldn't really be like that in the future
+			if ( !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement ) {
 //				Logger.Log($"{gameObject.name} requesting {action.Direction()} ({pendingActions.Count} in queue)");
+				if ( CanMoveThere( predictedState, action ) ) {
 					pendingActions.Enqueue( action );
 
 					LastDirection = action.Direction();
 					UpdatePredictedState();
-
-					//Seems like Cmds are reliable enough in this case
-					CmdProcessAction( action );
-					//				RequestMoveMessage.Send(action);
 				}
+
+				//Seems like Cmds are reliable enough in this case
+				CmdProcessAction( action );
+				//				RequestMoveMessage.Send(action);
 			}
+
+			yield return YieldHelper.DeciSecond;
+			MoveCooldown = false;
 		}
 
 		private void UpdatePredictedState() {

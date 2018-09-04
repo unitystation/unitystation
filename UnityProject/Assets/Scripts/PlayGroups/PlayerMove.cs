@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -13,6 +16,9 @@ using UnityEngine.Networking;
 	/// </summary>
 	public class PlayerMove : NetworkBehaviour
 	{
+		private PlayerScript playerScript;
+		public PlayerScript PlayerScript => playerScript ? playerScript : ( playerScript = GetComponent<PlayerScript>() );
+
 		public bool diagonalMovement;
 		public bool azerty;
 
@@ -82,10 +88,10 @@ using UnityEngine.Networking;
 			Vector3Int direction = GetDirection(action, MatrixManager.Get(curMatrix));
 			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay, curMatrix);
 
-			if (adjustedDirection == Vector3.zero)
-			{
-				Interact(currentPosition, direction);
-			}
+//			if (adjustedDirection == Vector3.zero && !isReplay)
+//			{
+//				Interact(currentPosition, direction);
+//			}
 
 			return currentPosition + adjustedDirection;
 		}
@@ -289,52 +295,5 @@ using UnityEngine.Networking;
 
 		}
 
-		private void Interact(Vector3 currentPosition, Vector3 direction)
-		{
-			Vector3Int targetPos = Vector3Int.RoundToInt(currentPosition + direction);
-			var worldPos = MatrixManager.Instance.LocalToWorldInt(currentPosition, matrix);
-			var worldTarget = MatrixManager.Instance.LocalToWorldInt(targetPos, matrix);
 
-			InteractDoor(worldPos, worldTarget);
-
-			// Is the object pushable (iterate through all of the objects at the position):
-			PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTarget ).ToArray();
-			for (int i = 0; i < pushPulls.Length; i++)
-			{
-				if (pushPulls[i] && pushPulls[i].gameObject != gameObject)
-				{
-					Logger.LogTraceFormat( "Trying to push {0}", Category.PushPull, pushPulls[i].gameObject );
-					pushPulls[i].TryPush( Vector2Int.RoundToInt(direction) );
-				}
-			} //TODO fix lightbulbs getting in the way
-		}
-
-		// Cross-matrix now! uses world positions
-		private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
-		{
-			// Make sure there is a door controller
-			DoorTrigger door = MatrixManager.Instance.GetFirst<DoorTrigger>(targetPos);
-
-			if (!door)
-			{
-				door = MatrixManager.Instance.GetFirst<DoorTrigger>(Vector3Int.RoundToInt(currentPos));
-
-				if (door)
-				{
-					RegisterDoor registerDoor = door.GetComponent<RegisterDoor>();
-					Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(targetPos, matrix);
-
-					if (registerDoor.IsPassable(localPos))
-					{
-						door = null;
-					}
-				}
-			}
-
-			// Attempt to open door
-			if (door != null && allowInput)
-			{
-				door.Interact(gameObject, TransformState.HiddenPos);
-			}
-		}
 	}

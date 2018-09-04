@@ -7,13 +7,22 @@ public class PushPull : VisibleBehaviour {
 //	[SyncVar] public Vector3 currentPos;
 	public bool isPushable = true;
 	//push limits: U,D,L,R only
-	private PlayerSync playerSync; //Example of good on-demand reference init
+	private PlayerSync playerSync;
 	public PlayerSync PlayerSync => playerSync ? playerSync : ( playerSync = GetComponent<PlayerSync>() );
-	private CustomNetTransform netTransform; //Example of good on-demand reference init
+	private CustomNetTransform netTransform;
 	public CustomNetTransform NetTransform => netTransform ? netTransform : ( netTransform = GetComponent<CustomNetTransform>() );
+
 	[Server]
-	public bool TryPush( Vector2Int dir ) {
-		if ( !isPushable ) {
+	public bool TryPush( Vector3Int from, Vector2Int dir ) {
+		Vector3Int currentPos = registerTile.WorldPosition;
+		if ( from != currentPos ) {
+			return false;
+		}
+		Vector3Int to = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
+		Logger.LogTraceFormat( "Attempting push {0}->{1}", Category.PushPull, from, to );
+		if ( !isPushable ||
+		     Vector2.Distance( (Vector3)from, (Vector3)currentPos) > 1 ||
+		     !MatrixManager.IsPassableAt( to, to ) ) {
 			return false;
 		}
 		if ( NetTransform ) {

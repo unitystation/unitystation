@@ -124,9 +124,12 @@ using UnityEngine.Networking;
 
 		private RegisterTile registerTile;
 
-		private bool IsPointlessMove( PlayerState state, PlayerAction action ) {
-			bool change;
-			return state.WorldPosition.Equals( NextState( state, action, out change ).WorldPosition );
+		private bool CanMoveThere( PlayerState state, PlayerAction action ) {
+			var position = ( Vector2 ) state.WorldPosition;
+			var origin = Vector3Int.RoundToInt( position );
+			var destination = Vector3Int.RoundToInt( position + action.Direction() );
+			return MatrixManager.IsPassableAt( origin, destination );
+//			return state.WorldPosition.Equals( NextState( state, action, out change ).WorldPosition );
 		}
 
 //		private IEnumerator WaitForLoad() {

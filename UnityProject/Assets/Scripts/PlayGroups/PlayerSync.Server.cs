@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -262,9 +263,9 @@ using UnityEngine.Networking;
 				return;
 			}
 
-			var nextAction = serverPendingActions.Peek();
-			if (!IsPointlessMove(serverTargetState, nextAction))
-			{
+//			var nextAction = serverPendingActions.Peek();
+//			if (CanMoveThere(serverTargetState, nextAction))
+//			{
 				if (consideredFloatingServer)
 				{
 					Logger.LogWarning("Server ignored move while player is floating", Category.Movement);
@@ -278,24 +279,31 @@ using UnityEngine.Networking;
 				//In case positions already match
 				TryNotifyPlayers();
 //				Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
-			}
-			else
-			{
-				Logger.LogWarning(
-					$"Pointless move {serverTargetState}+{nextAction.keyCodes[0]} Rolling back to {serverState}",Category.Movement);
-				RollbackPosition();
-			}
+//			}
+//			else
+//			{
+//				Logger.LogWarning(
+//					$"Pointless move {serverTargetState}+{nextAction.keyCodes[0]} Rolling back to {serverState}",Category.Movement);
+//				RollbackPosition();
+//			}
 		}
 
 		/// NextState that also subscribes player to matrix rotations
 		[Server]
 		private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 		{
+			if ( !CanMoveThere( state, action ) ) {
+				//gotta try pushing things
+				Interact( state.WorldPosition, (Vector2) action.Direction() );
+				return state;
+			}
+
 			bool matrixChangeDetected;
 			PlayerState nextState = NextState(state, action, out matrixChangeDetected);
 
 			if (!matrixChangeDetected)
 			{
+//				if ( state.Position.Equals( nextState.Position ) ) {
 				return nextState;
 			}
 
@@ -319,6 +327,72 @@ using UnityEngine.Networking;
 
 			return nextState;
 		}
+
+		#region walk interactions
+
+		private bool InteractCooldown = false;
+
+		private void Interact(Vector3 currentPosition, Vector3 direction) {
+//			if ( !InteractCooldown ) {
+				StartCoroutine( TryInteract( currentPosition, direction ) );
+//			}
+		}
+
+		private IEnumerator TryInteract( Vector3 currentPosition, Vector3 direction ) {
+			InteractCooldown = true;
+			var worldPos = Vector3Int.RoundToInt(currentPosition);
+			var worldTarget = Vector3Int.RoundToInt(currentPosition + direction);
+
+			InteractDoor(worldPos, worldTarget);
+
+			Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.PushPull, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
+			// Is the object pushable (iterate through all of the objects at the position):
+			PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTarget ).ToArray();
+			for (int i = 0; i < pushPulls.Length; i++)
+			{
+				if (pushPulls[i] && pushPulls[i].gameObject != gameObject
+//				&& PlayerScript.IsInReach( pushPulls[i].gameObject )
+				)
+				{
+//					Logger.LogTraceFormat( "Trying to push {0} when walking {1}->{2}", Category.PushPull, pushPulls[i].gameObject, worldPos, worldTarget );
+					pushPulls[i].TryPush( worldTarget, Vector2Int.RoundToInt(direction) );
+				}
+			} //TODO fix lightbulbs getting in the way
+
+			yield return YieldHelper.DeciSecond;
+			InteractCooldown = false;
+		}
+
+		// Cross-matrix now! uses world positions
+		private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
+		{
+			// Make sure there is a door controller
+			DoorTrigger door = MatrixManager.Instance.GetFirst<DoorTrigger>(targetPos);
+
+			if (!door)
+			{
+				door = MatrixManager.Instance.GetFirst<DoorTrigger>(Vector3Int.RoundToInt(currentPos));
+
+				if (door)
+				{
+					RegisterDoor registerDoor = door.GetComponent<RegisterDoor>();
+					Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(targetPos, matrix);
+
+					if (registerDoor.IsPassable(localPos))
+					{
+						door = null;
+					}
+				}
+			}
+
+			// Attempt to open door
+			if (door != null)
+			{
+				door.Interact(gameObject, TransformState.HiddenPos);
+			}
+		}
+
+			#endregion
 
 		[Server]
 		private void OnRotation(Orientation from, Orientation to)

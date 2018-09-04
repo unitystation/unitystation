@@ -69,8 +69,11 @@ public partial class CustomNetTransform {
 
 	[Server]
 	public void Push( Vector2Int direction ) {
-		serverState.Impulse = direction;
-		SetPosition((Vector2)serverState.WorldPosition + direction);
+		if ( IsInSpace ) {
+			serverState.Impulse = direction;
+		} else { //todo: where the fuck is lerp?
+			SetPosition( ( Vector2 ) serverState.WorldPosition + direction );
+		}
 	}
 
 //	/// Apply impulse while setting position
