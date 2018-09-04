@@ -8,9 +8,9 @@ public class ChemistryInitializationTest : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
-		if (!(Globals.IsInitialised)) {
+		if (!(ChemistryGlobals.IsInitialised)) {
 			Initialization.run ();
-			Globals.IsInitialised = true;
+			ChemistryGlobals.IsInitialised = true;
 			ChemistryTest ();
 		}
 	}
@@ -19,7 +19,7 @@ public class ChemistryInitializationTest : MonoBehaviour
 
 	public static void ChemistryTest ()
 	{
-		var reactions = Globals.reactions;
+		var reactions = ChemistryGlobals.reactions;
 		for (var i = 0; i < reactions.Count; i++) {
 			var OriginDictionary = reactions [i].ReagentsAndRatio;
 			Dictionary<string,float> RequiredChemicals = new Dictionary<string,float> ();

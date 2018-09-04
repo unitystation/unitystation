@@ -1,0 +1,44 @@
+[
+    {
+        "Internal_ID": "bag_holding",
+        "Description": "A backpack that opens into a localized pocket of bluespace.",
+        "Category": [
+            "Bluespace Designs"
+        ],
+        "Materials": {
+            "Gold": 3000,
+            "Diamond": 1500,
+            "Uranium": 250,
+            "BlueSpace": 2000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science"
+        ],
+        "name": "Bag of Holding",
+        "Item_ID": "/obj/item/weapon/storage/backpack/holding"
+    },
+    {
+        "Internal_ID": "telesci_gps",
+        "Description": "Little thingie that can track its position at all times.",
+        "Category": [
+            "Bluespace Designs"
+        ],
+        "Materials": {
+            "Metal": 500,
+            "Glass": 1000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Engineering",
+            "Cargo"
+        ],
+        "name": "GPS Device",
+        "Item_ID": "/obj/item/device/gps"
+    }
+]
