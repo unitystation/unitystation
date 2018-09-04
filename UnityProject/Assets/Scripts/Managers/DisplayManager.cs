@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Light2D;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -10,7 +11,6 @@ public class DisplayManager : MonoBehaviour
 
 	public FieldOfViewStencil fieldOfView;
 	private int height;
-	public LightingSystem lightingSystem;
 	public Camera mainCamera;
 
 	public Dropdown resoDropDown;

@@ -27,10 +27,6 @@ public class FovDoorController : MonoBehaviour
 		{
 			SetForWindowDoor();
 		}
-		else
-		{
-			TurnOnDoorFov();
-		}
 	}
 
 	void SetForWindowDoor()
@@ -43,21 +39,5 @@ public class FovDoorController : MonoBehaviour
 		this.enabled = false;
 	}
 
-	//Broadcast msg from FieldOfViewStencil:
-	public void TurnOnDoorFov()
-	{
-		for (int i = 0; i < cacheRends.Length; i++)
-		{
-			cacheRends[i].material = greyScaleMat;
-		}
-	}
-
-	public void TurnOffDoorFov()
-	{
-		for (int i = 0; i < cacheRends.Length; i++)
-		{
-			cacheRends[i].material = normalMat;
-		}
-	}
 }
 

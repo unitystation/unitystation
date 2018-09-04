@@ -158,5 +158,6 @@ public enum Category {
 	Chemistry,
 	SunVox,
 	Rcon,
-	Audio
+	Audio,
+	Research
 }

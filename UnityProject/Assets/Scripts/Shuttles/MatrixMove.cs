@@ -74,7 +74,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	[SyncVar] private Vector3 pivot;
 	private Vector3Int[] SensorPositions;
 
-	private MatrixInfo MatrixInfo;
+	public MatrixInfo MatrixInfo;
 
 	public override void OnStartServer()
 	{
@@ -202,6 +202,13 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		}
 		MoveCur++;
 		return true;
+	}
+
+	/// Changes moving direction, for use in reversing in EscapeShuttle.cs
+	[Server]
+	public void ChangeDir(Vector2 newdir)
+	{
+		serverTargetState.Direction = newdir;
 	}
 
 	/// Call to stop chasing target
@@ -475,7 +482,12 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	}
 
 	///Zero means 100% accurate, but will lead to peculiar behaviour (autopilot not reacting fast enough on high speed -> going back/in circles etc)
-	private static readonly int AccuracyThreshold = 1;
+	private static int AccuracyThreshold = 1;
+
+	public void SetAccuracy(int newAccuracy)
+	{
+		AccuracyThreshold = newAccuracy;
+	}
 
 	private IEnumerator TravelToTarget() {
 		if ( isAutopilotEngaged )
