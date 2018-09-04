@@ -1724,6 +1724,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4266888786283748}
   - component: {fileID: 114121755703164764}
+  - component: {fileID: 114132697322968044}
+  - component: {fileID: 114249993451222874}
+  - component: {fileID: 114113997428961118}
   m_Layer: 0
   m_Name: CraftingManager
   m_TagString: Untagged
@@ -3358,7 +3361,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4244501537706558}
   - component: {fileID: 114354710356312186}
-  - component: {fileID: 114780661825573070}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -9663,14 +9665,25 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114986867525342648}
   m_HandleRect: {fileID: 224599716051025124}
   m_Direction: 2
-  m_Value: 0.9999997
-  m_Size: 0.41528568
+  m_Value: 0
+  m_Size: 0.41528565
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Scrollbar+ScrollEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114113997428961118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1422774297365668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a319b263d0b91940ba50c0c230ea7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114121755703164764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9728,6 +9741,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preLoadClothAmount: 0
+--- !u!114 &114132697322968044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1422774297365668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54e594b0284d84e408da2c6a641c97db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114133094056399888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10767,6 +10791,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114249993451222874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1422774297365668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0964b6137d3df4b4785958481d0e5db4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114260961817130554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11994,7 +12029,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldOfView: {fileID: 0}
-  lightingSystem: {fileID: 0}
   mainCamera: {fileID: 0}
   resoDropDown: {fileID: 0}
   uiCanvases:
@@ -15525,17 +15559,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114780661825573070
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1856013830592554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a319b263d0b91940ba50c0c230ea7d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114785152302460360
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19637,7 +19660,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00015258789}
+  m_AnchoredPosition: {x: 0, y: 409.30017}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224265194266767286
@@ -20892,8 +20915,8 @@ RectTransform:
   m_Father: {fileID: 224982044586477944}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5847141}
-  m_AnchorMax: {x: 1, y: 0.99999976}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.41528565}
   m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
