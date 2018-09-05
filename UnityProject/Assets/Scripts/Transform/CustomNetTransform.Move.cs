@@ -34,6 +34,9 @@ public partial class CustomNetTransform {
 	//	[SyncVar]
 //	public bool isPushing;
 //	public bool predictivePushing = false;
+	private PushPull pushPull;
+	public PushPull PushPull => pushPull ? pushPull : ( pushPull = GetComponent<PushPull>() );
+
 	public bool IsInSpace => MatrixManager.IsSpaceAt( Vector3Int.RoundToInt( transform.position ) );
 	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
 	public bool IsFloatingClient => clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
@@ -69,11 +72,11 @@ public partial class CustomNetTransform {
 
 	[Server]
 	public void Push( Vector2Int direction ) {
-		if ( IsInSpace ) {
+		serverState.Speed = 6; //?
+		if (IsInSpace) {
 			serverState.Impulse = direction;
-		} else { //todo: where the fuck is lerp?
-			SetPosition( ( Vector2 ) serverState.WorldPosition + direction );
 		}
+		SetPosition( ( Vector2 ) serverState.WorldPosition + direction );
 	}
 
 //	/// Apply impulse while setting position
@@ -281,7 +284,8 @@ public partial class CustomNetTransform {
 
 		serverState.WorldPosition = tempGoal;
 		//Spess drifting is perpetual, but speed decreases each tile if object has landed (no throw) on the floor
-		if ( !IsBeingThrown && !MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( tempOrigin ) ) ) {
+//		if ( !IsBeingThrown && !MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( tempOrigin ) ) ) {
+		if ( !IsBeingThrown && !MatrixManager.IsSpaceAt( Vector3Int.RoundToInt( tempOrigin ) ) ) {
 			//on-ground resistance
 			serverState.Speed = serverState.Speed - ( serverState.Speed * 0.10f ) - 0.5f;
 			if ( serverState.Speed <= 0.05f ) {
@@ -324,6 +328,16 @@ public partial class CustomNetTransform {
 	[Server]
 	private void StopFloating() {
 //		Logger.Log( $"{gameObject.name} stopped floating" );
+		if ( PushPull && PushPull.isPushable ) { //todo: decent criteria for objects that are supposed to be tile snapped
+			var futureTile = CeilWithContext( serverState.Position, serverState.Impulse );
+			if ( matrix.IsPassableAt( futureTile ) ) {
+				serverState.Position = futureTile;
+				Logger.LogTrace( $"Chose future tile {serverState.Position}", Category.PushPull );
+			} else {
+				serverState.Position = Vector3Int.RoundToInt( serverState.Position );
+				Logger.LogTrace( $"Chose current tile {serverState.Position}", Category.PushPull );
+			}
+		}
 		serverState.Impulse = Vector2.zero;
 		serverState.Speed = 0;
 		serverState.Rotation = transform.rotation.eulerAngles.z;
