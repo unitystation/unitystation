@@ -38,7 +38,7 @@ public class ControlDisplays : MonoBehaviour
 			hudBottom.gameObject.SetActive(true);
 			backGround.SetActive(false);
 			panelRight.gameObject.SetActive(true);
-
+			UIManager.Display.selfDestructVideo.SetActive(false); //In case nuke was detonated last round
 
 			SoundManager.StopMusic();
 		}

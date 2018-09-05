@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
-	public float RoundTime = 480f;
+	public float RoundTime = 660f; //10 minutes nuke ops time + 1 minute shuttle escape, might have to adjust this in future with other modes.
 	public bool counting;
 	public List<GameObject> Occupations = new List<GameObject>();
 	public float restartTime = 10f;
@@ -22,18 +22,20 @@ public class GameManager : MonoBehaviour
 	public GameObject StandardOutfit;
 	public bool waitForRestart;
 
-	public float GetRoundTime { get; private set; } = 480f;
+	public float GetRoundTime { get; private set; } = 660f;
 
 	public int RoundsPerMap = 10;
 	
 	public string[] Maps = {"Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
-	
+	//Put the scenes in the unity 3d editor.
+
 	private int MapRotationCount = 0;
 	private int MapRotationMapsCounter = 0;
 
+	private bool shuttleArrivalBroadcasted = false;
 
-	//Put the scenes in the unity 3d editor.
-
+	//Nuke ops:
+	public bool shuttleArrived = false;
 
 	private void Awake()
 	{
@@ -125,6 +127,12 @@ public class GameManager : MonoBehaviour
 					waitForRestart = true;
 					PlayerList.Instance.ReportScores();
 				}
+			}
+			//Nuke ops shuttle arrival
+			if(shuttleArrived == true && shuttleArrivalBroadcasted == false)
+			{
+				PostToChatMessage.Send("Escape shuttle has arrived! Crew has 1 minute to get on it.", ChatChannel.System);
+				shuttleArrivalBroadcasted = true;
 			}
 		}
 	}

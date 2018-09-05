@@ -32,13 +32,20 @@ using UnityEngine.Tilemaps;
 			}
 			else
 			{
+				// TODO Clean up
+				
 				if (LayerType == LayerType.Walls)
 				{
+
+					
 					if (topLayerFX != null) {
 						MatrixManager.Instance.wallsToTopLayerFX.Add(GetComponent<TilemapCollider2D>(), topLayerFX);
 					}
+					
+
 					MatrixManager.Instance.wallsTileMaps.Add(GetComponent<TilemapCollider2D>(), tilemap);
 				}
+				
 			}
 		}
 

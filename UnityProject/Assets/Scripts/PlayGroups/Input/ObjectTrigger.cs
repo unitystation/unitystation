@@ -3,5 +3,5 @@
 
 	public abstract class ObjectTrigger : NetworkBehaviour
 	{
-		public abstract void Trigger(bool state);
+		public abstract void Trigger(bool iState);
 	}
