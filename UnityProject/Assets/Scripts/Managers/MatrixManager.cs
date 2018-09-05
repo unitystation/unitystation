@@ -59,6 +59,9 @@ public class MatrixManager : MonoBehaviour
 		return isAtInternal( mat => mat.Matrix.IsPassableAt( WorldToLocalInt( worldOrigin, mat ),
 															 WorldToLocalInt( worldTarget, mat ) ) );
 	}
+	public static bool IsPassableAt(Vector3Int worldTarget) {
+		return isAtInternal( mat => mat.Matrix.IsPassableAt( WorldToLocalInt( worldTarget, mat ) ) );
+	}
 	public static bool IsAtmosPassableAt(/*Vector3Int worldOrigin, */Vector3Int worldTarget) {
 		return isAtInternal( mat => mat.Matrix.IsAtmosPassableAt( /*WorldToLocalInt( worldOrigin, mat ),*/
 															 WorldToLocalInt( worldTarget, mat ) ) );
