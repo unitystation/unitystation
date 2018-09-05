@@ -22,7 +22,7 @@ public class PushPull : VisibleBehaviour {
 		Logger.LogTraceFormat( "Attempting push {0}->{1}", Category.PushPull, from, to );
 		if ( !isPushable ||
 		     Vector2.Distance( (Vector3)from, (Vector3)currentPos) > 1 ||
-		     !MatrixManager.IsPassableAt( to, to ) ) {
+		     !MatrixManager.IsPassableAt( to ) ) {
 			return false;
 		}
 		if ( NetTransform ) {
