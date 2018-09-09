@@ -96,7 +96,7 @@ using UnityEngine.Networking;
 
 		private Vector2 GetCastPos()
 		{
-			Vector2 newPos = transform.position + (transform.position - spriteRenderer.transform.position);
+			Vector2 newPos = transform.position + ((spriteRenderer.transform.position - transform.position).normalized);
 			return newPos;
 		}
 
