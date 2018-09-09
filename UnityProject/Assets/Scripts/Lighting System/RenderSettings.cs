@@ -37,6 +37,8 @@ public class RenderSettings
 
 	public float fovOcclusionSpread;
 
+	public float fovHorizonSmooth;
+
 	[Tooltip("Number of passes for blur post-effect. Higher values will improve quality but has a negative performance impact. 2 is reasonable.")]
 	public int lightBlurIterations;
 

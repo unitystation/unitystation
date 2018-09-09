@@ -13,6 +13,9 @@ public class LightingSystem : MonoBehaviour
 	/// Assumption that it may be changed during game. Otherwise it should be moved in to rendering settings.
 	/// </summary>
 	public Vector3 fovCenterOffset;
+
+	public float fovDistance;
+
 	public RenderSettings renderSettings;
 	public MaterialContainer materialContainer;
 
@@ -240,7 +243,7 @@ public class LightingSystem : MonoBehaviour
 			Vector3 _fovCenterOffsetInViewSpace = mMainCamera.WorldToViewportPoint(_fovCenterInWorldSpace) - new Vector3(0.5f, 0.5f, 0);
 			Vector3 _fovCenterOffsetInExtendedViewSpace = _fovCenterOffsetInViewSpace * (float)mCurrentMaskParameters.cameraOrthographicSize / mCurrentMaskParameters.extendedCameraSize;
 
-			mPostProcessingStack.GenerateFovMask(_rawOcclusionMask, occlusionMaskExtended, renderSettings, _fovCenterOffsetInExtendedViewSpace);
+			mPostProcessingStack.GenerateFovMask(_rawOcclusionMask, occlusionMaskExtended, renderSettings, _fovCenterOffsetInExtendedViewSpace, fovDistance, mCurrentMaskParameters);
 		}
 
 		using (new DisposableProfiler("3. Fit Occlusion Mask"))

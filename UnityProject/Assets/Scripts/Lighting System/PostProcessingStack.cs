@@ -182,11 +182,19 @@ public class PostProcessingStack
 		RenderTexture iRawOcclusionMask,
 		RenderTexture iGlobalOcclusionExtendedMask,
 		RenderSettings iRenderSettings,
-		Vector3 iFovCenterInViewSpace)
+		Vector3 iFovCenterInViewSpace,
+		float iFovDistance,
+		MaskParameters iMaskParameters)
 	{
 		mMaterialContainer.fovMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);
 		mMaterialContainer.fovMaterial.SetFloat("_OcclusionSpread", iRenderSettings.fovOcclusionSpread);
 
+		// Adjust scale from Extended mask to Screen size mask.
+		float _yUVScale = 1 / iMaskParameters.cameraAspect;
+		Vector3 _adjustedDistance = iFovDistance * iMaskParameters.worldUnitInViewportSpace * (float)iMaskParameters.cameraOrthographicSize / iMaskParameters.extendedCameraSize;
+
+		mMaterialContainer.fovMaterial.SetVector("_Distance", new Vector3(_adjustedDistance.x, _yUVScale,  iRenderSettings.fovHorizonSmooth));
+		
 		Graphics.Blit(iRawOcclusionMask, iGlobalOcclusionExtendedMask, mMaterialContainer.fovMaterial);
 	}
 

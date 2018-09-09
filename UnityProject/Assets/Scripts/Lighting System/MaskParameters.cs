@@ -9,13 +9,16 @@ public struct MaskParameters : IEquatable<MaskParameters>
 	public readonly float maskCameraSizeAdd;
 	public readonly int antiAliasing;
 	public readonly float wallTextureRescale;
+	public readonly Vector3 worldUnitInViewportSpace;
 
 	private bool mExtendedDataCalculated;
 	private float mExtendedCameraSize;
 	private Vector2Int mExtendedTextureSize;
 	private float lightTextureRescale;
 	private Vector2Int mLightTextureSize;
-	
+
+
+
 	public MaskParameters(Camera iCamera, RenderSettings iRenderSettings)
 	{
 		cameraOrthographicSize = iCamera.orthographicSize;
@@ -25,6 +28,10 @@ public struct MaskParameters : IEquatable<MaskParameters>
 		lightTextureRescale = iRenderSettings.lightTextureRescale;
 		antiAliasing = Mathf.Clamp(iRenderSettings.antiAliasing, 1, 16);
 		wallTextureRescale = iRenderSettings.occlusionLightTextureRescale;
+		worldUnitInViewportSpace = iCamera.WorldToViewportPoint(Vector3.zero) - iCamera.WorldToViewportPoint(Vector3.one);
+
+		var _bla1 = iCamera.WorldToViewportPoint(Vector3.zero);
+		var _bla2 = iCamera.WorldToViewportPoint(Vector3.one);
 
 		// Set data default.
 		// This will be lazy-calculated when required.
