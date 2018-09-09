@@ -36,6 +36,7 @@
 			sampler2D _MainTex;
 			float4 _PositionOffset;
 			float _OcclusionSpread;
+			float3 _Distance;
 			uniform float2 _ExtendedToSmallTextureScale;
 
 			v2f vert (appdata v)
@@ -58,6 +59,7 @@
 
 			fixed4 frag (v2f i) : SV_Target
 			{
+				// Project FoV.
 				fixed fov = 1;
 
 				float2 uv = i.uv;
@@ -72,8 +74,22 @@
 					fov *= 1 - (obstacle.r * spread);
 				}
 
+				// Limit FoV by view distance.
+				float _horizonSmooth = _Distance.z;
+				float _distance = _Distance.x;
+				float _uvYScale = _Distance.y;
+
+				// Flatten the uv space for XY to be proportional. 
+				// Add position offset.
+				float2 uvScale = float2(1, _uvYScale);
+				float2 scalepoint = ((uv.xy - _PositionOffset.xy) * uvScale) + ((float2(1, 1) - uvScale) * 0.5f);
+
+				float distanceFromCenter = clamp(1 - distance(float2(0.5f, 0.5f), scalepoint), 0, 1) - _distance - 1;
+				float smoothedDistance = clamp(distanceFromCenter * _horizonSmooth, 0, 1);
+
 				half4 mask = tex2D(_MainTex, uv);
-				mask.g = fov;
+
+				mask.g = fov * smoothedDistance;
 
 				return mask.rgbb; 
 			}
