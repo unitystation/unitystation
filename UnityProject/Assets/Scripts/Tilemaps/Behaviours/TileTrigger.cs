@@ -1,26 +1,30 @@
 ﻿using UnityEngine;
 
-
 public class TileTrigger : InputTrigger
+{
+	private MetaTileMap metaTileMap;
+	private ObjectLayer objectLayer;
+
+	public override void Interact (GameObject originator, Vector3 position, string hand)
 	{
-		private MetaTileMap metaTileMap;
-		private ObjectLayer objectLayer;
+		metaTileMap = originator.GetComponentInParent<MetaTileMap> ();
+		objectLayer = originator.GetComponentInParent<ObjectLayer> ();
 
-		public override void Interact(GameObject originator, Vector3 position, string hand)
+		Vector3Int pos = objectLayer.transform.InverseTransformPoint (position).RoundToInt ();
+		pos.z = 0;
+
+		LayerTile tile = metaTileMap.GetTile (pos);
+
+		if (tile?.TileType == TileType.Table)
 		{
-			metaTileMap = originator.GetComponentInParent<MetaTileMap>();
-			objectLayer = originator.GetComponentInParent<ObjectLayer>();
-			
-			Vector3Int pos = objectLayer.transform.InverseTransformPoint(position).RoundToInt();
-			pos.z = 0;
+			TableInteraction interaction = new TableInteraction (gameObject, originator, position, hand);
 
-			LayerTile tile = metaTileMap.GetTile(pos);
+			interaction.Interact (isServer);
+		}
 
-			if (tile?.TileType == TileType.Table)
-			{
-				TableInteraction interaction = new TableInteraction(gameObject, originator, position, hand);
-
-				interaction.Interact(isServer);
-			}
+		if (tile?.TileType == TileType.Floor)
+		{
+			Debug.Log("TODO: Do floor interaction");
 		}
 	}
+}
