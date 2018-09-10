@@ -15,10 +15,11 @@ public class CrowbarTrigger : PickUpTrigger
             base.Interact (originator, position, hand);
             return;
         }
-
-        if (canBeUsed)
+        var targetWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (canBeUsed && PlayerManager.PlayerScript.IsInReach(targetWorldPos))
         {
-            //TODO: Check inreach
+            //TODO Deconstruct request WIP
+            Debug.Log("Hit things from crowbar at: " + targetWorldPos);
         }
 
         base.Interact (originator, position, hand);
