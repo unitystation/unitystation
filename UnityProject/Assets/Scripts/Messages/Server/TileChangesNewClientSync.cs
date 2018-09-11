@@ -8,7 +8,7 @@ public class TileChangesNewClientSync : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.TileChangesNewClientSync;
 	public string data;
-	public NetworkInstanceId ManagerSubject;//fixme: Recipient is redundant! Can be safely removed
+	public NetworkInstanceId ManagerSubject;
 
 	public override IEnumerator Process()
 	{
