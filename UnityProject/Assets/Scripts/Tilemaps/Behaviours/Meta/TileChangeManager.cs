@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
 
-//To track construction and damage changes on the server and update on the client
+//To track tile changes on the server and update on the client
 public class TileChangeManager : NetworkBehaviour
 {
 	private Tilemap floorTileMap;
@@ -19,7 +19,7 @@ public class TileChangeManager : NetworkBehaviour
 	private Dictionary<string, TileBase> WindowAssets = new Dictionary<string, TileBase> ();
 	private Dictionary<string, TileBase> TableAssets = new Dictionary<string, TileBase> ();
 
-	private TileChangeRegister ChangeRegister = new TileChangeRegister();
+	private TileChangeRegister ChangeRegister = new TileChangeRegister ();
 
 	bool init = false;
 	void Start ()
@@ -29,15 +29,16 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void NotifyPlayer(GameObject requestedBy){
+	public void NotifyPlayer (GameObject requestedBy)
+	{
 		Debug.Log ("Request all updates: " + requestedBy.name);
-		var jsondata = JsonUtility.ToJson(ChangeRegister);
-		TileChangesNewClientSync.Send(gameObject, requestedBy, jsondata);
+		var jsondata = JsonUtility.ToJson (ChangeRegister);
+		TileChangesNewClientSync.Send (gameObject, requestedBy, jsondata);
 	}
 
-	public void InitServerSync(string data){
-		Debug.Log("DATA " + data);
-		var newChangeRegister = JsonUtility.FromJson<TileChangeRegister>(data);
+	public void InitServerSync (string data)
+	{
+		var newChangeRegister = JsonUtility.FromJson<TileChangeRegister> (data);
 	}
 
 	void CacheTileMaps ()
@@ -99,10 +100,151 @@ public class TileChangeManager : NetworkBehaviour
 		}
 		init = true;
 	}
+
+	[Server]
+	public void ChangeTile (string newTileName, Vector2Int tileCellPos, TileChangeLayer layer)
+	{
+		ActionChange (new TileChangeEntry
+		{
+			cellPosition = tileCellPos,
+				tileKey = newTileName,
+				layerToChange = layer
+		});
+	}
+
+	[Server]
+	public void RemoveTile (Vector2Int tileCellPos, TileChangeLayer layer)
+	{
+		ActionChange (new TileChangeEntry
+		{
+			cellPosition = tileCellPos,
+				tileKey = "",
+				layerToChange = layer
+		});
+	}
+
+	private void ActionChange (TileChangeEntry changeEntry)
+	{
+		if (!ValidateChange (changeEntry.layerToChange, changeEntry.tileKey))
+		{
+			Logger.LogError ("No key found for Tile Change");
+			return;
+		}
+
+		var tileMap = GetTilemap (changeEntry.layerToChange);
+		TileBase newTile = GetTile(changeEntry.layerToChange, changeEntry.tileKey);
+		tileMap.SetTile(new Vector3Int(changeEntry.cellPosition.x,
+		changeEntry.cellPosition.y, 0), newTile);
+
+		if(isServer){
+			RpcActionChange(changeEntry.cellPosition, changeEntry.tileKey, changeEntry.layerToChange);
+		}
+		//TODO ADD TO THE CHANGE REGISTER
+	}
+
+	[ClientRpc]
+	private void RpcActionChange(Vector2 cellPos, string tileKey, TileChangeLayer layer){
+		ActionChange (new TileChangeEntry
+		{
+			cellPosition = Vector2Int.RoundToInt(cellPos),
+				tileKey = tileKey,
+				layerToChange = layer
+		});
+	}
+
+	private Tilemap GetTilemap (TileChangeLayer layer)
+	{
+		switch (layer)
+		{
+			case TileChangeLayer.Base:
+				return baseTileMap;
+			case TileChangeLayer.Floor:
+				return floorTileMap;
+			case TileChangeLayer.Object:
+				return objectTileMap;
+			case TileChangeLayer.Wall:
+				return objectTileMap;
+			case TileChangeLayer.Window:
+				return windowTileMap;
+		}
+		return null;
+	}
+
+	private TileBase GetTile (TileChangeLayer layer, string tileKey)
+	{
+		switch (layer)
+		{
+			case TileChangeLayer.Base:
+			case TileChangeLayer.Floor:
+				if (FloorAssets.ContainsKey (tileKey))
+				{
+					return FloorAssets[tileKey];
+				}
+				break;
+			case TileChangeLayer.Object:
+				if (TableAssets.ContainsKey (tileKey))
+				{
+					return TableAssets[tileKey];
+				}
+				break;
+			case TileChangeLayer.Wall:
+				if (WallAssets.ContainsKey (tileKey))
+				{
+					return WallAssets[tileKey];
+				}
+				break;
+			case TileChangeLayer.Window:
+				if (WindowAssets.ContainsKey (tileKey))
+				{
+					return WindowAssets[tileKey];
+				}
+				break;
+		}
+		return null;
+	}
+
+	private bool ValidateChange (TileChangeLayer layer, string tileKey)
+	{
+		if (string.IsNullOrEmpty (tileKey))
+		{
+			return true;
+		}
+
+		switch (layer)
+		{
+			case TileChangeLayer.Base:
+			case TileChangeLayer.Floor:
+				if (FloorAssets.ContainsKey (tileKey))
+				{
+					return true;
+				}
+				break;
+			case TileChangeLayer.Object:
+				if (TableAssets.ContainsKey (tileKey))
+				{
+					return true;
+				}
+				break;
+			case TileChangeLayer.Wall:
+				if (WallAssets.ContainsKey (tileKey))
+				{
+					return true;
+				}
+				break;
+			case TileChangeLayer.Window:
+				if (WindowAssets.ContainsKey (tileKey))
+				{
+					return true;
+				}
+				break;
+		}
+		return false;
+	}
 }
 
 [System.Serializable]
-public class TileChangeRegister{
+public class TileChangeRegister
+{
 	public List<TileChangeEntry> floorEntries = new List<TileChangeEntry> ();
 	public List<TileChangeEntry> baseEntries = new List<TileChangeEntry> ();
 	public List<TileChangeEntry> wallEntries = new List<TileChangeEntry> ();
@@ -113,9 +255,20 @@ public class TileChangeRegister{
 [System.Serializable]
 public class TileChangeEntry
 {
-	public Vector2Int gridPosition;
+	public Vector2Int cellPosition;
 	///<Summary>
 	/// Set tileKey to empty string to deconstruct
 	///</Summary>
 	public string tileKey;
+
+	public TileChangeLayer layerToChange;
+}
+
+public enum TileChangeLayer
+{
+	Floor,
+	Base,
+	Wall,
+	Window,
+	Object
 }
