@@ -49,15 +49,20 @@ public class RconManager : RconConsole {
 		DontDestroyOnLoad( rconManager.gameObject );
 		fpsMonitor = GetComponent<FPSMonitor>();
 		string filePath = Application.streamingAssetsPath + "/config/config.json";
+		
+		try{
 		string result = System.IO.File.ReadAllText( filePath );
 		if ( string.IsNullOrEmpty( result ) ) {
 			Logger.Log( "No server config found: rcon", Category.Rcon );
 			Destroy( gameObject );
 		}
 
-		Logger.Log( "config loaded", Category.Rcon );
 		config = JsonUtility.FromJson<ServerConfig>( result );
 		StartServer();
+		} catch {
+			Logger.Log( "config failed to load", Category.Rcon );
+			Destroy( gameObject );
+		}
 	}
 
 	private void StartServer() {
@@ -65,6 +70,8 @@ public class RconManager : RconConsole {
 			Logger.Log( "Already Listening: WebSocket", Category.Rcon );
 			return;
 		}
+		
+		Logger.Log( "config loaded", Category.Rcon );
 
 		if ( !GameData.IsHeadlessServer ) {
 			Logger.Log( "Dercon", Category.Rcon );
