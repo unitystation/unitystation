@@ -31,8 +31,8 @@ public class TileChangeManager : NetworkBehaviour
 	[Server]
 	public void NotifyPlayer (GameObject requestedBy)
 	{
-		Debug.LogWarning("We do not need to sync tilemap change data anymore but the system is in place " +
-		"to preform database state backups");
+		Logger.LogWarning("We do not need to sync tilemap change data anymore but the system is in place " +
+		"to preform database state backups", Category.TileMaps);
 		
 		//Example of converting all the tile change data into json which can be stored as a blob in a database:
 		// var jsondata = JsonUtility.ToJson (ChangeRegister);
@@ -138,7 +138,6 @@ public class TileChangeManager : NetworkBehaviour
 		var tileMap = GetTilemap (changeEntry.layerToChange);
 		if(tileMap == null)
 		{
-			Logger.LogError("TileMap missing", Category.TileMaps);
 			return;
 		}
 		TileBase newTile = GetTile(changeEntry.layerToChange, changeEntry.tileKey);
