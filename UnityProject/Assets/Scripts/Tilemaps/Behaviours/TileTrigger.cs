@@ -66,10 +66,20 @@ public class TileTrigger : InputTrigger
 
 		if (tile?.TileType == TileType.Floor)
 		{
-			var pna = originator.GetComponent<PlayerNetworkActions>();
-			var cellPos = floorTileMap.WorldToCell(position);
-			Debug.Log("CELL POS: " + cellPos);
-			pna.CmdCrowBarRemoveFloorTile(transform.root.gameObject, TileChangeLayer.Floor, new Vector2(cellPos.x, cellPos.y));
+			var handObj = UIManager.Hands.CurrentSlot.Item;
+
+			if(handObj == null)
+			{
+				return;
+			}
+
+			//Crowbar
+			if (handObj.GetComponent<CrowbarTrigger>())
+			{
+				var pna = originator.GetComponent<PlayerNetworkActions>();
+				var cellPos = floorTileMap.WorldToCell(position);
+				pna.CmdCrowBarRemoveFloorTile(transform.root.gameObject, TileChangeLayer.Floor, new Vector2(cellPos.x, cellPos.y));
+			}
 		}
 	}
 }

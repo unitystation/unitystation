@@ -132,6 +132,11 @@ public class TileChangeManager : NetworkBehaviour
 		}
 
 		var tileMap = GetTilemap (changeEntry.layerToChange);
+		if(tileMap == null)
+		{
+			Debug.Log("TileMap missing");
+			return;
+		}
 		TileBase newTile = GetTile(changeEntry.layerToChange, changeEntry.tileKey);
 		tileMap.SetTile(new Vector3Int(changeEntry.cellPosition.x,
 		changeEntry.cellPosition.y, 0), newTile);
@@ -144,11 +149,11 @@ public class TileChangeManager : NetworkBehaviour
 
 	[ClientRpc]
 	private void RpcActionChange(Vector2 cellPos, string tileKey, TileChangeLayer layer){
-		ActionChange (new TileChangeEntry
+		ActionChange(new TileChangeEntry
 		{
 			cellPosition = Vector2Int.RoundToInt(cellPos),
-				tileKey = tileKey,
-				layerToChange = layer
+			tileKey = tileKey,
+			layerToChange = layer
 		});
 	}
 
