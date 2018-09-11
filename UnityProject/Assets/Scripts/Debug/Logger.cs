@@ -159,5 +159,7 @@ public enum Category {
 	SunVox,
 	Rcon,
 	Audio,
-	Research
+	Research,
+	TileMaps,
+	Construction
 }

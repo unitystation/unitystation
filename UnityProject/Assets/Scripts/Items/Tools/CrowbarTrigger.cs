@@ -18,8 +18,7 @@ public class CrowbarTrigger : PickUpTrigger
         var targetWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (canBeUsed && PlayerManager.PlayerScript.IsInReach(targetWorldPos))
         {
-            //TODO Deconstruct request WIP
-            Debug.Log("Hit things from crowbar at: " + targetWorldPos);
+            //TODO You can do special things with crow bar here
         }
 
         base.Interact (originator, position, hand);
