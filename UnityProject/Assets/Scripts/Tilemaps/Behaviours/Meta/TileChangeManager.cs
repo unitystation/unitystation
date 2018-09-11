@@ -31,13 +31,17 @@ public class TileChangeManager : NetworkBehaviour
 	[Server]
 	public void NotifyPlayer (GameObject requestedBy)
 	{
-		Debug.Log ("Request all updates: " + requestedBy.name);
-		var jsondata = JsonUtility.ToJson (ChangeRegister);
-		TileChangesNewClientSync.Send (gameObject, requestedBy, jsondata);
+		Debug.LogWarning("We do not need to sync tilemap change data anymore but the system is in place " +
+		"to preform database state backups");
+		
+		//Example of converting all the tile change data into json which can be stored as a blob in a database:
+		// var jsondata = JsonUtility.ToJson (ChangeRegister);
+		// TileChangesNewClientSync.Send (gameObject, requestedBy, jsondata);
 	}
 
 	public void InitServerSync (string data)
 	{
+		//Unpacking the data example (and then run action change)
 		var newChangeRegister = JsonUtility.FromJson<TileChangeRegister> (data);
 	}
 
@@ -127,14 +131,14 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		if (!ValidateChange (changeEntry.layerToChange, changeEntry.tileKey))
 		{
-			Logger.LogError ("No key found for Tile Change");
+			Logger.LogError ("No key found for Tile Change", Category.TileMaps);
 			return;
 		}
 
 		var tileMap = GetTilemap (changeEntry.layerToChange);
 		if(tileMap == null)
 		{
-			Debug.Log("TileMap missing");
+			Logger.LogError("TileMap missing", Category.TileMaps);
 			return;
 		}
 		TileBase newTile = GetTile(changeEntry.layerToChange, changeEntry.tileKey);
@@ -144,7 +148,9 @@ public class TileChangeManager : NetworkBehaviour
 		if(isServer){
 			RpcActionChange(changeEntry.cellPosition, changeEntry.tileKey, changeEntry.layerToChange);
 		}
-		//TODO ADD TO THE CHANGE REGISTER
+
+		//Store the change data and later we will store it in a database (so when a server crashes it is safe or to replay station change events)
+		ChangeRegister.allEntries.Add(changeEntry);
 	}
 
 	[ClientRpc]
@@ -250,11 +256,7 @@ public class TileChangeManager : NetworkBehaviour
 [System.Serializable]
 public class TileChangeRegister
 {
-	public List<TileChangeEntry> floorEntries = new List<TileChangeEntry> ();
-	public List<TileChangeEntry> baseEntries = new List<TileChangeEntry> ();
-	public List<TileChangeEntry> wallEntries = new List<TileChangeEntry> ();
-	public List<TileChangeEntry> windowEntries = new List<TileChangeEntry> ();
-	public List<TileChangeEntry> objectEntries = new List<TileChangeEntry> ();
+	public List<TileChangeEntry> allEntries = new List<TileChangeEntry> ();
 }
 
 [System.Serializable]

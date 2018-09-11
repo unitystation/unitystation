@@ -10,10 +10,25 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		TileChangeManager tm = tileChangeRoot.GetComponent<TileChangeManager> ();
 		if (tm == null)
 		{
-			Debug.LogError ("TileChangeManager not found");
+			Logger.LogError ("TileChangeManager not found", Category.Construction);
 			return;
 		}
 
-		tm.RemoveTile(Vector2Int.RoundToInt(cellPos), layer);
+		tm.RemoveTile (Vector2Int.RoundToInt (cellPos), layer);
+		RpcPlayerSoundAtPos ("Crowbar", transform.position, true);
 	}
+
+	[ClientRpc (channel = 1)]
+	public void RpcPlayerSoundAtPos (string soundName, Vector3 position, bool pitchvariations)
+	{
+		if (!pitchvariations)
+		{
+			SoundManager.PlayAtPosition (soundName, position);
+		}
+		else
+		{
+			SoundManager.PlayAtPosition (soundName, position, Random.Range(0.8f, 1.2f));
+		}
+	}
+
 }
