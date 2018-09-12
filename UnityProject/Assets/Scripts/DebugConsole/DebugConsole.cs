@@ -12,7 +12,7 @@ public class DebugConsole : MonoBehaviour
 		{
 			if (debugConsole == null)
 			{
-				debugConsole = FindObjectOfType<DebugConsole> ();
+				debugConsole = FindObjectOfType<DebugConsole>();
 			}
 			return debugConsole;
 		}
@@ -26,34 +26,44 @@ public class DebugConsole : MonoBehaviour
 
 	bool isOpened = false;
 
-	public static void AmendLog (string msg)
+	public static void AmendLog(string msg)
 	{
 		DebugLog += msg + "\n";
 		LastLog = msg;
-		Instance.RefreshLogDisplay();
-	}
-
-	void Start ()
-	{
-		Instance.consoleObject.SetActive (false);
-		Instance.isOpened = false;
-	}
-
-	void Update ()
-	{
-		if (Input.GetKeyDown(KeyCode.F5))
+		if (DebugLog.Length > 3000)
 		{
-			ToggleConsole ();
+			DebugLog = DebugLog.Substring(1500);
+		}
+
+		//if it is null it means the object is still disabled and is about be enabled
+		if (Instance != null)
+		{
+			Instance.RefreshLogDisplay();
 		}
 	}
 
-	void ToggleConsole ()
+	void Start()
+	{
+		Instance.consoleObject.SetActive(false);
+		Instance.isOpened = false;
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.F5))
+		{
+			ToggleConsole();
+		}
+	}
+
+	void ToggleConsole()
 	{
 		isOpened = !isOpened;
 		consoleObject.SetActive(isOpened);
 	}
 
-	void RefreshLogDisplay(){
+	void RefreshLogDisplay()
+	{
 		Instance.displayText.text = DebugLog;
 	}
 
