@@ -63,7 +63,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		    || playerMove.isGhost
 		    || !victim
 		    || !playerScript.playerNetworkActions.SlotNotEmpty( slot ) 
-		    || !PlayerManager.PlayerInReach( victim.transform )
+			|| !playerScript.IsInReach(victim.transform.position)
 		    ) {
 			return;
 		}

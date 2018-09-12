@@ -9,22 +9,29 @@ public struct MaskParameters : IEquatable<MaskParameters>
 	public readonly float maskCameraSizeAdd;
 	public readonly int antiAliasing;
 	public readonly float wallTextureRescale;
+	public readonly Vector3 worldUnitInViewportSpace;
 
 	private bool mExtendedDataCalculated;
 	private float mExtendedCameraSize;
 	private Vector2Int mExtendedTextureSize;
-	private float lightTextureRescale;
+	private int lightTextureWidth;
 	private Vector2Int mLightTextureSize;
-	
+
+
+
 	public MaskParameters(Camera iCamera, RenderSettings iRenderSettings)
 	{
 		cameraOrthographicSize = iCamera.orthographicSize;
 		screenSize = new Vector2Int(Screen.width, Screen.height);
 		cameraAspect = iCamera.aspect;
 		maskCameraSizeAdd = iRenderSettings.maskCameraSizeAdd;
-		lightTextureRescale = iRenderSettings.lightTextureRescale;
+		this.lightTextureWidth = iRenderSettings.lightTextureWidth;
 		antiAliasing = Mathf.Clamp(iRenderSettings.antiAliasing, 1, 16);
 		wallTextureRescale = iRenderSettings.occlusionLightTextureRescale;
+		worldUnitInViewportSpace = iCamera.WorldToViewportPoint(Vector3.zero) - iCamera.WorldToViewportPoint(Vector3.one);
+
+		var _bla1 = iCamera.WorldToViewportPoint(Vector3.zero);
+		var _bla2 = iCamera.WorldToViewportPoint(Vector3.one);
 
 		// Set data default.
 		// This will be lazy-calculated when required.
@@ -76,7 +83,7 @@ public struct MaskParameters : IEquatable<MaskParameters>
 	private void CalculateExtendedData()
 	{
 		// Light Texture.
-		mLightTextureSize = new Vector2Int((int)(screenSize.x * lightTextureRescale), (int)(screenSize.y * lightTextureRescale));
+		mLightTextureSize = new Vector2Int(lightTextureWidth, (int)(lightTextureWidth / cameraAspect));
 
 		// Extended Texture.
 		mExtendedCameraSize = cameraOrthographicSize + maskCameraSizeAdd;
@@ -104,7 +111,7 @@ public struct MaskParameters : IEquatable<MaskParameters>
 		       this.screenSize == iMask.screenSize &&
 			   this.cameraAspect == iMask.cameraAspect &&
 		       this.maskCameraSizeAdd == iMask.maskCameraSizeAdd &&
-		       this.lightTextureRescale == iMask.lightTextureRescale &&
+		       this.lightTextureWidth == iMask.lightTextureWidth &&
 			   this.antiAliasing == iMask.antiAliasing &&
 			   this.wallTextureRescale == iMask.wallTextureRescale;
 	}

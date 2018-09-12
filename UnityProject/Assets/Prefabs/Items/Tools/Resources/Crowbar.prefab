@@ -38,7 +38,6 @@ GameObject:
   - component: {fileID: 61000259733276454}
   - component: {fileID: 114009608666145778}
   - component: {fileID: 114287030664492144}
-  - component: {fileID: 50080775290529754}
   - component: {fileID: 114909773131868738}
   - component: {fileID: 114025950358683784}
   - component: {fileID: 114998062039538404}
@@ -77,26 +76,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50080775290529754
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1519710982558066}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!61 &61000259733276454
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -207,6 +186,7 @@ MonoBehaviour:
   inHandReferenceRight: 996
   itemDescription: A Crowbar
   itemName: crowbar
+  itemType: 0
   size: 2
   spriteType: 0
   type: 0

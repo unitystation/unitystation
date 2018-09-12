@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
 	public int RoundsPerMap = 10;
 	
-	public string[] Maps = {"Assets/scenes/OutpostDeathmatch.unity", "Assets/scenes/Flashlight Deathmatch.unity"};
+	public string[] Maps = {"Assets/scenes/OutpostDeathmatch.unity"};
 	//Put the scenes in the unity 3d editor.
 
 	private int MapRotationCount = 0;
@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
 
 	//Nuke ops:
 	public bool shuttleArrived = false;
+
+	public bool GameOver = false;
 
 	private void Awake()
 	{
@@ -70,6 +72,8 @@ public class GameManager : MonoBehaviour
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
 		GetRoundTime = RoundTime;
+		GameOver = false;
+		RespawnAllowed = true;
 	}
 
 	public void SyncTime(float currentTime)

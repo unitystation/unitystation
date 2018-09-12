@@ -63,7 +63,7 @@ Shader "PostProcess/BlurGChannel"
 
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 
-		float2 offset = float2(_MainTex_TexelSize.x * _Radius * 1.33333333, 0.0); 
+		float2 offset = float2(_Radius * 1.33333333, 0.0); 
 
 	#if UNITY_VERSION >= 540
 		float2 uv = UnityStereoScreenSpaceUVAdjust(IN.uv, _MainTex_ST);
@@ -84,7 +84,7 @@ Shader "PostProcess/BlurGChannel"
 
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 
-		float2 offset = float2(0.0, _MainTex_TexelSize.y * _Radius * 1.33333333); 
+		float2 offset = float2(0.0, _Radius * 1.33333333); 
 
 	#if UNITY_VERSION >= 540
 		float2 uv = UnityStereoScreenSpaceUVAdjust(IN.uv, _MainTex_ST);
