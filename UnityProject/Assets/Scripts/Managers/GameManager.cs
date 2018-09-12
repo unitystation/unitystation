@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
 	//Nuke ops:
 	public bool shuttleArrived = false;
 
+	public bool GameOver = false;
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -70,6 +72,8 @@ public class GameManager : MonoBehaviour
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
 		GetRoundTime = RoundTime;
+		GameOver = false;
+		RespawnAllowed = true;
 	}
 
 	public void SyncTime(float currentTime)
